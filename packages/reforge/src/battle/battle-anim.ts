@@ -443,6 +443,8 @@ export interface BuildUseItemInput {
   casterPos: { x: number; y: number }
   /** 受辉光影响的队伍槽，单体用物传一项。 */
   targetIdxs: number[]
+  /** 复活者在辉光结束时显示的静止帧。 */
+  revivedTargets?: ReadonlyArray<{ idx: number; frame: number }>
   /** 物品名:与举物/音效**同帧**起显示 13 帧(一阶段 battleMessage @210,50,fight.c:2316)。 */
   itemName?: string
   /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
@@ -461,7 +463,7 @@ export interface BuildUseItemInput {
  * 不做 ease/密帧/渲染平滑(作者裁决 2026-07-11 第六轮收口)。
  */
 export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
-  const { casterIdx, casterPos, targetIdxs, itemName, sound, gains } = input
+  const { casterIdx, casterPos, targetIdxs, revivedTargets, itemName, sound, gains } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
   // 走近:6 步线性(fight.c:3881-3890 同构;C 整除 = floor)
@@ -508,7 +510,10 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   }))
   frames.push({
     durationMs: delayMs(8),
-    fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle }],
+    fighters: [
+      { side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle },
+      ...(revivedTargets ?? []).map(({ idx, frame }) => ({ side: 'player' as const, idx, frame })),
+    ],
     ...(damageNums?.length ? { damageNums } : {}),
   })
   return frames

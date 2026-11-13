@@ -598,6 +598,52 @@ describe('W3 执行时间线接线', () => {
     expect([pixel(250, 85, 2), pixel(256, 85, 2)]).toEqual([128, 16])
   })
 
+  test('还魂香保留倒地辉光，在黄字首帧切到复活后的濒死姿态', () => {
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '95'))[0])
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { hp: 0, maxHp: 150 }),
+        wfPlayer('zhao-linger', { baseDexterity: 900 }),
+      ],
+      enemies: [wfEnemy('revive-target', { health: 500, attackStrength: 1 })],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        soundRoles: { 'audio.battleItemUseSound': 'sound.pal.028' },
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(
+      spriteId,
+      poseSprite(expectDefined(h.assets.battleSprites.get(spriteId))),
+    )
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      nums: Array.from({ length: 10 }, (_, digit) => bitmap(6, 8, `rgb(0,${(digit + 1) * 16},0)`)),
+    }
+    const ctx = battleCanvas()
+    const targetPose = () => {
+      h.session.render(ctx, 1)
+      return ctx.getImageData(200, 168, 1, 1).data[0]
+    }
+    h.press(['e'])
+    h.press([' '])
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    for (let i = 0; i < 120 && !sfx.plays.length; i++) h.idle(8)
+    expect(sfx.plays).toEqual(['sound.pal.028'])
+    expect(targetPose()).toBe(poseRed(PLAYER_PROFILE.frames.dead))
+    h.idle(240)
+    expect(targetPose()).toBe(poseRed(PLAYER_PROFILE.frames.dead + 6))
+    h.idle(280)
+    const firstNumberFramePose = targetPose()
+    expect([194, 200].map((x) => ctx.getImageData(x, 101, 1, 1).data[1])).toEqual([32, 96])
+    expect(firstNumberFramePose).toBe(poseRed(PLAYER_PROFILE.frames.dying))
+  })
+
   test('MP 耗尽后二轮法术列表不可提交：不重复扣费不崩溃', () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: ['wf-mid'], mp: 25, maxMp: 25 })],

@@ -1613,7 +1613,7 @@ export class BattleSession {
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
-    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)。
+    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸)。
     // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」);
     // 玩家侧涨益由归位帧派发，数字从归位后的目标锚点起显。敌侧涨益仍走收尾。
     if (la.kind === 'item' && la.side === 'player') {
@@ -1629,11 +1629,19 @@ export class BattleSession {
         .map((g) => ({ idx: g.target.idx, value: g.value, tone: g.tone }))
       this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
       const sound = item?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound']
+      // fight.c:4404–4405：复活者在辉光结束后先恢复静止姿态，再绘制回血数字。
+      const revivedTargets = targetIdxs.flatMap((idx) => {
+        const target = expectDefined(s.players[idx])
+        return pHp[idx] === 0 && target.hp > 0
+          ? [{ idx, frame: this.playerRestFrame(target, this.playerFrames(idx)) }]
+          : []
+      })
       return buildUseItem({
         casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
         casterPos,
         targetIdxs,
+        revivedTargets,
         itemName: item?.name,
         ...(sound ? { sound } : {}),
         gains,
