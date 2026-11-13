@@ -11,6 +11,7 @@ const gameRandomTargets = [
 ]
 
 const gameAudioTarget = '/packages/game/src/shell/audio.ts'
+const gameCoopTarget = '/packages/game/src/core/battle/actions/coop-magic.ts'
 
 export const GAME_BATTLE_TARGETS = [
   gameAudioTarget,
@@ -20,6 +21,7 @@ export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/core/battle/battle-system.ts',
   '/packages/game/src/core/battle/battle-settlement.ts',
   '/packages/game/src/core/battle/battle-finalization.ts',
+  gameCoopTarget,
   '/packages/game/src/present/player-info-box.ts',
   '/packages/game/src/present/dialog-draw.ts',
   '/packages/game/src/present/battle/present-battle.ts',
@@ -263,6 +265,20 @@ export function instrumentGameBattle(source, file) {
         )
     }
     if (
+      file === gameCoopTarget &&
+      owner(node) === 'performCoopMagic' &&
+      ts.isExpressionStatement(node) &&
+      node.getText(ast) ===
+        'performAttack(state, actor, target, bus, playerRoles, battleEffectIndex)' &&
+      ts.isIfStatement(node.parent.parent) &&
+      node.parent.parent.expression.getText(ast) === 'actor && !actor.isEnemy'
+    )
+      add(
+        'coop-fallback',
+        node.end,
+        '\nglobalThis.__battleGameCoopFallback?.(state, actor, target);\n',
+      )
+    if (
       file.endsWith('/draw-battle-ui.ts') &&
       owner(node) === 'drawPlayerInfoBoxes' &&
       ts.isExpressionStatement(node) &&
@@ -480,6 +496,7 @@ export function instrumentGameBattle(source, file) {
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
+    'coop-magic.ts': { 'coop-fallback': 1 },
     'draw-battle-effect.ts': {
       'overlay-blit-parameter': 1,
       'magic-overlay-resource': 1,
@@ -531,7 +548,7 @@ export function instrumentGameBattle(source, file) {
     ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true).parseDiagnostics.length,
     0,
   )
-  if (file.endsWith('/battle-system.ts')) {
+  if (file.endsWith('/battle-system.ts') || file === gameCoopTarget) {
     const ruleDraws = instrumentBattleRandomDraws(code, file)
     return { code: ruleDraws.code, anchors: { ...anchors, ...ruleDraws.anchors } }
   }

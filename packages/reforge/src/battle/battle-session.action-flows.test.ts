@@ -328,6 +328,127 @@ describe('W3 执行时间线接线', () => {
   })
 
   test.each([
+    { skillId: '303', failure: '攻击无效' },
+    { skillId: '327', failure: null },
+  ])('对敌仙术 $skillId 的特效消失后保留施法姿九拍，再允许敌人起手', ({ skillId, failure }) => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === skillId))
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          baseDexterity: 900,
+          magicStrength: 208,
+          skills: [spell.id],
+        }),
+        wfPlayer('li-xiaoyao', { baseDexterity: 500 }),
+      ],
+      enemies: [
+        wfEnemy(
+          'spell-target',
+          {
+            health: 310,
+            level: 12,
+            elemResistance: { wind: 0, thunder: 0, water: 0, fire: 5, earth: 0 },
+          },
+          { ai: { resistanceToSorcery: 10 } },
+        ),
+      ],
+      extraOpts: {
+        skills: { [spell.id]: spell },
+        fieldEffect: { wind: 0, thunder: 0, water: 0, fire: 1, earth: 0 },
+        playerSounds: [{ magic: 'sound.pal.010' }],
+      },
+    })
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(spriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, sprite)
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[8])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const bg = battleCanvas()
+    bg.fillStyle = '#000000'
+    bg.fillRect(0, 0, 320, 200)
+    bg.fillStyle = '#00ff00'
+    bg.fillRect(20, 0, 1, 200)
+    h.assets.bg = bg.canvas
+
+    const ctx = battleCanvas()
+    const box = new DialogBox(ctx, stubGlyphs, [])
+    h.assets.dialogBox = box
+    const draw = (ms: number) => {
+      h.idle(ms)
+      h.session.render(ctx, 1)
+    }
+    const red = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const greenRows = () =>
+      ctx.getImageData(20, 0, 1, 32).data.filter((value, i) => i % 4 === 1 && value === 255).length
+    const enemyStarted = () => sfx.plays.includes('sound.pal.355')
+
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' '])
+    h.press([' '])
+    h.press(['d'])
+    for (let i = 0; i < 100 && sfx.plays.length < 2; i++) h.idle(10)
+    h.session.render(ctx, 1)
+    expect(sfx.plays).toEqual(['sound.pal.010', spell.animation.sound])
+    const effectY = failure ? 106 : 102
+    expect(red(100, effectY)).toBe(poseRed(8))
+    if (!failure) expect(greenRows()).toBeLessThan(32)
+
+    draw(failure ? 70 : 50) // 单个 FIRE 测试帧的时长来自各自原盘 wSpeed。
+    expect(red(100, effectY)).toBe(0)
+    expect(red(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(box.active).toBe(false)
+    expect(enemyStarted()).toBe(false)
+
+    if (failure) {
+      expect(red(100, 109)).toBeGreaterThan(0) // 无伤害时目标不抖动。
+      draw(359)
+    } else {
+      // 灵力 208、有效防御 82、火抗 5、场地 +1，固定倍率 1：原盘伤害 155。
+      expect([88, 94, 100].map((x) => ctx.getImageData(x, 10, 1, 1).data[2])).toEqual([32, 96, 96])
+      expect(red(92, 109)).toBeGreaterThan(0) // 已受击退，数字仍按 (100,110) 的原底锚绘制。
+      expect(greenRows()).toBe(32)
+      for (const x of [96, 94, 100]) {
+        draw(40)
+        expect(red(x, 109)).toBeGreaterThan(0)
+      }
+      draw(239)
+    }
+    expect(red(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(box.active).toBe(false)
+    expect(enemyStarted()).toBe(false)
+
+    draw(1)
+    expect(red(190, 164)).toBe(0)
+    expect(red(200, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect(box.observe()?.pageText ?? null).toBe(failure)
+    if (failure) {
+      draw(1399)
+      expect(box.active).toBe(true)
+      expect(enemyStarted()).toBe(false)
+      draw(1)
+      expect(box.active).toBe(false)
+    }
+    draw(39)
+    expect(enemyStarted()).toBe(false)
+    draw(1)
+    expect(enemyStarted()).toBe(true)
+  })
+
+  test.each([
     { skillId: '306', all: false },
     { skillId: '300', all: true },
   ])('友方法术 $skillId 将特效与十三拍辉光实绘在受术队员身上', ({ skillId, all }) => {
@@ -520,6 +641,89 @@ describe('W3 执行时间线接线', () => {
     // 固定 RNG 下攻 60、防 28，基础伤害 75，追加 1 后暴击 ×3 = 228。
     expect(firstNumber).toEqual([48, 48, 144])
     expect(sfx.plays).toEqual(['sound.pal.030'])
+  })
+
+  test.each([
+    {
+      firstCrit: false,
+      voices: ['038', '006'],
+      numbers: [
+        [32, 64, 128],
+        [80, 32, 32],
+      ],
+    },
+    {
+      firstCrit: true,
+      voices: ['006', '038'],
+      numbers: [
+        [80, 32, 32],
+        [32, 64, 128],
+      ],
+    },
+  ])('单体双击首击会心=$firstCrit，每击独立发声，数字沿用目标底锚', ({
+    firstCrit,
+    voices,
+    numbers,
+  }) => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
+    const playerSprite = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const enemySprite = wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite))
+    validateBattleSprites([playerSprite.definition, enemySprite.definition])
+    const sfx = recordingSfx()
+    const session = new BattleSession(
+      [
+        wfPlayer('zhao-linger', {
+          attackStrength: 258,
+          baseDexterity: 900,
+          grantedStatuses: ['dualAttack'], // 初始武器仙女剑170。
+        }),
+      ],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [playerSprite.definition.id, playerSprite],
+          [enemySprite.definition.id, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [playerSprite.definition.id],
+        sfx: sfx.player,
+        ui: {
+          ...infoBoxAssets(),
+          numsBlue: Array.from({ length: 10 }, (_, digit) =>
+            bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+          ),
+        },
+      },
+      (id) => id,
+      fixedRng([0.5, 0.5, 0.25, firstCrit ? 0.05 : 0.5, 0, 0.25, firstCrit ? 0.5 : 0.05, 0]),
+      {
+        playerSounds: [
+          { attack: 'sound.pal.038', critical: 'sound.pal.006', weapon: 'sound.pal.002' },
+        ],
+      },
+    )
+    const ctx = battleCanvas()
+    const firstFrames: Array<{ enemy: number; digits: number[] }> = []
+    session.tick(16, new Set([' ']))
+    session.tick(16, new Set([' ']))
+    for (let i = 0; i < 100 && firstFrames.length < 2; i++) {
+      const soundsBefore = sfx.plays.length
+      session.tick(8, new Set())
+      if (sfx.plays.length === soundsBefore || sfx.plays.at(-1) !== 'sound.pal.002') continue
+      session.render(ctx, 1)
+      const [x, y] = firstFrames.length === 0 ? [100, 109] : [94, 106]
+      firstFrames.push({
+        enemy: ctx.getImageData(x, y, 1, 1).data[0] ?? 0,
+        digits: [88, 94, 100].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
+      })
+    }
+
+    // DEF 152、物抗2、+1、浮动倍率1 → 137，会心 → 411。第二击目标仍在首击偏移处。
+    expect({ sounds: sfx.plays, firstFrames }).toEqual({
+      sounds: voices.flatMap((voice) => [`sound.pal.${voice}`, 'sound.pal.002']),
+      firstFrames: numbers.map((digits) => ({ enemy: poseRed(6), digits })),
+    })
   })
 
   test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {

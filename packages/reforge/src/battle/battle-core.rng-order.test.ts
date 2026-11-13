@@ -174,10 +174,166 @@ test('a cooperative attack falls back to the single-hit draw order if a contribu
   expect(state.players[1]?.hp).toBe(0)
   stepBattle(state, rng)
 
-  expect(state.log[1]).toBe('wu-hou 合击人手不足,改普攻 enemy-399 造成 344')
+  expect(state.log).toContain('wu-hou 合击人手不足,降级普攻')
+  expect(state.log).toContain('wu-hou 攻击 enemy-399 造成 344')
   expect(state.lastAction).toMatchObject({ side: 'player', kind: 'attack', firstDamage: 344 })
   expect(state.players[0]?.hp).toBe(150)
   expect(state.players[0]?.hiddenCounts).toEqual({ attack: 1, maxHP: 3 })
+})
+
+test('a cooperative attack interrupted by Sleep Spell uses both equipped sword strikes', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === 'team-204'))
+  expect(team.slots).toEqual([enemy.id])
+  const skills = validateSkills(palSkills).skills.filter(({ id }) => id === '303' || id === '381')
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 258,
+        magicStrength: 88,
+        defense: 413,
+        baseDexterity: 6,
+        grantedStatuses: ['dualAttack'], // Starting weapon: 仙女剑170.
+        cooperativeMagicSkillId: '381',
+      }),
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 902,
+        magicStrength: 50,
+        defense: 409,
+        baseDexterity: 3,
+      }),
+    ],
+    enemySlots: [enemy],
+    skills: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
+  })
+  // Seed 25: three initiative draws, four for 回梦, two independent strikes, then growth.
+  const draw = fixedDraws([
+    0.5979374819435179, 0.8292901203967631, 0.5748988559935242, 0.7436923568602651,
+    0.27351520699448884, 0.10549482028000057, 0.4276351644657552, 0.452096592169255,
+    0.3359841746278107, 0.2509741382673383, 0.24817373999394476, 0.047595186391845345,
+    0.5251377997919917, 0.1725152910221368,
+  ])
+  let drawCount = 0
+  const rng = (): number => {
+    drawCount++
+    return draw()
+  }
+  stepBattle(state, rng)
+  expect(healthyPlayerCount(state)).toBe(2)
+  state.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: -1 }) // Selection's coop placeholder.
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({
+    side: 'enemy',
+    kind: 'cast',
+    skillId: '303',
+    targetPlayerIdx: 1,
+  })
+  expect(state.players[1]).toMatchObject({ hp: 149, status: { sleep: 3 } })
+
+  stepBattle(state, rng)
+
+  // fight.c:3374–3378,3628–3674,3756–3757: the effective action is ordinary attack.
+  expect(state.lastAction).toMatchObject({
+    side: 'player',
+    idx: 0,
+    kind: 'attack',
+    targetEnemyIdx: 0,
+    firstDamage: 141,
+    crit: false,
+    secondDamage: 437,
+    secondCrit: true,
+  })
+  expect(state.enemies[0]?.hp).toBe(222)
+  expect(state.players[0]).toMatchObject({
+    hp: 150,
+    mp: 100,
+    hiddenCounts: { attack: 1, maxHP: 2 },
+  })
+  expect(state.players[1]).toMatchObject({ hp: 149, mp: 100, hiddenCounts: {} })
+  expect(drawCount).toBe(14)
+})
+
+test('a cooperative attack interrupted by a defeat uses the caster’s equipped attack-all weapon', () => {
+  const enemies = validateEnemies(palEnemies)
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === 'team-30'))
+  const skills = validateSkills(palSkills).skills.filter(({ id }) => id === '339' || id === '343')
+  const state = createBattleState({
+    players: [
+      wfPlayer('lin-yueru', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 270,
+        defense: 437,
+        baseDexterity: 24,
+        attackAll: true, // Starting weapon: 长鞭163.
+        cooperativeMagicSkillId: '339',
+      }),
+      wfPlayer('li-xiaoyao', {
+        hp: 45,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        defense: 9,
+        baseDexterity: 3,
+      }),
+    ],
+    enemySlots: team.slots.map((id) => expectDefined(enemies.find((enemy) => enemy.id === id))),
+    skills: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
+  })
+  // Seed 26: enemy 479's 暗器 comes before the submitted coop, then the two ordinary sweep draws.
+  const rng = fixedDraws([
+    0.5114786140620708, 0.74351347819902, 0.5101396401878446, 0.0016550610307604074,
+    0.8222677248995751, 0.5393128525465727, 0.9901514884550124, 0.7465278028976172,
+    0.8287821030244231, 0.8554703120607883, 0.25272027868777514, 0.06508457357995212,
+    0.8539295108057559,
+  ])
+  stepBattle(state, rng)
+  expect(healthyPlayerCount(state)).toBe(2)
+  state.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: -1 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({
+    side: 'enemy',
+    idx: 1,
+    kind: 'cast',
+    skillId: '343',
+    targetPlayerIdx: 1,
+  })
+  expect(state.players[1]?.hp).toBe(0)
+
+  stepBattle(state, rng)
+
+  // fight.c:3482–3497,3681–3730: the whip follows ordinary slot order and damage division.
+  expect(state.lastAction).toMatchObject({
+    side: 'player',
+    idx: 0,
+    kind: 'attack',
+    attackAllHits: [
+      { idx: 2, value: 141 },
+      { idx: 1, value: 67 },
+      { idx: 0, value: 35 },
+    ],
+  })
+  expect(state.enemies.slice(0, 3).map((enemy) => enemy?.hp)).toEqual([255, 1183, 149])
+  expect(state.players[0]).toMatchObject({
+    hp: 150,
+    mp: 100,
+    hiddenCounts: { attack: 1, maxHP: 2 },
+  })
 })
 
 test('a landed enemy attack without an equiv item consumes the rate draw before the next round', () => {

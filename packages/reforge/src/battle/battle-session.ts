@@ -644,7 +644,7 @@ export class BattleSession {
         this.overlays = overlays
       },
       onSound: (asset) => this.assets.sfx?.play(asset),
-      onDamage: (target, value, tone) => this.applyDamageFx(target, value, tone ?? 'blue'),
+      onDamage: (target, value, tone, anchor) => this.applyDamageFx(target, value, tone, anchor),
       onBanner: (text, durationMs, x, y) => {
         this.itemBanner = {
           text,
@@ -1401,6 +1401,7 @@ export class BattleSession {
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
       this.summonTintShift = !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      const fireFrames = la.fizzled ? 0 : (fire?.frames.length ?? 0)
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1410,7 +1411,7 @@ export class BattleSession {
           contributorIdxs: la.coopContributors,
           partySize: s.players.length,
           partyPositions: s.players.map((_, i) => getPlayerBasePos(s.players.length, i)),
-          fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
+          fireFrames,
           fx,
           targetPos,
           damageNums,
@@ -1445,10 +1446,15 @@ export class BattleSession {
             ? playerProfile.castEffectBase
             : -1,
         partyIdxs: s.players.map((_, i) => i),
-        fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
+        fireFrames,
         fx,
         targetPos,
         ...(allyTargets.length ? { allyTargets } : {}),
+        offensive:
+          la.kind === 'cast' &&
+          fireFrames > 0 &&
+          !summonEff &&
+          (skill.target === 'oneEnemy' || skill.target === 'allEnemies'),
         damageNums,
         postTargets,
         ...(!la.fizzled && a.keepEffect ? { keepEffect: true } : {}),
@@ -1869,7 +1875,7 @@ export class BattleSession {
       // 敌 HP 钳到 0，飘字仍显示本击算出的完整伤害(fight.c:638,3665)。
       const firstDmg = la.firstDamage ?? totalDmg - (second ?? 0)
       const snd = this.opts.playerSounds?.[la.idx]
-      const attackInput = (damage: number, windup: boolean) => ({
+      const attackInput = (damage: number, windup: boolean, critical: boolean | undefined) => ({
         frames: this.playerFrames(la.idx),
         attackerIdx: la.idx,
         attackerPos,
@@ -1889,15 +1895,17 @@ export class BattleSession {
         ...(snd
           ? {
               sounds: {
-                attack: la.crit ? snd.critical : snd.attack,
+                attack: critical ? snd.critical : snd.attack,
                 weapon: snd.weapon,
               },
             }
           : {}),
       })
-      const t1 = buildPlayerAttack(attackInput(firstDmg, true))
+      const t1 = buildPlayerAttack(attackInput(firstDmg, true, la.crit))
       // 连击:第二挥无 windup(fight.c:windup 仅回合首击);两挥兵器音各在自帧 → 不同帧折叠免疫
-      return second === undefined ? t1 : [...t1, ...buildPlayerAttack(attackInput(second, false))]
+      return second === undefined
+        ? t1
+        : [...t1, ...buildPlayerAttack(attackInput(second, false, la.secondCrit ?? la.crit))]
     }
     // 敌物攻
     const t = la.targetPlayerIdx
@@ -1978,6 +1986,7 @@ export class BattleSession {
     t: { side: 'player' | 'enemy'; idx: number },
     value: number,
     tone: 'blue' | 'yellow' | 'cyan' = 'blue',
+    anchor?: { x: number; y: number },
   ): void {
     const v = t.side === 'player' ? this.visual.players[t.idx] : this.visual.enemies[t.idx]
     if (!v) return
@@ -1985,10 +1994,12 @@ export class BattleSession {
     //   x:anchor.x−24 且 5 位右对齐(6px/位)→ 个位右缘 = 底中 + 6(drawNumber 右对齐语义直传)
     //   y:敌 −115 / 玩家 HP −75 / MP(cyan)−67,下限 10;固定偏移不随精灵高度(此前用
     //   spriteH 导致高矮怪数字忽高忽低 = 作者报「掉血数字歪」根因之一)
+    // 单体双击沿用一阶段目标原底锚，首击的敌人击退位置仍保留到第二击。
+    const { x, y } = anchor ?? v
     const yOff = t.side === 'enemy' ? 115 : tone === 'cyan' ? 67 : 75
     this.floats.push({
-      x: v.x + 6,
-      y: Math.max(v.y - yOff, 10),
+      x: x + 6,
+      y: Math.max(y - yOff, 10),
       text: '',
       num: value,
       tone,

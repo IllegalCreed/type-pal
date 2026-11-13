@@ -66,6 +66,7 @@ await runBrowserJourney({
   sources: [
     ...(await battleFoundationInputSources(repoRoot)),
     'scripts/e2e/battle-foundation.mjs',
+    'scripts/e2e/battle-foundation-compare.mjs',
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',

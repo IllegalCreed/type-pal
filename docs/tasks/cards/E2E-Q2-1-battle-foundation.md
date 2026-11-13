@@ -3,13 +3,13 @@
 Status: build
 Phase: cross-phase
 Owner: Codex（范围、独立验收、中央接入与集成）
-Coding Owner: q2_panel（Game 运行时与采集） / q2_rules（Reforge 运行时） / q2_inputs（共享采集与比较） / Codex（局面、集成与台账）
+Coding Owner: q2_panel（Reforge 战斗演出） / q2_rules（Reforge 战斗规则） / q2_inputs（Game 采集与来源桥接） / Codex（局面、比较、集成与台账）
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-13
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-player-magic-and-items
+Branch: codex/q2-coop-sleep-followup
 
 ## 目标
 
@@ -99,6 +99,10 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 2026-11-13，用户对伤亡对白、敌方雷咒、回合末毒伤和普通全灭的原速带声分屏回复「通过」，要求本段收口。验收媒体来自 `31002d214bb106272f34af46c86c57872b9b2849`，归档成员 `build/q2/av/casualty-presentations/casualty-presentations-split.mp4`，SHA-256 为 `cddf938310e8d1596910c70ab79d34663c6d8c66f6eb4ecd2d26805a8e2d4ca2`。普通全灭验收范围为固定 m01。玩家五灵仙术的伤害与随机顺序在下一批处理。 [分屏及日志归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
 
 2026-11-13，用户对爆炸与同批法术图层修正后的原速带声分屏回复「通过」，要求收口玩家仙术、合击、投掷与状态批次。验收媒体来自 `4c7d4f9a78981f13a4c3ab3b9df441bc776eed23`，归档成员 `build/q2/av/spell-layers/spell-layer-recheck-split.mp4`，SHA-256 为 `95fbd0f135013d0949b87a51b26842702e109b4a8dfa4af2b09264616819f99d`。合击降级第二击和回梦后敌方起手节拍由下一批接续。 [分屏及日志归档](../evidence/E2E-Q2-1-spell-layer-recheck-20261113.tar.gz)
+
+该批合并候选 `7138b4899bc1bb86f75efe682693c5c94a5574bf` 补齐 Game 投掷后防御队友与已败敌槽的回归，按保护基点实测七包 20,489 项，并写回快测基线。文档与快测覆盖通过后，PR #62 合入 `fb1105ccabecbaa46bc1019280ad51e2aed5d323`。本地 main 已快进，清理 19 个已并入的本地分支及一个远端分支。两条旧版反例与贡献候选的可恢复引用有独立收据。 [PR #62](https://github.com/IllegalCreed/type-pal/pull/62) · [文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43377748515/job/131728101201) · [快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43377748425/job/131728101339)
+
+2026-11-13，用户对合击降级后的仙女剑双击、回梦命中收招和回梦抵抗收招三段原速带声分屏回复「通过」。分屏来自冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294`，归档成员为 `build/q2/av/player-action-followup/coop-sleep-followup-split.mp4`，SHA-256 为 `af8a48c1321ad281820fdced1c9dd6bee8f77d86328156ad38c5dc459e5b5104`。本批待保护 PR 集成。 [分屏及日志归档](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)
 
 ## 2026-11-11 首批分屏返工
 
@@ -319,6 +323,18 @@ Codex build allowed。先固定血口虫原始敌队、角色裸值和实际装�
 用户从交付分屏发现爆炸在 Reforge 被血口虫遮挡。前一候选的实绘顺序只对金刚咒和净衣咒设有判据，爆炸的伤害、声音和耗血飘字回执保留各自范围。基点 `f50338e5a92f05fa865cfac5742c9b24a694a882`。Codex 准入 `q2_inputs` 独占两端原生绘制采集和相邻测试，`q2_rules` 独占当前固定局面触达的十个技能 `animation.layerOffset`。`q2_panel` 独立核原盘、旧分屏和原始精灵像素重叠。Codex 持局面、离线比较、双端正式复跑与带声分屏。原盘带符号图层字段和已有作者排序复用，验收核实际落点、FIRE 资源、源帧及画布写入先后。完整 PAL 技能和物品的其他层序继续按覆盖台账推进。
 
 旧内容装入新采集的 `9762136cb327ad483264bf56019987f86d674c7a` 复现 20 次 Reforge 画序差异。修正后的 `4c7d4f9a78981f13a4c3ab3b9df441bc776eed23` 双端共 104 场通过离线比较，含 64 个新增画序窗口。爆炸使用原盘 99，在同位置覆盖血口虫，旋风等同类错误也已按原值复验。正式可暂停的原速带声分屏交用户复核。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-爆炸与同批法术图层返工) · [实跑原件](../evidence/E2E-Q2-1-spell-layer-recheck-20261113.tar.gz)
+
+### 合击降级与回梦收招
+
+2026-11-13 用户通过上批原速分屏，指定先修合击降级漏第二击与回梦后敌早出手约 0.3 秒。修前运行候选 `6262428320fbf3ca839a2801dbf264dea3c8127b` 保留既有产品，新增 Game 正常合击指令降级的原生收据和固定局面。原敌队 204、战场 7、seed 25。赵灵儿实际装备仙女剑 170，两端都从真实菜单提交爆炸 381，半人树妖先行动，李逍遥 HP150→149 且睡眠 3。Game 随后的普通攻击为 141、437，敌 HP800→222，第二击会心。Reforge 旧路径只算 141，敌剩 659，下一轮同输入后仍剩 367，旧录制在第三轮无后续预设指令处超时。首轮原件中的动作、画面和 RNG 由同一比较器另行复判。
+
+玩家回梦以队 62、战场 7、seed 4 的既有合法命中和抵抗局面复用实际取消与重选。修前回梦 FIRE40 消失至施法者归位在 Game 约 367 毫秒，Reforge 同帧归位。两种结果的首个实绘施法到实际敌起手约早 0.3 秒。CLASSIC 普通对敌施法先显示变化、三拍受击加一拍复位，再保持五拍。无掉血仍保留收势。Game 的实绘和逻辑副作用各自推进，雷咒、土咒的首个蓝字可在第一击退姿的后一个渲染采样出现。画面复判使用同一受击姿及一个 40 毫秒逻辑帧限定，跨端另核实际敌起手。 [原版合击降级](../../../reference/sdlpal/fight.c#L3364) · [原版普通攻击](../../../reference/sdlpal/fight.c#L3611) · [原版收招](../../../reference/sdlpal/fight.c#L3190) · [原版出手交接](../../../reference/sdlpal/fight.c#L4322)
+
+Codex build allowed。`q2_rules` 独占 Reforge 合击降级、普通攻击的实际次击结果和相邻规则测试。`q2_panel` 独占普通对敌仙术收招、逐击声和数字底锚及相邻会话测试。`q2_inputs` 负责 Game 仅测试采集和 BattleSession 的源码适用性桥接，各切片隔离提交。Codex 维护固定局面、独立规则与画帧判据、正式双端复跑和同候选原速带声分屏。按原版规则验证合击降级后走普通武器路径，按 Game 的实际表现验证两次挥击的数字、音效、归位及随后出手。回梦抵抗沿用双端现行归位后显示「攻击无效」的顺序。 [源码适用性](../evidence/E2E-Q2-1-battle-session-source-applicability.md)
+
+冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294` 完成 108 场正常战斗及 54 组双端、54 组同端比较。赵灵儿的两次攻击各有实际蓝字和音效，回梦命中与抵抗的旧版节拍差被新判据拒绝，复跑两端均在约九拍后归位。相同候选另录三段原速带声分屏，已获[用户验收](#用户验收)。三人及首击致死的降级边界按覆盖台账继续。 [合击与回梦原件及分屏](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)
+
+Reforge 371 个测试文件、9,073 项及 E2E 工具 462 项通过。以 PR #62 的受保护基点复验七包 20,495 项，写回实测覆盖。七包 typecheck、文档工具 586 项、文档完整性及 lint 零诊断。当前分支已接入 PR #62 合并提交，生产与 E2E 采集输入的冻结字节保持一致。 [快测基线](../../../scripts/coverage/baseline.fast.json)
 
 ## 状态与交接
 

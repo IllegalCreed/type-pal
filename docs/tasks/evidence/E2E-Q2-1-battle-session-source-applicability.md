@@ -81,3 +81,17 @@ Template: evidence-receipt-v1 / 1.0.0
 固定前驱 `faae7bde3078a06d5072326327459994107607e2` 包含上一轮发布的归属证据，会话源码与 `31002d214bb106272f34af46c86c57872b9b2849` 逐字节相同。中间候选 `2b8a38c53598dbba8d42ebbf16fa93da2d9e5531` 的会话摘要为 `e31925b1a090a4a8e8e4b07fa0f5950f3904b0cfb625e2b46c64c3e8052612d3`。玩家伤害法术的超杀飘字保留计算值，投掷时间线接收角色起手音、站位和物品名称。投掷归位修正 `6fc3b4e350500bd117e37ed33ce6a7f6233a3a33` 复用会话已有姿态选择，其会话摘要为 `25617f929cae55cd782c68aa87b514b0b3741b133274d5da142803da85037b5e`。友方仙术修正 `8c943feb6abd3be44a57f3b0bdaaafcd334797e0` 将实际受术槽传给时间线，其会话摘要为 `25673bced6594f8b5ff887fedf812489998819f3c9e7a69c8d1386d95809296b`。合击耗血飘字修正 `f03b46b2ae192f78d132ef933f86f0fa242dd0db` 只调整显示基线，现行会话摘要为 `8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f`。
 
 选择归属构造、准备屏障构造和选择提交分别位于 `216-218`、`375-386`、`1191-1200`。三个片段与固定前驱逐字节相同，第三处原在 `1195-1204`。目录、配对报告与机器证据更新当前摘要，并以 `q2-battle-session-player-actions-source-rebinding` 追加一次适用性历史。桥接逐段比对字节，并逐层核查此前发布的归属和普通败局证据。实际试打与验收按 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md) 对应的运行候选核查。
+
+## 2026-11-13 合击降级与攻击仙术收势的会话来源
+
+固定前驱为 `a86eea156e360bfb916a63afb8c8c7b5d5d0f018`。它包含已发布的战斗会话归属及玩家行动来源记录，`battle-session.ts` 的 SHA-256 为 `8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f`。待验运行候选 `ee449348590d9c8115889fa9b5e7b5ef3ca1fabe` 的同文件 SHA-256 为 `80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37`。该候选让合击降级复用普通攻击，分别使用两击的暴击声，并按目标底锚放置双击飘字。玩家攻击仙术的时间线在特效结束后进入伤害反馈或收势。
+
+两个 Git 对象中的三个调用片段逐字节相同，行范围一致。片段摘要包括末行换行。
+
+| 调用锚点 | 两版本范围 | 片段 SHA-256 |
+| --- | --- | --- |
+| `private readonly selection = new BattleCommandSelection` | 216–218 | `06748bc9b41060a59eb9ce1a4f35eaa83a1928e28cfe1b77ca79e9fce8b8aab5` |
+| `this.readiness = new BattleTurnReadinessGate` | 375–386 | `53a94cb63d8c929db87931718c62beafe957b20c8f5175fa036b6f1245be7fd2` |
+| `this.selection.advance(context` | 1191–1200 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
+
+目录、配对报告与机器证据更新三个来源摘要，并追加 `q2-battle-session-cooperative-recovery-source-rebinding`。桥接按固定 Git 前驱验证旧来源和历史，再核现行片段字节、摘要及主张指针。归属测试的执行身份、义务、结果与附件沿用原记录。双端实跑结果与用户验收见 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。

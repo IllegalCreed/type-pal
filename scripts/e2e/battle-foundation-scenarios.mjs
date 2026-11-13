@@ -804,19 +804,21 @@ function definePlayerElement([id, title, skill, mp, , , sound, damage], seed = 5
     { enemyDamage: [damage], growth: { maxMP: orderProbe ? 3 : 2, magicAttack: 1 } },
   )
   step(finish, finishEnemy, { rawDamage: orderProbe ? 7309 : 2255 })
+  const scenario = complete(
+    [magic, finish],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 906),
+      queueDraw(1, 'player', 1, 150),
+      spellVariance(0),
+      ...draws('cast-growth'),
+      ...anuStrike,
+    ],
+    [150, 150],
+  )
+  scenario.expected.playerCastRecovery = 0
   return {
-    ...complete(
-      [magic, finish],
-      [
-        queueDraw(1, 'enemy', 0, 54),
-        queueDraw(1, 'player', 0, 906),
-        queueDraw(1, 'player', 1, 150),
-        spellVariance(0),
-        ...draws('cast-growth'),
-        ...anuStrike,
-      ],
-      [150, 150],
-    ),
+    ...scenario,
     sounds: [
       [
         ['cast-windup', 10],
@@ -860,20 +862,22 @@ function definePlayerAreaMagic() {
     },
     { enemyDamage: [346, 354, 348], growth: { maxMP: 2, magicAttack: 1 } },
   )
+  const scenario = complete(
+    [wind, bees],
+    [
+      ...units.map((_, slot) => queueDraw(1, 'enemy', slot, 54)),
+      queueDraw(1, 'player', 0, 906),
+      queueDraw(1, 'player', 1, 150),
+      ...units.map((_, slot) => spellVariance(slot)),
+      ...draws('cast-growth'),
+      ...units.map((_, slot) => spellVariance(slot)),
+      ...draws('cast-growth'),
+    ],
+    [150, 150],
+  )
+  scenario.expected.playerCastRecovery = 0
   return {
-    ...complete(
-      [wind, bees],
-      [
-        ...units.map((_, slot) => queueDraw(1, 'enemy', slot, 54)),
-        queueDraw(1, 'player', 0, 906),
-        queueDraw(1, 'player', 1, 150),
-        ...units.map((_, slot) => spellVariance(slot)),
-        ...draws('cast-growth'),
-        ...units.map((_, slot) => spellVariance(slot)),
-        ...draws('cast-growth'),
-      ],
-      [150, 150],
-    ),
+    ...scenario,
     sounds: [
       [
         ['cast-windup', 10],
@@ -947,6 +951,88 @@ function defineCooperativeMagic() {
       enemyAttackSounds(357, 92),
       [],
       playerAttackSounds(8, 4, 216),
+    ],
+  }
+}
+
+function defineCooperativeFallback() {
+  const tree = mechanismEnemies.tree
+  const { step, round, complete } = mechanismScenario(
+    'player-cooperative-fallback',
+    '队友被催眠，合击降级为仙女剑双击',
+    tree,
+    25,
+    [
+      { ...mechanismMember(linger, 150, 250, 400, 0, 6), magic: 80, statuses: fairySwordStatus },
+      mechanismMember(hero, 150, 900, 400, 0, 6),
+    ],
+  )
+  const coop = { turn: 1, actorId: linger, kind: 'coop', skillId: '381', targetId: tree.id }
+  const finish = attackAt(2, linger, tree.id)
+  step({ ...castAt(1, tree.id, '303', hero), actorSide: 'enemy' }, ({ players }) => {
+    players[1].hp--
+    players[1].statuses.sleep = 3
+  })
+  step(
+    attackAt(1, linger, tree.id),
+    ({ enemies }) => {
+      enemies[0].hp = 222
+    },
+    { cooperativeFallback: true, rawStrikes: [141, 437], growth: { attack: 1, maxHP: 2 } },
+  )
+  step(passAt(1, hero))
+  round(1, ({ players }) => {
+    players[1].statuses.sleep = 2
+  })
+  step(
+    enemyAttackAt(2, tree.id, linger),
+    ({ players }) => {
+      players[0].hp--
+    },
+    { rawDamage: 1 },
+  )
+  step(finish, finishEnemy, { rawStrikes: [138, 146], growth: { attack: 1, maxHP: 2 } })
+  const strike = draws('strike-bonus', 'strike-critical', 'strike-variance')
+  const scenario = complete(
+    [coop, finish],
+    [
+      queueDraw(1, 'enemy', 0, 114),
+      queueDraw(1, 'player', 0, 60),
+      queueDraw(1, 'player', 1, 3),
+      ...draws('enemy-target', 'enemy-magic-choice', 'enemy-magic-block', 'battle-script-chance'),
+      ...strike,
+      ...strike,
+      ...draws('attack-growth'),
+      queueDraw(2, 'enemy', 0, 114),
+      queueDraw(2, 'player', 0, 6),
+      ...draws(
+        'enemy-target',
+        'enemy-magic-choice',
+        'enemy-block',
+        'enemy-attack-bonus',
+        'enemy-damage-bonus',
+        'enemy-equivalent-item',
+      ),
+      ...strike,
+      ...strike,
+      ...draws('attack-growth'),
+    ],
+    [149, 149],
+  )
+  scenario.expected.retainedEquipment = [{ slot: 0, equipmentIndex: 3, itemId: 170 }]
+  return {
+    ...scenario,
+    sounds: [
+      [['spell-effect', 169]],
+      [
+        ['player-windup', 38],
+        ['player-weapon', 2],
+        ['player-windup', 6],
+        ['player-weapon', 2],
+      ],
+      [],
+      enemyAttackSounds(265, 92),
+      [['player-windup', 38], ['player-weapon', 2], ...playerAttackSounds(38, 2, 185)],
     ],
   }
 }
@@ -1088,6 +1174,7 @@ function definePlayerSleep(resisted) {
     [150, resisted ? 149 : 150],
   )
   scenario.expected.statusNotice = { actionIndex: 1, text: '攻击无效', visible: resisted }
+  scenario.expected.playerCastRecovery = 1
   return {
     ...scenario,
     sounds: [
@@ -1431,6 +1518,7 @@ const soundFrames = {
   2: 5075,
   4: 11775,
   5: 11232,
+  6: 10302,
   8: 6045,
   9: 6982,
   10: 10366,
@@ -1640,6 +1728,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     definePlayerElement(['random-order', '风咒随机抽样', ...playerElements[0].slice(2, -1), 82], 6),
     definePlayerAreaMagic(),
     defineCooperativeMagic(),
+    defineCooperativeFallback(),
     defineThrownSword(),
     definePlayerSleep(false),
     definePlayerSleep(true),
@@ -1650,6 +1739,14 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
 
 export function battleFoundationScenarioGroup(id) {
   if (id === 'all') return BATTLE_FOUNDATION_SCENARIOS
+  if (id === 'coop-sleep-followup') {
+    const names = new Set([
+      'player-cooperative-fallback',
+      'player-sleep-hit',
+      'player-sleep-resisted',
+    ])
+    return BATTLE_FOUNDATION_SCENARIOS.filter(({ id: scenarioId }) => names.has(scenarioId))
+  }
   assert(['established', 'player-actions'].includes(id), `unknown battle foundation group: ${id}`)
   return BATTLE_FOUNDATION_SCENARIOS.filter(
     ({ id: scenarioId }) => scenarioId.startsWith('player-') === (id === 'player-actions'),

@@ -14,6 +14,8 @@ export const testingBattleSessionCadenceBase = 'd0020e0749483651d9b0f86cf79ef738
 export const testingBattleSessionCasualtyBase = '58812c028ebd87dd75a9c5dda46a4ec997fb4b09'
 export const testingBattleSessionCasualtyDialogueBase = 'f84bcd91dd71498e1099e7bf8f4b2d7900507090'
 export const testingBattleSessionPlayerActionsBase = 'faae7bde3078a06d5072326327459994107607e2'
+export const testingBattleSessionCooperativeRecoveryBase =
+  'a86eea156e360bfb916a63afb8c8c7b5d5d0f018'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -63,6 +65,13 @@ const sessionCasualtyDialogueBinding = {
 const sessionPlayerActionsBinding = {
   revision: testingBattleSessionPlayerActionsBase,
   action: 'q2-battle-session-player-actions-source-rebinding',
+  date: '2026-11-13',
+  requireExactExcerpt: true,
+}
+
+const sessionCooperativeRecoveryBinding = {
+  revision: testingBattleSessionCooperativeRecoveryBase,
+  action: 'q2-battle-session-cooperative-recovery-source-rebinding',
   date: '2026-11-13',
   requireExactExcerpt: true,
 }
@@ -246,6 +255,7 @@ function sessionRebindings(
     casualtyFixed,
     casualtyDialogueFixed,
     playerActionsFixed,
+    cooperativeRecoveryFixed,
   },
 ) {
   assert(
@@ -255,7 +265,8 @@ function sessionRebindings(
       (!cadenceFixed || presentationFixed) &&
       (!casualtyFixed || cadenceFixed) &&
       (!casualtyDialogueFixed || casualtyFixed) &&
-      (!playerActionsFixed || casualtyDialogueFixed),
+      (!playerActionsFixed || casualtyDialogueFixed) &&
+      (!cooperativeRecoveryFixed || playerActionsFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -267,6 +278,7 @@ function sessionRebindings(
     { fixed: casualtyFixed, binding: sessionCasualtyBinding },
     { fixed: casualtyDialogueFixed, binding: sessionCasualtyDialogueBinding },
     { fixed: playerActionsFixed, binding: sessionPlayerActionsBinding },
+    { fixed: cooperativeRecoveryFixed, binding: sessionCooperativeRecoveryBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(

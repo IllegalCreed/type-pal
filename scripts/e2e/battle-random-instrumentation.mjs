@@ -64,6 +64,13 @@ export function instrumentBattleRandomDraws(source, file) {
         }
       } else if (file.endsWith('/actions/attack.ts') && Object.hasOwn(gameStrike, expression)) {
         mark(node, gameStrike[expression])
+      } else if (
+        file.endsWith('/actions/coop-magic.ts') &&
+        owner === 'performCoopMagic' &&
+        expression === 'state.rng.rangeInclusive(2, 3)' &&
+        ts.findAncestor(node, ts.isIfStatement)?.expression.getText(ast) === 'gs'
+      ) {
+        mark(node, 'attack-growth')
       } else if (file.endsWith('/enemy-ai.ts') && owner === 'decideEnemyAction') {
         if (expression === 'rng.rangeInclusive(0, party.length - 1)')
           mark(node, 'enemy-target', { when: 'party.length > 1 && ' })
@@ -195,6 +202,7 @@ export function instrumentBattleRandomDraws(source, file) {
     expected = { 'queue-dexterity': 3, 'attack-growth': 1, 'cast-growth': 1 }
   if (file.endsWith('/actions/attack.ts'))
     expected = Object.fromEntries(Object.values(gameStrike).map((name) => [name, 1]))
+  if (file.endsWith('/actions/coop-magic.ts')) expected = { 'attack-growth': 1 }
   if (file.endsWith('/enemy-ai.ts')) expected = { 'enemy-target': 2, 'enemy-magic-choice': 1 }
   if (file.endsWith('/magic-damage.ts'))
     expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }

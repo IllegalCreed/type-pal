@@ -106,11 +106,74 @@ function enemyDamageNumbers(engine, native, kind) {
       )
   }
   const action = native?.lastAction
+  if (kind === 'attack')
+    return [action?.firstDamage, action?.secondDamage].flatMap((value) =>
+      Number.isSafeInteger(value) ? [{ slot: action.targetEnemyIdx, value }] : [],
+    )
   const hits = kind === 'throw' ? action?.throwHits : action?.magicHits
   return Array.isArray(hits) &&
     hits.every((hit) => Number.isSafeInteger(hit?.idx) && Number.isSafeInteger(hit?.value))
     ? hits.map(({ idx: slot, value }) => ({ slot, value }))
     : null
+}
+
+function compareRepeatedStrikes(
+  engine,
+  action,
+  actionIndex,
+  values,
+  start,
+  next,
+  numberDraws,
+  fail,
+) {
+  const before = action.before.enemies.find((unit) => unit?.id === action.targetId)
+  const after = action.after.enemies[before.slot]
+  const attackerSlot = action.before.players.find(({ id }) => id === action.actorId)?.slot
+  const base = start?.payload.enemies.find(({ slot }) => slot === before.slot)
+  const expected = values.map((value) => ({ slot: before.slot, value }))
+  const native = enemyDamageNumbers(engine, action.native, action.kind)
+  const draws = numberDraws.flatMap(({ frame, number }) =>
+    start &&
+    frame.seq >= start.seq &&
+    (!next || frame.seq < next.seq) &&
+    number.tone === 'blue' &&
+    number.side === 'enemy'
+      ? [
+          {
+            frame: frame.seq,
+            clockMs: frame.clockMs,
+            attackFrame: frame.payload.players.find(({ slot }) => slot === attackerSlot)
+              ?.frameIndex,
+            ...number,
+          },
+        ]
+      : [],
+  )
+  const drawn = draws.map(({ slot, value }) => ({ slot, value }))
+  const expectedHpLost = Math.min(
+    before.hp,
+    values.reduce((total, value) => total + value, 0),
+  )
+  const hpLost = before.hp - after.hp
+  const observed = { actionIndex, actorId: action.actorId, expected, native, draws, hpLost }
+  if (!same(expected, native)) fail('native-repeated-strike-damage', observed)
+  if (
+    !same(expected, drawn) ||
+    !base ||
+    draws.some(
+      (draw, i) =>
+        draw.numberId === undefined ||
+        draw.attackFrame !== 9 ||
+        (i > 0 && draw.frame <= draws[i - 1].frame) ||
+        draw.right !== base.x + 6 ||
+        draw.y + draw.age !== Math.max(base.y - 115, 10),
+    )
+  )
+    fail('rendered-repeated-strike-damage', observed)
+  if (hpLost !== expectedHpLost)
+    fail('repeated-strike-effective-hp', { ...observed, expectedHpLost })
+  return observed
 }
 
 /** Finite rule oracle for the declared PAL fixtures and their physical display boundaries. */
@@ -154,6 +217,10 @@ export function validateBattleRules(trace, scenario) {
       (unit) => unit?.id === action.targetId,
     )
     const wanted = scenario.expected.actions[index]
+    if (!wanted) {
+      fail('unplanned-action-for-rules', { actionIndex: index, actorId: action.actorId })
+      break
+    }
     if (wanted.enemyDamage) {
       const targets = action.before.enemies.filter(
         (unit) => unit?.alive && (action.targetSide === 'enemy' || unit.id === action.targetId),
@@ -189,7 +256,20 @@ export function validateBattleRules(trace, scenario) {
           fail('rendered-cooperative-hp-cost', { actionIndex: index, shownCost })
       }
     }
-    if (action.kind === 'attack') {
+    if (wanted.rawStrikes) {
+      strikes.push(
+        compareRepeatedStrikes(
+          trace.engine,
+          action,
+          index,
+          wanted.rawStrikes,
+          animationStarts[index],
+          animationStarts.slice(index + 1).find(Boolean),
+          numberDraws,
+          fail,
+        ),
+      )
+    } else if (action.kind === 'attack') {
       const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
       const expectsBlock = wanted.blocked === true
       const expectedHpLost = wanted.effectiveHpLoss ?? Math.min(before.hp, expectedRaw)

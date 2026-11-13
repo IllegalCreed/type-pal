@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-13T06:12:45.295Z",
+  "generatedAt": "2026-11-13T06:36:44.928Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 838,
-  "testCount": 20489,
+  "testCount": 20495,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2250,7 +2250,7 @@
       ],
       "scopeDigest": "e0da62982ba37363f87eaa5b46822eecf439ed3a368cffef9975fa951ec5278f",
       "fastTests": {
-        "testCount": 9067,
+        "testCount": 9073,
         "testFileCount": 371,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2933,8 +2933,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
-            "testCount": 16,
-            "identityDigest": "ff5cab67ada4bfa66951228e5f0e9718050edca928e7a5ecdf0fa62fba69f0da"
+            "testCount": 18,
+            "identityDigest": "f1021aee7498f4f23971802a8885763fd5184c3ba331b2663e3824fd077b55df"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
@@ -3003,8 +3003,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 27,
-            "identityDigest": "552b9117ca6f8f941653d12263b8e2200080a61763991f41b67f508721ad931c"
+            "testCount": 31,
+            "identityDigest": "3dcfe4c8282920cdf6e4656392210975f3080e202d86913c1d563296d60eacf0"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4482,26 +4482,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "27adcb06f780b7a3ce5be5841ee06de9af1f81275df16f573b326098519b632b",
+        "identityDigest": "ebf45a63bce76417f487d249fac81122ed87a49ee20b2548e1f55b7db45b9edf",
         "duplicateIdentityCount": 3,
-        "executionDigest": "1b33d823ef2d7ef26c9705b9b94a123ed29baea3d5a38311f6d5d65184c4bd43"
+        "executionDigest": "868df0fad2b066a53c9858593e2b8697c87fa3b211820fb4129cfbe8829f312a"
       },
       "metrics": {
         "statements": {
-          "covered": 17447,
-          "total": 19226
+          "covered": 17450,
+          "total": 19224
         },
         "branches": {
-          "covered": 11188,
-          "total": 13410
+          "covered": 11214,
+          "total": 13418
         },
         "functions": {
           "covered": 2820,
-          "total": 3108
+          "total": 3107
         },
         "lines": {
-          "covered": 15607,
-          "total": 16765
+          "covered": 15613,
+          "total": 16766
         }
       }
     },
@@ -10953,20 +10953,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74787,
-      "total": 82452
+      "covered": 74790,
+      "total": 82450
     },
     "branches": {
-      "covered": 54452,
-      "total": 64569
+      "covered": 54478,
+      "total": 64577
     },
     "functions": {
       "covered": 14183,
-      "total": 15736
+      "total": 15735
     },
     "lines": {
-      "covered": 66796,
-      "total": 72145
+      "covered": 66802,
+      "total": 72146
     }
   }
 }

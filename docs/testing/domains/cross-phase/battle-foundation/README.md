@@ -28,4 +28,4 @@ Template: governance-index-v1 / 1.0.0
 
 从报告的冻结候选和绑定原件重比。覆盖台账列出投掷、玩家仙术、合击、特殊状态和增益的实际进度。后续批次按任务卡准入后继续同样的双端流程。
 
-两端默认各跑完整矩阵。只核玩家动作时，两端 runner 和离线比较器均传 `--group=player-actions`。带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。
+两端默认各跑完整矩阵。只核玩家动作时，两端 runner 和离线比较器均传 `--group=player-actions`。合击降级和回梦命中、抵抗可用同样入口传 `--group=coop-sleep-followup`。带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。

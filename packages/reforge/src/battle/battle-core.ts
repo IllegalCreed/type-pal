@@ -1647,7 +1647,7 @@ export function healthyPlayerCount(s: BattleState): number {
 
 /**
  * 协力合击(fight.c:3856-4043 PAL_CLASSIC 移植)。发起者取其 cooperativeMagicSkillId:
- * · contributors = 全 healthy 队员;≤1 → 退化发起者普攻(选单已门控 ≥2,执行端兜底)。
+ * · contributors = 全 healthy 队员；执行前人数不足已由 validatePlayerAction 降级为普攻。
  * · HP 代价(非 MP!):每贡献者扣合体技 cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)。
  * · magStr = Σ(攻+法力) / 4(fight.c:3982-3995);伤害走 calcMagicDamage(同普通仙术),保底 1。
  * · 目标:allEnemies 技 → 全体,否则单体 targetEnemyIdx。伤害系数(合体×10)是出手身法非伤害。
@@ -1675,31 +1675,6 @@ function performCoopMagic(
   const contributors = s.players
     .map((_, i) => i)
     .filter((i) => isPlayerHealthy(expectDefined(s.players[i])))
-  // healthy ≤ 1 → 退化发起者普攻(fight.c:3374-3378;选招到出手间贡献者阵亡的兜底)
-  if (contributors.length <= 1) {
-    const ti =
-      targetEnemyIdx !== undefined && (s.enemies[targetEnemyIdx]?.hp ?? 0) > 0
-        ? targetEnemyIdx
-        : retargetEnemy(s, targetEnemyIdx ?? 0)
-    const e = s.enemies[ti]
-    if (!e || e.hp <= 0) {
-      s.lastAction = { side: 'player', idx: casterIdx, kind: 'pass' }
-      return
-    }
-    const hit = resolvePlayerAttackHit(caster, e, rng)
-    s.lastAction = {
-      side: 'player',
-      idx: casterIdx,
-      kind: 'attack',
-      targetEnemyIdx: ti,
-      firstDamage: hit.dmg,
-      crit: hit.crit,
-    }
-    e.hp = Math.max(0, e.hp - hit.dmg)
-    s.log.push(`${caster.roleId} 合击人手不足,改普攻 ${e.def.id} 造成 ${hit.dmg}`)
-    recordPlayerAttackGrowth(caster, rng)
-    return
-  }
   // HP 代价:每贡献者扣 skill.cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)
   const hpCost = skill.cost.mp ?? 0
   for (const i of contributors) {
@@ -1822,6 +1797,7 @@ function retargetEnemy(s: BattleState, from: number): number {
  * 出手时刻行动验证(fight.c:3260-3506 PAL_BattlePlayerValidateAction 降级链):
  * 选招到轮到之间战况可能已变(先手敌封咒/耗 MP、队友抢走目标)——
  * · cast:封咒中或 MP 不足 → 攻击系(对敌)降普攻承袭目标、辅助系降防御(fight.c:3310-3349)
+ * · coop:出手时健康队员不足 → 降普通攻击，保留提交目标(fight.c:3364–3378)
  * · item:库存已空 → 降防御(fight.c:3433 UseItem 数 0;多队员同轮抢用同一件时触发)
  * · 通用尾:对敌动作目标已死 → 环扫改选(fight.c:3500,普攻/对敌单体法术一视同仁)
  * 返回生效行动;lastAction 按生效值记,表现层自然演降级后的动作(原版同:改写 action 本体)。
@@ -1846,6 +1822,12 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
         a = { kind: 'defend' }
         s.log.push(`${p.roleId} ${why},${skill.name} 降级防御`)
       }
+    }
+  } else if (a.kind === 'coop') {
+    const coopId = p.cooperativeMagicSkillId
+    if (coopId && s.skills[coopId] && healthyPlayerCount(s) <= 1) {
+      a = { kind: 'attack', targetEnemyIdx: a.targetEnemyIdx ?? -1 }
+      s.log.push(`${p.roleId} 合击人手不足,降级普攻`)
     }
   } else if (a.kind === 'item') {
     const itemId = a.itemId
@@ -2206,7 +2188,10 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷)
     if (hasPlayerStatus(p, 'dualAttack') && e.hp > 0) {
       const hit2 = resolvePlayerAttackHit(p, e, _rng)
-      if (s.lastAction) s.lastAction.secondDamage = hit2.dmg
+      if (s.lastAction?.side === 'player' && s.lastAction.kind === 'attack') {
+        s.lastAction.secondDamage = hit2.dmg
+        s.lastAction.secondCrit = hit2.crit
+      }
       e.hp = Math.max(0, e.hp - hit2.dmg)
       s.log.push(`${p.roleId} 连击 ${hit2.crit ? '会心一击 ' : ''}造成 ${hit2.dmg}`)
     }
