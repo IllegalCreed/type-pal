@@ -1,8 +1,10 @@
 /** Player offensive, summon, and defensive animation wiring. */
 import type { Command, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import type { CommandBus } from '../../command-bus.js'
 import { runScript } from '../../event-system.js'
 import { performMagic } from '../actions/magic.js'
+import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
 import {
   makeMagic,
@@ -513,6 +515,14 @@ describe('player defensive animation', () => {
 
   const frameCounts = new Map<number, number>([[15, 5]])
 
+  function advanceToMagicEffect(state: BattleState, bus: CommandBus): void {
+    const frames = state.battleAnim!.frames
+    const firstEffect = frames.findIndex((frame) => frame.overlays?.length)
+    expect(firstEffect).toBeGreaterThan(0)
+    const elapsed = frames.slice(0, firstEffect).reduce((ms, frame) => ms + frame.durationMs, 0)
+    advanceBattleAnimFrames(state, bus, elapsed)
+  }
+
   it('applyToPlayer places the effect and glow on the selected teammate', () => {
     const { state, playerRoles, bus } = makeStateMulti({}, 2)
     placeFighters(
@@ -550,38 +560,127 @@ describe('player defensive animation', () => {
     expect(glowPeak.fighters).toEqual([{ side: 'player', idx: 1, iColorShift: 6 }])
   })
 
-  it('applyToParty → 全队员落点 + 全队员辉光', () => {
-    const { state, playerRoles, bus } = makeStateMulti({}, 3)
-    placeFighters(
-      state,
-      [
-        { x: 240, y: 170 },
-        { x: 200, y: 150 },
-        { x: 160, y: 130 },
-      ],
-      [{ x: 160, y: 80 }],
+  it('applyToPlayer anchors self-cast 真元护体 to the caster after the approach', () => {
+    const { state, playerRoles, bus, gs } = makePartyMagicState(
+      [{ level: 20, magic: [310] }, {}],
+      [{ health: 100 }],
     )
     performMagic({
       state,
       casterIsEnemy: false,
       casterIdx: 0,
-      spellId: 7,
+      spellId: 310,
       targetIsEnemy: false,
-      targetIdx: 'all',
-      spells: [makeSpell()],
-      magics: [makeMagic({ effect: 15, type: 'applyToParty', speed: 0, xOffset: 0, yOffset: 0 })],
+      targetIdx: 0,
+      spells: [
+        makeSpell({
+          id: 310,
+          magicNumber: 40,
+          scriptOnSuccess: 1,
+          flags: {
+            usableOutsideBattle: false,
+            usableInBattle: true,
+            usableToEnemy: false,
+            applyToAll: false,
+          },
+        }),
+      ],
+      magics: [
+        makeMagic({
+          id: 40,
+          effect: 29,
+          type: 'applyToPlayer',
+          xOffset: 65528,
+          yOffset: 4,
+          special: 1,
+          speed: -1,
+          costMP: 18,
+          baseDamage: 0,
+          elemental: 7,
+          sound: 149,
+        }),
+      ],
       playerRoles,
       bus,
-      commands,
+      gs,
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x2d, operands: [6, 9, 0] }, { op: 'end' }],
       runScript,
-      magicSpriteFrameCounts: frameCounts,
+      magicSpriteFrameCounts: new Map([[29, 24]]),
     })
-    const f = state.battleAnim!.frames
-    // magic 帧落点 = 3 队员(DM14:+17 PreMagic 前摇)
-    expect(f[18]!.overlays).toHaveLength(3)
-    // 辉光首帧设 3 队员
-    const glow0 = f[17 + 1 + 5]!
-    expect(glow0.fighters).toHaveLength(3)
+
+    advanceToMagicEffect(state, bus)
+    // SDLPal battle.c:27 and fight.c:2363–2369,2547–2555. MAGIC 40 offsets are −8 and +4.
+    expect(state.players[0]?.pos).toEqual({ x: 190, y: 172 })
+    expect(state.battleAnim?.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 29, frameIdx: 0, x: 182, y: 176, layerOffset: 1 },
+    ])
+  })
+
+  it('applyToParty 五气朝元 anchors each overlay and glow to its own recipient', () => {
+    const { state, playerRoles, bus, gs } = makePartyMagicState(
+      [{}, { level: 8, magic: [300], mp: 60, maxMP: 60 }, {}],
+      [{ health: 100 }],
+    )
+    performMagic({
+      state,
+      casterIsEnemy: false,
+      casterIdx: 1,
+      spellId: 300,
+      targetIsEnemy: false,
+      targetIdx: 'all',
+      spells: [
+        makeSpell({
+          id: 300,
+          magicNumber: 46,
+          scriptOnSuccess: 1,
+          flags: {
+            usableOutsideBattle: true,
+            usableInBattle: true,
+            usableToEnemy: false,
+            applyToAll: true,
+          },
+        }),
+      ],
+      magics: [
+        makeMagic({
+          id: 46,
+          effect: 28,
+          type: 'applyToParty',
+          xOffset: 65530,
+          yOffset: 65518,
+          special: 99,
+          speed: -1,
+          costMP: 40,
+          baseDamage: 0,
+          elemental: 7,
+          sound: 316,
+        }),
+      ],
+      playerRoles,
+      bus,
+      gs,
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] }, { op: 'end' }],
+      runScript,
+      magicSpriteFrameCounts: new Map([[28, 24]]),
+    })
+
+    advanceToMagicEffect(state, bus)
+    // SDLPal fight.c:2527–2541 uses each current foot. MAGIC 46 offsets are −6 and −18.
+    expect(state.players[1]?.pos).toEqual({ x: 224, y: 166 })
+    expect(state.battleAnim?.overlays).toEqual([
+      { kind: 'magic', spriteChunk: 28, frameIdx: 0, x: 174, y: 162, layerOffset: 99 },
+      { kind: 'magic', spriteChunk: 28, frameIdx: 0, x: 218, y: 148, layerOffset: 99 },
+      { kind: 'magic', spriteChunk: 28, frameIdx: 0, x: 264, y: 128, layerOffset: 99 },
+    ])
+    const frames = state.battleAnim!.frames
+    const firstGlow = frames.find((frame) =>
+      frame.fighters?.some((fighter) => fighter.iColorShift === 0),
+    )
+    expect(firstGlow?.fighters).toEqual([
+      { side: 'player', idx: 0, iColorShift: 0 },
+      { side: 'player', idx: 1, iColorShift: 0 },
+      { side: 'player', idx: 2, iColorShift: 0 },
+    ])
   })
 
   it('applyToPlayer 缺 target 队员 posOriginal → 不建链', () => {

@@ -434,24 +434,37 @@ function buildAndStartDefMagicAnim(
   const caster = input.state.players[input.casterIdx]
   if (!caster?.posOriginal) return false
 
-  // DM14:PreMagic 起手前摇对**所有**玩家法术无条件先放(fight.c:4184 → 2363-2444:4 步前移
-  //   各 Delay(1) + Delay(2) + frame5 施法姿 + 10 帧 cast 特效,~0.7s)。offensive/summon/trance
-  //   均有,唯 DefMagic 两路径缺 → 放治疗/辅助时施法者无起手段直接目标辉光。
+  // 防御法术也先播放完整起手 (fight.c:4184 → 2363-2444)。
   const dmRole = input.playerRoles.roles[caster.roleId]
   const dmSpriteId = dmRole?.spriteNumInBattle ?? 0
   const dmCastListVal = input.battleEffectIndex?.[dmSpriteId * 2 + 0] ?? 0
+  const casterStartPos = caster.pos ?? caster.posOriginal
   const preFrames = buildPreMagicTimeline({
-    casterPos: caster.posOriginal,
+    casterPos: casterStartPos,
     casterIdx: input.casterIdx,
     castEffectFrameBase: dmCastListVal * 10 + 15,
     isSummon: false,
     castSound: dmRole?.magicSound ?? 0,
   })
 
+  // DefMagic 以每个受术者当时的脚点为准 (fight.c:2527-2555)。施法者已由起手帧前移。
+  const casterEffectPos = preFrames.reduce((pos, frame) => {
+    const movement = frame.fighters?.find(
+      (fighter) => fighter.side === 'player' && fighter.idx === input.casterIdx && fighter.pos,
+    )
+    return movement?.pos ?? pos
+  }, casterStartPos)
+  const recipientPosition = (idx: number) => {
+    const player = input.state.players[idx]
+    if (!player?.posOriginal) return undefined
+    if (idx === input.casterIdx) return casterEffectPos
+    return player.pos ?? player.posOriginal
+  }
+
   if (magic.type === 'applyToPlayer') {
     // 单体目标队员:resolved idx(targetIdx 必为 number;'all' 不会落到 applyToPlayer)。
     const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
-    const targetPos = input.state.players[tIdx]?.posOriginal
+    const targetPos = recipientPosition(tIdx)
     if (!targetPos) return false
     const frames = buildPlayerDefMagicTimeline({
       casterIdx: input.casterIdx,
@@ -474,8 +487,9 @@ function buildAndStartDefMagicAnim(
 
   // applyToParty:全队员落点(有 posOriginal 的都收)。
   const partyPlayerPositions: Array<{ idx: number; pos: { x: number; y: number } }> = []
-  input.state.players.forEach((p, idx) => {
-    if (p.posOriginal) partyPlayerPositions.push({ idx, pos: p.posOriginal })
+  input.state.players.forEach((_, idx) => {
+    const pos = recipientPosition(idx)
+    if (pos) partyPlayerPositions.push({ idx, pos })
   })
   if (partyPlayerPositions.length === 0) return false
   const frames = buildPlayerDefMagicTimeline({
