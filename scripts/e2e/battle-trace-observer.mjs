@@ -152,10 +152,10 @@ export function installBattleTraceObserver(context, createRecorder) {
       )
       markedRandom = undefined
     },
-    markRandom(purpose, queue) {
+    markRandom(purpose, queue, target) {
       if (closed || starts.length !== 1) return
       if (markedRandom) recorder.fail('a marked random draw was not consumed')
-      markedRandom = { purpose, ...(queue ? { queue } : {}) }
+      markedRandom = { purpose, ...(queue ? { queue } : {}), ...(target ? { target } : {}) }
     },
     presentation(value) {
       append(presentations, value)

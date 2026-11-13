@@ -23,6 +23,20 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
     const observed = instrumentGameBattle(native, file)
     assert.match(observed.code, /__battle(?:Game|Evidence)/)
     assert.throws(() => instrumentGameBattle(observed.code, file), /instrumented twice/)
+    if (file.endsWith('/battle/magic-damage.ts')) {
+      assert.match(
+        observed.code,
+        /markRandom\('spell-damage-variance', undefined, \{ turn: state.turn \+ 1, side: 'enemy', slot: idx \}\), state.rng.next\(\)/,
+      )
+      assert.throws(
+        () =>
+          instrumentGameBattle(
+            native.replace('function applyMagicDamage(', 'function movedMagicDamage('),
+            file,
+          ),
+        /battle RNG boundaries changed/,
+      )
+    }
     if (file.endsWith('/draw-battle-sprites.ts')) {
       assert.throws(
         () =>

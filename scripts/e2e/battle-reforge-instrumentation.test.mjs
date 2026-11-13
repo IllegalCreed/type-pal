@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
+import { instrumentBattleRandomDraws } from './battle-random-instrumentation.mjs'
 import {
   instrumentReforgeBattle,
   REFORGE_BATTLE_TARGETS,
@@ -16,6 +17,20 @@ test('current real battle producers instrument once; drift fails closed and norm
     for (const character of instrumented.code) if (character === source[cursor]) cursor++
     assert.equal(cursor, source.length)
     assert(!instrumented.code.includes('extra.count--'))
+    if (file.endsWith('/battle/battle-core.ts')) {
+      assert.match(
+        instrumented.code,
+        /markRandom\('spell-damage-variance', undefined, \{ turn: s.turn, side: 'enemy', slot: ti \}\), rng\(\)/,
+      )
+      assert.throws(
+        () =>
+          instrumentBattleRandomDraws(
+            source.replace('function dealSkillDamage(', 'function movedSkillDamage('),
+            file,
+          ),
+        /battle RNG boundaries changed/,
+      )
+    }
   }
   const file = REFORGE_BATTLE_TARGETS[1]
   const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')

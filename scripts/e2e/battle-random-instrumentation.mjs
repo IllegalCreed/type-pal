@@ -31,9 +31,9 @@ export function instrumentBattleRandomDraws(source, file) {
     anchors = {}
   let legacyChance = false
   let legacyEquivalent = false
-  const mark = (node, purpose, queue, when = '') => {
+  const mark = (node, purpose, { queue, target, when = '' } = {}) => {
     anchors[purpose] = (anchors[purpose] ?? 0) + 1
-    const metadata = queue ? `, ${queue}` : ''
+    const metadata = target ? `, undefined, ${target}` : queue ? `, ${queue}` : ''
     edits.push(
       {
         at: node.getStart(ast),
@@ -49,18 +49,14 @@ export function instrumentBattleRandomDraws(source, file) {
       if (file.endsWith('/battle-system.ts')) {
         if (owner === 'tickSelectAction' && expression === 'jitter(baseDex)') {
           const extra = ts.isConditionalExpression(node.parent)
-          mark(
-            node,
-            'queue-dexterity',
-            `{ turn: state.turn + 1, side: 'enemy', slot: i, speed: baseDex, extra: ${extra} }`,
-          )
+          mark(node, 'queue-dexterity', {
+            queue: `{ turn: state.turn + 1, side: 'enemy', slot: i, speed: baseDex, extra: ${extra} }`,
+          })
         }
         if (owner === 'tickSelectAction' && expression === 'jitter(dex)')
-          mark(
-            node,
-            'queue-dexterity',
-            "{ turn: state.turn + 1, side: 'player', slot: i, speed: dex, extra: false }",
-          )
+          mark(node, 'queue-dexterity', {
+            queue: "{ turn: state.turn + 1, side: 'player', slot: i, speed: dex, extra: false }",
+          })
         if (owner === 'performBattleAction' && expression === 'state.rng.rangeInclusive(2, 3)') {
           const pool = node.parent.arguments?.[0]?.getText(ast)
           if (pool === "'rgHealthExp'") mark(node, 'attack-growth')
@@ -70,9 +66,13 @@ export function instrumentBattleRandomDraws(source, file) {
         mark(node, gameStrike[expression])
       } else if (file.endsWith('/enemy-ai.ts') && owner === 'decideEnemyAction') {
         if (expression === 'rng.rangeInclusive(0, party.length - 1)')
-          mark(node, 'enemy-target', undefined, 'party.length > 1 && ')
+          mark(node, 'enemy-target', { when: 'party.length > 1 && ' })
         if (expression === 'rng.range(0, 10)') mark(node, 'enemy-magic-choice')
       } else if (file.endsWith('/magic-damage.ts')) {
+        if (owner === 'applyMagicDamage' && expression === 'state.rng.next()')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: state.turn + 1, side: 'enemy', slot: idx }",
+          })
         if (owner === 'rollAutoDefend' && expression === 'state.rng.range(0, 3)')
           mark(node, 'enemy-magic-block')
         if (owner === 'applyEnemyMagicDamage' && expression === 'state.rng.next()')
@@ -103,11 +103,9 @@ export function instrumentBattleRandomDraws(source, file) {
           const name = entry?.name.getText(ast)
           if (name === 'dex' || name === 'dex2') {
             const isPlayer = entry.initializer.getText(ast).startsWith('Math.trunc(dex *')
-            mark(
-              node,
-              'queue-dexterity',
-              `{ turn: s.turn, side: '${isPlayer ? 'player' : 'enemy'}', slot: i, speed: ${isPlayer ? 'dex' : 'base'}, extra: ${name === 'dex2'} }`,
-            )
+            mark(node, 'queue-dexterity', {
+              queue: `{ turn: s.turn, side: '${isPlayer ? 'player' : 'enemy'}', slot: i, speed: ${isPlayer ? 'dex' : 'base'}, extra: ${name === 'dex2'} }`,
+            })
           }
         }
         if (owner === 'resolvePlayerAttackHit' && Object.hasOwn(reforgeStrike, multiplier))
@@ -141,6 +139,10 @@ export function instrumentBattleRandomDraws(source, file) {
           if (guard && ts.isContinueStatement(guard.thenStatement))
             mark(node, 'enemy-equivalent-poison-script')
         }
+        if (owner === 'dealSkillDamage' && multiplier === '0.1')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+          })
         if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
         if (
           owner === 'recordPlayerAttackGrowth' ||
@@ -168,7 +170,7 @@ export function instrumentBattleRandomDraws(source, file) {
     expected = Object.fromEntries(Object.values(gameStrike).map((name) => [name, 1]))
   if (file.endsWith('/enemy-ai.ts')) expected = { 'enemy-target': 2, 'enemy-magic-choice': 1 }
   if (file.endsWith('/magic-damage.ts'))
-    expected = { 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
+    expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
   if (file.endsWith('/battle-opcodes.ts')) expected = { 'enemy-equivalent-poison-script': 1 }
   // Exact old native branches remain observable in source replays, without invented random draws.
   if (file.endsWith('/event-system.ts'))
@@ -187,6 +189,7 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-equivalent-poison-resist': 1,
       ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
       'battle-script-chance': 2,
+      'spell-damage-variance': 1,
       'cast-growth': 1,
       // Old runtime captured for comparison had separate group and single attack growth callers.
       'attack-growth': source.includes('function recordPlayerAttackGrowth(') ? 1 : 2,
