@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-12T15:56:48.473Z",
+  "generatedAt": "2026-11-13T06:12:45.295Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 838,
-  "testCount": 20477,
+  "testCount": 20489,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2250,7 +2250,7 @@
       ],
       "scopeDigest": "e0da62982ba37363f87eaa5b46822eecf439ed3a368cffef9975fa951ec5278f",
       "fastTests": {
-        "testCount": 9056,
+        "testCount": 9067,
         "testFileCount": 371,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2893,8 +2893,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-anim.test.ts",
-            "testCount": 21,
-            "identityDigest": "4dae192eca4421822537cabbf4e1d482b7cb8fc6edca40b8f0a2e357a64640be"
+            "testCount": 22,
+            "identityDigest": "46d8e239516d253d7140c116006036df16c1a500017e8f76cf64f73a24c934e3"
           },
           {
             "file": "packages/reforge/src/battle/battle-casualty.test.ts",
@@ -2933,8 +2933,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
-            "testCount": 11,
-            "identityDigest": "043ea1969d3548021821d5726e79195f809f8db1f08c57fcef8fbac542345568"
+            "testCount": 16,
+            "identityDigest": "ff5cab67ada4bfa66951228e5f0e9718050edca928e7a5ecdf0fa62fba69f0da"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
@@ -3003,8 +3003,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 22,
-            "identityDigest": "47108f8f42ecbfb3910221e4b3aadf6d04edb9a7b6e714ae30c5f0b328e11de7"
+            "testCount": 27,
+            "identityDigest": "552b9117ca6f8f941653d12263b8e2200080a61763991f41b67f508721ad931c"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4482,26 +4482,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "7ecd38c35772e3d13a8e21372bbf23b1bba5a898fb6656c8760cc01e145364fa",
+        "identityDigest": "27adcb06f780b7a3ce5be5841ee06de9af1f81275df16f573b326098519b632b",
         "duplicateIdentityCount": 3,
-        "executionDigest": "16d9ed3a380ba78cd60bba463a10369403f436cdf1b9feddeea19e23e39bf3cb"
+        "executionDigest": "1b33d823ef2d7ef26c9705b9b94a123ed29baea3d5a38311f6d5d65184c4bd43"
       },
       "metrics": {
         "statements": {
-          "covered": 17402,
-          "total": 19184
+          "covered": 17447,
+          "total": 19226
         },
         "branches": {
-          "covered": 11126,
-          "total": 13349
+          "covered": 11188,
+          "total": 13410
         },
         "functions": {
-          "covered": 2813,
-          "total": 3102
+          "covered": 2820,
+          "total": 3108
         },
         "lines": {
-          "covered": 15566,
-          "total": 16727
+          "covered": 15607,
+          "total": 16765
         }
       }
     },
@@ -4736,7 +4736,7 @@
       ],
       "scopeDigest": "403c415be8be079cb8c32909fea9e104e86bbf9660ef0829d12966e903c14b9a",
       "fastTests": {
-        "testCount": 3781,
+        "testCount": 3782,
         "testFileCount": 344,
         "files": [
           "packages/game/src/__tests__/battle-fixture.test.ts",
@@ -5437,8 +5437,8 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/throw-item.test.ts",
-            "testCount": 7,
-            "identityDigest": "a39bbc25307b85ead7e5cba93574bba752d2229231fd9f10c4a2a89b89fb0ae8"
+            "testCount": 8,
+            "identityDigest": "1523227e3c56ca3ed7b6f7382c1e5ddcc344744f54ce534d187cf4196971f6ae"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
@@ -6806,26 +6806,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "3714723602a6af0b6e9550b7bd86781d6f01ad59fc3ed511d9e05e015437651c",
+        "identityDigest": "6a5751b2b4a2f8bd8150c1050f73d00c60b8ccfa0c5be94cd036b940f5f1b144",
         "duplicateIdentityCount": 0,
-        "executionDigest": "b78964b4a957bccf2af1c8de6256ecb5981ad2c85212e076ea127f17c90589da"
+        "executionDigest": "ab9283fef6847261f12fb590d0f0e8cf0be32bf5ca0c22a1549b9c7baadbc658"
       },
       "metrics": {
         "statements": {
-          "covered": 15612,
-          "total": 17244
+          "covered": 15616,
+          "total": 17248
         },
         "branches": {
-          "covered": 10031,
-          "total": 12334
+          "covered": 10034,
+          "total": 12336
         },
         "functions": {
-          "covered": 1900,
-          "total": 2176
+          "covered": 1902,
+          "total": 2178
         },
         "lines": {
-          "covered": 13922,
-          "total": 15119
+          "covered": 13925,
+          "total": 15122
         }
       }
     },
@@ -10953,20 +10953,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74738,
-      "total": 82406
+      "covered": 74787,
+      "total": 82452
     },
     "branches": {
-      "covered": 54387,
-      "total": 64506
+      "covered": 54452,
+      "total": 64569
     },
     "functions": {
-      "covered": 14174,
-      "total": 15728
+      "covered": 14183,
+      "total": 15736
     },
     "lines": {
-      "covered": 66752,
-      "total": 72104
+      "covered": 66796,
+      "total": 72145
     }
   }
 }
