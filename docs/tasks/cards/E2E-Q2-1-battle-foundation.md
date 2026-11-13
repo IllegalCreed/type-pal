@@ -98,6 +98,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 2026-11-13，用户对伤亡对白、敌方雷咒、回合末毒伤和普通全灭的原速带声分屏回复「通过」，要求本段收口。验收媒体来自 `31002d214bb106272f34af46c86c57872b9b2849`，归档成员 `build/q2/av/casualty-presentations/casualty-presentations-split.mp4`，SHA-256 为 `cddf938310e8d1596910c70ab79d34663c6d8c66f6eb4ecd2d26805a8e2d4ca2`。普通全灭验收范围为固定 m01。玩家五灵仙术的伤害与随机顺序在下一批处理。 [分屏及日志归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
 
+2026-11-13，用户对爆炸与同批法术图层修正后的原速带声分屏回复「通过」，要求收口玩家仙术、合击、投掷与状态批次。验收媒体来自 `4c7d4f9a78981f13a4c3ab3b9df441bc776eed23`，归档成员 `build/q2/av/spell-layers/spell-layer-recheck-split.mp4`，SHA-256 为 `95fbd0f135013d0949b87a51b26842702e109b4a8dfa4af2b09264616819f99d`。合击降级第二击和回梦后敌方起手节拍由下一批接续。 [分屏及日志归档](../evidence/E2E-Q2-1-spell-layer-recheck-20261113.tar.gz)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
