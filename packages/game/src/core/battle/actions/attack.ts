@@ -210,7 +210,12 @@ export function performAttack(
       //   **改挂时间线 frame.sound**(出招声→swing frame0、武器声→currentFrame=9 帧),由 driver 逐 tick 播 →
       //   双击两 sweep 声音随帧错开各响;此前 loop 内同步 bus.emit voice + playPlayerAttack,两 sweep 同 tick
       //   drain 同 id 重叠成一次(user 2026-06-05 报"群攻双击出招音重叠")。legacy(无 posOriginal)路径仍同步 emit。
-      const voice = fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
+      const voice =
+        voiceRole && voiceRole.hp > 0
+          ? fCritical
+            ? voiceRole.criticalSound
+            : voiceRole.attackSound
+          : undefined
       const sweepNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
       let division = 1
       for (const slot of HIT_ORDER) {
@@ -304,7 +309,12 @@ export function performAttack(
       //   **改挂时间线 frame.sound**(出招声→swing frame0,武器声→currentFrame=9 帧),由 driver 逐 tick 播 →
       //   双击两段声音随帧错开各响;此前 loop 内同步 bus.emit voice + playPlayerAttack,两击同 tick drain 同 id
       //   重叠成一次(user 2026-06-05 报"单体双击出招音只响一次")。
-      const voice = mod.fCritical ? voiceRole?.criticalSound : voiceRole?.attackSound
+      const voice =
+        voiceRole && voiceRole.hp > 0
+          ? mod.fCritical
+            ? voiceRole.criticalSound
+            : voiceRole.attackSound
+          : undefined
       const before = targetEnemy.e.health
       targetEnemy.e.health = Math.max(0, before - damage)
       // sdlpal 玩家打敌人:wHealth 是 WORD,`wHealth -= sDamage`(fight.c:3665)超杀**下溢不钳**,

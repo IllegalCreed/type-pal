@@ -107,6 +107,19 @@ describe('performAttack', () => {
       expect(drainSounds(bus)).toEqual([5])
     }
   })
+  it('傀儡物攻保留命中武器声，省去起手人声', () => {
+    const { state, playerRoles, bus } = makeActionFixture({
+      role: { hp: 0, attackStrength: 30, attackSound: 37, criticalSound: 5, weaponSound: 1 },
+      playerStatus: { puppet: 9 },
+    })
+    state.players[0]!.posOriginal = { x: 240, y: 170 }
+    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
+
+    performAttack(state, playerActor, 0, bus, playerRoles)
+
+    const sounds = state.battleAnim!.frames.flatMap(({ sound }) => (sound ? [sound] : []))
+    expect(sounds).toEqual([1])
+  })
   it('群攻(target=-1,attackAll 武器):player 攻击全体活敌(命中序 + division 减半)', () => {
     const { state, playerRoles, bus } = makeActionFixture({
       role: { level: 10, attackStrength: 200 }, // str=200(P0#1 修:无 level 项);每敌 def=54 → base 314
