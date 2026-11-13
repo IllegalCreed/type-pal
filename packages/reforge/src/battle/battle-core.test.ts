@@ -1863,13 +1863,33 @@ describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
     expect(s.log.some((l) => l.includes('连击'))).toBe(false)
   })
 
-  test('首击秒杀 → 无第二击(敌已死)', () => {
+  test('连击首击足以击倒时，仍在同一目标上完成第二击', () => {
     const s = createBattleState({
-      players: [player('zhao', { attackStrength: 9999, grantedStatuses: ['dualAttack'] })],
-      enemies: [mkEnemy('slime', { health: 10, defense: 0, attackStrength: 0 })],
+      players: [
+        player('zhao', {
+          baseDexterity: 500,
+          attackStrength: 100,
+          grantedStatuses: ['dualAttack'],
+        }),
+      ],
+      enemies: [
+        mkEnemy('slime', { health: 10, defense: 0, attackStrength: 0 }),
+        mkEnemy('other', { health: 500, defense: 0, attackStrength: 0 }),
+      ],
     })
-    drive(s)
-    expect(s.log.some((l) => l.includes('连击'))).toBe(false) // 敌首击死,无连击
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({
+      kind: 'attack',
+      targetEnemyIdx: 0,
+      firstDamage: expect.any(Number),
+      secondDamage: expect.any(Number),
+    })
+    expect(s.log.filter((line) => line.includes('连击'))).toHaveLength(1)
+    expect(s.enemies[0]?.hp).toBe(0)
+    expect(s.enemies[1]?.hp).toBe(500)
   })
 })
 

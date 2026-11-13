@@ -16,6 +16,10 @@ Template: reference-canon-v1 / 1.0.0
 
 普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
 
+同一批原盘 SSS 核出糯米、盐巴、大蒜、黑狗血、雄黄酒、烧肉与腌肉的投掷入口均为 0，物品仍允许投掷。标准战斗播放投掷动作并消耗一件。盐巴使用全体目标，其余六件使用单体目标。投掷起手的四步前移只改位置，到举手才改姿态。防御类法术落在受术者当时的坐标，包含已前移的施法者。五气朝元使用 FIRE28、偏移 `(-6, -18)`、绘制层 `+99`。 [投掷原程序](../../reference/sdlpal/fight.c#L4332) · [防御类法术原程序](../../reference/sdlpal/fight.c#L2527)
+
+化尸水的原始投掷入口 39592 使用 `0x64` 比较当前敌槽的 HP 和满血，超过 5% 时转向「无任何效果」，其余由 `0x60` 击倒该槽。全体菜单把 `0xffff` 传入触发解释器，SDLPal 继承上次调用的数值，入口为 0 的调用也更新该值。已用完整 SDLPal CLASSIC 解释器与本地原始数据运行 30 个独立进程的边界用例。两敌都低时仍只命中继承槽。该结果适用于已核原始数据和 SDLPal 解释器。 [判断与击倒](../../reference/sdlpal/script.c#L1950) · [触发入口](../../reference/sdlpal/script.c#L3161) · [实现及证据](../testing/domains/cross-phase/battle-foundation/report.md)
+
 ## 2026-11-13 玩家仙术、合击与投掷武器
 
 玩家施法和合击命中敌人时，普通范围内以敌基础防御和 `(等级 + 6) × 4` 之和计算伤害。群攻逐敌槽独立抽取倍率。普通施法处理完脚本和全部伤害后，再抽隐藏真气成长。合击以健康参与者的有效武术和灵力合计除以四，各付法术表所列的 HP 代价。扣费后再建立显示用的血量基线，因此费用本身不产生飘字。 [原版普通施法](../../reference/sdlpal/fight.c#L4284-L4329) · [原版合击伤害](../../reference/sdlpal/fight.c#L3982-L4039)

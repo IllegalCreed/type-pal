@@ -2193,8 +2193,8 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     }
     e.hp = Math.max(0, e.hp - hit1.dmg)
     s.log.push(`${p.roleId} ${hit1.crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${hit1.dmg}`)
-    // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷)
-    if (hasPlayerStatus(p, 'dualAttack') && e.hp > 0) {
+    // CLASSIC resolves both strikes on the validated target before checking death (fight.c:3618–3674).
+    if (hasPlayerStatus(p, 'dualAttack')) {
       const hit2 = resolvePlayerAttackHit(p, e, _rng)
       if (s.lastAction?.side === 'player' && s.lastAction.kind === 'attack') {
         s.lastAction.secondDamage = hit2.dmg
