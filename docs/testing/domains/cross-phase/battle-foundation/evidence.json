@@ -12400,6 +12400,15 @@
       "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/reforge-final-directed.log",
       "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/record-quality.mjs"
     ],
-    "visualAcceptance": "pending"
+    "visualAcceptance": {
+      "date": "2026-11-14",
+      "result": "accepted",
+      "reviewer": "user",
+      "quote": "通过，先把这批收口吧。",
+      "producerRevision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+      "video": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/battle-scroll-text-split.mp4",
+      "videoSha256": "3ed37f5c493163cb093556ba7373157559ea5b06b14167f26cccd54e378f0567",
+      "scope": ["shadowless-cap-settlement-scrolls"]
+    }
   }
 }
