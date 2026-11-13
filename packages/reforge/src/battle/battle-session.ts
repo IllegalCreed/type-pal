@@ -1385,7 +1385,7 @@ export class BattleSession {
       if (playerProfile.kind !== 'player-fighter') throw new Error('player profile 漂移')
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
-      // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
+      // OffMagic normal 落点；友方普通法术另走受术队员的 DefMagic。
       const targetPos =
         la.targetEnemyIdx !== undefined
           ? (s.enemies[la.targetEnemyIdx]?.basePos ?? casterPos)
@@ -1419,6 +1419,17 @@ export class BattleSession {
             : {}),
         })
       }
+      let allyTargets: NonNullable<Parameters<typeof buildPlayerCast>[0]['allyTargets']> = []
+      if (la.kind === 'cast' && !la.fizzled && !summonEff && fx.placement === 'normal') {
+        // 全队效果覆盖每个队伍槽；单体与 core 使用同一个目标槽范围。
+        const targetIdx = Math.min(Math.max(la.targetAllyIdx ?? la.idx, 0), s.players.length - 1)
+        if (skill.target === 'allAllies' || skill.target === 'oneAlly' || skill.target === 'self')
+          allyTargets = s.players.flatMap((_, idx) => {
+            if (skill.target !== 'allAllies' && idx !== targetIdx) return []
+            const pos = getPlayerBasePos(s.players.length, idx)
+            return pos ? [{ idx, pos }] : []
+          })
+      }
       return buildPlayerCast({
         casterFrames: playerProfile.frames,
         casterIdx: la.idx,
@@ -1436,6 +1447,7 @@ export class BattleSession {
         fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
         fx,
         targetPos,
+        ...(allyTargets.length ? { allyTargets } : {}),
         damageNums,
         postTargets,
         ...(!la.fizzled && a.keepEffect ? { keepEffect: true } : {}),

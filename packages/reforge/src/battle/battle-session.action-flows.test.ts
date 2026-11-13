@@ -327,6 +327,82 @@ describe('W3 执行时间线接线', () => {
     expect(h.readParty()[0]!.mp).toBe(20) // 只有 p1 扣法术费
   })
 
+  test.each([
+    { skillId: '306', all: false },
+    { skillId: '300', all: true },
+  ])('友方法术 $skillId 将特效与十三拍辉光实绘在受术队员身上', ({ skillId, all }) => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === skillId))
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 30,
+          maxHp: 150,
+          mp: 100,
+          maxMp: 100,
+          baseDexterity: 100,
+          skills: [spell.id],
+        }),
+        wfPlayer('li-xiaoyao', { hp: 20, maxHp: 150, baseDexterity: 8 }),
+      ],
+      enemies: [wfEnemy('ally-spell-control', { attackStrength: 0 })],
+      extraOpts: { skills: { [spell.id]: spell }, playerSounds: [{ magic: 'sound.pal.009' }] },
+    })
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(spriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, sprite)
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[8])],
+      },
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = () => h.session.render(ctx, 1)
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' '])
+    if (!all) {
+      h.press(['ArrowRight'])
+      h.press([' '])
+    }
+    h.press(['d'])
+    for (let i = 0; i < 120 && !sfx.plays.length; i++) h.idle(8)
+    draw()
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+
+    h.idle(80) // 无前摇精灵时，仅两拍施法姿，再转施法帧6。
+    draw()
+    expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(40)
+    draw()
+    // 友方底锚 (256,152) + (-6,-18)；全队法术也覆盖已前移的施法者。
+    expect(pixel(250, 126)).toBe(poseRed(8))
+    expect(pixel(184, 146)).toBe(all ? poseRed(8) : 0)
+    expect(pixel(194, 150)).toBe(0)
+    expect(sfx.plays).toEqual(['sound.pal.009', spell.animation.sound])
+
+    h.idle(40)
+    const glow = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+    for (const shift of glow) {
+      draw()
+      expect(pixel(256, 144)).toBe(poseRed(PLAYER_PROFILE.frames.dying + shift))
+      expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic + (all ? shift : 0)))
+      h.idle(40)
+    }
+    draw()
+    expect(pixel(200, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect(pixel(256, 144)).toBe(
+      poseRed(all ? PLAYER_PROFILE.frames.idle : PLAYER_PROFILE.frames.dying),
+    )
+    expect(h.readParty()[0]?.mp).toBe(100 - expectDefined(spell.cost.mp))
+  })
+
   test('物品 healHp 经真 core 执行：库存写回 count 减一', async () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { hp: 50, maxHp: 100 })],

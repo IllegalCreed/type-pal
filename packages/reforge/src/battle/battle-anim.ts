@@ -812,6 +812,8 @@ export interface BuildPlayerCastInput {
   fx: CastFxParams
   /** normal 落点(目标底锚;全体型忽略)。 */
   targetPos?: { x: number; y: number }
+  /** 友方普通法术的实绘目标；全队法术包含每个在场队员。 */
+  allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
   /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
@@ -852,27 +854,34 @@ export interface BuildOffMagicInput {
   keepEffect?: boolean
 }
 
+function magicOverlay(
+  frameIdx: number,
+  fx: CastFxParams,
+  pos: { x: number; y: number },
+): OverlayDraw {
+  return {
+    sheet: 'magic',
+    frameIdx,
+    x: pos.x + fx.xOffset,
+    y: pos.y + fx.yOffset,
+    layerOffset: fx.layerOffset ?? 0,
+  }
+}
+
 function magicDrops(
   frameIdx: number,
   fx: CastFxParams,
   targetPos?: { x: number; y: number },
 ): OverlayDraw[] {
-  const overlay = (x: number, y: number): OverlayDraw => ({
-    sheet: 'magic',
-    frameIdx,
-    x,
-    y,
-    layerOffset: fx.layerOffset ?? 0,
-  })
   if (fx.placement === 'attackAll')
-    return ATTACK_ALL_POS.map((p) => overlay(p.x + fx.xOffset, p.y + fx.yOffset))
+    return ATTACK_ALL_POS.map((pos) => magicOverlay(frameIdx, fx, pos))
   const base =
     fx.placement === 'attackWhole'
       ? { x: 120, y: 100 }
       : fx.placement === 'attackField'
         ? { x: 160, y: 200 }
         : (targetPos ?? { x: 160, y: 100 })
-  return [overlay(base.x + fx.xOffset, base.y + fx.yOffset)]
+  return [magicOverlay(frameIdx, fx, base)]
 }
 
 /**
@@ -927,6 +936,36 @@ function appendPlayerApproach(
   return { x, y }
 }
 
+/** 友方 DefMagic 直放特效帧，随后在受术队员身上走 13 拍辉光（fight.c:2492–2605）。 */
+function appendDefMagic(
+  frames: AnimFrame[],
+  { casterIdx, casterFrames, fireFrames, fx, damageNums }: BuildPlayerCastInput,
+  targets: NonNullable<BuildPlayerCastInput['allyTargets']>,
+  approachedPos: { x: number; y: number },
+): void {
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
+  })
+  for (let i = 0; i < fireFrames; i++) {
+    frames.push({
+      durationMs: (fx.speed + 5) * 10,
+      overlays: targets.map(({ idx, pos }) =>
+        magicOverlay(i, fx, idx === casterIdx ? approachedPos : pos),
+      ),
+      ...(i === 0 && fx.sound ? { sound: fx.sound } : {}),
+    })
+  }
+  const glow = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+  for (const colorShift of glow) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: targets.map(({ idx }) => ({ side: 'player', idx, colorShift })),
+    })
+  }
+  if (damageNums.length) frames.push({ durationMs: 0, damageNums })
+}
+
 /**
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
  * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
@@ -954,6 +993,11 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }
   }
   frames.push({ durationMs: delayMs(1) })
+
+  if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
+    appendDefMagic(frames, input, input.allyTargets, { x: cx, y: cy })
+    return frames // 会话在辉光结束后恢复实际姿态并显示回复数字。
+  }
 
   // —— 召唤神段(P1 召唤束,fight.c:3110-3187)——
   const summonHold: OverlayDraw[] = []
