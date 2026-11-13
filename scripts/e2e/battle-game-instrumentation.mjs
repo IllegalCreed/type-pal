@@ -23,6 +23,7 @@ export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/present/player-info-box.ts',
   '/packages/game/src/present/dialog-draw.ts',
   '/packages/game/src/present/battle/present-battle.ts',
+  '/packages/game/src/present/battle/draw-battle-effect.ts',
   '/packages/game/src/present/battle/draw-battle-sprites.ts',
   '/packages/game/src/present/battle/draw-battle-ui.ts',
   '/packages/game/src/present/battle/draw-battle-num.ts',
@@ -234,6 +235,33 @@ export function instrumentGameBattle(source, file) {
       if (ts.isIfStatement(node) && node.expression.getText(ast) === 'it.fadeStep >= 0')
         visualCall('fighter-draw', node, 'fighterDrawn', 'it')
     }
+    if (file.endsWith('/draw-battle-effect.ts')) {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'blitFrame')
+        add('overlay-blit-parameter', node.parameters.at(-1).end, ', __battleMagicChunk?: number')
+      if (
+        ts.isVariableStatement(node) &&
+        owner(node) === 'drawBattleMagicOverlay' &&
+        node.getText(ast) === 'const sprite = magicSprites?.get(overlay.spriteChunk)'
+      )
+        anchors['magic-overlay-resource'] = (anchors['magic-overlay-resource'] ?? 0) + 1
+      if (
+        ts.isCallExpression(node) &&
+        owner(node) === 'drawBattleMagicOverlay' &&
+        node.getText(ast) === 'blitFrame(fb, sprite, overlay.frameIdx, overlay.x, overlay.y)'
+      )
+        add('magic-overlay-argument', node.arguments.end, ', overlay.spriteChunk')
+      if (
+        ts.isForStatement(node) &&
+        ts.isFunctionDeclaration(node.parent.parent) &&
+        owner(node) === 'blitFrame' &&
+        node.statement.getText(ast).includes('fb.writePixel(baseX + px, baseY + py,')
+      )
+        add(
+          'magic-overlay-draw',
+          node.end,
+          '\nif (__battleMagicChunk !== undefined) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
+        )
+    }
     if (
       file.endsWith('/draw-battle-ui.ts') &&
       owner(node) === 'drawPlayerInfoBoxes' &&
@@ -384,6 +412,23 @@ export function instrumentGameBattle(source, file) {
     if (
       file.endsWith('/battle/battle-system.ts') &&
       ts.isExpressionStatement(node) &&
+      owner(node) === 'handleEnemyTargetSelect' &&
+      node.expression.getText(ast) === 'state.pendingActionDraft = undefined'
+    ) {
+      add(
+        'enemy-target-draft',
+        node.getStart(ast),
+        'const __battleCancelledDraft = state.pendingActionDraft;\n',
+      )
+      add(
+        'enemy-target-cancel',
+        node.end,
+        "\nglobalThis.__battleGameTargetCancel?.(state, __battleCancelledDraft, 'enemy');\n",
+      )
+    }
+    if (
+      file.endsWith('/battle/battle-system.ts') &&
+      ts.isExpressionStatement(node) &&
       ts.isPostfixUnaryExpression(node.expression) &&
       node.expression.operand.getText(ast) === 'state.currentActionIndex' &&
       owner(node) === 'tickPerformAction'
@@ -435,6 +480,12 @@ export function instrumentGameBattle(source, file) {
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
+    'draw-battle-effect.ts': {
+      'overlay-blit-parameter': 1,
+      'magic-overlay-resource': 1,
+      'magic-overlay-argument': 1,
+      'magic-overlay-draw': 1,
+    },
     'draw-battle-sprites.ts': {
       'fighter-frame-selection': 2,
       'enemy-draw-identity': 1,
@@ -463,6 +514,8 @@ export function instrumentGameBattle(source, file) {
                 'round-start': 1,
                 'round-end': 1,
                 'target-cancel': 1,
+                'enemy-target-draft': 1,
+                'enemy-target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
                 actionComplete: hasActionFollowup ? 2 : 4,

@@ -18,9 +18,10 @@ import type { GameState } from '../../game-state.js'
 import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
 import { getWord } from '../../word-lookup.js'
 import { buildThrowWindupTimeline } from '../anim-timeline.js'
-import { startBattleAnim } from '../battle-anim-driver.js'
+import { delayMs } from '../animation/frames.js'
+import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
 import type { RunScriptFn } from '../battle-runtime-context.js'
-import type { BattleAnimFrame, BattleState } from '../battle-state.js'
+import type { BattleAnimFrame, BattleState, FighterDelta } from '../battle-state.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
 
@@ -141,16 +142,33 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     if (entry && entry.count > 0) entry.count--
   }
 
-  // —— 拼挥臂 + OffMagic 特效 → startBattleAnim,伤害数字延迟到动画末(sdlpal fight.c:4369 DisplayStatChange)——
   if (hasAnim) {
-    const frames = [...windup, ...pendingAnimFrames]
-    if (frames.length > 0)
-      startBattleAnim(
-        input.state,
-        frames,
-        input.bus,
-        pendingDamageNums.length > 0 ? pendingDamageNums : undefined,
-      )
+    // CLASSIC fight.c:4369–4372 shows the numbers after the effects, then
+    // holds four frames before restoring the fighters and four after.
+    const restingFighters: FighterDelta[] = input.state.players.map((player, idx) => ({
+      side: 'player',
+      idx,
+      pos: player.defending ? undefined : player.posOriginal,
+      currentFrame: playerRestFrame(player, input.playerRoles.roles[player.roleId]),
+      iColorShift: 0,
+    }))
+    input.state.enemies.forEach((enemy, idx) => {
+      if (enemy.defeated) return
+      restingFighters.push({ side: 'enemy', idx, pos: enemy.posOriginal, iColorShift: 0 })
+    })
+    startBattleAnim(
+      input.state,
+      [
+        ...windup,
+        ...pendingAnimFrames,
+        {
+          durationMs: delayMs(4),
+          ...(pendingDamageNums.length > 0 ? { damageNums: pendingDamageNums } : {}),
+        },
+        { durationMs: delayMs(4), fighters: restingFighters },
+      ],
+      input.bus,
+    )
     if (input.state.battleAnim) input.state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链
   }
 }

@@ -13,18 +13,26 @@ export function nextGameBattleKey(readout, command) {
   assert.equal(readout.engine, 'game')
   if (readout.canConfirmDialogue || readout.canConfirmSettlement) return 'Space'
   if (!command || readout.busy || readout.phase !== 'selectAction') return null
-  assert(['attack', 'item', 'cast', 'defend'].includes(command.kind), 'unsupported Game command')
+  assert(
+    ['attack', 'item', 'cast', 'coop', 'throw', 'defend'].includes(command.kind),
+    'unsupported Game command',
+  )
   if (command.turn !== undefined && readout.turn !== undefined && readout.turn !== command.turn)
     return null
   if (readout.selectingPlayerId !== command.actorId) return null
   if (readout.uiState === 'selectMove') {
     if (readout.menuState === 'main') {
       if (command.kind === 'item') return 'KeyE'
+      if (command.kind === 'throw') return 'KeyW'
       if (command.kind === 'defend') return 'KeyD'
       if (command.kind === 'cast') return readout.selectedAction === 1 ? 'Space' : 'ArrowLeft'
+      if (command.kind === 'coop') return readout.selectedAction === 2 ? 'Space' : 'ArrowRight'
       return readout.selectedAction === 0 ? 'Space' : 'ArrowUp'
     }
-    if (readout.menuState === 'useItemSelect' && command.kind === 'item')
+    if (
+      (readout.menuState === 'useItemSelect' && command.kind === 'item') ||
+      (readout.menuState === 'throwItemSelect' && command.kind === 'throw')
+    )
       return selectGrid(readout.itemMenu, 'itemId', command.itemId)
     if (readout.menuState === 'magicSelect' && command.kind === 'cast')
       return selectGrid(readout.skillMenu, 'skillId', command.skillId)

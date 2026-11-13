@@ -31,9 +31,9 @@ export function instrumentBattleRandomDraws(source, file) {
     anchors = {}
   let legacyChance = false
   let legacyEquivalent = false
-  const mark = (node, purpose, queue, when = '') => {
+  const mark = (node, purpose, { queue, target, when = '' } = {}) => {
     anchors[purpose] = (anchors[purpose] ?? 0) + 1
-    const metadata = queue ? `, ${queue}` : ''
+    const metadata = target ? `, undefined, ${target}` : queue ? `, ${queue}` : ''
     edits.push(
       {
         at: node.getStart(ast),
@@ -49,18 +49,14 @@ export function instrumentBattleRandomDraws(source, file) {
       if (file.endsWith('/battle-system.ts')) {
         if (owner === 'tickSelectAction' && expression === 'jitter(baseDex)') {
           const extra = ts.isConditionalExpression(node.parent)
-          mark(
-            node,
-            'queue-dexterity',
-            `{ turn: state.turn + 1, side: 'enemy', slot: i, speed: baseDex, extra: ${extra} }`,
-          )
+          mark(node, 'queue-dexterity', {
+            queue: `{ turn: state.turn + 1, side: 'enemy', slot: i, speed: baseDex, extra: ${extra} }`,
+          })
         }
         if (owner === 'tickSelectAction' && expression === 'jitter(dex)')
-          mark(
-            node,
-            'queue-dexterity',
-            "{ turn: state.turn + 1, side: 'player', slot: i, speed: dex, extra: false }",
-          )
+          mark(node, 'queue-dexterity', {
+            queue: "{ turn: state.turn + 1, side: 'player', slot: i, speed: dex, extra: false }",
+          })
         if (owner === 'performBattleAction' && expression === 'state.rng.rangeInclusive(2, 3)') {
           const pool = node.parent.arguments?.[0]?.getText(ast)
           if (pool === "'rgHealthExp'") mark(node, 'attack-growth')
@@ -70,20 +66,27 @@ export function instrumentBattleRandomDraws(source, file) {
         mark(node, gameStrike[expression])
       } else if (file.endsWith('/enemy-ai.ts') && owner === 'decideEnemyAction') {
         if (expression === 'rng.rangeInclusive(0, party.length - 1)')
-          mark(node, 'enemy-target', undefined, 'party.length > 1 && ')
+          mark(node, 'enemy-target', { when: 'party.length > 1 && ' })
         if (expression === 'rng.range(0, 10)') mark(node, 'enemy-magic-choice')
       } else if (file.endsWith('/magic-damage.ts')) {
+        if (owner === 'applyMagicDamage' && expression === 'state.rng.next()')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: state.turn + 1, side: 'enemy', slot: idx }",
+          })
         if (owner === 'rollAutoDefend' && expression === 'state.rng.range(0, 3)')
           mark(node, 'enemy-magic-block')
         if (owner === 'applyEnemyMagicDamage' && expression === 'state.rng.next()')
           mark(node, 'enemy-magic-damage-float')
-      } else if (
-        file.endsWith('/battle-opcodes.ts') &&
-        owner === 'dispatchBattleOpcode' &&
-        expression === 'state.rng.rangeInclusive(1, 100)' &&
-        ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast) === 'OP_POISON_PLAYER'
-      ) {
-        mark(node, 'enemy-equivalent-poison-script')
+      } else if (file.endsWith('/battle-opcodes.ts') && owner === 'dispatchBattleOpcode') {
+        const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
+        if (opcode === 'OP_POISON_PLAYER' && expression === 'state.rng.rangeInclusive(1, 100)')
+          mark(node, 'enemy-equivalent-poison-script')
+        if (opcode === 'OP_SET_ENEMY_STATUS' && expression === 'state.rng.rangeInclusive(0, 9)')
+          mark(node, 'status-resistance', {
+            target: "{ turn: state.turn + 1, side: 'enemy', slot: sel.idx }",
+          })
+        if (opcode === 'OP_THROW_WEAPON' && expression === 'state.rng.rangeInclusive(0, 3)')
+          mark(node, 'throw-weapon-strength')
       } else if (file.endsWith('/event-system.ts') && owner === 'applyRawOpcode') {
         const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
         if (opcode === 'OP_JUMP_BY_RATE') {
@@ -103,11 +106,9 @@ export function instrumentBattleRandomDraws(source, file) {
           const name = entry?.name.getText(ast)
           if (name === 'dex' || name === 'dex2') {
             const isPlayer = entry.initializer.getText(ast).startsWith('Math.trunc(dex *')
-            mark(
-              node,
-              'queue-dexterity',
-              `{ turn: s.turn, side: '${isPlayer ? 'player' : 'enemy'}', slot: i, speed: ${isPlayer ? 'dex' : 'base'}, extra: ${name === 'dex2'} }`,
-            )
+            mark(node, 'queue-dexterity', {
+              queue: `{ turn: s.turn, side: '${isPlayer ? 'player' : 'enemy'}', slot: i, speed: ${isPlayer ? 'dex' : 'base'}, extra: ${name === 'dex2'} }`,
+            })
           }
         }
         if (owner === 'resolvePlayerAttackHit' && Object.hasOwn(reforgeStrike, multiplier))
@@ -141,7 +142,35 @@ export function instrumentBattleRandomDraws(source, file) {
           if (guard && ts.isContinueStatement(guard.thenStatement))
             mark(node, 'enemy-equivalent-poison-script')
         }
-        if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
+        if (owner === 'dealSkillDamage' && multiplier === '0.1')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+          })
+        if (owner === 'performCoopMagic' && multiplier === '0.1')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+          })
+        if (owner === 'performThrow') {
+          if (multiplier === '0.1')
+            mark(node, 'spell-damage-variance', {
+              target: "{ turn: s.turn, side: 'enemy', slot: enemyIdx }",
+            })
+          const declaration = ts.findAncestor(node, ts.isVariableDeclaration)
+          if (
+            declaration?.name.getText(ast) === 'value' &&
+            declaration.initializer?.getText(ast).includes('effect.strength.multiplier.min')
+          )
+            mark(node, 'throw-weapon-strength')
+        }
+        if (owner === 'applyPlayerSkill') {
+          const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
+          if (multiplier === '2') mark(node, 'cast-growth')
+          if (effect === "'gate'" && multiplier === '100') mark(node, 'battle-script-chance')
+          if (effect === "'applyStatus'" && multiplier === '10')
+            mark(node, 'status-resistance', {
+              target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+            })
+        }
         if (
           owner === 'recordPlayerAttackGrowth' ||
           (owner === 'performPlayerAction' && multiplier === '2')
@@ -168,8 +197,13 @@ export function instrumentBattleRandomDraws(source, file) {
     expected = Object.fromEntries(Object.values(gameStrike).map((name) => [name, 1]))
   if (file.endsWith('/enemy-ai.ts')) expected = { 'enemy-target': 2, 'enemy-magic-choice': 1 }
   if (file.endsWith('/magic-damage.ts'))
-    expected = { 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
-  if (file.endsWith('/battle-opcodes.ts')) expected = { 'enemy-equivalent-poison-script': 1 }
+    expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
+  if (file.endsWith('/battle-opcodes.ts'))
+    expected = {
+      'enemy-equivalent-poison-script': 1,
+      'status-resistance': 1,
+      'throw-weapon-strength': 1,
+    }
   // Exact old native branches remain observable in source replays, without invented random draws.
   if (file.endsWith('/event-system.ts'))
     expected = legacyChance ? {} : { 'battle-script-chance': 1 }
@@ -186,7 +220,10 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-equivalent-item': 1,
       'enemy-equivalent-poison-resist': 1,
       ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
-      'battle-script-chance': 2,
+      'battle-script-chance': 3,
+      'status-resistance': 1,
+      'spell-damage-variance': 3,
+      'throw-weapon-strength': 1,
       'cast-growth': 1,
       // Old runtime captured for comparison had separate group and single attack growth callers.
       'attack-growth': source.includes('function recordPlayerAttackGrowth(') ? 1 : 2,

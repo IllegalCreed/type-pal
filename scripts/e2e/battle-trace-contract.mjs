@@ -206,22 +206,30 @@ function semantic(event) {
     ...(own(event, 'actorSide') ? { actorSide: event.actorSide } : {}),
     kind: event.kind,
     targetId: event.targetId,
+    ...(own(event, 'targetSide') ? { targetSide: event.targetSide } : {}),
     ...(own(event, 'itemId') ? { itemId: event.itemId } : {}),
     ...(own(event, 'skillId') ? { skillId: event.skillId } : {}),
   }
 }
 
 function action(value, path, domain, allowPass = false) {
+  const kind = value?.kind
+  const noTarget = kind === 'defend' || kind === 'pass'
+  const group = record(value) && own(value, 'targetSide')
   requireValue(
     record(value) &&
       integer(value.turn) &&
       text(value.actorId) &&
-      (['attack', 'item', 'defend', 'cast'].includes(value.kind) ||
-        (allowPass && value.kind === 'pass' && !own(value, 'actorSide'))) &&
-      (['defend', 'pass'].includes(value.kind) ? value.targetId === null : text(value.targetId)) &&
+      (['attack', 'item', 'defend', 'cast', 'coop', 'throw'].includes(kind) ||
+        (allowPass && kind === 'pass')) &&
+      (group
+        ? !noTarget && ['player', 'enemy'].includes(value.targetSide) && value.targetId === null
+        : noTarget
+          ? value.targetId === null
+          : text(value.targetId)) &&
       (!own(value, 'actorSide') || value.actorSide === 'enemy') &&
-      (value.kind !== 'item' || text(value.itemId)) &&
-      (value.kind !== 'cast' || text(value.skillId)),
+      (!['item', 'throw'].includes(kind) || text(value.itemId)) &&
+      (!['cast', 'coop'].includes(kind) || text(value.skillId)),
     domain,
     'action-shape',
     path,
@@ -556,7 +564,15 @@ function validateRecording(trace, scenario) {
         entry.index === i &&
         Number.isFinite(entry.value) &&
         entry.value >= 0 &&
-        entry.value < 1,
+        entry.value < 1 &&
+        (['spell-damage-variance', 'status-resistance'].includes(entry.purpose)
+          ? record(entry.target) &&
+            !own(entry, 'queue') &&
+            integer(entry.target.turn, 1) &&
+            entry.target.side === 'enemy' &&
+            integer(entry.target.slot) &&
+            entry.target.slot < 5
+          : !own(entry, 'target')),
       'integrity',
       'random-draw',
       `randomDraws[${i}]`,
@@ -795,8 +811,12 @@ function assertBusinessConformance(trace, expected) {
   const submitted = new Set()
   for (const [i, entry] of trace.actions.entries()) {
     if (entry.actorSide === 'enemy') {
+      const enemy = entry.before.enemies.find((enemy) => enemy?.id === entry.actorId)
       requireValue(
-        entry.before.enemies.some((enemy) => enemy?.id === entry.actorId && enemy.alive),
+        enemy?.alive &&
+          (entry.kind !== 'pass' ||
+            (entry.native?.inaction === 'incapacitated' &&
+              (enemy.statuses.sleep > 0 || enemy.statuses.paralyzed > 0))),
         'integrity',
         'enemy-action-producer',
         `actions[${i}]`,
@@ -807,17 +827,27 @@ function assertBusinessConformance(trace, expected) {
     }
     if (entry.kind === 'pass') {
       const actor = entry.before.players.find(({ id }) => id === entry.actorId)
-      requireValue(
+      const incapacitated =
         entry.native?.inaction === 'incapacitated' &&
-          actor?.hp > 0 &&
-          (actor.statuses.sleep > 0 || actor.statuses.paralyzed > 0) &&
+        (actor?.statuses.sleep > 0 || actor?.statuses.paralyzed > 0)
+      const sharedAction =
+        entry.native?.inaction === 'cooperative-action' &&
+        trace.actions
+          .slice(0, i)
+          .some(
+            ({ turn, kind, actorId }) =>
+              turn === entry.turn && kind === 'coop' && actorId !== entry.actorId,
+          )
+      requireValue(
+        actor?.hp > 0 &&
+          (incapacitated || sharedAction) &&
           !trace.commands.some(
             ({ actorId, turn }) => actorId === entry.actorId && turn === entry.turn,
           ),
         'integrity',
-        'incapacitated-action-producer',
+        sharedAction ? 'cooperative-action-producer' : 'incapacitated-action-producer',
         `actions[${i}]`,
-        'native inaction of a living incapacitated player with no command this turn',
+        'native inaction of a living incapacitated player or a participant in a completed co-op',
         entry,
       )
       continue

@@ -1186,7 +1186,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
               return false
             })
         }
-        for (const e of s.enemies) if (e && e.hp > 0) tickBattleStatus(e.status)
+        // 回合末状态计数仍在已倒下的敌人槽位衰减（fight.c:1639–1660）。
+        for (const e of s.enemies) if (e) tickBattleStatus(e.status)
         // 隐身每轮 −1(一阶段 decrementHidingEffect;CLASSIC 无条件,到 0 = 隐身结束)
         if (s.hidingTime > 0) s.hidingTime -= 1
         s.pendingActions.clear()
@@ -1334,9 +1335,6 @@ function applyPlayerSkill(
       s.log.push(`${p.roleId} 施展 ${skill.name}：使用次数已用尽，技能已移除`)
     }
   }
-  // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
-  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
-  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
   const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
   const enemyTargets =
     skill.target === 'allEnemies'
@@ -1580,6 +1578,9 @@ function applyPlayerSkill(
   // 以整次 action 聚合：任一敌方状态成功即不报失败；友方状态链不走此旁白。
   if (enemyStatusAttempted && !anyEnemyStatusApplied && s.lastAction)
     s.lastAction.failureFeedback = 'statusIneffective'
+  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
+  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
+  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
 }
 
 /** 玩家法术伤害单敌结算(damage/moneyDamage 共用):魔强+抗性+战场五灵,防御姿减半,保底 1。 */
@@ -1598,7 +1599,7 @@ function dealSkillDamage(
     applyDefense(
       calcMagicDamage({
         magStr: p.magicStrength,
-        def: e.def.stats.defense,
+        def: e.def.stats.defense + (e.def.stats.level + 6) * 4, // fight.c:4285–4286,4305–4306
         rngFactor: 1 + rng() * 0.1,
         magicData: { baseDamage: power, elemental },
         elemRes: e.def.stats.elemResistance,
@@ -1609,8 +1610,27 @@ function dealSkillDamage(
       e.defending,
     ),
   )
-  e.hp = Math.max(0, e.hp - dmg)
+  applyPlayerMagicHit(s, e, ti, dmg)
   s.log.push(`${p.roleId} 施展 ${skillName} 对 ${e.def.id} 造成 ${dmg}`)
+}
+
+function applyPlayerMagicHit(
+  s: BattleState,
+  enemy: BattleEnemyState,
+  idx: number,
+  value: number,
+): void {
+  const before = enemy.hp
+  enemy.hp = Math.max(0, before - value)
+  const action = s.lastAction
+  if (
+    enemy.hp < before &&
+    action?.side === 'player' &&
+    (action.kind === 'cast' || action.kind === 'coop')
+  ) {
+    action.magicHits ??= []
+    action.magicHits.push({ idx, value, hpLost: before - enemy.hp })
+  }
 }
 
 /** 合击贡献/发起资格(fight.c:69-76 PAL_IsPlayerHealthy):活 + 非濒死 + 无眠/疯/封/麻/傀儡。 */
@@ -1718,7 +1738,6 @@ function performCoopMagic(
     s.log.push(`合体技 ${skill.name}(非伤害效果暂未接)`)
     return
   }
-  const hits: { idx: number; value: number }[] = []
   for (const ti of targets) {
     const e = expectDefined(s.enemies[ti])
     const dmg = Math.max(
@@ -1726,7 +1745,7 @@ function performCoopMagic(
       applyDefense(
         calcMagicDamage({
           magStr: str,
-          def: e.def.stats.defense,
+          def: e.def.stats.defense + (e.def.stats.level + 6) * 4, // fight.c:4012–4016,4031–4035
           rngFactor: 1 + rng() * 0.1,
           magicData: { baseDamage: dmgEff.power, elemental: dmgEff.elemental },
           elemRes: e.def.stats.elemResistance,
@@ -1737,11 +1756,9 @@ function performCoopMagic(
         e.defending,
       ),
     )
-    e.hp = Math.max(0, e.hp - dmg)
-    hits.push({ idx: ti, value: dmg })
+    applyPlayerMagicHit(s, e, ti, dmg)
     s.log.push(`合体技 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
   }
-  if (s.lastAction && targets.length > 1) s.lastAction.attackAllHits = hits
 }
 
 /**
@@ -2251,6 +2268,8 @@ function performThrow(
     earth: 5,
     poison: 6,
   } as const
+  // 0x66 直接读取裸攻击力（script.c:2007–2013），未带持久属性的调用沿用传入攻击力。
+  const baseAttack = p.persistentProgress?.attack ?? p.attackStrength
   const resolvedStrength = new Map<ThrowEffect, number>()
   const strengthOf = (effect: Extract<ThrowEffect, { kind: 'magicDamage' }>): number => {
     const cached = resolvedStrength.get(effect)
@@ -2259,7 +2278,7 @@ function performThrow(
       effect.strength.kind === 'fixed'
         ? effect.strength.value
         : effect.strength.bonus +
-          p.attackStrength *
+          baseAttack *
             (effect.strength.multiplier.min +
               Math.floor(
                 Math.max(0, Math.min(0.999999999, rng())) *

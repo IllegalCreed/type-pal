@@ -128,21 +128,30 @@ export function installGameBattleAdapter() {
     }
   }
   const describe = (nativeState, actor, nativeAction) => {
-    const kind = nativeAction.type === 'magic' ? 'cast' : nativeAction.type
-    const supported = ['attack', 'item', 'defend', 'cast', 'pass'].includes(kind)
+    const renamed = { magic: 'cast', 'coop-magic': 'coop', 'throw-item': 'throw' }
+    const kind = renamed[nativeAction.type] ?? nativeAction.type
+    const supported = ['attack', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind)
     require(supported, `unsupported Game action ${kind}`)
     const isEnemy = actor.isEnemy
-    const toPlayer = nativeAction.targetSide === 'player' || kind === 'item' || isEnemy
+    const side = nativeAction.targetSide ?? (kind === 'item' || isEnemy ? 'player' : 'enemy')
     const targeted = kind !== 'defend' && kind !== 'pass'
-    require(!targeted || nativeAction.target >= 0, 'Game action needs an actual single target')
+    require(!targeted ||
+      (Number.isInteger(nativeAction.target) &&
+        nativeAction.target >= -1), 'Game action needs an actual target')
     const actorId = isEnemy
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
+    const all = targeted && nativeAction.target === -1
     let targetId = null
-    if (targeted)
-      targetId = toPlayer
-        ? playerIdentity(nativeState.players[nativeAction.target].roleId)
-        : enemyIdentity(nativeAction.target)
+    if (targeted && !all)
+      targetId =
+        side === 'player'
+          ? playerIdentity(nativeState.players[nativeAction.target].roleId)
+          : enemyIdentity(nativeAction.target)
+    const usesItem = kind === 'item' || kind === 'throw'
+    const usesSkill = kind === 'cast' || kind === 'coop'
+    require(!usesItem || nativeAction.actionId > 0, `Game ${kind} lacks its native item ID`)
+    require(!usesSkill || nativeAction.actionId > 0, `Game ${kind} lacks its native skill ID`)
     return {
       // Native createBattleState initializes turn=0; the common Q2 contract starts at 1.
       turn: nativeState.turn + 1,
@@ -150,8 +159,9 @@ export function installGameBattleAdapter() {
       ...(isEnemy ? { actorSide: 'enemy' } : {}),
       kind,
       targetId,
-      ...(kind === 'item' ? { itemId: String(nativeAction.actionId) } : {}),
-      ...(kind === 'cast' ? { skillId: String(nativeAction.actionId) } : {}),
+      ...(all ? { targetSide: side } : {}),
+      ...(usesItem ? { itemId: String(nativeAction.actionId) } : {}),
+      ...(usesSkill ? { skillId: String(nativeAction.actionId) } : {}),
     }
   }
   const guardedSlot = (actor, nativeAction) => (actor.isEnemy ? nativeAction.target : actor.idx)
@@ -233,19 +243,26 @@ export function installGameBattleAdapter() {
       commands.push(structuredClone(command))
       evidence().command({ ...command, source: 'game:pendingActions.set' })
     })
-  globalThis.__battleGameTargetCancel = (state, draft) =>
+  globalThis.__battleGameTargetCancel = (state, draft, side = 'player') =>
     observe(() => {
-      if (!scenario || state !== battle || draft.type !== 'magic') return
+      if (!scenario || state !== battle || draft?.type !== 'magic') return
       const slot = state.selectingPlayerIdx
       require(slot !== undefined, 'target cancel lost its caster')
+      const targetId =
+        side === 'enemy'
+          ? enemyIdentity(state.uiCursor)
+          : playerIdentity(state.players[state.uiCursor].roleId)
       targetCancels++
       evidence().presentation({
         kind: 'target-cancel',
-        source: 'game:handlePlayerTargetSelect:discard-draft',
+        source:
+          side === 'enemy'
+            ? 'game:handleEnemyTargetSelect:discard-draft'
+            : 'game:handlePlayerTargetSelect:discard-draft',
         payload: {
           turn: state.turn + 1,
           actorId: playerIdentity(state.players[slot].roleId),
-          targetId: playerIdentity(state.players[state.uiCursor].roleId),
+          targetId,
           skillId: String(draft.actionId),
           commandCount: commands.length,
           pending: state.pendingActions.has(slot),
@@ -258,12 +275,14 @@ export function installGameBattleAdapter() {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
       liveRoles = roles
-      const inaction = nativeAction.type === 'pass'
-      if (inaction) {
-        const player = actor.isEnemy ? undefined : state.players[actor.idx]
-        const alive = player && liveRoles.roles[player.roleId]?.hp > 0
-        const disabled = player && (player.status.sleep > 0 || player.status.paralyzed > 0)
-        require(alive && disabled, 'Q2 Game pass requires a live incapacitated player')
+      let inaction
+      if (nativeAction.type === 'pass') {
+        const unit = (actor.isEnemy ? state.enemies : state.players)[actor.idx]
+        const hp = actor.isEnemy ? unit.e.health : liveRoles.roles[unit.roleId]?.hp
+        const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
+        const cooperative = !actor.isEnemy && state.fThisTurnCoop
+        require(hp > 0 && (disabled || cooperative), 'Q2 Game pass lacks a native reason')
+        inaction = disabled ? 'incapacitated' : 'cooperative-action'
       }
       action = {
         ...describe(state, actor, nativeAction),
@@ -272,7 +291,7 @@ export function installGameBattleAdapter() {
           actor: structuredClone(actor),
           command: structuredClone(nativeAction),
           animationEffects: [],
-          ...(inaction ? { inaction: 'incapacitated' } : {}),
+          ...(inaction ? { inaction } : {}),
           ...(actor.isEnemy
             ? {}
             : { growthBefore: hiddenCounts(gs, state.players[actor.idx].roleId) }),
@@ -283,6 +302,8 @@ export function installGameBattleAdapter() {
   globalThis.__battleGameActionProduced = (state) =>
     observe(() => {
       if (!scenario || state !== battle || !action) return
+      if (action.kind === 'throw' && state.battleAnim?.pendingDamageNums?.length)
+        action.native.pendingDamageNums = structuredClone(state.battleAnim.pendingDamageNums)
       action.native.animationEffects = (state.battleAnim?.frames ?? []).flatMap((frame, index) => {
         const { damageNum, damageNums, sound } = frame
         return damageNum || damageNums || sound !== undefined

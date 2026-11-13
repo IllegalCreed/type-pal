@@ -23,6 +23,20 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
     const observed = instrumentGameBattle(native, file)
     assert.match(observed.code, /__battle(?:Game|Evidence)/)
     assert.throws(() => instrumentGameBattle(observed.code, file), /instrumented twice/)
+    if (file.endsWith('/battle/magic-damage.ts')) {
+      assert.match(
+        observed.code,
+        /markRandom\('spell-damage-variance', undefined, \{ turn: state.turn \+ 1, side: 'enemy', slot: idx \}\), state.rng.next\(\)/,
+      )
+      assert.throws(
+        () =>
+          instrumentGameBattle(
+            native.replace('function applyMagicDamage(', 'function movedMagicDamage('),
+            file,
+          ),
+        /battle RNG boundaries changed/,
+      )
+    }
     if (file.endsWith('/draw-battle-sprites.ts')) {
       assert.throws(
         () =>
@@ -160,6 +174,65 @@ test('Game reports the sprite frame that blits, including the frame zero fallbac
   assert.deepEqual(draw([0x30], [0x10]), [
     ['enemy', 0, false, 0, 50, 90, 0, [50, 89, 0x30]],
     ['player', 0, false, 0, 240, 170, 6, [240, 169, 0x16]],
+  ])
+})
+
+test('Game records the selected FIRE chunk after its indexed magic blit', async () => {
+  const file = '/packages/game/src/present/battle/draw-battle-effect.ts'
+  const [native, { createFramebuffer }] = await Promise.all([
+    source(file),
+    source('/packages/game/src/present/framebuffer.ts').then((code) => compile(code)),
+  ])
+  const fb = createFramebuffer()
+  const facts = []
+  const frame = (color) => ({
+    width: 3,
+    height: 2,
+    indices: new Uint8Array(6).fill(color),
+    opaque: new Uint8Array(6).fill(1),
+  })
+  const sprite = { frames: [frame(7), frame(28)] }
+  const overlay = { kind: 'magic', spriteChunk: 28, frameIdx: 1, x: 250, y: 134 }
+  const resources = new Map([
+    [0, { frames: [frame(7), frame(19)] }],
+    [28, sprite],
+  ])
+  assert.throws(
+    () =>
+      instrumentGameBattle(
+        native.replace('magicSprites?.get(overlay.spriteChunk)', 'magicSprites?.get(0)'),
+        file,
+      ),
+    /boundary census changed/,
+  )
+  const { drawBattleEffectOverlay, drawBattleMagicOverlay } = compile(
+    instrumentGameBattle(native, file).code,
+    {
+      __battleEvidence: {
+        magicOverlayDrawn(x, y, frameIndex, spriteChunk) {
+          facts.push({
+            x,
+            y,
+            frameIndex,
+            spriteChunk,
+            drawnPixel: fb.indices[132 * fb.width + 249],
+          })
+        },
+      },
+    },
+  )
+
+  drawBattleMagicOverlay(fb, { ...overlay, spriteChunk: 29 }, resources)
+  drawBattleMagicOverlay(fb, { ...overlay, frameIdx: 2 }, resources)
+  drawBattleEffectOverlay(fb, { ...overlay, kind: 'effect', frameIdx: 0 }, sprite)
+  assert.deepEqual(facts, [])
+  assert.equal(fb.indices[132 * fb.width + 249], 7)
+
+  drawBattleMagicOverlay(fb, overlay, resources)
+  drawBattleMagicOverlay(fb, { ...overlay, spriteChunk: 0 }, resources)
+  assert.deepEqual(facts, [
+    { x: 250, y: 134, frameIndex: 1, spriteChunk: 28, drawnPixel: 28 },
+    { x: 250, y: 134, frameIndex: 1, spriteChunk: 0, drawnPixel: 19 },
   ])
 })
 

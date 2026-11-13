@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
 import { resolve } from 'node:path'
 import { compareBattleRepeats } from './battle-comparison.mjs'
 import {
-  BATTLE_FOUNDATION_SCENARIOS,
   battleFoundationInputSources,
   battleFoundationScenario,
+  battleFoundationScenarioGroup,
   battleLaunchSpec,
   verifyBattleFoundationSources,
 } from './battle-foundation-scenarios.mjs'
@@ -27,29 +27,31 @@ const option = (name, fallback) => {
 }
 for (const arg of args)
   assert(
-    arg === '--audio-review' || /^--(engine|scenario|repeat|counter)=/.test(arg),
+    arg === '--audio-review' || /^--(engine|scenario|group|repeat|counter)=/.test(arg),
     `unknown argument ${arg}`,
   )
 const audioReview = args.includes('--audio-review')
 const engine = option('engine', 'game')
-const scenarioId = option('scenario', 'all')
+const scenarioId = option('scenario')
+const group = option('group', 'all')
 const repeat = Number(option('repeat', audioReview ? '1' : '2'))
 const counter = option('counter', 'none')
 assert(['game', 'reforge'].includes(engine), 'choose game or reforge')
 assert([1, 2].includes(repeat), 'repeat must be one or two fresh contexts')
 assert(['none', 'double-herb'].includes(counter), 'unknown counter')
+assert(!scenarioId || group === 'all', 'choose a scenario or a group')
 assert(
   counter === 'none' || (engine === 'reforge' && scenarioId === 'herb-settlement' && repeat === 1),
   'counter is bounded to one isolated Reforge herb run',
 )
 assert(
-  !audioReview || (scenarioId !== 'all' && repeat === 1 && counter === 'none'),
+  !audioReview || (scenarioId && scenarioId !== 'all' && repeat === 1 && counter === 'none'),
   'audio review records one normal scenario in one fresh context',
 )
 const scenarios =
-  scenarioId === 'all'
-    ? BATTLE_FOUNDATION_SCENARIOS.map((entry) => battleFoundationScenario(entry.id))
-    : [battleFoundationScenario(scenarioId)]
+  scenarioId && scenarioId !== 'all'
+    ? [battleFoundationScenario(scenarioId)]
+    : battleFoundationScenarioGroup(group).map((entry) => battleFoundationScenario(entry.id))
 const premises = await verifyBattleFoundationSources(repoRoot)
 
 await runBrowserJourney({
@@ -59,7 +61,7 @@ await runBrowserJourney({
   environment: { E2E: '1', Q2_COUNTER: counter },
   arguments: ['--headless', ...(audioReview ? ['--capture'] : [])],
   viewport: { width: 960, height: 720 },
-  journeyTimeoutMs: 240_000,
+  journeyTimeoutMs: group === 'all' && (!scenarioId || scenarioId === 'all') ? 480_000 : 240_000,
   initScripts: engine === 'game' ? [installGameBattleAdapter] : [],
   sources: [
     ...(await battleFoundationInputSources(repoRoot)),
@@ -80,7 +82,7 @@ await runBrowserJourney({
     'scripts/e2e/battle-reforge-instrumentation.mjs',
   ],
   async journey({ newPage, baseURL, out, report, until, health, capture }) {
-    Object.assign(report, { engine, lane: 'Q2', counter, premises, results: [] })
+    Object.assign(report, { engine, lane: 'Q2', counter, group, premises, results: [] })
     for (const scenario of scenarios) {
       let previous
       for (let index = 0; index < repeat; index++) {
@@ -93,6 +95,7 @@ await runBrowserJourney({
             runId,
             random: scenario.random,
             ...(scenario.portraitProbe ? { portraitProbe: scenario.portraitProbe } : {}),
+            ...(scenario.observeMagicOverlays ? { observeMagicOverlays: true } : {}),
           }),
         )
         let trace

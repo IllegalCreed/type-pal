@@ -27,6 +27,12 @@ export interface BattleLastActionBase {
 }
 
 type PlayerActionBase = BattleLastActionBase & { side: 'player' }
+type PlayerMagicAction = PlayerActionBase & {
+  skillId: string
+  targetEnemyIdx?: number
+  /** 公式伤害与实际扣血量分开记录，供战斗飘字显示完整伤害。 */
+  magicHits?: { idx: number; value: number; hpLost: number }[]
+}
 type EnemyActionBase = BattleLastActionBase & { side: 'enemy' }
 type EnemyPlayerHit = EnemyActionBase & {
   /** 本次结算后跨入濒死并满足 CLASSIC 伤亡声条件的队伍槽位。 */
@@ -44,15 +50,10 @@ export type BattleLastAction =
       firstDamage?: number
     })
   | (PlayerActionBase & { kind: 'attackMate'; targetAllyIdx: number; damage: number })
-  | (PlayerActionBase & {
-      kind: 'cast'
-      skillId: string
-      targetEnemyIdx?: number
-      targetAllyIdx?: number
-    })
+  | (PlayerMagicAction & { kind: 'cast'; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'item'; itemId: string; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'throw'; itemId: string; targetEnemyIdx?: number })
-  | (PlayerActionBase & { kind: 'coop'; skillId: string; targetEnemyIdx?: number })
+  | (PlayerMagicAction & { kind: 'coop' })
   | (PlayerActionBase & { kind: 'defend' })
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions

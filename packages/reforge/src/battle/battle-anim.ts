@@ -507,7 +507,10 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
 export interface BuildThrowItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
-  /** 当前投掷命中的目标快照；保留 0 伤害目标以播放施毒/状态命中闪烁。 */
+  casterPos?: { x: number; y: number }
+  casterRestFrame?: number
+  itemName?: string
+  /** 当前投掷目标的扣血量。零伤害不显示数字。 */
   hits?: Array<{ idx: number; damage: number }>
   /** @deprecated 单目标兼容入口。 */
   targetIdx?: number
@@ -523,7 +526,7 @@ export interface BuildThrowItemInput {
   damage?: number
 }
 
-/** 投掷道具：投掷姿 → 可选 OffMagic → 目标闪色/结果数字 → 双方复位。 */
+/** 投掷道具：前移、挥臂与出手(fight.c:4339–4356) → 可选 OffMagic → 结果数字与复位。 */
 export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
   const hits =
     input.hits ??
@@ -532,14 +535,28 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       : [{ idx: input.targetIdx, damage: Math.max(0, input.damage ?? 0) }])
   if (hits.length === 0) throw new Error('buildThrowItem: 至少需要一个目标')
   const positiveHits = hits.filter((hit) => hit.damage > 0)
-  const frames: AnimFrame[] = [
-    {
-      durationMs: 120,
-      fighters: [{ side: 'player', idx: input.casterIdx, frame: input.casterFrames.preMagic }],
-      ...(input.sound ? { sound: input.sound } : {}),
-    },
-  ]
-  if (input.presentation)
+  const { casterIdx, casterPos, casterFrames, itemName, sound } = input
+  const frames: AnimFrame[] = []
+  if (casterPos) {
+    appendPlayerApproach(frames, casterIdx, casterPos)
+    frames.push({
+      durationMs: delayMs(2),
+      ...(itemName ? { banner: { text: itemName, durationMs: delayMs(12) } } : {}),
+    })
+  }
+  frames.push({
+    durationMs: casterPos ? delayMs(8) : 120,
+    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.preMagic }],
+    ...(sound ? { sound } : {}),
+  })
+  if (casterPos)
+    frames.push({
+      durationMs: delayMs(2),
+      fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
+    })
+  if (input.presentation && input.presentation.fireFrames > 0) {
+    // 投掷脚本进入 OffMagic 后，先在当前出手姿等一个战斗帧（fight.c:2659）。
+    frames.push({ durationMs: delayMs(1) })
     frames.push(
       ...buildOffMagic({
         fireFrames: input.presentation.fireFrames,
@@ -547,11 +564,12 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
         ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
       }),
     )
+  }
   const onlyPositiveHit = positiveHits.length === 1 ? positiveHits[0] : undefined
+  // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
   frames.push(
     {
-      durationMs: 200,
-      fighters: hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 6 })),
+      durationMs: delayMs(4),
       ...(onlyPositiveHit
         ? {
             damageNum: {
@@ -569,10 +587,14 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
           : {}),
     },
     {
-      durationMs: 160,
+      durationMs: delayMs(4),
       fighters: [
-        { side: 'player', idx: input.casterIdx, frame: input.casterFrames.idle },
-        ...hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 0 })),
+        {
+          side: 'player',
+          idx: casterIdx,
+          frame: input.casterRestFrame ?? casterFrames.idle,
+          ...(casterPos ? { pos: casterPos } : {}),
+        },
       ],
     },
   )
@@ -790,6 +812,8 @@ export interface BuildPlayerCastInput {
   fx: CastFxParams
   /** normal 落点(目标底锚;全体型忽略)。 */
   targetPos?: { x: number; y: number }
+  /** 友方普通法术的实绘目标；全队法术包含每个在场队员。 */
+  allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
   /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
@@ -830,32 +854,40 @@ export interface BuildOffMagicInput {
   keepEffect?: boolean
 }
 
+function magicOverlay(
+  frameIdx: number,
+  fx: CastFxParams,
+  pos: { x: number; y: number },
+): OverlayDraw {
+  return {
+    sheet: 'magic',
+    frameIdx,
+    x: pos.x + fx.xOffset,
+    y: pos.y + fx.yOffset,
+    layerOffset: fx.layerOffset ?? 0,
+  }
+}
+
 function magicDrops(
   frameIdx: number,
   fx: CastFxParams,
   targetPos?: { x: number; y: number },
 ): OverlayDraw[] {
-  const overlay = (x: number, y: number): OverlayDraw => ({
-    sheet: 'magic',
-    frameIdx,
-    x,
-    y,
-    layerOffset: fx.layerOffset ?? 0,
-  })
   if (fx.placement === 'attackAll')
-    return ATTACK_ALL_POS.map((p) => overlay(p.x + fx.xOffset, p.y + fx.yOffset))
+    return ATTACK_ALL_POS.map((pos) => magicOverlay(frameIdx, fx, pos))
   const base =
     fx.placement === 'attackWhole'
       ? { x: 120, y: 100 }
       : fx.placement === 'attackField'
         ? { x: 160, y: 200 }
         : (targetPos ?? { x: 160, y: 100 })
-  return [overlay(base.x + fx.xOffset, base.y + fx.yOffset)]
+  return [magicOverlay(frameIdx, fx, base)]
 }
 
 /**
  * 原版 OffMagic 主段。玩家施法、合击与投掷法术物品共用同一帧循环；调用方只决定
- * 是否注入施法者 frame6、召唤定格和后续结果帧。
+ * 是否注入施法者 frame6、召唤定格和后续结果帧。效果音在特效首帧播一次
+ * （fight.c:2669–2672 WIN95，和一阶段已验收的声画时序一致）。
  */
 export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   const { fireFrames, fx } = input
@@ -875,9 +907,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       overlays: [...drop, ...hold],
       ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
       ...(input.casterMagic && i === fd ? { fighters: [input.casterMagic] } : {}),
-      ...(!input.suppressSound && fx.sound && i >= fd && (i - fd) % n === 0
-        ? { sound: fx.sound }
-        : {}),
+      ...(i === 0 && !input.suppressSound && fx.sound ? { sound: fx.sound } : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
       ...(fx.preShake && i < fx.preShake.frames
@@ -889,26 +919,64 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   return frames
 }
 
+function appendPlayerApproach(
+  frames: AnimFrame[],
+  casterIdx: number,
+  casterPos: { x: number; y: number },
+): { x: number; y: number } {
+  let { x, y } = casterPos
+  for (let i = 0; i < 4; i++) {
+    x -= 4 - i
+    y -= Math.trunc((4 - i) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: { x, y } }],
+    })
+  }
+  return { x, y }
+}
+
+/** 友方 DefMagic 直放特效帧，随后在受术队员身上走 13 拍辉光（fight.c:2492–2605）。 */
+function appendDefMagic(
+  frames: AnimFrame[],
+  { casterIdx, casterFrames, fireFrames, fx, damageNums }: BuildPlayerCastInput,
+  targets: NonNullable<BuildPlayerCastInput['allyTargets']>,
+  approachedPos: { x: number; y: number },
+): void {
+  frames.push({
+    durationMs: delayMs(1),
+    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
+  })
+  for (let i = 0; i < fireFrames; i++) {
+    frames.push({
+      durationMs: (fx.speed + 5) * 10,
+      overlays: targets.map(({ idx, pos }) =>
+        magicOverlay(i, fx, idx === casterIdx ? approachedPos : pos),
+      ),
+      ...(i === 0 && fx.sound ? { sound: fx.sound } : {}),
+    })
+  }
+  const glow = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+  for (const colorShift of glow) {
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: targets.map(({ idx }) => ({ side: 'player', idx, colorShift })),
+    })
+  }
+  if (damageNums.length) frames.push({ durationMs: 0, damageNums })
+}
+
 /**
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
  * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
  * → OffMagic:l=(n−fd)×times+n+shake 帧、每帧 (speed+5)×10ms、frame6@i==fd、
- *   法术音 (i−fd)%n==0 循环播、落点按 placement → 结算数字 → 回位。
+ *   特效首帧同步效果音、落点按 placement → 结算数字 → 回位。
  */
 export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums } = input
-  const frames: AnimFrame[] = []
   // —— PreMagic:上移 4 帧 ——
-  let cx = casterPos.x
-  let cy = casterPos.y
-  for (let i = 0; i < 4; i++) {
-    cx -= 4 - i
-    cy -= Math.trunc((4 - i) / 2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: casterIdx, pos: { x: cx, y: cy } }],
-    })
-  }
+  const frames: AnimFrame[] = []
+  const { x: cx, y: cy } = appendPlayerApproach(frames, casterIdx, casterPos)
   frames.push({ durationMs: delayMs(2) })
   frames.push({
     durationMs: delayMs(1),
@@ -925,6 +993,11 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }
   }
   frames.push({ durationMs: delayMs(1) })
+
+  if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
+    appendDefMagic(frames, input, input.allyTargets, { x: cx, y: cy })
+    return frames // 会话在辉光结束后恢复实际姿态并显示回复数字。
+  }
 
   // —— 召唤神段(P1 召唤束,fight.c:3110-3187)——
   const summonHold: OverlayDraw[] = []

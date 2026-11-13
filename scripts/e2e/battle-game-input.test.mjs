@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { nextGameBattleKey } from './battle-game-input.mjs'
+import { nextReforgeBattleKey } from './battle-reforge-input.mjs'
 
 const menu = (overrides = {}) => ({
   engine: 'game',
@@ -69,6 +70,31 @@ test('use-item navigates actual inventory and the actual ally target', () => {
   assert.throws(
     () => nextGameBattleKey({ ...selecting, itemMenu: { cursor: 0, items: [] } }, command),
     /absent from the real item menu/,
+  )
+})
+
+test('throw follows each native inventory to the specified weapon', () => {
+  const command = { actorId: 'hero', kind: 'throw', targetId: 'lamp-a', itemId: '166' }
+  const items = [{ itemId: '165' }, { itemId: '166' }]
+  const gameThrow = (cursor) => menu({ menuState: 'throwItemSelect', itemMenu: { cursor, items } })
+  const reforgeThrow = (cursor) => ({
+    ...menu({ engine: 'reforge' }),
+    selection: { phase: 'throwItem' },
+    throwMenu: { cursor, items },
+  })
+  assert.equal(nextGameBattleKey(menu(), command), 'KeyW')
+  assert.equal(
+    nextReforgeBattleKey({ ...menu({ engine: 'reforge' }), selection: { phase: 'menu' } }, command),
+    'KeyW',
+  )
+  assert.equal(nextGameBattleKey(gameThrow(0), command), 'ArrowRight')
+  assert.equal(nextReforgeBattleKey(reforgeThrow(0), command), 'ArrowRight')
+  assert.equal(nextGameBattleKey(gameThrow(1), command), 'Space')
+  assert.equal(nextReforgeBattleKey(reforgeThrow(1), command), 'Enter')
+  assert.throws(() => nextGameBattleKey(gameThrow(1), { ...command, itemId: '167' }), /absent/)
+  assert.throws(
+    () => nextReforgeBattleKey(reforgeThrow(1), { ...command, itemId: '167' }),
+    /absent/,
   )
 })
 

@@ -12,6 +12,47 @@ const roles = {
 const random = { algorithm: 'mulberry32', seed: 1729 }
 const copy = (value) => structuredClone(value)
 
+// SSS object IDs resolve to signed offsets and FIRE chunks in the original MAGIC table.
+const spellPaintSources = {
+  296: { effect: 27, x: -10, y: -6, layerOffset: 99, fireFrames: 20 },
+  303: { effect: 40, x: 0, y: 4, layerOffset: 99, fireFrames: 17 },
+  312: { effect: 0, x: 0, y: 4, layerOffset: 1, fireFrames: 8 },
+  313: {
+    effect: 36,
+    x: 0,
+    y: 30,
+    layerOffset: 99,
+    fireFrames: 20,
+    type: 'attackAll',
+    points: [
+      { x: 70, y: 140 },
+      { x: 100, y: 110 },
+      { x: 160, y: 100 },
+    ],
+  },
+  316: { effect: 1, x: 0, y: 0, layerOffset: 1, fireFrames: 7 },
+  321: { effect: 2, x: -10, y: 12, layerOffset: 13, fireFrames: 16 },
+  327: { effect: 7, x: 0, y: 0, layerOffset: 1, fireFrames: 16 },
+  332: { effect: 4, x: 0, y: 0, layerOffset: 99, fireFrames: 5 },
+  344: { effect: 31, x: 32, y: 20, layerOffset: 0, fireFrames: 8 },
+  353: {
+    effect: 16,
+    x: 0,
+    y: 0,
+    layerOffset: 99,
+    fireFrames: 8,
+    type: 'attackField',
+    points: [{ x: 160, y: 200 }],
+  },
+  381: { effect: 12, x: -2, y: -10, layerOffset: 99, fireFrames: 15 },
+}
+const paintFireChunks = [
+  ...new Set([28, ...Object.values(spellPaintSources).map(({ effect }) => effect)]),
+]
+const rawFirePath = (chunk) => `data/magic/fire-${String(chunk).padStart(2, '0')}.rle`
+const projectFirePath = (chunk) =>
+  `assets/migrated/effect-sprites/magic-${String(chunk).padStart(3, '0')}.rle`
+
 function defineSetup({
   id,
   title,
@@ -45,8 +86,8 @@ function defineSetup({
       enemies[slot]
         ? {
             ...enemies[slot],
-            hp: enemyHP,
-            maxHP: enemyHP,
+            hp: enemies[slot].hp ?? enemyHP,
+            maxHP: enemies[slot].hp ?? enemyHP,
             alive: true,
             statuses: {},
           }
@@ -67,7 +108,7 @@ function defineSetup({
         label: title,
         partyMembers: party.map((player) => player.gameRole),
         playerOverrides: Object.fromEntries(
-          members.map(({ id, hp, maxHP, level, attack, defense, speed }) => [
+          members.map(({ id, hp, maxHP, level, attack, defense, speed, magic = 50, skills }) => [
             roles[id],
             {
               level,
@@ -77,9 +118,10 @@ function defineSetup({
               maxMP: 100,
               attackStrength: attack,
               defense,
-              magicStrength: 50,
+              magicStrength: magic,
               dexterity: speed,
               fleeRate: 30,
+              ...(skills ? { magic: skills.map(Number) } : {}),
             },
           ]),
         ),
@@ -94,23 +136,35 @@ function defineSetup({
     reforge: {
       config: {
         party: {
-          members: members.map(({ id: actorId, hp, maxHP, level, attack, defense, speed }) => ({
-            actorId,
-            stats: {
-              level,
+          members: members.map(
+            ({
+              id: actorId,
+              hp,
               maxHP,
-              maxMP: 100,
+              level,
               attack,
               defense,
-              magicAttack: 50,
               speed,
-              luck: 30,
-            },
-            equipment: {},
-            skills: { kind: 'replace', ids: [] },
-            hp: { kind: 'value', value: hp },
-            mp: { kind: 'full' },
-          })),
+              magic = 50,
+              skills = [],
+            }) => ({
+              actorId,
+              stats: {
+                level,
+                maxHP,
+                maxMP: 100,
+                attack,
+                defense,
+                magicAttack: magic,
+                speed,
+                luck: 30,
+              },
+              equipment: {},
+              skills: { kind: 'replace', ids: skills },
+              hp: { kind: 'value', value: hp },
+              mp: { kind: 'full' },
+            }),
+          ),
         },
         enemies: { kind: 'team', teamId: `team-${team}` },
         bag: {
@@ -270,6 +324,7 @@ function defineTwoRoundScenario() {
   return scenario
 }
 
+const ghoul = { id: 'ghoul', object: 407, hp: 450 }
 const mechanismEnemies = {
   lantern: { id: 'lantern-a', team: 1, object: 399, raw: 2, hp: 30, exp: 1, cash: 3 },
   weasel: { id: 'sickle-weasel', team: 294, object: 414, raw: 17, hp: 710, exp: 110, cash: 220 },
@@ -300,6 +355,12 @@ const keepState = () => {}
 
 /** Build expected snapshots from authored test assertions only, without a runtime or recorder. */
 function mechanismScenario(id, title, enemy, seed, members, inventory) {
+  const enemies = (enemy.units ?? [enemy]).map(({ id, object, hp }, slot) => ({
+    id,
+    slot,
+    templateId: `enemy-${object}`,
+    ...(enemy.units ? { hp } : {}),
+  }))
   const scenario = defineSetup({
     id,
     title,
@@ -308,7 +369,7 @@ function mechanismScenario(id, title, enemy, seed, members, inventory) {
     inventory,
     team: enemy.team,
     enemyHP: enemy.hp,
-    enemies: [{ id: enemy.id, slot: 0, templateId: `enemy-${enemy.object}` }],
+    enemies,
   })
   const state = copy(scenario.expected.start)
   const actions = []
@@ -329,6 +390,7 @@ function mechanismScenario(id, title, enemy, seed, members, inventory) {
     for (const [slot, player] of state.players.entries()) {
       if (player.hp > 0) player.exp = enemy.exp
       player.hp = recoveredHP[slot]
+      player.mp += Math.floor((player.maxMP - player.mp) / 2)
       player.statuses = Object.fromEntries(
         Object.entries(scenario.expected.start.players[slot].statuses).filter(
           ([, turns]) => turns > 999,
@@ -692,6 +754,448 @@ const heroStrikeDraws = [
 ]
 const defense = { guard: { before: false, after: true } }
 
+// CLASSIC fight.c:174–241,4284–4330. Worm effective DEF 10+(12+6)*4=82.
+// Field7 modifiers and seed50's first damage roll isolate the elemental calculation.
+const playerElements = [
+  ['wind', '风咒', '312', 5, 45, 1, 101, 81],
+  ['thunder', '雷咒', '316', 7, 60, 2, 106, 104],
+  ['water', '冰咒', '321', 5, 45, 3, 109, 116],
+  ['fire', '炎咒', '327', 8, 70, 4, 115, 155],
+  ['earth', '土咒', '332', 6, 52, 5, 118, 172],
+]
+const spellVariance = (slot) => ({
+  purpose: 'spell-damage-variance',
+  target: { turn: 1, side: 'enemy', slot },
+})
+const anuStrike = draws('strike-bonus', 'strike-critical', 'strike-variance', 'attack-growth')
+const castAt = (turn, actorId, skillId, targetId) => ({
+  turn,
+  actorId,
+  kind: 'cast',
+  skillId,
+  targetId,
+  ...(targetId === null ? { targetSide: 'enemy' } : {}),
+})
+const enemyAttackAt = (turn, actorId, targetId) => ({
+  ...attackAt(turn, actorId, targetId),
+  actorSide: 'enemy',
+})
+const passAt = (turn, actorId) => ({ turn, actorId, kind: 'pass', targetId: null })
+
+function definePlayerElement([id, title, skill, mp, , , sound, damage], seed = 50) {
+  const worm = mechanismEnemies.worm
+  const [magic, finish] = [castAt(1, linger, skill, worm.id), attackAt(1, anu, worm.id)]
+  const { step, complete } = mechanismScenario(`player-spell-${id}`, title, worm, seed, [
+    {
+      ...mechanismMember(linger, 150, 0, 0, 900),
+      magic: 200,
+      skills: [skill],
+      statuses: fairySwordStatus,
+    },
+    mechanismMember(anu, 150, 2200, 700, 150),
+  ])
+  const orderProbe = seed === 6
+  step(
+    magic,
+    ({ enemies, players }) => {
+      players[0].mp -= mp
+      enemies[0].hp -= damage
+    },
+    { enemyDamage: [damage], growth: { maxMP: orderProbe ? 3 : 2, magicAttack: 1 } },
+  )
+  step(finish, finishEnemy, { rawDamage: orderProbe ? 7309 : 2255 })
+  return {
+    ...complete(
+      [magic, finish],
+      [
+        queueDraw(1, 'enemy', 0, 54),
+        queueDraw(1, 'player', 0, 906),
+        queueDraw(1, 'player', 1, 150),
+        spellVariance(0),
+        ...draws('cast-growth'),
+        ...anuStrike,
+      ],
+      [150, 150],
+    ),
+    sounds: [
+      [
+        ['cast-windup', 10],
+        ['spell-effect', sound],
+      ],
+      playerAttackSounds(orderProbe ? 8 : 40, 4, 216),
+    ],
+  }
+}
+
+function definePlayerAreaMagic() {
+  const units = Array.from({ length: 3 }, (_, slot) => ({
+    ...mechanismEnemies.worm,
+    id: `bloodworm-${slot}`,
+  }))
+  const enemy = { team: 116, units, exp: 42, cash: 27 }
+  const [wind, bees] = [castAt(1, linger, '313', null), castAt(1, anu, '353', null)]
+  const { step, complete } = mechanismScenario('player-spell-group', '旋风咒与御蜂术', enemy, 2, [
+    {
+      ...mechanismMember(linger, 150, 0, 0, 900, 7),
+      magic: 200,
+      skills: ['313'],
+      statuses: fairySwordStatus,
+    },
+    { ...mechanismMember(anu, 150, 2200, 700, 150), skills: ['353'] },
+  ])
+  const windDamage = [115, 114, 113]
+  step(
+    wind,
+    ({ enemies, players }) => {
+      players[0].mp -= 11
+      for (const [slot, damage] of windDamage.entries()) enemies[slot].hp -= damage
+    },
+    { enemyDamage: windDamage, growth: { maxMP: 3, magicAttack: 1 } },
+  )
+  step(
+    bees,
+    ({ enemies, players }) => {
+      players[1].mp -= 18
+      for (const unit of enemies.filter(Boolean)) Object.assign(unit, { hp: 0, alive: false })
+    },
+    { enemyDamage: [346, 354, 348], growth: { maxMP: 2, magicAttack: 1 } },
+  )
+  return {
+    ...complete(
+      [wind, bees],
+      [
+        ...units.map((_, slot) => queueDraw(1, 'enemy', slot, 54)),
+        queueDraw(1, 'player', 0, 906),
+        queueDraw(1, 'player', 1, 150),
+        ...units.map((_, slot) => spellVariance(slot)),
+        ...draws('cast-growth'),
+        ...units.map((_, slot) => spellVariance(slot)),
+        ...draws('cast-growth'),
+      ],
+      [150, 150],
+    ),
+    sounds: [
+      [
+        ['cast-windup', 10],
+        ['spell-effect', 102],
+      ],
+      [
+        ['cast-windup', 12],
+        ['spell-effect', 133],
+        ...units.map(({ id }) => ['enemy-death', 216, id]),
+      ],
+    ],
+  }
+}
+
+function defineCooperativeMagic() {
+  const worm = mechanismEnemies.worm
+  const { step, round, complete } = mechanismScenario(
+    'player-cooperative-magic',
+    '爆炸合击',
+    worm,
+    6,
+    [
+      { ...mechanismMember(linger, 150, 0, 400, 900, 6), magic: 200, statuses: fairySwordStatus },
+      mechanismMember(anu, 150, 250, 400, 150, 6),
+    ],
+  )
+  const coop = { turn: 1, actorId: linger, kind: 'coop', skillId: '381', targetId: worm.id }
+  const defend = defendAt(2, linger)
+  const finish = attackAt(2, anu, worm.id)
+  step(
+    coop,
+    ({ enemies, players }) => {
+      for (const player of players) player.hp -= 10
+      enemies[0].hp -= 161
+    },
+    { enemyDamage: [161], suppressPlayerDamageNumbers: true },
+  )
+  step(passAt(1, anu))
+  step(
+    enemyAttackAt(1, worm.id, anu),
+    ({ players }) => {
+      players[1].hp--
+    },
+    { rawDamage: 1 },
+  )
+  round(1)
+  step(defend, keepState, defense)
+  step(finish, finishEnemy, { rawDamage: 744 })
+  return {
+    ...complete(
+      [coop, defend, finish],
+      [
+        queueDraw(1, 'enemy', 0, 54),
+        queueDraw(1, 'player', 0, 9060),
+        queueDraw(1, 'player', 1, 150),
+        spellVariance(0),
+        ...draws(...enemyPhysicalDraws),
+        queueDraw(2, 'enemy', 0, 54),
+        queueDraw(2, 'player', 0, 4530),
+        queueDraw(2, 'player', 1, 150),
+        ...anuStrike,
+      ],
+      [145, 144],
+    ),
+    sounds: [
+      [
+        ['cast-windup', 29],
+        ['spell-effect', 117],
+      ],
+      [],
+      enemyAttackSounds(357, 92),
+      [],
+      playerAttackSounds(8, 4, 216),
+    ],
+  }
+}
+
+function defineThrownSword() {
+  const worm = mechanismEnemies.worm
+  const { step, complete } = mechanismScenario(
+    'player-throw-wood-sword',
+    '投掷木剑',
+    worm,
+    2,
+    [mechanismMember(hero, 150, 50, 400, 900, 6), mechanismMember(anu, 150, 900, 400, 150, 6)],
+    [{ itemId: '166', count: 1 }],
+  )
+  const thrown = { turn: 1, actorId: hero, kind: 'throw', itemId: '166', targetId: worm.id }
+  const finish = attackAt(1, anu, worm.id)
+  step(
+    thrown,
+    (state) => {
+      state.inventory = []
+      state.enemies[0].hp -= 219
+    },
+    { enemyDamage: [219] },
+  )
+  step(finish, finishEnemy, { rawDamage: 925 })
+  const scenario = complete(
+    [thrown, finish],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 903),
+      queueDraw(1, 'player', 1, 150),
+      ...draws('throw-weapon-strength'),
+      spellVariance(0),
+      ...anuStrike,
+    ],
+    [150, 150],
+  )
+  scenario.expected.retainedEquipment = [{ slot: 0, equipmentIndex: 3, itemId: 166 }]
+  scenario.expected.throwWindupMs = 440
+  scenario.expected.throwRecovery = { actionIndex: 0, slot: 0, targetSlot: 0, damage: 219 }
+  return {
+    ...scenario,
+    sounds: [
+      [
+        ['cast-windup', 9],
+        ['spell-effect', 347],
+      ],
+      playerAttackSounds(40, 4, 216),
+    ],
+  }
+}
+
+function definePlayerSleep(resisted) {
+  const { lantern } = mechanismEnemies
+  const enemy = { team: 62, units: [ghoul, lantern], exp: 11, cash: 13 }
+  const { step, round, complete } = mechanismScenario(
+    resisted ? 'player-sleep-resisted' : 'player-sleep-hit',
+    resisted ? '回梦被灯笼抵抗' : '回梦命中开膛鬼',
+    enemy,
+    4,
+    [
+      {
+        ...mechanismMember(linger, 150, 0, 400, 900, 6),
+        magic: 80,
+        skills: ['303'],
+        statuses: fairySwordStatus,
+      },
+      mechanismMember(hero, 150, 600, 400, 500, 6),
+    ],
+  )
+  const targetSlot = resisted ? 1 : 0
+  const [target, cancelled] = [enemy.units[targetSlot], enemy.units[1 - targetSlot]]
+  const magic = { ...castAt(1, linger, '303', target.id), cancelTargetId: cancelled.id }
+  const guard = defendAt(1, hero)
+  const guard2 = defendAt(2, linger)
+  const hitGhoul = attackAt(2, hero, ghoul.id)
+  const guard3 = defendAt(3, linger)
+  const hitLantern = attackAt(3, hero, lantern.id)
+  const blocked = { blocked: true, effectiveHpLoss: 0 }
+  step(guard, keepState, defense)
+  step(
+    magic,
+    ({ enemies, players }) => {
+      players[0].mp -= 20
+      if (!resisted) enemies[0].statuses.sleep = 4
+    },
+    { growth: { maxMP: 2, magicAttack: 1 } },
+  )
+  if (resisted) step(enemyAttackAt(1, ghoul.id, hero), keepState, blocked)
+  else step({ ...passAt(1, ghoul.id), actorSide: 'enemy' })
+  step(enemyAttackAt(1, lantern.id, hero), keepState, blocked)
+  const tickSleep = ({ enemies }) => {
+    if (!resisted) enemies[0].statuses.sleep--
+  }
+  round(1, tickSleep)
+  step(guard2, keepState, defense)
+  step(hitGhoul, finishEnemy, { rawDamage: resisted ? 631 : 613 })
+  if (resisted)
+    step(
+      enemyAttackAt(2, lantern.id, hero),
+      ({ players }) => {
+        players[1].hp--
+      },
+      { rawDamage: 1 },
+    )
+  else step(enemyAttackAt(2, lantern.id, hero), keepState, blocked)
+  round(2, tickSleep)
+  step(guard3, keepState, defense)
+  step(hitLantern, ({ enemies }) => Object.assign(enemies[1], { hp: 0, alive: false }), {
+    rawDamage: resisted ? 1857 : 604,
+  })
+  const scenario = complete(
+    [magic, guard, guard2, hitGhoul, guard3, hitLantern],
+    [
+      queueDraw(1, 'enemy', 0, 57),
+      queueDraw(1, 'enemy', 1, 21),
+      queueDraw(1, 'player', 0, 906),
+      queueDraw(1, 'player', 1, 2515),
+      { purpose: 'battle-script-chance', value: 0.23399724275805056 },
+      { purpose: 'status-resistance', target: { turn: 1, side: 'enemy', slot: targetSlot } },
+      ...draws(
+        'cast-growth',
+        'enemy-target',
+        ...(resisted ? ['enemy-block'] : []),
+        'enemy-target',
+        'enemy-block',
+      ),
+      queueDraw(2, 'enemy', 0, 57),
+      queueDraw(2, 'enemy', 1, 21),
+      queueDraw(2, 'player', 0, 4530),
+      queueDraw(2, 'player', 1, 503),
+      ...draws(...heroStrikeDraws),
+      ...draws(...(resisted ? enemyPhysicalDraws : ['enemy-target', 'enemy-block'])),
+      queueDraw(3, 'enemy', 1, 21),
+      queueDraw(3, 'player', 0, 4530),
+      queueDraw(3, 'player', 1, 503),
+      ...draws(...heroStrikeDraws),
+    ],
+    [150, resisted ? 149 : 150],
+  )
+  scenario.expected.statusNotice = { actionIndex: 1, text: '攻击无效', visible: resisted }
+  return {
+    ...scenario,
+    sounds: [
+      [],
+      [
+        ['cast-windup', 10],
+        ['spell-effect', 169],
+      ],
+      resisted ? enemyAttackSounds(358, 15) : [],
+      enemyAttackSounds(50, 15),
+      [],
+      playerAttackSounds(37, 1, 185),
+      enemyAttackSounds(50, resisted ? 352 : 15),
+      [],
+      playerAttackSounds(resisted ? 5 : 37, 1, 32),
+    ],
+  }
+}
+
+function definePlayerProtection(protectedBySpell) {
+  const { lantern } = mechanismEnemies
+  const skill = protectedBySpell ? '309' : '306'
+  const { step, round, complete } = mechanismScenario(
+    protectedBySpell ? 'player-protect' : 'player-protect-control',
+    protectedBySpell ? '金刚咒护体减伤' : '净衣咒无护体对照',
+    lantern,
+    3,
+    [
+      {
+        ...mechanismMember(linger, 150, 0, 400, 100, 6),
+        magic: 80,
+        skills: [skill],
+        statuses: fairySwordStatus,
+      },
+      mechanismMember(hero, 150, 250, 0, 8, 6),
+    ],
+  )
+  const magic = castAt(1, linger, skill, hero)
+  const guard = defendAt(1, hero)
+  const guard2 = defendAt(2, linger)
+  const finish = attackAt(2, hero, lantern.id)
+  const [first, second] = protectedBySpell ? [14, 19] : [28, 38]
+  step(
+    magic,
+    ({ players }) => {
+      players[0].mp -= protectedBySpell ? 11 : 7
+      if (protectedBySpell) players[1].statuses.protect = 7
+    },
+    { growth: { maxMP: 2, magicAttack: 1 } },
+  )
+  step(guard, keepState, defense)
+  step(
+    enemyAttackAt(1, lantern.id, hero),
+    ({ players }) => {
+      players[1].hp -= first
+    },
+    { rawDamage: first },
+  )
+  round(1, ({ players }) => {
+    if (protectedBySpell) players[1].statuses.protect = 6
+  })
+  step(guard2, keepState, defense)
+  step(
+    enemyAttackAt(2, lantern.id, hero),
+    ({ players }) => {
+      players[1].hp -= second
+    },
+    { rawDamage: second },
+  )
+  step(finish, finishEnemy, { rawDamage: 246 })
+  const scenario = complete(
+    [magic, guard, guard2, finish],
+    [
+      queueDraw(1, 'enemy', 0, 21),
+      queueDraw(1, 'player', 0, 318),
+      queueDraw(1, 'player', 1, 55),
+      ...draws('cast-growth', ...enemyPhysicalDraws),
+      queueDraw(2, 'enemy', 0, 21),
+      queueDraw(2, 'player', 0, 530),
+      queueDraw(2, 'player', 1, 11),
+      ...draws(...enemyPhysicalDraws, ...heroStrikeDraws),
+    ],
+    [150, protectedBySpell ? 133 : 117],
+  )
+  // The two skills use the same single-ally FIRE chunk and authored offsets.
+  scenario.expected.allySpellPresentation = {
+    actionIndex: 0,
+    targetSlot: 1,
+    offset: { x: -6, y: -18 },
+    fireFrames: 24,
+  }
+  return {
+    ...scenario,
+    observeMagicOverlays: true,
+    sounds: [
+      [
+        ['cast-windup', 10],
+        ['spell-effect', 141],
+      ],
+      [],
+      enemyAttackSounds(50, 352),
+      [],
+      enemyAttackSounds(50, 352),
+      playerAttackSounds(37, 1, 32),
+    ],
+  }
+}
+
 function defineCasualtyDialogue() {
   const enemy = mechanismEnemies.lantern
   const { step, round, complete } = mechanismScenario(
@@ -926,14 +1430,18 @@ const soundFrames = {
   1: 4869,
   2: 5075,
   4: 11775,
+  5: 11232,
   8: 6045,
   9: 6982,
+  10: 10366,
+  12: 16418,
   15: 12200,
   19: 7695,
   20: 9760,
   23: 13351,
   24: 20249,
   28: 13408,
+  29: 13491,
   32: 20700,
   37: 4102,
   38: 12378,
@@ -941,17 +1449,27 @@ const soundFrames = {
   50: 14593,
   92: 6983,
   94: 3121,
+  101: 29710,
+  102: 71700,
   106: 19357,
+  109: 68831,
+  115: 36916,
+  117: 35090,
+  118: 24782,
   126: 10165,
+  133: 55213,
   138: 41746,
+  141: 37872,
   169: 36112,
   182: 40055,
   185: 6605,
   216: 27640,
   247: 35018,
   265: 9627,
+  347: 18610,
   352: 9077,
   357: 8958,
+  358: 16118,
   368: 6370,
   369: 3514,
   374: 11016,
@@ -1056,15 +1574,46 @@ const audioCues = {
 }
 
 function attachAudioOracle(scenario) {
-  const byAction = audioCues[scenario.id]
+  const { sounds, ...configured } = scenario
+  const byAction = sounds ?? audioCues[scenario.id]
   assert.equal(byAction?.length, scenario.expected.actions.length, `audio actions: ${scenario.id}`)
   scenario.expected.audioCues = byAction.flatMap((cues, actionIndex) =>
-    cues.map(([kind, id]) => ({ actionIndex, kind, assetId: soundAsset(id) })),
+    cues.map(([kind, id, targetId]) => ({
+      actionIndex,
+      kind,
+      assetId: soundAsset(id),
+      ...(targetId ? { targetId } : {}),
+    })),
   )
   scenario.expected.audioSourceFrames = Object.fromEntries(
     byAction.flatMap((cues) => cues.map(([, id]) => [soundAsset(id), soundFrames[id]])),
   )
-  return scenario
+  return configured
+}
+
+function attachSpellPaintOracle(scenario) {
+  const { actions, start } = scenario.expected
+  const probes = actions.flatMap((action, actionIndex) => {
+    // Wooden sword 166 uses its native throw script's 0x66 → magic object 344.
+    const skillId = action.kind === 'throw' && action.itemId === '166' ? '344' : action.skillId
+    const source = spellPaintSources[skillId]
+    if (!source) return []
+    const player = start.players.find(({ id }) => id === action.targetId)
+    const target = player ?? start.enemies.find((enemy) => enemy?.id === action.targetId)
+    assert(target || source.points, `missing paint target: ${scenario.id}/${skillId}`)
+    return [
+      {
+        actionIndex,
+        skillId,
+        ...source,
+        targetSide: player ? 'player' : 'enemy',
+        ...(target ? { targetSlot: target.slot } : {}),
+      },
+    ]
+  })
+  if (!probes.length) return scenario
+  scenario.expected.spellPaintOrder = probes
+  return { ...scenario, observeMagicOverlays: true }
 }
 
 export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
@@ -1087,8 +1636,25 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     defineEnemyMagicCasualty(true),
     defineEnemyMagicCasualty(false),
     definePoisonCasualties(),
-  ].map(attachAudioOracle),
+    ...playerElements.map((entry) => definePlayerElement(entry)),
+    definePlayerElement(['random-order', '风咒随机抽样', ...playerElements[0].slice(2, -1), 82], 6),
+    definePlayerAreaMagic(),
+    defineCooperativeMagic(),
+    defineThrownSword(),
+    definePlayerSleep(false),
+    definePlayerSleep(true),
+    definePlayerProtection(true),
+    definePlayerProtection(false),
+  ].map((scenario) => attachSpellPaintOracle(attachAudioOracle(scenario))),
 )
+
+export function battleFoundationScenarioGroup(id) {
+  if (id === 'all') return BATTLE_FOUNDATION_SCENARIOS
+  assert(['established', 'player-actions'].includes(id), `unknown battle foundation group: ${id}`)
+  return BATTLE_FOUNDATION_SCENARIOS.filter(
+    ({ id: scenarioId }) => scenarioId.startsWith('player-') === (id === 'player-actions'),
+  )
+}
 
 export function battleFoundationScenario(id) {
   const scenario = BATTLE_FOUNDATION_SCENARIOS.find((entry) => entry.id === id)
@@ -1108,11 +1674,15 @@ export function battleLaunchSpec(scenario) {
   })
 }
 
-/** Bind the raw/author JSON, face pixels and WAVs used by the independent comparisons. */
+/** Bind the raw/author JSON, face pixels, FIRE and WAVs used by the independent comparisons. */
 export async function battleFoundationInputSources(root) {
   const paths = [
     'data/extracted/images/ui/frame-48.png',
     'projects/pal/assets/migrated/faces/li-xiaoyao.png',
+    ...paintFireChunks.flatMap((chunk) => [
+      `data/extracted/${rawFirePath(chunk)}`,
+      `projects/pal/${projectFirePath(chunk)}`,
+    ]),
     ...Object.keys(soundFrames).flatMap((id) => [
       rawSoundPath(id),
       `projects/pal/${projectSoundPath(id)}`,
@@ -1123,6 +1693,24 @@ export async function battleFoundationInputSources(root) {
       if (name.endsWith('.json')) paths.push(`${directory}/${name}`)
   }
   return paths.sort()
+}
+
+async function verifyPaintFireSources(root, index) {
+  await Promise.all(
+    paintFireChunks.map(async (chunk) => {
+      const assetId = `effect-sprite.pal.magic.${String(chunk).padStart(3, '0')}`
+      const record = index.assets[assetId]
+      assert.equal(record?.kind, 'effect-sprite', assetId)
+      assert.equal(record.path, projectFirePath(chunk), assetId)
+      const [raw, authored] = await Promise.all([
+        readFile(resolve(root, 'data/extracted', rawFirePath(chunk))),
+        readFile(resolve(root, 'projects/pal', record.path)),
+      ])
+      assert(raw.equals(authored), `${assetId}: raw and authored FIRE differ`)
+      assert.equal(raw.length, record.bytes, assetId)
+      assert.equal(createHash('sha256').update(raw).digest('hex'), record.sha256, assetId)
+    }),
+  )
 }
 
 async function verifyAudioSources(root, index) {
@@ -1170,6 +1758,10 @@ export async function verifyBattleFoundationSources(root) {
     assetIndex,
     rawRoles,
     actors,
+    rawFields,
+    fields,
+    rawLevelUp,
+    fireSprites,
   ] = await Promise.all([
     json('data/extracted/data/enemy-teams.json'),
     json('data/extracted/data/enemies.json'),
@@ -1186,6 +1778,10 @@ export async function verifyBattleFoundationSources(root) {
     json('projects/pal/assets/index.json'),
     json('data/extracted/data/player-roles.json'),
     json('projects/pal/content/actors.json'),
+    json('data/extracted/data/battle-fields.json'),
+    json('projects/pal/content/battle-fields.json'),
+    json('data/extracted/data/level-up-magic.json'),
+    json('data/extracted/data/fire-sprites.json'),
   ])
   const rawHero = rawRoles.roles.find(({ id }) => id === roles[hero])
   const battler = actors.find(({ id }) => id === hero).battler
@@ -1274,6 +1870,61 @@ export async function verifyBattleFoundationSources(root) {
         : undefined,
     )
   }
+  for (const [team, objects] of [
+    [116, [406, 406, 406]],
+    [62, [407, 399]],
+  ]) {
+    assert.deepEqual(
+      rawTeams.find(({ id }) => id === team).enemyObjectIndexes.filter((id) => id !== 65535),
+      objects,
+    )
+    assert.deepEqual(
+      teams.find(({ id }) => id === `team-${team}`).slots,
+      objects.map((object) => `enemy-${object}`),
+    )
+  }
+  const field = { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 }
+  assert.deepEqual(rawFields.find(({ id }) => id === 7).magicEffect, field)
+  assert.deepEqual(fields.find(({ id }) => id === 7).magicEffect, field)
+  const worm = rawEnemies.find(({ id }) => id === 9)
+  const currentWorm = enemies.find(({ id }) => id === 'enemy-406').stats
+  const resistance = { wind: 5, thunder: 5, water: 5, fire: 5, earth: 3 }
+  for (const stats of [worm, currentWorm]) {
+    assert.deepEqual(stats.elemResistance, resistance)
+    assert.equal(stats.poisonResistance, 0)
+    assert.equal(stats.defense + (stats.level + 6) * 4, 82)
+  }
+  for (const [, , id, cost, power, elemental, sound] of [
+    ...playerElements,
+    ['', '', '313', 11, 88, 1, 102],
+    ['', '', '353', 18, 150, 6, 133],
+    ['', '', '381', 10, 100, 4, 117],
+  ]) {
+    const spell = rawSpells.find((entry) => entry.id === Number(id))
+    const raw = rawMagic.find((entry) => entry.id === spell.magicNumber)
+    const skill = skills.skills.find((entry) => entry.id === id)
+    assert.deepEqual(
+      [raw.costMP, raw.baseDamage, raw.elemental, raw.sound],
+      [cost, power, elemental, sound],
+    )
+    assert.deepEqual(
+      [skill.cost.mp, skill.effects, skill.animation.sound],
+      [cost, [{ kind: 'damage', power, elemental }], soundAsset(sound)],
+    )
+    assert.equal(skill.target, raw.type === 'normal' ? 'oneEnemy' : 'allEnemies')
+  }
+  const rawLinger = rawRoles.roles.find(({ id }) => id === roles[linger])
+  const lingerBattler = actors.find(({ id }) => id === linger).battler
+  for (const [, , skill] of playerElements) {
+    assert(rawLinger.magic.includes(Number(skill)))
+    assert(lingerBattler.initialMagic.includes(skill))
+  }
+  assert.deepEqual(rawLevelUp[0][roles[linger]], { level: 7, magic: 313 })
+  assert(actors.find(({ id }) => id === anu).battler.initialMagic.includes('353'))
+  assert.deepEqual(
+    [rawLinger.cooperativeMagic, lingerBattler.cooperativeMagicSkillId],
+    [381, '381'],
+  )
   const weaselSpell = rawSpells.find(({ id }) => id === 339)
   assert.equal(weaselSpell.flags.applyToAll, false)
   assert.deepEqual([weaselSpell.scriptOnUse, weaselSpell.scriptOnSuccess], [0, 0])
@@ -1293,6 +1944,74 @@ export async function verifyBattleFoundationSources(root) {
   assert.equal(sleepSpell.scriptOnSuccess, 43085)
   assert.equal(rawMagic.find(({ id }) => id === sleepSpell.magicNumber).baseDamage, 64537)
   const opcode = (ip) => [commands[ip].opcode, commands[ip].operands]
+  assert.deepEqual(opcode(43086), [0x06, [60, 38783, 0]])
+  assert.deepEqual(opcode(43087), [0x2e, [2, 4, 38783]])
+  assert.deepEqual(skills.skills.find(({ id }) => id === '303').effects, [
+    { kind: 'gate', chance: 60 },
+    { kind: 'applyStatus', status: 'sleep', turns: 4 },
+  ])
+  assert.deepEqual(
+    ['enemy-407', 'enemy-399'].map(
+      (id) => enemies.find((entry) => entry.id === id).ai.resistanceToSorcery,
+    ),
+    [0, 10],
+  )
+  const protection = rawSpells.find(({ id }) => id === 309)
+  assert.deepEqual(opcode(protection.scriptOnSuccess), [0x2d, [6, 7, 0]])
+  assert.deepEqual(skills.skills.find(({ id }) => id === '309').effects, [
+    { kind: 'applyStatus', status: 'protect', turns: 7 },
+  ])
+  for (const id of ['306', '309']) {
+    const rawSpell = rawSpells.find((entry) => entry.id === Number(id))
+    const magic = rawMagic.find(({ id }) => id === rawSpell.magicNumber)
+    assert.deepEqual(
+      [magic.type, magic.effect, magic.xOffset, magic.yOffset, magic.speed, magic.special],
+      ['applyToPlayer', 28, 65530, 65518, -1, 99],
+    )
+    const skill = skills.skills.find((entry) => entry.id === id)
+    const { effectSprite, xOffset, yOffset, speed } = skill.animation
+    assert.deepEqual(
+      [skill.target, effectSprite, xOffset, yOffset, speed],
+      ['oneAlly', 28, -6, -18, -1],
+    )
+  }
+  assert.equal(fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === 28).frameCount, 24)
+  const signedWord = (word) => (word << 16) >> 16
+  for (const [id, source] of Object.entries(spellPaintSources)) {
+    const spell = rawSpells.find((entry) => entry.id === Number(id))
+    const raw = rawMagic.find((entry) => entry.id === spell.magicNumber)
+    assert.deepEqual(
+      [raw.type, raw.effect, ...[raw.xOffset, raw.yOffset, raw.special].map(signedWord)],
+      [
+        source.type ?? (id === '296' ? 'applyToPlayer' : 'normal'),
+        source.effect,
+        source.x,
+        source.y,
+        source.layerOffset,
+      ],
+      `original magic paint inputs: ${id}`,
+    )
+    assert.equal(
+      fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === source.effect).frameCount,
+      source.fireFrames,
+      `original FIRE frames: ${id}`,
+    )
+  }
+  const sword = rawItems.find(({ id }) => id === 166)
+  assert(sword.flags.throwable && sword.flags.consuming && !sword.flags.applyToAll)
+  assert.deepEqual(opcode(sword.scriptOnThrow), [0x66, [344, 0, 0]])
+  assert.deepEqual(items.find(({ id }) => id === '166').throw.effects, [
+    {
+      kind: 'magicDamage',
+      baseDamage: 198,
+      element: 'none',
+      strength: {
+        kind: 'casterAttack',
+        bonus: 0,
+        multiplier: { kind: 'uniformInt', min: 0, max: 3 },
+      },
+    },
+  ])
   assert.deepEqual(opcode(43085), [0x68, [43089, 0, 0]])
   assert.deepEqual(opcode(43089), [0x06, [70, 43072, 0]])
   assert.equal(commands[43090].to, 'L_39391')
@@ -1321,7 +2040,10 @@ export async function verifyBattleFoundationSources(root) {
       effects: [{ kind: effect, poisonId: '551' }],
     })
   }
-  await verifyAudioSources(root, assetIndex)
+  await Promise.all([
+    verifyAudioSources(root, assetIndex),
+    verifyPaintFireSources(root, assetIndex),
+  ])
   return {
     enemy: 'enemy-399',
     hp: 30,
@@ -1331,7 +2053,7 @@ export async function verifyBattleFoundationSources(root) {
     healing: 50,
     cure: '296',
     cureMP: 6,
-    mechanismTeams: Object.values(mechanismEnemies).map(({ team }) => team),
+    mechanismTeams: [...Object.values(mechanismEnemies).map(({ team }) => team), 116, 62],
     sleep: '303',
     poison: 551,
     antidote: '87',

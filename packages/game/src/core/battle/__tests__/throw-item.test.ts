@@ -1,9 +1,19 @@
 /** Real throw script execution, deferred presentation, and post-script inventory ownership. */
-import type { Command, Item, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
+import type {
+  AbstractKey,
+  Command,
+  Item,
+  Magic,
+  ObjectMagicView,
+  ObjectPoisonView,
+} from '@type-pal/shared'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { runScript } from '../../event-system.js'
 import { performThrowItem } from '../actions/throw-item.js'
 import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
+import { getBattleResources } from '../battle-runtime-context.js'
+import { battleInput, startTestBattle } from '../battle-start.test-fixtures.js'
 import { tickBattle } from '../battle-system.js'
 
 function makeItem(opts: Partial<Item> = {}): Item {
@@ -62,51 +72,113 @@ const DAMAGE_SCRIPT: Command[] = [
   { op: 'end' },
 ]
 
-function damageFixture(count = 2) {
-  const input = throwFixture(DAMAGE_SCRIPT, makeItem(), count)
-  input.magics.push({
-    id: 54,
-    effect: 7,
-    type: 'normal',
-    speed: 0,
-    fireDelay: 0,
-    effectTimes: 0,
-    shake: 0,
-    xOffset: 0,
-    yOffset: 0,
-    special: 0,
-    wave: 0,
-    keepEffect: 0,
-    unknown: 0,
-    costMP: 0,
-    baseDamage: 140,
-    elemental: 0,
-    sound: 170,
-  })
-  input.objectMagics.push({
-    id: 349,
-    magicNumber: 54,
-    scriptOnSuccess: 0,
-    scriptOnUse: 0,
-    flags: {
-      usableOutsideBattle: false,
-      usableInBattle: true,
-      usableToEnemy: true,
-      applyToAll: false,
+function damageFixture(
+  count = 2,
+  fighters: Pick<
+    NonNullable<Parameters<typeof startTestBattle>[0]>,
+    'roles' | 'enemies' | 'teamSlots'
+  > = {},
+) {
+  const item = makeItem()
+  const magics: Magic[] = [
+    {
+      id: 54,
+      effect: 7,
+      type: 'normal',
+      speed: 0,
+      fireDelay: 0,
+      effectTimes: 0,
+      shake: 0,
+      xOffset: 0,
+      yOffset: 0,
+      special: 0,
+      wave: 0,
+      keepEffect: 0,
+      unknown: 0,
+      costMP: 0,
+      baseDamage: 140,
+      elemental: 0,
+      sound: 170,
     },
+  ]
+  const objectMagics: ObjectMagicView[] = [
+    {
+      id: 349,
+      magicNumber: 54,
+      scriptOnSuccess: 0,
+      scriptOnUse: 0,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: true,
+        applyToAll: false,
+      },
+    },
+  ]
+  const objectPoisons: ObjectPoisonView[] = []
+  const { gs, bus, playerRoles } = startTestBattle({
+    roles: [
+      makeRoleRecord(0, { dexterity: 250, magicSound: 88 }),
+      makeRoleRecord(1, { dexterity: 120 }),
+    ],
+    enemies: [makeEnemyRecord({ health: 200, defense: 30, dexterity: 0 })],
+    ...fighters,
+    items: [item],
+    magics,
+    objectMagics,
+    objectPoisons,
+    commands: DAMAGE_SCRIPT,
   })
-  return { ...input, magicSpriteFrameCounts: new Map([[7, 8]]) }
+  gs.inventory = [{ itemId: item.id, count }]
+  const state = gs.battleState
+  const resources = getBattleResources(gs)
+  if (!state || !resources) throw new Error('throw test requires an active battle')
+  const magicSpriteFrameCounts = new Map([[7, 8]])
+  resources.magicSpriteFrameCounts = magicSpriteFrameCounts
+  return {
+    gs,
+    bus,
+    playerRoles,
+    state,
+    itemId: item.id,
+    items: [item],
+    commands: DAMAGE_SCRIPT,
+    runScript,
+    casterIsEnemy: false,
+    casterIdx: 0,
+    targetIdx: 0,
+    magics,
+    objectMagics,
+    objectPoisons,
+    magicSpriteFrameCounts,
+  }
 }
 
 describe('performThrowItem', () => {
-  it('applies simulated damage and consumes once; emits the number only after the throw animation', () => {
-    const input = damageFixture()
-    performThrowItem(input)
-    const { state, gs, bus } = input
+  it('keeps the throw pose for four ticks after damage, then restores for four before the next actor', () => {
+    const { state, gs, bus } = damageFixture()
+    const step = (...keys: AbstractKey[]) => {
+      tickBattle(gs, battleInput(keys), bus)
+      return bus.drain().map(({ cmd }) => cmd)
+    }
+    step() // preBattle → selectAction
+    step('ThrowItem')
+    step('Confirm') // item confirmation auto-targets the sole enemy
+    step('Confirm') // the other player attacks the sole enemy
+    expect(state.pendingActions.get(0)).toMatchObject({ type: 'throw-item', target: 0 })
+    expect(state.pendingActions.get(1)).toMatchObject({ type: 'attack', target: 0 })
+    expect(state.actionQueue.slice(0, 2).map(({ isEnemy, idx }) => [isEnemy, idx])).toEqual([
+      [false, 0],
+      [false, 1],
+    ])
+    expect(step().filter(({ op }) => op === 'showDamageNum')).toEqual([])
     expect(state.enemies[0]!.e.health).toBe(60)
     expect(gs.inventory).toEqual([{ itemId: 66, count: 1 }])
-    expect(state.battleAnim).toBeDefined()
-    const frames = state.battleAnim!.frames
+    const animation = state.battleAnim
+    const caster = state.players[0]
+    const origin = caster?.posOriginal
+    if (!animation || !caster || !origin) throw new Error('throw animation must start in place')
+    const frames = animation.frames
     const windup = frames.findIndex(
       (f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 5) && f.sound === 88,
     )
@@ -119,25 +191,106 @@ describe('performThrowItem', () => {
     expect(windup).toBeGreaterThanOrEqual(0)
     expect(release).toBeGreaterThan(windup)
     expect(effect).toBeGreaterThan(release)
-    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toEqual([])
-    expect(state.battleAnim!.pendingDamageNums).toEqual([
-      { target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' },
-    ])
-    for (let tick = 0; tick < 200 && state.battleAnim; tick++) {
-      tickBattle(gs, { held: new Set(), pressed: new Set(), frameNum: tick }, bus)
+    const releasePose = { pos: { x: origin.x - 10, y: origin.y - 4 }, currentFrame: 6 }
+    const restPose = { pos: origin, currentFrame: 0 }
+    let sawDamage = false
+    for (let tick = 0; tick < 80 && !sawDamage; tick++) {
+      const numbers = step().filter(({ op }) => op === 'showDamageNum')
+      if (numbers.length === 0) continue
+      expect(numbers).toEqual([
+        { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' },
+      ])
+      expect(caster).toMatchObject(releasePose)
+      expect(state.battleAnim?.overlays).toBeUndefined()
+      expect(state.currentActionIndex).toBe(0)
+      sawDamage = true
     }
+    expect(sawDamage).toBe(true)
+    for (let tick = 1; tick <= 8; tick++) {
+      expect(step().filter(({ op }) => op === 'showDamageNum')).toEqual([])
+      expect(caster).toMatchObject(tick < 4 ? releasePose : restPose)
+      expect(state.currentActionIndex).toBe(tick < 8 ? 0 : 1)
+      expect(state.enemies[0]!.e.health).toBe(60)
+    }
+    expect(gs.inventory).toEqual([{ itemId: 66, count: 1 }])
     expect(state.battleAnim).toBeUndefined()
-    expect(
-      bus
-        .drain()
-        .map((e) => e.cmd)
-        .filter((c) => c.op === 'showDamageNum'),
-    ).toEqual([
-      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' },
-    ])
+    step()
+    expect(state.battleAnim).toBeDefined()
+    expect(state.enemies[0]!.e.health).toBeLessThan(60)
   })
 
-  it('defers immediate poison-script damage until the throw animation completes', () => {
+  it('keeps a defending ally and an already defeated enemy out of throw repositioning', () => {
+    const { state, gs, bus } = damageFixture(1, {
+      roles: [
+        makeRoleRecord(0, { dexterity: 250 }),
+        makeRoleRecord(1, { dexterity: 400, attackStrength: 200 }),
+        makeRoleRecord(2, { dexterity: 200 }),
+      ],
+      enemies: [
+        makeEnemyRecord({ health: 30, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 200, defense: 30, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
+    const step = (...keys: AbstractKey[]) => {
+      tickBattle(gs, battleInput(keys), bus)
+      return bus.drain().map(({ cmd }) => cmd)
+    }
+    step() // preBattle → selectAction
+    step('ThrowItem')
+    step('Confirm')
+    step('Right')
+    step('Confirm') // role 0 throws at slot 1
+    step('Confirm')
+    step('Confirm') // role 1 attacks slot 0
+    step('Defend') // role 2 guards before either attack
+    expect(state.pendingActions.get(0)).toMatchObject({ type: 'throw-item', target: 1 })
+    expect(state.pendingActions.get(1)).toMatchObject({ type: 'attack', target: 0 })
+    expect(state.actionQueue.slice(0, 3).map(({ isEnemy, idx }) => [isEnemy, idx])).toEqual([
+      [false, 2],
+      [false, 1],
+      [false, 0],
+    ])
+
+    const caster = state.players[0]!
+    const defender = state.players[2]!
+    const defeatedEnemy = state.enemies[0]!
+    const target = state.enemies[1]!
+    for (let tick = 0; tick < 120 && target.e.health === 200; tick++) step()
+    expect(defender).toMatchObject({ defending: true, currentFrame: 3 })
+    expect(defeatedEnemy).toMatchObject({ defeated: true })
+    expect(target.e.health).toBe(60)
+    const animation = state.battleAnim
+    if (!animation) throw new Error('the surviving enemy must receive the throw')
+    const guardPosition = defender.pos
+    const recovery = animation.frames.at(-1)
+    // C fight.c:940–993,4369–4372: the recovery frame leaves the guarding
+    // ally's position alone and never updates the cleared enemy slot.
+    expect(recovery?.fighters).toContainEqual({
+      side: 'player',
+      idx: 2,
+      currentFrame: 3,
+      pos: undefined,
+      iColorShift: 0,
+    })
+    expect(recovery?.fighters).not.toContainEqual(
+      expect.objectContaining({ side: 'enemy', idx: 0 }),
+    )
+    expect(recovery?.fighters).toContainEqual({
+      side: 'enemy',
+      idx: 1,
+      pos: target.posOriginal,
+      iColorShift: 0,
+    })
+
+    for (let tick = 0; tick < 80 && animation.idx < animation.frames.length - 1; tick++) step()
+    expect(state.battleAnim).toBe(animation)
+    expect(animation.idx).toBe(animation.frames.length - 1)
+    expect(caster).toMatchObject({ pos: caster.posOriginal, currentFrame: 0 })
+    expect(defender.pos).toBe(guardPosition)
+  })
+
+  it('defers immediate poison-script damage to the throw recovery', () => {
     const commands: Command[] = [
       { op: 'end', label: 'L_0' },
       { op: 'raw', opcode: 0x28, operands: [0, 5, 0], label: 'L_1' },
@@ -152,8 +305,22 @@ describe('performThrowItem', () => {
     performThrowItem(input)
     expect(input.state.enemies[0]!.e.health).toBe(150)
     expect(input.bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toEqual([])
-    expect(input.state.battleAnim?.pendingDamageNums).toEqual([
-      { target: { kind: 'enemy', idx: 0 }, value: 50, color: 'blue' },
+    const { state, gs, bus } = input
+    const animation = state.battleAnim
+    if (!animation) throw new Error('poison throw must start an animation')
+    const numbers = []
+    for (let tick = 0; tick < 80 && state.battleAnim === animation; tick++) {
+      tickBattle(gs, battleInput(), bus)
+      numbers.push(
+        ...bus
+          .drain()
+          .map(({ cmd }) => cmd)
+          .filter(({ op }) => op === 'showDamageNum'),
+      )
+    }
+    expect(state.battleAnim).toBeUndefined()
+    expect(numbers).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 50, color: 'blue' },
     ])
   })
 

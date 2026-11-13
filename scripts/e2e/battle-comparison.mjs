@@ -67,6 +67,7 @@ export function compareBattleTraces(game, reforge, scenario) {
     'actorSide',
     'kind',
     'targetId',
+    'targetSide',
     'itemId',
     'skillId',
     'guard',
@@ -119,19 +120,21 @@ export function compareBattleRepeats(first, second, scenario) {
     ],
     [
       'repeat-random-draws',
-      first.randomDraws.map(({ index, value, source, purpose, queue }) => ({
+      first.randomDraws.map(({ index, value, source, purpose, queue, target }) => ({
         index,
         value,
         source,
         purpose,
         queue,
+        target,
       })),
-      second.randomDraws.map(({ index, value, source, purpose, queue }) => ({
+      second.randomDraws.map(({ index, value, source, purpose, queue, target }) => ({
         index,
         value,
         source,
         purpose,
         queue,
+        target,
       })),
     ],
   ])

@@ -208,9 +208,9 @@ function validFrame(entry, source, playerCount) {
     Number.isSafeInteger(p.turn) &&
     typeof p.selecting === 'boolean' &&
     (p.animation === null ||
-      [p.animation?.actorId, p.animation?.kind, p.animation?.targetId].every(
-        (value) => typeof value === 'string',
-      )) &&
+      (typeof p.animation?.actorId === 'string' &&
+        typeof p.animation.kind === 'string' &&
+        (p.animation.targetId === null || typeof p.animation.targetId === 'string'))) &&
     Array.isArray(p.enemies) &&
     uniqueSlots(
       p.enemies.map((draw) => draw?.slot),
@@ -232,6 +232,12 @@ function validFrame(entry, source, playerCount) {
         (draw.frameIndex === undefined ||
           (validFrameIndex(draw.frameIndex) && Number.isSafeInteger(draw.colorShift))),
     ) &&
+    (p.magicOverlays === undefined ||
+      (Array.isArray(p.magicOverlays) &&
+        p.magicOverlays.every(
+          (draw) =>
+            Number.isFinite(draw?.x) && Number.isFinite(draw.y) && validFrameIndex(draw.frameIndex),
+        ))) &&
     uniqueSlots(p.panels, playerCount) &&
     (p.dialogue === undefined || validDialogueDraws(p.dialogue)) &&
     (p.settlement === null || typeof p.settlement === 'string') &&
@@ -783,7 +789,7 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
 
 function cueRenderWindow(cue, action, animation, frames, deaths) {
   if (cue.kind === 'enemy-death') {
-    const death = deaths.find(({ enemyId }) => enemyId === action.targetId)
+    const death = deaths.find(({ enemyId }) => enemyId === (cue.targetId ?? action.targetId))
     return death && { first: death.start, through: death.gone, slot: death.slot }
   }
   if (!animation) return undefined
@@ -819,6 +825,21 @@ function compareAudioCues(
   ) {
     fail('oracle', 'audio-cue-expectation')
     return undefined
+  }
+  const explicitDeaths = audioCues.filter(
+    ({ kind, targetId }) => kind === 'enemy-death' && targetId,
+  )
+  const deathKeys = new Set()
+  for (const cue of explicitDeaths) {
+    const { actionIndex, targetId } = cue
+    const action = expected.actions[actionIndex]
+    const unit = action.before.enemies.find((entry) => entry?.id === targetId)
+    const key = `${actionIndex}/${targetId}`
+    if (!unit?.alive || action.after.enemies[unit.slot]?.alive || deathKeys.has(key)) {
+      fail('oracle', 'enemy-death-cue-target', cue)
+      return undefined
+    }
+    deathKeys.add(key)
   }
   const audioEvents = trace.audioEvents
   const firstCommand = trace.commands?.[0]
@@ -882,7 +903,7 @@ function compareAudioCues(
       ...cue,
       turn: action.turn,
       actorId: action.actorId,
-      targetId: action.targetId,
+      targetId: cue.targetId ?? action.targetId,
       request,
       start,
       buffer,
@@ -1008,6 +1029,7 @@ function compareAudioCues(
       return [observed ?? { ...cue, request, window }]
     })
   }
+  let startIndex = 0
   for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
     const cue = audioCues[i]
     const request = requests[i]
@@ -1029,13 +1051,39 @@ function compareAudioCues(
           frames,
           deaths,
         )
+    const previousCue = audioCues[i - 1]
+    if (
+      cue.kind === 'enemy-death' &&
+      previousCue?.kind === cue.kind &&
+      previousCue.actionIndex === cue.actionIndex &&
+      previousCue.assetId === cue.assetId
+    ) {
+      // Each defeated slot requests its sound; the audio hosts suppress simultaneous equal IDs.
+      const first = result.cues.at(-1)
+      if (
+        !window ||
+        !first ||
+        startsByCue.has(request.cueId) ||
+        request.atMs - first.request.atMs > BATTLE_FRAME_MS ||
+        Math.abs(request.atMs - window.first.atMs) > BATTLE_FRAME_MS
+      )
+        fail('business', 'simultaneous-enemy-death-audio', { cue, request, first, window })
+      result.cues.push({ ...cue, request, start: null, window })
+      continue
+    }
     const observed = checkedCasualty ? casualtyCues.get(cue) : inspect(cue, request, window)
     if (!observed) break
     const { start, cold } = observed
-    if (starts[i]?.cueId !== request.cueId) {
-      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
+    if (starts[startIndex]?.cueId !== request.cueId) {
+      fail('business', 'audio-cue-start-order', {
+        ...cue,
+        request,
+        start,
+        earlier: starts[startIndex],
+      })
       break
     }
+    startIndex++
     result.cues.push(observed)
     if (checkedCasualty) continue
     if (!window) {
@@ -1056,7 +1104,331 @@ function compareAudioCues(
         startThroughMs,
       })
   }
+  if (expected.throwWindupMs !== undefined) {
+    const first = result.cues.find(({ kind }) => kind === 'cast-windup')
+    const effect = result.cues.find(({ kind }) => kind === 'spell-effect')
+    const elapsed = first && effect && effect.request.atMs - first.request.atMs
+    // C waits 8 + 2 gesture frames, then one more frame before the thrown effect.
+    if (elapsed === undefined || Math.abs(elapsed - expected.throwWindupMs) > 30)
+      fail('business', 'throw-windup-sound-interval', {
+        first,
+        effect,
+        elapsed,
+        expected: expected.throwWindupMs,
+      })
+  }
   return result
+}
+
+function compareThrowRecovery(frames, animations, probe, fail) {
+  const { actionIndex, slot, targetSlot, damage } = probe
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const selection =
+    start &&
+    frames.find(
+      (frame) =>
+        frame.seq < start.seq &&
+        frame.payload.selecting &&
+        frame.payload.turn === start.payload.turn,
+    )
+  const base = selection && pose(selection, slot)
+  const hit =
+    start &&
+    next &&
+    frames.find(
+      (frame) =>
+        frame.seq >= start.seq &&
+        frame.seq < next.seq &&
+        frame.payload.numbers.some(
+          (number) =>
+            number.side === 'enemy' &&
+            number.slot === targetSlot &&
+            number.tone === 'blue' &&
+            number.value === damage,
+        ),
+    )
+  const release = hit && pose(hit, slot)
+  const holdsPose = (frame, expected) => {
+    const actual = pose(frame, slot)
+    return samePose(actual, expected) && actual?.frameIndex === expected?.frameIndex
+  }
+  const recovery =
+    hit && next && frames.filter((frame) => frame.seq >= hit.seq && frame.seq <= next.seq)
+  const returned = base && recovery?.find((frame) => holdsPose(frame, base))
+  const ended = hit && recovery?.find((frame) => frame.payload.animation?.kind !== 'throw')
+  const beforeReturnMs = returned && returned.clockMs - hit.clockMs
+  const afterReturnMs = returned && ended && ended.clockMs - returned.clockMs
+  const beforeNextMs = ended && next && next.clockMs - ended.clockMs
+  const wrongPose =
+    returned &&
+    recovery.find((frame) => !holdsPose(frame, frame.seq < returned.seq ? release : base))
+  const reopened =
+    ended &&
+    next &&
+    recovery.find(
+      (frame) => frame.seq >= ended.seq && frame.seq < next.seq && frame.payload.animation !== null,
+    )
+  const expectedMs = 4 * BATTLE_FRAME_MS
+  const observed = {
+    hit: hit && at(hit),
+    returned: returned && at(returned),
+    ended: ended && at(ended),
+    next: next && at(next),
+    beforeReturnMs,
+    afterReturnMs,
+    beforeNextMs,
+    wrongPose: wrongPose && { ...at(wrongPose), pose: pose(wrongPose, slot) },
+    reopened: reopened && at(reopened),
+  }
+  if (
+    !base ||
+    !hit ||
+    !returned ||
+    !ended ||
+    !next ||
+    release?.frameIndex !== 6 ||
+    samePose(release, base) ||
+    wrongPose ||
+    reopened ||
+    Math.abs(beforeReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
+    Math.abs(afterReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
+    beforeNextMs > EDGE_TOLERANCE_MS
+  )
+    fail('business', 'throw-recovery-render-window', observed)
+  return observed
+}
+
+function compareSpellPaintOrder(frames, animations, probe, fail) {
+  const {
+    actionIndex,
+    skillId,
+    effect,
+    targetSide,
+    targetSlot,
+    points,
+    x,
+    y,
+    layerOffset,
+    fireFrames,
+  } = probe
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const drawn = start
+    ? frames.filter(
+        ({ seq, payload }) =>
+          seq >= start.seq && (!next || seq < next.seq) && payload.magicOverlays?.length,
+      )
+    : []
+  const observed = {
+    actionIndex,
+    skillId,
+    effect,
+    layerOffset,
+    frames: drawn.length,
+    first: drawn[0] && at(drawn[0]),
+    last: drawn.length ? at(drawn.at(-1)) : undefined,
+  }
+  if (!drawn.length) {
+    fail('integrity', 'spell-paint-draws-missing', observed)
+    return observed
+  }
+  const frameIndices = new Set()
+  for (const frame of drawn) {
+    const { enemies, players, magicOverlays } = frame.payload
+    if (magicOverlays.some(({ spriteChunk }) => !validFrameIndex(spriteChunk))) {
+      fail('integrity', 'spell-paint-resource-missing', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+      })
+      return observed
+    }
+    if (magicOverlays.some(({ spriteChunk }) => spriteChunk !== effect)) {
+      fail('business', 'spell-paint-resource', { ...observed, ...at(frame), magicOverlays })
+      return observed
+    }
+    const target = targetSide === 'player' ? pose(frame, targetSlot) : enemy(frame, targetSlot)
+    const bases = points ?? (target ? [target] : [])
+    const positions = magicOverlays.map((draw) => `${draw.x},${draw.y}`).sort()
+    const expectedPositions = bases.map((base) => `${base.x + x},${base.y + y}`).sort()
+    if (
+      !expectedPositions.length ||
+      positions.join(';') !== expectedPositions.join(';') ||
+      magicOverlays.some((draw) => draw.frameIndex >= fireFrames)
+    ) {
+      fail('business', 'spell-paint-anchor', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+        expectedPositions,
+      })
+      return observed
+    }
+    const fighters = [
+      ...enemies.filter(({ fading }) => !fading).map((draw) => ({ side: 'enemy', ...draw })),
+      ...players.map((draw) => ({ side: 'player', ...draw })),
+    ]
+    const orders = [...magicOverlays, ...fighters].map(({ paintOrder }) => paintOrder)
+    if (orders.some((value) => !validFrameIndex(value)) || new Set(orders).size !== orders.length) {
+      fail('integrity', 'spell-paint-orders-missing', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+        fighters,
+      })
+      return observed
+    }
+    for (const draw of magicOverlays) {
+      frameIndices.add(draw.frameIndex)
+      const sortY = draw.y + layerOffset
+      for (const fighter of fighters) {
+        // CLASSIC sorts increasing Y plus layer offset, then decreasing X. Identical keys
+        // do not specify an order. Compare actual writes after sorting, not the overlay list.
+        const relative = sortY - fighter.y || fighter.x - draw.x
+        if (
+          relative !== 0 &&
+          Math.sign(relative) !== Math.sign(draw.paintOrder - fighter.paintOrder)
+        ) {
+          fail('business', 'spell-paint-order', { ...observed, ...at(frame), draw, sortY, fighter })
+          return observed
+        }
+      }
+    }
+  }
+  const renderedFireFrames = [...frameIndices].sort((a, b) => a - b)
+  if (renderedFireFrames.length !== fireFrames)
+    fail('business', 'spell-paint-frame-coverage', { ...observed, renderedFireFrames, fireFrames })
+  return { ...observed, renderedFireFrames }
+}
+
+function compareAllySpell(
+  frames,
+  animations,
+  { actionIndex, targetSlot, offset, fireFrames },
+  fail,
+) {
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const window =
+    start && next && frames.filter((frame) => frame.seq >= start.seq && frame.seq < next.seq)
+  const draws =
+    window?.flatMap((frame) =>
+      (frame.payload.magicOverlays ?? []).map((draw) => ({ frame, draw })),
+    ) ?? []
+  const first = draws[0]?.frame
+  const last = draws.at(-1)?.frame
+  const wrongAnchor = draws.find(({ frame, draw }) => {
+    const target = pose(frame, targetSlot)
+    return !target || draw.x !== target.x + offset.x || draw.y !== target.y + offset.y
+  })
+  const wrongPaintOrder = draws.find(({ frame, draw }) => {
+    const playerOrder = pose(frame, targetSlot)?.paintOrder
+    return (
+      !Number.isSafeInteger(playerOrder) ||
+      !Number.isSafeInteger(draw.paintOrder) ||
+      draw.paintOrder <= playerOrder
+    )
+  })
+  const brokenEffect =
+    first &&
+    last &&
+    window.find(
+      ({ seq, payload }) =>
+        seq >= first.seq && seq <= last.seq && payload.magicOverlays?.length !== 1,
+    )
+  const frameIndices = draws.flatMap(({ draw }, index) =>
+    index === 0 || draws[index - 1].draw.frameIndex !== draw.frameIndex ? [draw.frameIndex] : [],
+  )
+  const observed = {
+    first: first && at(first),
+    last: last && at(last),
+    anchor: draws[0]?.draw,
+    distinctFireFrames: frameIndices,
+    wrongAnchor: wrongAnchor && { ...at(wrongAnchor.frame), draw: wrongAnchor.draw },
+    wrongPaintOrder: wrongPaintOrder && {
+      ...at(wrongPaintOrder.frame),
+      playerOrder: pose(wrongPaintOrder.frame, targetSlot)?.paintOrder,
+      overlayOrder: wrongPaintOrder.draw.paintOrder,
+    },
+    brokenEffect: brokenEffect && at(brokenEffect),
+  }
+  if (
+    !first ||
+    !last ||
+    wrongAnchor ||
+    brokenEffect ||
+    frameIndices.length !== fireFrames ||
+    frameIndices.some((frameIndex, index) => frameIndex !== index)
+  )
+    fail('business', 'ally-spell-rendered-overlay', observed)
+  if (wrongPaintOrder) fail('business', 'ally-spell-paint-order', observed.wrongPaintOrder)
+
+  let previousShift = 0
+  const glow = []
+  const wrongRecipient = window?.find((frame) =>
+    frame.payload.players.some((player) => player.slot !== targetSlot && player.colorShift !== 0),
+  )
+  for (const frame of window ?? []) {
+    const shift = pose(frame, targetSlot)?.colorShift
+    if (shift === undefined || shift === previousShift) continue
+    glow.push({ ...at(frame), shift })
+    previousShift = shift
+  }
+  const expectedShifts = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+  const fromFirstShiftMs = glow.length ? glow.at(-1).clockMs - glow[0].clockMs : undefined
+  const rest = {
+    glow,
+    fromFirstShiftMs,
+    wrongRecipient: wrongRecipient && at(wrongRecipient),
+    next: next && at(next),
+  }
+  if (
+    wrongRecipient ||
+    glow.length !== expectedShifts.length ||
+    glow.some(({ shift }, index) => shift !== expectedShifts[index]) ||
+    (last && glow[0]?.frame <= last.seq) ||
+    Math.abs(fromFirstShiftMs - (expectedShifts.length - 1) * BATTLE_FRAME_MS) > BATTLE_FRAME_MS
+  )
+    fail('business', 'ally-spell-recipient-glow', rest)
+  return { ...observed, ...rest }
+}
+
+function compareStatusNotice(trace, frames, animations, { actionIndex, text, visible }, fail) {
+  const start = animations[actionIndex]
+  const end =
+    start && frames.find((frame) => frame.seq > start.seq && frame.payload.animation === null)
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const matches = ({ payload }) =>
+    payload.dialogue?.some(
+      ({ active, slot, lines }) => active && slot === 'narration' && lines.includes(text),
+    )
+  const drawn = frames.filter(matches)
+  if (!visible) {
+    if (drawn.length) fail('business', 'unexpected-status-notice', { text, first: at(drawn[0]) })
+    return
+  }
+  const first = drawn[0]
+  const clear = first && frames.find((frame) => frame.seq > first.seq && !matches(frame))
+  const durationMs = clear && clear.clockMs - first.clockMs
+  const confirms = trace.presentations.filter(
+    ({ kind, order }) =>
+      kind === 'battle-dialogue-confirm' && order >= first?.order && order <= clear?.order,
+  )
+  const observed = { text, first: first && at(first), clear: clear && at(clear), durationMs }
+  if (
+    !first ||
+    !clear ||
+    !end ||
+    !next ||
+    first.seq < end.seq ||
+    clear.seq > next.seq ||
+    drawn.some((frame) => frame.seq >= clear.seq || frame.payload.animation !== null) ||
+    confirms.length > 0 ||
+    Math.abs(durationMs - 1400) > EDGE_TOLERANCE_MS
+  )
+    fail('business', 'status-notice-rendered', observed)
+  return observed
 }
 
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
@@ -1070,6 +1442,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
+  let statusNotice, throwRecovery, allySpellPresentation, spellPaintOrder
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1086,6 +1459,10 @@ export function validateBattlePresentation(trace, scenario) {
     ...(casualtyDialogue === undefined ? {} : { casualtyDialogue }),
     ...(magicCasualties === undefined ? {} : { magicCasualties }),
     ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
+    ...(statusNotice === undefined ? {} : { statusNotice }),
+    ...(throwRecovery === undefined ? {} : { throwRecovery }),
+    ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
+    ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
     findings,
   })
   if (
@@ -1131,6 +1508,27 @@ export function validateBattlePresentation(trace, scenario) {
       ? null
       : frames.find((frame) => animationMatches(frame, action)),
   )
+  if (scenario.expected.throwRecovery)
+    throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.spellPaintOrder)
+    spellPaintOrder = scenario.expected.spellPaintOrder.map((probe) =>
+      compareSpellPaintOrder(frames, animations, probe, fail),
+    )
+  if (scenario.expected.allySpellPresentation)
+    allySpellPresentation = compareAllySpell(
+      frames,
+      animations,
+      scenario.expected.allySpellPresentation,
+      fail,
+    )
+  if (scenario.expected.statusNotice)
+    statusNotice = compareStatusNotice(
+      trace,
+      frames,
+      animations,
+      scenario.expected.statusNotice,
+      fail,
+    )
   if (scenario.expected.defendRecovery !== undefined)
     defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
   if (scenario.expected.automaticBlock !== undefined)

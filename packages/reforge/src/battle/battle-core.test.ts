@@ -1,6 +1,7 @@
 import type { EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { expectDefined } from '../defined.js'
 import {
   applyEnemyEffect,
   applyEnemyEquivItem,
@@ -3026,8 +3027,8 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
 
   test('状态失败反馈按整次敌方 action 聚合：友方 gate 不误报，多状态任一成功即不报', () => {
     const castOnce = (definition: SkillData, enemyResistance: number, rolls: number[]) => {
-      let ri = 0
-      const rng = () => rolls[ri++] ?? 0
+      const draws = rolls.values()
+      const rng = () => expectDefined(draws.next().value)
       const s = createBattleState({
         players: [player('li', { skills: [definition.id], baseDexterity: 500 })],
         enemies: [{ ...dummy(), ai: { resistanceToSorcery: enemyResistance } }],
@@ -3052,7 +3053,9 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
         { kind: 'applyStatus', status: 'haste', turns: 4 },
       ],
     })
-    const allyFailed = castOnce(ally, 10, [0, 0, 0, 0.99])
+    const allyFailed = castOnce(ally, 10, [0, 0, 0.99, 0])
+    expect(allyFailed.players[0]!.status.haste).toBe(0)
+    expect(allyFailed.players[0]!.hiddenCounts.maxMP).toBe(2)
     expect(allyFailed.lastAction?.failureFeedback).toBeUndefined()
 
     const twoStatuses = mkSkill('two-enemy-statuses', {
@@ -3061,8 +3064,8 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
         { kind: 'applyStatus', status: 'confused', turns: 4 },
       ],
     })
-    // queue 两掷 + hidden exp 一掷 + sleep 抵抗(0) + confused 命中(9)。
-    const partiallyApplied = castOnce(twoStatuses, 5, [0, 0, 0, 0, 0.99])
+    // 队列两掷 → sleep 抵抗(0) → confused 命中(9) → 隐藏成长。
+    const partiallyApplied = castOnce(twoStatuses, 5, [0, 0, 0, 0.99, 0])
     expect(partiallyApplied.enemies[0]!.status.sleep).toBe(0)
     expect(partiallyApplied.enemies[0]!.status.confused).toBe(4)
     expect(partiallyApplied.lastAction?.failureFeedback).toBeUndefined()

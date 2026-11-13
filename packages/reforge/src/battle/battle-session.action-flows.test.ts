@@ -268,7 +268,7 @@ describe('W3 执行时间线接线', () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)
     const h = makeWfSession({
-      players: [wfPlayer('p1', { skills: ['wf-nuke'], mp: 40, maxMp: 40, attackStrength: 200 })],
+      players: [wfPlayer('p1', { skills: ['wf-nuke'], mp: 40, maxMp: 40, magicStrength: 45 })],
       enemies: [wfEnemy('e1', { health: 30, defense: 0, attackStrength: 1 })],
       extraOpts: {
         skills: { 'wf-nuke': skill },
@@ -327,6 +327,82 @@ describe('W3 执行时间线接线', () => {
     expect(h.readParty()[0]!.mp).toBe(20) // 只有 p1 扣法术费
   })
 
+  test.each([
+    { skillId: '306', all: false },
+    { skillId: '300', all: true },
+  ])('友方法术 $skillId 将特效与十三拍辉光实绘在受术队员身上', ({ skillId, all }) => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === skillId))
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 30,
+          maxHp: 150,
+          mp: 100,
+          maxMp: 100,
+          baseDexterity: 100,
+          skills: [spell.id],
+        }),
+        wfPlayer('li-xiaoyao', { hp: 20, maxHp: 150, baseDexterity: 8 }),
+      ],
+      enemies: [wfEnemy('ally-spell-control', { attackStrength: 0 })],
+      extraOpts: { skills: { [spell.id]: spell }, playerSounds: [{ magic: 'sound.pal.009' }] },
+    })
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(spriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, sprite)
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[8])],
+      },
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = () => h.session.render(ctx, 1)
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' '])
+    if (!all) {
+      h.press(['ArrowRight'])
+      h.press([' '])
+    }
+    h.press(['d'])
+    for (let i = 0; i < 120 && !sfx.plays.length; i++) h.idle(8)
+    draw()
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+
+    h.idle(80) // 无前摇精灵时，仅两拍施法姿，再转施法帧6。
+    draw()
+    expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(40)
+    draw()
+    // 友方底锚 (256,152) + (-6,-18)；全队法术也覆盖已前移的施法者。
+    expect(pixel(250, 126)).toBe(poseRed(8))
+    expect(pixel(184, 146)).toBe(all ? poseRed(8) : 0)
+    expect(pixel(194, 150)).toBe(0)
+    expect(sfx.plays).toEqual(['sound.pal.009', spell.animation.sound])
+
+    h.idle(40)
+    const glow = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+    for (const shift of glow) {
+      draw()
+      expect(pixel(256, 144)).toBe(poseRed(PLAYER_PROFILE.frames.dying + shift))
+      expect(pixel(190, 164)).toBe(poseRed(PLAYER_PROFILE.frames.magic + (all ? shift : 0)))
+      h.idle(40)
+    }
+    draw()
+    expect(pixel(200, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect(pixel(256, 144)).toBe(
+      poseRed(all ? PLAYER_PROFILE.frames.idle : PLAYER_PROFILE.frames.dying),
+    )
+    expect(h.readParty()[0]?.mp).toBe(100 - expectDefined(spell.cost.mp))
+  })
+
   test('物品 healHp 经真 core 执行：库存写回 count 减一', async () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { hp: 50, maxHp: 100 })],
@@ -367,6 +443,56 @@ describe('W3 执行时间线接线', () => {
     h.press(['Escape'])
   })
 
+  test('爆炸合击实绘敌方伤害，队员扣除生命但不显示伤害数字', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '381'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 150,
+          maxHp: 150,
+          attackStrength: 8,
+          magicStrength: 208,
+          baseDexterity: 906,
+          cooperativeMagicSkillId: skill.id,
+        }),
+        wfPlayer('anu', {
+          hp: 150,
+          maxHp: 150,
+          attackStrength: 300,
+          magicStrength: 112,
+          baseDexterity: 150,
+        }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        skills: { [skill.id]: skill },
+        fieldEffect: { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 },
+      },
+    })
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const blue = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[2]
+    h.press(['ArrowRight'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 100; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      if (blue(92, 10)) break
+    }
+    // 固定倍率 1，合击灵力 157、有效防御 82、火抗 5、战场 +1，伤害 159。
+    expect([80, 86, 92].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    // 合击时队员暂在 (208,157) 与 (234,170)，两处不应绘出生命代价。
+    expect([blue(208, 82), blue(234, 95)]).toEqual([0, 0])
+    expect(h.readParty().map(({ hp }) => hp)).toEqual([140, 140])
+  })
+
   test('致死普攻绘出完整伤害，收尾播放一次敌人死亡音效', () => {
     const sfx = recordingSfx()
     const h = makeWfSession({
@@ -394,6 +520,162 @@ describe('W3 执行时间线接线', () => {
     // 固定 RNG 下攻 60、防 28，基础伤害 75，追加 1 后暴击 ×3 = 228。
     expect(firstNumber).toEqual([48, 48, 144])
     expect(sfx.plays).toEqual(['sound.pal.030'])
+  })
+
+  test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '353'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('anu', {
+          mp: 100,
+          maxMp: 100,
+          magicStrength: 112,
+          baseDexterity: 900,
+          skills: [skill.id],
+        }),
+      ],
+      enemies: [enemy, enemy, enemy],
+      extraOpts: { skills: { [skill.id]: skill } },
+    })
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' ']) // 群体技能无需选择单独目标。
+
+    let firstNumbers: number[][] = []
+    for (let i = 0; i < 80; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 三敌的底锚分别是 (70,140)、(100,110)、(160,100)，数字距底锚 115 像素。
+      const numberPositions = [
+        [70, 25],
+        [100, 10],
+        [160, 10],
+      ] as const
+      const blue = numberPositions.map(([x, y]) =>
+        [x - 12, x - 6, x].map((digitX) => ctx.getImageData(digitX, y, 1, 1).data[2] ?? 0),
+      )
+      if (blue.some((digits) => digits.some((value) => value > 0))) {
+        firstNumbers = blue
+        break
+      }
+    }
+    // 灵力 112、敌防 82、基础伤 150、毒抗 0、浮动倍率 1 → 346；每只敌人仅剩 310 HP。
+    expect(firstNumbers).toEqual([
+      [64, 80, 112],
+      [64, 80, 112],
+      [64, 80, 112],
+    ])
+    for (let i = 0; i < 8 && h.session.debugReadiness().phase !== 'over'; i++) h.idle(500)
+    await expect(settleDone(h)).resolves.toBe('victory')
+    expect(h.readParty()[0]?.mp).toBe(82)
+  })
+
+  test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '166'))[0])
+    const presentation = expectDefined(item.throw?.presentation)
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { hp: 20, maxHp: 150, attackStrength: 52, baseDexterity: 903 }),
+        wfPlayer('anu', { attackStrength: 950, baseDexterity: 150 }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        playerSounds: [{ magic: 'sound.pal.009' }],
+      },
+    })
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    const enemySprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    h.assets.battleSprites = new Map(h.assets.battleSprites)
+      .set(spriteId, poseSprite(sprite))
+      .set(enemy.battleSprite, poseSprite(enemySprite))
+    h.assets.fireSprites = {
+      [presentation.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[0])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const draw = () => h.session.render(ctx, 1)
+    const fighterAt = (x: number, footY: number) => ctx.getImageData(x, footY - 8, 1, 1).data[0]
+    h.press(['w'])
+    h.press([' '])
+    h.press([' '])
+    h.press([' ']) // 阿奴普攻。
+    h.press([' '])
+    for (let i = 0; i < 20 && !h.session.debugLog().some((line) => line.includes('投掷 木剑')); i++)
+      h.idle(8)
+    expect(h.session.debugLog().some((line) => line.includes('投掷 木剑'))).toBe(true)
+    draw()
+    expect(fighterAt(196, 174)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
+
+    for (const [x, y] of [
+      [193, 173],
+      [191, 172],
+      [190, 172],
+    ] as const) {
+      h.idle(40)
+      draw()
+      expect(fighterAt(x, y)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
+    }
+    h.idle(119)
+    expect(sfx.plays).toEqual([])
+    h.idle(1)
+    draw()
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(320)
+    draw()
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    // 出手姿保留两拍，投掷脚本开始 OffMagic 后再停一拍（fight.c:4355–4356,2659）。
+    h.idle(119)
+    draw()
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(1)
+    expect(sfx.plays).toEqual(['sound.pal.009', 'sound.pal.347'])
+    h.idle(50) // 最后一张特效退场后，结算数字立即实绘。
+    draw()
+    expect([88, 94, 100].map((x) => ctx.getImageData(x, 10, 1, 1).data[2])).toEqual([32, 160, 144])
+    expect([poseRed(0), poseRed(1)]).toContain(fighterAt(100, 110))
+    // fight.c:4369–4372。数字后先保持出手姿四拍，再恢复濒死姿四拍。
+    h.idle(159)
+    draw()
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    h.idle(1)
+    draw()
+    expect(fighterAt(200, 176)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
+    h.idle(160)
+    h.idle(39)
+    draw()
+    expect(fighterAt(256, 152)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    h.idle(1)
+    draw()
+    expect(fighterAt(256, 152)).toBe(poseRed(PLAYER_PROFILE.frames.attackWindup))
+    const inventory = [{ itemId: item.id, count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
   })
 
   test('灯笼普攻在首帧播放起手音，命中与死亡保留原声', async () => {

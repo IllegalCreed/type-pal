@@ -24,6 +24,7 @@ import {
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
   testingBattleSessionMechanismBase,
+  testingBattleSessionPlayerActionsBase,
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
   testingBattleSessionSourcePath,
@@ -162,23 +163,22 @@ const registry = JSON.parse(
   readFileSync(join(repository, 'docs/phase-governance/templates/registry.json')),
 )
 
-function sessionRebindingFixture(revision = testingBattlePublicationBase) {
+function sessionRebindingFixture(revision = testingBattlePublicationBase, changeSource) {
   const original = fixture()
   const published = revision !== testingBattlePublicationBase
   const portrait = revision === testingBattleSessionPortraitBase
   const presentation = revision === testingBattleSessionPresentationBase
   const cadence = revision === testingBattleSessionCadenceBase
-  const casualtyDialogue = revision === testingBattleSessionCasualtyDialogueBase
+  const playerActions = revision === testingBattleSessionPlayerActionsBase
+  const casualtyDialogue = revision === testingBattleSessionCasualtyDialogueBase || playerActions
   const casualty = revision === testingBattleSessionCasualtyBase || casualtyDialogue
   const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
   const evidence = JSON.parse(readFixed(revision, sessionEvidence))
   const owner = current.entries.find(({ id }) => id === evidence.id)
-  const sessionSource = Buffer.concat([
-    Buffer.from('\n'),
-    readFixed(revision, testingBattleSessionSourcePath),
-  ])
+  const oldSource = readFixed(revision, testingBattleSessionSourcePath).toString('utf8')
+  const sessionSource = Buffer.from(`\n${changeSource ? changeSource(oldSource) : oldSource}`)
   const snapshot = (fixedRevision) => ({
     revision: fixedRevision,
     readSource: (path) => readFixed(fixedRevision, path),
@@ -201,6 +201,9 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     ...(casualty ? { casualtyFixed: snapshot(testingBattleSessionCasualtyBase) } : {}),
     ...(casualtyDialogue
       ? { casualtyDialogueFixed: snapshot(testingBattleSessionCasualtyDialogueBase) }
+      : {}),
+    ...(playerActions
+      ? { playerActionsFixed: snapshot(testingBattleSessionPlayerActionsBase) }
       : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
@@ -225,9 +228,14 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       [testingBattleSessionCasualtyBase]: 'q2-battle-session-casualty-source-rebinding',
       [testingBattleSessionCasualtyDialogueBase]:
         'q2-battle-session-casualty-dialogue-source-rebinding',
+      [testingBattleSessionPlayerActionsBase]: 'q2-battle-session-player-actions-source-rebinding',
     }[revision],
     base: revision,
-    date: presentation || cadence || casualty ? '2026-11-12' : '2026-11-11',
+    date: playerActions
+      ? '2026-11-13'
+      : presentation || cadence || casualty
+        ? '2026-11-12'
+        : '2026-11-11',
     evidence: sessionReceipt,
     previousSourceRefs,
     scope: 'Synthetic source shift for the admitted battle session callers.',
@@ -240,8 +248,17 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     catalog: current,
     owner,
     evidence,
-    checkCatalog: () =>
-      assertTestingBattlePublication(previousCatalog, bytes(current), original.additions, bridge),
+    checkCatalog: () => {
+      const currentCatalog = bytes(current)
+      const beforeDefeat = playerActions
+        ? restoreTestingBattleDefeatSourceBindings(catalogPath, currentCatalog, {
+            readSource: (path) => readFixed(revision, path),
+            readBase: (path) => readFixed(testingBattleSessionCasualtyDialogueBase, path),
+            readFixed: (path) => readFixed(testingBattleDefeatSourceRevision, path),
+          })
+        : currentCatalog
+      assertTestingBattlePublication(previousCatalog, beforeDefeat, original.additions, bridge)
+    },
     checkEvidence: () =>
       assertTestingBattleSessionSourceBridge(
         sessionEvidence,
@@ -343,6 +360,28 @@ test('casualty dialogue rebind preserves the previously accepted physical casual
   assert.throws(rebinding.checkEvidence, /old history changed/u)
   rebinding.owner.revision.history.at(-1).base = testingBattleSessionCasualtyBase
   assert.throws(rebinding.checkCatalog, /history must name the fixed base/u)
+})
+
+test('player-action rebind accepts an intact caller excerpt at shifted coordinates', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionPlayerActionsBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+})
+
+test('player-action rebind rejects a changed caller body with a valid anchor and digest', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionPlayerActionsBase, (source) => {
+    const original = 'retract: (playerIndex) => this.state.pendingActions.delete(playerIndex),'
+    assert(source.includes(original))
+    return source.replace(original, 'retract: () => this.state.pendingActions.clear(),')
+  })
+  assert.throws(
+    rebinding.checkCatalog,
+    /battle session bridge changed the accepted caller excerpt/u,
+  )
+  assert.throws(
+    rebinding.checkEvidence,
+    /battle session bridge changed the accepted caller excerpt/u,
+  )
 })
 
 function pairedFixture(t) {

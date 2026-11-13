@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
   AnimPlayer,
+  type BuildThrowItemInput,
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
@@ -92,6 +93,38 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(frames[2]?.screenShakeLevel).toBeUndefined()
     expect(frames.at(-1)).toMatchObject({ screenShake: true })
     expect(frames.at(-1)?.screenShakeLevel).toBeUndefined()
+  })
+
+  test('OffMagic 在第一张特效帧播放一次音效，施法者切姿和特效循环保持原帧序', () => {
+    const frames = buildOffMagic({
+      fireFrames: 3,
+      fx: {
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 1,
+        effectTimes: 2,
+        shake: 1,
+        wave: 0,
+        sound: 'sound.pal.109',
+      },
+      casterMagic: { side: 'player', idx: 0, frame: PLAYER_FRAMES.magic },
+    })
+    const playedOverlays: number[] = []
+    const soundEvents: Array<{ sound: string; overlayCount: number }> = []
+    const animation = new AnimPlayer(frames, {
+      onOverlay: (overlays) => {
+        const frame = overlays?.[0]
+        if (frame) playedOverlays.push(frame.frameIdx)
+      },
+      onSound: (sound) => soundEvents.push({ sound, overlayCount: playedOverlays.length }),
+    })
+
+    expect(animation.tick(400)).toBe(true)
+    expect(playedOverlays).toEqual([0, 1, 2, 1, 2, 1, 2, 0])
+    expect(frames[1]?.fighters).toEqual([{ side: 'player', idx: 0, frame: PLAYER_FRAMES.magic }])
+    expect(soundEvents).toEqual([{ sound: 'sound.pal.109', overlayCount: 1 }])
   })
 
   test('玩家物攻:冲刺(+64,+20)→挥击9+敌染色+伤害数字→敌抖动(−8/−4/−6)', () => {
@@ -367,7 +400,7 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events.filter((event) => event === 'dmg:player1:50')).toHaveLength(1)
   })
 
-  test('投掷物品:纯施毒不显数字；即时伤害在目标闪色帧显示蓝字', () => {
+  test('投掷物品:纯施毒不显数字；即时伤害显示蓝字且目标不闪色', () => {
     const poison = record(
       buildThrowItem({
         casterFrames: PLAYER_FRAMES,
@@ -391,16 +424,12 @@ describe('M4d-2 战斗动画时间线', () => {
     )
     guard = 0
     while (!damage.player.tick(50) && guard++ < 20) {}
-    expect(damage.events).toContain('f:enemy1c6')
     expect(damage.events).toContain('dmg:enemy1:1000')
-    expect(damage.events.indexOf('dmg:enemy1:1000')).toBeGreaterThan(
-      damage.events.indexOf('f:enemy1c6'),
-    )
-    expect(damage.events).toContain('f:enemy1c0')
+    expect(damage.events.filter((event) => event.startsWith('f:enemy'))).toEqual([])
   })
 
   test('投掷法术物品:投掷姿后复用 OffMagic，传递 special 层序，结果数字最后出现', () => {
-    const frames = buildThrowItem({
+    const input = {
       casterFrames: PLAYER_FRAMES,
       casterIdx: 0,
       targetIdx: 1,
@@ -422,20 +451,29 @@ describe('M4d-2 战斗动画时间线', () => {
         targetPos: { x: 100, y: 80 },
       },
       damage: 1000,
-    })
+    } satisfies BuildThrowItemInput
+    const frames = buildThrowItem(input)
 
     expect(frames[0]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 5 }])
-    expect(frames.slice(1, 4).map((frame) => frame.overlays?.[0])).toEqual([
+    expect(frames[1]).toEqual({ durationMs: 40 })
+    expect(frames.slice(2, 5).map((frame) => frame.overlays?.[0])).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 88, y: 80, layerOffset: 1 },
       { sheet: 'magic', frameIdx: 1, x: 88, y: 80, layerOffset: 1 },
       { sheet: 'magic', frameIdx: 2, x: 88, y: 80, layerOffset: 1 },
     ])
-    expect(frames[1]?.sound).toBe('sound.pal.157')
-    expect(frames.slice(1, 4).some((frame) => frame.fighters?.length)).toBe(false)
-    expect(frames[4]?.damageNum).toEqual({
+    expect(frames[2]?.sound).toBe('sound.pal.157')
+    expect(frames.slice(2, 5).some((frame) => frame.fighters?.length)).toBe(false)
+    const damageNum = {
       target: { side: 'enemy', idx: 1 },
       value: 1000,
+    }
+    expect(frames[5]?.damageNum).toEqual(damageNum)
+
+    const withoutFire = buildThrowItem({
+      ...input,
+      presentation: { ...input.presentation, fireFrames: 0 },
     })
+    expect(withoutFire[1]?.damageNum).toEqual(damageNum)
   })
 
   test('逃跑成功:16 帧×40ms 全员统一 (+5,+4)(一阶段 fleeStepDelta,作者 2026-05-31 拍板);音效45首帧', () => {

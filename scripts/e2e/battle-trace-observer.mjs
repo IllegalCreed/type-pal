@@ -27,6 +27,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     runId: input.runId,
   }
   const random = structuredClone(input.random)
+  const observeMagicOverlays = input.observeMagicOverlays === true
   const portraitProbe = input.portraitProbe
   if (
     portraitProbe !== undefined &&
@@ -54,6 +55,8 @@ export function installBattleTraceObserver(context, createRecorder) {
     overflow = false
   let frame, previousFrame
   let markedRandom
+  let magicOverlayChunks
+  let nextPaintOrder = 0
   let nextNumberId = 0
   let nextAudioCueId = 0
   let nextAudioBufferId = 0
@@ -152,10 +155,10 @@ export function installBattleTraceObserver(context, createRecorder) {
       )
       markedRandom = undefined
     },
-    markRandom(purpose, queue) {
+    markRandom(purpose, queue, target) {
       if (closed || starts.length !== 1) return
       if (markedRandom) recorder.fail('a marked random draw was not consumed')
-      markedRandom = { purpose, ...(queue ? { queue } : {}) }
+      markedRandom = { purpose, ...(queue ? { queue } : {}), ...(target ? { target } : {}) }
     },
     presentation(value) {
       append(presentations, value)
@@ -215,6 +218,8 @@ export function installBattleTraceObserver(context, createRecorder) {
     beginFrame(source, state) {
       if (closed || starts.length !== 1) return
       if (frame) recorder.fail('a battle frame was replaced before its draw completed')
+      nextPaintOrder = 0
+      if (observeMagicOverlays) magicOverlayChunks = new WeakMap()
       frame = {
         source,
         ...state,
@@ -236,22 +241,43 @@ export function installBattleTraceObserver(context, createRecorder) {
       const { side, slot, fading } = fighter
       const frameIndex = appliedFrameIndex ?? fighter.frameIndex
       const position = { slot, x: draw.x, y: draw.y }
+      const paintOrder = observeMagicOverlays ? { paintOrder: nextPaintOrder++ } : {}
       if (side === 'enemy')
-        frame.enemies.set(
-          slot,
-          frameIndex === undefined ? { slot, fading } : { ...position, frameIndex, fading },
-        )
+        frame.enemies.set(slot, {
+          ...(frameIndex === undefined ? { slot } : { ...position, frameIndex }),
+          fading,
+          ...paintOrder,
+        })
       else
-        frame.players.set(
-          slot,
-          frameIndex === undefined
-            ? position
-            : {
-                ...position,
-                frameIndex,
-                colorShift: draw.iColorShift ?? draw.colorShift ?? 0,
-              },
-        )
+        frame.players.set(slot, {
+          ...position,
+          ...(frameIndex === undefined
+            ? {}
+            : { frameIndex, colorShift: draw.iColorShift ?? draw.colorShift ?? 0 }),
+          ...paintOrder,
+        })
+    },
+    labelMagicOverlays(draws, fireSprites) {
+      if (!frame || !observeMagicOverlays || !draws?.length) return
+      const resources = Object.entries(fireSprites ?? {})
+      for (const draw of draws) {
+        // Bind the decoded sprite on the draw, including a renderer fallback within that sprite.
+        const matches = resources.filter(([, sprite]) => sprite === draw.sprite)
+        if (matches.length === 1) magicOverlayChunks.set(draw, Number(matches[0][0]))
+      }
+    },
+    magicOverlayDrawn(x, y, frameIndex, resource) {
+      if (!frame || !observeMagicOverlays) return
+      const spriteChunk = typeof resource === 'number' ? resource : magicOverlayChunks.get(resource)
+      // Fighters and magic overlays share the order of their completed native writes.
+      frame.magicOverlays ??= []
+      frame.magicOverlays.push({
+        x,
+        y,
+        frameIndex,
+        ...(Number.isSafeInteger(spriteChunk) && spriteChunk >= 0 ? { spriteChunk } : {}),
+        paintOrder: nextPaintOrder++,
+      })
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)

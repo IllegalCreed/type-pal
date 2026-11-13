@@ -90,17 +90,42 @@ function growthDelta(native) {
   )
 }
 
+function enemyDamageNumbers(engine, native, kind) {
+  if (engine === 'game') {
+    if (!Array.isArray(native?.animationEffects)) return null
+    return native.animationEffects
+      .flatMap((effect) => [
+        effect?.damageNum,
+        ...(Array.isArray(effect?.damageNums) ? effect.damageNums : []),
+      ])
+      .concat(Array.isArray(native.pendingDamageNums) ? native.pendingDamageNums : [])
+      .flatMap((number) =>
+        number?.target?.kind === 'enemy' && number.color === 'blue'
+          ? [{ slot: number.target.idx, value: number.value }]
+          : [],
+      )
+  }
+  const action = native?.lastAction
+  const hits = kind === 'throw' ? action?.throwHits : action?.magicHits
+  return Array.isArray(hits) &&
+    hits.every((hit) => Number.isSafeInteger(hit?.idx) && Number.isSafeInteger(hit?.value))
+    ? hits.map(({ idx: slot, value }) => ({ slot, value }))
+    : null
+}
+
 /** Finite rule oracle for the declared PAL fixtures and their physical display boundaries. */
 export function validateBattleRules(trace, scenario) {
   const planned = expectedDraws(scenario)
   const findings = []
   const strikes = []
+  const damageActions = []
   const fail = (rule, facts) => findings.push({ domain: 'business', rule, ...facts })
   for (let i = 0; i < Math.max(planned.length, trace.randomDraws.length); i++) {
     const draw = trace.randomDraws[i]
     const actual = draw && {
       purpose: draw.purpose,
       ...(draw.queue ? { queue: draw.queue } : {}),
+      ...(draw.target ? { target: draw.target } : {}),
       ...(Object.hasOwn(planned[i] ?? {}, 'value') ? { value: draw.value } : {}),
     }
     if (!same(planned[i], actual)) {
@@ -128,8 +153,43 @@ export function validateBattleRules(trace, scenario) {
     const after = (isEnemy ? action.after.players : action.after.enemies).find(
       (unit) => unit?.id === action.targetId,
     )
+    const wanted = scenario.expected.actions[index]
+    if (wanted.enemyDamage) {
+      const targets = action.before.enemies.filter(
+        (unit) => unit?.alive && (action.targetSide === 'enemy' || unit.id === action.targetId),
+      )
+      const expected = targets.map(({ slot }, i) => ({ slot, value: wanted.enemyDamage[i] }))
+      const start = animationStarts[index]
+      const next = animationStarts.slice(index + 1).find(Boolean)
+      const drawn = numberDraws.flatMap(({ frame, number }) =>
+        start &&
+        frame.seq >= start.seq &&
+        (!next || frame.seq < next.seq) &&
+        number.tone === 'blue' &&
+        number.side === 'enemy'
+          ? [{ slot: number.slot, value: number.value }]
+          : [],
+      )
+      const native = enemyDamageNumbers(trace.engine, action.native, action.kind)
+      const observed = { actionIndex: index, actorId: action.actorId, expected, native, drawn }
+      damageActions.push(observed)
+      if (!same(expected, native)) fail('native-enemy-damage', observed)
+      if (!same(expected, drawn)) fail('rendered-enemy-damage', observed)
+      if (wanted.suppressPlayerDamageNumbers) {
+        // CLASSIC fight.c:3980 snapshots the party after paying the co-op HP cost.
+        const shownCost = numberDraws.filter(
+          ({ frame, number }) =>
+            start &&
+            frame.seq >= start.seq &&
+            (!next || frame.seq < next.seq) &&
+            number.tone === 'blue' &&
+            number.side === 'player',
+        )
+        if (shownCost.length)
+          fail('rendered-cooperative-hp-cost', { actionIndex: index, shownCost })
+      }
+    }
     if (action.kind === 'attack') {
-      const wanted = scenario.expected.actions[index]
       const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
       const expectsBlock = wanted.blocked === true
       const expectedHpLost = wanted.effectiveHpLoss ?? Math.min(before.hp, expectedRaw)
@@ -238,13 +298,14 @@ export function validateBattleRules(trace, scenario) {
     // Reforge applies rule state before rendering. Game records completion after the animation.
     const weight = growthDraw ? 2 + Math.floor(growthDraw.value * 2) : null
     const expectedGrowth =
-      action.kind === 'attack'
+      wanted.growth ??
+      (action.kind === 'attack'
         ? { attack: 1, maxHP: weight }
         : action.kind === 'cast'
           ? { maxMP: weight, magicAttack: 1 }
           : action.kind === 'defend'
             ? { defense: 2 }
-            : {}
+            : {})
     const actual = growthDelta(action.native)
     if (!same(expectedGrowth, actual))
       fail('hidden-growth-weight', {
@@ -259,6 +320,7 @@ export function validateBattleRules(trace, scenario) {
     status: findings.length ? 'rejected' : 'passed',
     draws: trace.randomDraws.length,
     strikes,
+    ...(damageActions.length ? { damageActions } : {}),
     findings,
   }
 }

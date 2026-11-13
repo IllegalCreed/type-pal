@@ -463,6 +463,12 @@ export class BattleSession {
     return this.bgComposeScratch
   }
 
+  private playerRestFrame(p: BattleState['players'][number], frames: PlayerFighterFrames): number {
+    if (p.hp <= 0) return p.status.puppet > 0 ? frames.idle : frames.dead
+    if (p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)) return frames.dying
+    return p.defending ? frames.defend : frames.idle
+  }
+
   /** 队员表现层复位(召唤 out 相起点单独用:溶回目标必须是复位后的队员)。 */
   private resetPlayersVisual(): void {
     const s = this.state
@@ -471,20 +477,10 @@ export class BattleSession {
       const frames = this.playerFrames(i)
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
-      const restFrame =
-        p.hp <= 0
-          ? p.status.puppet > 0
-            ? frames.idle
-            : frames.dead
-          : p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)
-            ? frames.dying
-            : p.defending
-              ? frames.defend
-              : frames.idle
       return {
         x: pos.x,
         y: pos.y,
-        frame: holdRoundEndPoses && prev ? prev.frame : restFrame,
+        frame: holdRoundEndPoses && prev ? prev.frame : this.playerRestFrame(p, frames),
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -1376,13 +1372,21 @@ export class BattleSession {
       wave: a.wave ?? 0,
       ...(a.sound ? { sound: a.sound } : {}),
     }
-    const damageNums = la.fizzled ? [] : this.diffDamageNums(pHp, eHp)
+    // 合击只扣贡献者的生命代价。原版扣完才备份 HP，因此不显示这笔伤害（fight.c:3980）。
+    const damageNums = la.fizzled ? [] : this.diffDamageNums(la.kind === 'coop' ? [] : pHp, eHp)
     if (la.side === 'player') {
+      // fight.c:638–651：玩家法术超杀时飘完整伤害。混合技能仍保留其它效果的净扣血。
+      for (const hit of la.magicHits ?? []) {
+        const number = damageNums.find(
+          ({ target }) => target.side === 'enemy' && target.idx === hit.idx,
+        )
+        if (number) number.value += hit.value - hit.hpLost
+      }
       const playerProfile = this.playerAppearance(la.idx).definition.profile
       if (playerProfile.kind !== 'player-fighter') throw new Error('player profile 漂移')
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
-      // normal 落点:敌目标(攻击系)或施法者自身(heal/self)
+      // OffMagic normal 落点；友方普通法术另走受术队员的 DefMagic。
       const targetPos =
         la.targetEnemyIdx !== undefined
           ? (s.enemies[la.targetEnemyIdx]?.basePos ?? casterPos)
@@ -1416,6 +1420,17 @@ export class BattleSession {
             : {}),
         })
       }
+      let allyTargets: NonNullable<Parameters<typeof buildPlayerCast>[0]['allyTargets']> = []
+      if (la.kind === 'cast' && !la.fizzled && !summonEff && fx.placement === 'normal') {
+        // 全队效果覆盖每个队伍槽；单体与 core 使用同一个目标槽范围。
+        const targetIdx = Math.min(Math.max(la.targetAllyIdx ?? la.idx, 0), s.players.length - 1)
+        if (skill.target === 'allAllies' || skill.target === 'oneAlly' || skill.target === 'self')
+          allyTargets = s.players.flatMap((_, idx) => {
+            if (skill.target !== 'allAllies' && idx !== targetIdx) return []
+            const pos = getPlayerBasePos(s.players.length, idx)
+            return pos ? [{ idx, pos }] : []
+          })
+      }
       return buildPlayerCast({
         casterFrames: playerProfile.frames,
         casterIdx: la.idx,
@@ -1433,6 +1448,7 @@ export class BattleSession {
         fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
         fx,
         targetPos,
+        ...(allyTargets.length ? { allyTargets } : {}),
         damageNums,
         postTargets,
         ...(!la.fizzled && a.keepEffect ? { keepEffect: true } : {}),
@@ -1731,12 +1747,12 @@ export class BattleSession {
       })
       return frames
     }
-    // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位；纯施毒不显数字，即时伤害显蓝字)
+    // 投掷道具(前移、挥臂、出手 → 数字 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
       const item = la.itemId ? s.items[la.itemId] : undefined
-      const throwSound = item?.throw?.sound
+      const throwSound = item?.throw?.sound ?? this.opts.playerSounds?.[la.idx]?.magic
       const presentation = item?.throw?.presentation
       let throwPresentation: Parameters<typeof buildThrowItem>[0]['presentation']
       if (presentation?.kind === 'magic') {
@@ -1765,9 +1781,13 @@ export class BattleSession {
             : {}),
         }
       }
+      const casterFrames = this.playerFrames(la.idx)
       return buildThrowItem({
-        casterFrames: this.playerFrames(la.idx),
+        casterFrames,
         casterIdx: la.idx,
+        casterPos: attackerPos,
+        casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
+        ...(item ? { itemName: item.name } : {}),
         hits: la.throwHits.map((hit) => ({
           idx: hit.idx,
           damage: Math.max(0, (eHp[hit.idx] ?? 0) - (s.enemies[hit.idx]?.hp ?? 0)),

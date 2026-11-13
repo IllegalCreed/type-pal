@@ -14,21 +14,21 @@
       "lines": "216-218",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "375-386",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1195-1204",
+      "lines": "1191-1200",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:216-218",
         "packages/reforge/src/battle/battle-session.ts:375-386",
-        "packages/reforge/src/battle/battle-session.ts:1195-1204",
+        "packages/reforge/src/battle/battle-session.ts:1191-1200",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -355,6 +355,36 @@
         }
       ],
       "scope": "定时伤亡对白与普通全灭接续世界死亡演出。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
+    },
+    {
+      "action": "q2-battle-session-player-actions-source-rebinding",
+      "base": "faae7bde3078a06d5072326327459994107607e2",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "216-218",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "375-386",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1195-1204",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
+        }
+      ],
+      "scope": "玩家法术的超杀飘字使用计算值。投掷时间线接收角色起手音、站位与物品名称，归位沿用已有姿态选择。合击血量代价从飘字差分中排除。友方仙术按实际受术槽落点并执行辉光。三个已接收 caller 片段逐字节相同，现行指纹随源码校准。"
     }
   ],
   "_governance": {

@@ -1,7 +1,18 @@
 import type { EnemyDef, SkillData } from '@type-pal/content'
-import { validateEnemies, validateItems, validatePoisons, validateSkills } from '@type-pal/content'
+import {
+  validateBattleFields,
+  validateEnemies,
+  validateEnemyTeams,
+  validateItems,
+  validatePoisons,
+  validateSkills,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
+import palBattleFields from '../../../../projects/pal/content/battle-fields.json' with {
+  type: 'json',
+}
 import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
+import palEnemyTeams from '../../../../projects/pal/content/enemy-teams.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
 import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
@@ -273,6 +284,248 @@ test('enemy Thunder Spell applies the player elemental base resistance before fi
   // CLASSIC fight.c:4825–4838: raw 147 × 0.8, then /2 (automatic guard), with integer truncation.
   expect(state.players[0]?.hp).toBe(27)
   expect(state.players[1]?.hp).toBe(150)
+})
+
+test.each([
+  {
+    skillId: '312',
+    teamId: 'team-115',
+    // Seed 6: three initiative draws, one damage variance, then growth.
+    draws: [
+      0.5257466111797839, 0.002343546599149704, 0.6631714215036482, 0.20216270093806088,
+      0.5421195910312235,
+    ],
+    enemyHp: [228],
+    playerMp: 95,
+  },
+  {
+    skillId: '313',
+    teamId: 'team-116',
+    // Seed 2: five initiative draws, then the three slot variances and growth.
+    draws: [
+      0.7342509443406016, 0.32499843230471015, 0.28529605525545776, 0.5379551574587822,
+      0.8752879470121115, 0.6308333419729024, 0.4992015736643225, 0.3572446557227522,
+      0.7815889057237655,
+    ],
+    enemyHp: [195, 196, 197],
+    playerMp: 89,
+  },
+])('player spell $skillId rolls damage against effective defense before growth', ({
+  skillId,
+  teamId,
+  draws,
+  enemyHp,
+  playerMp,
+}) => {
+  const bloodworm = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === teamId))
+  expect(team.slots).toEqual(enemyHp.map(() => bloodworm.id))
+  const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === skillId))
+  const field = expectDefined(validateBattleFields(palBattleFields).find(({ id }) => id === 7))
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 8,
+        defense: 13,
+        magicStrength: 208,
+        baseDexterity: 906,
+        fleeRate: 39,
+        grantedStatuses: ['dualAttack'],
+        skills: [spell.id],
+      }),
+      wfPlayer('anu', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 2250,
+        defense: 766,
+        magicStrength: 112,
+        baseDexterity: 150,
+        fleeRate: 48,
+      }),
+    ],
+    enemySlots: team.slots.map(() => bloodworm),
+    fieldEffect: field.magicEffect,
+    skills: { [spell.id]: spell },
+  })
+  const rng = fixedDraws(draws)
+  stepBattle(state, rng)
+  state.pendingActions.set(0, {
+    kind: 'cast',
+    skillId: spell.id,
+    ...(spell.target === 'oneEnemy' ? { targetEnemyIdx: 0 } : {}),
+  })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // fight.c:4284–4309 uses DEF 10 + (12 + 6) * 4. Growth rolls only at 4328–4329.
+  expect(state.lastAction).toMatchObject({ side: 'player', idx: 0, kind: 'cast', skillId })
+  expect.soft(state.enemies.flatMap((enemy) => (enemy ? [enemy.hp] : []))).toEqual(enemyHp)
+  expect.soft(state.players[0]).toMatchObject({
+    mp: playerMp,
+    hiddenCounts: { maxMP: 3, magicAttack: 1 },
+  })
+  expect(state.players[1]?.hiddenCounts).toEqual({})
+})
+
+test('cooperative 爆炸 uses the blood worm’s level-adjusted defense without spell growth', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '381'))
+  const field = expectDefined(validateBattleFields(palBattleFields).find(({ id }) => id === 7))
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 8,
+        magicStrength: 208,
+        baseDexterity: 906,
+        cooperativeMagicSkillId: skill.id,
+      }),
+      wfPlayer('anu', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 300,
+        magicStrength: 112,
+        baseDexterity: 150,
+      }),
+    ],
+    enemySlots: [enemy],
+    fieldEffect: field.magicEffect,
+    skills: { [skill.id]: skill },
+  })
+  const rng = fixedDraws([
+    0.5257466111797839, 0.002343546599149704, 0.6631714215036482, 0.20216270093806088,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: -1 }) // selection's coop placeholder
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // Seed 6, fight.c:3982–3995,4030–4035: combined strength 157, defense 82, damage 161.
+  expect(state.enemies[0]?.hp).toBe(149)
+  expect(state.lastAction).toMatchObject({ kind: 'coop', skillId: '381', coopContributors: [0, 1] })
+  expect(state.players.map(({ hp, mp, hiddenCounts }) => ({ hp, mp, hiddenCounts }))).toEqual([
+    { hp: 140, mp: 100, hiddenCounts: {} },
+    { hp: 140, mp: 100, hiddenCounts: {} },
+  ])
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({ side: 'player', idx: 1, kind: 'pass' })
+})
+
+test('throwing the wooden sword uses bare attack while a wooden sword is equipped', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const [sword] = validateItems(palItems.filter(({ id }) => id === '166'))
+  const item = expectDefined(sword)
+  const state = createBattleState({
+    players: [
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 52,
+        baseDexterity: 903,
+        persistentProgress: {
+          level: 6,
+          exp: 0,
+          maxHP: 150,
+          maxMP: 100,
+          attack: 50,
+          magicAttack: 50,
+          defense: 400,
+          speed: 900,
+          luck: 32,
+        },
+      }),
+      wfPlayer('anu', { hp: 150, maxHp: 150, attackStrength: 950, baseDexterity: 150 }),
+    ],
+    enemySlots: [enemy],
+    items: { [item.id]: item },
+    inventory: [{ itemId: item.id, count: 1 }],
+  })
+  const rng = fixedDraws([
+    0.7342509443406016, 0.32499843230471015, 0.28529605525545776, 0.5379551574587822,
+    0.8752879470121115,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'throw', itemId: item.id, targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // Seed 2, script.c:2007–2013: bare attack 50 × 2 before the independent damage variance.
+  expect(state.lastAction).toMatchObject({ kind: 'throw', throwHits: [{ idx: 0, value: 219 }] })
+  expect(state.enemies[0]?.hp).toBe(91)
+  expect(state.inventory).toEqual([{ itemId: '166', count: 0 }])
+})
+
+test('sleep expires by turn even when the affected enemy is defeated before the round ends', () => {
+  const enemies = validateEnemies(palEnemies)
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === 'team-62'))
+  const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '303'))
+  expect(team.slots).toEqual(['enemy-407', 'enemy-399'])
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        defense: 413,
+        baseDexterity: 906,
+        skills: [skill.id],
+      }),
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        attackStrength: 602,
+        defense: 409,
+        baseDexterity: 503,
+      }),
+    ],
+    enemySlots: team.slots.map((id) => expectDefined(enemies.find((enemy) => enemy.id === id))),
+    skills: { [skill.id]: skill },
+  })
+  // Seed 4: first turn initiative, sleep gate/resistance/growth, then the lantern's target/block.
+  // The second turn starts with initiative, Xiaoyao's five strike draws and the lantern's block.
+  const rng = fixedDraws([
+    0.9236361971125007, 0.33304587937891483, 0.2216679009143263, 0.08184101991355419,
+    0.23399724275805056, 0.5084968542214483, 0.0773914884775877, 0.9738619206473231,
+    0.6220374784898013, 0.6908154499251395, 0.7681461023166776, 0.3691486772149801,
+    0.7324949100147933, 0.8758750655688345, 0.5287687703967094, 0.7433461560867727,
+    0.42174601648002863, 0.4904501575510949, 0.7359134785365313, 0.9307232699356973,
+    0.9795403191819787,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'cast', skillId: skill.id, targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'defend' })
+  for (let i = 0; i < 6; i++) stepBattle(state, rng)
+  const ghoul = expectDefined(state.enemies[0])
+  expect(state.turn).toBe(2)
+  expect(ghoul).toMatchObject({ hp: 450, status: { sleep: 3 } })
+
+  state.pendingActions.set(0, { kind: 'defend' })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  for (let i = 0; i < 5; i++) stepBattle(state, rng)
+  expect(state.turn).toBe(2)
+  expect(ghoul).toMatchObject({ hp: 0, status: { sleep: 3 } })
+  expect(state.enemies[1]?.hp).toBe(30)
+  stepBattle(state, rng)
+
+  expect(state.turn).toBe(3)
+  expect(ghoul).toMatchObject({ hp: 0, status: { sleep: 2 } })
 })
 
 function bloodWormBattle() {
