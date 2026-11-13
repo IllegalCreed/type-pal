@@ -1452,7 +1452,21 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
       caster && original && samePose(caster, original) && caster.frameIndex === original.frameIndex
     )
   })
-  const recoveryMs = returned && returned.clockMs - cleared.clockMs
+  const damage = action.enemyDamage ?? []
+  const births = firstNumberDraws(frames).flatMap(({ frame, number }) =>
+    start &&
+    next &&
+    frame.seq >= start.seq &&
+    frame.seq < next.seq &&
+    number.side === 'enemy' &&
+    number.tone === 'blue'
+      ? [{ ...at(frame), ...number, targetPose: enemy(frame, number.slot) }]
+      : [],
+  )
+  // Game can render the reaction before the next logical tick delivers its number.
+  // A hit must still be drawn in the first reaction pose, at most one tick later.
+  const recoveryStart = damage.length > 0 ? births[0] : cleared && at(cleared)
+  const recoveryMs = returned && recoveryStart && returned.clockMs - recoveryStart.clockMs
   const observed = {
     actionIndex,
     actorId: action.actorId,
@@ -1460,6 +1474,7 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
     start: start && at(start),
     lastFire: lastFire && at(lastFire),
     cleared: cleared && at(cleared),
+    recoveryStart,
     returned: returned && at(returned),
     next: next && { ...at(next), actorId: next.payload.animation.actorId },
     recoveryMs,
@@ -1471,6 +1486,7 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
     advanced?.frameIndex !== 6 ||
     samePose(original, advanced) ||
     !returned ||
+    !recoveryStart ||
     afterFire.some((frame) => {
       const caster = pose(frame, slot)
       return (
@@ -1482,18 +1498,6 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
   )
     fail('business', 'player-cast-recovery-pose-and-duration', observed)
 
-  const births = firstNumberDraws(frames)
-    .filter(
-      ({ frame, number }) =>
-        start &&
-        next &&
-        frame.seq >= start.seq &&
-        frame.seq < next.seq &&
-        number.side === 'enemy' &&
-        number.tone === 'blue',
-    )
-    .map(({ frame, number }) => ({ ...at(frame), ...number }))
-  const damage = action.enemyDamage ?? []
   const targetSlot = action.before.enemies.find((enemy) => enemy?.id === action.targetId)?.slot
   const targets =
     lastFire?.payload.enemies.filter(
@@ -1503,9 +1507,14 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
     births.length !== damage.length ||
     births.some((draw, i) => {
       const target = targets[i]
+      const firstReaction = cleared && target && enemy(cleared, target.slot)
       return (
         !target ||
-        draw.frame !== cleared?.seq ||
+        !firstReaction ||
+        draw.frame < cleared.seq ||
+        draw.clockMs - cleared.clockMs > BATTLE_FRAME_MS ||
+        firstReaction.x !== target.x - 8 ||
+        !samePose(firstReaction, draw.targetPose) ||
         draw.slot !== target.slot ||
         draw.value !== damage[i] ||
         draw.right !== target.x + 6 ||
