@@ -331,11 +331,24 @@ describe('W3 执行时间线接线', () => {
     expect(red(116, 110)).toBe(0)
   })
 
-  test('无 FIRE 资源的敌方咒蛇未扣血，单体目标仍播放五拍受击', () => {
-    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '376'))
-    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-459'))
+  test('敌方单体封咒无 FIRE 资源且不扣血，目标仍播放五拍受击', () => {
+    const spell = {
+      ...wfSkill('wf-silence', 0),
+      effects: [{ kind: 'applyStatus' as const, status: 'silence' as const, turns: 2 }],
+      animation: { effectSprite: 1, fireDelay: 1 },
+    }
+    const enemy = wfEnemy(
+      'wf-silencer',
+      { dexterity: 0 },
+      {
+        ai: {
+          resistanceToSorcery: 0,
+          rules: [{ at: 'act', do: { kind: 'cast', skillId: spell.id } }],
+        },
+      },
+    )
     const h = makeWfSession({
-      players: [wfPlayer('li-xiaoyao', { baseDexterity: 0 })],
+      players: [wfPlayer('p1', { baseDexterity: 0 })],
       enemies: [enemy],
       extraOpts: { skills: { [spell.id]: spell } },
     })
@@ -354,7 +367,8 @@ describe('W3 执行时间线接线', () => {
       h.session.render(ctx, 1)
     }
     h.press(['d'])
-    const castResolved = () => h.session.debugLog().includes('li-xiaoyao 中 毒553')
+    const castResolved = () =>
+      h.session.debugLog().includes('wf-silencer 对 p1 施加 silence 2 回合')
     for (let i = 0; i < 100 && !castResolved(); i++) draw(4)
     expect(castResolved()).toBe(true)
     expect(h.readParty()[0]?.hp).toBe(100)
@@ -364,7 +378,7 @@ describe('W3 执行时间线接线', () => {
     draw(199)
     expect(red(247, 165)).toBe(poseRed(PLAYER_PROFILE.frames.hurt))
     draw(1)
-    expect(red(100, 102 + enemy.yPosOffset)).toBeGreaterThan(0)
+    expect(red(100, 102)).toBe(poseRed(0))
   })
 
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {
