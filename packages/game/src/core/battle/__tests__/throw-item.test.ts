@@ -78,6 +78,7 @@ function damageFixture(
     NonNullable<Parameters<typeof startTestBattle>[0]>,
     'roles' | 'enemies' | 'teamSlots'
   > = {},
+  commands = DAMAGE_SCRIPT,
 ) {
   const item = makeItem()
   const magics: Magic[] = [
@@ -127,7 +128,7 @@ function damageFixture(
     magics,
     objectMagics,
     objectPoisons,
-    commands: DAMAGE_SCRIPT,
+    commands,
   })
   gs.inventory = [{ itemId: item.id, count }]
   const state = gs.battleState
@@ -142,7 +143,7 @@ function damageFixture(
     state,
     itemId: item.id,
     items: [item],
-    commands: DAMAGE_SCRIPT,
+    commands,
     runScript,
     casterIsEnemy: false,
     casterIdx: 0,
@@ -321,6 +322,30 @@ describe('performThrowItem', () => {
     expect(state.battleAnim).toBeUndefined()
     expect(numbers).toEqual([
       { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 50, color: 'blue' },
+    ])
+  })
+
+  it('shows one full damage number when a fixed hit follows lethal throw magic', () => {
+    const commands: Command[] = [
+      ...DAMAGE_SCRIPT.slice(0, -1),
+      { op: 'raw', opcode: 0x21, operands: [0, 135, 0] },
+      { op: 'end' },
+    ]
+    const { state, gs, bus } = damageFixture(
+      1,
+      { enemies: [makeEnemyRecord({ health: 130, defense: 30, dexterity: 0 })] },
+      commands,
+    )
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step() // preBattle → selectAction
+    step('ThrowItem')
+    step('Confirm') // item confirmation auto-targets the sole enemy
+    step('Confirm') // the other player chooses an attack
+    step()
+    expect(state.enemies[0]!.e.health).toBe(0)
+    expect(gs.inventory).toEqual([{ itemId: 66, count: 0 }])
+    expect(state.battleAnim?.frames.at(-2)?.damageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: 275, color: 'blue' },
     ])
   })
 
