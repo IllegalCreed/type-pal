@@ -446,6 +446,63 @@ describe('performThrowItem', () => {
     expect(gs.inventory.map(({ count }) => count)).toEqual([0, 0])
   })
 
+  it('keeps the first-turn trigger slot scoped to each live battle', () => {
+    const corpseWater = makeItem({
+      id: 134,
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+      { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+      { op: 'end' },
+      { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+      { op: 'end' },
+    ]
+    const roles = [makeRoleRecord(0, { dexterity: 900 })]
+    const weak = makeEnemyRecord({ health: 420, dexterity: 0 })
+    const strong = makeEnemyRecord({ id: 101, health: 420, dexterity: 0 })
+    const twoEnemies = startTestBattle({
+      roles,
+      commands,
+      enemies: [weak, strong],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+      items: [corpseWater],
+    })
+    twoEnemies.gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const first = twoEnemies.gs.battleState!
+    first.enemies[0]!.e.health = 20
+    const tick = (fight: typeof twoEnemies, ...keys: AbstractKey[]) =>
+      tickBattle(fight.gs, battleInput(keys), fight.bus)
+    tick(twoEnemies)
+    tick(twoEnemies)
+
+    const oneEnemy = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 })],
+      commands,
+      enemies: [weak],
+      items: [corpseWater],
+    })
+    oneEnemy.gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const second = oneEnemy.gs.battleState!
+    second.enemies[0]!.e.health = 20
+    tick(oneEnemy)
+    tick(oneEnemy)
+
+    for (const fight of [twoEnemies, oneEnemy]) {
+      tick(fight, 'ThrowItem')
+      tick(fight, 'Confirm')
+      tick(fight)
+      expect(fight.gs.inventory[0]?.count).toBe(0)
+    }
+
+    // The empty turn-start entry for slot 1 primed the first battle only.
+    expect(first.enemies.map(({ e }) => e.health)).toEqual([20, 420])
+    expect(first.battleDialogQueue?.map(({ text }) => text)).toEqual(['无任何效果'])
+    expect(second.enemies[0]!.e.health).toBe(0)
+    expect(second.battleDialogQueue).toBeUndefined()
+  })
+
   it.each([
     { casterHp: 90, netHeal: 60 },
     { casterHp: 150, netHeal: 0 },
