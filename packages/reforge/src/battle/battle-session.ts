@@ -1924,12 +1924,17 @@ export class BattleSession {
       const firstDmg = la.firstDamage ?? totalDmg - (second ?? 0)
       const snd = this.opts.playerSounds?.[la.idx]
       const attackerAlive = expectDefined(s.players[la.idx]).hp > 0
-      const attackInput = (damage: number, windup: boolean, critical: boolean | undefined) => ({
+      const attackInput = (
+        damage: number,
+        windup: boolean,
+        critical: boolean | undefined,
+        anchor: { x: number; y: number },
+      ) => ({
         frames: this.playerFrames(la.idx),
         attackerIdx: la.idx,
         attackerPos,
         targetIdx: t,
-        targetPos,
+        targetPos: anchor,
         targetHeight: this.enemyAppearance(t).sprite.frames[0]?.height ?? 40,
         effectFrameBase: this.playerAttackEffectFrameBase(la.idx),
         damage,
@@ -1944,11 +1949,17 @@ export class BattleSession {
             }
           : {}),
       })
-      const t1 = buildPlayerAttack(attackInput(firstDmg, true, la.crit))
-      // 连击:第二挥无 windup(fight.c:windup 仅回合首击);两挥兵器音各在自帧 → 不同帧折叠免疫
-      return second === undefined
-        ? t1
-        : [...t1, ...buildPlayerAttack(attackInput(second, false, la.secondCrit ?? la.crit))]
+      const first = buildPlayerAttack(attackInput(firstDmg, true, la.crit, targetPos))
+      if (second === undefined) return first
+      // fight.c:2040–2042,2250–2261: each swing reads the enemy position after the last knockback.
+      const secondTarget = expectDefined(
+        first.at(-1)?.fighters?.find((fighter) => fighter.side === 'enemy' && fighter.idx === t)
+          ?.pos,
+      )
+      return [
+        ...first,
+        ...buildPlayerAttack(attackInput(second, false, la.secondCrit ?? la.crit, secondTarget)),
+      ]
     }
     // 敌物攻
     const t = la.targetPlayerIdx
@@ -2039,7 +2050,6 @@ export class BattleSession {
     //   x:anchor.x−24 且 5 位右对齐(6px/位)→ 个位右缘 = 底中 + 6(drawNumber 右对齐语义直传)
     //   y:敌 −115 / 玩家 HP −75 / MP(cyan)−67,下限 10;固定偏移不随精灵高度(此前用
     //   spriteH 导致高矮怪数字忽高忽低 = 作者报「掉血数字歪」根因之一)
-    // 单体双击沿用一阶段目标原底锚，首击的敌人击退位置仍保留到第二击。
     const { x, y } = anchor ?? v
     const yOff = t.side === 'enemy' ? 115 : tone === 'cyan' ? 67 : 75
     this.floats.push({

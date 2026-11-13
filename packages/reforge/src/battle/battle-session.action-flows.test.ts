@@ -943,7 +943,7 @@ describe('W3 执行时间线接线', () => {
         [32, 64, 128],
       ],
     },
-  ])('单体双击首击会心=$firstCrit，每击独立发声，数字沿用目标底锚', ({
+  ])('单体双击首击会心=$firstCrit，每击独立发声，第二击沿用击退后的目标底锚', ({
     firstCrit,
     voices,
     numbers,
@@ -998,7 +998,7 @@ describe('W3 执行时间线接线', () => {
       const [x, y] = firstFrames.length === 0 ? [100, 109] : [94, 106]
       firstFrames.push({
         enemy: ctx.getImageData(x, y, 1, 1).data[0] ?? 0,
-        digits: [88, 94, 100].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
+        digits: [x - 12, x - 6, x].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
       })
     }
 
