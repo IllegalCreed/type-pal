@@ -75,3 +75,9 @@ Template: evidence-receipt-v1 / 1.0.0
 | `battle-host.ts` 的 start 与 active 释放后的写回 | 53–67、156–160 | 55–69、165–169 |
 
 文档桥接按固定前驱和冻结候选核这些位置，将五项配对证据反向还原到各自已发布的记录，再校验历史版本、场景、执行结论和原件保持。五项现行来源变动只授来源适用性。 [现行目录](../../testing/catalog.json) · [正常战斗覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)
+
+## 2026-11-13 玩家仙术与投掷的会话来源
+
+固定前驱 `faae7bde3078a06d5072326327459994107607e2` 包含上一轮发布的归属证据，会话源码与 `31002d214bb106272f34af46c86c57872b9b2849` 逐字节相同。集成源码取 `2b8a38c53598dbba8d42ebbf16fa93da2d9e5531`，SHA-256 为 `e31925b1a090a4a8e8e4b07fa0f5950f3904b0cfb625e2b46c64c3e8052612d3`。玩家伤害法术的超杀飘字保留计算值，投掷时间线接收角色起手音、站位和物品名称。
+
+选择归属构造、准备屏障构造和选择提交分别位于 `216-218`、`375-386`、`1195-1204`，三个片段的字节与行范围均沿用固定前驱。目录、配对报告与机器证据更新当前摘要，并以 `q2-battle-session-player-actions-source-rebinding` 追加一次适用性历史。桥接逐段比对字节，并逐层核查此前发布的归属和普通败局证据。实际试打与验收按 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md) 对应的运行候选核查。

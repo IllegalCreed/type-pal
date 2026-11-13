@@ -13,6 +13,7 @@ export const testingBattleSessionPresentationBase = '5a3093c93746d6e04e8f569ef52
 export const testingBattleSessionCadenceBase = 'd0020e0749483651d9b0f86cf79ef738ac34663e'
 export const testingBattleSessionCasualtyBase = '58812c028ebd87dd75a9c5dda46a4ec997fb4b09'
 export const testingBattleSessionCasualtyDialogueBase = 'f84bcd91dd71498e1099e7bf8f4b2d7900507090'
+export const testingBattleSessionPlayerActionsBase = 'faae7bde3078a06d5072326327459994107607e2'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -57,6 +58,13 @@ const sessionCasualtyDialogueBinding = {
   revision: testingBattleSessionCasualtyDialogueBase,
   action: 'q2-battle-session-casualty-dialogue-source-rebinding',
   date: '2026-11-12',
+}
+
+const sessionPlayerActionsBinding = {
+  revision: testingBattleSessionPlayerActionsBase,
+  action: 'q2-battle-session-player-actions-source-rebinding',
+  date: '2026-11-13',
+  requireExactExcerpt: true,
 }
 
 export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57872b9b2849'
@@ -237,6 +245,7 @@ function sessionRebindings(
     cadenceFixed,
     casualtyFixed,
     casualtyDialogueFixed,
+    playerActionsFixed,
   },
 ) {
   assert(
@@ -245,7 +254,8 @@ function sessionRebindings(
       (!presentationFixed || portraitFixed) &&
       (!cadenceFixed || presentationFixed) &&
       (!casualtyFixed || cadenceFixed) &&
-      (!casualtyDialogueFixed || casualtyFixed),
+      (!casualtyDialogueFixed || casualtyFixed) &&
+      (!playerActionsFixed || casualtyDialogueFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -256,6 +266,7 @@ function sessionRebindings(
     { fixed: cadenceFixed, binding: sessionCadenceBinding },
     { fixed: casualtyFixed, binding: sessionCasualtyBinding },
     { fixed: casualtyDialogueFixed, binding: sessionCasualtyDialogueBinding },
+    { fixed: playerActionsFixed, binding: sessionPlayerActionsBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(
@@ -288,7 +299,19 @@ function sessionRebindings(
   })
 }
 
-function assertSessionReferences(before, current, { readSource, fixed }) {
+function sourceExcerpt(bytes, range) {
+  const [first, last = first] = range.split('-').map(Number)
+  let offset = 0
+  let start = 0
+  for (let line = 1; line <= last; line++) {
+    if (line === first) start = offset
+    const newline = bytes.indexOf(10, offset)
+    offset = newline < 0 ? bytes.length : newline + 1
+  }
+  return bytes.subarray(start, offset)
+}
+
+function assertSessionReferences(before, current, { readSource, fixed, binding }) {
   assert(
     Array.isArray(before) && Array.isArray(current) && current.length === before.length,
     'battle session reference membership changed',
@@ -310,6 +333,13 @@ function assertSessionReferences(before, current, { readSource, fixed }) {
     assert.notEqual(reference.sha256, old.sha256, 'battle session reference must rebind its SHA')
     assertTestingBridgeReference(old, fixedSources)
     assertTestingBridgeReference(reference, sources)
+    if (binding.requireExactExcerpt)
+      assert(
+        sourceExcerpt(sources.read(reference.path), reference.lines).equals(
+          sourceExcerpt(fixedSources.read(old.path), old.lines),
+        ),
+        'battle session bridge changed the accepted caller excerpt',
+      )
     changed.push(old)
   }
   assert.equal(changed.length, 3, 'battle session bridge requires its three caller references')
@@ -331,7 +361,7 @@ function restoreSessionHistory(before, current, changed, readSource, binding) {
   return restored
 }
 
-function assertSessionEvidenceRebinding(previousBytes, currentBytes, bridge, binding) {
+function assertSessionEvidenceRebinding(previousBytes, currentBytes, bridge) {
   const before = parseTerminalJson(previousBytes)
   const current = parseTerminalJson(currentBytes)
   assert.equal(before.id, sessionId, 'battle session evidence predecessor ID differs')
@@ -342,7 +372,7 @@ function assertSessionEvidenceRebinding(previousBytes, currentBytes, bridge, bin
     current.history,
     changed,
     bridge.readSource,
-    binding,
+    bridge.binding,
   )
   const claims = structuredClone(current.claims)
   const claimIndex = before.claims.findIndex(
@@ -382,10 +412,10 @@ export function assertTestingBattleSessionSourceBridge(path, previousBytes, curr
       'battle session evidence changed without source drift',
     )
   for (const stage of rebindings)
-    assertSessionEvidenceRebinding(stage.before, stage.after ?? currentBytes, stage, stage.binding)
+    assertSessionEvidenceRebinding(stage.before, stage.after ?? currentBytes, stage)
 }
 
-function restoreSessionCatalogEntry(before, current, bridge, binding) {
+function restoreSessionCatalogEntry(before, current, bridge) {
   assert.equal(before?.id, sessionId, 'battle session owner is absent from the accepted catalog')
   assert.equal(current?.id, sessionId, 'battle session owner catalog identity or order changed')
   const changed = assertSessionReferences(before.sourceRefs, current.sourceRefs, bridge)
@@ -394,7 +424,7 @@ function restoreSessionCatalogEntry(before, current, bridge, binding) {
     current.revision.history,
     changed,
     bridge.readSource,
-    binding,
+    bridge.binding,
   )
   return {
     ...current,
@@ -425,7 +455,7 @@ export function assertTestingBattlePublication(previousBytes, currentBytes, addi
         stage.before === previousBytes
           ? oldEntries[index]
           : parseTerminalJson(stage.before).entries[index]
-      entry = restoreSessionCatalogEntry(previous, entry, stage, stage.binding)
+      entry = restoreSessionCatalogEntry(previous, entry, stage)
       assert.deepEqual(entry, previous, 'battle publication changed existing catalog facts')
     }
     entries[index] = entry
