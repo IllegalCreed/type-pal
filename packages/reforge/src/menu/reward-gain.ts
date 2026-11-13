@@ -8,7 +8,7 @@
 import { narrationTextUnits } from '../dialog/narration-scroll.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawScroll, type MenuAssets } from './menu-box.js'
+import { drawScroll, type MenuAssets, SCROLL_LABEL_STYLE } from './menu-box.js'
 
 /** 居中横卷轴一行(「获得净衣符」「炼成 净衣符 × 2」);y = 卷轴顶。 */
 export function drawRewardGainLine(
@@ -23,9 +23,8 @@ export function drawRewardGainLine(
   const boxLen = Math.max(1, Math.floor((units + 1) / 2))
   drawScroll(ctx, assets.scroll, boxX, y, boxLen)
   renderSpans(ctx, [{ text }], boxX + 8 + ((units & 1) << 2), y + 10, {
+    ...SCROLL_LABEL_STYLE,
     glyphs,
-    shadow: false,
-    forceRgba: [0, 0, 0],
   })
 }
 
