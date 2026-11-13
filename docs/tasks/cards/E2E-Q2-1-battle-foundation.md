@@ -3,13 +3,13 @@
 Status: build
 Phase: cross-phase
 Owner: Codex（范围、独立验收、中央接入与集成）
-Coding Owner: q2_panel（Reforge 战斗演出） / q2_rules（Reforge 战斗规则） / q2_inputs（Game 采集与来源桥接） / Codex（局面、比较、集成与台账）
+Coding Owner: q2_status_rules（Reforge 规则与演出） / q2_restore_drain_probe（Game 物攻演出） / q2_throw_empty（附带道具回归与独立原件） / Codex（采集、判据、集成与台账）
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-14
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-status-and-throw-differences
+Branch: codex/q2-special-status-and-buffs
 
 ## 目标
 
@@ -402,6 +402,12 @@ Reforge 371 个测试文件、9,073 项及 E2E 工具 462 项通过。以 PR #62
 两端在相同输入下完成一次正常胜利结算，实绘文字按字体和色板逐像素通过。另核主菜单实绘，补拾取和显式色标旁白回归。既有敌方施法及毒道具的执行保留各自的冻结版本。2026-11-14 用户确认战后卷轴的原速带声分屏通过并要求收口。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-横向卷轴文字复核) · [原件与分屏](../evidence/E2E-Q2-1-scroll-text-20261114.tar.gz)
 
 原生采集用 `48a8ac4350208a5152d439c8d6e88f088bdcb34e`。测试候选 `22b1d074298f1bc9867d820d0c641e3497daa679` 相对该生产版本只增补两个现有测试文件。七包快测 20,534 项通过，四项覆盖指标均达到本分支上次基线和主线保护基线。七包 typecheck 和全仓 lint 零诊断。第一次运行的测试全部通过，删去已覆盖的旧默认和包装函数后精确覆盖比率回落。该次原始日志保留，补上拾取和旁白真实入口回归后，第二次才通过覆盖门。校验旧分屏仍可恢复后，清理六张中间截图，释放 2,802,035 字节。
+
+## 2026-11-14 特殊状态与增益复核
+
+用户确认上批横向卷轴分屏并要求继续实测剩余状态与增益。以 `60e698a00d5283394638b182ca93f8c6faff13a2` 为诊断基点，Codex 记录 build allowed。Reforge 规则与时间线由 `q2_status_rules` 持有，Game 物攻、打友和数字锚由 `q2_restore_drain_probe` 持有，附带道具抗性回归与独立对照由 `q2_throw_empty` 持有。Codex 负责实际录制、离线判据、证据验收和发布。
+
+每例同阵容、装备、敌队、种子和战斗指令，两端各两个独立浏览器上下文。实查混乱的抽样、目标和打友节拍，傀儡与复活及全灭，勇气、加速、双动、梦蛇，封咒及敌普攻附带状态，异常叠加、清除和自然到期。区分实绘姿态、飘字、原生启播与业务状态。草妖的战后随机掉落作为明确见证转入生命周期台账。
 
 ## 状态与交接
 
