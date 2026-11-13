@@ -1619,24 +1619,23 @@ export class BattleSession {
     if (la.kind === 'item' && la.side === 'player') {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
-      const itemName = la.itemId ? s.items[la.itemId]?.name : undefined
+      const item = s.items[la.itemId]
+      const targetIdxs =
+        item?.use?.target === 'allAllies'
+          ? s.players.map((_, slot) => slot)
+          : [la.targetAllyIdx ?? la.idx]
       const gains = this.pendingGains
         .filter((g) => g.target.side === 'player')
         .map((g) => ({ idx: g.target.idx, value: g.value, tone: g.tone }))
       this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
-      // oneAlly 点名队友时呼吸落在目标身上(还魂香喂尸体);缺省施己
+      const sound = item?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound']
       return buildUseItem({
         casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
         casterPos,
-        targetIdxs: [la.targetAllyIdx ?? la.idx],
-        itemName,
-        ...(() => {
-          const sound = la.itemId
-            ? (s.items[la.itemId]?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound'])
-            : this.opts.soundRoles?.['audio.battleItemUseSound']
-          return sound ? { sound } : {}
-        })(),
+        targetIdxs,
+        itemName: item?.name,
+        ...(sound ? { sound } : {}),
         gains,
       })
     }
@@ -1788,16 +1787,21 @@ export class BattleSession {
         }
       }
       const casterFrames = this.playerFrames(la.idx)
+      // 吸星锁在投掷者归位前同时显示敌伤与回血（fight.c:4369–4372）。
+      const casterGainIndex = this.pendingGains.findIndex(
+        (gain) =>
+          gain.target.side === 'player' && gain.target.idx === la.idx && gain.tone === 'yellow',
+      )
+      const casterGain =
+        casterGainIndex < 0 ? undefined : this.pendingGains.splice(casterGainIndex, 1)[0]
       return buildThrowItem({
         casterFrames,
         casterIdx: la.idx,
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
-        hits: la.throwHits.map((hit) => ({
-          idx: hit.idx,
-          damage: Math.max(0, (eHp[hit.idx] ?? 0) - (s.enemies[hit.idx]?.hp ?? 0)),
-        })),
+        hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
+        ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
         ...(throwPresentation ? { presentation: throwPresentation } : {}),
       })

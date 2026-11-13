@@ -544,6 +544,60 @@ describe('W3 执行时间线接线', () => {
     expect(h.readParty()[0]!.hp).toBeGreaterThan(30) // 回复生效（50+30-敌伤）
   })
 
+  test('灵蛊的十三拍辉光同时覆盖两名队员，归位帧显示各自回复的真气', () => {
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '145'))[0])
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { mp: 10, maxMp: 100, baseDexterity: 900 }),
+        wfPlayer('anu', { mp: 30, maxMp: 100, baseDexterity: 100 }),
+      ],
+      enemies: [wfEnemy('item-target', { health: 500, attackStrength: 1 })],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        soundRoles: { 'audio.battleItemUseSound': 'sound.pal.028' },
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(
+      spriteId,
+      poseSprite(expectDefined(h.assets.battleSprites.get(spriteId))),
+    )
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsCyan: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number, channel = 0) => ctx.getImageData(x, y, 1, 1).data[channel]
+    h.press(['e'])
+    h.press([' '])
+    h.press(['d'])
+    for (let i = 0; i < 120 && !sfx.plays.length; i++) h.idle(8)
+    expect(sfx.plays).toEqual(['sound.pal.028'])
+    const glow = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+    const frames = glow.map(() => {
+      h.session.render(ctx, 1)
+      const frame = [pixel(185, 161), pixel(256, 144)]
+      h.idle(40)
+      return frame
+    })
+    expect(frames).toEqual(
+      glow.map((shift) => [
+        poseRed(PLAYER_PROFILE.frames.preMagic + shift),
+        poseRed(PLAYER_PROFILE.frames.idle + shift),
+      ]),
+    )
+    h.session.render(ctx, 1)
+    expect(pixel(200, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect([pixel(194, 109, 2), pixel(200, 109, 2)]).toEqual([160, 16])
+    expect([pixel(250, 85, 2), pixel(256, 85, 2)]).toEqual([128, 16])
+  })
+
   test('MP 耗尽后二轮法术列表不可提交：不重复扣费不崩溃', () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: ['wf-mid'], mp: 25, maxMp: 25 })],
@@ -780,6 +834,62 @@ describe('W3 执行时间线接线', () => {
     for (let i = 0; i < 8 && h.session.debugReadiness().phase !== 'over'; i++) h.idle(500)
     await expect(settleDone(h)).resolves.toBe('victory')
     expect(h.readParty()[0]?.mp).toBe(82)
+  })
+
+  test('吸星锁的蓝伤害与黄回血同帧显示，施用者仍在出手位', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '158'))[0])
+    const animation = expectDefined(item.throw?.presentation).animation
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { hp: 10, maxHp: 150, baseDexterity: 900 }),
+        wfPlayer('anu', { baseDexterity: 100 }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+      },
+    })
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(spriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, sprite)
+    h.assets.fireSprites = {
+      [animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[0])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      nums: Array.from({ length: 10 }, (_, digit) => bitmap(6, 8, `rgb(0,${(digit + 1) * 16},0)`)),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    h.press(['w'])
+    h.press([' '])
+    h.press([' '])
+    h.press(['d'])
+    let firstNumbers: number[][] = []
+    for (let i = 0; i < 130; i++) {
+      h.idle(8)
+      h.session.render(ctx, 1)
+      const blue = [88, 94, 100].map((x) => expectDefined(ctx.getImageData(x, 10, 1, 1).data[2]))
+      if (!blue.some((value) => value)) continue
+      const yellow = [178, 184, 190].map((x) =>
+        expectDefined(ctx.getImageData(x, 97, 1, 1).data[1]),
+      )
+      firstNumbers = [blue, yellow]
+      break
+    }
+    expect(ctx.getImageData(190, 164, 1, 1).data[0]).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(firstNumbers).toEqual([
+      [32, 144, 16], // 敌人扣 180。
+      [32, 80, 16], // 施用者回复 140，受最大体力所限。
+    ])
   })
 
   test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {

@@ -47,7 +47,7 @@ export interface AnimFrame {
     /** 可指定数字的底锚，缺省使用受击者当前绘制位置。 */
     anchor?: { x: number; y: number }
   }
-  /** tone 缺省 blue(掉血);yellow=回血 / cyan=回 MP(物品涨益在归位前弹,作者对照原版)。 */
+  /** tone 缺省 blue(掉血);yellow=回血 / cyan=回 MP。 */
   damageNums?: Array<{
     target: { side: 'player' | 'enemy'; idx: number }
     value: number
@@ -441,14 +441,13 @@ export interface BuildUseItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
   casterPos: { x: number; y: number }
-  /** 受益目标(v1 施己 = [casterIdx];将来 oneAlly/allAllies 直接传多目标)。 */
+  /** 受辉光影响的队伍槽，单体用物传一项。 */
   targetIdxs: number[]
   /** 物品名:与举物/音效**同帧**起显示 13 帧(一阶段 battleMessage @210,50,fight.c:2316)。 */
   itemName?: string
   /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
   sound?: AssetId
-  /** 数值数字(掉血蓝/回血黄/回 MP 青):呼吸结束后、**归位之前**弹出(作者对照原版:
-   *  先显血量、后瞬移归位;不传则不弹 —— 调用方须自行防双弹)。 */
+  /** 呼吸结束并归位后，从目标底锚显示实际 HP 或 MP 变化。 */
   gains?: Array<{ idx: number; value: number; tone: 'blue' | 'yellow' | 'cyan' }>
 }
 
@@ -521,8 +520,10 @@ export interface BuildThrowItemInput {
   casterPos?: { x: number; y: number }
   casterRestFrame?: number
   itemName?: string
-  /** 当前投掷目标的扣血量。零伤害不显示数字。 */
+  /** 当前投掷目标的伤害显示量。零伤害不显示数字。 */
   hits?: Array<{ idx: number; damage: number }>
+  /** 投掷吸血时，施用者实际回复的 HP。 */
+  casterHeal?: number
   /** @deprecated 单目标兼容入口。 */
   targetIdx?: number
   sound?: AssetId
@@ -545,8 +546,16 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       ? []
       : [{ idx: input.targetIdx, damage: Math.max(0, input.damage ?? 0) }])
   if (hits.length === 0) throw new Error('buildThrowItem: 至少需要一个目标')
-  const positiveHits = hits.filter((hit) => hit.damage > 0)
-  const { casterIdx, casterPos, casterFrames, itemName, sound } = input
+  const { casterIdx, casterPos, casterFrames, itemName, sound, casterHeal } = input
+  const damageNums: NonNullable<AnimFrame['damageNums']> = hits
+    .filter((hit) => hit.damage > 0)
+    .map((hit) => ({ target: { side: 'enemy', idx: hit.idx }, value: hit.damage }))
+  if (casterHeal !== undefined && casterHeal > 0)
+    damageNums.push({
+      target: { side: 'player', idx: casterIdx },
+      value: casterHeal,
+      tone: 'yellow',
+    })
   const frames: AnimFrame[] = []
   if (casterPos) {
     appendPlayerApproach(frames, casterIdx, casterPos)
@@ -576,25 +585,15 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       }),
     )
   }
-  const onlyPositiveHit = positiveHits.length === 1 ? positiveHits[0] : undefined
+  const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
   frames.push(
     {
       durationMs: delayMs(4),
-      ...(onlyPositiveHit
-        ? {
-            damageNum: {
-              target: { side: 'enemy' as const, idx: onlyPositiveHit.idx },
-              value: onlyPositiveHit.damage,
-            },
-          }
-        : positiveHits.length > 1
-          ? {
-              damageNums: positiveHits.map((hit) => ({
-                target: { side: 'enemy' as const, idx: hit.idx },
-                value: hit.damage,
-              })),
-            }
+      ...(onlyNumber && onlyNumber.tone === undefined
+        ? { damageNum: onlyNumber }
+        : damageNums.length
+          ? { damageNums }
           : {}),
     },
     {
