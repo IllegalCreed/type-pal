@@ -382,6 +382,71 @@ describe('performThrowItem', () => {
   })
 
   it.each([
+    { primed: 0, hp: [20, 420], after: [0, 420], failed: false },
+    { primed: 1, hp: [420, 20], after: [420, 0], failed: false },
+    { primed: 1, hp: [20, 420], after: [20, 420], failed: true },
+    { primed: 0, hp: [20, 20], after: [0, 20], failed: false },
+    { primed: 1, hp: [420, 420], after: [420, 420], failed: true },
+  ])('uses the preceding trigger slot $primed for a whole-field threshold throw at $hp', ({
+    primed,
+    hp,
+    after,
+    failed,
+  }) => {
+    const emptyThrow = makeItem({ id: 75, scriptOnThrow: 0 })
+    const corpseWater = makeItem({
+      id: 134,
+      _name: '化尸水',
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 }), makeRoleRecord(1, { dexterity: 500 })],
+      enemies: [
+        makeEnemyRecord({ health: 420, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 420, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+      items: [emptyThrow, corpseWater],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        { op: 'setDialogStyleNarration' },
+        { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [emptyThrow, corpseWater].map(({ id }) => ({ itemId: id, count: 1 }))
+    const state = gs.battleState!
+    state.enemies.forEach((enemy, index) => {
+      enemy.e.health = hp[index]!
+    })
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    if (primed === 1) step('Right')
+    step('Confirm')
+    step('ThrowItem')
+    step('Right')
+    step('Confirm')
+    expect(state.pendingActions.get(0)).toMatchObject({ actionId: emptyThrow.id, target: primed })
+    expect(state.pendingActions.get(1)).toMatchObject({ actionId: corpseWater.id, target: -1 })
+
+    for (let beat = 0; beat < 120 && gs.inventory[1]?.count === 1; beat++) step()
+
+    expect(state.enemies.map((enemy) => enemy.e.health)).toEqual(after)
+    expect((state.battleDialogQueue ?? []).map((line) => [line.style, line.text])).toEqual(
+      failed ? [['narration', '无任何效果']] : [],
+    )
+    expect(state.battleAnim?.frames.flatMap((frame) => frame.damageNums ?? [])).toEqual(
+      failed ? [] : [{ target: { kind: 'enemy', idx: primed }, value: hp[primed], color: 'blue' }],
+    )
+    expect(gs.inventory.map(({ count }) => count)).toEqual([0, 0])
+  })
+
+  it.each([
     { casterHp: 90, netHeal: 60 },
     { casterHp: 150, netHeal: 0 },
   ])('emits only net HP changes after a drain throw from $casterHp HP', ({ casterHp, netHeal }) => {

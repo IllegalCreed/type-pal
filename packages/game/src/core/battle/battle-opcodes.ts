@@ -40,6 +40,7 @@ import {
 } from './anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
+import { recordBattleTriggerArgument, runBattleTrigger } from './battle-runtime-context.js'
 import { type BattleEnemy, type BattleStatus, isFriendDeathEffectOpcode } from './battle-state.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
@@ -412,10 +413,20 @@ function resolvePlayerPoisonTargets(
 }
 
 /** 战斗子集分派；未消费时交回runScript通用解释器路径，不能直接等同于skip。 */
+/** The whole-field throw keeps its typed target empty. Only 0x60 and 0x64
+ * read the inherited numeric slot; other opcodes keep their own target rules.
+ */
+function enemyHpScriptSlot(ctx: BattleCtx, throwTriggerArgument?: number): number | undefined {
+  if (throwTriggerArgument !== undefined) return throwTriggerArgument
+  if (ctx.target?.type === 'enemy') return ctx.target.idx
+  if (ctx.caster?.type === 'enemy') return ctx.caster.idx
+}
+
 export function dispatchBattleOpcode(
   opcode: number,
   operands: readonly number[],
   ctx: BattleCtx,
+  throwTriggerArgument?: number,
 ): DispatchResult {
   const state = ctx.state
 
@@ -551,8 +562,9 @@ export function dispatchBattleOpcode(
         if (poisons.length >= MAX_POISONS) return // 槽满
         // 施毒跑一次入口(sdlpal script.c:1213)。需 bus(脚本内 0x21 等 emit 伤害数字)。
         let entry = scriptEntry
-        if (scriptEntry > 0 && ctx.commands && ctx.runScript && ctx.bus) {
-          entry = ctx.runScript({
+        if (scriptEntry === 0) recordBattleTriggerArgument(state, scriptSelfIdx)
+        else if (ctx.commands && ctx.runScript && ctx.bus) {
+          entry = runBattleTrigger(ctx.runScript, scriptSelfIdx, {
             commands: ctx.commands,
             ip: scriptEntry,
             bus: ctx.bus,
@@ -639,7 +651,7 @@ export function dispatchBattleOpcode(
             const runEntry =
               pIdx >= 0 && ctx.commands && ctx.runScript && ctx.bus
                 ? (ip: number): number =>
-                    ctx.runScript!({
+                    runBattleTrigger(ctx.runScript!, roleId, {
                       commands: ctx.commands!,
                       ip,
                       bus: ctx.bus!,
@@ -1468,14 +1480,9 @@ export function dispatchBattleOpcode(
       // 0x0064: wEventObjectID = 脚本上下文敌人。玩家对敌施法(灵葫咒384/夺魂 scriptOnSuccess)→ 目标敌 sTarget=ctx.target;
       //   敌自身脚本 → ctx.caster。**审计 bug(同 0x60)**:此前只认 ctx.caster==='enemy' → 玩家施法 caster 是 player →
       //   直接 return 不查 HP → 必跳过失败分支 → 灵葫咒每次必秒杀无血量限制(user 2026-06-05 报)。修:target 优先,其次 caster。
-      const sel =
-        ctx.target?.type === 'enemy'
-          ? ctx.target
-          : ctx.caster?.type === 'enemy'
-            ? ctx.caster
-            : undefined
-      if (sel === undefined) return { consumed: true }
-      const enemy = state.enemies[sel.idx]
+      const targetIdx = enemyHpScriptSlot(ctx, throwTriggerArgument)
+      if (targetIdx === undefined) return { consumed: true }
+      const enemy = state.enemies[targetIdx]
       if (!enemy) return { consumed: true }
       // sdlpal `script.c:1989`:(currentHp * 100 > maxHp * operand[0]) → jump operand[1]。
       // maxHp = sdlpal `gpGlobals->g.lprgEnemy[id].wHealth`(满血,战中不变)= BattleEnemy.maxHealth
@@ -1540,13 +1547,7 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:1950`:`rgEnemy[wEventObjectID].wHealth = 0`(**无 operand**;wEventObjectID = 脚本上下文)。
       //   夺魂(304)/灵葫咒(384)scriptOnSuccess 的 wEventObjectID = 目标敌人(sTarget)→ ctx.target;
       //   敌自身脚本 → ctx.caster。**审计 bug**:此前用 operand[0](真实数据恒 0 → 恒 KO enemy[0],夺魂/灵葫咒失效)。
-      const sel =
-        ctx.target?.type === 'enemy'
-          ? ctx.target
-          : ctx.caster?.type === 'enemy'
-            ? ctx.caster
-            : undefined
-      const targetIdx = sel?.idx
+      const targetIdx = enemyHpScriptSlot(ctx, throwTriggerArgument)
       const enemy = targetIdx !== undefined ? state.enemies[targetIdx] : undefined
       if (enemy && targetIdx !== undefined) {
         // wHealth=0(掉血)→ PAL_BattleDisplayStatChange 画 blue 数字。

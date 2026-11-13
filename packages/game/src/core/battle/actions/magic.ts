@@ -9,7 +9,11 @@ import type { Command, Item, Magic, ObjectMagicView, PlayerRoles, Spell } from '
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getMagicScriptEntry, setMagicScriptEntry } from '../../object-script-state.js'
-import type { RunScriptFn } from '../battle-runtime-context.js'
+import {
+  INHERIT_BATTLE_TRIGGER_ARGUMENT,
+  type RunScriptFn,
+  runBattleTrigger,
+} from '../battle-runtime-context.js'
 import type { BattleState } from '../battle-state.js'
 import {
   applyEnemyMagicDamage,
@@ -192,10 +196,9 @@ export function performMagic(input: PerformMagicInput): void {
   //   PostMagic 之前/开始(fight.c:4322-4323)。
   const pendingNums: PendingDamageNums = []
   const pendingScreenShake: { time: number; level: number } = { time: 0, level: 0 }
-  const runMagicScript = (slot: 'scriptOnUse' | 'scriptOnSuccess'): void => {
+  const runMagicScript = (slot: 'scriptOnUse' | 'scriptOnSuccess', argument: number): void => {
     const scriptId = getMagicScriptEntry(input.gs, spell, slot)
-    if (scriptId === 0) return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
-    const nextEntry = input.runScript({
+    const nextEntry = runBattleTrigger(input.runScript, argument, {
       commands: input.commands,
       ip: scriptId,
       bus: input.bus,
@@ -232,8 +235,12 @@ export function performMagic(input: PerformMagicInput): void {
     const adIdxs: number[] = adTarget === 'all' ? input.state.players.map((_, i) => i) : [adTarget]
     preRolledAutoDefend = rollAutoDefend(input.state, input.playerRoles, adTarget, adIdxs)
   }
+  // Enemy magic retains the randomly selected player role even when its effects cover the party.
+  const actingRole =
+    input.state.players[input.casterIsEnemy ? (targetCtx?.idx ?? 0) : input.casterIdx]
+  const useArgument = actingRole?.roleId ?? 0
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript('scriptOnUse')
+  runMagicScript('scriptOnUse', useArgument)
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
 
   // **scriptOnUse 失败 → 早退**(sdlpal fight.c:4196/4231 `if (g_fScriptSuccess)` gate):没钱(乾坤一掷 0x1E
@@ -262,8 +269,21 @@ export function performMagic(input: PerformMagicInput): void {
     !input.casterIsEnemy && magic.type === 'trance'
       ? input.state.players[input.casterIdx]?.spriteNumOverride
       : undefined
+  let successArgument = useArgument
+  if (!input.casterIsEnemy) {
+    if (DEFENSIVE_MAGIC_TYPES.has(magic.type)) {
+      successArgument =
+        targetCtx === undefined && magic.type === 'trance'
+          ? useArgument
+          : (input.state.players[targetCtx?.idx ?? -1]?.roleId ?? 0)
+    } else {
+      successArgument = magicForcesAllTarget(magic.type)
+        ? INHERIT_BATTLE_TRIGGER_ARGUMENT
+        : (targetCtx?.idx ?? 0)
+    }
+  }
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript('scriptOnSuccess')
+  runMagicScript('scriptOnSuccess', successArgument)
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
   const tranceSpriteAfter =
     !input.casterIsEnemy && magic.type === 'trance'

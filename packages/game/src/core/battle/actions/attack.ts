@@ -31,7 +31,7 @@ import {
   buildPlayerAttackTimeline,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
-import type { RunScriptFn } from '../battle-runtime-context.js'
+import { type RunScriptFn, runBattleTrigger } from '../battle-runtime-context.js'
 import {
   type BattleAnimFrame,
   type BattlePlayer,
@@ -459,8 +459,8 @@ export function performAttack(
     // L22:C 条件链不以 wAttackEquivItem 为前置(fight.c:5139)——`rate >= RandomLong(1,10)` 左到右先求值,
     //   故非格挡非自卫命中(本 block 已隐含 iCoverIndex==-1 && !fAutoDefend,见上方 fAutoDefend return)
     //   **恒消费一次** RandomLong(1,10),与 equivItem 是否为 0 无关;只第二个 RandomLong(1,100) 受 rate 短路。
-    //   不再加 `equivId!==0` 前置(rate=0 的普通敌 `0>=1..10` 恒假,消费后短路;equivId=0 → 下方 find 不到
-    //   物品 → scriptOnUse 0 不跑,等价 C 跑 rgObject[0] 空脚本,无实际中毒)。
+    //   不再加 `equivId!==0` 前置(rate=0 的普通敌 `0>=1..10` 恒假,消费后短路)。
+    //   没有脚本也记录被打者 roleId；原版仍以空入口调用。
     if (
       rate >= state.rng.rangeInclusive(1, 10) &&
       getPlayerPoisonResistance(equivPoison.gs, roleId) < state.rng.rangeInclusive(1, 100)
@@ -469,26 +469,24 @@ export function performAttack(
       const scriptOnUse = poisonItem
         ? getItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse')
         : 0
-      if (poisonItem && scriptOnUse > 0) {
-        const nextEntry = equivPoison.runScript({
+      const nextEntry = runBattleTrigger(equivPoison.runScript, roleId, {
+        commands: equivPoison.commands,
+        ip: scriptOnUse,
+        bus,
+        runtimeMode: 'battle',
+        eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
+        battleCtx: {
+          state,
+          target: { type: 'player', idx: targetIdx },
+          gs: equivPoison.gs,
+          playerRoles,
           commands: equivPoison.commands,
-          ip: scriptOnUse,
-          bus,
-          runtimeMode: 'battle',
-          eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
-          battleCtx: {
-            state,
-            target: { type: 'player', idx: targetIdx },
-            gs: equivPoison.gs,
-            playerRoles,
-            commands: equivPoison.commands,
-            runScript: equivPoison.runScript,
-            // fight.c:5080/5143 先绘物理伤害，附带脚本的扣血不额外弹数字。
-            pendingDamageNums: [],
-          },
-        })
-        setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
-      }
+          runScript: equivPoison.runScript,
+          // fight.c:5080/5143 先绘物理伤害，附带脚本的扣血不额外弹数字。
+          pendingDamageNums: [],
+        },
+      })
+      if (poisonItem) setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
     }
   }
 

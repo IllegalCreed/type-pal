@@ -9,7 +9,11 @@ import type { Command, Item, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
-import type { RunScriptFn } from '../battle-runtime-context.js'
+import {
+  INHERIT_BATTLE_TRIGGER_ARGUMENT,
+  type RunScriptFn,
+  runBattleTrigger,
+} from '../battle-runtime-context.js'
 import type { BattleState } from '../battle-state.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
@@ -70,40 +74,39 @@ export function performItem(input: PerformItemInput): void {
   // —— 跑 scriptOnUse(经 runScript,battleCtx 注入 caster / target) ——
   // PAL_RunTriggerScript(0, ...) 是 no-op;战斗 UseItem 仍会继续走 consuming 扣除。
   const scriptEntry = getItemScriptEntry(input.gs, item, 'scriptOnUse')
-  if (scriptEntry !== 0) {
-    const targetCtx =
-      input.targetIdx === 'all'
-        ? undefined // 全体目标:由 handler 自行循环 state.enemies / players
-        : {
-            type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
-            idx: input.targetIdx,
-          }
+  const targetCtx =
+    input.targetIdx === 'all'
+      ? undefined // 全体目标:由 handler 自行循环 state.enemies / players
+      : {
+          type: input.targetIsEnemy ? ('enemy' as const) : ('player' as const),
+          idx: input.targetIdx,
+        }
 
-    let eventObjectId: number | undefined
-    if (input.targetIdx === 'all') eventObjectId = 0xffff
-    else if (!input.targetIsEnemy) eventObjectId = input.state.players[input.targetIdx]?.roleId
+  let eventObjectId: number | undefined
+  if (input.targetIdx === 'all') eventObjectId = INHERIT_BATTLE_TRIGGER_ARGUMENT
+  else if (!input.targetIsEnemy) eventObjectId = input.state.players[input.targetIdx]?.roleId
+  const argument = eventObjectId ?? targetCtx?.idx ?? 0
 
-    const nextEntry = input.runScript({
-      commands: input.commands,
-      ip: scriptEntry,
-      bus: input.bus,
-      runtimeMode: 'battle',
-      eventObjectId,
-      battleCtx: {
-        state: input.state,
-        caster: {
-          type: input.casterIsEnemy ? 'enemy' : 'player',
-          idx: input.casterIdx,
-        },
-        target: targetCtx,
-        // scriptOnUse 里 0x5A halve-player 等需 playerRoles(对齐 performMagic/performThrowItem)。
-        playerRoles: input.playerRoles,
-        // 未被 dispatchBattleOpcode 消费的 raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs。
-        gs: input.gs,
+  const nextEntry = runBattleTrigger(input.runScript, argument, {
+    commands: input.commands,
+    ip: scriptEntry,
+    bus: input.bus,
+    runtimeMode: 'battle',
+    eventObjectId,
+    battleCtx: {
+      state: input.state,
+      caster: {
+        type: input.casterIsEnemy ? 'enemy' : 'player',
+        idx: input.casterIdx,
       },
-    })
-    setItemScriptEntry(input.gs, item, 'scriptOnUse', nextEntry)
-  }
+      target: targetCtx,
+      // scriptOnUse 里 0x5A halve-player 等需 playerRoles(对齐 performMagic/performThrowItem)。
+      playerRoles: input.playerRoles,
+      // 未被 dispatchBattleOpcode 消费的 raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs。
+      gs: input.gs,
+    },
+  })
+  setItemScriptEntry(input.gs, item, 'scriptOnUse', nextEntry)
 
   if (!input.casterIsEnemy) {
     // 脚本可以替换库存行或改 OBJECT，不能借用脚本前的对象引用/静态标志。

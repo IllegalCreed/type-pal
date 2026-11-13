@@ -20,7 +20,11 @@ import { getWord } from '../../word-lookup.js'
 import { buildThrowWindupTimeline } from '../anim-timeline.js'
 import { delayMs } from '../animation/frames.js'
 import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
-import type { RunScriptFn } from '../battle-runtime-context.js'
+import {
+  INHERIT_BATTLE_TRIGGER_ARGUMENT,
+  type RunScriptFn,
+  runBattleTrigger,
+} from '../battle-runtime-context.js'
 import type { BattleAnimFrame, BattleState, FighterDelta } from '../battle-state.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
@@ -132,37 +136,38 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       : { type: 'enemy' as const, idx: input.targetIdx }
 
   const scriptEntry = getItemScriptEntry(input.gs, item, 'scriptOnThrow')
-  if (scriptEntry !== 0) {
-    const nextEntry = input.runScript({
+  const allTargetThrow = input.targetIdx === 'all'
+  const argument = input.targetIdx === 'all' ? INHERIT_BATTLE_TRIGGER_ARGUMENT : input.targetIdx
+  const nextEntry = runBattleTrigger(input.runScript, argument, {
+    allTargetThrow,
+    commands: input.commands,
+    ip: scriptEntry,
+    bus: input.bus,
+    runtimeMode: 'battle',
+    battleCtx: {
+      state: input.state,
+      caster: { type: input.casterIsEnemy ? 'enemy' : 'player', idx: input.casterIdx },
+      target: targetCtx,
+      magicTables: { magics: input.magics, objectMagics: input.objectMagics },
+      objectPoisons: input.objectPoisons, // 0x28 apply poison
+      playerRoles: input.playerRoles, // 嵌套脚本所需战斗视图；0x66裸武术从gs.PlayerRolesRuntime读取
+      gs: input.gs, // 0x66裸武术与通用raw控制流/资源/数据读取当前runtime
+      // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
       commands: input.commands,
-      ip: scriptEntry,
-      bus: input.bus,
-      runtimeMode: 'battle',
-      battleCtx: {
-        state: input.state,
-        caster: { type: input.casterIsEnemy ? 'enemy' : 'player', idx: input.casterIdx },
-        target: targetCtx,
-        magicTables: { magics: input.magics, objectMagics: input.objectMagics },
-        objectPoisons: input.objectPoisons, // 0x28 apply poison
-        playerRoles: input.playerRoles, // 嵌套脚本所需战斗视图；0x66裸武术从gs.PlayerRolesRuntime读取
-        gs: input.gs, // 0x66裸武术与通用raw控制流/资源/数据读取当前runtime
-        // 0x28 施毒跑一次 wEnemyScript(sdlpal script.c:1213)+ 蛊孵化链末尾 giveItem 需 commands/runScript
-        commands: input.commands,
-        runScript: input.runScript,
-        enemySpriteFrameHeights: input.enemySpriteFrameHeights,
-        // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
-        //   无挥臂链时不传缓冲，由opcode即时发送数字与音效。
-        ...(hasAnim
-          ? {
-              pendingAnimFrames,
-              pendingDamageNums,
-              magicSpriteFrameCounts: input.magicSpriteFrameCounts,
-            }
-          : {}),
-      },
-    })
-    setItemScriptEntry(input.gs, item, 'scriptOnThrow', nextEntry)
-  }
+      runScript: input.runScript,
+      enemySpriteFrameHeights: input.enemySpriteFrameHeights,
+      // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
+      //   无挥臂链时不传缓冲，由opcode即时发送数字与音效。
+      ...(hasAnim
+        ? {
+            pendingAnimFrames,
+            pendingDamageNums,
+            magicSpriteFrameCounts: input.magicSpriteFrameCounts,
+          }
+        : {}),
+    },
+  })
+  setItemScriptEntry(input.gs, item, 'scriptOnThrow', nextEntry)
 
   // The script may replace or exhaust the entry. Consume from the current
   // inventory, keeping the ordinary final count=0 row used by the TS menus.
