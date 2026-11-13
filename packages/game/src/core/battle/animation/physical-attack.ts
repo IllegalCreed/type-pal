@@ -122,6 +122,8 @@ export interface BuildPlayerAttackInput {
    * 仅 targetIdx<0 时消费;不传 → 退化为旧"只弹数字"行为(旧 fixture 兼容)。
    */
   groupEnemies?: Array<{ idx: number; x: number; y: number }>
+  /** Which sweep of a two-strike group attack is being built. */
+  groupSweep?: 1 | 2
 }
 
 /**
@@ -149,6 +151,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     weaponSound,
     windup,
     groupEnemies,
+    groupSweep,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
@@ -174,8 +177,9 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
 
   // —— frame 0:currentFrame=8,冲刺到敌前(fight.c:2076-2097)+ 出招声(fight.c:2061-2071 起手)——
   // x = enemy_x - dist + 64;y = enemy_y + dist + 20(dist=0 单体简化)
-  const rushX0 = ex + 64
-  const rushY0 = ey + 20
+  // A two-strike group attack uses a different point beside the player for each sweep.
+  const rushX0 = groupSweep ? attackerPos.x - (groupSweep === 1 ? 8 : 20) : ex + 64
+  const rushY0 = groupSweep ? attackerPos.y - (groupSweep === 1 ? 4 : 12) : ey + 20
   frames.push({
     durationMs: delayMs(2),
     fighters: [
@@ -185,8 +189,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   })
 
   // —— frame 1:x-=10,y-=2(fight.c:2099-2118)——
-  const rushX1 = rushX0 - 10
-  const rushY1 = rushY0 - 2
+  const rushX1 = groupSweep ? rushX0 : rushX0 - 10
+  const rushY1 = groupSweep ? rushY0 : rushY0 - 2
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: attackerIdx, pos: { x: rushX1, y: rushY1 } }],
@@ -197,8 +201,11 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   const fxX0 = ex
   const fxY0 = ey - Math.floor(enemyH / 3) + 10
   for (let i = 0; i < 3; i++) {
-    const overlayX = fxX0 - 16 * i
-    const overlayY = fxY0 + 16 * i
+    const effect = {
+      kind: 'effect' as const,
+      spriteChunk: EFFECT_SPRITE_CHUNK,
+      frameIdx: effectFrameBase + i,
+    }
     const fighters: BattleAnimFrame['fighters'] = []
     if (i === 0) {
       // currentFrame=9 自 effect frame 0 起(fight.c:2120)
@@ -206,25 +213,22 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
       // i==0:target 染色 + 伤害数字(fight.c:2195-2209)。
       if (targetIdx >= 0) {
         fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
-      } else if (groupEnemies) {
-        // DH6:群攻(sTarget==-1)i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203)。
-        for (const ge of groupEnemies) fighters.push({ side: 'enemy', idx: ge.idx, iColorShift: 6 })
       }
     }
-    if (i === 1) {
-      // i==1:attacker pos += (2,1)(fight.c:2215-2220)
+    if (i === 1 && groupEnemies) {
+      // The original draws the first hit frame before changing the enemies' tint.
+      for (const ge of groupEnemies) fighters.push({ side: 'enemy', idx: ge.idx, iColorShift: 6 })
+    }
+    if (i === (groupEnemies ? 2 : 1)) {
+      // fight.c:2215–2220 moves the attacker after displaying the second hit frame.
       fighters.push({ side: 'player', idx: attackerIdx, pos: { x: rushX1 + 2, y: rushY1 + 1 } })
     }
     frames.push({
       durationMs: delayMs(1),
       fighters: fighters.length > 0 ? fighters : undefined,
-      overlay: {
-        kind: 'effect',
-        spriteChunk: EFFECT_SPRITE_CHUNK,
-        frameIdx: effectFrameBase + i,
-        x: overlayX,
-        y: overlayY,
-      },
+      ...(groupEnemies
+        ? { overlays: groupEnemies.map(({ x, y }) => ({ ...effect, x, y })) }
+        : { overlay: { ...effect, x: fxX0 - 16 * i, y: fxY0 + 16 * i } }),
       ...(i === 0 && targetIdx >= 0
         ? {
             damageNum: {
@@ -251,7 +255,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     //   (= C 动作收尾 UpdateFighters 复位 posOriginal)。无 groupEnemies(旧 fixture)→ 空延时。
     let gDist = 8
     const offsets: number[] = []
-    let acc = 0
+    let acc = groupSweep === 2 ? -6 : 0
     for (let i = 0; i < 3; i++) {
       acc -= gDist
       offsets.push(acc)

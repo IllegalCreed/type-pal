@@ -30,7 +30,7 @@ import {
   buildEnemyPhysicalTimeline,
   buildPlayerAttackTimeline,
 } from '../anim-timeline.js'
-import { startBattleAnim } from '../battle-anim-driver.js'
+import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
 import { type RunScriptFn, runBattleTrigger } from '../battle-runtime-context.js'
 import {
   type BattleAnimFrame,
@@ -195,8 +195,13 @@ export function performAttack(
     const roleId = state.players[actor.idx]!.roleId
     const voiceRole = playerRoles.roles[roleId]
     const weaponSound = voiceRole?.weaponSound ?? 0
-    const attacker = state.players[actor.idx]
-    const hasAnim = !!attacker?.posOriginal
+    const attacker = state.players[actor.idx]!
+    const attackerPos = attacker.posOriginal
+    const groupEnemies = attackerPos
+      ? state.enemies.flatMap((enemy, idx) =>
+          !enemy.defeated && enemy.posOriginal ? [{ idx, ...enemy.posOriginal }] : [],
+        )
+      : []
     // sdlpal 群攻每 sweep 各调一次 PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **每 sweep
     //   一次完整挥砍**(双击 = 两次),各自 i==0 弹该 sweep 伤害数字(PAL_BattleBackupStat 每 swing 后
     //   wPrevHP=wHealth,fight.c:2210/588 → 双击显示两个数字,非一个总和)+ 起手出招声 + 命中武器声各一遍。
@@ -238,34 +243,28 @@ export function performAttack(
           sweepNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
-      // M6/D17a:每 sweep 一次挥砍动画 —— sTarget==-1 挥向固定中心 (150,100)(fight.c:2050-2055)。
-      //   该 sweep 各掉血敌数字挂其挥砍 i==0 帧(sdlpal DisplayStatChange,fight.c:2209/626-659)。
-      if (hasAnim) {
-        // DH6:群攻演出参与敌 = 非空槽且有 posOriginal 的敌人(C 染色/收势循环 0..wMaxEnemyIndex
-        //   全槽,空槽不渲染无差异)—— i==0 全敌闪白 + 收势 3 帧全敌 x 位移(fight.c:2196-2247)。
-        const groupEnemies = state.enemies
-          .map((be, idx) => ({ be, idx }))
-          .filter(({ be }) => !be.defeated && be.posOriginal)
-          .map(({ be, idx }) => ({ idx, x: be.posOriginal!.x, y: be.posOriginal!.y }))
-        const swing = buildPlayerAttackTimeline({
-          attackerPos: attacker!.posOriginal!,
-          attackerIdx: actor.idx,
-          targetEnemyPos: { x: 150, y: 100 },
-          targetIdx: -1, // 群攻无单体目标 → 染色/收势走 groupEnemies 全敌路径
-          targetEnemyHeight: 0,
-          effectFrameBase: playerEffectFrameBase(
-            battleEffectIndex,
-            voiceRole?.spriteNumInBattle ?? 0,
-          ),
-          damage: 0,
-          groupDamageNums: sweepNums,
-          attackVoice: voice, // 出招声挂 swing frame0(fight.c:2061-2071)
-          weaponSound, // 武器声挂 currentFrame=9 命中帧(fight.c:2124)
-          windup: t === 0, // L12:仅首 sweep 前摇 frame7+Delay(4)(fight.c:3690-3694)
-          groupEnemies,
-        })
-        segments.push(...swing)
-        // L13:每 sweep 挥砍后 Delay(4) 收势停顿(fight.c:3747,仅群攻分支;单体无尾延)。
+      if (attackerPos) {
+        segments.push(
+          ...buildPlayerAttackTimeline({
+            attackerPos,
+            attackerIdx: actor.idx,
+            targetEnemyPos: { x: 150, y: 100 },
+            targetIdx: -1,
+            targetEnemyHeight: 0,
+            effectFrameBase: playerEffectFrameBase(
+              battleEffectIndex,
+              voiceRole?.spriteNumInBattle ?? 0,
+            ),
+            damage: 0,
+            groupDamageNums: sweepNums,
+            attackVoice: voice,
+            weaponSound,
+            windup: t === 0,
+            groupEnemies,
+            ...(hits === 2 ? { groupSweep: t === 0 ? 1 : 2 } : {}),
+          }),
+        )
+        // fight.c:3747 holds the recoil of each sweep for four beats.
         segments.push({ durationMs: 4 * BATTLE_FRAME_TIME })
       } else {
         // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
@@ -274,11 +273,22 @@ export function performAttack(
         legacyNums.push(...sweepNums) // 旧 fixture 无 posOriginal → 即时弹(向后兼容)
       }
     }
-    if (hasAnim) {
-      if (segments.length > 0) {
-        startBattleAnim(state, segments, bus)
-        if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作 Delay(TRUE)
-      }
+    if (attackerPos) {
+      // fight.c:3751–3754 restores the fighters before the final three beats.
+      segments.push({
+        durationMs: 3 * BATTLE_FRAME_TIME,
+        fighters: [
+          {
+            side: 'player',
+            idx: actor.idx,
+            pos: attackerPos,
+            currentFrame: playerRestFrame(attacker, voiceRole),
+          },
+          ...groupEnemies.map(({ idx, x, y }) => ({ side: 'enemy' as const, idx, pos: { x, y } })),
+        ],
+      })
+      startBattleAnim(state, segments, bus)
+      if (state.battleAnim) state.battleAnim.updateEnemyGesture = true
     } else {
       for (const dn of legacyNums) bus.emit({ op: 'showDamageNum', ...dn })
     }

@@ -283,38 +283,82 @@ describe('performAttack', () => {
     expect(dmgNums[0]!.value).toBe(314)
     expect(dmgNums[1]!.value).toBe(314)
   })
-  // 群攻双击(醉仙望月步授 dualAttack,fight.c:3681 t<(dualAttack?2:1)):sdlpal 每 sweep 各调一次
-  //   PAL_BattleShowPlayerAttackAnim(fight.c:3745,在 t-loop 内)→ **两次完整挥砍**,各 sweep i==0 弹自己的
-  //   伤害数字(BackupStat 每 swing 后重置 prevHP,fight.c:2210/588)+ 起手出招声 + 命中武器声各播一次。
-  //   user 2026-06-05 报"群攻没触发两次 / 出招音效没播两遍"。此前 ts 群攻整段只建一次挥砍 + 武器声一遍。
-  //   2026-06-05 进一步:出招/武器声改挂时间线 frame.sound(逐 tick 播,避免同 tick 同步 emit 重叠),不再 playPlayerAttack。
-  it('群攻双击:两次完整挥砍段 + 各 sweep i==0 弹自己数字 + 出招/武器声各挂两帧(fight.c:3681/3745/2061/2124)', () => {
+  it('群攻双击在两处站位挥砍，并在占用的敌槽播放两次命中特效和累积击退', () => {
     const { state, playerRoles, bus } = makeActionFixture({
-      role: { level: 10, attackStrength: 200, attackSound: 37, weaponSound: 88 },
-      enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 5000 }],
+      role: { level: 10, attackStrength: 200, attackAll: true, attackSound: 37, weaponSound: 88 },
+      enemies: [
+        { level: 5, defense: 10, physicalResistance: 1, health: 700 },
+        { level: 5, defense: 10, physicalResistance: 1, health: 0 },
+        { level: 5, defense: 10, physicalResistance: 1, health: 300 },
+      ],
       playerStatus: { dualAttack: 1 },
     })
     state.players[0]!.posOriginal = { x: 240, y: 170 }
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
-    performAttack(state, playerActor, -1, bus, playerRoles)
-    // 两次完整挥砍 → 两个带 damageNums 的命中 i==0 帧,各该 sweep 的 314
-    const numFrames = state.battleAnim!.frames.filter((f) => (f.damageNums?.length ?? 0) > 0)
-    expect(numFrames, '两个 sweep 各一个 i==0 数字帧').toHaveLength(2)
-    expect(numFrames[0]!.damageNums![0]!.value).toBe(314)
-    expect(numFrames[1]!.damageNums![0]!.value).toBe(314)
-    // 两个完整挥砍段 → 两个命中特效 i==0 帧(currentFrame=9 起手)
-    const swingStarts = state.battleAnim!.frames.filter(
-      (f) =>
-        f.overlay?.kind === 'effect' &&
-        f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 9),
-    )
-    expect(swingStarts, '两次挥砍各一个起手帧').toHaveLength(2)
-    // 出招声(37)挂各 sweep frame0、武器声(88)挂各 sweep currentFrame=9 帧 → 时间线各两帧(逐 tick 播,不重叠)
+    state.enemies[1]!.defeated = true
+    state.enemies[2]!.posOriginal = { x: 100, y: 110 }
+
+    performAttack(state, playerActor, -1, bus, playerRoles, [0, 4])
+
     const frames = state.battleAnim!.frames
-    expect(frames.filter((f) => f.sound === 37)).toHaveLength(2)
-    expect(frames.filter((f) => f.sound === 88)).toHaveLength(2)
-    // 武器声不再走 playPlayerAttack 同步命令
-    expect(bus.drain().filter((c) => c.cmd.op === 'playPlayerAttack')).toHaveLength(0)
+    const rushes = frames
+      .filter((frame) => frame.sound === 37)
+      .map(({ fighters }) => fighters?.[0]?.pos)
+    expect(rushes).toEqual([
+      { x: 232, y: 166 },
+      { x: 220, y: 158 },
+    ])
+
+    const hits = frames.filter(({ overlays }) => overlays?.length)
+    expect(
+      hits.map(({ overlays }) => overlays!.map(({ frameIdx, x, y }) => [frameIdx, x, y])),
+    ).toEqual(
+      [12, 13, 14, 12, 13, 14].map((frame) => [
+        [frame, 160, 80],
+        [frame, 100, 110],
+      ]),
+    )
+    expect(hits.map(({ sound }) => sound ?? 0)).toEqual([88, 0, 0, 88, 0, 0])
+    expect(
+      hits.map(({ damageNums }) => damageNums?.map(({ target, value }) => [target.idx, value])),
+    ).toEqual([
+      [
+        [2, 314],
+        [0, 157],
+      ],
+      undefined,
+      undefined,
+      [
+        [2, 314],
+        [0, 157],
+      ],
+      undefined,
+      undefined,
+    ])
+    expect(
+      hits.map(
+        ({ fighters }) =>
+          fighters?.filter(({ side }) => side === 'enemy').map(({ idx }) => idx) ?? [],
+      ),
+    ).toEqual([[], [0, 2], [], [], [0, 2], []])
+    expect(
+      hits.map(({ fighters }) => fighters?.find(({ side }) => side === 'player')?.pos),
+    ).toEqual([undefined, undefined, { x: 234, y: 167 }, undefined, undefined, { x: 222, y: 159 }])
+    const enemyOffsets = frames.flatMap(({ fighters }) =>
+      (fighters ?? []).flatMap((fighter) =>
+        fighter.side === 'enemy' && fighter.idx === 0 && fighter.pos ? [fighter.pos.x - 160] : [],
+      ),
+    )
+    expect(enemyOffsets).toEqual([-8, -4, -6, -14, -10, -12, 0])
+    expect(frames.at(-1)).toMatchObject({
+      durationMs: 120,
+      fighters: expect.arrayContaining([
+        { side: 'player', idx: 0, currentFrame: 0, pos: { x: 240, y: 170 } },
+        { side: 'enemy', idx: 2, pos: { x: 100, y: 110 } },
+      ]),
+    })
+    expect(state.enemies[2]!.e.health).toBe(0)
+    expect(bus.drain().some(({ cmd }) => cmd.op === 'playPlayerAttack')).toBe(false)
   })
   // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
   //   user 2026-06-03 报"林月如没攻击动画"。修:有 posOriginal → buildPlayerAttackTimeline 挥向中心
@@ -334,7 +378,7 @@ describe('performAttack', () => {
     expect(state.battleAnim, '群攻应建挥砍动画时间线(此前无)').toBeDefined()
     expect(state.battleAnim!.frames.length).toBeGreaterThan(0)
     // i==0 帧 = 首个命中特效 overlay 帧(currentFrame=9 起);DisplayStatChange 在此帧弹全敌数字。
-    const swingFrame = state.battleAnim!.frames.find((f) => f.overlay?.kind === 'effect')
+    const swingFrame = state.battleAnim!.frames.find((f) => f.overlays?.[0]?.kind === 'effect')
     expect(swingFrame, '应有挥砍命中特效帧').toBeDefined()
     expect(swingFrame!.damageNums, '群攻数字挂挥砍 i==0 帧').toHaveLength(1)
     expect(swingFrame!.damageNums![0]!.value).toBe(314)
@@ -359,7 +403,7 @@ describe('performAttack', () => {
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
     state.enemies[1]!.posOriginal = { x: 200, y: 80 }
     performAttack(state, playerActor, -1, bus, playerRoles)
-    const swingFrame = state.battleAnim!.frames.find((f) => f.overlay?.kind === 'effect')
+    const swingFrame = state.battleAnim!.frames.find((f) => f.overlays?.[0]?.kind === 'effect')
     expect(swingFrame!.damageNums, '2 敌各一个数字,同挥砍 i==0 帧').toHaveLength(2)
     // 命中序 {2,1,0,4,3}:slot1 先打(division1 全额 314)/ slot0 后打(division2 半额 157)
     const byIdx = new Map(swingFrame!.damageNums!.map((d) => [d.target.idx, d.value]))
