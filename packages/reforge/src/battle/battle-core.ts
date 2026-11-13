@@ -464,15 +464,6 @@ function spawnIntoDivideSlot(
   return slot
 }
 
-/** 傀儡续战(fight.c:1139/950/1739):死者 hp==0 但 puppet>0 仍出手(仅死人可设)。 */
-const puppetActs = (p: BattlePlayerState): boolean => p.hp <= 0 && p.status.puppet > 0
-/**
- * 全队 hp==0 但有傀儡 → 战斗不判负(fOnlyPuppet=FALSE,fight.c:1102-1141):傀儡独战,
- * 敌方无活玩家目标自然 pass(decideEnemyAction targets 空),傀儡撑到胜或 puppet 回合耗尽。
- */
-const anyFighter = (s: BattleState): boolean =>
-  s.players.some((p) => p.hp > 0 || p.status.puppet > 0)
-
 /** 防御减半（原版 defending 时受击伤害 /2;fight.c PAL_BattleUpdateFighters 后处理近似）。 */
 function applyDefense(damage: number, defending: boolean): number {
   return defending ? Math.trunc(damage / 2) : damage
@@ -1142,11 +1133,12 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         )
       )
         return
-      // 不能选招的队员强制普攻(fight.c:1504-1527):眠/定/死排 dex 0,同轮恢复/复活才真出手
-      // (perform 守卫跳未恢复者);疯魔保本体 dex(P2 落地后 perform 侧改派敌/友)。目标出手时环扫。
-      for (let i = 0; i < s.players.length; i++)
-        if (!s.pendingActions.has(i))
+      // 眠、定身和死者在排队时写普攻占位。仍有活队友时，傀儡也按死者的顺序入队。
+      // fight.c:1504–1527 的占位允许同回合解除状态或复活后行动。
+      for (const [i, player] of s.players.entries()) {
+        if (!s.pendingActions.has(i) || player.hp <= 0 || !canAct(player.status))
           s.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
+      }
       // 逃跑改为行动(轮到该队员时掷骰;fight.c:4143 语义)——不再选了即逃
       // CLASSIC 队列身法（fight.c:1463-1565）：动作系数 → 濒死÷2 → ×[0.9,1.1)。
       // 防御×5 与"fDefending 出手时才置位"成对:防御者靠排序提前,原版才显得"防得住"。
@@ -1163,8 +1155,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         }
       })
       const players = s.players.map((p, i) => {
-        // 死者 dex 0 排尾(除傀儡:死傀儡照常出手,取正常 dex);活者被眠/定压制也 dex 0
-        if ((p.hp <= 0 && !puppetActs(p)) || !canAct(p.status)) return { idx: i, dex: 0 }
+        // 死者（包括傀儡）、睡眠和定身均不抽身法随机。
+        if (p.hp <= 0 || !canAct(p.status)) return { idx: i, dex: 0 }
         let dex = getPlayerActualDexterity(p.baseDexterity, hasPlayerStatus(p, 'haste'))
         dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
         if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
@@ -1237,12 +1229,11 @@ export function stepBattle(s: BattleState, rng: () => number): void {
           }
         }
       }
-      // 每 action 后判胜负（提前终结）
+      // fight.c:1116–1156: 敌人清空先判胜；最后一名活人倒下即失败，傀儡不计入存活人数。
       if (aliveEnemies(s).length === 0) {
         s.phase = 'won'
         s.log.push('胜利')
-      } else if (!anyFighter(s)) {
-        // 全队 hp==0 且无傀儡续战 → 负(有傀儡则续战:fight.c fOnlyPuppet)
+      } else if (!s.players.some((player) => player.hp > 0)) {
         s.phase = 'lost'
         s.log.push('全灭')
       }
@@ -1944,12 +1935,13 @@ function createPlayerLastAction(
 function performPlayerAction(s: BattleState, idx: number, _rng: () => number): void {
   const p = s.players[idx]
   if (!p) return
-  if (p.hp <= 0 && !puppetActs(p)) return // 死者不出手(傀儡除外:死傀儡续战 fight.c:1739)
-  if (!canAct(p.status)) {
-    s.log.push(`${p.roleId} 无法行动`)
+  const dead = p.hp <= 0
+  if (dead ? p.status.puppet <= 0 : !canAct(p.status)) {
+    if (!dead) s.log.push(`${p.roleId} 无法行动`)
     return
   }
-  const queued = s.pendingActions.get(idx)
+  // fight.c:1730–1747: 死傀儡强制普攻；睡眠、定身和混乱只检查活人。
+  const queued = dead ? { kind: 'attack' as const, targetEnemyIdx: -1 } : s.pendingActions.get(idx)
   if (!queued) return
   // 合击消耗:本回合有人合击 → 其余队员本次出手作废(HP 贡献已在合击结算内扣;fight.c:2532)
   if (s.coopThisTurn && queued.kind !== 'coop') {
@@ -1961,7 +1953,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   // 否则随机打敌**或**友(作者 2026-05-31 拍板忠原版 —— sdlpal 是「必打活队友、无活友才 Pass」,
   // 其源码注释自认 original version behaviour is not same,不采)。打友走 attackMate 专用结算
   // (fight.c:3812-3835),打敌走正常物攻链(原版打敌细节不可考,按普攻结算)。
-  if (p.status.confused > 0) {
+  if (!dead && p.status.confused > 0) {
     if (isPlayerDying(p.hp, p.maxHp)) {
       s.lastAction = { side: 'player', idx, kind: 'pass' }
       s.log.push(`${p.roleId} 神志不清`)

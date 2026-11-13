@@ -1789,33 +1789,87 @@ describe('P2 敌普攻附毒(attackEquivItem + 玩家毒抗门;fight.c:5139-5146
   })
 })
 
-describe('P2 傀儡续战(fOnlyPuppet;fight.c:1102-1141/1739)', () => {
-  test('全队 hp==0 但有傀儡 → 不判负,傀儡续战;敌无活玩家目标自然 pass', () => {
+describe('傀儡在仍有队友存活时行动', () => {
+  test('队友存活时，倒下傀儡无身法抽样，保留连击和其他计数并在队尾普攻', () => {
     const s = createBattleState({
-      players: [player('li', { hp: 0, maxHp: 100, attackStrength: 100 })],
-      enemies: [mkEnemy('slime', { health: 999, defense: 0, attackStrength: 50 })],
+      players: [
+        player('puppeteer', { baseDexterity: 100, defense: 500 }),
+        player('fallen', {
+          attackStrength: 100,
+          baseDexterity: 400,
+          initialStatuses: { dualAttack: 3, sleep: 4 },
+        }),
+      ],
+      enemies: [mkEnemy('slime', { health: 999, defense: 0 })],
+      items: {
+        152: {
+          id: '152',
+          name: '傀儡虫',
+          desc: [],
+          buyPrice: 0,
+          sellPrice: 0,
+          sellable: false,
+          use: {
+            target: 'oneAlly',
+            consuming: true,
+            battleOnly: true,
+            effects: [{ kind: 'applyStatus', status: 'puppet', turns: 3 }],
+          },
+        },
+      },
+      inventory: [{ itemId: '152', count: 1 }],
     })
-    s.players[0]!.status.puppet = 3 // 死傀儡
-    // 推进两回合(turn 从 preBattle 起即 1);傀儡强制普攻削敌,敌无活玩家 → pass
-    let g = 0
-    while (s.turn < 3 && s.phase !== 'lost' && s.phase !== 'won' && g++ < 60) stepBattle(s, rng0)
-    expect(s.phase).not.toBe('lost') // 傀儡撑着
-    expect(s.enemies[0]!.hp).toBeLessThan(999) // 傀儡真出手削了敌
-    expect(s.log.some((l) => l.includes('无法行动'))).toBe(true) // 敌无活玩家目标 → pass
+    // This round starts after the ally fell without being revived, retaining their counters.
+    const fallen = expectDefined(s.players[1])
+    fallen.hp = 0
+    let draws = 0
+    const rng = () => {
+      draws++
+      return 0
+    }
+    stepBattle(s, rng)
+    s.pendingActions.set(0, { kind: 'item', itemId: '152', targetAllyIdx: 1 })
+    stepBattle(s, rng)
+    expect(draws).toBe(2)
+    expect(s.actionQueue.at(-1)).toMatchObject({ isEnemy: false, idx: 1, dex: 0 })
+
+    stepBattle(s, rng)
+    expect(fallen.status).toMatchObject({ puppet: 3, sleep: 4, dualAttack: 3 })
+    stepBattle(s, rng)
+    stepBattle(s, rng)
+    expect(s.lastAction).toMatchObject({
+      side: 'player',
+      idx: 1,
+      kind: 'attack',
+      firstDamage: expect.any(Number),
+      secondDamage: expect.any(Number),
+    })
+    expect(fallen.hp).toBe(0)
+    expect(s.phase).toBe('performAction')
   })
 
-  test('傀儡打光敌人 → 胜(死傀儡也能赢)', () => {
+  test('最后一名活人被击倒后立即失败，队尾傀儡不会补刀', () => {
+    let draws = 0
+    const rng = () => {
+      draws++
+      return 0
+    }
     const s = createBattleState({
-      players: [player('li', { hp: 0, maxHp: 100, attackStrength: 999 })],
-      enemies: [mkEnemy('slime', { health: 20, defense: 0, attackStrength: 0 })],
+      players: [
+        player('survivor', { hp: 1, baseDexterity: 1 }),
+        player('fallen', { attackStrength: 999, baseDexterity: 1, initialStatuses: { puppet: 3 } }),
+      ],
+      enemies: [mkEnemy('slime', { health: 20, attackStrength: 100 })],
     })
-    s.players[0]!.status.puppet = 5
-    const result = runBattleToEnd(
-      s,
-      () => {}, // 傀儡自动强制普攻,无需填动作
-      rng0,
-    )
-    expect(result).toBe('won')
+    expectDefined(s.players[1]).hp = 0
+    stepBattle(s, rng)
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    stepBattle(s, rng)
+    expect(draws).toBe(2) // Only the enemy and the living player roll initiative.
+    stepBattle(s, rng)
+    expect(s.players.map(({ hp }) => hp)).toEqual([0, 0])
+    expect(s.phase).toBe('lost')
+    expect(s.enemies[0]?.hp).toBe(20)
   })
 
   test('无傀儡的全灭 → 判负(对照)', () => {

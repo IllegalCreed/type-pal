@@ -1919,6 +1919,7 @@ export class BattleSession {
       // 敌 HP 钳到 0，飘字仍显示本击算出的完整伤害(fight.c:638,3665)。
       const firstDmg = la.firstDamage ?? totalDmg - (second ?? 0)
       const snd = this.opts.playerSounds?.[la.idx]
+      const attackerAlive = expectDefined(s.players[la.idx]).hp > 0
       const attackInput = (damage: number, windup: boolean, critical: boolean | undefined) => ({
         frames: this.playerFrames(la.idx),
         attackerIdx: la.idx,
@@ -1933,7 +1934,7 @@ export class BattleSession {
         ...(snd
           ? {
               sounds: {
-                attack: critical ? snd.critical : snd.attack,
+                attack: attackerAlive ? (critical ? snd.critical : snd.attack) : undefined,
                 weapon: snd.weapon,
               },
             }
