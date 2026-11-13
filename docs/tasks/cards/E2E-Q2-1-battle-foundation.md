@@ -9,7 +9,7 @@ Visual Verification Owner: Codex（双端采集与复验） / User（产品取�
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-13
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-casualty-presentations
+Branch: codex/q2-player-magic-and-items
 
 ## 目标
 
@@ -296,7 +296,7 @@ Codex build allowed。Game `q2_panel` 独占 `packages/game/src/core/battle` 的
 
 Reforge 后续消费端准入同一个 owner。检查编辑器项目资源角色与 `packages/migrate/src/pal-manifest.ts` 的实际发布。作者工程可不配置战败音乐。已配置的资源继续核类型和存在性，PAL 原始 001 正常生成，正式项目角色与实际 MIDI 字节可复验。共享工具补现有渲染测试的全灭路径，仍用真实 render 核世界采样边界。
 
-冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。13 个固定局面共 52 场，26 组跨端与 26 组同端复验。另用同路线原生全灭检查渐红、死亡曲、真实对白、确认后黑幕与恢复。旧版伤亡和败局原件与当前分屏归档。物攻段已由 PR #60 合入主线，当前分屏已获用户验收。受保护合并以本段 PR 的实际 CI 和回执为准。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭) · [运行与媒体归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
+冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。13 个固定局面共 52 场，26 组跨端与 26 组同端复验。另用同路线原生全灭检查渐红、死亡曲、真实对白、确认后黑幕与恢复。旧版伤亡和败局原件与当前分屏归档。物攻段已由 PR #60 合入主线，当前分屏已获用户验收。两项必需检查通过，由 PR #61 合入 `c3b646acaedcb4f14b9262976edb5122be96b12c`。本地 main 已快进，清理十二个已并入的本地分支和本段远端分支。 [PR #61](https://github.com/IllegalCreed/type-pal/pull/61) [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭) · [运行与媒体归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
 
 Game 定向复验另检出英文定时对白遇正文清除标记时误丢标题和头像。按实际后继行消费同页清除，保留原标题与肖像，无新增确认。13 条旧轮末伤亡 sweep helper 用例随旧入口退役，五条原有物攻 caller 用例保留，并以正常回合和实际绘制核毒伤持姿。快测单文件从 18 条到 8 条，逐条旧用例去向留在归档的 `owner-game/poison-pose-review.md`。
 
@@ -308,7 +308,9 @@ Game 定向复验另检出英文定时对白遇正文清除标记时误丢标题
 
 Codex build allowed。先固定血口虫原始敌队、角色裸值和实际装备、战场7、同一原始技能和种子，用实际菜单提交。对照敌防等级项、逐目标倍率、隐藏成长、MP、真实飘字和播放。按原版 `fight.c:174–241,4220–4329` 与 Game 的用户选定首帧音效规则，核单敌五灵和群体旋风咒、御蜂术。合击用赵灵儿爆炸381，投掷用木剑166，状态和增益用回梦303的命中与抵抗、金刚咒309的减伤。核实际 HP/MP/库存、技能或道具选择、失能和回合结算，以及先后顺序。原始伤害、有效扣血和画面数字分别记录。
 
-`q2_rules` 独占 Reforge `battle-core.ts`、`battle-last-action.ts`、`battle-session.ts`、`battle-anim.ts` 和必要的相邻测试，按同输入的旧版反例修改。 `q2_inputs` 独占 Game 与 Reforge 原生采集和真实菜单输入，以及随机抽样标记与相邻测试。 `q2_panel` 负责 Game 原版、正常按键和旧版原件对照。Codex 持有固定局面、独立比较、正式复跑、带声分屏和覆盖台账。
+`q2_rules` 独占 Reforge `battle-core.ts`、`battle-last-action.ts`、`battle-session.ts`、`battle-anim.ts` 和必要的相邻测试，按同输入的旧版反例修改。 `q2_inputs` 独占 Game 与 Reforge 原生采集和真实菜单输入，以及随机抽样标记与相邻测试。 `q2_panel` 负责 Game 原版、正常按键和旧版原件对照。Codex 持有固定局面、独立比较、正式复跑、带声分屏和覆盖台账。木剑实绘定位到两端投掷归位差后，`q2_panel` 追加 Game 的投掷收尾与现有测试，`q2_rules` 修 Reforge 对应时间线及实绘验证。普通调度沿用原入口。金刚咒与净衣咒另以实际落点和队友辉光证伪通用施法时间线，准入同一 Reforge owner 修友方呈现，`q2_inputs` 扩实际绘制采集。比较仅登记这两个同资源的合法队友目标样本。实绘发现两条 canonical 技能均缺原盘图层偏移，由同一 owner 补净衣咒与金刚咒的作者字段。比较核特效与无染色受术角色的实际绘制先后。冻结复核又用实际蓝字检出爆炸合击的耗血提示，按原版扣费后建立显示基线的依据，由 Reforge owner 修数字输出，比较继续核实际扣血。
+
+冻结候选 `f03b46b2ae192f78d132ef933f86f0fa242dd0db` 完成 26 个固定局面、104 场正常战斗、52 组跨端及 52 组同端比较。五灵、防御等级项、施法抽样、群攻飘字、爆炸合击、木剑、回梦与护体分别按已登记的业务、实绘与声源判据复验。旧差异、失败的探索原件和本次固定候选均有独立身份。原速带声分屏交用户复核。合击降级双击、其它投掷与状态增益保留具体后续义务。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-玩家仙术合击投掷与状态) · [双端原件与影音](../evidence/E2E-Q2-1-player-battle-actions-20261113.tar.gz)
 
 ## 状态与交接
 

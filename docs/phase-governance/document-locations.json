@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "d6fde4705ab3030bfc03c6984ce4db3e3d2bbef2b08b723068c9d79eb815fe42",
+      "afterSha256": "85c461ef92335a26daaf5a3aa15e4a647d3207c5e04b434976a06cc545ebfa2d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受最新 Q2 状态和覆盖入口。",
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
         "reviewedLines": 122,
-        "acceptanceScope": "物攻伤亡合入及本轮正常战斗复验。"
+        "acceptanceScope": "上一批集成与本批验收状态。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "67ef6dca085a99f10c04f7a3980a314059b769f1b013c9c3ba5895b94f4278fb",
+      "afterSha256": "6905780e70f8eb9f6069a1493e850477fe74a284bf21159dc0f2d3b25fc7e08f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受新归档与各前驱证据入口。",
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
         "reviewedLines": 43,
-        "acceptanceScope": "伤亡对白、雷咒、毒伤和全灭原件恢复。"
+        "acceptanceScope": "已校验归档与原任务导航。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "220d56733de8d4d5b36f25734a92238fa633a5ecae0fdb81191b7c2f30781f65",
+      "afterSha256": "b38d193b128778c324816253f1cec5330523a0ceb2fc2c326c6549067329f0a8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受 CLASSIC 伤亡对白、毒伤与全灭的源码摘录。",
-        "reviewedLines": 1722,
-        "acceptanceScope": "10 帧、毒伤 8 拍、敌方法术抗性与普通全灭原始指令。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 1730,
+        "acceptanceScope": "当前 Game 及参考实现的伤害与状态边界，保持原版与项目取舍分开。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "353718fe9b321351f9d1d53404a6f29eb733c3a2da9e7cca2e911438daf3a05f",
+      "afterSha256": "aca4bfe2d7f876cecd831a44c9c02aaac87c5ab610dcb1e78211a65c9f5ca31b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受 Q2 当前候选、原件索引及战斗会话来源重绑。",
-        "reviewedLines": 5152,
-        "acceptanceScope": "13 个试打局面、普通全灭、五种玩家仙术差异及现行来源绑定。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 5223,
+        "acceptanceScope": "Q2 来源、原件绑定和三个会话 caller 来源更新。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "292e3183fdc4c193c2ffa4b833fa919cacb3895effedec60432069c208ed56a6",
+      "afterSha256": "0b49fa8103790e1d4ce1a4081c65d4320aa71e9252a6f69fd5dc2babf2511dc7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受三个 caller 的 SHA 及旧版记录的保持。",
-        "reviewedLines": 402,
-        "acceptanceScope": "固定前驱的 caller 原文与现行字节。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 432,
+        "acceptanceScope": "会话调用来源重绑与以前执行身份。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "7b6210deac6c80a0bb331f42da3ddb8f6e3bbb5805708addf56bd44b7d66f84e",
+      "afterSha256": "f755c2e373fd605182c1d61e8b5d35d3a432dc5f18adf854d00edd3df003d1fc",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
+        "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-13",
-        "conclusion": "接受三个会话 caller 行范围的当前绑定。",
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
         "reviewedLines": 93,
-        "acceptanceScope": "源码适用性，历史业务归属与执行仍有独立证据。"
+        "acceptanceScope": "三个既有会话 caller 的现行指纹与历史。"
       }
     },
     {
@@ -5380,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "4b7b1038c07d649a2f1c6c662920a531e9e0a8b9c08854708bfe5d74622393cf",
+      "afterSha256": "6283fa4a7274b523d9434d014145ed793d6be2a47d8566b486b041421f546483",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受真实输入、准入、候选、反例、限定和待用户视觉验收。",
-        "reviewedLines": 316,
-        "acceptanceScope": "伤亡对白、敌方雷咒、毒伤与普通全灭，以及完整战斗覆盖的后续边界。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 326,
+        "acceptanceScope": "固定候选、两端重跑、收口回执与后续边界。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "0519ba4910b49e9b3cbb1357b0888ed3a47e21c3dac2de3b9e65abad4d91e7fe",
+      "afterSha256": "5e503d8d2c8324e49486a9475449173271f563cea30118be7266248986d55943",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受当前 Q2 报告和台账入口。",
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
         "reviewedLines": 32,
-        "acceptanceScope": "用户已收口物攻，接续伤亡对白、雷咒、毒伤和普通全灭。"
+        "acceptanceScope": "正常战斗场景组、验证命令及覆盖入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "31a4dd8fa8bf643fa8a662b9d667077f7f72cea46dc007fb32e693849b0d7480",
+      "afterSha256": "4cddcab5e4d4e5224d24a25c5f41cf8cbaad1020c294f3a917827265033310d8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受候选和本轮原件哈希、媒体与旧反例身份。",
-        "reviewedLines": 7332,
-        "acceptanceScope": "52 场试打、普通明雷全灭及独立五灵探针。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 8890,
+        "acceptanceScope": "冻结候选、真实日志、独立拒绝、实际影音及归档成员身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "a8adcfbde8fed0f71a603c94aac406fbe8fd79a682494857e39f25bf659375f8",
+      "afterSha256": "523a211270b4a75cb03d99ceb78678a4c29ede44ba9b774517df1ff9efd180b0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "接受双端矩阵、两个正常世界原件、红屏停拍反例及现有覆盖盘点。",
-        "reviewedLines": 227,
-        "acceptanceScope": "同输入复验及固定 m01 限制，五种玩家仙术伤害分歧仍待修。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 247,
+        "acceptanceScope": "玩家技能、合击、投掷、状态与增益的具体业务义务、反例和原件。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "3fbcd38f28b0d48bc64a45d72e6d063ac4dabf2067402c707c8b45d4f25acebf",
+      "afterSha256": "237f0d506e1f8f09f496a33e73b4fa9b2f741b4fd886b25ade83c800eb4ab770",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
+        "author": "Codex /root/q2_panel",
+        "reviewer": "Codex /root",
         "date": "2026-11-13",
-        "conclusion": "接受三个 caller 的逐字节片段和当前候选。",
-        "reviewedLines": 78,
-        "acceptanceScope": "固定前驱与当前源锚、保持既有业务归属结论。"
+        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
+        "reviewedLines": 84,
+        "acceptanceScope": "固定前驱与三个相同 caller 的重新绑定。"
       }
     }
   ],
@@ -5789,6 +5789,12 @@
       "sha256": "4dbd3cb6ab00c56b3cb9061ab2a9d4a3273fddef714b71340a570f7c3fd22e62",
       "bytes": 45158592,
       "purpose": "伤亡对白、雷咒、毒伤、普通全灭、五种玩家仙术差异与同候选原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-battle-actions-20261113.tar.gz",
+      "sha256": "72ab62fc24d745f2684a299298fde5b2c64bc6a269941b1017c3c92dfb00aaee",
+      "bytes": 91845977,
+      "purpose": "玩家五灵与群攻、正常合击、木剑投掷、回梦与金刚咒的双端原件和原速带声分屏。"
     }
   ],
   "artifactAliases": [],
