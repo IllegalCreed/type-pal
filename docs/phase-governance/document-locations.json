@@ -5478,48 +5478,31 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": [
-          "docs/engineering/guides/agent-workflow.md",
-          "docs/tasks/board.md"
-        ]
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
       },
       {
         "operation": "写、改或审查测试",
-        "required": [
-          "docs/testing/governance.md",
-          "docs/engineering/guides/agent-workflow.md"
-        ]
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": [
-          "docs/phase1/README.md"
-        ]
+        "required": ["docs/phase1/README.md"]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": [
-          "docs/phase2/READ-FIRST.md"
-        ]
+        "required": ["docs/phase2/READ-FIRST.md"]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": [
-          "docs/lore/README.md"
-        ]
+        "required": ["docs/lore/README.md"]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": [
-          "docs/phase3/README.md"
-        ]
+        "required": ["docs/phase3/README.md"]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": [
-          "docs/testing/e2e/contract.md",
-          "docs/lore/timeline.md"
-        ]
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
       },
       {
         "operation": "封板、合并或发布回执",
