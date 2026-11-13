@@ -27,6 +27,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     runId: input.runId,
   }
   const random = structuredClone(input.random)
+  const observeMagicOverlays = input.observeMagicOverlays === true
   const portraitProbe = input.portraitProbe
   if (
     portraitProbe !== undefined &&
@@ -54,6 +55,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     overflow = false
   let frame, previousFrame
   let markedRandom
+  let nextPaintOrder = 0
   let nextNumberId = 0
   let nextAudioCueId = 0
   let nextAudioBufferId = 0
@@ -215,6 +217,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     beginFrame(source, state) {
       if (closed || starts.length !== 1) return
       if (frame) recorder.fail('a battle frame was replaced before its draw completed')
+      nextPaintOrder = 0
       frame = {
         source,
         ...state,
@@ -242,22 +245,19 @@ export function installBattleTraceObserver(context, createRecorder) {
           frameIndex === undefined ? { slot, fading } : { ...position, frameIndex, fading },
         )
       else
-        frame.players.set(
-          slot,
-          frameIndex === undefined
-            ? position
-            : {
-                ...position,
-                frameIndex,
-                colorShift: draw.iColorShift ?? draw.colorShift ?? 0,
-              },
-        )
+        frame.players.set(slot, {
+          ...position,
+          ...(frameIndex === undefined
+            ? {}
+            : { frameIndex, colorShift: draw.iColorShift ?? draw.colorShift ?? 0 }),
+          ...(observeMagicOverlays ? { paintOrder: nextPaintOrder++ } : {}),
+        })
     },
     magicOverlayDrawn(x, y, frameIndex) {
-      if (!frame || input.observeMagicOverlays !== true) return
-      // Keep only completed overlay draws, in native paint order.
+      if (!frame || !observeMagicOverlays) return
+      // Player draws and magic overlays share the order of their completed native writes.
       frame.magicOverlays ??= []
-      frame.magicOverlays.push({ x, y, frameIndex })
+      frame.magicOverlays.push({ x, y, frameIndex, paintOrder: nextPaintOrder++ })
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
