@@ -65,18 +65,19 @@ describe('O09 checkRuntimeScenes：运行态场景入口', () => {
 })
 
 describe('O09 checkThrowSpec：投掷规格边界', () => {
-  const legal = {
+  const withoutEffects = {
     target: 'oneEnemy',
-    effects: [{ kind: 'damage', power: 1, elemental: 0 }],
     sound: 'sound.pal.028',
     presentation: {
       kind: 'magic',
       animation: { effectSprite: 1 },
     },
   }
+  const legal = { ...withoutEffects, effects: [{ kind: 'fixedDamage', amount: 1 }] }
 
-  test('effects 空 / target 非法 逐轴拒绝', () => {
-    expect(() => checkThrowSpec({ ...legal, effects: [] })).toThrow(/effects: 不得为空/)
+  test('显式空效果合法，缺少效果数组或非法目标拒绝', () => {
+    expect(() => checkThrowSpec({ ...legal, effects: [] })).not.toThrow()
+    expect(() => checkThrowSpec(withoutEffects)).toThrow('throw.effects: 期望数组')
     expect(() => checkThrowSpec({ ...legal, target: 'allAllies' })).toThrow(
       'throw.target: 期望 oneEnemy/allEnemies',
     )

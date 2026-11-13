@@ -1573,8 +1573,6 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
                     />
                   }
                   fieldsLayout="item"
-                  removeTitle={spec.effects.length === 1 ? '投掷能力至少保留一个效果' : undefined}
-                  removeDisabled={spec.effects.length === 1}
                   onRemove={() => {
                     reorderKeys.remove(index)
                     patchEffects(spec.effects.filter((_, at) => at !== index))
@@ -1594,9 +1592,7 @@ export function ThrowEffectChainEditor(props: ThrowEffectChainEditorProps) {
         </DsReorderCollection>
 
         {!spec.effects.length ? (
-          <div className="item-effect-validation" role="alert">
-            投掷能力至少需要一个效果，请添加后再保存。
-          </div>
+          <div className="item-capability-note">投掷会消耗一份道具。</div>
         ) : null}
         <div className="item-effect-actions">
           <DsButton
