@@ -13,7 +13,6 @@ export interface BattleLastActionBase {
   fizzled?: boolean
   crit?: boolean
   secondDamage?: number
-  attackAllHits?: { idx: number; value: number }[]
   throwHits?: { idx: number; value: number }[]
   blocked?: boolean
   coverIdx?: number
@@ -24,6 +23,12 @@ export interface BattleLastActionBase {
   failureFeedback?: BattleFailureFeedback
   fleeSuccess?: boolean
   spawnedIdxs?: number[]
+}
+
+/** A group swing rolls once and produces its own numbers and attack voice. */
+export interface PlayerAttackSweep {
+  critical: boolean
+  hits: { idx: number; value: number }[]
 }
 
 type PlayerActionBase = BattleLastActionBase & { side: 'player' }
@@ -48,6 +53,7 @@ export type BattleLastAction =
       targetEnemyIdx: number
       /** 单体首击的完整计算伤害，可超过目标剩余生命。 */
       firstDamage?: number
+      attackAllSweeps?: PlayerAttackSweep[]
       /** 单体连击第二挥的独立暴击结果，仅实际发生第二击时记录。 */
       secondCrit?: boolean
     })

@@ -619,6 +619,7 @@ export class BattleSession {
           ? { cooperativeMagicSkillId: player.cooperativeMagicSkillId }
           : {}),
         healthy: isPlayerHealthy(player),
+        attackAll: player.attackAll,
       },
       playerCount: this.state.players.length,
       healthyPlayerCount: healthyPlayerCount(this.state),
@@ -1862,28 +1863,28 @@ export class BattleSession {
         mateDied: (s.players[la.targetAllyIdx]?.hp ?? 0) <= 0,
       })
     }
-    // 长鞭攻全体(core 已逐敌减半结算;present 一挥扫全场)
-    if (la.kind === 'attack' && la.side === 'player' && la.attackAllHits?.length) {
+    if (la.kind === 'attack' && la.side === 'player' && la.attackAllSweeps?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
-      const hits = la.attackAllHits
-        .map((h) => {
-          const pos = s.enemies[h.idx]?.basePos
-          return pos ? { idx: h.idx, pos, value: h.value } : null
-        })
-        .filter(
-          (x): x is { idx: number; pos: { x: number; y: number }; value: number } => x !== null,
-        )
-      if (!hits.length) return null
+      const player = expectDefined(s.players[la.idx])
+      const firstSweep = expectDefined(la.attackAllSweeps[0])
+      const targets = [...firstSweep.hits]
+        .sort((a, b) => a.idx - b.idx)
+        .map(({ idx }) => ({ idx, pos: expectDefined(s.enemies[idx]).basePos }))
+      const frames = this.playerFrames(la.idx)
       const snd = this.opts.playerSounds?.[la.idx]
       return buildPlayerAttackAll({
-        frames: this.playerFrames(la.idx),
+        frames,
         attackerIdx: la.idx,
         attackerPos,
-        centerPos: expectDefined(hits[Math.floor(hits.length / 2)]).pos, // 中心敌落点挥击
-        hits,
+        attackerRestFrame: this.playerRestFrame(player, frames),
+        effectFrameBase: this.playerAttackEffectFrameBase(la.idx),
+        targets,
+        sweeps: la.attackAllSweeps.map(({ hits, critical }) => ({
+          hits,
+          attackSound: player.hp > 0 ? (critical ? snd?.critical : snd?.attack) : undefined,
+        })),
         weaponSound: snd?.weapon,
-        attackSound: la.crit ? snd?.critical : snd?.attack,
       })
     }
     // 敌混乱打友敌必须在普通敌人物攻过滤前走专用时间线。
@@ -1925,13 +1926,7 @@ export class BattleSession {
         targetIdx: t,
         targetPos,
         targetHeight: this.enemyAppearance(t).sprite.frames[0]?.height ?? 40,
-        effectFrameBase: this.assets.effectSprite
-          ? (() => {
-              const profile = this.playerAppearance(la.idx).definition.profile
-              if (profile.kind !== 'player-fighter') throw new Error('player profile 漂移')
-              return profile.attackEffectBase
-            })()
-          : -1,
+        effectFrameBase: this.playerAttackEffectFrameBase(la.idx),
         damage,
         windup,
         // 出招/兵器音;暴击换暴击喝声(rgwCriticalSound 替代 attackSound,fight.c:2065-2069)
@@ -2004,6 +1999,13 @@ export class BattleSession {
       damage,
       targetRecoveryFrame,
     })
+  }
+
+  private playerAttackEffectFrameBase(idx: number): number {
+    if (!this.assets.effectSprite) return -1
+    const profile = this.playerAppearance(idx).definition.profile
+    if (profile.kind !== 'player-fighter') throw new Error('player profile 漂移')
+    return profile.attackEffectBase
   }
 
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */

@@ -1894,7 +1894,7 @@ describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
 })
 
 describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
-  test('扫全场,逐敌减半(中心向外 division 翻倍),attackAllHits 记账', () => {
+  test('扫全场按中心向外逐敌减半', () => {
     // 3 敌同防同血;rng0 → 暴击(floor(0*6)=0);伤害逐个减半
     const s = createBattleState({
       players: [player('li', { attackStrength: 100, attackAll: true })],
@@ -1915,8 +1915,8 @@ describe('P2 长鞭攻全体(attackAll;fight.c:3683-3730)', () => {
     expect(dealt.every((d) => d > 0)).toBe(true) // 全都吃到
     expect(dealt[2]).toBeGreaterThan(dealt[1]!) // 敌2 首打 division1 最重
     expect(dealt[1]).toBeGreaterThan(dealt[0]!) // 敌1 次之 > 敌0 末打 division4
-    expect(dealt[1]).toBe(Math.trunc(dealt[2]! / 2)) // 逐敌减半(division 翻倍,trunc)
-    expect(dealt[0]).toBe(Math.trunc(dealt[2]! / 4))
+    expect(dealt[1]).toBe(Math.ceil(dealt[2]! / 2)) // 先扣血再截断剩余 HP
+    expect(dealt[0]).toBe(Math.ceil(dealt[2]! / 4))
     expect(s.log.some((l) => l.includes('横扫'))).toBe(true)
   })
 

@@ -21,6 +21,7 @@ export interface BattleCommandPlayerView {
   silenced: boolean
   cooperativeMagicSkillId?: string
   healthy: boolean
+  attackAll?: boolean
 }
 
 export interface BattleCommandSelectionContext {
@@ -181,10 +182,14 @@ export class BattleCommandSelection {
       if (!valid[this.menuIndex]) this.menuIndex = 0
       if (confirm) {
         if (this.menuIndex === 0) {
-          this.currentPhase = 'target'
-          this.targetSide = 'enemy'
-          this.pendingSkillId = null
-          this.targetIndex = 0
+          if (context.player.attackAll) {
+            this.submitAnd(context, port, { kind: 'attack', targetEnemyIdx: -1 })
+          } else {
+            this.currentPhase = 'target'
+            this.targetSide = 'enemy'
+            this.pendingSkillId = null
+            this.targetIndex = 0
+          }
         } else if (this.menuIndex === 1) {
           this.currentPhase = 'skill'
           this.skillIndex = 0

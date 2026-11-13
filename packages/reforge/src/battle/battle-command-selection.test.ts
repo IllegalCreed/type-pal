@@ -89,6 +89,17 @@ describe('BattleCommandSelection', () => {
     expect(selection.phase).toBe('menu')
   })
 
+  test('submits an equipped group attack on the first confirmation without choosing an enemy slot', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const player = { ...context().player, attackAll: true }
+    selection.advance(context({ player }), new Set(['Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'attack', targetEnemyIdx: -1 } },
+    ])
+    expect(selection.phase).toBe('menu')
+  })
+
   test.each([
     { key: 'd', action: { kind: 'defend' as const } },
     { key: 'Q', action: { kind: 'flee' as const } },

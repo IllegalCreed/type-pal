@@ -106,80 +106,104 @@ export interface BuildAttackAllInput {
   frames: PlayerFighterFrames
   attackerIdx: number
   attackerPos: { x: number; y: number }
-  /** 中心敌落点(挥击站位;取中心敌或首个活敌)。 */
-  centerPos: { x: number; y: number }
-  /** 各命中敌:idx + 屏位 + 伤害(逐敌染色/数字/击退)。 */
-  hits: { idx: number; pos: { x: number; y: number }; value: number }[]
+  attackerRestFrame: number
+  effectFrameBase: number
+  targets: { idx: number; pos: { x: number; y: number } }[]
+  sweeps: { hits: { idx: number; value: number }[]; attackSound?: AssetId }[]
   weaponSound?: AssetId
-  attackSound?: AssetId
 }
 
-/**
- * 长鞭攻全体时间线(fight.c:3683-3730):蓄力7(4)→冲刺至中心 frame8(2)→挥击9+出招音→
- * 全敌染色+逐敌伤害数字(damageNums)+全敌击退(hurtEnemies 式,3 帧衰减)→染色复位。
- * 一挥扫全场(异于单体逐个冲刺),伤害已在 core 逐敌减半算好。
- */
+/** CLASSIC group swings share their targets but each has its own voice, impact and recovery. */
 export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
   const {
     attackerIdx,
     attackerPos,
-    centerPos,
-    hits,
+    attackerRestFrame,
+    effectFrameBase,
+    targets,
+    sweeps,
     weaponSound,
-    attackSound,
     frames: pose,
   } = input
-  const frames: AnimFrame[] = []
-  const rushX = centerPos.x + 64
-  const rushY = centerPos.y + 20
-  // 蓄力
-  frames.push({
-    durationMs: delayMs(4),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackWindup, pos: { ...attackerPos } },
-    ],
-  })
-  // 冲刺至中心 + 出招音
-  frames.push({
-    durationMs: delayMs(2),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackRush, pos: { x: rushX, y: rushY } },
-    ],
-    ...(attackSound ? { sound: attackSound } : {}),
-  })
-  // 挥击 9 + 全敌染色 + 逐敌伤害数字 + 兵器音
-  frames.push({
-    durationMs: delayMs(2),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackStrike },
-      ...hits.map((h) => ({ side: 'enemy' as const, idx: h.idx, colorShift: 6 })),
-    ],
-    damageNums: hits.map((h) => ({
-      target: { side: 'enemy' as const, idx: h.idx },
-      value: h.value,
-    })),
-    ...(weaponSound ? { sound: weaponSound } : {}),
-  })
-  // 全敌击退 3 帧(x −8/−4/−6 衰减),末帧染色复位
-  let dist = 8
-  const off = { x: 0 }
-  for (let i = 0; i < 3; i++) {
-    off.x -= dist
-    dist = Math.trunc(dist / -2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: hits.map((h) => ({
-        side: 'enemy' as const,
-        idx: h.idx,
-        pos: { x: h.pos.x + off.x, y: h.pos.y },
-        ...(i === 2 ? { colorShift: 0 } : {}),
-      })),
-    })
+  const attacker = { side: 'player' as const, idx: attackerIdx }
+  const enemies = targets.map(({ idx, pos }) => ({ side: 'enemy' as const, idx, pos }))
+  const frames: AnimFrame[] = [
+    {
+      durationMs: delayMs(4),
+      fighters: [{ ...attacker, frame: pose.attackWindup, pos: attackerPos }],
+    },
+  ]
+  let enemyOffsetX = 0
+  for (const [index, { hits, attackSound }] of sweeps.entries()) {
+    // fight.c:2076–2118: a normal sweep moves toward (150,100); double sweeps
+    // start from the player's own stance and step farther forward on the second swing.
+    const double = sweeps.length > 1
+    const rush = double
+      ? { x: attackerPos.x - 8 - index * 12, y: attackerPos.y - 4 - index * 8 }
+      : { x: 214, y: 120 }
+    const step = double ? rush : { x: rush.x - 10, y: rush.y - 2 }
+    frames.push(
+      {
+        durationMs: delayMs(2),
+        fighters: [{ ...attacker, frame: pose.attackRush, pos: rush }],
+        ...(attackSound ? { sound: attackSound } : {}),
+      },
+      {
+        durationMs: delayMs(1),
+        fighters: [{ ...attacker, pos: step }],
+      },
+    )
+
+    for (let frame = 0; frame < 3; frame++) {
+      const fighters: FighterDelta[] = []
+      if (frame === 0) fighters.push({ ...attacker, frame: pose.attackStrike })
+      // PAL sets the flash after painting the first impact frame (fight.c:2147–2213).
+      if (frame === 1)
+        fighters.push(...enemies.map(({ side, idx }) => ({ side, idx, colorShift: 6 })))
+      if (frame === 2) fighters.push({ ...attacker, pos: { x: step.x + 2, y: step.y + 1 } })
+      frames.push({
+        durationMs: delayMs(1),
+        fighters,
+        ...(effectFrameBase >= 0
+          ? {
+              overlays: targets.map(({ pos }) => ({
+                sheet: 'effect',
+                frameIdx: effectFrameBase + frame,
+                x: pos.x,
+                y: pos.y,
+              })),
+            }
+          : {}),
+        ...(frame === 0
+          ? {
+              damageNums: hits
+                .filter(({ value }) => value > 0)
+                .map(({ idx, value }) => ({ target: { side: 'enemy', idx }, value })),
+              ...(weaponSound ? { sound: weaponSound } : {}),
+            }
+          : {}),
+      })
+    }
+
+    for (const [index, dx] of [-8, 4, -2].entries()) {
+      enemyOffsetX += dx
+      frames.push({
+        durationMs: delayMs(1),
+        fighters: enemies.map(({ side, idx, pos }) => ({
+          side,
+          idx,
+          pos: { x: pos.x + enemyOffsetX, y: pos.y },
+          ...(index === 0 ? { colorShift: 0 } : {}),
+        })),
+      })
+    }
+    frames.push({ durationMs: delayMs(4) })
   }
-  // 攻击者复位站立
+
+  // Both sweeps finish before fighters return to their bases and enemy defeat can fade.
   frames.push({
-    durationMs: delayMs(4),
-    fighters: [{ side: 'player', idx: attackerIdx, frame: pose.idle, pos: { ...attackerPos } }],
+    durationMs: delayMs(3),
+    fighters: [{ ...attacker, frame: attackerRestFrame, pos: attackerPos }, ...enemies],
   })
   return frames
 }

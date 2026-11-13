@@ -55,7 +55,7 @@ import {
   tickBattleStatus,
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
-import type { BattleLastAction } from './battle-last-action.js'
+import type { BattleLastAction, PlayerAttackSweep } from './battle-last-action.js'
 import { getEnemyBasePos } from './battle-positions.js'
 
 function assertNever(value: never, context: string): never {
@@ -1863,7 +1863,9 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
     }
   }
   if (a.kind === 'attack') {
-    if ((s.enemies[a.targetEnemyIdx]?.hp ?? 0) <= 0) {
+    if (p.attackAll) {
+      a = { ...a, targetEnemyIdx: -1 }
+    } else if ((s.enemies[a.targetEnemyIdx]?.hp ?? 0) <= 0) {
       const nt = retargetEnemy(s, a.targetEnemyIdx)
       if (nt >= 0) a = { ...a, targetEnemyIdx: nt }
     }
@@ -2195,9 +2197,11 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     return
   }
   if (act.kind === 'attack') {
-    // 长鞭攻全体(装备 live 派生;fight.c:3683-3730 扫全场,逐敌减半):走专用多目标结算
     if (p.attackAll && aliveEnemies(s).length > 0) {
-      performAttackAll(s, p, _rng)
+      const sweeps = performAttackAll(s, p, _rng)
+      if (s.lastAction?.side === 'player' && s.lastAction.kind === 'attack') {
+        s.lastAction.attackAllSweeps = sweeps
+      }
       recordPlayerAttackGrowth(p, _rng)
       return
     }
@@ -2416,29 +2420,42 @@ function recordPlayerAttackGrowth(p: BattlePlayerState, rng: () => number): void
 }
 
 /**
- * 长鞭攻全体(fight.c:3683-3730):中心向外顺序 {2,1,0,4,3} 逐敌打,暴击掷一次(全体共享),
- * 伤害逐个活敌减半(division 每打中一个活敌 ×2)。**无 +R 噪声/无浮动/无李逍遥彩蛋**(异于单体);
- * def = 敌防 + (敌级+6)×4,物抗直用。逐敌伤害记 lastAction.attackAllHits 供演出。
+ * fight.c:3680–3757: each sweep rolls one shared critical, then halves damage in slot
+ * order. An enemy hit by the first sweep keeps its slot until the action ends.
  */
-function performAttackAll(s: BattleState, p: BattlePlayerState, rng: () => number): void {
-  const ORDER = [2, 1, 0, 4, 3] // 中心向外(原版 index[])
-  const crit = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
-  let division = 1
-  const hits: { idx: number; value: number }[] = []
-  for (const i of ORDER) {
-    const e = s.enemies[i]
-    if (!e || e.hp <= 0) continue
-    const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
-    let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
-    if (crit) dmg *= 3
-    dmg = Math.trunc(dmg / division)
-    if (dmg <= 0) dmg = 1
-    e.hp = Math.max(0, e.hp - dmg)
-    hits.push({ idx: i, value: dmg })
-    division *= 2 // 下一个活敌伤害减半
+function performAttackAll(
+  s: BattleState,
+  p: BattlePlayerState,
+  rng: () => number,
+): PlayerAttackSweep[] {
+  const targets = [2, 1, 0, 4, 3].flatMap((idx) => {
+    const enemy = s.enemies[idx]
+    return enemy && enemy.hp > 0 ? [{ idx, enemy, hp: enemy.hp }] : []
+  })
+  const count = hasPlayerStatus(p, 'dualAttack') ? 2 : 1
+  const sweeps: PlayerAttackSweep[] = []
+  for (let sweep = 0; sweep < count; sweep++) {
+    const critical = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
+    const hits = targets.map((target, order) => {
+      const { idx, enemy, hp } = target
+      const { defense, level, physicalResistance } = enemy.def.stats
+      const base = calcPhysicalAttackDamage(
+        p.attackStrength,
+        defense + (level + 6) * 4,
+        physicalResistance,
+      )
+      const damage = base <= 0 ? 1 : (critical ? base * 3 : base) / 2 ** order
+      // Truncate after subtracting from integer HP. An overkill remains an unsigned WORD
+      // until death is checked, while exactly zero rounds a fractional second hit down.
+      const value = hp === 0 ? Math.floor(damage) : Math.ceil(damage)
+      target.hp -= value
+      enemy.hp = Math.max(0, target.hp)
+      return { idx, value }
+    })
+    sweeps.push({ critical, hits })
+    s.log.push(`${p.roleId} ${critical ? '会心 ' : ''}横扫 ${hits.length} 敌`)
   }
-  if (s.lastAction) s.lastAction.attackAllHits = hits
-  s.log.push(`${p.roleId} ${crit ? '会心 ' : ''}长鞭横扫 ${hits.length} 敌`)
+  return sweeps
 }
 
 /**
