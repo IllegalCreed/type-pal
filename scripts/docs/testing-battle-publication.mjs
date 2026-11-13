@@ -16,6 +16,7 @@ export const testingBattleSessionCasualtyDialogueBase = 'f84bcd91dd71498e1099e7b
 export const testingBattleSessionPlayerActionsBase = 'faae7bde3078a06d5072326327459994107607e2'
 export const testingBattleSessionCooperativeRecoveryBase =
   'a86eea156e360bfb916a63afb8c8c7b5d5d0f018'
+export const testingBattleSessionItemEffectsBase = '398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -72,6 +73,13 @@ const sessionPlayerActionsBinding = {
 const sessionCooperativeRecoveryBinding = {
   revision: testingBattleSessionCooperativeRecoveryBase,
   action: 'q2-battle-session-cooperative-recovery-source-rebinding',
+  date: '2026-11-13',
+  requireExactExcerpt: true,
+}
+
+const sessionItemEffectsBinding = {
+  revision: testingBattleSessionItemEffectsBase,
+  action: 'q2-battle-session-item-effects-source-rebinding',
   date: '2026-11-13',
   requireExactExcerpt: true,
 }
@@ -256,6 +264,7 @@ function sessionRebindings(
     casualtyDialogueFixed,
     playerActionsFixed,
     cooperativeRecoveryFixed,
+    itemEffectsFixed,
   },
 ) {
   assert(
@@ -266,7 +275,8 @@ function sessionRebindings(
       (!casualtyFixed || cadenceFixed) &&
       (!casualtyDialogueFixed || casualtyFixed) &&
       (!playerActionsFixed || casualtyDialogueFixed) &&
-      (!cooperativeRecoveryFixed || playerActionsFixed),
+      (!cooperativeRecoveryFixed || playerActionsFixed) &&
+      (!itemEffectsFixed || cooperativeRecoveryFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -279,6 +289,7 @@ function sessionRebindings(
     { fixed: casualtyDialogueFixed, binding: sessionCasualtyDialogueBinding },
     { fixed: playerActionsFixed, binding: sessionPlayerActionsBinding },
     { fixed: cooperativeRecoveryFixed, binding: sessionCooperativeRecoveryBinding },
+    { fixed: itemEffectsFixed, binding: sessionItemEffectsBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(

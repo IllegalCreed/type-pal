@@ -1733,21 +1733,21 @@
           "lines": "216-218",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "375-386",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1191-1200",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -2088,6 +2088,36 @@
               }
             ],
             "scope": "合击降级复用普通攻击，双击分别使用自己的暴击声与同一目标底锚。玩家攻击仙术在特效结束后显示伤害或完成收势。三个已接收 caller 片段逐字节相同，保留原归属和历史执行记录。"
+          },
+          {
+            "action": "q2-battle-session-item-effects-source-rebinding",
+            "base": "398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c",
+            "date": "2026-11-13",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "216-218",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "375-386",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1191-1200",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
+              }
+            ],
+            "scope": "群体用物按实际目标显示辉光，复活者在结果帧更新姿态，投掷伤害与吸血回血数字共用结果帧。三个已接收调用片段逐字节相同，历史执行记录沿用原范围。"
           }
         ]
       },
