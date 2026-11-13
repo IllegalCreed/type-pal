@@ -6,6 +6,30 @@ import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-state.js'
 
+// The action stores the first frame after its dialogue. The host owns dismissal and
+// both animation clocks stop before this frame, including a delayed render callback.
+const dialogueBoundaries = new WeakMap<BattleAnimState, number>()
+
+export function holdBattleAnimationForDialogue(
+  animation: BattleAnimState,
+  nextFrame: number,
+): void {
+  dialogueBoundaries.set(animation, nextFrame)
+}
+
+export function battleAnimationIsWaitingForDialogue(animation: BattleAnimState): boolean {
+  return (
+    animation.idx + 1 === dialogueBoundaries.get(animation) &&
+    animation.frameElapsedMs >= (animation.frames[animation.idx]?.durationMs ?? 0)
+  )
+}
+
+export function releaseBattleAnimationDialogue(animation: BattleAnimState): void {
+  dialogueBoundaries.delete(animation)
+  animation.renderStartMs = undefined
+  animation.renderIdx = undefined
+}
+
 /**
  * 把一帧的**视觉字段**(fighters / overlay / overlays / summon)落到 state —— 不含 sound/damage/keepEffect
  * 等逻辑副作用。present 端 wall-clock 细分(`stepBattleAnimRender`)按真实时间选帧后只刷视觉(每 rAF),
@@ -130,9 +154,15 @@ export function advanceBattleAnimFrames(
 ): boolean {
   const a = state.battleAnim
   if (!a) return false
+  const dialogueBoundary = dialogueBoundaries.get(a)
   a.frameElapsedMs += dtMs
   while (a.idx < a.frames.length && a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)) {
-    a.frameElapsedMs -= a.frames[a.idx]?.durationMs ?? 0
+    const duration = a.frames[a.idx]?.durationMs ?? 0
+    if (a.idx + 1 === dialogueBoundary) {
+      a.frameElapsedMs = duration
+      return false
+    }
+    a.frameElapsedMs -= duration
     a.idx++
     if (a.idx < a.frames.length) applyAnimFrame(state, a.frames[a.idx]!, bus)
   }
@@ -178,7 +208,8 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
   let vIdx = a.renderIdx
   let acc = 0
   for (let i = 0; i < vIdx && i < a.frames.length; i++) acc += a.frames[i]!.durationMs ?? 0
-  while (vIdx + 1 < a.frames.length && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
+  const end = dialogueBoundaries.get(a) ?? a.frames.length
+  while (vIdx + 1 < end && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
     acc += a.frames[vIdx]!.durationMs ?? 0
     vIdx++
   }

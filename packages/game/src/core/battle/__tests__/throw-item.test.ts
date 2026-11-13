@@ -11,6 +11,7 @@ import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { runScript } from '../../event-system.js'
 import { performThrowItem } from '../actions/throw-item.js'
+import { stepBattleAnimRender } from '../battle-anim-driver.js'
 import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
 import { getBattleResources } from '../battle-runtime-context.js'
 import { battleInput, startTestBattle } from '../battle-start.test-fixtures.js'
@@ -501,6 +502,89 @@ describe('performThrowItem', () => {
     expect(first.battleDialogQueue?.map(({ text }) => text)).toEqual(['无任何效果'])
     expect(second.enemies[0]!.e.health).toBe(0)
     expect(second.battleDialogQueue).toBeUndefined()
+  })
+
+  it.each([
+    { dismiss: 'confirmation', copies: 1 },
+    { dismiss: 'timeout', copies: 2 },
+  ])('holds the release through throw narration dismissed by $dismiss', ({ dismiss, copies }) => {
+    const corpseWater = makeItem({
+      id: 134,
+      _name: '化尸水',
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const failureText: Command[] = [
+      { op: 'setDialogStyleNarration' },
+      { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+    ]
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900, magicSound: 88 })],
+      enemies: [makeEnemyRecord({ health: 420, dexterity: 0 })],
+      items: [corpseWater],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        ...Array.from({ length: copies }, () => failureText).flat(),
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const state = gs.battleState!
+    const caster = state.players[0]!
+    const origin = caster.posOriginal!
+    const released = { x: origin.x - 10, y: origin.y - 4 }
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step()
+    expect(state.battleAnim).toBeDefined()
+    stepBattleAnimRender(state, 1000)
+
+    const soundStarts: number[] = []
+    const captureSound = () => {
+      for (const { cmd } of bus.drain()) if (cmd.op === 'playSound') soundStarts.push(cmd.soundId)
+    }
+    for (let beat = 0; beat < 4; beat++) step()
+    captureSound()
+    stepBattleAnimRender(state, 5000)
+    expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+    expect(gs.dialogBox).toBeUndefined()
+
+    const waitForNarration = () => {
+      for (let beat = 0; beat < 25 && !gs.dialogBox; beat++) {
+        step()
+        captureSound()
+      }
+      expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '无任何效果' })
+      expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+      expect(state.currentActionIndex).toBe(0)
+    }
+
+    for (let message = 0; message < copies; message++) {
+      waitForNarration()
+      if (dismiss === 'confirmation') {
+        step('Confirm')
+      } else {
+        for (let beat = 0; beat < 34; beat++) step()
+        expect(gs.dialogBox?.style).toBe('narration')
+        step()
+      }
+      expect(gs.dialogBox).toBeUndefined()
+      expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+    }
+
+    for (let beat = 0; beat < 12 && state.currentActionIndex === 0; beat++) {
+      step()
+      captureSound()
+    }
+    expect(caster).toMatchObject({ pos: origin, currentFrame: 0 })
+    expect(state.currentActionIndex).toBe(1)
+    expect(soundStarts).toEqual([88])
+    expect(gs.inventory[0]?.count).toBe(0)
   })
 
   it.each([

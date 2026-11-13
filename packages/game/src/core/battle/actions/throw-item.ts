@@ -19,7 +19,11 @@ import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-stat
 import { getWord } from '../../word-lookup.js'
 import { buildThrowWindupTimeline } from '../anim-timeline.js'
 import { delayMs } from '../animation/frames.js'
-import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
+import {
+  holdBattleAnimationForDialogue,
+  playerRestFrame,
+  startBattleAnim,
+} from '../battle-anim-driver.js'
 import {
   INHERIT_BATTLE_TRIGGER_ARGUMENT,
   type RunScriptFn,
@@ -128,6 +132,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: DamageNumber[] = []
+  const hadPendingDialogue = Boolean(input.state.battleDialogQueue?.length)
 
   // —— 跑 scriptOnThrow(battleCtx 注入 caster / target / magicTables) ——
   const targetCtx =
@@ -204,6 +209,18 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       ],
       input.bus,
     )
-    if (input.state.battleAnim) input.state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链
+    const animation = input.state.battleAnim
+    if (animation) {
+      animation.updateEnemyGesture = true // DM11:玩家动作链
+      // fight.c:4355–4372 blocks on script text before feedback and recovery.
+      const dialogue = input.state.battleDialogQueue
+      if (
+        !hadPendingDialogue &&
+        dialogue?.some((line) => line.style === 'narration') &&
+        dialogue.every((line) => line.style === 'narration' || line.clearPage)
+      ) {
+        holdBattleAnimationForDialogue(animation, windup.length + pendingAnimFrames.length)
+      }
+    }
   }
 }
