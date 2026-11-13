@@ -4,7 +4,9 @@ import type { MenuAssets } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { buildSettlementScreens, drawSettlementScreen } from './settlement.js'
 
-const textCalls = vi.hoisted(() => vi.fn())
+const textCalls = vi.hoisted(() =>
+  vi.fn<typeof import('../text/text-render.js').renderSpans>(() => 0),
+)
 const menuCalls = vi.hoisted(() => ({
   number: vi.fn(),
   scroll: vi.fn(),
@@ -15,19 +17,9 @@ vi.mock('../menu/menu-box.js', () => ({
   drawScroll: (...args: unknown[]) => menuCalls.scroll(...args),
   drawSlicedBox: (...args: unknown[]) => menuCalls.box(...args),
 }))
-vi.mock('../text/text-render.js', () => ({
-  measureSpans: (spans: Array<{ text: string }>) =>
-    spans.reduce((width, span) => width + span.text.length * 8, 0),
-  renderSpans: (
-    ctx: unknown,
-    spans: Array<{ text: string }>,
-    x: number,
-    y: number,
-    opts: unknown,
-  ) => {
-    textCalls(ctx, spans, x, y, opts)
-    return spans.reduce((width, span) => width + span.text.length * 8, 0)
-  },
+vi.mock('../text/text-render.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../text/text-render.js')>()),
+  renderSpans: textCalls,
 }))
 
 const before: StatSnapshot = {
@@ -101,9 +93,7 @@ function renderHost() {
 }
 
 function renderedTexts(): string[] {
-  return textCalls.mock.calls.map((call) =>
-    (call[1] as Array<{ text: string }>).map((span) => span.text).join(''),
-  )
+  return textCalls.mock.calls.map(([, spans]) => spans.map(({ text }) => text).join(''))
 }
 
 describe('当前战斗奖励的正式结算屏序列', () => {
@@ -243,7 +233,21 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       host.menu,
       host.glyphs,
     )
-    expect(renderedTexts()).toEqual(['逍遥', '练成', '气疗术'])
+    // battle.c:1319–1321. 正文用色索引 0，术名用 0x1B，三段按字宽相接。
+    expect(
+      textCalls.mock.calls.map(([, spans, x, y, options]) => ({
+        text: spans.map(({ text }) => text).join(''),
+        x,
+        y,
+        color: options.forceRgba,
+        shadow: options.shadow,
+      })),
+    ).toEqual([
+      { text: '逍遥', x: 104, y: 92, color: [0, 0, 0], shadow: false },
+      { text: '练成', x: 136, y: 92, color: [0, 0, 0], shadow: false },
+      { text: '气疗术', x: 168, y: 92, color: [203, 89, 77], shadow: false },
+    ])
     expect(menuCalls.scroll).toHaveBeenCalledTimes(5)
+    expect(menuCalls.scroll).toHaveBeenLastCalledWith(host.ctx, host.menu.scroll, 88, 88, 16)
   })
 })

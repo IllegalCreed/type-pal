@@ -16,7 +16,7 @@ import { measureSpans, renderSpans } from '../text/text-render.js'
 
 const COLOR_LABEL = [199, 186, 174] as const // 米白
 const COLOR_LEVELUP_LABEL = [214, 198, 140] as const // 0xBB 升级标签
-const COLOR_MAGIC = [140, 180, 235] as const // 0x1B 练成技能名
+const COLOR_MAGIC = [203, 89, 77] as const // PAL 标准色板 0x1B
 
 /** 8 升级标签(顺序 = battle.c:1141-1148)。 */
 const LEVELUP_LABELS = ['修行', '体力', '真气', '武术', '灵力', '防御', '身法', '吉运'] as const
@@ -142,7 +142,9 @@ interface ScrollLineStyle {
 }
 
 const REWARD_NUMBER_WIDTH = 5 * 6 // 原版经验、金钱各用五个 6px 数字格。
-const REWARD_LINE_STYLE = { gap: 6, color: [0, 0, 0], shadow: false } as const
+const SCROLL_TEXT_STYLE = { color: [0, 0, 0], shadow: false } as const
+const REWARD_LINE_STYLE = { ...SCROLL_TEXT_STYLE, gap: 6 }
+const LEARN_MAGIC_LINE_STYLE = { ...SCROLL_TEXT_STYLE, gap: 0 }
 
 /** 卷轴按内容宽度伸缩。对齐的奖励数字预留一列，实测内容更宽时扩展。 */
 function drawScrollLine(
@@ -351,9 +353,12 @@ function drawLearnMagic(
   glyphs: GlyphTable,
 ): void {
   const y = Math.round((200 - scrollBoxH(menu)) / 2)
-  drawScrollLine(ctx, menu, glyphs, y, [
-    { text: name },
-    { text: '练成' },
-    { text: magicName, color: COLOR_MAGIC },
-  ])
+  drawScrollLine(
+    ctx,
+    menu,
+    glyphs,
+    y,
+    [{ text: name }, { text: '练成' }, { text: magicName, color: COLOR_MAGIC }],
+    LEARN_MAGIC_LINE_STYLE,
+  )
 }
