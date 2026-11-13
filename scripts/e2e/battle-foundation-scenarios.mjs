@@ -1117,21 +1117,30 @@ function definePlayerProtection(protectedBySpell) {
     { rawDamage: second },
   )
   step(finish, finishEnemy, { rawDamage: 246 })
+  const scenario = complete(
+    [magic, guard, guard2, finish],
+    [
+      queueDraw(1, 'enemy', 0, 21),
+      queueDraw(1, 'player', 0, 318),
+      queueDraw(1, 'player', 1, 55),
+      ...draws('cast-growth', ...enemyPhysicalDraws),
+      queueDraw(2, 'enemy', 0, 21),
+      queueDraw(2, 'player', 0, 530),
+      queueDraw(2, 'player', 1, 11),
+      ...draws(...enemyPhysicalDraws, ...heroStrikeDraws),
+    ],
+    [150, protectedBySpell ? 133 : 117],
+  )
+  // The two skills use the same single-ally FIRE chunk and authored offsets.
+  scenario.expected.allySpellPresentation = {
+    actionIndex: 0,
+    targetSlot: 1,
+    offset: { x: -6, y: -18 },
+    fireFrames: 24,
+  }
   return {
-    ...complete(
-      [magic, guard, guard2, finish],
-      [
-        queueDraw(1, 'enemy', 0, 21),
-        queueDraw(1, 'player', 0, 318),
-        queueDraw(1, 'player', 1, 55),
-        ...draws('cast-growth', ...enemyPhysicalDraws),
-        queueDraw(2, 'enemy', 0, 21),
-        queueDraw(2, 'player', 0, 530),
-        queueDraw(2, 'player', 1, 11),
-        ...draws(...enemyPhysicalDraws, ...heroStrikeDraws),
-      ],
-      [150, protectedBySpell ? 133 : 117],
-    ),
+    ...scenario,
+    observeMagicOverlays: true,
     sounds: [
       [
         ['cast-windup', 10],

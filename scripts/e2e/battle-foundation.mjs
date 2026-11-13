@@ -95,6 +95,7 @@ await runBrowserJourney({
             runId,
             random: scenario.random,
             ...(scenario.portraitProbe ? { portraitProbe: scenario.portraitProbe } : {}),
+            ...(scenario.observeMagicOverlays ? { observeMagicOverlays: true } : {}),
           }),
         )
         let trace

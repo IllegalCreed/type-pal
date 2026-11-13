@@ -232,6 +232,12 @@ function validFrame(entry, source, playerCount) {
         (draw.frameIndex === undefined ||
           (validFrameIndex(draw.frameIndex) && Number.isSafeInteger(draw.colorShift))),
     ) &&
+    (p.magicOverlays === undefined ||
+      (Array.isArray(p.magicOverlays) &&
+        p.magicOverlays.every(
+          (draw) =>
+            Number.isFinite(draw?.x) && Number.isFinite(draw.y) && validFrameIndex(draw.frameIndex),
+        ))) &&
     uniqueSlots(p.panels, playerCount) &&
     (p.dialogue === undefined || validDialogueDraws(p.dialogue)) &&
     (p.settlement === null || typeof p.settlement === 'string') &&
@@ -1157,6 +1163,12 @@ function compareThrowRecovery(frames, animations, probe, fail) {
   const wrongPose =
     returned &&
     recovery.find((frame) => !holdsPose(frame, frame.seq < returned.seq ? release : base))
+  const reopened =
+    ended &&
+    next &&
+    recovery.find(
+      (frame) => frame.seq >= ended.seq && frame.seq < next.seq && frame.payload.animation !== null,
+    )
   const expectedMs = 4 * BATTLE_FRAME_MS
   const observed = {
     hit: hit && at(hit),
@@ -1167,6 +1179,7 @@ function compareThrowRecovery(frames, animations, probe, fail) {
     afterReturnMs,
     beforeNextMs,
     wrongPose: wrongPose && { ...at(wrongPose), pose: pose(wrongPose, slot) },
+    reopened: reopened && at(reopened),
   }
   if (
     !base ||
@@ -1177,12 +1190,82 @@ function compareThrowRecovery(frames, animations, probe, fail) {
     release?.frameIndex !== 6 ||
     samePose(release, base) ||
     wrongPose ||
+    reopened ||
     Math.abs(beforeReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
     Math.abs(afterReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
     beforeNextMs > EDGE_TOLERANCE_MS
   )
     fail('business', 'throw-recovery-render-window', observed)
   return observed
+}
+
+function compareAllySpell(
+  frames,
+  animations,
+  { actionIndex, targetSlot, offset, fireFrames },
+  fail,
+) {
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const window =
+    start && next && frames.filter((frame) => frame.seq >= start.seq && frame.seq < next.seq)
+  const draws =
+    window?.flatMap((frame) =>
+      (frame.payload.magicOverlays ?? []).map((draw) => ({ frame, draw })),
+    ) ?? []
+  const first = draws[0]?.frame
+  const last = draws.at(-1)?.frame
+  const wrongAnchor = draws.find(({ frame, draw }) => {
+    const target = pose(frame, targetSlot)
+    return !target || draw.x !== target.x + offset.x || draw.y !== target.y + offset.y
+  })
+  const frameIndices = draws.flatMap(({ draw }, index) =>
+    index === 0 || draws[index - 1].draw.frameIndex !== draw.frameIndex ? [draw.frameIndex] : [],
+  )
+  const observed = {
+    first: first && at(first),
+    last: last && at(last),
+    anchor: draws[0]?.draw,
+    distinctFireFrames: frameIndices,
+    wrongAnchor: wrongAnchor && { ...at(wrongAnchor.frame), draw: wrongAnchor.draw },
+  }
+  if (
+    !first ||
+    !last ||
+    wrongAnchor ||
+    frameIndices.length !== fireFrames ||
+    frameIndices.some((frameIndex, index) => frameIndex !== index)
+  )
+    fail('business', 'ally-spell-rendered-overlay', observed)
+
+  let previousShift = 0
+  const glow = []
+  const wrongRecipient = window?.find((frame) =>
+    frame.payload.players.some((player) => player.slot !== targetSlot && player.colorShift !== 0),
+  )
+  for (const frame of window ?? []) {
+    const shift = pose(frame, targetSlot)?.colorShift
+    if (shift === undefined || shift === previousShift) continue
+    glow.push({ ...at(frame), shift })
+    previousShift = shift
+  }
+  const expectedShifts = [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+  const fromFirstShiftMs = glow.length ? glow.at(-1).clockMs - glow[0].clockMs : undefined
+  const rest = {
+    glow,
+    fromFirstShiftMs,
+    wrongRecipient: wrongRecipient && at(wrongRecipient),
+    next: next && at(next),
+  }
+  if (
+    wrongRecipient ||
+    glow.length !== expectedShifts.length ||
+    glow.some(({ shift }, index) => shift !== expectedShifts[index]) ||
+    (last && glow[0]?.frame <= last.seq) ||
+    Math.abs(fromFirstShiftMs - (expectedShifts.length - 1) * BATTLE_FRAME_MS) > BATTLE_FRAME_MS
+  )
+    fail('business', 'ally-spell-recipient-glow', rest)
+  return { ...observed, ...rest }
 }
 
 function compareStatusNotice(trace, frames, animations, { actionIndex, text, visible }, fail) {
@@ -1233,7 +1316,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
-  let statusNotice, throwRecovery
+  let statusNotice, throwRecovery, allySpellPresentation
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1252,6 +1335,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
     ...(statusNotice === undefined ? {} : { statusNotice }),
     ...(throwRecovery === undefined ? {} : { throwRecovery }),
+    ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
     findings,
   })
   if (
@@ -1299,6 +1383,13 @@ export function validateBattlePresentation(trace, scenario) {
   )
   if (scenario.expected.throwRecovery)
     throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.allySpellPresentation)
+    allySpellPresentation = compareAllySpell(
+      frames,
+      animations,
+      scenario.expected.allySpellPresentation,
+      fail,
+    )
   if (scenario.expected.statusNotice)
     statusNotice = compareStatusNotice(
       trace,
