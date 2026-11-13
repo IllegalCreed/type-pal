@@ -457,7 +457,8 @@ function validateScenario(scenario) {
   return expected
 }
 
-function validateRecording(trace, scenario) {
+/** Validate trace provenance and shape before a scenario-specific business oracle. */
+export function validateRecording(trace, scenario) {
   requireValue(
     record(trace) &&
       trace.schemaVersion === 1 &&
@@ -848,6 +849,50 @@ function assertBusinessConformance(trace, expected) {
         sharedAction ? 'cooperative-action-producer' : 'incapacitated-action-producer',
         `actions[${i}]`,
         'native inaction of a living incapacitated player or a participant in a completed co-op',
+        entry,
+      )
+      continue
+    }
+    if (expected.actions[i]?.autoAttackAfterCleanse === true) {
+      const actor = ({ players }) => players.find(({ id }) => id === entry.actorId)
+      const priorRound = (trace.rounds ?? []).find(({ turn }) => turn === entry.turn - 1)
+      const cleanse = trace.actions
+        .slice(0, i)
+        .find(
+          (action) =>
+            action.turn === entry.turn &&
+            action.kind === 'item' &&
+            action.itemId === '65' &&
+            action.actorId !== entry.actorId &&
+            action.targetId === entry.actorId &&
+            actor(action.before)?.statuses.sleep > 0 &&
+            !(actor(action.after)?.statuses.sleep > 0),
+        )
+      const actorSlot = actor(expected.actions[i].before)?.slot
+      const nativeAttack =
+        trace.engine === 'game'
+          ? entry.native?.actor?.isEnemy === false &&
+            entry.native.actor.idx === actorSlot &&
+            entry.native.actor.dex === 0 &&
+            entry.native.command?.type === 'attack'
+          : entry.native?.lastAction?.side === 'player' &&
+            entry.native.lastAction.idx === actorSlot &&
+            entry.native.lastAction.kind === 'attack'
+      requireValue(
+        entry.kind === 'attack' &&
+          actorSlot !== undefined &&
+          nativeAttack &&
+          priorRound &&
+          actor(priorRound.after)?.statuses.sleep > 0 &&
+          cleanse &&
+          priorRound.order < cleanse.order &&
+          !trace.commands.some(
+            ({ actorId, turn }) => actorId === entry.actorId && turn === entry.turn,
+          ),
+        'integrity',
+        'cleansed-attack-producer',
+        `actions[${i}]`,
+        'native attack queued while asleep, resolved after another actor used Lingxin Talisman',
         entry,
       )
       continue

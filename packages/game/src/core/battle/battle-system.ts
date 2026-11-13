@@ -45,7 +45,7 @@ import type {
 } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import { updateAllEquipments } from '../equip-effect.js'
-import { getGlobalCommands, type RunScriptOptions, runScript } from '../event-system.js'
+import { getGlobalCommands, runScript } from '../event-system.js'
 import type { AllExperience, GameState } from '../game-state.js'
 import { clearHiddenExpCounts, writeBackBattleRolesToRuntime } from '../game-state.js'
 import { openMenu } from '../menu/menu-mode.js'
@@ -65,6 +65,9 @@ import { performThrowItem } from './actions/throw-item.js'
 import { BATTLE_FRAME_TIME, buildUseItemTimeline } from './anim-timeline.js'
 import {
   advanceBattleAnimFrames,
+  battleAnimationIsWaitingForDialogue,
+  playerRestFrame,
+  releaseBattleAnimationDialogue,
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
@@ -76,6 +79,8 @@ import {
   getBattleResources,
   getBattleRunScript,
   type RunScriptFn,
+  recordBattleTriggerArgument,
+  runBattleTrigger,
   setBattleResources,
   setBattleRunScript,
 } from './battle-runtime-context.js'
@@ -296,6 +301,12 @@ export function startBattle(input: StartBattleInput): void {
     enemySpriteFrameHeights: input.enemySpriteFrameHeights,
   })
 
+  // PAL_StartBattle sets the resting poses before the first action (battle.c:1782).
+  // The throw approach changes positions only, so it inherits each fighter's current pose.
+  for (const player of battleState.players) {
+    player.currentFrame = playerRestFrame(player, input.playerRoles.roles[player.roleId])
+  }
+
   // DH8/DM3:屏波交接(battle.c:1556-1563)—— 保存大世界波快照(战后恢复,DM3),然后
   //   `sWaveProgression = 0; wScreenWave = field.wScreenWave`(战场常驻波:水下/幻境 5 个战场
   //   wave 2/4/128/4/2,present-battle 每帧 PAL_ApplyWave 消费,DH8)。
@@ -435,14 +446,17 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
   //
-  // **排序守卫(!battleAnim)**:ts 把脚本里的动画(battleAnim)与对话(battleDialogQueue)分两条
-  //   异步队列,丢了 sdlpal 脚本顺序执行的"动画 blocking → 对话 blocking"次序。这些**结果消息**
-  //   (偷取"获得X"fight.c:5288 在 5218 动画后、法术失败"没有效果"在施法特效后)真值都在动画**之后**。
-  //   故 battleAnim active 时**不**起新对话(让动画先播完)——动画完(tickPerformAction 清 battleAnim)
-  //   下 tick 才放对话。已显示中的 box(gs.dialogBox)不受影响:对话 blocking 时 tickPerformAction
-  //   不跑 → 不会有 battleAnim 与 active box 并存。turnStart/scriptReady 的**前置**对话入队时无
-  //   battleAnim,照旧立即显示(各自早退,见 372/1637),不被本守卫推迟。
-  if (!state.battleAnim && tickBattleDialog(state, gs, input)) return
+  // 偷取等结果消息等动作动画结束才起。投掷的中央叙事在出手后进入同一队列，
+  // 对话结束再播反馈和复位。回合/敌方行动前的对话仍由原无动画入口立即消费。
+  const animation = state.battleAnim
+  if (!animation && tickBattleDialog(state, gs, input)) return
+  if (animation && battleAnimationIsWaitingForDialogue(animation)) {
+    tickBattleDialog(state, gs, input)
+    if (!gs.dialogBox && !state.battleDialogQueue?.length) {
+      releaseBattleAnimationDialogue(animation)
+    }
+    return
+  }
 
   // D11b 胜利结算演出 hold(phase-agnostic):active → 逐屏显示升级/学法术,暂停战斗推进,
   //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
@@ -522,7 +536,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickSelectAction(state, res, input, gs)
       break
     case 'performAction':
-      tickPerformAction(state, gs, bus, res)
+      tickPerformAction(state, gs, bus, res, input)
       break
     case 'postAction':
       tickPostAction(state, gs, bus, res)
@@ -813,7 +827,7 @@ function runPlayerCasualtyScript(
   state.battleDialogPendingClear = false
   const playerIdx = state.players.findIndex((p) => p.roleId === roleId)
   const casualtyRunScript = getBattleRunScript(gs, runScript)
-  return casualtyRunScript({
+  return runBattleTrigger(casualtyRunScript, roleId, {
     commands: res.commands,
     ip: entry,
     bus,
@@ -2105,14 +2119,23 @@ function runEnemyTurnStartScripts(
   if ((state.iHidingTime ?? 0) > 0) return
   for (let ei = 0; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
-    if (!en || en.defeated || en.e.health <= 0 || en.scriptOnTurnStart <= 0) continue
+    // PAL_BattleMain calls empty slots on entry. Later rounds skip them.
+    if (!en) continue
+    if (en.defeated || en.e.health <= 0) {
+      if (state.turn === 0 && en.objectId === 0) recordBattleTriggerArgument(state, ei)
+      continue
+    }
+    if (en.scriptOnTurnStart === 0) {
+      recordBattleTriggerArgument(state, ei)
+      continue
+    }
     state.battleDialogPendingClear = false // 每脚本重置 ClearDialog 暂存(防跨脚本泄漏)
     // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnTurnStart = PAL_RunTriggerScript(...)`
     //   (fight.c:1186-1187 / 1689-1690)把脚本**返回值**写回。runScript 返回 wNextScriptEntry:
     //   0x01 收尾 → 推进过本段(show-once,多数 boss 嘲讽);0x00 收尾 → 起始 entry(每轮重显,
     //   如 enemyId 23 跳跳蛙 / 25 怪老子 scriptOnTurnStart=42840);0x02 → re-arm 指定 entry。
     //   runScript 同步跑到 end 才返回(showDialog 只入队不挂起),故此回写每轮一次(turnStartDoneForTurn 守)。
-    en.scriptOnTurnStart = runScript({
+    en.scriptOnTurnStart = runBattleTrigger(runScript, ei, {
       commands: res.commands,
       ip: en.scriptOnTurnStart,
       bus,
@@ -2174,6 +2197,7 @@ function tickPerformAction(
   gs: GameState,
   bus: CommandBus,
   res: BattleResources,
+  input: InputSnapshot,
 ): void {
   // fleed phase → 早退;逃跑动画由 tickBattleFleeAnim 顶层 hold 接管。
   if (state.phase !== 'performAction') return
@@ -2224,6 +2248,9 @@ function tickPerformAction(
       const activeItem = state.actionQueue[state.currentActionIndex]
       checkPlayerCasualties(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)
       state.currentActionIndex++
+    } else if (battleAnimationIsWaitingForDialogue(a)) {
+      // Open the script's narration when the release pose finishes its second beat.
+      tickBattleDialog(state, gs, input)
     }
     return
   }
@@ -2282,13 +2309,15 @@ function tickPerformAction(
       //   三状态任一 >0 即整段脚本跳过(decideEnemyAction 随后照常 pass/混乱乱打,不依赖此脚本)。
       const incapacitated =
         enemy.status.sleep > 0 || enemy.status.paralyzed > 0 || enemy.status.confused > 0
+      if (!item.scriptReadyRan && !incapacitated && enemy.scriptOnReady === 0)
+        recordBattleTriggerArgument(state, item.idx)
       if (enemy.scriptOnReady > 0 && !item.scriptReadyRan && !incapacitated) {
         item.scriptReadyRan = true // 本 turn 项一次性(防对话 hold 暂停期间重入重复跑)
         state.battleDialogPendingClear = false // 脚本起手清 ClearDialog 暂存(防跨脚本泄漏)
         // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnReady = PAL_RunTriggerScript(...)`
         //   (fight.c:1226-1227 / 1719-1720)返回值回写。0x01 收尾 → 推进(show-once);0x00 → 起始
         //   entry(每次 ready 重跑);0x02 → re-arm 指定。scriptReadyRan guard 保本 action 一次性。
-        enemy.scriptOnReady = runScript({
+        enemy.scriptOnReady = runBattleTrigger(runScript, item.idx, {
           commands: res.commands,
           ip: enemy.scriptOnReady,
           bus,
@@ -2600,6 +2629,7 @@ function performBattleAction(
         commands: res.commands,
         runScript: getBattleRunScript(gs, runScript),
         objectMagics: res.objectMagics, // 0x57/0x88 scriptOnUse 解析 magic object id
+        objectPoisons: res.objectPoisons,
         gs, // 0x88 set magic damage by money 需 gs.dwCash
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
         battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
@@ -2786,13 +2816,13 @@ function tickPostAction(
       player.defending = false
       if (player.posOriginal) player.pos = { ...player.posOriginal }
     }
-    state.players.forEach((_, idx) => {
+    state.players.forEach((player, idx) => {
       // fight.c:1616：遍历实际队伍槽；重复 roleId 不重复执行首槽的毒。
       const partySlot = idx
       for (let slot = 0; slot < 16; slot++) {
         const ps = gs.rgPoisonStatus[`${slot}_${partySlot}`]
-        if (ps && ps.wPoisonID !== 0 && ps.wPoisonScript > 0) {
-          const next = (runPoisonScript as (o: RunScriptOptions) => number)({
+        if (ps && ps.wPoisonID !== 0) {
+          const next = runBattleTrigger(runPoisonScript, player.roleId, {
             commands: res.commands,
             ip: ps.wPoisonScript,
             bus,
@@ -2808,18 +2838,16 @@ function tickPostAction(
     state.enemies.forEach((enemy, idx) => {
       if (enemy.defeated || enemy.e.health <= 0) return
       for (const poison of enemy.poisons ?? []) {
-        if (poison.scriptEntry > 0) {
-          const next = (runPoisonScript as (o: RunScriptOptions) => number)({
-            commands: res.commands,
-            ip: poison.scriptEntry,
-            bus,
-            runtimeMode: 'battle',
-            battleCtx: { state, target: { type: 'enemy', idx }, gs },
-          })
-          // sdlpal fight.c:1647 `wPoisonScript = PAL_RunTriggerScript(wPoisonScript, i)` —— 回写推进。
-          // 蛊孵化链(食妖虫附→灵蛊 / 碧血蚕附→赤血蚕)+ 递增毒(三尸蛊毒)全靠此自推进。
-          if (typeof next === 'number') poison.scriptEntry = next
-        }
+        const next = runBattleTrigger(runPoisonScript, idx, {
+          commands: res.commands,
+          ip: poison.scriptEntry,
+          bus,
+          runtimeMode: 'battle',
+          battleCtx: { state, target: { type: 'enemy', idx }, gs },
+        })
+        // sdlpal fight.c:1647 `wPoisonScript = PAL_RunTriggerScript(wPoisonScript, i)` —— 回写推进。
+        // 蛊孵化链(食妖虫附→灵蛊 / 碧血蚕附→赤血蚕)+ 递增毒(三尸蛊毒)全靠此自推进。
+        if (typeof next === 'number') poison.scriptEntry = next
       }
     })
   } // end if (!battleDecidedByCombat) — 毒 tick 门控

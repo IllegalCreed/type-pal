@@ -143,6 +143,7 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
     'scripts/e2e/battle-casualty-presentation.mjs',
+    'scripts/e2e/battle-enemy-cast-presentation.mjs',
     'scripts/e2e/battle-random-instrumentation.mjs',
     'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
@@ -201,6 +202,26 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
             comparison.findings.push({
               domain: 'business',
               rule: 'cross-engine-player-cast-cadence',
+              segment,
+              game,
+              reforge,
+            })
+        }
+      }
+      for (const [index, { actionIndex }] of (scenario.expected.enemyCasts ?? []).entries()) {
+        const [gameCast, reforgeCast] = presentation.map(({ enemyCasts }) => enemyCasts?.[index])
+        for (const segment of ['introMs', 'fireMs', 'recoveryMs']) {
+          const game = gameCast?.[segment]
+          const reforge = reforgeCast?.[segment]
+          if (
+            !Number.isFinite(game) ||
+            !Number.isFinite(reforge) ||
+            Math.abs(game - reforge) > CAST_CADENCE_TOLERANCE_MS
+          )
+            comparison.findings.push({
+              domain: 'business',
+              rule: 'cross-engine-enemy-cast-cadence',
+              actionIndex,
               segment,
               game,
               reforge,
@@ -288,7 +309,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const group = process.argv[5]
   assert(
     process.argv.length === 5 || (process.argv.length === 6 && group.startsWith('--group=')),
-    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=established|player-actions|coop-sleep-followup]',
+    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=GROUP]',
   )
   const result = await compareBattleReports(process.argv[2], process.argv[3], group?.slice(8))
   const out = resolve(process.argv[4])

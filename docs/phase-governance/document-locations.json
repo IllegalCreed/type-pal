@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "b0a59c5999bd2bd5fc8971a798333daac3682b6e472802e34e626f8a07123e79",
+      "afterSha256": "cde8656a609115d4be5a4b48dc70f8c5254517702e35f4384df7f268599d1144",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex",
-        "date": "2026-11-13",
-        "conclusion": "按 Git index 更新四个新增路径的库存汇总。",
-        "reviewedLines": 1031,
-        "acceptanceScope": "定向复核四个新增文件、总数和实际账本检查，970 条已关闭状态保留。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 1033,
+        "acceptanceScope": "独立用固定前驱与 Git index 核五个新增 scripts/e2e 业务路径。真实账本生成器返回 3767 tracked、970 closed、0 review、2797 pending。旧逐文件登记逐字节相同。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "af7a6240db31bc54b2fd979ac9725964944c48a480216f2cf043188815d719aa",
+      "afterSha256": "99ef5158160a5c1f2625e00b1437b94eb412928a963a2c8c8d02a69b083d5f5e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
+        "reviewer": "Codex /root/q2_throw_empty",
+        "date": "2026-11-14",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
         "reviewedLines": 122,
-        "acceptanceScope": "对齐前批合并回执和当前 Q2 道具组的交付状态。"
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "10b18e33a88c398f8b2e8f88a2dbb8cb73d5c69ea8e4c62e6f450a71edb9cfaf",
+      "afterSha256": "dfa665b82913a32ec79d099faffe58d81bd58f6edf8c7db29b8a0f32b0598e80",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
         "reviewedLines": 43,
-        "acceptanceScope": "补现行 Q2 道具唯一归档的导航。"
+        "acceptanceScope": "核原有导航逐字节保留，新增唯一横卷轴原件链接可解包。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "f0c6f33dbf57b29a5072d283c27617c7318390649c1db286c10479984dda9b0c",
+      "afterSha256": "2a3a933d9c4c55a40cec1dee36ae3ade3af92f4941625d4e11f912d5844e87e8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 1744,
-        "acceptanceScope": "核原盘用物结算顺序、逐目标数值、模拟法术和化尸水诊断。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 1760,
+        "acceptanceScope": "独立核 SDLPal 战后经验、金钱、修行、隐藏、练成及主菜单原始文字调用和标准色板，保留原有章节逐字节。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a2ba4d604c9161355038e6e52b8acd99f6cf22b63d3b75fb863daaf9125abfff",
+      "afterSha256": "7cc11ccf6fe5ab8c66ff967de38a7319b035a15f36bd077ef34ec9bceeb19bda",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 5503,
-        "acceptanceScope": "核 Q2 配对的当前来源、有限运行合同、历史与会话归属桥接。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 5779,
+        "acceptanceScope": "核唯一 Q2 entry、五个来源锚点和生产 Git 指纹、原生业务判据及证据字段逐值配对；既有执行历史不动。"
       }
     },
     {
@@ -4632,14 +4632,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "0c490577bf198d524aa27bd9ca9eed9eea31a7717f735894e1fd4c6a5095a51f",
+      "afterSha256": "0b9586e164bc98600c5c91c6a9c10e134888d634eaf9b57322cf0e22eace0cb8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-13",
-        "conclusion": "接受当前伤亡页字段和可选死亡曲角色。",
-        "reviewedLines": 230,
-        "acceptanceScope": "显式肖像、同页续行和定时关闭，以及 PAL 角色生成和编辑器消费。"
+        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
+        "reviewedLines": 232,
+        "acceptanceScope": "仅核本轮 throw 能力说明、内容及存档版本边界。对照 ThrowSpec、菜单与已归档作者编辑器保存重开和原生投掷证据，确认启用可保存空效果、禁用移除能力。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "7881cc01c3751674905c60128af51f0f6ed789cd70ab349a4a1c830048d72cf3",
+      "afterSha256": "652f43a381bb7b25a81f549324f5265627271061a47471023f13133f04f4b1d7",
       "review": {
-        "author": "Codex /root/q2_item_reforge",
-        "reviewer": "Codex /root",
-        "date": "2026-11-13",
-        "conclusion": "三个实际调用片段逐字节相同，核对历史和调用指针。",
-        "reviewedLines": 492,
-        "acceptanceScope": "核来源摘要、原有 claim 指针和唯一历史增量。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 552,
+        "acceptanceScope": "核三处源码锚点与适用性记录、归属候选及原执行结果未改，独立桥反控可拒绝改旧史或假绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "bf68bd483f3425540981b4d9b561af6ad5a6629d1ad8cc42af5c2946dab6e2fc",
+      "afterSha256": "934944dec7dd84e00c2ac12291be44487e0708282b7e32c50cd1fab60889028d",
       "review": {
-        "author": "Codex /root/q2_item_reforge",
-        "reviewer": "Codex /root",
-        "date": "2026-11-13",
-        "conclusion": "三个实际调用片段逐字节相同，核对历史和调用指针。",
-        "reviewedLines": 97,
-        "acceptanceScope": "核定三个会话调用片段与已刊前驱相同，保留旧执行。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 99,
+        "acceptanceScope": "核现行三处范围、前驱史及原归属报告范围，源可用性重绑没有晋升额外动态结论。"
       }
     },
     {
@@ -4918,6 +4918,19 @@
         "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
         "reviewedLines": 33,
         "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
+      }
+    },
+    {
+      "path": "docs/phase1/status/item-status.md",
+      "mode": "reviewed",
+      "afterSha256": "b5aa375dfe55a1fd623daef809514abbecfc81e173d4d3ecc2537980bd5aba74",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-13",
+        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
+        "reviewedLines": 363,
+        "acceptanceScope": "核化尸水与零入口投掷的本轮勘误。历史物品表从历史范围到末尾与 5a5a02a2f 字节一致，旧秒杀全体原文的历史身份保留。"
       }
     }
   ],
@@ -5380,66 +5393,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "79c260a497e01c45a7056186ca83c728ee5fa5f7612aafaeff986bb51ab5f2f2",
+      "afterSha256": "867d4cce17d6125d9492fbca908285db3bf3cf5bf4dfc93eb5d7ee8ac9828d4f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 369,
-        "acceptanceScope": "复核本批准入、调用范围、实际双端复跑、失败及待验收范围。"
+        "reviewer": "Codex /root/q2_throw_empty",
+        "date": "2026-11-14",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
+        "reviewedLines": 417,
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "9d09307e0070c5ee055fca50db17f1d8307daaf357da80b5f7b2187c87c1a340",
+      "afterSha256": "476838eb0f6b70986c110200a95b1833c261b39df42ac5857e5aa4b4920449ac",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 32,
-        "acceptanceScope": "核七个运行义务及当前覆盖台账导航。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 36,
+        "acceptanceScope": "归档索引、报告锚点及双端采集和离线像素命令逐一核对。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "492e298fdf48a211e108c974380e36c824742ef2ec5b17336c6d206fd0143e4c",
+      "afterSha256": "3f9a885f83ee8cba202e1b16f73597f538e09f3fed6662b2b8570fad3d2b1c37",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 11693,
-        "acceptanceScope": "核报告引用、实际原件、读回重比、失败、录制和冻结执行身份。"
+        "reviewer": "Codex /root/q2_throw_empty",
+        "date": "2026-11-14",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
+        "reviewedLines": 12415,
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "71ccfa18cf7b08a5badee86730aceee4e5289bbe0a18691ca435fad6f93fb04f",
+      "afterSha256": "c1f13103409b3e309750026cdf0497e15b86ac5501f513ca36270af84ac4ba29",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_item_receipt",
-        "date": "2026-11-13",
-        "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 293,
-        "acceptanceScope": "核两端同局面数据、实际旧差异、当前分屏和剩余未决边界。"
+        "reviewer": "Codex /root/q2_throw_empty",
+        "date": "2026-11-14",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
+        "reviewedLines": 349,
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "9b7f1865ead924a2e4a661ecd832d24309101f36a89ec1633776408c18648ddb",
+      "afterSha256": "b163830f1a3b5afb0116bab0bcc1d083bf89915a27bdfec2569adac120c44136",
       "review": {
-        "author": "Codex /root/q2_item_reforge",
-        "reviewer": "Codex /root",
-        "date": "2026-11-13",
-        "conclusion": "三个实际调用片段逐字节相同，核对历史和调用指针。",
-        "reviewedLines": 112,
-        "acceptanceScope": "核源码适用性复核、原范围与当前范围。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 138,
+        "acceptanceScope": "核固定前驱与新源码双 SHA，三段调用含末行换行逐字节一致，旧来源桥记录为原文前缀。"
       }
     }
   ],
@@ -5813,6 +5826,24 @@
       "sha256": "2186ee4c959cd3824f69708573cd2fb13bf963e121970d48405aa10c2fe9df8f",
       "bytes": 40027298,
       "purpose": "战斗道具及投掷的实际双端前后原件、诊断和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz",
+      "sha256": "2f7b6626c11cfcdd45a93605024ab97d403fea3eb4378f403863d0fb001bec30",
+      "bytes": 71673760,
+      "purpose": "投掷、状态和友方法术的原始双端记录、比较、定向反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz",
+      "sha256": "545a2deeae12071f3345ef495626bbcb0e739df22469202e0ae642db63b782ca",
+      "bytes": 57055455,
+      "purpose": "敌方施法与毒道具的双端原始记录、离线判据、反控和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz",
+      "sha256": "16dfeb2b1d339ae08f7f39ec47ffa1188e12618c6cd4b8aa9272b9cf4e946a73",
+      "bytes": 15674817,
+      "purpose": "横向卷轴的双端实绘、位图和色板判据、反控及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

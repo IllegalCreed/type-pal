@@ -17,6 +17,8 @@ export const testingBattleSessionPlayerActionsBase = 'faae7bde3078a06d5072326327
 export const testingBattleSessionCooperativeRecoveryBase =
   'a86eea156e360bfb916a63afb8c8c7b5d5d0f018'
 export const testingBattleSessionItemEffectsBase = '398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c'
+export const testingBattleSessionThrowFeedbackBase = '5a5a02a2f56eb4748d0415e902c334999121dcdb'
+export const testingBattleSessionEnemyCastBase = 'a4d04282dbbdaecff8e97e37528b5c0d67659550'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -81,6 +83,20 @@ const sessionItemEffectsBinding = {
   revision: testingBattleSessionItemEffectsBase,
   action: 'q2-battle-session-item-effects-source-rebinding',
   date: '2026-11-13',
+  requireExactExcerpt: true,
+}
+
+const sessionThrowFeedbackBinding = {
+  revision: testingBattleSessionThrowFeedbackBase,
+  action: 'q2-battle-session-throw-feedback-source-rebinding',
+  date: '2026-11-13',
+  requireExactExcerpt: true,
+}
+
+const sessionEnemyCastBinding = {
+  revision: testingBattleSessionEnemyCastBase,
+  action: 'q2-battle-session-enemy-cast-source-rebinding',
+  date: '2026-11-14',
   requireExactExcerpt: true,
 }
 
@@ -265,6 +281,8 @@ function sessionRebindings(
     playerActionsFixed,
     cooperativeRecoveryFixed,
     itemEffectsFixed,
+    throwFeedbackFixed,
+    enemyCastFixed,
   },
 ) {
   assert(
@@ -276,7 +294,9 @@ function sessionRebindings(
       (!casualtyDialogueFixed || casualtyFixed) &&
       (!playerActionsFixed || casualtyDialogueFixed) &&
       (!cooperativeRecoveryFixed || playerActionsFixed) &&
-      (!itemEffectsFixed || cooperativeRecoveryFixed),
+      (!itemEffectsFixed || cooperativeRecoveryFixed) &&
+      (!throwFeedbackFixed || itemEffectsFixed) &&
+      (!enemyCastFixed || throwFeedbackFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -290,6 +310,8 @@ function sessionRebindings(
     { fixed: playerActionsFixed, binding: sessionPlayerActionsBinding },
     { fixed: cooperativeRecoveryFixed, binding: sessionCooperativeRecoveryBinding },
     { fixed: itemEffectsFixed, binding: sessionItemEffectsBinding },
+    { fixed: throwFeedbackFixed, binding: sessionThrowFeedbackBinding },
+    { fixed: enemyCastFixed, binding: sessionEnemyCastBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(

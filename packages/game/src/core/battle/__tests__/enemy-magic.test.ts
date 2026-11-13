@@ -1,9 +1,11 @@
 /** Enemy magic dispatch, pre-script defence, and animation feedback. */
 import type { Command, Magic, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it, onTestFinished, test } from 'vitest'
 import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import { runScript } from '../../event-system.js'
+import { setObjectPoisons } from '../../player-poison-state.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
+import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
 import {
   makeMagic,
@@ -76,9 +78,20 @@ describe('enemy magic animation', () => {
 
   it('normal magic connects cast motion, target effect, hurt reaction, and reset', () => {
     const { state, playerRoles, bus } = makeState({ mp: 30, magicStrength: 64 }, [
-      { health: 100, defense: 30, level: 5, idleFrames: 4, magicFrames: 2, attackFrames: 3 },
+      {
+        health: 100,
+        defense: 30,
+        level: 5,
+        idleFrames: 4,
+        magicFrames: 2,
+        attackFrames: 3,
+        actWaitFrames: 2,
+        magicSound: 374,
+      },
     ])
     withFighterPos(state, { x: 240, y: 170 }, { x: 160, y: 80 })
+    const caster = state.enemies[0]!
+    caster.pos = { x: 164, y: 82 }
     performMagic({
       state,
       casterIsEnemy: true,
@@ -108,7 +121,7 @@ describe('enemy magic animation', () => {
     })
     expect(state.battleAnim).toBeDefined()
     const f = state.battleAnim!.frames
-    // 帧链 = 施法起手(前移+手势,buildEnemyMagicCastIntro)+ posReset + 落点特效(14)+ 队员受击(5)。
+    // 两步前移和施法手势后接 14 帧特效，再播五拍受击。
     //   特效段从第一个带 overlays 的帧起(起手段无 overlays)。
     const effStart = f.findIndex((fr) => (fr.overlays?.length ?? 0) > 0)
     expect(effStart).toBeGreaterThan(0)
@@ -121,8 +134,25 @@ describe('enemy magic animation', () => {
     expect(eff[0]!.overlays?.[0]).toMatchObject({ kind: 'magic', spriteChunk: 12, x: 244, y: 164 })
     // 特效内敌施法帧 i=2(fireDelay)→ currentFrame = 2-2+4+2 = 6
     expect(eff[2]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 6 }])
-    // 起手段(magicFrames=2)应有前移 + 施法手势,证明施法本体动画接上(修「敌人施法定格」)
-    expect(f[0]!.fighters?.[0]).toMatchObject({ side: 'enemy', idx: 0, pos: { x: 172, y: 86 } }) // 前移 +12/+6
+    // Check the visible positions and emitted sound at the actual action-clock boundaries.
+    const playSounds = () =>
+      bus
+        .drain()
+        .map(({ cmd }) => cmd)
+        .filter(({ op }) => op === 'playSound')
+    expect(caster.pos).toEqual({ x: 176, y: 88 })
+    advanceBattleAnimFrames(state, bus, 40)
+    expect(caster.pos).toEqual({ x: 180, y: 90 })
+    expect(playSounds()).toEqual([])
+    advanceBattleAnimFrames(state, bus, 40)
+    expect(caster.currentFrame).toBe(4)
+    expect(playSounds()).toEqual([{ op: 'playSound', soundId: 374 }])
+    advanceBattleAnimFrames(state, bus, 160)
+    expect(caster.pos).toEqual({ x: 180, y: 90 })
+    advanceBattleAnimFrames(state, bus, 14 * 70 + 4 * 40)
+    expect(caster.pos).toEqual({ x: 180, y: 90 })
+    advanceBattleAnimFrames(state, bus, 40)
+    expect(caster).toMatchObject({ pos: { x: 160, y: 80 }, currentFrame: 0 })
     // 受击动画(倒数 7..3;末尾另有敌复位帧 + 复位停顿帧):受伤队员 idx0 frame4 + 红闪;i=0 不位移
     const hurt = f.slice(f.length - 7, f.length - 2)
     expect(hurt[0]!.fighters).toEqual([
@@ -227,6 +257,121 @@ describe('enemy magic targets and damage', () => {
     ])
   })
 
+  test('a poison-killed slot still draws single-target variance, while a group cast skips it', () => {
+    const poisons = [{ id: 553, level: 1, color: 33, playerScript: 3, enemyScript: 0 }]
+    setObjectPoisons(poisons)
+    onTestFinished(() => setObjectPoisons([]))
+
+    const run = (type: 'normal' | 'attackAll') => {
+      const fixture = enemyFixture([{ hp: 15, deathSound: 23 }, {}])
+      const { bus, state, playerRoles } = fixture
+      const rng = recordingRng(type === 'normal' ? [1, 80] : [1, 1, 80, 80])
+      state.rng = rng
+      performMagic({
+        ...fixture,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: false,
+        targetIdx: 0,
+        spells: [makeSpell({ scriptOnSuccess: 1 })],
+        magics: [makeMagic({ type, effect: 12 })],
+        commands: [
+          { op: 'end' },
+          { op: 'raw', opcode: 0x29, operands: [type === 'normal' ? 0 : 1, 553, 0] },
+          { op: 'end' },
+          { op: 'raw', opcode: 0x1b, operands: [0, 0xffec, 0] },
+          { op: 'end' },
+        ],
+        objectPoisons: poisons,
+        runScript,
+        magicSpriteFrameCounts: new Map([[12, 1]]),
+      })
+      const frames = state.battleAnim?.frames ?? []
+      const numberFrame = frames.find((frame) => frame.damageNums?.length)
+      return {
+        calls: rng.calls,
+        hp: playerRoles.roles.map(({ hp }) => hp),
+        immediate: bus.drain(),
+        hitSlots: numberFrame?.fighters?.map(({ idx }) => idx),
+        numbers: numberFrame?.damageNums,
+        afterEffect:
+          frames.indexOf(numberFrame!) > frames.findIndex((frame) => frame.overlays?.length),
+        sounds: frames.flatMap(({ sound }) => (sound ? [sound] : [])),
+      }
+    }
+
+    expect(run('normal')).toEqual({
+      calls: ['range(0,3)', 'rangeInclusive(1,100)', 'next'],
+      hp: [0, 500],
+      immediate: [],
+      hitSlots: [0],
+      numbers: [{ target: { kind: 'player', idx: 0 }, value: 15, color: 'blue' }],
+      afterEffect: true,
+      sounds: [23],
+    })
+    expect(run('attackAll')).toEqual({
+      calls: ['range(0,3)', 'range(0,3)', 'rangeInclusive(1,100)', 'rangeInclusive(1,100)', 'next'],
+      hp: [0, 415],
+      immediate: [],
+      hitSlots: [0, 1],
+      numbers: [
+        { target: { kind: 'player', idx: 0 }, value: 15, color: 'blue' },
+        { target: { kind: 'player', idx: 1 }, value: 85, color: 'blue' },
+      ],
+      afterEffect: true,
+      sounds: [],
+    })
+  })
+
+  test('keeps enemy-side script damage separate from party damage after enemy FIRE', () => {
+    const fixture = enemyFixture([{}, {}])
+    const { state, playerRoles, bus } = fixture
+    performMagic({
+      ...fixture,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell({ scriptOnSuccess: 1 })],
+      magics: [makeMagic({ type: 'attackAll', effect: 12 })],
+      commands: [
+        { op: 'end' },
+        // This fixture combines an enemy cast with the script's all-enemy HP effect.
+        { op: 'raw', opcode: 0x21, operands: [1, 8, 0] },
+        { op: 'end' },
+      ],
+      runScript,
+      magicSpriteFrameCounts: new Map([[12, 1]]),
+    })
+
+    const frames = state.battleAnim?.frames ?? []
+    const fire = frames.findIndex(({ overlays }) => overlays?.length)
+    const fireStart = frames
+      .slice(0, fire)
+      .reduce((elapsed, { durationMs }) => elapsed + durationMs, 0)
+    expect(fire).toBeGreaterThan(0)
+    advanceBattleAnimFrames(state, bus, fireStart)
+    expect(state.battleAnim?.overlays).toMatchObject([
+      { spriteChunk: 12, frameIdx: 0 },
+      { spriteChunk: 12, frameIdx: 0 },
+      { spriteChunk: 12, frameIdx: 0 },
+    ])
+    expect(bus.drain()).toEqual([])
+    advanceBattleAnimFrames(state, bus, 50)
+
+    expect(state.battleAnim?.overlays).toBeUndefined()
+    expect(state.players.map(({ currentFrame }) => currentFrame)).toEqual([4, 4])
+    expect(state.enemies[0]?.e.health).toBe(92)
+    expect(playerRoles.roles.map(({ hp }) => hp)).toEqual([435, 435])
+    expect(bus.drain().map(({ cmd }) => cmd)).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 8, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 65, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 65, color: 'blue' },
+    ])
+  })
+
   test('超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负', () => {
     const fixture = enemyFixture([{ hp: 30, maxHP: 30 }])
     const { playerRoles, bus } = fixture
@@ -244,7 +389,7 @@ describe('enemy magic targets and damage', () => {
 })
 
 describe('auto-defend poses and hurt feedback', () => {
-  test('全员自卫掷命中 → 除数+1 各落 32 + intro 尾帧三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧', () => {
+  test('全员自卫掷命中 → 除数+1 各落 32 + 首帧特效三人防御姿 + 受击动画全员 + 数字挂 hurt 首帧', () => {
     const fixture = enemyFixture([{}, {}, {}])
     const { state, playerRoles, bus } = fixture
     state.rng = recordingRng([0, 0, 0]) // RandomLong(0,2)==0 for each eligible player.
@@ -257,9 +402,9 @@ describe('auto-defend poses and hurt feedback', () => {
     // 65 → trunc(65/(1+1)) = 32/人（除数 (defending?2:1)*protect + autoDefend?1:0）
     expect(playerRoles.roles.map((r) => r.hp)).toEqual([468, 468, 468])
     const frames = state.battleAnim?.frames ?? []
-    // Only the intro tail holds the three guard poses.
+    // The first FIRE draw shows all three guard poses.
     const guardFrames = frames.filter((fr) => guardPoseEntries(fr).length > 0)
-    expect(guardFrames).toHaveLength(1)
+    expect(guardFrames).toEqual([frames.find((frame) => frame.overlays?.length)])
     expect(guardPoseEntries(guardFrames[0]!)).toEqual([
       { side: 'player', idx: 0, currentFrame: 3 },
       { side: 'player', idx: 1, currentFrame: 3 },

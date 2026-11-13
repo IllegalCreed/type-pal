@@ -5,11 +5,23 @@
  * only battle projection/resources and the resolved effects, with no script runner or GameState.
  */
 
-import type { Command, Item, Magic, ObjectMagicView, PlayerRoles, Spell } from '@type-pal/shared'
+import type {
+  Command,
+  Item,
+  Magic,
+  ObjectMagicView,
+  ObjectPoisonView,
+  PlayerRoles,
+  Spell,
+} from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getMagicScriptEntry, setMagicScriptEntry } from '../../object-script-state.js'
-import type { RunScriptFn } from '../battle-runtime-context.js'
+import {
+  INHERIT_BATTLE_TRIGGER_ARGUMENT,
+  type RunScriptFn,
+  runBattleTrigger,
+} from '../battle-runtime-context.js'
 import type { BattleState } from '../battle-state.js'
 import {
   applyEnemyMagicDamage,
@@ -68,6 +80,8 @@ export interface PerformMagicInput {
    * op0(magic object id)→ magicNumber → magics[]。省略 → 空表(0x57/0x88 no-op)。
    */
   objectMagics?: ObjectMagicView[]
+  /** Player spells can use 0x28 to apply and immediately run an enemy poison entry. */
+  objectPoisons?: ObjectPoisonView[]
   /**
    * 生产传当前运行态：脚本成败、OBJECT入口、金币及待播音效均由它持有。
    * 缺省只支持不依赖这些持久态的独立运算；入口不写回，脚本成败按成功路径处理。
@@ -192,10 +206,9 @@ export function performMagic(input: PerformMagicInput): void {
   //   PostMagic 之前/开始(fight.c:4322-4323)。
   const pendingNums: PendingDamageNums = []
   const pendingScreenShake: { time: number; level: number } = { time: 0, level: 0 }
-  const runMagicScript = (slot: 'scriptOnUse' | 'scriptOnSuccess'): void => {
+  const runMagicScript = (slot: 'scriptOnUse' | 'scriptOnSuccess', argument: number): void => {
     const scriptId = getMagicScriptEntry(input.gs, spell, slot)
-    if (scriptId === 0) return // scriptOnUse / scriptOnSuccess = 0 → 无脚本,skip(sdlpal RunTriggerScript(0) 即返回)
-    const nextEntry = input.runScript({
+    const nextEntry = runBattleTrigger(input.runScript, argument, {
       commands: input.commands,
       ip: scriptId,
       bus: input.bus,
@@ -213,6 +226,10 @@ export function performMagic(input: PerformMagicInput): void {
         playerRoles: input.playerRoles,
         gs: input.gs,
         items: input.items, // 0x6A 偷取成功"获得 物品名"提示需 item 名
+        bus: input.bus,
+        commands: input.commands,
+        runScript: input.runScript,
+        objectPoisons: input.objectPoisons,
         pendingDamageNums: pendingNums, // scriptOnSuccess opcode 数字延迟到动画后(见上注)
         pendingScreenShake, // scriptOnUse 0x35 延迟挂到 OffMagic,避免 PreMagic 阶段先抖。
         enemySpriteFrameHeights: input.enemySpriteFrameHeights,
@@ -232,8 +249,16 @@ export function performMagic(input: PerformMagicInput): void {
     const adIdxs: number[] = adTarget === 'all' ? input.state.players.map((_, i) => i) : [adTarget]
     preRolledAutoDefend = rollAutoDefend(input.state, input.playerRoles, adTarget, adIdxs)
   }
+  // Enemy magic reports one final HP difference per party slot after all scripts and base damage.
+  const enemyCastStartHp = input.casterIsEnemy
+    ? input.state.players.map(({ roleId }) => input.playerRoles.roles[roleId]?.hp)
+    : []
+  // Enemy magic retains the randomly selected player role even when its effects cover the party.
+  const actingRole =
+    input.state.players[input.casterIsEnemy ? (targetCtx?.idx ?? 0) : input.casterIdx]
+  const useArgument = actingRole?.roleId ?? 0
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript('scriptOnUse')
+  runMagicScript('scriptOnUse', useArgument)
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
 
   // **scriptOnUse 失败 → 早退**(sdlpal fight.c:4196/4231 `if (g_fScriptSuccess)` gate):没钱(乾坤一掷 0x1E
@@ -262,8 +287,21 @@ export function performMagic(input: PerformMagicInput): void {
     !input.casterIsEnemy && magic.type === 'trance'
       ? input.state.players[input.casterIdx]?.spriteNumOverride
       : undefined
+  let successArgument = useArgument
+  if (!input.casterIsEnemy) {
+    if (DEFENSIVE_MAGIC_TYPES.has(magic.type)) {
+      successArgument =
+        targetCtx === undefined && magic.type === 'trance'
+          ? useArgument
+          : (input.state.players[targetCtx?.idx ?? -1]?.roleId ?? 0)
+    } else {
+      successArgument = magicForcesAllTarget(magic.type)
+        ? INHERIT_BATTLE_TRIGGER_ARGUMENT
+        : (targetCtx?.idx ?? 0)
+    }
+  }
   if (input.gs) input.gs.fScriptSuccess = true
-  runMagicScript('scriptOnSuccess')
+  runMagicScript('scriptOnSuccess', successArgument)
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
   const tranceSpriteAfter =
     !input.casterIsEnemy && magic.type === 'trance'
@@ -344,30 +382,48 @@ export function performMagic(input: PerformMagicInput): void {
   //   `if (type != kMagicTypeNormal) sTarget=-1`)。之前敌方攻击魔法只播动画不结算伤害 → 本块补齐。
   if (input.casterIsEnemy && asShort(magic.baseDamage) > 0) {
     const target: number | 'all' = magic.type === 'normal' ? input.targetIdx : 'all'
-    // L20:rngFactor 由 applyEnemyMagicDamage **循环内逐队员掷**(sdlpal fight.c:4793 逐队员调),不再共用。
+    // The chosen single target can reach zero in the spell script before the direct hit.
+    // The original still draws damage variance and plays its death cue for this slot (fight.c:4833–4850).
     const enemyDmg = applyEnemyMagicDamage({
       state: input.state,
       casterEnemyIdx: input.casterIdx,
       target,
       magicData: { baseDamage: magic.baseDamage, elemental: magic.elemental },
       playerRoles: input.playerRoles,
-      preRolledAutoDefend, // DM6:脚本前的预掷结果
+      preRolledAutoDefend,
+      includeDeadSingleTarget: target !== 'all' && (enemyCastStartHp[target] ?? 0) > 0,
     })
-    // 掉血 → blue(sdlpal PAL_BattleDisplayStatChange);用钳后真实 delta。延迟到特效播完、受击反应开始时 emit。
-    for (const r of enemyDmg) {
-      if (r.hpAfter < r.hpBefore) {
+    for (const { playerIdx, hpAfter } of enemyDmg) {
+      if (hpAfter !== 0) continue
+      const roleId = input.state.players[playerIdx]!.roleId
+      const sound = input.playerRoles.roles[roleId]?.deathSound ?? 0
+      if (sound > 0) playerDeathSounds.push(sound)
+    }
+  }
+
+  if (input.casterIsEnemy) {
+    // PAL_BattleDisplayStatChange compares the action's original and final HP (fight.c:4575,4857).
+    // Replace intermediate player HP numbers while preserving script feedback for other stats.
+    const otherNumbers = pendingNums.filter(
+      ({ target, color }) => target.kind !== 'player' || color === 'cyan',
+    )
+    pendingNums.length = 0
+    pendingNums.push(...otherNumbers.filter(({ target }) => target.kind === 'enemy'))
+    for (const [idx, { roleId }] of input.state.players.entries()) {
+      const before = enemyCastStartHp[idx]
+      const after = input.playerRoles.roles[roleId]?.hp
+      if (before !== undefined && after !== undefined && before !== after) {
+        const delta = after - before
         pendingNums.push({
-          target: { kind: 'player', idx: r.playerIdx },
-          value: r.hpBefore - r.hpAfter,
-          color: 'blue',
+          target: { kind: 'player', idx },
+          value: Math.abs(delta),
+          color: delta < 0 ? 'blue' : 'yellow',
         })
-        hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
-        if (r.hpAfter === 0) {
-          const roleId = input.state.players[r.playerIdx]!.roleId
-          const sound = input.playerRoles.roles[roleId]?.deathSound ?? 0
-          if (sound > 0) playerDeathSounds.push(sound)
-        }
+        hitPlayerIdxs.push(idx)
       }
+      pendingNums.push(
+        ...otherNumbers.filter(({ target }) => target.kind === 'player' && target.idx === idx),
+      )
     }
   }
 
@@ -388,7 +444,7 @@ export function performMagic(input: PerformMagicInput): void {
   //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。
   //   放在效果音之前 push(施法音先于效果音,顺序对齐 sdlpal)。
   // DM14 起 DefMagic 两路径也带 PreMagic 前摇(castSound 已帧同步),并入名单防双响。
-  // DL10:敌方 OffMagic 建链时施法音挂 intro 滑步第 2 步帧 —— 同样并入防双响。
+  // DL10:敌方 OffMagic 建链时施法音挂两步滑完后的首帧 —— 同样并入防双响。
   const castFrameSynced =
     built &&
     ((!input.casterIsEnemy &&

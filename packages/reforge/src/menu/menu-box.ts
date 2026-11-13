@@ -165,6 +165,9 @@ export const SELECTED_COLORS = [
   [243, 219, 105],
 ] as const
 
+/** 浅底单行卷轴的普通标签用黑字无阴影。交互选项和作者指定的样式可单独着色。 */
+export const SCROLL_LABEL_STYLE = { forceRgba: [0, 0, 0], shadow: false } as const
+
 // ── 状态面板布局(三栏:左属性 / 中名字+立绘 / 右 6 装备格 2×3 平铺)──
 // 左栏:属性 9 项(label 字模 + value 数字 sprite)
 const STAT_X = 8 // label x
@@ -515,9 +518,8 @@ export class MenuBox {
     // 金钱横卷轴(原版主菜单顶部 PAL_ShowCash):卷轴 (0,0) + 「金钱」label (10,10) + 黄数字右对齐
     drawScroll(ctx, this.assets.scroll, 0, 0, 5, { shadow: true })
     renderSpans(ctx, [{ text: lookupText('menu.cash', this.locale) }], 10, 10, {
+      ...SCROLL_LABEL_STYLE,
       glyphs: this.glyphs,
-      shadow: true,
-      forceRgba: COLOR_NORMAL,
     })
     drawNumber(ctx, world.money, 85, 14, this.assets.nums)
 

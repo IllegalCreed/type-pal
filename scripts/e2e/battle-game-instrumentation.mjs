@@ -237,9 +237,26 @@ export function instrumentGameBattle(source, file) {
       if (ts.isIfStatement(node) && node.expression.getText(ast) === 'it.fadeStep >= 0')
         visualCall('fighter-draw', node, 'fighterDrawn', 'it')
     }
+    if (
+      file.endsWith('/present-battle.ts') &&
+      ts.isCallExpression(node) &&
+      node.getText(ast) ===
+        "drawBattleMagicOverlay(fb, { kind: 'magic', ...blit }, assets.magicSprites)"
+    )
+      add('background-magic-draw', node.arguments.end, ', true')
     if (file.endsWith('/draw-battle-effect.ts')) {
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'blitFrame')
-        add('overlay-blit-parameter', node.parameters.at(-1).end, ', __battleMagicChunk?: number')
+        add(
+          'overlay-blit-parameter',
+          node.parameters.at(-1).end,
+          ', __battleMagicChunk?: number, __battleBackground = false',
+        )
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawBattleMagicOverlay')
+        add(
+          'magic-overlay-background-parameter',
+          node.parameters.at(-1).end,
+          ', __battleBackground = false',
+        )
       if (
         ts.isVariableStatement(node) &&
         owner(node) === 'drawBattleMagicOverlay' &&
@@ -251,7 +268,11 @@ export function instrumentGameBattle(source, file) {
         owner(node) === 'drawBattleMagicOverlay' &&
         node.getText(ast) === 'blitFrame(fb, sprite, overlay.frameIdx, overlay.x, overlay.y)'
       )
-        add('magic-overlay-argument', node.arguments.end, ', overlay.spriteChunk')
+        add(
+          'magic-overlay-argument',
+          node.arguments.end,
+          ', overlay.spriteChunk, __battleBackground',
+        )
       if (
         ts.isForStatement(node) &&
         ts.isFunctionDeclaration(node.parent.parent) &&
@@ -261,7 +282,7 @@ export function instrumentGameBattle(source, file) {
         add(
           'magic-overlay-draw',
           node.end,
-          '\nif (__battleMagicChunk !== undefined) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
+          '\nif (__battleMagicChunk !== undefined && !__battleBackground) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
         )
     }
     if (
@@ -369,7 +390,11 @@ export function instrumentGameBattle(source, file) {
           add(
             'actionStart',
             node.body.getStart(ast) + 1,
-            '\nglobalThis.__battleGameActionStart?.(state, gs, actor, action, res.playerRoles);\n',
+            '\nif (globalThis.__battleGameActionStart) {\n' +
+              'const enemyMagic = actor.isEnemy && action.type === "magic" && action.actionId !== undefined\n' +
+              '  ? resolveMagicObject(action.actionId, res.spells, res.magics, res.objectMagics)?.magic\n' +
+              '  : undefined;\n' +
+              'globalThis.__battleGameActionStart(state, gs, actor, action, res.playerRoles, enemyMagic?.type);\n}\n',
           )
         }
       }
@@ -493,12 +518,14 @@ export function instrumentGameBattle(source, file) {
       'number-target': 1,
       'settlement-draw': 1,
       'dialogue-slot': 2,
+      'background-magic-draw': 1,
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
     'coop-magic.ts': { 'coop-fallback': 1 },
     'draw-battle-effect.ts': {
       'overlay-blit-parameter': 1,
+      'magic-overlay-background-parameter': 1,
       'magic-overlay-resource': 1,
       'magic-overlay-argument': 1,
       'magic-overlay-draw': 1,

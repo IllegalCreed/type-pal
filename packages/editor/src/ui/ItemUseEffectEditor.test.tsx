@@ -680,9 +680,6 @@ describe('ItemEffectChainEditor', () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.click(),
     )
     expect(host.querySelectorAll('[data-effect-editor-card]')).toHaveLength(1)
-    expect(host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!.disabled).toBe(
-      true,
-    )
   })
 
   test('可复用脚本只保留选择和打开入口，不在物品里重复创建', async () => {

@@ -20,6 +20,8 @@ Template: design-spec-v1 / 1.0.0
 
 2026-11-07，[四类取物流程](../../tasks/cards/N6B-ITEM-FLOWS-1.md)原子切换作者内容格式至 content23；SAVE12 与最低存档版本12保持独立。实施与同基线复验已完成，并获用户对新版参数表单及 008–010 分屏的视觉接受；旧 E2E 原件保留原版本，新检查点由当前内容的真实流程重建。
 
+物品的 `throw` 能力显式保存目标类型和效果列表。启用时允许空效果列表，战斗菜单仍可选，成功投掷播放动作并消耗一份。关闭能力会移除 `throw`，投掷菜单随之隐藏该物品。编辑器保存与重开保留两种配置。 [投掷能力类型](../../../packages/content/src/item.ts)
+
 ### 世界与角色初值
 
 ActorDef.battler拥有初始等级、HP/MP基线、属性、装备与技能；实例经验从0开始。StartWorld持队伍顺序、金钱、库存和世界资源，seedStats只稀疏覆盖当前hp/mp，seedConditions只用于该入口开局队员。buildWorld只在新建时消费；读档不重播种，learnedSkills键已存在（包括空数组）不得恢复出厂技能。

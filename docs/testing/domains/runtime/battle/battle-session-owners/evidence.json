@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "216-218",
+      "lines": "220-222",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "375-386",
+      "lines": "381-392",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1191-1200",
+      "lines": "1212-1221",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:216-218",
-        "packages/reforge/src/battle/battle-session.ts:375-386",
-        "packages/reforge/src/battle/battle-session.ts:1191-1200",
+        "packages/reforge/src/battle/battle-session.ts:220-222",
+        "packages/reforge/src/battle/battle-session.ts:381-392",
+        "packages/reforge/src/battle/battle-session.ts:1212-1221",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -445,6 +445,66 @@
         }
       ],
       "scope": "群体用物按实际目标显示辉光，复活者在结果帧更新姿态，投掷伤害与吸血回血数字共用结果帧。三个已接收调用片段逐字节相同，历史执行记录沿用原范围。"
+    },
+    {
+      "action": "q2-battle-session-throw-feedback-source-rebinding",
+      "base": "5a5a02a2f56eb4748d0415e902c334999121dcdb",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "216-218",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "375-386",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1191-1200",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f"
+        }
+      ],
+      "scope": "投掷结果在出手后等待中央提示。三个已出版归属调用片段逐字节相同，旧执行和归属范围沿用原证据。"
+    },
+    {
+      "action": "q2-battle-session-enemy-cast-source-rebinding",
+      "base": "a4d04282dbbdaecff8e97e37528b5c0d67659550",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "217-219",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "def44c8648f31c08eaba3de03c4da238011fa6a93cedd95eec11910366cb21d0"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "378-389",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "def44c8648f31c08eaba3de03c4da238011fa6a93cedd95eec11910366cb21d0"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1209-1218",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "def44c8648f31c08eaba3de03c4da238011fa6a93cedd95eec11910366cb21d0"
+        }
+      ],
+      "scope": "敌方施法时间线增加实际移动、动作帧、FIRE 落点与受击后复位。三个已出版归属调用片段逐字节一致。"
     }
   ],
   "_governance": {

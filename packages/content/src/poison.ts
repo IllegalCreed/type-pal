@@ -3,9 +3,9 @@
  *
  * 毒 ≠ BattleStatus 字段,是独立 {poisonId, tickIndex} 列表:每回合跑当前 tick、**指针推进**。
  * 敌我两套 tick(同毒效果不同);到序列尾重复末项,或 selfCure 移除该毒(三尸蛊暴扣后自除)。
- * DoT 数值 = game-mechanics.md §885-994 逐回合实测(不走原版字节码,清洁重写)。
+ * 两侧序列的首项是新增毒槽时的入口效果，后续各项由回合末消费。
  *
- * **递进毒**天然可表达 —— ticks 是**序列**、指针每回合前进:如三尸蛊 [0,−1,−2,−3,−200] 就是
+ * **递进毒**天然可表达 —— ticks 是**序列**、指针每回合前进:如三尸蛊 [0,0,−1,−2,−3,−200] 就是
  * 逐回合递增伤害。固定毒 = 单元素(重复);递进毒 = 多元素;到尾 clamp 末项或 selfCure。
  */
 
@@ -55,7 +55,7 @@ export interface PoisonDef {
   enemyTicks?: PoisonTick[]
   /**
    * 致死配对毒 id(三对致死组合;数据驱动不硬码 —— 从毒药投掷脚本 0x5E+0x60 反汇编)。
-   * 投掷本毒到已中配对毒的目标 → 当场暴毙。**仅投掷触发**(巫术下毒不带致死检查,原版实证)。
+   * 毒道具使用或投掷检查致死搭档；普通施毒法术只新增毒槽。
    * 556↔557 / 558↔555 / 559↔560 三对对称。
    */
   lethalWith?: number
@@ -113,18 +113,28 @@ export function poisonCurableBy(
   return POISON_CURE_RANK[def.curability] <= POISON_CURE_RANK[maxTier]
 }
 
-/**
- * 对己下毒三段链(毒药 use-on-self / 大世界自毒;fight.c 0x5D/0x2B/0x5F/0x29):
- * ① 身中被本毒所克的毒(counters)→ 以毒攻毒解掉、不下本毒;② 否则身中致死配对(lethalWith)→
- * hp 0 暴毙;③ 都没有 → 下本毒。缺 poisonDefs 或无关系 = 纯加毒。原地改 host,返回结果。
- */
+type PoisonSelfResult = 'cured' | 'lethal' | 'applied'
+type PoisonSelfHost = { hp: number; poisons?: ActivePoison[] }
+
+/** 使用毒道具依次处理相克、致死搭档和新增毒槽。传入的毒抗门只在第三步执行。 */
 export function applyPoisonSelf(
-  host: { hp: number; poisons?: ActivePoison[] },
+  host: PoisonSelfHost,
   poisonId: number,
   poisonDefs?: Record<number, PoisonDef>,
-): 'cured' | 'lethal' | 'applied' {
-  host.poisons ??= []
-  const list = host.poisons
+): PoisonSelfResult
+export function applyPoisonSelf(
+  host: PoisonSelfHost,
+  poisonId: number,
+  poisonDefs: Record<number, PoisonDef> | undefined,
+  mayApply: () => boolean,
+): PoisonSelfResult | 'resisted'
+export function applyPoisonSelf(
+  host: PoisonSelfHost,
+  poisonId: number,
+  poisonDefs?: Record<number, PoisonDef>,
+  mayApply: () => boolean = () => true,
+): PoisonSelfResult | 'resisted' {
+  const list = host.poisons ?? []
   const def = poisonDefs?.[poisonId]
   if (def?.counters !== undefined && list.some((ap) => ap.poisonId === def.counters)) {
     host.poisons = list.filter((ap) => ap.poisonId !== def.counters)
@@ -134,6 +144,10 @@ export function applyPoisonSelf(
     host.hp = 0
     return 'lethal'
   }
-  if (!list.some((ap) => ap.poisonId === poisonId)) list.push({ poisonId, tickIndex: 0 })
+  if (!mayApply()) return 'resisted'
+  if (!list.some((ap) => ap.poisonId === poisonId)) {
+    list.push({ poisonId, tickIndex: 0 })
+    host.poisons = list
+  }
   return 'applied'
 }

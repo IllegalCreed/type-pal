@@ -872,7 +872,7 @@ describe('validateItems · C8 用途能力契约', () => {
     expect(() => validateItems([item(use)])).toThrow(expected)
   })
 
-  test('用途允许暂存空效果链，但投掷必须至少有一个效果', () => {
+  test('空效果链可保存，空用途不可使用', () => {
     expect(() =>
       validateItems([item({ target: 'scene', consuming: true, effects: [] })]),
     ).not.toThrow()
@@ -884,7 +884,7 @@ describe('validateItems · C8 用途能力契约', () => {
           throw: { target: 'oneEnemy', effects: [] },
         },
       ]),
-    ).toThrow(/throw\.effects: 不得为空/)
+    ).not.toThrow()
     expect(itemUseSupportsContext({ target: 'scene', consuming: true, effects: [] }, 'world')).toBe(
       false,
     )

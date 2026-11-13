@@ -434,24 +434,37 @@ function buildAndStartDefMagicAnim(
   const caster = input.state.players[input.casterIdx]
   if (!caster?.posOriginal) return false
 
-  // DM14:PreMagic 起手前摇对**所有**玩家法术无条件先放(fight.c:4184 → 2363-2444:4 步前移
-  //   各 Delay(1) + Delay(2) + frame5 施法姿 + 10 帧 cast 特效,~0.7s)。offensive/summon/trance
-  //   均有,唯 DefMagic 两路径缺 → 放治疗/辅助时施法者无起手段直接目标辉光。
+  // 防御法术也先播放完整起手 (fight.c:4184 → 2363-2444)。
   const dmRole = input.playerRoles.roles[caster.roleId]
   const dmSpriteId = dmRole?.spriteNumInBattle ?? 0
   const dmCastListVal = input.battleEffectIndex?.[dmSpriteId * 2 + 0] ?? 0
+  const casterStartPos = caster.pos ?? caster.posOriginal
   const preFrames = buildPreMagicTimeline({
-    casterPos: caster.posOriginal,
+    casterPos: casterStartPos,
     casterIdx: input.casterIdx,
     castEffectFrameBase: dmCastListVal * 10 + 15,
     isSummon: false,
     castSound: dmRole?.magicSound ?? 0,
   })
 
+  // DefMagic 以每个受术者当时的脚点为准 (fight.c:2527-2555)。施法者已由起手帧前移。
+  const casterEffectPos = preFrames.reduce((pos, frame) => {
+    const movement = frame.fighters?.find(
+      (fighter) => fighter.side === 'player' && fighter.idx === input.casterIdx && fighter.pos,
+    )
+    return movement?.pos ?? pos
+  }, casterStartPos)
+  const recipientPosition = (idx: number) => {
+    const player = input.state.players[idx]
+    if (!player?.posOriginal) return undefined
+    if (idx === input.casterIdx) return casterEffectPos
+    return player.pos ?? player.posOriginal
+  }
+
   if (magic.type === 'applyToPlayer') {
     // 单体目标队员:resolved idx(targetIdx 必为 number;'all' 不会落到 applyToPlayer)。
     const tIdx = typeof input.targetIdx === 'number' ? input.targetIdx : -1
-    const targetPos = input.state.players[tIdx]?.posOriginal
+    const targetPos = recipientPosition(tIdx)
     if (!targetPos) return false
     const frames = buildPlayerDefMagicTimeline({
       casterIdx: input.casterIdx,
@@ -474,8 +487,9 @@ function buildAndStartDefMagicAnim(
 
   // applyToParty:全队员落点(有 posOriginal 的都收)。
   const partyPlayerPositions: Array<{ idx: number; pos: { x: number; y: number } }> = []
-  input.state.players.forEach((p, idx) => {
-    if (p.posOriginal) partyPlayerPositions.push({ idx, pos: p.posOriginal })
+  input.state.players.forEach((_, idx) => {
+    const pos = recipientPosition(idx)
+    if (pos) partyPlayerPositions.push({ idx, pos })
   })
   if (partyPlayerPositions.length === 0) return false
   const frames = buildPlayerDefMagicTimeline({
@@ -536,50 +550,18 @@ function buildAndStartEnemyMagicAnim(
     if (!targetPlayerPos) return false
   }
 
-  // 施法起手:敌人前移 + 施法手势(fight.c:4680-4717)—— 落点特效之前的敌人本体表演。
-  //   林月如(magic360→鞭击 fireDelay=0)即靠这段动:前移两步 + attackFrames 手势 frame 0..4。
+  // The two steps start from the current position (fight.c:4680–4695).
+  const castSnd = caster.e.magicSound
   const introFrames = buildEnemyMagicCastIntro({
     enemyCasterIdx: input.casterIdx,
-    enemyPos: caster.posOriginal,
+    enemyPos: caster.pos ?? caster.posOriginal,
     idleFrames: caster.e.idleFrames,
     magicFrames: caster.e.magicFrames,
     attackFrames: caster.e.attackFrames,
     actWaitFrames: caster.e.actWaitFrames,
     fireDelay: magic.fireDelay,
+    sound: Math.abs(castSnd),
   })
-  // DL10b/L16:被动格挡队员摆防御姿 frame3 在**施法手势演完后、特效前**(fight.c:4737-4738/
-  //   4755-4756)—— 注入 intro **末帧**(原注入起始帧,早数帧)。
-  const introTailIdx = introFrames.length - 1
-  const introTail = introFrames[introTailIdx]
-  if (autoDefendIdxs.length > 0 && introTail) {
-    const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({
-      side: 'player' as const,
-      idx,
-      currentFrame: 3,
-    }))
-    introFrames[introTailIdx] = {
-      ...introTail,
-      fighters: [...(introTail.fighters ?? []), ...guardPoses],
-    }
-  }
-  // DL10a:敌施法音挂滑步第 2 步帧(fight.c:4680-4695 两步 Delay(1) 后 AUDIO_PlaySound(wMagicSound))。
-  //   wMagicSound 是 SHORT,负值合法(enemies.json 实有 -503..-1)—— C 无条件调用且 AUDIO_PlaySound
-  //   按 abs 播(audio.c:529),旧 `>0` gate 漏播负值敌的施法音 → 改 !==0 + abs。
-  const castSnd = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
-  if (castSnd !== 0 && introFrames.length >= 2 && !introFrames[1]!.sound) {
-    introFrames[1] = { ...introFrames[1]!, sound: Math.abs(castSnd) }
-  }
-  // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
-  const posResetFrame: BattleAnimFrame = {
-    durationMs: 0,
-    fighters: [
-      {
-        side: 'enemy',
-        idx: input.casterIdx,
-        pos: { x: caster.posOriginal.x, y: caster.posOriginal.y },
-      },
-    ],
-  }
   const effectFrames = buildEnemyMagicTimeline({
     enemyCasterIdx: input.casterIdx,
     magic: {
@@ -618,6 +600,14 @@ function buildAndStartEnemyMagicAnim(
       : undefined,
     rng: input.state.rng,
   })
+  // The first FIRE draw is the first visible auto-defend pose (fight.c:4737–4766).
+  const firstEffect = effectFrames[0]
+  if (firstEffect && autoDefendIdxs.length > 0) {
+    firstEffect.fighters = [
+      ...(firstEffect.fighters ?? []),
+      ...autoDefendIdxs.map((idx) => ({ side: 'player' as const, idx, currentFrame: 3 })),
+    ]
+  }
   // 队员受击动画(fight.c:4861-4899):受伤队员 frame4 + 红闪 + 递减击退,接在特效之后。
   //   单体('normal')→ 该 target;AoE → E2 结算出的受伤队员(hitPlayerIdxs)。各取 posOriginal 复位锚。
   const affectedIdxs =
@@ -630,8 +620,8 @@ function buildAndStartEnemyMagicAnim(
 
   // CLASSIC plays direct death cues after the spell effect and before drawing the first damage.
   const deathCueFrames = playerDeathSounds.map((sound) => ({ durationMs: 0, sound }))
-  // After the five hit frames and the caster's return, UpdateFighters precedes the casualty
-  // check. Delay(8) belongs after that check and any resulting dialogue (fight.c:4897–4908).
+  // The caster stays forward through the effect and the five hit frames. After its return,
+  // UpdateFighters and any casualty dialogue precede Delay(8) (fight.c:4897–4908).
   const finaleFrames: BattleAnimFrame[] = [
     {
       durationMs: BATTLE_FRAME_TIME, // 敌复位 + Delay(1)(fight.c:4901-4903)
@@ -662,14 +652,7 @@ function buildAndStartEnemyMagicAnim(
   input.state.actionFollowup = { waitTicks: 8 }
   startBattleAnim(
     input.state,
-    [
-      ...introFrames,
-      posResetFrame,
-      ...effectFrames,
-      ...deathCueFrames,
-      ...hurtFrames,
-      ...finaleFrames,
-    ],
+    [...introFrames, ...effectFrames, ...deathCueFrames, ...hurtFrames, ...finaleFrames],
     input.bus,
     numsAttached ? undefined : pendingNums,
   )

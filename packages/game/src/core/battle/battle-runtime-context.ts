@@ -14,6 +14,7 @@ import type {
 } from '@type-pal/shared'
 import type { RunScriptOptions } from '../event-system.js'
 import type { GameState } from '../game-state.js'
+import type { BattleState } from './battle-state.js'
 
 /** 战斗运行期间的资源引用；playerRoles 是可写战斗投影，结局由 owner 回写 HP/MP。 */
 export interface BattleResources {
@@ -50,6 +51,29 @@ export interface BattleResources {
 
 /** runScript 注入类型（便于测试替换 event-system free function）。 */
 export type RunScriptFn = (opts: RunScriptOptions) => number
+
+/** An all-target throw passes -1 as a WORD and inherits the previous trigger argument. */
+export const INHERIT_BATTLE_TRIGGER_ARGUMENT = 0xffff
+
+// Key by the live battle so this transient PAL argument never enters a save or the next battle.
+const lastTriggerArguments = new WeakMap<BattleState, number>()
+
+/** Resolve and record a trigger argument before its script runs, including an empty entry. */
+export function recordBattleTriggerArgument(state: BattleState, argument: number): number {
+  if (argument === INHERIT_BATTLE_TRIGGER_ARGUMENT) return lastTriggerArguments.get(state) ?? 0
+  lastTriggerArguments.set(state, argument)
+  return argument
+}
+
+export function runBattleTrigger(
+  runner: RunScriptFn,
+  argument: number,
+  options: RunScriptOptions & { battleCtx: NonNullable<RunScriptOptions['battleCtx']> },
+): number {
+  const resolvedArgument = recordBattleTriggerArgument(options.battleCtx.state, argument)
+  if (options.ip === 0) return 0
+  return runner({ ...options, battleTriggerArgument: resolvedArgument })
+}
 
 const BATTLE_RESOURCES_KEY = '__battleResources' as const
 const BATTLE_RUN_SCRIPT_KEY = '__battleRunScript' as const

@@ -358,6 +358,10 @@ test('Game records the selected FIRE chunk after its indexed magic blit', async 
   assert.deepEqual(facts, [])
   assert.equal(fb.indices[132 * fb.width + 249], 7)
 
+  drawBattleMagicOverlay(fb, overlay, resources, true)
+  assert.equal(fb.indices[132 * fb.width + 249], 28, 'the background stamp is still painted')
+  assert.deepEqual(facts, [], 'the stamp does not extend the active FIRE stream')
+
   drawBattleMagicOverlay(fb, overlay, resources)
   drawBattleMagicOverlay(fb, { ...overlay, spriteChunk: 0 }, resources)
   assert.deepEqual(facts, [

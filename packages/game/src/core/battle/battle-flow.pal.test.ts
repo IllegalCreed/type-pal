@@ -308,6 +308,101 @@ describe('PAL resource-backed battle flows', () => {
     expect(gs.dialogBox).toBeUndefined()
   })
 
+  it('advances the original Three Corpses Curse poison entry on the cast itself', () => {
+    const env = prepareBattle({
+      party: [[0, { ...seasonedLeader, mp: 100, maxMP: 100, dexterity: 900, magic: [352] }]],
+      enemyTeamId: 242,
+      rngSeed: 4,
+      magicSpriteFrameCounts: new Map([[25, 20]]),
+    })
+    const { gs, state } = env
+    const target = state.enemies[0]!
+    gs.inventory = [{ itemId: 148, count: 1 }]
+    press(env)
+    press(env, 'Left', 'Confirm')
+    expect(state.magicSelect?.items).toMatchObject([{ id: 352, disabled: false }])
+    press(env, 'Confirm')
+    press(env, 'Confirm')
+    advanceTo(env, () => Boolean(state.battleAnim))
+    expect(target.poisons).toEqual([{ poisonId: 555, scriptEntry: 40890 }])
+    expect(gs.inventory.some(({ itemId }) => itemId === 148)).toBe(false)
+  })
+
+  it.each([
+    { hp: 800, expected: 115, deathSound: [] },
+    { hp: 15, expected: 15, deathSound: [23] },
+  ])('combines Curse Snake poison and spell damage at the first hit from $hp HP', (input) => {
+    const env = prepareBattle({
+      party: [
+        [
+          0,
+          {
+            ...casualtyLi,
+            hp: input.hp,
+            maxHP: 800,
+            level: 9,
+            attackStrength: 120,
+            defense: 400,
+            dexterity: 120,
+            poisonResistance: 0,
+          },
+        ],
+        [
+          4,
+          {
+            ...casualtyLi,
+            hp: 800,
+            maxHP: 800,
+            level: 9,
+            attackStrength: 6000,
+            defense: 400,
+            dexterity: 40,
+          },
+        ],
+      ],
+      enemyTeamId: 242,
+      rngSeed: 4,
+      magicSpriteFrameCounts: new Map([[42, 38]]),
+    })
+    const { state, playerRoles, gs } = env
+    const sprite = state.players[0]!
+    expect(state.enemies.map(({ objectId }) => objectId)).toEqual([459])
+    press(env)
+    press(env, 'Defend')
+    press(env, 'Defend')
+
+    let sawFire = false
+    const sounds: number[] = []
+    let numbers: ReturnType<typeof press> = []
+    for (let beat = 0; beat < 150 && !numbers.length; beat++) {
+      const emitted = press(env)
+      const activeEffect = state.battleAnim?.overlays?.some((overlay) => overlay.spriteChunk === 42)
+      sawFire ||= Boolean(activeEffect)
+      for (const cmd of emitted) {
+        if (cmd.op === 'playSound' && cmd.soundId === 23) sounds.push(cmd.soundId)
+      }
+      numbers = emitted.filter((cmd) => cmd.op === 'showDamageNum' && cmd.target.kind === 'player')
+      if (numbers.length > 0) {
+        expect(sawFire).toBe(true)
+        expect(activeEffect).toBeFalsy()
+        expect(sprite.currentFrame).toBe(4)
+      }
+    }
+
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 553, wPoisonScript: 40870 })
+    expect(numbers).toEqual([
+      {
+        op: 'showDamageNum',
+        target: { kind: 'player', idx: 0 },
+        value: input.expected,
+        color: 'blue',
+      },
+    ])
+    expect(playerRoles.roles[0]?.hp).toBe(input.hp - input.expected)
+    expect(playerRoles.roles[4]?.hp).toBe(800)
+    expect(sounds).toEqual(input.deathSound)
+  })
+
   it.each([
     { label: 'death', hp: 24, maxHP: 60, after: 0, damage: 24, rest: 2, sound: 23 },
     { label: 'dying', hp: 85, maxHP: 150, after: 27, damage: 58, rest: 1, sound: 19 },

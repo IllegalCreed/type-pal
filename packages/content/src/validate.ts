@@ -1175,7 +1175,6 @@ export function checkThrowSpec(
     )
   }
   const effects = assertArray<Record<string, unknown>>(thrown.effects, `${ctx}.effects`)
-  if (effects.length === 0) throw new Error(`${ctx}.effects: 不得为空`)
   effects.forEach((effect, effectIndex) => {
     validateThrowEffect(effect, `${ctx}.effects[${effectIndex}]`)
   })

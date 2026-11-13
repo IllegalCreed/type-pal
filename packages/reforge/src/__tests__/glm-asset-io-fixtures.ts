@@ -60,7 +60,7 @@ export const soundSprite = (): SpriteDef => ({
 })
 
 /** 合法物品（use/throw 各带 sound 与非空 effect；throw 呈现 magic 时其动画音也入集）。
- * 正式 validateItems 守卫：throw.effects 不得为空（applyPoison/healHp 均为现行合法 kind）。 */
+ * applyPoison 是投掷效果，healHp 是使用效果。 */
 export const soundItem = (id: string): ItemData => ({
   id,
   name: `item.${id}`,

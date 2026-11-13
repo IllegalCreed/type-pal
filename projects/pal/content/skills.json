@@ -49,6 +49,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -77,6 +78,7 @@
         "placement": "normal",
         "xOffset": -8,
         "yOffset": 4,
+        "layerOffset": 1,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -105,6 +107,7 @@
         "placement": "normal",
         "xOffset": -8,
         "yOffset": 4,
+        "layerOffset": 1,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -133,6 +136,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -161,6 +165,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -189,6 +194,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": 0,
+        "layerOffset": 1,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -278,6 +284,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -324,6 +331,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -414,6 +422,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -451,6 +460,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -510,6 +520,7 @@
         "placement": "normal",
         "xOffset": -8,
         "yOffset": 4,
+        "layerOffset": 1,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -539,6 +550,7 @@
         "placement": "normal",
         "xOffset": -8,
         "yOffset": 4,
+        "layerOffset": 1,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -694,6 +706,7 @@
         "placement": "attackAll",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -752,6 +765,7 @@
         "placement": "attackWhole",
         "xOffset": 0,
         "yOffset": 40,
+        "layerOffset": 9,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -846,6 +860,7 @@
         "placement": "attackAll",
         "xOffset": -10,
         "yOffset": 12,
+        "layerOffset": 13,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 1,
@@ -904,6 +919,7 @@
         "placement": "attackField",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 8,
         "effectTimes": 4,
@@ -969,6 +985,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 2,
+        "layerOffset": 1,
         "speed": 3,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1028,6 +1045,7 @@
         "placement": "attackAll",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 3,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1145,6 +1163,7 @@
         "placement": "attackAll",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1238,6 +1257,7 @@
         "placement": "attackAll",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1387,6 +1407,7 @@
         "placement": "normal",
         "xOffset": -12,
         "yOffset": 0,
+        "layerOffset": 1,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1537,6 +1558,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": 15,
+        "layerOffset": 16,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1634,6 +1656,7 @@
         "placement": "normal",
         "xOffset": -4,
         "yOffset": -20,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1647,6 +1670,11 @@
             {
               "kind": "applyPoison",
               "poisonId": "555"
+            },
+            {
+              "kind": "damage",
+              "power": 81,
+              "elemental": 6
             }
           ]
         }
@@ -1703,6 +1731,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 32,
+        "layerOffset": 99,
         "speed": 5,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1732,6 +1761,7 @@
         "placement": "attackField",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 3,
@@ -1761,6 +1791,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1790,6 +1821,7 @@
         "placement": "attackWhole",
         "xOffset": -24,
         "yOffset": 32,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 14,
         "effectTimes": 0,
@@ -1819,6 +1851,7 @@
         "placement": "attackField",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1848,6 +1881,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": -16,
+        "layerOffset": -1,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1877,6 +1911,7 @@
         "placement": "attackWhole",
         "xOffset": -32,
         "yOffset": 32,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 24,
         "effectTimes": 0,
@@ -2206,6 +2241,7 @@
         "placement": "normal",
         "xOffset": -4,
         "yOffset": -20,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2240,6 +2276,7 @@
         "placement": "attackAll",
         "xOffset": -4,
         "yOffset": -20,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2253,6 +2290,11 @@
             {
               "kind": "applyPoison",
               "poisonId": "555"
+            },
+            {
+              "kind": "damage",
+              "power": 150,
+              "elemental": 6
             }
           ]
         }
@@ -2284,6 +2326,7 @@
         "placement": "attackAll",
         "xOffset": -4,
         "yOffset": -20,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2297,6 +2340,11 @@
             {
               "kind": "applyPoison",
               "poisonId": "560"
+            },
+            {
+              "kind": "damage",
+              "power": 205,
+              "elemental": 6
             }
           ]
         }
@@ -2323,6 +2371,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": -4,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2352,6 +2401,7 @@
         "placement": "attackWhole",
         "xOffset": 0,
         "yOffset": 20,
+        "layerOffset": 99,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2380,12 +2430,28 @@
         "placement": "normal",
         "xOffset": -102,
         "yOffset": -32,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 23,
         "effectTimes": 0,
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.173"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "applyPoison",
+              "poisonId": "553"
+            },
+            {
+              "kind": "damage",
+              "power": 166,
+              "elemental": 6
+            }
+          ]
+        }
       }
     },
     {
@@ -2437,6 +2503,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": 24,
+        "layerOffset": -23,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2497,6 +2564,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 24,
+        "layerOffset": -23,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2526,6 +2594,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2622,6 +2691,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": 24,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2651,6 +2721,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": 27,
+        "layerOffset": -26,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2717,6 +2788,7 @@
         "placement": "normal",
         "xOffset": -6,
         "yOffset": -18,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2775,6 +2847,7 @@
         "placement": "normal",
         "xOffset": -8,
         "yOffset": 4,
+        "layerOffset": 1,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2803,12 +2876,28 @@
         "placement": "attackAll",
         "xOffset": -102,
         "yOffset": -32,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 23,
         "effectTimes": 0,
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.173"
+      },
+      "execution": {
+        "enemy": {
+          "effects": [
+            {
+              "kind": "applyPoison",
+              "poisonId": "553"
+            },
+            {
+              "kind": "damage",
+              "power": 308,
+              "elemental": 6
+            }
+          ]
+        }
       }
     },
     {
@@ -2832,6 +2921,7 @@
         "placement": "attackField",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": -1,
         "fireDelay": 0,
         "effectTimes": 2,
@@ -2861,6 +2951,7 @@
         "placement": "attackAll",
         "xOffset": 0,
         "yOffset": 24,
+        "layerOffset": -23,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2930,6 +3021,7 @@
         "placement": "attackAll",
         "xOffset": -2,
         "yOffset": -10,
+        "layerOffset": 99,
         "speed": 1,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2963,6 +3055,7 @@
         "placement": "attackWhole",
         "xOffset": -16,
         "yOffset": 40,
+        "layerOffset": 99,
         "speed": 6,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -3031,6 +3124,7 @@
         "placement": "attackWhole",
         "xOffset": 0,
         "yOffset": 30,
+        "layerOffset": 50,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -3064,6 +3158,7 @@
         "placement": "normal",
         "xOffset": -10,
         "yOffset": 24,
+        "layerOffset": -25,
         "speed": 4,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -3132,6 +3227,7 @@
         "placement": "attackAll",
         "xOffset": -10,
         "yOffset": 24,
+        "layerOffset": -25,
         "speed": 4,
         "fireDelay": 0,
         "effectTimes": 0,

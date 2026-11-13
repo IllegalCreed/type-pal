@@ -4,6 +4,7 @@ import {
   comparePoisonCasualty,
   observePoisonRecovery,
 } from './battle-casualty-presentation.mjs'
+import { compareEnemyCast } from './battle-enemy-cast-presentation.mjs'
 
 const FRAME_SOURCE = {
   game: 'game:BattlePresent.draw',
@@ -1128,7 +1129,7 @@ function compareAudioCues(
 }
 
 function compareThrowRecovery(frames, animations, probe, fail) {
-  const { actionIndex, slot, targetSlot, damage, casterHeal, restFrame } = probe
+  const { actionIndex, slot, targetSlot, damage, casterHeal, restFrame, entryFrame } = probe
   const start = animations[actionIndex]
   const next = animations.slice(actionIndex + 1).find(Boolean)
   const selection =
@@ -1157,6 +1158,40 @@ function compareThrowRecovery(frames, animations, probe, fail) {
         ),
     )
   const release = hit && pose(hit, slot)
+  if (entryFrame !== undefined) {
+    const arm =
+      start &&
+      hit &&
+      frames.find(
+        (frame) =>
+          frame.seq >= start.seq && frame.seq < hit.seq && pose(frame, slot)?.frameIndex === 5,
+      )
+    const approach = arm
+      ? frames
+          .filter(({ seq }) => seq >= start.seq && seq < arm.seq)
+          .map((frame) => pose(frame, slot))
+      : []
+    // CLASSIC walks four steps before the throwing stance replaces the entry frame.
+    const moved = approach.filter((draw) => !samePose(draw, home))
+    const positions = [...new Set(moved.map((draw) => draw && `${draw.x},${draw.y}`))]
+    const offsets = [
+      [4, 2],
+      [7, 3],
+      [9, 4],
+      [10, 4],
+    ]
+    if (
+      home?.frameIndex !== entryFrame ||
+      moved.some((draw) => draw?.frameIndex !== entryFrame) ||
+      positions.join(';') !== offsets.map(([dx, dy]) => `${home.x - dx},${home.y - dy}`).join(';')
+    )
+      fail('business', 'throw-windup-preserves-entry-pose', {
+        entryFrame,
+        home,
+        positions,
+        approach,
+      })
+  }
   const holdsPose = (frame, expected) => {
     const actual = pose(frame, slot)
     return samePose(actual, expected) && actual?.frameIndex === expected?.frameIndex
@@ -1313,11 +1348,12 @@ function compareItemFeedback(frames, expected, animations, fail) {
   return observed
 }
 
-function compareSpellPaintOrder(frames, animations, probe, fail) {
+function compareSpellPaintOrder(frames, animations, expected, probe, fail) {
   const {
     actionIndex,
     skillId,
     effect,
+    type,
     targetSide,
     targetSlot,
     points,
@@ -1347,9 +1383,22 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
     fail('integrity', 'spell-paint-draws-missing', observed)
     return observed
   }
+  const partySlots =
+    type === 'applyToParty'
+      ? expected.actions[actionIndex].before.players.map(({ slot }) => slot)
+      : []
   const frameIndices = new Set()
   for (const frame of drawn) {
     const { enemies, players, magicOverlays } = frame.payload
+    if (partySlots.some((slot) => !pose(frame, slot))) {
+      fail('business', 'spell-paint-party-recipient-missing', {
+        ...observed,
+        ...at(frame),
+        partySlots,
+        drawnSlots: players.map(({ slot }) => slot),
+      })
+      return observed
+    }
     if (magicOverlays.some(({ spriteChunk }) => !validFrameIndex(spriteChunk))) {
       fail('integrity', 'spell-paint-resource-missing', {
         ...observed,
@@ -1363,7 +1412,7 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
       return observed
     }
     const target = targetSide === 'player' ? pose(frame, targetSlot) : enemy(frame, targetSlot)
-    const bases = points ?? (target ? [target] : [])
+    const bases = points ?? (type === 'applyToParty' ? players : target ? [target] : [])
     const positions = magicOverlays.map((draw) => `${draw.x},${draw.y}`).sort()
     const expectedPositions = bases.map((base) => `${base.x + x},${base.y + y}`).sort()
     if (
@@ -1657,7 +1706,8 @@ export function validateBattlePresentation(trace, scenario) {
     itemFeedback,
     allySpellPresentation,
     spellPaintOrder,
-    playerCastRecovery
+    playerCastRecovery,
+    enemyCasts
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1680,6 +1730,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
     ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
     ...(playerCastRecovery === undefined ? {} : { playerCastRecovery }),
+    ...(enemyCasts === undefined ? {} : { enemyCasts }),
     findings,
   })
   if (
@@ -1727,11 +1778,35 @@ export function validateBattlePresentation(trace, scenario) {
   )
   if (scenario.expected.throwRecovery)
     throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.emptyThrowActionIndex !== undefined) {
+    const index = scenario.expected.emptyThrowActionIndex
+    const action = scenario.expected.actions[index]
+    const start = animations[index]
+    const next = animations.slice(index + 1).find(Boolean) ?? settlement
+    const slot = action.before.players.find(({ id }) => id === action.actorId)?.slot
+    const window =
+      start && next ? frames.filter(({ seq }) => seq >= start.seq && seq < next.seq) : []
+    const raised = window.find((frame) => pose(frame, slot)?.frameIndex === 5)
+    const released =
+      raised &&
+      window.find((frame) => frame.seq > raised.seq && pose(frame, slot)?.frameIndex === 6)
+    const feedback = window.find(
+      ({ payload }) =>
+        payload.numbers.length || payload.magicOverlays?.length || payload.dialogue?.length,
+    )
+    if (!released || feedback)
+      fail('business', 'empty-throw-windup-and-no-effects', {
+        actionIndex: index,
+        raised: raised && at(raised),
+        released: released && at(released),
+        feedback: feedback && at(feedback),
+      })
+  }
   if (scenario.expected.itemFeedback)
     itemFeedback = compareItemFeedback(frames, scenario.expected, animations, fail)
   if (scenario.expected.spellPaintOrder)
     spellPaintOrder = scenario.expected.spellPaintOrder.map((probe) =>
-      compareSpellPaintOrder(frames, animations, probe, fail),
+      compareSpellPaintOrder(frames, animations, scenario.expected, probe, fail),
     )
   if (scenario.expected.allySpellPresentation)
     allySpellPresentation = compareAllySpell(
@@ -1782,7 +1857,9 @@ export function validateBattlePresentation(trace, scenario) {
       return compareCasualtyDialogue(trace, frames, scenario.expected, probe, motion, fail)
   })
   const numbers =
-    scenario.expected.magicCasualties || scenario.expected.poisonCasualties
+    scenario.expected.magicCasualties ||
+    scenario.expected.poisonCasualties ||
+    scenario.expected.enemyCasts
       ? firstNumberDraws(frames)
       : []
   magicCasualties = judgeProbes('magicCasualties', (probe) =>
@@ -1906,6 +1983,10 @@ export function validateBattlePresentation(trace, scenario) {
       playerCasualties,
       magicCasualties,
       fail,
+    )
+  if (scenario.expected.enemyCasts)
+    enemyCasts = scenario.expected.enemyCasts.map((probe) =>
+      compareEnemyCast(frames, animations, scenario.expected, audio, numbers, probe, fail),
     )
   if (automaticBlock && audio) {
     const impact = audio.cues.find(

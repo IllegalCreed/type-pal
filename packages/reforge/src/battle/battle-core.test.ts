@@ -1115,21 +1115,6 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(rejectedThrow.inventory[0]!.count).toBe(1)
     expect(rejectedThrow.log.some((line) => line.includes('投掷数据无效'))).toBe(true)
 
-    const emptyThrow: ItemData = {
-      ...worldScript,
-      id: 'empty-throw',
-      name: '未完成投掷配置',
-      use: undefined,
-      throw: { target: 'oneEnemy', effects: [] },
-    }
-    const rejectedEmptyThrow = runSingleItemAction(emptyThrow, {
-      kind: 'throw',
-      itemId: 'empty-throw',
-      targetEnemyIdx: 0,
-    })
-    expect(rejectedEmptyThrow.inventory[0]!.count).toBe(1)
-    expect(rejectedEmptyThrow.log.some((line) => line.includes('投掷数据无效'))).toBe(true)
-
     const garlic: ItemData = {
       ...worldScript,
       id: 'garlic',
@@ -1878,13 +1863,33 @@ describe('P2 连击双打(装备授 dualAttack;仙女剑170)', () => {
     expect(s.log.some((l) => l.includes('连击'))).toBe(false)
   })
 
-  test('首击秒杀 → 无第二击(敌已死)', () => {
+  test('连击首击足以击倒时，仍在同一目标上完成第二击', () => {
     const s = createBattleState({
-      players: [player('zhao', { attackStrength: 9999, grantedStatuses: ['dualAttack'] })],
-      enemies: [mkEnemy('slime', { health: 10, defense: 0, attackStrength: 0 })],
+      players: [
+        player('zhao', {
+          baseDexterity: 500,
+          attackStrength: 100,
+          grantedStatuses: ['dualAttack'],
+        }),
+      ],
+      enemies: [
+        mkEnemy('slime', { health: 10, defense: 0, attackStrength: 0 }),
+        mkEnemy('other', { health: 500, defense: 0, attackStrength: 0 }),
+      ],
     })
-    drive(s)
-    expect(s.log.some((l) => l.includes('连击'))).toBe(false) // 敌首击死,无连击
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({
+      kind: 'attack',
+      targetEnemyIdx: 0,
+      firstDamage: expect.any(Number),
+      secondDamage: expect.any(Number),
+    })
+    expect(s.log.filter((line) => line.includes('连击'))).toHaveLength(1)
+    expect(s.enemies[0]?.hp).toBe(0)
+    expect(s.enemies[1]?.hp).toBe(500)
   })
 })
 
@@ -2442,7 +2447,31 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[0]!.hp).toBe(0)
     expect(s.enemies[1]!.hp).toBe(26)
     expect(s.inventory[0]!.count).toBe(0)
-    expect(s.lastAction?.notice).toBe('无任何效果')
+    expect(s.lastAction?.notice).toBeUndefined()
+  })
+
+  test('群体阈值投掷全部未达标时只提示一次，仍消耗一份', () => {
+    const { s } = runThrow(
+      {
+        target: 'allEnemies',
+        effects: [{ kind: 'killIfHpAtMost', percent: 5 }],
+      },
+      {
+        enemies: [
+          mkEnemy('first', { health: 420, dexterity: 0, attackStrength: -999 }),
+          mkEnemy('second', { health: 420, dexterity: 0, attackStrength: -999 }),
+        ],
+        prepare: (state) => {
+          state.enemies[0]!.hp = 22
+        },
+      },
+    )
+    expect(s.enemies[0]?.hp).toBe(22)
+    expect(s.enemies[1]?.hp).toBe(420)
+    expect(s.inventory[0]!.count).toBe(0)
+    expect(s.lastAction?.failureFeedback).toBe('throwIneffective')
+    expect(s.lastAction?.notice).toBeUndefined()
+    expect(s.log.filter((line) => line === '无任何效果')).toHaveLength(1)
   })
 
   test('damageAndHealCaster 正常结算并钳治疗上限', () => {

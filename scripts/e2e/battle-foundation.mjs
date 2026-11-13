@@ -27,10 +27,14 @@ const option = (name, fallback) => {
 }
 for (const arg of args)
   assert(
-    arg === '--audio-review' || /^--(engine|scenario|group|repeat|counter)=/.test(arg),
+    arg === '--audio-review' ||
+      arg === '--visual-review' ||
+      /^--(engine|scenario|group|repeat|counter)=/.test(arg),
     `unknown argument ${arg}`,
   )
 const audioReview = args.includes('--audio-review')
+const visualReview = args.includes('--visual-review')
+assert(!(audioReview && visualReview), 'choose one video capture mode')
 const engine = option('engine', 'game')
 const scenarioId = option('scenario')
 const group = option('group', 'all')
@@ -71,6 +75,7 @@ await runBrowserJourney({
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
     'scripts/e2e/battle-casualty-presentation.mjs',
+    'scripts/e2e/battle-enemy-cast-presentation.mjs',
     'scripts/e2e/battle-random-instrumentation.mjs',
     'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
@@ -88,7 +93,7 @@ await runBrowserJourney({
       let previous
       for (let index = 0; index < repeat; index++) {
         const runId = `${scenario.id}-${index + 1}`
-        const page = await newPage(runId, { visualReviewVideo: index === 0 && !audioReview })
+        const page = await newPage(runId, { visualReviewVideo: index === 0 && visualReview })
         await page.addInitScript(
           battleObserverScript({
             engine,

@@ -546,6 +546,18 @@ function tickPoisons(s: BattleState, host: PoisonHost, side: 'player' | 'enemy')
 
 type EnemyPoisonApplication = 'resisted' | 'alreadyPresent' | 'applied'
 
+function runNewPoisonEntry(
+  s: BattleState,
+  host: PoisonHost,
+  side: 'player' | 'enemy',
+  index: number,
+  recordEnemyDamage?: (damage: number) => void,
+): void {
+  const next = tickPoison(s, host, side, expectDefined(host.poisons[index]), recordEnemyDamage)
+  if (next) host.poisons[index] = next
+  else host.poisons.splice(index, 1)
+}
+
 function tryApplyPoisonToEnemy(
   enemy: BattleEnemyState,
   poisonId: number,
@@ -567,26 +579,26 @@ function applyEnemyPoisonEffect(
 ): EnemyPoisonApplication {
   const result = tryApplyPoisonToEnemy(enemy, poisonId, rng)
   if (result !== 'applied') return result
-  const index = enemy.poisons.findIndex((poison) => poison.poisonId === poisonId)
-  const active = enemy.poisons[index]
-  if (!active) throw new Error(`applyEnemyPoisonEffect: 新毒 ${poisonId} 未落槽`)
-  const next = tickPoison(s, enemy, 'enemy', active, recordEnemyDamage)
-  if (next) enemy.poisons[index] = next
-  else enemy.poisons.splice(index, 1)
+  runNewPoisonEntry(s, enemy, 'enemy', enemy.poisons.length - 1, recordEnemyDamage)
   return result
 }
 
 /**
  * 对己/队友下毒(毒药 use-on-self 三段链,fight.c 0x5D/0x2B/0x5F/0x29):
  * ① 身中被本毒所克的毒(counters)→ 以毒攻毒解掉它、不下本毒;② 否则身中致死配对毒(lethalWith)
- * → 当场暴毙;③ 都没有 → 下本毒。**自毒无巫抗门**(巫抗只 gate 对敌)。返回结果供 log。
+ * → 当场暴毙;③ 都没有 → 下本毒。战斗调用方在第三段消费 0x29 毒抗抽样。
  */
 export function applyPoisonToPlayer(
   p: BattlePlayerState,
   poisonId: number,
   poisonDefs: Record<number, PoisonDef>,
 ): 'cured' | 'lethal' | 'applied' {
-  return applyPoisonSelf(p, poisonId, poisonDefs) // 战斗↔大世界共用同一三段链(content/poison)
+  return applyPoisonSelf(p, poisonId, poisonDefs)
+}
+
+/** The 0x29 gate samples before slot deduplication (script.c:1257–1285). */
+function passesPlayerPoisonResistance(p: BattlePlayerState, rng: () => number): boolean {
+  return 1 + Math.floor(rng() * 100) > (p.poisonRes ?? 0)
 }
 
 /**
@@ -2106,9 +2118,14 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
             s.log.push(`${who} 使用 ${item.name},恢复神智`)
             break
           case 'applyPoison': {
-            const r = applyPoisonToPlayer(t, Number(eff.poisonId), s.poisonDefs)
+            const before = t.poisons.length
+            const r = applyPoisonSelf(t, Number(eff.poisonId), s.poisonDefs, () =>
+              passesPlayerPoisonResistance(t, _rng),
+            )
+            if (r === 'applied' && t.poisons.length > before)
+              runNewPoisonEntry(s, t, 'player', before)
             s.log.push(
-              `${who} 使用 ${item.name}${r === 'cured' ? ',以毒攻毒解毒' : r === 'lethal' ? ',双毒相冲暴毙' : ''}`,
+              `${who} 使用 ${item.name}${r === 'cured' ? ',以毒攻毒解毒' : r === 'lethal' ? ',双毒相冲暴毙' : r === 'resisted' ? ',抵抗了毒性' : ''}`,
             )
             break
           }
@@ -2193,8 +2210,8 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     }
     e.hp = Math.max(0, e.hp - hit1.dmg)
     s.log.push(`${p.roleId} ${hit1.crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${hit1.dmg}`)
-    // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷)
-    if (hasPlayerStatus(p, 'dualAttack') && e.hp > 0) {
+    // CLASSIC resolves both strikes on the validated target before checking death (fight.c:3618–3674).
+    if (hasPlayerStatus(p, 'dualAttack')) {
       const hit2 = resolvePlayerAttackHit(p, e, _rng)
       if (s.lastAction?.side === 'player' && s.lastAction.kind === 'attack') {
         s.lastAction.secondDamage = hit2.dmg
@@ -2283,6 +2300,7 @@ function performThrow(
   slot.count -= 1 // 投掷必消耗
   const damageByTarget = new Map(targetIndices.map((index) => [index, 0]))
   const stoppedTargets = new Set<number>()
+  let thresholdMissed = false
   // PAL 的投掷脚本按 opcode/effect 推进；applyToAll 只把该 effect 扩展到稳定的目标序列。
   // 因此 RNG 必须绑定为 effect → targets，不能把完整 effect 链逐目标跑完。
   for (const eff of item.throw.effects) {
@@ -2364,10 +2382,7 @@ function performThrow(
           if (e.hp * 100 <= e.def.stats.health * eff.percent) {
             damageEnemy(e.hp)
             s.log.push(`${e.def.id} 魂飞魄散`)
-          } else {
-            s.log.push('无任何效果')
-            if (s.lastAction) s.lastAction.notice = '无任何效果'
-          }
+          } else thresholdMissed = true
           break
         case 'damageAndHealCaster':
           damageEnemy(eff.damage)
@@ -2381,11 +2396,17 @@ function performThrow(
       }
     }
   }
-  if (s.lastAction)
-    s.lastAction.throwHits = [...damageByTarget].map(([idx, damage]) => ({
-      idx,
-      value: Math.max(0, damage),
-    }))
+  const hits = [...damageByTarget].map(([idx, damage]) => ({ idx, value: Math.max(0, damage) }))
+  // A threshold-only throw has one result message for the entire action.
+  if (
+    thresholdMissed &&
+    hits.every(({ value }) => value === 0) &&
+    item.throw.effects.every(({ kind }) => kind === 'killIfHpAtMost')
+  ) {
+    s.log.push('无任何效果')
+    if (s.lastAction) s.lastAction.failureFeedback = 'throwIneffective'
+  }
+  if (s.lastAction) s.lastAction.throwHits = hits
 }
 
 /** CLASSIC 在普攻所有击次结算后累计隐藏经验权重（fight.c:3751-3757）。 */
@@ -2492,16 +2513,17 @@ function applyEnemySkill(
   const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
   // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
   const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
-  const targets =
-    skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [action.targetPlayerIdx] : []
+  const hitsParty = skill.target === 'allEnemies'
+  const targets = hitsParty ? alivePlayers(s) : onParty ? [action.targetPlayerIdx] : []
+  const guardSlots = hitsParty ? s.players.map((_, slot) => slot) : targets
   // 被动格挡预掷(fight.c:4723-4757,在效果处理**前**——效果先施眠/定不剥夺本次资格):
-  // 资格 = 活着 + 无眠/定/乱,1/3 命中;进除因子 +1(减伤不免伤,异于物攻 7/17 全免闪避)
+  // 群攻在掷格挡后检查存活，失能直接跳过抽样。成功格挡使法术伤害的除数加一。
   const autoDefend = new Set<number>()
-  for (const ti of targets) {
+  for (const ti of guardSlots) {
     const p = s.players[ti]
-    if (!p || p.hp <= 0) continue
+    if (!p) continue
     const eligible = p.status.sleep <= 0 && p.status.paralyzed <= 0 && p.status.confused <= 0
-    if (eligible && Math.floor(rng() * 3) === 0) autoDefend.add(ti)
+    if (eligible && Math.floor(rng() * 3) === 0 && p.hp > 0) autoDefend.add(ti)
   }
   if (autoDefend.size) action.autoDefend = [...autoDefend]
   // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
@@ -2549,15 +2571,14 @@ function applyEnemySkill(
       case 'applyPoison': {
         // 0x29 对玩家下毒(script.c:1269):RandomLong(1,100) > 玩家毒抗 → 中毒
         const pid = Number(eff.poisonId)
-        for (const ti of targets) {
-          const t = s.players[ti]
-          if (!t || t.hp <= 0) continue
-          // 结构化毒模型(editor PoisonTab):巫术下毒 = 普通 0x29,不带致死/相克检查
-          // (PoisonDef.lethalWith 仅投掷触发、counters 仅 use-on-self 触发,原版实证);
-          // 敌方施法(352/372/373 蛊术)同样走这条普通路径。
-          if (1 + Math.floor(rng() * 100) > (t.poisonRes ?? 0)) {
-            if (!t.poisons.some((x) => x.poisonId === pid))
+        for (const ti of guardSlots) {
+          const t = expectDefined(s.players[ti])
+          // 普通 0x29 直接上毒。相克和致死检查由各毒道具的入口处理。
+          if (passesPlayerPoisonResistance(t, rng)) {
+            if (!t.poisons.some((x) => x.poisonId === pid)) {
               t.poisons.push({ poisonId: pid, tickIndex: 0 })
+              runNewPoisonEntry(s, t, 'player', t.poisons.length - 1)
+            }
             s.log.push(`${t.roleId} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`)
           } else s.log.push(`${t.roleId} 抵抗了下毒`)
         }
@@ -2566,7 +2587,8 @@ function applyEnemySkill(
       case 'damage': {
         for (const ti of targets) {
           const p = expectDefined(s.players[ti])
-          if (p.hp <= 0) continue // 已死跳过(fight.c:4782;AoE 前效果可能致死)
+          // CLASSIC 群攻跳过被脚本击倒者，单体仍抽伤害并走 HP=0 的声效分支。
+          if (hitsParty && p.hp <= 0) continue
           const elemRes = p.elemRes ?? ZERO
           // 除因子(fight.c:4801-4803/4836-4838):(防御2)×(护体2)+(格挡1)
           let dmg = Math.trunc(
@@ -2797,15 +2819,12 @@ export function applyEnemyEquivItem(
   if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) return // 毒抗门:毒抗 ≥ R(1,100) → 抗掉
   for (const eff of item.use.effects) {
     if (eff.kind !== 'applyPoison') continue
-    if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) continue
+    if (!passesPlayerPoisonResistance(p, rng)) continue
     const poisonIndex = p.poisons.length
     const result = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
-    const active = p.poisons[poisonIndex]
-    if (result !== 'applied' || !active) continue
+    if (result !== 'applied' || p.poisons.length === poisonIndex) continue
     s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
-    const next = tickPoison(s, p, 'player', active)
-    if (next) p.poisons[poisonIndex] = next
-    else p.poisons.splice(poisonIndex, 1)
+    runNewPoisonEntry(s, p, 'player', poisonIndex)
   }
 }
 

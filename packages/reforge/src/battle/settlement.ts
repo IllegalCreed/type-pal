@@ -10,13 +10,18 @@
 
 import type { HiddenStatKey, HiddenUpReport, LevelUpReport } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
-import { drawNumberLeft, drawScroll, drawSlicedBox, type MenuAssets } from '../menu/menu-box.js'
+import {
+  drawNumberLeft,
+  drawScroll,
+  drawSlicedBox,
+  type MenuAssets,
+  SCROLL_LABEL_STYLE,
+} from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
-const COLOR_LABEL = [199, 186, 174] as const // 米白
 const COLOR_LEVELUP_LABEL = [214, 198, 140] as const // 0xBB 升级标签
-const COLOR_MAGIC = [140, 180, 235] as const // 0x1B 练成技能名
+const COLOR_MAGIC = [203, 89, 77] as const // PAL 标准色板 0x1B
 
 /** 8 升级标签(顺序 = battle.c:1141-1148)。 */
 const LEVELUP_LABELS = ['修行', '体力', '真气', '武术', '灵力', '防御', '身法', '吉运'] as const
@@ -104,17 +109,6 @@ export function drawSettlementScreen(
   }
 }
 
-function label(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  glyphs: GlyphTable,
-  color: readonly [number, number, number] = COLOR_LABEL,
-): void {
-  renderSpans(ctx, [{ text }], x, y, { glyphs, shadow: true, forceRgba: color })
-}
-
 const GLYPH_H = 16 // CJK 字模高
 const DIGIT_H = 8 // 数字 sprite 高
 
@@ -135,14 +129,8 @@ type LinePart =
   | { text: string; color?: readonly [number, number, number] }
   | { num: number; align?: 'right' | 'center' }
 
-interface ScrollLineStyle {
-  gap?: number
-  color?: readonly [number, number, number]
-  shadow?: boolean
-}
-
 const REWARD_NUMBER_WIDTH = 5 * 6 // 原版经验、金钱各用五个 6px 数字格。
-const REWARD_LINE_STYLE = { gap: 6, color: [0, 0, 0], shadow: false } as const
+const REWARD_GAP = 6
 
 /** 卷轴按内容宽度伸缩。对齐的奖励数字预留一列，实测内容更宽时扩展。 */
 function drawScrollLine(
@@ -151,7 +139,7 @@ function drawScrollLine(
   glyphs: GlyphTable,
   y: number,
   parts: LinePart[],
-  { gap = 4, color = COLOR_LABEL, shadow = true }: ScrollLineStyle = {},
+  gap: number,
 ): void {
   const PAD = 6 // 内容距左右帽内边距
   const t = menu.scroll.tiles
@@ -184,8 +172,8 @@ function drawScrollLine(
     } else {
       renderSpans(ctx, [{ text: part.text }], px, textY, {
         glyphs,
-        shadow,
-        forceRgba: part.color ?? color,
+        ...SCROLL_LABEL_STYLE,
+        forceRgba: part.color ?? SCROLL_LABEL_STYLE.forceRgba,
       })
     }
     px += width + gap
@@ -209,7 +197,7 @@ function drawExpCash(
     glyphs,
     y0,
     [{ text: '获得经验值' }, { num: exp, align: 'right' }],
-    REWARD_LINE_STYLE,
+    REWARD_GAP,
   )
   drawScrollLine(
     ctx,
@@ -217,7 +205,7 @@ function drawExpCash(
     glyphs,
     y0 + h + GAPV,
     [{ text: '打败敌人得' }, { num: cash, align: 'center' }, { text: '文钱' }],
-    REWARD_LINE_STYLE,
+    REWARD_GAP,
   )
 }
 
@@ -280,11 +268,7 @@ function drawLevelUp(
     [{ text: titleText }],
     BOX_X + Math.round((BOX_W - tw) / 2),
     titleY + Math.round((titleH - GLYPH_H) / 2),
-    {
-      glyphs,
-      shadow: true,
-      forceRgba: COLOR_LABEL,
-    },
+    { glyphs, ...SCROLL_LABEL_STYLE },
   )
   // 主表红框(同 x/宽)
   drawSlicedBox(ctx, menu.redBox, BOX_X, BOX_Y, BOX_W, BOX_H)
@@ -322,7 +306,11 @@ function drawLevelUp(
   rows.forEach((r, j) => {
     const ly = BOX_Y + 8 + ROW_H * j
     const ny = ly + 2
-    label(ctx, r.lab, LABEL_X, ly, glyphs, COLOR_LEVELUP_LABEL)
+    renderSpans(ctx, [{ text: r.lab }], LABEL_X, ly, {
+      glyphs,
+      shadow: true,
+      forceRgba: COLOR_LEVELUP_LABEL,
+    })
     drawStatValue(ctx, OLD_CUR_RIGHT, ny, menu, r.old, r.oldMax)
     if (menu.settleArrow) ctx.drawImage(menu.settleArrow, ARROW_X, ly + 4)
     drawStatValue(ctx, CUR_CUR_RIGHT, ny, menu, r.cur, r.curMax)
@@ -339,7 +327,7 @@ function drawHiddenUp(
   glyphs: GlyphTable,
 ): void {
   const y = Math.round((200 - scrollBoxH(menu)) / 2)
-  drawScrollLine(ctx, menu, glyphs, y, [{ text: `${name}${statLabel}提升` }, { num: delta }])
+  drawScrollLine(ctx, menu, glyphs, y, [{ text: `${name}${statLabel}提升` }, { num: delta }], 4)
 }
 
 // ── Phase D:{name} 练成 {magicName}(battle.c:1312-1321;卷轴居中)──
@@ -351,9 +339,12 @@ function drawLearnMagic(
   glyphs: GlyphTable,
 ): void {
   const y = Math.round((200 - scrollBoxH(menu)) / 2)
-  drawScrollLine(ctx, menu, glyphs, y, [
-    { text: name },
-    { text: '练成' },
-    { text: magicName, color: COLOR_MAGIC },
-  ])
+  drawScrollLine(
+    ctx,
+    menu,
+    glyphs,
+    y,
+    [{ text: name }, { text: '练成' }, { text: magicName, color: COLOR_MAGIC }],
+    0,
+  )
 }

@@ -4,30 +4,23 @@ import type { MenuAssets } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { buildSettlementScreens, drawSettlementScreen } from './settlement.js'
 
-const textCalls = vi.hoisted(() => vi.fn())
+const textCalls = vi.hoisted(() =>
+  vi.fn<typeof import('../text/text-render.js').renderSpans>(() => 0),
+)
 const menuCalls = vi.hoisted(() => ({
   number: vi.fn(),
   scroll: vi.fn(),
   box: vi.fn(),
 }))
-vi.mock('../menu/menu-box.js', () => ({
+vi.mock('../menu/menu-box.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../menu/menu-box.js')>()),
   drawNumberLeft: (...args: unknown[]) => menuCalls.number(...args),
   drawScroll: (...args: unknown[]) => menuCalls.scroll(...args),
   drawSlicedBox: (...args: unknown[]) => menuCalls.box(...args),
 }))
-vi.mock('../text/text-render.js', () => ({
-  measureSpans: (spans: Array<{ text: string }>) =>
-    spans.reduce((width, span) => width + span.text.length * 8, 0),
-  renderSpans: (
-    ctx: unknown,
-    spans: Array<{ text: string }>,
-    x: number,
-    y: number,
-    opts: unknown,
-  ) => {
-    textCalls(ctx, spans, x, y, opts)
-    return spans.reduce((width, span) => width + span.text.length * 8, 0)
-  },
+vi.mock('../text/text-render.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../text/text-render.js')>()),
+  renderSpans: textCalls,
 }))
 
 const before: StatSnapshot = {
@@ -101,9 +94,17 @@ function renderHost() {
 }
 
 function renderedTexts(): string[] {
-  return textCalls.mock.calls.map((call) =>
-    (call[1] as Array<{ text: string }>).map((span) => span.text).join(''),
-  )
+  return renderedTextLayout().map(({ text }) => text)
+}
+
+function renderedTextLayout() {
+  return textCalls.mock.calls.map(([, spans, x, y, options]) => ({
+    text: spans.map(({ text }) => text).join(''),
+    x,
+    y,
+    color: options.forceRgba,
+    shadow: options.shadow,
+  }))
 }
 
 describe('当前战斗奖励的正式结算屏序列', () => {
@@ -209,7 +210,8 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       host.menu,
       host.glyphs,
     )
-    expect(renderedTexts()).toEqual([
+    const [title, ...tableLabels] = renderedTextLayout()
+    expect([title, ...tableLabels].map((entry) => entry?.text)).toEqual([
       '逍遥修行提升',
       '修行',
       '体力',
@@ -220,6 +222,17 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       '身法',
       '吉运',
     ])
+    // battle.c:1133 对浅底标题用黑字无影；下方红底表格仍使用金色和阴影。
+    expect(title).toEqual({
+      text: '逍遥修行提升',
+      x: 112,
+      y: 14,
+      color: [0, 0, 0],
+      shadow: false,
+    })
+    expect(tableLabels.map(({ color, shadow }) => [color, shadow])).toEqual(
+      Array.from({ length: 8 }, () => [[214, 198, 140], true]),
+    )
     expect(host.drawImage.mock.calls.filter(([image]) => image === host.arrow)).toHaveLength(8)
     expect(host.drawImage.mock.calls.filter(([image]) => image === host.slash)).toHaveLength(4)
     expect(menuCalls.box).toHaveBeenCalledOnce()
@@ -232,8 +245,11 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       host.menu,
       host.glyphs,
     )
-    expect(renderedTexts()).toEqual(['逍遥防御提升'])
-    expect(menuCalls.number.mock.calls.at(-1)?.[1]).toBe(2)
+    // battle.c:1269，隐藏属性提示与浅底标题使用同一文字样式。
+    expect(renderedTextLayout()).toEqual([
+      { text: '逍遥防御提升', x: 107, y: 92, color: [0, 0, 0], shadow: false },
+    ])
+    expect(menuCalls.number).toHaveBeenLastCalledWith(host.ctx, 2, 207, 96, host.menu.nums)
 
     textCalls.mockClear()
     host.drawImage.mockClear()
@@ -243,7 +259,13 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       host.menu,
       host.glyphs,
     )
-    expect(renderedTexts()).toEqual(['逍遥', '练成', '气疗术'])
+    // battle.c:1319–1321. 正文用色索引 0，术名用 0x1B，三段按字宽相接。
+    expect(renderedTextLayout()).toEqual([
+      { text: '逍遥', x: 104, y: 92, color: [0, 0, 0], shadow: false },
+      { text: '练成', x: 136, y: 92, color: [0, 0, 0], shadow: false },
+      { text: '气疗术', x: 168, y: 92, color: [203, 89, 77], shadow: false },
+    ])
     expect(menuCalls.scroll).toHaveBeenCalledTimes(5)
+    expect(menuCalls.scroll).toHaveBeenLastCalledWith(host.ctx, host.menu.scroll, 88, 88, 16)
   })
 })

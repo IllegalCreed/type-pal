@@ -14,7 +14,7 @@ import {
 } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { advanceCue, type DialogueState } from '../dialogue.js'
-import { type BoxTiles, drawScroll } from '../menu/menu-box.js'
+import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
@@ -460,9 +460,9 @@ export class DialogBox {
     let x = layout.textX
     for (const span of r.singleLineSpans) {
       x += renderSpans(this.ctx, [span], x, layout.textY, {
+        ...SCROLL_LABEL_STYLE,
         glyphs: this.glyphs,
-        shadow: false,
-        forceRgba: span.color ? colorRgba(span.color) : [0, 0, 0],
+        forceRgba: span.color ? colorRgba(span.color) : SCROLL_LABEL_STYLE.forceRgba,
       })
     }
     if (isActive) this.pageDone = true

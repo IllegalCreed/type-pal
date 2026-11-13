@@ -20,6 +20,8 @@ export interface FighterDelta {
   idx: number
   /** 精灵帧号(缺 = 不变)。 */
   frame?: number
+  /** 时间线持有敌方当前帧，包括本来会继续循环的待机帧。 */
+  holdFrame?: true
   /** 底锚位置(缺 = 不变)。 */
   pos?: { x: number; y: number }
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
@@ -69,6 +71,8 @@ export interface AnimFrame {
   /** 战斗消息条(一阶段 battleMessage):从本帧起显示 durationMs。缺省位 = 物品名 (210,50);
    *  x/y 覆写 = 战斗标签位(逃跑失败/偷窃「获得」用 (130,75),一阶段渲染真值)。 */
   banner?: { text: string; durationMs: number; x?: number; y?: number }
+  /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
+  waitForThrowFeedback?: boolean
   /** 旧/新战斗精灵的离散 dither 过渡；step=0 只画旧图，step=72 后只画新图。 */
   appearanceTransition?: {
     side: 'player' | 'enemy'
@@ -525,6 +529,7 @@ export interface BuildThrowItemInput {
   casterPos?: { x: number; y: number }
   casterRestFrame?: number
   itemName?: string
+  waitForThrowFeedback?: boolean
   /** 当前投掷目标的伤害显示量。零伤害不显示数字。 */
   hits?: Array<{ idx: number; damage: number }>
   /** 投掷吸血时，施用者实际回复的 HP。 */
@@ -589,6 +594,10 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
         ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
       }),
     )
+  }
+  if (input.waitForThrowFeedback) {
+    // 0x3E 在投掷结果脚本内等待，随后才显示数字和收招（fight.c:4361–4372）。
+    frames.push({ durationMs: 0, waitForThrowFeedback: true })
   }
   const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
@@ -1316,6 +1325,8 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
 
 export interface BuildEnemyCastInput {
   enemyIdx: number
+  enemyPos: { x: number; y: number }
+  enemyFrame: number
   anim: EnemyBattleSpriteProfile
   playerFrames: readonly PlayerFighterFrames[]
   /** 敌施法起手音(sounds.magic)。 */
@@ -1327,48 +1338,77 @@ export interface BuildEnemyCastInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   deathSounds?: readonly AssetId[]
   dyingSounds?: readonly AssetId[]
-  /** 受伤队员(idx+底锚;受击反应帧用 —— 一阶段 19f8d6a9 曾整段漏「我方受击纹丝不动」)。 */
+  /** 单体目标或群攻受伤队员。空数组仍保留原版五拍等待。 */
   hurtPlayers?: Array<{ idx: number; pos: { x: number; y: number } }>
   /** 特效末帧烙背景(fight.c:2983 敌施法同款)。 */
   keepEffect?: boolean
-  /** 被动格挡队员(1/3 掷中,伤害除因子 +1):摆防御姿 frame3(fight.c:4737-4738/4755-4756)。 */
+  /** 被动格挡队员。防御姿由战斗精灵配置给出。 */
   autoDefendPlayers?: number[]
 }
 
-/**
- * 敌施法时间线:magic 起手帧(idleFrames+i,each Delay2,同物攻起手)+ magic 音
- * → fire 特效 → 阵亡声与数字 → 原地受击及五拍反应 → 敌归位一拍 → 队员复位。
- */
+// 固定落点与队伍人数无关（fight.c:2989–3038）。
+const ENEMY_CAST_POSITIONS = {
+  attackAll: [
+    { x: 180, y: 180 },
+    { x: 234, y: 170 },
+    { x: 270, y: 146 },
+  ],
+  attackWhole: [{ x: 240, y: 150 }],
+  attackField: [{ x: 160, y: 200 }],
+} as const
+
+/** 敌施法先走两拍，再播手势。出手位置持续至五拍受击后归位。 */
 export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
-  const { enemyIdx, anim, magicSound, fireFrames, fx, targetPos, damageNums } = input
-  const frames: AnimFrame[] = []
-  for (let i = 0; i < Math.max(1, anim.magic.count); i++) {
-    frames.push({
-      durationMs: delayMs(2),
+  const { enemyIdx, enemyPos, anim, magicSound, fireFrames, fx, targetPos, damageNums } = input
+  const frames: AnimFrame[] = [
+    {
+      durationMs: delayMs(1),
       fighters: [
         {
           side: 'enemy',
           idx: enemyIdx,
-          frame: anim.magic.count > 0 ? anim.magic.start + i : anim.idle.start,
+          frame: input.enemyFrame,
+          holdFrame: true,
+          pos: { x: enemyPos.x + 12, y: enemyPos.y + 6 },
         },
       ],
-      ...(i === 0 && magicSound ? { sound: magicSound } : {}),
+    },
+    {
+      durationMs: delayMs(1),
+      fighters: [{ side: 'enemy', idx: enemyIdx, pos: { x: enemyPos.x + 16, y: enemyPos.y + 8 } }],
+    },
+  ]
+  const castSound = magicSound ? { sound: magicSound } : {}
+  const actDurationMs = delayMs(anim.actTicksPerFrame)
+  // fight.c:4683–4717。零施法帧仍等一拍；零 FIRE delay 的攻击段在特效前播放。
+  if (anim.magic.count === 0) frames.push({ durationMs: delayMs(1), ...castSound })
+  for (let i = 0; i < anim.magic.count; i++) {
+    frames.push({
+      durationMs: actDurationMs,
+      fighters: [{ side: 'enemy', idx: enemyIdx, frame: anim.magic.start + i }],
+      ...(i === 0 ? castSound : {}),
     })
   }
-  // 被动格挡摆防御姿 frame3:注入起手**末帧**、特效前(fight.c:4737-4738/4755-4756;一阶段
-  // DL10b 修过「早数帧」的坑)。姿势由 session 收尾 resetVisual 归位。
-  if (input.autoDefendPlayers?.length) {
-    const tail = expectDefined(frames[frames.length - 1])
-    tail.fighters = [
-      ...(tail.fighters ?? []),
-      ...input.autoDefendPlayers.map((idx) => ({
-        side: 'player' as const,
-        idx,
-        frame: expectDefined(input.playerFrames[idx]).defend,
-      })),
-    ]
+  if (fx.fireDelay === 0) {
+    // 原版先重复施法段的末帧；没有施法段时重复最后一个待机帧。
+    for (let i = -1; i < anim.attack.count; i++)
+      frames.push({
+        durationMs: actDurationMs,
+        fighters: [{ side: 'enemy', idx: enemyIdx, frame: anim.attack.start + i }],
+      })
   }
+  // 防御姿在起手结束后生效，FIRE 首帧才首次绘制（fight.c:4737–4766）。
+  const guardPoses: FighterDelta[] = (input.autoDefendPlayers ?? []).map((idx) => ({
+    side: 'player',
+    idx,
+    frame: expectDefined(input.playerFrames[idx]).defend,
+  }))
+  if (fireFrames <= 0 && guardPoses.length) frames.push({ durationMs: 0, fighters: guardPoses })
   if (fireFrames > 0) {
+    const positions =
+      fx.placement === 'normal'
+        ? [targetPos ?? { x: 160, y: 130 }]
+        : ENEMY_CAST_POSITIONS[fx.placement]
     const n = fireFrames
     const fd = Math.min(fx.fireDelay, n - 1)
     const l = (n - fd) * fx.effectTimes + n + fx.shake
@@ -1376,25 +1416,17 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
     for (let i = 0; i < l; i++) {
       const inShake = l - i <= fx.shake
       const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
-      const base =
-        fx.placement === 'attackWhole' ||
-        fx.placement === 'attackField' ||
-        fx.placement === 'attackAll'
-          ? { x: 160, y: 100 } // 敌方全体术打全队:屏中(简化;原版逐队员落点后续)
-          : (targetPos ?? { x: 160, y: 130 })
-      const ov: OverlayDraw[] = [
-        {
-          sheet: 'magic',
-          frameIdx: k,
-          x: base.x + fx.xOffset,
-          y: base.y + fx.yOffset,
-          layerOffset: fx.layerOffset ?? 0,
-        },
-      ]
+      const overlays = positions.map((pos) => magicOverlay(k, fx, pos))
+      const fighters = i === 0 ? guardPoses : []
+      const attackFrame = i - fx.fireDelay
+      // 正延迟在 FIRE 帧内推进攻击段，后震期间保持最后姿势（fight.c:2932–2943）。
+      if (!inShake && fx.fireDelay > 0 && attackFrame >= 0 && attackFrame < anim.attack.count)
+        fighters.push({ side: 'enemy', idx: enemyIdx, frame: anim.attack.start + attackFrame })
       frames.push({
         durationMs: frameDur,
-        overlays: ov,
-        ...(fx.sound && i >= fd && (i - fd) % n === 0 ? { sound: fx.sound } : {}),
+        overlays,
+        ...(fighters.length ? { fighters } : {}),
+        ...(i === 0 && fx.sound ? { sound: fx.sound } : {}), // WIN95 效果音只在 FIRE 首帧触发。
         // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(inShake ? { screenShake: true } : {}),
@@ -1402,14 +1434,14 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
           ? { screenShake: true, screenShakeLevel: fx.preShake.level }
           : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
-        ...(i === l - 1 && input.keepEffect ? { burnBg: ov } : {}),
+        ...(i === l - 1 && input.keepEffect ? { burnBg: overlays } : {}),
       })
     }
   }
   // 基础伤害致死时先播声。数字在位移前创建，首帧在原地显示受击。
   // fight.c:4814–4859,4861–4898
   for (const sound of input.deathSounds ?? []) frames.push({ durationMs: 0, sound })
-  if (input.hurtPlayers?.length) {
+  if (input.hurtPlayers) {
     const off = { x: 0, y: 0 }
     for (let i = 0; i < 5; i++) {
       if (i > 0) {
@@ -1431,8 +1463,8 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
   }
   frames.push({
     durationMs: delayMs(1),
-    ...(!input.hurtPlayers?.length && damageNums.length ? { damageNums } : {}),
-    fighters: [{ side: 'enemy', idx: enemyIdx, frame: anim.idle.start }],
+    ...(!input.hurtPlayers && damageNums.length ? { damageNums } : {}),
+    fighters: [{ side: 'enemy', idx: enemyIdx, frame: anim.idle.start, pos: enemyPos }],
   })
   for (const sound of input.dyingSounds ?? []) frames.push({ durationMs: 0, sound })
   return frames
@@ -1459,6 +1491,7 @@ export interface AnimSideEffects {
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
+  onThrowFeedback?(): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -1487,6 +1520,12 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
+      if (next.waitForThrowFeedback) {
+        // 丢弃越过等待点的余量，避免确认前已经播放收招。
+        this.elapsed = 0
+        this.fx.onThrowFeedback?.()
+        return false
+      }
     }
   }
 

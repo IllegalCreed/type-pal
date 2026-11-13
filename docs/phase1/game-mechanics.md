@@ -3,10 +3,22 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-13
+Last reviewed: 2026-11-14
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-14 横向卷轴的文字
+
+SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底卷轴上用 0 号黑色写字，关闭字形阴影。练成仙术的角色名和「练成」同样用 0 号，术名用标准色板 0x1B，三段都关闭阴影。段首按词条格宽推进。逍遥和灵儿在本次局面都是三格姓名，后接两格「练成」，两段交界和术名前连续排字。主菜单的「金钱」也用 0 号且关闭字形阴影，卷轴自身仍带阴影。 [经验和金钱](../../reference/sdlpal/battle.c#L1037) · [修行提升](../../reference/sdlpal/battle.c#L1133) · [隐藏属性提升](../../reference/sdlpal/battle.c#L1269) · [练成仙术](../../reference/sdlpal/battle.c#L1319) · [主菜单金钱](../../reference/sdlpal/uigame.c#L483)
+
+## 2026-11-14 敌方施法与六种大毒
+
+敌方施法依次前移 (12,6) 和 (4,2)，各停一拍，再播起手音并按敌精灵的动作间隔换帧。施法专属帧为空时停一拍。释放延迟为零时，FIRE 前走攻击手势；释放延迟为正时，在 FIRE 播放期间切换攻击手势。施法者保持前移位置，目标受击五拍后恢复敌方原位和帧 0。被动格挡姿态与 FIRE 首帧同现。Win95 的特效音在 FIRE 首帧请求，敌人的负值起手音标志抑制特效音。群体三点、中央和场地特效分别锚在 (180,180)/(234,170)/(270,146)、(240,150) 和 (160,200)，再叠加 MAGIC 有符号位置与画层偏移。 [起手与格挡](../../reference/sdlpal/fight.c#L4681) · [FIRE、音效和群体锚点](../../reference/sdlpal/fight.c#L2847) · [受击和回位](../../reference/sdlpal/fight.c#L4857)
+
+六条有向解毒是鹤顶红解血海棠、血海棠解断肠草、断肠草解三尸蛊、三尸蛊解孔雀胆、孔雀胆解金蚕蛊、金蚕蛊解鹤顶红。毒道具自用先查相克，再查三对致死搭档。鹤顶红与孔雀胆、血海棠与三尸蛊、断肠草与金蚕蛊都可按任一顺序触发致死。投掷先过巫抗尝试上毒，随后检查已有致死搭档。第二次上毒被抵抗也会执行致死检查。自用到达 0x29 时抽取一次玩家毒抗。新增毒槽立即执行入口并保存返回续点，重复施同种毒继续用原续点。 [上毒和抗性](../../reference/sdlpal/script.c#L1175) · [相克与击倒](../../reference/sdlpal/script.c#L1913) · [玩家毒槽](../../reference/sdlpal/global.c#L1463)
+
+三尸蛊首次发作和玩家第一回合末都是零伤，随后依次扣 1、2、3、200 并自解。对敌第一次发作零伤，随后回合末依次扣 111、222、333 并自解。其它五种大毒的对应入口立即扣玩家 50 或敌人 100。原盘咒蛇在 FIRE 播完后先执行瘴毒的首次 20 点，再结算 MAGIC 本体伤害，按动作前后净 HP 变化显示一次。毒龙胆原始物品 278 的有毒分支只清 ≤3 级真毒，赤毒 0 级也符合条件。无毒分支击倒所选角色。无影毒原始物品 137 自用剩余 HP 向下折半，投掷扣 `min(floor(当前 HP / 2) + 1, 1000)`，两条原始入口都直接改 HP。 [毒龙胆分支](../../reference/sdlpal/script.c#L1957) · [无影毒两个 opcode](../../reference/sdlpal/script.c#L1886) · [双端执行范围](../testing/domains/cross-phase/battle-foundation/report.md)
 
 ## 2026-11-13 战斗道具与投掷
 
@@ -15,6 +27,10 @@ Template: reference-canon-v1 / 1.0.0
 模拟法术 0x42 先按原始无符号字段判断是否进入计算，随后基础伤害以有符号值相加。物品使用的模拟法术 24 基础字段 64537 相当于 −999，仍消耗一次独立浮动抽样。伤害钳为零，此步没有掉血数字。脚本接着执行 0x28 时，另掷巫抗。PAL 作者工程以现有零伤害效果表达该抽样，表现仍由独立特效配置持有。 [模拟法术入口](../../reference/sdlpal/fight.c#L5331-L5400) · [伤害抽样](../../reference/sdlpal/fight.c#L210-L245) · [施毒门](../../reference/sdlpal/script.c#L1175-L1219)
 
 普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
+
+同一批原盘 SSS 核出糯米、盐巴、大蒜、黑狗血、雄黄酒、烧肉与腌肉的投掷入口均为 0，物品仍允许投掷。标准战斗播放投掷动作并消耗一件。盐巴使用全体目标，其余六件使用单体目标。投掷起手的四步前移只改位置，到举手才改姿态。防御类法术落在受术者当时的坐标，包含已前移的施法者。五气朝元使用 FIRE28、偏移 `(-6, -18)`、绘制层 `+99`。 [投掷原程序](../../reference/sdlpal/fight.c#L4332) · [防御类法术原程序](../../reference/sdlpal/fight.c#L2527)
+
+化尸水的原始投掷入口 39592 使用 `0x64` 比较当前敌槽的 HP 和满血，超过 5% 时转向「无任何效果」，其余由 `0x60` 击倒该槽。全体菜单把 `0xffff` 传入触发解释器，SDLPal 继承上次调用的数值，入口为 0 的调用也更新该值。已用完整 SDLPal CLASSIC 解释器与本地原始数据运行 30 个独立进程的边界用例。两敌都低时仍只命中继承槽。该结果适用于已核原始数据和 SDLPal 解释器。原程序在两拍出手之后同步执行脚本。失败分支用 0x3E 开中央小窗，关闭后再进入原有投掷收招。 [判断与击倒](../../reference/sdlpal/script.c#L1950) · [触发入口](../../reference/sdlpal/script.c#L3161) · [实现及证据](../testing/domains/cross-phase/battle-foundation/report.md)
 
 ## 2026-11-13 玩家仙术、合击与投掷武器
 

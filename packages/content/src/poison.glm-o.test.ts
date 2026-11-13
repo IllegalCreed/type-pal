@@ -70,6 +70,28 @@ describe('O08 applyPoisonSelf：三段链', () => {
     expect(host.hp).toBe(0)
   })
 
+  test('毒抗只阻止新增毒槽，保留既有毒的续点', () => {
+    const host = {
+      hp: 100,
+      poisons: [
+        { poisonId: 9, tickIndex: 0 },
+        { poisonId: 8, tickIndex: 2 },
+      ],
+    }
+    let rolls = 0
+    const resist = () => {
+      rolls++
+      return false
+    }
+
+    expect(applyPoisonSelf(host, 1, defs, resist)).toBe('cured')
+    expect(applyPoisonSelf(host, 3, defs, resist)).toBe('resisted')
+    expect(host).toEqual({ hp: 100, poisons: [{ poisonId: 8, tickIndex: 2 }] })
+    expect(applyPoisonSelf(host, 2, defs, resist)).toBe('lethal')
+    expect(host.hp).toBe(0)
+    expect(rolls).toBe(1)
+  })
+
   test('无关系 → 纯加毒（applied）；缺表同路径', () => {
     const host: { hp: number; poisons?: { poisonId: number; tickIndex: number }[] } = { hp: 100 }
     expect(applyPoisonSelf(host, 3, defs)).toBe('applied')

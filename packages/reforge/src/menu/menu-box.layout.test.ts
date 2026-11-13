@@ -228,6 +228,13 @@ describe('MenuBox cascade layout', () => {
       [rendering.scroll.tiles[8], 88, 22],
     ])
     expect(rendering.created).toHaveLength(3)
+    expect(textCalls.mock.calls[0]).toEqual([
+      rendering.ctx,
+      [{ text: '金钱' }],
+      10,
+      10,
+      { glyphs: rendering.glyphs, shadow: false, forceRgba: [0, 0, 0] },
+    ])
 
     // 金额 205：右缘 85 往左按字形实宽排（5→0→2），y=14
     expect(

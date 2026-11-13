@@ -458,6 +458,10 @@
           "poisonId": "552"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {
@@ -511,6 +515,10 @@
           "poisonId": "551"
         }
       ]
+    },
+    "throw": {
+      "target": "allEnemies",
+      "effects": []
     }
   },
   {
@@ -648,6 +656,10 @@
           "amount": 30
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {
@@ -671,6 +683,10 @@
           "turns": 3
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {
@@ -751,6 +767,10 @@
           "poisonId": "553"
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {
@@ -874,6 +894,10 @@
           "amount": 30
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {
@@ -896,6 +920,10 @@
           "amount": 85
         }
       ]
+    },
+    "throw": {
+      "target": "oneEnemy",
+      "effects": []
     }
   },
   {

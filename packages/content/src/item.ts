@@ -320,6 +320,7 @@ export const THROW_EFFECT_KINDS = {
 /** 战斗投掷能力。 */
 export interface ThrowSpec {
   target: ThrowTarget
+  /** 空数组表示只播放投掷演出并消耗一份道具。 */
   effects: ThrowEffect[]
   /** 投掷链显式表现音；缺席表示没有物品专属音。 */
   sound?: AssetId

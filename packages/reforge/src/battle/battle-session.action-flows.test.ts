@@ -264,6 +264,189 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.355'])
   })
 
+  test('半人树妖回梦用攻击帧施法，保持前移位置到受击收尾', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '303'))
+    const definition = expectDefined(
+      validateBattleSprites(palBattleSprites).find(({ id }) => id === enemy.battleSprite),
+    )
+    const profile = definition.profile
+    if (profile.kind !== 'enemy') throw new Error('半人树妖的战斗资源必须是敌人精灵')
+    const enemySprite = poseSprite(wfLoadedBattleSprite(enemy.battleSprite, profile))
+    const playerSprite = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const sfx = recordingSfx()
+    const session = new BattleSession(
+      [wfPlayer('li-xiaoyao', { baseDexterity: 0 })],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [playerSprite.definition.id, playerSprite],
+          [enemySprite.definition.id, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [playerSprite.definition.id],
+        fireSprites: {
+          [skill.animation.effectSprite]: {
+            ...playerSprite.sprite,
+            frames: [expectDefined(playerSprite.sprite.frames[8])],
+          },
+        },
+        sfx: sfx.player,
+      },
+      (id) => id,
+      fixedRng(),
+      { skills: { [skill.id]: skill } },
+    )
+    const ctx = battleCanvas()
+    const red = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = (dtMs: number) => {
+      session.tick(dtMs, new Set())
+      session.render(ctx, 1)
+    }
+    const casting = () => session.debugLog().some((line) => line.includes('施展 回梦'))
+    session.tick(16, new Set(['d']))
+    for (let i = 0; i < 100 && !casting(); i++) draw(4)
+    expect(casting()).toBe(true)
+
+    // fight.c:4683–4717，两个移动拍、一个空施法拍、两张动作帧各占两个拍。
+    expect(red(112, 108)).toBe(poseRed(0))
+    draw(40)
+    expect(red(116, 110)).toBe(poseRed(0))
+    draw(159)
+    expect(red(116, 110)).toBe(poseRed(0))
+    draw(1)
+    expect(red(116, 110)).toBe(poseRed(1))
+    draw(79)
+    expect(red(240, 166)).toBe(0)
+    expect(sfx.plays).toEqual([])
+    draw(1)
+    expect(red(240, 166)).toBe(poseRed(8))
+    expect(red(116, 110)).toBe(poseRed(1))
+    expect(sfx.plays).toEqual(['sound.pal.169'])
+    draw(269)
+    expect(red(116, 110)).toBe(poseRed(1))
+    draw(1)
+    expect(red(100, 102)).toBe(poseRed(0))
+    expect(red(116, 110)).toBe(0)
+  })
+
+  test('敌方单体封咒无 FIRE 资源且不扣血，目标仍播放五拍受击', () => {
+    const spell = {
+      ...wfSkill('wf-silence', 0),
+      effects: [{ kind: 'applyStatus' as const, status: 'silence' as const, turns: 2 }],
+      animation: { effectSprite: 1, fireDelay: 1 },
+    }
+    const enemy = wfEnemy(
+      'wf-silencer',
+      { dexterity: 0 },
+      {
+        ai: {
+          resistanceToSorcery: 0,
+          rules: [{ at: 'act', do: { kind: 'cast', skillId: spell.id } }],
+        },
+      },
+    )
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { baseDexterity: 0 })],
+      enemies: [enemy],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    const playerSpriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const casterSprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    const playerSprite = expectDefined(h.assets.battleSprites.get(playerSpriteId))
+    h.assets.palette = posePalette
+    h.assets.battleSprites = new Map([
+      [playerSpriteId, poseSprite(playerSprite)],
+      [enemy.battleSprite, poseSprite(casterSprite)],
+    ])
+    const ctx = battleCanvas()
+    const red = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    h.press(['d'])
+    const castResolved = () =>
+      h.session.debugLog().includes('wf-silencer 对 p1 施加 silence 2 回合')
+    for (let i = 0; i < 100 && !castResolved(); i++) draw(4)
+    expect(castResolved()).toBe(true)
+    expect(h.readParty()[0]?.hp).toBe(100)
+
+    draw(120)
+    expect(red(240, 162)).toBe(poseRed(PLAYER_PROFILE.frames.hurt + 6))
+    draw(199)
+    expect(red(247, 165)).toBe(poseRed(PLAYER_PROFILE.frames.hurt))
+    draw(1)
+    expect(red(100, 102)).toBe(poseRed(0))
+  })
+
+  test('敌方群体仙术的两个受击队员各按原站位显示姿态和伤害数字', () => {
+    const spell = {
+      ...wfSkill('wf-gust', 0),
+      target: 'allEnemies' as const,
+      animation: { effectSprite: 1, placement: 'attackAll' as const },
+    }
+    const enemy = wfEnemy(
+      'wf-gust-caster',
+      { magicStrength: 18 },
+      {
+        ai: {
+          resistanceToSorcery: 0,
+          rules: [{ at: 'act', do: { kind: 'cast', skillId: spell.id } }],
+        },
+      },
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('p1', { defense: 0, baseDexterity: 0 }),
+        wfPlayer('p2', { defense: 50, baseDexterity: 0 }),
+      ],
+      enemies: [enemy],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    h.assets.palette = posePalette
+    const playerSpriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(playerSpriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(playerSpriteId, sprite)
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[8])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+
+    h.press(['d'])
+    h.press(['d'])
+    for (let i = 0; i < 100 && pixel(180, 172)[0] !== poseRed(8); i++) draw(4)
+    expect(pixel(180, 172)[0]).toBe(poseRed(8))
+    expect([pixel(200, 101)[2], pixel(256, 77)[2]]).toEqual([0, 0])
+
+    // battle.c 双人底锚 (200,176)/(256,152)；fight.c 首拍原位，后拍各自击退。
+    draw(50)
+    const hurt = poseRed(PLAYER_PROFILE.frames.hurt + 6)
+    expect([pixel(200, 168)[0], pixel(256, 144)[0]]).toEqual([hurt, hurt])
+    // 原盘公式：灵力 60、防御 0/50、威力 20、被动格挡除 2，分别扣 25/15。
+    expect(h.readParty().map(({ hp }) => hp)).toEqual([75, 85])
+    expect([pixel(194, 101)[2], pixel(200, 101)[2]]).toEqual([48, 96])
+    expect([pixel(250, 77)[2], pixel(256, 77)[2]]).toEqual([32, 96])
+    draw(40)
+    expect([pixel(204, 170)[0], pixel(260, 146)[0]]).toEqual([hurt, hurt])
+    expect([pixel(194, 100)[2], pixel(250, 76)[2]]).toEqual([48, 32])
+  })
+
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)
@@ -936,6 +1119,136 @@ describe('W3 执行时间线接线', () => {
       [32, 144, 16], // 敌人扣 180。
       [32, 80, 16], // 施用者回复 140，受最大体力所限。
     ])
+  })
+
+  function beginIneffectiveThrow(withDialog: boolean) {
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '134'))[0])
+    const enemies = validateEnemies(palEnemies)
+    const lantern = expectDefined(enemies.find(({ id }) => id === 'enemy-399'))
+    const bug = expectDefined(enemies.find(({ id }) => id === 'enemy-406'))
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { baseDexterity: 500 })],
+      enemies: [lantern, bug],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        playerSounds: [{ magic: 'sound.pal.009' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    const glyph = { width: 16, height: 16, bitmap: Uint8Array.of(0x80, ...Array(31).fill(0)) }
+    h.assets.glyphs = { has: () => true, get: () => glyph }
+    const scroll = { tiles: Array.from({ length: 9 }, () => bitmap(8, 8, '#00ff00')) }
+    const ctx = battleCanvas()
+    const box = withDialog
+      ? new DialogBox(ctx, h.assets.glyphs, [], new Map(), {}, scroll)
+      : undefined
+    if (box) h.assets.dialogBox = box
+    const draw = () => h.session.render(ctx, 1)
+    const pixel = (x: number, y: number) =>
+      Array.from(ctx.getImageData(x, y, 1, 1).data.slice(0, 3))
+    const actorAt = (x: number, y: number) => pixel(x, y - 8)[0]
+    const stepAndDraw = (ms: number) => {
+      h.idle(ms)
+      draw()
+    }
+
+    h.press(['w'])
+    h.press(['Enter'])
+    for (let i = 0; i < 20 && !h.session.debugLog().includes('无任何效果'); i++) h.idle(8)
+    expect(h.session.debugLog()).toContain('无任何效果')
+    draw()
+    return { h, item, sfx, box, draw, pixel, actorAt, stepAndDraw }
+  }
+
+  test.each([
+    'timeout',
+    'confirm',
+  ] as const)('化尸水未达标的中央小框在投掷出手后出现，%s 后收招', (dismissal) => {
+    const { h, item, sfx, box, draw, pixel, actorAt, stepAndDraw } = beginIneffectiveThrow(true)
+    const dialogue = expectDefined(box)
+    const notice = () => dialogue.observe()?.pageText ?? null
+    expect(notice()).toBeNull()
+    // The failure text has never been a white notice at (130,75).
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(160) // Four approach beats before the item name.
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(notice()).toBeNull()
+    stepAndDraw(399)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    stepAndDraw(1)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(79)
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(notice()).toBeNull()
+    // The script runs after two release beats (fight.c:4355–4362), even when a tick overshoots.
+    stepAndDraw(dismissal === 'timeout' ? 1 : 1000)
+    expect(pixel(210, 50)).toEqual([0, 0, 0])
+    expect(dialogue.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
+    expect(pixel(120, 40)).toEqual([0, 255, 0]) // The actual centered scroll, not a text banner.
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    if (dismissal === 'timeout') {
+      stepAndDraw(1399)
+      expect(notice()).toBe('无任何效果')
+      stepAndDraw(1)
+    } else {
+      stepAndDraw(200)
+      h.press(['Enter'], 1)
+      draw()
+    }
+    expect(notice()).toBeNull()
+    expect(pixel(120, 40)).toEqual([0, 0, 0])
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(159)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(1)
+    expect(actorAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    const inventory = [{ itemId: item.id, count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+    expect(h.session.debugLog().filter((line) => line === '无任何效果')).toHaveLength(1)
+  })
+
+  test('化尸水提示显示期间取消战斗，卷轴清除且战斗不会再推进', async () => {
+    const { h, box, draw, pixel, stepAndDraw } = beginIneffectiveThrow(true)
+    const dialogue = expectDefined(box)
+    stepAndDraw(640) // Four approach beats and twelve item-name beats.
+    expect(dialogue.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
+    expect(pixel(120, 40)).toEqual([0, 255, 0])
+
+    const cancelled = expect(h.session.done).rejects.toMatchObject({ name: 'AbortError' })
+    const log = [...h.session.debugLog()]
+    h.session.cancel()
+    expect(dialogue.observeSlots()).toEqual([])
+    await cancelled
+    h.press(['Enter'], 2000)
+    draw()
+    expect(pixel(120, 40)).toEqual([0, 0, 0])
+    expect(h.session.debugLog()).toEqual(log)
+  })
+
+  test('缺少对话框资源时，化尸水出手后显示一次兜底提示并自动继续', () => {
+    const { pixel, actorAt, stepAndDraw } = beginIneffectiveThrow(false)
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(639)
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(1)
+    expect(pixel(210, 50)).toEqual([0, 0, 0])
+    expect(pixel(130, 75)).toEqual([255, 255, 255])
+    stepAndDraw(1399)
+    expect(pixel(130, 75)).toEqual([255, 255, 255])
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(1)
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(160)
+    expect(actorAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
   })
 
   test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {

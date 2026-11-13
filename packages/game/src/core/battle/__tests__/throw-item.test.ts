@@ -11,6 +11,7 @@ import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { runScript } from '../../event-system.js'
 import { performThrowItem } from '../actions/throw-item.js'
+import { stepBattleAnimRender } from '../battle-anim-driver.js'
 import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
 import { getBattleResources } from '../battle-runtime-context.js'
 import { battleInput, startTestBattle } from '../battle-start.test-fixtures.js'
@@ -347,6 +348,284 @@ describe('performThrowItem', () => {
     expect(state.battleAnim?.frames.at(-2)?.damageNums).toEqual([
       { target: { kind: 'enemy', idx: 0 }, value: 275, color: 'blue' },
     ])
+  })
+
+  it('keeps the initial dying pose through a first-action drain throw until the arm lifts', () => {
+    const drainLock = makeItem({ id: 158, _name: '吸星锁' })
+    const { gs, bus, playerRoles } = startTestBattle({
+      roles: [makeRoleRecord(0, { hp: 10, maxHP: 150, dexterity: 250 })],
+      enemies: [makeEnemyRecord({ health: 310, dexterity: 0 })],
+      items: [drainLock],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x39, operands: [180, 0, 0] }, { op: 'end' }],
+    })
+    gs.inventory = [{ itemId: drainLock.id, count: 1 }]
+    const state = gs.battleState!
+    const caster = state.players[0]!
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    expect(state.pendingActions.get(0)).toMatchObject({ type: 'throw-item', target: 0 })
+    step()
+
+    // The script commits HP synchronously. The pre-throw pose belongs to the
+    // incoming fighter, so healing cannot make the four approach steps stand up.
+    expect(playerRoles.roles[0]!.hp).toBe(150)
+    expect(state.enemies[0]!.e.health).toBe(130)
+    expect(caster.pos).not.toEqual(caster.posOriginal)
+    const poses = [caster.currentFrame]
+    for (let beat = 1; beat <= 6; beat++) {
+      step()
+      poses.push(caster.currentFrame)
+    }
+    expect(poses).toEqual([1, 1, 1, 1, 1, 1, 5])
+  })
+
+  it.each([
+    { primed: 0, hp: [20, 420], after: [0, 420], failed: false },
+    { primed: 1, hp: [420, 20], after: [420, 0], failed: false },
+    { primed: 1, hp: [20, 420], after: [20, 420], failed: true },
+    { primed: 0, hp: [20, 20], after: [0, 20], failed: false },
+    { primed: 1, hp: [420, 420], after: [420, 420], failed: true },
+  ])('uses the preceding trigger slot $primed for a whole-field threshold throw at $hp', ({
+    primed,
+    hp,
+    after,
+    failed,
+  }) => {
+    const emptyThrow = makeItem({ id: 75, scriptOnThrow: 0 })
+    const corpseWater = makeItem({
+      id: 134,
+      _name: '化尸水',
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 }), makeRoleRecord(1, { dexterity: 500 })],
+      enemies: [
+        makeEnemyRecord({ health: 420, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 420, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+      items: [emptyThrow, corpseWater],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        { op: 'setDialogStyleNarration' },
+        { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [emptyThrow, corpseWater].map(({ id }) => ({ itemId: id, count: 1 }))
+    const state = gs.battleState!
+    state.enemies.forEach((enemy, index) => {
+      enemy.e.health = hp[index]!
+    })
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    if (primed === 1) step('Right')
+    step('Confirm')
+    step('ThrowItem')
+    step('Right')
+    step('Confirm')
+    expect(state.pendingActions.get(0)).toMatchObject({ actionId: emptyThrow.id, target: primed })
+    expect(state.pendingActions.get(1)).toMatchObject({ actionId: corpseWater.id, target: -1 })
+
+    for (let beat = 0; beat < 120 && gs.inventory[1]?.count === 1; beat++) step()
+
+    expect(state.enemies.map((enemy) => enemy.e.health)).toEqual(after)
+    expect((state.battleDialogQueue ?? []).map((line) => [line.style, line.text])).toEqual(
+      failed ? [['narration', '无任何效果']] : [],
+    )
+    expect(state.battleAnim?.frames.flatMap((frame) => frame.damageNums ?? [])).toEqual(
+      failed ? [] : [{ target: { kind: 'enemy', idx: primed }, value: hp[primed], color: 'blue' }],
+    )
+    expect(gs.inventory.map(({ count }) => count)).toEqual([0, 0])
+  })
+
+  it('keeps the first-turn trigger slot scoped to each live battle', () => {
+    const corpseWater = makeItem({
+      id: 134,
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+      { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+      { op: 'end' },
+      { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+      { op: 'end' },
+    ]
+    const roles = [makeRoleRecord(0, { dexterity: 900 })]
+    const weak = makeEnemyRecord({ health: 420, dexterity: 0 })
+    const strong = makeEnemyRecord({ id: 101, health: 420, dexterity: 0 })
+    const twoEnemies = startTestBattle({
+      roles,
+      commands,
+      enemies: [weak, strong],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+      items: [corpseWater],
+    })
+    twoEnemies.gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const first = twoEnemies.gs.battleState!
+    first.enemies[0]!.e.health = 20
+    const tick = (fight: typeof twoEnemies, ...keys: AbstractKey[]) =>
+      tickBattle(fight.gs, battleInput(keys), fight.bus)
+    tick(twoEnemies)
+    tick(twoEnemies)
+
+    const oneEnemy = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 })],
+      commands,
+      enemies: [weak],
+      items: [corpseWater],
+    })
+    oneEnemy.gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const second = oneEnemy.gs.battleState!
+    second.enemies[0]!.e.health = 20
+    tick(oneEnemy)
+    tick(oneEnemy)
+
+    for (const fight of [twoEnemies, oneEnemy]) {
+      tick(fight, 'ThrowItem')
+      tick(fight, 'Confirm')
+      tick(fight)
+      expect(fight.gs.inventory[0]?.count).toBe(0)
+    }
+
+    // The empty turn-start entry for slot 1 primed the first battle only.
+    expect(first.enemies.map(({ e }) => e.health)).toEqual([20, 420])
+    expect(first.battleDialogQueue?.map(({ text }) => text)).toEqual(['无任何效果'])
+    expect(second.enemies[0]!.e.health).toBe(0)
+    expect(second.battleDialogQueue).toBeUndefined()
+  })
+
+  it('restores the whole-field throw target after a nested trigger with its own enemy slot', () => {
+    const thrown = makeItem({ flags: { ...makeItem().flags, applyToAll: true } })
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 })],
+      enemies: [
+        makeEnemyRecord({ health: 300, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 40, dexterity: 0 }),
+        makeEnemyRecord({ id: 102, health: 60, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 102, 0xffff, 0xffff],
+      items: [thrown],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x04, operands: [4, 1, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0], label: 'L_4' },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: thrown.id, count: 1 }]
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step()
+
+    // The first round's last slot is 2. The 0x04 child uses slot 1, then
+    // the caller must resolve 0x60 against its own saved slot.
+    expect(gs.battleState!.enemies.map(({ e }) => e.health)).toEqual([300, 0, 0])
+    expect(gs.inventory[0]?.count).toBe(0)
+  })
+
+  it.each([
+    { dismiss: 'confirmation', copies: 1 },
+    { dismiss: 'timeout', copies: 2 },
+  ])('holds the release through throw narration dismissed by $dismiss', ({ dismiss, copies }) => {
+    const corpseWater = makeItem({
+      id: 134,
+      _name: '化尸水',
+      flags: { ...makeItem().flags, applyToAll: true },
+    })
+    const failureText: Command[] = [
+      { op: 'setDialogStyleNarration' },
+      { op: 'showDialog', messageIndex: 12538, text: '无任何效果' },
+    ]
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900, magicSound: 88 })],
+      enemies: [makeEnemyRecord({ health: 420, dexterity: 0 })],
+      items: [corpseWater],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x64, operands: [5, 4, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        ...Array.from({ length: copies }, () => failureText).flat(),
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: corpseWater.id, count: 1 }]
+    const state = gs.battleState!
+    const caster = state.players[0]!
+    const origin = caster.posOriginal!
+    const released = { x: origin.x - 10, y: origin.y - 4 }
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step()
+    expect(state.battleAnim).toBeDefined()
+    stepBattleAnimRender(state, 1000)
+
+    const soundStarts: number[] = []
+    const captureSound = () => {
+      for (const { cmd } of bus.drain()) if (cmd.op === 'playSound') soundStarts.push(cmd.soundId)
+    }
+    for (let beat = 0; beat < 4; beat++) step()
+    captureSound()
+    stepBattleAnimRender(state, 5000)
+    expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+    expect(gs.dialogBox).toBeUndefined()
+
+    if (dismiss === 'confirmation') {
+      // fight.c:4339–4362 waits four approach beats, two with the item name,
+      // eight in the windup pose, and two in the release pose before running the script.
+      for (let beat = 4; beat < 15; beat++) {
+        step()
+        captureSound()
+      }
+      expect(gs.dialogBox).toBeUndefined()
+      step()
+      captureSound()
+    }
+
+    for (let message = 0; message < copies; message++) {
+      for (let beat = 0; dismiss === 'timeout' && beat < 25 && !gs.dialogBox; beat++) {
+        step()
+        captureSound()
+      }
+      expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '无任何效果' })
+      expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+      expect(state.currentActionIndex).toBe(0)
+      if (dismiss === 'confirmation') {
+        step('Confirm')
+      } else {
+        for (let beat = 0; beat < 34; beat++) step()
+        expect(gs.dialogBox?.style).toBe('narration')
+        step()
+      }
+      expect(gs.dialogBox).toBeUndefined()
+      expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
+    }
+
+    for (let beat = 0; beat < 12 && state.currentActionIndex === 0; beat++) {
+      step()
+      captureSound()
+    }
+    expect(caster).toMatchObject({ pos: origin, currentFrame: 0 })
+    expect(state.currentActionIndex).toBe(1)
+    expect(soundStarts).toEqual([88])
+    expect(gs.inventory[0]?.count).toBe(0)
   })
 
   it.each([

@@ -20,7 +20,7 @@
  * - ItemUseEffectEditor.test.tsx '场景实体效果显式保留失效引用…' → placeEntityInFront 的
  *   ⚠ 保留分支；curePoison/applyPoison 的毒种编辑（方式往返、指定毒、最高等级）旧从未触达。
  * - 投掷字段族（magicDamage 力量来源耦合、applyStatus onResist、currentHpDamage 四字段）
- *   与末条删除守卫的真实会话后果：旧只在 ItemTab.test.tsx 碰过投掷演出，不使用效果字段。
+ *   与删成空投掷后的真实会话和保存结果：旧只在 ItemTab.test.tsx 碰过投掷演出，不使用效果字段。
  *
  * 接线口径：onChange 直接 dispatch UpdateItemCommand 到真实 EditSession（即 ItemTab.patchUse/
  * patchThrow 的无私有脚本直写路径；私有脚本保留/删除分支由 ItemTab.kimi-workflows.test.tsx 覆盖）。
@@ -531,7 +531,7 @@ describe('K10 ItemUseEffectEditor 效果链真实会话工作流', () => {
     assertK10SaveValid(rig)
   })
 
-  test('投掷字段族（法术力量耦合/状态抵抗）与末条删除守卫经真实会话落库', async () => {
+  test('投掷字段族（法术力量耦合/状态抵抗）与空投掷经真实会话落库', async () => {
     const rig = await loadK10ItemProject('k10-throw-fields', {
       items: [
         {
@@ -624,38 +624,29 @@ describe('K10 ItemUseEffectEditor 效果链真实会话工作流', () => {
     expect(throwSpec(rig, 'dart')?.target).toBe('allEnemies')
     assertK10SaveValid(rig)
 
-    // 末条删除守卫：删到只剩一条后删除按钮禁用，零新提交。
+    // 删到空效果链后投掷保持启用，并能通过保存校验。
     await act(async () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 2"]')!.click()
     })
     expect(throwSpec(rig, 'dart')?.effects).toHaveLength(1)
-    const historyBeforeGuard = rig.session.getHistoryVersion()
+    const beforeLastRemoval = deepSnapshot(throwSpec(rig, 'dart'))
     const lastRemove = host.querySelector<HTMLButtonElement>('button[aria-label="删除效果 1"]')!
-    expect(lastRemove.disabled).toBe(true)
-    expect(lastRemove.title).toBe('投掷能力至少保留一个效果')
-    expect(rig.session.getHistoryVersion()).toBe(historyBeforeGuard)
+    expect(lastRemove.disabled).toBe(false)
+    await act(async () => lastRemove.click())
+    const emptyThrow = { target: 'allEnemies', effects: [] }
+    expect(throwSpec(rig, 'dart')).toEqual(emptyThrow)
+    expect(host.textContent).toContain('投掷会消耗一份道具。')
+    assertK10SaveValid(rig)
     expect(errors).toEqual([])
+    undo(rig)
+    expect(throwSpec(rig, 'dart')).toEqual(beforeLastRemoval)
 
-    // 撤销逐步回初态，重做回终态（终态：全体敌人 + 单条法术伤害；共 11 条历史）。
+    // 撤销逐步回初态，重做回空投掷状态。
     for (let step = 0; step < 11; step += 1) undo(rig)
     expect(throwSpec(rig, 'dart')).toEqual(initial)
     expect(rig.session.canUndo()).toBe(false)
-    for (let step = 0; step < 11; step += 1) redo(rig)
-    expect(throwSpec(rig, 'dart')).toEqual({
-      target: 'allEnemies',
-      effects: [
-        {
-          kind: 'magicDamage',
-          baseDamage: 40,
-          element: 'none',
-          strength: {
-            kind: 'casterAttack',
-            bonus: 0,
-            multiplier: { kind: 'uniformInt', min: 2, max: 2 },
-          },
-        },
-      ],
-    })
+    for (let step = 0; step < 12; step += 1) redo(rig)
+    expect(throwSpec(rig, 'dart')).toEqual(emptyThrow)
     assertK10SaveValid(rig)
   })
 })

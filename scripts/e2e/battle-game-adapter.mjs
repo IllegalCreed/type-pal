@@ -127,7 +127,7 @@ export function installGameBattleAdapter() {
       money: gs.dwCash,
     }
   }
-  const describe = (nativeState, actor, nativeAction) => {
+  const describe = (nativeState, actor, nativeAction, enemyMagicType) => {
     const renamed = { magic: 'cast', 'coop-magic': 'coop', 'throw-item': 'throw' }
     const kind = renamed[nativeAction.type] ?? nativeAction.type
     const supported = ['attack', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind)
@@ -141,7 +141,10 @@ export function installGameBattleAdapter() {
     const actorId = isEnemy
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
-    const all = targeted && nativeAction.target === -1
+    // The enemy AI still samples a player role before resolving a party-wide spell.
+    const all =
+      targeted &&
+      (nativeAction.target === -1 || (enemyMagicType !== undefined && enemyMagicType !== 'normal'))
     let targetId = null
     if (targeted && !all)
       targetId =
@@ -270,7 +273,7 @@ export function installGameBattleAdapter() {
         },
       })
     })
-  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles) =>
+  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles, enemyMagicType) =>
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
@@ -285,7 +288,7 @@ export function installGameBattleAdapter() {
         inaction = disabled ? 'incapacitated' : 'cooperative-action'
       }
       action = {
-        ...describe(state, actor, nativeAction),
+        ...describe(state, actor, nativeAction, enemyMagicType),
         before: snapshot(),
         native: {
           actor: structuredClone(actor),

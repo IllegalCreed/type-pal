@@ -12,6 +12,7 @@ import type {
   BattleChoreographyAction,
   BattleSpriteProfileKind,
   BattleStatus,
+  EnemyBattleSpriteProfile,
   EnemyDef,
   EnemyHookChannel,
   LevelGrowthDelta,
@@ -71,6 +72,7 @@ import {
   buildThrowItem,
   buildUseItem,
   type CastFxParams,
+  type FighterDelta,
   type OverlayDraw,
 } from './battle-anim.js'
 import { battleCasualtyCues } from './battle-casualty-presentation.js'
@@ -141,6 +143,7 @@ const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as cons
 const ROUND_END_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
 const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
+const FAILURE_FEEDBACK_MS = 1400
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -199,6 +202,7 @@ interface VisualFighter {
   x: number
   y: number
   frame: number
+  holdFrame?: true
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
@@ -246,8 +250,10 @@ export class BattleSession {
   private pendingDeaths: number[] = []
   /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
   private readonly pendingConfusedReveal = new Set<number>()
-  /** 状态术失败反馈；等当前动作时间线收尾后再进入 narration。 */
+  /** 结算后等待时间线到达提示位置的失败反馈。 */
   private pendingFailureFeedback: BattleFailureFeedback | null = null
+  /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
+  private throwFeedbackUntilMs: number | null = null
   /** 梦蛇/敌变身的旧→新 dither 状态；动作收尾统一清除。 */
   private appearanceTransitions = new Map<string, NonNullable<AnimFrame['appearanceTransition']>>()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
@@ -557,7 +563,9 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
-    if (this.casualtyDialogueShown) this.assets.dialogBox?.close()
+    if (this.casualtyDialogueShown || this.throwFeedbackUntilMs !== null)
+      this.assets.dialogBox?.close()
+    this.throwFeedbackUntilMs = null
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
@@ -653,6 +661,7 @@ export class BattleSession {
           ...(y !== undefined ? { y } : {}),
         }
       },
+      onThrowFeedback: () => this.presentPendingFailureFeedback(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
         this.screenShake = {
@@ -1132,6 +1141,18 @@ export class BattleSession {
       this.resetPlayersVisual()
     }
     if (this.nowMs < this.enemyCastRecoveryUntilMs) return
+    if (this.throwFeedbackUntilMs !== null) {
+      const confirmed = pressed.has(' ') || pressed.has('Enter')
+      if (!confirmed && this.nowMs < this.throwFeedbackUntilMs) return
+      const box = this.assets.dialogBox
+      if (confirmed && this.nowMs < this.throwFeedbackUntilMs) box?.advance(this.nowMs)
+      if (box?.active) box.close()
+      this.itemBanner = null
+      this.throwFeedbackUntilMs = null
+      // 关框当帧开始四拍收招，等待时间不进入动作时钟。
+      this.actionPresentation.advancePlayback(0)
+      return
+    }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
@@ -1480,8 +1501,10 @@ export class BattleSession {
           : {}),
       })
     }
-    const def = s.enemies[la.idx]?.def
-    if (!def) return null
+    const enemy = s.enemies[la.idx]
+    const caster = this.visual.enemies[la.idx]
+    if (!enemy || !caster) return null
+    const { def } = enemy
     const enemyProfile = this.enemyAppearance(la.idx).definition.profile
     if (enemyProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
     const targetPos = getPlayerBasePos(s.players.length, la.targetPlayerIdx)
@@ -1493,8 +1516,21 @@ export class BattleSession {
         const sound = this.opts.playerSounds?.[idx]?.[kind]
         return sound ? [sound] : []
       })
+    const hurtPlayers =
+      skill.target === 'oneEnemy'
+        ? [{ idx: la.targetPlayerIdx, pos: targetPos }]
+        : skill.target === 'allEnemies'
+          ? damageNums
+              .filter((d) => d.target.side === 'player')
+              .map((d) => ({
+                idx: d.target.idx,
+                pos: expectDefined(getPlayerBasePos(s.players.length, d.target.idx)),
+              }))
+          : undefined
     return buildEnemyCast({
       enemyIdx: la.idx,
+      enemyPos: enemy.basePos,
+      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy.hp),
       anim: enemyProfile,
       playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       magicSound: def.sounds.magic,
@@ -1507,13 +1543,7 @@ export class BattleSession {
       ...(a.keepEffect ? { keepEffect: true } : {}),
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
-      // 受伤队员受击反应(frame4+红闪+递减击退;一阶段 19f8d6a9 曾整段漏)
-      hurtPlayers: damageNums
-        .filter((d) => d.target.side === 'player')
-        .map((d) => ({
-          idx: d.target.idx,
-          pos: getPlayerBasePos(s.players.length, d.target.idx) ?? { x: 240, y: 170 },
-        })),
+      hurtPlayers,
     })
   }
 
@@ -1808,6 +1838,7 @@ export class BattleSession {
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
+        waitForThrowFeedback: la.failureFeedback === 'throwIneffective',
         hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
         ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
@@ -1976,16 +2007,11 @@ export class BattleSession {
   }
 
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
-  private applyDelta(d: {
-    side: 'player' | 'enemy'
-    idx: number
-    frame?: number
-    pos?: { x: number; y: number }
-    colorShift?: number
-  }): void {
+  private applyDelta(d: FighterDelta): void {
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
+    if (d.holdFrame) v.holdFrame = true
     if (d.pos) {
       v.x = d.pos.x
       v.y = d.pos.y
@@ -2033,20 +2059,31 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    const text =
-      feedback === 'statusIneffective' ? '攻击无效' : assertNever(feedback, '战斗失败反馈')
+    const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
+    const waitForThrow = feedback === 'throwIneffective'
+    if (waitForThrow) {
+      this.itemBanner = null
+      this.throwFeedbackUntilMs = this.nowMs + FAILURE_FEEDBACK_MS
+    }
     const box = this.assets.dialogBox
     if (box) {
       box.open(
         startDialogue({
           id: '__battle_action_failure',
-          cues: [{ rows: [{ text }], slot: 'narration', autoAdvance: 1400 }],
+          cues: [
+            {
+              rows: [{ text }],
+              slot: 'narration',
+              // 普通 autoAdvance 不响应确认；0x3E 的提前确认由会话接管。
+              ...(waitForThrow ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
+            },
+          ],
         }),
         this.nowMs,
       )
     } else {
       // headless/资源缺失兜底；真实游戏路径始终使用 narration 卷轴。
-      this.itemBanner = { text, untilMs: this.nowMs + 1400, x: 130, y: 75 }
+      this.itemBanner = { text, untilMs: this.nowMs + FAILURE_FEEDBACK_MS, x: 130, y: 75 }
     }
   }
 
@@ -2275,6 +2312,22 @@ export class BattleSession {
     return Math.floor(Math.random() * 3) - 1
   }
 
+  private enemyVisualFrame(
+    visual: VisualFighter,
+    profile: EnemyBattleSpriteProfile,
+    hp: number,
+  ): number {
+    if (
+      visual.holdFrame ||
+      visual.frame !== profile.idle.start ||
+      profile.idle.count <= 1 ||
+      hp <= 0
+    )
+      return visual.frame
+    const idleStep = Math.floor(this.nowMs / (profile.idleTicksPerFrame * BATTLE_FRAME_MS))
+    return profile.idle.start + (idleStep % profile.idle.count)
+  }
+
   private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
@@ -2338,13 +2391,9 @@ export class BattleSession {
         alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
         if (alpha <= 0) return
       }
-      // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
       const anim = appearance.definition.profile
       if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      const frame =
-        v.frame === anim.idle.start && anim.idle.count > 1 && e.hp > 0
-          ? anim.idle.start + (Math.floor(now / (anim.idleTicksPerFrame * 40)) % anim.idle.count)
-          : v.frame
+      const frame = this.enemyVisualFrame(v, anim, e.hp)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
       const transition = this.appearanceTransitions.get(`enemy:${i}`)

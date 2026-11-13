@@ -41,6 +41,7 @@ import {
   tickDialog,
 } from '../present/dialog-box.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
+import { recordBattleTriggerArgument } from './battle/battle-runtime-context.js'
 import type { BattleState } from './battle/battle-state.js'
 import type { CommandBus } from './command-bus.js'
 import { pushDialogHistory } from './dialog-history.js'
@@ -952,6 +953,10 @@ export interface RunScriptOptions {
    * 省略 → undefined(单体类 opcode 无目标 → no-op)。
    */
   eventObjectId?: number
+  /** Numeric PAL argument recorded by runBattleTrigger, separate from the typed target. */
+  battleTriggerArgument?: number
+  /** The single-enemy HP branch of an all-target throw uses the PAL trigger argument. */
+  allTargetThrow?: boolean
 }
 
 /** 上下位置互换(top↔bottom)—— 原版 PAL_StartDialog 切位置时不擦掉另一侧旧像素。 */
@@ -2849,6 +2854,7 @@ export function runScript(opts: RunScriptOptions): number {
   //   概率/条件失败分支(如"失败 没有效果")永不触发(2026-05-31 修)。call/return 用持久 callStack +
   //   curEventObjId(循环外声明,raw case 共享给重建的 cursor),'end' 弹帧返回。
   const callStack: NonNullable<ScriptCursor['callStack']> = []
+  let battleTriggerArgument = opts.battleTriggerArgument
   // battle 脚本 wEventObjectID:opts.eventObjectId seed(如敌普攻 equivItem.scriptOnUse(wPlayerRole)→
   //   脚本 0x29 单体毒该队员);0x04 call 的 op1 eventObjId 覆盖经此持久。
   let curEventObjId: number | undefined = opts.eventObjectId
@@ -2877,6 +2883,7 @@ export function runScript(opts: RunScriptOptions): number {
           const frame = callStack.pop()!
           ip = frame.returnIp
           curEventObjId = frame.savedEventObjectId
+          battleTriggerArgument = frame.savedBattleTriggerArgument
           break
         }
         // B2 c7:脚本真结束 → 返回 sdlpal wNextScriptEntry(script.c:3204-3237 + 3478):
@@ -2976,7 +2983,12 @@ export function runScript(opts: RunScriptOptions): number {
             ip++
             break
           }
-          const r = dispatchBattleOpcode(cmd.opcode, cmd.operands, battleCtx)
+          const r = dispatchBattleOpcode(
+            cmd.opcode,
+            cmd.operands,
+            battleCtx,
+            opts.allTargetThrow ? battleTriggerArgument : undefined,
+          )
           if (r.consumed) {
             ip = r.newIp !== undefined ? r.newIp : ip + 1
             break
@@ -3011,6 +3023,7 @@ export function runScript(opts: RunScriptOptions): number {
               callStack,
               currentEventObjectId: curEventObjId,
             }
+            const previousCallDepth = callStack.length
             applyRawOpcode(
               battleCtx.gs,
               cmd.opcode,
@@ -3019,6 +3032,18 @@ export function runScript(opts: RunScriptOptions): number {
               cursor,
               battleCtx.state.rng,
             )
+            if (battleTriggerArgument !== undefined && cmd.opcode === OP_CALL_SCRIPT) {
+              // PAL 0x04 passes a raw number; the exploration cursor uses its own ID convention.
+              const calledArgument = cmd.operands[1] || battleTriggerArgument
+              const callFrame = callStack[previousCallDepth]
+              if (callFrame) {
+                callFrame.savedBattleTriggerArgument = battleTriggerArgument
+                battleTriggerArgument = recordBattleTriggerArgument(bs, calledArgument)
+              } else if ((cmd.operands[0] ?? 0) === 0) {
+                // A zero entry still records its argument without pushing a script frame.
+                recordBattleTriggerArgument(bs, calledArgument)
+              }
+            }
             // 战斗中 0x19/0x1A 改base、0x8D升级后，回灌战斗属性snapshot，使效果当场
             //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
             //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
@@ -3339,6 +3364,7 @@ export interface ScriptCursor {
     returnCommands?: Command[]
     returnLabelMap?: Record<string, number>
     savedEventObjectId?: number
+    savedBattleTriggerArgument?: number
   }[]
   currentEventObjectId?: number
 }
