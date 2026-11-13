@@ -1776,7 +1776,7 @@ export function validateBattlePresentation(trace, scenario) {
       window.find((frame) => frame.seq > raised.seq && pose(frame, slot)?.frameIndex === 6)
     const feedback = window.find(
       ({ payload }) =>
-        payload.numbers.length || payload.magicOverlays?.length || payload.dialogue.length,
+        payload.numbers.length || payload.magicOverlays?.length || payload.dialogue?.length,
     )
     if (!released || feedback)
       fail('business', 'empty-throw-windup-and-no-effects', {
