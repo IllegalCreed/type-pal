@@ -144,6 +144,8 @@ export interface ApplyEnemyMagicDamageInput {
   playerRoles: PlayerRoles
   /** DM6:scriptOnUse 之前的预掷结果(magic.ts);直接调用时可省略,由本函数按相同规则掷骰。 */
   preRolledAutoDefend?: Map<number, boolean>
+  /** The chosen single target was alive before this spell's script ran. */
+  includeDeadSingleTarget?: boolean
 }
 
 /**
@@ -189,7 +191,7 @@ export function rollAutoDefend(
  *         AoE在掷骰后检查HP；单体预掷无HP条件。实际扣血循环另跳过死亡队员。
  *       · Protect status 已按 `slot.status.protect` 参与除因子
  *   - clamp `if (sDamage>hp) sDamage=hp`(fight.c:4805/4840)——**不钳最小 1**(与 player inline 不同)
- *   - 跳过已死队员(fight.c:4782)
+ *   - 群体跳过已死队员；单体仍结算选定的目标(fight.c:4782,4833)。
  *
  * caller(performMagic enemy 分支)负责 emit showDamageNum(掉血 → blue)。
  */
@@ -209,10 +211,11 @@ export function applyEnemyMagicDamage(input: ApplyEnemyMagicDamageInput): EnemyM
     input.preRolledAutoDefend ?? rollAutoDefend(state, playerRoles, target, targetIdxs)
 
   const results: EnemyMagicDamageResult[] = []
+  const includeDead = target !== 'all' && input.includeDeadSingleTarget
   for (const pIdx of targetIdxs) {
     const slot = state.players[pIdx]
     const role = slot ? playerRoles.roles[slot.roleId] : undefined
-    if (!slot || !role || role.hp <= 0) continue // 跳过越界 / 已死队员(sdlpal 4782)
+    if (!slot || !role || (role.hp <= 0 && !includeDead)) continue
 
     // def = PAL_GetPlayerDefense(global.c)= rgwDefense + Σ装备,**无 level 项**(等级项是敌方被打才有,
     //   fight.c:4012)。role.defense 已由 projectRuntimeToBattleRoles 合入 runtime 基础防御 + 装备→ 直接用,

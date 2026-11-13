@@ -2629,6 +2629,7 @@ function performBattleAction(
         commands: res.commands,
         runScript: getBattleRunScript(gs, runScript),
         objectMagics: res.objectMagics, // 0x57/0x88 scriptOnUse 解析 magic object id
+        objectPoisons: res.objectPoisons,
         gs, // 0x88 set magic damage by money 需 gs.dwCash
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
         battleEffectIndex: res.battleEffectIndex, // D17:PreMagic cast 特效帧基号
