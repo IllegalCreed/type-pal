@@ -866,10 +866,16 @@ function assertBusinessConformance(trace, expected) {
             actor(action.before)?.statuses.sleep > 0 &&
             !(actor(action.after)?.statuses.sleep > 0),
         )
+      const actorSlot = actor(expected.actions[i].before).slot
       const nativeAttack =
         trace.engine === 'game'
-          ? entry.native?.actor?.dex === 0 && entry.native?.command?.type === 'attack'
-          : entry.native?.lastAction?.kind === 'attack'
+          ? entry.native?.actor?.isEnemy === false &&
+            entry.native.actor.idx === actorSlot &&
+            entry.native.actor.dex === 0 &&
+            entry.native.command?.type === 'attack'
+          : entry.native?.lastAction?.side === 'player' &&
+            entry.native.lastAction.idx === actorSlot &&
+            entry.native.lastAction.kind === 'attack'
       requireValue(
         entry.kind === 'attack' &&
           nativeAttack &&

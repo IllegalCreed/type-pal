@@ -1347,7 +1347,7 @@ function compareItemFeedback(frames, expected, animations, fail) {
   return observed
 }
 
-function compareSpellPaintOrder(frames, animations, probe, fail) {
+function compareSpellPaintOrder(frames, animations, expected, probe, fail) {
   const {
     actionIndex,
     skillId,
@@ -1382,9 +1382,22 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
     fail('integrity', 'spell-paint-draws-missing', observed)
     return observed
   }
+  const partySlots =
+    type === 'applyToParty'
+      ? expected.actions[actionIndex].before.players.map(({ slot }) => slot)
+      : []
   const frameIndices = new Set()
   for (const frame of drawn) {
     const { enemies, players, magicOverlays } = frame.payload
+    if (partySlots.some((slot) => !pose(frame, slot))) {
+      fail('business', 'spell-paint-party-recipient-missing', {
+        ...observed,
+        ...at(frame),
+        partySlots,
+        drawnSlots: players.map(({ slot }) => slot),
+      })
+      return observed
+    }
     if (magicOverlays.some(({ spriteChunk }) => !validFrameIndex(spriteChunk))) {
       fail('integrity', 'spell-paint-resource-missing', {
         ...observed,
@@ -1790,7 +1803,7 @@ export function validateBattlePresentation(trace, scenario) {
     itemFeedback = compareItemFeedback(frames, scenario.expected, animations, fail)
   if (scenario.expected.spellPaintOrder)
     spellPaintOrder = scenario.expected.spellPaintOrder.map((probe) =>
-      compareSpellPaintOrder(frames, animations, probe, fail),
+      compareSpellPaintOrder(frames, animations, scenario.expected, probe, fail),
     )
   if (scenario.expected.allySpellPresentation)
     allySpellPresentation = compareAllySpell(
