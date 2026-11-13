@@ -324,11 +324,8 @@ describe('enemy magic targets and damage', () => {
     })
   })
 
-  test('keeps script MP feedback next to the affected slot’s final HP change after enemy FIRE', () => {
-    const fixture = enemyFixture([
-      { mp: 15, maxMP: 30 },
-      { mp: 30, maxMP: 30 },
-    ])
+  test('keeps enemy-side script damage separate from party damage after enemy FIRE', () => {
+    const fixture = enemyFixture([{}, {}])
     const { state, playerRoles, bus } = fixture
     performMagic({
       ...fixture,
@@ -340,7 +337,8 @@ describe('enemy magic targets and damage', () => {
       spells: [makeSpell({ scriptOnSuccess: 1 })],
       magics: [makeMagic({ type: 'attackAll', effect: 12 })],
       commands: [
-        { op: 'end' }, // An enemy spell may also damage the enemy side through the shared script interpreter.
+        { op: 'end' },
+        // This fixture combines an enemy cast with the script's all-enemy HP effect.
         { op: 'raw', opcode: 0x21, operands: [1, 8, 0] },
         { op: 'end' },
       ],
