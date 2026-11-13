@@ -94,6 +94,38 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(frames.at(-1)?.screenShakeLevel).toBeUndefined()
   })
 
+  test('OffMagic 在第一张特效帧播放一次音效，施法者切姿和特效循环保持原帧序', () => {
+    const frames = buildOffMagic({
+      fireFrames: 3,
+      fx: {
+        placement: 'normal',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 1,
+        effectTimes: 2,
+        shake: 1,
+        wave: 0,
+        sound: 'sound.pal.109',
+      },
+      casterMagic: { side: 'player', idx: 0, frame: PLAYER_FRAMES.magic },
+    })
+    const playedOverlays: number[] = []
+    const soundEvents: Array<{ sound: string; overlayCount: number }> = []
+    const animation = new AnimPlayer(frames, {
+      onOverlay: (overlays) => {
+        const frame = overlays?.[0]
+        if (frame) playedOverlays.push(frame.frameIdx)
+      },
+      onSound: (sound) => soundEvents.push({ sound, overlayCount: playedOverlays.length }),
+    })
+
+    expect(animation.tick(400)).toBe(true)
+    expect(playedOverlays).toEqual([0, 1, 2, 1, 2, 1, 2, 0])
+    expect(frames[1]?.fighters).toEqual([{ side: 'player', idx: 0, frame: PLAYER_FRAMES.magic }])
+    expect(soundEvents).toEqual([{ sound: 'sound.pal.109', overlayCount: 1 }])
+  })
+
   test('玩家物攻:冲刺(+64,+20)→挥击9+敌染色+伤害数字→敌抖动(−8/−4/−6)', () => {
     const frames = buildPlayerAttack({
       frames: PLAYER_FRAMES,

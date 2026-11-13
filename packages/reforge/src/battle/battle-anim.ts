@@ -855,7 +855,8 @@ function magicDrops(
 
 /**
  * 原版 OffMagic 主段。玩家施法、合击与投掷法术物品共用同一帧循环；调用方只决定
- * 是否注入施法者 frame6、召唤定格和后续结果帧。
+ * 是否注入施法者 frame6、召唤定格和后续结果帧。效果音在特效首帧播一次
+ * （fight.c:2669–2672 WIN95，和一阶段已验收的声画时序一致）。
  */
 export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   const { fireFrames, fx } = input
@@ -875,9 +876,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       overlays: [...drop, ...hold],
       ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
       ...(input.casterMagic && i === fd ? { fighters: [input.casterMagic] } : {}),
-      ...(!input.suppressSound && fx.sound && i >= fd && (i - fd) % n === 0
-        ? { sound: fx.sound }
-        : {}),
+      ...(i === 0 && !input.suppressSound && fx.sound ? { sound: fx.sound } : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
       ...(fx.preShake && i < fx.preShake.frames
@@ -893,7 +892,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
  * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
  * → OffMagic:l=(n−fd)×times+n+shake 帧、每帧 (speed+5)×10ms、frame6@i==fd、
- *   法术音 (i−fd)%n==0 循环播、落点按 placement → 结算数字 → 回位。
+ *   特效首帧同步效果音、落点按 placement → 结算数字 → 回位。
  */
 export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums } = input
