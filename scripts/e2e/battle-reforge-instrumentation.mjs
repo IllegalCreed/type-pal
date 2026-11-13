@@ -166,7 +166,9 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     if (
       isCore &&
       ts.isIfStatement(node) &&
-      node.expression.getText(ast) === '!canAct(p.status)' &&
+      ['!canAct(p.status)', 'dead ? p.status.puppet <= 0 : !canAct(p.status)'].includes(
+        node.expression.getText(ast),
+      ) &&
       ts.isBlock(node.parent) &&
       ts.isFunctionDeclaration(node.parent.parent) &&
       node.parent.parent.name?.text === 'performPlayerAction'
@@ -174,7 +176,14 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       assert(ts.isBlock(node.thenStatement), 'incapacitated action guard lost its block')
       const exit = node.thenStatement.statements.at(-1)
       assert(exit && ts.isReturnStatement(exit), 'incapacitated action no longer returns')
-      add('incapacitated', exit.getStart(ast), call('incapacitated', 'idx'))
+      const observation = call('incapacitated', 'idx')
+      add(
+        'incapacitated',
+        exit.getStart(ast),
+        node.expression.getText(ast) === '!canAct(p.status)'
+          ? observation
+          : `if (!dead) {${observation}}`,
+      )
     }
     if (
       isCore &&

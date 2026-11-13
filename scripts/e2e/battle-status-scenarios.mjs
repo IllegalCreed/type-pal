@@ -185,7 +185,13 @@ const enemyConfused = caseOf(
   [toss(1, hero, '128', foe()), defend(1, anu), attack(2, hero), defend(2, anu)],
   'confusion',
 )
-const enemyConfusedSelf = { ...enemyConfused, id: 'confused-enemy-draws-self', seed: 2 }
+const enemyConfusedSelf = {
+  ...enemyConfused,
+  id: 'confused-enemy-draws-self',
+  seed: 2,
+  party: [enemyConfused.party[0], { ...enemyConfused.party[1], attack: 900 }],
+  commands: [toss(1, hero, '128', foe()), defend(1, anu), attack(2, hero), attack(2, anu, foe(1))],
+}
 const enemyConfusedResist = caseOf(
   'confusion-resisted',
   1,
@@ -202,7 +208,7 @@ const enemyCastsConfusion = caseOf(
     member(hero, 20, 0, [], { hp: 800, maxHP: 800 }),
     member(anu, 5, 900, [], { hp: 800, maxHP: 800 }),
   ],
-  [defend(1, hero), defend(1, anu), attack(2, anu), attack(3, anu)],
+  [defend(1, hero), defend(1, anu), attack(2, anu)],
   'confusion',
 )
 const spiderCases = [false, true].map((garlic) =>
