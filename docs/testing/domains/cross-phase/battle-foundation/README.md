@@ -33,3 +33,5 @@ Template: governance-index-v1 / 1.0.0
 毒道具分别运行 `node scripts/e2e/battle-poison-items.mjs game GROUP` 和 `node scripts/e2e/battle-poison-items.mjs reforge GROUP`。组名为 `priority`、`bounds`、`pairs`、`controls`。用 `node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP` 从同一生产候选的原件复核。单例带声录制把组名换成局面名并追加 `--capture`。 [最新场景及结果](report.md#2026-11-14-敌方施法和毒道具)
 
 横向卷轴复核重用无影毒封顶局面。归档中的 `build/q2/learn-magic/archive-index.json` 给出双端采集、离线轨迹与实绘像素的复跑入口。 [横向卷轴实绘和反控范围](report.md#2026-11-14-横向卷轴文字复核)
+
+特殊状态与增益分别运行 `node scripts/e2e/battle-status.mjs game all` 与 `node scripts/e2e/battle-status.mjs reforge all`。两端保持相同组名或局面选择器。用 `node scripts/e2e/battle-status-compare.mjs all GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。单局带声采集使用局面名和 `--capture`。 [特殊状态与增益复验](report.md#2026-11-14-特殊状态与增益)

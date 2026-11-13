@@ -42,6 +42,7 @@ import {
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
   testingBattleSessionSourcePath,
+  testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
 } from './testing-battle-publication.mjs'
 import {
@@ -468,6 +469,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionThrowFeedbackBase, [testingCatalogPath])
   const preBattleEnemyCast =
     preBattle && gitTree(root, testingBattleSessionEnemyCastBase, [testingCatalogPath])
+  const preBattleSpecialStatus =
+    preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
@@ -530,6 +533,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     enemyCastFixed: {
       revision: testingBattleSessionEnemyCastBase,
       readSource: preBattleEnemyCast.read,
+    },
+    specialStatusFixed: {
+      revision: testingBattleSessionSpecialStatusBase,
+      readSource: preBattleSpecialStatus.read,
     },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.

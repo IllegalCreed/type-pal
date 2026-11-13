@@ -14,21 +14,21 @@
       "lines": "220-222",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "381-392",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1212-1221",
+      "lines": "1213-1222",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:220-222",
         "packages/reforge/src/battle/battle-session.ts:381-392",
-        "packages/reforge/src/battle/battle-session.ts:1212-1221",
+        "packages/reforge/src/battle/battle-session.ts:1213-1222",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -505,6 +505,36 @@
         }
       ],
       "scope": "敌方施法时间线增加实际移动、动作帧、FIRE 落点与受击后复位。三个已出版归属调用片段逐字节一致。"
+    },
+    {
+      "action": "q2-battle-session-special-status-source-rebinding",
+      "base": "9662bbe177aa9567f15cb7e556a961c286a430da",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "220-222",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "381-392",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1212-1221",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        }
+      ],
+      "scope": "玩家群攻、傀儡、混乱误击和单体双击呈现调整后，三个已出版调用片段逐字节保持。"
     }
   ],
   "_governance": {

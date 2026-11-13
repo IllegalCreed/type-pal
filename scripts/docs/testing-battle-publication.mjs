@@ -19,6 +19,7 @@ export const testingBattleSessionCooperativeRecoveryBase =
 export const testingBattleSessionItemEffectsBase = '398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c'
 export const testingBattleSessionThrowFeedbackBase = '5a5a02a2f56eb4748d0415e902c334999121dcdb'
 export const testingBattleSessionEnemyCastBase = 'a4d04282dbbdaecff8e97e37528b5c0d67659550'
+export const testingBattleSessionSpecialStatusBase = '9662bbe177aa9567f15cb7e556a961c286a430da'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -96,6 +97,13 @@ const sessionThrowFeedbackBinding = {
 const sessionEnemyCastBinding = {
   revision: testingBattleSessionEnemyCastBase,
   action: 'q2-battle-session-enemy-cast-source-rebinding',
+  date: '2026-11-14',
+  requireExactExcerpt: true,
+}
+
+const sessionSpecialStatusBinding = {
+  revision: testingBattleSessionSpecialStatusBase,
+  action: 'q2-battle-session-special-status-source-rebinding',
   date: '2026-11-14',
   requireExactExcerpt: true,
 }
@@ -283,6 +291,7 @@ function sessionRebindings(
     itemEffectsFixed,
     throwFeedbackFixed,
     enemyCastFixed,
+    specialStatusFixed,
   },
 ) {
   assert(
@@ -296,7 +305,8 @@ function sessionRebindings(
       (!cooperativeRecoveryFixed || playerActionsFixed) &&
       (!itemEffectsFixed || cooperativeRecoveryFixed) &&
       (!throwFeedbackFixed || itemEffectsFixed) &&
-      (!enemyCastFixed || throwFeedbackFixed),
+      (!enemyCastFixed || throwFeedbackFixed) &&
+      (!specialStatusFixed || enemyCastFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -312,6 +322,7 @@ function sessionRebindings(
     { fixed: itemEffectsFixed, binding: sessionItemEffectsBinding },
     { fixed: throwFeedbackFixed, binding: sessionThrowFeedbackBinding },
     { fixed: enemyCastFixed, binding: sessionEnemyCastBinding },
+    { fixed: specialStatusFixed, binding: sessionSpecialStatusBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(

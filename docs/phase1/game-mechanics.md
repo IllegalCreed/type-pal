@@ -8,6 +8,14 @@ Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
+## 2026-11-14 特殊状态和物攻
+
+仙术 295「梦蛇」的原始成功入口为 SSS 43028–43031，切换战斗精灵为 5，并把裸武术、裸身法各 100% 写入 Extra 槽。装备继续计入有效属性，重施覆盖同一 Extra 槽属性。临近的复活及临时连击指令有独立入口。复活保留 Extra 槽与变身，清临时状态，装备授予状态按永久状态保留。 [成功入口校验](../../scripts/e2e/battle-status-scenarios.mjs) · [Extra 槽写入](../../reference/sdlpal/script.c#L1406-L1427) · [复活](../../reference/sdlpal/script.c#L1053-L1080)
+
+倒地傀儡身法为 0，仍有活队友时在队尾强制普攻。保留武器声，跳过攻击人声。敌方清空先判胜，最后一名活队友倒下即失败。玩家打友时，挥击帧、击退与武器声同拍，下一拍闪色，清闪帧在受击位置画蓝字。Type-PAL 按 2026-05-31 裁定从存活的敌人与其他队友抽取玩家的混乱目标。 [出手队列](../../reference/sdlpal/fight.c#L1505-L1517) · [胜负](../../reference/sdlpal/fight.c#L1116-L1156) · [攻击声音](../../reference/sdlpal/fight.c#L2061-L2071) · [误击时间线](../../reference/sdlpal/fight.c#L3760-L3854)
+
+普攻特效按实际战斗精灵取 EFFECT 帧组。单体连击的下一挥读取目标当前受击位置，群攻特效按在场敌槽的固定底锚绘制。每次群攻重抽暴击，目标槽按 2、1、0、4、3 的次序逐次减半。 [物攻落点](../../reference/sdlpal/fight.c#L2038-L2247) · [群攻逐挥](../../reference/sdlpal/fight.c#L3680-L3757) · [双端验证范围](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-特殊状态与增益)
+
 ## 2026-11-14 横向卷轴的文字
 
 SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底卷轴上用 0 号黑色写字，关闭字形阴影。练成仙术的角色名和「练成」同样用 0 号，术名用标准色板 0x1B，三段都关闭阴影。段首按词条格宽推进。逍遥和灵儿在本次局面都是三格姓名，后接两格「练成」，两段交界和术名前连续排字。主菜单的「金钱」也用 0 号且关闭字形阴影，卷轴自身仍带阴影。 [经验和金钱](../../reference/sdlpal/battle.c#L1037) · [修行提升](../../reference/sdlpal/battle.c#L1133) · [隐藏属性提升](../../reference/sdlpal/battle.c#L1269) · [练成仙术](../../reference/sdlpal/battle.c#L1319) · [主菜单金钱](../../reference/sdlpal/uigame.c#L483)

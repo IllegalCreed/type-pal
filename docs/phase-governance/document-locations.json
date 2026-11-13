@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "cde8656a609115d4be5a4b48dc70f8c5254517702e35f4384df7f268599d1144",
+      "afterSha256": "df3d1b5b25c11ffc519cdb4ae360f412f8567192744ac6f31edcf105b5de8aa8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root inventory audit",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 1033,
-        "acceptanceScope": "独立用固定前驱与 Git index 核五个新增 scripts/e2e 业务路径。真实账本生成器返回 3767 tracked、970 closed、0 review、2797 pending。旧逐文件登记逐字节相同。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 1035,
+        "acceptanceScope": "核五个新增路径和实际库存。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "99ef5158160a5c1f2625e00b1437b94eb412928a963a2c8c8d02a69b083d5f5e",
+      "afterSha256": "47fc3ff414132149b69c0d0e946aa3acb832dd08241445580926eee40e209be8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_throw_empty",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
         "reviewedLines": 122,
-        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "dfa665b82913a32ec79d099faffe58d81bd58f6edf8c7db29b8a0f32b0598e80",
+      "afterSha256": "6fa306bee926275f260f31a0be509c40e44f27204b1bdb345a4733d06452d21e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
         "reviewedLines": 43,
-        "acceptanceScope": "核原有导航逐字节保留，新增唯一横卷轴原件链接可解包。"
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "2a3a933d9c4c55a40cec1dee36ae3ade3af92f4941625d4e11f912d5844e87e8",
+      "afterSha256": "1c523c5077653f5900f63b14366819092efd5aea8d073ce8f9b18da3d9a6ebb4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
-        "reviewedLines": 1760,
-        "acceptanceScope": "独立核 SDLPal 战后经验、金钱、修行、隐藏、练成及主菜单原始文字调用和标准色板，保留原有章节逐字节。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 1768,
+        "acceptanceScope": "SDLPal 状态与物攻说明增补，既有历史原文字节保全。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "7cc11ccf6fe5ab8c66ff967de38a7319b035a15f36bd077ef34ec9bceeb19bda",
+      "afterSha256": "9159d1bb6a4883def18658d7ccc3a6af5c264142e866c3cd9d60c63e37187240",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
-        "reviewedLines": 5779,
-        "acceptanceScope": "核唯一 Q2 entry、五个来源锚点和生产 Git 指纹、原生业务判据及证据字段逐值配对；既有执行历史不动。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 5928,
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "652f43a381bb7b25a81f549324f5265627271061a47471023f13133f04f4b1d7",
+      "afterSha256": "cdc7e345cc6d1b4a02fd9f502ccfc33aab2e9d1e1cc4e946088126cfaf0fda31",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 552,
-        "acceptanceScope": "核三处源码锚点与适用性记录、归属候选及原执行结果未改，独立桥反控可拒绝改旧史或假绑定。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 582,
+        "acceptanceScope": "核固定前驱、三个源调用与既有执行回执保全。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "934944dec7dd84e00c2ac12291be44487e0708282b7e32c50cd1fab60889028d",
+      "afterSha256": "7825b2fefaf61d68911723aa4c029ab878ad977ee738d470ef57e51937ed5589",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 99,
-        "acceptanceScope": "核现行三处范围、前驱史及原归属报告范围，源可用性重绑没有晋升额外动态结论。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 101,
+        "acceptanceScope": "核固定前驱、三个源调用与既有执行回执保全。"
       }
     },
     {
@@ -5393,66 +5393,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "867d4cce17d6125d9492fbca908285db3bf3cf5bf4dfc93eb5d7ee8ac9828d4f",
+      "afterSha256": "2601f4a708ec9750ff5368fac66650719843107ea8474e49956a26a91eefbd3b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_throw_empty",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
-        "reviewedLines": 417,
-        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 431,
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "476838eb0f6b70986c110200a95b1833c261b39df42ac5857e5aa4b4920449ac",
+      "afterSha256": "dc6a7fcfea5bb8f97897868cd93d41d89cfb1653c0a07fe3fb1d808b193d7531",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
-        "reviewedLines": 36,
-        "acceptanceScope": "归档索引、报告锚点及双端采集和离线像素命令逐一核对。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 38,
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "3f9a885f83ee8cba202e1b16f73597f538e09f3fed6662b2b8570fad3d2b1c37",
+      "afterSha256": "c370ad8708fba23ad32b3ee2edd0473544fe50c498b6e2a67c4d7f719fb7ce08",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_throw_empty",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
-        "reviewedLines": 12415,
-        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 12750,
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "c1f13103409b3e309750026cdf0497e15b86ac5501f513ca36270af84ac4ba29",
+      "afterSha256": "3a0f5a940b2cd72993776d603a69da153d0f512fde0c073cc2e98f40e6f77460",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_throw_empty",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
-        "reviewedLines": 349,
-        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 370,
+        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "b163830f1a3b5afb0116bab0bcc1d083bf89915a27bdfec2569adac120c44136",
+      "afterSha256": "8a92305a3548ae8ca17818a72a507da15ac1696fdbe659457711da67d04fbcd4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root with q2_status_rules independent review",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 138,
-        "acceptanceScope": "核固定前驱与新源码双 SHA，三段调用含末行换行逐字节一致，旧来源桥记录为原文前缀。"
+        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "reviewedLines": 150,
+        "acceptanceScope": "核固定前驱、三个源调用与既有执行回执保全。"
       }
     }
   ],
@@ -5844,6 +5844,18 @@
       "sha256": "16dfeb2b1d339ae08f7f39ec47ffa1188e12618c6cd4b8aa9272b9cf4e946a73",
       "bytes": 15674817,
       "purpose": "横向卷轴的双端实绘、位图和色板判据、反控及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz",
+      "sha256": "6d9b19b3742ec63f7ee72896ef9418d0dc518fcd8006d93daafd6920dee31e49",
+      "bytes": 59568367,
+      "purpose": "特殊状态和增益的双端原始轨迹、反控、带声录制和独立复核。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-special-status-native-av-20261114.tar.gz",
+      "sha256": "074a8944fc060391c0e350a5cffbb6ffdf2ab3db1644e8566188cdbf8dc2f206",
+      "bytes": 53777618,
+      "purpose": "同一分屏的其余双端带声音视频原件和输入回执。"
     }
   ],
   "artifactAliases": [],

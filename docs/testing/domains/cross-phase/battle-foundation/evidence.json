@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+  "candidateSha": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -27,22 +27,22 @@
       "path": "scripts/e2e/battle-game-adapter.mjs",
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
-      "lines": "442",
-      "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
+      "lines": "480",
+      "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
       "anchor": "running = runBattleTrial(",
       "role": "public-trial-adapter",
       "lines": "179",
-      "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+      "sha256": "a2e14923f564ad68d1fd7d0f06b2b8ea8d5fc010c8b6d6fcf04b135c3a580ec7"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
       "anchor": "export function validateBattleTrace(",
       "role": "oracle",
       "lines": "973",
-      "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
+      "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -62,29 +62,29 @@
       "path": "scripts/e2e/battle-rules.mjs",
       "anchor": "export function validateBattleRules(",
       "role": "rule-oracle",
-      "lines": "180",
-      "sha256": "0b2053cf19e9f11a81c06bb9f9d127afebc58f62c579eae6b8cd0c747e81f97d"
+      "lines": "185",
+      "sha256": "6de10c44ba110295b380fdd9454c1133bdb1b0c6adab99fac49bb2e54fa4c134"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
       "role": "native-audio-observer",
-      "lines": "201",
-      "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+      "lines": "203",
+      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "42",
-      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
       "lines": "17",
-      "sha256": "23613b798c1c2f3e7de2b76ecafe143b349d11e52029f4f9b8b23d41dadda26e"
+      "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -98,28 +98,28 @@
       "anchor": "export function instrumentBattleRandomDraws(",
       "role": "native-random-producer-binding",
       "lines": "28",
-      "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
+      "sha256": "4eac8413fbca36ab98e90555d2178b57ba0f523c52fa654351f05e494aae7226"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
       "role": "native-magic-overlay-observer",
-      "lines": "269",
-      "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+      "lines": "279",
+      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
       "anchor": "export class BattleCommandSelection",
       "role": "native-target-menu-caller",
-      "lines": "57",
-      "sha256": "863c052adec756a9481f34fb65283caf6d7a5826276d1a311d8e735753758d1d"
+      "lines": "58",
+      "sha256": "956996dc32ec66684fb825b44e721679405219e14fc979b922d11dfd62078c04"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "'coop-fallback',",
       "role": "native-cooperative-fallback-observer",
-      "lines": "298",
-      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+      "lines": "305",
+      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -183,6 +183,34 @@
       "role": "original-cash-color",
       "lines": "483",
       "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "scripts/e2e/battle-status.mjs",
+      "anchor": "await runBrowserJourney({",
+      "role": "native-special-status-caller",
+      "lines": "36",
+      "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+    },
+    {
+      "path": "scripts/e2e/battle-status-scenarios.mjs",
+      "anchor": "export async function prepareBattleStatusInputs(",
+      "role": "native-status-legal-inputs",
+      "lines": "323",
+      "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+    },
+    {
+      "path": "scripts/e2e/battle-status-rules.mjs",
+      "anchor": "export function checkStatusRules(",
+      "role": "native-status-action-and-frame-oracle",
+      "lines": "638",
+      "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+    },
+    {
+      "path": "scripts/e2e/battle-status-compare.mjs",
+      "anchor": "export async function compareStatusReports(",
+      "role": "native-status-offline-oracle",
+      "lines": "222",
+      "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
     }
   ],
   "publicCallers": [
@@ -216,7 +244,9 @@
     "node build/q2/learn-magic/run.mjs <game|reforge>",
     "node build/q2/learn-magic/compare-runs.mjs GAME_REPORT REFORGE_REPORT",
     "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
-    "node build/q2/learn-magic/check-menu.mjs"
+    "node build/q2/learn-magic/check-menu.mjs",
+    "node scripts/e2e/battle-status.mjs <game|reforge> <all|buff|puppet|confusion|silence|overlap>",
+    "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -244,7 +274,8 @@
     "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list.",
     "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
     "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
-    "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press."
+    "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press.",
+    "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -286,7 +317,8 @@
       "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage.",
       "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
       "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
-      "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow."
+      "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow.",
+      "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks."
     ]
   },
   "dedupe": {
@@ -296,7 +328,7 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases."
   },
   "runtimeExecution": {
     "performed": true,
@@ -304,9 +336,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+    "producerRevision": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
     "result": "passed",
-    "verification": "40 native fights for ten enemy casting scenarios, with 20 paired and 20 repeat comparisons. A separate group of 72 native fights proves 36 paired poison scenarios under the source-bound judge.",
+    "verification": "80 native special-status fights across 20 fixed scenarios, 40 paired and 40 repeated comparisons; original-speed stereo review captured separately with identical production inputs.",
     "continuous": false
   },
   "execution": {
@@ -388,15 +420,15 @@
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
+      "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
-      "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+      "sha256": "a2e14923f564ad68d1fd7d0f06b2b8ea8d5fc010c8b6d6fcf04b135c3a580ec7"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
+      "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -408,19 +440,19 @@
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
-      "sha256": "0b2053cf19e9f11a81c06bb9f9d127afebc58f62c579eae6b8cd0c747e81f97d"
+      "sha256": "6de10c44ba110295b380fdd9454c1133bdb1b0c6adab99fac49bb2e54fa4c134"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
-      "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
-      "sha256": "23613b798c1c2f3e7de2b76ecafe143b349d11e52029f4f9b8b23d41dadda26e"
+      "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -428,19 +460,19 @@
     },
     {
       "path": "scripts/e2e/battle-random-instrumentation.mjs",
-      "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
+      "sha256": "4eac8413fbca36ab98e90555d2178b57ba0f523c52fa654351f05e494aae7226"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
-      "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
-      "sha256": "863c052adec756a9481f34fb65283caf6d7a5826276d1a311d8e735753758d1d"
+      "sha256": "956996dc32ec66684fb825b44e721679405219e14fc979b922d11dfd62078c04"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -477,6 +509,22 @@
     {
       "path": "reference/sdlpal/uigame.c",
       "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+    },
+    {
+      "path": "scripts/e2e/battle-status.mjs",
+      "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+    },
+    {
+      "path": "scripts/e2e/battle-status-scenarios.mjs",
+      "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+    },
+    {
+      "path": "scripts/e2e/battle-status-rules.mjs",
+      "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+    },
+    {
+      "path": "scripts/e2e/battle-status-compare.mjs",
+      "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
     }
   ],
   "artifacts": [
@@ -10303,6 +10351,23 @@
         "bytes": 25253
       },
       "purpose": "Paired native settlement inputs, glyph pixel proof, original-speed review, menu image and renderer counterexamples."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz",
+      "sha256": "6d9b19b3742ec63f7ee72896ef9418d0dc518fcd8006d93daafd6920dee31e49",
+      "bytes": 59568367,
+      "manifest": {
+        "path": "build/q2/special-status/archive-index.json",
+        "sha256": "ff0f1150d4a36538294a08edd7af210b08be1963c3647f27964de6e6caf44a4b",
+        "bytes": 73552
+      },
+      "purpose": "Native status inputs, real source-bound traces, offline comparison, negative controls and original-speed stereo review."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-special-status-native-av-20261114.tar.gz",
+      "sha256": "074a8944fc060391c0e350a5cffbb6ffdf2ab3db1644e8566188cdbf8dc2f206",
+      "bytes": 53777618,
+      "purpose": "Additional native status and buff recordings used in the stereo review."
     }
   ],
   "claims": [
@@ -10888,6 +10953,31 @@
         "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-scroll-menu-reforge-2026-11-13T17-03-46-312Z/cash.png",
         "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/frame-comparison.json"
       ]
+    },
+    {
+      "id": "native-special-status-buffs-and-physical-feedback",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-13T18-35-18-160Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-13T18-35-18-200Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/verification.json"
+      ]
+    },
+    {
+      "id": "special-status-original-speed-stereo-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/battle-special-status-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/media.json"
+      ]
+    },
+    {
+      "id": "repeated-strikes-neighboring-native-callers",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-final/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-counter-receipt.json"
+      ]
     }
   ],
   "findings": [
@@ -11291,6 +11381,56 @@
         "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/coverage.log"
       ],
       "result": "Restoring the old text color, shadow or split gap rejects the designated renderer check. Positive restores pass. The first official coverage run reached every selected test, then failed the existing exact ratio gate after redundant covered helpers were removed."
+    },
+    {
+      "kind": "native-special-status-counterexamples",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/equipped-dual-all-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/equipped-dual-all-lethal-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/puppet-and-revival-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/puppet-all-dead-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/queued-offense-silenced-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/queued-support-silenced-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/queued-spell-cleansed-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T17-52-51-745Z/equivalent-status-resisted-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/equipped-dual-all-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/equipped-dual-all-lethal-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/puppet-and-revival-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/puppet-all-dead-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/queued-offense-silenced-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/queued-support-silenced-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/queued-spell-cleansed-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T17-52-51-745Z/equivalent-status-resisted-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-13T18-27-25-963Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-13T18-27-25-963Z/trance-attack-and-speed-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-13T18-27-25-963Z/trance-attack-and-speed-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-13T18-27-26-083Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-13T18-27-26-083Z/trance-attack-and-speed-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-13T18-27-26-083Z/trance-attack-and-speed-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T18-18-18-594Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-13T18-18-18-594Z/confused-party-and-cleanse-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T18-18-18-594Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-13T18-18-18-594Z/confused-party-and-cleanse-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/final-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-cooperative-fallback-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-cooperative-fallback-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-sleep-hit-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-sleep-hit-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-sleep-resisted-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-03-22-569Z/player-sleep-resisted-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-cooperative-fallback-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-cooperative-fallback-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-sleep-hit-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-sleep-hit-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-sleep-resisted-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-03-22-569Z/player-sleep-resisted-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-comparison.json/comparison.json"
+      ],
+      "result": "Original traces identify missing group sweeps, wrong puppet turns, missing enemy item statuses and transformed attack effect or anchor drift. Directed product and comparator controls preserve original identities."
     }
   ],
   "cleanup": {
@@ -11719,6 +11859,93 @@
       "scope": "One paired settlement with seven exact screen text checks, plus the ordinary Reforge menu and renderer controls.",
       "predecessor": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
       "archive": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz"
+    },
+    {
+      "revision": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+      "date": "2026-11-14",
+      "action": "native-special-status-and-buffs",
+      "predecessor": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+      "scope": "Twenty native fixtures, each repeated twice in both engines. Same-fixture battle, status, RNG, physical effects and audio with original-speed stereo review.",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "lines": "442",
+          "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "anchor": "running = runBattleTrial(",
+          "role": "public-trial-adapter",
+          "lines": "179",
+          "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "anchor": "export function validateBattleTrace(",
+          "role": "oracle",
+          "lines": "973",
+          "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+          "role": "native-audio-observer",
+          "lines": "201",
+          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "42",
+          "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "23613b798c1c2f3e7de2b76ecafe143b349d11e52029f4f9b8b23d41dadda26e"
+        },
+        {
+          "path": "scripts/e2e/battle-random-instrumentation.mjs",
+          "anchor": "export function instrumentBattleRandomDraws(",
+          "role": "native-random-producer-binding",
+          "lines": "28",
+          "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+          "role": "native-magic-overlay-observer",
+          "lines": "269",
+          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.ts",
+          "anchor": "export class BattleCommandSelection",
+          "role": "native-target-menu-caller",
+          "lines": "57",
+          "sha256": "863c052adec756a9481f34fb65283caf6d7a5826276d1a311d8e735753758d1d"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "'coop-fallback',",
+          "role": "native-cooperative-fallback-observer",
+          "lines": "298",
+          "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+        },
+        {
+          "path": "scripts/e2e/battle-rules.mjs",
+          "anchor": "export function validateBattleRules(",
+          "role": "rule-oracle",
+          "lines": "180",
+          "sha256": "0b2053cf19e9f11a81c06bb9f9d127afebc58f62c579eae6b8cd0c747e81f97d"
+        }
+      ],
+      "archive": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz"
     }
   ],
   "_governance": {
@@ -12410,5 +12637,113 @@
       "videoSha256": "3ed37f5c493163cb093556ba7373157559ea5b06b14167f26cccd54e378f0567",
       "scope": ["shadowless-cap-settlement-scrolls"]
     }
+  },
+  "specialStatusExecution": {
+    "date": "2026-11-14",
+    "producerRevision": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+    "judgeRevision": "e60d6d907405d8d6e8985c860cef4803751a1b88",
+    "reports": [
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-13T18-35-18-160Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-13T18-35-18-200Z/report.json"
+    ],
+    "comparison": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/verification.json",
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/battle-special-status-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/media.json"
+    ],
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/archive-index.json",
+    "independentReviews": [
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/owner-review.md",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/frozen-status-independent-review-681040c59.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/review-frozen-status.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/integrated-owner-source-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/owner-source-receipt.py",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/raw-dream-attack.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/raw-dream-attack.py",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/unit-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/unit-old-rules-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/puppet-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/trance-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/mate-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/single-second-anchor-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/single-second-anchor-neighbors-green.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/status-media-independent-review.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/official-compare-replay-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/status-publication-document-review.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-counter-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-counter.config.mts",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/run-group-canvas-counter.py",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-baseline.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-mutant.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-restored.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-baseline.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-mutant.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-restored.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-previous-lcov.info",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/reforge/group-canvas-coverage/lcov.info",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/game-review.md",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/game-focused-final.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/counters-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/counters.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/coverage-fixture-receipt.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/coverage-mate-receipt.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/fixture-regression/receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/game/fixture-regression/mate/receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/attachment/681040c59-attachment-independent-audit.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/attachment/audit-final-attachment.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/attachment/681040c59-oracle-counters.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/attachment/472674874-attachment-summary.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review/attachment/equivalent-status-test/counterfactual-receipt.json"
+    ],
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/typecheck.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/typecheck-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/game-directed.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/game-physical-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/e2e-tools.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/battle-tools.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/watchdog-isolated.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/e2e-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/lint-before-publication.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/source-rebinding.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/lint-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/typecheck-final-head.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/coverage-first.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/coverage-first-metrics.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/coverage-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/coverage-metrics.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-compare-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/e2e-tools-final-head.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/quality-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/review-cleanup.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/merged-branch-cleanup.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/media-replay-receipt.json"
+    ],
+    "visualAcceptance": "pending",
+    "adjacentRepeatedStrikes": [
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-cooperative-fallback-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-cooperative-fallback-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-sleep-hit-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-sleep-hit-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-sleep-resisted-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-10-13-537Z/player-sleep-resisted-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-cooperative-fallback-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-cooperative-fallback-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-sleep-hit-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-sleep-hit-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-sleep-resisted-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-10-13-537Z/player-sleep-resisted-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-final/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-12-47-952Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-12-47-952Z/item-salt-throw-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T19-12-47-952Z/item-salt-throw-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-12-49-144Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-12-49-144Z/item-salt-throw-1-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T19-12-49-144Z/item-salt-throw-2-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-counter-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/check-adjacent.mjs"
+    ]
   }
 }

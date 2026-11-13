@@ -135,3 +135,15 @@ Template: evidence-receipt-v1 / 1.0.0
 | `this.selection.advance(context` | 1209-1218 | 1212-1221 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
 
 三个调用片段的范围含末行换行，逐字节相同。原归属测试的执行身份和结论由其原证据承载。敌方施法和毒道具的复验范围取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-14 特殊状态与物攻呈现的会话来源
+
+固定前驱 `9662bbe177aa9567f15cb7e556a961c286a430da`，候选 `681040c59b1c6787cbaecb91e3dd20b9acd62b1d`。现行会话 SHA-256 为 `4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d`。群攻使用逐挥命中，混乱打友按真实状态复位，单体第二挥读取首挥结束的敌方位置。三个调用片段按含末行换行的原始字节比较。
+
+| 调用锚点 | 前驱范围 | 当前范围 | 片段 SHA-256 |
+| --- | --- | --- | --- |
+| `private readonly selection = new BattleCommandSelection` | 220-222 | 220-222 | `06748bc9b41060a59eb9ce1a4f35eaa83a1928e28cfe1b77ca79e9fce8b8aab5` |
+| `this.readiness = new BattleTurnReadinessGate` | 381-392 | 381-392 | `53a94cb63d8c929db87931718c62beafe957b20c8f5175fa036b6f1245be7fd2` |
+| `this.selection.advance(context` | 1212-1221 | 1213-1222 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
+
+其余归属来源和原执行回执沿用既有记录。运行和反控取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
