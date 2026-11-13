@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
+import { registerHooks } from 'node:module'
 import test from 'node:test'
+import { fileURLToPath } from 'node:url'
 import vm from 'node:vm'
 import ts from 'typescript'
 import { GAME_BATTLE_TARGETS, instrumentGameBattle } from './battle-game-instrumentation.mjs'
@@ -92,6 +95,133 @@ test('observed native mulberry32 preserves each value, draw count and final stat
   assert.equal(observed.getState(), original.getState())
   assert.equal(observations.at(-1).state, original.getState())
   assert.equal(observations[0].value, compile(native).createSeedableRng(1729).next())
+})
+
+test('Game observes the native cooperative fallback after both hits and before attack growth', async () => {
+  const game = '/packages/game/src'
+  const coop = `${game}/core/battle/actions/coop-magic.ts`
+  const targets = [
+    coop,
+    `${game}/core/battle/actions/attack.ts`,
+    `${game}/core/battle/magic-damage.ts`,
+    `${game}/core/rng.ts`,
+  ]
+  const native = await source(coop)
+  assert.throws(
+    () =>
+      instrumentGameBattle(
+        native.replace('performAttack(state, actor, target,', 'otherAttack(state, actor, target,'),
+        coop,
+      ),
+    /boundary census changed/,
+  )
+  assert.throws(
+    () =>
+      instrumentGameBattle(native.replace('rangeInclusive(2, 3)', 'rangeInclusive(2, 4)'), coop),
+    /battle RNG boundaries changed/,
+  )
+  const hook = registerHooks({
+    resolve(specifier, context, next) {
+      try {
+        return next(specifier, context)
+      } catch (error) {
+        if (
+          error.code === 'ERR_MODULE_NOT_FOUND' &&
+          specifier.startsWith('.') &&
+          specifier.endsWith('.js')
+        )
+          return next(`${specifier.slice(0, -3)}.ts`, context)
+        throw error
+      }
+    },
+    load(url, context, next) {
+      const file = targets.find((target) => url.endsWith(target))
+      if (!file) return next(url, context)
+      const { code } = instrumentGameBattle(readFileSync(fileURLToPath(url), 'utf8'), file)
+      return { format: 'module-typescript', source: code, shortCircuit: true }
+    },
+  })
+  try {
+    const [
+      { performCoopMagic },
+      { makeCoopState, makeRole, COOP_MAGIC, OBJ_MAGICS, TEST_COOP_OBJ_ID },
+      { createSeedableRng },
+    ] = await Promise.all([
+      import('../../packages/game/src/core/battle/actions/coop-magic.ts'),
+      import('../../packages/game/src/core/battle/__tests__/coop-magic.test-fixtures.ts'),
+      import('../../packages/game/src/core/rng.ts'),
+    ])
+    const execute = (sleep) => {
+      const { gs, state, playerRoles, bus } = makeCoopState(
+        [makeRole(0), makeRole(1, { attackStrength: 258 })],
+        [{ sleep }, {}],
+      )
+      state.rng = createSeedableRng(25)
+      state.players[1].status.dualAttack = 32760
+      const timeline = []
+      let purpose
+      globalThis.__battleEvidence = {
+        markRandom: (value) => {
+          purpose = value
+        },
+      }
+      globalThis.__battleGameRandom = () => {
+        timeline.push(purpose)
+        purpose = undefined
+      }
+      globalThis.__battleGameCoopFallback = (actual, actor, target) => {
+        assert.equal(actual, state)
+        timeline.push({
+          slot: actor.idx,
+          target,
+          hp: actual.enemies[target].e.health,
+          hits: actual.battleAnim.frames.flatMap(({ damageNum }) =>
+            damageNum ? [damageNum.value] : [],
+          ),
+        })
+      }
+      performCoopMagic({
+        gs,
+        state,
+        playerRoles,
+        bus,
+        casterIdx: 1,
+        coopObjId: TEST_COOP_OBJ_ID,
+        targetIdx: 0,
+        magics: [{ ...COOP_MAGIC, type: 'normal' }],
+        objectMagics: [{ ...OBJ_MAGICS[0], flags: { ...OBJ_MAGICS[0].flags, applyToAll: false } }],
+        actor: { idx: 1, isEnemy: false, dex: 30, fIsSecond: false },
+      })
+      return {
+        timeline,
+        hp: playerRoles.roles.map(({ hp }) => hp),
+        growth: [gs.Exp.rgAttackExp[1].wCount, gs.Exp.rgHealthExp[1].wCount],
+      }
+    }
+    assert.deepEqual(execute(1), {
+      timeline: [
+        'strike-bonus',
+        'strike-critical',
+        'strike-variance',
+        'strike-bonus',
+        'strike-critical',
+        'strike-variance',
+        { slot: 1, target: 0, hp: 8067, hits: [480, 453] },
+        'attack-growth',
+      ],
+      hp: [500, 500],
+      growth: [1, 2],
+    })
+    const cooperative = execute(0)
+    assert.deepEqual(cooperative.hp, [470, 470])
+    assert.deepEqual(cooperative.growth, [0, 0])
+    assert.deepEqual(cooperative.timeline, ['spell-damage-variance'])
+  } finally {
+    hook.deregister()
+    delete globalThis.__battleEvidence
+    delete globalThis.__battleGameRandom
+    delete globalThis.__battleGameCoopFallback
+  }
 })
 
 test('Game reports the sprite frame that blits, including the frame zero fallback', async () => {
