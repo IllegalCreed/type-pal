@@ -862,11 +862,12 @@ function assertBusinessConformance(trace, expected) {
             action.turn === entry.turn &&
             action.kind === 'item' &&
             action.itemId === '65' &&
+            action.actorId !== entry.actorId &&
             action.targetId === entry.actorId &&
             actor(action.before)?.statuses.sleep > 0 &&
             !(actor(action.after)?.statuses.sleep > 0),
         )
-      const actorSlot = actor(expected.actions[i].before).slot
+      const actorSlot = actor(expected.actions[i].before)?.slot
       const nativeAttack =
         trace.engine === 'game'
           ? entry.native?.actor?.isEnemy === false &&
@@ -878,6 +879,7 @@ function assertBusinessConformance(trace, expected) {
             entry.native.lastAction.kind === 'attack'
       requireValue(
         entry.kind === 'attack' &&
+          actorSlot !== undefined &&
           nativeAttack &&
           priorRound &&
           actor(priorRound.after)?.statuses.sleep > 0 &&
