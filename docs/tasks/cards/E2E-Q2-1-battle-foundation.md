@@ -355,6 +355,8 @@ Reforge 371 个测试文件、9,073 项及 E2E 工具 462 项通过。以 PR #62
 
 按保护基点重新跑快测，七包共 20,502 项通过。Game 分支达到 10,060/12,362，函数达到 1,905/2,181，快测基线实际更新。全仓类型检查和 lint 零诊断。 [前后运行及质量回执](../evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz)
 
+上一批通过受保护的文档与快测覆盖门，经 PR #64 合入主线 `5a5a02a2f56eb4748d0415e902c334999121dcdb`。已回收六个合入或逐补丁等价的本地分支及对应远端分支。 [PR #64](https://github.com/IllegalCreed/type-pal/pull/64)
+
 ## 2026-11-13 投掷复核、状态解除和护体
 
 用户要求继续推进并由 Codex 独立核对差异，补齐缺失的采集原件。以 `559a7719b0767ab7cdfbab9894ad02245f5047cf` 道具复验后继为诊断基点，Codex 记录 build allowed。投掷空效果由 `q2_throw_empty` 独占内容守卫、PAL 道具配置和编辑器相邻表单。Game 濒死起手与化尸水原始脚本上下文由 `q2_restore_drain_probe` 独占。Game 友方仙术落点由 `q2_status_rules` 独占相邻动画与专测。Codex 维护 Reforge 投掷结果、原盘友方仙术层、固定局面、双端判据与出版。
