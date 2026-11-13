@@ -119,7 +119,10 @@ async function readReport(path, engine, selector, scenarios, prepare, commonSour
   const current = await recordingDependencies(repoRoot, definition)
   assertDependencyClosure(report.dependencies, current)
   assert.deepEqual(report.hashes, report.dependencies.hashes)
-  assert.deepEqual(report.hashes, current.hashes, 'producer sources have changed')
+  const drift = Object.keys(current.hashes).filter(
+    (path) => report.hashes[path] !== current.hashes[path],
+  )
+  assert.deepEqual(drift, [], 'producer sources have changed')
   const changed = git('diff', '--name-only', '-z', report.revision, '--').toString().split('\0')
   assert.deepEqual(
     changed.filter((path) => Object.hasOwn(current.hashes, path)),

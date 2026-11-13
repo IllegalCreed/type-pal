@@ -239,6 +239,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
               target: { kind: 'enemy' as const, idx: targetIdx },
               value: damage,
               color: 'blue' as const,
+              anchor: targetEnemyPos,
             },
           }
         : {}),

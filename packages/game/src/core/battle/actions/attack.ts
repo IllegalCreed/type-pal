@@ -261,7 +261,7 @@ export function performAttack(
             targetEnemyHeight: 0,
             effectFrameBase: playerEffectFrameBase(
               battleEffectIndex,
-              voiceRole?.spriteNumInBattle ?? 0,
+              attacker.spriteNumOverride ?? voiceRole?.spriteNumInBattle ?? 0,
             ),
             damage: 0,
             groupDamageNums: sweepNums,
@@ -318,6 +318,7 @@ export function performAttack(
     const voiceRole = playerRoles.roles[roleId]
     const weaponSound = voiceRole?.weaponSound ?? 0
     const segments: BattleAnimFrame[] = []
+    let targetEnemyPos = targetEnemy.pos ?? targetEnemy.posOriginal
     for (let t = 0; t < hits; t++) {
       const base = calcPhysicalAttackDamage(str, def, physRes)
       const mod = applyPlayerAttackModifiers(base, state.rng, roleId, bravery)
@@ -348,12 +349,16 @@ export function performAttack(
         damage,
         battleEffectIndex,
         playerRoles,
+        targetEnemyPos,
         attackVoice: voice,
         weaponSound,
         windup: t === 0, // L12:仅首击前摇 frame7+Delay(4)(fight.c:3667-3671)
       })
       if (seg) {
         segments.push(...seg)
+        targetEnemyPos =
+          seg.at(-1)?.fighters?.find(({ side, idx }) => side === 'enemy' && idx === targetIdx)
+            ?.pos ?? targetEnemyPos
       } else {
         // legacy(无 posOriginal):无时间线帧承载声音 → 保留同步 emit(出招声 + 武器声 playPlayerAttack)+ 即时数字
         if (voice && voice > 0) bus.emit({ op: 'playSound', soundId: voice })
@@ -619,6 +624,7 @@ function buildAttackTimeline(input: {
   targetIdx: number
   isPlayerTarget: boolean
   damage: number
+  targetEnemyPos?: { x: number; y: number }
   battleEffectIndex: number[] | undefined
   playerRoles: PlayerRoles
   /** 敌→我 被动格挡(fAutoDefend):玩家 frame 3 格挡姿 + coverSound,不结算伤害(fight.c:5023-5085)。 */
@@ -636,16 +642,16 @@ function buildAttackTimeline(input: {
     // player → enemy(fight.c:2008-2263)
     const attacker = state.players[actor.idx]
     const targetEnemy = state.enemies[targetIdx]
-    if (!attacker?.posOriginal || !targetEnemy?.posOriginal) return undefined
+    const targetPos = input.targetEnemyPos ?? targetEnemy?.posOriginal
+    if (!attacker?.posOriginal || !targetPos) return undefined
     const role = playerRoles.roles[attacker.roleId]
-    const battleSpriteId = role?.spriteNumInBattle ?? 0
+    const battleSpriteId = attacker.spriteNumOverride ?? role?.spriteNumInBattle ?? 0
     return buildPlayerAttackTimeline({
       attackerPos: attacker.posOriginal,
       attackerIdx: actor.idx,
-      targetEnemyPos: targetEnemy.posOriginal,
+      targetEnemyPos: targetPos,
       targetIdx,
-      // core 无 sprite 资源 → enemy_h=0(overlay Y 仅退化 +10;present 可后续精修)
-      targetEnemyHeight: 0,
+      targetEnemyHeight: targetEnemy?.spriteFrameHeight ?? 0,
       effectFrameBase: playerEffectFrameBase(battleEffectIndex, battleSpriteId),
       damage,
       attackVoice: input.attackVoice,

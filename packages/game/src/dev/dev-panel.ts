@@ -1664,6 +1664,11 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
   console.log(
     `[dev-panel] applyFixture ${fixture.id} → startBattle(team=${fixture.enemyTeamId}, field=${fixture.battleFieldId})`,
   )
+  const enemySpriteFrameHeights = new Map<number, number>()
+  for (const { id } of deps.resources.enemies) {
+    const height = deps.battleSprites?.get(`enemy-${id}`)?.frames[0]?.height
+    if (height !== undefined) enemySpriteFrameHeights.set(id, height)
+  }
   try {
     startBattle({
       gs: deps.gs,
@@ -1690,6 +1695,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       objectPoisons: deps.resources.objectPoisons, // 0x28 apply poison
       objectPlayers: deps.resources.objectPlayers, // OBJECT_PLAYER:队友死亡 / 濒死脚本
       enemyPos: deps.resources.enemyPos, // D17a:enemy 初始 pos/posOriginal(battle.c:936-939)
+      enemySpriteFrameHeights,
       battleEffectIndex: deps.resources.battleEffectIndex, // D17a:命中特效帧基号(fight.c:2055)
       magicSpriteFrameCounts: deps.resources.magicSpriteFrameCounts, // D17:OffMagic 时间线 n
       summonSpriteFrameCounts: deps.resources.summonSpriteFrameCounts, // 召唤神逐帧 loop 帧数
