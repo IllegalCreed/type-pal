@@ -1612,7 +1612,9 @@ export function battleLaunchSpec(scenario) {
 export async function battleFoundationInputSources(root) {
   const paths = [
     'data/extracted/images/ui/frame-48.png',
+    'data/extracted/data/magic/fire-28.rle',
     'projects/pal/assets/migrated/faces/li-xiaoyao.png',
+    'projects/pal/assets/migrated/effect-sprites/magic-028.rle',
     ...Object.keys(soundFrames).flatMap((id) => [
       rawSoundPath(id),
       `projects/pal/${projectSoundPath(id)}`,
@@ -1673,6 +1675,7 @@ export async function verifyBattleFoundationSources(root) {
     rawFields,
     fields,
     rawLevelUp,
+    fireSprites,
   ] = await Promise.all([
     json('data/extracted/data/enemy-teams.json'),
     json('data/extracted/data/enemies.json'),
@@ -1692,6 +1695,7 @@ export async function verifyBattleFoundationSources(root) {
     json('data/extracted/data/battle-fields.json'),
     json('projects/pal/content/battle-fields.json'),
     json('data/extracted/data/level-up-magic.json'),
+    json('data/extracted/data/fire-sprites.json'),
   ])
   const rawHero = rawRoles.roles.find(({ id }) => id === roles[hero])
   const battler = actors.find(({ id }) => id === hero).battler
@@ -1871,6 +1875,21 @@ export async function verifyBattleFoundationSources(root) {
   assert.deepEqual(skills.skills.find(({ id }) => id === '309').effects, [
     { kind: 'applyStatus', status: 'protect', turns: 7 },
   ])
+  for (const id of ['306', '309']) {
+    const rawSpell = rawSpells.find((entry) => entry.id === Number(id))
+    const magic = rawMagic.find(({ id }) => id === rawSpell.magicNumber)
+    assert.deepEqual(
+      [magic.type, magic.effect, magic.xOffset, magic.yOffset, magic.speed],
+      ['applyToPlayer', 28, 65530, 65518, -1],
+    )
+    const skill = skills.skills.find((entry) => entry.id === id)
+    const { effectSprite, xOffset, yOffset, speed } = skill.animation
+    assert.deepEqual(
+      [skill.target, effectSprite, xOffset, yOffset, speed],
+      ['oneAlly', 28, -6, -18, -1],
+    )
+  }
+  assert.equal(fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === 28).frameCount, 24)
   const sword = rawItems.find(({ id }) => id === 166)
   assert(sword.flags.throwable && sword.flags.consuming && !sword.flags.applyToAll)
   assert.deepEqual(opcode(sword.scriptOnThrow), [0x66, [344, 0, 0]])
