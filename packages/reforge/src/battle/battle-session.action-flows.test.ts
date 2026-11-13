@@ -268,7 +268,7 @@ describe('W3 执行时间线接线', () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)
     const h = makeWfSession({
-      players: [wfPlayer('p1', { skills: ['wf-nuke'], mp: 40, maxMp: 40, attackStrength: 200 })],
+      players: [wfPlayer('p1', { skills: ['wf-nuke'], mp: 40, maxMp: 40, magicStrength: 45 })],
       enemies: [wfEnemy('e1', { health: 30, defense: 0, attackStrength: 1 })],
       extraOpts: {
         skills: { 'wf-nuke': skill },
