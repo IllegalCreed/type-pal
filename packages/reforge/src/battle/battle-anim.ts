@@ -814,7 +814,9 @@ export interface BuildPlayerCastInput {
   targetPos?: { x: number; y: number }
   /** 友方普通法术的实绘目标；全队法术包含每个在场队员。 */
   allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
-  /** 结算数字(特效播完后一帧弹;掉血者列表)。 */
+  /** 有主特效的普通对敌仙术使用完整 PostMagic。 */
+  offensive?: boolean
+  /** 特效结束后显示的掉血数字。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
    *  神将溶入/背景染色,72×16ms)→ 神将 loop 0..n-2 → 定格末帧贯穿二次法术 → PostMagic
@@ -970,10 +972,11 @@ function appendDefMagic(
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
  * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
  * → OffMagic:l=(n−fd)×times+n+shake 帧、每帧 (speed+5)×10ms、frame6@i==fd、
- *   特效首帧同步效果音、落点按 placement → 结算数字 → 回位。
+ *   特效首帧同步效果音、落点按 placement。普通对敌法术随后显示数字并保留施法姿九拍。
  */
 export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
-  const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums } = input
+  const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums, offensive } =
+    input
   // —— PreMagic:上移 4 帧 ——
   const frames: AnimFrame[] = []
   const { x: cx, y: cy } = appendPlayerApproach(frames, casterIdx, casterPos)
@@ -1055,33 +1058,32 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }),
   )
 
-  // —— PostMagic(fight.c:3190-3240):掉血敌三轮位移抖动 x−8→−4→−6(dist 8 交替减半累积),
-  //    第 2 轮 colorShift=6 闪白;末帧复位。缺 = 无目标掉血(治疗系)。召唤期神将在场时抖
-  //    (fight.c:4323 先 PostMagic、889 后才淡出 —— 一阶段 49fe8a63 血泪序)。——
-  if (input.postTargets?.length) {
-    const SHAKE_X = [-8, -4, -6]
-    for (let r = 0; r < 3; r++) {
+  if (offensive) {
+    // 主特效结束即复原屏波，并在敌人位移前取飘字底锚（fight.c:2835、4322–4323）。
+    frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
+  }
+
+  // PostMagic 三拍受击和一拍敌人复位（fight.c:3190–3245）。无掉血时仍经过四拍。
+  // 召唤在场时继续画定格神将，随后走既有淡出（fight.c:4323、889）。
+  const postTargets = input.postTargets ?? []
+  if (offensive || postTargets.length > 0) {
+    for (const [beat, offset] of [-8, -4, -6, 0].entries()) {
       frames.push({
         durationMs: delayMs(1),
         ...(inSummon ? { summonPhase: 'hold' as const, overlays: [...summonHold] } : {}),
-        fighters: input.postTargets.map((t) => ({
+        fighters: postTargets.map((t) => ({
           side: 'enemy' as const,
           idx: t.idx,
-          pos: { x: t.pos.x + expectDefined(SHAKE_X[r]), y: t.pos.y },
-          colorShift: r === 1 ? 6 : 0,
+          pos: { x: t.pos.x + offset, y: t.pos.y },
+          colorShift: beat === 1 ? 6 : 0,
         })),
       })
     }
-    frames.push({
-      durationMs: delayMs(1),
-      ...(inSummon ? { summonPhase: 'hold' as const, overlays: [...summonHold] } : {}),
-      fighters: input.postTargets.map((t) => ({
-        side: 'enemy' as const,
-        idx: t.idx,
-        pos: { x: t.pos.x, y: t.pos.y },
-        colorShift: 0,
-      })),
-    })
+  }
+  if (offensive) {
+    // 原版再停五拍，会话在演出结束后按实际状态恢复施法者（fight.c:4324、1102–1105）。
+    frames.push({ durationMs: delayMs(5) })
+    return frames
   }
 
   // —— 召唤 crossfade out(fight.c:897-912:复位队员先于淡出 —— 一阶段 7e49327b 血泪:

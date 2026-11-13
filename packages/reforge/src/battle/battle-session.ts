@@ -1401,6 +1401,7 @@ export class BattleSession {
       // 召唤背景染色量 = summon 效果自己的 tint(原召唤 magic 的 wEffectTimes SHORT,
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
       this.summonTintShift = !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
+      const fireFrames = la.fizzled ? 0 : (fire?.frames.length ?? 0)
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1410,7 +1411,7 @@ export class BattleSession {
           contributorIdxs: la.coopContributors,
           partySize: s.players.length,
           partyPositions: s.players.map((_, i) => getPlayerBasePos(s.players.length, i)),
-          fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
+          fireFrames,
           fx,
           targetPos,
           damageNums,
@@ -1445,10 +1446,15 @@ export class BattleSession {
             ? playerProfile.castEffectBase
             : -1,
         partyIdxs: s.players.map((_, i) => i),
-        fireFrames: la.fizzled ? 0 : (fire?.frames.length ?? 0),
+        fireFrames,
         fx,
         targetPos,
         ...(allyTargets.length ? { allyTargets } : {}),
+        offensive:
+          la.kind === 'cast' &&
+          fireFrames > 0 &&
+          !summonEff &&
+          (skill.target === 'oneEnemy' || skill.target === 'allEnemies'),
         damageNums,
         postTargets,
         ...(!la.fizzled && a.keepEffect ? { keepEffect: true } : {}),
