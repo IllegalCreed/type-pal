@@ -1446,12 +1446,13 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
   const afterFire = lastFire ? window.filter(({ seq }) => seq > lastFire.seq) : []
   const cleared = afterFire[0]
   const advanced = lastFire && pose(lastFire, slot)
-  const returned = afterFire.find((frame) => {
+  const atOriginalPose = (frame) => {
     const caster = pose(frame, slot)
     return (
       caster && original && samePose(caster, original) && caster.frameIndex === original.frameIndex
     )
-  })
+  }
+  const returned = afterFire.find(atOriginalPose)
   const damage = action.enemyDamage ?? []
   const births = firstNumberDraws(frames).flatMap(({ frame, number }) =>
     start &&
@@ -1487,6 +1488,7 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
     samePose(original, advanced) ||
     !returned ||
     !recoveryStart ||
+    afterFire.some((frame) => frame.seq > returned.seq && !atOriginalPose(frame)) ||
     afterFire.some((frame) => {
       const caster = pose(frame, slot)
       return (
@@ -1514,6 +1516,7 @@ function comparePlayerCastRecovery(frames, animations, expected, fail) {
         draw.frame < cleared.seq ||
         draw.clockMs - cleared.clockMs > BATTLE_FRAME_MS ||
         firstReaction.x !== target.x - 8 ||
+        firstReaction.y !== target.y ||
         !samePose(firstReaction, draw.targetPose) ||
         draw.slot !== target.slot ||
         draw.value !== damage[i] ||

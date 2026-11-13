@@ -129,6 +129,7 @@ function compareRepeatedStrikes(
 ) {
   const before = action.before.enemies.find((unit) => unit?.id === action.targetId)
   const after = action.after.enemies[before.slot]
+  const attackerSlot = action.before.players.find(({ id }) => id === action.actorId)?.slot
   const base = start?.payload.enemies.find(({ slot }) => slot === before.slot)
   const expected = values.map((value) => ({ slot: before.slot, value }))
   const native = enemyDamageNumbers(engine, action.native, action.kind)
@@ -138,7 +139,15 @@ function compareRepeatedStrikes(
     (!next || frame.seq < next.seq) &&
     number.tone === 'blue' &&
     number.side === 'enemy'
-      ? [{ frame: frame.seq, clockMs: frame.clockMs, ...number }]
+      ? [
+          {
+            frame: frame.seq,
+            clockMs: frame.clockMs,
+            attackFrame: frame.payload.players.find(({ slot }) => slot === attackerSlot)
+              ?.frameIndex,
+            ...number,
+          },
+        ]
       : [],
   )
   const drawn = draws.map(({ slot, value }) => ({ slot, value }))
@@ -155,6 +164,7 @@ function compareRepeatedStrikes(
     draws.some(
       (draw, i) =>
         draw.numberId === undefined ||
+        draw.attackFrame !== 9 ||
         (i > 0 && draw.frame <= draws[i - 1].frame) ||
         draw.right !== base.x + 6 ||
         draw.y + draw.age !== Math.max(base.y - 115, 10),
