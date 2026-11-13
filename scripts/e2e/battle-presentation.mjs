@@ -208,9 +208,9 @@ function validFrame(entry, source, playerCount) {
     Number.isSafeInteger(p.turn) &&
     typeof p.selecting === 'boolean' &&
     (p.animation === null ||
-      [p.animation?.actorId, p.animation?.kind, p.animation?.targetId].every(
-        (value) => typeof value === 'string',
-      )) &&
+      (typeof p.animation?.actorId === 'string' &&
+        typeof p.animation.kind === 'string' &&
+        (p.animation.targetId === null || typeof p.animation.targetId === 'string'))) &&
     Array.isArray(p.enemies) &&
     uniqueSlots(
       p.enemies.map((draw) => draw?.slot),
@@ -783,7 +783,7 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
 
 function cueRenderWindow(cue, action, animation, frames, deaths) {
   if (cue.kind === 'enemy-death') {
-    const death = deaths.find(({ enemyId }) => enemyId === action.targetId)
+    const death = deaths.find(({ enemyId }) => enemyId === (cue.targetId ?? action.targetId))
     return death && { first: death.start, through: death.gone, slot: death.slot }
   }
   if (!animation) return undefined
@@ -882,7 +882,7 @@ function compareAudioCues(
       ...cue,
       turn: action.turn,
       actorId: action.actorId,
-      targetId: action.targetId,
+      targetId: cue.targetId ?? action.targetId,
       request,
       start,
       buffer,
@@ -1008,6 +1008,7 @@ function compareAudioCues(
       return [observed ?? { ...cue, request, window }]
     })
   }
+  let startIndex = 0
   for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
     const cue = audioCues[i]
     const request = requests[i]
@@ -1029,13 +1030,39 @@ function compareAudioCues(
           frames,
           deaths,
         )
+    const previousCue = audioCues[i - 1]
+    if (
+      cue.kind === 'enemy-death' &&
+      previousCue?.kind === cue.kind &&
+      previousCue.actionIndex === cue.actionIndex &&
+      previousCue.assetId === cue.assetId
+    ) {
+      // Each defeated slot requests its sound; the audio hosts suppress simultaneous equal IDs.
+      const first = result.cues.at(-1)
+      if (
+        !window ||
+        !first ||
+        startsByCue.has(request.cueId) ||
+        request.atMs - first.request.atMs > BATTLE_FRAME_MS ||
+        Math.abs(request.atMs - window.first.atMs) > BATTLE_FRAME_MS
+      )
+        fail('business', 'simultaneous-enemy-death-audio', { cue, request, first, window })
+      result.cues.push({ ...cue, request, start: null, window })
+      continue
+    }
     const observed = checkedCasualty ? casualtyCues.get(cue) : inspect(cue, request, window)
     if (!observed) break
     const { start, cold } = observed
-    if (starts[i]?.cueId !== request.cueId) {
-      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
+    if (starts[startIndex]?.cueId !== request.cueId) {
+      fail('business', 'audio-cue-start-order', {
+        ...cue,
+        request,
+        start,
+        earlier: starts[startIndex],
+      })
       break
     }
+    startIndex++
     result.cues.push(observed)
     if (checkedCasualty) continue
     if (!window) {
@@ -1059,6 +1086,36 @@ function compareAudioCues(
   return result
 }
 
+function compareStatusNotice(frames, animations, { actionIndex, text, visible }, fail) {
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const matches = ({ payload }) =>
+    payload.dialogue?.some(
+      ({ active, slot, lines }) => active && slot === 'narration' && lines.includes(text),
+    )
+  const drawn = frames.filter(matches)
+  if (!visible) {
+    if (drawn.length) fail('business', 'unexpected-status-notice', { text, first: at(drawn[0]) })
+    return
+  }
+  const first = drawn[0]
+  const clear = first && frames.find((frame) => frame.seq > first.seq && !matches(frame))
+  const durationMs = clear && clear.clockMs - first.clockMs
+  const observed = { text, first: first && at(first), clear: clear && at(clear), durationMs }
+  if (
+    !first ||
+    !clear ||
+    !start ||
+    !next ||
+    first.seq <= start.seq ||
+    clear.seq > next.seq ||
+    drawn.some((frame) => frame.seq >= clear.seq) ||
+    Math.abs(durationMs - 1400) > EDGE_TOLERANCE_MS
+  )
+    fail('business', 'status-notice-rendered', observed)
+  return observed
+}
+
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
   const frames = Array.isArray(trace?.presentations)
@@ -1070,6 +1127,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
+  let statusNotice
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1086,6 +1144,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(casualtyDialogue === undefined ? {} : { casualtyDialogue }),
     ...(magicCasualties === undefined ? {} : { magicCasualties }),
     ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
+    ...(statusNotice === undefined ? {} : { statusNotice }),
     findings,
   })
   if (
@@ -1131,6 +1190,8 @@ export function validateBattlePresentation(trace, scenario) {
       ? null
       : frames.find((frame) => animationMatches(frame, action)),
   )
+  if (scenario.expected.statusNotice)
+    statusNotice = compareStatusNotice(frames, animations, scenario.expected.statusNotice, fail)
   if (scenario.expected.defendRecovery !== undefined)
     defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
   if (scenario.expected.automaticBlock !== undefined)

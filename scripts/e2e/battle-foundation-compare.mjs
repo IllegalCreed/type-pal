@@ -6,9 +6,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { isDeepStrictEqual as same } from 'node:util'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
 import {
-  BATTLE_FOUNDATION_SCENARIOS,
   battleFoundationInputSources,
   battleFoundationScenario,
+  battleFoundationScenarioGroup,
 } from './battle-foundation-scenarios.mjs'
 import { validateBattlePresentation } from './battle-presentation.mjs'
 import { validateBattleRules } from './battle-rules.mjs'
@@ -17,10 +17,6 @@ import { assertDependencyClosure, recordingDependencies } from './evidence-depen
 import { assertInputLedger } from './input-ledger.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const expectedRunIds = BATTLE_FOUNDATION_SCENARIOS.flatMap(({ id }) => [
-  `${id}-1`,
-  `${id}-2`,
-]).sort()
 const herbPlacement = ({ heals }) =>
   heals.map(({ actorId, targetId, casterBase, targetBase, draw }) => ({
     actorId,
@@ -31,7 +27,9 @@ const herbPlacement = ({ heals }) =>
   }))
 
 /** Rejudge original hash-bound bytes. A runner's status never substitutes for business evidence. */
-export async function compareBattleReports(gamePath, reforgePath) {
+export async function compareBattleReports(gamePath, reforgePath, group = 'all') {
+  const scenarios = battleFoundationScenarioGroup(group)
+  const expectedRunIds = scenarios.flatMap(({ id }) => [`${id}-1`, `${id}-2`]).sort()
   const bundles = []
   for (const [engine, path] of [
     ['game', gamePath],
@@ -43,6 +41,7 @@ export async function compareBattleReports(gamePath, reforgePath) {
     assert.equal(report.engine, engine)
     assert.equal(report.counter, 'none', 'a counter cannot be published as a normal execution')
     assert.equal(report.profile, 'verify', 'review capture is separate from verification')
+    assert.equal(report.group ?? 'all', group, 'runner and judge must use the same fixed group')
     assert.equal(report.status, 'passed', 'execution did not finish cleanly')
     assert.equal(report.errors.length, 0, 'execution contains runtime errors')
     assert.equal(report.dependencies?.definition?.entry, 'scripts/e2e/battle-foundation.mjs')
@@ -150,7 +149,7 @@ export async function compareBattleReports(gamePath, reforgePath) {
     )
   }
   const results = []
-  for (const { id } of BATTLE_FOUNDATION_SCENARIOS) {
+  for (const { id } of scenarios) {
     const scenario = battleFoundationScenario(id)
     const paired = ['1', '2'].map((index) => {
       const runId = `${id}-${index}`
@@ -215,6 +214,7 @@ export async function compareBattleReports(gamePath, reforgePath) {
   return {
     kind: 'battle-foundation-comparison',
     schemaVersion: 1,
+    group,
     status: results.every((entry) =>
       [...entry.paired, ...entry.repeats].every((result) => result.status === 'passed'),
     )
@@ -234,12 +234,12 @@ export async function compareBattleReports(gamePath, reforgePath) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  assert.equal(
-    process.argv.length,
-    5,
-    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory',
+  const group = process.argv[5]
+  assert(
+    process.argv.length === 5 || (process.argv.length === 6 && group.startsWith('--group=')),
+    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=established|player-actions]',
   )
-  const result = await compareBattleReports(process.argv[2], process.argv[3])
+  const result = await compareBattleReports(process.argv[2], process.argv[3], group?.slice(8))
   const out = resolve(process.argv[4])
   await mkdir(out, { recursive: true })
   console.log(JSON.stringify(await writeEvidenceArtifact(out, 'comparison.json', result)))
