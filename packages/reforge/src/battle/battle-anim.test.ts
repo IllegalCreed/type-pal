@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
   AnimPlayer,
+  type BuildThrowItemInput,
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
@@ -432,7 +433,7 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('投掷法术物品:投掷姿后复用 OffMagic，传递 special 层序，结果数字最后出现', () => {
-    const frames = buildThrowItem({
+    const input = {
       casterFrames: PLAYER_FRAMES,
       casterIdx: 0,
       targetIdx: 1,
@@ -454,20 +455,29 @@ describe('M4d-2 战斗动画时间线', () => {
         targetPos: { x: 100, y: 80 },
       },
       damage: 1000,
-    })
+    } satisfies BuildThrowItemInput
+    const frames = buildThrowItem(input)
 
     expect(frames[0]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 5 }])
-    expect(frames.slice(1, 4).map((frame) => frame.overlays?.[0])).toEqual([
+    expect(frames[1]).toEqual({ durationMs: 40 })
+    expect(frames.slice(2, 5).map((frame) => frame.overlays?.[0])).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 88, y: 80, layerOffset: 1 },
       { sheet: 'magic', frameIdx: 1, x: 88, y: 80, layerOffset: 1 },
       { sheet: 'magic', frameIdx: 2, x: 88, y: 80, layerOffset: 1 },
     ])
-    expect(frames[1]?.sound).toBe('sound.pal.157')
-    expect(frames.slice(1, 4).some((frame) => frame.fighters?.length)).toBe(false)
-    expect(frames[4]?.damageNum).toEqual({
+    expect(frames[2]?.sound).toBe('sound.pal.157')
+    expect(frames.slice(2, 5).some((frame) => frame.fighters?.length)).toBe(false)
+    const damageNum = {
       target: { side: 'enemy', idx: 1 },
       value: 1000,
+    }
+    expect(frames[5]?.damageNum).toEqual(damageNum)
+
+    const withoutFire = buildThrowItem({
+      ...input,
+      presentation: { ...input.presentation, fireFrames: 0 },
     })
+    expect(withoutFire[1]?.damageNum).toEqual(damageNum)
   })
 
   test('逃跑成功:16 帧×40ms 全员统一 (+5,+4)(一阶段 fleeStepDelta,作者 2026-05-31 拍板);音效45首帧', () => {

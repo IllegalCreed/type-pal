@@ -508,7 +508,12 @@ describe('W3 执行时间线接线', () => {
     draw()
     expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
     expect(sfx.plays).toEqual(['sound.pal.009'])
-    h.idle(80)
+    // 出手姿保留两拍，投掷脚本开始 OffMagic 后再停一拍（fight.c:4355–4356,2659）。
+    h.idle(119)
+    draw()
+    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(1)
     expect(sfx.plays).toEqual(['sound.pal.009', 'sound.pal.347'])
     h.idle(250) // 一张 50ms 特效 + 200ms 现有命中帧。
     draw()

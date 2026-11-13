@@ -553,7 +553,9 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       durationMs: delayMs(2),
       fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
     })
-  if (input.presentation)
+  if (input.presentation && input.presentation.fireFrames > 0) {
+    // 投掷脚本进入 OffMagic 后，先在当前出手姿等一个战斗帧（fight.c:2659）。
+    frames.push({ durationMs: delayMs(1) })
     frames.push(
       ...buildOffMagic({
         fireFrames: input.presentation.fireFrames,
@@ -561,6 +563,7 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
         ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
       }),
     )
+  }
   const onlyPositiveHit = positiveHits.length === 1 ? positiveHits[0] : undefined
   frames.push(
     {
