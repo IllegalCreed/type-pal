@@ -15,6 +15,7 @@ import {
   loadStandardPalette,
 } from './assets.js'
 import { collectBattleBaseSounds, collectTurnActionSounds } from './audio/sfx-readiness.js'
+import { collectBattleCasualtyPortraits } from './battle/battle-casualty-presentation.js'
 import type { BattleAction } from './battle/battle-core.js'
 import {
   collectBattleSkillFireChunks,
@@ -204,7 +205,10 @@ export async function prepareBattleTrialAssets(
       [encounterChoreo, ...readiness.reachableEnemyDefs.map((enemy) => enemy.ai.hooks)],
       'trial',
     )
+    const portraitAssets = collectBattleCasualtyPortraits(players, project.actorsById)
     for (const ref of choreoAssets) if (ref.expectedKind === 'music') musicAssets.add(ref.asset)
+    for (const ref of choreoAssets)
+      if (ref.expectedKind === 'portrait') portraitAssets.add(ref.asset)
     if (prepared.config.music.kind === 'silent') musicAssets.clear()
     const palette = await loadStandardPalette(project.assetBase)
     const [glyphs, cursorFrames, ui, bg] = await Promise.all([
@@ -212,11 +216,9 @@ export async function prepareBattleTrialAssets(
       loadCursorFrames(),
       loadMenuAssets(items, imageCache),
       field.background ? loadBattleBgFull(project.assetBase, field.background, palette) : undefined,
-      ...choreoAssets
-        .filter((ref) => ref.expectedKind === 'portrait')
-        .map(async (ref) => {
-          portraits.set(ref.asset, await imageCache.load(ref.asset, 'portrait'))
-        }),
+      ...[...portraitAssets].map(async (asset) => {
+        portraits.set(asset, await imageCache.load(asset, 'portrait'))
+      }),
       ...[...new Set([...baseSounds, ...futureSounds])].map(async (asset) =>
         resolver.readBytes(asset, 'sound'),
       ),

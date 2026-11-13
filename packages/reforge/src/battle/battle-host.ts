@@ -17,6 +17,8 @@ export interface BattleHostPorts {
   captureScriptOwner(team: string): () => void
   settleVictory(session: BattleSession, playVictory: () => void): SettlementScreen[]
   finishWorld(session: BattleSession, result: BattleResult): void
+  /** 仅原生大世界战败流程持有该回调，用于接续最后一帧。 */
+  worldDefeatFrameCapture?(signal: AbortSignal): (() => void) | undefined
   runDefeated(
     definitions: readonly EnemyDef[],
     signal: AbortSignal,
@@ -86,6 +88,7 @@ export class BattleHost {
     if (prepared.battleTrack === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
     else this.music.bgm.play(prepared.battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
     const { sessionAssets, sessionOptions } = prepared.commit()
+    const captureDefeatFrame = this.ports.worldDefeatFrameCapture?.(signal)
     const session: BattleSession = new BattleSession(
       prepared.players,
       prepared.enemySlots,
@@ -97,6 +100,7 @@ export class BattleHost {
       Math.random,
       {
         ...sessionOptions,
+        handoffDefeat: captureDefeatFrame !== undefined,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),
         buildSettlement: () => {
@@ -113,7 +117,7 @@ export class BattleHost {
       },
     )
     this.#active = session
-    return await this.awaitSession(session, signal, assertCurrent, restoreMusic)
+    return await this.awaitSession(session, signal, assertCurrent, restoreMusic, captureDefeatFrame)
   }
 
   private async awaitSession(
@@ -121,6 +125,7 @@ export class BattleHost {
     signal: AbortSignal,
     assertCurrent: () => void,
     restoreMusic: () => void,
+    captureDefeatFrame: (() => void) | undefined,
   ): Promise<BattleResult> {
     const abort = () => {
       if (this.#active === session) session.cancel()
@@ -133,6 +138,10 @@ export class BattleHost {
       result = await scriptWorkWait<BattleResult>(signal, (resolve, reject) => {
         void session.done.then(resolve, reject)
       })
+      if (result === 'defeat') {
+        assertCurrent()
+        captureDefeatFrame?.()
+      }
     } catch (error) {
       if (!isBattleAbort(error)) {
         await scriptWorkIO(this.ports.restoreSceneSounds(), signal).catch((error) =>

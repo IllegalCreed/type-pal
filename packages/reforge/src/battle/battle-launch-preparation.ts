@@ -19,6 +19,7 @@ import {
 import { collectBattleBaseSounds, collectTurnActionSounds } from '../audio/sfx-readiness.js'
 import type { RuntimeProjectView } from '../runtime-project-view.js'
 import type { ScriptHost } from '../script-runner.js'
+import { collectBattleCasualtyPortraits } from './battle-casualty-presentation.js'
 import { createBattlePlayers } from './battle-player-input.js'
 import type { BattleSession, BattleSessionAssets } from './battle-session.js'
 import {
@@ -220,6 +221,10 @@ export class BattleLaunchPreparation {
         }),
       ),
       assets.loadEffect(),
+      ...[...collectBattleCasualtyPortraits(players, content.actorsById)].map(async (asset) => {
+        if (!assets.portraits.has(asset))
+          assets.portraits.set(asset, await assets.imageCache.load(asset, 'portrait'))
+      }),
     ])
     assertCurrent()
     const fireChunks = collectBattleSkillFireChunks({

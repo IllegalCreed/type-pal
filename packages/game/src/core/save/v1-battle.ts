@@ -1,6 +1,6 @@
 import type { Enemy } from '@type-pal/shared'
 import type { BattleSettlementScreen, BattleSettlementState } from '../battle/battle-settlement.js'
-import type { BattleAction } from '../battle/battle-state.js'
+import { type BattleAction, isFriendDeathEffectOpcode } from '../battle/battle-state.js'
 import type { SaveDataV1 } from './data.js'
 import {
   array,
@@ -321,6 +321,21 @@ export const battle = object<Data>({
   iHidingTime: arg,
   iBlow: arg,
   battleAnim: optional(animation),
+  actionFollowup: optional(
+    object({
+      waitTicks: number,
+      recoveryTicks: arg,
+      casualtyScript: optional(
+        object({ roleId: playerRoleId, kind: oneOf('scriptOnFriendDeath', 'scriptOnDying') }),
+      ),
+      friendDeathEffects: optional(
+        object({
+          roleId: playerRoleId,
+          commands: array(object({ opcode: isFriendDeathEffectOpcode, operands: array(number) })),
+        }),
+      ),
+    }),
+  ),
   persistentBgBlits: optional(
     array(object({ spriteChunk: number, frameIdx: number, x: number, y: number })),
   ),

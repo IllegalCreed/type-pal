@@ -70,6 +70,7 @@ import {
 } from './battle-anim-driver.js'
 import { advanceBattleDialog } from './battle-dialog.js'
 import { finalizeBattle } from './battle-finalization.js'
+import { dispatchBattleOpcode } from './battle-opcodes.js'
 import {
   type BattleResources,
   getBattleResources,
@@ -79,8 +80,13 @@ import {
   setBattleRunScript,
 } from './battle-runtime-context.js'
 import { buildBattleWonSettlement, tickBattleSettlement } from './battle-settlement.js'
-import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
-import { createBattleState } from './battle-state.js'
+import type {
+  BattleAction,
+  BattleActionFollowup,
+  BattleState,
+  BattleStatus,
+} from './battle-state.js'
+import { createBattleState, seedBattleStatus } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { resolveMagicObject } from './magic-object.js'
@@ -442,6 +448,15 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
   if (tickBattleSettlement(state, gs, input, res, bus)) return
 
+  // CLASSIC advances enemy idle gestures during the hold. The players change pose at release.
+  const roundEndDelay = state.roundEndDelayTicks ?? 0
+  if (roundEndDelay > 0) {
+    state.roundEndDelayTicks = roundEndDelay - 1
+    if (roundEndDelay === 1) resetFightersAfterAction(state, res.playerRoles)
+    tickEnemyIdleGestures(state)
+    return
+  }
+
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
@@ -487,18 +502,16 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     tickEnemyIdleGestures(state)
   }
 
+  if (!state.battleAnim && tickActionFollowup(state, gs, bus, res)) {
+    if (!state.battleAnim && state.battleDialogQueue?.length) tickBattleDialog(state, gs, input)
+    return
+  }
+
   switch (state.phase) {
     case 'preBattle':
       tickPreBattle(state)
       break
     case 'selectAction':
-      // DM12:回合末毒/状态数字弹出后 PAL_BattleDelay(8)(fight.c:1664-1668 `if
-      //   (PAL_BattleDisplayStatChange()) PAL_BattleDelay(8,0,TRUE)`)—— ~320ms 停顿
-      //   让玩家看清掉血,再开下一轮指令菜单。
-      if ((state.roundEndDelayTicks ?? 0) > 0) {
-        state.roundEndDelayTicks!--
-        break
-      }
       // 到此已过 turnStart(528)+ 对话/逃跑/动画 hold(均提前 return)→ **现在才起**玩家选指令菜单
       //   (原版 turnStart 在玩家 UI 之前;草妖类开场脚本逃跑在上面早退、永不到此 → 演出战不显示菜单)。
       //   每轮一次(selectionStartedForTurn 守;turn++ 自然重置)。
@@ -775,50 +788,6 @@ const MAGIC_GRID_ROWS = 5
 const ITEM_GRID_COLS = 3
 const ITEM_GRID_ROWS = 7
 
-/**
- * 玩家濒死/阵亡音 sweep。比对上次调用留下的 prevHp,判完更新快照。
- * tickPerformAction 在伤亡脚本触发后的动作收尾调用;tickPostAction 还会在毒结算后调用,
- * 因此不能把快照固定描述为“回合初”,也不能声称只在每回合末播放。
- *
- * 濒死判定用当前 hp < min(100,floor(maxHP/5)),前态门用未钳的 floor(maxHP/5)。
- * 回合末 caller 传 prePoisonHp,区分毒前已死与毒杀;动作收尾 caller 不传,采用无死因门控的分支。
- * guardianOk 也由 caller 选择传入。这里仅描述当前 TS 调用合同,不承诺与 C 的音效时序完全等价。
- * 声经 bus {op:'playSound'} 发出;音效号 >0 才 emit。
- */
-export function emitPlayerCasualtySounds(
-  players: ReadonlyArray<{ roleId: number; prevHp: number }>,
-  playerRoles: PlayerRoles,
-  bus: CommandBus,
-  /** 毒 tick 前各 roleId 的hp。传入时只对毒前已死者播deathSound；动作收尾不传，不过滤毒死因。 */
-  prePoisonHp?: ReadonlyMap<number, number>,
-  /** 守护者健康检查(fight.c:841-850)由毒后caller提供；动作收尾不传，不加此门。 */
-  guardianOk?: (roleId: number) => boolean,
-): void {
-  for (const p of players) {
-    const role = playerRoles.roles[p.roleId]
-    if (!role) continue
-    const dyingThreshold = Math.min(100, Math.floor(role.maxHP / 5)) // 当前 hp 用 IsPlayerDying 口径
-    // DL2a:prevHP 比较用 **raw** maxHP/5(fight.c:836-837 `wPrevHP >= rgwMaxHP[w]/5` 无 min(100));
-    //   maxHP>500 的后期角色 prevHP 落在 100~maxHP/5 区间时不应触发濒死音。
-    const prevDyingThreshold = Math.floor(role.maxHP / 5)
-    const deathSound = role.deathSound ?? 0
-    const dyingSound = role.dyingSound ?? 0
-    if (role.hp < p.prevHp) {
-      if (role.hp === 0 && p.prevHp > 0) {
-        // 毒后caller过滤毒杀；动作收尾caller没有毒前快照，不执行该过滤。
-        const diedFromAttack = prePoisonHp === undefined || (prePoisonHp.get(p.roleId) ?? 0) === 0
-        if (deathSound > 0 && diedFromAttack) bus.emit({ op: 'playSound', soundId: deathSound })
-      } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= prevDyingThreshold) {
-        // DL2b:dyingSound 在 C 的守护者失能检查**之后**(fight.c:841-850 continue 跳过)——
-        //   守护者(coveredBy)失能/不在队时连濒死音都不播。此门只在caller提供判断时生效。
-        if (dyingSound > 0 && (guardianOk?.(p.roleId) ?? true))
-          bus.emit({ op: 'playSound', soundId: dyingSound })
-      }
-    }
-    p.prevHp = role.hp
-  }
-}
-
 function findObjectPlayer(res: BattleResources, objectId: number): ObjectPlayerView | undefined {
   return res.objectPlayers[objectId] ?? res.objectPlayers.find((p) => p.id === objectId)
 }
@@ -826,7 +795,10 @@ function findObjectPlayer(res: BattleResources, objectId: number): ObjectPlayerV
 function backupPlayerCasualtyHp(state: BattleState, res: BattleResources): void {
   state.players.forEach((player) => {
     const role = res.playerRoles.roles[player.roleId]
-    if (role) player.scriptPrevHp = role.hp
+    if (role) {
+      player.prevHp = role.hp
+      player.scriptPrevHp = role.hp
+    }
   })
 }
 
@@ -838,6 +810,7 @@ function runPlayerCasualtyScript(
   bus: CommandBus,
   res: BattleResources,
 ): number {
+  state.battleDialogPendingClear = false
   const playerIdx = state.players.findIndex((p) => p.roleId === roleId)
   const casualtyRunScript = getBattleRunScript(gs, runScript)
   return casualtyRunScript({
@@ -865,52 +838,32 @@ function runPlayerCasualtyScript(
   })
 }
 
-function playerBadForCasualtyScript(p: BattlePlayer | undefined): boolean {
-  const st = p?.status
-  return !st || (st.sleep ?? 0) > 0 || (st.paralyzed ?? 0) > 0 || (st.confused ?? 0) > 0
+function guardianIncapacitated(status: BattleStatus): boolean {
+  return status.sleep > 0 || status.paralyzed > 0 || status.confused > 0
 }
 
-/**
- * port sdlpal `PAL_BattlePostActionCheck` player casualty script sweep(fight.c:775-885).
- *
- * 触发顺序忠实:
- * 1. 队友死亡 → 取死者 `coveredBy` 的健康守护者,跑守护者 OBJECT_PLAYER.wScriptOnFriendDeath。
- * 2. 自己刚跌入濒死 → 守护者在队且健康时,跑自己的 OBJECT_PLAYER.wScriptOnDying。
- *
- * 命中任一脚本后立刻暂停本轮推进,让可能入队的 battle dialog / 0x30 临时 buff 先生效。
- */
-function runPlayerCasualtyScripts(
+/** CLASSIC checks friend death before new dying, then waits ten frames for a live script. */
+function checkPlayerCasualties(
   state: BattleState,
   gs: GameState,
   bus: CommandBus,
   res: BattleResources,
   fCheckPlayers: boolean,
-): boolean {
-  if (!fCheckPlayers || gs.fAutoBattle) return false
+): void {
+  if (!fCheckPlayers || gs.fAutoBattle) return
 
   for (const player of state.players) {
     const role = res.playerRoles.roles[player.roleId]
     const prevHp = player.scriptPrevHp ?? player.prevHp
     if (!role || !(role.hp < prevHp && role.hp === 0)) continue
     const coverRoleId = role.coveredBy ?? 0
-    const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
+    const guardian = state.players.find((p) => p.roleId === coverRoleId)
     const coverRole = res.playerRoles.roles[coverRoleId]
-    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
-    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0 || playerBadForCasualtyScript(coverPlayer))
+    if (!guardian || !coverRole || coverRole.hp <= 0 || guardianIncapacitated(guardian.status))
       continue
-    const objectPlayer = findObjectPlayer(res, coverRole.name)
-    const entry = objectPlayer?.scriptOnFriendDeath ?? 0
-    if (objectPlayer && entry > 0) {
-      objectPlayer.scriptOnFriendDeath = runPlayerCasualtyScript(
-        entry,
-        coverRoleId,
-        state,
-        gs,
-        bus,
-        res,
-      )
-      player.scriptPrevHp = role.hp // C BackupStat 每帧刷 prevHP(fight.c:850 后)→ 下 tick 不重入
-      return true
+    if ((findObjectPlayer(res, coverRole.name)?.scriptOnFriendDeath ?? 0) > 0) {
+      queueCasualtyScript(state, coverRoleId, 'scriptOnFriendDeath')
+      return
     }
   }
 
@@ -923,29 +876,80 @@ function runPlayerCasualtyScripts(
     if (!(role.hp < prevHp && role.hp > 0 && isPlayerDying(role) && prevHp >= prevThreshold))
       continue
     const coverRoleId = role.coveredBy ?? 0
-    const coverIdx = state.players.findIndex((p) => p.roleId === coverRoleId)
+    const guardian = state.players.find((p) => p.roleId === coverRoleId)
     const coverRole = res.playerRoles.roles[coverRoleId]
-    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
-    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0 || playerBadForCasualtyScript(coverPlayer))
-      continue
-    const objectPlayer = findObjectPlayer(res, role.name)
-    const entry = objectPlayer?.scriptOnDying ?? 0
-    if (objectPlayer && entry > 0) {
-      objectPlayer.scriptOnDying = runPlayerCasualtyScript(
-        entry,
-        player.roleId,
-        state,
-        gs,
-        bus,
-        res,
-      )
+    const guardianStatus = guardian?.status ?? seedBattleStatus(gs.rgPlayerStatus[coverRoleId])
+    if (guardianIncapacitated(guardianStatus)) continue
+    // Pre-existing V1 physical timelines can still carry their own final sound.
+    const dyingSound = role.dyingSound ?? 0
+    if (role.hp !== player.prevHp && dyingSound > 0) {
+      bus.emit({ op: 'playSound', soundId: dyingSound })
     }
-    // C 的 dying 处理后 PAL_BattleBackupStat 刷 wPrevHP → 下一帧不重入;ts 若不刷新,
-    // scriptPrevHp 恒旧值 → 每 tick 命中 return true 永停(卡死战斗;DL4 RNG 序修正后暴露)。
-    player.scriptPrevHp = role.hp
+    if (!guardian || !coverRole || coverRole.hp <= 0) continue
+    if ((findObjectPlayer(res, role.name)?.scriptOnDying ?? 0) > 0) {
+      queueCasualtyScript(state, player.roleId, 'scriptOnDying')
+    }
+    return
+  }
+}
+
+function queueCasualtyScript(
+  state: BattleState,
+  roleId: number,
+  kind: NonNullable<BattleActionFollowup['casualtyScript']>['kind'],
+): void {
+  state.actionFollowup = {
+    waitTicks: 10,
+    recoveryTicks: state.actionFollowup?.waitTicks,
+    casualtyScript: { roleId, kind },
+  }
+}
+
+function tickActionFollowup(
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+): boolean {
+  const followup = state.actionFollowup
+  if (!followup) return false
+  const { casualtyScript, friendDeathEffects } = followup
+  if (casualtyScript) {
+    if (--followup.waitTicks > 0) return true
+    const { roleId, kind } = casualtyScript
+    const role = res.playerRoles.roles[roleId]
+    const objectPlayer = role && findObjectPlayer(res, role.name)
+    const entry = objectPlayer?.[kind] ?? 0
+    if (objectPlayer && entry > 0) {
+      objectPlayer[kind] = runPlayerCasualtyScript(entry, roleId, state, gs, bus, res)
+    }
+    followup.casualtyScript = undefined
+    followup.waitTicks = followup.recoveryTicks ?? 0
+    followup.recoveryTicks = undefined
     return true
   }
 
+  if (friendDeathEffects) {
+    const idx = state.players.findIndex((player) => player.roleId === friendDeathEffects.roleId)
+    if (idx >= 0) {
+      // PAL_BattlePostActionCheck does not draw another stat change for the reaction's recovery.
+      for (const { opcode, operands } of friendDeathEffects.commands) {
+        dispatchBattleOpcode(opcode, operands, {
+          state,
+          gs,
+          playerRoles: res.playerRoles,
+          target: { type: 'player', idx },
+        })
+      }
+    }
+    followup.friendDeathEffects = undefined
+    return true
+  }
+  if (followup.waitTicks > 0) {
+    followup.waitTicks--
+    return true
+  }
+  state.actionFollowup = undefined
   return false
 }
 
@@ -2219,11 +2223,7 @@ function tickPerformAction(
       //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
       checkEnemyDeaths(state, bus)
       const activeItem = state.actionQueue[state.currentActionIndex]
-      if (runPlayerCasualtyScripts(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)) {
-        emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
-        state.currentActionIndex++
-        return
-      }
+      checkPlayerCasualties(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)
       state.currentActionIndex++
     }
     return
@@ -2472,11 +2472,7 @@ function tickPerformAction(
     // D17:即时 action(法术 / 投掷秒敌)也检死敌(开淡出 hold);currentActionIndex 总是推进,
     //   淡出由顶层 tickBattleFade 暂停。
     checkEnemyDeaths(state, bus)
-    if (runPlayerCasualtyScripts(state, gs, bus, res, !!item.checkPlayerCasualties)) {
-      emitPlayerCasualtySounds(state.players, res.playerRoles, bus)
-      state.currentActionIndex++
-      return
-    }
+    checkPlayerCasualties(state, gs, bus, res, !!item.checkPlayerCasualties)
     state.currentActionIndex++
   }
   // 不 reset phaseStallTicks —— 整个 performAction phase 内 stall 累计;
@@ -2772,13 +2768,7 @@ function tickPostAction(
   const battleDecidedByCombat =
     !state.enemies.some((e) => !e.defeated && e.e.health > 0) ||
     !state.players.some((p) => (res.playerRoles.roles[p.roleId]?.hp ?? 0) > 0)
-  // M6 阵亡音死因门控:毒 tick 前快照各队员 hp。下方 emitPlayerCasualtySounds 仅 prePoisonHp===0
-  //   (本回合死于敌攻、毒前已死)才播 deathSound;毒杀(毒前>0、毒后→0)不播(sdlpal 毒死无 deathSound)。
-  const prePoisonHp = new Map<number, number>()
-  for (const p of state.players) {
-    const role = res.playerRoles.roles[p.roleId]
-    if (role) prePoisonHp.set(p.roleId, role.hp)
-  }
+  const prePoisonHp = state.players.map((p) => res.playerRoles.roles[p.roleId]?.hp)
   backupPlayerCasualtyHp(state, res)
   // 毒 tick —— 对照 sdlpal `fight.c:1645-1648`(每回合每敌 rgPoisons[j].wPoisonScript 跑)。
   // 每个活敌的每条 poison 跑其 scriptEntry(毒 wEnemyScript,经 0x21 扣血),target = 该敌人。
@@ -2792,6 +2782,11 @@ function tickPostAction(
   //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${partySlot}`](持久,16 槽/party slot)。sdlpal 先玩家后敌。
   // battleDecidedByCombat → 跳过毒 tick(sdlpal 已 Won/Lost 则 PostActionCheck 前 return,不跑回合末毒)。
   if (!battleDecidedByCombat) {
+    // CLASSIC restores the formation and clears defense before any round-end poison script.
+    for (const player of state.players) {
+      player.defending = false
+      if (player.posOriginal) player.pos = { ...player.posOriginal }
+    }
     state.players.forEach((_, idx) => {
       // fight.c:1616：遍历实际队伍槽；重复 roleId 不重复执行首槽的毒。
       const partySlot = idx
@@ -2830,20 +2825,18 @@ function tickPostAction(
     })
   } // end if (!battleDecidedByCombat) — 毒 tick 门控
 
-  // M6 玩家濒死/阵亡音(毒 tick 后判,与 sdlpal fight.c:1664 顺序一致)。prePoisonHp 门控阵亡音死因
-  //   (仅敌攻致死播,毒杀不播)。详见 emitPlayerCasualtySounds。
-  // DL2b:守护者(coveredBy)健康门控(fight.c:841-850 失能 continue → dyingSound 不播)。
-  const guardianOk = (roleId: number): boolean => {
-    const role = res.playerRoles.roles[roleId]
-    const coverRoleId = role?.coveredBy ?? 0
-    const coverIdx = state.players.findIndex((pp) => pp.roleId === coverRoleId)
-    const coverRole = res.playerRoles.roles[coverRoleId]
-    const coverPlayer = coverIdx >= 0 ? state.players[coverIdx] : undefined
-    if (!coverRole || coverRole.hp <= 0 || coverIdx < 0) return false
-    const st = coverPlayer?.status
-    return (st?.sleep ?? 0) === 0 && (st?.paralyzed ?? 0) === 0 && (st?.confused ?? 0) === 0
+  // fight.c:1664–1668 runs the enemy death check and stat feedback with fCheckPlayers=FALSE.
+  // The feedback holds the previous pose. PAL_BattleDelay updates only enemy gestures.
+  if (!battleDecidedByCombat) {
+    tickStatusEffects(state)
+    decrementHidingEffect(state)
+    backupPlayerCasualtyHp(state, res)
+    const poisonChangedHp =
+      state.players.some((p, idx) => prePoisonHp[idx] !== res.playerRoles.roles[p.roleId]?.hp) ||
+      state.enemies.some((e, idx) => prePoisonEnemyHp[idx] !== e.e.health)
+    if (poisonChangedHp) state.roundEndDelayTicks = 8
+    else resetFightersAfterAction(state, res.playerRoles)
   }
-  emitPlayerCasualtySounds(state.players, res.playerRoles, bus, prePoisonHp, guardianOk)
 
   // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
   //   开淡出 hold;phase 照常转(won/selectAction),下 tick 顶层 tickBattleFade 先暂停放完淡出。
@@ -2866,30 +2859,10 @@ function tickPostAction(
     return
   }
 
-  // 推下一轮 + tick status effects(sdlpal fight.c:PAL_BattlePlayerCheckReady)
-  // 全部 status 计数器各 -1 直到 0;>999 装备永久效果由战末清理规则保留。
-  tickStatusEffects(state)
-  // B2 c5 / D24:每轮衰减隐身(CLASSIC 每轮 -1,到 0 = 隐身结束;fight.c:1670-1672)
-  decrementHidingEffect(state)
   state.turn++
   state.pendingActions.clear()
-  // defend 单轮失效(sdlpal `fight.c:1604` `g_Battle.rgPlayer[i].fDefending = FALSE`)
-  state.players.forEach((p) => {
-    p.defending = false
-  })
   state.fThisTurnCoop = false // DL3:合击粘滞单回合有效
-  // 清完 defending 立刻复位姿势 → 防御方下一帧回站立(frame 0),不再把防御姿带进下一轮
-  //   (user 2026-05-31 实测:一回合结束后还保持防御姿)。sdlpal fight.c:1602-1609 同序(清 fDefending
-  //   + 复位 pos),姿势随每帧 PAL_BattleUpdateFighters 即回站立。
-  resetFightersAfterAction(state, res.playerRoles)
   // 进下一轮选择 —— 起第一个可手动选择的活队员菜单(= PAL_BattleUIPlayerReady;fAutoAttack 跨轮保持)。
-  // DM12:本回合末毒结算改了任何 HP(玩家 prePoisonHp / 敌 prePoisonEnemyHp 快照比对)→
-  //   8 帧(320ms)停顿后才开菜单(fight.c:1664-1668)。
-  const poisonChangedHp =
-    state.players.some(
-      (p) => (prePoisonHp.get(p.roleId) ?? 0) !== (res.playerRoles.roles[p.roleId]?.hp ?? 0),
-    ) || state.enemies.some((e, i) => (prePoisonEnemyHp[i] ?? 0) !== e.e.health)
-  if (poisonChangedHp) state.roundEndDelayTicks = 8
   state.phase = 'selectAction'
   // 选指令延后到 turnStart 之后(见 selectAction case)。turn++ 已使 turnStartDoneForTurn /
   //   selectionStartedForTurn != 新 turn → 下轮先跑 turnStart、再起菜单(每轮 boss 嘲讽/草妖逃跑在菜单前)。

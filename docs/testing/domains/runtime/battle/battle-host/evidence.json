@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1242-1261",
+      "lines": "1245-1266",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "53-67",
+      "lines": "55-69",
       "anchor": "async start(",
       "role": "contract",
-      "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
+      "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "156-160",
+      "lines": "165-169",
       "anchor": "this.ports.finishWorld(session, result)",
       "role": "contract",
-      "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
+      "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -75,9 +75,9 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1242-1261",
-        "packages/reforge/src/battle/battle-host.ts:53-67",
-        "packages/reforge/src/battle/battle-host.ts:156-160",
+        "packages/reforge/src/main.ts:1245-1266",
+        "packages/reforge/src/battle/battle-host.ts:55-69",
+        "packages/reforge/src/battle/battle-host.ts:165-169",
         "packages/reforge/src/battle/battle-host.test.ts:13-36",
         "packages/content/src/character.ts:168-170"
       ]
@@ -150,6 +150,36 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-ordinary-defeat-source-rebinding",
+      "base": "f84bcd91dd71498e1099e7bf8f4b2d7900507090",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1242-1261",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "53-67",
+          "anchor": "async start(",
+          "role": "contract",
+          "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "156-160",
+          "anchor": "this.ports.finishWorld(session, result)",
+          "role": "contract",
+          "sha256": "e72dd33439b51dba0189a7ed89700d7b18bec0ac4e933e2940ef3ca8d6f12ae4"
+        }
+      ],
+      "scope": "普通全灭新增最后一帧交接端口。原准备、释放当前 active 与写回片段仍保留，历史宿主归属义务及运行身份照固定前驱。"
     }
   ],
   "_governance": {

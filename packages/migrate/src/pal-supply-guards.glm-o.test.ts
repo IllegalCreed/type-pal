@@ -31,6 +31,7 @@ import type { SourceCmd } from './source-facts.js'
 
 /** 伤亡/窄消息解析器经窄化读取的专有字段；fixture 扩展承载，消费处放宽为 SourceCmd。 */
 type FixtureCmd = SourceCmd & {
+  arg0?: number
   messageIndex?: number
   to?: string
   itemId?: number
@@ -270,6 +271,83 @@ describe('O05 translateCasualtyScript / applyPalCasualtyOverlays：opcode 轴', 
     expect(script.gates[0]!.branch.lines).toEqual([])
     expect(script.fallback.lines[0]).toEqual({ text: 'dlg.1', style: 'top' })
     expect(locale).toEqual({ 'dlg.1': 't' })
+  })
+
+  test('林月如濒死分支保留左右肖像、页内续行和自动翻页时间', () => {
+    // Extracted 43409–43419, with the 43401 probability gate rebased to index 2.
+    const commands: FixtureCmd[] = [
+      { op: 'raw', opcode: 0x06, operands: [66, 2, 0] },
+      end,
+      { op: 'setDialogStyleTop', arg0: 22 },
+      { op: 'showDialog', messageIndex: 13484, text: '喂～人家不行了啦！' },
+      { op: 'showDialog', messageIndex: 13485, text: '你看见了没有？~60' },
+      { op: 'setDialogStyleBottom', arg0: 8 },
+      { op: 'showDialog', messageIndex: 13486, text: '我的大小姐，你还真麻烦呢~60' },
+      { op: 'raw', opcode: 0x05, operands: [0, 0, 0] },
+      { op: 'setDialogStyleTop', arg0: 22 },
+      { op: 'showDialog', messageIndex: 13487, text: '呜．．你根本就不关心我~60' },
+      { op: 'setDialogStyleBottom', arg0: 10 },
+      { op: 'showDialog', messageIndex: 13488, text: '这．．你说到哪去了~60' },
+      end,
+    ]
+    const locale: Record<string, string> = {}
+    const script = translateCasualtyScript(commands, 0, locale)
+    expect(script.gates).toEqual([
+      {
+        chance: 66,
+        branch: {
+          lines: [
+            {
+              text: 'dlg.13484',
+              style: 'top',
+              portrait: { asset: 'portrait.pal.022', side: 'left' },
+            },
+            { text: 'dlg.13485', style: 'top', sameCue: true, autoAdvance: 685 },
+            {
+              text: 'dlg.13486',
+              style: 'bottom',
+              portrait: { asset: 'portrait.pal.008', side: 'right' },
+              autoAdvance: 685,
+            },
+            {
+              text: 'dlg.13487',
+              style: 'top',
+              portrait: { asset: 'portrait.pal.022', side: 'left' },
+              autoAdvance: 685,
+            },
+            {
+              text: 'dlg.13488',
+              style: 'bottom',
+              portrait: { asset: 'portrait.pal.010', side: 'right' },
+              autoAdvance: 685,
+            },
+          ],
+          effects: [],
+        },
+      },
+    ])
+    expect(locale).toEqual({
+      'dlg.13484': '喂～人家不行了啦！',
+      'dlg.13485': '你看见了没有？',
+      'dlg.13486': '我的大小姐，你还真麻烦呢',
+      'dlg.13487': '呜．．你根本就不关心我',
+      'dlg.13488': '这．．你说到哪去了',
+    })
+  })
+
+  test('伤亡脚本的负肖像编号在发布台词前被拒绝', () => {
+    const commands: FixtureCmd[] = [
+      gate(2),
+      end,
+      { op: 'setDialogStyleTop', arg0: -1 },
+      line(13484),
+      end,
+    ]
+    const locale = {}
+    expect(() => translateCasualtyScript(commands, 0, locale)).toThrow(
+      'PAL casualty: invalid portrait at 2',
+    )
+    expect(locale).toEqual({})
   })
 
   test('applyPalCasualtyOverlays：入口缺失 / 角色缺 battler / locale 键漂移 逐轴拒绝', () => {

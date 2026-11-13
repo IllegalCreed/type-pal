@@ -38,7 +38,10 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
       assert.equal(observed.anchors.placeholder, 3)
       assert.equal(observed.anchors['round-start'], 1)
       assert.equal(observed.anchors['round-end'], 1)
-      assert.equal(observed.anchors.actionComplete, 4)
+      assert.equal(
+        observed.anchors.actionComplete,
+        native.includes('function tickActionFollowup(') ? 2 : 4,
+      )
       for (const name of ['tickPerformAction', 'tickPostAction', 'autoFillIncapacitatedActions']) {
         assert.throws(
           () =>

@@ -337,11 +337,12 @@ export function drawBattleSprites(
       // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
       const sprite = battleSprites.get(`player-${p.spriteNumOverride ?? role.spriteNumInBattle}`)
       if (!sprite?.frames[0]) return
-      // 帧号:动画 / 逃跑期间用 render-state currentFrame(攻击 8,9 / 受击 4 / 逃跑站立 0 / 死帧 2 由 anim-driver 写);
-      //   空闲(无 battleAnim/fleeAnim)据 status 算(sdlpal PAL_BattleUpdateFighters fight.c:948-984):
+      // 动画、逃跑及轮末数字等待期间读取 currentFrame。CLASSIC 轮末先归位，
+      // 旧姿态保留至 PAL_BattleDelay 结束（fight.c:1604–1668）。
+      // 空闲时据 HP 和状态计算姿态（fight.c:948–984）：
       //   死(hp==0)→ 2/0 傀儡 / sleep 或濒死 → 1 / 防御 → 3 / else → 0(confused 无特殊帧)。
       const frameIdx =
-        state.battleAnim || state.fleeAnim
+        state.battleAnim || state.fleeAnim || (state.roundEndDelayTicks ?? 0) > 0
           ? (p.currentFrame ?? 0)
           : computePlayerBattleIdleFrame(p, role)
       const frame = sprite.frames[frameIdx] ?? sprite.frames[0]

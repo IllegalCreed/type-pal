@@ -51,6 +51,7 @@ import { BattleActionPresentationScheduler } from './battle-action-presentation-
 import {
   type AnimFrame,
   type AnimSideEffects,
+  BATTLE_FRAME_MS,
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
@@ -72,6 +73,7 @@ import {
   type CastFxParams,
   type OverlayDraw,
 } from './battle-anim.js'
+import { battleCasualtyCues } from './battle-casualty-presentation.js'
 import {
   BattleCommandSelection,
   type BattleCommandSelectionContext,
@@ -81,6 +83,7 @@ import {
   type BattleState,
   buildAiView,
   type CreatePlayerInput,
+  completeCasualtyEffects,
   createBattleState,
   healthyPlayerCount,
   isPlayerHealthy,
@@ -135,7 +138,9 @@ const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 回合末数值反馈停 8 帧，每帧 40ms（fight.c:1664-1668，battle.h:28-29）。 */
-const ROUND_END_FEEDBACK_MS = 8 * 40
+const ROUND_END_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
+const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
+const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -216,6 +221,8 @@ export class BattleSession {
   private floats: FloatNum[] = []
   private nowMs = 0
   private roundEndFeedbackUntilMs = 0
+  private enemyCastRecoveryPending = false
+  private enemyCastRecoveryUntilMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
   private visual: { players: VisualFighter[]; enemies: Array<VisualFighter | null> } = {
     players: [],
@@ -288,6 +295,7 @@ export class BattleSession {
   private persistentEffectsWritten = false
   /** B11-1:当前伤亡对话是否已交给 dialogBox/横幅(防止同一 dialogue 反复重开)。 */
   private casualtyDialogueShown = false
+  private casualtyDialogueReadyAtMs = 0
 
   constructor(
     players: CreatePlayerInput[],
@@ -332,6 +340,8 @@ export class BattleSession {
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
+      /** 普通遇敌全灭的表现交给大世界，战斗收尾完成后同拍交接。 */
+      handoffDefeat?: boolean
       /** 全员交招后的第二级音效屏障；缺省保持 headless/旧单测的同步行为。 */
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
@@ -456,23 +466,25 @@ export class BattleSession {
   /** 队员表现层复位(召唤 out 相起点单独用:溶回目标必须是复位后的队员)。 */
   private resetPlayersVisual(): void {
     const s = this.state
+    const holdRoundEndPoses = this.nowMs < this.roundEndFeedbackUntilMs
     this.visual.players = s.players.map((p, i) => {
       const frames = this.playerFrames(i)
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
+      const restFrame =
+        p.hp <= 0
+          ? p.status.puppet > 0
+            ? frames.idle
+            : frames.dead
+          : p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)
+            ? frames.dying
+            : p.defending
+              ? frames.defend
+              : frames.idle
       return {
         x: pos.x,
         y: pos.y,
-        frame:
-          p.hp <= 0
-            ? p.status.puppet > 0
-              ? frames.idle
-              : frames.dead
-            : p.status.sleep > 0 || p.hp < Math.min(100, Math.floor(p.maxHp / 5))
-              ? frames.dying
-              : p.defending
-                ? frames.defend
-                : frames.idle,
+        frame: holdRoundEndPoses && prev ? prev.frame : restFrame,
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -549,6 +561,7 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
+    if (this.casualtyDialogueShown) this.assets.dialogBox?.close()
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
@@ -933,26 +946,20 @@ export class BattleSession {
     else this.resetVisual()
   }
 
-  private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
-    const box = this.assets.dialogBox
-    // B11-1:伤亡脚本台词经战斗内对话逐条展示,放完前暂停推进(P5)。
+  private pumpCasualtyDialogue(pressed: ReadonlySet<string>): boolean {
     const casualty = this.state.casualtyDialogue
-    if (casualty && !this.casualtyDialogueShown) {
-      const speaker = this.nameOf(casualty.speakerRoleId)
+    if (!casualty || this.actionPresentation.active) return false
+    if (this.nowMs < this.casualtyDialogueReadyAtMs) return true
+    const box = this.assets.dialogBox
+    if (!this.casualtyDialogueShown && casualty.lines.length) {
       if (box) {
         box.open(
-          startDialogue({
-            id: '__casualty',
-            cues: casualty.lines.map((line) => ({
-              rows: [{ text: line.text }],
-              slot: line.style,
-            })),
-          }),
+          startDialogue({ id: '__casualty', cues: battleCasualtyCues(casualty.lines) }),
           this.nowMs,
         )
       } else {
         this.choreoBanner = {
-          name: speaker,
+          name: this.nameOf(casualty.speakerRoleId),
           text: casualty.lines
             .map((line) => lookupText(line.text, this.opts.locale ?? {}))
             .join('\n'),
@@ -961,11 +968,26 @@ export class BattleSession {
       this.casualtyDialogueShown = true
       return true
     }
-    if (this.casualtyDialogueShown && !box?.active && !this.choreoBanner) {
-      // 对话放完(或横幅被空格清掉)→ 清引用,允许下一次 sweep 再开。
-      this.state.casualtyDialogue = undefined
-      this.casualtyDialogueShown = false
+    if (box?.active) {
+      if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
+      return true
     }
+    if (this.choreoBanner) {
+      if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
+      return true
+    }
+    completeCasualtyEffects(this.state)
+    this.state.casualtyDialogue = undefined
+    this.casualtyDialogueShown = false
+    this.casualtyDialogueReadyAtMs = 0
+    this.syncPlayerDisplayHp()
+    this.beginEnemyCastRecovery()
+    return true
+  }
+
+  private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
+    if (this.pumpCasualtyDialogue(pressed)) return true
+    const box = this.assets.dialogBox
     if (box?.active) {
       if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
       return true
@@ -1108,6 +1130,12 @@ export class BattleSession {
         this.cancel(this.readiness.error ?? undefined)
       return
     }
+    if (this.nowMs < this.roundEndFeedbackUntilMs) return
+    if (this.roundEndFeedbackUntilMs !== 0) {
+      this.roundEndFeedbackUntilMs = 0
+      this.resetPlayersVisual()
+    }
+    if (this.nowMs < this.enemyCastRecoveryUntilMs) return
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
@@ -1118,6 +1146,7 @@ export class BattleSession {
         this.finishStepVisuals()
         return
       }
+      if (this.pumpCasualtyDialogue(pressed)) return
       // 动作收尾可能刚打开失败 narration；终态也必须等它自动/手动关闭后再 finalize。
       const terminalDialog = this.assets.dialogBox
       if (terminalDialog?.active) {
@@ -1126,7 +1155,7 @@ export class BattleSession {
       }
       this.sessionUi = 'over'
       if (this.advanceDeathFade(DEATH_SETTLEMENT_PAUSE_MS)) return
-      const completed = this.settlementPresentation.advance(dtMs, pressed)
+      const completed = this.settlementPresentation.advance(dtMs, pressed, this.opts.handoffDefeat)
       if (completed) this.complete(completed)
       return
     }
@@ -1134,7 +1163,6 @@ export class BattleSession {
     if (this.advanceDeathFade()) return
 
     if (s.phase === 'selectAction') {
-      if (this.nowMs < this.roundEndFeedbackUntilMs) return
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
       if (this.choreoTurn < s.turn) {
         this.choreoTurn = s.turn
@@ -1220,6 +1248,7 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
+      this.enemyCastRecoveryPending = la?.side === 'enemy' && la.kind === 'cast'
       this.pendingFailureFeedback = la?.failureFeedback ?? null
       // 结果横幅(偷窃「获得 …」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;fight.c:5288 CLASSIC
       // 居中对话框,一阶段 narration 同款):战斗标签位 (130,75),1.2s 自清(时间线播完后仍显示)
@@ -1282,16 +1311,15 @@ export class BattleSession {
         const d = (eHp[i] ?? e.hp) - e.hp
         if (d > 0) this.applyDamageFx({ side: 'enemy', idx: i }, d)
       })
-      this.finishStepVisuals()
-      // 只在空队列步确实弹出数字时停拍；死亡淡出已有独立节拍。
+      // 原版先回原坐标，数字停拍中保留玩家姿势，下一普通战斗帧才复位。
+      // fight.c:1604–1668 的 Delay 只更新敌方姿态。
       if (
         !queueHead &&
-        this.floats.length > previousFloatCount &&
-        !this.deathFade &&
-        s.players.some((p) => p.hp > 0 || p.status.puppet > 0) &&
-        s.enemies.some((e) => e && e.hp > 0)
+        !this.pendingDeaths.length &&
+        (this.floats.length > previousFloatCount || this.pendingGains.length > 0)
       )
         this.roundEndFeedbackUntilMs = this.nowMs + ROUND_END_FEEDBACK_MS
+      this.finishStepVisuals()
     }
   }
 
@@ -1438,6 +1466,11 @@ export class BattleSession {
     if (!targetPos) return null
     const enemyFx = { ...fx }
     if (def.sounds.suppressMagicEffectSound) delete enemyFx.sound
+    const casualtySounds = (slots: number[] | undefined, kind: 'death' | 'dying') =>
+      (slots ?? []).flatMap((idx) => {
+        const sound = this.opts.playerSounds?.[idx]?.[kind]
+        return sound ? [sound] : []
+      })
     return buildEnemyCast({
       enemyIdx: la.idx,
       anim: enemyProfile,
@@ -1447,6 +1480,8 @@ export class BattleSession {
       fx: enemyFx,
       targetPos,
       damageNums,
+      deathSounds: casualtySounds(la.magicDeathPlayerIdxs, 'death'),
+      dyingSounds: casualtySounds(la.enteredDyingPlayerIdxs, 'dying'),
       ...(a.keepEffect ? { keepEffect: true } : {}),
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
@@ -1881,7 +1916,7 @@ export class BattleSession {
       ...(damage > 0 && hpAfterPhysicalHit <= 0 && targetSounds?.death
         ? { targetDeathSound: targetSounds.death }
         : {}),
-      ...(la.targetEnteredDying && targetSounds?.dying
+      ...(la.enteredDyingPlayerIdxs?.includes(t) && targetSounds?.dying
         ? { targetDyingSound: targetSounds.dying }
         : {}),
       // 替挡(coveredBy):守护者顶身前接刀,音 = **守护者**的 coverSound
@@ -2003,11 +2038,26 @@ export class BattleSession {
       this.pendingDeaths = []
     }
     this.pendingConfusedReveal.clear()
+    this.syncPlayerDisplayHp()
+    // 原版完整复位后等十帧才进伤亡脚本（fight.c:804–819,865–882）。
+    if (this.state.casualtyDialogue)
+      this.casualtyDialogueReadyAtMs = this.nowMs + CASUALTY_DIALOGUE_DELAY_MS
+    else this.beginEnemyCastRecovery()
+    this.presentPendingFailureFeedback()
+  }
+
+  private syncPlayerDisplayHp(): void {
     this.state.players.forEach((p, i) => {
       const v = this.visual.players[i]
       if (v) v.displayHp = p.hp
     })
-    this.presentPendingFailureFeedback()
+  }
+
+  private beginEnemyCastRecovery(): void {
+    // 原版敌法在受击复位及伤亡检查后保持八帧（fight.c:4904–4908）。
+    if (!this.enemyCastRecoveryPending) return
+    this.enemyCastRecoveryPending = false
+    this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
   }
 
   /** dev:战斗日志只读视图(M4c 验证)。 */

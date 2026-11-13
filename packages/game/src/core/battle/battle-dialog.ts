@@ -104,16 +104,22 @@ export function advanceBattleDialog(
     return true // 仍在显示 narration(等 1.4s / 任意键)
   }
 
-  // (C) 普通 typing dialog —— 节拍累加,驱动 tickDialog 在 100ms cadence
+  // A timed line uses the battle clock for both the typing and the fixed tail pause.
+  const wasFullyRevealed = box.charsRevealed >= (box.currentLineText?.length ?? 0)
   state.battleDialogTypingAccMs = (state.battleDialogTypingAccMs ?? 0) + BATTLE_DT
-  while (state.battleDialogTypingAccMs >= FRAME_MS_EXPLORE) {
-    state.battleDialogTypingAccMs -= FRAME_MS_EXPLORE
-    tickDialog(box)
+  const timedElapsed = box.currentLineEndedWithTilde ? state.battleDialogTypingAccMs : undefined
+  if (timedElapsed !== undefined) {
+    tickDialog(box, timedElapsed)
+  } else {
+    while (state.battleDialogTypingAccMs >= FRAME_MS_EXPLORE) {
+      state.battleDialogTypingAccMs -= FRAME_MS_EXPLORE
+      tickDialog(box)
+    }
   }
 
   // Confirm 处理(phase 决定):skip-typing / page-advance / dialog-end
-  if (input.pressed.has('Confirm')) {
-    const result = confirmDialog(box)
+  if (input.pressed.has('Confirm') || (timedElapsed !== undefined && input.pressed.has('Menu'))) {
+    const result = confirmDialog(box, timedElapsed)
     if (result === 'skip-typing') {
       return true // 本 tick 整行显满;下 tick 才走 line-done 推进(同大世界 fUserSkip)
     }
@@ -122,22 +128,7 @@ export function advanceBattleDialog(
       return true
     }
     if (result === 'dialog-end') {
-      const next = state.battleDialogQueue?.[0]
-      // 上下位置切换(top↔bottom,非 clearBefore)→ **保留旧框**(林月如 top 不消失,下面接着出李逍遥
-      //   bottom),对照 sdlpal upper/lower 同屏共存(PAL_StartDialog 不擦旧框)。把旧框移入 dialogBoxKept
-      //   (反位置冻结框);否则普通结束 → 清掉两者。
-      // effect 条目(next.style undefined)非上下位置切换 → 不保留旧框。
-      if (
-        next?.style &&
-        !next.clearBefore &&
-        isVerticalDialogSwap(gs.dialogBox.style, next.style)
-      ) {
-        gs.dialogBoxKept = gs.dialogBox
-      } else {
-        gs.dialogBoxKept = undefined
-      }
-      gs.dialogBox = undefined
-      state.battleDialogTypingAccMs = 0
+      closeBattleDialogPage(state, gs, box)
       // **本 tick 吃掉关框的 Confirm** —— 否则同一 Confirm 同 tick 漏进战斗菜单触发普通攻击
       //   (user 2026-05-31 实测:对话最后一个 space 同时结束对话 + 选了普通攻击)。
       //   sdlpal PAL_ShowDialogText 返回后 PAL_ClearKeyState 清键;ts 用"消费本 tick + 下 tick 菜单
@@ -149,6 +140,23 @@ export function advanceBattleDialog(
 
   // line-done 自动推进(sdlpal 行间不停):喂下一行 / 满页等键 / 队列空等结束键
   if (box.phase === 'line-done') {
+    if (box.currentLineEndedWithTilde) {
+      // TEXT_DisplayText resets the line count before PAL_ClearDialog can ask for a key.
+      if (box.lineDoneRenderPending && !wasFullyRevealed) {
+        box.lineDoneRenderPending = false
+        return true
+      }
+      // A localized page clear carries no style. Resolve it before checking the next page.
+      const queue = state.battleDialogQueue
+      const clearPage = queue?.[0]?.clearPage
+      while (queue?.[0]?.clearPage) queue.shift()
+      const next = queue?.[0]
+      const continuesPage = next?.style === box.style && !next.clearBefore
+      if (clearPage || continuesPage) resetDialogBody(box)
+      if (!continuesPage) closeBattleDialogPage(state, gs, box)
+      if (next && !next.effect) feedNextBattleDialogLine(state, gs)
+      return true
+    }
     const next = state.battleDialogQueue?.[0]
     if (!next) {
       setWaitingEndKey(box) // 无后续 → 等结束键(Confirm 关 box)
@@ -164,6 +172,21 @@ export function advanceBattleDialog(
     }
   }
   return true
+}
+
+function closeBattleDialogPage(
+  state: BattleDialogState,
+  gs: BattleDialogHost,
+  box: NonNullable<BattleDialogHost['dialogBox']>,
+): void {
+  const next = state.battleDialogQueue?.[0]
+  // PAL_StartDialog can show the opposite portrait and text while the previous box is still visible.
+  gs.dialogBoxKept =
+    next?.style && !next.clearBefore && isVerticalDialogSwap(box.style, next.style)
+      ? box
+      : undefined
+  gs.dialogBox = undefined
+  state.battleDialogTypingAccMs = 0
 }
 
 /** 从 battleDialogQueue 取下一行喂进 gs.dialogBox(无 box → startDialogLine;有 → appendDialogLine)。 */

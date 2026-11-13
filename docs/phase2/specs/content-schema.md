@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-11-07
+Last reviewed: 2026-11-13
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -37,6 +37,12 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 | manifest.content.tilesets | 每条为id/name/category/asset，asset是catalog的tileset AssetId | ProjectMap.tilesetRefs→TilesetDef.id→asset→AssetRecord.path→AssetResolver/FileSource；不能让path或旧编号直通 |
 
 [SceneIndex](../../../packages/content/src/scene-index.ts)与[MapIndex](../../../packages/content/src/map-index.ts)先规范化工程相对JSON路径，再拒重复和覆盖索引本身；绝对路径、反斜杠和父路径越界拒绝。`.//`等可归一化形式不能被误说成全部原样拒绝。目录缺正文、正文id不符、未知mapId或输出碰撞由相应loader/写入入口报错，不猜路径修复或静默覆盖。
+
+### 战斗伤亡对白与死亡曲
+
+角色 `battler.casualty` 的有序台词行支持显式 `portrait`、`sameCue` 和毫秒 `autoAdvance`。首行可指向肖像，紧随的 `sameCue: true` 把台词接入同一段，实际仍按长度分页。`autoAdvance` 是文字全显后的停留毫秒，PAL 发布器由旧台词末尾的 `~数字` 生成该值。伤亡分支的回满或临时属性效果在对应对白关闭后消费。 [角色字段](../../../packages/content/src/actor.ts#L36) · [PAL 发布器](../../../packages/migrate/src/pal-casualty-scripts.ts)
+
+工程资源 `assets.roles['audio.defeatMusic']` 是可选音乐角色，编辑器将它显示在「战斗音乐」。配置时必须解析为存在的 music 资源。PAL 正式工程绑定 `music.pal.001`，普通全灭渐红开始时播放一次。 [资产角色校验](../../../packages/content/src/asset.ts) · [全灭复验](../../testing/domains/cross-phase/battle-foundation/report.md)
 
 ### 地图、组合与图像资源分层
 

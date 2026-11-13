@@ -25,11 +25,15 @@ import {
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
+  isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
   isTestingBattleSessionEvidencePath,
+  restoreTestingBattleDefeatSourceBindings,
+  testingBattleDefeatSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
+  testingBattleSessionCasualtyDialogueBase,
   testingBattleSessionMechanismBase,
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
@@ -447,7 +451,24 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionCadenceBase, [testingCatalogPath])
   const preBattleCasualty =
     preBattle && gitTree(root, testingBattleSessionCasualtyBase, [testingCatalogPath])
+  const preBattleCasualtyDialogue =
+    preBattle && gitTree(root, testingBattleSessionCasualtyDialogueBase, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const defeatRevision = admission.testingBattleDefeatSourceRevision
+  if (defeatRevision !== undefined)
+    assert(
+      preBattleCasualtyDialogue && defeatRevision === testingBattleDefeatSourceRevision,
+      'defeat source bridge requires the fixed Q2 battle lineage',
+    )
+  const defeatSource = defeatRevision && gitTree(root, defeatRevision, [])
+  const priorDefeatBindings = (path, current) =>
+    defeatSource
+      ? restoreTestingBattleDefeatSourceBindings(path, current, {
+          readSource,
+          readBase: preBattleCasualtyDialogue.read,
+          readFixed: defeatSource.read,
+        })
+      : current
   const battleBridge = preBattle && {
     readSource,
     fixed: { revision: battlePublicationRevision, readSource: preBattle.read },
@@ -471,6 +492,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       revision: testingBattleSessionCasualtyBase,
       readSource: preBattleCasualty.read,
     },
+    casualtyDialogueFixed: {
+      revision: testingBattleSessionCasualtyDialogueBase,
+      readSource: preBattleCasualtyDialogue.read,
+    },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.
   const readAcquisitionSource = (path) =>
@@ -480,7 +505,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const readPredecessorSource = preAcquisition
     ? (sourcePath) => {
         const fixed = preAcquisition.read(sourcePath)
-        if (!isTestingAcquisitionSourcePath(sourcePath)) {
+        if (
+          !isTestingAcquisitionSourcePath(sourcePath) &&
+          !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath))
+        ) {
           const live = readSource(sourcePath)
           assert(
             live && fixed?.equals(live),
@@ -729,10 +757,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
             return fixed
           }
         : readPredecessorSource
+      const currentBeforeDefeat = priorDefeatBindings(path, current)
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
           ? preBattle.read(path)
-          : current
+          : currentBeforeDefeat
       const predecessor = acquisitionPrevious(path, acceptedCurrent)
       const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
       const publication = chestBridge ? postPalace.read(path) : predecessor
@@ -768,7 +797,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         })
       assertAcquisitionSuccessor(path, predecessor, acceptedCurrent)
       if (preBattle && path === testingCatalogPath)
-        assertTestingBattlePublication(acceptedCurrent, current, additions, battleBridge)
+        assertTestingBattlePublication(
+          acceptedCurrent,
+          currentBeforeDefeat,
+          additions,
+          battleBridge,
+        )
       if (preBattle && isTestingBattleSessionEvidencePath(path))
         assertTestingBattleSessionSourceBridge(path, acceptedCurrent, current, battleBridge)
       return { current, previous, change }

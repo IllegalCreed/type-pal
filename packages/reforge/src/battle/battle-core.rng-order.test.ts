@@ -242,6 +242,39 @@ test('the sole player needs no target roll before the two independent enemy acti
   expect(state).toMatchObject({ phase: 'won', expGained: 110, cashGained: 220 })
 })
 
+test('enemy Thunder Spell applies the player elemental base resistance before field and guard', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-418'))
+  const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '316'))
+  const state = createBattleState({
+    players: [
+      wfPlayer('li-xiaoyao', { hp: 85, maxHp: 150, defense: 9, baseDexterity: 3 }),
+      wfPlayer('anu', { hp: 150, maxHp: 150, attackStrength: 2250, baseDexterity: 1 }),
+    ],
+    enemySlots: [enemy],
+    skills: { [spell.id]: spell },
+    fieldEffect: { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 },
+  })
+  // Seed 6: three initiative draws, slot 0, spell selected, automatic guard, then magic variance.
+  const rng = fixedDraws([
+    0.52574661, 0.00234355, 0.66317142, 0.2021627, 0.54211959, 0.07076387, 0.00453784,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'defend' })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({
+    kind: 'cast',
+    skillId: '316',
+    targetPlayerIdx: 0,
+    autoDefend: [0],
+  })
+  // CLASSIC fight.c:4825–4838: raw 147 × 0.8, then /2 (automatic guard), with integer truncation.
+  expect(state.players[0]?.hp).toBe(27)
+  expect(state.players[1]?.hp).toBe(150)
+})
+
 function bloodWormBattle() {
   const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
   const items = validateItems(palItems.filter(({ id }) => id === '117' || id === '87'))

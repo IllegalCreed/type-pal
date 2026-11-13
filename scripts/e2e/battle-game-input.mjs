@@ -11,7 +11,7 @@ function selectGrid(menu, field, id) {
 /** Compute one physical key from the actual Game menu. This never edits battle state. */
 export function nextGameBattleKey(readout, command) {
   assert.equal(readout.engine, 'game')
-  if (readout.canConfirmSettlement) return 'Space'
+  if (readout.canConfirmDialogue || readout.canConfirmSettlement) return 'Space'
   if (!command || readout.busy || readout.phase !== 'selectAction') return null
   assert(['attack', 'item', 'cast', 'defend'].includes(command.kind), 'unsupported Game command')
   if (command.turn !== undefined && readout.turn !== undefined && readout.turn !== command.turn)

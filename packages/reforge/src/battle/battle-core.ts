@@ -17,6 +17,7 @@ import type {
   AiBattleView,
   BattleStatus,
   CarriedStatus,
+  CasualtyEffect,
   CasualtyLine,
   CasualtyScript,
   ElementVec,
@@ -262,7 +263,11 @@ export interface BattleState {
   /** 技能一生限用计数副本(characterId → skillId → 已用次数;入账经 skillUse mutation 回写)。 */
   skillUseCounts: Record<string, Record<string, number>>
   /** 最近一次伤亡脚本的台词(表现层展示;每次 sweep 覆写)。 */
-  casualtyDialogue?: { speakerRoleId: string; lines: CasualtyLine[] }
+  casualtyDialogue?: {
+    speakerRoleId: string
+    lines: CasualtyLine[]
+    effects?: readonly CasualtyEffect[]
+  }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: BattleLastAction | null
   /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
@@ -685,9 +690,9 @@ function applyStatBuff(
  *  (含装备、不含既有 Extra;多次不叠加),delta = base × percent / 100 截断。 */
 function applyCasualtyBranchEffects(
   target: BattlePlayerState,
-  branch: CasualtyScript['fallback'],
+  effects: readonly CasualtyEffect[],
 ): void {
-  for (const effect of branch.effects) {
+  for (const effect of effects) {
     if (effect.kind === 'heal') {
       if (effect.resource === 'hp') target.hp = target.maxHp
       else target.mp = target.maxMp
@@ -707,7 +712,7 @@ function applyCasualtyBranchEffects(
   }
 }
 
-/** 命中一个伤亡脚本:顺序概率门(0x06 r≥阈值,命中即停)→ 台词记录 + 效果。 */
+/** 选择原版概率分支；效果等对白结束后应用（原脚本的 0x1B/0x1C/0x30 位于对白后）。 */
 function executeCasualtyScript(
   s: BattleState,
   target: BattlePlayerState,
@@ -720,11 +725,24 @@ function executeCasualtyScript(
       branch = gate.branch
       break
     }
-  applyCasualtyBranchEffects(target, branch)
-  s.casualtyDialogue = { speakerRoleId: target.roleId, lines: branch.lines }
+  s.casualtyDialogue = {
+    speakerRoleId: target.roleId,
+    lines: branch.lines,
+    ...(branch.effects.length ? { effects: branch.effects } : {}),
+  }
   s.log.push(
     `${target.roleId} 伤亡脚本:${branch.lines.map((line) => line.text).join(' / ') || '无台词'}`,
   )
+}
+
+export function completeCasualtyEffects(s: BattleState): void {
+  const reaction = s.casualtyDialogue
+  if (!reaction?.effects) return
+  const { effects } = reaction
+  delete reaction.effects
+  const target = expectDefined(s.players.find((player) => player.roleId === reaction.speakerRoleId))
+  applyCasualtyBranchEffects(target, effects)
+  refreshCasualtyPrevHp(s)
 }
 
 function casualtyGuardianDisabled(p: BattlePlayerState): boolean {
@@ -738,7 +756,7 @@ function refreshCasualtyPrevHp(s: BattleState): void {
 /**
  * B11-1:敌方有效物攻/施法结算后的伤亡 sweep(fight.c:775-885 迁入内容所需真值)。
  * 1. 本步刚阵亡队员 → 死者 coveredBy 的健康援护者跑 friendDeath;
- * 2. 本步刚跨入濒死的队员 → 物攻记下濒死反应；守护者在队且健康时才跑 dying 脚本。
+ * 2. 本步刚跨入濒死的队员 → 记下濒死反应；守护者在队且健康时才跑 dying 脚本。
  * 一次 sweep 至多一个脚本(P6);prevHp 每次刷新防重入;auto battle 不触发。
  */
 function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
@@ -756,7 +774,7 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
     refreshCasualtyPrevHp(s)
     return
   }
-  for (const p of s.players) {
+  for (const [index, p] of s.players.entries()) {
     const prevThreshold = Math.trunc(p.maxHp / 5)
     if (!(p.hp < p.prevHp && p.hp > 0 && isPlayerDying(p.hp, p.maxHp) && p.prevHp >= prevThreshold))
       continue
@@ -767,15 +785,18 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
     const action = s.lastAction
     if (
       action?.side === 'enemy' &&
-      action.kind === 'attack' &&
-      action.damage !== undefined &&
-      s.players[action.targetPlayerIdx] === p
-    )
-      action.targetEnteredDying = true
+      (action.kind === 'cast' ||
+        (action.kind === 'attack' &&
+          action.damage !== undefined &&
+          action.targetPlayerIdx === index))
+    ) {
+      action.enteredDyingPlayerIdxs ??= []
+      action.enteredDyingPlayerIdxs.push(index)
+    }
     if (!cover || cover.hp <= 0) continue
     const script = s.actorsById[p.actorTemplateId]?.battler?.casualty?.dying
-    if (!script) continue
-    executeCasualtyScript(s, p, script, rng)
+    if (script) executeCasualtyScript(s, p, script, rng)
+    // 有活着的守护者在队时，原版在此结束本次濒死扫描（fight.c:860–882）。
     refreshCasualtyPrevHp(s)
     return
   }
@@ -1084,6 +1105,8 @@ export function applyEnemyEffect(
  * @param rng 注入随机（dex jitter / AI 选目标 / 逃跑）。
  */
 export function stepBattle(s: BattleState, rng: () => number): void {
+  // 无会话表现的规则驱动在下一步前完成上一步的伤亡效果。
+  completeCasualtyEffects(s)
   switch (s.phase) {
     case 'preBattle':
       s.phase = 'selectAction'
@@ -2452,13 +2475,14 @@ function applyEnemySkill(
   s: BattleState,
   e: BattleEnemyState,
   skill: SkillData,
-  targetIdx: number,
+  action: Extract<BattleLastAction, { side: 'enemy'; kind: 'cast' }>,
   rng: () => number,
 ): void {
   const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
   // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
   const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
-  const targets = skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [targetIdx] : []
+  const targets =
+    skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [action.targetPlayerIdx] : []
   // 被动格挡预掷(fight.c:4723-4757,在效果处理**前**——效果先施眠/定不剥夺本次资格):
   // 资格 = 活着 + 无眠/定/乱,1/3 命中;进除因子 +1(减伤不免伤,异于物攻 7/17 全免闪避)
   const autoDefend = new Set<number>()
@@ -2468,7 +2492,7 @@ function applyEnemySkill(
     const eligible = p.status.sleep <= 0 && p.status.paralyzed <= 0 && p.status.confused <= 0
     if (eligible && Math.floor(rng() * 3) === 0) autoDefend.add(ti)
   }
-  if (autoDefend.size && s.lastAction) s.lastAction.autoDefend = [...autoDefend]
+  if (autoDefend.size) action.autoDefend = [...autoDefend]
   // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
   let magStr = e.def.stats.magicStrength + (e.def.stats.level + 6) * 6
   if (magStr < 0) magStr = 0
@@ -2532,6 +2556,7 @@ function applyEnemySkill(
         for (const ti of targets) {
           const p = expectDefined(s.players[ti])
           if (p.hp <= 0) continue // 已死跳过(fight.c:4782;AoE 前效果可能致死)
+          const elemRes = p.elemRes ?? ZERO
           // 除因子(fight.c:4801-4803/4836-4838):(防御2)×(护体2)+(格挡1)
           let dmg = Math.trunc(
             calcMagicDamage({
@@ -2539,9 +2564,15 @@ function applyEnemySkill(
               def: p.defense,
               rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
               magicData: { baseDamage: eff.power, elemental: eff.elemental },
-              // 玩家元素/毒抗:装备 live 派生(effectiveResistances → 建态时算好,红线不烙)
-              elemRes: p.elemRes ?? ZERO,
-              poisonRes: p.poisonRes ?? 0,
+              // 玩家方基础抗性 100 加实际装备抗性，再使用玩家侧除数 20（fight.c:4792–4799,4827–4834）。
+              elemRes: {
+                wind: 100 + elemRes.wind,
+                thunder: 100 + elemRes.thunder,
+                water: 100 + elemRes.water,
+                fire: 100 + elemRes.fire,
+                earth: 100 + elemRes.earth,
+              },
+              poisonRes: 100 + (p.poisonRes ?? 0),
               resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
               fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244,双向同表)
             }) /
@@ -2550,6 +2581,10 @@ function applyEnemySkill(
           // 钳到余血、**无最小 1**(fight.c:4805/4840;玩家打敌才 inline 钳 1)
           if (dmg > p.hp) dmg = p.hp
           p.hp -= dmg
+          if (eff.power > 0 && p.hp === 0) {
+            action.magicDeathPlayerIdxs ??= []
+            action.magicDeathPlayerIdxs.push(ti)
+          }
           s.log.push(`${e.def.id} 施展 ${skill.name} 对 ${p.roleId} 造成 ${dmg}`)
         }
         break
@@ -2589,14 +2624,15 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'cast') {
-    s.lastAction = {
+    const action: Extract<BattleLastAction, { side: 'enemy'; kind: 'cast' }> = {
       side: 'enemy',
       idx,
       kind: 'cast',
       skillId: decision.skill.id,
       targetPlayerIdx: decision.targetPlayerIdx,
     }
-    applyEnemySkill(s, e, decision.skill, decision.targetPlayerIdx, rng)
+    s.lastAction = action
+    applyEnemySkill(s, e, decision.skill, action, rng)
     return
   }
   if (decision.kind === 'transform') {

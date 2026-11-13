@@ -278,10 +278,7 @@ describe('performMagic', () => {
       expect(frames.filter((f) => f.sound === 62)).toHaveLength(1) // 施法音取 abs 照播
     }
   })
-  // 敌法术收尾帧序(fight.c:4897-4908):受击 5 帧 → 敌复位+Delay(1) → **UpdateFighters 复位受击
-  //   队员** → Delay(8)。旧版把 9 帧停顿整段放复位前 → 受击者保持后仰 frame4 + 击退位多 360ms
-  //   (user 2026-06-13 报"风咒受击后仰停顿过长";原版后仰仅 ~240ms)。
-  it('敌方法术致伤:受击队员复位帧在 320ms 收尾停顿帧上(复位先于停顿,非链终 reset 兜底)', () => {
+  it('敌方法术先复位施法者和受击队员，再交动作收尾停顿', () => {
     const { state, playerRoles, gs, bus } = makeActionFixture({
       // hp 高位:挨一发仍活且不濒死 → 复位帧应为站立 0(死亡/濒死帧值另由 playerRestFrame 同源覆盖)
       role: { mp: 30, maxMP: 30, hp: 1000, maxHP: 1000 },
@@ -309,9 +306,9 @@ describe('performMagic', () => {
     })
     const frames = state.battleAnim?.frames ?? []
     expect(frames.length).toBeGreaterThan(0)
-    // 链末帧 = Delay(8) 停顿,且**同帧**带受击队员复位(pos→posOriginal + 站姿 + 红闪清零)
+    // UpdateFighters precedes the casualty check and the separate Delay(8) (fight.c:4906–4908).
     const last = frames[frames.length - 1]!
-    expect(last.durationMs).toBe(8 * 40)
+    expect(last.durationMs).toBe(0)
     expect(last.fighters).toMatchObject([
       { side: 'player', idx: 0, pos: { x: 240, y: 170 }, currentFrame: 0, iColorShift: 0 },
     ])
@@ -321,8 +318,7 @@ describe('performMagic', () => {
     expect(second.fighters).toMatchObject([
       { side: 'enemy', idx: 0, currentFrame: 0, pos: { x: 160, y: 80 } },
     ])
-    // 收尾停顿帧 = C Delay(8, 0, TRUE)(fight.c:4908):停顿期敌人 idle 呼吸恢复推进
-    expect(last.updateGesture).toBe(true)
+    expect(state.actionFollowup).toEqual({ waitTicks: 8 })
     expect(second.updateGesture).toBeUndefined() // 敌复位帧 Delay(1, 0, FALSE)(fight.c:4904)
   })
   // 顺序修:user 先后报"灵葫咒掉血在动画前"和"武神数字等整段动画结束才出"。

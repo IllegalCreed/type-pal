@@ -7,21 +7,25 @@
 import type { BattleChoreography } from '@type-pal/content'
 import {
   checkBattleChoreography,
+  validateActors,
   validateBattleSprites,
   validateEnemies,
   validateItems,
   validatePoisons,
+  validateSkills,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
   type: 'json',
 }
+import palActors from '../../../../projects/pal/content/actors.json' with { type: 'json' }
 import palBattleSprites from '../../../../projects/pal/content/battle-sprites.json' with {
   type: 'json',
 }
 import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
+import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
 import {
   enemyProfile,
   PLAYER_PROFILE,
@@ -37,6 +41,7 @@ import {
 } from '../__tests__/battle-workflows/session-driver.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { expectDefined } from '../defined.js'
+import { DialogBox } from '../dialog/dialog-box.js'
 import type { MenuAssets } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
@@ -456,6 +461,111 @@ describe('W3 执行时间线接线', () => {
     })
   })
 
+  test.each([
+    {
+      label: '法术致死',
+      hp: 24,
+      maxHp: 60,
+      damage: 24,
+      frame: PLAYER_PROFILE.frames.dead,
+      sound: 'sound.pal.023',
+    },
+    {
+      label: '法术濒死',
+      hp: 85,
+      maxHp: 150,
+      damage: 58,
+      frame: PLAYER_PROFILE.frames.dying,
+      sound: 'sound.pal.019',
+    },
+  ])('雷咒$label，原位首次绘制受击和数字，再经过完整五拍及收尾', ({
+    label,
+    hp,
+    maxHp,
+    damage,
+    frame,
+    sound,
+  }) => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-418'))
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '316'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { hp, maxHp, defense: 9, baseDexterity: 3 }),
+        wfPlayer('anu', { hp: 150, maxHp: 150, attackStrength: 2250, baseDexterity: 1 }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        skills: { [spell.id]: spell },
+        fieldEffect: { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 },
+        playerSounds: [{ dying: 'sound.pal.019', death: 'sound.pal.023' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[0])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data
+    const hurt = poseRed(PLAYER_PROFILE.frames.hurt)
+    const tintedHurt = hurt + 6 * 16
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    const casualtySounds = () =>
+      sfx.plays.filter((id) => id === 'sound.pal.019' || id === 'sound.pal.023')
+    h.press(['d'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 150; i += 1) {
+      draw(8)
+      if (pixel(200, 168)[0] === tintedHurt || pixel(208, 172)[0] === tintedHurt) break
+    }
+    expect(h.session.debugPlayers()[0]?.hp).toBe(hp - damage)
+    expect(pixel(200, 168)[0]).toBe(tintedHurt)
+    expect(pixel(200, 101)[2]).toBe(((damage % 10) + 1) * 16)
+    expect(casualtySounds()).toEqual(label === '法术致死' ? [sound] : [])
+    // CLASSIC fight.c:4886–4905: 只在 i>0 增加位移，敌回位一拍后才恢复队员。
+    for (const [x, y, red] of [
+      [204, 170, tintedHurt],
+      [206, 171, tintedHurt],
+      [207, 171, hurt],
+      [207, 171, hurt],
+      [207, 171, hurt],
+    ] as const) {
+      draw(40)
+      expect(pixel(x, y)[0]).toBe(red)
+    }
+    draw(40)
+    expect(pixel(200, 168)[0]).toBe(poseRed(frame))
+    expect(casualtySounds()).toEqual([sound])
+    const allyActed = () =>
+      h.session
+        .debugLog()
+        .some((line) => line.startsWith('anu ') && line.includes('攻击 enemy-418'))
+    draw(319)
+    expect(allyActed()).toBe(false)
+    draw(1)
+    draw(40)
+    draw(40)
+    expect(allyActed()).toBe(true)
+  })
+
   test('回合末毒伤显示 320ms 后开放选招，解毒后无数字的回合直接开放', () => {
     const enemy = expectDefined(
       validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-406'))[0],
@@ -556,6 +666,72 @@ describe('W3 执行时间线接线', () => {
     expect(inventory).toEqual([])
     tick()
     expect(h.session.debugReadiness().phase).toBe('menu')
+  })
+
+  test('回合末毒伤的数字停拍保留原姿势，随后切濒死或倒地且无伤亡音', () => {
+    const worm = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const egg = expectDefined(validateItems(palItems.filter(({ id }) => id === '117'))[0])
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const actors = validateActors(
+      palActors.filter(({ id }) => id === 'zhao-linger' || id === 'li-xiaoyao'),
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 19,
+          maxHp: 50,
+          defense: 263,
+          baseDexterity: 906,
+          coveredBy: 'li-xiaoyao',
+        }),
+        wfPlayer('li-xiaoyao', { baseDexterity: 503 }),
+      ],
+      enemies: [worm],
+      extraOpts: {
+        items: { [egg.id]: egg },
+        poisonDefs: { [redPoison.id]: redPoison },
+        actorsById: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+        playerSounds: [{ dying: 'sound.pal.020', death: 'sound.pal.024' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const readPose = () => {
+      h.session.render(ctx, 1)
+      return ctx.getImageData(200, 168, 1, 1).data[0]
+    }
+    const player = () => expectDefined(h.session.debugPlayers()[0])
+    for (const [hp, damage, before, after] of [
+      [4, 7, PLAYER_PROFILE.frames.defend, PLAYER_PROFILE.frames.dying],
+      [0, 3, PLAYER_PROFILE.frames.dying, PLAYER_PROFILE.frames.dead],
+    ] as const) {
+      h.press(['d'])
+      h.press(['d'])
+      for (let i = 0; i < 100 && player().hp !== hp; i++) h.idle()
+      expect(player().hp).toBe(hp)
+      // PAL 回合末只恢复坐标。新数字与毒伤前的队员姿势同帧实绘。
+      expect(readPose()).toBe(poseRed(before))
+      expect(ctx.getImageData(200, 101, 1, 1).data[2]).toBe((damage + 1) * 16)
+      h.idle(319)
+      expect(readPose()).toBe(poseRed(before))
+      expect(h.session.debugReadiness().phase).toBe('acting')
+      h.idle(1)
+      expect(readPose()).toBe(poseRed(after))
+      expect(h.session.debugReadiness().phase).toBe('menu')
+    }
+    expect(sfx.plays.filter((id) => id === 'sound.pal.020' || id === 'sound.pal.024')).toEqual([])
   })
 
   test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
@@ -743,6 +919,75 @@ describe('W3 执行时间线接线', () => {
     expect(result).toBe('victory')
     expect(sfx.plays).toContain('sound.pal.004')
     expect(casualtySounds()).toEqual(['sound.pal.019', 'sound.pal.023'])
+  })
+
+  test('队友阵亡对白在回位和十帧停拍后开始，旁白结束才结算回血和增益', () => {
+    const lantern = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-399'))
+    const actors = validateActors(
+      palActors.filter(({ id }) => id === 'zhao-linger' || id === 'li-xiaoyao'),
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 3,
+          maxHp: 24,
+          defense: 13,
+          baseDexterity: 6,
+          coveredBy: 'li-xiaoyao',
+        }),
+        wfPlayer('li-xiaoyao', { hp: 100, maxHp: 150, attackStrength: 902, baseDexterity: 3 }),
+      ],
+      enemies: [lantern],
+      extraOpts: {
+        actorsById: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+      },
+    })
+    const ctx = battleCanvas()
+    const portrait = bitmap(8, 8, '#00ff00')
+    const box = new DialogBox(ctx, stubGlyphs, [], new Map([['portrait.pal.005', portrait]]))
+    h.assets.dialogBox = box
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    const deadPose = () =>
+      ctx.getImageData(200, 168, 1, 1).data[0] === poseRed(PLAYER_PROFILE.frames.dead)
+
+    h.press(['d'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 160 && !deadPose() && !box.active; i += 1) draw(8)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(box.active).toBe(false)
+    expect(deadPose()).toBe(true)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+    draw(200) // 播完正常的回位帧。
+    draw(399)
+    expect(box.active).toBe(false)
+    draw(1)
+    expect(box.observe()).toMatchObject({ slot: 'bottom', rowTextIds: ['dlg.13499'] })
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ active: true, portraitAsset: 'portrait.pal.005' }),
+    )
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+
+    draw(2000)
+    expect(box.observe()).toMatchObject({ slot: 'narration', rowTextIds: ['dlg.13500'] })
+    draw(1399)
+    expect(box.active).toBe(true)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+    draw(1)
+    expect(box.active).toBe(false)
+    draw(40)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(150)
+    draw(40)
+    draw(40)
+    // 攻击 902 + 5% = 947，灯笼有效防御 28、物抗 2，固定骰首击 (924+1)×3×2。
+    expect(h.session.debugLog()).toContain('li-xiaoyao 会心一击 攻击 enemy-399 造成 5550')
   })
 
   test.each([

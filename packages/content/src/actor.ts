@@ -9,7 +9,7 @@
  * 装备驱动的外观覆盖 = 将来加字段(appearanceRules),纯加法。
  */
 import type { AssetId } from './asset.js'
-import type { EntityDef, TextId } from './index.js'
+import type { DialogueCue, EntityDef, TextId } from './index.js'
 
 /**
  * 战斗音效七件套(原版 PlayerRoles rgw*Sound 全量;敌侧对应 EnemySounds)。
@@ -37,6 +37,11 @@ export interface BattlerSounds {
 export interface CasualtyLine {
   text: TextId
   style: 'bottom' | 'top' | 'narration'
+  portrait?: DialogueCue['portrait']
+  /** Continue the previous page when the source emits adjacent dialogue rows. */
+  sameCue?: true
+  /** Milliseconds to hold the complete page before automatically advancing. */
+  autoAdvance?: number
 }
 
 /** 伤亡脚本效果(0x1B/0x1C 回满 + 0x30 临时百分比 buff;战内有效,战后清空)。 */

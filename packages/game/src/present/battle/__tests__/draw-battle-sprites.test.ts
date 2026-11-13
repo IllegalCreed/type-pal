@@ -520,6 +520,19 @@ describe('battle visibility, animation and overlay ordering', () => {
     expect(pixel(fb, 99, 78)).toBe(9)
   })
 
+  it('uses the retained fighter frame during round feedback and the new pose after release', () => {
+    const player = battlePlayer(0)
+    player.pos = { x: 100, y: 80 }
+    player.currentFrame = 3
+    const role = spriteRole(0, { spriteNumInBattle: 1, hp: 4, maxHP: 50 })
+    const state = spriteState([player], [])
+    const sprites = new Map<string, SpriteAsset>([['player-1', twoByTwoSprites([8, 9, 10, 11])]])
+    state.roundEndDelayTicks = 8
+    expect(pixel(renderSpriteState(state, sprites, { roles: [role] }), 99, 78)).toBe(11)
+    state.roundEndDelayTicks = 0
+    expect(pixel(renderSpriteState(state, sprites, { roles: [role] }), 99, 78)).toBe(9)
+  })
+
   it('角色资料缺失时跳过该队员，敌方像素保留', () => {
     const player = battlePlayer(4)
     player.pos = { x: 100, y: 80 }

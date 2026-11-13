@@ -276,6 +276,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
   const completed = []
   const emptyPages = []
   let continueAfterWorld = false
+  let showingDefeat = false
   let presentedPartyFacing
   const stop = new Error('stop after world pass')
   const scope = {
@@ -285,6 +286,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
       if (evidence) completed.push(evidence)
     },
     scriptConfirmModal: { view: null },
+    gameOverPresentation: { draw: () => showingDefeat },
     preserveClosedDialogFrame: true,
     sceneEntrySession: { heldFrame: null },
     ctx: { putImageData() {}, save() {}, scale() {}, restore() {} },
@@ -313,7 +315,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
     partyLayer: 0,
     followerPos: [],
     camera: {},
-    frames: {},
+    frames: { now: 1000 },
     WORLD_SCALE: 4,
     shop: null,
     drawCinematicLayer: () => false,
@@ -346,6 +348,15 @@ test('real render early returns and failed draws never claim a freshly rendered 
   assert.deepEqual(points, ['before:render'])
   points.length = 0
   scope.sceneEntrySession.heldFrame = null
+  showingDefeat = true
+  scope.dialogBox.active = true
+  continueAfterWorld = true
+  render()
+  assert.deepEqual(points, ['before:render'], 'the held defeat frame produces no world receipt')
+  assert.equal(scope.dialogBox.active, false, 'the defeat frame still draws its dialogue')
+  points.length = 0
+  continueAfterWorld = false
+  showingDefeat = false
   scope.worldPresentation.renderWorld = () => {
     throw stop
   }

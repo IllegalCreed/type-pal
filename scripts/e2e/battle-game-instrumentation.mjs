@@ -16,10 +16,12 @@ export const GAME_BATTLE_TARGETS = [
   gameAudioTarget,
   '/packages/game/src/dev/dev-panel.ts',
   '/packages/game/src/core/rng.ts',
+  '/packages/game/src/core/battle/battle-dialog.ts',
   '/packages/game/src/core/battle/battle-system.ts',
   '/packages/game/src/core/battle/battle-settlement.ts',
   '/packages/game/src/core/battle/battle-finalization.ts',
   '/packages/game/src/present/player-info-box.ts',
+  '/packages/game/src/present/dialog-draw.ts',
   '/packages/game/src/present/battle/present-battle.ts',
   '/packages/game/src/present/battle/draw-battle-sprites.ts',
   '/packages/game/src/present/battle/draw-battle-ui.ts',
@@ -113,7 +115,7 @@ export function instrumentGameBattle(source, file) {
         add(
           'frame-begin',
           node.body.getStart(ast) + 1,
-          '\nglobalThis.__battleGameFrame?.(state);\n',
+          '\nglobalThis.__battleGameFrame?.(state, gs);\n',
         )
         add('frame-end', node.body.end - 1, '\nglobalThis.__battleEvidence?.endFrame();\n')
       }
@@ -128,7 +130,67 @@ export function instrumentGameBattle(source, file) {
             'settlementDrawn',
             'settlement.screens[settlement.index].kind',
           )
+        if (call.expression.getText(ast) === 'drawDialogBox') {
+          const box = call.arguments[1]?.getText(ast)
+          assert(
+            ['gs.dialogBox', 'gs.dialogBoxKept'].includes(box),
+            'Game dialogue draw source drift',
+          )
+          visualCall(
+            'dialogue-slot',
+            node,
+            'dialogueDrawn',
+            `${box}, ${box}.style, ${box}.phase, ${box === 'gs.dialogBox'}, 'game:drawDialogBox'`,
+          )
+        }
       }
+    }
+    if (file.endsWith('/present/dialog-draw.ts')) {
+      const name = owner(node)
+      if (
+        name === 'drawDialogBox' &&
+        ts.isExpressionStatement(node) &&
+        ts.isCallExpression(node.expression)
+      ) {
+        const call = node.expression
+        if (call.expression.getText(ast) === 'drawTextLine') {
+          const text = call.arguments[1].getText(ast)
+          visualCall(
+            'dialogue-line',
+            node,
+            'dialogueText',
+            `state, ${text}, ${text === 'state.titleText'}`,
+          )
+        }
+        if (call.getText(ast) === 'blitSprite(fb, portrait, pos.x, pos.y)')
+          visualCall(
+            'dialogue-portrait',
+            node,
+            'dialoguePortrait',
+            'state, state.portraitIcon, pos.x, pos.y, portrait.width, portrait.height',
+          )
+      }
+      if (name === 'drawNarrationDialog' && ts.isFunctionDeclaration(node))
+        add(
+          'dialogue-narration',
+          node.body.end - 1,
+          '\nglobalThis.__battleEvidence?.dialogueText(state, text);\n',
+        )
+    }
+    if (
+      file.endsWith('/battle/battle-dialog.ts') &&
+      owner(node) === 'advanceBattleDialog' &&
+      ts.isVariableStatement(node) &&
+      ['confirmDialog(box)', 'confirmDialog(box, timedElapsed)'].includes(
+        node.declarationList.declarations[0]?.initializer?.getText(ast),
+      )
+    ) {
+      add('dialogue-confirm-before', node.getStart(ast), 'const __battleDialogPhase = box.phase;\n')
+      add(
+        'dialogue-confirm-after',
+        node.end,
+        '\nglobalThis.__battleGameDialogueConfirm?.(state, box, __battleDialogPhase, result);\n',
+      )
     }
     if (file.endsWith('/draw-battle-sprites.ts') && owner(node) === 'drawBattleSprites') {
       if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'frame') {
@@ -332,9 +394,29 @@ export function instrumentGameBattle(source, file) {
         '\nglobalThis.__battleGameActionComplete?.(state, gs, res.playerRoles);\n',
       )
     }
+    if (
+      file.endsWith('/battle/battle-system.ts') &&
+      owner(node) === 'tickActionFollowup' &&
+      ts.isForOfStatement(node) &&
+      node.expression.getText(ast) === 'friendDeathEffects.commands'
+    ) {
+      add(
+        'casualty-effect-before',
+        node.getStart(ast),
+        'const __battleCasualtyBefore = globalThis.__battleGameCasualtyEffect?.(state, res.playerRoles, idx);\n',
+      )
+      add(
+        'casualty-effect-after',
+        node.end,
+        '\nglobalThis.__battleGameCasualtyEffect?.(state, res.playerRoles, idx, __battleCasualtyBefore);\n',
+      )
+    }
     ts.forEachChild(node, visit)
   }
   visit(ast)
+  const hasActionFollowup = ast.statements.some(
+    (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'tickActionFollowup',
+  )
   const leafExpected = {
     'audio.ts': {
       'audio-request': 1,
@@ -349,7 +431,10 @@ export function instrumentGameBattle(source, file) {
       'frame-end': 1,
       'number-target': 1,
       'settlement-draw': 1,
+      'dialogue-slot': 2,
     },
+    'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
+    'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
     'draw-battle-sprites.ts': {
       'fighter-frame-selection': 2,
       'enemy-draw-identity': 1,
@@ -380,7 +465,10 @@ export function instrumentGameBattle(source, file) {
                 'target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
-                actionComplete: 4,
+                actionComplete: hasActionFollowup ? 2 : 4,
+                ...(hasActionFollowup
+                  ? { 'casualty-effect-before': 1, 'casualty-effect-after': 1 }
+                  : {}),
               })
   assert.deepEqual(anchors, expected, 'Q2 Game native observation boundary census changed')
   let code = source

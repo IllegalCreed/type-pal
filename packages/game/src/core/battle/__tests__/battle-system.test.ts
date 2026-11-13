@@ -1313,7 +1313,7 @@ describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
     while (
       gs.mode === 'battle' &&
       st.phase === 'performAction' &&
-      st.currentActionIndex === startIndex &&
+      (st.currentActionIndex === startIndex || st.actionFollowup !== undefined) &&
       safety-- > 0
     )
       tickBattle(gs, input, bus)
@@ -1352,6 +1352,73 @@ describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
     expect(calls).toEqual([{ ip: 100, eventObjectId: 1 }])
     expect(objectPlayers[1]!.scriptOnFriendDeath).toBe(101)
     expect(gs.battleState?.players[0]).toBeDefined()
+  })
+
+  it('applies the guardian’s friend-death MP recovery only after the player dismisses its narration', () => {
+    const { gs, bus, resources, emptyInput } = bootstrap({
+      partyMembers: [1, 0],
+      roles: [
+        makeRole({
+          id: 0,
+          name: 36,
+          hp: 100,
+          mp: 5,
+          magicStrength: 70,
+          defense: 466,
+          dexterity: 1,
+        }),
+        makeRole({ id: 1, name: 37, hp: 5, maxHP: 40, defense: 9, dexterity: 3, coveredBy: 0 }),
+      ],
+      enemies: [makeEnemy({ level: 1, attackStrength: 0, dexterity: 0 })],
+      objectPlayers: [{ id: 36, scriptOnFriendDeath: 1, scriptOnDying: 0 }],
+      // The PAL branch at L_43455 restores MP and raises magic strength by ten percent.
+      commands: [
+        { op: 'end' },
+        { op: 'setDialogStyleBottom', arg0: 5 },
+        { op: 'showDialog', messageIndex: 13501, text: '　可恶的家伙！~60' },
+        { op: 'setDialogStyleNarration' },
+        { op: 'showDialog', messageIndex: 13502, text: '李逍遥斗志燃烧，真气恢复' },
+        { op: 'raw', opcode: 0x1c, operands: [0, 9999, 0] },
+        { op: 'raw', opcode: 0x30, operands: [18, 10, 0] },
+        { op: 'end' },
+      ],
+      rngSeed: 6,
+    })
+    const state = gs.battleState!
+    const [guardian, fallen] = resources.playerRoles.roles
+    const defend: InputSnapshot = { ...emptyInput, pressed: new Set(['Defend']) }
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, defend, bus)
+    tickBattle(gs, defend, bus)
+
+    for (let i = 0; i < 60 && gs.dialogBox?.portraitIcon !== 5; i++) tickBattle(gs, emptyInput, bus)
+    expect(fallen?.hp).toBe(0)
+    expect(gs.dialogBox?.currentLineText?.trim()).toBe('可恶的家伙！')
+    for (let i = 0; i < 40 && gs.dialogBox?.style !== 'narration'; i++)
+      tickBattle(gs, emptyInput, bus)
+    expect(gs.dialogBox?.currentLineText).toBe('李逍遥斗志燃烧，真气恢复')
+    expect([guardian?.mp, guardian?.magicStrength]).toEqual([5, 70])
+    expect(
+      parseImportedSave(serializeSave(gs)).battleState?.actionFollowup?.friendDeathEffects,
+    ).toEqual({
+      roleId: 0,
+      commands: [
+        { opcode: 0x1c, operands: [0, 9999, 0] },
+        { opcode: 0x30, operands: [18, 10, 0] },
+      ],
+    })
+
+    const actionIndex = state.currentActionIndex
+    bus.drain()
+    const confirm: InputSnapshot = { ...emptyInput, pressed: new Set(['Confirm']) }
+    tickBattle(gs, confirm, bus)
+    expect(gs.dialogBox).toBeUndefined()
+    expect([guardian?.mp, guardian?.magicStrength]).toEqual([5, 70])
+    tickBattle(gs, emptyInput, bus)
+    expect([guardian?.mp, guardian?.magicStrength, fallen?.hp]).toEqual([30, 77, 0])
+    expect(bus.drain().some(({ cmd }) => cmd.op === 'showDamageNum')).toBe(false)
+    expect(state.currentActionIndex).toBe(actionIndex)
   })
 
   it('敌方动作把队员打入濒死 → 跑该队员 wScriptOnDying 并回写返回入口', () => {

@@ -17,9 +17,12 @@ import {
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
+  restoreTestingBattleDefeatSourceBindings,
+  testingBattleDefeatSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
+  testingBattleSessionCasualtyDialogueBase,
   testingBattleSessionMechanismBase,
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
@@ -165,7 +168,8 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
   const portrait = revision === testingBattleSessionPortraitBase
   const presentation = revision === testingBattleSessionPresentationBase
   const cadence = revision === testingBattleSessionCadenceBase
-  const casualty = revision === testingBattleSessionCasualtyBase
+  const casualtyDialogue = revision === testingBattleSessionCasualtyDialogueBase
+  const casualty = revision === testingBattleSessionCasualtyBase || casualtyDialogue
   const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
@@ -195,6 +199,9 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       : {}),
     ...(cadence || casualty ? { cadenceFixed: snapshot(testingBattleSessionCadenceBase) } : {}),
     ...(casualty ? { casualtyFixed: snapshot(testingBattleSessionCasualtyBase) } : {}),
+    ...(casualtyDialogue
+      ? { casualtyDialogueFixed: snapshot(testingBattleSessionCasualtyDialogueBase) }
+      : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -216,6 +223,8 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       [testingBattleSessionPresentationBase]: 'q2-battle-session-presentation-source-rebinding',
       [testingBattleSessionCadenceBase]: 'q2-battle-session-cadence-source-rebinding',
       [testingBattleSessionCasualtyBase]: 'q2-battle-session-casualty-source-rebinding',
+      [testingBattleSessionCasualtyDialogueBase]:
+        'q2-battle-session-casualty-dialogue-source-rebinding',
     }[revision],
     base: revision,
     date: presentation || cadence || casualty ? '2026-11-12' : '2026-11-11',
@@ -242,6 +251,24 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       ),
   }
 }
+
+test('ordinary defeat source rebinding preserves the exact previous execution record', () => {
+  const hostEvidence = 'docs/testing/domains/runtime/battle/battle-host/evidence.json'
+  const readBase = (path) => readFixed(testingBattleSessionCasualtyDialogueBase, path)
+  const readCandidate = (path) => readFixed(testingBattleDefeatSourceRevision, path)
+  const readLive = (path) => readFileSync(join(repository, path))
+  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
+  const current = JSON.parse(readLive(hostEvidence))
+  const check = () => restoreTestingBattleDefeatSourceBindings(hostEvidence, bytes(current), bridge)
+  assert.deepEqual(check(), readBase(hostEvidence))
+
+  const previousRange = current.claims[0].evidence[0]
+  current.claims[0].evidence[0] = 'packages/reforge/src/main.ts:1242-1261'
+  assert.throws(check, /Expected values to be strictly equal/u)
+  current.claims[0].evidence[0] = previousRange
+  current.runtimeExecution.performed = !current.runtimeExecution.performed
+  assert.throws(check, /Expected values to be strictly deep-equal/u)
+})
 
 test('the admitted battle session rebind preserves the old owner and the single Q2 append', () => {
   const rebinding = sessionRebindingFixture()
@@ -305,6 +332,17 @@ test('the casualty rebind preserves the accepted cadence history and exact calle
   assert.throws(rebinding.checkEvidence, /old history changed/u)
   rebinding.owner.revision.history.at(-1).date = '2026-11-11'
   assert.throws(rebinding.checkCatalog, /history date differs/u)
+})
+
+test('casualty dialogue rebind preserves the previously accepted physical casualty caller basis', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionCasualtyDialogueBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-2).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).base = testingBattleSessionCasualtyBase
+  assert.throws(rebinding.checkCatalog, /history must name the fixed base/u)
 })
 
 function pairedFixture(t) {

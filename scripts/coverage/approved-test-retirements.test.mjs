@@ -85,12 +85,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Naming/organization: eleven current snapshots replace six old entries; transfers retain their contracts.
   // Localization: messages13→3 moves all old cases to their consumers; +10 is a per-file delta.
   // Pending93: five exact current snapshots; net66 per-file cases move/merge.
+  // Q2 casualty sweep checks retire after real caller and render assertions.
   // This census sums snapshot count deltas, not retired unique business contracts.
-  assert.equal(historical.length, 100)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 100)
+  assert.equal(historical.length, 101)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 101)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    444,
+    454,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

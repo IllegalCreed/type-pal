@@ -4890,6 +4890,48 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     setLoadLastSaveHandler(null)
   })
 
+  it('the loss prompt waits for a real key after its last speed control row and clears before reload', () => {
+    const gs = gsWithPalette([160, 0, 0], [160, 0, 0])
+    gs.currentSaveSlot = 3
+    const reloaded = vi.fn()
+    setLoadLastSaveHandler(reloaded)
+    // Original L_41075 tail after the red fade (41077–41083).
+    loadEvent(gs, [
+      { op: 'setDialogStyleCenter' },
+      { op: 'showDialog', messageIndex: 13135, text: '$00' },
+      { op: 'showDialog', messageIndex: 13136, text: '胜败乃兵家常事也' },
+      { op: 'showDialog', messageIndex: 13137, text: '大侠请重新来过吧' },
+      { op: 'showDialog', messageIndex: 13138, text: '$02' },
+      { op: 'raw', opcode: OP_LOAD_LAST_SAVE, operands: [0, 0, 0] },
+      { op: 'end' },
+    ])
+
+    for (let tick = 0; tick < 12; tick++) {
+      gs.nowMs += 100
+      tickEventSystem(gs, snap())
+    }
+    expect(gs.dialogBox).toMatchObject({
+      style: 'center',
+      phase: 'waiting-page-key',
+      shownLines: ['', '胜败乃兵家常事也', '大侠请重新来过吧'],
+      currentLineText: '',
+      dialogLineCount: 4,
+    })
+    expect(gs.eventCursor).toMatchObject({ ip: 5, waiting: 'dialog' })
+    expect(gs.paletteFadeState).toBeUndefined()
+    expect(reloaded).not.toHaveBeenCalled()
+
+    tickEventSystem(gs, snap(['Confirm']))
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.dialogBoxKept).toBeUndefined()
+    expect(gs.eventCursor).toMatchObject({ waiting: 'palette-fade', reloadSlotAfterFade: 3 })
+    expireFade(gs)
+    tickEventSystem(gs, snap())
+    expect(reloaded).toHaveBeenCalledExactlyOnceWith(3)
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.dialogBox).toBeUndefined()
+  })
+
   it('0x05 redraw + needToFadeIn → PAL_MakeScene 自动淡入(仙灵岛靠岸黑屏修复,sdlpal script.c:3290)', () => {
     // 真因:onEnter(如仙灵岛靠岸 5117)序 setpos→0x05→对话;旧码 0x05 无 dialog 时纯 ip++,
     //   不重绘/淡入 → FadeOut(0x50)后的黑屏留到对话期(waiting='dialog' 门控挡掉 auto fade-in)→ 对话浮黑屏。

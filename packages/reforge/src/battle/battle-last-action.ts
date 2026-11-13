@@ -28,6 +28,10 @@ export interface BattleLastActionBase {
 
 type PlayerActionBase = BattleLastActionBase & { side: 'player' }
 type EnemyActionBase = BattleLastActionBase & { side: 'enemy' }
+type EnemyPlayerHit = EnemyActionBase & {
+  /** 本次结算后跨入濒死并满足 CLASSIC 伤亡声条件的队伍槽位。 */
+  enteredDyingPlayerIdxs?: number[]
+}
 
 /** Named discriminated union；core 与 session 不得各自复制匿名结构。 */
 export type BattleLastAction =
@@ -53,16 +57,20 @@ export type BattleLastAction =
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions
   | (EnemyActionBase & { kind: 'pass' })
-  | (EnemyActionBase & {
+  | (EnemyPlayerHit & {
       kind: 'attack'
       targetPlayerIdx: number
       /** 命中时的物理扣血，附带道具在其后结算；格挡时省略。 */
       damage?: number
-      /** 物攻及附带道具结算后，目标本步跨入濒死且满足伤亡反应条件。 */
-      targetEnteredDying?: true
     })
   | (EnemyActionBase & { kind: 'attackMate'; targetEnemyIdx: number; damage: number })
-  | (EnemyActionBase & { kind: 'cast'; skillId: string; targetPlayerIdx: number })
+  | (EnemyPlayerHit & {
+      kind: 'cast'
+      skillId: string
+      targetPlayerIdx: number
+      /** 法术正基础伤害结算致死的队伍槽位。 */
+      magicDeathPlayerIdxs?: number[]
+    })
   | (EnemyActionBase & { kind: 'transform' })
   | (EnemyActionBase & { kind: 'divide' })
   | (EnemyActionBase & { kind: 'summon' })

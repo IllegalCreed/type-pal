@@ -50,6 +50,16 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '9e548f29c09c146081c7f6666742ce7c2574c98ebcdb554e36cc068865193960',
       fileSha256: 'cdc2ac33b921eb8f453717375cbc2ffd74174f4c414e5def0febc6720a42d778',
     },
+    // Q2 2026-11-13: obsolete casualty sweep helper checks replaced at the real
+    // battle caller. Five prior caller cases retained; see the Q2 task receipt.
+    {
+      file: 'packages/game/src/core/battle/__tests__/casualty-sounds.test.ts',
+      previous: 18,
+      current: 8,
+      previousIdentityDigest: '32b5ae14ae0054723c5eeb952d932d8fe3e36694c4723d4448859bfbfb2d8840',
+      currentIdentityDigest: '85c35f35d905cd34ce695ceea7433bfcc08111ec70719cb86d26dfd7e2ee12bf',
+      fileSha256: '7f63c5d452b1dd7b5e233666bb1f078b0b13edae2bd64652546a65bd7aa2d748',
+    },
     // User2026-11-02: exact boat auto retirement; dedicated ride proof stays active.
     {
       file: 'packages/reforge/src/pal-unified-steps-content.test.ts',

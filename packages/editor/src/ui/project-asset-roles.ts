@@ -30,6 +30,10 @@ const ROLE_PRESENTATION = {
     label: '默认战斗音乐',
     groupId: 'battle',
   },
+  'audio.defeatMusic': {
+    label: '战败音乐',
+    groupId: 'battle',
+  },
   'audio.bossVictoryMusic': {
     label: '特殊战胜利结算音乐',
     groupId: 'battle',
@@ -80,7 +84,7 @@ const GROUP_PRESENTATION = {
   },
   battle: {
     title: '战斗音乐',
-    description: '普通战斗、特殊战胜利结算和普通胜利的全局默认音乐。',
+    description: '普通战斗、胜利结算和战败时使用的全局音乐。',
   },
   'audio-base': {
     title: '音频基础',

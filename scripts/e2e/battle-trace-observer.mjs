@@ -222,6 +222,8 @@ export function installBattleTraceObserver(context, createRecorder) {
         players: new Map(),
         panels: [],
         numbers: [],
+        dialogue: [],
+        dialogueLayers: new Map(),
         settlement: null,
       }
     },
@@ -253,6 +255,35 @@ export function installBattleTraceObserver(context, createRecorder) {
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
+    },
+    dialogueText(layer, text, title = false) {
+      if (!frame || !text) return
+      const draw = frame.dialogueLayers.get(layer) ?? { lines: [], title: null, portrait: null }
+      if (title) draw.title = text
+      else draw.lines.push(text)
+      frame.dialogueLayers.set(layer, draw)
+    },
+    dialoguePortrait(layer, id, x, y, width, height) {
+      if (!frame) return
+      const draw = frame.dialogueLayers.get(layer) ?? { lines: [], title: null, portrait: null }
+      const palId = typeof id === 'string' && /^portrait\.pal\.(\d+)$/u.exec(id)
+      draw.portrait = { id: palId ? Number(palId[1]) : id, x, y, width, height }
+      frame.dialogueLayers.set(layer, draw)
+    },
+    dialogueDrawn(layer, slot, phase, active, source, visibleText) {
+      if (!frame) return
+      const draw = frame.dialogueLayers.get(layer)
+      const lines = visibleText?.split('\n').filter((line) => line !== '') ?? draw?.lines ?? []
+      if (lines.length || draw?.portrait || draw?.title)
+        frame.dialogue.push({
+          slot,
+          phase,
+          active,
+          source,
+          lines,
+          title: draw?.title ?? null,
+          portrait: draw?.portrait ?? null,
+        })
     },
     captureIndexedPortrait(slot, hp, fb, face, x, y, colors) {
       return capturePortrait(slot, hp, face, x, y, 'game:blitPortrait', (points) =>
@@ -314,13 +345,22 @@ export function installBattleTraceObserver(context, createRecorder) {
     },
     endFrame() {
       if (!frame) return
-      const { clockMs, source, enemies, players, ...state } = frame
+      const {
+        clockMs,
+        source,
+        enemies,
+        players,
+        dialogue,
+        dialogueLayers: _dialogueLayers,
+        ...state
+      } = frame
       frame = undefined
       const bySlot = (a, b) => a.slot - b.slot
       const payload = {
         ...state,
         enemies: [...enemies.values()].sort(bySlot),
         players: [...players.values()].sort(bySlot),
+        ...(dialogue.length ? { dialogue } : {}),
       }
       // Keep every observable transition, including the first frame without a faded sprite.
       const signature = JSON.stringify(payload)

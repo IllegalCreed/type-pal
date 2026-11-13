@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-12
+Last reviewed: 2026-11-13
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -60,3 +60,18 @@ Template: evidence-receipt-v1 / 1.0.0
 固定前驱 `58812c028ebd87dd75a9c5dda46a4ec997fb4b09`，冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0`。现行会话 SHA-256 为 `0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476`。`211-213`、`365-376`、`1167-1176` 三个 caller 片段与固定前驱逐字节相同。当前行动时间线消费本次物攻伤亡音，胜利写回使用实际倒地 HP。
 
 目录、配对报告和机器证据追加本次适用性记录，各次归属测试执行身份保留。新场景的双端运行结论取 [物攻玩家伤亡复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-玩家物攻濒死和阵亡)。
+
+## 2026-11-13 伤亡对白和普通败局交接
+
+固定前驱 `f84bcd91dd71498e1099e7bf8f4b2d7900507090`，冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。现行会话 SHA-256 为 `24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181`。原 `211-213`、`365-376`、`1167-1176` 的三个片段逐字节保留，当前范围为 `216-218`、`375-386`、`1195-1204`。候选新增伤亡对白排程和普通全灭交给世界呈现的条件。业务结果回 Q2 独立原件。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭)
+
+普通全灭还影响三个当前来源文件的指纹。开场采集测试加入全灭画面反控，已有 Game 世界绘制原件的断言代码逐字节保留。Reforge 的场景、镜头、运动构造与 BattleHost 的准备、释放当前会话和写回仍有同一调用。主壳构造片段加入两行 `worldDefeatFrameCapture`，由普通全灭信号持有战斗末帧闭包。去掉这两行后原构造片段逐字节相同。
+
+| 文档来源 | 固定范围 | 当前范围 |
+| --- | --- | --- |
+| `opening-trace.test.mjs` 的 Game 世界绘制断言（001 和共性问题） | 527–642 | 538–653 |
+| `main.ts` 的 ActiveScene、WorldCamera 与 WorldMotionRuntime | 407–414、448–455、434–445 | 408–415、449–456、435–446 |
+| `main.ts` 的 BattleHost 构造 | 1242–1261 | 1245–1266 |
+| `battle-host.ts` 的 start 与 active 释放后的写回 | 53–67、156–160 | 55–69、165–169 |
+
+文档桥接按固定前驱和冻结候选核这些位置，将五项配对证据反向还原到各自已发布的记录，再校验历史版本、场景、执行结论和原件保持。五项现行来源变动只授来源适用性。 [现行目录](../../testing/catalog.json) · [正常战斗覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)

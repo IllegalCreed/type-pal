@@ -1235,6 +1235,8 @@ export interface BuildEnemyCastInput {
   /** normal 落点(目标队员底锚)。 */
   targetPos?: { x: number; y: number }
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
+  deathSounds?: readonly AssetId[]
+  dyingSounds?: readonly AssetId[]
   /** 受伤队员(idx+底锚;受击反应帧用 —— 一阶段 19f8d6a9 曾整段漏「我方受击纹丝不动」)。 */
   hurtPlayers?: Array<{ idx: number; pos: { x: number; y: number } }>
   /** 特效末帧烙背景(fight.c:2983 敌施法同款)。 */
@@ -1245,7 +1247,7 @@ export interface BuildEnemyCastInput {
 
 /**
  * 敌施法时间线:magic 起手帧(idleFrames+i,each Delay2,同物攻起手)+ magic 音
- * → fire 特效帧循环(落点=目标队员/全场) → 结算数字 + 敌回 idle。
+ * → fire 特效 → 阵亡声与数字 → 原地受击及五拍反应 → 敌归位一拍 → 队员复位。
  */
 export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
   const { enemyIdx, anim, magicSound, fireFrames, fx, targetPos, damageNums } = input
@@ -1314,16 +1316,19 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       })
     }
   }
-  // 受伤队员受击反应(一阶段 buildPlayerMagicHitReaction;fight.c:4802+ 命中循环):
-  // 5 帧 frame4 受击姿 + 前 3 帧红闪(colorShift 6)+ 递减击退 pos += (8>>i, 4>>i)。
-  // 位置由收尾 resetVisual 归位(原版 UpdateFighters 语义)。
+  // 基础伤害致死时先播声。数字在位移前创建，首帧在原地显示受击。
+  // fight.c:4814–4859,4861–4898
+  for (const sound of input.deathSounds ?? []) frames.push({ durationMs: 0, sound })
   if (input.hurtPlayers?.length) {
     const off = { x: 0, y: 0 }
     for (let i = 0; i < 5; i++) {
-      off.x += 8 >> i
-      off.y += 4 >> i
+      if (i > 0) {
+        off.x += 8 >> i
+        off.y += 4 >> i
+      }
       frames.push({
         durationMs: delayMs(1),
+        ...(i === 0 && damageNums.length ? { damageNums } : {}),
         fighters: input.hurtPlayers.map((hp) => ({
           side: 'player' as const,
           idx: hp.idx,
@@ -1335,10 +1340,11 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
     }
   }
   frames.push({
-    durationMs: delayMs(2),
-    ...(damageNums.length ? { damageNums } : {}),
+    durationMs: delayMs(1),
+    ...(!input.hurtPlayers?.length && damageNums.length ? { damageNums } : {}),
     fighters: [{ side: 'enemy', idx: enemyIdx, frame: anim.idle.start }],
   })
+  for (const sound of input.dyingSounds ?? []) frames.push({ durationMs: 0, sound })
   return frames
 }
 

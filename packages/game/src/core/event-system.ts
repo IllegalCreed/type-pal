@@ -1986,30 +1986,6 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
         // 若存在但累计 4 行(shouldWaitPageKey)→ setWaitingPageKey,等下次 tick Confirm 后再 append
         // 否则 → appendDialogLine 加新行
         //
-        // DM20/DM21:纯控制符行(如死亡脚本 41078"$00"/41081"$02")—— C 真值(text.c:1534-1540 +
-        //   1745-1746):`$NN` 设**全局** iDelayTime=floor(NN*10/7)(脚本级持续),且 TEXT_DisplayText
-        //   返回后**无条件** nCurrentDialogLine++ → 纯控制行**占一空行**(死亡文案正文从下一行起,
-        //   $00 后续行瞬显)。旧注释"sdlpal 不增行"与 C 源相悖(当年方向修反)。带图标的(/) 单行保留。
-        {
-          const parsed = parseDialogText(text, 0, true)
-          if (parsed.text.length === 0 && parsed.icon === 0) {
-            gs.dialogIDelayFrames = parsed.endIDelay
-            if (!gs.dialogBox) {
-              gs.dialogBox = startDialogLine('', {
-                style: gs.currentDialogStyle,
-                portraitIcon: gs.currentDialogPortraitIcon,
-                portraitLayout: gs.currentDialogPortraitLayout,
-                fontColor: gs.currentDialogFontColor,
-                iDelayFrames: gs.dialogIDelayFrames,
-                now: gs.nowMs, // Bug1 fix:wall-clock 打字锚点
-              })
-            } else {
-              appendDialogLine(gs.dialogBox, '', gs.nowMs)
-            }
-            advanceDialogCursor(cursor)
-            break
-          }
-        }
         // 传**原始** cmd.text —— startDialogLine/appendDialogLine 内 parseDialogText 解析控制符:
         //   `"`黄/`-`青/`'``@`红 toggle 逐字符上色,消费 `$~()\` + `~` 提前结束(sdlpal TEXT_DisplayText
         //   text.c:1458-1613)。旧 stripDialogControlCodes 只剥 `$~\d`、漏颜色 + `"()` 字面显示(2026-05-30 修)。
@@ -2031,15 +2007,23 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
         } else {
           appendDialogLine(gs.dialogBox, text, gs.nowMs)
         }
+        // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
+        if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
+        const parsed = parseDialogText(text, 0, true)
+        if (parsed.text.length === 0 && parsed.icon === 0 && !parsed.endedWithTilde) {
+          // A speed-only row is complete immediately and still counts toward the page.
+          // The loss script's trailing $02 must leave the page ready for 0x4E's pre-op clear.
+          gs.dialogBox.phase = 'line-done'
+          advanceDialogCursor(cursor)
+          break
+        }
         // 历史对话捕获(生产工具面板用,会话态):提交**可见文本**(parseDialogText 剥控制符)入有界历史。
         // 必须剥再存——否则 `( ) ~ $ \ "` 等脚本控制符原样泄露到历史面板(user 2026-06-24:麒麟洞·麒麟老人
         //   「蛋．．．这．．(」末尾露出半角 `(`,sdlpal text.c:1564 是「等待图标」控制符,主对话框走
         //   parseDialogText 已剥、历史这条曾直传 cmd.text)。空/纯控制符行 → parsed.text 空 → trim 跳过兜底;
         //   连续同 map 同 text 去重防多 tick re-commit。维度按 mapNum 而非 wNumScene(同 map 多场景共享地名更稳)。
         gs.dialogHistory ??= []
-        pushDialogHistory(gs.dialogHistory, getCurrentMapNum(), parseDialogText(text, 0, true).text)
-        // DM21:行内 $NN 改速后同步回脚本级(C iDelayTime 是全局,任何 $ 都写它)。
-        if (gs.dialogBox.iDelayState !== undefined) gs.dialogIDelayFrames = gs.dialogBox.iDelayState
+        pushDialogHistory(gs.dialogHistory, getCurrentMapNum(), parsed.text)
         // Bug2 fix(2026-06-26):userSkip = fUserSkip 跨行瞬显中(confirmDialog 跳字置位、appendDialogLine 把
         //   该行设满 + line-done)。sdlpal 同步瞬显返回、wScriptEntry++ **同帧**到下一行,不逐字 tick。故
         //   **不设 waiting='dialog'、不 return**,ip++ + break 回 while 顶部连锁跑下一条 showDialog,直到段末

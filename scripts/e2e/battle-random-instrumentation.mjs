@@ -116,6 +116,13 @@ export function instrumentBattleRandomDraws(source, file) {
           mark(node, reforgeEnemy[multiplier])
         if (owner === 'sampleLivePlayerSlot') mark(node, 'enemy-target')
         if (owner === 'decideEnemyAction' && multiplier === '100') mark(node, 'enemy-magic-choice')
+        if (
+          owner === 'executeCasualtyScript' &&
+          multiplier === '100' &&
+          ts.findAncestor(node, ts.isIfStatement)?.expression.getText(ast) ===
+            '1 + Math.floor(rng() * 100) >= gate.chance'
+        )
+          mark(node, 'battle-script-chance')
         if (owner === 'applyEnemySkill') {
           if (multiplier === '3') mark(node, 'enemy-magic-block')
           if (multiplier === '0.1') mark(node, 'enemy-magic-damage-float')
@@ -179,7 +186,7 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-equivalent-item': 1,
       'enemy-equivalent-poison-resist': 1,
       ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
-      'battle-script-chance': 1,
+      'battle-script-chance': 2,
       'cast-growth': 1,
       // Old runtime captured for comparison had separate group and single attack growth callers.
       'attack-growth': source.includes('function recordPlayerAttackGrowth(') ? 1 : 2,

@@ -50,7 +50,7 @@ export interface BattleStatus {
 export interface BattlePlayer {
   /** PlayerRoles.roles 的 id(M3 fixture 时由 dev panel 填)。 */
   roleId: number
-  /** 拷贝战前状态(用于动画 / 数字弹幕 比对)。 */
+  /** 最近一次动作前 HP，已由旧 V1 物攻尾帧负责的声音可用此字段去重。 */
   prevHp: number
   prevMp: number
   /** PLAYER object 死亡 / 濒死脚本独立 HP 快照(PAL_BattleBackupStat 语义)。 */
@@ -369,6 +369,26 @@ export interface BattleAnimAfterPerformItem {
 
 export type BattleAnimAfterComplete = BattleAnimAfterPerformItem
 
+export type FriendDeathEffectOpcode = 0x1b | 0x1c | 0x30
+
+export function isFriendDeathEffectOpcode(value: unknown): value is FriendDeathEffectOpcode {
+  return value === 0x1b || value === 0x1c || value === 0x30
+}
+
+/** Blocking work after an action returns its fighters and before the next queue entry. */
+export interface BattleActionFollowup {
+  waitTicks: number
+  recoveryTicks?: number
+  casualtyScript?: {
+    roleId: number
+    kind: 'scriptOnFriendDeath' | 'scriptOnDying'
+  }
+  friendDeathEffects?: {
+    roleId: number
+    commands: Array<{ opcode: FriendDeathEffectOpcode; operands: readonly number[] }>
+  }
+}
+
 /** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
 export interface BattleAnimState {
   /**
@@ -565,7 +585,7 @@ export interface BattleState {
   prevWaveProgression?: number
   /**
    * DM12:回合末毒/状态数字弹出后的 PAL_BattleDelay(8) 停顿(fight.c:1664-1668)。
-   * tickPostAction 检测毒结算改了 HP 时置 8,selectAction case 每 tick 递减,归 0 才开指令菜单。
+   * tickPostAction 检测毒结算改了 HP 时置 8，轮末反馈结束后才允许下一轮脚本或退场。
    */
   roundEndDelayTicks?: number
   /** DL3:本回合已执行合击(fight.c:3858 fThisTurnCoop)——后续玩家行动被吞;回合末清。 */
@@ -588,6 +608,7 @@ export interface BattleState {
    * undefined → 无 active 时间线,起下一个 action(未建时间线的 action 即时推进,向后兼容)。
    */
   battleAnim?: BattleAnimState
+  actionFollowup?: BattleActionFollowup
   /**
    * W4 keepEffect:被"烙进背景"的魔法精灵(sdlpal lpBackground 的永久 blit,fight.c:2757-2762)。
    * 每条 = { spriteChunk, frameIdx, x, y }(x/y = overlay 底中锚)。present 每帧在战斗背景上画这些(精灵之下),

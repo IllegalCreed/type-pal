@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 
 /** Translate an intended command into one real key; the game still owns selection and submission. */
 export function nextReforgeBattleKey(readout, command) {
-  if (readout.canConfirmSettlement) return 'Enter'
+  if (readout.canConfirmDialogue || readout.canConfirmSettlement) return 'Enter'
   if (readout.busy || readout.phase !== 'selectAction' || !command) return null
   assert(['attack', 'item', 'cast', 'defend'].includes(command.kind), 'unsupported Reforge command')
   if (command.turn !== undefined && readout.turn !== undefined && readout.turn !== command.turn)

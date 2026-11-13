@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "434-445",
+      "lines": "435-446",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:434-445",
+        "packages/reforge/src/main.ts:435-446",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
         "packages/reforge/src/world-scene-presentation.ts:71-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
@@ -173,6 +173,22 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-ordinary-defeat-source-rebinding",
+      "base": "f84bcd91dd71498e1099e7bf8f4b2d7900507090",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "434-445",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        }
+      ],
+      "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
     }
   ],
   "_governance": {

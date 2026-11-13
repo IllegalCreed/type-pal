@@ -7,9 +7,9 @@ Coding Owner: q2_panel（Game 运行时与采集） / q2_rules（Reforge 运行�
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
-Last reviewed: 2026-11-12
+Last reviewed: 2026-11-13
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-player-casualties
+Branch: codex/q2-casualty-presentations
 
 ## 目标
 
@@ -95,6 +95,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 2026-11-12，用户对血口虫主动防御至首次命中的原速带声分屏回复「通过」。分屏来自冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，归档成员为 `build/q2/av/action-cadence/equivalent-poison-split.mp4`。本次验收覆盖主动防御至首次命中的节拍。 [分屏归档](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
 
 2026-11-12，用户对李逍遥受灯笼物攻后濒死、阵亡和阿奴续战的原速带声分屏回复「通过」，要求本段收口。分屏来自冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0`，归档成员为 `build/q2/av/player-casualties/lantern-player-casualty-split.mp4`。 [分屏归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
+
+2026-11-13，用户对伤亡对白、敌方雷咒、回合末毒伤和普通全灭的原速带声分屏回复「通过」，要求本段收口。验收媒体来自 `31002d214bb106272f34af46c86c57872b9b2849`，归档成员 `build/q2/av/casualty-presentations/casualty-presentations-split.mp4`，SHA-256 为 `cddf938310e8d1596910c70ab79d34663c6d8c66f6eb4ecd2d26805a8e2d4ca2`。普通全灭验收范围为固定 m01。玩家五灵仙术的伤害与随机顺序在下一批处理。 [分屏及日志归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
 
 ## 2026-11-11 首批分屏返工
 
@@ -272,6 +274,33 @@ Codex build allowed。`q2_panel` 独占 Game 直接敌方物攻时间线、收�
 冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0` 的双端各 18 场，18 组跨端及 18 组同端复验通过。旧 Game 的濒死音缺失及阵亡音迟到、旧 Reforge 的两条音缺失、少抽一次和结算经验错误分别由实际原件检出。新局面的音轨、两种姿态及队友续战从同一候选生成原速分屏，已获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-玩家物攻濒死和阵亡) · [复验归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
 
 Game 战斗回归 1,206 项、Reforge 战斗回归 544 项、E2E 工具 453 项通过，七包 typecheck 零诊断。Game 在两段受击动画播放时导出的 V1 快照均通过实际解析，原件包含对应帧音和 HP 快照。 七包快测共 20,457 项通过，覆盖基线已更新。文档门和 6,793 文件 lint 零诊断。
+
+## 第四批伤亡对白、法伤与中毒，以及普通全灭
+
+用户通过物攻伤亡分屏后要求收口，并接续伤亡对白、法术和中毒造成的伤亡演出，同一局面双端先跑日志，再交原速带声分屏。普通全灭及其红屏一起核验。基点 `f84bcd91dd71498e1099e7bf8f4b2d7900507090`，单灯笼物攻的先前候选、记录和通过范围见[用户验收](#用户验收)。
+
+| 边界 | 原版 CLASSIC | Game 基点 | Reforge 基点 | 目标 |
+| --- | --- | --- | --- | --- |
+| 伤亡对白 | [fight.c:775–883](../../../reference/sdlpal/fight.c#L775) 在完整动作后，按真实援护关系触发，等 10 个战斗帧才挂起并跑对白脚本。濒死声先播。 | `battle-system.ts:877–960,2221–2227` 脚本在动作完成后检查，未设 10 帧间隔。 | `battle-session.ts:936–962,1177–1212` 可在受击时间线推进前泵对白。 | 固定真实守护关系、随机分支和输入，核回位、音、停拍、文字、确认清除、增益和下一动作。 |
+| 敌法伤亡 | [fight.c:4773–4908](../../../reference/sdlpal/fight.c#L4773) 法效后扣血、致死声和数字，再画五拍位移；先回位再检查濒死及对白。 | `actions/magic.ts`、`actions/magic-animation.ts` 与 `animation/hit-reaction.ts` 持伤害、演出与受击时间线，需核致死声、首帧和动作后检查。 | `battle-anim.ts:1322–1340` 首拍已移动，数字及角色伤亡声时机需复验。 | 真施法，以实际受击、声源启动和回位采样裁定。 |
+| 回合末毒伤亡 | [fight.c:1602–1668](../../../reference/sdlpal/fight.c#L1602) 先复坐标，毒脚本后检查敌死，伤害数字停 8 帧；此边界禁玩家伤亡对白和声音。 | `battle-system.ts:2833–2884` 有可能额外播濒死声，并在数字窗口提前更新玩家姿态。 | `battle-session.ts:1287–1294` 及轮末表现立即复位，需分别核普通续战和终态。 | 原生附毒、毒伤与物攻分开，按数字、复位、实际音轨及玩家姿态判定。 |
+| 普通全灭 | [script.c:3314–3325](../../../reference/sdlpal/script.c#L3314) 跳真实败分支，`41075` 死亡曲和 `0x4F`。 [palette.c:595–668](../../../reference/sdlpal/palette.c#L595) 把最后一帧战斗画面变红，继而文案和读档。 | `present.ts:224–246` 保留战斗定格帧，`event-system.ts:2558–2570` 执行红色调色板。 | `battle-host.ts:145–180` 释放战斗宿主后，`main.ts:2255–2261,4847–4849` 走默认 gameOver；背景、色序、死亡曲与读档须用真实世界遭遇核实。 | 使用 006 后的 007 同一明雷实际败分支，核实绘画面、死亡曲、文案、确认和固定测试档读回。 |
+
+最强替代解释为两端脚本来源、角色装备、AI抽样或事件入口不同，或画面差来自漏采、预期冒充实际。先核原始及作者定义与初始派生值，再检查真实按键、伤害、姿态、显示、实际播放、结算与负对照。试打用于前三类固定局面，红屏使用正常世界遭遇。遇到状态或动画差异须回查首个实际分叉。
+
+Codex build allowed。Game `q2_panel` 独占 `packages/game/src/core/battle` 的相关动作、调度、相邻测试，按实际旧版失败后修。Reforge `q2_rules` 独占 `packages/reforge/src/battle` 的相关动作、调度、相邻测试；普通全灭的 world 生命周期只在真实旧版败局对照确认后扩准入。采集与比较由 `q2_inputs` 独占 `scripts/e2e/battle-{game,reforge}-{adapter,instrumentation,input}.mjs`、现有公共采集/离线比较与相邻测试，等旧版实际原件及证伪判据，不改产品。根持场景定义、runner、世界败局入口、测试文档、集成与复验。分屏左为 Game、右为 Reforge，原速保留两端声轨。
+
+用户另要求提高整套战斗的覆盖，特别是可投掷物品和各类仙术。覆盖台账沿用[唯一报告](../../testing/domains/cross-phase/battle-foundation/report.md)，清点现行合法输入与已有双端场景，补投掷的目标、消耗、武器与毒等不同规则，补玩家仙术的伤害、状态、治疗、复活、花费、群体与合击演出，再核逃跑、敌方特殊动作和世界生命周期。独立原件确认后按具体 ID 和义务更新状态。
+
+2026-11-13 扩准入普通明雷默认败局的世界展示。用 s015/e206（队 16，对应 Game 原始 L_41179→L_41075）实跑，固定 006 码头起点、逍遥 1 HP、mulberry32 seed 6、一次防御和一次确认。两端按正常接敌进入战斗。旧 Reforge 红幕实绘抹掉战斗背景。保留画面后的中间候选仍在末击后空等 1,200 ms，定向修正常规败局交接。定制败局脚本保留自身时间线。普通战败读取固定最新有效 m01，本轮不改最近槽策略。 [原版败局流转](../../../reference/sdlpal/script.c#L1759)
+
+Reforge 后续消费端准入同一个 owner。检查编辑器项目资源角色与 `packages/migrate/src/pal-manifest.ts` 的实际发布。作者工程可不配置战败音乐。已配置的资源继续核类型和存在性，PAL 原始 001 正常生成，正式项目角色与实际 MIDI 字节可复验。共享工具补现有渲染测试的全灭路径，仍用真实 render 核世界采样边界。
+
+冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。13 个固定局面共 52 场，26 组跨端与 26 组同端复验。另用同路线原生全灭检查渐红、死亡曲、真实对白、确认后黑幕与恢复。旧版伤亡和败局原件与当前分屏归档。物攻段已由 PR #60 合入主线，当前分屏已获用户验收。受保护合并以本段 PR 的实际 CI 和回执为准。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭) · [运行与媒体归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
+
+Game 定向复验另检出英文定时对白遇正文清除标记时误丢标题和头像。按实际后继行消费同页清除，保留原标题与肖像，无新增确认。13 条旧轮末伤亡 sweep helper 用例随旧入口退役，五条原有物攻 caller 用例保留，并以正常回合和实际绘制核毒伤持姿。快测单文件从 18 条到 8 条，逐条旧用例去向留在归档的 `owner-game/poison-pose-review.md`。
+
+用户补充要求合击、特殊状态、增益及整个战斗功能。按真实内容及入口维护覆盖，包含投掷、仙术、合击、异常与增益、敌方特殊行为、战斗选招、操作回退和战后生命周期。先记录每项合法输入及已验维度，再按共同规则、原版分支和实际生效覆盖。 [覆盖台账](../../testing/domains/cross-phase/battle-foundation/report.md#战斗功能覆盖盘点)
 
 ## 状态与交接
 

@@ -36,9 +36,11 @@ test('all four casualty entries preserve actor input and publish exactly the fro
           {
             chance: 75,
             branch: {
-              lines: casualtyLocaleKeys
-                .slice(group * 9, group * 9 + 9)
-                .map((text) => ({ text, style: 'bottom' as const })),
+              lines: casualtyLocaleKeys.slice(group * 9, group * 9 + 9).map((text, index) => ({
+                text,
+                style: 'bottom' as const,
+                ...(index ? { sameCue: true as const } : {}),
+              })),
               effects: [],
             },
           },
@@ -84,7 +86,7 @@ test('translation preserves probability order, style changes, heal resources and
       {
         chance: 75,
         branch: {
-          lines: [{ text: 'dlg.2', style: 'narration' }],
+          lines: [{ text: 'dlg.2', style: 'narration', autoAdvance: 1400 }],
           effects: [{ kind: 'heal', resource: 'hp' }],
         },
       },

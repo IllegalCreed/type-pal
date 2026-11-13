@@ -50,7 +50,7 @@ export class BattleSettlementPresentation {
   }
 
   /** 返回非 null 即应由宿主在同一 tick 完成会话。 */
-  advance(dtMs: number, pressed: ReadonlySet<string>): BattleResult | null {
+  advance(dtMs: number, pressed: ReadonlySet<string>, handoffDefeat = false): BattleResult | null {
     const result = this.currentResult
     if (!result) throw new Error('BattleSettlementPresentation 尚未观察到终态')
 
@@ -72,6 +72,9 @@ export class BattleSettlementPresentation {
 
     // 逃跑/敌逃/脚本终止没有通用结果屏；演出门清后同拍完成。
     if (result === 'playerFled' || result === 'enemyFled' || result === 'terminated') return result
+
+    // 普通全灭由大世界立即接续红屏（fight.c:1145–1152）。
+    if (result === 'defeat' && handoffDefeat) return result
 
     // 无结算屏的胜/败仍短暂停留。
     this.elapsedMs += dtMs

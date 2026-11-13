@@ -155,7 +155,7 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(snd).toBe(gesture + 1) // 与 frame5 同帧派发(fighter 先于 sound)
   })
 
-  test('敌施法:受伤队员受击反应(frame4+前3帧红闪+递减击退 8>>i,4>>i)', () => {
+  test('敌施法无特效资源时仍从原地显示数字和五拍受击', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,
       anim: enemyProfile(4, 2, 0),
@@ -177,10 +177,17 @@ describe('M4d-2 战斗动画时间线', () => {
     const { events, player } = record(frames)
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    expect(events).toContain('f:player0#4@248,174c6') // i=0:+8,+4 红闪
-    expect(events).toContain('f:player0#4@252,176c6') // i=1:+4,+2
-    expect(events).toContain('f:player0#4@255,177c0') // i=3:红闪结束(+1,+0 累积 255,177)
-    expect(events).toContain('dmg:player0:9') // 数字在反应之后
+    // fight.c:4856–4898。第一拍原地显示扣血，后三次位移后在最后一拍停住。
+    expect(
+      events.filter((event) => event.startsWith('f:player') || event.startsWith('dmg:')),
+    ).toEqual([
+      'f:player0#4@240,170c6',
+      'dmg:player0:9',
+      'f:player0#4@244,172c6',
+      'f:player0#4@246,173c6',
+      'f:player0#4@247,173c0',
+      'f:player0#4@247,173c0',
+    ])
   })
 
   test('敌施法:被动格挡队员在起手末帧摆防御姿 frame3,特效帧不覆写(fight.c:4737/4755)', () => {

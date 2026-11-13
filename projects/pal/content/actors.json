@@ -156,11 +156,17 @@
                 "lines": [
                   {
                     "text": "dlg.13501",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.005",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13502",
-                    "style": "narration"
+                    "style": "narration",
+                    "autoAdvance": 1400
                   }
                 ],
                 "effects": [
@@ -182,11 +188,17 @@
                 "lines": [
                   {
                     "text": "dlg.13503",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.005",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13504",
-                    "style": "narration"
+                    "style": "narration",
+                    "autoAdvance": 1400
                   }
                 ],
                 "effects": [
@@ -209,7 +221,12 @@
                 "lines": [
                   {
                     "text": "dlg.13505",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.010",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": [
@@ -231,11 +248,17 @@
             "lines": [
               {
                 "text": "dlg.13499",
-                "style": "bottom"
+                "style": "bottom",
+                "portrait": {
+                  "asset": "portrait.pal.005",
+                  "side": "right"
+                },
+                "autoAdvance": 685
               },
               {
                 "text": "dlg.13500",
-                "style": "narration"
+                "style": "narration",
+                "autoAdvance": 1400
               }
             ],
             "effects": [
@@ -419,15 +442,26 @@
                 "lines": [
                   {
                     "text": "dlg.13471",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.002",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13472",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.015",
+                      "side": "left"
+                    }
                   },
                   {
                     "text": "dlg.13473",
-                    "style": "top"
+                    "style": "top",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -439,19 +473,31 @@
                 "lines": [
                   {
                     "text": "dlg.13474",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.002",
+                      "side": "right"
+                    }
                   },
                   {
                     "text": "dlg.13475",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13476",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.011",
+                      "side": "left"
+                    }
                   },
                   {
                     "text": "dlg.13477",
-                    "style": "top"
+                    "style": "top",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -463,19 +509,31 @@
                 "lines": [
                   {
                     "text": "dlg.13478",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.015",
+                      "side": "left"
+                    }
                   },
                   {
                     "text": "dlg.13479",
-                    "style": "top"
+                    "style": "top",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13480",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.009",
+                      "side": "right"
+                    }
                   },
                   {
                     "text": "dlg.13481",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -486,7 +544,12 @@
             "lines": [
               {
                 "text": "dlg.13470",
-                "style": "bottom"
+                "style": "bottom",
+                "portrait": {
+                  "asset": "portrait.pal.015",
+                  "side": "right"
+                },
+                "autoAdvance": 685
               }
             ],
             "effects": []
@@ -653,11 +716,17 @@
                 "lines": [
                   {
                     "text": "dlg.13508",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.023",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13509",
-                    "style": "narration"
+                    "style": "narration",
+                    "autoAdvance": 1400
                   }
                 ],
                 "effects": [
@@ -679,11 +748,17 @@
                 "lines": [
                   {
                     "text": "dlg.13510",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.022",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13511",
-                    "style": "narration"
+                    "style": "narration",
+                    "autoAdvance": 1400
                   }
                 ],
                 "effects": [
@@ -705,7 +780,12 @@
                 "lines": [
                   {
                     "text": "dlg.13512",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.024",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": [
@@ -727,11 +807,17 @@
             "lines": [
               {
                 "text": "dlg.13506",
-                "style": "bottom"
+                "style": "bottom",
+                "portrait": {
+                  "asset": "portrait.pal.023",
+                  "side": "right"
+                },
+                "autoAdvance": 685
               },
               {
                 "text": "dlg.13507",
-                "style": "narration"
+                "style": "narration",
+                "autoAdvance": 1400
               }
             ],
             "effects": [
@@ -756,7 +842,12 @@
                 "lines": [
                   {
                     "text": "dlg.13483",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.024",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -768,23 +859,44 @@
                 "lines": [
                   {
                     "text": "dlg.13484",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.022",
+                      "side": "left"
+                    }
                   },
                   {
                     "text": "dlg.13485",
-                    "style": "top"
+                    "style": "top",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13486",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.008",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13487",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.022",
+                      "side": "left"
+                    },
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13488",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.010",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -796,15 +908,26 @@
                 "lines": [
                   {
                     "text": "dlg.13489",
-                    "style": "top"
+                    "style": "top",
+                    "portrait": {
+                      "asset": "portrait.pal.022",
+                      "side": "left"
+                    }
                   },
                   {
                     "text": "dlg.13490",
-                    "style": "top"
+                    "style": "top",
+                    "sameCue": true,
+                    "autoAdvance": 685
                   },
                   {
                     "text": "dlg.13491",
-                    "style": "bottom"
+                    "style": "bottom",
+                    "portrait": {
+                      "asset": "portrait.pal.009",
+                      "side": "right"
+                    },
+                    "autoAdvance": 685
                   }
                 ],
                 "effects": []
@@ -815,7 +938,12 @@
             "lines": [
               {
                 "text": "dlg.13482",
-                "style": "top"
+                "style": "top",
+                "portrait": {
+                  "asset": "portrait.pal.024",
+                  "side": "left"
+                },
+                "autoAdvance": 685
               }
             ],
             "effects": []

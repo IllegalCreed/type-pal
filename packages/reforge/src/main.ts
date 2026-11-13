@@ -115,6 +115,7 @@ import {
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { createGameOverDialogueCue } from './game-over-dialog.js'
+import { GAME_OVER_FADE_MS, GameOverPresentation } from './game-over-presentation.js'
 import { sha256Bytes } from './hash.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse, runWorldItemScript } from './item-use-executor.js'
@@ -1079,7 +1080,9 @@ export async function bootGame(
   // A restored auto gait is already a valid projected pose during that interval.
   let autoRunnersGatePending = false
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
-  let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
+  let fadeCurtain: 'black' | 'red' = 'black'
+  const gameOverPresentation = new GameOverPresentation()
+  let ordinaryDefeatSignal: AbortSignal | undefined
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
@@ -1254,6 +1257,8 @@ export async function bootGame(
         settleBattleVictory(session, world, canonicalProject, playVictory),
       finishWorld: (session, result) =>
         finishBattleWorldState(session, result, world, canonicalProject),
+      worldDefeatFrameCapture: (signal) =>
+        ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
       runDefeated: async (definitions, signal, assertCurrent) => {
         const scripted = definitions.filter((def) => def.onDefeated?.length)
         if (scripted.length && !scriptRuntime)
@@ -2253,12 +2258,23 @@ export async function bootGame(
       location.reload() // 无档:重开
     },
     gameOver: async (signal) => {
-      // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
-      await hostFade('out', 900, 'red', signal)
-      assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.dialog(createGameOverDialogueCue(), signal)
-      assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.loadLastSave(signal)
+      const owner = signal ?? new AbortController().signal
+      assertRunnerActive(owner, '战败流程所属 runner 已取消')
+      gameOverPresentation.begin(ctx, owner, frames.now)
+      try {
+        // L_41075 先单次播放死亡曲，再把当前战斗画面逐步染红。
+        const track = project.manifest.assets.roles['audio.defeatMusic']
+        if (track) bgm.play(track, false)
+        await presentation.waitPassive(GAME_OVER_FADE_MS, owner)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await host.dialog(createGameOverDialogueCue(), owner)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await gameOverPresentation.fadeOut(owner, frames.now)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await host.loadLastSave(owner)
+      } finally {
+        gameOverPresentation.release(owner)
+      }
     },
     // auto 实体、明雷重生等后台逻辑也复用 host.wait；它们只需要 gameplay-clock 计时和
     // AbortSignal，不得占用全局呈现锁。交互脚本仍由 presentation.busy() 的 runner 分量锁住。
@@ -4821,6 +4837,9 @@ export async function bootGame(
   ): Promise<void> {
     hostileBusy = true
     const encounterSignal = new AbortController().signal
+    const onLose = h.onLose
+    const gameOverOnDefeat = onLose === 'gameOver' || onLose === undefined
+    if (gameOverOnDefeat) ordinaryDefeatSignal = encounterSignal
     const finishWork = scriptWork.begin(encounterSignal)
     try {
       // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
@@ -4845,10 +4864,12 @@ export async function bootGame(
       } else if (result === 'playerFled') {
         applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
-        if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver(encounterSignal)
-        else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
+        if (gameOverOnDefeat) await host.gameOver(encounterSignal)
+        else startScript(`hostile:${e.id}`, [{ body: onLose }], e.id)
       } // enemyFled/terminated:回场景,怪留原地
     } finally {
+      if (ordinaryDefeatSignal === encounterSignal) ordinaryDefeatSignal = undefined
+      gameOverPresentation.release(encounterSignal)
       hostileBusy = false
       finishWork()
     }
@@ -5761,86 +5782,90 @@ export async function bootGame(
       scriptConfirmModal.presented()
       return
     }
-    // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
-    if (preserveClosedDialogFrame) return
-    // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
-    // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
-    const heldEntryFrame = sceneEntrySession.heldFrame
-    if (heldEntryFrame) {
-      ctx.putImageData(heldEntryFrame, 0, 0)
-      drawFadeCurtain()
-      syncDitherDebugDataset()
-      return
-    }
-    updateCamera() // 相机跟随玩家
-    // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
-    // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
-    deriveFollowers()
-    // Mounted travel updates steering and trail without replacing a leader's authored pose.
-    const renderedFacing =
-      authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
-        ? authoredPartyFacing.facing
-        : facing
-    const sprites = worldPresentation.sprites({
-      entities: activeScene.scene.entities,
-      visible: (entity) => entityLifecycleGates(entity).visible,
-      entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
-      loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
-      // User choice: a taken automatic walk draws idle while its phase is retained for release.
-      entityGait: (id) =>
-        motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
-          ? undefined
-          : motion.gaitPhase(id),
-      entityGaitSource: (id) => motion.gaitOwner(id)?.source,
-      entityExplicitAnimation: (id) => motion.explicitAnimation(id),
-      entityActionFrame: (id) => entityActions.frame(id),
-      entityLayer: (id) => runtimeScript.entityLayer?.[id],
-      party: world.party,
-      partyVisual,
-      player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
-      followers: followerPos,
-      extraFollowerSpriteIds: runtimeScript.followers ?? [],
-      extraFollowerPosition: (partyIndex) => {
-        const derived = computeFollowerPos(
-          { party: player.pos, trail, walking, frozenOffset: followerFrozen },
-          partyIndex,
-          (col, row) => !isBlocked({ col, row, height: 0 }),
-        )
-        return { pos: derived?.pos ?? player.pos, facing: derived?.dir ?? facing }
-      },
-      spriteById: (id) => project.spritesById[id],
-      now: () => performance.now(),
-    })
-    worldPresentation.renderWorld({
-      scene: activeScene,
-      camera,
-      sprites,
-      vars: runtimeScript.vars,
-      now: frames.now,
-      advanceWaveFrame: motion.worldTicksThisFrame > 0,
-    })
-    // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
-    if (debugLayers.collision || debugLayers.triggers) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      drawCollisionOverlay()
-      ctx.restore()
-    }
-    // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
-    const cinematicLayerDrawn = drawCinematicLayer()
-    // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
-    drawFadeCurtain()
-    // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
-    if (shop) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      drawShop(ctx, shop.ui, world, project.items, menuAssets, glyphs, performance.now(), {
-        no: lookupText('menu.system.no', project.locale),
-        yes: lookupText('menu.system.yes', project.locale),
+    const showingGameOver = gameOverPresentation.draw(ctx, frames.now)
+    let cinematicLayerDrawn = false
+    if (!showingGameOver) {
+      // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
+      if (preserveClosedDialogFrame) return
+      // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
+      // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
+      const heldEntryFrame = sceneEntrySession.heldFrame
+      if (heldEntryFrame) {
+        ctx.putImageData(heldEntryFrame, 0, 0)
+        drawFadeCurtain()
+        syncDitherDebugDataset()
+        return
+      }
+      updateCamera() // 相机跟随玩家
+      // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
+      // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
+      deriveFollowers()
+      // Mounted travel updates steering and trail without replacing a leader's authored pose.
+      const renderedFacing =
+        authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
+          ? authoredPartyFacing.facing
+          : facing
+      const sprites = worldPresentation.sprites({
+        entities: activeScene.scene.entities,
+        visible: (entity) => entityLifecycleGates(entity).visible,
+        entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
+        loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
+        // User choice: a taken automatic walk draws idle while its phase is retained for release.
+        entityGait: (id) =>
+          motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
+            ? undefined
+            : motion.gaitPhase(id),
+        entityGaitSource: (id) => motion.gaitOwner(id)?.source,
+        entityExplicitAnimation: (id) => motion.explicitAnimation(id),
+        entityActionFrame: (id) => entityActions.frame(id),
+        entityLayer: (id) => runtimeScript.entityLayer?.[id],
+        party: world.party,
+        partyVisual,
+        player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
+        followers: followerPos,
+        extraFollowerSpriteIds: runtimeScript.followers ?? [],
+        extraFollowerPosition: (partyIndex) => {
+          const derived = computeFollowerPos(
+            { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+            partyIndex,
+            (col, row) => !isBlocked({ col, row, height: 0 }),
+          )
+          return { pos: derived?.pos ?? player.pos, facing: derived?.dir ?? facing }
+        },
+        spriteById: (id) => project.spritesById[id],
+        now: () => performance.now(),
       })
-      ctx.restore()
+      worldPresentation.renderWorld({
+        scene: activeScene,
+        camera,
+        sprites,
+        vars: runtimeScript.vars,
+        now: frames.now,
+        advanceWaveFrame: motion.worldTicksThisFrame > 0,
+      })
+      // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
+      if (debugLayers.collision || debugLayers.triggers) {
+        ctx.save()
+        ctx.scale(WORLD_SCALE, WORLD_SCALE)
+        ctx.imageSmoothingEnabled = false
+        drawCollisionOverlay()
+        ctx.restore()
+      }
+      // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
+      cinematicLayerDrawn = drawCinematicLayer()
+      // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
+      drawFadeCurtain()
+      // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
+      if (shop) {
+        ctx.save()
+        ctx.scale(WORLD_SCALE, WORLD_SCALE)
+        ctx.imageSmoothingEnabled = false
+        drawShop(ctx, shop.ui, world, project.items, menuAssets, glyphs, performance.now(), {
+          no: lookupText('menu.system.no', project.locale),
+          yes: lookupText('menu.system.yes', project.locale),
+        })
+        ctx.restore()
+      }
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
@@ -5851,6 +5876,7 @@ export async function bootGame(
       dialogBox.render(performance.now())
       ctx.restore()
     }
+    if (showingGameOver) return
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
     if (menus.active) {
       const {

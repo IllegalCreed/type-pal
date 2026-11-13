@@ -40,7 +40,7 @@ import {
 } from './anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
-import type { BattleEnemy, BattleStatus } from './battle-state.js'
+import { type BattleEnemy, type BattleStatus, isFriendDeathEffectOpcode } from './battle-state.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
 import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
 
@@ -416,6 +416,20 @@ export function dispatchBattleOpcode(
   ctx: BattleCtx,
 ): DispatchResult {
   const state = ctx.state
+
+  const followup = state.actionFollowup
+  if (
+    followup?.casualtyScript?.kind === 'scriptOnFriendDeath' &&
+    followup.waitTicks === 0 &&
+    state.battleDialogQueue?.length &&
+    isFriendDeathEffectOpcode(opcode)
+  ) {
+    // The native friend-death branches end with these effects after their dialogue.
+    // Preserve the interpreter's chosen branch, then apply its effects once the dialogue clears.
+    followup.friendDeathEffects ??= { roleId: followup.casualtyScript.roleId, commands: [] }
+    followup.friendDeathEffects.commands.push({ opcode, operands })
+    return { consumed: true }
+  }
 
   switch (opcode) {
     case OP_SIMULATE_MAGIC: {

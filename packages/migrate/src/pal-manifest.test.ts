@@ -19,7 +19,7 @@ function catalog(): AssetCatalogV1 {
         id,
         {
           kind: kindOf(id),
-          path: `assets/${id}`,
+          path: `assets/generated/${id}`,
           mediaType: 'application/octet-stream',
           bytes: 1,
           sha256: 'a'.repeat(64),
@@ -52,7 +52,23 @@ describe('PAL current manifest', () => {
     expect(manifest.content).not.toHaveProperty('scripts')
   })
 
-  test('资源角色必须全部存在于 catalog', () => {
+  test('必需资源角色必须全部存在于 catalog', () => {
     expect(() => buildPalCurrentManifest({ version: 1, assets: {} })).toThrow('不存在')
+  })
+
+  test('没有死亡曲资源时省略可选角色', () => {
+    const source = catalog()
+    delete source.assets['music.pal.001']
+    expect(buildPalCurrentManifest(source).assets.roles).not.toHaveProperty(['audio.defeatMusic'])
+  })
+
+  test('死亡曲资产存在但类型错误时拒绝发布', () => {
+    const source = catalog()
+    const record = source.assets['music.pal.001']
+    if (!record) throw new Error('死亡曲资源夹具缺失')
+    record.kind = 'sound'
+    expect(() => buildPalCurrentManifest(source)).toThrow(
+      'PAL current manifest.assets.roles.audio.defeatMusic: 期望 music，实际 sound',
+    )
   })
 })

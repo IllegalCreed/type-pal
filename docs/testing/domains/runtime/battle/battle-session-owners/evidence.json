@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "211-213",
+      "lines": "216-218",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "365-376",
+      "lines": "375-386",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1167-1176",
+      "lines": "1195-1204",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+      "sha256": "24315ad2cd70eaa1f1e5418e5d4df71eb13421707232318252e65d30d10a7181"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:211-213",
-        "packages/reforge/src/battle/battle-session.ts:365-376",
-        "packages/reforge/src/battle/battle-session.ts:1167-1176",
+        "packages/reforge/src/battle/battle-session.ts:216-218",
+        "packages/reforge/src/battle/battle-session.ts:375-386",
+        "packages/reforge/src/battle/battle-session.ts:1195-1204",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -325,6 +325,36 @@
         }
       ],
       "scope": "普通敌物攻增加本次伤亡音，胜利写回保留倒地 HP。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
+    },
+    {
+      "action": "q2-battle-session-casualty-dialogue-source-rebinding",
+      "base": "f84bcd91dd71498e1099e7bf8f4b2d7900507090",
+      "date": "2026-11-12",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "211-213",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "365-376",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1167-1176",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
+        }
+      ],
+      "scope": "定时伤亡对白与普通全灭接续世界死亡演出。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
     }
   ],
   "_governance": {
