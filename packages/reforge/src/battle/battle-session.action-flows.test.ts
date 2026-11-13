@@ -6,7 +6,10 @@
  */
 import type { BattleChoreography } from '@type-pal/content'
 import {
+  buildWorld,
   checkBattleChoreography,
+  effectiveBattleSpriteId,
+  equipItem,
   validateActors,
   validateBattleSprites,
   validateEnemies,
@@ -44,6 +47,7 @@ import { expectDefined } from '../defined.js'
 import { DialogBox } from '../dialog/dialog-box.js'
 import type { MenuAssets } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
+import { createBattlePlayers } from './battle-player-input.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
 import { BattleSession } from './battle-session.js'
 
@@ -1007,6 +1011,84 @@ describe('W3 执行时间线接线', () => {
       sounds: voices.flatMap((voice) => [`sound.pal.${voice}`, 'sound.pal.002']),
       firstFrames: numbers.map((digits) => ({ enemy: poseRed(6), digits })),
     })
+  })
+
+  test('玄冥宝刀一次确认后两挥均把命中特效画在两个敌槽底锚', () => {
+    const actor = expectDefined(validateActors(palActors.filter(({ id }) => id === 'anu'))[0])
+    const actorsById = { [actor.id]: actor }
+    const start = buildWorld(
+      { party: [actor.id], money: 0, inventory: [{ itemId: '187', count: 1 }] },
+      actorsById,
+    )
+    const member = expectDefined(start.party[0])
+    const itemIds = ['187', ...Object.values(member.equipment)]
+    const items = Object.fromEntries(
+      validateItems(palItems.filter(({ id }) => itemIds.includes(id))).map((item) => [
+        item.id,
+        item,
+      ]),
+    )
+    const world = equipItem(start, member.id, '187', items)
+    const appearanceId = expectDefined(
+      effectiveBattleSpriteId(expectDefined(world.party[0]), actor, items),
+    )
+    const appearance = expectDefined(
+      validateBattleSprites(palBattleSprites.filter(({ id }) => id === appearanceId))[0],
+    )
+    const fighter = {
+      ...wfLoadedBattleSprite(appearance.id, PLAYER_PROFILE),
+      definition: appearance,
+    }
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-444'))[0],
+    )
+    const enemySprite = wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite))
+    const sfx = recordingSfx()
+    const sounds = expectDefined(actor.battler?.sounds)
+    const weaponSound = expectDefined(sounds.weapon)
+    const session = new BattleSession(
+      createBattlePlayers(world, { actorsById, items }),
+      [enemy, enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [appearance.id, fighter],
+          [enemy.battleSprite, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [appearance.id],
+        sfx: sfx.player,
+        effectSprite: {
+          anchorX: 0,
+          anchorY: 1,
+          frames: fighter.sprite.frames.slice(0, 3).map((frame, index) => ({
+            ...frame,
+            pixels: new Uint8Array([index + 13]),
+          })),
+        },
+      },
+      (id) => id,
+      fixedRng([0.5]),
+      { playerSounds: [sounds] },
+    )
+    const ctx = battleCanvas()
+    const impactPixels: number[][] = []
+    session.tick(16, new Set([' ']))
+    for (let i = 0; i < 140 && impactPixels.length < 2; i++) {
+      const soundsBefore = sfx.plays.length
+      session.tick(8, new Set())
+      if (!sfx.plays.slice(soundsBefore).includes(weaponSound)) continue
+      session.render(ctx, 1)
+      // ENEMYPOS 双槽 (70,130)/(140,106)，一像素底中锚各向上 1。
+      impactPixels.push([
+        ctx.getImageData(70, 129, 1, 1).data[0] ?? 0,
+        ctx.getImageData(140, 105, 1, 1).data[0] ?? 0,
+      ])
+    }
+    expect(impactPixels).toEqual([
+      [208, 208],
+      [208, 208],
+    ])
   })
 
   test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {
