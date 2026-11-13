@@ -1142,30 +1142,44 @@ function compareThrowRecovery(frames, animations, probe, fail) {
             number.value === damage,
         ),
     )
-  const returned =
-    hit && base && frames.find((frame) => frame.seq >= hit.seq && samePose(pose(frame, slot), base))
-  const beforeReturnMs = returned && returned.clockMs - hit.clockMs
-  const afterReturnMs = returned && next && next.clockMs - returned.clockMs
   const release = hit && pose(hit, slot)
+  const holdsPose = (frame, expected) => {
+    const actual = pose(frame, slot)
+    return samePose(actual, expected) && actual?.frameIndex === expected?.frameIndex
+  }
+  const recovery =
+    hit && next && frames.filter((frame) => frame.seq >= hit.seq && frame.seq <= next.seq)
+  const returned = base && recovery?.find((frame) => holdsPose(frame, base))
+  const ended = hit && recovery?.find((frame) => frame.payload.animation?.kind !== 'throw')
+  const beforeReturnMs = returned && returned.clockMs - hit.clockMs
+  const afterReturnMs = returned && ended && ended.clockMs - returned.clockMs
+  const beforeNextMs = ended && next && next.clockMs - ended.clockMs
+  const wrongPose =
+    returned &&
+    recovery.find((frame) => !holdsPose(frame, frame.seq < returned.seq ? release : base))
   const expectedMs = 4 * BATTLE_FRAME_MS
   const observed = {
     hit: hit && at(hit),
     returned: returned && at(returned),
+    ended: ended && at(ended),
     next: next && at(next),
     beforeReturnMs,
     afterReturnMs,
+    beforeNextMs,
+    wrongPose: wrongPose && { ...at(wrongPose), pose: pose(wrongPose, slot) },
   }
   if (
     !base ||
     !hit ||
     !returned ||
+    !ended ||
     !next ||
     release?.frameIndex !== 6 ||
     samePose(release, base) ||
-    pose(returned, slot)?.frameIndex !== base.frameIndex ||
+    wrongPose ||
     Math.abs(beforeReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
-    afterReturnMs < expectedMs - BATTLE_FRAME_MS ||
-    afterReturnMs > expectedMs + 2 * BATTLE_FRAME_MS
+    Math.abs(afterReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
+    beforeNextMs > EDGE_TOLERANCE_MS
   )
     fail('business', 'throw-recovery-render-window', observed)
   return observed
