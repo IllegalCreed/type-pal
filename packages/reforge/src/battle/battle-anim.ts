@@ -306,7 +306,7 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
 
 export interface BuildMateAttackInput {
   attackerFrames: PlayerFighterFrames
-  mateFrames: PlayerFighterFrames
+  attackerRestFrame: number
   attackerIdx: number
   attackerPos: { x: number; y: number }
   mateIdx: number
@@ -314,19 +314,18 @@ export interface BuildMateAttackInput {
   /** 攻击者武器音(rgwWeaponSound,fight.c:3810)。 */
   weaponSound?: AssetId
   damage: number
-  mateDied: boolean
+  mateRestFrame: number
 }
 
 /**
  * 疯魔打友时间线(fight.c:3790-3855):frame8↔0 抽搐 2 轮(each Delay1) → Delay2 →
- * 瞬移至队友旁(+30,+12) frame8 Delay5 → frame9 + 武器音 → 队友击退(−12,−6)(1) →
- * 红闪 colorShift6 + 伤害数字(1;数字挂帧策略同 buildEnemyPhysical) → 闪清(4) → 双方复位(4)。
+ * 瞬移至队友旁(+30,+12) frame8 Delay5 → frame9、击退和武器音同拍 →
+ * 闪白一拍 → 清除闪白并显示伤害数字(4) → 双方按当前状态复位(4)。
  */
 export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
-  const { attackerIdx, attackerPos, mateIdx, matePos, weaponSound, damage, mateDied } = input
+  const { attackerIdx, attackerPos, mateIdx, matePos, weaponSound, damage } = input
   const frames: AnimFrame[] = []
   const attackerPose = input.attackerFrames
-  const matePose = input.mateFrames
   for (let j = 0; j < 2; j++) {
     frames.push({
       durationMs: delayMs(1),
@@ -351,31 +350,29 @@ export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
   })
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: attackerIdx, frame: attackerPose.attackStrike }],
+    fighters: [
+      { side: 'player', idx: attackerIdx, frame: attackerPose.attackStrike },
+      { side: 'player', idx: mateIdx, pos: { x: matePos.x - 12, y: matePos.y - 6 } },
+    ],
     ...(weaponSound ? { sound: weaponSound } : {}),
   })
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: mateIdx, pos: { x: matePos.x - 12, y: matePos.y - 6 } }],
-  })
-  frames.push({
-    durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: mateIdx, colorShift: 6 }],
-    damageNum: { target: { side: 'player', idx: mateIdx }, value: damage },
   })
   frames.push({
     durationMs: delayMs(4),
     fighters: [{ side: 'player', idx: mateIdx, colorShift: 0 }],
+    damageNum: { target: { side: 'player', idx: mateIdx }, value: damage },
   })
-  // 双方复位(PAL_BattleUpdateFighters 语义;被打死 → 倒地帧 2)
   frames.push({
     durationMs: delayMs(4),
     fighters: [
-      { side: 'player', idx: attackerIdx, frame: attackerPose.idle, pos: attackerPos },
+      { side: 'player', idx: attackerIdx, frame: input.attackerRestFrame, pos: attackerPos },
       {
         side: 'player',
         idx: mateIdx,
-        frame: mateDied ? matePose.dead : matePose.idle,
+        frame: input.mateRestFrame,
         pos: matePos,
       },
     ],

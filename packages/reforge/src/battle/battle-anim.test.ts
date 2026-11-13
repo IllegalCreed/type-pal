@@ -260,17 +260,34 @@ describe('M4d-2 战斗动画时间线', () => {
     for (const f of mk()) expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
   })
 
-  test('疯魔打友:抽搐2轮→瞬移队友旁(+30,+12)→frame9+武器音→击退(−12,−6)+红闪+数字→双方复位', () => {
+  test('疯魔打友:抽搐后走位，击退与武器音同拍，闪白一拍后显示数字并复位', () => {
     const frames = buildMateAttack({
       attackerFrames: PLAYER_FRAMES,
-      mateFrames: PLAYER_FRAMES,
+      attackerRestFrame: PLAYER_FRAMES.idle,
       attackerIdx: 0,
       attackerPos: { x: 200, y: 170 },
       mateIdx: 1,
       matePos: { x: 240, y: 190 },
       weaponSound: 'sound.pal.012',
       damage: 5,
-      mateDied: false,
+      mateRestFrame: PLAYER_FRAMES.defend,
+    })
+    const strike = frames.findIndex((frame) => frame.sound === 'sound.pal.012')
+    expect(frames[strike]).toMatchObject({
+      durationMs: 40,
+      fighters: [
+        { side: 'player', idx: 0, frame: 9 },
+        { side: 'player', idx: 1, pos: { x: 228, y: 184 } },
+      ],
+    })
+    expect(frames[strike + 1]).toEqual({
+      durationMs: 40,
+      fighters: [{ side: 'player', idx: 1, colorShift: 6 }],
+    })
+    expect(frames[strike + 2]).toMatchObject({
+      durationMs: 160,
+      fighters: [{ side: 'player', idx: 1, colorShift: 0 }],
+      damageNum: { target: { side: 'player', idx: 1 }, value: 5 },
     })
     const { events, player } = record(frames)
     let guard = 0
@@ -279,12 +296,12 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('f:player0#8@270,202') // 瞬移至队友旁(+30,+12)
     const swing = events.indexOf('f:player0#9')
     expect(swing).toBeGreaterThan(-1)
-    expect(events[swing + 1]).toBe('snd:sound.pal.012') // 挥击帧同帧武器音
+    expect(events[swing + 2]).toBe('snd:sound.pal.012') // 挥击、击退及武器音同帧
     expect(events).toContain('f:player1@228,184') // 队友击退(−12,−6)
     expect(events).toContain('f:player1c6') // 红闪
     expect(events).toContain('dmg:player1:5')
     expect(events).toContain('f:player0#0@200,170') // 攻击者复位
-    expect(events).toContain('f:player1#0@240,190') // 队友复位站立(死则帧2)
+    expect(events).toContain('f:player1#3@240,190') // 复位后保持防御姿势
   })
 
   test('敌疯魔打友:12 段递归中点→effect 9/10/11→抖动/完整数字→Delay5→复位，无声音', () => {

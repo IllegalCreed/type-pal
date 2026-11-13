@@ -1846,21 +1846,25 @@ export class BattleSession {
         ...(throwPresentation ? { presentation: throwPresentation } : {}),
       })
     }
-    // 疯魔打友(fight.c:3790-3855):瞬移到队友旁挥兵器,数字/击退/红闪全套
+    // 混乱打友：从当前画面站位出招，复位按双方实际状态（fight.c:3800–3850）。
     if (la.kind === 'attackMate' && la.side === 'player') {
+      const attacker = expectDefined(s.players[la.idx])
+      const mate = expectDefined(s.players[la.targetAllyIdx])
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
-      const matePos = getPlayerBasePos(s.players.length, la.targetAllyIdx)
-      if (!attackerPos || !matePos) return null
+      const mateVisual = this.visual.players[la.targetAllyIdx]
+      if (!attackerPos || !mateVisual) return null
+      const attackerFrames = this.playerFrames(la.idx)
+      const mateFrames = this.playerFrames(la.targetAllyIdx)
       return buildMateAttack({
-        attackerFrames: this.playerFrames(la.idx),
-        mateFrames: this.playerFrames(la.targetAllyIdx),
+        attackerFrames,
+        attackerRestFrame: this.playerRestFrame(attacker, attackerFrames),
         attackerIdx: la.idx,
         attackerPos,
         mateIdx: la.targetAllyIdx,
-        matePos,
+        matePos: { x: mateVisual.x, y: mateVisual.y },
+        mateRestFrame: this.playerRestFrame(mate, mateFrames),
         weaponSound: this.opts.playerSounds?.[la.idx]?.weapon,
         damage: la.damage,
-        mateDied: (s.players[la.targetAllyIdx]?.hp ?? 0) <= 0,
       })
     }
     if (la.kind === 'attack' && la.side === 'player' && la.attackAllSweeps?.length) {

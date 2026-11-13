@@ -60,16 +60,16 @@ describe('N04 投掷物品时间线目标分布', () => {
 })
 
 describe('N04 队友受击阵亡帧', () => {
-  test('mateDied 后队友帧取 dead/dying 姿而非 idle 姿', () => {
+  test('队友阵亡后在收招使用倒地姿', () => {
     const frames = buildMateAttack({
       attackerFrames: pose,
-      mateFrames: pose,
+      attackerRestFrame: pose.idle,
       attackerIdx: 0,
       attackerPos: { x: 40, y: 140 },
       mateIdx: 1,
       matePos: { x: 120, y: 60 },
       damage: 6,
-      mateDied: true,
+      mateRestFrame: pose.dead,
     })
     const mateFrames = frames.flatMap((frame) =>
       (frame.fighters ?? []).filter((fighter) => fighter.side === 'player' && fighter.idx === 1),
