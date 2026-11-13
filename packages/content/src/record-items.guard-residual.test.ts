@@ -441,6 +441,12 @@ describe('G8 checkThrowSpec 残差', () => {
       error: 'throw.effects[0].numerator: 期望正数',
     },
     {
+      label: 'currentHpDamage 零分母',
+      control: { kind: 'currentHpDamage', numerator: 1, denominator: 2, bonus: 0, cap: 9 },
+      bad: { kind: 'currentHpDamage', numerator: 1, denominator: 0, bonus: 0, cap: 9 },
+      error: 'throw.effects[0].denominator: 期望正数',
+    },
+    {
       label: 'applyStatus 未知状态',
       control: { kind: 'applyStatus', status: 'sleep', turns: 1, onResist: 'continue' },
       bad: { kind: 'applyStatus', status: 'bogus', turns: 1 },
@@ -459,10 +465,22 @@ describe('G8 checkThrowSpec 残差', () => {
       error: 'throw.effects[0].percent: 不得大于 100',
     },
     {
+      label: 'killIfHpAtMost 零阈值',
+      control: { kind: 'killIfHpAtMost', percent: 1 },
+      bad: { kind: 'killIfHpAtMost', percent: 0 },
+      error: 'throw.effects[0].percent: 期望正数',
+    },
+    {
       label: 'damageAndHealCaster 零伤害',
       control: { kind: 'damageAndHealCaster', damage: 1, heal: 1 },
       bad: { kind: 'damageAndHealCaster', damage: 0, heal: 1 },
       error: 'throw.effects[0].damage: 期望正数',
+    },
+    {
+      label: 'damageAndHealCaster 零回复',
+      control: { kind: 'damageAndHealCaster', damage: 1, heal: 1 },
+      bad: { kind: 'damageAndHealCaster', damage: 1, heal: 0 },
+      error: 'throw.effects[0].heal: 期望正数',
     },
   ] as const)('$label拒绝（同kind合法投掷基线先过真实守卫、仅改所测字段）', ({
     control,
