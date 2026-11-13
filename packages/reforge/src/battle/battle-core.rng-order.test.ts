@@ -705,6 +705,35 @@ function bloodWormBattle() {
   }
 }
 
+test.each([
+  { resistance: 30, hp: 150, poisons: [] },
+  { resistance: 29, hp: 143, poisons: [{ poisonId: 551, tickIndex: 0 }] },
+])('using a snake egg with resistance $resistance applies the entry tick only if the roll passes', ({
+  resistance,
+  hp,
+  poisons,
+}) => {
+  const input = bloodWormBattle()
+  const player = expectDefined(input.players[0])
+  const state = createBattleState({
+    ...input,
+    players: [{ ...player, poisonRes: resistance }],
+    inventory: [{ itemId: '117', count: 1 }],
+  })
+  // One initiative draw per side, then the 0x29 roll of 30.
+  const nextDraw = 0.83
+  const rng = fixedDraws([0.5, 0.5, 0.296875, nextDraw])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'item', itemId: '117', targetAllyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({ kind: 'item', itemId: '117' })
+  expect(state.players[0]).toMatchObject({ hp, poisons })
+  expect(state.inventory).toEqual([{ itemId: '117', count: 0 }])
+  expect(rng()).toBe(nextDraw)
+})
+
 test('the blood worm starts red poison on hit, ticks again at turn end, and red sulfur cures it', () => {
   const rng = fixedDraws([
     // Mulberry32 seed 72. Round 1 queue, physical block/bonuses, equiv rate and both resistance rolls.
