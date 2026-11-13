@@ -285,7 +285,7 @@ describe('performAttack', () => {
   })
   it('群攻双击在两处站位挥砍，并在占用的敌槽播放两次命中特效和累积击退', () => {
     const { state, playerRoles, bus } = makeActionFixture({
-      role: { level: 10, attackStrength: 200, attackAll: true, attackSound: 37, weaponSound: 88 },
+      role: { level: 10, attackStrength: 200, attackAll: 1, attackSound: 37, weaponSound: 88 },
       enemies: [
         { level: 5, defense: 10, physicalResistance: 1, health: 700 },
         { level: 5, defense: 10, physicalResistance: 1, health: 0 },
