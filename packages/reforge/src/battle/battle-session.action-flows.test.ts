@@ -938,10 +938,7 @@ describe('W3 执行时间线接线', () => {
     ])
   })
 
-  test.each([
-    'timeout',
-    'confirm',
-  ] as const)('化尸水未达标的中央小框在投掷出手后出现，%s 后收招', (dismissal) => {
+  function beginIneffectiveThrow(withDialog: boolean) {
     const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '134'))[0])
     const enemies = validateEnemies(palEnemies)
     const lantern = expectDefined(enemies.find(({ id }) => id === 'enemy-399'))
@@ -965,13 +962,14 @@ describe('W3 执行时间线接线', () => {
     h.assets.glyphs = { has: () => true, get: () => glyph }
     const scroll = { tiles: Array.from({ length: 9 }, () => bitmap(8, 8, '#00ff00')) }
     const ctx = battleCanvas()
-    const box = new DialogBox(ctx, h.assets.glyphs, [], new Map(), {}, scroll)
-    h.assets.dialogBox = box
+    const box = withDialog
+      ? new DialogBox(ctx, h.assets.glyphs, [], new Map(), {}, scroll)
+      : undefined
+    if (box) h.assets.dialogBox = box
     const draw = () => h.session.render(ctx, 1)
     const pixel = (x: number, y: number) =>
       Array.from(ctx.getImageData(x, y, 1, 1).data.slice(0, 3))
     const actorAt = (x: number, y: number) => pixel(x, y - 8)[0]
-    const notice = () => box.observe()?.pageText ?? null
     const stepAndDraw = (ms: number) => {
       h.idle(ms)
       draw()
@@ -982,6 +980,16 @@ describe('W3 执行时间线接线', () => {
     for (let i = 0; i < 20 && !h.session.debugLog().includes('无任何效果'); i++) h.idle(8)
     expect(h.session.debugLog()).toContain('无任何效果')
     draw()
+    return { h, item, sfx, box, draw, pixel, actorAt, stepAndDraw }
+  }
+
+  test.each([
+    'timeout',
+    'confirm',
+  ] as const)('化尸水未达标的中央小框在投掷出手后出现，%s 后收招', (dismissal) => {
+    const { h, item, sfx, box, draw, pixel, actorAt, stepAndDraw } = beginIneffectiveThrow(true)
+    const dialogue = expectDefined(box)
+    const notice = () => dialogue.observe()?.pageText ?? null
     expect(notice()).toBeNull()
     // The failure text has never been a white notice at (130,75).
     expect(pixel(130, 75)).toEqual([0, 0, 0])
@@ -999,7 +1007,7 @@ describe('W3 执行时间线接线', () => {
     // The script runs after two release beats (fight.c:4355–4362), even when a tick overshoots.
     stepAndDraw(dismissal === 'timeout' ? 1 : 1000)
     expect(pixel(210, 50)).toEqual([0, 0, 0])
-    expect(box.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
+    expect(dialogue.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
     expect(pixel(120, 40)).toEqual([0, 255, 0]) // The actual centered scroll, not a text banner.
     expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
     if (dismissal === 'timeout') {
@@ -1022,6 +1030,42 @@ describe('W3 执行时间线接线', () => {
     h.session.writeBackInventory(inventory)
     expect(inventory).toEqual([])
     expect(h.session.debugLog().filter((line) => line === '无任何效果')).toHaveLength(1)
+  })
+
+  test('化尸水提示显示期间取消战斗，卷轴清除且战斗不会再推进', async () => {
+    const { h, box, draw, pixel, stepAndDraw } = beginIneffectiveThrow(true)
+    const dialogue = expectDefined(box)
+    stepAndDraw(640) // Four approach beats and twelve item-name beats.
+    expect(dialogue.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
+    expect(pixel(120, 40)).toEqual([0, 255, 0])
+
+    const cancelled = expect(h.session.done).rejects.toMatchObject({ name: 'AbortError' })
+    const log = [...h.session.debugLog()]
+    h.session.cancel()
+    expect(dialogue.observeSlots()).toEqual([])
+    await cancelled
+    h.press(['Enter'], 2000)
+    draw()
+    expect(pixel(120, 40)).toEqual([0, 0, 0])
+    expect(h.session.debugLog()).toEqual(log)
+  })
+
+  test('缺少对话框资源时，化尸水出手后显示一次兜底提示并自动继续', () => {
+    const { pixel, actorAt, stepAndDraw } = beginIneffectiveThrow(false)
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(639)
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(1)
+    expect(pixel(210, 50)).toEqual([0, 0, 0])
+    expect(pixel(130, 75)).toEqual([255, 255, 255])
+    stepAndDraw(1399)
+    expect(pixel(130, 75)).toEqual([255, 255, 255])
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(1)
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(160)
+    expect(actorAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
   })
 
   test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {
