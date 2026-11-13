@@ -15,7 +15,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-首批业务闭环已补三处表现复验。第二批核单体普攻和双回合操作，第三批核敌双动、敌方睡眠、普攻附毒和赤毒头像。第四批已复验 13 个局面的回合反馈、动作音效、血口虫行动节拍、玩家伤亡对白、雷咒和毒伤，并实跑普通明雷全灭和读档。物攻伤亡与上述伤亡及全灭分屏均已获用户验收。当前 26 个局面已复验，新增五灵、群攻、爆炸合击、木剑、回梦及护体。爆炸和同批仙术已追加实际绘制顺序复验。按报告继续核其余分支。
+首批业务闭环已补三处表现复验。第二批核单体普攻和双回合操作，第三批核敌双动、敌方睡眠、普攻附毒和赤毒头像。第四批已复验 13 个局面的回合反馈、动作音效、血口虫行动节拍、玩家伤亡对白、雷咒和毒伤，并实跑普通明雷全灭和读档。物攻伤亡与上述伤亡及全灭分屏均已获用户验收。玩家动作追加了合击降级、回梦收招及法术绘制顺序复验，已获用户接受并由 PR #63 合入。道具组七局已完成双端比较，待分屏验收。其余范围取覆盖报告。
 
 ## 入口与责任
 
@@ -28,4 +28,4 @@ Template: governance-index-v1 / 1.0.0
 
 从报告的冻结候选和绑定原件重比。覆盖台账列出投掷、玩家仙术、合击、特殊状态和增益的实际进度。后续批次按任务卡准入后继续同样的双端流程。
 
-两端默认各跑完整矩阵。只核玩家动作时，两端 runner 和离线比较器均传 `--group=player-actions`。合击降级和回梦命中、抵抗可用同样入口传 `--group=coop-sleep-followup`。带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。
+两端默认各跑完整矩阵。只核玩家动作时，两端 runner 和离线比较器均传 `--group=player-actions`。合击降级和回梦命中、抵抗传 `--group=coop-sleep-followup`，战斗道具与投掷传 `--group=item-effects`。带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。

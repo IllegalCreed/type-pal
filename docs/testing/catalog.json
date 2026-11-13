@@ -4524,7 +4524,7 @@
       "index": "domains/cross-phase/battle-foundation/README.md",
       "evidence": "domains/cross-phase/battle-foundation/evidence.json",
       "tags": ["battle", "Q2", "foundation", "normal-combat"],
-      "lastVerified": "2026-11-12",
+      "lastVerified": "2026-11-13",
       "dependsOn": [],
       "sourceRefs": [
         {
@@ -4532,14 +4532,14 @@
           "anchor": "await runBrowserJourney({",
           "lines": "57",
           "role": "caller",
-          "sha256": "6ed2583b6deaf81b6381923ea491a6f54422e185077eb3914bb19a0885780127"
+          "sha256": "909dc3bc5bdca4a078ab0593ef5b7845e1ecc476fb76a2d4cd33f4581f5a799d"
         },
         {
           "path": "scripts/e2e/battle-foundation-scenarios.mjs",
           "anchor": "function defineScenario(",
-          "lines": "184",
+          "lines": "201",
           "role": "input-and-independent-oracle",
-          "sha256": "0088db6d70789b163416dfc7d7c45f6ca5aaac03b6d9280c0608606c8bfa1794"
+          "sha256": "ac1af4dedcce365d6ef699dbb7cf8017b1a401f257e9bbe6d1438f4610dd552b"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -4551,30 +4551,30 @@
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
           "anchor": "running = runBattleTrial(",
-          "lines": "178",
+          "lines": "179",
           "role": "public-trial-adapter",
-          "sha256": "d2e3fadc45f419beaf729e70044345e58491c6bdc379a1fc4c2e51d4588f8e31"
+          "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
         },
         {
           "path": "scripts/e2e/battle-trace-contract.mjs",
           "anchor": "export function validateBattleTrace(",
           "lines": "928",
           "role": "oracle",
-          "sha256": "2ed591d1d0fe4347df58831233af4306a963925c9a7d080c88c930b1ec9fc6fb"
+          "sha256": "42969391c5748190f0108960c67c5acc0f887fc1637b66851f3917b33c718fbc"
         },
         {
           "path": "scripts/e2e/battle-foundation-compare.mjs",
           "anchor": "export async function compareBattleReports(",
           "lines": "33",
           "role": "offline-caller",
-          "sha256": "88031c6f5ef440c4d7ef7a93af89f0c6c857539f15a77b6f9fc617301d11a644"
+          "sha256": "f3723de5c4ca7710b40fbb36579f08e34e61af03ea6568e86d95cffe2dcd87cd"
         },
         {
           "path": "scripts/e2e/battle-presentation.mjs",
           "anchor": "export function validateBattlePresentation(",
           "role": "render-oracle",
-          "lines": "1533",
-          "sha256": "2f16a42f6b697eb1c8ec581a7d50129f8499636818afc3de13d064da235fc0cb"
+          "lines": "1645",
+          "sha256": "31abad6f7154ab9561b49f35cbc6a7754e35aa737156f15b1b37d3d84667ce69"
         },
         {
           "path": "scripts/e2e/battle-rules.mjs",
@@ -4588,7 +4588,7 @@
           "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
           "role": "native-audio-observer",
           "lines": "201",
-          "sha256": "2f2e41a8d5546c60dd2c89b18c505a28b6aaee69777553dd712f6033789992b5"
+          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
         },
         {
           "path": "scripts/e2e/battle-game-instrumentation.mjs",
@@ -4616,14 +4616,14 @@
           "anchor": "export function instrumentBattleRandomDraws(",
           "role": "native-random-producer-binding",
           "lines": "28",
-          "sha256": "853f3d5b991596040dc9e0551f98f15088b88de7862fa8e1c05fa1a135d61bc0"
+          "sha256": "c63e693e6b993559671ad4c98e9aec307fe29989491cb6b15cbd7a301933467b"
         },
         {
           "path": "scripts/e2e/battle-trace-observer.mjs",
           "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
           "role": "native-magic-overlay-observer",
           "lines": "269",
-          "sha256": "2f2e41a8d5546c60dd2c89b18c505a28b6aaee69777553dd712f6033789992b5"
+          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
         },
         {
           "path": "packages/reforge/src/battle/battle-command-selection.ts",
@@ -4658,7 +4658,10 @@
         "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=player-actions",
         "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --scenario=<registered-player-case> --audio-review",
         "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=coop-sleep-followup",
-        "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=coop-sleep-followup"
+        "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=coop-sleep-followup",
+        "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=item-effects",
+        "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=item-effects",
+        "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --scenario=<registered-item-case> --audio-review"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4681,7 +4684,8 @@
         "Raw team115 with seed6 for Zhao 381 and healthy Anu. Raw team115 with seed2 for Li throwing one spare wood sword166 while retaining his equipped wood sword. Both complete through the ordinary settlement menu.",
         "Raw team62, seed4 for Zhao 303: cancel the first native target and choose the other. Actual sorcery resistance 0 and 10. Raw team1, seed3: one-ally protection309 or non-protecting cleanse306 with two matching enemy hits.",
         "Raw team204, field7, seed25, Zhao Ling’er with Fairy Sword170 and Li Xiaoyao. Actual menu submits Explosion381, then enemy sleep303 disables Li before the action. The same two commands finish the legal fight after the fix.",
-        "Reuse both seed4 sleep fixtures and original elemental/group spell fixtures. A first spell number may follow the first rendered reaction by one logical 40ms tick, in the same reaction pose."
+        "Reuse both seed4 sleep fixtures and original elemental/group spell fixtures. A first spell number may follow the first rendered reaction by one logical 40ms tick, in the same reaction pose.",
+        "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4715,7 +4719,9 @@
           "Protect applies for 7 turns, decrements to 6, halves the two fixed physical hits, and clears at victory. The cleanse control does not apply the buff. In both single-ally cases the rendered FIRE sequence is anchored to and painted in front of the selected ally, followed by that ally’s original glow.",
           "Spell paint probes bind the original signed layer and byte-identical FIRE resource. Native draws must use that FIRE chunk, cover its source frames and paint in the original order against the relevant live fighters. The exact 381 position is (98,100) against enemy slot 0 at (100,110).",
           "A cooperative submission that loses its only teammate executes a normal equipped attack. Each native hit, actual swing at the number birth, stable target anchor, per-hit sound, HP delta and RNG sequence is checked. No cooperative HP or MP cost.",
-          "Ordinary offensive spells retain the advanced cast pose through the original nine-tick recovery. Damage numbers appear within the first actual reaction pose, stable after return, then the same next actor starts. The two measured windows are cross-engine bounded."
+          "Ordinary offensive spells retain the advanced cast pose through the original nine-tick recovery. Damage numbers appear within the first actual reaction pose, stable after return, then the same next actor starts. The two measured windows are cross-engine bounded.",
+          "Item settlement checks the same native command and target, one inventory deduction, each raw damage or restoration, effective HP and MP, poison changes, exact rule RNG order, and ordinary settlement. Throw numbers use the per-target signed raw change, including overkill and mixed throw steps.",
+          "Numbers and animation come from observed frames. Check whole-party glow, actual FIRE frames and paint order, same-frame drain damage and recovery at the acting foot, recovery pose on revival, and timing from raise through the first number to the next actor."
         ]
       },
       "dedupe": {
@@ -4725,10 +4731,10 @@
           "battle-host and battle-session source audits",
           "existing rule/unit tests"
         ],
-        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
+        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as diagnostics only."
       },
       "revision": {
-        "currentSha": "c0261df4ad87aff4d89a972a60c03a0f6eb9b294",
+        "currentSha": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4945,6 +4951,79 @@
               }
             ],
             "archive": "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz"
+          },
+          {
+            "revision": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
+            "date": "2026-11-13",
+            "action": "native-battle-item-effects-and-throw-feedback",
+            "scope": "Run seven same-input legal item and throw cases. Compare native actions, stock, HP and MP, poison, RNG, actual feedback and settlement. Earlier publications retain their execution identities.",
+            "predecessor": "c0261df4ad87aff4d89a972a60c03a0f6eb9b294",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-foundation.mjs",
+                "anchor": "await runBrowserJourney({",
+                "lines": "57",
+                "role": "caller",
+                "sha256": "6ed2583b6deaf81b6381923ea491a6f54422e185077eb3914bb19a0885780127"
+              },
+              {
+                "path": "scripts/e2e/battle-foundation-scenarios.mjs",
+                "anchor": "function defineScenario(",
+                "lines": "184",
+                "role": "input-and-independent-oracle",
+                "sha256": "0088db6d70789b163416dfc7d7c45f6ca5aaac03b6d9280c0608606c8bfa1794"
+              },
+              {
+                "path": "scripts/e2e/battle-reforge-adapter.mjs",
+                "anchor": "running = runBattleTrial(",
+                "lines": "178",
+                "role": "public-trial-adapter",
+                "sha256": "d2e3fadc45f419beaf729e70044345e58491c6bdc379a1fc4c2e51d4588f8e31"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-contract.mjs",
+                "anchor": "export function validateBattleTrace(",
+                "lines": "928",
+                "role": "oracle",
+                "sha256": "2ed591d1d0fe4347df58831233af4306a963925c9a7d080c88c930b1ec9fc6fb"
+              },
+              {
+                "path": "scripts/e2e/battle-foundation-compare.mjs",
+                "anchor": "export async function compareBattleReports(",
+                "lines": "33",
+                "role": "offline-caller",
+                "sha256": "88031c6f5ef440c4d7ef7a93af89f0c6c857539f15a77b6f9fc617301d11a644"
+              },
+              {
+                "path": "scripts/e2e/battle-presentation.mjs",
+                "anchor": "export function validateBattlePresentation(",
+                "role": "render-oracle",
+                "lines": "1533",
+                "sha256": "2f16a42f6b697eb1c8ec581a7d50129f8499636818afc3de13d064da235fc0cb"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+                "role": "native-audio-observer",
+                "lines": "201",
+                "sha256": "2f2e41a8d5546c60dd2c89b18c505a28b6aaee69777553dd712f6033789992b5"
+              },
+              {
+                "path": "scripts/e2e/battle-random-instrumentation.mjs",
+                "anchor": "export function instrumentBattleRandomDraws(",
+                "role": "native-random-producer-binding",
+                "lines": "28",
+                "sha256": "853f3d5b991596040dc9e0551f98f15088b88de7862fa8e1c05fa1a135d61bc0"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+                "role": "native-magic-overlay-observer",
+                "lines": "269",
+                "sha256": "2f2e41a8d5546c60dd2c89b18c505a28b6aaee69777553dd712f6033789992b5"
+              }
+            ],
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz"
           }
         ]
       }
@@ -5081,7 +5160,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",
