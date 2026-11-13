@@ -457,7 +457,8 @@ function validateScenario(scenario) {
   return expected
 }
 
-function validateRecording(trace, scenario) {
+/** Validate trace provenance and shape before a scenario-specific business oracle. */
+export function validateRecording(trace, scenario) {
   requireValue(
     record(trace) &&
       trace.schemaVersion === 1 &&

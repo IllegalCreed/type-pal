@@ -204,7 +204,8 @@ export function compareEnemyCast(frames, animations, expected, audio, numberDraw
       return (
         !actual ||
         actual.frame.seq < reaction.seq ||
-        actual.frame.clockMs - reaction.clockMs > DRAW_EDGE_MS ||
+        // Game can draw the zero-duration death cue and the damage blit on adjacent refreshes.
+        actual.frame.clockMs - reaction.clockMs > PAL_TICK_MS ||
         actual.number.value !== value ||
         actual.number.right !== foot?.x + 6 ||
         actual.number.y + actual.number.age !== Math.max(foot?.y - 75, 10)

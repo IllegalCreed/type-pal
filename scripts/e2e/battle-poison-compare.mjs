@@ -9,6 +9,7 @@ import { battleFoundationInputSources } from './battle-foundation-scenarios.mjs'
 import { makeSpec, poisonCases, six } from './battle-poison-scenarios.mjs'
 import { poisonSources, verifyPoisonSources } from './battle-poison-sources.mjs'
 import { firstNumberDraws } from './battle-presentation.mjs'
+import { validateRecording } from './battle-trace-contract.mjs'
 import { repoRoot } from './browser-journey.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { assertDependencyClosure, recordingDependencies } from './evidence-dependencies.mjs'
@@ -144,6 +145,10 @@ const itemCount = (state, itemId) =>
 const shown = ({ side, slot, value, tone }) => ({ side, slot, value, tone })
 
 function compareCase(trace, scenario, premises) {
+  validateRecording(trace, {
+    id: `poison-${scenario.label}`,
+    random: { algorithm: 'mulberry32', seed: scenario.seed },
+  })
   const findings = []
   const check = (name, actual, expected) => {
     if (!same(actual, expected)) findings.push({ name, expected, actual })
