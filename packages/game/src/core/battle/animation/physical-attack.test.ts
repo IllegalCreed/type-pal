@@ -77,7 +77,12 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
       x: 160, // enemy_x
       y: 80 - 0 + 10, // enemy_y - enemy_h/3 + 10 = 90
     })
-    expect(f.damageNum).toEqual({ target: { kind: 'enemy', idx: 0 }, value: 37, color: 'blue' })
+    expect(f.damageNum).toEqual({
+      target: { kind: 'enemy', idx: 0 },
+      value: 37,
+      color: 'blue',
+      anchor: { x: 160, y: 80 },
+    })
   })
 
   it('frame3(特效 i=1):overlay frame=base+1 落点 x-=16/y+=16;attacker.pos += (2,1)', () => {
