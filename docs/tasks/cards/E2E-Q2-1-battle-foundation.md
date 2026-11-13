@@ -100,6 +100,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 2026-11-13，用户对爆炸与同批法术图层修正后的原速带声分屏回复「通过」，要求收口玩家仙术、合击、投掷与状态批次。验收媒体来自 `4c7d4f9a78981f13a4c3ab3b9df441bc776eed23`，归档成员 `build/q2/av/spell-layers/spell-layer-recheck-split.mp4`，SHA-256 为 `95fbd0f135013d0949b87a51b26842702e109b4a8dfa4af2b09264616819f99d`。合击降级第二击和回梦后敌方起手节拍由下一批接续。 [分屏及日志归档](../evidence/E2E-Q2-1-spell-layer-recheck-20261113.tar.gz)
 
+该批合并候选 `7138b4899bc1bb86f75efe682693c5c94a5574bf` 补齐 Game 投掷后防御队友与已败敌槽的回归，按保护基点实测七包 20,489 项，并写回快测基线。文档与快测覆盖通过后，PR #62 合入 `fb1105ccabecbaa46bc1019280ad51e2aed5d323`。本地 main 已快进，清理 19 个已并入的本地分支及一个远端分支。两条旧版反例与贡献候选的可恢复引用有独立收据。 [PR #62](https://github.com/IllegalCreed/type-pal/pull/62) · [文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43377748515/job/131728101201) · [快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43377748425/job/131728101339)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
@@ -329,6 +331,8 @@ Codex build allowed。先固定血口虫原始敌队、角色裸值和实际装�
 Codex build allowed。`q2_rules` 独占 Reforge 合击降级、普通攻击的实际次击结果和相邻规则测试。`q2_panel` 独占普通对敌仙术收招、逐击声和数字底锚及相邻会话测试。`q2_inputs` 负责 Game 仅测试采集和 BattleSession 的源码适用性桥接，各切片隔离提交。Codex 维护固定局面、独立规则与画帧判据、正式双端复跑和同候选原速带声分屏。按原版规则验证合击降级后走普通武器路径，按 Game 的实际表现验证两次挥击的数字、音效、归位及随后出手。回梦抵抗沿用双端现行归位后显示「攻击无效」的顺序。 [源码适用性](../evidence/E2E-Q2-1-battle-session-source-applicability.md)
 
 冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294` 完成 108 场正常战斗及 54 组双端、54 组同端比较。赵灵儿的两次攻击各有实际蓝字和音效，回梦命中与抵抗的旧版节拍差被新判据拒绝，复跑两端均在约九拍后归位。相同候选另录三段原速带声分屏，待用户验收。三人及首击致死的降级边界按覆盖台账继续。 [合击与回梦原件及分屏](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)
+
+Reforge 371 个测试文件、9,073 项及 E2E 工具 462 项通过。以 PR #62 的受保护基点复验七包 20,495 项，写回实测覆盖。七包 typecheck、文档工具 586 项、文档完整性及 lint 零诊断。当前分支已接入 PR #62 合并提交，生产与 E2E 采集输入的冻结字节保持一致。 [快测基线](../../../scripts/coverage/baseline.fast.json)
 
 ## 状态与交接
 

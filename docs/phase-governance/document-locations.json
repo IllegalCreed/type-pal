@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "3b71891a267e400885f5013dc13a8abc8cdff44b22a2ce003f6fe3257abbedab",
+      "afterSha256": "c4ae9ab727176a65c876e24502c4d654a555afc374a59a14f6d4a4b5e722db8b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -5380,13 +5380,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "bc74b1ff0f33b1df33324337fce6bb25e45e64ca10a3f18dc054221d0ff43f81",
+      "afterSha256": "aad596c7794bd1ddd5906cae4ce59730c1ef9e7235f8ee709e2ac83b73a6fe0e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
         "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
-        "reviewedLines": 344,
+        "reviewedLines": 348,
         "acceptanceScope": "旧版同输入、候选范围、分工、定向差异与本轮分屏。"
       }
     },
