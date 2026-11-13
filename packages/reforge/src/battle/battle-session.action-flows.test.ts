@@ -381,6 +381,72 @@ describe('W3 执行时间线接线', () => {
     expect(red(100, 102)).toBe(poseRed(0))
   })
 
+  test('敌方群体仙术的两个受击队员各按原站位显示姿态和伤害数字', () => {
+    const spell = {
+      ...wfSkill('wf-gust', 0),
+      target: 'allEnemies' as const,
+      animation: { effectSprite: 1, placement: 'attackAll' as const },
+    }
+    const enemy = wfEnemy(
+      'wf-gust-caster',
+      { magicStrength: 18 },
+      {
+        ai: {
+          resistanceToSorcery: 0,
+          rules: [{ at: 'act', do: { kind: 'cast', skillId: spell.id } }],
+        },
+      },
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('p1', { defense: 0, baseDexterity: 0 }),
+        wfPlayer('p2', { defense: 50, baseDexterity: 0 }),
+      ],
+      enemies: [enemy],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    h.assets.palette = posePalette
+    const playerSpriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = poseSprite(expectDefined(h.assets.battleSprites.get(playerSpriteId)))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(playerSpriteId, sprite)
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[8])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+
+    h.press(['d'])
+    h.press(['d'])
+    for (let i = 0; i < 100 && pixel(180, 172)[0] !== poseRed(8); i++) draw(4)
+    expect(pixel(180, 172)[0]).toBe(poseRed(8))
+    expect([pixel(200, 101)[2], pixel(256, 77)[2]]).toEqual([0, 0])
+
+    // battle.c 双人底锚 (200,176)/(256,152)；fight.c 首拍原位，后拍各自击退。
+    draw(50)
+    const hurt = poseRed(PLAYER_PROFILE.frames.hurt + 6)
+    expect([pixel(200, 168)[0], pixel(256, 144)[0]]).toEqual([hurt, hurt])
+    // 原盘公式：灵力 60、防御 0/50、威力 20、被动格挡除 2，分别扣 25/15。
+    expect(h.readParty().map(({ hp }) => hp)).toEqual([75, 85])
+    expect([pixel(194, 101)[2], pixel(200, 101)[2]]).toEqual([48, 96])
+    expect([pixel(250, 77)[2], pixel(256, 77)[2]]).toEqual([32, 96])
+    draw(40)
+    expect([pixel(204, 170)[0], pixel(260, 146)[0]]).toEqual([hurt, hurt])
+    expect([pixel(194, 100)[2], pixel(250, 76)[2]]).toEqual([48, 32])
+  })
+
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)
