@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+  "candidateSha": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -148,6 +148,41 @@
       "role": "native-poison-offline-oracle",
       "lines": "376",
       "sha256": "4f207ea95628c4a096c13c3067ac3a59545556c6a4943800c9edd5c076d5301a"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "anchor": "function drawLearnMagicScreen(",
+      "role": "game-scroll-renderer",
+      "lines": "245",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e"
+    },
+    {
+      "path": "packages/reforge/src/battle/settlement.ts",
+      "anchor": "function drawLearnMagic(",
+      "role": "reforge-scroll-renderer",
+      "lines": "334",
+      "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.ts",
+      "anchor": "export const SCROLL_LABEL_STYLE =",
+      "role": "reforge-scroll-style",
+      "lines": "169",
+      "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "anchor": "PAL_XY(75 + 16 * (w1 + w2) - ww, 115), 0x1B",
+      "role": "original-settlement-color",
+      "lines": "1321",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "anchor": "PAL_GetWord(CASH_LABEL), PAL_XY(10, 10), 0,",
+      "role": "original-cash-color",
+      "lines": "483",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
     }
   ],
   "publicCallers": [
@@ -177,7 +212,11 @@
     "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=enemy-cast",
     "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=enemy-cast",
     "node scripts/e2e/battle-poison-items.mjs <game|reforge> <priority|bounds|pairs|controls>",
-    "node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP"
+    "node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP",
+    "node build/q2/learn-magic/run.mjs <game|reforge>",
+    "node build/q2/learn-magic/compare-runs.mjs GAME_REPORT REFORGE_REPORT",
+    "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
+    "node build/q2/learn-magic/check-menu.mjs"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -204,7 +243,8 @@
     "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat.",
     "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list.",
     "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
-    "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project."
+    "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
+    "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -245,7 +285,8 @@
       "Party healing draws FIRE28 once at each live actor anchor, with all declared recipients present and original paint order. Drain preserves the captured entry pose in all four approach steps.",
       "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage.",
       "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
-      "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines."
+      "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
+      "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow."
     ]
   },
   "dedupe": {
@@ -255,7 +296,7 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture."
   },
   "runtimeExecution": {
     "performed": true,
@@ -416,6 +457,26 @@
     {
       "path": "scripts/e2e/battle-poison-compare.mjs",
       "sha256": "4f207ea95628c4a096c13c3067ac3a59545556c6a4943800c9edd5c076d5301a"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e"
+    },
+    {
+      "path": "packages/reforge/src/battle/settlement.ts",
+      "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+    },
+    {
+      "path": "packages/reforge/src/menu/menu-box.ts",
+      "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
     }
   ],
   "artifacts": [
@@ -10231,6 +10292,17 @@
         "bytes": 70838
       },
       "purpose": "Paired native enemy casting and poison reports, trace bytes, exact historical rejections and original-speed stereo review."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz",
+      "sha256": "16dfeb2b1d339ae08f7f39ec47ffa1188e12618c6cd4b8aa9272b9cf4e946a73",
+      "bytes": 15674817,
+      "manifest": {
+        "path": "build/q2/learn-magic/archive-index.json",
+        "sha256": "177098d3797c6d0168e2198a07ed16a7dae13fb42ad5a72c56d25ea9b9f71995",
+        "bytes": 25253
+      },
+      "purpose": "Paired native settlement inputs, glyph pixel proof, original-speed review, menu image and renderer counterexamples."
     }
   ],
   "claims": [
@@ -10795,6 +10867,27 @@
         "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-shadowless-cap-2026-11-13T15-48-31-093Z/report.json",
         "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-shadowless-cap-2026-11-13T15-48-58-684Z/report.json"
       ]
+    },
+    {
+      "id": "native-battle-scroll-glyphs",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-game-2026-11-13T16-55-31-937Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-game-2026-11-13T16-55-31-937Z/shadowless-cap-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-reforge-2026-11-13T16-56-06-611Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-reforge-2026-11-13T16-56-06-611Z/shadowless-cap-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/native-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/frame-comparison.json"
+      ]
+    },
+    {
+      "id": "native-main-menu-cash-glyphs",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-scroll-menu-reforge-2026-11-13T17-03-46-312Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-scroll-menu-reforge-2026-11-13T17-03-46-312Z/cash.png",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/frame-comparison.json"
+      ]
     }
   ],
   "findings": [
@@ -11186,6 +11279,18 @@
         "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-restored.log"
       ],
       "result": "Old raw traces show missing caster movement or premature recovery, poison resistance/entry differences, and the early enemy poison tick. An overly narrow visual sampling tolerance and missing optional round array were corrected in their judges. Mutations reject independently of artifact integrity."
+    },
+    {
+      "kind": "scroll-lettering-style-counterexamples",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/cash-counter.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/contributor/learn-magic/verification.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/contributor/scroll-text/verification.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/contributor/scroll-text/world-reward-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/contributor/scroll-text/narration-color-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/coverage.log"
+      ],
+      "result": "Restoring the old text color, shadow or split gap rejects the designated renderer check. Positive restores pass. The first official coverage run reached every selected test, then failed the existing exact ratio gate after redundant covered helpers were removed."
     }
   ],
   "cleanup": {
@@ -11606,6 +11711,14 @@
         }
       ],
       "archive": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz"
+    },
+    {
+      "revision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+      "date": "2026-11-14",
+      "action": "native-horizontal-scroll-lettering",
+      "scope": "One paired settlement with seven exact screen text checks, plus the ordinary Reforge menu and renderer controls.",
+      "predecessor": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz"
     }
   ],
   "_governance": {
@@ -12254,6 +12367,39 @@
       "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/contributor-sources.bundle"
     ],
     "executionIndex": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/archive-index.json",
+    "visualAcceptance": "pending"
+  },
+  "scrollTextExecution": {
+    "date": "2026-11-14",
+    "producerRevision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+    "testCandidate": "22b1d074298f1bc9867d820d0c641e3497daa679",
+    "priorAppearance": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz",
+    "battle": [
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-game-2026-11-13T16-55-31-937Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-game-2026-11-13T16-55-31-937Z/shadowless-cap-trace.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-reforge-2026-11-13T16-56-06-611Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-learn-magic-reforge-2026-11-13T16-56-06-611Z/shadowless-cap-trace.json"
+    ],
+    "menu": [
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-scroll-menu-reforge-2026-11-13T17-03-46-312Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/e2e/q2-scroll-menu-reforge-2026-11-13T17-03-46-312Z/cash.png"
+    ],
+    "nativeComparison": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/native-comparison.json",
+    "pixelComparison": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/frame-comparison.json",
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/battle-scroll-text-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/media.json"
+    ],
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/archive-index.json",
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/coverage-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/coverage-metrics.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/quality-summary.json",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/lint.log",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/typecheck-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/reforge-final-directed.log",
+      "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/record-quality.mjs"
+    ],
     "visualAcceptance": "pending"
   }
 }

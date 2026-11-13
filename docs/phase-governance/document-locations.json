@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "31ef03c6a6f15d2d7d66091bb9455a5dcc64fc963b04115a9db09297f105e127",
+      "afterSha256": "d77c3e5998ad443fa52e48271a82f5cd3705ab8b8539166c11a2c78e70b40c2c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
         "reviewedLines": 122,
-        "acceptanceScope": "核 Q2 看板仍处 build，PR #64 的已合批与本轮已通过双端、待分屏验收各自有据。"
+        "acceptanceScope": "只增加 Q2 当前横卷轴复验状态；原 PR #64 结论和用户视觉边界清楚。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "3f78e90fa558f95e22b72fb5c64f260d0300052532b511e3a7c29e1a76f0476f",
+      "afterSha256": "dfa665b82913a32ec79d099faffe58d81bd58f6edf8c7db29b8a0f32b0598e80",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
         "reviewedLines": 43,
-        "acceptanceScope": "独立核当前 Q2 索引原件链接指向唯一敌方施法与毒道具归档。只增导航和复核日期，其余历史导航逐字节相同。"
+        "acceptanceScope": "核原有导航逐字节保留，新增唯一横卷轴原件链接可解包。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "087f22fdb91a746b15e0fcf3cb425aba8628ebfcae1582834ecdea408f96720e",
+      "afterSha256": "2a3a933d9c4c55a40cec1dee36ae3ade3af92f4941625d4e11f912d5844e87e8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 1756,
-        "acceptanceScope": "独立核原盘 C、原始 MAGIC/SSS 与六条有向相克、三对致死、两侧毒槽、敌方施法拍和咒蛇净飘字；前次历史从 2026-11-13 节起逐字节相同。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 1760,
+        "acceptanceScope": "独立核 SDLPal 战后经验、金钱、修行、隐藏、练成及主菜单原始文字调用和标准色板，保留原有章节逐字节。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "cb971791d9d0698d931196e972a8ae93c33b767dfbd2df7a408e68f34f262e71",
+      "afterSha256": "7cc11ccf6fe5ab8c66ff967de38a7319b035a15f36bd077ef34ec9bceeb19bda",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 5730,
-        "acceptanceScope": "独立核仅 Q2 与会话归属条目变化，与各自 report/evidence 的合同、来源和前驱历史逐值一致；会话原执行身份不迁移。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 5779,
+        "acceptanceScope": "核唯一 Q2 entry、五个来源锚点和生产 Git 指纹、原生业务判据及证据字段逐值配对；既有执行历史不动。"
       }
     },
     {
@@ -5393,53 +5393,53 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9fc734f75fde520c6a104fa29d169ec302d9f45ecb1668c53dc3510a8881a72d",
+      "afterSha256": "3a6c741fdc752b4d0d29da3f681aa21f934b1e2d113756dc2db0a4c0591b48c7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 409,
-        "acceptanceScope": "核独占分派、固定前驱、返工准入、敌施法 40 场及毒道具 72 场。独立核 0a150098 七包 20,533 快测、覆盖基线、零诊断、保留两条失败日志，复算 281 项归档及五份中间剪辑已清理、十原片与成片均在。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 417,
+        "acceptanceScope": "核固定前驱、写入范围、合法同局面复验、现行作者色标样例和视觉状态；上一批卡面原样保留。核冻结 22b1d074 七包 20,534 项、覆盖保护比率、零诊断与派生截图清理。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "65eaf4b9fc192bb25effdeef3613ab4f5574c3230d5ae6599f367cd4783c41c0",
+      "afterSha256": "476838eb0f6b70986c110200a95b1833c261b39df42ac5857e5aa4b4920449ac",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 34,
-        "acceptanceScope": "核 enemy-cast 组、双端 poison 真实采集与四组选择器、离线判据入口与带声 capture 参数，核报告锚点。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 36,
+        "acceptanceScope": "归档索引、报告锚点及双端采集和离线像素命令逐一核对。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "a07cef00d20895b5849a0b1e33f465e7040a7ce142e576947933c9a6e41f83e6",
+      "afterSha256": "df45a6ec257a301e64184278fcb5796222a1fccfcb017963df0d2bd891d15dec",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 12260,
-        "acceptanceScope": "核 9b524c4f 生产、41deab2dc 判据和 0a150098 快测身份；40+72 原生轨迹、主比较与四组毒比较重放、15 质量回执、两次失败与独立反控指针、媒体及 281 项归档 SHA。覆盖比率对保护基线及上次接受基线均无回落。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 12406,
+        "acceptanceScope": "逐项核最终归档成员 SHA、双端报告/轨迹/WebM/PNG、菜单 Esc、三个反控范围和覆盖度；22b1d074 两测试后续、保护基线与旧执行身份均有据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "b66f1db3b6b87df08c2801833a5b75364fb613b914c58832f0cede2a744ee842",
+      "afterSha256": "2245dcb59b15d5d66aa1745dbf5fdbd3cd3391e6c64d228c95ea9e9daa54199a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
-        "reviewedLines": 337,
-        "acceptanceScope": "核敌施法 10 固定局面 20 双端及 20 重跑比较、毒 36 组，逐值核半人树妖、群体锚点、咒蛇和毒例；血魔神功四条实绘轨迹均在 FIRE 帧索引 14 由姿态 1 转 2。分屏原速及视觉状态有证据。覆盖盘点保留实跑边界。"
+        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "reviewedLines": 349,
+        "acceptanceScope": "独立核同一无影毒实际输入及结算、七页双端像素、35 个字形、奖励标签 370/289/114 黑像素，两句练成 354黑/231红及294黑/200红、菜单136黑；合法有色旁白只记测试范围，分屏待验收。"
       }
     },
     {
@@ -5838,6 +5838,12 @@
       "sha256": "545a2deeae12071f3345ef495626bbcb0e739df22469202e0ae642db63b782ca",
       "bytes": 57055455,
       "purpose": "敌方施法与毒道具的双端原始记录、离线判据、反控和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz",
+      "sha256": "16dfeb2b1d339ae08f7f39ec47ffa1188e12618c6cd4b8aa9272b9cf4e946a73",
+      "bytes": 15674817,
+      "purpose": "横向卷轴的双端实绘、位图和色板判据、反控及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

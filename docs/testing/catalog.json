@@ -4726,6 +4726,41 @@
           "role": "native-poison-offline-oracle",
           "lines": "376",
           "sha256": "4f207ea95628c4a096c13c3067ac3a59545556c6a4943800c9edd5c076d5301a"
+        },
+        {
+          "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+          "anchor": "function drawLearnMagicScreen(",
+          "role": "game-scroll-renderer",
+          "lines": "245",
+          "sha256": "86e247937a178a7052b7c30ed18fe842ba063b97cfdd27602598de9c2290450e"
+        },
+        {
+          "path": "packages/reforge/src/battle/settlement.ts",
+          "anchor": "function drawLearnMagic(",
+          "role": "reforge-scroll-renderer",
+          "lines": "334",
+          "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-box.ts",
+          "anchor": "export const SCROLL_LABEL_STYLE =",
+          "role": "reforge-scroll-style",
+          "lines": "169",
+          "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+        },
+        {
+          "path": "reference/sdlpal/battle.c",
+          "anchor": "PAL_XY(75 + 16 * (w1 + w2) - ww, 115), 0x1B",
+          "role": "original-settlement-color",
+          "lines": "1321",
+          "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f"
+        },
+        {
+          "path": "reference/sdlpal/uigame.c",
+          "anchor": "PAL_GetWord(CASH_LABEL), PAL_XY(10, 10), 0,",
+          "role": "original-cash-color",
+          "lines": "483",
+          "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
         }
       ],
       "publicCallers": [
@@ -4755,7 +4790,11 @@
         "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=enemy-cast",
         "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=enemy-cast",
         "node scripts/e2e/battle-poison-items.mjs <game|reforge> <priority|bounds|pairs|controls>",
-        "node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP"
+        "node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP",
+        "node build/q2/learn-magic/run.mjs <game|reforge>",
+        "node build/q2/learn-magic/compare-runs.mjs GAME_REPORT REFORGE_REPORT",
+        "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
+        "node build/q2/learn-magic/check-menu.mjs"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4782,7 +4821,8 @@
         "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat.",
         "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list.",
         "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
-        "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project."
+        "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
+        "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4823,7 +4863,8 @@
           "Party healing draws FIRE28 once at each live actor anchor, with all declared recipients present and original paint order. Drain preserves the captured entry pose in all four approach steps.",
           "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage.",
           "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
-          "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines."
+          "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
+          "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow."
         ]
       },
       "dedupe": {
@@ -4833,10 +4874,10 @@
           "battle-host and battle-session source audits",
           "existing rule/unit tests"
         ],
-        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review."
+        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture."
       },
       "revision": {
-        "currentSha": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+        "currentSha": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -5251,6 +5292,14 @@
               }
             ],
             "archive": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz"
+          },
+          {
+            "revision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+            "date": "2026-11-14",
+            "action": "native-horizontal-scroll-lettering",
+            "scope": "One paired settlement with seven exact screen text checks, plus the ordinary Reforge menu and renderer controls.",
+            "predecessor": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz"
           }
         ]
       }
@@ -5387,7 +5436,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge. Seven native settlement screens and the ordinary Reforge cash label were independently replayed and compared to source bitmaps and PAL colors."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

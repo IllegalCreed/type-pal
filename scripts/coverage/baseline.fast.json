@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-13T16:27:40.911Z",
+  "generatedAt": "2026-11-13T17:24:58.031Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 838,
-  "testCount": 20533,
+  "testCount": 20534,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2250,7 +2250,7 @@
       ],
       "scopeDigest": "e0da62982ba37363f87eaa5b46822eecf439ed3a368cffef9975fa951ec5278f",
       "fastTests": {
-        "testCount": 9088,
+        "testCount": 9089,
         "testFileCount": 371,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3658,8 +3658,8 @@
           },
           {
             "file": "packages/reforge/src/menu/reward-gain-queue.test.ts",
-            "testCount": 5,
-            "identityDigest": "690a24708491a7339ed3733498c80c997e76545499ffafa3355b412971af2961"
+            "testCount": 6,
+            "identityDigest": "97f3e18753209b1c09b6e44a88251d18ef532da6f44a35593f1f7a1957f0f65d"
           },
           {
             "file": "packages/reforge/src/menu/save-browser-box.glm-runtime-resource.test.ts",
@@ -4482,26 +4482,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "b70a8a7c03fc5609f38f0aa961c0d14eef54f7d932683b670e77637e41f7db64",
+        "identityDigest": "6eddf0328366495ebd09c99b5f6ced0bd74529f8ea44eec767129c45bc4bd092",
         "duplicateIdentityCount": 3,
-        "executionDigest": "789fa797a7222d31095a8a6ca3aa53334e62d8da828901bb57cea94e3deae2cb"
+        "executionDigest": "b7226ff2a09b0e930487fc5522c1027026f82df211925aecb290a8ba0fbbb5e7"
       },
       "metrics": {
         "statements": {
-          "covered": 17531,
-          "total": 19292
+          "covered": 17535,
+          "total": 19291
         },
         "branches": {
-          "covered": 11285,
-          "total": 13470
+          "covered": 11281,
+          "total": 13465
         },
         "functions": {
           "covered": 2832,
-          "total": 3119
+          "total": 3118
         },
         "lines": {
-          "covered": 15688,
-          "total": 16831
+          "covered": 15692,
+          "total": 16830
         }
       }
     },
@@ -10953,20 +10953,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74982,
-      "total": 82630
+      "covered": 74986,
+      "total": 82629
     },
     "branches": {
-      "covered": 54673,
-      "total": 64761
+      "covered": 54669,
+      "total": 64756
     },
     "functions": {
       "covered": 14214,
-      "total": 15765
+      "total": 15764
     },
     "lines": {
-      "covered": 66979,
-      "total": 72315
+      "covered": 66983,
+      "total": 72314
     }
   }
 }

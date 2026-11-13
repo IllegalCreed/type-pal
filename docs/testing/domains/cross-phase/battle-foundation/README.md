@@ -31,3 +31,5 @@ Template: governance-index-v1 / 1.0.0
 两端默认各跑完整矩阵。只核玩家动作时，两端 runner 和离线比较器均传 `--group=player-actions`。合击降级和回梦命中、抵抗传 `--group=coop-sleep-followup`，战斗道具与投掷传 `--group=item-effects`，复核解睡、护体、五气朝元、盐巴与吸星锁传 `--group=status-followup`。敌方施法专项使用 `--group=enemy-cast`。带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。Verify 默认采集轨迹和截图，需另存静音视频时传 `--visual-review`。
 
 毒道具分别运行 `node scripts/e2e/battle-poison-items.mjs game GROUP` 和 `node scripts/e2e/battle-poison-items.mjs reforge GROUP`。组名为 `priority`、`bounds`、`pairs`、`controls`。用 `node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP` 从同一生产候选的原件复核。单例带声录制把组名换成局面名并追加 `--capture`。 [最新场景及结果](report.md#2026-11-14-敌方施法和毒道具)
+
+横向卷轴复核重用无影毒封顶局面。归档中的 `build/q2/learn-magic/archive-index.json` 给出双端采集、离线轨迹与实绘像素的复跑入口。 [横向卷轴实绘和反控范围](report.md#2026-11-14-横向卷轴文字复核)
