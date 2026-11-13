@@ -643,6 +643,89 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.030'])
   })
 
+  test.each([
+    {
+      firstCrit: false,
+      voices: ['038', '006'],
+      numbers: [
+        [32, 64, 128],
+        [80, 32, 32],
+      ],
+    },
+    {
+      firstCrit: true,
+      voices: ['006', '038'],
+      numbers: [
+        [80, 32, 32],
+        [32, 64, 128],
+      ],
+    },
+  ])('单体双击首击会心=$firstCrit，每击独立发声，数字沿用目标底锚', ({
+    firstCrit,
+    voices,
+    numbers,
+  }) => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
+    const playerSprite = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const enemySprite = wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite))
+    validateBattleSprites([playerSprite.definition, enemySprite.definition])
+    const sfx = recordingSfx()
+    const session = new BattleSession(
+      [
+        wfPlayer('zhao-linger', {
+          attackStrength: 258,
+          baseDexterity: 900,
+          grantedStatuses: ['dualAttack'], // 初始武器仙女剑170。
+        }),
+      ],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [playerSprite.definition.id, playerSprite],
+          [enemySprite.definition.id, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [playerSprite.definition.id],
+        sfx: sfx.player,
+        ui: {
+          ...infoBoxAssets(),
+          numsBlue: Array.from({ length: 10 }, (_, digit) =>
+            bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+          ),
+        },
+      },
+      (id) => id,
+      fixedRng([0.5, 0.5, 0.25, firstCrit ? 0.05 : 0.5, 0, 0.25, firstCrit ? 0.5 : 0.05, 0]),
+      {
+        playerSounds: [
+          { attack: 'sound.pal.038', critical: 'sound.pal.006', weapon: 'sound.pal.002' },
+        ],
+      },
+    )
+    const ctx = battleCanvas()
+    const firstFrames: Array<{ enemy: number; digits: number[] }> = []
+    session.tick(16, new Set([' ']))
+    session.tick(16, new Set([' ']))
+    for (let i = 0; i < 100 && firstFrames.length < 2; i++) {
+      const soundsBefore = sfx.plays.length
+      session.tick(8, new Set())
+      if (sfx.plays.length === soundsBefore || sfx.plays.at(-1) !== 'sound.pal.002') continue
+      session.render(ctx, 1)
+      const [x, y] = firstFrames.length === 0 ? [100, 109] : [94, 106]
+      firstFrames.push({
+        enemy: ctx.getImageData(x, y, 1, 1).data[0] ?? 0,
+        digits: [88, 94, 100].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
+      })
+    }
+
+    // DEF 152、物抗2、+1、浮动倍率1 → 137，会心 → 411。第二击目标仍在首击偏移处。
+    expect({ sounds: sfx.plays, firstFrames }).toEqual({
+      sounds: voices.flatMap((voice) => [`sound.pal.${voice}`, 'sound.pal.002']),
+      firstFrames: numbers.map((digits) => ({ enemy: poseRed(6), digits })),
+    })
+  })
+
   test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {
     const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
     const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '353'))

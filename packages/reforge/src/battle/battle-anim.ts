@@ -41,7 +41,12 @@ export interface AnimFrame {
   fighters?: FighterDelta[]
   /** 特效 overlay(可多落点:attackAll 三点同帧)。坐标 = 一阶段 fight.c 落点真值。 */
   overlays?: OverlayDraw[]
-  damageNum?: { target: { side: 'player' | 'enemy'; idx: number }; value: number }
+  damageNum?: {
+    target: { side: 'player' | 'enemy'; idx: number }
+    value: number
+    /** 可指定数字的底锚，缺省使用受击者当前绘制位置。 */
+    anchor?: { x: number; y: number }
+  }
   /** tone 缺省 blue(掉血);yellow=回血 / cyan=回 MP(物品涨益在归位前弹,作者对照原版)。 */
   damageNums?: Array<{
     target: { side: 'player' | 'enemy'; idx: number }
@@ -236,7 +241,13 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
           }
         : {}),
       ...(i === 0
-        ? { damageNum: { target: { side: 'enemy', idx: targetIdx }, value: damage } }
+        ? {
+            damageNum: {
+              target: { side: 'enemy', idx: targetIdx },
+              value: damage,
+              anchor: targetPos,
+            },
+          }
         : {}),
       // 兵器命中音挂挥击帧(fight.c:2124 frame9 时播 rgwWeaponSound)
       ...(i === 0 && input.sounds?.weapon ? { sound: input.sounds.weapon } : {}),
@@ -1429,6 +1440,7 @@ export interface AnimSideEffects {
     target: { side: 'player' | 'enemy'; idx: number },
     value: number,
     tone?: 'blue' | 'yellow' | 'cyan',
+    anchor?: { x: number; y: number },
   ): void
   onFighter?(d: FighterDelta): void
   onOverlay?(o: OverlayDraw[] | null): void
@@ -1478,7 +1490,8 @@ export class AnimPlayer {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
     this.fx.onOverlay?.(f.overlays ?? null)
     if (f.sound) this.fx.onSound?.(f.sound)
-    if (f.damageNum) this.fx.onDamage?.(f.damageNum.target, f.damageNum.value)
+    if (f.damageNum)
+      this.fx.onDamage?.(f.damageNum.target, f.damageNum.value, undefined, f.damageNum.anchor)
     if (f.damageNums) for (const d of f.damageNums) this.fx.onDamage?.(d.target, d.value, d.tone)
     if (f.screenShake) this.fx.onScreenShake?.(f.durationMs, f.screenShakeLevel)
     if (f.waveAdd !== undefined) this.fx.onWaveAdd?.(f.waveAdd)
