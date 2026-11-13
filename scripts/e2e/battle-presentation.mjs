@@ -1199,6 +1199,81 @@ function compareThrowRecovery(frames, animations, probe, fail) {
   return observed
 }
 
+function compareSpellPaintOrder(frames, animations, probe, fail) {
+  const { actionIndex, skillId, targetSide, targetSlot, points, x, y, layerOffset, fireFrames } =
+    probe
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const drawn = start
+    ? frames.filter(
+        ({ seq, payload }) =>
+          seq >= start.seq && (!next || seq < next.seq) && payload.magicOverlays?.length,
+      )
+    : []
+  const observed = {
+    actionIndex,
+    skillId,
+    layerOffset,
+    frames: drawn.length,
+    first: drawn[0] && at(drawn[0]),
+    last: drawn.length ? at(drawn.at(-1)) : undefined,
+  }
+  if (!drawn.length) {
+    fail('integrity', 'spell-paint-draws-missing', observed)
+    return observed
+  }
+  for (const frame of drawn) {
+    const { enemies, players, magicOverlays } = frame.payload
+    const target = targetSide === 'player' ? pose(frame, targetSlot) : enemy(frame, targetSlot)
+    const bases = points ?? (target ? [target] : [])
+    const positions = magicOverlays.map((draw) => `${draw.x},${draw.y}`).sort()
+    const expectedPositions = bases.map((base) => `${base.x + x},${base.y + y}`).sort()
+    if (
+      !expectedPositions.length ||
+      positions.join(';') !== expectedPositions.join(';') ||
+      magicOverlays.some((draw) => draw.frameIndex >= fireFrames)
+    ) {
+      fail('business', 'spell-paint-anchor', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+        expectedPositions,
+      })
+      return observed
+    }
+    const fighters = [
+      ...enemies.filter(({ fading }) => !fading).map((draw) => ({ side: 'enemy', ...draw })),
+      ...players.map((draw) => ({ side: 'player', ...draw })),
+    ]
+    const orders = [...magicOverlays, ...fighters].map(({ paintOrder }) => paintOrder)
+    if (orders.some((value) => !validFrameIndex(value)) || new Set(orders).size !== orders.length) {
+      fail('integrity', 'spell-paint-orders-missing', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+        fighters,
+      })
+      return observed
+    }
+    for (const draw of magicOverlays) {
+      const sortY = draw.y + layerOffset
+      for (const fighter of fighters) {
+        // CLASSIC sorts increasing Y plus layer offset, then decreasing X. Identical keys
+        // do not specify an order. Compare actual writes after sorting, not the overlay list.
+        const relative = sortY - fighter.y || fighter.x - draw.x
+        if (
+          relative !== 0 &&
+          Math.sign(relative) !== Math.sign(draw.paintOrder - fighter.paintOrder)
+        ) {
+          fail('business', 'spell-paint-order', { ...observed, ...at(frame), draw, sortY, fighter })
+          return observed
+        }
+      }
+    }
+  }
+  return observed
+}
+
 function compareAllySpell(
   frames,
   animations,
@@ -1339,7 +1414,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
-  let statusNotice, throwRecovery, allySpellPresentation
+  let statusNotice, throwRecovery, allySpellPresentation, spellPaintOrder
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1359,6 +1434,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(statusNotice === undefined ? {} : { statusNotice }),
     ...(throwRecovery === undefined ? {} : { throwRecovery }),
     ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
+    ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
     findings,
   })
   if (
@@ -1406,6 +1482,10 @@ export function validateBattlePresentation(trace, scenario) {
   )
   if (scenario.expected.throwRecovery)
     throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.spellPaintOrder)
+    spellPaintOrder = scenario.expected.spellPaintOrder.map((probe) =>
+      compareSpellPaintOrder(frames, animations, probe, fail),
+    )
   if (scenario.expected.allySpellPresentation)
     allySpellPresentation = compareAllySpell(
       frames,

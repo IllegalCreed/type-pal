@@ -12,6 +12,41 @@ const roles = {
 const random = { algorithm: 'mulberry32', seed: 1729 }
 const copy = (value) => structuredClone(value)
 
+// SSS object IDs resolve to signed offsets and FIRE chunks in the original MAGIC table.
+const spellPaintSources = {
+  296: { effect: 27, x: -10, y: -6, layerOffset: 99, fireFrames: 20 },
+  303: { effect: 40, x: 0, y: 4, layerOffset: 99, fireFrames: 17 },
+  312: { effect: 0, x: 0, y: 4, layerOffset: 1, fireFrames: 8 },
+  313: {
+    effect: 36,
+    x: 0,
+    y: 30,
+    layerOffset: 99,
+    fireFrames: 20,
+    type: 'attackAll',
+    points: [
+      { x: 70, y: 140 },
+      { x: 100, y: 110 },
+      { x: 160, y: 100 },
+    ],
+  },
+  316: { effect: 1, x: 0, y: 0, layerOffset: 1, fireFrames: 7 },
+  321: { effect: 2, x: -10, y: 12, layerOffset: 13, fireFrames: 16 },
+  327: { effect: 7, x: 0, y: 0, layerOffset: 1, fireFrames: 16 },
+  332: { effect: 4, x: 0, y: 0, layerOffset: 99, fireFrames: 5 },
+  344: { effect: 31, x: 32, y: 20, layerOffset: 0, fireFrames: 8 },
+  353: {
+    effect: 16,
+    x: 0,
+    y: 0,
+    layerOffset: 99,
+    fireFrames: 8,
+    type: 'attackField',
+    points: [{ x: 160, y: 200 }],
+  },
+  381: { effect: 12, x: -2, y: -10, layerOffset: 99, fireFrames: 15 },
+}
+
 function defineSetup({
   id,
   title,
@@ -1550,6 +1585,31 @@ function attachAudioOracle(scenario) {
   return configured
 }
 
+function attachSpellPaintOracle(scenario) {
+  const { actions, start } = scenario.expected
+  const probes = actions.flatMap((action, actionIndex) => {
+    // Wooden sword 166 uses its native throw script's 0x66 → magic object 344.
+    const skillId = action.kind === 'throw' && action.itemId === '166' ? '344' : action.skillId
+    const source = spellPaintSources[skillId]
+    if (!source) return []
+    const player = start.players.find(({ id }) => id === action.targetId)
+    const target = player ?? start.enemies.find((enemy) => enemy?.id === action.targetId)
+    assert(target || source.points, `missing paint target: ${scenario.id}/${skillId}`)
+    return [
+      {
+        actionIndex,
+        skillId,
+        ...source,
+        targetSide: player ? 'player' : 'enemy',
+        ...(target ? { targetSlot: target.slot } : {}),
+      },
+    ]
+  })
+  if (!probes.length) return scenario
+  scenario.expected.spellPaintOrder = probes
+  return { ...scenario, observeMagicOverlays: true }
+}
+
 export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
   [
     defineScenario('solo-lantern', '单人单灯笼', ['li-xiaoyao'], 1),
@@ -1579,7 +1639,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     definePlayerSleep(true),
     definePlayerProtection(true),
     definePlayerProtection(false),
-  ].map(attachAudioOracle),
+  ].map((scenario) => attachSpellPaintOracle(attachAudioOracle(scenario))),
 )
 
 export function battleFoundationScenarioGroup(id) {
@@ -1890,6 +1950,27 @@ export async function verifyBattleFoundationSources(root) {
     )
   }
   assert.equal(fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === 28).frameCount, 24)
+  const signedWord = (word) => (word << 16) >> 16
+  for (const [id, source] of Object.entries(spellPaintSources)) {
+    const spell = rawSpells.find((entry) => entry.id === Number(id))
+    const raw = rawMagic.find((entry) => entry.id === spell.magicNumber)
+    assert.deepEqual(
+      [raw.type, raw.effect, ...[raw.xOffset, raw.yOffset, raw.special].map(signedWord)],
+      [
+        source.type ?? (id === '296' ? 'applyToPlayer' : 'normal'),
+        source.effect,
+        source.x,
+        source.y,
+        source.layerOffset,
+      ],
+      `original magic paint inputs: ${id}`,
+    )
+    assert.equal(
+      fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === source.effect).frameCount,
+      source.fireFrames,
+      `original FIRE frames: ${id}`,
+    )
+  }
   const sword = rawItems.find(({ id }) => id === 166)
   assert(sword.flags.throwable && sword.flags.consuming && !sword.flags.applyToAll)
   assert.deepEqual(opcode(sword.scriptOnThrow), [0x66, [344, 0, 0]])
