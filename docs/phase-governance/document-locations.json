@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "d77c3e5998ad443fa52e48271a82f5cd3705ab8b8539166c11a2c78e70b40c2c",
+      "afterSha256": "99ef5158160a5c1f2625e00b1437b94eb412928a963a2c8c8d02a69b083d5f5e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root/q2_throw_empty",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
         "reviewedLines": 122,
-        "acceptanceScope": "只增加 Q2 当前横卷轴复验状态；原 PR #64 结论和用户视觉边界清楚。"
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3a6c741fdc752b4d0d29da3f681aa21f934b1e2d113756dc2db0a4c0591b48c7",
+      "afterSha256": "867d4cce17d6125d9492fbca908285db3bf3cf5bf4dfc93eb5d7ee8ac9828d4f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root/q2_throw_empty",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
         "reviewedLines": 417,
-        "acceptanceScope": "核固定前驱、写入范围、合法同局面复验、现行作者色标样例和视觉状态；上一批卡面原样保留。核冻结 22b1d074 七包 20,534 项、覆盖保护比率、零诊断与派生截图清理。"
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
@@ -5419,27 +5419,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "df45a6ec257a301e64184278fcb5796222a1fccfcb017963df0d2bd891d15dec",
+      "afterSha256": "3f9a885f83ee8cba202e1b16f73597f538e09f3fed6662b2b8570fad3d2b1c37",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root/q2_throw_empty",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
-        "reviewedLines": 12406,
-        "acceptanceScope": "逐项核最终归档成员 SHA、双端报告/轨迹/WebM/PNG、菜单 Esc、三个反控范围和覆盖度；22b1d074 两测试后续、保护基线与旧执行身份均有据。"
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
+        "reviewedLines": 12415,
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "2245dcb59b15d5d66aa1745dbf5fdbd3cd3391e6c64d228c95ea9e9daa54199a",
+      "afterSha256": "c1f13103409b3e309750026cdf0497e15b86ac5501f513ca36270af84ac4ba29",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "Codex /root/q2_throw_empty",
         "date": "2026-11-14",
-        "conclusion": "核对横向卷轴文字的固定源码、实绘原件和反控。",
+        "conclusion": "核实用户通过的战后卷轴分屏范围及对应原件。",
         "reviewedLines": 349,
-        "acceptanceScope": "独立核同一无影毒实际输入及结算、七页双端像素、35 个字形、奖励标签 370/289/114 黑像素，两句练成 354黑/231红及294黑/200红、菜单136黑；合法有色旁白只记测试范围，分屏待验收。"
+        "acceptanceScope": "从 60e698a00 比较四份现行记录，并核归档和双端原始轨迹、带声分屏的版本与摘要。既有执行及其它视觉待验保持原状态。"
       }
     },
     {
