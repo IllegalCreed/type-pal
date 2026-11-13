@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
+  "candidateSha": "5aa5cb252597dfaf6989e5d91f203b2253449770",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -12,16 +12,16 @@
     {
       "path": "scripts/e2e/battle-foundation.mjs",
       "anchor": "await runBrowserJourney({",
-      "lines": "57",
+      "lines": "61",
       "role": "caller",
-      "sha256": "909dc3bc5bdca4a078ab0593ef5b7845e1ecc476fb76a2d4cd33f4581f5a799d"
+      "sha256": "70f955a887524322cad20bb88b02aa895d73a54e04f62c950815c417f4c974a7"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
       "anchor": "function defineScenario(",
-      "lines": "201",
+      "lines": "209",
       "role": "input-and-independent-oracle",
-      "sha256": "ac1af4dedcce365d6ef699dbb7cf8017b1a401f257e9bbe6d1438f4610dd552b"
+      "sha256": "a8bd7a0e62174eb8bb5ae948e5749d1d0c092a16602b5f606d48dd1d32933800"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -40,23 +40,23 @@
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
       "anchor": "export function validateBattleTrace(",
-      "lines": "928",
+      "lines": "972",
       "role": "oracle",
-      "sha256": "42969391c5748190f0108960c67c5acc0f887fc1637b66851f3917b33c718fbc"
+      "sha256": "11c879b510f79f58211463f8923fac66d00caa750f29f66e3f23fb9bf7e30d05"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
       "anchor": "export async function compareBattleReports(",
       "lines": "33",
       "role": "offline-caller",
-      "sha256": "f3723de5c4ca7710b40fbb36579f08e34e61af03ea6568e86d95cffe2dcd87cd"
+      "sha256": "18cd090eb4ee04a941e5ebf39f30cd978ae1144b8daec15c87a690cc4ffa71e1"
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "1645",
-      "sha256": "31abad6f7154ab9561b49f35cbc6a7754e35aa737156f15b1b37d3d84667ce69"
+      "lines": "1693",
+      "sha256": "dc5b1c467806c7b9317ebe269e00d12a069fc4d3862db9519b12bdc1e95ffdb2"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -143,7 +143,9 @@
     "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=coop-sleep-followup",
     "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=item-effects",
     "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=item-effects",
-    "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --scenario=<registered-item-case> --audio-review"
+    "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --scenario=<registered-item-case> --audio-review",
+    "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=status-followup",
+    "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=status-followup"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -167,7 +169,8 @@
     "Raw team62, seed4 for Zhao 303: cancel the first native target and choose the other. Actual sorcery resistance 0 and 10. Raw team1, seed3: one-ally protection309 or non-protecting cleanse306 with two matching enemy hits.",
     "Raw team204, field7, seed25, Zhao Ling’er with Fairy Sword170 and Li Xiaoyao. Actual menu submits Explosion381, then enemy sleep303 disables Li before the action. The same two commands finish the legal fight after the fix.",
     "Reuse both seed4 sleep fixtures and original elemental/group spell fixtures. A first spell number may follow the first rendered reaction by one logical 40ms tick, in the same reaction pose.",
-    "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat."
+    "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat.",
+    "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -203,7 +206,10 @@
       "A cooperative submission that loses its only teammate executes a normal equipped attack. Each native hit, actual swing at the number birth, stable target anchor, per-hit sound, HP delta and RNG sequence is checked. No cooperative HP or MP cost.",
       "Ordinary offensive spells retain the advanced cast pose through the original nine-tick recovery. Damage numbers appear within the first actual reaction pose, stable after return, then the same next actor starts. The two measured windows are cross-engine bounded.",
       "Item settlement checks the same native command and target, one inventory deduction, each raw damage or restoration, effective HP and MP, poison changes, exact rule RNG order, and ordinary settlement. Throw numbers use the per-target signed raw change, including overkill and mixed throw steps.",
-      "Numbers and animation come from observed frames. Check whole-party glow, actual FIRE frames and paint order, same-frame drain damage and recovery at the acting foot, recovery pose on revival, and timing from raise through the first number to the next actor."
+      "Numbers and animation come from observed frames. Check whole-party glow, actual FIRE frames and paint order, same-frame drain damage and recovery at the acting foot, recovery pose on revival, and timing from raise through the first number to the next actor.",
+      "A queued attack after sleep cleanse must come from the expected native player slot after another actor uses Lingxin Talisman, with no submitted attack in that round.",
+      "Party healing draws FIRE28 once at each live actor anchor, with all declared recipients present and original paint order. Drain preserves the captured entry pose in all four approach steps.",
+      "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage."
     ]
   },
   "dedupe": {
@@ -213,7 +219,7 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as diagnostics only."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics."
   },
   "runtimeExecution": {
     "performed": true,
@@ -221,9 +227,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
+    "producerRevision": "5aa5cb252597dfaf6989e5d91f203b2253449770",
     "result": "passed",
-    "verification": "28 item fixture fights with 14 cross-engine and 14 same-engine comparisons and 152 Web Audio cue starts after the first command. A separate 34-fixture matrix completed 136 fights, 68 cross-engine and 68 same-engine comparisons. Earlier published executions retain their identities.",
+    "verification": "20 native fights in five fixed cases with 10 cross-engine and 10 same-engine comparisons. Supplemental throw, threshold and status cases retain their own execution identities.",
     "continuous": false
   },
   "execution": {
@@ -297,11 +303,11 @@
   "hashes": [
     {
       "path": "scripts/e2e/battle-foundation.mjs",
-      "sha256": "909dc3bc5bdca4a078ab0593ef5b7845e1ecc476fb76a2d4cd33f4581f5a799d"
+      "sha256": "70f955a887524322cad20bb88b02aa895d73a54e04f62c950815c417f4c974a7"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "ac1af4dedcce365d6ef699dbb7cf8017b1a401f257e9bbe6d1438f4610dd552b"
+      "sha256": "a8bd7a0e62174eb8bb5ae948e5749d1d0c092a16602b5f606d48dd1d32933800"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -313,15 +319,15 @@
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "sha256": "42969391c5748190f0108960c67c5acc0f887fc1637b66851f3917b33c718fbc"
+      "sha256": "11c879b510f79f58211463f8923fac66d00caa750f29f66e3f23fb9bf7e30d05"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
-      "sha256": "f3723de5c4ca7710b40fbb36579f08e34e61af03ea6568e86d95cffe2dcd87cd"
+      "sha256": "18cd090eb4ee04a941e5ebf39f30cd978ae1144b8daec15c87a690cc4ffa71e1"
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "31abad6f7154ab9561b49f35cbc6a7754e35aa737156f15b1b37d3d84667ce69"
+      "sha256": "dc5b1c467806c7b9317ebe269e00d12a069fc4d3862db9519b12bdc1e95ffdb2"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -10151,6 +10157,17 @@
         "bytes": 85383
       },
       "purpose": "Bound original and current item/throw traces, source bundle, stereo review, narrow diagnostics and quality receipts."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz",
+      "sha256": "2f7b6626c11cfcdd45a93605024ab97d403fea3eb4378f403863d0fb001bec30",
+      "bytes": 71673760,
+      "manifest": {
+        "path": "build/q2/status-final/archive-index.json",
+        "sha256": "23240ea8369569cb3e5e07907ba6ab803d640efd8ddf4c21e5a91ab7beb0a3ea",
+        "bytes": 87037
+      },
+      "purpose": "Paired native battle followup, explicit threshold diagnostics, sound review, verified original replay drivers and quality receipts."
     }
   ],
   "claims": [
@@ -10609,6 +10626,65 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T08-38-24-879Z/report.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T08-38-54-523Z/report.json"
       ]
+    },
+    {
+      "id": "native-status-followup-and-throw-recovery",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-34-12-263Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-35-56-549Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/paired/comparison.json"
+      ]
+    },
+    {
+      "id": "native-chemical-threshold-and-release-feedback",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/5aa5cb252-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-item-effects-threshold-draw-final-game-2026-11-13T13-34-16-107Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-item-effects-threshold-draw-final-reforge-2026-11-13T13-34-16-118Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/delta-5aa5cb252/receipt.sha256"
+      ]
+    },
+    {
+      "id": "empty-throw-actions-and-supplemental-status",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/status-20-fights.tar.gz",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-actions-aligned-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-code-receipt.md",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-author-roundtrip.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/matrix.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-red-final.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-green.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/rendered-party-frozen.json"
+      ]
+    },
+    {
+      "id": "status-followup-original-speed-stereo-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/final-review/battle-status-and-throws-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/final-review/media.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-34-12-265Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-35-03-779Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-35-44-033Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-36-23-002Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-37-01-219Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-37-37-511Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-38-13-429Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-38-49-293Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/chemical-all-high-game-vs-reforge-5aa5cb252-1x.mp4.json"
+      ]
+    },
+    {
+      "id": "status-followup-item-matrix-regression",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/item-regression/paired/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-46-12-276Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-48-52-276Z/report.json"
+      ]
     }
   ],
   "findings": [
@@ -10905,6 +10981,23 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/diagnostics/q2-item-effects-empty-throw-flags-reforge-2026-11-13T08-41-50-233Z/report.json"
       ],
       "result": "The first Reforge menu probe expected the wrong screen after Escape. The paired menu conclusion uses the later completed executions of the same diagnostic driver."
+    },
+    {
+      "kind": "status-followup-native-and-oracle-counterexamples",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T12-45-13-556Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T12-54-10-549Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T12-44-12-569Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/oracle-slot-counters.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/oracle-slot-counters-old.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-ratchet.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/threshold-before.tar.gz",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/chemical-threshold-before-timing.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-inventory-overlap.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-inventory-overlap.exit",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-inventory-overlap.baseline.json"
+      ],
+      "result": "The recorded earlier release delay, short-lived throw capture, older menu/pose/strike differences, oracle falsifications and preliminary coverage drop retain their actual outcomes. The current five-case group was reproduced from original traces. An intermediate local ratchet overlapped a Game test-only commit and reported inventory 20,520 versus 20,521 executed. The generated baseline was discarded, and the completed frozen ratchet was accepted after matching counts."
     }
   ],
   "cleanup": {
@@ -11200,6 +11293,51 @@
         }
       ],
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz"
+    },
+    {
+      "revision": "5aa5cb252597dfaf6989e5d91f203b2253449770",
+      "date": "2026-11-13",
+      "action": "native-status-followup-and-throw-recovery",
+      "scope": "Five paired fixed fixtures, separate PAL empty throw and threshold diagnostics, independent status and protect expiry probes, and normal-speed stereo review.",
+      "predecessor": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-foundation.mjs",
+          "anchor": "await runBrowserJourney({",
+          "lines": "57",
+          "role": "caller",
+          "sha256": "909dc3bc5bdca4a078ab0593ef5b7845e1ecc476fb76a2d4cd33f4581f5a799d"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-scenarios.mjs",
+          "anchor": "function defineScenario(",
+          "lines": "201",
+          "role": "input-and-independent-oracle",
+          "sha256": "ac1af4dedcce365d6ef699dbb7cf8017b1a401f257e9bbe6d1438f4610dd552b"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "anchor": "export function validateBattleTrace(",
+          "lines": "928",
+          "role": "oracle",
+          "sha256": "42969391c5748190f0108960c67c5acc0f887fc1637b66851f3917b33c718fbc"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-compare.mjs",
+          "anchor": "export async function compareBattleReports(",
+          "lines": "33",
+          "role": "offline-caller",
+          "sha256": "f3723de5c4ca7710b40fbb36579f08e34e61af03ea6568e86d95cffe2dcd87cd"
+        },
+        {
+          "path": "scripts/e2e/battle-presentation.mjs",
+          "anchor": "export function validateBattlePresentation(",
+          "role": "render-oracle",
+          "lines": "1645",
+          "sha256": "31abad6f7154ab9561b49f35cbc6a7754e35aa737156f15b1b37d3d84667ce69"
+        }
+      ],
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz"
     }
   ],
   "_governance": {
@@ -11686,6 +11824,108 @@
         "item-throw-poison-sand",
         "item-throw-drain",
         "item-revival-after-knockout"
+      ]
+    }
+  },
+  "statusFollowupExecution": {
+    "date": "2026-11-13",
+    "producerRevision": "5aa5cb252597dfaf6989e5d91f203b2253449770",
+    "verificationReports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-34-12-263Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-35-56-549Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/paired/comparison.json"
+    ],
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/final-review/battle-status-and-throws-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/final-review/media.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-34-12-265Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-35-03-779Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-35-44-033Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-36-23-002Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-37-01-219Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-37-37-511Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T13-38-13-429Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T13-38-49-293Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/chemical-all-high-game-vs-reforge-5aa5cb252-1x.mp4.json"
+    ],
+    "threshold": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/5aa5cb252-comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-item-effects-threshold-draw-final-game-2026-11-13T13-34-16-107Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-item-effects-threshold-draw-final-reforge-2026-11-13T13-34-16-118Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/threshold-draw-final/delta-5aa5cb252/receipt.sha256"
+    ],
+    "supplemental": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/status-20-fights.tar.gz",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-actions-aligned-comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-code-receipt.md",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/item-effects/empty-throw-author-roundtrip.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/matrix.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-red-final.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-green.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/rendered-party-frozen.json"
+    ],
+    "executionSummary": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/execution.json",
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/inventory-overlap-coverage-start-revision",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/inventory-overlap-coverage-end-revision",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/lint-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/typecheck-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/e2e-tools-strict.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/battle-oracles-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/doc-bridge-tests.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/game-final-focussed.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/docs-first.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-final.exit",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-start-revision",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-end-revision",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-start-source-status",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-end-source-status"
+    ],
+    "visualAcceptance": "pending",
+    "coverage": {
+      "base": "5a5a02a2f56eb4748d0415e902c334999121dcdb",
+      "revision": "8a100f4d19332c8b8aead301a8ce65db8ff608ed",
+      "testCount": 20521,
+      "packageCount": 7,
+      "result": "passed",
+      "report": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-final.log",
+      "metrics": {
+        "statements": {
+          "covered": 74938,
+          "total": 82594
+        },
+        "branches": {
+          "covered": 54626,
+          "total": 64721
+        },
+        "functions": {
+          "covered": 14203,
+          "total": 15755
+        },
+        "lines": {
+          "covered": 66943,
+          "total": 72283
+        }
+      },
+      "baselineSha256": "89c9f68abcb454e9b28a55b650de7e755ef9482e7a0bf50a9697e687795b90b3"
+    },
+    "nestedTriggerRegression": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-audit/nested-trigger-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-audit/wrong-child-slot.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-audit/wrong-restored-slot.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/throw-threshold-original/cadence-audit/green-restored.json"
+    ],
+    "itemRegression": {
+      "revision": "8a100f4d19332c8b8aead301a8ce65db8ff608ed",
+      "result": "passed",
+      "fixtures": 8,
+      "paired": 16,
+      "repeats": 16,
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/item-regression/paired/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-46-12-276Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-48-52-276Z/report.json"
       ]
     }
   }
