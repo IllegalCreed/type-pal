@@ -48,6 +48,10 @@ export function nextReforgeBattleKey(readout, command) {
   if (view.phase === 'throwItem' && command.kind === 'throw')
     return selectInventoryItem(readout.throwMenu, command.itemId, 'throw')
   if (view.phase === 'target') {
+    if (command.kind === 'attack' && command.targetSide === 'enemy' && command.targetId === null)
+      // Preserve the old engine's extra physical confirmation in diagnosis. The native
+      // command and input receipts remain responsible for showing the interaction difference.
+      return 'Enter'
     const targets =
       view.targetSide === 'ally'
         ? readout.snapshot.players

@@ -221,7 +221,7 @@ function action(value, path, domain, allowPass = false) {
       integer(value.turn) &&
       text(value.actorId) &&
       (['attack', 'item', 'defend', 'cast', 'coop', 'throw'].includes(kind) ||
-        (allowPass && kind === 'pass')) &&
+        (allowPass && ['pass', 'attack-mate'].includes(kind))) &&
       (group
         ? !noTarget && ['player', 'enemy'].includes(value.targetSide) && value.targetId === null
         : noTarget

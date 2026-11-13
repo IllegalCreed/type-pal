@@ -44,6 +44,7 @@ import { mountDevScenePanel } from './dev-scene-panel.js'
 export { togglePartyMembership } from './dev-party-panel.js'
 
 import { startBattle } from '../core/battle/battle-system.js'
+import { updateAllEquipments } from '../core/equip-effect.js'
 import {
   buildLabelMap,
   getGlobalCommands,
@@ -1638,6 +1639,9 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
   // 2.5 边界同步:把(override 后的)静态 roles hydrate 进 gs.PlayerRolesRuntime —— 战斗经 projection
   //     吃这份当前属性,战后回写/升级也读这份(原 fixture 绕过 runtime → 升级/持久化读不到)。
   hydratePlayerRolesRuntime(deps.gs.PlayerRolesRuntime, deps.resources.playerRoles)
+  // A fixture can replace the equipped item before it takes the battle-role snapshot.
+  if (Object.values(fixture.playerOverrides ?? {}).some((override) => override.equipment))
+    updateAllEquipments(deps.gs, deps.resources.items)
 
   // 2.55 level override 也必须同步主经验等级。战斗显示读 runtime,但胜利结算 / 状态 EXP 栏会读 gs.Exp;
   //      若只改 PlayerRolesRuntime,自定义战斗的等级会在结算链路看起来"没生效"。
