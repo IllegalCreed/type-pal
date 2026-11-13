@@ -1738,12 +1738,12 @@ export class BattleSession {
       })
       return frames
     }
-    // 投掷道具(frame5 投掷姿 → 目标染色闪 → 复位；纯施毒不显数字，即时伤害显蓝字)
+    // 投掷道具(前移、挥臂、出手 → 目标染色闪 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
       const item = la.itemId ? s.items[la.itemId] : undefined
-      const throwSound = item?.throw?.sound
+      const throwSound = item?.throw?.sound ?? this.opts.playerSounds?.[la.idx]?.magic
       const presentation = item?.throw?.presentation
       let throwPresentation: Parameters<typeof buildThrowItem>[0]['presentation']
       if (presentation?.kind === 'magic') {
@@ -1775,6 +1775,8 @@ export class BattleSession {
       return buildThrowItem({
         casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
+        casterPos: attackerPos,
+        ...(item ? { itemName: item.name } : {}),
         hits: la.throwHits.map((hit) => ({
           idx: hit.idx,
           damage: Math.max(0, (eHp[hit.idx] ?? 0) - (s.enemies[hit.idx]?.hp ?? 0)),

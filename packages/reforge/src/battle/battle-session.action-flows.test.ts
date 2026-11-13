@@ -452,6 +452,72 @@ describe('W3 执行时间线接线', () => {
     expect(h.readParty()[0]?.mp).toBe(82)
   })
 
+  test('木剑投掷实绘四步、挥臂和出手姿，角色音早于命中特效音', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '166'))[0])
+    const presentation = expectDefined(item.throw?.presentation)
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { attackStrength: 52, baseDexterity: 903 })],
+      enemies: [enemy],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        playerSounds: [{ magic: 'sound.pal.009' }],
+      },
+    })
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.fireSprites = {
+      [presentation.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[0])],
+      },
+    }
+    const ctx = battleCanvas()
+    const draw = () => h.session.render(ctx, 1)
+    const fighterAt = (x: number, footY: number) => ctx.getImageData(x, footY - 8, 1, 1).data[0]
+    h.press(['w'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 20 && !h.session.debugLog().some((line) => line.includes('投掷 木剑')); i++)
+      h.idle(8)
+    expect(h.session.debugLog().some((line) => line.includes('投掷 木剑'))).toBe(true)
+    draw()
+    expect(fighterAt(236, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+
+    for (const [x, y] of [
+      [233, 167],
+      [231, 166],
+      [230, 166],
+    ] as const) {
+      h.idle(40)
+      draw()
+      expect(fighterAt(x, y)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    }
+    h.idle(119)
+    expect(sfx.plays).toEqual([])
+    h.idle(1)
+    draw()
+    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(320)
+    draw()
+    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    h.idle(80)
+    expect(sfx.plays).toEqual(['sound.pal.009', 'sound.pal.347'])
+    h.idle(250) // 一张 50ms 特效 + 200ms 现有命中帧。
+    draw()
+    expect(fighterAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    const inventory = [{ itemId: item.id, count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+  })
+
   test('灯笼普攻在首帧播放起手音，命中与死亡保留原声', async () => {
     const enemy = expectDefined(
       validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-399'))[0],

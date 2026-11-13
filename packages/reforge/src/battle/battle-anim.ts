@@ -507,6 +507,8 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
 export interface BuildThrowItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
+  casterPos?: { x: number; y: number }
+  itemName?: string
   /** 当前投掷命中的目标快照；保留 0 伤害目标以播放施毒/状态命中闪烁。 */
   hits?: Array<{ idx: number; damage: number }>
   /** @deprecated 单目标兼容入口。 */
@@ -523,7 +525,7 @@ export interface BuildThrowItemInput {
   damage?: number
 }
 
-/** 投掷道具：投掷姿 → 可选 OffMagic → 目标闪色/结果数字 → 双方复位。 */
+/** 投掷道具：前移、挥臂与出手(fight.c:4339–4356) → 可选 OffMagic → 结果数字与复位。 */
 export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
   const hits =
     input.hits ??
@@ -532,13 +534,25 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       : [{ idx: input.targetIdx, damage: Math.max(0, input.damage ?? 0) }])
   if (hits.length === 0) throw new Error('buildThrowItem: 至少需要一个目标')
   const positiveHits = hits.filter((hit) => hit.damage > 0)
-  const frames: AnimFrame[] = [
-    {
-      durationMs: 120,
-      fighters: [{ side: 'player', idx: input.casterIdx, frame: input.casterFrames.preMagic }],
-      ...(input.sound ? { sound: input.sound } : {}),
-    },
-  ]
+  const { casterIdx, casterPos, casterFrames, itemName, sound } = input
+  const frames: AnimFrame[] = []
+  if (casterPos) {
+    appendPlayerApproach(frames, casterIdx, casterPos)
+    frames.push({
+      durationMs: delayMs(2),
+      ...(itemName ? { banner: { text: itemName, durationMs: delayMs(12) } } : {}),
+    })
+  }
+  frames.push({
+    durationMs: casterPos ? delayMs(8) : 120,
+    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.preMagic }],
+    ...(sound ? { sound } : {}),
+  })
+  if (casterPos)
+    frames.push({
+      durationMs: delayMs(2),
+      fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
+    })
   if (input.presentation)
     frames.push(
       ...buildOffMagic({
@@ -571,7 +585,12 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
     {
       durationMs: 160,
       fighters: [
-        { side: 'player', idx: input.casterIdx, frame: input.casterFrames.idle },
+        {
+          side: 'player',
+          idx: casterIdx,
+          frame: casterFrames.idle,
+          ...(casterPos ? { pos: casterPos } : {}),
+        },
         ...hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 0 })),
       ],
     },
@@ -888,6 +907,23 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   return frames
 }
 
+function appendPlayerApproach(
+  frames: AnimFrame[],
+  casterIdx: number,
+  casterPos: { x: number; y: number },
+): { x: number; y: number } {
+  let { x, y } = casterPos
+  for (let i = 0; i < 4; i++) {
+    x -= 4 - i
+    y -= Math.trunc((4 - i) / 2)
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, pos: { x, y } }],
+    })
+  }
+  return { x, y }
+}
+
 /**
  * 玩家施法时间线(fight.c:2363-2444 PreMagic + 2608-2844 OffMagic 主干):
  * 上移 4 帧(x−=4−i,y−=⌊(4−i)/2⌋) → Delay2 → frame5 施法手势 → 前摇特效 10 帧(chunk10)
@@ -896,18 +932,9 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
  */
 export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   const { casterIdx, casterPos, castEffectBase, fireFrames, fx, targetPos, damageNums } = input
-  const frames: AnimFrame[] = []
   // —— PreMagic:上移 4 帧 ——
-  let cx = casterPos.x
-  let cy = casterPos.y
-  for (let i = 0; i < 4; i++) {
-    cx -= 4 - i
-    cy -= Math.trunc((4 - i) / 2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: casterIdx, pos: { x: cx, y: cy } }],
-    })
-  }
+  const frames: AnimFrame[] = []
+  const { x: cx, y: cy } = appendPlayerApproach(frames, casterIdx, casterPos)
   frames.push({ durationMs: delayMs(2) })
   frames.push({
     durationMs: delayMs(1),
