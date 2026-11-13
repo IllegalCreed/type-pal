@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "c4ae9ab727176a65c876e24502c4d654a555afc374a59a14f6d4a4b5e722db8b",
+      "afterSha256": "8eb92c68349c3b8d6fd88fee973b399a16aa43c632f7858ed67bfb3a0fd36bfd",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -739,7 +739,7 @@
         "date": "2026-11-13",
         "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
         "reviewedLines": 122,
-        "acceptanceScope": "当前已验范围及后续待办。"
+        "acceptanceScope": "原独立复核覆盖当时已验范围与后续待办。Codex 根据用户回复和任务卡更新分屏验收及待集成状态。"
       }
     },
     {
@@ -5380,14 +5380,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "aad596c7794bd1ddd5906cae4ce59730c1ef9e7235f8ee709e2ac83b73a6fe0e",
+      "afterSha256": "3a5e069dd428deaad09c7b54ba333fd3ae4471912e4443f4597638f4ac1040f6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
         "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
-        "reviewedLines": 348,
-        "acceptanceScope": "旧版同输入、候选范围、分工、定向差异与本轮分屏。"
+        "reviewedLines": 350,
+        "acceptanceScope": "原独立复核覆盖旧版同输入、候选范围、分工、定向差异与分屏原件。Codex 根据用户回复和冻结归档追加实际视觉验收范围。"
       }
     },
     {
