@@ -288,7 +288,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const group = process.argv[5]
   assert(
     process.argv.length === 5 || (process.argv.length === 6 && group.startsWith('--group=')),
-    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=established|player-actions|coop-sleep-followup]',
+    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=GROUP]',
   )
   const result = await compareBattleReports(process.argv[2], process.argv[3], group?.slice(8))
   const out = resolve(process.argv[4])

@@ -41,6 +41,7 @@ import {
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
   testingBattleSessionSourcePath,
+  testingBattleSessionThrowFeedbackBase,
 } from './testing-battle-publication.mjs'
 import {
   assertTestingChestSourceBridge,
@@ -462,6 +463,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionCooperativeRecoveryBase, [testingCatalogPath])
   const preBattleItemEffects =
     preBattle && gitTree(root, testingBattleSessionItemEffectsBase, [testingCatalogPath])
+  const preBattleThrowFeedback =
+    preBattle && gitTree(root, testingBattleSessionThrowFeedbackBase, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
@@ -516,6 +519,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     itemEffectsFixed: {
       revision: testingBattleSessionItemEffectsBase,
       readSource: preBattleItemEffects.read,
+    },
+    throwFeedbackFixed: {
+      revision: testingBattleSessionThrowFeedbackBase,
+      readSource: preBattleThrowFeedback.read,
     },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.
