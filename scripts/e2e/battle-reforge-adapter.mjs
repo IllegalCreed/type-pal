@@ -22,6 +22,7 @@ let nativeState
 let world
 let selection
 let selectingSlot
+let usableMenu
 let throwableMenu
 let beforeAction
 let beforeGuards
@@ -220,6 +221,7 @@ const harness = {
     activeDialogue = dialogue
   },
   selectionContext(context) {
+    usableMenu = context.usableItems.map(({ itemId }) => ({ itemId }))
     throwableMenu = context.throwableItems.map(({ itemId }) => ({ itemId }))
   },
   beginFrame(state, clockMs, animating, selecting) {
@@ -409,6 +411,9 @@ const harness = {
               }),
             }
           : null,
+      ...(selection?.phase === 'item' && selecting
+        ? { itemMenu: { cursor: selection.itemIndex, items: usableMenu } }
+        : {}),
       ...(selection?.phase === 'throwItem' && selecting
         ? { throwMenu: { cursor: selection.itemIndex, items: throwableMenu } }
         : {}),

@@ -207,6 +207,14 @@ await runBrowserJourney({
           )
         } else {
           assert.equal(result.judge.status, 'passed', JSON.stringify(result.judge))
+          if (audioReview) {
+            assert.equal(
+              result.presentation.status,
+              'passed',
+              JSON.stringify(result.presentation.findings),
+            )
+            assert.equal(result.rules.status, 'passed', JSON.stringify(result.rules.findings))
+          }
           if (previous) {
             result.repeatJudge = compareBattleRepeats(previous, trace, scenario)
             assert.equal(result.repeatJudge.status, 'passed', JSON.stringify(result.repeatJudge))

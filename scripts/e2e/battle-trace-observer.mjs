@@ -358,10 +358,10 @@ export function installBattleTraceObserver(context, createRecorder) {
         floatTargets.set(number, { side, slot, numberId: nextNumberId++ })
     },
     numberDrawn(number, value, tone, right, y, age) {
-      if (!frame || !['yellow', 'blue'].includes(tone)) return
+      if (!frame || !['yellow', 'blue', 'cyan'].includes(tone)) return
       const target = floatTargets.get(number)
       if (!target) {
-        recorder.fail('a drawn HP number has no native target')
+        recorder.fail('a drawn stat number has no native target')
         return
       }
       frame.numbers.push({ ...target, value, tone, right, y, age })

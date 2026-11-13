@@ -9,7 +9,7 @@ Visual Verification Owner: Codex（双端采集与复验） / User（产品取�
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-13
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-coop-sleep-followup
+Branch: codex/q2-battle-item-effects
 
 ## 目标
 
@@ -102,7 +102,9 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 该批合并候选 `7138b4899bc1bb86f75efe682693c5c94a5574bf` 补齐 Game 投掷后防御队友与已败敌槽的回归，按保护基点实测七包 20,489 项，并写回快测基线。文档与快测覆盖通过后，PR #62 合入 `fb1105ccabecbaa46bc1019280ad51e2aed5d323`。本地 main 已快进，清理 19 个已并入的本地分支及一个远端分支。两条旧版反例与贡献候选的可恢复引用有独立收据。 [PR #62](https://github.com/IllegalCreed/type-pal/pull/62) · [文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43377748515/job/131728101201) · [快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43377748425/job/131728101339)
 
-2026-11-13，用户对合击降级后的仙女剑双击、回梦命中收招和回梦抵抗收招三段原速带声分屏回复「通过」。分屏来自冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294`，归档成员为 `build/q2/av/player-action-followup/coop-sleep-followup-split.mp4`，SHA-256 为 `af8a48c1321ad281820fdced1c9dd6bee8f77d86328156ad38c5dc459e5b5104`。本批待保护 PR 集成。 [分屏及日志归档](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)
+2026-11-13，用户对合击降级后的仙女剑双击、回梦命中收招和回梦抵抗收招三段原速带声分屏回复「通过」。分屏来自冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294`，归档成员为 `build/q2/av/player-action-followup/coop-sleep-followup-split.mp4`，SHA-256 为 `af8a48c1321ad281820fdced1c9dd6bee8f77d86328156ad38c5dc459e5b5104`。两项保护检查通过后，PR #63 合入主线 `398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c`。本地 main 已快进。五个已接收本地分支和一个远端分支已退役，来源和恢复引用随道具批次归档。 [分屏及日志归档](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz) · [PR #63](https://github.com/IllegalCreed/type-pal/pull/63) · [文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43384329764/job/131749153331) · [快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43384329762/job/131749153182)
+
+2026-11-13，用户对灵蛊与风灵符、毒龙砂、吸星锁、还魂香四段原速带声分屏回复「通过，继续推进吧」，随后要求由 Codex 逐项核对差异和补齐采集原件。分屏来自冻结候选 `bd48eda19ab9e08b9c17c176c08ff1a9243862d4`，归档成员为 `build/q2/item-effects/battle-item-effects-split.mp4`，SHA-256 为 `3f17f29b8c00b3cb7c536b7aa2d7c0348d3199bc5a9669a2855d8ce68350e317`。覆盖报告继续记录化尸水、七件投掷入口为零的原盘道具及重新核出的濒死出手姿态。 [道具分屏与原件](../evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz)
 
 ## 2026-11-11 首批分屏返工
 
@@ -335,6 +337,23 @@ Codex build allowed。`q2_rules` 独占 Reforge 合击降级、普通攻击的�
 冻结候选 `c0261df4ad87aff4d89a972a60c03a0f6eb9b294` 完成 108 场正常战斗及 54 组双端、54 组同端比较。赵灵儿的两次攻击各有实际蓝字和音效，回梦命中与抵抗的旧版节拍差被新判据拒绝，复跑两端均在约九拍后归位。相同候选另录三段原速带声分屏，已获[用户验收](#用户验收)。三人及首击致死的降级边界按覆盖台账继续。 [合击与回梦原件及分屏](../evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)
 
 Reforge 371 个测试文件、9,073 项及 E2E 工具 462 项通过。以 PR #62 的受保护基点复验七包 20,495 项，写回实测覆盖。七包 typecheck、文档工具 586 项、文档完整性及 lint 零诊断。当前分支已接入 PR #62 合并提交，生产与 E2E 采集输入的冻结字节保持一致。 [快测基线](../../../scripts/coverage/baseline.fast.json)
+
+## 2026-11-13 战斗道具与投掷
+
+用户批准按覆盖台账继续。基点 `398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c`，Codex 记录 build allowed。Game 投掷及真实菜单采集由 `q2_item_fixture` 持有，Game 用物收尾由 `q2_item_originals` 持有，Reforge 用物演出及会话来源由 `q2_item_reforge` 持有，Codex 持 Reforge 投掷结算、PAL 道具正文、独立判据、正式双端复跑与出版。保持现行 content23/SAVE12。
+
+| 义务 | 原盘、修前与修复 |
+| --- | --- |
+| 投掷伤害与消费 | 原盘 0x42、0x28、0x21 按脚本顺序执行，最后一次显示每个目标的统计变化。Game 的毒龙砂原来在同槽叠数字，Reforge 的风灵符原来把显示伤害钳到敌人剩余体力。修复后一敌一个总量，实际 HP 仍钳到零，背包只扣一次。 |
+| 吸血与随机 | 原盘 0x39 的固定敌伤和施用者有效回血同帧显示在各自底锚。Game 原用施用者归位锚，Reforge 原晚约八拍。29 件物品原始模拟法术 24 的伤害为零，但仍有一掷，补回同一现行效果结构。 |
+| 群体用物与复活 | 灵蛊辉光覆盖目标全队，青字按各自有效真气变化。还魂香在自然阵亡后真实使用，辉光末归位和复活姿态先于或同于黄字。Game 的八拍移到结果后，Reforge 保留已裁定的六步靠近。 [Reforge 动作](../../../packages/reforge/src/battle/battle-anim.ts#L457) |
+| 反例 | 同输入核旧版毒龙砂分项数字、风灵符钳值、吸星锁锚点与异帧、灵蛊漏辉光、还魂香倒地帧和用物提前交接。完整比较要求实际指令、规则抽样、库存、伤害或回复、画面、音效与正式结算共同成立。 |
+
+冻结候选 `bd48eda19ab9e08b9c17c176c08ff1a9243862d4`。七个固定局面各端各跑两次，共 28 场，14 组双端及 14 组同端比较通过。Game 首次全矩阵在浏览器关闭时超过 2 秒，保留失败报告。独立重跑 Game 后，完整 34 局面 136 场通过离线判定，共 68 组双端、68 组同端比较。代表四场交同候选的原速带声分屏，已获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷) · [双端原件与分屏](../evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz)
+
+首次快测 20,499 项通过，Game 分支和函数、全仓函数的覆盖比例低于保护基点。测试补丁 `eb8d84283bedbfcc06d877b6a614706d92211180` 用合法菜单与组合脚本检查净回血和净零时的飘字，并用正式绘制器检查吸血黄字跟随出手位置。两份文件 32 项通过。三个新判据分别在对应修正前的实现上出现预期业务断言失败，在当前实现上恢复。报告、三组红绿回执和完整命令位于同一归档。
+
+按保护基点重新跑快测，七包共 20,502 项通过。Game 分支达到 10,060/12,362，函数达到 1,905/2,181，快测基线实际更新。全仓类型检查和 lint 零诊断。 [前后运行及质量回执](../evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz)
 
 ## 状态与交接
 

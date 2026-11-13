@@ -38,6 +38,15 @@ export function nextGameBattleKey(readout, command) {
       return selectGrid(readout.skillMenu, 'skillId', command.skillId)
     return 'Escape'
   }
+  if (readout.uiState === 'selectTargetEnemyAll' || readout.uiState === 'selectTargetPlayerAll') {
+    const side = readout.uiState === 'selectTargetEnemyAll' ? 'enemy' : 'player'
+    assert(
+      command.targetId === null && command.targetSide === side,
+      `Game expected a group command for ${side}`,
+    )
+    // CLASSIC commits target -1 without consuming a target confirmation key.
+    return null
+  }
   const targetSide =
     readout.uiState === 'selectTargetEnemy'
       ? 'enemies'

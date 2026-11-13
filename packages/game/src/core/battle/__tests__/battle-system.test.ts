@@ -3601,7 +3601,7 @@ describe('throw-item action 派发(E2)', () => {
     expect(gs.inventory[0]!.count).toBe(0) // 武器投掉
   })
 
-  it('UseItem action → 先播用物前摇,动画后才跑 scriptOnUse + 扣 inventory(fight.c:4385-4400)', () => {
+  it('用物在归位时结算并显示数值，八拍后才推进下一行动', () => {
     const item: Item = {
       id: 1,
       _name: '疗伤丹',
@@ -3645,7 +3645,6 @@ describe('throw-item action 派发(E2)', () => {
       actionId: 1,
       targetIdx: 0,
     })
-    expect(st.battleAnim?.frames).toHaveLength(15) // Delay(4)+colorShift 0..6 + 5..0 + DM12 尾 Delay(8)
     expect(st.battleAnim?.frames[1]?.sound).toBe(28)
     expect(st.players[0]!.pos).toEqual(st.players[0]!.posOriginal) // frame0 是 PAL_BattleDelay(4),尚未前移
     expect(gs.inventory[0]!.count).toBe(2)
@@ -3663,15 +3662,29 @@ describe('throw-item action 派发(E2)', () => {
     expect(resources.playerRoles.roles[0]!.hp).toBe(100)
     expect(st.currentActionIndex).toBe(0)
 
-    let guard = 40
-    while (st.battleAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
+    // The source gesture has 13 target-flash beats after its initial four-beat wait.
+    for (let i = 0; i < 13; i++) tickBattle(gs, emptyInput, bus)
 
-    expect(guard).toBeGreaterThan(0)
-    expect(st.battleAnim).toBeUndefined()
-    expect(st.currentActionIndex).toBe(1)
     expect(gs.inventory[0]!.count).toBe(1)
     expect(resources.playerRoles.roles[0]!.hp).toBe(140)
-    expect(bus.drain().map((e) => e.cmd)).toContainEqual({ op: 'playSound', soundId: 28 })
+    expect(st.players[0]!.pos).toEqual(st.players[0]!.posOriginal)
+    expect(st.players[0]!.currentFrame).toBe(0)
+    expect(st.currentActionIndex).toBe(1)
+    const release = bus.drain().map((e) => e.cmd)
+    expect(release).toContainEqual({ op: 'playSound', soundId: 28 })
+    expect(release.filter((cmd) => cmd.op === 'showDamageNum')).toEqual([
+      { op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 40, color: 'yellow' },
+    ])
+
+    for (let i = 0; i < 8; i++) tickBattle(gs, emptyInput, bus)
+    expect(st.battleAnim).toBeUndefined()
+    expect(st.currentActionIndex).toBe(1)
+    expect(resources.playerRoles.roles[0]!.hp).toBe(140)
+    expect(bus.drain()).toEqual([])
+
+    tickBattle(gs, emptyInput, bus)
+    expect(st.battleAnim).toBeDefined()
+    expect(gs.inventory[0]!.count).toBe(1)
   })
 
   it('0x9E summon:敌人 scriptOnReady 只复用 wMaxEnemyIndex 内死亡空槽,不扩容单敌队伍', () => {

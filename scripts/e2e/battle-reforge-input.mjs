@@ -1,5 +1,14 @@
 import assert from 'node:assert/strict'
 
+function selectInventoryItem(menu, itemId, label) {
+  assert(menu, `Reforge ${label} menu was not observed`)
+  const { cursor, items } = menu
+  const index = items.findIndex((item) => item.itemId === itemId)
+  assert(index >= 0, `Reforge ${itemId} is absent from the real ${label} menu`)
+  if (cursor === index) return 'Enter'
+  return cursor < index ? 'ArrowRight' : 'ArrowLeft'
+}
+
 /** Translate an intended command into one real key; the game still owns selection and submission. */
 export function nextReforgeBattleKey(readout, command) {
   if (readout.canConfirmDialogue || readout.canConfirmSettlement) return 'Enter'
@@ -34,14 +43,10 @@ export function nextReforgeBattleKey(readout, command) {
   if (command.kind === 'item') {
     if (view.phase === 'misc') return view.miscIndex === 1 ? 'Enter' : 'ArrowDown'
     if (view.phase === 'miscSub') return view.miscSubIndex === 0 ? 'Enter' : 'ArrowUp'
-    if (view.phase === 'item') return 'Enter'
+    if (view.phase === 'item') return selectInventoryItem(readout.itemMenu, command.itemId, 'item')
   }
-  if (view.phase === 'throwItem' && command.kind === 'throw') {
-    const { cursor, items } = readout.throwMenu
-    const index = items.findIndex(({ itemId }) => itemId === command.itemId)
-    assert(index >= 0, `Reforge ${command.itemId} is absent from the real throw menu`)
-    return cursor === index ? 'Enter' : cursor < index ? 'ArrowRight' : 'ArrowLeft'
-  }
+  if (view.phase === 'throwItem' && command.kind === 'throw')
+    return selectInventoryItem(readout.throwMenu, command.itemId, 'throw')
   if (view.phase === 'target') {
     const targets =
       view.targetSide === 'ally'

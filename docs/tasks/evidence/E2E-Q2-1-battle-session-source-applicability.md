@@ -95,3 +95,17 @@ Template: evidence-receipt-v1 / 1.0.0
 | `this.selection.advance(context` | 1191–1200 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
 
 目录、配对报告与机器证据更新三个来源摘要，并追加 `q2-battle-session-cooperative-recovery-source-rebinding`。桥接按固定 Git 前驱验证旧来源和历史，再核现行片段字节、摘要及主张指针。归属测试的执行身份、义务、结果与附件沿用原记录。双端实跑结果与用户验收见 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-13 群体用物、吸血和复活的会话来源
+
+固定前驱 `398a930d2c1ddb4c0fe1a8a96271dba70e3aa93c` 是 PR #63 合并对象，已保存上一轮会话归属的目录和配对证据。其 `battle-session.ts` 的 SHA-256 为 `80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37`。道具候选 `bd48eda19ab9e08b9c17c176c08ff1a9243862d4` 的同文件 SHA-256 为 `3730d55abbb4af06a419b3d3251b7a7d68aeedf53864f7426206c46933ccf50f`。本次会话改动将群体道具的辉光应用于全部目标，在结果帧更新复活者姿态，并将投掷伤害和吸血回血数字派发到同一帧。投掷的数字取核心提供的显示值。
+
+下列三个范围在两个 Git 对象中逐字节一致。摘要覆盖末行换行。
+
+| 调用锚点 | 两版本范围 | 片段 SHA-256 |
+| --- | --- | --- |
+| `private readonly selection = new BattleCommandSelection` | 216–218 | `06748bc9b41060a59eb9ce1a4f35eaa83a1928e28cfe1b77ca79e9fce8b8aab5` |
+| `this.readiness = new BattleTurnReadinessGate` | 375–386 | `53a94cb63d8c929db87931718c62beafe957b20c8f5175fa036b6f1245be7fd2` |
+| `this.selection.advance(context` | 1191–1200 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
+
+目录、归属报告及配对证据按新摘要登记，并追加 `q2-battle-session-item-effects-source-rebinding`。桥接继续检验固定前驱、三个调用片段、主张指针及已有历史。归属测试的执行身份与结果仍取其原始记录。道具双端执行范围见 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。

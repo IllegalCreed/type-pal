@@ -73,6 +73,37 @@ test('use-item navigates actual inventory and the actual ally target', () => {
   )
 })
 
+test('Game confirms a group item only in its inventory grid, then lets native selection commit', () => {
+  const cases = [
+    ['item', '145', 'player', 'useItemSelect', 'selectTargetPlayerAll', 'KeyE'],
+    ['throw', '67', 'enemy', 'throwItemSelect', 'selectTargetEnemyAll', 'KeyW'],
+  ]
+  for (const [kind, itemId, targetSide, menuState, uiState, shortcut] of cases) {
+    const command = { actorId: 'hero', kind, itemId, targetId: null, targetSide }
+    const itemMenu = { cursor: 0, items: [{ itemId, disabled: false }] }
+    assert.equal(nextGameBattleKey(menu(), command), shortcut)
+    assert.equal(nextGameBattleKey(menu({ menuState, itemMenu }), command), 'Space')
+    assert.equal(nextGameBattleKey(menu({ uiState }), command), null)
+  }
+})
+
+test('Reforge uses the requested consumable in the native inventory grid', () => {
+  const command = { actorId: 'hero', kind: 'item', targetId: 'anu', itemId: '104' }
+  const items = [{ itemId: '99' }, { itemId: '104' }, { itemId: '145' }]
+  const reforgeItem = (cursor) => ({
+    ...menu({ engine: 'reforge' }),
+    selection: { phase: 'item' },
+    itemMenu: { cursor, items },
+  })
+  assert.equal(nextReforgeBattleKey(reforgeItem(0), command), 'ArrowRight')
+  assert.equal(nextReforgeBattleKey(reforgeItem(2), command), 'ArrowLeft')
+  assert.equal(nextReforgeBattleKey(reforgeItem(1), command), 'Enter')
+  assert.throws(
+    () => nextReforgeBattleKey(reforgeItem(1), { ...command, itemId: '95' }),
+    /absent from the real item menu/,
+  )
+})
+
 test('throw follows each native inventory to the specified weapon', () => {
   const command = { actorId: 'hero', kind: 'throw', targetId: 'lamp-a', itemId: '166' }
   const items = [{ itemId: '165' }, { itemId: '166' }]

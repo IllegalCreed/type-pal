@@ -8,6 +8,14 @@ Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
+## 2026-11-13 战斗道具与投掷
+
+原版投掷先执行整段脚本并扣一件，再按敌方槽、玩家槽显示血量变化。敌 HP 是 WORD，显示按有符号 SHORT 比较动作前后的值。风灵符计算 95 即使目标仅余 30 也显示 95。多效果同槽只显示一个总量。0x39 从敌人扣固定值，施用者回复固定值并钳最大 HP。敌伤蓝字与实际回血黄字按各自实时位置同帧出现，随后四拍保持出手姿、四拍归位。 [投掷与收尾](../../reference/sdlpal/fight.c#L4332-L4372) · [数值绘制](../../reference/sdlpal/fight.c#L626-L708) · [吸血](../../reference/sdlpal/script.c#L1573-L1586)
+
+模拟法术 0x42 先按原始无符号字段判断是否进入计算，随后基础伤害以有符号值相加。物品使用的模拟法术 24 基础字段 64537 相当于 −999，仍消耗一次独立浮动抽样。伤害钳为零，此步没有掉血数字。脚本接着执行 0x28 时，另掷巫抗。PAL 作者工程以现有零伤害效果表达该抽样，表现仍由独立特效配置持有。 [模拟法术入口](../../reference/sdlpal/fight.c#L5331-L5400) · [伤害抽样](../../reference/sdlpal/fight.c#L210-L245) · [施毒门](../../reference/sdlpal/script.c#L1175-L1219)
+
+普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
+
 ## 2026-11-13 玩家仙术、合击与投掷武器
 
 玩家施法和合击命中敌人时，普通范围内以敌基础防御和 `(等级 + 6) × 4` 之和计算伤害。群攻逐敌槽独立抽取倍率。普通施法处理完脚本和全部伤害后，再抽隐藏真气成长。合击以健康参与者的有效武术和灵力合计除以四，各付法术表所列的 HP 代价。扣费后再建立显示用的血量基线，因此费用本身不产生飘字。 [原版普通施法](../../reference/sdlpal/fight.c#L4284-L4329) · [原版合击伤害](../../reference/sdlpal/fight.c#L3982-L4039)

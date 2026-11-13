@@ -112,7 +112,7 @@ function resetEnemySlot(
  * `ctx.bus` 缺省(未注入 / 测试不传)→ 静默 no-op(不抛)。
  */
 function emitDamageNum(
-  ctx: Pick<BattleCtx, 'pendingDamageNums' | 'bus'>,
+  ctx: Pick<BattleCtx, 'pendingDamageNums' | 'pendingAnimFrames' | 'bus'>,
   kind: 'enemy' | 'player',
   idx: number,
   before: number,
@@ -120,9 +120,11 @@ function emitDamageNum(
   /** 掉血时优先显示的完整算出伤害(玩家打敌人 WORD 下溢);省略 → 用钳后 delta(回血/敌打玩家)。 */
   fullDamage?: number,
 ): void {
-  if (after === before) return
-  const color = after < before ? 'blue' : 'yellow'
-  const value = after < before ? (fullDamage ?? before - after) : after - before
+  // Keep further raw throw damage in the final sum after effective HP reaches zero.
+  if (after === before && (kind !== 'enemy' || ctx.pendingAnimFrames === undefined || !fullDamage))
+    return
+  const color = after <= before ? 'blue' : 'yellow'
+  const value = color === 'blue' ? (fullDamage ?? before - after) : after - before
   // 顺序修(2026-06-05):有 pendingDamageNums 缓冲(performMagic 施法注入)→ push 进动作缓冲,
   //   由 action 决定挂 PostMagic 第一帧或链末 fallback;无缓冲(item/throw/敌回合毒 tick)→ 即时 emit。
   //   对照 sdlpal DisplayStatChange 在动画后、PostMagic 前/开始(fight.c:4322-4323)。
@@ -1195,7 +1197,7 @@ export function dispatchBattleOpcode(
         if (enemy) {
           const before = enemy.e.health
           enemy.e.health = Math.max(0, enemy.e.health - amount)
-          emitDamageNum(ctx, 'enemy', idx, before, enemy.e.health)
+          emitDamageNum(ctx, 'enemy', idx, before, enemy.e.health, amount)
         }
       }
       if (ctx.caster?.type === 'player' && ctx.playerRoles) {

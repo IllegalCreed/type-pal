@@ -25,6 +25,35 @@ import type { BattleAnimFrame, BattleState, FighterDelta } from '../battle-state
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
 
+type DamageNumber = NonNullable<BattleAnimFrame['damageNums']>[number]
+
+function combineThrowDamageNumbers(numbers: readonly DamageNumber[]): DamageNumber[] {
+  const health = new Map<string, { target: DamageNumber['target']; change: number }>()
+  const other: DamageNumber[] = []
+  for (const { target, value, color } of numbers) {
+    if (color === 'cyan') {
+      other.push({ target, value, color })
+      continue
+    }
+    const key = `${target.kind}:${target.idx}`
+    const change = (health.get(key)?.change ?? 0) + (color === 'blue' ? -value : value)
+    health.set(key, { target, change })
+  }
+
+  // PAL_BattleDisplayStatChange reads the final signed HP difference once per
+  // enemy, then once per player (fight.c:626–688). Keep all raw damage through
+  // overkill even though the runtime keeps effective HP at or above zero.
+  const healthNumbers = [...health.values()]
+    .sort((a, b) => a.target.kind.localeCompare(b.target.kind) || a.target.idx - b.target.idx)
+    .flatMap<DamageNumber>(({ target, change }) => {
+      const signedChange = (change << 16) >> 16
+      return signedChange === 0
+        ? []
+        : [{ target, value: Math.abs(signedChange), color: signedChange < 0 ? 'blue' : 'yellow' }]
+    })
+  return [...healthNumbers, ...other]
+}
+
 export interface PerformThrowItemInput {
   state: BattleState
   /** GameState(扣 inventory 用)。 */
@@ -94,7 +123,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     ? buildThrowWindupTimeline(input.casterIdx, origin, magicSound, getWord(item.id, item._name))
     : []
   const pendingAnimFrames: BattleAnimFrame[] = []
-  const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+  const pendingDamageNums: DamageNumber[] = []
 
   // —— 跑 scriptOnThrow(battleCtx 注入 caster / target / magicTables) ——
   const targetCtx =
@@ -156,6 +185,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
       if (enemy.defeated) return
       restingFighters.push({ side: 'enemy', idx, pos: enemy.posOriginal, iColorShift: 0 })
     })
+    const damageNums = combineThrowDamageNumbers(pendingDamageNums)
     startBattleAnim(
       input.state,
       [
@@ -163,7 +193,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         ...pendingAnimFrames,
         {
           durationMs: delayMs(4),
-          ...(pendingDamageNums.length > 0 ? { damageNums: pendingDamageNums } : {}),
+          ...(damageNums.length > 0 ? { damageNums } : {}),
         },
         { durationMs: delayMs(4), fighters: restingFighters },
       ],

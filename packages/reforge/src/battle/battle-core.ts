@@ -495,6 +495,7 @@ function tickPoison(
   host: PoisonHost,
   side: 'player' | 'enemy',
   active: ActivePoison,
+  recordEnemyDamage?: (damage: number) => void,
 ): ActivePoison | undefined {
   const def = s.poisonDefs[active.poisonId]
   const ticks = side === 'player' ? def?.playerTicks : def?.enemyTicks
@@ -503,10 +504,16 @@ function tickPoison(
   const name = def.name || `毒${def.id}`
   // HP 为 0 仍可新增毒槽、进入毒脚本，但玩家 HP/MP 变更要求存活(global.c:1280-1323,1483-1515)。
   if (side === 'enemy' || host.hp > 0) {
-    if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
+    if (tick.hpDelta) {
+      host.hp = Math.max(0, host.hp + tick.hpDelta)
+      recordEnemyDamage?.(-tick.hpDelta)
+    }
     if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
-    if (tick.halveHp)
-      host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
+    if (tick.halveHp) {
+      const hpBefore = host.hp
+      host.hp = Math.max(0, hpBefore - Math.min(tick.halveHp, Math.trunc(hpBefore / 2) + 1))
+      recordEnemyDamage?.(hpBefore - host.hp)
+    }
     if (tick.hpDelta || tick.mpDelta || tick.halveHp)
       s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
   }
@@ -556,13 +563,14 @@ function applyEnemyPoisonEffect(
   enemy: BattleEnemyState,
   poisonId: number,
   rng: () => number,
+  recordEnemyDamage?: (damage: number) => void,
 ): EnemyPoisonApplication {
   const result = tryApplyPoisonToEnemy(enemy, poisonId, rng)
   if (result !== 'applied') return result
   const index = enemy.poisons.findIndex((poison) => poison.poisonId === poisonId)
   const active = enemy.poisons[index]
   if (!active) throw new Error(`applyEnemyPoisonEffect: 新毒 ${poisonId} 未落槽`)
-  const next = tickPoison(s, enemy, 'enemy', active)
+  const next = tickPoison(s, enemy, 'enemy', active, recordEnemyDamage)
   if (next) enemy.poisons[index] = next
   else enemy.poisons.splice(index, 1)
   return result
@@ -2200,9 +2208,8 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
 }
 
 /**
- * 投掷道具打敌(fight.c wScriptOnThrow):对目标敌应用 throw.effects —— applyPoison 走巫抗门
- * (0x28 下毒:rng(0,9)>=巫抗才中);damage 直接扣血;consuming 扣库存。相生相克/致死(0x5E+0x60)
- * 是后续数据层(counters/lethalPairs),此处先接基础下毒/伤害(食妖虫寄生、毒药下毒)。
+ * 按投掷效果顺序执行一次消耗。HP 保持有效值，数值反馈保留脚本的总伤害，
+ * 对应 CLASSIC 在整条投掷脚本结束后统一显示每个敌人的变化（fight.c:4361–4372）。
  */
 function performThrow(
   s: BattleState,
@@ -2274,18 +2281,21 @@ function performThrow(
   }
 
   slot.count -= 1 // 投掷必消耗
-  const throwEffects: readonly ThrowEffect[] = item.throw.effects
-  const hpBeforeByTarget = new Map(
-    targetIndices.map((enemyIdx) => [enemyIdx, expectDefined(s.enemies[enemyIdx]).hp] as const),
-  )
+  const damageByTarget = new Map(targetIndices.map((index) => [index, 0]))
   const stoppedTargets = new Set<number>()
   // PAL 的投掷脚本按 opcode/effect 推进；applyToAll 只把该 effect 扩展到稳定的目标序列。
   // 因此 RNG 必须绑定为 effect → targets，不能把完整 effect 链逐目标跑完。
-  for (let effectIndex = 0; effectIndex < throwEffects.length; effectIndex++) {
-    const eff: ThrowEffect = expectDefined(throwEffects[effectIndex])
+  for (const eff of item.throw.effects) {
     for (const enemyIdx of targetIndices) {
       if (stoppedTargets.has(enemyIdx)) continue
       const e = expectDefined(s.enemies[enemyIdx])
+      const recordDamage = (damage: number) => {
+        damageByTarget.set(enemyIdx, expectDefined(damageByTarget.get(enemyIdx)) + damage)
+      }
+      const damageEnemy = (damage: number) => {
+        e.hp = Math.max(0, e.hp - damage)
+        recordDamage(damage)
+      }
       switch (eff.kind) {
         case 'magicDamage': {
           const damage = Math.max(
@@ -2304,17 +2314,17 @@ function performThrow(
               fieldEffect: s.fieldEffect,
             }),
           )
-          e.hp = Math.max(0, e.hp - damage)
+          damageEnemy(damage)
           s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
           break
         }
         case 'fixedDamage':
-          e.hp = Math.max(0, e.hp - eff.amount)
+          damageEnemy(eff.amount)
           s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${eff.amount} 伤害`)
           break
         case 'applyPoison': {
           const pid = Number(eff.poisonId)
-          const application = applyEnemyPoisonEffect(s, e, pid, rng)
+          const application = applyEnemyPoisonEffect(s, e, pid, rng, recordDamage)
           if (application !== 'resisted')
             s.log.push(
               `${p.roleId} 投掷 ${item.name},${e.def.id} 中 ${s.poisonDefs[pid]?.name ?? `毒${pid}`}`,
@@ -2324,7 +2334,7 @@ function performThrow(
           // PoisonDef.lethalWith 检查目标已有的配对毒。
           const lethal = s.poisonDefs[pid]?.lethalWith
           if (lethal !== undefined && e.poisons.some((ap) => ap.poisonId === lethal)) {
-            e.hp = 0
+            damageEnemy(e.hp)
             s.log.push(`${e.def.id} 双毒相冲,当场暴毙`)
           }
           break
@@ -2334,7 +2344,7 @@ function performThrow(
             eff.cap,
             Math.trunc((e.hp * eff.numerator) / eff.denominator) + eff.bonus,
           )
-          e.hp = Math.max(0, e.hp - damage)
+          damageEnemy(Math.min(e.hp, damage))
           s.log.push(`${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${damage} 伤害`)
           break
         }
@@ -2352,7 +2362,7 @@ function performThrow(
           break
         case 'killIfHpAtMost':
           if (e.hp * 100 <= e.def.stats.health * eff.percent) {
-            e.hp = 0
+            damageEnemy(e.hp)
             s.log.push(`${e.def.id} 魂飞魄散`)
           } else {
             s.log.push('无任何效果')
@@ -2360,7 +2370,7 @@ function performThrow(
           }
           break
         case 'damageAndHealCaster':
-          e.hp = Math.max(0, e.hp - eff.damage)
+          damageEnemy(eff.damage)
           p.hp = Math.min(p.maxHp, p.hp + eff.heal)
           s.log.push(
             `${p.roleId} 投掷 ${item.name},${e.def.id} 受到 ${eff.damage} 伤害,自身回复 ${eff.heal}`,
@@ -2371,14 +2381,11 @@ function performThrow(
       }
     }
   }
-  const hits = targetIndices.map((enemyIdx) => ({
-    idx: enemyIdx,
-    value: Math.max(
-      0,
-      expectDefined(hpBeforeByTarget.get(enemyIdx)) - expectDefined(s.enemies[enemyIdx]).hp,
-    ),
-  }))
-  if (s.lastAction) s.lastAction.throwHits = hits
+  if (s.lastAction)
+    s.lastAction.throwHits = [...damageByTarget].map(([idx, damage]) => ({
+      idx,
+      value: Math.max(0, damage),
+    }))
 }
 
 /** CLASSIC 在普攻所有击次结算后累计隐藏经验权重（fight.c:3751-3757）。 */

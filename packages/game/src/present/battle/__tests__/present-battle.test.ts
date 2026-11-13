@@ -329,6 +329,52 @@ describe('BattlePresent', () => {
     expect(fb.indices[10 * 320 + 153]).toBe(0)
   })
 
+  it('draws the drain throw recovery above the thrower at the release position', () => {
+    const fb = createFramebuffer()
+    const present = new BattlePresent()
+    const state = mkState(
+      [
+        {
+          ...mkBattlePlayer(0),
+          posOriginal: { x: 240, y: 170 },
+          pos: { x: 230, y: 166 },
+          currentFrame: 6,
+        },
+      ],
+      [mkBattleEnemy(minimalEnemy(50, 20))],
+      {
+        phase: 'performAction',
+        actionQueue: [{ isEnemy: false, idx: 0, dex: 120, fIsSecond: false }],
+        pendingActions: new Map([[0, { type: 'throw-item', target: 0, actionId: 158 }]]),
+        battleAnim: { frames: [{ durationMs: 160 }], idx: 0, frameElapsedMs: 0 },
+      },
+    )
+    present.draw(
+      fb,
+      mkGs(),
+      state,
+      [
+        {
+          cmd: {
+            op: 'showDamageNum',
+            target: { kind: 'player', idx: 0 },
+            value: 140,
+            color: 'yellow',
+          },
+        },
+      ],
+      mkAssets({ playerRoles: { roles: [minimalRole(0)] } }),
+      0,
+    )
+
+    // fight.c:667–678,4369–4372 and uibattle.c:1801: HP y offset -75,
+    // right aligned from the throw release anchor before the fighter resets.
+    expect(fb.indices[91 * 320 + 218]).toBe(20)
+    expect(fb.indices[91 * 320 + 224]).toBe(23)
+    expect(fb.indices[91 * 320 + 230]).toBe(19)
+    expect(fb.indices[95 * 320 + 240]).toBe(0)
+  })
+
   it('多 showDamageNum + 跨帧 —— 数字飘上去,旧数字过期', () => {
     const fb1 = createFramebuffer()
     const fb2 = createFramebuffer()

@@ -78,6 +78,7 @@ function damageFixture(
     NonNullable<Parameters<typeof startTestBattle>[0]>,
     'roles' | 'enemies' | 'teamSlots'
   > = {},
+  commands = DAMAGE_SCRIPT,
 ) {
   const item = makeItem()
   const magics: Magic[] = [
@@ -127,7 +128,7 @@ function damageFixture(
     magics,
     objectMagics,
     objectPoisons,
-    commands: DAMAGE_SCRIPT,
+    commands,
   })
   gs.inventory = [{ itemId: item.id, count }]
   const state = gs.battleState
@@ -142,7 +143,7 @@ function damageFixture(
     state,
     itemId: item.id,
     items: [item],
-    commands: DAMAGE_SCRIPT,
+    commands,
     runScript,
     casterIsEnemy: false,
     casterIdx: 0,
@@ -321,6 +322,95 @@ describe('performThrowItem', () => {
     expect(state.battleAnim).toBeUndefined()
     expect(numbers).toEqual([
       { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 50, color: 'blue' },
+    ])
+  })
+
+  it('shows one full damage number when a fixed hit follows lethal throw magic', () => {
+    const commands: Command[] = [
+      ...DAMAGE_SCRIPT.slice(0, -1),
+      { op: 'raw', opcode: 0x21, operands: [0, 135, 0] },
+      { op: 'end' },
+    ]
+    const { state, gs, bus } = damageFixture(
+      1,
+      { enemies: [makeEnemyRecord({ health: 130, defense: 30, dexterity: 0 })] },
+      commands,
+    )
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step() // preBattle → selectAction
+    step('ThrowItem')
+    step('Confirm') // item confirmation auto-targets the sole enemy
+    step('Confirm') // the other player chooses an attack
+    step()
+    expect(state.enemies[0]!.e.health).toBe(0)
+    expect(gs.inventory).toEqual([{ itemId: 66, count: 0 }])
+    expect(state.battleAnim?.frames.at(-2)?.damageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: 275, color: 'blue' },
+    ])
+  })
+
+  it.each([
+    { casterHp: 90, netHeal: 60 },
+    { casterHp: 150, netHeal: 0 },
+  ])('emits only net HP changes after a drain throw from $casterHp HP', ({ casterHp, netHeal }) => {
+    const drainLock = makeItem({ id: 158, _name: '吸星锁' })
+    const { gs, bus, playerRoles } = startTestBattle({
+      roles: [
+        makeRoleRecord(0, { hp: casterHp, maxHP: 150, dexterity: 250 }),
+        makeRoleRecord(1, { hp: 130, maxHP: 150 }),
+      ],
+      enemies: [makeEnemyRecord({ health: 200, dexterity: 0 })],
+      items: [drainLock],
+      commands: [
+        { op: 'end' },
+        // A scripted group cost followed by the ordinary drain effect.
+        { op: 'raw', opcode: 0x1b, operands: [1, 0xffe2, 0] },
+        { op: 'raw', opcode: 0x39, operands: [180, 0, 0] },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: drainLock.id, count: 1 }]
+    const state = gs.battleState!
+    const step = (...keys: AbstractKey[]) => {
+      tickBattle(gs, battleInput(keys), bus)
+      return bus
+        .drain()
+        .map(({ cmd }) => cmd)
+        .filter(({ op }) => op === 'showDamageNum')
+    }
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step('Confirm') // The slower ally picks a normal attack.
+    expect(step()).toEqual([])
+    expect(playerRoles.roles.map(({ hp }) => hp)).toEqual([150, 100])
+    expect(state.enemies[0]!.e.health).toBe(20)
+
+    const animation = state.battleAnim
+    if (!animation) throw new Error('the drain throw must start its release animation')
+    const numberFrames = []
+    for (let tick = 0; tick < 80 && state.battleAnim === animation; tick++) {
+      const numbers = step()
+      if (numbers.length > 0) numberFrames.push(numbers)
+    }
+
+    // fight.c:626–688 reads one final HP difference per slot, enemies first.
+    expect(numberFrames).toEqual([
+      [
+        { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 180, color: 'blue' },
+        ...(netHeal
+          ? [
+              {
+                op: 'showDamageNum',
+                target: { kind: 'player', idx: 0 },
+                value: netHeal,
+                color: 'yellow',
+              },
+            ]
+          : []),
+        { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 30, color: 'blue' },
+      ],
     ])
   })
 

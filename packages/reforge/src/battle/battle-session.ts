@@ -1613,30 +1613,37 @@ export class BattleSession {
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
     // 召唤类合击落 summon 段直接播召唤动画)。
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
-    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)。
+    // 使用物品(fight.c:2266 举物 + 目标彩色呼吸)。
     // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」);
     // 玩家侧涨益由归位帧派发，数字从归位后的目标锚点起显。敌侧涨益仍走收尾。
     if (la.kind === 'item' && la.side === 'player') {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
-      const itemName = la.itemId ? s.items[la.itemId]?.name : undefined
+      const item = s.items[la.itemId]
+      const targetIdxs =
+        item?.use?.target === 'allAllies'
+          ? s.players.map((_, slot) => slot)
+          : [la.targetAllyIdx ?? la.idx]
       const gains = this.pendingGains
         .filter((g) => g.target.side === 'player')
         .map((g) => ({ idx: g.target.idx, value: g.value, tone: g.tone }))
       this.pendingGains = this.pendingGains.filter((g) => g.target.side !== 'player')
-      // oneAlly 点名队友时呼吸落在目标身上(还魂香喂尸体);缺省施己
+      const sound = item?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound']
+      // fight.c:4404–4405：复活者在辉光结束后先恢复静止姿态，再绘制回血数字。
+      const revivedTargets = targetIdxs.flatMap((idx) => {
+        const target = expectDefined(s.players[idx])
+        return pHp[idx] === 0 && target.hp > 0
+          ? [{ idx, frame: this.playerRestFrame(target, this.playerFrames(idx)) }]
+          : []
+      })
       return buildUseItem({
         casterFrames: this.playerFrames(la.idx),
         casterIdx: la.idx,
         casterPos,
-        targetIdxs: [la.targetAllyIdx ?? la.idx],
-        itemName,
-        ...(() => {
-          const sound = la.itemId
-            ? (s.items[la.itemId]?.use?.sound ?? this.opts.soundRoles?.['audio.battleItemUseSound'])
-            : this.opts.soundRoles?.['audio.battleItemUseSound']
-          return sound ? { sound } : {}
-        })(),
+        targetIdxs,
+        revivedTargets,
+        itemName: item?.name,
+        ...(sound ? { sound } : {}),
         gains,
       })
     }
@@ -1788,16 +1795,21 @@ export class BattleSession {
         }
       }
       const casterFrames = this.playerFrames(la.idx)
+      // 吸星锁在投掷者归位前同时显示敌伤与回血（fight.c:4369–4372）。
+      const casterGainIndex = this.pendingGains.findIndex(
+        (gain) =>
+          gain.target.side === 'player' && gain.target.idx === la.idx && gain.tone === 'yellow',
+      )
+      const casterGain =
+        casterGainIndex < 0 ? undefined : this.pendingGains.splice(casterGainIndex, 1)[0]
       return buildThrowItem({
         casterFrames,
         casterIdx: la.idx,
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
-        hits: la.throwHits.map((hit) => ({
-          idx: hit.idx,
-          damage: Math.max(0, (eHp[hit.idx] ?? 0) - (s.enemies[hit.idx]?.hp ?? 0)),
-        })),
+        hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
+        ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
         ...(throwPresentation ? { presentation: throwPresentation } : {}),
       })
