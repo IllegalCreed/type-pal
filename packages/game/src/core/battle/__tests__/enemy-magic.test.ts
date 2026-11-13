@@ -324,6 +324,56 @@ describe('enemy magic targets and damage', () => {
     })
   })
 
+  test('keeps script MP feedback next to the affected slot’s final HP change after enemy FIRE', () => {
+    const fixture = enemyFixture([
+      { mp: 15, maxMP: 30 },
+      { mp: 30, maxMP: 30 },
+    ])
+    const { state, playerRoles, bus } = fixture
+    performMagic({
+      ...fixture,
+      casterIsEnemy: true,
+      casterIdx: 0,
+      spellId: 7,
+      targetIsEnemy: false,
+      targetIdx: 0,
+      spells: [makeSpell({ scriptOnSuccess: 1 })],
+      magics: [makeMagic({ type: 'attackAll', effect: 12 })],
+      commands: [
+        { op: 'end' }, // An enemy spell may also damage the enemy side through the shared script interpreter.
+        { op: 'raw', opcode: 0x21, operands: [1, 8, 0] },
+        { op: 'end' },
+      ],
+      runScript,
+      magicSpriteFrameCounts: new Map([[12, 1]]),
+    })
+
+    const frames = state.battleAnim?.frames ?? []
+    const fire = frames.findIndex(({ overlays }) => overlays?.length)
+    const fireStart = frames
+      .slice(0, fire)
+      .reduce((elapsed, { durationMs }) => elapsed + durationMs, 0)
+    expect(fire).toBeGreaterThan(0)
+    advanceBattleAnimFrames(state, bus, fireStart)
+    expect(state.battleAnim?.overlays).toMatchObject([
+      { spriteChunk: 12, frameIdx: 0 },
+      { spriteChunk: 12, frameIdx: 0 },
+      { spriteChunk: 12, frameIdx: 0 },
+    ])
+    expect(bus.drain()).toEqual([])
+    advanceBattleAnimFrames(state, bus, 50)
+
+    expect(state.battleAnim?.overlays).toBeUndefined()
+    expect(state.players.map(({ currentFrame }) => currentFrame)).toEqual([4, 4])
+    expect(state.enemies[0]?.e.health).toBe(92)
+    expect(playerRoles.roles.map(({ hp }) => hp)).toEqual([435, 435])
+    expect(bus.drain().map(({ cmd }) => cmd)).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 8, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'player', idx: 0 }, value: 65, color: 'blue' },
+      { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 65, color: 'blue' },
+    ])
+  })
+
   test('超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负', () => {
     const fixture = enemyFixture([{ hp: 30, maxHP: 30 }])
     const { playerRoles, bus } = fixture
