@@ -504,6 +504,39 @@ describe('performThrowItem', () => {
     expect(second.battleDialogQueue).toBeUndefined()
   })
 
+  it('restores the whole-field throw target after a nested trigger with its own enemy slot', () => {
+    const thrown = makeItem({ flags: { ...makeItem().flags, applyToAll: true } })
+    const { gs, bus } = startTestBattle({
+      roles: [makeRoleRecord(0, { dexterity: 900 })],
+      enemies: [
+        makeEnemyRecord({ health: 300, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 40, dexterity: 0 }),
+        makeEnemyRecord({ id: 102, health: 60, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 102, 0xffff, 0xffff],
+      items: [thrown],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x04, operands: [4, 1, 0] },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0] },
+        { op: 'end' },
+        { op: 'raw', opcode: 0x60, operands: [0, 0, 0], label: 'L_4' },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: thrown.id, count: 1 }]
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step()
+
+    // The first round's last slot is 2. The 0x04 child uses slot 1, then
+    // the caller must resolve 0x60 against its own saved slot.
+    expect(gs.battleState!.enemies.map(({ e }) => e.health)).toEqual([300, 0, 0])
+    expect(gs.inventory[0]?.count).toBe(0)
+  })
+
   it.each([
     { dismiss: 'confirmation', copies: 1 },
     { dismiss: 'timeout', copies: 2 },
