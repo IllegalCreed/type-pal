@@ -93,9 +93,16 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
       assert.equal(value.engine, engine)
       assert.equal(value.runId, entry.runId)
       assert.equal(value.scenarioId, entry.scenarioId)
-      for (const [commandIndex, command] of battleFoundationScenario(
-        entry.scenarioId,
-      ).expected.commands.entries())
+      const { expected } = battleFoundationScenario(entry.scenarioId)
+      if (expected.retainedEquipment)
+        for (const { slot, equipmentIndex, itemId } of expected.retainedEquipment)
+          for (const stage of ['initial', 'last'])
+            assert.equal(
+              entry[stage].nativePlayers[slot].equipment[equipmentIndex],
+              itemId,
+              `${engine}/${entry.runId}: equipped item ${itemId} at ${stage}`,
+            )
+      for (const [commandIndex, command] of expected.commands.entries())
         if (command.cancelTargetId)
           assert(
             report.actions.some(

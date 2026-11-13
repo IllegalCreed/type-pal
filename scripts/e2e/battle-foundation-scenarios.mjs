@@ -931,19 +931,22 @@ function defineThrownSword() {
     { enemyDamage: [219] },
   )
   step(finish, finishEnemy, { rawDamage: 925 })
+  const scenario = complete(
+    [thrown, finish],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 903),
+      queueDraw(1, 'player', 1, 150),
+      ...draws('throw-weapon-strength'),
+      spellVariance(0),
+      ...anuStrike,
+    ],
+    [150, 150],
+  )
+  scenario.expected.retainedEquipment = [{ slot: 0, equipmentIndex: 3, itemId: 166 }]
+  scenario.expected.throwWindupMs = 440
   return {
-    ...complete(
-      [thrown, finish],
-      [
-        queueDraw(1, 'enemy', 0, 54),
-        queueDraw(1, 'player', 0, 903),
-        queueDraw(1, 'player', 1, 150),
-        ...draws('throw-weapon-strength'),
-        spellVariance(0),
-        ...anuStrike,
-      ],
-      [150, 150],
-    ),
+    ...scenario,
     sounds: [
       [
         ['cast-windup', 9],

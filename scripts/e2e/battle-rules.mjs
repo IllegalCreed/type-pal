@@ -92,20 +92,22 @@ function growthDelta(native) {
 
 function enemyDamageNumbers(engine, native, kind) {
   if (engine === 'game') {
+    if (!Array.isArray(native?.animationEffects)) return null
     return native.animationEffects
       .flatMap((effect) => [effect.damageNum, ...(effect.damageNums ?? [])])
       .concat(native.pendingDamageNums ?? [])
       .flatMap((number) =>
-        number?.target.kind === 'enemy' && number.color === 'blue'
+        number?.target?.kind === 'enemy' && number.color === 'blue'
           ? [{ slot: number.target.idx, value: number.value }]
           : [],
       )
   }
-  if (kind === 'throw')
-    return native.lastAction.throwHits.map(({ idx: slot, value }) => ({ slot, value }))
-  const hits = native.lastAction.magicHits
-  if (hits) return hits.map(({ idx: slot, value }) => ({ slot, value }))
-  return null
+  const action = native?.lastAction
+  const hits = kind === 'throw' ? action?.throwHits : action?.magicHits
+  return Array.isArray(hits) &&
+    hits.every((hit) => Number.isSafeInteger(hit?.idx) && Number.isSafeInteger(hit?.value))
+    ? hits.map(({ idx: slot, value }) => ({ slot, value }))
+    : null
 }
 
 /** Finite rule oracle for the declared PAL fixtures and their physical display boundaries. */

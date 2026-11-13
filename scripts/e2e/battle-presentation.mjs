@@ -820,6 +820,21 @@ function compareAudioCues(
     fail('oracle', 'audio-cue-expectation')
     return undefined
   }
+  const explicitDeaths = audioCues.filter(
+    ({ kind, targetId }) => kind === 'enemy-death' && targetId,
+  )
+  const deathKeys = new Set()
+  for (const cue of explicitDeaths) {
+    const { actionIndex, targetId } = cue
+    const action = expected.actions[actionIndex]
+    const unit = action.before.enemies.find((entry) => entry?.id === targetId)
+    const key = `${actionIndex}/${targetId}`
+    if (!unit?.alive || action.after.enemies[unit.slot]?.alive || deathKeys.has(key)) {
+      fail('oracle', 'enemy-death-cue-target', cue)
+      return undefined
+    }
+    deathKeys.add(key)
+  }
   const audioEvents = trace.audioEvents
   const firstCommand = trace.commands?.[0]
   if (!Array.isArray(audioEvents) || !audioEvents.length || !firstCommand) {
@@ -1083,11 +1098,26 @@ function compareAudioCues(
         startThroughMs,
       })
   }
+  if (expected.throwWindupMs !== undefined) {
+    const first = result.cues.find(({ kind }) => kind === 'cast-windup')
+    const effect = result.cues.find(({ kind }) => kind === 'spell-effect')
+    const elapsed = first && effect && effect.request.atMs - first.request.atMs
+    // C waits 8 + 2 gesture frames, then one more frame before the thrown effect.
+    if (elapsed === undefined || Math.abs(elapsed - expected.throwWindupMs) > 30)
+      fail('business', 'throw-windup-sound-interval', {
+        first,
+        effect,
+        elapsed,
+        expected: expected.throwWindupMs,
+      })
+  }
   return result
 }
 
-function compareStatusNotice(frames, animations, { actionIndex, text, visible }, fail) {
+function compareStatusNotice(trace, frames, animations, { actionIndex, text, visible }, fail) {
   const start = animations[actionIndex]
+  const end =
+    start && frames.find((frame) => frame.seq > start.seq && frame.payload.animation === null)
   const next = animations.slice(actionIndex + 1).find(Boolean)
   const matches = ({ payload }) =>
     payload.dialogue?.some(
@@ -1101,15 +1131,20 @@ function compareStatusNotice(frames, animations, { actionIndex, text, visible },
   const first = drawn[0]
   const clear = first && frames.find((frame) => frame.seq > first.seq && !matches(frame))
   const durationMs = clear && clear.clockMs - first.clockMs
+  const confirms = trace.presentations.filter(
+    ({ kind, order }) =>
+      kind === 'battle-dialogue-confirm' && order >= first?.order && order <= clear?.order,
+  )
   const observed = { text, first: first && at(first), clear: clear && at(clear), durationMs }
   if (
     !first ||
     !clear ||
-    !start ||
+    !end ||
     !next ||
-    first.seq <= start.seq ||
+    first.seq < end.seq ||
     clear.seq > next.seq ||
-    drawn.some((frame) => frame.seq >= clear.seq) ||
+    drawn.some((frame) => frame.seq >= clear.seq || frame.payload.animation !== null) ||
+    confirms.length > 0 ||
     Math.abs(durationMs - 1400) > EDGE_TOLERANCE_MS
   )
     fail('business', 'status-notice-rendered', observed)
@@ -1191,7 +1226,13 @@ export function validateBattlePresentation(trace, scenario) {
       : frames.find((frame) => animationMatches(frame, action)),
   )
   if (scenario.expected.statusNotice)
-    statusNotice = compareStatusNotice(frames, animations, scenario.expected.statusNotice, fail)
+    statusNotice = compareStatusNotice(
+      trace,
+      frames,
+      animations,
+      scenario.expected.statusNotice,
+      fail,
+    )
   if (scenario.expected.defendRecovery !== undefined)
     defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
   if (scenario.expected.automaticBlock !== undefined)
