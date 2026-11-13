@@ -87,7 +87,7 @@ export function instrumentBattleRandomDraws(source, file) {
       } else if (file.endsWith('/battle-opcodes.ts') && owner === 'dispatchBattleOpcode') {
         const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
         if (opcode === 'OP_POISON_PLAYER' && expression === 'state.rng.rangeInclusive(1, 100)')
-          mark(node, 'enemy-equivalent-poison-script')
+          mark(node, 'player-poison-resistance')
         if (opcode === 'OP_APPLY_POISON' && expression === 'state.rng.rangeInclusive(0, 9)')
           mark(node, 'poison-resistance', {
             target: "{ turn: state.turn + 1, side: 'enemy', slot: enemyIdx }",
@@ -151,8 +151,10 @@ export function instrumentBattleRandomDraws(source, file) {
           if (guard && ts.isReturnStatement(guard.thenStatement))
             mark(node, 'enemy-equivalent-poison-resist')
           if (guard && ts.isContinueStatement(guard.thenStatement))
-            mark(node, 'enemy-equivalent-poison-script')
+            mark(node, 'player-poison-resistance')
         }
+        if (owner === 'passesPlayerPoisonResistance' && multiplier === '100')
+          mark(node, 'player-poison-resistance')
         if (owner === 'dealSkillDamage' && multiplier === '0.1')
           mark(node, 'spell-damage-variance', {
             target: "{ turn: s.turn, side: 'enemy', slot: ti }",
@@ -230,7 +232,7 @@ export function instrumentBattleRandomDraws(source, file) {
     expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
   if (file.endsWith('/battle-opcodes.ts'))
     expected = {
-      'enemy-equivalent-poison-script': 1,
+      'player-poison-resistance': 1,
       'poison-resistance': 1,
       'status-resistance': 1,
       'throw-weapon-strength': 1,
@@ -250,7 +252,7 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-magic-damage-float': 1,
       'enemy-equivalent-item': 1,
       'enemy-equivalent-poison-resist': 1,
-      ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
+      ...(legacyEquivalent ? {} : { 'player-poison-resistance': 1 }),
       'battle-script-chance': 3,
       'status-resistance': 2,
       'poison-resistance': 2,

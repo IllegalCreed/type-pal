@@ -143,6 +143,7 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
     'scripts/e2e/battle-casualty-presentation.mjs',
+    'scripts/e2e/battle-enemy-cast-presentation.mjs',
     'scripts/e2e/battle-random-instrumentation.mjs',
     'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
@@ -201,6 +202,26 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
             comparison.findings.push({
               domain: 'business',
               rule: 'cross-engine-player-cast-cadence',
+              segment,
+              game,
+              reforge,
+            })
+        }
+      }
+      for (const [index, { actionIndex }] of (scenario.expected.enemyCasts ?? []).entries()) {
+        const [gameCast, reforgeCast] = presentation.map(({ enemyCasts }) => enemyCasts?.[index])
+        for (const segment of ['introMs', 'fireMs', 'recoveryMs']) {
+          const game = gameCast?.[segment]
+          const reforge = reforgeCast?.[segment]
+          if (
+            !Number.isFinite(game) ||
+            !Number.isFinite(reforge) ||
+            Math.abs(game - reforge) > CAST_CADENCE_TOLERANCE_MS
+          )
+            comparison.findings.push({
+              domain: 'business',
+              rule: 'cross-engine-enemy-cast-cadence',
+              actionIndex,
               segment,
               game,
               reforge,

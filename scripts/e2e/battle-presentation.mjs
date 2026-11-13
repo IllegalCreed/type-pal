@@ -4,6 +4,7 @@ import {
   comparePoisonCasualty,
   observePoisonRecovery,
 } from './battle-casualty-presentation.mjs'
+import { compareEnemyCast } from './battle-enemy-cast-presentation.mjs'
 
 const FRAME_SOURCE = {
   game: 'game:BattlePresent.draw',
@@ -1705,7 +1706,8 @@ export function validateBattlePresentation(trace, scenario) {
     itemFeedback,
     allySpellPresentation,
     spellPaintOrder,
-    playerCastRecovery
+    playerCastRecovery,
+    enemyCasts
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1728,6 +1730,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
     ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
     ...(playerCastRecovery === undefined ? {} : { playerCastRecovery }),
+    ...(enemyCasts === undefined ? {} : { enemyCasts }),
     findings,
   })
   if (
@@ -1854,7 +1857,9 @@ export function validateBattlePresentation(trace, scenario) {
       return compareCasualtyDialogue(trace, frames, scenario.expected, probe, motion, fail)
   })
   const numbers =
-    scenario.expected.magicCasualties || scenario.expected.poisonCasualties
+    scenario.expected.magicCasualties ||
+    scenario.expected.poisonCasualties ||
+    scenario.expected.enemyCasts
       ? firstNumberDraws(frames)
       : []
   magicCasualties = judgeProbes('magicCasualties', (probe) =>
@@ -1978,6 +1983,10 @@ export function validateBattlePresentation(trace, scenario) {
       playerCasualties,
       magicCasualties,
       fail,
+    )
+  if (scenario.expected.enemyCasts)
+    enemyCasts = scenario.expected.enemyCasts.map((probe) =>
+      compareEnemyCast(frames, animations, scenario.expected, audio, numbers, probe, fail),
     )
   if (automaticBlock && audio) {
     const impact = audio.cues.find(
