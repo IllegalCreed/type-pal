@@ -60,7 +60,7 @@ test('explicit counter changes real item state before the same factual completio
   assert.throws(() => instrumentReforgeBattle(source, file, 'unknown'), /unknown battle counter/)
 })
 
-test('Reforge records sorted magic overlay coordinates and the frame that actually draws', async () => {
+test('Reforge records sorted magic overlay coordinates, actual frames and player paint order', async () => {
   const file = 'packages/reforge/src/battle/present-battle.ts'
   const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
   const browser = vm.createContext({
@@ -106,10 +106,11 @@ test('Reforge records sorted magic overlay coordinates and the frame that actual
       fillRect() {},
       drawImage: (...args) => drawCalls.push(args),
     }
+    const player = { sprite, x: 256, y: 152, frame: 1 }
     const scene = {
       palette: { colors: Array.from({ length: 256 }, () => [0, 0, 0]), cycles: [] },
       enemies: [],
-      players: [],
+      players: [player],
       depthOverlays: [
         { sprite, x: 250, y: 134, frame: 1, layerOffset: 99 },
         { sprite, x: 248, y: 134, frame: 20, layerOffset: 0 },
@@ -118,29 +119,41 @@ test('Reforge records sorted magic overlay coordinates and the frame that actual
     }
     for (const clockMs of [0, 40]) {
       observer.beginFrame('reforge:BattleSession.render', { clockMs })
+      observer.labelFighter(player, 'player', 1)
       browser.exports.renderBattleScene(canvas, scene, 1)
       observer.endFrame()
     }
     observer.beginFrame('reforge:BattleSession.render', { clockMs: 80 })
+    observer.labelFighter(player, 'player', 1)
+    browser.exports.renderBattleScene(canvas, { ...scene, depthOverlays: [] }, 1)
     observer.endFrame()
 
     const { presentations, errors } = observer.read()
     assert.deepEqual(errors, [])
     assert.deepEqual(drawCalls, [
       [sprite.frames[0], 247, 132],
+      [sprite.frames[1], 254, 147],
       [sprite.frames[1], 248, 129],
       [sprite.frames[0], 247, 132],
+      [sprite.frames[1], 254, 147],
       [sprite.frames[1], 248, 129],
+      [sprite.frames[1], 254, 147],
     ])
-    return presentations.map(({ payload }) => payload.magicOverlays)
+    return presentations.map(({ payload }) => ({
+      overlays: payload.magicOverlays,
+      playerOrder: payload.players[0].paintOrder,
+    }))
   }
-  assert.deepEqual(capture(undefined), [undefined])
+  assert.deepEqual(capture(undefined), [{ overlays: undefined, playerOrder: undefined }])
   assert.deepEqual(capture(true), [
-    [
-      { x: 248, y: 134, frameIndex: 0 },
-      { x: 250, y: 134, frameIndex: 1 },
-    ],
-    undefined,
+    {
+      overlays: [
+        { x: 248, y: 134, frameIndex: 0, paintOrder: 0 },
+        { x: 250, y: 134, frameIndex: 1, paintOrder: 2 },
+      ],
+      playerOrder: 1,
+    },
+    { overlays: undefined, playerOrder: 0 },
   ])
 })
 
