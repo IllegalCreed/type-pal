@@ -349,6 +349,71 @@ describe('performThrowItem', () => {
     ])
   })
 
+  it.each([
+    { casterHp: 90, netHeal: 60 },
+    { casterHp: 150, netHeal: 0 },
+  ])('emits only net HP changes after a drain throw from $casterHp HP', ({ casterHp, netHeal }) => {
+    const drainLock = makeItem({ id: 158, _name: '吸星锁' })
+    const { gs, bus, playerRoles } = startTestBattle({
+      roles: [
+        makeRoleRecord(0, { hp: casterHp, maxHP: 150, dexterity: 250 }),
+        makeRoleRecord(1, { hp: 130, maxHP: 150 }),
+      ],
+      enemies: [makeEnemyRecord({ health: 200, dexterity: 0 })],
+      items: [drainLock],
+      commands: [
+        { op: 'end' },
+        // A scripted group cost followed by the ordinary drain effect.
+        { op: 'raw', opcode: 0x1b, operands: [1, 0xffe2, 0] },
+        { op: 'raw', opcode: 0x39, operands: [180, 0, 0] },
+        { op: 'end' },
+      ],
+    })
+    gs.inventory = [{ itemId: drainLock.id, count: 1 }]
+    const state = gs.battleState!
+    const step = (...keys: AbstractKey[]) => {
+      tickBattle(gs, battleInput(keys), bus)
+      return bus
+        .drain()
+        .map(({ cmd }) => cmd)
+        .filter(({ op }) => op === 'showDamageNum')
+    }
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    step('Confirm') // The slower ally picks a normal attack.
+    expect(step()).toEqual([])
+    expect(playerRoles.roles.map(({ hp }) => hp)).toEqual([150, 100])
+    expect(state.enemies[0]!.e.health).toBe(20)
+
+    const animation = state.battleAnim
+    if (!animation) throw new Error('the drain throw must start its release animation')
+    const numberFrames = []
+    for (let tick = 0; tick < 80 && state.battleAnim === animation; tick++) {
+      const numbers = step()
+      if (numbers.length > 0) numberFrames.push(numbers)
+    }
+
+    // fight.c:626–688 reads one final HP difference per slot, enemies first.
+    expect(numberFrames).toEqual([
+      [
+        { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 180, color: 'blue' },
+        ...(netHeal
+          ? [
+              {
+                op: 'showDamageNum',
+                target: { kind: 'player', idx: 0 },
+                value: netHeal,
+                color: 'yellow',
+              },
+            ]
+          : []),
+        { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 30, color: 'blue' },
+      ],
+    ])
+  })
+
   it('a zero script entry is a no-op but still consumes the last item, retaining its zero row', () => {
     // If entry zero were executed, this legal script would change inventory.
     const commands: Command[] = [{ op: 'giveItem', itemId: 66, count: 5 }, { op: 'end' }]
