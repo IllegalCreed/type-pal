@@ -73,6 +73,23 @@ test('use-item navigates actual inventory and the actual ally target', () => {
   )
 })
 
+test('Reforge uses the requested consumable in the native inventory grid', () => {
+  const command = { actorId: 'hero', kind: 'item', targetId: 'anu', itemId: '104' }
+  const items = [{ itemId: '99' }, { itemId: '104' }, { itemId: '145' }]
+  const reforgeItem = (cursor) => ({
+    ...menu({ engine: 'reforge' }),
+    selection: { phase: 'item' },
+    itemMenu: { cursor, items },
+  })
+  assert.equal(nextReforgeBattleKey(reforgeItem(0), command), 'ArrowRight')
+  assert.equal(nextReforgeBattleKey(reforgeItem(2), command), 'ArrowLeft')
+  assert.equal(nextReforgeBattleKey(reforgeItem(1), command), 'Enter')
+  assert.throws(
+    () => nextReforgeBattleKey(reforgeItem(1), { ...command, itemId: '95' }),
+    /absent from the real item menu/,
+  )
+})
+
 test('throw follows each native inventory to the specified weapon', () => {
   const command = { actorId: 'hero', kind: 'throw', targetId: 'lamp-a', itemId: '166' }
   const items = [{ itemId: '165' }, { itemId: '166' }]
