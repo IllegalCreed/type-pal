@@ -396,6 +396,62 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.030'])
   })
 
+  test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '353'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('anu', {
+          mp: 100,
+          maxMp: 100,
+          magicStrength: 112,
+          baseDexterity: 900,
+          skills: [skill.id],
+        }),
+      ],
+      enemies: [enemy, enemy, enemy],
+      extraOpts: { skills: { [skill.id]: skill } },
+    })
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' ']) // 群体技能无需选择单独目标。
+
+    let firstNumbers: number[][] = []
+    for (let i = 0; i < 80; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 三敌的底锚分别是 (70,140)、(100,110)、(160,100)，数字距底锚 115 像素。
+      const numberPositions = [
+        [70, 25],
+        [100, 10],
+        [160, 10],
+      ] as const
+      const blue = numberPositions.map(([x, y]) =>
+        [x - 12, x - 6, x].map((digitX) => ctx.getImageData(digitX, y, 1, 1).data[2] ?? 0),
+      )
+      if (blue.some((digits) => digits.some((value) => value > 0))) {
+        firstNumbers = blue
+        break
+      }
+    }
+    // 灵力 112、敌防 82、基础伤 150、毒抗 0、浮动倍率 1 → 346；每只敌人仅剩 310 HP。
+    expect(firstNumbers).toEqual([
+      [64, 80, 112],
+      [64, 80, 112],
+      [64, 80, 112],
+    ])
+    for (let i = 0; i < 8 && h.session.debugReadiness().phase !== 'over'; i++) h.idle(500)
+    await expect(settleDone(h)).resolves.toBe('victory')
+    expect(h.readParty()[0]?.mp).toBe(82)
+  })
+
   test('灯笼普攻在首帧播放起手音，命中与死亡保留原声', async () => {
     const enemy = expectDefined(
       validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-399'))[0],

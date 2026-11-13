@@ -1378,6 +1378,13 @@ export class BattleSession {
     }
     const damageNums = la.fizzled ? [] : this.diffDamageNums(pHp, eHp)
     if (la.side === 'player') {
+      // fight.c:638–651：玩家法术超杀时飘完整伤害。混合技能仍保留其它效果的净扣血。
+      for (const hit of la.magicHits ?? []) {
+        const number = damageNums.find(
+          ({ target }) => target.side === 'enemy' && target.idx === hit.idx,
+        )
+        if (number) number.value += hit.value - hit.hpLost
+      }
       const playerProfile = this.playerAppearance(la.idx).definition.profile
       if (playerProfile.kind !== 'player-fighter') throw new Error('player profile 漂移')
       const casterPos = getPlayerBasePos(s.players.length, la.idx)

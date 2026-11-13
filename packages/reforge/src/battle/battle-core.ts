@@ -1609,8 +1609,27 @@ function dealSkillDamage(
       e.defending,
     ),
   )
-  e.hp = Math.max(0, e.hp - dmg)
+  applyPlayerMagicHit(s, e, ti, dmg)
   s.log.push(`${p.roleId} 施展 ${skillName} 对 ${e.def.id} 造成 ${dmg}`)
+}
+
+function applyPlayerMagicHit(
+  s: BattleState,
+  enemy: BattleEnemyState,
+  idx: number,
+  value: number,
+): void {
+  const before = enemy.hp
+  enemy.hp = Math.max(0, before - value)
+  const action = s.lastAction
+  if (
+    enemy.hp < before &&
+    action?.side === 'player' &&
+    (action.kind === 'cast' || action.kind === 'coop')
+  ) {
+    action.magicHits ??= []
+    action.magicHits.push({ idx, value, hpLost: before - enemy.hp })
+  }
 }
 
 /** 合击贡献/发起资格(fight.c:69-76 PAL_IsPlayerHealthy):活 + 非濒死 + 无眠/疯/封/麻/傀儡。 */
@@ -1718,7 +1737,6 @@ function performCoopMagic(
     s.log.push(`合体技 ${skill.name}(非伤害效果暂未接)`)
     return
   }
-  const hits: { idx: number; value: number }[] = []
   for (const ti of targets) {
     const e = expectDefined(s.enemies[ti])
     const dmg = Math.max(
@@ -1737,11 +1755,9 @@ function performCoopMagic(
         e.defending,
       ),
     )
-    e.hp = Math.max(0, e.hp - dmg)
-    hits.push({ idx: ti, value: dmg })
+    applyPlayerMagicHit(s, e, ti, dmg)
     s.log.push(`合体技 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
   }
-  if (s.lastAction && targets.length > 1) s.lastAction.attackAllHits = hits
 }
 
 /**
