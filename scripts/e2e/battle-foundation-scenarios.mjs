@@ -46,6 +46,12 @@ const spellPaintSources = {
   },
   381: { effect: 12, x: -2, y: -10, layerOffset: 99, fireFrames: 15 },
 }
+const paintFireChunks = [
+  ...new Set([28, ...Object.values(spellPaintSources).map(({ effect }) => effect)]),
+]
+const rawFirePath = (chunk) => `data/magic/fire-${String(chunk).padStart(2, '0')}.rle`
+const projectFirePath = (chunk) =>
+  `assets/migrated/effect-sprites/magic-${String(chunk).padStart(3, '0')}.rle`
 
 function defineSetup({
   id,
@@ -1668,13 +1674,15 @@ export function battleLaunchSpec(scenario) {
   })
 }
 
-/** Bind the raw/author JSON, face pixels and WAVs used by the independent comparisons. */
+/** Bind the raw/author JSON, face pixels, FIRE and WAVs used by the independent comparisons. */
 export async function battleFoundationInputSources(root) {
   const paths = [
     'data/extracted/images/ui/frame-48.png',
-    'data/extracted/data/magic/fire-28.rle',
     'projects/pal/assets/migrated/faces/li-xiaoyao.png',
-    'projects/pal/assets/migrated/effect-sprites/magic-028.rle',
+    ...paintFireChunks.flatMap((chunk) => [
+      `data/extracted/${rawFirePath(chunk)}`,
+      `projects/pal/${projectFirePath(chunk)}`,
+    ]),
     ...Object.keys(soundFrames).flatMap((id) => [
       rawSoundPath(id),
       `projects/pal/${projectSoundPath(id)}`,
@@ -1685,6 +1693,24 @@ export async function battleFoundationInputSources(root) {
       if (name.endsWith('.json')) paths.push(`${directory}/${name}`)
   }
   return paths.sort()
+}
+
+async function verifyPaintFireSources(root, index) {
+  await Promise.all(
+    paintFireChunks.map(async (chunk) => {
+      const assetId = `effect-sprite.pal.magic.${String(chunk).padStart(3, '0')}`
+      const record = index.assets[assetId]
+      assert.equal(record?.kind, 'effect-sprite', assetId)
+      assert.equal(record.path, projectFirePath(chunk), assetId)
+      const [raw, authored] = await Promise.all([
+        readFile(resolve(root, 'data/extracted', rawFirePath(chunk))),
+        readFile(resolve(root, 'projects/pal', record.path)),
+      ])
+      assert(raw.equals(authored), `${assetId}: raw and authored FIRE differ`)
+      assert.equal(raw.length, record.bytes, assetId)
+      assert.equal(createHash('sha256').update(raw).digest('hex'), record.sha256, assetId)
+    }),
+  )
 }
 
 async function verifyAudioSources(root, index) {
@@ -2014,7 +2040,10 @@ export async function verifyBattleFoundationSources(root) {
       effects: [{ kind: effect, poisonId: '551' }],
     })
   }
-  await verifyAudioSources(root, assetIndex)
+  await Promise.all([
+    verifyAudioSources(root, assetIndex),
+    verifyPaintFireSources(root, assetIndex),
+  ])
   return {
     enemy: 'enemy-399',
     hp: 30,

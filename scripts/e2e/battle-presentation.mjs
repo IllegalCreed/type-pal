@@ -1200,8 +1200,18 @@ function compareThrowRecovery(frames, animations, probe, fail) {
 }
 
 function compareSpellPaintOrder(frames, animations, probe, fail) {
-  const { actionIndex, skillId, targetSide, targetSlot, points, x, y, layerOffset, fireFrames } =
-    probe
+  const {
+    actionIndex,
+    skillId,
+    effect,
+    targetSide,
+    targetSlot,
+    points,
+    x,
+    y,
+    layerOffset,
+    fireFrames,
+  } = probe
   const start = animations[actionIndex]
   const next = animations.slice(actionIndex + 1).find(Boolean)
   const drawn = start
@@ -1213,6 +1223,7 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
   const observed = {
     actionIndex,
     skillId,
+    effect,
     layerOffset,
     frames: drawn.length,
     first: drawn[0] && at(drawn[0]),
@@ -1222,8 +1233,21 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
     fail('integrity', 'spell-paint-draws-missing', observed)
     return observed
   }
+  const frameIndices = new Set()
   for (const frame of drawn) {
     const { enemies, players, magicOverlays } = frame.payload
+    if (magicOverlays.some(({ spriteChunk }) => !validFrameIndex(spriteChunk))) {
+      fail('integrity', 'spell-paint-resource-missing', {
+        ...observed,
+        ...at(frame),
+        magicOverlays,
+      })
+      return observed
+    }
+    if (magicOverlays.some(({ spriteChunk }) => spriteChunk !== effect)) {
+      fail('business', 'spell-paint-resource', { ...observed, ...at(frame), magicOverlays })
+      return observed
+    }
     const target = targetSide === 'player' ? pose(frame, targetSlot) : enemy(frame, targetSlot)
     const bases = points ?? (target ? [target] : [])
     const positions = magicOverlays.map((draw) => `${draw.x},${draw.y}`).sort()
@@ -1256,6 +1280,7 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
       return observed
     }
     for (const draw of magicOverlays) {
+      frameIndices.add(draw.frameIndex)
       const sortY = draw.y + layerOffset
       for (const fighter of fighters) {
         // CLASSIC sorts increasing Y plus layer offset, then decreasing X. Identical keys
@@ -1271,7 +1296,10 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
       }
     }
   }
-  return observed
+  const renderedFireFrames = [...frameIndices].sort((a, b) => a - b)
+  if (renderedFireFrames.length !== fireFrames)
+    fail('business', 'spell-paint-frame-coverage', { ...observed, renderedFireFrames, fireFrames })
+  return { ...observed, renderedFireFrames }
 }
 
 function compareAllySpell(
