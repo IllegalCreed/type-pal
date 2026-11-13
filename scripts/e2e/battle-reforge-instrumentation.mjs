@@ -255,6 +255,15 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         const name = node.expression.expression.getText(ast)
         if (name === 'this.selection.advance')
           add('selection-context', node.getStart(ast), call('selectionContext', 'context'))
+        if (
+          source === 'renderBattleScene(ctx, scene, worldScale)' &&
+          ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'renderInner'
+        )
+          add(
+            'magic-overlay-resources',
+            node.getStart(ast),
+            evidenceCall('labelMagicOverlays', 'scene.depthOverlays, this.assets.fireSprites'),
+          )
         if (name === 'this.floats.push' && source.includes('num: value'))
           add(
             'number-identity',
@@ -320,7 +329,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       add(
         'magic-overlay-draw',
         node.end,
-        `\n${evidenceCall('magicOverlayDrawn', `${dx.getText(ast)} + Math.floor(f.width / 2), ${dy.getText(ast)} + f.height, f === d.draw.sprite.frames[d.draw.frame] ? d.draw.frame : 0`)}`,
+        `\n${evidenceCall('magicOverlayDrawn', `${dx.getText(ast)} + Math.floor(f.width / 2), ${dy.getText(ast)} + f.height, f === d.draw.sprite.frames[d.draw.frame] ? d.draw.frame : 0, d.draw`)}`,
       )
     }
     if (isBattleScene && ts.isIfStatement(node)) {
@@ -384,6 +393,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'frame-end',
                       'enemy-draw-identity',
                       'player-draw-identity',
+                      'magic-overlay-resources',
                       'number-identity',
                       'number-draw',
                       'panel-draw',

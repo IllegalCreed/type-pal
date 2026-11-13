@@ -20,6 +20,18 @@ test('current real battle producers instrument once; drift fails closed and norm
     for (const character of instrumented.code) if (character === source[cursor]) cursor++
     assert.equal(cursor, source.length)
     assert(!instrumented.code.includes('extra.count--'))
+    if (file.endsWith('/battle/battle-session.ts'))
+      assert.throws(
+        () =>
+          instrumentReforgeBattle(
+            source.replace(
+              'renderBattleScene(ctx, scene, worldScale)',
+              'renderBattleScene(ctx, otherScene, worldScale)',
+            ),
+            file,
+          ),
+        /producer drift/,
+      )
     if (file.endsWith('/battle/battle-core.ts')) {
       assert.match(
         instrumented.code,
@@ -60,7 +72,7 @@ test('explicit counter changes real item state before the same factual completio
   assert.throws(() => instrumentReforgeBattle(source, file, 'unknown'), /unknown battle counter/)
 })
 
-test('Reforge records sorted magic overlay coordinates, actual frames and fighter paint order', async () => {
+test('Reforge records sorted magic overlay resources, actual frames and fighter paint order', async () => {
   const file = 'packages/reforge/src/battle/present-battle.ts'
   const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
   const browser = vm.createContext({
@@ -94,6 +106,7 @@ test('Reforge records sorted magic overlay coordinates, actual frames and fighte
     opaque: new Uint8Array(width * height).fill(1),
   })
   const sprite = { frames: [indexedFrame(3, 2, 7), indexedFrame(4, 5, 28)], anchorX: 1, anchorY: 2 }
+  const alternateSprite = { ...sprite, frames: [indexedFrame(3, 2, 15), indexedFrame(4, 5, 37)] }
   const capture = (observeMagicOverlays) => {
     vm.runInContext(battleObserverScript({ ...context, observeMagicOverlays }), browser)
     const observer = browser.__battleEvidence
@@ -113,7 +126,7 @@ test('Reforge records sorted magic overlay coordinates, actual frames and fighte
       enemies: [enemy],
       players: [player],
       depthOverlays: [
-        { sprite, x: 250, y: 134, frame: 1, layerOffset: 99 },
+        { sprite: alternateSprite, x: 250, y: 134, frame: 1, layerOffset: 99 },
         { sprite, x: 248, y: 134, frame: 20, layerOffset: 0 },
         { sprite: { ...sprite, frames: [] }, x: 250, y: 134, frame: 0, layerOffset: 0 },
       ],
@@ -122,6 +135,7 @@ test('Reforge records sorted magic overlay coordinates, actual frames and fighte
       observer.beginFrame('reforge:BattleSession.render', { clockMs })
       observer.labelFighter(enemy, 'enemy', 0)
       observer.labelFighter(player, 'player', 1)
+      observer.labelMagicOverlays(scene.depthOverlays, { 0: sprite, 28: alternateSprite })
       browser.exports.renderBattleScene(canvas, scene, 1)
       observer.endFrame()
     }
@@ -137,11 +151,11 @@ test('Reforge records sorted magic overlay coordinates, actual frames and fighte
       [sprite.frames[0], 247, 132],
       [sprite.frames[0], 99, 143],
       [sprite.frames[1], 254, 147],
-      [sprite.frames[1], 248, 129],
+      [alternateSprite.frames[1], 248, 129],
       [sprite.frames[0], 247, 132],
       [sprite.frames[0], 99, 143],
       [sprite.frames[1], 254, 147],
-      [sprite.frames[1], 248, 129],
+      [alternateSprite.frames[1], 248, 129],
       [sprite.frames[0], 99, 143],
       [sprite.frames[1], 254, 147],
     ])
@@ -156,8 +170,8 @@ test('Reforge records sorted magic overlay coordinates, actual frames and fighte
   assert.deepEqual(capture(true), [
     {
       overlays: [
-        { x: 248, y: 134, frameIndex: 0, paintOrder: 0 },
-        { x: 250, y: 134, frameIndex: 1, paintOrder: 3 },
+        { x: 248, y: 134, frameIndex: 0, spriteChunk: 0, paintOrder: 0 },
+        { x: 250, y: 134, frameIndex: 1, spriteChunk: 28, paintOrder: 3 },
       ],
       enemy: { ...enemy, paintOrder: 1 },
       playerOrder: 2,

@@ -237,17 +237,19 @@ export function instrumentGameBattle(source, file) {
     }
     if (file.endsWith('/draw-battle-effect.ts')) {
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'blitFrame')
-        add(
-          'overlay-blit-parameter',
-          node.parameters.at(-1).end,
-          ', __battleMagicOverlay?: boolean',
-        )
+        add('overlay-blit-parameter', node.parameters.at(-1).end, ', __battleMagicChunk?: number')
+      if (
+        ts.isVariableStatement(node) &&
+        owner(node) === 'drawBattleMagicOverlay' &&
+        node.getText(ast) === 'const sprite = magicSprites?.get(overlay.spriteChunk)'
+      )
+        anchors['magic-overlay-resource'] = (anchors['magic-overlay-resource'] ?? 0) + 1
       if (
         ts.isCallExpression(node) &&
         owner(node) === 'drawBattleMagicOverlay' &&
         node.getText(ast) === 'blitFrame(fb, sprite, overlay.frameIdx, overlay.x, overlay.y)'
       )
-        add('magic-overlay-argument', node.arguments.end, ', true')
+        add('magic-overlay-argument', node.arguments.end, ', overlay.spriteChunk')
       if (
         ts.isForStatement(node) &&
         ts.isFunctionDeclaration(node.parent.parent) &&
@@ -257,7 +259,7 @@ export function instrumentGameBattle(source, file) {
         add(
           'magic-overlay-draw',
           node.end,
-          '\nif (__battleMagicOverlay) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx);\n',
+          '\nif (__battleMagicChunk !== undefined) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
         )
     }
     if (
@@ -480,6 +482,7 @@ export function instrumentGameBattle(source, file) {
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
     'draw-battle-effect.ts': {
       'overlay-blit-parameter': 1,
+      'magic-overlay-resource': 1,
       'magic-overlay-argument': 1,
       'magic-overlay-draw': 1,
     },

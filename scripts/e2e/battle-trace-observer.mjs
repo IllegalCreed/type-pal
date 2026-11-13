@@ -55,6 +55,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     overflow = false
   let frame, previousFrame
   let markedRandom
+  let magicOverlayChunks
   let nextPaintOrder = 0
   let nextNumberId = 0
   let nextAudioCueId = 0
@@ -218,6 +219,7 @@ export function installBattleTraceObserver(context, createRecorder) {
       if (closed || starts.length !== 1) return
       if (frame) recorder.fail('a battle frame was replaced before its draw completed')
       nextPaintOrder = 0
+      if (observeMagicOverlays) magicOverlayChunks = new WeakMap()
       frame = {
         source,
         ...state,
@@ -255,11 +257,27 @@ export function installBattleTraceObserver(context, createRecorder) {
           ...paintOrder,
         })
     },
-    magicOverlayDrawn(x, y, frameIndex) {
+    labelMagicOverlays(draws, fireSprites) {
+      if (!frame || !observeMagicOverlays || !draws?.length) return
+      const resources = Object.entries(fireSprites ?? {})
+      for (const draw of draws) {
+        // Bind the decoded sprite on the draw, including a renderer fallback within that sprite.
+        const matches = resources.filter(([, sprite]) => sprite === draw.sprite)
+        if (matches.length === 1) magicOverlayChunks.set(draw, Number(matches[0][0]))
+      }
+    },
+    magicOverlayDrawn(x, y, frameIndex, resource) {
       if (!frame || !observeMagicOverlays) return
+      const spriteChunk = typeof resource === 'number' ? resource : magicOverlayChunks.get(resource)
       // Fighters and magic overlays share the order of their completed native writes.
       frame.magicOverlays ??= []
-      frame.magicOverlays.push({ x, y, frameIndex, paintOrder: nextPaintOrder++ })
+      frame.magicOverlays.push({
+        x,
+        y,
+        frameIndex,
+        ...(Number.isSafeInteger(spriteChunk) && spriteChunk >= 0 ? { spriteChunk } : {}),
+        paintOrder: nextPaintOrder++,
+      })
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)

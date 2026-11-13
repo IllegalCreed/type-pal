@@ -177,7 +177,7 @@ test('Game reports the sprite frame that blits, including the frame zero fallbac
   ])
 })
 
-test('Game records only magic overlays after their indexed blit', async () => {
+test('Game records the selected FIRE chunk after its indexed magic blit', async () => {
   const file = '/packages/game/src/present/battle/draw-battle-effect.ts'
   const [native, { createFramebuffer }] = await Promise.all([
     source(file),
@@ -193,13 +193,30 @@ test('Game records only magic overlays after their indexed blit', async () => {
   })
   const sprite = { frames: [frame(7), frame(28)] }
   const overlay = { kind: 'magic', spriteChunk: 28, frameIdx: 1, x: 250, y: 134 }
-  const resources = new Map([[28, sprite]])
+  const resources = new Map([
+    [0, { frames: [frame(7), frame(19)] }],
+    [28, sprite],
+  ])
+  assert.throws(
+    () =>
+      instrumentGameBattle(
+        native.replace('magicSprites?.get(overlay.spriteChunk)', 'magicSprites?.get(0)'),
+        file,
+      ),
+    /boundary census changed/,
+  )
   const { drawBattleEffectOverlay, drawBattleMagicOverlay } = compile(
     instrumentGameBattle(native, file).code,
     {
       __battleEvidence: {
-        magicOverlayDrawn(x, y, frameIndex) {
-          facts.push({ x, y, frameIndex, drawnPixel: fb.indices[132 * fb.width + 249] })
+        magicOverlayDrawn(x, y, frameIndex, spriteChunk) {
+          facts.push({
+            x,
+            y,
+            frameIndex,
+            spriteChunk,
+            drawnPixel: fb.indices[132 * fb.width + 249],
+          })
         },
       },
     },
@@ -212,7 +229,11 @@ test('Game records only magic overlays after their indexed blit', async () => {
   assert.equal(fb.indices[132 * fb.width + 249], 7)
 
   drawBattleMagicOverlay(fb, overlay, resources)
-  assert.deepEqual(facts, [{ x: 250, y: 134, frameIndex: 1, drawnPixel: 28 }])
+  drawBattleMagicOverlay(fb, { ...overlay, spriteChunk: 0 }, resources)
+  assert.deepEqual(facts, [
+    { x: 250, y: 134, frameIndex: 1, spriteChunk: 28, drawnPixel: 28 },
+    { x: 250, y: 134, frameIndex: 1, spriteChunk: 0, drawnPixel: 19 },
+  ])
 })
 
 test('Game SFX observes its decoded buffer and request only after a successful start', async () => {
