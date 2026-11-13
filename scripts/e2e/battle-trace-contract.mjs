@@ -856,7 +856,20 @@ function assertBusinessConformance(trace, expected) {
       (command, commandIndex) =>
         !submitted.has(commandIndex) &&
         command.order < entry.order &&
-        same(semantic(command), semantic(entry)),
+        (same(semantic(command), semantic(entry)) ||
+          (expected.actions[i]?.cooperativeFallback === true &&
+            command.kind === 'coop' &&
+            entry.kind === 'attack' &&
+            command.turn === entry.turn &&
+            command.actorId === entry.actorId &&
+            command.targetId === entry.targetId &&
+            (trace.engine === 'game'
+              ? entry.native?.coopFallback === true &&
+                String(entry.native.command?.actionId) === command.skillId
+              : entry.native?.lastAction?.kind === 'attack') &&
+            entry.before.players.some(
+              ({ id, statuses }) => id !== entry.actorId && statuses.sleep > 0,
+            ))),
     )
     requireValue(
       index >= 0,
