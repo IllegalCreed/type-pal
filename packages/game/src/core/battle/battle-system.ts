@@ -536,7 +536,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
       tickSelectAction(state, res, input, gs)
       break
     case 'performAction':
-      tickPerformAction(state, gs, bus, res)
+      tickPerformAction(state, gs, bus, res, input)
       break
     case 'postAction':
       tickPostAction(state, gs, bus, res)
@@ -2197,6 +2197,7 @@ function tickPerformAction(
   gs: GameState,
   bus: CommandBus,
   res: BattleResources,
+  input: InputSnapshot,
 ): void {
   // fleed phase → 早退;逃跑动画由 tickBattleFleeAnim 顶层 hold 接管。
   if (state.phase !== 'performAction') return
@@ -2247,6 +2248,9 @@ function tickPerformAction(
       const activeItem = state.actionQueue[state.currentActionIndex]
       checkPlayerCasualties(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)
       state.currentActionIndex++
+    } else if (battleAnimationIsWaitingForDialogue(a)) {
+      // Open the script's narration when the release pose finishes its second beat.
+      tickBattleDialog(state, gs, input)
     }
     return
   }

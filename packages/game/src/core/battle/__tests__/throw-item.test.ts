@@ -554,18 +554,26 @@ describe('performThrowItem', () => {
     expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
     expect(gs.dialogBox).toBeUndefined()
 
-    const waitForNarration = () => {
-      for (let beat = 0; beat < 25 && !gs.dialogBox; beat++) {
+    if (dismiss === 'confirmation') {
+      // fight.c:4339–4362 waits four approach beats, two with the item name,
+      // eight in the windup pose, and two in the release pose before running the script.
+      for (let beat = 4; beat < 15; beat++) {
+        step()
+        captureSound()
+      }
+      expect(gs.dialogBox).toBeUndefined()
+      step()
+      captureSound()
+    }
+
+    for (let message = 0; message < copies; message++) {
+      for (let beat = 0; dismiss === 'timeout' && beat < 25 && !gs.dialogBox; beat++) {
         step()
         captureSound()
       }
       expect(gs.dialogBox).toMatchObject({ style: 'narration', currentLineText: '无任何效果' })
       expect(caster).toMatchObject({ pos: released, currentFrame: 6 })
       expect(state.currentActionIndex).toBe(0)
-    }
-
-    for (let message = 0; message < copies; message++) {
-      waitForNarration()
       if (dismiss === 'confirmation') {
         step('Confirm')
       } else {
