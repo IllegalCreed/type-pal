@@ -565,7 +565,7 @@ function validateRecording(trace, scenario) {
         Number.isFinite(entry.value) &&
         entry.value >= 0 &&
         entry.value < 1 &&
-        (['spell-damage-variance', 'status-resistance'].includes(entry.purpose)
+        (['spell-damage-variance', 'status-resistance', 'poison-resistance'].includes(entry.purpose)
           ? record(entry.target) &&
             !own(entry, 'queue') &&
             integer(entry.target.turn, 1) &&

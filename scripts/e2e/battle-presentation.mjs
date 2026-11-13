@@ -246,7 +246,7 @@ function validFrame(entry, source, playerCount) {
     Array.isArray(p.numbers) &&
     p.numbers.every(
       (draw) =>
-        ['yellow', 'blue'].includes(draw?.tone) &&
+        ['yellow', 'blue', 'cyan'].includes(draw?.tone) &&
         uniqueSlots([draw.slot], draw.side === 'player' ? playerCount : 5) &&
         ['player', 'enemy'].includes(draw.side) &&
         (draw.numberId === undefined ||

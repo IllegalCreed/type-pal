@@ -1426,6 +1426,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "552"
         }
@@ -1472,6 +1481,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "551"
@@ -1520,6 +1538,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "551"
         }
@@ -1566,6 +1593,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "551"
@@ -1614,6 +1650,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "551"
         }
@@ -1660,6 +1705,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "551"
@@ -1709,6 +1763,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "556"
         }
@@ -1756,6 +1819,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "557"
@@ -1805,6 +1877,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "558"
         }
@@ -1852,6 +1933,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "559"
@@ -1906,6 +1996,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyStatus",
           "status": "paralyzed",
@@ -1966,6 +2065,15 @@
       "target": "oneEnemy",
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyStatus",
           "status": "sleep",
           "turns": 3,
@@ -2023,6 +2131,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyStatus",
           "status": "confused",
@@ -2102,6 +2219,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "553"
@@ -2269,6 +2395,15 @@
       "target": "oneEnemy",
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyStatus",
           "status": "sleep",
           "turns": 5,
@@ -2348,6 +2483,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "currentHpDamage",
           "numerator": 1,
           "denominator": 2,
@@ -2399,6 +2543,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "555"
         }
@@ -2446,6 +2599,15 @@
     },
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "560"
@@ -2499,6 +2661,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyStatus",
           "status": "confused",
@@ -2650,6 +2821,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "561"
         }
@@ -2750,6 +2930,15 @@
     "sellable": false,
     "throw": {
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyPoison",
           "poisonId": "562"
@@ -2893,6 +3082,15 @@
       "target": "oneEnemy",
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "fixedDamage",
           "amount": 90
         }
@@ -2929,6 +3127,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "fixedDamage",
           "amount": 170
@@ -2967,6 +3174,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "fixedDamage",
           "amount": 250
@@ -3103,6 +3319,15 @@
       "target": "oneEnemy",
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "damageAndHealCaster",
           "damage": 180,
           "heal": 180
@@ -3150,6 +3375,15 @@
     "throw": {
       "effects": [
         {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
+        {
           "kind": "applyPoison",
           "poisonId": "554"
         }
@@ -3187,6 +3421,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "applyStatus",
           "status": "paralyzed",
@@ -3230,6 +3473,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "fixedDamage",
           "amount": 400
@@ -7469,6 +7721,15 @@
     "throw": {
       "target": "oneEnemy",
       "effects": [
+        {
+          "kind": "magicDamage",
+          "baseDamage": -999,
+          "element": "none",
+          "strength": {
+            "kind": "fixed",
+            "value": 0
+          }
+        },
         {
           "kind": "fixedDamage",
           "amount": 120

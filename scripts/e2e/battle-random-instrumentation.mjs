@@ -31,15 +31,15 @@ export function instrumentBattleRandomDraws(source, file) {
     anchors = {}
   let legacyChance = false
   let legacyEquivalent = false
-  const mark = (node, purpose, { queue, target, when = '' } = {}) => {
+  const mark = (node, purpose, { queue, target, when = '', wrapRng = false } = {}) => {
     anchors[purpose] = (anchors[purpose] ?? 0) + 1
     const metadata = target ? `, undefined, ${target}` : queue ? `, ${queue}` : ''
     edits.push(
       {
         at: node.getStart(ast),
-        text: `(${when}globalThis.__battleEvidence?.markRandom('${purpose}'${metadata}), `,
+        text: `${wrapRng ? '() => ' : ''}(${when}globalThis.__battleEvidence?.markRandom('${purpose}'${metadata}), `,
       },
-      { at: node.end, text: ')' },
+      { at: node.end, text: wrapRng ? '())' : ')' },
     )
   }
   const visit = (node, owner = '') => {
@@ -88,6 +88,10 @@ export function instrumentBattleRandomDraws(source, file) {
         const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
         if (opcode === 'OP_POISON_PLAYER' && expression === 'state.rng.rangeInclusive(1, 100)')
           mark(node, 'enemy-equivalent-poison-script')
+        if (opcode === 'OP_APPLY_POISON' && expression === 'state.rng.rangeInclusive(0, 9)')
+          mark(node, 'poison-resistance', {
+            target: "{ turn: state.turn + 1, side: 'enemy', slot: enemyIdx }",
+          })
         if (opcode === 'OP_SET_ENEMY_STATUS' && expression === 'state.rng.rangeInclusive(0, 9)')
           mark(node, 'status-resistance', {
             target: "{ turn: state.turn + 1, side: 'enemy', slot: sel.idx }",
@@ -158,6 +162,11 @@ export function instrumentBattleRandomDraws(source, file) {
             target: "{ turn: s.turn, side: 'enemy', slot: ti }",
           })
         if (owner === 'performThrow') {
+          const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
+          if (effect === "'applyStatus'" && multiplier === '10')
+            mark(node, 'status-resistance', {
+              target: "{ turn: s.turn, side: 'enemy', slot: enemyIdx }",
+            })
           if (multiplier === '0.1')
             mark(node, 'spell-damage-variance', {
               target: "{ turn: s.turn, side: 'enemy', slot: enemyIdx }",
@@ -186,6 +195,19 @@ export function instrumentBattleRandomDraws(source, file) {
       }
       if (
         file.endsWith('/battle-core.ts') &&
+        ['performThrow', 'applyPlayerSkill'].includes(owner) &&
+        node.expression.getText(ast) === 'applyEnemyPoisonEffect' &&
+        node.arguments[3]?.getText(ast) === 'rng'
+      ) {
+        // Preserve the shared poison rule's actual sample and attach the calling slot.
+        const slot = owner === 'performThrow' ? 'enemyIdx' : 'ti'
+        mark(node.arguments[3], 'poison-resistance', {
+          target: `{ turn: s.turn, side: 'enemy', slot: ${slot} }`,
+          wrapRng: true,
+        })
+      }
+      if (
+        file.endsWith('/battle-core.ts') &&
         owner === 'applyEnemyEquivItem' &&
         expression === 'applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)' &&
         ts.findAncestor(node, ts.isIfStatement)?.expression.getText(ast) ===
@@ -209,6 +231,7 @@ export function instrumentBattleRandomDraws(source, file) {
   if (file.endsWith('/battle-opcodes.ts'))
     expected = {
       'enemy-equivalent-poison-script': 1,
+      'poison-resistance': 1,
       'status-resistance': 1,
       'throw-weapon-strength': 1,
     }
@@ -229,7 +252,8 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-equivalent-poison-resist': 1,
       ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
       'battle-script-chance': 3,
-      'status-resistance': 1,
+      'status-resistance': 2,
+      'poison-resistance': 2,
       'spell-damage-variance': 3,
       'throw-weapon-strength': 1,
       'cast-growth': 1,
