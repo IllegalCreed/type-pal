@@ -463,6 +463,12 @@ export class BattleSession {
     return this.bgComposeScratch
   }
 
+  private playerRestFrame(p: BattleState['players'][number], frames: PlayerFighterFrames): number {
+    if (p.hp <= 0) return p.status.puppet > 0 ? frames.idle : frames.dead
+    if (p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)) return frames.dying
+    return p.defending ? frames.defend : frames.idle
+  }
+
   /** 队员表现层复位(召唤 out 相起点单独用:溶回目标必须是复位后的队员)。 */
   private resetPlayersVisual(): void {
     const s = this.state
@@ -471,20 +477,10 @@ export class BattleSession {
       const frames = this.playerFrames(i)
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
-      const restFrame =
-        p.hp <= 0
-          ? p.status.puppet > 0
-            ? frames.idle
-            : frames.dead
-          : p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)
-            ? frames.dying
-            : p.defending
-              ? frames.defend
-              : frames.idle
       return {
         x: pos.x,
         y: pos.y,
-        frame: holdRoundEndPoses && prev ? prev.frame : restFrame,
+        frame: holdRoundEndPoses && prev ? prev.frame : this.playerRestFrame(p, frames),
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -1738,7 +1734,7 @@ export class BattleSession {
       })
       return frames
     }
-    // 投掷道具(前移、挥臂、出手 → 目标染色闪 → 复位；纯施毒不显数字)
+    // 投掷道具(前移、挥臂、出手 → 数字 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
       if (!attackerPos) return null
@@ -1772,10 +1768,12 @@ export class BattleSession {
             : {}),
         }
       }
+      const casterFrames = this.playerFrames(la.idx)
       return buildThrowItem({
-        casterFrames: this.playerFrames(la.idx),
+        casterFrames,
         casterIdx: la.idx,
         casterPos: attackerPos,
+        casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
         hits: la.throwHits.map((hit) => ({
           idx: hit.idx,

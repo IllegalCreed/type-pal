@@ -400,7 +400,7 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events.filter((event) => event === 'dmg:player1:50')).toHaveLength(1)
   })
 
-  test('投掷物品:纯施毒不显数字；即时伤害在目标闪色帧显示蓝字', () => {
+  test('投掷物品:纯施毒不显数字；即时伤害显示蓝字且目标不闪色', () => {
     const poison = record(
       buildThrowItem({
         casterFrames: PLAYER_FRAMES,
@@ -424,12 +424,8 @@ describe('M4d-2 战斗动画时间线', () => {
     )
     guard = 0
     while (!damage.player.tick(50) && guard++ < 20) {}
-    expect(damage.events).toContain('f:enemy1c6')
     expect(damage.events).toContain('dmg:enemy1:1000')
-    expect(damage.events.indexOf('dmg:enemy1:1000')).toBeGreaterThan(
-      damage.events.indexOf('f:enemy1c6'),
-    )
-    expect(damage.events).toContain('f:enemy1c0')
+    expect(damage.events.filter((event) => event.startsWith('f:enemy'))).toEqual([])
   })
 
   test('投掷法术物品:投掷姿后复用 OffMagic，传递 special 层序，结果数字最后出现', () => {

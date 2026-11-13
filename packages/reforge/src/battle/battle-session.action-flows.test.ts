@@ -452,13 +452,16 @@ describe('W3 执行时间线接线', () => {
     expect(h.readParty()[0]?.mp).toBe(82)
   })
 
-  test('木剑投掷实绘四步、挥臂和出手姿，角色音早于命中特效音', () => {
+  test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {
     const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
     const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '166'))[0])
     const presentation = expectDefined(item.throw?.presentation)
     const sfx = recordingSfx()
     const h = makeWfSession({
-      players: [wfPlayer('li-xiaoyao', { attackStrength: 52, baseDexterity: 903 })],
+      players: [
+        wfPlayer('li-xiaoyao', { hp: 20, maxHp: 150, attackStrength: 52, baseDexterity: 903 }),
+        wfPlayer('anu', { attackStrength: 950, baseDexterity: 150 }),
+      ],
       enemies: [enemy],
       extraOpts: {
         items: { [item.id]: item },
@@ -470,12 +473,21 @@ describe('W3 执行时间线接线', () => {
     h.assets.palette = posePalette
     const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
     const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
-    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    const enemySprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    h.assets.battleSprites = new Map(h.assets.battleSprites)
+      .set(spriteId, poseSprite(sprite))
+      .set(enemy.battleSprite, poseSprite(enemySprite))
     h.assets.fireSprites = {
       [presentation.animation.effectSprite]: {
         ...sprite.sprite,
         frames: [expectDefined(sprite.sprite.frames[0])],
       },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
     }
     const ctx = battleCanvas()
     const draw = () => h.session.render(ctx, 1)
@@ -483,41 +495,58 @@ describe('W3 执行时间线接线', () => {
     h.press(['w'])
     h.press([' '])
     h.press([' '])
+    h.press([' ']) // 阿奴普攻。
+    h.press([' '])
     for (let i = 0; i < 20 && !h.session.debugLog().some((line) => line.includes('投掷 木剑')); i++)
       h.idle(8)
     expect(h.session.debugLog().some((line) => line.includes('投掷 木剑'))).toBe(true)
     draw()
-    expect(fighterAt(236, 168)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect(fighterAt(196, 174)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
 
     for (const [x, y] of [
-      [233, 167],
-      [231, 166],
-      [230, 166],
+      [193, 173],
+      [191, 172],
+      [190, 172],
     ] as const) {
       h.idle(40)
       draw()
-      expect(fighterAt(x, y)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+      expect(fighterAt(x, y)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
     }
     h.idle(119)
     expect(sfx.plays).toEqual([])
     h.idle(1)
     draw()
-    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
     expect(sfx.plays).toEqual(['sound.pal.009'])
     h.idle(320)
     draw()
-    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
     expect(sfx.plays).toEqual(['sound.pal.009'])
     // 出手姿保留两拍，投掷脚本开始 OffMagic 后再停一拍（fight.c:4355–4356,2659）。
     h.idle(119)
     draw()
-    expect(fighterAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
     expect(sfx.plays).toEqual(['sound.pal.009'])
     h.idle(1)
     expect(sfx.plays).toEqual(['sound.pal.009', 'sound.pal.347'])
-    h.idle(250) // 一张 50ms 特效 + 200ms 现有命中帧。
+    h.idle(50) // 最后一张特效退场后，结算数字立即实绘。
     draw()
-    expect(fighterAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    expect([88, 94, 100].map((x) => ctx.getImageData(x, 10, 1, 1).data[2])).toEqual([32, 160, 144])
+    expect([poseRed(0), poseRed(1)]).toContain(fighterAt(100, 110))
+    // fight.c:4369–4372。数字后先保持出手姿四拍，再恢复濒死姿四拍。
+    h.idle(159)
+    draw()
+    expect(fighterAt(190, 172)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    h.idle(1)
+    draw()
+    expect(fighterAt(200, 176)).toBe(poseRed(PLAYER_PROFILE.frames.dying))
+    h.idle(160)
+    h.idle(39)
+    draw()
+    expect(fighterAt(256, 152)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    h.idle(1)
+    draw()
+    expect(fighterAt(256, 152)).toBe(poseRed(PLAYER_PROFILE.frames.attackWindup))
     const inventory = [{ itemId: item.id, count: 1 }]
     h.session.writeBackInventory(inventory)
     expect(inventory).toEqual([])

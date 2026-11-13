@@ -508,8 +508,9 @@ export interface BuildThrowItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
   casterPos?: { x: number; y: number }
+  casterRestFrame?: number
   itemName?: string
-  /** 当前投掷命中的目标快照；保留 0 伤害目标以播放施毒/状态命中闪烁。 */
+  /** 当前投掷目标的扣血量。零伤害不显示数字。 */
   hits?: Array<{ idx: number; damage: number }>
   /** @deprecated 单目标兼容入口。 */
   targetIdx?: number
@@ -565,10 +566,10 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
     )
   }
   const onlyPositiveHit = positiveHits.length === 1 ? positiveHits[0] : undefined
+  // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
   frames.push(
     {
-      durationMs: 200,
-      fighters: hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 6 })),
+      durationMs: delayMs(4),
       ...(onlyPositiveHit
         ? {
             damageNum: {
@@ -586,15 +587,14 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
           : {}),
     },
     {
-      durationMs: 160,
+      durationMs: delayMs(4),
       fighters: [
         {
           side: 'player',
           idx: casterIdx,
-          frame: casterFrames.idle,
+          frame: input.casterRestFrame ?? casterFrames.idle,
           ...(casterPos ? { pos: casterPos } : {}),
         },
-        ...hits.map((hit) => ({ side: 'enemy' as const, idx: hit.idx, colorShift: 0 })),
       ],
     },
   )
