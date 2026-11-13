@@ -23,7 +23,6 @@ const judges = ['scripts/e2e/battle-status-compare.mjs', 'scripts/e2e/battle-sta
 const git = (...args) => execFileSync('git', args, { cwd: repoRoot })
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const rng = ({ index, value, purpose, queue, target }) => ({ index, value, purpose, queue, target })
-const input = ({ key, commandIndex }) => ({ key, commandIndex })
 const runIds = (scenarios) => scenarios.flatMap(({ id }) => [`${id}-1`, `${id}-2`])
 
 function firstDifference(left, right) {
@@ -50,10 +49,19 @@ function comparePair(first, second) {
     // The original bees have a separate post-battle script at SSS 41027.
     // Require its exact result while keeping the full settlement visible in the receipt.
     const { inventory, ...after } = l.terminal.after
+    const rewardNotice = (trace) =>
+      trace.presentations.some(({ payload }) =>
+        payload?.dialogue?.some(({ lines }) => lines?.includes('获得一个蜂巢')),
+      )
     check(
       'bee reward follow-up',
       [inventory, r.terminal.after.inventory],
       [[{ itemId: '115', count: 1 }], []],
+    )
+    check(
+      'bee reward notice',
+      [rewardNotice(first.trace), rewardNotice(second.trace)],
+      [true, false],
     )
     check(
       'terminal outside bee reward',
@@ -73,23 +81,41 @@ function comparePair(first, second) {
     const native = (trace) => trace.actions.map(({ native: detail, guard }) => ({ detail, guard }))
     check('native repeat actions', native(first.trace), native(second.trace))
     check('repeat rewards random draw order', first.rewardDraws, second.rewardDraws)
-    check('repeat physical keys', first.inputs.map(input), second.inputs.map(input))
+    // Menus can receive a repeated poll before a physical press is consumed. Compare
+    // the native commands and the specific key contracts in checkStatusRules.
+    observations.push({
+      rule: 'recorded physical press counts',
+      first: first.inputs.length,
+      second: second.inputs.length,
+    })
   } else {
     const expected =
       first.id === 'confused-enemy-draws-self'
         ? [35, 6]
         : first.id === 'confused-enemy-strikes-ally'
           ? [54, 80]
-          : []
-    check(
-      'settlement random tail in Game',
-      first.rewardDraws.map(({ purpose, value }) => [purpose, 1 + Math.floor(value * 100)]),
-      expected.map((roll) => ['battle-script-chance', roll]),
-    )
-    check('settlement random tail in Reforge', second.rewardDraws, [])
+          : undefined
+    if (expected) {
+      check(
+        'bee reward script random draws in Game',
+        first.rewardDraws
+          .filter(({ purpose }) => purpose === 'battle-script-chance')
+          .map(({ value }) => 1 + Math.floor(value * 100)),
+        expected,
+      )
+      check(
+        'settlement growth random draws',
+        first.rewardDraws.filter(({ purpose }) => purpose !== 'battle-script-chance'),
+        second.rewardDraws,
+      )
+    } else {
+      check('settlement growth random draws', first.rewardDraws, second.rewardDraws)
+    }
   }
   return {
     case: first.id,
+    firstEngine: first.trace.engine,
+    secondEngine: second.trace.engine,
     first: first.trace.runId,
     second: second.trace.runId,
     findings,
