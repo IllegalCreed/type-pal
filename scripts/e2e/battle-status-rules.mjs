@@ -37,6 +37,19 @@ const animated = (frames, turn, actor, kind) =>
       payload.animation?.actorId === actor &&
       payload.animation.kind === kind,
   )
+function physicalOverlaySequence(frames) {
+  const overlays = []
+  let previous
+  for (const { payload } of frames) {
+    const drawings = payload.physicalOverlays ?? []
+    if (drawings.length && !same(previous, drawings))
+      overlays.push(
+        drawings.map(({ x, y, frameIndex }) => [x, y, frameIndex]).sort((a, b) => a[0] - b[0]),
+      )
+    previous = drawings
+  }
+  return overlays
+}
 const amounts = (frames) => firstNumberDraws(frames).map(({ number }) => number.value)
 const position = (draw) => draw && [draw.x, draw.y]
 const soundId = (event) => Number(event.assetId.split('.').at(-1))
@@ -141,6 +154,23 @@ function checkBuffs(trace, id, frames, check) {
   )
   check('梦蛇武术只叠裸属性', [health(attack?.before), health(attack?.after)], [[1065], [790]])
   check('梦蛇后两次实际伤害', amounts(animated(frames, 2, linger, 'attack')), [138, 137])
+  const attackFrames = animated(frames, 2, linger, 'attack')
+  check('变身后使用本形象的物理特效并跟随受击位置', physicalOverlaySequence(attackFrames), [
+    [[100, 101, 9]],
+    [[84, 117, 10]],
+    [[68, 133, 11]],
+    [[94, 98, 9]],
+    [[78, 114, 10]],
+    [[62, 130, 11]],
+  ])
+  check(
+    '梦蛇双击数字随实际受击锚',
+    firstNumberDraws(attackFrames).map(({ number: { right, y } }) => [right, y]),
+    [
+      [106, 10],
+      [100, 10],
+    ],
+  )
 }
 
 function checkGroupAttack(trace, scenario, frames, inputs, check) {
@@ -193,18 +223,9 @@ function checkGroupAttack(trace, scenario, frames, inputs, check) {
           [0, 21, 70, 15, 'blue'],
         ],
   )
-  const overlays = []
-  let previous
-  for (const { payload } of swing) {
-    const drawings = payload.physicalOverlays ?? []
-    if (drawings.length && !same(previous, drawings)) overlays.push(drawings)
-    previous = drawings
-  }
   check(
     '每挥三个实际特效帧分别覆盖两敌',
-    overlays.map((drawings) =>
-      drawings.map(({ x, y, frameIndex }) => [x, y, frameIndex]).sort((a, b) => a[0] - b[0]),
-    ),
+    physicalOverlaySequence(swing),
     [0, 1, 2, 0, 1, 2].map((i) => [
       [70, 130, i],
       [140, 106, i],
