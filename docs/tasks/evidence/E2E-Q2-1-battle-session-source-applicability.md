@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-13
+Last reviewed: 2026-11-14
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -123,3 +123,15 @@ Template: evidence-receipt-v1 / 1.0.0
 | `this.selection.advance(context` | 1191-1200 | 1209-1218 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
 
 目录、归属报告及配对证据追加本次适用性历史。归属测试原有执行身份和业务结果取原记录。投掷实跑范围见 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-14 敌方施法演出的会话来源
+
+固定前驱 `a4d04282dbbdaecff8e97e37528b5c0d67659550`。敌方施法的会话接入补齐原始起手与姿态，并在五拍受击后恢复施法者原位。会话文件由 `def44c8648f31c08eaba3de03c4da238011fa6a93cedd95eec11910366cb21d0` 更新为 `13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab`。
+
+| 调用锚点 | 前驱范围 | 当前范围 | 片段 SHA-256 |
+| --- | --- | --- | --- |
+| `private readonly selection = new BattleCommandSelection` | 217-219 | 220-222 | `06748bc9b41060a59eb9ce1a4f35eaa83a1928e28cfe1b77ca79e9fce8b8aab5` |
+| `this.readiness = new BattleTurnReadinessGate` | 378-389 | 381-392 | `53a94cb63d8c929db87931718c62beafe957b20c8f5175fa036b6f1245be7fd2` |
+| `this.selection.advance(context` | 1209-1218 | 1212-1221 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
+
+三个调用片段的范围含末行换行，逐字节相同。原归属测试的执行身份和结论由其原证据承载。敌方施法和毒道具的复验范围取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。

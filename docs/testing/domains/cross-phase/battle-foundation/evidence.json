@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "5aa5cb252597dfaf6989e5d91f203b2253449770",
+  "candidateSha": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -12,51 +12,51 @@
     {
       "path": "scripts/e2e/battle-foundation.mjs",
       "anchor": "await runBrowserJourney({",
-      "lines": "61",
       "role": "caller",
-      "sha256": "70f955a887524322cad20bb88b02aa895d73a54e04f62c950815c417f4c974a7"
+      "lines": "61",
+      "sha256": "b6620a8b33c3d3103ace89d3890ceee0f3a6f795641af16aba5cb4616e71c8ca"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
       "anchor": "function defineScenario(",
-      "lines": "209",
       "role": "input-and-independent-oracle",
-      "sha256": "a8bd7a0e62174eb8bb5ae948e5749d1d0c092a16602b5f606d48dd1d32933800"
+      "lines": "286",
+      "sha256": "5ac3e05bc0a6b80099c3b956256048832a974abdabc27757017eff9fea587ea3"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
       "anchor": "launch(input) {",
-      "lines": "439",
       "role": "public-fixture-adapter",
-      "sha256": "17a0de92a7f552ee5f5b61b3f0ca86f1709509b4f72e58520c0d15cc22eb697d"
+      "lines": "442",
+      "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
       "anchor": "running = runBattleTrial(",
-      "lines": "179",
       "role": "public-trial-adapter",
+      "lines": "179",
       "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
       "anchor": "export function validateBattleTrace(",
-      "lines": "972",
       "role": "oracle",
-      "sha256": "11c879b510f79f58211463f8923fac66d00caa750f29f66e3f23fb9bf7e30d05"
+      "lines": "973",
+      "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
       "anchor": "export async function compareBattleReports(",
-      "lines": "33",
       "role": "offline-caller",
-      "sha256": "18cd090eb4ee04a941e5ebf39f30cd978ae1144b8daec15c87a690cc4ffa71e1"
+      "lines": "33",
+      "sha256": "072ff97dc30494bf8a11301a5e12cd3e9c4e743b216997d14accaa11b9ec3a70"
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "1693",
-      "sha256": "dc5b1c467806c7b9317ebe269e00d12a069fc4d3862db9519b12bdc1e95ffdb2"
+      "lines": "1694",
+      "sha256": "1de64f86391efe35d22f15359d2ed913979002820de3561c574cf796c0960e4b"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -77,7 +77,7 @@
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "42",
-      "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
@@ -98,7 +98,7 @@
       "anchor": "export function instrumentBattleRandomDraws(",
       "role": "native-random-producer-binding",
       "lines": "28",
-      "sha256": "c63e693e6b993559671ad4c98e9aec307fe29989491cb6b15cbd7a301933467b"
+      "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
@@ -118,8 +118,36 @@
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "'coop-fallback',",
       "role": "native-cooperative-fallback-observer",
-      "lines": "277",
-      "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+      "lines": "298",
+      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+    },
+    {
+      "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
+      "anchor": "export function compareEnemyCast(",
+      "role": "native-enemy-cast-oracle",
+      "lines": "10",
+      "sha256": "41e02e54abfa2b039bcf7aff4a2b8ab92b2da18ac30a2fa7f193333cd5ad81f9"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-items.mjs",
+      "anchor": "await runBrowserJourney({",
+      "role": "native-poison-caller",
+      "lines": "40",
+      "sha256": "f5aec93f96fa6d80f7d364e9cf2887e25c143186788ea827ecaeb4c007c3160c"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-sources.mjs",
+      "anchor": "export async function verifyPoisonSources(",
+      "role": "raw-and-authored-poison-inputs",
+      "lines": "29",
+      "sha256": "ef103f273b5e0c68afcb72cd78ce72301fb9eccd36892c351a1d3305dea4096d"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-compare.mjs",
+      "anchor": "export async function comparePoisonReports(",
+      "role": "native-poison-offline-oracle",
+      "lines": "376",
+      "sha256": "4f207ea95628c4a096c13c3067ac3a59545556c6a4943800c9edd5c076d5301a"
     }
   ],
   "publicCallers": [
@@ -145,7 +173,11 @@
     "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=item-effects",
     "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --scenario=<registered-item-case> --audio-review",
     "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=status-followup",
-    "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=status-followup"
+    "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=status-followup",
+    "node scripts/e2e/battle-foundation.mjs --engine=<game|reforge> --group=enemy-cast",
+    "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY --group=enemy-cast",
+    "node scripts/e2e/battle-poison-items.mjs <game|reforge> <priority|bounds|pairs|controls>",
+    "node scripts/e2e/battle-poison-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY GROUP"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -170,7 +202,9 @@
     "Raw team204, field7, seed25, Zhao Ling’er with Fairy Sword170 and Li Xiaoyao. Actual menu submits Explosion381, then enemy sleep303 disables Li before the action. The same two commands finish the legal fight after the fix.",
     "Reuse both seed4 sleep fixtures and original elemental/group spell fixtures. A first spell number may follow the first rendered reaction by one logical 40ms tick, in the same reaction pose.",
     "Seven normal field-7 fixtures use raw teams 1, 3, 80 and 115, fixed seeds, matched derived stats, registered PAL item IDs 95, 104, 116, 137, 145, 157, 158 and 67, and the actual item, throw and target menus. Revival follows a native defeat of the recipient during combat.",
-    "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list."
+    "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list.",
+    "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
+    "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -209,7 +243,9 @@
       "Numbers and animation come from observed frames. Check whole-party glow, actual FIRE frames and paint order, same-frame drain damage and recovery at the acting foot, recovery pose on revival, and timing from raise through the first number to the next actor.",
       "A queued attack after sleep cleanse must come from the expected native player slot after another actor uses Lingxin Talisman, with no submitted attack in that round.",
       "Party healing draws FIRE28 once at each live actor anchor, with all declared recipients present and original paint order. Drain preserves the captured entry pose in all four approach steps.",
-      "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage."
+      "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage.",
+      "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
+      "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines."
     ]
   },
   "dedupe": {
@@ -219,17 +255,17 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review."
   },
   "runtimeExecution": {
     "performed": true,
-    "date": "2026-11-13",
+    "date": "2026-11-14",
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "5aa5cb252597dfaf6989e5d91f203b2253449770",
+    "producerRevision": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
     "result": "passed",
-    "verification": "20 native fights in five fixed cases with 10 cross-engine and 10 same-engine comparisons. Supplemental throw, threshold and status cases retain their own execution identities.",
+    "verification": "40 native fights for ten enemy casting scenarios, with 20 paired and 20 repeat comparisons. A separate group of 72 native fights proves 36 paired poison scenarios under the source-bound judge.",
     "continuous": false
   },
   "execution": {
@@ -303,15 +339,15 @@
   "hashes": [
     {
       "path": "scripts/e2e/battle-foundation.mjs",
-      "sha256": "70f955a887524322cad20bb88b02aa895d73a54e04f62c950815c417f4c974a7"
+      "sha256": "b6620a8b33c3d3103ace89d3890ceee0f3a6f795641af16aba5cb4616e71c8ca"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "a8bd7a0e62174eb8bb5ae948e5749d1d0c092a16602b5f606d48dd1d32933800"
+      "sha256": "5ac3e05bc0a6b80099c3b956256048832a974abdabc27757017eff9fea587ea3"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "sha256": "17a0de92a7f552ee5f5b61b3f0ca86f1709509b4f72e58520c0d15cc22eb697d"
+      "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
@@ -319,15 +355,15 @@
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "sha256": "11c879b510f79f58211463f8923fac66d00caa750f29f66e3f23fb9bf7e30d05"
+      "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
-      "sha256": "18cd090eb4ee04a941e5ebf39f30cd978ae1144b8daec15c87a690cc4ffa71e1"
+      "sha256": "072ff97dc30494bf8a11301a5e12cd3e9c4e743b216997d14accaa11b9ec3a70"
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "dc5b1c467806c7b9317ebe269e00d12a069fc4d3862db9519b12bdc1e95ffdb2"
+      "sha256": "1de64f86391efe35d22f15359d2ed913979002820de3561c574cf796c0960e4b"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -339,7 +375,7 @@
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
@@ -351,7 +387,7 @@
     },
     {
       "path": "scripts/e2e/battle-random-instrumentation.mjs",
-      "sha256": "c63e693e6b993559671ad4c98e9aec307fe29989491cb6b15cbd7a301933467b"
+      "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
@@ -363,7 +399,23 @@
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+      "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+    },
+    {
+      "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
+      "sha256": "41e02e54abfa2b039bcf7aff4a2b8ab92b2da18ac30a2fa7f193333cd5ad81f9"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-items.mjs",
+      "sha256": "f5aec93f96fa6d80f7d364e9cf2887e25c143186788ea827ecaeb4c007c3160c"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-sources.mjs",
+      "sha256": "ef103f273b5e0c68afcb72cd78ce72301fb9eccd36892c351a1d3305dea4096d"
+    },
+    {
+      "path": "scripts/e2e/battle-poison-compare.mjs",
+      "sha256": "4f207ea95628c4a096c13c3067ac3a59545556c6a4943800c9edd5c076d5301a"
     }
   ],
   "artifacts": [
@@ -10168,6 +10220,17 @@
         "bytes": 87037
       },
       "purpose": "Paired native battle followup, explicit threshold diagnostics, sound review, verified original replay drivers and quality receipts."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz",
+      "sha256": "545a2deeae12071f3345ef495626bbcb0e739df22469202e0ae642db63b782ca",
+      "bytes": 57055455,
+      "manifest": {
+        "path": "build/q2/enemy-cast/archive-index.json",
+        "sha256": "0023e5d69fd85816270cbb31aa65a8bbff26cf17fdfce60be2664e3aabc7c27e",
+        "bytes": 70838
+      },
+      "purpose": "Paired native enemy casting and poison reports, trace bytes, exact historical rejections and original-speed stereo review."
     }
   ],
   "claims": [
@@ -10685,6 +10748,53 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-46-12-276Z/report.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-48-52-276Z/report.json"
       ]
+    },
+    {
+      "id": "native-enemy-cast-pose-and-fire",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T15-38-48-202Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T15-41-22-319Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/compare-final/comparison.json"
+      ]
+    },
+    {
+      "id": "native-poison-use-and-throw-matrix",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-priority-2026-11-13T15-38-44-595Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-priority-2026-11-13T15-38-48-187Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-priority-final/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-bounds-2026-11-13T15-40-11-875Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-bounds-2026-11-13T15-40-09-468Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-bounds-final/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-pairs-2026-11-13T15-41-23-871Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-pairs-2026-11-13T15-41-12-196Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-pairs-final/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-controls-2026-11-13T15-44-24-540Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-controls-2026-11-13T15-43-28-604Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-controls-final/comparison.json"
+      ]
+    },
+    {
+      "id": "enemy-cast-poison-original-speed-stereo-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/battle-enemy-casts-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/media.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/split.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/assemble.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-44-27-355Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-45-02-055Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-45-34-739Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-46-02-128Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-46-31-680Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-46-59-132Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-dragon-mixed-levels-2026-11-13T15-47-26-738Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-dragon-mixed-levels-2026-11-13T15-47-59-229Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-shadowless-cap-2026-11-13T15-48-31-093Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-shadowless-cap-2026-11-13T15-48-58-684Z/report.json"
+      ]
     }
   ],
   "findings": [
@@ -10998,6 +11108,84 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/q2/status-final/coverage-inventory-overlap.baseline.json"
       ],
       "result": "The recorded earlier release delay, short-lived throw capture, older menu/pose/strike differences, oracle falsifications and preliminary coverage drop retain their actual outcomes. The current five-case group was reproduced from original traces. An intermediate local ratchet overlapped a Game test-only commit and reported inventory 20,520 versus 20,521 executed. The generated baseline was discarded, and the completed frozen ratchet was accepted after matching counts."
+    },
+    {
+      "kind": "native-enemy-cast-and-poison-counterexamples",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T13-34-12-263Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-35-56-549Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T15-34-25-571Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/poison-pre-fix-a4d04282-and-575e61e5.tar.gz",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/compare-frozen/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-priority-compare.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/coverage-frozen.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/coverage-fixture-before.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/coverage-before-ratchet.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/typecheck-frozen.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/quality-inventory-before.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/check-native-counters.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/native-counters.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/counters-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/run-counters.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/poison/counters-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/poison/run-counters.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/poison/fast/replay.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/green.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/counter-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/counters.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/battle-package.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/source-anchors.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/handoff.md",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/review-source-bridge.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/review-source-bridge.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/check-poison-verdict-counter.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/rejected/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/mutated-report.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/mutated-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/counter.stdout",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/published-counter/counter.stderr",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/replay.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/drops-enemy-feedback.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/drops-enemy-feedback.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/duplicates-enemy-feedback-in-its-numbered-player-slot.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/duplicates-enemy-feedback-in-its-numbered-player-slot.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/restored.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/green.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/green.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/game-cast/mixed-feedback/coverage/lcov.info",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/review-regression-supplement.md",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-counter.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-old-red.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-missing-hit.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-missing-hit.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-restored.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/isolated-fixture-restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-counter.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-reused-anchor.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-reused-anchor.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-covered.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-covered.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-coverage/lcov.info",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-restored.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/reforge-cast/multi-target-restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/resistance-contract/receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/resistance-contract/counter.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/resistance-contract/counter.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/resistance-contract/restoration.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/owners/poison/resistance-contract/restoration.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-counter.py",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-counter.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-missing-entry.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-missing-entry.log",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/reforge-item-restored.log"
+      ],
+      "result": "Old raw traces show missing caster movement or premature recovery, poison resistance/entry differences, and the early enemy poison tick. An overly narrow visual sampling tolerance and missing optional round array were corrected in their judges. Mutations reject independently of artifact integrity."
     }
   ],
   "cleanup": {
@@ -11338,6 +11526,86 @@
         }
       ],
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz"
+    },
+    {
+      "revision": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+      "date": "2026-11-14",
+      "action": "native-enemy-cast-and-poison-items",
+      "scope": "Ten fixed enemy cast cases repeated on both engines; thirty-six paired poison cases; original-speed stereo review.",
+      "predecessor": "5aa5cb252597dfaf6989e5d91f203b2253449770",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-foundation.mjs",
+          "anchor": "await runBrowserJourney({",
+          "lines": "61",
+          "role": "caller",
+          "sha256": "70f955a887524322cad20bb88b02aa895d73a54e04f62c950815c417f4c974a7"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-scenarios.mjs",
+          "anchor": "function defineScenario(",
+          "lines": "209",
+          "role": "input-and-independent-oracle",
+          "sha256": "a8bd7a0e62174eb8bb5ae948e5749d1d0c092a16602b5f606d48dd1d32933800"
+        },
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "lines": "439",
+          "role": "public-fixture-adapter",
+          "sha256": "17a0de92a7f552ee5f5b61b3f0ca86f1709509b4f72e58520c0d15cc22eb697d"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "anchor": "running = runBattleTrial(",
+          "lines": "179",
+          "role": "public-trial-adapter",
+          "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "anchor": "export function validateBattleTrace(",
+          "lines": "972",
+          "role": "oracle",
+          "sha256": "11c879b510f79f58211463f8923fac66d00caa750f29f66e3f23fb9bf7e30d05"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-compare.mjs",
+          "anchor": "export async function compareBattleReports(",
+          "lines": "33",
+          "role": "offline-caller",
+          "sha256": "18cd090eb4ee04a941e5ebf39f30cd978ae1144b8daec15c87a690cc4ffa71e1"
+        },
+        {
+          "path": "scripts/e2e/battle-presentation.mjs",
+          "anchor": "export function validateBattlePresentation(",
+          "role": "render-oracle",
+          "lines": "1693",
+          "sha256": "dc5b1c467806c7b9317ebe269e00d12a069fc4d3862db9519b12bdc1e95ffdb2"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "42",
+          "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+        },
+        {
+          "path": "scripts/e2e/battle-random-instrumentation.mjs",
+          "anchor": "export function instrumentBattleRandomDraws(",
+          "role": "native-random-producer-binding",
+          "lines": "28",
+          "sha256": "c63e693e6b993559671ad4c98e9aec307fe29989491cb6b15cbd7a301933467b"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "'coop-fallback',",
+          "role": "native-cooperative-fallback-observer",
+          "lines": "277",
+          "sha256": "240ed081be898fd0500629bd6191e2d93d1e4b468fe09c303110ffd7091dfdf3"
+        }
+      ],
+      "archive": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz"
     }
   ],
   "_governance": {
@@ -11928,5 +12196,64 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-status-and-throws-20261113.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T13-48-52-276Z/report.json"
       ]
     }
+  },
+  "enemyCastPoisonExecution": {
+    "date": "2026-11-14",
+    "producerRevision": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
+    "poisonJudgeRevision": "41deab2dc1760a8f29352bda22bc5ce3c3496d21",
+    "enemyCast": [
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-2026-11-13T15-38-48-202Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-13T15-41-22-319Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/compare-final/comparison.json"
+    ],
+    "poison": [
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-priority-2026-11-13T15-38-44-595Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-priority-2026-11-13T15-38-48-187Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-priority-final/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-bounds-2026-11-13T15-40-11-875Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-bounds-2026-11-13T15-40-09-468Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-bounds-final/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-pairs-2026-11-13T15-41-23-871Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-pairs-2026-11-13T15-41-12-196Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-pairs-final/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-controls-2026-11-13T15-44-24-540Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-controls-2026-11-13T15-43-28-604Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/poison-controls-final/comparison.json"
+    ],
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/battle-enemy-casts-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/media.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/split.py",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/final-review/assemble.py",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-44-27-355Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-45-02-055Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-45-34-739Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-46-02-128Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-13T15-46-31-680Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T15-46-59-132Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-dragon-mixed-levels-2026-11-13T15-47-26-738Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-dragon-mixed-levels-2026-11-13T15-47-59-229Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-game-shadowless-cap-2026-11-13T15-48-31-093Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/e2e/q2-poison-boundaries-reforge-shadowless-cap-2026-11-13T15-48-58-684Z/report.json"
+    ],
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/typecheck-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/e2e-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/lint-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/quality-summary.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/quality-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/script-governance-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/content-check-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/coverage-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/coverage-metrics.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/replay-archive.py",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/replay-cast.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/replay-poison.json",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/pack.py",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/record-quality.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/contributor-sources.bundle"
+    ],
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz#build/q2/enemy-cast/archive-index.json",
+    "visualAcceptance": "pending"
   }
 }

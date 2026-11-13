@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-13T13:58:31.986Z",
+  "generatedAt": "2026-11-13T16:27:40.911Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 838,
-  "testCount": 20521,
+  "testCount": 20533,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -217,7 +217,7 @@
       ],
       "scopeDigest": "47fe2cfb2860f02a4f1414edfba950440f0c67800c9f21d0a36baa011c12b429",
       "fastTests": {
-        "testCount": 1569,
+        "testCount": 1570,
         "testFileCount": 140,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -804,8 +804,8 @@
           },
           {
             "file": "packages/content/src/poison.glm-o.test.ts",
-            "testCount": 12,
-            "identityDigest": "1ac812d121f3b39ddb4b5f49ff6878db0389c3512bec69f9abfbc30b45516543"
+            "testCount": 13,
+            "identityDigest": "d97af4836fea8f25adf11c25b031ffddf963cd22db4d491d628f71891c2cf34a"
           },
           {
             "file": "packages/content/src/project-map.boundaries.test.ts",
@@ -1063,26 +1063,26 @@
             "identityDigest": "518ae693559a05507f40f86f16396e6e96f1be3ff15830e00946f1fd57a3a9bc"
           }
         ],
-        "identityDigest": "f380440e3f0edb71969791c0d77a258bb183c161399ed08e7d129866b7974258",
+        "identityDigest": "6bf89b38958d318e552f124de890a0fac43e6f99d440d934fa1e8b3df257f5bc",
         "duplicateIdentityCount": 1,
-        "executionDigest": "72f066dc03c9bdaaae3a4e9ef7bfa85641bc2050c9244b6c59cdf2dbb3bf5140"
+        "executionDigest": "8820c6a2bcae04f68d1384d76eb9d7e9cee3035ff511d505618c7363314fe423"
       },
       "metrics": {
         "statements": {
-          "covered": 5930,
-          "total": 6143
+          "covered": 5933,
+          "total": 6146
         },
         "branches": {
-          "covered": 5142,
-          "total": 5456
+          "covered": 5147,
+          "total": 5461
         },
         "functions": {
-          "covered": 855,
-          "total": 867
+          "covered": 856,
+          "total": 868
         },
         "lines": {
-          "covered": 5295,
-          "total": 5431
+          "covered": 5298,
+          "total": 5434
         }
       }
     },
@@ -2250,7 +2250,7 @@
       ],
       "scopeDigest": "e0da62982ba37363f87eaa5b46822eecf439ed3a368cffef9975fa951ec5278f",
       "fastTests": {
-        "testCount": 9081,
+        "testCount": 9088,
         "testFileCount": 371,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2873,8 +2873,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-anim.enemy-cast.residual.test.ts",
-            "testCount": 2,
-            "identityDigest": "25ba8ee28aeeddbd2d77a6da92fa493e6d46a15367f2d055b905e758a5859b33"
+            "testCount": 4,
+            "identityDigest": "66ca5e7ee0f75f854b30c30258edd106e6ca95790c52f0672570e404477c6f25"
           },
           {
             "file": "packages/reforge/src/battle/battle-anim.glm-n.test.ts",
@@ -2894,7 +2894,7 @@
           {
             "file": "packages/reforge/src/battle/battle-anim.test.ts",
             "testCount": 22,
-            "identityDigest": "46d8e239516d253d7140c116006036df16c1a500017e8f76cf64f73a24c934e3"
+            "identityDigest": "e14e01fe953636bd86226bac97837dda9afdbd6cdb059a89387885e6c9e21530"
           },
           {
             "file": "packages/reforge/src/battle/battle-casualty.test.ts",
@@ -2933,8 +2933,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
-            "testCount": 18,
-            "identityDigest": "f1021aee7498f4f23971802a8885763fd5184c3ba331b2663e3824fd077b55df"
+            "testCount": 20,
+            "identityDigest": "c5125ec0533de3a893d0bc192d8b1b912e8208548a3b8286e07c89de6ac2b12c"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
@@ -3003,8 +3003,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 38,
-            "identityDigest": "8a482cca78bbe017318c3e2a928c738ebda3b8108915a9acdc99d797f986eea4"
+            "testCount": 41,
+            "identityDigest": "2e59c6fd8f631ea36962102482bd259790deba180f27cf18006a05a2fa5ae7f9"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4482,26 +4482,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "fc3dbcf3af9626aa852647778b4f94848f865835ace648cd235fc74f7fe85639",
+        "identityDigest": "b70a8a7c03fc5609f38f0aa961c0d14eef54f7d932683b670e77637e41f7db64",
         "duplicateIdentityCount": 3,
-        "executionDigest": "e9c7091d26392e13c7ca0f91aff35d82f6b0b260c7748868aafc75b5e9790bd7"
+        "executionDigest": "789fa797a7222d31095a8a6ca3aa53334e62d8da828901bb57cea94e3deae2cb"
       },
       "metrics": {
         "statements": {
-          "covered": 17503,
-          "total": 19270
+          "covered": 17531,
+          "total": 19292
         },
         "branches": {
-          "covered": 11264,
-          "total": 13456
+          "covered": 11285,
+          "total": 13470
         },
         "functions": {
-          "covered": 2827,
-          "total": 3114
+          "covered": 2832,
+          "total": 3119
         },
         "lines": {
-          "covered": 15665,
-          "total": 16812
+          "covered": 15688,
+          "total": 16831
         }
       }
     },
@@ -4736,7 +4736,7 @@
       ],
       "scopeDigest": "403c415be8be079cb8c32909fea9e104e86bbf9660ef0829d12966e903c14b9a",
       "fastTests": {
-        "testCount": 3797,
+        "testCount": 3801,
         "testFileCount": 344,
         "files": [
           "packages/game/src/__tests__/battle-fixture.test.ts",
@@ -5347,8 +5347,8 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/enemy-magic.test.ts",
-            "testCount": 10,
-            "identityDigest": "5554aed563d7bf9edf0befe8e68b86ba51fd48c4b1a0ef2ec689d89e3393bd3d"
+            "testCount": 12,
+            "identityDigest": "8e7de5bfac3484abb4a58b3747c2827c3fde83290fa649645c97d70068a82a84"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/flee.test.ts",
@@ -5462,8 +5462,8 @@
           },
           {
             "file": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
-            "testCount": 8,
-            "identityDigest": "a816fb5ecee027b0f1d732c53efb122b7b2242b7093a2360ac69a18570de6a82"
+            "testCount": 10,
+            "identityDigest": "1bd7ea336bcf318ce85c76c0b0fec38de4d4732730a5c39e4dc80cc5b47996bb"
           },
           {
             "file": "packages/game/src/core/battle/animation/action-gestures.test.ts",
@@ -6806,26 +6806,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "f78e11ea6b5af8523f63e943031d60c0cb5be753d3af9990c8524c2b92b9a32f",
+        "identityDigest": "360c8ffee52a2bb814136420dfe1c1ef61f7b703dcd04fb57f9d3bccfa26f311",
         "duplicateIdentityCount": 0,
-        "executionDigest": "c2fc158f36cc8f5e5bb827f1c1940e5089dfd530198b29141ff2c1254b1b60b2"
+        "executionDigest": "aa8bfba735f983718ed7ea5b2aa7051c63256be2dba76d99438862bf82072aab"
       },
       "metrics": {
         "statements": {
-          "covered": 15710,
-          "total": 17348
+          "covered": 15723,
+          "total": 17359
         },
         "branches": {
-          "covered": 10132,
-          "total": 12446
+          "covered": 10153,
+          "total": 12467
         },
         "functions": {
-          "covered": 1915,
-          "total": 2191
+          "covered": 1920,
+          "total": 2195
         },
         "lines": {
-          "covered": 14013,
-          "total": 15214
+          "covered": 14023,
+          "total": 15224
         }
       }
     },
@@ -10953,20 +10953,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74938,
-      "total": 82594
+      "covered": 74982,
+      "total": 82630
     },
     "branches": {
-      "covered": 54626,
-      "total": 64721
+      "covered": 54673,
+      "total": 64761
     },
     "functions": {
-      "covered": 14203,
-      "total": 15755
+      "covered": 14214,
+      "total": 15765
     },
     "lines": {
-      "covered": 66943,
-      "total": 72283
+      "covered": 66979,
+      "total": 72315
     }
   }
 }

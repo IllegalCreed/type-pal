@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "b0a59c5999bd2bd5fc8971a798333daac3682b6e472802e34e626f8a07123e79",
+      "afterSha256": "cde8656a609115d4be5a4b48dc70f8c5254517702e35f4384df7f268599d1144",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex",
-        "date": "2026-11-13",
-        "conclusion": "按 Git index 更新四个新增路径的库存汇总。",
-        "reviewedLines": 1031,
-        "acceptanceScope": "定向复核四个新增文件、总数和实际账本检查，970 条已关闭状态保留。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 1033,
+        "acceptanceScope": "独立用固定前驱与 Git index 核五个新增 scripts/e2e 业务路径。真实账本生成器返回 3767 tracked、970 closed、0 review、2797 pending。旧逐文件登记逐字节相同。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "c7871139bae8dbb9990974842ca5f5cd87f205989ea68f266ac92319ab2934f0",
+      "afterSha256": "31ef03c6a6f15d2d7d66091bb9455a5dcc64fc963b04115a9db09297f105e127",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
         "reviewedLines": 122,
-        "acceptanceScope": "仅核 Q2 活动行。五个固定局面的双端复验、投掷和状态定向证据对应任务卡与报告，前一批 PR #64 合入历史与本批待视觉验收相区分。"
+        "acceptanceScope": "核 Q2 看板仍处 build，PR #64 的已合批与本轮已通过双端、待分屏验收各自有据。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "4642d8a696a961c0feeed739b1ac98e6deada6aa61aa04ab77ce57feb5f913cf",
+      "afterSha256": "3f78e90fa558f95e22b72fb5c64f260d0300052532b511e3a7c29e1a76f0476f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
         "reviewedLines": 43,
-        "acceptanceScope": "核本轮 Q2 新增归档导航，确认目标实际存在、索引 SHA 与 326 个归档成员均匹配。其余历史导航保持。"
+        "acceptanceScope": "独立核当前 Q2 索引原件链接指向唯一敌方施法与毒道具归档。只增导航和复核日期，其余历史导航逐字节相同。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "a70c87a1f1c98341af8e038508d12f719d8ee55946e156d062e1382f20396285",
+      "afterSha256": "087f22fdb91a746b15e0fcf3cb425aba8628ebfcae1582834ecdea408f96720e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 1748,
-        "acceptanceScope": "本轮战斗道具与投掷增量。独立核 SDLPal fight.c、script.c、原始触发矩阵和实际四局，确认七件零入口投掷、友方实时落点和五气朝元原盘层序、化尸水单继承槽阈值及出手后失败小窗。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 1756,
+        "acceptanceScope": "独立核原盘 C、原始 MAGIC/SSS 与六条有向相克、三对致死、两侧毒槽、敌方施法拍和咒蛇净飘字；前次历史从 2026-11-13 节起逐字节相同。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "d09e3925694024666335600d8bd4d7b0b2b4b49862aae71bc6ba68f6e09fe4b7",
+      "afterSha256": "cb971791d9d0698d931196e972a8ae93c33b767dfbd2df7a408e68f34f262e71",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 5584,
-        "acceptanceScope": "机器增量仅有 q2-battle-foundation 与 runtime-battle-session-owners 两条。逐项核报告元数据和配对证据相等、运行候选的源摘要和锚点、历史前缀及归属执行身份；仅 Q2 阅读条目更新。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 5730,
+        "acceptanceScope": "独立核仅 Q2 与会话归属条目变化，与各自 report/evidence 的合同、来源和前驱历史逐值一致；会话原执行身份不迁移。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "86ee4b2329080d3f6a4253a07d2c7d3c7ea2a5f77b7dad91d4542c499be7ede4",
+      "afterSha256": "652f43a381bb7b25a81f549324f5265627271061a47471023f13133f04f4b1d7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 522,
-        "acceptanceScope": "核三个 BattleSession 引用锚点与内容摘要、来源主张指针和历史追加。归属执行版本、原实跑结果、已有归档和历史前缀均保持原记录。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 552,
+        "acceptanceScope": "核三处源码锚点与适用性记录、归属候选及原执行结果未改，独立桥反控可拒绝改旧史或假绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d7fc0c4995a06e5fe583592d334a47f89ab81b558859ae82e2c94a8a24235d8d",
+      "afterSha256": "934944dec7dd84e00c2ac12291be44487e0708282b7e32c50cd1fab60889028d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 97,
-        "acceptanceScope": "核配对报告的三个 BattleSession 行号与来源主张修订。与 catalog 及 evidence 元数据相等，历史归属执行范围和身份保持原记录。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 99,
+        "acceptanceScope": "核现行三处范围、前驱史及原归属报告范围，源可用性重绑没有晋升额外动态结论。"
       }
     },
     {
@@ -5393,66 +5393,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3288526251692069aecd67db9bf9586d5a51d4404cc84015e71fac9c384b1c35",
+      "afterSha256": "9fc734f75fde520c6a104fa29d169ec302d9f45ecb1668c53dc3510a8881a72d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 394,
-        "acceptanceScope": "核本轮范围、所有权、PR #64 归属、四项义务、20 场及双端和同端比较计数、资料入口与待验收边界。独立核护体新时长须严格大于当前剩余时长，以及化尸水两端阈值目标语义。 增量另核冻结 8a100f4 的七包清单与实跑均 20,521、首遍 20,520 清单与 20,521 实跑的保留原件和废弃基线、另跑道具组 32 场与两类嵌套槽错误反控，以及预检副本已移除、现行分屏仍在唯一发布归档。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 409,
+        "acceptanceScope": "核独占分派、固定前驱、返工准入、敌施法 40 场及毒道具 72 场。独立核 0a150098 七包 20,533 快测、覆盖基线、零诊断、保留两条失败日志，复算 281 项归档及五份中间剪辑已清理、十原片与成片均在。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "90d529cd398e8def961db3c2bc0898f1c7c7c3716e122744f239b9b53fcdd171",
+      "afterSha256": "65eaf4b9fc192bb25effdeef3613ab4f5574c3230d5ae6599f367cd4783c41c0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 32,
-        "acceptanceScope": "核本轮导航与复跑入口。五个 status-followup 局面、默认完整矩阵、verify 原件、按需静音和带声采集各对应当前命令和原生执行。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 34,
+        "acceptanceScope": "核 enemy-cast 组、双端 poison 真实采集与四组选择器、离线判据入口与带声 capture 参数，核报告锚点。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "0cfd0c7291760672d8f4e3c6e8fd30f03f928c1ce8016676302f4b9999ee49b0",
+      "afterSha256": "a07cef00d20895b5849a0b1e33f465e7040a7ce142e576947933c9a6e41f83e6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 11933,
-        "acceptanceScope": "核 5aa5cb252 双端正式原件及源闭包锚点，独立校验两份报告和 20 份 trace 摘要、四条新增实跑 claim、40 个归档成员指针、历史失败原件、媒体 SHA 与待视觉验收状态。 增量另核冻结 8a100f4 的起止身份、空源改动、七包 20,521 实跑、四项覆盖指标与基线 SHA。旧计数差异和两个嵌套触发反控原件保全，道具组两份报告及 32 个 trace 独立核摘要。核现行归档 382 个成员、60 个指针及索引与整体摘要，主执行仍属 5aa5cb252。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 12260,
+        "acceptanceScope": "核 9b524c4f 生产、41deab2dc 判据和 0a150098 快测身份；40+72 原生轨迹、主比较与四组毒比较重放、15 质量回执、两次失败与独立反控指针、媒体及 281 项归档 SHA。覆盖比率对保护基线及上次接受基线均无回落。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "0470e51c7d83c08b913fbfb6784330b0acb2799a45bcf8b6f52bb74c6beb27cd",
+      "afterSha256": "b66f1db3b6b87df08c2801833a5b75364fb613b914c58832f0cede2a744ee842",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 315,
-        "acceptanceScope": "核五局数值、各局两次执行、比较反例、两槽 FIRE28 实绘、七件零入口、化尸水四局与新旧时钟、旧采集器复跑和独立状态样本版本。覆盖台账保留其余边界；内容 23、最低存档 12 和待用户验收与机器回执一致。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 337,
+        "acceptanceScope": "核敌施法 10 固定局面 20 双端及 20 重跑比较、毒 36 组，逐值核半人树妖、群体锚点、咒蛇和毒例；血魔神功四条实绘轨迹均在 FIRE 帧索引 14 由姿态 1 转 2。分屏原速及视觉状态有证据。覆盖盘点保留实跑边界。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "90e8d9e5ba1fce499fb501f7e87af552f07774ad54ad01fc83f5e39161c51827",
+      "afterSha256": "b163830f1a3b5afb0116bab0bcc1d083bf89915a27bdfec2569adac120c44136",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 126,
-        "acceptanceScope": "核新增投掷提示来源回执的固定前驱与运行候选、全文件哈希及三个归属调用片段的旧新行号与片段摘要。三个片段逐字节相等，原归属实跑身份保持。"
+        "date": "2026-11-14",
+        "conclusion": "核对固定源码、双端原件、反控和发布范围。",
+        "reviewedLines": 138,
+        "acceptanceScope": "核固定前驱与新源码双 SHA，三段调用含末行换行逐字节一致，旧来源桥记录为原文前缀。"
       }
     }
   ],
@@ -5832,6 +5832,12 @@
       "sha256": "2f7b6626c11cfcdd45a93605024ab97d403fea3eb4378f403863d0fb001bec30",
       "bytes": 71673760,
       "purpose": "投掷、状态和友方法术的原始双端记录、比较、定向反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz",
+      "sha256": "545a2deeae12071f3345ef495626bbcb0e739df22469202e0ae642db63b782ca",
+      "bytes": 57055455,
+      "purpose": "敌方施法与毒道具的双端原始记录、离线判据、反控和原速分屏。"
     }
   ],
   "artifactAliases": [],
