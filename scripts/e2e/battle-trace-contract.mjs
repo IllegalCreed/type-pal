@@ -852,6 +852,42 @@ function assertBusinessConformance(trace, expected) {
       )
       continue
     }
+    if (expected.actions[i]?.autoAttackAfterCleanse === true) {
+      const actor = ({ players }) => players.find(({ id }) => id === entry.actorId)
+      const priorRound = (trace.rounds ?? []).find(({ turn }) => turn === entry.turn - 1)
+      const cleanse = trace.actions
+        .slice(0, i)
+        .find(
+          (action) =>
+            action.turn === entry.turn &&
+            action.kind === 'item' &&
+            action.itemId === '65' &&
+            action.targetId === entry.actorId &&
+            actor(action.before)?.statuses.sleep > 0 &&
+            !(actor(action.after)?.statuses.sleep > 0),
+        )
+      const nativeAttack =
+        trace.engine === 'game'
+          ? entry.native?.actor?.dex === 0 && entry.native?.command?.type === 'attack'
+          : entry.native?.lastAction?.kind === 'attack'
+      requireValue(
+        entry.kind === 'attack' &&
+          nativeAttack &&
+          priorRound &&
+          actor(priorRound.after)?.statuses.sleep > 0 &&
+          cleanse &&
+          priorRound.order < cleanse.order &&
+          !trace.commands.some(
+            ({ actorId, turn }) => actorId === entry.actorId && turn === entry.turn,
+          ),
+        'integrity',
+        'cleansed-attack-producer',
+        `actions[${i}]`,
+        'native attack queued while asleep, resolved after another actor used Lingxin Talisman',
+        entry,
+      )
+      continue
+    }
     const index = trace.commands.findIndex(
       (command, commandIndex) =>
         !submitted.has(commandIndex) &&

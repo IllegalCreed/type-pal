@@ -2283,6 +2283,7 @@ function performThrow(
   slot.count -= 1 // 投掷必消耗
   const damageByTarget = new Map(targetIndices.map((index) => [index, 0]))
   const stoppedTargets = new Set<number>()
+  let thresholdMissed = false
   // PAL 的投掷脚本按 opcode/effect 推进；applyToAll 只把该 effect 扩展到稳定的目标序列。
   // 因此 RNG 必须绑定为 effect → targets，不能把完整 effect 链逐目标跑完。
   for (const eff of item.throw.effects) {
@@ -2364,10 +2365,7 @@ function performThrow(
           if (e.hp * 100 <= e.def.stats.health * eff.percent) {
             damageEnemy(e.hp)
             s.log.push(`${e.def.id} 魂飞魄散`)
-          } else {
-            s.log.push('无任何效果')
-            if (s.lastAction) s.lastAction.notice = '无任何效果'
-          }
+          } else thresholdMissed = true
           break
         case 'damageAndHealCaster':
           damageEnemy(eff.damage)
@@ -2381,11 +2379,17 @@ function performThrow(
       }
     }
   }
-  if (s.lastAction)
-    s.lastAction.throwHits = [...damageByTarget].map(([idx, damage]) => ({
-      idx,
-      value: Math.max(0, damage),
-    }))
+  const hits = [...damageByTarget].map(([idx, damage]) => ({ idx, value: Math.max(0, damage) }))
+  // A threshold-only throw has one result message for the entire action.
+  if (
+    thresholdMissed &&
+    hits.every(({ value }) => value === 0) &&
+    item.throw.effects.every(({ kind }) => kind === 'killIfHpAtMost')
+  ) {
+    s.log.push('无任何效果')
+    if (s.lastAction) s.lastAction.notice = '无任何效果'
+  }
+  if (s.lastAction) s.lastAction.throwHits = hits
 }
 
 /** CLASSIC 在普攻所有击次结算后累计隐藏经验权重（fight.c:3751-3757）。 */

@@ -1128,7 +1128,7 @@ function compareAudioCues(
 }
 
 function compareThrowRecovery(frames, animations, probe, fail) {
-  const { actionIndex, slot, targetSlot, damage, casterHeal, restFrame } = probe
+  const { actionIndex, slot, targetSlot, damage, casterHeal, restFrame, entryFrame } = probe
   const start = animations[actionIndex]
   const next = animations.slice(actionIndex + 1).find(Boolean)
   const selection =
@@ -1157,6 +1157,40 @@ function compareThrowRecovery(frames, animations, probe, fail) {
         ),
     )
   const release = hit && pose(hit, slot)
+  if (entryFrame !== undefined) {
+    const arm =
+      start &&
+      hit &&
+      frames.find(
+        (frame) =>
+          frame.seq >= start.seq && frame.seq < hit.seq && pose(frame, slot)?.frameIndex === 5,
+      )
+    const approach = arm
+      ? frames
+          .filter(({ seq }) => seq >= start.seq && seq < arm.seq)
+          .map((frame) => pose(frame, slot))
+      : []
+    // CLASSIC walks four steps before the throwing stance replaces the entry frame.
+    const moved = approach.filter((draw) => !samePose(draw, home))
+    const positions = [...new Set(moved.map((draw) => draw && `${draw.x},${draw.y}`))]
+    const offsets = [
+      [4, 2],
+      [7, 3],
+      [9, 4],
+      [10, 4],
+    ]
+    if (
+      home?.frameIndex !== entryFrame ||
+      moved.some((draw) => draw?.frameIndex !== entryFrame) ||
+      positions.join(';') !== offsets.map(([dx, dy]) => `${home.x - dx},${home.y - dy}`).join(';')
+    )
+      fail('business', 'throw-windup-preserves-entry-pose', {
+        entryFrame,
+        home,
+        positions,
+        approach,
+      })
+  }
   const holdsPose = (frame, expected) => {
     const actual = pose(frame, slot)
     return samePose(actual, expected) && actual?.frameIndex === expected?.frameIndex
@@ -1318,6 +1352,7 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
     actionIndex,
     skillId,
     effect,
+    type,
     targetSide,
     targetSlot,
     points,
@@ -1363,7 +1398,7 @@ function compareSpellPaintOrder(frames, animations, probe, fail) {
       return observed
     }
     const target = targetSide === 'player' ? pose(frame, targetSlot) : enemy(frame, targetSlot)
-    const bases = points ?? (target ? [target] : [])
+    const bases = points ?? (type === 'applyToParty' ? players : target ? [target] : [])
     const positions = magicOverlays.map((draw) => `${draw.x},${draw.y}`).sort()
     const expectedPositions = bases.map((base) => `${base.x + x},${base.y + y}`).sort()
     if (

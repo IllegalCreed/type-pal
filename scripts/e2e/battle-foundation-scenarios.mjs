@@ -15,6 +15,14 @@ const copy = (value) => structuredClone(value)
 // SSS object IDs resolve to signed offsets and FIRE chunks in the original MAGIC table.
 const spellPaintSources = {
   296: { effect: 27, x: -10, y: -6, layerOffset: 99, fireFrames: 20 },
+  300: {
+    effect: 28,
+    x: -6,
+    y: -18,
+    layerOffset: 99,
+    fireFrames: 24,
+    type: 'applyToParty',
+  },
   303: { effect: 40, x: 0, y: 4, layerOffset: 99, fireFrames: 17 },
   312: { effect: 0, x: 0, y: 4, layerOffset: 1, fireFrames: 8 },
   313: {
@@ -482,19 +490,21 @@ function defineDualSickleWeasel() {
   )
 }
 
-function defineEnemySleep() {
+function defineEnemySleep(cleansed = false) {
   const enemy = mechanismEnemies.tree
   const { step, round, complete } = mechanismScenario(
-    'enemy-sleep',
-    '半人树妖回梦，睡眠衰减与跳过行动',
+    cleansed ? 'sleep-cleanse' : 'enemy-sleep',
+    cleansed ? '灵心符解除回梦后的睡眠' : '半人树妖回梦，睡眠衰减与跳过行动',
     enemy,
     4,
     [mechanismMember(hero, 150, 250, 400, 900, 6), mechanismMember(anu, 150, 900, 400, 500, 6)],
+    cleansed ? bagWith('65') : [],
   )
   const defendHero = { turn: 1, actorId: hero, kind: 'defend', targetId: null }
   const defendAnu = { ...defendHero, actorId: anu }
-  const nextDefend = { ...defendAnu, turn: 2 }
-  const attack = { turn: 3, actorId: anu, kind: 'attack', targetId: enemy.id }
+  const nextAction = cleansed ? itemAt(2, anu, '65', hero) : { ...defendAnu, turn: 2 }
+  const attack = attackAt(3, anu, enemy.id)
+  const lastDefend = defendAt(3, hero)
   const guard = { before: false, after: true }
   step(defendHero, keepState, { guard })
   step(defendAnu, keepState, { guard })
@@ -507,28 +517,47 @@ function defineEnemySleep() {
   round(1, ({ players }) => {
     players[0].statuses.sleep = 2
   })
-  step(nextDefend, keepState, { guard })
+  if (cleansed) {
+    step(nextAction, (state) => {
+      delete state.players[0].statuses.sleep
+      state.inventory = []
+    })
+  } else step(nextAction, keepState, { guard })
   step(
     { ...enemyAction, turn: 2, kind: 'attack', targetId: anu },
     ({ players }) => {
       players[1].hp = 149
     },
-    { rawDamage: 1, guard: { before: true, after: true } },
+    { rawDamage: 1, guard: { before: !cleansed, after: !cleansed } },
   )
-  step({ turn: 2, actorId: hero, kind: 'pass', targetId: null })
-  round(2, ({ players }) => {
-    players[0].statuses.sleep = 1
-  })
-  step(attack, finishEnemy, { rawDamage: 925 })
-  return complete(
-    [defendHero, defendAnu, nextDefend, attack],
+  if (cleansed) {
+    // No second-round command is offered to the sleeping player. Once cleansed,
+    // their already queued action resolves as an ordinary attack.
+    step(
+      attackAt(2, hero, enemy.id),
+      ({ enemies }) => {
+        enemies[0].hp -= 144
+      },
+      { rawDamage: 144, autoAttackAfterCleanse: true },
+    )
+    round(2)
+    step(lastDefend, keepState, { guard })
+  } else {
+    step(passAt(2, hero))
+    round(2, ({ players }) => {
+      players[0].statuses.sleep = 1
+    })
+  }
+  step(attack, finishEnemy, { rawDamage: cleansed ? 908 : 925 })
+  const scenario = complete(
+    [defendHero, defendAnu, nextAction, ...(cleansed ? [lastDefend] : []), attack],
     [
       queueDraw(1, 'enemy', 0, 114),
       queueDraw(1, 'player', 0, 4515),
       queueDraw(1, 'player', 1, 2500),
       ...draws('enemy-target', 'enemy-magic-choice', 'enemy-magic-block', 'battle-script-chance'),
       queueDraw(2, 'enemy', 0, 114),
-      queueDraw(2, 'player', 1, 2500),
+      queueDraw(2, 'player', 1, cleansed ? 1500 : 2500),
       ...draws(
         'enemy-target',
         'enemy-magic-choice',
@@ -537,12 +566,31 @@ function defineEnemySleep() {
         'enemy-damage-bonus',
         'enemy-equivalent-item',
       ),
+      ...(cleansed ? draws(...heroStrikeDraws) : []),
       queueDraw(3, 'enemy', 0, 114),
+      ...(cleansed ? [queueDraw(3, 'player', 0, 4515)] : []),
       queueDraw(3, 'player', 1, 500),
       ...draws('strike-bonus', 'strike-critical', 'strike-variance', 'attack-growth'),
     ],
     [149, 149],
   )
+  if (!cleansed) return scenario
+  return {
+    ...scenario,
+    sounds: [
+      [],
+      [],
+      [['spell-effect', 169]],
+      itemSound,
+      enemyAttackSounds(265, 92),
+      [
+        ['player-windup', 37],
+        ['player-weapon', 1],
+      ],
+      [],
+      playerAttackSounds(40, 4, 185),
+    ],
+  }
 }
 
 function defineEquivalentPoison() {
@@ -1288,7 +1336,11 @@ function defineSingleItemThrow({ id, title, itemId, damage, poisonId, healing = 
   )
   scenario.expected.throwRecovery = { actionIndex: 0, slot: 0, targetSlot: 0, damage }
   if (healing) {
-    Object.assign(scenario.expected.throwRecovery, { casterHeal: healing, restFrame: 0 })
+    Object.assign(scenario.expected.throwRecovery, {
+      casterHeal: healing,
+      restFrame: 0,
+      entryFrame: 1,
+    })
   }
   scenario.expected.throwWindupMs = 440
   return {
@@ -1619,6 +1671,80 @@ function definePlayerProtection(protectedBySpell) {
   }
 }
 
+function definePartyHealing() {
+  const { lantern } = mechanismEnemies
+  const { step, round, complete } = mechanismScenario(
+    'player-party-healing',
+    '五气朝元跟随全队实时脚点与绘制层序',
+    lantern,
+    3,
+    [
+      {
+        ...mechanismMember(linger, 260, 0, 400, 100, 8),
+        hp: 190,
+        magic: 80,
+        skills: ['300'],
+        statuses: fairySwordStatus,
+      },
+      { ...mechanismMember(hero, 260, 250, 0, 8, 6), hp: 180 },
+    ],
+  )
+  const spell = { ...castAt(1, linger, '300', null), targetSide: 'player' }
+  const guard = defendAt(1, hero)
+  const nextGuard = defendAt(2, linger)
+  const finish = attackAt(2, hero, lantern.id)
+  step(
+    spell,
+    ({ players }) => {
+      players[0].mp -= 40
+      for (const player of players) player.hp = 260
+    },
+    { growth: { maxMP: 2, magicAttack: 1 } },
+  )
+  step(guard, keepState, defense)
+  const hit = (turn, damage) =>
+    step(
+      enemyAttackAt(turn, lantern.id, hero),
+      ({ players }) => {
+        players[1].hp -= damage
+      },
+      { rawDamage: damage },
+    )
+  hit(1, 28)
+  round(1)
+  step(nextGuard, keepState, defense)
+  hit(2, 38)
+  step(finish, finishEnemy, { rawDamage: 246 })
+  const scenario = complete(
+    [spell, guard, nextGuard, finish],
+    [
+      queueDraw(1, 'enemy', 0, 21),
+      queueDraw(1, 'player', 0, 318),
+      queueDraw(1, 'player', 1, 55),
+      ...draws('cast-growth', ...enemyPhysicalDraws),
+      queueDraw(2, 'enemy', 0, 21),
+      queueDraw(2, 'player', 0, 530),
+      queueDraw(2, 'player', 1, 11),
+      ...draws(...enemyPhysicalDraws, ...heroStrikeDraws),
+    ],
+    [260, 227],
+  )
+  return {
+    ...scenario,
+    sounds: [
+      [
+        ['cast-windup', 10],
+        ['spell-effect', 316],
+      ],
+      [],
+      enemyAttackSounds(50, 352),
+      [],
+      enemyAttackSounds(50, 352),
+      playerAttackSounds(37, 1, 32),
+    ],
+  }
+}
+
 function defineCasualtyDialogue() {
   const enemy = mechanismEnemies.lantern
   const { step, round, complete } = mechanismScenario(
@@ -1895,6 +2021,7 @@ const soundFrames = {
   254: 36208,
   265: 9627,
   313: 31633,
+  316: 42199,
   347: 18610,
   352: 9077,
   357: 8958,
@@ -2028,13 +2155,17 @@ function attachSpellPaintOracle(scenario) {
     if (!source) return []
     const player = start.players.find(({ id }) => id === action.targetId)
     const target = player ?? start.enemies.find((enemy) => enemy?.id === action.targetId)
-    assert(target || source.points, `missing paint target: ${scenario.id}/${skillId}`)
+    const partyTarget = source.type === 'applyToParty'
+    assert(
+      target || source.points || partyTarget,
+      `missing paint target: ${scenario.id}/${skillId}`,
+    )
     return [
       {
         actionIndex,
         skillId,
         ...source,
-        targetSide: player ? 'player' : 'enemy',
+        targetSide: player || partyTarget ? 'player' : 'enemy',
         ...(target ? { targetSlot: target.slot } : {}),
       },
     ]
@@ -2057,6 +2188,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     defineTwoRoundScenario(),
     defineDualSickleWeasel(),
     defineEnemySleep(),
+    defineEnemySleep(true),
     defineEquivalentPoison(),
     defineAutomaticBlock(),
     definePlayerCasualties(),
@@ -2074,6 +2206,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     definePlayerSleep(true),
     definePlayerProtection(true),
     definePlayerProtection(false),
+    definePartyHealing(),
     defineGroupItemThrow(),
     defineMixedThrow(),
     ...singleThrows.map(defineSingleItemThrow),
@@ -2084,6 +2217,15 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
 
 export function battleFoundationScenarioGroup(id) {
   if (id === 'all') return BATTLE_FOUNDATION_SCENARIOS
+  if (id === 'status-followup') {
+    const ids = new Set([
+      'sleep-cleanse',
+      'player-party-healing',
+      'player-protect',
+      'item-throw-drain',
+    ])
+    return BATTLE_FOUNDATION_SCENARIOS.filter((scenario) => ids.has(scenario.id))
+  }
   if (id === 'item-effects')
     return BATTLE_FOUNDATION_SCENARIOS.filter(({ id: name }) => name.startsWith('item-'))
   if (id === 'coop-sleep-followup') {
@@ -2426,6 +2568,21 @@ export async function verifyBattleFoundationSources(root) {
     )
   }
   assert.equal(fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === 28).frameCount, 24)
+  const originalCure = rawItems.find(({ id }) => id === 65)
+  assert.deepEqual(
+    [0, 1, 2, 3].map((offset) => opcode(originalCure.scriptOnUse + offset)),
+    [0, 1, 2, 3].map((status) => [0x2f, [status, 0, 0]]),
+  )
+  assert.deepEqual(items.find(({ id }) => id === '65').use.effects, [
+    { kind: 'removeStatus', statuses: ['confused', 'paralyzed', 'sleep', 'silence'] },
+  ])
+  const partyHeal = skills.skills.find(({ id }) => id === '300')
+  const originalHeal = rawSpells.find(({ id }) => id === 300)
+  assert.deepEqual(opcode(originalHeal.scriptOnSuccess), [0x1b, [1, 300, 0]])
+  assert.deepEqual(
+    [partyHeal.target, partyHeal.effects, partyHeal.animation.layerOffset],
+    ['allAllies', [{ kind: 'healHp', amount: 300 }], 99],
+  )
   const signedWord = (word) => (word << 16) >> 16
   for (const [id, source] of Object.entries(spellPaintSources)) {
     const spell = rawSpells.find((entry) => entry.id === Number(id))
