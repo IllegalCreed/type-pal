@@ -14,21 +14,21 @@
       "lines": "216-218",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+      "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "375-386",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+      "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1191-1200",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+      "sha256": "80e9c9e4775f3ad7b15cb59ea33ae6472d44dc3af66d601286188c0a69e5cd37"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -385,6 +385,36 @@
         }
       ],
       "scope": "玩家法术的超杀飘字使用计算值。投掷时间线接收角色起手音、站位与物品名称，归位沿用已有姿态选择。合击血量代价从飘字差分中排除。友方仙术按实际受术槽落点并执行辉光。三个已接收 caller 片段逐字节相同，现行指纹随源码校准。"
+    },
+    {
+      "action": "q2-battle-session-cooperative-recovery-source-rebinding",
+      "base": "a86eea156e360bfb916a63afb8c8c7b5d5d0f018",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "216-218",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "375-386",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1191-1200",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "8a64629ba6e2361e7981a0e33006c385c2e3d37ff7f507f0f449d58980cf321f"
+        }
+      ],
+      "scope": "合击降级复用普通攻击，双击分别使用自己的暴击声与同一目标底锚。玩家攻击仙术在特效结束后显示伤害或完成收势。三个已接收 caller 片段逐字节相同，保留原归属和历史执行记录。"
     }
   ],
   "_governance": {
