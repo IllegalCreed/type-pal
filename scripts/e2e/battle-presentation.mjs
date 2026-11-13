@@ -1219,6 +1219,21 @@ function compareAllySpell(
     const target = pose(frame, targetSlot)
     return !target || draw.x !== target.x + offset.x || draw.y !== target.y + offset.y
   })
+  const wrongPaintOrder = draws.find(({ frame, draw }) => {
+    const playerOrder = pose(frame, targetSlot)?.paintOrder
+    return (
+      !Number.isSafeInteger(playerOrder) ||
+      !Number.isSafeInteger(draw.paintOrder) ||
+      draw.paintOrder <= playerOrder
+    )
+  })
+  const brokenEffect =
+    first &&
+    last &&
+    window.find(
+      ({ seq, payload }) =>
+        seq >= first.seq && seq <= last.seq && payload.magicOverlays?.length !== 1,
+    )
   const frameIndices = draws.flatMap(({ draw }, index) =>
     index === 0 || draws[index - 1].draw.frameIndex !== draw.frameIndex ? [draw.frameIndex] : [],
   )
@@ -1228,15 +1243,23 @@ function compareAllySpell(
     anchor: draws[0]?.draw,
     distinctFireFrames: frameIndices,
     wrongAnchor: wrongAnchor && { ...at(wrongAnchor.frame), draw: wrongAnchor.draw },
+    wrongPaintOrder: wrongPaintOrder && {
+      ...at(wrongPaintOrder.frame),
+      playerOrder: pose(wrongPaintOrder.frame, targetSlot)?.paintOrder,
+      overlayOrder: wrongPaintOrder.draw.paintOrder,
+    },
+    brokenEffect: brokenEffect && at(brokenEffect),
   }
   if (
     !first ||
     !last ||
     wrongAnchor ||
+    brokenEffect ||
     frameIndices.length !== fireFrames ||
     frameIndices.some((frameIndex, index) => frameIndex !== index)
   )
     fail('business', 'ally-spell-rendered-overlay', observed)
+  if (wrongPaintOrder) fail('business', 'ally-spell-paint-order', observed.wrongPaintOrder)
 
   let previousShift = 0
   const glow = []

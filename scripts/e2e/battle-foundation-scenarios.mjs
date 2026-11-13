@@ -1879,8 +1879,8 @@ export async function verifyBattleFoundationSources(root) {
     const rawSpell = rawSpells.find((entry) => entry.id === Number(id))
     const magic = rawMagic.find(({ id }) => id === rawSpell.magicNumber)
     assert.deepEqual(
-      [magic.type, magic.effect, magic.xOffset, magic.yOffset, magic.speed],
-      ['applyToPlayer', 28, 65530, 65518, -1],
+      [magic.type, magic.effect, magic.xOffset, magic.yOffset, magic.speed, magic.special],
+      ['applyToPlayer', 28, 65530, 65518, -1, 99],
     )
     const skill = skills.skills.find((entry) => entry.id === id)
     const { effectSprite, xOffset, yOffset, speed } = skill.animation
