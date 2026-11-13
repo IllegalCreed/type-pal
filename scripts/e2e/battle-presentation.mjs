@@ -43,6 +43,8 @@ const EDGE_TOLERANCE_MS = 80
 // CLASSIC fight.c waits eight battle frames (battle.h: 40 ms per frame) after displaying changes.
 const BATTLE_FRAME_MS = 40
 const ROUND_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
+// CLASSIC fight.c:4322–4324,3190–3245: four reaction/restore frames and a five-frame hold.
+const PLAYER_CAST_RECOVERY_MS = 9 * BATTLE_FRAME_MS
 
 const at = (frame) => ({ frame: frame.seq, clockMs: frame.clockMs, atMs: frame.atMs })
 const pose = (frame, slot) => frame.payload.players.find((player) => player.slot === slot)
@@ -1431,6 +1433,90 @@ function compareStatusNotice(trace, frames, animations, { actionIndex, text, vis
   return observed
 }
 
+function comparePlayerCastRecovery(frames, animations, expected, fail) {
+  const actionIndex = expected.playerCastRecovery
+  const action = expected.actions[actionIndex]
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const slot = action.before.players.find(({ id }) => id === action.actorId)?.slot
+  const base = frames.find(({ payload }) => payload.selecting && payload.turn === action.turn)
+  const original = base && pose(base, slot)
+  const window = start && next ? frames.filter(({ seq }) => seq >= start.seq && seq < next.seq) : []
+  const lastFire = window.findLast(({ payload }) => payload.magicOverlays?.length)
+  const afterFire = lastFire ? window.filter(({ seq }) => seq > lastFire.seq) : []
+  const cleared = afterFire[0]
+  const advanced = lastFire && pose(lastFire, slot)
+  const returned = afterFire.find((frame) => {
+    const caster = pose(frame, slot)
+    return (
+      caster && original && samePose(caster, original) && caster.frameIndex === original.frameIndex
+    )
+  })
+  const recoveryMs = returned && returned.clockMs - cleared.clockMs
+  const observed = {
+    actionIndex,
+    actorId: action.actorId,
+    skillId: action.skillId,
+    start: start && at(start),
+    lastFire: lastFire && at(lastFire),
+    cleared: cleared && at(cleared),
+    returned: returned && at(returned),
+    next: next && { ...at(next), actorId: next.payload.animation.actorId },
+    recoveryMs,
+    fromFireEndToNextMs: next && cleared && next.clockMs - cleared.clockMs,
+    fromCastStartToNextMs: next && start && next.clockMs - start.clockMs,
+  }
+  if (
+    !original ||
+    advanced?.frameIndex !== 6 ||
+    samePose(original, advanced) ||
+    !returned ||
+    afterFire.some((frame) => {
+      const caster = pose(frame, slot)
+      return (
+        frame.seq < returned.seq &&
+        (!samePose(caster, advanced) || caster?.frameIndex !== advanced.frameIndex)
+      )
+    }) ||
+    Math.abs(recoveryMs - PLAYER_CAST_RECOVERY_MS) > BATTLE_FRAME_MS
+  )
+    fail('business', 'player-cast-recovery-pose-and-duration', observed)
+
+  const births = firstNumberDraws(frames)
+    .filter(
+      ({ frame, number }) =>
+        start &&
+        next &&
+        frame.seq >= start.seq &&
+        frame.seq < next.seq &&
+        number.side === 'enemy' &&
+        number.tone === 'blue',
+    )
+    .map(({ frame, number }) => ({ ...at(frame), ...number }))
+  const damage = action.enemyDamage ?? []
+  const targetSlot = action.before.enemies.find((enemy) => enemy?.id === action.targetId)?.slot
+  const targets =
+    lastFire?.payload.enemies.filter(
+      ({ slot: enemySlot }) => action.targetSide === 'enemy' || enemySlot === targetSlot,
+    ) ?? []
+  if (
+    births.length !== damage.length ||
+    births.some((draw, i) => {
+      const target = targets[i]
+      return (
+        !target ||
+        draw.frame !== cleared?.seq ||
+        draw.slot !== target.slot ||
+        draw.value !== damage[i] ||
+        draw.right !== target.x + 6 ||
+        draw.y + draw.age !== Math.max(target.y - 115, 10)
+      )
+    })
+  )
+    fail('business', 'player-cast-damage-at-fire-end', { ...observed, births, damage })
+  return { ...observed, births }
+}
+
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
   const frames = Array.isArray(trace?.presentations)
@@ -1442,7 +1528,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
-  let statusNotice, throwRecovery, allySpellPresentation, spellPaintOrder
+  let statusNotice, throwRecovery, allySpellPresentation, spellPaintOrder, playerCastRecovery
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1463,6 +1549,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(throwRecovery === undefined ? {} : { throwRecovery }),
     ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
     ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
+    ...(playerCastRecovery === undefined ? {} : { playerCastRecovery }),
     findings,
   })
   if (
@@ -1529,6 +1616,8 @@ export function validateBattlePresentation(trace, scenario) {
       scenario.expected.statusNotice,
       fail,
     )
+  if (scenario.expected.playerCastRecovery !== undefined)
+    playerCastRecovery = comparePlayerCastRecovery(frames, animations, scenario.expected, fail)
   if (scenario.expected.defendRecovery !== undefined)
     defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
   if (scenario.expected.automaticBlock !== undefined)

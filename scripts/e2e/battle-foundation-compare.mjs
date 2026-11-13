@@ -17,6 +17,9 @@ import { assertDependencyClosure, recordingDependencies } from './evidence-depen
 import { assertInputLedger } from './input-ledger.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+// The engines sample actual renders on different clocks. Two 40 ms PAL ticks bound the
+// cross-engine comparison at the end of the effect and from the first cast pose.
+const CAST_CADENCE_TOLERANCE_MS = 80
 const herbPlacement = ({ heals }) =>
   heals.map(({ actorId, targetId, casterBase, targetBase, draw }) => ({
     actorId,
@@ -135,6 +138,7 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
   }
   const [game, reforge] = bundles
   for (const source of [
+    'scripts/e2e/battle-foundation-compare.mjs',
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
@@ -182,6 +186,27 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
           game: leftHerb,
           reforge: rightHerb,
         })
+      if (scenario.expected.playerCastRecovery !== undefined) {
+        const [gameCast, reforgeCast] = presentation.map(
+          ({ playerCastRecovery }) => playerCastRecovery,
+        )
+        for (const segment of ['fromFireEndToNextMs', 'fromCastStartToNextMs']) {
+          const game = gameCast?.[segment]
+          const reforge = reforgeCast?.[segment]
+          if (
+            !Number.isFinite(game) ||
+            !Number.isFinite(reforge) ||
+            Math.abs(game - reforge) > CAST_CADENCE_TOLERANCE_MS
+          )
+            comparison.findings.push({
+              domain: 'business',
+              rule: 'cross-engine-player-cast-cadence',
+              segment,
+              game,
+              reforge,
+            })
+        }
+      }
       const rules = [left, right].flatMap((trace, index) =>
         comparison.validations[index].status === 'passed'
           ? [validateBattleRules(trace, scenario)]
@@ -244,7 +269,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   const group = process.argv[5]
   assert(
     process.argv.length === 5 || (process.argv.length === 6 && group.startsWith('--group=')),
-    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=established|player-actions]',
+    'usage: node battle-foundation-compare.mjs game/report.json reforge/report.json output-directory [--group=established|player-actions|coop-sleep-followup]',
   )
   const result = await compareBattleReports(process.argv[2], process.argv[3], group?.slice(8))
   const out = resolve(process.argv[4])

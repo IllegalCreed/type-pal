@@ -804,19 +804,21 @@ function definePlayerElement([id, title, skill, mp, , , sound, damage], seed = 5
     { enemyDamage: [damage], growth: { maxMP: orderProbe ? 3 : 2, magicAttack: 1 } },
   )
   step(finish, finishEnemy, { rawDamage: orderProbe ? 7309 : 2255 })
+  const scenario = complete(
+    [magic, finish],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 906),
+      queueDraw(1, 'player', 1, 150),
+      spellVariance(0),
+      ...draws('cast-growth'),
+      ...anuStrike,
+    ],
+    [150, 150],
+  )
+  scenario.expected.playerCastRecovery = 0
   return {
-    ...complete(
-      [magic, finish],
-      [
-        queueDraw(1, 'enemy', 0, 54),
-        queueDraw(1, 'player', 0, 906),
-        queueDraw(1, 'player', 1, 150),
-        spellVariance(0),
-        ...draws('cast-growth'),
-        ...anuStrike,
-      ],
-      [150, 150],
-    ),
+    ...scenario,
     sounds: [
       [
         ['cast-windup', 10],
@@ -860,20 +862,22 @@ function definePlayerAreaMagic() {
     },
     { enemyDamage: [346, 354, 348], growth: { maxMP: 2, magicAttack: 1 } },
   )
+  const scenario = complete(
+    [wind, bees],
+    [
+      ...units.map((_, slot) => queueDraw(1, 'enemy', slot, 54)),
+      queueDraw(1, 'player', 0, 906),
+      queueDraw(1, 'player', 1, 150),
+      ...units.map((_, slot) => spellVariance(slot)),
+      ...draws('cast-growth'),
+      ...units.map((_, slot) => spellVariance(slot)),
+      ...draws('cast-growth'),
+    ],
+    [150, 150],
+  )
+  scenario.expected.playerCastRecovery = 0
   return {
-    ...complete(
-      [wind, bees],
-      [
-        ...units.map((_, slot) => queueDraw(1, 'enemy', slot, 54)),
-        queueDraw(1, 'player', 0, 906),
-        queueDraw(1, 'player', 1, 150),
-        ...units.map((_, slot) => spellVariance(slot)),
-        ...draws('cast-growth'),
-        ...units.map((_, slot) => spellVariance(slot)),
-        ...draws('cast-growth'),
-      ],
-      [150, 150],
-    ),
+    ...scenario,
     sounds: [
       [
         ['cast-windup', 10],
@@ -1170,6 +1174,7 @@ function definePlayerSleep(resisted) {
     [150, resisted ? 149 : 150],
   )
   scenario.expected.statusNotice = { actionIndex: 1, text: '攻击无效', visible: resisted }
+  scenario.expected.playerCastRecovery = 1
   return {
     ...scenario,
     sounds: [
