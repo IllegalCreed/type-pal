@@ -15,6 +15,7 @@ import type {
   EnemyPosTable,
   PlayerRoles,
 } from '@type-pal/shared'
+import type { BattleDamageNumber } from '../command-bus.js'
 import type { GameState } from '../game-state.js'
 import type { SelectionMenuState } from '../menu/primitives.js'
 import type { SeedableRng } from '../rng.js'
@@ -284,22 +285,9 @@ export interface BattleAnimFrame {
    * present 优先画 overlays(非空)否则画 overlay。单落点(Normal/Whole/Field)仍可用 overlays:[一条]。
    */
   overlays?: BattleAnimOverlay[]
-  /** 本帧要弹的伤害数字(emit showDamageNum)。 */
-  damageNum?: {
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }
-  /**
-   * 本帧要弹的**多个**伤害数字 —— 物理群攻挥砍 i==0 帧遍历全敌弹各自数字
-   * (sdlpal PAL_BattleDisplayStatChange fight.c:626-659,在 PAL_BattleShowPlayerAttackAnim i==0 调,
-   *  fight.c:2209)。与单数 damageNum 并存:driver applyAnimFrame 两者都 emit。
-   */
-  damageNums?: Array<{
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }>
+  /** Damage and recovery numbers emitted together with this logical frame. */
+  damageNum?: BattleDamageNumber
+  damageNums?: BattleDamageNumber[]
   /** 本帧音效(present 播;本切片只存值)。 */
   sound?: number
   /**

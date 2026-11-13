@@ -320,19 +320,21 @@ describe('performAttack', () => {
     )
     expect(hits.map(({ sound }) => sound ?? 0)).toEqual([88, 0, 0, 88, 0, 0])
     expect(
-      hits.map(({ damageNums }) => damageNums?.map(({ target, value }) => [target.idx, value])),
+      hits.map(({ damageNums }) =>
+        damageNums?.map(({ target, value, color, anchor }) => [target.idx, value, color, anchor]),
+      ),
     ).toEqual([
+      undefined,
       [
-        [2, 314],
-        [0, 157],
+        [2, 314, 'blue', { x: 100, y: 110 }],
+        [0, 157, 'blue', { x: 160, y: 80 }],
       ],
       undefined,
       undefined,
       [
-        [2, 314],
-        [0, 157],
+        [2, 314, 'blue', { x: 94, y: 110 }],
+        [0, 157, 'blue', { x: 154, y: 80 }],
       ],
-      undefined,
       undefined,
     ])
     expect(
@@ -360,14 +362,8 @@ describe('performAttack', () => {
     expect(state.enemies[2]!.e.health).toBe(0)
     expect(bus.drain().some(({ cmd }) => cmd.op === 'playPlayerAttack')).toBe(false)
   })
-  // M6/D17a 群攻挥砍动画(林月如等 attackAll 鞭武器):此前群攻**完全无动画**(只即时弹数字),
-  //   user 2026-06-03 报"林月如没攻击动画"。修:有 posOriginal → buildPlayerAttackTimeline 挥向中心
-  //   (150,100,sdlpal sTarget==-1)。
-  // BUG(2026-06-04 user 报"群攻掉血数字出现偏晚"):sdlpal PAL_BattleDisplayStatChange 在
-  //   PAL_BattleShowPlayerAttackAnim 挥砍特效**首帧 i==0**(fight.c:2209)就遍历全敌弹数字,**不是**
-  //   挥砍播完后。此前 ts 用 pendingDamageNums 时间线后弹(注释误引 fight.c:3748,该处实为 PAL_BattleDelay)
-  //   → 数字偏晚。修:群攻伤害数字挂挥砍 i==0 帧(= 首个 effect overlay 帧,与单体同帧),不走 pendingDamageNums。
-  it('群攻掉血数字在挥砍 i==0 帧弹(fight.c:2209 DisplayStatChange),非时间线后', () => {
+  // fight.c:2193–2210 updates the UI before registering the new numbers; they draw on the next hit frame.
+  it('群攻蓝字在首个命中特效后一拍出现', () => {
     const { state, playerRoles, bus } = makeActionFixture({
       role: { level: 10, attackStrength: 200 },
       enemies: [{ level: 5, defense: 10, physicalResistance: 1, health: 600 }],
@@ -377,10 +373,11 @@ describe('performAttack', () => {
     performAttack(state, playerActor, -1, bus, playerRoles)
     expect(state.battleAnim, '群攻应建挥砍动画时间线(此前无)').toBeDefined()
     expect(state.battleAnim!.frames.length).toBeGreaterThan(0)
-    // i==0 帧 = 首个命中特效 overlay 帧(currentFrame=9 起);DisplayStatChange 在此帧弹全敌数字。
-    const swingFrame = state.battleAnim!.frames.find((f) => f.overlays?.[0]?.kind === 'effect')
+    const hitFrames = state.battleAnim!.frames.filter((f) => f.overlays?.[0]?.kind === 'effect')
+    expect(hitFrames[0]!.damageNums).toBeUndefined()
+    const swingFrame = hitFrames[1]
     expect(swingFrame, '应有挥砍命中特效帧').toBeDefined()
-    expect(swingFrame!.damageNums, '群攻数字挂挥砍 i==0 帧').toHaveLength(1)
+    expect(swingFrame!.damageNums, '群攻数字在第二个命中特效帧显示').toHaveLength(1)
     expect(swingFrame!.damageNums![0]!.value).toBe(314)
     expect(swingFrame!.damageNums![0]!.target).toEqual({ kind: 'enemy', idx: 0 })
     expect(swingFrame!.damageNums![0]!.color).toBe('blue')
@@ -389,9 +386,7 @@ describe('performAttack', () => {
     // frame[0](rush 起手)不即时 emit 数字
     expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
   })
-  // sdlpal PAL_BattleDisplayStatChange 遍历**所有**敌人弹各自数字(fight.c:626-659),群攻命中多敌 →
-  //   挥砍 i==0 帧同时弹多个数字(每个掉血敌一个),非逐帧/时间线后弹。
-  it('群攻多敌:挥砍 i==0 帧同时弹每个掉血敌的数字(fight.c:626-659)', () => {
+  it('群攻同时显示每个掉血敌的蓝字', () => {
     const { state, playerRoles, bus } = makeActionFixture({
       role: { level: 10, attackStrength: 200 },
       enemies: [
@@ -403,8 +398,8 @@ describe('performAttack', () => {
     state.enemies[0]!.posOriginal = { x: 160, y: 80 }
     state.enemies[1]!.posOriginal = { x: 200, y: 80 }
     performAttack(state, playerActor, -1, bus, playerRoles)
-    const swingFrame = state.battleAnim!.frames.find((f) => f.overlays?.[0]?.kind === 'effect')
-    expect(swingFrame!.damageNums, '2 敌各一个数字,同挥砍 i==0 帧').toHaveLength(2)
+    const swingFrame = state.battleAnim!.frames.find((f) => f.damageNums?.length)
+    expect(swingFrame!.damageNums).toHaveLength(2)
     // 命中序 {2,1,0,4,3}:slot1 先打(division1 全额 314)/ slot0 后打(division2 半额 157)
     const byIdx = new Map(swingFrame!.damageNums!.map((d) => [d.target.idx, d.value]))
     expect(byIdx.get(1)).toBe(314)

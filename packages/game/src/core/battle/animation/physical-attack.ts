@@ -98,16 +98,8 @@ export interface BuildPlayerAttackInput {
    * (该帧 currentFrame=9)frame.sound。0/缺 = 不挂。同 attackVoice 改帧同步避免双击重叠。
    */
   weaponSound?: number
-  /**
-   * 群攻(sTarget==-1)各掉血敌的伤害数字 —— 挂挥砍 i==0 帧(sdlpal PAL_BattleDisplayStatChange
-   * 在 ShowPlayerAttackAnim i==0 遍历全敌,fight.c:2209/626-659),非挥砍后。单体目标走单数 damage
-   * (嵌 i==0 帧 damageNum),不传此。
-   */
-  groupDamageNums?: Array<{
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }>
+  /** One number per occupied enemy slot, drawn on the second hit frame. */
+  groupDamageNums?: BattleAnimFrame['damageNums']
   /**
    * L12 首击前摇:C 在 PAL_BattleShowPlayerAttackAnim 之前、仅首击(t==0)`wCurrentFrame=7 +
    * PAL_BattleDelay(4)`(fight.c:3667-3671 单体 / 3690-3694 群攻)。true → 前置一帧
@@ -116,7 +108,7 @@ export interface BuildPlayerAttackInput {
   windup?: boolean
   /**
    * DH6:群攻(sTarget==-1)参与演出的敌人(idx + posOriginal)。C 真值:
-   *   - 特效 i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203);
+   *   - 特效第二帧使用上一帧登记的染色(fight.c:2170,2195-2203);
    *   - 收势前全敌 colorShift 复位(:2225-2228);
    *   - 收势 3 帧**所有敌人** x-=dist(dist 8→-4→2,y 不动)各 Delay(1)(:2229-2247)。
    * 仅 targetIdx<0 时消费;不传 → 退化为旧"只弹数字"行为(旧 fixture 兼容)。
@@ -238,8 +230,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
             },
           }
         : {}),
-      // 群攻(targetIdx<0):各掉血敌数字挂 i==0 帧(sdlpal DisplayStatChange 遍历全敌,fight.c:2209/626-659)。
-      ...(i === 0 && groupDamageNums && groupDamageNums.length > 0
+      // fight.c:2193–2210 paints before registering the new numbers, visible on the next frame.
+      ...(i === 1 && groupDamageNums && groupDamageNums.length > 0
         ? { damageNums: groupDamageNums }
         : {}),
       // M6 武器声(fight.c:2124):currentFrame=9 后、特效循环前播 → 挂特效 i==0 帧(currentFrame=9 同帧)。

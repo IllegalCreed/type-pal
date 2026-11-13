@@ -80,21 +80,8 @@ export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: 
     }
   }
 
-  if (frame.damageNum) {
-    bus.emit({
-      op: 'showDamageNum',
-      target: frame.damageNum.target,
-      value: frame.damageNum.value,
-      color: frame.damageNum.color,
-    })
-  }
-
-  // 物理群攻挥砍 i==0 帧遍历全敌弹各自数字(sdlpal PAL_BattleDisplayStatChange,fight.c:626-659/2209)。
-  if (frame.damageNums) {
-    for (const dn of frame.damageNums) {
-      bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
-    }
-  }
+  if (frame.damageNum) bus.emit({ op: 'showDamageNum', ...frame.damageNum })
+  for (const number of frame.damageNums ?? []) bus.emit({ op: 'showDamageNum', ...number })
 
   // M6 帧同步 SFX —— 本帧 frame.sound>0 → 播。敌方物攻的 actionSound(接近,fight.c:5005)/
   //   callSound(命中,fight.c:5084)等散布在动画帧上,对照 sdlpal AUDIO_PlaySound 在各 PAL_BattleDelay

@@ -221,7 +221,7 @@ export function performAttack(
             ? voiceRole.criticalSound
             : voiceRole.attackSound
           : undefined
-      const sweepNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
+      const sweepNums: NonNullable<BattleAnimFrame['damageNums']> = []
       let division = 1
       for (const slot of HIT_ORDER) {
         const be = state.enemies[slot]
@@ -239,8 +239,16 @@ export function performAttack(
         const hpAfterUnclamped = Math.trunc(hpBeforeHit - damage)
         be.e.health = Math.max(0, hpAfterUnclamped)
         const dealt = hpBeforeHit - hpAfterUnclamped
-        if (dealt > 0)
-          sweepNums.push({ target: { kind: 'enemy', idx: slot }, value: dealt, color: 'blue' })
+        if (dealt > 0) {
+          const pos = attackerPos && be.posOriginal
+          sweepNums.push({
+            target: { kind: 'enemy', idx: slot },
+            value: dealt,
+            color: 'blue',
+            // PAL reads the live enemy position, including the first sweep's remaining recoil.
+            ...(pos ? { anchor: { x: pos.x - (t === 0 ? 0 : 6), y: pos.y } } : {}),
+          })
+        }
         division *= 2 // fight.c:3729 命中一个活敌后翻倍
       }
       if (attackerPos) {
