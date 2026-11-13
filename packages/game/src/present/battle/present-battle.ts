@@ -182,10 +182,22 @@ export class BattlePresent {
         //   player HP: x = anchor.x - 9, y = max(anchor.y - 75, 10)
         //   player MP: x = anchor.x - 9, y = max(anchor.y - 67, 10)  (cyan)
         // 再经 PAL_BattleUIShowNum(`uibattle.c:1801`)x -= 15 → 最终 x = anchor.x - 24。
+        // 吸星锁的回血在投掷者仍保持出手姿势时显示(fight.c:4369–4372)。库存不足
+        // 降级的普攻不会给该行动者产生黄色回血数字。
+        const actor = state.actionQueue[state.currentActionIndex]
+        const thrower =
+          cmd.target.kind === 'player' &&
+          cmd.color === 'yellow' &&
+          state.battleAnim &&
+          actor?.isEnemy === false &&
+          actor.idx === cmd.target.idx &&
+          state.pendingActions.get(actor.idx)?.type === 'throw-item'
+            ? state.players[actor.idx]
+            : undefined
         const anchor =
           cmd.target.kind === 'enemy'
             ? computeEnemyAnchor(state, cmd.target.idx, assets.enemyPos)
-            : computePlayerAnchor(state, cmd.target.idx)
+            : (thrower?.pos ?? computePlayerAnchor(state, cmd.target.idx))
         if (anchor) {
           const x = anchor.x - 24
           let yOff: number
