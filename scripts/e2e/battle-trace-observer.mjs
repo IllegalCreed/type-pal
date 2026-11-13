@@ -28,6 +28,7 @@ export function installBattleTraceObserver(context, createRecorder) {
   }
   const random = structuredClone(input.random)
   const observeMagicOverlays = input.observeMagicOverlays === true
+  const observePhysicalOverlays = input.observePhysicalOverlays === true
   const portraitProbe = input.portraitProbe
   if (
     portraitProbe !== undefined &&
@@ -278,6 +279,11 @@ export function installBattleTraceObserver(context, createRecorder) {
         ...(Number.isSafeInteger(spriteChunk) && spriteChunk >= 0 ? { spriteChunk } : {}),
         paintOrder: nextPaintOrder++,
       })
+    },
+    physicalOverlayDrawn(x, y, frameIndex) {
+      if (!frame || !observePhysicalOverlays) return
+      frame.physicalOverlays ??= []
+      frame.physicalOverlays.push({ x, y, frameIndex })
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)

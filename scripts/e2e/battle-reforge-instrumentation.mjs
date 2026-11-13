@@ -256,6 +256,16 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         if (name === 'this.selection.advance')
           add('selection-context', node.getStart(ast), call('selectionContext', 'context'))
         if (
+          source === 'ctx.drawImage(img, dx, dy)' &&
+          ts.isForOfStatement(node.parent.parent) &&
+          node.parent.parent.expression.getText(ast) === 'this.overlays'
+        )
+          add(
+            'physical-overlay-draw',
+            node.end,
+            `\nif (o.sheet === 'effect') ${evidenceCall('physicalOverlayDrawn', 'dx + Math.floor(f.width / 2), dy + f.height, o.frameIdx')}\n`,
+          )
+        if (
           source === 'renderBattleScene(ctx, scene, worldScale)' &&
           ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'renderInner'
         )
@@ -394,6 +404,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'enemy-draw-identity',
                       'player-draw-identity',
                       'magic-overlay-resources',
+                      'physical-overlay-draw',
                       'number-identity',
                       'number-draw',
                       'panel-draw',

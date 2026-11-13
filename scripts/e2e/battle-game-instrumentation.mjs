@@ -249,7 +249,7 @@ export function instrumentGameBattle(source, file) {
         add(
           'overlay-blit-parameter',
           node.parameters.at(-1).end,
-          ', __battleMagicChunk?: number, __battleBackground = false',
+          ', __battleMagicChunk?: number, __battleBackground = false, __battlePhysical = false',
         )
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawBattleMagicOverlay')
         add(
@@ -263,6 +263,12 @@ export function instrumentGameBattle(source, file) {
         node.getText(ast) === 'const sprite = magicSprites?.get(overlay.spriteChunk)'
       )
         anchors['magic-overlay-resource'] = (anchors['magic-overlay-resource'] ?? 0) + 1
+      if (
+        ts.isCallExpression(node) &&
+        owner(node) === 'drawBattleEffectOverlay' &&
+        node.getText(ast) === 'blitFrame(fb, sprite, overlay.frameIdx, overlay.x, overlay.y)'
+      )
+        add('physical-overlay-argument', node.arguments.end, ', undefined, false, true')
       if (
         ts.isCallExpression(node) &&
         owner(node) === 'drawBattleMagicOverlay' &&
@@ -282,7 +288,8 @@ export function instrumentGameBattle(source, file) {
         add(
           'magic-overlay-draw',
           node.end,
-          '\nif (__battleMagicChunk !== undefined && !__battleBackground) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
+          '\nif (__battleMagicChunk !== undefined && !__battleBackground) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n' +
+            'if (__battlePhysical) globalThis.__battleEvidence?.physicalOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx);\n',
         )
     }
     if (
@@ -391,10 +398,10 @@ export function instrumentGameBattle(source, file) {
             'actionStart',
             node.body.getStart(ast) + 1,
             '\nif (globalThis.__battleGameActionStart) {\n' +
-              'const enemyMagic = actor.isEnemy && action.type === "magic" && action.actionId !== undefined\n' +
+              'const actionMagic = action.type === "magic" && action.actionId !== undefined\n' +
               '  ? resolveMagicObject(action.actionId, res.spells, res.magics, res.objectMagics)?.magic\n' +
               '  : undefined;\n' +
-              'globalThis.__battleGameActionStart(state, gs, actor, action, res.playerRoles, enemyMagic?.type);\n}\n',
+              'globalThis.__battleGameActionStart(state, gs, actor, action, res.playerRoles, actionMagic?.type);\n}\n',
           )
         }
       }
@@ -525,6 +532,7 @@ export function instrumentGameBattle(source, file) {
     'coop-magic.ts': { 'coop-fallback': 1 },
     'draw-battle-effect.ts': {
       'overlay-blit-parameter': 1,
+      'physical-overlay-argument': 1,
       'magic-overlay-background-parameter': 1,
       'magic-overlay-resource': 1,
       'magic-overlay-argument': 1,

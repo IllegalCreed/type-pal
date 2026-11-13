@@ -185,6 +185,79 @@ const enemyConfused = caseOf(
   [toss(1, hero, '128', foe()), defend(1, anu), attack(2, hero), defend(2, anu)],
   'confusion',
 )
+const enemyConfusedSelf = { ...enemyConfused, id: 'confused-enemy-draws-self', seed: 2 }
+const enemyConfusedResist = caseOf(
+  'confusion-resisted',
+  1,
+  4,
+  enemyConfused.party,
+  [toss(1, hero, '128', foe()), defend(1, anu), attack(2, hero), defend(2, anu)],
+  'confusion',
+)
+const enemyCastsConfusion = caseOf(
+  'enemy-ghost-curse',
+  90,
+  4,
+  [
+    member(hero, 20, 0, [], { hp: 800, maxHP: 800 }),
+    member(anu, 5, 900, [], { hp: 800, maxHP: 800 }),
+  ],
+  [defend(1, hero), defend(1, anu), attack(2, anu), attack(3, anu)],
+  'confusion',
+)
+const spiderCases = [false, true].map((garlic) =>
+  caseOf(
+    garlic ? 'spider-sleep-resisted' : 'spider-sleep-and-expiry',
+    144,
+    24,
+    [member(linger, 1, 300)],
+    [garlic ? use(1, linger, '84', linger) : defend(1, linger), attack(garlic ? 2 : 4, linger)],
+    'silence',
+  ),
+)
+const overlappingParty = [
+  member(linger, 10, 0, ['312']),
+  member(hero, 150, 1500),
+  member(anu, 90, 0),
+]
+const selectiveCleanse = {
+  ...caseOf(
+    'selective-cleanse',
+    69,
+    4,
+    overlappingParty,
+    [
+      cast(1, linger, '312', foe()),
+      use(1, hero, '85', linger),
+      use(1, anu, '127', linger),
+      use(2, hero, '127', linger),
+      use(2, anu, '255', linger),
+      ...[linger, hero, anu].map((id) => defend(3, id)),
+      cast(4, linger, '312', foe()),
+      defend(4, hero),
+      defend(4, anu),
+      defend(5, linger),
+      attack(5, hero),
+      defend(5, anu),
+    ],
+    'overlap',
+  ),
+  silenceMenuProbe: { turn: 3, actorId: linger },
+}
+const enemyStatusReapply = caseOf(
+  'enemy-sleep-reapply',
+  69,
+  4,
+  overlappingParty.slice(1),
+  [
+    toss(1, hero, '135', foe()),
+    toss(1, anu, '127', foe()),
+    ...[2, 3].flatMap((turn) => [defend(turn, hero), defend(turn, anu)]),
+    attack(4, hero),
+    defend(4, anu),
+  ],
+  'overlap',
+)
 const cases = [
   bravery,
   hasteAndDual,
@@ -195,7 +268,13 @@ const cases = [
   puppetAllDead,
   partyConfused,
   enemyConfused,
+  enemyConfusedSelf,
+  enemyConfusedResist,
+  enemyCastsConfusion,
   ...silenceCases,
+  ...spiderCases,
+  selectiveCleanse,
+  enemyStatusReapply,
 ]
 
 export function battleStatusCases(selector = 'all') {

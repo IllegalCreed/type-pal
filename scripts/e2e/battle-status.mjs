@@ -59,6 +59,7 @@ await runBrowserJourney({
             scenarioId: spec.id,
             runId,
             observeMagicOverlays: true,
+            observePhysicalOverlays: true,
             random: { algorithm: 'mulberry32', seed: spec.seed },
           }),
         )
@@ -92,6 +93,7 @@ await runBrowserJourney({
           }
           const started = Date.now()
           let settlementConfirmedAt = 0
+          let menuProbed = false
           for (;;) {
             health()
             const state = await read()
@@ -117,6 +119,42 @@ await runBrowserJourney({
               Date.now() - started < 75_000,
               `battle did not finish: ${runId} ${JSON.stringify(state)}`,
             )
+            const menuProbe = scenario.silenceMenuProbe
+            if (
+              !menuProbed &&
+              menuProbe &&
+              !state.busy &&
+              state.phase === 'selectAction' &&
+              state.turn === menuProbe.turn &&
+              state.selectingPlayerId === menuProbe.actorId &&
+              (state.menuState === 'main' || state.selection?.phase === 'menu')
+            ) {
+              const index = (readout) =>
+                engine === 'game' ? readout.selectedAction : readout.selection?.menuIndex
+              const before = index(state)
+              await pressRecordedKey({
+                keyboard: page.keyboard,
+                action: {
+                  key: 'ArrowLeft',
+                  phase: 'battle',
+                  scope: 'story',
+                  context: runId,
+                  commandIndex,
+                },
+                record: (input) => report.actions.push(input),
+              })
+              await paint(page)
+              const after = await read()
+              result.silenceMenuProbe = {
+                turn: state.turn,
+                actorId: state.selectingPlayerId,
+                before,
+                after: index(after),
+                phase: engine === 'game' ? after.menuState : after.selection?.phase,
+              }
+              menuProbed = true
+              continue
+            }
             const key = nextKey(state, command)
             const confirming = engine === 'reforge' && state.canConfirmSettlement
             if (!confirming) settlementConfirmedAt = 0

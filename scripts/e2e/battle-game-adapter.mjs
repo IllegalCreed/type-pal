@@ -127,7 +127,7 @@ export function installGameBattleAdapter() {
       money: gs.dwCash,
     }
   }
-  const describe = (nativeState, actor, nativeAction, enemyMagicType) => {
+  const describe = (nativeState, actor, nativeAction, magicType) => {
     const renamed = { magic: 'cast', 'coop-magic': 'coop', 'throw-item': 'throw' }
     const kind = renamed[nativeAction.type] ?? nativeAction.type
     const supported = [
@@ -156,11 +156,20 @@ export function installGameBattleAdapter() {
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
     // The enemy AI still samples a player role before resolving a party-wide spell.
+    // PAL's trance flag takes the all-allies menu shortcut, but the script
+    // receives the caster. Keep the raw -1 in native.command.
+    const trance =
+      kind === 'cast' &&
+      !isEnemy &&
+      (magicType === 'trance' ||
+        (magicType === undefined && tranceSpells.has(nativeAction.actionId)))
     const all =
+      !trance &&
       targeted &&
-      (nativeAction.target === -1 || (enemyMagicType !== undefined && enemyMagicType !== 'normal'))
+      (nativeAction.target === -1 || (isEnemy && magicType !== undefined && magicType !== 'normal'))
     let targetId = null
-    if (targeted && !all)
+    if (trance) targetId = actorId
+    else if (targeted && !all)
       targetId =
         side === 'player'
           ? playerIdentity(nativeState.players[nativeAction.target].roleId)
@@ -193,10 +202,16 @@ export function installGameBattleAdapter() {
     defense: gs.Exp.rgDefenseExp[roleId].wCount,
   })
 
+  const tranceSpells = new Set()
   globalThis.__battleGameRegister = (deps, launch) => {
     require(!dependencies, 'Game battle dependencies were registered twice')
     dependencies = deps
     applyFixture = launch
+    const effects = new Set(
+      deps.resources.magics?.filter(({ type }) => type === 'trance').map(({ id }) => id),
+    )
+    for (const spell of deps.resources.spells ?? [])
+      if (effects.has(spell.magicNumber)) tranceSpells.add(spell.id)
   }
   globalThis.__battleGameStarted = (gs, roles) =>
     observe(() => {
@@ -290,7 +305,7 @@ export function installGameBattleAdapter() {
         },
       })
     })
-  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles, enemyMagicType) =>
+  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles, magicType) =>
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
@@ -307,7 +322,7 @@ export function installGameBattleAdapter() {
         inaction = disabled ? 'incapacitated' : cooperative ? 'cooperative-action' : 'confusion'
       }
       action = {
-        ...describe(state, actor, nativeAction, enemyMagicType),
+        ...describe(state, actor, nativeAction, magicType),
         before: snapshot(),
         native: {
           actor: structuredClone(actor),
@@ -554,6 +569,7 @@ export function installGameBattleAdapter() {
               })),
             }
           : null,
+        ...(tranceSpells.size ? { tranceSpellIds: [...tranceSpells].map(String) } : {}),
         targetCancels,
         canConfirmDialogue:
           !!state && ['waiting-page-key', 'waiting-end-key'].includes(gs?.dialogBox?.phase),
