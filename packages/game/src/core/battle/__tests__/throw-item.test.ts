@@ -349,6 +349,38 @@ describe('performThrowItem', () => {
     ])
   })
 
+  it('keeps the initial dying pose through a first-action drain throw until the arm lifts', () => {
+    const drainLock = makeItem({ id: 158, _name: '吸星锁' })
+    const { gs, bus, playerRoles } = startTestBattle({
+      roles: [makeRoleRecord(0, { hp: 10, maxHP: 150, dexterity: 250 })],
+      enemies: [makeEnemyRecord({ health: 310, dexterity: 0 })],
+      items: [drainLock],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x39, operands: [180, 0, 0] }, { op: 'end' }],
+    })
+    gs.inventory = [{ itemId: drainLock.id, count: 1 }]
+    const state = gs.battleState!
+    const caster = state.players[0]!
+    const step = (...keys: AbstractKey[]) => tickBattle(gs, battleInput(keys), bus)
+
+    step()
+    step('ThrowItem')
+    step('Confirm')
+    expect(state.pendingActions.get(0)).toMatchObject({ type: 'throw-item', target: 0 })
+    step()
+
+    // The script commits HP synchronously. The pre-throw pose belongs to the
+    // incoming fighter, so healing cannot make the four approach steps stand up.
+    expect(playerRoles.roles[0]!.hp).toBe(150)
+    expect(state.enemies[0]!.e.health).toBe(130)
+    expect(caster.pos).not.toEqual(caster.posOriginal)
+    const poses = [caster.currentFrame]
+    for (let beat = 1; beat <= 6; beat++) {
+      step()
+      poses.push(caster.currentFrame)
+    }
+    expect(poses).toEqual([1, 1, 1, 1, 1, 1, 5])
+  })
+
   it.each([
     { casterHp: 90, netHeal: 60 },
     { casterHp: 150, netHeal: 0 },

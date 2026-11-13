@@ -65,6 +65,7 @@ import { performThrowItem } from './actions/throw-item.js'
 import { BATTLE_FRAME_TIME, buildUseItemTimeline } from './anim-timeline.js'
 import {
   advanceBattleAnimFrames,
+  playerRestFrame,
   resetFightersAfterAction,
   startBattleAnim,
 } from './battle-anim-driver.js'
@@ -295,6 +296,12 @@ export function startBattle(input: StartBattleInput): void {
     enemyPos: input.enemyPos, // D17a:enemy pos/posOriginal 初值(battle.c:936-939)
     enemySpriteFrameHeights: input.enemySpriteFrameHeights,
   })
+
+  // PAL_StartBattle sets the resting poses before the first action (battle.c:1782).
+  // The throw approach changes positions only, so it inherits each fighter's current pose.
+  for (const player of battleState.players) {
+    player.currentFrame = playerRestFrame(player, input.playerRoles.roles[player.roleId])
+  }
 
   // DH8/DM3:屏波交接(battle.c:1556-1563)—— 保存大世界波快照(战后恢复,DM3),然后
   //   `sWaveProgression = 0; wScreenWave = field.wScreenWave`(战场常驻波:水下/幻境 5 个战场
