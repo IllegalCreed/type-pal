@@ -2818,8 +2818,8 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
 }
 
 /**
- * 敌普攻附毒依次判定附带率、附带道具毒抗 (fight.c:5139-5146) 和施毒脚本的
- * 0x29 毒抗 (script.c:1280)。新毒立即执行一次玩家毒脚本 (global.c:1496-1515)。
+ * 敌普攻先掷附带率和毒抗，再按使用脚本顺序作用于受击者 (fight.c:5139–5146)。
+ * 只有施毒另掷 0x29 毒抗，新毒立即执行玩家毒脚本 (script.c:1280, global.c:1496–1515)。
  */
 export function applyEnemyEquivItem(
   p: BattlePlayerState,
@@ -2835,13 +2835,25 @@ export function applyEnemyEquivItem(
   if (!item?.use) return
   if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) return // 毒抗门:毒抗 ≥ R(1,100) → 抗掉
   for (const eff of item.use.effects) {
-    if (eff.kind !== 'applyPoison') continue
-    if (!passesPlayerPoisonResistance(p, rng)) continue
-    const poisonIndex = p.poisons.length
-    const result = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
-    if (result !== 'applied' || p.poisons.length === poisonIndex) continue
-    s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
-    runNewPoisonEntry(s, p, 'player', poisonIndex)
+    switch (eff.kind) {
+      case 'applyStatus':
+        if (applyPlayerStatus(p.status, eff.status, eff.turns, p.hp > 0))
+          s.log.push(`${p.roleId} 受 ${item.name} 影响，获得 ${eff.status}`)
+        break
+      case 'healHp':
+        // 0x1B uses the role's current HP after the hit (global.c:1287–1305).
+        if (p.hp > 0) p.hp = Math.max(0, Math.min(p.maxHp, p.hp + eff.amount))
+        break
+      case 'applyPoison': {
+        if (!passesPlayerPoisonResistance(p, rng)) break
+        const poisonIndex = p.poisons.length
+        const result = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
+        if (result !== 'applied' || p.poisons.length === poisonIndex) break
+        s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
+        runNewPoisonEntry(s, p, 'player', poisonIndex)
+        break
+      }
+    }
   }
 }
 
