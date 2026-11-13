@@ -253,6 +253,12 @@ export function installBattleTraceObserver(context, createRecorder) {
               },
         )
     },
+    magicOverlayDrawn(x, y, frameIndex) {
+      if (!frame || input.observeMagicOverlays !== true) return
+      // Keep only completed overlay draws, in native paint order.
+      frame.magicOverlays ??= []
+      frame.magicOverlays.push({ x, y, frameIndex })
+    },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
     },

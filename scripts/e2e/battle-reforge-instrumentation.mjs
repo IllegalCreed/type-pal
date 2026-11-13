@@ -310,6 +310,19 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         '\nconst __battleFrameIndex = f === draw.sprite.frames[draw.frame] ? draw.frame : 0;\n',
       )
     }
+    if (
+      isBattleScene &&
+      ts.isExpressionStatement(node) &&
+      source ===
+        'ctx.drawImage(img, Math.round(d.draw.x - f.width / 2), Math.round(d.draw.y - f.height))'
+    ) {
+      const [, dx, dy] = node.expression.arguments
+      add(
+        'magic-overlay-draw',
+        node.end,
+        `\n${evidenceCall('magicOverlayDrawn', `${dx.getText(ast)} + Math.floor(f.width / 2), ${dy.getText(ast)} + f.height, f === d.draw.sprite.frames[d.draw.frame] ? d.draw.frame : 0`)}`,
+      )
+    }
     if (isBattleScene && ts.isIfStatement(node)) {
       const drawn = evidenceCall('fighterDrawn', 'draw, __battleFrameIndex')
       if (node.expression.getText(ast) === 'draw.dissolve !== undefined') {
@@ -339,7 +352,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       : isSfx
         ? ['audio-cue-map', 'audio-request', 'audio-cue-link', 'audio-start', 'audio-decoded']
         : isBattleScene
-          ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw']
+          ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw', 'magic-overlay-draw']
           : isBattleUi
             ? ['portrait-before', 'portrait-after']
             : isDialogBox
