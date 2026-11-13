@@ -99,6 +99,27 @@ describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
     expect(bus.drain()).toEqual([])
   })
 
+  it('emits friendly-fire damage and weapon sound immediately when pose anchors are absent', () => {
+    const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1 })]
+    const { state, playerRoles, bus } = makeState(roles)
+    const caster = state.players[0]!
+    caster.status.confused = 3
+    // The action also accepts logic-only battle states without presentation coordinates.
+    delete caster.pos
+    delete caster.posOriginal
+
+    performAttackMate(state, 0, bus, playerRoles, 1)
+
+    expect(playerRoles.roles[1]!.hp).toBe(155)
+    expect(state.battleAnim).toBeUndefined()
+    expect(bus.drain()).toEqual([
+      { cmd: { op: 'playSound', soundId: 2 } },
+      {
+        cmd: { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 45, color: 'blue' },
+      },
+    ])
+  })
+
   it('目标有 Protect → 伤害减半(45→22)', () => {
     const roles = [makeRole({ id: 0 }), makeRole({ id: 1 })]
     const { state, playerRoles, bus } = makeState(roles, [1])
