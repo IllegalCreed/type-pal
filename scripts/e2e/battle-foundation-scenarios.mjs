@@ -46,8 +46,22 @@ const spellPaintSources = {
   },
   381: { effect: 12, x: -2, y: -10, layerOffset: 99, fireFrames: 15 },
 }
+const allEnemyFirePoints = [
+  { x: 70, y: 140 },
+  { x: 100, y: 110 },
+  { x: 160, y: 100 },
+]
+const throwPaintSources = {
+  24: { effect: 24, x: -12, y: 0, layerOffset: 1, fireFrames: 7 },
+  364: { effect: 0, x: 0, y: 0, layerOffset: 99, fireFrames: 8, points: allEnemyFirePoints },
+  373: { effect: 25, x: -4, y: -20, layerOffset: 99, fireFrames: 20, points: allEnemyFirePoints },
+}
+const throwMagicObjects = { 67: '364', 116: '24', 137: '24', 157: '373', 158: '24', 166: '344' }
 const paintFireChunks = [
-  ...new Set([28, ...Object.values(spellPaintSources).map(({ effect }) => effect)]),
+  ...new Set([
+    28,
+    ...Object.values({ ...spellPaintSources, ...throwPaintSources }).map(({ effect }) => effect),
+  ]),
 ]
 const rawFirePath = (chunk) => `data/magic/fire-${String(chunk).padStart(2, '0')}.rle`
 const projectFirePath = (chunk) =>
@@ -1209,7 +1223,7 @@ function defineMixedThrow() {
     },
     { enemyDamage: [55, 116] },
   )
-  step(finishWhite, finishSlot(0), { rawDamage: 2132 })
+  step(finishWhite, finishSlot(0), { rawDamage: 2133 })
   step(finishZombie, finishSlot(1), { rawDamage: 938 })
   const scenario = complete(
     [thrown, finishWhite, finishZombie],
@@ -1273,7 +1287,10 @@ function defineSingleItemThrow({ id, title, itemId, damage, poisonId, healing = 
     [150, 150],
   )
   scenario.expected.throwRecovery = { actionIndex: 0, slot: 0, targetSlot: 0, damage }
-  if (healing) scenario.expected.throwRecovery.casterHeal = healing
+  if (healing) {
+    Object.assign(scenario.expected.throwRecovery, { casterHeal: healing, restFrame: 0 })
+  }
+  scenario.expected.throwWindupMs = 440
   return {
     ...scenario,
     sounds: [throwSounds(9, 157), playerAttackSounds(40, 4, 216)],
@@ -1367,7 +1384,7 @@ function defineRevivalItem() {
     [82, 150, 150],
   )
   scenario.expected.playerCasualties = [
-    { actionIndex: 2, recoveryFrame: 2, soundKind: 'player-death' },
+    { actionIndex: 2, recoveryFrame: 2, soundKind: 'player-death', survivorTurn: 2 },
   ]
   scenario.expected.itemFeedback = {
     actionIndex: 3,
@@ -2006,9 +2023,8 @@ function attachAudioOracle(scenario) {
 function attachSpellPaintOracle(scenario) {
   const { actions, start } = scenario.expected
   const probes = actions.flatMap((action, actionIndex) => {
-    // Wooden sword 166 uses its native throw script's 0x66 → magic object 344.
-    const skillId = action.kind === 'throw' && action.itemId === '166' ? '344' : action.skillId
-    const source = spellPaintSources[skillId]
+    const skillId = action.kind === 'throw' ? throwMagicObjects[action.itemId] : action.skillId
+    const source = throwPaintSources[skillId] ?? spellPaintSources[skillId]
     if (!source) return []
     const player = start.players.find(({ id }) => id === action.targetId)
     const target = player ?? start.enemies.find((enemy) => enemy?.id === action.targetId)
@@ -2180,6 +2196,8 @@ export async function verifyBattleFoundationSources(root) {
     items,
     rawSpells,
     rawMagic,
+    rawObjectMagics,
+    rawEnemyObjects,
     events,
     skills,
     rawItems,
@@ -2200,6 +2218,8 @@ export async function verifyBattleFoundationSources(root) {
     json('projects/pal/content/items.json'),
     json('data/extracted/data/spells.json'),
     json('data/extracted/data/magic.json'),
+    json('data/extracted/data/object-magics.json'),
+    json('data/extracted/data/enemy-objects.json'),
     json('data/extracted/events/all.json'),
     json('projects/pal/content/skills.json'),
     json('data/extracted/data/items.json'),
@@ -2442,6 +2462,155 @@ export async function verifyBattleFoundationSources(root) {
       },
     },
   ])
+  const rawItem = (id) => rawItems.find((item) => item.id === id)
+  const authorItem = (id) => items.find((item) => item.id === String(id))
+  for (const [id, ip, cmd, target, effect] of [
+    [95, 43024, [0x22, [0, 1, 0]], 'oneAlly', { kind: 'revive', hpPercent: 10 }],
+    [104, 39205, [0x1c, [0, 36, 0]], 'oneAlly', { kind: 'healMp', amount: 36 }],
+    [145, 39524, [0x1c, [1, 250, 0]], 'allAllies', { kind: 'healMp', amount: 250 }],
+  ]) {
+    const { flags, scriptOnUse } = rawItem(id)
+    assert.equal(scriptOnUse, ip)
+    assert(flags.usable && flags.consuming)
+    assert.equal(flags.applyToAll, target === 'allAllies')
+    assert.deepEqual(opcode(ip), cmd)
+    assert.equal(commands[ip + 1].op, 'end')
+    assert.deepEqual(authorItem(id).use, { target, consuming: true, effects: [effect] })
+  }
+
+  for (const [team, definitions] of [
+    [
+      80,
+      [
+        [452, 55, 300, 10, 10],
+        [504, 105, 330, 9, 0],
+      ],
+    ],
+    [115, [[406, 9, 310, 0, 0]]],
+  ]) {
+    const rawTeam = rawTeams.find(({ id }) => id === team)
+    assert.deepEqual(
+      rawTeam.enemyObjectIndexes.filter((id) => id !== 65535),
+      definitions.map(([id]) => id),
+    )
+    assert.deepEqual(
+      rawTeam.enemies.filter((id) => id !== 65535),
+      definitions.map(([, id]) => id),
+    )
+    for (const [object, rawId, hp, poisonRes, sorceryRes] of definitions) {
+      const raw = rawEnemies.find(({ id }) => id === rawId)
+      const current = enemies.find(({ id }) => id === `enemy-${object}`)
+      assert.deepEqual([raw.health, raw.poisonResistance], [hp, poisonRes])
+      assert.equal(
+        rawEnemyObjects.find(({ objectIndex }) => objectIndex === object).resistanceToSorcery,
+        sorceryRes,
+      )
+      assert.deepEqual(
+        [current.stats.health, current.stats.poisonResistance, current.ai.resistanceToSorcery],
+        [hp, poisonRes, sorceryRes],
+      )
+    }
+  }
+
+  const fixedMagic = (baseDamage, element) => ({
+    kind: 'magicDamage',
+    baseDamage,
+    element,
+    strength: { kind: 'fixed', value: 0 },
+  })
+  const sentinel = fixedMagic(-999, 'none')
+  for (const [id, ip, tail, effects] of [
+    [67, 39565, [], [fixedMagic(85, 'wind')]],
+    [116, 39356, [[0x28, [0, 552, 0]]], [sentinel, { kind: 'applyPoison', poisonId: '552' }]],
+    [
+      137,
+      39499,
+      [[0x5b, [1000, 0, 0]]],
+      [
+        sentinel,
+        {
+          kind: 'currentHpDamage',
+          numerator: 1,
+          denominator: 2,
+          bonus: 1,
+          cap: 1000,
+        },
+      ],
+    ],
+    [
+      157,
+      39256,
+      [
+        [0x28, [1, 553, 0]],
+        [0x21, [1, 55, 0]],
+      ],
+      [
+        fixedMagic(205, 'poison'),
+        { kind: 'applyPoison', poisonId: '553' },
+        { kind: 'fixedDamage', amount: 55 },
+      ],
+    ],
+    [
+      158,
+      39263,
+      [[0x39, [180, 0, 0]]],
+      [sentinel, { kind: 'damageAndHealCaster', damage: 180, heal: 180 }],
+    ],
+  ]) {
+    const { flags, scriptOnThrow } = rawItem(id)
+    const object = throwMagicObjects[id]
+    const source = throwPaintSources[object]
+    const magicObject = rawObjectMagics.find(({ id }) => id === Number(object))
+    const raw = rawMagic.find(({ id }) => id === magicObject.magicNumber)
+    const current = authorItem(id).throw
+    const animation = current.presentation.animation
+    const all = Boolean(source.points)
+    assert.equal(scriptOnThrow, ip)
+    assert(flags.throwable && flags.consuming)
+    assert.equal(flags.applyToAll, all)
+    assert.equal(magicObject.flags.applyToAll, all)
+    assert.equal(current.target, all ? 'allEnemies' : 'oneEnemy')
+    assert.deepEqual(opcode(ip), [0x42, [Number(object), 0, 0]])
+    for (const [offset, command] of tail.entries())
+      assert.deepEqual(opcode(ip + offset + 1), command)
+    assert.equal(commands[ip + tail.length + 1].op, 'end')
+    assert.deepEqual(current.effects, effects)
+    assert.equal(signedWord(raw.baseDamage), effects[0].baseDamage)
+    assert.deepEqual(
+      [raw.effect, signedWord(raw.xOffset), signedWord(raw.yOffset), signedWord(raw.special)],
+      [source.effect, source.x, source.y, source.layerOffset],
+    )
+    assert.deepEqual(
+      [
+        animation.effectSprite,
+        animation.xOffset,
+        animation.yOffset,
+        animation.layerOffset,
+        animation.sound,
+      ],
+      [source.effect, source.x, source.y, source.layerOffset, soundAsset(raw.sound)],
+    )
+    assert.equal(
+      fireSprites.chunks.find(({ chunkIndex }) => chunkIndex === source.effect).frameCount,
+      source.fireFrames,
+    )
+  }
+  const sentinelItems = rawItems.filter(({ scriptOnThrow }) => {
+    const command = commands[scriptOnThrow]
+    return command?.opcode === 0x42 && command.operands.join(',') === '24,0,0'
+  })
+  assert.equal(sentinelItems.length, 29)
+  for (const { id } of sentinelItems) assert.deepEqual(authorItem(id).throw.effects[0], sentinel)
+  for (const [id, ip, damage] of [
+    [552, 40868, 12],
+    [553, 40872, 20],
+  ]) {
+    assert.equal(rawPoisons.find((poison) => poison.id === id).enemyScript, ip)
+    assert.deepEqual(opcode(ip), [0x21, [0, damage, 0]])
+    assert.deepEqual(poisons.find((poison) => Number(poison.id) === id).enemyTicks[0], {
+      hpDelta: -damage,
+    })
+  }
   assert.deepEqual(opcode(43085), [0x68, [43089, 0, 0]])
   assert.deepEqual(opcode(43089), [0x06, [70, 43072, 0]])
   assert.equal(commands[43090].to, 'L_39391')
@@ -2487,6 +2656,7 @@ export async function verifyBattleFoundationSources(root) {
     sleep: '303',
     poison: 551,
     antidote: '87',
+    itemEffects: { teams: [1, 3, 80, 115], rawZeroDamageThrows: sentinelItems.length },
     audioAssets: Object.keys(soundFrames).length,
   }
 }

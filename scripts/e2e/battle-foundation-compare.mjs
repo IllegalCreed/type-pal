@@ -207,6 +207,25 @@ export async function compareBattleReports(gamePath, reforgePath, group = 'all')
             })
         }
       }
+      if (scenario.expected.itemFeedback) {
+        const [gameItem, reforgeItem] = presentation.map(({ itemFeedback }) => itemFeedback)
+        for (const segment of ['fromRaiseToNumberMs', 'fromNumberToNextMs']) {
+          const game = gameItem?.[segment]
+          const reforge = reforgeItem?.[segment]
+          if (
+            !Number.isFinite(game) ||
+            !Number.isFinite(reforge) ||
+            Math.abs(game - reforge) > CAST_CADENCE_TOLERANCE_MS
+          )
+            comparison.findings.push({
+              domain: 'business',
+              rule: 'cross-engine-item-recovery-cadence',
+              segment,
+              game,
+              reforge,
+            })
+        }
+      }
       const rules = [left, right].flatMap((trace, index) =>
         comparison.validations[index].status === 'passed'
           ? [validateBattleRules(trace, scenario)]

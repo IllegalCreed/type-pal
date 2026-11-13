@@ -701,7 +701,7 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
     if (!motion) return []
     const { action, target, start, next, observed, visible, player, sample, playerNumbers } = motion
     const { actionIndex, turn, targetId } = observed
-    const { recoveryFrame, soundKind } = probe
+    const { recoveryFrame, soundKind, survivorTurn = turn } = probe
     const dead = soundKind === 'player-death'
     const hpAfter = action.after.players[target.slot]?.hp
     const dyingThreshold = Math.min(100, Math.floor(target.maxHP / 5))
@@ -775,7 +775,12 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
           targetId,
           draw: sample(deadAction),
         })
-      if (!(survivor?.hp > 0) || next.payload.turn !== turn || intervening)
+      if (
+        !(survivor?.hp > 0) ||
+        next.payload.turn !== survivorTurn ||
+        (survivorTurn > turn && !nextSelection) ||
+        intervening
+      )
         fail('business', 'player-casualty-survivor-action', {
           ...result,
           intervening: sample(intervening),
@@ -1123,7 +1128,7 @@ function compareAudioCues(
 }
 
 function compareThrowRecovery(frames, animations, probe, fail) {
-  const { actionIndex, slot, targetSlot, damage } = probe
+  const { actionIndex, slot, targetSlot, damage, casterHeal, restFrame } = probe
   const start = animations[actionIndex]
   const next = animations.slice(actionIndex + 1).find(Boolean)
   const selection =
@@ -1134,7 +1139,8 @@ function compareThrowRecovery(frames, animations, probe, fail) {
         frame.payload.selecting &&
         frame.payload.turn === start.payload.turn,
     )
-  const base = selection && pose(selection, slot)
+  const home = selection && pose(selection, slot)
+  const base = home && { ...home, frameIndex: restFrame ?? home.frameIndex }
   const hit =
     start &&
     next &&
@@ -1159,6 +1165,13 @@ function compareThrowRecovery(frames, animations, probe, fail) {
     hit && next && frames.filter((frame) => frame.seq >= hit.seq && frame.seq <= next.seq)
   const returned = base && recovery?.find((frame) => holdsPose(frame, base))
   const ended = hit && recovery?.find((frame) => frame.payload.animation?.kind !== 'throw')
+  const heal =
+    casterHeal === undefined
+      ? undefined
+      : firstNumberDraws(recovery ?? []).find(
+          ({ number }) =>
+            number.side === 'player' && number.tone === 'yellow' && number.slot === slot,
+        )
   const beforeReturnMs = returned && returned.clockMs - hit.clockMs
   const afterReturnMs = returned && ended && ended.clockMs - returned.clockMs
   const beforeNextMs = ended && next && next.clockMs - ended.clockMs
@@ -1177,6 +1190,7 @@ function compareThrowRecovery(frames, animations, probe, fail) {
     returned: returned && at(returned),
     ended: ended && at(ended),
     next: next && at(next),
+    ...(heal ? { heal: { ...at(heal.frame), ...heal.number } } : {}),
     beforeReturnMs,
     afterReturnMs,
     beforeNextMs,
@@ -1198,6 +1212,104 @@ function compareThrowRecovery(frames, animations, probe, fail) {
     beforeNextMs > EDGE_TOLERANCE_MS
   )
     fail('business', 'throw-recovery-render-window', observed)
+  if (
+    casterHeal !== undefined &&
+    (!hit ||
+      !heal ||
+      heal.frame.seq !== hit.seq ||
+      heal.number.value !== casterHeal ||
+      heal.number.right !== release?.x + 6 ||
+      heal.number.y + heal.number.age !== Math.max(10, release?.y - 75))
+  )
+    fail('business', 'throw-heal-at-release', observed)
+  return observed
+}
+
+function compareItemFeedback(frames, expected, animations, fail) {
+  const { actionIndex, numbers, glowSlots } = expected.itemFeedback
+  const action = expected.actions[actionIndex]
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const casterSlot = action.before.players.find(({ id }) => id === action.actorId)?.slot
+  const home =
+    start &&
+    frames.findLast(
+      ({ seq, payload }) => seq < start.seq && payload.turn === action.turn && payload.selecting,
+    )
+  const casterHome = home && pose(home, casterSlot)
+  const window = start && next ? frames.filter(({ seq }) => seq >= start.seq && seq < next.seq) : []
+  const raised = window.find((frame) => {
+    const caster = pose(frame, casterSlot)
+    return caster && caster.frameIndex === 5 && !samePose(caster, casterHome)
+  })
+  const drawn = firstNumberDraws(frames).filter(
+    ({ frame, number }) =>
+      start && next && frame.seq >= start.seq && frame.seq < next.seq && number.side === 'player',
+  )
+  const shown = drawn[0]?.frame
+  const colored = ({ payload }) => payload.players.filter((player) => player.colorShift > 0)
+  const peak = window.find((frame) => {
+    const glows = colored(frame)
+    return (
+      glows.length === glowSlots.length &&
+      glowSlots.every((slot) =>
+        glows.some((player) => player.slot === slot && player.colorShift === 6),
+      )
+    )
+  })
+  const extraGlow = window.find((frame) =>
+    colored(frame).some(({ slot }) => !glowSlots.includes(slot)),
+  )
+  const fromRaiseToNumberMs = raised && shown && shown.clockMs - raised.clockMs
+  const fromNumberToNextMs = shown && next && next.clockMs - shown.clockMs
+  const observed = {
+    actionIndex,
+    raised: raised && at(raised),
+    peak: peak && at(peak),
+    numberFrame: shown && at(shown),
+    extraGlow: extraGlow && { ...at(extraGlow), slots: colored(extraGlow).map(({ slot }) => slot) },
+    numbers: drawn.map(({ frame, number }) => ({
+      ...at(frame),
+      ...number,
+      target: pose(frame, number.slot),
+    })),
+    fromRaiseToNumberMs,
+    fromNumberToNextMs,
+  }
+  if (!peak || extraGlow || (shown && peak.seq >= shown.seq))
+    fail('business', 'item-glow-targets', observed)
+  if (
+    !shown ||
+    !casterHome ||
+    !samePose(pose(shown, casterSlot), casterHome) ||
+    drawn.length !== numbers.length ||
+    numbers.some(({ slot, value, tone, restFrame }) => {
+      const draw = drawn.find(({ number }) => number.slot === slot && number.tone === tone)
+      const target = home && pose(home, slot)
+      const actual = draw && pose(draw.frame, slot)
+      return (
+        !draw ||
+        !target ||
+        draw.frame.seq !== shown.seq ||
+        draw.number.value !== value ||
+        draw.number.right !== target.x + 6 ||
+        draw.number.y + draw.number.age !== Math.max(10, target.y - (tone === 'cyan' ? 67 : 75)) ||
+        !samePose(actual, target) ||
+        actual?.colorShift !== 0 ||
+        (restFrame !== undefined && actual?.frameIndex !== restFrame)
+      )
+    })
+  )
+    fail('business', 'item-stat-change-at-return', observed)
+  // Compare from the raised pose. The approved six-step Reforge approach precedes it.
+  if (
+    !Number.isFinite(fromRaiseToNumberMs) ||
+    Math.abs(fromRaiseToNumberMs - 13 * BATTLE_FRAME_MS) > BATTLE_FRAME_MS ||
+    !Number.isFinite(fromNumberToNextMs) ||
+    fromNumberToNextMs < 8 * BATTLE_FRAME_MS - BATTLE_FRAME_MS / 2 ||
+    fromNumberToNextMs > 8 * BATTLE_FRAME_MS + EDGE_TOLERANCE_MS
+  )
+    fail('business', 'item-recovery-cadence', observed)
   return observed
 }
 
@@ -1540,7 +1652,12 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
-  let statusNotice, throwRecovery, allySpellPresentation, spellPaintOrder, playerCastRecovery
+  let statusNotice,
+    throwRecovery,
+    itemFeedback,
+    allySpellPresentation,
+    spellPaintOrder,
+    playerCastRecovery
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1559,6 +1676,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
     ...(statusNotice === undefined ? {} : { statusNotice }),
     ...(throwRecovery === undefined ? {} : { throwRecovery }),
+    ...(itemFeedback === undefined ? {} : { itemFeedback }),
     ...(allySpellPresentation === undefined ? {} : { allySpellPresentation }),
     ...(spellPaintOrder === undefined ? {} : { spellPaintOrder }),
     ...(playerCastRecovery === undefined ? {} : { playerCastRecovery }),
@@ -1609,6 +1727,8 @@ export function validateBattlePresentation(trace, scenario) {
   )
   if (scenario.expected.throwRecovery)
     throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.itemFeedback)
+    itemFeedback = compareItemFeedback(frames, scenario.expected, animations, fail)
   if (scenario.expected.spellPaintOrder)
     spellPaintOrder = scenario.expected.spellPaintOrder.map((probe) =>
       compareSpellPaintOrder(frames, animations, probe, fail),
