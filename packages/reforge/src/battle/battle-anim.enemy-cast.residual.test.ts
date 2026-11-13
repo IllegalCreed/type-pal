@@ -18,11 +18,11 @@ const pose: PlayerFighterFrames = {
 
 const enemy: EnemyBattleSpriteProfile = {
   kind: 'enemy',
-  idle: { start: 3, count: 2 },
-  magic: { start: 5, count: 0 },
-  attack: { start: 5, count: 2 },
+  idle: { start: 0, count: 2 },
+  magic: { start: 2, count: 1 },
+  attack: { start: 3, count: 2 },
   idleTicksPerFrame: 1,
-  actTicksPerFrame: 1,
+  actTicksPerFrame: 3,
 }
 
 const fx: CastFxParams = {
@@ -40,62 +40,83 @@ const fx: CastFxParams = {
 }
 
 describe('当前敌法术时间线的复合屏幕效果', () => {
-  test('敌无专属施法帧回落 idle，前震/后震/波幅/烙背景各留精确帧', () => {
+  test('正 fireDelay 在特效里推进敌攻击段，前震、后震、波幅和烙印各留原帧', () => {
     const input = {
       enemyIdx: 2,
+      enemyPos: { x: 100, y: 110 },
+      enemyFrame: 1,
       anim: enemy,
       playerFrames: [pose],
       magicSound: 'sound.windup',
       fireFrames: 2,
       fx,
       targetPos: { x: 88, y: 71 },
-      damageNums: [{ target: { side: 'player' as const, idx: 0 }, value: 13 }],
+      damageNums: [],
+      hurtPlayers: [],
       keepEffect: true,
     }
-    const before = structuredClone(input)
     const frames = buildEnemyCast(input)
-    expect(frames).toHaveLength(7)
-    expect(frames[0]).toMatchObject({
-      sound: 'sound.windup',
-      fighters: [{ side: 'enemy', idx: 2, frame: 3 }],
-    })
-    expect(frames.slice(1, 6).map((frame) => frame.overlays?.[0])).toEqual([
-      { sheet: 'magic', frameIdx: 0, x: 163, y: 96, layerOffset: 2 },
-      { sheet: 'magic', frameIdx: 1, x: 163, y: 96, layerOffset: 2 },
-      { sheet: 'magic', frameIdx: 1, x: 163, y: 96, layerOffset: 2 },
-      { sheet: 'magic', frameIdx: 0, x: 163, y: 96, layerOffset: 2 },
-      { sheet: 'magic', frameIdx: 0, x: 163, y: 96, layerOffset: 2 },
+    const effect = frames.filter((frame) => frame.overlays?.length)
+    const firstEffect = frames.findIndex((frame) => frame.overlays?.length)
+    expect(frames.slice(0, firstEffect)).toEqual([
+      {
+        durationMs: 40,
+        fighters: [{ side: 'enemy', idx: 2, pos: { x: 112, y: 116 }, frame: 1, holdFrame: true }],
+      },
+      { durationMs: 40, fighters: [{ side: 'enemy', idx: 2, pos: { x: 116, y: 118 } }] },
+      { durationMs: 120, fighters: [{ side: 'enemy', idx: 2, frame: 2 }], sound: 'sound.windup' },
     ])
-    expect(frames.slice(1, 6).map((frame) => frame.sound)).toEqual([
+    expect(effect.map((frame) => frame.fighters?.[0]?.frame)).toEqual([
       undefined,
-      'sound.enemy-magic',
+      3,
+      4,
       undefined,
-      'sound.enemy-magic',
       undefined,
     ])
-    expect(frames[1]).toMatchObject({
+    expect(effect.map((frame) => frame.overlays?.[0])).toEqual(
+      [0, 1, 1, 0, 0].map((frameIdx) => ({
+        sheet: 'magic',
+        frameIdx,
+        x: 243,
+        y: 146,
+        layerOffset: 2,
+      })),
+    )
+    expect(effect.map((frame) => frame.sound)).toEqual([
+      'sound.enemy-magic',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    ])
+    expect(effect[0]).toMatchObject({
       durationMs: 60,
       waveAdd: 3,
       screenShake: true,
       screenShakeLevel: 4,
     })
-    expect(frames[2]).toMatchObject({ screenShake: true, screenShakeLevel: 4 })
-    expect(frames[3]?.screenShake).toBeUndefined()
-    expect(frames.slice(4, 6).map((frame) => frame.screenShake)).toEqual([true, true])
-    expect(frames[5]?.burnBg).toEqual([
-      { sheet: 'magic', frameIdx: 0, x: 163, y: 96, layerOffset: 2 },
+    expect(effect[1]).toMatchObject({ screenShake: true, screenShakeLevel: 4 })
+    expect(effect[2]?.screenShake).toBeUndefined()
+    expect(effect.slice(3).map((frame) => frame.screenShake)).toEqual([true, true])
+    expect(effect.at(-1)?.burnBg).toEqual([
+      { sheet: 'magic', frameIdx: 0, x: 243, y: 146, layerOffset: 2 },
     ])
-    expect(frames[6]).toMatchObject({
-      damageNums: [{ target: { side: 'player', idx: 0 }, value: 13 }],
-      fighters: [{ side: 'enemy', idx: 2, frame: 3 }],
+    expect(frames.slice(firstEffect + effect.length, -1).map((frame) => frame.durationMs)).toEqual([
+      40, 40, 40, 40, 40,
+    ])
+    expect(frames.slice(firstEffect + effect.length).some((frame) => frame.damageNums)).toBe(false)
+    expect(frames.at(-1)).toEqual({
+      durationMs: 40,
+      fighters: [{ side: 'enemy', idx: 2, frame: 0, pos: { x: 100, y: 110 } }],
     })
-    expect(input).toEqual(before)
   })
 
   test('单目标缺坐标时采用敌方施法中心缺省，零波幅/无声音不制造屏幕效果', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,
-      anim: { ...enemy, magic: { start: 5, count: 1 } },
+      enemyPos: { x: 100, y: 110 },
+      enemyFrame: 0,
+      anim: enemy,
       playerFrames: [pose],
       fireFrames: 1,
       fx: {
@@ -113,11 +134,36 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
       },
       damageNums: [],
     })
-    expect(frames).toHaveLength(3)
-    expect(frames[1]?.overlays).toEqual([
+    expect(frames.find((frame) => frame.overlays?.length)?.overlays).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 160, y: 130, layerOffset: 0 },
     ])
     expect(frames.filter((frame) => frame.sound || frame.waveAdd || frame.screenShake)).toEqual([])
-    expect(frames[2]?.damageNums).toBeUndefined()
+    expect(frames.some((frame) => frame.damageNums)).toBe(false)
+  })
+
+  test.each([
+    {
+      placement: 'attackAll',
+      points: [
+        { x: 183, y: 176 },
+        { x: 237, y: 166 },
+        { x: 273, y: 142 },
+      ],
+    },
+    { placement: 'attackField', points: [{ x: 163, y: 196 }] },
+  ] as const)('$placement 使用原版敌法落点和统一深度偏移', ({ placement, points }) => {
+    const frames = buildEnemyCast({
+      enemyIdx: 0,
+      enemyPos: { x: 100, y: 110 },
+      enemyFrame: 0,
+      anim: enemy,
+      playerFrames: [pose],
+      fireFrames: 1,
+      fx: { ...fx, placement, fireDelay: 0, effectTimes: 0, shake: 0, wave: 0 },
+      damageNums: [],
+    })
+    expect(frames.find((frame) => frame.overlays?.length)?.overlays).toEqual(
+      points.map((pos) => ({ sheet: 'magic', frameIdx: 0, ...pos, layerOffset: 2 })),
+    )
   })
 })

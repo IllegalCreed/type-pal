@@ -264,6 +264,109 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.355'])
   })
 
+  test('半人树妖回梦用攻击帧施法，保持前移位置到受击收尾', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '303'))
+    const definition = expectDefined(
+      validateBattleSprites(palBattleSprites).find(({ id }) => id === enemy.battleSprite),
+    )
+    const profile = definition.profile
+    if (profile.kind !== 'enemy') throw new Error('半人树妖的战斗资源必须是敌人精灵')
+    const enemySprite = poseSprite(wfLoadedBattleSprite(enemy.battleSprite, profile))
+    const playerSprite = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const sfx = recordingSfx()
+    const session = new BattleSession(
+      [wfPlayer('li-xiaoyao', { baseDexterity: 0 })],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [playerSprite.definition.id, playerSprite],
+          [enemySprite.definition.id, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [playerSprite.definition.id],
+        fireSprites: {
+          [skill.animation.effectSprite]: {
+            ...playerSprite.sprite,
+            frames: [expectDefined(playerSprite.sprite.frames[8])],
+          },
+        },
+        sfx: sfx.player,
+      },
+      (id) => id,
+      fixedRng(),
+      { skills: { [skill.id]: skill } },
+    )
+    const ctx = battleCanvas()
+    const red = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = (dtMs: number) => {
+      session.tick(dtMs, new Set())
+      session.render(ctx, 1)
+    }
+    const casting = () => session.debugLog().some((line) => line.includes('施展 回梦'))
+    session.tick(16, new Set(['d']))
+    for (let i = 0; i < 100 && !casting(); i++) draw(4)
+    expect(casting()).toBe(true)
+
+    // fight.c:4683–4717，两个移动拍、一个空施法拍、两张动作帧各占两个拍。
+    expect(red(112, 108)).toBe(poseRed(0))
+    draw(40)
+    expect(red(116, 110)).toBe(poseRed(0))
+    draw(159)
+    expect(red(116, 110)).toBe(poseRed(0))
+    draw(1)
+    expect(red(116, 110)).toBe(poseRed(1))
+    draw(79)
+    expect(red(240, 166)).toBe(0)
+    expect(sfx.plays).toEqual([])
+    draw(1)
+    expect(red(240, 166)).toBe(poseRed(8))
+    expect(red(116, 110)).toBe(poseRed(1))
+    expect(sfx.plays).toEqual(['sound.pal.169'])
+    draw(269)
+    expect(red(116, 110)).toBe(poseRed(1))
+    draw(1)
+    expect(red(100, 102)).toBe(poseRed(0))
+    expect(red(116, 110)).toBe(0)
+  })
+
+  test('无 FIRE 资源的敌方咒蛇未扣血，单体目标仍播放五拍受击', () => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '376'))
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-459'))
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { baseDexterity: 0 })],
+      enemies: [enemy],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    const playerSpriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const casterSprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    const playerSprite = expectDefined(h.assets.battleSprites.get(playerSpriteId))
+    h.assets.palette = posePalette
+    h.assets.battleSprites = new Map([
+      [playerSpriteId, poseSprite(playerSprite)],
+      [enemy.battleSprite, poseSprite(casterSprite)],
+    ])
+    const ctx = battleCanvas()
+    const red = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    h.press(['d'])
+    const castResolved = () => h.session.debugLog().includes('li-xiaoyao 中 毒553')
+    for (let i = 0; i < 100 && !castResolved(); i++) draw(4)
+    expect(castResolved()).toBe(true)
+    expect(h.readParty()[0]?.hp).toBe(100)
+
+    draw(120)
+    expect(red(240, 162)).toBe(poseRed(PLAYER_PROFILE.frames.hurt + 6))
+    draw(199)
+    expect(red(247, 165)).toBe(poseRed(PLAYER_PROFILE.frames.hurt))
+    draw(1)
+    expect(red(100, 102 + enemy.yPosOffset)).toBeGreaterThan(0)
+  })
+
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)

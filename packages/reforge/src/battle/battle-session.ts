@@ -12,6 +12,7 @@ import type {
   BattleChoreographyAction,
   BattleSpriteProfileKind,
   BattleStatus,
+  EnemyBattleSpriteProfile,
   EnemyDef,
   EnemyHookChannel,
   LevelGrowthDelta,
@@ -71,6 +72,7 @@ import {
   buildThrowItem,
   buildUseItem,
   type CastFxParams,
+  type FighterDelta,
   type OverlayDraw,
 } from './battle-anim.js'
 import { battleCasualtyCues } from './battle-casualty-presentation.js'
@@ -200,6 +202,7 @@ interface VisualFighter {
   x: number
   y: number
   frame: number
+  holdFrame?: true
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
@@ -1498,8 +1501,10 @@ export class BattleSession {
           : {}),
       })
     }
-    const def = s.enemies[la.idx]?.def
-    if (!def) return null
+    const enemy = s.enemies[la.idx]
+    const caster = this.visual.enemies[la.idx]
+    if (!enemy || !caster) return null
+    const { def } = enemy
     const enemyProfile = this.enemyAppearance(la.idx).definition.profile
     if (enemyProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
     const targetPos = getPlayerBasePos(s.players.length, la.targetPlayerIdx)
@@ -1511,8 +1516,21 @@ export class BattleSession {
         const sound = this.opts.playerSounds?.[idx]?.[kind]
         return sound ? [sound] : []
       })
+    const hurtPlayers =
+      skill.target === 'oneEnemy'
+        ? [{ idx: la.targetPlayerIdx, pos: targetPos }]
+        : skill.target === 'allEnemies'
+          ? damageNums
+              .filter((d) => d.target.side === 'player')
+              .map((d) => ({
+                idx: d.target.idx,
+                pos: expectDefined(getPlayerBasePos(s.players.length, d.target.idx)),
+              }))
+          : undefined
     return buildEnemyCast({
       enemyIdx: la.idx,
+      enemyPos: enemy.basePos,
+      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy.hp),
       anim: enemyProfile,
       playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       magicSound: def.sounds.magic,
@@ -1525,13 +1543,7 @@ export class BattleSession {
       ...(a.keepEffect ? { keepEffect: true } : {}),
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
-      // 受伤队员受击反应(frame4+红闪+递减击退;一阶段 19f8d6a9 曾整段漏)
-      hurtPlayers: damageNums
-        .filter((d) => d.target.side === 'player')
-        .map((d) => ({
-          idx: d.target.idx,
-          pos: getPlayerBasePos(s.players.length, d.target.idx) ?? { x: 240, y: 170 },
-        })),
+      hurtPlayers,
     })
   }
 
@@ -1995,16 +2007,11 @@ export class BattleSession {
   }
 
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
-  private applyDelta(d: {
-    side: 'player' | 'enemy'
-    idx: number
-    frame?: number
-    pos?: { x: number; y: number }
-    colorShift?: number
-  }): void {
+  private applyDelta(d: FighterDelta): void {
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
+    if (d.holdFrame) v.holdFrame = true
     if (d.pos) {
       v.x = d.pos.x
       v.y = d.pos.y
@@ -2305,6 +2312,22 @@ export class BattleSession {
     return Math.floor(Math.random() * 3) - 1
   }
 
+  private enemyVisualFrame(
+    visual: VisualFighter,
+    profile: EnemyBattleSpriteProfile,
+    hp: number,
+  ): number {
+    if (
+      visual.holdFrame ||
+      visual.frame !== profile.idle.start ||
+      profile.idle.count <= 1 ||
+      hp <= 0
+    )
+      return visual.frame
+    const idleStep = Math.floor(this.nowMs / (profile.idleTicksPerFrame * BATTLE_FRAME_MS))
+    return profile.idle.start + (idleStep % profile.idle.count)
+  }
+
   private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
@@ -2368,13 +2391,9 @@ export class BattleSession {
         alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
         if (alpha <= 0) return
       }
-      // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
       const anim = appearance.definition.profile
       if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      const frame =
-        v.frame === anim.idle.start && anim.idle.count > 1 && e.hp > 0
-          ? anim.idle.start + (Math.floor(now / (anim.idleTicksPerFrame * 40)) % anim.idle.count)
-          : v.frame
+      const frame = this.enemyVisualFrame(v, anim, e.hp)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
       const transition = this.appearanceTransitions.get(`enemy:${i}`)
