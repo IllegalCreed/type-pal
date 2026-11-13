@@ -868,7 +868,7 @@ function defineCooperativeMagic() {
       for (const player of players) player.hp -= 10
       enemies[0].hp -= 161
     },
-    { enemyDamage: [161] },
+    { enemyDamage: [161], suppressPlayerDamageNumbers: true },
   )
   step(passAt(1, anu))
   step(

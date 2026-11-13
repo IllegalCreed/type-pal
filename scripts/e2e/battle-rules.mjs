@@ -175,6 +175,19 @@ export function validateBattleRules(trace, scenario) {
       damageActions.push(observed)
       if (!same(expected, native)) fail('native-enemy-damage', observed)
       if (!same(expected, drawn)) fail('rendered-enemy-damage', observed)
+      if (wanted.suppressPlayerDamageNumbers) {
+        // CLASSIC fight.c:3980 snapshots the party after paying the co-op HP cost.
+        const shownCost = numberDraws.filter(
+          ({ frame, number }) =>
+            start &&
+            frame.seq >= start.seq &&
+            (!next || frame.seq < next.seq) &&
+            number.tone === 'blue' &&
+            number.side === 'player',
+        )
+        if (shownCost.length)
+          fail('rendered-cooperative-hp-cost', { actionIndex: index, shownCost })
+      }
     }
     if (action.kind === 'attack') {
       const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
