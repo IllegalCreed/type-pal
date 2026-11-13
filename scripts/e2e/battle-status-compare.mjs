@@ -44,23 +44,24 @@ function comparePair(first, second) {
     if (!same(left, right)) findings.push({ rule, ...firstDifference(left, right) })
   }
   for (const key of ['start', 'commands', 'actions', 'rounds']) check(key, l[key], r[key])
+  check('equipped starting stats', first.initialPlayers, second.initialPlayers)
   check('battle random draw order', first.gameplayDraws, second.gameplayDraws)
   if (!repeat && first.id === 'confused-enemy-draws-self') {
-    // The original grass demons have a separate post-battle script at SSS 41027.
+    // The original bees have a separate post-battle script at SSS 41027.
     // Require its exact result while keeping the full settlement visible in the receipt.
     const { inventory, ...after } = l.terminal.after
     check(
-      'grass demon reward follow-up',
+      'bee reward follow-up',
       [inventory, r.terminal.after.inventory],
       [[{ itemId: '115', count: 1 }], []],
     )
     check(
-      'terminal outside grass demon reward',
+      'terminal outside bee reward',
       { ...l.terminal, after: { ...after, inventory: [] } },
       r.terminal,
     )
     observations.push({
-      rule: 'grass demon post-battle loot',
+      rule: 'bee post-battle loot',
       game: inventory,
       reforge: r.terminal.after.inventory,
       source: 'SSS 41027–41031',
@@ -74,12 +75,16 @@ function comparePair(first, second) {
     check('repeat rewards random draw order', first.rewardDraws, second.rewardDraws)
     check('repeat physical keys', first.inputs.map(input), second.inputs.map(input))
   } else {
+    const expected =
+      first.id === 'confused-enemy-draws-self'
+        ? [35, 6]
+        : first.id === 'confused-enemy-strikes-ally'
+          ? [54, 80]
+          : []
     check(
       'settlement random tail in Game',
-      first.rewardDraws.map(({ purpose }) => purpose),
-      first.id.startsWith('confused-enemy-')
-        ? ['battle-script-chance', 'battle-script-chance']
-        : [],
+      first.rewardDraws.map(({ purpose, value }) => [purpose, 1 + Math.floor(value * 100)]),
+      expected.map((roll) => ['battle-script-chance', roll]),
     )
     check('settlement random tail in Reforge', second.rewardDraws, [])
   }
@@ -98,6 +103,7 @@ async function readReport(path, engine, selector, scenarios, prepare, commonSour
   const report = JSON.parse(bytes)
   assert.equal(report.engine, engine)
   assert.match(report.revision, /^[a-f0-9]{40}$/u, 'invalid producer revision')
+  assert.equal(git('cat-file', '-t', report.revision).toString().trim(), 'commit')
   assert.equal(report.selector, selector)
   assert.equal(report.profile, 'verify')
   assert.equal(report.status, 'passed', 'native battle did not finish')
@@ -114,6 +120,12 @@ async function readReport(path, engine, selector, scenarios, prepare, commonSour
   assertDependencyClosure(report.dependencies, current)
   assert.deepEqual(report.hashes, report.dependencies.hashes)
   assert.deepEqual(report.hashes, current.hashes, 'producer sources have changed')
+  const changed = git('diff', '--name-only', '-z', report.revision, '--').toString().split('\0')
+  assert.deepEqual(
+    changed.filter((path) => Object.hasOwn(current.hashes, path)),
+    [],
+    'tracked producer bytes differ from the recording revision',
+  )
   assertInputLedger(report.actions, { requireReceipts: true })
   assert.deepEqual(report.inputExecution, { status: 'passed', actions: report.actions.length })
   const ids = runIds(scenarios)
@@ -144,6 +156,11 @@ async function readReport(path, engine, selector, scenarios, prepare, commonSour
       id: configured.id,
       random: { algorithm: 'mulberry32', seed: scenario.seed },
     })
+    assert.deepEqual(
+      result.initial.snapshot,
+      trace.start.state,
+      'runner start differs from native trace',
+    )
     const terminal = {
       result: trace.terminal.result,
       settlementCount: trace.terminal.settlementCount,
@@ -155,10 +172,15 @@ async function readReport(path, engine, selector, scenarios, prepare, commonSour
     const gameplayDraws = trace.randomDraws.filter(({ order }) => order < lastAction).map(rng)
     const rewardDraws = trace.randomDraws.filter(({ order }) => order > lastAction).map(rng)
     const rules = checkStatusRules(trace, scenario, configured, inputs, result.silenceMenuProbe)
+    assert.equal(result.initial.nativePlayers.length, configured.party.length)
+    const initialPlayers = result.initial.nativePlayers.map(
+      ({ gameRole: _gameRole, ...player }) => player,
+    )
     runs.push({
       id: scenario.id,
       trace,
       inputs,
+      initialPlayers,
       gameplayDraws,
       rewardDraws,
       rules,

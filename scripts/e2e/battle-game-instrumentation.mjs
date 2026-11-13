@@ -230,7 +230,7 @@ export function instrumentGameBattle(source, file) {
               'player-draw-identity',
               node,
               'labelFighter',
-              `items.at(-1), 'player', i, false, ${frameIndex}`,
+              `items.at(-1), 'player', i, false, ${frameIndex}, p.spriteNumOverride ?? role.spriteNumInBattle`,
             )
         }
       }

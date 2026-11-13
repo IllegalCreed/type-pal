@@ -112,6 +112,27 @@ function checkBuffs(trace, id, frames, check) {
   }
   const dream = spell(trace, '295'),
     attack = actionOf(trace, 2, linger)
+  const appearances = (scope) => [
+    ...new Set(
+      scope.flatMap(({ payload }) =>
+        payload.players
+          .filter(({ slot }) => slot === 1)
+          .map(({ appearance }) =>
+            typeof appearance === 'string'
+              ? Number(/^player-fighter-(\d+)$/u.exec(appearance)?.[1])
+              : appearance,
+          ),
+      ),
+    ),
+  ]
+  check(
+    '梦蛇使用实际绘制的变身资源',
+    [
+      appearances(frames.filter(({ payload }) => payload.turn === 1 && payload.selecting)),
+      appearances(animated(frames, 2, linger, 'attack')),
+    ],
+    [[1], [5]],
+  )
   check('梦蛇实际施法对象与真气', [dream?.targetId, mp(dream, linger)], [linger, [100, 1]])
   check(
     '梦蛇入队身法按裸属性增益',
@@ -412,7 +433,7 @@ function checkConfusion(trace, scenario, frames, check) {
     confused = actionOf(trace, 1, foe)
   const self = scenario.id === 'confused-enemy-draws-self'
   check(
-    '草妖受混乱并逐轮衰减',
+    '蜜蜂受混乱并逐轮衰减',
     [
       health(hit?.after),
       status(hit?.after.enemies[0], 'confused'),

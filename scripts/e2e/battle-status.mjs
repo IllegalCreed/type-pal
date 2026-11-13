@@ -60,6 +60,7 @@ await runBrowserJourney({
             runId,
             observeMagicOverlays: true,
             observePhysicalOverlays: true,
+            observePlayerAppearance: scenario.id === 'trance-attack-and-speed',
             random: { algorithm: 'mulberry32', seed: spec.seed },
           }),
         )

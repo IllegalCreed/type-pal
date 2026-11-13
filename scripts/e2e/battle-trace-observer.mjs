@@ -29,6 +29,7 @@ export function installBattleTraceObserver(context, createRecorder) {
   const random = structuredClone(input.random)
   const observeMagicOverlays = input.observeMagicOverlays === true
   const observePhysicalOverlays = input.observePhysicalOverlays === true
+  const observePlayerAppearance = input.observePlayerAppearance === true
   const portraitProbe = input.portraitProbe
   if (
     portraitProbe !== undefined &&
@@ -233,13 +234,20 @@ export function installBattleTraceObserver(context, createRecorder) {
         settlement: null,
       }
     },
-    labelFighter(draw, side, slot, fading = false, frameIndex) {
-      if (frame) fighterDraws.set(draw, { side, slot, fading, frameIndex })
+    labelFighter(draw, side, slot, fading = false, frameIndex, appearance) {
+      if (frame)
+        fighterDraws.set(draw, {
+          side,
+          slot,
+          fading,
+          frameIndex,
+          ...(observePlayerAppearance && appearance !== undefined ? { appearance } : {}),
+        })
     },
     fighterDrawn(draw, appliedFrameIndex) {
       const fighter = frame && fighterDraws.get(draw)
       if (!fighter) return
-      const { side, slot, fading } = fighter
+      const { side, slot, fading, appearance } = fighter
       const frameIndex = appliedFrameIndex ?? fighter.frameIndex
       const position = { slot, x: draw.x, y: draw.y }
       const paintOrder = observeMagicOverlays ? { paintOrder: nextPaintOrder++ } : {}
@@ -255,6 +263,7 @@ export function installBattleTraceObserver(context, createRecorder) {
           ...(frameIndex === undefined
             ? {}
             : { frameIndex, colorShift: draw.iColorShift ?? draw.colorShift ?? 0 }),
+          ...(appearance !== undefined ? { appearance } : {}),
           ...paintOrder,
         })
     },

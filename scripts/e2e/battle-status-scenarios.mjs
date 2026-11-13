@@ -303,10 +303,13 @@ const dataFiles = [
   `${raw}enemy-objects.json`,
   `${raw}enemies.json`,
   `${raw}items.json`,
+  `${raw}object-magics.json`,
+  'data/extracted/events/all.json',
   `${pal}enemy-teams.json`,
   `${pal}enemies.json`,
   `${pal}items.json`,
   `${pal}skills.json`,
+  `${pal}battle-sprites.json`,
 ]
 export const battleStatusSources = [
   ...dataFiles,
@@ -318,10 +321,58 @@ export const battleStatusSources = [
 ]
 
 export async function prepareBattleStatusInputs() {
-  const [rawTeams, objects, rawEnemies, rawItems, palTeams, palEnemies, palItems, { skills }] =
-    await Promise.all(
-      dataFiles.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
+  const [
+    rawTeams,
+    objects,
+    rawEnemies,
+    rawItems,
+    rawSpells,
+    events,
+    palTeams,
+    palEnemies,
+    palItems,
+    { skills },
+  ] = await Promise.all(
+    dataFiles.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
+  )
+  const all = events.segments.find(({ name }) => name === 'all').commands
+  const raw = (index, opcode, operands) => {
+    const entry = all[index]
+    assert.deepEqual(
+      [entry.op, entry.opcode, entry.operands],
+      ['raw', opcode, operands],
+      `PAL script ${index}`,
     )
+  }
+  for (const [spell, entry] of [
+    [295, 43028],
+    [311, 43034],
+    [390, 43138],
+    [393, 43140],
+  ])
+    assert.equal(rawSpells.find(({ id }) => id === spell).scriptOnSuccess, entry)
+  raw(43028, 0x31, [5, 0, 0])
+  raw(43029, 0x30, [17, 100, 0])
+  raw(43030, 0x30, [20, 100, 0])
+  assert.equal(all[43031].op, 'end')
+  raw(43034, 0x2d, [5, 7, 0])
+  raw(43138, 0x2d, [8, 5, 0])
+  raw(43140, 0x2d, [7, 9, 0])
+  raw(39854, 0x2d, [3, 3, 0])
+  raw(39391, 0x2d, [2, 3, 0])
+  raw(39392, 0x1b, [0, 65535, 0])
+  assert.equal(rawItems.find(({ id }) => id === 187).scriptOnEquip, 39697)
+  raw(39697, 0x18, [14, 187, 0])
+  raw(39698, 0x17, [14, 17, 98])
+  raw(39699, 0x17, [14, 20, 98])
+  raw(39702, 0x1a, [4, 1, 0])
+  raw(39703, 0x2d, [8, 32760, 0])
+  raw(41027, 0x06, [12, 0, 0])
+  assert.deepEqual(
+    [all[41028].op, all[41028].itemId, all[41030].text],
+    ['giveItem', 115, '获得一个蜂巢'],
+  )
+  assert.equal(objects.find(({ objectIndex }) => objectIndex === 403).scriptOnBattleEnd, 41027)
   return (scenario) => {
     const { id, seed, team, party, commands } = scenario
     const formation = rawTeams.find((entry) => entry.id === team)

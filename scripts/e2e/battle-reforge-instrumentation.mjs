@@ -257,7 +257,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
           add(
             'player-draw-identity',
             node.end,
-            `\n${evidenceCall('labelFighter', "players.at(-1), 'player', i")}\n`,
+            `\n${evidenceCall('labelFighter', "players.at(-1), 'player', i, false, undefined, transition?.newDefinitionId ?? p.tranceBattleSprite ?? this.assets.playerBaseDefinitionIds[i]")}\n`,
           )
       }
       if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
