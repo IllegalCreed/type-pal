@@ -104,6 +104,9 @@ export function performItem(input: PerformItemInput): void {
       playerRoles: input.playerRoles,
       // 未被 dispatchBattleOpcode 消费的 raw opcode fall 到 applyRawOpcode(控制流/资源/数据)需 gs。
       gs: input.gs,
+      // 0x29 上毒成功后同步执行目标队员的毒入口，毒槽记录入口返回的续点。
+      commands: input.commands,
+      runScript: input.runScript,
     },
   })
   setItemScriptEntry(input.gs, item, 'scriptOnUse', nextEntry)

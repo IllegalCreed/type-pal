@@ -656,6 +656,7 @@ export function dispatchBattleOpcode(
                       ip,
                       bus: ctx.bus!,
                       runtimeMode: 'battle',
+                      eventObjectId: roleId,
                       battleCtx: {
                         state,
                         target: { type: 'player', idx: pIdx },

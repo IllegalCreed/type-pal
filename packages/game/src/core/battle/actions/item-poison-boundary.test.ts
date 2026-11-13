@@ -55,6 +55,26 @@ const items: Item[] = [
     flags,
   },
   {
+    id: 117,
+    bitmap: 189,
+    price: 0,
+    scriptOnUse: 39335,
+    scriptOnEquip: 0,
+    scriptOnThrow: 39337,
+    scriptDesc: 40706,
+    flags: { ...flags, throwable: true, sellable: false },
+  },
+  {
+    id: 138,
+    bitmap: 131,
+    price: 0,
+    scriptOnUse: 39419,
+    scriptOnEquip: 0,
+    scriptOnThrow: 39469,
+    scriptDesc: 40425,
+    flags: { ...flags, throwable: true, sellable: false },
+  },
+  {
     id: 136,
     bitmap: 174,
     price: 1100,
@@ -75,7 +95,13 @@ const items: Item[] = [
     flags,
   },
 ]
-const commands: Command[] = Array.from({ length: 39768 }, () => ({ op: 'end' }))
+const commands: Command[] = Array.from({ length: 40881 }, () => ({ op: 'end' }))
+commands[39335] = { op: 'raw', opcode: 0x29, operands: [0, 551, 0] }
+commands[39419] = { op: 'raw', opcode: 0x5d, operands: [557, 39422, 0] }
+commands[39420] = { op: 'raw', opcode: 0x2b, operands: [0, 557, 0] }
+commands[39422] = { op: 'raw', opcode: 0x5d, operands: [558, 39425, 0] }
+commands[39423] = { op: 'raw', opcode: 0x5f, operands: [0, 0, 0] }
+commands[39425] = { op: 'raw', opcode: 0x29, operands: [0, 555, 0] }
 commands[39536] = { op: 'raw', opcode: 0x17, operands: [17, 22, 30] }
 commands[39554] = { op: 'raw', opcode: 0x1b, operands: [1, 300, 0] }
 commands[39561] = { op: 'raw', opcode: 0x8d, operands: [1, 0, 0] }
@@ -84,6 +110,9 @@ commands[39503] = { op: 'raw', opcode: 0x1b, operands: [0, 999, 0] }
 commands[39505] = { op: 'raw', opcode: 0x5f, operands: [0, 0, 0] }
 commands[39765] = { op: 'raw', opcode: 0x61, operands: [39505, 0, 0] }
 commands[39766] = { op: 'raw', opcode: 0x2c, operands: [0, 3, 0] }
+commands[40862] = { op: 'raw', opcode: 0x1b, operands: [0, 65529, 0] }
+commands[40878] = { op: 'end', advance: true }
+commands[40879] = { op: 'end', advance: true }
 
 function fixture(itemId: number) {
   const fx = makeBattleFixture({
@@ -124,6 +153,42 @@ function use(fx: ReturnType<typeof fixture>, itemId: number) {
 }
 
 afterEach(() => setObjectPoisons([]))
+
+describe('战斗使用毒药的首次发作', () => {
+  it('毒蛇卵立即对选中的队员扣血，重复用药保持同一毒槽且不再触发入口', () => {
+    const fx = fixture(117)
+    use(fx, 117)
+    expect(fx.playerRoles.roles.map((r) => r.hp)).toEqual([200, 200, 200, 200, 93, 200])
+    expect(fx.gs.rgPoisonStatus['2_0']).toEqual({ wPoisonID: 551, wPoisonScript: 40862 })
+    expect(fx.drain().map(({ cmd }) => cmd)).toContainEqual({
+      op: 'showDamageNum',
+      target: { kind: 'player', idx: 0 },
+      value: 7,
+      color: 'blue',
+    })
+
+    use(fx, 117)
+    expect(fx.playerRoles.roles[4]!.hp).toBe(93)
+    expect(
+      Object.values(fx.gs.rgPoisonStatus).filter(({ wPoisonID }) => wPoisonID === 551),
+    ).toEqual([{ wPoisonID: 551, wPoisonScript: 40862 }])
+    expect(fx.gs.inventory).toEqual([{ itemId: 117, count: 0 }])
+  })
+
+  it('三尸蛊上毒时执行首次静默入口，连续用药保留首个回合续点', () => {
+    const fx = fixture(138)
+    use(fx, 138)
+    expect(fx.gs.rgPoisonStatus['2_0']).toEqual({ wPoisonID: 555, wPoisonScript: 40879 })
+    expect(fx.playerRoles.roles[4]!.hp).toBe(100)
+
+    use(fx, 138)
+    expect(fx.gs.rgPoisonStatus['2_0']).toEqual({ wPoisonID: 555, wPoisonScript: 40879 })
+    expect(
+      Object.values(fx.gs.rgPoisonStatus).filter(({ wPoisonID }) => wPoisonID === 555),
+    ).toHaveLength(1)
+    expect(fx.gs.inventory).toEqual([{ itemId: 138, count: 0 }])
+  })
+})
 
 describe('风险道具的战斗中毒门（CODE79）', () => {
   it.each([
