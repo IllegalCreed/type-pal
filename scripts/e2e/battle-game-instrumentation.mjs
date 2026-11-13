@@ -384,6 +384,23 @@ export function instrumentGameBattle(source, file) {
     if (
       file.endsWith('/battle/battle-system.ts') &&
       ts.isExpressionStatement(node) &&
+      owner(node) === 'handleEnemyTargetSelect' &&
+      node.expression.getText(ast) === 'state.pendingActionDraft = undefined'
+    ) {
+      add(
+        'enemy-target-draft',
+        node.getStart(ast),
+        'const __battleCancelledDraft = state.pendingActionDraft;\n',
+      )
+      add(
+        'enemy-target-cancel',
+        node.end,
+        "\nglobalThis.__battleGameTargetCancel?.(state, __battleCancelledDraft, 'enemy');\n",
+      )
+    }
+    if (
+      file.endsWith('/battle/battle-system.ts') &&
+      ts.isExpressionStatement(node) &&
       ts.isPostfixUnaryExpression(node.expression) &&
       node.expression.operand.getText(ast) === 'state.currentActionIndex' &&
       owner(node) === 'tickPerformAction'
@@ -463,6 +480,8 @@ export function instrumentGameBattle(source, file) {
                 'round-start': 1,
                 'round-end': 1,
                 'target-cancel': 1,
+                'enemy-target-draft': 1,
+                'enemy-target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
                 actionComplete: hasActionFollowup ? 2 : 4,

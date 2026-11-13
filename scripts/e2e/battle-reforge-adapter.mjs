@@ -273,15 +273,20 @@ const harness = {
       payload: { turn: state.turn, targetId: partyLabel(target), before, after: current },
     })
   },
-  targetCancel(playerIndex, targetIndex, skillId) {
+  targetCancel(playerIndex, side, targetIndex, skillId) {
+    if (!sessionReady || terminal) return
     targetCancels++
     evidence().presentation({
       kind: 'target-cancel',
-      source: 'reforge:BattleCommandSelection.advance:target-to-skill',
+      source:
+        side === 'enemy'
+          ? 'reforge:BattleCommandSelection.advance:target-to-menu'
+          : 'reforge:BattleCommandSelection.advance:target-to-skill',
       payload: {
         turn: nativeState.turn,
         actorId: partyLabel(nativeState.players[playerIndex]),
-        targetId: partyLabel(nativeState.players[targetIndex]),
+        targetId:
+          side === 'enemy' ? enemyLabel(targetIndex) : partyLabel(nativeState.players[targetIndex]),
         skillId,
         commandCount,
         pending: nativeState.pendingActions.has(playerIndex),

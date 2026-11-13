@@ -11,6 +11,7 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle/present-battle.ts',
   'packages/reforge/src/battle/battle-core.ts',
   'packages/reforge/src/dialog/dialog-box.ts',
+  'packages/reforge/src/battle/battle-command-selection.ts',
 ]
 
 function observeSfx(node, ast, source, add, evidenceCall) {
@@ -61,6 +62,35 @@ if (__battleAudioCue) ${evidenceCall('audioStarted', "__battleAudioCue.cueId, __
     )
 }
 
+function observeTargetCancel(node, ast, add, call) {
+  if (
+    !ts.isIfStatement(node) ||
+    node.expression.getText(ast) !== "pressed.has('Escape')" ||
+    !ts.isBlock(node.thenStatement) ||
+    ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) !== 'advance'
+  )
+    return
+  const first = node.thenStatement.statements[0]
+  if (!first) return
+  const ally = ts.isExpressionStatement(first) && first.getText(ast) === "this.targetSide = 'enemy'"
+  const enemy = ts.isIfStatement(first) && first.expression.getText(ast) === 'this.pendingThrowItem'
+  if (!ally && !enemy) return
+  const side = ally ? 'ally' : 'enemy'
+  const otherAction = ally ? 'this.pendingItemId' : 'this.pendingCoop || this.pendingThrowItem'
+  const nextPhase = ally ? 'skill' : 'menu'
+  const target = ally ? 'this.targetIndex % count' : 'alive[this.targetIndex % alive.length]'
+  add(
+    `${side}-target-draft`,
+    node.thenStatement.getStart(ast) + 1,
+    `\nconst __battleCancelledSkill = confirm || (${otherAction}) ? null : this.pendingSkillId;\n`,
+  )
+  add(
+    `${side}-target-cancel`,
+    node.thenStatement.end - 1,
+    `\nif (__battleCancelledSkill && this.currentPhase === '${nextPhase}') {\n${call('targetCancel', `sel, '${side}', ${target}, __battleCancelledSkill`)} }\n`,
+  )
+}
+
 /** Serve-only hooks at existing producers. Normal mode never replaces a native expression. */
 export function instrumentReforgeBattle(code, file, counter = 'none') {
   assert(['none', 'double-herb'].includes(counter), `unknown battle counter: ${counter}`)
@@ -70,6 +100,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const isSfx = file.endsWith('/audio/sfx.ts')
   const isBattleScene = file.endsWith('/battle/present-battle.ts')
   const isDialogBox = file.endsWith('/dialog/dialog-box.ts')
+  const isCommandSelection = file.endsWith('/battle/battle-command-selection.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -82,6 +113,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const evidenceCall = (method, args = '') => `globalThis.__battleEvidence?.${method}(${args});\n`
   const visit = (node) => {
     const source = node.getText(ast)
+    if (isCommandSelection) observeTargetCancel(node, ast, add, call)
     if (isDialogBox) {
       const method = ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast)
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'advance') {
@@ -221,18 +253,8 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       }
       if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
         const name = node.expression.expression.getText(ast)
-        if (name === 'this.selection.advance') {
-          add(
-            'target-cancel-before',
-            node.getStart(ast),
-            `${call('selectionContext', 'context')}const __battleSelection = this.selection.view;\n`,
-          )
-          add(
-            'target-cancel-after',
-            node.end,
-            `\nif (pressed.has('Escape') && __battleSelection.phase === 'target' && __battleSelection.targetSide === 'ally' && this.selection.phase === 'skill') {\n${call('targetCancel', 'sel, __battleSelection.targetIndex, context.player.skills[__battleSelection.skillIndex]')} }\n`,
-          )
-        }
+        if (name === 'this.selection.advance')
+          add('selection-context', node.getStart(ast), call('selectionContext', 'context'))
         if (name === 'this.floats.push' && source.includes('num: value'))
           add(
             'number-identity',
@@ -334,26 +356,32 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       ? ['casualty-effect-before', 'casualty-effect-after']
                       : []),
                   ]
-                : [
-                    'constructed',
-                    'tick-begin',
-                    'tick-end',
-                    'frame-begin',
-                    'frame-end',
-                    'enemy-draw-identity',
-                    'player-draw-identity',
-                    'number-identity',
-                    'number-draw',
-                    'panel-draw',
-                    'settlement-draw-begin',
-                    'settlement-draw-end',
-                    'command-begin',
-                    'command-end',
-                    'target-cancel-before',
-                    'target-cancel-after',
-                    'action-before',
-                    'action-after',
-                  ]
+                : isCommandSelection
+                  ? [
+                      'ally-target-draft',
+                      'ally-target-cancel',
+                      'enemy-target-draft',
+                      'enemy-target-cancel',
+                    ]
+                  : [
+                      'constructed',
+                      'tick-begin',
+                      'tick-end',
+                      'frame-begin',
+                      'frame-end',
+                      'enemy-draw-identity',
+                      'player-draw-identity',
+                      'number-identity',
+                      'number-draw',
+                      'panel-draw',
+                      'settlement-draw-begin',
+                      'settlement-draw-end',
+                      'command-begin',
+                      'command-end',
+                      'selection-context',
+                      'action-before',
+                      'action-after',
+                    ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
     assert.equal(count, isBattleUi ? 3 : 1, `unexpected battle producer count: ${file}`)

@@ -74,32 +74,26 @@ test('use-item navigates actual inventory and the actual ally target', () => {
 })
 
 test('throw follows each native inventory to the specified weapon', () => {
-  const gameCommand = { actorId: 'hero', kind: 'throw', targetId: 'lamp-a', itemId: '166' }
-  const reforgeCommand = { ...gameCommand, itemId: 'item-166' }
-  const gameItems = [{ itemId: '165' }, { itemId: '166' }]
-  const reforgeItems = [{ itemId: 'item-165' }, { itemId: 'item-166' }]
-  const gameThrow = (cursor) =>
-    menu({ menuState: 'throwItemSelect', itemMenu: { cursor, items: gameItems } })
+  const command = { actorId: 'hero', kind: 'throw', targetId: 'lamp-a', itemId: '166' }
+  const items = [{ itemId: '165' }, { itemId: '166' }]
+  const gameThrow = (cursor) => menu({ menuState: 'throwItemSelect', itemMenu: { cursor, items } })
   const reforgeThrow = (cursor) => ({
     ...menu({ engine: 'reforge' }),
     selection: { phase: 'throwItem' },
-    throwMenu: { cursor, items: reforgeItems },
+    throwMenu: { cursor, items },
   })
-  assert.equal(nextGameBattleKey(menu(), gameCommand), 'KeyW')
+  assert.equal(nextGameBattleKey(menu(), command), 'KeyW')
   assert.equal(
-    nextReforgeBattleKey(
-      { ...menu({ engine: 'reforge' }), selection: { phase: 'menu' } },
-      reforgeCommand,
-    ),
+    nextReforgeBattleKey({ ...menu({ engine: 'reforge' }), selection: { phase: 'menu' } }, command),
     'KeyW',
   )
-  assert.equal(nextGameBattleKey(gameThrow(0), gameCommand), 'ArrowRight')
-  assert.equal(nextReforgeBattleKey(reforgeThrow(0), reforgeCommand), 'ArrowRight')
-  assert.equal(nextGameBattleKey(gameThrow(1), gameCommand), 'Space')
-  assert.equal(nextReforgeBattleKey(reforgeThrow(1), reforgeCommand), 'Enter')
-  assert.throws(() => nextGameBattleKey(gameThrow(1), { ...gameCommand, itemId: '167' }), /absent/)
+  assert.equal(nextGameBattleKey(gameThrow(0), command), 'ArrowRight')
+  assert.equal(nextReforgeBattleKey(reforgeThrow(0), command), 'ArrowRight')
+  assert.equal(nextGameBattleKey(gameThrow(1), command), 'Space')
+  assert.equal(nextReforgeBattleKey(reforgeThrow(1), command), 'Enter')
+  assert.throws(() => nextGameBattleKey(gameThrow(1), { ...command, itemId: '167' }), /absent/)
   assert.throws(
-    () => nextReforgeBattleKey(reforgeThrow(1), { ...reforgeCommand, itemId: 'item-167' }),
+    () => nextReforgeBattleKey(reforgeThrow(1), { ...command, itemId: '167' }),
     /absent/,
   )
 })

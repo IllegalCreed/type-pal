@@ -243,19 +243,26 @@ export function installGameBattleAdapter() {
       commands.push(structuredClone(command))
       evidence().command({ ...command, source: 'game:pendingActions.set' })
     })
-  globalThis.__battleGameTargetCancel = (state, draft) =>
+  globalThis.__battleGameTargetCancel = (state, draft, side = 'player') =>
     observe(() => {
-      if (!scenario || state !== battle || draft.type !== 'magic') return
+      if (!scenario || state !== battle || draft?.type !== 'magic') return
       const slot = state.selectingPlayerIdx
       require(slot !== undefined, 'target cancel lost its caster')
+      const targetId =
+        side === 'enemy'
+          ? enemyIdentity(state.uiCursor)
+          : playerIdentity(state.players[state.uiCursor].roleId)
       targetCancels++
       evidence().presentation({
         kind: 'target-cancel',
-        source: 'game:handlePlayerTargetSelect:discard-draft',
+        source:
+          side === 'enemy'
+            ? 'game:handleEnemyTargetSelect:discard-draft'
+            : 'game:handlePlayerTargetSelect:discard-draft',
         payload: {
           turn: state.turn + 1,
           actorId: playerIdentity(state.players[slot].roleId),
-          targetId: playerIdentity(state.players[state.uiCursor].roleId),
+          targetId,
           skillId: String(draft.actionId),
           commandCount: commands.length,
           pending: state.pendingActions.has(slot),
