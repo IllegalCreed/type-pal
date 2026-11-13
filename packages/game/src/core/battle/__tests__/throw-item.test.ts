@@ -72,7 +72,13 @@ const DAMAGE_SCRIPT: Command[] = [
   { op: 'end' },
 ]
 
-function damageFixture(count = 2) {
+function damageFixture(
+  count = 2,
+  fighters: Pick<
+    NonNullable<Parameters<typeof startTestBattle>[0]>,
+    'roles' | 'enemies' | 'teamSlots'
+  > = {},
+) {
   const item = makeItem()
   const magics: Magic[] = [
     {
@@ -116,6 +122,7 @@ function damageFixture(count = 2) {
       makeRoleRecord(1, { dexterity: 120 }),
     ],
     enemies: [makeEnemyRecord({ health: 200, defense: 30, dexterity: 0 })],
+    ...fighters,
     items: [item],
     magics,
     objectMagics,
@@ -210,6 +217,77 @@ describe('performThrowItem', () => {
     step()
     expect(state.battleAnim).toBeDefined()
     expect(state.enemies[0]!.e.health).toBeLessThan(60)
+  })
+
+  it('keeps a defending ally and an already defeated enemy out of throw repositioning', () => {
+    const { state, gs, bus } = damageFixture(1, {
+      roles: [
+        makeRoleRecord(0, { dexterity: 250 }),
+        makeRoleRecord(1, { dexterity: 400, attackStrength: 200 }),
+        makeRoleRecord(2, { dexterity: 200 }),
+      ],
+      enemies: [
+        makeEnemyRecord({ health: 30, dexterity: 0 }),
+        makeEnemyRecord({ id: 101, health: 200, defense: 30, dexterity: 0 }),
+      ],
+      teamSlots: [100, 101, 0xffff, 0xffff, 0xffff],
+    })
+    const step = (...keys: AbstractKey[]) => {
+      tickBattle(gs, battleInput(keys), bus)
+      return bus.drain().map(({ cmd }) => cmd)
+    }
+    step() // preBattle → selectAction
+    step('ThrowItem')
+    step('Confirm')
+    step('Right')
+    step('Confirm') // role 0 throws at slot 1
+    step('Confirm')
+    step('Confirm') // role 1 attacks slot 0
+    step('Defend') // role 2 guards before either attack
+    expect(state.pendingActions.get(0)).toMatchObject({ type: 'throw-item', target: 1 })
+    expect(state.pendingActions.get(1)).toMatchObject({ type: 'attack', target: 0 })
+    expect(state.actionQueue.slice(0, 3).map(({ isEnemy, idx }) => [isEnemy, idx])).toEqual([
+      [false, 2],
+      [false, 1],
+      [false, 0],
+    ])
+
+    const caster = state.players[0]!
+    const defender = state.players[2]!
+    const defeatedEnemy = state.enemies[0]!
+    const target = state.enemies[1]!
+    for (let tick = 0; tick < 120 && target.e.health === 200; tick++) step()
+    expect(defender).toMatchObject({ defending: true, currentFrame: 3 })
+    expect(defeatedEnemy).toMatchObject({ defeated: true })
+    expect(target.e.health).toBe(60)
+    const animation = state.battleAnim
+    if (!animation) throw new Error('the surviving enemy must receive the throw')
+    const guardPosition = defender.pos
+    const recovery = animation.frames.at(-1)
+    // C fight.c:940–993,4369–4372: the recovery frame leaves the guarding
+    // ally's position alone and never updates the cleared enemy slot.
+    expect(recovery?.fighters).toContainEqual({
+      side: 'player',
+      idx: 2,
+      currentFrame: 3,
+      pos: undefined,
+      iColorShift: 0,
+    })
+    expect(recovery?.fighters).not.toContainEqual(
+      expect.objectContaining({ side: 'enemy', idx: 0 }),
+    )
+    expect(recovery?.fighters).toContainEqual({
+      side: 'enemy',
+      idx: 1,
+      pos: target.posOriginal,
+      iColorShift: 0,
+    })
+
+    for (let tick = 0; tick < 80 && animation.idx < animation.frames.length - 1; tick++) step()
+    expect(state.battleAnim).toBe(animation)
+    expect(animation.idx).toBe(animation.frames.length - 1)
+    expect(caster).toMatchObject({ pos: caster.posOriginal, currentFrame: 0 })
+    expect(defender.pos).toBe(guardPosition)
   })
 
   it('defers immediate poison-script damage to the throw recovery', () => {
