@@ -8,6 +8,7 @@ import {
   instrumentReforgeBattle,
   REFORGE_BATTLE_TARGETS,
 } from './battle-reforge-instrumentation.mjs'
+import { battleObserverScript } from './battle-trace-observer.mjs'
 
 test('current real battle producers instrument once; drift fails closed and normal source is preserved', async () => {
   for (const file of REFORGE_BATTLE_TARGETS) {
@@ -57,6 +58,90 @@ test('explicit counter changes real item state before the same factual completio
   assert(counter.includes("s.lastAction.itemId === '99'"))
   assert(counter.indexOf('extra.count--') < counter.indexOf('__battleHarness.afterStep(s)'))
   assert.throws(() => instrumentReforgeBattle(source, file, 'unknown'), /unknown battle counter/)
+})
+
+test('Reforge records sorted magic overlay coordinates and the frame that actually draws', async () => {
+  const file = 'packages/reforge/src/battle/present-battle.ts'
+  const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
+  const browser = vm.createContext({
+    exports: {},
+    performance,
+    structuredClone,
+    TextEncoder,
+    require(specifier) {
+      if (specifier === '../defined.js') return { expectDefined: (value) => value }
+      assert.equal(specifier, '../render.js')
+      return { bakeFrame: (frame) => frame }
+    },
+  })
+  const code = instrumentReforgeBattle(source, file).code
+  vm.runInContext(
+    ts.transpileModule(code, {
+      compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+    }).outputText,
+    browser,
+  )
+  const context = {
+    engine: 'reforge',
+    scenarioId: 'friendly-spell',
+    runId: 'native-draw',
+    random: { algorithm: 'mulberry32', seed: 3 },
+  }
+  const indexedFrame = (width, height, color) => ({
+    width,
+    height,
+    pixels: new Uint8Array(width * height).fill(color),
+    opaque: new Uint8Array(width * height).fill(1),
+  })
+  const sprite = { frames: [indexedFrame(3, 2, 7), indexedFrame(4, 5, 28)], anchorX: 1, anchorY: 2 }
+  const capture = (observeMagicOverlays) => {
+    vm.runInContext(battleObserverScript({ ...context, observeMagicOverlays }), browser)
+    const observer = browser.__battleEvidence
+    observer.start({}, 'start')
+    const drawCalls = []
+    const canvas = {
+      save() {},
+      restore() {},
+      scale() {},
+      fillRect() {},
+      drawImage: (...args) => drawCalls.push(args),
+    }
+    const scene = {
+      palette: { colors: Array.from({ length: 256 }, () => [0, 0, 0]), cycles: [] },
+      enemies: [],
+      players: [],
+      depthOverlays: [
+        { sprite, x: 250, y: 134, frame: 1, layerOffset: 99 },
+        { sprite, x: 248, y: 134, frame: 20, layerOffset: 0 },
+        { sprite: { ...sprite, frames: [] }, x: 250, y: 134, frame: 0, layerOffset: 0 },
+      ],
+    }
+    for (const clockMs of [0, 40]) {
+      observer.beginFrame('reforge:BattleSession.render', { clockMs })
+      browser.exports.renderBattleScene(canvas, scene, 1)
+      observer.endFrame()
+    }
+    observer.beginFrame('reforge:BattleSession.render', { clockMs: 80 })
+    observer.endFrame()
+
+    const { presentations, errors } = observer.read()
+    assert.deepEqual(errors, [])
+    assert.deepEqual(drawCalls, [
+      [sprite.frames[0], 247, 132],
+      [sprite.frames[1], 248, 129],
+      [sprite.frames[0], 247, 132],
+      [sprite.frames[1], 248, 129],
+    ])
+    return presentations.map(({ payload }) => payload.magicOverlays)
+  }
+  assert.deepEqual(capture(undefined), [undefined])
+  assert.deepEqual(capture(true), [
+    [
+      { x: 248, y: 134, frameIndex: 0 },
+      { x: 250, y: 134, frameIndex: 1 },
+    ],
+    undefined,
+  ])
 })
 
 test('enemy spell cancellation observes the actual target before the replacement commit', async () => {

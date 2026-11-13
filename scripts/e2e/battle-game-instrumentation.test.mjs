@@ -177,6 +177,44 @@ test('Game reports the sprite frame that blits, including the frame zero fallbac
   ])
 })
 
+test('Game records only magic overlays after their indexed blit', async () => {
+  const file = '/packages/game/src/present/battle/draw-battle-effect.ts'
+  const [native, { createFramebuffer }] = await Promise.all([
+    source(file),
+    source('/packages/game/src/present/framebuffer.ts').then((code) => compile(code)),
+  ])
+  const fb = createFramebuffer()
+  const facts = []
+  const frame = (color) => ({
+    width: 3,
+    height: 2,
+    indices: new Uint8Array(6).fill(color),
+    opaque: new Uint8Array(6).fill(1),
+  })
+  const sprite = { frames: [frame(7), frame(28)] }
+  const overlay = { kind: 'magic', spriteChunk: 28, frameIdx: 1, x: 250, y: 134 }
+  const resources = new Map([[28, sprite]])
+  const { drawBattleEffectOverlay, drawBattleMagicOverlay } = compile(
+    instrumentGameBattle(native, file).code,
+    {
+      __battleEvidence: {
+        magicOverlayDrawn(x, y, frameIndex) {
+          facts.push({ x, y, frameIndex, drawnPixel: fb.indices[132 * fb.width + 249] })
+        },
+      },
+    },
+  )
+
+  drawBattleMagicOverlay(fb, { ...overlay, spriteChunk: 29 }, resources)
+  drawBattleMagicOverlay(fb, { ...overlay, frameIdx: 2 }, resources)
+  drawBattleEffectOverlay(fb, { ...overlay, kind: 'effect', frameIdx: 0 }, sprite)
+  assert.deepEqual(facts, [])
+  assert.equal(fb.indices[132 * fb.width + 249], 7)
+
+  drawBattleMagicOverlay(fb, overlay, resources)
+  assert.deepEqual(facts, [{ x: 250, y: 134, frameIndex: 1, drawnPixel: 28 }])
+})
+
 test('Game SFX observes its decoded buffer and request only after a successful start', async () => {
   const file = '/packages/game/src/shell/audio.ts'
   const native = await source(file)
