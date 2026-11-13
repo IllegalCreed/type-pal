@@ -1114,6 +1114,63 @@ function compareAudioCues(
   return result
 }
 
+function compareThrowRecovery(frames, animations, probe, fail) {
+  const { actionIndex, slot, targetSlot, damage } = probe
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const selection =
+    start &&
+    frames.find(
+      (frame) =>
+        frame.seq < start.seq &&
+        frame.payload.selecting &&
+        frame.payload.turn === start.payload.turn,
+    )
+  const base = selection && pose(selection, slot)
+  const hit =
+    start &&
+    next &&
+    frames.find(
+      (frame) =>
+        frame.seq >= start.seq &&
+        frame.seq < next.seq &&
+        frame.payload.numbers.some(
+          (number) =>
+            number.side === 'enemy' &&
+            number.slot === targetSlot &&
+            number.tone === 'blue' &&
+            number.value === damage,
+        ),
+    )
+  const returned =
+    hit && base && frames.find((frame) => frame.seq >= hit.seq && samePose(pose(frame, slot), base))
+  const beforeReturnMs = returned && returned.clockMs - hit.clockMs
+  const afterReturnMs = returned && next && next.clockMs - returned.clockMs
+  const release = hit && pose(hit, slot)
+  const expectedMs = 4 * BATTLE_FRAME_MS
+  const observed = {
+    hit: hit && at(hit),
+    returned: returned && at(returned),
+    next: next && at(next),
+    beforeReturnMs,
+    afterReturnMs,
+  }
+  if (
+    !base ||
+    !hit ||
+    !returned ||
+    !next ||
+    release?.frameIndex !== 6 ||
+    samePose(release, base) ||
+    pose(returned, slot)?.frameIndex !== base.frameIndex ||
+    Math.abs(beforeReturnMs - expectedMs) > BATTLE_FRAME_MS / 2 ||
+    afterReturnMs < expectedMs - BATTLE_FRAME_MS ||
+    afterReturnMs > expectedMs + 2 * BATTLE_FRAME_MS
+  )
+    fail('business', 'throw-recovery-render-window', observed)
+  return observed
+}
+
 function compareStatusNotice(trace, frames, animations, { actionIndex, text, visible }, fail) {
   const start = animations[actionIndex]
   const end =
@@ -1162,7 +1219,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   let casualtyDialogue, magicCasualties, poisonCasualties
-  let statusNotice
+  let statusNotice, throwRecovery
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -1180,6 +1237,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(magicCasualties === undefined ? {} : { magicCasualties }),
     ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
     ...(statusNotice === undefined ? {} : { statusNotice }),
+    ...(throwRecovery === undefined ? {} : { throwRecovery }),
     findings,
   })
   if (
@@ -1225,6 +1283,8 @@ export function validateBattlePresentation(trace, scenario) {
       ? null
       : frames.find((frame) => animationMatches(frame, action)),
   )
+  if (scenario.expected.throwRecovery)
+    throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
   if (scenario.expected.statusNotice)
     statusNotice = compareStatusNotice(
       trace,

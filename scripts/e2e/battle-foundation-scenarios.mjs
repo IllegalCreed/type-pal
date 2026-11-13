@@ -945,6 +945,7 @@ function defineThrownSword() {
   )
   scenario.expected.retainedEquipment = [{ slot: 0, equipmentIndex: 3, itemId: 166 }]
   scenario.expected.throwWindupMs = 440
+  scenario.expected.throwRecovery = { actionIndex: 0, slot: 0, targetSlot: 0, damage: 219 }
   return {
     ...scenario,
     sounds: [

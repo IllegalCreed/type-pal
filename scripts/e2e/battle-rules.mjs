@@ -94,8 +94,11 @@ function enemyDamageNumbers(engine, native, kind) {
   if (engine === 'game') {
     if (!Array.isArray(native?.animationEffects)) return null
     return native.animationEffects
-      .flatMap((effect) => [effect.damageNum, ...(effect.damageNums ?? [])])
-      .concat(native.pendingDamageNums ?? [])
+      .flatMap((effect) => [
+        effect?.damageNum,
+        ...(Array.isArray(effect?.damageNums) ? effect.damageNums : []),
+      ])
+      .concat(Array.isArray(native.pendingDamageNums) ? native.pendingDamageNums : [])
       .flatMap((number) =>
         number?.target?.kind === 'enemy' && number.color === 'blue'
           ? [{ slot: number.target.idx, value: number.value }]
