@@ -108,11 +108,45 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
 })
 
 test('narration becomes input-ready only after its actual render', async () => {
-  const { ui, startDialogue } = await box()
-  ui.open(startDialogue({ id: 'n', cues: [{ slot: 'narration', rows: [{ text: 'A' }] }] }), 0)
+  // Locale 富文本可用于作者旁白，颜色由实际解析器从字符串提取。
+  const { ui, startDialogue, h } = await box({ 'narration.fixture': 'A<yellow>B</yellow>' })
+  const cue = resolveAuthorDialogueCue(
+    {
+      identity: { kind: 'narration' },
+      slot: 'narration',
+      rows: [{ text: 'narration.fixture' }],
+    },
+    {},
+  )
+  ui.open(startDialogue({ id: 'n', cues: [cue] }), 0, 'script')
   expect(ui.observe()?.phase).toBe('typing')
   ui.render(0)
-  expect(ui.observe()).toMatchObject({ slot: 'narration', phase: 'waiting-input' })
+  expect(ui.observe()).toMatchObject({
+    slot: 'narration',
+    phase: 'waiting-input',
+    pageText: 'AB',
+  })
+  const glyphDraws = h.draws.flatMap(({ method, args, canvas }) => {
+    const [pixels] = args
+    if (
+      method !== 'putImageData' ||
+      !pixels ||
+      typeof pixels !== 'object' ||
+      !('data' in pixels) ||
+      !(pixels.data instanceof Uint8ClampedArray)
+    )
+      return []
+    return [{ canvas, rgba: [...pixels.data.slice(0, 4)] }]
+  })
+  const draws = h.draws.flatMap(({ method, args }) => {
+    if (method !== 'drawImage') return []
+    const glyph = glyphDraws.find(({ canvas }) => canvas === args[0])
+    return glyph ? [{ x: args[1], y: args[2], rgba: glyph.rgba }] : []
+  })
+  expect(draws).toEqual([
+    { x: 160, y: 50, rgba: [0, 0, 0, 255] },
+    { x: 168, y: 50, rgba: [255, 223, 134, 255] },
+  ])
   ui.advance(1)
   expect(ui.observe()).toBeNull()
 })
