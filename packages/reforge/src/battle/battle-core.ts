@@ -1186,7 +1186,8 @@ export function stepBattle(s: BattleState, rng: () => number): void {
               return false
             })
         }
-        for (const e of s.enemies) if (e && e.hp > 0) tickBattleStatus(e.status)
+        // 回合末状态计数仍在已倒下的敌人槽位衰减（fight.c:1639–1660）。
+        for (const e of s.enemies) if (e) tickBattleStatus(e.status)
         // 隐身每轮 −1(一阶段 decrementHidingEffect;CLASSIC 无条件,到 0 = 隐身结束)
         if (s.hidingTime > 0) s.hidingTime -= 1
         s.pendingActions.clear()

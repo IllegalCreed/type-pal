@@ -471,6 +471,63 @@ test('throwing the wooden sword uses bare attack while a wooden sword is equippe
   expect(state.inventory).toEqual([{ itemId: '166', count: 0 }])
 })
 
+test('sleep expires by turn even when the affected enemy is defeated before the round ends', () => {
+  const enemies = validateEnemies(palEnemies)
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === 'team-62'))
+  const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '303'))
+  expect(team.slots).toEqual(['enemy-407', 'enemy-399'])
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        defense: 413,
+        baseDexterity: 906,
+        skills: [skill.id],
+      }),
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        attackStrength: 602,
+        defense: 409,
+        baseDexterity: 503,
+      }),
+    ],
+    enemySlots: team.slots.map((id) => expectDefined(enemies.find((enemy) => enemy.id === id))),
+    skills: { [skill.id]: skill },
+  })
+  // Seed 4: first turn initiative, sleep gate/resistance/growth, then the lantern's target/block.
+  // The second turn starts with initiative, Xiaoyao's five strike draws and the lantern's block.
+  const rng = fixedDraws([
+    0.9236361971125007, 0.33304587937891483, 0.2216679009143263, 0.08184101991355419,
+    0.23399724275805056, 0.5084968542214483, 0.0773914884775877, 0.9738619206473231,
+    0.6220374784898013, 0.6908154499251395, 0.7681461023166776, 0.3691486772149801,
+    0.7324949100147933, 0.8758750655688345, 0.5287687703967094, 0.7433461560867727,
+    0.42174601648002863, 0.4904501575510949, 0.7359134785365313, 0.9307232699356973,
+    0.9795403191819787,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'cast', skillId: skill.id, targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'defend' })
+  for (let i = 0; i < 6; i++) stepBattle(state, rng)
+  const ghoul = expectDefined(state.enemies[0])
+  expect(state.turn).toBe(2)
+  expect(ghoul).toMatchObject({ hp: 450, status: { sleep: 3 } })
+
+  state.pendingActions.set(0, { kind: 'defend' })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  for (let i = 0; i < 5; i++) stepBattle(state, rng)
+  expect(state.turn).toBe(2)
+  expect(ghoul).toMatchObject({ hp: 0, status: { sleep: 3 } })
+  expect(state.enemies[1]?.hp).toBe(30)
+  stepBattle(state, rng)
+
+  expect(state.turn).toBe(3)
+  expect(ghoul).toMatchObject({ hp: 0, status: { sleep: 2 } })
+})
+
 function bloodWormBattle() {
   const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
   const items = validateItems(palItems.filter(({ id }) => id === '117' || id === '87'))
