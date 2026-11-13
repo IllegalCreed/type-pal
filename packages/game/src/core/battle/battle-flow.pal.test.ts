@@ -308,6 +308,26 @@ describe('PAL resource-backed battle flows', () => {
     expect(gs.dialogBox).toBeUndefined()
   })
 
+  it('advances the original Three Corpses Curse poison entry on the cast itself', () => {
+    const env = prepareBattle({
+      party: [[0, { ...seasonedLeader, mp: 100, maxMP: 100, dexterity: 900, magic: [352] }]],
+      enemyTeamId: 242,
+      rngSeed: 4,
+      magicSpriteFrameCounts: new Map([[25, 20]]),
+    })
+    const { gs, state } = env
+    const target = state.enemies[0]!
+    gs.inventory = [{ itemId: 148, count: 1 }]
+    press(env)
+    press(env, 'Left', 'Confirm')
+    expect(state.magicSelect?.items).toMatchObject([{ id: 352, disabled: false }])
+    press(env, 'Confirm')
+    press(env, 'Confirm')
+    advanceTo(env, () => Boolean(state.battleAnim))
+    expect(target.poisons).toEqual([{ poisonId: 555, scriptEntry: 40890 }])
+    expect(gs.inventory.some(({ itemId }) => itemId === 148)).toBe(false)
+  })
+
   it.each([
     { hp: 800, expected: 115, deathSound: [] },
     { hp: 15, expected: 15, deathSound: [23] },
@@ -358,11 +378,9 @@ describe('PAL resource-backed battle flows', () => {
       const emitted = press(env)
       const activeEffect = state.battleAnim?.overlays?.some((overlay) => overlay.spriteChunk === 42)
       sawFire ||= Boolean(activeEffect)
-      sounds.push(
-        ...emitted
-          .filter((cmd) => cmd.op === 'playSound' && cmd.soundId === 23)
-          .map((cmd) => cmd.soundId),
-      )
+      for (const cmd of emitted) {
+        if (cmd.op === 'playSound' && cmd.soundId === 23) sounds.push(cmd.soundId)
+      }
       numbers = emitted.filter((cmd) => cmd.op === 'showDamageNum' && cmd.target.kind === 'player')
       if (numbers.length > 0) {
         expect(sawFire).toBe(true)
