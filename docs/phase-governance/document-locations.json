@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "091de4c58a0c553b33f678c11fb94204ba39d4fddac253c98afefae255512653",
+      "afterSha256": "3b71891a267e400885f5013dc13a8abc8cdff44b22a2ce003f6fe3257abbedab",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按用户直接回复、冻结媒体与当前范围核对，保留各次历史事实。",
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
         "reviewedLines": 122,
-        "acceptanceScope": "玩家仙术与图层分屏的用户验收状态及下一批范围。"
+        "acceptanceScope": "当前已验范围及后续待办。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "faa2832fc40b35b2a09dbab8b1aea3f59e84f6c162ca6ebfeb8d62fa5175d0a0",
+      "afterSha256": "8ac31dc6a23439b2e6998f2b4770fed672a6e5534e1bc06ffde0b88ed74a50cb",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
         "reviewedLines": 43,
-        "acceptanceScope": "补唯一返工归档的导航。"
+        "acceptanceScope": "唯一的双端原件与带声分屏归档。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "bed5c2c9938b61e5d051d7e27033f9290220cdedf043ab854f1626f991c4af66",
+      "afterSha256": "04f38d88b8640760e6af559f09752d0f1aef22d7350b3f9eac8fa624ba374160",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
-        "reviewedLines": 1732,
-        "acceptanceScope": "Win98 原始合击落点、图层和稳定排序的一手来源。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 1736,
+        "acceptanceScope": "原版出手时合击资格、单体逐击和普通对敌施法九拍的来源。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "213dc5e4f123865f65d0d68d7971a42da8d29deccadb341a7c08d3ce69c99928",
+      "afterSha256": "0524014610ba03ed096787dae73bdbea37814fab57c9a2721b1295c84d9372fb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
-        "reviewedLines": 5277,
-        "acceptanceScope": "既有条目的现行来源、补充判据与分代证据，前批原件保全。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 5394,
+        "acceptanceScope": "现行战斗原件与既有会话源码适用性，保留历史。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0b49fa8103790e1d4ce1a4081c65d4320aa71e9252a6f69fd5dc2babf2511dc7",
+      "afterSha256": "0f33d64cfa3dc0062d5c1389e61d788411d83fb56dc751430f6f10a5c6f762d1",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
-        "reviewedLines": 432,
-        "acceptanceScope": "会话调用来源重绑与以前执行身份。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 462,
+        "acceptanceScope": "三个原有 caller 的现行摘要和固定前驱。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f755c2e373fd605182c1d61e8b5d35d3a432dc5f18adf854d00edd3df003d1fc",
+      "afterSha256": "5cfd0adce2c3f3df2f30ea71eb1241c955784380d77c8963197fab35b2e9f754",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
-        "reviewedLines": 93,
-        "acceptanceScope": "三个既有会话 caller 的现行指纹与历史。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 95,
+        "acceptanceScope": "现行会话源适用性，历史运行维持原结论。"
       }
     },
     {
@@ -5380,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "57f9b53dc80e5d5a46a3ae87cb0b49f7d28d97826834f5127cbae0751d4c26b0",
+      "afterSha256": "bc74b1ff0f33b1df33324337fce6bb25e45e64ca10a3f18dc054221d0ff43f81",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按用户直接回复、冻结媒体与当前范围核对，保留各次历史事实。",
-        "reviewedLines": 334,
-        "acceptanceScope": "固定分屏的用户直接接受、候选与 SHA、明确接续的两个缺陷。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 344,
+        "acceptanceScope": "旧版同输入、候选范围、分工、定向差异与本轮分屏。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "d6861bc6e065610473c44bdff8742d5f3c6cfc1bf14687bb524ae13282da258f",
+      "afterSha256": "f94b886a5b1888cec3441d52aea47b366e85f90adf12b53b1fc82522a92901d7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
         "reviewedLines": 32,
-        "acceptanceScope": "补已实际运行的图层复验导航。"
+        "acceptanceScope": "三局定向实跑和复判入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "a5e80ecd2f8f69c8d7d2c8a61d72c095c53119fb119dc4d6af94f61b097eecaf",
+      "afterSha256": "25c13ee1132c852863c69742caccfcb916b7949d706525038c78b57e895cd4fe",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
-        "reviewedLines": 10165,
-        "acceptanceScope": "两候选、实际失败与恢复、配对原件、当前来源及带声录制。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 11374,
+        "acceptanceScope": "双端候选、逐帧原件、反例、影像及声明。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8393b55cbca7204054efdc9a56874b5ee957dcddb7ac6a749703410dfd800fe4",
+      "afterSha256": "026fec4040e220d712e383d28a1a29a97392f43e90c21ae1d256ffc9b58296d7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "按实际变更、独立来源和双端归档核对，既有执行回执保全。",
-        "reviewedLines": 255,
-        "acceptanceScope": "旧版真实画序差异、当前双端复验、场景范围与剩余边界。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 270,
+        "acceptanceScope": "同局面旧差异、规则与实绘判据、新原件、覆盖边界。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "237f0d506e1f8f09f496a33e73b4fa9b2f741b4fd886b25ade83c800eb4ab770",
+      "afterSha256": "42cbfd49d1cd1f689fd46655e809e1b7349afe70c5a2ca8f276f3ffc18cff670",
       "review": {
-        "author": "Codex /root/q2_panel",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
-        "conclusion": "核当前变更边界、既有来源保全、原始日志及其与现行回执的配对。",
-        "reviewedLines": 84,
-        "acceptanceScope": "固定前驱与三个相同 caller 的重新绑定。"
+        "conclusion": "核对当前差异、原生观察和前驱来源，历史执行结论保全。",
+        "reviewedLines": 98,
+        "acceptanceScope": "三处原有会话 caller 摘录与原字节核对。"
       }
     }
   ],
@@ -5801,6 +5801,12 @@
       "sha256": "08fe5e8555ed6b9a18e409948b5500196cb2dc1ae6c5a7fa5e55f73f02a786aa",
       "bytes": 65790734,
       "purpose": "爆炸和同批法术的旧版反例、修复后双端实绘与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz",
+      "sha256": "fa3a3135b7a77ed02645286db630f4029539c4fecf4aab12f5d94f6aaa2a3df6",
+      "bytes": 42835199,
+      "purpose": "合击降级、玩家对敌仙术收招的双端原件和原速带声分屏。"
     }
   ],
   "artifactAliases": [],
