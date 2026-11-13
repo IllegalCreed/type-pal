@@ -2469,7 +2469,8 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[0]?.hp).toBe(22)
     expect(s.enemies[1]?.hp).toBe(420)
     expect(s.inventory[0]!.count).toBe(0)
-    expect(s.lastAction?.notice).toBe('无任何效果')
+    expect(s.lastAction?.failureFeedback).toBe('throwIneffective')
+    expect(s.lastAction?.notice).toBeUndefined()
     expect(s.log.filter((line) => line === '无任何效果')).toHaveLength(1)
   })
 

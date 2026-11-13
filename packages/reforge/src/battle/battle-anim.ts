@@ -69,6 +69,8 @@ export interface AnimFrame {
   /** 战斗消息条(一阶段 battleMessage):从本帧起显示 durationMs。缺省位 = 物品名 (210,50);
    *  x/y 覆写 = 战斗标签位(逃跑失败/偷窃「获得」用 (130,75),一阶段渲染真值)。 */
   banner?: { text: string; durationMs: number; x?: number; y?: number }
+  /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
+  waitForThrowFeedback?: boolean
   /** 旧/新战斗精灵的离散 dither 过渡；step=0 只画旧图，step=72 后只画新图。 */
   appearanceTransition?: {
     side: 'player' | 'enemy'
@@ -525,6 +527,7 @@ export interface BuildThrowItemInput {
   casterPos?: { x: number; y: number }
   casterRestFrame?: number
   itemName?: string
+  waitForThrowFeedback?: boolean
   /** 当前投掷目标的伤害显示量。零伤害不显示数字。 */
   hits?: Array<{ idx: number; damage: number }>
   /** 投掷吸血时，施用者实际回复的 HP。 */
@@ -589,6 +592,10 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
         ...(input.presentation.targetPos ? { targetPos: input.presentation.targetPos } : {}),
       }),
     )
+  }
+  if (input.waitForThrowFeedback) {
+    // 0x3E 在投掷结果脚本内等待，随后才显示数字和收招（fight.c:4361–4372）。
+    frames.push({ durationMs: 0, waitForThrowFeedback: true })
   }
   const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
@@ -1459,6 +1466,7 @@ export interface AnimSideEffects {
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
+  onThrowFeedback?(): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -1487,6 +1495,12 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
+      if (next.waitForThrowFeedback) {
+        // 丢弃越过等待点的余量，避免确认前已经播放收招。
+        this.elapsed = 0
+        this.fx.onThrowFeedback?.()
+        return false
+      }
     }
   }
 

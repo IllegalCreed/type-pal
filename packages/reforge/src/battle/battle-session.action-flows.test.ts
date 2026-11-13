@@ -938,6 +938,92 @@ describe('W3 执行时间线接线', () => {
     ])
   })
 
+  test.each([
+    'timeout',
+    'confirm',
+  ] as const)('化尸水未达标的中央小框在投掷出手后出现，%s 后收招', (dismissal) => {
+    const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '134'))[0])
+    const enemies = validateEnemies(palEnemies)
+    const lantern = expectDefined(enemies.find(({ id }) => id === 'enemy-399'))
+    const bug = expectDefined(enemies.find(({ id }) => id === 'enemy-406'))
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { baseDexterity: 500 })],
+      enemies: [lantern, bug],
+      extraOpts: {
+        items: { [item.id]: item },
+        inventory: [{ itemId: item.id, count: 1 }],
+        playerSounds: [{ magic: 'sound.pal.009' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    const glyph = { width: 16, height: 16, bitmap: Uint8Array.of(0x80, ...Array(31).fill(0)) }
+    h.assets.glyphs = { has: () => true, get: () => glyph }
+    const scroll = { tiles: Array.from({ length: 9 }, () => bitmap(8, 8, '#00ff00')) }
+    const ctx = battleCanvas()
+    const box = new DialogBox(ctx, h.assets.glyphs, [], new Map(), {}, scroll)
+    h.assets.dialogBox = box
+    const draw = () => h.session.render(ctx, 1)
+    const pixel = (x: number, y: number) =>
+      Array.from(ctx.getImageData(x, y, 1, 1).data.slice(0, 3))
+    const actorAt = (x: number, y: number) => pixel(x, y - 8)[0]
+    const notice = () => box.observe()?.pageText ?? null
+    const stepAndDraw = (ms: number) => {
+      h.idle(ms)
+      draw()
+    }
+
+    h.press(['w'])
+    h.press(['Enter'])
+    for (let i = 0; i < 20 && !h.session.debugLog().includes('无任何效果'); i++) h.idle(8)
+    expect(h.session.debugLog()).toContain('无任何效果')
+    draw()
+    expect(notice()).toBeNull()
+    // The failure text has never been a white notice at (130,75).
+    expect(pixel(130, 75)).toEqual([0, 0, 0])
+    stepAndDraw(160) // Four approach beats before the item name.
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(notice()).toBeNull()
+    stepAndDraw(399)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.preMagic))
+    expect(sfx.plays).toEqual(['sound.pal.009'])
+    stepAndDraw(1)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(79)
+    expect(pixel(210, 50)).toEqual([255, 255, 255])
+    expect(notice()).toBeNull()
+    // The script runs after two release beats (fight.c:4355–4362), even when a tick overshoots.
+    stepAndDraw(dismissal === 'timeout' ? 1 : 1000)
+    expect(pixel(210, 50)).toEqual([0, 0, 0])
+    expect(box.observe()).toMatchObject({ slot: 'narration', pageText: '无任何效果' })
+    expect(pixel(120, 40)).toEqual([0, 255, 0]) // The actual centered scroll, not a text banner.
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    if (dismissal === 'timeout') {
+      stepAndDraw(1399)
+      expect(notice()).toBe('无任何效果')
+      stepAndDraw(1)
+    } else {
+      stepAndDraw(200)
+      h.press(['Enter'], 1)
+      draw()
+    }
+    expect(notice()).toBeNull()
+    expect(pixel(120, 40)).toEqual([0, 0, 0])
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(159)
+    expect(actorAt(230, 166)).toBe(poseRed(PLAYER_PROFILE.frames.magic))
+    stepAndDraw(1)
+    expect(actorAt(240, 170)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    const inventory = [{ itemId: item.id, count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+    expect(h.session.debugLog().filter((line) => line === '无任何效果')).toHaveLength(1)
+  })
+
   test('木剑投掷实绘挥臂、出手和回位，两段收尾后才轮到队友', () => {
     const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
     const item = expectDefined(validateItems(palItems.filter(({ id }) => id === '166'))[0])

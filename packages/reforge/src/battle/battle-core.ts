@@ -2387,7 +2387,7 @@ function performThrow(
     item.throw.effects.every(({ kind }) => kind === 'killIfHpAtMost')
   ) {
     s.log.push('无任何效果')
-    if (s.lastAction) s.lastAction.notice = '无任何效果'
+    if (s.lastAction) s.lastAction.failureFeedback = 'throwIneffective'
   }
   if (s.lastAction) s.lastAction.throwHits = hits
 }

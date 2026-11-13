@@ -141,6 +141,7 @@ const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as cons
 const ROUND_END_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
 const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
+const FAILURE_FEEDBACK_MS = 1400
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -246,8 +247,10 @@ export class BattleSession {
   private pendingDeaths: number[] = []
   /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
   private readonly pendingConfusedReveal = new Set<number>()
-  /** 状态术失败反馈；等当前动作时间线收尾后再进入 narration。 */
+  /** 结算后等待时间线到达提示位置的失败反馈。 */
   private pendingFailureFeedback: BattleFailureFeedback | null = null
+  /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
+  private throwFeedbackUntilMs: number | null = null
   /** 梦蛇/敌变身的旧→新 dither 状态；动作收尾统一清除。 */
   private appearanceTransitions = new Map<string, NonNullable<AnimFrame['appearanceTransition']>>()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
@@ -557,7 +560,9 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
-    if (this.casualtyDialogueShown) this.assets.dialogBox?.close()
+    if (this.casualtyDialogueShown || this.throwFeedbackUntilMs !== null)
+      this.assets.dialogBox?.close()
+    this.throwFeedbackUntilMs = null
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
@@ -653,6 +658,7 @@ export class BattleSession {
           ...(y !== undefined ? { y } : {}),
         }
       },
+      onThrowFeedback: () => this.presentPendingFailureFeedback(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
         this.screenShake = {
@@ -1132,6 +1138,18 @@ export class BattleSession {
       this.resetPlayersVisual()
     }
     if (this.nowMs < this.enemyCastRecoveryUntilMs) return
+    if (this.throwFeedbackUntilMs !== null) {
+      const confirmed = pressed.has(' ') || pressed.has('Enter')
+      if (!confirmed && this.nowMs < this.throwFeedbackUntilMs) return
+      const box = this.assets.dialogBox
+      if (confirmed && this.nowMs < this.throwFeedbackUntilMs) box?.advance(this.nowMs)
+      if (box?.active) box.close()
+      this.itemBanner = null
+      this.throwFeedbackUntilMs = null
+      // 关框当帧开始四拍收招，等待时间不进入动作时钟。
+      this.actionPresentation.advancePlayback(0)
+      return
+    }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
@@ -1808,6 +1826,7 @@ export class BattleSession {
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
+        waitForThrowFeedback: la.failureFeedback === 'throwIneffective',
         hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
         ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
@@ -2033,20 +2052,31 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    const text =
-      feedback === 'statusIneffective' ? '攻击无效' : assertNever(feedback, '战斗失败反馈')
+    const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
+    const waitForThrow = feedback === 'throwIneffective'
+    if (waitForThrow) {
+      this.itemBanner = null
+      this.throwFeedbackUntilMs = this.nowMs + FAILURE_FEEDBACK_MS
+    }
     const box = this.assets.dialogBox
     if (box) {
       box.open(
         startDialogue({
           id: '__battle_action_failure',
-          cues: [{ rows: [{ text }], slot: 'narration', autoAdvance: 1400 }],
+          cues: [
+            {
+              rows: [{ text }],
+              slot: 'narration',
+              // 普通 autoAdvance 不响应确认；0x3E 的提前确认由会话接管。
+              ...(waitForThrow ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
+            },
+          ],
         }),
         this.nowMs,
       )
     } else {
       // headless/资源缺失兜底；真实游戏路径始终使用 narration 卷轴。
-      this.itemBanner = { text, untilMs: this.nowMs + 1400, x: 130, y: 75 }
+      this.itemBanner = { text, untilMs: this.nowMs + FAILURE_FEEDBACK_MS, x: 130, y: 75 }
     }
   }
 
