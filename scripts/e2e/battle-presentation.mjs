@@ -1762,6 +1762,30 @@ export function validateBattlePresentation(trace, scenario) {
   )
   if (scenario.expected.throwRecovery)
     throwRecovery = compareThrowRecovery(frames, animations, scenario.expected.throwRecovery, fail)
+  if (scenario.expected.emptyThrowActionIndex !== undefined) {
+    const index = scenario.expected.emptyThrowActionIndex
+    const action = scenario.expected.actions[index]
+    const start = animations[index]
+    const next = animations.slice(index + 1).find(Boolean) ?? settlement
+    const slot = action.before.players.find(({ id }) => id === action.actorId)?.slot
+    const window =
+      start && next ? frames.filter(({ seq }) => seq >= start.seq && seq < next.seq) : []
+    const raised = window.find((frame) => pose(frame, slot)?.frameIndex === 5)
+    const released =
+      raised &&
+      window.find((frame) => frame.seq > raised.seq && pose(frame, slot)?.frameIndex === 6)
+    const feedback = window.find(
+      ({ payload }) =>
+        payload.numbers.length || payload.magicOverlays?.length || payload.dialogue.length,
+    )
+    if (!released || feedback)
+      fail('business', 'empty-throw-windup-and-no-effects', {
+        actionIndex: index,
+        raised: raised && at(raised),
+        released: released && at(released),
+        feedback: feedback && at(feedback),
+      })
+  }
   if (scenario.expected.itemFeedback)
     itemFeedback = compareItemFeedback(frames, scenario.expected, animations, fail)
   if (scenario.expected.spellPaintOrder)

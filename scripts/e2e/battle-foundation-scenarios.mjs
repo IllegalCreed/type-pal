@@ -1182,6 +1182,60 @@ const finishSlot =
   ({ enemies }) =>
     Object.assign(enemies[slot], { hp: 0, alive: false })
 
+const consumableThrowsWithoutEffects = [75, 77, 84, 85, 88, 93, 94]
+
+function defineSaltThrow() {
+  const arhat = { id: 'arhat-a', object: 443, hp: 420 }
+  const { step, complete } = mechanismScenario(
+    'item-salt-throw',
+    '盐巴投掷只消耗道具',
+    { team: 106, units: [arhat, { ...arhat, id: 'arhat-b' }], exp: 40, cash: 92 },
+    4,
+    [
+      mechanismMember(hero, 150, 250, 400, 900, 6),
+      { ...mechanismMember(linger, 150, 900, 400, 500, 6), statuses: fairySwordStatus },
+      mechanismMember(anu, 150, 1600, 400, 250, 6),
+    ],
+    bagWith('77', '161'),
+  )
+  const toss = throwAt(hero, '77', null)
+  const first = attackAt(1, linger, arhat.id)
+  const second = attackAt(1, anu, 'arhat-b')
+  step(toss, (state) => {
+    state.inventory = bagWith('161')
+  })
+  step(first, finishSlot(0), { rawStrikes: [634, 637] })
+  step(second, finishSlot(1), { rawDamage: 1135 })
+  const strike = draws('strike-bonus', 'strike-critical', 'strike-variance')
+  const scenario = complete(
+    [toss, first, second],
+    [
+      queueDraw(1, 'enemy', 0, 45),
+      queueDraw(1, 'enemy', 0, 45, true),
+      queueDraw(1, 'enemy', 1, 45),
+      queueDraw(1, 'enemy', 1, 45, true),
+      queueDraw(1, 'player', 0, 903),
+      queueDraw(1, 'player', 1, 506),
+      queueDraw(1, 'player', 2, 250),
+      ...strike,
+      ...strike,
+      ...draws('attack-growth'),
+      ...anuStrike,
+    ],
+    [150, 150, 150],
+  )
+  scenario.expected.emptyThrowActionIndex = 0
+  return {
+    ...scenario,
+    observeMagicOverlays: true,
+    sounds: [
+      [['cast-windup', 9]],
+      [['player-windup', 38], ['player-weapon', 2], ...playerAttackSounds(38, 2, 266)],
+      playerAttackSounds(40, 4, 266),
+    ],
+  }
+}
+
 function defineGroupItemThrow() {
   const lantern = mechanismEnemies.lantern
   const units = [lantern, { ...lantern, id: 'lantern-b' }, { ...lantern, id: 'lantern-c' }]
@@ -2020,6 +2074,7 @@ const soundFrames = {
   247: 35018,
   254: 36208,
   265: 9627,
+  266: 22077,
   313: 31633,
   316: 42199,
   347: 18610,
@@ -2208,6 +2263,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     definePlayerProtection(false),
     definePartyHealing(),
     defineGroupItemThrow(),
+    defineSaltThrow(),
     defineMixedThrow(),
     ...singleThrows.map(defineSingleItemThrow),
     defineSingleMpItem(),
@@ -2223,6 +2279,7 @@ export function battleFoundationScenarioGroup(id) {
       'player-party-healing',
       'player-protect',
       'item-throw-drain',
+      'item-salt-throw',
     ])
     return BATTLE_FOUNDATION_SCENARIOS.filter((scenario) => ids.has(scenario.id))
   }
@@ -2621,6 +2678,26 @@ export async function verifyBattleFoundationSources(root) {
   ])
   const rawItem = (id) => rawItems.find((item) => item.id === id)
   const authorItem = (id) => items.find((item) => item.id === String(id))
+  assert.deepEqual(
+    rawItems
+      .filter(({ flags, scriptOnThrow }) => flags.throwable && scriptOnThrow === 0)
+      .map(({ id }) => id),
+    consumableThrowsWithoutEffects,
+  )
+  for (const id of consumableThrowsWithoutEffects) {
+    const { flags } = rawItem(id)
+    assert.deepEqual(authorItem(id).throw, {
+      target: flags.applyToAll ? 'allEnemies' : 'oneEnemy',
+      effects: [],
+    })
+  }
+  const arhatTeam = rawTeams.find(({ id }) => id === 106)
+  const rawArhat = rawEnemies.find(({ id }) => id === 46)
+  const arhat = enemies.find(({ id }) => id === 'enemy-443')
+  assert.deepEqual(arhatTeam.enemyObjectIndexes, [443, 443, 65535, 65535, 65535])
+  assert.deepEqual(teams.find(({ id }) => id === 'team-106').slots, ['enemy-443', 'enemy-443'])
+  assert.deepEqual([rawArhat.health, rawArhat.exp, rawArhat.cash], [420, 20, 46])
+  assert.deepEqual([arhat.stats.health, arhat.stats.exp, arhat.stats.cash], [420, 20, 46])
   for (const [id, ip, cmd, target, effect] of [
     [95, 43024, [0x22, [0, 1, 0]], 'oneAlly', { kind: 'revive', hpPercent: 10 }],
     [104, 39205, [0x1c, [0, 36, 0]], 'oneAlly', { kind: 'healMp', amount: 36 }],
