@@ -417,6 +417,60 @@ test('玄冥宝刀 rerolls each sweep and keeps the first sweep’s defeated ene
   expect(rng).toThrow('Battle consumed a draw beyond the fixture')
 })
 
+test('梦蛇 adds the unequipped attack and speed once, and a second cast replaces its bonus', () => {
+  const trance = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-444'))
+  const items = Object.fromEntries(
+    validateItems(palItems.filter(({ id }) => ['170', '210', '237'].includes(id))).map((item) => [
+      item.id,
+      item,
+    ]),
+  )
+  const initial: CharacterInstance = {
+    id: 'zhao-linger',
+    template: 'zhao-linger',
+    level: 6,
+    exp: 0,
+    hp: 180,
+    maxHP: 180,
+    mp: 200,
+    maxMP: 200,
+    attack: 92,
+    defense: 400,
+    magicAttack: 50,
+    speed: 80,
+    luck: 30,
+    equipment: { weapon: '170', body: '210', feet: '237' },
+    tags: [],
+  }
+  const state = createBattleState({
+    players: createBattlePlayers(
+      { party: [initial], learnedSkills: { [initial.id]: ['295'] } },
+      { actorsById: {}, items },
+    ),
+    enemySlots: [enemy],
+    skills: { [trance.id]: trance },
+  })
+  const linger = expectDefined(state.players[0])
+  expect(linger).toMatchObject({ attackStrength: 100, baseDexterity: 86 })
+  const rng = () => 0.5
+  stepBattle(state, rng)
+  for (const mp of [101, 2]) {
+    state.pendingActions.set(0, { kind: 'cast', skillId: '295' })
+    stepBattle(state, rng) // queue
+    stepBattle(state, rng) // cast before the enemy
+    expect(linger).toMatchObject({
+      attackStrength: 192,
+      baseDexterity: 166,
+      mp,
+      tranceBattleSprite: 'player-fighter-5',
+    })
+    stepBattle(state, rng) // enemy
+    stepBattle(state, rng) // round end
+  }
+  expect(linger.persistentProgress).toMatchObject({ attack: 92, speed: 80 })
+})
+
 test('a landed enemy attack without an equiv item consumes the rate draw before the next round', () => {
   // Queue, block, two damage draws, equiv rate, then the next two queue draws.
   const rng = fixedDraws([0.5, 0.5, 0.1, 0.25, 0.25, 0.8, 0.6, 0.6])

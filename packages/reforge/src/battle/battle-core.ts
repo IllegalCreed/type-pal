@@ -119,7 +119,9 @@ export interface BattlePlayerState {
   poisons: ActivePoison[]
   /** 战内临时属性增益(0x30 buffStat,梦蛇等):delta 已烙进对应属性字段,定时的到期扣回;
    *  'battle' 整场有效,随战斗态销毁天然失效(战斗属性每战重派生,红线不外泄)。 */
-  statBuffs?: { stat: BuffableStat; delta: number; turnsLeft: number | 'battle' }[]
+  statBuffs?: StatBuff[]
+  /** 0x30 技能对应的 Extra 槽，同一属性后施覆盖。 */
+  extraStatBuffs?: Partial<Record<BuffableStat, number>>
   /** 変身精灵(trance 效果,梦蛇换战斗外观)。纯 presentation:表现层读;gameplay 增益走 buffStat。 */
   tranceBattleSprite?: string
   /**
@@ -175,6 +177,15 @@ const STAT_BUFF_FIELD = {
   luck: 'fleeRate',
 } as const
 type BuffableStat = keyof typeof STAT_BUFF_FIELD
+type StatBuff = { stat: BuffableStat; delta: number; turnsLeft: number | 'battle' }
+
+const STAT_BUFF_BASE_FIELD = {
+  attack: 'attack',
+  defense: 'defense',
+  magic: 'magicAttack',
+  dexterity: 'speed',
+  luck: 'luck',
+} as const satisfies Record<BuffableStat, keyof BattlePersistentCharacterProgress>
 
 /** B11-1:结构化 casualty stat → 现有 buff 机制 stat 键(speed=身法=dexterity,luck=吉运)。 */
 const CASUALTY_STAT_TO_BUFF = {
@@ -684,17 +695,36 @@ function performSteal(
   s.log.push(`${p.roleId} 获得 ${name}`)
 }
 
-/** 0x30 buffStat:百分比临时增益。delta 立即烙进属性字段并记账;定时的回合末到期扣回。 */
+/** 回合型增益保留叠加和到期规则。整场技能增益对应 script.c:1406–1427 的 Extra 槽。 */
 function applyStatBuff(
   t: BattlePlayerState,
   eff: { stat: BuffableStat; percent: number; duration: 'battle' | number },
 ): number {
   const field = STAT_BUFF_FIELD[eff.stat]
+  if (eff.duration === 'battle') {
+    t.extraStatBuffs ??= {}
+    const previous = t.extraStatBuffs[eff.stat] ?? 0
+    const temporary = sumStatBuffs(t, eff.stat)
+    const base =
+      t.persistentProgress?.[STAT_BUFF_BASE_FIELD[eff.stat]] ?? t[field] - previous - temporary
+    const delta = Math.trunc((base * eff.percent) / 100)
+    t.extraStatBuffs[eff.stat] = delta
+    t[field] += delta - previous
+    return delta
+  }
+
   const delta = Math.trunc((t[field] * eff.percent) / 100)
   t[field] += delta
   t.statBuffs ??= []
   t.statBuffs.push({ stat: eff.stat, delta, turnsLeft: eff.duration })
   return delta
+}
+
+function sumStatBuffs(target: BattlePlayerState, stat: BuffableStat): number {
+  return (target.statBuffs ?? []).reduce(
+    (sum, buff) => (buff.stat === stat ? sum + buff.delta : sum),
+    0,
+  )
 }
 
 /** 0x1B/0x1C 回满 + 0x30 临时百分比 buff(B11-1)。P3:0x30 基数 = 未 buff 运行时值
@@ -711,10 +741,7 @@ function applyCasualtyBranchEffects(
     }
     const buffStat = CASUALTY_STAT_TO_BUFF[effect.stat]
     const field = STAT_BUFF_FIELD[buffStat]
-    const buffed = (target.statBuffs ?? []).reduce(
-      (sum, buff) => (buff.stat === buffStat ? sum + buff.delta : sum),
-      0,
-    )
+    const buffed = sumStatBuffs(target, buffStat) + (target.extraStatBuffs?.[buffStat] ?? 0)
     const base = target[field] - buffed
     const delta = Math.trunc((base * effect.percent) / 100)
     target[field] += delta
