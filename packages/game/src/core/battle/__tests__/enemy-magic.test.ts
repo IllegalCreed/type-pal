@@ -1,8 +1,9 @@
 /** Enemy magic dispatch, pre-script defence, and animation feedback. */
 import type { Command, Magic, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it, onTestFinished, test } from 'vitest'
 import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import { runScript } from '../../event-system.js'
+import { setObjectPoisons } from '../../player-poison-state.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
 import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
@@ -254,6 +255,73 @@ describe('enemy magic targets and damage', () => {
     expect(nums).toEqual([
       { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 65, color: 'blue' },
     ])
+  })
+
+  test('a poison-killed slot still draws single-target variance, while a group cast skips it', () => {
+    const poisons = [{ id: 553, level: 1, color: 33, playerScript: 3, enemyScript: 0 }]
+    setObjectPoisons(poisons)
+    onTestFinished(() => setObjectPoisons([]))
+
+    const run = (type: 'normal' | 'attackAll') => {
+      const fixture = enemyFixture([{ hp: 15, deathSound: 23 }, {}])
+      const { bus, state, playerRoles } = fixture
+      const rng = recordingRng(type === 'normal' ? [1, 80] : [1, 1, 80, 80])
+      state.rng = rng
+      performMagic({
+        ...fixture,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 7,
+        targetIsEnemy: false,
+        targetIdx: 0,
+        spells: [makeSpell({ scriptOnSuccess: 1 })],
+        magics: [makeMagic({ type, effect: 12 })],
+        commands: [
+          { op: 'end' },
+          { op: 'raw', opcode: 0x29, operands: [type === 'normal' ? 0 : 1, 553, 0] },
+          { op: 'end' },
+          { op: 'raw', opcode: 0x1b, operands: [0, 0xffec, 0] },
+          { op: 'end' },
+        ],
+        objectPoisons: poisons,
+        runScript,
+        magicSpriteFrameCounts: new Map([[12, 1]]),
+      })
+      const frames = state.battleAnim?.frames ?? []
+      const numberFrame = frames.find((frame) => frame.damageNums?.length)
+      return {
+        calls: rng.calls,
+        hp: playerRoles.roles.map(({ hp }) => hp),
+        immediate: bus.drain(),
+        hitSlots: numberFrame?.fighters?.map(({ idx }) => idx),
+        numbers: numberFrame?.damageNums,
+        afterEffect:
+          frames.indexOf(numberFrame!) > frames.findIndex((frame) => frame.overlays?.length),
+        sounds: frames.flatMap(({ sound }) => (sound ? [sound] : [])),
+      }
+    }
+
+    expect(run('normal')).toEqual({
+      calls: ['range(0,3)', 'rangeInclusive(1,100)', 'next'],
+      hp: [0, 500],
+      immediate: [],
+      hitSlots: [0],
+      numbers: [{ target: { kind: 'player', idx: 0 }, value: 15, color: 'blue' }],
+      afterEffect: true,
+      sounds: [23],
+    })
+    expect(run('attackAll')).toEqual({
+      calls: ['range(0,3)', 'range(0,3)', 'rangeInclusive(1,100)', 'rangeInclusive(1,100)', 'next'],
+      hp: [0, 415],
+      immediate: [],
+      hitSlots: [0, 1],
+      numbers: [
+        { target: { kind: 'player', idx: 0 }, value: 15, color: 'blue' },
+        { target: { kind: 'player', idx: 1 }, value: 85, color: 'blue' },
+      ],
+      afterEffect: true,
+      sounds: [],
+    })
   })
 
   test('超杀：伤害钳到剩余 HP，数字=钳后 delta（30 非 65），HP 落 0 不为负', () => {
