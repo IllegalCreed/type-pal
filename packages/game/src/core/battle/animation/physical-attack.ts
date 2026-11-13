@@ -7,17 +7,23 @@ import { buildPostMagicTimeline } from './hit-reaction.js'
  * 混乱队员攻击友军的**走入动画**(port fight.c:3791-3858,kBattleActionAttackMate 演出,PAL_CLASSIC)。
  *   windup frame8/0 ×2 各 Delay(1)(3791-3798)→ Delay(2)(3800)→ 走到 target+(30,12) frame8 Delay(5)
  *   (3802-3807)→ frame9(+武器音 M6,3809-3810)+ 友军击退 pos-(12,6)(3837-3840)Delay(1)→ 友军
- *   iColorShift 6 闪白 Delay(1)(3842-3843)→ iColorShift 0 Delay(4)(3847-3848)→ UpdateFighters
- *   复位 caster+target Delay(4)(3850-3851)。pos 均用 posOriginal 底锚。
+ *   iColorShift 6 闪白 Delay(1)(3842-3843)→ 蓝字、清染色 Delay(4)(3845-3848)→
+ *   UpdateFighters 按实际状态复位 Delay(4)(3850-3851)。
  * D8(2026-06-02):此前 attack-mate 只做伤害结算,无走入精灵动画 → 补齐。
  */
 export function buildAttackMateTimeline(input: {
   casterIdx: number
   casterPos: { x: number; y: number }
+  casterRestFrame: number
   targetIdx: number
   targetPos: { x: number; y: number }
+  /** A defending fighter keeps the displaced position in PAL_BattleUpdateFighters. */
+  targetRestPos?: { x: number; y: number }
+  targetRestFrame: number
+  weaponSound: number
+  damageNumber: NonNullable<BattleAnimFrame['damageNum']>
 }): BattleAnimFrame[] {
-  const { casterIdx, casterPos, targetIdx, targetPos } = input
+  const { casterIdx, casterPos, targetIdx, targetPos, weaponSound, damageNumber } = input
   const frames: BattleAnimFrame[] = []
   // windup frame8/0 ×2(fight.c:3791-3798)
   for (let j = 0; j < 2; j++) {
@@ -39,31 +45,37 @@ export function buildAttackMateTimeline(input: {
     fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8, pos: { x: lungeX, y: lungeY } }],
   })
   // frame9(武器音 M6)+ 友军击退 pos-(12,6)(fight.c:3809-3840)
-  const knockX = targetPos.x - 12
-  const knockY = targetPos.y - 6
+  const knockedPos = { x: targetPos.x - 12, y: targetPos.y - 6 }
   frames.push({
     durationMs: delayMs(1),
     fighters: [
       { side: 'player', idx: casterIdx, currentFrame: 9, pos: { x: lungeX, y: lungeY } },
-      { side: 'player', idx: targetIdx, pos: { x: knockX, y: knockY } },
+      { side: 'player', idx: targetIdx, pos: knockedPos },
     ],
+    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
   })
   // 友军 iColorShift 6 闪白 Delay(1)(fight.c:3842-3843)
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: { x: knockX, y: knockY } }],
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: knockedPos }],
   })
   // 友军 iColorShift 0 Delay(4)(fight.c:3847-3848)
   frames.push({
     durationMs: delayMs(4),
-    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: knockedPos }],
+    damageNum: { ...damageNumber, anchor: knockedPos },
   })
   // UpdateFighters 复位 caster+target Delay(4)(fight.c:3850-3851)
   frames.push({
     durationMs: delayMs(4),
     fighters: [
-      { side: 'player', idx: casterIdx, currentFrame: 0, pos: casterPos },
-      { side: 'player', idx: targetIdx, currentFrame: 0, pos: targetPos },
+      { side: 'player', idx: casterIdx, currentFrame: input.casterRestFrame, pos: casterPos },
+      {
+        side: 'player',
+        idx: targetIdx,
+        currentFrame: input.targetRestFrame,
+        ...(input.targetRestPos ? { pos: input.targetRestPos } : {}),
+      },
     ],
   })
   return frames

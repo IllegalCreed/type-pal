@@ -533,8 +533,13 @@ describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画
     const frames = buildAttackMateTimeline({
       casterIdx: 0,
       casterPos: { x: 100, y: 180 },
+      casterRestFrame: 0,
       targetIdx: 1,
       targetPos: { x: 140, y: 170 },
+      targetRestPos: { x: 140, y: 170 },
+      targetRestFrame: 0,
+      weaponSound: 0,
+      damageNumber: { target: { kind: 'player', idx: 1 }, value: 5, color: 'blue' },
     })
     // windup: frame 0..3 = 8/0/8/0
     expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8 }])

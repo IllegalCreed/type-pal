@@ -13,13 +13,13 @@
  *   5. target HP -= sDamage(3835)。
  *
  * 注:str/def 沿用 PAL_GetPlayerAttackStrength / PAL_GetPlayerDefense:base + 装备,无 level 项。
- * 走入位移已通过 buildAttackMateTimeline 接入;受击音效/精灵帧仍可继续精修。
+ * 武器音、击退、伤害数字与复位交给 buildAttackMateTimeline。
  */
 
 import type { PlayerRoles } from '@type-pal/shared'
-import type { CommandBus } from '../../command-bus.js'
+import type { BattleDamageNumber, CommandBus } from '../../command-bus.js'
 import { buildAttackMateTimeline } from '../anim-timeline.js'
-import { startBattleAnim } from '../battle-anim-driver.js'
+import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleState } from '../battle-state.js'
 import { calcPhysicalAttackDamage } from '../formulas.js'
 
@@ -80,32 +80,35 @@ export function performAttackMate(
   const before = targetRole.hp
   if (damage > before) damage = before // fight.c:3830-3833 clamp
 
-  // 5. 扣血(数字延迟到演出后,见下)
   targetRole.hp = before - damage
-  // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]);混乱/迷惑下打友军是强制物理,
-  //   只播武器声,无起手/暴击声)。经 bus playSound → bootstrap 战斗 drain 播。
-  if (casterRole.weaponSound > 0) bus.emit({ op: 'playSound', soundId: casterRole.weaponSound })
-
-  // 6. D8(2026-06-02):走入精灵动画(fight.c:3791-3858)。caster/target posOriginal 底锚;缺锚 → 跳过(纯逻辑)。
-  // DM15:伤害数字经 pendingDamageNums 延迟到演出完(fight.c:3845 DisplayStatChange 在走入 frame8 →
-  //   frame9 命中 → 击退 → 闪白**之后**)——修"数字先蹦、角色才跑过去打"(5eb5050 投掷同类残留)。
-  //   无动画锚(旧 fixture)→ 保留即时 emit。
-  const dmgNum = {
-    target: { kind: 'player' as const, idx: target },
+  const damageNumber: BattleDamageNumber = {
+    target: { kind: 'player', idx: target },
     value: damage,
-    color: 'blue' as const,
+    color: 'blue',
   }
-  const casterPos = state.players[casterIdx]!.posOriginal
-  const targetPos = state.players[target]!.posOriginal
+  const caster = state.players[casterIdx]!
+  const mate = state.players[target]!
+  const casterPos = caster.posOriginal
+  const targetPos = mate.pos ?? mate.posOriginal
   if (casterPos && targetPos) {
     startBattleAnim(
       state,
-      buildAttackMateTimeline({ casterIdx, casterPos, targetIdx: target, targetPos }),
+      buildAttackMateTimeline({
+        casterIdx,
+        casterPos: caster.defending ? (caster.pos ?? casterPos) : casterPos,
+        casterRestFrame: playerRestFrame(caster, casterRole),
+        targetIdx: target,
+        targetPos,
+        targetRestPos: mate.defending ? undefined : (mate.posOriginal ?? targetPos),
+        targetRestFrame: playerRestFrame(mate, targetRole),
+        weaponSound: casterRole.weaponSound,
+        damageNumber,
+      }),
       bus,
-      [dmgNum],
     )
-    if (state.battleAnim) state.battleAnim.updateEnemyGesture = true // DM11:玩家动作链(fight.c:3807 Delay TRUE)
+    if (state.battleAnim) state.battleAnim.updateEnemyGesture = true
   } else {
-    bus.emit({ op: 'showDamageNum', ...dmgNum })
+    if (casterRole.weaponSound > 0) bus.emit({ op: 'playSound', soundId: casterRole.weaponSound })
+    bus.emit({ op: 'showDamageNum', ...damageNumber })
   }
 }
