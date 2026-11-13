@@ -309,7 +309,7 @@ describe('SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)', () =
       f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 3),
     )
     const effectIdx = frames.findIndex((f) => (f.overlays?.length ?? 0) > 0)
-    expect(guardIdx).toBeLessThan(effectIdx)
+    expect(guardIdx).toBe(effectIdx)
     advanceBattleAnimFrames(
       b.state,
       b.bus,

@@ -550,50 +550,18 @@ function buildAndStartEnemyMagicAnim(
     if (!targetPlayerPos) return false
   }
 
-  // 施法起手:敌人前移 + 施法手势(fight.c:4680-4717)—— 落点特效之前的敌人本体表演。
-  //   林月如(magic360→鞭击 fireDelay=0)即靠这段动:前移两步 + attackFrames 手势 frame 0..4。
+  // The two steps start from the current position (fight.c:4680–4695).
+  const castSnd = caster.e.magicSound
   const introFrames = buildEnemyMagicCastIntro({
     enemyCasterIdx: input.casterIdx,
-    enemyPos: caster.posOriginal,
+    enemyPos: caster.pos ?? caster.posOriginal,
     idleFrames: caster.e.idleFrames,
     magicFrames: caster.e.magicFrames,
     attackFrames: caster.e.attackFrames,
     actWaitFrames: caster.e.actWaitFrames,
     fireDelay: magic.fireDelay,
+    sound: Math.abs(castSnd),
   })
-  // DL10b/L16:被动格挡队员摆防御姿 frame3 在**施法手势演完后、特效前**(fight.c:4737-4738/
-  //   4755-4756)—— 注入 intro **末帧**(原注入起始帧,早数帧)。
-  const introTailIdx = introFrames.length - 1
-  const introTail = introFrames[introTailIdx]
-  if (autoDefendIdxs.length > 0 && introTail) {
-    const guardPoses: NonNullable<BattleAnimFrame['fighters']> = autoDefendIdxs.map((idx) => ({
-      side: 'player' as const,
-      idx,
-      currentFrame: 3,
-    }))
-    introFrames[introTailIdx] = {
-      ...introTail,
-      fighters: [...(introTail.fighters ?? []), ...guardPoses],
-    }
-  }
-  // DL10a:敌施法音挂滑步第 2 步帧(fight.c:4680-4695 两步 Delay(1) 后 AUDIO_PlaySound(wMagicSound))。
-  //   wMagicSound 是 SHORT,负值合法(enemies.json 实有 -503..-1)—— C 无条件调用且 AUDIO_PlaySound
-  //   按 abs 播(audio.c:529),旧 `>0` gate 漏播负值敌的施法音 → 改 !==0 + abs。
-  const castSnd = input.state.enemies[input.casterIdx]?.e.magicSound ?? 0
-  if (castSnd !== 0 && introFrames.length >= 2 && !introFrames[1]!.sound) {
-    introFrames[1] = { ...introFrames[1]!, sound: Math.abs(castSnd) }
-  }
-  // 特效前 snap 回原位(fight.c:2842 PAL_BattleShowEnemyMagicAnim 起手把全敌 pos 复位 posOriginal)。
-  const posResetFrame: BattleAnimFrame = {
-    durationMs: 0,
-    fighters: [
-      {
-        side: 'enemy',
-        idx: input.casterIdx,
-        pos: { x: caster.posOriginal.x, y: caster.posOriginal.y },
-      },
-    ],
-  }
   const effectFrames = buildEnemyMagicTimeline({
     enemyCasterIdx: input.casterIdx,
     magic: {
@@ -632,6 +600,14 @@ function buildAndStartEnemyMagicAnim(
       : undefined,
     rng: input.state.rng,
   })
+  // The first FIRE draw is the first visible auto-defend pose (fight.c:4737–4766).
+  const firstEffect = effectFrames[0]
+  if (firstEffect && autoDefendIdxs.length > 0) {
+    firstEffect.fighters = [
+      ...(firstEffect.fighters ?? []),
+      ...autoDefendIdxs.map((idx) => ({ side: 'player' as const, idx, currentFrame: 3 })),
+    ]
+  }
   // 队员受击动画(fight.c:4861-4899):受伤队员 frame4 + 红闪 + 递减击退,接在特效之后。
   //   单体('normal')→ 该 target;AoE → E2 结算出的受伤队员(hitPlayerIdxs)。各取 posOriginal 复位锚。
   const affectedIdxs =
@@ -644,8 +620,8 @@ function buildAndStartEnemyMagicAnim(
 
   // CLASSIC plays direct death cues after the spell effect and before drawing the first damage.
   const deathCueFrames = playerDeathSounds.map((sound) => ({ durationMs: 0, sound }))
-  // After the five hit frames and the caster's return, UpdateFighters precedes the casualty
-  // check. Delay(8) belongs after that check and any resulting dialogue (fight.c:4897–4908).
+  // The caster stays forward through the effect and the five hit frames. After its return,
+  // UpdateFighters and any casualty dialogue precede Delay(8) (fight.c:4897–4908).
   const finaleFrames: BattleAnimFrame[] = [
     {
       durationMs: BATTLE_FRAME_TIME, // 敌复位 + Delay(1)(fight.c:4901-4903)
@@ -676,14 +652,7 @@ function buildAndStartEnemyMagicAnim(
   input.state.actionFollowup = { waitTicks: 8 }
   startBattleAnim(
     input.state,
-    [
-      ...introFrames,
-      posResetFrame,
-      ...effectFrames,
-      ...deathCueFrames,
-      ...hurtFrames,
-      ...finaleFrames,
-    ],
+    [...introFrames, ...effectFrames, ...deathCueFrames, ...hurtFrames, ...finaleFrames],
     input.bus,
     numsAttached ? undefined : pendingNums,
   )

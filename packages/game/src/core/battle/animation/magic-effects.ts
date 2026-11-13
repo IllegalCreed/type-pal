@@ -515,7 +515,7 @@ export interface BuildEnemyMagicInput {
 
 export interface BuildEnemyMagicIntroInput {
   enemyCasterIdx: number
-  /** 敌人施法起手位(= posOriginal)。 */
+  /** 敌人施法起手位。 */
   enemyPos: { x: number; y: number }
   idleFrames: number
   magicFrames: number
@@ -523,6 +523,8 @@ export interface BuildEnemyMagicIntroInput {
   actWaitFrames: number
   /** magic.fireDelay —— ==0 时额外用 attackFrames 当施法手势(fight.c:4709-4717)。 */
   fireDelay: number
+  /** 施法声在两次滑步完成后开始。 */
+  sound?: number
 }
 
 /**
@@ -548,6 +550,7 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
     attackFrames,
     actWaitFrames,
     fireDelay,
+    sound,
   } = input
   const frames: BattleAnimFrame[] = []
   let ex = enemyPos.x
@@ -567,15 +570,15 @@ export function buildEnemyMagicCastIntro(input: BuildEnemyMagicIntroInput): Batt
     fighters: [{ side: 'enemy', idx: enemyCasterIdx, pos: { x: ex, y: ey } }],
   })
 
-  // magicFrames 施法手势(fight.c:4697-4702)
+  // The first casting gesture or the fallback beat starts the cue (fight.c:4695–4707).
   for (let i = 0; i < magicFrames; i++) {
     frames.push({
       durationMs: delayMs(actWaitFrames),
       fighters: [{ side: 'enemy', idx: enemyCasterIdx, currentFrame: idleFrames + i }],
+      ...(i === 0 && sound ? { sound } : {}),
     })
   }
-  // magicFrames==0 → 补 1 帧停顿(fight.c:4704-4707)
-  if (magicFrames === 0) frames.push({ durationMs: delayMs(1) })
+  if (magicFrames === 0) frames.push({ durationMs: delayMs(1), ...(sound ? { sound } : {}) })
 
   // fireDelay==0 → attackFrames(+1)帧手势(fight.c:4709-4717)
   if (fireDelay === 0) {
