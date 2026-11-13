@@ -96,6 +96,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 2026-11-12，用户对李逍遥受灯笼物攻后濒死、阵亡和阿奴续战的原速带声分屏回复「通过」，要求本段收口。分屏来自冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0`，归档成员为 `build/q2/av/player-casualties/lantern-player-casualty-split.mp4`。 [分屏归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
 
+2026-11-13，用户对伤亡对白、敌方雷咒、回合末毒伤和普通全灭的原速带声分屏回复「通过」，要求本段收口。验收媒体来自 `31002d214bb106272f34af46c86c57872b9b2849`，归档成员 `build/q2/av/casualty-presentations/casualty-presentations-split.mp4`，SHA-256 为 `cddf938310e8d1596910c70ab79d34663c6d8c66f6eb4ecd2d26805a8e2d4ca2`。普通全灭验收范围为固定 m01。玩家五灵仙术的伤害与随机顺序在下一批处理。 [分屏及日志归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
@@ -294,7 +296,7 @@ Codex build allowed。Game `q2_panel` 独占 `packages/game/src/core/battle` 的
 
 Reforge 后续消费端准入同一个 owner。检查编辑器项目资源角色与 `packages/migrate/src/pal-manifest.ts` 的实际发布。作者工程可不配置战败音乐。已配置的资源继续核类型和存在性，PAL 原始 001 正常生成，正式项目角色与实际 MIDI 字节可复验。共享工具补现有渲染测试的全灭路径，仍用真实 render 核世界采样边界。
 
-冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。13 个固定局面共 52 场，26 组跨端与 26 组同端复验。另用同路线原生全灭检查渐红、死亡曲、真实对白、确认后黑幕与恢复。旧版伤亡和败局原件与当前分屏归档。物攻段已由 PR #60 合入主线，当前分屏待用户视觉验收。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭) · [运行与媒体归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
+冻结候选 `31002d214bb106272f34af46c86c57872b9b2849`。13 个固定局面共 52 场，26 组跨端与 26 组同端复验。另用同路线原生全灭检查渐红、死亡曲、真实对白、确认后黑幕与恢复。旧版伤亡和败局原件与当前分屏归档。物攻段已由 PR #60 合入主线，当前分屏已获用户验收。受保护合并以本段 PR 的实际 CI 和回执为准。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-伤亡对白雷咒毒伤和全灭) · [运行与媒体归档](../evidence/E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)
 
 Game 定向复验另检出英文定时对白遇正文清除标记时误丢标题和头像。按实际后继行消费同页清除，保留原标题与肖像，无新增确认。13 条旧轮末伤亡 sweep helper 用例随旧入口退役，五条原有物攻 caller 用例保留，并以正常回合和实际绘制核毒伤持姿。快测单文件从 18 条到 8 条，逐条旧用例去向留在归档的 `owner-game/poison-pose-review.md`。
 

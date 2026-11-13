@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "2a29b12fb60c6c6ddf52600428130b865ea78df103cb6481b5effbd1c55bfb46",
+      "afterSha256": "d6fde4705ab3030bfc03c6984ce4db3e3d2bbef2b08b723068c9d79eb815fe42",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -5380,20 +5380,20 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "a507fd56b55d8aa40a73ed53e450cecc64aa0c7ca7740563b3d739912a67d7ad",
+      "afterSha256": "4b7b1038c07d649a2f1c6c662920a531e9e0a8b9c08854708bfe5d74622393cf",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-13",
         "conclusion": "接受真实输入、准入、候选、反例、限定和待用户视觉验收。",
-        "reviewedLines": 314,
+        "reviewedLines": 316,
         "acceptanceScope": "伤亡对白、敌方雷咒、毒伤与普通全灭，以及完整战斗覆盖的后续边界。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "8f74faf14e5c0d2c74da9dd993c0efe40ff400956efbf6c4d7ac037f65ea6223",
+      "afterSha256": "0519ba4910b49e9b3cbb1357b0888ed3a47e21c3dac2de3b9e65abad4d91e7fe",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
@@ -5419,7 +5419,7 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f2f9628f5c28b80e4bcc391dde8a1fb4a921d307fcce1392cdb0327daaa00bc0",
+      "afterSha256": "a8adcfbde8fed0f71a603c94aac406fbe8fd79a682494857e39f25bf659375f8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
