@@ -48,6 +48,8 @@ export type BattleLastAction =
       targetEnemyIdx: number
       /** 单体首击的完整计算伤害，可超过目标剩余生命。 */
       firstDamage?: number
+      /** 单体连击第二挥的独立暴击结果，仅实际发生第二击时记录。 */
+      secondCrit?: boolean
     })
   | (PlayerActionBase & { kind: 'attackMate'; targetAllyIdx: number; damage: number })
   | (PlayerMagicAction & { kind: 'cast'; targetAllyIdx?: number })
