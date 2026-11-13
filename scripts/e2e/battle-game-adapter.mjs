@@ -318,6 +318,21 @@ export function installGameBattleAdapter() {
           : []
       })
     })
+  globalThis.__battleGameCoopFallback = (state, actor, target) =>
+    observe(() => {
+      if (!scenario || state !== battle) return
+      require(action?.kind === 'coop' &&
+        !actor.isEnemy &&
+        action.native.actor.idx ===
+          actor.idx, 'Game cooperative fallback lacks its native cooperative action')
+      const executed = describe(state, actor, { type: 'attack', target })
+      action.kind = executed.kind
+      action.targetId = executed.targetId
+      delete action.skillId
+      delete action.targetSide
+      if (executed.targetSide) action.targetSide = executed.targetSide
+      action.native.coopFallback = true
+    })
   globalThis.__battleGameActionComplete = (state, gs, roles) =>
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs || !action) return
