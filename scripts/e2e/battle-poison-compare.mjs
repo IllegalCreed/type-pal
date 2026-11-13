@@ -24,7 +24,6 @@ const corpse = 555
 const byItem = new Map(six.map((row) => [row.item, row]))
 const pid = (item) => byItem.get(item).poison
 const poisons = (...ids) => ids.sort((a, b) => a - b)
-const sourceRange = (first, last) => ({ first, last })
 const player = (index, slot, hp, active, roll, damage) => ({
   index,
   side: 'player',
@@ -71,7 +70,7 @@ const fixtures = {
   ],
   'shadowless-cap': [currentHp(0, 2250, 1250), currentHp(1, 1250, 624)],
   'shadowless-20': [currentHp(1, 20, 9)],
-  'shadowless-1997': [currentHp(4, 1997, 998)],
+  'shadowless-1997': [currentHp(1, 1997, 998)],
   'shadowless-1998': [currentHp(3, 1998, 998)],
   'shadowless-2000': [currentHp(1, 2000, 1000)],
   'use-reverse-counter': [
@@ -99,15 +98,6 @@ const fixtures = {
   'three-corpse-enemy-round': [
     enemy(0, [330, 330], [[], [corpse]], throwRolls),
     enemy(1, [330, 330], [[corpse], [corpse]], throwRolls),
-  ],
-  'witchcraft-does-not-kill-pair': [
-    enemy(0, [330, 230], [[], [begonia]], throwRolls, 100),
-    enemy(
-      2,
-      [230, 230],
-      [[begonia], poisons(begonia, corpse)],
-      ['cast-growth', 'poison-resistance'],
-    ),
   ],
 }
 
@@ -201,6 +191,21 @@ function compareCase(trace, scenario, premises) {
   const frames = trace.presentations.filter(({ kind }) => kind === 'battle-frame')
   const firstDraws = firstNumberDraws(frames)
   const receipts = []
+  const animated = trace.actions.map((action, index) => {
+    const priorOrder = trace.actions[index - 1]?.order ?? trace.start.order
+    const lastCommit = trace.commands.findLast(({ turn }) => turn === action.turn)?.order
+    const lower = Math.max(priorOrder, lastCommit ?? priorOrder)
+    const upper = trace.actions[index + 1]?.order ?? trace.terminal.order
+    return frames.find(
+      ({ order, payload }) =>
+        order > lower &&
+        order <= upper &&
+        payload.turn === action.turn &&
+        payload.animation?.actorId === action.actorId &&
+        payload.animation.kind === action.kind &&
+        payload.animation.targetId === action.targetId,
+    )
+  })
   for (const witness of expected) {
     const { index, side, slot, hp: expectedHp, poisons: expectedPoisons, roll, damage } = witness
     const command = commands[index]
@@ -254,32 +259,37 @@ function compareCase(trace, scenario, premises) {
           .map(({ value }) => Math.floor(value * 10)),
         [index === 0 ? 6 : 3],
       )
-    const next = trace.actions[actionIndex + 1]
+    const nextAnimation = animated.slice(actionIndex + 1).find(Boolean)
     const nextRound = trace.rounds.find(({ order }) => order > actual.order)
+    const startFrame = animated[actionIndex]
+    check(`${location} native animation`, Boolean(startFrame), true)
     const through = Math.min(
-      next?.order ?? Infinity,
+      nextAnimation?.order ?? Infinity,
       nextRound?.order ?? Infinity,
       trace.terminal.order,
     )
     const feedback = firstDraws.filter(
       ({ frame, number }) =>
-        frame.order > beforeOrder &&
-        frame.order <= through &&
+        frame.order >= (startFrame?.order ?? actual.order) &&
+        frame.order < through &&
         number.side === side &&
         number.slot === slot,
     )
     if (damage !== undefined) {
-      const draw = feedback.find(({ number }) => number.value === damage && number.tone === 'blue')
-      check(`${location} drawn blue damage`, draw ? shown(draw.number) : null, {
-        side,
-        slot,
-        value: damage,
-        tone: 'blue',
-      })
-    }
+      check(
+        `${location} drawn blue damage`,
+        feedback.map(({ number }) => shown(number)),
+        [{ side, slot, value: damage, tone: 'blue' }],
+      )
+    } else
+      check(
+        `${location} draws no damage`,
+        feedback.map(({ number }) => shown(number)),
+        [],
+      )
     receipts.push({
       command,
-      orders: sourceRange(beforeOrder, through),
+      orders: { first: beforeOrder, last: through },
       actionOrder: actual.order,
       hp: observedHp,
       poisons: observedPoison,

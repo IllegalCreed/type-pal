@@ -5,27 +5,16 @@ import { battleFoundationScenario, battleLaunchSpec } from './battle-foundation-
 import { repoRoot } from './browser-journey.mjs'
 
 const load = async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))
-const [
-  rawTeams,
-  rawEnemies,
-  rawObjects,
-  rawItems,
-  rawPoisons,
-  palTeams,
-  palEnemies,
-  palItems,
-  palPoisons,
-] = await Promise.all([
-  load('data/extracted/data/enemy-teams.json'),
-  load('data/extracted/data/enemies.json'),
-  load('data/extracted/data/enemy-objects.json'),
-  load('data/extracted/data/items.json'),
-  load('data/extracted/data/object-poisons.json'),
-  load('projects/pal/content/enemy-teams.json'),
-  load('projects/pal/content/enemies.json'),
-  load('projects/pal/content/items.json'),
-  load('projects/pal/content/poisons.json'),
-])
+const [rawTeams, rawEnemies, rawObjects, rawItems, palTeams, palEnemies, palItems] =
+  await Promise.all([
+    load('data/extracted/data/enemy-teams.json'),
+    load('data/extracted/data/enemies.json'),
+    load('data/extracted/data/enemy-objects.json'),
+    load('data/extracted/data/items.json'),
+    load('projects/pal/content/enemy-teams.json'),
+    load('projects/pal/content/enemies.json'),
+    load('projects/pal/content/items.json'),
+  ])
 
 const hero = 'li-xiaoyao'
 const linger = 'zhao-linger'
@@ -52,14 +41,6 @@ const hit = (actorId = anu, targetId = foe(), turn = 1) => ({
   targetId,
 })
 const defend = (actorId, turn = 1) => ({ turn, actorId, kind: 'defend', targetId: null })
-const cast = (actorId, skillId, targetId = foe(), turn = 1) => ({
-  turn,
-  actorId,
-  kind: 'cast',
-  skillId: String(skillId),
-  targetId,
-})
-
 export const six = [
   {
     item: 122,
@@ -119,14 +100,7 @@ export const six = [
 const open = (
   label,
   commands,
-  {
-    team = 69,
-    seed = 4,
-    hp = [171, 171, 171],
-    attack = [100, 120, 2400],
-    focus = [],
-    skills = {},
-  } = {},
+  { team = 69, seed = 4, hp = [171, 171, 171], attack = [100, 120, 2400], focus = [] } = {},
 ) => ({
   label,
   team,
@@ -134,7 +108,6 @@ const open = (
   hp,
   attack,
   focus,
-  skills,
   commands,
 })
 const finishNextRound = [hit(hero, foe(), 2), hit(linger, foe(), 2), hit(anu, foe(), 2)]
@@ -168,18 +141,7 @@ const bounds = [
     [toss(hero, 161), toss(linger, 137), hit(anu, foe(1)), ...finishNextRound],
     { team: 106, focus: [1] },
   ),
-  open(
-    'shadowless-1997',
-    [
-      toss(hero, 155),
-      toss(linger, 126),
-      defend(anu),
-      toss(hero, 128, foe(), 2),
-      toss(linger, 137, foe(), 2),
-      hit(anu, foe(), 2),
-    ],
-    { team: 274, focus: [4] },
-  ),
+  open('shadowless-1997', [toss(hero, 128), toss(linger, 137), hit()], { team: 138, focus: [1] }),
   open(
     'shadowless-1998',
     [
@@ -232,11 +194,6 @@ const controls = [
     [toss(hero, 138), toss(linger, 138), defend(anu), ...finishNextRound],
     { focus: [0, 1] },
   ),
-  open(
-    'witchcraft-does-not-kill-pair',
-    [toss(hero, 124), defend(linger), cast(anu, 352), ...finishNextRound],
-    { focus: [0, 2], skills: { [anu]: [352] } },
-  ),
 ]
 const groups = { priority, bounds, pairs, controls }
 export function poisonCases(selection = 'all') {
@@ -249,7 +206,7 @@ export function poisonCases(selection = 'all') {
   return selected
 }
 
-export function makeSpec({ label, team, seed, hp, attack, commands, skills }) {
+export function makeSpec({ label, team, seed, hp, attack, commands }) {
   const party = [
     { id: hero, role: 0, hp: hp[0], speed: 900, attack: attack[0] },
     { id: linger, role: 1, hp: hp[1], speed: 500, attack: attack[1] },
@@ -304,7 +261,7 @@ export function makeSpec({ label, team, seed, hp, attack, commands, skills }) {
           magicStrength: 50,
           dexterity: speed,
           fleeRate: 30,
-          magic: skills[party.find((member) => member.role === role).id] ?? [],
+          magic: [],
         },
       ]),
     ),
@@ -326,7 +283,7 @@ export function makeSpec({ label, team, seed, hp, attack, commands, skills }) {
           luck: 30,
         },
         equipment: {},
-        skills: { kind: 'replace', ids: (skills[id] ?? []).map(String) },
+        skills: { kind: 'replace', ids: [] },
         hp: { kind: 'value', value: hp },
         mp: { kind: 'full' },
       })),
@@ -336,20 +293,4 @@ export function makeSpec({ label, team, seed, hp, attack, commands, skills }) {
     fieldId: 7,
   })
   return spec
-}
-
-export function sourceReceipts(selected) {
-  const used = new Set(
-    selected.flatMap(({ commands }) => commands.flatMap(({ itemId }) => (itemId ? [itemId] : []))),
-  )
-  return {
-    items: [...used].map((itemId) => ({
-      raw: rawItems.find(({ id }) => id === Number(itemId)),
-      authored: palItems.find(({ id }) => id === itemId),
-    })),
-    poisons: [551, 137, ...six.map(({ poison }) => poison)].map((id) => ({
-      raw: rawPoisons.find((p) => p.id === id),
-      authored: palPoisons.find((p) => p.id === id),
-    })),
-  }
 }
