@@ -1,7 +1,18 @@
 import type { EnemyDef, SkillData } from '@type-pal/content'
-import { validateEnemies, validateItems, validatePoisons, validateSkills } from '@type-pal/content'
+import {
+  validateBattleFields,
+  validateEnemies,
+  validateEnemyTeams,
+  validateItems,
+  validatePoisons,
+  validateSkills,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
+import palBattleFields from '../../../../projects/pal/content/battle-fields.json' with {
+  type: 'json',
+}
 import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
+import palEnemyTeams from '../../../../projects/pal/content/enemy-teams.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
 import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
@@ -273,6 +284,94 @@ test('enemy Thunder Spell applies the player elemental base resistance before fi
   // CLASSIC fight.c:4825–4838: raw 147 × 0.8, then /2 (automatic guard), with integer truncation.
   expect(state.players[0]?.hp).toBe(27)
   expect(state.players[1]?.hp).toBe(150)
+})
+
+test.each([
+  {
+    skillId: '312',
+    teamId: 'team-115',
+    // Seed 6: three initiative draws, one damage variance, then growth.
+    draws: [
+      0.5257466111797839, 0.002343546599149704, 0.6631714215036482, 0.20216270093806088,
+      0.5421195910312235,
+    ],
+    enemyHp: [228],
+    playerMp: 95,
+  },
+  {
+    skillId: '313',
+    teamId: 'team-116',
+    // Seed 2: five initiative draws, then the three slot variances and growth.
+    draws: [
+      0.7342509443406016, 0.32499843230471015, 0.28529605525545776, 0.5379551574587822,
+      0.8752879470121115, 0.6308333419729024, 0.4992015736643225, 0.3572446557227522,
+      0.7815889057237655,
+    ],
+    enemyHp: [195, 196, 197],
+    playerMp: 89,
+  },
+])('player spell $skillId rolls damage against effective defense before growth', ({
+  skillId,
+  teamId,
+  draws,
+  enemyHp,
+  playerMp,
+}) => {
+  const bloodworm = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === teamId))
+  expect(team.slots).toEqual(enemyHp.map(() => bloodworm.id))
+  const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === skillId))
+  const field = expectDefined(validateBattleFields(palBattleFields).find(({ id }) => id === 7))
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 8,
+        defense: 13,
+        magicStrength: 208,
+        baseDexterity: 906,
+        fleeRate: 39,
+        grantedStatuses: ['dualAttack'],
+        skills: [spell.id],
+      }),
+      wfPlayer('anu', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 2250,
+        defense: 766,
+        magicStrength: 112,
+        baseDexterity: 150,
+        fleeRate: 48,
+      }),
+    ],
+    enemySlots: team.slots.map(() => bloodworm),
+    fieldEffect: field.magicEffect,
+    skills: { [spell.id]: spell },
+  })
+  const rng = fixedDraws(draws)
+  stepBattle(state, rng)
+  state.pendingActions.set(0, {
+    kind: 'cast',
+    skillId: spell.id,
+    ...(spell.target === 'oneEnemy' ? { targetEnemyIdx: 0 } : {}),
+  })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // fight.c:4284–4309 uses DEF 10 + (12 + 6) * 4. Growth rolls only at 4328–4329.
+  expect(state.lastAction).toMatchObject({ side: 'player', idx: 0, kind: 'cast', skillId })
+  expect.soft(state.enemies.flatMap((enemy) => (enemy ? [enemy.hp] : []))).toEqual(enemyHp)
+  expect.soft(state.players[0]).toMatchObject({
+    mp: playerMp,
+    hiddenCounts: { maxMP: 3, magicAttack: 1 },
+  })
+  expect(state.players[1]?.hiddenCounts).toEqual({})
 })
 
 function bloodWormBattle() {

@@ -1334,9 +1334,6 @@ function applyPlayerSkill(
       s.log.push(`${p.roleId} 施展 ${skill.name}：使用次数已用尽，技能已移除`)
     }
   }
-  // B7c:施法成功 → maxMP 池 +R(2,3)、magicAttack 池 +1(fight.c:4328-4329,序固定)
-  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
-  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
   const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
   const enemyTargets =
     skill.target === 'allEnemies'
@@ -1580,6 +1577,9 @@ function applyPlayerSkill(
   // 以整次 action 聚合：任一敌方状态成功即不报失败；友方状态链不走此旁白。
   if (enemyStatusAttempted && !anyEnemyStatusApplied && s.lastAction)
     s.lastAction.failureFeedback = 'statusIneffective'
+  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
+  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
+  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
 }
 
 /** 玩家法术伤害单敌结算(damage/moneyDamage 共用):魔强+抗性+战场五灵,防御姿减半,保底 1。 */
@@ -1598,7 +1598,7 @@ function dealSkillDamage(
     applyDefense(
       calcMagicDamage({
         magStr: p.magicStrength,
-        def: e.def.stats.defense,
+        def: e.def.stats.defense + (e.def.stats.level + 6) * 4, // fight.c:4285–4286,4305–4306
         rngFactor: 1 + rng() * 0.1,
         magicData: { baseDamage: power, elemental },
         elemRes: e.def.stats.elemResistance,
