@@ -12,7 +12,11 @@ import { firstNumberDraws } from './battle-presentation.mjs'
 import { validateRecording } from './battle-trace-contract.mjs'
 import { repoRoot } from './browser-journey.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
-import { assertDependencyClosure, recordingDependencies } from './evidence-dependencies.mjs'
+import {
+  assertDependencyClosure,
+  dependencyImpact,
+  recordingDependencies,
+} from './evidence-dependencies.mjs'
 import { assertInputLedger } from './input-ledger.mjs'
 
 const entry = 'scripts/e2e/battle-poison-items.mjs'
@@ -149,6 +153,7 @@ function compareCase(trace, scenario, premises) {
     id: `poison-${scenario.label}`,
     random: { algorithm: 'mulberry32', seed: scenario.seed },
   })
+  const rounds = trace.rounds ?? []
   const findings = []
   const check = (name, actual, expected) => {
     if (!same(actual, expected)) findings.push({ name, expected, actual })
@@ -234,7 +239,7 @@ function compareCase(trace, scenario, premises) {
       check(`${location} other ${group}`, unrelated(actual.after), unrelated(actual.before))
     }
     const predecessor = trace.actions[actionIndex - 1]
-    const previousBoundary = trace.rounds.findLast(
+    const previousBoundary = rounds.findLast(
       ({ order }) => order < actual.order && order > (predecessor?.order ?? 0),
     )
     const beforeOrder = previousBoundary?.order ?? predecessor?.order ?? trace.start.order
@@ -265,7 +270,7 @@ function compareCase(trace, scenario, premises) {
         [index === 0 ? 6 : 3],
       )
     const nextAnimation = animated.slice(actionIndex + 1).find(Boolean)
-    const nextRound = trace.rounds.find(({ order }) => order > actual.order)
+    const nextRound = rounds.find(({ order }) => order > actual.order)
     const startFrame = animated[actionIndex]
     check(`${location} native animation`, Boolean(startFrame), true)
     const through = Math.min(
@@ -309,30 +314,76 @@ function compareCase(trace, scenario, premises) {
   if (label === 'three-corpse-ally-rounds')
     check(
       'first two player round ticks',
-      trace.rounds
-        .slice(0, 2)
-        .map(({ before, after }) => before.players[1].hp - after.players[1].hp),
+      rounds.slice(0, 2).map(({ before, after }) => before.players[1].hp - after.players[1].hp),
       [0, 1],
     )
   if (label === 'three-corpse-enemy-round')
     check(
       'first enemy round tick',
-      trace.rounds
-        .slice(0, 1)
-        .map(({ before, after }) => before.enemies[0].hp - after.enemies[0].hp),
+      rounds.slice(0, 1).map(({ before, after }) => before.enemies[0].hp - after.enemies[0].hp),
       [111],
     )
   return { label, status: findings.length ? 'rejected' : 'passed', findings, receipts }
 }
 
-/** Re-judge original bytes under the same revision and complete dependency closure as each native run. */
+const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const git = (args) => execFileSync('git', args, { cwd: repoRoot })
+
+function verifyProducerHashes(report, current) {
+  assertDependencyClosure(report.dependencies, current)
+  assert.deepEqual(report.hashes, report.dependencies.hashes)
+  const originalJudge = sha256(git(['show', `${report.revision}:${comparisonSource}`]))
+  assert.equal(
+    report.hashes[comparisonSource],
+    originalJudge,
+    'recorded judge differs from its Git revision',
+  )
+  assert.equal(dependencyImpact(report.dependencies, comparisonSource), 'declared-oracle')
+  assert.equal(dependencyImpact(current, comparisonSource), 'declared-oracle')
+  const expected = { ...current.hashes, [comparisonSource]: originalJudge }
+  assert.deepEqual(report.hashes, expected, 'a producer or unrelated declared source changed')
+  return { recorded: originalJudge, current: current.hashes[comparisonSource] }
+}
+
+function compareFocusedActions(game, reforge) {
+  const projection = ({ command, hp, poisons, draws, numbers }) => ({
+    command,
+    hp,
+    poisons,
+    draws: draws.map(({ purpose, value }) => ({ purpose, value })),
+    numbers: numbers.map(shown),
+  })
+  const results = []
+  for (const [index, { label, receipts }] of game.results.entries()) {
+    const left = receipts.map(projection)
+    const right = reforge.results[index].receipts.map(projection)
+    const differences = []
+    for (let focus = 0; focus < Math.max(left.length, right.length); focus++) {
+      if (!same(left[focus], right[focus]))
+        differences.push({
+          focus,
+          command: (left[focus] ?? right[focus]).command,
+          game: left[focus] ?? null,
+          reforge: right[focus] ?? null,
+        })
+    }
+    results.push({ label, status: differences.length ? 'rejected' : 'passed', differences })
+  }
+  return results
+}
+
+/** A changed comparison may rejudge original bytes only when the native source closure still matches. */
 export async function comparePoisonReports(gamePath, reforgePath, selector = 'all') {
   const scenarios = poisonCases(selector)
   const premises = await verifyPoisonSources(repoRoot)
-  const revision = execFileSync('git', ['rev-parse', 'HEAD'], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-  }).trim()
+  const judgeRevision = git(['rev-parse', 'HEAD']).toString().trim()
+  const judgeSha = sha256(await readFile(resolve(repoRoot, comparisonSource)))
+  assert.equal(
+    judgeSha,
+    sha256(git(['show', `${judgeRevision}:${comparisonSource}`])),
+    'commit the comparator before rejudging',
+  )
+  let producerRevision
   const commonSources = [
     ...(await battleFoundationInputSources(repoRoot)),
     ...poisonSources,
@@ -347,7 +398,13 @@ export async function comparePoisonReports(gamePath, reforgePath, selector = 'al
     const bytes = await readFile(absolute)
     const report = JSON.parse(bytes)
     assert.equal(report.engine, engine)
-    assert.equal(report.revision, revision, 'check out the report revision before comparison')
+    assert.match(report.revision, /^[a-f0-9]{40}$/u, 'invalid producer revision')
+    if (producerRevision === undefined) producerRevision = report.revision
+    assert.equal(
+      report.revision,
+      producerRevision,
+      'the two recordings have different producer revisions',
+    )
     assert.equal(report.selector, selector)
     assert.equal(report.profile, 'verify', 'verify reports are distinct from review recordings')
     assert.equal(report.counter, 'none')
@@ -366,13 +423,8 @@ export async function comparePoisonReports(gamePath, reforgePath, selector = 'al
         `missing source binding ${source}`,
       )
     const current = await recordingDependencies(repoRoot, report.dependencies.definition)
-    assertDependencyClosure(report.dependencies, current)
-    assert.deepEqual(
-      report.dependencies.hashes,
-      current.hashes,
-      'the source revision differs from the actual producer/judge bytes',
-    )
-    assert.deepEqual(report.hashes, current.hashes)
+    const judge = verifyProducerHashes(report, current)
+    assert.equal(judge.current, judgeSha)
     assertInputLedger(report.actions, { requireReceipts: true })
     assert.deepEqual(report.inputExecution, { status: 'passed', actions: report.actions.length })
     assert.deepEqual(
@@ -412,20 +464,30 @@ export async function comparePoisonReports(gamePath, reforgePath, selector = 'al
     engines.push({
       engine,
       report: absolute,
-      sha256: createHash('sha256').update(bytes).digest('hex'),
+      sha256: sha256(bytes),
+      judge,
       results,
     })
   }
-  const rejected = engines.flatMap(({ engine, results }) =>
-    results.filter(({ status }) => status === 'rejected').map(({ label }) => ({ engine, label })),
-  )
+  const paired = compareFocusedActions(...engines)
+  const rejected = [
+    ...engines.flatMap(({ engine, results }) =>
+      results.filter(({ status }) => status === 'rejected').map(({ label }) => ({ engine, label })),
+    ),
+    ...paired
+      .filter(({ status }) => status === 'rejected')
+      .map(({ label }) => ({ engine: 'paired', label })),
+  ]
   return {
     schemaVersion: 1,
-    revision,
+    producerRevision,
+    judgeRevision,
+    judgeSha,
     selector,
     status: rejected.length ? 'rejected' : 'passed',
     rejected,
     engines,
+    paired,
   }
 }
 
