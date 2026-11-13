@@ -10143,12 +10143,12 @@
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz",
-      "sha256": "3a16fcb952bcb42206db49bb330e9eb1c8c7b35a5b53ae2f94b02c109ace0f09",
-      "bytes": 39643460,
+      "sha256": "2186ee4c959cd3824f69708573cd2fb13bf963e121970d48405aa10c2fe9df8f",
+      "bytes": 40027298,
       "manifest": {
         "path": "build/q2/item-effects/archive-index.json",
-        "sha256": "9fbff4e9960d8bcf1e97ae4e00cf44989318aee7804af376703dc15fa3c5ef8b",
-        "bytes": 83244
+        "sha256": "da41331bdf217cd80abca6114eac7d1e1728f5c46a4ec47a92ba96d5bdd666c5",
+        "bytes": 85383
       },
       "purpose": "Bound original and current item/throw traces, source bundle, stereo review, narrow diagnostics and quality receipts."
     }
@@ -11661,6 +11661,32 @@
       "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/coverage-ratchet-retry.log",
       "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/lint-final.log",
       "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/typecheck-final.log"
-    ]
+    ],
+    "baselineDriverRecovery": {
+      "source": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/av/item-reforge-audit/probe.mjs",
+      "sourceSha256": "6dc0c87b8a58dad9234e4b93123bdcaecce2667c30835f8e6b35d7001cdc5d06",
+      "receipt": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/av/item-reforge-audit/probe-before-recovery.json",
+      "originalReports": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/before/q2-item-presentation-probe-game-2026-11-13T07-19-18-317Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/before/q2-item-presentation-probe-reforge-2026-11-13T07-19-18-317Z/report.json"
+      ],
+      "rerun": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/probe-before-restored-rerun.json"
+    },
+    "visualDifferenceReview": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/item-split-recheck.json",
+    "visualAcceptance": {
+      "date": "2026-11-13",
+      "result": "accepted",
+      "reviewer": "user",
+      "quote": "通过，继续推进吧",
+      "producerRevision": "bd48eda19ab9e08b9c17c176c08ff1a9243862d4",
+      "video": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz#build/q2/item-effects/battle-item-effects-split.mp4",
+      "videoSha256": "3f17f29b8c00b3cb7c536b7aa2d7c0348d3199bc5a9669a2855d8ce68350e317",
+      "scope": [
+        "item-group-mp-and-wind-talisman",
+        "item-throw-poison-sand",
+        "item-throw-drain",
+        "item-revival-after-knockout"
+      ]
+    }
   }
 }

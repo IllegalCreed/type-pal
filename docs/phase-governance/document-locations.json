@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "cc33475cd81f990b67167f0f93d70b55046349bb60904fe074f9ff4adec9adbc",
+      "afterSha256": "af7a6240db31bc54b2fd979ac9725964944c48a480216f2cf043188815d719aa",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -5380,20 +5380,20 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e6b3ccd82b5a9c363ab446692422e8ecb95bc4d2882c604647c01d54e9df6f9b",
+      "afterSha256": "79c260a497e01c45a7056186ca83c728ee5fa5f7612aafaeff986bb51ab5f2f2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_item_receipt",
         "date": "2026-11-13",
         "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 367,
+        "reviewedLines": 369,
         "acceptanceScope": "复核本批准入、调用范围、实际双端复跑、失败及待验收范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "cde091c4a2d19d3d0713fd0a384dece5701da8f0877f8bc4e347bc72b3e09d1c",
+      "afterSha256": "9d09307e0070c5ee055fca50db17f1d8307daaf357da80b5f7b2187c87c1a340",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_item_receipt",
@@ -5406,26 +5406,26 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "1d7a1c72d1356635a814ee774fb0827875152d1fd56a3d82f5dca93495d03301",
+      "afterSha256": "492e298fdf48a211e108c974380e36c824742ef2ec5b17336c6d206fd0143e4c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_item_receipt",
         "date": "2026-11-13",
         "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 11667,
+        "reviewedLines": 11693,
         "acceptanceScope": "核报告引用、实际原件、读回重比、失败、录制和冻结执行身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "9dbadb3be61dd714623daab81939cc550b80849f24152cadec0056e298eff9fe",
+      "afterSha256": "71ccfa18cf7b08a5badee86730aceee4e5289bbe0a18691ca435fad6f93fb04f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_item_receipt",
         "date": "2026-11-13",
         "conclusion": "按实际改动、原盘与双端原件复核适用范围。",
-        "reviewedLines": 291,
+        "reviewedLines": 293,
         "acceptanceScope": "核两端同局面数据、实际旧差异、当前分屏和剩余未决边界。"
       }
     },
@@ -5810,8 +5810,8 @@
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-item-effects-20261113.tar.gz",
-      "sha256": "3a16fcb952bcb42206db49bb330e9eb1c8c7b35a5b53ae2f94b02c109ace0f09",
-      "bytes": 39643460,
+      "sha256": "2186ee4c959cd3824f69708573cd2fb13bf963e121970d48405aa10c2fe9df8f",
+      "bytes": 40027298,
       "purpose": "战斗道具及投掷的实际双端前后原件、诊断和原速带声分屏。"
     }
   ],
