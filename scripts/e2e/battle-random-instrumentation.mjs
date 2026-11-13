@@ -77,13 +77,16 @@ export function instrumentBattleRandomDraws(source, file) {
           mark(node, 'enemy-magic-block')
         if (owner === 'applyEnemyMagicDamage' && expression === 'state.rng.next()')
           mark(node, 'enemy-magic-damage-float')
-      } else if (
-        file.endsWith('/battle-opcodes.ts') &&
-        owner === 'dispatchBattleOpcode' &&
-        expression === 'state.rng.rangeInclusive(1, 100)' &&
-        ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast) === 'OP_POISON_PLAYER'
-      ) {
-        mark(node, 'enemy-equivalent-poison-script')
+      } else if (file.endsWith('/battle-opcodes.ts') && owner === 'dispatchBattleOpcode') {
+        const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
+        if (opcode === 'OP_POISON_PLAYER' && expression === 'state.rng.rangeInclusive(1, 100)')
+          mark(node, 'enemy-equivalent-poison-script')
+        if (opcode === 'OP_SET_ENEMY_STATUS' && expression === 'state.rng.rangeInclusive(0, 9)')
+          mark(node, 'status-resistance', {
+            target: "{ turn: state.turn + 1, side: 'enemy', slot: sel.idx }",
+          })
+        if (opcode === 'OP_THROW_WEAPON' && expression === 'state.rng.rangeInclusive(0, 3)')
+          mark(node, 'throw-weapon-strength')
       } else if (file.endsWith('/event-system.ts') && owner === 'applyRawOpcode') {
         const opcode = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
         if (opcode === 'OP_JUMP_BY_RATE') {
@@ -143,7 +146,31 @@ export function instrumentBattleRandomDraws(source, file) {
           mark(node, 'spell-damage-variance', {
             target: "{ turn: s.turn, side: 'enemy', slot: ti }",
           })
-        if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
+        if (owner === 'performCoopMagic' && multiplier === '0.1')
+          mark(node, 'spell-damage-variance', {
+            target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+          })
+        if (owner === 'performThrow') {
+          if (multiplier === '0.1')
+            mark(node, 'spell-damage-variance', {
+              target: "{ turn: s.turn, side: 'enemy', slot: enemyIdx }",
+            })
+          const declaration = ts.findAncestor(node, ts.isVariableDeclaration)
+          if (
+            declaration?.name.getText(ast) === 'value' &&
+            declaration.initializer?.getText(ast).includes('effect.strength.multiplier.min')
+          )
+            mark(node, 'throw-weapon-strength')
+        }
+        if (owner === 'applyPlayerSkill') {
+          const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
+          if (multiplier === '2') mark(node, 'cast-growth')
+          if (effect === "'gate'" && multiplier === '100') mark(node, 'battle-script-chance')
+          if (effect === "'applyStatus'" && multiplier === '10')
+            mark(node, 'status-resistance', {
+              target: "{ turn: s.turn, side: 'enemy', slot: ti }",
+            })
+        }
         if (
           owner === 'recordPlayerAttackGrowth' ||
           (owner === 'performPlayerAction' && multiplier === '2')
@@ -171,7 +198,12 @@ export function instrumentBattleRandomDraws(source, file) {
   if (file.endsWith('/enemy-ai.ts')) expected = { 'enemy-target': 2, 'enemy-magic-choice': 1 }
   if (file.endsWith('/magic-damage.ts'))
     expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
-  if (file.endsWith('/battle-opcodes.ts')) expected = { 'enemy-equivalent-poison-script': 1 }
+  if (file.endsWith('/battle-opcodes.ts'))
+    expected = {
+      'enemy-equivalent-poison-script': 1,
+      'status-resistance': 1,
+      'throw-weapon-strength': 1,
+    }
   // Exact old native branches remain observable in source replays, without invented random draws.
   if (file.endsWith('/event-system.ts'))
     expected = legacyChance ? {} : { 'battle-script-chance': 1 }
@@ -188,8 +220,10 @@ export function instrumentBattleRandomDraws(source, file) {
       'enemy-equivalent-item': 1,
       'enemy-equivalent-poison-resist': 1,
       ...(legacyEquivalent ? {} : { 'enemy-equivalent-poison-script': 1 }),
-      'battle-script-chance': 2,
-      'spell-damage-variance': 1,
+      'battle-script-chance': 3,
+      'status-resistance': 1,
+      'spell-damage-variance': 3,
+      'throw-weapon-strength': 1,
       'cast-growth': 1,
       // Old runtime captured for comparison had separate group and single attack growth callers.
       'attack-growth': source.includes('function recordPlayerAttackGrowth(') ? 1 : 2,

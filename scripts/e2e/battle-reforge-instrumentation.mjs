@@ -225,7 +225,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
           add(
             'target-cancel-before',
             node.getStart(ast),
-            'const __battleSelection = this.selection.view;\n',
+            `${call('selectionContext', 'context')}const __battleSelection = this.selection.view;\n`,
           )
           add(
             'target-cancel-after',

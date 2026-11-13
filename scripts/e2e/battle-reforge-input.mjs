@@ -4,7 +4,10 @@ import assert from 'node:assert/strict'
 export function nextReforgeBattleKey(readout, command) {
   if (readout.canConfirmDialogue || readout.canConfirmSettlement) return 'Enter'
   if (readout.busy || readout.phase !== 'selectAction' || !command) return null
-  assert(['attack', 'item', 'cast', 'defend'].includes(command.kind), 'unsupported Reforge command')
+  assert(
+    ['attack', 'item', 'cast', 'coop', 'throw', 'defend'].includes(command.kind),
+    'unsupported Reforge command',
+  )
   if (command.turn !== undefined && readout.turn !== undefined && readout.turn !== command.turn)
     return null
   if (readout.selectingPlayerId !== command.actorId) return null
@@ -12,7 +15,9 @@ export function nextReforgeBattleKey(readout, command) {
   assert(view, 'ready battle has no command-selection view')
   if (view.phase === 'menu') {
     if (command.kind === 'defend') return 'KeyD'
+    if (command.kind === 'throw') return 'KeyW'
     if (command.kind === 'cast') return view.menuIndex === 1 ? 'Enter' : 'ArrowLeft'
+    if (command.kind === 'coop') return view.menuIndex === 2 ? 'Enter' : 'ArrowRight'
     const wanted = command.kind === 'attack' ? 0 : 3
     return view.menuIndex === wanted ? 'Enter' : wanted === 0 ? 'ArrowUp' : 'ArrowDown'
   }
@@ -30,6 +35,12 @@ export function nextReforgeBattleKey(readout, command) {
     if (view.phase === 'misc') return view.miscIndex === 1 ? 'Enter' : 'ArrowDown'
     if (view.phase === 'miscSub') return view.miscSubIndex === 0 ? 'Enter' : 'ArrowUp'
     if (view.phase === 'item') return 'Enter'
+  }
+  if (view.phase === 'throwItem' && command.kind === 'throw') {
+    const { cursor, items } = readout.throwMenu
+    const index = items.findIndex(({ itemId }) => itemId === command.itemId)
+    assert(index >= 0, `Reforge ${command.itemId} is absent from the real throw menu`)
+    return cursor === index ? 'Enter' : cursor < index ? 'ArrowRight' : 'ArrowLeft'
   }
   if (view.phase === 'target') {
     const targets =

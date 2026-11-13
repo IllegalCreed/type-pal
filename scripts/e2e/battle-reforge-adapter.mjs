@@ -22,6 +22,7 @@ let nativeState
 let world
 let selection
 let selectingSlot
+let throwableMenu
 let beforeAction
 let beforeGuards
 let beforeGrowth
@@ -115,22 +116,34 @@ function nativePoisons(state) {
 
 function semanticAction(index, action) {
   const isEnemy = action.side === 'enemy'
+  const player = !isEnemy && nativeState.players[index]
+  const { kind } = action
   invariant(
-    ['attack', 'item', 'defend', 'cast'].includes(action.kind),
-    `unsupported Reforge action ${action.kind}`,
+    ['attack', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind),
+    `unsupported Reforge action ${kind}`,
   )
+  const skillId = action.skillId ?? (kind === 'coop' ? player.cooperativeMagicSkillId : undefined)
+  const itemTarget = kind === 'item' ? nativeState.items[action.itemId]?.use?.target : undefined
+  const throwTarget = kind === 'throw' ? nativeState.items[action.itemId]?.throw?.target : undefined
+  const skillTarget = skillId === undefined ? undefined : nativeState.skills[skillId]?.target
+  invariant(kind !== 'coop' || skillId, 'Reforge co-op action lacks its native skill ID')
+  const all =
+    itemTarget === 'allAllies' ||
+    throwTarget === 'allEnemies' ||
+    skillTarget === 'allAllies' ||
+    skillTarget === 'allEnemies' ||
+    (kind === 'attack' && player?.attackAll)
+  const allAllies = itemTarget === 'allAllies' || skillTarget === 'allAllies'
+  const targetSide = all && ((isEnemy ? !allAllies : allAllies) ? 'player' : 'enemy')
   let targetId = null
-  if (action.kind !== 'defend') {
-    const itemTarget =
-      action.kind === 'item' ? nativeState.items[action.itemId]?.use?.target : undefined
-    // A one-ally item commits immediately in a solo party; core resolves its omitted slot to the actor.
+  if (kind !== 'defend' && kind !== 'pass' && !all) {
+    // A solo party can immediately commit one-ally actions. The core uses the actor as the target.
+    const allyTarget = itemTarget ?? skillTarget
     const implicitAllySlot =
-      itemTarget === 'oneAlly' && nativeState.players.length === 1 ? index : undefined
-    const allySlot = isEnemy
-      ? action.targetPlayerIdx
-      : itemTarget === 'self'
+      allyTarget === 'self' || (allyTarget === 'oneAlly' && nativeState.players.length === 1)
         ? index
-        : (action.targetAllyIdx ?? implicitAllySlot)
+        : undefined
+    const allySlot = isEnemy ? action.targetPlayerIdx : (action.targetAllyIdx ?? implicitAllySlot)
     targetId =
       allySlot === undefined
         ? enemyLabel(action.targetEnemyIdx)
@@ -138,12 +151,13 @@ function semanticAction(index, action) {
   }
   return {
     turn: nativeState.turn,
-    actorId: isEnemy ? enemyLabel(index) : partyLabel(nativeState.players[index]),
+    actorId: isEnemy ? enemyLabel(index) : partyLabel(player),
     ...(isEnemy ? { actorSide: 'enemy' } : {}),
-    kind: action.kind,
+    kind,
     targetId,
-    ...(action.kind === 'item' ? { itemId: action.itemId } : {}),
-    ...(action.kind === 'cast' ? { skillId: action.skillId } : {}),
+    ...(targetSide ? { targetSide } : {}),
+    ...(kind === 'item' || kind === 'throw' ? { itemId: action.itemId } : {}),
+    ...(kind === 'cast' || kind === 'coop' ? { skillId } : {}),
   }
 }
 
@@ -204,6 +218,9 @@ const harness = {
     selection = view
     selectingSlot = currentSelectingSlot
     activeDialogue = dialogue
+  },
+  selectionContext(context) {
+    throwableMenu = context.throwableItems.map(({ itemId }) => ({ itemId }))
   },
   beginFrame(state, clockMs, animating, selecting) {
     if (!sessionReady || terminal) return
@@ -305,6 +322,14 @@ const harness = {
     const isEnemy = action?.side === 'enemy'
     const slot = action?.idx ?? incapacitatedSlot
     const guardSlot = isEnemy ? action.targetPlayerIdx : slot
+    let inaction = !action ? 'incapacitated' : undefined
+    if (action?.kind === 'pass') {
+      const unit = (isEnemy ? state.enemies : state.players)[slot]
+      const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
+      const cooperative = !isEnemy && state.coopThisTurn
+      invariant(unit.hp > 0 && (disabled || cooperative), 'Q2 Reforge pass lacks a native reason')
+      inaction = disabled ? 'incapacitated' : 'cooperative-action'
+    }
     const executed = action
       ? semanticAction(slot, action)
       : {
@@ -325,7 +350,7 @@ const harness = {
       native: {
         lastAction: action ? JSON.parse(JSON.stringify(action)) : null,
         actionLog: state.log.slice(beforeLog),
-        ...(!action ? { inaction: 'incapacitated' } : {}),
+        ...(inaction ? { inaction } : {}),
         ...(!isEnemy
           ? {
               growthBefore: beforeGrowth[slot],
@@ -379,6 +404,9 @@ const harness = {
               }),
             }
           : null,
+      ...(selection?.phase === 'throwItem' && selecting
+        ? { throwMenu: { cursor: selection.itemIndex, items: throwableMenu } }
+        : {}),
       targetCancels,
       ...(nativeEquipmentStatuses?.length ? { nativeEquipmentStatuses } : {}),
       commands: commandCount,
