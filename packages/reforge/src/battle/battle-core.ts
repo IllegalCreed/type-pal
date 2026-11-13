@@ -1726,7 +1726,7 @@ function performCoopMagic(
       applyDefense(
         calcMagicDamage({
           magStr: str,
-          def: e.def.stats.defense,
+          def: e.def.stats.defense + (e.def.stats.level + 6) * 4, // fight.c:4012–4016,4031–4035
           rngFactor: 1 + rng() * 0.1,
           magicData: { baseDamage: dmgEff.power, elemental: dmgEff.elemental },
           elemRes: e.def.stats.elemResistance,
@@ -2251,6 +2251,8 @@ function performThrow(
     earth: 5,
     poison: 6,
   } as const
+  // 0x66 直接读取裸攻击力（script.c:2007–2013），未带持久属性的调用沿用传入攻击力。
+  const baseAttack = p.persistentProgress?.attack ?? p.attackStrength
   const resolvedStrength = new Map<ThrowEffect, number>()
   const strengthOf = (effect: Extract<ThrowEffect, { kind: 'magicDamage' }>): number => {
     const cached = resolvedStrength.get(effect)
@@ -2259,7 +2261,7 @@ function performThrow(
       effect.strength.kind === 'fixed'
         ? effect.strength.value
         : effect.strength.bonus +
-          p.attackStrength *
+          baseAttack *
             (effect.strength.multiplier.min +
               Math.floor(
                 Math.max(0, Math.min(0.999999999, rng())) *

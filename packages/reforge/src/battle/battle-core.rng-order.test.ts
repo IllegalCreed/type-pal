@@ -374,6 +374,103 @@ test.each([
   expect(state.players[1]?.hiddenCounts).toEqual({})
 })
 
+test('cooperative 爆炸 uses the blood worm’s level-adjusted defense without spell growth', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '381'))
+  const field = expectDefined(validateBattleFields(palBattleFields).find(({ id }) => id === 7))
+  const state = createBattleState({
+    players: [
+      wfPlayer('zhao-linger', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 8,
+        magicStrength: 208,
+        baseDexterity: 906,
+        cooperativeMagicSkillId: skill.id,
+      }),
+      wfPlayer('anu', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 300,
+        magicStrength: 112,
+        baseDexterity: 150,
+      }),
+    ],
+    enemySlots: [enemy],
+    fieldEffect: field.magicEffect,
+    skills: { [skill.id]: skill },
+  })
+  const rng = fixedDraws([
+    0.5257466111797839, 0.002343546599149704, 0.6631714215036482, 0.20216270093806088,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: -1 }) // selection's coop placeholder
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // Seed 6, fight.c:3982–3995,4030–4035: combined strength 157, defense 82, damage 161.
+  expect(state.enemies[0]?.hp).toBe(149)
+  expect(state.lastAction).toMatchObject({ kind: 'coop', skillId: '381', coopContributors: [0, 1] })
+  expect(state.players.map(({ hp, mp, hiddenCounts }) => ({ hp, mp, hiddenCounts }))).toEqual([
+    { hp: 140, mp: 100, hiddenCounts: {} },
+    { hp: 140, mp: 100, hiddenCounts: {} },
+  ])
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({ side: 'player', idx: 1, kind: 'pass' })
+})
+
+test('throwing the wooden sword uses bare attack while a wooden sword is equipped', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const [sword] = validateItems(palItems.filter(({ id }) => id === '166'))
+  const item = expectDefined(sword)
+  const state = createBattleState({
+    players: [
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        mp: 100,
+        maxMp: 100,
+        attackStrength: 52,
+        baseDexterity: 903,
+        persistentProgress: {
+          level: 6,
+          exp: 0,
+          maxHP: 150,
+          maxMP: 100,
+          attack: 50,
+          magicAttack: 50,
+          defense: 400,
+          speed: 900,
+          luck: 32,
+        },
+      }),
+      wfPlayer('anu', { hp: 150, maxHp: 150, attackStrength: 950, baseDexterity: 150 }),
+    ],
+    enemySlots: [enemy],
+    items: { [item.id]: item },
+    inventory: [{ itemId: item.id, count: 1 }],
+  })
+  const rng = fixedDraws([
+    0.7342509443406016, 0.32499843230471015, 0.28529605525545776, 0.5379551574587822,
+    0.8752879470121115,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'throw', itemId: item.id, targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // Seed 2, script.c:2007–2013: bare attack 50 × 2 before the independent damage variance.
+  expect(state.lastAction).toMatchObject({ kind: 'throw', throwHits: [{ idx: 0, value: 219 }] })
+  expect(state.enemies[0]?.hp).toBe(91)
+  expect(state.inventory).toEqual([{ itemId: '166', count: 0 }])
+})
+
 function bloodWormBattle() {
   const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
   const items = validateItems(palItems.filter(({ id }) => id === '117' || id === '87'))
