@@ -1372,7 +1372,8 @@ export class BattleSession {
       wave: a.wave ?? 0,
       ...(a.sound ? { sound: a.sound } : {}),
     }
-    const damageNums = la.fizzled ? [] : this.diffDamageNums(pHp, eHp)
+    // 合击只扣贡献者的生命代价。原版扣完才备份 HP，因此不显示这笔伤害（fight.c:3980）。
+    const damageNums = la.fizzled ? [] : this.diffDamageNums(la.kind === 'coop' ? [] : pHp, eHp)
     if (la.side === 'player') {
       // fight.c:638–651：玩家法术超杀时飘完整伤害。混合技能仍保留其它效果的净扣血。
       for (const hit of la.magicHits ?? []) {

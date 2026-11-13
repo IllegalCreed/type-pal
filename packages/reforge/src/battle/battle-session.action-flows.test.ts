@@ -443,6 +443,56 @@ describe('W3 执行时间线接线', () => {
     h.press(['Escape'])
   })
 
+  test('爆炸合击实绘敌方伤害，队员扣除生命但不显示伤害数字', () => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '381'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 150,
+          maxHp: 150,
+          attackStrength: 8,
+          magicStrength: 208,
+          baseDexterity: 906,
+          cooperativeMagicSkillId: skill.id,
+        }),
+        wfPlayer('anu', {
+          hp: 150,
+          maxHp: 150,
+          attackStrength: 300,
+          magicStrength: 112,
+          baseDexterity: 150,
+        }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        skills: { [skill.id]: skill },
+        fieldEffect: { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 },
+      },
+    })
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const blue = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[2]
+    h.press(['ArrowRight'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 100; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      if (blue(92, 10)) break
+    }
+    // 固定倍率 1，合击灵力 157、有效防御 82、火抗 5、战场 +1，伤害 159。
+    expect([80, 86, 92].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    // 合击时队员暂在 (208,157) 与 (234,170)，两处不应绘出生命代价。
+    expect([blue(208, 82), blue(234, 95)]).toEqual([0, 0])
+    expect(h.readParty().map(({ hp }) => hp)).toEqual([140, 140])
+  })
+
   test('致死普攻绘出完整伤害，收尾播放一次敌人死亡音效', () => {
     const sfx = recordingSfx()
     const h = makeWfSession({
