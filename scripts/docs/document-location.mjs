@@ -25,6 +25,7 @@ import {
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
+  assertTestingProjectVictoryVersionSource,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
@@ -32,6 +33,7 @@ import {
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleVictorySourceBindings,
+  restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
@@ -51,6 +53,8 @@ import {
   testingBattleSessionThrowFeedbackBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
+  testingProjectVictoryPublicationBase,
+  testingProjectVictoryVersionPath,
 } from './testing-battle-publication.mjs'
 import {
   assertTestingChestSourceBridge,
@@ -502,6 +506,17 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const handoffSource = handoffRevision && gitTree(root, handoffRevision, [])
   const preHandoff = handoffSource && gitTree(root, testingBattleHandoffPublicationBase, [])
+  const projectVictoryBase =
+    handoffSource && gitTree(root, testingProjectVictoryPublicationBase, [])
+  const projectVictoryInputs = projectVictoryBase && {
+    readBase: projectVictoryBase.read,
+    readFixed: handoffSource.read,
+    readSource,
+  }
+  const beforeProjectVictory = (path, bytes) =>
+    projectVictoryInputs
+      ? restoreTestingProjectVictoryVersionBindings(path, bytes, projectVictoryInputs)
+      : bytes
   const priorEncounterBindings = (path, current) => {
     const beforeHandoff = handoffSource
       ? restoreTestingBattleHandoffSourceBindings(path, current, {
@@ -577,8 +592,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.
-  const readAcquisitionSource = (path) =>
-    preBattle && path === testingBattleSessionSourcePath ? preBattle.read(path) : readSource(path)
+  const readAcquisitionSource = (path) => {
+    if (preBattle && path === testingBattleSessionSourcePath) return preBattle.read(path)
+    if (projectVictoryInputs && path === testingProjectVictoryVersionPath) {
+      assertTestingProjectVictoryVersionSource(projectVictoryInputs)
+      return projectVictoryBase.read(path)
+    }
+    return readSource(path)
+  }
   // Historical layers retain their original sources. Only the finite successor
   // sources may differ from this accepted predecessor in the live checkout.
   const readPredecessorSource = preAcquisition
@@ -751,12 +772,13 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const addition = additions.get(path)
     if (addition) {
       if (postPalace && isPublishedTestingStagePath(path)) {
-        const predecessor = acquisitionPrevious(path, current)
+        const older = beforeProjectVictory(path, current)
+        const predecessor = acquisitionPrevious(path, older)
         assert(
           postPalace.read(path)?.equals(predecessor),
           `published stage differs from fixed 010 base: ${path}`,
         )
-        assertAcquisitionSuccessor(path, predecessor, current)
+        assertAcquisitionSuccessor(path, predecessor, older)
       }
       assert.equal(hash(current), addition.afterSha256, `addition body drift: ${path}`)
       assert.equal(
@@ -842,7 +864,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
             return fixed
           }
         : readPredecessorSource
-      const currentBeforeEncounter = priorEncounterBindings(path, current)
+      const currentBeforeEncounter = priorEncounterBindings(
+        path,
+        beforeProjectVictory(path, current),
+      )
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
           ? preBattle.read(path)

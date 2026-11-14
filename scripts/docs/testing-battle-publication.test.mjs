@@ -16,10 +16,12 @@ import {
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
+  assertTestingProjectVictoryVersionSource,
   isTestingBattleEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleVictorySourceBindings,
+  restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
@@ -34,6 +36,8 @@ import {
   testingBattleSessionSourcePath,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
+  testingProjectVictoryPublicationBase,
+  testingProjectVictoryVersionPath,
 } from './testing-battle-publication.mjs'
 
 const repository = fileURLToPath(new URL('../../', import.meta.url))
@@ -342,20 +346,50 @@ test('hostile handoff source bindings preserve published owners and their origin
   const readCandidate = (path) => readFixed(testingBattleHandoffSourceRevision, path)
   const readLive = (path) => readFileSync(join(repository, path))
   const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
+  const versionBridge = {
+    ...bridge,
+    readBase: (path) => readFixed(testingProjectVictoryPublicationBase, path),
+  }
   const restore = (path, value, inputs = bridge) =>
     restoreTestingBattleHandoffSourceBindings(path, value, inputs)
+  const priorVersion = (path) =>
+    restoreTestingProjectVictoryVersionBindings(path, readLive(path), versionBridge)
 
-  for (const path of paths) assert.deepEqual(restore(path, readLive(path)), readBase(path))
+  for (const path of paths)
+    assert.deepEqual(JSON.parse(restore(path, priorVersion(path))), JSON.parse(readBase(path)))
   const opening = 'docs/testing/e2e/evidence/e2e-001.json'
   const openingBytes = readLive(opening)
   assert.equal(restore(opening, openingBytes), openingBytes)
-  const session = JSON.parse(readLive(sessionEvidence))
-  const catalog = JSON.parse(restore(catalogPath, readLive(catalogPath)))
+  const session = JSON.parse(priorVersion(sessionEvidence))
+  const catalog = JSON.parse(restore(catalogPath, priorVersion(catalogPath)))
   const previous = JSON.parse(readBase(catalogPath))
   const ids = new Set(paths.map((path) => JSON.parse(readBase(path)).id))
   assert.deepEqual(
     catalog.entries.filter(({ id }) => ids.has(id)),
     previous.entries.filter(({ id }) => ids.has(id)),
+  )
+
+  const liveVersion = assertTestingProjectVictoryVersionSource(versionBridge)
+  const wrongVersion = Buffer.from(
+    liveVersion.toString().replace('CONTENT_VERSION = 23', 'CONTENT_VERSION = 24'),
+  )
+  assert.notDeepEqual(wrongVersion, liveVersion)
+  assert.throws(
+    () =>
+      assertTestingProjectVictoryVersionSource({
+        ...versionBridge,
+        readSource: (path) =>
+          path === testingProjectVictoryVersionPath ? wrongVersion : readLive(path),
+      }),
+    /version source differs from the frozen project victory candidate/u,
+  )
+
+  const hostEvidence = paths[0]
+  const host = JSON.parse(readLive(hostEvidence))
+  host.history[0].date = '2026-10-03'
+  assert.throws(
+    () => restoreTestingProjectVictoryVersionBindings(hostEvidence, bytes(host), versionBridge),
+    /old history changed/u,
   )
 
   const correctionsPath = 'docs/testing/domains/cross-phase/script-corrections/evidence.json'

@@ -46,10 +46,10 @@
     },
     {
       "path": "packages/content/src/character.ts",
-      "lines": "168-170",
+      "lines": "169-171",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+      "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
     }
   ],
   "publicCallers": [
@@ -88,7 +88,7 @@
         "packages/reforge/src/world-scene-presentation.ts:71-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
-        "packages/content/src/character.ts:168-170"
+        "packages/content/src/character.ts:169-171"
       ]
     }
   ],
@@ -221,6 +221,22 @@
         }
       ],
       "scope": "世界运动构造的已刊范围逐字节对应。原主张和运行证据照原出版。"
+    },
+    {
+      "action": "q2-project-victory-version-source-rebinding",
+      "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+        }
+      ],
+      "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
     }
   ],
   "_governance": {

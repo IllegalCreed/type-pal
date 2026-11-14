@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
-import { parseTerminalJson } from './terminal-json.mjs'
+import { decodeTerminalUtf8, parseTerminalJson } from './terminal-json.mjs'
+import { testingAcquisitionSourceBindings } from './testing-acquisition-source-bridge.mjs'
 import {
   assertTestingBridgeReference,
   restoreTestingBridgeHistory,
@@ -113,9 +114,12 @@ export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5
 export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
 export const testingBattleHandoffPublicationBase = '9f5f57d4df53ea122622ffda110807e39e0ec66e'
 export const testingBattleHandoffSourceRevision = '39d5bf7eb080a2a569421c50b79ebe60f38eecb0'
+export const testingProjectVictoryPublicationBase = '31cfe5387c5d555b05b05dc1987e7ed31022f3a3'
+export const testingProjectVictoryVersionPath = 'packages/content/src/character.ts'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
+const reforgeBattleHostTest = 'packages/reforge/src/battle/battle-host.test.ts'
 const gameBootstrap = 'packages/game/src/shell/bootstrap.ts'
 const gameSceneSystem = 'packages/game/src/core/scene-system.ts'
 const encounterBindings = new Map([
@@ -161,6 +165,7 @@ const handoffSourceRanges = new Map([
     { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1268-1343' },
   ],
   [reforgeBattleHost, { '63-78': '72-88', '174-178': '265-276' }],
+  [reforgeBattleHostTest, { '13-36': '14-37' }],
   [
     testingBattleSessionSourcePath,
     { '220-222': '242-244', '381-392': '406-418', '1213-1222': '1243-1252' },
@@ -170,6 +175,10 @@ const handoffSourceRanges = new Map([
 const handoffBindings = new Map(
   [...encounterBindings].filter(([, { paths }]) => paths.includes(reforgeMain)),
 )
+handoffBindings.set('domains/runtime/battle/battle-host/evidence.json', {
+  id: 'runtime-battle-host',
+  paths: [reforgeMain, reforgeBattleHost, reforgeBattleHostTest],
+})
 handoffBindings.set(sessionEvidencePath.slice('docs/testing/'.length), {
   id: sessionId,
   paths: [testingBattleSessionSourcePath],
@@ -309,6 +318,128 @@ const handoffBinding = {
   base: testingBattleHandoffPublicationBase,
   action: 'q2-world-battle-handoff-source-rebinding',
   date: '2026-11-14',
+}
+
+const projectVictoryVersionBinding = {
+  paths: [testingProjectVictoryVersionPath],
+  ranges: new Map([
+    [testingProjectVictoryVersionPath, { '168-168': '169-169', '168-170': '169-171' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingProjectVictoryPublicationBase,
+  action: 'q2-project-victory-version-source-rebinding',
+  date: '2026-11-14',
+}
+const projectVictoryVersionEvidence = new Map(
+  testingAcquisitionSourceBindings
+    .filter(({ sourcePaths }) => sourcePaths.includes(testingProjectVictoryVersionPath))
+    .map(({ id, path }) => [path, id]),
+)
+
+function testingMetadata(bytes) {
+  const text = decodeTerminalUtf8(bytes)
+  const match = /<!-- testing-meta\s*\n(\{[^\n]*\})\n-->/u.exec(text)
+  assert(match, 'project victory version bridge requires canonical testing metadata')
+  const start = match.index + match[0].indexOf(match[1])
+  return { text, start, json: Buffer.from(match[1]) }
+}
+
+export function assertTestingProjectVictoryVersionSource({ readSource, readBase, readFixed }) {
+  const path = testingProjectVictoryVersionPath
+  const current = readSource(path)
+  const fixed = readFixed(path)
+  assert(current?.equals(fixed), 'version source differs from the frozen project victory candidate')
+  let source = decodeTerminalUtf8(current)
+  source = replaceHandoffExcerpt(
+    source,
+    "import type { HostileVictoryTransition } from './scene-core.js'\n",
+  )
+  source = replaceHandoffExcerpt(
+    source,
+    '  /** 普通明雷胜利后的默认回场演出。缺省直接返回，各敌人可以覆写。 */\n  hostileVictoryTransition?: HostileVictoryTransition\n',
+  )
+  assert(Buffer.from(source).equals(readBase(path)), 'project victory changed the version source')
+  return current
+}
+
+/** Restore only the version source coordinate/history delta. The encounter bridge
+ * then independently checks its caller changes in the four overlapping records. */
+export function restoreTestingProjectVictoryVersionBindings(path, currentBytes, inputs) {
+  const id = projectVictoryVersionEvidence.get(path)
+  if (!id && path !== catalogPath && !path.endsWith('.md')) return currentBytes
+  if (!path.startsWith('docs/testing/')) return currentBytes
+  const baseBytes = inputs.readBase(path)
+  if (!baseBytes) return currentBytes
+  const stage = projectVictoryVersionBinding
+  const sources = {
+    source: testingBridgeSources(inputs.readSource),
+    fixed: testingBridgeSources(inputs.readFixed),
+    predecessor: testingBridgeSources(inputs.readBase),
+  }
+  function restoreRef(before, current) {
+    const old = before.sourceRefs.filter((item) => stage.paths.includes(item.path))
+    const actual = current.sourceRefs.filter((item) => stage.paths.includes(item.path))
+    assert.equal(old.length, 1, 'project victory must rebind one existing version reference')
+    encounterReferences(old, actual, stage.paths, sources, stage)
+    current.sourceRefs[current.sourceRefs.indexOf(actual[0])] = old[0]
+    return old
+  }
+  function restoreHistory(before, current, old) {
+    // The final encounter event has its own full replay against the fixed
+    // handoff predecessor. Leave that event for the encounter guard, and
+    // require every earlier history byte to match here as well.
+    const retainsHandoff = before.at(-1)?.action === handoffBinding.action
+    const prefix = retainsHandoff ? before.slice(0, -1) : before
+    assert.deepEqual(current.slice(0, prefix.length), prefix, 'old history changed')
+    if (retainsHandoff)
+      assert.equal(current[prefix.length]?.action, handoffBinding.action, 'encounter event moved')
+    return encounterHistory(current.slice(0, -1), current, old, inputs.readSource, stage)
+  }
+  if (path === catalogPath) {
+    const before = parseTerminalJson(baseBytes).entries
+    const current = parseTerminalJson(currentBytes)
+    const byId = new Map(current.entries.map((entry) => [entry.id, entry]))
+    for (const [evidencePath, entryId] of projectVictoryVersionEvidence) {
+      const prior = before.find(({ id }) => id === entryId)
+      const entry = byId.get(entryId)
+      assert(prior && entry && `docs/testing/${entry.evidence}` === evidencePath)
+      const old = restoreRef(prior, entry)
+      entry.revision.history = restoreHistory(prior.revision.history, entry.revision.history, old)
+    }
+    return Buffer.from(JSON.stringify(current))
+  }
+  if (id) {
+    const before = parseTerminalJson(baseBytes)
+    const current = parseTerminalJson(currentBytes)
+    assert.equal(before.id, id)
+    assert.equal(current.id, id)
+    const [old] = restoreRef(before, current)
+    current.history = restoreHistory(before.history, current.history, [old])
+    const oldPointer = `${old.path}:${old.lines}`
+    const currentPointer = `${old.path}:${stage.ranges.get(old.path)[old.lines]}`
+    for (const [index, claim] of before.claims.entries()) {
+      const pointerIndex = claim.evidence.indexOf(oldPointer)
+      if (claim.result !== 'source-backed' || pointerIndex < 0) continue
+      assert.equal(current.claims[index].evidence[pointerIndex], currentPointer)
+      current.claims[index].evidence[pointerIndex] = oldPointer
+    }
+    return Buffer.from(JSON.stringify(current))
+  }
+  const priorText = decodeTerminalUtf8(baseBytes)
+  if (!priorText.includes('<!-- testing-meta')) return currentBytes
+  const prior = testingMetadata(baseBytes)
+  const before = parseTerminalJson(prior.json)
+  if (![...projectVictoryVersionEvidence.values()].includes(before.id)) return currentBytes
+  const metadata = testingMetadata(currentBytes)
+  const current = parseTerminalJson(metadata.json)
+  assert.equal(current.id, before.id)
+  const old = restoreRef(before, current)
+  current.revision.history = restoreHistory(before.revision.history, current.revision.history, old)
+  const restored =
+    metadata.text.slice(0, metadata.start) +
+    JSON.stringify(current) +
+    metadata.text.slice(metadata.start + metadata.json.toString().length)
+  return Buffer.from(restored)
 }
 
 function encounterReferences(before, current, paths, { source, fixed, predecessor }, stage) {
