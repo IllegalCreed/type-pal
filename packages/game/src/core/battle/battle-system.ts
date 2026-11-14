@@ -3,8 +3,8 @@ import { getWord } from '../word-lookup.js'
  * 战斗模式 phase 状态机 —— M3 T22(整合 T11-T21 所有 building blocks)。
  *
  * Phase 流转(对照 design §3):
- *   preBattle → selectAction → performAction → postAction
- *                 ↑___________________________|
+ *   preBattle → selectAction ⇄ performAction (队列耗尽时结算回合)
+ *   已有胜负时经 postAction 收尾；旧快照仍可从 postAction 继续。
  *   → 终态 won / lost / fleed → finalize → mode='explore'
  *
  * **入口**:

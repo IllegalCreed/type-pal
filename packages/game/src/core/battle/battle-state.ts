@@ -206,8 +206,8 @@ export interface BattleAction {
 
 /**
  * 战斗 phase 状态机(T22 真消费)。
- * preBattle → selectAction → performAction → postAction → (回 selectAction
- * 进下一轮 / 或转 won / lost / fleed 退出)。
+ * preBattle → selectAction ⇄ performAction；行动队列耗尽时结算回合。
+ * 已有胜负时可经 postAction 收尾；旧快照仍可从该阶段继续。
  */
 export type BattlePhase =
   | 'preBattle'
