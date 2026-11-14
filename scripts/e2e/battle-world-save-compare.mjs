@@ -83,6 +83,8 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
   )
   const saved = []
   const gameRepeat = []
+  const repeatFacts = (entries) =>
+    entries.map(([role, { type, target, targetSide }]) => [role, type, target, targetSide])
   for (const [index, receipt] of evidence.saves.entries()) {
     const record = await load(receipt.record)
     const actual = saveWorldFacts(record.payload, engine)
@@ -97,11 +99,9 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     if (engine === 'game') {
       const repeats = record.payload.gs.prevBattleActions
       assert.equal(repeats.__gameNativeSave, 'Map', 'fresh copy must preserve native Map identity')
-      assert.deepEqual(
-        repeats.entries.map(([role, value]) => [role, value.type, value.target, value.targetSide]),
-        [[4, 'attack', -1, 'enemy']],
-      )
-      gameRepeat.push(repeats.entries)
+      const recent = repeatFacts(repeats.entries)
+      assert.deepEqual(recent, [[4, 'attack', -1, 'enemy']])
+      gameRepeat.push(recent)
     } else {
       assert.equal(record.payload.projectId, 'pal')
       assert.equal(record.thumb.type, 'image/png')
@@ -198,7 +198,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
       assert(fresh.restoredAt.ready && fresh.resumedAt.ready && fresh.resumedAt.hidden)
       assert(fresh.resumedAt.clock > fresh.restoredAt.clock)
       assert(fresh.resumedAt.ticks < fresh.restoredAt.ticks)
-      if (isGame) assert.deepEqual(fresh.restoredAt.repeat, gameRepeat[index])
+      if (isGame) assert.deepEqual(repeatFacts(fresh.restoredAt.repeat), gameRepeat[index])
       optional.fresh.push(fresh)
     }
   } else {
