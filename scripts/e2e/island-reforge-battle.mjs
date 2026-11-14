@@ -113,7 +113,7 @@ function insertAfter(code, anchor, insertion) {
 }
 
 function instrumentHostile(code) {
-  const anchor = '    const encounterSignal = new AbortController().signal\n'
+  const anchor = '    const encounterSignal = encounterController.signal\n'
   return (
     `import { trackHostile } from '${runtimeId}'\n` +
     insertAfter(
