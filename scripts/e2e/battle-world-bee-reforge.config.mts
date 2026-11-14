@@ -77,7 +77,7 @@ ${move}
   )
   return after(
     rendered,
-    '    dialogBox.render(performance.now())',
+    '\n    dialogBox.render(performance.now())',
     `
     globalThis.__beeWorld?.surface(null)`,
   )
