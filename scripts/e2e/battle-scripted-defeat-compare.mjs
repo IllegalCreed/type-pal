@@ -62,6 +62,7 @@ async function verifySources() {
   assert.deepEqual(raw[13782].operands, [spec.team, 13783, 0])
   assert.deepEqual(raw[13783], { op: 'raw', opcode: 120, operands: [0, 0, 0], label: 'L_13783' })
   assert.deepEqual(raw[13785].operands, [3, 1, 0])
+  assert.deepEqual([raw[13789].opcode, raw[13789].operands], [0x05, [0, 0, 0]])
   assert.deepEqual(raw[13792].operands, [0, 0, 0])
   assert.deepEqual(raw[13793].operands, [201, 0, 0])
   assert.deepEqual(raw[13794].operands, [12, 0, 0])
@@ -371,6 +372,7 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
       restoredParty,
       spec.money,
       spec.inventory,
+      spec.sceneMusic,
       spec.scene,
       spec.scene,
     ],
@@ -441,12 +443,25 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
     flightSoundToFirstStep: elapsed(sounds[3], moved[1]),
     flightFirstToLast: elapsed(moved[1], moved.at(-1)),
     flightSoundToHide: elapsed(sounds[3], hidden),
+    finalStepToHide: elapsed(moved.at(-1), hidden),
   }
   check(
     'no extra terminal-only hold after fatal playback',
     ms.terminalToWorldWrite !== null &&
       ms.terminalToWorldWrite >= 0 &&
       ms.terminalToWorldWrite <= 120,
+    true,
+  )
+  check(
+    'the redraw and one world beat precede the flight cue',
+    ms.worldWriteToFlightSound !== null &&
+      ms.worldWriteToFlightSound >= 145 &&
+      ms.worldWriteToFlightSound <= 285,
+    true,
+  )
+  check(
+    'conceal the actor on the twelfth beat without another world beat',
+    ms.finalStepToHide !== null && ms.finalStepToHide >= 0 && ms.finalStepToHide <= 60,
     true,
   )
   return {

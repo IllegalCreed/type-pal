@@ -4116,6 +4116,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
                       "kind": "setEntityLayer",
                       "layer": 13,
                       "target": {
@@ -4126,10 +4130,6 @@
                     {
                       "kind": "wait",
                       "ms": 100
-                    },
-                    {
-                      "asset": "sound.pal.201",
-                      "kind": "playSound"
                     },
                     {
                       "kind": "setEntityFacing",
@@ -4146,6 +4146,10 @@
                         "entity": "e1759"
                       },
                       "frame": 12
+                    },
+                    {
+                      "asset": "sound.pal.201",
+                      "kind": "playSound"
                     },
                     {
                       "kind": "repeat",
@@ -4165,10 +4169,6 @@
                           "dy": -12
                         }
                       ]
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
                     },
                     {
                       "kind": "setEntityState",
