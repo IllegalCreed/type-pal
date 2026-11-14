@@ -70,7 +70,8 @@ export function advanceRafFrame(
   state.lastTickTime = now
   state.accumulator += dt
 
-  const completedFadeOut = frozen ? undefined : completedEncounterFadeOut(ctx.gs, now)
+  // Palette ramps and the waiting opcode use performance.now(), which can be ahead of the rAF timestamp.
+  const completedFadeOut = frozen ? undefined : completedEncounterFadeOut(ctx.gs, performance.now())
   if (completedFadeOut) {
     const painted = state.paintedEncounterFadeOut
     // Show exact black over the frozen screen first. PAL_MakeScene then starts the new

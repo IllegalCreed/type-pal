@@ -231,8 +231,8 @@ describe('Present and input gates', () => {
     })
     const sampleInput = vi.spyOn(ctx.input, 'nextSnapshot')
     const raf = freshRafState()
-    const step = (at: number) => {
-      now = at
+    const step = (at: number, wallTime = at) => {
+      now = wallTime
       return advanceRafFrame(raf, at, ctx)
     }
 
@@ -248,12 +248,14 @@ describe('Present and input gates', () => {
 
     const frameNum = gs.frameNum
     sampleInput.mockClear()
-    const black = step(700)
+    // A loaded rAF callback may execute just after the palette deadline with an earlier frame timestamp.
+    const black = step(698, 700)
     expect(frames.at(-1)).toEqual({ direction: 'out', index: 64, rgb: new Uint8ClampedArray(3) })
     expect(black).toEqual({ ticked: false, presented: true })
-    expect(step(716)).toEqual({ ticked: true, presented: true })
+    const reveal = step(716, 717)
     expect(frames.at(-1)).toEqual({ direction: 'in', index: 0, rgb: new Uint8ClampedArray(3) })
-    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 716 })
+    expect(reveal).toEqual({ ticked: true, presented: true })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 717 })
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')
     expect(gs.frameNum).toBe(frameNum + 1)
