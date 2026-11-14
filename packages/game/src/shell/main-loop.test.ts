@@ -447,6 +447,52 @@ describe('Present and input gates', () => {
     expect(result.presented).toBe(true)
     expect(flag).toBe(false)
   })
+  it('敌逃以真实帧宽逐帧离场并暂停战斗按键和逻辑', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const roles = { roles: [makeRoleRecord(0)] }
+    gs.partyMembers = [0]
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+    startBattle({
+      gs,
+      enemyTeamId: 4,
+      isBoss: true,
+      battleFieldId: 0,
+      enemies: [makeEnemyRecord({ id: 100, health: 50 })],
+      enemyTeams: [{ id: 4, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      enemySpriteFrameWidths: new Map([[100, 15]]),
+      battleFields: [makeBattleFieldRecord()],
+      playerRoles: roles,
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [],
+      rngSeed: 1,
+    })
+    const battle = gs.battleState!
+    battle.enemies[0]!.pos = { x: 10, y: 80 }
+    battle.enemyEscapeAnim = { step: 0 }
+    const ctx = prepareEmptyLoopContext(gs, (_commands, ticked) => {
+      expect(ticked).toBe(false)
+    })
+    const inputs = vi.spyOn(ctx.input, 'nextSnapshot')
+    const raf = freshRafState()
+    const stamp = gs.frameNum
+    expect(advanceRafFrame(raf, 10, ctx)).toEqual({ ticked: false, presented: true })
+    expect(battle.enemies[0]?.pos).toEqual({ x: 5, y: 80 })
+    advanceRafFrame(raf, 50, ctx)
+    expect(battle.enemies[0]?.pos).toEqual({ x: -15, y: 80 })
+    advanceRafFrame(raf, 549, ctx)
+    expect(battle.phase).not.toBe('fleed')
+    advanceRafFrame(raf, 550, ctx)
+    expect([battle.phase, battle.terminatedByEnemyEscape, battle.enemies[0]?.e.health]).toEqual([
+      'fleed',
+      true,
+      50,
+    ])
+    expect(gs.frameNum).toBe(stamp)
+    expect(inputs.mock.calls).toEqual([[stamp], [stamp], [stamp], [stamp]])
+  })
+
   it('battleAnim 在未到逻辑间隔时仍 present', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.battleState = createPresentationBattle(gs)
