@@ -101,10 +101,10 @@
     },
     {
       "path": "projects/pal/content/scenes/s286.json",
-      "lines": "1100",
+      "lines": "1112",
       "anchor": "\"id\": \"palace-isolated-exit\"",
       "role": "canonical-exit",
-      "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
+      "sha256": "2a4e867dd9c3b13101e4722770daa12cfa75d9c07c481f93732fbc4da0bc746e"
     },
     {
       "path": "packages/game/src/core/scene-supplemental-objects.pal.test.ts",
@@ -392,6 +392,22 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "projects/pal/content/scenes/s286.json",
+          "lines": "1100",
+          "anchor": "\"id\": \"palace-isolated-exit\"",
+          "role": "canonical-exit",
+          "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
+        }
+      ],
+      "scope": "新增其他明雷的胜利过场字段，独立出口实体的原行为和数据完整保留。原主张和运行证据照原出版。"
     }
   ],
   "claims": [

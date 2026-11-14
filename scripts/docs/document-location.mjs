@@ -27,6 +27,7 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
+  isTestingBattleHandoffSceneSource,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
@@ -585,7 +586,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         const fixed = preAcquisition.read(sourcePath)
         if (
           !isTestingAcquisitionSourcePath(sourcePath) &&
-          !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath))
+          !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath)) &&
+          !(handoffSource && isTestingBattleHandoffSceneSource(sourcePath))
         ) {
           const live = readSource(sourcePath)
           assert(

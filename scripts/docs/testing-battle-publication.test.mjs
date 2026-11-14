@@ -329,12 +329,13 @@ test('world victory source rebinding restores the published defeat evidence and 
   )
 })
 
-test('hostile handoff source bindings preserve the four published owners and their original execution', () => {
+test('hostile handoff source bindings preserve published owners and their original execution', () => {
   const paths = [
     'docs/testing/domains/runtime/battle/battle-host/evidence.json',
     sessionEvidence,
     'docs/testing/domains/runtime/scene/active-scene/evidence.json',
     'docs/testing/domains/runtime/world/world-runtime/evidence.json',
+    'docs/testing/domains/cross-phase/script-corrections/evidence.json',
   ]
   const readBase = (path) => readFixed(testingBattleHandoffPublicationBase, path)
   const readCandidate = (path) => readFixed(testingBattleHandoffSourceRevision, path)
@@ -354,6 +355,14 @@ test('hostile handoff source bindings preserve the four published owners and the
   assert.deepEqual(
     catalog.entries.filter(({ id }) => ids.has(id)),
     previous.entries.filter(({ id }) => ids.has(id)),
+  )
+
+  const correctionsPath = 'docs/testing/domains/cross-phase/script-corrections/evidence.json'
+  const corrections = JSON.parse(readLive(correctionsPath))
+  corrections.claims[0].result = 'source-backed'
+  assert.throws(
+    () => restore(correctionsPath, bytes(corrections)),
+    /Expected values to be strictly deep-equal/u,
   )
 
   const wrongPointer = structuredClone(session)

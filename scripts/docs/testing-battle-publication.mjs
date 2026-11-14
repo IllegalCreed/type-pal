@@ -116,6 +116,7 @@ export const testingBattleHandoffSourceRevision = 'd008dfe82960754ee97a428110e03
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
+const palaceExitScene = 'projects/pal/content/scenes/s286.json'
 const encounterBindings = new Map([
   ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
   ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
@@ -152,6 +153,7 @@ const victorySourceRanges = new Map([
 ])
 
 const handoffSourceRanges = new Map([
+  [palaceExitScene, { 1100: '1112' }],
   [
     reforgeMain,
     { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1267-1342' },
@@ -170,6 +172,11 @@ handoffBindings.set(sessionEvidencePath.slice('docs/testing/'.length), {
   id: sessionId,
   paths: [testingBattleSessionSourcePath],
 })
+handoffBindings.set('domains/cross-phase/script-corrections/evidence.json', {
+  id: 'game-script-corrections',
+  paths: [palaceExitScene],
+})
+export const isTestingBattleHandoffSceneSource = (path) => path === palaceExitScene
 
 function replaceHandoffExcerpt(excerpt, candidate, previous = '') {
   assert.equal(excerpt.split(candidate).length, 2, 'hostile handoff excerpt changed')
@@ -301,7 +308,7 @@ function encounterReferences(before, current, paths, { source, fixed, predecesso
   )
   const previous = []
   const clip = (bytes, range) => {
-    const [first, last] = range.split('-').map(Number)
+    const [first, last = first] = range.split('-').map(Number)
     return bytes
       .toString('utf8')
       .split('\n')
@@ -419,6 +426,11 @@ function restoreEncounterSourceBindings(
     stage,
   )
   const history = encounterHistory(before.history, current.history, previous, readSource, stage)
+  if (binding.id === 'game-script-corrections') {
+    // Its claims cite execution artifacts, with no live source-coordinate pointer.
+    assert.deepEqual({ ...current, sourceRefs: before.sourceRefs, history }, before)
+    return baseBytes
+  }
   const claimIndex = before.claims.findIndex(
     ({ id, result }) => id === `${binding.id}-source-contract` && result === 'source-backed',
   )
