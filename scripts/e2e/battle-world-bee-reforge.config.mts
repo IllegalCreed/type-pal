@@ -237,6 +237,7 @@ function observeSession(source: string): string {
       if (s.lastAction) globalThis.__beeWorld?.event('action', {
         action: s.lastAction, players: s.players.map(({ hp, mp }) => [hp, mp]),
         enemies: s.enemies.map((enemy) => enemy ? { hp: enemy.hp, id: enemy.def.id } : null),
+        ...(globalThis.__beeWorld.escape && { luckWeights: s.players.map(({ hiddenCounts }) => hiddenCounts.luck ?? 0) }),
       })`,
   )
   const rendered = after(

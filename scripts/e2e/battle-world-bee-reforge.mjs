@@ -372,7 +372,10 @@ await runBrowserJourney({
     'projects/pal/assets/migrated/music/003.mid',
     'projects/pal/assets/migrated/music/037.mid',
     ...(escapeCase
-      ? ['projects/pal/assets/migrated/sounds/045.wav', 'scripts/e2e/battle-world-escape.mjs']
+      ? [
+          'projects/pal/assets/migrated/sounds/045.wav',
+          'scripts/e2e/battle-world-escape-compare.mjs',
+        ]
       : []),
     ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
   ],

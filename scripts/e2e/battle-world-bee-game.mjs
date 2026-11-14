@@ -898,7 +898,9 @@ await runBrowserJourney({
     'data/extracted/sounds/73.wav',
     'data/extracted/music/003.mid',
     'data/extracted/music/037.mid',
-    ...(escapeCase ? ['data/extracted/sounds/45.wav', 'scripts/e2e/battle-world-escape.mjs'] : []),
+    ...(escapeCase
+      ? ['data/extracted/sounds/45.wav', 'scripts/e2e/battle-world-escape-compare.mjs']
+      : []),
     ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
   ],
   arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
