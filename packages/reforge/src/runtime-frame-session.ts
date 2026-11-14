@@ -41,7 +41,7 @@ export interface RuntimeWait {
 /** Owns gameplay time, the single-step intent and waits driven by that time. */
 export class RuntimeFrameSession {
   #clock = new GameplayClock()
-  #now = 0
+  #now: number | undefined
   #stepActive = false
   #stepRequested = false
   #waits: FrameWait[] = []
@@ -49,7 +49,7 @@ export class RuntimeFrameSession {
   constructor(private readonly stepMs: number) {}
 
   get now(): number {
-    return this.#now
+    return this.#now ?? 0
   }
   get stepActive(): boolean {
     return this.#stepActive
@@ -75,10 +75,10 @@ export class RuntimeFrameSession {
     let settled = false
     let timer: FrameWait
     const remaining = () =>
-      settled ? 0 : (timer.pausedRemaining ?? Math.max(0, timer.deadline - this.#now))
+      settled ? 0 : (timer.pausedRemaining ?? Math.max(0, timer.deadline - this.now))
     const done = scriptWorkWait<void>(signal, (resolve, reject) => {
       timer = {
-        deadline: this.#now + ms,
+        deadline: this.now + ms,
         settle: (error?: Error) => {
           if (settled) return
           settled = true
@@ -104,7 +104,7 @@ export class RuntimeFrameSession {
         if (paused && timer.pausedRemaining === undefined) {
           timer.pausedRemaining = remaining()
         } else if (!paused && timer.pausedRemaining !== undefined) {
-          timer.deadline = this.#now + timer.pausedRemaining
+          timer.deadline = this.now + timer.pausedRemaining
           delete timer.pausedRemaining
         }
       },
@@ -127,6 +127,10 @@ export class RuntimeFrameSession {
       const requested = this.#stepRequested
       this.#stepRequested = false
       const clock = this.#clock.advance(realNow, frozen || stepping, requested ? this.stepMs : 0)
+      // Startup scripts can schedule waits before the first frame establishes the clock epoch.
+      // Paused waits already store an epoch-independent remainder.
+      if (this.#now === undefined)
+        for (const timer of this.#waits) timer.deadline += clock.gameplayNow - clock.gameplayDt
       this.#now = clock.gameplayNow
       dt = clock.gameplayDt
       if (!frozen) {
@@ -158,7 +162,7 @@ export class RuntimeFrameSession {
     else settleMotion()
     let battlePresented = false
     const input = () => {
-      battlePresented = ports.presentBattle(dt, pressed, this.#now)
+      battlePresented = ports.presentBattle(dt, pressed, this.now)
       if (battlePresented) return
       ports.routeInput(pressed, realNow)
       if (ports.afterScriptWork) ports.settleClosedDialogue()
@@ -167,7 +171,7 @@ export class RuntimeFrameSession {
     else input()
     if (battlePresented) return
     const present = () => {
-      if (ports.afterScriptWork && ports.presentBattle(0, new Set(), this.#now)) return
+      if (ports.afterScriptWork && ports.presentBattle(0, new Set(), this.now)) return
       ports.presentWorld()
     }
     if (ports.afterScriptWork) await ports.afterScriptWork(present)

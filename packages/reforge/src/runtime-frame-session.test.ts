@@ -162,6 +162,36 @@ test('waits settle once in reverse registration order at the gameplay deadline a
   expect(order).toEqual(['b', 'a'])
 })
 
+test.each([
+  0, 1_500,
+])('startup waits preserve their requested time at first frame %i', async (firstFrame) => {
+  const f = frameFixture()
+  const signal = new AbortController().signal
+  const events: string[] = []
+  const paused = f.session.scheduleWait(125, signal)
+  paused.setPaused(true)
+  const active = f.session.scheduleWait(125, signal)
+  active.setPaused(true)
+  active.setPaused(false)
+  const complete = Promise.all([
+    f.session.wait(0, signal).then(() => events.push('zero')),
+    active.done.then(() => events.push('active')),
+    paused.done.then(() => events.push('paused')),
+  ])
+  await f.tick(firstFrame)
+  expect(events).toEqual(['zero'])
+  expect([active.remainingMs, paused.remainingMs]).toEqual([125, 125])
+  await f.tick(firstFrame + 100)
+  expect([active.remainingMs, paused.remainingMs]).toEqual([25, 125])
+  paused.setPaused(false)
+  await f.tick(firstFrame + 125)
+  expect(events).toEqual(['zero', 'active'])
+  expect(paused.remainingMs).toBe(100)
+  await f.tick(firstFrame + 225)
+  await complete
+  expect(events).toEqual(['zero', 'active', 'paused'])
+})
+
 test('aborted wait rejects with the existing protocol while unrelated pending wait can finish', async () => {
   const f = frameFixture()
   f.tick(100)

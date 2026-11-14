@@ -9,7 +9,7 @@ export interface GameplayClockFrame {
 }
 
 export class GameplayClock {
-  private lastReal = 0
+  private lastReal: number | undefined
   private now = 0
 
   /**
@@ -17,8 +17,8 @@ export class GameplayClock {
    * stepMs>0 表示本帧手动单步:gameplay 时间精确推进 stepMs(与 frozen 组合用于调试帧步进)。
    */
   advance(realNow: number, frozen: boolean, stepMs = 0): GameplayClockFrame {
-    const first = this.lastReal === 0
-    const realDt = first ? 0 : Math.min(Math.max(0, realNow - this.lastReal), 100)
+    const first = this.lastReal === undefined
+    const realDt = Math.min(Math.max(0, realNow - (this.lastReal ?? realNow)), 100)
     this.lastReal = realNow
     if (first) this.now = realNow
     else if (stepMs > 0) this.now += stepMs
