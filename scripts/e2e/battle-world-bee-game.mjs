@@ -637,6 +637,8 @@ await runBrowserJourney({
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
           result.milestones = verifyTrace(trace, result)
+          if (capture.enabled)
+            await capture.readable('探索画面', true, async () => ready(await read(page)))
           await capture.finish(page, {
             event: 'after-world-menu-round-trip',
             seed,

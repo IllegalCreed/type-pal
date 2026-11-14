@@ -318,6 +318,8 @@ await runBrowserJourney({
               () => honeycombText,
             ),
           )
+          if (capture.enabled)
+            await capture.readable('探索画面', true, async () => ready(await read(page)))
           await capture.finish(page, {
             event: 'after-world-menu-round-trip',
             seed,
