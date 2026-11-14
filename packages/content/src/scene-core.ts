@@ -14,6 +14,16 @@ export type HostileVictoryPolicy =
   | { kind: 'remove' }
   | { kind: 'remain' }
 
+export type HostileVictoryTransition = 'direct' | 'fade'
+
+export function checkOptionalHostileVictoryTransition(
+  value: unknown,
+  path: string,
+): asserts value is HostileVictoryTransition | undefined {
+  if (value !== undefined && value !== 'direct' && value !== 'fade')
+    throw new Error(`${path}: 期望 direct|fade`)
+}
+
 export type HostilePlayerFleePolicy =
   | { kind: 'suspend'; ticks: PositiveSafeInt }
   | { kind: 'remain' }
@@ -25,8 +35,8 @@ export interface BaseHostileBehavior {
   chase?: { range: number; speed: number; floating?: boolean }
   onLose?: 'gameOver' | BaseAuthorCommand[]
   onVictory: HostileVictoryPolicy
-  /** 胜利结算后淡黑，再淡入原地图。省略时直接返回。 */
-  victoryTransition?: 'fade'
+  /** 胜利后回场演出，省略时使用工程设定。 */
+  victoryTransition?: HostileVictoryTransition
   onPlayerFlee: HostilePlayerFleePolicy
 }
 

@@ -466,13 +466,13 @@ test('an authored victory fade darkens the last drawn prompt then reveals the co
       hostile: {
         enemyTeamId: 'encounter',
         onVictory: { kind: 'hide', ticks: 800 },
-        victoryTransition: 'fade',
         onPlayerFlee: { kind: 'remain' },
       },
     },
   ]
   const fixture = await bootScenario(host, {
     first,
+    hostileVictoryTransition: 'fade',
     enemies: [
       opponent({
         onDefeated: [
@@ -594,13 +594,12 @@ test('world automation preserves its pending wait and contact-frame action throu
   const first = shellScene('a')
   first.entities = [
     {
-      id: 'chaser',
+      id: 'sentry',
       sprite: 'walker',
       pos: { col: 4, row: 2, height: 0 },
       hostile: {
         enemyTeamId: 'encounter',
         onVictory: { kind: 'hide', ticks: 800 },
-        victoryTransition: 'fade',
         onPlayerFlee: { kind: 'remain' },
       },
     },
@@ -667,6 +666,7 @@ test('world automation preserves its pending wait and contact-frame action throu
   ]
   const fixture = await bootScenario(host, {
     first,
+    hostileVictoryTransition: 'fade',
     enemies: [opponent({ onDefeated: [{ kind: 'giveMoney', delta: 1 }] })],
   })
   await advance(host, () => state().world.money === 60, 3)
@@ -677,7 +677,7 @@ test('world automation preserves its pending wait and contact-frame action throu
   await advance(host, () => state().renderDebug.inBattle)
   expect(state().world.money).toBe(60)
   await finish(host)
-  await advance(host, () => state().entities.find(({ id }) => id === 'chaser')?.hidden === true)
+  await advance(host, () => state().entities.find(({ id }) => id === 'sentry')?.hidden === true)
   expect(hostileEncounterClaimed()).toBe(true)
   expect(state().world.money).toBe(68)
   await advance(host, () => !hostileEncounterClaimed())
@@ -708,7 +708,7 @@ test('a replacement battle discards the old victory fade and never draws its hel
       },
     },
   ]
-  const fixture = await bootScenario(host, { first })
+  const fixture = await bootScenario(host, { first, hostileVictoryTransition: 'direct' })
   await key(host, 'ArrowRight')
   await advance(host, () => state().renderDebug.inBattle)
   const ctx = document.querySelector('canvas')?.getContext('2d')
@@ -737,59 +737,75 @@ test('a replacement battle discards the old victory fade and never draws its hel
   fixture.assertInputUnchanged()
 })
 
-test('a battle-end upper dialogue leaves with its battle frame on a direct world return', async () => {
-  host = await installShellHost()
-  vi.spyOn(Math, 'random').mockReturnValue(0.5)
-  const first = shellScene('a')
-  first.entities = [
-    {
-      id: 'chaser',
-      sprite: 'walker',
-      pos: { col: 4, row: 2, height: 0 },
-      hostile: {
-        enemyTeamId: 'encounter',
-        onVictory: { kind: 'hide', ticks: 800 },
-        onPlayerFlee: { kind: 'remain' },
+const directReturnCases = [
+  {
+    name: 'a battle-end upper dialogue leaves with its battle frame on a direct world return',
+    projectTransition: undefined,
+    victoryTransition: undefined,
+  },
+  {
+    name: 'an explicit hostile direct return overrides the project fade',
+    projectTransition: 'fade' as const,
+    victoryTransition: 'direct' as const,
+  },
+] as const
+
+for (const { name, projectTransition, victoryTransition } of directReturnCases)
+  test(name, async () => {
+    host = await installShellHost()
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+    const first = shellScene('a')
+    first.entities = [
+      {
+        id: 'chaser',
+        sprite: 'walker',
+        pos: { col: 4, row: 2, height: 0 },
+        hostile: {
+          enemyTeamId: 'encounter',
+          onVictory: { kind: 'hide', ticks: 800 },
+          ...(victoryTransition === undefined ? {} : { victoryTransition }),
+          onPlayerFlee: { kind: 'remain' },
+        },
       },
-    },
-  ]
-  const fixture = await bootScenario(host, {
-    first,
-    enemies: [
-      opponent({
-        onDefeated: [
-          {
-            kind: 'dialog',
-            cue: {
-              identity: { kind: 'narration' },
-              slot: 'top',
-              rows: [{ text: 'line.one', speed: 0 }],
+    ]
+    const fixture = await bootScenario(host, {
+      first,
+      hostileVictoryTransition: projectTransition,
+      enemies: [
+        opponent({
+          onDefeated: [
+            {
+              kind: 'dialog',
+              cue: {
+                identity: { kind: 'narration' },
+                slot: 'top',
+                rows: [{ text: 'line.one', speed: 0 }],
+              },
             },
-          },
-        ],
-      }),
-    ],
+          ],
+        }),
+      ],
+    })
+    const browser = host
+    finishBattleFixture = async () => {
+      for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+    }
+    const drawsUpperDialogue = () =>
+      browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First'))
+    await key(host, 'ArrowRight')
+    await advance(host, () => state().renderDebug.inBattle)
+    await finish(host)
+    await advance(host, drawsUpperDialogue)
+    expect(state().dialogue).toBe(true)
+    await key(host, 'Enter')
+    expect(hostileEncounterClaimed(), 'the direct return must not start a fade').toBe(false)
+    browser.text.mockClear()
+    await host.frame()
+    expect(drawsUpperDialogue(), 'battle-end dialogue drew over the resumed world').toBe(false)
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(true)
+    fixture.assertInputUnchanged()
   })
-  const browser = host
-  finishBattleFixture = async () => {
-    for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
-  }
-  const drawsUpperDialogue = () =>
-    browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First'))
-  await key(host, 'ArrowRight')
-  await advance(host, () => state().renderDebug.inBattle)
-  await finish(host)
-  await advance(host, drawsUpperDialogue)
-  expect(state().dialogue).toBe(true)
-  await key(host, 'Enter')
-  await advance(host, () => !hostileEncounterClaimed())
-  browser.text.mockClear()
-  await host.frame()
-  expect(drawsUpperDialogue(), 'battle-end dialogue drew over the resumed world').toBe(false)
-  await key(host, 'Escape')
-  expect(state().renderDebug.menuActive).toBe(true)
-  fixture.assertInputUnchanged()
-})
 
 test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {
   host = await installShellHost()

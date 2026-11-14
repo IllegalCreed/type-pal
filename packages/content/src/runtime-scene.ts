@@ -7,13 +7,14 @@ import type {
   RuntimeSceneHooks,
 } from './runtime-script.js'
 import { runtimeCommandValidationOptions } from './runtime-script.js'
-import type {
-  BaseHostileBehavior,
-  BaseSceneDef,
-  BaseSceneEntity,
-  HostilePlayerFleePolicy,
-  HostileVictoryPolicy,
-  PositiveSafeInt,
+import {
+  type BaseHostileBehavior,
+  type BaseSceneDef,
+  type BaseSceneEntity,
+  checkOptionalHostileVictoryTransition,
+  type HostilePlayerFleePolicy,
+  type HostileVictoryPolicy,
+  type PositiveSafeInt,
 } from './scene-core.js'
 
 export type {
@@ -138,8 +139,7 @@ export function checkBaseHostileBehavior(
   if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)
   if (hostile.onPlayerFlee === undefined) throw new Error(`${path}: 缺键 "onPlayerFlee"`)
   checkVictoryPolicy(hostile.onVictory, `${path}.onVictory`)
-  if (hostile.victoryTransition !== undefined && hostile.victoryTransition !== 'fade')
-    throw new Error(`${path}.victoryTransition: 期望 fade`)
+  checkOptionalHostileVictoryTransition(hostile.victoryTransition, `${path}.victoryTransition`)
   checkPlayerFleePolicy(hostile.onPlayerFlee, `${path}.onPlayerFlee`)
 }
 

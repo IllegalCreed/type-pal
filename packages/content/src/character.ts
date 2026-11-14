@@ -8,6 +8,7 @@ import type { AssetId, ManifestAssetConfig } from './asset.js'
 import { emptyWorldScriptState, type WorldScriptState } from './author-script-core.js'
 import type { EntityLifecycleTable } from './entity-lifecycle.js'
 import type { PoisonDef } from './poison.js'
+import type { HostileVictoryTransition } from './scene-core.js'
 import { initialWorldVariablesV1, type WorldVariableRegistryV1 } from './world-variable.js'
 
 export type { ActorConditionSeed, CarriedStatus } from './actor-condition.js'
@@ -176,6 +177,8 @@ export interface CurrentManifest {
   contentVersion: typeof CONTENT_VERSION
   /** 无菜单、无显式 `?entry` 时直接启动的真实入口 id。只负责选择，不产生继承关系。 */
   defaultEntryId: string
+  /** 普通明雷胜利后的默认回场演出。缺省直接返回，各敌人可以覆写。 */
+  hostileVictoryTransition?: HostileVictoryTransition
   /** 真实入口点列表(主菜单开局/DLC 入口)。必须非空，每项完整自包含。 */
   entryPoints: [EntryPoint, ...EntryPoint[]]
   content: Record<string, string> // content 文件清单(kind → 相对路径)

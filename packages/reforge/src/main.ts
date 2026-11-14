@@ -4963,6 +4963,10 @@ export async function bootGame(
         })()
       }
     }
+    const victoryTransition =
+      hostileBehaviorFor(e.id)?.victoryTransition ??
+      project.manifest.hostileVictoryTransition ??
+      'direct'
     const encounter = {
       signal: encounterSignal,
       entry: new BattleEntryPresentation(
@@ -4972,7 +4976,7 @@ export async function bootGame(
         encounterSignal,
       ),
       abort: () => encounterController.abort(),
-      ...(hostileBehaviorFor(e.id)?.victoryTransition === 'fade' ? { commitVictory } : {}),
+      ...(victoryTransition === 'fade' ? { commitVictory } : {}),
     }
     hostileEncounter = encounter
     setHostileBusy(true)

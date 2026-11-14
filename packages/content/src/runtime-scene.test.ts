@@ -10,14 +10,16 @@ const base = {
 describe('current hostile policy', () => {
   test('accepts the explicit victory and flee policies', () => {
     expect(() => checkRuntimeHostileBehavior(base)).not.toThrow()
-    expect(() =>
-      checkRuntimeHostileBehavior({
-        ...base,
-        onVictory: { kind: 'remove' },
-        victoryTransition: 'fade',
-        onPlayerFlee: { kind: 'remain' },
-      }),
-    ).not.toThrow()
+    for (const victoryTransition of ['fade', 'direct']) {
+      expect(() =>
+        checkRuntimeHostileBehavior({
+          ...base,
+          onVictory: { kind: 'remove' },
+          victoryTransition,
+          onPlayerFlee: { kind: 'remain' },
+        }),
+      ).not.toThrow()
+    }
   })
 
   test('rejects legacy respawn/success fields and missing policies', () => {
@@ -33,7 +35,7 @@ describe('current hostile policy', () => {
 
   test('rejects polluted discriminants and malformed chase', () => {
     expect(() => checkRuntimeHostileBehavior({ ...base, victoryTransition: 'black' })).toThrow(
-      /victoryTransition: 期望 fade/,
+      /victoryTransition: 期望 direct\|fade/,
     )
     expect(() =>
       checkRuntimeHostileBehavior({
