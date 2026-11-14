@@ -512,6 +512,8 @@ export async function verifyPostBattleSave({
         true,
         async () => (await controls.observe())?.menu?.mode === 'load',
       )
+    trace.beforeInGameRestore = await readWorld(page, engine)
+    assertSavedWorld(trace.beforeInGameRestore, savedPoses[1])
     await controls.press('Enter', 'restore slot 1 from altered active pose')
     await controls.waitEvent('restore-committed', (row) => row.slot === slots[0])
     await controls.stateAt(savedPoses[0])

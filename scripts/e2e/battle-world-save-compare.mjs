@@ -114,6 +114,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     [slots[0]],
   )
   assert(writes.at(-1).order < restored[0].order)
+  assertSavedWorld(evidence.beforeInGameRestore, savedPoses[1])
   assertSavedWorld(evidence.restoredInGame, savedPoses[0])
   assertRestoredWorld(saved[0].world, evidence.restoredInGame, 3)
   let optional
@@ -223,15 +224,31 @@ async function readReport(path, engine, profile) {
     assert.equal(binding.status, 'verified')
     return value
   }
+  const predecessor = saveWorldFacts(await load(report.save), engine)
+  assert.deepEqual(
+    [predecessor.grid, predecessor.money, predecessor.inventory, predecessor.party[0].exp],
+    [[93, 45], 0, [], 0],
+    'the real checkpoint must precede the victory rewards',
+  )
   const runs = []
+  let actionIndex = 0
   for (const row of report.cases) {
+    assert.equal(row.actionRange.start, actionIndex, 'unbound battle input range')
+    assert.equal(row.postBattleSave.actionRange.start, row.actionRange.end)
     runs.push(await inspectRun(row, engine, profile, load, report.actions, report.contexts))
+    actionIndex = row.postBattleSave.actionRange.end
   }
+  assert.equal(actionIndex, report.actions.length, 'unused native inputs')
   return { engine, path: absolute, sha256: hash(bytes), revision: report.revision, runs }
 }
 
 export async function comparePostBattleSave(gamePath, reforgePath, profile = 'verify') {
   assert(['verify', 'capture'].includes(profile))
+  assert.notEqual(
+    resolve(gamePath),
+    resolve(reforgePath),
+    'a second engine must have its own recording',
+  )
   const judgeRevision = git('rev-parse', 'HEAD').toString().trim()
   const judgeSha256 = hash(await readFile(resolve(repoRoot, comparator)))
   assert.equal(
@@ -239,6 +256,9 @@ export async function comparePostBattleSave(gamePath, reforgePath, profile = 've
     hash(git('show', `${judgeRevision}:${comparator}`)),
     'freeze comparator before review',
   )
+  const contract = 'scripts/e2e/battle-world-save-contract.mjs'
+  const contractSha256 = hash(await readFile(resolve(repoRoot, contract)))
+  assert.equal(contractSha256, hash(git('show', `${judgeRevision}:${contract}`)))
   const [game, reforge] = await Promise.all([
     readReport(gamePath, 'game', profile),
     readReport(reforgePath, 'reforge', profile),
@@ -267,6 +287,7 @@ export async function comparePostBattleSave(gamePath, reforgePath, profile = 've
     producerRevision: game.revision,
     judgeRevision,
     judgeSha256,
+    contractSha256,
     profile,
     game,
     reforge,
