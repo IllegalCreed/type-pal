@@ -37,6 +37,19 @@ const animated = (frames, turn, actor, kind) =>
       payload.animation?.actorId === actor &&
       payload.animation.kind === kind,
   )
+const fighterSprite = (appearance) =>
+  typeof appearance === 'string'
+    ? Number(/^player-fighter-(\d+)$/u.exec(appearance)?.[1])
+    : appearance
+const appearances = (frames, slot) => [
+  ...new Set(
+    frames.flatMap(({ payload }) =>
+      payload.players
+        .filter((player) => player.slot === slot)
+        .map(({ appearance }) => fighterSprite(appearance)),
+    ),
+  ),
+]
 function physicalOverlaySequence(frames) {
   const overlays = []
   let previous
@@ -125,24 +138,14 @@ function checkBuffs(trace, id, frames, check) {
   }
   const dream = spell(trace, '295'),
     attack = actionOf(trace, 2, linger)
-  const appearances = (scope) => [
-    ...new Set(
-      scope.flatMap(({ payload }) =>
-        payload.players
-          .filter(({ slot }) => slot === 1)
-          .map(({ appearance }) =>
-            typeof appearance === 'string'
-              ? Number(/^player-fighter-(\d+)$/u.exec(appearance)?.[1])
-              : appearance,
-          ),
-      ),
-    ),
-  ]
   check(
     '梦蛇使用实际绘制的变身资源',
     [
-      appearances(frames.filter(({ payload }) => payload.turn === 1 && payload.selecting)),
-      appearances(animated(frames, 2, linger, 'attack')),
+      appearances(
+        frames.filter(({ payload }) => payload.turn === 1 && payload.selecting),
+        1,
+      ),
+      appearances(animated(frames, 2, linger, 'attack'), 1),
     ],
     [[1], [5]],
   )
@@ -318,6 +321,251 @@ function checkPuppet(trace, id, frames, check) {
     [0, 8],
     [15, 0],
   ])
+}
+
+function checkTranceRevival(trace, frames, check) {
+  const dream = spell(trace, '295')
+  const death = actionOf(trace, 1, foe)
+  const revive = item(trace, '95', 2)
+  check(
+    '梦蛇施法后自然阵亡，还魂香保留装备连击',
+    [
+      [dream?.targetId, mp(dream, linger)],
+      [death?.targetId, roleStates(death, linger, ['dualAttack'])],
+      [revive?.targetId, roleStates(revive, linger, ['dualAttack'])],
+      Boolean(dream && death && revive && dream.order < death.order && death.order < revive.order),
+    ],
+    [
+      [linger, [100, 1]],
+      [
+        linger,
+        [
+          [30, 32760],
+          [0, 32760],
+        ],
+      ],
+      [
+        linger,
+        [
+          [0, 32760],
+          [24, 32760],
+        ],
+      ],
+      true,
+    ],
+  )
+  const fallen = frames.find(
+    ({ payload }) => payload.turn === 1 && payload.players[0]?.frameIndex === 2,
+  )?.payload.players[0]
+  const healed = firstNumberDraws(frames).find(
+    ({ number }) => number.side === 'player' && number.slot === 0 && number.value === 24,
+  )
+  const standing = healed?.frame.payload.players[0]
+  check(
+    '阵亡与复活首帧仍用梦蛇，黄字随复活出现',
+    [
+      appearances(
+        frames.filter(({ payload }) => payload.turn === 1 && payload.selecting),
+        0,
+      ),
+      [fighterSprite(fallen?.appearance), fallen?.frameIndex],
+      [fighterSprite(standing?.appearance), standing?.frameIndex, healed?.number.tone],
+    ],
+    [[1], [5, 2], [5, 1, 'yellow']],
+  )
+  check(
+    '复活当轮无选招、无入队身法抽样，下轮保留梦蛇身法并计算濒死减半',
+    [
+      trace.commands.filter(({ actorId }) => actorId === linger).map(({ turn }) => turn),
+      dexterity(trace, 0),
+      trace.actions.filter(({ turn }) => turn === 2).at(-1)?.actorId,
+    ],
+    [
+      [1, 3],
+      [
+        [1, 249],
+        [3, 163],
+      ],
+      linger,
+    ],
+  )
+  for (const [turn, before, damage, after] of [
+    [2, 1065, [142, 140], 783],
+    [3, 783, [142, 137], 504],
+  ]) {
+    const attack = actionOf(trace, turn, linger)
+    const swings = animated(frames, turn, linger, 'attack')
+    check(
+      `第 ${turn} 轮复活后的梦蛇双击、受击数字与实际音画`,
+      [
+        [attack?.kind, attack?.targetId, health(attack?.before), health(attack?.after)],
+        appearances(swings, 0),
+        physicalOverlaySequence(swings).flatMap((drawing) => drawing.map(([, , frame]) => frame)),
+        firstNumberDraws(swings).map(({ number }) => [number.value, number.right, number.y]),
+        audioDuring(trace, swings).map(({ cue, starts }) => [cue, starts.length]),
+      ],
+      [
+        ['attack', foe, [before], [after]],
+        [5],
+        [9, 10, 11, 9, 10, 11],
+        [
+          [damage[0], 106, 10],
+          [damage[1], 100, 10],
+        ],
+        [
+          [38, 1],
+          [2, 1],
+          [38, 1],
+          [2, 1],
+        ],
+      ],
+    )
+  }
+}
+
+function checkBuffedPuppet(trace, expires, frames, check) {
+  const tracked = ['bravery', 'dualAttack', 'puppet']
+  const bravery = spell(trace, '311')
+  const dual = spell(trace, '390')
+  const death = actionOf(trace, 2, foe)
+  const hp = expires ? 86 : 87
+  check(
+    '两种临时增益来自实际施法，敌人命中后才用傀儡虫',
+    [
+      [bravery?.targetId, mp(bravery, hero), roleStates(bravery, hero, tracked)],
+      [dual?.targetId, mp(dual, hero), roleStates(dual, hero, tracked)],
+      [death?.targetId, roleStates(death, hero, tracked)],
+      roleStates(item(trace, '152', 3), hero, tracked),
+    ],
+    [
+      [
+        hero,
+        [100, 87],
+        [
+          [180, 0, 0, 0],
+          [180, 7, 0, 0],
+        ],
+      ],
+      [
+        hero,
+        [87, 65],
+        [
+          [hp, 6, 0, 0],
+          [hp, 6, 5, 0],
+        ],
+      ],
+      [
+        hero,
+        [
+          [hp, 6, 5, 0],
+          [0, 6, 5, 0],
+        ],
+      ],
+      [
+        [0, 5, 4, 0],
+        [0, 5, 4, 9],
+      ],
+    ],
+  )
+  const selected = expires ? [1, 2] : [1, 2, 5]
+  check(
+    '逍遥在倒地和复活当轮均无手选指令或队列身法抽样',
+    [
+      trace.commands.filter(({ actorId }) => actorId === hero).map(({ turn }) => turn),
+      dexterity(trace, 0).map(([turn]) => turn),
+    ],
+    [selected, selected],
+  )
+  const strikes = expires
+    ? [[13, 12], [13, 13], [16, 15], [13, 13], [16], [4], [4], [4], [4]]
+    : [[12, 16], [4]]
+  let remaining = 900
+  for (const [index, hits] of strikes.entries()) {
+    const turn = index + 3
+    const after = remaining - hits.reduce((sum, damage) => sum + damage, 0)
+    const attack = actionOf(trace, turn, hero)
+    const swings = animated(frames, turn, hero, 'attack')
+    const revived = !expires && turn === 4
+    check(
+      `第 ${turn} 轮队尾普攻、实际掉血与武器声`,
+      [
+        [attack?.kind, attack?.targetId, health(attack?.before), health(attack?.after)],
+        trace.actions.filter(({ turn: round }) => round === turn).at(-1)?.actorId,
+        firstNumberDraws(swings).map(({ number }) => [number.value, number.right, number.y]),
+        audioDuring(trace, swings).map(({ cue, starts }) => [cue, starts.length]),
+      ],
+      [
+        ['attack', foe, [remaining], [after]],
+        hero,
+        hits.map((damage, hit) => [damage, hit === 0 ? 106 : 100, 10]),
+        revived
+          ? [
+              [37, 1],
+              [1, 1],
+            ]
+          : hits.map(() => [1, 1]),
+      ],
+    )
+    remaining = after
+  }
+  const crit = samples(trace, 'strike-critical')
+    .slice(0, 2)
+    .map((value) => Math.floor(value * 6))
+  const bonus = samples(trace, 'strike-hero-critical')
+    .slice(0, 2)
+    .map((value) => Math.floor(value * 12))
+  check(
+    '首轮两击避开随机暴击与逍遥倍击，验证勇气强制暴击',
+    [crit, bonus],
+    expires
+      ? [
+          [4, 5],
+          [1, 7],
+        ]
+      : [
+          [2, 1],
+          [6, 2],
+        ],
+  )
+  if (expires) {
+    check(
+      '双动、勇气、傀儡依次到期，第十二轮仍倒地且没有逍遥攻击',
+      [
+        tracked.map((key) => roundStatus(trace, hero, key)),
+        actionOf(trace, 12, hero)?.kind ?? null,
+        animated(frames, 12, hero, 'attack').length,
+        player(trace.actions.at(-1)?.before, hero)?.hp,
+      ],
+      [
+        [
+          [6, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0],
+          [0, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0],
+        ],
+        null,
+        0,
+        0,
+      ],
+    )
+  } else {
+    const revive = item(trace, '95', 4)
+    check(
+      '还魂香当场清除三个临时状态并恢复 18 HP',
+      [
+        revive?.targetId,
+        roleStates(revive, hero, tracked),
+        player(trace.actions.at(-1)?.before, hero)?.hp,
+      ],
+      [
+        hero,
+        [
+          [0, 4, 3, 8],
+          [18, 0, 0, 0],
+        ],
+        18,
+      ],
+    )
+  }
 }
 
 function checkConfusion(trace, scenario, frames, check) {
@@ -698,6 +946,9 @@ export function checkStatusRules(trace, scenario, configured, inputs, menu) {
   if (id.startsWith('equipped-dual-all')) checkGroupAttack(trace, scenario, frames, inputs, check)
   else if (family === 'buff') checkBuffs(trace, id, frames, check)
   else if (family === 'puppet') checkPuppet(trace, id, frames, check)
+  else if (id === 'trance-after-revival') checkTranceRevival(trace, frames, check)
+  else if (family === 'revival')
+    checkBuffedPuppet(trace, id === 'puppet-buffs-expire', frames, check)
   else if (family === 'confusion') checkConfusion(trace, scenario, frames, check)
   else if (family === 'silence') checkAttachment(trace, id, frames, check)
   else checkOverlap(trace, id, frames, inputs, menu, check)

@@ -121,6 +121,20 @@ const trance = caseOf(
   ],
   'buff',
 )
+const tranceRevival = caseOf(
+  'trance-after-revival',
+  258,
+  4,
+  [member(linger, 160, 92, ['295'], { level: 20, hp: 30, defense: 0 }), member(anu, 145, 1600)],
+  [
+    cast(1, linger, '295', linger),
+    defend(1, anu),
+    use(2, anu, '95', linger),
+    attack(3, linger),
+    attack(3, anu),
+  ],
+  'revival',
+)
 
 const dualAllLethal = {
   ...dualAll,
@@ -159,6 +173,42 @@ const puppetAllDead = caseOf(
   [defend(1, hero), defend(1, linger), use(2, linger, '152', hero)],
   'puppet',
 )
+const buffedPuppet = caseOf(
+  'puppet-with-active-buffs',
+  300,
+  86,
+  [
+    member(hero, 120, 40, ['311', '390'], {
+      level: 8,
+      hp: 180,
+      maxHP: 180,
+      defense: 9,
+      weapon: '166',
+    }),
+    member(anu, 125, 1600),
+  ],
+  [
+    cast(1, hero, '311', hero),
+    defend(1, anu),
+    cast(2, hero, '390', hero),
+    defend(2, anu),
+    use(3, anu, '152', hero),
+    use(4, anu, '95', hero),
+    attack(5, hero),
+    attack(5, anu),
+  ],
+  'revival',
+)
+const expiringPuppet = {
+  ...buffedPuppet,
+  id: 'puppet-buffs-expire',
+  seed: 62,
+  commands: [
+    ...buffedPuppet.commands.slice(0, 5),
+    ...Array.from({ length: 9 }, (_, index) => defend(index + 4, anu)),
+    attack(13, anu),
+  ],
+}
 const partyConfused = caseOf(
   'confused-party-and-cleanse',
   1,
@@ -270,8 +320,11 @@ const cases = [
   dualAll,
   dualAllLethal,
   trance,
+  tranceRevival,
   puppet,
   puppetAllDead,
+  buffedPuppet,
+  expiringPuppet,
   partyConfused,
   enemyConfused,
   enemyConfusedSelf,
@@ -304,6 +357,7 @@ const dataFiles = [
   `${raw}enemies.json`,
   `${raw}items.json`,
   `${raw}object-magics.json`,
+  `${raw}level-up-magic.json`,
   'data/extracted/events/all.json',
   `${pal}enemy-teams.json`,
   `${pal}enemies.json`,
@@ -327,6 +381,7 @@ export async function prepareBattleStatusInputs() {
     rawEnemies,
     rawItems,
     rawSpells,
+    levelUpMagic,
     events,
     palTeams,
     palEnemies,
@@ -351,6 +406,9 @@ export async function prepareBattleStatusInputs() {
     [393, 43140],
   ])
     assert.equal(rawSpells.find(({ id }) => id === spell).scriptOnSuccess, entry)
+  raw(24103, 0x55, [295, 2, 0])
+  raw(23221, 0x55, [390, 1, 0])
+  assert(levelUpMagic.some(([entry]) => entry.level === 8 && entry.magic === 311))
   raw(43028, 0x31, [5, 0, 0])
   raw(43029, 0x30, [17, 100, 0])
   raw(43030, 0x30, [20, 100, 0])
@@ -358,6 +416,10 @@ export async function prepareBattleStatusInputs() {
   raw(43034, 0x2d, [5, 7, 0])
   raw(43138, 0x2d, [8, 5, 0])
   raw(43140, 0x2d, [7, 9, 0])
+  assert.equal(rawItems.find(({ id }) => id === 95).scriptOnUse, 43024)
+  assert.equal(rawItems.find(({ id }) => id === 152).scriptOnUse, 39522)
+  raw(43024, 0x22, [0, 1, 0])
+  raw(39522, 0x2d, [4, 9, 0])
   raw(39854, 0x2d, [3, 3, 0])
   raw(39391, 0x2d, [2, 3, 0])
   raw(39392, 0x1b, [0, 65535, 0])
