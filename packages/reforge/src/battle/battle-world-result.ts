@@ -11,6 +11,7 @@ export function settleBattleVictory(
   project: LoadedCurrentProjectCore,
   onExpReward: () => void,
   rng: () => number = Math.random,
+  options?: { deferRecovery: boolean },
 ) {
   session.writeBackPersistentEffects(world)
   session.writeBackHp(world.party, { preserveZeroHp: true })
@@ -22,7 +23,7 @@ export function settleBattleVictory(
     world.learnedSkills,
     project.actorsById,
     project.levelUp,
-    { ...rewards, hiddenCounts: session.hiddenCounts() },
+    { ...rewards, hiddenCounts: session.hiddenCounts(), ...options },
     rng,
   )
   return buildSettlementScreens(

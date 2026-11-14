@@ -5,7 +5,7 @@
  * - 成长:maxHP+10+R(0,7) / maxMP+8+R(0,5) / 武术·灵力+4+R(0,1) / 防·身法+2+R(0,1) /
  *   吉运+2(固定);各项 cap 999;升级 HP/MP 回满
  * - 学技能:升级跨过的 level 在 levelUp 表内 → 习得(去重)
- * - Phase F:战后全员 HP += (max−HP)/2、MP 同(死者由调用方先回 1 血再半恢复,同原版观感)
+ * - Phase F:战后全员 HP += (max−HP)/2、MP 同。普通世界在战后脚本完成后执行。
  */
 import type { ActorDef } from './actor.js'
 import { type CharacterInstance, HIDDEN_STAT_KEYS, type HiddenStatKey } from './character.js'
@@ -92,6 +92,8 @@ export interface RewardInput {
   cash: number
   /** B7c 战斗内隐藏经验行为计数(characterId → 池计数;缺 = 无隐藏成长)。 */
   hiddenCounts?: Record<string, HiddenCounts>
+  /** 世界战斗需等战后脚本结束才半恢复。独立结算默认立即恢复。 */
+  deferRecovery?: boolean
 }
 
 /** 升级屏 8 属性快照(顺序 = 原版 battle.c:1141-1148:修行/体力/真气/武术/灵力/防御/身法/吉运)。
@@ -244,10 +246,14 @@ export function grantBattleRewards(
     const counts = input.hiddenCounts?.[c.id]
     if (counts) hiddenUps.push(...applyHiddenExp(c, counts, input.exp, expTable, rng))
   }
-  // Phase F:战后半恢复(battle.c:1342-1372 PAL_CLASSIC;全员,升级回满者无变化)
+  if (!input.deferRecovery) recoverBattleParty(party)
+  return { exp: input.exp, cash: input.cash, levelUps, hiddenUps }
+}
+
+/** battle.c:1342–1353，按当前缺口恢复一半，含 0 HP 的参战队员。 */
+export function recoverBattleParty(party: readonly CharacterInstance[]): void {
   for (const c of party) {
     c.hp += Math.floor((c.maxHP - c.hp) / 2)
     c.mp += Math.floor((c.maxMP - c.mp) / 2)
   }
-  return { exp: input.exp, cash: input.cash, levelUps, hiddenUps }
 }

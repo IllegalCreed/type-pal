@@ -15,6 +15,7 @@ import {
 } from './__tests__/runtime-shell/scenarios.js'
 
 let host: ShellHost | undefined
+let finishBattleFixture: (() => Promise<void>) | undefined
 afterEach(async () => {
   // Own the real session's termination even when an author-flow assertion fails early.
   if (host && state().renderDebug.inBattle) {
@@ -23,6 +24,8 @@ afterEach(async () => {
     await active.done.catch(() => undefined)
     await drain()
   }
+  await finishBattleFixture?.()
+  finishBattleFixture = undefined
   await host?.close()
   host = undefined
 })
@@ -208,6 +211,92 @@ test('H9 author startBattle waits for real victory then runs the following comma
   expect(state().world.money).toBe(62)
   expect(state().world.party[0]!.hp).toBe(90)
   h.assertInputUnchanged()
+})
+
+test('normal hostile victory draws its loot over the battle and recovers after the last prompt', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  let now = 0
+  vi.spyOn(performance, 'now').mockImplementation(() => now)
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const foe = opponent({
+    onDefeated: [
+      { kind: 'giveItem', itemId: 'tonic', count: 1 },
+      {
+        kind: 'dialog',
+        cue: {
+          identity: { kind: 'narration' },
+          slot: 'narration',
+          rows: [{ text: 'line.one' }],
+        },
+      },
+      { kind: 'giveItem', itemId: 'tonic', count: 1 },
+      {
+        kind: 'dialog',
+        cue: {
+          identity: { kind: 'narration' },
+          slot: 'narration',
+          rows: [{ text: 'line.two' }],
+        },
+      },
+    ],
+  })
+  const fixture = await bootScenario(host, {
+    first,
+    items: [medicine()],
+    enemies: [foe],
+    seedStats: { hero: { hp: 80, mp: 30 } },
+  })
+  const browser = host
+  finishBattleFixture = async () => {
+    // Settle a failed assertion's live script on the real confirm path before replacing the shell.
+    for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+  }
+  const health = () => state().world.party.map(({ hp, mp }) => [hp, mp])
+  const drawnText = (text: string) =>
+    host?.text.mock.calls.some(([, spans]) => spans.some((span) => span.text === text))
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  const worldFrames = drawWorld.mock.calls.length
+  await finish(host)
+  await advance(host, () => drawnText('First') === true)
+  expect(state().world.money).toBe(57)
+  expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 1 }])
+  expect(health()).toEqual([[80, 30]])
+  expect(drawWorld.mock.calls).toHaveLength(worldFrames)
+  expect(state().dialogue).toBe(true)
+  now = 1399
+  await host.frame()
+  expect(state().dialogue).toBe(true)
+  expect(drawnText('Second')).toBe(false)
+  now = 1400
+  await host.frame()
+  await advance(host, () => drawnText('Second') === true)
+  expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 2 }])
+  expect(health()).toEqual([[80, 30]])
+  expect(drawWorld.mock.calls).toHaveLength(worldFrames)
+  expect(hostileEncounterClaimed()).toBe(true)
+  await key(host, 'Enter')
+  await advance(host, () => !hostileEncounterClaimed())
+  expect(state().dialogue).toBe(false)
+  expect(health()).toEqual([[90, 35]])
+  expect(drawWorld.mock.calls.length).toBeGreaterThan(worldFrames)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  fixture.assertInputUnchanged()
 })
 
 test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {

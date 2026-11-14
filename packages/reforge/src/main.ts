@@ -20,6 +20,7 @@ import {
   pixelToGrid,
   type RuntimeHostileBehavior,
   type RuntimeScriptBinding,
+  recoverBattleParty,
   removeOwnedItems,
   resolveAmbienceTint,
   resolveEntitySpriteId,
@@ -196,6 +197,10 @@ import type {
 } from './scene-runtime-state.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
+import {
+  registeredScriptActivityLease,
+  withRegisteredScriptActivityLineage,
+} from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
@@ -1083,6 +1088,7 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
+  let victoryFrame: { frame: ImageData; signal: AbortSignal } | undefined
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
@@ -1254,11 +1260,34 @@ export async function bootGame(
         return () => scriptMutationIntent.assertCurrent(token, `${team} 战斗启动脚本已失效`)
       },
       settleVictory: (session, playVictory) =>
-        settleBattleVictory(session, world, canonicalProject, playVictory),
+        settleBattleVictory(session, world, canonicalProject, playVictory, undefined, {
+          deferRecovery: true,
+        }),
       finishWorld: (session, result) =>
         finishBattleWorldState(session, result, world, canonicalProject),
       worldDefeatFrameCapture: (signal) =>
         ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
+      presentVictory: async (owner, signal, finish) => {
+        const runtime = expectDefined(scriptRuntime)
+        const held = { frame: ctx.getImageData(0, 0, canvas.width, canvas.height), signal }
+        victoryFrame = held
+        const releaseWork = inheritScriptWork(owner, signal)
+        try {
+          const lease = registeredScriptActivityLease(runtime.host, runtime.coordinator, owner)
+          if (lease)
+            await withRegisteredScriptActivityLineage(
+              runtime.host,
+              runtime.coordinator,
+              signal,
+              lease,
+              finish,
+            )
+          else await finish()
+        } finally {
+          releaseWork()
+          if (victoryFrame === held) victoryFrame = undefined
+        }
+      },
       runDefeated: async (definitions, signal, assertCurrent) => {
         const scripted = definitions.filter((def) => def.onDefeated?.length)
         if (scripted.length && !scriptRuntime)
@@ -1271,6 +1300,7 @@ export async function bootGame(
           assertCurrent()
         }
       },
+      recoverVictory: () => recoverBattleParty(world.party),
       restoreSceneSounds: () => prepareSceneSounds(activeScene.scene, world),
       publishDebug: (session) => {
         if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
@@ -2106,7 +2136,9 @@ export async function bootGame(
           dialogBox.open(
             startDialogue({ id: '__script', cues: [cue] }),
             performance.now(),
-            'script',
+            victoryFrame?.signal === signal && cue.slot === 'narration'
+              ? 'battle-victory'
+              : 'script',
           )
           scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
           signal.addEventListener('abort', abort, { once: true })
@@ -2213,7 +2245,7 @@ export async function bootGame(
     },
   }
   const presentation = new CutsceneController(presentationOps, {
-    isRunnerActive: () => runner !== null,
+    isRunnerActive: () => runner !== null || victoryFrame !== undefined,
   })
 
   const host: ScriptHost = {
@@ -3849,7 +3881,11 @@ export async function bootGame(
     // menu / battle freeze locomotion before cadence is accrued. Frozen wall time must not age
     // fairness rings, side-stick eligibility or slow-move parity.
     const locomotionFrozen =
-      menus.active || hostileBusy || !!battleHost.active || scriptConfirmModal.active
+      menus.active ||
+      hostileBusy ||
+      !!battleHost.active ||
+      !!victoryFrame ||
+      scriptConfirmModal.active
     // ── 世界拍(STEP_MS=100ms):至多 1 拍/rAF,真积压丢弃(DM31 永不补帧)。──
     if (!motion.advanceCadence(dt, locomotionFrozen)) return
 
@@ -5092,6 +5128,7 @@ export async function bootGame(
     worldMutationIntent.invalidate()
     invalidatePendingScriptMutations()
     battleHost.cancel()
+    victoryFrame = undefined
     scriptAbort?.abort()
     itemUseSession.cancel()
     runner = null
@@ -5760,6 +5797,15 @@ export async function bootGame(
    * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
    */
+  function drawDialogue(): void {
+    if (!dialogBox.visible) return
+    ctx.save()
+    ctx.scale(WORLD_SCALE, WORLD_SCALE)
+    ctx.imageSmoothingEnabled = false
+    dialogBox.render(performance.now())
+    ctx.restore()
+  }
+
   function render(): void {
     const scriptConfirm = scriptConfirmModal.view
     if (scriptConfirm) {
@@ -5794,6 +5840,11 @@ export async function bootGame(
         ctx.putImageData(heldEntryFrame, 0, 0)
         drawFadeCurtain()
         syncDitherDebugDataset()
+        return
+      }
+      if (victoryFrame && !victoryFrame.signal.aborted) {
+        ctx.putImageData(victoryFrame.frame, 0, 0)
+        drawDialogue()
         return
       }
       updateCamera() // 相机跟随玩家
@@ -5869,13 +5920,7 @@ export async function bootGame(
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
-    if (dialogBox.visible) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      dialogBox.render(performance.now())
-      ctx.restore()
-    }
+    drawDialogue()
     if (showingGameOver) return
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
     if (menus.active) {
@@ -6221,7 +6266,7 @@ export async function bootGame(
       },
     },
     dialogue: { active: () => dialogBox.active, advance: (realNow) => dialogBox.advance(realNow) },
-    scriptRunning: () => runner !== null,
+    scriptRunning: () => runner !== null || victoryFrame !== undefined,
     hostileBusy: () => hostileBusy,
     quickSave: () => {
       void quickSave().catch(reportSaveFailure)

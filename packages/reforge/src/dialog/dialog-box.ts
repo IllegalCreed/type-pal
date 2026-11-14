@@ -27,6 +27,7 @@ import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js
 // GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
 const LINE_HEIGHT = 18
 const LINES_PER_PAGE = 4 // spec §3:MAX_LINES_PER_PAGE
+const BATTLE_VICTORY_NARRATION_MS = 1400 // text.c:1701
 const POS = {
   bottom: {
     text: { x: 44, y: 126 },
@@ -119,6 +120,7 @@ export class DialogBox {
   /** 活跃槽当前页是否已全显(fUserSkip 两段式)。 */
   private pageDone = false
   private retainSlots = false
+  private battleVictory = false
   private nextPresentationId = 0
 
   private cursorBaked: HTMLCanvasElement[] = []
@@ -249,18 +251,25 @@ export class DialogBox {
         rowSpeeds: cue.rows.map((row) =>
           slot === 'narration' ? 0 : (row.speed ?? DEFAULT_SPEED_MS),
         ),
-        autoAdvance: cue.autoAdvance,
+        autoAdvance:
+          cue.autoAdvance ??
+          (this.battleVictory && slot === 'narration' ? BATTLE_VICTORY_NARRATION_MS : undefined),
       },
     }
   }
 
-  open(state: DialogueState, nowMs: number, lifetime: 'dialogue' | 'script' = 'dialogue'): void {
+  open(
+    state: DialogueState,
+    nowMs: number,
+    lifetime: 'dialogue' | 'script' | 'battle-victory' = 'dialogue',
+  ): void {
     const firstCue = state.dialogue.cues[0]
     if (!firstCue) throw new Error('reforge: 对话无显示单元')
     // Ordinary script commands share visible slots until explicit clearing. Narration
     // scrolls and standalone dialogues keep their own existing close-on-completion lifetime.
     this.retainSlots =
       lifetime === 'script' && (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
+    this.battleVictory = lifetime === 'battle-victory'
     this.state = state
     if (!this.retainSlots) {
       this.slots = emptySlots()
@@ -297,9 +306,8 @@ export class DialogBox {
       this.pageDone = false
       return
     }
-    // 该段话翻完 → 推进下一段话。但若该段有 autoAdvance(尾停顿),
-    // sdlpal 真值(spec §Bug3):尾停顿不可加速,玩家按 space = noop,必须等 update 自动推进。
-    if (this.activeAutoAdvance() !== undefined) return
+    // 作者配置的尾停顿不可跳过。战后叙述的默认计时也接受确认键。
+    if (r?.cue.autoAdvance !== undefined) return
     this.advanceToNextCue(nowMs)
   }
 
@@ -330,11 +338,7 @@ export class DialogBox {
     this.slots = emptySlots()
     this.renders = {}
     this.retainSlots = false
-  }
-
-  /** 活跃槽当前段话的 autoAdvance(undefined = 无,等键)。 */
-  private activeAutoAdvance(): number | undefined {
-    return this.renders[this.slots.activeSlot]?.autoAdvance
+    this.battleVictory = false
   }
 
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
@@ -376,6 +380,16 @@ export class DialogBox {
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
     if (slotId === 'narration') {
+      // The original reward wait starts after the text is drawn.
+      if (
+        isActive &&
+        this.battleVictory &&
+        r.cue.autoAdvance === undefined &&
+        r.visibleText === null
+      ) {
+        this.lineStartMs = nowMs
+        r.pageStartedAtMs = nowMs
+      }
       this.renderNarrationScroll(r, isActive)
       return
     }
