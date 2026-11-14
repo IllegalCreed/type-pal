@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "220-222",
+      "lines": "242-244",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "381-392",
+      "lines": "406-418",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1213-1222",
+      "lines": "1243-1252",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:220-222",
-        "packages/reforge/src/battle/battle-session.ts:381-392",
-        "packages/reforge/src/battle/battle-session.ts:1213-1222",
+        "packages/reforge/src/battle/battle-session.ts:242-244",
+        "packages/reforge/src/battle/battle-session.ts:406-418",
+        "packages/reforge/src/battle/battle-session.ts:1243-1252",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -535,6 +535,36 @@
         }
       ],
       "scope": "玩家群攻、傀儡、混乱误击和单体双击呈现调整后，三个已出版调用片段逐字节保持。"
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "220-222",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "381-392",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1213-1222",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        }
+      ],
+      "scope": "选择、准备门和动作三个已刊片段保留；构造仅多接正常明雷结算。原主张和运行证据照原出版。"
     }
   ],
   "_governance": {

@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1251-1295",
+      "lines": "1267-1342",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+      "sha256": "536d851b304b80344d44eb4c3669d3396d06195baeb392780561738c35f4681f"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "63-78",
+      "lines": "72-88",
       "anchor": "async start(",
       "role": "contract",
-      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+      "sha256": "c97107f5af3250033d74a33150f55db95060252b045b40b5d165f9ff935efce6"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "174-178",
+      "lines": "250-261",
       "anchor": "this.ports.finishWorld(session, result)",
       "role": "contract",
-      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+      "sha256": "c97107f5af3250033d74a33150f55db95060252b045b40b5d165f9ff935efce6"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -75,9 +75,9 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1251-1295",
-        "packages/reforge/src/battle/battle-host.ts:63-78",
-        "packages/reforge/src/battle/battle-host.ts:174-178",
+        "packages/reforge/src/main.ts:1267-1342",
+        "packages/reforge/src/battle/battle-host.ts:72-88",
+        "packages/reforge/src/battle/battle-host.ts:250-261",
         "packages/reforge/src/battle/battle-host.test.ts:13-36",
         "packages/content/src/character.ts:168-170"
       ]
@@ -210,6 +210,36 @@
         }
       ],
       "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1251-1295",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "63-78",
+          "anchor": "async start(",
+          "role": "contract",
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "174-178",
+          "anchor": "this.ports.finishWorld(session, result)",
+          "role": "contract",
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+        }
+      ],
+      "scope": "宿主的准备、普通败局及同 continuation 写回仍有原调用；新增明雷过场只在其实际所属信号接入。原主张和运行证据照原出版。"
     }
   ],
   "_governance": {

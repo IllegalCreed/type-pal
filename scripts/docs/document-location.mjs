@@ -29,8 +29,11 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   testingBattleDefeatSourceRevision,
+  testingBattleHandoffPublicationBase,
+  testingBattleHandoffSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
@@ -490,15 +493,30 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const victorySource = victoryRevision && gitTree(root, victoryRevision, [])
   const preVictory = victorySource && gitTree(root, testingBattleVictoryPublicationBase, [])
-  const priorDefeatBindings = (path, current) => {
-    if (!defeatSource) return current
-    const beforeVictory = victorySource
-      ? restoreTestingBattleVictorySourceBindings(path, current, {
+  const handoffRevision = admission.testingBattleHandoffSourceRevision
+  if (handoffRevision !== undefined)
+    assert(
+      victorySource && handoffRevision === testingBattleHandoffSourceRevision,
+      'hostile handoff source bridge requires the fixed Q2 successor',
+    )
+  const handoffSource = handoffRevision && gitTree(root, handoffRevision, [])
+  const preHandoff = handoffSource && gitTree(root, testingBattleHandoffPublicationBase, [])
+  const priorEncounterBindings = (path, current) => {
+    const beforeHandoff = handoffSource
+      ? restoreTestingBattleHandoffSourceBindings(path, current, {
           readSource,
+          readBase: preHandoff.read,
+          readFixed: handoffSource.read,
+        })
+      : current
+    if (!defeatSource) return beforeHandoff
+    const beforeVictory = victorySource
+      ? restoreTestingBattleVictorySourceBindings(path, beforeHandoff, {
+          readSource: preHandoff?.read ?? readSource,
           readBase: preVictory.read,
           readFixed: victorySource.read,
         })
-      : current
+      : beforeHandoff
     return restoreTestingBattleDefeatSourceBindings(path, beforeVictory, {
       readSource: preVictory?.read ?? readSource,
       readBase: preBattleCasualtyDialogue.read,
@@ -506,7 +524,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     })
   }
   const battleBridge = preBattle && {
-    readSource,
+    readSource: preHandoff?.read ?? readSource,
     fixed: { revision: battlePublicationRevision, readSource: preBattle.read },
     mechanismFixed: {
       revision: testingBattleSessionMechanismBase,
@@ -817,11 +835,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
             return fixed
           }
         : readPredecessorSource
-      const currentBeforeDefeat = priorDefeatBindings(path, current)
+      const currentBeforeEncounter = priorEncounterBindings(path, current)
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
           ? preBattle.read(path)
-          : currentBeforeDefeat
+          : currentBeforeEncounter
       const predecessor = acquisitionPrevious(path, acceptedCurrent)
       const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
       const publication = chestBridge ? postPalace.read(path) : predecessor
@@ -859,12 +877,17 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       if (preBattle && path === testingCatalogPath)
         assertTestingBattlePublication(
           acceptedCurrent,
-          currentBeforeDefeat,
+          currentBeforeEncounter,
           additions,
           battleBridge,
         )
       if (preBattle && isTestingBattleSessionEvidencePath(path))
-        assertTestingBattleSessionSourceBridge(path, acceptedCurrent, current, battleBridge)
+        assertTestingBattleSessionSourceBridge(
+          path,
+          acceptedCurrent,
+          currentBeforeEncounter,
+          battleBridge,
+        )
       return { current, previous, change }
     }
     {

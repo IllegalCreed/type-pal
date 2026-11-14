@@ -111,6 +111,8 @@ const sessionSpecialStatusBinding = {
 export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57872b9b2849'
 export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5eb2bec4b2d7f'
 export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
+export const testingBattleHandoffPublicationBase = '9f5f57d4df53ea122622ffda110807e39e0ec66e'
+export const testingBattleHandoffSourceRevision = 'd008dfe82960754ee97a428110e03ab49b8d9110'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
@@ -148,6 +150,93 @@ const victorySourceRanges = new Map([
   ],
   [reforgeBattleHost, { '55-69': '63-78', '165-169': '174-178' }],
 ])
+
+const handoffSourceRanges = new Map([
+  [
+    reforgeMain,
+    { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1267-1342' },
+  ],
+  [reforgeBattleHost, { '63-78': '72-88', '174-178': '250-261' }],
+  [
+    testingBattleSessionSourcePath,
+    { '220-222': '242-244', '381-392': '406-418', '1213-1222': '1243-1252' },
+  ],
+])
+
+const handoffBindings = new Map(
+  [...encounterBindings].filter(([, { paths }]) => paths.includes(reforgeMain)),
+)
+handoffBindings.set(sessionEvidencePath.slice('docs/testing/'.length), {
+  id: sessionId,
+  paths: [testingBattleSessionSourcePath],
+})
+
+function replaceHandoffExcerpt(excerpt, candidate, previous = '') {
+  assert.equal(excerpt.split(candidate).length, 2, 'hostile handoff excerpt changed')
+  return excerpt.replace(candidate, previous)
+}
+
+function handoffExcerpt(excerpt, { path, lines }) {
+  if (path === reforgeBattleHost && lines === '63-78')
+    return replaceHandoffExcerpt(excerpt, '    this.#entryPresentation?.abortEntry()\n')
+  if (path === reforgeBattleHost && lines === '174-178')
+    return replaceHandoffExcerpt(
+      excerpt,
+      [
+        '    await this.finishEncounter(',
+        '      session,',
+        '      result,',
+        '      signal,',
+        '      assertCurrent,',
+        '      restoreMusic,',
+        '      presentation?.fadeOnVictory === true,',
+        '    )',
+      ].join('\n'),
+      '    await this.finishEncounter(session, result, signal, assertCurrent, restoreMusic)',
+    )
+  if (path === testingBattleSessionSourcePath && lines === '381-392')
+    return replaceHandoffExcerpt(
+      excerpt,
+      '      ...(opts.worldSettlement ? { worldSettlement: opts.worldSettlement } : {}),\n',
+    )
+  if (path !== reforgeMain || lines !== '1251-1295') return excerpt
+  const entryPort = excerpt.indexOf('      worldPresentation: (signal) => {\n')
+  const victoryPort = excerpt.indexOf('      presentVictory: async (owner, signal, finish) => {\n')
+  assert(entryPort > 0 && victoryPort > entryPort, 'hostile entry port changed')
+  let restored = excerpt.slice(0, entryPort) + excerpt.slice(victoryPort)
+  restored = replaceHandoffExcerpt(
+    restored,
+    [
+      '        const held: NonNullable<typeof victoryFrame> = {',
+      '          frame: ctx.getImageData(0, 0, canvas.width, canvas.height),',
+      '          signal,',
+      '        }',
+    ].join('\n'),
+    '        const held = { frame: ctx.getImageData(0, 0, canvas.width, canvas.height), signal }',
+  )
+  restored = replaceHandoffExcerpt(
+    restored,
+    [
+      "          assertRunnerActive(signal, '战斗胜利呈现已取消')",
+      '          const encounter = hostileEncounter',
+      '          if (encounter?.signal === owner && encounter.commitVictory) {',
+      '            encounter.commitVictory()',
+      '            await fadeFromVictory(held)',
+      '          }',
+      '',
+    ].join('\n'),
+  )
+  return replaceHandoffExcerpt(
+    restored,
+    [
+      '          if (victoryFrame === held) {',
+      '            dialogBox.releaseBattleVictory(signal)',
+      '            victoryFrame = undefined',
+      '          }',
+    ].join('\n'),
+    '          if (victoryFrame === held) victoryFrame = undefined',
+  )
+}
 
 function defeatExcerpt(excerpt, { path, lines }) {
   if (path !== reforgeMain || lines !== '1242-1261') return excerpt
@@ -193,6 +282,14 @@ const victoryBinding = {
   normalizeExcerpt: victoryExcerpt,
   base: testingBattleVictoryPublicationBase,
   action: 'q2-world-victory-source-rebinding',
+  date: '2026-11-14',
+}
+
+const handoffBinding = {
+  ranges: handoffSourceRanges,
+  normalizeExcerpt: handoffExcerpt,
+  base: testingBattleHandoffPublicationBase,
+  action: 'q2-world-battle-handoff-source-rebinding',
   date: '2026-11-14',
 }
 
@@ -264,14 +361,19 @@ export function restoreTestingBattleVictorySourceBindings(path, currentBytes, in
   return restoreEncounterSourceBindings(path, currentBytes, inputs, victoryBinding)
 }
 
+export function restoreTestingBattleHandoffSourceBindings(path, currentBytes, inputs) {
+  return restoreEncounterSourceBindings(path, currentBytes, inputs, handoffBinding, handoffBindings)
+}
+
 function restoreEncounterSourceBindings(
   path,
   currentBytes,
   { readSource, readBase, readFixed },
   stage,
+  bindings = encounterBindings,
 ) {
   if (!path.startsWith('docs/testing/')) return currentBytes
-  const binding = encounterBindings.get(path.slice('docs/testing/'.length))
+  const binding = bindings.get(path.slice('docs/testing/'.length))
   if (!binding && path !== catalogPath) return currentBytes
   const baseBytes = readBase(path)
   const before = parseTerminalJson(baseBytes)
@@ -282,7 +384,7 @@ function restoreEncounterSourceBindings(
     predecessor: testingBridgeSources(readBase),
   }
   if (path === catalogPath) {
-    for (const { id, paths } of encounterBindings.values()) {
+    for (const { id, paths } of bindings.values()) {
       const index = before.entries.findIndex((entry) => entry.id === id)
       const old = before.entries[index]
       const entry = current.entries[index]

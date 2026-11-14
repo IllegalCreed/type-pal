@@ -18,8 +18,11 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   testingBattleDefeatSourceRevision,
+  testingBattleHandoffPublicationBase,
+  testingBattleHandoffSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
@@ -294,9 +297,9 @@ test('world victory source rebinding restores the published defeat evidence and 
   const hostEvidence = 'docs/testing/domains/runtime/battle/battle-host/evidence.json'
   const readBase = (path) => readFixed(testingBattleVictoryPublicationBase, path)
   const readCandidate = (path) => readFixed(testingBattleVictorySourceRevision, path)
-  const readLive = (path) => readFileSync(join(repository, path))
-  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
-  const current = JSON.parse(readLive(hostEvidence))
+  const readVictoryPublication = (path) => readFixed(testingBattleHandoffPublicationBase, path)
+  const bridge = { readBase, readFixed: readCandidate, readSource: readVictoryPublication }
+  const current = JSON.parse(readVictoryPublication(hostEvidence))
   const check = (evidence, inputs = bridge) =>
     restoreTestingBattleVictorySourceBindings(hostEvidence, bytes(evidence), inputs)
   assert.deepEqual(check(current), readBase(hostEvidence))
@@ -312,7 +315,7 @@ test('world victory source rebinding restores the published defeat evidence and 
   const changedPort = structuredClone(current)
   const main = 'packages/reforge/src/main.ts'
   const changedSource = Buffer.from(
-    readLive(main).toString().replace('deferRecovery: true', 'deferRecovery: false'),
+    readVictoryPublication(main).toString().replace('deferRecovery: true', 'deferRecovery: false'),
   )
   const reference = changedPort.sourceRefs.find(({ path }) => path === main)
   reference.sha256 = hash(changedSource)
@@ -320,7 +323,63 @@ test('world victory source rebinding restores the published defeat evidence and 
     () =>
       check(changedPort, {
         ...bridge,
-        readSource: (path) => (path === main ? changedSource : readLive(path)),
+        readSource: (path) => (path === main ? changedSource : readVictoryPublication(path)),
+      }),
+    /encounter source differs from the frozen Q2 candidate/u,
+  )
+})
+
+test('hostile handoff source bindings preserve the four published owners and their original execution', () => {
+  const paths = [
+    'docs/testing/domains/runtime/battle/battle-host/evidence.json',
+    sessionEvidence,
+    'docs/testing/domains/runtime/scene/active-scene/evidence.json',
+    'docs/testing/domains/runtime/world/world-runtime/evidence.json',
+  ]
+  const readBase = (path) => readFixed(testingBattleHandoffPublicationBase, path)
+  const readCandidate = (path) => readFixed(testingBattleHandoffSourceRevision, path)
+  const readLive = (path) => readFileSync(join(repository, path))
+  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
+  const restore = (path, value, inputs = bridge) =>
+    restoreTestingBattleHandoffSourceBindings(path, value, inputs)
+
+  for (const path of paths) assert.deepEqual(restore(path, readLive(path)), readBase(path))
+  const opening = 'docs/testing/e2e/evidence/e2e-001.json'
+  const openingBytes = readLive(opening)
+  assert.equal(restore(opening, openingBytes), openingBytes)
+  const session = JSON.parse(readLive(sessionEvidence))
+  const catalog = JSON.parse(restore(catalogPath, readLive(catalogPath)))
+  const previous = JSON.parse(readBase(catalogPath))
+  const ids = new Set(paths.map((path) => JSON.parse(readBase(path)).id))
+  assert.deepEqual(
+    catalog.entries.filter(({ id }) => ids.has(id)),
+    previous.entries.filter(({ id }) => ids.has(id)),
+  )
+
+  const wrongPointer = structuredClone(session)
+  wrongPointer.claims[0].evidence[1] = `${session.history.at(-1).previousSourceRefs[1].path}:381-392`
+  assert.throws(
+    () => restore(sessionEvidence, bytes(wrongPointer)),
+    /Expected values to be strictly equal/u,
+  )
+
+  const changedSource = Buffer.from(
+    readLive(testingBattleSessionSourcePath)
+      .toString()
+      .replace(
+        '...(opts.worldSettlement ? { worldSettlement: opts.worldSettlement } : {}),',
+        '...(opts.worldSettlement ? { worldSettlement: { boss: true } } : {}),',
+      ),
+  )
+  const forged = structuredClone(session)
+  for (const ref of forged.sourceRefs)
+    if (ref.path === testingBattleSessionSourcePath) ref.sha256 = hash(changedSource)
+  assert.throws(
+    () =>
+      restore(sessionEvidence, bytes(forged), {
+        ...bridge,
+        readSource: (path) =>
+          path === testingBattleSessionSourcePath ? changedSource : readLive(path),
       }),
     /encounter source differs from the frozen Q2 candidate/u,
   )

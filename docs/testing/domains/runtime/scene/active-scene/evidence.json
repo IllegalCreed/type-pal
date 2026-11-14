@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "413-420",
+      "lines": "414-421",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+      "sha256": "536d851b304b80344d44eb4c3669d3396d06195baeb392780561738c35f4681f"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "454-461",
+      "lines": "455-462",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+      "sha256": "536d851b304b80344d44eb4c3669d3396d06195baeb392780561738c35f4681f"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:413-420",
-        "packages/reforge/src/main.ts:454-461",
+        "packages/reforge/src/main.ts:414-421",
+        "packages/reforge/src/main.ts:455-462",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -225,6 +225,29 @@
         }
       ],
       "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "413-420",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "454-461",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+        }
+      ],
+      "scope": "活动场景和镜头的已刊构造片段逐字节对应。原主张和运行证据照原出版。"
     }
   ],
   "_governance": {

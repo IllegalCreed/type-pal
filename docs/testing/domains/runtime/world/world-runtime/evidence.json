@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "440-451",
+      "lines": "441-452",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+      "sha256": "536d851b304b80344d44eb4c3669d3396d06195baeb392780561738c35f4681f"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:440-451",
+        "packages/reforge/src/main.ts:441-452",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
         "packages/reforge/src/world-scene-presentation.ts:71-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
@@ -205,6 +205,22 @@
         }
       ],
       "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "440-451",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+        }
+      ],
+      "scope": "世界运动构造的已刊范围逐字节对应。原主张和运行证据照原出版。"
     }
   ],
   "_governance": {
