@@ -9,10 +9,9 @@ import {
   saveWorldFacts,
 } from './battle-world-save-contract.mjs'
 import {
-  readStoredBattleSave,
+  accessBattleSaveSlots,
   rejectCorruptGameImport,
   seedCorruptBattleSlot,
-  stageBattleSaves,
 } from './battle-world-save-storage.mjs'
 import { replayCommittedRoute } from './committed-route.mjs'
 import { encodeEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
@@ -66,6 +65,7 @@ function observeSaveState(engine) {
       ready: world.ready,
       hidden: world.npc?.state === -1,
       ticks: world.npc?.vanishTime,
+      repeat: gs.prevBattleActions instanceof Map ? [...gs.prevBattleActions] : null,
       clock: gs.frameNum,
       suspended: Boolean(gs.suspendRaf),
     }
@@ -102,6 +102,11 @@ async function readWorld(page, engine) {
     return JSON.parse(serializeSave(globalThis.__tpgs))
   }, engine)
   return saveWorldFacts(payload, engine)
+}
+
+async function readSlot(page, engine, slot) {
+  const [record] = await page.evaluate(accessBattleSaveSlots, { engine, slots: [slot] })
+  return record
 }
 
 function driver({ page, engine, label, report, until, health }) {
@@ -273,9 +278,9 @@ async function checkInvalidLoads({ page, engine, controls, trace, records, slots
   controls.setChapter('post-battle-load-invalid')
   if (engine === 'game') {
     const missingSlot = slots[2]
-    trace.invalid.portableError = await page.evaluate(rejectCorruptGameImport, records[1])
+    trace.invalid.portableError = await page.evaluate(rejectCorruptGameImport, records[1].slot)
     assert.match(trace.invalid.portableError, /dwCash/u)
-    assert.equal(await page.evaluate(readStoredBattleSave, { engine, slot: missingSlot }), null)
+    assert.equal(await readSlot(page, engine, missingSlot), null)
     await controls.openSlots('load')
     await controls.moveSlot(2)
     const before = await readWorld(page, engine)
@@ -292,7 +297,7 @@ async function checkInvalidLoads({ page, engine, controls, trace, records, slots
   // Isolated origin only. Both records were created by the normal menu in this case.
   const slot = slots[1]
   const injected = await page.evaluate(seedCorruptBattleSlot, { engine, slot, record: records[1] })
-  const malformed = await page.evaluate(readStoredBattleSave, { engine, slot })
+  const malformed = await readSlot(page, engine, slot)
   const input = await recordedSnapshot(out, `${label}-corrupt-slot.json`, malformed)
   await controls.openSlots('load')
   await controls.moveSlot(1)
@@ -409,10 +414,14 @@ async function verifyFreshRestore({
   const controls = driver({ page, engine, label: context, report, until, health })
   controls.setChapter('post-battle-restart')
   try {
-    await page.evaluate(stageBattleSaves, { engine, records })
+    const readbacks = await page.evaluate(accessBattleSaveSlots, {
+      engine,
+      slots: records.map(({ slot }) => slot),
+      stage: records,
+    })
     const transferred = []
-    for (const { slot, ...record } of records) {
-      const readback = await page.evaluate(readStoredBattleSave, { engine, slot })
+    for (const [i, { slot, ...record }] of records.entries()) {
+      const readback = readbacks[i]
       assert.deepEqual(readback, record, 'fresh context retained exactly the native written slot')
       const { sha256, byteLength } = encodeEvidenceArtifact(readback)
       transferred.push({ slot, sha256, byteLength })
@@ -489,7 +498,7 @@ export async function verifyPostBattleSave({
       await controls.press('Enter', 'commit manual save in selected slot')
       const slot = slots[index]
       await controls.waitEvent('write-committed', (row) => row.slot === slot)
-      const record = await page.evaluate(readStoredBattleSave, { engine, slot })
+      const record = await readSlot(page, engine, slot)
       const world = saveWorldFacts(record.payload, engine)
       assertSavedWorld(world, pose)
       records.push({ slot, ...record })
@@ -504,7 +513,7 @@ export async function verifyPostBattleSave({
       records[1].meta.savedTimes > records[0].meta.savedTimes,
       'manual saves must retain independent commit order',
     )
-    const afterSecondWrite = await page.evaluate(readStoredBattleSave, { engine, slot: slots[0] })
+    const afterSecondWrite = await readSlot(page, engine, slots[0])
     const { slot: _first, ...firstRecord } = records[0]
     assert.deepEqual(afterSecondWrite, firstRecord, 'writing slot 2 must keep slot 1 bytes intact')
     if (!capture.enabled)
