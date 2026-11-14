@@ -2449,14 +2449,13 @@ function performAttackAll(
 ): PlayerAttackSweep[] {
   const targets = [2, 1, 0, 4, 3].flatMap((idx) => {
     const enemy = s.enemies[idx]
-    return enemy && enemy.hp > 0 ? [{ idx, enemy, hp: enemy.hp }] : []
+    return enemy && enemy.hp > 0 ? [{ idx, enemy }] : []
   })
   const count = hasPlayerStatus(p, 'dualAttack') ? 2 : 1
   const sweeps: PlayerAttackSweep[] = []
   for (let sweep = 0; sweep < count; sweep++) {
     const critical = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
-    const hits = targets.map((target, order) => {
-      const { idx, enemy, hp } = target
+    const hits = targets.map(({ idx, enemy }, order) => {
       const { defense, level, physicalResistance } = enemy.def.stats
       const base = calcPhysicalAttackDamage(
         p.attackStrength,
@@ -2464,11 +2463,11 @@ function performAttackAll(
         physicalResistance,
       )
       const damage = base <= 0 ? 1 : (critical ? base * 3 : base) / 2 ** order
-      // Truncate after subtracting from integer HP. An overkill remains an unsigned WORD
-      // until death is checked, while exactly zero rounds a fractional second hit down.
-      const value = hp === 0 ? Math.floor(damage) : Math.ceil(damage)
-      target.hp -= value
-      enemy.hp = Math.max(0, target.hp)
+      // Match Game's signed difference before clamping, with the slot retained for both sweeps.
+      const hp = enemy.hp
+      const after = Math.trunc(hp - damage)
+      const value = hp - after
+      enemy.hp = Math.max(0, after)
       return { idx, value }
     })
     sweeps.push({ critical, hits })

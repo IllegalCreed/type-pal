@@ -417,6 +417,64 @@ test('玄冥宝刀 rerolls each sweep and keeps the first sweep’s defeated ene
   expect(rng).toThrow('Battle consumed a draw beyond the fixture')
 })
 
+test('the two-bee encounter truncates overkill damage at the HP write of each sweep', () => {
+  const bee = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-403'))
+  const [weapon] = validateItems(palItems.filter(({ id }) => id === '187'))
+  const anu: CharacterInstance = {
+    id: 'anu',
+    template: 'anu',
+    level: 28,
+    exp: 0,
+    hp: 470,
+    maxHP: 480,
+    mp: 400,
+    maxMP: 410,
+    attack: 168,
+    defense: 110,
+    magicAttack: 220,
+    speed: 160,
+    luck: 150,
+    equipment: { weapon: '187' },
+    tags: [],
+  }
+  const state = createBattleState({
+    players: createBattlePlayers(
+      { party: [anu], learnedSkills: {} },
+      { actorsById: {}, items: { 187: expectDefined(weapon) } },
+    ),
+    enemySlots: [bee, bee],
+  })
+  // Seed 4. The first sweep is critical, the second normal, and both are genuine overkill.
+  const rng = fixedDraws([
+    0.9236361971125007, 0.33304587937891483, 0.2216679009143263, 0.08184101991355419,
+    0.23399724275805056, 0.5084968549199402,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: -1 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({
+    attackAllSweeps: [
+      {
+        critical: true,
+        hits: [
+          { idx: 1, value: 747 },
+          { idx: 0, value: 373 },
+        ],
+      },
+      {
+        critical: false,
+        hits: [
+          { idx: 1, value: 249 },
+          { idx: 0, value: 124 },
+        ],
+      },
+    ],
+  })
+  expect(state.enemies.slice(0, 2).map((enemy) => enemy?.hp)).toEqual([0, 0])
+})
+
 test('梦蛇 adds the unequipped attack and speed once, and a second cast replaces its bonus', () => {
   const trance = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
   const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-444'))
