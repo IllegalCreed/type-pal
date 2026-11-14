@@ -437,7 +437,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                     ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
-    assert.equal(count, isBattleUi ? 3 : 1, `unexpected battle producer count: ${file}`)
+    assert.equal(count, 1, `unexpected battle producer count: ${file}`)
   for (const edit of edits.sort((a, b) => b.at - a.at))
     code = code.slice(0, edit.at) + edit.text + code.slice(edit.at)
   const output = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)

@@ -61,6 +61,21 @@ await runBrowserJourney({
             observeMagicOverlays: true,
             observePhysicalOverlays: true,
             observePlayerAppearance: scenario.id.startsWith('trance-'),
+            ...(scenario.family === 'revival'
+              ? {
+                  portraitProbe: {
+                    slot: 0,
+                    points: [
+                      { x: 12, y: 14 },
+                      { x: 20, y: 14 },
+                      { x: 24, y: 14 },
+                      { x: 16, y: 8 },
+                      { x: 0, y: 0 },
+                      { x: 33, y: 18 },
+                    ],
+                  },
+                }
+              : {}),
             random: { algorithm: 'mulberry32', seed: spec.seed },
           }),
         )

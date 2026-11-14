@@ -112,7 +112,7 @@ const STATUS_WORDS: ReadonlyArray<{
   { key: 'silence', text: '封', dx: 55, dy: 20, colorIdx: 0x3c },
 ]
 
-const poisonFaceCache = new WeakMap<
+const monoFaceCache = new WeakMap<
   Palette,
   {
     shades: ReadonlyMap<number, number>
@@ -124,8 +124,8 @@ function rgbKey(red: number, green: number, blue: number): number {
   return (red << 16) | (green << 8) | blue
 }
 
-function poisonFacePalette(palette: Palette) {
-  const cached = poisonFaceCache.get(palette)
+function monoFacePalette(palette: Palette) {
+  const cached = monoFaceCache.get(palette)
   if (cached) return cached
   const shades = new Map<number, number>()
   palette.colors.forEach(([red, green, blue], index) => {
@@ -134,18 +134,14 @@ function poisonFacePalette(palette: Palette) {
     if (!shades.has(key)) shades.set(key, index & 0x0f)
   })
   const entry = { shades, faces: new WeakMap<ImageBitmap, Map<number, HTMLCanvasElement>>() }
-  poisonFaceCache.set(palette, entry)
+  monoFaceCache.set(palette, entry)
   return entry
 }
 
-/** PAL_RLEBlitMonoColor (palcommon.c:530,601-616)：毒色段 + 原像素亮度档。 */
-function monoColorFace(
-  face: ImageBitmap,
-  palette: Palette,
-  poisonColor: number,
-): HTMLCanvasElement {
-  const band = poisonColor & 0xf0
-  const { shades, faces } = poisonFacePalette(palette)
+/** PAL_RLEBlitMonoColor (palcommon.c:530,601-616)：指定色段 + 原像素亮度档。 */
+function monoColorFace(face: ImageBitmap, palette: Palette, colorIndex: number): HTMLCanvasElement {
+  const band = colorIndex & 0xf0
+  const { shades, faces } = monoFacePalette(palette)
   const variants = faces.get(face) ?? new Map<number, HTMLCanvasElement>()
   const hit = variants.get(band)
   if (hit) return hit
@@ -192,17 +188,10 @@ export function drawPlayerInfoBox(
   const y = INFO_Y
   if (menu.magicPlayerBox) ctx.drawImage(menu.magicPlayerBox, x, y)
   if (face) {
-    if (p.hp <= 0) {
-      ctx.save()
-      ctx.filter = 'grayscale(1) brightness(0.6)' // 死亡:一阶段 mono 黑白的 RGBA 等价
-      ctx.drawImage(face, x - 2, y - 4)
-      ctx.restore()
-    } else if (p.poisonColor !== undefined && palette) {
-      // 中毒:头像按最高级毒 wColor 单色化(uibattle.c:158-161 PAL_RLEBlitMonoColor)
-      ctx.drawImage(monoColorFace(face, palette, p.poisonColor), x - 2, y - 4)
-    } else {
-      ctx.drawImage(face, x - 2, y - 4)
-    }
+    // uibattle.c:143–161：阵亡固定使用黑白色段，覆盖最高等级毒的色段。
+    const color = p.hp <= 0 ? 0 : p.poisonColor
+    const image = color !== undefined && palette ? monoColorFace(face, palette, color) : face
+    ctx.drawImage(image, x - 2, y - 4)
   }
   if (menu.slash) {
     ctx.drawImage(menu.slash, x + SLASH_X, y + HP_SLASH_Y)
