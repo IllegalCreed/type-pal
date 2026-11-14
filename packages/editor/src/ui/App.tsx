@@ -202,6 +202,7 @@ import {
   editorSubpageHasOutliner,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
+import { hostileVictoryTransitionOptions } from './hostile-victory-options.js'
 import { InitialStateWorkspace } from './InitialStateWorkspace.js'
 import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
@@ -3841,6 +3842,8 @@ function EntityInspector(props: {
   const spriteDef = spriteId ? sprites.find((sprite) => sprite.id === spriteId) : undefined
   const canonicalTriggerBound = Boolean(canonicalPage?.trigger)
   const hostile = entity.hostile as RuntimeHostileBehavior | undefined
+  const inheritedVictoryTransition =
+    session.getState().manifest.hostileVictoryTransition ?? 'direct'
   const setPageAnimation = (
     animation: NonNullable<EntityDef['pages']>[number]['animation'],
   ): void => {
@@ -4319,14 +4322,22 @@ function EntityInspector(props: {
                 >
                   <DsSelect
                     id={`${entityFieldPrefix}-victory-transition`}
-                    value={hostile?.victoryTransition ?? 'direct'}
+                    value={hostile?.victoryTransition ?? 'inherit'}
                     options={[
-                      { value: 'direct', label: '直接返回地图' },
-                      { value: 'fade', label: '淡出战场，淡入地图' },
+                      {
+                        value: 'inherit',
+                        label:
+                          inheritedVictoryTransition === 'fade'
+                            ? '沿用默认：淡出淡入'
+                            : '沿用默认：直接回场',
+                      },
+                      ...hostileVictoryTransitionOptions,
                     ]}
-                    onValueChange={(value) =>
-                      setHostile({ victoryTransition: value === 'fade' ? 'fade' : undefined })
-                    }
+                    onValueChange={(value) => {
+                      if (value === 'inherit') setHostile({ victoryTransition: undefined })
+                      else if (value === 'fade' || value === 'direct')
+                        setHostile({ victoryTransition: value })
+                    }}
                   />
                 </DsPropertyRow>
                 <DsPropertyRow label="逃跑后" labelFor={`${entityFieldPrefix}-flee`}>

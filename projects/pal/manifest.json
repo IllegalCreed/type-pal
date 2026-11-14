@@ -4,6 +4,7 @@
   "contentVersion": 23,
   "minimumSaveVersion": 12,
   "defaultEntryId": "new-game",
+  "hostileVictoryTransition": "fade",
   "content": {
     "scenes": "content/scenes/",
     "actors": "content/actors.json",

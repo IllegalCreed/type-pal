@@ -19,10 +19,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { battleTrialProjectFiles } from '../core/__tests__/battle-trial-project.js'
+import { SetHostileVictoryTransitionCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { finishOpen, type Opened } from '../core/open-actions.js'
-import { toEditorState } from '../core/project-io.js'
+import { serializeProject, toEditorState } from '../core/project-io.js'
 import { ScriptEditSession } from '../core/script-editor.js'
 import { projectEditorItemShells } from '../core/script-editor-projection.js'
 import { App } from './App.js'
@@ -334,10 +335,11 @@ test('cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承', as
   expect(hostileOf()?.onPlayerFlee).toEqual({ kind: 'suspend', ticks: 12 })
 })
 
-test('明雷胜利回场可选淡变并撤销，直接返回删除可选字段', async () => {
+test('明雷胜利回场默认继承项目，覆盖和撤销不改变项目规则', async () => {
   const current = await createAppWorld(true)
   world = current
   await current.mount()
+  await act(async () => current.main.dispatch(new SetHostileVictoryTransitionCommand('fade')))
   await selectEntity(current.host, 'e-hostile')
   await switchInspectorTab(current.host, '行为')
   const field = current.host.querySelector<HTMLButtonElement>(
@@ -346,25 +348,28 @@ test('明雷胜利回场可选淡变并撤销，直接返回删除可选字段',
   expect(field).toBeDefined()
   const currentHostile = () => current.main.getState().scenes[0]?.entities[0]?.hostile
   const initial = structuredClone(currentHostile())
-  expect(field?.textContent).toContain('直接返回地图')
+  expect(field?.textContent).toContain('沿用默认：淡出淡入')
 
   async function choose(label: string): Promise<void> {
     await act(async () => field?.click())
     const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
-      (candidate) => candidate.textContent?.trim() === label,
+      (candidate) => candidate.textContent?.trim().startsWith(label),
     )
     expect(option).toBeDefined()
     await act(async () => option?.click())
   }
 
-  await choose('淡出战场，淡入地图')
-  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'fade' })
   await choose('直接返回地图')
+  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'direct' })
+  expect(current.main.getState().manifest.hostileVictoryTransition).toBe('fade')
+  const serialized = serializeProject(current.main.getState())
+  expect(serialized['manifest.json']).toHaveProperty('hostileVictoryTransition', 'fade')
+  await choose('沿用默认：淡出淡入')
   expect(currentHostile()).toEqual(initial)
   await act(async () => {
     expect(current.main.undo()).toBe(true)
   })
-  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'fade' })
+  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'direct' })
 })
 
 test('cov85-app 场景默认入场点 col/height 部分补丁互不覆盖', async () => {

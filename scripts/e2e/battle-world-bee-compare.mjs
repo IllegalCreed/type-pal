@@ -27,8 +27,9 @@ async function verifySources() {
     'projects/pal/content/enemies.json',
     'projects/pal/content/scenes/s006.json',
     'projects/pal/content/enemy-teams.json',
+    'projects/pal/manifest.json',
   ]
-  const [script, objects, enemies, scene, teams] = await Promise.all(
+  const [script, objects, enemies, scene, teams, manifest] = await Promise.all(
     paths.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
   )
   const rows = script.segments.find(({ name }) => name === 'all').commands
@@ -48,8 +49,9 @@ async function verifySources() {
   const contact = scene.entities.find(({ id }) => id === 'e154')
   assert.deepEqual(
     [contact.hostile.enemyTeamId, contact.hostile.onVictory, contact.hostile.victoryTransition],
-    ['team-4', { kind: 'hide', ticks: 800 }, 'fade'],
+    ['team-4', { kind: 'hide', ticks: 800 }, undefined],
   )
+  assert.equal(manifest.hostileVictoryTransition, 'fade')
   assert.deepEqual(
     [rows[41142].operands, rows[41143].to, rows[41127].opcode, rows[41128].opcode],
     [[4, 41075, 41073], 'L_41127', 0x52, 0x50],

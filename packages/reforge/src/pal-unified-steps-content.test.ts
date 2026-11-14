@@ -17,6 +17,7 @@ import actorsJson from '../../../projects/pal/content/actors.json' with { type: 
 import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import indexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import sharedJson from '../../../projects/pal/content/shared-scripts.json' with { type: 'json' }
+import manifestJson from '../../../projects/pal/manifest.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
 import motionTransitionLedger from './pal-gov3-motion-transition-ledger.json' with { type: 'json' }
 import ledger from './pal-unified-steps-acceptance-ledger.json' with { type: 'json' }
@@ -367,6 +368,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
 test('non-script definitions preserve the source except for explicitly asserted author corrections', async () => {
   const sourceHashes = new Map(Object.entries(ledger.nonScriptSceneHashes))
   const victoryFades: string[] = []
+  expect(manifestJson.hostileVictoryTransition).toBe('fade')
   for (const scene of scenes) {
     const withoutScripts = {
       ...scene,
@@ -374,13 +376,11 @@ test('non-script definitions preserve the source except for explicitly asserted 
       entities: scene.entities.map(({ behaviors: _behaviors, ...entity }): typeof entity => {
         const address = `${scene.id}/${entity.id}`
         const hostile = entity.hostile
-        if (hostile?.victoryTransition === 'fade') {
+        if (hostile) {
+          expect(hostile, address).not.toHaveProperty('victoryTransition')
           expect(hostile.onVictory.kind, address).toBe('hide')
           if (hostile.onVictory.kind !== 'hide') throw new Error(address)
           victoryFades.push(`${address}|${hostile.enemyTeamId}|${hostile.onVictory.ticks}`)
-          // Project only the independently checked fade field out of the historical snapshot.
-          const { victoryTransition: _transition, ...original } = hostile
-          entity = { ...entity, hostile: original }
         }
         const statue = scene.id === 's017' ? mazeAshuraStatues.get(entity.id) : undefined
         const label = statue?.label ?? islandEntityLabels.get(address)
@@ -470,7 +470,6 @@ test('non-script definitions preserve the source except for explicitly asserted 
           onVictory: { kind: 'hide', ticks: 800 },
           onPlayerFlee: { kind: 'suspend', ticks: 15 },
           enemyTeamId: 'team-267',
-          victoryTransition: 'fade',
         },
       })
       expect(scene.entities.filter((entity) => entity.id === 'palace-isolated-exit')).toEqual([
