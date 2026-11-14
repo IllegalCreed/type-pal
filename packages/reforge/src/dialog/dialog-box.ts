@@ -120,7 +120,7 @@ export class DialogBox {
   /** 活跃槽当前页是否已全显(fUserSkip 两段式)。 */
   private pageDone = false
   private retainSlots = false
-  private battleVictory = false
+  private battleVictory?: AbortSignal
   private nextPresentationId = 0
 
   private cursorBaked: HTMLCanvasElement[] = []
@@ -261,17 +261,20 @@ export class DialogBox {
   open(
     state: DialogueState,
     nowMs: number,
-    lifetime: 'dialogue' | 'script' | 'battle-victory' = 'dialogue',
+    lifetime: 'dialogue' | 'script' | { battleVictory: AbortSignal } = 'dialogue',
   ): void {
     const firstCue = state.dialogue.cues[0]
     if (!firstCue) throw new Error('reforge: 对话无显示单元')
     // Ordinary script commands share visible slots until explicit clearing. Narration
     // scrolls and standalone dialogues keep their own existing close-on-completion lifetime.
+    const battleVictory = typeof lifetime === 'object' ? lifetime.battleVictory : undefined
+    const sameBattle = this.battleVictory === battleVictory
     this.retainSlots =
-      lifetime === 'script' && (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
-    this.battleVictory = lifetime === 'battle-victory'
+      lifetime !== 'dialogue' &&
+      (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
+    this.battleVictory = battleVictory
     this.state = state
-    if (!this.retainSlots) {
+    if (!this.retainSlots || !sameBattle) {
       this.slots = emptySlots()
       this.renders = {}
     }
@@ -332,13 +335,17 @@ export class DialogBox {
     this.pageDone = false
   }
 
+  releaseBattleVictory(owner: AbortSignal): void {
+    if (this.battleVictory === owner) this.close()
+  }
+
   /** 关闭并清空 slot(正常收尾 + 脚本 abort/切场景清理共用)。 */
   close(): void {
     this.state = null
     this.slots = emptySlots()
     this.renders = {}
     this.retainSlots = false
-    this.battleVictory = false
+    this.battleVictory = undefined
   }
 
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */

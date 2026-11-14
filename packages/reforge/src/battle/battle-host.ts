@@ -10,6 +10,12 @@ import type { BattleResult } from './battle-result.js'
 import { BattleSession } from './battle-session.js'
 import type { SettlementScreen } from './settlement.js'
 
+export interface WorldBattlePresentation {
+  showEntry(session: BattleSession): Promise<void>
+  abortEntry(): void
+  fadeOnVictory: boolean
+}
+
 export interface BattleHostPorts {
   readWorld(): WorldState
   exitFrameStep(): void
@@ -19,6 +25,7 @@ export interface BattleHostPorts {
   finishWorld(session: BattleSession, result: BattleResult): void
   /** 仅原生大世界战败流程持有该回调，用于接续最后一帧。 */
   worldDefeatFrameCapture?(signal: AbortSignal): (() => void) | undefined
+  worldPresentation?(signal: AbortSignal): WorldBattlePresentation | undefined
   presentVictory?(
     owner: AbortSignal,
     signal: AbortSignal,
@@ -46,6 +53,7 @@ export class BattleHost {
   #active: BattleSession | null = null
   #launch = new AsyncIntentController()
   #victoryPresentation: AbortController | null = null
+  #entryPresentation?: WorldBattlePresentation
   #reported = new Set<string>()
   constructor(
     private readonly preparation: Pick<BattleLaunchPreparation, 'prepare'>,
@@ -59,6 +67,7 @@ export class BattleHost {
     this.#launch.invalidate()
     this.#active?.cancel()
     this.#victoryPresentation?.abort()
+    this.#entryPresentation?.abortEntry()
   }
   async start(
     team: string,
@@ -69,6 +78,7 @@ export class BattleHost {
     this.ports.exitFrameStep()
     const token = this.#launch.begin()
     this.#victoryPresentation?.abort()
+    this.#entryPresentation?.abortEntry()
     const assertScript = this.ports.captureScriptOwner(team)
     const world = this.ports.readWorld()
     // DEV/hostile launches without a runner must not borrow the main script's signal.
@@ -80,6 +90,31 @@ export class BattleHost {
       if (this.ports.readWorld() !== world)
         throw asyncIntentAbortError(`${team} 战斗启动所属世界已失效`)
     }
+    const worldPresentation = this.ports.worldPresentation?.(signal)
+    if (worldPresentation) {
+      this.#entryPresentation = worldPresentation
+      this.music.bgm.stop()
+    }
+    try {
+      return await this.launch(team, options, signal, assertCurrent, worldPresentation)
+    } catch (error) {
+      if (worldPresentation && this.#entryPresentation === worldPresentation) {
+        assertCurrent()
+        this.restoreWorldMusic()
+      }
+      throw error
+    } finally {
+      if (this.#entryPresentation === worldPresentation) this.#entryPresentation = undefined
+    }
+  }
+
+  private async launch(
+    team: string,
+    options: BattleLaunchOptions | undefined,
+    signal: AbortSignal,
+    assertCurrent: () => void,
+    worldPresentation: WorldBattlePresentation | undefined,
+  ): Promise<BattleResult> {
     const prepared = await scriptWorkIO(
       this.preparation.prepare(team, options, signal, assertCurrent, (id, stage, error, fatal) =>
         this.report(id, stage, error, fatal),
@@ -89,13 +124,18 @@ export class BattleHost {
     assertCurrent()
     let playedVictory = false
     const restoreMusic = () => {
-      if (prepared.battleTrack === undefined && !playedVictory) return
-      const persistent = this.ports.readWorld().audio?.currentMusic
-      if (persistent === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-      else if (persistent) this.music.bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
+      if (worldPresentation) this.restoreWorldMusic()
+      else if (prepared.battleTrack !== undefined || playedVictory) {
+        const persistent = this.ports.readWorld().audio?.currentMusic
+        if (persistent === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+        else if (persistent) this.music.bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
+      }
     }
-    if (prepared.battleTrack === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-    else this.music.bgm.play(prepared.battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
+    const playBattleMusic = (fadeMs: number) => {
+      if (prepared.battleTrack === null) this.music.bgm.stop(fadeMs)
+      else this.music.bgm.play(prepared.battleTrack, true, fadeMs)
+    }
+    if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
     const { sessionAssets, sessionOptions } = prepared.commit()
     const captureDefeatFrame = this.ports.worldDefeatFrameCapture?.(signal)
     const session: BattleSession = new BattleSession(
@@ -118,15 +158,41 @@ export class BattleHost {
             this.music.bgm.play(
               this.music.victory(!!options?.boss),
               false,
-              BATTLE_MUSIC_TRANSITION_MS,
+              worldPresentation ? 0 : BATTLE_MUSIC_TRANSITION_MS,
             )
             playedVictory = true
           })
         },
       },
     )
-    this.#active = session
-    return await this.awaitSession(session, signal, assertCurrent, restoreMusic, captureDefeatFrame)
+    const presentation = worldPresentation && {
+      enter: async () => {
+        try {
+          await worldPresentation.showEntry(session)
+          assertCurrent()
+          this.#active = session
+          playBattleMusic(0)
+        } finally {
+          if (this.#entryPresentation === worldPresentation) this.#entryPresentation = undefined
+        }
+      },
+      fadeOnVictory: worldPresentation.fadeOnVictory,
+    }
+    if (!presentation) this.#active = session
+    return await this.awaitSession(
+      session,
+      signal,
+      assertCurrent,
+      restoreMusic,
+      captureDefeatFrame,
+      presentation,
+    )
+  }
+
+  private restoreWorldMusic(): void {
+    const track = this.ports.readWorld().audio?.currentMusic
+    if (track) this.music.bgm.play(track)
+    else this.music.bgm.stop()
   }
 
   private async awaitSession(
@@ -135,15 +201,23 @@ export class BattleHost {
     assertCurrent: () => void,
     restoreMusic: () => void,
     captureDefeatFrame: (() => void) | undefined,
+    presentation?: { enter(): Promise<void>; fadeOnVictory: boolean },
   ): Promise<BattleResult> {
     const abort = () => {
-      if (this.#active === session) session.cancel()
+      if (!published || this.#active === session) session.cancel()
     }
+    let published = false
     signal.addEventListener('abort', abort, { once: true })
     if (signal.aborted) abort()
-    this.ports.publishDebug(session)
     let result: BattleResult
     try {
+      if (presentation) {
+        // A replacement can cancel the session before command input is enabled.
+        void session.done.catch(() => undefined)
+        await presentation.enter()
+      }
+      this.ports.publishDebug(session)
+      published = true
       result = await scriptWorkWait<BattleResult>(signal, (resolve, reject) => {
         void session.done.then(resolve, reject)
       })
@@ -152,6 +226,7 @@ export class BattleHost {
         captureDefeatFrame?.()
       }
     } catch (error) {
+      if (presentation && !published) session.cancel(error)
       if (!isBattleAbort(error)) {
         await scriptWorkIO(this.ports.restoreSceneSounds(), signal).catch((error) =>
           this.ports.reportRestoreFailure(error),
@@ -172,7 +247,14 @@ export class BattleHost {
     // An extra await between these operations would expose an uncommitted world to other work.
     assertCurrent()
     this.ports.finishWorld(session, result)
-    await this.finishEncounter(session, result, signal, assertCurrent, restoreMusic)
+    await this.finishEncounter(
+      session,
+      result,
+      signal,
+      assertCurrent,
+      restoreMusic,
+      presentation?.fadeOnVictory === true,
+    )
     return result
   }
 
@@ -182,6 +264,7 @@ export class BattleHost {
     signal: AbortSignal,
     assertCurrent: () => void,
     restoreMusic: () => void,
+    fadeOnVictory: boolean,
   ) {
     const definitions = result === 'victory' ? session.enemySlotDefs() : []
     const finish = async (scriptSignal: AbortSignal): Promise<void> => {
@@ -201,7 +284,11 @@ export class BattleHost {
       if (result !== 'defeat') restoreMusic()
       if (failure) throw failure.error
     }
-    if (this.ports.presentVictory && definitions.some((def) => def.onDefeated?.length)) {
+    if (
+      result === 'victory' &&
+      this.ports.presentVictory &&
+      (fadeOnVictory || definitions.some((def) => def.onDefeated?.length))
+    ) {
       const controller = new AbortController()
       this.#victoryPresentation = controller
       // The battle no longer owns input, but replacement or a parent abort still cancels its scripts.

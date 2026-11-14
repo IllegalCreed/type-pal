@@ -55,6 +55,7 @@ import { SfxPlayer } from './audio/sfx.js'
 import { collectSceneSoundAssets } from './audio/sfx-readiness.js'
 import { executeAutomaticTargetCommand } from './automatic-target-command.js'
 import { curePoisons } from './battle/battle-core.js'
+import { BattleEntryPresentation } from './battle/battle-entry-presentation.js'
 import { BattleHost } from './battle/battle-host.js'
 import { BattleLaunchPreparation } from './battle/battle-launch-preparation.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
@@ -1088,7 +1089,20 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
-  let victoryFrame: { frame: ImageData; signal: AbortSignal } | undefined
+  type VictoryReturn = {
+    fade: SupersedingFadeDriver
+    revealingWorld: boolean
+    finishFrame?: () => void
+  }
+  let victoryFrame: { frame: ImageData; signal: AbortSignal; returning?: VictoryReturn } | undefined
+  let hostileEncounter:
+    | {
+        signal: AbortSignal
+        entry?: BattleEntryPresentation
+        abort(): void
+        commitVictory?: () => void
+      }
+    | undefined
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
@@ -1267,9 +1281,31 @@ export async function bootGame(
         finishBattleWorldState(session, result, world, canonicalProject),
       worldDefeatFrameCapture: (signal) =>
         ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
+      worldPresentation: (signal) => {
+        const encounter = hostileEncounter
+        if (!encounter?.entry || encounter.signal !== signal) return undefined
+        const entry = encounter.entry
+        return {
+          abortEntry: encounter.abort,
+          fadeOnVictory: encounter.commitVictory !== undefined,
+          showEntry: async (session) => {
+            try {
+              await entry.show(() => {
+                session.render(ctx, WORLD_SCALE)
+                applyAmbienceTint()
+              })
+            } finally {
+              if (hostileEncounter === encounter) delete encounter.entry
+            }
+          },
+        }
+      },
       presentVictory: async (owner, signal, finish) => {
         const runtime = expectDefined(scriptRuntime)
-        const held = { frame: ctx.getImageData(0, 0, canvas.width, canvas.height), signal }
+        const held: NonNullable<typeof victoryFrame> = {
+          frame: ctx.getImageData(0, 0, canvas.width, canvas.height),
+          signal,
+        }
         victoryFrame = held
         const releaseWork = inheritScriptWork(owner, signal)
         try {
@@ -1283,9 +1319,18 @@ export async function bootGame(
               finish,
             )
           else await finish()
+          assertRunnerActive(signal, '战斗胜利呈现已取消')
+          const encounter = hostileEncounter
+          if (encounter?.signal === owner && encounter.commitVictory) {
+            encounter.commitVictory()
+            await fadeFromVictory(held)
+          }
         } finally {
           releaseWork()
-          if (victoryFrame === held) victoryFrame = undefined
+          if (victoryFrame === held) {
+            dialogBox.releaseBattleVictory(signal)
+            victoryFrame = undefined
+          }
         }
       },
       runDefeated: async (definitions, signal, assertCurrent) => {
@@ -1510,6 +1555,33 @@ export async function bootGame(
   ): Promise<void> {
     fadeCurtain = color
     return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)
+  }
+
+  async function fadeFromVictory(held: NonNullable<typeof victoryFrame>): Promise<void> {
+    const { signal } = held
+    const returning: VictoryReturn = { fade: new SupersedingFadeDriver(), revealingWorld: false }
+    // The actual last canvas can still contain a timed reward that closed on its draw.
+    held.frame = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    held.returning = returning
+    dialogBox.releaseBattleVictory(signal)
+    const rampMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
+    try {
+      await returning.fade.begin(1, frames.now, rampMs, signal, signal)
+      assertRunnerActive(signal, '战斗胜利淡出已取消')
+      returning.revealingWorld = true
+      await returning.fade.begin(0, frames.now, rampMs, signal, signal)
+      await scriptWorkWait<void>(signal, (resolve, reject) => {
+        const abort = () => reject(asyncIntentAbortError('战斗胜利淡入已取消'))
+        returning.finishFrame = () => {
+          signal.removeEventListener('abort', abort)
+          resolve()
+        }
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
+      })
+    } finally {
+      returning.fade.cancelOwned(signal, 0)
+    }
   }
 
   async function hostHoldScreen(
@@ -2136,9 +2208,7 @@ export async function bootGame(
           dialogBox.open(
             startDialogue({ id: '__script', cues: [cue] }),
             performance.now(),
-            victoryFrame?.signal === signal && cue.slot === 'narration'
-              ? 'battle-victory'
-              : 'script',
+            victoryFrame?.signal === signal ? { battleVictory: signal } : 'script',
           )
           scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
           signal.addEventListener('abort', abort, { once: true })
@@ -4872,7 +4942,32 @@ export async function bootGame(
     h: NonNullable<EntityDef['hostile']>,
   ): Promise<void> {
     hostileBusy = true
-    const encounterSignal = new AbortController().signal
+    const encounterController = new AbortController()
+    const encounterSignal = encounterController.signal
+    const commitVictory = () => {
+      const result = 'victory'
+      if (applyHostileLifecyclePolicy(e, result)) return
+      e.hidden = true // 消失
+      if (h.respawnSeconds && h.respawnSeconds > 0) {
+        const atScene = activeScene.scene
+        void (async () => {
+          await host.wait(expectDefined(h.respawnSeconds) * 1000)
+          if (activeScene.scene === atScene) e.hidden = false // 重生
+        })()
+      }
+    }
+    const encounter = {
+      signal: encounterSignal,
+      entry: new BattleEntryPresentation(
+        ctx.getImageData(0, 0, canvas.width, canvas.height),
+        WORLD_SCALE,
+        frames.now,
+        encounterSignal,
+      ),
+      abort: () => encounterController.abort(),
+      ...(hostileBehaviorFor(e.id)?.victoryTransition === 'fade' ? { commitVictory } : {}),
+    }
+    hostileEncounter = encounter
     const onLose = h.onLose
     const gameOverOnDefeat = onLose === 'gameOver' || onLose === undefined
     if (gameOverOnDefeat) ordinaryDefeatSignal = encounterSignal
@@ -4888,15 +4983,7 @@ export async function bootGame(
         encounterSignal,
       )
       if (result === 'victory') {
-        if (applyHostileLifecyclePolicy(e, result)) return
-        e.hidden = true // 消失
-        if (h.respawnSeconds && h.respawnSeconds > 0) {
-          const atScene = activeScene.scene
-          void (async () => {
-            await host.wait(expectDefined(h.respawnSeconds) * 1000)
-            if (activeScene.scene === atScene) e.hidden = false // 重生
-          })()
-        }
+        if (!encounter.commitVictory) commitVictory()
       } else if (result === 'playerFled') {
         applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
@@ -4906,7 +4993,10 @@ export async function bootGame(
     } finally {
       if (ordinaryDefeatSignal === encounterSignal) ordinaryDefeatSignal = undefined
       gameOverPresentation.release(encounterSignal)
-      hostileBusy = false
+      if (hostileEncounter === encounter) {
+        hostileEncounter = undefined
+        hostileBusy = false
+      }
       finishWork()
     }
   }
@@ -5128,6 +5218,9 @@ export async function bootGame(
     worldMutationIntent.invalidate()
     invalidatePendingScriptMutations()
     battleHost.cancel()
+    hostileEncounter?.abort()
+    hostileEncounter = undefined
+    hostileBusy = false
     victoryFrame = undefined
     scriptAbort?.abort()
     itemUseSession.cancel()
@@ -5785,10 +5878,10 @@ export async function bootGame(
     }
   }
 
-  function drawFadeCurtain(): void {
-    if (fadeDriver.value <= 0.001) return
+  function drawFadeCurtain(value = fadeDriver.value, color = fadeCurtain): void {
+    if (value <= 0.001) return
     ctx.save()
-    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeDriver.value.toFixed(3)})`
+    ctx.fillStyle = `rgba(${color === 'red' ? '150,12,12' : '0,0,0'},${value.toFixed(3)})`
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.restore()
   }
@@ -5843,9 +5936,13 @@ export async function bootGame(
         return
       }
       if (victoryFrame && !victoryFrame.signal.aborted) {
-        ctx.putImageData(victoryFrame.frame, 0, 0)
-        drawDialogue()
-        return
+        const returning = victoryFrame.returning
+        if (!returning?.revealingWorld) {
+          ctx.putImageData(victoryFrame.frame, 0, 0)
+          if (returning) drawFadeCurtain(returning.fade.advance(frames.now), 'black')
+          else drawDialogue()
+          return
+        }
       }
       updateCamera() // 相机跟随玩家
       // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
@@ -6089,6 +6186,15 @@ export async function bootGame(
         ditherZeroFrameDiffersFromTarget = !equals(shown, dither.target.data)
       }
       if (pr >= 1) ditherTransition.finish()
+    }
+    const returning = victoryFrame?.returning
+    if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {
+      drawFadeCurtain(returning.fade.advance(frames.now), 'black')
+      const finishFrame = returning.finishFrame
+      if (finishFrame) {
+        delete returning.finishFrame
+        finishFrame()
+      }
     }
     syncDitherDebugDataset()
   }
@@ -6363,6 +6469,11 @@ export async function bootGame(
       motion.clearWorldTicks()
     },
     presentBattle: (dt, pressed, now) => {
+      const entry = hostileEncounter?.entry
+      if (entry && !hostileEncounter?.signal.aborted) {
+        entry.draw(ctx, now)
+        return true
+      }
       if (!battleHost.active) return false
       battleHost.active.tick(dt, pressed, now)
       battleHost.active.render(ctx, WORLD_SCALE)

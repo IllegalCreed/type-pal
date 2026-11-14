@@ -338,6 +338,60 @@ test.each([
   fixture.assertInputUnchanged()
 })
 
+test('a battle-end upper dialogue leaves with its battle frame on a direct world return', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, {
+    first,
+    enemies: [
+      opponent({
+        onDefeated: [
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'top',
+              rows: [{ text: 'line.one', speed: 0 }],
+            },
+          },
+        ],
+      }),
+    ],
+  })
+  const browser = host
+  finishBattleFixture = async () => {
+    for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+  }
+  const drawsUpperDialogue = () =>
+    browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First'))
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  await finish(host)
+  await advance(host, drawsUpperDialogue)
+  expect(state().dialogue).toBe(true)
+  await key(host, 'Enter')
+  await advance(host, () => !hostileEncounterClaimed())
+  browser.text.mockClear()
+  await host.frame()
+  expect(drawsUpperDialogue(), 'battle-end dialogue drew over the resumed world').toBe(false)
+  await key(host, 'Escape')
+  expect(state().renderDebug.menuActive).toBe(true)
+  fixture.assertInputUnchanged()
+})
+
 test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {
   host = await installShellHost()
   // This tests defeat routing, not RNG: 7/17 passive dodge can otherwise outlive the frame budget.
