@@ -360,8 +360,8 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
       // restore's target validation and prepare both read the canonical definition (cached in main).
       'scene-definition:saved-scene',
       'scene-definition:saved-scene',
-      'invalidate-script',
       'stop-auto',
+      'invalidate-script',
       'prune',
       'camera',
       'bgm-stop',
