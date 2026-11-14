@@ -549,13 +549,24 @@ test('an authored victory fade darkens the last drawn prompt then reveals the co
   const held = readPixels.mock.results.at(-1)?.value
   expect(held).toBeDefined()
   expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
+  function expectPaletteShade(light: number, worldDrawn: boolean): void {
+    const last = fadeFrames.at(-1)
+    if (!last) throw new Error('victory fade was not drawn')
+    expect(last.worldDrawn).toBe(worldDrawn)
+    // SDLPal scales the channels by one of 61 levels over 64.
+    const level = (1 - last.alpha) * 64
+    expect(Number.isInteger(level)).toBe(true)
+    // The sampling frame can straddle one quantization boundary.
+    expect(Math.abs(level - light)).toBeLessThanOrEqual(1)
+  }
   for (let i = 1; i <= 6; i++) {
     await key(host, 'Escape')
     expect(state().renderDebug.menuActive).toBe(false)
     expect(drawWorld).not.toHaveBeenCalled()
     expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
-    expect(fadeFrames.at(-1)).toEqual({ alpha: i / 6, worldDrawn: false })
+    expectPaletteShade(60 - 10 * i, false)
   }
+  expect(fadeFrames.at(-1)).toEqual({ alpha: 1, worldDrawn: false })
   // World is drawn from the committed lifecycle with the new endpoint still under the curtain.
   const heldDraws = drawPixels.mock.calls.length
   for (let i = 0; i < 6; i++) {
@@ -563,8 +574,7 @@ test('an authored victory fade darkens the last drawn prompt then reveals the co
     expect(state().renderDebug.menuActive).toBe(false)
     expect(hostileEncounterClaimed()).toBe(true)
     expect(drawPixels.mock.calls.length).toBe(heldDraws)
-    expect(fadeFrames.at(-1)?.alpha).toBeCloseTo(1 - i / 6)
-    expect(fadeFrames.at(-1)?.worldDrawn).toBe(true)
+    expectPaletteShade(10 * i, true)
   }
   const darkFrames = fadeFrames.length
   const worldFrames = drawWorld.mock.calls.length

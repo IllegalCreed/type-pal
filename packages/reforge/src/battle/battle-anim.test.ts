@@ -588,9 +588,7 @@ describe('M4d-2 战斗动画时间线', () => {
       appearanceTransition?.side === 'enemy' ? appearanceTransition.step : null,
     )
     expect(steps.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0])
-    expect(steps.slice(6)).toEqual(
-      Array.from({ length: 72 }, (_, i) => i + 1),
-    )
+    expect(steps.slice(6)).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
     expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
     expect(frames[6]!.fighters![0]!.frame).toBe(3)
     expect(frames[6]!.sound).toBe('sound.pal.047')
