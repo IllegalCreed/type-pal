@@ -213,26 +213,37 @@ test('H9 author startBattle waits for real victory then runs the following comma
   h.assertInputUnchanged()
 })
 
-test('normal hostile victory draws its loot over the battle and recovers after the last prompt', async () => {
+test.each([
+  'confirm',
+  'replace',
+] as const)('normal hostile victory holds the battle frame through loot (%s)', async (completion) => {
   host = await installShellHost()
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
   let now = 0
   vi.spyOn(performance, 'now').mockImplementation(() => now)
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')
   const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
-  const first = shellScene('a')
-  first.entities = [
-    {
-      id: 'chaser',
-      sprite: 'walker',
-      pos: { col: 4, row: 2, height: 0 },
-      hostile: {
-        enemyTeamId: 'encounter',
-        onVictory: { kind: 'hide', ticks: 800 },
-        onPlayerFlee: { kind: 'remain' },
+  const first =
+    completion === 'replace'
+      ? sceneWithCommands('a', [
+          { kind: 'startBattle', enemyTeamId: 'encounter', auto: true },
+          { kind: 'giveMoney', delta: 100 },
+        ])
+      : shellScene('a')
+  if (completion === 'confirm') {
+    first.entities = [
+      {
+        id: 'chaser',
+        sprite: 'walker',
+        pos: { col: 4, row: 2, height: 0 },
+        hostile: {
+          enemyTeamId: 'encounter',
+          onVictory: { kind: 'hide', ticks: 800 },
+          onPlayerFlee: { kind: 'remain' },
+        },
       },
-    },
-  ]
+    ]
+  }
   const foe = opponent({
     onDefeated: [
       { kind: 'giveItem', itemId: 'tonic', count: 1 },
@@ -262,14 +273,16 @@ test('normal hostile victory draws its loot over the battle and recovers after t
     seedStats: { hero: { hp: 80, mp: 30 } },
   })
   const browser = host
+  const oldEncounterRunning = () =>
+    completion === 'replace' ? state().script.running : hostileEncounterClaimed()
   finishBattleFixture = async () => {
     // Settle a failed assertion's live script on the real confirm path before replacing the shell.
-    for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+    for (let i = 0; i < 8 && oldEncounterRunning(); i++) await key(browser, 'Enter')
   }
   const health = () => state().world.party.map(({ hp, mp }) => [hp, mp])
   const drawnText = (text: string) =>
     host?.text.mock.calls.some(([, spans]) => spans.some((span) => span.text === text))
-  await key(host, 'ArrowRight')
+  if (completion === 'confirm') await key(host, 'ArrowRight')
   await advance(host, () => state().renderDebug.inBattle)
   const worldFrames = drawWorld.mock.calls.length
   await finish(host)
@@ -289,7 +302,33 @@ test('normal hostile victory draws its loot over the battle and recovers after t
   expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 2 }])
   expect(health()).toEqual([[80, 30]])
   expect(drawWorld.mock.calls).toHaveLength(worldFrames)
-  expect(hostileEncounterClaimed()).toBe(true)
+  expect(oldEncounterRunning()).toBe(true)
+  if (completion === 'replace') {
+    let result: unknown
+    const outcome = state()
+      .startBattle('encounter')
+      .then(
+        (value) => {
+          result = value
+        },
+        (error: unknown) => {
+          result = error
+        },
+      )
+    try {
+      await advance(host, () => result !== undefined || state().renderDebug.inBattle)
+      expect(result).toBeUndefined()
+      expect(oldEncounterRunning()).toBe(false)
+      expect(state().dialogue).toBe(false)
+      expect(health()).toEqual([[80, 30]])
+      expect(state().world.money).toBe(57)
+    } finally {
+      if (state().renderDebug.inBattle) session().cancel()
+      await outcome
+    }
+    fixture.assertInputUnchanged()
+    return
+  }
   await key(host, 'Enter')
   await advance(host, () => !hostileEncounterClaimed())
   expect(state().dialogue).toBe(false)
