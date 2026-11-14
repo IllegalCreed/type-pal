@@ -268,6 +268,75 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.355'])
   })
 
+  test('梦蛇前移保留濒死姿态，闪色后整幅画面溶到原站位的施法姿态', () => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+    const form = expectDefined(
+      validateBattleSprites(palBattleSprites).find(({ id }) => id === 'player-fighter-5'),
+    )
+    if (form.profile.kind !== 'player-fighter') throw new Error('梦蛇精灵缺战斗姿态')
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 15,
+          mp: 100,
+          maxMp: 100,
+          baseDexterity: 500,
+          skills: [spell.id],
+        }),
+      ],
+      enemies: [wfEnemy('trance-control', { attackStrength: 0 })],
+      extraOpts: { skills: { [spell.id]: spell }, playerSounds: [{ magic: 'sound.pal.010' }] },
+    })
+    const baseId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const base = poseSprite(expectDefined(h.assets.battleSprites.get(baseId)))
+    const trance = poseSprite({ ...wfLoadedBattleSprite(form.id, PLAYER_PROFILE), definition: form })
+    for (const frame of trance.sprite.frames)
+      frame.pixels[0] = expectDefined(frame.pixels[0]) + 0x30
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(baseId, base).set(form.id, trance)
+    h.assets.palette = {
+      colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+      cycles: [],
+    }
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => expectDefined(ctx.getImageData(x, y, 1, 1).data[0])
+    const draw = () => h.session.render(ctx, 1)
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 120; i++) {
+      h.idle(8)
+      draw()
+      if (pixel(236, 160) > 0) break
+    }
+    expect([pixel(236, 160), pixel(240, 162)]).toEqual([0x02, 0])
+    expect(sfx.plays).toEqual([])
+
+    for (let i = 0; i < 40 && !sfx.plays.length; i++) h.idle(8)
+    draw()
+    expect(sfx.plays).toEqual(['sound.pal.010'])
+    expect(pixel(230, 158)).toBe(0x06)
+
+    // 该局不加载起手特效，施法姿势与等待各一拍，再闪色六拍。
+    h.idle(312)
+    draw()
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0x0f, 0])
+
+    h.idle(88)
+    draw()
+    // 六相位首次换入新色系，旧图在施法站位留下亮度轮廓。
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0x0f, 0x30])
+
+    h.idle(1056)
+    draw()
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0, 0x36])
+    h.idle(16)
+    draw()
+    expect(pixel(240, 162)).toBe(0x32)
+    expect(h.readParty()[0]?.mp).toBe(1)
+  })
+
   test('半人树妖回梦用攻击帧施法，保持前移位置到受击收尾', () => {
     const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-507'))
     const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '303'))

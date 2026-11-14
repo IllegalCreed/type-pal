@@ -10,6 +10,7 @@
  */
 import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
+import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
@@ -36,6 +37,28 @@ export interface OverlayDraw {
   y: number
   /** magic 与敌我单位统一按 y + layerOffset 排序；其它 overlay 缺省仍在单位之后画。 */
   layerOffset?: number
+}
+
+export interface PlayerAppearanceTransition {
+  side: 'player'
+  idx: number
+  oldDefinitionId: string
+  fade?: {
+    step: number
+    total: number
+    source: { x: number; y: number; frame: number; colorShift: number }
+  }
+}
+
+export interface EnemyAppearanceTransition {
+  side: 'enemy'
+  idx: number
+  oldDefinitionId: string
+  newDefinitionId: string
+  oldFrame: number
+  newFrame: number
+  step: number
+  total: number
 }
 
 export interface AnimFrame {
@@ -73,17 +96,8 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
   waitForThrowFeedback?: boolean
-  /** 旧/新战斗精灵的离散 dither 过渡；step=0 只画旧图，step=72 后只画新图。 */
-  appearanceTransition?: {
-    side: 'player' | 'enemy'
-    idx: number
-    oldDefinitionId: string
-    newDefinitionId: string
-    oldFrame: number
-    newFrame: number
-    step: number
-    total: number
-  }
+  /** 玩家梦蛇混合场景快照，敌变身沿用精灵级过渡。 */
+  appearanceTransition?: PlayerAppearanceTransition | EnemyAppearanceTransition
 }
 
 export interface BuildPlayerAttackInput {
@@ -1740,7 +1754,6 @@ export interface BuildPlayerTranceInput {
   casterIdx: number
   casterPos: { x: number; y: number }
   oldDefinitionId: string
-  newDefinitionId: string
   oldFrames: PlayerFighterFrames
   newFrames: PlayerFighterFrames
   castEffectBase: number
@@ -1829,29 +1842,17 @@ export function buildPlayerScriptCastEffect(input: BuildPlayerScriptCastEffectIn
   return frames
 }
 
-/** 梦蛇：旧图施法前摇 → 0/2/4/6/8/10 闪色 → 72×16ms 旧图到新图 dither。 */
+/** 梦蛇：旧图施法前摇 → 0/2/4/6/8/10 闪色 → 72×16ms 场景错相淡变。 */
 export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {
   const frames: AnimFrame[] = []
-  let x = input.casterPos.x
-  let y = input.casterPos.y
-  for (let i = 0; i < 4; i++) {
-    x -= 4 - i
-    y -= Math.trunc((4 - i) / 2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: input.casterIdx, pos: { x, y } }],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step: 0,
-        total: 72,
-      },
-    })
+  const { x, y } = appendPlayerApproach(frames, input.casterIdx, input.casterPos)
+  const transition: PlayerAppearanceTransition = {
+    side: 'player',
+    idx: input.casterIdx,
+    oldDefinitionId: input.oldDefinitionId,
   }
+  // fight.c:2363–2374：前四步和之后两拍保留当前姿势，再换施法姿。
+  expectDefined(frames[0]).appearanceTransition = transition
   frames.push({ durationMs: delayMs(2) })
   frames.push({
     durationMs: delayMs(1),
@@ -1885,39 +1886,23 @@ export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {
           colorShift: flash * 2,
         },
       ],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step: 0,
-        total: 72,
-      },
     })
-  for (let step = 1; step <= 72; step++)
+  // fight.c:4226–4240 / battle.c:884–907：旧图保留末次亮色与位置；
+  // 新精灵载入后回原站位并复色，保留施法姿势，收招时才复位姿势。
+  const source = { x, y, frame: input.oldFrames.preMagic, colorShift: 10 }
+  for (let step = 1; step <= DITHER_TOTAL_STEPS; step++)
     frames.push({
       durationMs: 16,
       fighters: [
         {
           side: 'player',
           idx: input.casterIdx,
-          frame: input.newFrames.idle,
+          frame: input.newFrames.preMagic,
           colorShift: 0,
           pos: { ...input.casterPos },
         },
       ],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step,
-        total: 72,
-      },
+      appearanceTransition: { ...transition, fade: { step, total: DITHER_TOTAL_STEPS, source } },
     })
   return frames
 }

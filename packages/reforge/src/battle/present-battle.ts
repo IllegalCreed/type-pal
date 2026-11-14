@@ -7,6 +7,11 @@
 import type { Palette } from '@type-pal/shared'
 import type { LoadedSprite } from '../assets.js'
 import { expectDefined } from '../defined.js'
+import {
+  applyDitherPaletteTransition,
+  buildDitherPalettePlan,
+  type DitherPalettePlan,
+} from '../dither-transition.js'
 import { bakeFrame } from '../render.js'
 
 /** 一个战斗单位的渲染项(精灵 + 底锚位置 + 当前帧下标)。 */
@@ -50,6 +55,60 @@ export interface BattleScene {
 
 const VIEW_W = 320
 const VIEW_H = 200
+
+export interface BattleTranceFadeFrame {
+  step: number
+  source: BattleSpriteDraw
+  target: BattleSpriteDraw | undefined
+}
+
+/** PAL_BattleFadeScene 混合两份冻结的战斗场景，战斗 UI 由调用方随后绘制。 */
+export class BattleTranceFade {
+  private canvas: HTMLCanvasElement | undefined
+  private frames:
+    | { source: ImageData; target: ImageData; output: ImageData; plan: DitherPalettePlan }
+    | undefined
+
+  reset(): void {
+    this.frames = undefined
+  }
+
+  render(
+    ctx: CanvasRenderingContext2D,
+    scene: BattleScene,
+    worldScale: number,
+    fade: BattleTranceFadeFrame,
+  ): void {
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas')
+      this.canvas.width = VIEW_W
+      this.canvas.height = VIEW_H
+    }
+    const scratch = expectDefined(this.canvas.getContext('2d', { willReadFrequently: true }))
+    const pixels = VIEW_W * VIEW_H
+    if (!this.frames) {
+      const sourcePlayers = scene.players.filter((draw) => draw !== fade.target)
+      sourcePlayers.push(fade.source)
+      renderBattleScene(scratch, { ...scene, players: sourcePlayers }, 1)
+      const source = scratch.getImageData(0, 0, VIEW_W, VIEW_H)
+      renderBattleScene(scratch, scene, 1)
+      const target = scratch.getImageData(0, 0, VIEW_W, VIEW_H)
+      this.frames = {
+        source,
+        target,
+        output: scratch.createImageData(VIEW_W, VIEW_H),
+        plan: buildDitherPalettePlan(source.data, target.data, scene.palette.colors, pixels),
+      }
+    }
+    const { source, target, output, plan } = this.frames
+    applyDitherPaletteTransition(source.data, target.data, output.data, fade.step, pixels, plan)
+    scratch.putImageData(output, 0, 0)
+    ctx.save()
+    ctx.imageSmoothingEnabled = false
+    ctx.drawImage(this.canvas, 0, 0, VIEW_W * worldScale, VIEW_H * worldScale)
+    ctx.restore()
+  }
+}
 
 // ── 死亡颗粒溶解(原版 PAL_BattleFadeScene 72 步 dither 的 RGBA 形态等效)──
 // 像素 6 相位分类((x+2y)%6,周期 6×3),按原版批次序 rgIndex={0,3,1,5,2,4} 逐波

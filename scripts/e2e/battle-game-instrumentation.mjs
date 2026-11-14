@@ -126,6 +126,15 @@ export function instrumentGameBattle(source, file) {
         const call = node.expression
         if (call.expression.getText(ast) === 'this.floatingNums.emit')
           add('number-target', call.arguments.end, ', cmd.target')
+        if (
+          node.getText(ast) === 'current.set(buf)' &&
+          ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'applySummonFade'
+        )
+          add(
+            'trance-fade-composited',
+            node.end,
+            "\nif (summon.spriteKey === '') globalThis.__battleEvidence?.appearanceTransitionDrawn(this.summonFadeApplied + 1, 72);\n",
+          )
         if (call.expression.getText(ast) === 'drawBattleSettlement')
           visualCall(
             'settlement-draw',
@@ -526,6 +535,7 @@ export function instrumentGameBattle(source, file) {
       'settlement-draw': 1,
       'dialogue-slot': 2,
       'background-magic-draw': 1,
+      'trance-fade-composited': 1,
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },

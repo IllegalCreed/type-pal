@@ -246,22 +246,31 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         )
         add('frame-end', node.body.end - 1, `\n${evidenceCall('endFrame')}\n`)
       }
-      if (ts.isIfStatement(node) && node.expression.getText(ast) === 'transition') {
-        if (source.includes('enemies.push('))
-          add(
-            'enemy-draw-identity',
-            node.end,
-            `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, e.hp <= 0 && !dyingNow")}\n`,
-          )
-        if (source.includes('players.push('))
+      if (
+        ts.isIfStatement(node) &&
+        node.expression.getText(ast) === 'transition' &&
+        source.includes('enemies.push(')
+      )
+        add(
+          'enemy-draw-identity',
+          node.end,
+          `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, e.hp <= 0 && !dyingNow")}\n`,
+        )
+      if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
+        const name = node.expression.expression.getText(ast)
+        if (source === 'players.push(draw)')
           add(
             'player-draw-identity',
             node.end,
-            `\n${evidenceCall('labelFighter', "players.at(-1), 'player', i, false, undefined, transition?.newDefinitionId ?? p.tranceBattleSprite ?? this.assets.playerBaseDefinitionIds[i]")}\n`,
+            `\n${evidenceCall('labelFighter', "draw, 'player', i, false, undefined, appearance.definition.id")}`,
           )
-      }
-      if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
-        const name = node.expression.expression.getText(ast)
+        if (source === 'this.tranceFade.render(ctx, scene, worldScale, fade)') {
+          add(
+            'trance-fade-composited',
+            node.end,
+            `\n${evidenceCall('appearanceTransitionDrawn', 'fade.step, trance.fade.total, trance.idx, fade.source, trance.oldDefinitionId')}`,
+          )
+        }
         if (name === 'this.selection.advance')
           add('selection-context', node.getStart(ast), call('selectionContext', 'context'))
         if (
@@ -280,7 +289,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         )
           add(
             'magic-overlay-resources',
-            node.getStart(ast),
+            ts.isIfStatement(node.parent) ? node.parent.getStart(ast) : node.getStart(ast),
             evidenceCall('labelMagicOverlays', 'scene.depthOverlays, this.assets.fireSprites'),
           )
         if (name === 'this.floats.push' && source.includes('num: value'))
@@ -412,6 +421,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'frame-end',
                       'enemy-draw-identity',
                       'player-draw-identity',
+                      'trance-fade-composited',
                       'magic-overlay-resources',
                       'physical-overlay-draw',
                       'number-identity',

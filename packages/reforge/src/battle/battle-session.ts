@@ -72,8 +72,10 @@ import {
   buildThrowItem,
   buildUseItem,
   type CastFxParams,
+  type EnemyAppearanceTransition,
   type FighterDelta,
   type OverlayDraw,
+  type PlayerAppearanceTransition,
 } from './battle-anim.js'
 import { battleCasualtyCues } from './battle-casualty-presentation.js'
 import {
@@ -127,6 +129,8 @@ import {
   type BattleDepthOverlayDraw,
   type BattleScene,
   type BattleSpriteDraw,
+  BattleTranceFade,
+  type BattleTranceFadeFrame,
   renderBattleScene,
 } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
@@ -254,8 +258,10 @@ export class BattleSession {
   private pendingFailureFeedback: BattleFailureFeedback | null = null
   /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
   private throwFeedbackUntilMs: number | null = null
-  /** 梦蛇/敌变身的旧→新 dither 状态；动作收尾统一清除。 */
-  private appearanceTransitions = new Map<string, NonNullable<AnimFrame['appearanceTransition']>>()
+  /** 敌变身使用精灵级过渡，梦蛇使用冻结的场景层。动作收尾统一清除。 */
+  private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
+  private playerAppearanceTransition: PlayerAppearanceTransition | null = null
+  private readonly tranceFade = new BattleTranceFade()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
   /** 波动背景缓存(仅相位/波幅变化时重卷)。 */
   private readonly wavedBg = new WavedBgCache()
@@ -515,7 +521,9 @@ export class BattleSession {
     })
     this.overlays = null
     this.currentFire = null
-    this.appearanceTransitions.clear()
+    this.enemyAppearanceTransitions.clear()
+    this.playerAppearanceTransition = null
+    this.tranceFade.reset()
   }
 
   /** 当前待选指令的队员下标;全填 → undefined。眠/定/疯/死者不出菜单
@@ -563,6 +571,7 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
+    this.tranceFade.reset()
     if (this.casualtyDialogueShown || this.throwFeedbackUntilMs !== null)
       this.assets.dialogBox?.close()
     this.throwFeedbackUntilMs = null
@@ -674,7 +683,8 @@ export class BattleSession {
         this.frameWaveAdd = wave
       },
       onAppearanceTransition: (transition) => {
-        this.appearanceTransitions.set(`${transition.side}:${transition.idx}`, transition)
+        if (transition.side === 'player') this.playerAppearanceTransition = transition
+        else this.enemyAppearanceTransitions.set(transition.idx, transition)
       },
       onBurnBg: (marks) => this.burnToBg(marks),
       onSummonPhase: (phase) => {
@@ -1586,7 +1596,6 @@ export class BattleSession {
           casterIdx: la.idx,
           casterPos,
           oldDefinitionId,
-          newDefinitionId: trance.battleSprite,
           oldFrames: oldProfile.frames,
           newFrames: newProfile.frames,
           castEffectBase: this.assets.effectSprite ? oldProfile.castEffectBase : -1,
@@ -2413,7 +2422,7 @@ export class BattleSession {
       const frame = this.enemyVisualFrame(v, anim, e.hp)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
-      const transition = this.appearanceTransitions.get(`enemy:${i}`)
+      const transition = this.enemyAppearanceTransitions.get(i)
       if (transition) {
         const progress = transition.step / transition.total
         enemies.push(
@@ -2445,8 +2454,15 @@ export class BattleSession {
         })
     })
     const players: BattleSpriteDraw[] = []
+    const trance = this.playerAppearanceTransition
+    let tranceTarget: BattleSpriteDraw | undefined
     s.players.forEach((p, i) => {
-      const sprite = this.playerAppearance(i).sprite
+      const playerTransition = trance?.idx === i ? trance : null
+      const appearance =
+        playerTransition && !playerTransition.fade
+          ? this.requireAppearance(playerTransition.oldDefinitionId, 'player-fighter')
+          : this.playerAppearance(i)
+      const sprite = appearance.sprite
       const v = this.visual.players[i]
       if (!sprite || !v) return
       // 召唤期队员隐显(渐隐/渐显;hold 全隐 —— fight.c:3160-3181 隐队员只画神将。
@@ -2466,36 +2482,16 @@ export class BattleSession {
           ? Math.floor(Math.random() * 3) - 1
           : 0
       const alpha = (1 - summonShow) * (v.colorShift !== 0 ? 1 : 1 - hideVis)
-      const transition = this.appearanceTransitions.get(`player:${i}`)
-      if (transition) {
-        const progress = transition.step / transition.total
-        players.push(
-          {
-            sprite: this.requireAppearance(transition.oldDefinitionId, 'player-fighter').sprite,
-            x: v.x,
-            y: v.y + jy,
-            frame: transition.oldFrame,
-            colorShift: v.colorShift,
-            dissolve: progress,
-          },
-          {
-            sprite: this.requireAppearance(transition.newDefinitionId, 'player-fighter').sprite,
-            x: v.x,
-            y: v.y + jy,
-            frame: transition.newFrame,
-            colorShift: v.colorShift,
-            dissolve: 1 - progress,
-          },
-        )
-      } else
-        players.push({
-          sprite,
-          x: v.x,
-          y: v.y + jy,
-          frame: v.frame,
-          colorShift: v.colorShift,
-          ...(alpha < 1 ? { alpha } : {}),
-        })
+      const draw: BattleSpriteDraw = {
+        sprite,
+        x: v.x,
+        y: v.y + jy,
+        frame: v.frame,
+        colorShift: v.colorShift,
+        ...(alpha < 1 ? { alpha } : {}),
+      }
+      players.push(draw)
+      if (playerTransition?.fade) tranceTarget = draw
     })
     // 屏波:战场常驻 + 法术叠加(fight.c:2666);只卷背景层,精灵画在卷完的背景上自身笔直
     // (层序铁律,一阶段 2deb52bd:放精灵后 = boss 边缘撕裂)。缓存仅相位变化时重卷。
@@ -2532,7 +2528,17 @@ export class BattleSession {
       ...(depthOverlays.length ? { depthOverlays } : {}),
       palette: this.assets.palette,
     }
-    renderBattleScene(ctx, scene, worldScale)
+    if (trance?.fade) {
+      const fade: BattleTranceFadeFrame = {
+        step: trance.fade.step,
+        source: {
+          sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
+          ...trance.fade.source,
+        },
+        target: tranceTarget,
+      }
+      this.tranceFade.render(ctx, scene, worldScale, fade)
+    } else renderBattleScene(ctx, scene, worldScale)
 
     // 特效 overlay:**底中锚** blit(fight.c:2436/2183 真值 PAL_XY(x−w/2, y−h) ——
     // 此前左上角 blit 致全体法术特效偏右下半宽全高,2026-07-05 作者战斗实测打回)

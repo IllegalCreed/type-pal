@@ -584,8 +584,11 @@ describe('M4d-2 战斗动画时间线', () => {
     })
     expect(frames.length).toBe(78)
     expect(frames.slice(0, 6).map((f) => f.fighters![0]!.colorShift)).toEqual([0, 1, 2, 3, 4, 5])
-    expect(frames.slice(0, 6).map((f) => f.appearanceTransition?.step)).toEqual([0, 0, 0, 0, 0, 0])
-    expect(frames.slice(6).map((f) => f.appearanceTransition?.step)).toEqual(
+    const steps = frames.map(({ appearanceTransition }) =>
+      appearanceTransition?.side === 'enemy' ? appearanceTransition.step : null,
+    )
+    expect(steps.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0])
+    expect(steps.slice(6)).toEqual(
       Array.from({ length: 72 }, (_, i) => i + 1),
     )
     expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
@@ -594,26 +597,37 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('梦蛇:旧图施法后 0/2/4/6/8/10 闪色，再 72×16ms 切换到新图', () => {
-    // 一阶段 golden：packages/game/src/core/battle/actions/magic.ts:751-809。
+    // fight.c:4226–4240 和 battle.c:884–907 的冻结端点与逐相溶解。
     const frames = buildPlayerTrance({
       casterIdx: 0,
       casterPos: { x: 240, y: 170 },
       oldDefinitionId: 'battle-sprite.player.000',
-      newDefinitionId: 'battle-sprite.player.005',
       oldFrames: PLAYER_FRAMES,
-      newFrames: { ...PLAYER_FRAMES, idle: 2 },
+      newFrames: { ...PLAYER_FRAMES, preMagic: 4 },
       castEffectBase: -1,
       magicSound: 'sound.pal.009',
     })
     const flash = frames.slice(7, 13)
     expect(flash.map((f) => f.fighters![0]!.colorShift)).toEqual([0, 2, 4, 6, 8, 10])
     expect(flash.every((f) => f.durationMs === 40)).toBe(true)
-    expect(flash.every((f) => f.appearanceTransition?.step === 0)).toBe(true)
+    expect(frames[0]?.appearanceTransition).toEqual({
+      side: 'player',
+      idx: 0,
+      oldDefinitionId: 'battle-sprite.player.000',
+    })
     const fade = frames.slice(-72)
-    expect(fade.map((f) => f.appearanceTransition?.step)).toEqual(
-      Array.from({ length: 72 }, (_, i) => i + 1),
-    )
-    expect(fade.every((f) => f.durationMs === 16 && f.fighters![0]!.frame === 2)).toBe(true)
+    expect(
+      fade.map((f) =>
+        f.appearanceTransition?.side === 'player' ? f.appearanceTransition.fade?.step : null,
+      ),
+    ).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
+    expect(fade[0]?.appearanceTransition).toMatchObject({
+      fade: { source: { x: 230, y: 166, frame: 5, colorShift: 10 } },
+    })
+    expect(fade[0]?.fighters).toEqual([
+      { side: 'player', idx: 0, frame: 4, colorShift: 0, pos: { x: 240, y: 170 } },
+    ])
+    expect(fade.every((f) => f.durationMs === 16)).toBe(true)
   })
 
   test('剧情施法白闪:PreMagic + frame6 + 全队 0/2/4/6/8 后复色', () => {

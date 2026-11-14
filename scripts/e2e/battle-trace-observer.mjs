@@ -63,6 +63,7 @@ export function installBattleTraceObserver(context, createRecorder) {
   let nextAudioCueId = 0
   let nextAudioBufferId = 0
   let lastPortraitTurn
+  let appearanceTransition
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
   const audioBuffers = new WeakMap()
@@ -267,6 +268,33 @@ export function installBattleTraceObserver(context, createRecorder) {
           ...paintOrder,
         })
     },
+    appearanceTransitionDrawn(step, total, slot, source, appearance) {
+      if (!frame || !observePlayerAppearance) return
+      // Reforge rasterizes both endpoints once. Reuse the actual target draw for
+      // every subsequent frame of the same compositor output.
+      if (source && !appearanceTransition) {
+        const { x, y, frame: index, colorShift } = source
+        appearanceTransition = {
+          source: {
+            slot,
+            x,
+            y,
+            frameIndex: source.sprite.frames[index] ? index : 0,
+            colorShift,
+            appearance,
+          },
+          players: [...frame.players],
+        }
+      }
+      if (appearanceTransition)
+        for (const [playerSlot, player] of appearanceTransition.players)
+          frame.players.set(playerSlot, player)
+      frame.appearanceTransition = {
+        step,
+        total,
+        ...(appearanceTransition ? { source: appearanceTransition.source } : {}),
+      }
+    },
     labelMagicOverlays(draws, fireSprites) {
       if (!frame || !observeMagicOverlays || !draws?.length) return
       const resources = Object.entries(fireSprites ?? {})
@@ -396,6 +424,7 @@ export function installBattleTraceObserver(context, createRecorder) {
         ...state
       } = frame
       frame = undefined
+      if (!state.appearanceTransition) appearanceTransition = undefined
       const bySlot = (a, b) => a.slot - b.slot
       const payload = {
         ...state,
