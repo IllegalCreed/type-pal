@@ -3768,10 +3768,13 @@ export async function bootGame(
         reportInteraction?.()
         return answer
       },
-      startBattle: (request, signal) =>
-        host.startBattle(
+      startBattle: (request, signal) => {
+        const runtime = expectDefined(scriptRuntime)
+        const scripted = registeredScriptActivityLease(runtime.host, runtime.coordinator, signal)
+        return battleHost.start(
           request.enemyTeamId,
           {
+            ...(scripted ? { scripted: true } : {}),
             auto: request.auto,
             boss: request.boss,
             fieldId: request.fieldId,
@@ -3779,7 +3782,8 @@ export async function bootGame(
             ...(request.choreography ? { choreography: [...request.choreography] } : {}),
           },
           signal,
-        ),
+        )
+      },
       teleportOut: (signal) => host.teleportOut(signal),
       revealSceneEntry: (reveal, signal) => hostSceneEntryReveal(reveal, signal),
       wait: (ms, signal) => host.wait(ms, signal),

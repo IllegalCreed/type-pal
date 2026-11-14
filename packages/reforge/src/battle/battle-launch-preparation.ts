@@ -28,6 +28,8 @@ import {
 } from './battle-sprite-readiness.js'
 
 export type BattleLaunchOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]> & {
+  /** Canonical script activity owns the return from this battle. */
+  scripted?: true
   /** DEV gateway only; never part of the author command or save model. */
   enemyOverride?: string[]
 }

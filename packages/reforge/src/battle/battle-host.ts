@@ -115,6 +115,7 @@ export class BattleHost {
     assertCurrent: () => void,
     worldPresentation: WorldBattlePresentation | undefined,
   ): Promise<BattleResult> {
+    const scripted = options?.scripted === true
     let pendingMusic: Promise<() => void> | undefined
     const prepared = await scriptWorkIO(
       this.preparation.prepare(
@@ -123,7 +124,7 @@ export class BattleHost {
         signal,
         assertCurrent,
         (id, stage, error, fatal) => this.report(id, stage, error, fatal),
-        worldPresentation
+        worldPresentation || scripted
           ? (asset) => {
               pendingMusic = this.music.bgm.prepare(asset, signal)
             }
@@ -134,7 +135,7 @@ export class BattleHost {
     assertCurrent()
     let playedVictory = false
     const restoreMusic = () => {
-      if (worldPresentation) this.restoreWorldMusic()
+      if (worldPresentation || scripted) this.restoreWorldMusic()
       else if (prepared.battleTrack !== undefined || playedVictory) {
         const persistent = this.ports.readWorld().audio?.currentMusic
         if (persistent === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
@@ -145,7 +146,13 @@ export class BattleHost {
       if (prepared.battleTrack === null) this.music.bgm.stop(fadeMs)
       else this.music.bgm.play(prepared.battleTrack, true, fadeMs)
     }
-    if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
+    if (scripted) {
+      if (pendingMusic) {
+        const play = await scriptWorkIO(pendingMusic, signal)
+        assertCurrent()
+        play()
+      } else playBattleMusic(0)
+    } else if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
     const { sessionAssets, sessionOptions } = prepared.commit()
     const captureDefeatFrame = this.ports.worldDefeatFrameCapture?.(signal)
     const session: BattleSession = new BattleSession(
@@ -160,7 +167,7 @@ export class BattleHost {
       {
         ...sessionOptions,
         ...(worldPresentation ? { worldSettlement: { boss: options?.boss === true } } : {}),
-        handoffDefeat: captureDefeatFrame !== undefined,
+        handoffDefeat: captureDefeatFrame !== undefined || scripted,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),
         buildSettlement: () => {
@@ -199,7 +206,9 @@ export class BattleHost {
       session,
       signal,
       assertCurrent,
-      restoreMusic,
+      (result) => {
+        if (result !== 'defeat' || (scripted && !captureDefeatFrame)) restoreMusic()
+      },
       captureDefeatFrame,
       presentation,
     )
@@ -215,7 +224,7 @@ export class BattleHost {
     session: BattleSession,
     signal: AbortSignal,
     assertCurrent: () => void,
-    restoreMusic: () => void,
+    restoreMusic: (result?: BattleResult) => void,
     captureDefeatFrame: (() => void) | undefined,
     presentation?: { enter(): Promise<void>; fadeOnVictory: boolean },
   ): Promise<BattleResult> {
@@ -279,7 +288,7 @@ export class BattleHost {
     result: BattleResult,
     signal: AbortSignal,
     assertCurrent: () => void,
-    restoreMusic: () => void,
+    restoreMusic: (result?: BattleResult) => void,
     fadeOnVictory: boolean,
   ) {
     const definitions = result === 'victory' ? session.enemySlotDefs() : []
@@ -297,7 +306,7 @@ export class BattleHost {
       }
       await scriptWorkIO(this.ports.restoreSceneSounds(), scriptSignal)
       assertCurrent()
-      if (result !== 'defeat') restoreMusic()
+      restoreMusic(result)
       if (failure) throw failure.error
     }
     if (
