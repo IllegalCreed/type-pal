@@ -2820,6 +2820,7 @@ test('instrumented real runner, frame timer and dialogue produce causal receipts
     startDialogue,
     scriptDialogResolve: null,
     preserveClosedDialogFrame: false,
+    victoryFrame: undefined,
     frameAnimationPresentation: { enterDialogue() {} },
   }
   for (const [name, initializer] of initializers) {

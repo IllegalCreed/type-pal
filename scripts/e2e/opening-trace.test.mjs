@@ -289,6 +289,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
     gameOverPresentation: { draw: () => showingDefeat },
     preserveClosedDialogFrame: true,
     sceneEntrySession: { heldFrame: null },
+    victoryFrame: undefined,
     ctx: { putImageData() {}, save() {}, scale() {}, restore() {} },
     drawFadeCurtain() {},
     syncDitherDebugDataset() {},
@@ -338,6 +339,11 @@ test('real render early returns and failed draws never claim a freshly rendered 
     },
   }
   const renderSource = actualFunction(code, 'render')
+  const drawDialogueSource = actualFunction(code, 'drawDialogue')
+  scope.drawDialogue = new Function(
+    'scope',
+    `with(scope) { ${drawDialogueSource}; return drawDialogue; }`,
+  )(scope)
   const render = new Function('scope', `with(scope) { ${renderSource}; return render; }`)(scope)
   render()
   assert.deepEqual(points, ['before:render'])
@@ -357,6 +363,13 @@ test('real render early returns and failed draws never claim a freshly rendered 
   points.length = 0
   continueAfterWorld = false
   showingDefeat = false
+  scope.victoryFrame = { frame: {}, signal: new AbortController().signal }
+  scope.dialogBox.active = true
+  render()
+  assert.deepEqual(points, ['before:render'], 'the held victory frame produces no world receipt')
+  assert.equal(scope.dialogBox.active, false, 'the victory frame still draws its dialogue')
+  points.length = 0
+  scope.victoryFrame = undefined
   scope.worldPresentation.renderWorld = () => {
     throw stop
   }
