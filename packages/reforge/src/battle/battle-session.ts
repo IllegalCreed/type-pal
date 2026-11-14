@@ -352,6 +352,7 @@ export class BattleSession {
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
+      worldSettlement?: { boss: boolean }
       /** 普通遇敌全灭的表现交给大世界，战斗收尾完成后同拍交接。 */
       handoffDefeat?: boolean
       /** 全员交招后的第二级音效屏障；缺省保持 headless/旧单测的同步行为。 */
@@ -390,6 +391,7 @@ export class BattleSession {
     })
     this.settlementPresentation = new BattleSettlementPresentation({
       ...(opts.buildSettlement ? { buildSettlement: opts.buildSettlement } : {}),
+      ...(opts.worldSettlement ? { worldSettlement: opts.worldSettlement } : {}),
     })
     this.done = new Promise((res, rej) => {
       this.resolveDone = res
@@ -2802,8 +2804,10 @@ export class BattleSession {
     // 胜利结算屏(B7b:一阶段 PAL_BattleWon box 序列,原版无「战斗胜利!」字样)。
     //   有 UI 资产 → 画当前屏;缺(单测)→ 跳过。败/逃无结算屏(一阶段 PAL_BattleLost 直接黑屏读档)。
     const settlementScreen = this.settlementPresentation.currentScreen
-    if (this.sessionUi === 'over' && settlementScreen && ui)
+    if (this.sessionUi === 'over' && settlementScreen && ui) {
       drawSettlementScreen(ctx, settlementScreen, ui, g)
+      this.settlementPresentation.markPageDrawn()
+    }
     ctx.restore()
   }
 }

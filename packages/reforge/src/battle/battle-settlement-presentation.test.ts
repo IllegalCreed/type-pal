@@ -40,6 +40,36 @@ describe('BattleSettlementPresentation', () => {
     expect(buildSettlement).toHaveBeenCalledOnce()
   })
 
+  test('starts each native world page timer after its draw and consumes one key per page', () => {
+    const rewards = { kind: 'exp-cash' as const, exp: 8, cash: 2 }
+    const learned = { kind: 'learn-magic' as const, name: 'Hero', magicName: 'Fire' }
+    const presentation = new BattleSettlementPresentation({
+      buildSettlement: () => [rewards, learned],
+      worldSettlement: { boss: true },
+    })
+    presentation.observeCorePhase('won', false)
+    expect(presentation.advance(6000, new Set(['Enter']))).toBeNull()
+    expect(presentation.currentScreen).toBe(rewards)
+    presentation.markPageDrawn()
+    expect(presentation.advance(5499, noKeys)).toBeNull()
+    expect(presentation.currentScreen).toBe(rewards)
+    expect(presentation.advance(1, noKeys)).toBeNull()
+    expect(presentation.currentScreen).toBe(learned)
+    expect(presentation.advance(100, new Set(['Enter']))).toBeNull()
+    presentation.markPageDrawn()
+    expect(presentation.advance(2999, noKeys)).toBeNull()
+    expect(presentation.advance(1, noKeys)).toBe('victory')
+  })
+
+  test('a native world victory without any reward page completes without an empty hold', () => {
+    const presentation = new BattleSettlementPresentation({
+      buildSettlement: () => [],
+      worldSettlement: { boss: false },
+    })
+    presentation.observeCorePhase('won', false)
+    expect(presentation.advance(0, noKeys)).toBe('victory')
+  })
+
   test.each([
     'victory',
     'defeat',

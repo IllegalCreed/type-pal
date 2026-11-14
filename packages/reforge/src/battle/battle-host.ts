@@ -149,6 +149,7 @@ export class BattleHost {
       Math.random,
       {
         ...sessionOptions,
+        ...(worldPresentation ? { worldSettlement: { boss: options?.boss === true } } : {}),
         handoffDefeat: captureDefeatFrame !== undefined,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),

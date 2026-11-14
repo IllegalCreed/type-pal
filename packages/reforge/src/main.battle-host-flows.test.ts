@@ -338,6 +338,57 @@ test.each([
   fixture.assertInputUnchanged()
 })
 
+test.each([
+  'early-key',
+  'automatic',
+] as const)('native encounter settles the actual reward page by %s', async (method) => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const foe = opponent()
+  foe.stats.exp = 1
+  const fixture = await bootScenario(host, { first, enemies: [foe], withBattleMusic: true })
+  const { BattleSettlementPresentation } = await import(
+    './battle/battle-settlement-presentation.js'
+  )
+  const pageDrawn = vi.spyOn(BattleSettlementPresentation.prototype, 'markPageDrawn')
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  // Keep submitting ordinary attack while playing; an input from before the page exists
+  // cannot skip it. Stop on the first actual renderer receipt, before any later game tick.
+  for (let i = 0; i < 80 && !pageDrawn.mock.calls.length; i++) {
+    await key(host, 'Enter')
+    await host.settleIO()
+  }
+  expect(pageDrawn).toHaveBeenCalledOnce()
+  expect(state().renderDebug.inBattle).toBe(true)
+  if (method === 'early-key') {
+    await key(host, 'ArrowLeft', 1)
+  } else {
+    for (let i = 0; i < 29; i++) await host.frame(100)
+    await host.frame(99)
+    expect(state().renderDebug.inBattle).toBe(true)
+    await host.frame(1)
+  }
+  await host.settleIO()
+  expect(state().renderDebug.inBattle).toBe(false)
+  expect(state().renderDebug.menuActive).toBe(false)
+  expect(state().world.money).toBe(57)
+  fixture.assertInputUnchanged()
+})
+
 test('a native hostile reveal replaces six whole pixel bands before command input opens', async () => {
   host = await installShellHost()
   const first = shellScene('a')

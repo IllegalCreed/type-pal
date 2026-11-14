@@ -86,6 +86,7 @@ export interface ScenarioOptions {
   enemies?: AuthorEnemyDef[]
   sharedScripts?: AuthorScriptLibrary
   seedStats?: Record<string, { hp?: number; mp?: number }>
+  withBattleMusic?: boolean
 }
 
 /** Extend the old legal in-memory file source, then reload through the formal author guards. */
@@ -95,6 +96,7 @@ export async function scenarioProject(options: ScenarioOptions = {}) {
     second: options.second,
     party: options.party ?? ['hero'],
     seedStats: options.seedStats,
+    withBattleMusic: options.withBattleMusic,
     items: options.items,
   })
   const manifest = structuredClone(fixture.project.manifest)
