@@ -1089,9 +1089,11 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
+  const victoryFadeMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
   type VictoryReturn = {
     fade: SupersedingFadeDriver
     revealingWorld: boolean
+    worldStartedAt?: number
     finishFrame?: () => void
   }
   let victoryFrame: { frame: ImageData; signal: AbortSignal; returning?: VictoryReturn } | undefined
@@ -1564,12 +1566,10 @@ export async function bootGame(
     held.frame = ctx.getImageData(0, 0, canvas.width, canvas.height)
     held.returning = returning
     dialogBox.releaseBattleVictory(signal)
-    const rampMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
     try {
-      await returning.fade.begin(1, frames.now, rampMs, signal, signal)
+      await returning.fade.begin(1, frames.now, victoryFadeMs, signal, signal)
       assertRunnerActive(signal, '战斗胜利淡出已取消')
       returning.revealingWorld = true
-      await returning.fade.begin(0, frames.now, rampMs, signal, signal)
       await scriptWorkWait<void>(signal, (resolve, reject) => {
         const abort = () => reject(asyncIntentAbortError('战斗胜利淡入已取消'))
         returning.finishFrame = () => {
@@ -6198,9 +6198,12 @@ export async function bootGame(
     }
     const returning = victoryFrame?.returning
     if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {
-      drawVictoryFade(returning.fade.advance(frames.now))
+      // The first frame of the new endpoint is actually drawn under an opaque curtain.
+      returning.worldStartedAt ??= frames.now
+      const alpha = Math.max(0, 1 - (frames.now - returning.worldStartedAt) / victoryFadeMs)
+      drawVictoryFade(alpha)
       const finishFrame = returning.finishFrame
-      if (finishFrame) {
+      if (alpha === 0 && finishFrame) {
         delete returning.finishFrame
         finishFrame()
       }

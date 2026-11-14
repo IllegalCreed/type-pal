@@ -338,6 +338,195 @@ test.each([
   fixture.assertInputUnchanged()
 })
 
+test('a native hostile reveal replaces six whole pixel bands before command input opens', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  // Distinct endpoint colors stand for browser readback. Production drawing, keyboard, battle
+  // preparation, and reveal scheduling remain real in this shell test.
+  const readPixels = ctx.getImageData.bind(ctx)
+  const getPixels = vi.spyOn(ctx, 'getImageData').mockImplementation((...args) => {
+    const pixels = readPixels(...args)
+    pixels.data.fill(getPixels.mock.calls.length === 1 ? 11 : 83)
+    return pixels
+  })
+  const drawPixels = ctx.putImageData.bind(ctx)
+  const bands: number[][] = []
+  vi.spyOn(ctx, 'putImageData').mockImplementation((pixels, x, y) => {
+    drawPixels(pixels, x, y)
+    if (pixels.width === ctx.canvas.width && pixels.height === ctx.canvas.height) {
+      bands.push(Array.from({ length: 24 }, (_, col) => pixels.data[col * 4] ?? 0))
+    }
+  })
+  await key(host, 'ArrowRight')
+  expect(hostileEncounterClaimed()).toBe(true)
+  const expectedBands = Array<number>(24).fill(11)
+  expect(bands.at(-1), 'contact first draws the actual held world image').toEqual(expectedBands)
+  for (const dt of [100, 99]) {
+    await key(host, 'Escape', dt)
+    expect(bands.at(-1)).toEqual(expectedBands)
+    expect(state().renderDebug.inBattle).toBe(false)
+    expect(state().renderDebug.menuActive).toBe(false)
+  }
+  // Preparation may require a browser IO turn. Each completed reveal band is inspected as drawn.
+  for (let i = 0; i < 60 && getPixels.mock.calls.length < 2; i++) {
+    await host.frame(1)
+    await host.settleIO()
+  }
+  expect(getPixels).toHaveBeenCalledTimes(2)
+  for (const [round, column] of [0, 3, 1, 5, 2, 4].entries()) {
+    if (round) await key(host, 'Escape', 60)
+    expectedBands.fill(83, column * 4, (column + 1) * 4)
+    expect(bands.at(-1)).toEqual(expectedBands)
+    expect(state().renderDebug.inBattle).toBe(false)
+    expect(state().renderDebug.menuActive).toBe(false)
+  }
+  await key(host, 'Escape', 59)
+  expect(state().renderDebug.inBattle).toBe(false)
+  await key(host, 'Escape', 1)
+  expect(state().renderDebug.inBattle).toBe(true)
+  expect(state().renderDebug.menuActive).toBe(false)
+  fixture.assertInputUnchanged()
+})
+
+test('an authored victory fade darkens the last drawn prompt then reveals the committed map', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        victoryTransition: 'fade',
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, {
+    first,
+    enemies: [
+      opponent({
+        onDefeated: [
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'narration',
+              rows: [{ text: 'line.one' }],
+            },
+          },
+        ],
+      }),
+    ],
+  })
+  const browser = host
+  finishBattleFixture = async () => {
+    for (let i = 0; i < 30 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+  }
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  await finish(host)
+  await advance(host, () =>
+    browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First')),
+  )
+  expect(state().world.party[0]?.hp).toBe(80)
+  expect(state().dialogue).toBe(true)
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const readPixels = vi.spyOn(ctx, 'getImageData')
+  const drawPixels = vi.spyOn(ctx, 'putImageData')
+  const fill = ctx.fillRect.bind(ctx)
+  const fadeFrames: { alpha: number; worldDrawn: boolean }[] = []
+  let assignedAlpha: number | undefined
+  let assignedStyle: string | CanvasGradient | CanvasPattern | undefined
+  let alpha = ctx.globalAlpha
+  let fillStyle = ctx.fillStyle
+  // Inspect actual Canvas API calls; do not mistake the map's black clear for a fade overlay.
+  Object.defineProperty(ctx, 'globalAlpha', {
+    get: () => alpha,
+    set: (value: number) => {
+      alpha = value
+      assignedAlpha = value
+    },
+  })
+  Object.defineProperty(ctx, 'fillStyle', {
+    get: () => fillStyle,
+    set: (value: typeof fillStyle) => {
+      fillStyle = value
+      assignedStyle = value
+    },
+  })
+  vi.spyOn(ctx, 'fillRect').mockImplementation((x, y, width, height) => {
+    fill(x, y, width, height)
+    if (
+      assignedAlpha !== undefined &&
+      assignedStyle === '#000' &&
+      width === ctx.canvas.width &&
+      height === ctx.canvas.height
+    ) {
+      fadeFrames.push({ alpha: assignedAlpha, worldDrawn: drawWorld.mock.calls.length > 0 })
+    }
+    assignedAlpha = undefined
+    assignedStyle = undefined
+  })
+  await key(host, 'Enter')
+  expect(hostileEncounterClaimed(), 'exploration is fenced until the return fade finishes').toBe(
+    true,
+  )
+  expect(state().world.party[0]?.hp).toBe(90)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  const held = readPixels.mock.results.at(-1)?.value
+  expect(held).toBeDefined()
+  expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
+  for (let i = 1; i <= 6; i++) {
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(false)
+    expect(drawWorld).not.toHaveBeenCalled()
+    expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
+    expect(fadeFrames.at(-1)).toEqual({ alpha: i / 6, worldDrawn: false })
+  }
+  // World is drawn from the committed lifecycle with the new endpoint still under the curtain.
+  const heldDraws = drawPixels.mock.calls.length
+  for (let i = 0; i < 6; i++) {
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(false)
+    expect(hostileEncounterClaimed()).toBe(true)
+    expect(drawPixels.mock.calls.length).toBe(heldDraws)
+    expect(fadeFrames.at(-1)?.alpha).toBeCloseTo(1 - i / 6)
+    expect(fadeFrames.at(-1)?.worldDrawn).toBe(true)
+  }
+  const darkFrames = fadeFrames.length
+  const worldFrames = drawWorld.mock.calls.length
+  await key(host, 'Escape')
+  expect(drawWorld.mock.calls.length).toBeGreaterThan(worldFrames)
+  expect(fadeFrames).toHaveLength(darkFrames)
+  expect(hostileEncounterClaimed()).toBe(false)
+  expect(state().renderDebug.menuActive).toBe(false)
+  await key(host, 'Escape')
+  expect(state().renderDebug.menuActive).toBe(true)
+  fixture.assertInputUnchanged()
+})
+
 test('a battle-end upper dialogue leaves with its battle frame on a direct world return', async () => {
   host = await installShellHost()
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
