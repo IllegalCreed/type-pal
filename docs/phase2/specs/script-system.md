@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-10-24
+Last reviewed: 2026-11-15
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -49,6 +49,8 @@ runEntityTrigger{target:{scene,entity}}等待目标当前trigger/当前步骤结
 子链在同场景session内，直接/间接loadScene、loadLastSave、quitToTitle、gameOver、teleportOut、startBattle都须在副作用前拒绝；需要这些效果时放在调用返回后。session替换取消旧父/子尾，最终派发和游标提交仍核signal/session，不新增存档调用栈或parallel/join。
 
 onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面、再呈现、再正文。其他步、行为、共享与物品私有不能声明entry。guard按allowSceneEntry及初始StageId判断，不用“self存在”代替根作用域；编辑方法见[场景入场指南](../guides/scene-entry-authoring.md)。
+
+剧情内 `startBattle` 由正在执行的脚本持有，使用真实世界画面作入场底帧。原盘败北地址与自然后继相同的关卡，只在同一位置保留一份续段。作者可在战斗对白演出中使用「清除对话框」主动清除已留显的上、下槽。敌方逃跑先完成撤离演出；当前演出脚本可继续显示 1.4 秒自动关闭的中央旁白并回到场景后续。 [双端验证](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
 
 ### 姿态、condition与时间
 

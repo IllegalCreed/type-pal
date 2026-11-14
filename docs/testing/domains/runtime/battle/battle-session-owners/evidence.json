@@ -14,21 +14,21 @@
       "lines": "242-244",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "406-418",
+      "lines": "407-419",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1243-1252",
+      "lines": "1254-1263",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -39,10 +39,10 @@
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-      "lines": "72-95",
+      "lines": "73-96",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+      "sha256": "770f89e7a88746acfd129ece762bf5fa9eac4df1223051fb946ea18aebced60d"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -84,10 +84,10 @@
       "result": "source-backed",
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:242-244",
-        "packages/reforge/src/battle/battle-session.ts:406-418",
-        "packages/reforge/src/battle/battle-session.ts:1243-1252",
+        "packages/reforge/src/battle/battle-session.ts:407-419",
+        "packages/reforge/src/battle/battle-session.ts:1254-1263",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
-        "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
+        "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
         "packages/content/src/character.ts:169-171"
       ]
     }
@@ -581,6 +581,43 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "242-244",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "406-418",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1243-1252",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "72-95",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
     }
   ],
   "_governance": {

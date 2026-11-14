@@ -120,6 +120,8 @@ const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
 const reforgeBattleHostTest = 'packages/reforge/src/battle/battle-host.test.ts'
+const reforgeBattleCommandSelectionTest =
+  'packages/reforge/src/battle/battle-command-selection.test.ts'
 const gameBootstrap = 'packages/game/src/shell/bootstrap.ts'
 const gameSceneSystem = 'packages/game/src/core/scene-system.ts'
 const encounterBindings = new Map([
@@ -193,6 +195,49 @@ handoffBindings.set('domains/phase1-runtime/control-rotation/evidence.json', {
   paths: [gameSceneSystem],
   artifactClaims: true,
 })
+
+export const testingBattleLifecyclePublicationBase = '2d17adc064409630aa74415dc8195080d2344d28'
+const lifecycleRanges = new Map([
+  [gameBootstrap, { 349: '354' }],
+  [reforgeBattleCommandSelectionTest, { '72-95': '73-96' }],
+  [reforgeBattleHost, { '72-88': '72-88', '265-276': '277-288' }],
+  [
+    testingBattleSessionSourcePath,
+    { '242-244': '242-244', '406-418': '407-419', '1243-1252': '1254-1263' },
+  ],
+  [
+    reforgeMain,
+    { '414-421': '414-421', '455-462': '455-462', '1268-1343': '1269-1367', '441-452': '441-452' },
+  ],
+])
+const lifecycleBindings = new Map([
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: sessionId,
+      paths: [testingBattleSessionSourcePath, reforgeBattleCommandSelectionTest],
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain, reforgeBattleHost] },
+  ],
+  [
+    'domains/cross-phase/script-corrections/evidence.json',
+    { id: 'game-script-corrections', paths: [gameBootstrap], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleLifecycleSource = (path) =>
+  [...lifecycleBindings.values()].some(({ paths }) => paths.includes(path))
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
@@ -498,6 +543,50 @@ function encounterHistory(before, current, previous, readSource, stage) {
   assert.equal(event.action, stage.action)
   assert.equal(event.date, stage.date)
   return history
+}
+
+/** Preserve the previously accepted runtime claims while updating their live source references. */
+// Battle launch now also accepts an existing script owner. Its isolated entry port changed;
+// preparation, defeat capture, and victory/world commit callers in the same excerpt stay intact.
+function lifecycleExcerpt(excerpt, ref) {
+  if (ref.path !== reforgeMain || ref.lines !== '1268-1343') return excerpt
+  const from = excerpt.indexOf('      worldPresentation: (signal, scripted) => {')
+  const to = excerpt.indexOf('      presentVictory: async (owner, signal, finish) => {', from)
+  assert(from >= 0 && to > from, 'missing the admitted scripted entry port')
+  const oldEntry = [
+    '      worldPresentation: (signal) => {',
+    '        const encounter = hostileEncounter',
+    '        if (!encounter?.entry || encounter.signal !== signal) return undefined',
+    '        const entry = encounter.entry',
+    '        return {',
+    '          abortEntry: encounter.abort,',
+    '          fadeOnVictory: encounter.commitVictory !== undefined,',
+    '          showEntry: async (session) => {',
+    '            try {',
+    '              await entry.show(() => {',
+    '                session.render(ctx, WORLD_SCALE)',
+    '                applyAmbienceTint()',
+    '              })',
+    '            } finally {',
+    '              if (hostileEncounter === encounter) delete encounter.entry',
+    '            }',
+    '          },',
+    '        }',
+    '      },',
+    '',
+  ].join('\n')
+  return excerpt.slice(0, from) + oldEntry + excerpt.slice(to)
+}
+
+export function restoreTestingBattleLifecycleSourceBindings(path, currentBytes, inputs) {
+  const stage = {
+    ranges: lifecycleRanges,
+    normalizeExcerpt: lifecycleExcerpt,
+    base: testingBattleLifecyclePublicationBase,
+    action: 'q2-battle-lifecycle-source-rebinding',
+    date: '2026-11-15',
+  }
+  return restoreEncounterSourceBindings(path, currentBytes, inputs, stage, lifecycleBindings)
 }
 
 /** Restore the five older entry objects before replaying their original publication

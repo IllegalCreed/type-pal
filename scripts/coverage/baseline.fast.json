@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-14T13:14:33.834Z",
+  "generatedAt": "2026-11-14T18:41:14.428Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 842,
-  "testCount": 20578,
+  "testCount": 20584,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -217,7 +217,7 @@
       ],
       "scopeDigest": "47fe2cfb2860f02a4f1414edfba950440f0c67800c9f21d0a36baa011c12b429",
       "fastTests": {
-        "testCount": 1572,
+        "testCount": 1573,
         "testFileCount": 140,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -514,8 +514,8 @@
           },
           {
             "file": "packages/content/src/battle-choreography.leaf.test.ts",
-            "testCount": 41,
-            "identityDigest": "55bb766410ef48c1b4eb29ebd510b8204e5dd3e29ba197905cb21102332f7ad3"
+            "testCount": 42,
+            "identityDigest": "83be46329d5c904f9a9129dd1a888f5398e5327ef6129e6a42330ac980ced3d9"
           },
           {
             "file": "packages/content/src/battle-field-reference.test.ts",
@@ -1063,9 +1063,9 @@
             "identityDigest": "518ae693559a05507f40f86f16396e6e96f1be3ff15830e00946f1fd57a3a9bc"
           }
         ],
-        "identityDigest": "abe0107e042591fd4c1bf02ce8efc21532f1a2e181f762a0a431a8efcfba1347",
+        "identityDigest": "3038127f0a9a3b46c8880c8ae966cb25d4c9de40e8acedcd3e74b22087bb4e39",
         "duplicateIdentityCount": 1,
-        "executionDigest": "3b83f2bfb2a1e7a3e190858c51818b55470c07942567bbd5c0cea8d596b2f381"
+        "executionDigest": "74f84ce655058f6fddc38d1431bb52acea49452160946b48f82d1403997eb3e1"
       },
       "metrics": {
         "statements": {
@@ -1073,8 +1073,8 @@
           "total": 6152
         },
         "branches": {
-          "covered": 5154,
-          "total": 5468
+          "covered": 5155,
+          "total": 5469
         },
         "functions": {
           "covered": 858,
@@ -2251,7 +2251,7 @@
       ],
       "scopeDigest": "896f48e7f7687fa732b1d80d1f6b3fd34108d23c2a5e9f0d82ec86da907ac238",
       "fastTests": {
-        "testCount": 9117,
+        "testCount": 9119,
         "testFileCount": 372,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2915,8 +2915,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-command-selection.test.ts",
-            "testCount": 10,
-            "identityDigest": "f8ffc5fbcbbe628e175587081123229340eff0cec031d09f0f636dbaf226a1b5"
+            "testCount": 12,
+            "identityDigest": "d86bcf662ede8b340c210a8122110577f281b2eaea2f8591b432d0b66ecd8180"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
@@ -3460,8 +3460,8 @@
           },
           {
             "file": "packages/reforge/src/main.battle-host-flows.test.ts",
-            "testCount": 20,
-            "identityDigest": "a1ea97f2123c72c35550c93e2a3d4fed7dec4540e82eba9b01b53f1e5f5b20aa"
+            "testCount": 22,
+            "identityDigest": "079a6d34ceec1e91d391852e378705982194e1a776de6a9a6eac3168258e0264"
           },
           {
             "file": "packages/reforge/src/main.battle-preview.glm-q.test.ts",
@@ -3895,8 +3895,8 @@
           },
           {
             "file": "packages/reforge/src/pal-unified-steps-content.test.ts",
-            "testCount": 5407,
-            "identityDigest": "a62c39e94c296610d9b959bcce5ea1db11b4780db99fd72a76038ddc0fea9ccf"
+            "testCount": 5404,
+            "identityDigest": "ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84"
           },
           {
             "file": "packages/reforge/src/project-image-cache.decode-lifecycle.test.ts",
@@ -4080,8 +4080,8 @@
           },
           {
             "file": "packages/reforge/src/runtime-script-project.test.ts",
-            "testCount": 7,
-            "identityDigest": "cee2bd76565662b8bb3b4c394bd57e1bd6fbe12c68044a9bef32687513524c0a"
+            "testCount": 8,
+            "identityDigest": "1c0c9c37089538503c41a320b1c078d797904d2af90cdd9da091575fe38e2162"
           },
           {
             "file": "packages/reforge/src/save-lineage.chain.test.ts",
@@ -4489,26 +4489,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "33fbdf2e784c829fb6d1886f73baa21ba07e2f42fc3d36a3436f5d7a6cec8822",
+        "identityDigest": "7592cb5380add7bcc7195e42e6153840004a5e8b7aac2221a2c1095abe6e7085",
         "duplicateIdentityCount": 3,
-        "executionDigest": "0b390c2e17a5d5ef71c2d0d7bbe1c02d726a4154ae370c8aad9dc44846ef9f47"
+        "executionDigest": "d49da3bd0b23e713c7ddf7fbc988659dcc075f592f72c3c217378d192178f649"
       },
       "metrics": {
         "statements": {
-          "covered": 17921,
-          "total": 19639
+          "covered": 17978,
+          "total": 19694
         },
         "branches": {
-          "covered": 11547,
-          "total": 13703
+          "covered": 11589,
+          "total": 13744
         },
         "functions": {
-          "covered": 2894,
-          "total": 3175
+          "covered": 2903,
+          "total": 3184
         },
         "lines": {
-          "covered": 16040,
-          "total": 17144
+          "covered": 16093,
+          "total": 17194
         }
       }
     },
@@ -4744,8 +4744,8 @@
       ],
       "scopeDigest": "81fbcd3c99ebd114a45fa5e81b83123ed285d8eab24c5a161bb0f53480915ab8",
       "fastTests": {
-        "testCount": 3807,
-        "testFileCount": 344,
+        "testCount": 3810,
+        "testFileCount": 345,
         "files": [
           "packages/game/src/__tests__/battle-fixture.test.ts",
           "packages/game/src/__tests__/scripted-rng.test.ts",
@@ -5032,6 +5032,7 @@
           "packages/game/src/shell/bootstrap-load.test.ts",
           "packages/game/src/shell/bootstrap-resources.http.test.ts",
           "packages/game/src/shell/bootstrap-resources.test.ts",
+          "packages/game/src/shell/bootstrap-save-menu.test.ts",
           "packages/game/src/shell/bootstrap.error.test.ts",
           "packages/game/src/shell/ending-player.palette.test.ts",
           "packages/game/src/shell/ending-player.test.ts",
@@ -5316,7 +5317,7 @@
           {
             "file": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
             "testCount": 187,
-            "identityDigest": "19e35cf5d972f83ac7f47ef2da812045f5e4c3e7a0297fad98aab65936609c37"
+            "identityDigest": "8ae25d77d9e0556ac594023c3173f856303b02523fde9eaf0c6e213e5a582316"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
@@ -6519,6 +6520,11 @@
             "identityDigest": "fca145ccbb1e18990670b3bdc6ce2d20a02859ab680bcd8cba7ff4fe597cd920"
           },
           {
+            "file": "packages/game/src/shell/bootstrap-save-menu.test.ts",
+            "testCount": 1,
+            "identityDigest": "f0db2cbf8fae7366e5d76369d0730b3d560476c2c6e4321bf4e1f18be629b0c2"
+          },
+          {
             "file": "packages/game/src/shell/bootstrap.error.test.ts",
             "testCount": 2,
             "identityDigest": "deba2892d061de0b55a5411ce9a6ef155d98ea8ce43449ff729a96666fc03b61"
@@ -6615,8 +6621,8 @@
           },
           {
             "file": "packages/game/src/shell/main-loop.test.ts",
-            "testCount": 23,
-            "identityDigest": "8ff05a7796de120e754fc4c8a74f4edc6da604f16bf0fcf5ff8e6b38ddfab5a9"
+            "testCount": 25,
+            "identityDigest": "8c5c025ca9e23477556e2896fe0c7c07fcca836b2ff95f58ffd774de7262604a"
           },
           {
             "file": "packages/game/src/shell/modal-input.test.ts",
@@ -6814,26 +6820,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "02efe70a1e239eac3deecd83aed251ba41b6c36a16b2ebd2ce9386c49134c076",
+        "identityDigest": "73f846094c17f134d76eac37b767f5670cfaef4458b6cdc59eee01b81eb80961",
         "duplicateIdentityCount": 0,
-        "executionDigest": "04ec651bd6c7263cee36542aedbf6ffa1c28947e8aa0b1c9f0d0bbf14d928a00"
+        "executionDigest": "b0f71ced62518ea1e85c1e4e261c5c3d2590ff50547531d1f3923b05012f075b"
       },
       "metrics": {
         "statements": {
-          "covered": 15805,
-          "total": 17440
+          "covered": 16081,
+          "total": 17454
         },
         "branches": {
-          "covered": 10312,
-          "total": 12633
+          "covered": 10389,
+          "total": 12648
         },
         "functions": {
-          "covered": 1930,
-          "total": 2205
+          "covered": 1962,
+          "total": 2208
         },
         "lines": {
-          "covered": 14091,
-          "total": 15293
+          "covered": 14356,
+          "total": 15305
         }
       }
     },
@@ -10963,20 +10969,20 @@
   },
   "total": {
     "statements": {
-      "covered": 75501,
-      "total": 83106
+      "covered": 75834,
+      "total": 83175
     },
     "branches": {
-      "covered": 55155,
-      "total": 65227
+      "covered": 55275,
+      "total": 65284
     },
     "functions": {
-      "covered": 14296,
-      "total": 15841
+      "covered": 14337,
+      "total": 15853
     },
     "lines": {
-      "covered": 67443,
-      "total": 72741
+      "covered": 67761,
+      "total": 72803
     }
   }
 }

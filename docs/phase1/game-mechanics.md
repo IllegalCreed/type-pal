@@ -3,10 +3,16 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-15
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-15 玩家逃跑与敌方逃跑
+
+十里坡蜜蜂的原盘触碰脚本 41142 将玩家逃跑续接到 41073。该处用 0x4B 设置 -15 世界拍，敌人保持可见，暂停行动和接敌。选择逃跑后队友按行动顺序各自判定，任一成功就结束战斗。失败者返回站位时清掉「逃跑失败」提示。
+
+敌方逃跑的 0x69 请求播放 045，所有有效敌槽的脚底坐标每 10 ms 向左移 5 像素。敌槽的 x 加首帧宽度降到 0 或以下后，保留末帧 500 ms，再报告 Terminated。半人蛇妖接原盘 41070 的中央样式和 41071 的旁白，0x07 从 8853 继续切图。Game 浏览器按绘制时钟采样位移，逻辑帧测试使用同一演进函数。旁白走 0x3E，自动停 1.4 秒，也可用确认提前关闭。 [SDLPal 敌逃](../../reference/sdlpal/battle.c#L1376) · [双端运行](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
 
 ## 2026-11-14 正常接敌与回合演出
 
@@ -1046,8 +1052,6 @@ historical。do not promote historical claims to current truth without a current
 >
 > > 教训:别拿"是不是 boss 怪 / 剧情强敌"反推能否逃跑——唯一真值是该场 `0x0007` 触发的 `operand[2]`。反过来,普通杂兵若某场被 `operand[2]=0` 触发,照样逃不掉。
 >
-> 十里坡蜜蜂的原盘触碰脚本 41142 将玩家逃跑续接到 41073。该处用 0x4B 设置 -15 世界拍，敌人保持可见，暂停行动和接敌。正常胜利使用另外的隐藏与淡变尾链。选择逃跑后队友按行动顺序各自判定，任一成功就结束战斗。失败者回到站位时一并清掉「逃跑失败」提示。
-
 > ### ⚠️ 原始 bug:逃跑抵抗错用敌人身法,而非敌人吉运
 >
 > 逃跑公式里敌方那一项 `def += (SHORT)敌.wDexterity` 用的是敌人**身法**,但这几乎可以确定**本该是敌人吉运**。source 层证据:

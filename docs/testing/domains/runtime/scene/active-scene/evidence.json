@@ -14,14 +14,14 @@
       "lines": "414-421",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+      "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "455-462",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+      "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -264,6 +264,29 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "414-421",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "455-462",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
     }
   ],
   "_governance": {

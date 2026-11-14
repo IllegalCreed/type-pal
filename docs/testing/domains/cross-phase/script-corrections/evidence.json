@@ -80,10 +80,10 @@
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "lines": "349",
+      "lines": "354",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
+      "sha256": "a54999165f300315c357c534d9d48f5b059033adf2eb4e37c883bc4719c91b4a"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -408,6 +408,22 @@
         }
       ],
       "scope": "Game 存档补充实体的调用原字节对应。原主张和运行证据照原出版。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "349",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
     }
   ],
   "claims": [

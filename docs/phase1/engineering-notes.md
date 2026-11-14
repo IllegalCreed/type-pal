@@ -3,7 +3,7 @@
 Status: current
 Validity: current（仅限本页现行维护层；原文保全区为historical）
 Owner: Codex（知识维护；历史原执行身份不变）
-Last reviewed: 2026-11-05
+Last reviewed: 2026-11-15
 Template: guide-runbook-v1 / 1.0.0
 
 本页承接第一阶段已确认的长期维护知识，按下方问题进入所需小节。现行层以保留的功能裁定、canonical合同和当前源码为依据；下方历史原文逐字节保留，其余旧条目未逐项重新认证。

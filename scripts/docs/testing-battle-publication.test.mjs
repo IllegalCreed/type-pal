@@ -7,6 +7,7 @@ import { dirname, join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { validateCanonicalEvidence, validateCatalog } from './check-testing.mjs'
+import { documentLocationAdmission } from './document-location-admission.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import {
   assertTestingAcquisitionSourceBridge,
@@ -20,11 +21,13 @@ import {
   isTestingBattleEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
@@ -344,7 +347,7 @@ test('hostile handoff source bindings preserve published owners and their origin
   ]
   const readBase = (path) => readFixed(testingBattleHandoffPublicationBase, path)
   const readCandidate = (path) => readFixed(testingBattleHandoffSourceRevision, path)
-  const readLive = (path) => readFileSync(join(repository, path))
+  const readLive = (path) => readFixed(testingBattleLifecyclePublicationBase, path)
   const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
   const versionBridge = {
     ...bridge,
@@ -443,6 +446,39 @@ test('hostile handoff source bindings preserve published owners and their origin
         ...bridge,
         readSource: (path) =>
           path === testingBattleSessionSourcePath ? changedSource : readLive(path),
+      }),
+    /encounter source differs from the frozen Q2 candidate/u,
+  )
+})
+
+test('battle lifecycle sources bind their current ranges while retaining the prior native claims', () => {
+  const readBase = (path) => readFixed(testingBattleLifecyclePublicationBase, path)
+  const readSource = (path) => readFileSync(join(repository, path))
+  const readCandidate = (path) =>
+    readFixed(documentLocationAdmission.testingBattleLifecycleSourceRevision, path)
+  const bridge = { readBase, readFixed: readCandidate, readSource }
+  const current = JSON.parse(readSource(sessionEvidence))
+  const check = (value, inputs = bridge) =>
+    restoreTestingBattleLifecycleSourceBindings(sessionEvidence, bytes(value), inputs)
+  assert.deepEqual(check(current), readBase(sessionEvidence))
+
+  const changedClaim = structuredClone(current)
+  changedClaim.claims[0].evidence[0] = `${testingBattleSessionSourcePath}:1`
+  assert.throws(() => check(changedClaim), /Expected values to be strictly equal/u)
+
+  const changedSource = Buffer.concat([
+    readSource(testingBattleSessionSourcePath),
+    Buffer.from('\n'),
+  ])
+  const tampered = structuredClone(current)
+  for (const ref of tampered.sourceRefs)
+    if (ref.path === testingBattleSessionSourcePath) ref.sha256 = hash(changedSource)
+  assert.throws(
+    () =>
+      check(tampered, {
+        ...bridge,
+        readSource: (path) =>
+          path === testingBattleSessionSourcePath ? changedSource : readSource(path),
       }),
     /encounter source differs from the frozen Q2 candidate/u,
   )

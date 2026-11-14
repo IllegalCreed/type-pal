@@ -37,3 +37,9 @@ Template: governance-index-v1 / 1.0.0
 特殊状态与增益分别运行 `node scripts/e2e/battle-status.mjs game all` 与 `node scripts/e2e/battle-status.mjs reforge all`。两端保持相同组名或局面选择器。用 `node scripts/e2e/battle-status-compare.mjs all GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。单局带声采集使用局面名和 `--capture`。 [特殊状态与增益复验](report.md#2026-11-14-特殊状态与增益)
 
 复活组合用相同的 `revival` 选择器复跑。正常世界蜜蜂掉落分别运行 `node scripts/e2e/battle-world-bee-game.mjs` 和 `node scripts/e2e/battle-world-bee-reforge.mjs`，再用 `node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。指定 `--capture --seed=99` 可单局带声录下接敌换屏、两个蜂巢逐槽提示，以及胜利回场淡变。 [复活和世界掉落复验](report.md#2026-11-14-复活组合与真实明雷掉落) · [转场和复活演出复验](report.md#2026-11-14-明雷转场与复活演出差异复验)
+
+玩家逃跑复用双端蜜蜂入口，分别追加 `--escape=success` 和 `--escape=failure`。用 `node scripts/e2e/battle-world-escape-compare.mjs success|failure GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 重比同次固定局面。追加 `--capture` 录单局。 [玩家逃跑原件](report.md#2026-11-15-玩家逃跑成功与失败)
+
+敌方逃跑用 `node scripts/e2e/battle-enemy-escape.mjs game|reforge`，再用 `node scripts/e2e/battle-enemy-escape-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON`。剧情必败对应 `battle-scripted-defeat.mjs` 和 `battle-scripted-defeat-compare.mjs`。战后读档用双端蜜蜂入口的 `--post-battle-save --seed=99`，对应 `battle-world-save-compare.mjs`；三例可追加 `--capture` 录单次。剧情必败与存读的比较器在输出路径之后加 `capture`，以复核录制报告。 [本批覆盖与原件](report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
+
+解包主归档后，用其中的 `build/q2/battle-lifecycle/recompare-extracted.py ARCHIVE_ROOT player|enemy|defeat|save REPO OUTPUT` 重跑正式比较。对比时使用归档清单所列生产闭包。玩家逃跑用 `951f801c`，敌方逃跑用 `113460b3`，剧情必败用 `93f61810`，战后存读用 `ffef79bf` 的判据复核 `bac7d802` 的报告。已有本轮前驱时，主归档中的 Git bundle 可以恢复分支与这些固定版本。

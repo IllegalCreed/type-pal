@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1268-1343",
+      "lines": "1269-1367",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+      "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
       "lines": "72-88",
       "anchor": "async start(",
       "role": "contract",
-      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+      "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "265-276",
+      "lines": "277-288",
       "anchor": "this.ports.finishWorld(session, result)",
       "role": "contract",
-      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+      "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -75,9 +75,9 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1268-1343",
+        "packages/reforge/src/main.ts:1269-1367",
         "packages/reforge/src/battle/battle-host.ts:72-88",
-        "packages/reforge/src/battle/battle-host.ts:265-276",
+        "packages/reforge/src/battle/battle-host.ts:277-288",
         "packages/reforge/src/battle/battle-host.test.ts:14-37",
         "packages/content/src/character.ts:169-171"
       ]
@@ -263,6 +263,36 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1268-1343",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "72-88",
+          "anchor": "async start(",
+          "role": "contract",
+          "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "265-276",
+          "anchor": "this.ports.finishWorld(session, result)",
+          "role": "contract",
+          "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
     }
   ],
   "_governance": {

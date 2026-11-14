@@ -29,14 +29,17 @@ import {
   isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
+  isTestingBattleLifecycleSource,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
@@ -506,12 +509,37 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const handoffSource = handoffRevision && gitTree(root, handoffRevision, [])
   const preHandoff = handoffSource && gitTree(root, testingBattleHandoffPublicationBase, [])
+  const lifecycleRevision = admission.testingBattleLifecycleSourceRevision
+  if (lifecycleRevision !== undefined)
+    assert(
+      handoffSource && /^[a-f0-9]{40}$/u.test(lifecycleRevision),
+      'battle lifecycle source bridge requires the fixed encounter lineage',
+    )
+  const lifecycleSource = lifecycleRevision && gitTree(root, lifecycleRevision, [])
+  const preLifecycle = lifecycleSource && gitTree(root, testingBattleLifecyclePublicationBase, [])
+  const readBeforeLifecycle = (path) => {
+    const current = readSource(path)
+    if (!preLifecycle || !isTestingBattleLifecycleSource(path)) return current
+    assert(
+      current?.equals(lifecycleSource.read(path)),
+      `source differs from frozen battle lifecycle candidate: ${path}`,
+    )
+    return preLifecycle.read(path)
+  }
+  const beforeBattleLifecycle = (path, bytes) =>
+    preLifecycle
+      ? restoreTestingBattleLifecycleSourceBindings(path, bytes, {
+          readSource,
+          readBase: preLifecycle.read,
+          readFixed: lifecycleSource.read,
+        })
+      : bytes
   const projectVictoryBase =
     handoffSource && gitTree(root, testingProjectVictoryPublicationBase, [])
   const projectVictoryInputs = projectVictoryBase && {
     readBase: projectVictoryBase.read,
     readFixed: handoffSource.read,
-    readSource,
+    readSource: readBeforeLifecycle,
   }
   const beforeProjectVictory = (path, bytes) =>
     projectVictoryInputs
@@ -520,7 +548,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const priorEncounterBindings = (path, current) => {
     const beforeHandoff = handoffSource
       ? restoreTestingBattleHandoffSourceBindings(path, current, {
-          readSource,
+          readSource: readBeforeLifecycle,
           readBase: preHandoff.read,
           readFixed: handoffSource.read,
         })
@@ -598,7 +626,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       assertTestingProjectVictoryVersionSource(projectVictoryInputs)
       return projectVictoryBase.read(path)
     }
-    return readSource(path)
+    return readBeforeLifecycle(path)
   }
   // Historical layers retain their original sources. Only the finite successor
   // sources may differ from this accepted predecessor in the live checkout.
@@ -606,7 +634,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     ? (sourcePath) => {
         const fixed = preAcquisition.read(sourcePath)
         if (handoffSource && isTestingBattleHandoffHistoricalSource(sourcePath)) {
-          const live = readSource(sourcePath)
+          const live = readBeforeLifecycle(sourcePath)
           assert(
             live?.equals(handoffSource.read(sourcePath)),
             `source differs from frozen hostile handoff candidate: ${sourcePath}`,
@@ -615,7 +643,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           !isTestingAcquisitionSourcePath(sourcePath) &&
           !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath))
         ) {
-          const live = readSource(sourcePath)
+          const live = readBeforeLifecycle(sourcePath)
           assert(
             live && fixed?.equals(live),
             `source outside acquisition bridge differs from fixed predecessor: ${sourcePath}`,
@@ -866,7 +894,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         : readPredecessorSource
       const currentBeforeEncounter = priorEncounterBindings(
         path,
-        beforeProjectVictory(path, current),
+        beforeProjectVictory(path, beforeBattleLifecycle(path, current)),
       )
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
