@@ -351,12 +351,22 @@ test('all current scene scripts project to steps; automatic phases are inside on
 
 test('non-script definitions preserve the source except for explicitly asserted author corrections', async () => {
   const sourceHashes = new Map(Object.entries(ledger.nonScriptSceneHashes))
+  const victoryFades: string[] = []
   for (const scene of scenes) {
     const withoutScripts = {
       ...scene,
       hooks: undefined,
       entities: scene.entities.map(({ behaviors: _behaviors, ...entity }): typeof entity => {
         const address = `${scene.id}/${entity.id}`
+        const hostile = entity.hostile
+        if (hostile?.victoryTransition === 'fade') {
+          expect(hostile.onVictory.kind, address).toBe('hide')
+          if (hostile.onVictory.kind !== 'hide') throw new Error(address)
+          victoryFades.push(`${address}|${hostile.enemyTeamId}|${hostile.onVictory.ticks}`)
+          // Project only the independently checked fade field out of the historical snapshot.
+          const { victoryTransition: _transition, ...original } = hostile
+          entity = { ...entity, hostile: original }
+        }
         const statue = scene.id === 's017' ? mazeAshuraStatues.get(entity.id) : undefined
         const label = statue?.label ?? islandEntityLabels.get(address)
         if (!label) return entity
@@ -445,6 +455,7 @@ test('non-script definitions preserve the source except for explicitly asserted 
           onVictory: { kind: 'hide', ticks: 800 },
           onPlayerFlee: { kind: 'suspend', ticks: 15 },
           enemyTeamId: 'team-267',
+          victoryTransition: 'fade',
         },
       })
       expect(scene.entities.filter((entity) => entity.id === 'palace-isolated-exit')).toEqual([
@@ -503,6 +514,11 @@ test('non-script definitions preserve the source except for explicitly asserted 
     if (!governedSceneIds.has(scene.id))
       expect(await hash(withoutScripts), scene.id).toBe(sourceHashes.get(scene.id))
   }
+  // Original event-object trigger joins the team and hide ticks in victory tails 41127/41176/41180.
+  expect(victoryFades).toHaveLength(828)
+  expect(await hash(victoryFades.sort())).toBe(
+    '4da469bc35d56490f65813f71f8741b6e53405a2b80eb9aa3a786452f019f451',
+  )
 })
 
 test('shared sound routines are self-free and use only sound and local control', async () => {
