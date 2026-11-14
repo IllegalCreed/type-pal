@@ -5920,7 +5920,14 @@ export async function bootGame(
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
-    drawDialogue()
+    // Dialogue uses 320 logical pixels and the same integer scale as the world.
+    if (dialogBox.visible) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      dialogBox.render(performance.now())
+      ctx.restore()
+    }
     if (showingGameOver) return
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
     if (menus.active) {
