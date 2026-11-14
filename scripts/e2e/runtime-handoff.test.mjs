@@ -212,6 +212,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
     applyWorldEntityGatesToScene() {},
     applyWorldEntityPositionToScene() {},
     authority: new Map(),
+    hostileBusy: false,
     asyncIntentAbortError: (message) => new Error(message),
     emptyWorldScriptState: () => ({ behaviors: { entities: {} } }),
     currentMotionSceneSessionId: () => `s003:${observedVisit}`,
@@ -249,6 +250,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
       [
         'captureSceneRuntime',
         'applyWorldToScene',
+        'automaticWaitPaused',
         'waitAutomaticDelay',
         'captureCurrentSavePayload',
         'scheduleAutoStep',
@@ -273,7 +275,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
     ts.forEachChild(node, visit)
   }
   visit(ast)
-  assert.equal(declarations.length, 7)
+  assert.equal(declarations.length, 8)
   assert(edges.cache && edges.load)
   const body = `const {${Object.keys(deps).join(',')}}=deps; let sceneRuntimeStates={}; ${declarations.join('\n')}
     return { captureSceneRuntime,applyWorldToScene,waitAutomaticDelay,captureCurrentSavePayload,runAutoStepThroughContinuation,

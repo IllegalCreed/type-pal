@@ -348,14 +348,16 @@ test('restore observation is uniquely after the synchronous real commit and befo
     1,
   )
   const before = '    replaceWorld(candidate)'
+  const retirement = '    stopAutoRunners(false)\n    abortScript()'
   const resume = '    startAutoRunners()\n    return true'
-  assert(raw.includes(resume), 'negative restore control must match the actual resume call')
+  assert(raw.includes(retirement) && raw.includes(resume), 'fixture must match the actual restore')
   for (const changed of [
     raw.replace(resume, '    return true'),
     raw.replace(resume, '    startAutoRunners()\n    startAutoRunners()\n    return true'),
     raw.replace(before, `    startAutoRunners()\n${before}`).replace(resume, '    return true'),
     raw.replace(before, '    commitSceneSwitch(plan, world, false)\n    replaceWorld(candidate)'),
     raw.replace(before, `${before}\n    await Promise.resolve()`),
+    raw.replace(retirement, '    abortScript()\n    stopAutoRunners(false)'),
   ])
     assert.throws(() => instrumentInnTrace(changed, file), /restore commit anchor/)
 })
@@ -612,7 +614,7 @@ test('actual transformed restore reads committed World before real auto call, no
      return restorePayload;`,
   )(...Object.values(scope))
   assert.equal(await restore(payload, 1, 'fixture actual restore'), true)
-  assert.deepEqual(calls, ['abort', 'stop', 'world', 'scene', 'projection', 'auto'])
+  assert.deepEqual(calls, ['stop', 'abort', 'world', 'scene', 'projection', 'auto'])
   const commit = h.__readInnEvidence().restoreCommits[0].payload
   assert.equal(commit.world.money, 499)
   assert.equal(commit.world.script.behaviors.entities.s003.e62.auto.cursor.at.stage, 'legacy-003')
