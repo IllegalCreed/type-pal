@@ -144,10 +144,9 @@ ${move}
     case 'battle/battle-entry-presentation.ts': {
       const drawn = replaceOnce(
         source,
-        '      ctx.putImageData(this.frame, 0, 0)\n      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()',
-        `      ctx.putImageData(this.frame, 0, 0)
-      globalThis.__defeat?.reforgeEntry(this.frame, reveal.bands, elapsed >= BAND_ORDER.length * BAND_MS, this.pixelScale)
-      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()`,
+        '      if (complete) reveal.complete()',
+        `      globalThis.__defeat?.reforgeEntry(this.frame, reveal.bands, complete, this.pixelScale)
+      if (complete) reveal.complete()`,
       )
       return after(
         drawn,

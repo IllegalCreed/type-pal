@@ -110,10 +110,9 @@ ${move}
 function observeEntry(source: string): string {
   const reveal = replaceOnce(
     source,
-    '      ctx.putImageData(this.frame, 0, 0)\n      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()',
-    `      ctx.putImageData(this.frame, 0, 0)
-      globalThis.__beeWorld?.entry(this.frame, reveal.bands, elapsed >= BAND_ORDER.length * BAND_MS)
-      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()`,
+    '      if (complete) reveal.complete()',
+    `      globalThis.__beeWorld?.entry(this.frame, reveal.bands, complete)
+      if (complete) reveal.complete()`,
   )
   return after(
     reveal,

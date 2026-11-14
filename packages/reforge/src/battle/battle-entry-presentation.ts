@@ -15,6 +15,7 @@ export class BattleEntryPresentation {
     complete: () => void
     fail: (reason: unknown) => void
     startedAt?: number
+    finalBandAt?: number
     target?: Uint32Array
     bands: number
   }
@@ -79,7 +80,10 @@ export class BattleEntryPresentation {
         reveal.bands++
       }
       ctx.putImageData(this.frame, 0, 0)
-      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()
+      // The final band's own delay begins when that image actually reaches the canvas.
+      if (reveal.bands === BAND_ORDER.length) reveal.finalBandAt ??= now
+      const complete = reveal.finalBandAt !== undefined && now - reveal.finalBandAt >= BAND_MS
+      if (complete) reveal.complete()
       return
     }
     ctx.putImageData(this.frame, 0, 0)

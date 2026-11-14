@@ -440,7 +440,7 @@ test('a native hostile reveal replaces six whole pixel bands before command inpu
   }
   expect(getPixels).toHaveBeenCalledTimes(2)
   for (const [round, column] of [0, 3, 1, 5, 2, 4].entries()) {
-    if (round) await key(host, 'Escape', 60)
+    if (round) await key(host, 'Escape', round === 5 ? 77 : 60)
     expectedBands.fill(83, column * 4, (column + 1) * 4)
     expect(bands.at(-1)).toEqual(expectedBands)
     expect(state().renderDebug.inBattle).toBe(false)
