@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict'
-import { parseArgs } from 'node:util'
 import { createSeedableRng } from '../../packages/game/src/core/rng.ts'
+import {
+  beeWorldArguments,
+  beeWorldInput as input,
+  beePartyMember as party,
+  honeycombText as prompt,
+} from './battle-world-bee-scenario.mjs'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { installCommittedRoutePlayback, replayCommittedRoute } from './committed-route.mjs'
 import { writeEvidenceArtifact } from './evidence-artifact.mjs'
@@ -8,52 +13,8 @@ import { createEvidenceRecorder } from './evidence-recorder.mjs'
 import { fixedRoutePlan } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 
-const cases = [
-  { seed: 138, rolls: [36, 12], grants: [0, 0] },
-  { seed: 4, rolls: [8, 98], grants: [1, 0] },
-  { seed: 99, rolls: [2, 11], grants: [1, 1] },
-]
-const { values } = parseArgs({
-  options: { seed: { type: 'string' }, capture: { type: 'boolean' } },
-})
-const selected =
-  values.seed === undefined ? cases : cases.filter(({ seed }) => `${seed}` === values.seed)
-assert(selected.length > 0, 'choose seed 4, 99 or 138')
-assert(!values.capture || selected.length === 1, 'capture requires one explicit seed')
-
-const scene = 's006'
-const start = [93, 45]
-const stop = [97, 45]
-const exit = [96, 45]
-const hold = [['ArrowRight', 4]]
-const retreat = [['ArrowLeft', 1]]
-const party = {
-  id: 'anu',
-  role: 4,
-  weapon: 187,
-  level: 28,
-  hp: 470,
-  mp: 400,
-  maxHP: 480,
-  maxMP: 410,
-}
-const input = {
-  scene,
-  map: 4,
-  battleField: 12,
-  enemy: 'e154',
-  objectSlots: [403, 403],
-  team: 4,
-  start,
-  hold,
-  stop,
-  retreat,
-  exit,
-  party: [party],
-  battleInput: [
-    { turn: 1, kind: 'attack', actorId: party.id, targetId: null, targetSide: 'enemy' },
-  ],
-}
+const { cases: selected, capture: captureRequested } = beeWorldArguments()
+const { scene, start, hold, stop, retreat, exit } = input
 const plan = fixedRoutePlan('game', {
   id: 'bee-approach',
   scene,
@@ -68,7 +29,6 @@ const exitPlan = fixedRoutePlan('game', {
   holds: retreat,
   completion: { scene, position: exit, mode: 'ready' },
 })
-const prompt = '获得一个蜂巢'
 const sweepDamage = new Map([
   [4, [747, 373, 249, 124]],
   [99, [249, 124, 747, 373]],
@@ -496,7 +456,7 @@ function verifyTrace(trace, result) {
 }
 
 await runBrowserJourney({
-  name: `q2-world-bee-game${values.capture ? `-${selected[0].seed}-capture` : ''}`,
+  name: `q2-world-bee-game${captureRequested ? `-${selected[0].seed}-capture` : ''}`,
   packageName: '@type-pal/game',
   environment: { E2E: '1' },
   traceConfig: 'scripts/e2e/battle-world-bee-game.config.mts',
@@ -512,7 +472,7 @@ await runBrowserJourney({
     'data/extracted/data/battle-bgs.json',
     'data/extracted/events/all.json',
   ],
-  arguments: ['--headless', ...(values.capture ? ['--capture'] : [])],
+  arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
   viewport: { width: 960, height: 720 },
   initScripts: [
     installCommittedRoutePlayback,
