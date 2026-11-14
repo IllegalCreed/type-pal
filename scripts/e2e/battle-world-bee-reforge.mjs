@@ -258,7 +258,7 @@ await runBrowserJourney({
           await page.route('**/__bee-checkpoint.json', (route) =>
             route.fulfill({ contentType: 'application/json', body: JSON.stringify(fixture) }),
           )
-          await page.goto(`${baseURL}/?e2e-load=%2F__bee-checkpoint.json&collision`)
+          await page.goto(`${baseURL}/?e2e-load=%2F__bee-checkpoint.json`)
           const initial = await wait(
             (state) => state.boot?.checkpointLoad === 'loaded' && ready(state),
             'normal scene from current save codec',
