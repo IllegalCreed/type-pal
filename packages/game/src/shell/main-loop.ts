@@ -13,6 +13,8 @@
 
 import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
+import { advanceContactBattleReveal } from '../core/battle/battle-entry.js'
+import { finishBattleEntry } from '../core/battle/battle-system.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { pendingEncounterFadeOut, resumeEncounterAfterFadeOut, tickByMode } from '../core/mode.js'
@@ -69,6 +71,21 @@ export function advanceRafFrame(
   const dt = now - state.lastTickTime
   state.lastTickTime = now
   state.accumulator += dt
+
+  const battle = ctx.gs.mode === 'battle' ? ctx.gs.battleState : undefined
+  const reveal =
+    battle && !frozen ? advanceContactBattleReveal(battle, performance.now()) : undefined
+  if (battle && reveal) {
+    state.accumulator = 0
+    if (reveal === 'hold') return { ticked: false, presented: false }
+    if (reveal === 'complete') {
+      finishBattleEntry(battle)
+      // The source clears accumulated presses before admitting the first battle frame.
+      ctx.input.nextSnapshot(ctx.gs.frameNum)
+    }
+    ctx.onPresent([], false)
+    return { ticked: false, presented: true }
+  }
 
   const pendingFadeOut = frozen ? undefined : pendingEncounterFadeOut(ctx.gs)
   const painted = state.paintedEncounterFadeOut

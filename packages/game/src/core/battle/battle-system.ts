@@ -72,6 +72,7 @@ import {
   startBattleAnim,
 } from './battle-anim-driver.js'
 import { advanceBattleDialog } from './battle-dialog.js'
+import { startContactBattleReveal } from './battle-entry.js'
 import { finalizeBattle } from './battle-finalization.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 import {
@@ -108,9 +109,9 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
 /**
- * D19 入场揭示 gate 时长(tick)。参考 PAL_StartBattle → PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
+ * 剧情战的既有入场 gate 时长(tick)。参考 PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
  * wSpeed=5→6→×10=60,6 band × UTIL_Delay(60) = 360ms,按 40ms 逻辑 tick 取 9 tick。
- * 这里只对应换屏一段;PAL_BattleMain 此前还有 200ms delay,不表示完整入场或视觉时序已等价。
+ * 普通明雷由浏览器帧推进，计入原版 200ms 定格和六轮换屏。
  *
  * 注(2026-06-04 修 user 报"进战斗到菜单过渡偏长"):入场揭示出处是 video.c VIDEO_SwitchScreen(5)=360ms,
  * **不是** PAL_BattleFadeScene(battle.c:608-682,72×16ms≈1152ms)—— 后者是战斗内动作刷新/法术效果用,
@@ -196,7 +197,7 @@ export interface StartBattleInput {
   rngSeed?: number
   /** 可选注入 runScript(测试 mock 用);默认 = event-system.runScript。 */
   runScriptFn?: RunScriptFn
-  /** D19 入场 dither fade-in gate 时长(tick)。生产传 INTRO_FADE_TICKS;省略/0 → 无入场淡入(单测/dev)。 */
+  /** 生产入场揭场。剧情战使用逻辑拍，普通明雷按浏览器帧推进；省略/0 供试打和 headless。 */
   introFadeTicks?: number
 }
 
@@ -323,11 +324,10 @@ export function startBattle(input: StartBattleInput): void {
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
 
-  // D19:入场揭示 gate(参考 PAL_BattleMain → VIDEO_SwitchScreen)。**显式 opt-in**(bootstrap 入口传
-  //   introFadeTicks=INTRO_FADE_TICKS;单测/dev 不传 → 无 fade、无 gate,行为不变)。preBattle 期间 gate 输入,
-  //   present-battle 把战斗场景从入场前大世界帧 dither 揭示。
+  // 原生入口显式启用揭场，试打无需等入场。普通明雷复用同一进度状态并由浏览器帧推进。
   if (input.introFadeTicks && input.introFadeTicks > 0) {
     battleState.introFade = { step: 0, total: input.introFadeTicks }
+    startContactBattleReveal(battleState, input.gs.eventCursor)
   }
 
   input.gs.mode = 'battle'
@@ -564,6 +564,11 @@ function tickPreBattle(state: BattleState): void {
     state.introFade.step++
     return
   }
+  finishBattleEntry(state)
+}
+
+/** Release the reveal without handling turn-start scripts or selection input on the same frame. */
+export function finishBattleEntry(state: BattleState): void {
   state.introFade = undefined
   state.phase = 'selectAction'
   // 选指令菜单**不在此起**——延后到 turnStart 跑完且无 hold 后(见 selectAction case)。此处仅置 wait

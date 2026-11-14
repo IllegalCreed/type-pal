@@ -1,19 +1,39 @@
-import type { InputSource } from '@type-pal/shared'
+import type { Command, InputSnapshot, InputSource } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import {
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../__tests__/battle-records.js'
 import { createBattleState } from '../core/battle/battle-state.js'
+import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import { createCommandBus } from '../core/command-bus.js'
-import { OP_FADE_OUT, OP_HIDE_OBJECT } from '../core/event-system.js'
-import { createInitialGameState, resumePostBattleScript } from '../core/game-state.js'
+import {
+  OP_FADE_OUT,
+  OP_HIDE_OBJECT,
+  OP_START_BATTLE,
+  setStartBattleHandler,
+} from '../core/event-system.js'
+import {
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+  resumePostBattleScript,
+} from '../core/game-state.js'
 import { buildPaletteFade, makeWorkingPalette } from '../core/palette-fade.js'
 import { createSeedableRng } from '../core/rng.js'
 import { setSceneContext } from '../core/scene-system.js'
+import { solidBg } from '../present/__tests__/battle-render-fixtures.js'
+import { BG } from '../present/__tests__/composition-colors.js'
 import { sceneContext } from '../present/__tests__/scene-render-fixtures.js'
+import { BattlePresent } from '../present/battle/present-battle.js'
 import { createFramebuffer } from '../present/framebuffer.js'
-import { presentFrame } from '../present/present.js'
+import { presentBattleFrame, presentFrame } from '../present/present.js'
 import { heldSnapshot, prepareEmptyLoopContext } from './__tests__/loop-context.js'
 import { walkableTilemap } from './__tests__/loop-tilemap.js'
+import type { AudioManager } from './audio.js'
+import { syncShellAudio } from './bootstrap.js'
 import { ReplayInputSource } from './input.js'
 import type { LoopContext, RafLoopState } from './main-loop.js'
 import { advanceRafFrame, logicIntervalMs } from './main-loop.js'
@@ -189,6 +209,134 @@ describe('Scene fade input suppression', () => {
 })
 
 describe('Present and input gates', () => {
+  it('a contact battle holds the world, reveals each band for 60ms, then opens input', () => {
+    let now = 0
+    const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
+    onTestFinished(() => clock.mockRestore())
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.wNumMusic = 16
+    gs.wNumBattleMusic = 37
+    const commands: Command[] = [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [4, 41075, 41073] },
+      { op: 'end' },
+    ]
+    gs.npcs = [
+      {
+        id: 154,
+        x: 160,
+        y: 112,
+        spriteNum: 1,
+        triggerMode: 4,
+        triggerResume: { ip: 0, commands },
+      },
+    ]
+    const roles = { roles: [makeRoleRecord(0)] }
+    gs.partyMembers = [0]
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+    setStartBattleHandler(({ gs: battleGs, enemyTeamId, isBoss }) =>
+      startBattle({
+        gs: battleGs,
+        enemyTeamId,
+        isBoss,
+        battleFieldId: 0,
+        enemies: [makeEnemyRecord({ id: 100, idleFrames: 2 })],
+        enemyTeams: [{ id: 4, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+        battleFields: [makeBattleFieldRecord()],
+        playerRoles: roles,
+        items: [],
+        spells: [],
+        magics: [],
+        commands: [],
+        rngSeed: 1,
+        introFadeTicks: INTRO_FADE_TICKS,
+      }),
+    )
+    onTestFinished(() => setStartBattleHandler(null))
+    const fb = createFramebuffer()
+    const battle = new BattlePresent()
+    const assets = {
+      battleSprites: new Map(),
+      battleBgs: new Map([[0, solidBg(BG)]]),
+      playerRoles: roles,
+      spells: [],
+      items: [],
+    }
+    const map = sceneContext()
+    const musicRequests: number[] = []
+    const audio: AudioManager = {
+      sync: (_pending, { track }) => musicRequests.push(track),
+      playSound() {},
+      resume() {},
+      setSfxEnabled() {},
+      setMusicEnabled() {},
+      setMusicBackend() {},
+    }
+    const ctx = prepareEmptyLoopContext(gs, (drained, ticked) => {
+      syncShellAudio(audio, gs, drained, roles)
+      if (!presentBattleFrame(fb, gs, battle, assets, drained, ticked)) {
+        presentFrame(fb, gs, map, ticked)
+      }
+    })
+    let pressed: InputSnapshot['pressed'] = new Set()
+    ctx.input.nextSnapshot = vi.fn((frameNum: number) => {
+      const snapshot = { ...heldSnapshot([], frameNum), pressed }
+      pressed = new Set()
+      return snapshot
+    })
+    const raf = freshRafState()
+    const frame = (at: number) => {
+      now = at
+      return advanceRafFrame(raf, at, ctx)
+    }
+
+    frame(100)
+    expect(gs.eventCursor?.triggerOwnerId).toBe(154)
+    const source = Buffer.from(fb.indices)
+    expect(source.some((pixel) => pixel !== 0)).toBe(true)
+    frame(200)
+    expect(gs.mode).toBe('battle')
+    expect(Buffer.from(fb.indices).equals(source)).toBe(true)
+    const encounter = gs.battleState!
+    pressed = new Set(['Defend'])
+    const frozenEnemy = encounter.enemies[0]!.idleFrame
+    for (const at of [240, 280, 299]) frame(at)
+    expect(Buffer.from(fb.indices).equals(source)).toBe(true)
+    expect(encounter.enemies[0]!.idleFrame).toBe(frozenEnemy)
+
+    const expected = Array<number>(6).fill(0)
+    for (const [index, band] of [0, 3, 1, 5, 2, 4].entries()) {
+      const at = index === 5 ? 613 : 300 + index * 60
+      frame(at)
+      expected[band] = BG
+      expect([...fb.indices.slice(0, 6)]).toEqual(expected)
+      expect(encounter.uiState).toBe('hidden')
+      expect(encounter.pendingActions.size).toBe(0)
+      if (index < 5) frame(at + 59)
+      expect([...fb.indices.slice(0, 6)]).toEqual(expected)
+    }
+    expect(encounter.phase).toBe('preBattle')
+    expect(encounter.introFade).toBeDefined()
+    expect(encounter.turnStartDoneForTurn).toBeUndefined()
+    expect(musicRequests).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
+    expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(2)
+    expect(frame(660).presented).toBe(false)
+    expect(frame(672).presented).toBe(false)
+    frame(673)
+    expect(encounter.introFade).toBeUndefined()
+    expect(encounter.phase).toBe('selectAction')
+    expect(encounter.uiState).toBe('wait')
+    expect(encounter.pendingActions.size).toBe(0)
+    expect(musicRequests.at(-1)).toBe(37)
+    expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(3)
+    frame(713)
+    expect(encounter.uiState).toBe('selectMove')
+    expect(encounter.turnStartDoneForTurn).toBe(0)
+    expect(encounter.pendingActions.size).toBe(0)
+    pressed = new Set(['Defend'])
+    frame(753)
+    expect(encounter.pendingActions.get(0)?.type).toBe('defend')
+  })
+
   it('presents the frozen encounter fade at black and draws the new map on the next frame', () => {
     let now = 0
     const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)

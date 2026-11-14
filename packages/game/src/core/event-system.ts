@@ -87,7 +87,7 @@ import {
   resolveLabelIp,
   resolveScriptLabel,
 } from './script-catalog.js'
-import { OP_ADD_CASH, OP_ADD_ITEM } from './script-opcode-ids.js'
+import { OP_ADD_CASH, OP_ADD_ITEM, OP_START_BATTLE } from './script-opcode-ids.js'
 import { getWord } from './word-lookup.js'
 
 export {
@@ -136,7 +136,7 @@ export {
 //   operand[0]=enemyTeamId
 //   operand[1]=wScriptEntry on Lose(0 = default game-over)
 //   operand[2]=wScriptEntry on Flee(also: !operand[2] → fIsBoss / no-flee 标志)
-export const OP_START_BATTLE = 0x0007 // 7
+export { OP_START_BATTLE } from './script-opcode-ids.js'
 // case 0x0046(70):  Set the party position on the map
 //   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
 export const OP_SET_PARTY_POS = 0x0046 // 70

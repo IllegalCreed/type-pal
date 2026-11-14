@@ -16,6 +16,7 @@ import {
 } from '../assets/loader.js'
 import type { IndexedImage } from '../assets/png.js'
 import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
+import { isBattleContact } from '../core/battle/battle-entry.js'
 import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
@@ -183,6 +184,7 @@ export function syncShellAudio(
   playerRoles: PlayerRoles,
 ): void {
   const inBattle = gs.battleState !== undefined
+  const stoppingForContact = gs.mode === 'event' && isBattleContact(gs.eventCursor)
   // 系统菜单「音乐」「音效」开关(gs.fMusicEnabled/fSoundEnabled,PAL_SwitchMenu 切)→ AudioManager。
   //   setter 幂等(无变化 no-op),每帧调安全。
   audio.setMusicEnabled(gs.fMusicEnabled ?? true)
@@ -191,8 +193,9 @@ export function syncShellAudio(
   const victoryTrack = battleVictoryTrack(gs.battleState)
   const battleIntroActive = gs.battleState?.introFade !== undefined // DM29:揭场未完 → 静默
   audio.sync(gs.pendingSounds, {
-    track:
-      victoryTrack > 0
+    track: stoppingForContact
+      ? 0
+      : victoryTrack > 0
         ? victoryTrack
         : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
     loop: victoryTrack > 0 ? false : inBattle ? true : (gs.musicLoop ?? true),
