@@ -248,13 +248,17 @@ describe('Present and input gates', () => {
 
     const frameNum = gs.frameNum
     sampleInput.mockClear()
-    // A loaded rAF callback may execute just after the palette deadline with an earlier frame timestamp.
-    const black = step(698, 700)
+    // The input snapshot can straddle the wall-clock deadline during a scheduled world tick.
+    sampleInput.mockImplementationOnce((frame) => {
+      now = 700
+      return heldSnapshot([], frame)
+    })
+    const black = step(700, 699)
     expect(frames.at(-1)).toEqual({ direction: 'out', index: 64, rgb: new Uint8ClampedArray(3) })
-    expect(black).toEqual({ ticked: false, presented: true })
+    expect(black).toEqual({ ticked: true, presented: true })
     const reveal = step(716, 717)
     expect(frames.at(-1)).toEqual({ direction: 'in', index: 0, rgb: new Uint8ClampedArray(3) })
-    expect(reveal).toEqual({ ticked: true, presented: true })
+    expect(reveal).toEqual({ ticked: false, presented: true })
     expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 717 })
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')

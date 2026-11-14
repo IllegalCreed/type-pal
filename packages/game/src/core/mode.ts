@@ -20,19 +20,13 @@ import type { PaletteFadeState } from './palette-fade.js'
 import { tickSceneSystem } from './scene-system.js'
 import { getCmds } from './script-catalog.js'
 
-/** Read the completed fade whose root trigger can return directly to the current map. */
-export function completedEncounterFadeOut(
+/** Read the fade whose root trigger can return directly to the current map. */
+export function pendingEncounterFadeOut(
   gs: GameState,
-  nowMs: number,
 ): { fade: PaletteFadeState; cursor: EventCursor } | undefined {
   const fade = gs.paletteFadeState
   const cursor = gs.eventCursor
-  if (
-    gs.mode !== 'event' ||
-    fade?.fade60 !== 'out' ||
-    nowMs - fade.startTimeMs < fade.totalMs ||
-    cursor?.waiting !== 'palette-fade'
-  ) {
+  if (gs.mode !== 'event' || fade?.fade60 !== 'out' || cursor?.waiting !== 'palette-fade') {
     return
   }
   if (
@@ -44,6 +38,8 @@ export function completedEncounterFadeOut(
     gs.sceneLoading ||
     gs.suspendRaf ||
     gs.blackScreenHold ||
+    gs.gameOverActive ||
+    gs.deathHoldActive ||
     gs.fadeState ||
     gs.dialogBox ||
     gs.menuStack.length ||
@@ -75,8 +71,14 @@ export function resumeEncounterAfterFadeOut(gs: GameState): void {
   tickSceneAutoFadeIn(gs)
 }
 
-export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+export function tickByMode(
+  gs: GameState,
+  input: InputSnapshot,
+  bus: CommandBus,
+  waitForEncounterFadeDraw = false,
+): void {
   gs.frameNum++ // 全局逻辑帧计数器(D13);所有模式都推进
+  if (waitForEncounterFadeDraw) return // 浏览器宿主在黑帧绘制后续跑这个等待中的 trigger。
 
   // PAL_MakeScene 的自动淡入可能冻结探索；先交给 event-system 判断当前等待点是否会绘制场景。
   tickSceneAutoFadeIn(gs)

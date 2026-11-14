@@ -15,7 +15,7 @@ import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
-import { completedEncounterFadeOut, resumeEncounterAfterFadeOut, tickByMode } from '../core/mode.js'
+import { pendingEncounterFadeOut, resumeEncounterAfterFadeOut, tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
 import { tickFps } from '../tools/fps-overlay.js'
@@ -49,7 +49,7 @@ export function logicIntervalMs(gs: GameState): number {
 export interface RafLoopState {
   lastTickTime: number
   accumulator: number
-  paintedEncounterFadeOut?: ReturnType<typeof completedEncounterFadeOut>
+  paintedEncounterFadeOut?: ReturnType<typeof pendingEncounterFadeOut>
 }
 
 /**
@@ -70,17 +70,14 @@ export function advanceRafFrame(
   state.lastTickTime = now
   state.accumulator += dt
 
-  // Palette ramps and the waiting opcode use performance.now(), which can be ahead of the rAF timestamp.
-  const completedFadeOut = frozen ? undefined : completedEncounterFadeOut(ctx.gs, performance.now())
-  if (completedFadeOut) {
-    const painted = state.paintedEncounterFadeOut
-    // Show exact black over the frozen screen first. PAL_MakeScene then starts the new
-    // world fade on its first draw without waiting for another world logic tick.
-    if (painted?.fade !== completedFadeOut.fade || painted.cursor !== completedFadeOut.cursor) {
-      ctx.onPresent([], false)
-      state.paintedEncounterFadeOut = completedFadeOut
-      return { ticked: false, presented: true }
-    }
+  const pendingFadeOut = frozen ? undefined : pendingEncounterFadeOut(ctx.gs)
+  const painted = state.paintedEncounterFadeOut
+  const resumeFade =
+    pendingFadeOut &&
+    painted?.fade === pendingFadeOut.fade &&
+    painted.cursor === pendingFadeOut.cursor
+  if (resumeFade) {
+    // PAL_MakeScene starts its fade on the frame after exact black over the frozen source.
     resumeEncounterAfterFadeOut(ctx.gs)
   }
   state.paintedEncounterFadeOut = undefined
@@ -111,7 +108,7 @@ export function advanceRafFrame(
   } else if (state.accumulator >= interval) {
     ctx.gs.nowMs = now // Bug1 fix:对话打字用 wall-clock,主循环每帧注入
     const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
-    tickByMode(ctx.gs, snap, ctx.bus)
+    tickByMode(ctx.gs, snap, ctx.bus, pendingFadeOut !== undefined && !resumeFade)
     const d = ctx.bus.drain()
     if (d.length) drained = d
     if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
@@ -142,6 +139,16 @@ export function advanceRafFrame(
     ctx.gs.battleState?.battleAnim != null
   ) {
     ctx.onPresent(drained, ticked)
+    // Confirm the frozen renderer has actually applied the black palette. Quantization can
+    // already produce black just before the deadline, so also require the complete ramp.
+    if (
+      pendingFadeOut &&
+      !resumeFade &&
+      performance.now() - pendingFadeOut.fade.startTimeMs >= pendingFadeOut.fade.totalMs &&
+      ctx.gs.palette?.colors.every(([r, g, b]) => (r | g | b) === 0)
+    ) {
+      state.paintedEncounterFadeOut = pendingFadeOut
+    }
     presented = true
   }
   return { ticked, presented }
