@@ -83,6 +83,7 @@ export class BattleLaunchPreparation {
     signal: AbortSignal,
     assertCurrent: () => void,
     report: ReportReadiness,
+    onBattleTrack?: (asset: AssetId) => void,
   ) {
     const { content, assets, ports } = this
     const enemySlots = options?.enemyOverride
@@ -114,6 +115,7 @@ export class BattleLaunchPreparation {
         : scene.battleMusic !== undefined
           ? scene.battleMusic
           : assets.reader.assetForRole('audio.defaultBattleMusic')
+    if (battleTrack !== null) onBattleTrack?.(battleTrack)
     const players = createBattlePlayers(ports.readWorld(), content, ports.debugLeaders())
     const playerSounds = ports
       .readWorld()

@@ -88,6 +88,9 @@ export async function hostHarness(scenario: HostScenario) {
     stop: () => {
       events.push('music:stop')
     },
+    async prepare(asset: string) {
+      return () => this.play(asset, true, 0)
+    },
   }
   const palette = await loadStandardPalette(project.assetBase)
   const sfx = new SfxPlayer(project.assetResolver)

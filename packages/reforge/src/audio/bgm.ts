@@ -9,7 +9,7 @@
  * - 仙剑原 OPL/MIDI 偏干 → CC91 混响 = 0 并 lockController(防 MIDI 自带 CC91 拉高)
  * - skipToFirstNoteOn: false —— 曲头静音是作曲者设的循环间隔,跳掉会循环显赶
  * - autoplay:play 记 last,ctx 解锁(用户手势 resume)后补播;resume 防重入
- * - 合成器/worklet/soundfont在首次play时加载;播放器建立时仍创建AudioContext
+ * - 合成器/worklet/soundfont按需加载;播放器建立时仍创建AudioContext
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
 import { initializeBrowserSpessaSynth } from './spessa-browser-runtime.js'
@@ -26,6 +26,8 @@ export interface BgmPlayer {
    * 默认 0 = 现行为硬切(向后兼容)。
    */
   play(asset: AssetId, loop?: boolean, fadeInMs?: number): void
+  /** Preload one score silently and return its playback request for the reveal boundary. */
+  prepare(asset: AssetId, signal: AbortSignal): Promise<() => void>
   /** fadeOutMs>0 = 淡出后停;默认 0 = 现行为立即停。 */
   stop(fadeOutMs?: number): void
   /** 用户手势里调:解 autoplay 锁并补播当前曲。 */
@@ -52,6 +54,8 @@ export interface BgmSequencerAdapter {
 
 /** D12-1 战斗音乐过渡常量(K4:集中一处,听感验收可调;涉及 fade 的调用点统一引用)。 */
 export const BATTLE_MUSIC_TRANSITION_MS = 300
+// Optional music can use the entry window, but unavailable browser audio cannot stall battle.
+const BGM_PREPARATION_TIMEOUT_MS = 1000
 
 export interface BgmRuntimeAdapter {
   context: {
@@ -122,7 +126,17 @@ export function createBgmPlayerWithRuntime(
   resolver: AudioAssetReader,
   runtime: BgmRuntimeAdapter | undefined,
 ): BgmPlayer {
-  if (!runtime) return { play() {}, stop() {}, resume() {}, setEnabled() {}, async dispose() {} }
+  if (!runtime)
+    return {
+      play() {},
+      async prepare() {
+        return () => {}
+      },
+      stop() {},
+      resume() {},
+      setEnabled() {},
+      async dispose() {},
+    }
 
   const ctx = runtime.context
   let seq: BgmSequencerAdapter | undefined
@@ -157,23 +171,27 @@ export function createBgmPlayerWithRuntime(
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
     serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
 
+  async function readScore(asset: AssetId, signal?: AbortSignal): Promise<ArrayBuffer | undefined> {
+    try {
+      return await resolver.readBytes(asset, 'music')
+    } catch (error) {
+      if (!signal?.aborted && !disposed) console.warn(`[bgm] MIDI AssetId ${asset} 读取失败`, error)
+      return undefined
+    }
+  }
+
   async function doPlay(
     asset: AssetId,
     loop: boolean,
     serial: number,
     fadeInMs: number,
+    prepared?: ArrayBuffer,
   ): Promise<void> {
     if (!seq || !enabled) return
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     if (!isCurrent(serial, asset, loop)) return
-    let binary: ArrayBuffer
-    try {
-      binary = await resolver.readBytes(asset, 'music')
-    } catch (error) {
-      console.warn(`[bgm] MIDI AssetId ${asset} 读取失败`, error)
-      return
-    }
-    if (!isCurrent(serial, asset, loop)) return
+    const binary = prepared ?? (await readScore(asset))
+    if (!binary || !isCurrent(serial, asset, loop)) return
     const swap = (): void => {
       const sequencer = seq
       if (!sequencer) return
@@ -197,14 +215,19 @@ export function createBgmPlayerWithRuntime(
     swap()
   }
 
-  function playCurrent(): void {
+  function playCurrent(prepared?: ArrayBuffer): void {
     if (!seq || !enabled || !last) return
     const current = last
     const serial = nextRequest()
-    void doPlay(current.asset, current.loop, serial, current.fadeInMs)
+    void doPlay(current.asset, current.loop, serial, current.fadeInMs, prepared).catch(
+      (error: unknown) => {
+        if (isCurrent(serial, current.asset, current.loop))
+          console.warn(`[bgm] MIDI AssetId ${current.asset} 播放失败`, error)
+      },
+    )
   }
 
-  // 首次播放才加载合成器库、worklet和soundfont;AudioContext由runtime提前持有,
+  // 首次需要音乐才加载合成器库、worklet和soundfont;AudioContext由runtime提前持有,
   // 不把后端按需加载误认为播放器建立时没有资源开销。
   let initP: Promise<void> | null = null
   const ensureInit = (): Promise<void> => {
@@ -225,22 +248,46 @@ export function createBgmPlayerWithRuntime(
     return initP
   }
 
-  return {
-    play(asset, loop = true, fadeInMs = 0) {
-      if (disposed) return
-      if (playing === asset && ctx.state === 'running') {
-        last = { asset, loop, fadeInMs }
-        // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
-        // 恢复全增益，但绝不 reload/restart 当前 MIDI。
-        nextRequest()
-        seq?.cancelFade()
-        seq?.fadeTo(1, 0)
-        return // 同曲不重启(场景间共曲不打断)
-      }
+  function play(asset: AssetId, loop = true, fadeInMs = 0, prepared?: ArrayBuffer): void {
+    if (disposed) return
+    if (playing === asset && ctx.state === 'running') {
       last = { asset, loop, fadeInMs }
-      if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
-      if (ready) playCurrent()
-      else void ensureInit() // 懒初始化;init 尾部按 last 补播
+      // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
+      // 恢复全增益，但绝不 reload/restart 当前 MIDI。
+      nextRequest()
+      seq?.cancelFade()
+      seq?.fadeTo(1, 0)
+      return // 同曲不重启(场景间共曲不打断)
+    }
+    last = { asset, loop, fadeInMs }
+    if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
+    if (ready) playCurrent(prepared)
+    else void ensureInit() // 懒初始化;init 尾部按 last 补播
+  }
+
+  return {
+    play,
+    async prepare(asset, signal) {
+      const commit = (score?: ArrayBuffer) => () => {
+        if (!signal.aborted) play(asset, true, 0, score)
+      }
+      // Leave autoplay and mute bookkeeping to the usual play/resume path.
+      if (disposed || !enabled || ctx.state !== 'running' || signal.aborted) return commit()
+
+      const score = await new Promise<ArrayBuffer | undefined>((resolve) => {
+        const finish = (bytes?: ArrayBuffer) => {
+          clearTimeout(timer)
+          signal.removeEventListener('abort', abort)
+          resolve(bytes)
+        }
+        const abort = () => finish()
+        const timer = setTimeout(abort, BGM_PREPARATION_TIMEOUT_MS)
+        signal.addEventListener('abort', abort, { once: true })
+        void Promise.all([ensureInit(), readScore(asset, signal)]).then(([, bytes]) =>
+          finish(ready && enabled && !signal.aborted ? bytes : undefined),
+        )
+      })
+      return commit(score)
     },
     stop(fadeOutMs = 0) {
       if (disposed) return

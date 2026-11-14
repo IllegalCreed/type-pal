@@ -101,6 +101,87 @@ describe('BgmPlayer 生命周期', () => {
   })
 })
 
+describe('Encounter score preparation', () => {
+  test('disabled music does not prepare and still records the battle score for re-enable', async () => {
+    const backend = sequencer()
+    const assets = reader()
+    const initialize = vi.fn(async () => backend)
+    const player = createBgmPlayerWithRuntime(assets, runtime(initialize))
+    try {
+      player.setEnabled(false)
+      const start = await player.prepare('music.battle', new AbortController().signal)
+      start()
+      expect(initialize).not.toHaveBeenCalled()
+      expect(assets.readBytes).not.toHaveBeenCalled()
+      player.setEnabled(true)
+      await vi.waitFor(() =>
+        expect(backend.loadNewSongList).toHaveBeenCalledExactlyOnceWith([
+          { binary: expect.any(ArrayBuffer), fileName: 'music.battle' },
+        ]),
+      )
+    } finally {
+      await player.dispose()
+    }
+  })
+
+  test('a canceled preload cannot play or replace the next requested score', async () => {
+    const bytes = deferred<ArrayBuffer>()
+    const backend = sequencer()
+    const read = vi.fn((asset: string) =>
+      asset === 'music.old-battle' ? bytes.promise : Promise.resolve(new ArrayBuffer(4)),
+    )
+    const player = createBgmPlayerWithRuntime(
+      { readBytes: read, readRoleBytes: async () => new ArrayBuffer(0) },
+      runtime(async () => backend),
+    )
+    const owner = new AbortController()
+    try {
+      const pending = player.prepare('music.old-battle', owner.signal)
+      expect(read).toHaveBeenCalledExactlyOnceWith('music.old-battle', 'music')
+      owner.abort()
+      const canceled = await pending
+      player.play('music.current-world')
+      await vi.waitFor(() => expect(backend.play).toHaveBeenCalledOnce())
+      bytes.resolve(new ArrayBuffer(4))
+      canceled()
+      await bytes.promise
+      expect(backend.loadNewSongList).toHaveBeenCalledExactlyOnceWith([
+        { binary: expect.any(ArrayBuffer), fileName: 'music.current-world' },
+      ])
+    } finally {
+      bytes.resolve(new ArrayBuffer(4))
+      await player.dispose()
+    }
+  })
+
+  test('pending audio cannot keep the encounter waiting past its preparation deadline', async () => {
+    vi.useFakeTimers()
+    const bytes = deferred<ArrayBuffer>()
+    const backend = sequencer()
+    const player = createBgmPlayerWithRuntime(
+      reader(vi.fn(() => bytes.promise)),
+      runtime(async () => backend),
+    )
+    try {
+      const pending = player.prepare('music.battle', new AbortController().signal)
+      let completed = false
+      void pending.then(() => {
+        completed = true
+      })
+      await vi.advanceTimersByTimeAsync(999)
+      expect(completed).toBe(false)
+      await vi.advanceTimersByTimeAsync(1)
+      expect(completed).toBe(true)
+      expect(backend.play).not.toHaveBeenCalled()
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      bytes.resolve(new ArrayBuffer(4))
+      await player.dispose()
+      vi.useRealTimers()
+    }
+  })
+})
+
 describe('BgmPlayer fade 过渡 (D12-1)', () => {
   test('换曲串行:fade-out 完成(过 isCurrent 门)后才 load 新曲 + fade-in', async () => {
     const backend = sequencer()

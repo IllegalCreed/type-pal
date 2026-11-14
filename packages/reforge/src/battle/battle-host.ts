@@ -43,7 +43,7 @@ export interface BattleHostPorts {
   reportRestoreFailure(error: unknown): void
 }
 export interface BattleHostMusic {
-  bgm: Pick<BgmPlayer, 'play' | 'stop'>
+  bgm: Pick<BgmPlayer, 'play' | 'stop' | 'prepare'>
   victory(boss: boolean): AssetId
   locale: Record<string, string>
 }
@@ -115,9 +115,19 @@ export class BattleHost {
     assertCurrent: () => void,
     worldPresentation: WorldBattlePresentation | undefined,
   ): Promise<BattleResult> {
+    let pendingMusic: Promise<() => void> | undefined
     const prepared = await scriptWorkIO(
-      this.preparation.prepare(team, options, signal, assertCurrent, (id, stage, error, fatal) =>
-        this.report(id, stage, error, fatal),
+      this.preparation.prepare(
+        team,
+        options,
+        signal,
+        assertCurrent,
+        (id, stage, error, fatal) => this.report(id, stage, error, fatal),
+        worldPresentation
+          ? (asset) => {
+              pendingMusic = this.music.bgm.prepare(asset, signal)
+            }
+          : undefined,
       ),
       signal,
     )
@@ -169,10 +179,15 @@ export class BattleHost {
     const presentation = worldPresentation && {
       enter: async () => {
         try {
+          // A cold MIDI read may finish after the other resources. Keep the held world
+          // until both are ready rather than exposing the menu before playback.
+          const playPrepared = pendingMusic ? await scriptWorkIO(pendingMusic, signal) : undefined
+          assertCurrent()
           await worldPresentation.showEntry(session)
           assertCurrent()
+          if (playPrepared) playPrepared()
+          else playBattleMusic(0)
           this.#active = session
-          playBattleMusic(0)
         } finally {
           if (this.#entryPresentation === worldPresentation) this.#entryPresentation = undefined
         }

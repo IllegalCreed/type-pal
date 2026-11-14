@@ -2,6 +2,7 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import { battleHostFixture, gate } from '../__tests__/battle-host-fixture.js'
 import { drain } from '../__tests__/runtime-shell/driver.js'
+import { type BgmSequencerAdapter, createBgmPlayerWithRuntime } from '../audio/bgm.js'
 import { SfxReadinessResourceError } from '../audio/sfx.js'
 
 let f: Awaited<ReturnType<typeof battleHostFixture>> | undefined
@@ -59,6 +60,126 @@ test('battle host commits real victory once, then hooks, scene sounds and music 
   f.host.cancel()
   expect(f.world()).toEqual(expected)
   f.assertInputs()
+})
+
+test('normal encounter warms one MIDI during asset preparation and starts it before publishing combat input', async () => {
+  const read = gate()
+  const init = gate()
+  const reveal = gate()
+  const stages: string[] = []
+  const midi = Uint8Array.of(
+    77,
+    84,
+    104,
+    100,
+    0,
+    0,
+    0,
+    6,
+    0,
+    0,
+    0,
+    1,
+    0,
+    96,
+    77,
+    84,
+    114,
+    107,
+    0,
+    0,
+    0,
+    4,
+    0,
+    255,
+    47,
+    0,
+  ).buffer
+  const sequencer = {
+    pause() {},
+    loadNewSongList: vi.fn(),
+    loopCount: 0,
+    play: () => {
+      stages.push('actual MIDI playback')
+    },
+    fadeTo() {},
+    cancelFade() {},
+  } satisfies BgmSequencerAdapter
+  const reader = vi.fn(async (asset: string) => {
+    expect(asset).toBe('battle-music')
+    stages.push('MIDI read')
+    await read.promise
+    return midi
+  })
+  const music = createBgmPlayerWithRuntime(
+    { readBytes: reader, readRoleBytes: async () => new ArrayBuffer(0) },
+    {
+      context: { state: 'running', resume: async () => {} },
+      initialize: async () => {
+        stages.push('backend init')
+        await init.promise
+        return sequencer
+      },
+    },
+  )
+  f = await battleHostFixture(false, music, true)
+  const fixture = f
+  fixture.ports.worldPresentation = () => ({
+    showEntry: async () => {
+      stages.push('reveal start')
+      await reveal.promise
+      stages.push('reveal complete')
+    },
+    abortEntry: () => reveal.release(),
+    fadeOnVictory: false,
+  })
+  const publish = fixture.ports.publishDebug
+  fixture.ports.publishDebug = (session) => {
+    if (session) stages.push('combat input')
+    publish(session)
+  }
+  const assets = fixture.blockSprite()
+  const runner = new AbortController()
+  const encounter = fixture.observe(
+    fixture.host.start('encounter', { music: 'battle-music' }, runner.signal),
+  )
+  try {
+    await fixture.until(() => assets.entered() > 0)
+    expect(stages).toEqual(['backend init', 'MIDI read'])
+    expect(fixture.host.active).toBeNull()
+    assets.release()
+    read.release()
+    await drain()
+    expect(stages).not.toContain('reveal start')
+    init.release()
+    await fixture.until(() => stages.includes('reveal start'))
+    expect(stages).not.toContain('actual MIDI playback')
+    reveal.release()
+    await fixture.until(() => fixture.host.active !== null)
+    expect(stages).toEqual([
+      'backend init',
+      'MIDI read',
+      'reveal start',
+      'reveal complete',
+      'actual MIDI playback',
+      'combat input',
+    ])
+    expect(sequencer.loadNewSongList).toHaveBeenCalledExactlyOnceWith([
+      { fileName: 'battle-music', binary: midi },
+    ])
+    expect(sequencer.loopCount).toBe(Infinity)
+    expect(reader).toHaveBeenCalledOnce()
+    expect(fixture.world()).toEqual(fixture.originalWorld)
+    fixture.assertInputs()
+  } finally {
+    runner.abort()
+    assets.release()
+    read.release()
+    init.release()
+    reveal.release()
+    await encounter.consumed
+    await music.dispose()
+  }
 })
 
 test('session release and real world writeback are atomic to queued observers', async () => {
