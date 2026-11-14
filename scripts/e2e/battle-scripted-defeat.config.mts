@@ -49,18 +49,33 @@ function observeGame(source: string, file: string): string | null {
     case 'core/rng.ts':
     case 'shell/audio.ts':
       return instrumentGameBattle(source, target).code
+    case 'present/battle/present-battle.ts':
+      return after(
+        source,
+        'const completedRounds = Math.floor((total > 0 ? step / total : 1) * 6)',
+        '      globalThis.__defeat?.readingEntryBand(completedRounds)',
+      )
     case 'present/battle/draw-battle-ui.ts':
       return after(
         source,
         '      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ true)',
         "      globalThis.__defeat?.eventOnce('command-menu-drawn', { turn: state.turn + 1 })",
       )
-    case 'shell/audio-midi.ts':
-      return after(
+    case 'shell/audio-midi.ts': {
+      const played = after(
         source,
         '      sequencer.play()',
         '      globalThis.__defeat?.music(track, ctx.state)',
       )
+      const stop = '      playingTrack = -1\n      seq?.pause()\n      last = undefined'
+      return replaceOnce(
+        played,
+        stop,
+        `      const stoppedTrack = playingTrack
+${stop}
+      if (seq && stoppedTrack > 0) globalThis.__defeat?.musicStop(stoppedTrack, ctx.state)`,
+      )
+    }
     case 'shell/bootstrap.ts': {
       const routed = replaceOnce(
         instrumentGameRestore(source, `packages/game/src/${file}`, '__defeatGameRestored'),
@@ -70,7 +85,7 @@ function observeGame(source: string, file: string): string | null {
       const drawn = after(
         routed,
         '      flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))',
-        '      globalThis.__defeat?.gameDraw(gs, renderedBattle)',
+        '      globalThis.__defeat?.gameDraw(gs, renderedBattle, fb.indices)',
       )
       return after(
         drawn,
@@ -110,8 +125,13 @@ ${move}
         "    if (runner) return\n    const triggerOwnerId =\n      key.startsWith('s:') || key.startsWith('hostile:') ? null : (selfId ?? key)",
         '    globalThis.__defeat?.reforgeContact(activeScene.scene.id, triggerOwnerId, player.pos)',
       )
-      const battleFrame = after(
+      const origin = after(
         trigger,
+        '        worldBattleEntry = entry',
+        '        globalThis.__defeat?.reforgeEntrySource(ctx)',
+      )
+      const battleFrame = after(
+        origin,
         '      battleHost.active.render(ctx, WORLD_SCALE)',
         '      globalThis.__defeat?.reforgeDraw(true)',
       )
@@ -119,6 +139,20 @@ ${move}
         battleFrame,
         '    loadLastSave: async (signal) => {',
         '      globalThis.__defeat?.loadLastSave()',
+      )
+    }
+    case 'battle/battle-entry-presentation.ts': {
+      const drawn = replaceOnce(
+        source,
+        '      ctx.putImageData(this.frame, 0, 0)\n      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()',
+        `      ctx.putImageData(this.frame, 0, 0)
+      globalThis.__defeat?.reforgeEntry(this.frame, reveal.bands, elapsed >= BAND_ORDER.length * BAND_MS, this.pixelScale)
+      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()`,
+      )
+      return after(
+        drawn,
+        '\n    ctx.putImageData(this.frame, 0, 0)',
+        '    globalThis.__defeat?.reforgeEntry(this.frame, 0, false, this.pixelScale)',
       )
     }
     case 'battle/battle-launch-preparation.ts':
@@ -197,12 +231,22 @@ ${move}
         '        globalThis.__defeat?.reforgeArm(this.self, path, arm)',
       )
     }
-    case 'audio/bgm.ts':
-      return after(
+    case 'audio/bgm.ts': {
+      const played = after(
         source,
         '      sequencer.play()',
         '      globalThis.__defeat?.music(asset, ctx.state)',
       )
+      return replaceOnce(
+        played,
+        '        if (seq) seq.pause()\n        playing = undefined',
+        `        if (seq) {
+          seq.pause()
+          if (playing) globalThis.__defeat?.musicStop(playing, ctx.state)
+        }
+        playing = undefined`,
+      )
+    }
     case 'audio/sfx.ts':
       return instrumentReforgeBattle(source, `packages/reforge/src/${file}`).code
     default:

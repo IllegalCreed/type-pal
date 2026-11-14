@@ -7,7 +7,7 @@ const SOURCE_HOLD_MS = 200
 const BAND_MS = 60
 const BAND_ORDER = [0, 3, 1, 5, 2, 4] as const
 
-/** Owns the two actual canvas frames during a normal hostile encounter's reveal. */
+/** Owns the two canvas frames from battle launch through the final reveal band. */
 export class BattleEntryPresentation {
   private readonly pixels: Uint32Array
   private reveal?: {
@@ -22,7 +22,7 @@ export class BattleEntryPresentation {
   constructor(
     private readonly frame: ImageData,
     private readonly pixelScale: number,
-    private readonly contactAt: number,
+    private readonly startedAt: number,
     private readonly signal: AbortSignal,
   ) {
     this.pixels = pixels32(frame)
@@ -53,9 +53,13 @@ export class BattleEntryPresentation {
     })
   }
 
+  cancel(): void {
+    this.reveal?.fail(asyncIntentAbortError('战斗入场已取消'))
+  }
+
   draw(ctx: CanvasRenderingContext2D, now: number): void {
     const reveal = this.reveal
-    if (reveal && now - this.contactAt >= SOURCE_HOLD_MS) {
+    if (reveal && now - this.startedAt >= SOURCE_HOLD_MS) {
       if (!reveal.target) {
         try {
           reveal.drawTarget()

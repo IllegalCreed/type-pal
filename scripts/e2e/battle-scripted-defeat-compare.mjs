@@ -431,11 +431,62 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
     ],
     [true, true, true, true, true],
   )
+  const entryRequest = script.find((event) =>
+    game ? event.ip === 13782 : event.op === 'startBattle',
+  )
+  const entrySource = rows('entry-source')[0]
+  const entryComplete = rows('entry-complete')[0]
+  const entryBands = rows('entry-band')
+  const sceneMusicStop = rows('music-stop').find(
+    ({ track, order }) => track === spec.sceneMusic && order >= (entryRequest?.order ?? Infinity),
+  )
+  const bandOrder = [0, 3, 1, 5, 2, 4]
+  const changed = new Set()
+  const color = entryBands.at(-1)?.pixels
+  if (entryBands.length || entrySource || entryComplete) {
+    check(
+      'six native bands from the real held world pixels',
+      [
+        rows('entry-source').length,
+        rows('entry-complete').length,
+        entryComplete?.size,
+        entryBands.map(({ band }) => band),
+        entryBands.map(({ pixels }, index) => {
+          if (index > 0) changed.add(bandOrder[index - 1])
+          return same(
+            pixels,
+            entrySource?.pixels?.map((value, lane) => (changed.has(lane) ? color?.[lane] : value)),
+          )
+        }),
+        color?.every((pixels, lane) => pixels !== entrySource?.pixels?.[lane]),
+        same(entryComplete?.pixels, color),
+      ],
+      [1, 1, 64000, [0, 1, 2, 3, 4, 5, 6], Array(7).fill(true), true, true],
+    )
+    const firstBand = elapsed(entrySource, entryBands[1])
+    const fullHold = elapsed(entryBands.at(-1), entryComplete)
+    const betweenBands = entryBands
+      .slice(2)
+      .map((value, index) => elapsed(entryBands[index + 1], value))
+    check(
+      'world hold and each real reveal band precede the actual score and menu',
+      [
+        firstBand !== null && firstBand >= 180 && firstBand <= 275,
+        betweenBands.length === 5 && betweenBands.every((ms) => ms >= 33 && ms <= 95),
+        fullHold !== null && fullHold >= 50 && fullHold <= 115,
+        sceneMusicStop?.context,
+        before(entrySource, sceneMusicStop) && before(sceneMusicStop, entryBands[1]),
+        before(entryComplete, battleMusic[0]) && before(battleMusic[0], menu),
+      ],
+      [true, true, true, 'running', true, true],
+    )
+  }
   const ms = {
-    requestToMenu: elapsed(
-      script.find((event) => (game ? event.ip === 13782 : event.op === 'startBattle')),
-      menu,
-    ),
+    requestToMenu: elapsed(entryRequest, menu),
+    entrySourceToFirstBand: elapsed(entrySource, entryBands[1]),
+    entrySourceToComplete: elapsed(entrySource, entryComplete),
+    entryFinalBandHold: elapsed(entryBands.at(-1), entryComplete),
+    entryCompleteToMusic: elapsed(entryComplete, battleMusic[0]),
     musicToMenu: elapsed(battleMusic[0], menu),
     terminalToWorldWrite: elapsed(lastVisual, end),
     worldWriteToMusic: elapsed(end, worldMusic[0]),
@@ -538,6 +589,10 @@ async function loadReport(path, engine, expectedPages, profile, candidate) {
     else assert.equal(row.initial.checkpoint, 'loaded')
     const raw = await readEvidenceArtifact(dirname(absolute), row.raw)
     assert.equal(raw.binding.status, 'verified')
+    assert(
+      raw.value.events.some(({ kind }) => kind === 'entry-source'),
+      'missing native battle entry',
+    )
     runs.push({
       ...judgeScriptedDefeat(raw.value, engine, actions, expectedPages),
       artifact: row.raw,

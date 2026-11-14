@@ -15,6 +15,10 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     pendingAction,
     previousMove,
     previousFrame,
+    entryStarted = false,
+    entryPendingBand,
+    entryLastBand,
+    entryWorldPixels,
     nextCue = 0
   const { append } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -29,6 +33,37 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     if (seen.has(kind)) return
     seen.add(kind)
     event(kind, details)
+  }
+  // Hash six logical-pixel lanes after a real draw. Game retains indexed framebuffer colors,
+  // while Reforge renders directly in RGBA.
+  const laneDigests = (image, scale) => {
+    const hashes = Array(6).fill(2166136261)
+    let pixel = 0
+    for (let y = 0; y < image.height; y += scale) {
+      for (let x = 0; x < image.width; x += scale) {
+        const offset = (y * image.width + x) * 4
+        const color =
+          image.data[offset] | (image.data[offset + 1] << 8) | (image.data[offset + 2] << 16)
+        const lane = pixel++ % 6
+        hashes[lane] = Math.imul(hashes[lane] ^ color, 16777619) >>> 0
+      }
+    }
+    return hashes
+  }
+  const canvasDigests = (ctx, scale) =>
+    laneDigests(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height), scale)
+  const indexDigests = (indices) => {
+    const hashes = Array(6).fill(2166136261)
+    for (const [pixel, color] of indices.entries()) {
+      const lane = pixel % 6
+      hashes[lane] = Math.imul(hashes[lane] ^ color, 16777619) >>> 0
+    }
+    return hashes
+  }
+  const observeBand = (band, pixels) => {
+    if (!entryStarted || band === entryLastBand) return
+    entryLastBand = band
+    event('entry-band', { band, pixels })
   }
   const roleName = (id) => ({ 0: 'li-xiaoyao', 2: 'lin-yueru' })[id] ?? String(id)
   const grid = ({ x, y }) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2, 0]
@@ -235,10 +270,36 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       if (sceneId !== scene || id !== owner) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
-    gameDraw(gs, renderedBattle) {
+    gameDraw(gs, renderedBattle, indices) {
       if (gs.wNumScene !== gameScene) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
+      if (!contact || ended) return
+      const band = entryPendingBand
+      entryPendingBand = undefined
+      if (!renderedBattle && !entryStarted) entryWorldPixels = indexDigests(indices)
+      if (renderedBattle && band !== undefined && band !== entryLastBand)
+        observeBand(band, indexDigests(indices))
+      if (renderedBattle && entryLastBand === 6 && !gs.battleState.introFade)
+        once('entry-complete', { pixels: indexDigests(indices), size: indices.length })
+    },
+    readingEntryBand(band) {
+      if (!ended) entryPendingBand = band
+    },
+    reforgeEntrySource(ctx) {
+      if (!contact || ended) return
+      entryStarted = true
+      const scale = Math.round(ctx.canvas.width / 320)
+      const pixels = canvasDigests(ctx, scale)
+      once('entry-source', { pixels })
+    },
+    reforgeEntry(frame, band, complete, scale) {
+      if (!entryStarted || (band === entryLastBand && (!complete || seen.has('entry-complete'))))
+        return
+      const pixels = laneDigests(frame, scale)
+      observeBand(band, pixels)
+      if (complete)
+        once('entry-complete', { pixels, size: (frame.width * frame.height) / scale ** 2 })
     },
     reforgeDraw(renderedBattle) {
       const state = reforgeWorld()
@@ -252,6 +313,10 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
         cursor.triggerOwnerId !== Number(owner.slice(1))
       )
         return
+      if (command.opcode === 7 || command.op === 'startBattle') {
+        entryStarted = true
+        once('entry-source', { pixels: entryWorldPixels })
+      }
       // Some frames retry the same waiting instruction. The raw pointer and command
       // remain visible without inventing repeated logical writes for that wait.
       event('script-op', {
@@ -311,6 +376,8 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     loadLastSave: () => event('load-last-save', {}),
     music: (track, context) =>
       event('music-start', { track: Number(String(track).split('.').at(-1)), context }),
+    musicStop: (track, context) =>
+      event('music-stop', { track: Number(String(track).split('.').at(-1)), context }),
   }
   globalThis.__innGame = (gs, source) => {
     if (gs.wNumScene !== gameScene) return

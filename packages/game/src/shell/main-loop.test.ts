@@ -211,7 +211,10 @@ describe('Scene fade input suppression', () => {
 })
 
 describe('Present and input gates', () => {
-  it('a contact battle holds the world, reveals each band for 60ms, then opens input', () => {
+  it.each([
+    ['contact', 41073, 100],
+    ['story opcode', 0, 200],
+  ] as const)('a %s battle holds the world, reveals six bands, then opens input', (entry, flee, holdStart) => {
     let now = 0
     const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
     onTestFinished(() => clock.mockRestore())
@@ -222,7 +225,7 @@ describe('Present and input gates', () => {
     setGlobalEvents([{ op: 'raw', opcode: OP_PLAY_SOUND, operands: [66, 0, 0] }, { op: 'end' }])
     onTestFinished(() => setGlobalEvents([]))
     const commands: Command[] = [
-      { op: 'raw', opcode: OP_START_BATTLE, operands: [4, 41075, 41073] },
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [4, 41075, flee] },
       { op: 'end' },
     ]
     gs.npcs = [
@@ -234,7 +237,9 @@ describe('Present and input gates', () => {
         triggerMode: 4,
         triggerResume: { ip: 0, commands },
       },
-      { id: 155, x: 160, y: 160, spriteNum: 0, autoCursor: { ip: 0 } },
+      ...(entry === 'contact'
+        ? [{ id: 155, x: 160, y: 160, spriteNum: 0, autoCursor: { ip: 0 } }]
+        : []),
     ]
     const roles = { roles: [makeRoleRecord(0)] }
     gs.partyMembers = [0]
@@ -302,19 +307,22 @@ describe('Present and input gates', () => {
     frame(200)
     expect(gs.mode).toBe('battle')
     expect(gs.pendingSounds ?? []).toEqual([])
-    expect(gs.npcs[1]?.autoCursor?.ip).toBe(0)
-    expect(gs.wChasespeedChangeCycles).toBe(2)
+    if (entry === 'contact') {
+      expect(gs.npcs[1]?.autoCursor?.ip).toBe(0)
+      expect(gs.wChasespeedChangeCycles).toBe(2)
+    }
+    const startFirstBand = holdStart + 200
     expect(Buffer.from(fb.indices).equals(source)).toBe(true)
     const encounter = gs.battleState!
     pressed = new Set(['Defend'])
     const frozenEnemy = encounter.enemies[0]!.idleFrame
-    for (const at of [240, 280, 299]) frame(at)
+    for (const at of [240, 280, startFirstBand - 1]) frame(at)
     expect(Buffer.from(fb.indices).equals(source)).toBe(true)
     expect(encounter.enemies[0]!.idleFrame).toBe(frozenEnemy)
 
     const expected = Array<number>(6).fill(0)
     for (const [index, band] of [0, 3, 1, 5, 2, 4].entries()) {
-      const at = index === 5 ? 613 : 300 + index * 60
+      const at = startFirstBand + index * 60 + (index === 5 ? 13 : 0)
       frame(at)
       expected[band] = BG
       expect([...fb.indices.slice(0, 6)]).toEqual(expected)
@@ -326,23 +334,24 @@ describe('Present and input gates', () => {
     expect(encounter.phase).toBe('preBattle')
     expect(encounter.introFade).toBeDefined()
     expect(encounter.turnStartDoneForTurn).toBeUndefined()
-    expect(musicRequests).toEqual([0, 0, 0, 0, 0, 0, 0, 0])
+    expect(musicRequests).toEqual([entry === 'contact' ? 0 : 16, 0, 0, 0, 0, 0, 0, 0])
     expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(2)
-    expect(frame(660).presented).toBe(false)
-    expect(frame(672).presented).toBe(false)
-    frame(673)
+    const finishedAt = startFirstBand + 373
+    expect(frame(finishedAt - 13).presented).toBe(false)
+    expect(frame(finishedAt - 1).presented).toBe(false)
+    frame(finishedAt)
     expect(encounter.introFade).toBeUndefined()
     expect(encounter.phase).toBe('selectAction')
     expect(encounter.uiState).toBe('wait')
     expect(encounter.pendingActions.size).toBe(0)
     expect(musicRequests.at(-1)).toBe(37)
     expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(3)
-    frame(713)
+    frame(finishedAt + 40)
     expect(encounter.uiState).toBe('selectMove')
     expect(encounter.turnStartDoneForTurn).toBe(0)
     expect(encounter.pendingActions.size).toBe(0)
     pressed = new Set(['Defend'])
-    frame(753)
+    frame(finishedAt + 80)
     expect(encounter.pendingActions.get(0)?.type).toBe('defend')
   })
 

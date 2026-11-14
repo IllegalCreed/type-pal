@@ -25,7 +25,7 @@ export interface BattleHostPorts {
   finishWorld(session: BattleSession, result: BattleResult): void
   /** 仅原生大世界战败流程持有该回调，用于接续最后一帧。 */
   worldDefeatFrameCapture?(signal: AbortSignal): (() => void) | undefined
-  worldPresentation?(signal: AbortSignal): WorldBattlePresentation | undefined
+  worldPresentation?(signal: AbortSignal, scripted?: true): WorldBattlePresentation | undefined
   presentVictory?(
     owner: AbortSignal,
     signal: AbortSignal,
@@ -90,7 +90,7 @@ export class BattleHost {
       if (this.ports.readWorld() !== world)
         throw asyncIntentAbortError(`${team} 战斗启动所属世界已失效`)
     }
-    const worldPresentation = this.ports.worldPresentation?.(signal)
+    const worldPresentation = this.ports.worldPresentation?.(signal, options?.scripted)
     if (worldPresentation) {
       this.#entryPresentation = worldPresentation
       this.music.bgm.stop()
@@ -99,8 +99,12 @@ export class BattleHost {
       return await this.launch(team, options, signal, assertCurrent, worldPresentation)
     } catch (error) {
       if (worldPresentation && this.#entryPresentation === worldPresentation) {
-        assertCurrent()
-        this.restoreWorldMusic()
+        try {
+          assertCurrent()
+          this.restoreWorldMusic()
+        } finally {
+          if (options?.scripted) worldPresentation.abortEntry()
+        }
       }
       throw error
     } finally {
@@ -124,7 +128,7 @@ export class BattleHost {
         signal,
         assertCurrent,
         (id, stage, error, fatal) => this.report(id, stage, error, fatal),
-        worldPresentation || scripted
+        worldPresentation
           ? (asset) => {
               pendingMusic = this.music.bgm.prepare(asset, signal)
             }
@@ -146,13 +150,7 @@ export class BattleHost {
       if (prepared.battleTrack === null) this.music.bgm.stop(fadeMs)
       else this.music.bgm.play(prepared.battleTrack, true, fadeMs)
     }
-    if (scripted) {
-      if (pendingMusic) {
-        const play = await scriptWorkIO(pendingMusic, signal)
-        assertCurrent()
-        play()
-      } else playBattleMusic(0)
-    } else if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
+    if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
     const { sessionAssets, sessionOptions } = prepared.commit()
     const captureDefeatFrame = this.ports.worldDefeatFrameCapture?.(signal)
     const session: BattleSession = new BattleSession(
@@ -166,7 +164,9 @@ export class BattleHost {
       Math.random,
       {
         ...sessionOptions,
-        ...(worldPresentation ? { worldSettlement: { boss: options?.boss === true } } : {}),
+        ...(worldPresentation && !scripted
+          ? { worldSettlement: { boss: options?.boss === true } }
+          : {}),
         handoffDefeat: captureDefeatFrame !== undefined || scripted,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),
@@ -196,7 +196,10 @@ export class BattleHost {
           else playBattleMusic(0)
           this.#active = session
         } finally {
-          if (this.#entryPresentation === worldPresentation) this.#entryPresentation = undefined
+          if (this.#entryPresentation === worldPresentation) {
+            if (scripted && this.#active !== session) worldPresentation.abortEntry()
+            this.#entryPresentation = undefined
+          }
         }
       },
       fadeOnVictory: worldPresentation.fadeOnVictory,
@@ -264,8 +267,8 @@ export class BattleHost {
       signal.removeEventListener('abort', abort)
       // A late old session must never clear the newer active instance.
       if (this.#active === session) {
-        this.ports.publishDebug(null)
         this.#active = null
+        this.ports.publishDebug(null)
       }
     }
     // Releasing the active slot and committing results share the same continuation.

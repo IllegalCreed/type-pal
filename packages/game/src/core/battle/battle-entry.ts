@@ -30,6 +30,11 @@ export function isBattleContact(cursor: EventCursor | undefined): boolean {
   return cursor !== undefined && contacts.has(cursor)
 }
 
+/** A story battle begins at its launch instruction; an ordinary encounter keeps its contact time. */
+export function markScriptBattleEntry(cursor: EventCursor, atMs: number): void {
+  if (!contacts.has(cursor)) contacts.set(cursor, atMs)
+}
+
 /** Bind the browser presentation clock to the live battle, outside its save. */
 export function startContactBattleReveal(
   battle: BattleState,

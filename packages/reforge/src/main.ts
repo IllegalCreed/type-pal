@@ -1097,10 +1097,11 @@ export async function bootGame(
     finishFrame?: () => void
   }
   let victoryFrame: { frame: ImageData; signal: AbortSignal; returning?: VictoryReturn } | undefined
+  let worldBattleEntry: BattleEntryPresentation | undefined
   let hostileEncounter:
     | {
         signal: AbortSignal
-        entry?: BattleEntryPresentation
+        entry: BattleEntryPresentation
         abort(): void
         commitVictory?: () => void
       }
@@ -1200,7 +1201,7 @@ export async function bootGame(
     const ownerId = activation.entityId
     if (autoActivations.get(ownerId) !== activation)
       throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
-    if (hostileBusy) return false
+    if (battleOwnsScene()) return false
     const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
     if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
     return (
@@ -1284,13 +1285,36 @@ export async function bootGame(
         finishBattleWorldState(session, result, world, canonicalProject),
       worldDefeatFrameCapture: (signal) =>
         ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
-      worldPresentation: (signal) => {
-        const encounter = hostileEncounter
-        if (!encounter?.entry || encounter.signal !== signal) return undefined
-        const entry = encounter.entry
+      worldPresentation: (signal, scripted) => {
+        const encounter = hostileEncounter?.signal === signal ? hostileEncounter : undefined
+        const entry =
+          encounter?.entry ??
+          (scripted
+            ? new BattleEntryPresentation(
+                ctx.getImageData(0, 0, canvas.width, canvas.height),
+                WORLD_SCALE,
+                frames.now,
+                signal,
+              )
+            : undefined)
+        if (!entry) return undefined
+        worldBattleEntry = entry
+        syncBattleAutomaticWaits()
+        const clearEntry = () => {
+          signal.removeEventListener('abort', clearEntry)
+          if (worldBattleEntry === entry) {
+            worldBattleEntry = undefined
+            if (!battleHost.active) syncBattleAutomaticWaits()
+          }
+        }
+        signal.addEventListener('abort', clearEntry, { once: true })
         return {
-          abortEntry: encounter.abort,
-          fadeOnVictory: encounter.commitVictory !== undefined,
+          abortEntry: () => {
+            clearEntry()
+            encounter?.abort()
+            entry.cancel()
+          },
+          fadeOnVictory: encounter?.commitVictory !== undefined,
           showEntry: async (session) => {
             try {
               await entry.show(() => {
@@ -1298,7 +1322,7 @@ export async function bootGame(
                 applyAmbienceTint()
               })
             } finally {
-              if (hostileEncounter === encounter) delete encounter.entry
+              clearEntry()
             }
           },
         }
@@ -1351,6 +1375,7 @@ export async function bootGame(
       recoverVictory: () => recoverBattleParty(world.party),
       restoreSceneSounds: () => prepareSceneSounds(activeScene.scene, world),
       publishDebug: (session) => {
+        syncBattleAutomaticWaits()
         if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
       },
       reportReadiness: (team, stage, error, fatal) =>
@@ -1708,8 +1733,11 @@ export async function bootGame(
     if (id === 'party' && authority.get('party')?.kind === 'mount') dismountParty()
     setAuthority(id, { kind: 'script' })
   }
+  function battleOwnsScene(): boolean {
+    return hostileBusy || worldBattleEntry !== undefined || battleHost.active !== null
+  }
   function automaticWaitPaused(id: string): boolean {
-    return hostileBusy || authority.get(id)?.kind === 'script'
+    return battleOwnsScene() || authority.get(id)?.kind === 'script'
   }
   function syncAutomaticWait(id: string): void {
     const activation = autoActivations.get(id)
@@ -3931,8 +3959,7 @@ export async function bootGame(
       pressed.has('[') ||
       pressed.has(']')
     const playerInputAllowed =
-      !battleHost.active &&
-      !hostileBusy &&
+      !battleOwnsScene() &&
       !menus.active &&
       !dialogBox.active &&
       !runner &&
@@ -3955,11 +3982,7 @@ export async function bootGame(
     // menu / battle freeze locomotion before cadence is accrued. Frozen wall time must not age
     // fairness rings, side-stick eligibility or slow-move parity.
     const locomotionFrozen =
-      menus.active ||
-      hostileBusy ||
-      !!battleHost.active ||
-      !!victoryFrame ||
-      scriptConfirmModal.active
+      menus.active || battleOwnsScene() || !!victoryFrame || scriptConfirmModal.active
     // ── 世界拍(STEP_MS=100ms):至多 1 拍/rAF,真积压丢弃(DM31 永不补帧)。──
     if (!motion.advanceCadence(dt, locomotionFrozen)) return
 
@@ -4795,11 +4818,14 @@ export async function bootGame(
     pendingChaseTerminal.delete(entityId)
   }
   let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
-  function setHostileBusy(busy: boolean): void {
-    hostileBusy = busy
+  function syncBattleAutomaticWaits(): void {
     // The map stays suspended while battle and its own scripts keep using gameplay time.
     for (const id of autoActivations.keys()) syncAutomaticWait(id)
     autoWakeGate.notify()
+  }
+  function setHostileBusy(busy: boolean): void {
+    hostileBusy = busy
+    syncBattleAutomaticWaits()
   }
   const hostileMotionGateOpen = (): boolean =>
     !hostileBusy &&
@@ -6481,7 +6507,7 @@ export async function bootGame(
         // remains paused; ordinary script takes and automatic override owners still pause actions.
         const transporting = slot?.kind === 'move' && slot.preserveFacing
         return (
-          !!battleHost.active ||
+          battleOwnsScene() ||
           !entity ||
           !entityLifecycleGates(entity).visible ||
           worldPresentation.hasEntityFrame(id) ||
@@ -6497,9 +6523,8 @@ export async function bootGame(
       motion.clearWorldTicks()
     },
     presentBattle: (dt, pressed, now) => {
-      const entry = hostileEncounter?.entry
-      if (entry && !hostileEncounter?.signal.aborted) {
-        entry.draw(ctx, now)
+      if (worldBattleEntry) {
+        worldBattleEntry.draw(ctx, now)
         return true
       }
       if (!battleHost.active) return false

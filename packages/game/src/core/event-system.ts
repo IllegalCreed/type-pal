@@ -40,6 +40,7 @@ import {
   startDialogLine,
   tickDialog,
 } from '../present/dialog-box.js'
+import { markScriptBattleEntry } from './battle/battle-entry.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { recordBattleTriggerArgument } from './battle/battle-runtime-context.js'
 import type { BattleState } from './battle/battle-state.js'
@@ -3216,6 +3217,7 @@ function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): vo
     return
   }
   const isBoss = fleeArg === 0 // sdlpal !operand[2]:operand[2]==0 → isBoss true
+  if (gs.eventCursor) markScriptBattleEntry(gs.eventCursor, performance.now())
   // 战斗背景 = gs.wNumBattleField(0x4A setBattlefield 设;持久全局,scene enter 脚本逐场设)。
   _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
