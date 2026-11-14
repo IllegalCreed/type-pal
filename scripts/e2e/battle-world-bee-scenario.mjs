@@ -40,8 +40,8 @@ export const beeEscapeParty = [
   { id: 'zhao-linger', role: 1, weapon: 170, level: 5, hp: 225, mp: 230, maxHP: 240, maxMP: 240 },
 ]
 export const beeEscapeCases = [
-  { escape: 'success', seed: 1, attempts: 1 },
-  { escape: 'failure', seed: 4, attempts: 2 },
+  { escape: 'success', seed: 4, attempts: 1 },
+  { escape: 'failure', seed: 7, attempts: 2 },
 ]
 
 export function beeWorldArguments(args = process.argv.slice(2)) {

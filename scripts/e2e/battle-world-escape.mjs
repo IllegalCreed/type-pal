@@ -65,6 +65,7 @@ export async function verifyWorldEscape({
     'world menu closes after escape',
   )
   result.attemptedMenus = [...submitted]
+  if (!probe) assert.equal(submitted.size, result.attempts, 'wrong number of escape turns')
   const trace = await evidence()
   assert.equal(trace.overflow, false)
   assert.deepEqual(trace.errors, [])
