@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
+import { gate } from './__tests__/battle-host-fixture.js'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { sceneWithCommands, shellScene } from './__tests__/runtime-shell/project.js'
@@ -987,6 +988,170 @@ test('H9 missing enemy team rejects before any active session and leaves menu op
   await key(host, 'Escape')
   expect(state().renderDebug.menuActive).toBe(true)
   h.assertInputUnchanged()
+})
+
+test('a scripted battle asset failure releases the held world and resumes a pending auto wait', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'ambush',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      initialPage: 'ready',
+      pages: [
+        {
+          id: 'ready',
+          label: 'Ready',
+          trigger: 'fight',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+      behaviors: {
+        trigger: {
+          fight: {
+            label: 'Fight',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'startBattle', enemyTeamId: 'encounter' },
+                    { kind: 'giveMoney', delta: 100 },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'timer',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'wait' }],
+      behaviors: {
+        auto: {
+          wait: {
+            label: 'Wait',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'wait', ms: 350 },
+                    { kind: 'giveMoney', delta: 7 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const drawHeld = vi.spyOn(ctx, 'putImageData')
+  const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+  const assetRead = gate()
+  let requested = false
+  fixture.fixture.hooks.read = async (path) => {
+    if (path !== 'assets/generated/fighter.rle') return
+    requested = true
+    await assetRead.promise
+    throw new Error('fighter file unavailable')
+  }
+  try {
+    await key(host, ' ')
+    await advance(host, () => requested)
+    expect(state().script.running).toBe(true)
+    const held = drawHeld.mock.calls.at(-1)?.[0]
+    expect(held).toBeDefined()
+    drawWorld.mockClear()
+    await key(host, 'Escape', 400)
+    expect(drawHeld.mock.calls.at(-1)?.[0]).toBe(held)
+    expect(drawWorld).not.toHaveBeenCalled()
+    expect(state().world.money).toBe(50)
+    expect(state().renderDebug).toMatchObject({ inBattle: false, menuActive: false })
+
+    assetRead.release()
+    await advance(host, () => !state().script.running && drawWorld.mock.calls.length > 0)
+    expect(error).toHaveBeenCalledExactlyOnceWith(
+      '[script]',
+      'ambush',
+      expect.objectContaining({ message: expect.stringContaining('fighter file unavailable') }),
+    )
+    const heldDraws = drawHeld.mock.calls.length
+    expect(state().world.money).toBe(50)
+    await advance(host, () => state().world.money === 57)
+    expect(drawHeld.mock.calls).toHaveLength(heldDraws)
+    expect(state().sceneId).toBe('a')
+    expect(state().world.party[0]?.hp).toBe(80)
+    await key(host, 'Escape')
+    expect(state().renderDebug).toMatchObject({ inBattle: false, menuActive: true })
+    fixture.assertInputUnchanged()
+  } finally {
+    assetRead.release()
+  }
+})
+
+test('replacing a scripted battle mid-reveal discards its canvas and its continuation', async () => {
+  host = await installShellHost()
+  const fixture = await bootScenario(host, {
+    first: sceneWithCommands('a', [
+      { kind: 'wait', ms: 200 },
+      { kind: 'startBattle', enemyTeamId: 'encounter' },
+      { kind: 'giveMoney', delta: 100 },
+    ]),
+  })
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const readPixels = ctx.getImageData.bind(ctx)
+  const capture = vi.spyOn(ctx, 'getImageData').mockImplementation((...args) => {
+    const pixels = readPixels(...args)
+    pixels.data.fill(capture.mock.calls.length === 1 ? 11 : 83)
+    return pixels
+  })
+  const draw = vi.spyOn(ctx, 'putImageData')
+  await advance(host, () => capture.mock.calls.length === 2)
+  const firstBand = draw.mock.calls.at(-1)?.[0]
+  expect(firstBand).toBe(capture.mock.results[0]?.value)
+  expect(Array.from(firstBand?.data.slice(0, 24) ?? [])).toEqual([
+    ...Array<number>(16).fill(83),
+    ...Array<number>(8).fill(11),
+  ])
+  expect(state().script.running).toBe(true)
+  expect(state().renderDebug.inBattle).toBe(false)
+
+  const replacement = state()
+    .startBattle('encounter')
+    .catch((reason: unknown) => reason)
+  try {
+    draw.mockClear()
+    await advance(host, () => state().renderDebug.inBattle && !state().script.running)
+    await finish(host)
+    expect(await replacement).toBe('victory')
+    expect(draw.mock.calls.some(([frame]) => frame === firstBand)).toBe(false)
+    expect(state().world.money).toBe(57)
+    expect(state().sceneId).toBe('a')
+    fixture.assertInputUnchanged()
+  } finally {
+    if (state().renderDebug.inBattle) session().cancel()
+    await replacement
+  }
 })
 
 test('H9 delayed battle sprite cannot commit a battle after the scene owner has changed', async () => {
