@@ -101,10 +101,10 @@
     },
     {
       "path": "projects/pal/content/scenes/s286.json",
-      "lines": "1112",
+      "lines": "1100",
       "anchor": "\"id\": \"palace-isolated-exit\"",
       "role": "canonical-exit",
-      "sha256": "2a4e867dd9c3b13101e4722770daa12cfa75d9c07c481f93732fbc4da0bc746e"
+      "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
     },
     {
       "path": "packages/game/src/core/scene-supplemental-objects.pal.test.ts",
@@ -405,16 +405,9 @@
           "anchor": "supplySupplementalSceneObjects(gs",
           "role": "saved-game-caller",
           "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
-        },
-        {
-          "path": "projects/pal/content/scenes/s286.json",
-          "lines": "1100",
-          "anchor": "\"id\": \"palace-isolated-exit\"",
-          "role": "canonical-exit",
-          "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
         }
       ],
-      "scope": "宫殿独立出口行为完整保留，Game 存档补充实体的调用逐字节对应。原主张和运行证据照原出版。"
+      "scope": "Game 存档补充实体的调用原字节对应。原主张和运行证据照原出版。"
     }
   ],
   "claims": [

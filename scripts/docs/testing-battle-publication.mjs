@@ -112,11 +112,10 @@ export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57
 export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5eb2bec4b2d7f'
 export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
 export const testingBattleHandoffPublicationBase = '9f5f57d4df53ea122622ffda110807e39e0ec66e'
-export const testingBattleHandoffSourceRevision = '5003202aa0a3aac77395cf1abd9797e00edca812'
+export const testingBattleHandoffSourceRevision = '39d5bf7eb080a2a569421c50b79ebe60f38eecb0'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
-const palaceExitScene = 'projects/pal/content/scenes/s286.json'
 const gameBootstrap = 'packages/game/src/shell/bootstrap.ts'
 const gameSceneSystem = 'packages/game/src/core/scene-system.ts'
 const encounterBindings = new Map([
@@ -155,7 +154,6 @@ const victorySourceRanges = new Map([
 ])
 
 const handoffSourceRanges = new Map([
-  [palaceExitScene, { 1100: '1112' }],
   [gameBootstrap, { 346: '349' }],
   [gameSceneSystem, { 44: '46' }],
   [
@@ -178,7 +176,7 @@ handoffBindings.set(sessionEvidencePath.slice('docs/testing/'.length), {
 })
 handoffBindings.set('domains/cross-phase/script-corrections/evidence.json', {
   id: 'game-script-corrections',
-  paths: [palaceExitScene, gameBootstrap],
+  paths: [gameBootstrap],
   artifactClaims: true,
 })
 handoffBindings.set('domains/phase1-runtime/control-rotation/evidence.json', {
@@ -189,7 +187,7 @@ handoffBindings.set('domains/phase1-runtime/control-rotation/evidence.json', {
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
-  path === palaceExitScene || path === gameBootstrap || path === gameSceneSystem
+  path === gameBootstrap || path === gameSceneSystem
 
 function replaceHandoffExcerpt(excerpt, candidate, previous = '') {
   assert.equal(excerpt.split(candidate).length, 2, 'hostile handoff excerpt changed')
