@@ -12,6 +12,11 @@ const saves = {
       assert.equal(source.split(anchor).length, 2, 'Game manual save commit anchor changed')
       return source.replace(anchor, `${anchor}\n          globalThis.__q2SaveWritten?.(slot)`)
     }
+    if (path?.endsWith('/packages/game/src/tools/toast.ts')) {
+      const anchor = "el.style.transform = 'translateY(0)'"
+      assert.equal(source.split(anchor).length, 2, 'Game shown-toast anchor changed')
+      return source.replace(anchor, `${anchor}\n  globalThis.__q2SaveToast?.(message)`)
+    }
     if (path?.endsWith('/packages/game/src/shell/bootstrap.ts')) {
       const anchor = 'globalThis.__beeGameRestored?.(gs);'
       const absent = `      console.warn(\`[bootstrap.loadGame] slot \${slot} 空,load skip\`)`

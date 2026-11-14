@@ -42,23 +42,33 @@ export async function stageBattleSaves({ engine, records }) {
   }
 }
 
-export async function seedCorruptBattleSlot({ engine, slot, record }) {
+export async function rejectCorruptGameImport(record) {
   const malformed = structuredClone(record.payload)
-  if (engine === 'game') {
-    const { parseImportedSave } = await import('/src/tools/save-io.ts')
-    malformed.gs.dwCash = 'corrupt-cash'
-    try {
-      parseImportedSave(JSON.stringify(malformed))
-    } catch (error) {
-      return { scope: 'portable-import', error: String(error) }
-    }
-    throw new Error('Game portable save imported a nonnumeric cash value')
+  const { parseImportedSave } = await import('/src/tools/save-io.ts')
+  malformed.gs.dwCash = 'corrupt-cash'
+  try {
+    parseImportedSave(JSON.stringify(malformed))
+  } catch (error) {
+    return String(error)
   }
+  throw new Error('Game portable save imported a nonnumeric cash value')
+}
+
+export async function seedCorruptBattleSlot({ engine, slot, record }) {
+  if (engine === 'game') {
+    const { IndexedDbSave } = await import('/src/core/save/indexed-db.ts')
+    const source = await IndexedDbSave.loadSlot(record.slot)
+    if (!source) throw new Error('native source slot was not committed')
+    const malformed = { ...source.gs, dwCash: 'corrupt-cash' }
+    await IndexedDbSave.saveSlot(slot, malformed, source.meta)
+    return { field: 'gs.dwCash', value: malformed.dwCash }
+  }
+  const malformed = structuredClone(record.payload)
   const { IndexedDbSaveStore } = await import('/src/save/store.ts')
   malformed.world.money = 'corrupt-cash'
   const meta = { ...record.meta, slotId: slot }
   const thumb = new Blob([Uint8Array.from(record.thumb.bytes)], { type: record.thumb.type })
   const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'pal' })
   await store.putSlot(meta, malformed, thumb)
-  return { scope: 'runtime-slot', field: 'world.money', value: malformed.world.money }
+  return { field: 'world.money', value: malformed.world.money }
 }

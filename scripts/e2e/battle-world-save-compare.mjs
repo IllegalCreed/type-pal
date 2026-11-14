@@ -121,23 +121,44 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
   if (profile === 'verify') {
     const receipt = evidence.invalid
     const isGame = engine === 'game'
-    const fault = event(traces, isGame ? 'empty-slot' : 'toast-drawn')
-    assert.equal(fault.length, 1)
-    assert(writes.at(-1).order < fault[0].order && fault[0].order < restored[0].order)
-    if (isGame) {
-      assert.equal(receipt.scope, 'portable-import')
-      assert.match(receipt.error, /dwCash/u)
-      assert.equal(fault[0].slot, slots[2])
-    } else {
-      assert.deepEqual(
-        [receipt.scope, receipt.field, fault[0].text],
-        ['runtime-slot', 'world.money', badSaveToast],
+    const attempts = fromOrigin
+      .filter(({ reason }) =>
+        ['attempt empty manual slot', 'attempt malformed manual slot'].includes(reason),
       )
-      const corrupt = await load(receipt.input)
-      assert.equal(corrupt.payload.world.money, receipt.value)
+      .map(({ reason, key, phase }) => [reason, key, phase])
+    assert.deepEqual(
+      attempts,
+      [...(isGame ? ['attempt empty manual slot'] : []), 'attempt malformed manual slot'].map(
+        (reason) => [reason, 'Enter', 'post-battle-load-invalid'],
+      ),
+    )
+    const [fault, unexpected] = event(traces, 'toast-drawn')
+    assert(fault && !unexpected)
+    assert(writes.at(-1).order < fault.order && fault.order < restored[0].order)
+    const empty = event(traces, 'empty-slot')
+    assert.equal(empty.length, isGame ? 1 : 0)
+    if (isGame) {
+      assert.match(receipt.portableError, /dwCash/u)
+      assert.deepEqual([receipt.empty.slot, empty[0].slot], [slots[2], slots[2]])
+      assert.deepEqual(receipt.empty.event, empty[0])
+      assert(writes.at(-1).order < empty[0].order && empty[0].order < fault.order)
     }
-    assertSavedWorld(receipt.before, savedPoses[1])
-    assert.deepEqual(receipt.after, receipt.before)
+    const malformed = receipt.malformed
+    assert.deepEqual(malformed.event, fault)
+    assert.deepEqual(
+      [malformed.slot, malformed.field, malformed.value, fault.text],
+      [slots[1], isGame ? 'gs.dwCash' : 'world.money', 'corrupt-cash', badSaveToast],
+    )
+    const original = await load(saved[1].record)
+    const corrupt = await load(malformed.input)
+    if (isGame) original.payload.gs.dwCash = malformed.value
+    else original.payload.world.money = malformed.value
+    assert.deepEqual(corrupt, original, 'the corrupt slot should differ only in its cash value')
+    for (const rejected of [malformed, ...(isGame ? [receipt.empty] : [])]) {
+      assertSavedWorld(rejected.before, savedPoses[1])
+      assert.deepEqual(rejected.after, rejected.before)
+      assert.equal(rejected.menu.mode, 'load')
+    }
     assert.deepEqual(
       evidence.fresh.map(({ slot }) => slot),
       slots.slice(0, 2),

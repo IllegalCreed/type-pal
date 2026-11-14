@@ -10,6 +10,7 @@ import {
 } from './battle-world-save-contract.mjs'
 import {
   readStoredBattleSave,
+  rejectCorruptGameImport,
   seedCorruptBattleSlot,
   stageBattleSaves,
 } from './battle-world-save-storage.mjs'
@@ -111,12 +112,10 @@ function driver({ page, engine, label, report, until, health }) {
   const observe = () => page.evaluate(observeSaveState, engine)
   const readEvidence = () => page.evaluate(() => globalThis.__q2SaveEvidence())
   const waitState = (accept, reason) => until(observe, accept, reason)
+  const waitEvidence = (accept, reason) =>
+    until(readEvidence, ({ events }) => events.some(accept), `${label}: ${reason}`)
   const waitEvent = (kind, accept = () => true) =>
-    until(
-      readEvidence,
-      ({ events }) => events.some((row) => row.kind === kind && accept(row)),
-      `${label}: ${kind}`,
-    )
+    waitEvidence((row) => row.kind === kind && accept(row), kind)
   let chapter = 'post-battle-save'
   const press = async (key, reason) => {
     health()
@@ -251,6 +250,7 @@ function driver({ page, engine, label, report, until, health }) {
     press,
     record,
     waitEvent,
+    waitEvidence,
     inside,
     openSlots,
     moveSlot,
@@ -266,6 +266,50 @@ function driver({ page, engine, label, report, until, health }) {
 
 async function recordedSnapshot(out, name, value) {
   return writeEvidenceArtifact(out, name, value)
+}
+
+async function checkInvalidLoads({ page, engine, controls, trace, records, slots, out, label }) {
+  trace.invalid = {}
+  controls.setChapter('post-battle-load-invalid')
+  if (engine === 'game') {
+    const missingSlot = slots[2]
+    trace.invalid.portableError = await page.evaluate(rejectCorruptGameImport, records[1])
+    assert.match(trace.invalid.portableError, /dwCash/u)
+    assert.equal(await page.evaluate(readStoredBattleSave, { engine, slot: missingSlot }), null)
+    await controls.openSlots('load')
+    await controls.moveSlot(2)
+    const before = await readWorld(page, engine)
+    await controls.press('Enter', 'attempt empty manual slot')
+    const observed = await controls.waitEvent('empty-slot', (row) => row.slot === missingSlot)
+    const after = await readWorld(page, engine)
+    const menu = (await controls.observe()).menu
+    trace.invalid.empty = { slot: missingSlot, before, after, menu, event: observed.events.at(-1) }
+    assert.deepEqual(after, before, 'a missing slot must preserve the active world')
+    assert.equal(menu?.mode, 'load')
+    await controls.closeMenus()
+  }
+
+  // Isolated origin only. Both records were created by the normal menu in this case.
+  const slot = slots[1]
+  const injected = await page.evaluate(seedCorruptBattleSlot, { engine, slot, record: records[1] })
+  const malformed = await page.evaluate(readStoredBattleSave, { engine, slot })
+  const input = await recordedSnapshot(out, `${label}-corrupt-slot.json`, malformed)
+  await controls.openSlots('load')
+  await controls.moveSlot(1)
+  const before = await readWorld(page, engine)
+  await controls.press('Enter', 'attempt malformed manual slot')
+  const terminal = (row) =>
+    (row.kind === 'toast-drawn' && row.text === badSaveToast) ||
+    (row.kind === 'restore-committed' && row.slot === slot)
+  const observed = await controls.waitEvidence(terminal, 'malformed slot rejection or bad commit')
+  const event = observed.events.find(terminal)
+  const after = await readWorld(page, engine)
+  const menu = (await controls.observe()).menu
+  trace.invalid.malformed = { ...injected, slot, input, before, after, menu, event }
+  assert.equal(event.kind, 'toast-drawn', 'a malformed manual slot must be rejected before restore')
+  assert.deepEqual(after, before, 'a malformed slot must preserve the active world')
+  assert.equal(menu?.mode, 'load')
+  await controls.closeMenus()
 }
 
 async function install(page, active) {
@@ -463,46 +507,8 @@ export async function verifyPostBattleSave({
     const afterSecondWrite = await page.evaluate(readStoredBattleSave, { engine, slot: slots[0] })
     const { slot: _first, ...firstRecord } = records[0]
     assert.deepEqual(afterSecondWrite, firstRecord, 'writing slot 2 must keep slot 1 bytes intact')
-    if (!capture.enabled) {
-      controls.setChapter('post-battle-load-invalid')
-      // Reforge's browser only attempts occupied slots. Temporarily alter a separate
-      // persisted copy of slot 2 in this disposable context, preserving its receipt.
-      const invalidIndex = engine === 'game' ? 2 : 1
-      const invalidSlot = slots[invalidIndex]
-      const invalid = await page.evaluate(seedCorruptBattleSlot, {
-        engine,
-        slot: invalidSlot,
-        record: records[1],
-      })
-      trace.invalid = invalid
-      if (engine === 'game') {
-        assert.match(invalid.error, /dwCash/)
-        assert.equal(await page.evaluate(readStoredBattleSave, { engine, slot: invalidSlot }), null)
-      } else {
-        const malformed = await page.evaluate(readStoredBattleSave, { engine, slot: invalidSlot })
-        assert.equal(malformed.payload.world.money, invalid.value)
-        trace.invalid.input = await recordedSnapshot(out, `${label}-corrupt-slot.json`, malformed)
-      }
-      await controls.openSlots('load')
-      await controls.moveSlot(invalidIndex)
-      const retained = await readWorld(page, engine)
-      await controls.press(
-        'Enter',
-        engine === 'game' ? 'attempt empty manual slot' : 'attempt malformed manual slot',
-      )
-      if (engine === 'game')
-        await controls.waitEvent('empty-slot', (row) => row.slot === invalidSlot)
-      else await controls.waitEvent('toast-drawn', (row) => row.text === badSaveToast)
-      trace.invalid.before = retained
-      trace.invalid.after = await readWorld(page, engine)
-      assert.deepEqual(
-        trace.invalid.after,
-        retained,
-        'a rejected or missing slot must preserve the active world',
-      )
-      assert.equal((await controls.observe()).menu?.mode, 'load')
-      await controls.closeMenus()
-    }
+    if (!capture.enabled)
+      await checkInvalidLoads({ page, engine, controls, trace, records, slots, out, label })
     controls.setChapter('post-battle-load')
     await controls.openSlots('load')
     await controls.moveSlot(0)
