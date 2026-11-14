@@ -11,6 +11,6 @@ export const documentLocationAdmission = Object.freeze({
   testingAcquisitionSourceBaseRevision: '0973c2c25795fd2aacf78daedebb8d8f2a5113fc',
   testingBattleDefeatSourceRevision: '31002d214bb106272f34af46c86c57872b9b2849',
   testingBattleVictorySourceRevision: '840625b531130f6a9c4819c509ed3bf3a47353a5',
-  testingBattleHandoffSourceRevision: 'd008dfe82960754ee97a428110e03ab49b8d9110',
+  testingBattleHandoffSourceRevision: 'e47880b0aa8a1429f6591993291ca6188de26950',
   testingCatalogBattlePublicationBaseRevision: '43fea71735236272cfb7f6a1c61c3ac2e691a349',
 })

@@ -14,21 +14,21 @@
       "lines": "1267-1342",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "536d851b304b80344d44eb4c3669d3396d06195baeb392780561738c35f4681f"
+      "sha256": "3c6235f235eb4699d4596255905e398813b81ca751e8caa09fa008de4bbeb89d"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
       "lines": "72-88",
       "anchor": "async start(",
       "role": "contract",
-      "sha256": "c97107f5af3250033d74a33150f55db95060252b045b40b5d165f9ff935efce6"
+      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "250-261",
+      "lines": "265-276",
       "anchor": "this.ports.finishWorld(session, result)",
       "role": "contract",
-      "sha256": "c97107f5af3250033d74a33150f55db95060252b045b40b5d165f9ff935efce6"
+      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -77,7 +77,7 @@
       "evidence": [
         "packages/reforge/src/main.ts:1267-1342",
         "packages/reforge/src/battle/battle-host.ts:72-88",
-        "packages/reforge/src/battle/battle-host.ts:250-261",
+        "packages/reforge/src/battle/battle-host.ts:265-276",
         "packages/reforge/src/battle/battle-host.test.ts:13-36",
         "packages/content/src/character.ts:168-170"
       ]
