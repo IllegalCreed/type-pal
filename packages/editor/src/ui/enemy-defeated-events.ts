@@ -231,9 +231,31 @@ function strictSkipPercent(
   return command.cond.percent
 }
 
+function chanceItemReward(command: PresentableEnemyDefeatedCommand | undefined) {
+  if (command?.kind !== 'branch' || command.cond.kind !== 'chance' || command.else?.length)
+    return undefined
+  const [give, dialog] = command.then
+  if (
+    give?.kind !== 'giveItem' ||
+    (command.then.length > 1 && (command.then.length !== 2 || dialog?.kind !== 'dialog'))
+  )
+    return undefined
+  return {
+    itemId: give.itemId,
+    count: give.count ?? 1,
+    probability: command.cond.percent,
+    ...(dialog?.kind === 'dialog' ? { dialog } : {}),
+  }
+}
+
 function exactItemReward(
   commands: readonly PresentableEnemyDefeatedCommand[],
 ): EnemyDefeatedItemReward | undefined {
+  if (commands.length === 1) {
+    const reward = chanceItemReward(commands[0])
+    if (reward && reward.probability > 0)
+      return { itemId: reward.itemId, count: reward.count, probability: reward.probability }
+  }
   if (commands.length === 2 && commands[0]?.kind === 'giveItem' && commands[1]?.kind === 'dialog')
     return {
       itemId: commands[0].itemId,
@@ -731,11 +753,22 @@ export function findEditableEnemyDefeatedItemReward(
 ): EditableEnemyDefeatedItemReward | undefined {
   if (!commands?.length) return undefined
   const giveIndexes = commands.flatMap((command, index) =>
-    command.kind === 'giveItem' ? [index] : [],
+    command.kind === 'giveItem' || chanceItemReward(command) ? [index] : [],
   )
   if (giveIndexes.length !== 1) return undefined
   const giveIndex = giveIndexes[0]!
-  const give = commands[giveIndex] as Extract<PresentableEnemyDefeatedCommand, { kind: 'giveItem' }>
+  const give = commands[giveIndex]
+  const chanceReward = chanceItemReward(give)
+  if (chanceReward) {
+    if (
+      commands
+        .slice(0, giveIndex)
+        .some((command) => command.kind === 'branch' || command.kind === 'returnScript')
+    )
+      return undefined
+    return { startIndex: giveIndex, endIndex: giveIndex + 1, ...chanceReward }
+  }
+  if (give?.kind !== 'giveItem') return undefined
   const skipPercent = strictSkipPercent(commands[giveIndex - 1], false)
   if (commands[giveIndex - 1]?.kind === 'branch' && skipPercent === undefined) return undefined
   const startIndex = skipPercent === undefined ? giveIndex : giveIndex - 1
@@ -763,17 +796,28 @@ export function replaceEditableEnemyDefeatedItemReward(
   next: Pick<EnemyDefeatedItemReward, 'itemId' | 'count' | 'probability'> | undefined,
 ): PresentableEnemyDefeatedCommand[] | undefined {
   const result = [...(commands ?? [])]
-  const replacement: PresentableEnemyDefeatedCommand[] = []
+  let replacement: PresentableEnemyDefeatedCommand[] = []
   if (next) {
+    const reward: PresentableEnemyDefeatedCommand[] = [
+      { kind: 'giveItem', itemId: next.itemId, count: next.count },
+    ]
+    if (current?.dialog) reward.push(current.dialog)
+    replacement = reward
     if (next.probability < 100) {
-      replacement.push({
-        kind: 'branch',
-        cond: { kind: 'chance', percent: 100 - next.probability },
-        then: [{ kind: 'returnScript' }],
-      })
+      const skip = current && strictSkipPercent(result[current.startIndex], false)
+      // A failure guard on an existing script also skips later commands. Preserve that flow when editing it.
+      replacement =
+        skip === undefined
+          ? [{ kind: 'branch', cond: { kind: 'chance', percent: next.probability }, then: reward }]
+          : [
+              {
+                kind: 'branch',
+                cond: { kind: 'chance', percent: 100 - next.probability },
+                then: [{ kind: 'returnScript' }],
+              },
+              ...reward,
+            ]
     }
-    replacement.push({ kind: 'giveItem', itemId: next.itemId, count: next.count })
-    if (current?.dialog) replacement.push(current.dialog)
   }
   if (current)
     result.splice(current.startIndex, current.endIndex - current.startIndex, ...replacement)

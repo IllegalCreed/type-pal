@@ -272,16 +272,22 @@ describe('enemy defeated event presenter', () => {
       ],
     },
     {
-      name: '奖励位于嵌套分支',
+      name: '掉落概率还取决于嵌套条件',
       commands: [
         {
           kind: 'branch' as const,
           cond: { kind: 'chance' as const, percent: 11 },
           then: [
-            { kind: 'giveItem' as const, itemId: '115', count: 1 },
             {
-              kind: 'dialog' as const,
-              cue: { identity: { kind: 'narration' as const }, rows: [{ text: 'dlg.13119' }] },
+              kind: 'branch' as const,
+              cond: { kind: 'allFullHp' as const },
+              then: [
+                { kind: 'giveItem' as const, itemId: '115', count: 1 },
+                {
+                  kind: 'dialog' as const,
+                  cue: { identity: { kind: 'narration' as const }, rows: [{ text: 'dlg.13119' }] },
+                },
+              ],
             },
           ],
         },
@@ -555,10 +561,9 @@ describe('enemy defeated reward edit boundary', () => {
     expect(zeroPercent).toEqual([
       {
         kind: 'branch',
-        cond: { kind: 'chance', percent: 100 },
-        then: [{ kind: 'returnScript' }],
+        cond: { kind: 'chance', percent: 0 },
+        then: [{ kind: 'giveItem', itemId: '115', count: 1 }],
       },
-      { kind: 'giveItem', itemId: '115', count: 1 },
     ])
     expect(presentEnemyDefeatedEvents(zeroPercent, context).compactSummary).not.toContain('蜂巢')
 
