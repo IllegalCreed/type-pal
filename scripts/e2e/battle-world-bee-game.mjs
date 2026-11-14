@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { createSeedableRng } from '../../packages/game/src/core/rng.ts'
 import {
+  beeEscapeParty,
   beeWorldArguments,
   beeWorldInput as input,
   beePartyMember as party,
@@ -13,7 +14,17 @@ import { createEvidenceRecorder } from './evidence-recorder.mjs'
 import { fixedRoutePlan } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 
-const { cases: selected, capture: captureRequested } = beeWorldArguments()
+const {
+  cases: selected,
+  capture: captureRequested,
+  escape: escapeCase,
+  postBattleSave,
+  probe,
+} = beeWorldArguments()
+const roster = escapeCase ? beeEscapeParty : [party]
+const postBattle = postBattleSave
+  ? (await import('./battle-world-save.mjs')).verifyPostBattleSave
+  : null
 const { scene, start, hold, stop, returnInput } = input
 const plan = fixedRoutePlan('game', {
   id: 'bee-approach',
@@ -29,11 +40,16 @@ const sweepDamage = new Map([
 ])
 
 function installBeeObserver(makeRng, createRecorder) {
-  const seed = new URL(location.href).searchParams.get('q2WorldSeed')
+  const params = new URL(location.href).searchParams
+  const seed = params.get('q2WorldSeed')
+  const escapeCase = params.has('q2Escape')
   const errors = [],
     rng = [],
     slots = [],
     frames = [],
+    escapeRolls = [],
+    escapeLabels = [],
+    escapeSound = [],
     commands = [],
     moves = [],
     restores = [],
@@ -87,6 +103,7 @@ function installBeeObserver(makeRng, createRecorder) {
         maxMP: gs.PlayerRolesRuntime.rgwMaxMP[id],
         level: gs.PlayerRolesRuntime.rgwLevel[id],
         weapon: gs.PlayerRolesRuntime.rgwEquipment[3][id],
+        ...(escapeCase && { exp: gs.Exp.rgPrimaryExp[id].wExp }),
       })),
       position: [x, y],
       grid: [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2],
@@ -136,8 +153,13 @@ function installBeeObserver(makeRng, createRecorder) {
               dual: p.status.dualAttack,
               frame: p.currentFrame,
               position: p.pos,
+              ...(escapeCase && { luckWeight: gs.Exp.rgFleeExp[p.roleId].wCount }),
             })),
             animation: battle.battleAnim?.idx ?? null,
+            ...(escapeCase && {
+              fleeStep: battle.fleeAnim?.step ?? null,
+              selectingPlayer: battle.selectingPlayerIdx ?? null,
+            }),
             pending: [...battle.pendingActions],
             queue: battle.actionQueue.map(({ idx, isEnemy, dex }) => ({ idx, isEnemy, dex })),
             settlement: settlement
@@ -207,7 +229,7 @@ function installBeeObserver(makeRng, createRecorder) {
       ...extra,
     }
   }
-  const eventKeys = new Set(['ArrowRight', 'Space', 'Escape'])
+  const eventKeys = new Set(['ArrowRight', 'Space', 'Escape', 'KeyQ'])
   let contacted,
     battleEntered = false,
     commandReady = false,
@@ -361,7 +383,10 @@ function installBeeObserver(makeRng, createRecorder) {
     )
   }
   globalThis.__beeGameAmbient = (track, audioContextState, buffer) => {
-    if (seed === null || ![66, 73].includes(track) || globalThis.__tpgs?.wNumScene !== 7) return
+    if (seed === null || globalThis.__tpgs?.wNumScene !== 7) return
+    if (escapeCase && track === 45)
+      append(escapeSound, { track, audioContextState, seconds: buffer.duration }, 8)
+    if (![66, 73].includes(track)) return
     append(ambient, { track, audioContextState, seconds: buffer.duration }, 32)
   }
   for (const type of ['keydown', 'keyup']) {
@@ -424,8 +449,18 @@ function installBeeObserver(makeRng, createRecorder) {
       music,
       ambient,
       timeOrigin: performance.timeOrigin,
+      ...(escapeCase && { escapeRolls, escapeLabels, escapeSound }),
     },
   })
+  globalThis.__beeEscapeRoll = (observation) => {
+    if (escapeCase) append(escapeRolls, observation, 16)
+  }
+  let previousLabel = null
+  globalThis.__beeEscapeLabel = (text) => {
+    if (!escapeCase || text === previousLabel) return
+    previousLabel = text
+    append(escapeLabels, { text }, 32)
+  }
   globalThis.__beeGameRestored = (gs) => append(restores, read(gs), 1)
   globalThis.__beeGameSlot = (stage, gs, slot, entry, state) => {
     const {
@@ -450,6 +485,7 @@ function installBeeObserver(makeRng, createRecorder) {
   globalThis.__beeGameDraw = (gs, renderer, drained) => {
     if (gs.wNumScene !== 7) return
     const current = read(gs)
+    if (!current.battle) globalThis.__beeEscapeLabel(null)
     const { settlement, ...action } = current.battle ?? {}
     // An unchanged hold does not create extra cues or movement observations.
     const key = JSON.stringify({
@@ -517,17 +553,19 @@ async function buildFixture(setup, baseURL, until) {
     y: y - 8 * i,
     dir: 'right',
   }))
-  fixture.gs.partyMembers = [party.role]
+  fixture.gs.partyMembers = roster.map(({ role }) => role)
   const roles = fixture.gs.PlayerRolesRuntime
-  assert.equal(roles.rgwEquipment[3][party.role], 192)
-  roles.rgwEquipment[3][party.role] = party.weapon
-  roles.rgwHP[party.role] = party.hp
-  roles.rgwMP[party.role] = party.mp
+  for (const member of roster) {
+    assert.equal(roles.rgwEquipment[3][member.role], escapeCase ? member.weapon : 192)
+    roles.rgwEquipment[3][member.role] = member.weapon
+    roles.rgwHP[member.role] = member.hp
+    roles.rgwMP[member.role] = member.mp
+  }
   return { fixture, canonicalSha256: sha256(baseline) }
 }
 
 async function restore(page, baseURL, seed, fixture, press, until) {
-  await page.goto(`${baseURL}/?q2WorldSeed=${seed}`)
+  await page.goto(`${baseURL}/?q2WorldSeed=${seed}${escapeCase ? '&q2Escape=1' : ''}`)
   await until(
     async () => {
       await dismissBoot(page)
@@ -566,8 +604,10 @@ async function restore(page, baseURL, seed, fixture, press, until) {
   await press('Enter', 'restore', 'load fixture in slot 1')
   const loaded = await wait(page, until, ready, 'title load restores Game s006')
   assert.deepEqual(loaded.grid, start)
-  assert.deepEqual(hpMp(loaded), startingHpMp)
-  assert.equal(loaded.party[0].weapon, party.weapon)
+  assert.deepEqual(
+    loaded.party.map(({ id, hp, mp, weapon }) => ({ id, hp, mp, weapon })),
+    roster.map(({ role: id, hp, mp, weapon }) => ({ id, hp, mp, weapon })),
+  )
   assert.equal(loaded.loot, 0)
   return { loaded, slotReadback: sha256(`${readback}\n`) }
 }
@@ -837,10 +877,12 @@ function verifyTrace(trace, result) {
 }
 
 await runBrowserJourney({
-  name: `q2-world-bee-game${captureRequested ? `-${selected[0].seed}-capture` : ''}`,
+  name: `q2-world-bee-game${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${selected[0].seed}-capture` : probe ? '-probe' : ''}`,
   packageName: '@type-pal/game',
   environment: { E2E: '1' },
-  traceConfig: 'scripts/e2e/battle-world-bee-game.config.mts',
+  traceConfig: postBattleSave
+    ? 'scripts/e2e/battle-world-save-game.config.mts'
+    : 'scripts/e2e/battle-world-bee-game.config.mts',
   sources: [
     'data/extracted/data/scene/6.json',
     'data/extracted/data/tilemap/4.json',
@@ -856,6 +898,8 @@ await runBrowserJourney({
     'data/extracted/sounds/73.wav',
     'data/extracted/music/003.mid',
     'data/extracted/music/037.mid',
+    ...(escapeCase ? ['data/extracted/sounds/45.wav', 'scripts/e2e/battle-world-escape.mjs'] : []),
+    ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
   ],
   arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
   viewport: { width: 960, height: 720 },
@@ -864,7 +908,12 @@ await runBrowserJourney({
     `(${installBeeObserver})(${createSeedableRng}, ${createEvidenceRecorder})`,
   ],
   async journey({ newPage, baseURL, out, report, until, health, capture }) {
-    Object.assign(report, { engine: 'game', fragment: 'q2-world-bee', input, cases: [] })
+    Object.assign(report, {
+      engine: 'game',
+      fragment: escapeCase ? 'q2-world-player-escape' : 'q2-world-bee',
+      input: escapeCase ? { ...input, party: roster, battleInput: ['KeyQ'] } : input,
+      cases: [],
+    })
     const setup = await newPage('canonical-scene-baseline')
     let fixture
     try {
@@ -879,7 +928,7 @@ await runBrowserJourney({
       await setup.close()
     }
     for (const spec of selected) {
-      for (const repetition of capture.enabled ? [1] : [1, 2]) {
+      for (const repetition of capture.enabled || probe ? [1] : [1, 2]) {
         const { seed } = spec
         const label = `seed-${seed}-run-${repetition}`
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
@@ -938,6 +987,21 @@ await runBrowserJourney({
           )
           assert.equal(encounter.battle.selection, 0)
           result.encounter = encounter
+          if (escapeCase) {
+            const { verifyWorldEscape } = await import('./battle-world-escape.mjs')
+            await verifyWorldEscape({
+              engine: 'game',
+              result,
+              page,
+              read: () => read(page),
+              until,
+              press,
+              capture,
+              probe,
+              evidence: () => page.evaluate(() => globalThis.__beeGameEvidence()),
+            })
+            continue
+          }
           result.role = await page.evaluate(async () => {
             const { getBattleResources } = await import(
               '/src/core/battle/battle-runtime-context.ts'
@@ -1037,6 +1101,21 @@ await runBrowserJourney({
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
           result.milestones = verifyTrace(trace, result)
+          result.actionRange.end = report.actions.length
+          if (postBattle) {
+            await postBattle({
+              engine: 'game',
+              page,
+              newPage,
+              baseURL,
+              out,
+              report,
+              until,
+              health,
+              capture,
+              result,
+            })
+          }
           if (capture.enabled)
             await capture.readable('探索画面', true, async () => ready(await read(page)))
           await capture.finish(page, {
@@ -1046,7 +1125,7 @@ await runBrowserJourney({
             grid: result.end.grid,
           })
         } finally {
-          result.actionRange.end = report.actions.length
+          result.actionRange.end ??= report.actions.length
           try {
             if (!trace) {
               const partial = await page.evaluate(() => globalThis.__beeGameEvidence?.())

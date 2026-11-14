@@ -3,13 +3,13 @@
 Status: build
 Phase: cross-phase
 Owner: Codex（范围、独立验收、中央接入与集成）
-Coding Owner: q2_status_rules（Reforge 规则与演出） / q2_restore_drain_probe（Game 物攻演出） / q2_throw_empty（附带道具回归与独立原件） / Codex（采集、判据、集成与台账）
+Coding Owner: Codex（玩家逃跑、双端复核和集成） / q2_status_rules（敌方逃跑） / q2_restore_drain_probe（剧情必败） / q2_throw_empty（战后存读）
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-15
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-special-status-and-buffs
+Branch: codex/q2-battle-lifecycle
 
 ## 目标
 
@@ -454,6 +454,17 @@ Codex 复核原始 SSS 与作者场景身份。最终相对重复字段候选净
 正式十里坡矩阵每端 6 局，固定三种奖励数量；状态演出矩阵每端 12 局。两者均保留重复和双端比较、实际键盘回执及原速双声道分屏。Game 007 从正式 006 终档走到迷宫并读回；Reforge 旧 006 因既有内容摘要校验拒绝。同一版本另从合法仙灵岛入口起点运行 88 步，验证三场草妖的继承回场和 100/150/800 拍，单独记为场景回归。 [覆盖、候选和验收边界](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-明雷转场与复活演出差异复验)
 
 清理了 18 份可按原浏览器 WebM 重建的分段 MP4，共 86,773,072 字节；三份重建样本的 SHA 与旧产物一致。原始音画、原始日志、失败证据和用户分屏保留。两段分屏仍待视觉验收，Q2 的其它工作按原覆盖台账继续。
+
+## 2026-11-15 战斗退出与存读准入
+
+用户授权依次验证玩家逃跑成功、失败、敌方逃跑、剧情必败和战后存读，先核同局面双端原件并修复，最后交原速带声分屏。Codex 核基点 `2d17adc06` 并记录 build allowed，独占十里坡双端入口、玩家逃跑命令与呈现、父卡和集成。敌方逃跑由 q2_status_rules 持有半人蛇妖脚本与独立入口，剧情必败由 q2_restore_drain_probe 持有女飞贼剧情与独立入口，战后存读由 q2_throw_empty 持有专用存读验证。涉及共用实现文件时顺序交接，入口以真实方向键、战斗命令和菜单验证。
+
+| 义务 | 原盘或原版参考 | 第一阶段现状与第二阶段基点 | 反证和判据 |
+| --- | --- | --- | --- |
+| 玩家逃跑 | SSS 41142 的 0x07 逃跑分支指向 41073，0x4B 暂停接敌 15 拍。参考 fight.c 4119–4171 将逃跑设为全队，失败者增加吉运动作权重。 | Game 的 commitFleeAllPlayers 填入所有存活成员，Reforge 的战斗命令选择仅提交当前队员。两端采用 2026-06-13 已裁定的敌方吉运抵抗。 | 一次 Q 的指令提交、每次抽样、失败画帧及提示、成功后的移出与回场；确认逃跑没有触发胜利奖励。 |
+| 敌方逃跑 | SSS 41069 为 0x69，41071 开始显示逃走旁白；Game 的原世界 8852 战斗终止走普通续行。 | Reforge 半人蛇妖保留逃离 hook 与场景续接，按实绘确认位移、音效、旁白和下一场景。 | 任何首次少画、错画、奖励入账或走玩家逃跑分支均报错。 |
+| 剧情必败 | SSS 13782 的败北地址与自然后继同为 13783。 | Game 原事件续接 13783，Reforge 女飞贼的败北命令与随后的脚本当前各含同一份后续。 | 实际扣血全灭后只执行一次续接，队伍与对话以原件为准。 |
+| 战后存读 | 十里坡同一正常遭遇，复用先前两端已实测的蜂巢和原地图回场。 | Game 的原生菜单 V1 与 Reforge 的原生菜单 SAVE12 分别落盘。 | 比较存前、重进和重读的场景位置、持久奖励、角色数值、明雷状态与实际恢复控制。坏输入及拒绝单独取证。 |
 
 ## 状态与交接
 

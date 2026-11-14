@@ -69,8 +69,15 @@ ${move}
         return
       }`,
   )
-  const rendered = replaceOnce(
+  const suspend = '        applyHostileLifecyclePolicy(e, result)'
+  const escaped = after(
     hidden,
+    suspend,
+    `        if (globalThis.__beeWorld?.escape)
+          globalThis.__beeWorld.event('suspend', { entity: e.id, state: world.entityLifecycles?.[activeScene.scene.id]?.[e.id] })`,
+  )
+  const rendered = replaceOnce(
+    escaped,
     `          if (returning) drawVictoryFade(returning.fade.advance(frames.now), 'out')
           else drawDialogue()`,
     `          if (returning) {
@@ -144,12 +151,14 @@ function observeAmbient(source: string): string {
     source,
     '      source.start()',
     `      const asset = beeAmbientAssets.get(onended)
-      if (asset) globalThis.__beeWorld?.ambient(asset, context.state, source.buffer)`,
+      if (asset === 'sound.pal.045' && globalThis.__beeWorld?.escape)
+        globalThis.__beeWorld.event('escape-sound', { track: 45, audioContextState: context.state, seconds: source.buffer.duration })
+      else if (asset) globalThis.__beeWorld?.ambient(asset, context.state, source.buffer)`,
   )
   return `const beeAmbientAssets = new WeakMap();\n${replaceOnce(
     actualStart,
     '      source = this.adapter.play(buffer, ended)',
-    `      if (asset === 'sound.pal.066' || asset === 'sound.pal.073') beeAmbientAssets.set(ended, asset)
+    `      if (asset === 'sound.pal.066' || asset === 'sound.pal.073' || asset === 'sound.pal.045') beeAmbientAssets.set(ended, asset)
       source = this.adapter.play(buffer, ended)`,
   )}`
 }
@@ -230,8 +239,17 @@ function observeSession(source: string): string {
         enemies: s.enemies.map((enemy) => enemy ? { hp: enemy.hp, id: enemy.def.id } : null),
       })`,
   )
-  const floated = after(
+  const rendered = after(
     acted,
+    '    } else renderBattleScene(ctx, scene, worldScale)',
+    `    if (globalThis.__beeWorld?.escape) {
+      if (sel !== undefined) globalThis.__beeWorld.escapeMenu(s.turn, sel, selection.phase)
+      globalThis.__beeWorld.escapePaint(players.map(({ x, y, frame }) => ({ x, y, frame })),
+        this.itemBanner && now < this.itemBanner.untilMs ? this.itemBanner.text : null)
+    }`,
+  )
+  const floated = after(
+    rendered,
     '        drawNumber(ctx, f.num, f.x, f.y - age, nums)',
     `
         globalThis.__beeWorld?.number(f, age)`,
@@ -279,6 +297,15 @@ const worldBeeTrace = {
         break
       case 'battle/battle-session.ts':
         code = observeSession(source)
+        break
+      case 'battle/battle-core.ts':
+        code = after(
+          source,
+          '    const roll = Math.floor(_rng() * (def + 1))',
+          `    if (globalThis.__beeWorld?.escape)
+      globalThis.__beeWorld.event('escape-roll', { slot: idx, turn: s.turn, luck: p.fleeRate, resistance: def, roll, success: !s.boss && p.fleeRate >= roll })
+  `,
+        )
         break
       case 'battle/battle-world-result.ts': {
         const rng = '  rng: () => number = Math.random,'

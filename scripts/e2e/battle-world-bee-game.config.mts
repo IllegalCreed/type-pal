@@ -35,6 +35,15 @@ export default {
             'const rng = globalThis.__beeGameRng ?? createSeedableRng(input.rngSeed ?? Date.now())',
           )
         }
+        if (file === 'packages/game/src/core/battle/actions/flee.ts') {
+          const roll = '  const roll = state.rng.rangeInclusive(0, def)'
+          return replaceAnchor(
+            source,
+            roll,
+            `${roll}
+  globalThis.__beeEscapeRoll?.({ slot: playerIdx, turn: state.turn + 1, luck: str, resistance: def, roll, success: str >= roll && !state.isBoss })`,
+          )
+        }
         if (file === 'packages/game/src/core/battle/battle-settlement.ts') {
           const start = '    if (en && (en.scriptOnBattleEnd ?? 0) > 0) {'
           const end = '    nextPostBattleEnemy.set(settlement, ei + 1)'
@@ -74,6 +83,13 @@ export default {
           )
         }
         if (file === 'packages/game/src/present/battle/present-battle.ts') {
+          const label = '    if (this.battleMsg) {'
+          source = replaceAnchor(
+            source,
+            label,
+            `    globalThis.__beeEscapeLabel?.(this.battleMsg && currentFrame < this.battleMsg.expiryFrame && assets.glyphs ? this.battleMsg.text : null)
+${label}`,
+          )
           const round = 'const completedRounds = Math.floor((total > 0 ? step / total : 1) * 6)'
           return replaceAnchor(
             source,

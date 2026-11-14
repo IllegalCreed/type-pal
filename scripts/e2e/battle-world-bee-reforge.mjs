@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { tsImport } from 'tsx/esm/api'
 import { createSeedableRng } from '../../packages/game/src/core/rng.ts'
 import {
+  beeEscapeParty,
   beePartyMember,
   beeWorldArguments,
   beeWorldInput,
@@ -16,7 +17,17 @@ import { createEvidenceRecorder } from './evidence-recorder.mjs'
 import { fixedRoutePlan } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 
-const { cases, capture: captureRequested } = beeWorldArguments()
+const {
+  cases,
+  capture: captureRequested,
+  escape: escapeCase,
+  postBattleSave,
+  probe,
+} = beeWorldArguments()
+const roster = escapeCase ? beeEscapeParty : [beePartyMember]
+const postBattle = postBattleSave
+  ? (await import('./battle-world-save.mjs')).verifyPostBattleSave
+  : null
 const { scene, start, stop, hold, returnInput } = beeWorldInput
 const approachPlan = fixedRoutePlan('reforge', {
   id: 'bee-approach',
@@ -43,6 +54,17 @@ async function createFixture() {
   const items = JSON.parse(
     await readFile(new URL('../../projects/pal/content/items.json', import.meta.url)),
   )
+  const rosterIds = roster.map(({ id }) => id)
+  const definitions = validateActors(actors.filter(({ id }) => rosterIds.includes(id)))
+  const byId = Object.fromEntries(definitions.map((actor) => [actor.id, actor]))
+  const seedStats = Object.fromEntries(roster.map(({ id, hp, mp }) => [id, { hp, mp }]))
+  if (escapeCase) {
+    return buildCurrentSavePayload(
+      buildWorld({ party: rosterIds, money: 0, inventory: [], seedStats }, byId),
+      { sceneId: scene, pos: { col: start[0], row: start[1], height: 0 }, facing: 'right' },
+      'pal',
+    )
+  }
   const { id, weapon, hp, mp } = beePartyMember
   const [actor] = validateActors(actors.filter((entry) => entry.id === id))
   const equipmentIds = new Set([String(weapon), ...Object.values(actor.battler.initialEquipment)])
@@ -73,7 +95,7 @@ async function createFixture() {
   )
 }
 
-function installObserver(makeRng, createRecorder, seed, itemId) {
+function installObserver(makeRng, createRecorder, seed, itemId, escapeCase) {
   const rng = makeRng(seed)
   const events = [],
     handoff = [],
@@ -90,7 +112,9 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
     commandDrawn = false,
     sourceDrawn = false,
     returnedWorld = false,
-    lastVisibleText = null
+    lastVisibleText = null,
+    lastEscapePaint,
+    lastEscapeMenu
   const numbers = new WeakSet(),
     notices = new Set()
   const { append } = createRecorder({
@@ -139,7 +163,7 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
         if (
           !input.isTrusted ||
           input.repeat ||
-          !['ArrowRight', 'Enter', 'Escape'].includes(input.code)
+          !['ArrowRight', 'Enter', 'Escape', 'KeyQ'].includes(input.code)
         )
           return
         append(
@@ -158,6 +182,24 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
   const getCount = (world) => world.inventory.find(({ itemId: id }) => id === itemId)?.count ?? 0
   globalThis.__beeWorld = Object.freeze({
     event,
+    escape: escapeCase,
+    escapeMenu(turn, slot, phase) {
+      if (
+        lastEscapeMenu?.turn === turn &&
+        lastEscapeMenu.slot === slot &&
+        lastEscapeMenu.phase === phase
+      )
+        return
+      lastEscapeMenu = { turn, slot, phase }
+      event('escape-menu', lastEscapeMenu)
+    },
+    escapePaint(players, text) {
+      const visible = { players, text }
+      const key = JSON.stringify(visible)
+      if (key === lastEscapePaint) return
+      lastEscapePaint = key
+      event('escape-paint', visible)
+    },
     read: () => ({
       seed,
       events,
@@ -223,7 +265,7 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
       present(stage, { layer, alpha, pixels: canvasPixels(ctx) })
     },
     returned(ctx, scene, position, menu) {
-      if (!sourceDrawn || returnedWorld) return
+      if ((!sourceDrawn && !(escapeCase && commandDrawn)) || returnedWorld) return
       returnedWorld = true
       present('world-ready', { scene, position: { ...position }, menu, pixels: canvasPixels(ctx) })
     },
@@ -266,7 +308,7 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
 }
 
 const read = (page) =>
-  page.evaluate(() => {
+  page.evaluate((observeEscape) => {
     const run = window.__tpObserve?.readRuntime()
     const world = window.__rfWorld
     const entity = window.__rfScene?.entities.find(({ id }) => id === 'e154')
@@ -278,6 +320,7 @@ const read = (page) =>
       phase: window.__rfBattle?.debugReadiness().phase,
       enemySlots: window.__rfBattle?.enemySlotDefs().map(({ id }) => id),
       entity: entity ? { hidden: !!entity.hidden } : null,
+      ...(observeEscape && { lifecycle: world?.entityLifecycles?.s006?.e154 ?? null }),
       party: world?.party.map(({ template, equipment, hp, maxHP, mp, maxMP, level, exp }) => ({
         template,
         weapon: equipment.weapon,
@@ -293,7 +336,7 @@ const read = (page) =>
       events: window.__beeWorld?.read().events ?? [],
       handoff: window.__beeWorld?.read().handoff ?? [],
     }
-  })
+  }, Boolean(escapeCase))
 const ready = ({ run, encounterBusy }) =>
   run?.sceneId === scene &&
   !encounterBusy &&
@@ -309,7 +352,7 @@ const facts = ({ events, handoff, ...state }) => state
 
 const fixture = await createFixture()
 await runBrowserJourney({
-  name: `q2-world-bee-reforge${captureRequested ? `-${cases[0].seed}-capture` : ''}`,
+  name: `q2-world-bee-reforge${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${cases[0].seed}-capture` : probe ? '-probe' : ''}`,
   packageName: '@type-pal/reforge',
   environment: { E2E: '1', VITE_PROJECT_ID: 'pal' },
   sources: [
@@ -328,8 +371,14 @@ await runBrowserJourney({
     'projects/pal/assets/migrated/sounds/073.wav',
     'projects/pal/assets/migrated/music/003.mid',
     'projects/pal/assets/migrated/music/037.mid',
+    ...(escapeCase
+      ? ['projects/pal/assets/migrated/sounds/045.wav', 'scripts/e2e/battle-world-escape.mjs']
+      : []),
+    ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
   ],
-  traceConfig: 'scripts/e2e/battle-world-bee-reforge.config.mts',
+  traceConfig: postBattleSave
+    ? 'scripts/e2e/battle-world-save-reforge.config.mts'
+    : 'scripts/e2e/battle-world-bee-reforge.config.mts',
   viewport: { width: 960, height: 720 },
   journeyTimeoutMs: 300_000,
   arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
@@ -337,21 +386,23 @@ await runBrowserJourney({
   async journey({ newPage, baseURL, out, report, until, capture, health }) {
     Object.assign(report, {
       engine: 'reforge',
-      fragment: 'q2-world-bee',
-      input: beeWorldInput,
+      fragment: escapeCase ? 'q2-world-player-escape' : 'q2-world-bee',
+      input: escapeCase
+        ? { ...beeWorldInput, party: roster, battleInput: ['KeyQ'] }
+        : beeWorldInput,
       cases: [],
     })
     report.save = await writeEvidenceArtifact(out, 'reforge-input.json', fixture)
     report.predecessor = { kind: 'canonical-world-save-fixture', ...report.save }
     for (const spec of cases) {
-      for (const repetition of capture.enabled ? [1] : [1, 2]) {
+      for (const repetition of capture.enabled || probe ? [1] : [1, 2]) {
         const { seed } = spec
         const label = `seed-${seed}-run-${repetition}`
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
         report.cases.push(result)
         const page = await newPage(label)
         await page.addInitScript(
-          `(${installObserver})(${createSeedableRng}, ${createEvidenceRecorder}, ${seed}, ${JSON.stringify(honeycombItem)})`,
+          `(${installObserver})(${createSeedableRng}, ${createEvidenceRecorder}, ${seed}, ${JSON.stringify(honeycombItem)}, ${Boolean(escapeCase)})`,
         )
         const record = (action) => report.actions.push(canonicalInput(action))
         const press = (key, phase) =>
@@ -385,7 +436,15 @@ await runBrowserJourney({
             60_000,
           )
           assert(at(initial, start))
-          assert.equal(initial.party[0].weapon, String(beePartyMember.weapon))
+          assert.deepEqual(
+            initial.party.map(({ template, hp, mp, weapon }) => ({ template, hp, mp, weapon })),
+            roster.map(({ id: template, hp, mp, weapon }) => ({
+              template,
+              hp,
+              mp,
+              weapon: String(weapon),
+            })),
+          )
           assert.equal(loot(initial.inventory), 0)
           result.initial = facts(initial)
           await capture.arm(page, { event: 'before-world-movement', seed, scene, grid: start })
@@ -398,6 +457,21 @@ await runBrowserJourney({
             'native bee battle menu',
           )
           result.encounter = facts(encounter)
+          if (escapeCase) {
+            const { verifyWorldEscape } = await import('./battle-world-escape.mjs')
+            await verifyWorldEscape({
+              engine: 'reforge',
+              result,
+              page,
+              read: () => read(page),
+              until,
+              press,
+              capture,
+              probe,
+              evidence: () => page.evaluate(() => globalThis.__beeWorld.read()),
+            })
+            continue
+          }
           await press('Enter', 'battle')
           const victory = await wait(
             (state) => observed(state, 'settlement').length === 1,
@@ -453,6 +527,26 @@ await runBrowserJourney({
               () => honeycombText,
             ),
           )
+          if (postBattle) {
+            result.raw = await writeEvidenceArtifact(
+              out,
+              `${label}-trace.json`,
+              await page.evaluate(() => globalThis.__beeWorld.read()),
+            )
+            result.actionRange.end = report.actions.length
+            await postBattle({
+              engine: 'reforge',
+              page,
+              newPage,
+              baseURL,
+              out,
+              report,
+              until,
+              health,
+              capture,
+              result,
+            })
+          }
           if (capture.enabled)
             await capture.readable('探索画面', true, async () => ready(await read(page)))
           await capture.finish(page, {
@@ -462,9 +556,11 @@ await runBrowserJourney({
             grid: stop,
           })
         } finally {
-          result.actionRange.end = report.actions.length
-          const trace = await page.evaluate(() => globalThis.__beeWorld?.read())
-          if (trace) result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
+          result.actionRange.end ??= report.actions.length
+          if (!result.raw) {
+            const trace = await page.evaluate(() => globalThis.__beeWorld?.read())
+            if (trace) result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
+          }
           if (!capture.enabled) await page.close()
         }
       }
