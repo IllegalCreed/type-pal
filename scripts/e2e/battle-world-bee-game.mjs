@@ -36,7 +36,10 @@ function installBeeObserver(makeRng, createRecorder) {
     frames = [],
     commands = [],
     moves = [],
-    restores = []
+    restores = [],
+    handoff = [],
+    inputs = [],
+    music = []
   let overflow = false
   const { append } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -149,6 +152,238 @@ function installBeeObserver(makeRng, createRecorder) {
     }
   }
 
+  // Read the ImageData just passed to the real canvas. Hashes are quick fingerprints;
+  // the frozen-source claim compares every index to the last live battle frame.
+  function inspectPixels({ data, width, height }, indices, sourceIndices) {
+    let rgbTotal = 0,
+      maxChannel = 0,
+      nonBlack = 0,
+      opaque = 0
+    let rgbaHash = 0x811c9dc5,
+      indexHash = 0x811c9dc5
+    let sameIndices = sourceIndices?.length === indices.length
+    for (let i = 0, offset = 0; i < indices.length; i++, offset += 4) {
+      const red = data[offset],
+        green = data[offset + 1],
+        blue = data[offset + 2],
+        alpha = data[offset + 3]
+      rgbTotal += red + green + blue
+      maxChannel = Math.max(maxChannel, red, green, blue)
+      if (red || green || blue) nonBlack++
+      if (alpha === 255) opaque++
+      rgbaHash = Math.imul(
+        rgbaHash ^ (red | (green << 8) | (blue << 16) | (alpha << 24)),
+        0x01000193,
+      )
+      indexHash = Math.imul(indexHash ^ indices[i], 0x01000193)
+      if (sameIndices && sourceIndices[i] !== indices[i]) sameIndices = false
+    }
+    return {
+      width,
+      height,
+      rgbMean: rgbTotal / (width * height * 3),
+      maxChannel,
+      nonBlack,
+      opaque,
+      rgbaHash: (rgbaHash >>> 0).toString(16).padStart(8, '0'),
+      indexHash: (indexHash >>> 0).toString(16).padStart(8, '0'),
+      ...(sourceIndices && { sameIndicesAsBattleSource: sameIndices }),
+    }
+  }
+  const point = (stage, gs, extra = {}) => {
+    const { x, y } = gs.party
+    const box = gs.dialogBox
+    return {
+      stage,
+      scene: gs.wNumScene,
+      grid: [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2],
+      mode: gs.mode,
+      dialog: box ? { text: box.currentLineText, style: box.style } : null,
+      ready: globalThis.__routeGameReadiness(gs).routeReady,
+      sceneMusic: gs.wNumMusic,
+      battleMusic: gs.wNumBattleMusic,
+      battlePhase: gs.battleState?.phase ?? null,
+      ...extra,
+    }
+  }
+  const eventKeys = new Set(['ArrowRight', 'Space', 'Escape'])
+  let contacted,
+    battleEntered = false,
+    commandReady = false,
+    worldReady = false
+  let layer,
+    introRounds,
+    lastIntroRounds = 0,
+    draw = 0,
+    lastBattleDraw,
+    lastBattleImage,
+    lastBattleIndices,
+    frozenSourceDraw
+  globalThis.__beeGameContact = (gs, npc) => {
+    if (seed === null || gs.wNumScene !== 7 || npc.id !== 154) return
+    contacted = append(
+      handoff,
+      point('contact', gs, {
+        entityId: 'e154',
+        entry: gs.eventCursor.ip,
+        enemyPosition: [npc.x, npc.y],
+      }),
+      512,
+    )
+  }
+  globalThis.__beeGameBattleStart = (gs, teamId, battleFieldId) => {
+    if (!contacted || gs.wNumScene !== 7) return
+    append(handoff, point('battle-start', gs, { teamId, battleFieldId }), 512)
+  }
+  globalThis.__beeGameLayer = (value) => {
+    layer = value
+  }
+  globalThis.__beeGameIntro = (value) => {
+    introRounds = value
+  }
+  globalThis.__beeGamePrepareDraw = (gs, renderer, ticked) => {
+    const renderedLayer = renderer === 'battle' ? 'battle' : layer
+    const completedRounds = introRounds
+    layer = undefined
+    introRounds = undefined
+    if (seed === null || gs.wNumScene !== 7) return undefined
+    draw++
+    if (!contacted || worldReady) return undefined
+    const fade = gs.paletteFadeState
+    const phase = gs.battleState?.phase
+    let stage
+    if (renderer === 'battle') {
+      if (!battleEntered) {
+        battleEntered = true
+        stage = 'battle-entry'
+      } else if (completedRounds > lastIntroRounds) {
+        stage = 'battle-intro'
+      } else if (
+        !commandReady &&
+        phase === 'selectAction' &&
+        gs.battleState.uiState === 'selectMove'
+      ) {
+        commandReady = true
+        stage = 'battle-command-ready'
+      } else if (phase === 'won') stage = 'battle-victory'
+      if (completedRounds !== undefined) lastIntroRounds = completedRounds
+    } else if (!battleEntered) stage = 'contact-world'
+    else if (lastBattleDraw) {
+      // The immediately preceding successful draw becomes the frozen source only at handoff.
+      append(
+        handoff,
+        {
+          ...lastBattleDraw,
+          stage: 'battle-source',
+          pixels: inspectPixels(lastBattleImage, lastBattleIndices),
+        },
+        512,
+      )
+      frozenSourceDraw = lastBattleDraw.draw
+      lastBattleDraw = undefined
+      lastBattleImage = undefined
+    }
+    if (renderer === 'world' && battleEntered) {
+      if (fade?.fade60 === 'out') stage = 'fade-out'
+      else if (fade?.fade60 === 'in') stage = 'world-fade-in'
+      else if (globalThis.__routeGameReadiness(gs).routeReady) {
+        worldReady = true
+        stage = 'world-ready'
+      } else stage = 'world-handoff'
+    }
+    if (!stage) return undefined
+
+    const paletteFade = fade
+      ? {
+          direction: fade.fade60 ?? fade.fade63 ?? null,
+          freeze: fade.freeze === true,
+          startAtMs: fade.startTimeMs,
+          durationMs: fade.totalMs,
+        }
+      : null
+    return (image, indices) => {
+      const atMs = performance.now()
+      const isFrozen = renderedLayer === 'frozen' && lastBattleIndices !== undefined
+      if (stage === 'battle-victory') {
+        lastBattleIndices ??= new Uint8Array(indices.length)
+        lastBattleIndices.set(indices)
+        lastBattleImage = image
+        lastBattleDraw = point(stage, gs, {
+          atMs,
+          draw,
+          renderer,
+          layer: renderedLayer,
+          ticked,
+          paletteFade,
+        })
+        return
+      }
+      const pixels = inspectPixels(image, indices, isFrozen ? lastBattleIndices : undefined)
+      append(
+        handoff,
+        point(
+          pixels.nonBlack === 0 && (stage === 'fade-out' || stage === 'world-handoff')
+            ? 'black'
+            : stage,
+          gs,
+          {
+            atMs,
+            draw,
+            renderer,
+            layer: renderedLayer ?? null,
+            ticked,
+            paletteFade,
+            pixels,
+            ...(completedRounds !== undefined && { completedRounds }),
+            ...(isFrozen && { frozenFromDraw: frozenSourceDraw }),
+            settlement:
+              gs.battleState?.settlement?.screens[gs.battleState.settlement.index]?.kind ?? null,
+          },
+        ),
+        512,
+      )
+    }
+  }
+  globalThis.__beeGameMusic = (stage, track, ctx, loop) => {
+    if (!contacted) return
+    append(
+      music,
+      {
+        stage,
+        backend: 'midi',
+        track,
+        loop,
+        audioContextTime: ctx.currentTime,
+        audioContextState: ctx.state,
+      },
+      24,
+    )
+  }
+  for (const type of ['keydown', 'keyup']) {
+    globalThis.addEventListener(
+      type,
+      (event) => {
+        if (!restores.length || !event.isTrusted || event.repeat || !eventKeys.has(event.code))
+          return
+        const gs = globalThis.__tpgs
+        if (gs?.wNumScene !== 7) return
+        append(
+          inputs,
+          {
+            kind: type === 'keydown' ? 'down' : 'up',
+            code: event.code,
+            key: event.key,
+            eventTimeStamp: event.timeStamp,
+            mode: gs.mode,
+            battlePhase: gs.battleState?.phase ?? null,
+          },
+          24,
+        )
+      },
+      true,
+    )
+  }
+
   const routePoint = (gs, source) =>
     globalThis.__routeObserve(source, {
       scene: 's006',
@@ -174,7 +409,16 @@ function installBeeObserver(makeRng, createRecorder) {
     errors,
     moves,
     restores,
-    native: { rng, slots, frames, commands },
+    native: {
+      rng,
+      slots,
+      frames,
+      commands,
+      handoff,
+      inputs,
+      music,
+      timeOrigin: performance.timeOrigin,
+    },
   })
   globalThis.__beeGameRestored = (gs) => append(restores, read(gs), 1)
   globalThis.__beeGameSlot = (stage, gs, slot, entry, state) => {
@@ -209,7 +453,7 @@ function installBeeObserver(makeRng, createRecorder) {
       battle: { ...action, screen: settlement?.screen },
     })
     if (key !== lastKey) {
-      lastFrame = append(frames, { renderer, rngDraws: rng.length, ...current }, 256)
+      lastFrame = append(frames, { renderer, draw, rngDraws: rng.length, ...current }, 256)
       lastKey = key
     }
     if (drained.length && current.battle)
@@ -320,6 +564,132 @@ async function restore(page, baseURL, seed, fixture, press, until) {
   assert.equal(loaded.party[0].weapon, party.weapon)
   assert.equal(loaded.loot, 0)
   return { loaded, slotReadback: sha256(`${readback}\n`) }
+}
+
+function verifyHandoff({ handoff, inputs, music, timeOrigin }, milestones, hasLoot) {
+  const event = (stage) => {
+    const found = handoff.find((row) => row.stage === stage)
+    assert(found, `missing ${stage} observation`)
+    return found
+  }
+  const contact = event('contact')
+  const startBattle = event('battle-start')
+  const initialWorld = event('contact-world')
+  const entry = event('battle-entry')
+  const command = event('battle-command-ready')
+  const source = event('battle-source')
+  const fadeOut = event('fade-out')
+  const black = event('black')
+  const fadeIn = event('world-fade-in')
+  const worldReady = event('world-ready')
+  const intro = handoff.filter(({ stage }) => stage === 'battle-intro')
+  const drawEvents = handoff.filter(({ pixels }) => pixels)
+  const drawOrder = drawEvents.map(({ draw }) => draw)
+  assert.deepEqual(
+    drawOrder,
+    [...new Set(drawOrder)].sort((a, b) => a - b),
+  )
+  assert(
+    drawEvents.every(
+      ({ pixels }) => pixels.opaque === 320 * 200 && pixels.width === 320 && pixels.height === 200,
+    ),
+  )
+  assert.deepEqual([contact.entityId, contact.entry, contact.grid], ['e154', 41142, stop])
+  assert.deepEqual([startBattle.teamId, startBattle.battleFieldId], [4, 12])
+  assert(
+    contact.atMs < initialWorld.atMs &&
+      initialWorld.atMs < startBattle.atMs &&
+      startBattle.atMs < entry.atMs,
+  )
+  assert.deepEqual(
+    [entry.completedRounds, entry.pixels.indexHash, entry.pixels.rgbaHash],
+    [0, initialWorld.pixels.indexHash, initialWorld.pixels.rgbaHash],
+  )
+  assert.deepEqual(
+    intro.map(({ completedRounds }) => completedRounds),
+    [1, 2, 3, 4, 5, 6],
+  )
+  assert(intro[0].pixels.indexHash !== entry.pixels.indexHash)
+  assert(intro.at(-1).atMs < command.atMs)
+  assert.equal(command.draw, milestones.firstCommand.draw)
+
+  assert.equal(handoff.filter(({ stage }) => stage === 'battle-source').length, 1)
+  assert.deepEqual(source.dialog, hasLoot ? { text: prompt, style: 'narration' } : null)
+  assert(source.draw === fadeOut.draw - 1 && source.renderer === 'battle')
+  assert.equal(fadeOut.draw, milestones.firstHidden.draw)
+  const frozen = drawEvents.filter(({ layer }) => layer === 'frozen')
+  assert(
+    frozen.length > 2 &&
+      frozen.every(
+        ({ frozenFromDraw, pixels }) =>
+          frozenFromDraw === source.draw && pixels.sameIndicesAsBattleSource === true,
+      ),
+  )
+  assert(fadeOut.pixels.rgbMean < source.pixels.rgbMean)
+  assert.equal(fadeOut.paletteFade.durationMs, 600)
+  assert.equal(fadeIn.paletteFade.durationMs, 600)
+  assert(fadeOut.atMs < black.atMs && black.atMs < fadeIn.atMs && fadeIn.atMs < worldReady.atMs)
+  assert.deepEqual(
+    [black.pixels.maxChannel, black.pixels.nonBlack, fadeIn.pixels.nonBlack],
+    [0, 0, 0],
+  )
+  assert.equal(fadeIn.layer, 'world')
+  assert.equal(worldReady.paletteFade, null)
+  assert.deepEqual([worldReady.ready, worldReady.layer, worldReady.grid], [true, 'world', stop])
+  assert(worldReady.pixels.rgbMean > 0 && worldReady.draw < milestones.menu.draw)
+
+  assert(Number.isFinite(timeOrigin) && timeOrigin > 0)
+  assert.deepEqual(
+    inputs.map(({ kind, code }) => [kind, code]),
+    ['ArrowRight', 'Space', 'Space', 'Escape', 'Escape'].flatMap((code) => [
+      ['down', code],
+      ['up', code],
+    ]),
+  )
+  assert(
+    inputs.every(
+      ({ atMs, eventTimeStamp }) => Number.isFinite(eventTimeStamp) && eventTimeStamp <= atMs,
+    ),
+  )
+  const [approach, attack, confirm, openMenu, closeMenu] = inputs.filter(
+    ({ kind }) => kind === 'down',
+  )
+  assert(
+    approach.atMs < contact.atMs &&
+      command.atMs < attack.atMs &&
+      attack.atMs < milestones.attack.atMs,
+  )
+  assert(confirm.battlePhase === 'won' && confirm.atMs < source.atMs)
+  assert(worldReady.atMs < openMenu.atMs && openMenu.atMs < milestones.menu.atMs)
+  assert(milestones.menu.atMs < closeMenu.atMs && closeMenu.atMs < milestones.end.atMs)
+
+  const battleMusic = music.find(({ stage, track }) => stage === 'play' && track === 37)
+  const victoryMusicStop = music.find(({ stage, track }) => stage === 'stop' && track === 3)
+  assert(
+    battleMusic &&
+      battleMusic.audioContextState === 'running' &&
+      battleMusic.atMs > intro.at(-1).atMs,
+  )
+  assert(
+    victoryMusicStop &&
+      victoryMusicStop.atMs > source.atMs &&
+      victoryMusicStop.atMs <= fadeOut.atMs,
+  )
+  assert.deepEqual([source.sceneMusic, fadeOut.sceneMusic, worldReady.sceneMusic], [0, 0, 0])
+  return Object.fromEntries(
+    [
+      contact,
+      startBattle,
+      entry,
+      intro[0],
+      command,
+      source,
+      fadeOut,
+      black,
+      fadeIn,
+      worldReady,
+    ].map(({ stage, order }) => [stage, order]),
+  )
 }
 
 function verifyTrace(trace, result) {
@@ -442,7 +812,16 @@ function verifyTrace(trace, result) {
   assert(menu, 'world menu input was not accepted after victory')
   assert.deepEqual([result.end.grid, result.end.renderer, result.end.ready], [stop, 'world', true])
   assert(result.end.order > menu.order)
+  const firstCommand = frames.find(
+    ({ battle }) => battle?.phase === 'selectAction' && battle.ui === 'selectMove',
+  )
+  const handoff = verifyHandoff(
+    trace.native,
+    { firstCommand, attack, firstHidden, menu, end: result.end },
+    count > 0,
+  )
   return {
+    handoff,
     attack: attack.order,
     sweeps: sweeps.map(({ order }) => order),
     rewardDraws: rewardDraws.map(({ order }) => order),
