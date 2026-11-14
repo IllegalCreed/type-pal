@@ -253,7 +253,7 @@ describe('Present and input gates', () => {
     expect(black).toEqual({ ticked: false, presented: true })
     expect(step(716)).toEqual({ ticked: true, presented: true })
     expect(frames.at(-1)).toEqual({ direction: 'in', index: 0, rgb: new Uint8ClampedArray(3) })
-    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 700 })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 716 })
     expect(gs.eventCursor).toBeUndefined()
     expect(gs.mode).toBe('explore')
     expect(gs.frameNum).toBe(frameNum + 1)

@@ -14,13 +14,17 @@ import {
   tickEventSystem,
   tickSceneAutoFadeIn,
 } from './event-system.js'
-import type { GameState } from './game-state.js'
+import type { EventCursor, GameState } from './game-state.js'
 import { tickMenu } from './menu/menu-mode.js'
+import type { PaletteFadeState } from './palette-fade.js'
 import { tickSceneSystem } from './scene-system.js'
 import { getCmds } from './script-catalog.js'
 
-/** Whether the final palette-out draw can return a self-hiding encounter to the current map. */
-export function isEncounterFadeOutComplete(gs: GameState, nowMs: number): boolean {
+/** Read the completed fade whose root trigger can return directly to the current map. */
+export function completedEncounterFadeOut(
+  gs: GameState,
+  nowMs: number,
+): { fade: PaletteFadeState; cursor: EventCursor } | undefined {
   const fade = gs.paletteFadeState
   const cursor = gs.eventCursor
   if (
@@ -29,7 +33,7 @@ export function isEncounterFadeOutComplete(gs: GameState, nowMs: number): boolea
     nowMs - fade.startTimeMs < fade.totalMs ||
     cursor?.waiting !== 'palette-fade'
   ) {
-    return false
+    return
   }
   if (
     cursor.triggerOwnerId === undefined ||
@@ -45,14 +49,14 @@ export function isEncounterFadeOutComplete(gs: GameState, nowMs: number): boolea
     gs.menuStack.length ||
     !gs.needToFadeIn
   ) {
-    return false
+    return
   }
   // The native encounter returns after self-hide, 0x50 and 0x00 (SSS 41127–41129).
   const commands = getCmds(cursor)
   const hide = commands[cursor.ip - 1]
   const fadeOut = commands[cursor.ip]
   const end = commands[cursor.ip + 1]
-  return (
+  if (
     hide?.op === 'raw' &&
     hide.opcode === OP_HIDE_OBJECT &&
     fadeOut?.op === 'raw' &&
@@ -60,11 +64,13 @@ export function isEncounterFadeOutComplete(gs: GameState, nowMs: number): boolea
     end?.op === 'end' &&
     !end.advance &&
     !end.reset
-  )
+  ) {
+    return { fade, cursor }
+  }
 }
 
-/** Continue the completed encounter script after its final frozen draw (play.c:534–546). */
-export function finishEncounterFadeOut(gs: GameState): void {
+/** Continue the encounter on the frame after its final frozen draw (play.c:534–546). */
+export function resumeEncounterAfterFadeOut(gs: GameState): void {
   tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: gs.frameNum })
   tickSceneAutoFadeIn(gs)
 }
