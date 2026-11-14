@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+  "candidateSha": "840625b531130f6a9c4819c509ed3bf3a47353a5",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -189,21 +189,21 @@
       "anchor": "await runBrowserJourney({",
       "role": "native-special-status-caller",
       "lines": "36",
-      "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+      "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
     },
     {
       "path": "scripts/e2e/battle-status-scenarios.mjs",
       "anchor": "export async function prepareBattleStatusInputs(",
       "role": "native-status-legal-inputs",
-      "lines": "323",
-      "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+      "lines": "377",
+      "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
     },
     {
       "path": "scripts/e2e/battle-status-rules.mjs",
       "anchor": "export function checkStatusRules(",
       "role": "native-status-action-and-frame-oracle",
-      "lines": "638",
-      "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+      "lines": "886",
+      "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
     },
     {
       "path": "scripts/e2e/battle-status-compare.mjs",
@@ -211,6 +211,55 @@
       "role": "native-status-offline-oracle",
       "lines": "222",
       "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-game.mjs",
+      "anchor": "await runBrowserJourney({",
+      "role": "native-game-world-caller",
+      "lines": "454",
+      "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+      "anchor": "await runBrowserJourney({",
+      "role": "native-reforge-world-caller",
+      "lines": "197",
+      "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+      "anchor": "export const beeWorldInput = {",
+      "role": "native-world-legal-input",
+      "lines": "19",
+      "sha256": "4920e3bb0b09ed47165869cf8e4cda4145a70fe92fd06a136af7dcd99d94edb2"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-compare.mjs",
+      "anchor": "export async function compareWorldBeeReports(",
+      "role": "native-world-offline-oracle",
+      "lines": "482",
+      "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-host.ts",
+      "anchor": "private async finishEncounter(",
+      "role": "world-encounter-finalizer",
+      "lines": "179",
+      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-core.ts",
+      "anchor": "function performAttackAll(",
+      "role": "native-reforge-sweep",
+      "lines": "2445",
+      "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+    },
+    {
+      "path": "packages/content/src/rewards.ts",
+      "anchor": "export function recoverBattleParty(",
+      "role": "post-world-script-half-recovery",
+      "lines": "254",
+      "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
     }
   ],
   "publicCallers": [
@@ -246,7 +295,11 @@
     "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
     "node build/q2/learn-magic/check-menu.mjs",
     "node scripts/e2e/battle-status.mjs <game|reforge> <all|buff|puppet|confusion|silence|overlap>",
-    "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON"
+    "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON",
+    "node scripts/e2e/battle-status.mjs <game|reforge> revival",
+    "node scripts/e2e/battle-world-bee-game.mjs [--capture --seed=99]",
+    "node scripts/e2e/battle-world-bee-reforge.mjs [--capture --seed=99]",
+    "node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -275,7 +328,9 @@
     "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
     "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
     "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press.",
-    "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts."
+    "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts.",
+    "Three new revival scenarios start with legal PAL party, equipment, skills and items and acquire or clear the relevant statuses using committed actions. Three adjacent cases are repeated alongside them.",
+    "Fixed engine-native checkpoints put the same equipped Anu at (93,45) in s006. Four movement commits reach (97,45), native contact starts enemy team 4, the actual group attack wins, and native Escape toggles the world menu after return."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -318,7 +373,9 @@
       "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
       "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
       "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow.",
-      "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks."
+      "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks.",
+      "Verify transformed revival and delayed actions, puppet attack counts and audio, natural expiration and clearing by revival using native actions and frames.",
+      "Read real RNG draws, visit both reward slots, compare actual overkill numbers and notice positions, hold HP and MP until the final reward closes, then assert half recovery, hidden count and the actual world menu round trip. The return transition has a separately observed pending discrepancy."
     ]
   },
   "dedupe": {
@@ -328,7 +385,7 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases. Three revival combinations add natural death and expiration to the previous standalone status cases. The s006 matrix exercises world reward scripts and restored control beyond the isolated trial."
   },
   "runtimeExecution": {
     "performed": true,
@@ -336,9 +393,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+    "producerRevision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
     "result": "passed",
-    "verification": "80 native special-status fights across 20 fixed scenarios, 40 paired and 40 repeated comparisons; original-speed stereo review captured separately with identical production inputs.",
+    "verification": "24 revival and adjacent fights on e0726776, 12 actual world fights on 840625b5. Each batch used same-candidate Game and Reforge. Original-speed stereo captures share their respective verification dependencies.",
     "continuous": false
   },
   "execution": {
@@ -512,19 +569,47 @@
     },
     {
       "path": "scripts/e2e/battle-status.mjs",
-      "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+      "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
     },
     {
       "path": "scripts/e2e/battle-status-scenarios.mjs",
-      "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+      "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
     },
     {
       "path": "scripts/e2e/battle-status-rules.mjs",
-      "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+      "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
     },
     {
       "path": "scripts/e2e/battle-status-compare.mjs",
       "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-game.mjs",
+      "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+      "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+      "sha256": "4920e3bb0b09ed47165869cf8e4cda4145a70fe92fd06a136af7dcd99d94edb2"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-compare.mjs",
+      "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-host.ts",
+      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-core.ts",
+      "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+    },
+    {
+      "path": "packages/content/src/rewards.ts",
+      "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
     }
   ],
   "artifacts": [
@@ -10379,6 +10464,17 @@
         "bytes": 3918
       },
       "purpose": "Native throw damage, fire resistance, battlefield and separate fixed damage for PAL item 156."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz",
+      "sha256": "8f65ff07450675b1e3cd797597efa64bc9369abe129561a3f2bff398189d32fc",
+      "bytes": 92107574,
+      "manifest": {
+        "path": "build/q2/world-and-revival/archive-index.json",
+        "sha256": "131287338a418ed23eff7725231d8d35d50de0ccbf2ebfbb035a39fb11270d6e",
+        "bytes": 48717
+      },
+      "purpose": "Native revival and world bee traces, actual input and media, reproduction, counterexamples, and independent reviews."
     }
   ],
   "claims": [
@@ -10998,6 +11094,34 @@
         "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/e2e/q2-throw-formula-reforge-2026-11-14T03-10-18-527Z/report.json",
         "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/comparison.json"
       ]
+    },
+    {
+      "id": "native-trance-revival-and-puppet-buff-lifecycle",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T04-19-57-916Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-14T04-19-57-916Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/status-comparison-e072.json"
+      ]
+    },
+    {
+      "id": "native-world-bee-slot-loot-and-recovery",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T05-10-57-178Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T05-10-57-681Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/recompare-840.json"
+      ]
+    },
+    {
+      "id": "revival-and-bee-original-speed-stereo-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-review/battle-revival-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-review/media.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/battle-world-bee-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/media.json"
+      ]
     }
   ],
   "findings": [
@@ -11451,12 +11575,32 @@
         "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-comparison.json/comparison.json"
       ],
       "result": "Original traces identify missing group sweeps, wrong puppet turns, missing enemy item statuses and transformed attack effect or anchor drift. Directed product and comparator controls preserve original identities."
+    },
+    {
+      "kind": "native-world-victory-and-revival-counterexamples",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-counter.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/world-return-fade-observation-840.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-28-51-987Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-30-53-213Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-29-17-590Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-31-05-928Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-29-29-633Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-31-18-023Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-57-54-538Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T04-58-20-399Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T05-11-17-132Z/report.json"
+      ],
+      "result": "Stock Reforge shifted the award roll interval, restored early, put the notice on the map and rounded an overkill sweep upward. Directed controls prove these differences. Reforge still omits the original encounter-specific return fade."
     }
   ],
   "cleanup": {
     "complete": true,
     "scope": "Owned runtime contexts, temporary browser/server groups closed by reused watchdog runner; no user editor/session/save touched. Existing old worktree evidence retained. Contributor branches are retired only after protected integration.",
-    "retained": ["docs/tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz"],
+    "retained": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
+    ],
     "recovery": "Extract the runtime candidate bundle and fetch HEAD into Git with accepted43fea prerequisite; contributor candidate refs have their own compact bundle. Original raw assets remain local and must match recorded hashes."
   },
   "history": [
@@ -11966,6 +12110,37 @@
         }
       ],
       "archive": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz"
+    },
+    {
+      "revision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+      "date": "2026-11-14",
+      "action": "native-revival-and-world-rewards",
+      "predecessor": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+      "scope": "Three new revival combinations and three adjacent cases in 24 executions. Three actual world encounter seeds in 12 executions, with independently bound original-speed captures and a pending return transition discrepancy.",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-status.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-special-status-caller",
+          "lines": "36",
+          "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+        },
+        {
+          "path": "scripts/e2e/battle-status-scenarios.mjs",
+          "anchor": "export async function prepareBattleStatusInputs(",
+          "role": "native-status-legal-inputs",
+          "lines": "323",
+          "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+        },
+        {
+          "path": "scripts/e2e/battle-status-rules.mjs",
+          "anchor": "export function checkStatusRules(",
+          "role": "native-status-action-and-frame-oracle",
+          "lines": "638",
+          "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+        }
+      ],
+      "archive": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
     }
   ],
   "_governance": {
@@ -12777,5 +12952,73 @@
     ],
     "comparison": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/comparison.json",
     "executionIndex": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/archive-index.json"
+  },
+  "revivalAndWorldExecution": {
+    "date": "2026-11-14",
+    "revival": {
+      "producerRevision": "e0726776bd2b5c1720001aef0a134706da4a40b7",
+      "judgeRevision": "e0726776bd2b5c1720001aef0a134706da4a40b7",
+      "reports": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T04-19-57-916Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-14T04-19-57-916Z/report.json"
+      ],
+      "comparison": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/status-comparison-e072.json",
+      "browserReview": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-review/battle-revival-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-review/media.json"
+      ]
+    },
+    "world": {
+      "producerRevision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+      "judgeRevision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+      "reports": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T05-10-57-178Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T05-10-57-681Z/report.json"
+      ],
+      "comparison": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/recompare-840.json",
+      "browserReview": [
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/battle-world-bee-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/media.json"
+      ],
+      "pendingTransition": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/world-return-fade-observation-840.json"
+    },
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/archive-index.json",
+    "independentReviews": [
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/revival-independent-audit.json",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/world-independent-audit-840.json",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/native-fade-provenance.md",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/owner-receipt.md",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/reforge-world.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/reforge-world.config.mts",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-receipt.md"
+    ],
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/lint-publish.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/typecheck-publish.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/e2e-tools-publish.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/coverage-ratchet-verified.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/coverage-accepted.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/coverage-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/e2e-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/e2e-tools-accepted.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/world-capture-reforge.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/world-capture-reforge-retry.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/author-content.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/editor-rewards-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/reforge-group-damage.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/reforge-host-and-group.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/code-inventory-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/host-loot-old-red.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/host-loot-replacement-mutant.exit",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/host-loot-replacement-mutant.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/host-loot-replacement-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-mutant-award.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-mutant-guard.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-mutants.exit",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-restored.log",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-coverage/lcov.info",
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-statements/coverage-final.json"
+    ],
+    "visualAcceptance": "pending"
   }
 }

@@ -18,6 +18,7 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleVictorySourceBindings,
   testingBattleDefeatSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
@@ -28,6 +29,8 @@ import {
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
   testingBattleSessionSourcePath,
+  testingBattleVictoryPublicationBase,
+  testingBattleVictorySourceRevision,
 } from './testing-battle-publication.mjs'
 
 const repository = fileURLToPath(new URL('../../', import.meta.url))
@@ -273,9 +276,9 @@ test('ordinary defeat source rebinding preserves the exact previous execution re
   const hostEvidence = 'docs/testing/domains/runtime/battle/battle-host/evidence.json'
   const readBase = (path) => readFixed(testingBattleSessionCasualtyDialogueBase, path)
   const readCandidate = (path) => readFixed(testingBattleDefeatSourceRevision, path)
-  const readLive = (path) => readFileSync(join(repository, path))
-  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
-  const current = JSON.parse(readLive(hostEvidence))
+  const readDefeatPublication = (path) => readFixed(testingBattleVictoryPublicationBase, path)
+  const bridge = { readBase, readFixed: readCandidate, readSource: readDefeatPublication }
+  const current = JSON.parse(readDefeatPublication(hostEvidence))
   const check = () => restoreTestingBattleDefeatSourceBindings(hostEvidence, bytes(current), bridge)
   assert.deepEqual(check(), readBase(hostEvidence))
 
@@ -285,6 +288,42 @@ test('ordinary defeat source rebinding preserves the exact previous execution re
   current.claims[0].evidence[0] = previousRange
   current.runtimeExecution.performed = !current.runtimeExecution.performed
   assert.throws(check, /Expected values to be strictly deep-equal/u)
+})
+
+test('world victory source rebinding restores the published defeat evidence and rejects forged scope', () => {
+  const hostEvidence = 'docs/testing/domains/runtime/battle/battle-host/evidence.json'
+  const readBase = (path) => readFixed(testingBattleVictoryPublicationBase, path)
+  const readCandidate = (path) => readFixed(testingBattleVictorySourceRevision, path)
+  const readLive = (path) => readFileSync(join(repository, path))
+  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
+  const current = JSON.parse(readLive(hostEvidence))
+  const check = (evidence, inputs = bridge) =>
+    restoreTestingBattleVictorySourceBindings(hostEvidence, bytes(evidence), inputs)
+  assert.deepEqual(check(current), readBase(hostEvidence))
+
+  const movedClaim = structuredClone(current)
+  movedClaim.claims[0].evidence[0] = 'packages/reforge/src/main.ts:1245-1266'
+  assert.throws(() => check(movedClaim), /Expected values to be strictly equal/u)
+
+  const promotedExecution = structuredClone(current)
+  promotedExecution.runtimeExecution.performed = !current.runtimeExecution.performed
+  assert.throws(() => check(promotedExecution), /Expected values to be strictly deep-equal/u)
+
+  const changedPort = structuredClone(current)
+  const main = 'packages/reforge/src/main.ts'
+  const changedSource = Buffer.from(
+    readLive(main).toString().replace('deferRecovery: true', 'deferRecovery: false'),
+  )
+  const reference = changedPort.sourceRefs.find(({ path }) => path === main)
+  reference.sha256 = hash(changedSource)
+  assert.throws(
+    () =>
+      check(changedPort, {
+        ...bridge,
+        readSource: (path) => (path === main ? changedSource : readLive(path)),
+      }),
+    /encounter source differs from the frozen Q2 candidate/u,
+  )
 })
 
 test('the admitted battle session rebind preserves the old owner and the single Q2 append', () => {

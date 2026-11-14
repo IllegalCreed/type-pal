@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "435-446",
+      "lines": "440-451",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:435-446",
+        "packages/reforge/src/main.ts:440-451",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
         "packages/reforge/src/world-scene-presentation.ts:71-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
@@ -189,6 +189,22 @@
         }
       ],
       "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+    },
+    {
+      "action": "q2-world-victory-source-rebinding",
+      "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "435-446",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+        }
+      ],
+      "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
     }
   ],
   "_governance": {

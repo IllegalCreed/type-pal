@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "408-415",
+      "lines": "413-420",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "449-456",
+      "lines": "454-461",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:408-415",
-        "packages/reforge/src/main.ts:449-456",
+        "packages/reforge/src/main.ts:413-420",
+        "packages/reforge/src/main.ts:454-461",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -202,6 +202,29 @@
         }
       ],
       "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+    },
+    {
+      "action": "q2-world-victory-source-rebinding",
+      "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "408-415",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "449-456",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+        }
+      ],
+      "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
     }
   ],
   "_governance": {

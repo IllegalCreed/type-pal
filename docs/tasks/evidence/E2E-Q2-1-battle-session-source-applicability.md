@@ -147,3 +147,21 @@ Template: evidence-receipt-v1 / 1.0.0
 | `this.selection.advance(context` | 1212-1221 | 1213-1222 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
 
 其余归属来源和原执行回执沿用既有记录。运行和反控取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-14 胜利持帧后的五项来源适用性
+
+固定前驱 `11b5b8d8183147732b9ea30560b5eb2bec4b2d7f`，冻结候选 `840625b531130f6a9c4819c509ed3bf3a47353a5`。目录与五份配对证据的现行范围如下。
+
+| 条目 | 来源与锚点 | 前驱范围 | 当前范围 |
+| --- | --- | --- | --- |
+| `e2e-001`、`e2e-common-issues` | `opening-trace.test.mjs` 的 Game 世界绘制测试 | 538–653 | 551–666 |
+| `runtime-active-scene` | `main.ts` 的 ActiveScene、WorldCamera | 408–415、449–456 | 413–420、454–461 |
+| `runtime-world-owners` | `main.ts` 的 WorldMotionRuntime | 435–446 | 440–451 |
+| `runtime-battle-host` | `main.ts` 的 BattleHost 构造 | 1245–1266 | 1251–1295 |
+| `runtime-battle-host` | `battle-host.ts` 的 start、释放 active 后写回 | 55–69、165–169 | 63–78、174–178 |
+
+Game 世界绘制测试、场景/镜头/运动构造、释放 active 后写回的范围均逐字节一致。开场采集新增对 Reforge 胜利持帧早退分支的验证，检查该帧继续画对白，同时不产生新世界帧回执。旧会话仍由身份检查保护，释放 active 与 `finishWorld` 之间没有异步等待。
+
+BattleHost 构造将原胜利奖励调用改为延后半恢复，并在普通败局末帧端口与 `runDefeated` 之间接入胜利持帧端口。还原奖励调用并移除持帧端口后，构造片段与前驱逐字节一致。宿主 `start` 在取得新启动意图后增加对上一场胜利持帧的取消，移除该行后即为前驱片段。原 runner、脚本和世界身份检查、准备后提交及普通败局末帧交接仍由原调用完成。
+
+本次复核只确认既有来源适用性。各条目保留其原执行身份、主张和附件，以固定前驱重放上一层普通败局回绑。新明雷战斗、复活实跑和比较反控由 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-复活组合与真实明雷掉落)记录。

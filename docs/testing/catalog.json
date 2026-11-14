@@ -269,10 +269,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "538-653",
+          "lines": "551-666",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+          "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
         }
       ],
       "publicCallers": [
@@ -343,6 +343,22 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "538-653",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
           }
         ]
       },
@@ -419,10 +435,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "538-653",
+          "lines": "551-666",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+          "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -482,6 +498,22 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "538-653",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
           }
         ]
       },
@@ -1325,17 +1357,17 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "408-415",
+          "lines": "413-420",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "449-456",
+          "lines": "454-461",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1468,6 +1500,29 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "408-415",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "449-456",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
           }
         ]
       },
@@ -1536,24 +1591,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1245-1266",
+          "lines": "1251-1295",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
-          "lines": "55-69",
+          "lines": "63-78",
           "anchor": "async start(",
           "role": "contract",
-          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
-          "lines": "165-169",
+          "lines": "174-178",
           "anchor": "this.ports.finishWorld(session, result)",
           "role": "contract",
-          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -1658,6 +1713,36 @@
               }
             ],
             "scope": "普通全灭新增最后一帧交接端口。原准备、释放当前 active 与写回片段仍保留，历史宿主归属义务及运行身份照固定前驱。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1245-1266",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "55-69",
+                "anchor": "async start(",
+                "role": "contract",
+                "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "165-169",
+                "anchor": "this.ports.finishWorld(session, result)",
+                "role": "contract",
+                "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
           }
         ]
       },
@@ -2277,10 +2362,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "435-446",
+          "lines": "440-451",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -2406,6 +2491,22 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "435-446",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
           }
         ]
       },
@@ -4797,21 +4898,21 @@
           "anchor": "await runBrowserJourney({",
           "role": "native-special-status-caller",
           "lines": "36",
-          "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+          "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
         },
         {
           "path": "scripts/e2e/battle-status-scenarios.mjs",
           "anchor": "export async function prepareBattleStatusInputs(",
           "role": "native-status-legal-inputs",
-          "lines": "323",
-          "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+          "lines": "377",
+          "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
         },
         {
           "path": "scripts/e2e/battle-status-rules.mjs",
           "anchor": "export function checkStatusRules(",
           "role": "native-status-action-and-frame-oracle",
-          "lines": "638",
-          "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+          "lines": "886",
+          "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
         },
         {
           "path": "scripts/e2e/battle-status-compare.mjs",
@@ -4819,6 +4920,55 @@
           "role": "native-status-offline-oracle",
           "lines": "222",
           "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-game.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-game-world-caller",
+          "lines": "454",
+          "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-reforge-world-caller",
+          "lines": "197",
+          "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+          "anchor": "export const beeWorldInput = {",
+          "role": "native-world-legal-input",
+          "lines": "19",
+          "sha256": "4920e3bb0b09ed47165869cf8e4cda4145a70fe92fd06a136af7dcd99d94edb2"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-compare.mjs",
+          "anchor": "export async function compareWorldBeeReports(",
+          "role": "native-world-offline-oracle",
+          "lines": "482",
+          "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "179",
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2445",
+          "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+        },
+        {
+          "path": "packages/content/src/rewards.ts",
+          "anchor": "export function recoverBattleParty(",
+          "role": "post-world-script-half-recovery",
+          "lines": "254",
+          "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
         }
       ],
       "publicCallers": [
@@ -4854,7 +5004,11 @@
         "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
         "node build/q2/learn-magic/check-menu.mjs",
         "node scripts/e2e/battle-status.mjs <game|reforge> <all|buff|puppet|confusion|silence|overlap>",
-        "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON"
+        "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON",
+        "node scripts/e2e/battle-status.mjs <game|reforge> revival",
+        "node scripts/e2e/battle-world-bee-game.mjs [--capture --seed=99]",
+        "node scripts/e2e/battle-world-bee-reforge.mjs [--capture --seed=99]",
+        "node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4883,7 +5037,9 @@
         "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
         "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
         "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press.",
-        "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts."
+        "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts.",
+        "Three new revival scenarios start with legal PAL party, equipment, skills and items and acquire or clear the relevant statuses using committed actions. Three adjacent cases are repeated alongside them.",
+        "Fixed engine-native checkpoints put the same equipped Anu at (93,45) in s006. Four movement commits reach (97,45), native contact starts enemy team 4, the actual group attack wins, and native Escape toggles the world menu after return."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4926,7 +5082,9 @@
           "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
           "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
           "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow.",
-          "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks."
+          "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks.",
+          "Verify transformed revival and delayed actions, puppet attack counts and audio, natural expiration and clearing by revival using native actions and frames.",
+          "Read real RNG draws, visit both reward slots, compare actual overkill numbers and notice positions, hold HP and MP until the final reward closes, then assert half recovery, hidden count and the actual world menu round trip. The return transition has a separately observed pending discrepancy."
         ]
       },
       "dedupe": {
@@ -4936,10 +5094,10 @@
           "battle-host and battle-session source audits",
           "existing rule/unit tests"
         ],
-        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases."
+        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases. Three revival combinations add natural death and expiration to the previous standalone status cases. The s006 matrix exercises world reward scripts and restored control beyond the isolated trial."
       },
       "revision": {
-        "currentSha": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+        "currentSha": "840625b531130f6a9c4819c509ed3bf3a47353a5",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -5449,6 +5607,37 @@
               }
             ],
             "archive": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz"
+          },
+          {
+            "revision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+            "date": "2026-11-14",
+            "action": "native-revival-and-world-rewards",
+            "predecessor": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+            "scope": "Three new revival combinations and three adjacent cases in 24 executions. Three actual world encounter seeds in 12 executions, with independently bound original-speed captures and a pending return transition discrepancy.",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-status.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-special-status-caller",
+                "lines": "36",
+                "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+              },
+              {
+                "path": "scripts/e2e/battle-status-scenarios.mjs",
+                "anchor": "export async function prepareBattleStatusInputs(",
+                "role": "native-status-legal-inputs",
+                "lines": "323",
+                "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+              },
+              {
+                "path": "scripts/e2e/battle-status-rules.mjs",
+                "anchor": "export function checkStatusRules(",
+                "role": "native-status-action-and-frame-oracle",
+                "lines": "638",
+                "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+              }
+            ],
+            "archive": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
           }
         ]
       }
@@ -5585,7 +5774,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge. Seven native settlement screens and the ordinary Reforge cash label were independently replayed and compared to source bitmaps and PAL colors. Twenty special-status and buff fixtures compare independently repeated real actions, draws, physical effects and status-dependent audio."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge. Seven native settlement screens and the ordinary Reforge cash label were independently replayed and compared to source bitmaps and PAL colors. Twenty special-status and buff fixtures compare independently repeated real actions, draws, physical effects and status-dependent audio. New revival cases and actual bee encounters prove separately bounded action and world reward sequences. The PAL world transition discrepancy is retained."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

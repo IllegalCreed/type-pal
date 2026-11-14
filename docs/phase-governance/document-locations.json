@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "df3d1b5b25c11ffc519cdb4ae360f412f8567192744ac6f31edcf105b5de8aa8",
+      "afterSha256": "9615840ec4dbb7359882fb040b24e82fa06a6975b27d16ebd665b2332820cbda",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root inventory audit",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 1035,
-        "acceptanceScope": "核五个新增路径和实际库存。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 1037,
+        "acceptanceScope": "Six actual new tracked source paths and exact pending inventory delta without promoting closed rows"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "47fc3ff414132149b69c0d0e946aa3acb832dd08241445580926eee40e209be8",
+      "afterSha256": "789bb238004c6c2828acef004ff341fbd814bc92522e2b5ecc80e48358b9b520",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 122,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "acceptanceScope": "Build state and dual-engine evidence scoped to tested behavior, visualization still pending, diagnosed fade and remaining work visible"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "6fa306bee926275f260f31a0be509c40e44f27204b1bdb345a4733d06452d21e",
+      "afterSha256": "00d4eba9d1cff418bc3250b23ae12a8c8e3244941f54c7e0acc1390f7a276e04",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 43,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "acceptanceScope": "Single added navigation link binds the current archive and prior Q2 entries remain intact"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "2e8ace101fdafd47b42385baf37ff277cba9ed2bd5abedf920acbc1c44326545",
+      "afterSha256": "397eff80c77ce5502797005b31c16744bcd79c005e1e58a627ccc0e90da19232",
       "review": {
         "author": "Codex /root",
-        "reviewer": "q2_status_rules",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
-        "reviewedLines": 1776,
-        "acceptanceScope": "核模拟伤害与固定扣血顺序、43 件原盘物品的 39 个入口及既有历史原文保全。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 1782,
+        "acceptanceScope": "SSS 41027 threshold 11/12, script-first recovery and 41127/41128 fade source, overkill boundaries and prior text continuity"
       }
     },
     {
@@ -4010,14 +4010,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "mode": "reviewed",
-      "afterSha256": "f68085e3387079193d0e6f439f3036fa3ed726e7384378aa5ba3ff0d88b5a041",
+      "afterSha256": "352f6080a8e3a52ca8be052b485c38b706498ec3e76b9950f6eac2b2bd6db4ee",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 562,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       },
       "templateId": "test-domain-report-v1"
     },
@@ -4068,14 +4068,14 @@
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
       "mode": "reviewed",
-      "afterSha256": "1fb97adaaca3ff7c5ba80e5ede62fdc22ee443399244aa59a2e8aadaa52aca0a",
+      "afterSha256": "7e41b327479f19eec55029b40046c7040b8a91778a9122a8811e9800c2a1c1bf",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 299,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       },
       "templateId": "test-run-report-v1"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "9159d1bb6a4883def18658d7ccc3a6af5c264142e866c3cd9d60c63e37187240",
+      "afterSha256": "2f2c567d6793757ab8a84755fb80d491e6545e9e54ca1844992775871e98bdc4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 5928,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 6117,
+        "acceptanceScope": "36 source anchors/hash checks, Q2 current revision paired with report/evidence, unrelated entries and original history prefix unchanged Also reviewed the exact source-only successor of the five existing encounter records."
       }
     },
     {
@@ -4418,82 +4418,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "eee5c8d164392d5bc92445e8c9f62a3bb7acf30e7d3ab4ed861fad84e1b26135",
+      "afterSha256": "e43dfa7ab47eb2fcc6b631897b2a9156233f066914594663777e55fe794c6470",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a81a4a0685e750f0429ed3f905718647d8f9d18e346248d0f7f6ea5f1a041e5e",
+      "afterSha256": "fed9a8361cad3e07a6ca3f1b77fff42f2c611bc36d0c5df3b19223b3bab3063b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
-        "reviewedLines": 274,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 297,
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "c84d8314db4acc1cd42c6d10c102371bb69473ad2373991d983638ce26ca2d6d",
+      "afterSha256": "fc217b02dcd5728f04ad322aa0a5ae4f2a6cf994cf56448b7cdfba90f103c689",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 98,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "feae148b8a58309732537cfeb1ca8109126520e035dc9dbbcde40a7f3e00636c",
+      "afterSha256": "30a446ccdf6a542d1309d7af28f004c0b5da443b2901c599d3ef3c92aa6b7fed",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
-        "reviewedLines": 246,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 276,
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "023219458f416b0c1ee5ee215a09b26e62cabd187bbf2ec401f3b472a237b6bc",
+      "afterSha256": "9f026e8653aba27553c78b14cd3b1ef25bb2b39e526d9b341488bb43de63632b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "071da92aa7de36cbbbe07074581b7f1b185cb1d7e92a327b15931da141c972bb",
+      "afterSha256": "f38b679afe87f116d04858ec1f3c573bc893f192aec8394451105f851389868e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
-        "reviewedLines": 256,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 272,
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       }
     },
     {
@@ -4780,14 +4780,14 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "27050169e029f9562149e1865550786dfe7833e5eee58098eaaa36db0fe926d9",
+      "afterSha256": "1a216cf58500ef598860dd8f95737ad7934b248fa6976e0cd616cc2d4ff3e881",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
-        "reviewedLines": 173,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 189,
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       }
     },
     {
@@ -4858,14 +4858,14 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "fc40d4783808918c22469f19bdb535d8f9c1b20c4a5fb86cbfa4287e2e861582",
+      "afterSha256": "54b9a5513d2f17b284f517b6301c107a5b80bdcc570012c9317944c62fd2bd91",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-13",
-        "conclusion": "接受 Q2 全灭影响的当前来源重绑。",
-        "reviewedLines": 190,
-        "acceptanceScope": "同一原始执行和断言，按固定前驱及冻结候选逐项核引用。"
+        "reviewer": "Codex /root/q2_status_rules",
+        "date": "2026-11-14",
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 206,
+        "acceptanceScope": "仅重绑受胜利持帧影响的现行源码位置与指纹，保留原执行及发布记录。"
       }
     },
     {
@@ -5393,66 +5393,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "2601f4a708ec9750ff5368fac66650719843107ea8474e49956a26a91eefbd3b",
+      "afterSha256": "1e3a511caeb19063d05d0a6263fb5d0a60a4ebbab2c70f9327c29970d0393b02",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 431,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 445,
+        "acceptanceScope": "Reviewed current batch scope, contributor ownership, exact producer revisions, 24 + 12 actual cases, return and fade disclosure. Codex also checked exact gate counts, recorded counterexamples, archive and cleanup extents."
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "dc6a7fcfea5bb8f97897868cd93d41d89cfb1653c0a07fe3fb1d808b193d7531",
+      "afterSha256": "544d2d1f5df9a513e89569119b13ec1cd5795ea4667a3413f6a524ab29d49d6f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 38,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 40,
+        "acceptanceScope": "Current revival selector, both world runners, independent comparison CLI and single-seed capture entry points"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "234e93c3cea55028fb54935f0ec0ccbb7819b94a2bd04d96403a392499844683",
+      "afterSha256": "974978ed18ed52f62d67926f69cd8176eb46d9edb001d8c5ee72864d9311c481",
       "review": {
         "author": "Codex /root",
-        "reviewer": "q2_status_rules",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
-        "reviewedLines": 12782,
-        "acceptanceScope": "核新增的独立执行字段、归档 16 项和 SHA。原有状态分屏验收、执行和判据记录沿用原身份。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 13025,
+        "acceptanceScope": "World and revival producer/judge identity, 44 archive pointers, manifest/hash/size, quality and counterexample references, no claim of user acceptance, prior arrays and publications retained"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "916c917be487b2caf8a1fbb68929d050b3af875fa5c00f8d0f60827e557d4466",
+      "afterSha256": "4c38a28441968bd1ac665905d80349f04bf1b8a33538e6d0f3e0c6f4320ea928",
       "review": {
         "author": "Codex /root",
-        "reviewer": "q2_status_rules",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
-        "reviewedLines": 381,
-        "acceptanceScope": "核台账和雷火珠的固定阵容、战场、火抗、伤害、实绘与反控。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 407,
+        "acceptanceScope": "Native revival outcomes, two fixed producer counts, three world seeds, health and inventory ordering, menus and remaining fade, neighboring coverage preserved"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "8a92305a3548ae8ca17818a72a507da15ac1696fdbe659457711da67d04fbcd4",
+      "afterSha256": "aabed7bc1c75de169ddb14f6f6f32cd310592ef471e77704fcec43f46aa5e62d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "Codex /root/q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 150,
-        "acceptanceScope": "核固定前驱、三个源调用与既有执行回执保全。"
+        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "reviewedLines": 168,
+        "acceptanceScope": "固定前驱、冻结候选、七个源范围与五项旧记录可完整还原。"
       }
     }
   ],
@@ -5862,6 +5862,12 @@
       "sha256": "9cb2c14d0bb2db9e704c70c138f1140d31352140992bb9765577f6de498ceca2",
       "bytes": 423080,
       "purpose": "雷火珠四组双端实测的真实输入、原始轨迹、离线对照和实绘数字反控。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz",
+      "sha256": "8f65ff07450675b1e3cd797597efa64bc9369abe129561a3f2bff398189d32fc",
+      "bytes": 92107574,
+      "purpose": "梦蛇、傀儡及真实明雷双端轨迹、反控、原速带声分屏和独立复核。"
     }
   ],
   "artifactAliases": [],

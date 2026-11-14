@@ -46,10 +46,10 @@
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
-      "lines": "538-653",
+      "lines": "551-666",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+      "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
     }
   ],
   "publicCallers": [
@@ -88,7 +88,7 @@
         "scripts/e2e/render-evidence-observer.test.mjs:323-398",
         "scripts/e2e/npc-transition-contract.mjs:262-338",
         "scripts/e2e/opening-trace-plugin.mjs:164-178",
-        "scripts/e2e/opening-trace.test.mjs:538-653"
+        "scripts/e2e/opening-trace.test.mjs:551-666"
       ]
     }
   ],
@@ -145,6 +145,22 @@
         }
       ],
       "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+    },
+    {
+      "action": "q2-world-victory-source-rebinding",
+      "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "538-653",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+        }
+      ],
+      "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
     }
   ],
   "_governance": {

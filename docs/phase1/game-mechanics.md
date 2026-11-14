@@ -24,6 +24,12 @@ Template: reference-canon-v1 / 1.0.0
 
 普攻特效按实际战斗精灵取 EFFECT 帧组。单体连击的下一挥读取目标当前受击位置，群攻特效按在场敌槽的固定底锚绘制。每次群攻重抽暴击，目标槽按 2、1、0、4、3 的次序逐次减半。 [物攻落点](../../reference/sdlpal/fight.c#L2038-L2247) · [群攻逐挥](../../reference/sdlpal/fight.c#L3680-L3757) · [双端验证范围](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-特殊状态与增益)
 
+## 2026-11-14 敌槽战后掉落与群攻过量伤害
+
+十里坡 e154 的原队 4 用两个独立的 403 敌槽，胜利结算后逐槽执行 SSS 41027。指令 `0x06 [12, 0, 0]` 对 1–100 等概率抽样，11 可进入发放蜂巢 115 的路径，12 跳过。原盘参考先完成逐槽脚本，再给全队恢复体力与真气缺口的一半。原中心提示可在 1.4 秒内按键提前结束。Game 实跑时卷轴叠在战场上，最后一条关闭后才回世界。该遭遇胜利后跳至 SSS 41127，先隐藏 800 拍，随后 41128 的 `0x50` 淡黑并标记下次绘场景时淡入。 [随机分支](../../reference/sdlpal/script.c#L3299-L3313) · [脚本与半恢复](../../reference/sdlpal/battle.c#L1334-L1353) · [中心卷轴](../../reference/sdlpal/text.c#L1663-L1712) · [淡黑](../../reference/sdlpal/script.c#L1775-L1800) · [场景淡入](../../reference/sdlpal/scene.c#L503-L508)
+
+Game 的全体普攻逐挥从当前 HP 减去递减后的浮点伤害，向零取整以求飘字，再把 HP 钳至 0。两只 32 HP 蜜蜂的实跑中，玄冥宝刀一轮群攻先暴击，后普通挥击。半伤槽的数字是 373 和 124。SDLPal 参考代码在负浮点写入无符号 HP 的边界受编译方式影响，PAL DOS 二进制的边界仍待实测。本轮 Reforge 采用 Game 的实际飘字规则。 [群攻 HP 回写](../../reference/sdlpal/fight.c#L3694-L3730) · [Game 实现](../../packages/game/src/core/battle/actions/attack.ts) · [双端证据](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-复活组合与真实明雷掉落)
+
 ## 2026-11-14 横向卷轴的文字
 
 SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底卷轴上用 0 号黑色写字，关闭字形阴影。练成仙术的角色名和「练成」同样用 0 号，术名用标准色板 0x1B，三段都关闭阴影。段首按词条格宽推进。逍遥和灵儿在本次局面都是三格姓名，后接两格「练成」，两段交界和术名前连续排字。主菜单的「金钱」也用 0 号且关闭字形阴影，卷轴自身仍带阴影。 [经验和金钱](../../reference/sdlpal/battle.c#L1037) · [修行提升](../../reference/sdlpal/battle.c#L1133) · [隐藏属性提升](../../reference/sdlpal/battle.c#L1269) · [练成仙术](../../reference/sdlpal/battle.c#L1319) · [主菜单金钱](../../reference/sdlpal/uigame.c#L483)

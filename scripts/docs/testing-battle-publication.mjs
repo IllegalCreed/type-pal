@@ -109,10 +109,12 @@ const sessionSpecialStatusBinding = {
 }
 
 export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57872b9b2849'
+export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5eb2bec4b2d7f'
+export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
-const defeatBindings = new Map([
+const encounterBindings = new Map([
   ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
   ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
   [
@@ -138,8 +140,68 @@ const defeatSourceRanges = new Map([
 ])
 export const isTestingBattleDefeatSourcePath = (path) => defeatSourceRanges.has(path)
 
-function defeatReferences(before, current, paths, { source, fixed, predecessor }) {
-  assert.equal(current.length, before.length, 'defeat source reference membership changed')
+const victorySourceRanges = new Map([
+  [openingTraceTest, { '538-653': '551-666' }],
+  [
+    reforgeMain,
+    { '408-415': '413-420', '449-456': '454-461', '435-446': '440-451', '1245-1266': '1251-1295' },
+  ],
+  [reforgeBattleHost, { '55-69': '63-78', '165-169': '174-178' }],
+])
+
+function defeatExcerpt(excerpt, { path, lines }) {
+  if (path !== reforgeMain || lines !== '1242-1261') return excerpt
+  const added =
+    '      worldDefeatFrameCapture: (signal) =>\n        ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,\n'
+  assert.equal(excerpt.split(added).length, 2, 'defeat frame port changed')
+  return excerpt.replace(added, '')
+}
+
+function victoryExcerpt(excerpt, { path, lines }) {
+  if (path === reforgeBattleHost && lines === '55-69') {
+    const cancellation = '    this.#victoryPresentation?.abort()\n'
+    assert.equal(excerpt.split(cancellation).length, 2, 'victory owner cancellation changed')
+    return excerpt.replace(cancellation, '')
+  }
+  if (path !== reforgeMain || lines !== '1245-1266') return excerpt
+  const settle = [
+    '        settleBattleVictory(session, world, canonicalProject, playVictory, undefined, {',
+    '          deferRecovery: true,',
+    '        }),',
+  ].join('\n')
+  assert.equal(excerpt.split(settle).length, 2, 'victory settlement port changed')
+  const heldFrame = excerpt.indexOf('      presentVictory: async (owner, signal, finish) => {\n')
+  const defeated = excerpt.indexOf(
+    '      runDefeated: async (definitions, signal, assertCurrent) => {',
+  )
+  assert(heldFrame > 0 && defeated > heldFrame, 'victory frame port changed')
+  return (excerpt.slice(0, heldFrame) + excerpt.slice(defeated)).replace(
+    settle,
+    '        settleBattleVictory(session, world, canonicalProject, playVictory),',
+  )
+}
+
+const defeatBinding = {
+  ranges: defeatSourceRanges,
+  normalizeExcerpt: defeatExcerpt,
+  base: testingBattleSessionCasualtyDialogueBase,
+  action: 'q2-ordinary-defeat-source-rebinding',
+  date: '2026-11-13',
+}
+const victoryBinding = {
+  ranges: victorySourceRanges,
+  normalizeExcerpt: victoryExcerpt,
+  base: testingBattleVictoryPublicationBase,
+  action: 'q2-world-victory-source-rebinding',
+  date: '2026-11-14',
+}
+
+function encounterReferences(before, current, paths, { source, fixed, predecessor }, stage) {
+  assert.equal(
+    current.length,
+    before.length,
+    'battle encounter source reference membership changed',
+  )
   const previous = []
   const clip = (bytes, range) => {
     const [first, last] = range.split('-').map(Number)
@@ -152,62 +214,64 @@ function defeatReferences(before, current, paths, { source, fixed, predecessor }
   for (const [index, old] of before.entries()) {
     const reference = current[index]
     if (!paths.includes(old.path)) {
-      assert.deepEqual(reference, old, 'defeat bridge changed an unrelated source reference')
+      assert.deepEqual(reference, old, 'encounter bridge changed an unrelated source reference')
       continue
     }
-    const nextRange = defeatSourceRanges.get(old.path)[old.lines]
-    assert(nextRange, 'defeat bridge source range was not admitted')
+    const nextRange = stage.ranges.get(old.path)[old.lines]
+    assert(nextRange, 'encounter bridge source range was not admitted')
     assert.deepEqual({ ...reference, sha256: old.sha256, lines: old.lines }, old)
-    assert.equal(reference.lines, nextRange, 'defeat bridge referenced a different caller range')
+    assert.equal(reference.lines, nextRange, 'encounter bridge referenced a different caller range')
     assertTestingBridgeReference(old, predecessor)
     assertTestingBridgeReference(reference, source)
     const actual = source.read(old.path)
     assert(
       actual.equals(fixed.read(old.path)),
-      'defeat source differs from the frozen Q2 candidate',
+      'encounter source differs from the frozen Q2 candidate',
     )
-    let excerpt = clip(actual, nextRange)
-    if (old.path === reforgeMain && old.lines === '1242-1261') {
-      const added =
-        '      worldDefeatFrameCapture: (signal) =>\n        ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,\n'
-      assert.equal(excerpt.split(added).length, 2, 'defeat frame port changed')
-      excerpt = excerpt.replace(added, '')
-    }
     assert.equal(
-      excerpt,
+      stage.normalizeExcerpt(clip(actual, nextRange), old),
       clip(predecessor.read(old.path), old.lines),
-      'defeat bridge changed the accepted caller excerpt',
+      'encounter bridge changed the accepted caller excerpt',
     )
     previous.push(old)
   }
-  assert(previous.length > 0, 'defeat bridge has no approved reference')
+  assert(previous.length > 0, 'encounter bridge has no approved reference')
   return previous
 }
 
-function defeatHistory(before, current, previous, readSource) {
+function encounterHistory(before, current, previous, readSource, stage) {
   const history = restoreTestingBridgeHistory(
     before,
     current,
     previous,
     readSource,
-    testingBattleSessionCasualtyDialogueBase,
+    stage.base,
     sessionReceipt,
   )
   const event = current.at(-1)
-  assert.equal(event.action, 'q2-ordinary-defeat-source-rebinding')
-  assert.equal(event.date, '2026-11-13')
+  assert.equal(event.action, stage.action)
+  assert.equal(event.date, stage.date)
   return history
 }
 
 /** Restore the five older entry objects before replaying their original publication
  * guards. Only the admitted source coordinates and one applicability event may vary. */
-export function restoreTestingBattleDefeatSourceBindings(
+export function restoreTestingBattleDefeatSourceBindings(path, currentBytes, inputs) {
+  return restoreEncounterSourceBindings(path, currentBytes, inputs, defeatBinding)
+}
+
+export function restoreTestingBattleVictorySourceBindings(path, currentBytes, inputs) {
+  return restoreEncounterSourceBindings(path, currentBytes, inputs, victoryBinding)
+}
+
+function restoreEncounterSourceBindings(
   path,
   currentBytes,
   { readSource, readBase, readFixed },
+  stage,
 ) {
   if (!path.startsWith('docs/testing/')) return currentBytes
-  const binding = defeatBindings.get(path.slice('docs/testing/'.length))
+  const binding = encounterBindings.get(path.slice('docs/testing/'.length))
   if (!binding && path !== catalogPath) return currentBytes
   const baseBytes = readBase(path)
   const before = parseTerminalJson(baseBytes)
@@ -218,17 +282,21 @@ export function restoreTestingBattleDefeatSourceBindings(
     predecessor: testingBridgeSources(readBase),
   }
   if (path === catalogPath) {
-    for (const { id, paths } of defeatBindings.values()) {
+    for (const { id, paths } of encounterBindings.values()) {
       const index = before.entries.findIndex((entry) => entry.id === id)
       const old = before.entries[index]
       const entry = current.entries[index]
-      assert(index >= 0 && entry.id === old.id, 'defeat bridge changed catalog identity or order')
-      const previous = defeatReferences(old.sourceRefs, entry.sourceRefs, paths, sources)
-      const history = defeatHistory(
+      assert(
+        index >= 0 && entry.id === old.id,
+        'encounter bridge changed catalog identity or order',
+      )
+      const previous = encounterReferences(old.sourceRefs, entry.sourceRefs, paths, sources, stage)
+      const history = encounterHistory(
         old.revision.history,
         entry.revision.history,
         previous,
         readSource,
+        stage,
       )
       assert.deepEqual(
         { ...entry, sourceRefs: old.sourceRefs, revision: { ...entry.revision, history } },
@@ -241,12 +309,18 @@ export function restoreTestingBattleDefeatSourceBindings(
 
   assert.equal(before.id, binding.id)
   assert.equal(current.id, binding.id)
-  const previous = defeatReferences(before.sourceRefs, current.sourceRefs, binding.paths, sources)
-  const history = defeatHistory(before.history, current.history, previous, readSource)
+  const previous = encounterReferences(
+    before.sourceRefs,
+    current.sourceRefs,
+    binding.paths,
+    sources,
+    stage,
+  )
+  const history = encounterHistory(before.history, current.history, previous, readSource, stage)
   const claimIndex = before.claims.findIndex(
     ({ id, result }) => id === `${binding.id}-source-contract` && result === 'source-backed',
   )
-  assert(claimIndex >= 0, 'defeat bridge source claim missing')
+  assert(claimIndex >= 0, 'encounter bridge source claim missing')
   for (const old of previous) {
     const reference = current.sourceRefs[before.sourceRefs.indexOf(old)]
     const pointer = `${old.path}:${old.lines}`

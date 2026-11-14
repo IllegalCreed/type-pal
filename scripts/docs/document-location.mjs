@@ -29,6 +29,7 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleVictorySourceBindings,
   testingBattleDefeatSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
@@ -44,6 +45,8 @@ import {
   testingBattleSessionSourcePath,
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
+  testingBattleVictoryPublicationBase,
+  testingBattleVictorySourceRevision,
 } from './testing-battle-publication.mjs'
 import {
   assertTestingChestSourceBridge,
@@ -479,14 +482,29 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       'defeat source bridge requires the fixed Q2 battle lineage',
     )
   const defeatSource = defeatRevision && gitTree(root, defeatRevision, [])
-  const priorDefeatBindings = (path, current) =>
-    defeatSource
-      ? restoreTestingBattleDefeatSourceBindings(path, current, {
+  const victoryRevision = admission.testingBattleVictorySourceRevision
+  if (victoryRevision !== undefined)
+    assert(
+      defeatSource && victoryRevision === testingBattleVictorySourceRevision,
+      'victory source bridge requires the fixed post-defeat Q2 candidate',
+    )
+  const victorySource = victoryRevision && gitTree(root, victoryRevision, [])
+  const preVictory = victorySource && gitTree(root, testingBattleVictoryPublicationBase, [])
+  const priorDefeatBindings = (path, current) => {
+    if (!defeatSource) return current
+    const beforeVictory = victorySource
+      ? restoreTestingBattleVictorySourceBindings(path, current, {
           readSource,
-          readBase: preBattleCasualtyDialogue.read,
-          readFixed: defeatSource.read,
+          readBase: preVictory.read,
+          readFixed: victorySource.read,
         })
       : current
+    return restoreTestingBattleDefeatSourceBindings(path, beforeVictory, {
+      readSource: preVictory?.read ?? readSource,
+      readBase: preBattleCasualtyDialogue.read,
+      readFixed: defeatSource.read,
+    })
+  }
   const battleBridge = preBattle && {
     readSource,
     fixed: { revision: battlePublicationRevision, readSource: preBattle.read },

@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1245-1266",
+      "lines": "1251-1295",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+      "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "55-69",
+      "lines": "63-78",
       "anchor": "async start(",
       "role": "contract",
-      "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "lines": "165-169",
+      "lines": "174-178",
       "anchor": "this.ports.finishWorld(session, result)",
       "role": "contract",
-      "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.test.ts",
@@ -75,9 +75,9 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1245-1266",
-        "packages/reforge/src/battle/battle-host.ts:55-69",
-        "packages/reforge/src/battle/battle-host.ts:165-169",
+        "packages/reforge/src/main.ts:1251-1295",
+        "packages/reforge/src/battle/battle-host.ts:63-78",
+        "packages/reforge/src/battle/battle-host.ts:174-178",
         "packages/reforge/src/battle/battle-host.test.ts:13-36",
         "packages/content/src/character.ts:168-170"
       ]
@@ -180,6 +180,36 @@
         }
       ],
       "scope": "普通全灭新增最后一帧交接端口。原准备、释放当前 active 与写回片段仍保留，历史宿主归属义务及运行身份照固定前驱。"
+    },
+    {
+      "action": "q2-world-victory-source-rebinding",
+      "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1245-1266",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "55-69",
+          "anchor": "async start(",
+          "role": "contract",
+          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "lines": "165-169",
+          "anchor": "this.ports.finishWorld(session, result)",
+          "role": "contract",
+          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+        }
+      ],
+      "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
     }
   ],
   "_governance": {
