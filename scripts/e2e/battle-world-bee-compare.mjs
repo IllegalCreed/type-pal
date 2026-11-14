@@ -54,6 +54,22 @@ async function verifySources() {
     [rows[41142].operands, rows[41143].to, rows[41127].opcode, rows[41128].opcode],
     [[4, 41075, 41073], 'L_41127', 0x52, 0x50],
   )
+  assert.deepEqual(
+    rows.slice(38641, 38652).map(({ opcode, operands }) => [opcode, operands.slice(0, 2)]),
+    [
+      [9, [8, 0]],
+      [0x47, [66, 0]],
+      [6, [60, 38648]],
+      [9, [6, 0]],
+      [6, [20, 0]],
+      [0x47, [66, 0]],
+      [9, [8, 0]],
+      [6, [8, 0]],
+      [6, [33, 38641]],
+      [9, [20, 0]],
+      [0x47, [73, 0]],
+    ],
+  )
 }
 
 function makeFacts(engine, trace, row, check) {
@@ -96,6 +112,7 @@ function inspectHandoff(engine, trace, check, hasLoot) {
     ? trace.native.ambient
     : trace.events.filter(({ kind }) => kind === 'ambient')
   const brightMap = game ? ready : map.find(({ alpha }) => alpha === 0)
+  const beforeContact = ambient?.filter(({ atMs }) => atMs < contact?.atMs)
   const resumedAmbient = ambient?.find((sound) => before(brightMap, sound))
 
   check(
@@ -225,16 +242,36 @@ function inspectHandoff(engine, trace, check, hasLoot) {
     ],
     [true, 0, true, true, true, beeWorldInput.stop, true, true],
   )
+  const ambientResumeMs = milliseconds(brightMap, resumedAmbient)
+  const initialCue = beforeContact?.[0]
+  const activeInterCueMs = milliseconds(initialCue, contact) + ambientResumeMs
+  // The fixed route nearly uses up the initial eight world ticks. If the first
+  // 066 already played, the next cue instead follows the source's chance loops.
+  // Keep a world tick of sampling margin on the source-derived lower bounds.
+  const earliestInterCue = (resumedAmbient?.track === 73 ? 2300 : 900) - 100
+  const resumedOnTime = initialCue
+    ? activeInterCueMs >= earliestInterCue || {
+        observedMs: activeInterCueMs,
+        earliestMs: earliestInterCue,
+      }
+    : between(ambientResumeMs, 0, 500)
   check(
     '十里坡背景虫鸣在接敌期间暂停，回场后从等待中继续播放',
     [
       ambient?.filter((sound) => before(contact, sound) && !before(brightMap, sound)).length,
-      resumedAmbient?.track,
+      beforeContact?.every(
+        (sound, index) =>
+          index === 0 &&
+          sound.track === 66 &&
+          sound.audioContextState === 'running' &&
+          sound.seconds > 0,
+      ),
+      initialCue ? [66, 73].includes(resumedAmbient?.track) : resumedAmbient?.track === 66,
       resumedAmbient?.audioContextState,
       resumedAmbient?.seconds > 0,
-      between(milliseconds(brightMap, resumedAmbient), 0, 500),
+      resumedOnTime,
     ],
-    [0, 66, 'running', true, true],
+    [0, true, true, 'running', true, true],
   )
   const configuredOut = game ? fade[0]?.paletteFade.startAtMs : fade[0]?.atMs
   const out = Math.round(black[0]?.atMs - configuredOut)
@@ -255,6 +292,9 @@ function inspectHandoff(engine, trace, check, hasLoot) {
     firstBandMs: milliseconds(contact, intro[0]),
     firstCommandMs: milliseconds(command, actualCommit),
     musicToMenuMs: milliseconds(battleMusic, command),
+    preContactAmbientMs: initialCue ? milliseconds(contact, initialCue) : null,
+    ambientResumeTrack: resumedAmbient?.track,
+    ambientResumeMs,
   }
 }
 
