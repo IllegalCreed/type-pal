@@ -40,6 +40,10 @@ Template: guide-runbook-v1 / 1.0.0
 
 合击生产者置`fThisTurnCoop`后，本回合后续玩家行动已吞并；[回合控制器](../../packages/game/src/core/battle/battle-system.ts)不得在混乱分支重新选靶覆盖pass，也不能为已吞行动消耗选靶随机数。合击的健康参与者判定、正常混乱选人及伤害公式分别保留原合同。核接线须先经真实合击菜单/执行，再观察后续混乱队员；单独手填flag只能证明消费者分支。
 
+### 浏览器存档与导入
+
+IndexedDB 的原生存档保留结构化克隆，便携 V1 文件使用 JSON。两者共享金钱为有限数值的规则。Game 从浏览器槽位读取时，先核金钱字段，再停止当前音乐、覆盖活动内容和准备目标场景。坏金钱字段会报读取错误，当前现场保留。V1 文件导入仍由完整的现有 JSON 校验器处理。 [Game 读取入口](../../packages/game/src/shell/bootstrap.ts) · [V1 文件导入](../../packages/game/src/tools/save-io.ts)
+
 ### 开发跳转与本地资源服务
 
 开发跳转的`partyStart`仍有生产consumer：[dev-panel](../../packages/game/src/dev/dev-panel.ts)传给loadScene，在onEnter后覆盖起点；未提供时保留脚本位置。备用点须核真实`tickSceneInput`的移动范围，不只核地形可站立。scene-86原点落在x<160移动边界，改为同网格相位(176,1048)；只影响[调试表](../../packages/game/src/dev/fixtures/scene-jumps.json)，不是正常剧情或碰撞规则变更。
