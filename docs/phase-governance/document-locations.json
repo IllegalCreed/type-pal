@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "9615840ec4dbb7359882fb040b24e82fa06a6975b27d16ebd665b2332820cbda",
+      "afterSha256": "9e1739ed265ed2d54f192b34e967fa9e35db7b7a0b91a517fd710be63ae55b90",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
-        "reviewedLines": 1037,
-        "acceptanceScope": "Six actual new tracked source paths and exact pending inventory delta without promoting closed rows"
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 1039,
+        "acceptanceScope": "限五个新增 tracked 代码/测试路径及计数。定向运行 code-quality-ledger 得 3,783 总数、970 closed、0 review、2,813 pending，对照基点逐路径清单及未改原 live 表。本条是库存和证据指针核验，关闭结论仍由各文件八维原件持有。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "789bb238004c6c2828acef004ff341fbd814bc92522e2b5ecc80e48358b9b520",
+      "afterSha256": "091ccdf266d3b006c1238637cb325c693a8d86d07aaa2c874179cfd54b34aaf4",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
         "reviewedLines": 122,
-        "acceptanceScope": "Build state and dual-engine evidence scoped to tested behavior, visualization still pending, diagnosed fade and remaining work visible"
+        "acceptanceScope": "仅核第93行 E2E-Q2-1 导航与状态，保持 build。明雷进场、胜利回场和复活对应已存在的技术复验，原速带声分屏仍待用户，逃跑、剧情必败、世界存读依父卡台账。其它任务行沿用已有结论。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "00d4eba9d1cff418bc3250b23ae12a8c8e3244941f54c7e0acc1390f7a276e04",
+      "afterSha256": "b67acb119990abd974301edd38498da7227d953289180c9c6e23b2aa508c4238",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
         "reviewedLines": 43,
-        "acceptanceScope": "Single added navigation link binds the current archive and prior Q2 entries remain intact"
+        "acceptanceScope": "限 Q2 原件索引新增「转场与复活演出复验原件」入口。链接落到本轮唯一的证据归档，沿用前批各自入口，旧差异及复活与明雷掉落原件仍可独立定位。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "397eff80c77ce5502797005b31c16744bcd79c005e1e58a627ccc0e90da19232",
+      "afterSha256": "7debbe5be5a9d27bbd9417c2c4ae85a06db1d5d98c6591add1ce1c0406e67813",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
-        "reviewedLines": 1782,
-        "acceptanceScope": "SSS 41027 threshold 11/12, script-first recovery and 41127/41128 fade source, overkill boundaries and prior text continuity"
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 1792,
+        "acceptanceScope": "限新节「正常接敌与回合演出」。实核 SDLPal 200 ms 定格、六带换屏与战斗乐、0x50 的600 ms调色板请求、梦蛇成功脚本与默认站位、72步色带及首轮仅换高位、后续再推进低位亮度、倒地单色、CLASSIC空队列及八拍毒伤，以及原 SSS 38641 开始的地图自动声。源码参考与本项目实跑结论分属原有文档边界，本条仅授正文增量复核。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "0a88e4039816377755df3d3a90f3b175ce4f3cc6c6b6f437d061f7e2c5102c8a",
+      "afterSha256": "389ed08d90ad9e1610c1146b67772117e651181678b6a27c00cea8cb03cef908",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 324,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "/root/q2_restore_drain_probe",
+        "date": "2026-11-14",
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 330,
+        "acceptanceScope": "限新增三段普通明雷规则。核作者工作台与实体同名控件、项目/实体字段优先级和828个原盘映射，实际宿主奖励、逐槽脚本、半恢复、隐藏提交、冻结战场淡黑与更新地图淡入顺序，及遭遇持有期间的自动等待与66/73共享环境脚本。脚本战和试打依现行各自入口，覆盖限现有真实明雷及反例。"
       },
       "templateId": "design-spec-v1"
     },
@@ -5393,53 +5393,53 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1e3a511caeb19063d05d0a6263fb5d0a60a4ebbab2c70f9327c29970d0393b02",
+      "afterSha256": "2cc37b8c1ca67d7fecbb538117cdc533fd9ee0e25f9d16b3751efb54b868b502",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
-        "reviewedLines": 445,
-        "acceptanceScope": "Reviewed current batch scope, contributor ownership, exact producer revisions, 24 + 12 actual cases, return and fade disclosure. Codex also checked exact gate counts, recorded counterexamples, archive and cleanup extents."
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 469,
+        "acceptanceScope": "仅核 2026-11-14 双端差异返工准入及本轮回执增量。核边界和 Owner、PAL三条胜利尾链和828项继承、编辑器测试与实际宽度回执、双端蜜蜂6场/端和状态12场/端来源、Game正式007与Reforge旧档拒绝及独立88步场景回归，以及可重建媒体清理数量。用户视觉、统一质量门及正式Reforge 007前驱仍由各自证据负责。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "544d2d1f5df9a513e89569119b13ec1cd5795ea4667a3413f6a524ab29d49d6f",
+      "afterSha256": "aee401c10452ae3b154c15d0fe70c0d1aa07338cf7de84a70e32ece377affff1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
         "reviewedLines": 40,
-        "acceptanceScope": "Current revival selector, both world runners, independent comparison CLI and single-seed capture entry points"
+        "acceptanceScope": "仅末段复跑导航。核 revival 选择器、两端世界 runner、离线比较参数顺序和 capture seed99 的真实可见顺序，以及对应通向复活、掉落与转场报告段。机器目录、配对证据和新运行审核归其各自发布入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "974978ed18ed52f62d67926f69cd8176eb46d9edb001d8c5ee72864d9311c481",
+      "afterSha256": "f7226e2016a22ee2251a6ddac8c7f0c82a05021653c593b711d50f04e46ea0fb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
-        "reviewedLines": 13025,
-        "acceptanceScope": "World and revival producer/judge identity, 44 archive pointers, manifest/hash/size, quality and counterexample references, no claim of user acceptance, prior arrays and publications retained"
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 13407,
+        "acceptanceScope": "限本轮机器元数据重绑、证据及历史增量。42 个来源依同伴报告核路径、锚点、行号和完整文件 SHA。查验 36 个验证原件、8 个录制回执、两次比较的生产与判定身份和 144 个归档成员定位，核原 claims、failures、history 和 artifacts 数组各自保留。发布状态以卡及用户回执为准。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4c38a28441968bd1ac665905d80349f04bf1b8a33538e6d0f3e0c6f4320ea928",
+      "afterSha256": "b9715ff8e236b6367c00303bd6ed78404b8261a94a9661075c2a262da55e6bff",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
+        "reviewer": "/root/q2_restore_drain_probe",
         "date": "2026-11-14",
-        "conclusion": "核固定候选、实际执行、判定范围与索引引用。",
-        "reviewedLines": 407,
-        "acceptanceScope": "Native revival outcomes, two fixed producer counts, three world seeds, health and inventory ordering, menus and remaining fade, neighboring coverage preserved"
+        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "reviewedLines": 427,
+        "acceptanceScope": "限末次演出复验、当批覆盖表与配对元数据。按各自生产提交核十里坡 6 对与状态 12 对及重复，分别核新虫鸣、转场时差、梦蛇与倒地节拍及说明、独立的 007 前驱拒绝和当前场景回归证据。保留前批差异、跨端菜单残差、正式 Reforge 007 和用户原速带声分屏验收边界。"
       }
     },
     {
@@ -5868,6 +5868,12 @@
       "sha256": "8f65ff07450675b1e3cd797597efa64bc9369abe129561a3f2bff398189d32fc",
       "bytes": 92107574,
       "purpose": "梦蛇、傀儡及真实明雷双端轨迹、反控、原速带声分屏和独立复核。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz",
+      "sha256": "8e662f63df2a0379ed1951e42601f9d1cb8ccb1f04ceca63ca83e6d84a929ef5",
+      "bytes": 92043934,
+      "purpose": "正常接敌、战场转场、原声及复活演出同输入的双端实跑、原件和反控。"
     }
   ],
   "artifactAliases": [],
