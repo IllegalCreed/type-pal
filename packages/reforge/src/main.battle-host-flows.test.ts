@@ -578,6 +578,52 @@ test('an authored victory fade darkens the last drawn prompt then reveals the co
   fixture.assertInputUnchanged()
 })
 
+test('a replacement battle discards the old victory fade and never draws its held frame again', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        victoryTransition: 'fade',
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const draw = vi.spyOn(ctx, 'putImageData')
+  await finish(host)
+  await advance(host, () => draw.mock.calls.length > 0)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  expect(hostileEncounterClaimed()).toBe(true)
+  const oldFrame = draw.mock.calls.at(-1)?.[0]
+  expect(oldFrame).toBeDefined()
+  const result = state()
+    .startBattle('encounter')
+    .catch((error: unknown) => error)
+  try {
+    await advance(host, () => state().renderDebug.inBattle)
+    expect(hostileEncounterClaimed()).toBe(false)
+    draw.mockClear()
+    for (let i = 0; i < 15; i++) await host.frame(100)
+    expect(draw.mock.calls.some(([frame]) => frame === oldFrame)).toBe(false)
+    expect(state().renderDebug.inBattle).toBe(true)
+  } finally {
+    if (state().renderDebug.inBattle) session().cancel()
+    await result
+  }
+  fixture.assertInputUnchanged()
+})
+
 test('a battle-end upper dialogue leaves with its battle frame on a direct world return', async () => {
   host = await installShellHost()
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
