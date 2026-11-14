@@ -144,6 +144,13 @@ function checkRun(engine, row, trace, actions, source) {
     pages,
     trio.map((attrs, i) => [source.pages[i], ...attrs]),
   )
+  for (const [index, done] of uniquePages.entries()) {
+    const started = battle.find(
+      ({ box, atMs }) =>
+        atMs <= done.atMs && box?.style === done.box.style && box.portrait === done.box.portrait,
+    )
+    if (started) timing[`dialogue${index + 1}`] = done.atMs - started.atMs
+  }
   const finalizations = group('finalize')
   const end = finalizations[0]
   check(
@@ -337,7 +344,10 @@ const tolerances = {
   offscreenHold: 85,
   narration: 90,
   entranceToStory: 220,
-  terminalToStory: 550,
+  terminalToStory: 220,
+  dialogue1: 100,
+  dialogue2: 90,
+  dialogue3: 90,
 }
 const badPair = [...paired, ...repeated].some(
   ({ sameFacts, gapsMs }) =>
