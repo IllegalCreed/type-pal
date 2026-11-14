@@ -54,8 +54,17 @@ import type {
 import { FlowRuntimeCoordinator, resolveEntityBehavior, resolveSceneHook } from './script-world.js'
 
 export interface ProjectScriptHostOptions
-  extends Omit<BaseProjectScriptHostOptions, 'executeEffect' | 'worldChanged' | 'scene'> {
+  extends Omit<
+    BaseProjectScriptHostOptions,
+    'executeEffect' | 'worldChanged' | 'scene' | 'startBattle'
+  > {
   lifecycleReferences: EntityLifecycleReferenceIndex
+  /** The source describes a runner already holding the exact activity before this call. */
+  startBattle(
+    request: Parameters<ScriptRuntimeHost['startBattle']>[0],
+    signal: AbortSignal,
+    source?: 'script',
+  ): Promise<BattleResult>
   executeEffect(
     command: RuntimeLeafCommand,
     context: Readonly<ScriptRuntimeContext>,
@@ -247,8 +256,11 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     signal: AbortSignal,
   ): Promise<BattleResult> {
     this.options.guardExecution?.(signal, 'startBattle')
+    const source = registeredScriptActivityLease(this, this.coordinator, signal)
+      ? 'script'
+      : undefined
     return await withScriptActivityLineage(this, this.coordinator, signal, () =>
-      this.options.startBattle(request, signal),
+      this.options.startBattle(request, signal, source),
     )
   }
 

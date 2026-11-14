@@ -3768,13 +3768,11 @@ export async function bootGame(
         reportInteraction?.()
         return answer
       },
-      startBattle: (request, signal) => {
-        const runtime = expectDefined(scriptRuntime)
-        const scripted = registeredScriptActivityLease(runtime.host, runtime.coordinator, signal)
+      startBattle: (request, signal, source) => {
         return battleHost.start(
           request.enemyTeamId,
           {
-            ...(scripted ? { scripted: true } : {}),
+            ...(source === 'script' ? { scripted: true } : {}),
             auto: request.auto,
             boss: request.boss,
             fieldId: request.fieldId,

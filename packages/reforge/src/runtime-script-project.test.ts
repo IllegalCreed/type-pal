@@ -103,6 +103,37 @@ async function run(
 }
 
 describe('current script compiler/runtime host', () => {
+  test('a script battle has a presentation owner while a direct launch only acquires a save lease', async () => {
+    const world = makeWorld()
+    const launches: (string | undefined)[] = []
+    const runtime = new ScriptProjectRuntime(
+      assembleProjectFixture(),
+      world,
+      digest,
+      hostOptions([], [], {
+        startBattle: async (_request, _signal, source) => {
+          launches.push(source)
+          return 'defeat'
+        },
+      }),
+    )
+    const signal = new AbortController().signal
+    expect(await runtime.host.startBattle({ enemyTeamId: 'encounter' }, signal)).toBe('defeat')
+    await runtime.runCommands(
+      [
+        {
+          kind: 'startBattle',
+          enemyTeamId: 'encounter',
+          onLose: [{ kind: 'setFlag', flag: 'retreated', value: true }],
+        },
+      ],
+      { signal },
+    )
+    expect(await runtime.host.startBattle({ enemyTeamId: 'encounter' }, signal)).toBe('defeat')
+    expect(launches).toEqual([undefined, 'script', undefined])
+    expect(world.script?.flags.retreated).toBe(true)
+  })
+
   test('retains actor condition leaves through the current compiler and host', async () => {
     const effects: string[] = []
     const changes: string[] = []
