@@ -4073,13 +4073,6 @@
                       }
                     },
                     {
-                      "kind": "setParty",
-                      "members": [
-                        "lin-yueru",
-                        "li-xiaoyao"
-                      ]
-                    },
-                    {
                       "kind": "teleportParty",
                       "pos": {
                         "col": 57,
@@ -4111,6 +4104,13 @@
                         "scene": "s093",
                         "entity": "e1759"
                       }
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "lin-yueru",
+                        "li-xiaoyao"
+                      ]
                     },
                     {
                       "kind": "clearDialog"

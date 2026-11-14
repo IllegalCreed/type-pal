@@ -436,6 +436,7 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
   )
   const entrySource = rows('entry-source')[0]
   const entryComplete = rows('entry-complete')[0]
+  const entryReady = game ? prepared : rows('entry-assets-ready')[0]
   const entryBands = rows('entry-band')
   const sceneMusicStop = rows('music-stop').find(
     ({ track, order }) => track === spec.sceneMusic && order >= (entryRequest?.order ?? Infinity),
@@ -464,6 +465,8 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
       [1, 1, 64000, [0, 1, 2, 3, 4, 5, 6], Array(7).fill(true), true, true],
     )
     const firstBand = elapsed(entrySource, entryBands[1])
+    const assetsReady = elapsed(entrySource, entryReady)
+    const due = Math.max(200, assetsReady ?? Infinity)
     const fullHold = elapsed(entryBands.at(-1), entryComplete)
     const betweenBands = entryBands
       .slice(2)
@@ -471,7 +474,7 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
     check(
       'world hold and each real reveal band precede the actual score and menu',
       [
-        firstBand !== null && firstBand >= 180 && firstBand <= 275,
+        firstBand !== null && firstBand >= due - 20 && firstBand <= due + 100,
         betweenBands.length === 5 && betweenBands.every((ms) => ms >= 33 && ms <= 95),
         fullHold !== null && fullHold >= 50 && fullHold <= 115,
         sceneMusicStop?.context,
@@ -483,6 +486,7 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
   }
   const ms = {
     requestToMenu: elapsed(entryRequest, menu),
+    entrySourceToAssetsReady: elapsed(entrySource, entryReady),
     entrySourceToFirstBand: elapsed(entrySource, entryBands[1]),
     entrySourceToComplete: elapsed(entrySource, entryComplete),
     entryFinalBandHold: elapsed(entryBands.at(-1), entryComplete),

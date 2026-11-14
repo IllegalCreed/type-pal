@@ -142,8 +142,13 @@ ${move}
       )
     }
     case 'battle/battle-entry-presentation.ts': {
-      const drawn = replaceOnce(
+      const ready = after(
         source,
+        '  show(drawTarget: () => void): Promise<void> {',
+        "    globalThis.__defeat?.eventOnce('entry-assets-ready', {})",
+      )
+      const drawn = replaceOnce(
+        ready,
         '      if (complete) reveal.complete()',
         `      globalThis.__defeat?.reforgeEntry(this.frame, reveal.bands, complete, this.pixelScale)
       if (complete) reveal.complete()`,
