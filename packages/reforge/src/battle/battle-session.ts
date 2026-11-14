@@ -266,6 +266,7 @@ export class BattleSession {
   private prevHidden = false
   /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
   private skipNextReset = false
+  private clearBannerOnActionEnd = false
   /** 同一步死亡的敌槽共用一次淡出，完成后才继续推进战斗。 */
   private deathFade: { startedAtMs: number; enemySlots: readonly number[] } | null = null
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
@@ -1732,7 +1733,9 @@ export class BattleSession {
         })
       }
       const pos = getPlayerBasePos(s.players.length, la.idx)
-      return pos ? buildFleeFail({ idx: la.idx, pos, frames: this.playerFrames(la.idx) }) : null
+      if (!pos) return null
+      this.clearBannerOnActionEnd = true
+      return buildFleeFail({ idx: la.idx, pos, frames: this.playerFrames(la.idx) })
     }
     // 敌整场逃离(battle.c:1376 0x69):全体 10ms/x−5 滑出左屏 + 停 500ms;
     // hp 已被 core 清零 → fleeingEnemies 渲染豁免,收尾不复位
@@ -2149,6 +2152,10 @@ export class BattleSession {
 
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
+    if (this.clearBannerOnActionEnd) {
+      this.itemBanner = null
+      this.clearBannerOnActionEnd = false
+    }
     if (this.skipNextReset) this.skipNextReset = false
     else this.resetVisual()
     // per-action 瞬态复位(审计红线 #7;fight.c:2835 wave 还原语义)
