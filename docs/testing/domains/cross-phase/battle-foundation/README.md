@@ -36,4 +36,4 @@ Template: governance-index-v1 / 1.0.0
 
 特殊状态与增益分别运行 `node scripts/e2e/battle-status.mjs game all` 与 `node scripts/e2e/battle-status.mjs reforge all`。两端保持相同组名或局面选择器。用 `node scripts/e2e/battle-status-compare.mjs all GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。单局带声采集使用局面名和 `--capture`。 [特殊状态与增益复验](report.md#2026-11-14-特殊状态与增益)
 
-复活组合用相同的 `revival` 选择器复跑。正常世界蜜蜂掉落分别运行 `node scripts/e2e/battle-world-bee-game.mjs` 和 `node scripts/e2e/battle-world-bee-reforge.mjs`，再用 `node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。指定 `--capture --seed=99` 可单局带声录下两个蜂巢逐槽显示。 [复活和世界掉落复验](report.md#2026-11-14-复活组合与真实明雷掉落)
+复活组合用相同的 `revival` 选择器复跑。正常世界蜜蜂掉落分别运行 `node scripts/e2e/battle-world-bee-game.mjs` 和 `node scripts/e2e/battle-world-bee-reforge.mjs`，再用 `node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 离线重比。指定 `--capture --seed=99` 可单局带声录下接敌换屏、两个蜂巢逐槽提示，以及胜利回场淡变。 [复活和世界掉落复验](report.md#2026-11-14-复活组合与真实明雷掉落) · [转场和复活演出复验](report.md#2026-11-14-明雷转场与复活演出差异复验)

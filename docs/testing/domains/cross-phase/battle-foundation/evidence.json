@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+  "candidateSha": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -69,22 +69,22 @@
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
       "role": "native-audio-observer",
-      "lines": "203",
-      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+      "lines": "204",
+      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "42",
-      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+      "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
       "lines": "17",
-      "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
+      "sha256": "8cc0c3623771f700bac6eff27d26fc9912649191529acd33e80549655cffce07"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -104,8 +104,8 @@
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
       "role": "native-magic-overlay-observer",
-      "lines": "279",
-      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+      "lines": "307",
+      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
@@ -118,8 +118,8 @@
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "'coop-fallback',",
       "role": "native-cooperative-fallback-observer",
-      "lines": "305",
-      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+      "lines": "314",
+      "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -188,8 +188,8 @@
       "path": "scripts/e2e/battle-status.mjs",
       "anchor": "await runBrowserJourney({",
       "role": "native-special-status-caller",
-      "lines": "36",
-      "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
+      "lines": "52",
+      "sha256": "7efd247d856fd4601d5f7025ca2b79b2635dee970a905fc1445d6c7101527351"
     },
     {
       "path": "scripts/e2e/battle-status-scenarios.mjs",
@@ -202,8 +202,8 @@
       "path": "scripts/e2e/battle-status-rules.mjs",
       "anchor": "export function checkStatusRules(",
       "role": "native-status-action-and-frame-oracle",
-      "lines": "886",
-      "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
+      "lines": "1035",
+      "sha256": "ac8f8353f81ef9f388d718305de898301b4c0a63b7de32c4286751d52700e027"
     },
     {
       "path": "scripts/e2e/battle-status-compare.mjs",
@@ -216,15 +216,15 @@
       "path": "scripts/e2e/battle-world-bee-game.mjs",
       "anchor": "await runBrowserJourney({",
       "role": "native-game-world-caller",
-      "lines": "454",
-      "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+      "lines": "839",
+      "sha256": "5509989887d5f75fd30ad851ac5539648068e81fc028a7a2b115fe76d60f66b6"
     },
     {
       "path": "scripts/e2e/battle-world-bee-reforge.mjs",
       "anchor": "await runBrowserJourney({",
       "role": "native-reforge-world-caller",
-      "lines": "197",
-      "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+      "lines": "311",
+      "sha256": "2ec68ba111af9db46b4449c3273bd1e374e4ae68cdd9cfa652dca8cbd615365f"
     },
     {
       "path": "scripts/e2e/battle-world-bee-scenario.mjs",
@@ -237,15 +237,15 @@
       "path": "scripts/e2e/battle-world-bee-compare.mjs",
       "anchor": "export async function compareWorldBeeReports(",
       "role": "native-world-offline-oracle",
-      "lines": "482",
-      "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+      "lines": "726",
+      "sha256": "2ec035cc77cf260794bb73f6568c87cbab9478adef21eff35617ea9f35aa1354"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
       "anchor": "private async finishEncounter(",
       "role": "world-encounter-finalizer",
-      "lines": "179",
-      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+      "lines": "277",
+      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
     },
     {
       "path": "packages/reforge/src/battle/battle-core.ts",
@@ -260,6 +260,48 @@
       "role": "post-world-script-half-recovery",
       "lines": "254",
       "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-game.config.mts",
+      "anchor": "const start = '    src.start()'",
+      "role": "native-game-world-ambient-start",
+      "lines": "100",
+      "sha256": "97f8fac61e9c8f384cb2e8d883d0634a7b9689f367edc8d2366ad1845b874be4"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+      "anchor": "function observeAmbient(source: string)",
+      "role": "native-reforge-world-ambient-start",
+      "lines": "142",
+      "sha256": "0ed8e0b3700721e93a5761445db53e7f03e6bd2f91e645742a29885d33971b6a"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
+      "anchor": "export class BattleEntryPresentation {",
+      "role": "normal-world-entry-draw",
+      "lines": "11",
+      "sha256": "6d1ca3a1e7cc9e6915528b1761a2aa4f42a7b54ff18ca501fab5f762e2f43bee"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "anchor": "function tickPostAction(",
+      "role": "first-game-exhausted-queue-tick",
+      "lines": "2792",
+      "sha256": "0c9d9e3f3d5d4aec1450eed67f2906980e873202d7d0e7c022617709e14b8e42"
+    },
+    {
+      "path": "projects/pal/content/shared-scripts.json",
+      "anchor": "\"environment-sound-duet\": {",
+      "role": "pal-ten-mile-world-ambience",
+      "lines": "2",
+      "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+    },
+    {
+      "path": "projects/pal/manifest.json",
+      "anchor": "\"hostileVictoryTransition\": \"fade\"",
+      "role": "world-victory-default-inherited-by-pal-hostiles",
+      "lines": "7",
+      "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
     }
   ],
   "publicCallers": [
@@ -375,7 +417,10 @@
       "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow.",
       "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks.",
       "Verify transformed revival and delayed actions, puppet attack counts and audio, natural expiration and clearing by revival using native actions and frames.",
-      "Read real RNG draws, visit both reward slots, compare actual overkill numbers and notice positions, hold HP and MP until the final reward closes, then assert half recovery, hidden count and the actual world menu round trip. The return transition has a separately observed pending discrepancy."
+      "Read real RNG draws, visit both reward slots, compare actual overkill numbers and notice positions, hold HP and MP until the final reward closes, then assert half recovery, hidden count and the actual world menu round trip. The return transition has a separately observed pending discrepancy.",
+      "Read six changes on the actual canvas and the original-source hold; native sequencer track 37 starts after the last band and before the first drawn command. From the last battle frame, both runs prove actual darkening, an opaque black transition, the correct first map frame, the bright frame, and then actual return input.",
+      "Observe actual WAV starts for the two authored world sounds: no new map sound during contact/battle/return, and the appropriate 066 or 073 continues after the final map handoff according to whether the initial 066 already played. Raw opcodes protect the shared script clocks and random branches.",
+      "Read both actual actor sprites at the spell pose and dissolve, the fallen portrait palette, selected spell/item description rows, and the first drawn command after a casualty and completed round."
     ]
   },
   "dedupe": {
@@ -393,9 +438,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+    "producerRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
     "result": "passed",
-    "verification": "24 revival and adjacent fights on e0726776, 12 actual world fights on 840625b5. Each batch used same-candidate Game and Reforge. Original-speed stereo captures share their respective verification dependencies.",
+    "verification": "24 status trials and 12 physical bee encounters. Matching inputs and two independent contexts per scenario; the matrices have two explicitly identified frozen producers. Eight fresh contexts capture the same case dependencies within their respective matrix. Both films retain native speed and separate stereo channels.",
     "continuous": false
   },
   "execution": {
@@ -501,15 +546,15 @@
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
-      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+      "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
-      "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
+      "sha256": "8cc0c3623771f700bac6eff27d26fc9912649191529acd33e80549655cffce07"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -521,7 +566,7 @@
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
-      "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
@@ -529,7 +574,7 @@
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+      "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -569,7 +614,7 @@
     },
     {
       "path": "scripts/e2e/battle-status.mjs",
-      "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
+      "sha256": "7efd247d856fd4601d5f7025ca2b79b2635dee970a905fc1445d6c7101527351"
     },
     {
       "path": "scripts/e2e/battle-status-scenarios.mjs",
@@ -577,7 +622,7 @@
     },
     {
       "path": "scripts/e2e/battle-status-rules.mjs",
-      "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
+      "sha256": "ac8f8353f81ef9f388d718305de898301b4c0a63b7de32c4286751d52700e027"
     },
     {
       "path": "scripts/e2e/battle-status-compare.mjs",
@@ -585,11 +630,11 @@
     },
     {
       "path": "scripts/e2e/battle-world-bee-game.mjs",
-      "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+      "sha256": "5509989887d5f75fd30ad851ac5539648068e81fc028a7a2b115fe76d60f66b6"
     },
     {
       "path": "scripts/e2e/battle-world-bee-reforge.mjs",
-      "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+      "sha256": "2ec68ba111af9db46b4449c3273bd1e374e4ae68cdd9cfa652dca8cbd615365f"
     },
     {
       "path": "scripts/e2e/battle-world-bee-scenario.mjs",
@@ -597,11 +642,11 @@
     },
     {
       "path": "scripts/e2e/battle-world-bee-compare.mjs",
-      "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+      "sha256": "2ec035cc77cf260794bb73f6568c87cbab9478adef21eff35617ea9f35aa1354"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
-      "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+      "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
     },
     {
       "path": "packages/reforge/src/battle/battle-core.ts",
@@ -610,6 +655,30 @@
     {
       "path": "packages/content/src/rewards.ts",
       "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-game.config.mts",
+      "sha256": "97f8fac61e9c8f384cb2e8d883d0634a7b9689f367edc8d2366ad1845b874be4"
+    },
+    {
+      "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+      "sha256": "0ed8e0b3700721e93a5761445db53e7f03e6bd2f91e645742a29885d33971b6a"
+    },
+    {
+      "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
+      "sha256": "6d1ca3a1e7cc9e6915528b1761a2aa4f42a7b54ff18ca501fab5f762e2f43bee"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "0c9d9e3f3d5d4aec1450eed67f2906980e873202d7d0e7c022617709e14b8e42"
+    },
+    {
+      "path": "projects/pal/content/shared-scripts.json",
+      "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+    },
+    {
+      "path": "projects/pal/manifest.json",
+      "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
     }
   ],
   "artifacts": [
@@ -10475,6 +10544,17 @@
         "bytes": 48717
       },
       "purpose": "Native revival and world bee traces, actual input and media, reproduction, counterexamples, and independent reviews."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz",
+      "sha256": "8e662f63df2a0379ed1951e42601f9d1cb8ccb1f04ceca63ca83e6d84a929ef5",
+      "bytes": 92043934,
+      "manifest": {
+        "path": "build/q2/fix-battle-differences/archive-index.json",
+        "sha256": "99c85c6c2247418eab7fce964ec3850a3e583c052f9066ad1a9d6320e4767687",
+        "bytes": 94294
+      },
+      "purpose": "Final native world and revival traces and original synchronized browser audio/video, source-derived timings, directed counterexamples and the final unaccelerated stereo comparisons."
     }
   ],
   "claims": [
@@ -11122,6 +11202,48 @@
         "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/battle-world-bee-split.mp4",
         "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/independent-world/840-ready-end-recheck/media.json"
       ]
+    },
+    {
+      "id": "native-world-entry-music-ambience-and-return-presentation",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T12-54-56-454Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T12-56-27-157Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-compare.json"
+      ]
+    },
+    {
+      "id": "native-revival-portrait-description-and-round-cadence",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-42-37-474Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-14T12-42-37-474Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/status-comparison-31cfe538.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/fatal-cadence-31cfe538.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/state-draws-31cfe538.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/audit-fatal-cadence.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/audit-state-draws.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-d008/fatal-cadence-d008.json"
+      ]
+    },
+    {
+      "id": "world-and-revival-corrected-original-speed-stereo",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/review/battle-revival-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/review/media.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-review/battle-world-bee-corrected-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-review/media.json"
+      ]
+    },
+    {
+      "id": "native-ordinary-world-routing-with-project-default",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/game-007-2026-11-14T12-55-54-141Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/reforge-s015-current-start-canary-2026-11-14T13-02-19-103Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-14T12-58-01-117Z/report.json"
+      ]
     }
   ],
   "findings": [
@@ -11592,6 +11714,90 @@
         "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/e2e/q2-reforge-world-bee-probe-2026-11-14T05-11-17-132Z/report.json"
       ],
       "result": "Stock Reforge shifted the award roll interval, restored early, put the notice on the map and rounded an overkill sweep upward. Directed controls prove these differences. Reforge still omits the original encounter-specific return fade."
+    },
+    {
+      "kind": "native-world-and-revival-presentation-before-fixes",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-counters.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-handoff-counters.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-compare-resume-window-red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-compare-final.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-5003202a/status-comparison-input-drift-5003202a.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-game-ambient-launch-error.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-game-cadence-final.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/run-counter.py",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/entry-order.red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/entry-order.restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/exit-retains-old-source.red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/exit-retains-old-source.restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/old-dialogue.red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/old-dialogue.restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/settlement-300ms.red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/counter/settlement-300ms.restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-battle-music/counter/receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-battle-music/counter/old-late-load.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-battle-music/counter/restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/default-unresolved.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/default-original-main.sha256",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/override-wrong-priority.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/override-main-mutation.sha256",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/reforge-restored.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/content-58d10f4.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/hostile-victory-project-default/typecheck-58d10f4.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/round-end-cadence/counter-final.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/round-end-cadence/restore.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/round-end-cadence/initial-broad.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/round-end-cadence/final-broad.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/contact-autos/red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/contact-autos/green.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/world-battle-entry/counter-final.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/world-battle-entry/final-suite.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/encounter-fade-timing/red-pixels.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/encounter-fade-timing/clock-red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/encounter-fade-timing/within-raf-red.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/encounter-fade-timing/handoff-green.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/trance-fade-pose/counter-final.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/trance-fade-pose/restore.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/trance-counter.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/trance-counter.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/trance-red.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/trance-green.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/dead-portrait-red.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/dead-portrait-green.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/menu-descriptions-red.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/dead-portrait-pixels-f8c.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T11-33-03-044Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T11-41-57-218Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T12-11-12-181Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T12-20-15-161Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T12-25-21-811Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-25-15-631Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-25-15-631Z/puppet-buffs-expire-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/game-expiry-stale-confirm.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-14T12-36-58-527Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-probe-2026-11-14T12-36-58-527Z/puppet-buffs-expire-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/game-expiry-green.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-35-20-973Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-35-20-973Z/puppet-buffs-expire-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-35-20-973Z/puppet-buffs-expire-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/receipt.md",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/audit-game-ack.mjs",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/stale-confirm-counter.patch",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/game-expiry-green.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/status-input-ack/game-expiry-stale-confirm.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-game-2026-11-14T12-06-01-219Z/seed-99-run-1-ambient.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-game-2026-11-14T12-06-01-219Z/seed-99-run-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-game-2026-11-14T12-06-01-219Z/seed-99-run-2-ambient.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-game-2026-11-14T12-06-01-219Z/seed-99-run-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-game-2026-11-14T12-06-01-219Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-reforge-2026-11-14T12-06-01-993Z/seed-99-run-1-ambient.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-reforge-2026-11-14T12-06-01-993Z/seed-99-run-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-reforge-2026-11-14T12-06-01-993Z/seed-99-run-2-ambient.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-reforge-2026-11-14T12-06-01-993Z/seed-99-run-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-ambient-review-reforge-2026-11-14T12-06-01-993Z/report.json"
+      ],
+      "result": "Historical diagnostics retain late battle MIDI, direct world return, stale pose and menu presentation, an extra round-dispatch tick, and ambient sound leaking from the world into combat. Product and comparator controls remain distinct, and final runs use the restored source."
     }
   ],
   "cleanup": {
@@ -11599,7 +11805,8 @@
     "scope": "Owned runtime contexts, temporary browser/server groups closed by reused watchdog runner; no user editor/session/save touched. Existing old worktree evidence retained. Contributor branches are retired only after protected integration.",
     "retained": [
       "docs/tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz",
-      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
+      "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz"
     ],
     "recovery": "Extract the runtime candidate bundle and fetch HEAD into Git with accepted43fea prerequisite; contributor candidate refs have their own compact bundle. Original raw assets remain local and must match recorded hashes."
   },
@@ -12141,6 +12348,93 @@
         }
       ],
       "archive": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
+    },
+    {
+      "revision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
+      "date": "2026-11-14",
+      "action": "native-world-and-revival-presentation-recheck",
+      "predecessor": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+      "scope": "24 independent status trials recorded at 31cfe538; 12 world encounters at the PAL project-default candidate. Both engines use the same source revision within each matrix; a fresh Reforge trial confirms loading with the project default.",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+          "role": "native-audio-observer",
+          "lines": "203",
+          "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "42",
+          "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+          "role": "native-magic-overlay-observer",
+          "lines": "279",
+          "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "'coop-fallback',",
+          "role": "native-cooperative-fallback-observer",
+          "lines": "305",
+          "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+        },
+        {
+          "path": "scripts/e2e/battle-status.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-special-status-caller",
+          "lines": "36",
+          "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
+        },
+        {
+          "path": "scripts/e2e/battle-status-rules.mjs",
+          "anchor": "export function checkStatusRules(",
+          "role": "native-status-action-and-frame-oracle",
+          "lines": "886",
+          "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-game.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-game-world-caller",
+          "lines": "454",
+          "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-reforge-world-caller",
+          "lines": "197",
+          "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-compare.mjs",
+          "anchor": "export async function compareWorldBeeReports(",
+          "role": "native-world-offline-oracle",
+          "lines": "482",
+          "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "179",
+          "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+        }
+      ],
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz"
     }
   ],
   "_governance": {
@@ -13018,6 +13312,94 @@
       "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-restored.log",
       "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-coverage/lcov.info",
       "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz#build/q2/world-and-revival/owner-reforge/editor-probability-statements/coverage-final.json"
+    ],
+    "visualAcceptance": "pending"
+  },
+  "presentationAlignmentExecution": {
+    "date": "2026-11-14",
+    "producerRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
+    "status": {
+      "producerRevision": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+      "judgeRevision": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+      "reports": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-game-verify-2026-11-14T12-42-37-474Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-status-reforge-verify-2026-11-14T12-42-37-474Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/status-comparison-31cfe538.json"
+      ],
+      "browserReview": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/review/battle-revival-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/review/media.json"
+      ]
+    },
+    "world": {
+      "producerRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
+      "judgeRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
+      "reports": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-game-2026-11-14T12-54-56-454Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/e2e/q2-world-bee-reforge-2026-11-14T12-56-27-157Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-compare.json"
+      ],
+      "browserReview": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-review/battle-world-bee-corrected-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-review/media.json"
+      ]
+    },
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/archive-index.json",
+    "independentReviews": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/fatal-cadence-31cfe538.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/state-draws-31cfe538.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/status-receipt.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/audit-fatal-cadence.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/audit-state-draws.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/finalize-status.py",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/status-transition-scope.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/capture-media-cleanup.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-31cfe538/recover-capture-mp4.py",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/presentation-final-d008/fatal-cadence-d008.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-project-independent.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/audit-world-cues.mjs",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/world-publication-equivalence.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/owner-receipt.md",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-victory-fade/source-bindings/document-candidate.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-battle-music/owner-receipt.md",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-revival-presentation-audit/presentation-audit.md",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/world-and-revival/owner-game/project-default-007/project-default-independent.md"
+    ],
+    "qualityReceipts": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/typecheck-before-diagnostics.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/typecheck-publication.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/lint-first.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/lint-publication.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/code-inventory-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/content.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/author-editor-focused.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-test.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-restored.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-valid-test.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-browser.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-browser.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-project-1120.png",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-project-1500.png",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-hostile-1120.png",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/editor-inheritance-hostile-1500.png",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/standalone-trial-project-smoke.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/author-project-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/palette-and-motion-regression.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/content-and-restore-regression.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/coverage-first.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/coverage-before-ambient.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/coverage-ratchet-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/ambient-audio-first.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/ambient-directed-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-tools-restore-before-rebind.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/coverage-concurrent-timeout.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/quality-tools-final.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-tools-concurrent-timeout.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-watchdog-isolated.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-tools-before-contact-test-binding.log",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/e2e-tools-owned-chrome-cleanup.txt",
+      "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz#build/q2/fix-battle-differences/script-governance-publication.log"
     ],
     "visualAcceptance": "pending"
   }
