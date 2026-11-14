@@ -5878,10 +5878,19 @@ export async function bootGame(
     }
   }
 
-  function drawFadeCurtain(value = fadeDriver.value, color = fadeCurtain): void {
-    if (value <= 0.001) return
+  function drawFadeCurtain(): void {
+    if (fadeDriver.value <= 0.001) return
     ctx.save()
-    ctx.fillStyle = `rgba(${color === 'red' ? '150,12,12' : '0,0,0'},${value.toFixed(3)})`
+    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeDriver.value.toFixed(3)})`
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.restore()
+  }
+
+  function drawVictoryFade(alpha: number): void {
+    if (alpha <= 0) return
+    ctx.save()
+    ctx.globalAlpha = alpha
+    ctx.fillStyle = '#000'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.restore()
   }
@@ -5939,7 +5948,7 @@ export async function bootGame(
         const returning = victoryFrame.returning
         if (!returning?.revealingWorld) {
           ctx.putImageData(victoryFrame.frame, 0, 0)
-          if (returning) drawFadeCurtain(returning.fade.advance(frames.now), 'black')
+          if (returning) drawVictoryFade(returning.fade.advance(frames.now))
           else drawDialogue()
           return
         }
@@ -6189,7 +6198,7 @@ export async function bootGame(
     }
     const returning = victoryFrame?.returning
     if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {
-      drawFadeCurtain(returning.fade.advance(frames.now), 'black')
+      drawVictoryFade(returning.fade.advance(frames.now))
       const finishFrame = returning.finishFrame
       if (finishFrame) {
         delete returning.finishFrame
