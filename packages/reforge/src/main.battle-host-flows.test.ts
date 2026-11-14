@@ -807,10 +807,9 @@ for (const { name, projectTransition, victoryTransition } of directReturnCases)
     fixture.assertInputUnchanged()
   })
 
-test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {
+test('H9 real defeat draws the authored loss dialogue before continuing with zero HP', async () => {
   host = await installShellHost()
-  // This tests defeat routing, not RNG: 7/17 passive dodge can otherwise outlive the frame budget.
-  // Frozen 7f3840e6 and current hosts both fail with 0.99 and pass with 0.5 (no dodge).
+  // Keep the enemy hit deterministic so this test reaches the losing arm.
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
   const hero = combatActor()
   if (!hero.battler) throw new Error('missing battler')
@@ -827,7 +826,17 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
         kind: 'startBattle',
         enemyTeamId: 'encounter',
         auto: true,
-        onLose: [{ kind: 'giveMoney', delta: 3 }],
+        onLose: [
+          { kind: 'giveMoney', delta: 3 },
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'top',
+              rows: [{ text: 'line.one', speed: 0 }],
+            },
+          },
+        ],
       },
       { kind: 'giveMoney', delta: 5 },
     ]),
@@ -835,10 +844,20 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
   await advance(host, () => state().renderDebug.inBattle)
   const expected = structuredClone(state().world)
   const battle = session()
-  await advance(host, () => battle.debugReadiness().phase === 'over')
+  await advance(host, () => battle.debugPlayers()[0]?.hp === 0)
   expect(state().renderDebug.inBattle).toBe(true)
+  expect(state().world.party[0]?.hp).toBe(1)
   expect(state().world.money).toBe(50)
-  await finish(host)
+  await advance(host, () => battle.debugReadiness().phase === 'over')
+  expect(state().renderDebug.inBattle).toBe(false)
+  expect(state().world.party[0]?.hp).toBe(0)
+  const { text } = host
+  await advance(host, () =>
+    text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First')),
+  )
+  expect(state().dialogue).toBe(true)
+  expect(state().world.money).toBe(53)
+  await key(host, 'Enter')
   await advance(host, () => !state().script.running)
   expected.party[0]!.hp = 0
   expected.money += 8
