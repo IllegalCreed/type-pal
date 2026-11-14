@@ -94,10 +94,12 @@ test('real page action player proves every installed frame, canonical binding, p
     source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
   const code = instrumentRuntimeHandoff(instrumentEntityActions(source, file).code, file).code,
     ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
-  let callback, prepare, load
+  let callback, battleOwnership, prepare, load
   const find = (node) => {
     if (ts.isPropertyAssignment(node) && node.name.getText(ast) === 'advanceEntityActions')
       callback = node.initializer.getText(ast)
+    if (ts.isFunctionDeclaration(node) && node.name?.text === 'battleOwnsScene')
+      battleOwnership = node.getText(ast)
     if (ts.isFunctionDeclaration(node) && node.name?.text === 'prepareSceneActions')
       prepare = node.getText(ast)
     if (
@@ -114,10 +116,12 @@ test('real page action player proves every installed frame, canonical binding, p
     ts.forEachChild(node, find)
   }
   find(ast)
-  assert(callback)
+  assert(callback && battleOwnership)
   const deps = {
     entityActions: player,
     battleHost: { active: null },
+    hostileBusy: false,
+    worldBattleEntry: undefined,
     activeScene: { scene: { id: 's009', entities: [entity] } },
     entityLifecycleGates: (e) => ({ visible: !e.hidden }),
     worldPresentation: { hasEntityFrame: (id) => fixed.has(id) },
@@ -130,9 +134,12 @@ test('real page action player proves every installed frame, canonical binding, p
   }
   const advance = new Function(
     'deps',
-    ts.transpile(`const {${Object.keys(deps).join(',')}}=deps; return ${callback}`, {
-      target: ts.ScriptTarget.ES2022,
-    }),
+    ts.transpile(
+      `const {${Object.keys(deps).join(',')}}=deps; ${battleOwnership}; return ${callback}`,
+      {
+        target: ts.ScriptTarget.ES2022,
+      },
+    ),
   )(deps)
   const restoreNative = new Function(
     'deps',
