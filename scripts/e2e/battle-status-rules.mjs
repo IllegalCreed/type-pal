@@ -323,6 +323,90 @@ function checkPuppet(trace, id, frames, check) {
   ])
 }
 
+function checkTrancePresentation(trace, frames, slot, check) {
+  const cast = animated(frames, 1, linger, 'cast')
+  const [x, y, rest] = slot === 0 ? [200, 176, 1] : [256, 152, 0]
+  const pose = ({ payload }) => {
+    const draw = payload.players.find((player) => player.slot === slot)
+    return [fighterSprite(draw?.appearance), draw?.frameIndex, draw?.x, draw?.y, draw?.colorShift]
+  }
+  const firstBlend = cast.findIndex(({ payload }) => payload.appearanceTransition)
+  const beforeBlend = cast.slice(0, Math.max(0, firstBlend))
+  const changes = beforeBlend.map(pose).filter((draw, index, all) => !same(draw, all[index - 1]))
+  check('梦蛇旧形态前移四步，施法姿与六拍闪色依次实绘', changes, [
+    [1, rest, x - 4, y - 2, 0],
+    [1, rest, x - 7, y - 3, 0],
+    [1, rest, x - 9, y - 4, 0],
+    [1, rest, x - 10, y - 4, 0],
+    ...[0, 2, 4, 6, 8, 10].map((shift) => [1, 5, x - 10, y - 4, shift]),
+  ])
+  const blends = cast.slice(Math.max(0, firstBlend))
+  const steps = blends.map(({ payload }) => payload.appearanceTransition?.step)
+  const final = frames.find(
+    ({ order }) => order > (blends.at(-1)?.order ?? Number.POSITIVE_INFINITY),
+  )
+  check(
+    '梦蛇由原色末闪错相溶到原站位新施法姿，收招恢复待机姿势',
+    [
+      steps.length >= 12 &&
+        steps[0] <= 4 &&
+        steps.at(-1) >= 68 &&
+        blends.every(
+          ({ payload }, index) =>
+            payload.appearanceTransition?.total === 72 &&
+            Number.isInteger(steps[index]) &&
+            steps[index] >= 1 &&
+            steps[index] <= 72 &&
+            (index === 0 || steps[index] >= steps[index - 1]),
+        ),
+      [...new Set(blends.map((frame) => JSON.stringify(pose(frame))))].map(JSON.parse),
+      final ? pose(final) : null,
+    ],
+    [true, [[5, 5, x, y, 0]], [5, rest, x, y, 0]],
+  )
+  if (trace.engine === 'reforge') {
+    const sources = blends.map(({ payload }) => payload.appearanceTransition?.source)
+    check(
+      'Reforge 溶解源保留旧形态末闪的坐标、姿势和色值',
+      [...new Set(sources.map((source) => JSON.stringify(source ?? null)))].map(JSON.parse),
+      [
+        {
+          slot,
+          x: x - 10,
+          y: y - 4,
+          frameIndex: 5,
+          colorShift: 10,
+          appearance: 'player-fighter-1',
+        },
+      ],
+    )
+  }
+  const first = cast[0]
+  const firstCast = beforeBlend.find((frame) => pose(frame)[1] === 5)
+  const firstFade = blends[0]
+  const sounds = audioDuring(trace, cast)
+  const timing = [
+    firstCast?.atMs - first?.atMs,
+    firstFade?.atMs - first?.atMs,
+    final?.atMs - firstFade?.atMs,
+    sounds[0]?.starts[0] - firstCast?.atMs,
+  ]
+  const windows = [
+    [190, 290],
+    [895, 1045],
+    [1050, 1250],
+    [-35, 65],
+  ]
+  check(
+    '梦蛇各边界节拍和唯一实际施法音',
+    [
+      sounds.map(({ cue, starts }) => [cue, starts.length]),
+      timing.map((ms, index) => ms >= windows[index][0] && ms <= windows[index][1]),
+    ],
+    [[[10, 1]], [true, true, true, true]],
+  )
+}
+
 function checkTranceRevival(trace, frames, check) {
   const dream = spell(trace, '295')
   const death = actionOf(trace, 1, foe)
@@ -952,5 +1036,7 @@ export function checkStatusRules(trace, scenario, configured, inputs, menu) {
   else if (family === 'confusion') checkConfusion(trace, scenario, frames, check)
   else if (family === 'silence') checkAttachment(trace, id, frames, check)
   else checkOverlap(trace, id, frames, inputs, menu, check)
+  if (id.startsWith('trance-'))
+    checkTrancePresentation(trace, frames, id === 'trance-after-revival' ? 0 : 1, check)
   return { facts, findings }
 }
