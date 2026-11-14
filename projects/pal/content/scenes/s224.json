@@ -83,7 +83,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-320"
+        "enemyTeamId": "team-320",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -107,7 +108,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-351"
+        "enemyTeamId": "team-351",
+        "victoryTransition": "fade"
       }
     },
     {

@@ -25,6 +25,8 @@ export interface BaseHostileBehavior {
   chase?: { range: number; speed: number; floating?: boolean }
   onLose?: 'gameOver' | BaseAuthorCommand[]
   onVictory: HostileVictoryPolicy
+  /** 胜利结算后淡黑，再淡入原地图。省略时直接返回。 */
+  victoryTransition?: 'fade'
   onPlayerFlee: HostilePlayerFleePolicy
 }
 

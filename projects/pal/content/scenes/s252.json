@@ -1340,7 +1340,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-244"
+        "enemyTeamId": "team-244",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1367,7 +1368,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-256"
+        "enemyTeamId": "team-256",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1394,7 +1396,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-252"
+        "enemyTeamId": "team-252",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1421,7 +1424,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-245"
+        "enemyTeamId": "team-245",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1448,7 +1452,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-251"
+        "enemyTeamId": "team-251",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1475,7 +1480,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-244"
+        "enemyTeamId": "team-244",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1502,7 +1508,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-256"
+        "enemyTeamId": "team-256",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1529,7 +1536,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-259"
+        "enemyTeamId": "team-259",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1556,7 +1564,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-251"
+        "enemyTeamId": "team-251",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -1583,7 +1592,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-255"
+        "enemyTeamId": "team-255",
+        "victoryTransition": "fade"
       }
     }
   ],

@@ -8062,7 +8062,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-145"
+        "enemyTeamId": "team-145",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8088,7 +8089,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-197"
+        "enemyTeamId": "team-197",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8113,7 +8115,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-196"
+        "enemyTeamId": "team-196",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8139,7 +8142,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-201"
+        "enemyTeamId": "team-201",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8164,7 +8168,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-145"
+        "enemyTeamId": "team-145",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8189,7 +8194,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-195"
+        "enemyTeamId": "team-195",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8215,7 +8221,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-199"
+        "enemyTeamId": "team-199",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -8241,7 +8248,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-201"
+        "enemyTeamId": "team-201",
+        "victoryTransition": "fade"
       }
     }
   ],

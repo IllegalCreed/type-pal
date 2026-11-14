@@ -334,6 +334,39 @@ test('cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承', as
   expect(hostileOf()?.onPlayerFlee).toEqual({ kind: 'suspend', ticks: 12 })
 })
 
+test('明雷胜利回场可选淡变并撤销，直接返回删除可选字段', async () => {
+  const current = await createAppWorld(true)
+  world = current
+  await current.mount()
+  await selectEntity(current.host, 'e-hostile')
+  await switchInspectorTab(current.host, '行为')
+  const field = current.host.querySelector<HTMLButtonElement>(
+    'button[role="combobox"][id$="victory-transition"]',
+  )
+  expect(field).toBeDefined()
+  const currentHostile = () => current.main.getState().scenes[0]?.entities[0]?.hostile
+  const initial = structuredClone(currentHostile())
+  expect(field?.textContent).toContain('直接返回地图')
+
+  async function choose(label: string): Promise<void> {
+    await act(async () => field?.click())
+    const option = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (candidate) => candidate.textContent?.trim() === label,
+    )
+    expect(option).toBeDefined()
+    await act(async () => option?.click())
+  }
+
+  await choose('淡出战场，淡入地图')
+  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'fade' })
+  await choose('直接返回地图')
+  expect(currentHostile()).toEqual(initial)
+  await act(async () => {
+    expect(current.main.undo()).toBe(true)
+  })
+  expect(currentHostile()).toEqual({ ...initial, victoryTransition: 'fade' })
+})
+
 test('cov85-app 场景默认入场点 col/height 部分补丁互不覆盖', async () => {
   const currentWorld = await createAppWorld(false)
   world = currentWorld

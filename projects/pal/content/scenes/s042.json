@@ -407,7 +407,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-6"
+        "enemyTeamId": "team-6",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -432,7 +433,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-12"
+        "enemyTeamId": "team-12",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -457,7 +459,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-8"
+        "enemyTeamId": "team-8",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -482,7 +485,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-47"
+        "enemyTeamId": "team-47",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -506,7 +510,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-124"
+        "enemyTeamId": "team-124",
+        "victoryTransition": "fade"
       }
     },
     {
@@ -531,7 +536,8 @@
           "kind": "suspend",
           "ticks": 15
         },
-        "enemyTeamId": "team-123"
+        "enemyTeamId": "team-123",
+        "victoryTransition": "fade"
       }
     },
     {

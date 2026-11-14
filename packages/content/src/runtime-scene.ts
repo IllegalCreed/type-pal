@@ -114,7 +114,15 @@ export function checkBaseHostileBehavior(
   const hostile = record(value, path)
   exactKeys(
     hostile,
-    ['enemyTeamId', 'battleFieldId', 'chase', 'onLose', 'onVictory', 'onPlayerFlee'],
+    [
+      'enemyTeamId',
+      'battleFieldId',
+      'chase',
+      'onLose',
+      'onVictory',
+      'victoryTransition',
+      'onPlayerFlee',
+    ],
     path,
   )
   if (typeof hostile.enemyTeamId !== 'string' || hostile.enemyTeamId.length === 0)
@@ -130,6 +138,8 @@ export function checkBaseHostileBehavior(
   if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)
   if (hostile.onPlayerFlee === undefined) throw new Error(`${path}: 缺键 "onPlayerFlee"`)
   checkVictoryPolicy(hostile.onVictory, `${path}.onVictory`)
+  if (hostile.victoryTransition !== undefined && hostile.victoryTransition !== 'fade')
+    throw new Error(`${path}.victoryTransition: 期望 fade`)
   checkPlayerFleePolicy(hostile.onPlayerFlee, `${path}.onPlayerFlee`)
 }
 

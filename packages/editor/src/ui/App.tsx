@@ -4313,6 +4313,22 @@ function EntityInspector(props: {
                     />
                   </DsPropertyRow>
                 ) : null}
+                <DsPropertyRow
+                  label="胜利回场转场"
+                  labelFor={`${entityFieldPrefix}-victory-transition`}
+                >
+                  <DsSelect
+                    id={`${entityFieldPrefix}-victory-transition`}
+                    value={hostile?.victoryTransition ?? 'direct'}
+                    options={[
+                      { value: 'direct', label: '直接返回地图' },
+                      { value: 'fade', label: '淡出战场，淡入地图' },
+                    ]}
+                    onValueChange={(value) =>
+                      setHostile({ victoryTransition: value === 'fade' ? 'fade' : undefined })
+                    }
+                  />
+                </DsPropertyRow>
                 <DsPropertyRow label="逃跑后" labelFor={`${entityFieldPrefix}-flee`}>
                   <DsSelect
                     id={`${entityFieldPrefix}-flee`}

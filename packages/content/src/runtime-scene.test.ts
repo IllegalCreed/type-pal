@@ -14,6 +14,7 @@ describe('current hostile policy', () => {
       checkRuntimeHostileBehavior({
         ...base,
         onVictory: { kind: 'remove' },
+        victoryTransition: 'fade',
         onPlayerFlee: { kind: 'remain' },
       }),
     ).not.toThrow()
@@ -31,6 +32,9 @@ describe('current hostile policy', () => {
   })
 
   test('rejects polluted discriminants and malformed chase', () => {
+    expect(() => checkRuntimeHostileBehavior({ ...base, victoryTransition: 'black' })).toThrow(
+      /victoryTransition: 期望 fade/,
+    )
     expect(() =>
       checkRuntimeHostileBehavior({
         ...base,
