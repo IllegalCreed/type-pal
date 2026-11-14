@@ -90,11 +90,18 @@ describe('BattleCommandSelection', () => {
     expect(selection.phase).toBe('menu')
   })
 
-  test('D submits defense for the current player and returns to the main menu', () => {
+  test.each([
+    { key: 'd', action: { kind: 'defend' as const } },
+    { key: 'Q', action: { kind: 'flee' as const } },
+  ])('$key submits its direct command and returns to main', ({ key, action }) => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()
-    selection.advance(context(), new Set(['d']), recorded.port)
-    expect(recorded.submissions).toEqual([{ playerIndex: 0, action: { kind: 'defend' } }])
+    selection.advance(
+      context({ playerCount: 1, healthyPlayerCount: 1, selectablePlayerIndices: [0] }),
+      new Set([key]),
+      recorded.port,
+    )
+    expect(recorded.submissions).toEqual([{ playerIndex: 0, action }])
     expect(selection.phase).toBe('menu')
   })
 
