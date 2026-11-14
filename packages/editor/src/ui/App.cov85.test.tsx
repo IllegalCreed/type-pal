@@ -68,7 +68,10 @@ interface AppWorld {
   mount(url?: string): Promise<void>
 }
 
-async function createAppWorld(withHostileEntity: boolean): Promise<AppWorld> {
+async function createAppWorld(
+  withHostileEntity: boolean,
+  enemyTeamId = 'ghost-team',
+): Promise<AppWorld> {
   const disk = memoryAuthorDirectory(await battleTrialProjectFiles())
   const opened = await finishOpen(disk.dir)
   const base = toEditorState(opened.project, opened.scenes, {}, {}, opened.stamps)
@@ -79,7 +82,7 @@ async function createAppWorld(withHostileEntity: boolean): Promise<AppWorld> {
     ...(withHostileEntity
       ? {
           hostile: {
-            enemyTeamId: 'ghost-team',
+            enemyTeamId,
             onVictory: { kind: 'hide' as const, ticks: 4 },
             onPlayerFlee: { kind: 'suspend' as const, ticks: 6 },
           },
@@ -336,7 +339,7 @@ test('cov85-app hide/suspend ticks 守卫提交与逃跑策略 ticks 继承', as
 })
 
 test('明雷胜利回场默认继承项目，覆盖和撤销不改变项目规则', async () => {
-  const current = await createAppWorld(true)
+  const current = await createAppWorld(true, 'practice')
   world = current
   await current.mount()
   await act(async () => current.main.dispatch(new SetHostileVictoryTransitionCommand('fade')))
