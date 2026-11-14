@@ -47,14 +47,199 @@ async function verifySources() {
   assert.equal(scene.battleFieldId, 12)
   const contact = scene.entities.find(({ id }) => id === 'e154')
   assert.deepEqual(
-    [contact.hostile.enemyTeamId, contact.hostile.onVictory],
-    ['team-4', { kind: 'hide', ticks: 800 }],
+    [contact.hostile.enemyTeamId, contact.hostile.onVictory, contact.hostile.victoryTransition],
+    ['team-4', { kind: 'hide', ticks: 800 }, 'fade'],
+  )
+  assert.deepEqual(
+    [rows[41142].operands, rows[41143].to, rows[41127].opcode, rows[41128].opcode],
+    [[4, 41075, 41073], 'L_41127', 0x52, 0x50],
   )
 }
 
 function makeFacts(engine, trace, row, check) {
   if (engine === 'game') return gameFacts(trace, row, check)
   return reforgeFacts(trace, row, check)
+}
+
+function inspectHandoff(engine, trace, check, hasLoot) {
+  const game = engine === 'game'
+  const { handoff, inputs, timeOrigin } = game ? trace.native : trace
+  const rows = (stage) => handoff.filter((point) => point.stage === stage)
+  const contact = game ? rows('contact')[0] : trace.events.find(({ kind }) => kind === 'contact')
+  const [entry] = rows('battle-entry')
+  const intro = rows('battle-intro')
+  const revealed = intro.at(-1)
+  const [command] = rows('battle-command-ready')
+  const [source] = rows('battle-source')
+  const fade = rows('fade-out')
+  const black = rows('black').filter(({ layer }) => layer === (game ? 'frozen' : 'battle'))
+  const map = rows('world-fade-in')
+  const [ready] = rows('world-ready')
+  const music = game ? trace.native.music : trace.events.filter(({ kind }) => kind === 'music')
+  const milliseconds = (a, b) => Math.round(b?.atMs - a?.atMs)
+  const between = (value, min, max) =>
+    Number.isFinite(value) && value >= min && value <= max
+      ? true
+      : { observedMs: value, rangeMs: [min, max] }
+  const [approach, attack, settle, open, close] = inputs.filter(({ kind }) => kind === 'down')
+  const actualCommit = game
+    ? trace.native.frames.find(({ battle }) => battle?.pending.length)
+    : trace.events.find(({ kind }) => kind === 'command')
+  const before = (a, b) => a && b && a.atMs <= b.atMs
+  const musicTrack = (row) => (game ? row.track : Number(row.asset?.split('.').at(-1)))
+  const audio = (stage, track) =>
+    music.find((row) => row.stage === stage && musicTrack(row) === track)
+  const battleMusic = audio('play', 37)
+  const victoryMusic = audio('play', 3)
+  const victoryStop = audio('stop', 3)
+
+  check(
+    '开场由实际接敌后保留地图并按顺序换入六个像素带',
+    [
+      entry?.completedRounds,
+      intro.map(({ completedRounds }) => completedRounds),
+      !!before(contact, entry),
+      !!before(entry, intro[0]),
+      !!before(revealed, command),
+    ],
+    [0, [1, 2, 3, 4, 5, 6], true, true, true],
+  )
+  if (game) {
+    check(
+      'Game 入场初帧仍是实际接敌地图',
+      entry?.pixels.rgbaHash,
+      rows('contact-world')[0]?.pixels.rgbaHash,
+    )
+  } else {
+    const [complete] = rows('battle-entry-complete')
+    check(
+      'Reforge 开放选招前完成实际第六带画面',
+      [complete?.completedRounds, complete?.pixels.hash, !!before(complete, command)],
+      [6, revealed?.pixels.hash, true],
+    )
+  }
+  check(
+    '六次换屏实际像素逐次变化',
+    new Set([entry, ...intro].map((frame) => frame?.pixels.hash ?? frame?.pixels.rgbaHash)).size,
+    7,
+  )
+  check(
+    '每次像素换屏间隔符合原盘 60 毫秒节拍与 Game 40 毫秒采样',
+    intro.slice(1).map((frame, index) => between(milliseconds(intro[index], frame), 24, 110)),
+    [true, true, true, true, true],
+  )
+  check(
+    '选招按键实到浏览器且发生于菜单绘制后',
+    [
+      Number.isFinite(timeOrigin) && timeOrigin > 0,
+      inputs.map(({ kind, code }) => [kind, code]),
+      !!before(approach, contact),
+      !!before(command, attack),
+      !!before(attack, actualCommit),
+    ],
+    [
+      true,
+      [
+        'ArrowRight',
+        game ? 'Space' : 'Enter',
+        game ? 'Space' : 'Enter',
+        'Escape',
+        'Escape',
+      ].flatMap((code) => [
+        ['down', code],
+        ['up', code],
+      ]),
+      true,
+      true,
+      true,
+    ],
+  )
+  check(
+    '战斗乐在第六带后启动，胜利乐播放并在淡黑开始时停止',
+    [
+      !!before(revealed, battleMusic),
+      !!before(battleMusic, command),
+      battleMusic?.audioContextState,
+      !!before(battleMusic, victoryMusic),
+      victoryMusic?.audioContextState,
+      !!before(victoryMusic, victoryStop),
+      !!before(victoryStop, fade[0]),
+    ],
+    [true, true, 'running', true, 'running', true, true],
+  )
+
+  const expectedText = hasLoot ? honeycombText : null
+  check(
+    '末张战场画面的掉落文字与实际掉落一致',
+    [
+      rows('battle-source').length,
+      game ? (source?.dialog?.text ?? null) : source?.text,
+      !!before(settle, source),
+    ],
+    [1, expectedText, true],
+  )
+  const ramp = [...fade, ...black]
+  check(
+    '战场实画逐步变暗至不透明全黑',
+    [
+      !!before(source, fade[0]),
+      fade.length > 8,
+      black.length > 0,
+      black.every(
+        ({ pixels }) => pixels.nonBlack === 0 && pixels.opaque === pixels.width * pixels.height,
+      ),
+      fade[0]?.pixels.rgbMean < source?.pixels.rgbMean,
+      ramp.every(
+        (point, index) =>
+          index === 0 || point.pixels.rgbMean <= ramp[index - 1].pixels.rgbMean + 0.2,
+      ),
+    ],
+    [true, true, true, true, true, true],
+  )
+  if (game)
+    check(
+      'Game 淡出索引实际来自最后战场画面',
+      ramp.every(
+        ({ frozenFromDraw, pixels }) =>
+          frozenFromDraw === source?.draw && pixels.sameIndicesAsBattleSource,
+      ),
+      true,
+    )
+  const fadeIn = map[0]
+  check(
+    '全黑后用原地图的黑帧开始淡入并在完全复原后才接收菜单键',
+    [
+      !!before(black.at(-1), fadeIn),
+      fadeIn?.pixels.nonBlack,
+      map.length > 8,
+      !!before(map.at(-1), ready),
+      ready?.pixels.rgbMean > 0,
+      game ? ready?.grid : ready?.position && position(ready.position),
+      !!before(ready, open),
+      !!before(open, close),
+    ],
+    [true, 0, true, true, true, beeWorldInput.stop, true, true],
+  )
+  const configuredOut = game ? fade[0]?.paletteFade.startAtMs : fade[0]?.atMs
+  const out = Math.round(black[0]?.atMs - configuredOut)
+  const handoffMs = milliseconds(black.at(-1), fadeIn)
+  const fadeInMs = milliseconds(fadeIn, ready)
+  const entryMs = milliseconds(contact, command)
+  check('接敌至首个选招实画维持原盘半秒换屏', between(entryMs, 470, 735), true)
+  check(
+    '实画淡出、黑帧交接、淡入各自满足时限',
+    [between(out, 565, 650), between(handoffMs, 0, 65), between(fadeInMs, 575, 655)],
+    [true, true, true],
+  )
+  return {
+    entryMs,
+    outMs: out,
+    blackHandoffMs: handoffMs,
+    inMs: fadeInMs,
+    firstBandMs: milliseconds(contact, intro[0]),
+    firstCommandMs: milliseconds(command, actualCommit),
+    musicToMenuMs: milliseconds(battleMusic, command),
+  }
 }
 
 function gameFacts(trace, row, check) {
@@ -410,7 +595,8 @@ function judgeRun(engine, trace, row, spec, inputs) {
       noticeTimes[1] - noticeTimes[0] >= 1280 && noticeTimes[1] - noticeTimes[0] <= 1750,
       true,
     )
-  return { seed: spec.seed, repetition: row.repetition, facts, noticeTimes, findings }
+  const handoff = inspectHandoff(engine, trace, check, count > 0)
+  return { seed: spec.seed, repetition: row.repetition, facts, noticeTimes, handoff, findings }
 }
 
 async function readReport(path, engine) {
@@ -493,12 +679,28 @@ export async function compareWorldBeeReports(gameReport, reforgeReport) {
     readReport(reforgeReport, 'reforge'),
   ])
   assert.equal(game.revision, reforge.revision, 'expected one frozen candidate for both recordings')
-  const compare = (left, right) => ({
-    seed: left.seed,
-    left: left.repetition,
-    right: right.repetition,
-    differences: Object.keys(left.facts).filter((key) => !same(left.facts[key], right.facts[key])),
-  })
+  const compare = (left, right) => {
+    const differences = Object.keys(left.facts).filter(
+      (key) => !same(left.facts[key], right.facts[key]),
+    )
+    const allowances = { entryMs: 120, outMs: 65, blackHandoffMs: 55, inMs: 65 }
+    const timing = Object.fromEntries(
+      Object.entries(allowances).map(([key, allowedMs]) => {
+        const differenceMs = Math.abs(left.handoff[key] - right.handoff[key])
+        if (!Number.isFinite(differenceMs) || differenceMs > allowedMs) differences.push(key)
+        return [
+          key,
+          {
+            gameOrFirstMs: left.handoff[key],
+            reforgeOrSecondMs: right.handoff[key],
+            differenceMs,
+            allowedMs,
+          },
+        ]
+      }),
+    )
+    return { seed: left.seed, left: left.repetition, right: right.repetition, differences, timing }
+  }
   const paired = game.runs.map((run, index) => compare(run, reforge.runs[index]))
   const repeated = [game, reforge].flatMap(({ engine, runs }) =>
     runs

@@ -5886,10 +5886,12 @@ export async function bootGame(
     ctx.restore()
   }
 
-  function drawVictoryFade(alpha: number): void {
-    if (alpha <= 0) return
+  function drawVictoryFade(alpha: number, direction: 'out' | 'in'): void {
+    if (direction === 'in' && alpha <= 0) return
+    // PAL scales each palette entry by a step in 0..60 over 64, then restores the full scene palette.
+    const shade = 1 - Math.trunc(60 * (1 - alpha)) / 64
     ctx.save()
-    ctx.globalAlpha = alpha
+    ctx.globalAlpha = shade
     ctx.fillStyle = '#000'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.restore()
@@ -5948,7 +5950,7 @@ export async function bootGame(
         const returning = victoryFrame.returning
         if (!returning?.revealingWorld) {
           ctx.putImageData(victoryFrame.frame, 0, 0)
-          if (returning) drawVictoryFade(returning.fade.advance(frames.now))
+          if (returning) drawVictoryFade(returning.fade.advance(frames.now), 'out')
           else drawDialogue()
           return
         }
@@ -6201,7 +6203,7 @@ export async function bootGame(
       // The first frame of the new endpoint is actually drawn under an opaque curtain.
       returning.worldStartedAt ??= frames.now
       const alpha = Math.max(0, 1 - (frames.now - returning.worldStartedAt) / victoryFadeMs)
-      drawVictoryFade(alpha)
+      drawVictoryFade(alpha, 'in')
       const finishFrame = returning.finishFrame
       if (alpha === 0 && finishFrame) {
         delete returning.finishFrame

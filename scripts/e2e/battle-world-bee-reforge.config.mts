@@ -71,11 +71,11 @@ ${move}
   )
   const rendered = replaceOnce(
     hidden,
-    `          if (returning) drawVictoryFade(returning.fade.advance(frames.now))
+    `          if (returning) drawVictoryFade(returning.fade.advance(frames.now), 'out')
           else drawDialogue()`,
     `          if (returning) {
             const alpha = returning.fade.advance(frames.now)
-            drawVictoryFade(alpha)
+            drawVictoryFade(alpha, 'out')
             globalThis.__beeWorld?.fade('battle', alpha, ctx, victoryFrame.frame)
           } else {
             const observer = globalThis.__beeWorld
@@ -86,8 +86,8 @@ ${move}
   )
   const worldFade = replaceOnce(
     rendered,
-    '      drawVictoryFade(alpha)\n      const finishFrame = returning.finishFrame',
-    `      drawVictoryFade(alpha)
+    "      drawVictoryFade(alpha, 'in')\n      const finishFrame = returning.finishFrame",
+    `      drawVictoryFade(alpha, 'in')
       globalThis.__beeWorld?.fade('world', alpha, ctx)
       const finishFrame = returning.finishFrame`,
   )
