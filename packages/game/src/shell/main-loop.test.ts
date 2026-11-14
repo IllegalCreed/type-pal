@@ -13,7 +13,9 @@ import { createCommandBus } from '../core/command-bus.js'
 import {
   OP_FADE_OUT,
   OP_HIDE_OBJECT,
+  OP_PLAY_SOUND,
   OP_START_BATTLE,
+  setGlobalEvents,
   setStartBattleHandler,
 } from '../core/event-system.js'
 import {
@@ -216,6 +218,9 @@ describe('Present and input gates', () => {
     const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
     gs.wNumMusic = 16
     gs.wNumBattleMusic = 37
+    gs.wChasespeedChangeCycles = 2
+    setGlobalEvents([{ op: 'raw', opcode: OP_PLAY_SOUND, operands: [66, 0, 0] }, { op: 'end' }])
+    onTestFinished(() => setGlobalEvents([]))
     const commands: Command[] = [
       { op: 'raw', opcode: OP_START_BATTLE, operands: [4, 41075, 41073] },
       { op: 'end' },
@@ -229,6 +234,7 @@ describe('Present and input gates', () => {
         triggerMode: 4,
         triggerResume: { ip: 0, commands },
       },
+      { id: 155, x: 160, y: 160, spriteNum: 0, autoCursor: { ip: 0 } },
     ]
     const roles = { roles: [makeRoleRecord(0)] }
     gs.partyMembers = [0]
@@ -295,6 +301,9 @@ describe('Present and input gates', () => {
     expect(source.some((pixel) => pixel !== 0)).toBe(true)
     frame(200)
     expect(gs.mode).toBe('battle')
+    expect(gs.pendingSounds ?? []).toEqual([])
+    expect(gs.npcs[1]?.autoCursor?.ip).toBe(0)
+    expect(gs.wChasespeedChangeCycles).toBe(2)
     expect(Buffer.from(fb.indices).equals(source)).toBe(true)
     const encounter = gs.battleState!
     pressed = new Set(['Defend'])

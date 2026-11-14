@@ -4,6 +4,7 @@
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
+import { isBattleContact } from './battle/battle-entry.js'
 import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import {
@@ -86,10 +87,13 @@ export function tickByMode(
   // PAL_GameUpdate 每次调用都跑自动脚本和追逐计时（play.c:169-238）。探索模式由 scene-system
   // 按 trigger→autoScript→party 的顺序处理；这里仅补 event 模式的逐帧等待/走路/滚屏。
   // 对话、delay、fadeScreen、paletteFade 和场景重载是阻塞操作，不能偷跑 NPC 或消耗追逐周期。
-  const waiting = gs.eventCursor?.waiting
+  // 自动接敌的同步 trigger 也先于世界自动脚本（play.c:153–183）。
+  const cursor = gs.eventCursor
+  const waiting = cursor?.waiting
   const shouldRunAutoScripts =
     !gs.sceneLoading &&
     gs.mode === 'event' &&
+    !isBattleContact(cursor) &&
     (waiting === undefined ||
       waiting === 'frame-wait' ||
       waiting === 'scene-fade' ||
