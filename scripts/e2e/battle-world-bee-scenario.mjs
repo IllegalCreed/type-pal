@@ -26,8 +26,7 @@ export const beeWorldInput = {
   start: [93, 45],
   hold: [['ArrowRight', 4]],
   stop: [97, 45],
-  retreat: [['ArrowLeft', 1]],
-  exit: [96, 45],
+  returnInput: ['Escape', 'Escape'],
   party: [beePartyMember],
   battleInput: [
     { turn: 1, kind: 'attack', actorId: beePartyMember.id, targetId: null, targetSide: 'enemy' },

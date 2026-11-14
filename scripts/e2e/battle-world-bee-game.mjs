@@ -14,20 +14,13 @@ import { fixedRoutePlan } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 
 const { cases: selected, capture: captureRequested } = beeWorldArguments()
-const { scene, start, hold, stop, retreat, exit } = input
+const { scene, start, hold, stop, returnInput } = input
 const plan = fixedRoutePlan('game', {
   id: 'bee-approach',
   scene,
   start,
   holds: hold,
   completion: { scene, position: stop, mode: 'ready' },
-})
-const exitPlan = fixedRoutePlan('game', {
-  id: 'bee-exit',
-  scene,
-  start: stop,
-  holds: retreat,
-  completion: { scene, position: exit, mode: 'ready' },
 })
 const sweepDamage = new Map([
   [4, [747, 373, 249, 124]],
@@ -343,7 +336,7 @@ function verifyTrace(trace, result) {
   assert.equal(restored.npc.state, 1)
   assert.deepEqual(
     trace.moves.map(({ from, to, source }) => ({ from, to, source })),
-    [...plan.steps, ...exitPlan.steps].map(({ from, to, source }) => ({ from, to, source })),
+    plan.steps.map(({ from, to, source }) => ({ from, to, source })),
   )
 
   const { rng, slots, frames, commands } = trace.native
@@ -443,9 +436,12 @@ function verifyTrace(trace, result) {
   )
   assert.equal(firstHidden.order, firstRecovery.order)
   assert.equal(returned.loot, count)
-  assert.deepEqual(result.end.grid, exit)
-  assert.equal(result.end.renderer, 'world')
-  assert(result.end.order > firstHidden.order && result.end.order > trace.moves.at(-1).order)
+  const menu = frames.find(
+    ({ menu, order }) => menu?.kind === 'in-game' && order > firstHidden.order,
+  )
+  assert(menu, 'world menu input was not accepted after victory')
+  assert.deepEqual([result.end.grid, result.end.renderer, result.end.ready], [stop, 'world', true])
+  assert(result.end.order > menu.order)
   return {
     attack: attack.order,
     sweeps: sweeps.map(({ order }) => order),
@@ -625,17 +621,24 @@ await runBrowserJourney({
           assert.equal(returned.cash - loaded.cash, 4)
           assert.equal(returned.battle, null)
           result.returned = returned
-          await walk(exitPlan, 'world-exit')
+          await press(returnInput[0], 'world-control', 'open world menu after victory')
+          result.control = await wait(
+            page,
+            until,
+            (state) => state?.menu?.kind === 'in-game',
+            'world menu accepts input after victory',
+          )
+          await press(returnInput[1], 'world-control', 'close world menu')
           result.end = await until(
             () => page.evaluate(() => globalThis.__beeGameLastFrame()),
-            (frame) => ready(frame) && frame.grid[0] === exit[0] && frame.grid[1] === exit[1],
-            'a rendered player step confirms world control',
+            (frame) => ready(frame) && frame.grid[0] === stop[0] && frame.grid[1] === stop[1],
+            'rendered world after closing menu',
           )
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
           result.milestones = verifyTrace(trace, result)
           await capture.finish(page, {
-            event: 'after-world-control-step',
+            event: 'after-world-menu-round-trip',
             seed,
             scene,
             grid: result.end.grid,

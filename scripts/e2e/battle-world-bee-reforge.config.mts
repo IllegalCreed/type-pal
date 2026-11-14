@@ -34,9 +34,12 @@ function observeWorld(source: string): string {
     move,
     `            const from = { ...player.pos }
 ${move}
-            if (playerMoved && inputDirection) globalThis.__beeWorld?.event('move', {
-              scene: activeScene.scene.id, direction: inputDirection, from, to: { ...player.pos },
-            })`,
+            if (playerMoved && inputDirection) {
+              globalThis.__beeWorld?.event('move', {
+                scene: activeScene.scene.id, direction: inputDirection, from, to: { ...player.pos },
+              })
+              globalThis.__beeWorld?.route('commit:player.input', activeScene.scene.id, player.pos, inputDirection, true)
+            }`,
   )
   const slotted = replaceOnce(
     moved,
@@ -66,13 +69,17 @@ ${move}
           return
         }`,
   )
-  const dialogue = '      dialogBox.render(performance.now())'
-  return replaceOnce(
+  const rendered = after(
     hidden,
-    dialogue,
-    `      globalThis.__beeWorld?.surface(battleHost.victoryPresentation ? 'battle' : 'world')
-${dialogue}
-      globalThis.__beeWorld?.surface(null)`,
+    '        ctx.putImageData(victoryFrame.frame, 0, 0)',
+    `
+        globalThis.__beeWorld?.surface('battle')`,
+  )
+  return after(
+    rendered,
+    '    dialogBox.render(performance.now())',
+    `
+    globalThis.__beeWorld?.surface(null)`,
   )
 }
 

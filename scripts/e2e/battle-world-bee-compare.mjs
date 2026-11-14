@@ -16,7 +16,7 @@ const judge = 'scripts/e2e/battle-world-bee-compare.mjs'
 const position = ({ col, row }) => [col, row]
 const gridFromGame = ([x, y]) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2]
 const hpMp = ({ party }) => party.map(({ hp, mp }) => [hp, mp])
-const expectedSteps = [94, 95, 96, 97, 96].map((col) => [col, 45])
+const expectedSteps = [94, 95, 96, 97].map((col) => [col, 45])
 const startingHealth = [[470, 400]]
 const recoveredHealth = [[475, 405]]
 
@@ -149,11 +149,13 @@ function gameFacts(trace, row, check) {
       hidden?.grid,
       hidden?.npc.vanishTime,
       hidden?.event.owner,
+      frames.find(({ menu, order }) => menu?.kind === 'in-game' && order > hidden?.order)?.menu
+        .kind,
       row.end.renderer,
       row.end.grid,
       row.end.ready,
     ],
-    ['world', [97, 45], 800, 154, [96, 45], true],
+    ['world', [97, 45], 800, 154, 'in-game', 'world', [97, 45], true],
   )
   return {
     movement: trace.moves.map(({ to }) => gridFromGame(to)),
@@ -279,9 +281,11 @@ function reforgeFacts(trace, row, check) {
       hidden?.state,
       hidden && position(hidden.position),
       row.returned.entity.hidden,
+      row.control.run.menuActive,
       position(row.end.run.position),
       row.end.encounterBusy,
       row.end.run.battleActive,
+      row.end.run.menuActive,
     ],
     [
       'e154',
@@ -289,7 +293,9 @@ function reforgeFacts(trace, row, check) {
       { phase: 'despawned', remainingTicks: 800 },
       [97, 45],
       true,
-      [96, 45],
+      true,
+      [97, 45],
+      false,
       false,
       false,
     ],
@@ -346,12 +352,12 @@ function judgeRun(engine, trace, row, spec, inputs) {
       ['world-approach', 'ArrowRight', 'up'],
       ['battle', confirm, 'press'],
       ['settlement', confirm, 'press'],
-      ['world-exit', 'ArrowLeft', 'down'],
-      ['world-exit', 'ArrowLeft', 'up'],
+      ['world-control', 'Escape', 'press'],
+      ['world-control', 'Escape', 'press'],
     ],
   )
   const { noticeTimes, ...facts } = makeFacts(engine, trace, row, check)
-  check('同一地图真实四格接敌、回世界后再退一格', facts.movement, expectedSteps)
+  check('同一地图真实四格接敌', facts.movement, expectedSteps)
   check('蜂巢低区间命中及11/12边界', facts.rolls, spec.rolls)
   check('实际击败两个同模板敌槽', facts.defeat, [
     [403, 0, true],

@@ -10,12 +10,21 @@ import {
   honeycombText,
 } from './battle-world-bee-scenario.mjs'
 import { runBrowserJourney } from './browser-journey.mjs'
+import { installCommittedRoutePlayback, replayCommittedRoute } from './committed-route.mjs'
 import { writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { createEvidenceRecorder } from './evidence-recorder.mjs'
-import { canonicalInput, createRecordedHold, pressRecordedKey } from './input-ledger.mjs'
+import { fixedRoutePlan } from './fixed-route-plan.mjs'
+import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 
 const { cases, capture: captureRequested } = beeWorldArguments()
-const { scene, start, stop, exit, hold, retreat } = beeWorldInput
+const { scene, start, stop, hold, returnInput } = beeWorldInput
+const approachPlan = fixedRoutePlan('reforge', {
+  id: 'bee-approach',
+  scene,
+  start,
+  holds: hold,
+  completion: { scene, position: stop, mode: 'ready' },
+})
 const loot = (inventory) => inventory?.find(({ itemId }) => itemId === honeycombItem)?.count ?? 0
 const grid = ({ col, row }) => [col, row]
 
@@ -88,6 +97,15 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
     event,
     read: () => ({ seed, events, errors, overflow }),
     activeSlot: () => activeSlot !== null,
+    route(source, sceneId, position, facing, ready) {
+      globalThis.__routeObserve?.(source, {
+        scene: sceneId,
+        sceneVisit: 0,
+        actors: { party: { position: [position.col, position.row, position.height], facing } },
+        routeReady: ready,
+        routeDialogue: false,
+      })
+    },
     take(source) {
       const sample = rng.next()
       event('draw', { source, sample, draw: ++draws, slot: activeSlot })
@@ -195,7 +213,8 @@ await runBrowserJourney({
   viewport: { width: 960, height: 720 },
   journeyTimeoutMs: 300_000,
   arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
-  async journey({ newPage, baseURL, out, report, until, capture }) {
+  initScripts: [installCommittedRoutePlayback],
+  async journey({ newPage, baseURL, out, report, until, capture, health }) {
     Object.assign(report, {
       engine: 'reforge',
       fragment: 'q2-world-bee',
@@ -222,21 +241,19 @@ await runBrowserJourney({
             record,
           })
         const wait = (accept, label, timeout) => until(() => read(page), accept, label, timeout)
-        const move = async (key, phase, end) => {
-          const holdId = phase
-          const handle = createRecordedHold({
-            keyboard: page.keyboard,
-            key,
-            onInput: record,
-            metadata: { phase, scope: 'story', context: label, routeId: phase, holdId },
+        const move = (route, phase) =>
+          replayCommittedRoute({
+            page,
+            route,
+            health,
+            onInput: (event) => record({ ...event, context: label, phase }),
           })
-          try {
-            await handle.down()
-            await wait((state) => at(state, end), `actual ${phase} position`, 12_000)
-          } finally {
-            await handle.up('committed movement reached')
-          }
-        }
+        const markReady = (state) =>
+          page.evaluate(
+            ({ sceneId, position, facing }) =>
+              globalThis.__beeWorld.route('read:world.ready', sceneId, position, facing, true),
+            state.run,
+          )
         try {
           await page.route('**/__bee-checkpoint.json', (route) =>
             route.fulfill({ contentType: 'application/json', body: JSON.stringify(fixture) }),
@@ -252,7 +269,8 @@ await runBrowserJourney({
           assert.equal(loot(initial.inventory), 0)
           result.initial = facts(initial)
           await capture.arm(page, { event: 'before-world-movement', seed, scene, grid: start })
-          await move(hold[0][0], 'world-approach', stop)
+          await markReady(initial)
+          await move(approachPlan, 'world-approach')
           const encounter = await wait(
             (state) => state.phase === 'menu' && observed(state, 'contact').length === 1,
             'native bee battle menu',
@@ -283,10 +301,14 @@ await runBrowserJourney({
           )
           assert(at(returned, stop))
           result.returned = facts(returned)
-          await move(retreat[0][0], 'world-exit', exit)
+          await press(returnInput[0], 'world-control')
+          result.control = facts(
+            await wait((state) => state.run?.menuActive, 'world menu accepts input after victory'),
+          )
+          await press(returnInput[1], 'world-control')
           const end = await wait(
-            (state) => ready(state) && at(state, exit),
-            'world movement restored',
+            (state) => ready(state) && !state.run.menuActive && at(state, stop),
+            'world menu closes and control returns',
           )
           result.end = facts(end)
           assert.deepEqual(
@@ -296,7 +318,12 @@ await runBrowserJourney({
               () => honeycombText,
             ),
           )
-          await capture.finish(page, { event: 'after-world-control-step', seed, scene, grid: exit })
+          await capture.finish(page, {
+            event: 'after-world-menu-round-trip',
+            seed,
+            scene,
+            grid: stop,
+          })
         } finally {
           result.actionRange.end = report.actions.length
           const trace = await page.evaluate(() => globalThis.__beeWorld?.read())
