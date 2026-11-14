@@ -112,14 +112,21 @@ describe('status effects through battle callers', () => {
       target: { type: 'player', idx: 0 },
     })
     selectAttack(fixture)
-    for (let ticks = 0; fixture.state.phase === 'performAction' && ticks < 500; ticks++) {
+    for (
+      let ticks = 0;
+      fixture.state.currentActionIndex < fixture.state.actionQueue.length && ticks < 500;
+      ticks++
+    ) {
       expect(fixture.state.players[0]!.status.bravery).toBe(3)
       tickBattle(fixture.gs, battleInput(), fixture.bus)
     }
-    expect(fixture.state.phase).toBe('postAction')
+    expect(fixture.state.currentActionIndex).toBe(fixture.state.actionQueue.length)
     expect(fixture.state.enemies[0]!.e.health).toBe(28959) // 347 × 3, with legal unit random factors.
     expect(fixture.state.players[0]!.status.bravery).toBe(3)
-    tickBattle(fixture.gs, battleInput(), fixture.bus)
+    for (let ticks = 0; fixture.state.turn === 0 && ticks < 500; ticks++) {
+      tickBattle(fixture.gs, battleInput(), fixture.bus)
+    }
+    expect(fixture.state.turn).toBe(1)
     expect(fixture.state.players[0]!.status.bravery).toBe(2)
   })
 })

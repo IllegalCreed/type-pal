@@ -40,7 +40,7 @@ describe('round lifecycle', () => {
     expect(round.state.enemies[1]!.e.health).toBe(30000)
   })
 
-  it('poison runs its saved continuation, writes the next entry, and holds input for eight ticks', () => {
+  it('the first exhausted queue tick runs poison and holds selection input for eight ticks', () => {
     const round = startRound({
       roles: [roundRole({ hp: 100 })],
       enemies: [roundEnemy({ health: 30000, level: 0, dexterity: 0, attackStrength: 0 })],
@@ -50,11 +50,25 @@ describe('round lifecycle', () => {
     round.state.enemies[0]!.status.sleep = 999
     round.gs.rgPoisonStatus['0_0'] = { wPoisonID: 551, wPoisonScript: 1 }
     press(round, 'Defend')
-    advanceUntil(round, () => round.state.phase === 'postAction')
-    press(round)
+    expect(round.state.actionQueue).toHaveLength(2)
+    advanceUntil(round, () => round.state.currentActionIndex === round.state.actionQueue.length)
+    expect(round.state.phase).toBe('performAction')
+    expect(round.state.turn).toBe(0)
+    expect(round.playerRoles.roles[0]!.hp).toBe(100)
+    expect(round.gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(1)
+
+    // The controller checks the empty queue on this tick. Poison and the turn advance are atomic
+    // with respect to input, and the next turn-start script still waits for its normal phase.
+    press(round, 'Confirm')
     expect(round.playerRoles.roles[0]!.hp).toBe(90)
     expect(round.gs.rgPoisonStatus['0_0']?.wPoisonScript).toBe(3)
-    expect(round.state.phase).toBe('selectAction')
+    expect(round.state).toMatchObject({
+      phase: 'selectAction',
+      turn: 1,
+      turnStartDoneForTurn: 0,
+      uiState: 'wait',
+    })
+    expect(round.state.pendingActions.size).toBe(0)
     for (let remaining = 8; remaining > 0; remaining--) {
       expect(round.state.roundEndDelayTicks).toBe(remaining)
       press(round, 'Confirm')
@@ -125,7 +139,7 @@ describe('round lifecycle', () => {
     advanceUntil(round, () => round.state.currentActionIndex >= 1)
     expect(round.playerRoles.roles.slice(0, 3).map((role) => role.hp)).toEqual([499, 499, 500])
     const callsAfterCoop = rng.calls.length
-    advanceUntil(round, () => round.state.phase === 'postAction')
+    advanceUntil(round, () => round.state.currentActionIndex === round.state.actionQueue.length)
     expect(round.state.enemies[0]!.e.health).toBe(29889) // one co-op hit of 111, no later confused hit
     expect(round.gs.Exp.rgAttackExp[2]!.wCount).toBe(0)
     expect(round.state.fThisTurnCoop).toBe(true)
@@ -152,7 +166,7 @@ describe('round lifecycle', () => {
     expect(round.state.pendingActions.get(1)?.type).toBe('defend')
     advanceUntil(round, () => round.state.currentActionIndex >= 1)
     expect(round.state.enemies[0]!.e.health).toBe(29685)
-    advanceUntil(round, () => round.state.phase === 'postAction')
+    advanceUntil(round, () => round.state.currentActionIndex === round.state.actionQueue.length)
     expect(round.state.enemies[0]!.e.health).toBe(29370)
     expect(round.gs.Exp.rgDefenseExp[1]!.wCount).toBe(0)
     expect(round.gs.Exp.rgAttackExp[1]!.wCount).toBe(1)

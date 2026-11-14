@@ -274,7 +274,14 @@ describe('PAL resource-backed battle flows', () => {
       advanceTo(env, () => state.uiState === 'selectMove')
       press(env, 'Defend')
       press(env, 'Defend')
-      advanceTo(env, () => state.phase === 'postAction')
+      advanceTo(
+        env,
+        () =>
+          state.phase === 'performAction' &&
+          state.currentActionIndex === state.actionQueue.length &&
+          !state.battleAnim &&
+          !state.actionFollowup,
+      )
       expect(linger.hp).toBe(before)
       expect(sprite.currentFrame).toBe(holdFrame)
       expect(playerRoles.roles[0]?.hp).toBe(allyBefore)

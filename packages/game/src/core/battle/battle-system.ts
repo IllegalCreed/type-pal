@@ -2190,7 +2190,7 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
 /**
  * 逐项消费 actionQueue;一次 tick 至多起一个新动作,动画可能跨多 tick,顶层对话/淡出也可 hold。
  * 玩家动作取 pendingActions,敌人经 decideEnemyAction 决策。完成动作才推进 currentActionIndex,
- * 队列结束转 postAction;phase 已离开 performAction 时不再消费剩余动作。
+ * 队列耗尽的首拍执行回合结算；战斗已有胜负时交 postAction 单独收尾。
  */
 function tickPerformAction(
   state: BattleState,
@@ -2274,8 +2274,8 @@ function tickPerformAction(
   }
 
   if (state.currentActionIndex >= state.actionQueue.length) {
-    state.phase = 'postAction'
-    state.phaseStallTicks = 0
+    // CLASSIC settles the round on the first exhausted-queue frame (fight.c:1597–1668).
+    tickPostAction(state, gs, bus, res)
     return
   }
 
