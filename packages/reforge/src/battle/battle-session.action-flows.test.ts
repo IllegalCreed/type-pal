@@ -203,6 +203,52 @@ describe('W3 执行时间线接线', () => {
     expect(panelVisible()).toBe(false)
   })
 
+  test('用物和仙术列表按当前选项在 PAL 原坐标、色板与行距实绘说明', () => {
+    const revive = expectDefined(validateItems(palItems.filter(({ id }) => id === '95'))[0])
+    const blank = { ...wfHealItem('no-description'), desc: [] }
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+    const h = makeWfSession({
+      players: [wfPlayer('zhao-linger', { mp: 100, maxMp: 100, skills: [skill.id] })],
+      enemies: [wfEnemy('description-control')],
+      extraOpts: {
+        items: { [revive.id]: revive, [blank.id]: blank },
+        skills: { [skill.id]: skill },
+        inventory: [
+          { itemId: revive.id, count: 1 },
+          { itemId: blank.id, count: 1 },
+        ],
+      },
+    })
+    h.assets.ui = infoBoxAssets()
+    const ink = [243, 239, 93] as const
+    h.assets.palette = { ...posePalette, colors: [...posePalette.colors] }
+    h.assets.palette.colors[0x3c] = [...ink]
+    // 给说明首字各画一个点阵像素，在真画布取位置和颜色。
+    const firstChars = new Set(
+      [...revive.desc, ...skill.desc.split('\n')].map((line) => line.codePointAt(0)),
+    )
+    const glyph = { width: 16, height: 16, bitmap: Uint8Array.of(0x80, ...new Uint8Array(31)) }
+    h.assets.glyphs = {
+      has: (cp) => firstChars.has(cp),
+      get: (cp) => (firstChars.has(cp) ? glyph : undefined),
+    }
+    const ctx = battleCanvas()
+    const read = (x: number, y: number) => Array.from(ctx.getImageData(x, y, 1, 1).data)
+    const color = [...ink, 255]
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.session.render(ctx, 1)
+    expect([read(102, 3), read(102, 19)]).toEqual([color, color])
+    h.press(['Escape'])
+    h.press(['e'])
+    h.session.render(ctx, 1)
+    expect([read(71, 151), read(71, 167), read(71, 183)]).toEqual([color, color, color])
+    h.press(['ArrowRight'])
+    h.session.render(ctx, 1)
+    expect(read(71, 151)).not.toEqual(color)
+    expect(h.readParty()[0]?.mp).toBe(100)
+  })
+
   test('非末敌死亡淡出期间阻塞下一行动，且无绘制也会恢复', () => {
     const sfx = recordingSfx()
     const h = makeWfSession({
@@ -289,7 +335,10 @@ describe('W3 执行时间线接线', () => {
     })
     const baseId = expectDefined(h.assets.playerBaseDefinitionIds[0])
     const base = poseSprite(expectDefined(h.assets.battleSprites.get(baseId)))
-    const trance = poseSprite({ ...wfLoadedBattleSprite(form.id, PLAYER_PROFILE), definition: form })
+    const trance = poseSprite({
+      ...wfLoadedBattleSprite(form.id, PLAYER_PROFILE),
+      definition: form,
+    })
     for (const frame of trance.sprite.frames)
       frame.pixels[0] = expectDefined(frame.pixels[0]) + 0x30
     h.assets.battleSprites = new Map(h.assets.battleSprites).set(baseId, base).set(form.id, trance)

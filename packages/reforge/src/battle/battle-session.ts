@@ -139,6 +139,24 @@ function assertNever(value: never, context: string): never {
   throw new Error(`${context}: 未处理 action ${JSON.stringify(value)}`)
 }
 
+/** WIN95 说明直接取作者文字，使用原盘菜单的行距及色板索引。 */
+function drawBattleMenuDescription(
+  ctx: CanvasRenderingContext2D,
+  lines: readonly string[],
+  x: number,
+  y: number,
+  glyphs: GlyphTable,
+  palette: Palette,
+): void {
+  lines.forEach((text, row) => {
+    renderSpans(ctx, [{ text }], x, y + row * 16, {
+      glyphs,
+      shadow: true,
+      forceRgba: palette.colors[0x3c],
+    })
+  })
+}
+
 /** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
@@ -2753,8 +2771,17 @@ export class BattleSession {
             disabled: !sk || p.mp < mp || this.moneyNow() < (sk.cost.money ?? 0),
           }
         })
-        drawBattleGrid(ctx, ui, g, rows, selection.skillIndex, now, MAGIC_GRID)
         const selSkill = this.opts.skills?.[p.skills[selection.skillIndex % p.skills.length] ?? '']
+        if (selSkill?.desc)
+          drawBattleMenuDescription(
+            ctx,
+            selSkill.desc.split(/\r?\n/),
+            102,
+            3,
+            g,
+            this.assets.palette,
+          )
+        drawBattleGrid(ctx, ui, g, rows, selection.skillIndex, now, MAGIC_GRID)
         drawMpBox(ctx, ui, selSkill?.cost.mp ?? 0, p.mp)
       } else if (selection.phase === 'item' || selection.phase === 'throwItem') {
         // 物品/投掷网格(红框 3 列,数量 cyan)+ 左下选中物详情框
@@ -2769,6 +2796,8 @@ export class BattleSession {
         drawBattleGrid(ctx, ui, g, rows, selection.itemIndex, now, ITEM_GRID)
         const selItem = this.state.items[list[selection.itemIndex % list.length]?.itemId ?? '']
         drawItemDetailBox(ctx, ui, selItem?.icon ? ui.itemIcons[selItem.icon] : undefined)
+        if (selItem?.desc.length)
+          drawBattleMenuDescription(ctx, selItem.desc, 71, 151, g, this.assets.palette)
       }
     } else if (sel !== undefined && !ui) {
       // 文字兜底(单测/资产缺失)
