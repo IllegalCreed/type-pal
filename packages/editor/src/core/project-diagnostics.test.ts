@@ -658,12 +658,15 @@ describe('X7 项目诊断与保存门', () => {
 
   test('未知 manifest 顶层字段进入统一问题流，现行字段不产生假阳性', () => {
     const base = state()
+    const currentManifest = { ...base.manifest, hostileVictoryTransition: 'fade' as const }
     expect(
-      collectProjectIssues(base).some((issue) => issue.code === 'unknown-manifest-field'),
+      collectProjectIssues({ ...base, manifest: currentManifest }).some(
+        (issue) => issue.code === 'unknown-manifest-field',
+      ),
     ).toBe(false)
 
     const manifest = {
-      ...base.manifest,
+      ...currentManifest,
       futureField: { enabled: true },
     } as unknown as CurrentManifest
     expect(collectProjectIssues({ ...base, manifest })).toContainEqual({

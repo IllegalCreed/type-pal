@@ -121,6 +121,7 @@ const CURRENT_MANIFEST_TOP_LEVEL_KEYS = {
   name: true,
   contentVersion: true,
   defaultEntryId: true,
+  hostileVictoryTransition: true,
   entryPoints: true,
   content: true,
   assets: true,
