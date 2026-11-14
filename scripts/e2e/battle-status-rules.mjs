@@ -507,6 +507,71 @@ function checkTranceRevival(trace, frames, check) {
   }
 }
 
+function checkRevivalPortraits(trace, frames, trance, expires, check) {
+  const deathTurn = trance ? 2 : 3
+  // The first four points are opaque in PAL UI frames 48/49. The last two
+  // are holes and must retain the destination pixel underneath the portrait.
+  const opaque = trance ? [2, 11, 3, 0] : [9, 5, 1, 0]
+  const levels = [0, 24, 40, 56, 73, 89, 105, 121, 138, 154, 170, 186]
+  const source = trace.engine === 'game' ? 'game:blitPortrait' : 'reforge:drawPlayerInfoBox'
+  const portraits = frames.flatMap(({ payload }) =>
+    payload.portrait
+      ? [{ turn: payload.turn, selecting: payload.selecting, ...payload.portrait }]
+      : [],
+  )
+  const fallen = portraits.find(({ turn }) => turn === deathTurn)
+  check(
+    '首个倒地选招的实绘头像保持原始明暗档和透明像素',
+    [
+      [fallen?.source, fallen?.slot, fallen?.hp, fallen?.width, fallen?.height, fallen?.selecting],
+      fallen?.samples.map(({ x, y }) => [x, y]),
+      fallen?.samples.slice(0, 4).map(({ after }) => after.rgba),
+      fallen?.samples.slice(4).map(({ before, after }) => same(before, after)),
+      ...(trace.engine === 'game'
+        ? [fallen?.samples.slice(0, 4).map(({ after }) => after.index)]
+        : []),
+    ],
+    [
+      [source, 0, 0, 36, 35, true],
+      [
+        [12, 14],
+        [20, 14],
+        [24, 14],
+        [16, 8],
+        [0, 0],
+        [33, 18],
+      ],
+      opaque.map((index) => [levels[index], levels[index], levels[index], 255]),
+      [true, true],
+      ...(trace.engine === 'game' ? [opaque] : []),
+    ],
+  )
+  if (!expires) {
+    const firstLiving = portraits.find(({ turn, hp }) => turn > deathTurn && hp > 0)
+    const rgb = trance
+      ? [
+          [60, 40, 24],
+          [219, 170, 150],
+          [56, 56, 56],
+          [20, 12, 8],
+        ]
+      : [
+          [203, 146, 121],
+          [174, 101, 77],
+          [113, 52, 32],
+          [0, 0, 0],
+        ]
+    check(
+      '复活后的实际选招头像恢复原色',
+      [
+        [firstLiving?.turn, firstLiving?.hp, firstLiving?.selecting],
+        firstLiving?.samples.slice(0, 4).map(({ after }) => after.rgba),
+      ],
+      [[trance ? 3 : 5, trance ? 24 : 18, true], rgb.map((color) => [...color, 255])],
+    )
+  }
+}
+
 function checkBuffedPuppet(trace, expires, frames, check) {
   const tracked = ['bravery', 'dualAttack', 'puppet']
   const bravery = spell(trace, '311')
@@ -1038,5 +1103,13 @@ export function checkStatusRules(trace, scenario, configured, inputs, menu) {
   else checkOverlap(trace, id, frames, inputs, menu, check)
   if (id.startsWith('trance-'))
     checkTrancePresentation(trace, frames, id === 'trance-after-revival' ? 0 : 1, check)
+  if (family === 'revival')
+    checkRevivalPortraits(
+      trace,
+      frames,
+      id === 'trance-after-revival',
+      id === 'puppet-buffs-expire',
+      check,
+    )
   return { facts, findings }
 }
