@@ -588,6 +588,109 @@ test('an authored victory fade darkens the last drawn prompt then reveals the co
   fixture.assertInputUnchanged()
 })
 
+test('world automation preserves its pending wait and contact-frame action through a hostile victory', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        victoryTransition: 'fade',
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+    {
+      id: 'world-timer',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'timer' }],
+      behaviors: {
+        auto: {
+          timer: {
+            label: 'Timer',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'idle',
+              stages: [
+                {
+                  id: 'idle',
+                  body: [
+                    { kind: 'wait', ms: 200 },
+                    { kind: 'giveMoney', delta: 10 },
+                    { kind: 'wait', ms: 200 },
+                    { kind: 'giveMoney', delta: 20 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'world-continuation',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'timer' }],
+      behaviors: {
+        auto: {
+          timer: {
+            label: 'Timer',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'idle',
+              stages: [
+                {
+                  id: 'idle',
+                  body: [
+                    { kind: 'wait', ms: 450 },
+                    { kind: 'giveMoney', delta: 40 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, {
+    first,
+    enemies: [opponent({ onDefeated: [{ kind: 'giveMoney', delta: 1 }] })],
+  })
+  await advance(host, () => state().world.money === 60, 3)
+  await host.frame(100)
+  await key(host, 'ArrowRight')
+  expect(hostileEncounterClaimed()).toBe(true)
+  expect(state().world.money).toBe(60)
+  await advance(host, () => state().renderDebug.inBattle)
+  expect(state().world.money).toBe(60)
+  await finish(host)
+  await advance(host, () => state().entities.find(({ id }) => id === 'chaser')?.hidden === true)
+  expect(hostileEncounterClaimed()).toBe(true)
+  expect(state().world.money).toBe(68)
+  await advance(host, () => !hostileEncounterClaimed())
+  expect(state().world.money).toBe(88)
+  await host.frame(49)
+  expect(state().world.money).toBe(88)
+  await host.frame(1)
+  expect(state().world.money).toBe(128)
+  await host.frame(100)
+  expect(state().world.money).toBe(128)
+  fixture.assertInputUnchanged()
+})
+
 test('a replacement battle discards the old victory fade and never draws its held frame again', async () => {
   host = await installShellHost()
   vi.spyOn(Math, 'random').mockReturnValue(0.5)

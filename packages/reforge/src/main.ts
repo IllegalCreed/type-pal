@@ -1200,6 +1200,7 @@ export async function bootGame(
     const ownerId = activation.entityId
     if (autoActivations.get(ownerId) !== activation)
       throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
+    if (hostileBusy) return false
     const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
     if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
     return (
@@ -1689,30 +1690,31 @@ export async function bootGame(
   const autoMotionSlots = motionRuntime.autoSlots
   const setAuthority = (id: string, value: MotionAuthority): void => {
     motionRuntime.setAuthority(id, value)
-    syncAutomaticWaitAuthority(id)
+    syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const releaseAuthority = (id: string): void => {
     motionRuntime.releaseAuthority(id)
-    syncAutomaticWaitAuthority(id)
+    syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const releaseAllAuthority = (): void => {
     if (authority.get('party')?.kind === 'mount') dismountParty()
     motionRuntime.releaseAllAuthority()
-    for (const id of autoActivations.keys()) syncAutomaticWaitAuthority(id)
+    for (const id of autoActivations.keys()) syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const takeByScript = (id: string): void => {
     if (id === 'party' && authority.get('party')?.kind === 'mount') dismountParty()
     setAuthority(id, { kind: 'script' })
   }
-  function syncAutomaticWaitAuthority(id: string): void {
+  function automaticWaitPaused(id: string): boolean {
+    return hostileBusy || authority.get(id)?.kind === 'script'
+  }
+  function syncAutomaticWait(id: string): void {
     const activation = autoActivations.get(id)
     if (activation)
-      automaticWaits
-        .get(activation.controller.signal)
-        ?.timer.setPaused(authority.get(id)?.kind === 'script')
+      automaticWaits.get(activation.controller.signal)?.timer.setPaused(automaticWaitPaused(id))
   }
 
   // Motion lifetime follows scene/world replacement, not unrelated same-world mutations (dialogue,
@@ -2125,7 +2127,7 @@ export async function bootGame(
         ? { done: Promise.resolve(), remainingMs: 0, setPaused: () => {} }
         : frames.scheduleWait(remainingMs, signal)
     automaticWaits.set(signal, { kind, durationMs: ms, timer })
-    timer.setPaused(authority.get(activation.entityId)?.kind === 'script')
+    timer.setPaused(automaticWaitPaused(activation.entityId))
     // Keep a zero-remaining receipt until the leaf closes its save checkpoint. Otherwise a
     // snapshot between Promise completion and cursor advancement would restart the full wait.
     return timer.done
@@ -4791,6 +4793,12 @@ export async function bootGame(
     pendingChaseTerminal.delete(entityId)
   }
   let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
+  function setHostileBusy(busy: boolean): void {
+    hostileBusy = busy
+    // The map stays suspended while battle and its own scripts keep using gameplay time.
+    for (const id of autoActivations.keys()) syncAutomaticWait(id)
+    autoWakeGate.notify()
+  }
   const hostileMotionGateOpen = (): boolean =>
     !hostileBusy &&
     !pendingTouchTrigger.pending &&
@@ -4941,7 +4949,6 @@ export async function bootGame(
     e: EntityDef,
     h: NonNullable<EntityDef['hostile']>,
   ): Promise<void> {
-    hostileBusy = true
     const encounterController = new AbortController()
     const encounterSignal = encounterController.signal
     const commitVictory = () => {
@@ -4968,6 +4975,7 @@ export async function bootGame(
       ...(hostileBehaviorFor(e.id)?.victoryTransition === 'fade' ? { commitVictory } : {}),
     }
     hostileEncounter = encounter
+    setHostileBusy(true)
     const onLose = h.onLose
     const gameOverOnDefeat = onLose === 'gameOver' || onLose === undefined
     if (gameOverOnDefeat) ordinaryDefeatSignal = encounterSignal
@@ -4995,7 +5003,7 @@ export async function bootGame(
       gameOverPresentation.release(encounterSignal)
       if (hostileEncounter === encounter) {
         hostileEncounter = undefined
-        hostileBusy = false
+        setHostileBusy(false)
       }
       finishWork()
     }
@@ -5782,8 +5790,8 @@ export async function bootGame(
     // 从这里开始没有 await：强停旧演出、world 与 scene 在同一个任务中同步提交。
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
-    abortScript()
     stopAutoRunners(false)
+    abortScript()
     replaceWorld(candidate)
     sceneRuntimeStates = structuredClone(payload.sceneRuntime)
     commitSceneSwitch(plan, world, false, restoreActions)
