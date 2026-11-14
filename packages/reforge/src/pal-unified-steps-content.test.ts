@@ -614,6 +614,73 @@ test('governed auto transitions retain their original oracle evidence while usin
   }
 })
 
+test('the Yangzhou defeat trigger stages the scene before loading the new party', async () => {
+  const target = { scene: 's093', entity: 'e1759' }
+  const thief = scenes
+    .find(({ id }) => id === target.scene)
+    ?.entities.find(({ id }) => id === target.entity)
+  const page = thief?.pages?.find(({ id }) => id === thief.initialPage)
+  const trigger = page?.trigger && thief?.behaviors?.trigger?.[page.trigger]
+  if (!thief || !trigger) throw new Error('missing Yangzhou thief touch trigger')
+  expect(Object.keys(thief.behaviors?.trigger ?? {})).toEqual(['default'])
+  expect(thief.behaviors?.auto ?? {}).toEqual({})
+
+  const trace: RuntimeCommand[] = []
+  const unexpected = (): never => {
+    throw new Error('unexpected host action in the Yangzhou defeat trigger')
+  }
+  const host: ScriptRuntimeHost = {
+    execute(command) {
+      if (command.kind !== 'dialog' && command.kind !== 'clearDialog') trace.push(command)
+    },
+    async startBattle(request) {
+      trace.push({ kind: 'startBattle', ...request })
+      return 'defeat'
+    },
+    async wait(ms) {
+      trace.push({ kind: 'wait', ms })
+    },
+    evalCondition: unexpected,
+    confirm: unexpected,
+    teleportOut: unexpected,
+    waitWorldTick: unexpected,
+    yieldMacroTask: async () => {},
+  }
+  const flow = compileRuntimeScriptFlow(resolveAuthorDialogueTree(trigger.flow, actors), {
+    canonicalContentDigest: digest,
+    timing: 'interactive',
+  })
+  await new RuntimeScriptRunner(host, new AbortController().signal, shared).runFlow(flow, {
+    self: target,
+    cursorController: { reachSafePoint: () => 'continue' },
+  })
+
+  // The party reload can suspend the trigger, so the first returning frame needs these poses first.
+  expect(trace).toEqual([
+    { kind: 'setEntityTriggerActivation', target, selection: { kind: 'disabled' } },
+    { kind: 'startBattle', enemyTeamId: 'team-29', fieldId: 24, boss: true },
+    { kind: 'setEntityState', target: { scene: 's093', entity: 'e1758' }, state: 0 },
+    { kind: 'teleportParty', pos: { col: 57, row: 8, height: 0 } },
+    { kind: 'nudgeEntity', target, dx: -32, dy: -16 },
+    { kind: 'setEntityFacing', target, facing: 'right' },
+    { kind: 'setEntityFrame', target, frame: 0 },
+    { kind: 'setParty', members: ['lin-yueru', 'li-xiaoyao'] },
+    { kind: 'wait', ms: 60 },
+    { kind: 'setEntityLayer', target, layer: 13 },
+    { kind: 'wait', ms: 100 },
+    { kind: 'setEntityFacing', target, facing: 'down' },
+    { kind: 'setEntityFrame', target, frame: 12 },
+    { kind: 'playSound', asset: 'sound.pal.201' },
+    ...Array.from({ length: 12 }, () => [
+      { kind: 'wait', ms: 100 },
+      { kind: 'nudgeEntity', target, dx: -6, dy: -12 },
+    ]).flat(),
+    { kind: 'setEntityState', target, state: 0 },
+    { kind: 'moveParty', speed: 'run', to: { col: 55, row: 8, height: 0 } },
+    { kind: 'setPartyFacing', facing: 'right' },
+  ])
+})
+
 // The pond plans preserve their frame times with one facing write per cycle.
 const pondAutoPoses = new Map([
   [
