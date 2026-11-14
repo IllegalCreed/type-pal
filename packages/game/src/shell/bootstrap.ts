@@ -72,6 +72,8 @@ import { createSellMenu } from '../core/menu/sell-menu.js'
 import { createBuyMenu } from '../core/menu/shop-menu.js'
 import { makeWorkingPalette } from '../core/palette-fade.js'
 import { Save } from '../core/save/api.js'
+import type { SaveSnapshot } from '../core/save/data.js'
+import { number as isFiniteNumber } from '../core/save/v1-shape.js'
 import { supplySupplementalSceneObjects } from '../core/scene-supplemental-objects.js'
 import { isWalkable, setCurrentMapNum, setSceneContext } from '../core/scene-system.js'
 import { setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
@@ -102,6 +104,7 @@ import {
 import { createDisplayScaleController } from '../tools/display-scale.js'
 import { setupQuickSave } from '../tools/quick-save.js'
 import { setupSpeedrunHotkeys } from '../tools/speedrun/index.js'
+import { showToast } from '../tools/toast.js'
 import { setupToolsPanel } from '../tools/tools-panel.js'
 import {
   type AudioManager,
@@ -136,6 +139,8 @@ const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 // dev 场景名表(scene-names.json,人工补全;`_doc` 字段 runtime 忽略)。
 const sceneNames = sceneNamesRaw as unknown as SceneNamesData
+
+class InvalidSaveSlotError extends Error {}
 
 // sdlpal 真值:`PAL_LoadDefaultGame` 起手 `wNumScene=1`,`PAL_GameUpdate` 取 `scenes[wNumScene-1]=scenes[0]`
 // 即 dump 文件 `scene/0.json`(mapNum=20 黑地图 + onEnterLabel=L_4)— 这才是开场梦境(主角躺地 +
@@ -1071,7 +1076,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     loadSlotIntoGame: async (slot) => {
       const loaded = await Save.loadSlot(slot)
       if (!loaded) return false
-      await loadGameFromSlot(slot)
+      await loadGameFromSlot(slot, loaded)
       return true
     },
   })
@@ -1457,17 +1462,23 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    * Object.assign 后到新 scene assets ready 前,canvas 必须保持黑屏:否则旧 framebuffer 会被存档 palette
    * 先重染一帧(白天读夜档会先变夜;死亡读档会露战斗帧),再进入目标场景。
    */
-  async function loadGameFromSlot(slot: number): Promise<void> {
+  async function loadGameFromSlot(slot: number, snapshot?: SaveSnapshot): Promise<void> {
+    const loadedGs = snapshot ?? (await Save.loadSlot(slot))
+    if (!loadedGs) {
+      console.warn(`[bootstrap.loadGame] slot ${slot} 空,load skip`)
+      return
+    }
+    // Native IndexedDB snapshots can bypass the portable import validator.
+    if (!isFiniteNumber(loadedGs.dwCash)) {
+      throw new InvalidSaveSlotError(
+        localize('存档损坏，无法读取', 'The save is corrupt and cannot be loaded'),
+      )
+    }
     // DM26/DLg:读档起手停乐(uigame.c:608 `AUDIO_PlayMusic(0,FALSE,1)`)。Object.assign 恢复
     //   存档 wNumMusic 后,曲号必经 0→N 变化 → AudioManager 必从头重播(= res.c:223 先停后播
     //   必从头;旧"同曲号续播"一并修)。
     gs.wNumMusic = 0
     syncShellAudio(audio, gs, [], playerRoles)
-    const loadedGs = await Save.loadSlot(slot)
-    if (!loadedGs) {
-      console.warn(`[bootstrap.loadGame] slot ${slot} 空,load skip`)
-      return
-    }
     console.log(`[bootstrap.loadGame] slot ${slot} loaded`)
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
@@ -1531,9 +1542,16 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.needToFadeIn = true
   }
 
-  setLoadGameHandler(async (slot) => {
-    await loadGameFromSlot(slot)
-  })
+  async function loadGameFromMenu(slot: number): Promise<void> {
+    try {
+      await loadGameFromSlot(slot)
+    } catch (error) {
+      if (!(error instanceof InvalidSaveSlotError)) throw error
+      showToast(error.message, { type: 'error' })
+    }
+  }
+
+  setLoadGameHandler(loadGameFromMenu)
 
   // opcode 0x4E load-last-save(sdlpal script.c:1765 PAL_ReloadInNextTick(bCurrentSaveSlot))。
   // event-system 已先跑完 fade-out(淡黑)+ 清 cursor;此处只重载槽 + 设 needToFadeIn(对齐
@@ -1607,7 +1625,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       startNewGameFromPrimary()
     } else {
       // C8(2026-05-29):OpeningMenu 选 load-game → 复用 loadGameFromSlot 真做
-      await loadGameFromSlot(choice.slot)
+      await loadGameFromMenu(choice.slot)
     }
   })
 
