@@ -433,10 +433,12 @@ await runBrowserJourney({
           result.end = facts(end)
           await wait(
             (state) => {
-              const resumed = state.handoff.find(({ stage }) => stage === 'world-ready')
+              const resumed = state.handoff.find(
+                ({ stage, alpha }) => stage === 'world-fade-in' && alpha === 0,
+              )
               return resumed && observed(state, 'ambient').some(({ atMs }) => atMs >= resumed.atMs)
             },
-            'actual ten-mile ambience resumes after the world menu closes',
+            'actual ten-mile ambience resumes after the map is fully bright',
             2_000,
           )
           assert.deepEqual(

@@ -95,7 +95,8 @@ function inspectHandoff(engine, trace, check, hasLoot) {
   const ambient = game
     ? trace.native.ambient
     : trace.events.filter(({ kind }) => kind === 'ambient')
-  const resumedAmbient = ambient?.find((sound) => before(ready, sound))
+  const brightMap = game ? ready : map.find(({ alpha }) => alpha === 0)
+  const resumedAmbient = ambient?.find((sound) => before(brightMap, sound))
 
   check(
     '开场由实际接敌后保留地图并按顺序换入六个像素带',
@@ -227,11 +228,11 @@ function inspectHandoff(engine, trace, check, hasLoot) {
   check(
     '十里坡背景虫鸣在接敌期间暂停，回场后从等待中继续播放',
     [
-      ambient?.filter((sound) => before(contact, sound) && !before(ready, sound)).length,
+      ambient?.filter((sound) => before(contact, sound) && !before(brightMap, sound)).length,
       resumedAmbient?.track,
       resumedAmbient?.audioContextState,
       resumedAmbient?.seconds > 0,
-      between(milliseconds(ready, resumedAmbient), 0, 500),
+      between(milliseconds(brightMap, resumedAmbient), 0, 500),
     ],
     [0, 66, 'running', true, true],
   )
