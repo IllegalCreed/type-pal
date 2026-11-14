@@ -38,6 +38,7 @@ function context(
     player: { skills: [], mp: 100, silenced: false, healthy: true },
     playerCount: 2,
     healthyPlayerCount: 2,
+    selectablePlayerIndices: [0, 1],
     aliveEnemyIndices: [2, 4],
     usableItems: [],
     throwableItems: [],
@@ -89,14 +90,29 @@ describe('BattleCommandSelection', () => {
     expect(selection.phase).toBe('menu')
   })
 
-  test.each([
-    { key: 'd', action: { kind: 'defend' as const } },
-    { key: 'Q', action: { kind: 'flee' as const } },
-  ])('$key submits its direct command and returns to main', ({ key, action }) => {
+  test('D submits defense for the current player and returns to the main menu', () => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()
-    selection.advance(context(), new Set([key]), recorded.port)
-    expect(recorded.submissions).toEqual([{ playerIndex: 0, action }])
+    selection.advance(context(), new Set(['d']), recorded.port)
+    expect(recorded.submissions).toEqual([{ playerIndex: 0, action: { kind: 'defend' } }])
+    expect(selection.phase).toBe('menu')
+  })
+
+  test.each([
+    ['shortcut', ['Q']],
+    ['misc menu', ['ArrowDown', 'Enter', 'ArrowDown', 'ArrowDown', 'ArrowDown', 'Enter']],
+  ])('replaces an earlier ally command when choosing party escape via %s', (_entry, inputs) => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const liveParty = { playerCount: 3, selectablePlayerIndices: [0, 2] }
+    selection.advance(context(liveParty), new Set(['d']), recorded.port)
+    const leader = context({ ...liveParty, playerIndex: 2 })
+    for (const key of inputs) selection.advance(leader, new Set([key]), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'defend' } },
+      { playerIndex: 0, action: { kind: 'flee' } },
+      { playerIndex: 2, action: { kind: 'flee' } },
+    ])
     expect(selection.phase).toBe('menu')
   })
 

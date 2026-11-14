@@ -29,6 +29,7 @@ export interface BattleCommandSelectionContext {
   player: BattleCommandPlayerView
   playerCount: number
   healthyPlayerCount: number
+  selectablePlayerIndices: readonly number[]
   aliveEnemyIndices: readonly number[]
   usableItems: readonly BattleSelectableItem[]
   throwableItems: readonly BattleSelectableItem[]
@@ -137,7 +138,7 @@ export class BattleCommandSelection {
         return
       }
       if (key('q', 'Q')) {
-        this.submitAnd(context, port, { kind: 'flee' })
+        this.submitPartyFlee(context, port)
         return
       }
       if (key('e', 'E')) {
@@ -226,7 +227,7 @@ export class BattleCommandSelection {
         } else if (this.miscIndex === 2) {
           this.submitAnd(context, port, { kind: 'defend' })
         } else if (this.miscIndex === 3) {
-          this.submitAnd(context, port, { kind: 'flee' })
+          this.submitPartyFlee(context, port)
         }
       }
       return
@@ -415,6 +416,19 @@ export class BattleCommandSelection {
     action: BattleAction,
   ): void {
     this.submit(context, port, action)
+    this.backToMain()
+  }
+
+  private submitPartyFlee(
+    context: BattleCommandSelectionContext,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const action = { kind: 'flee' } as const
+    // Replace previously selected commands too. Pending item reservations derive from this map.
+    for (const playerIndex of context.selectablePlayerIndices) {
+      port.submit(playerIndex, action)
+      this.lastActions.set(playerIndex, action)
+    }
     this.backToMain()
   }
 

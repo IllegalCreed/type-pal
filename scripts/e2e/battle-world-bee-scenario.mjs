@@ -41,7 +41,7 @@ export const beeEscapeParty = [
 ]
 export const beeEscapeCases = [
   { escape: 'success', seed: 4, attempts: 1 },
-  { escape: 'failure', seed: 7, attempts: 2 },
+  { escape: 'failure', seed: 3, attempts: 2 },
 ]
 
 export function beeWorldArguments(args = process.argv.slice(2)) {

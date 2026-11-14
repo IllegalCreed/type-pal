@@ -652,6 +652,9 @@ export class BattleSession {
       },
       playerCount: this.state.players.length,
       healthyPlayerCount: healthyPlayerCount(this.state),
+      selectablePlayerIndices: this.state.players.flatMap((member, index) =>
+        needsManualSelect(member) ? [index] : [],
+      ),
       aliveEnemyIndices: this.aliveEnemyIdxs(),
       usableItems: this.usableItems(),
       throwableItems: this.throwableItems(),

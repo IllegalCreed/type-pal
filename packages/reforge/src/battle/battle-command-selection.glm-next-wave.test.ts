@@ -45,6 +45,7 @@ function context(
     player: { skills: [], mp: 100, silenced: false, healthy: true },
     playerCount: 2,
     healthyPlayerCount: 2,
+    selectablePlayerIndices: [0, 1],
     aliveEnemyIndices: [2, 4],
     usableItems: [],
     throwableItems: [],

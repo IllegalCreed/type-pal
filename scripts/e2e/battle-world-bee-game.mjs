@@ -1119,7 +1119,7 @@ await runBrowserJourney({
           if (capture.enabled)
             await capture.readable('探索画面', true, async () => ready(await read(page)))
           await capture.finish(page, {
-            event: 'after-world-menu-round-trip',
+            event: postBattle ? 'after-post-battle-save-and-load' : 'after-world-menu-round-trip',
             seed,
             scene,
             grid: result.end.grid,
