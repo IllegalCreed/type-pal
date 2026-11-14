@@ -33,6 +33,22 @@ const paint = (page) =>
     () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))),
   )
 
+async function acknowledgeGameKey(page, input) {
+  // Two browser frames can fit inside one Game input tick. Wait on the native
+  // counter after dispatch so a repeated confirm cannot advance the next player.
+  const dispatchedFrame = await page.evaluate(() => globalThis.__tpgs.frameNum)
+  const observed = await page.waitForFunction(
+    (frame) => (globalThis.__tpgs.frameNum > frame ? globalThis.__tpgs.frameNum : false),
+    dispatchedFrame,
+    { timeout: 3000 },
+  )
+  try {
+    input.gameLogic = { dispatchedFrame, observedFrame: await observed.jsonValue() }
+  } finally {
+    await observed.dispose()
+  }
+}
+
 await runBrowserJourney({
   name: `q2-status-${engine}-${mode?.slice(2) ?? 'verify'}`,
   packageName: `@type-pal/${engine}`,
@@ -80,6 +96,14 @@ await runBrowserJourney({
           }),
         )
         const read = () => page.evaluate(() => globalThis.__battleHarness?.read())
+        const press = async (key, commandIndex) => {
+          const input = await pressRecordedKey({
+            keyboard: page.keyboard,
+            action: { key, phase: 'battle', scope: 'story', context: runId, commandIndex },
+            record: (attempt) => report.actions.push(attempt),
+          })
+          if (engine === 'game') await acknowledgeGameKey(page, input)
+        }
         try {
           await page.goto(baseURL + (engine === 'game' ? '/?skip-intro=1' : '/q2-battle.html'))
           await until(read, (state) => state?.ready, `${runId} normal battle entry`, 60_000)
@@ -110,10 +134,27 @@ await runBrowserJourney({
           const started = Date.now()
           let settlementConfirmedAt = 0
           let menuProbed = false
+          let checkedGameCommands = 0
           for (;;) {
             health()
             const state = await read()
+            if (engine === 'game') {
+              for (const actual of state.commands.slice(checkedGameCommands)) {
+                assert.deepEqual(
+                  actual,
+                  scenario.commands[checkedGameCommands],
+                  `${runId} native Game command ${checkedGameCommands} differs from the input plan`,
+                )
+                checkedGameCommands++
+              }
+            }
             if (state.terminal) {
+              if (engine === 'game')
+                assert.equal(
+                  checkedGameCommands,
+                  scenario.commands.length,
+                  `${runId} ended before all Game commands`,
+                )
               result.terminal = state.terminal
               if (capture.enabled)
                 await capture.finish(page, { event: 'battle-result', runId, state: state.terminal })
@@ -148,18 +189,8 @@ await runBrowserJourney({
               const index = (readout) =>
                 engine === 'game' ? readout.selectedAction : readout.selection?.menuIndex
               const before = index(state)
-              await pressRecordedKey({
-                keyboard: page.keyboard,
-                action: {
-                  key: 'ArrowLeft',
-                  phase: 'battle',
-                  scope: 'story',
-                  context: runId,
-                  commandIndex,
-                },
-                record: (input) => report.actions.push(input),
-              })
-              await paint(page)
+              await press('ArrowLeft', commandIndex)
+              if (engine !== 'game') await paint(page)
               const after = await read()
               result.silenceMenuProbe = {
                 turn: state.turn,
@@ -176,11 +207,8 @@ await runBrowserJourney({
             if (!confirming) settlementConfirmedAt = 0
             if (key && (!confirming || Date.now() - settlementConfirmedAt >= 300)) {
               if (confirming) settlementConfirmedAt = Date.now()
-              await pressRecordedKey({
-                keyboard: page.keyboard,
-                action: { key, phase: 'battle', scope: 'story', context: runId, commandIndex },
-                record: (input) => report.actions.push(input),
-              })
+              await press(key, commandIndex)
+              if (engine === 'game') continue
             }
             await paint(page)
           }
