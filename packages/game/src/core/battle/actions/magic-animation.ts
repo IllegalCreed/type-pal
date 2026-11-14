@@ -349,7 +349,7 @@ function buildAndStartSummonAnim(
 /**
  * Trance(梦蛇)成功后的变身段 —— sdlpal fight.c:4226-4240:
  *   i=0..5:caster iColorShift=i*2,每步 Delay(1);随后 reload battle sprites + iColorShift=0 + FadeScene。
- * 0x31 已在 scriptOnSuccess 写出新 sprite,这里先恢复旧 sprite 做闪色,末帧再切到新 sprite。
+ * 0x31 已在 scriptOnSuccess 写出新 sprite,这里先恢复旧 sprite 做闪色,淡变时再切到新 sprite。
  */
 function buildAndStartTranceAnim(
   input: MagicAnimationInput,
@@ -384,14 +384,20 @@ function buildAndStartTranceAnim(
   //   PAL_LoadBattleSprites 载新精灵 → iColorShift=0 → PAL_BattleMakeScene → PAL_BattleFadeScene)。
   //   复用 summon crossfade 引擎(present applySummonFade):fadeDir='out' → summonGodMode=false → 不画召唤神/
   //   不隐队员/bg 不染色,仅做 from(闪色末帧旧精灵,hasSummonFade 时快照)→ to(新精灵)的低 nibble dither。
-  //   每帧已把 caster 切到新精灵 + iColorShift=0,故 current 即"新精灵画面"。
+  //   PAL_LoadBattleSprites 在合成新精灵画面前复位站位(battle.c:900-907)。
   const newSprite = opts.spriteAfter === undefined ? (opts.spriteBefore ?? null) : opts.spriteAfter
   const casterPos = player.posOriginal
   for (let s = 0; s < SUMMON_FADE_STEPS; s++) {
     frames.push({
       durationMs: SUMMON_FADE_STEP_MS,
       fighters: [
-        { side: 'player', idx: input.casterIdx, iColorShift: 0, spriteNumOverride: newSprite },
+        {
+          side: 'player',
+          idx: input.casterIdx,
+          pos: casterPos,
+          iColorShift: 0,
+          spriteNumOverride: newSprite,
+        },
       ],
       summon: {
         spriteKey: '',

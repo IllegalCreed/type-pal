@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import { runScript } from '../../event-system.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
+import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 import { makeActionFixture } from './action.test-fixtures.js'
 
 const SUMMON_FADE_STEPS = 72 // PAL_BattleFadeScene: 12 × 6 steps.
@@ -803,13 +804,15 @@ describe('performMagic', () => {
       { op: 'showDamageNum', target: { kind: 'enemy', idx: 2 }, value: 50, color: 'blue' },
     ])
   })
-  it('梦蛇295:spells 缺项时从 object-magics 解析并在 Trance 闪色末帧切换 sprite', () => {
+  it('梦蛇295:从 object-magics 解析，闪色后在淡变首帧换精灵并回原站位', () => {
     const { state, playerRoles, gs, bus } = makeActionFixture({
-      role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicSound: 9 },
+      role: { mp: 120, maxMP: 120, spriteNumInBattle: 1, magicSound: 10 },
     })
-    state.players[0]!.posOriginal = { x: 240, y: 170 }
-    state.players[0]!.pos = { x: 240, y: 170 }
-    state.players[0]!.spriteNumOverride = 1
+    const player = state.players[0]!
+    const originalPos = { x: 240, y: 170 }
+    player.posOriginal = originalPos
+    player.pos = { ...originalPos }
+    player.spriteNumOverride = 1
     const execute = vi.fn<RunScriptFn>(runScript)
     performMagic({
       state,
@@ -820,19 +823,27 @@ describe('performMagic', () => {
       targetIdx: 'all',
       spells: [],
       objectMagics: [makeObjectMagic({ id: 295, magicNumber: 47, scriptOnSuccess: 1 })],
-      magics: [makeMagic({ id: 47, type: 'trance', costMP: 99, baseDamage: 0, sound: 335 })],
+      magics: [
+        makeMagic({
+          id: 47,
+          type: 'trance',
+          effect: 0xffff,
+          costMP: 99,
+          baseDamage: 0,
+          sound: 335,
+        }),
+      ],
       playerRoles,
       bus,
-      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x31, operands: [295, 0, 0] }, { op: 'end' }],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x31, operands: [5, 0, 0] }, { op: 'end' }],
       runScript: execute,
       gs,
     })
     expect(playerRoles.roles[0]!.mp).toBe(21)
     expect(execute).toHaveBeenCalledTimes(1)
     expect(execute.mock.calls[0]![0].ip).toBe(1)
-    expect(state.players[0]!.spriteNumOverride).toBe(1) // 闪色阶段仍用旧 sprite
-    expect(state.battleAnim?.frames.length).toBeGreaterThan(7)
-    expect(state.battleAnim?.frames.some((f) => f.sound === 9)).toBe(true)
+    expect(player.spriteNumOverride).toBe(1)
+    expect(state.battleAnim?.frames.some((f) => f.sound === 10)).toBe(true)
     expect(gs.pendingSounds ?? []).not.toContain(335) // trance:原版 DefMagicAnim effect=0xFFFF 早退,magic.sound 335 不播(fight.c:2480-2484/2501)
     // L19:闪色 6 帧(旧精灵 iColorShift 渐变)后,**不再硬切**,而是接 72 步 dither crossfade
     //   (fight.c:4234-4240 VIDEO_BackupScreen→LoadBattleSprites→iColorShift=0→MakeScene→FadeScene)。
@@ -841,7 +852,7 @@ describe('performMagic', () => {
     expect(fr.slice(flashStart, flashStart + 6).map((f) => f.fighters?.[0]?.iColorShift)).toEqual([
       0, 2, 4, 6, 8, 10,
     ])
-    // fade 段:72 帧,每帧已切到新精灵 295 + iColorShift=0,复用 summon crossfade 引擎(fadeDir='out' 不画神/不隐队员)。
+    // 淡变段 72 帧复用召唤的交叉淡变。旧精灵画面在闪色末帧保留施法站位。
     const fadeFrames = fr.slice(-SUMMON_FADE_STEPS)
     expect(fadeFrames.length).toBe(SUMMON_FADE_STEPS)
     expect(
@@ -849,17 +860,29 @@ describe('performMagic', () => {
         (f) =>
           f.summon?.fadeDir === 'out' &&
           f.fighters?.[0]?.iColorShift === 0 &&
-          f.fighters?.[0]?.spriteNumOverride === 295,
+          f.fighters?.[0]?.spriteNumOverride === 5,
       ),
     ).toBe(true)
     expect(fadeFrames[0]!.summon?.fadeStep).toBe(0)
     expect(fadeFrames.at(-1)!.summon?.fadeStep).toBe(SUMMON_FADE_STEPS - 1)
     expect(state.battleAnim?.hasSummonFade).toBe(true) // present 据此在非 fade 帧(闪色)快照 from
-    expect(state.battleAnim?.frames.at(-1)?.fighters?.[0]).toMatchObject({
-      side: 'player',
-      idx: 0,
+    const fadeStartMs = fr
+      .slice(0, flashStart + 6)
+      .reduce((elapsed, frame) => elapsed + frame.durationMs, 0)
+    advanceBattleAnimFrames(state, bus, fadeStartMs - 1)
+    expect(player).toMatchObject({
+      pos: { x: 230, y: 166 },
+      currentFrame: 5,
+      iColorShift: 10,
+      spriteNumOverride: 1,
+    })
+    advanceBattleAnimFrames(state, bus, 1)
+    expect(state.battleAnim?.summon?.fadeStep).toBe(0)
+    expect(player).toMatchObject({
+      pos: originalPos,
+      currentFrame: 5,
       iColorShift: 0,
-      spriteNumOverride: 295,
+      spriteNumOverride: 5,
     })
   })
   it('斩龙诀式 scriptOnUse 0x35:振屏挂到 OffMagic 起始,不提前写全局 gs.shakeTime', () => {
