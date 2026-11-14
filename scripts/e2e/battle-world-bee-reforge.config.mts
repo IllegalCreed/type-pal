@@ -11,7 +11,7 @@ function after(source: string, anchor: string, observation: string): string {
 }
 
 function observeWorld(source: string): string {
-  const contact = '    const encounterSignal = new AbortController().signal'
+  const contact = '    const encounterSignal = encounterController.signal'
   const move = '            player.pos = { ...playerOutcome.to }'
   const scripts = `        for (const def of scripted) {
           await expectDefined(scriptRuntime).runCommands(expectDefined(def.onDefeated), {
@@ -55,31 +55,87 @@ ${move}
           observer?.slot('after', slot, def.id, world)
         }`,
   )
-  const lifecycle = '        if (applyHostileLifecyclePolicy(e, result)) return'
+  const lifecycle = '      if (applyHostileLifecyclePolicy(e, result)) return'
   const hidden = replaceOnce(
     slotted,
     lifecycle,
-    `        if (applyHostileLifecyclePolicy(e, result)) {
-          globalThis.__beeWorld?.event('hidden', {
-            entity: e.id, scene: activeScene.scene.id,
-            state: world.entityLifecycles?.[activeScene.scene.id]?.[e.id],
-            party: world.party.map(({ hp, mp }) => [hp, mp]), position: { ...player.pos },
-            inventory: structuredClone(world.inventory), money: world.money,
-          })
-          return
-        }`,
+    `      if (applyHostileLifecyclePolicy(e, result)) {
+        globalThis.__beeWorld?.event('hidden', {
+          entity: e.id, scene: activeScene.scene.id,
+          state: world.entityLifecycles?.[activeScene.scene.id]?.[e.id],
+          party: world.party.map(({ hp, mp }) => [hp, mp]), position: { ...player.pos },
+          inventory: structuredClone(world.inventory), money: world.money,
+        })
+        return
+      }`,
   )
-  const rendered = after(
+  const rendered = replaceOnce(
     hidden,
-    '        ctx.putImageData(victoryFrame.frame, 0, 0)',
-    `
-        globalThis.__beeWorld?.surface('battle')`,
+    `          if (returning) drawVictoryFade(returning.fade.advance(frames.now))
+          else drawDialogue()`,
+    `          if (returning) {
+            const alpha = returning.fade.advance(frames.now)
+            drawVictoryFade(alpha)
+            globalThis.__beeWorld?.fade('battle', alpha, ctx, victoryFrame.frame)
+          } else {
+            const observer = globalThis.__beeWorld
+            observer?.surface('battle')
+            drawDialogue()
+            observer?.surface(null)
+          }`,
+  )
+  const worldFade = replaceOnce(
+    rendered,
+    '      drawVictoryFade(alpha)\n      const finishFrame = returning.finishFrame',
+    `      drawVictoryFade(alpha)
+      globalThis.__beeWorld?.fade('world', alpha, ctx)
+      const finishFrame = returning.finishFrame`,
   )
   return after(
-    rendered,
-    '\n    dialogBox.render(performance.now())',
+    worldFade,
+    '      runWithPresentationFinalizer(render, abortScript)',
     `
-    globalThis.__beeWorld?.surface(null)`,
+      if (!hostileBusy && !battleHost.active)
+        globalThis.__beeWorld?.returned(ctx, activeScene.scene.id, player.pos, menus.active)`,
+  )
+}
+
+function observeEntry(source: string): string {
+  const reveal = replaceOnce(
+    source,
+    '      ctx.putImageData(this.frame, 0, 0)\n      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()',
+    `      ctx.putImageData(this.frame, 0, 0)
+      globalThis.__beeWorld?.entry(this.frame, reveal.bands, elapsed >= BAND_ORDER.length * BAND_MS)
+      if (elapsed >= BAND_ORDER.length * BAND_MS) reveal.complete()`,
+  )
+  return after(
+    reveal,
+    '\n    ctx.putImageData(this.frame, 0, 0)',
+    '    globalThis.__beeWorld?.entry(this.frame, 0, false)',
+  )
+}
+
+function observeMusic(source: string): string {
+  const swapped = after(
+    source,
+    '      sequencer.play()',
+    `      globalThis.__beeWorld?.music('play', asset, ctx.state)`,
+  )
+  const immediate = replaceOnce(
+    swapped,
+    '        if (seq) seq.pause()\n        playing = undefined',
+    `        if (seq) {
+          seq.pause()
+          if (playing) globalThis.__beeWorld?.music('stop', playing, ctx.state)
+        }
+        playing = undefined`,
+  )
+  return replaceOnce(
+    immediate,
+    '          seq.pause()\n          playing = undefined',
+    `          seq.pause()
+          globalThis.__beeWorld?.music('stop', playing, ctx.state)
+          playing = undefined`,
   )
 }
 
@@ -165,14 +221,18 @@ function observeSession(source: string): string {
     `
         globalThis.__beeWorld?.number(f, age)`,
   )
-  return replaceOnce(
+  const settled = after(
     floated,
-    `    if (this.sessionUi === 'over' && settlementScreen && ui)
-      drawSettlementScreen(ctx, settlementScreen, ui, g)`,
-    `    if (this.sessionUi === 'over' && settlementScreen && ui) {
-      drawSettlementScreen(ctx, settlementScreen, ui, g)
-      globalThis.__beeWorld?.settlement(settlementScreen)
-    }`,
+    '      drawSettlementScreen(ctx, settlementScreen, ui, g)',
+    '      globalThis.__beeWorld?.settlement(settlementScreen)',
+  )
+  return after(
+    settled,
+    `          this.selection.mainActionValidity(selectionContext),
+          true,
+        )`,
+    `        if (selection.phase === 'menu' && this.selectionStartedForTurn === s.turn)
+          globalThis.__beeWorld?.commandReady(ctx)`,
   )
 }
 
@@ -192,6 +252,12 @@ const worldBeeTrace = {
         break
       case 'battle/battle-host.ts':
         code = observeBattle(source)
+        break
+      case 'battle/battle-entry-presentation.ts':
+        code = observeEntry(source)
+        break
+      case 'audio/bgm.ts':
+        code = observeMusic(source)
         break
       case 'battle/battle-session.ts':
         code = observeSession(source)

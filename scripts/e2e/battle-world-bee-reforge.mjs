@@ -76,12 +76,21 @@ async function createFixture() {
 function installObserver(makeRng, createRecorder, seed, itemId) {
   const rng = makeRng(seed)
   const events = [],
+    handoff = [],
+    inputs = [],
     errors = []
   let overflow = false,
     activeSlot = null,
     surface = null,
     draws = 0,
-    lastSettlement
+    lastSettlement,
+    contacted = false,
+    entryBand = -1,
+    entryComplete = false,
+    commandDrawn = false,
+    sourceDrawn = false,
+    returnedWorld = false,
+    lastVisibleText = null
   const numbers = new WeakSet(),
     notices = new Set()
   const { append } = createRecorder({
@@ -91,11 +100,73 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
       overflow = true
     },
   })
-  const event = (kind, values) => append(events, { kind, ...values }, 512)
+  const event = (kind, values) => {
+    if (kind === 'contact') contacted = true
+    return append(events, { kind, ...values }, 512)
+  }
+  const present = (stage, values) => append(handoff, { stage, ...values }, 512)
+
+  function pixels({ width, height, data }) {
+    let hash = 0x811c9dc5
+    let rgb = 0
+    let nonBlack = 0
+    let opaque = 0
+    for (let i = 0; i < data.length; i += 4) {
+      const red = data[i]
+      const green = data[i + 1]
+      const blue = data[i + 2]
+      const alpha = data[i + 3]
+      rgb += red + green + blue
+      if (red || green || blue) nonBlack++
+      if (alpha === 255) opaque++
+      hash = Math.imul((hash ^ red ^ (green << 8) ^ (blue << 16) ^ (alpha << 24)) >>> 0, 16777619)
+    }
+    return {
+      width,
+      height,
+      nonBlack,
+      opaque,
+      rgbMean: rgb / (width * height * 3),
+      hash: hash >>> 0,
+    }
+  }
+  const canvasPixels = (ctx) => pixels(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height))
+  for (const type of ['keydown', 'keyup']) {
+    globalThis.addEventListener(
+      type,
+      (input) => {
+        if (!contacted && input.code !== 'ArrowRight') return
+        if (
+          !input.isTrusted ||
+          input.repeat ||
+          !['ArrowRight', 'Enter', 'Escape'].includes(input.code)
+        )
+          return
+        append(
+          inputs,
+          {
+            kind: type === 'keydown' ? 'down' : 'up',
+            code: input.code,
+            eventTimeStamp: input.timeStamp,
+          },
+          24,
+        )
+      },
+      true,
+    )
+  }
   const getCount = (world) => world.inventory.find(({ itemId: id }) => id === itemId)?.count ?? 0
   globalThis.__beeWorld = Object.freeze({
     event,
-    read: () => ({ seed, events, errors, overflow }),
+    read: () => ({
+      seed,
+      events,
+      handoff,
+      inputs,
+      timeOrigin: performance.timeOrigin,
+      errors,
+      overflow,
+    }),
     activeSlot: () => activeSlot !== null,
     route(source, sceneId, position, facing, ready) {
       globalThis.__routeObserve?.(source, {
@@ -125,7 +196,42 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
     surface(value) {
       surface = value
     },
+    entry(frame, completedRounds, complete) {
+      if (completedRounds !== entryBand) {
+        entryBand = completedRounds
+        present(completedRounds === 0 ? 'battle-entry' : 'battle-intro', {
+          completedRounds,
+          pixels: pixels(frame),
+        })
+      }
+      if (complete && !entryComplete) {
+        entryComplete = true
+        present('battle-entry-complete', { completedRounds, pixels: pixels(frame) })
+      }
+    },
+    commandReady(ctx) {
+      if (commandDrawn) return
+      commandDrawn = true
+      present('battle-command-ready', { pixels: canvasPixels(ctx) })
+    },
+    fade(layer, alpha, ctx, frame) {
+      if (frame && !sourceDrawn) {
+        sourceDrawn = true
+        present('battle-source', { pixels: pixels(frame), text: lastVisibleText })
+      }
+      const stage = layer === 'world' ? 'world-fade-in' : alpha === 1 ? 'black' : 'fade-out'
+      present(stage, { layer, alpha, pixels: canvasPixels(ctx) })
+    },
+    returned(ctx, scene, position, menu) {
+      if (!sourceDrawn || returnedWorld) return
+      returnedWorld = true
+      present('world-ready', { scene, position: { ...position }, menu, pixels: canvasPixels(ctx) })
+    },
+    music(stage, asset, audioContextState) {
+      if (contacted) event('music', { stage, asset, audioContextState })
+    },
     notice(id, text) {
+      if (surface === 'battle') lastVisibleText = text
       if (activeSlot === null || notices.has(id)) return
       notices.add(id)
       const world = globalThis.__rfWorld
@@ -178,6 +284,7 @@ const read = (page) =>
       inventory: world?.inventory,
       money: world?.money,
       events: window.__beeWorld?.read().events ?? [],
+      handoff: window.__beeWorld?.read().handoff ?? [],
     }
   })
 const ready = ({ run, encounterBusy }) =>
@@ -191,7 +298,7 @@ const ready = ({ run, encounterBusy }) =>
 const at = (state, expected) =>
   state.run?.position && grid(state.run.position).every((n, i) => n === expected[i])
 const observed = (state, kind) => state.events.filter((entry) => entry.kind === kind)
-const facts = ({ events, ...state }) => state
+const facts = ({ events, handoff, ...state }) => state
 
 const fixture = await createFixture()
 await runBrowserJourney({
@@ -272,7 +379,9 @@ await runBrowserJourney({
           await markReady(initial)
           await move(approachPlan, 'world-approach')
           const encounter = await wait(
-            (state) => state.phase === 'menu' && observed(state, 'contact').length === 1,
+            (state) =>
+              state.phase === 'menu' &&
+              state.handoff.some(({ stage }) => stage === 'battle-command-ready'),
             'native bee battle menu',
           )
           result.encounter = facts(encounter)
@@ -289,13 +398,16 @@ await runBrowserJourney({
               async () => (await read(page)).phase === 'over',
             )
           await wait(
-            (state) => performanceAge(state, 'settlement') >= 300,
+            (state) => performanceAge(state, 'settlement') >= 40,
             'native settlement confirm window',
           )
           await press('Enter', 'settlement')
           const returned = await wait(
             (state) =>
-              ready(state) && state.entity?.hidden && observed(state, 'hidden').length === 1,
+              ready(state) &&
+              state.entity?.hidden &&
+              observed(state, 'hidden').length === 1 &&
+              state.handoff.some(({ stage }) => stage === 'world-ready'),
             'return to world after loot scripts',
             12_000,
           )
