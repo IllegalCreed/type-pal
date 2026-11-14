@@ -960,7 +960,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 640
+                    "ms": 1600
                   },
                   {
                     "kind": "setEntityState",
@@ -976,7 +976,11 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 240
+                    "ms": 3200
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 600
                   },
                   {
                     "cue": {

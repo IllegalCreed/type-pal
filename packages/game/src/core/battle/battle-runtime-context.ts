@@ -33,6 +33,8 @@ export interface BattleResources {
   enemyObjects: EnemyObject[]
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供命中特效落点与动态敌人刷新。 */
   enemySpriteFrameHeights?: Map<number, number>
+  /** ABC.MKF frame 0 widths, used by PAL_BattleEnemyEscape. */
+  enemySpriteFrameWidths?: ReadonlyMap<number, number>
   /** ENEMYPOS 表 —— 动态召唤/分裂/变身后刷新敌方 pos/posOriginal。 */
   enemyPos?: EnemyPosTable
   playerRoles: PlayerRoles

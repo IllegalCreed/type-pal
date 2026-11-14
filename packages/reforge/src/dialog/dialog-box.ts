@@ -27,7 +27,7 @@ import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js
 // GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
 const LINE_HEIGHT = 18
 const LINES_PER_PAGE = 4 // spec §3:MAX_LINES_PER_PAGE
-const BATTLE_VICTORY_NARRATION_MS = 1400 // text.c:1701
+const BATTLE_NARRATION_MS = 1400 // text.c:1701
 const POS = {
   bottom: {
     text: { x: 44, y: 126 },
@@ -121,6 +121,7 @@ export class DialogBox {
   private pageDone = false
   private retainSlots = false
   private battleVictory?: AbortSignal
+  private battleChoreography = false
   private nextPresentationId = 0
 
   private cursorBaked: HTMLCanvasElement[] = []
@@ -253,7 +254,9 @@ export class DialogBox {
         ),
         autoAdvance:
           cue.autoAdvance ??
-          (this.battleVictory && slot === 'narration' ? BATTLE_VICTORY_NARRATION_MS : undefined),
+          ((this.battleChoreography || this.battleVictory) && slot === 'narration'
+            ? BATTLE_NARRATION_MS
+            : undefined),
       },
     }
   }
@@ -261,18 +264,21 @@ export class DialogBox {
   open(
     state: DialogueState,
     nowMs: number,
-    lifetime: 'dialogue' | 'script' | { battleVictory: AbortSignal } = 'dialogue',
+    lifetime: 'dialogue' | 'script' | 'battle' | { battleVictory: AbortSignal } = 'dialogue',
   ): void {
     const firstCue = state.dialogue.cues[0]
     if (!firstCue) throw new Error('reforge: 对话无显示单元')
     // Ordinary script commands share visible slots until explicit clearing. Narration
     // scrolls and standalone dialogues keep their own existing close-on-completion lifetime.
     const battleVictory = typeof lifetime === 'object' ? lifetime.battleVictory : undefined
-    const sameBattle = this.battleVictory === battleVictory
+    const battleChoreography = lifetime === 'battle'
+    const sameBattle =
+      this.battleVictory === battleVictory && this.battleChoreography === battleChoreography
     this.retainSlots =
       lifetime !== 'dialogue' &&
       (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
     this.battleVictory = battleVictory
+    this.battleChoreography = battleChoreography
     this.state = state
     if (!this.retainSlots || !sameBattle) {
       this.slots = emptySlots()
@@ -339,6 +345,10 @@ export class DialogBox {
     if (this.battleVictory === owner) this.close()
   }
 
+  releaseBattleChoreography(): void {
+    if (this.battleChoreography) this.close()
+  }
+
   /** 关闭并清空 slot(正常收尾 + 脚本 abort/切场景清理共用)。 */
   close(): void {
     this.state = null
@@ -346,6 +356,7 @@ export class DialogBox {
     this.renders = {}
     this.retainSlots = false
     this.battleVictory = undefined
+    this.battleChoreography = false
   }
 
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
@@ -390,7 +401,7 @@ export class DialogBox {
       // The original reward wait starts after the text is drawn.
       if (
         isActive &&
-        this.battleVictory &&
+        (this.battleChoreography || this.battleVictory) &&
         r.cue.autoAdvance === undefined &&
         r.visibleText === null
       ) {

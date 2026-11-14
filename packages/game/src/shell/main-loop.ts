@@ -14,7 +14,7 @@
 import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import { advanceContactBattleReveal } from '../core/battle/battle-entry.js'
-import { finishBattleEntry } from '../core/battle/battle-system.js'
+import { advanceBattleEnemyEscape, finishBattleEntry } from '../core/battle/battle-system.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
 import { pendingEncounterFadeOut, resumeEncounterAfterFadeOut, tickByMode } from '../core/mode.js'
@@ -83,6 +83,13 @@ export function advanceRafFrame(
       // The source clears accumulated presses before admitting the first battle frame.
       ctx.input.nextSnapshot(ctx.gs.frameNum)
     }
+    ctx.onPresent([], false)
+    return { ticked: false, presented: true }
+  }
+
+  if (battle && !frozen && advanceBattleEnemyEscape(ctx.gs, dt)) {
+    state.accumulator = 0
+    ctx.input.nextSnapshot(ctx.gs.frameNum)
     ctx.onPresent([], false)
     return { ticked: false, presented: true }
   }

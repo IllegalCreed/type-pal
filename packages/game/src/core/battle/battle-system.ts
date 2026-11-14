@@ -183,6 +183,7 @@ export interface StartBattleInput {
   summonSpriteFrameCounts?: Map<number, number>
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight)。省略 → 命中特效按 0 高度兼容旧 fixture。 */
   enemySpriteFrameHeights?: Map<number, number>
+  enemySpriteFrameWidths?: ReadonlyMap<number, number>
   /** D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级阈值。省略 → 升级 loop 跳过。 */
   levelUpExp?: number[]
   /** D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级学新法术。省略 → 不学。 */
@@ -342,6 +343,7 @@ export function startBattle(input: StartBattleInput): void {
     enemies: input.enemies, // 0x9E summon 召唤兽 stats
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
     enemySpriteFrameHeights: input.enemySpriteFrameHeights, // M8:enemy frame0 height(PAL_RLEGetHeight)
+    enemySpriteFrameWidths: input.enemySpriteFrameWidths,
     enemyPos: input.enemyPos, // 0x9C/0x9E/0x9F 动态敌方阵型刷新
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
@@ -441,7 +443,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   if (tickBattleFleeAnim(state, res)) return
 
   // D13 敌人主动逃飞出屏 hold(phase-agnostic):0x69 触发后全活敌往左挪到出屏 → phase='fleed'。
-  if (tickBattleEnemyEscapeAnim(state)) return
+  if (advanceBattleEnemyEscape(gs, BATTLE_FRAME_TIME)) return
 
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
@@ -2064,42 +2066,36 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
   return true
 }
 
-/** D13 入场 fade 同尺度:全活敌每 tick 往左 ENEMY_FLYOUT_DX,全过 -ENEMY_FLYOUT_OFFSCREEN → fleed。 */
-const ENEMY_FLYOUT_DX = 20 // sdlpal 5px/10ms ≈ 20px/40ms tick(battle.c:1413)
-const ENEMY_FLYOUT_OFFSCREEN = 160 // x <= -160 视为精灵全出左屏(近似 x+width<=0,battle.c:1420)
-const ENEMY_FLYOUT_MAX_STEPS = 40 // 安全上限(最右敌 ~320 / 20 + margin)
-const ENEMY_FLYOUT_HOLD_TICKS = 13 // L11:出屏后停顿 ~500ms(battle.c:1433 UTIL_Delay(500) / 40ms tick ≈ 13)
-
-/**
- * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434):0x69 设 enemyEscapeAnim 后,
- * 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变);全部 x<=-OFFSCREEN(或超安全步数)→ phase='fleed'
- * (Terminated 无奖励,**不**改 health 避免误给 exp)。返回 true = 本 tick 被该 hold 占用。
- */
-function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
-  const ea = state.enemyEscapeAnim
-  if (!ea) return false
-  // L11:出屏后停顿阶段(battle.c:1433 UTIL_Delay(500))——敌已全出屏不再移动,仅计数 ~13 帧再终止。
-  if (ea.holdTicks !== undefined) {
-    ea.holdTicks++
-    if (ea.holdTicks < ENEMY_FLYOUT_HOLD_TICKS) return true
-    state.enemyEscapeAnim = undefined
-    state.phase = 'fleed'
-    // 敌逃 = sdlpal kBattleResultTerminated(0),区别于玩家逃 kBattleResultFleed(0xFFFF):opcode 7 对
-    //   Terminated 走 else → wScriptEntry++(= wonIp 续跑隐藏怪 opcode82),不跳 fledIp。标记供 finalize 归类。
-    state.terminatedByEnemyEscape = true
-    state.phaseStallTicks = 0
-    return true
+/** PAL_BattleEnemyEscape: slide each live slot 5 px per 10 ms, then hold for 500 ms. */
+export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
+  const state = gs.battleState
+  const escape = state?.enemyEscapeAnim
+  if (!state || !escape) return false
+  const elapsedMs = (escape.elapsedMs ?? 0) + dtMs
+  escape.elapsedMs = elapsedMs
+  if (escape.offscreenAtMs === undefined) {
+    const steps = Math.floor(elapsedMs / 10) - escape.step
+    if (steps <= 0) return true
+    const widths = getBattleResources(gs)?.enemySpriteFrameWidths
+    const live = state.enemies.filter((e) => !e.defeated && e.e.health > 0 && e.pos)
+    const remaining = Math.max(
+      1,
+      ...live.map((e) => Math.ceil((e.pos!.x + (widths?.get(e.e.id) ?? 80)) / 5)),
+    )
+    const moved = Math.min(steps, remaining)
+    for (const enemy of live) {
+      const pos = enemy.pos!
+      enemy.pos = { x: pos.x - 5 * moved, y: pos.y }
+    }
+    escape.step += moved
+    if (moved === remaining) escape.offscreenAtMs = 10 * escape.step
   }
-  let anyOnScreen = false
-  for (const e of state.enemies) {
-    if (e.defeated || e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
-    e.pos = { x: e.pos.x - ENEMY_FLYOUT_DX, y: e.pos.y }
-    if (e.pos.x > -ENEMY_FLYOUT_OFFSCREEN) anyOnScreen = true // 仍在屏(x+width>0,battle.c:1420)
-  }
-  ea.step++
-  if (anyOnScreen && ea.step < ENEMY_FLYOUT_MAX_STEPS) return true // 继续飞
-  // 全出屏 → 进入 500ms 停顿阶段(holdTicks 从 0 起;battle.c:1433-1434 先 Delay 再 Terminated)
-  ea.holdTicks = 0
+  if (escape.offscreenAtMs === undefined || elapsedMs < escape.offscreenAtMs + 500) return true
+  state.enemyEscapeAnim = undefined
+  state.phase = 'fleed'
+  // Terminated takes the script's natural success continuation, without any battle rewards.
+  state.terminatedByEnemyEscape = true
+  state.phaseStallTicks = 0
   return true
 }
 

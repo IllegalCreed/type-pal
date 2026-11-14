@@ -10766,22 +10766,17 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.005",
+                        "side": "right"
+                      }
                     },
+                    "slot": "bottom",
                     "rows": [
                       {
                         "text": "dlg.13130"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13131"
                       }
@@ -10792,8 +10787,13 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.024",
+                        "side": "left"
+                      }
                     },
+                    "slot": "top",
                     "rows": [
                       {
                         "text": "dlg.13132"
@@ -10802,11 +10802,19 @@
                   }
                 },
                 {
+                  "kind": "clearDialog"
+                },
+                {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.090",
+                        "side": "left"
+                      }
                     },
+                    "slot": "top",
                     "rows": [
                       {
                         "text": "dlg.13133"
@@ -10823,6 +10831,7 @@
                     "identity": {
                       "kind": "narration"
                     },
+                    "slot": "narration",
                     "rows": [
                       {
                         "text": "dlg.13134"

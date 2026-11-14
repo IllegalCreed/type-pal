@@ -615,12 +615,8 @@ export interface BattleState {
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
    */
   fleeAnim?: { step: number }
-  /**
-   * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434)。0x69 opcode 设 { step:0 } →
-   * tickBattleEnemyEscapeAnim 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变),全部移出左屏 →
-   * phase='fleed'(Terminated 无奖励;**不**改 health 避免误给 exp)。undefined = 无敌逃动画。
-   */
-  enemyEscapeAnim?: { step: number; holdTicks?: number }
+  /** PAL_BattleEnemyEscape moves live slots out of view before the terminal hold. */
+  enemyEscapeAnim?: { step: number; elapsedMs?: number; offscreenAtMs?: number }
   /**
    * 敌人逃跑(opcode 105 PAL_BattleEnemyEscape)完成标记 —— 区分 sdlpal kBattleResultTerminated(0,敌逃/
    * 脚本终止)与 kBattleResultFleed(0xFFFF,玩家逃)。两者 phase 都落 'fleed',但 finalize 据此把 outcome

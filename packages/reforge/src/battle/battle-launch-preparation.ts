@@ -214,6 +214,13 @@ export class BattleLaunchPreparation {
     const fields = await this.fields()
     assertCurrent()
     const fieldDef = fields.get(Number(fieldId))
+    const portraits = collectBattleCasualtyPortraits(players, content.actorsById)
+    for (const enemy of sprites.reachableEnemyDefs) {
+      const references = collectCommandAssetReferences(enemy.ai.hooks, 'battle.enemyHooks')
+      for (const { asset, expectedKind } of references) {
+        if (expectedKind === 'portrait') portraits.add(asset)
+      }
+    }
     const [bgFull, faceList, effectSprite] = await Promise.all([
       fieldDef?.background
         ? loadBattleBgFull(assets.assetBase, fieldDef.background, assets.palette())
@@ -225,7 +232,7 @@ export class BattleLaunchPreparation {
         }),
       ),
       assets.loadEffect(),
-      ...[...collectBattleCasualtyPortraits(players, content.actorsById)].map(async (asset) => {
+      ...[...portraits].map(async (asset) => {
         if (!assets.portraits.has(asset))
           assets.portraits.set(asset, await assets.imageCache.load(asset, 'portrait'))
       }),

@@ -878,6 +878,7 @@ export class BattleSession {
               cues: [{ ...action.cue, slot: action.cue.slot ?? 'top' }],
             }),
             this.nowMs,
+            'battle',
           )
         } else {
           this.choreoBanner = {
@@ -887,6 +888,9 @@ export class BattleSession {
               .join('\n'),
           }
         }
+        return
+      case 'clearDialog':
+        box?.releaseBattleChoreography()
         return
       case 'playSound':
         this.assets.sfx?.play(action.asset)
@@ -915,6 +919,7 @@ export class BattleSession {
         this.choreoWaitUntil = this.nowMs + action.ms
         return
       case 'fleeBattle': {
+        box?.releaseBattleChoreography()
         this.requestTerminal('enemyFled')
         this.state.log.push('敌人逃走了')
         this.startEnemyFleePresentation()
@@ -1059,6 +1064,7 @@ export class BattleSession {
       }
       const step = nextEnemyHookStep(this.state, activation, this.rng)
       if (step.kind === 'complete') {
+        box?.releaseBattleChoreography()
         this.activeHook = null
         return true
       }
@@ -1074,6 +1080,7 @@ export class BattleSession {
       this.executeBattleChoreographyAction(action)
       return true
     }
+    box?.releaseBattleChoreography()
     if (!this.pendingTerminal) {
       while (this.pendingHookActivations.length > 0) {
         const pending = expectDefined(this.pendingHookActivations.shift())

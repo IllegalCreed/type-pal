@@ -157,14 +157,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     const startHp = state.enemies[0]!.e.health
     state.enemyEscapeAnim = { step: 0 } // 模拟 0x69 触发
     tickBattle(gs, emptyInput, bus)
-    expect(state.enemies[0]!.pos!.x).toBe(180) // 200 - 20(往左 ENEMY_FLYOUT_DX）
+    expect(state.enemies[0]!.pos!.x).toBe(180) // 4 × 5 px at 10 ms per step
     let guard = 50
     while (state.enemyEscapeAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
     expect(state.phase).toBe('fleed') // 出屏 → 终止
     expect(state.enemies[0]!.e.health).toBe(startHp) // 不改 health(避免误给 exp)
   })
 
-  it('L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))', () => {
+  it('L11:敌逃出屏后保持约 500 ms 再 fleed(battle.c:1433 UTIL_Delay(500))', () => {
     const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 50 })] })
     tickBattle(gs, emptyInput, bus)
     const state = gs.battleState!
@@ -172,9 +172,10 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     state.enemyEscapeAnim = { step: 0 }
     // 飞到出屏 → 进入停顿阶段(holdTicks=0),此时未 fleed
     let guard = 50
-    while (state.enemyEscapeAnim?.holdTicks === undefined && guard-- > 0)
+    while (state.enemyEscapeAnim?.offscreenAtMs === undefined && guard-- > 0)
       tickBattle(gs, emptyInput, bus)
-    expect(state.enemyEscapeAnim?.holdTicks).toBe(0)
+    expect(state.enemyEscapeAnim?.offscreenAtMs).toBe(560)
+    expect(state.enemies[0]!.pos?.x).toBe(-80)
     expect(state.phase).not.toBe('fleed') // 停顿期间不立即终止
     // 停顿满 13 帧 → fleed
     guard = 20
