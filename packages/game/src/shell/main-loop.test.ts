@@ -1,13 +1,17 @@
 import type { InputSource } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { createBattleState } from '../core/battle/battle-state.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import { createCommandBus } from '../core/command-bus.js'
-import { createInitialGameState } from '../core/game-state.js'
-import { buildPaletteFade } from '../core/palette-fade.js'
+import { OP_FADE_OUT, OP_HIDE_OBJECT } from '../core/event-system.js'
+import { createInitialGameState, resumePostBattleScript } from '../core/game-state.js'
+import { buildPaletteFade, makeWorkingPalette } from '../core/palette-fade.js'
 import { createSeedableRng } from '../core/rng.js'
 import { setSceneContext } from '../core/scene-system.js'
+import { sceneContext } from '../present/__tests__/scene-render-fixtures.js'
+import { createFramebuffer } from '../present/framebuffer.js'
+import { presentFrame } from '../present/present.js'
 import { heldSnapshot, prepareEmptyLoopContext } from './__tests__/loop-context.js'
 import { walkableTilemap } from './__tests__/loop-tilemap.js'
 import { ReplayInputSource } from './input.js'
@@ -185,6 +189,77 @@ describe('Scene fade input suppression', () => {
 })
 
 describe('Present and input gates', () => {
+  it('presents the frozen encounter fade at black and draws the new map on the next frame', () => {
+    let now = 0
+    const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
+    onTestFinished(() => clock.mockRestore())
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.basePalette = {
+      colors: Array.from({ length: 256 }, (_, i) => [i, i, i]),
+      cycles: [],
+    }
+    gs.palette = makeWorkingPalette(gs.basePalette)
+    const npc = { id: 154, x: 160, y: 112, spriteNum: 1, sState: 1, triggerMode: 5 }
+    gs.npcs = [npc]
+    // The actual post-victory suffix at SSS 41127–41129, with the world trigger owner intact.
+    gs.postBattleResume = {
+      wonIp: 0,
+      currentEventObjectId: npc.id,
+      triggerOwnerId: npc.id,
+      commands: [
+        { op: 'raw', opcode: OP_HIDE_OBJECT, operands: [0, 0, 0] },
+        { op: 'raw', opcode: OP_FADE_OUT, operands: [0, 0, 0] },
+        { op: 'end' },
+      ],
+    }
+    resumePostBattleScript(gs, 'won')
+    const fb = createFramebuffer()
+    fb.indices.fill(64)
+    const map = sceneContext()
+    const frames: Array<{
+      direction: 'out' | 'in' | undefined
+      index: number
+      rgb: Uint8ClampedArray
+    }> = []
+    const ctx = prepareEmptyLoopContext(gs, (_drained, ticked) => {
+      presentFrame(fb, gs, map, ticked)
+      frames.push({
+        direction: gs.paletteFadeState?.fade60,
+        index: fb.indices[0]!,
+        rgb: fb.toImageData(gs.palette!).data.slice(0, 3),
+      })
+    })
+    const sampleInput = vi.spyOn(ctx.input, 'nextSnapshot')
+    const raf = freshRafState()
+    const step = (at: number) => {
+      now = at
+      return advanceRafFrame(raf, at, ctx)
+    }
+
+    step(100)
+    expect(npc).toMatchObject({ sState: -1, sVanishTime: 800 })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'out', totalMs: 600 })
+    for (const at of [200, 300, 400, 500, 600, 680]) step(at)
+    expect(frames.at(-1)).toEqual({
+      direction: 'out',
+      index: 64,
+      rgb: new Uint8ClampedArray([1, 1, 1]),
+    })
+
+    const frameNum = gs.frameNum
+    sampleInput.mockClear()
+    const black = step(700)
+    expect(frames.at(-1)).toEqual({ direction: 'out', index: 64, rgb: new Uint8ClampedArray(3) })
+    expect(black).toEqual({ ticked: false, presented: true })
+    expect(step(716)).toEqual({ ticked: true, presented: true })
+    expect(frames.at(-1)).toEqual({ direction: 'in', index: 0, rgb: new Uint8ClampedArray(3) })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 700 })
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.mode).toBe('explore')
+    expect(gs.frameNum).toBe(frameNum + 1)
+    expect(sampleInput).toHaveBeenCalledExactlyOnceWith(frameNum)
+    expect(npc).toMatchObject({ sState: -1, sVanishTime: 800 })
+  })
   it('dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }

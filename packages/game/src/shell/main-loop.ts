@@ -15,7 +15,7 @@ import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
-import { tickByMode } from '../core/mode.js'
+import { finishEncounterFadeOut, isEncounterFadeOutComplete, tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
 import { tickFps } from '../tools/fps-overlay.js'
@@ -68,6 +68,14 @@ export function advanceRafFrame(
   const dt = now - state.lastTickTime
   state.lastTickTime = now
   state.accumulator += dt
+
+  if (!frozen && isEncounterFadeOutComplete(ctx.gs, now)) {
+    // PAL_FadeOut first presents exact black over the frozen screen. The trigger then returns
+    // to PAL_MakeScene and starts its palette-in without waiting for another world logic tick.
+    ctx.onPresent([], false)
+    finishEncounterFadeOut(ctx.gs)
+    return { ticked: false, presented: true }
+  }
 
   const interval = logicIntervalMs(ctx.gs)
   // DM30 修正(2026-06-12 user 报"战后 fadeout 卡键"):渐变清键的 C 真值边界是**函数级**的——

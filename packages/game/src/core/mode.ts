@@ -7,6 +7,8 @@ import type { InputSnapshot } from '@type-pal/shared'
 import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import {
+  OP_FADE_OUT,
+  OP_HIDE_OBJECT,
   tickAutoScripts,
   tickChaseTimer,
   tickEventSystem,
@@ -15,6 +17,57 @@ import {
 import type { GameState } from './game-state.js'
 import { tickMenu } from './menu/menu-mode.js'
 import { tickSceneSystem } from './scene-system.js'
+import { getCmds } from './script-catalog.js'
+
+/** Whether the final palette-out draw can return a self-hiding encounter to the current map. */
+export function isEncounterFadeOutComplete(gs: GameState, nowMs: number): boolean {
+  const fade = gs.paletteFadeState
+  const cursor = gs.eventCursor
+  if (
+    gs.mode !== 'event' ||
+    fade?.fade60 !== 'out' ||
+    nowMs - fade.startTimeMs < fade.totalMs ||
+    cursor?.waiting !== 'palette-fade'
+  ) {
+    return false
+  }
+  if (
+    cursor.triggerOwnerId === undefined ||
+    cursor.triggerOwnerId !== cursor.currentEventObjectId ||
+    cursor.callStack?.length ||
+    cursor.reloadSlotAfterFade !== undefined ||
+    gs.pendingSceneLoad !== undefined ||
+    gs.sceneLoading ||
+    gs.suspendRaf ||
+    gs.blackScreenHold ||
+    gs.fadeState ||
+    gs.dialogBox ||
+    gs.menuStack.length ||
+    !gs.needToFadeIn
+  ) {
+    return false
+  }
+  // The native encounter returns after self-hide, 0x50 and 0x00 (SSS 41127–41129).
+  const commands = getCmds(cursor)
+  const hide = commands[cursor.ip - 1]
+  const fadeOut = commands[cursor.ip]
+  const end = commands[cursor.ip + 1]
+  return (
+    hide?.op === 'raw' &&
+    hide.opcode === OP_HIDE_OBJECT &&
+    fadeOut?.op === 'raw' &&
+    fadeOut.opcode === OP_FADE_OUT &&
+    end?.op === 'end' &&
+    !end.advance &&
+    !end.reset
+  )
+}
+
+/** Continue the completed encounter script after its final frozen draw (play.c:534–546). */
+export function finishEncounterFadeOut(gs: GameState): void {
+  tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: gs.frameNum })
+  tickSceneAutoFadeIn(gs)
+}
 
 export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
   gs.frameNum++ // 全局逻辑帧计数器(D13);所有模式都推进
