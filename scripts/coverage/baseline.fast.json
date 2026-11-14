@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-13T19:17:35.346Z",
+  "generatedAt": "2026-11-14T05:46:14.432Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 838,
-  "testCount": 20543,
+  "testCount": 20553,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -217,7 +217,7 @@
       ],
       "scopeDigest": "47fe2cfb2860f02a4f1414edfba950440f0c67800c9f21d0a36baa011c12b429",
       "fastTests": {
-        "testCount": 1570,
+        "testCount": 1571,
         "testFileCount": 140,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -864,8 +864,8 @@
           },
           {
             "file": "packages/content/src/rewards.test.ts",
-            "testCount": 6,
-            "identityDigest": "8fd01e808bc0e385f566ad7d869deee0f4d52bb87f420d3780f009c94edac348"
+            "testCount": 7,
+            "identityDigest": "93f6040ca91e7aa5b36e8435c9efb179753b484444554d3a7aad985629053287"
           },
           {
             "file": "packages/content/src/rich-text.test.ts",
@@ -1063,26 +1063,26 @@
             "identityDigest": "518ae693559a05507f40f86f16396e6e96f1be3ff15830e00946f1fd57a3a9bc"
           }
         ],
-        "identityDigest": "6bf89b38958d318e552f124de890a0fac43e6f99d440d934fa1e8b3df257f5bc",
+        "identityDigest": "c33fd72479b63232cee1887158ddb38a49f50cf93fd2e8426bf05495502889e8",
         "duplicateIdentityCount": 1,
-        "executionDigest": "8820c6a2bcae04f68d1384d76eb9d7e9cee3035ff511d505618c7363314fe423"
+        "executionDigest": "bb96aa9ffd10ed53539ee581fe032365bf1ef002134e6fd0f56be1c17f354d89"
       },
       "metrics": {
         "statements": {
-          "covered": 5933,
-          "total": 6146
+          "covered": 5935,
+          "total": 6148
         },
         "branches": {
-          "covered": 5147,
-          "total": 5461
+          "covered": 5149,
+          "total": 5463
         },
         "functions": {
-          "covered": 856,
-          "total": 868
+          "covered": 857,
+          "total": 869
         },
         "lines": {
-          "covered": 5298,
-          "total": 5434
+          "covered": 5299,
+          "total": 5435
         }
       }
     },
@@ -2250,7 +2250,7 @@
       ],
       "scopeDigest": "e0da62982ba37363f87eaa5b46822eecf439ed3a368cffef9975fa951ec5278f",
       "fastTests": {
-        "testCount": 9094,
+        "testCount": 9097,
         "testFileCount": 372,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2939,8 +2939,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
-            "testCount": 22,
-            "identityDigest": "e4296378620b4fb31f17f20487295558d18fb3dc5bb60ff511baeca9c574f88f"
+            "testCount": 23,
+            "identityDigest": "c69fd0ffddf56aeca3deff7cf3d876eb2646306b74ab577ab82bdf5aba446f94"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
@@ -3459,8 +3459,8 @@
           },
           {
             "file": "packages/reforge/src/main.battle-host-flows.test.ts",
-            "testCount": 10,
-            "identityDigest": "2401bb409fa5ab90b88cc4bd264592b99d74b61af320f5d29a23acd5cccc3b5b"
+            "testCount": 12,
+            "identityDigest": "ae0c5b3efd0108624f1bd138b8f755696bc054931fe6bcfc01ceb45e414a6910"
           },
           {
             "file": "packages/reforge/src/main.battle-preview.glm-q.test.ts",
@@ -4488,26 +4488,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "9a899507a9def0b043d0d0145c29d945b0a33d158346803a2f2453d60691e28b",
+        "identityDigest": "2a9b5f2a39d73698dbea79b6b4a71fe2902a01c65a262a1b57fed4f1ac3059f8",
         "duplicateIdentityCount": 3,
-        "executionDigest": "2b2a02a05a4145e9ec494bdffca2f148b3dccb0bc496a7f60ecec30a9d2b2497"
+        "executionDigest": "b96a2e51c158220a004916d33ac2f50154ee000849615dbec078481f4bb8ea2a"
       },
       "metrics": {
         "statements": {
-          "covered": 17596,
-          "total": 19331
+          "covered": 17663,
+          "total": 19378
         },
         "branches": {
-          "covered": 11333,
-          "total": 13502
+          "covered": 11378,
+          "total": 13539
         },
         "functions": {
-          "covered": 2841,
-          "total": 3124
+          "covered": 2850,
+          "total": 3129
         },
         "lines": {
-          "covered": 15750,
-          "total": 16871
+          "covered": 15808,
+          "total": 16913
         }
       }
     },
@@ -7153,7 +7153,7 @@
       ],
       "scopeDigest": "2b9f30701fdc734eb2fcff639cf4c4a1d372612cb457a327d359a39ad833df66",
       "fastTests": {
-        "testCount": 4865,
+        "testCount": 4871,
         "testFileCount": 629,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -10805,7 +10805,7 @@
           {
             "file": "packages/editor/src/ui/enemy-defeated-events.boundaries.test.ts",
             "testCount": 3,
-            "identityDigest": "e8566e7785cec3655a48569f8ba11e0dbc3d35614910defd08aa3a4400b521a6"
+            "identityDigest": "11984a714007c56301adac2f55044c511e91e90505766b80e9e4fb18c2075824"
           },
           {
             "file": "packages/editor/src/ui/enemy-defeated-events.coverage-batch.test.ts",
@@ -10819,8 +10819,8 @@
           },
           {
             "file": "packages/editor/src/ui/enemy-defeated-events.test.ts",
-            "testCount": 22,
-            "identityDigest": "a0243bdefaafd28d4d834f5eea87b918ba710da37e5302d83aeea6f4fe590a13"
+            "testCount": 28,
+            "identityDigest": "0574093de854c6808b2d461b2656ccd77a6ebc0a39e92ee8e2ce1e05ef2ef59e"
           },
           {
             "file": "packages/editor/src/ui/map-pointer-gesture-session.test.tsx",
@@ -10933,46 +10933,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "102ca9ff717de199d1e58ca59d5203e58d7711980e5680864405232d4cd91b37",
+        "identityDigest": "38bbfe02e6879c1f7a54b8b650c3f9549470ee1a954b2662b654feb2c2505bbf",
         "duplicateIdentityCount": 8,
-        "executionDigest": "0c0a9c151d8384fdfb4c670552e588e45fa6942117699c56a2b5df228ab599ce"
+        "executionDigest": "48e13cb6de23033e02255a04c9e2ba25f8e2c6c3f99b903367504d9f07d437c9"
       },
       "metrics": {
         "statements": {
-          "covered": 31626,
-          "total": 35000
+          "covered": 31645,
+          "total": 35020
         },
         "branches": {
-          "covered": 25566,
-          "total": 30547
+          "covered": 25599,
+          "total": 30582
         },
         "functions": {
-          "covered": 8054,
-          "total": 8959
+          "covered": 8056,
+          "total": 8961
         },
         "lines": {
-          "covered": 28303,
-          "total": 30588
+          "covered": 28322,
+          "total": 30607
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 75059,
-      "total": 82680
+      "covered": 75147,
+      "total": 82749
     },
     "branches": {
-      "covered": 54791,
-      "total": 64867
+      "covered": 54871,
+      "total": 64941
     },
     "functions": {
-      "covered": 14225,
-      "total": 15772
+      "covered": 14237,
+      "total": 15780
     },
     "lines": {
-      "covered": 67047,
-      "total": 72361
+      "covered": 67125,
+      "total": 72423
     }
   }
 }
