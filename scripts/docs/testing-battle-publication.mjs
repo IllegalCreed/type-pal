@@ -112,7 +112,7 @@ export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57
 export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5eb2bec4b2d7f'
 export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
 export const testingBattleHandoffPublicationBase = '9f5f57d4df53ea122622ffda110807e39e0ec66e'
-export const testingBattleHandoffSourceRevision = 'e47880b0aa8a1429f6591993291ca6188de26950'
+export const testingBattleHandoffSourceRevision = 'e477cf99a3e7d3d6324f7e6a23c17f8d9100c9e7'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
@@ -156,7 +156,7 @@ const handoffSourceRanges = new Map([
   [palaceExitScene, { 1100: '1112' }],
   [
     reforgeMain,
-    { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1267-1342' },
+    { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1268-1343' },
   ],
   [reforgeBattleHost, { '63-78': '72-88', '174-178': '265-276' }],
   [

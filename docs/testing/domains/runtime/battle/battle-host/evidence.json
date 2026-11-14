@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1267-1342",
+      "lines": "1268-1343",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "3c6235f235eb4699d4596255905e398813b81ca751e8caa09fa008de4bbeb89d"
+      "sha256": "24c145355cded3621842f6e243d54a656b3e426bd448bd8d4769641b0c767120"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -75,7 +75,7 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1267-1342",
+        "packages/reforge/src/main.ts:1268-1343",
         "packages/reforge/src/battle/battle-host.ts:72-88",
         "packages/reforge/src/battle/battle-host.ts:265-276",
         "packages/reforge/src/battle/battle-host.test.ts:13-36",
