@@ -39,7 +39,8 @@ function installBeeObserver(makeRng, createRecorder) {
     restores = [],
     handoff = [],
     inputs = [],
-    music = []
+    music = [],
+    ambient = []
   let overflow = false
   const { append } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -359,6 +360,10 @@ function installBeeObserver(makeRng, createRecorder) {
       24,
     )
   }
+  globalThis.__beeGameAmbient = (track, audioContextState, buffer) => {
+    if (seed === null || ![66, 73].includes(track) || globalThis.__tpgs?.wNumScene !== 7) return
+    append(ambient, { track, audioContextState, seconds: buffer.duration }, 32)
+  }
   for (const type of ['keydown', 'keyup']) {
     globalThis.addEventListener(
       type,
@@ -417,6 +422,7 @@ function installBeeObserver(makeRng, createRecorder) {
       handoff,
       inputs,
       music,
+      ambient,
       timeOrigin: performance.timeOrigin,
     },
   })
@@ -1012,6 +1018,17 @@ await runBrowserJourney({
             () => page.evaluate(() => globalThis.__beeGameLastFrame()),
             (frame) => ready(frame) && frame.grid[0] === stop[0] && frame.grid[1] === stop[1],
             'rendered world after closing menu',
+          )
+          await until(
+            () =>
+              page.evaluate(() => {
+                const { ambient, handoff } = globalThis.__beeGameEvidence().native
+                const resumed = handoff.find(({ stage }) => stage === 'world-ready')
+                return resumed && ambient.some(({ atMs }) => atMs >= resumed.atMs)
+              }),
+            Boolean,
+            'actual ten-mile ambience resumes after the world menu closes',
+            2_000,
           )
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)

@@ -96,6 +96,14 @@ ${stop}
       if (seq && stoppedTrack > 0) globalThis.__beeGameMusic?.('stop', stoppedTrack, ctx)`,
           )
         }
+        if (file === 'packages/game/src/shell/audio.ts') {
+          const start = '    src.start()'
+          return replaceAnchor(
+            source,
+            start,
+            `${start}\n    globalThis.__beeGameAmbient?.(soundId, c.state, src.buffer)`,
+          )
+        }
         if (file === 'packages/game/src/shell/bootstrap.ts') {
           const draw =
             'flushToCanvas(fb, canvasCtx, applyDialogIconPaletteShift(gs, gs.palette ?? palette))'

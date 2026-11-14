@@ -139,6 +139,21 @@ function observeMusic(source: string): string {
   )
 }
 
+function observeAmbient(source: string): string {
+  const actualStart = after(
+    source,
+    '      source.start()',
+    `      const asset = beeAmbientAssets.get(onended)
+      if (asset) globalThis.__beeWorld?.ambient(asset, context.state, source.buffer)`,
+  )
+  return `const beeAmbientAssets = new WeakMap();\n${replaceOnce(
+    actualStart,
+    '      source = this.adapter.play(buffer, ended)',
+    `      if (asset === 'sound.pal.066' || asset === 'sound.pal.073') beeAmbientAssets.set(ended, asset)
+      source = this.adapter.play(buffer, ended)`,
+  )}`
+}
+
 function observeBattle(source: string): string {
   const seed = '      Math.random,'
   const seeded = replaceOnce(
@@ -258,6 +273,9 @@ const worldBeeTrace = {
         break
       case 'audio/bgm.ts':
         code = observeMusic(source)
+        break
+      case 'audio/sfx.ts':
+        code = observeAmbient(source)
         break
       case 'battle/battle-session.ts':
         code = observeSession(source)

@@ -230,6 +230,13 @@ function installObserver(makeRng, createRecorder, seed, itemId) {
     music(stage, asset, audioContextState) {
       if (contacted) event('music', { stage, asset, audioContextState })
     },
+    ambient(asset, audioContextState, buffer) {
+      event('ambient', {
+        track: Number(asset.split('.').at(-1)),
+        audioContextState,
+        seconds: buffer.duration,
+      })
+    },
     notice(id, text) {
       if (surface === 'battle') lastVisibleText = text
       if (activeSlot === null || notices.has(id)) return
@@ -309,6 +316,7 @@ await runBrowserJourney({
     'projects/pal/content/scenes/s006.json',
     'projects/pal/content/maps/map-004.json',
     'projects/pal/content/enemies.json',
+    'projects/pal/content/shared-scripts.json',
     'projects/pal/content/enemy-teams.json',
     'projects/pal/content/battle-fields.json',
     'projects/pal/content/actors.json',
@@ -423,6 +431,14 @@ await runBrowserJourney({
             'world menu closes and control returns',
           )
           result.end = facts(end)
+          await wait(
+            (state) => {
+              const resumed = state.handoff.find(({ stage }) => stage === 'world-ready')
+              return resumed && observed(state, 'ambient').some(({ atMs }) => atMs >= resumed.atMs)
+            },
+            'actual ten-mile ambience resumes after the world menu closes',
+            2_000,
+          )
           assert.deepEqual(
             observed(end, 'notice').map(({ text }) => text),
             Array.from(

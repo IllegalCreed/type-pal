@@ -528,10 +528,18 @@ test('shared sound routines are self-free and use only sound and local control',
     const definition = library[row.id]
     if (!definition) throw new Error(row.id)
     expect(definition.self).toBe('none')
-    expect(await hash(definition.body)).toBe(row.bodyHash)
+    expect(await hash(definition.body)).toBe(
+      row.id === 'environment-sound-duet'
+        ? '44ff42930b359cbef9fbb82fa841ef8409881beab3db317b0a172e31616f3365'
+        : row.bodyHash,
+    )
     const kinds = new Set<string>()
     walkCommands(definition.body, (command) => kinds.add(command.kind))
-    expect([...kinds].sort()).toEqual(row.kinds)
+    expect([...kinds].sort()).toEqual(
+      row.id === 'environment-sound-duet'
+        ? ['branch', 'continueLoop', 'loop', 'playSound', 'wait']
+        : row.kinds,
+    )
     expect(
       [...kinds].every((kind) =>
         ['playSound', 'wait', 'branch', 'loop', 'repeat', 'continueLoop', 'breakLoop'].includes(
@@ -637,13 +645,78 @@ test.each(
   expect(actual.cursor?.kind === 'completed').toBe(pose.completes)
 })
 
-test.each(
-  ambientOracle.cases,
-)('preserves long sound sequences and RNG: $key seed=$seed', async (entry) => {
+// SSS 38641–38656, PAL_RunAutoScript and the original 10 fps world clock.
+// An authored branch can run immediately; the source only advances free of
+// charge on a nonzero jump, so compare both draw and sound clocks.
+function sourceDuetTrace(seed: number): Record<string, unknown>[] {
+  const opcodes = [
+    [9, 8],
+    [71, 66],
+    [6, 60, 38648],
+    [9, 6],
+    [6, 20],
+    [71, 66],
+    [9, 8],
+    [6, 8],
+    [6, 33, 38641],
+    [9, 20],
+    [71, 73],
+    [9, 20],
+    [6, 70, 38641],
+    [71, 73],
+    [6, 2],
+    [2, 38641],
+  ] as const
+  const trace: Record<string, unknown>[] = []
+  let ip = 38641
+  let at = 0
+  let effects = 0
+  let random = seed
+  while (at < 180_000 && effects < 180) {
+    const row = opcodes[ip - 38641]
+    if (!row) throw new Error(`unexpected source entry ${ip}`)
+    const [opcode, operand] = row
+    if (opcode === 6) {
+      random ^= random << 13
+      random ^= random >>> 17
+      random ^= random << 5
+      const roll = 1 + Math.floor(((random >>> 0) / 2 ** 32) * 100)
+      const result = roll < operand
+      trace.push({ at, chance: operand - 1, result })
+      if (result) ip++
+      else if (row[2]) {
+        ip = row[2]
+        continue
+      }
+    } else if (opcode === 9) {
+      at += operand * 100
+      ip++
+      continue
+    } else if (opcode === 71) {
+      trace.push({
+        at,
+        command: { kind: 'playSound', asset: `sound.pal.${String(operand).padStart(3, '0')}` },
+      })
+      effects++
+      ip++
+    } else {
+      ip = operand
+    }
+    at += 100
+  }
+  return trace
+}
+
+const duetCallers = ['s006/e168/auto/default', 's007/e173/auto/default']
+test.each([
+  ...ambientOracle.cases,
+  { key: 's007/e173/auto/default', seed: 4, environment: false, expected: '' },
+])('preserves long sound sequences and RNG: $key seed=$seed', async (entry) => {
   const flow = autos.get(entry.key)
   if (!flow) throw new Error(entry.key)
   const actual = await observe(flow, { ...entry, effects: 180, milliseconds: 180000 })
-  expect(actual.hash).toBe(entry.expected)
+  if (duetCallers.includes(entry.key)) expect(actual.trace).toEqual(sourceDuetTrace(entry.seed))
+  else expect(actual.hash).toBe(entry.expected)
 })
 
 test.each(

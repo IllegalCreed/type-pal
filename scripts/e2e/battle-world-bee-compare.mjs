@@ -92,6 +92,10 @@ function inspectHandoff(engine, trace, check, hasLoot) {
   const battleMusic = audio('play', 37)
   const victoryMusic = audio('play', 3)
   const victoryStop = audio('stop', 3)
+  const ambient = game
+    ? trace.native.ambient
+    : trace.events.filter(({ kind }) => kind === 'ambient')
+  const resumedAmbient = ambient?.find((sound) => before(ready, sound))
 
   check(
     '开场由实际接敌后保留地图并按顺序换入六个像素带',
@@ -219,6 +223,17 @@ function inspectHandoff(engine, trace, check, hasLoot) {
       !!before(open, close),
     ],
     [true, 0, true, true, true, beeWorldInput.stop, true, true],
+  )
+  check(
+    '十里坡背景虫鸣在接敌期间暂停，回场后从等待中继续播放',
+    [
+      ambient?.filter((sound) => before(contact, sound) && !before(ready, sound)).length,
+      resumedAmbient?.track,
+      resumedAmbient?.audioContextState,
+      resumedAmbient?.seconds > 0,
+      between(milliseconds(ready, resumedAmbient), 0, 500),
+    ],
+    [0, 66, 'running', true, true],
   )
   const configuredOut = game ? fade[0]?.paletteFade.startAtMs : fade[0]?.atMs
   const out = Math.round(black[0]?.atMs - configuredOut)
