@@ -2069,12 +2069,12 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
 /** PAL_BattleEnemyEscape: slide each live slot 5 px per 10 ms, then hold for 500 ms. */
 export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
   const state = gs.battleState
-  const escape = state?.enemyEscapeAnim
-  if (!state || !escape) return false
-  const elapsedMs = (escape.elapsedMs ?? 0) + dtMs
-  escape.elapsedMs = elapsedMs
-  if (escape.offscreenAtMs === undefined) {
-    const steps = Math.floor(elapsedMs / 10) - escape.step
+  const flight = state?.enemyEscapeAnim
+  if (!state || !flight) return false
+  const elapsedMs = (flight.elapsedMs ?? 0) + dtMs
+  flight.elapsedMs = elapsedMs
+  if (flight.offscreenAtMs === undefined) {
+    const steps = Math.floor(elapsedMs / 10) - flight.step
     if (steps <= 0) return true
     const widths = getBattleResources(gs)?.enemySpriteFrameWidths
     const live = state.enemies.filter((e) => !e.defeated && e.e.health > 0 && e.pos)
@@ -2087,10 +2087,10 @@ export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
       const pos = enemy.pos!
       enemy.pos = { x: pos.x - 5 * moved, y: pos.y }
     }
-    escape.step += moved
-    if (moved === remaining) escape.offscreenAtMs = 10 * escape.step
+    flight.step += moved
+    if (moved === remaining) flight.offscreenAtMs = 10 * flight.step
   }
-  if (escape.offscreenAtMs === undefined || elapsedMs < escape.offscreenAtMs + 500) return true
+  if (flight.offscreenAtMs === undefined || elapsedMs < flight.offscreenAtMs + 500) return true
   state.enemyEscapeAnim = undefined
   state.phase = 'fleed'
   // Terminated takes the script's natural success continuation, without any battle rewards.

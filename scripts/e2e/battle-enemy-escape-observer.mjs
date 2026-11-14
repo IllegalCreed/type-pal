@@ -118,10 +118,10 @@ function install({ engine, scene, owner, seed }, createRng, createRecorder) {
   }
   const read = () => (engine === 'game' ? readGame(globalThis.__tpgs) : readReforge())
   const move = (position) => event('move', { position })
-  const paint = (state, battle, escape) => {
+  const paint = (state, battle, flight) => {
     if (!started || !state) return
     const { ready, box, ...visible } = state
-    const draw = { ...visible, ready, box, battle, escape, fighters }
+    const draw = { ...visible, ready, box, battle, escape: flight, fighters }
     const key = JSON.stringify(draw)
     if (key !== previousPaint) {
       previousPaint = key

@@ -927,25 +927,32 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 76,
-                      "height": 0,
-                      "row": 10
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 76,
+                        "height": 0,
+                        "row": 10
+                      }
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
                     }
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
-                    ]
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                },
+                "body": [
                   {
                     "kind": "selectEntityBehavior",
                     "target": {
