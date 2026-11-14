@@ -102,6 +102,15 @@ describe('BgmPlayer 生命周期', () => {
 })
 
 describe('Encounter score preparation', () => {
+  test('launching without browser audio does not read or play the score', async () => {
+    const assets = reader()
+    const player = createBgmPlayerWithRuntime(assets, undefined)
+    const launch = await player.prepare('music.battle', new AbortController().signal)
+    launch()
+    expect(assets.readBytes).not.toHaveBeenCalled()
+    await player.dispose()
+  })
+
   test('disabled music does not prepare and still records the battle score for re-enable', async () => {
     const backend = sequencer()
     const assets = reader()

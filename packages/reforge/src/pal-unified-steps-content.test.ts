@@ -42,6 +42,7 @@ const library = resolveAuthorDialogueTree(validateAuthorSharedScripts(sharedJson
 const digest = 'f'.repeat(64)
 const shared = new RuntimeSharedScriptResolver(library, digest)
 const retiredPalaceGuideAuto = 's019/e270/auto/legacy-001'
+const duetCallers = ['s006/e168/auto/default', 's007/e173/auto/default']
 const governedAutoKeys = new Set([
   ...motionTransitionLedger.rows.map((row) => row.key),
   // E2E006: the boat's retired auto is now exercised by main.ride-presentation.test.ts.
@@ -241,7 +242,13 @@ function walkCommands(
 
 async function observe(
   flow: RuntimeScriptFlow,
-  options: { seed: number; environment: boolean; effects?: number; milliseconds?: number },
+  options: {
+    seed: number
+    environment: boolean
+    effects?: number
+    milliseconds?: number
+    rolls?: number[]
+  },
 ) {
   let now = 0,
     random = options.seed,
@@ -250,6 +257,7 @@ async function observe(
     bounded = false
   const controller = new AbortController()
   const trace: Record<string, unknown>[] = []
+  let rollIndex = 0
   const stop = () => {
     bounded = true
     controller.abort()
@@ -263,10 +271,17 @@ async function observe(
     if (condition.kind === 'all') return condition.of.every(evaluate)
     if (condition.kind === 'any') return condition.of.some(evaluate)
     if (condition.kind === 'chance') {
-      random ^= random << 13
-      random ^= random >>> 17
-      random ^= random << 5
-      const result = ((random >>> 0) / 2 ** 32) * 100 < condition.percent
+      let result: boolean
+      if (options.rolls) {
+        const roll = options.rolls[rollIndex++]
+        if (roll === undefined) throw new Error('exhausted the directed source rolls')
+        result = roll <= condition.percent
+      } else {
+        random ^= random << 13
+        random ^= random >>> 17
+        random ^= random << 5
+        result = ((random >>> 0) / 2 ** 32) * 100 < condition.percent
+      }
       trace.push({ at: now, chance: condition.percent, result })
       return result
     }
@@ -582,7 +597,7 @@ const cases = oracle.cases
   .flatMap((row) =>
     oracle.scenarios.map((scenario, i) => ({ ...scenario, key: row.key, expected: row.hashes[i] })),
   )
-  .filter((entry) => !governedAutoKeys.has(entry.key))
+  .filter((entry) => !governedAutoKeys.has(entry.key) && !duetCallers.includes(entry.key))
 
 test('governed auto transitions retain their original oracle evidence while using dedicated GOV3 proofs', () => {
   for (const row of motionTransitionLedger.rows) {
@@ -707,7 +722,6 @@ function sourceDuetTrace(seed: number): Record<string, unknown>[] {
   return trace
 }
 
-const duetCallers = ['s006/e168/auto/default', 's007/e173/auto/default']
 test.each([
   ...ambientOracle.cases,
   { key: 's007/e173/auto/default', seed: 4, environment: false, expected: '' },
@@ -717,6 +731,104 @@ test.each([
   const actual = await observe(flow, { ...entry, effects: 180, milliseconds: 180000 })
   if (duetCallers.includes(entry.key)) expect(actual.trace).toEqual(sourceDuetTrace(entry.seed))
   else expect(actual.hash).toBe(entry.expected)
+})
+
+test.each([
+  {
+    caller: duetCallers[0],
+    label: '60 and 33 jump without an extra frame',
+    rolls: [60, 7, 33],
+    cues: [
+      [800, 66],
+      [1800, 66],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '59 plays the second 66, after a failed 20',
+    rolls: [59, 20, 19],
+    cues: [
+      [800, 66],
+      [1800, 66],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '8 retries and 7 reaches the 73 branch',
+    rolls: [60, 8, 7, 32],
+    cues: [
+      [800, 66],
+      [3200, 73],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '70 restarts instead of replaying 73',
+    rolls: [60, 7, 32, 70],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [6000, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '69 plays a second 73',
+    rolls: [60, 7, 32, 69],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '2 retries without replaying the sound',
+    rolls: [60, 7, 32, 69, 2, 100, 1],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+      [6600, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '1 succeeds and reset consumes its own tick',
+    rolls: [60, 7, 32, 69, 1],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+      [6400, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: 'a second 66 keeps the entire next wait',
+    rolls: [59, 20, 19, 8, 7, 32],
+    cues: [
+      [800, 66],
+      [1800, 66],
+      [5000, 73],
+    ],
+  },
+])('PAL ambient source boundary: $label', async ({ caller, rolls, cues }) => {
+  const flow = autos.get(caller ?? '')
+  if (!flow) throw new Error(`missing ambient caller ${caller}`)
+  const actual = await observe(flow, {
+    seed: 1,
+    environment: false,
+    effects: cues.length,
+    milliseconds: 10_000,
+    rolls,
+  })
+  expect(actual.trace.filter(({ command }) => command)).toEqual(
+    cues.map(([at, asset]) => ({
+      at,
+      command: { kind: 'playSound', asset: `sound.pal.${String(asset).padStart(3, '0')}` },
+    })),
+  )
 })
 
 test.each(
