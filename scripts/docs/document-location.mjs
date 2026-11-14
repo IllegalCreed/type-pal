@@ -27,7 +27,7 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
-  isTestingBattleHandoffSceneSource,
+  isTestingBattleHandoffHistoricalSource,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
@@ -584,10 +584,15 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const readPredecessorSource = preAcquisition
     ? (sourcePath) => {
         const fixed = preAcquisition.read(sourcePath)
-        if (
+        if (handoffSource && isTestingBattleHandoffHistoricalSource(sourcePath)) {
+          const live = readSource(sourcePath)
+          assert(
+            live?.equals(handoffSource.read(sourcePath)),
+            `source differs from frozen hostile handoff candidate: ${sourcePath}`,
+          )
+        } else if (
           !isTestingAcquisitionSourcePath(sourcePath) &&
-          !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath)) &&
-          !(handoffSource && isTestingBattleHandoffSceneSource(sourcePath))
+          !(defeatSource && isTestingBattleDefeatSourcePath(sourcePath))
         ) {
           const live = readSource(sourcePath)
           assert(

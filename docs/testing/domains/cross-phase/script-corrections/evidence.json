@@ -80,10 +80,10 @@
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "lines": "346",
+      "lines": "349",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+      "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -400,6 +400,13 @@
       "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "previousSourceRefs": [
         {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "346",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+        },
+        {
           "path": "projects/pal/content/scenes/s286.json",
           "lines": "1100",
           "anchor": "\"id\": \"palace-isolated-exit\"",
@@ -407,7 +414,7 @@
           "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
         }
       ],
-      "scope": "新增其他明雷的胜利过场字段，独立出口实体的原行为和数据完整保留。原主张和运行证据照原出版。"
+      "scope": "宫殿独立出口行为完整保留，Game 存档补充实体的调用逐字节对应。原主张和运行证据照原出版。"
     }
   ],
   "claims": [

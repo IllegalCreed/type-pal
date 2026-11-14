@@ -3631,10 +3631,10 @@
         },
         {
           "path": "packages/game/src/shell/bootstrap.ts",
-          "lines": "346",
+          "lines": "349",
           "anchor": "supplySupplementalSceneObjects(gs",
           "role": "saved-game-caller",
-          "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+          "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
         },
         {
           "path": "packages/pal-extract/src/resources/scene.ts",
@@ -3956,6 +3956,13 @@
             "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
             "previousSourceRefs": [
               {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "346",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+              },
+              {
                 "path": "projects/pal/content/scenes/s286.json",
                 "lines": "1100",
                 "anchor": "\"id\": \"palace-isolated-exit\"",
@@ -3963,7 +3970,7 @@
                 "sha256": "51b43388fe9c9f51668a9ee39c61820d6df11e9c79402697663728c22f7cba38"
               }
             ],
-            "scope": "新增其他明雷的胜利过场字段，独立出口实体的原行为和数据完整保留。原主张和运行证据照原出版。"
+            "scope": "宫殿独立出口行为完整保留，Game 存档补充实体的调用逐字节对应。原主张和运行证据照原出版。"
           }
         ]
       },
@@ -4053,10 +4060,10 @@
         },
         {
           "path": "packages/game/src/core/scene-system.ts",
-          "lines": "44",
+          "lines": "46",
           "anchor": "const DIR_DELTA:",
           "role": "movement-oracle",
-          "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+          "sha256": "322f6971116fd38a66c4769316cff8a7c4cbc9a7dd5f839d054688ad9a6ce72d"
         },
         {
           "path": "packages/game/src/shell/gamepad-input.test.ts",
@@ -4182,6 +4189,22 @@
             ],
             "scope": "获批uiText只读自有译文；ENGLISH_LABELS完整字面表不变，旋转设置caller传表中自有键，原标签/控制adapter不变。当前fast含原设置/壳层邻测；不重授旧浏览器/实体设备信用。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
             "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/scene-system.ts",
+                "lines": "44",
+                "anchor": "const DIR_DELTA:",
+                "role": "movement-oracle",
+                "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+              }
+            ],
+            "scope": "Game 世界方向表及已刊锚点逐字节一致，原手机控制执行和主张保留。"
           }
         ]
       },

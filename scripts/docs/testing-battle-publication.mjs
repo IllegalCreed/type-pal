@@ -112,11 +112,13 @@ export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57
 export const testingBattleVictoryPublicationBase = '11b5b8d8183147732b9ea30560b5eb2bec4b2d7f'
 export const testingBattleVictorySourceRevision = '840625b531130f6a9c4819c509ed3bf3a47353a5'
 export const testingBattleHandoffPublicationBase = '9f5f57d4df53ea122622ffda110807e39e0ec66e'
-export const testingBattleHandoffSourceRevision = 'e477cf99a3e7d3d6324f7e6a23c17f8d9100c9e7'
+export const testingBattleHandoffSourceRevision = '5003202aa0a3aac77395cf1abd9797e00edca812'
 const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
 const reforgeMain = 'packages/reforge/src/main.ts'
 const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
 const palaceExitScene = 'projects/pal/content/scenes/s286.json'
+const gameBootstrap = 'packages/game/src/shell/bootstrap.ts'
+const gameSceneSystem = 'packages/game/src/core/scene-system.ts'
 const encounterBindings = new Map([
   ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
   ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
@@ -154,6 +156,8 @@ const victorySourceRanges = new Map([
 
 const handoffSourceRanges = new Map([
   [palaceExitScene, { 1100: '1112' }],
+  [gameBootstrap, { 346: '349' }],
+  [gameSceneSystem, { 44: '46' }],
   [
     reforgeMain,
     { '413-420': '414-421', '454-461': '455-462', '440-451': '441-452', '1251-1295': '1268-1343' },
@@ -174,9 +178,18 @@ handoffBindings.set(sessionEvidencePath.slice('docs/testing/'.length), {
 })
 handoffBindings.set('domains/cross-phase/script-corrections/evidence.json', {
   id: 'game-script-corrections',
-  paths: [palaceExitScene],
+  paths: [palaceExitScene, gameBootstrap],
+  artifactClaims: true,
 })
-export const isTestingBattleHandoffSceneSource = (path) => path === palaceExitScene
+handoffBindings.set('domains/phase1-runtime/control-rotation/evidence.json', {
+  id: 'game-input-rotation',
+  paths: [gameSceneSystem],
+  artifactClaims: true,
+})
+
+/** These handoff sources also appear in publication layers recorded before Q2. */
+export const isTestingBattleHandoffHistoricalSource = (path) =>
+  path === palaceExitScene || path === gameBootstrap || path === gameSceneSystem
 
 function replaceHandoffExcerpt(excerpt, candidate, previous = '') {
   assert.equal(excerpt.split(candidate).length, 2, 'hostile handoff excerpt changed')
@@ -426,7 +439,7 @@ function restoreEncounterSourceBindings(
     stage,
   )
   const history = encounterHistory(before.history, current.history, previous, readSource, stage)
-  if (binding.id === 'game-script-corrections') {
+  if (binding.artifactClaims) {
     // Its claims cite execution artifacts, with no live source-coordinate pointer.
     assert.deepEqual({ ...current, sourceRefs: before.sourceRefs, history }, before)
     return baseBytes

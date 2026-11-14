@@ -336,6 +336,7 @@ test('hostile handoff source bindings preserve published owners and their origin
     'docs/testing/domains/runtime/scene/active-scene/evidence.json',
     'docs/testing/domains/runtime/world/world-runtime/evidence.json',
     'docs/testing/domains/cross-phase/script-corrections/evidence.json',
+    'docs/testing/domains/phase1-runtime/control-rotation/evidence.json',
   ]
   const readBase = (path) => readFixed(testingBattleHandoffPublicationBase, path)
   const readCandidate = (path) => readFixed(testingBattleHandoffSourceRevision, path)
@@ -363,6 +364,25 @@ test('hostile handoff source bindings preserve published owners and their origin
   assert.throws(
     () => restore(correctionsPath, bytes(corrections)),
     /Expected values to be strictly deep-equal/u,
+  )
+
+  const rotationPath = 'docs/testing/domains/phase1-runtime/control-rotation/evidence.json'
+  const rotation = JSON.parse(readLive(rotationPath))
+  const direction = rotation.sourceRefs.find(({ role }) => role === 'movement-oracle')
+  assert(direction)
+  const changedMovement = Buffer.from(
+    readLive(direction.path)
+      .toString()
+      .replace('down: { dx: -X_STEP, dy: Y_STEP }', 'down: { dx: 0, dy: Y_STEP }'),
+  )
+  direction.sha256 = hash(changedMovement)
+  assert.throws(
+    () =>
+      restore(rotationPath, bytes(rotation), {
+        ...bridge,
+        readSource: (path) => (path === direction.path ? changedMovement : readLive(path)),
+      }),
+    /encounter source differs from the frozen Q2 candidate/u,
   )
 
   const wrongPointer = structuredClone(session)
