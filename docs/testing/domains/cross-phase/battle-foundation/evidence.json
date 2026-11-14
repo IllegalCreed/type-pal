@@ -10368,6 +10368,17 @@
       "sha256": "074a8944fc060391c0e350a5cffbb6ffdf2ab3db1644e8566188cdbf8dc2f206",
       "bytes": 53777618,
       "purpose": "Additional native status and buff recordings used in the stereo review."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz",
+      "sha256": "9cb2c14d0bb2db9e704c70c138f1140d31352140992bb9765577f6de498ceca2",
+      "bytes": 423080,
+      "manifest": {
+        "path": "build/q2/throw-formula/archive-index.json",
+        "sha256": "569af63c3433be7dce77fff3a9a8b4d07f3600b06f40228e424fb52976595dbf",
+        "bytes": 3918
+      },
+      "purpose": "Native throw damage, fire resistance, battlefield and separate fixed damage for PAL item 156."
     }
   ],
   "claims": [
@@ -10977,6 +10988,15 @@
       "evidence": [
         "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-final/comparison.json",
         "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-counter-receipt.json"
+      ]
+    },
+    {
+      "id": "lightning-fire-pearl-element-field-and-fixed-throw-damage",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/e2e/q2-throw-formula-game-2026-11-14T03-10-17-479Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/e2e/q2-throw-formula-reforge-2026-11-14T03-10-18-527Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/comparison.json"
       ]
     }
   ],
@@ -12745,5 +12765,17 @@
       "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/adjacent-counter-receipt.json",
       "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz#build/q2/special-status/check-adjacent.mjs"
     ]
+  },
+  "throwFormulaExecution": {
+    "date": "2026-11-14",
+    "producerRevision": "91bb478bc1d0480223e82db9ad8b9fab2e3b2c27",
+    "nativeRuns": 8,
+    "comparisons": 4,
+    "evidence": [
+      "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/e2e/q2-throw-formula-game-2026-11-14T03-10-17-479Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/e2e/q2-throw-formula-reforge-2026-11-14T03-10-18-527Z/report.json"
+    ],
+    "comparison": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/comparison.json",
+    "executionIndex": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz#build/q2/throw-formula/archive-index.json"
   }
 }

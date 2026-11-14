@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "1c523c5077653f5900f63b14366819092efd5aea8d073ce8f9b18da3d9a6ebb4",
+      "afterSha256": "2e8ace101fdafd47b42385baf37ff277cba9ed2bd5abedf920acbc1c44326545",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 1768,
-        "acceptanceScope": "SDLPal 状态与物攻说明增补，既有历史原文字节保全。"
+        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
+        "reviewedLines": 1776,
+        "acceptanceScope": "核模拟伤害与固定扣血顺序、43 件原盘物品的 39 个入口及既有历史原文保全。"
       }
     },
     {
@@ -5419,27 +5419,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "c370ad8708fba23ad32b3ee2edd0473544fe50c498b6e2a67c4d7f719fb7ce08",
+      "afterSha256": "234e93c3cea55028fb54935f0ec0ccbb7819b94a2bd04d96403a392499844683",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 12750,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
+        "reviewedLines": 12782,
+        "acceptanceScope": "核新增的独立执行字段、归档 16 项和 SHA。原有状态分屏验收、执行和判据记录沿用原身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "3a0f5a940b2cd72993776d603a69da153d0f512fde0c073cc2e98f40e6f77460",
+      "afterSha256": "916c917be487b2caf8a1fbb68929d050b3af875fa5c00f8d0f60827e557d4466",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root with q2_status_rules independent review",
+        "reviewer": "q2_status_rules",
         "date": "2026-11-14",
-        "conclusion": "核对固定源码、原始执行、判定边界和现行引用。",
-        "reviewedLines": 370,
-        "acceptanceScope": "核本轮固定双端原件、反控、角色与场景、验收边界和导航。"
+        "conclusion": "独立抽取原盘脚本与数据，重哈两端运行和归档，核对增量结论与适用边界。",
+        "reviewedLines": 381,
+        "acceptanceScope": "核台账和雷火珠的固定阵容、战场、火抗、伤害、实绘与反控。"
       }
     },
     {
@@ -5856,6 +5856,12 @@
       "sha256": "074a8944fc060391c0e350a5cffbb6ffdf2ab3db1644e8566188cdbf8dc2f206",
       "bytes": 53777618,
       "purpose": "同一分屏的其余双端带声音视频原件和输入回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-throw-damage-formula-20261114.tar.gz",
+      "sha256": "9cb2c14d0bb2db9e704c70c138f1140d31352140992bb9765577f6de498ceca2",
+      "bytes": 423080,
+      "purpose": "雷火珠四组双端实测的真实输入、原始轨迹、离线对照和实绘数字反控。"
     }
   ],
   "artifactAliases": [],
