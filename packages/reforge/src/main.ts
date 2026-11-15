@@ -4042,6 +4042,7 @@ export async function bootGame(
     if (partyMove) {
       const mv = partyMove
       const from = { ...player.pos }
+      const departingFacing = facing
       const result = walkTick(from, mv.to, mv.speed)
       player.pos = result.pos
       facing = result.facing
@@ -4049,7 +4050,10 @@ export async function bootGame(
       if (moved) {
         authoredPartyFacing = null
         worldPresentation.setPartyGesture(null)
-        pushTrail(trail, player.pos, result.facing)
+        pushTrail(trail, player.pos, result.facing, departingFacing)
+        // The final step still lays out every follower before the idle frame is drawn.
+        walking = true
+        deriveFollowers()
       }
       if (result.done) {
         walking = false
@@ -4058,7 +4062,6 @@ export async function bootGame(
         walking = true
         stepFrame = (stepFrame + 1) % 4
       }
-      if (moved) deriveFollowers()
       updateCamera()
     }
 
