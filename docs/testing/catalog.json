@@ -5762,8 +5762,8 @@
           "path": "packages/reforge/src/menu/save-browser-box.ts",
           "anchor": "export function drawSaveBrowser(",
           "role": "saved-slot-menu-caller",
-          "lines": "154",
-          "sha256": "bbc087e6741faae5971b8293d1c38796d93487e3b760d3b80b61a1e77ab48f91"
+          "lines": "184",
+          "sha256": "279e4ee44233fa6642c34c2fb402bdc8fb0d1c474cd58019bf608b661c26f72a"
         }
       ],
       "publicCallers": [
@@ -5909,7 +5909,8 @@
           "Verify each walking and dialogue draw for the two actual party sprites in the original positions and the same dialogue cue.",
           "Compare visible held-battle pixels across both identical reward scrolls and check the second reward is individually granted and displayed.",
           "Compare five real post-flee direction routes tile by tile, with no contact during cooldown and matching recontact or a three-step clear window after expiry.",
-          "Require the actual loaded world to paint black and brighten over the measured fade ramp in manual reads from the world menu and title."
+          "Require the actual loaded world to paint black and brighten over the measured fade ramp in manual reads from the world menu and title.",
+          "Draw all three PAL party names and levels at 1280 and 640 pixels, with full project title, time and save ordinal, including a 16-digit save ordinal."
         ]
       },
       "dedupe": {
@@ -6717,6 +6718,22 @@
               }
             ],
             "scope": "当前存档采集、画帧比较与复核视频采用新的来源绑定。每个旧运行、反例和媒体继续对应其原有版本。"
+          },
+          {
+            "action": "q2-save-full-party-layout-applicability",
+            "base": "95f05c703bb1d0cfb2ee1e4fd3b1616609eec47f",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/save-browser-box.ts",
+                "anchor": "export function drawSaveBrowser(",
+                "role": "saved-slot-menu-caller",
+                "lines": "154",
+                "sha256": "bbc087e6741faae5971b8293d1c38796d93487e3b760d3b80b61a1e77ab48f91"
+              }
+            ],
+            "scope": "当前共享存档槽绘制更新，前轮读档和单人排版的原件保留各自运行候选。"
           }
         ]
       }

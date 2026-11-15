@@ -3445,14 +3445,14 @@
       "path": "docs/phase2/specs/save-system.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "ce990dfaea5da3c852748949c04e5b247c207538390bdec021a27f3bd17a9f48",
+      "afterSha256": "1545089cf3ab74950a84a09631e7900feab4632abfa5cc40fd0c46a9a5d55c46",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "/root/q2_throw_empty",
         "date": "2026-11-15",
-        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
-        "reviewedLines": 151,
-        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
+        "conclusion": "核满队原生字模实绘和定向回归，三名角色的姓名与等级保留。",
+        "reviewedLines": 153,
+        "acceptanceScope": "仅满队换行、画布和当前槽绘制来源，前轮时序与执行保持原证据。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "4e6f9788f7155c67fe6ca00eab36e57f81b2dc40a730f414aa2ec7a8a29e0db7",
+      "afterSha256": "d15bae460742b5f2a56d8d12631caf86f83043e1f3a321112947e44d1dc756cb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "/root/q2_throw_empty",
         "date": "2026-11-15",
-        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
-        "reviewedLines": 7196,
-        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
+        "conclusion": "核满队原生字模实绘和定向回归，三名角色的姓名与等级保留。",
+        "reviewedLines": 7213,
+        "acceptanceScope": "仅满队换行、画布和当前槽绘制来源，前轮时序与执行保持原证据。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e63fe34705b501d69c21e77473c0936f08f86b4b09d74d57e5f52e5475056937",
+      "afterSha256": "8a6da331862f46a026dde8779fc530cfffea20afd835a86520917a3b9d5eacaa",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "/root/q2_throw_empty",
         "date": "2026-11-15",
-        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
-        "reviewedLines": 506,
-        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
+        "conclusion": "核满队原生字模实绘和定向回归，三名角色的姓名与等级保留。",
+        "reviewedLines": 508,
+        "acceptanceScope": "仅满队换行、画布和当前槽绘制来源，前轮时序与执行保持原证据。"
       }
     },
     {
@@ -5419,27 +5419,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "6ea4a7a2e41e3efe6ca689e50aea6a0e6d07fe427ad5a83a18dcef55e55ad85c",
+      "afterSha256": "e97ea4f0c808affcf2952441c298ac9668bea5387e6316cc21c9749f05592625",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "/root/q2_throw_empty",
         "date": "2026-11-15",
-        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
-        "reviewedLines": 14014,
-        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
+        "conclusion": "核满队原生字模实绘和定向回归，三名角色的姓名与等级保留。",
+        "reviewedLines": 14045,
+        "acceptanceScope": "仅满队换行、画布和当前槽绘制来源，前轮时序与执行保持原证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "459740b296ce6915f394c2ff8ebfbb10d72bf41e90dddf04b6d4529dd8a4c71f",
+      "afterSha256": "96bd7680577caba9fa047675f79df1cba55f6b86c0c3b0cd0f7a9b3dd35b6130",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "/root/q2_throw_empty",
         "date": "2026-11-15",
-        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
-        "reviewedLines": 465,
-        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
+        "conclusion": "核满队原生字模实绘和定向回归，三名角色的姓名与等级保留。",
+        "reviewedLines": 467,
+        "acceptanceScope": "仅满队换行、画布和当前槽绘制来源，前轮时序与执行保持原证据。"
       }
     },
     {
@@ -5904,6 +5904,12 @@
       "sha256": "6fc97ff3fd28fbdeeebc360ede1ce1da91f5e7d3d51cc748125a2fdcaf6a27bc",
       "bytes": 23881029,
       "purpose": "读档淡入、槽位溢出反例和原生浏览器原件"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-save-full-party-20261115.tar.gz",
+      "sha256": "b974758d54e32c6042a4241fd45439b6831e94fbfe19779ab7dd67b4d33476e0",
+      "bytes": 174565,
+      "purpose": "三人满队存档槽字模、序号与日期排版的前后实绘"
     }
   ],
   "artifactAliases": [],

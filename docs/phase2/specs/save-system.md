@@ -121,6 +121,8 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 
 存档槽右上角用原版黄色数字显示保存序号。当前工程的自动、快速和手动槽共用这组序号，左栏显示槽位身份。项目名与保存时间分别占用独立宽度，按实际字模宽度排版，空间不足时用较小的点阵字。 [原始数字绘制](../../../reference/sdlpal/uigame.c#L205-L216)
 
+队伍信息优先放在一行。一行用 12 像素点阵仍放不下时，按成员拆为两行，姓名和等级一起换到下一行。保存序号占第一行右侧，项目名和时间在队伍信息下方。 [满队实绘复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-读取进度的淡入与槽位布局)
+
 #### 角色临时状态的 restore 边界
 
 `CharacterInstance.poisons`、`extraStatuses`、`extraPoisonRes` 可存在于运行中的世界快照，但恢复存档时
