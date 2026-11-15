@@ -42,7 +42,9 @@ function loadRevealBoundary(paints, grid, context) {
     ramp.every(({ frozen }) => frozen),
     `${context}: released control during the reveal`,
   )
-  const distinct = [...new Set(ramp.map(({ mean }) => mean))]
+  const distinct = ramp
+    .map(({ mean }) => mean)
+    .filter((mean, index, values) => index === 0 || mean !== values[index - 1])
   assert(
     distinct.length >= 8 &&
       distinct[0] <= final.mean * 0.15 &&
