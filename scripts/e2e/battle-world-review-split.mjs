@@ -4,10 +4,13 @@ import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 
-const [comparisonPath, target, gameReport, reforgeReport] = process.argv.slice(2)
+const args = process.argv.slice(2)
+const reviewLoadReveal = args.at(-1) === '--load-reveal'
+if (reviewLoadReveal) args.pop()
+const [comparisonPath, target, gameReport, reforgeReport] = args
 assert(
   comparisonPath && target,
-  'usage: battle-world-review-split.mjs COMPARE OUTPUT [GAME_REPORT REFORGE_REPORT]',
+  'usage: battle-world-review-split.mjs COMPARE OUTPUT [GAME_REPORT REFORGE_REPORT] [--load-reveal]',
 )
 assert(Boolean(gameReport) === Boolean(reforgeReport), 'supply both relocated reports')
 const json = async (path) => JSON.parse(await readFile(path, 'utf8'))
@@ -72,6 +75,17 @@ async function side(engine, relocatedReport) {
       videoEnd - returnSeconds >= 0.5,
       `${engine} recording must show the returned field for at least 500 ms`,
     )
+  const reveal = reviewLoadReveal ? compare.runs[0]?.loadReveal?.[0] : undefined
+  let loadRevealSeconds
+  if (reviewLoadReveal) {
+    assert(reveal, `missing ${engine} verified load reveal`)
+    loadRevealSeconds = (reveal.blackAtMs - started) / 1000
+    assert(loadRevealSeconds >= 0 && loadRevealSeconds < videoEnd)
+    assert(
+      videoEnd - (reveal.readyAtMs - started) / 1000 >= 0.5,
+      `${engine} recording ends before the loaded field can be reviewed`,
+    )
+  }
   return {
     engine,
     recording,
@@ -81,12 +95,14 @@ async function side(engine, relocatedReport) {
     videoEnd,
     contactSeconds,
     returnSeconds,
+    ...(loadRevealSeconds !== undefined && { loadRevealSeconds }),
   }
 }
 
 const sides = await Promise.all([side('game', gameReport), side('reforge', reforgeReport)])
-const preroll = Math.min(1.35, ...sides.map(({ contactSeconds }) => contactSeconds))
-for (const entry of sides) entry.trimSeconds = entry.contactSeconds - preroll
+const anchor = ({ loadRevealSeconds, contactSeconds }) => loadRevealSeconds ?? contactSeconds
+const preroll = Math.min(reviewLoadReveal ? 0.9 : 1.35, ...sides.map(anchor))
+for (const entry of sides) entry.trimSeconds = anchor(entry) - preroll
 const duration = Math.max(...sides.map(({ videoEnd, trimSeconds }) => videoEnd - trimSeconds))
 const filters = sides.flatMap(({ trimSeconds, videoEnd }, input) => {
   const start = trimSeconds.toFixed(6)
