@@ -5942,7 +5942,7 @@ export async function bootGame(
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
    */
   function drawDialogue(): void {
-    if (!dialogBox.visible) return
+    if (!dialogBox.needsRender) return
     ctx.save()
     ctx.scale(WORLD_SCALE, WORLD_SCALE)
     ctx.imageSmoothingEnabled = false

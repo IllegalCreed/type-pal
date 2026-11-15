@@ -12,7 +12,7 @@ import {
   resolveDialogueRowText,
   type TextSpan,
 } from '@type-pal/content'
-import type { RleFrame } from '@type-pal/shared'
+import { FRAME_MS_BATTLE, type RleFrame } from '@type-pal/shared'
 import { advanceCue, type DialogueState } from '../dialogue.js'
 import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
@@ -121,6 +121,12 @@ export class DialogBox {
   private pageDone = false
   private retainSlots = false
   private battleVictory?: AbortSignal
+  private lastVictoryScroll?: {
+    owner: AbortSignal
+    presentationId: number
+    text: string
+    clearedAtMs?: number
+  }
   private battleChoreography = false
   private nextPresentationId = 0
 
@@ -141,6 +147,10 @@ export class DialogBox {
 
   get visible(): boolean {
     return Object.keys(this.renders).length > 0
+  }
+
+  get needsRender(): boolean {
+    return this.visible || this.lastVictoryScroll !== undefined
   }
 
   observeSlots(): readonly DialogueSlotObservation[] {
@@ -300,12 +310,13 @@ export class DialogBox {
    */
   advance(nowMs: number): void {
     if (!this.state) return
+    const active = this.slots.activeSlot
+    const r = this.renders[active]
+    if (this.battleVictory && active === 'narration' && r?.visibleText === null) return
     if (!this.pageDone) {
       this.pageDone = true
       return
     }
-    const active = this.slots.activeSlot
-    const r = this.renders[active]
     if (r && r.pageStart + LINES_PER_PAGE < r.displayLines.length) {
       // 该段话还有下一页
       r.pageStart += LINES_PER_PAGE
@@ -343,6 +354,7 @@ export class DialogBox {
 
   releaseBattleVictory(owner: AbortSignal): void {
     if (this.battleVictory === owner) this.close()
+    if (this.lastVictoryScroll?.owner === owner) this.lastVictoryScroll = undefined
   }
 
   releaseBattleChoreography(): void {
@@ -377,6 +389,25 @@ export class DialogBox {
   }
 
   render(nowMs: number): void {
+    const previous = this.lastVictoryScroll
+    this.lastVictoryScroll = undefined
+    const victory = this.battleVictory
+    const narration = this.renders.narration
+    // SDLPal presents the battle again when deleting each centered window. Fast
+    // script continuation can otherwise replace an identical scroll in the same draw.
+    if (
+      previous &&
+      previous.owner === victory &&
+      narration &&
+      previous.presentationId !== narration.presentationId &&
+      previous.text === narration.singleLineSpans.map(({ text }) => text).join('')
+    ) {
+      previous.clearedAtMs ??= nowMs
+      if (nowMs - previous.clearedAtMs < FRAME_MS_BATTLE) {
+        this.lastVictoryScroll = previous
+        return
+      }
+    }
     if (!this.visible) return
     // 画四个 slot；narration 走横向卷轴，center 才是无框居中大字。
     // narration 最后画 = 叠在最上层(原版 0x3E 中央窗;dlg.0 婶婶画外音、宝箱拾取旁白走此槽)。
@@ -386,6 +417,16 @@ export class DialogBox {
       if (!entry || !r) continue
       const isActive = this.active && slotId === this.slots.activeSlot
       this.renderSlot(slotId, r, isActive, nowMs)
+    }
+    if (victory && narration?.visibleText) {
+      this.lastVictoryScroll =
+        previous?.presentationId === narration.presentationId
+          ? previous
+          : {
+              owner: victory,
+              presentationId: narration.presentationId,
+              text: narration.visibleText,
+            }
     }
     // 原索引帧是持久屏幕:~NN 到时只清对话状态，最后文字像素保留到下次重画。
     // 因此必须先画完本帧再自动推进；loadScene 紧随时才能捕获含文字的旧帧。

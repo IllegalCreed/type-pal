@@ -245,6 +245,7 @@ test.each([
       },
     ]
   }
+  const secondLine = completion === 'confirm' ? 'line.one' : 'line.two'
   const foe = opponent({
     onDefeated: [
       { kind: 'giveItem', itemId: 'tonic', count: 1 },
@@ -262,7 +263,7 @@ test.each([
         cue: {
           identity: { kind: 'narration' },
           slot: 'narration',
-          rows: [{ text: 'line.two' }],
+          rows: [{ text: secondLine }],
         },
       },
     ],
@@ -281,13 +282,13 @@ test.each([
     for (let i = 0; i < 8 && oldEncounterRunning(); i++) await key(browser, 'Enter')
   }
   const health = () => state().world.party.map(({ hp, mp }) => [hp, mp])
-  const drawnText = (text: string) =>
-    host?.text.mock.calls.some(([, spans]) => spans.some((span) => span.text === text))
+  const textDraws = (text: string) =>
+    browser.text.mock.calls.filter(([, spans]) => spans.some((span) => span.text === text)).length
   if (completion === 'confirm') await key(host, 'ArrowRight')
   await advance(host, () => state().renderDebug.inBattle)
   const worldFrames = drawWorld.mock.calls.length
   await finish(host)
-  await advance(host, () => drawnText('First') === true)
+  await advance(host, () => textDraws('First') > 0)
   expect(state().world.money).toBe(57)
   expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 1 }])
   expect(health()).toEqual([[80, 30]])
@@ -296,10 +297,37 @@ test.each([
   now = 1399
   await host.frame()
   expect(state().dialogue).toBe(true)
-  expect(drawnText('Second')).toBe(false)
-  now = 1400
-  await host.frame()
-  await advance(host, () => drawnText('Second') === true)
+  expect(textDraws('Second')).toBe(0)
+  if (completion === 'confirm') {
+    const earlierDraws = textDraws('First')
+    const earlierCanvas = host.draws.length
+    host.key('Enter')
+    try {
+      now = 1400
+      await host.frame()
+      expect(host.draws.slice(earlierCanvas).some(({ method }) => method === 'putImageData')).toBe(
+        true,
+      )
+      expect(textDraws('First')).toBe(earlierDraws) // A real held battle render separates the copies.
+      now = 1439
+      await host.frame()
+      expect(textDraws('First')).toBe(earlierDraws)
+      now = 1440
+      await host.frame()
+      expect(textDraws('First')).toBe(earlierDraws + 1)
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', repeat: true }))
+      await host.frame()
+      expect(state().dialogue).toBe(true)
+    } finally {
+      host.release('Enter')
+    }
+  } else {
+    now = 1400
+    await host.frame()
+    now = 1416
+    await host.frame()
+    expect(textDraws('Second')).toBe(1)
+  }
   expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 2 }])
   expect(health()).toEqual([[80, 30]])
   expect(drawWorld.mock.calls).toHaveLength(worldFrames)
