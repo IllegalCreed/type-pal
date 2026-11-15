@@ -44,10 +44,11 @@ export const beeEscapeCases = [
   { escape: 'failure', seed: 3, attempts: 2 },
 ]
 export const beeEscapeExits = [
-  { exitKey: 'ArrowRight', exitGrid: [98, 45] },
-  { exitKey: 'ArrowLeft', exitGrid: [96, 45] },
-  { exitKey: 'ArrowUp', exitGrid: [97, 44] },
-  { exitKey: 'ArrowDown', exitGrid: [97, 46] },
+  { exitKey: 'ArrowRight', exitSteps: 1, exitGrid: [98, 45] },
+  { exitKey: 'ArrowLeft', exitSteps: 1, exitGrid: [96, 45] },
+  { exitKey: 'ArrowUp', exitSteps: 1, exitGrid: [97, 44] },
+  { exitKey: 'ArrowDown', exitSteps: 1, exitGrid: [97, 46] },
+  { exitKey: 'ArrowLeft', exitSteps: 4, exitGrid: [93, 45] },
 ]
 
 export function beeWorldArguments(args = process.argv.slice(2)) {

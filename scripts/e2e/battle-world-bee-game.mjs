@@ -936,8 +936,8 @@ await runBrowserJourney({
     }
     for (const spec of selected) {
       for (const repetition of capture.enabled || probe || escapeExits ? [1] : [1, 2]) {
-        const { seed, exitKey } = spec
-        const label = `seed-${seed}-run-${repetition}${exitKey ? `-${exitKey}` : ''}`
+        const { seed, exitKey, exitSteps } = spec
+        const label = `seed-${seed}-run-${repetition}${exitKey ? `-${exitKey}-${exitSteps}` : ''}`
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
         report.cases.push(result)
         const page = await newPage(label)

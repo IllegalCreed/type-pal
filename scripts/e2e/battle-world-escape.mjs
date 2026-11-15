@@ -126,7 +126,7 @@ export async function verifyWorldEscape({
       id: result.label,
       scene,
       start: stop,
-      holds: [[result.exitKey, 1]],
+      holds: [[result.exitKey, result.exitSteps]],
       completion: { scene, position: result.exitGrid, mode: 'ready' },
     })
     await walk(route, 'world-escape-departure')
