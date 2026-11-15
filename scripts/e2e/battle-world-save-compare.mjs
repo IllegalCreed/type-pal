@@ -24,6 +24,42 @@ const git = (...args) => execFileSync('git', args, { cwd: repoRoot })
 
 const event = (raw, kind) => raw.events.filter((row) => row.kind === kind)
 
+function loadRevealBoundary(paints, grid, context) {
+  const final = paints.at(-1)
+  assert(paints[0]?.peak > 0 && final?.peak > 0, `${context}: missing menu or ready world draw`)
+  assert.deepEqual(final.grid, grid)
+  assert(!final.frozen && final.opaqueCount === 4000)
+  const lastBlack = paints.findLastIndex(
+    ({ peak, opaqueCount }) => peak === 0 && opaqueCount === 4000,
+  )
+  assert(lastBlack > 0, `${context}: confirmed load never drew black`)
+  const black = paints[lastBlack]
+  const fromBlack = paints.slice(lastBlack + 1)
+  const readyIndex = fromBlack.findIndex(({ frozen, mean }) => !frozen && mean >= final.mean * 0.98)
+  assert(readyIndex > 0, `${context}: black cut straight to the ready world`)
+  const ramp = fromBlack.slice(0, readyIndex)
+  assert(
+    ramp.every(({ frozen }) => frozen),
+    `${context}: released control during the reveal`,
+  )
+  const distinct = [...new Set(ramp.map(({ mean }) => mean))]
+  assert(
+    distinct.length >= 8 &&
+      distinct[0] <= final.mean * 0.15 &&
+      distinct.at(-1) >= final.mean * 0.75,
+    `${context}: missing the lightening steps of the saved scene`,
+  )
+  assert(
+    distinct.slice(1).every((mean, index) => mean > distinct[index]),
+    `${context}: the saved scene flickered during the reveal`,
+  )
+  for (const frame of ramp) assert.deepEqual(frame.grid, grid, `${context}: moved during reveal`)
+  const ready = fromBlack[readyIndex]
+  const revealMs = ready.atMs - black.atMs
+  assert(revealMs >= 500 && revealMs <= 730, `${context}: reveal ${revealMs} ms`)
+  return { blackAtMs: black.atMs, readyAtMs: ready.atMs, revealMs, shades: distinct.length }
+}
+
 function rewardScrollBoundary(engine, story) {
   let first
   let clear
@@ -188,6 +224,9 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
   assertSavedWorld(evidence.beforeInGameRestore, savedPoses[1])
   assertSavedWorld(evidence.restoredInGame, savedPoses[0])
   assertRestoredWorld(saved[0].world, evidence.restoredInGame, 3)
+  const loadReveal = [
+    loadRevealBoundary(evidence.loadPaint, savedPoses[0].grid, `${engine} world menu`),
+  ]
   let optional
   if (profile === 'verify') {
     const receipt = evidence.invalid
@@ -261,6 +300,13 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
       assert(fresh.resumedAt.clock > fresh.restoredAt.clock)
       assert(fresh.resumedAt.ticks < fresh.restoredAt.ticks)
       if (isGame) assert.deepEqual(repeatFacts(fresh.restoredAt.repeat), gameRepeat[index])
+      loadReveal.push(
+        loadRevealBoundary(
+          fresh.loadPaint,
+          savedPoses[index].grid,
+          `${engine} title slot ${index + 1}`,
+        ),
+      )
       optional.fresh.push(fresh)
     }
   } else {
@@ -275,6 +321,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     raw: evidence.raw,
     nativeBattle: row.raw,
     rewardScroll,
+    loadReveal,
     ...(optional ?? {}),
   }
 }
@@ -366,11 +413,16 @@ export async function comparePostBattleSave(gamePath, reforgePath, profile = 've
     ...(fresh ? [fresh.map(({ world }) => durable(world))] : []),
   ]
   for (const [index, run] of game.runs.entries()) {
-    assert.deepEqual(
-      project(run),
-      project(reforge.runs[index]),
-      'cross-engine durable save state differs',
-    )
+    const other = reforge.runs[index]
+    assert.deepEqual(project(run), project(other), 'cross-engine durable save state differs')
+    assert.equal(run.loadReveal.length, other.loadReveal.length)
+    for (const [i, { revealMs }] of run.loadReveal.entries()) {
+      const { revealMs: reforgeMs } = other.loadReveal[i]
+      assert(
+        Math.abs(revealMs - reforgeMs) <= 100,
+        `cross-engine load fade ${revealMs} vs ${reforgeMs} ms`,
+      )
+    }
   }
   for (const side of [game, reforge]) {
     if (side.runs.length === 2) assert.deepEqual(project(side.runs[0]), project(side.runs[1]))
