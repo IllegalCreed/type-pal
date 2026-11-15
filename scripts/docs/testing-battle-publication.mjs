@@ -242,13 +242,14 @@ export const isTestingBattleLifecycleSource = (path) =>
 export const testingBattleReviewPublicationBase = '761bc57b8c2420413580b209088db0b87d060cc2'
 const battleReviewRanges = new Map([
   [gameBootstrap, { 354: '354' }],
+  [openingTraceTest, { '551-666': '554-669' }],
   [
     reforgeMain,
     { '414-421': '414-421', '455-462': '455-462', '1269-1367': '1269-1367', '441-452': '441-452' },
   ],
 ])
 const battleReviewBindings = new Map(
-  [...lifecycleBindings]
+  [...encounterBindings, ...lifecycleBindings]
     .map(([path, binding]) => [
       path,
       { ...binding, paths: binding.paths.filter(isTestingBattleReviewSource) },
@@ -610,7 +611,7 @@ export function restoreTestingBattleLifecycleSourceBindings(path, currentBytes, 
   return restoreEncounterSourceBindings(path, currentBytes, inputs, stage, lifecycleBindings)
 }
 
-/** Formation and reward presentation touch the shells outside the five accepted caller excerpts. */
+/** The presentation fixes and their recorder fixture preserve the prior caller and oracle excerpts. */
 export function restoreTestingBattleReviewSourceBindings(path, currentBytes, inputs) {
   const stage = {
     ranges: battleReviewRanges,

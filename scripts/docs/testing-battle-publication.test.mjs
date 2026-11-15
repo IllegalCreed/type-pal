@@ -487,10 +487,11 @@ test('battle lifecycle sources bind their current ranges while retaining the pri
   )
 })
 
-test('battle presentation review preserves the four previously accepted shell callers', () => {
+test('battle presentation review preserves the accepted shell callers and opening render oracle', () => {
   const readBase = (path) => readFixed(testingBattleReviewPublicationBase, path)
   const readCandidate = (path) => readFixed('af644d2fd07b2d1ed528e50680ac0ad99a891116', path)
   const bridge = { readBase, readFixed: readCandidate, readSource: readCandidate }
+  const opening = 'scripts/e2e/opening-trace.test.mjs'
   const oldCatalog = JSON.parse(readBase(catalogPath))
   const currentCatalog = structuredClone(oldCatalog)
   const reviewedIds = []
@@ -507,11 +508,15 @@ test('battle presentation review preserves the four previously accepted shell ca
       date: '2026-11-15',
       evidence: sessionReceipt,
       previousSourceRefs,
-      scope: 'The five original shell caller excerpts retain their approved bytes.',
+      scope: 'The original caller and opening render excerpts retain their approved bytes.',
     }
     entry.sourceRefs = entry.sourceRefs.map((ref) =>
       isTestingBattleReviewSource(ref.path)
-        ? { ...ref, sha256: hash(readCandidate(ref.path)) }
+        ? {
+            ...ref,
+            lines: ref.path === opening ? '554-669' : ref.lines,
+            sha256: hash(readCandidate(ref.path)),
+          }
         : ref,
     )
     entry.revision.history.push(historyEvent)
@@ -520,10 +525,18 @@ test('battle presentation review preserves the four previously accepted shell ca
     const evidence = JSON.parse(prior)
     evidence.sourceRefs = entry.sourceRefs
     evidence.history.push(historyEvent)
+    const oldPointer = `${opening}:551-666`
+    const newPointer = `${opening}:554-669`
+    const openingClaim = evidence.claims.find((claim) => claim.evidence.includes(oldPointer))
+    if (openingClaim) openingClaim.evidence[openingClaim.evidence.indexOf(oldPointer)] = newPointer
 
     const restore = (current, inputs = bridge) =>
       restoreTestingBattleReviewSourceBindings(path, bytes(current), inputs)
     assert.deepEqual(restore(evidence), prior)
+    if (openingClaim) {
+      openingClaim.evidence[openingClaim.evidence.indexOf(newPointer)] = oldPointer
+      assert.throws(() => restore(evidence), /Expected values to be strictly equal/u)
+    }
     if (entry.id === 'runtime-active-scene') {
       const shellPath = previousSourceRefs[0].path
       const changed = Buffer.concat([readCandidate(shellPath), Buffer.from('\n')])
@@ -538,6 +551,8 @@ test('battle presentation review preserves the four previously accepted shell ca
   }
 
   assert.deepEqual(reviewedIds, [
+    'e2e-common-issues',
+    'e2e-001',
     'runtime-active-scene',
     'runtime-battle-host',
     'runtime-world-owners',
