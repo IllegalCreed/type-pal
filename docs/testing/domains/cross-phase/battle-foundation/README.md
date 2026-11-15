@@ -40,6 +40,8 @@ Template: governance-index-v1 / 1.0.0
 
 玩家逃跑复用双端蜜蜂入口，分别追加 `--escape=success` 和 `--escape=failure`。用 `node scripts/e2e/battle-world-escape-compare.mjs success|failure GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON` 重比同次固定局面。追加 `--capture` 录单局。 [玩家逃跑原件](report.md#2026-11-15-玩家逃跑成功与失败)
 
+当前逃跑比较另外检查静止观察的完整 15 个世界拍，以及归零后下一拍的真实接敌。逃跑带声录制在世界仍处于暂停保护时结束，接敌边界留在原始日志。用 `node scripts/e2e/battle-world-review-split.mjs COMPARE OUTPUT` 合成左右原速带声分屏。工具按原始视频的末帧保留终点画面，玩家逃跑片至少留出 500 ms 的实际回场，较短的音轨补静音。
+
 敌方逃跑用 `node scripts/e2e/battle-enemy-escape.mjs game|reforge`，再用 `node scripts/e2e/battle-enemy-escape-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON`。剧情必败对应 `battle-scripted-defeat.mjs` 和 `battle-scripted-defeat-compare.mjs`。战后读档用双端蜜蜂入口的 `--post-battle-save --seed=99`，对应 `battle-world-save-compare.mjs`；三例可追加 `--capture` 录单次。剧情必败与存读的比较器在输出路径之后加 `capture`，以复核录制报告。 [本批覆盖与原件](report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
 
 解包主归档后，用其中的 `build/q2/battle-lifecycle/recompare-extracted.py ARCHIVE_ROOT player|enemy|defeat|save REPO OUTPUT` 重跑正式比较。对比时使用归档清单所列生产闭包。玩家逃跑用 `951f801c`，敌方逃跑用 `113460b3`，剧情必败用 `93f61810`，战后存读用 `ffef79bf` 的判据复核 `bac7d802` 的报告。已有本轮前驱时，主归档中的 Git bundle 可以恢复分支与这些固定版本。

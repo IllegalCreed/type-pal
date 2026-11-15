@@ -53,10 +53,10 @@
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
-      "lines": "551-666",
+      "lines": "554-669",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
+      "sha256": "41ad53a81fef372ad2815167592a74fac14915372f4567b85738dbe5445e33e6"
     }
   ],
   "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -85,7 +85,7 @@
         "packages/content/src/character.ts:169-171",
         "scripts/e2e/opening-matrix-observer.mjs:11-125",
         "scripts/e2e/opening-trace-plugin.mjs:164-178",
-        "scripts/e2e/opening-trace.test.mjs:551-666"
+        "scripts/e2e/opening-trace.test.mjs:554-669"
       ]
     }
   ],
@@ -176,6 +176,22 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-battle-review-source-rebinding",
+      "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "551-666",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
+        }
+      ],
+      "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
     }
   ],
   "_governance": {
