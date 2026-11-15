@@ -991,7 +991,7 @@ await runBrowserJourney({
           result.encounter = encounter
           if (escapeCase) {
             const { verifyWorldEscape } = await import('./battle-world-escape.mjs')
-            await verifyWorldEscape({
+            trace = await verifyWorldEscape({
               engine: 'game',
               result,
               page,
@@ -1002,6 +1002,7 @@ await runBrowserJourney({
               probe,
               evidence: () => page.evaluate(() => globalThis.__beeGameEvidence()),
             })
+            result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
             continue
           }
           result.role = await page.evaluate(async () => {

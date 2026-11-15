@@ -462,7 +462,7 @@ await runBrowserJourney({
           result.encounter = facts(encounter)
           if (escapeCase) {
             const { verifyWorldEscape } = await import('./battle-world-escape.mjs')
-            await verifyWorldEscape({
+            const trace = await verifyWorldEscape({
               engine: 'reforge',
               result,
               page,
@@ -473,6 +473,7 @@ await runBrowserJourney({
               probe,
               evidence: () => page.evaluate(() => globalThis.__beeWorld.read()),
             })
+            result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
             continue
           }
           await press('Enter', 'battle')

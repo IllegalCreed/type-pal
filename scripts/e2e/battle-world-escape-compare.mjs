@@ -311,6 +311,39 @@ function judgeRun(engine, trace, row, inputs) {
       ? row.control?.kind === 'in-game' && !row.end?.menu
       : row.control?.menuActive && !row.end?.run.menuActive,
   )
+  const cooldown = trace.cooldown?.samples ?? []
+  const countdown = cooldown.map(({ remaining }) => remaining)
+  check(
+    'fifteen suspended world steps including the final decrement to zero',
+    countdown,
+    Array.from({ length: 16 }, (_, index) => 15 - index),
+  )
+  check(
+    'the visible enemy and player remain still with one contact throughout the suspension',
+    cooldown
+      .filter(({ remaining }) => remaining > 0)
+      .map(({ visible, contacts, grid, enemy }) => [visible, contacts, grid, enemy]),
+    Array.from({ length: 15 }, () => [true, 1, beeWorldInput.stop, [98.25, 45]]),
+  )
+  const last = cooldown.at(-1)
+  check(
+    'the visible enemy is released at zero before any new contact',
+    last && [last.visible, last.contacts, last.grid, last.enemy],
+    // Game resumes the PAL auto-script after the decrement. Reforge scans contact on the next step.
+    [true, 1, beeWorldInput.stop, isGame ? [97.5, 45] : [98.25, 45]],
+  )
+  const contactAfterWait = trace.cooldown?.secondContact
+  check(
+    'the same enemy contacts only on the world step after the countdown reaches zero',
+    contactAfterWait &&
+      last && [
+        contactAfterWait.entity,
+        contactAfterWait.grid,
+        contactAfterWait.tick - last.tick,
+        contactAfterWait.atMs > last.atMs,
+      ],
+    ['e154', beeWorldInput.stop, 1, true],
+  )
   return {
     context: row.label,
     raw: row.raw,
@@ -324,6 +357,7 @@ function judgeRun(engine, trace, row, inputs) {
       departure,
       party,
       assets,
+      countdown,
     },
     timings,
   }

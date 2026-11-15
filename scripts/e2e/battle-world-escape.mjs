@@ -20,11 +20,60 @@ function worldReady(engine, state) {
         !state.phase &&
         !state.encounterBusy &&
         !state.run.battleActive &&
-        !state.run.scriptRunning
+        !state.run.scriptRunning &&
+        !state.run.presentationBusy &&
+        state.run.fadeBlack === 0
 }
 
 const openMenu = (engine, state) =>
   engine === 'game' ? state?.menu?.kind === 'in-game' : state?.run?.menuActive
+
+function installCooldownWitness(engine) {
+  const isGame = engine === 'game'
+  const grid = (x, y) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2]
+  const position = ({ col, row }) => [col, row]
+  const witness = { samples: [], secondContact: null }
+  window.__beeCooldownWitness = witness
+  const observe = () => {
+    const gs = window.__tpgs
+    const world = window.__rfWorld
+    const entity = isGame
+      ? gs.npcs.find(({ id }) => id === 154)
+      : window.__rfScene.entities.find(({ id }) => id === 'e154')
+    const run = !isGame && window.__tpObserve.readRuntime()
+    const remaining = isGame
+      ? Math.max(0, -(entity?.sVanishTime ?? 0))
+      : (world.entityLifecycles?.s006?.e154?.remainingTicks ?? 0)
+    const contacts = isGame
+      ? window.__beeGameEvidence().native.handoff.filter(({ stage }) => stage === 'contact')
+      : window.__beeWorld.read().events.filter(({ kind }) => kind === 'contact')
+    const worldTick = () => (isGame ? gs.frameNum : window.__tpE2e.dumpMotionState().worldTick)
+    if (contacts.length > 1) {
+      const [, contact] = contacts
+      witness.secondContact = {
+        atMs: contact.atMs,
+        entity: isGame ? contact.entityId : contact.entity,
+        grid: isGame ? contact.grid : position(contact.player),
+        tick: worldTick(),
+      }
+      return
+    }
+    const { samples } = witness
+    if ((remaining > 0 || samples.length) && samples.at(-1)?.remaining !== remaining) {
+      samples.push({
+        atMs: performance.now(),
+        tick: worldTick(),
+        remaining,
+        grid: isGame ? grid(gs.party.x, gs.party.y) : position(run.position),
+        enemy: entity && (isGame ? grid(entity.x, entity.y) : position(entity.pos)),
+        visible: !!entity && (isGame ? entity.sState > 0 : !entity.hidden),
+        contacts: contacts.length,
+      })
+    }
+    requestAnimationFrame(observe)
+  }
+  requestAnimationFrame(observe)
+}
 
 export async function verifyWorldEscape({
   engine,
@@ -38,6 +87,7 @@ export async function verifyWorldEscape({
   evidence,
 }) {
   const poll = (accept, name) => until(read, accept, name, 10_000)
+  await page.evaluate(installCooldownWitness, engine)
   const submitted = new Set()
   for (;;) {
     const actual = await poll((state) => {
@@ -66,14 +116,30 @@ export async function verifyWorldEscape({
   )
   result.attemptedMenus = [...submitted]
   if (!probe) assert.equal(submitted.size, result.attempts, 'wrong number of escape turns')
+  // The original combat proof ends at the first return. The next contact has its own witness.
   const trace = await evidence()
   assert.equal(trace.overflow, false)
   assert.deepEqual(trace.errors, [])
-  if (capture.enabled)
+  const cooldown = () => page.evaluate(() => window.__beeCooldownWitness)
+  if (capture.enabled) {
+    await until(
+      cooldown,
+      ({ samples, secondContact }) => !secondContact && samples.at(-1)?.remaining <= 6,
+      'returned field is recorded through nine suspended steps',
+      2_000,
+    )
     await capture.finish(page, {
-      event: 'after-escape-menu-round-trip',
+      event: 'standing-in-the-field-during-escape-cooldown',
       seed: result.seed,
       scene: beeWorldInput.scene,
       grid: beeWorldInput.stop,
     })
+  }
+  trace.cooldown = await until(
+    cooldown,
+    ({ secondContact }) => secondContact !== null,
+    'same hostile becomes eligible after its 15 suspended world steps',
+    4_000,
+  )
+  return trace
 }
