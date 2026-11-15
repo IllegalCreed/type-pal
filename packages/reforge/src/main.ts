@@ -1392,7 +1392,8 @@ export async function bootGame(
         ),
     },
   )
-  let loadReveal: { startedAt?: number } | undefined
+  const loadBlackMs = 50
+  let loadReveal: { fadeAt?: number } | undefined
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
@@ -6263,11 +6264,12 @@ export async function bootGame(
       }
     }
     if (loadReveal) {
-      // The restore has committed. Start at its first actual draw and cover the entire output.
-      // Wall time advances the reveal while the restored world's simulation and input are held.
+      // Hold the first opaque draw through the handoff, then use wall time for the ramp while
+      // the restored world's simulation and input are held.
       const now = performance.now()
-      loadReveal.startedAt ??= now
-      const alpha = Math.max(0, 1 - (now - loadReveal.startedAt) / paletteFadeMs)
+      loadReveal.fadeAt ??= now + loadBlackMs
+      const elapsed = Math.max(0, now - loadReveal.fadeAt)
+      const alpha = Math.max(0, 1 - elapsed / paletteFadeMs)
       drawPaletteFade(alpha, 'in')
       if (alpha === 0) {
         loadReveal = undefined
