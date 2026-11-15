@@ -866,13 +866,13 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     setCurrentMapNum(mapNum)
   })
 
-  // opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal PAL_CheckObstacle)。
+  // 脚本队友走位和怪物追逐共用障碍检测。队友另外使用原盘地图边界。
   //   checkObjects=TRUE  → tilemap + 当前 scene event objects(排除自身 selfId)
   //   checkObjects=FALSE → 只查 tilemap(传空 npcs 数组)
   // isWalkable 返 TRUE=可走;PAL_CheckObstacle 返 TRUE=被阻挡 → 取反。
   setObstacleChecker(
-    (x, y, checkObjects, selfId) =>
-      !isWalkable(presentCtx.tilemap, x, y, checkObjects ? gs.npcs : [], selfId),
+    (x, y, checkObjects, selfId, checkRange) =>
+      !isWalkable(presentCtx.tilemap, x, y, checkObjects ? gs.npcs : [], selfId, checkRange),
   )
 
   // M3 T29:dev panel(仅 DEV;生产构建 dead-code)。快捷键 B 弹 fixture picker → 启战。

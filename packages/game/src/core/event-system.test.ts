@@ -61,6 +61,7 @@ import {
   OP_SET_OBJECT_POS,
   OP_SET_PARTY,
   OP_SET_PARTY_DIRECTION,
+  OP_SET_PARTY_POS,
   OP_SET_PLAYER_SPRITE,
   OP_SET_RNG,
   OP_SET_SCENE_OBJECT_STATE,
@@ -2092,6 +2093,36 @@ describe('B 类移动 opcode(sdlpal script.c 真值)', () => {
     loadEvent(gs, [{ op: 'raw', opcode: OP_PARTY_WALK_TO_8, operands: [10, 0, 0] }, { op: 'end' }])
     tickEventSystem(gs, snap())
     expect(gs.party.x).toBe(16)
+  })
+
+  it('0x7B updates the follower at the final step before switching to the standing frame', () => {
+    const { gs } = setup([])
+    gs.party.facing = 'right'
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_PARTY, operands: [3, 1, 0] },
+      { op: 'raw', opcode: OP_SET_PARTY_POS, operands: [24, 32, 1] },
+      { op: 'raw', opcode: OP_PARTY_WALK_TO_8, operands: [23, 31, 1] },
+      { op: 'end' },
+    ])
+    const follower = () =>
+      computeFollowerWorldPos(
+        {
+          party: gs.party,
+          trail: gs.trail,
+          walking: gs.walkingFrame.walking,
+          frozenOffset: gs.followerFrozenOffset,
+        },
+        1,
+        () => true,
+      )
+
+    tickEventSystem(gs, snap())
+    expect(gs.party).toMatchObject({ x: 768, y: 512 })
+    expect(follower()).toEqual({ x: 768, y: 512, dir: 'right' })
+    tickEventSystem(gs, snap())
+    expect(gs.party).toMatchObject({ x: 752, y: 504, facing: 'left' })
+    expect(gs.walkingFrame.walking).toBe(false)
+    expect(follower()).toEqual({ x: 768, y: 512, dir: 'right' })
   })
 
   it('0x7C npcWalkTo speed 4:stagger gate TRUE(id 偶 + frameNum 偶)→ 走', () => {
