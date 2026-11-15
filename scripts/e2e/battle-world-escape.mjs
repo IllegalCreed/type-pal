@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { beeWorldInput } from './battle-world-bee-scenario.mjs'
+import { withRecordedKey } from './input-ledger.mjs'
 
 function nextMenu(engine, state) {
   if (engine === 'game') {
@@ -28,11 +29,12 @@ function worldReady(engine, state) {
 const openMenu = (engine, state) =>
   engine === 'game' ? state?.menu?.kind === 'in-game' : state?.run?.menuActive
 
-function installCooldownWitness(engine) {
+function installCooldownWitness({ engine, watchDeparture }) {
   const isGame = engine === 'game'
   const grid = (x, y) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2]
   const position = ({ col, row }) => [col, row]
   const witness = { samples: [], secondContact: null }
+  if (watchDeparture) witness.afterExpiry = []
   window.__beeCooldownWitness = witness
   const observe = () => {
     const gs = window.__tpgs
@@ -59,16 +61,21 @@ function installCooldownWitness(engine) {
       return
     }
     const { samples } = witness
+    const sample = () => ({
+      atMs: performance.now(),
+      tick: worldTick(),
+      remaining,
+      grid: isGame ? grid(gs.party.x, gs.party.y) : position(run.position),
+      enemy: entity && (isGame ? grid(entity.x, entity.y) : position(entity.pos)),
+      visible: !!entity && (isGame ? entity.sState > 0 : !entity.hidden),
+      contacts: contacts.length,
+    })
     if ((remaining > 0 || samples.length) && samples.at(-1)?.remaining !== remaining) {
-      samples.push({
-        atMs: performance.now(),
-        tick: worldTick(),
-        remaining,
-        grid: isGame ? grid(gs.party.x, gs.party.y) : position(run.position),
-        enemy: entity && (isGame ? grid(entity.x, entity.y) : position(entity.pos)),
-        visible: !!entity && (isGame ? entity.sState > 0 : !entity.hidden),
-        contacts: contacts.length,
-      })
+      samples.push(sample())
+    } else if (watchDeparture && samples.at(-1)?.remaining === 0) {
+      const last = witness.afterExpiry.at(-1) ?? samples.at(-1)
+      if (last.tick !== worldTick()) witness.afterExpiry.push(sample())
+      if (witness.afterExpiry.length === 3) return
     }
     requestAnimationFrame(observe)
   }
@@ -84,10 +91,12 @@ export async function verifyWorldEscape({
   press,
   capture,
   probe,
+  record,
   evidence,
 }) {
   const poll = (accept, name) => until(read, accept, name, 10_000)
-  await page.evaluate(installCooldownWitness, engine)
+  const cooldown = () => page.evaluate(() => window.__beeCooldownWitness)
+  await page.evaluate(installCooldownWitness, { engine, watchDeparture: !!result.exitKey })
   const submitted = new Set()
   for (;;) {
     const actual = await poll((state) => {
@@ -106,6 +115,51 @@ export async function verifyWorldEscape({
     await press('KeyQ', 'battle-escape', `round ${turn} slot ${slot} chooses escape`)
   }
 
+  result.attemptedMenus = [...submitted]
+  if (!probe) assert.equal(submitted.size, result.attempts, 'wrong number of escape turns')
+  if (result.exitKey) {
+    const { samples } = await cooldown()
+    const before = samples.at(-1)
+    assert(before?.remaining >= 10, 'departure input must start early in the cooldown')
+    await withRecordedKey({
+      keyboard: page.keyboard,
+      key: result.exitKey,
+      body: async () => {
+        const handle = await page.waitForFunction(
+          ({ tick, remaining, grid }) => {
+            const { samples, secondContact } = window.__beeCooldownWitness
+            return (
+              secondContact ||
+              samples.find(
+                (sample) =>
+                  sample.tick > tick &&
+                  (sample.remaining <= remaining - 3 ||
+                    sample.grid.some((value, axis) => value !== grid[axis])),
+              ) ||
+              null
+            )
+          },
+          before,
+          { timeout: 2_000 },
+        )
+        await handle.dispose()
+      },
+      onInput: record,
+      metadata: { context: result.label, phase: 'world-escape-departure' },
+    })
+    result.departureStart = before
+    const trace = await evidence()
+    assert.equal(trace.overflow, false)
+    assert.deepEqual(trace.errors, [])
+    trace.cooldown = await until(
+      cooldown,
+      (state) => state.secondContact !== null || state.afterExpiry.length === 3,
+      'record the first three world steps at the end of escape cooldown',
+      4_000,
+    )
+    return trace
+  }
+
   await press('Escape', 'world-control', 'open world menu after escape')
   const menu = await poll((state) => openMenu(engine, state), 'world menu opens after escape')
   result.control = engine === 'game' ? menu.menu : menu.run
@@ -114,13 +168,10 @@ export async function verifyWorldEscape({
     (state) => worldReady(engine, state) && !openMenu(engine, state),
     'world menu closes after escape',
   )
-  result.attemptedMenus = [...submitted]
-  if (!probe) assert.equal(submitted.size, result.attempts, 'wrong number of escape turns')
   // The original combat proof ends at the first return. The next contact has its own witness.
   const trace = await evidence()
   assert.equal(trace.overflow, false)
   assert.deepEqual(trace.errors, [])
-  const cooldown = () => page.evaluate(() => window.__beeCooldownWitness)
   if (capture.enabled) {
     await until(
       cooldown,

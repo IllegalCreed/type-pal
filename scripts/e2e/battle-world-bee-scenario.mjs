@@ -43,6 +43,7 @@ export const beeEscapeCases = [
   { escape: 'success', seed: 4, attempts: 1 },
   { escape: 'failure', seed: 3, attempts: 2 },
 ]
+export const beeEscapeExitKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown']
 
 export function beeWorldArguments(args = process.argv.slice(2)) {
   const { values } = parseArgs({
@@ -51,11 +52,13 @@ export function beeWorldArguments(args = process.argv.slice(2)) {
       seed: { type: 'string' },
       capture: { type: 'boolean' },
       escape: { type: 'string' },
+      'escape-exits': { type: 'boolean' },
       'post-battle-save': { type: 'boolean' },
       probe: { type: 'boolean' },
     },
   })
   const escaped = values.escape !== undefined
+  const escapeExits = values['escape-exits'] === true
   const postBattleSave = values['post-battle-save'] === true
   assert(!postBattleSave || !escaped, 'post-battle save uses the victory route')
   assert(
@@ -63,14 +66,20 @@ export function beeWorldArguments(args = process.argv.slice(2)) {
     'probe requires an escape case and no capture',
   )
   assert(!postBattleSave || values.seed === '99', 'post-battle save uses explicit seed 99')
+  assert(
+    !escapeExits || (values.escape === 'success' && !values.probe && !values.capture),
+    'directional checks require the success case without capture or probe',
+  )
   let cases = escaped ? beeEscapeCases.filter((entry) => entry.escape === values.escape) : beeCases
   if (values.seed !== undefined) cases = cases.filter(({ seed }) => String(seed) === values.seed)
   assert(cases.length > 0, 'choose a registered battle outcome and seed')
   assert(!values.capture || cases.length === 1, 'capture requires one explicit case')
+  if (escapeExits) cases = beeEscapeExitKeys.map((exitKey) => ({ ...cases[0], exitKey }))
   return {
     cases,
     capture: values.capture === true,
     escape: values.escape,
+    escapeExits,
     postBattleSave,
     probe: values.probe === true,
   }

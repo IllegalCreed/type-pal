@@ -18,6 +18,7 @@ const {
   cases: selected,
   capture: captureRequested,
   escape: escapeCase,
+  escapeExits,
   postBattleSave,
   probe,
 } = beeWorldArguments()
@@ -877,7 +878,7 @@ function verifyTrace(trace, result) {
 }
 
 await runBrowserJourney({
-  name: `q2-world-bee-game${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${selected[0].seed}-capture` : probe ? '-probe' : ''}`,
+  name: `q2-world-bee-game${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${selected[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
   packageName: '@type-pal/game',
   environment: { E2E: '1' },
   traceConfig: postBattleSave
@@ -912,7 +913,11 @@ await runBrowserJourney({
   async journey({ newPage, baseURL, out, report, until, health, capture }) {
     Object.assign(report, {
       engine: 'game',
-      fragment: escapeCase ? 'q2-world-player-escape' : 'q2-world-bee',
+      fragment: escapeExits
+        ? 'q2-world-escape-exits'
+        : escapeCase
+          ? 'q2-world-player-escape'
+          : 'q2-world-bee',
       input: escapeCase ? { ...input, party: roster, battleInput: ['KeyQ'] } : input,
       cases: [],
     })
@@ -930,9 +935,9 @@ await runBrowserJourney({
       await setup.close()
     }
     for (const spec of selected) {
-      for (const repetition of capture.enabled || probe ? [1] : [1, 2]) {
-        const { seed } = spec
-        const label = `seed-${seed}-run-${repetition}`
+      for (const repetition of capture.enabled || probe || escapeExits ? [1] : [1, 2]) {
+        const { seed, exitKey } = spec
+        const label = `seed-${seed}-run-${repetition}${exitKey ? `-${exitKey}` : ''}`
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
         report.cases.push(result)
         const page = await newPage(label)
@@ -1000,6 +1005,7 @@ await runBrowserJourney({
               press,
               capture,
               probe,
+              record: (action) => record(canonicalInput(action)),
               evidence: () => page.evaluate(() => globalThis.__beeGameEvidence()),
             })
             result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)

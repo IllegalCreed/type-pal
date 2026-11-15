@@ -21,6 +21,7 @@ const {
   cases,
   capture: captureRequested,
   escape: escapeCase,
+  escapeExits,
   postBattleSave,
   probe,
 } = beeWorldArguments()
@@ -352,7 +353,7 @@ const facts = ({ events, handoff, ...state }) => state
 
 const fixture = await createFixture()
 await runBrowserJourney({
-  name: `q2-world-bee-reforge${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${cases[0].seed}-capture` : probe ? '-probe' : ''}`,
+  name: `q2-world-bee-reforge${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${cases[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
   packageName: '@type-pal/reforge',
   environment: { E2E: '1', VITE_PROJECT_ID: 'pal' },
   sources: [
@@ -389,7 +390,11 @@ await runBrowserJourney({
   async journey({ newPage, baseURL, out, report, until, capture, health }) {
     Object.assign(report, {
       engine: 'reforge',
-      fragment: escapeCase ? 'q2-world-player-escape' : 'q2-world-bee',
+      fragment: escapeExits
+        ? 'q2-world-escape-exits'
+        : escapeCase
+          ? 'q2-world-player-escape'
+          : 'q2-world-bee',
       input: escapeCase
         ? { ...beeWorldInput, party: roster, battleInput: ['KeyQ'] }
         : beeWorldInput,
@@ -398,9 +403,9 @@ await runBrowserJourney({
     report.save = await writeEvidenceArtifact(out, 'reforge-input.json', fixture)
     report.predecessor = { kind: 'canonical-world-save-fixture', ...report.save }
     for (const spec of cases) {
-      for (const repetition of capture.enabled || probe ? [1] : [1, 2]) {
-        const { seed } = spec
-        const label = `seed-${seed}-run-${repetition}`
+      for (const repetition of capture.enabled || probe || escapeExits ? [1] : [1, 2]) {
+        const { seed, exitKey } = spec
+        const label = `seed-${seed}-run-${repetition}${exitKey ? `-${exitKey}` : ''}`
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
         report.cases.push(result)
         const page = await newPage(label)
@@ -471,6 +476,7 @@ await runBrowserJourney({
               press,
               capture,
               probe,
+              record,
               evidence: () => page.evaluate(() => globalThis.__beeWorld.read()),
             })
             result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
