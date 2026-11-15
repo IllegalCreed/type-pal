@@ -189,20 +189,28 @@ export function instrumentGameBattle(source, file) {
           '\nglobalThis.__battleEvidence?.dialogueText(state, text);\n',
         )
     }
-    if (
-      file.endsWith('/battle/battle-dialog.ts') &&
-      owner(node) === 'advanceBattleDialog' &&
-      ts.isVariableStatement(node) &&
-      ['confirmDialog(box)', 'confirmDialog(box, timedElapsed)'].includes(
-        node.declarationList.declarations[0]?.initializer?.getText(ast),
-      )
-    ) {
-      add('dialogue-confirm-before', node.getStart(ast), 'const __battleDialogPhase = box.phase;\n')
-      add(
-        'dialogue-confirm-after',
-        node.end,
-        '\nglobalThis.__battleGameDialogueConfirm?.(state, box, __battleDialogPhase, result);\n',
-      )
+    if (file.endsWith('/battle/battle-dialog.ts') && ts.isVariableStatement(node)) {
+      const [result] = node.declarationList.declarations
+      const call = result?.initializer
+      if (
+        result?.name.getText(ast) === 'result' &&
+        call &&
+        ts.isCallExpression(call) &&
+        call.expression.getText(ast) === 'confirmDialog' &&
+        call.arguments[0]?.getText(ast) === 'box' &&
+        owner(node) === 'advanceBattleDialog'
+      ) {
+        add(
+          'dialogue-confirm-before',
+          node.getStart(ast),
+          'const __battleDialogPhase = box.phase;\n',
+        )
+        add(
+          'dialogue-confirm-after',
+          node.end,
+          '\nglobalThis.__battleGameDialogueConfirm?.(state, box, __battleDialogPhase, result);\n',
+        )
+      }
     }
     if (file.endsWith('/draw-battle-sprites.ts') && owner(node) === 'drawBattleSprites') {
       if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'frame') {
