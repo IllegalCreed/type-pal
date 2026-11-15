@@ -61,6 +61,33 @@ function observeGame(source: string, file: string): string | null {
         '      drawMainIcons(fb, state, playerRoles, uiSpriteFrames, /* highlight= */ true)',
         "      globalThis.__defeat?.eventOnce('command-menu-drawn', { turn: state.turn + 1 })",
       )
+    case 'present/present.ts': {
+      const begun = after(
+        source,
+        '  const entries: DrawEntry[] = []',
+        '  globalThis.__defeat?.beginWorldDraw(gs.camera, gs.walkingFrame.walking, gs.trail)',
+      )
+      const leader = replaceOnce(
+        begun,
+        "      draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),\n      id: 'party',",
+        `      draw: (f) => {
+        drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)
+        globalThis.__defeat?.gamePartyDraw(leaderRoleId, 0, leaderSpriteNum,
+          activePartyFrames.indexOf(capturedFrame), gs.party, capturedSX, capturedSY + 4, capturedFrame)
+      },
+      id: 'party',`,
+      )
+      return replaceOnce(
+        leader,
+        '        draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),\n        id,',
+        `        draw: (f) => {
+          drawSprite(f, capturedFrame, capturedSX, capturedSY + 4)
+          globalThis.__defeat?.gamePartyDraw(roleId, m, spriteNum,
+            frames.indexOf(capturedFrame), fpos, capturedSX, capturedSY + 4, capturedFrame)
+        },
+        id,`,
+      )
+    }
     case 'shell/audio-midi.ts': {
       const played = after(
         source,
@@ -125,8 +152,15 @@ ${move}
         "    if (runner) return\n    const triggerOwnerId =\n      key.startsWith('s:') || key.startsWith('hostile:') ? null : (selfId ?? key)",
         '    globalThis.__defeat?.reforgeContact(activeScene.scene.id, triggerOwnerId, player.pos)',
       )
-      const origin = after(
+      const world = replaceOnce(
         trigger,
+        '      worldPresentation.renderWorld({\n        scene: activeScene,',
+        `      globalThis.__defeat?.beginWorldDraw(camera, walking, trail)
+      worldPresentation.renderWorld({
+        scene: activeScene,`,
+      )
+      const origin = after(
+        world,
         '        worldBattleEntry = entry',
         '        globalThis.__defeat?.reforgeEntrySource(ctx)',
       )
@@ -139,6 +173,46 @@ ${move}
         battleFrame,
         '    loadLastSave: async (signal) => {',
         '      globalThis.__defeat?.loadLastSave()',
+      )
+    }
+    case 'world-scene-presentation.ts': {
+      const leader = replaceOnce(
+        source,
+        '      sprites.push(partySprite(leaderFrame, input.player.pos, pixel, input.player.layer, 0, true))',
+        `      const draw = partySprite(leaderFrame, input.player.pos, pixel, input.player.layer, 0, true)
+      globalThis.__defeat?.tagReforgePartyDraw(draw, leader?.template, 0, leaderDefinition.id, leaderFrameIndex)
+      sprites.push(draw)`,
+      )
+      return replaceOnce(
+        leader,
+        `      sprites.push(
+        partySprite(
+          frame,
+          follower.pos,
+          gridToPixel(follower.pos),
+          input.player.layer,
+          partyIndex,
+          true,
+        ),
+      )`,
+        `      const draw = partySprite(frame, follower.pos, gridToPixel(follower.pos), input.player.layer, partyIndex, true)
+      globalThis.__defeat?.tagReforgePartyDraw(draw, member?.template, partyIndex, visual.def.id, frameIndex)
+      sprites.push(draw)`,
+      )
+    }
+    case 'render.ts': {
+      const camera = after(
+        source,
+        '    const oy = -camera.y',
+        '    globalThis.__defeat?.reforgeCamera(camera)',
+      )
+      return replaceOnce(
+        camera,
+        '            : () => this.ctx.drawImage(image, x, y),',
+        `            : () => {
+                this.ctx.drawImage(image, x, y)
+                globalThis.__defeat?.reforgePartyDraw(sprite, x, y, image.width, image.height)
+              },`,
       )
     }
     case 'battle/battle-entry-presentation.ts': {

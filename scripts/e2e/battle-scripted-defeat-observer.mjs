@@ -19,6 +19,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     entryPendingBand,
     entryLastBand,
     entryWorldPixels,
+    worldGeometry,
     nextCue = 0
   const { append } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -66,6 +67,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     event('entry-band', { band, pixels })
   }
   const roleName = (id) => ({ 0: 'li-xiaoyao', 2: 'lin-yueru' })[id] ?? String(id)
+  const reforgePartySprites = new WeakMap()
   const grid = ({ x, y }) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2, 0]
   const rfPos = ({ col, row, height }) => [col, row, height]
   const gameBox = (box) =>
@@ -216,12 +218,14 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     })
   }
   const draw = (state, inBattle) => {
+    const geometry = inBattle ? undefined : worldGeometry
+    worldGeometry = undefined
     if (state.scene !== scene) return
     if (state.gameOver) once('ordinary-game-over-drawn', {})
     pushRoute('render:world-or-battle', state)
     if (!contact) return
     const { ready, box, position, actors, party } = state
-    const key = JSON.stringify({ inBattle, ready, box, position, actors, party })
+    const key = JSON.stringify({ inBattle, ready, box, position, actors, party, geometry })
     if (key !== previousFrame) {
       previousFrame = key
       event('paint', {
@@ -231,6 +235,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
         position,
         actors,
         party,
+        geometry,
       })
     }
     if (ended && ready)
@@ -262,6 +267,45 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       return { state, ended: !!ended, menuClosed: menuClosed() }
     },
     trace: () => ({ engine, seed, timeOrigin: performance.timeOrigin, overflow, errors, events }),
+    beginWorldDraw(camera, walking, trail) {
+      if (!contact || !ended) return
+      worldGeometry = {
+        camera: [camera.x, camera.y],
+        walking,
+        trail: trail.map((entry) => ({
+          position: entry.pos ? rfPos(entry.pos) : grid(entry),
+          facing: entry.dir,
+        })),
+        party: [],
+      }
+    },
+    gamePartyDraw(roleId, slot, spriteId, frame, position, x, y, image) {
+      worldGeometry?.party.push({
+        id: roleName(roleId),
+        slot,
+        spriteId,
+        frame,
+        world: [position.x, position.y],
+        foot: [x, y],
+        blit: [x - Math.floor(image.width / 2), y - image.height, image.width, image.height],
+      })
+    },
+    tagReforgePartyDraw(sprite, id, slot, spriteId, frame) {
+      if (contact && ended) reforgePartySprites.set(sprite, { id, slot, spriteId, frame })
+    },
+    reforgeCamera(camera) {
+      if (worldGeometry) worldGeometry.camera = [camera.x, camera.y]
+    },
+    reforgePartyDraw(sprite, x, y, width, height) {
+      const descriptor = reforgePartySprites.get(sprite)
+      if (!descriptor) return
+      worldGeometry?.party.push({
+        ...descriptor,
+        world: [sprite.worldX, sprite.worldY],
+        foot: [x + sprite.anchorX, y + sprite.anchorY],
+        blit: [x, y, width, height],
+      })
+    },
     gameContact(gs, npc) {
       if (gs.wNumScene !== gameScene || `e${npc.id}` !== owner) return
       contact = event('trigger', { scene, owner, ip: gs.eventCursor?.ip, position: grid(gs.party) })

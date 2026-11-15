@@ -50,26 +50,42 @@ async function verifySources() {
     'data/extracted/events/all.json',
     'data/extracted/data/scene/93.json',
     'data/extracted/data/enemy-objects.json',
+    'data/extracted/data/player-roles.json',
+    'data/extracted/data/tilemap/86.json',
     'projects/pal/content/scenes/s093.json',
     'projects/pal/content/scenes/s097.json',
     'projects/pal/content/enemy-teams.json',
     'projects/pal/content/locale.json',
+    'projects/pal/content/sprites.json',
   ]
-  const [all, original, objects, scene, predecessor, teams, locale] = await Promise.all(
-    sources.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
-  )
+  const [all, original, objects, { roles }, tilemap, scene, predecessor, teams, locale, sprites] =
+    await Promise.all(
+      sources.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
+    )
   const raw = all.segments.find(({ name }) => name === 'all').commands
   assert.deepEqual(raw[13782].operands, [spec.team, 13783, 0])
   assert.deepEqual(raw[13783], { op: 'raw', opcode: 120, operands: [0, 0, 0], label: 'L_13783' })
   assert.deepEqual(raw[13785].operands, [3, 1, 0])
+  assert.deepEqual([raw[13786].opcode, raw[13786].operands], [0x46, [24, 32, 1]])
   assert.deepEqual([raw[13789].opcode, raw[13789].operands], [0x05, [0, 0, 0]])
   assert.deepEqual(raw[13792].operands, [0, 0, 0])
   assert.deepEqual(raw[13793].operands, [201, 0, 0])
   assert.deepEqual(raw[13794].operands, [12, 0, 0])
+  assert.deepEqual([raw[13796].opcode, raw[13796].operands], [0x7b, [23, 31, 1]])
+  assert.deepEqual([raw[13801].opcode, raw[13801].operands], [0x15, [3, 0, 0]])
   assert.deepEqual(raw[13831].operands, [65535, 65530, 65524])
   assert.equal(raw[13829].op, 'end')
   assert.equal(raw[41076].opcode, 0x4f)
   assert.equal(original.mapNum, spec.map)
+  // The original final walking step puts the follower on map cell (24,32,0).
+  assert.equal(tilemap.cells[32][24].lower & 0x2000, 0)
+  assert.deepEqual([roles[2].spriteNum, roles[0].spriteNum], [7, 2])
+  assert.deepEqual(
+    [spec.returning, spec.player].map(
+      (id) => sprites.find((definition) => definition.id === id).asset,
+    ),
+    ['sprite.pal.007', 'sprite.pal.002'],
+  )
   const owner = original.eventObjects.find(({ id }) => `e${id}` === spec.owner)
   assert.deepEqual([owner.triggerLabel, owner.triggerMode], ['L_13777', 6])
   assert.equal(objects.find(({ objectIndex }) => objectIndex === 478).scriptOnTurnStart, 41413)
@@ -319,6 +335,57 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
   )
   const pages = afterPages.map(({ box }) => withoutWhitespace(box.text ?? ''))
   check('all six actually rendered dialogue pages in order', pages, expectedPages)
+  // Engine assets intentionally use a four-pixel (Game) or seven-pixel (Reforge) foot baseline.
+  // Preserve the actual values in the trace and compare the world-relative foot positions here.
+  const footBaseline = game ? 4 : 7
+  const worldPoses = ({ geometry }) => {
+    const draws = [...(geometry?.party ?? [])].sort((left, right) => left.slot - right.slot)
+    return draws.map(({ id, slot, frame, world, foot: [x, y] }) => [
+      id,
+      slot,
+      frame,
+      world,
+      [x, y - footBaseline],
+    ])
+  }
+  const firstPartyStep = frames.find(({ geometry }) => geometry?.walking)
+  check(
+    'the original first walking step briefly shares one footpoint',
+    firstPartyStep && [
+      firstPartyStep.geometry.camera,
+      worldPoses(firstPartyStep).map(([id, slot, frame, world, foot]) => [
+        id,
+        slot,
+        Math.floor(frame / 3),
+        world,
+        foot,
+      ]),
+    ],
+    [
+      [608, 400],
+      [
+        [spec.returning, 0, 1, [768, 512], [160, 112]],
+        [spec.player, 1, 3, [768, 512], [160, 112]],
+      ],
+    ],
+  )
+  const dialoguePoses = afterPages.map((row) => [row.geometry?.camera, worldPoses(row)])
+  check(
+    'all six pages draw YueRu and Xiaoyao in their original party formation',
+    dialoguePoses,
+    postDefeatRows.map((_, page) => [
+      [592, 392],
+      [
+        [spec.returning, 0, page === 0 ? 3 : 9, [752, 504], [160, 112]],
+        [spec.player, 1, 9, [768, 512], [176, 120]],
+      ],
+    ]),
+  )
+  check(
+    'the original two sprite assets reach the canvas on every page',
+    afterPages.map(({ geometry }) => geometry?.party.map(({ spriteId }) => spriteId)),
+    postDefeatRows.map(() => (game ? [7, 2] : [spec.returning, spec.player])),
+  )
   check(
     'six later confirm edges follow those six rendered pages',
     afterPages.map((event, index) => {
@@ -527,6 +594,7 @@ export function judgeScriptedDefeat(trace, engine, inputs, expectedPages) {
       death,
       rng,
       pages,
+      dialoguePoses,
       positions,
       sounds: sounds.map(({ asset }) => asset),
       returned: party(control),
