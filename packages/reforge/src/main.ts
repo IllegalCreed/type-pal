@@ -1392,6 +1392,7 @@ export async function bootGame(
         ),
     },
   )
+  let loadReveal: { startedAt?: number } | undefined
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
@@ -2345,7 +2346,7 @@ export async function bootGame(
     },
   }
   const presentation = new CutsceneController(presentationOps, {
-    isRunnerActive: () => runner !== null || victoryFrame !== undefined,
+    isRunnerActive: () => runner !== null || victoryFrame !== undefined || loadReveal !== undefined,
   })
 
   const host: ScriptHost = {
@@ -4744,6 +4745,7 @@ export async function bootGame(
     restoredClaims: readonly StoredAutomaticChaseClaim[] = sceneRuntimeStates[activeScene.scene.id]
       ?.chaseClaims ?? [],
   ): void {
+    if (loadReveal) return
     for (const e of activeScene.scene.entities) startAutoRunner(e)
     for (const action of entityActions.capture()) {
       const ownerId = action.override?.source === 'automatic' ? action.override.owner : undefined
@@ -5432,7 +5434,6 @@ export async function bootGame(
   const rewardGainQueue = new RewardGainQueue()
   // 存档系统(D-save)：saveStore 已在菜单前建(见上,读档界面复用)；此处续浏览界面态 + 缩略图缓存 + metas 快照。
   let lastSaveSlot: SlotId | undefined // 默认槽记忆(原版 bCurrentSaveSlot:存/读过哪槽,下次浏览默认停那)
-  let loadReveal: { startedAt?: number } | undefined
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
   let saveSnapshotQueue: Promise<void> = Promise.resolve()
@@ -5843,7 +5844,7 @@ export async function bootGame(
     if (music.action === 'stop') bgm.stop()
     else bgm.play(expectDefined(music.currentMusic))
     if (reveal === 'fade-in') loadReveal = {}
-    else startAutoRunners()
+    startAutoRunners()
     return true
   }
 
@@ -6684,7 +6685,7 @@ export async function bootGame(
       dialogue: dialogBox.observe(),
       dialogueSlots: dialogBox.observeSlots(),
       scriptRunning: runner !== null,
-      presentationBusy: presentation.busy() || loadReveal !== undefined,
+      presentationBusy: presentation.busy(),
       menuActive: menus.active,
       battleActive: !!battleHost.active,
       fadeBlack: fadeDriver.value,
