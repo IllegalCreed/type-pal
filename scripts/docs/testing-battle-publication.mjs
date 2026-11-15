@@ -239,6 +239,27 @@ const lifecycleBindings = new Map([
 export const isTestingBattleLifecycleSource = (path) =>
   [...lifecycleBindings.values()].some(({ paths }) => paths.includes(path))
 
+export const testingBattleReviewPublicationBase = '761bc57b8c2420413580b209088db0b87d060cc2'
+const battleReviewRanges = new Map([
+  [gameBootstrap, { 354: '354' }],
+  [
+    reforgeMain,
+    { '414-421': '414-421', '455-462': '455-462', '1269-1367': '1269-1367', '441-452': '441-452' },
+  ],
+])
+const battleReviewBindings = new Map(
+  [...lifecycleBindings]
+    .map(([path, binding]) => [
+      path,
+      { ...binding, paths: binding.paths.filter(isTestingBattleReviewSource) },
+    ])
+    .filter(([, { paths }]) => paths.length > 0),
+)
+
+export function isTestingBattleReviewSource(path) {
+  return battleReviewRanges.has(path)
+}
+
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
   path === gameBootstrap || path === gameSceneSystem
@@ -587,6 +608,18 @@ export function restoreTestingBattleLifecycleSourceBindings(path, currentBytes, 
     date: '2026-11-15',
   }
   return restoreEncounterSourceBindings(path, currentBytes, inputs, stage, lifecycleBindings)
+}
+
+/** Formation and reward presentation touch the shells outside the five accepted caller excerpts. */
+export function restoreTestingBattleReviewSourceBindings(path, currentBytes, inputs) {
+  const stage = {
+    ranges: battleReviewRanges,
+    normalizeExcerpt: (excerpt) => excerpt,
+    base: testingBattleReviewPublicationBase,
+    action: 'q2-battle-review-source-rebinding',
+    date: '2026-11-15',
+  }
+  return restoreEncounterSourceBindings(path, currentBytes, inputs, stage, battleReviewBindings)
 }
 
 /** Restore the five older entry objects before replaying their original publication

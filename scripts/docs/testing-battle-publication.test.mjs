@@ -19,9 +19,11 @@ import {
   assertTestingBattleSessionSourceBridge,
   assertTestingProjectVictoryVersionSource,
   isTestingBattleEvidencePath,
+  isTestingBattleReviewSource,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
+  restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
@@ -29,6 +31,7 @@ import {
   testingBattleHandoffSourceRevision,
   testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
+  testingBattleReviewPublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
@@ -481,6 +484,70 @@ test('battle lifecycle sources bind their current ranges while retaining the pri
           path === testingBattleSessionSourcePath ? changedSource : readSource(path),
       }),
     /encounter source differs from the frozen Q2 candidate/u,
+  )
+})
+
+test('battle presentation review preserves the four previously accepted shell callers', () => {
+  const readBase = (path) => readFixed(testingBattleReviewPublicationBase, path)
+  const readCandidate = (path) => readFixed('af644d2fd07b2d1ed528e50680ac0ad99a891116', path)
+  const bridge = { readBase, readFixed: readCandidate, readSource: readCandidate }
+  const oldCatalog = JSON.parse(readBase(catalogPath))
+  const currentCatalog = structuredClone(oldCatalog)
+  const reviewedIds = []
+
+  for (const entry of currentCatalog.entries) {
+    const previousSourceRefs = entry.sourceRefs.filter(({ path }) =>
+      isTestingBattleReviewSource(path),
+    )
+    if (!previousSourceRefs.length) continue
+    reviewedIds.push(entry.id)
+    const historyEvent = {
+      action: 'q2-battle-review-source-rebinding',
+      base: testingBattleReviewPublicationBase,
+      date: '2026-11-15',
+      evidence: sessionReceipt,
+      previousSourceRefs,
+      scope: 'The five original shell caller excerpts retain their approved bytes.',
+    }
+    entry.sourceRefs = entry.sourceRefs.map((ref) =>
+      isTestingBattleReviewSource(ref.path)
+        ? { ...ref, sha256: hash(readCandidate(ref.path)) }
+        : ref,
+    )
+    entry.revision.history.push(historyEvent)
+    const path = `docs/testing/${entry.evidence}`
+    const prior = readBase(path)
+    const evidence = JSON.parse(prior)
+    evidence.sourceRefs = entry.sourceRefs
+    evidence.history.push(historyEvent)
+
+    const restore = (current, inputs = bridge) =>
+      restoreTestingBattleReviewSourceBindings(path, bytes(current), inputs)
+    assert.deepEqual(restore(evidence), prior)
+    if (entry.id === 'runtime-active-scene') {
+      const shellPath = previousSourceRefs[0].path
+      const changed = Buffer.concat([readCandidate(shellPath), Buffer.from('\n')])
+      const source = (file) => (file === shellPath ? changed : readCandidate(file))
+      const forged = structuredClone(evidence)
+      for (const ref of forged.sourceRefs) if (ref.path === shellPath) ref.sha256 = hash(changed)
+      assert.throws(
+        () => restore(forged, { ...bridge, readSource: source }),
+        /encounter source differs from the frozen Q2 candidate/u,
+      )
+    }
+  }
+
+  assert.deepEqual(reviewedIds, [
+    'runtime-active-scene',
+    'runtime-battle-host',
+    'runtime-world-owners',
+    'game-script-corrections',
+  ])
+  assert.deepEqual(
+    JSON.parse(
+      restoreTestingBattleReviewSourceBindings(catalogPath, bytes(currentCatalog), bridge),
+    ),
+    oldCatalog,
   )
 })
 

@@ -30,10 +30,12 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLifecycleSource,
+  isTestingBattleReviewSource,
   isTestingBattleSessionEvidencePath,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
+  restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleDefeatSourceRevision,
@@ -41,6 +43,7 @@ import {
   testingBattleHandoffSourceRevision,
   testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
+  testingBattleReviewPublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
@@ -517,8 +520,34 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const lifecycleSource = lifecycleRevision && gitTree(root, lifecycleRevision, [])
   const preLifecycle = lifecycleSource && gitTree(root, testingBattleLifecyclePublicationBase, [])
-  const readBeforeLifecycle = (path) => {
+  const battleReviewRevision = admission.testingBattleReviewSourceRevision
+  if (battleReviewRevision !== undefined)
+    assert(
+      lifecycleSource && /^[a-f0-9]{40}$/u.test(battleReviewRevision),
+      'battle review source bridge requires the fixed lifecycle lineage',
+    )
+  const battleReviewSource = battleReviewRevision && gitTree(root, battleReviewRevision, [])
+  const preBattleReview =
+    battleReviewSource && gitTree(root, testingBattleReviewPublicationBase, [])
+  const readBeforeBattleReview = (path) => {
     const current = readSource(path)
+    if (!preBattleReview || !isTestingBattleReviewSource(path)) return current
+    assert(
+      current?.equals(battleReviewSource.read(path)),
+      `source differs from frozen battle review candidate: ${path}`,
+    )
+    return preBattleReview.read(path)
+  }
+  const beforeBattleReview = (path, bytes) =>
+    preBattleReview
+      ? restoreTestingBattleReviewSourceBindings(path, bytes, {
+          readSource,
+          readBase: preBattleReview.read,
+          readFixed: battleReviewSource.read,
+        })
+      : bytes
+  const readBeforeLifecycle = (path) => {
+    const current = readBeforeBattleReview(path)
     if (!preLifecycle || !isTestingBattleLifecycleSource(path)) return current
     assert(
       current?.equals(lifecycleSource.read(path)),
@@ -529,7 +558,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const beforeBattleLifecycle = (path, bytes) =>
     preLifecycle
       ? restoreTestingBattleLifecycleSourceBindings(path, bytes, {
-          readSource,
+          readSource: readBeforeBattleReview,
           readBase: preLifecycle.read,
           readFixed: lifecycleSource.read,
         })
@@ -894,7 +923,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         : readPredecessorSource
       const currentBeforeEncounter = priorEncounterBindings(
         path,
-        beforeProjectVictory(path, beforeBattleLifecycle(path, current)),
+        beforeProjectVictory(path, beforeBattleLifecycle(path, beforeBattleReview(path, current))),
       )
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
