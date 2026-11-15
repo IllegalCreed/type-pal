@@ -1005,7 +1005,7 @@ await runBrowserJourney({
               press,
               capture,
               probe,
-              record: (action) => record(canonicalInput(action)),
+              walk,
               evidence: () => page.evaluate(() => globalThis.__beeGameEvidence()),
             })
             result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)

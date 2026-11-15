@@ -476,7 +476,7 @@ await runBrowserJourney({
               press,
               capture,
               probe,
-              record,
+              walk: move,
               evidence: () => page.evaluate(() => globalThis.__beeWorld.read()),
             })
             result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)

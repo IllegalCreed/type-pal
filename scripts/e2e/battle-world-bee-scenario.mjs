@@ -43,7 +43,12 @@ export const beeEscapeCases = [
   { escape: 'success', seed: 4, attempts: 1 },
   { escape: 'failure', seed: 3, attempts: 2 },
 ]
-export const beeEscapeExitKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown']
+export const beeEscapeExits = [
+  { exitKey: 'ArrowRight', exitGrid: [98, 45] },
+  { exitKey: 'ArrowLeft', exitGrid: [96, 45] },
+  { exitKey: 'ArrowUp', exitGrid: [97, 44] },
+  { exitKey: 'ArrowDown', exitGrid: [97, 46] },
+]
 
 export function beeWorldArguments(args = process.argv.slice(2)) {
   const { values } = parseArgs({
@@ -74,7 +79,7 @@ export function beeWorldArguments(args = process.argv.slice(2)) {
   if (values.seed !== undefined) cases = cases.filter(({ seed }) => String(seed) === values.seed)
   assert(cases.length > 0, 'choose a registered battle outcome and seed')
   assert(!values.capture || cases.length === 1, 'capture requires one explicit case')
-  if (escapeExits) cases = beeEscapeExitKeys.map((exitKey) => ({ ...cases[0], exitKey }))
+  if (escapeExits) cases = beeEscapeExits.map((exit) => ({ ...cases[0], ...exit }))
   return {
     cases,
     capture: values.capture === true,

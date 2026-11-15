@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { beeWorldInput } from './battle-world-bee-scenario.mjs'
-import { withRecordedKey } from './input-ledger.mjs'
+import { fixedRoutePlan } from './fixed-route-plan.mjs'
 
 function nextMenu(engine, state) {
   if (engine === 'game') {
@@ -91,7 +91,7 @@ export async function verifyWorldEscape({
   press,
   capture,
   probe,
-  record,
+  walk,
   evidence,
 }) {
   const poll = (accept, name) => until(read, accept, name, 10_000)
@@ -121,32 +121,15 @@ export async function verifyWorldEscape({
     const { samples } = await cooldown()
     const before = samples.at(-1)
     assert(before?.remaining >= 10, 'departure input must start early in the cooldown')
-    await withRecordedKey({
-      keyboard: page.keyboard,
-      key: result.exitKey,
-      body: async () => {
-        const handle = await page.waitForFunction(
-          ({ tick, remaining, grid }) => {
-            const { samples, secondContact } = window.__beeCooldownWitness
-            return (
-              secondContact ||
-              samples.find(
-                (sample) =>
-                  sample.tick > tick &&
-                  (sample.remaining <= remaining - 3 ||
-                    sample.grid.some((value, axis) => value !== grid[axis])),
-              ) ||
-              null
-            )
-          },
-          before,
-          { timeout: 2_000 },
-        )
-        await handle.dispose()
-      },
-      onInput: record,
-      metadata: { context: result.label, phase: 'world-escape-departure' },
+    const { scene, stop } = beeWorldInput
+    const route = fixedRoutePlan(engine, {
+      id: result.label,
+      scene,
+      start: stop,
+      holds: [[result.exitKey, 1]],
+      completion: { scene, position: result.exitGrid, mode: 'ready' },
     })
+    await walk(route, 'world-escape-departure')
     result.departureStart = before
     const trace = await evidence()
     assert.equal(trace.overflow, false)
