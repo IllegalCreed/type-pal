@@ -188,6 +188,43 @@ describe('R13 drawSaveBrowser', () => {
     ])
   })
 
+  test.each([
+    [42, ['李逍遥 99  赵灵儿 99', '林月如 99']],
+    [Number.MAX_SAFE_INTEGER, ['李逍遥 99', '赵灵儿 99  林月如 99']],
+  ])('满队以成员为单位换行，并保留保存序号 %d 和日期', (savedTimes, roster) => {
+    const h = drawHost()
+    const translate = vi.fn()
+    Object.assign(h.ctx, { translate, scale: vi.fn() })
+    const assets = menuAssets()
+    const meta: SaveMeta = {
+      slotId: 'm01',
+      kind: 'manual',
+      party: ['李逍遥', '赵灵儿', '林月如'].map((name) => ({ name, level: 99 })),
+      mapName: '仙剑奇侠传·复刻',
+      savedAt: new Date(2026, 10, 15, 16, 31).getTime(),
+      savedTimes,
+    }
+    const browser = openSaveBrowser('load', [meta], ALL_SLOT_IDS.indexOf('m01'))
+    textCalls.mockClear()
+    drawSaveBrowser(h.ctx, browser, assets, textMetrics(), 0, locale, new Map())
+
+    expect(
+      texts()
+        .slice(-4)
+        .map(([text]) => text),
+    ).toEqual([...roster, '仙剑奇侠传·复刻', '11/15 16:31'])
+    expect(translate.mock.calls).toEqual([
+      [124, 145],
+      [124, 159],
+      [124, 173],
+      [240, 173],
+    ])
+    const digits = h.drawImage.mock.calls
+      .filter(([image]) => assets.nums.includes(image))
+      .map(([image]) => assets.nums.indexOf(image))
+    expect(digits.reverse().join('')).toBe(String(savedTimes))
+  })
+
   test('confirmOverwrite：叠否/是确认框（卷轴 + 左右文本）', () => {
     const h = drawHost()
     stubDocumentCanvas(h)

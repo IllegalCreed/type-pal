@@ -34,6 +34,7 @@ const ROW_DY = 56
 const BOX_H = 50
 const METADATA_GAP = 8
 const COMPACT_SCALE = 0.75 // 16px 点阵变成 12px，在 4× 画布上仍为整数像素。
+const PARTY_SEPARATOR = '  '
 const ELLIPSIS = '…'
 
 function formatTime(ms: number): string {
@@ -87,6 +88,17 @@ function drawMetadataText(
   ctx.restore()
 }
 
+function firstPartyRowSize(members: readonly string[], width: number, glyphs: GlyphTable): number {
+  const spacing = measureSpans([{ text: PARTY_SEPARATOR }], glyphs)
+  let remaining = width / COMPACT_SCALE - 1
+  for (const [index, text] of members.entries()) {
+    remaining -= measureSpans([{ text }], glyphs)
+    if (remaining < 0) return Math.max(1, index)
+    remaining -= spacing
+  }
+  return members.length
+}
+
 function drawSaveMetadata(
   ctx: CanvasRenderingContext2D,
   meta: SaveMeta,
@@ -104,24 +116,42 @@ function drawSaveMetadata(
     for (const digit of String(Math.max(0, Math.floor(count))))
       digitsWidth += digits[Number(digit)]?.width ?? 0
     partyRight -= digitsWidth + METADATA_GAP
-    drawNumber(ctx, count, right, rowY + 12, digits)
   }
-  const party = meta.party.map(({ name, level }) => `${name} ${level}`).join('  ')
+  const members = meta.party.map(({ name, level }) => `${name} ${level}`)
+  const party = members.join(PARTY_SEPARATOR)
   const partyWidth = partyRight - x
   const partyLabel = fitMetadata(party, partyWidth, partyWidth, glyphs)
-  drawMetadataText(ctx, partyLabel.text, x, rowY + 8, partyLabel.scale, glyphs)
+  const stacked = members.length > 1 && partyLabel.text !== party
+  if (count !== undefined) drawNumber(ctx, count, right, rowY + (stacked ? 7 : 12), digits)
+  if (stacked) {
+    const split = firstPartyRowSize(members, partyWidth, glyphs)
+    const first = fitLabel(
+      members.slice(0, split).join(PARTY_SEPARATOR),
+      partyWidth / COMPACT_SCALE,
+      glyphs,
+    )
+    const second = fitLabel(
+      members.slice(split).join(PARTY_SEPARATOR),
+      (right - x) / COMPACT_SCALE,
+      glyphs,
+    )
+    // 12px with shadow leaves clearance for two roster lines and one metadata line in the scroll.
+    drawMetadataText(ctx, first, x, rowY + 3, COMPACT_SCALE, glyphs)
+    drawMetadataText(ctx, second, x, rowY + 17, COMPACT_SCALE, glyphs)
+  } else {
+    drawMetadataText(ctx, partyLabel.text, x, rowY + 8, partyLabel.scale, glyphs)
+  }
 
   const time = formatTime(meta.savedAt)
   const timeWidth = measureSpans([{ text: time }], glyphs)
   const detailsWidth = right - x - METADATA_GAP
-  const title = fitMetadata(
-    meta.mapName,
-    detailsWidth - timeWidth,
-    detailsWidth - timeWidth * COMPACT_SCALE,
-    glyphs,
-  )
-  drawMetadataText(ctx, title.text, x, rowY + 26, title.scale, glyphs)
-  drawMetadataText(ctx, time, right - timeWidth * title.scale, rowY + 26, title.scale, glyphs)
+  const compactWidth = detailsWidth - timeWidth * COMPACT_SCALE
+  const title = stacked
+    ? { text: fitLabel(meta.mapName, compactWidth / COMPACT_SCALE, glyphs), scale: COMPACT_SCALE }
+    : fitMetadata(meta.mapName, detailsWidth - timeWidth, compactWidth, glyphs)
+  const detailsY = rowY + (stacked ? 31 : 26)
+  drawMetadataText(ctx, title.text, x, detailsY, title.scale, glyphs)
+  drawMetadataText(ctx, time, right - timeWidth * title.scale, detailsY, title.scale, glyphs)
 }
 
 /** 三角(字库无 ◄►)。**像素行绘制**(非 ctx.fill,避免抗锯齿糊边,保点阵锐利)。
