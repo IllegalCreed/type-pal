@@ -50,6 +50,60 @@ function installSaveObserver(createRecorder, beginOnNextWrite) {
   window.__q2SaveEvidence = () => ({ events, errors, overflow, timeOrigin: performance.timeOrigin })
 }
 
+function beginLoadPaintWitness(engine) {
+  const screen = document.querySelector('#screen')
+  if (!screen) throw new Error('missing actual game screen')
+  const probe = document.createElement('canvas')
+  probe.width = 80
+  probe.height = 50
+  const ctx = probe.getContext('2d', { willReadFrequently: true })
+  if (!ctx) throw new Error('missing load paint sample context')
+  ctx.imageSmoothingEnabled = false
+  ctx.globalCompositeOperation = 'copy'
+  const paints = []
+  let nextFrame
+  const sample = () => {
+    ctx.drawImage(screen, 0, 0, probe.width, probe.height)
+    const { data } = ctx.getImageData(0, 0, probe.width, probe.height)
+    let peak = 0
+    let sum = 0
+    let opaqueCount = 0
+    for (let i = 0; i < data.length; i += 4) {
+      sum += data[i] + data[i + 1] + data[i + 2]
+      peak = Math.max(peak, data[i], data[i + 1], data[i + 2])
+      if (data[i + 3] === 255) opaqueCount++
+    }
+    const gs = window.__tpgs
+    const runtime = window.__tpObserve?.readRuntime()
+    const grid =
+      engine === 'game'
+        ? window.__beeGameRead()?.grid
+        : runtime && [runtime.position.col, runtime.position.row]
+    const frozen =
+      engine === 'game'
+        ? !!(gs?.paletteFadeState || gs?.needToFadeIn || gs?.sceneLoading)
+        : !!runtime?.presentationBusy
+    paints.push({
+      atMs: performance.now(),
+      peak,
+      mean: sum / (3 * probe.width * probe.height),
+      opaqueCount,
+      grid,
+      frozen,
+    })
+  }
+  const tick = () => {
+    sample()
+    if (paints.length < 720) nextFrame = requestAnimationFrame(tick)
+  }
+  tick()
+  window.__q2EndLoadPaintWitness = () => {
+    cancelAnimationFrame(nextFrame)
+    sample()
+    return paints
+  }
+}
+
 function observeSaveState(engine) {
   if (engine === 'game') {
     const gs = globalThis.__tpgs
@@ -321,6 +375,16 @@ async function install(page, active) {
   await page.evaluate(`(${installSaveObserver})(${createEvidenceRecorder}, ${!active})`)
 }
 
+async function observeLoadPaint(page, engine, load) {
+  await page.evaluate(beginLoadPaintWitness, engine)
+  let paints
+  const value = await load().finally(async () => {
+    paints = await page.evaluate(() => window.__q2EndLoadPaintWitness())
+  })
+  assert(paints.length < 720, 'load paint witness overflow')
+  return { value, paints }
+}
+
 async function navigateTitle(page, baseURL, until, controls, engine) {
   await page.goto(`${baseURL}/${engine === 'game' ? '?q2PostBattleTitle=1' : '?menu&skip-startup'}`)
   if (engine === 'game') {
@@ -366,7 +430,7 @@ async function navigateTitle(page, baseURL, until, controls, engine) {
   }
 }
 
-async function restoreFromTitle(controls, until, engine, index) {
+async function selectTitleSlot(controls, until, engine, index) {
   if (engine === 'game') {
     await controls.press('ArrowDown', 'select 旧的回忆')
     await controls.inside('opening', 1)
@@ -394,7 +458,6 @@ async function restoreFromTitle(controls, until, engine, index) {
       )
     }
   }
-  await controls.press('Enter', 'load selected slot from title')
 }
 
 async function verifyFreshRestore({
@@ -428,10 +491,16 @@ async function verifyFreshRestore({
     }
     await navigateTitle(page, baseURL, until, controls, engine)
     await install(page, true)
-    await restoreFromTitle(controls, until, engine, index)
+    await selectTitleSlot(controls, until, engine, index)
     const slot = manualSaveSlots[engine][index]
-    const commit = await controls.waitEvent('restore-committed', (row) => row.slot === slot)
-    const observed = await controls.stateAt(savedPoses[index])
+    const {
+      value: { commit, observed },
+      paints: loadPaint,
+    } = await observeLoadPaint(page, engine, async () => {
+      await controls.press('Enter', 'load selected slot from title')
+      const commit = await controls.waitEvent('restore-committed', (row) => row.slot === slot)
+      return { commit, observed: await controls.stateAt(savedPoses[index]) }
+    })
     const world = await readWorld(page, engine)
     assertSavedWorld(world, savedPoses[index])
     assertRestoredWorld(saveWorldFacts(records[index].payload, engine), world, 3)
@@ -447,6 +516,7 @@ async function verifyFreshRestore({
       world,
       restoredAt: observed,
       resumedAt: resumed,
+      loadPaint,
       event: commit.events.find((row) => row.kind === 'restore-committed' && row.slot === slot),
       trace: await recordedSnapshot(
         out,
@@ -529,9 +599,12 @@ export async function verifyPostBattleSave({
       )
     trace.beforeInGameRestore = await readWorld(page, engine)
     assertSavedWorld(trace.beforeInGameRestore, savedPoses[1])
-    await controls.press('Enter', 'restore slot 1 from altered active pose')
-    await controls.waitEvent('restore-committed', (row) => row.slot === slots[0])
-    await controls.stateAt(savedPoses[0])
+    const { paints } = await observeLoadPaint(page, engine, async () => {
+      await controls.press('Enter', 'restore slot 1 from altered active pose')
+      await controls.waitEvent('restore-committed', (row) => row.slot === slots[0])
+      await controls.stateAt(savedPoses[0])
+    })
+    trace.loadPaint = paints
     trace.restoredInGame = await readWorld(page, engine)
     assertSavedWorld(trace.restoredInGame, savedPoses[0])
     assertRestoredWorld(trace.saves[0].world, trace.restoredInGame, 3)
