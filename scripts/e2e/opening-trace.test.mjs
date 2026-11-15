@@ -325,6 +325,9 @@ test('real render early returns and failed draws never claim a freshly rendered 
       get visible() {
         return this.active
       },
+      get needsRender() {
+        return this.visible
+      },
       render() {
         this.active = false
       },
