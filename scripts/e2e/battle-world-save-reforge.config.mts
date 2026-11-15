@@ -57,12 +57,12 @@ const saves = {
     )
     const restored = after(
       saved,
-      "    if ((await doLoad(slotId)) === 'loaded') {",
+      "    if ((await doLoad(slotId, undefined, 'fade-in')) === 'loaded') {",
       '      globalThis.__q2SaveRestored?.(slotId)',
     )
     const atTitle = after(
       restored,
-      '      outcome = await doLoad(bootLoadSlot)',
+      "      outcome = await doLoad(bootLoadSlot, undefined, 'fade-in')",
       "      if (outcome === 'loaded') globalThis.__q2SaveRestored?.(bootLoadSlot)",
     )
     const toast = after(

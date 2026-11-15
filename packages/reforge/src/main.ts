@@ -1089,7 +1089,7 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
-  const victoryFadeMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
+  const paletteFadeMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
   type VictoryReturn = {
     fade: SupersedingFadeDriver
     revealingWorld: boolean
@@ -1593,7 +1593,7 @@ export async function bootGame(
     held.returning = returning
     dialogBox.releaseBattleVictory(signal)
     try {
-      await returning.fade.begin(1, frames.now, victoryFadeMs, signal, signal)
+      await returning.fade.begin(1, frames.now, paletteFadeMs, signal, signal)
       assertRunnerActive(signal, '战斗胜利淡出已取消')
       returning.revealingWorld = true
       await scriptWorkWait<void>(signal, (resolve, reject) => {
@@ -5265,6 +5265,7 @@ export async function bootGame(
     hostileEncounter = undefined
     hostileBusy = false
     victoryFrame = undefined
+    loadReveal = undefined
     scriptAbort?.abort()
     itemUseSession.cancel()
     runner = null
@@ -5431,6 +5432,7 @@ export async function bootGame(
   const rewardGainQueue = new RewardGainQueue()
   // 存档系统(D-save)：saveStore 已在菜单前建(见上,读档界面复用)；此处续浏览界面态 + 缩略图缓存 + metas 快照。
   let lastSaveSlot: SlotId | undefined // 默认槽记忆(原版 bCurrentSaveSlot:存/读过哪槽,下次浏览默认停那)
+  let loadReveal: { startedAt?: number } | undefined
   let saveMetas: SaveMeta[] = []
   const saveThumbs = new Map<SlotId, ImageBitmap>()
   let saveSnapshotQueue: Promise<void> = Promise.resolve()
@@ -5767,6 +5769,7 @@ export async function bootGame(
     token: number,
     where: string,
     signal?: AbortSignal,
+    reveal?: 'fade-in',
   ): Promise<boolean> {
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     if (!payloadBelongsToProject(p, where)) return false
@@ -5839,13 +5842,18 @@ export async function bootGame(
     else world.audio.currentMusic = music.currentMusic
     if (music.action === 'stop') bgm.stop()
     else bgm.play(expectDefined(music.currentMusic))
-    startAutoRunners()
+    if (reveal === 'fade-in') loadReveal = {}
+    else startAutoRunners()
     return true
   }
 
   /** doLoad 的结果态：absent=槽空；rejected=损坏/工程不符/被更新请求取代（失败提示已由具体分支显示或归新请求）；loaded=恢复成功。 */
   type LoadOutcome = 'loaded' | 'absent' | 'rejected'
-  async function doLoad(slotId: SlotId, signal?: AbortSignal): Promise<LoadOutcome> {
+  async function doLoad(
+    slotId: SlotId,
+    signal?: AbortSignal,
+    reveal?: 'fade-in',
+  ): Promise<LoadOutcome> {
     assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
     const token = loadIntent.begin()
     let raw: StoredSavePayload | null
@@ -5889,7 +5897,7 @@ export async function bootGame(
       )
       return 'rejected'
     }
-    return (await restorePayload(p, token, where, signal)) ? 'loaded' : 'rejected'
+    return (await restorePayload(p, token, where, signal, reveal)) ? 'loaded' : 'rejected'
   }
 
   async function quickSave(): Promise<void> {
@@ -5915,7 +5923,7 @@ export async function bootGame(
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
-    if ((await doLoad(slotId)) === 'loaded') {
+    if ((await doLoad(slotId, undefined, 'fade-in')) === 'loaded') {
       lastSaveSlot = slotId
       menus.close()
     }
@@ -5929,7 +5937,7 @@ export async function bootGame(
     ctx.restore()
   }
 
-  function drawVictoryFade(alpha: number, direction: 'out' | 'in'): void {
+  function drawPaletteFade(alpha: number, direction: 'out' | 'in'): void {
     if (direction === 'in' && alpha <= 0) return
     // PAL scales each palette entry by a step in 0..60 over 64, then restores the full scene palette.
     const shade = 1 - Math.trunc(60 * (1 - alpha)) / 64
@@ -5993,7 +6001,7 @@ export async function bootGame(
         const returning = victoryFrame.returning
         if (!returning?.revealingWorld) {
           ctx.putImageData(victoryFrame.frame, 0, 0)
-          if (returning) drawVictoryFade(returning.fade.advance(frames.now), 'out')
+          if (returning) drawPaletteFade(returning.fade.advance(frames.now), 'out')
           else drawDialogue()
           return
         }
@@ -6245,12 +6253,24 @@ export async function bootGame(
     if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {
       // The first frame of the new endpoint is actually drawn under an opaque curtain.
       returning.worldStartedAt ??= frames.now
-      const alpha = Math.max(0, 1 - (frames.now - returning.worldStartedAt) / victoryFadeMs)
-      drawVictoryFade(alpha, 'in')
+      const alpha = Math.max(0, 1 - (frames.now - returning.worldStartedAt) / paletteFadeMs)
+      drawPaletteFade(alpha, 'in')
       const finishFrame = returning.finishFrame
       if (alpha === 0 && finishFrame) {
         delete returning.finishFrame
         finishFrame()
+      }
+    }
+    if (loadReveal) {
+      // The restore has committed. Start at its first actual draw and cover the entire output.
+      // Wall time advances the reveal while the restored world's simulation and input are held.
+      const now = performance.now()
+      loadReveal.startedAt ??= now
+      const alpha = Math.max(0, 1 - (now - loadReveal.startedAt) / paletteFadeMs)
+      drawPaletteFade(alpha, 'in')
+      if (alpha === 0) {
+        loadReveal = undefined
+        startAutoRunners()
       }
     }
     syncDitherDebugDataset()
@@ -6483,7 +6503,7 @@ export async function bootGame(
     },
     activateConfirm: activateScriptConfirm,
     resumeScriptGates: resumeScriptExecutionGates,
-    gameplayFrozen: () => scriptConfirmModal.active,
+    gameplayFrozen: () => scriptConfirmModal.active || loadReveal !== undefined,
     advanceFade: (now) => fadeDriver.advance(now),
     settleClosedDialogue: () => {
       if (!dialogBox.active && scriptDialogResolve) {
@@ -6536,7 +6556,9 @@ export async function bootGame(
       applyAmbienceTint()
       return true
     },
-    routeInput: (pressed, realNow) => routeRuntimeInput(pressed, realNow, inputPorts),
+    routeInput: (pressed, realNow) => {
+      if (!loadReveal) routeRuntimeInput(pressed, realNow, inputPorts)
+    },
     presentWorld: () => {
       motion.clearScriptGaitHandoffs()
       runWithPresentationFinalizer(render, abortScript)
@@ -6662,7 +6684,7 @@ export async function bootGame(
       dialogue: dialogBox.observe(),
       dialogueSlots: dialogBox.observeSlots(),
       scriptRunning: runner !== null,
-      presentationBusy: presentation.busy(),
+      presentationBusy: presentation.busy() || loadReveal !== undefined,
       menuActive: menus.active,
       battleActive: !!battleHost.active,
       fadeBlack: fadeDriver.value,
@@ -6728,7 +6750,7 @@ export async function bootGame(
     // 未预期异常（存储/提交期错误）也不让 boot 崩溃，同样落回并记录。
     let outcome: 'loaded' | 'absent' | 'rejected'
     try {
-      outcome = await doLoad(bootLoadSlot)
+      outcome = await doLoad(bootLoadSlot, undefined, 'fade-in')
     } catch (err) {
       console.warn(`[save] 开局读档槽 ${bootLoadSlot} 失败:`, err)
       showToast('开局读档失败，已落回新局')
