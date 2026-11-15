@@ -273,7 +273,7 @@
       "anchor": "function observeAmbient(source: string)",
       "role": "native-reforge-world-ambient-start",
       "lines": "148",
-      "sha256": "61ff313108df54ed527fc3ab7ce776777ae2a5a6609c1989b3c884398cbccb40"
+      "sha256": "683a26e637bc2f4e8d796d4dcf4ac740f0d62cb2735d505023101db0d0d396da"
     },
     {
       "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
@@ -326,16 +326,16 @@
     },
     {
       "path": "scripts/e2e/battle-world-save-compare.mjs",
-      "lines": "339",
+      "lines": "388",
       "anchor": "export async function comparePostBattleSave(",
       "role": "oracle",
-      "sha256": "a068e7dd62bdf0b1f7c3a2cf3f120b6b2dc1099d7e1a600813b3a8800775495c"
+      "sha256": "788ac3b4fd1f547711fc55d3f03bd5f12f73e13f2cd76536a4519c5bfe846190"
     },
     {
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
-      "lines": "22",
-      "sha256": "9254fb89c6564dc3332f7e96f6e13f702311a90fe494e2e87f6dbf7013b9871e",
+      "lines": "25",
+      "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
       "role": "visual-review"
     },
     {
@@ -351,6 +351,27 @@
       "lines": "17",
       "sha256": "dcc4aaa8ecb161f45048fd61cd4c20dbbcfd8c1e5dbd612282eb864e51918a28",
       "role": "oracle"
+    },
+    {
+      "path": "scripts/e2e/battle-world-save.mjs",
+      "anchor": "function beginLoadPaintWitness(engine)",
+      "role": "native-save-paint-observer",
+      "lines": "53",
+      "sha256": "42e5662d22d1e8255dd908e0ed3556261b83108e16c9e9b1a80fa9678a8650b9"
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "anchor": "async function restorePayload(",
+      "role": "save-restore-caller",
+      "lines": "5769",
+      "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+    },
+    {
+      "path": "packages/reforge/src/menu/save-browser-box.ts",
+      "anchor": "export function drawSaveBrowser(",
+      "role": "saved-slot-menu-caller",
+      "lines": "154",
+      "sha256": "bbc087e6741faae5971b8293d1c38796d93487e3b760d3b80b61a1e77ab48f91"
     }
   ],
   "publicCallers": [
@@ -401,7 +422,8 @@
     "node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
     "node scripts/e2e/battle-world-review-split.mjs CAPTURE_COMPARISON OUTPUT",
     "node scripts/e2e/battle-world-bee-game.mjs --escape=success --escape-exits and the matching Reforge entry",
-    "node scripts/e2e/battle-world-escape-exits-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON"
+    "node scripts/e2e/battle-world-escape-exits-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
+    "node scripts/e2e/battle-world-review-split.mjs SAVE_CAPTURE_COMPARISON OUTPUT --load-reveal"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -494,7 +516,8 @@
       "Use the actual video presentation timestamps to preserve field return in both stereo clips even when one decoded audio stream is shorter.",
       "Verify each walking and dialogue draw for the two actual party sprites in the original positions and the same dialogue cue.",
       "Compare visible held-battle pixels across both identical reward scrolls and check the second reward is individually granted and displayed.",
-      "Compare five real post-flee direction routes tile by tile, with no contact during cooldown and matching recontact or a three-step clear window after expiry."
+      "Compare five real post-flee direction routes tile by tile, with no contact during cooldown and matching recontact or a three-step clear window after expiry.",
+      "Require the actual loaded world to paint black and brighten over the measured fade ramp in manual reads from the world menu and title."
     ]
   },
   "dedupe": {
@@ -10663,6 +10686,12 @@
       "sha256": "c85d57174eb84c6234f27550d2cffad4b68d586b527a7c87c8709629b2f60692",
       "bytes": 58636863,
       "purpose": "三处视觉反馈返工的原始录制"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz",
+      "sha256": "6fc97ff3fd28fbdeeebc360ede1ce1da91f5e7d3d51cc748125a2fdcaf6a27bc",
+      "bytes": 23881029,
+      "purpose": "读档淡入前后轨迹、旧版反例、槽位排版回归与原速分屏"
     }
   ],
   "claims": [
@@ -11430,6 +11459,23 @@
       "result": "runtime-backed",
       "evidence": [
         "docs/tasks/evidence/E2E-Q2-1-battle-lifecycle-visual-recheck-20261115.tar.gz#build/q2/review-fixes/escape/exits-comparison.json"
+      ]
+    },
+    {
+      "id": "post-battle-save-load-reveal",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#build/q2/load-reveal/verify-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#build/q2/load-reveal/capture-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#build/q2/load-reveal/before-comparison.log"
+      ]
+    },
+    {
+      "id": "save-browser-metadata-fit",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#build/q2/load-reveal/layout-owner.log",
+        "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#visualizations/reforge-save-slot-fit.png"
       ]
     }
   ],
@@ -12759,6 +12805,36 @@
         }
       ],
       "scope": "更新分屏返工与明雷逃跑五条路线涉及的运行入口与判据。旧执行及原片保留各自运行候选。"
+    },
+    {
+      "action": "q2-save-load-presentation-source-applicability",
+      "base": "77e5e24e7a0769c26a507b91ffb4044d0295e0d4",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+          "anchor": "function observeAmbient(source: string)",
+          "role": "native-reforge-world-ambient-start",
+          "lines": "148",
+          "sha256": "61ff313108df54ed527fc3ab7ce776777ae2a5a6609c1989b3c884398cbccb40"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save-compare.mjs",
+          "lines": "339",
+          "anchor": "export async function comparePostBattleSave(",
+          "role": "oracle",
+          "sha256": "a068e7dd62bdf0b1f7c3a2cf3f120b6b2dc1099d7e1a600813b3a8800775495c"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "22",
+          "sha256": "9254fb89c6564dc3332f7e96f6e13f702311a90fe494e2e87f6dbf7013b9871e",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "当前存档采集、画帧比较与复核视频采用新的来源绑定。每个旧运行、反例和媒体继续对应其原有版本。"
     }
   ],
   "_governance": {
@@ -13914,6 +13990,24 @@
       "bytes": 4171,
       "archive": "E2E-Q2-1-battle-lifecycle-visual-recheck-20261115.tar.gz",
       "path": "build/q2/review-fixes/escape/exits-comparison.json"
+    }
+  },
+  "battleSaveLoadPresentation": {
+    "date": "2026-11-15",
+    "status": "native-recheck-passed",
+    "visualAcceptance": "pending-user",
+    "archiveIndex": "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz#build/q2/load-reveal/archive-index.json",
+    "runs": {
+      "verify": {
+        "path": "build/q2/load-reveal/verify-comparison.json",
+        "sha256": "7f9bd3d23b6eeef822a0e91668907cbb143cd2018ae6496a42e5cff0d800276f",
+        "bytes": 99875
+      },
+      "capture": {
+        "path": "build/q2/load-reveal/capture-comparison.json",
+        "sha256": "e7397b88fbd66ab2a551739d36fa631d4285404c2d0aaaf23f2782798011ba2d",
+        "bytes": 5005
+      }
     }
   }
 }

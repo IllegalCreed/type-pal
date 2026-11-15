@@ -3445,14 +3445,14 @@
       "path": "docs/phase2/specs/save-system.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "84b900176f55ad3c4ffdfb4f8a20bff68021bf80cb996d0e0d95734645b6a9ff",
+      "afterSha256": "ce990dfaea5da3c852748949c04e5b247c207538390bdec021a27f3bd17a9f48",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 147,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "/root/q2_status_rules",
+        "date": "2026-11-15",
+        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
+        "reviewedLines": 151,
+        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "bfbf6a5890bf5eff7b6bae69d752aa736e4c210a00786f1b3d60e29bf7613c45",
+      "afterSha256": "4e6f9788f7155c67fe6ca00eab36e57f81b2dc40a730f414aa2ec7a8a29e0db7",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 7143,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
+        "reviewedLines": 7196,
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       }
     },
     {
@@ -4418,82 +4418,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "98511a63bfd69a01e58e9d7fbacf3ac0b471703937b3663366133fed653f649b",
+      "afterSha256": "93455f48fda07286cf6b5524ea56deab09699ffb522384e1c9a984365bf41c94",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 99,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "939ab2d1740bd9f6a6e5a3e524eb5a1d62d6c5dc0b873386c9a2c36897fd2542",
+      "afterSha256": "c33fee2667c726d366c5c434a93af69a11818a3fbf836f02552596e91bc1786e",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 382,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "88d4b93dfa17dfe5820b1d0eff0cbf6a5db8411e4d4862300330a7c0493823d2",
+      "afterSha256": "29ac720f2284d5f56ac117c5a059e579325effaa712ec236d676b2427223e8ad",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 98,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "dd29d107a6b77df308c62b7252ddf19f1c9d3be28c85a3eaf37da3642b6f0c09",
+      "afterSha256": "5adf750f30f0d01736e43fc39d04fd65e80a26c8724dc0ff6bae5befea8dfd98",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 375,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "1711909a82f64ae4de0c5bc22c415f69a46bc15d93ce738927d1b3ebcdab2312",
+      "afterSha256": "163938401652ddd24525dc7142dfd49d3f298cd5d2048573ebea4bbcdbca134c",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 99,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c12cf220b79b6a69b2c0bc1041ffcdc05d468425b6e344e2e6a0181de12d1cff",
+      "afterSha256": "f00a8ceb44be89e7963c6e6e39fa339484ab13f0ea1965daaba97167ddaa81a4",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
         "reviewedLines": 336,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "efe200789dcda53005bae0629595f7e49fdcf458510a4f891edc8bf4b45de652",
+      "afterSha256": "e63fe34705b501d69c21e77473c0936f08f86b4b09d74d57e5f52e5475056937",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 500,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
+        "reviewedLines": 506,
+        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "83426acdd85aa7dbf62483a905405fd8f66d3c915f61d38aaa2b0e243b215895",
+      "afterSha256": "6ea4a7a2e41e3efe6ca689e50aea6a0e6d07fe427ad5a83a18dcef55e55ad85c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 13920,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
+        "reviewedLines": 14014,
+        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8536f30a962b920c6687815f1b433ace4e384ef7706e0e97290f7ef84f5c9d19",
+      "afterSha256": "459740b296ce6915f394c2ff8ebfbb10d72bf41e90dddf04b6d4529dd8a4c71f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 457,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "conclusion": "新增读档淡入按实际像素与业务回执核验；槽布局采用独立贡献者录制及集成分屏。",
+        "reviewedLines": 465,
+        "acceptanceScope": "仅本轮读档和槽位变更，核真实菜单、原生画帧、数字及布局。旧结论与原件沿用先前发布。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "44002c283e8a31aed60eeb2d034314d7a5be5afd8a2244844f1045322e540ab1",
+      "afterSha256": "4ad907096cc378f57c2c131d64ea114d664e1a301008ad1155c7c33f7ef831ed",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 212,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "conclusion": "对照固定 Git 来源及逐字节归属恢复核查。",
+        "reviewedLines": 214,
+        "acceptanceScope": "仅当前绑定和变更切片。四段调用出处保持原范围、原字节，旧主张、历史和附件保持各自版本。"
       }
     }
   ],
@@ -5898,6 +5898,12 @@
       "sha256": "c85d57174eb84c6234f27550d2cffad4b68d586b527a7c87c8709629b2f60692",
       "bytes": 58636863,
       "purpose": "本次四段分屏的八份原生音画"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-save-load-presentation-20261115.tar.gz",
+      "sha256": "6fc97ff3fd28fbdeeebc360ede1ce1da91f5e7d3d51cc748125a2fdcaf6a27bc",
+      "bytes": 23881029,
+      "purpose": "读档淡入、槽位溢出反例和原生浏览器原件"
     }
   ],
   "artifactAliases": [],
