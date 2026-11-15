@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { honeycombText } from './battle-world-bee-scenario.mjs'
 import {
   assertRestoredWorld,
   assertSavedWorld,
@@ -23,6 +24,66 @@ const git = (...args) => execFileSync('git', args, { cwd: repoRoot })
 
 const event = (raw, kind) => raw.events.filter((row) => row.kind === kind)
 
+function rewardScrollBoundary(engine, story) {
+  let first
+  let clear
+  let second
+  if (engine === 'game') {
+    const frames = story.native.frames
+    const notices = frames.filter(({ dialog }) => dialog?.text === honeycombText)
+    assert.deepEqual(
+      notices.map(({ renderer, loot }) => [renderer, loot]),
+      [
+        ['battle', 1],
+        ['battle', 2],
+      ],
+    )
+    first = notices[0]
+    second = notices[1]
+    clear = frames.find(({ draw }) => draw === second.draw - 1)
+    assert(clear && clear.order > first.order, 'Game must draw a separate reward-clear frame')
+    assert.deepEqual([clear.renderer, clear.loot, clear.dialog], ['battle', 2, null])
+  } else {
+    const notices = event(story, 'notice')
+    assert.deepEqual(
+      notices.map(({ slot, surface, loot, text }) => [slot, surface, loot, text]),
+      [0, 1].map((slot) => [slot, 'battle', slot + 1, honeycombText]),
+    )
+    first = notices[0]
+    second = notices[1]
+    assert.notEqual(first.id, second.id)
+    const frames = event(story, 'reward-frame')
+    const between = frames.filter(({ order }) => order > first.order && order < second.order)
+    clear = between.find(({ changed }) => changed === 0)
+    assert(clear, 'Reforge must paint the unoccluded battle between identical reward scrolls')
+    assert(between[0].changed > 0)
+    assert(
+      between.every(({ order, changed }) => (order < clear.order ? changed > 0 : changed === 0)),
+    )
+    assert(frames.find(({ order }) => order > second.order)?.changed > 0)
+  }
+  const blankMs = second.atMs - clear.atMs
+  assert(
+    blankMs >= 24 && blankMs <= 90,
+    'identical rewards must be separated by about one battle beat',
+  )
+  const firstVisibleMs = clear.atMs - first.atMs
+  assert(
+    firstVisibleMs >= 1320 && firstVisibleMs <= 1500,
+    'the first scroll keeps its full display time',
+  )
+  return {
+    firstDraw: first.order,
+    clearDraw: clear.order,
+    secondDraw: second.order,
+    firstAtMs: first.atMs,
+    clearAtMs: clear.atMs,
+    secondAtMs: second.atMs,
+    firstVisibleMs,
+    blankMs,
+  }
+}
+
 async function inspectRun(row, engine, profile, load, actions, contexts) {
   assert.equal(row.seed, 99)
   const story = await load(row.raw)
@@ -35,6 +96,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
       : event(rawBattle, 'contact')
   assert.equal(contact.length, 1)
   assert.deepEqual(row.grants, [1, 1])
+  const rewardScroll = rewardScrollBoundary(engine, story)
   const evidence = row.postBattleSave
   const initial = await load(evidence.initial)
   assertSavedWorld(initial, savedPoses[0])
@@ -212,6 +274,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     restored: evidence.restoredInGame,
     raw: evidence.raw,
     nativeBattle: row.raw,
+    rewardScroll,
     ...(optional ?? {}),
   }
 }

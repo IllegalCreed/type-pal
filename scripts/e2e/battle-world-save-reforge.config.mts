@@ -6,6 +6,31 @@ function after(source: string, anchor: string, line: string): string {
   return source.replace(anchor, `${anchor}\n${line}`)
 }
 
+function observeRewardFrame(source: string): string {
+  return after(
+    source,
+    '            observer?.surface(null)',
+    `
+            if (observer) {
+              const left = 120 * WORLD_SCALE, top = 42 * WORLD_SCALE
+              const width = 80 * WORLD_SCALE, height = 20 * WORLD_SCALE
+              const shot = ctx.getImageData(left, top, width, height)
+              const held = victoryFrame.frame
+              let changed = 0
+              for (let y = 0; y < height; y += WORLD_SCALE) {
+                for (let x = 0; x < width; x += WORLD_SCALE) {
+                  const actual = 4 * (y * width + x)
+                  const base = 4 * ((top + y) * held.width + left + x)
+                  if (shot.data[actual] !== held.data[base] ||
+                      shot.data[actual + 1] !== held.data[base + 1] ||
+                      shot.data[actual + 2] !== held.data[base + 2]) changed++
+                }
+              }
+              observer.event('reward-frame', { changed })
+            }`,
+  )
+}
+
 const saves = {
   name: 'reforge-world-save-evidence',
   apply: 'serve' as const,
@@ -40,7 +65,7 @@ const saves = {
       '      outcome = await doLoad(bootLoadSlot)',
       "      if (outcome === 'loaded') globalThis.__q2SaveRestored?.(bootLoadSlot)",
     )
-    return after(
+    const toast = after(
       atTitle,
       `      renderSpans(ctx, [{ text: toast.text }], 120, 6, {
         glyphs,
@@ -49,6 +74,7 @@ const saves = {
       })`,
       '      globalThis.__q2SaveToast?.(toast.text)',
     )
+    return observeRewardFrame(toast)
   },
 }
 
