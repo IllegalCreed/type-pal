@@ -100,7 +100,7 @@ ${move}
   )
   return after(
     worldFade,
-    '      runWithPresentationFinalizer(render, abortScript)',
+    '      runWithPresentationFinalizer(() => render(frameAt), abortScript)',
     `
       if (!hostileBusy && !battleHost.active)
         globalThis.__beeWorld?.returned(ctx, activeScene.scene.id, player.pos, menus.active)`,
