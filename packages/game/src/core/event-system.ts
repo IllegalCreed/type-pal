@@ -4359,7 +4359,7 @@ function applyRawOpcode(
       //   → 跳到 [cur+1, cur+op0]。ts:cursor.ip += offset(caller ip++ → cur+offset+1)。
       if (cursor) {
         const n = Math.max(1, operands[0] ?? 1)
-        cursor.ip += Math.floor(Math.random() * n) // RandomLong(0, n-1)
+        cursor.ip += battleRng?.rangeInclusive(0, n - 1) ?? Math.floor(Math.random() * n)
       }
       break
     }

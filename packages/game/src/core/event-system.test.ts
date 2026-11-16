@@ -46,6 +46,7 @@ import {
   OP_PLAY_SOUND,
   OP_PLAYER_WALK_ONE_STEP,
   OP_QUIT,
+  OP_RANDOM_JUMP,
   OP_REDRAW_SCREEN,
   OP_RESTORE_SCREEN,
   OP_RIDE_OBJECT_4,
@@ -775,6 +776,40 @@ function makeBattleContext(
 }
 
 describe('runScript (M3 T17, battle mode)', () => {
+  it.each([
+    { choices: 1, selectedMagic: 396, draws: 0 },
+    { choices: 2, selectedMagic: 397, draws: 1 },
+  ])('0xA2 with $choices battle choices draws from the battle RNG', ({
+    choices,
+    selectedMagic,
+    draws,
+  }) => {
+    const context = makeBattleContext()
+    const referenceRng = createSeedableRng(context.state.rng.getState())
+    if (draws) referenceRng.next()
+    const worldRandom = vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    runScript({
+      commands: [
+        { op: 'raw', opcode: OP_RANDOM_JUMP, operands: [choices, 0, 0] },
+        { op: 'goto', to: 'first-skill' },
+        { op: 'goto', to: 'second-skill' },
+        { op: 'raw', opcode: 0x67, operands: [396, 0, 0], label: 'first-skill' },
+        { op: 'end' },
+        { op: 'raw', opcode: 0x67, operands: [397, 0, 0], label: 'second-skill' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus: createCommandBus(),
+      runtimeMode: 'battle',
+      battleCtx: { ...context, caster: { type: 'enemy', idx: 0 } },
+    })
+
+    expect(context.state.enemies[0]?.e.magic).toBe(selectedMagic)
+    expect(context.state.rng.getState()).toBe(referenceRng.getState())
+    expect(worldRandom).not.toHaveBeenCalled()
+  })
+
   it('runtimeMode=explore 不传 battleCtx 时 end 返回原入口且不发命令', () => {
     const bus = createCommandBus()
     const resume = runScript({
