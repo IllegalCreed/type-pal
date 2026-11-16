@@ -95,6 +95,7 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
     require(specifier) {
       if (specifier === '../defined.js') return { expectDefined: (value) => value }
       if (specifier === '../dither-transition.js') return {}
+      if (specifier === './battle-anim.js') return { ENEMY_SUMMON_COLOR_SHIFT: 8 }
       assert.equal(specifier, '../render.js')
       return { bakeFrame: (frame) => frame }
     },
