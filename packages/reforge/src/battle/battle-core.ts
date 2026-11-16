@@ -682,7 +682,10 @@ function performSteal(
     if (c > 0) {
       s.moneyDelta += c
       // 提示文案 = 原版 CLASSIC「获得 N 文钱」(WORD34+WORD10;一阶段居中框同款,c=0 不弹)
-      if (s.lastAction) s.lastAction.notice = `获得 ${c} 文钱`
+      if (s.lastAction) {
+        s.lastAction.notice = `获得 ${c} 文钱`
+        s.lastAction.stolen = { kind: 'money', amount: c }
+      }
       s.log.push(`${p.roleId} 获得 ${c} 文钱`)
     }
     return
@@ -692,7 +695,10 @@ function performSteal(
   if (slot) slot.count += 1
   else s.inventory.push({ itemId: spec.itemId, count: 1 })
   const name = s.items[spec.itemId]?.name ?? spec.itemId
-  if (s.lastAction) s.lastAction.notice = `获得${name}`
+  if (s.lastAction) {
+    s.lastAction.notice = `获得 ${name}`
+    s.lastAction.stolen = { kind: 'item', name }
+  }
   s.log.push(`${p.roleId} 获得 ${name}`)
 }
 

@@ -19,6 +19,7 @@ import type {
   LevelGrowthDelta,
   PlayerFighterFrames,
   SkillData,
+  TextSpan,
   SoundAssetRole,
   WorldState,
 } from '@type-pal/content'
@@ -280,7 +281,7 @@ export class BattleSession {
   private pendingFailureFeedback: BattleFailureFeedback | null = null
   /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
   private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
-  private pendingStealNotice: string | undefined
+  private pendingStealNotice: TextSpan[] | undefined
   /** 敌变身使用精灵级过渡，梦蛇使用冻结的场景层。动作收尾统一清除。 */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
   private playerAppearanceTransition: PlayerAppearanceTransition | null = null
@@ -1660,7 +1661,15 @@ export class BattleSession {
         if (effectSound) this.assets.sfx?.play(effectSound)
         const castSound = this.opts.playerSounds?.[la.idx]?.magic
         if (castSound) this.assets.sfx?.play(castSound)
-        this.pendingStealNotice = la.notice
+        const stolen = la.stolen
+        if (stolen?.kind === 'item')
+          this.pendingStealNotice = [{ text: '获得' }, { text: stolen.name, color: 'redAlt' }]
+        else if (stolen?.kind === 'money')
+          this.pendingStealNotice = [
+            { text: '获得 ', color: 'redAlt' },
+            { text: String(stolen.amount) },
+            { text: ' 文钱', color: 'redAlt' },
+          ]
         return buildSteal({
           casterIdx: la.idx,
           targetIdx: la.targetEnemyIdx,
@@ -2132,16 +2141,22 @@ export class BattleSession {
     this.showActionFeedback(text, feedback === 'throwIneffective' ? 'confirm' : undefined)
   }
 
-  private showActionFeedback(text: string, dismiss?: 'confirm' | 'anyKey'): void {
+  private showActionFeedback(message: string | TextSpan[], dismiss?: 'confirm' | 'anyKey'): void {
     if (dismiss) {
       this.itemBanner = null
       this.actionFeedback = { untilMs: this.nowMs + FAILURE_FEEDBACK_MS, dismiss }
     }
     const box = this.assets.dialogBox
+    const id = '__battle_action_feedback'
+    if (box && typeof message !== 'string') {
+      box.openNarration(id, message, this.nowMs)
+      return
+    }
+    const text = typeof message === 'string' ? message : message.map((span) => span.text).join('')
     if (box) {
       box.open(
         startDialogue({
-          id: '__battle_action_feedback',
+          id,
           cues: [
             {
               rows: [{ text }],

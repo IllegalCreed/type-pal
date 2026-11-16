@@ -19,6 +19,7 @@ export interface BattleLastActionBase {
   autoDefend?: number[]
   coopContributors?: number[]
   notice?: string
+  stolen?: { kind: 'item'; name: string } | { kind: 'money'; amount: number }
   /** 结算已失败、但文案/时序由 session 按战斗 UI 真值呈现。 */
   failureFeedback?: BattleFailureFeedback
   fleeSuccess?: boolean

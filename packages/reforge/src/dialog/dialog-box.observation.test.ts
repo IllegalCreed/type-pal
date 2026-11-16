@@ -27,6 +27,26 @@ async function box(locale: Locale = {}) {
   return { ui: new DialogBox(context, glyphs, [], new Map(), locale), startDialogue, h: host }
 }
 
+function renderedGlyphs(h: ShellHost) {
+  const glyphDraws = h.draws.flatMap(({ method, args, canvas }) => {
+    const [pixels] = args
+    if (
+      method !== 'putImageData' ||
+      !pixels ||
+      typeof pixels !== 'object' ||
+      !('data' in pixels) ||
+      !(pixels.data instanceof Uint8ClampedArray)
+    )
+      return []
+    return [{ canvas, rgba: [...pixels.data.slice(0, 4)] }]
+  })
+  return h.draws.flatMap(({ method, args }) => {
+    if (method !== 'drawImage') return []
+    const glyph = glyphDraws.find(({ canvas }) => canvas === args[0])
+    return glyph ? [{ x: args[1], y: args[2], rgba: glyph.rgba }] : []
+  })
+}
+
 test('observing cannot type, draw, page or mutate the real cue; pagination follows rendered state', async () => {
   const { ui, startDialogue, h } = await box()
   const dialogue: Dialogue = {
@@ -126,29 +146,23 @@ test('narration becomes input-ready only after its actual render', async () => {
     phase: 'waiting-input',
     pageText: 'AB',
   })
-  const glyphDraws = h.draws.flatMap(({ method, args, canvas }) => {
-    const [pixels] = args
-    if (
-      method !== 'putImageData' ||
-      !pixels ||
-      typeof pixels !== 'object' ||
-      !('data' in pixels) ||
-      !(pixels.data instanceof Uint8ClampedArray)
-    )
-      return []
-    return [{ canvas, rgba: [...pixels.data.slice(0, 4)] }]
-  })
-  const draws = h.draws.flatMap(({ method, args }) => {
-    if (method !== 'drawImage') return []
-    const glyph = glyphDraws.find(({ canvas }) => canvas === args[0])
-    return glyph ? [{ x: args[1], y: args[2], rgba: glyph.rgba }] : []
-  })
+  const draws = renderedGlyphs(h)
   expect(draws).toEqual([
     { x: 160, y: 50, rgba: [0, 0, 0, 255] },
     { x: 168, y: 50, rgba: [255, 223, 134, 255] },
   ])
   ui.advance(1)
   expect(ui.observe()).toBeNull()
+})
+
+test('runtime narration paints literal spans using the supplied colors', async () => {
+  const { ui, h } = await box()
+  const name = 'B<yellow>C</yellow>'
+  ui.openNarration('stolen-item', [{ text: 'A' }, { text: name, color: 'redAlt' }], 0)
+  ui.render(0)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('A' + name)
+  const colors = renderedGlyphs(h).map(({ rgba }) => rgba)
+  expect(colors).toEqual([[0, 0, 0, 255], ...[...name].map(() => [150, 32, 24, 255])])
 })
 
 test('canonical inn reward is fully shown then closes after 1400ms without another confirmation', async () => {

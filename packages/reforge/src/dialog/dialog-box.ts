@@ -13,7 +13,7 @@ import {
   type TextSpan,
 } from '@type-pal/content'
 import { FRAME_MS_BATTLE, type RleFrame } from '@type-pal/shared'
-import { advanceCue, type DialogueState } from '../dialogue.js'
+import { advanceCue, type DialogueState, startDialogue } from '../dialogue.js'
 import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
@@ -300,6 +300,15 @@ export class DialogBox {
     const { slot, render } = this.layoutCueInto(0)
     this.renders[slot] = render
     this.pageDone = false
+  }
+
+  /** Show runtime-authored spans without parsing player-facing names as markup. */
+  openNarration(id: string, spans: readonly TextSpan[], nowMs: number): void {
+    const rows = [{ text: spans.map(({ text }) => text).join('') }]
+    this.open(startDialogue({ id, cues: [{ slot: 'narration', rows }] }), nowMs)
+    const render = this.renders.narration
+    if (!render) throw new Error('reforge: narration slot did not open')
+    render.singleLineSpans = spans.map((span) => ({ ...span }))
   }
 
   /**
