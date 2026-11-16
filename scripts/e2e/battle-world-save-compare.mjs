@@ -25,6 +25,31 @@ const hash = (data) => createHash('sha256').update(data).digest('hex')
 const git = (...args) => execFileSync('git', args, { cwd: repoRoot })
 
 const event = (raw, kind) => raw.events.filter((row) => row.kind === kind)
+// Original role 4 plus one legal level at minimum rolls, then seed 6.
+const baseBefore = [172, 224, 112, 162, 152]
+const baseAfter = [177, 228, 115, 164, 154]
+// Weapon 187, helm/body/cloak 202/209/231, accessory 251. battle.c:1184–1212 draws effective stats.
+const equipmentBonus = [98, 0, 60, 98, 116]
+const fromStatSnapshot = ({ attack, magicAttack, defense, speed, luck }) => [
+  attack,
+  magicAttack,
+  defense,
+  speed,
+  luck,
+]
+
+function readPermanentStats(payload, engine) {
+  if (engine === 'reforge') return fromStatSnapshot(payload.world.party[0])
+  const { PlayerRolesRuntime: runtime } = payload.gs
+  const { role } = beePostWin.before
+  return [
+    runtime.rgwAttackStrength[role],
+    runtime.rgwMagicStrength[role],
+    runtime.rgwDefense[role],
+    runtime.rgwDexterity[role],
+    runtime.rgwFleeRate[role],
+  ]
+}
 
 function loadRevealBoundary(paints, grid, context) {
   const final = paints.at(-1)
@@ -124,7 +149,7 @@ function rewardScrollBoundary(engine, story) {
   }
 }
 
-function inspectWinProgression(story, engine) {
+export function inspectWinProgression(story, engine) {
   const game = engine === 'game'
   const frames = game ? story.native.frames : event(story, 'settlement')
   const observed = frames
@@ -167,6 +192,18 @@ function inspectWinProgression(story, engine) {
     observedGrowth,
     [before, after].map(({ level, hp, maxHP, mp, maxMP }) => [level, hp, maxHP, mp, maxMP]),
   )
+  const effective = game
+    ? ['old', 'cur'].map((time) =>
+        ['attack', 'magic', 'defense', 'dexterity', 'flee'].map(
+          (field) => growth.data[field][time],
+        ),
+      )
+    : [growth.report.before, growth.report.after].map(fromStatSnapshot)
+  assert.deepEqual(
+    effective,
+    [baseBefore, baseAfter].map((stats) => stats.map((value, i) => value + equipmentBonus[i])),
+    'native level-up screen must show the equipped stats before and after growth',
+  )
   assert.equal(game ? magic.data.magicName : magic.magicName, skill.label)
   if (game) assert.equal(String(magic.data.magicId), skill.id)
   else assert.deepEqual(growth.report.learned, [skill.id])
@@ -195,7 +232,7 @@ function inspectWinProgression(story, engine) {
     ? frames.find(({ npc }) => npc?.state === -1)?.npc.vanishTime
     : event(story, 'hidden')[0]?.state.remainingTicks
   assert.equal(hide, 800, 'actual victory must start the native 800-tick hide')
-  return { screens, roll, drops, hide }
+  return { screens, effective, roll, drops, hide }
 }
 
 async function inspectRun(row, engine, profile, load, loadScreen, actions, contexts, postWin) {
@@ -265,6 +302,12 @@ async function inspectRun(row, engine, profile, load, loadScreen, actions, conte
   for (const [index, receipt] of evidence.saves.entries()) {
     const record = await load(receipt.record)
     const actual = saveWorldFacts(record.payload, engine, postWin)
+    if (postWin)
+      assert.deepEqual(
+        readPermanentStats(record.payload, engine),
+        baseAfter,
+        'native saves persist only the base stat growth',
+      )
     assert.deepEqual(actual, receipt.world)
     assertSavedWorld(actual, savedPoses[index], postWin)
     const [version, storedSlot] =
@@ -479,13 +522,17 @@ async function readReport(path, engine, profile, postWin) {
     assert.equal(reference.byteLength, png.byteLength)
     assert.equal(reference.sha256, hash(png))
   }
-  const predecessor = saveWorldFacts(await load(report.save), engine, postWin)
+  const initial = await load(report.save)
+  const predecessor = saveWorldFacts(initial, engine, postWin)
   assert.deepEqual(
     [predecessor.grid, predecessor.money, predecessor.inventory, predecessor.party[0].exp],
     [[93, 45], 0, [], postWin ? beePostWin.before.exp : 0],
     'the real checkpoint must precede the victory rewards',
   )
-  if (postWin) assertPostWinPredecessor(predecessor)
+  if (postWin) {
+    assertPostWinPredecessor(predecessor)
+    assert.deepEqual(readPermanentStats(initial, engine), baseBefore)
+  }
   const runs = []
   let actionIndex = 0
   for (const row of report.cases) {
@@ -546,6 +593,24 @@ export async function comparePostBattleSave(
   for (const [index, run] of game.runs.entries()) {
     const other = reforge.runs[index]
     assert.deepEqual(project(run), project(other), 'cross-engine durable save state differs')
+    if (postWin && profile === 'verify') {
+      const path = ({
+        fresh: [
+          {
+            respawn: { summary },
+          },
+        ],
+      }) => {
+        const { inView, revived, contact, spell } = summary
+        return {
+          inside: [inView.grid, inView.foot],
+          outside: [revived.grid, revived.foot],
+          contact: contact.grid,
+          spell: [spell.id, spell.label, spell.mp, spell.enabled],
+        }
+      }
+      assert.deepEqual(path(run), path(other), 'same respawn and spell path on both engines')
+    }
     assert.equal(run.loadReveal.length, other.loadReveal.length)
     for (const [i, { revealMs }] of run.loadReveal.entries()) {
       const { revealMs: reforgeMs } = other.loadReveal[i]
