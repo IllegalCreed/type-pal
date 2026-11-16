@@ -35,6 +35,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 鞭类逐项验证 | [三把鞭子的群攻与投掷、前后比较和带声分屏](E2E-Q2-1-whip-attacks-20261116.tar.gz) |
 | Q2 玉佛寺场地 | [原剧情两战、场地修复、两僧实绘及音效差异](E2E-Q2-1-jade-buddha-temple-20261116.tar.gz) |
 | Q2 召唤、成长与战外装卸 | [玉佛寺召唤声与首战成长、三把鞭子装卸的双端原件和原声分屏](E2E-Q2-1-temple-and-whip-follow-up-20261116.tar.gz) |
+| Q2 方丈胜利与离寺 | [玉佛寺二战施法、结算、剧情授物和庙外复控的双端原件与分屏](E2E-Q2-1-jade-buddha-victory-20261116.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

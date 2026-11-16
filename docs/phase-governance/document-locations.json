@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "508ab15a2d86afe85202590c152b304ab4ef0f24e56f00b15063a069dbb9e0b6",
+      "afterSha256": "14e19f4ec195589742705653d4f4508d21d0a555198a342fb4c35208f9572595",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
         "date": "2026-11-16",
-        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
-        "reviewedLines": 47,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
+        "reviewedLines": 48,
+        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "88f32c09d5533a1dcf6d70978aa8e8c775b5416a00831b2a058120aa3c196938",
+      "afterSha256": "1ac7bae2b7587fa73e05b6001d713c8716a4f6c678bb79a8e180d5f334ac50f4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
         "date": "2026-11-16",
-        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
-        "reviewedLines": 585,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
+        "reviewedLines": 594,
+        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "df505877506a2d3fb5b2897bb2777b9c47ffc61875779fcaa1558ddeaf85e1ec",
+      "afterSha256": "2f638be1a71e5ae9484428e2446448674906b80370785299a0875f306fdd5599",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
         "date": "2026-11-16",
-        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
-        "reviewedLines": 557,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
+        "reviewedLines": 569,
+        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
       }
     },
     {
@@ -5940,6 +5940,12 @@
       "bytes": 53193888,
       "sha256": "0f5c47efb2ec529d84ec2202af1d7489a909389d38d27b598eb135b72a4c623e",
       "purpose": "玉佛寺召唤、首战成长、三把鞭子的战外装卸及单件数量修复的双端原件和原速原声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jade-buddha-victory-20261116.tar.gz",
+      "bytes": 74016410,
+      "sha256": "84ed59c4b78563489a3f7d842acd7cf19c70e979a18e5d29aa5c5eee847ff8ba",
+      "purpose": "玉佛寺胜利与离寺剧情的双端真实原件、节拍和队形反控以及原速带声分屏"
     }
   ],
   "artifactAliases": [],
