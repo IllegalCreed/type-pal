@@ -1106,7 +1106,7 @@ export function applyEnemyEffect(
             status: emptyBattleStatus(),
             defending: false,
             firedRules: new Set(enemy.firedRules),
-            poisons: enemy.poisons.map((poison) => ({ ...poison })),
+            poisons: [],
           },
           expectDefined(available[index]),
         ),

@@ -559,6 +559,21 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
     expect(instance.firedRules.size).toBe(0)
   })
 
+  test('分裂后赤毒留在母体，分身从无毒状态入场', () => {
+    const state = createBattleState({
+      players: [player('hero')],
+      enemies: [mkEnemy('slime', { health: 110 })],
+    })
+    const mother = state.enemies[0]!
+    expect(applyPoisonToEnemy(mother, 551, () => 0.6)).toBe(true)
+
+    const result = applyEnemyEffect(state, 0, { kind: 'divide', copies: 1 })
+
+    expect(result).toMatchObject({ outcome: 'succeeded', spawnedIdxs: [1] })
+    expect(mother.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+    expect(state.enemies[1]!.poisons).toEqual([])
+  })
+
   test('divide 深拷 owner/cursor/fallback/fired；summon 使用目标 initial state', () => {
     const source = mkEnemy('source', { health: 90 })
     source.ai = {
