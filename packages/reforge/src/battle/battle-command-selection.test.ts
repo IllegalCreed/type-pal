@@ -146,6 +146,53 @@ describe('BattleCommandSelection', () => {
     ])
   })
 
+  test('misc auto attack reuses a living selected enemy and preserves a group weapon', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const first = context()
+    selection.advance(first, new Set(['Enter']), recorded.port)
+    selection.advance(first, new Set(['ArrowRight', 'Enter']), recorded.port)
+
+    const second = context({ playerIndex: 1 })
+    selection.advance(second, new Set(['ArrowDown', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    selection.advance(second, new Set(), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'attack', targetEnemyIdx: 4 } },
+      { playerIndex: 1, action: { kind: 'attack', targetEnemyIdx: 4 } },
+    ])
+    expect(selection.isAutoAttacking).toBe(true)
+
+    selection.beginRound()
+    const group = context({ player: { ...first.player, attackAll: true } })
+    selection.advance(group, new Set(), recorded.port)
+    expect(recorded.submissions.at(-1)).toEqual({
+      playerIndex: 0,
+      action: { kind: 'attack', targetEnemyIdx: -1 },
+    })
+  })
+
+  test('misc status pages through the party without submitting or retracting a command', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const second = context({ playerIndex: 1 })
+    selection.advance(second, new Set(['ArrowDown', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['ArrowUp', 'Enter']), recorded.port)
+    expect(selection.phase).toBe('status')
+
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    expect(selection.view).toMatchObject({ phase: 'menu', menuIndex: 3 })
+    expect(recorded.submissions).toEqual([])
+    expect(recorded.retract).not.toHaveBeenCalled()
+
+    selection.advance(second, new Set(['ArrowUp', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 1, action: { kind: 'attack', targetEnemyIdx: 2 } },
+    ])
+  })
+
   test('routes a one-ally item through the ally cursor including dead-slot-capable indices', () => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()

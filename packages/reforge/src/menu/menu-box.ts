@@ -292,18 +292,37 @@ interface StatRow {
   max?: number
   maxKind?: 'blue' | 'cyan'
 }
-function statList(c: CharacterInstance, items: ItemDataMap, expToNext?: number): StatRow[] {
+type StatusAttributes = Pick<
+  CharacterInstance,
+  'attack' | 'magicAttack' | 'defense' | 'speed' | 'luck'
+>
+
+function statList(
+  c: CharacterInstance,
+  items: ItemDataMap,
+  expToNext: number | undefined,
+  attributes?: StatusAttributes,
+): StatRow[] {
+  const value = (stat: keyof StatusAttributes) =>
+    attributes?.[stat] ?? effectiveStat(c, stat, items)
   return [
     { labelId: 'stat.exp', value: c.exp, max: expToNext ?? EXP_TO_NEXT, maxKind: 'cyan' },
     { labelId: 'stat.level', value: c.level },
     { labelId: 'stat.hp', value: c.hp, max: c.maxHP, maxKind: 'blue' },
     { labelId: 'stat.mp', value: c.mp, max: c.maxMP, maxKind: 'blue' },
-    { labelId: 'stat.attack', value: effectiveStat(c, 'attack', items) },
-    { labelId: 'stat.magicAttack', value: effectiveStat(c, 'magicAttack', items) },
-    { labelId: 'stat.defense', value: effectiveStat(c, 'defense', items) },
-    { labelId: 'stat.speed', value: effectiveStat(c, 'speed', items) },
-    { labelId: 'stat.luck', value: effectiveStat(c, 'luck', items) },
+    { labelId: 'stat.attack', value: value('attack') },
+    { labelId: 'stat.magicAttack', value: value('magicAttack') },
+    { labelId: 'stat.defense', value: value('defense') },
+    { labelId: 'stat.speed', value: value('speed') },
+    { labelId: 'stat.luck', value: value('luck') },
   ]
+}
+
+export function statusPortraitAsset(
+  member: CharacterInstance,
+  actor?: ActorDef,
+): AssetId | undefined {
+  return member.appearance?.portrait ?? actor?.portraits?.default
 }
 
 /** 装备槽列表(来自 content EQUIP_SLOT_IDS 单一真值;label = equip.<slot>)。 */
@@ -469,6 +488,8 @@ export class MenuBox {
       actorsById?: Record<string, ActorDef>
       /** 工程图像缓存；状态立绘按 AssetId 懒加载。 */
       imageCache?: ProjectImageCache
+      /** 战斗进入选招前已经载入的立绘。 */
+      portraits?: ReadonlyMap<AssetId, ImageBitmap>
       /** 调色板(毒名色 = colors[wColor+10],uigame.c:1252)。 */
       palette?: Palette
     } = {},
@@ -476,7 +497,10 @@ export class MenuBox {
 
   /** 按稳定 AssetId 取立绘(懒加载 + 缓存;未就绪返回 undefined 由调用方回落)。 */
   private portraitFor(asset: AssetId | undefined): ImageBitmap | undefined {
-    if (asset === undefined || !this.extras.imageCache) return undefined
+    if (asset === undefined) return undefined
+    const prepared = this.extras.portraits?.get(asset)
+    if (prepared) return prepared
+    if (!this.extras.imageCache) return undefined
     const failure = this.portraitErrors.get(asset)
     if (failure) throw failure
     const hit = this.portraitCache.get(asset)
@@ -500,7 +524,8 @@ export class MenuBox {
     statusMember = 0,
   ): void {
     if (state.openPanel === 'status') {
-      this.renderStatus(ctx, world, statusMember)
+      const member = world.party[Math.min(Math.max(0, statusMember), world.party.length - 1)]
+      this.renderMemberStatus(ctx, member)
       return
     }
     // 级联(无面板 = 主菜单/子菜单;openPanel==='system' = 主菜单常驻,系统框由 main.ts 叠在上)。
@@ -549,12 +574,14 @@ export class MenuBox {
     })
   }
 
-  private renderStatus(ctx: CanvasRenderingContext2D, world: WorldState, member = 0): void {
+  renderMemberStatus(
+    ctx: CanvasRenderingContext2D,
+    c: CharacterInstance | undefined,
+    attributes?: StatusAttributes,
+  ): void {
     // 背景(全屏 320×200)
     if (this.assets.statusBg) ctx.drawImage(this.assets.statusBg, 0, 0, 320, 200)
 
-    // 当前查看的队员(原版 iCurrent;越界 clamp)
-    const c = world.party[Math.min(Math.max(0, member), world.party.length - 1)]
     if (!c) return
     const actor = this.extras.actorsById?.[c.template]
     // EXP 阈值 = 该角色升级曲线 expTable[level](原版 rgLevelUpExp[level];曾写死 15)
@@ -562,7 +589,7 @@ export class MenuBox {
 
     // 左栏:属性 9 项 —— label 字模(米白)+ value 数字 sprite(黄);HP/MP 当前/最大(max 蓝 + 斜杠)
     let y = STAT_Y0
-    for (const row of statList(c, this.items, expToNext)) {
+    for (const row of statList(c, this.items, expToNext, attributes)) {
       renderSpans(ctx, [{ text: lookupText(row.labelId, this.locale) }], STAT_X, y, {
         glyphs: this.glyphs,
         shadow: true,
@@ -588,8 +615,7 @@ export class MenuBox {
     // 立绘随队员切(原版 rgwAvatar[role] → RGM chunk;曾恒李逍遥,作者 P2 审计条)。
     // 懒加载未就绪时回落 assets.avatar(首帧闪一下李逍遥,下一帧即对)
     // 0x1A 立绘覆写优先(成年灵儿 appearance.portrait);缺 = 模板 portraits.default
-    const avatar =
-      this.portraitFor(c.appearance?.portrait ?? actor?.portraits?.default) ?? this.assets.avatar
+    const avatar = this.portraitFor(statusPortraitAsset(c, actor)) ?? this.assets.avatar
     if (avatar) ctx.drawImage(avatar, Math.round(MID_CX - avatar.width / 2), AVATAR_Y)
     // 毒名(作者裁决 2026-07-11:原版 (185,58) 竖排在 reforge 状态板上与装备格重叠 ——
     // 改**头像下方横向流式排列,超宽自动换行**;显示门(curability≠incurable ≙ 原版

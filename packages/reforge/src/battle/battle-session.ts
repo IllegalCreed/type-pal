@@ -12,6 +12,7 @@ import type {
   BattleChoreographyAction,
   BattleSpriteProfileKind,
   BattleStatus,
+  CharacterInstance,
   EnemyBattleSpriteProfile,
   EnemyDef,
   EnemyHookChannel,
@@ -43,7 +44,7 @@ import type { SfxPlayer } from '../audio/sfx.js'
 import { expectDefined } from '../defined.js'
 import type { DialogBox } from '../dialog/dialog-box.js'
 import { startDialogue } from '../dialogue.js'
-import { drawNumber, type MenuAssets } from '../menu/menu-box.js'
+import { drawNumber, type MenuAssets, type MenuBox } from '../menu/menu-box.js'
 import { drawRewardGainText } from '../menu/reward-gain.js'
 import { bakeFrame } from '../render.js'
 import { type ScreenShake, shakeOffsetY, WavedBgCache } from '../screen-fx.js'
@@ -202,6 +203,8 @@ export interface BattleSessionAssets {
   playerBaseDefinitionIds: readonly string[]
   /** 菜单基建资产(九宫格框/数字/手指;M4d-1)。缺 → 文字兜底渲染(单测)。 */
   ui?: MenuAssets
+  /** 战斗状态页共用世界状态面板。队员元数据在进入战斗时固定。 */
+  statusPanel?: { renderer: MenuBox; party: readonly CharacterInstance[] }
   /** 队员战斗小头像,键 = roleId(与 players 的 roleId 同源)。 */
   faces?: Record<string, ImageBitmap | undefined>
   /** 主菜单 4 图标(0攻击 1法术 2合击 3杂项;一阶段 SPRITEUI 40-43)。 */
@@ -2394,6 +2397,38 @@ export class BattleSession {
   private renderInner(ctx: CanvasRenderingContext2D, worldScale: number): void {
     const s = this.state
     const now = this.nowMs
+    const statusMember = this.selection.statusMember
+    if (statusMember !== null && this.assets.statusPanel) {
+      const { renderer, party } = this.assets.statusPanel
+      const player = expectDefined(s.players[statusMember])
+      const member = expectDefined(party.find(({ id }) => id === player.roleId))
+      const progress = player.persistentProgress
+      ctx.save()
+      ctx.scale(worldScale, worldScale)
+      ctx.imageSmoothingEnabled = false
+      renderer.renderMemberStatus(
+        ctx,
+        {
+          ...member,
+          hp: player.hp,
+          maxHP: player.maxHp,
+          mp: player.mp,
+          maxMP: player.maxMp,
+          level: progress?.level ?? member.level,
+          exp: progress?.exp ?? member.exp,
+          poisons: player.poisons,
+        },
+        {
+          attack: player.attackStrength,
+          magicAttack: player.magicStrength,
+          defense: player.defense,
+          speed: player.baseDexterity,
+          luck: player.fleeRate,
+        },
+      )
+      ctx.restore()
+      return
+    }
     // 召唤可见度 summonShow(0 = 队员全显/神全隐 … 1 = 队员全隐/神全显);相内 time-based
     const sv = this.summonVis
     const svT =
@@ -2417,7 +2452,9 @@ export class BattleSession {
       if (ht >= 1) this.hideFade = null
     }
     const sel =
-      s.phase === 'selectAction' && now >= this.roundEndFeedbackUntilMs
+      s.phase === 'selectAction' &&
+      now >= this.roundEndFeedbackUntilMs &&
+      !this.selection.isAutoAttacking
         ? this.nextSelecting()
         : undefined
     const selection = this.selection.view
@@ -2751,7 +2788,7 @@ export class BattleSession {
         // 杂项盒 box(2,20);进二级后父项(道具)固定金黄
         const rows: BattleMenuRow[] = MISC_LABELS.map((label, i) => ({
           label,
-          disabled: i === 0 || i === 4 || (i === 1 && selectionContext.usableItems.length === 0),
+          disabled: i === 1 && selectionContext.usableItems.length === 0,
         }))
         // 尺寸 = 一阶段实机对照(2026-07-11 截 6005 战斗杂项盒;作者点破「太窄」):
         // 原版 CreateBox 按 tile **实宽**平铺 —— 帽 22/轴头 33/中 16,cols=1 → 顶行 71px。

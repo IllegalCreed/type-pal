@@ -17,6 +17,7 @@ import {
   SfxReadinessResourceError,
 } from '../audio/sfx.js'
 import { collectBattleBaseSounds, collectTurnActionSounds } from '../audio/sfx-readiness.js'
+import { MenuBox, statusPortraitAsset } from '../menu/menu-box.js'
 import type { RuntimeProjectView } from '../runtime-project-view.js'
 import type { ScriptHost } from '../script-runner.js'
 import { collectBattleCasualtyPortraits } from './battle-casualty-presentation.js'
@@ -215,6 +216,11 @@ export class BattleLaunchPreparation {
     assertCurrent()
     const fieldDef = fields.get(Number(fieldId))
     const portraits = collectBattleCasualtyPortraits(players, content.actorsById)
+    if (assets.chrome.ui)
+      for (const member of ports.readWorld().party) {
+        const asset = statusPortraitAsset(member, content.actorsById[member.template])
+        if (asset) portraits.add(asset)
+      }
     for (const enemy of sprites.reachableEnemyDefs) {
       const references = collectCommandAssetReferences(enemy.ai.hooks, 'battle.enemyHooks')
       for (const { asset, expectedKind } of references) {
@@ -249,16 +255,31 @@ export class BattleLaunchPreparation {
     assertCurrent()
     const commitAssets = (): BattleSessionAssets => {
       const faces: Record<string, ImageBitmap | undefined> = {}
-      ports.readWorld().party.forEach((c, i) => {
+      const { party } = ports.readWorld()
+      party.forEach((c, i) => {
         faces[c.id] = faceList[i]
       })
+      const { glyphs, ui } = assets.chrome
+      const palette = assets.palette()
+      const statusPanel = ui
+        ? {
+            renderer: new MenuBox(glyphs, content.locale, ui, content.items, {
+              actorsById: content.actorsById,
+              poisonsById: content.poisonsById,
+              palette,
+              portraits: assets.portraits,
+            }),
+            party,
+          }
+        : undefined
       const sessionAssets: BattleSessionAssets = {
         ...assets.chrome,
         bg: bgFull?.canvas,
         bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
-        palette: assets.palette(),
+        palette,
         battleSprites: sprites.byDefinitionId,
         playerBaseDefinitionIds: sprites.playerBaseDefinitionIds,
+        statusPanel,
         faces,
         sfx: assets.sfx,
         effectSprite,

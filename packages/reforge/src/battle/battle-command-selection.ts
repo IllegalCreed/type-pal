@@ -5,6 +5,7 @@ export type BattleCommandSelectionPhase =
   | 'menu'
   | 'misc'
   | 'miscSub'
+  | 'status'
   | 'skill'
   | 'item'
   | 'throwItem'
@@ -61,12 +62,14 @@ export class BattleCommandSelection {
   private menuIndex = 0
   private miscIndex = 0
   private miscSubIndex = 0
+  private statusIndex = 0
   private skillIndex = 0
   private itemIndex = 0
   private pendingSkillId: string | null = null
   private pendingThrowItem: string | null = null
   private pendingCoop = false
   private targetIndex = 0
+  private lastEnemyTarget?: number
   private targetSide: 'enemy' | 'ally' = 'enemy'
   private pendingItemId: string | null = null
   private autoAttack = false
@@ -81,6 +84,10 @@ export class BattleCommandSelection {
 
   get isAutoAttacking(): boolean {
     return this.autoAttack
+  }
+
+  get statusMember(): number | null {
+    return this.currentPhase === 'status' ? this.statusIndex : null
   }
 
   get view(): BattleCommandSelectionView {
@@ -125,6 +132,7 @@ export class BattleCommandSelection {
         this.stickyRepeat = false
       } else {
         if (this.stickyRepeat) this.submitRepeat(context, port)
+        else if (this.autoAttack) this.submitAutomaticAttack(context, port)
         else this.submitForce(context, port)
         return
       }
@@ -167,7 +175,7 @@ export class BattleCommandSelection {
       }
       if (key('a', 'A')) {
         this.autoAttack = true
-        this.submitForce(context, port)
+        this.submitAutomaticAttack(context, port)
         return
       }
       if (pressed.has('Escape') && this.submitOrder.length) {
@@ -217,19 +225,39 @@ export class BattleCommandSelection {
 
     if (this.currentPhase === 'misc') {
       const count = 5
-      if (pressed.has('ArrowUp')) this.miscIndex = (this.miscIndex + count - 1) % count
-      if (pressed.has('ArrowDown')) this.miscIndex = (this.miscIndex + 1) % count
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
+        this.miscIndex = (this.miscIndex + count - 1) % count
+      if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
+        this.miscIndex = (this.miscIndex + 1) % count
       if (pressed.has('Escape')) this.currentPhase = 'menu'
       if (confirm) {
-        if (this.miscIndex === 1) {
+        if (this.miscIndex === 0) {
+          this.autoAttack = true
+          this.backToMain()
+        } else if (this.miscIndex === 1) {
           if (context.usableItems.length) this.currentPhase = 'miscSub'
           this.miscSubIndex = 0
         } else if (this.miscIndex === 2) {
           this.submitAnd(context, port, { kind: 'defend' })
         } else if (this.miscIndex === 3) {
           this.submitPartyFlee(context, port)
+        } else if (this.miscIndex === 4) {
+          this.statusIndex = 0
+          this.currentPhase = 'status'
         }
       }
+      return
+    }
+
+    if (this.currentPhase === 'status') {
+      if (pressed.has('Escape')) {
+        this.currentPhase = 'menu'
+        return
+      }
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.statusIndex--
+      else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || confirm) this.statusIndex++
+      if (this.statusIndex < 0 || this.statusIndex >= context.playerCount)
+        this.currentPhase = 'menu'
       return
     }
 
@@ -376,6 +404,7 @@ export class BattleCommandSelection {
     if (confirm) {
       const target = alive[this.targetIndex % alive.length]
       if (target === undefined) throw new Error('战斗敌方目标游标越界')
+      this.lastEnemyTarget = target
       const action: BattleAction = this.pendingThrowItem
         ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: target }
         : this.pendingCoop
@@ -442,6 +471,22 @@ export class BattleCommandSelection {
       port,
       target === undefined ? { kind: 'defend' } : { kind: 'attack', targetEnemyIdx: target },
     )
+  }
+
+  private submitAutomaticAttack(
+    context: BattleCommandSelectionContext,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const alive = context.aliveEnemyIndices
+    const target = alive.find((slot) => slot === this.lastEnemyTarget) ?? alive[0]
+    if (target === undefined) {
+      this.submitAnd(context, port, { kind: 'defend' })
+      return
+    }
+    this.submitAnd(context, port, {
+      kind: 'attack',
+      targetEnemyIdx: context.player.attackAll ? -1 : target,
+    })
   }
 
   private submitRepeat(
