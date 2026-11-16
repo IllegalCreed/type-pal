@@ -556,9 +556,8 @@ export function instrumentOpeningCausalTrace(code, file) {
         isEventCursorAtMakeSceneStep: 'getCmds(cursor)[cursor.ip]',
         runOneAutoOp: 'cmds[cursor.ip]!',
         tickEventSystem: 'cmds[cursor.ip]!',
-        // Battle/use and poison have separate dispatchers, outside 001–006's
-        // current story-command proof domain. Do not call this full-engine coverage.
-        runScript: 'commands[ip]!',
+        // The battle/use and poison dispatchers are separate from the story-command reader.
+        runScriptFrom: 'commands[ip]!',
         runPlayerPoisonEntrySync: 'commands[ip]',
         runEnterScript: 'cmds[cursor.ip]!',
       },

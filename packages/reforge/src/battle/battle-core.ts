@@ -1110,7 +1110,7 @@ export function applyEnemyEffect(
         ),
       )
     // script.c:2836–2844 only retains slots through the last active enemy after division.
-    s.maxEnemyIndex = s.enemies.findLastIndex((entry) => entry !== null && entry.hp > 0)
+    s.maxEnemyIndex = aliveEnemies(s).at(-1) ?? -1
     recomputeEnemyPositions(s)
     return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
   }
