@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { isDeepStrictEqual as same } from 'node:util'
 import { decodeTerminalUtf8, parseTerminalJson } from './terminal-json.mjs'
 import { testingAcquisitionSourceBindings } from './testing-acquisition-source-bridge.mjs'
 import {
@@ -259,6 +260,38 @@ const battleReviewBindings = new Map(
 
 export function isTestingBattleReviewSource(path) {
   return battleReviewRanges.has(path)
+}
+
+export const testingBattleClosurePublicationBase = '4b2692d65917034f3743a348ca161d2ffb447b97'
+const battleClosureRanges = new Map([
+  [
+    reforgeMain,
+    { '414-421': '414-421', '441-452': '441-452', '455-462': '455-462', '1269-1367': '1269-1367' },
+  ],
+  [
+    testingBattleSessionSourcePath,
+    { '242-244': '245-247', '407-419': '411-423', '1254-1263': '1260-1269' },
+  ],
+  [reforgeBattleCommandSelectionTest, { '73-96': '73-96' }],
+])
+const battleClosureBindings = new Map(
+  [...lifecycleBindings]
+    .map(([path, binding]) => [
+      path,
+      { ...binding, paths: binding.paths.filter(isTestingBattleClosureSource) },
+    ])
+    .filter(([, { paths }]) => paths.length > 0),
+)
+const battleClosureBinding = {
+  ranges: battleClosureRanges,
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleClosurePublicationBase,
+  action: 'q2-battle-closure-source-rebinding',
+  date: '2026-11-16',
+}
+
+export function isTestingBattleClosureSource(path) {
+  return battleClosureRanges.has(path)
 }
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
@@ -725,6 +758,236 @@ const evidencePath = `docs/testing/${publication.evidence}`
 
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
+
+const closureArchive = 'docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz'
+const closureClaims = [
+  'battle-misc-auto-and-status',
+  'authored-coop-support',
+  'summon-spirit-offset',
+  'battle-steal-inventory-and-feedback',
+  'post-battle-growth-respawn',
+]
+const closureCallers = new Set([
+  'scripts/e2e/battle-misc.mjs',
+  'scripts/e2e/battle-misc-compare.mjs',
+  'scripts/e2e/battle-coop-support.mjs',
+  'scripts/e2e/battle-status.mjs',
+  'scripts/e2e/battle-status-compare.mjs',
+  'scripts/e2e/battle-world-bee-game.mjs',
+  'scripts/e2e/battle-world-bee-reforge.mjs',
+  'scripts/e2e/battle-world-bee-compare.mjs',
+])
+const closureChangedSources = new Set([
+  ...closureCallers,
+  'scripts/e2e/battle-game-instrumentation.mjs',
+  'scripts/e2e/battle-random-instrumentation.mjs',
+  'scripts/e2e/battle-reforge-instrumentation.mjs',
+  'scripts/e2e/battle-status-rules.mjs',
+  'scripts/e2e/battle-status-scenarios.mjs',
+  'scripts/e2e/battle-trace-observer.mjs',
+  'scripts/e2e/battle-world-bee-reforge.config.mts',
+  'packages/reforge/src/main.ts',
+  'packages/reforge/src/battle/battle-core.ts',
+  'packages/reforge/src/battle/battle-command-selection.ts',
+  'packages/reforge/src/menu/menu-box.ts',
+])
+const closureNewSources = new Set([
+  ...closureCallers,
+  'scripts/e2e/battle-status-rules.mjs',
+  'scripts/e2e/battle-status-scenarios.mjs',
+  'scripts/e2e/battle-world-bee-reforge.config.mts',
+  'packages/reforge/src/main.ts',
+  'packages/reforge/src/battle/battle-anim.ts',
+  'packages/reforge/src/battle/battle-core.ts',
+  'packages/reforge/src/battle/battle-command-selection.ts',
+  testingBattleSessionSourcePath,
+  'packages/reforge/src/menu/menu-box.ts',
+  'projects/pal/content/skills.json',
+])
+
+function closurePublicationFields(before, current, { readSource, readBase, readFixed }) {
+  const sources = testingBridgeSources(readSource)
+  const predecessor = testingBridgeSources(readBase)
+  const fixed = testingBridgeSources(readFixed)
+  const assertFixedReference = (reference) => {
+    assertTestingBridgeReference(reference, sources)
+    assert(
+      sources.read(reference.path)?.equals(fixed.read(reference.path)),
+      `battle closure source differs from the frozen candidate: ${reference.path}`,
+    )
+  }
+  assert(
+    current.sourceRefs.length >= before.sourceRefs.length,
+    'battle closure removed a source reference',
+  )
+  const changed = []
+  for (const [i, old] of before.sourceRefs.entries()) {
+    const reference = current.sourceRefs[i]
+    if (same(old, reference)) {
+      if (closureChangedSources.has(old.path))
+        assert(
+          sources.read(old.path)?.equals(predecessor.read(old.path)),
+          `battle closure retained stale source reference: ${old.path}`,
+        )
+      continue
+    }
+    assert(
+      closureChangedSources.has(old.path),
+      'battle closure changed an unadmitted source reference',
+    )
+    assert.deepEqual({ ...reference, sha256: old.sha256, lines: old.lines }, old)
+    assertTestingBridgeReference(old, predecessor)
+    assertFixedReference(reference)
+    assert(
+      !predecessor.read(old.path).equals(fixed.read(old.path)),
+      'battle closure rebound unchanged source',
+    )
+    changed.push(old)
+  }
+  const publishedAnchors = new Set(
+    before.sourceRefs.map(({ path, anchor }) => `${path}: ${anchor}`),
+  )
+  for (const reference of current.sourceRefs.slice(before.sourceRefs.length)) {
+    assert(closureNewSources.has(reference.path), 'battle closure appended an unadmitted source')
+    const anchor = `${reference.path}: ${reference.anchor}`
+    assert(!publishedAnchors.has(anchor), 'battle closure duplicated an existing source anchor')
+    publishedAnchors.add(anchor)
+    assertFixedReference(reference)
+  }
+  const callers = current.publicCallers
+  assert.deepEqual(
+    callers.slice(0, before.publicCallers.length),
+    before.publicCallers,
+    'battle closure changed an existing public caller',
+  )
+  assert.equal(new Set(callers).size, callers.length, 'battle closure duplicated a public caller')
+  for (const caller of callers.slice(before.publicCallers.length)) {
+    const [command, path] = caller.split(' ')
+    assert(
+      command === 'node' && closureCallers.has(path),
+      'battle closure appended an unadmitted public caller',
+    )
+  }
+  return { sourceRefs: before.sourceRefs, publicCallers: before.publicCallers, changed }
+}
+
+function assertClosureMetadata(before, current, inputs) {
+  const { changed, ...fields } = closurePublicationFields(before, current, inputs)
+  const history = encounterHistory(
+    before.revision.history,
+    current.revision.history,
+    changed,
+    inputs.readSource,
+    battleClosureBinding,
+  )
+  assert.deepEqual(
+    { ...current, ...fields, revision: { ...current.revision, history } },
+    before,
+    'battle closure changed accepted publication metadata',
+  )
+  return current.revision.history.at(-1)
+}
+
+/** The newest finite source layer restores old caller bytes before the older
+ * validators replay their original cutoffs. Only Q2's current entry can grow. */
+export function restoreTestingBattleClosureSourceBindings(path, currentBytes, inputs) {
+  const restored = restoreEncounterSourceBindings(
+    path,
+    currentBytes,
+    inputs,
+    battleClosureBinding,
+    battleClosureBindings,
+  )
+  if (path !== catalogPath) return restored
+  const before = parseTerminalJson(inputs.readBase(path))
+  const current = parseTerminalJson(restored)
+  const index = before.entries.findIndex(({ id }) => id === publication.id)
+  const previous = before.entries[index]
+  assert.equal(current.entries[index]?.id, publication.id)
+  assertClosureMetadata(previous, current.entries[index], inputs)
+  current.entries[index] = previous
+  const oldReadings = before._governance.entryReadings
+  const readings = current._governance.entryReadings
+  const readerIndex = oldReadings.findIndex(({ id }) => id === publication.id)
+  const previousReading = oldReadings[readerIndex]
+  const reading = readings[readerIndex]
+  assert.deepEqual({ ...reading, conclusion: previousReading.conclusion }, previousReading)
+  assert(
+    reading.conclusion === previousReading.conclusion ||
+      (reading.conclusion.startsWith(`${previousReading.conclusion} `) &&
+        reading.conclusion.slice(previousReading.conclusion.length).trim()),
+    'battle closure rewrote the earlier catalog reading',
+  )
+  readings[readerIndex] = previousReading
+  assert.deepEqual(current, before, 'battle closure changed an unrelated catalog entry')
+  return inputs.readBase(path)
+}
+
+/** Validate only the appended machine evidence and the paired embedded report metadata.
+ * Equality after removing the admitted suffix protects every existing execution and artifact. */
+export function assertTestingBattleClosureAddition(path, bytes, inputs) {
+  if (path !== evidencePath && path !== `docs/testing/${publication.canonical}`) return
+  const priorBytes = inputs.readBase(path)
+  if (path !== evidencePath) {
+    const before = parseTerminalJson(testingMetadata(priorBytes).json)
+    const current = parseTerminalJson(testingMetadata(bytes).json)
+    const event = assertClosureMetadata(before, current, inputs)
+    const paired = parseTerminalJson(inputs.readSource(evidencePath))
+    assert.deepEqual(current.sourceRefs, paired.sourceRefs)
+    assert.deepEqual(current.publicCallers, paired.publicCallers)
+    assert.deepEqual(event, paired.history.at(-1))
+    return
+  }
+  const before = parseTerminalJson(priorBytes)
+  const current = parseTerminalJson(bytes)
+  const { changed, ...fields } = closurePublicationFields(before, current, inputs)
+  const history = encounterHistory(
+    before.history,
+    current.history,
+    changed,
+    inputs.readSource,
+    battleClosureBinding,
+  )
+  const { battleClosureExecution, artifacts, claims, ...retained } = current
+  assert.equal(battleClosureExecution?.producerRevision, inputs.revision)
+  assert.deepEqual(
+    artifacts.slice(0, -1),
+    before.artifacts,
+    'battle closure changed an earlier artifact',
+  )
+  const artifact = artifacts.at(-1)
+  assert.equal(artifact?.path, closureArchive)
+  assert.match(artifact.sha256, /^[a-f0-9]{64}$/u)
+  assert(Number.isSafeInteger(artifact.bytes) && artifact.bytes > 0)
+  assert(typeof artifact.purpose === 'string' && artifact.purpose.trim())
+  assert.deepEqual(
+    claims.slice(0, before.claims.length),
+    before.claims,
+    'battle closure changed an earlier claim',
+  )
+  const appended = claims.slice(before.claims.length)
+  assert.deepEqual(
+    appended.map(({ id }) => id),
+    closureClaims,
+  )
+  for (const claim of appended) {
+    assert.equal(claim.result, 'runtime-backed')
+    assert(
+      claim.evidence.some((pointer) => pointer.startsWith(`${closureArchive}#`)),
+      'battle closure claim must reference its captured evidence',
+    )
+  }
+  assert.deepEqual(
+    { ...retained, ...fields, history, artifacts: before.artifacts, claims: before.claims },
+    before,
+    'battle closure changed an accepted execution',
+  )
+  const catalog = parseTerminalJson(inputs.readSource(catalogPath))
+  const paired = catalog.entries.find(({ id }) => id === publication.id)
+  assert.deepEqual(current.sourceRefs, paired.sourceRefs)
+  assert.deepEqual(current.publicCallers, paired.publicCallers)
+  assert.deepEqual(current.history.at(-1), paired.revision.history.at(-1))
+}
 
 // Each published predecessor keeps its accepted source references and history.
 function sessionRebindings(

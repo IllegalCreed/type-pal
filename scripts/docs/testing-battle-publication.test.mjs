@@ -14,18 +14,21 @@ import {
   testingAcquisitionSourceBase,
 } from './testing-acquisition-source-bridge.mjs'
 import {
+  assertTestingBattleClosureAddition,
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   assertTestingProjectVictoryVersionSource,
   isTestingBattleEvidencePath,
   isTestingBattleReviewSource,
+  restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
@@ -456,7 +459,7 @@ test('hostile handoff source bindings preserve published owners and their origin
 
 test('battle lifecycle sources bind their current ranges while retaining the prior native claims', () => {
   const readBase = (path) => readFixed(testingBattleLifecyclePublicationBase, path)
-  const readSource = (path) => readFileSync(join(repository, path))
+  const readSource = (path) => readFixed(testingBattleClosurePublicationBase, path)
   const readCandidate = (path) =>
     readFixed(documentLocationAdmission.testingBattleLifecycleSourceRevision, path)
   const bridge = { readBase, readFixed: readCandidate, readSource }
@@ -563,6 +566,180 @@ test('battle presentation review preserves the accepted shell callers and openin
       restoreTestingBattleReviewSourceBindings(catalogPath, bytes(currentCatalog), bridge),
     ),
     oldCatalog,
+  )
+})
+
+test('battle closure restores four live source records and only appends paired Q2 execution', () => {
+  const revision = '0368bd0d8d3271960f1cc999af0c1d1785b849b7'
+  const readBase = (path) => readFixed(testingBattleClosurePublicationBase, path)
+  const readCandidate = (path) => readFixed(revision, path)
+  const readSource = (path) => documents.get(path) ?? readCandidate(path)
+  const bridge = { revision, readBase, readFixed: readCandidate, readSource }
+  const documents = new Map()
+  const catalog = JSON.parse(readBase(catalogPath))
+  const restorable = new Map([
+    ['runtime-active-scene', ['packages/reforge/src/main.ts']],
+    ['runtime-battle-host', ['packages/reforge/src/main.ts']],
+    ['runtime-world-owners', ['packages/reforge/src/main.ts']],
+    [
+      'runtime-battle-session-owners',
+      [
+        testingBattleSessionSourcePath,
+        'packages/reforge/src/battle/battle-command-selection.test.ts',
+      ],
+    ],
+  ])
+  const moved = new Map([
+    ['242-244', '245-247'],
+    ['407-419', '411-423'],
+    ['1254-1263', '1260-1269'],
+  ])
+  const history = (previousSourceRefs) => ({
+    action: 'q2-battle-closure-source-rebinding',
+    date: '2026-11-16',
+    base: testingBattleClosurePublicationBase,
+    evidence: sessionReceipt,
+    previousSourceRefs,
+    scope: 'Fixture for frozen-source replay. No battle execution credit.',
+  })
+  for (const [id, paths] of restorable) {
+    const entry = catalog.entries.find((entry) => entry.id === id)
+    const path = `docs/testing/${entry.evidence}`
+    const previous = entry.sourceRefs.filter((ref) => paths.includes(ref.path))
+    const event = history(previous)
+    const evidence = JSON.parse(readBase(path))
+    const claim = evidence.claims.find((entry) => entry.id === `${id}-source-contract`)
+    entry.sourceRefs = entry.sourceRefs.map((ref) => {
+      if (!paths.includes(ref.path)) return ref
+      const lines = moved.get(ref.lines) ?? ref.lines
+      const pointer = claim.evidence.indexOf(`${ref.path}:${ref.lines}`)
+      assert(pointer >= 0)
+      claim.evidence[pointer] = `${ref.path}:${lines}`
+      return { ...ref, lines, sha256: hash(readCandidate(ref.path)) }
+    })
+    entry.revision.history.push(event)
+    evidence.sourceRefs = entry.sourceRefs
+    evidence.history.push(event)
+    documents.set(path, bytes(evidence))
+    assert.deepEqual(
+      restoreTestingBattleClosureSourceBindings(path, bytes(evidence), bridge),
+      readBase(path),
+    )
+  }
+  const entry = catalog.entries.find(({ id }) => id === 'q2-battle-foundation')
+  const previous = []
+  entry.sourceRefs = entry.sourceRefs.map((ref) => {
+    const oldSource = readBase(ref.path)
+    const newSource = readCandidate(ref.path)
+    if (oldSource.equals(newSource)) return ref
+    const oldLine = oldSource.toString().split('\n')[Number(ref.lines) - 1]
+    const lines = String(newSource.toString().split('\n').indexOf(oldLine) + 1)
+    previous.push(ref)
+    return { ...ref, lines, sha256: hash(newSource) }
+  })
+  const caller = 'scripts/e2e/battle-misc.mjs'
+  const source = readCandidate(caller)
+  const anchor = 'await runBrowserJourney({'
+  const lines = String(source.toString().split('\n').indexOf(anchor) + 1)
+  entry.sourceRefs.push({
+    path: caller,
+    lines,
+    anchor,
+    role: 'native-caller',
+    sha256: hash(source),
+  })
+  entry.publicCallers.push(`node ${caller} game`)
+  const event = history(previous)
+  entry.revision.history.push(event)
+  catalog._governance.entryReadings.find(({ id }) => id === entry.id).conclusion +=
+    ' Fixture append.'
+  documents.set(catalogPath, bytes(catalog))
+  assert.deepEqual(
+    restoreTestingBattleClosureSourceBindings(catalogPath, bytes(catalog), bridge),
+    readBase(catalogPath),
+  )
+
+  const prior = JSON.parse(readBase(evidencePath))
+  const archive = 'docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz'
+  const evidence = {
+    ...prior,
+    sourceRefs: entry.sourceRefs,
+    publicCallers: entry.publicCallers,
+    history: [...prior.history, event],
+    artifacts: [
+      ...prior.artifacts,
+      { path: archive, sha256: 'a'.repeat(64), bytes: 1, purpose: 'Fixture' },
+    ],
+    claims: [
+      ...prior.claims,
+      ...[
+        'battle-misc-auto-and-status',
+        'authored-coop-support',
+        'summon-spirit-offset',
+        'battle-steal-inventory-and-feedback',
+        'post-battle-growth-respawn',
+      ].map((id) => ({ id, result: 'runtime-backed', evidence: [`${archive}#${id}.json`] })),
+    ],
+    battleClosureExecution: { producerRevision: revision },
+  }
+  documents.set(evidencePath, bytes(evidence))
+  const check = (body) => assertTestingBattleClosureAddition(evidencePath, bytes(body), bridge)
+  check(evidence)
+  const reportPath = 'docs/testing/domains/cross-phase/battle-foundation/report.md'
+  const report = readBase(reportPath).toString()
+  const checkReport = (sourceRefs) =>
+    assertTestingBattleClosureAddition(
+      reportPath,
+      Buffer.from(
+        report.replace(/(<!-- testing-meta\n)(\{[^\n]+\})/u, (_, prefix, json) => {
+          const meta = JSON.parse(json)
+          return (
+            prefix +
+            JSON.stringify({
+              ...meta,
+              sourceRefs,
+              publicCallers: entry.publicCallers,
+              revision: { ...meta.revision, history: [...meta.revision.history, event] },
+            })
+          )
+        }),
+      ),
+      bridge,
+    )
+  checkReport(entry.sourceRefs)
+  assert.throws(
+    () => checkReport(prior.sourceRefs),
+    /battle closure retained stale source reference/u,
+  )
+  assert.throws(
+    () => check({ ...evidence, execution: { ...evidence.execution, exitCode: 1 } }),
+    /battle closure changed an accepted execution/u,
+  )
+  const overwritten = structuredClone(evidence)
+  overwritten.artifacts[0].sha256 = 'b'.repeat(64)
+  assert.throws(() => check(overwritten), /battle closure changed an earlier artifact/u)
+
+  const session = JSON.parse(documents.get(sessionEvidence))
+  const firstRef = session.sourceRefs[0]
+  const sourceWithChangedAnchorNeighbor = Buffer.from(
+    readCandidate(firstRef.path)
+      .toString()
+      .replace(
+        'private readonly selection = new BattleCommandSelection()',
+        'private readonly selection = new BattleCommandSelection() // existing caller',
+      ),
+  )
+  for (const ref of session.sourceRefs)
+    if (ref.path === firstRef.path) ref.sha256 = hash(sourceWithChangedAnchorNeighbor)
+  const wrongSource = (path) =>
+    path === firstRef.path ? sourceWithChangedAnchorNeighbor : readSource(path)
+  assert.throws(
+    () =>
+      restoreTestingBattleClosureSourceBindings(sessionEvidence, bytes(session), {
+        ...bridge,
+        readSource: wrongSource,
+      }),
+    /encounter source differs from the frozen Q2 candidate/u,
   )
 })
 

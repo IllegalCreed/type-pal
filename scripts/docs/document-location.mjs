@@ -22,22 +22,26 @@ import {
   testingAcquisitionSourceBase,
 } from './testing-acquisition-source-bridge.mjs'
 import {
+  assertTestingBattleClosureAddition,
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   assertTestingProjectVictoryVersionSource,
+  isTestingBattleClosureSource,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
   isTestingBattleSessionEvidencePath,
+  restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
@@ -529,8 +533,33 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const battleReviewSource = battleReviewRevision && gitTree(root, battleReviewRevision, [])
   const preBattleReview =
     battleReviewSource && gitTree(root, testingBattleReviewPublicationBase, [])
-  const readBeforeBattleReview = (path) => {
+  const closureRevision = admission.testingBattleClosureSourceRevision
+  if (closureRevision !== undefined)
+    assert(
+      battleReviewSource && /^[a-f0-9]{40}$/u.test(closureRevision),
+      'battle closure source bridge requires the fixed prior review',
+    )
+  const closureSource = closureRevision && gitTree(root, closureRevision, [])
+  const preClosure = closureSource && gitTree(root, testingBattleClosurePublicationBase, [])
+  const closureInputs = preClosure && {
+    revision: closureRevision,
+    readSource,
+    readBase: preClosure.read,
+    readFixed: closureSource.read,
+  }
+  const readBeforeBattleClosure = (path) => {
     const current = readSource(path)
+    if (!preClosure || !isTestingBattleClosureSource(path)) return current
+    assert(
+      current?.equals(closureSource.read(path)),
+      `source differs from frozen battle closure candidate: ${path}`,
+    )
+    return preClosure.read(path)
+  }
+  const beforeBattleClosure = (path, bytes) =>
+    closureInputs ? restoreTestingBattleClosureSourceBindings(path, bytes, closureInputs) : bytes
+  const readBeforeBattleReview = (path) => {
+    const current = readBeforeBattleClosure(path)
     if (!preBattleReview || !isTestingBattleReviewSource(path)) return current
     assert(
       current?.equals(battleReviewSource.read(path)),
@@ -541,7 +570,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const beforeBattleReview = (path, bytes) =>
     preBattleReview
       ? restoreTestingBattleReviewSourceBindings(path, bytes, {
-          readSource,
+          readSource: readBeforeBattleClosure,
           readBase: preBattleReview.read,
           readFixed: battleReviewSource.read,
         })
@@ -845,6 +874,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       )
       if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
       if (isTestingBattleEvidencePath(path)) assertTestingBattleEvidence(path, current)
+      if (closureInputs) assertTestingBattleClosureAddition(path, current, closureInputs)
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -923,7 +953,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         : readPredecessorSource
       const currentBeforeEncounter = priorEncounterBindings(
         path,
-        beforeProjectVictory(path, beforeBattleLifecycle(path, beforeBattleReview(path, current))),
+        beforeProjectVictory(
+          path,
+          beforeBattleLifecycle(path, beforeBattleReview(path, beforeBattleClosure(path, current))),
+        ),
       )
       const acceptedCurrent =
         preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
