@@ -718,6 +718,42 @@ describe('enemy summon scripts around the native turn and action boundaries', ()
       expect(state.battleAnim).toBeUndefined()
     }
   })
+
+  it('plays the gesture and follows the failure branch when a two-monster summon has one slot', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ idleFrames: 3, magicFrames: 2, actWaitFrames: 2 })],
+      teamSlots: [100, 0, 0xffff, 0xffff, 0xffff],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x9e, operands: [0, 2, 3] },
+        { op: 'end' },
+        { op: 'end', advance: true },
+        { op: 'end' },
+      ],
+    })
+    const state = gs.battleState!
+    const enemy = state.enemies[0]!
+    enemy.scriptOnReady = 1
+    state.phase = 'performAction'
+    state.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+
+    const poses = []
+    for (let tick = 0; tick < 4; tick++) {
+      tickBattle(gs, emptyInput, bus)
+      poses.push(enemy.currentFrame)
+      expect(enemy.scriptOnReady).toBe(1)
+    }
+    expect(poses).toEqual([3, 3, 4, 4])
+    tickBattle(gs, emptyInput, bus)
+    expect(enemy.scriptOnReady).toBe(4)
+    expect(state.enemies).toHaveLength(2)
+    expect(state.enemies[1]!.defeated).toBe(true)
+    expect(state.currentActionIndex).toBe(0)
+    expect(bus.drain().map(({ cmd }) => cmd)).not.toContainEqual({
+      op: 'playSound',
+      soundId: 212,
+    })
+  })
 })
 
 describe('BUG-1:敌方施法不消费玩家经验掷骰 RandomLong(2,3)(RNG 确定性)', () => {
