@@ -297,6 +297,7 @@ export function isTestingBattleClosureSource(path) {
 export const testingBattleSummonPublicationBase = 'b8b8dd2fcc551a782a2e90387bcf91170bc4899f'
 export const testingBattleSummonDivisionPublicationBase = '62959793cf6fb2450806d12072608ce768d80c39'
 export const testingBattleEnemyColorPublicationBase = '070e8145c20e3c2cc8cc77c1e696843d453a0a92'
+export const testingBattleSummonPlaybackPublicationBase = '093fdb31abab95c08ce42b3b99c142e01adb3710'
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
@@ -859,6 +860,35 @@ export function restoreTestingBattleEnemyColorSourceBindings(path, bytes, inputs
     inputs,
     battleEnemyColorStage,
     battleEnemyColorBindings,
+  )
+}
+
+const battleSummonPlaybackStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '248-250': '251-253', '415-427': '420-432', '1269-1278': '1282-1291' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonPlaybackPublicationBase,
+  action: 'q2-enemy-summon-playback-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonPlaybackBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleSummonPlaybackSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSummonPlaybackStage,
+    battleSummonPlaybackBindings,
   )
 }
 

@@ -44,6 +44,7 @@ import {
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleSummonDivisionSourceBindings,
+  restoreTestingBattleSummonPlaybackSourceBindings,
   restoreTestingBattleSummonSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
@@ -69,6 +70,7 @@ import {
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
   testingBattleSummonDivisionPublicationBase,
+  testingBattleSummonPlaybackPublicationBase,
   testingBattleSummonPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
@@ -576,8 +578,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const enemyColorSource = enemyColorRevision && gitTree(root, enemyColorRevision, [])
   const preEnemyColor =
     enemyColorSource && gitTree(root, testingBattleEnemyColorPublicationBase, [])
-  const readBeforeBattleEnemyColor = (path) => {
+  const summonPlaybackRevision = admission.testingBattleSummonPlaybackSourceRevision
+  if (summonPlaybackRevision !== undefined)
+    assert(
+      enemyColorSource && /^[a-f0-9]{40}$/u.test(summonPlaybackRevision),
+      'summon playback source bridge requires the fixed preceding observation revision',
+    )
+  const summonPlaybackSource = summonPlaybackRevision && gitTree(root, summonPlaybackRevision, [])
+  const preSummonPlayback =
+    summonPlaybackSource && gitTree(root, testingBattleSummonPlaybackPublicationBase, [])
+  const readBeforeBattleSummonPlayback = (path) => {
     const live = readSource(path)
+    if (!preSummonPlayback || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(summonPlaybackSource.read(path)),
+      `enemy summon playback source changed: ${path}`,
+    )
+    return preSummonPlayback.read(path)
+  }
+  const readBeforeBattleEnemyColor = (path) => {
+    const live = readBeforeBattleSummonPlayback(path)
     if (!preEnemyColor || !isTestingBattleEnemyColorSource(path)) return live
     assert(
       live?.equals(enemyColorSource.read(path)),
@@ -604,13 +624,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorEnemyColor = preEnemyColor
-      ? restoreTestingBattleEnemyColorSourceBindings(path, bytes, {
+    const priorSummonPlayback = preSummonPlayback
+      ? restoreTestingBattleSummonPlaybackSourceBindings(path, bytes, {
           readSource,
+          readBase: preSummonPlayback.read,
+          readFixed: summonPlaybackSource.read,
+        })
+      : bytes
+    const priorEnemyColor = preEnemyColor
+      ? restoreTestingBattleEnemyColorSourceBindings(path, priorSummonPlayback, {
+          readSource: readBeforeBattleSummonPlayback,
           readBase: preEnemyColor.read,
           readFixed: enemyColorSource.read,
         })
-      : bytes
+      : priorSummonPlayback
     const current = preSummonDivision
       ? restoreTestingBattleSummonDivisionSourceBindings(path, priorEnemyColor, {
           readSource: readBeforeBattleEnemyColor,

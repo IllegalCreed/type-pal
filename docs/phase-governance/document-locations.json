@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "20966020b17556d24426f51fa417349d9b5cad594be56411ea15ae6d64997a80",
+      "afterSha256": "cb07cca47913bf0816aeee51bc26a22078faf3b46f618b6261eee8d3b2d009d1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
-        "reviewedLines": 51,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 52,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "517e58beb9de97b960c900a6c4315994c68e6976bb8e7cfeb829f9e512f65566",
+      "afterSha256": "a38523affed26e27a4215c1bf14fea7907e642e4003beb5644c026794ed397fb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
-        "reviewedLines": 7622,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 7652,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e7af91185bf4d16731f00a3dc14287ebcd4bf2845bfe97f5e84367410d3d4f5a",
+      "afterSha256": "a2943c92abca3366c8ee64e3383f32884b7a5890e179d7462d5e76aad430940a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 762,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 792,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d6fc1a567f2f5a72b35ba0bd7ccab973d8fd606847a4720da06bae8a407ac159",
+      "afterSha256": "e0c0d41c055a27b16e67f438a1f738af90015c48047ec18b210567ccc93160d1",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
         "reviewedLines": 101,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "bf26805c6287de70d0b3654a6b9a15a00c53170d832025de662f440310a72258",
+      "afterSha256": "f840bd3cb6461d08795a38d5e6d8fa7bcb34b959833bf7ca3e32705882cfb21a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
-        "reviewedLines": 613,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 614,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
@@ -5424,35 +5424,35 @@
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
         "reviewedLines": 14459,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "135b2cec07098846c4c4835a4783e65997a068c0f6fa51fea52bdb1ca3fe9012",
+      "afterSha256": "f22792374da9338f5b9ceea64e975856cfc275a91c7a319ecc6f63f50b6c5561",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
-        "reviewedLines": 624,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 638,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "b534d7b9b9bf8f23368047310b090b50e37ff3301dbd9e0829be1f5b9cfcc2c3",
+      "afterSha256": "718d38c37e2c03422de117e1285fcb03a9550c16d0bf5b743323aba286abfd96",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
-        "reviewedLines": 258,
-        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
+        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "reviewedLines": 268,
+        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
       }
     }
   ],
@@ -5964,6 +5964,12 @@
       "bytes": 1219090,
       "sha256": "0c3a5c2acb9a77cc6061945080d61eec021bf70275f82c0960b7907c746a90b0",
       "purpose": "九种召唤的敌人受击位置、色偏、抽帧和原生双端复验"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-summoner-roster-20261116.tar.gz",
+      "bytes": 76958455,
+      "sha256": "c79077e5eb558bed0c73fdf473e95186400063c1fc994aad1ff1e18d60751b11",
+      "purpose": "11 种敌方召唤者的原盘逐项双端、像素反控、采集团与原速双声"
     }
   ],
   "artifactAliases": [],

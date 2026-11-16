@@ -2198,24 +2198,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "248-250",
+          "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "415-427",
+          "lines": "420-432",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1269-1278",
+          "lines": "1282-1291",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -2856,6 +2856,36 @@
               }
             ],
             "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
+          },
+          {
+            "action": "q2-enemy-summon-playback-source-rebinding",
+            "base": "093fdb31abab95c08ce42b3b99c142e01adb3710",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "248-250",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "415-427",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1269-1278",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+              }
+            ],
+            "scope": "连续召唤和首个待机姿态修复后，三个旧归属调用片段保持原字节。原执行和反例各对应其冻结候选。"
           }
         ]
       },
