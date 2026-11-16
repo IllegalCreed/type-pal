@@ -1032,6 +1032,109 @@ function checkOverlap(trace, id, frames, inputs, menu, check) {
   )
 }
 
+function checkSpecialMagic(trace, id, frames, check) {
+  const starts = (cue) =>
+    trace.audioEvents.filter(
+      (event) =>
+        event.kind === 'sfx-start' && event.contextState === 'running' && soundId(event) === cue,
+    ).length
+  if (id === 'wind-god-summon') {
+    const cast = spell(trace, '315')
+    const summonDraws = frames.flatMap(({ payload }) => payload.summon ?? [])
+    const fireDraws = frames.flatMap(({ payload }) => payload.magicOverlays ?? [])
+    check(
+      '风神消耗真气 64 并击中两只黑毛球',
+      [mp(cast, anu), health(cast?.after)],
+      [
+        [100, 36],
+        [0, 0],
+      ],
+    )
+    check(
+      '风神本体与原盘偏移及两张精灵帧',
+      [
+        summonDraws.length > 0 && summonDraws.every(({ x, y }) => x === 224 && y === 181),
+        [...new Set(summonDraws.map(({ frameIndex }) => frameIndex))],
+      ],
+      [true, [0, 1]],
+    )
+    check(
+      '神将先现身，后续 FIRE44 在独立的全场底锚绘制',
+      [
+        frames.findIndex(({ payload }) => payload.summon) <
+          frames.findIndex(({ payload }) => payload.magicOverlays?.length),
+        fireDraws.length > 0 &&
+          fireDraws.every(({ x, y, spriteChunk }) => x === 160 && y === 200 && spriteChunk === 44),
+        [...new Set(fireDraws.map(({ frameIndex }) => frameIndex))],
+      ],
+      [true, true, Array.from({ length: 16 }, (_, index) => index)],
+    )
+    check('施法音、风神声实际各启播一次', [starts(12), starts(349)], [1, 1])
+    return
+  }
+  const steals = trace.actions.filter(({ skillId }) => skillId === '377')
+  check(
+    '两次偷窃各扣 9 真气、只获得一份十里香并在战后保留',
+    [
+      steals.map((action) => mp(action, hero)),
+      steals.map(({ before, after }) => [countItem(before, '91'), countItem(after, '91')]),
+      countItem(trace.terminal.after, '91'),
+    ],
+    [
+      [
+        [100, 91],
+        [91, 82],
+      ],
+      [
+        [0, 1],
+        [1, 1],
+      ],
+      1,
+    ],
+  )
+  const stealRolls = trace.randomDraws
+    .filter(({ purpose }) => purpose === undefined)
+    .map(({ value }) => Math.floor(value * 11))
+  check('首次实际抽取 2，偷光后短路不再抽取', stealRolls, [2])
+  const path = [
+    [164, 132],
+    [156, 128],
+    [147, 124],
+    [137, 120],
+    [126, 116],
+    [114, 112],
+    [113, 112],
+  ]
+  for (const turn of [1, 2]) {
+    const seen = frames
+      .filter(({ payload }) => payload.turn === turn)
+      .flatMap(({ payload }) => payload.players.filter(({ frameIndex }) => frameIndex === 10))
+      .map(position)
+    check(
+      `第 ${turn} 次偷窃的实际冲刺位置`,
+      seen.filter((pos, index) => index === 0 || !same(pos, seen[index - 1])),
+      path,
+    )
+  }
+  const notice = frames.findIndex(({ payload }) =>
+    payload.dialogue?.some(({ lines }) => lines.includes('获得十里香')),
+  )
+  const drawn = frames[notice]
+  const end = frames.slice(notice + 1).find(({ payload }) => !payload.dialogue?.length)
+  check(
+    '回原位后实绘一次居中获得卷轴，停留约 1.4 秒',
+    [
+      drawn?.payload.turn,
+      position(drawn?.payload.players[0]),
+      drawn?.payload.dialogue[0]?.slot,
+      drawn && end && Math.abs(end.clockMs - drawn.clockMs - 1400) < 70,
+      frames.some(({ payload }) => payload.turn === 2 && payload.dialogue?.length),
+    ],
+    [1, [240, 170], 'narration', true, false],
+  )
+  check('两次偷窃的原生启动声音', [starts(174), starts(9)], [2, 2])
+}
+
 export function checkStatusRules(trace, scenario, configured, inputs, menu) {
   const { id, family } = scenario
   const findings = [],
@@ -1100,6 +1203,7 @@ export function checkStatusRules(trace, scenario, configured, inputs, menu) {
     checkBuffedPuppet(trace, id === 'puppet-buffs-expire', frames, check)
   else if (family === 'confusion') checkConfusion(trace, scenario, frames, check)
   else if (family === 'silence') checkAttachment(trace, id, frames, check)
+  else if (family === 'special-magic') checkSpecialMagic(trace, id, frames, check)
   else checkOverlap(trace, id, frames, inputs, menu, check)
   if (id.startsWith('trance-'))
     checkTrancePresentation(trace, frames, id === 'trance-after-revival' ? 0 : 1, check)

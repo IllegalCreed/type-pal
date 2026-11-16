@@ -314,7 +314,26 @@ const enemyStatusReapply = caseOf(
   ],
   'overlap',
 )
+const specialMagic = [
+  caseOf(
+    'wind-god-summon',
+    12,
+    1,
+    [member(anu, 90, 200, ['315'], { level: 28, weapon: null })],
+    [{ ...cast(1, anu, '315', null), targetSide: 'enemy' }],
+    'special-magic',
+  ),
+  caseOf(
+    'steal-item',
+    11,
+    4,
+    [member(hero, 90, 200, ['377'], { weapon: null })],
+    [cast(1, hero, '377', foe()), cast(2, hero, '377', foe()), attack(3, hero)],
+    'special-magic',
+  ),
+]
 const cases = [
+  ...specialMagic,
   bravery,
   hasteAndDual,
   dualAll,
@@ -363,6 +382,7 @@ const dataFiles = [
   `${pal}enemies.json`,
   `${pal}items.json`,
   `${pal}skills.json`,
+  `${raw}magic.json`,
   `${pal}battle-sprites.json`,
 ]
 export const battleStatusSources = [
@@ -387,6 +407,7 @@ export async function prepareBattleStatusInputs() {
     palEnemies,
     palItems,
     { skills },
+    rawMagic,
   ] = await Promise.all(
     dataFiles.map(async (path) => JSON.parse(await readFile(resolve(repoRoot, path), 'utf8'))),
   )
@@ -435,6 +456,24 @@ export async function prepareBattleStatusInputs() {
     ['giveItem', 115, '获得一个蜂巢'],
   )
   assert.equal(objects.find(({ objectIndex }) => objectIndex === 403).scriptOnBattleEnd, 41027)
+  // WIN95 sources for the two native special-action cases.
+  const wind = rawSpells.find(({ id }) => id === 315)
+  assert.deepEqual([wind?.magicNumber, wind?.scriptOnUse], [73, 43105])
+  raw(43105, 0x6b, [65533, 0, 0])
+  const summon = rawMagic[73]
+  assert.deepEqual(
+    [summon.type, summon.special, summon.xOffset, summon.yOffset, summon.costMP, summon.sound],
+    ['summon', 4, 65520, 16, 64, 349],
+  )
+  assert.equal(rawSpells.find(({ id }) => id === 377)?.scriptOnSuccess, 43144)
+  raw(43144, 0x47, [174, 0, 0])
+  raw(43145, 0x6a, [6, 0, 0])
+  const furball = rawEnemies.find(({ id }) => id === 3)
+  assert.deepEqual([furball?.stealItem, furball?.stealItemCount], [91, 1])
+  assert.deepEqual(palEnemies.find(({ id }) => id === 'enemy-400')?.steal, {
+    itemId: '91',
+    count: 1,
+  })
   return (scenario) => {
     const { id, seed, team, party, commands } = scenario
     const formation = rawTeams.find((entry) => entry.id === team)

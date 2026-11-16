@@ -89,15 +89,15 @@ function comparePair(first, second) {
       second: second.inputs.length,
     })
   } else {
-    const expected =
-      first.id === 'confused-enemy-draws-self'
-        ? [35, 6]
-        : first.id === 'confused-enemy-strikes-ally'
-          ? [54, 80]
-          : undefined
+    const expected = new Map([
+      ['confused-enemy-draws-self', [35, 6]],
+      ['confused-enemy-strikes-ally', [54, 80]],
+      ['wind-god-summon', [62, 73]],
+      ['steal-item', [35]],
+    ]).get(first.id)
     if (expected) {
       check(
-        'bee reward script random draws in Game',
+        'Game post-battle script random draws',
         first.rewardDraws
           .filter(({ purpose }) => purpose === 'battle-script-chance')
           .map(({ value }) => 1 + Math.floor(value * 100)),

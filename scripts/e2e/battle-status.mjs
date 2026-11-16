@@ -202,7 +202,11 @@ await runBrowserJourney({
               menuProbed = true
               continue
             }
-            const key = nextKey(state, command)
+            // Watch the complete native result scroll after stealing. Neither player dismisses it.
+            const key =
+              scenario.id === 'steal-item' && state.canConfirmDialogue
+                ? null
+                : nextKey(state, command)
             const confirming = engine === 'reforge' && state.canConfirmSettlement
             if (!confirming) settlementConfirmedAt = 0
             if (key && (!confirming || Date.now() - settlementConfirmedAt >= 300)) {
