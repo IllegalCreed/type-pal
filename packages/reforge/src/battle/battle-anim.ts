@@ -188,14 +188,16 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
               })),
             }
           : {}),
-        ...(frame === 0
+        // PAL queues the numbers after rendering the first impact and its UI
+        // (fight.c:2183–2221). They first appear on the next EFFECT frame.
+        ...(frame === 1
           ? {
               damageNums: hits
                 .filter(({ value }) => value > 0)
                 .map(({ idx, value }) => ({ target: { side: 'enemy', idx }, value })),
-              ...(weaponSound ? { sound: weaponSound } : {}),
             }
           : {}),
+        ...(frame === 0 && weaponSound ? { sound: weaponSound } : {}),
       })
     }
 

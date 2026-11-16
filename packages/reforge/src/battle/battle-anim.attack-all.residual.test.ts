@@ -80,7 +80,7 @@ describe('玩家物攻全体时间线', () => {
     })
   })
 
-  test('播放器在两次命中分别派发四个伤害数字和两组声音，重复停留不再派发', () => {
+  test('两挥的武器音在首个特效帧，飘字在次帧且不重复派发', () => {
     const frames = buildPlayerAttackAll({
       ...input,
       sweeps: [
@@ -109,13 +109,15 @@ describe('玩家物攻全体时间线', () => {
     expect(onSound.mock.calls).toEqual([['sound.critical']])
     expect(playback.tick(120)).toBe(false)
     expect(onSound.mock.calls).toEqual([['sound.critical'], ['sound.weapon']])
+    expect(onDamage).not.toHaveBeenCalled()
+    expect(playback.tick(20)).toBe(false)
+    expect(onDamage).not.toHaveBeenCalled()
+    expect(playback.tick(20)).toBe(false)
     expect(onDamage.mock.calls).toEqual([
       [{ side: 'enemy', idx: 1 }, 807, undefined],
       [{ side: 'enemy', idx: 0 }, 404, undefined],
     ])
-    expect(playback.tick(20)).toBe(false)
-    expect(onDamage).toHaveBeenCalledTimes(2)
-    expect(playback.tick(380)).toBe(false)
+    expect(playback.tick(360)).toBe(false)
     expect(onSound.mock.calls).toEqual([['sound.critical'], ['sound.weapon'], ['sound.attack']])
     expect(onDamage).toHaveBeenCalledTimes(2)
     expect(playback.tick(120)).toBe(false)
@@ -125,6 +127,8 @@ describe('玩家物攻全体时间线', () => {
       ['sound.attack'],
       ['sound.weapon'],
     ])
+    expect(onDamage).toHaveBeenCalledTimes(2)
+    expect(playback.tick(40)).toBe(false)
     expect(onDamage.mock.calls.slice(2)).toEqual([
       [{ side: 'enemy', idx: 1 }, 269, undefined],
       [{ side: 'enemy', idx: 0 }, 135, undefined],
