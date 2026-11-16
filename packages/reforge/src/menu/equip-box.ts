@@ -110,7 +110,7 @@ function drawEquipPickRole(
       ctx.drawImage(icon, PR_IMAGE_BOX.x + 8, PR_IMAGE_BOX.y + 8)
     }
     const count = world.inventory.find((e) => e.itemId === sel.id)?.count ?? 0
-    if (count > 1) drawNumber(ctx, count, PR_ITEM_AMOUNT_RIGHT, PR_ITEM_AMOUNT_Y, assets.numsCyan)
+    if (count > 0) drawNumber(ctx, count, PR_ITEM_AMOUNT_RIGHT, PR_ITEM_AMOUNT_Y, assets.numsCyan)
     renderSpans(ctx, [{ text: sel.name }], PR_ITEM_NAME.x, PR_ITEM_NAME.y, {
       glyphs,
       shadow: true,

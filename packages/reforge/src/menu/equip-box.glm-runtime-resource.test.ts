@@ -103,7 +103,8 @@ describe('R12 drawEquipMenu pick-role 面板', () => {
     stubDocumentCanvas(h)
     const assets = menuAssets()
     const { s, items } = pickRole()
-    drawEquipMenu(h.ctx, s, makeTestWorld(), assets, glyphTable(), 0, locale, items)
+    const world = { ...makeTestWorld(), inventory: [{ itemId: '61', count: 1 }] }
+    drawEquipMenu(h.ctx, s, world, assets, glyphTable(), 0, locale, items)
     expect(h.drawImage).toHaveBeenCalledWith(assets.statusBg, 0, 0, 320, 200)
     const rows = texts()
     expect(rows).toContainEqual([lookupText('name.li-xiaoyao', locale), 15, 108, [247, 231, 109]])
@@ -111,7 +112,7 @@ describe('R12 drawEquipMenu pick-role 面板', () => {
     const cyan = h.drawImage.mock.calls
       .filter((c: unknown[]) => String((c[0] as { id: string }).id).startsWith('nc-'))
       .map((c: unknown[]) => [(c[0] as { id: string }).id, c[1], c[2]])
-    expect(cyan).toContainEqual(['nc-2', 56, 52]) // 背包 61×2 → 右对齐 62-6
+    expect(cyan).toContainEqual(['nc-1', 56, 52]) // 单件也显示数量，右对齐 62-6
     // 图标：items['61'] 无 icon → 无 32×32 图标 blit；仅 statusBg + 框块
   })
 
