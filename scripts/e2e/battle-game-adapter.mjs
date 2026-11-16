@@ -127,13 +127,27 @@ export function installGameBattleAdapter() {
       money: gs.dwCash,
     }
   }
-  const describe = (nativeState, actor, nativeAction, enemyMagicType) => {
+  const describe = (nativeState, actor, nativeAction, magicType) => {
     const renamed = { magic: 'cast', 'coop-magic': 'coop', 'throw-item': 'throw' }
     const kind = renamed[nativeAction.type] ?? nativeAction.type
-    const supported = ['attack', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind)
+    const supported = [
+      'attack',
+      'attack-mate',
+      'item',
+      'defend',
+      'cast',
+      'coop',
+      'throw',
+      'pass',
+    ].includes(kind)
     require(supported, `unsupported Game action ${kind}`)
     const isEnemy = actor.isEnemy
-    const side = nativeAction.targetSide ?? (kind === 'item' || isEnemy ? 'player' : 'enemy')
+    const side =
+      kind === 'attack-mate'
+        ? isEnemy
+          ? 'enemy'
+          : 'player'
+        : (nativeAction.targetSide ?? (kind === 'item' || isEnemy ? 'player' : 'enemy'))
     const targeted = kind !== 'defend' && kind !== 'pass'
     require(!targeted ||
       (Number.isInteger(nativeAction.target) &&
@@ -142,11 +156,20 @@ export function installGameBattleAdapter() {
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
     // The enemy AI still samples a player role before resolving a party-wide spell.
+    // PAL's trance flag takes the all-allies menu shortcut, but the script
+    // receives the caster. Keep the raw -1 in native.command.
+    const trance =
+      kind === 'cast' &&
+      !isEnemy &&
+      (magicType === 'trance' ||
+        (magicType === undefined && tranceSpells.has(nativeAction.actionId)))
     const all =
+      !trance &&
       targeted &&
-      (nativeAction.target === -1 || (enemyMagicType !== undefined && enemyMagicType !== 'normal'))
+      (nativeAction.target === -1 || (isEnemy && magicType !== undefined && magicType !== 'normal'))
     let targetId = null
-    if (targeted && !all)
+    if (trance) targetId = actorId
+    else if (targeted && !all)
       targetId =
         side === 'player'
           ? playerIdentity(nativeState.players[nativeAction.target].roleId)
@@ -167,7 +190,10 @@ export function installGameBattleAdapter() {
       ...(usesSkill ? { skillId: String(nativeAction.actionId) } : {}),
     }
   }
-  const guardedSlot = (actor, nativeAction) => (actor.isEnemy ? nativeAction.target : actor.idx)
+  const guardedSlot = (actor, nativeAction) => {
+    if (nativeAction.type === 'attack-mate') return actor.isEnemy ? -1 : nativeAction.target
+    return actor.isEnemy ? nativeAction.target : actor.idx
+  }
   const hiddenCounts = (gs, roleId) => ({
     attack: gs.Exp.rgAttackExp[roleId].wCount,
     maxHP: gs.Exp.rgHealthExp[roleId].wCount,
@@ -176,10 +202,16 @@ export function installGameBattleAdapter() {
     defense: gs.Exp.rgDefenseExp[roleId].wCount,
   })
 
+  const tranceSpells = new Set()
   globalThis.__battleGameRegister = (deps, launch) => {
     require(!dependencies, 'Game battle dependencies were registered twice')
     dependencies = deps
     applyFixture = launch
+    const effects = new Set(
+      deps.resources.magics?.filter(({ type }) => type === 'trance').map(({ id }) => id),
+    )
+    for (const spell of deps.resources.spells ?? [])
+      if (effects.has(spell.magicNumber)) tranceSpells.add(spell.id)
   }
   globalThis.__battleGameStarted = (gs, roles) =>
     observe(() => {
@@ -273,7 +305,7 @@ export function installGameBattleAdapter() {
         },
       })
     })
-  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles, enemyMagicType) =>
+  globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles, magicType) =>
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
@@ -284,11 +316,13 @@ export function installGameBattleAdapter() {
         const hp = actor.isEnemy ? unit.e.health : liveRoles.roles[unit.roleId]?.hp
         const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
         const cooperative = !actor.isEnemy && state.fThisTurnCoop
-        require(hp > 0 && (disabled || cooperative), 'Q2 Game pass lacks a native reason')
-        inaction = disabled ? 'incapacitated' : 'cooperative-action'
+        const confused = unit.status.confused > 0
+        require(hp > 0 &&
+          (disabled || cooperative || confused), 'Q2 Game pass lacks a native reason')
+        inaction = disabled ? 'incapacitated' : cooperative ? 'cooperative-action' : 'confusion'
       }
       action = {
-        ...describe(state, actor, nativeAction, enemyMagicType),
+        ...describe(state, actor, nativeAction, magicType),
         before: snapshot(),
         native: {
           actor: structuredClone(actor),
@@ -433,8 +467,12 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs) return
       require(!terminal, 'Game terminal cleanup ran twice')
       require(!action, 'Game terminated before a native action completed')
-      require(result === 'won', `Q2 Game battle ended with ${result}`)
-      terminal = { result: 'victory', settlementCount, after: snapshot() }
+      require(result === 'won' || result === 'lost', `Q2 Game battle ended with ${result}`)
+      terminal = {
+        result: result === 'won' ? 'victory' : 'defeat',
+        settlementCount,
+        after: snapshot(),
+      }
       evidence().terminal({ ...terminal, source: 'game:finalizeBattleCleanup' })
     })
   globalThis.__battleHarness = {
@@ -531,6 +569,7 @@ export function installGameBattleAdapter() {
               })),
             }
           : null,
+        ...(tranceSpells.size ? { tranceSpellIds: [...tranceSpells].map(String) } : {}),
         targetCancels,
         canConfirmDialogue:
           !!state && ['waiting-page-key', 'waiting-end-key'].includes(gs?.dialogBox?.phase),

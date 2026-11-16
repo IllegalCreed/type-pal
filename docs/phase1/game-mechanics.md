@@ -3,10 +3,48 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-15
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-15 玩家逃跑与敌方逃跑
+
+十里坡蜜蜂的原盘触碰脚本 41142 将玩家逃跑续接到 41073。该处用 0x4B 设置 -15 世界拍，敌人保持可见，暂停行动和接敌。选择逃跑后队友按行动顺序各自判定，任一成功就结束战斗。失败者返回站位时清掉「逃跑失败」提示。
+
+敌方逃跑的 0x69 请求播放 045，所有有效敌槽的脚底坐标每 10 ms 向左移 5 像素。敌槽的 x 加首帧宽度降到 0 或以下后，保留末帧 500 ms，再报告 Terminated。半人蛇妖接原盘 41070 的中央样式和 41071 的旁白，0x07 从 8853 继续切图。Game 浏览器按绘制时钟采样位移，逻辑帧测试使用同一演进函数。旁白走 0x3E，自动停 1.4 秒，也可用确认提前关闭。 [SDLPal 敌逃](../../reference/sdlpal/battle.c#L1376) · [双端运行](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
+
+## 2026-11-14 正常接敌与回合演出
+
+SDLPal 战斗主循环先停止地图音乐并停驻 200 ms，再用六组交错像素换屏。换屏完成后开始战斗音乐，随后进入战斗帧循环。普通明雷的胜利脚本可以继续执行 `0x50`：从当前画面淡黑，设定下次绘制场景时淡入。速度参数缺省为 1，对应 600 ms 调色板淡黑。是否出现这一转场由遭遇胜利后的脚本决定。 [接敌和音乐](../../reference/sdlpal/battle.c#L711-L728) · [六组换屏](../../reference/sdlpal/video.c#L1092-L1126) · [脚本转场](../../reference/sdlpal/script.c#L1775-L1782) · [调色板淡黑](../../reference/sdlpal/palette.c#L125-L184)
+
+梦蛇在原战斗姿势上执行成功脚本，备用精灵写入 Extra 槽。变身淡变的场景合成重新装载战斗精灵并使用原战斗站位。淡变按 12 轮、每轮六组交错像素推进；首轮先换目标色带，后续各组将亮度向目标最多移一级。倒地头像使用原图的低四位亮度和第 0 色带，覆盖毒色。 [梦蛇备用精灵](../../reference/sdlpal/script.c#L1429-L1435) · [精灵装载](../../reference/sdlpal/battle.c#L879-L905) · [战场淡变](../../reference/sdlpal/battle.c#L627-L681) · [倒地头像](../../reference/sdlpal/uibattle.c#L143-L162)
+
+CLASSIC 在首次检查到行动队列耗尽的战斗帧开始回合结算；胜负已确定时走对应终态。有毒伤数字时仍等八个战斗帧，然后再处理下一轮。 [空队列分支](../../reference/sdlpal/fight.c#L1594-L1604) · [毒伤停留](../../reference/sdlpal/fight.c#L1664-L1668)
+
+十里坡与山神庙的环境声对象共用原始自动入口 38641。首个 `0x09` 等八个地图帧，随后播 WAV 66；后续 WAV 66、73 的重复由同一链的逐帧等待和概率跳转决定。普通自动脚本每 100 ms 执行一条，非零目标跳转可在同帧继续。战斗期间不推进这些世界帧，回场后继续剩余等待。 [地图帧长](../../reference/sdlpal/game.h#L25-L28) · [自动对象循环](../../reference/sdlpal/play.c#L172-L191) · [跳转和等待](../../reference/sdlpal/script.c#L3575-L3605)
+
+## 2026-11-14 投掷道具的附带仙术和固定伤害
+
+原始 PAL 投掷脚本用 `0x42` 模拟仙术，基础伤害取道具调用的 MAGIC 条目。已核 43 件以 `0x42` 开始投掷脚本的物品，共用 39 个入口，均传入 0 灵力。五灵伤害先按目标的对应抗性修正并取整，再乘对应战场加成并取整，模拟伤害最低为 0。脚本后续含 `0x21` 时，另扣脚本配置的固定值。以有效百分比简写五灵路径为 `仙术基础伤害 × (1 − 有效抗性) × (1 + 战场加成) + 固定伤害`。 [模拟入口](../../reference/sdlpal/script.c#L1630-L1640) · [伤害计算](../../reference/sdlpal/fight.c#L215-L249) · [固定扣血](../../reference/sdlpal/script.c#L1026-L1049)
+
+对敌的原始五灵抗性字段为 `e` 时，乘数为 `(10 − e) / 5`。对应战场字段为 `f` 时，乘数为 `(10 + f) / 10`。无属性仙术跳过这两个乘数，毒系用毒抗并跳过五灵战场加成。上毒触发的即时扣血按毒脚本另算，例如毒龙砂。投掷武器 `0x66` 先以武器参数、投掷者裸武术和随机数算出等效灵力，再进入同一模拟法术。 [模拟伤害下限](../../reference/sdlpal/fight.c#L5351-L5397) · [武器投掷入口](../../reference/sdlpal/script.c#L2007-L2014) · [毒龙砂的双端验证](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
+
+雷火珠 156 的原始入口 SSS 39253 模拟「爆炸」381，火系基础伤害 100，接着由 `0x21` 固定扣 135。战场 27 火系减伤 30%，对白无常为 `98 + 135 = 233`，对僵尸兵 A 为 `126 + 135 = 261`。战场 18 火系减伤 100%，两个目标都只受固定 135，依然绘制爆炸特效。 [两端实跑和适用范围](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-投掷伤害公式核对)
+
+## 2026-11-14 特殊状态和物攻
+
+仙术 295「梦蛇」的原始成功入口为 SSS 43028–43031，切换战斗精灵为 5，并把裸武术、裸身法各 100% 写入 Extra 槽。装备继续计入有效属性，重施覆盖同一 Extra 槽属性。临近的复活及临时连击指令有独立入口。复活保留 Extra 槽与变身，清临时状态，装备授予状态按永久状态保留。 [成功入口校验](../../scripts/e2e/battle-status-scenarios.mjs) · [Extra 槽写入](../../reference/sdlpal/script.c#L1406-L1427) · [复活](../../reference/sdlpal/script.c#L1053-L1080)
+
+倒地傀儡身法为 0，仍有活队友时在队尾强制普攻。保留武器声，跳过攻击人声。敌方清空先判胜，最后一名活队友倒下即失败。玩家打友时，挥击帧、击退与武器声同拍，下一拍闪色，清闪帧在受击位置画蓝字。Type-PAL 按 2026-05-31 裁定从存活的敌人与其他队友抽取玩家的混乱目标。 [出手队列](../../reference/sdlpal/fight.c#L1505-L1517) · [胜负](../../reference/sdlpal/fight.c#L1116-L1156) · [攻击声音](../../reference/sdlpal/fight.c#L2061-L2071) · [误击时间线](../../reference/sdlpal/fight.c#L3760-L3854)
+
+普攻特效按实际战斗精灵取 EFFECT 帧组。单体连击的下一挥读取目标当前受击位置，群攻特效按在场敌槽的固定底锚绘制。每次群攻重抽暴击，目标槽按 2、1、0、4、3 的次序逐次减半。 [物攻落点](../../reference/sdlpal/fight.c#L2038-L2247) · [群攻逐挥](../../reference/sdlpal/fight.c#L3680-L3757) · [双端验证范围](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-特殊状态与增益)
+
+## 2026-11-14 敌槽战后掉落与群攻过量伤害
+
+十里坡 e154 的原队 4 用两个独立的 403 敌槽，胜利结算后逐槽执行 SSS 41027。指令 `0x06 [12, 0, 0]` 对 1–100 等概率抽样，11 可进入发放蜂巢 115 的路径，12 跳过。原盘参考先完成逐槽脚本，再给全队恢复体力与真气缺口的一半。原中心提示可在 1.4 秒内按键提前结束。Game 实跑时卷轴叠在战场上，最后一条关闭后才回世界。该遭遇胜利后跳至 SSS 41127，先隐藏 800 拍，随后 41128 的 `0x50` 淡黑并标记下次绘场景时淡入。 [随机分支](../../reference/sdlpal/script.c#L3299-L3313) · [脚本与半恢复](../../reference/sdlpal/battle.c#L1334-L1353) · [中心卷轴](../../reference/sdlpal/text.c#L1663-L1712) · [淡黑](../../reference/sdlpal/script.c#L1775-L1800) · [场景淡入](../../reference/sdlpal/scene.c#L503-L508)
+
+Game 的全体普攻逐挥从当前 HP 减去递减后的浮点伤害，向零取整以求飘字，再把 HP 钳至 0。两只 32 HP 蜜蜂的实跑中，玄冥宝刀一轮群攻先暴击，后普通挥击。半伤槽的数字是 373 和 124。SDLPal 参考代码在负浮点写入无符号 HP 的边界受编译方式影响，PAL DOS 二进制的边界仍待实测。本轮 Reforge 采用 Game 的实际飘字规则。 [群攻 HP 回写](../../reference/sdlpal/fight.c#L3694-L3730) · [Game 实现](../../packages/game/src/core/battle/actions/attack.ts) · [双端证据](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-复活组合与真实明雷掉落)
 
 ## 2026-11-14 横向卷轴的文字
 

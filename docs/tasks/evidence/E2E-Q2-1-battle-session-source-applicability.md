@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-16
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -135,3 +135,93 @@ Template: evidence-receipt-v1 / 1.0.0
 | `this.selection.advance(context` | 1209-1218 | 1212-1221 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
 
 三个调用片段的范围含末行换行，逐字节相同。原归属测试的执行身份和结论由其原证据承载。敌方施法和毒道具的复验范围取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-14 特殊状态与物攻呈现的会话来源
+
+固定前驱 `9662bbe177aa9567f15cb7e556a961c286a430da`，候选 `681040c59b1c6787cbaecb91e3dd20b9acd62b1d`。现行会话 SHA-256 为 `4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d`。群攻使用逐挥命中，混乱打友按真实状态复位，单体第二挥读取首挥结束的敌方位置。三个调用片段按含末行换行的原始字节比较。
+
+| 调用锚点 | 前驱范围 | 当前范围 | 片段 SHA-256 |
+| --- | --- | --- | --- |
+| `private readonly selection = new BattleCommandSelection` | 220-222 | 220-222 | `06748bc9b41060a59eb9ce1a4f35eaa83a1928e28cfe1b77ca79e9fce8b8aab5` |
+| `this.readiness = new BattleTurnReadinessGate` | 381-392 | 381-392 | `53a94cb63d8c929db87931718c62beafe957b20c8f5175fa036b6f1245be7fd2` |
+| `this.selection.advance(context` | 1212-1221 | 1213-1222 | `82194abf644a9712e369e0f638e10a17d7360ed16819cf2e5706941c3567ec65` |
+
+其余归属来源和原执行回执沿用既有记录。运行和反控取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-14 胜利持帧后的五项来源适用性
+
+固定前驱 `11b5b8d8183147732b9ea30560b5eb2bec4b2d7f`，冻结候选 `840625b531130f6a9c4819c509ed3bf3a47353a5`。目录与五份配对证据的现行范围如下。
+
+| 条目 | 来源与锚点 | 前驱范围 | 当前范围 |
+| --- | --- | --- | --- |
+| `e2e-001`、`e2e-common-issues` | `opening-trace.test.mjs` 的 Game 世界绘制测试 | 538–653 | 551–666 |
+| `runtime-active-scene` | `main.ts` 的 ActiveScene、WorldCamera | 408–415、449–456 | 413–420、454–461 |
+| `runtime-world-owners` | `main.ts` 的 WorldMotionRuntime | 435–446 | 440–451 |
+| `runtime-battle-host` | `main.ts` 的 BattleHost 构造 | 1245–1266 | 1251–1295 |
+| `runtime-battle-host` | `battle-host.ts` 的 start、释放 active 后写回 | 55–69、165–169 | 63–78、174–178 |
+
+Game 世界绘制测试、场景/镜头/运动构造、释放 active 后写回的范围均逐字节一致。开场采集新增对 Reforge 胜利持帧早退分支的验证，检查该帧继续画对白，同时不产生新世界帧回执。旧会话仍由身份检查保护，释放 active 与 `finishWorld` 之间没有异步等待。
+
+BattleHost 构造将原胜利奖励调用改为延后半恢复，并在普通败局末帧端口与 `runDefeated` 之间接入胜利持帧端口。还原奖励调用并移除持帧端口后，构造片段与前驱逐字节一致。宿主 `start` 在取得新启动意图后增加对上一场胜利持帧的取消，移除该行后即为前驱片段。原 runner、脚本和世界身份检查、准备后提交及普通败局末帧交接仍由原调用完成。
+
+本次复核只确认既有来源适用性。各条目保留其原执行身份、主张和附件，以固定前驱重放上一层普通败局回绑。新明雷战斗、复活实跑和比较反控由 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-14-复活组合与真实明雷掉落)记录。
+
+## 2026-11-14 明雷进出场和战斗结算的来源适用性
+
+固定前驱 `9f5f57d4df53ea122622ffda110807e39e0ec66e`，冻结候选 `39d5bf7eb080a2a569421c50b79ebe60f38eecb0`。中间候选 `d008dfe82960754ee97a428110e03ab49b8d9110` 保留原进出场实现。更新四项既有 Reforge 运行时记录及 Game 脚本修正、输入方向两项配对记录的调用来源。此前开场与共性问题引用的 `opening-trace.test.mjs` 在这两个对象中逐字节相同，继续使用已刊范围和执行记录。
+
+| 条目 | 来源 | 前驱范围 | 当前范围 |
+| --- | --- | --- | --- |
+| `runtime-active-scene` | `main.ts` 的 ActiveScene、WorldCamera | 413–420、454–461 | 414–421、455–462 |
+| `runtime-world-owners` | `main.ts` 的 WorldMotionRuntime | 440–451 | 441–452 |
+| `runtime-battle-host` | `main.ts` 的 BattleHost 构造 | 1251–1295 | 1268–1343 |
+| `runtime-battle-host` | `battle-host.ts` 的 start、释放 active 后写回 | 63–78、174–178 | 72–88、265–276 |
+| `runtime-battle-session-owners` | `battle-session.ts` 的选择、资源准备与指令提交 | 220–222、381–392、1213–1222 | 242–244、406–418、1243–1252 |
+| `game-script-corrections` | Game `bootstrap.ts` 的 `supplySupplementalSceneObjects` | 346 | 349 |
+| `game-input-rotation` | Game `scene-system.ts` 的 `DIR_DELTA` | 44 | 46 |
+
+场景、镜头、运动构造与会话的选择、提交片段逐字节一致。会话构造加正常明雷的结算选项，撤去该行即可还原原有资源准备与会话初始化范围。
+
+主壳 BattleHost 构造添加明雷入场端口，并在胜利脚本收尾后交给同一遭遇的生命周期提交、过场及对白释放。普通败局末帧端口、战后脚本调用和存档世界读取照前驱接线。BattleHost 开始时一并取消旧入场，释放活动会话后仍同步执行 `finishWorld`，其后才等待扩充的胜利过场参数。反向去掉这些增量后，三个主壳/宿主片段与固定前驱逐字节一致。
+
+宫殿场景的十二个明雷胜利淡变采用工程默认。冻结候选的 `s286.json` 与固定前驱逐字节一致，独立出口继续引用 1100 行。原运行主张和历史报告中的第二份 metadata 保留。
+
+Game 的正常明雷改为独立的原盘六组换屏节拍，导致两个现行来源顺延。补充实体调用和完整方向表与固定前驱逐字节一致。旧存档及方向控制的运行主张、输入和原件均保留。
+
+最终候选在原调用片段外修正淡变起始色阶、明雷战斗 MIDI 准备和遇敌期间的世界自动脚本暂停。主壳前三个范围和宿主启动范围与中间候选原位逐字节一致。主壳 BattleHost 构造从 1267–1342 移至 1268–1343，宿主写回从 250–261 移至 265–276，两个片段保持原字节。会话和开场采集测试的整文件与中间候选一致。工程默认与敌人覆写在 BattleHost 构造以外的 `runHostileEncounter` 解析，构造端口、胜利与失败的回调以及三个构造引用保持原位。
+
+桥接器核现行文件完整指纹、确切锚点与新历史，再还原并重放旧出版校验。报告此前刊行的范围保留原复核时点，表中当前范围对应各报告 `testing-meta`。原主张、原执行和附件继续由各配对证据持有。本轮明雷、状态演出和选招的动态复核取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-15 战斗生命周期来源
+
+固定前驱 `2d17adc064409630aa74415dc8195080d2344d28`。来源重新绑定到已冻结的 `4d50dbed3ed2ad18eb2dba9814dfe187739e0338`。构造、动作调用或保存入口的可用性取当前源码，已发布的角色、版本、运行状态和原件继续对应各自的历史版本。
+
+| 引用范围 | 固定前驱 → 现行 |
+| --- | --- |
+| 活动场景及世界归属 `main.ts` | 414–421、455–462、441–452 原片段字节相同 |
+| 战斗宿主 `main.ts` | 1268–1343 → 1269–1367，新增脚本入场的专属接线；准备、败局取帧、胜利和世界提交仍逐段核对 |
+| 战斗宿主 `battle-host.ts` | 72–88 不变；265–276 → 277–288 |
+| 战斗会话及选招 `battle-session.ts` | 242–244 不变；406–418 → 407–419；1243–1252 → 1254–1263。选招测试 72–95 → 73–96 |
+| Game 脚本更正 `bootstrap.ts` | 349 → 354，原入口字节相同 |
+
+机器入口使用固定前驱及现行源码检查旧调用片段。实际玩家逃跑、敌逃、剧情必败和存读另取本轮原件。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
+
+## 2026-11-15 分屏返工后的来源
+
+前驱 `761bc57b8c2420413580b209088db0b87d060cc2`，现行来源候选 `af644d2fd07b2d1ed528e50680ac0ad99a891116`。Game 壳的变化只在脚本走位障碍接线。Reforge 主文件的变化在剧情跟随和战利品对白绘制。Game 壳 354、Reforge 主文件 414–421、441–452、455–462、1269–1367 均原位置同字节。开场采集测试补了 `needsRender` 的 fixture，原绘制断言 `551–666` 移到 `554–669`，116 行字节相同。独立校验先恢复三份旧来源引用及两个开场主张指针，再重放原有生命周期校验，保留旧主张、执行版本和反例。Q2 的新采集和判据按各自运行候选取证。 [双端实跑与限制](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
+
+读档淡入冻结 `4a8cf1d83` 延用上述三个归属报告的 Reforge 主文件片段，四个范围 `414–421`、`441–452`、`455–462`、`1269–1367` 逐字节保留。新增行为由读档恢复和最后一层画布呈现接线承接。存档恢复采集继续在共同提交后、自动脚本恢复前取证。三个旧归属主张仍由各自原有执行与反例支撑。 [读档双端运行](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-读取进度的淡入与槽位布局)
+
+## 2026-11-16 Q2 收尾来源
+
+紧接前驱 `4b2692d65917034f3743a348ca161d2ffb447b97`，收尾文档绑定 `f8bc4292b7b5e8dc1b39c77502fd9197d2474559`。逐字节核对八段旧调用和选择语义。各原件的实际运行版本、旧主张、反例与独立审阅依其自身回执保存。
+
+| 旧记录 | 文件与范围 | 当前范围 |
+| --- | --- | --- |
+| `runtime-active-scene` | Reforge `main.ts` 414–421、455–462 | 414–421、455–462 |
+| `runtime-world-owners` | Reforge `main.ts` 441–452 | 441–452 |
+| `runtime-battle-host` | Reforge `main.ts` 1269–1367 | 1269–1367 |
+| `runtime-battle-session-owners` | `battle-session.ts` 242–244、407–419、1254–1263 | 246–248、412–424、1261–1270 |
+| `runtime-battle-session-owners` | `battle-command-selection.test.ts` 73–96 | 73–96 |
+
+会话新增状态页、作者合体技与偷窃反馈。旧选择实例、构造与原指令提交片段逐字节保留，原单测片段仍在同一位置。Q2 现行 runner、比较器和控制的引用按实际出口绑定。上一批的执行、附件及旧引用逐条保存在机器回执。 [Q2 收尾实跑证据](E2E-Q2-1-battle-closeout-20261116.tar.gz)

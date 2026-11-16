@@ -60,16 +60,16 @@ describe('N04 投掷物品时间线目标分布', () => {
 })
 
 describe('N04 队友受击阵亡帧', () => {
-  test('mateDied 后队友帧取 dead/dying 姿而非 idle 姿', () => {
+  test('队友阵亡后在收招使用倒地姿', () => {
     const frames = buildMateAttack({
       attackerFrames: pose,
-      mateFrames: pose,
+      attackerRestFrame: pose.idle,
       attackerIdx: 0,
       attackerPos: { x: 40, y: 140 },
       mateIdx: 1,
       matePos: { x: 120, y: 60 },
       damage: 6,
-      mateDied: true,
+      mateRestFrame: pose.dead,
     })
     const mateFrames = frames.flatMap((frame) =>
       (frame.fighters ?? []).filter((fighter) => fighter.side === 'player' && fighter.idx === 1),
@@ -87,22 +87,22 @@ describe('N04 队友受击阵亡帧', () => {
 
 describe('N04 全体物攻可选音臂', () => {
   test('缺攻音与兵器音时不产出任何 sound 字段，时间线其余不变', () => {
-    const voiced = buildPlayerAttackAll({
+    const targets = [{ idx: 0, pos: { x: 100, y: 80 } }]
+    const hits = [{ idx: 0, value: 3 }]
+    const input = {
       frames: pose,
       attackerIdx: 0,
       attackerPos: { x: 50, y: 140 },
-      centerPos: { x: 130, y: 70 },
-      hits: [{ idx: 0, pos: { x: 100, y: 80 }, value: 3 }],
-      attackSound: 'a',
+      attackerRestFrame: 0,
+      effectFrameBase: -1,
+      targets,
+    }
+    const voiced = buildPlayerAttackAll({
+      ...input,
+      sweeps: [{ hits, attackSound: 'a' }],
       weaponSound: 'w',
     })
-    const silent = buildPlayerAttackAll({
-      frames: pose,
-      attackerIdx: 0,
-      attackerPos: { x: 50, y: 140 },
-      centerPos: { x: 130, y: 70 },
-      hits: [{ idx: 0, pos: { x: 100, y: 80 }, value: 3 }],
-    })
+    const silent = buildPlayerAttackAll({ ...input, sweeps: [{ hits }] })
     expect(silent.map((frame) => frame.sound)).toEqual(
       Array.from({ length: silent.length }, () => undefined),
     )
@@ -111,8 +111,9 @@ describe('N04 全体物攻可选音臂', () => {
     expect(voiced.map((frame) => frame.sound)).toEqual([
       undefined,
       'a',
+      undefined,
       'w',
-      ...Array.from({ length: voiced.length - 3 }, () => undefined),
+      ...Array.from({ length: voiced.length - 4 }, () => undefined),
     ])
   })
 })

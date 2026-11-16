@@ -13,9 +13,11 @@
 
 import type { InputSource, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
+import { advanceContactBattleReveal } from '../core/battle/battle-entry.js'
+import { advanceBattleEnemyEscape, finishBattleEntry } from '../core/battle/battle-system.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import type { GameState } from '../core/game-state.js'
-import { tickByMode } from '../core/mode.js'
+import { pendingEncounterFadeOut, resumeEncounterAfterFadeOut, tickByMode } from '../core/mode.js'
 import { setSceneContext } from '../core/scene-system.js'
 import { initStateDump } from '../dev/state-dump.js'
 import { tickFps } from '../tools/fps-overlay.js'
@@ -49,6 +51,7 @@ export function logicIntervalMs(gs: GameState): number {
 export interface RafLoopState {
   lastTickTime: number
   accumulator: number
+  paintedEncounterFadeOut?: ReturnType<typeof pendingEncounterFadeOut>
 }
 
 /**
@@ -68,6 +71,40 @@ export function advanceRafFrame(
   const dt = now - state.lastTickTime
   state.lastTickTime = now
   state.accumulator += dt
+
+  const battle = ctx.gs.mode === 'battle' ? ctx.gs.battleState : undefined
+  const reveal =
+    battle && !frozen ? advanceContactBattleReveal(battle, performance.now()) : undefined
+  if (battle && reveal) {
+    state.accumulator = 0
+    if (reveal === 'hold') return { ticked: false, presented: false }
+    if (reveal === 'complete') {
+      finishBattleEntry(battle)
+      // The source clears accumulated presses before admitting the first battle frame.
+      ctx.input.nextSnapshot(ctx.gs.frameNum)
+    }
+    ctx.onPresent([], false)
+    return { ticked: false, presented: true }
+  }
+
+  if (battle && !frozen && advanceBattleEnemyEscape(ctx.gs, dt)) {
+    state.accumulator = 0
+    ctx.input.nextSnapshot(ctx.gs.frameNum)
+    ctx.onPresent([], false)
+    return { ticked: false, presented: true }
+  }
+
+  const pendingFadeOut = frozen ? undefined : pendingEncounterFadeOut(ctx.gs)
+  const painted = state.paintedEncounterFadeOut
+  const resumeFade =
+    pendingFadeOut &&
+    painted?.fade === pendingFadeOut.fade &&
+    painted.cursor === pendingFadeOut.cursor
+  if (resumeFade) {
+    // PAL_MakeScene starts its fade on the frame after exact black over the frozen source.
+    resumeEncounterAfterFadeOut(ctx.gs)
+  }
+  state.paintedEncounterFadeOut = undefined
 
   const interval = logicIntervalMs(ctx.gs)
   // DM30 修正(2026-06-12 user 报"战后 fadeout 卡键"):渐变清键的 C 真值边界是**函数级**的——
@@ -95,7 +132,7 @@ export function advanceRafFrame(
   } else if (state.accumulator >= interval) {
     ctx.gs.nowMs = now // Bug1 fix:对话打字用 wall-clock,主循环每帧注入
     const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
-    tickByMode(ctx.gs, snap, ctx.bus)
+    tickByMode(ctx.gs, snap, ctx.bus, pendingFadeOut !== undefined && !resumeFade)
     const d = ctx.bus.drain()
     if (d.length) drained = d
     if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
@@ -126,6 +163,16 @@ export function advanceRafFrame(
     ctx.gs.battleState?.battleAnim != null
   ) {
     ctx.onPresent(drained, ticked)
+    // Confirm the frozen renderer has actually applied the black palette. Quantization can
+    // already produce black just before the deadline, so also require the complete ramp.
+    if (
+      pendingFadeOut &&
+      !resumeFade &&
+      performance.now() - pendingFadeOut.fade.startTimeMs >= pendingFadeOut.fade.totalMs &&
+      ctx.gs.palette?.colors.every(([r, g, b]) => (r | g | b) === 0)
+    ) {
+      state.paintedEncounterFadeOut = pendingFadeOut
+    }
     presented = true
   }
   return { ticked, presented }

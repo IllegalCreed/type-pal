@@ -67,6 +67,9 @@ export type SkillEffect =
   | {
       kind: 'summon'
       battleSprite: string
+      /** 召唤本体相对入场底锚的有符号像素偏移。 */
+      xOffset?: number
+      yOffset?: number
       speed?: number
       tint?: number
       sound?: AssetId

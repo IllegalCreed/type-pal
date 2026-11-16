@@ -10,6 +10,7 @@ export type BattleChoreographyAction =
       {
         kind:
           | 'dialog'
+          | 'clearDialog'
           | 'wait'
           | 'playSound'
           | 'playMusic'
@@ -71,6 +72,7 @@ export function checkBattleChoreographyAction(
       if (action.fadeMs !== undefined && finite(action.fadeMs, `${path}.fadeMs`) < 0)
         throw new Error(`${path}.fadeMs: 期望非负有限数`)
       return
+    case 'clearDialog':
     case 'fleeBattle':
       exactKeys(action, ['kind'], path)
       return

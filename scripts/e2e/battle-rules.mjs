@@ -145,6 +145,7 @@ function compareRepeatedStrikes(
             clockMs: frame.clockMs,
             attackFrame: frame.payload.players.find(({ slot }) => slot === attackerSlot)
               ?.frameIndex,
+            targetPosition: frame.payload.enemies.find(({ slot }) => slot === before.slot),
             ...number,
           },
         ]
@@ -158,6 +159,8 @@ function compareRepeatedStrikes(
   const hpLost = before.hp - after.hp
   const observed = { actionIndex, actorId: action.actorId, expected, native, draws, hpLost }
   if (!same(expected, native)) fail('native-repeated-strike-damage', observed)
+  // The original single-target recoil offsets are (-8, -4), (4, 2), (-2, -1).
+  // The next strike uses the resulting live position for its damage number.
   if (
     !same(expected, drawn) ||
     !base ||
@@ -166,8 +169,10 @@ function compareRepeatedStrikes(
         draw.numberId === undefined ||
         draw.attackFrame !== 9 ||
         (i > 0 && draw.frame <= draws[i - 1].frame) ||
-        draw.right !== base.x + 6 ||
-        draw.y + draw.age !== Math.max(base.y - 115, 10),
+        draw.targetPosition?.x !== base.x - 6 * i ||
+        draw.targetPosition?.y !== base.y - 3 * i ||
+        draw.right !== draw.targetPosition.x + 6 ||
+        draw.y + draw.age !== Math.max(draw.targetPosition.y - 115, 10),
     )
   )
     fail('rendered-repeated-strike-damage', observed)

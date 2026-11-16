@@ -315,6 +315,7 @@ test('Game records the selected FIRE chunk after its indexed magic blit', async 
   ])
   const fb = createFramebuffer()
   const facts = []
+  const physical = []
   const frame = (color) => ({
     width: 3,
     height: 2,
@@ -339,6 +340,9 @@ test('Game records the selected FIRE chunk after its indexed magic blit', async 
     instrumentGameBattle(native, file).code,
     {
       __battleEvidence: {
+        physicalOverlayDrawn(x, y, frameIndex) {
+          physical.push({ x, y, frameIndex, drawnPixel: fb.indices[132 * fb.width + 249] })
+        },
         magicOverlayDrawn(x, y, frameIndex, spriteChunk) {
           facts.push({
             x,
@@ -356,6 +360,7 @@ test('Game records the selected FIRE chunk after its indexed magic blit', async 
   drawBattleMagicOverlay(fb, { ...overlay, frameIdx: 2 }, resources)
   drawBattleEffectOverlay(fb, { ...overlay, kind: 'effect', frameIdx: 0 }, sprite)
   assert.deepEqual(facts, [])
+  assert.deepEqual(physical, [{ x: 250, y: 134, frameIndex: 0, drawnPixel: 7 }])
   assert.equal(fb.indices[132 * fb.width + 249], 7)
 
   drawBattleMagicOverlay(fb, overlay, resources, true)

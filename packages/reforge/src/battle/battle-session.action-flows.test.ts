@@ -6,7 +6,10 @@
  */
 import type { BattleChoreography } from '@type-pal/content'
 import {
+  buildWorld,
   checkBattleChoreography,
+  effectiveBattleSpriteId,
+  equipItem,
   validateActors,
   validateBattleSprites,
   validateEnemies,
@@ -37,13 +40,15 @@ import {
 import { fixedRng, recordingSfx, stubGlyphs } from '../__tests__/battle-workflows/controlled-io.js'
 import {
   makeWfSession,
+  makeWfSessionFromWorld,
   wfLoadedBattleSprite,
 } from '../__tests__/battle-workflows/session-driver.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { expectDefined } from '../defined.js'
 import { DialogBox } from '../dialog/dialog-box.js'
-import type { MenuAssets } from '../menu/menu-box.js'
+import { type MenuAssets, MenuBox } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
+import { createBattlePlayers } from './battle-player-input.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
 import { BattleSession } from './battle-session.js'
 
@@ -199,6 +204,96 @@ describe('W3 执行时间线接线', () => {
     expect(panelVisible()).toBe(false)
   })
 
+  test('战斗杂项状态页实际绘制施法后的真气，关闭后回到选招', () => {
+    const spell = wfSkill('status-mp-spell', 9)
+    const { harness: battle, world } = makeWfSessionFromWorld({
+      actorIds: ['p1'],
+      enemies: [wfEnemy('status-mp-target', { health: 900, attackStrength: 1 })],
+      initialMagic: [spell.id],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    const menu = infoBoxAssets()
+    menu.statusBg = bitmap(320, 200, '#0f1113')
+    // Distinct numeric tiles let the pixel oracle distinguish 31 from the entry snapshot 40.
+    menu.nums = Array.from({ length: 10 }, (_, digit) =>
+      bitmap(6, 8, `rgb(${20 + 20 * digit}, 7, 30)`),
+    )
+    battle.assets.statusPanel = {
+      renderer: new MenuBox(stubGlyphs, {}, menu, {}),
+      party: world.party,
+    }
+
+    for (const key of ['ArrowLeft', 'Enter', 'Enter', 'Enter']) battle.press([key])
+    battle.idle(40)
+    for (let step = 0; step < 80 && battle.session.debugReadiness().phase !== 'menu'; step++)
+      battle.idle(40)
+    expect(battle.session.debugReadiness().phase).toBe('menu')
+    expect(battle.readParty()[0]?.mp).toBe(31)
+    expect(world.party[0]?.mp).toBe(40)
+
+    for (const key of ['ArrowDown', 'Enter', 'ArrowUp', 'Enter']) battle.press([key])
+    const ctx = battleCanvas()
+    battle.session.render(ctx, 1)
+    const pixel = (x: number, y: number) => Array.from(ctx.getImageData(x, y, 1, 1).data)
+    expect([pixel(61, 75), pixel(67, 75)]).toEqual([
+      [80, 7, 30, 255],
+      [40, 7, 30, 255],
+    ])
+    expect(pixel(0, 0)).toEqual([15, 17, 19, 255])
+
+    battle.press(['Escape'])
+    expect(battle.session.debugReadiness().phase).toBe('menu')
+    ctx.clearRect(0, 0, 320, 200)
+    battle.session.render(ctx, 1)
+    expect(pixel(0, 0)).not.toEqual([15, 17, 19, 255])
+  })
+
+  test('用物和仙术列表按当前选项在 PAL 原坐标、色板与行距实绘说明', () => {
+    const revive = expectDefined(validateItems(palItems.filter(({ id }) => id === '95'))[0])
+    const blank = { ...wfHealItem('no-description'), desc: [] }
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+    const h = makeWfSession({
+      players: [wfPlayer('zhao-linger', { mp: 100, maxMp: 100, skills: [skill.id] })],
+      enemies: [wfEnemy('description-control')],
+      extraOpts: {
+        items: { [revive.id]: revive, [blank.id]: blank },
+        skills: { [skill.id]: skill },
+        inventory: [
+          { itemId: revive.id, count: 1 },
+          { itemId: blank.id, count: 1 },
+        ],
+      },
+    })
+    h.assets.ui = infoBoxAssets()
+    const ink = [243, 239, 93] as const
+    h.assets.palette = { ...posePalette, colors: [...posePalette.colors] }
+    h.assets.palette.colors[0x3c] = [...ink]
+    // 给说明首字各画一个点阵像素，在真画布取位置和颜色。
+    const firstChars = new Set(
+      [...revive.desc, ...skill.desc.split('\n')].map((line) => line.codePointAt(0)),
+    )
+    const glyph = { width: 16, height: 16, bitmap: Uint8Array.of(0x80, ...new Uint8Array(31)) }
+    h.assets.glyphs = {
+      has: (cp) => firstChars.has(cp),
+      get: (cp) => (firstChars.has(cp) ? glyph : undefined),
+    }
+    const ctx = battleCanvas()
+    const read = (x: number, y: number) => Array.from(ctx.getImageData(x, y, 1, 1).data)
+    const color = [...ink, 255]
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.session.render(ctx, 1)
+    expect([read(102, 3), read(102, 19)]).toEqual([color, color])
+    h.press(['Escape'])
+    h.press(['e'])
+    h.session.render(ctx, 1)
+    expect([read(71, 151), read(71, 167), read(71, 183)]).toEqual([color, color, color])
+    h.press(['ArrowRight'])
+    h.session.render(ctx, 1)
+    expect(read(71, 151)).not.toEqual(color)
+    expect(h.readParty()[0]?.mp).toBe(100)
+  })
+
   test('非末敌死亡淡出期间阻塞下一行动，且无绘制也会恢复', () => {
     const sfx = recordingSfx()
     const h = makeWfSession({
@@ -262,6 +357,78 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual([])
     h.idle(1)
     expect(sfx.plays).toEqual(['sound.pal.355'])
+  })
+
+  test('梦蛇前移保留濒死姿态，闪色后整幅画面溶到原站位的施法姿态', () => {
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+    const form = expectDefined(
+      validateBattleSprites(palBattleSprites).find(({ id }) => id === 'player-fighter-5'),
+    )
+    if (form.profile.kind !== 'player-fighter') throw new Error('梦蛇精灵缺战斗姿态')
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 15,
+          mp: 100,
+          maxMp: 100,
+          baseDexterity: 500,
+          skills: [spell.id],
+        }),
+      ],
+      enemies: [wfEnemy('trance-control', { attackStrength: 0 })],
+      extraOpts: { skills: { [spell.id]: spell }, playerSounds: [{ magic: 'sound.pal.010' }] },
+    })
+    const baseId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const base = poseSprite(expectDefined(h.assets.battleSprites.get(baseId)))
+    const trance = poseSprite({
+      ...wfLoadedBattleSprite(form.id, PLAYER_PROFILE),
+      definition: form,
+    })
+    for (const frame of trance.sprite.frames)
+      frame.pixels[0] = expectDefined(frame.pixels[0]) + 0x30
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(baseId, base).set(form.id, trance)
+    h.assets.palette = {
+      colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+      cycles: [],
+    }
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => expectDefined(ctx.getImageData(x, y, 1, 1).data[0])
+    const draw = () => h.session.render(ctx, 1)
+    h.press(['ArrowLeft'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 120; i++) {
+      h.idle(8)
+      draw()
+      if (pixel(236, 160) > 0) break
+    }
+    expect([pixel(236, 160), pixel(240, 162)]).toEqual([0x02, 0])
+    expect(sfx.plays).toEqual([])
+
+    for (let i = 0; i < 40 && !sfx.plays.length; i++) h.idle(8)
+    draw()
+    expect(sfx.plays).toEqual(['sound.pal.010'])
+    expect(pixel(230, 158)).toBe(0x06)
+
+    // 该局不加载起手特效，施法姿势与等待各一拍，再闪色六拍。
+    h.idle(312)
+    draw()
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0x0f, 0])
+
+    h.idle(88)
+    draw()
+    // 六相位首次换入新色系，旧图在施法站位留下亮度轮廓。
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0x0f, 0x30])
+
+    h.idle(1056)
+    draw()
+    expect([pixel(230, 158), pixel(240, 162)]).toEqual([0, 0x36])
+    h.idle(16)
+    draw()
+    expect(pixel(240, 162)).toBe(0x32)
+    expect(h.readParty()[0]?.mp).toBe(1)
   })
 
   test('半人树妖回梦用攻击帧施法，保持前移位置到受击收尾', () => {
@@ -943,7 +1110,7 @@ describe('W3 执行时间线接线', () => {
         [32, 64, 128],
       ],
     },
-  ])('单体双击首击会心=$firstCrit，每击独立发声，数字沿用目标底锚', ({
+  ])('单体双击首击会心=$firstCrit，每击独立发声，第二击沿用击退后的目标底锚', ({
     firstCrit,
     voices,
     numbers,
@@ -998,7 +1165,7 @@ describe('W3 执行时间线接线', () => {
       const [x, y] = firstFrames.length === 0 ? [100, 109] : [94, 106]
       firstFrames.push({
         enemy: ctx.getImageData(x, y, 1, 1).data[0] ?? 0,
-        digits: [88, 94, 100].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
+        digits: [x - 12, x - 6, x].map((digitX) => ctx.getImageData(digitX, 10, 1, 1).data[2] ?? 0),
       })
     }
 
@@ -1007,6 +1174,84 @@ describe('W3 执行时间线接线', () => {
       sounds: voices.flatMap((voice) => [`sound.pal.${voice}`, 'sound.pal.002']),
       firstFrames: numbers.map((digits) => ({ enemy: poseRed(6), digits })),
     })
+  })
+
+  test('玄冥宝刀一次确认后两挥均把命中特效画在两个敌槽底锚', () => {
+    const actor = expectDefined(validateActors(palActors.filter(({ id }) => id === 'anu'))[0])
+    const actorsById = { [actor.id]: actor }
+    const start = buildWorld(
+      { party: [actor.id], money: 0, inventory: [{ itemId: '187', count: 1 }] },
+      actorsById,
+    )
+    const member = expectDefined(start.party[0])
+    const itemIds = ['187', ...Object.values(member.equipment)]
+    const items = Object.fromEntries(
+      validateItems(palItems.filter(({ id }) => itemIds.includes(id))).map((item) => [
+        item.id,
+        item,
+      ]),
+    )
+    const world = equipItem(start, member.id, '187', items)
+    const appearanceId = expectDefined(
+      effectiveBattleSpriteId(expectDefined(world.party[0]), actor, items),
+    )
+    const appearance = expectDefined(
+      validateBattleSprites(palBattleSprites.filter(({ id }) => id === appearanceId))[0],
+    )
+    const fighter = {
+      ...wfLoadedBattleSprite(appearance.id, PLAYER_PROFILE),
+      definition: appearance,
+    }
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-444'))[0],
+    )
+    const enemySprite = wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite))
+    const sfx = recordingSfx()
+    const sounds = expectDefined(actor.battler?.sounds)
+    const weaponSound = expectDefined(sounds.weapon)
+    const session = new BattleSession(
+      createBattlePlayers(world, { actorsById, items }),
+      [enemy, enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [appearance.id, fighter],
+          [enemy.battleSprite, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [appearance.id],
+        sfx: sfx.player,
+        effectSprite: {
+          anchorX: 0,
+          anchorY: 1,
+          frames: fighter.sprite.frames.slice(0, 3).map((frame, index) => ({
+            ...frame,
+            pixels: new Uint8Array([index + 13]),
+          })),
+        },
+      },
+      (id) => id,
+      fixedRng([0.5]),
+      { playerSounds: [sounds] },
+    )
+    const ctx = battleCanvas()
+    const impactPixels: number[][] = []
+    session.tick(16, new Set([' ']))
+    for (let i = 0; i < 140 && impactPixels.length < 2; i++) {
+      const soundsBefore = sfx.plays.length
+      session.tick(8, new Set())
+      if (!sfx.plays.slice(soundsBefore).includes(weaponSound)) continue
+      session.render(ctx, 1)
+      // ENEMYPOS 双槽 (70,130)/(140,106)，一像素底中锚各向上 1。
+      impactPixels.push([
+        ctx.getImageData(70, 129, 1, 1).data[0] ?? 0,
+        ctx.getImageData(140, 105, 1, 1).data[0] ?? 0,
+      ])
+    }
+    expect(impactPixels).toEqual([
+      [208, 208],
+      [208, 208],
+    ])
   })
 
   test('御蜂术击杀三只血口虫时，三个槽位绘出完整法术伤害', async () => {

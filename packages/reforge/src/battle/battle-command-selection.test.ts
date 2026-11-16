@@ -38,6 +38,7 @@ function context(
     player: { skills: [], mp: 100, silenced: false, healthy: true },
     playerCount: 2,
     healthyPlayerCount: 2,
+    selectablePlayerIndices: [0, 1],
     aliveEnemyIndices: [2, 4],
     usableItems: [],
     throwableItems: [],
@@ -95,8 +96,30 @@ describe('BattleCommandSelection', () => {
   ])('$key submits its direct command and returns to main', ({ key, action }) => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()
-    selection.advance(context(), new Set([key]), recorded.port)
+    selection.advance(
+      context({ playerCount: 1, healthyPlayerCount: 1, selectablePlayerIndices: [0] }),
+      new Set([key]),
+      recorded.port,
+    )
     expect(recorded.submissions).toEqual([{ playerIndex: 0, action }])
+    expect(selection.phase).toBe('menu')
+  })
+
+  test.each([
+    ['shortcut', ['Q']],
+    ['misc menu', ['ArrowDown', 'Enter', 'ArrowDown', 'ArrowDown', 'ArrowDown', 'Enter']],
+  ])('replaces an earlier ally command when choosing party escape via %s', (_entry, inputs) => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const liveParty = { playerCount: 3, selectablePlayerIndices: [0, 2] }
+    selection.advance(context(liveParty), new Set(['d']), recorded.port)
+    const leader = context({ ...liveParty, playerIndex: 2 })
+    for (const key of inputs) selection.advance(leader, new Set([key]), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'defend' } },
+      { playerIndex: 0, action: { kind: 'flee' } },
+      { playerIndex: 2, action: { kind: 'flee' } },
+    ])
     expect(selection.phase).toBe('menu')
   })
 
@@ -120,6 +143,53 @@ describe('BattleCommandSelection', () => {
         playerIndex: 0,
         action: { kind: 'cast', skillId: strike.id, targetEnemyIdx: 4 },
       },
+    ])
+  })
+
+  test('misc auto attack reuses a living selected enemy and preserves a group weapon', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const first = context()
+    selection.advance(first, new Set(['Enter']), recorded.port)
+    selection.advance(first, new Set(['ArrowRight', 'Enter']), recorded.port)
+
+    const second = context({ playerIndex: 1 })
+    selection.advance(second, new Set(['ArrowDown', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    selection.advance(second, new Set(), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'attack', targetEnemyIdx: 4 } },
+      { playerIndex: 1, action: { kind: 'attack', targetEnemyIdx: 4 } },
+    ])
+    expect(selection.isAutoAttacking).toBe(true)
+
+    selection.beginRound()
+    const group = context({ player: { ...first.player, attackAll: true } })
+    selection.advance(group, new Set(), recorded.port)
+    expect(recorded.submissions.at(-1)).toEqual({
+      playerIndex: 0,
+      action: { kind: 'attack', targetEnemyIdx: -1 },
+    })
+  })
+
+  test('misc status pages through the party without submitting or retracting a command', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const second = context({ playerIndex: 1 })
+    selection.advance(second, new Set(['ArrowDown', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['ArrowUp', 'Enter']), recorded.port)
+    expect(selection.phase).toBe('status')
+
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    expect(selection.view).toMatchObject({ phase: 'menu', menuIndex: 3 })
+    expect(recorded.submissions).toEqual([])
+    expect(recorded.retract).not.toHaveBeenCalled()
+
+    selection.advance(second, new Set(['ArrowUp', 'Enter']), recorded.port)
+    selection.advance(second, new Set(['Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 1, action: { kind: 'attack', targetEnemyIdx: 2 } },
     ])
   })
 
@@ -212,6 +282,54 @@ describe('BattleCommandSelection', () => {
     selection.advance(context({ playerIndex: 2 }), new Set(['Escape']), recorded.port)
     expect(recorded.retract).toHaveBeenCalledOnce()
     expect(recorded.retract).toHaveBeenCalledWith(1)
+  })
+
+  test('合击点名队友，取消不消费回合，确认只提交选中的队友槽', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const support = context({
+      player: {
+        skills: [],
+        mp: 1,
+        silenced: false,
+        healthy: true,
+        cooperativeMagicSkillId: 'heal',
+      },
+      skills: { heal: { ...skill('heal', 'oneAlly'), cost: { mp: 120 } } },
+    })
+
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(selection.view).toMatchObject({ phase: 'target', targetSide: 'ally', targetIndex: 0 })
+    selection.advance(support, new Set(['Escape']), recorded.port)
+    expect(selection.phase).toBe('menu')
+    expect(recorded.submissions).toEqual([])
+    expect(recorded.consume).not.toHaveBeenCalled()
+
+    selection.advance(support, new Set(['Enter']), recorded.port)
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'coop', targetAllyIdx: 1 } },
+    ])
+    expect(recorded.consume.mock.calls).toEqual([[0]])
+  })
+
+  test.each(['self', 'allAllies'] as const)('合击 %s 无须进入目标选择', (target) => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const support = context({
+      player: {
+        skills: [],
+        mp: 1,
+        silenced: false,
+        healthy: true,
+        cooperativeMagicSkillId: 'heal',
+      },
+      skills: { heal: skill('heal', target) },
+    })
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([{ playerIndex: 0, action: { kind: 'coop' } }])
+    expect(recorded.consume.mock.calls).toEqual([[0]])
+    expect(selection.phase).toBe('menu')
   })
 })
 

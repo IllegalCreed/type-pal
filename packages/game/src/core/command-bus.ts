@@ -4,6 +4,14 @@
  * 队列只传实际音画意图；脚本对白和法术动画由状态/时间线各自持有。
  */
 
+export interface BattleDamageNumber {
+  target: { kind: 'enemy' | 'player'; idx: number }
+  value: number
+  color: 'yellow' | 'blue' | 'cyan'
+  /** Fighter position at the moment of the hit, before applying the UI offsets. */
+  anchor?: { x: number; y: number }
+}
+
 export type PresentCommand =
   // M3 战斗 UI 命令(T15)
   /**
@@ -20,12 +28,7 @@ export type PresentCommand =
    *   - cyan   = 回 MP(仅上升;`fight.c:706-709`)
    *  (旧注释 'yellow=伤害, blue=治疗' 与真值正好相反 — 已修正。)
    */
-  | {
-      op: 'showDamageNum'
-      target: { kind: 'enemy' | 'player'; idx: number }
-      value: number
-      color: 'yellow' | 'blue' | 'cyan'
-    }
+  | ({ op: 'showDamageNum' } & BattleDamageNumber)
   | { op: 'playEnemyAttack'; enemyIdx: number; targetPlayerIdx: number }
   | { op: 'playPlayerAttack'; playerIdx: number; targetEnemyIdx: number }
   | { op: 'playEnemyDeath'; enemyIdx: number }

@@ -17,11 +17,13 @@ import type {
 import { assert, describe, expect, it } from 'vitest'
 import { makeEnemyRecord, makeRoleRecord } from '../__tests__/battle-records.js'
 import { SceneAssetsCache } from '../assets/loader.js'
+import { performAttack } from '../core/battle/actions/attack.js'
 import { getBattleResources } from '../core/battle/battle-runtime-context.js'
 import { tickBattle } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
+import { getGlobalCommands, setGlobalEvents } from '../core/script-catalog.js'
 import {
   applyAutoBattleT37,
   applyBossBattle,
@@ -500,6 +502,82 @@ describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () 
 })
 
 describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
+  it('equips the Moon Blade and uses its fighter effect row and the loaded enemy height on attack', () => {
+    const deps = makeDeps()
+    deps.resources.playerRoles.roles = Array.from({ length: 5 }, (_, id) => minimalRole(id))
+    const blade = itemFixture(188)
+    blade.scriptOnEquip = 39705
+    blade.flags.equipable = true
+    blade.flags.equipableBy[4] = true
+    deps.resources.items = [blade]
+    deps.resources.battleEffectIndex = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 3, 2, 2, 4, 0, 6, 4, 3, 3]
+    // Use a small typed sprite resource to exercise the same ABC height input as the browser.
+    const height = 30
+    deps.battleSprites = new Map([
+      [
+        'enemy-2',
+        {
+          frames: [
+            { width: 1, height, indices: new Uint8Array(height), opaque: new Uint8Array(height) },
+          ],
+        },
+      ],
+    ])
+    // PAL item 188, SSS entries 39705–39712, with the original labels for the real equip runner.
+    const originalCommands = getGlobalCommands()
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x18, operands: [14, 188, 0], label: 'L_39705' },
+      { op: 'raw', opcode: 0x17, operands: [14, 17, 132] },
+      { op: 'raw', opcode: 0x17, operands: [14, 18, 55] },
+      { op: 'raw', opcode: 0x17, operands: [14, 19, 29] },
+      { op: 'raw', opcode: 0x17, operands: [14, 20, 45] },
+      { op: 'raw', opcode: 0x17, operands: [14, 21, 36] },
+      { op: 'raw', opcode: 0x1a, operands: [1, 7, 0] },
+      { op: 'end' },
+    ])
+    try {
+      applyFixture(
+        deps,
+        {
+          id: 'moon-blade-fixture',
+          label: '巫月神刀',
+          partyMembers: [4],
+          playerOverrides: { 4: { equipment: [0, 0, 0, 188, 0, 0] } },
+          enemyTeamId: 1,
+          battleFieldId: 7,
+        },
+        42,
+      )
+    } finally {
+      setGlobalEvents(originalCommands)
+    }
+    const state = deps.gs.battleState
+    const resources = getBattleResources(deps.gs)
+    assert(state && resources)
+    const bus = createCommandBus()
+    performAttack(
+      state,
+      { isEnemy: false, idx: 0, dex: 50, fIsSecond: false },
+      0,
+      bus,
+      resources.playerRoles,
+      resources.battleEffectIndex,
+    )
+    // The role's unequipped row 4 starts at effect 12. Equipping row 7 starts at 0.
+    // At enemy anchor (160,80), height 30 cancels the +10 offset of the first effect frame.
+    expect(
+      state.battleAnim?.frames.flatMap(({ overlay }) =>
+        overlay?.kind === 'effect' ? [[overlay.frameIdx, overlay.x, overlay.y]] : [],
+      ),
+    ).toEqual([
+      [0, 160, 80],
+      [1, 144, 96],
+      [2, 128, 112],
+    ])
+    expect(resources.playerRoles.roles[4]?.attackStrength).toBe(137)
+  })
+
   it('fixture-dialog:敌人 scriptOnTurnStart 设上(林月如一嘲讽能触发,team 21 → enemyId 82 → 41368)', () => {
     const deps = makeDeps()
     applyFixture(deps, dialogFixture, 42)

@@ -106,31 +106,28 @@
         "kind": "branch",
         "cond": {
           "kind": "chance",
-          "percent": 79
+          "percent": 21
         },
         "then": [
           {
-            "kind": "returnScript"
+            "kind": "giveItem",
+            "itemId": "99"
+          },
+          {
+            "kind": "dialog",
+            "cue": {
+              "identity": {
+                "kind": "narration"
+              },
+              "rows": [
+                {
+                  "text": "dlg.13117"
+                }
+              ],
+              "slot": "narration"
+            }
           }
         ]
-      },
-      {
-        "kind": "giveItem",
-        "itemId": "99"
-      },
-      {
-        "kind": "dialog",
-        "cue": {
-          "identity": {
-            "kind": "narration"
-          },
-          "rows": [
-            {
-              "text": "dlg.13117"
-            }
-          ],
-          "slot": "narration"
-        }
       }
     ],
     "sounds": {
@@ -179,31 +176,28 @@
         "kind": "branch",
         "cond": {
           "kind": "chance",
-          "percent": 81
+          "percent": 19
         },
         "then": [
           {
-            "kind": "returnScript"
+            "kind": "giveItem",
+            "itemId": "87"
+          },
+          {
+            "kind": "dialog",
+            "cue": {
+              "identity": {
+                "kind": "narration"
+              },
+              "rows": [
+                {
+                  "text": "dlg.13116"
+                }
+              ],
+              "slot": "narration"
+            }
           }
         ]
-      },
-      {
-        "kind": "giveItem",
-        "itemId": "87"
-      },
-      {
-        "kind": "dialog",
-        "cue": {
-          "identity": {
-            "kind": "narration"
-          },
-          "rows": [
-            {
-              "text": "dlg.13116"
-            }
-          ],
-          "slot": "narration"
-        }
       }
     ],
     "sounds": {
@@ -424,31 +418,28 @@
         "kind": "branch",
         "cond": {
           "kind": "chance",
-          "percent": 89
+          "percent": 11
         },
         "then": [
           {
-            "kind": "returnScript"
+            "kind": "giveItem",
+            "itemId": "115"
+          },
+          {
+            "kind": "dialog",
+            "cue": {
+              "identity": {
+                "kind": "narration"
+              },
+              "rows": [
+                {
+                  "text": "dlg.13119"
+                }
+              ],
+              "slot": "narration"
+            }
           }
         ]
-      },
-      {
-        "kind": "giveItem",
-        "itemId": "115"
-      },
-      {
-        "kind": "dialog",
-        "cue": {
-          "identity": {
-            "kind": "narration"
-          },
-          "rows": [
-            {
-              "text": "dlg.13119"
-            }
-          ],
-          "slot": "narration"
-        }
       }
     ],
     "sounds": {
@@ -496,31 +487,28 @@
         "kind": "branch",
         "cond": {
           "kind": "chance",
-          "percent": 85
+          "percent": 15
         },
         "then": [
           {
-            "kind": "returnScript"
+            "kind": "giveItem",
+            "itemId": "131"
+          },
+          {
+            "kind": "dialog",
+            "cue": {
+              "identity": {
+                "kind": "narration"
+              },
+              "rows": [
+                {
+                  "text": "dlg.13118"
+                }
+              ],
+              "slot": "narration"
+            }
           }
         ]
-      },
-      {
-        "kind": "giveItem",
-        "itemId": "131"
-      },
-      {
-        "kind": "dialog",
-        "cue": {
-          "identity": {
-            "kind": "narration"
-          },
-          "rows": [
-            {
-              "text": "dlg.13118"
-            }
-          ],
-          "slot": "narration"
-        }
       }
     ],
     "sounds": {
@@ -10778,22 +10766,17 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.005",
+                        "side": "right"
+                      }
                     },
+                    "slot": "bottom",
                     "rows": [
                       {
                         "text": "dlg.13130"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13131"
                       }
@@ -10804,8 +10787,13 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.024",
+                        "side": "left"
+                      }
                     },
+                    "slot": "top",
                     "rows": [
                       {
                         "text": "dlg.13132"
@@ -10814,11 +10802,19 @@
                   }
                 },
                 {
+                  "kind": "clearDialog"
+                },
+                {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.090",
+                        "side": "left"
+                      }
                     },
+                    "slot": "top",
                     "rows": [
                       {
                         "text": "dlg.13133"
@@ -10835,6 +10831,7 @@
                     "identity": {
                       "kind": "narration"
                     },
+                    "slot": "narration",
                     "rows": [
                       {
                         "text": "dlg.13134"

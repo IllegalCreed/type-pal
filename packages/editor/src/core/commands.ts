@@ -157,6 +157,7 @@ export {
   DeletePoisonCommand,
   UpdatePoisonCommand,
 } from './poison-commands.js'
+export { SetHostileVictoryTransitionCommand } from './project-battle-settings-command.js'
 export { RenameProjectCommand } from './project-name-command.js'
 export {
   AddShopCommand,

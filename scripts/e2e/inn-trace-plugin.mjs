@@ -154,8 +154,8 @@ export function instrumentInnTrace(code, file) {
     }
     census(restores[0].body)
     const names = [
-      'abortScript',
       'stopAutoRunners',
+      'abortScript',
       'replaceWorld',
       'commitSceneSwitch',
       'syncRuntimeScriptScratch',
@@ -178,6 +178,8 @@ export function instrumentInnTrace(code, file) {
       ordered.every((value, index) => index === 0 || value.index > ordered[index - 1].index),
       'inn restore commit anchor ordering changed',
     )
+    assert.equal(ordered[0].call.getText(restoreAst), 'stopAutoRunners(false)')
+    assert.equal(ordered[1].call.getText(restoreAst), 'abortScript()')
     assert.equal(ordered[2].call.getText(restoreAst), 'replaceWorld(candidate)')
     assert.equal(
       ordered[3].call.getText(restoreAst),

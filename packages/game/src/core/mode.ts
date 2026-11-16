@@ -4,20 +4,82 @@
  */
 
 import type { InputSnapshot } from '@type-pal/shared'
+import { isBattleContact } from './battle/battle-entry.js'
 import { tickBattle } from './battle/battle-system.js'
 import type { CommandBus } from './command-bus.js'
 import {
+  OP_FADE_OUT,
+  OP_HIDE_OBJECT,
   tickAutoScripts,
   tickChaseTimer,
   tickEventSystem,
   tickSceneAutoFadeIn,
 } from './event-system.js'
-import type { GameState } from './game-state.js'
+import type { EventCursor, GameState } from './game-state.js'
 import { tickMenu } from './menu/menu-mode.js'
+import type { PaletteFadeState } from './palette-fade.js'
 import { tickSceneSystem } from './scene-system.js'
+import { getCmds } from './script-catalog.js'
 
-export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus): void {
+/** Read the fade whose root trigger can return directly to the current map. */
+export function pendingEncounterFadeOut(
+  gs: GameState,
+): { fade: PaletteFadeState; cursor: EventCursor } | undefined {
+  const fade = gs.paletteFadeState
+  const cursor = gs.eventCursor
+  if (gs.mode !== 'event' || fade?.fade60 !== 'out' || cursor?.waiting !== 'palette-fade') {
+    return
+  }
+  if (
+    cursor.triggerOwnerId === undefined ||
+    cursor.triggerOwnerId !== cursor.currentEventObjectId ||
+    cursor.callStack?.length ||
+    cursor.reloadSlotAfterFade !== undefined ||
+    gs.pendingSceneLoad !== undefined ||
+    gs.sceneLoading ||
+    gs.suspendRaf ||
+    gs.blackScreenHold ||
+    gs.gameOverActive ||
+    gs.deathHoldActive ||
+    gs.fadeState ||
+    gs.dialogBox ||
+    gs.menuStack.length ||
+    !gs.needToFadeIn
+  ) {
+    return
+  }
+  // The native encounter returns after self-hide, 0x50 and 0x00 (SSS 41127–41129).
+  const commands = getCmds(cursor)
+  const hide = commands[cursor.ip - 1]
+  const fadeOut = commands[cursor.ip]
+  const end = commands[cursor.ip + 1]
+  if (
+    hide?.op === 'raw' &&
+    hide.opcode === OP_HIDE_OBJECT &&
+    fadeOut?.op === 'raw' &&
+    fadeOut.opcode === OP_FADE_OUT &&
+    end?.op === 'end' &&
+    !end.advance &&
+    !end.reset
+  ) {
+    return { fade, cursor }
+  }
+}
+
+/** Continue the encounter on the frame after its final frozen draw (play.c:534–546). */
+export function resumeEncounterAfterFadeOut(gs: GameState): void {
+  tickEventSystem(gs, { held: new Set(), pressed: new Set(), frameNum: gs.frameNum })
+  tickSceneAutoFadeIn(gs)
+}
+
+export function tickByMode(
+  gs: GameState,
+  input: InputSnapshot,
+  bus: CommandBus,
+  waitForEncounterFadeDraw = false,
+): void {
   gs.frameNum++ // 全局逻辑帧计数器(D13);所有模式都推进
+  if (waitForEncounterFadeDraw) return // 浏览器宿主在黑帧绘制后续跑这个等待中的 trigger。
 
   // PAL_MakeScene 的自动淡入可能冻结探索；先交给 event-system 判断当前等待点是否会绘制场景。
   tickSceneAutoFadeIn(gs)
@@ -25,10 +87,13 @@ export function tickByMode(gs: GameState, input: InputSnapshot, bus: CommandBus)
   // PAL_GameUpdate 每次调用都跑自动脚本和追逐计时（play.c:169-238）。探索模式由 scene-system
   // 按 trigger→autoScript→party 的顺序处理；这里仅补 event 模式的逐帧等待/走路/滚屏。
   // 对话、delay、fadeScreen、paletteFade 和场景重载是阻塞操作，不能偷跑 NPC 或消耗追逐周期。
-  const waiting = gs.eventCursor?.waiting
+  // 自动接敌的同步 trigger 也先于世界自动脚本（play.c:153–183）。
+  const cursor = gs.eventCursor
+  const waiting = cursor?.waiting
   const shouldRunAutoScripts =
     !gs.sceneLoading &&
     gs.mode === 'event' &&
+    !isBattleContact(cursor) &&
     (waiting === undefined ||
       waiting === 'frame-wait' ||
       waiting === 'scene-fade' ||

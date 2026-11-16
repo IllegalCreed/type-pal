@@ -166,7 +166,9 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     if (
       isCore &&
       ts.isIfStatement(node) &&
-      node.expression.getText(ast) === '!canAct(p.status)' &&
+      ['!canAct(p.status)', 'dead ? p.status.puppet <= 0 : !canAct(p.status)'].includes(
+        node.expression.getText(ast),
+      ) &&
       ts.isBlock(node.parent) &&
       ts.isFunctionDeclaration(node.parent.parent) &&
       node.parent.parent.name?.text === 'performPlayerAction'
@@ -174,7 +176,14 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       assert(ts.isBlock(node.thenStatement), 'incapacitated action guard lost its block')
       const exit = node.thenStatement.statements.at(-1)
       assert(exit && ts.isReturnStatement(exit), 'incapacitated action no longer returns')
-      add('incapacitated', exit.getStart(ast), call('incapacitated', 'idx'))
+      const observation = call('incapacitated', 'idx')
+      add(
+        'incapacitated',
+        exit.getStart(ast),
+        node.expression.getText(ast) === '!canAct(p.status)'
+          ? observation
+          : `if (!dead) {${observation}}`,
+      )
     }
     if (
       isCore &&
@@ -237,31 +246,50 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         )
         add('frame-end', node.body.end - 1, `\n${evidenceCall('endFrame')}\n`)
       }
-      if (ts.isIfStatement(node) && node.expression.getText(ast) === 'transition') {
-        if (source.includes('enemies.push('))
-          add(
-            'enemy-draw-identity',
-            node.end,
-            `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, e.hp <= 0 && !dyingNow")}\n`,
-          )
-        if (source.includes('players.push('))
+      if (
+        ts.isIfStatement(node) &&
+        node.expression.getText(ast) === 'transition' &&
+        source.includes('enemies.push(')
+      )
+        add(
+          'enemy-draw-identity',
+          node.end,
+          `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, e.hp <= 0 && !dyingNow")}\n`,
+        )
+      if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
+        const name = node.expression.expression.getText(ast)
+        if (source === 'players.push(draw)')
           add(
             'player-draw-identity',
             node.end,
-            `\n${evidenceCall('labelFighter', "players.at(-1), 'player', i")}\n`,
+            `\n${evidenceCall('labelFighter', "draw, 'player', i, false, undefined, appearance.definition.id")}`,
           )
-      }
-      if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
-        const name = node.expression.expression.getText(ast)
+        if (source === 'this.tranceFade.render(ctx, scene, worldScale, fade)') {
+          add(
+            'trance-fade-composited',
+            node.end,
+            `\n${evidenceCall('appearanceTransitionDrawn', 'fade.step, trance.fade.total, trance.idx, fade.source, trance.oldDefinitionId')}`,
+          )
+        }
         if (name === 'this.selection.advance')
           add('selection-context', node.getStart(ast), call('selectionContext', 'context'))
+        if (
+          source === 'ctx.drawImage(img, dx, dy)' &&
+          ts.isForOfStatement(node.parent.parent) &&
+          node.parent.parent.expression.getText(ast) === 'this.overlays'
+        )
+          add(
+            'physical-overlay-draw',
+            node.end,
+            `\nif (o.sheet === 'effect') ${evidenceCall('physicalOverlayDrawn', 'dx + Math.floor(f.width / 2), dy + f.height, o.frameIdx')}\n`,
+          )
         if (
           source === 'renderBattleScene(ctx, scene, worldScale)' &&
           ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'renderInner'
         )
           add(
             'magic-overlay-resources',
-            node.getStart(ast),
+            ts.isIfStatement(node.parent) ? node.parent.getStart(ast) : node.getStart(ast),
             evidenceCall('labelMagicOverlays', 'scene.depthOverlays, this.assets.fireSprites'),
           )
         if (name === 'this.floats.push' && source.includes('num: value'))
@@ -276,6 +304,16 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
             node.end,
             `\n${evidenceCall('numberDrawn', 'f, f.num, f.tone, f.x, f.y - age, age')}\n`,
           )
+        if (source === 'ctx.drawImage(img, dx, dy)') {
+          const enclosing = node.parent.parent
+          const fades =
+            ts.isIfStatement(enclosing) && enclosing.expression.getText(ast) === 'summonShow > 0'
+          add(
+            fades ? 'summon-fade-draw' : 'summon-full-draw',
+            node.end,
+            `\nif (o.sheet === 'summon') { ${evidenceCall('summonDrawn', 'o.x, o.y, o.frameIdx')} }\n`,
+          )
+        }
         if (name === 'drawPlayerInfoBox')
           add('panel-draw', node.end, `\n${evidenceCall('panelDrawn', 'i')}\n`)
         if (name === 'drawSettlementScreen') {
@@ -393,9 +431,13 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'frame-end',
                       'enemy-draw-identity',
                       'player-draw-identity',
+                      'trance-fade-composited',
                       'magic-overlay-resources',
+                      'physical-overlay-draw',
                       'number-identity',
                       'number-draw',
+                      'summon-fade-draw',
+                      'summon-full-draw',
                       'panel-draw',
                       'settlement-draw-begin',
                       'settlement-draw-end',
@@ -407,7 +449,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                     ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
-    assert.equal(count, isBattleUi ? 3 : 1, `unexpected battle producer count: ${file}`)
+    assert.equal(count, 1, `unexpected battle producer count: ${file}`)
   for (const edit of edits.sort((a, b) => b.at - a.at))
     code = code.slice(0, edit.at) + edit.text + code.slice(edit.at)
   const output = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)

@@ -10,6 +10,12 @@ import type { BattleResult } from './battle-result.js'
 import { BattleSession } from './battle-session.js'
 import type { SettlementScreen } from './settlement.js'
 
+export interface WorldBattlePresentation {
+  showEntry(session: BattleSession): Promise<void>
+  abortEntry(): void
+  fadeOnVictory: boolean
+}
+
 export interface BattleHostPorts {
   readWorld(): WorldState
   exitFrameStep(): void
@@ -19,18 +25,25 @@ export interface BattleHostPorts {
   finishWorld(session: BattleSession, result: BattleResult): void
   /** 仅原生大世界战败流程持有该回调，用于接续最后一帧。 */
   worldDefeatFrameCapture?(signal: AbortSignal): (() => void) | undefined
+  worldPresentation?(signal: AbortSignal, scripted?: true): WorldBattlePresentation | undefined
+  presentVictory?(
+    owner: AbortSignal,
+    signal: AbortSignal,
+    finish: () => Promise<void>,
+  ): Promise<void>
   runDefeated(
     definitions: readonly EnemyDef[],
     signal: AbortSignal,
     assertCurrent: () => void,
   ): Promise<void>
+  recoverVictory?(): void
   restoreSceneSounds(): Promise<void>
   publishDebug(session: BattleSession | null): void
   reportReadiness(team: string, stage: string, error: Error, fatal: boolean): void
   reportRestoreFailure(error: unknown): void
 }
 export interface BattleHostMusic {
-  bgm: Pick<BgmPlayer, 'play' | 'stop'>
+  bgm: Pick<BgmPlayer, 'play' | 'stop' | 'prepare'>
   victory(boss: boolean): AssetId
   locale: Record<string, string>
 }
@@ -39,6 +52,8 @@ export interface BattleHostMusic {
 export class BattleHost {
   #active: BattleSession | null = null
   #launch = new AsyncIntentController()
+  #victoryPresentation: AbortController | null = null
+  #entryPresentation?: WorldBattlePresentation
   #reported = new Set<string>()
   constructor(
     private readonly preparation: Pick<BattleLaunchPreparation, 'prepare'>,
@@ -51,6 +66,8 @@ export class BattleHost {
   cancel(): void {
     this.#launch.invalidate()
     this.#active?.cancel()
+    this.#victoryPresentation?.abort()
+    this.#entryPresentation?.abortEntry()
   }
   async start(
     team: string,
@@ -60,6 +77,8 @@ export class BattleHost {
     this.assertRunner(runnerSignal, team)
     this.ports.exitFrameStep()
     const token = this.#launch.begin()
+    this.#victoryPresentation?.abort()
+    this.#entryPresentation?.abortEntry()
     const assertScript = this.ports.captureScriptOwner(team)
     const world = this.ports.readWorld()
     // DEV/hostile launches without a runner must not borrow the main script's signal.
@@ -71,22 +90,67 @@ export class BattleHost {
       if (this.ports.readWorld() !== world)
         throw asyncIntentAbortError(`${team} 战斗启动所属世界已失效`)
     }
+    const worldPresentation = this.ports.worldPresentation?.(signal, options?.scripted)
+    if (worldPresentation) {
+      this.#entryPresentation = worldPresentation
+      this.music.bgm.stop()
+    }
+    try {
+      return await this.launch(team, options, signal, assertCurrent, worldPresentation)
+    } catch (error) {
+      if (worldPresentation && this.#entryPresentation === worldPresentation) {
+        try {
+          assertCurrent()
+          this.restoreWorldMusic()
+        } finally {
+          if (options?.scripted) worldPresentation.abortEntry()
+        }
+      }
+      throw error
+    } finally {
+      if (this.#entryPresentation === worldPresentation) this.#entryPresentation = undefined
+    }
+  }
+
+  private async launch(
+    team: string,
+    options: BattleLaunchOptions | undefined,
+    signal: AbortSignal,
+    assertCurrent: () => void,
+    worldPresentation: WorldBattlePresentation | undefined,
+  ): Promise<BattleResult> {
+    const scripted = options?.scripted === true
+    let pendingMusic: Promise<() => void> | undefined
     const prepared = await scriptWorkIO(
-      this.preparation.prepare(team, options, signal, assertCurrent, (id, stage, error, fatal) =>
-        this.report(id, stage, error, fatal),
+      this.preparation.prepare(
+        team,
+        options,
+        signal,
+        assertCurrent,
+        (id, stage, error, fatal) => this.report(id, stage, error, fatal),
+        worldPresentation
+          ? (asset) => {
+              pendingMusic = this.music.bgm.prepare(asset, signal)
+            }
+          : undefined,
       ),
       signal,
     )
     assertCurrent()
     let playedVictory = false
     const restoreMusic = () => {
-      if (prepared.battleTrack === undefined && !playedVictory) return
-      const persistent = this.ports.readWorld().audio?.currentMusic
-      if (persistent === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-      else if (persistent) this.music.bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
+      if (worldPresentation || scripted) this.restoreWorldMusic()
+      else if (prepared.battleTrack !== undefined || playedVictory) {
+        const persistent = this.ports.readWorld().audio?.currentMusic
+        if (persistent === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
+        else if (persistent) this.music.bgm.play(persistent, true, BATTLE_MUSIC_TRANSITION_MS)
+      }
     }
-    if (prepared.battleTrack === null) this.music.bgm.stop(BATTLE_MUSIC_TRANSITION_MS)
-    else this.music.bgm.play(prepared.battleTrack, true, BATTLE_MUSIC_TRANSITION_MS)
+    const playBattleMusic = (fadeMs: number) => {
+      if (prepared.battleTrack === null) this.music.bgm.stop(fadeMs)
+      else this.music.bgm.play(prepared.battleTrack, true, fadeMs)
+    }
+    if (!worldPresentation) playBattleMusic(BATTLE_MUSIC_TRANSITION_MS)
     const { sessionAssets, sessionOptions } = prepared.commit()
     const captureDefeatFrame = this.ports.worldDefeatFrameCapture?.(signal)
     const session: BattleSession = new BattleSession(
@@ -100,7 +164,10 @@ export class BattleHost {
       Math.random,
       {
         ...sessionOptions,
-        handoffDefeat: captureDefeatFrame !== undefined,
+        ...(worldPresentation && !scripted
+          ? { worldSettlement: { boss: options?.boss === true } }
+          : {}),
+        handoffDefeat: captureDefeatFrame !== undefined || scripted,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),
         buildSettlement: () => {
@@ -109,32 +176,76 @@ export class BattleHost {
             this.music.bgm.play(
               this.music.victory(!!options?.boss),
               false,
-              BATTLE_MUSIC_TRANSITION_MS,
+              worldPresentation ? 0 : BATTLE_MUSIC_TRANSITION_MS,
             )
             playedVictory = true
           })
         },
       },
     )
-    this.#active = session
-    return await this.awaitSession(session, signal, assertCurrent, restoreMusic, captureDefeatFrame)
+    const presentation = worldPresentation && {
+      enter: async () => {
+        try {
+          // A cold MIDI read may finish after the other resources. Keep the held world
+          // until both are ready rather than exposing the menu before playback.
+          const playPrepared = pendingMusic ? await scriptWorkIO(pendingMusic, signal) : undefined
+          assertCurrent()
+          await worldPresentation.showEntry(session)
+          assertCurrent()
+          if (playPrepared) playPrepared()
+          else playBattleMusic(0)
+          this.#active = session
+        } finally {
+          if (this.#entryPresentation === worldPresentation) {
+            if (scripted && this.#active !== session) worldPresentation.abortEntry()
+            this.#entryPresentation = undefined
+          }
+        }
+      },
+      fadeOnVictory: worldPresentation.fadeOnVictory,
+    }
+    if (!presentation) this.#active = session
+    return await this.awaitSession(
+      session,
+      signal,
+      assertCurrent,
+      (result) => {
+        if (result !== 'defeat' || (scripted && !captureDefeatFrame)) restoreMusic()
+      },
+      captureDefeatFrame,
+      presentation,
+    )
+  }
+
+  private restoreWorldMusic(): void {
+    const track = this.ports.readWorld().audio?.currentMusic
+    if (track) this.music.bgm.play(track)
+    else this.music.bgm.stop()
   }
 
   private async awaitSession(
     session: BattleSession,
     signal: AbortSignal,
     assertCurrent: () => void,
-    restoreMusic: () => void,
+    restoreMusic: (result?: BattleResult) => void,
     captureDefeatFrame: (() => void) | undefined,
+    presentation?: { enter(): Promise<void>; fadeOnVictory: boolean },
   ): Promise<BattleResult> {
     const abort = () => {
-      if (this.#active === session) session.cancel()
+      if (!published || this.#active === session) session.cancel()
     }
+    let published = false
     signal.addEventListener('abort', abort, { once: true })
     if (signal.aborted) abort()
-    this.ports.publishDebug(session)
     let result: BattleResult
     try {
+      if (presentation) {
+        // A replacement can cancel the session before command input is enabled.
+        void session.done.catch(() => undefined)
+        await presentation.enter()
+      }
+      this.ports.publishDebug(session)
+      published = true
       result = await scriptWorkWait<BattleResult>(signal, (resolve, reject) => {
         void session.done.then(resolve, reject)
       })
@@ -143,6 +254,7 @@ export class BattleHost {
         captureDefeatFrame?.()
       }
     } catch (error) {
+      if (presentation && !published) session.cancel(error)
       if (!isBattleAbort(error)) {
         await scriptWorkIO(this.ports.restoreSceneSounds(), signal).catch((error) =>
           this.ports.reportRestoreFailure(error),
@@ -155,15 +267,22 @@ export class BattleHost {
       signal.removeEventListener('abort', abort)
       // A late old session must never clear the newer active instance.
       if (this.#active === session) {
-        this.ports.publishDebug(null)
         this.#active = null
+        this.ports.publishDebug(null)
       }
     }
     // Releasing the active slot and committing results share the same continuation.
     // An extra await between these operations would expose an uncommitted world to other work.
     assertCurrent()
     this.ports.finishWorld(session, result)
-    await this.finishEncounter(session, result, signal, assertCurrent, restoreMusic)
+    await this.finishEncounter(
+      session,
+      result,
+      signal,
+      assertCurrent,
+      restoreMusic,
+      presentation?.fadeOnVictory === true,
+    )
     return result
   }
 
@@ -172,22 +291,44 @@ export class BattleHost {
     result: BattleResult,
     signal: AbortSignal,
     assertCurrent: () => void,
-    restoreMusic: () => void,
+    restoreMusic: (result?: BattleResult) => void,
+    fadeOnVictory: boolean,
   ) {
-    let failed = false
-    let failure: unknown
-    try {
-      if (result === 'victory')
-        await this.ports.runDefeated(session.enemySlotDefs(), signal, assertCurrent)
-    } catch (error) {
-      if (isBattleAbort(error)) throw error
-      failed = true
-      failure = error
+    const definitions = result === 'victory' ? session.enemySlotDefs() : []
+    const finish = async (scriptSignal: AbortSignal): Promise<void> => {
+      let failure: { error: unknown } | undefined
+      if (result === 'victory') {
+        try {
+          await this.ports.runDefeated(definitions, scriptSignal, assertCurrent)
+        } catch (error) {
+          if (isBattleAbort(error)) throw error
+          failure = { error }
+        }
+        assertCurrent()
+        this.ports.recoverVictory?.()
+      }
+      await scriptWorkIO(this.ports.restoreSceneSounds(), scriptSignal)
+      assertCurrent()
+      restoreMusic(result)
+      if (failure) throw failure.error
     }
-    await scriptWorkIO(this.ports.restoreSceneSounds(), signal)
-    assertCurrent()
-    if (result !== 'defeat') restoreMusic()
-    if (failed) throw failure
+    if (
+      result === 'victory' &&
+      this.ports.presentVictory &&
+      (fadeOnVictory || definitions.some((def) => def.onDefeated?.length))
+    ) {
+      const controller = new AbortController()
+      this.#victoryPresentation = controller
+      // The battle no longer owns input, but replacement or a parent abort still cancels its scripts.
+      const scriptSignal = AbortSignal.any([signal, controller.signal])
+      try {
+        await this.ports.presentVictory(signal, scriptSignal, () => finish(scriptSignal))
+      } finally {
+        if (this.#victoryPresentation === controller) this.#victoryPresentation = null
+      }
+    } else {
+      await finish(signal)
+    }
   }
   private assertRunner(signal: AbortSignal | undefined, team: string) {
     if (signal?.aborted) throw asyncIntentAbortError(`${team} 战斗所属 runner 已取消`)

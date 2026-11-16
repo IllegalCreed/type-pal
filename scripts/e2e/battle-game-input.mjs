@@ -40,8 +40,13 @@ export function nextGameBattleKey(readout, command) {
   }
   if (readout.uiState === 'selectTargetEnemyAll' || readout.uiState === 'selectTargetPlayerAll') {
     const side = readout.uiState === 'selectTargetEnemyAll' ? 'enemy' : 'player'
+    const selfTrance =
+      side === 'player' &&
+      command.kind === 'cast' &&
+      command.targetId === command.actorId &&
+      readout.tranceSpellIds?.includes(command.skillId)
     assert(
-      command.targetId === null && command.targetSide === side,
+      selfTrance || (command.targetId === null && command.targetSide === side),
       `Game expected a group command for ${side}`,
     )
     // CLASSIC commits target -1 without consuming a target confirmation key.

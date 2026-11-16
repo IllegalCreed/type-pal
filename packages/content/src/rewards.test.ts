@@ -1,7 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import type { ActorDef } from './actor.js'
 import type { CharacterInstance } from './character.js'
-import { applyHiddenExp, applyLevelGrowth, grantBattleRewards } from './rewards.js'
+import {
+  applyHiddenExp,
+  applyLevelGrowth,
+  grantBattleRewards,
+  recoverBattleParty,
+} from './rewards.js'
 
 function mkChar(o: Partial<CharacterInstance> = {}): CharacterInstance {
   return {
@@ -121,6 +126,33 @@ describe('B7a 战后结算', () => {
     expect(c.hp).toBe(40 + Math.floor((100 - 40) / 2)) // 70
     expect(c.mp).toBe(10 + Math.floor((30 - 10) / 2)) // 20
     expect(rep.levelUps).toEqual([])
+  })
+
+  test('世界战后可以先结算经验，再按脚本结束时的缺口半恢复全队', () => {
+    const survivor = mkChar({ hp: 41, mp: 11 })
+    const fallen = mkChar({ id: 'zhao-linger', hp: 0, maxHP: 99, mp: 3 })
+    const party = [survivor, fallen]
+
+    const report = grantBattleRewards(
+      party,
+      {},
+      {},
+      {},
+      { exp: 3, cash: 7, deferRecovery: true },
+      rng0,
+    )
+    expect(report).toEqual({ exp: 3, cash: 7, levelUps: [], hiddenUps: [] })
+    expect(party.map(({ exp, hp, mp }) => ({ exp, hp, mp }))).toEqual([
+      { exp: 3, hp: 41, mp: 11 },
+      { exp: 0, hp: 0, mp: 3 },
+    ])
+
+    survivor.mp = 5
+    recoverBattleParty(party)
+    expect(party.map(({ hp, mp }) => ({ hp, mp }))).toEqual([
+      { hp: 70, mp: 17 },
+      { hp: 49, mp: 16 },
+    ])
   })
 
   test('死者不获经验,但吃 Phase F 半恢复(调用方先回 1 血 = 原版战后复活观感)', () => {

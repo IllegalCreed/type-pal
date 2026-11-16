@@ -2,7 +2,7 @@
  * TEST-GLM-RUNTIME-RESOURCE-2 R13（reforge/menu/save-browser-box.ts）。
  * 该文件此前无任何测试。合同（renderSpans 文本缝替身 + 录制 ctx）：inactive 早退、
  * 标题黄/页码右对齐/翻页三角（fillRect 像素行）、auto 槽两行标签与 save 模式禁用色、
- * 选中三角光标、已存槽 meta 行（队伍/存次黄注/地图/右对齐时间）、覆盖确认框。
+ * 选中三角光标、已存槽信息栏、覆盖确认框。
  */
 import type { Locale } from '@type-pal/content'
 import { lookupText } from '@type-pal/content'
@@ -13,8 +13,8 @@ import {
   menuAssets,
   stubDocumentCanvas,
 } from '../__tests__/glm-runtime-resource/menu-draw-fixtures.js'
-import type { SaveBrowserState } from '../save/browser-state.js'
-import { ALL_SLOT_IDS, type SlotId } from '../save/types.js'
+import { openSaveBrowser, type SaveBrowserState } from '../save/browser-state.js'
+import { ALL_SLOT_IDS, type SaveMeta, type SlotId } from '../save/types.js'
 import { drawSaveBrowser } from './save-browser-box.js'
 
 const textCalls = vi.hoisted(() => vi.fn())
@@ -50,6 +50,15 @@ function texts(): [string, number, number, readonly number[]][] {
     const opts = c[4] as { forceRgba?: readonly number[] }
     return [spans[0]!.text, c[2] as number, c[3] as number, opts.forceRgba!]
   })
+}
+
+function textMetrics() {
+  const sample = glyphTable()
+  return {
+    has: () => true,
+    get: (codepoint: number) =>
+      sample.get(codepoint < 128 || codepoint === 0x00b7 || codepoint === 0x2026 ? 0x41 : 0x4e2d),
+  }
 }
 
 describe('R13 drawSaveBrowser', () => {
@@ -99,8 +108,9 @@ describe('R13 drawSaveBrowser', () => {
     expect(rows[5]).toEqual(['存档', 26, 110, [166, 40, 32]])
   })
 
-  test('已存手动槽：选中三角、队伍行、存次黄注右对齐、地图名、时间右对齐', () => {
+  test('已存手动槽保留短队伍、标题和日期，保存次数使用右对齐的黄数字', () => {
     const h = drawHost()
+    const assets = menuAssets()
     const metas: SaveBrowserState['metas'][number][] = ALL_SLOT_IDS.map(() => null)
     metas[2] = {
       slotId: 'm01',
@@ -111,15 +121,15 @@ describe('R13 drawSaveBrowser', () => {
       ],
       mapName: '余杭镇',
       savedAt: new Date(2026, 8, 28, 21, 7).getTime(),
-      savedTimes: 4,
+      savedTimes: 14,
     }
     stubDocumentCanvas(h)
     textCalls.mockClear()
     drawSaveBrowser(
       h.ctx,
       state({ mode: 'load', cursor: 2, metas }),
-      menuAssets(),
-      glyphTable(),
+      assets,
+      textMetrics(),
       0,
       locale,
       new Map<SlotId, ImageBitmap>(),
@@ -129,11 +139,90 @@ describe('R13 drawSaveBrowser', () => {
     expect(rows[1]![0]).toBe('1/10')
     const textsList = rows.map((r) => r[0])
     expect(textsList).toContain('李逍遥 9  赵灵儿 8')
-    expect(textsList).toContain('存4次')
+    expect(h.drawImage.mock.calls.filter(([image]) => assets.nums.includes(image))).toEqual([
+      [assets.nums[4], 300, 152],
+      [assets.nums[1], 294, 152],
+    ])
+    expect(textsList).not.toContain('存14次')
     expect(textsList).toContain('余杭镇')
     expect(textsList).toContain('09/28 21:07')
-    // 选中三角（idx2 选中）+ 翻页左右两三角：36×3 = 108
+    // 选中三角和右翻页三角。
     expect(h.fillRect.mock.calls.length).toBe(72)
+  })
+
+  test.each([
+    ['仙剑奇侠传·复刻', '仙剑奇侠传·复刻'],
+    ['仙剑奇侠传·复刻长篇场景编辑器测试', '仙剑奇侠传·复刻…'],
+  ])('长标题 %s 放在完整时间前的独立列内', (mapName, displayedName) => {
+    const h = drawHost()
+    const translate = vi.fn()
+    const scale = vi.fn()
+    Object.assign(h.ctx, { translate, scale })
+    const assets = menuAssets()
+    const meta: SaveMeta = {
+      slotId: 'm01',
+      kind: 'manual',
+      party: [{ name: '阿奴', level: 28 }],
+      mapName,
+      savedAt: new Date(2026, 10, 15, 16, 31).getTime(),
+      savedTimes: 1,
+    }
+    const browser = openSaveBrowser('load', [meta], ALL_SLOT_IDS.indexOf('m01'))
+    textCalls.mockClear()
+    drawSaveBrowser(h.ctx, browser, assets, textMetrics(), 0, locale, new Map())
+
+    expect(texts()).toContainEqual([displayedName, 0, 0, [199, 186, 174]])
+    expect(texts()).toContainEqual(['11/15 16:31', 0, 0, [199, 186, 174]])
+    expect(translate.mock.calls).toEqual([
+      [124, 168],
+      [240, 168],
+    ])
+    expect(scale.mock.calls).toEqual([
+      [0.75, 0.75],
+      [0.75, 0.75],
+    ])
+    expect(h.drawImage.mock.calls.find(([image]) => image === assets.nums[1])).toEqual([
+      assets.nums[1],
+      300,
+      152,
+    ])
+  })
+
+  test.each([
+    [42, ['李逍遥 99  赵灵儿 99', '林月如 99']],
+    [Number.MAX_SAFE_INTEGER, ['李逍遥 99', '赵灵儿 99  林月如 99']],
+  ])('满队以成员为单位换行，并保留保存序号 %d 和日期', (savedTimes, roster) => {
+    const h = drawHost()
+    const translate = vi.fn()
+    Object.assign(h.ctx, { translate, scale: vi.fn() })
+    const assets = menuAssets()
+    const meta: SaveMeta = {
+      slotId: 'm01',
+      kind: 'manual',
+      party: ['李逍遥', '赵灵儿', '林月如'].map((name) => ({ name, level: 99 })),
+      mapName: '仙剑奇侠传·复刻',
+      savedAt: new Date(2026, 10, 15, 16, 31).getTime(),
+      savedTimes,
+    }
+    const browser = openSaveBrowser('load', [meta], ALL_SLOT_IDS.indexOf('m01'))
+    textCalls.mockClear()
+    drawSaveBrowser(h.ctx, browser, assets, textMetrics(), 0, locale, new Map())
+
+    expect(
+      texts()
+        .slice(-4)
+        .map(([text]) => text),
+    ).toEqual([...roster, '仙剑奇侠传·复刻', '11/15 16:31'])
+    expect(translate.mock.calls).toEqual([
+      [124, 145],
+      [124, 159],
+      [124, 173],
+      [240, 173],
+    ])
+    const digits = h.drawImage.mock.calls
+      .filter(([image]) => assets.nums.includes(image))
+      .map(([image]) => assets.nums.indexOf(image))
+    expect(digits.reverse().join('')).toBe(String(savedTimes))
   })
 
   test('confirmOverwrite：叠否/是确认框（卷轴 + 左右文本）', () => {

@@ -260,17 +260,34 @@ describe('M4d-2 战斗动画时间线', () => {
     for (const f of mk()) expect(f.fighters?.some((x) => x.side === 'player') ?? false).toBe(false)
   })
 
-  test('疯魔打友:抽搐2轮→瞬移队友旁(+30,+12)→frame9+武器音→击退(−12,−6)+红闪+数字→双方复位', () => {
+  test('疯魔打友:抽搐后走位，击退与武器音同拍，闪白一拍后显示数字并复位', () => {
     const frames = buildMateAttack({
       attackerFrames: PLAYER_FRAMES,
-      mateFrames: PLAYER_FRAMES,
+      attackerRestFrame: PLAYER_FRAMES.idle,
       attackerIdx: 0,
       attackerPos: { x: 200, y: 170 },
       mateIdx: 1,
       matePos: { x: 240, y: 190 },
       weaponSound: 'sound.pal.012',
       damage: 5,
-      mateDied: false,
+      mateRestFrame: PLAYER_FRAMES.defend,
+    })
+    const strike = frames.findIndex((frame) => frame.sound === 'sound.pal.012')
+    expect(frames[strike]).toMatchObject({
+      durationMs: 40,
+      fighters: [
+        { side: 'player', idx: 0, frame: 9 },
+        { side: 'player', idx: 1, pos: { x: 228, y: 184 } },
+      ],
+    })
+    expect(frames[strike + 1]).toEqual({
+      durationMs: 40,
+      fighters: [{ side: 'player', idx: 1, colorShift: 6 }],
+    })
+    expect(frames[strike + 2]).toMatchObject({
+      durationMs: 160,
+      fighters: [{ side: 'player', idx: 1, colorShift: 0 }],
+      damageNum: { target: { side: 'player', idx: 1 }, value: 5 },
     })
     const { events, player } = record(frames)
     let guard = 0
@@ -279,12 +296,12 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(events).toContain('f:player0#8@270,202') // 瞬移至队友旁(+30,+12)
     const swing = events.indexOf('f:player0#9')
     expect(swing).toBeGreaterThan(-1)
-    expect(events[swing + 1]).toBe('snd:sound.pal.012') // 挥击帧同帧武器音
+    expect(events[swing + 2]).toBe('snd:sound.pal.012') // 挥击、击退及武器音同帧
     expect(events).toContain('f:player1@228,184') // 队友击退(−12,−6)
     expect(events).toContain('f:player1c6') // 红闪
     expect(events).toContain('dmg:player1:5')
     expect(events).toContain('f:player0#0@200,170') // 攻击者复位
-    expect(events).toContain('f:player1#0@240,190') // 队友复位站立(死则帧2)
+    expect(events).toContain('f:player1#3@240,190') // 复位后保持防御姿势
   })
 
   test('敌疯魔打友:12 段递归中点→effect 9/10/11→抖动/完整数字→Delay5→复位，无声音', () => {
@@ -567,36 +584,48 @@ describe('M4d-2 战斗动画时间线', () => {
     })
     expect(frames.length).toBe(78)
     expect(frames.slice(0, 6).map((f) => f.fighters![0]!.colorShift)).toEqual([0, 1, 2, 3, 4, 5])
-    expect(frames.slice(0, 6).map((f) => f.appearanceTransition?.step)).toEqual([0, 0, 0, 0, 0, 0])
-    expect(frames.slice(6).map((f) => f.appearanceTransition?.step)).toEqual(
-      Array.from({ length: 72 }, (_, i) => i + 1),
+    const steps = frames.map(({ appearanceTransition }) =>
+      appearanceTransition?.side === 'enemy' ? appearanceTransition.step : null,
     )
+    expect(steps.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0])
+    expect(steps.slice(6)).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
     expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
     expect(frames[6]!.fighters![0]!.frame).toBe(3)
     expect(frames[6]!.sound).toBe('sound.pal.047')
   })
 
   test('梦蛇:旧图施法后 0/2/4/6/8/10 闪色，再 72×16ms 切换到新图', () => {
-    // 一阶段 golden：packages/game/src/core/battle/actions/magic.ts:751-809。
+    // fight.c:4226–4240 和 battle.c:884–907 的冻结端点与逐相溶解。
     const frames = buildPlayerTrance({
       casterIdx: 0,
       casterPos: { x: 240, y: 170 },
       oldDefinitionId: 'battle-sprite.player.000',
-      newDefinitionId: 'battle-sprite.player.005',
       oldFrames: PLAYER_FRAMES,
-      newFrames: { ...PLAYER_FRAMES, idle: 2 },
+      newFrames: { ...PLAYER_FRAMES, preMagic: 4 },
       castEffectBase: -1,
       magicSound: 'sound.pal.009',
     })
     const flash = frames.slice(7, 13)
     expect(flash.map((f) => f.fighters![0]!.colorShift)).toEqual([0, 2, 4, 6, 8, 10])
     expect(flash.every((f) => f.durationMs === 40)).toBe(true)
-    expect(flash.every((f) => f.appearanceTransition?.step === 0)).toBe(true)
+    expect(frames[0]?.appearanceTransition).toEqual({
+      side: 'player',
+      idx: 0,
+      oldDefinitionId: 'battle-sprite.player.000',
+    })
     const fade = frames.slice(-72)
-    expect(fade.map((f) => f.appearanceTransition?.step)).toEqual(
-      Array.from({ length: 72 }, (_, i) => i + 1),
-    )
-    expect(fade.every((f) => f.durationMs === 16 && f.fighters![0]!.frame === 2)).toBe(true)
+    expect(
+      fade.map((f) =>
+        f.appearanceTransition?.side === 'player' ? f.appearanceTransition.fade?.step : null,
+      ),
+    ).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
+    expect(fade[0]?.appearanceTransition).toMatchObject({
+      fade: { source: { x: 230, y: 166, frame: 5, colorShift: 10 } },
+    })
+    expect(fade[0]?.fighters).toEqual([
+      { side: 'player', idx: 0, frame: 4, colorShift: 0, pos: { x: 240, y: 170 } },
+    ])
+    expect(fade.every((f) => f.durationMs === 16)).toBe(true)
   })
 
   test('剧情施法白闪:PreMagic + frame6 + 全队 0/2/4/6/8 后复色', () => {

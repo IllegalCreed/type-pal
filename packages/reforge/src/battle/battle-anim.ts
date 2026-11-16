@@ -10,6 +10,7 @@
  */
 import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
+import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
@@ -36,6 +37,28 @@ export interface OverlayDraw {
   y: number
   /** magic 与敌我单位统一按 y + layerOffset 排序；其它 overlay 缺省仍在单位之后画。 */
   layerOffset?: number
+}
+
+export interface PlayerAppearanceTransition {
+  side: 'player'
+  idx: number
+  oldDefinitionId: string
+  fade?: {
+    step: number
+    total: number
+    source: { x: number; y: number; frame: number; colorShift: number }
+  }
+}
+
+export interface EnemyAppearanceTransition {
+  side: 'enemy'
+  idx: number
+  oldDefinitionId: string
+  newDefinitionId: string
+  oldFrame: number
+  newFrame: number
+  step: number
+  total: number
 }
 
 export interface AnimFrame {
@@ -73,17 +96,8 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
   waitForThrowFeedback?: boolean
-  /** 旧/新战斗精灵的离散 dither 过渡；step=0 只画旧图，step=72 后只画新图。 */
-  appearanceTransition?: {
-    side: 'player' | 'enemy'
-    idx: number
-    oldDefinitionId: string
-    newDefinitionId: string
-    oldFrame: number
-    newFrame: number
-    step: number
-    total: number
-  }
+  /** 玩家梦蛇混合场景快照，敌变身沿用精灵级过渡。 */
+  appearanceTransition?: PlayerAppearanceTransition | EnemyAppearanceTransition
 }
 
 export interface BuildPlayerAttackInput {
@@ -106,80 +120,104 @@ export interface BuildAttackAllInput {
   frames: PlayerFighterFrames
   attackerIdx: number
   attackerPos: { x: number; y: number }
-  /** 中心敌落点(挥击站位;取中心敌或首个活敌)。 */
-  centerPos: { x: number; y: number }
-  /** 各命中敌:idx + 屏位 + 伤害(逐敌染色/数字/击退)。 */
-  hits: { idx: number; pos: { x: number; y: number }; value: number }[]
+  attackerRestFrame: number
+  effectFrameBase: number
+  targets: { idx: number; pos: { x: number; y: number } }[]
+  sweeps: { hits: { idx: number; value: number }[]; attackSound?: AssetId }[]
   weaponSound?: AssetId
-  attackSound?: AssetId
 }
 
-/**
- * 长鞭攻全体时间线(fight.c:3683-3730):蓄力7(4)→冲刺至中心 frame8(2)→挥击9+出招音→
- * 全敌染色+逐敌伤害数字(damageNums)+全敌击退(hurtEnemies 式,3 帧衰减)→染色复位。
- * 一挥扫全场(异于单体逐个冲刺),伤害已在 core 逐敌减半算好。
- */
+/** CLASSIC group swings share their targets but each has its own voice, impact and recovery. */
 export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
   const {
     attackerIdx,
     attackerPos,
-    centerPos,
-    hits,
+    attackerRestFrame,
+    effectFrameBase,
+    targets,
+    sweeps,
     weaponSound,
-    attackSound,
     frames: pose,
   } = input
-  const frames: AnimFrame[] = []
-  const rushX = centerPos.x + 64
-  const rushY = centerPos.y + 20
-  // 蓄力
-  frames.push({
-    durationMs: delayMs(4),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackWindup, pos: { ...attackerPos } },
-    ],
-  })
-  // 冲刺至中心 + 出招音
-  frames.push({
-    durationMs: delayMs(2),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackRush, pos: { x: rushX, y: rushY } },
-    ],
-    ...(attackSound ? { sound: attackSound } : {}),
-  })
-  // 挥击 9 + 全敌染色 + 逐敌伤害数字 + 兵器音
-  frames.push({
-    durationMs: delayMs(2),
-    fighters: [
-      { side: 'player', idx: attackerIdx, frame: pose.attackStrike },
-      ...hits.map((h) => ({ side: 'enemy' as const, idx: h.idx, colorShift: 6 })),
-    ],
-    damageNums: hits.map((h) => ({
-      target: { side: 'enemy' as const, idx: h.idx },
-      value: h.value,
-    })),
-    ...(weaponSound ? { sound: weaponSound } : {}),
-  })
-  // 全敌击退 3 帧(x −8/−4/−6 衰减),末帧染色复位
-  let dist = 8
-  const off = { x: 0 }
-  for (let i = 0; i < 3; i++) {
-    off.x -= dist
-    dist = Math.trunc(dist / -2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: hits.map((h) => ({
-        side: 'enemy' as const,
-        idx: h.idx,
-        pos: { x: h.pos.x + off.x, y: h.pos.y },
-        ...(i === 2 ? { colorShift: 0 } : {}),
-      })),
-    })
+  const attacker = { side: 'player' as const, idx: attackerIdx }
+  const enemies = targets.map(({ idx, pos }) => ({ side: 'enemy' as const, idx, pos }))
+  const frames: AnimFrame[] = [
+    {
+      durationMs: delayMs(4),
+      fighters: [{ ...attacker, frame: pose.attackWindup, pos: attackerPos }],
+    },
+  ]
+  let enemyOffsetX = 0
+  for (const [index, { hits, attackSound }] of sweeps.entries()) {
+    // fight.c:2076–2118: a normal sweep moves toward (150,100); double sweeps
+    // start from the player's own stance and step farther forward on the second swing.
+    const double = sweeps.length > 1
+    const rush = double
+      ? { x: attackerPos.x - 8 - index * 12, y: attackerPos.y - 4 - index * 8 }
+      : { x: 214, y: 120 }
+    const step = double ? rush : { x: rush.x - 10, y: rush.y - 2 }
+    frames.push(
+      {
+        durationMs: delayMs(2),
+        fighters: [{ ...attacker, frame: pose.attackRush, pos: rush }],
+        ...(attackSound ? { sound: attackSound } : {}),
+      },
+      {
+        durationMs: delayMs(1),
+        fighters: [{ ...attacker, pos: step }],
+      },
+    )
+
+    for (let frame = 0; frame < 3; frame++) {
+      const fighters: FighterDelta[] = []
+      if (frame === 0) fighters.push({ ...attacker, frame: pose.attackStrike })
+      // PAL sets the flash after painting the first impact frame (fight.c:2147–2213).
+      if (frame === 1)
+        fighters.push(...enemies.map(({ side, idx }) => ({ side, idx, colorShift: 6 })))
+      if (frame === 2) fighters.push({ ...attacker, pos: { x: step.x + 2, y: step.y + 1 } })
+      frames.push({
+        durationMs: delayMs(1),
+        fighters,
+        ...(effectFrameBase >= 0
+          ? {
+              overlays: targets.map(({ pos }) => ({
+                sheet: 'effect',
+                frameIdx: effectFrameBase + frame,
+                x: pos.x,
+                y: pos.y,
+              })),
+            }
+          : {}),
+        ...(frame === 0
+          ? {
+              damageNums: hits
+                .filter(({ value }) => value > 0)
+                .map(({ idx, value }) => ({ target: { side: 'enemy', idx }, value })),
+              ...(weaponSound ? { sound: weaponSound } : {}),
+            }
+          : {}),
+      })
+    }
+
+    for (const [index, dx] of [-8, 4, -2].entries()) {
+      enemyOffsetX += dx
+      frames.push({
+        durationMs: delayMs(1),
+        fighters: enemies.map(({ side, idx, pos }) => ({
+          side,
+          idx,
+          pos: { x: pos.x + enemyOffsetX, y: pos.y },
+          ...(index === 0 ? { colorShift: 0 } : {}),
+        })),
+      })
+    }
+    frames.push({ durationMs: delayMs(4) })
   }
-  // 攻击者复位站立
+
+  // Both sweeps finish before fighters return to their bases and enemy defeat can fade.
   frames.push({
-    durationMs: delayMs(4),
-    fighters: [{ side: 'player', idx: attackerIdx, frame: pose.idle, pos: { ...attackerPos } }],
+    durationMs: delayMs(3),
+    fighters: [{ ...attacker, frame: attackerRestFrame, pos: attackerPos }, ...enemies],
   })
   return frames
 }
@@ -282,7 +320,7 @@ export function buildPlayerAttack(input: BuildPlayerAttackInput): AnimFrame[] {
 
 export interface BuildMateAttackInput {
   attackerFrames: PlayerFighterFrames
-  mateFrames: PlayerFighterFrames
+  attackerRestFrame: number
   attackerIdx: number
   attackerPos: { x: number; y: number }
   mateIdx: number
@@ -290,19 +328,18 @@ export interface BuildMateAttackInput {
   /** 攻击者武器音(rgwWeaponSound,fight.c:3810)。 */
   weaponSound?: AssetId
   damage: number
-  mateDied: boolean
+  mateRestFrame: number
 }
 
 /**
  * 疯魔打友时间线(fight.c:3790-3855):frame8↔0 抽搐 2 轮(each Delay1) → Delay2 →
- * 瞬移至队友旁(+30,+12) frame8 Delay5 → frame9 + 武器音 → 队友击退(−12,−6)(1) →
- * 红闪 colorShift6 + 伤害数字(1;数字挂帧策略同 buildEnemyPhysical) → 闪清(4) → 双方复位(4)。
+ * 瞬移至队友旁(+30,+12) frame8 Delay5 → frame9、击退和武器音同拍 →
+ * 闪白一拍 → 清除闪白并显示伤害数字(4) → 双方按当前状态复位(4)。
  */
 export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
-  const { attackerIdx, attackerPos, mateIdx, matePos, weaponSound, damage, mateDied } = input
+  const { attackerIdx, attackerPos, mateIdx, matePos, weaponSound, damage } = input
   const frames: AnimFrame[] = []
   const attackerPose = input.attackerFrames
-  const matePose = input.mateFrames
   for (let j = 0; j < 2; j++) {
     frames.push({
       durationMs: delayMs(1),
@@ -327,31 +364,29 @@ export function buildMateAttack(input: BuildMateAttackInput): AnimFrame[] {
   })
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: attackerIdx, frame: attackerPose.attackStrike }],
+    fighters: [
+      { side: 'player', idx: attackerIdx, frame: attackerPose.attackStrike },
+      { side: 'player', idx: mateIdx, pos: { x: matePos.x - 12, y: matePos.y - 6 } },
+    ],
     ...(weaponSound ? { sound: weaponSound } : {}),
   })
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: mateIdx, pos: { x: matePos.x - 12, y: matePos.y - 6 } }],
-  })
-  frames.push({
-    durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: mateIdx, colorShift: 6 }],
-    damageNum: { target: { side: 'player', idx: mateIdx }, value: damage },
   })
   frames.push({
     durationMs: delayMs(4),
     fighters: [{ side: 'player', idx: mateIdx, colorShift: 0 }],
+    damageNum: { target: { side: 'player', idx: mateIdx }, value: damage },
   })
-  // 双方复位(PAL_BattleUpdateFighters 语义;被打死 → 倒地帧 2)
   frames.push({
     durationMs: delayMs(4),
     fighters: [
-      { side: 'player', idx: attackerIdx, frame: attackerPose.idle, pos: attackerPos },
+      { side: 'player', idx: attackerIdx, frame: input.attackerRestFrame, pos: attackerPos },
       {
         side: 'player',
         idx: mateIdx,
-        frame: mateDied ? matePose.dead : matePose.idle,
+        frame: input.mateRestFrame,
         pos: matePos,
       },
     ],
@@ -965,20 +1000,13 @@ function appendPlayerApproach(
 /** 友方 DefMagic 直放特效帧，随后在受术队员身上走 13 拍辉光（fight.c:2492–2605）。 */
 function appendDefMagic(
   frames: AnimFrame[],
-  { casterIdx, casterFrames, fireFrames, fx, damageNums }: BuildPlayerCastInput,
+  { fireFrames, fx }: Pick<BuildPlayerCastInput, 'fireFrames' | 'fx'>,
   targets: NonNullable<BuildPlayerCastInput['allyTargets']>,
-  approachedPos: { x: number; y: number },
 ): void {
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
-  })
   for (let i = 0; i < fireFrames; i++) {
     frames.push({
       durationMs: (fx.speed + 5) * 10,
-      overlays: targets.map(({ idx, pos }) =>
-        magicOverlay(i, fx, idx === casterIdx ? approachedPos : pos),
-      ),
+      overlays: targets.map(({ pos }) => magicOverlay(i, fx, pos)),
       ...(i === 0 && fx.sound ? { sound: fx.sound } : {}),
     })
   }
@@ -989,7 +1017,6 @@ function appendDefMagic(
       fighters: targets.map(({ idx }) => ({ side: 'player', idx, colorShift })),
     })
   }
-  if (damageNums.length) frames.push({ durationMs: 0, damageNums })
 }
 
 /**
@@ -1022,7 +1049,18 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   frames.push({ durationMs: delayMs(1) })
 
   if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
-    appendDefMagic(frames, input, input.allyTargets, { x: cx, y: cy })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, frame: input.casterFrames.magic }],
+    })
+    appendDefMagic(
+      frames,
+      input,
+      input.allyTargets.map((target) =>
+        target.idx === casterIdx ? { idx: casterIdx, pos: { x: cx, y: cy } } : target,
+      ),
+    )
+    if (damageNums.length) frames.push({ durationMs: 0, damageNums })
     return frames // 会话在辉光结束后恢复实际姿态并显示回复数字。
   }
 
@@ -1147,6 +1185,7 @@ export interface BuildPlayerCoopInput {
   fireFrames: number
   fx: CastFxParams
   targetPos?: { x: number; y: number }
+  allyTargets?: BuildPlayerCastInput['allyTargets']
   /** 结算伤害数字(挂 PostMagic 首帧)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
@@ -1160,7 +1199,7 @@ export interface BuildPlayerCoopInput {
  *  ① 聚拢:全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
  *  ② 蓄势:非发起贡献者 slot 倒序(后→前)逐个摆施法姿 frame5。
  *  ③ 发起者闪白(colorShift6+frame5,起手音29)→ ④ 出招(frame6)。
- *  ⑤ OffMagic:fire 精灵放法术特效(caster 已 frame6,不再注入)。
+ *  ⑤ 技能特效在受术者实际位置释放；敌方沿 OffMagic，友方沿 DefMagic。
  *  ⑥ PostMagic:掉血敌三轮抖动 + 闪白,伤害数字挂首帧。
  *  ⑦ 滑回:全贡献者反向插值回原位 + frame0(t 计数仅非发起贡献者递增,fight.c:4091 非对称,如实复刻)。
  * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
@@ -1211,6 +1250,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
+  const gatheredFighters = frames.at(-1)?.fighters
 
   // ② 非发起贡献者逐个 frame5(slot 倒序 = 后→前)
   for (let i = partySize - 1; i >= 0; i--) {
@@ -1248,14 +1288,15 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     ],
   })
 
-  // ⑤ OffMagic:fire 精灵帧循环(caster 已 frame6,不注入)
-  frames.push(
-    ...buildOffMagic({
-      fireFrames,
-      fx,
-      ...(targetPos ? { targetPos } : {}),
-    }),
-  )
+  if (fireFrames > 0 && input.allyTargets?.length) {
+    const gatheredTargets = input.allyTargets.map(({ idx, pos }) => ({
+      idx,
+      pos: gatheredFighters?.find((fighter) => fighter.idx === idx)?.pos ?? pos,
+    }))
+    appendDefMagic(frames, input, gatheredTargets)
+  } else {
+    frames.push(...buildOffMagic({ fireFrames, fx, ...(targetPos ? { targetPos } : {}) }))
+  }
 
   // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
   if (postTargets?.length) {
@@ -1719,7 +1760,6 @@ export interface BuildPlayerTranceInput {
   casterIdx: number
   casterPos: { x: number; y: number }
   oldDefinitionId: string
-  newDefinitionId: string
   oldFrames: PlayerFighterFrames
   newFrames: PlayerFighterFrames
   castEffectBase: number
@@ -1808,29 +1848,17 @@ export function buildPlayerScriptCastEffect(input: BuildPlayerScriptCastEffectIn
   return frames
 }
 
-/** 梦蛇：旧图施法前摇 → 0/2/4/6/8/10 闪色 → 72×16ms 旧图到新图 dither。 */
+/** 梦蛇：旧图施法前摇 → 0/2/4/6/8/10 闪色 → 72×16ms 场景错相淡变。 */
 export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {
   const frames: AnimFrame[] = []
-  let x = input.casterPos.x
-  let y = input.casterPos.y
-  for (let i = 0; i < 4; i++) {
-    x -= 4 - i
-    y -= Math.trunc((4 - i) / 2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: input.casterIdx, pos: { x, y } }],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step: 0,
-        total: 72,
-      },
-    })
+  const { x, y } = appendPlayerApproach(frames, input.casterIdx, input.casterPos)
+  const transition: PlayerAppearanceTransition = {
+    side: 'player',
+    idx: input.casterIdx,
+    oldDefinitionId: input.oldDefinitionId,
   }
+  // fight.c:2363–2374：前四步和之后两拍保留当前姿势，再换施法姿。
+  expectDefined(frames[0]).appearanceTransition = transition
   frames.push({ durationMs: delayMs(2) })
   frames.push({
     durationMs: delayMs(1),
@@ -1864,39 +1892,23 @@ export function buildPlayerTrance(input: BuildPlayerTranceInput): AnimFrame[] {
           colorShift: flash * 2,
         },
       ],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step: 0,
-        total: 72,
-      },
     })
-  for (let step = 1; step <= 72; step++)
+  // fight.c:4226–4240 / battle.c:884–907：旧图保留末次亮色与位置；
+  // 新精灵载入后回原站位并复色，保留施法姿势，收招时才复位姿势。
+  const source = { x, y, frame: input.oldFrames.preMagic, colorShift: 10 }
+  for (let step = 1; step <= DITHER_TOTAL_STEPS; step++)
     frames.push({
       durationMs: 16,
       fighters: [
         {
           side: 'player',
           idx: input.casterIdx,
-          frame: input.newFrames.idle,
+          frame: input.newFrames.preMagic,
           colorShift: 0,
           pos: { ...input.casterPos },
         },
       ],
-      appearanceTransition: {
-        side: 'player',
-        idx: input.casterIdx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldFrames.preMagic,
-        newFrame: input.newFrames.idle,
-        step,
-        total: 72,
-      },
+      appearanceTransition: { ...transition, fade: { step, total: DITHER_TOTAL_STEPS, source } },
     })
   return frames
 }

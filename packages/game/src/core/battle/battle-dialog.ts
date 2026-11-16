@@ -1,6 +1,5 @@
 /** 战斗对话队列的逐tick消费：只拥有对话宿主字段及内联演出请求，不路由战斗phase。 */
 import type { DialogBoxStyle, InputSnapshot } from '@type-pal/shared'
-import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 import {
   appendDialogLine,
   confirmDialog,
@@ -45,8 +44,7 @@ function isVerticalDialogSwap(a: DialogBoxStyle, b: DialogBoxStyle): boolean {
  * CLASSIC 真值:battle dialog 走普通 dialog box(top/bottom 多行翻页 + 等键;narration 1.4s 自消),
  * `#ifndef PAL_CLASSIC` 的战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉(text.c:1668-1672)。
  *
- * 既有战斗节拍:每tick累计40ms，满100ms后调用一次不带now的tickDialog（使用tick计时）。
- * 大世界caller另传墙钟now；本次职责拆分保持战斗原节拍，不声称两者逐字显示时刻完全一致。
+ * Use the same per-character reveal times as world dialogue, sampling with the battle clock.
  *
  * @returns true = 本tick被队列/等键/内联effect占用，caller早退暂停战斗；不只指已有可见框。
  */
@@ -71,7 +69,7 @@ export function advanceBattleDialog(
     if (next?.effect) {
       // D26(2b):dialog 序列中的内联可见 effect 按位置 dispatch(目前仅 0x69 敌逃跑)。
       //   0x69 → set enemyEscapeAnim(= dispatchBattleOpcode 的 0x69 handler,battle.c:1399
-      //   PAL_BattleEnemyEscape)→ 下 tick tickBattleEnemyEscapeAnim（优先于本hold）飞出敌人
+      //   PAL_BattleEnemyEscape)→ 下 tick advanceBattleEnemyEscape（优先于本 hold）移出敌人
       //   → phase='fleed';飞完后队列后续 narration 仍由本 hold 显示,再 finalize。
       //   时序:嘲讽对话 → [逃跑动画] → narration「逃走了」→ fleed,忠实 sdlpal 脚本顺序。
       state.battleDialogQueue!.shift()
@@ -104,22 +102,17 @@ export function advanceBattleDialog(
     return true // 仍在显示 narration(等 1.4s / 任意键)
   }
 
-  // A timed line uses the battle clock for both the typing and the fixed tail pause.
   const wasFullyRevealed = box.charsRevealed >= (box.currentLineText?.length ?? 0)
-  state.battleDialogTypingAccMs = (state.battleDialogTypingAccMs ?? 0) + BATTLE_DT
-  const timedElapsed = box.currentLineEndedWithTilde ? state.battleDialogTypingAccMs : undefined
-  if (timedElapsed !== undefined) {
-    tickDialog(box, timedElapsed)
-  } else {
-    while (state.battleDialogTypingAccMs >= FRAME_MS_EXPLORE) {
-      state.battleDialogTypingAccMs -= FRAME_MS_EXPLORE
-      tickDialog(box)
-    }
-  }
+  const elapsed = (state.battleDialogTypingAccMs ?? 0) + BATTLE_DT
+  state.battleDialogTypingAccMs = elapsed
+  tickDialog(box, elapsed)
 
-  // Confirm 处理(phase 决定):skip-typing / page-advance / dialog-end
-  if (input.pressed.has('Confirm') || (timedElapsed !== undefined && input.pressed.has('Menu'))) {
-    const result = confirmDialog(box, timedElapsed)
+  // The menu key is also allowed to skip a timed line's typing, without shortening its tail.
+  if (
+    input.pressed.has('Confirm') ||
+    (box.currentLineEndedWithTilde && input.pressed.has('Menu'))
+  ) {
+    const result = confirmDialog(box, elapsed)
     if (result === 'skip-typing') {
       return true // 本 tick 整行显满;下 tick 才走 line-done 推进(同大世界 fUserSkip)
     }

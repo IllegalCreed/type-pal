@@ -40,6 +40,8 @@ import {
   startDialogLine,
   tickDialog,
 } from '../present/dialog-box.js'
+import { computeFollowerWorldPos } from '../present/follower-pos.js'
+import { markScriptBattleEntry } from './battle/battle-entry.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
 import { recordBattleTriggerArgument } from './battle/battle-runtime-context.js'
 import type { BattleState } from './battle/battle-state.js'
@@ -87,7 +89,7 @@ import {
   resolveLabelIp,
   resolveScriptLabel,
 } from './script-catalog.js'
-import { OP_ADD_CASH, OP_ADD_ITEM } from './script-opcode-ids.js'
+import { OP_ADD_CASH, OP_ADD_ITEM, OP_START_BATTLE } from './script-opcode-ids.js'
 import { getWord } from './word-lookup.js'
 
 export {
@@ -136,7 +138,7 @@ export {
 //   operand[0]=enemyTeamId
 //   operand[1]=wScriptEntry on Lose(0 = default game-over)
 //   operand[2]=wScriptEntry on Flee(also: !operand[2] → fIsBoss / no-flee 标志)
-export const OP_START_BATTLE = 0x0007 // 7
+export { OP_START_BATTLE } from './script-opcode-ids.js'
 // case 0x0046(70):  Set the party position on the map
 //   operand[0]=col, operand[1]=row, operand[2]=h → x=col*32+h*16, y=row*16+h*8
 export const OP_SET_PARTY_POS = 0x0046 // 70
@@ -658,16 +660,23 @@ export function setMapReloader(fn: MapReloaderFn | null): void {
 }
 
 /**
- * opcode 0x4C MonsterChasePlayer 障碍检测注入(port sdlpal `PAL_CheckObstacle`)。
+ * 脚本走位的障碍检测注入(port sdlpal `PAL_CheckObstacleWithRange`)。
  *
  * 返回 TRUE = 该像素坐标被阻挡(= sdlpal PAL_CheckObstacle 真值)。
  *   checkObjects=TRUE  → tilemap obstacle bit + 当前 scene event objects(排除 selfId)
  *   checkObjects=FALSE → 只查 tilemap(忽略 event objects,selfId 无意义)
+ *   checkRange=TRUE → 采用玩家和队友的原盘地图边界。
  * 用 hook 注入避免 event-system 反向 import scene-system(scene-system 已 import event-system,
  * 直接 import 会成环)。bootstrap 用 `!isWalkable(presentCtx.tilemap, x, y, ...)` 实现。
  * 未注入(测试 / 无 tilemap)→ 视为无障碍(返回 false)。
  */
-type ObstacleCheckerFn = (x: number, y: number, checkObjects: boolean, selfId: number) => boolean
+type ObstacleCheckerFn = (
+  x: number,
+  y: number,
+  checkObjects: boolean,
+  selfId: number,
+  checkRange?: boolean,
+) => boolean
 let _obstacleChecker: ObstacleCheckerFn | null = null
 
 export function setObstacleChecker(fn: ObstacleCheckerFn | null): void {
@@ -3216,6 +3225,7 @@ function tryStartBattle(gs: GameState, enemyTeamId: number, fleeArg: number): vo
     return
   }
   const isBoss = fleeArg === 0 // sdlpal !operand[2]:operand[2]==0 → isBoss true
+  if (gs.eventCursor) markScriptBattleEntry(gs.eventCursor, performance.now())
   // 战斗背景 = gs.wNumBattleField(0x4A setBattlefield 设;持久全局,scene enter 脚本逐场设)。
   _startBattleHandler({ gs, enemyTeamId, isBoss })
 }
@@ -4706,6 +4716,17 @@ function partyWalkTo(
   gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame + 1) % 4
 
   if (gs.party.x === tx && gs.party.y === ty) {
+    // The original updates every follower on the final walking step before setting the idle
+    // frames. Capture that formation before the renderer switches to its stationary branch.
+    const followerState = {
+      party: gs.party,
+      trail: gs.trail,
+      walking: true,
+      frozenOffset: gs.followerFrozenOffset,
+    }
+    for (let member = 1; member < gs.partyMembers.length; member++) {
+      computeFollowerWorldPos(followerState, member, (x, y) => !isObstacle(x, y, true, 0, true))
+    }
     gs.walkingFrame.walking = false // PAL_UpdatePartyGestures(FALSE) — 站立
     // DL26:走位循环结束调 UpdatePartyGestures(FALSE)(script.c:199)→ scene.c:773-774
     //   `stepFrame &= 2; ^= 2` 相位复位 —— 紧接下一段走路起步左右脚与 C 同拍。
@@ -4904,8 +4925,14 @@ function monsterChasePlayer(
 }
 
 /** PAL_CheckObstacle 真值(via 注入 hook);未注入(测试/无 tilemap)视为无障碍。 */
-function isObstacle(x: number, y: number, checkObjects: boolean, selfId: number): boolean {
-  return _obstacleChecker ? _obstacleChecker(x, y, checkObjects, selfId) : false
+function isObstacle(
+  x: number,
+  y: number,
+  checkObjects: boolean,
+  selfId: number,
+  checkRange?: boolean,
+): boolean {
+  return _obstacleChecker?.(x, y, checkObjects, selfId, checkRange) ?? false
 }
 
 // runEnterScript: 同步跑 wScriptOnEnter 段(loadScene 不传 partyStart 时调用)。

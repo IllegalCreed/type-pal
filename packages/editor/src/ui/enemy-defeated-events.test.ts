@@ -1,4 +1,5 @@
 import type { AuthorEnemyDef, ItemData } from '@type-pal/content'
+import { checkEnemyOnDefeatedCommands } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   createEnemyDefeatedPresentationContext,
@@ -272,16 +273,22 @@ describe('enemy defeated event presenter', () => {
       ],
     },
     {
-      name: '奖励位于嵌套分支',
+      name: '掉落概率还取决于嵌套条件',
       commands: [
         {
           kind: 'branch' as const,
           cond: { kind: 'chance' as const, percent: 11 },
           then: [
-            { kind: 'giveItem' as const, itemId: '115', count: 1 },
             {
-              kind: 'dialog' as const,
-              cue: { identity: { kind: 'narration' as const }, rows: [{ text: 'dlg.13119' }] },
+              kind: 'branch' as const,
+              cond: { kind: 'allFullHp' as const },
+              then: [
+                { kind: 'giveItem' as const, itemId: '115', count: 1 },
+                {
+                  kind: 'dialog' as const,
+                  cue: { identity: { kind: 'narration' as const }, rows: [{ text: 'dlg.13119' }] },
+                },
+              ],
             },
           ],
         },
@@ -459,6 +466,112 @@ describe('enemy defeated event presenter', () => {
 })
 
 describe('enemy defeated reward edit boundary', () => {
+  const positiveReward = {
+    kind: 'branch',
+    cond: { kind: 'chance', percent: 11 },
+    then: [{ kind: 'giveItem', itemId: '115' }],
+  } as const satisfies AuthorEnemyDefeatedCommands[number]
+
+  test('以发放分支的概率显示奖励，编辑其区间时保留前后的独立事件', () => {
+    const before = { kind: 'giveMoney', delta: 9 } as const
+    const after = { kind: 'setFlag', flag: 'quest.done', value: true } as const
+    const commands = [before, positiveReward, after] satisfies AuthorEnemyDefeatedCommands
+    checkEnemyOnDefeatedCommands(commands, 'onDefeated')
+    expect(presentEnemyDefeatedEvents([positiveReward], context)).toMatchObject({
+      compactSummary: '击败后：11% 获得蜂巢 ×1',
+      exactReward: { itemId: '115', count: 1, probability: 11 },
+    })
+
+    const reward = findEditableEnemyDefeatedItemReward(commands)
+    expect(reward).toEqual({
+      startIndex: 1,
+      endIndex: 2,
+      itemId: '115',
+      count: 1,
+      probability: 11,
+    })
+    expect(
+      replaceEditableEnemyDefeatedItemReward(commands, reward, {
+        itemId: '115',
+        count: 2,
+        probability: 30,
+      }),
+    ).toEqual([
+      before,
+      {
+        kind: 'branch',
+        cond: { kind: 'chance', percent: 30 },
+        then: [{ kind: 'giveItem', itemId: '115', count: 2 }],
+      },
+      after,
+    ])
+  })
+
+  test('前置终止使发放分支不可作为独立概率奖励编辑', () => {
+    const commands: AuthorEnemyDefeatedCommands = [
+      {
+        kind: 'branch',
+        cond: { kind: 'allFullHp' },
+        then: [{ kind: 'returnScript' }],
+      },
+      positiveReward,
+    ]
+    checkEnemyOnDefeatedCommands(commands, 'onDefeated')
+    expect(findEditableEnemyDefeatedItemReward(commands)).toBeUndefined()
+    expect(presentEnemyDefeatedEvents(commands, context).compactSummary).toContain(
+      '按条件可能获得蜂巢 ×1',
+    )
+  })
+
+  test.each([
+    [
+      '发放后另有行为',
+      [
+        { kind: 'giveItem', itemId: '115' },
+        { kind: 'wait', ms: 100 },
+      ],
+      [],
+    ],
+    [
+      '发放后还有两个行为',
+      [
+        { kind: 'giveItem', itemId: '115' },
+        { kind: 'wait', ms: 100 },
+        { kind: 'giveMoney', delta: 1 },
+      ],
+      [],
+    ],
+    ['失败时仍有动作', [{ kind: 'giveItem', itemId: '115' }], [{ kind: 'giveMoney', delta: 1 }]],
+  ] satisfies [
+    string,
+    AuthorEnemyDefeatedCommands,
+    AuthorEnemyDefeatedCommands,
+  ][])('%s时保留完整条件脚本，不声明可直接编辑的奖励', (_label, then, otherwise) => {
+    const commands: AuthorEnemyDefeatedCommands = [
+      { kind: 'branch', cond: { kind: 'chance', percent: 11 }, then, else: otherwise },
+    ]
+    checkEnemyOnDefeatedCommands(commands, 'onDefeated')
+    expect(findEditableEnemyDefeatedItemReward(commands)).toBeUndefined()
+    const presentation = presentEnemyDefeatedEvents(commands, context)
+    expect(presentation).toMatchObject({
+      compactSummary: expect.stringContaining('按条件可能获得蜂巢 ×1'),
+    })
+    expect(presentation.exactReward).toBeUndefined()
+  })
+
+  test('100% 分支命中后终止，摘要不会显示已不可达的后续掉落', () => {
+    const commands: AuthorEnemyDefeatedCommands = [
+      {
+        kind: 'branch',
+        cond: { kind: 'chance', percent: 100 },
+        then: [{ kind: 'giveMoney', delta: 12 }, { kind: 'returnScript' }],
+      },
+      positiveReward,
+    ]
+    checkEnemyOnDefeatedCommands(commands, 'onDefeated')
+    expect(presentEnemyDefeatedEvents(commands, context).compactSummary).toBe('击败后：获得金钱 12')
+  })
+
   test('只识别唯一顶层 giveItem 及相邻严格保护/对白，替换时保留区间外原序', () => {
     const commands: AuthorEnemyDefeatedCommands = [
       { kind: 'giveMoney', delta: 9 },
@@ -555,10 +668,9 @@ describe('enemy defeated reward edit boundary', () => {
     expect(zeroPercent).toEqual([
       {
         kind: 'branch',
-        cond: { kind: 'chance', percent: 100 },
-        then: [{ kind: 'returnScript' }],
+        cond: { kind: 'chance', percent: 0 },
+        then: [{ kind: 'giveItem', itemId: '115', count: 1 }],
       },
-      { kind: 'giveItem', itemId: '115', count: 1 },
     ])
     expect(presentEnemyDefeatedEvents(zeroPercent, context).compactSummary).not.toContain('蜂巢')
 

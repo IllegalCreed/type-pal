@@ -7,6 +7,7 @@
  */
 
 import type { InputSnapshot, Tilemap } from '@type-pal/shared'
+import { markBattleContact } from './battle/battle-entry.js'
 import { resolveScriptLabel, tickAutoScripts, tickChaseTimer } from './event-system.js'
 import {
   type Facing,
@@ -21,6 +22,7 @@ import { openMenu } from './menu/menu-mode.js'
 import { isWalkable } from './scene-collision.js'
 import { requireSceneContext, type SceneContext } from './scene-context.js'
 import { findSearchableNpc } from './scene-system-search.js'
+import { getCmds } from './script-catalog.js'
 
 export { isWalkable } from './scene-collision.js'
 export { type SceneContext, setSceneContext } from './scene-context.js'
@@ -186,6 +188,8 @@ function updateEventObjectsAndTrigger(gs: GameState): void {
 
     // 跑 trigger script + 切 event mode(sdlpal play.c:153 PAL_RunTriggerScript)
     if (loadEventFromNpc(gs, npc)) {
+      const cursor = gs.eventCursor
+      if (cursor) markBattleContact(cursor, getCmds(cursor)[cursor.ip], performance.now())
       // DLc:真正起了脚本且 owner 有 sprite 帧 → PAL_UpdatePartyGestures(FALSE)(play.c:120-148):
       //   全队切站立帧 + 相位复位,主角不再整段 cutscene 冻在迈步帧(stepFrame 奇相位)。
       if (npc.nSpriteFrames !== 0) {

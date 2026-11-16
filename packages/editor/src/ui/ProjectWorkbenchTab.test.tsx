@@ -1762,6 +1762,29 @@ describe('入口开局世界资源', () => {
 })
 
 describe('项目设置工作区', () => {
+  test('可统一设置明雷回场默认，撤销恢复未声明而不改启动入口', async () => {
+    const state = projectState()
+    const session = new EditSession(state)
+    await act(async () => root.render(projectTab('overview', session)))
+    const field = host.querySelector<HTMLButtonElement>('#project-hostile-victory-transition')
+    expect(field?.textContent).toContain('直接返回地图')
+    await act(async () => field?.click())
+    const fade = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find(
+      (option) => option.textContent?.trim() === '淡出战场，淡入地图',
+    )
+    expect(fade).toBeDefined()
+    await act(async () => fade?.click())
+    expect(session.getState().manifest).toEqual({
+      ...state.manifest,
+      hostileVictoryTransition: 'fade',
+    })
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    expect(session.getState().manifest).toEqual(state.manifest)
+    expect(session.getState().manifest).not.toHaveProperty('hostileVictoryTransition')
+  })
+
   test('问题页左栏按类型聚合，右栏只分页展示当前分组', async () => {
     const state = projectState()
     for (let index = 0; index < 208; index += 1) {

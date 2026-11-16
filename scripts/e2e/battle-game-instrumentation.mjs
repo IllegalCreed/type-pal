@@ -126,6 +126,15 @@ export function instrumentGameBattle(source, file) {
         const call = node.expression
         if (call.expression.getText(ast) === 'this.floatingNums.emit')
           add('number-target', call.arguments.end, ', cmd.target')
+        if (
+          node.getText(ast) === 'current.set(buf)' &&
+          ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'applySummonFade'
+        )
+          add(
+            'trance-fade-composited',
+            node.end,
+            "\nif (summon.spriteKey === '') globalThis.__battleEvidence?.appearanceTransitionDrawn(this.summonFadeApplied + 1, 72);\n",
+          )
         if (call.expression.getText(ast) === 'drawBattleSettlement')
           visualCall(
             'settlement-draw',
@@ -180,20 +189,28 @@ export function instrumentGameBattle(source, file) {
           '\nglobalThis.__battleEvidence?.dialogueText(state, text);\n',
         )
     }
-    if (
-      file.endsWith('/battle/battle-dialog.ts') &&
-      owner(node) === 'advanceBattleDialog' &&
-      ts.isVariableStatement(node) &&
-      ['confirmDialog(box)', 'confirmDialog(box, timedElapsed)'].includes(
-        node.declarationList.declarations[0]?.initializer?.getText(ast),
-      )
-    ) {
-      add('dialogue-confirm-before', node.getStart(ast), 'const __battleDialogPhase = box.phase;\n')
-      add(
-        'dialogue-confirm-after',
-        node.end,
-        '\nglobalThis.__battleGameDialogueConfirm?.(state, box, __battleDialogPhase, result);\n',
-      )
+    if (file.endsWith('/battle/battle-dialog.ts') && ts.isVariableStatement(node)) {
+      const [result] = node.declarationList.declarations
+      const call = result?.initializer
+      if (
+        result?.name.getText(ast) === 'result' &&
+        call &&
+        ts.isCallExpression(call) &&
+        call.expression.getText(ast) === 'confirmDialog' &&
+        call.arguments[0]?.getText(ast) === 'box' &&
+        owner(node) === 'advanceBattleDialog'
+      ) {
+        add(
+          'dialogue-confirm-before',
+          node.getStart(ast),
+          'const __battleDialogPhase = box.phase;\n',
+        )
+        add(
+          'dialogue-confirm-after',
+          node.end,
+          '\nglobalThis.__battleGameDialogueConfirm?.(state, box, __battleDialogPhase, result);\n',
+        )
+      }
     }
     if (file.endsWith('/draw-battle-sprites.ts') && owner(node) === 'drawBattleSprites') {
       if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'frame') {
@@ -230,7 +247,7 @@ export function instrumentGameBattle(source, file) {
               'player-draw-identity',
               node,
               'labelFighter',
-              `items.at(-1), 'player', i, false, ${frameIndex}`,
+              `items.at(-1), 'player', i, false, ${frameIndex}, p.spriteNumOverride ?? role.spriteNumInBattle`,
             )
         }
       }
@@ -244,12 +261,26 @@ export function instrumentGameBattle(source, file) {
         "drawBattleMagicOverlay(fb, { kind: 'magic', ...blit }, assets.magicSprites)"
     )
       add('background-magic-draw', node.arguments.end, ', true')
+    if (
+      file.endsWith('/present-battle.ts') &&
+      ts.isIfStatement(node) &&
+      node.expression.getText(ast) === 'frame' &&
+      node.thenStatement.getText(ast) === 'blitFrame(fb, frame, summon.pos.x, summon.pos.y)'
+    ) {
+      const draw = node.thenStatement
+      add('summon-draw-begin', draw.getStart(ast), '{\n')
+      add(
+        'summon-draw-end',
+        draw.end,
+        '\nglobalThis.__battleEvidence?.summonDrawn(summon.pos.x, summon.pos.y, god.frames[summon.frame] === frame ? summon.frame : 0);\n}',
+      )
+    }
     if (file.endsWith('/draw-battle-effect.ts')) {
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'blitFrame')
         add(
           'overlay-blit-parameter',
           node.parameters.at(-1).end,
-          ', __battleMagicChunk?: number, __battleBackground = false',
+          ', __battleMagicChunk?: number, __battleBackground = false, __battlePhysical = false',
         )
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawBattleMagicOverlay')
         add(
@@ -263,6 +294,12 @@ export function instrumentGameBattle(source, file) {
         node.getText(ast) === 'const sprite = magicSprites?.get(overlay.spriteChunk)'
       )
         anchors['magic-overlay-resource'] = (anchors['magic-overlay-resource'] ?? 0) + 1
+      if (
+        ts.isCallExpression(node) &&
+        owner(node) === 'drawBattleEffectOverlay' &&
+        node.getText(ast) === 'blitFrame(fb, sprite, overlay.frameIdx, overlay.x, overlay.y)'
+      )
+        add('physical-overlay-argument', node.arguments.end, ', undefined, false, true')
       if (
         ts.isCallExpression(node) &&
         owner(node) === 'drawBattleMagicOverlay' &&
@@ -282,7 +319,8 @@ export function instrumentGameBattle(source, file) {
         add(
           'magic-overlay-draw',
           node.end,
-          '\nif (__battleMagicChunk !== undefined && !__battleBackground) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n',
+          '\nif (__battleMagicChunk !== undefined && !__battleBackground) globalThis.__battleEvidence?.magicOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx, __battleMagicChunk);\n' +
+            'if (__battlePhysical) globalThis.__battleEvidence?.physicalOverlayDrawn(baseX + (frame.width >> 1), baseY + frame.height, frameIdx);\n',
         )
     }
     if (
@@ -391,10 +429,10 @@ export function instrumentGameBattle(source, file) {
             'actionStart',
             node.body.getStart(ast) + 1,
             '\nif (globalThis.__battleGameActionStart) {\n' +
-              'const enemyMagic = actor.isEnemy && action.type === "magic" && action.actionId !== undefined\n' +
+              'const actionMagic = action.type === "magic" && action.actionId !== undefined\n' +
               '  ? resolveMagicObject(action.actionId, res.spells, res.magics, res.objectMagics)?.magic\n' +
               '  : undefined;\n' +
-              'globalThis.__battleGameActionStart(state, gs, actor, action, res.playerRoles, enemyMagic?.type);\n}\n',
+              'globalThis.__battleGameActionStart(state, gs, actor, action, res.playerRoles, actionMagic?.type);\n}\n',
           )
         }
       }
@@ -435,10 +473,13 @@ export function instrumentGameBattle(source, file) {
       } else {
         const slot = node.arguments[0]
         assert(ts.isIdentifier(slot), 'Game command slot is no longer a simple native variable')
+        // A leading parenthesis can continue the preceding semicolonless expression.
+        // Discard the result only where the original standalone statement discarded it.
+        const prefix = ts.isExpressionStatement(node.parent) ? 'void ' : ''
         add(
           'command',
           node.getStart(ast),
-          `(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
+          `${prefix}(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
           node.end,
         )
       }
@@ -519,12 +560,16 @@ export function instrumentGameBattle(source, file) {
       'settlement-draw': 1,
       'dialogue-slot': 2,
       'background-magic-draw': 1,
+      'summon-draw-begin': 1,
+      'summon-draw-end': 1,
+      'trance-fade-composited': 1,
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
     'battle-dialog.ts': { 'dialogue-confirm-before': 1, 'dialogue-confirm-after': 1 },
     'coop-magic.ts': { 'coop-fallback': 1 },
     'draw-battle-effect.ts': {
       'overlay-blit-parameter': 1,
+      'physical-overlay-argument': 1,
       'magic-overlay-background-parameter': 1,
       'magic-overlay-resource': 1,
       'magic-overlay-argument': 1,

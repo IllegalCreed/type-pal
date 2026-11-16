@@ -200,7 +200,7 @@ function texts() {
 }
 
 describe('N04 信息框头像形态与状态字调色门', () => {
-  test('死亡头像保留灰化，中毒头像按位图、调色板与色段复用', () => {
+  test('阵亡头像取黑白色段并覆盖毒色，单色头像按位图、调色板与色段复用', () => {
     const host = drawHost()
     const face = host.image(8, 8)
     const dead: Parameters<typeof drawPlayerInfoBox>[3] = {
@@ -210,11 +210,18 @@ describe('N04 信息框头像形态与状态字调色门', () => {
       mp: 10,
       maxMp: 40,
       status: { confused: 2 },
+      poisonColor: 0x10,
     }
-    drawPlayerInfoBox(host.ctx, host.menu, face, dead, 0, host.glyphs, palette())
-    expect(drawImageSpy.mock.calls).toContainEqual([face, 89, 161])
-    // 死亡臂：save/restore 之间灰化滤镜生效（宿主 ctx 保留最后一次写入值）。
-    expect(host.ctx.filter).toBe('grayscale(1) brightness(0.6)')
+    const deadPalette = palette()
+    deadPalette.colors[0x05] = [255, 255, 255]
+    deadPalette.colors[0x0f] = [180, 180, 180]
+    deadPalette.colors[0x15] = [190, 100, 90]
+    drawPlayerInfoBox(host.ctx, host.menu, face, dead, 0, host.glyphs, deadPalette)
+    const deadSurface = drawImageSpy.mock.calls.find(
+      ([, x, y]: unknown[]) => x === 89 && y === 161,
+    )?.[0]
+    if (!canvasLike(deadSurface)) throw new Error('阵亡头像未使用调色板绘制')
+    expect(readBack(deadSurface)).toEqual([255, 255, 255, 255])
 
     const poisoned: Parameters<typeof drawPlayerInfoBox>[3] = {
       roleId: 'n-poison-a',

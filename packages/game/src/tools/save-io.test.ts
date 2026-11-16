@@ -1,5 +1,6 @@
 // src/tools/save-io.test.ts
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { performAttackMate } from '../core/battle/actions/attack-mate.js'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { Save } from '../core/save/api.js'
@@ -213,6 +214,30 @@ describe('V1 stored-data structure', () => {
     expect(parsed.sceneCommands).toEqual([
       { op: 'sequence', steps: [{ op: 'raw', opcode: 0, operands: [0, 0, 0] }] },
     ])
+  })
+
+  it('round-trips an optional live animation damage anchor and rejects a corrupt coordinate', () => {
+    const { gs, state, playerRoles, bus } = createBattleLifecycleFixture({
+      partyMembers: [0, 1],
+      role: { attackStrength: 0 },
+    })
+    performAttackMate(state, 0, bus, playerRoles, 1)
+    const text = serializeSave(gs)
+    const number = parseImportedSave(text).battleState?.battleAnim?.frames.find(
+      ({ damageNum }) => damageNum,
+    )?.damageNum
+    expect(number?.anchor).toEqual({ x: 244, y: 146 })
+
+    const withoutAnchor = text.replace(/,"anchor":\{"x":244,"y":146\}/, '')
+    expect(withoutAnchor).not.toBe(text)
+    const oldNumber = parseImportedSave(withoutAnchor).battleState?.battleAnim?.frames.find(
+      ({ damageNum }) => damageNum,
+    )?.damageNum
+    expect(oldNumber).toEqual({ target: { kind: 'player', idx: 1 }, value: 1, color: 'blue' })
+
+    const badAnchor = text.replace('"anchor":{"x":244', '"anchor":{"x":"invalid"')
+    expect(badAnchor).not.toBe(text)
+    expect(() => parseImportedSave(badAnchor)).toThrow(/battleState/)
   })
 
   it('rejects an unknown battle phase in an otherwise actual startBattle snapshot', () => {

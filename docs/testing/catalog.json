@@ -29,10 +29,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "publicCallers": [
@@ -89,6 +89,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -130,10 +146,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
@@ -180,6 +196,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -269,10 +301,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "538-653",
+          "lines": "554-669",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+          "sha256": "41ad53a81fef372ad2815167592a74fac14915372f4567b85738dbe5445e33e6"
         }
       ],
       "publicCallers": [
@@ -343,6 +375,38 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "538-653",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "551-666",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
           }
         ]
       },
@@ -398,10 +462,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "scripts/e2e/opening-matrix-observer.mjs",
@@ -419,10 +483,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "538-653",
+          "lines": "554-669",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+          "sha256": "41ad53a81fef372ad2815167592a74fac14915372f4567b85738dbe5445e33e6"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -482,6 +546,54 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "538-653",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "551-666",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "9ad5b2256d80d88042c937f40b2cec1b85a8e1554da74552b8c297307d0044f8"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
           }
         ]
       },
@@ -592,10 +704,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "scripts/e2e/inn-observer.mjs",
@@ -671,6 +783,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -733,10 +861,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
@@ -822,6 +950,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -884,10 +1028,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
@@ -949,6 +1093,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -1011,10 +1171,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
@@ -1083,6 +1243,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -1159,10 +1335,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-168",
+          "lines": "169-169",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "publicCallers": [
@@ -1249,6 +1425,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -1325,17 +1517,17 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "408-415",
+          "lines": "414-421",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "449-456",
+          "lines": "455-462",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1360,10 +1552,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -1468,6 +1660,137 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "408-415",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "449-456",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "413-420",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "454-461",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+              }
+            ],
+            "scope": "活动场景和镜头的已刊构造片段逐字节对应。原主张和运行证据照原出版。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "414-421",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "455-462",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "414-421",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "455-462",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+          },
+          {
+            "action": "q2-battle-closure-source-rebinding",
+            "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "414-421",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "455-462",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+              }
+            ],
+            "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
           }
         ]
       },
@@ -1536,38 +1859,38 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1245-1266",
+          "lines": "1269-1367",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
-          "lines": "55-69",
+          "lines": "72-88",
           "anchor": "async start(",
           "role": "contract",
-          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+          "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
-          "lines": "165-169",
+          "lines": "277-288",
           "anchor": "this.ports.finishWorld(session, result)",
           "role": "contract",
-          "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+          "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.test.ts",
-          "lines": "13-36",
+          "lines": "14-37",
           "anchor": "test('commit consumes live inventory",
           "role": "oracle",
-          "sha256": "5bcce095e611c8827a4cea2dba819fb1bebfb9503463a049625858ffb29a8154"
+          "sha256": "1a049251f216a087c8a6b63e0e80799d0bf411b5b5707455616802d75ba398be"
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -1658,6 +1981,151 @@
               }
             ],
             "scope": "普通全灭新增最后一帧交接端口。原准备、释放当前 active 与写回片段仍保留，历史宿主归属义务及运行身份照固定前驱。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1245-1266",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "55-69",
+                "anchor": "async start(",
+                "role": "contract",
+                "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "165-169",
+                "anchor": "this.ports.finishWorld(session, result)",
+                "role": "contract",
+                "sha256": "13d6f8849911bf5d4b6f90036d9e3e88f330a0edc78c25dd74f96b0fd1917df7"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1251-1295",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "63-78",
+                "anchor": "async start(",
+                "role": "contract",
+                "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "174-178",
+                "anchor": "this.ports.finishWorld(session, result)",
+                "role": "contract",
+                "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.test.ts",
+                "lines": "13-36",
+                "anchor": "test('commit consumes live inventory",
+                "role": "oracle",
+                "sha256": "5bcce095e611c8827a4cea2dba819fb1bebfb9503463a049625858ffb29a8154"
+              }
+            ],
+            "scope": "宿主的准备、普通败局及同 continuation 写回仍有原调用；新增明雷过场只在其实际所属信号接入。原主张和运行证据照原出版。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1268-1343",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "72-88",
+                "anchor": "async start(",
+                "role": "contract",
+                "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "lines": "265-276",
+                "anchor": "this.ports.finishWorld(session, result)",
+                "role": "contract",
+                "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1269-1367",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+          },
+          {
+            "action": "q2-battle-closure-source-rebinding",
+            "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1269-1367",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+              }
+            ],
+            "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
           }
         ]
       },
@@ -1730,24 +2198,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "220-222",
+          "lines": "246-248",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "381-392",
+          "lines": "412-424",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1212-1221",
+          "lines": "1261-1270",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1758,17 +2226,17 @@
         },
         {
           "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-          "lines": "72-95",
+          "lines": "73-96",
           "anchor": "describe('BattleCommandSelection'",
           "role": "oracle",
-          "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+          "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -2178,6 +2646,156 @@
               }
             ],
             "scope": "敌方施法时间线增加实际移动、动作帧、FIRE 落点与受击后复位。三个已出版归属调用片段逐字节一致。"
+          },
+          {
+            "action": "q2-battle-session-special-status-source-rebinding",
+            "base": "9662bbe177aa9567f15cb7e556a961c286a430da",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "220-222",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "381-392",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1212-1221",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+              }
+            ],
+            "scope": "玩家群攻、傀儡、混乱误击和单体双击呈现调整后，三个已出版调用片段逐字节保持。"
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "220-222",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "381-392",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1213-1222",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+              }
+            ],
+            "scope": "选择、准备门和动作三个已刊片段保留；构造仅多接正常明雷结算。原主张和运行证据照原出版。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "242-244",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "406-418",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1243-1252",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+                "lines": "72-95",
+                "anchor": "describe('BattleCommandSelection'",
+                "role": "oracle",
+                "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-closure-source-rebinding",
+            "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "242-244",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "407-419",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1254-1263",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+                "lines": "73-96",
+                "anchor": "describe('BattleCommandSelection'",
+                "role": "oracle",
+                "sha256": "770f89e7a88746acfd129ece762bf5fa9eac4df1223051fb946ea18aebced60d"
+              }
+            ],
+            "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
           }
         ]
       },
@@ -2247,10 +2865,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "435-446",
+          "lines": "441-452",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -2282,10 +2900,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -2376,6 +2994,102 @@
               }
             ],
             "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
+          },
+          {
+            "action": "q2-world-victory-source-rebinding",
+            "base": "11b5b8d8183147732b9ea30560b5eb2bec4b2d7f",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "435-446",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "d2943ee30023947bc29861ee35f36ce14faac1832a93af75ad88ad7894905144"
+              }
+            ],
+            "scope": "Current source applicability for the fixed victory hold candidate; preserve prior source claims, execution identity, and published results."
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "440-451",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "37b4798aba9621fb3530163469fa95b713c0bfe17d57b587e949bd277d4a6fb5"
+              }
+            ],
+            "scope": "世界运动构造的已刊范围逐字节对应。原主张和运行证据照原出版。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-452",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "03e13529a6eca097898efd7d77cdb390832cc34d80f5a3c7cfd87509fae5e86b"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-452",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "64fff16b76d82e5bb4f3848f673f0ad88f5fa0fce7c94a018691a74fd408f11b"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+          },
+          {
+            "action": "q2-battle-closure-source-rebinding",
+            "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-452",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+              }
+            ],
+            "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
           }
         ]
       },
@@ -2424,10 +3138,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "current version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
@@ -2509,6 +3223,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "current version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -2607,10 +3337,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -2646,6 +3376,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -2742,10 +3488,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -2774,6 +3520,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -2880,10 +3642,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -2912,6 +3674,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -3036,10 +3814,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "revision": {
@@ -3297,6 +4075,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -3401,10 +4195,10 @@
         },
         {
           "path": "packages/game/src/shell/bootstrap.ts",
-          "lines": "346",
+          "lines": "354",
           "anchor": "supplySupplementalSceneObjects(gs",
           "role": "saved-game-caller",
-          "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+          "sha256": "2cfc2cae35c1dc77fd393ff3219178607b2a44d43ecd3b2afa3c1b0a23f6c745"
         },
         {
           "path": "packages/pal-extract/src/resources/scene.ts",
@@ -3718,6 +4512,54 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "346",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+              }
+            ],
+            "scope": "Game 存档补充实体的调用原字节对应。原主张和运行证据照原出版。"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "349",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-review-source-rebinding",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "354",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "a54999165f300315c357c534d9d48f5b059033adf2eb4e37c883bc4719c91b4a"
+              }
+            ],
+            "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
           }
         ]
       },
@@ -3807,10 +4649,10 @@
         },
         {
           "path": "packages/game/src/core/scene-system.ts",
-          "lines": "44",
+          "lines": "46",
           "anchor": "const DIR_DELTA:",
           "role": "movement-oracle",
-          "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+          "sha256": "322f6971116fd38a66c4769316cff8a7c4cbc9a7dd5f839d054688ad9a6ce72d"
         },
         {
           "path": "packages/game/src/shell/gamepad-input.test.ts",
@@ -3936,6 +4778,22 @@
             ],
             "scope": "获批uiText只读自有译文；ENGLISH_LABELS完整字面表不变，旋转设置caller传表中自有键，原标签/控制adapter不变。当前fast含原设置/壳层邻测；不重授旧浏览器/实体设备信用。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
             "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
+          },
+          {
+            "action": "q2-world-battle-handoff-source-rebinding",
+            "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/scene-system.ts",
+                "lines": "44",
+                "anchor": "const DIR_DELTA:",
+                "role": "movement-oracle",
+                "sha256": "010c35baa82081b5ebaa1d27b303c3280be408d52ece86de0c8a55a966294b98"
+              }
+            ],
+            "scope": "Game 世界方向表及已刊锚点逐字节一致，原手机控制执行和主张保留。"
           }
         ]
       },
@@ -4011,10 +4869,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-168",
+          "lines": "169-169",
           "anchor": "export const CONTENT_VERSION = 23",
           "role": "canonical content version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -4104,6 +4962,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION = 23",
+                "role": "canonical content version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -4164,10 +5038,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-170",
+          "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "PAL content and Reforge minimum save version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         }
       ],
       "publicCallers": [
@@ -4232,6 +5106,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "PAL content and Reforge minimum save version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -4327,10 +5217,10 @@
         },
         {
           "path": "packages/content/src/character.ts",
-          "lines": "168-168",
+          "lines": "169-169",
           "anchor": "export const CONTENT_VERSION = 23",
           "role": "version",
-          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -4445,6 +5335,22 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-project-victory-version-source-rebinding",
+            "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+            "date": "2026-11-14",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION = 23",
+                "role": "version",
+                "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+              }
+            ],
+            "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
           }
         ]
       },
@@ -4605,22 +5511,22 @@
           "path": "scripts/e2e/battle-game-adapter.mjs",
           "anchor": "launch(input) {",
           "role": "public-fixture-adapter",
-          "lines": "442",
-          "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
+          "lines": "480",
+          "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
         },
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
           "anchor": "running = runBattleTrial(",
           "role": "public-trial-adapter",
           "lines": "179",
-          "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+          "sha256": "a2e14923f564ad68d1fd7d0f06b2b8ea8d5fc010c8b6d6fcf04b135c3a580ec7"
         },
         {
           "path": "scripts/e2e/battle-trace-contract.mjs",
           "anchor": "export function validateBattleTrace(",
           "role": "oracle",
           "lines": "973",
-          "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
+          "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
         },
         {
           "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -4640,29 +5546,29 @@
           "path": "scripts/e2e/battle-rules.mjs",
           "anchor": "export function validateBattleRules(",
           "role": "rule-oracle",
-          "lines": "180",
-          "sha256": "0b2053cf19e9f11a81c06bb9f9d127afebc58f62c579eae6b8cd0c747e81f97d"
+          "lines": "185",
+          "sha256": "6de10c44ba110295b380fdd9454c1133bdb1b0c6adab99fac49bb2e54fa4c134"
         },
         {
           "path": "scripts/e2e/battle-trace-observer.mjs",
           "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
           "role": "native-audio-observer",
-          "lines": "201",
-          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+          "lines": "204",
+          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
         },
         {
           "path": "scripts/e2e/battle-game-instrumentation.mjs",
           "anchor": "export function instrumentGameBattle(",
           "role": "game-audio-producer-binding",
           "lines": "42",
-          "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
         },
         {
           "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
           "anchor": "function observeSfx(",
           "role": "reforge-audio-producer-binding",
           "lines": "17",
-          "sha256": "23613b798c1c2f3e7de2b76ecafe143b349d11e52029f4f9b8b23d41dadda26e"
+          "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
         },
         {
           "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -4676,28 +5582,28 @@
           "anchor": "export function instrumentBattleRandomDraws(",
           "role": "native-random-producer-binding",
           "lines": "28",
-          "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
+          "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
         },
         {
           "path": "scripts/e2e/battle-trace-observer.mjs",
           "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
           "role": "native-magic-overlay-observer",
-          "lines": "269",
-          "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+          "lines": "307",
+          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
         },
         {
           "path": "packages/reforge/src/battle/battle-command-selection.ts",
           "anchor": "export class BattleCommandSelection",
           "role": "native-target-menu-caller",
-          "lines": "57",
-          "sha256": "863c052adec756a9481f34fb65283caf6d7a5826276d1a311d8e735753758d1d"
+          "lines": "60",
+          "sha256": "b131a44e94e45b6b234266db42373042e327543fcac691ab3abc3764cc049bb3"
         },
         {
           "path": "scripts/e2e/battle-game-instrumentation.mjs",
           "anchor": "'coop-fallback',",
           "role": "native-cooperative-fallback-observer",
-          "lines": "298",
-          "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+          "lines": "336",
+          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
         },
         {
           "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -4746,7 +5652,7 @@
           "anchor": "export const SCROLL_LABEL_STYLE =",
           "role": "reforge-scroll-style",
           "lines": "169",
-          "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+          "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
         },
         {
           "path": "reference/sdlpal/battle.c",
@@ -4761,6 +5667,216 @@
           "role": "original-cash-color",
           "lines": "483",
           "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1"
+        },
+        {
+          "path": "scripts/e2e/battle-status.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-special-status-caller",
+          "lines": "52",
+          "sha256": "f230e6c7984705a238ad0666014a058d30e79dd9dab944d2d292405264ac922b"
+        },
+        {
+          "path": "scripts/e2e/battle-status-scenarios.mjs",
+          "anchor": "export async function prepareBattleStatusInputs(",
+          "role": "native-status-legal-inputs",
+          "lines": "397",
+          "sha256": "18a7091d5d94c0340953f94328142b6c6c6f33188e3ed678021518edc9a7cae2"
+        },
+        {
+          "path": "scripts/e2e/battle-status-rules.mjs",
+          "anchor": "export function checkStatusRules(",
+          "role": "native-status-action-and-frame-oracle",
+          "lines": "1138",
+          "sha256": "09f23b18627212aac98b70805e4ff5cbed459ffba8658a5f03e656af40ed166b"
+        },
+        {
+          "path": "scripts/e2e/battle-status-compare.mjs",
+          "anchor": "export async function compareStatusReports(",
+          "role": "native-status-offline-oracle",
+          "lines": "222",
+          "sha256": "15b09c5b7fc1565672ee432c524e0d847f280c1dcb00150a2a7dec402820cb94"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-game.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-game-world-caller",
+          "lines": "922",
+          "sha256": "640737430431148e69bbbe24a6114ddc9eca553170c7bea2c2d3850ba142a7af"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-reforge-world-caller",
+          "lines": "367",
+          "sha256": "9cb90702d34b3889ec095d816625e41cc7ddeba81f5be7c9229eafb5c83cc022"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+          "anchor": "export const beeWorldInput = {",
+          "role": "native-world-legal-input",
+          "lines": "30",
+          "sha256": "c14d831b1826d394512622c7c53b0519203e59c9af223a6427da053d0b7654ba"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-compare.mjs",
+          "anchor": "export async function compareWorldBeeReports(",
+          "role": "native-world-offline-oracle",
+          "lines": "726",
+          "sha256": "2ec035cc77cf260794bb73f6568c87cbab9478adef21eff35617ea9f35aa1354"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "289",
+          "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2473",
+          "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
+        },
+        {
+          "path": "packages/content/src/rewards.ts",
+          "anchor": "export function recoverBattleParty(",
+          "role": "post-world-script-half-recovery",
+          "lines": "254",
+          "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-game.config.mts",
+          "anchor": "const start = '    src.start()'",
+          "role": "native-game-world-ambient-start",
+          "lines": "116",
+          "sha256": "6bc6092c2695fde597240fafe6010c8b3a58370b31bcf7bdaa7de9eefa705554"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+          "anchor": "function observeAmbient(source: string)",
+          "role": "native-reforge-world-ambient-start",
+          "lines": "148",
+          "sha256": "25f983e8470931b957981925dfb09959d672ab05be07fdb8191fcb06a3e0be87"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
+          "anchor": "export class BattleEntryPresentation {",
+          "role": "normal-world-entry-draw",
+          "lines": "11",
+          "sha256": "58bd25c08443b0f7aaaa8aabe5160b4ae1edf9de2911dd31de8549c4f688bedf"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2788",
+          "sha256": "9deef69706a798c70ed6beaba4b869afef4f2e9400ff48e810cc679ab5744c80"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "anchor": "\"environment-sound-duet\": {",
+          "role": "pal-ten-mile-world-ambience",
+          "lines": "2",
+          "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+        },
+        {
+          "path": "projects/pal/manifest.json",
+          "anchor": "\"hostileVictoryTransition\": \"fade\"",
+          "role": "world-victory-default-inherited-by-pal-hostiles",
+          "lines": "7",
+          "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
+        },
+        {
+          "path": "scripts/e2e/battle-world-escape-compare.mjs",
+          "lines": "431",
+          "anchor": "export async function compareWorldEscapeReports(",
+          "role": "oracle",
+          "sha256": "303fa5e2f6283714c8afdfa867a1bd06ec2685a74f05170fda265315050f3cd8"
+        },
+        {
+          "path": "scripts/e2e/battle-enemy-escape-compare.mjs",
+          "lines": "69",
+          "anchor": "function checkRun(",
+          "role": "oracle",
+          "sha256": "73ce2bddc7bf5afd6fc78c88498de44c2899fd06b816743585d7d2f570de822a"
+        },
+        {
+          "path": "scripts/e2e/battle-scripted-defeat-compare.mjs",
+          "lines": "678",
+          "anchor": "export async function compareScriptedDefeat(",
+          "role": "oracle",
+          "sha256": "44b2c69733e14a3d37fc472d3d95937816c32bb3f4f32f0ee1ddc6f73bd461cd"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save-compare.mjs",
+          "lines": "559",
+          "anchor": "export async function comparePostBattleSave(",
+          "role": "oracle",
+          "sha256": "6411e87146ce94aecb0a4ecacffaff503eae313b78a3d2021c1fe14698d69b89"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
+          "role": "visual-review"
+        },
+        {
+          "path": "scripts/e2e/battle-world-escape.mjs",
+          "anchor": "export async function verifyWorldEscape({",
+          "lines": "85",
+          "sha256": "1cc55f66c0c6971c65573405041323a8dd5db5c32b967ea037e0ebcfb18ab458",
+          "role": "native-caller"
+        },
+        {
+          "path": "scripts/e2e/battle-world-escape-exits-compare.mjs",
+          "anchor": "function judgeExit(engine, trace",
+          "lines": "17",
+          "sha256": "dcc4aaa8ecb161f45048fd61cd4c20dbbcfd8c1e5dbd612282eb864e51918a28",
+          "role": "oracle"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save.mjs",
+          "anchor": "function beginLoadPaintWitness(engine)",
+          "role": "native-save-paint-observer",
+          "lines": "54",
+          "sha256": "66fe531962f7d572e7557e141c7d41d46c17715dc8294a79736793e81630e57c"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5769",
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+        },
+        {
+          "path": "packages/reforge/src/menu/save-browser-box.ts",
+          "anchor": "export function drawSaveBrowser(",
+          "role": "saved-slot-menu-caller",
+          "lines": "184",
+          "sha256": "279e4ee44233fa6642c34c2fb402bdc8fb0d1c474cd58019bf608b661c26f72a"
+        },
+        {
+          "path": "scripts/e2e/battle-misc-compare.mjs",
+          "anchor": "async function readReport",
+          "role": "围攻与状态双端事实和原生报告读取",
+          "lines": "19",
+          "sha256": "a093e171771aaba35398e28ba4de2e5a8303b8d1e5904f2cb7bb226159c3972f"
+        },
+        {
+          "path": "scripts/e2e/battle-coop-support.mjs",
+          "anchor": "async function authoredFiles",
+          "role": "合法作者试打内容与合体技能配置",
+          "lines": "53",
+          "sha256": "76d6282f6ea3356b47abbef51297e4c9fee46d2d534d5f6bd6868ba4db5468c8"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save-respawn.mjs",
+          "anchor": "export async function verifyBeeRespawn",
+          "role": "真实存读档后按世界拍观察可见性及返回接敌",
+          "lines": "155",
+          "sha256": "5857ddc9607f2ff58249486776f2b1c931b7508dd292a4e74f9aadb96997a427"
         }
       ],
       "publicCallers": [
@@ -4794,7 +5910,29 @@
         "node build/q2/learn-magic/run.mjs <game|reforge>",
         "node build/q2/learn-magic/compare-runs.mjs GAME_REPORT REFORGE_REPORT",
         "python3 build/q2/learn-magic/check-frames.py GAME_FOLDER REFORGE_FOLDER MENU_PNG",
-        "node build/q2/learn-magic/check-menu.mjs"
+        "node build/q2/learn-magic/check-menu.mjs",
+        "node scripts/e2e/battle-status.mjs <game|reforge> <all|buff|puppet|confusion|silence|overlap>",
+        "node scripts/e2e/battle-status-compare.mjs SELECTOR GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON",
+        "node scripts/e2e/battle-status.mjs <game|reforge> revival",
+        "node scripts/e2e/battle-world-bee-game.mjs [--capture --seed=99]",
+        "node scripts/e2e/battle-world-bee-reforge.mjs [--capture --seed=99]",
+        "node scripts/e2e/battle-world-bee-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON",
+        "node scripts/e2e/battle-world-bee-game.mjs --escape=success|failure and the matching Reforge entry",
+        "node scripts/e2e/battle-world-escape-compare.mjs success|failure GAME_REPORT REFORGE_REPORT NEW_JSON",
+        "node scripts/e2e/battle-enemy-escape.mjs game|reforge",
+        "node scripts/e2e/battle-enemy-escape-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
+        "node scripts/e2e/battle-scripted-defeat.mjs game|reforge",
+        "node scripts/e2e/battle-scripted-defeat-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
+        "node scripts/e2e/battle-world-bee-game.mjs --post-battle-save --seed=99 and the matching Reforge entry",
+        "node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
+        "node scripts/e2e/battle-world-review-split.mjs CAPTURE_COMPARISON OUTPUT",
+        "node scripts/e2e/battle-world-bee-game.mjs --escape=success --escape-exits and the matching Reforge entry",
+        "node scripts/e2e/battle-world-escape-exits-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
+        "node scripts/e2e/battle-world-review-split.mjs SAVE_CAPTURE_COMPARISON OUTPUT --load-reveal",
+        "node scripts/e2e/battle-misc.mjs game|reforge",
+        "node scripts/e2e/battle-misc-compare.mjs GAME_VERIFY REFORGE_VERIFY",
+        "node scripts/e2e/battle-coop-support.mjs",
+        "node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON verify --post-win-save"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4822,7 +5960,15 @@
         "Five status followup fixtures use fixed field and seeds with actual menus. Lingxin Talisman clears sleep inflicted in an earlier enemy action. Party healing uses a real two-member party. Salt is an enabled whole-field throw with an explicitly empty effect list.",
         "Ten enemy-cast fixtures use native formations, real turns and original ABC/FIRE. The opposing party issues the same keyboard commands in both engines.",
         "Thirty-six poison fixtures use legal inventories and two or three genuine target slots, with no injected statuses or HP changes after launch. The four disjoint verification groups share original PAL data and the authored project.",
-        "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press."
+        "A repeat of the shadowless-cap fixture uses the same seed and three real commands in both engines, followed by actual settlement confirmations. Menu cash uses a clean ordinary world entry and a real Esc press.",
+        "Twenty native PAL status fixtures repeat each engine in clean contexts with the same team, derived equipment stats, true items and skills, and deterministic seed. Every committed command has actual physical key receipts.",
+        "Three new revival scenarios start with legal PAL party, equipment, skills and items and acquire or clear the relevant statuses using committed actions. Three adjacent cases are repeated alongside them.",
+        "Fixed engine-native checkpoints put the same equipped Anu at (93,45) in s006. Four movement commits reach (97,45), native contact starts enemy team 4, the actual group attack wins, and native Escape toggles the world menu after return.",
+        "s006/e154 native team 4, four right steps, same Li/Zhao equipment and HP/MP, seeds 4 and 3 with a single Q per round.",
+        "s036/e602 native team 25, the predecessor visibility from s034, one right step, seed 6 and actual dialogue confirmation through first s037 dialogue.",
+        "s093/e1759 native team 29, one right step, HP 1 Li Xiaoyao with a healthy reserve and actual defend against the natural scripted defeat.",
+        "s006/e154 native team 4 seed 99, native world reward and manual slot 1/2, independent browser boot and malformed cash in its own disposable slot.",
+        "Use seed 4, the same native escape fixture and a fresh context per direction. Walk one exact tile toward the bee or in each other direction, then separately walk four tiles away along the approach path."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4864,7 +6010,24 @@
           "A salt throw consumes one item, draws raise and release without effect feedback, and emits the throw cue without a rule draw. The following equipped double strike preserves both hits and their RNG on the same enemy slot after lethal damage.",
           "Enemy casts must visibly approach in two PAL ticks, preserve their advanced position through actual FIRE frames, animate the correct delayed pose, show guard and net HP feedback at the intended boundaries, and return after five reaction ticks.",
           "Real poison item commands verify six directed cures, three lethal pairs in both orders by use and throw, resistance and precedence, the first player/enemy poison entry, Dragon Gall and Shadowless Poison. Focused HP, poisons, RNG values and native number draws agree directly across engines.",
-          "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow."
+          "Text in all seven paired native settlement screens agrees with the original bitmaps and PAL palette for glyph shape, adjacency inside each label, color and lack of text shadow. The separate Reforge main-menu cash label matches the original 0 color and no shadow.",
+          "Compare actions, effect counters, MP, stock, RNG order, settlement, status-specific rendered hits and audio. Exact bee reward script tail and loot are witnessed separately because the Reforge trial ends before world hooks.",
+          "Verify transformed revival and delayed actions, puppet attack counts and audio, natural expiration and clearing by revival using native actions and frames.",
+          "Read real RNG draws, visit both reward slots, compare actual overkill numbers and notice positions, hold HP and MP until the final reward closes, then assert half recovery, hidden count and the actual world menu round trip. The return transition has a separately observed pending discrepancy.",
+          "Read six changes on the actual canvas and the original-source hold; native sequencer track 37 starts after the last band and before the first drawn command. From the last battle frame, both runs prove actual darkening, an opaque black transition, the correct first map frame, the bright frame, and then actual return input.",
+          "Observe actual WAV starts for the two authored world sounds: no new map sound during contact/battle/return, and the appropriate 066 or 073 continues after the final map handoff according to whether the initial 066 already played. Raw opcodes protect the shared script clocks and random branches.",
+          "Read both actual actor sprites at the spell pose and dissolve, the fallen portrait palette, selected spell/item description rows, and the first drawn command after a casualty and completed round.",
+          "Compare whole-party escape commits, both outcomes and original action/RNG order; read all sixteen exit poses, label removal, one 045, zero rewards and exact world contact suspension.",
+          "Read all three active authored pages, three loaded portraits, retained slot clearance, one native 045, a width-derived leftward departure, automatic narration, zero rewards and real scene 37 continuation.",
+          "Read actual contents of six on-screen battle entry bands before the real MIDI start; real lethal skill, unique script loss arm, exact foot path, control restored to the original scene.",
+          "From the same native rewarded encounter, compare cash, experience, item stack, party HP/MP/equipment, Game recent battle actions, world coordinates and exact each-engine remaining hostile timer at each load; check both native malformed loads retain live state.",
+          "Observe each of the fifteen actual post-escape world steps with the visible enemy stationary. No repeat contact may start until the step after expiry.",
+          "Use the actual video presentation timestamps to preserve field return in both stereo clips even when one decoded audio stream is shorter.",
+          "Verify each walking and dialogue draw for the two actual party sprites in the original positions and the same dialogue cue.",
+          "Compare visible held-battle pixels across both identical reward scrolls and check the second reward is individually granted and displayed.",
+          "Compare five real post-flee direction routes tile by tile, with no contact during cooldown and matching recontact or a three-step clear window after expiry.",
+          "Require the actual loaded world to paint black and brighten over the measured fade ramp in manual reads from the world menu and title.",
+          "Draw all three PAL party names and levels at 1280 and 640 pixels, with full project title, time and save ordinal, including a 16-digit save ordinal."
         ]
       },
       "dedupe": {
@@ -4874,10 +6037,10 @@
           "battle-host and battle-session source audits",
           "existing rule/unit tests"
         ],
-        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture."
+        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open. The item group covers seven native item/throw setups, with threshold and zero-script menu probes retained as historical diagnostics. The followup repeats the existing protect and drain fixtures and adds three distinct fixtures. The threshold and remaining throw/condition observations are separate bounded native diagnostics. The enemy-cast group reuses six existing fixtures and adds four distinct ones. The separate poison group adds 36 distinct action sequences. Media is captured separately for review. The typography replay reuses shadowless-cap, with exact bitmap and palette assertions on newly captured settlement pixels. It adds no new combat fixture. The 20 status scenarios add specific status interactions, group strikes, puppet and trance to the existing single-status and poison cases. Three revival combinations add natural death and expiration to the previous standalone status cases. The s006 matrix exercises world reward scripts and restored control beyond the isolated trial."
       },
       "revision": {
-        "currentSha": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+        "currentSha": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -5300,6 +6463,543 @@
             "scope": "One paired settlement with seven exact screen text checks, plus the ordinary Reforge menu and renderer controls.",
             "predecessor": "9b524c4fa6657456347a2e78f76bbf7b8bf45444",
             "archive": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz"
+          },
+          {
+            "revision": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+            "date": "2026-11-14",
+            "action": "native-special-status-and-buffs",
+            "predecessor": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
+            "scope": "Twenty native fixtures, each repeated twice in both engines. Same-fixture battle, status, RNG, physical effects and audio with original-speed stereo review.",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-game-adapter.mjs",
+                "anchor": "launch(input) {",
+                "role": "public-fixture-adapter",
+                "lines": "442",
+                "sha256": "6a259e66c0cef6c6a8f433d2152650ff576ce2837faef692f588197deb2524cb"
+              },
+              {
+                "path": "scripts/e2e/battle-reforge-adapter.mjs",
+                "anchor": "running = runBattleTrial(",
+                "role": "public-trial-adapter",
+                "lines": "179",
+                "sha256": "db8051383991ee9ea294c1fc08647fc510542fdb8a51d61f9a34ba639f7cfd24"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-contract.mjs",
+                "anchor": "export function validateBattleTrace(",
+                "role": "oracle",
+                "lines": "973",
+                "sha256": "63520bb34902e61e2d3c096713e3c36d8613297a8ee7fc7897f8c4c125d89b24"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+                "role": "native-audio-observer",
+                "lines": "201",
+                "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "export function instrumentGameBattle(",
+                "role": "game-audio-producer-binding",
+                "lines": "42",
+                "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+              },
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "17",
+                "sha256": "23613b798c1c2f3e7de2b76ecafe143b349d11e52029f4f9b8b23d41dadda26e"
+              },
+              {
+                "path": "scripts/e2e/battle-random-instrumentation.mjs",
+                "anchor": "export function instrumentBattleRandomDraws(",
+                "role": "native-random-producer-binding",
+                "lines": "28",
+                "sha256": "3337727809f514a2e00ab4e0bd31be11292a9e94de67041e5f4d0a7759efa9e2"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+                "role": "native-magic-overlay-observer",
+                "lines": "269",
+                "sha256": "24052f435d204bf60cbfb1b6e2e258f32e27aef8e6b08e774d640f2df78c3393"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.ts",
+                "anchor": "export class BattleCommandSelection",
+                "role": "native-target-menu-caller",
+                "lines": "57",
+                "sha256": "863c052adec756a9481f34fb65283caf6d7a5826276d1a311d8e735753758d1d"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "'coop-fallback',",
+                "role": "native-cooperative-fallback-observer",
+                "lines": "298",
+                "sha256": "05d322ad0f770041e4494a69a45e71d82d49d9783b68c1eeb368c072b0b46ec3"
+              },
+              {
+                "path": "scripts/e2e/battle-rules.mjs",
+                "anchor": "export function validateBattleRules(",
+                "role": "rule-oracle",
+                "lines": "180",
+                "sha256": "0b2053cf19e9f11a81c06bb9f9d127afebc58f62c579eae6b8cd0c747e81f97d"
+              }
+            ],
+            "archive": "docs/tasks/evidence/E2E-Q2-1-special-status-and-buffs-20261114.tar.gz"
+          },
+          {
+            "revision": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+            "date": "2026-11-14",
+            "action": "native-revival-and-world-rewards",
+            "predecessor": "681040c59b1c6787cbaecb91e3dd20b9acd62b1d",
+            "scope": "Three new revival combinations and three adjacent cases in 24 executions. Three actual world encounter seeds in 12 executions, with independently bound original-speed captures and a pending return transition discrepancy.",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-status.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-special-status-caller",
+                "lines": "36",
+                "sha256": "67547376e2e476180e27ac11c96ee8ed5745cc66c1c50d004d192c9bf8cb7345"
+              },
+              {
+                "path": "scripts/e2e/battle-status-scenarios.mjs",
+                "anchor": "export async function prepareBattleStatusInputs(",
+                "role": "native-status-legal-inputs",
+                "lines": "323",
+                "sha256": "353eaa477dc5c6f6f2e7dd36164a5c40f32f626ad2036ff7008a6757b58ef665"
+              },
+              {
+                "path": "scripts/e2e/battle-status-rules.mjs",
+                "anchor": "export function checkStatusRules(",
+                "role": "native-status-action-and-frame-oracle",
+                "lines": "638",
+                "sha256": "7b5390179c71547dc6430a907f59d2ee403712aa824758a2eee6257baa2c0753"
+              }
+            ],
+            "archive": "docs/tasks/evidence/E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz"
+          },
+          {
+            "revision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
+            "date": "2026-11-14",
+            "action": "native-world-and-revival-presentation-recheck",
+            "predecessor": "840625b531130f6a9c4819c509ed3bf3a47353a5",
+            "scope": "24 independent status trials recorded at 31cfe538; 12 world encounters at the PAL project-default candidate. Both engines use the same source revision within each matrix; a fresh Reforge trial confirms loading with the project default.",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+                "role": "native-audio-observer",
+                "lines": "203",
+                "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "export function instrumentGameBattle(",
+                "role": "game-audio-producer-binding",
+                "lines": "42",
+                "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+              },
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "17",
+                "sha256": "af6d7c4d01ab308190090c4c47dce18ee636a2ee20f9a3ad911adbd8292f3ac1"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+                "role": "native-magic-overlay-observer",
+                "lines": "279",
+                "sha256": "a852f11e767ef80d34bc042cbe5f53d7a379ad86ccce3b71e19abfa9392117d3"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "'coop-fallback',",
+                "role": "native-cooperative-fallback-observer",
+                "lines": "305",
+                "sha256": "fc8af8b0a28b60dfa2a37722c787321bfc1fa4fb5fadfa43ba2de74448d6322d"
+              },
+              {
+                "path": "scripts/e2e/battle-status.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-special-status-caller",
+                "lines": "36",
+                "sha256": "7a8ce949dacd9f5a8a1e1c57f7bb4d07dcf629b61e4505eb6fd119e4e30bf1f1"
+              },
+              {
+                "path": "scripts/e2e/battle-status-rules.mjs",
+                "anchor": "export function checkStatusRules(",
+                "role": "native-status-action-and-frame-oracle",
+                "lines": "886",
+                "sha256": "7a8e51251f13f7813361b26cc1ae813079c5657ab99649314d1aeefcbd79db5c"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-game.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-game-world-caller",
+                "lines": "454",
+                "sha256": "691d1ad32f23fa9fe3da47b4a8673c6acb842d4959cf480401ce734c5f817dc3"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-reforge-world-caller",
+                "lines": "197",
+                "sha256": "3e5e1050a919a41f51898cb75d1fdd3b0c454b6522b1ca0c45504710ae50a711"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-compare.mjs",
+                "anchor": "export async function compareWorldBeeReports(",
+                "role": "native-world-offline-oracle",
+                "lines": "482",
+                "sha256": "6326ced5044832b80a774fd90d0cf6356da38c7e39dcdb3aa758cb106220a9b7"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "anchor": "private async finishEncounter(",
+                "role": "world-encounter-finalizer",
+                "lines": "179",
+                "sha256": "2036702f08d8857c818becc4c93a0c2a430bb6872e5bafab98b99c212cd7ec11"
+              }
+            ],
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz"
+          },
+          {
+            "action": "q2-battle-lifecycle-source-rebinding",
+            "base": "2d17adc064409630aa74415dc8195080d2344d28",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.ts",
+                "anchor": "export class BattleCommandSelection",
+                "role": "native-target-menu-caller",
+                "lines": "58",
+                "sha256": "956996dc32ec66684fb825b44e721679405219e14fc979b922d11dfd62078c04"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-game.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-game-world-caller",
+                "lines": "839",
+                "sha256": "5509989887d5f75fd30ad851ac5539648068e81fc028a7a2b115fe76d60f66b6"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-reforge-world-caller",
+                "lines": "311",
+                "sha256": "2ec68ba111af9db46b4449c3273bd1e374e4ae68cdd9cfa652dca8cbd615365f"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+                "anchor": "export const beeWorldInput = {",
+                "role": "native-world-legal-input",
+                "lines": "19",
+                "sha256": "4920e3bb0b09ed47165869cf8e4cda4145a70fe92fd06a136af7dcd99d94edb2"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-host.ts",
+                "anchor": "private async finishEncounter(",
+                "role": "world-encounter-finalizer",
+                "lines": "277",
+                "sha256": "c4174dcb8d909247d97539af0de939853823f5d725c6f5808d03c80eae38320f"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-game.config.mts",
+                "anchor": "const start = '    src.start()'",
+                "role": "native-game-world-ambient-start",
+                "lines": "100",
+                "sha256": "97f8fac61e9c8f384cb2e8d883d0634a7b9689f367edc8d2366ad1845b874be4"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+                "anchor": "function observeAmbient(source: string)",
+                "role": "native-reforge-world-ambient-start",
+                "lines": "142",
+                "sha256": "0ed8e0b3700721e93a5761445db53e7f03e6bd2f91e645742a29885d33971b6a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
+                "anchor": "export class BattleEntryPresentation {",
+                "role": "normal-world-entry-draw",
+                "lines": "11",
+                "sha256": "6d1ca3a1e7cc9e6915528b1761a2aa4f42a7b54ff18ca501fab5f762e2f43bee"
+              },
+              {
+                "path": "packages/game/src/core/battle/battle-system.ts",
+                "anchor": "function tickPostAction(",
+                "role": "first-game-exhausted-queue-tick",
+                "lines": "2792",
+                "sha256": "0c9d9e3f3d5d4aec1450eed67f2906980e873202d7d0e7c022617709e14b8e42"
+              }
+            ],
+            "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+          },
+          {
+            "action": "q2-battle-visual-review-source-applicability",
+            "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "export function instrumentGameBattle(",
+                "role": "game-audio-producer-binding",
+                "lines": "42",
+                "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "'coop-fallback',",
+                "role": "native-cooperative-fallback-observer",
+                "lines": "314",
+                "sha256": "4fe1a44256f297ad562f323cc9290a6dc9c6f49f4261326af856bc88565a0534"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-game.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-game-world-caller",
+                "lines": "879",
+                "sha256": "6b304af36c25dff9005f9bda4014ae986ed5093f7122909f47fd405a671f8ef4"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-reforge-world-caller",
+                "lines": "354",
+                "sha256": "ce1d567dc068d1d164f57ae182b1eec2f58d3d11ec4a2fa6a4106d7c76716144"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+                "anchor": "export const beeWorldInput = {",
+                "role": "native-world-legal-input",
+                "lines": "19",
+                "sha256": "dfe5033d31f262efdf787911000ed2b6ec36fc3d453d38f8938203710e17b3b1"
+              },
+              {
+                "path": "scripts/e2e/battle-world-escape-compare.mjs",
+                "lines": "397",
+                "anchor": "export async function compareWorldEscapeReports(",
+                "role": "oracle",
+                "sha256": "8dfb0f01507e0a4443d084fa7056b373e0a0493433f4dff083ebea152a781180"
+              },
+              {
+                "path": "scripts/e2e/battle-scripted-defeat-compare.mjs",
+                "lines": "610",
+                "anchor": "export async function compareScriptedDefeat(",
+                "role": "oracle",
+                "sha256": "a4b121db49f1d352f639851d5684466f6fba4a5032a73cb11a3cede2753bdd03"
+              },
+              {
+                "path": "scripts/e2e/battle-world-save-compare.mjs",
+                "lines": "276",
+                "anchor": "export async function comparePostBattleSave(",
+                "role": "oracle",
+                "sha256": "69e65e93308d47e7444f9268b0a326151b0bb127d9922456fa705af04cb2e2fc"
+              }
+            ],
+            "scope": "更新分屏返工与明雷逃跑五条路线涉及的运行入口与判据。旧执行及原片保留各自运行候选。"
+          },
+          {
+            "action": "q2-save-load-presentation-source-applicability",
+            "base": "77e5e24e7a0769c26a507b91ffb4044d0295e0d4",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+                "anchor": "function observeAmbient(source: string)",
+                "role": "native-reforge-world-ambient-start",
+                "lines": "148",
+                "sha256": "61ff313108df54ed527fc3ab7ce776777ae2a5a6609c1989b3c884398cbccb40"
+              },
+              {
+                "path": "scripts/e2e/battle-world-save-compare.mjs",
+                "lines": "339",
+                "anchor": "export async function comparePostBattleSave(",
+                "role": "oracle",
+                "sha256": "a068e7dd62bdf0b1f7c3a2cf3f120b6b2dc1099d7e1a600813b3a8800775495c"
+              },
+              {
+                "path": "scripts/e2e/battle-world-review-split.mjs",
+                "anchor": "function nativeVideoEnd(path)",
+                "lines": "22",
+                "sha256": "9254fb89c6564dc3332f7e96f6e13f702311a90fe494e2e87f6dbf7013b9871e",
+                "role": "visual-review"
+              }
+            ],
+            "scope": "当前存档采集、画帧比较与复核视频采用新的来源绑定。每个旧运行、反例和媒体继续对应其原有版本。"
+          },
+          {
+            "action": "q2-save-full-party-layout-applicability",
+            "base": "95f05c703bb1d0cfb2ee1e4fd3b1616609eec47f",
+            "date": "2026-11-15",
+            "evidence": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/save-browser-box.ts",
+                "anchor": "export function drawSaveBrowser(",
+                "role": "saved-slot-menu-caller",
+                "lines": "154",
+                "sha256": "bbc087e6741faae5971b8293d1c38796d93487e3b760d3b80b61a1e77ab48f91"
+              }
+            ],
+            "scope": "当前共享存档槽绘制更新，前轮读档和单人排版的原件保留各自运行候选。"
+          },
+          {
+            "action": "q2-battle-closure-source-rebinding",
+            "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+                "role": "native-audio-observer",
+                "lines": "204",
+                "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "export function instrumentGameBattle(",
+                "role": "game-audio-producer-binding",
+                "lines": "42",
+                "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+              },
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "17",
+                "sha256": "8cc0c3623771f700bac6eff27d26fc9912649191529acd33e80549655cffce07"
+              },
+              {
+                "path": "scripts/e2e/battle-random-instrumentation.mjs",
+                "anchor": "export function instrumentBattleRandomDraws(",
+                "role": "native-random-producer-binding",
+                "lines": "28",
+                "sha256": "4eac8413fbca36ab98e90555d2178b57ba0f523c52fa654351f05e494aae7226"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+                "role": "native-magic-overlay-observer",
+                "lines": "307",
+                "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.ts",
+                "anchor": "export class BattleCommandSelection",
+                "role": "native-target-menu-caller",
+                "lines": "59",
+                "sha256": "7933e7ce24d7c92a83a95e2d43efd4fb449ffe0e1a6b38cf0b2b34754ebfd34b"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "'coop-fallback',",
+                "role": "native-cooperative-fallback-observer",
+                "lines": "322",
+                "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+              },
+              {
+                "path": "packages/reforge/src/menu/menu-box.ts",
+                "anchor": "export const SCROLL_LABEL_STYLE =",
+                "role": "reforge-scroll-style",
+                "lines": "169",
+                "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+              },
+              {
+                "path": "scripts/e2e/battle-status.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-special-status-caller",
+                "lines": "52",
+                "sha256": "7efd247d856fd4601d5f7025ca2b79b2635dee970a905fc1445d6c7101527351"
+              },
+              {
+                "path": "scripts/e2e/battle-status-scenarios.mjs",
+                "anchor": "export async function prepareBattleStatusInputs(",
+                "role": "native-status-legal-inputs",
+                "lines": "377",
+                "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
+              },
+              {
+                "path": "scripts/e2e/battle-status-rules.mjs",
+                "anchor": "export function checkStatusRules(",
+                "role": "native-status-action-and-frame-oracle",
+                "lines": "1035",
+                "sha256": "ac8f8353f81ef9f388d718305de898301b4c0a63b7de32c4286751d52700e027"
+              },
+              {
+                "path": "scripts/e2e/battle-status-compare.mjs",
+                "anchor": "export async function compareStatusReports(",
+                "role": "native-status-offline-oracle",
+                "lines": "222",
+                "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-game.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-game-world-caller",
+                "lines": "880",
+                "sha256": "9f8a18addf544fccb777dfc7865d7652d8f0832f522c5055d4b16261d85d880b"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+                "anchor": "await runBrowserJourney({",
+                "role": "native-reforge-world-caller",
+                "lines": "355",
+                "sha256": "0a0c1514a6ad697ceafe45b82c02f5ac7574d96c569f591f205c2b7492a9a38e"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+                "anchor": "export const beeWorldInput = {",
+                "role": "native-world-legal-input",
+                "lines": "19",
+                "sha256": "a231ab2b3dd47d75e36888b819e971587ba28d75a67a5ea750747ac4d1df362b"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2445",
+                "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+              },
+              {
+                "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+                "anchor": "function observeAmbient(source: string)",
+                "role": "native-reforge-world-ambient-start",
+                "lines": "148",
+                "sha256": "683a26e637bc2f4e8d796d4dcf4ac740f0d62cb2735d505023101db0d0d396da"
+              },
+              {
+                "path": "scripts/e2e/battle-world-save-compare.mjs",
+                "lines": "388",
+                "anchor": "export async function comparePostBattleSave(",
+                "role": "oracle",
+                "sha256": "788ac3b4fd1f547711fc55d3f03bd5f12f73e13f2cd76536a4519c5bfe846190"
+              },
+              {
+                "path": "scripts/e2e/battle-world-save.mjs",
+                "anchor": "function beginLoadPaintWitness(engine)",
+                "role": "native-save-paint-observer",
+                "lines": "53",
+                "sha256": "42e5662d22d1e8255dd908e0ed3556261b83108e16c9e9b1a80fa9678a8650b9"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "5769",
+                "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+              }
+            ],
+            "scope": "本轮 Q2 继续使用原生执行与实际画帧。保留全部旧运行、反例、附件与审阅，追加收尾义务。"
           }
         ]
       }
@@ -5436,7 +7136,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge. Seven native settlement screens and the ordinary Reforge cash label were independently replayed and compared to source bitmaps and PAL colors."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards. This round adds the actual casualty pages, enemy thunder, round-end poison pose and the retained red-frame plus fixed-slot readback in one ordinary world encounter. Five wider player casts retain open damage findings. A later frozen pair closes the tested elemental damage and draw discrepancies, and checks co-op, throwing, sleep and Protect with legal real menus and render/audio facts. A later user-reported occlusion is reproduced with 20 native Reforge paint-order failures and restored in the same fixtures. Current evidence additionally binds the original signed layer and actual FIRE draws. The latest same-input follow-up rejects old Reforge’s missing second cooperative fallback strike and early caster return, then verifies both fixes with native damage, animation, sound and RNG. The item group adds seven matching legal use/throw fixtures with recorded RNG, actual number placement, normal settlement and four original-speed stereo captures. The full 34-fixture matrix also passed after a Game teardown retry. Threshold and zero-script throw-menu differences remain diagnostic. The status followup has five same-input fixed fixtures and separate bounded native evidence for empty throws, threshold targeting/feedback, other condition removal and protect expiry. Actual frame and audio comparisons cover ten enemy casting fixtures, with all 52 enemy skill definitions reconciled to source. Thirty-six disjoint poison cases use separate fixed inputs, verified original recordings and a source-bound offline judge. Seven native settlement screens and the ordinary Reforge cash label were independently replayed and compared to source bitmaps and PAL colors. Twenty special-status and buff fixtures compare independently repeated real actions, draws, physical effects and status-dependent audio. New revival cases and actual bee encounters prove separately bounded action and world reward sequences. The PAL world transition discrepancy is retained. A new same-source presentation run closes the recorded world fade and sound discrepancies and checks the actual transformation, menu, and casualty frames."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

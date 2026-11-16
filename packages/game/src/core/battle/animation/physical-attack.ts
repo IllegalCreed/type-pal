@@ -7,17 +7,23 @@ import { buildPostMagicTimeline } from './hit-reaction.js'
  * 混乱队员攻击友军的**走入动画**(port fight.c:3791-3858,kBattleActionAttackMate 演出,PAL_CLASSIC)。
  *   windup frame8/0 ×2 各 Delay(1)(3791-3798)→ Delay(2)(3800)→ 走到 target+(30,12) frame8 Delay(5)
  *   (3802-3807)→ frame9(+武器音 M6,3809-3810)+ 友军击退 pos-(12,6)(3837-3840)Delay(1)→ 友军
- *   iColorShift 6 闪白 Delay(1)(3842-3843)→ iColorShift 0 Delay(4)(3847-3848)→ UpdateFighters
- *   复位 caster+target Delay(4)(3850-3851)。pos 均用 posOriginal 底锚。
+ *   iColorShift 6 闪白 Delay(1)(3842-3843)→ 蓝字、清染色 Delay(4)(3845-3848)→
+ *   UpdateFighters 按实际状态复位 Delay(4)(3850-3851)。
  * D8(2026-06-02):此前 attack-mate 只做伤害结算,无走入精灵动画 → 补齐。
  */
 export function buildAttackMateTimeline(input: {
   casterIdx: number
   casterPos: { x: number; y: number }
+  casterRestFrame: number
   targetIdx: number
   targetPos: { x: number; y: number }
+  /** A defending fighter keeps the displaced position in PAL_BattleUpdateFighters. */
+  targetRestPos?: { x: number; y: number }
+  targetRestFrame: number
+  weaponSound: number
+  damageNumber: NonNullable<BattleAnimFrame['damageNum']>
 }): BattleAnimFrame[] {
-  const { casterIdx, casterPos, targetIdx, targetPos } = input
+  const { casterIdx, casterPos, targetIdx, targetPos, weaponSound, damageNumber } = input
   const frames: BattleAnimFrame[] = []
   // windup frame8/0 ×2(fight.c:3791-3798)
   for (let j = 0; j < 2; j++) {
@@ -39,31 +45,37 @@ export function buildAttackMateTimeline(input: {
     fighters: [{ side: 'player', idx: casterIdx, currentFrame: 8, pos: { x: lungeX, y: lungeY } }],
   })
   // frame9(武器音 M6)+ 友军击退 pos-(12,6)(fight.c:3809-3840)
-  const knockX = targetPos.x - 12
-  const knockY = targetPos.y - 6
+  const knockedPos = { x: targetPos.x - 12, y: targetPos.y - 6 }
   frames.push({
     durationMs: delayMs(1),
     fighters: [
       { side: 'player', idx: casterIdx, currentFrame: 9, pos: { x: lungeX, y: lungeY } },
-      { side: 'player', idx: targetIdx, pos: { x: knockX, y: knockY } },
+      { side: 'player', idx: targetIdx, pos: knockedPos },
     ],
+    ...(weaponSound > 0 ? { sound: weaponSound } : {}),
   })
   // 友军 iColorShift 6 闪白 Delay(1)(fight.c:3842-3843)
   frames.push({
     durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: { x: knockX, y: knockY } }],
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 6, pos: knockedPos }],
   })
   // 友军 iColorShift 0 Delay(4)(fight.c:3847-3848)
   frames.push({
     durationMs: delayMs(4),
-    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: { x: knockX, y: knockY } }],
+    fighters: [{ side: 'player', idx: targetIdx, iColorShift: 0, pos: knockedPos }],
+    damageNum: { ...damageNumber, anchor: knockedPos },
   })
   // UpdateFighters 复位 caster+target Delay(4)(fight.c:3850-3851)
   frames.push({
     durationMs: delayMs(4),
     fighters: [
-      { side: 'player', idx: casterIdx, currentFrame: 0, pos: casterPos },
-      { side: 'player', idx: targetIdx, currentFrame: 0, pos: targetPos },
+      { side: 'player', idx: casterIdx, currentFrame: input.casterRestFrame, pos: casterPos },
+      {
+        side: 'player',
+        idx: targetIdx,
+        currentFrame: input.targetRestFrame,
+        ...(input.targetRestPos ? { pos: input.targetRestPos } : {}),
+      },
     ],
   })
   return frames
@@ -98,16 +110,8 @@ export interface BuildPlayerAttackInput {
    * (该帧 currentFrame=9)frame.sound。0/缺 = 不挂。同 attackVoice 改帧同步避免双击重叠。
    */
   weaponSound?: number
-  /**
-   * 群攻(sTarget==-1)各掉血敌的伤害数字 —— 挂挥砍 i==0 帧(sdlpal PAL_BattleDisplayStatChange
-   * 在 ShowPlayerAttackAnim i==0 遍历全敌,fight.c:2209/626-659),非挥砍后。单体目标走单数 damage
-   * (嵌 i==0 帧 damageNum),不传此。
-   */
-  groupDamageNums?: Array<{
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }>
+  /** One number per occupied enemy slot, drawn on the second hit frame. */
+  groupDamageNums?: BattleAnimFrame['damageNums']
   /**
    * L12 首击前摇:C 在 PAL_BattleShowPlayerAttackAnim 之前、仅首击(t==0)`wCurrentFrame=7 +
    * PAL_BattleDelay(4)`(fight.c:3667-3671 单体 / 3690-3694 群攻)。true → 前置一帧
@@ -116,12 +120,14 @@ export interface BuildPlayerAttackInput {
   windup?: boolean
   /**
    * DH6:群攻(sTarget==-1)参与演出的敌人(idx + posOriginal)。C 真值:
-   *   - 特效 i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203);
+   *   - 特效第二帧使用上一帧登记的染色(fight.c:2170,2195-2203);
    *   - 收势前全敌 colorShift 复位(:2225-2228);
    *   - 收势 3 帧**所有敌人** x-=dist(dist 8→-4→2,y 不动)各 Delay(1)(:2229-2247)。
    * 仅 targetIdx<0 时消费;不传 → 退化为旧"只弹数字"行为(旧 fixture 兼容)。
    */
   groupEnemies?: Array<{ idx: number; x: number; y: number }>
+  /** Which sweep of a two-strike group attack is being built. */
+  groupSweep?: 1 | 2
 }
 
 /**
@@ -149,6 +155,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     weaponSound,
     windup,
     groupEnemies,
+    groupSweep,
   } = input
   const ex = targetEnemyPos.x
   const ey = targetEnemyPos.y
@@ -174,8 +181,9 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
 
   // —— frame 0:currentFrame=8,冲刺到敌前(fight.c:2076-2097)+ 出招声(fight.c:2061-2071 起手)——
   // x = enemy_x - dist + 64;y = enemy_y + dist + 20(dist=0 单体简化)
-  const rushX0 = ex + 64
-  const rushY0 = ey + 20
+  // A two-strike group attack uses a different point beside the player for each sweep.
+  const rushX0 = groupSweep ? attackerPos.x - (groupSweep === 1 ? 8 : 20) : ex + 64
+  const rushY0 = groupSweep ? attackerPos.y - (groupSweep === 1 ? 4 : 12) : ey + 20
   frames.push({
     durationMs: delayMs(2),
     fighters: [
@@ -185,8 +193,8 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   })
 
   // —— frame 1:x-=10,y-=2(fight.c:2099-2118)——
-  const rushX1 = rushX0 - 10
-  const rushY1 = rushY0 - 2
+  const rushX1 = groupSweep ? rushX0 : rushX0 - 10
+  const rushY1 = groupSweep ? rushY0 : rushY0 - 2
   frames.push({
     durationMs: delayMs(1),
     fighters: [{ side: 'player', idx: attackerIdx, pos: { x: rushX1, y: rushY1 } }],
@@ -197,8 +205,11 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
   const fxX0 = ex
   const fxY0 = ey - Math.floor(enemyH / 3) + 10
   for (let i = 0; i < 3; i++) {
-    const overlayX = fxX0 - 16 * i
-    const overlayY = fxY0 + 16 * i
+    const effect = {
+      kind: 'effect' as const,
+      spriteChunk: EFFECT_SPRITE_CHUNK,
+      frameIdx: effectFrameBase + i,
+    }
     const fighters: BattleAnimFrame['fighters'] = []
     if (i === 0) {
       // currentFrame=9 自 effect frame 0 起(fight.c:2120)
@@ -206,36 +217,34 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
       // i==0:target 染色 + 伤害数字(fight.c:2195-2209)。
       if (targetIdx >= 0) {
         fighters.push({ side: 'enemy', idx: targetIdx, iColorShift: 6 })
-      } else if (groupEnemies) {
-        // DH6:群攻(sTarget==-1)i==0 帧**所有敌人** iColorShift=6(fight.c:2196-2203)。
-        for (const ge of groupEnemies) fighters.push({ side: 'enemy', idx: ge.idx, iColorShift: 6 })
       }
     }
-    if (i === 1) {
-      // i==1:attacker pos += (2,1)(fight.c:2215-2220)
+    if (i === 1 && groupEnemies) {
+      // The original draws the first hit frame before changing the enemies' tint.
+      for (const ge of groupEnemies) fighters.push({ side: 'enemy', idx: ge.idx, iColorShift: 6 })
+    }
+    if (i === (groupEnemies ? 2 : 1)) {
+      // fight.c:2215–2220 moves the attacker after displaying the second hit frame.
       fighters.push({ side: 'player', idx: attackerIdx, pos: { x: rushX1 + 2, y: rushY1 + 1 } })
     }
     frames.push({
       durationMs: delayMs(1),
       fighters: fighters.length > 0 ? fighters : undefined,
-      overlay: {
-        kind: 'effect',
-        spriteChunk: EFFECT_SPRITE_CHUNK,
-        frameIdx: effectFrameBase + i,
-        x: overlayX,
-        y: overlayY,
-      },
+      ...(groupEnemies
+        ? { overlays: groupEnemies.map(({ x, y }) => ({ ...effect, x, y })) }
+        : { overlay: { ...effect, x: fxX0 - 16 * i, y: fxY0 + 16 * i } }),
       ...(i === 0 && targetIdx >= 0
         ? {
             damageNum: {
               target: { kind: 'enemy' as const, idx: targetIdx },
               value: damage,
               color: 'blue' as const,
+              anchor: targetEnemyPos,
             },
           }
         : {}),
-      // 群攻(targetIdx<0):各掉血敌数字挂 i==0 帧(sdlpal DisplayStatChange 遍历全敌,fight.c:2209/626-659)。
-      ...(i === 0 && groupDamageNums && groupDamageNums.length > 0
+      // fight.c:2193–2210 paints before registering the new numbers, visible on the next frame.
+      ...(i === 1 && groupDamageNums && groupDamageNums.length > 0
         ? { damageNums: groupDamageNums }
         : {}),
       // M6 武器声(fight.c:2124):currentFrame=9 后、特效循环前播 → 挂特效 i==0 帧(currentFrame=9 同帧)。
@@ -251,7 +260,7 @@ export function buildPlayerAttackTimeline(input: BuildPlayerAttackInput): Battle
     //   (= C 动作收尾 UpdateFighters 复位 posOriginal)。无 groupEnemies(旧 fixture)→ 空延时。
     let gDist = 8
     const offsets: number[] = []
-    let acc = 0
+    let acc = groupSweep === 2 ? -6 : 0
     for (let i = 0; i < 3; i++) {
       acc -= gDist
       offsets.push(acc)

@@ -826,7 +826,7 @@ test('004 actual dither output is sampled only after successful pixels, with str
       /dither step anchor/,
     ],
     [
-      (text) => text.replace('function render(): void {', 'function changedRender(): void {'),
+      (text) => text.replace('function render(frameAt:', 'function changedRender(frameAt:'),
       /trace anchors changed: packages\/reforge\/src\/main\.ts/,
     ],
   ])

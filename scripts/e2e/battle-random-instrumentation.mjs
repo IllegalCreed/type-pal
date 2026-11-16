@@ -57,13 +57,17 @@ export function instrumentBattleRandomDraws(source, file) {
           mark(node, 'queue-dexterity', {
             queue: "{ turn: state.turn + 1, side: 'player', slot: i, speed: dex, extra: false }",
           })
+        if (owner === 'resolveConfusedAttack' && expression === 'state.rng.range(0, pool.length)')
+          mark(node, 'player-confusion-target')
         if (owner === 'performBattleAction' && expression === 'state.rng.rangeInclusive(2, 3)') {
           const pool = node.parent.arguments?.[0]?.getText(ast)
           if (pool === "'rgHealthExp'") mark(node, 'attack-growth')
           if (pool === "'rgMagicExp'") mark(node, 'cast-growth')
         }
-      } else if (file.endsWith('/actions/attack.ts') && Object.hasOwn(gameStrike, expression)) {
-        mark(node, gameStrike[expression])
+      } else if (file.endsWith('/actions/attack.ts')) {
+        if (Object.hasOwn(gameStrike, expression)) mark(node, gameStrike[expression])
+        if (owner === 'performAttack' && expression === 'state.rng.rangeInclusive(0, 5)')
+          mark(node, 'group-strike-critical')
       } else if (
         file.endsWith('/actions/coop-magic.ts') &&
         owner === 'performCoopMagic' &&
@@ -74,6 +78,8 @@ export function instrumentBattleRandomDraws(source, file) {
       } else if (file.endsWith('/enemy-ai.ts') && owner === 'decideEnemyAction') {
         if (expression === 'rng.rangeInclusive(0, party.length - 1)')
           mark(node, 'enemy-target', { when: 'party.length > 1 && ' })
+        if (expression === 'rng.rangeInclusive(0, slots.length - 1)')
+          mark(node, 'enemy-confusion-target', { when: 'slots.length > 1 && ' })
         if (expression === 'rng.range(0, 10)') mark(node, 'enemy-magic-choice')
       } else if (file.endsWith('/magic-damage.ts')) {
         if (owner === 'applyMagicDamage' && expression === 'state.rng.next()')
@@ -124,6 +130,14 @@ export function instrumentBattleRandomDraws(source, file) {
         }
         if (owner === 'resolvePlayerAttackHit' && Object.hasOwn(reforgeStrike, multiplier))
           mark(node, reforgeStrike[multiplier])
+        if (owner === 'performAttackAll' && multiplier === '6') mark(node, 'group-strike-critical')
+        if (owner === 'performPlayerAction' && multiplier === 'pool.length')
+          mark(node, 'player-confusion-target')
+        if (
+          owner === 'decideEnemyAction' &&
+          node.parent.getText(ast).startsWith('Math.min(0.999999999, rng()')
+        )
+          mark(node, 'enemy-confusion-target', { when: 'upper > 0 && ' })
         if (owner === 'performEnemyAction' && Object.hasOwn(reforgeEnemy, multiplier))
           mark(node, reforgeEnemy[multiplier])
         if (owner === 'sampleLivePlayerSlot') mark(node, 'enemy-target')
@@ -180,9 +194,9 @@ export function instrumentBattleRandomDraws(source, file) {
           )
             mark(node, 'throw-weapon-strength')
         }
-        if (owner === 'applyPlayerSkill') {
+        if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
+        if (owner === 'applyPlayerSkillEffects') {
           const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
-          if (multiplier === '2') mark(node, 'cast-growth')
           if (effect === "'gate'" && multiplier === '100') mark(node, 'battle-script-chance')
           if (effect === "'applyStatus'" && multiplier === '10')
             mark(node, 'status-resistance', {
@@ -197,7 +211,7 @@ export function instrumentBattleRandomDraws(source, file) {
       }
       if (
         file.endsWith('/battle-core.ts') &&
-        ['performThrow', 'applyPlayerSkill'].includes(owner) &&
+        ['performThrow', 'applyPlayerSkillEffects'].includes(owner) &&
         node.expression.getText(ast) === 'applyEnemyPoisonEffect' &&
         node.arguments[3]?.getText(ast) === 'rng'
       ) {
@@ -223,11 +237,24 @@ export function instrumentBattleRandomDraws(source, file) {
 
   let expected
   if (file.endsWith('/battle-system.ts'))
-    expected = { 'queue-dexterity': 3, 'attack-growth': 1, 'cast-growth': 1 }
+    expected = {
+      'queue-dexterity': 3,
+      'attack-growth': 1,
+      'cast-growth': 1,
+      'player-confusion-target': 1,
+    }
   if (file.endsWith('/actions/attack.ts'))
-    expected = Object.fromEntries(Object.values(gameStrike).map((name) => [name, 1]))
+    expected = {
+      ...Object.fromEntries(Object.values(gameStrike).map((name) => [name, 1])),
+      'group-strike-critical': 1,
+    }
   if (file.endsWith('/actions/coop-magic.ts')) expected = { 'attack-growth': 1 }
-  if (file.endsWith('/enemy-ai.ts')) expected = { 'enemy-target': 2, 'enemy-magic-choice': 1 }
+  if (file.endsWith('/enemy-ai.ts'))
+    expected = {
+      'enemy-target': 2,
+      'enemy-magic-choice': 1,
+      'enemy-confusion-target': 2,
+    }
   if (file.endsWith('/magic-damage.ts'))
     expected = { 'spell-damage-variance': 1, 'enemy-magic-block': 2, 'enemy-magic-damage-float': 1 }
   if (file.endsWith('/battle-opcodes.ts'))
@@ -246,6 +273,9 @@ export function instrumentBattleRandomDraws(source, file) {
         [...Object.values(reforgeStrike), ...Object.values(reforgeEnemy)].map((name) => [name, 1]),
       ),
       'queue-dexterity': 3,
+      'group-strike-critical': 1,
+      'player-confusion-target': 1,
+      'enemy-confusion-target': 2,
       'enemy-target': 2,
       'enemy-magic-choice': 1,
       'enemy-magic-block': 1,

@@ -1,5 +1,6 @@
-import { grantBattleRewards, lookupText, type WorldState } from '@type-pal/content'
+import { effectiveStat, grantBattleRewards, lookupText, type WorldState } from '@type-pal/content'
 import { clearPostBattleActorConditions } from '../actor-condition-lifecycle.js'
+import { expectDefined } from '../defined.js'
 import type { LoadedCurrentProjectCore } from '../project-loader.js'
 import type { BattleResult } from './battle-result.js'
 import type { BattleSession } from './battle-session.js'
@@ -11,6 +12,7 @@ export function settleBattleVictory(
   project: LoadedCurrentProjectCore,
   onExpReward: () => void,
   rng: () => number = Math.random,
+  options?: { deferRecovery: boolean },
 ) {
   session.writeBackPersistentEffects(world)
   session.writeBackHp(world.party, { preserveZeroHp: true })
@@ -22,13 +24,26 @@ export function settleBattleVictory(
     world.learnedSkills,
     project.actorsById,
     project.levelUp,
-    { ...rewards, hiddenCounts: session.hiddenCounts() },
+    { ...rewards, hiddenCounts: session.hiddenCounts(), ...options },
     rng,
   )
+  const levelUps = report.levelUps.map((levelUp) => {
+    const character = expectDefined(world.party.find(({ id }) => id === levelUp.characterId))
+    const before = { ...levelUp.before }
+    const after = { ...levelUp.after }
+    for (const stat of ['attack', 'magicAttack', 'defense', 'speed', 'luck'] as const) {
+      // SDLPal battle.c:1184–1212 adds the equipment bonus to both snapshots.
+      // The after snapshot precedes hidden growth, which has already updated the live character.
+      const equipmentBonus = effectiveStat(character, stat, project.items) - character[stat]
+      before[stat] += equipmentBonus
+      after[stat] += equipmentBonus
+    }
+    return { ...levelUp, before, after }
+  })
   return buildSettlementScreens(
     report.exp,
     report.cash,
-    report.levelUps,
+    levelUps,
     report.hiddenUps,
     (id) =>
       lookupText(`name.${world.party.find((c) => c.id === id)?.template ?? ''}`, project.locale),

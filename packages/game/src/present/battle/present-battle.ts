@@ -195,9 +195,10 @@ export class BattlePresent {
             ? state.players[actor.idx]
             : undefined
         const anchor =
-          cmd.target.kind === 'enemy'
+          cmd.anchor ??
+          (cmd.target.kind === 'enemy'
             ? computeEnemyAnchor(state, cmd.target.idx, assets.enemyPos)
-            : (thrower?.pos ?? computePlayerAnchor(state, cmd.target.idx))
+            : (thrower?.pos ?? computePlayerAnchor(state, cmd.target.idx)))
         if (anchor) {
           const x = anchor.x - 24
           let yOff: number

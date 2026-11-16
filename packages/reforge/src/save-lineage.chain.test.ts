@@ -66,7 +66,7 @@ test.each([
       entered.resolve()
       return answer.promise
     },
-    startBattle: (request, signal) => start(request, signal),
+    startBattle: (request, signal, source) => start(request, signal, source),
     teleportOut: (signal) => teleport(signal),
   })
   const activeParent = { running: true }
@@ -113,20 +113,17 @@ test.each([
       assertCurrent: () => void,
     ) => Promise<void>
   >(property('runDefeated', 'definitions,signal,assertCurrent', true), env)
-  const battleBoundary = vi.fn(async (team: string, _options: unknown, signal: AbortSignal) => {
+  const battleBoundary = vi.fn(async (team: string, options: unknown, signal: AbortSignal) => {
     expect(team).toBe('fixture-team')
+    expect(options).toMatchObject({ scripted: true })
     expect(signal).toBe(f.signal)
     env.launchSignal = signal
     await runDefeated(env.session.enemySlotDefs(), signal, env.assertLaunchCurrent)
     return 'victory'
   })
   env.battleHost.start = battleBoundary
-  env.host.startBattle = evaluate(
-    property('startBattle', 'team,battleOpts,runnerSignal', false),
-    env,
-  )
   env.host.teleportOut = evaluate(property('teleportOut', 'signal', true), env)
-  start = evaluate(property('startBattle', 'request,signal', false), env)
+  start = evaluate(property('startBattle', 'request,signal,source', true), env)
   teleport = evaluate(property('teleportOut', 'signal', false), env)
 
   const running = f.runtime.runCommands(
@@ -168,6 +165,6 @@ test('standalone current host battle must wait outside a ready save gate', async
   expect(body).not.toHaveBeenCalled()
   barrier.release()
   await expect(battle).resolves.toBe('victory')
-  expect(body).toHaveBeenCalledWith({ enemyTeamId: 'team' }, f.signal)
+  expect(body).toHaveBeenCalledWith({ enemyTeamId: 'team' }, f.signal, undefined)
   await expect(f.runtime.withSaveBarrier(() => 'after')).resolves.toBe('after')
 })

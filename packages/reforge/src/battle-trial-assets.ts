@@ -25,7 +25,7 @@ import { battleTrialRevision, prepareBattleTrial } from './battle-trial-prepare.
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import type { FileSource } from './file-source.js'
 import { sha256Bytes } from './hash.js'
-import { loadMenuAssets } from './menu/menu-box.js'
+import { loadMenuAssets, MenuBox, statusPortraitAsset } from './menu/menu-box.js'
 import { ProjectImageCache } from './project-image-cache.js'
 import { type LoadedCurrentProject, loadCurrentProjectFrom } from './project-loader.js'
 import { assertProjectSaveReadable } from './project-save-state.js'
@@ -206,6 +206,10 @@ export async function prepareBattleTrialAssets(
       'trial',
     )
     const portraitAssets = collectBattleCasualtyPortraits(players, project.actorsById)
+    for (const member of world.party) {
+      const asset = statusPortraitAsset(member, project.actorsById[member.template])
+      if (asset) portraitAssets.add(asset)
+    }
     for (const ref of choreoAssets) if (ref.expectedKind === 'music') musicAssets.add(ref.asset)
     for (const ref of choreoAssets)
       if (ref.expectedKind === 'portrait') portraitAssets.add(ref.asset)
@@ -275,6 +279,15 @@ export async function prepareBattleTrialAssets(
         palette,
         glyphs,
         ui,
+        statusPanel: {
+          renderer: new MenuBox(glyphs, project.locale, ui, items, {
+            actorsById: project.actorsById,
+            poisonsById: project.poisonsById,
+            palette,
+            portraits,
+          }),
+          party: world.party,
+        },
         faces,
         fireSprites,
         effectSprite,

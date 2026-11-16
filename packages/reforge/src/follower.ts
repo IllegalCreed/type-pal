@@ -23,6 +23,8 @@ import { expectDefined } from './defined.js'
 export interface TrailEntry {
   pos: GridPos
   dir: Facing
+  /** A shared placement sample before the first movement stores its own departure. */
+  formationSeed?: true
 }
 
 export interface FollowerFrozen {
@@ -62,21 +64,31 @@ export function seedFormationTrail(pos: GridPos, facing: Facing, cap = 6): Trail
       height: pos.height,
     },
     dir: facing,
+    ...(index === 0 ? { formationSeed: true } : {}),
   }))
 }
 
 /**
- * trail 推进(原版 rgTrail 模型)。同格不记(原地转身队员不动)。
- * ⚠ dir = **离开该格的方向**(PAL_UpdateParty 先定向后记录):推进时回写旧头 dir 为本步方向。
- * 拐角格因此记「新方向」,偏移向量提前一槽翻转 → 跟随者拐弯甩尾(m1 甩到拐角外侧再回落)。
- * 8 字实测原版逐行如此;若记「到达方向」会晚一槽 = 贴路径滑,不忠实(2026-07-07 双轨迹对比定案)。
+ * Exploration turns before writing its departure. Authored walking records the facing at
+ * departure before updating the leader (SDLPal scene.c PAL_UpdateParty vs script.c PAL_PartyWalkTo).
+ * The current leader sample is stored ahead of those two-frame histories. A placement has already
+ * seeded the original history and also needs a distinct departure when authored movement begins.
  */
-export function pushTrail(trail: TrailEntry[], pos: GridPos, facing: Facing, cap = 6): void {
+export function pushTrail(
+  trail: TrailEntry[],
+  pos: GridPos,
+  facing: Facing,
+  departingFacing?: Facing,
+): void {
   const head = trail[0]
   if (head && head.pos.col === pos.col && head.pos.row === pos.row) return
-  if (head) head.dir = facing // 离开方向回写
+  if (head?.formationSeed && departingFacing !== undefined) {
+    trail.unshift({ pos: { ...head.pos }, dir: departingFacing })
+  } else if (head) {
+    head.dir = departingFacing ?? facing
+  }
   trail.unshift({ pos: { ...pos }, dir: facing })
-  if (trail.length > cap) trail.length = cap
+  if (trail.length > 6) trail.length = 6
 }
 
 /**

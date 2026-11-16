@@ -20,6 +20,7 @@ import {
   pixelToGrid,
   type RuntimeHostileBehavior,
   type RuntimeScriptBinding,
+  recoverBattleParty,
   removeOwnedItems,
   resolveAmbienceTint,
   resolveEntitySpriteId,
@@ -54,6 +55,7 @@ import { SfxPlayer } from './audio/sfx.js'
 import { collectSceneSoundAssets } from './audio/sfx-readiness.js'
 import { executeAutomaticTargetCommand } from './automatic-target-command.js'
 import { curePoisons } from './battle/battle-core.js'
+import { BattleEntryPresentation } from './battle/battle-entry-presentation.js'
 import { BattleHost } from './battle/battle-host.js'
 import { BattleLaunchPreparation } from './battle/battle-launch-preparation.js'
 import { getEnemyBasePos, getPlayerBasePos } from './battle/battle-positions.js'
@@ -196,6 +198,10 @@ import type {
 } from './scene-runtime-state.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
+import {
+  registeredScriptActivityLease,
+  withRegisteredScriptActivityLineage,
+} from './script-activity-lineage.js'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
@@ -1083,6 +1089,23 @@ export async function bootGame(
   let fadeCurtain: 'black' | 'red' = 'black'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
+  const paletteFadeMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
+  type VictoryReturn = {
+    fade: SupersedingFadeDriver
+    revealingWorld: boolean
+    worldStartedAt?: number
+    finishFrame?: () => void
+  }
+  let victoryFrame: { frame: ImageData; signal: AbortSignal; returning?: VictoryReturn } | undefined
+  let worldBattleEntry: BattleEntryPresentation | undefined
+  let hostileEncounter:
+    | {
+        signal: AbortSignal
+        entry: BattleEntryPresentation
+        abort(): void
+        commitVictory?: () => void
+      }
+    | undefined
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
@@ -1178,6 +1201,7 @@ export async function bootGame(
     const ownerId = activation.entityId
     if (autoActivations.get(ownerId) !== activation)
       throw asyncIntentAbortError(`auto 实体 ${ownerId} activation 已被替换`)
+    if (battleOwnsScene()) return false
     const entity = activeScene.scene.entities.find((candidate) => candidate.id === ownerId)
     if (!entity) throw asyncIntentAbortError(`auto 实体 ${ownerId} 已离场`)
     return (
@@ -1254,11 +1278,88 @@ export async function bootGame(
         return () => scriptMutationIntent.assertCurrent(token, `${team} 战斗启动脚本已失效`)
       },
       settleVictory: (session, playVictory) =>
-        settleBattleVictory(session, world, canonicalProject, playVictory),
+        settleBattleVictory(session, world, canonicalProject, playVictory, undefined, {
+          deferRecovery: true,
+        }),
       finishWorld: (session, result) =>
         finishBattleWorldState(session, result, world, canonicalProject),
       worldDefeatFrameCapture: (signal) =>
         ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
+      worldPresentation: (signal, scripted) => {
+        const encounter = hostileEncounter?.signal === signal ? hostileEncounter : undefined
+        const entry =
+          encounter?.entry ??
+          (scripted
+            ? new BattleEntryPresentation(
+                ctx.getImageData(0, 0, canvas.width, canvas.height),
+                WORLD_SCALE,
+                frames.now,
+                signal,
+              )
+            : undefined)
+        if (!entry) return undefined
+        worldBattleEntry = entry
+        syncBattleAutomaticWaits()
+        const clearEntry = () => {
+          signal.removeEventListener('abort', clearEntry)
+          if (worldBattleEntry === entry) {
+            worldBattleEntry = undefined
+            if (!battleHost.active) syncBattleAutomaticWaits()
+          }
+        }
+        signal.addEventListener('abort', clearEntry, { once: true })
+        return {
+          abortEntry: () => {
+            clearEntry()
+            encounter?.abort()
+            entry.cancel()
+          },
+          fadeOnVictory: encounter?.commitVictory !== undefined,
+          showEntry: async (session) => {
+            try {
+              await entry.show(() => {
+                session.render(ctx, WORLD_SCALE)
+                applyAmbienceTint()
+              })
+            } finally {
+              clearEntry()
+            }
+          },
+        }
+      },
+      presentVictory: async (owner, signal, finish) => {
+        const runtime = expectDefined(scriptRuntime)
+        const held: NonNullable<typeof victoryFrame> = {
+          frame: ctx.getImageData(0, 0, canvas.width, canvas.height),
+          signal,
+        }
+        victoryFrame = held
+        const releaseWork = inheritScriptWork(owner, signal)
+        try {
+          const lease = registeredScriptActivityLease(runtime.host, runtime.coordinator, owner)
+          if (lease)
+            await withRegisteredScriptActivityLineage(
+              runtime.host,
+              runtime.coordinator,
+              signal,
+              lease,
+              finish,
+            )
+          else await finish()
+          assertRunnerActive(signal, '战斗胜利呈现已取消')
+          const encounter = hostileEncounter
+          if (encounter?.signal === owner && encounter.commitVictory) {
+            encounter.commitVictory()
+            await fadeFromVictory(held)
+          }
+        } finally {
+          releaseWork()
+          if (victoryFrame === held) {
+            dialogBox.releaseBattleVictory(signal)
+            victoryFrame = undefined
+          }
+        }
+      },
       runDefeated: async (definitions, signal, assertCurrent) => {
         const scripted = definitions.filter((def) => def.onDefeated?.length)
         if (scripted.length && !scriptRuntime)
@@ -1271,8 +1372,10 @@ export async function bootGame(
           assertCurrent()
         }
       },
+      recoverVictory: () => recoverBattleParty(world.party),
       restoreSceneSounds: () => prepareSceneSounds(activeScene.scene, world),
       publishDebug: (session) => {
+        syncBattleAutomaticWaits()
         if (import.meta.env.DEV) (window as { __rfBattle?: unknown }).__rfBattle = session
       },
       reportReadiness: (team, stage, error, fatal) =>
@@ -1289,6 +1392,8 @@ export async function bootGame(
         ),
     },
   )
+  const loadBlackMs = 50
+  let loadReveal: { fadeAt?: number } | undefined
   // ── M3b 走位/动画驱动(abort 全兑现)。**全局 100ms 世界拍**:玩家步进与脚本走位共拍
   //    推进 —— 曾各自累加(玩家 100ms / NPC 130ms)错相,高频渲染把错拍中间帧全画出来,
   //    同屏对走 NPC 呈「退 16 进 8」锯齿(2026-07-05 作者报抖动/速度怪;原版全世界一 tick 同拍)。
@@ -1482,6 +1587,31 @@ export async function bootGame(
     return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)
   }
 
+  async function fadeFromVictory(held: NonNullable<typeof victoryFrame>): Promise<void> {
+    const { signal } = held
+    const returning: VictoryReturn = { fade: new SupersedingFadeDriver(), revealingWorld: false }
+    // The actual last canvas can still contain a timed reward that closed on its draw.
+    held.frame = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    held.returning = returning
+    dialogBox.releaseBattleVictory(signal)
+    try {
+      await returning.fade.begin(1, frames.now, paletteFadeMs, signal, signal)
+      assertRunnerActive(signal, '战斗胜利淡出已取消')
+      returning.revealingWorld = true
+      await scriptWorkWait<void>(signal, (resolve, reject) => {
+        const abort = () => reject(asyncIntentAbortError('战斗胜利淡入已取消'))
+        returning.finishFrame = () => {
+          signal.removeEventListener('abort', abort)
+          resolve()
+        }
+        signal.addEventListener('abort', abort, { once: true })
+        if (signal.aborted) abort()
+      })
+    } finally {
+      returning.fade.cancelOwned(signal, 0)
+    }
+  }
+
   async function hostHoldScreen(
     color: 'black',
     token: string,
@@ -1587,30 +1717,34 @@ export async function bootGame(
   const autoMotionSlots = motionRuntime.autoSlots
   const setAuthority = (id: string, value: MotionAuthority): void => {
     motionRuntime.setAuthority(id, value)
-    syncAutomaticWaitAuthority(id)
+    syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const releaseAuthority = (id: string): void => {
     motionRuntime.releaseAuthority(id)
-    syncAutomaticWaitAuthority(id)
+    syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const releaseAllAuthority = (): void => {
     if (authority.get('party')?.kind === 'mount') dismountParty()
     motionRuntime.releaseAllAuthority()
-    for (const id of autoActivations.keys()) syncAutomaticWaitAuthority(id)
+    for (const id of autoActivations.keys()) syncAutomaticWait(id)
     autoWakeGate.notify()
   }
   const takeByScript = (id: string): void => {
     if (id === 'party' && authority.get('party')?.kind === 'mount') dismountParty()
     setAuthority(id, { kind: 'script' })
   }
-  function syncAutomaticWaitAuthority(id: string): void {
+  function battleOwnsScene(): boolean {
+    return hostileBusy || worldBattleEntry !== undefined || battleHost.active !== null
+  }
+  function automaticWaitPaused(id: string): boolean {
+    return battleOwnsScene() || authority.get(id)?.kind === 'script'
+  }
+  function syncAutomaticWait(id: string): void {
     const activation = autoActivations.get(id)
     if (activation)
-      automaticWaits
-        .get(activation.controller.signal)
-        ?.timer.setPaused(authority.get(id)?.kind === 'script')
+      automaticWaits.get(activation.controller.signal)?.timer.setPaused(automaticWaitPaused(id))
   }
 
   // Motion lifetime follows scene/world replacement, not unrelated same-world mutations (dialogue,
@@ -2023,7 +2157,7 @@ export async function bootGame(
         ? { done: Promise.resolve(), remainingMs: 0, setPaused: () => {} }
         : frames.scheduleWait(remainingMs, signal)
     automaticWaits.set(signal, { kind, durationMs: ms, timer })
-    timer.setPaused(authority.get(activation.entityId)?.kind === 'script')
+    timer.setPaused(automaticWaitPaused(activation.entityId))
     // Keep a zero-remaining receipt until the leaf closes its save checkpoint. Otherwise a
     // snapshot between Promise completion and cursor advancement would restart the full wait.
     return timer.done
@@ -2106,7 +2240,7 @@ export async function bootGame(
           dialogBox.open(
             startDialogue({ id: '__script', cues: [cue] }),
             performance.now(),
-            'script',
+            victoryFrame?.signal === signal ? { battleVictory: signal } : 'script',
           )
           scriptDialogResolve = settleDialog // tick 检测 dialogBox 关闭时兑现
           signal.addEventListener('abort', abort, { once: true })
@@ -2213,7 +2347,7 @@ export async function bootGame(
     },
   }
   const presentation = new CutsceneController(presentationOps, {
-    isRunnerActive: () => runner !== null,
+    isRunnerActive: () => runner !== null || victoryFrame !== undefined || loadReveal !== undefined,
   })
 
   const host: ScriptHost = {
@@ -3664,10 +3798,11 @@ export async function bootGame(
         reportInteraction?.()
         return answer
       },
-      startBattle: (request, signal) =>
-        host.startBattle(
+      startBattle: (request, signal, source) => {
+        return battleHost.start(
           request.enemyTeamId,
           {
+            ...(source === 'script' ? { scripted: true } : {}),
             auto: request.auto,
             boss: request.boss,
             fieldId: request.fieldId,
@@ -3675,7 +3810,8 @@ export async function bootGame(
             ...(request.choreography ? { choreography: [...request.choreography] } : {}),
           },
           signal,
-        ),
+        )
+      },
       teleportOut: (signal) => host.teleportOut(signal),
       revealSceneEntry: (reveal, signal) => hostSceneEntryReveal(reveal, signal),
       wait: (ms, signal) => host.wait(ms, signal),
@@ -3825,8 +3961,7 @@ export async function bootGame(
       pressed.has('[') ||
       pressed.has(']')
     const playerInputAllowed =
-      !battleHost.active &&
-      !hostileBusy &&
+      !battleOwnsScene() &&
       !menus.active &&
       !dialogBox.active &&
       !runner &&
@@ -3849,7 +3984,7 @@ export async function bootGame(
     // menu / battle freeze locomotion before cadence is accrued. Frozen wall time must not age
     // fairness rings, side-stick eligibility or slow-move parity.
     const locomotionFrozen =
-      menus.active || hostileBusy || !!battleHost.active || scriptConfirmModal.active
+      menus.active || battleOwnsScene() || !!victoryFrame || scriptConfirmModal.active
     // ── 世界拍(STEP_MS=100ms):至多 1 拍/rAF,真积压丢弃(DM31 永不补帧)。──
     if (!motion.advanceCadence(dt, locomotionFrozen)) return
 
@@ -3909,6 +4044,7 @@ export async function bootGame(
     if (partyMove) {
       const mv = partyMove
       const from = { ...player.pos }
+      const departingFacing = facing
       const result = walkTick(from, mv.to, mv.speed)
       player.pos = result.pos
       facing = result.facing
@@ -3916,7 +4052,10 @@ export async function bootGame(
       if (moved) {
         authoredPartyFacing = null
         worldPresentation.setPartyGesture(null)
-        pushTrail(trail, player.pos, result.facing)
+        pushTrail(trail, player.pos, result.facing, departingFacing)
+        // The final step still lays out every follower before the idle frame is drawn.
+        walking = true
+        deriveFollowers()
       }
       if (result.done) {
         walking = false
@@ -3925,7 +4064,6 @@ export async function bootGame(
         walking = true
         stepFrame = (stepFrame + 1) % 4
       }
-      if (moved) deriveFollowers()
       updateCamera()
     }
 
@@ -4608,6 +4746,7 @@ export async function bootGame(
     restoredClaims: readonly StoredAutomaticChaseClaim[] = sceneRuntimeStates[activeScene.scene.id]
       ?.chaseClaims ?? [],
   ): void {
+    if (loadReveal) return
     for (const e of activeScene.scene.entities) startAutoRunner(e)
     for (const action of entityActions.capture()) {
       const ownerId = action.override?.source === 'automatic' ? action.override.owner : undefined
@@ -4685,6 +4824,15 @@ export async function bootGame(
     pendingChaseTerminal.delete(entityId)
   }
   let hostileBusy = false // 遇敌处理中(开战/演出),暂停所有 hostile 追逐
+  function syncBattleAutomaticWaits(): void {
+    // The map stays suspended while battle and its own scripts keep using gameplay time.
+    for (const id of autoActivations.keys()) syncAutomaticWait(id)
+    autoWakeGate.notify()
+  }
+  function setHostileBusy(busy: boolean): void {
+    hostileBusy = busy
+    syncBattleAutomaticWaits()
+  }
   const hostileMotionGateOpen = (): boolean =>
     !hostileBusy &&
     !pendingTouchTrigger.pending &&
@@ -4835,8 +4983,37 @@ export async function bootGame(
     e: EntityDef,
     h: NonNullable<EntityDef['hostile']>,
   ): Promise<void> {
-    hostileBusy = true
-    const encounterSignal = new AbortController().signal
+    const encounterController = new AbortController()
+    const encounterSignal = encounterController.signal
+    const commitVictory = () => {
+      const result = 'victory'
+      if (applyHostileLifecyclePolicy(e, result)) return
+      e.hidden = true // 消失
+      if (h.respawnSeconds && h.respawnSeconds > 0) {
+        const atScene = activeScene.scene
+        void (async () => {
+          await host.wait(expectDefined(h.respawnSeconds) * 1000)
+          if (activeScene.scene === atScene) e.hidden = false // 重生
+        })()
+      }
+    }
+    const victoryTransition =
+      hostileBehaviorFor(e.id)?.victoryTransition ??
+      project.manifest.hostileVictoryTransition ??
+      'direct'
+    const encounter = {
+      signal: encounterSignal,
+      entry: new BattleEntryPresentation(
+        ctx.getImageData(0, 0, canvas.width, canvas.height),
+        WORLD_SCALE,
+        frames.now,
+        encounterSignal,
+      ),
+      abort: () => encounterController.abort(),
+      ...(victoryTransition === 'fade' ? { commitVictory } : {}),
+    }
+    hostileEncounter = encounter
+    setHostileBusy(true)
     const onLose = h.onLose
     const gameOverOnDefeat = onLose === 'gameOver' || onLose === undefined
     if (gameOverOnDefeat) ordinaryDefeatSignal = encounterSignal
@@ -4852,15 +5029,7 @@ export async function bootGame(
         encounterSignal,
       )
       if (result === 'victory') {
-        if (applyHostileLifecyclePolicy(e, result)) return
-        e.hidden = true // 消失
-        if (h.respawnSeconds && h.respawnSeconds > 0) {
-          const atScene = activeScene.scene
-          void (async () => {
-            await host.wait(expectDefined(h.respawnSeconds) * 1000)
-            if (activeScene.scene === atScene) e.hidden = false // 重生
-          })()
-        }
+        if (!encounter.commitVictory) commitVictory()
       } else if (result === 'playerFled') {
         applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
@@ -4870,7 +5039,10 @@ export async function bootGame(
     } finally {
       if (ordinaryDefeatSignal === encounterSignal) ordinaryDefeatSignal = undefined
       gameOverPresentation.release(encounterSignal)
-      hostileBusy = false
+      if (hostileEncounter === encounter) {
+        hostileEncounter = undefined
+        setHostileBusy(false)
+      }
       finishWork()
     }
   }
@@ -5092,6 +5264,11 @@ export async function bootGame(
     worldMutationIntent.invalidate()
     invalidatePendingScriptMutations()
     battleHost.cancel()
+    hostileEncounter?.abort()
+    hostileEncounter = undefined
+    hostileBusy = false
+    victoryFrame = undefined
+    loadReveal = undefined
     scriptAbort?.abort()
     itemUseSession.cancel()
     runner = null
@@ -5594,6 +5771,7 @@ export async function bootGame(
     token: number,
     where: string,
     signal?: AbortSignal,
+    reveal?: 'fade-in',
   ): Promise<boolean> {
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     if (!payloadBelongsToProject(p, where)) return false
@@ -5652,8 +5830,8 @@ export async function bootGame(
     // 从这里开始没有 await：强停旧演出、world 与 scene 在同一个任务中同步提交。
     assertRunnerActive(signal, `${where} 的 runner 已取消`)
     const music = resolveRestoredMusic(candidate.audio?.currentMusic, plan.def.music)
-    abortScript()
     stopAutoRunners(false)
+    abortScript()
     replaceWorld(candidate)
     sceneRuntimeStates = structuredClone(payload.sceneRuntime)
     commitSceneSwitch(plan, world, false, restoreActions)
@@ -5666,13 +5844,18 @@ export async function bootGame(
     else world.audio.currentMusic = music.currentMusic
     if (music.action === 'stop') bgm.stop()
     else bgm.play(expectDefined(music.currentMusic))
+    if (reveal === 'fade-in') loadReveal = {}
     startAutoRunners()
     return true
   }
 
   /** doLoad 的结果态：absent=槽空；rejected=损坏/工程不符/被更新请求取代（失败提示已由具体分支显示或归新请求）；loaded=恢复成功。 */
   type LoadOutcome = 'loaded' | 'absent' | 'rejected'
-  async function doLoad(slotId: SlotId, signal?: AbortSignal): Promise<LoadOutcome> {
+  async function doLoad(
+    slotId: SlotId,
+    signal?: AbortSignal,
+    reveal?: 'fade-in',
+  ): Promise<LoadOutcome> {
     assertRunnerActive(signal, `存档槽 ${slotId} 的 runner 已取消`)
     const token = loadIntent.begin()
     let raw: StoredSavePayload | null
@@ -5716,7 +5899,7 @@ export async function bootGame(
       )
       return 'rejected'
     }
-    return (await restorePayload(p, token, where, signal)) ? 'loaded' : 'rejected'
+    return (await restorePayload(p, token, where, signal, reveal)) ? 'loaded' : 'rejected'
   }
 
   async function quickSave(): Promise<void> {
@@ -5742,7 +5925,7 @@ export async function bootGame(
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
-    if ((await doLoad(slotId)) === 'loaded') {
+    if ((await doLoad(slotId, undefined, 'fade-in')) === 'loaded') {
       lastSaveSlot = slotId
       menus.close()
     }
@@ -5756,11 +5939,31 @@ export async function bootGame(
     ctx.restore()
   }
 
+  function drawPaletteFade(alpha: number, direction: 'out' | 'in'): void {
+    if (direction === 'in' && alpha <= 0) return
+    // PAL scales each palette entry by a step in 0..60 over 64, then restores the full scene palette.
+    const shade = 1 - Math.trunc(60 * (1 - alpha)) / 64
+    ctx.save()
+    ctx.globalAlpha = shade
+    ctx.fillStyle = '#000'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.restore()
+  }
+
   /**
    * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
    */
-  function render(): void {
+  function drawDialogue(): void {
+    if (!dialogBox.needsRender) return
+    ctx.save()
+    ctx.scale(WORLD_SCALE, WORLD_SCALE)
+    ctx.imageSmoothingEnabled = false
+    dialogBox.render(performance.now())
+    ctx.restore()
+  }
+
+  function render(frameAt: number): void {
     const scriptConfirm = scriptConfirmModal.view
     if (scriptConfirm) {
       ctx.putImageData(scriptConfirm.frame, 0, 0)
@@ -5795,6 +5998,15 @@ export async function bootGame(
         drawFadeCurtain()
         syncDitherDebugDataset()
         return
+      }
+      if (victoryFrame && !victoryFrame.signal.aborted) {
+        const returning = victoryFrame.returning
+        if (!returning?.revealingWorld) {
+          ctx.putImageData(victoryFrame.frame, 0, 0)
+          if (returning) drawPaletteFade(returning.fade.advance(frames.now), 'out')
+          else drawDialogue()
+          return
+        }
       }
       updateCamera() // 相机跟随玩家
       // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
@@ -5869,6 +6081,7 @@ export async function bootGame(
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
+    // Dialogue uses 320 logical pixels and the same integer scale as the world.
     if (dialogBox.visible) {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
@@ -6037,6 +6250,29 @@ export async function bootGame(
         ditherZeroFrameDiffersFromTarget = !equals(shown, dither.target.data)
       }
       if (pr >= 1) ditherTransition.finish()
+    }
+    const returning = victoryFrame?.returning
+    if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {
+      // The first frame of the new endpoint is actually drawn under an opaque curtain.
+      returning.worldStartedAt ??= frames.now
+      const alpha = Math.max(0, 1 - (frames.now - returning.worldStartedAt) / paletteFadeMs)
+      drawPaletteFade(alpha, 'in')
+      const finishFrame = returning.finishFrame
+      if (alpha === 0 && finishFrame) {
+        delete returning.finishFrame
+        finishFrame()
+      }
+    }
+    if (loadReveal) {
+      // Use the presentation frame timestamp while the restored world's gameplay clock is held.
+      loadReveal.fadeAt ??= frameAt + loadBlackMs
+      const elapsed = Math.max(0, frameAt - loadReveal.fadeAt)
+      const alpha = Math.max(0, 1 - elapsed / paletteFadeMs)
+      drawPaletteFade(alpha, 'in')
+      if (alpha === 0) {
+        loadReveal = undefined
+        startAutoRunners()
+      }
     }
     syncDitherDebugDataset()
   }
@@ -6221,7 +6457,7 @@ export async function bootGame(
       },
     },
     dialogue: { active: () => dialogBox.active, advance: (realNow) => dialogBox.advance(realNow) },
-    scriptRunning: () => runner !== null,
+    scriptRunning: () => runner !== null || victoryFrame !== undefined,
     hostileBusy: () => hostileBusy,
     quickSave: () => {
       void quickSave().catch(reportSaveFailure)
@@ -6268,7 +6504,7 @@ export async function bootGame(
     },
     activateConfirm: activateScriptConfirm,
     resumeScriptGates: resumeScriptExecutionGates,
-    gameplayFrozen: () => scriptConfirmModal.active,
+    gameplayFrozen: () => scriptConfirmModal.active || loadReveal !== undefined,
     advanceFade: (now) => fadeDriver.advance(now),
     settleClosedDialogue: () => {
       if (!dialogBox.active && scriptDialogResolve) {
@@ -6295,7 +6531,7 @@ export async function bootGame(
         // remains paused; ordinary script takes and automatic override owners still pause actions.
         const transporting = slot?.kind === 'move' && slot.preserveFacing
         return (
-          !!battleHost.active ||
+          battleOwnsScene() ||
           !entity ||
           !entityLifecycleGates(entity).visible ||
           worldPresentation.hasEntityFrame(id) ||
@@ -6311,16 +6547,22 @@ export async function bootGame(
       motion.clearWorldTicks()
     },
     presentBattle: (dt, pressed, now) => {
+      if (worldBattleEntry) {
+        worldBattleEntry.draw(ctx, now)
+        return true
+      }
       if (!battleHost.active) return false
       battleHost.active.tick(dt, pressed, now)
       battleHost.active.render(ctx, WORLD_SCALE)
       applyAmbienceTint()
       return true
     },
-    routeInput: (pressed, realNow) => routeRuntimeInput(pressed, realNow, inputPorts),
-    presentWorld: () => {
+    routeInput: (pressed, realNow) => {
+      if (!loadReveal) routeRuntimeInput(pressed, realNow, inputPorts)
+    },
+    presentWorld: (frameAt) => {
       motion.clearScriptGaitHandoffs()
-      runWithPresentationFinalizer(render, abortScript)
+      runWithPresentationFinalizer(() => render(frameAt), abortScript)
     },
   }
   async function tick(t: number): Promise<void> {
@@ -6509,7 +6751,7 @@ export async function bootGame(
     // 未预期异常（存储/提交期错误）也不让 boot 崩溃，同样落回并记录。
     let outcome: 'loaded' | 'absent' | 'rejected'
     try {
-      outcome = await doLoad(bootLoadSlot)
+      outcome = await doLoad(bootLoadSlot, undefined, 'fade-in')
     } catch (err) {
       console.warn(`[save] 开局读档槽 ${bootLoadSlot} 失败:`, err)
       showToast('开局读档失败，已落回新局')

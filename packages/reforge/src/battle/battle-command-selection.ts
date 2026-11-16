@@ -5,6 +5,7 @@ export type BattleCommandSelectionPhase =
   | 'menu'
   | 'misc'
   | 'miscSub'
+  | 'status'
   | 'skill'
   | 'item'
   | 'throwItem'
@@ -21,6 +22,7 @@ export interface BattleCommandPlayerView {
   silenced: boolean
   cooperativeMagicSkillId?: string
   healthy: boolean
+  attackAll?: boolean
 }
 
 export interface BattleCommandSelectionContext {
@@ -28,6 +30,7 @@ export interface BattleCommandSelectionContext {
   player: BattleCommandPlayerView
   playerCount: number
   healthyPlayerCount: number
+  selectablePlayerIndices: readonly number[]
   aliveEnemyIndices: readonly number[]
   usableItems: readonly BattleSelectableItem[]
   throwableItems: readonly BattleSelectableItem[]
@@ -59,12 +62,14 @@ export class BattleCommandSelection {
   private menuIndex = 0
   private miscIndex = 0
   private miscSubIndex = 0
+  private statusIndex = 0
   private skillIndex = 0
   private itemIndex = 0
   private pendingSkillId: string | null = null
   private pendingThrowItem: string | null = null
   private pendingCoop = false
   private targetIndex = 0
+  private lastEnemyTarget?: number
   private targetSide: 'enemy' | 'ally' = 'enemy'
   private pendingItemId: string | null = null
   private autoAttack = false
@@ -79,6 +84,10 @@ export class BattleCommandSelection {
 
   get isAutoAttacking(): boolean {
     return this.autoAttack
+  }
+
+  get statusMember(): number | null {
+    return this.currentPhase === 'status' ? this.statusIndex : null
   }
 
   get view(): BattleCommandSelectionView {
@@ -123,6 +132,7 @@ export class BattleCommandSelection {
         this.stickyRepeat = false
       } else {
         if (this.stickyRepeat) this.submitRepeat(context, port)
+        else if (this.autoAttack) this.submitAutomaticAttack(context, port)
         else this.submitForce(context, port)
         return
       }
@@ -136,7 +146,7 @@ export class BattleCommandSelection {
         return
       }
       if (key('q', 'Q')) {
-        this.submitAnd(context, port, { kind: 'flee' })
+        this.submitPartyFlee(context, port)
         return
       }
       if (key('e', 'E')) {
@@ -165,7 +175,7 @@ export class BattleCommandSelection {
       }
       if (key('a', 'A')) {
         this.autoAttack = true
-        this.submitForce(context, port)
+        this.submitAutomaticAttack(context, port)
         return
       }
       if (pressed.has('Escape') && this.submitOrder.length) {
@@ -181,25 +191,30 @@ export class BattleCommandSelection {
       if (!valid[this.menuIndex]) this.menuIndex = 0
       if (confirm) {
         if (this.menuIndex === 0) {
-          this.currentPhase = 'target'
-          this.targetSide = 'enemy'
-          this.pendingSkillId = null
-          this.targetIndex = 0
+          if (context.player.attackAll) {
+            this.submitAnd(context, port, { kind: 'attack', targetEnemyIdx: -1 })
+          } else {
+            this.currentPhase = 'target'
+            this.targetSide = 'enemy'
+            this.pendingSkillId = null
+            this.targetIndex = 0
+          }
         } else if (this.menuIndex === 1) {
           this.currentPhase = 'skill'
           this.skillIndex = 0
         } else if (this.menuIndex === 2) {
           const coopSkillId = context.player.cooperativeMagicSkillId
           const coopSkill = coopSkillId ? context.skills[coopSkillId] : undefined
-          if (coopSkill?.target === 'allEnemies') {
+          if (!coopSkill) return
+          if (coopSkill.target === 'oneEnemy' || coopSkill.target === 'oneAlly') {
+            this.pendingCoop = true
+            this.currentPhase = 'target'
+            this.targetSide = coopSkill.target === 'oneAlly' ? 'ally' : 'enemy'
+            this.targetIndex = this.targetSide === 'ally' ? sel : 0
+          } else {
             this.submit(context, port, { kind: 'coop' })
             port.consumeOthersForCoop(sel)
             this.backToMain()
-          } else {
-            this.pendingCoop = true
-            this.currentPhase = 'target'
-            this.targetSide = 'enemy'
-            this.targetIndex = 0
           }
         } else if (this.menuIndex === 3) {
           this.currentPhase = 'misc'
@@ -211,19 +226,39 @@ export class BattleCommandSelection {
 
     if (this.currentPhase === 'misc') {
       const count = 5
-      if (pressed.has('ArrowUp')) this.miscIndex = (this.miscIndex + count - 1) % count
-      if (pressed.has('ArrowDown')) this.miscIndex = (this.miscIndex + 1) % count
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
+        this.miscIndex = (this.miscIndex + count - 1) % count
+      if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
+        this.miscIndex = (this.miscIndex + 1) % count
       if (pressed.has('Escape')) this.currentPhase = 'menu'
       if (confirm) {
-        if (this.miscIndex === 1) {
+        if (this.miscIndex === 0) {
+          this.autoAttack = true
+          this.backToMain()
+        } else if (this.miscIndex === 1) {
           if (context.usableItems.length) this.currentPhase = 'miscSub'
           this.miscSubIndex = 0
         } else if (this.miscIndex === 2) {
           this.submitAnd(context, port, { kind: 'defend' })
         } else if (this.miscIndex === 3) {
-          this.submitAnd(context, port, { kind: 'flee' })
+          this.submitPartyFlee(context, port)
+        } else if (this.miscIndex === 4) {
+          this.statusIndex = 0
+          this.currentPhase = 'status'
         }
       }
+      return
+    }
+
+    if (this.currentPhase === 'status') {
+      if (pressed.has('Escape')) {
+        this.currentPhase = 'menu'
+        return
+      }
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.statusIndex--
+      else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || confirm) this.statusIndex++
+      if (this.statusIndex < 0 || this.statusIndex >= context.playerCount)
+        this.currentPhase = 'menu'
       return
     }
 
@@ -327,6 +362,11 @@ export class BattleCommandSelection {
         this.targetIndex = (this.targetIndex + 1) % count
       if (pressed.has('Escape')) {
         this.targetSide = 'enemy'
+        if (this.pendingCoop) {
+          this.pendingCoop = false
+          this.currentPhase = 'menu'
+          return
+        }
         if (this.pendingItemId) {
           this.pendingItemId = null
           this.currentPhase = 'item'
@@ -337,17 +377,18 @@ export class BattleCommandSelection {
       }
       if (confirm) {
         const target = this.targetIndex % count
+        const wasCoop = this.pendingCoop
+        this.pendingCoop = false
         const action: BattleAction = this.pendingItemId
           ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: target }
-          : {
-              kind: 'cast',
-              skillId: this.requirePendingSkill(),
-              targetAllyIdx: target,
-            }
+          : wasCoop
+            ? { kind: 'coop', targetAllyIdx: target }
+            : { kind: 'cast', skillId: this.requirePendingSkill(), targetAllyIdx: target }
         this.pendingItemId = null
         this.pendingSkillId = null
         this.targetSide = 'enemy'
         this.submit(context, port, action)
+        if (wasCoop) port.consumeOthersForCoop(sel)
         this.backToMain()
       }
       return
@@ -370,6 +411,7 @@ export class BattleCommandSelection {
     if (confirm) {
       const target = alive[this.targetIndex % alive.length]
       if (target === undefined) throw new Error('战斗敌方目标游标越界')
+      this.lastEnemyTarget = target
       const action: BattleAction = this.pendingThrowItem
         ? { kind: 'throw', itemId: this.pendingThrowItem, targetEnemyIdx: target }
         : this.pendingCoop
@@ -413,6 +455,19 @@ export class BattleCommandSelection {
     this.backToMain()
   }
 
+  private submitPartyFlee(
+    context: BattleCommandSelectionContext,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const action = { kind: 'flee' } as const
+    // Replace previously selected commands too. Pending item reservations derive from this map.
+    for (const playerIndex of context.selectablePlayerIndices) {
+      port.submit(playerIndex, action)
+      this.lastActions.set(playerIndex, action)
+    }
+    this.backToMain()
+  }
+
   private submitForce(
     context: BattleCommandSelectionContext,
     port: BattleCommandSelectionPort,
@@ -423,6 +478,22 @@ export class BattleCommandSelection {
       port,
       target === undefined ? { kind: 'defend' } : { kind: 'attack', targetEnemyIdx: target },
     )
+  }
+
+  private submitAutomaticAttack(
+    context: BattleCommandSelectionContext,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const alive = context.aliveEnemyIndices
+    const target = alive.find((slot) => slot === this.lastEnemyTarget) ?? alive[0]
+    if (target === undefined) {
+      this.submitAnd(context, port, { kind: 'defend' })
+      return
+    }
+    this.submitAnd(context, port, {
+      kind: 'attack',
+      targetEnemyIdx: context.player.attackAll ? -1 : target,
+    })
   }
 
   private submitRepeat(

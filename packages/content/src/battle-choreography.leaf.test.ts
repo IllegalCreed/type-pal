@@ -66,6 +66,14 @@ describe('G4 动作叶', () => {
     ])
   })
 
+  test('战斗对白可以清屏，参数守卫拒绝给清屏附加延时', () => {
+    acceptsActions([{ kind: 'clearDialog' }])
+    expectExactError(
+      () => checkBattleChoreographyAction({ kind: 'clearDialog', ms: 50 }, 'a'),
+      'a.ms: 未知字段',
+    )
+  })
+
   test('endBattle 未知 result 拒绝且实际输入不变', () => {
     acceptsActions([{ kind: 'endBattle', result: 'won' }])
     const bad = { kind: 'endBattle', result: 'draw' }

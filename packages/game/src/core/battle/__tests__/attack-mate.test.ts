@@ -19,6 +19,7 @@ import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import { makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createSeedableRng, type SeedableRng } from '../../rng.js'
 import { performAttackMate } from '../actions/attack-mate.js'
+import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 
 function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
   return makeRoleRecord(opts.id ?? 0, {
@@ -55,23 +56,68 @@ describe('B1 AttackMate(混乱攻随机友军,fight.c:3760-3853)', () => {
     expect(playerRoles.roles[0]!.hp).toBe(155) // str96/def64/res2 -> 45
     expect(playerRoles.roles[1]!.hp).toBe(200)
     expect(playerRoles.roles[2]!.hp).toBe(200) // 攻击者role2
-    expect(state.battleAnim?.pendingDamageNums).toEqual([
-      { target: { kind: 'player', idx: 1 }, value: 45, color: 'blue' },
-    ])
   })
 
-  // M6 武器声(sdlpal fight.c:3810 AUDIO_PlaySound(rgwWeaponSound[role]),混乱打友军强制物理只播武器声)。
-  it('M6 攻击者武器声 → emit playSound(weaponSound);0 不 emit', () => {
+  it('混乱打友的武器音与击退同拍，蓝字在闪白后按击退位置显示，随后回濒死姿态', () => {
+    const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1, hp: 60 })]
+    const { state, playerRoles, bus } = makeState(roles)
+    const caster = state.players[0]!
+    const mate = state.players[1]!
+    caster.status.confused = 3
+    mate.pos = { x: 220, y: 160 }
+    mate.posOriginal = { x: 225, y: 165 }
+
+    performAttackMate(state, 0, bus, playerRoles, 1)
+
+    expect(bus.drain()).toEqual([])
+    advanceBattleAnimFrames(state, bus, 11 * 40)
+    expect(caster.currentFrame).toBe(9)
+    expect(mate.pos).toEqual({ x: 208, y: 154 })
+    expect(bus.drain()).toEqual([{ cmd: { op: 'playSound', soundId: 2 } }])
+
+    advanceBattleAnimFrames(state, bus, 40)
+    expect(mate.iColorShift).toBe(6)
+    expect(bus.drain()).toEqual([])
+
+    advanceBattleAnimFrames(state, bus, 40)
+    expect(mate.iColorShift).toBe(0)
+    expect(bus.drain()).toEqual([
+      {
+        cmd: {
+          op: 'showDamageNum',
+          target: { kind: 'player', idx: 1 },
+          value: 45,
+          color: 'blue',
+          anchor: { x: 208, y: 154 },
+        },
+      },
+    ])
+
+    advanceBattleAnimFrames(state, bus, 4 * 40)
+    expect(mate.pos).toEqual(mate.posOriginal)
+    expect(mate.currentFrame).toBe(1)
+    expect(bus.drain()).toEqual([])
+  })
+
+  it('emits friendly-fire damage and weapon sound immediately when pose anchors are absent', () => {
     const roles = [makeRole({ id: 0, weaponSound: 2 }), makeRole({ id: 1 })]
-    const { state, playerRoles, bus } = makeState(roles, [1])
-    performAttackMate(state, 0, bus, playerRoles)
-    const sounds = bus.drain().flatMap(({ cmd }) => (cmd.op === 'playSound' ? [cmd.soundId] : []))
-    expect(sounds).toEqual([2])
-    // weaponSound=0 → 不 emit
-    const roles0 = [makeRole({ id: 0, weaponSound: 0 }), makeRole({ id: 1 })]
-    const s0 = makeState(roles0, [1])
-    performAttackMate(s0.state, 0, s0.bus, s0.playerRoles)
-    expect(s0.bus.drain().filter((c) => c.cmd.op === 'playSound')).toHaveLength(0)
+    const { state, playerRoles, bus } = makeState(roles)
+    const caster = state.players[0]!
+    caster.status.confused = 3
+    // The action also accepts logic-only battle states without presentation coordinates.
+    delete caster.pos
+    delete caster.posOriginal
+
+    performAttackMate(state, 0, bus, playerRoles, 1)
+
+    expect(playerRoles.roles[1]!.hp).toBe(155)
+    expect(state.battleAnim).toBeUndefined()
+    expect(bus.drain()).toEqual([
+      { cmd: { op: 'playSound', soundId: 2 } },
+      {
+        cmd: { op: 'showDamageNum', target: { kind: 'player', idx: 1 }, value: 45, color: 'blue' },
+      },
+    ])
   })
 
   it('目标有 Protect → 伤害减半(45→22)', () => {

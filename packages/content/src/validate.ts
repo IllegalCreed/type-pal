@@ -42,7 +42,7 @@ import type { ItemUseEffect, ThrowEffect } from './item.js'
 import { ITEM_USE_EFFECT_KINDS, itemUseSupportsContext, THROW_EFFECT_KINDS } from './item.js'
 import { isRuntimeItemPrivateScriptRef } from './item-script-runtime-ref.js'
 import { isMapAssetId } from './map-index.js'
-import type { BaseSceneDef } from './scene-core.js'
+import { type BaseSceneDef, checkOptionalHostileVictoryTransition } from './scene-core.js'
 import { checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
 import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
@@ -184,6 +184,7 @@ export function validateCurrentManifestStartup(
       'name',
       'contentVersion',
       'defaultEntryId',
+      'hostileVictoryTransition',
       'entryPoints',
       'content',
       'assets',
@@ -198,6 +199,10 @@ export function validateCurrentManifestStartup(
     throw new Error(`${ctx}.contentVersion: 期望 ${CONTENT_VERSION}`)
   if (value.minimumSaveVersion !== CURRENT_PROJECT_MINIMUM_SAVE_VERSION)
     throw new Error(`${ctx}.minimumSaveVersion: 期望 ${CURRENT_PROJECT_MINIMUM_SAVE_VERSION}`)
+  checkOptionalHostileVictoryTransition(
+    value.hostileVictoryTransition,
+    `${ctx}.hostileVictoryTransition`,
+  )
   const content = assertObject(value.content, `${ctx}.content`) as Record<string, unknown>
   for (const [key, path] of Object.entries(content)) {
     if (key.trim().length === 0) throw new Error(`${ctx}.content: 内容键不能为空`)
@@ -865,6 +870,8 @@ function validateSkillEffect(effect: Record<string, unknown>, ctx: string): void
     if ('godId' in effect) throw new Error(`${ctx}.godId: 已退役；请使用 battleSprite`)
     if (typeof effect.battleSprite !== 'string' || effect.battleSprite.length === 0)
       throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
+    for (const key of ['xOffset', 'yOffset'] as const)
+      if (effect[key] !== undefined) requireSafeInteger(effect[key], `${ctx}.${key}`)
     validateOptionalAssetId(effect, 'sound', ctx)
   }
   if (effect.kind === 'trance') {

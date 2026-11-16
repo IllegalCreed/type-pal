@@ -32,6 +32,18 @@ test('current real battle producers instrument once; drift fails closed and norm
           ),
         /producer drift/,
       )
+    if (file.endsWith('/battle/battle-session.ts'))
+      assert.throws(
+        () =>
+          instrumentReforgeBattle(
+            source.replace(
+              'this.tranceFade.render(ctx, scene, worldScale, fade)',
+              'this.tranceFade.render(ctx, scene, worldScale, differentFade)',
+            ),
+            file,
+          ),
+        /producer drift/,
+      )
     if (file.endsWith('/battle/battle-core.ts')) {
       assert.match(
         instrumented.code,
@@ -82,6 +94,7 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
     TextEncoder,
     require(specifier) {
       if (specifier === '../defined.js') return { expectDefined: (value) => value }
+      if (specifier === '../dither-transition.js') return {}
       assert.equal(specifier, '../render.js')
       return { bakeFrame: (frame) => frame }
     },
@@ -178,6 +191,62 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
     },
     { overlays: undefined, enemy: { ...enemy, paintOrder: 0 }, playerOrder: 1 },
   ])
+})
+
+test('dream-snake compositing projects frozen target draws and the distinct source endpoint', () => {
+  const context = {
+    engine: 'reforge',
+    scenarioId: 'dream-snake',
+    runId: 'composited-draw',
+    observePlayerAppearance: true,
+    random: { algorithm: 'mulberry32', seed: 1 },
+  }
+  const browser = vm.createContext({ performance, structuredClone, TextEncoder })
+  vm.runInContext(battleObserverScript(context), browser)
+  const observer = browser.__battleEvidence
+  observer.start({}, 'start')
+  const old = { x: 190, y: 172, frame: 5, colorShift: 10, sprite: { frames: [{}] } }
+  const target = { x: 200, y: 176, colorShift: 0 }
+  const player = (draw, appearance, frameIndex) => {
+    observer.labelFighter(draw, 'player', 0, false, undefined, appearance)
+    observer.fighterDrawn(draw, frameIndex)
+  }
+  observer.beginFrame('reforge:BattleSession.render', { clockMs: 0 })
+  player(old, 'player-fighter-1', 0)
+  observer.endFrame()
+  observer.beginFrame('reforge:BattleSession.render', { clockMs: 16 })
+  player(target, 'player-fighter-5', 5)
+  observer.appearanceTransitionDrawn(1, 72, 0, old, 'player-fighter-1')
+  observer.endFrame()
+  observer.beginFrame('reforge:BattleSession.render', { clockMs: 32 })
+  observer.appearanceTransitionDrawn(2, 72, 0, old, 'player-fighter-1')
+  observer.endFrame()
+  observer.beginFrame('reforge:BattleSession.render', { clockMs: 48 })
+  player(target, 'player-fighter-5', 1)
+  observer.endFrame()
+  const { presentations, errors } = observer.read()
+  assert.deepEqual(errors, [])
+  assert.deepEqual(
+    presentations.map(({ payload }) => [
+      payload.players[0].appearance,
+      payload.players[0].frameIndex,
+      payload.appearanceTransition?.step,
+    ]),
+    [
+      ['player-fighter-1', 0, undefined],
+      ['player-fighter-5', 5, 1],
+      ['player-fighter-5', 5, 2],
+      ['player-fighter-5', 1, undefined],
+    ],
+  )
+  assert.deepEqual(presentations[2].payload.appearanceTransition.source, {
+    slot: 0,
+    x: 190,
+    y: 172,
+    appearance: 'player-fighter-1',
+    frameIndex: 0,
+    colorShift: 10,
+  })
 })
 
 test('enemy spell cancellation observes the actual target before the replacement commit', async () => {

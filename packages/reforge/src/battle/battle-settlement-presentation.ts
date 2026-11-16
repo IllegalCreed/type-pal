@@ -4,11 +4,14 @@ import type { SettlementScreen } from './settlement.js'
 
 const SETTLEMENT_CONFIRM_MIN_MS = 300
 const TERMINAL_HOLD_MS = 1200
+const REWARD_SCREEN_MS = 3000
+const BOSS_REWARD_SCREEN_MS = 5500
 
 type CoreTerminalPhase = Extract<BattlePhase, 'won' | 'lost' | 'fled'>
 
 export interface BattleSettlementPresentationOptions {
   buildSettlement?: () => SettlementScreen[]
+  worldSettlement?: { boss: boolean }
 }
 
 /**
@@ -20,6 +23,7 @@ export class BattleSettlementPresentation {
   private screens: SettlementScreen[] | null = null
   private screenIndex = 0
   private elapsedMs = 0
+  private pageDrawn = false
 
   constructor(private readonly options: BattleSettlementPresentationOptions = {}) {}
 
@@ -29,6 +33,11 @@ export class BattleSettlementPresentation {
 
   get currentScreen(): SettlementScreen | null {
     return this.screens?.[this.screenIndex] ?? null
+  }
+
+  /** PAL_WaitForAnyKey starts after VIDEO_UpdateScreen publishes the current page. */
+  markPageDrawn(): void {
+    this.pageDrawn = true
   }
 
   /** 脚本终止/敌逃等已有精确结果优先于 core phase 的粗粒度枚举。 */
@@ -57,18 +66,15 @@ export class BattleSettlementPresentation {
     if (result === 'victory' && this.screens === null) {
       this.screens = this.options.buildSettlement?.() ?? []
     }
-    if (this.screens?.length) {
-      this.elapsedMs += dtMs
-      if (
-        (pressed.has(' ') || pressed.has('Enter')) &&
-        this.elapsedMs >= SETTLEMENT_CONFIRM_MIN_MS
-      ) {
-        this.screenIndex++
-        this.elapsedMs = 0
-        if (this.screenIndex >= this.screens.length) return result
-      }
-      return null
+    const screen = this.currentScreen
+    if (screen) {
+      if (!this.acceptPageInput(screen, dtMs, pressed)) return null
+      this.screenIndex++
+      this.elapsedMs = 0
+      this.pageDrawn = false
+      return this.currentScreen ? null : result
     }
+    if (result === 'victory' && this.options.worldSettlement) return result
 
     // 逃跑/敌逃/脚本终止没有通用结果屏；演出门清后同拍完成。
     if (result === 'playerFled' || result === 'enemyFled' || result === 'terminated') return result
@@ -79,5 +85,21 @@ export class BattleSettlementPresentation {
     // 无结算屏的胜/败仍短暂停留。
     this.elapsedMs += dtMs
     return this.elapsedMs >= TERMINAL_HOLD_MS ? result : null
+  }
+
+  private acceptPageInput(
+    screen: SettlementScreen,
+    dtMs: number,
+    pressed: ReadonlySet<string>,
+  ): boolean {
+    const world = this.options.worldSettlement
+    if (world && !this.pageDrawn) return false
+    this.elapsedMs += dtMs
+    if (world) {
+      const timeout =
+        world.boss && screen.kind === 'exp-cash' ? BOSS_REWARD_SCREEN_MS : REWARD_SCREEN_MS
+      return pressed.size > 0 || this.elapsedMs >= timeout
+    }
+    return this.elapsedMs >= SETTLEMENT_CONFIRM_MIN_MS && (pressed.has(' ') || pressed.has('Enter'))
   }
 }

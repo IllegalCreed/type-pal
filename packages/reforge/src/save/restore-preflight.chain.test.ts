@@ -248,6 +248,9 @@ function harness(
     sceneSwitchIntent: new AsyncIntentController(),
     loadIntent: new AsyncIntentController(),
     battleHost: { cancel: empty },
+    hostileEncounter: undefined,
+    hostileBusy: false,
+    victoryFrame: undefined,
     saveStore: { getPayload: async () => structuredClone(raw) },
     getLifecycleReferences: async () =>
       content.buildEntityLifecycleReferenceIndex([{ id: 'saved-scene', entities: [] }]),
@@ -337,16 +340,28 @@ function savedFlag(env: Record<string, unknown>): unknown {
 
 describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）', () => {
   test('合法载荷：loaded、世界替换、完整提交事件序列', async () => {
-    const h = harness(corrupted(() => {}))
+    const encounter = new AbortController()
+    const h = harness(
+      corrupted(() => {}),
+      {
+        hostileEncounter: { abort: () => encounter.abort() },
+        hostileBusy: true,
+        victoryFrame: { signal: encounter.signal },
+      },
+    )
     const result = await h.api.doLoad('quick')
     expect(result).toBe('loaded')
     expect(savedFlag(h.env)).toBe(true)
+    expect(encounter.signal.aborted).toBe(true)
+    expect(h.env.hostileEncounter).toBeUndefined()
+    expect(h.env.hostileBusy).toBe(false)
+    expect(h.env.victoryFrame).toBeUndefined()
     expect(h.events).toEqual([
       // restore's target validation and prepare both read the canonical definition (cached in main).
       'scene-definition:saved-scene',
       'scene-definition:saved-scene',
-      'invalidate-script',
       'stop-auto',
+      'invalidate-script',
       'prune',
       'camera',
       'bgm-stop',

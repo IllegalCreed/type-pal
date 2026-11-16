@@ -6,7 +6,7 @@
  *  - startBattle:enemyTeam / battleField 找不到抛错;0xFFFF过滤/0空槽保留
  *  - tickBattle:preBattle 一 tick 转 selectAction
  *  - tickBattle:selectAction 等 pendingActions 填好 → 进 performAction
- *  - tickBattle:performAction → postAction → 回 selectAction 推下一轮
+ *  - tickBattle:行动队列耗尽 → 结算回合 → 回 selectAction 推下一轮
  *  - tickBattle:enemy 死光 → won → finalize 切 explore + exp/cash 入账
  *  - tickBattle:队员死光 → lost → finalize 切 explore(不复活,死员 hp=0,靠 0x4E 读档恢复)
  *  - tickBattle:flee 成功 → fleed → finalize 切 explore(无 hp 改动)
@@ -157,14 +157,14 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     const startHp = state.enemies[0]!.e.health
     state.enemyEscapeAnim = { step: 0 } // 模拟 0x69 触发
     tickBattle(gs, emptyInput, bus)
-    expect(state.enemies[0]!.pos!.x).toBe(180) // 200 - 20(往左 ENEMY_FLYOUT_DX）
+    expect(state.enemies[0]!.pos!.x).toBe(180) // 4 × 5 px at 10 ms per step
     let guard = 50
     while (state.enemyEscapeAnim && guard-- > 0) tickBattle(gs, emptyInput, bus)
     expect(state.phase).toBe('fleed') // 出屏 → 终止
     expect(state.enemies[0]!.e.health).toBe(startHp) // 不改 health(避免误给 exp)
   })
 
-  it('L11:敌逃出屏后进入 ~13 帧停顿阶段再 fleed(battle.c:1433 UTIL_Delay(500))', () => {
+  it('L11:敌逃出屏后保持约 500 ms 再 fleed(battle.c:1433 UTIL_Delay(500))', () => {
     const { gs, bus, emptyInput } = bootstrap({ enemies: [makeEnemy({ id: 100, health: 50 })] })
     tickBattle(gs, emptyInput, bus)
     const state = gs.battleState!
@@ -172,9 +172,10 @@ describe('applyHiddenExpGrowth(CHECK_HIDDEN_EXP 分配,battle.c:1238-1262)', () 
     state.enemyEscapeAnim = { step: 0 }
     // 飞到出屏 → 进入停顿阶段(holdTicks=0),此时未 fleed
     let guard = 50
-    while (state.enemyEscapeAnim?.holdTicks === undefined && guard-- > 0)
+    while (state.enemyEscapeAnim?.offscreenAtMs === undefined && guard-- > 0)
       tickBattle(gs, emptyInput, bus)
-    expect(state.enemyEscapeAnim?.holdTicks).toBe(0)
+    expect(state.enemyEscapeAnim?.offscreenAtMs).toBe(560)
+    expect(state.enemies[0]!.pos?.x).toBe(-80)
     expect(state.phase).not.toBe('fleed') // 停顿期间不立即终止
     // 停顿满 13 帧 → fleed
     guard = 20
@@ -717,9 +718,8 @@ describe('startBattle', () => {
     tickBattle(gs, input, bus)
     state.enemies[0]!.status.sleep = 3 // 合法睡眠状态，隔离敌攻伤害。
     party.forEach((_, slot) => state.pendingActions.set(slot, { type: 'defend', target: -1 }))
-    for (let i = 0; i < 100 && state.phase !== 'postAction'; i++) tickBattle(gs, input, bus)
-    expect(state.phase).toBe('postAction')
-    tickBattle(gs, input, bus)
+    for (let i = 0; i < 100 && state.turn === 0; i++) tickBattle(gs, input, bus)
+    expect(state.turn).toBe(1)
     expect(playerRoles.roles[4]!.hp).toBe(190)
     expect(playerRoles.roles[party[1]!]!.hp).toBe(200)
     expect(gs.rgPoisonStatus).toEqual({ '0_0': { wPoisonID: 552, wPoisonScript: 4 } })
@@ -1197,7 +1197,7 @@ describe('tickBattle phase transitions', () => {
     })
   })
 
-  it('performAction → postAction(queue 跑完)→ 下一轮 selectAction(双方都活)', () => {
+  it('行动队列耗尽后的首拍进入下一轮 selectAction，选招在后续 tick', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })], // 不会被一击秒,保证不进 won
       roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })], // 不会被秒,保证不进 lost
@@ -1205,15 +1205,16 @@ describe('tickBattle phase transitions', () => {
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
     tickBattle(gs, emptyInput, bus) // selectAction → performAction
-    // performAction 逐 tick 推 queue;直到 phase 变 postAction
+    const state = gs.battleState!
     let safety = 50
-    while (gs.battleState?.phase === 'performAction' && safety-- > 0)
+    while (state.currentActionIndex < state.actionQueue.length && safety-- > 0)
       tickBattle(gs, emptyInput, bus)
-    expect(gs.battleState?.phase).toBe('postAction')
-    // 再推一 tick → postAction handler 双方都活 → 回 selectAction,turn 推到 1
+    expect(state.currentActionIndex).toBe(state.actionQueue.length)
+    expect(state).toMatchObject({ phase: 'performAction', turn: 0, uiState: 'hidden' })
     tickBattle(gs, emptyInput, bus)
-    expect(gs.battleState?.phase).toBe('selectAction')
-    expect(gs.battleState?.turn).toBe(1)
+    expect(state).toMatchObject({ phase: 'selectAction', turn: 1, uiState: 'wait' })
+    tickBattle(gs, emptyInput, bus)
+    expect(state.uiState).toBe('selectMove')
   })
 
   it('敌 scriptOnReady 含 showDialog → 行动前先显示对话 + 暂停战斗(guard),Confirm 后才行动', () => {
@@ -1666,7 +1667,7 @@ describe('tickBattle finalize', () => {
 // ============================================================================
 
 describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-3853)', () => {
-  /** 手工构造 perform:只放某队员入 queue(隔离敌人行动)+ 推进到 postAction。 */
+  /** 手工构造 perform:只放某队员入 queue(隔离敌人行动)，推进完本轮。 */
   function drivePerformPlayerOnly(
     gs: GameState,
     bus: CommandBus,
@@ -1791,7 +1792,7 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     st.pendingActions.set(1, { type: 'defend', target: -1 })
     st.pendingActions.set(2, { type: 'defend', target: -1 })
     let safety = 200
-    while (st.phase !== 'postAction' && st.phase !== 'won' && gs.mode === 'battle' && safety-- > 0)
+    while (st.turn === 0 && st.phase !== 'won' && gs.mode === 'battle' && safety-- > 0)
       tickBattle(gs, emptyInput, bus)
     // 注:createBattleState 对敌人 {...e} 浅拷贝 → 战斗改的是 st.enemies[0].e 副本,非传入 enemy。
     expect(st.enemies[0]!.e.health).toBeLessThan(200) // 混乱 player0 普攻敌 0 → 敌掉血(非"无动作")
@@ -1957,7 +1958,7 @@ describe('B1 D21 战末清状态/毒/Extra(battle.c:1822-1830)', () => {
 // ============================================================================
 
 describe('defending flag 单轮失效', () => {
-  it('postAction 清 defending,下一轮回到 false', () => {
+  it('当轮防御持续到行动队列耗尽，结算后清除', () => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [makeEnemy({ id: 100, health: 99999 })],
       roles: [makeRole({ id: 0, hp: 99999, maxHP: 99999 })],
@@ -1965,14 +1966,15 @@ describe('defending flag 单轮失效', () => {
     tickBattle(gs, emptyInput, bus) // → selectAction
     gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
     tickBattle(gs, emptyInput, bus) // → performAction
-    // 跑到 performAction 内 defend 被设为 true,再到 postAction
+    const state = gs.battleState!
     let safety = 50
-    while (gs.battleState?.phase === 'performAction' && safety-- > 0)
+    while (state.currentActionIndex < state.actionQueue.length && safety-- > 0)
       tickBattle(gs, emptyInput, bus)
-    // postAction → 再一 tick 回 selectAction,defending 被清
+    expect(state.currentActionIndex).toBe(state.actionQueue.length)
+    expect(state.players[0]?.defending).toBe(true)
     tickBattle(gs, emptyInput, bus)
-    expect(gs.battleState?.phase).toBe('selectAction')
-    expect(gs.battleState?.players[0]?.defending).toBe(false)
+    expect(state.phase).toBe('selectAction')
+    expect(state.players[0]?.defending).toBe(false)
   })
 
   // P0#2(2026-06-02 审计核源):玩家行动队列 base dex = PAL_GetPlayerDexterity(global.c:1849-1864)
@@ -3709,17 +3711,18 @@ describe('throw-item action 派发(E2)', () => {
       commands,
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.enemies[0]!.scriptOnReady = 1 // 召唤脚本 @ip1
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    const state = gs.battleState!
+    state.enemies[0]!.scriptOnReady = 1 // 召唤脚本 @ip1
+    state.pendingActions.set(0, { type: 'defend', target: -1 })
 
     let safety = 30
-    while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
+    while (state.turn === 0 && gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(state.turn).toBe(1)
 
     // 原版 0x9E 只扫描 0..wMaxEnemyIndex 里的 wObjectID==0 槽;单敌队伍没有空槽,所以失败不扩容。
-    expect(gs.battleState!.enemies.length).toBe(1)
-    expect(gs.battleState!.enemies[0]!.e.id).toBe(100)
-    expect(gs.battleState!.enemies[0]!.e.health).toBeGreaterThan(0)
+    expect(state.enemies.length).toBe(1)
+    expect(state.enemies[0]!.e.id).toBe(100)
+    expect(state.enemies[0]!.e.health).toBeGreaterThan(0)
   })
 
   it('毒 tick(postAction):中毒敌人每回合跑 wEnemyScript(0x21)扣血', () => {
@@ -3735,17 +3738,16 @@ describe('throw-item action 派发(E2)', () => {
       commands,
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    // 敌人中毒:scriptEntry=1(0x21[0,50,0])
-    gs.battleState!.enemies[0]!.poisons = [{ poisonId: 558, scriptEntry: 1 }]
-    gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+    const state = gs.battleState!
+    state.enemies[0]!.poisons = [{ poisonId: 558, scriptEntry: 1 }]
+    state.pendingActions.set(0, { type: 'defend', target: -1 })
 
     let safety = 30
-    while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
-      tickBattle(gs, emptyInput, bus)
-    tickBattle(gs, emptyInput, bus) // 跑 postAction(毒 tick)
+    while (state.turn === 0 && gs.mode === 'battle' && safety-- > 0) tickBattle(gs, emptyInput, bus)
+    expect(state.turn).toBe(1)
 
     // 敌人 200 - 50(毒)= 150
-    expect(gs.battleState?.enemies[0]!.e.health).toBe(150)
+    expect(state.enemies[0]!.e.health).toBe(150)
   })
 
   it('蛊孵化链(食妖虫附→灵蛊):毒脚本自推进 — 逐回合递增吸灵气 + 炼成灵蛊(sdlpal fight.c:1647 回写)', () => {
@@ -3768,16 +3770,18 @@ describe('throw-item action 派发(E2)', () => {
       inventory: [],
     })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
-    gs.battleState!.enemies[0]!.poisons = [{ poisonId: 561, scriptEntry: 10 }]
+    const state = gs.battleState!
+    state.enemies[0]!.poisons = [{ poisonId: 561, scriptEntry: 10 }]
 
     const runRound = (): void => {
-      gs.battleState!.pendingActions.set(0, { type: 'defend', target: -1 })
+      const turn = state.turn
+      state.pendingActions.set(0, { type: 'defend', target: -1 })
       let safety = 30
-      while (gs.battleState?.phase !== 'postAction' && gs.mode === 'battle' && safety-- > 0)
+      while (state.turn === turn && gs.mode === 'battle' && safety-- > 0)
         tickBattle(gs, emptyInput, bus)
-      tickBattle(gs, emptyInput, bus) // postAction(毒 tick)
+      expect(state.turn).toBe(turn + 1)
     }
-    const enemy = (): BattleEnemy => gs.battleState!.enemies[0]!
+    const enemy = (): BattleEnemy => state.enemies[0]!
 
     runRound() // 入口 0x0001 → 推进到 11,无伤
     expect(enemy().poisons?.[0]?.scriptEntry).toBe(11)

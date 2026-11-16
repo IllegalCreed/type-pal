@@ -118,9 +118,9 @@ function nativePoisons(state) {
 function semanticAction(index, action) {
   const isEnemy = action.side === 'enemy'
   const player = !isEnemy && nativeState.players[index]
-  const { kind } = action
+  const kind = action.kind === 'attackMate' ? 'attack-mate' : action.kind
   invariant(
-    ['attack', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind),
+    ['attack', 'attack-mate', 'item', 'defend', 'cast', 'coop', 'throw', 'pass'].includes(kind),
     `unsupported Reforge action ${kind}`,
   )
   const skillId = action.skillId ?? (kind === 'coop' ? player.cooperativeMagicSkillId : undefined)
@@ -328,14 +328,22 @@ const harness = {
     if (!action && incapacitatedSlot === undefined) return
     const isEnemy = action?.side === 'enemy'
     const slot = action?.idx ?? incapacitatedSlot
-    const guardSlot = isEnemy ? action.targetPlayerIdx : slot
+    const guardSlot = isEnemy
+      ? action.targetPlayerIdx
+      : action?.kind === 'attackMate'
+        ? action.targetAllyIdx
+        : slot
     let inaction = !action ? 'incapacitated' : undefined
     if (action?.kind === 'pass') {
       const unit = (isEnemy ? state.enemies : state.players)[slot]
       const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
       const cooperative = !isEnemy && state.coopThisTurn
-      invariant(unit.hp > 0 && (disabled || cooperative), 'Q2 Reforge pass lacks a native reason')
-      inaction = disabled ? 'incapacitated' : 'cooperative-action'
+      const confused = unit.status.confused > 0
+      invariant(
+        unit.hp > 0 && (disabled || cooperative || confused),
+        'Q2 Reforge pass lacks a native reason',
+      )
+      inaction = disabled ? 'incapacitated' : cooperative ? 'cooperative-action' : 'confusion'
     }
     const executed = action
       ? semanticAction(slot, action)

@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
+import { gate } from './__tests__/battle-host-fixture.js'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
 import { sceneWithCommands, shellScene } from './__tests__/runtime-shell/project.js'
@@ -15,6 +16,7 @@ import {
 } from './__tests__/runtime-shell/scenarios.js'
 
 let host: ShellHost | undefined
+let finishBattleFixture: (() => Promise<void>) | undefined
 afterEach(async () => {
   // Own the real session's termination even when an author-flow assertion fails early.
   if (host && state().renderDebug.inBattle) {
@@ -23,6 +25,8 @@ afterEach(async () => {
     await active.done.catch(() => undefined)
     await drain()
   }
+  await finishBattleFixture?.()
+  finishBattleFixture = undefined
   await host?.close()
   host = undefined
 })
@@ -210,10 +214,631 @@ test('H9 author startBattle waits for real victory then runs the following comma
   h.assertInputUnchanged()
 })
 
-test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose plus continuation', async () => {
+test.each([
+  'confirm',
+  'replace',
+] as const)('normal hostile victory holds the battle frame through loot (%s)', async (completion) => {
   host = await installShellHost()
-  // This tests defeat routing, not RNG: 7/17 passive dodge can otherwise outlive the frame budget.
-  // Frozen 7f3840e6 and current hosts both fail with 0.99 and pass with 0.5 (no dodge).
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  let now = 0
+  vi.spyOn(performance, 'now').mockImplementation(() => now)
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const first =
+    completion === 'replace'
+      ? sceneWithCommands('a', [
+          { kind: 'startBattle', enemyTeamId: 'encounter', auto: true },
+          { kind: 'giveMoney', delta: 100 },
+        ])
+      : shellScene('a')
+  if (completion === 'confirm') {
+    first.entities = [
+      {
+        id: 'chaser',
+        sprite: 'walker',
+        pos: { col: 4, row: 2, height: 0 },
+        hostile: {
+          enemyTeamId: 'encounter',
+          onVictory: { kind: 'hide', ticks: 800 },
+          onPlayerFlee: { kind: 'remain' },
+        },
+      },
+    ]
+  }
+  const secondLine = completion === 'confirm' ? 'line.one' : 'line.two'
+  const foe = opponent({
+    onDefeated: [
+      { kind: 'giveItem', itemId: 'tonic', count: 1 },
+      {
+        kind: 'dialog',
+        cue: {
+          identity: { kind: 'narration' },
+          slot: 'narration',
+          rows: [{ text: 'line.one' }],
+        },
+      },
+      { kind: 'giveItem', itemId: 'tonic', count: 1 },
+      {
+        kind: 'dialog',
+        cue: {
+          identity: { kind: 'narration' },
+          slot: 'narration',
+          rows: [{ text: secondLine }],
+        },
+      },
+    ],
+  })
+  const fixture = await bootScenario(host, {
+    first,
+    items: [medicine()],
+    enemies: [foe],
+    seedStats: { hero: { hp: 80, mp: 30 } },
+  })
+  const browser = host
+  const oldEncounterRunning = () =>
+    completion === 'replace' ? state().script.running : hostileEncounterClaimed()
+  finishBattleFixture = async () => {
+    // Settle a failed assertion's live script on the real confirm path before replacing the shell.
+    for (let i = 0; i < 8 && oldEncounterRunning(); i++) await key(browser, 'Enter')
+  }
+  const health = () => state().world.party.map(({ hp, mp }) => [hp, mp])
+  const textDraws = (text: string) =>
+    browser.text.mock.calls.filter(([, spans]) => spans.some((span) => span.text === text)).length
+  if (completion === 'confirm') await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  const worldFrames = drawWorld.mock.calls.length
+  await finish(host)
+  await advance(host, () => textDraws('First') > 0)
+  expect(state().world.money).toBe(57)
+  expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 1 }])
+  expect(health()).toEqual([[80, 30]])
+  expect(drawWorld.mock.calls).toHaveLength(worldFrames)
+  expect(state().dialogue).toBe(true)
+  now = 1399
+  await host.frame()
+  expect(state().dialogue).toBe(true)
+  expect(textDraws('Second')).toBe(0)
+  if (completion === 'confirm') {
+    const earlierDraws = textDraws('First')
+    const earlierCanvas = host.draws.length
+    host.key('Enter')
+    try {
+      now = 1400
+      await host.frame()
+      expect(host.draws.slice(earlierCanvas).some(({ method }) => method === 'putImageData')).toBe(
+        true,
+      )
+      expect(textDraws('First')).toBe(earlierDraws) // A real held battle render separates the copies.
+      now = 1439
+      await host.frame()
+      expect(textDraws('First')).toBe(earlierDraws)
+      now = 1440
+      await host.frame()
+      expect(textDraws('First')).toBe(earlierDraws + 1)
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', repeat: true }))
+      await host.frame()
+      expect(state().dialogue).toBe(true)
+    } finally {
+      host.release('Enter')
+    }
+  } else {
+    now = 1400
+    await host.frame()
+    now = 1416
+    await host.frame()
+    expect(textDraws('Second')).toBe(1)
+  }
+  expect(state().world.inventory).toEqual([{ itemId: 'tonic', count: 2 }])
+  expect(health()).toEqual([[80, 30]])
+  expect(drawWorld.mock.calls).toHaveLength(worldFrames)
+  expect(oldEncounterRunning()).toBe(true)
+  if (completion === 'replace') {
+    let result: unknown
+    const outcome = state()
+      .startBattle('encounter')
+      .then(
+        (value) => {
+          result = value
+        },
+        (error: unknown) => {
+          result = error
+        },
+      )
+    try {
+      await advance(host, () => result !== undefined || state().renderDebug.inBattle)
+      expect(result).toBeUndefined()
+      expect(oldEncounterRunning()).toBe(false)
+      expect(state().dialogue).toBe(false)
+      expect(health()).toEqual([[80, 30]])
+      expect(state().world.money).toBe(57)
+    } finally {
+      if (state().renderDebug.inBattle) session().cancel()
+      await outcome
+    }
+    fixture.assertInputUnchanged()
+    return
+  }
+  await key(host, 'Enter')
+  await advance(host, () => !hostileEncounterClaimed())
+  expect(state().dialogue).toBe(false)
+  expect(health()).toEqual([[90, 35]])
+  expect(drawWorld.mock.calls.length).toBeGreaterThan(worldFrames)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  fixture.assertInputUnchanged()
+})
+
+test.each([
+  'early-key',
+  'automatic',
+] as const)('native encounter settles the actual reward page by %s', async (method) => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const foe = opponent()
+  foe.stats.exp = 1
+  const fixture = await bootScenario(host, { first, enemies: [foe], withBattleMusic: true })
+  const { BattleSettlementPresentation } = await import(
+    './battle/battle-settlement-presentation.js'
+  )
+  const pageDrawn = vi.spyOn(BattleSettlementPresentation.prototype, 'markPageDrawn')
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  // Keep submitting ordinary attack while playing; an input from before the page exists
+  // cannot skip it. Stop on the first actual renderer receipt, before any later game tick.
+  for (let i = 0; i < 80 && !pageDrawn.mock.calls.length; i++) {
+    await key(host, 'Enter')
+    await host.settleIO()
+  }
+  expect(pageDrawn).toHaveBeenCalledOnce()
+  expect(state().renderDebug.inBattle).toBe(true)
+  if (method === 'early-key') {
+    await key(host, 'ArrowLeft', 1)
+  } else {
+    for (let i = 0; i < 29; i++) await host.frame(100)
+    await host.frame(99)
+    expect(state().renderDebug.inBattle).toBe(true)
+    await host.frame(1)
+  }
+  await host.settleIO()
+  expect(state().renderDebug.inBattle).toBe(false)
+  expect(state().renderDebug.menuActive).toBe(false)
+  expect(state().world.money).toBe(57)
+  fixture.assertInputUnchanged()
+})
+
+test('a native hostile reveal replaces six whole pixel bands before command input opens', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  // Distinct endpoint colors stand for browser readback. Production drawing, keyboard, battle
+  // preparation, and reveal scheduling remain real in this shell test.
+  const readPixels = ctx.getImageData.bind(ctx)
+  const getPixels = vi.spyOn(ctx, 'getImageData').mockImplementation((...args) => {
+    const pixels = readPixels(...args)
+    pixels.data.fill(getPixels.mock.calls.length === 1 ? 11 : 83)
+    return pixels
+  })
+  const drawPixels = ctx.putImageData.bind(ctx)
+  const bands: number[][] = []
+  vi.spyOn(ctx, 'putImageData').mockImplementation((pixels, x, y) => {
+    drawPixels(pixels, x, y)
+    if (pixels.width === ctx.canvas.width && pixels.height === ctx.canvas.height) {
+      bands.push(Array.from({ length: 24 }, (_, col) => pixels.data[col * 4] ?? 0))
+    }
+  })
+  await key(host, 'ArrowRight')
+  expect(hostileEncounterClaimed()).toBe(true)
+  const expectedBands = Array<number>(24).fill(11)
+  expect(bands.at(-1), 'contact first draws the actual held world image').toEqual(expectedBands)
+  for (const dt of [100, 99]) {
+    await key(host, 'Escape', dt)
+    expect(bands.at(-1)).toEqual(expectedBands)
+    expect(state().renderDebug.inBattle).toBe(false)
+    expect(state().renderDebug.menuActive).toBe(false)
+  }
+  // Preparation may require a browser IO turn. Each completed reveal band is inspected as drawn.
+  for (let i = 0; i < 60 && getPixels.mock.calls.length < 2; i++) {
+    await host.frame(1)
+    await host.settleIO()
+  }
+  expect(getPixels).toHaveBeenCalledTimes(2)
+  for (const [round, column] of [0, 3, 1, 5, 2, 4].entries()) {
+    if (round) await key(host, 'Escape', round === 5 ? 77 : 60)
+    expectedBands.fill(83, column * 4, (column + 1) * 4)
+    expect(bands.at(-1)).toEqual(expectedBands)
+    expect(state().renderDebug.inBattle).toBe(false)
+    expect(state().renderDebug.menuActive).toBe(false)
+  }
+  await key(host, 'Escape', 59)
+  expect(state().renderDebug.inBattle).toBe(false)
+  await key(host, 'Escape', 1)
+  expect(state().renderDebug.inBattle).toBe(true)
+  expect(state().renderDebug.menuActive).toBe(false)
+  fixture.assertInputUnchanged()
+})
+
+test('an authored victory fade darkens the last drawn prompt then reveals the committed map', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, {
+    first,
+    hostileVictoryTransition: 'fade',
+    enemies: [
+      opponent({
+        onDefeated: [
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'narration',
+              rows: [{ text: 'line.one' }],
+            },
+          },
+        ],
+      }),
+    ],
+  })
+  const browser = host
+  finishBattleFixture = async () => {
+    for (let i = 0; i < 30 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+  }
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  await finish(host)
+  await advance(host, () =>
+    browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First')),
+  )
+  expect(state().world.party[0]?.hp).toBe(80)
+  expect(state().dialogue).toBe(true)
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const readPixels = vi.spyOn(ctx, 'getImageData')
+  const drawPixels = vi.spyOn(ctx, 'putImageData')
+  const fill = ctx.fillRect.bind(ctx)
+  const fadeFrames: { alpha: number; worldDrawn: boolean }[] = []
+  let assignedAlpha: number | undefined
+  let assignedStyle: string | CanvasGradient | CanvasPattern | undefined
+  let alpha = ctx.globalAlpha
+  let fillStyle = ctx.fillStyle
+  // Inspect actual Canvas API calls; do not mistake the map's black clear for a fade overlay.
+  Object.defineProperty(ctx, 'globalAlpha', {
+    get: () => alpha,
+    set: (value: number) => {
+      alpha = value
+      assignedAlpha = value
+    },
+  })
+  Object.defineProperty(ctx, 'fillStyle', {
+    get: () => fillStyle,
+    set: (value: typeof fillStyle) => {
+      fillStyle = value
+      assignedStyle = value
+    },
+  })
+  vi.spyOn(ctx, 'fillRect').mockImplementation((x, y, width, height) => {
+    fill(x, y, width, height)
+    if (
+      assignedAlpha !== undefined &&
+      assignedStyle === '#000' &&
+      width === ctx.canvas.width &&
+      height === ctx.canvas.height
+    ) {
+      fadeFrames.push({ alpha: assignedAlpha, worldDrawn: drawWorld.mock.calls.length > 0 })
+    }
+    assignedAlpha = undefined
+    assignedStyle = undefined
+  })
+  await key(host, 'Enter')
+  expect(hostileEncounterClaimed(), 'exploration is fenced until the return fade finishes').toBe(
+    true,
+  )
+  expect(state().world.party[0]?.hp).toBe(90)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  const held = readPixels.mock.results.at(-1)?.value
+  expect(held).toBeDefined()
+  expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
+  function expectPaletteShade(light: number, worldDrawn: boolean): void {
+    const last = fadeFrames.at(-1)
+    if (!last) throw new Error('victory fade was not drawn')
+    expect(last.worldDrawn).toBe(worldDrawn)
+    // SDLPal scales the channels by one of 61 levels over 64.
+    const level = (1 - last.alpha) * 64
+    expect(Number.isInteger(level)).toBe(true)
+    // The sampling frame can straddle one quantization boundary.
+    expect(Math.abs(level - light)).toBeLessThanOrEqual(1)
+  }
+  for (let i = 1; i <= 6; i++) {
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(false)
+    expect(drawWorld).not.toHaveBeenCalled()
+    expect(drawPixels.mock.calls.at(-1)?.[0]).toBe(held)
+    expectPaletteShade(60 - 10 * i, false)
+  }
+  expect(fadeFrames.at(-1)).toEqual({ alpha: 1, worldDrawn: false })
+  // World is drawn from the committed lifecycle with the new endpoint still under the curtain.
+  const heldDraws = drawPixels.mock.calls.length
+  for (let i = 0; i < 6; i++) {
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(false)
+    expect(hostileEncounterClaimed()).toBe(true)
+    expect(drawPixels.mock.calls.length).toBe(heldDraws)
+    expectPaletteShade(10 * i, true)
+  }
+  const darkFrames = fadeFrames.length
+  const worldFrames = drawWorld.mock.calls.length
+  await key(host, 'Escape')
+  expect(drawWorld.mock.calls.length).toBeGreaterThan(worldFrames)
+  expect(fadeFrames).toHaveLength(darkFrames)
+  expect(hostileEncounterClaimed()).toBe(false)
+  expect(state().renderDebug.menuActive).toBe(false)
+  await key(host, 'Escape')
+  expect(state().renderDebug.menuActive).toBe(true)
+  fixture.assertInputUnchanged()
+})
+
+test('world automation preserves its pending wait and contact-frame action through a hostile victory', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'sentry',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+    {
+      id: 'world-timer',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'timer' }],
+      behaviors: {
+        auto: {
+          timer: {
+            label: 'Timer',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'idle',
+              stages: [
+                {
+                  id: 'idle',
+                  body: [
+                    { kind: 'wait', ms: 200 },
+                    { kind: 'giveMoney', delta: 10 },
+                    { kind: 'wait', ms: 200 },
+                    { kind: 'giveMoney', delta: 20 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'world-continuation',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'timer' }],
+      behaviors: {
+        auto: {
+          timer: {
+            label: 'Timer',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'idle',
+              stages: [
+                {
+                  id: 'idle',
+                  body: [
+                    { kind: 'wait', ms: 450 },
+                    { kind: 'giveMoney', delta: 40 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, {
+    first,
+    hostileVictoryTransition: 'fade',
+    enemies: [opponent({ onDefeated: [{ kind: 'giveMoney', delta: 1 }] })],
+  })
+  await advance(host, () => state().world.money === 60, 3)
+  await host.frame(100)
+  await key(host, 'ArrowRight')
+  expect(hostileEncounterClaimed()).toBe(true)
+  expect(state().world.money).toBe(60)
+  await advance(host, () => state().renderDebug.inBattle)
+  expect(state().world.money).toBe(60)
+  await finish(host)
+  await advance(host, () => state().entities.find(({ id }) => id === 'sentry')?.hidden === true)
+  expect(hostileEncounterClaimed()).toBe(true)
+  expect(state().world.money).toBe(68)
+  await advance(host, () => !hostileEncounterClaimed())
+  expect(state().world.money).toBe(88)
+  await host.frame(49)
+  expect(state().world.money).toBe(88)
+  await host.frame(1)
+  expect(state().world.money).toBe(128)
+  await host.frame(100)
+  expect(state().world.money).toBe(128)
+  fixture.assertInputUnchanged()
+})
+
+test('a replacement battle discards the old victory fade and never draws its held frame again', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'hide', ticks: 800 },
+        victoryTransition: 'fade',
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first, hostileVictoryTransition: 'direct' })
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const draw = vi.spyOn(ctx, 'putImageData')
+  await finish(host)
+  await advance(host, () => draw.mock.calls.length > 0)
+  expect(state().entities.find(({ id }) => id === 'chaser')?.hidden).toBe(true)
+  expect(hostileEncounterClaimed()).toBe(true)
+  const oldFrame = draw.mock.calls.at(-1)?.[0]
+  expect(oldFrame).toBeDefined()
+  const result = state()
+    .startBattle('encounter')
+    .catch((error: unknown) => error)
+  try {
+    await advance(host, () => state().renderDebug.inBattle)
+    expect(hostileEncounterClaimed()).toBe(false)
+    draw.mockClear()
+    for (let i = 0; i < 15; i++) await host.frame(100)
+    expect(draw.mock.calls.some(([frame]) => frame === oldFrame)).toBe(false)
+    expect(state().renderDebug.inBattle).toBe(true)
+  } finally {
+    if (state().renderDebug.inBattle) session().cancel()
+    await result
+  }
+  fixture.assertInputUnchanged()
+})
+
+const directReturnCases = [
+  {
+    name: 'a battle-end upper dialogue leaves with its battle frame on a direct world return',
+    projectTransition: undefined,
+    victoryTransition: undefined,
+  },
+  {
+    name: 'an explicit hostile direct return overrides the project fade',
+    projectTransition: 'fade' as const,
+    victoryTransition: 'direct' as const,
+  },
+] as const
+
+for (const { name, projectTransition, victoryTransition } of directReturnCases)
+  test(name, async () => {
+    host = await installShellHost()
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+    const first = shellScene('a')
+    first.entities = [
+      {
+        id: 'chaser',
+        sprite: 'walker',
+        pos: { col: 4, row: 2, height: 0 },
+        hostile: {
+          enemyTeamId: 'encounter',
+          onVictory: { kind: 'hide', ticks: 800 },
+          ...(victoryTransition === undefined ? {} : { victoryTransition }),
+          onPlayerFlee: { kind: 'remain' },
+        },
+      },
+    ]
+    const fixture = await bootScenario(host, {
+      first,
+      hostileVictoryTransition: projectTransition,
+      enemies: [
+        opponent({
+          onDefeated: [
+            {
+              kind: 'dialog',
+              cue: {
+                identity: { kind: 'narration' },
+                slot: 'top',
+                rows: [{ text: 'line.one', speed: 0 }],
+              },
+            },
+          ],
+        }),
+      ],
+    })
+    const browser = host
+    finishBattleFixture = async () => {
+      for (let i = 0; i < 8 && hostileEncounterClaimed(); i++) await key(browser, 'Enter')
+    }
+    const drawsUpperDialogue = () =>
+      browser.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First'))
+    await key(host, 'ArrowRight')
+    await advance(host, () => state().renderDebug.inBattle)
+    await finish(host)
+    await advance(host, drawsUpperDialogue)
+    expect(state().dialogue).toBe(true)
+    await key(host, 'Enter')
+    expect(hostileEncounterClaimed(), 'the direct return must not start a fade').toBe(false)
+    browser.text.mockClear()
+    await host.frame()
+    expect(drawsUpperDialogue(), 'battle-end dialogue drew over the resumed world').toBe(false)
+    await key(host, 'Escape')
+    expect(state().renderDebug.menuActive).toBe(true)
+    fixture.assertInputUnchanged()
+  })
+
+test('H9 real defeat draws the authored loss dialogue before continuing with zero HP', async () => {
+  host = await installShellHost()
+  // Keep the enemy hit deterministic so this test reaches the losing arm.
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
   const hero = combatActor()
   if (!hero.battler) throw new Error('missing battler')
@@ -230,7 +855,17 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
         kind: 'startBattle',
         enemyTeamId: 'encounter',
         auto: true,
-        onLose: [{ kind: 'giveMoney', delta: 3 }],
+        onLose: [
+          { kind: 'giveMoney', delta: 3 },
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'top',
+              rows: [{ text: 'line.one', speed: 0 }],
+            },
+          },
+        ],
       },
       { kind: 'giveMoney', delta: 5 },
     ]),
@@ -238,10 +873,20 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
   await advance(host, () => state().renderDebug.inBattle)
   const expected = structuredClone(state().world)
   const battle = session()
-  await advance(host, () => battle.debugReadiness().phase === 'over')
+  await advance(host, () => battle.debugPlayers()[0]?.hp === 0)
   expect(state().renderDebug.inBattle).toBe(true)
+  expect(state().world.party[0]?.hp).toBe(1)
   expect(state().world.money).toBe(50)
-  await finish(host)
+  await advance(host, () => battle.debugReadiness().phase === 'over')
+  expect(state().renderDebug.inBattle).toBe(false)
+  expect(state().world.party[0]?.hp).toBe(0)
+  const { text } = host
+  await advance(host, () =>
+    text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'First')),
+  )
+  expect(state().dialogue).toBe(true)
+  expect(state().world.money).toBe(53)
+  await key(host, 'Enter')
   await advance(host, () => !state().script.running)
   expected.party[0]!.hp = 0
   expected.money += 8
@@ -371,6 +1016,170 @@ test('H9 missing enemy team rejects before any active session and leaves menu op
   await key(host, 'Escape')
   expect(state().renderDebug.menuActive).toBe(true)
   h.assertInputUnchanged()
+})
+
+test('a scripted battle asset failure releases the held world and resumes a pending auto wait', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'ambush',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      initialPage: 'ready',
+      pages: [
+        {
+          id: 'ready',
+          label: 'Ready',
+          trigger: 'fight',
+          triggerActivation: { on: 'interact', range: 1 },
+        },
+      ],
+      behaviors: {
+        trigger: {
+          fight: {
+            label: 'Fight',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'startBattle', enemyTeamId: 'encounter' },
+                    { kind: 'giveMoney', delta: 100 },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      id: 'timer',
+      zone: true,
+      pos: { col: 0, row: 0, height: 0 },
+      initialPage: 'idle',
+      pages: [{ id: 'idle', label: 'Idle', auto: 'wait' }],
+      behaviors: {
+        auto: {
+          wait: {
+            label: 'Wait',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [
+                    { kind: 'wait', ms: 350 },
+                    { kind: 'giveMoney', delta: 7 },
+                    { kind: 'finishStep', next: { kind: 'complete' } },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const drawHeld = vi.spyOn(ctx, 'putImageData')
+  const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+  const assetRead = gate()
+  let requested = false
+  fixture.fixture.hooks.read = async (path) => {
+    if (path !== 'assets/generated/fighter.rle') return
+    requested = true
+    await assetRead.promise
+    throw new Error('fighter file unavailable')
+  }
+  try {
+    await key(host, ' ')
+    await advance(host, () => requested)
+    expect(state().script.running).toBe(true)
+    const held = drawHeld.mock.calls.at(-1)?.[0]
+    expect(held).toBeDefined()
+    drawWorld.mockClear()
+    await key(host, 'Escape', 400)
+    expect(drawHeld.mock.calls.at(-1)?.[0]).toBe(held)
+    expect(drawWorld).not.toHaveBeenCalled()
+    expect(state().world.money).toBe(50)
+    expect(state().renderDebug).toMatchObject({ inBattle: false, menuActive: false })
+
+    assetRead.release()
+    await advance(host, () => !state().script.running && drawWorld.mock.calls.length > 0)
+    expect(error).toHaveBeenCalledExactlyOnceWith(
+      '[script]',
+      'ambush',
+      expect.objectContaining({ message: expect.stringContaining('fighter file unavailable') }),
+    )
+    const heldDraws = drawHeld.mock.calls.length
+    expect(state().world.money).toBe(50)
+    await advance(host, () => state().world.money === 57)
+    expect(drawHeld.mock.calls).toHaveLength(heldDraws)
+    expect(state().sceneId).toBe('a')
+    expect(state().world.party[0]?.hp).toBe(80)
+    await key(host, 'Escape')
+    expect(state().renderDebug).toMatchObject({ inBattle: false, menuActive: true })
+    fixture.assertInputUnchanged()
+  } finally {
+    assetRead.release()
+  }
+})
+
+test('replacing a scripted battle mid-reveal discards its canvas and its continuation', async () => {
+  host = await installShellHost()
+  const fixture = await bootScenario(host, {
+    first: sceneWithCommands('a', [
+      { kind: 'wait', ms: 200 },
+      { kind: 'startBattle', enemyTeamId: 'encounter' },
+      { kind: 'giveMoney', delta: 100 },
+    ]),
+  })
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const readPixels = ctx.getImageData.bind(ctx)
+  const capture = vi.spyOn(ctx, 'getImageData').mockImplementation((...args) => {
+    const pixels = readPixels(...args)
+    pixels.data.fill(capture.mock.calls.length === 1 ? 11 : 83)
+    return pixels
+  })
+  const draw = vi.spyOn(ctx, 'putImageData')
+  await advance(host, () => capture.mock.calls.length === 2)
+  const firstBand = draw.mock.calls.at(-1)?.[0]
+  expect(firstBand).toBe(capture.mock.results[0]?.value)
+  expect(Array.from(firstBand?.data.slice(0, 24) ?? [])).toEqual([
+    ...Array<number>(16).fill(83),
+    ...Array<number>(8).fill(11),
+  ])
+  expect(state().script.running).toBe(true)
+  expect(state().renderDebug.inBattle).toBe(false)
+
+  const replacement = state()
+    .startBattle('encounter')
+    .catch((reason: unknown) => reason)
+  try {
+    draw.mockClear()
+    await advance(host, () => state().renderDebug.inBattle && !state().script.running)
+    await finish(host)
+    expect(await replacement).toBe('victory')
+    expect(draw.mock.calls.some(([frame]) => frame === firstBand)).toBe(false)
+    expect(state().world.money).toBe(57)
+    expect(state().sceneId).toBe('a')
+    fixture.assertInputUnchanged()
+  } finally {
+    if (state().renderDebug.inBattle) session().cancel()
+    await replacement
+  }
 })
 
 test('H9 delayed battle sprite cannot commit a battle after the scene owner has changed', async () => {

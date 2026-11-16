@@ -5,6 +5,7 @@ import type {
   AuthorItemData,
   AuthorSceneDef,
   AuthorScriptLibrary,
+  HostileVictoryTransition,
   WorldState,
 } from '@type-pal/content'
 import { collectAssetReferences, validateAssetFileClosure } from '@type-pal/content'
@@ -86,6 +87,8 @@ export interface ScenarioOptions {
   enemies?: AuthorEnemyDef[]
   sharedScripts?: AuthorScriptLibrary
   seedStats?: Record<string, { hp?: number; mp?: number }>
+  withBattleMusic?: boolean
+  hostileVictoryTransition?: HostileVictoryTransition
 }
 
 /** Extend the old legal in-memory file source, then reload through the formal author guards. */
@@ -95,11 +98,14 @@ export async function scenarioProject(options: ScenarioOptions = {}) {
     second: options.second,
     party: options.party ?? ['hero'],
     seedStats: options.seedStats,
+    withBattleMusic: options.withBattleMusic,
     items: options.items,
   })
   const manifest = structuredClone(fixture.project.manifest)
   manifest.content.enemies = 'content/enemies.json'
   manifest.content.enemyTeams = 'content/enemy-teams.json'
+  if (options.hostileVictoryTransition !== undefined)
+    manifest.hostileVictoryTransition = options.hostileVictoryTransition
   const entry = manifest.entryPoints[0]
   if (!entry?.startWorld) throw new Error('fixture start world missing')
   entry.startWorld.inventory = options.inventory ?? []

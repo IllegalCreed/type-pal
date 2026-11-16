@@ -9505,8 +9505,12 @@ button.sprite-frame-cell[draggable="true"]:active {
 .effect-editor-card__fields > .skill-effect-field {
   align-self: end;
 }
+.effect-editor-card__fields > .skill-effect-field--wide > .skill-effect-field {
+  align-self: start;
+}
 .effect-editor-card__fields > .ef-status-set,
 .effect-editor-card__fields > .hint2,
+.effect-editor-card__fields > .skill-effect-field--wide,
 .effect-editor-card__fields > .item-effect-field-wide,
 .effect-editor-card__fields > .item-effect-block,
 .effect-editor-card__fields > .item-status-checks,

@@ -22,6 +22,7 @@ import {
   medicine,
   opponent,
   scenarioProject,
+  weapon,
 } from '../__tests__/runtime-shell/scenarios.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { loadStandardPalette } from '../assets.js'
@@ -392,6 +393,65 @@ test('BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名
   }
 })
 
+test('升级结算显示装备后的五项属性，持久属性另记隐藏成长', async () => {
+  const actor = combatActor()
+  const battler = expectDefined(actor.battler)
+  const base = battler.baseStats
+  const gear = weapon('bf-level-display-gear')
+  expectDefined(gear.equip).effects = [
+    { kind: 'statBonus', stat: 'attack', delta: 11 },
+    { kind: 'statBonus', stat: 'magicAttack', delta: 17 },
+    { kind: 'statBonus', stat: 'defense', delta: 3 },
+    { kind: 'statBonus', stat: 'speed', delta: 6 },
+    { kind: 'statBonus', stat: 'luck', delta: 13 },
+  ]
+  battler.initialEquipment = { weapon: gear.id }
+  battler.leveling = { expTable: [0, 10, 10] }
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 1, exp: 15, cash: 0 }),
+    actors: [actor],
+    items: [gear],
+  })
+  try {
+    const settled = settleAware(h)
+    await drive(h, settled, 'attack')
+    expect(settled()).toBe('victory')
+    h.finish('victory')
+    const screens = h.observables.screens ?? []
+    expect(screens[1]).toMatchObject({
+      kind: 'level-up',
+      report: {
+        before: {
+          attack: base.attack + 11,
+          magicAttack: base.magicAttack + 17,
+          defense: base.defense + 3,
+          speed: base.speed + 6,
+          luck: base.luck + 13,
+        },
+        after: {
+          attack: base.attack + 15,
+          magicAttack: base.magicAttack + 21,
+          defense: base.defense + 5,
+          speed: base.speed + 8,
+          luck: base.luck + 15,
+        },
+      },
+    })
+    expect(screens).toContainEqual({ kind: 'hidden-up', name: 'Hero', statLabel: '武术', delta: 1 })
+    expect(h.world.party[0]).toMatchObject({
+      equipment: { weapon: gear.id },
+      level: 2,
+      attack: base.attack + 5,
+      magicAttack: base.magicAttack + 4,
+      defense: base.defense + 2,
+      speed: base.speed + 2,
+      luck: base.luck + 2,
+    })
+  } finally {
+    await h.close()
+  }
+})
+
 test('BF-04 胜利后 finish：库存消耗清项、≤severe 毒清 incurable 留、不再改写 HP/金钱', async () => {
   const h = await finalizationHarness({
     enemy: foeWith({ health: 1, exp: 0, cash: 7 }),
@@ -493,6 +553,58 @@ test('BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入�
     expect(h.world.money).toBe(50) // finish 之前未入账
     h.finish('playerFled')
     expect(h.world.money).toBe(50 + 30) // 原版语义：逃跑也保留偷得金钱
+  } finally {
+    await h.close()
+  }
+})
+
+test('an item stolen from an enemy becomes a new world stack after fleeing', async () => {
+  const actor = structuredClone(combatActor())
+  actor.battler!.baseStats.luck = 100
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 1 }, { steal: { itemId: 'tonic', count: 1 } }),
+    actors: [actor, shellActor('friend')],
+    items: [medicine('tonic', 10)],
+    worldSkills: ['steal-item'],
+    extraSkills: {
+      skills: [
+        {
+          id: 'steal-item',
+          name: 'skill.steal-item',
+          desc: '',
+          cost: { mp: 5 },
+          usableOutsideBattle: false,
+          target: 'oneEnemy',
+          effects: [{ kind: 'steal', rate: 10 }],
+          animation: { effectSprite: 0 },
+        },
+      ],
+    },
+  })
+  try {
+    const settled = settleAware(h)
+    h.press(['ArrowLeft'])
+    for (let i = 0; i < 3; i++) h.press([' '])
+    const stole = () => h.session.debugLog().some((line) => line.includes(' 获得 '))
+    for (let i = 0; i < 200 && !stole(); i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(stole()).toBe(true)
+    for (let i = 0; i < 200 && h.session.debugReadiness().phase !== 'menu'; i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.press(['q', 'Q'])
+    for (let i = 0; i < 200 && settled() === undefined; i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(settled()).toBe('playerFled')
+    expect(h.world.inventory).toEqual([])
+    h.finish('playerFled')
+    expect(h.world.inventory).toEqual([{ itemId: 'tonic', count: 1 }])
   } finally {
     await h.close()
   }

@@ -50,13 +50,14 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   expect(await store.getPayload('quick')).toBeNull()
   expect(await store.getThumb('m01')).not.toBeNull()
   const meta = (await store.listMeta())[0]
-  expect(meta).toMatchObject({ slotId: 'm01', savedTimes: 1 })
+  expect(meta).toMatchObject({ slotId: 'm01', savedTimes: 1, mapName: 'Shell Project' })
   if (!meta) throw new Error('manual meta missing')
   await vi.waitFor(async () => {
     await host!.frame()
-    expect(
-      host!.text.mock.calls.some((call) => call[1].some((span) => span.text === 'Shell Project')),
-    ).toBe(true)
+    // The one-glyph host font uses 16px fallback glyphs, so this name fits only as a prefix.
+    expect(host!.text.mock.calls.some((call) => call[1].some((span) => span.text === 'Sh…'))).toBe(
+      true,
+    )
   })
   // Close browser/system/hub, then cast through the real menu to change the live world.
   for (const value of [

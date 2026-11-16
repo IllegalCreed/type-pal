@@ -1,15 +1,41 @@
-import type { InputSource } from '@type-pal/shared'
+import type { Command, InputSnapshot, InputSource } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import {
+  makeBattleFieldRecord,
+  makeEnemyRecord,
+  makeRoleRecord,
+} from '../__tests__/battle-records.js'
 import { createBattleState } from '../core/battle/battle-state.js'
+import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
 import type { BusEntry, CommandBus } from '../core/command-bus.js'
 import { createCommandBus } from '../core/command-bus.js'
-import { createInitialGameState } from '../core/game-state.js'
-import { buildPaletteFade } from '../core/palette-fade.js'
+import {
+  OP_FADE_OUT,
+  OP_HIDE_OBJECT,
+  OP_PLAY_SOUND,
+  OP_START_BATTLE,
+  setGlobalEvents,
+  setStartBattleHandler,
+} from '../core/event-system.js'
+import {
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+  resumePostBattleScript,
+} from '../core/game-state.js'
+import { buildPaletteFade, makeWorkingPalette } from '../core/palette-fade.js'
 import { createSeedableRng } from '../core/rng.js'
 import { setSceneContext } from '../core/scene-system.js'
+import { solidBg } from '../present/__tests__/battle-render-fixtures.js'
+import { BG } from '../present/__tests__/composition-colors.js'
+import { sceneContext } from '../present/__tests__/scene-render-fixtures.js'
+import { BattlePresent } from '../present/battle/present-battle.js'
+import { createFramebuffer } from '../present/framebuffer.js'
+import { presentBattleFrame, presentFrame } from '../present/present.js'
 import { heldSnapshot, prepareEmptyLoopContext } from './__tests__/loop-context.js'
 import { walkableTilemap } from './__tests__/loop-tilemap.js'
+import type { AudioManager } from './audio.js'
+import { syncShellAudio } from './bootstrap.js'
 import { ReplayInputSource } from './input.js'
 import type { LoopContext, RafLoopState } from './main-loop.js'
 import { advanceRafFrame, logicIntervalMs } from './main-loop.js'
@@ -185,6 +211,227 @@ describe('Scene fade input suppression', () => {
 })
 
 describe('Present and input gates', () => {
+  it.each([
+    ['contact', 41073, 100],
+    ['story opcode', 0, 200],
+  ] as const)('a %s battle holds the world, reveals six bands, then opens input', (entry, flee, holdStart) => {
+    let now = 0
+    const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
+    onTestFinished(() => clock.mockRestore())
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.wNumMusic = 16
+    gs.wNumBattleMusic = 37
+    gs.wChasespeedChangeCycles = 2
+    setGlobalEvents([{ op: 'raw', opcode: OP_PLAY_SOUND, operands: [66, 0, 0] }, { op: 'end' }])
+    onTestFinished(() => setGlobalEvents([]))
+    const commands: Command[] = [
+      { op: 'raw', opcode: OP_START_BATTLE, operands: [4, 41075, flee] },
+      { op: 'end' },
+    ]
+    gs.npcs = [
+      {
+        id: 154,
+        x: 160,
+        y: 112,
+        spriteNum: 1,
+        triggerMode: 4,
+        triggerResume: { ip: 0, commands },
+      },
+      ...(entry === 'contact'
+        ? [{ id: 155, x: 160, y: 160, spriteNum: 0, autoCursor: { ip: 0 } }]
+        : []),
+    ]
+    const roles = { roles: [makeRoleRecord(0)] }
+    gs.partyMembers = [0]
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+    setStartBattleHandler(({ gs: battleGs, enemyTeamId, isBoss }) =>
+      startBattle({
+        gs: battleGs,
+        enemyTeamId,
+        isBoss,
+        battleFieldId: 0,
+        enemies: [makeEnemyRecord({ id: 100, idleFrames: 2 })],
+        enemyTeams: [{ id: 4, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+        battleFields: [makeBattleFieldRecord()],
+        playerRoles: roles,
+        items: [],
+        spells: [],
+        magics: [],
+        commands: [],
+        rngSeed: 1,
+        introFadeTicks: INTRO_FADE_TICKS,
+      }),
+    )
+    onTestFinished(() => setStartBattleHandler(null))
+    const fb = createFramebuffer()
+    const battle = new BattlePresent()
+    const assets = {
+      battleSprites: new Map(),
+      battleBgs: new Map([[0, solidBg(BG)]]),
+      playerRoles: roles,
+      spells: [],
+      items: [],
+    }
+    const map = sceneContext()
+    const musicRequests: number[] = []
+    const audio: AudioManager = {
+      sync: (_pending, { track }) => musicRequests.push(track),
+      playSound() {},
+      resume() {},
+      setSfxEnabled() {},
+      setMusicEnabled() {},
+      setMusicBackend() {},
+    }
+    const ctx = prepareEmptyLoopContext(gs, (drained, ticked) => {
+      syncShellAudio(audio, gs, drained, roles)
+      if (!presentBattleFrame(fb, gs, battle, assets, drained, ticked)) {
+        presentFrame(fb, gs, map, ticked)
+      }
+    })
+    let pressed: InputSnapshot['pressed'] = new Set()
+    ctx.input.nextSnapshot = vi.fn((frameNum: number) => {
+      const snapshot = { ...heldSnapshot([], frameNum), pressed }
+      pressed = new Set()
+      return snapshot
+    })
+    const raf = freshRafState()
+    const frame = (at: number) => {
+      now = at
+      return advanceRafFrame(raf, at, ctx)
+    }
+
+    frame(100)
+    expect(gs.eventCursor?.triggerOwnerId).toBe(154)
+    const source = Buffer.from(fb.indices)
+    expect(source.some((pixel) => pixel !== 0)).toBe(true)
+    frame(200)
+    expect(gs.mode).toBe('battle')
+    expect(gs.pendingSounds ?? []).toEqual([])
+    if (entry === 'contact') {
+      expect(gs.npcs[1]?.autoCursor?.ip).toBe(0)
+      expect(gs.wChasespeedChangeCycles).toBe(2)
+    }
+    const startFirstBand = holdStart + 200
+    expect(Buffer.from(fb.indices).equals(source)).toBe(true)
+    const encounter = gs.battleState!
+    pressed = new Set(['Defend'])
+    const frozenEnemy = encounter.enemies[0]!.idleFrame
+    for (const at of [240, 280, startFirstBand - 1]) frame(at)
+    expect(Buffer.from(fb.indices).equals(source)).toBe(true)
+    expect(encounter.enemies[0]!.idleFrame).toBe(frozenEnemy)
+
+    const expected = Array<number>(6).fill(0)
+    for (const [index, band] of [0, 3, 1, 5, 2, 4].entries()) {
+      const at = startFirstBand + index * 60 + (index === 5 ? 13 : 0)
+      frame(at)
+      expected[band] = BG
+      expect([...fb.indices.slice(0, 6)]).toEqual(expected)
+      expect(encounter.uiState).toBe('hidden')
+      expect(encounter.pendingActions.size).toBe(0)
+      if (index < 5) frame(at + 59)
+      expect([...fb.indices.slice(0, 6)]).toEqual(expected)
+    }
+    expect(encounter.phase).toBe('preBattle')
+    expect(encounter.introFade).toBeDefined()
+    expect(encounter.turnStartDoneForTurn).toBeUndefined()
+    expect(musicRequests).toEqual([entry === 'contact' ? 0 : 16, 0, 0, 0, 0, 0, 0, 0])
+    expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(2)
+    const finishedAt = startFirstBand + 373
+    expect(frame(finishedAt - 13).presented).toBe(false)
+    expect(frame(finishedAt - 1).presented).toBe(false)
+    frame(finishedAt)
+    expect(encounter.introFade).toBeUndefined()
+    expect(encounter.phase).toBe('selectAction')
+    expect(encounter.uiState).toBe('wait')
+    expect(encounter.pendingActions.size).toBe(0)
+    expect(musicRequests.at(-1)).toBe(37)
+    expect(ctx.input.nextSnapshot).toHaveBeenCalledTimes(3)
+    frame(finishedAt + 40)
+    expect(encounter.uiState).toBe('selectMove')
+    expect(encounter.turnStartDoneForTurn).toBe(0)
+    expect(encounter.pendingActions.size).toBe(0)
+    pressed = new Set(['Defend'])
+    frame(finishedAt + 80)
+    expect(encounter.pendingActions.get(0)?.type).toBe('defend')
+  })
+
+  it('presents the frozen encounter fade at black and draws the new map on the next frame', () => {
+    let now = 0
+    const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
+    onTestFinished(() => clock.mockRestore())
+    const gs = createInitialGameState({ x: 160, y: 112, facing: 'down' })
+    gs.basePalette = {
+      colors: Array.from({ length: 256 }, (_, i) => [i, i, i]),
+      cycles: [],
+    }
+    gs.palette = makeWorkingPalette(gs.basePalette)
+    const npc = { id: 154, x: 160, y: 112, spriteNum: 1, sState: 1, triggerMode: 5 }
+    gs.npcs = [npc]
+    // The actual post-victory suffix at SSS 41127–41129, with the world trigger owner intact.
+    gs.postBattleResume = {
+      wonIp: 0,
+      currentEventObjectId: npc.id,
+      triggerOwnerId: npc.id,
+      commands: [
+        { op: 'raw', opcode: OP_HIDE_OBJECT, operands: [0, 0, 0] },
+        { op: 'raw', opcode: OP_FADE_OUT, operands: [0, 0, 0] },
+        { op: 'end' },
+      ],
+    }
+    resumePostBattleScript(gs, 'won')
+    const fb = createFramebuffer()
+    fb.indices.fill(64)
+    const map = sceneContext()
+    const frames: Array<{
+      direction: 'out' | 'in' | undefined
+      index: number
+      rgb: Uint8ClampedArray
+    }> = []
+    const ctx = prepareEmptyLoopContext(gs, (_drained, ticked) => {
+      presentFrame(fb, gs, map, ticked)
+      frames.push({
+        direction: gs.paletteFadeState?.fade60,
+        index: fb.indices[0]!,
+        rgb: fb.toImageData(gs.palette!).data.slice(0, 3),
+      })
+    })
+    const sampleInput = vi.spyOn(ctx.input, 'nextSnapshot')
+    const raf = freshRafState()
+    const step = (at: number, wallTime = at) => {
+      now = wallTime
+      return advanceRafFrame(raf, at, ctx)
+    }
+
+    step(100)
+    expect(npc).toMatchObject({ sState: -1, sVanishTime: 800 })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'out', totalMs: 600 })
+    for (const at of [200, 300, 400, 500, 600, 680]) step(at)
+    expect(frames.at(-1)).toEqual({
+      direction: 'out',
+      index: 64,
+      rgb: new Uint8ClampedArray([1, 1, 1]),
+    })
+
+    const frameNum = gs.frameNum
+    sampleInput.mockClear()
+    // The input snapshot can straddle the wall-clock deadline during a scheduled world tick.
+    sampleInput.mockImplementationOnce((frame) => {
+      now = 700
+      return heldSnapshot([], frame)
+    })
+    const black = step(700, 699)
+    expect(frames.at(-1)).toEqual({ direction: 'out', index: 64, rgb: new Uint8ClampedArray(3) })
+    expect(black).toEqual({ ticked: true, presented: true })
+    const reveal = step(716, 717)
+    expect(frames.at(-1)).toEqual({ direction: 'in', index: 0, rgb: new Uint8ClampedArray(3) })
+    expect(reveal).toEqual({ ticked: false, presented: true })
+    expect(gs.paletteFadeState).toMatchObject({ fade60: 'in', totalMs: 600, startTimeMs: 717 })
+    expect(gs.eventCursor).toBeUndefined()
+    expect(gs.mode).toBe('explore')
+    expect(gs.frameNum).toBe(frameNum + 1)
+    expect(sampleInput).toHaveBeenCalledExactlyOnceWith(frameNum)
+    expect(npc).toMatchObject({ sState: -1, sVanishTime: 800 })
+  })
   it('dither fadeState 在未到逻辑间隔时仍 present，且 ticked 为 false', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.fadeState = { speed: 2, totalMs: 2160, startTimeMs: 0, appliedSteps: 0 }
@@ -200,6 +447,52 @@ describe('Present and input gates', () => {
     expect(result.presented).toBe(true)
     expect(flag).toBe(false)
   })
+  it('敌逃以真实帧宽逐帧离场并暂停战斗按键和逻辑', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const roles = { roles: [makeRoleRecord(0)] }
+    gs.partyMembers = [0]
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+    startBattle({
+      gs,
+      enemyTeamId: 4,
+      isBoss: true,
+      battleFieldId: 0,
+      enemies: [makeEnemyRecord({ id: 100, health: 50 })],
+      enemyTeams: [{ id: 4, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
+      enemySpriteFrameWidths: new Map([[100, 15]]),
+      battleFields: [makeBattleFieldRecord()],
+      playerRoles: roles,
+      items: [],
+      spells: [],
+      magics: [],
+      commands: [],
+      rngSeed: 1,
+    })
+    const battle = gs.battleState!
+    battle.enemies[0]!.pos = { x: 10, y: 80 }
+    battle.enemyEscapeAnim = { step: 0 }
+    const ctx = prepareEmptyLoopContext(gs, (_commands, ticked) => {
+      expect(ticked).toBe(false)
+    })
+    const inputs = vi.spyOn(ctx.input, 'nextSnapshot')
+    const raf = freshRafState()
+    const stamp = gs.frameNum
+    expect(advanceRafFrame(raf, 10, ctx)).toEqual({ ticked: false, presented: true })
+    expect(battle.enemies[0]?.pos).toEqual({ x: 5, y: 80 })
+    advanceRafFrame(raf, 50, ctx)
+    expect(battle.enemies[0]?.pos).toEqual({ x: -15, y: 80 })
+    advanceRafFrame(raf, 549, ctx)
+    expect(battle.phase).not.toBe('fleed')
+    advanceRafFrame(raf, 550, ctx)
+    expect([battle.phase, battle.terminatedByEnemyEscape, battle.enemies[0]?.e.health]).toEqual([
+      'fleed',
+      true,
+      50,
+    ])
+    expect(gs.frameNum).toBe(stamp)
+    expect(inputs.mock.calls).toEqual([[stamp], [stamp], [stamp], [stamp]])
+  })
+
   it('battleAnim 在未到逻辑间隔时仍 present', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.battleState = createPresentationBattle(gs)

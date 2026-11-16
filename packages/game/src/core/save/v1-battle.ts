@@ -124,6 +124,7 @@ const damage = object<NonNullable<Frame['damageNum']>>({
   target: object({ kind: oneOf('enemy', 'player'), idx: number }),
   value: number,
   color: oneOf('yellow', 'blue', 'cyan'),
+  anchor: optional(position),
 })
 const frame = object<Frame>({
   durationMs: number,

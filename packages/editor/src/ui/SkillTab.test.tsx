@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 import type { ItemData, SkillData } from '@type-pal/content'
+import { validateSkills } from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
@@ -481,6 +483,38 @@ describe('SkillTab · 动画布局', () => {
 })
 
 describe('SkillTab · 效果卡片', () => {
+  test('召唤本体偏移作为有符号整数保存并重开，保留二次 FIRE 偏移', async () => {
+    const weaponGod = validateSkills(palSkills).skills.find(({ id }) => id === '351')!
+    const session = new EditSession(state([structuredClone(weaponGod)]))
+    await act(async () => root.render(<Harness session={session} />))
+
+    const x = controlByLabel<HTMLInputElement>('本体横向偏移')
+    const y = controlByLabel<HTMLInputElement>('本体纵向偏移')
+    const speed = controlByLabel<HTMLInputElement>('现身帧速')
+    expect([x.value, y.value]).toEqual(['-8', '22'])
+    expect(speed.value).toBe('2')
+    expect([x, y].every((input) => input.classList.contains('ds-input--compact'))).toBe(true)
+    await setInput(x, '-16')
+    await setInput(y, '-3')
+    await setInput(speed, '')
+    const edited = session.getState().skills[0]!
+    expect(edited.effects[0]).toEqual({
+      ...weaponGod.effects[0],
+      xOffset: -16,
+      yOffset: -3,
+      speed: undefined,
+    })
+    expect(edited.animation).toEqual(weaponGod.animation)
+    expect(session.getHistoryVersion()).toBe(3)
+
+    const authoredDocument = JSON.stringify({ skills: [edited], levelUp: {} })
+    const reopened = new EditSession(state(validateSkills(JSON.parse(authoredDocument)).skills))
+    await act(async () => root.render(<Harness key="reopened" session={reopened} />))
+    expect(controlByLabel<HTMLInputElement>('本体横向偏移').value).toBe('-16')
+    expect(controlByLabel<HTMLInputElement>('本体纵向偏移').value).toBe('-3')
+    expect(controlByLabel<HTMLInputElement>('现身帧速').value).toBe('')
+  })
+
   test('[reorder-family:skill-effects] 预览跟随 handle 单命令排序，undo/redo 与删除保持结构', async () => {
     const value = skill()
     value.effects = [

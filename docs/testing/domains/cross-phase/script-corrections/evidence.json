@@ -80,10 +80,10 @@
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "lines": "346",
+      "lines": "354",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+      "sha256": "2cfc2cae35c1dc77fd393ff3219178607b2a44d43ecd3b2afa3c1b0a23f6c745"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -392,6 +392,54 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "346",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
+        }
+      ],
+      "scope": "Game 存档补充实体的调用原字节对应。原主张和运行证据照原出版。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "349",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "5896dbeedc0950865bb088fde69e272b8da986ab76e019b7e64b4752bf009692"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+    },
+    {
+      "action": "q2-battle-review-source-rebinding",
+      "base": "761bc57b8c2420413580b209088db0b87d060cc2",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "354",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "a54999165f300315c357c534d9d48f5b059033adf2eb4e37c883bc4719c91b4a"
+        }
+      ],
+      "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
     }
   ],
   "claims": [

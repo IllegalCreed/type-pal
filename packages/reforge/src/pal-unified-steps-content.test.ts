@@ -17,6 +17,7 @@ import actorsJson from '../../../projects/pal/content/actors.json' with { type: 
 import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import indexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import sharedJson from '../../../projects/pal/content/shared-scripts.json' with { type: 'json' }
+import manifestJson from '../../../projects/pal/manifest.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
 import motionTransitionLedger from './pal-gov3-motion-transition-ledger.json' with { type: 'json' }
 import ledger from './pal-unified-steps-acceptance-ledger.json' with { type: 'json' }
@@ -42,6 +43,8 @@ const library = resolveAuthorDialogueTree(validateAuthorSharedScripts(sharedJson
 const digest = 'f'.repeat(64)
 const shared = new RuntimeSharedScriptResolver(library, digest)
 const retiredPalaceGuideAuto = 's019/e270/auto/legacy-001'
+const retiredYangzhouThiefAuto = 's093/e1759/auto/legacy-001'
+const duetCallers = ['s006/e168/auto/default', 's007/e173/auto/default']
 const governedAutoKeys = new Set([
   ...motionTransitionLedger.rows.map((row) => row.key),
   // E2E006: the boat's retired auto is now exercised by main.ride-presentation.test.ts.
@@ -51,6 +54,8 @@ const governedAutoKeys = new Set([
   's048/e797/auto/default',
   // E2E010: pal-gov3-content-world-wait.test.ts checks the foreground guide movement.
   retiredPalaceGuideAuto,
+  // Q2 scripted defeat: actual flight now belongs to the e1759 trigger.
+  retiredYangzhouThiefAuto,
 ])
 const governedSceneIds = new Set([
   's001',
@@ -241,7 +246,13 @@ function walkCommands(
 
 async function observe(
   flow: RuntimeScriptFlow,
-  options: { seed: number; environment: boolean; effects?: number; milliseconds?: number },
+  options: {
+    seed: number
+    environment: boolean
+    effects?: number
+    milliseconds?: number
+    rolls?: number[]
+  },
 ) {
   let now = 0,
     random = options.seed,
@@ -250,6 +261,7 @@ async function observe(
     bounded = false
   const controller = new AbortController()
   const trace: Record<string, unknown>[] = []
+  let rollIndex = 0
   const stop = () => {
     bounded = true
     controller.abort()
@@ -263,10 +275,17 @@ async function observe(
     if (condition.kind === 'all') return condition.of.every(evaluate)
     if (condition.kind === 'any') return condition.of.some(evaluate)
     if (condition.kind === 'chance') {
-      random ^= random << 13
-      random ^= random >>> 17
-      random ^= random << 5
-      const result = ((random >>> 0) / 2 ** 32) * 100 < condition.percent
+      let result: boolean
+      if (options.rolls) {
+        const roll = options.rolls[rollIndex++]
+        if (roll === undefined) throw new Error('exhausted the directed source rolls')
+        result = roll <= condition.percent
+      } else {
+        random ^= random << 13
+        random ^= random >>> 17
+        random ^= random << 5
+        result = ((random >>> 0) / 2 ** 32) * 100 < condition.percent
+      }
       trace.push({ at: now, chance: condition.percent, result })
       return result
     }
@@ -321,7 +340,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
     items: validateAuthorItems(itemsJson),
   })
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1320)
+  expect(autos.size).toBe(1319)
   let flows = 0
   for (const scene of runtimeScenes) {
     for (const entity of scene.entities)
@@ -341,7 +360,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
     .filter((entity) => entity.behaviors?.trigger?.['break-with-hammer'])
     .map((entity) => entity.id)
   expect(hammerTargets).toEqual([...mazeAshuraStatues.keys()])
-  expect(flows).toBe(4655 + mazeAshuraStatues.size)
+  expect(flows).toBe(4654 + mazeAshuraStatues.size)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -351,12 +370,21 @@ test('all current scene scripts project to steps; automatic phases are inside on
 
 test('non-script definitions preserve the source except for explicitly asserted author corrections', async () => {
   const sourceHashes = new Map(Object.entries(ledger.nonScriptSceneHashes))
+  const victoryFades: string[] = []
+  expect(manifestJson.hostileVictoryTransition).toBe('fade')
   for (const scene of scenes) {
     const withoutScripts = {
       ...scene,
       hooks: undefined,
       entities: scene.entities.map(({ behaviors: _behaviors, ...entity }): typeof entity => {
         const address = `${scene.id}/${entity.id}`
+        const hostile = entity.hostile
+        if (hostile) {
+          expect(hostile, address).not.toHaveProperty('victoryTransition')
+          expect(hostile.onVictory.kind, address).toBe('hide')
+          if (hostile.onVictory.kind !== 'hide') throw new Error(address)
+          victoryFades.push(`${address}|${hostile.enemyTeamId}|${hostile.onVictory.ticks}`)
+        }
         const statue = scene.id === 's017' ? mazeAshuraStatues.get(entity.id) : undefined
         const label = statue?.label ?? islandEntityLabels.get(address)
         if (!label) return entity
@@ -503,6 +531,11 @@ test('non-script definitions preserve the source except for explicitly asserted 
     if (!governedSceneIds.has(scene.id))
       expect(await hash(withoutScripts), scene.id).toBe(sourceHashes.get(scene.id))
   }
+  // Original event-object trigger joins the team and hide ticks in victory tails 41127/41176/41180.
+  expect(victoryFades).toHaveLength(828)
+  expect(await hash(victoryFades.sort())).toBe(
+    '4da469bc35d56490f65813f71f8741b6e53405a2b80eb9aa3a786452f019f451',
+  )
 })
 
 test('shared sound routines are self-free and use only sound and local control', async () => {
@@ -512,10 +545,18 @@ test('shared sound routines are self-free and use only sound and local control',
     const definition = library[row.id]
     if (!definition) throw new Error(row.id)
     expect(definition.self).toBe('none')
-    expect(await hash(definition.body)).toBe(row.bodyHash)
+    expect(await hash(definition.body)).toBe(
+      row.id === 'environment-sound-duet'
+        ? '44ff42930b359cbef9fbb82fa841ef8409881beab3db317b0a172e31616f3365'
+        : row.bodyHash,
+    )
     const kinds = new Set<string>()
     walkCommands(definition.body, (command) => kinds.add(command.kind))
-    expect([...kinds].sort()).toEqual(row.kinds)
+    expect([...kinds].sort()).toEqual(
+      row.id === 'environment-sound-duet'
+        ? ['branch', 'continueLoop', 'loop', 'playSound', 'wait']
+        : row.kinds,
+    )
     expect(
       [...kinds].every((kind) =>
         ['playSound', 'wait', 'branch', 'loop', 'repeat', 'continueLoop', 'breakLoop'].includes(
@@ -558,17 +599,86 @@ const cases = oracle.cases
   .flatMap((row) =>
     oracle.scenarios.map((scenario, i) => ({ ...scenario, key: row.key, expected: row.hashes[i] })),
   )
-  .filter((entry) => !governedAutoKeys.has(entry.key))
+  .filter((entry) => !governedAutoKeys.has(entry.key) && !duetCallers.includes(entry.key))
 
 test('governed auto transitions retain their original oracle evidence while using dedicated GOV3 proofs', () => {
   for (const row of motionTransitionLedger.rows) {
     expect(row.oldOracleHashes.length).toBe(4)
     expect(row.oldOracleHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))).toBe(true)
   }
-  expect(oracle.cases.find(({ key }) => key === retiredPalaceGuideAuto)?.hashes).toHaveLength(
-    oracle.scenarios.length,
-  )
-  expect(autos.has(retiredPalaceGuideAuto)).toBe(false)
+  for (const key of [retiredPalaceGuideAuto, retiredYangzhouThiefAuto]) {
+    expect(oracle.cases.find((row) => row.key === key)?.hashes).toHaveLength(
+      oracle.scenarios.length,
+    )
+    expect(autos.has(key)).toBe(false)
+  }
+})
+
+test('the Yangzhou defeat trigger stages the scene before loading the new party', async () => {
+  const target = { scene: 's093', entity: 'e1759' }
+  const thief = scenes
+    .find(({ id }) => id === target.scene)
+    ?.entities.find(({ id }) => id === target.entity)
+  const page = thief?.pages?.find(({ id }) => id === thief.initialPage)
+  const trigger = page?.trigger && thief?.behaviors?.trigger?.[page.trigger]
+  if (!thief || !trigger) throw new Error('missing Yangzhou thief touch trigger')
+  expect(Object.keys(thief.behaviors?.trigger ?? {})).toEqual(['default'])
+  expect(thief.behaviors?.auto ?? {}).toEqual({})
+
+  const trace: RuntimeCommand[] = []
+  const unexpected = (): never => {
+    throw new Error('unexpected host action in the Yangzhou defeat trigger')
+  }
+  const host: ScriptRuntimeHost = {
+    execute(command) {
+      if (command.kind !== 'dialog' && command.kind !== 'clearDialog') trace.push(command)
+    },
+    async startBattle(request) {
+      trace.push({ kind: 'startBattle', ...request })
+      return 'defeat'
+    },
+    async wait(ms) {
+      trace.push({ kind: 'wait', ms })
+    },
+    evalCondition: unexpected,
+    confirm: unexpected,
+    teleportOut: unexpected,
+    waitWorldTick: unexpected,
+    yieldMacroTask: async () => {},
+  }
+  const flow = compileRuntimeScriptFlow(resolveAuthorDialogueTree(trigger.flow, actors), {
+    canonicalContentDigest: digest,
+    timing: 'interactive',
+  })
+  await new RuntimeScriptRunner(host, new AbortController().signal, shared).runFlow(flow, {
+    self: target,
+    cursorController: { reachSafePoint: () => 'continue' },
+  })
+
+  // The party reload can suspend the trigger, so the first returning frame needs these poses first.
+  expect(trace).toEqual([
+    { kind: 'setEntityTriggerActivation', target, selection: { kind: 'disabled' } },
+    { kind: 'startBattle', enemyTeamId: 'team-29', fieldId: 24, boss: true },
+    { kind: 'setEntityState', target: { scene: 's093', entity: 'e1758' }, state: 0 },
+    { kind: 'teleportParty', pos: { col: 57, row: 8, height: 0 } },
+    { kind: 'nudgeEntity', target, dx: -32, dy: -16 },
+    { kind: 'setEntityFacing', target, facing: 'right' },
+    { kind: 'setEntityFrame', target, frame: 0 },
+    { kind: 'setParty', members: ['lin-yueru', 'li-xiaoyao'] },
+    { kind: 'wait', ms: 60 },
+    { kind: 'setEntityLayer', target, layer: 13 },
+    { kind: 'wait', ms: 100 },
+    { kind: 'setEntityFacing', target, facing: 'down' },
+    { kind: 'setEntityFrame', target, frame: 12 },
+    { kind: 'playSound', asset: 'sound.pal.201' },
+    ...Array.from({ length: 12 }, () => [
+      { kind: 'wait', ms: 100 },
+      { kind: 'nudgeEntity', target, dx: -6, dy: -12 },
+    ]).flat(),
+    { kind: 'setEntityState', target, state: 0 },
+    { kind: 'moveParty', speed: 'run', to: { col: 55, row: 8, height: 0 } },
+    { kind: 'setPartyFacing', facing: 'right' },
+  ])
 })
 
 // The pond plans preserve their frame times with one facing write per cycle.
@@ -621,13 +731,175 @@ test.each(
   expect(actual.cursor?.kind === 'completed').toBe(pose.completes)
 })
 
-test.each(
-  ambientOracle.cases,
-)('preserves long sound sequences and RNG: $key seed=$seed', async (entry) => {
+// SSS 38641–38656, PAL_RunAutoScript and the original 10 fps world clock.
+// An authored branch can run immediately; the source only advances free of
+// charge on a nonzero jump, so compare both draw and sound clocks.
+function sourceDuetTrace(seed: number): Record<string, unknown>[] {
+  const opcodes = [
+    [9, 8],
+    [71, 66],
+    [6, 60, 38648],
+    [9, 6],
+    [6, 20],
+    [71, 66],
+    [9, 8],
+    [6, 8],
+    [6, 33, 38641],
+    [9, 20],
+    [71, 73],
+    [9, 20],
+    [6, 70, 38641],
+    [71, 73],
+    [6, 2],
+    [2, 38641],
+  ] as const
+  const trace: Record<string, unknown>[] = []
+  let ip = 38641
+  let at = 0
+  let effects = 0
+  let random = seed
+  while (at < 180_000 && effects < 180) {
+    const row = opcodes[ip - 38641]
+    if (!row) throw new Error(`unexpected source entry ${ip}`)
+    const [opcode, operand] = row
+    if (opcode === 6) {
+      random ^= random << 13
+      random ^= random >>> 17
+      random ^= random << 5
+      const roll = 1 + Math.floor(((random >>> 0) / 2 ** 32) * 100)
+      const result = roll < operand
+      trace.push({ at, chance: operand - 1, result })
+      if (result) ip++
+      else if (row[2]) {
+        ip = row[2]
+        continue
+      }
+    } else if (opcode === 9) {
+      at += operand * 100
+      ip++
+      continue
+    } else if (opcode === 71) {
+      trace.push({
+        at,
+        command: { kind: 'playSound', asset: `sound.pal.${String(operand).padStart(3, '0')}` },
+      })
+      effects++
+      ip++
+    } else {
+      ip = operand
+    }
+    at += 100
+  }
+  return trace
+}
+
+test.each([
+  ...ambientOracle.cases,
+  { key: 's007/e173/auto/default', seed: 4, environment: false, expected: '' },
+])('preserves long sound sequences and RNG: $key seed=$seed', async (entry) => {
   const flow = autos.get(entry.key)
   if (!flow) throw new Error(entry.key)
   const actual = await observe(flow, { ...entry, effects: 180, milliseconds: 180000 })
-  expect(actual.hash).toBe(entry.expected)
+  if (duetCallers.includes(entry.key)) expect(actual.trace).toEqual(sourceDuetTrace(entry.seed))
+  else expect(actual.hash).toBe(entry.expected)
+})
+
+test.each([
+  {
+    caller: duetCallers[0],
+    label: '60 and 33 jump without an extra frame',
+    rolls: [60, 7, 33],
+    cues: [
+      [800, 66],
+      [1800, 66],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '59 plays the second 66, after a failed 20',
+    rolls: [59, 20, 19],
+    cues: [
+      [800, 66],
+      [1800, 66],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '8 retries and 7 reaches the 73 branch',
+    rolls: [60, 8, 7, 32],
+    cues: [
+      [800, 66],
+      [3200, 73],
+    ],
+  },
+  {
+    caller: duetCallers[0],
+    label: '70 restarts instead of replaying 73',
+    rolls: [60, 7, 32, 70],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [6000, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '69 plays a second 73',
+    rolls: [60, 7, 32, 69],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '2 retries without replaying the sound',
+    rolls: [60, 7, 32, 69, 2, 100, 1],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+      [6600, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: '1 succeeds and reset consumes its own tick',
+    rolls: [60, 7, 32, 69, 1],
+    cues: [
+      [800, 66],
+      [3100, 73],
+      [5300, 73],
+      [6400, 66],
+    ],
+  },
+  {
+    caller: duetCallers[1],
+    label: 'a second 66 keeps the entire next wait',
+    rolls: [59, 20, 19, 8, 7, 32],
+    cues: [
+      [800, 66],
+      [1800, 66],
+      [5000, 73],
+    ],
+  },
+])('PAL ambient source boundary: $label', async ({ caller, rolls, cues }) => {
+  const flow = autos.get(caller ?? '')
+  if (!flow) throw new Error(`missing ambient caller ${caller}`)
+  const actual = await observe(flow, {
+    seed: 1,
+    environment: false,
+    effects: cues.length,
+    milliseconds: 10_000,
+    rolls,
+  })
+  expect(actual.trace.filter(({ command }) => command)).toEqual(
+    cues.map(([at, asset]) => ({
+      at,
+      command: { kind: 'playSound', asset: `sound.pal.${String(asset).padStart(3, '0')}` },
+    })),
+  )
 })
 
 test.each(

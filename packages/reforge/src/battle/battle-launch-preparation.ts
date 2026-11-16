@@ -17,6 +17,7 @@ import {
   SfxReadinessResourceError,
 } from '../audio/sfx.js'
 import { collectBattleBaseSounds, collectTurnActionSounds } from '../audio/sfx-readiness.js'
+import { MenuBox, statusPortraitAsset } from '../menu/menu-box.js'
 import type { RuntimeProjectView } from '../runtime-project-view.js'
 import type { ScriptHost } from '../script-runner.js'
 import { collectBattleCasualtyPortraits } from './battle-casualty-presentation.js'
@@ -28,6 +29,8 @@ import {
 } from './battle-sprite-readiness.js'
 
 export type BattleLaunchOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]> & {
+  /** Canonical script activity owns the return from this battle. */
+  scripted?: true
   /** DEV gateway only; never part of the author command or save model. */
   enemyOverride?: string[]
 }
@@ -83,6 +86,7 @@ export class BattleLaunchPreparation {
     signal: AbortSignal,
     assertCurrent: () => void,
     report: ReportReadiness,
+    onBattleTrack?: (asset: AssetId) => void,
   ) {
     const { content, assets, ports } = this
     const enemySlots = options?.enemyOverride
@@ -114,6 +118,7 @@ export class BattleLaunchPreparation {
         : scene.battleMusic !== undefined
           ? scene.battleMusic
           : assets.reader.assetForRole('audio.defaultBattleMusic')
+    if (battleTrack !== null) onBattleTrack?.(battleTrack)
     const players = createBattlePlayers(ports.readWorld(), content, ports.debugLeaders())
     const playerSounds = ports
       .readWorld()
@@ -210,6 +215,18 @@ export class BattleLaunchPreparation {
     const fields = await this.fields()
     assertCurrent()
     const fieldDef = fields.get(Number(fieldId))
+    const portraits = collectBattleCasualtyPortraits(players, content.actorsById)
+    if (assets.chrome.ui)
+      for (const member of ports.readWorld().party) {
+        const asset = statusPortraitAsset(member, content.actorsById[member.template])
+        if (asset) portraits.add(asset)
+      }
+    for (const enemy of sprites.reachableEnemyDefs) {
+      const references = collectCommandAssetReferences(enemy.ai.hooks, 'battle.enemyHooks')
+      for (const { asset, expectedKind } of references) {
+        if (expectedKind === 'portrait') portraits.add(asset)
+      }
+    }
     const [bgFull, faceList, effectSprite] = await Promise.all([
       fieldDef?.background
         ? loadBattleBgFull(assets.assetBase, fieldDef.background, assets.palette())
@@ -221,7 +238,7 @@ export class BattleLaunchPreparation {
         }),
       ),
       assets.loadEffect(),
-      ...[...collectBattleCasualtyPortraits(players, content.actorsById)].map(async (asset) => {
+      ...[...portraits].map(async (asset) => {
         if (!assets.portraits.has(asset))
           assets.portraits.set(asset, await assets.imageCache.load(asset, 'portrait'))
       }),
@@ -238,16 +255,31 @@ export class BattleLaunchPreparation {
     assertCurrent()
     const commitAssets = (): BattleSessionAssets => {
       const faces: Record<string, ImageBitmap | undefined> = {}
-      ports.readWorld().party.forEach((c, i) => {
+      const { party } = ports.readWorld()
+      party.forEach((c, i) => {
         faces[c.id] = faceList[i]
       })
+      const { glyphs, ui } = assets.chrome
+      const palette = assets.palette()
+      const statusPanel = ui
+        ? {
+            renderer: new MenuBox(glyphs, content.locale, ui, content.items, {
+              actorsById: content.actorsById,
+              poisonsById: content.poisonsById,
+              palette,
+              portraits: assets.portraits,
+            }),
+            party,
+          }
+        : undefined
       const sessionAssets: BattleSessionAssets = {
         ...assets.chrome,
         bg: bgFull?.canvas,
         bgIndexed: bgFull ? { indices: bgFull.indices, w: bgFull.w, h: bgFull.h } : undefined,
-        palette: assets.palette(),
+        palette,
         battleSprites: sprites.byDefinitionId,
         playerBaseDefinitionIds: sprites.playerBaseDefinitionIds,
+        statusPanel,
         faces,
         sfx: assets.sfx,
         effectSprite,

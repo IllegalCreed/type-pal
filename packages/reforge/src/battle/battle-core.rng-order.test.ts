@@ -1,4 +1,4 @@
-import type { EnemyDef, SkillData } from '@type-pal/content'
+import type { CharacterInstance, EnemyDef, SkillData } from '@type-pal/content'
 import {
   validateBattleFields,
   validateEnemies,
@@ -25,6 +25,7 @@ import {
   healthyPlayerCount,
   stepBattle,
 } from './battle-core.js'
+import { createBattlePlayers } from './battle-player-input.js'
 
 // Canonical PAL enemy-399 and the party-lanterns fixture's equipped Wu Hou.
 const lantern: EnemyDef = {
@@ -293,7 +294,7 @@ test('a cooperative attack interrupted by a defeat uses the caster’s equipped 
     enemySlots: team.slots.map((id) => expectDefined(enemies.find((enemy) => enemy.id === id))),
     skills: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
   })
-  // Seed 26: enemy 479's 暗器 comes before the submitted coop, then the two ordinary sweep draws.
+  // Seed 26: enemy 479's 暗器 comes before the submitted coop, then the sweep and growth draws.
   const rng = fixedDraws([
     0.5114786140620708, 0.74351347819902, 0.5101396401878446, 0.0016550610307604074,
     0.8222677248995751, 0.5393128525465727, 0.9901514884550124, 0.7465278028976172,
@@ -322,18 +323,210 @@ test('a cooperative attack interrupted by a defeat uses the caster’s equipped 
     side: 'player',
     idx: 0,
     kind: 'attack',
-    attackAllHits: [
-      { idx: 2, value: 141 },
-      { idx: 1, value: 67 },
-      { idx: 0, value: 35 },
+    targetEnemyIdx: -1,
+    attackAllSweeps: [
+      {
+        critical: false,
+        hits: [
+          { idx: 2, value: 141 },
+          { idx: 1, value: 68 },
+          { idx: 0, value: 36 },
+        ],
+      },
     ],
   })
-  expect(state.enemies.slice(0, 3).map((enemy) => enemy?.hp)).toEqual([255, 1183, 149])
+  expect(state.enemies.slice(0, 3).map((enemy) => enemy?.hp)).toEqual([254, 1182, 149])
   expect(state.players[0]).toMatchObject({
     hp: 150,
     mp: 100,
     hiddenCounts: { attack: 1, maxHP: 2 },
   })
+})
+
+test('玄冥宝刀 rerolls each sweep and keeps the first sweep’s defeated enemy in the falloff order', () => {
+  const enemies = validateEnemies(palEnemies)
+  const team = expectDefined(validateEnemyTeams(palEnemyTeams).find(({ id }) => id === 'team-157'))
+  const [weapon] = validateItems(palItems.filter(({ id }) => id === '187'))
+  const anu: CharacterInstance = {
+    id: 'anu',
+    template: 'anu',
+    level: 6,
+    exp: 0,
+    hp: 180,
+    maxHP: 180,
+    mp: 100,
+    maxMP: 100,
+    attack: 402,
+    defense: 400,
+    magicAttack: 50,
+    speed: 500,
+    luck: 30,
+    equipment: { weapon: '187' },
+    tags: [],
+  }
+  const hero: CharacterInstance = {
+    ...anu,
+    id: 'li-xiaoyao',
+    template: 'li-xiaoyao',
+    attack: 1200,
+    speed: 200,
+    equipment: {},
+  }
+  const state = createBattleState({
+    players: createBattlePlayers(
+      { party: [hero, anu], learnedSkills: {} },
+      { actorsById: {}, items: { 187: expectDefined(weapon) } },
+    ),
+    enemySlots: team.slots.map((id) => expectDefined(enemies.find((enemy) => enemy.id === id))),
+  })
+  // Seed 5: four dexterity draws, a critical sweep, a normal sweep, then a single growth draw.
+  const rng = fixedDraws([
+    0.6897749109, 0.7727432733, 0.2197630103, 0.6231788222, 0.0851372012, 0.5921649402,
+    0.7201022457,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+  state.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: -1 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({
+    side: 'player',
+    idx: 1,
+    kind: 'attack',
+    targetEnemyIdx: -1,
+    attackAllSweeps: [
+      {
+        critical: true,
+        hits: [
+          { idx: 1, value: 807 },
+          { idx: 0, value: 404 },
+        ],
+      },
+      {
+        critical: false,
+        hits: [
+          { idx: 1, value: 269 },
+          { idx: 0, value: 135 },
+        ],
+      },
+    ],
+  })
+  expect(state.enemies.slice(0, 2).map((enemy) => enemy?.hp)).toEqual([1, 0])
+  expect(state.players[1]?.hiddenCounts).toEqual({ attack: 1, maxHP: 3 })
+  expect(rng).toThrow('Battle consumed a draw beyond the fixture')
+})
+
+test('the two-bee encounter truncates overkill damage at the HP write of each sweep', () => {
+  const bee = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-403'))
+  const [weapon] = validateItems(palItems.filter(({ id }) => id === '187'))
+  const anu: CharacterInstance = {
+    id: 'anu',
+    template: 'anu',
+    level: 28,
+    exp: 0,
+    hp: 470,
+    maxHP: 480,
+    mp: 400,
+    maxMP: 410,
+    attack: 168,
+    defense: 110,
+    magicAttack: 220,
+    speed: 160,
+    luck: 150,
+    equipment: { weapon: '187' },
+    tags: [],
+  }
+  const state = createBattleState({
+    players: createBattlePlayers(
+      { party: [anu], learnedSkills: {} },
+      { actorsById: {}, items: { 187: expectDefined(weapon) } },
+    ),
+    enemySlots: [bee, bee],
+  })
+  // Seed 4. The first sweep is critical, the second normal, and both are genuine overkill.
+  const rng = fixedDraws([
+    0.9236361971125007, 0.33304587937891483, 0.2216679009143263, 0.08184101991355419,
+    0.23399724275805056, 0.5084968549199402,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: -1 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  expect(state.lastAction).toMatchObject({
+    attackAllSweeps: [
+      {
+        critical: true,
+        hits: [
+          { idx: 1, value: 747 },
+          { idx: 0, value: 373 },
+        ],
+      },
+      {
+        critical: false,
+        hits: [
+          { idx: 1, value: 249 },
+          { idx: 0, value: 124 },
+        ],
+      },
+    ],
+  })
+  expect(state.enemies.slice(0, 2).map((enemy) => enemy?.hp)).toEqual([0, 0])
+})
+
+test('梦蛇 adds the unequipped attack and speed once, and a second cast replaces its bonus', () => {
+  const trance = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '295'))
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-444'))
+  const items = Object.fromEntries(
+    validateItems(palItems.filter(({ id }) => ['170', '210', '237'].includes(id))).map((item) => [
+      item.id,
+      item,
+    ]),
+  )
+  const initial: CharacterInstance = {
+    id: 'zhao-linger',
+    template: 'zhao-linger',
+    level: 6,
+    exp: 0,
+    hp: 180,
+    maxHP: 180,
+    mp: 200,
+    maxMP: 200,
+    attack: 92,
+    defense: 400,
+    magicAttack: 50,
+    speed: 80,
+    luck: 30,
+    equipment: { weapon: '170', body: '210', feet: '237' },
+    tags: [],
+  }
+  const state = createBattleState({
+    players: createBattlePlayers(
+      { party: [initial], learnedSkills: { [initial.id]: ['295'] } },
+      { actorsById: {}, items },
+    ),
+    enemySlots: [enemy],
+    skills: { [trance.id]: trance },
+  })
+  const linger = expectDefined(state.players[0])
+  expect(linger).toMatchObject({ attackStrength: 100, baseDexterity: 86 })
+  const rng = () => 0.5
+  stepBattle(state, rng)
+  for (const mp of [101, 2]) {
+    state.pendingActions.set(0, { kind: 'cast', skillId: '295' })
+    stepBattle(state, rng) // queue
+    stepBattle(state, rng) // cast before the enemy
+    expect(linger).toMatchObject({
+      attackStrength: 192,
+      baseDexterity: 166,
+      mp,
+      tranceBattleSprite: 'player-fighter-5',
+    })
+    stepBattle(state, rng) // enemy
+    stepBattle(state, rng) // round end
+  }
+  expect(linger.persistentProgress).toMatchObject({ attack: 92, speed: 80 })
 })
 
 test('a landed enemy attack without an equiv item consumes the rate draw before the next round', () => {

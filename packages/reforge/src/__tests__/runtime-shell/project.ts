@@ -94,6 +94,7 @@ export async function shellProject(
     second?: AuthorSceneDef
     money?: number
     seedStats?: Record<string, { hp?: number; mp?: number }>
+    withBattleMusic?: boolean
   } = {},
 ) {
   const manifest: CurrentManifest = {
@@ -215,7 +216,10 @@ export async function shellProject(
     bytes: Uint8Array,
     mediaType = 'application/vnd.type-pal.rle',
   ) {
-    const path = `assets/generated/${id}.${mediaType === 'application/json' ? 'json' : 'rle'}`
+    const extension =
+      { 'application/json': 'json', 'audio/midi': 'mid', 'application/x-sf2': 'sf2' }[mediaType] ??
+      'rle'
+    const path = `assets/generated/${id}.${extension}`
     binaries.set(path, bytes)
     catalog.assets[id] = {
       kind,
@@ -254,6 +258,47 @@ export async function shellProject(
     ),
   )
   const palette = { colors: Array.from({ length: 256 }, (_, v) => [v, v, v]), cycles: [] }
+  if (options.withBattleMusic) {
+    // Minimal format-0 MIDI and the RIFF boundary consumed by the shell's external synth adapter.
+    const battleMusic = Uint8Array.of(
+      77,
+      84,
+      104,
+      100,
+      0,
+      0,
+      0,
+      6,
+      0,
+      0,
+      0,
+      1,
+      0,
+      96,
+      77,
+      84,
+      114,
+      107,
+      0,
+      0,
+      0,
+      4,
+      0,
+      255,
+      47,
+      0,
+    )
+    const soundfont = Uint8Array.of(82, 73, 70, 70, 4, 0, 0, 0, 115, 102, 98, 107)
+    await asset('battle-music', 'music', battleMusic, 'audio/midi')
+    await asset('soundfont', 'soundfont', soundfont, 'application/x-sf2')
+    Object.assign(manifest.assets.roles, {
+      'audio.midiSoundfont': 'soundfont',
+      'audio.defaultBattleMusic': 'battle-music',
+      'audio.bossVictoryMusic': 'battle-music',
+      'audio.normalVictoryMusic': 'battle-music',
+      'audio.openingMenuMusic': 'battle-music',
+    })
+  }
   await asset(
     'palette',
     'color-table',

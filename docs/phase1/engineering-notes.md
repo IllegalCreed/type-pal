@@ -3,7 +3,7 @@
 Status: current
 Validity: current（仅限本页现行维护层；原文保全区为historical）
 Owner: Codex（知识维护；历史原执行身份不变）
-Last reviewed: 2026-11-05
+Last reviewed: 2026-11-15
 Template: guide-runbook-v1 / 1.0.0
 
 本页承接第一阶段已确认的长期维护知识，按下方问题进入所需小节。现行层以保留的功能裁定、canonical合同和当前源码为依据；下方历史原文逐字节保留，其余旧条目未逐项重新认证。
@@ -39,6 +39,14 @@ Template: guide-runbook-v1 / 1.0.0
 动作协调器负责资源前提、脚本和成本，driver负责应用帧/清理，present负责视觉细分与召唤loop/crossfade；不能在重组时互相搬入这些职责。前摇坐标按每步整除后累计（x减10、y减4），治疗辉光是0..5再6..0共13帧；SDLPal `RandomLong(0,0)`不推进随机状态。测试若声称施法、加速或回合末状态的接线，须走真实解释器/选择队列/控制器；直接调用公式或手工安排函数顺序只能证明相应组件，不能证明调度。
 
 合击生产者置`fThisTurnCoop`后，本回合后续玩家行动已吞并；[回合控制器](../../packages/game/src/core/battle/battle-system.ts)不得在混乱分支重新选靶覆盖pass，也不能为已吞行动消耗选靶随机数。合击的健康参与者判定、正常混乱选人及伤害公式分别保留原合同。核接线须先经真实合击菜单/执行，再观察后续混乱队员；单独手填flag只能证明消费者分支。
+
+### 剧情走位结束时的跟随站位
+
+SDLPal 的 `PAL_PartyWalkTo` 在走到目标的这一拍仍先按最新轨迹更新队友坐标，随后切到站姿。Game 因此在指令末步提交队友的跟随偏移，后续对白沿用末步的站位。用扬州女飞贼段的原盘参数复现，首步两人同格，第二步到达后两人分开。 [SDLPal 走位调用](../../reference/sdlpal/script.c#L190-L199) · [扬州实际画帧](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
+
+### 浏览器存档与导入
+
+IndexedDB 的原生存档保留结构化克隆，便携 V1 文件使用 JSON。两者共享金钱为有限数值的规则。Game 从浏览器槽位读取时，先核金钱字段，再停止当前音乐、覆盖活动内容和准备目标场景。坏金钱字段会报读取错误，当前现场保留。V1 文件导入仍由完整的现有 JSON 校验器处理。 [Game 读取入口](../../packages/game/src/shell/bootstrap.ts) · [V1 文件导入](../../packages/game/src/tools/save-io.ts)
 
 ### 开发跳转与本地资源服务
 

@@ -326,6 +326,7 @@ describe('B10-1-R2 鬼降成败反馈', () => {
         active = true
         opened.push(state)
       },
+      releaseBattleChoreography() {},
       advance(_nowMs: number) {
         active = false
       },

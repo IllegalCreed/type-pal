@@ -3,8 +3,8 @@ import { getWord } from '../word-lookup.js'
  * 战斗模式 phase 状态机 —— M3 T22(整合 T11-T21 所有 building blocks)。
  *
  * Phase 流转(对照 design §3):
- *   preBattle → selectAction → performAction → postAction
- *                 ↑___________________________|
+ *   preBattle → selectAction ⇄ performAction (队列耗尽时结算回合)
+ *   已有胜负时经 postAction 收尾；旧快照仍可从 postAction 继续。
  *   → 终态 won / lost / fleed → finalize → mode='explore'
  *
  * **入口**:
@@ -72,6 +72,7 @@ import {
   startBattleAnim,
 } from './battle-anim-driver.js'
 import { advanceBattleDialog } from './battle-dialog.js'
+import { startContactBattleReveal } from './battle-entry.js'
 import { finalizeBattle } from './battle-finalization.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 import {
@@ -108,9 +109,9 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
 /**
- * D19 入场揭示 gate 时长(tick)。参考 PAL_StartBattle → PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
+ * 剧情战的既有入场 gate 时长(tick)。参考 PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
  * wSpeed=5→6→×10=60,6 band × UTIL_Delay(60) = 360ms,按 40ms 逻辑 tick 取 9 tick。
- * 这里只对应换屏一段;PAL_BattleMain 此前还有 200ms delay,不表示完整入场或视觉时序已等价。
+ * 普通明雷由浏览器帧推进，计入原版 200ms 定格和六轮换屏。
  *
  * 注(2026-06-04 修 user 报"进战斗到菜单过渡偏长"):入场揭示出处是 video.c VIDEO_SwitchScreen(5)=360ms,
  * **不是** PAL_BattleFadeScene(battle.c:608-682,72×16ms≈1152ms)—— 后者是战斗内动作刷新/法术效果用,
@@ -182,6 +183,7 @@ export interface StartBattleInput {
   summonSpriteFrameCounts?: Map<number, number>
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight)。省略 → 命中特效按 0 高度兼容旧 fixture。 */
   enemySpriteFrameHeights?: Map<number, number>
+  enemySpriteFrameWidths?: ReadonlyMap<number, number>
   /** D11:LevelUpExp[100](level-up-exp.json)—— 战斗胜利升级阈值。省略 → 升级 loop 跳过。 */
   levelUpExp?: number[]
   /** D11:LEVELUPMAGIC_ALL[20][5](level-up-magic.json)—— 升级学新法术。省略 → 不学。 */
@@ -196,7 +198,7 @@ export interface StartBattleInput {
   rngSeed?: number
   /** 可选注入 runScript(测试 mock 用);默认 = event-system.runScript。 */
   runScriptFn?: RunScriptFn
-  /** D19 入场 dither fade-in gate 时长(tick)。生产传 INTRO_FADE_TICKS;省略/0 → 无入场淡入(单测/dev)。 */
+  /** 生产入场揭场。剧情战使用逻辑拍，普通明雷按浏览器帧推进；省略/0 供试打和 headless。 */
   introFadeTicks?: number
 }
 
@@ -323,11 +325,10 @@ export function startBattle(input: StartBattleInput): void {
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
 
-  // D19:入场揭示 gate(参考 PAL_BattleMain → VIDEO_SwitchScreen)。**显式 opt-in**(bootstrap 入口传
-  //   introFadeTicks=INTRO_FADE_TICKS;单测/dev 不传 → 无 fade、无 gate,行为不变)。preBattle 期间 gate 输入,
-  //   present-battle 把战斗场景从入场前大世界帧 dither 揭示。
+  // 原生入口显式启用揭场，试打无需等入场。普通明雷复用同一进度状态并由浏览器帧推进。
   if (input.introFadeTicks && input.introFadeTicks > 0) {
     battleState.introFade = { step: 0, total: input.introFadeTicks }
+    startContactBattleReveal(battleState, input.gs.eventCursor)
   }
 
   input.gs.mode = 'battle'
@@ -342,6 +343,7 @@ export function startBattle(input: StartBattleInput): void {
     enemies: input.enemies, // 0x9E summon 召唤兽 stats
     enemyObjects: input.enemyObjects ?? [], // 0x9E summon op0 → enemyId/scripts
     enemySpriteFrameHeights: input.enemySpriteFrameHeights, // M8:enemy frame0 height(PAL_RLEGetHeight)
+    enemySpriteFrameWidths: input.enemySpriteFrameWidths,
     enemyPos: input.enemyPos, // 0x9C/0x9E/0x9F 动态敌方阵型刷新
     playerRoles: input.playerRoles,
     commands: input.commands ?? getGlobalCommands(), // P2#5:默认单一全局数组
@@ -441,7 +443,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   if (tickBattleFleeAnim(state, res)) return
 
   // D13 敌人主动逃飞出屏 hold(phase-agnostic):0x69 触发后全活敌往左挪到出屏 → phase='fleed'。
-  if (tickBattleEnemyEscapeAnim(state)) return
+  if (advanceBattleEnemyEscape(gs, BATTLE_FRAME_TIME)) return
 
   // 战斗内对话 hold(phase-agnostic):战斗脚本 0xFFFF showDialog 收集的队列逐 tick 喂进
   //   复用的大世界 gs.dialogBox + 等键/1.4s,期间暂停战斗(忠实 sdlpal PAL_ShowDialogText 同步 blocking)。
@@ -564,6 +566,11 @@ function tickPreBattle(state: BattleState): void {
     state.introFade.step++
     return
   }
+  finishBattleEntry(state)
+}
+
+/** Release the reveal without handling turn-start scripts or selection input on the same frame. */
+export function finishBattleEntry(state: BattleState): void {
   state.introFade = undefined
   state.phase = 'selectAction'
   // 选指令菜单**不在此起**——延后到 turnStart 跑完且无 hold 后(见 selectAction case)。此处仅置 wait
@@ -2059,42 +2066,36 @@ function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
   return true
 }
 
-/** D13 入场 fade 同尺度:全活敌每 tick 往左 ENEMY_FLYOUT_DX,全过 -ENEMY_FLYOUT_OFFSCREEN → fleed。 */
-const ENEMY_FLYOUT_DX = 20 // sdlpal 5px/10ms ≈ 20px/40ms tick(battle.c:1413)
-const ENEMY_FLYOUT_OFFSCREEN = 160 // x <= -160 视为精灵全出左屏(近似 x+width<=0,battle.c:1420)
-const ENEMY_FLYOUT_MAX_STEPS = 40 // 安全上限(最右敌 ~320 / 20 + margin)
-const ENEMY_FLYOUT_HOLD_TICKS = 13 // L11:出屏后停顿 ~500ms(battle.c:1433 UTIL_Delay(500) / 40ms tick ≈ 13)
-
-/**
- * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434):0x69 设 enemyEscapeAnim 后,
- * 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变);全部 x<=-OFFSCREEN(或超安全步数)→ phase='fleed'
- * (Terminated 无奖励,**不**改 health 避免误给 exp)。返回 true = 本 tick 被该 hold 占用。
- */
-function tickBattleEnemyEscapeAnim(state: BattleState): boolean {
-  const ea = state.enemyEscapeAnim
-  if (!ea) return false
-  // L11:出屏后停顿阶段(battle.c:1433 UTIL_Delay(500))——敌已全出屏不再移动,仅计数 ~13 帧再终止。
-  if (ea.holdTicks !== undefined) {
-    ea.holdTicks++
-    if (ea.holdTicks < ENEMY_FLYOUT_HOLD_TICKS) return true
-    state.enemyEscapeAnim = undefined
-    state.phase = 'fleed'
-    // 敌逃 = sdlpal kBattleResultTerminated(0),区别于玩家逃 kBattleResultFleed(0xFFFF):opcode 7 对
-    //   Terminated 走 else → wScriptEntry++(= wonIp 续跑隐藏怪 opcode82),不跳 fledIp。标记供 finalize 归类。
-    state.terminatedByEnemyEscape = true
-    state.phaseStallTicks = 0
-    return true
+/** PAL_BattleEnemyEscape: slide each live slot 5 px per 10 ms, then hold for 500 ms. */
+export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
+  const state = gs.battleState
+  const flight = state?.enemyEscapeAnim
+  if (!state || !flight) return false
+  const elapsedMs = (flight.elapsedMs ?? 0) + dtMs
+  flight.elapsedMs = elapsedMs
+  if (flight.offscreenAtMs === undefined) {
+    const steps = Math.floor(elapsedMs / 10) - flight.step
+    if (steps <= 0) return true
+    const widths = getBattleResources(gs)?.enemySpriteFrameWidths
+    const live = state.enemies.filter((e) => !e.defeated && e.e.health > 0 && e.pos)
+    const remaining = Math.max(
+      1,
+      ...live.map((e) => Math.ceil((e.pos!.x + (widths?.get(e.e.id) ?? 80)) / 5)),
+    )
+    const moved = Math.min(steps, remaining)
+    for (const enemy of live) {
+      const pos = enemy.pos!
+      enemy.pos = { x: pos.x - 5 * moved, y: pos.y }
+    }
+    flight.step += moved
+    if (moved === remaining) flight.offscreenAtMs = 10 * flight.step
   }
-  let anyOnScreen = false
-  for (const e of state.enemies) {
-    if (e.defeated || e.e.health <= 0 || !e.pos) continue // 死敌(wObjectID==0)跳过(battle.c:1408)
-    e.pos = { x: e.pos.x - ENEMY_FLYOUT_DX, y: e.pos.y }
-    if (e.pos.x > -ENEMY_FLYOUT_OFFSCREEN) anyOnScreen = true // 仍在屏(x+width>0,battle.c:1420)
-  }
-  ea.step++
-  if (anyOnScreen && ea.step < ENEMY_FLYOUT_MAX_STEPS) return true // 继续飞
-  // 全出屏 → 进入 500ms 停顿阶段(holdTicks 从 0 起;battle.c:1433-1434 先 Delay 再 Terminated)
-  ea.holdTicks = 0
+  if (flight.offscreenAtMs === undefined || elapsedMs < flight.offscreenAtMs + 500) return true
+  state.enemyEscapeAnim = undefined
+  state.phase = 'fleed'
+  // Terminated takes the script's natural success continuation, without any battle rewards.
+  state.terminatedByEnemyEscape = true
+  state.phaseStallTicks = 0
   return true
 }
 
@@ -2190,7 +2191,7 @@ export function tickBattleDialog(state: BattleState, gs: GameState, input: Input
 /**
  * 逐项消费 actionQueue;一次 tick 至多起一个新动作,动画可能跨多 tick,顶层对话/淡出也可 hold。
  * 玩家动作取 pendingActions,敌人经 decideEnemyAction 决策。完成动作才推进 currentActionIndex,
- * 队列结束转 postAction;phase 已离开 performAction 时不再消费剩余动作。
+ * 队列耗尽的首拍执行回合结算；战斗已有胜负时交 postAction 单独收尾。
  */
 function tickPerformAction(
   state: BattleState,
@@ -2274,8 +2275,8 @@ function tickPerformAction(
   }
 
   if (state.currentActionIndex >= state.actionQueue.length) {
-    state.phase = 'postAction'
-    state.phaseStallTicks = 0
+    // CLASSIC settles the round on the first exhausted-queue frame (fight.c:1597–1668).
+    tickPostAction(state, gs, bus, res)
     return
   }
 

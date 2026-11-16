@@ -1282,6 +1282,18 @@ describe('validateCurrentManifestStartup · canonical content23 startup model', 
     ).toBe('dlc-b')
   })
 
+  test('普通明雷胜利转场保留声明的工程默认或缺省', () => {
+    const runtimeManifest = (value: unknown) => validateCurrentManifestStartup(value).manifest
+    expect(runtimeManifest(manifest())).not.toHaveProperty('hostileVictoryTransition')
+    for (const hostileVictoryTransition of ['fade', 'direct'])
+      expect(
+        runtimeManifest({ ...manifest(), hostileVictoryTransition }).hostileVictoryTransition,
+      ).toBe(hostileVictoryTransition)
+    expect(() => runtimeManifest({ ...manifest(), hostileVictoryTransition: 'black' })).toThrow(
+      /manifest\.hostileVictoryTransition: 期望 direct\|fade/,
+    )
+  })
+
   test.each([
     [{ ...manifest(), entryPoints: [] }, /至少需要一个真实入口/],
     [{ ...manifest(), defaultEntryId: 'missing' }, /defaultEntryId.*missing.*不存在/],

@@ -12,8 +12,8 @@ import {
   resolveDialogueRowText,
   type TextSpan,
 } from '@type-pal/content'
-import type { RleFrame } from '@type-pal/shared'
-import { advanceCue, type DialogueState } from '../dialogue.js'
+import { FRAME_MS_BATTLE, type RleFrame } from '@type-pal/shared'
+import { advanceCue, type DialogueState, startDialogue } from '../dialogue.js'
 import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
@@ -27,6 +27,7 @@ import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js
 // GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
 const LINE_HEIGHT = 18
 const LINES_PER_PAGE = 4 // spec §3:MAX_LINES_PER_PAGE
+const BATTLE_NARRATION_MS = 1400 // text.c:1701
 const POS = {
   bottom: {
     text: { x: 44, y: 126 },
@@ -119,6 +120,14 @@ export class DialogBox {
   /** 活跃槽当前页是否已全显(fUserSkip 两段式)。 */
   private pageDone = false
   private retainSlots = false
+  private battleVictory?: AbortSignal
+  private lastVictoryScroll?: {
+    owner: AbortSignal
+    presentationId: number
+    text: string
+    clearedAtMs?: number
+  }
+  private battleChoreography = false
   private nextPresentationId = 0
 
   private cursorBaked: HTMLCanvasElement[] = []
@@ -138,6 +147,10 @@ export class DialogBox {
 
   get visible(): boolean {
     return Object.keys(this.renders).length > 0
+  }
+
+  get needsRender(): boolean {
+    return this.visible || this.lastVictoryScroll !== undefined
   }
 
   observeSlots(): readonly DialogueSlotObservation[] {
@@ -249,20 +262,35 @@ export class DialogBox {
         rowSpeeds: cue.rows.map((row) =>
           slot === 'narration' ? 0 : (row.speed ?? DEFAULT_SPEED_MS),
         ),
-        autoAdvance: cue.autoAdvance,
+        autoAdvance:
+          cue.autoAdvance ??
+          ((this.battleChoreography || this.battleVictory) && slot === 'narration'
+            ? BATTLE_NARRATION_MS
+            : undefined),
       },
     }
   }
 
-  open(state: DialogueState, nowMs: number, lifetime: 'dialogue' | 'script' = 'dialogue'): void {
+  open(
+    state: DialogueState,
+    nowMs: number,
+    lifetime: 'dialogue' | 'script' | 'battle' | { battleVictory: AbortSignal } = 'dialogue',
+  ): void {
     const firstCue = state.dialogue.cues[0]
     if (!firstCue) throw new Error('reforge: 对话无显示单元')
     // Ordinary script commands share visible slots until explicit clearing. Narration
     // scrolls and standalone dialogues keep their own existing close-on-completion lifetime.
+    const battleVictory = typeof lifetime === 'object' ? lifetime.battleVictory : undefined
+    const battleChoreography = lifetime === 'battle'
+    const sameBattle =
+      this.battleVictory === battleVictory && this.battleChoreography === battleChoreography
     this.retainSlots =
-      lifetime === 'script' && (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
+      lifetime !== 'dialogue' &&
+      (firstCue.slot === 'top' || (firstCue.slot ?? 'bottom') === 'bottom')
+    this.battleVictory = battleVictory
+    this.battleChoreography = battleChoreography
     this.state = state
-    if (!this.retainSlots) {
+    if (!this.retainSlots || !sameBattle) {
       this.slots = emptySlots()
       this.renders = {}
     }
@@ -274,6 +302,15 @@ export class DialogBox {
     this.pageDone = false
   }
 
+  /** Show runtime-authored spans without parsing player-facing names as markup. */
+  openNarration(id: string, spans: readonly TextSpan[], nowMs: number): void {
+    const rows = [{ text: spans.map(({ text }) => text).join('') }]
+    this.open(startDialogue({ id, cues: [{ slot: 'narration', rows }] }), nowMs)
+    const render = this.renders.narration
+    if (!render) throw new Error('reforge: narration slot did not open')
+    render.singleLineSpans = spans.map((span) => ({ ...span }))
+  }
+
   /**
    * 按 space(sdlpal fUserSkip 两段式 + slot 推进):
    * 1. 活跃槽未全显 → 瞬显该页。
@@ -282,12 +319,13 @@ export class DialogBox {
    */
   advance(nowMs: number): void {
     if (!this.state) return
+    const active = this.slots.activeSlot
+    const r = this.renders[active]
+    if (this.battleVictory && active === 'narration' && r?.visibleText === null) return
     if (!this.pageDone) {
       this.pageDone = true
       return
     }
-    const active = this.slots.activeSlot
-    const r = this.renders[active]
     if (r && r.pageStart + LINES_PER_PAGE < r.displayLines.length) {
       // 该段话还有下一页
       r.pageStart += LINES_PER_PAGE
@@ -297,9 +335,8 @@ export class DialogBox {
       this.pageDone = false
       return
     }
-    // 该段话翻完 → 推进下一段话。但若该段有 autoAdvance(尾停顿),
-    // sdlpal 真值(spec §Bug3):尾停顿不可加速,玩家按 space = noop,必须等 update 自动推进。
-    if (this.activeAutoAdvance() !== undefined) return
+    // 作者配置的尾停顿不可跳过。战后叙述的默认计时也接受确认键。
+    if (r?.cue.autoAdvance !== undefined) return
     this.advanceToNextCue(nowMs)
   }
 
@@ -324,17 +361,23 @@ export class DialogBox {
     this.pageDone = false
   }
 
+  releaseBattleVictory(owner: AbortSignal): void {
+    if (this.battleVictory === owner) this.close()
+    if (this.lastVictoryScroll?.owner === owner) this.lastVictoryScroll = undefined
+  }
+
+  releaseBattleChoreography(): void {
+    if (this.battleChoreography) this.close()
+  }
+
   /** 关闭并清空 slot(正常收尾 + 脚本 abort/切场景清理共用)。 */
   close(): void {
     this.state = null
     this.slots = emptySlots()
     this.renders = {}
     this.retainSlots = false
-  }
-
-  /** 活跃槽当前段话的 autoAdvance(undefined = 无,等键)。 */
-  private activeAutoAdvance(): number | undefined {
-    return this.renders[this.slots.activeSlot]?.autoAdvance
+    this.battleVictory = undefined
+    this.battleChoreography = false
   }
 
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
@@ -355,6 +398,25 @@ export class DialogBox {
   }
 
   render(nowMs: number): void {
+    const previous = this.lastVictoryScroll
+    this.lastVictoryScroll = undefined
+    const victory = this.battleVictory
+    const narration = this.renders.narration
+    // SDLPal presents the battle again when deleting each centered window. Fast
+    // script continuation can otherwise replace an identical scroll in the same draw.
+    if (
+      previous &&
+      previous.owner === victory &&
+      narration &&
+      previous.presentationId !== narration.presentationId &&
+      previous.text === narration.singleLineSpans.map(({ text }) => text).join('')
+    ) {
+      previous.clearedAtMs ??= nowMs
+      if (nowMs - previous.clearedAtMs < FRAME_MS_BATTLE) {
+        this.lastVictoryScroll = previous
+        return
+      }
+    }
     if (!this.visible) return
     // 画四个 slot；narration 走横向卷轴，center 才是无框居中大字。
     // narration 最后画 = 叠在最上层(原版 0x3E 中央窗;dlg.0 婶婶画外音、宝箱拾取旁白走此槽)。
@@ -364,6 +426,16 @@ export class DialogBox {
       if (!entry || !r) continue
       const isActive = this.active && slotId === this.slots.activeSlot
       this.renderSlot(slotId, r, isActive, nowMs)
+    }
+    if (victory && narration?.visibleText) {
+      this.lastVictoryScroll =
+        previous?.presentationId === narration.presentationId
+          ? previous
+          : {
+              owner: victory,
+              presentationId: narration.presentationId,
+              text: narration.visibleText,
+            }
     }
     // 原索引帧是持久屏幕:~NN 到时只清对话状态，最后文字像素保留到下次重画。
     // 因此必须先画完本帧再自动推进；loadScene 紧随时才能捕获含文字的旧帧。
@@ -376,6 +448,16 @@ export class DialogBox {
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
     if (slotId === 'narration') {
+      // The original reward wait starts after the text is drawn.
+      if (
+        isActive &&
+        (this.battleChoreography || this.battleVictory) &&
+        r.cue.autoAdvance === undefined &&
+        r.visibleText === null
+      ) {
+        this.lineStartMs = nowMs
+        r.pageStartedAtMs = nowMs
+      }
       this.renderNarrationScroll(r, isActive)
       return
     }

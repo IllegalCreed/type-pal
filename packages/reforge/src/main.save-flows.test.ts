@@ -136,6 +136,7 @@ test('H5 corrupt snapshot is rejected without mutation, menu remains usable, the
 test('H5 two actual quick-save requests commit monotonically without consuming an extra count', async () => {
   const { h, store } = await boot()
   const decodes = vi.spyOn(globalThis, 'createImageBitmap')
+  const drawNumber = vi.spyOn(await import('./menu/menu-box.js'), 'drawNumber')
   await key(h, 'F5')
   await key(h, 'F5')
   await vi.waitFor(async () => expect((await store.listMeta())[0]?.savedTimes).toBe(2))
@@ -145,7 +146,7 @@ test('H5 two actual quick-save requests commit monotonically without consuming a
   await Promise.all(decodes.mock.results.map((result) => result.value))
   await h.settleIO()
   for (const value of ['Escape', 'ArrowUp', 'Enter', 'ArrowDown', 'Enter']) await key(h, value)
-  expect(h.text.mock.calls.some((call) => call[1].some((span) => span.text === '存2次'))).toBe(true)
+  expect(drawNumber.mock.calls.some(([, value]) => value === 2)).toBe(true)
   expect(await store.listMeta()).toHaveLength(1)
   expect((await saved(store)).world).toEqual(observation().world)
 })
@@ -201,9 +202,9 @@ test('H5 a committed save survives a browser-cache read failure and remains visi
   const decoded = decodes.mock.results[0]
   const thumbnail = decoded?.type === 'return' ? await decoded.value : undefined
   h.draws.length = 0
-  h.text.mockClear()
+  const drawNumber = vi.spyOn(await import('./menu/menu-box.js'), 'drawNumber')
   for (const value of ['Escape', 'ArrowUp', 'Enter', 'ArrowDown', 'Enter']) await key(h, value)
-  expect(h.text.mock.calls.some((call) => call[1].some((span) => span.text === '存1次'))).toBe(true)
+  expect(drawNumber.mock.calls.some(([, value]) => value === 1)).toBe(true)
   expect(
     h.draws.some(
       (draw) =>

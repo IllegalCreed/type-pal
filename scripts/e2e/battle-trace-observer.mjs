@@ -28,6 +28,8 @@ export function installBattleTraceObserver(context, createRecorder) {
   }
   const random = structuredClone(input.random)
   const observeMagicOverlays = input.observeMagicOverlays === true
+  const observePhysicalOverlays = input.observePhysicalOverlays === true
+  const observePlayerAppearance = input.observePlayerAppearance === true
   const portraitProbe = input.portraitProbe
   if (
     portraitProbe !== undefined &&
@@ -61,6 +63,7 @@ export function installBattleTraceObserver(context, createRecorder) {
   let nextAudioCueId = 0
   let nextAudioBufferId = 0
   let lastPortraitTurn
+  let appearanceTransition
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
   const audioBuffers = new WeakMap()
@@ -232,13 +235,20 @@ export function installBattleTraceObserver(context, createRecorder) {
         settlement: null,
       }
     },
-    labelFighter(draw, side, slot, fading = false, frameIndex) {
-      if (frame) fighterDraws.set(draw, { side, slot, fading, frameIndex })
+    labelFighter(draw, side, slot, fading = false, frameIndex, appearance) {
+      if (frame)
+        fighterDraws.set(draw, {
+          side,
+          slot,
+          fading,
+          frameIndex,
+          ...(observePlayerAppearance && appearance !== undefined ? { appearance } : {}),
+        })
     },
     fighterDrawn(draw, appliedFrameIndex) {
       const fighter = frame && fighterDraws.get(draw)
       if (!fighter) return
-      const { side, slot, fading } = fighter
+      const { side, slot, fading, appearance } = fighter
       const frameIndex = appliedFrameIndex ?? fighter.frameIndex
       const position = { slot, x: draw.x, y: draw.y }
       const paintOrder = observeMagicOverlays ? { paintOrder: nextPaintOrder++ } : {}
@@ -254,8 +264,36 @@ export function installBattleTraceObserver(context, createRecorder) {
           ...(frameIndex === undefined
             ? {}
             : { frameIndex, colorShift: draw.iColorShift ?? draw.colorShift ?? 0 }),
+          ...(appearance !== undefined ? { appearance } : {}),
           ...paintOrder,
         })
+    },
+    appearanceTransitionDrawn(step, total, slot, source, appearance) {
+      if (!frame || !observePlayerAppearance) return
+      // Reforge rasterizes both endpoints once. Reuse the actual target draw for
+      // every subsequent frame of the same compositor output.
+      if (source && !appearanceTransition) {
+        const { x, y, frame: index, colorShift } = source
+        appearanceTransition = {
+          source: {
+            slot,
+            x,
+            y,
+            frameIndex: source.sprite.frames[index] ? index : 0,
+            colorShift,
+            appearance,
+          },
+          players: [...frame.players],
+        }
+      }
+      if (appearanceTransition)
+        for (const [playerSlot, player] of appearanceTransition.players)
+          frame.players.set(playerSlot, player)
+      frame.appearanceTransition = {
+        step,
+        total,
+        ...(appearanceTransition ? { source: appearanceTransition.source } : {}),
+      }
     },
     labelMagicOverlays(draws, fireSprites) {
       if (!frame || !observeMagicOverlays || !draws?.length) return
@@ -278,6 +316,14 @@ export function installBattleTraceObserver(context, createRecorder) {
         ...(Number.isSafeInteger(spriteChunk) && spriteChunk >= 0 ? { spriteChunk } : {}),
         paintOrder: nextPaintOrder++,
       })
+    },
+    summonDrawn(x, y, frameIndex) {
+      if (frame && observeMagicOverlays) frame.summon = { x, y, frameIndex }
+    },
+    physicalOverlayDrawn(x, y, frameIndex) {
+      if (!frame || !observePhysicalOverlays) return
+      frame.physicalOverlays ??= []
+      frame.physicalOverlays.push({ x, y, frameIndex })
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
@@ -381,6 +427,7 @@ export function installBattleTraceObserver(context, createRecorder) {
         ...state
       } = frame
       frame = undefined
+      if (!state.appearanceTransition) appearanceTransition = undefined
       const bySlot = (a, b) => a.slot - b.slot
       const payload = {
         ...state,

@@ -2552,8 +2552,8 @@
       "owners": {
         "catalog": "N/A: project form",
         "scroll": "DsObjectWorkspaceContent",
-        "overlay": "N/A: no route-live anchored popup or modal",
-        "field": "DsDraftTextField + DsFieldGroup",
+        "overlay": "DsFloatingLayer",
+        "field": "DsDraftTextField + DsFieldGroup + DsSelectField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2567,7 +2567,7 @@
           {
             "source": "ProjectWorkbenchTab.tsx",
             "component": "ProjectOverviewPage",
-            "kinds": []
+            "kinds": ["anchored-popup"]
           }
         ]
       }

@@ -58,14 +58,16 @@ describe('S07 findEditableEnemyDefeatedItemReward 区间', () => {
 })
 
 describe('S07 replaceEditableEnemyDefeatedItemReward 替换', () => {
-  test('无 current 追加到尾；概率<100 重建 chance→stop；保留原对白；输入数组不变', () => {
+  test('新增概率奖励只在命中分支内发放；编辑时保留原对白及输入', () => {
     const empty: PresentableEnemyDefeatedCommand[] = []
     const appended = replaceEditableEnemyDefeatedItemReward(empty, undefined, {
       itemId: 'item-x',
       count: 3,
       probability: 80,
     })
-    expect(appended).toEqual([chanceStop(20), give('item-x', 3)])
+    expect(appended).toEqual([
+      { kind: 'branch', cond: { kind: 'chance', percent: 80 }, then: [give('item-x', 3)] },
+    ])
 
     const guarded = [chanceStop(30), give('item-b', 2), dialog]
     const snapshot = structuredClone(guarded)

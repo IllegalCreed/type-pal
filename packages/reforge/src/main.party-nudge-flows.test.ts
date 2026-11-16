@@ -76,6 +76,27 @@ test('a zero nudge preserves pose and phase; explicit leader pose supersedes pre
   h.assertInputUnchanged()
 })
 
+test('an authored turn and two-step walk retain the follower formation through the next cue', async () => {
+  const h = await bootNudge([
+    { kind: 'teleportParty', pos: { col: 6, row: 3, height: 0 } },
+    { kind: 'setParty', members: ['hero', 'friend'] },
+    { kind: 'moveParty', speed: 'run', to: { col: 4, row: 3, height: 0 } },
+    { kind: 'setPartyFacing', facing: 'right' },
+    { kind: 'wait', ms: 500 },
+  ])
+  const firstStep = { col: 5, row: 3, height: 0 }
+  await advance(h.h, () => state().player.pos.col === 5)
+  const layout = () => h.sprites.mock.lastCall?.[0]
+  expect(layout()?.player).toMatchObject({ pos: firstStep, facing: 'left', walking: true })
+  expect(layout()?.followers[1]).toEqual({ pos: firstStep, facing: 'right' })
+
+  await advance(h.h, () => state().player.pos.col === 4)
+  await h.h.frame(100)
+  expect(layout()?.player).toMatchObject({ facing: 'right', walking: false })
+  expect(layout()?.followers[1]).toEqual({ pos: firstStep, facing: 'right' })
+  h.assertInputUnchanged()
+})
+
 test('an already pending real load cancels a nudge wait without late movement or rewards', async () => {
   host = await installShellHost()
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')

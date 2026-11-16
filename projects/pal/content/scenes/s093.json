@@ -4062,262 +4062,6 @@
                       "boss": true,
                       "fieldId": 24,
                       "kind": "startBattle",
-                      "onLose": [
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1758"
-                          }
-                        },
-                        {
-                          "kind": "setParty",
-                          "members": [
-                            "lin-yueru",
-                            "li-xiaoyao"
-                          ]
-                        },
-                        {
-                          "kind": "teleportParty",
-                          "pos": {
-                            "col": 57,
-                            "height": 0,
-                            "row": 8
-                          }
-                        },
-                        {
-                          "dx": -32,
-                          "dy": -16,
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          }
-                        },
-                        {
-                          "facing": "right",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          }
-                        },
-                        {
-                          "frame": 0,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          }
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "selectEntityBehavior",
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          },
-                          "channel": "auto",
-                          "selection": {
-                            "kind": "use",
-                            "value": "legacy-001"
-                          }
-                        },
-                        {
-                          "kind": "setEntityLayer",
-                          "layer": 13,
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 40
-                        },
-                        {
-                          "asset": "sound.pal.201",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 480
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          }
-                        },
-                        {
-                          "kind": "moveParty",
-                          "speed": "run",
-                          "to": {
-                            "col": 55,
-                            "height": 0,
-                            "row": 8
-                          }
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.001",
-                                "side": "right"
-                              },
-                              "speaker": "spk.李逍遥"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4587"
-                              }
-                            ]
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "facing": "right",
-                          "kind": "setPartyFacing"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.022",
-                                "side": "left"
-                              },
-                              "speaker": "spk.林月如"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4589"
-                              },
-                              {
-                                "text": "dlg.4590"
-                              },
-                              {
-                                "text": "dlg.4591"
-                              }
-                            ],
-                            "slot": "top"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.006",
-                                "side": "right"
-                              },
-                              "speaker": "spk.李逍遥"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4593"
-                              },
-                              {
-                                "text": "dlg.4594"
-                              },
-                              {
-                                "text": "dlg.4595"
-                              }
-                            ]
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.024",
-                                "side": "left"
-                              },
-                              "speaker": "spk.林月如"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4597"
-                              },
-                              {
-                                "text": "dlg.4598"
-                              }
-                            ],
-                            "slot": "top"
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.009",
-                                "side": "right"
-                              },
-                              "speaker": "spk.李逍遥"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4600"
-                              },
-                              {
-                                "text": "dlg.4601"
-                              },
-                              {
-                                "text": "dlg.4602"
-                              }
-                            ]
-                          },
-                          "kind": "dialog"
-                        },
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "cue": {
-                            "identity": {
-                              "kind": "unbound",
-                              "portrait": {
-                                "asset": "portrait.pal.021",
-                                "side": "left"
-                              },
-                              "speaker": "spk.林月如"
-                            },
-                            "rows": [
-                              {
-                                "text": "dlg.4604"
-                              },
-                              {
-                                "text": "dlg.4605"
-                              }
-                            ],
-                            "slot": "top"
-                          },
-                          "kind": "dialog"
-                        }
-                      ],
                       "enemyTeamId": "team-29"
                     },
                     {
@@ -4327,13 +4071,6 @@
                         "scene": "s093",
                         "entity": "e1758"
                       }
-                    },
-                    {
-                      "kind": "setParty",
-                      "members": [
-                        "lin-yueru",
-                        "li-xiaoyao"
-                      ]
                     },
                     {
                       "kind": "teleportParty",
@@ -4369,19 +4106,18 @@
                       }
                     },
                     {
+                      "kind": "setParty",
+                      "members": [
+                        "lin-yueru",
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
+                      "kind": "wait",
+                      "ms": 60
                     },
                     {
                       "kind": "setEntityLayer",
@@ -4393,15 +4129,46 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1759"
+                      },
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1759"
+                      },
+                      "frame": 12
                     },
                     {
                       "asset": "sound.pal.201",
                       "kind": "playSound"
                     },
                     {
-                      "kind": "wait",
-                      "ms": 480
+                      "kind": "repeat",
+                      "count": 12,
+                      "body": [
+                        {
+                          "kind": "wait",
+                          "ms": 100
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s093",
+                            "entity": "e1759"
+                          },
+                          "dx": -6,
+                          "dy": -12
+                        }
+                      ]
                     },
                     {
                       "kind": "setEntityState",
@@ -4573,66 +4340,6 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      },
-                      "facing": "down"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s093",
-                        "entity": "e1759"
-                      },
-                      "frame": 12
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s093",
-                            "entity": "e1759"
-                          },
-                          "dx": -6,
-                          "dy": -12
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "continueLoop"
-                        }
-                      ]
                     }
                   ]
                 }

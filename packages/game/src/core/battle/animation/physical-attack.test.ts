@@ -77,7 +77,12 @@ describe('buildPlayerAttackTimeline (fight.c:2008-2263)', () => {
       x: 160, // enemy_x
       y: 80 - 0 + 10, // enemy_y - enemy_h/3 + 10 = 90
     })
-    expect(f.damageNum).toEqual({ target: { kind: 'enemy', idx: 0 }, value: 37, color: 'blue' })
+    expect(f.damageNum).toEqual({
+      target: { kind: 'enemy', idx: 0 },
+      value: 37,
+      color: 'blue',
+      anchor: { x: 160, y: 80 },
+    })
   })
 
   it('frame3(特效 i=1):overlay frame=base+1 落点 x-=16/y+=16;attacker.pos += (2,1)', () => {
@@ -533,8 +538,13 @@ describe('buildAttackMateTimeline (fight.c:3791-3858 混乱攻友军走入动画
     const frames = buildAttackMateTimeline({
       casterIdx: 0,
       casterPos: { x: 100, y: 180 },
+      casterRestFrame: 0,
       targetIdx: 1,
       targetPos: { x: 140, y: 170 },
+      targetRestPos: { x: 140, y: 170 },
+      targetRestFrame: 0,
+      weaponSound: 0,
+      damageNumber: { target: { kind: 'player', idx: 1 }, value: 5, color: 'blue' },
     })
     // windup: frame 0..3 = 8/0/8/0
     expect(frames[0]!.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 8 }])

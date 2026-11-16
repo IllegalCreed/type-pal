@@ -13,17 +13,23 @@ export interface BattleLastActionBase {
   fizzled?: boolean
   crit?: boolean
   secondDamage?: number
-  attackAllHits?: { idx: number; value: number }[]
   throwHits?: { idx: number; value: number }[]
   blocked?: boolean
   coverIdx?: number
   autoDefend?: number[]
   coopContributors?: number[]
   notice?: string
+  stolen?: { kind: 'item'; name: string } | { kind: 'money'; amount: number }
   /** 结算已失败、但文案/时序由 session 按战斗 UI 真值呈现。 */
   failureFeedback?: BattleFailureFeedback
   fleeSuccess?: boolean
   spawnedIdxs?: number[]
+}
+
+/** A group swing rolls once and produces its own numbers and attack voice. */
+export interface PlayerAttackSweep {
+  critical: boolean
+  hits: { idx: number; value: number }[]
 }
 
 type PlayerActionBase = BattleLastActionBase & { side: 'player' }
@@ -48,6 +54,7 @@ export type BattleLastAction =
       targetEnemyIdx: number
       /** 单体首击的完整计算伤害，可超过目标剩余生命。 */
       firstDamage?: number
+      attackAllSweeps?: PlayerAttackSweep[]
       /** 单体连击第二挥的独立暴击结果，仅实际发生第二击时记录。 */
       secondCrit?: boolean
     })
@@ -55,7 +62,12 @@ export type BattleLastAction =
   | (PlayerMagicAction & { kind: 'cast'; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'item'; itemId: string; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'throw'; itemId: string; targetEnemyIdx?: number })
-  | (PlayerMagicAction & { kind: 'coop' })
+  | (PlayerMagicAction & {
+      kind: 'coop'
+      targetAllyIdx?: number
+      /** 术效前的 HP，排除合击扣费后再计算恢复数字。 */
+      hpAfterContribution: number[]
+    })
   | (PlayerActionBase & { kind: 'defend' })
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions

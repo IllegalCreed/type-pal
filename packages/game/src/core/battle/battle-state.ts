@@ -15,6 +15,7 @@ import type {
   EnemyPosTable,
   PlayerRoles,
 } from '@type-pal/shared'
+import type { BattleDamageNumber } from '../command-bus.js'
 import type { GameState } from '../game-state.js'
 import type { SelectionMenuState } from '../menu/primitives.js'
 import type { SeedableRng } from '../rng.js'
@@ -205,8 +206,8 @@ export interface BattleAction {
 
 /**
  * 战斗 phase 状态机(T22 真消费)。
- * preBattle → selectAction → performAction → postAction → (回 selectAction
- * 进下一轮 / 或转 won / lost / fleed 退出)。
+ * preBattle → selectAction ⇄ performAction；行动队列耗尽时结算回合。
+ * 已有胜负时可经 postAction 收尾；旧快照仍可从该阶段继续。
  */
 export type BattlePhase =
   | 'preBattle'
@@ -284,22 +285,9 @@ export interface BattleAnimFrame {
    * present 优先画 overlays(非空)否则画 overlay。单落点(Normal/Whole/Field)仍可用 overlays:[一条]。
    */
   overlays?: BattleAnimOverlay[]
-  /** 本帧要弹的伤害数字(emit showDamageNum)。 */
-  damageNum?: {
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }
-  /**
-   * 本帧要弹的**多个**伤害数字 —— 物理群攻挥砍 i==0 帧遍历全敌弹各自数字
-   * (sdlpal PAL_BattleDisplayStatChange fight.c:626-659,在 PAL_BattleShowPlayerAttackAnim i==0 调,
-   *  fight.c:2209)。与单数 damageNum 并存:driver applyAnimFrame 两者都 emit。
-   */
-  damageNums?: Array<{
-    target: { kind: 'enemy' | 'player'; idx: number }
-    value: number
-    color: 'yellow' | 'blue' | 'cyan'
-  }>
+  /** Damage and recovery numbers emitted together with this logical frame. */
+  damageNum?: BattleDamageNumber
+  damageNums?: BattleDamageNumber[]
   /** 本帧音效(present 播;本切片只存值)。 */
   sound?: number
   /**
@@ -627,12 +615,8 @@ export interface BattleState {
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
    */
   fleeAnim?: { step: number }
-  /**
-   * D13 敌人主动逃飞出屏(sdlpal `PAL_BattleEnemyEscape`,battle.c:1399-1434)。0x69 opcode 设 { step:0 } →
-   * tickBattleEnemyEscapeAnim 每 tick 把全体活敌往**左**挪(x-=ENEMY_FLYOUT_DX,y 不变),全部移出左屏 →
-   * phase='fleed'(Terminated 无奖励;**不**改 health 避免误给 exp)。undefined = 无敌逃动画。
-   */
-  enemyEscapeAnim?: { step: number; holdTicks?: number }
+  /** PAL_BattleEnemyEscape moves live slots out of view before the terminal hold. */
+  enemyEscapeAnim?: { step: number; elapsedMs?: number; offscreenAtMs?: number }
   /**
    * 敌人逃跑(opcode 105 PAL_BattleEnemyEscape)完成标记 —— 区分 sdlpal kBattleResultTerminated(0,敌逃/
    * 脚本终止)与 kBattleResultFleed(0xFFFF,玩家逃)。两者 phase 都落 'fleed',但 finalize 据此把 outcome

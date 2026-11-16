@@ -35,6 +35,7 @@ import { EDITOR_ASSET_KIND_LABELS } from '../core/asset-diagnostics.js'
 import { stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import {
   RenameProjectCommand,
+  SetHostileVictoryTransitionCommand,
   SetStartupEntriesCommand,
   UpdateManifestAssetRolesCommand,
 } from '../core/commands.js'
@@ -95,6 +96,7 @@ import {
   useDsReorderKeys,
 } from './design-system/index.js'
 import type { EditorLocation } from './editor-navigation.js'
+import { hostileVictoryTransitionOptions } from './hostile-victory-options.js'
 import { ProjectAudioPreviewButton } from './ProjectAudioPreviewButton.js'
 import {
   PROJECT_ASSET_ROLE_GROUPS,
@@ -2390,6 +2392,24 @@ function ProjectOverviewPage(props: ProjectWorkbenchTabProps) {
               value={manifest.name}
               validate={(value) => (value.trim() ? undefined : '项目显示名不能为空。')}
               onCommit={(value) => session.dispatch(new RenameProjectCommand(value))}
+            />
+          </DsFieldGroup>
+        </section>
+        <section className="project-card">
+          <h4>明雷战斗</h4>
+          <DsFieldGroup>
+            <DsSelectField
+              id="project-hostile-victory-transition"
+              label="默认回场"
+              value={manifest.hostileVictoryTransition ?? 'direct'}
+              options={hostileVictoryTransitionOptions}
+              onValueChange={(value) => {
+                if (
+                  (value === 'fade' || value === 'direct') &&
+                  value !== (manifest.hostileVictoryTransition ?? 'direct')
+                )
+                  session.dispatch(new SetHostileVictoryTransitionCommand(value))
+              }}
             />
           </DsFieldGroup>
         </section>

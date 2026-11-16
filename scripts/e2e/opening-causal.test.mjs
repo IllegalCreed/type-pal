@@ -2350,8 +2350,12 @@ test('actual Game automatic recursion records every dispatch and keeps its nativ
   const modeFn = modeAst.statements.find(
     (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'tickByMode',
   )
+  const { isBattleContact } = await server.ssrLoadModule(
+    '/packages/game/src/core/battle/battle-entry.ts',
+  )
   const modeDeps = {
     globalThis: host,
+    isBattleContact,
     tickSceneAutoFadeIn() {},
     tickAutoScripts: api.tickAutoScripts,
     tickChaseTimer() {},
@@ -2820,6 +2824,7 @@ test('instrumented real runner, frame timer and dialogue produce causal receipts
     startDialogue,
     scriptDialogResolve: null,
     preserveClosedDialogFrame: false,
+    victoryFrame: undefined,
     frameAnimationPresentation: { enterDialogue() {} },
   }
   for (const [name, initializer] of initializers) {

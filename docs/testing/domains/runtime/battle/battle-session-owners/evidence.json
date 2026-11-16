@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "220-222",
+      "lines": "246-248",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "381-392",
+      "lines": "412-424",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1212-1221",
+      "lines": "1261-1270",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -39,17 +39,17 @@
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-      "lines": "72-95",
+      "lines": "73-96",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+      "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
     },
     {
       "path": "packages/content/src/character.ts",
-      "lines": "168-170",
+      "lines": "169-171",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+      "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
     }
   ],
   "publicCallers": [
@@ -83,12 +83,12 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:220-222",
-        "packages/reforge/src/battle/battle-session.ts:381-392",
-        "packages/reforge/src/battle/battle-session.ts:1212-1221",
+        "packages/reforge/src/battle/battle-session.ts:246-248",
+        "packages/reforge/src/battle/battle-session.ts:412-424",
+        "packages/reforge/src/battle/battle-session.ts:1261-1270",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
-        "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
-        "packages/content/src/character.ts:168-170"
+        "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
+        "packages/content/src/character.ts:169-171"
       ]
     }
   ],
@@ -505,6 +505,156 @@
         }
       ],
       "scope": "敌方施法时间线增加实际移动、动作帧、FIRE 落点与受击后复位。三个已出版归属调用片段逐字节一致。"
+    },
+    {
+      "action": "q2-battle-session-special-status-source-rebinding",
+      "base": "9662bbe177aa9567f15cb7e556a961c286a430da",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "220-222",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "381-392",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1212-1221",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "13396fdb6f00dbe4e6dd3789c844bc0c64363e047a2ca248d637a1f1003c68ab"
+        }
+      ],
+      "scope": "玩家群攻、傀儡、混乱误击和单体双击呈现调整后，三个已出版调用片段逐字节保持。"
+    },
+    {
+      "action": "q2-world-battle-handoff-source-rebinding",
+      "base": "9f5f57d4df53ea122622ffda110807e39e0ec66e",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "220-222",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "381-392",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1213-1222",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "4ec415e8dbe39d1435c10251e1b9b00b2b2c27b8b2d8b08bb1affd1ea6582b4d"
+        }
+      ],
+      "scope": "选择、准备门和动作三个已刊片段保留；构造仅多接正常明雷结算。原主张和运行证据照原出版。"
+    },
+    {
+      "action": "q2-project-victory-version-source-rebinding",
+      "base": "31cfe5387c5d555b05b05dc1987e7ed31022f3a3",
+      "date": "2026-11-14",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
+        }
+      ],
+      "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-battle-lifecycle-source-rebinding",
+      "base": "2d17adc064409630aa74415dc8195080d2344d28",
+      "date": "2026-11-15",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "242-244",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "406-418",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1243-1252",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "a3a37c089245a83bd7b01cb5274df0a5bb49cc95f0651201a83980962549f8c1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "72-95",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "51384d0cd23e0b11d4bc8ecaeea6869a73ccb00575ab53dfea060b1ff476fc70"
+        }
+      ],
+      "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+    },
+    {
+      "action": "q2-battle-closure-source-rebinding",
+      "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "242-244",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "407-419",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1254-1263",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "73-96",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "770f89e7a88746acfd129ece762bf5fa9eac4df1223051fb946ea18aebced60d"
+        }
+      ],
+      "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
     }
   ],
   "_governance": {

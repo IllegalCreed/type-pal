@@ -2,6 +2,7 @@ import { buildWorld } from '@type-pal/content'
 import { expect, vi } from 'vitest'
 import { loadStandardPalette } from '../assets.js'
 import { AsyncIntentController } from '../async-intent.js'
+import type { BgmPlayer } from '../audio/bgm.js'
 import { SfxPlayer } from '../audio/sfx.js'
 import { BattleHost, type BattleHostPorts } from '../battle/battle-host.js'
 import { BattleLaunchPreparation } from '../battle/battle-launch-preparation.js'
@@ -22,11 +23,16 @@ export function gate() {
   return { promise, release }
 }
 /** Real loader, guards, asset readers, preparation and BattleSession. Only browser/audio IO is external. */
-export async function battleHostFixture(withSound = false) {
+export async function battleHostFixture(
+  withSound = false,
+  music?: Pick<BgmPlayer, 'prepare' | 'play' | 'stop'>,
+  withBattleMusic = false,
+) {
   const browser = await installShellHost()
   const fixture = await scenarioProject({
     items: [medicine()],
     inventory: [{ itemId: 'tonic', count: 3 }],
+    withBattleMusic,
   })
   if (withSound) {
     const bytes = new Uint8Array(46)
@@ -86,6 +92,9 @@ export async function battleHostFixture(withSound = false) {
     stop: vi.fn(() => {
       events.push('music:stop')
     }),
+    prepare: vi.fn(async () => () => {
+      events.push('music:play')
+    }),
   }
   const sfx = new SfxPlayer(project.assetResolver)
   const prep = new BattleLaunchPreparation(
@@ -139,7 +148,7 @@ export async function battleHostFixture(withSound = false) {
     reportRestoreFailure: vi.fn(),
   }
   const host = new BattleHost(prep, ports, {
-    bgm,
+    bgm: music ?? bgm,
     locale: project.locale,
     victory: () => 'victory',
   })
