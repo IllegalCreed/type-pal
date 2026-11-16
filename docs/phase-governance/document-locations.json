@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "14e19f4ec195589742705653d4f4508d21d0a555198a342fb4c35208f9572595",
+      "afterSha256": "2d839587be633104438b9414d1220c5d09ad720245a37a3a37a85d2885645153",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
-        "reviewedLines": 48,
-        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 50,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "01839998ccc83a11639a9d910b6a77ef18c34628bf2fce7cb90b7df63a2ec8bf",
+      "afterSha256": "d2c09c06e2bab629cb157df267e34a4733d170e7fcda99260396a15647a1b0ef",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
-        "reviewedLines": 7525,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 7585,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "39ce4bd6e5212b334784e3e951fe5c3b3f37630033d88ee28661d395e6cd53c1",
+      "afterSha256": "e7af91185bf4d16731f00a3dc14287ebcd4bf2845bfe97f5e84367410d3d4f5a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
-        "reviewedLines": 732,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 762,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "1e0ee306bc5a17ac1f310f0df3d6ff6e71ace823111398c45abe658c08ddac23",
+      "afterSha256": "d6fc1a567f2f5a72b35ba0bd7ccab973d8fd606847a4720da06bae8a407ac159",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
         "reviewedLines": 101,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1ac7bae2b7587fa73e05b6001d713c8716a4f6c678bb79a8e180d5f334ac50f4",
+      "afterSha256": "3dd8d90a42c5790d15c5ee1f4ec7ee8a1f38dc4539e9c57ed4d5e812064a3e68",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
-        "reviewedLines": 594,
-        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 612,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "7b714bc900110dfa867fb11670a933aed1c9e3ba02489436d13deba2303b93bb",
+      "afterSha256": "e1b76b9a06ff7bd3060e8a287dd3f7603315db496d6533c10b194b85c687095d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
-        "reviewedLines": 14392,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 14422,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "2f638be1a71e5ae9484428e2446448674906b80370785299a0875f306fdd5599",
+      "afterSha256": "79347f8b5145a3e07449aee1fd9a12980d8b1d51bb27208ef524957b3de05cfe",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对实际输入、绘制和原生执行定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对玉佛寺方丈胜利、两条道具来源、战后演出及寺外恢复操控，保存先红后绿的实际来源。",
-        "reviewedLines": 569,
-        "acceptanceScope": "固定原剧情和同一局面测试，覆盖方丈实际施法、胜利结算、战后剧情、入场和一步跟随。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 622,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "e9f4fe34d6161dd190819b56c252548788127964ce2a6b0b96105f72e2dab166",
+      "afterSha256": "fdc3fe35b6d7c45b6442addb1290ae2a7a54f50ba164d27f360ba4904f4e5b1d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 对原件和现行源定向核验",
+        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
-        "reviewedLines": 234,
-        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
+        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
+        "reviewedLines": 247,
+        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
       }
     }
   ],
@@ -5946,6 +5946,18 @@
       "bytes": 74016410,
       "sha256": "84ed59c4b78563489a3f7d842acd7cf19c70e979a18e5d29aa5c5eee847ff8ba",
       "purpose": "玉佛寺胜利与离寺剧情的双端真实原件、节拍和队形反控以及原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-summons-20261116.tar.gz",
+      "bytes": 11803633,
+      "sha256": "dcb6b91c7804a641b20377cebfc623f6357d0453ff021df9d84371e4c52c047a",
+      "purpose": "九种玩家召唤的双端施法、原生声画及规则对照，含酒神的原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-summon-and-division-20261116.tar.gz",
+      "bytes": 69018745,
+      "sha256": "c1867b2fd93ace6dfcbf84a55e8a3e5189f02c4acfb9985842febc1d6bf26bb0",
+      "purpose": "敌方再召唤及分裂的双端真实原件、反控、覆盖目录及原速带声分屏"
     }
   ],
   "artifactAliases": [],

@@ -295,6 +295,7 @@ export function isTestingBattleClosureSource(path) {
 }
 
 export const testingBattleSummonPublicationBase = 'b8b8dd2fcc551a782a2e90387bcf91170bc4899f'
+export const testingBattleSummonDivisionPublicationBase = '62959793cf6fb2450806d12072608ce768d80c39'
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
@@ -782,34 +783,77 @@ const battleSummonBindings = new Map([
 export const isTestingBattleSummonSource = (path) => battleSummonBinding.ranges.has(path)
 
 export function restoreTestingBattleSummonSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleSummonBinding, battleSummonBindings)
+}
+
+const battleSummonDivisionRanges = new Map([
+  [
+    testingBattleSessionSourcePath,
+    { '246-248': '248-250', '412-424': '415-427', '1261-1270': '1269-1278' },
+  ],
+  ['scripts/e2e/battle-reforge-instrumentation.mjs', { 17: '17' }],
+  ['packages/reforge/src/battle/battle-core.ts', { 2473: '2466' }],
+  ['packages/game/src/core/battle/battle-system.ts', { 2788: '2824' }],
+])
+const battleSummonDivisionBinding = {
+  ranges: battleSummonDivisionRanges,
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonDivisionPublicationBase,
+  action: 'q2-summon-division-caller-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonDivisionBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [...battleSummonDivisionRanges.keys()].filter(
+        (path) => path !== testingBattleSessionSourcePath,
+      ),
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleSummonDivisionSource = (path) => battleSummonDivisionRanges.has(path)
+
+export function restoreTestingBattleSummonDivisionSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSummonDivisionBinding,
+    battleSummonDivisionBindings,
+  )
+}
+
+function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
-    return restoreEncounterSourceBindings(
-      path,
-      bytes,
-      inputs,
-      battleSummonBinding,
-      battleSummonBindings,
-    )
+    return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
   const priorBytes = inputs.readBase(path)
   const before = parseTerminalJson(testingMetadata(priorBytes).json)
   const current = parseTerminalJson(testingMetadata(bytes).json)
   const previous = encounterReferences(
     before.sourceRefs,
     current.sourceRefs,
-    [palManifestPath],
+    bindings.get(publication.evidence).paths,
     {
       source: testingBridgeSources(inputs.readSource),
       fixed: testingBridgeSources(inputs.readFixed),
       predecessor: testingBridgeSources(inputs.readBase),
     },
-    battleSummonBinding,
+    stage,
   )
   const history = encounterHistory(
     before.revision.history,
     current.revision.history,
     previous,
     inputs.readSource,
-    battleSummonBinding,
+    stage,
   )
   assert.deepEqual(
     { ...current, sourceRefs: before.sourceRefs, revision: { ...current.revision, history } },

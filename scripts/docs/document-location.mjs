@@ -34,12 +34,14 @@ import {
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
   isTestingBattleSessionEvidencePath,
+  isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
+  restoreTestingBattleSummonDivisionSourceBindings,
   restoreTestingBattleSummonSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
@@ -63,6 +65,7 @@ import {
   testingBattleSessionSourcePath,
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
+  testingBattleSummonDivisionPublicationBase,
   testingBattleSummonPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
@@ -552,8 +555,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const summonSource = summonRevision && gitTree(root, summonRevision, [])
   const preSummon = summonSource && gitTree(root, testingBattleSummonPublicationBase, [])
-  const readBeforeBattleSummon = (path) => {
+  const summonDivisionRevision = admission.testingBattleSummonDivisionSourceRevision
+  if (summonDivisionRevision !== undefined)
+    assert(
+      summonSource && /^[a-f0-9]{40}$/u.test(summonDivisionRevision),
+      'battle summon and division source bridge requires the fixed summon predecessor',
+    )
+  const summonDivisionSource = summonDivisionRevision && gitTree(root, summonDivisionRevision, [])
+  const preSummonDivision =
+    summonDivisionSource && gitTree(root, testingBattleSummonDivisionPublicationBase, [])
+  const readBeforeBattleSummonDivision = (path) => {
     const live = readSource(path)
+    if (!preSummonDivision || !isTestingBattleSummonDivisionSource(path)) return live
+    assert(
+      live?.equals(summonDivisionSource.read(path)),
+      `battle summon and division source differs from its fixed candidate: ${path}`,
+    )
+    return preSummonDivision.read(path)
+  }
+  const readBeforeBattleSummon = (path) => {
+    const live = readBeforeBattleSummonDivision(path)
     if (!preSummon || !isTestingBattleSummonSource(path)) return live
     assert(
       live?.equals(summonSource.read(path)),
@@ -561,14 +582,22 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
     return preSummon.read(path)
   }
-  const beforeBattleSummon = (path, bytes) =>
-    preSummon
-      ? restoreTestingBattleSummonSourceBindings(path, bytes, {
+  const beforeBattleSummon = (path, bytes) => {
+    const current = preSummonDivision
+      ? restoreTestingBattleSummonDivisionSourceBindings(path, bytes, {
           readSource,
+          readBase: preSummonDivision.read,
+          readFixed: summonDivisionSource.read,
+        })
+      : bytes
+    return preSummon
+      ? restoreTestingBattleSummonSourceBindings(path, current, {
+          readSource: readBeforeBattleSummonDivision,
           readBase: preSummon.read,
           readFixed: summonSource.read,
         })
-      : bytes
+      : current
+  }
   const closureInputs = preClosure && {
     revision: closureRevision,
     readSource: (path) => beforeBattleSummon(path, readBeforeBattleSummon(path)),

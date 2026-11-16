@@ -231,3 +231,16 @@ Game 的正常明雷改为独立的原盘六组换屏节拍，导致两个现行
 `e9a960647` 将敌人召唤音效与新敌入场接入同帧时间线。以 `b8b8dd2fc` 为前驱核对，会话中原指令选择的状态、构造与提交片段 246–248、412–424、1261–1270 字节和行号一致。只续接现行会话源摘要，历史执行、证据和结论沿用各自原版本。 [会话来源](../../../packages/reforge/src/battle/battle-session.ts) · [现行双端报告](../../testing/domains/cross-phase/battle-foundation/report.md)
 
 PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 行明雷胜利转场仍为淡出淡入，目录、报告和机器回执续接现行摘要。 [工程 manifest](../../../projects/pal/manifest.json#L7)
+
+## 2026-11-16 召唤与分裂后的来源
+
+从 `62959793cf6fb2450806d12072608ce768d80c39` 到 `cf0d1e965a18094d85247a4dfa314ab5f76f9775` 逐段核对已有来源引用。下表片段保持原字节，现行摘要随文件更新。历史运行继续由原候选及原件支撑。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 246-248 | 248-250 |
+| `packages/reforge/src/battle/battle-session.ts` | 412-424 | 415-427 |
+| `packages/reforge/src/battle/battle-session.ts` | 1261-1270 | 1269-1278 |
+| `scripts/e2e/battle-reforge-instrumentation.mjs` | 17 | 17 |
+| `packages/reforge/src/battle/battle-core.ts` | 2473 | 2466 |
+| `packages/game/src/core/battle/battle-system.ts` | 2788 | 2824 |

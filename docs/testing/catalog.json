@@ -2198,24 +2198,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "246-248",
+          "lines": "248-250",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "412-424",
+          "lines": "415-427",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1261-1270",
+          "lines": "1269-1278",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -2826,6 +2826,36 @@
               }
             ],
             "scope": "召唤动作的声音与入场接线变化。选择实例、构造与指令提交的完整片段行号和字节一致，保留已接受的历史执行。"
+          },
+          {
+            "action": "q2-summon-division-caller-rebinding",
+            "base": "62959793cf6fb2450806d12072608ce768d80c39",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "246-248",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "412-424",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1261-1270",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+              }
+            ],
+            "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
           }
         ]
       },
@@ -5598,7 +5628,7 @@
           "anchor": "function observeSfx(",
           "role": "reforge-audio-producer-binding",
           "lines": "17",
-          "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
+          "sha256": "58c41b9a02887ce8270d8b4ec78ca5a7e2f71d92ed09663e5bee8f083e4ec679"
         },
         {
           "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -5765,8 +5795,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2473",
-          "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
+          "lines": "2466",
+          "sha256": "1918315cf7c47780d7746028054b9bde39b4740cf71f8a18c248269202da6814"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -5800,8 +5830,8 @@
           "path": "packages/game/src/core/battle/battle-system.ts",
           "anchor": "function tickPostAction(",
           "role": "first-game-exhausted-queue-tick",
-          "lines": "2788",
-          "sha256": "9deef69706a798c70ed6beaba4b869afef4f2e9400ff48e810cc679ab5744c80"
+          "lines": "2824",
+          "sha256": "1a0d5c35ae790035fac21caf7b5629728da3b3bf0ce56c098dcf864bf1ef58e2"
         },
         {
           "path": "projects/pal/content/shared-scripts.json",
@@ -7046,6 +7076,36 @@
               }
             ],
             "scope": "现行 PAL manifest 新增 212 音效角色。明雷胜利转场配置和原执行原件继续保留。"
+          },
+          {
+            "action": "q2-summon-division-caller-rebinding",
+            "base": "62959793cf6fb2450806d12072608ce768d80c39",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "17",
+                "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2473",
+                "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
+              },
+              {
+                "path": "packages/game/src/core/battle/battle-system.ts",
+                "anchor": "function tickPostAction(",
+                "role": "first-game-exhausted-queue-tick",
+                "lines": "2788",
+                "sha256": "9deef69706a798c70ed6beaba4b869afef4f2e9400ff48e810cc679ab5744c80"
+              }
+            ],
+            "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
           }
         ]
       }
