@@ -13,6 +13,7 @@ import {
   type DitherPalettePlan,
 } from '../dither-transition.js'
 import { bakeFrame } from '../render.js'
+import { ENEMY_SUMMON_COLOR_SHIFT } from './battle-anim.js'
 
 /** 一个战斗单位的渲染项(精灵 + 底锚位置 + 当前帧下标)。 */
 export interface BattleSpriteDraw {
@@ -192,7 +193,7 @@ export function renderBattleScene(
   }
   // 精灵 + magic overlay 统一按 y(+special) 升序；靠上的先画，近处遮远处。
   const all: Array<
-    | { kind: 'fighter'; x: number; sortY: number; draw: BattleSpriteDraw }
+    | { kind: 'enemy' | 'player'; x: number; sortY: number; draw: BattleSpriteDraw }
     | { kind: 'overlay'; x: number; sortY: number; draw: BattleDepthOverlayDraw }
   > = [
     // 同键时保持 overlay 先入列；稳定排序下单位随后覆盖，和一阶段 draw list 一致。
@@ -203,18 +204,19 @@ export function renderBattleScene(
       draw,
     })),
     ...scene.enemies.map((draw) => ({
-      kind: 'fighter' as const,
+      kind: 'enemy' as const,
       x: draw.x,
       sortY: draw.y,
       draw,
     })),
     ...scene.players.map((draw) => ({
-      kind: 'fighter' as const,
+      kind: 'player' as const,
       x: draw.x,
       sortY: draw.y,
       draw,
     })),
   ].sort((a, b) => (a.sortY !== b.sortY ? a.sortY - b.sortY : b.x - a.x))
+  const tintedSummons: Array<{ image: HTMLCanvasElement; x: number; y: number }> = []
   for (const d of all) {
     if (d.kind === 'overlay') {
       const f = d.draw.sprite.frames[d.draw.frame] ?? d.draw.sprite.frames[0]
@@ -242,7 +244,12 @@ export function renderBattleScene(
       ctx.restore()
     } else {
       ctx.drawImage(img, dx, dy)
+      if (d.kind === 'enemy' && draw.colorShift === ENEMY_SUMMON_COLOR_SHIFT)
+        tintedSummons.push({ image: img, x: dx, y: dy })
     }
   }
+  // PAL_BattleDrawAllSprites overlays color-shifted sprites in the same depth
+  // order. Enemy summon's tint reaches this painter during both fades and the hold.
+  for (const { image, x, y } of tintedSummons) ctx.drawImage(image, x, y)
   ctx.restore()
 }
