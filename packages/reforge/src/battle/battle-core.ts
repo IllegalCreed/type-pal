@@ -461,7 +461,7 @@ function spawnIntoSummonSlot(
   return slot
 }
 
-/** divide：可扫描固定 5 槽，并把 maxEnemyIndex 扩到最高新占用槽后重排站位。 */
+/** A division fills the fixed slots before recalculating the formation together. */
 function spawnIntoDivideSlot(
   s: BattleState,
   spawn: Omit<BattleEnemyState, 'basePos'>,
@@ -471,8 +471,6 @@ function spawnIntoDivideSlot(
   const previous = s.enemies[slot]
   const basePos = previous?.basePos ?? { x: 100, y: 110 }
   s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
-  if (slot > s.maxEnemyIndex) s.maxEnemyIndex = slot
-  recomputeEnemyPositions(s)
   return slot
 }
 
@@ -1111,6 +1109,9 @@ export function applyEnemyEffect(
           expectDefined(available[index]),
         ),
       )
+    // script.c:2836–2844 only retains slots through the last active enemy after division.
+    s.maxEnemyIndex = s.enemies.findLastIndex((entry) => entry !== null && entry.hp > 0)
+    recomputeEnemyPositions(s)
     return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
   }
 

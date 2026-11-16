@@ -429,6 +429,24 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     expect(s2.log.some((l) => l.includes('召唤失败'))).toBe(true)
   })
 
+  test('分裂进低槽后按最高占用槽重排，空尾槽退出阵形', () => {
+    const cloud = { ...mkEnemy('cloud', { health: 1200 }), yPosOffset: 4 }
+    const state = createBattleState({
+      players: [player('li')],
+      enemySlots: [null, cloud, null],
+    })
+    expect(state.maxEnemyIndex).toBe(2)
+
+    const result = applyEnemyEffect(state, 1, { kind: 'divide', copies: 1 })
+
+    expect(result.spawnedIdxs).toEqual([0])
+    expect(state.maxEnemyIndex).toBe(1)
+    expect(state.enemies.slice(0, 2).map((enemy) => enemy?.basePos)).toEqual([
+      { x: 70, y: 134 },
+      { x: 140, y: 110 },
+    ])
+  })
+
   test('站位定死:死怪不换挡、分裂/召唤填死槽继承位置(作者报「死后错位」根治)', () => {
     const a = mkEnemy('a', { health: 10 })
     const b = mkEnemy('b', { health: 200 })
