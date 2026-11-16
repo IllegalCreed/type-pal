@@ -218,9 +218,18 @@ function N(props: {
   )
 }
 
-function EffectField(props: { label: string; help?: string; children: (id: string) => ReactNode }) {
+function EffectField(props: {
+  label: string
+  help?: string
+  wide?: boolean
+  children: (id: string) => ReactNode
+}) {
   return (
-    <DsField label={props.label} help={props.help} className="skill-effect-field">
+    <DsField
+      label={props.label}
+      help={props.help}
+      className={props.wide ? 'skill-effect-field skill-effect-field--wide' : 'skill-effect-field'}
+    >
       {({ id }) => props.children(id)}
     </DsField>
   )
@@ -546,7 +555,7 @@ function EffectFields(props: {
     case 'summon':
       return (
         <>
-          <EffectField label="召唤形象">
+          <EffectField label="召唤形象" wide>
             {(id) => (
               <BattleSpritePicker
                 id={id}
@@ -559,57 +568,59 @@ function EffectFields(props: {
               />
             )}
           </EffectField>
-          <EffectField label="本体横向偏移" help="像素，向右为正">
-            {(id) => (
-              <N
-                draftScope={draftScope}
-                syncToken={syncToken}
-                id={id}
-                v={e.xOffset}
-                on={(xOffset) => on({ ...e, xOffset })}
-                integer
-                ph="0"
-              />
-            )}
-          </EffectField>
-          <EffectField label="本体纵向偏移" help="像素，向下为正">
-            {(id) => (
-              <N
-                draftScope={draftScope}
-                syncToken={syncToken}
-                id={id}
-                v={e.yOffset}
-                on={(yOffset) => on({ ...e, yOffset })}
-                integer
-                ph="0"
-              />
-            )}
-          </EffectField>
-          <EffectField label="现身帧速">
-            {(id) => (
-              <N
-                draftScope={draftScope}
-                syncToken={syncToken}
-                id={id}
-                v={e.speed}
-                on={(n) => on({ ...e, speed: n ?? undefined })}
-                ph="0"
-              />
-            )}
-          </EffectField>
-          <EffectField label="背景染色" help="负数调暗，正数调亮，0 表示不染色">
-            {(id) => (
-              <N
-                draftScope={draftScope}
-                syncToken={syncToken}
-                id={id}
-                v={e.tint}
-                on={(n) => on({ ...e, tint: n ?? undefined })}
-                ph="0"
-              />
-            )}
-          </EffectField>
-          <EffectField label="现身音效">
+          <DsNumberFieldGrid className="skill-effect-field--wide">
+            <EffectField label="本体横向偏移" help="像素，向右为正">
+              {(id) => (
+                <N
+                  draftScope={draftScope}
+                  syncToken={syncToken}
+                  id={id}
+                  v={e.xOffset}
+                  on={(xOffset) => on({ ...e, xOffset })}
+                  integer
+                  ph="0"
+                />
+              )}
+            </EffectField>
+            <EffectField label="本体纵向偏移" help="像素，向下为正">
+              {(id) => (
+                <N
+                  draftScope={draftScope}
+                  syncToken={syncToken}
+                  id={id}
+                  v={e.yOffset}
+                  on={(yOffset) => on({ ...e, yOffset })}
+                  integer
+                  ph="0"
+                />
+              )}
+            </EffectField>
+            <EffectField label="现身帧速">
+              {(id) => (
+                <N
+                  draftScope={draftScope}
+                  syncToken={syncToken}
+                  id={id}
+                  v={e.speed}
+                  on={(n) => on({ ...e, speed: n ?? undefined })}
+                  ph="0"
+                />
+              )}
+            </EffectField>
+            <EffectField label="背景染色" help="负数调暗，正数调亮，0 表示不染色">
+              {(id) => (
+                <N
+                  draftScope={draftScope}
+                  syncToken={syncToken}
+                  id={id}
+                  v={e.tint}
+                  on={(n) => on({ ...e, tint: n ?? undefined })}
+                  ph="0"
+                />
+              )}
+            </EffectField>
+          </DsNumberFieldGrid>
+          <EffectField label="现身音效" wide>
             {(id) => (
               <SoundPicker
                 id={id}
