@@ -123,7 +123,18 @@ function verify(trace, selection) {
       frames.some(({ payload }) => payload.players.length === 0),
       'missing summon fade',
     )
-    return { selection, settledHp, hits, firstFire: fire[0] }
+    const spirit = frames.flatMap(({ payload }) => (payload.summon ? [payload.summon] : []))
+    assert(spirit.length > 1 && spirit[0].frameIndex === 0, 'missing actual 武神 sprite draws')
+    return {
+      selection,
+      settledHp,
+      hits,
+      summon: {
+        first: spirit[0],
+        distinctFrames: new Set(spirit.map((draw) => draw.frameIndex)).size,
+      },
+      firstFire: fire[0],
+    }
   }
   assert.deepEqual(cast.after.enemies, cast.before.enemies)
   const recovery = trace.presentations.find(
@@ -218,7 +229,7 @@ await runBrowserJourney({
     const authored = await authoredFiles()
     for (const [path, value] of Object.entries(authored)) {
       report.authoredInputs.push({
-        path,
+        projectPath: path,
         ...(await writeEvidenceArtifact(out, `authored-${path.split('/').at(-1)}`, value)),
       })
     }
