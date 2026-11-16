@@ -295,14 +295,25 @@ await runBrowserJourney({
           result.selection = selected.selection
           await key('Enter')
         }
-        const final = await until(
-          read,
-          (state) =>
-            summon
-              ? state?.canConfirmSettlement
-              : state?.turn === 2 && state.selection?.phase === 'menu' && !state.busy,
-          summon ? 'victory settlement after summon' : 'next round’s command menu',
-        )
+        if (summon) {
+          await until(
+            () =>
+              page.evaluate(() =>
+                globalThis.__battleEvidence
+                  .read()
+                  .presentations.some(({ payload }) => payload.settlement),
+              ),
+            Boolean,
+            'rendered victory settlement after summon',
+          )
+        }
+        const final = summon
+          ? await read()
+          : await until(
+              read,
+              (state) => state?.turn === 2 && state.selection?.phase === 'menu' && !state.busy,
+              'next round’s command menu',
+            )
         await capture.finish(page, {
           event: summon ? 'victory-settlement' : 'next-player-menu',
           state: final.snapshot,
