@@ -113,6 +113,7 @@ export interface SkillAnimation {
 export interface SkillPrepareEffect {
   kind: 'remainingResourceDamage'
   resource: 'mp'
+  /** Base power per remaining MP for the neutral magic hit, after the normal cost. */
   multiplier: number
   consume: 'all'
 }

@@ -1380,20 +1380,12 @@ function applyPlayerSkill(
     }
   }
   const targets = playerSkillTargets(s, idx, skill, targetEnemyIdx, targetAllyIdx)
-  // 370 的 0x57：普通 MP 扣除与物品门成功后，读取**剩余** MP×8，再清空 MP；
-  // prepare 本身就是主伤害语义，不能再在 effects 里补一份 damage。
+  // 0x57 writes a neutral spell's base power after ordinary costs, then clears the caster's MP.
   for (const prepare of execution.prepare) {
-    if (prepare.kind !== 'remainingResourceDamage' || prepare.resource !== 'mp') continue
-    const amount = Math.max(0, Math.trunc(p.mp * prepare.multiplier))
+    const power = Math.trunc(p.mp * prepare.multiplier)
     p.mp = 0
-    if (amount <= 0) continue
-    for (const ti of targets.enemies) {
-      const enemy = expectDefined(s.enemies[ti])
-      const dealt = Math.min(enemy.hp, amount)
-      enemy.hp -= dealt
-      if (dealt > 0)
-        s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
-    }
+    if (power > 0)
+      for (const ti of targets.enemies) dealSkillDamage(s, p, ti, power, 0, skill.name, rng)
   }
   applyPlayerSkillEffects(s, p, skill, execution.effects, targets, rng, (ti, power, elemental) =>
     dealSkillDamage(s, p, ti, power, elemental, skill.name, rng),
