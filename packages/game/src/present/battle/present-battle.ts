@@ -439,6 +439,9 @@ export class BattlePresent {
       !this.summonFadeBuf ||
       this.summonFadeBuf.length !== current.length
     ) {
+      // Consecutive 0x9E instructions can start a new dissolve without a normal frame.
+      // The previous target is complete at that boundary even if rendering skipped its last step.
+      if (this.enemySummonFadeTarget) this.lastFrameBuf = this.enemySummonFadeTarget
       this.summonFadeBuf = new Uint8Array(
         this.lastFrameBuf && this.lastFrameBuf.length === current.length
           ? this.lastFrameBuf
@@ -469,7 +472,10 @@ export class BattlePresent {
     }
     this.summonFadeApplied = fadeStep
     current.set(buf) // 显示累积态(from 渐变到 to)
-    if (enemyFadeStep === SUMMON_FADE_STEPS - 1) current.set(target)
+    if (enemyFadeStep === SUMMON_FADE_STEPS - 1) {
+      current.set(target)
+      this.lastFrameBuf = target
+    }
   }
 
   /** 释放一场战斗拥有的全部呈现状态；可重复调用，不影响 framebuffer 或核心状态。 */
