@@ -5393,13 +5393,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "771f4ed2668d96ed2ae20d821eb10dc293751403fb5664c843712c883da3ae96",
+      "afterSha256": "089c07cb7e4163b05f20a561dbc85b89a48a1a24d07a6a67b4ebceb6be3b05d4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
         "date": "2026-11-16",
         "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 535,
+        "reviewedLines": 537,
         "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
       }
     },
@@ -5432,13 +5432,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "5dafe9ee609d7cd668cb87a4f606e457dba3b6df3592cb891d66d97e08cca44e",
+      "afterSha256": "4725f1195de32adbda048ebabfa77af1ad71df0ccbcd3ce7d3783385ca2638e9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
         "date": "2026-11-16",
         "conclusion": "核实际素材、操作、保存和失败原件，按来源列明本次与历史执行。",
-        "reviewedLines": 493,
+        "reviewedLines": 495,
         "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
       }
     },
