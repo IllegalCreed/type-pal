@@ -2229,6 +2229,8 @@
             {
               "kind": "summon",
               "battleSprite": "player-summon-15",
+              "xOffset": 0,
+              "yOffset": 18,
               "speed": 1,
               "sound": "sound.pal.301"
             }
