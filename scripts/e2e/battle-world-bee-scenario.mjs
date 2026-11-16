@@ -16,6 +16,17 @@ export const beePartyMember = {
   maxHP: 480,
   maxMP: 410,
 }
+export const beePostWin = {
+  seed: 6,
+  rolls: [3, 6],
+  grants: [1, 1],
+  threshold: 10165,
+  before: { ...beePartyMember, level: 29, exp: 10162, hp: 480, maxHP: 490, mp: 408, maxMP: 418 },
+  priorGrowth: { attack: 4, magicAttack: 4, defense: 2, speed: 2, luck: 2 },
+  growthRolls: [0, 5, 1, 0, 1, 0],
+  after: { level: 30, exp: 1, hp: 500, maxHP: 500, mp: 431, maxMP: 431 },
+  skill: { id: '354', label: '万蚁蚀象', mp: 37 },
+}
 export const beeWorldInput = {
   scene: 's006',
   map: 4,
@@ -60,23 +71,32 @@ export function beeWorldArguments(args = process.argv.slice(2)) {
       escape: { type: 'string' },
       'escape-exits': { type: 'boolean' },
       'post-battle-save': { type: 'boolean' },
+      'post-win-save': { type: 'boolean' },
       probe: { type: 'boolean' },
     },
   })
   const escaped = values.escape !== undefined
   const escapeExits = values['escape-exits'] === true
-  const postBattleSave = values['post-battle-save'] === true
+  const postWin = values['post-win-save'] === true
+  const postBattleSave = values['post-battle-save'] === true || postWin
   assert(!postBattleSave || !escaped, 'post-battle save uses the victory route')
   assert(
     !values.probe || (escaped && !values.capture),
     'probe requires an escape case and no capture',
   )
-  assert(!postBattleSave || values.seed === '99', 'post-battle save uses explicit seed 99')
+  assert(
+    !postBattleSave || values.seed === String(postWin ? beePostWin.seed : 99),
+    'use the registered explicit seed for the save scenario',
+  )
   assert(
     !escapeExits || (values.escape === 'success' && !values.probe && !values.capture),
     'directional checks require the success case without capture or probe',
   )
-  let cases = escaped ? beeEscapeCases.filter((entry) => entry.escape === values.escape) : beeCases
+  let cases = escaped
+    ? beeEscapeCases.filter((entry) => entry.escape === values.escape)
+    : postWin
+      ? [beePostWin].map(({ seed, rolls, grants }) => ({ seed, rolls, grants }))
+      : beeCases
   if (values.seed !== undefined) cases = cases.filter(({ seed }) => String(seed) === values.seed)
   assert(cases.length > 0, 'choose a registered battle outcome and seed')
   assert(!values.capture || cases.length === 1, 'capture requires one explicit case')
@@ -87,6 +107,7 @@ export function beeWorldArguments(args = process.argv.slice(2)) {
     escape: values.escape,
     escapeExits,
     postBattleSave,
+    postWin,
     probe: values.probe === true,
   }
 }

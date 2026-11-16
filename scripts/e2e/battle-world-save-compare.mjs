@@ -4,8 +4,9 @@ import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { honeycombText } from './battle-world-bee-scenario.mjs'
+import { beePostWin, honeycombText } from './battle-world-bee-scenario.mjs'
 import {
+  assertPostWinPredecessor,
   assertRestoredWorld,
   assertSavedWorld,
   badSaveToast,
@@ -13,6 +14,7 @@ import {
   savedPoses,
   saveWorldFacts,
 } from './battle-world-save-contract.mjs'
+import { inspectBeeRespawn } from './battle-world-save-respawn.mjs'
 import { repoRoot } from './browser-journey.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { recordingDependencies } from './evidence-dependencies.mjs'
@@ -122,8 +124,82 @@ function rewardScrollBoundary(engine, story) {
   }
 }
 
-async function inspectRun(row, engine, profile, load, actions, contexts) {
-  assert.equal(row.seed, 99)
+function inspectWinProgression(story, engine) {
+  const game = engine === 'game'
+  const frames = game ? story.native.frames : event(story, 'settlement')
+  const observed = frames
+    .map((row) => (game ? row.battle?.settlement?.screen : row.screen))
+    .filter(Boolean)
+  const screens = observed.filter(({ kind }, index) => kind !== observed[index - 1]?.kind)
+  assert.deepEqual(
+    screens.map(({ kind }) => kind),
+    ['exp-cash', 'level-up', 'learn-magic'],
+  )
+  const [reward, growth, magic] = screens
+  const { before, after, growthRolls, skill } = beePostWin
+  assert.deepEqual(game ? [reward.expGained, reward.cashGained] : [reward.exp, reward.cash], [4, 4])
+  assert.equal(before.exp + 4 - beePostWin.threshold, after.exp)
+  const observedGrowth = game
+    ? [
+        [
+          growth.data.level.old,
+          growth.data.hp.old,
+          growth.data.hp.oldMax,
+          growth.data.mp.old,
+          growth.data.mp.oldMax,
+        ],
+        [
+          growth.data.level.cur,
+          growth.data.hp.cur,
+          growth.data.hp.curMax,
+          growth.data.mp.cur,
+          growth.data.mp.curMax,
+        ],
+      ]
+    : [growth.report.before, growth.report.after].map(({ level, hp, maxHP, mp, maxMP }) => [
+        level,
+        hp,
+        maxHP,
+        mp,
+        maxMP,
+      ])
+  assert.deepEqual(
+    observedGrowth,
+    [before, after].map(({ level, hp, maxHP, mp, maxMP }) => [level, hp, maxHP, mp, maxMP]),
+  )
+  assert.equal(game ? magic.data.magicName : magic.magicName, skill.label)
+  if (game) assert.equal(String(magic.data.magicId), skill.id)
+  else assert.deepEqual(growth.report.learned, [skill.id])
+  const bounds = [7, 5, 1, 1, 1, 1]
+  const rng = game ? story.native.rng : event(story, 'draw')
+  assert.equal(rng.length, 14)
+  const roll = rng.slice(6, 12).map((draw, index) => {
+    if (game) {
+      assert.deepEqual([draw.kind, draw.args], ['rangeInclusive', [0, bounds[index]]])
+      return draw.value
+    }
+    assert.equal(draw.source, 'growth')
+    return Math.floor(draw.sample * (bounds[index] + 1))
+  })
+  assert.deepEqual(roll, growthRolls)
+  const drops = rng.slice(12).map((draw) => {
+    if (game) {
+      assert.deepEqual([draw.kind, draw.args], ['rangeInclusive', [1, 100]])
+      return draw.value
+    }
+    assert.equal(draw.source, 'drop')
+    return Math.floor(draw.sample * 100) + 1
+  })
+  assert.deepEqual(drops, beePostWin.rolls)
+  const hide = game
+    ? frames.find(({ npc }) => npc?.state === -1)?.npc.vanishTime
+    : event(story, 'hidden')[0]?.state.remainingTicks
+  assert.equal(hide, 800, 'actual victory must start the native 800-tick hide')
+  return { screens, roll, drops, hide }
+}
+
+async function inspectRun(row, engine, profile, load, loadScreen, actions, contexts, postWin) {
+  assert.equal(row.seed, postWin ? beePostWin.seed : 99)
   const story = await load(row.raw)
   assert.equal(story.overflow, false)
   assert.deepEqual(story.errors, [])
@@ -135,9 +211,10 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
   assert.equal(contact.length, 1)
   assert.deepEqual(row.grants, [1, 1])
   const rewardScroll = rewardScrollBoundary(engine, story)
+  const progression = postWin ? inspectWinProgression(story, engine) : undefined
   const evidence = row.postBattleSave
   const initial = await load(evidence.initial)
-  assertSavedWorld(initial, savedPoses[0])
+  assertSavedWorld(initial, savedPoses[0], postWin)
   const traces = await load(evidence.raw)
   assert.equal(traces.overflow, false)
   assert.deepEqual(traces.errors, [])
@@ -187,9 +264,9 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     entries.map(([role, { type, target, targetSide }]) => [role, type, target, targetSide])
   for (const [index, receipt] of evidence.saves.entries()) {
     const record = await load(receipt.record)
-    const actual = saveWorldFacts(record.payload, engine)
+    const actual = saveWorldFacts(record.payload, engine, postWin)
     assert.deepEqual(actual, receipt.world)
-    assertSavedWorld(actual, savedPoses[index])
+    assertSavedWorld(actual, savedPoses[index], postWin)
     const [version, storedSlot] =
       engine === 'game'
         ? [record.payload.version, record.payload.gs.currentSaveSlot]
@@ -223,8 +300,8 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     [slots[0]],
   )
   assert(writes.at(-1).order < restored[0].order)
-  assertSavedWorld(evidence.beforeInGameRestore, savedPoses[1])
-  assertSavedWorld(evidence.restoredInGame, savedPoses[0])
+  assertSavedWorld(evidence.beforeInGameRestore, savedPoses[1], postWin)
+  assertSavedWorld(evidence.restoredInGame, savedPoses[0], postWin)
   assertRestoredWorld(saved[0].world, evidence.restoredInGame, 3)
   const loadReveal = [
     loadRevealBoundary(evidence.loadPaint, savedPoses[0].grid, `${engine} world menu`),
@@ -267,7 +344,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     else original.payload.world.money = malformed.value
     assert.deepEqual(corrupt, original, 'the corrupt slot should differ only in its cash value')
     for (const rejected of [malformed, ...(isGame ? [receipt.empty] : [])]) {
-      assertSavedWorld(rejected.before, savedPoses[1])
+      assertSavedWorld(rejected.before, savedPoses[1], postWin)
       assert.deepEqual(rejected.after, rejected.before)
       assert.equal(rejected.menu.mode, 'load')
     }
@@ -296,7 +373,7 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
       assert.equal(freshTrace.events.length, 1)
       assert.deepEqual(freshTrace.events[0], fresh.event)
       assert.deepEqual([fresh.event.kind, fresh.event.slot], ['restore-committed', fresh.slot])
-      assertSavedWorld(fresh.world, savedPoses[index])
+      assertSavedWorld(fresh.world, savedPoses[index], postWin)
       assertRestoredWorld(saved[index].world, fresh.world, 3)
       assert(fresh.restoredAt.ready && fresh.resumedAt.ready && fresh.resumedAt.hidden)
       assert(fresh.resumedAt.clock > fresh.restoredAt.clock)
@@ -309,6 +386,29 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
           `${engine} title slot ${index + 1}`,
         ),
       )
+      if (postWin && index === 0) {
+        const respawn = fresh.respawn
+        assert(respawn, 'missing the restored native enemy lifecycle')
+        const raw = await load(respawn.raw)
+        const checked = inspectBeeRespawn(raw, saved[index].world.lifecycle.ticks)
+        assert.deepEqual(checked, respawn.summary)
+        await loadScreen(respawn.screen, `${row.label}-learned-magic.png`)
+        const walk = freshKeys.filter(({ phase }) => phase === 'post-battle-respawn')
+        assert.deepEqual(
+          walk.map(({ kind, key }) => [kind, key]),
+          ['ArrowUp', 'ArrowUp', 'ArrowDown'].flatMap((key) => [
+            ['down', key],
+            ['up', key],
+          ]),
+        )
+        assert(walk[0].atMs > raw.timeOrigin + checked.expired.atMs)
+        assert.deepEqual(
+          freshKeys
+            .filter(({ phase }) => phase === 'post-battle-learned-spell')
+            .map(({ key }) => key),
+          ['ArrowLeft', 'Enter'],
+        )
+      }
       optional.fresh.push(fresh)
     }
   } else {
@@ -324,11 +424,12 @@ async function inspectRun(row, engine, profile, load, actions, contexts) {
     nativeBattle: row.raw,
     rewardScroll,
     loadReveal,
+    ...(progression && { progression }),
     ...(optional ?? {}),
   }
 }
 
-async function readReport(path, engine, profile) {
+async function readReport(path, engine, profile, postWin) {
   const absolute = resolve(path)
   const bytes = await readFile(absolute)
   const report = JSON.parse(bytes)
@@ -337,6 +438,7 @@ async function readReport(path, engine, profile) {
     [report.engine, report.status, report.profile, report.errors],
     [engine, 'passed', profile, []],
   )
+  assert.equal(report.input.postWin === true, postWin)
   const { definition } = report.dependencies
   assert.deepEqual(
     [definition.entry, definition.traceConfig, definition.packageName],
@@ -360,32 +462,59 @@ async function readReport(path, engine, profile) {
   const expectedRuns = profile === 'verify' ? 2 : 1
   assert.deepEqual(
     report.cases.map(({ label }) => label),
-    Array.from({ length: expectedRuns }, (_, index) => `seed-99-run-${index + 1}`),
+    Array.from(
+      { length: expectedRuns },
+      (_, index) => `seed-${postWin ? beePostWin.seed : 99}-run-${index + 1}`,
+    ),
   )
   const load = async (reference) => {
     const { value, binding } = await readEvidenceArtifact(dirname(absolute), reference)
     assert.equal(binding.status, 'verified')
     return value
   }
-  const predecessor = saveWorldFacts(await load(report.save), engine)
+  const loadScreen = async (reference, expectedPath) => {
+    assert.equal(reference.path, expectedPath)
+    const png = await readFile(resolve(dirname(absolute), expectedPath))
+    assert.deepEqual([...png.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10])
+    assert.equal(reference.byteLength, png.byteLength)
+    assert.equal(reference.sha256, hash(png))
+  }
+  const predecessor = saveWorldFacts(await load(report.save), engine, postWin)
   assert.deepEqual(
     [predecessor.grid, predecessor.money, predecessor.inventory, predecessor.party[0].exp],
-    [[93, 45], 0, [], 0],
+    [[93, 45], 0, [], postWin ? beePostWin.before.exp : 0],
     'the real checkpoint must precede the victory rewards',
   )
+  if (postWin) assertPostWinPredecessor(predecessor)
   const runs = []
   let actionIndex = 0
   for (const row of report.cases) {
     assert.equal(row.actionRange.start, actionIndex, 'unbound battle input range')
     assert.equal(row.postBattleSave.actionRange.start, row.actionRange.end)
-    runs.push(await inspectRun(row, engine, profile, load, report.actions, report.contexts))
+    runs.push(
+      await inspectRun(
+        row,
+        engine,
+        profile,
+        load,
+        loadScreen,
+        report.actions,
+        report.contexts,
+        postWin,
+      ),
+    )
     actionIndex = row.postBattleSave.actionRange.end
   }
   assert.equal(actionIndex, report.actions.length, 'unused native inputs')
   return { engine, path: absolute, sha256: hash(bytes), revision: report.revision, runs }
 }
 
-export async function comparePostBattleSave(gamePath, reforgePath, profile = 'verify') {
+export async function comparePostBattleSave(
+  gamePath,
+  reforgePath,
+  profile = 'verify',
+  postWin = false,
+) {
   assert(['verify', 'capture'].includes(profile))
   assert.notEqual(
     resolve(gamePath),
@@ -403,8 +532,8 @@ export async function comparePostBattleSave(gamePath, reforgePath, profile = 've
   const contractSha256 = hash(await readFile(resolve(repoRoot, contract)))
   assert.equal(contractSha256, hash(git('show', `${judgeRevision}:${contract}`)))
   const [game, reforge] = await Promise.all([
-    readReport(gamePath, 'game', profile),
-    readReport(reforgePath, 'reforge', profile),
+    readReport(gamePath, 'game', profile, postWin),
+    readReport(reforgePath, 'reforge', profile, postWin),
   ])
   assert.equal(game.revision, reforge.revision, 'use the same frozen candidate on both engines')
   const durable = ({ lifecycle: _lifecycle, ...world }) => world
@@ -437,17 +566,19 @@ export async function comparePostBattleSave(gamePath, reforgePath, profile = 've
     judgeSha256,
     contractSha256,
     profile,
+    ...(postWin && { postWin }),
     game,
     reforge,
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const [game, reforge, output, profile] = process.argv.slice(2)
+  const [game, reforge, output, profile, scenario] = process.argv.slice(2)
   assert(
     game && reforge && output,
-    'usage: node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON [verify|capture]',
+    'usage: node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON [verify|capture] [--post-win-save]',
   )
-  const result = await comparePostBattleSave(game, reforge, profile)
+  assert(scenario === undefined || scenario === '--post-win-save')
+  const result = await comparePostBattleSave(game, reforge, profile, scenario === '--post-win-save')
   console.log(await writeEvidenceArtifact(dirname(resolve(output)), basename(output), result))
 }

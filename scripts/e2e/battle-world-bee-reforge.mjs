@@ -5,6 +5,7 @@ import { createSeedableRng } from '../../packages/game/src/core/rng.ts'
 import {
   beeEscapeParty,
   beePartyMember,
+  beePostWin,
   beeWorldArguments,
   beeWorldInput,
   honeycombItem,
@@ -23,9 +24,10 @@ const {
   escape: escapeCase,
   escapeExits,
   postBattleSave,
+  postWin,
   probe,
 } = beeWorldArguments()
-const roster = escapeCase ? beeEscapeParty : [beePartyMember]
+const roster = escapeCase ? beeEscapeParty : [postWin ? beePostWin.before : beePartyMember]
 const postBattle = postBattleSave
   ? (await import('./battle-world-save.mjs')).verifyPostBattleSave
   : null
@@ -41,7 +43,7 @@ const loot = (inventory) => inventory?.find(({ itemId }) => itemId === honeycomb
 const grid = ({ col, row }) => [col, row]
 
 async function createFixture() {
-  const { buildWorld, equipItem, validateActors, validateItems } = await tsImport(
+  const { applyLevelGrowth, buildWorld, equipItem, validateActors, validateItems } = await tsImport(
     '../../packages/content/src/index.ts',
     import.meta.url,
   )
@@ -87,6 +89,15 @@ async function createFixture() {
   )
   assert.equal(world.party[0].equipment.weapon, String(weapon))
   assert.deepEqual(world.inventory, [{ itemId: '192', count: 1 }])
+  if (postWin) {
+    const member = world.party[0]
+    assert(!world.learnedSkills[member.id].includes(beePostWin.skill.id))
+    assert.equal(actor.battler.leveling.expTable[beePostWin.before.level], beePostWin.threshold)
+    applyLevelGrowth(member, 1, () => 0)
+    member.exp = beePostWin.before.exp
+    member.hp = beePostWin.before.hp
+    member.mp = beePostWin.before.mp
+  }
   // This snapshot has only the equipped weapon, as does the Game fixture.
   world.inventory = []
   return buildCurrentSavePayload(
@@ -96,7 +107,7 @@ async function createFixture() {
   )
 }
 
-function installObserver(makeRng, createRecorder, seed, itemId, escapeCase) {
+function installObserver(makeRng, createRecorder, seed, itemId, escapeCase, postWin) {
   const rng = makeRng(seed)
   const events = [],
     handoff = [],
@@ -182,6 +193,7 @@ function installObserver(makeRng, createRecorder, seed, itemId, escapeCase) {
   }
   const getCount = (world) => world.inventory.find(({ itemId: id }) => id === itemId)?.count ?? 0
   globalThis.__beeWorld = Object.freeze({
+    postWin,
     event,
     escape: escapeCase,
     escapeMenu(turn, slot, phase) {
@@ -353,7 +365,7 @@ const facts = ({ events, handoff, ...state }) => state
 
 const fixture = await createFixture()
 await runBrowserJourney({
-  name: `q2-world-bee-reforge${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${cases[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
+  name: `q2-world-bee-reforge${escapeCase ? `-escape-${escapeCase}` : ''}${postWin ? '-post-win-save' : postBattleSave ? '-save' : ''}${captureRequested ? `-${cases[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
   packageName: '@type-pal/reforge',
   environment: { E2E: '1', VITE_PROJECT_ID: 'pal' },
   sources: [
@@ -379,6 +391,7 @@ await runBrowserJourney({
         ]
       : []),
     ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
+    ...(postWin ? ['projects/pal/content/skills.json'] : []),
   ],
   traceConfig: postBattleSave
     ? 'scripts/e2e/battle-world-save-reforge.config.mts'
@@ -397,7 +410,9 @@ await runBrowserJourney({
           : 'q2-world-bee',
       input: escapeCase
         ? { ...beeWorldInput, party: roster, battleInput: ['KeyQ'] }
-        : beeWorldInput,
+        : postWin
+          ? { ...beeWorldInput, party: roster, postWin: true }
+          : beeWorldInput,
       cases: [],
     })
     report.save = await writeEvidenceArtifact(out, 'reforge-input.json', fixture)
@@ -409,9 +424,11 @@ await runBrowserJourney({
         const result = { ...spec, label, repetition, actionRange: { start: report.actions.length } }
         report.cases.push(result)
         const page = await newPage(label)
-        await page.addInitScript(
-          `(${installObserver})(${createSeedableRng}, ${createEvidenceRecorder}, ${seed}, ${JSON.stringify(honeycombItem)}, ${Boolean(escapeCase)})`,
-        )
+        const preparePage = (target) =>
+          target.addInitScript(
+            `(${installObserver})(${createSeedableRng}, ${createEvidenceRecorder}, ${seed}, ${JSON.stringify(honeycombItem)}, ${Boolean(escapeCase)}, ${postWin})`,
+          )
+        await preparePage(page)
         const record = (action) => report.actions.push(canonicalInput(action))
         const press = (key, phase) =>
           pressRecordedKey({
@@ -499,6 +516,21 @@ await runBrowserJourney({
             'native settlement confirm window',
           )
           await press('Enter', 'settlement')
+          if (postWin) {
+            for (const [kind, text] of [
+              ['level-up', '阿奴修行提升'],
+              ['learn-magic', `阿奴练成${beePostWin.skill.label}`],
+            ]) {
+              const shown = (state) => observed(state, 'settlement').at(-1)?.screen.kind === kind
+              await wait(
+                (state) => shown(state) && performanceAge(state, 'settlement') >= 40,
+                `native Reforge ${kind} page`,
+              )
+              if (capture.enabled)
+                await capture.readable(text, true, async () => shown(await read(page)))
+              await press('Enter', 'settlement')
+            }
+          }
           const returned = await wait(
             (state) =>
               ready(state) &&
@@ -520,16 +552,19 @@ await runBrowserJourney({
             'world menu closes and control returns',
           )
           result.end = facts(end)
-          await wait(
-            (state) => {
-              const resumed = state.handoff.find(
-                ({ stage, alpha }) => stage === 'world-fade-in' && alpha === 0,
-              )
-              return resumed && observed(state, 'ambient').some(({ atMs }) => atMs >= resumed.atMs)
-            },
-            'actual ten-mile ambience resumes after the map is fully bright',
-            2_000,
-          )
+          if (!postWin)
+            await wait(
+              (state) => {
+                const resumed = state.handoff.find(
+                  ({ stage, alpha }) => stage === 'world-fade-in' && alpha === 0,
+                )
+                return (
+                  resumed && observed(state, 'ambient').some(({ atMs }) => atMs >= resumed.atMs)
+                )
+              },
+              'actual ten-mile ambience resumes after the map is fully bright',
+              2_000,
+            )
           assert.deepEqual(
             observed(end, 'notice').map(({ text }) => text),
             Array.from(
@@ -555,6 +590,8 @@ await runBrowserJourney({
               health,
               capture,
               result,
+              postWin,
+              prepareFresh: preparePage,
             })
           }
           if (capture.enabled)

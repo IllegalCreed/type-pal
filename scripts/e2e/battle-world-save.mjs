@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { beeWorldInput } from './battle-world-bee-scenario.mjs'
+import { beePostWin, beeWorldInput } from './battle-world-bee-scenario.mjs'
 import {
   assertRestoredWorld,
   assertSavedWorld,
@@ -8,6 +8,7 @@ import {
   savedPoses,
   saveWorldFacts,
 } from './battle-world-save-contract.mjs'
+import { installRespawnWitness, verifyBeeRespawn } from './battle-world-save-respawn.mjs'
 import {
   accessBattleSaveSlots,
   rejectCorruptGameImport,
@@ -149,13 +150,13 @@ function observeSaveState(engine) {
   }
 }
 
-async function readWorld(page, engine) {
+async function readWorld(page, engine, postWin = false) {
   const payload = await page.evaluate(async (side) => {
     if (side === 'reforge') return globalThis.__tpE2e.dumpSave()
     const { serializeSave } = await import('/src/tools/save-io.ts')
     return JSON.parse(serializeSave(globalThis.__tpgs))
   }, engine)
-  return saveWorldFacts(payload, engine)
+  return saveWorldFacts(payload, engine, postWin)
 }
 
 async function readSlot(page, engine, slot) {
@@ -258,7 +259,7 @@ function driver({ page, engine, label, report, until, health }) {
       (state) => state?.ready && state.grid.every((value, axis) => value === pose.grid[axis]),
       'original world control restored at selected pose',
     )
-  async function retreat(from, to) {
+  async function walk(from, to, holds, phase) {
     await page.evaluate(
       ({ scene, side }) => {
         if (side === 'reforge') {
@@ -283,11 +284,11 @@ function driver({ page, engine, label, report, until, health }) {
       { scene: beeWorldInput.scene, side: engine },
     )
     const route = fixedRoutePlan(engine, {
-      id: 'post-battle-save-retreat',
+      id: phase === 'post-battle-move' ? 'post-battle-save-retreat' : phase,
       scene: beeWorldInput.scene,
-      start: from.grid,
-      holds: [['ArrowLeft', 1]],
-      completion: { scene: beeWorldInput.scene, position: to.grid, mode: 'ready' },
+      start: from,
+      holds,
+      completion: { scene: beeWorldInput.scene, position: to, mode: 'ready' },
     })
     await replayCommittedRoute({
       page,
@@ -295,14 +296,11 @@ function driver({ page, engine, label, report, until, health }) {
       health,
       onInput: (input) => {
         // Keep the dispatch object live until withRecordedKey acknowledges down and up.
-        Object.assign(
-          input,
-          canonicalInput({ ...input, phase: 'post-battle-move', scope: 'boundary' }),
-        )
+        Object.assign(input, canonicalInput({ ...input, phase, scope: 'boundary' }))
         record(input)
       },
     })
-    await stateAt(to)
+    await stateAt({ grid: to })
   }
   return {
     observe,
@@ -315,7 +313,7 @@ function driver({ page, engine, label, report, until, health }) {
     moveSlot,
     closeMenus,
     stateAt,
-    retreat,
+    walk,
     readEvidence,
     setChapter: (value) => {
       chapter = value
@@ -327,7 +325,17 @@ async function recordedSnapshot(out, name, value) {
   return writeEvidenceArtifact(out, name, value)
 }
 
-async function checkInvalidLoads({ page, engine, controls, trace, records, slots, out, label }) {
+async function checkInvalidLoads({
+  page,
+  engine,
+  controls,
+  trace,
+  records,
+  slots,
+  out,
+  label,
+  postWin,
+}) {
   trace.invalid = {}
   controls.setChapter('post-battle-load-invalid')
   if (engine === 'game') {
@@ -337,10 +345,10 @@ async function checkInvalidLoads({ page, engine, controls, trace, records, slots
     assert.equal(await readSlot(page, engine, missingSlot), null)
     await controls.openSlots('load')
     await controls.moveSlot(2)
-    const before = await readWorld(page, engine)
+    const before = await readWorld(page, engine, postWin)
     await controls.press('Enter', 'attempt empty manual slot')
     const observed = await controls.waitEvent('empty-slot', (row) => row.slot === missingSlot)
-    const after = await readWorld(page, engine)
+    const after = await readWorld(page, engine, postWin)
     const menu = (await controls.observe()).menu
     trace.invalid.empty = { slot: missingSlot, before, after, menu, event: observed.events.at(-1) }
     assert.deepEqual(after, before, 'a missing slot must preserve the active world')
@@ -355,14 +363,14 @@ async function checkInvalidLoads({ page, engine, controls, trace, records, slots
   const input = await recordedSnapshot(out, `${label}-corrupt-slot.json`, malformed)
   await controls.openSlots('load')
   await controls.moveSlot(1)
-  const before = await readWorld(page, engine)
+  const before = await readWorld(page, engine, postWin)
   await controls.press('Enter', 'attempt malformed manual slot')
   const terminal = (row) =>
     (row.kind === 'toast-drawn' && row.text === badSaveToast) ||
     (row.kind === 'restore-committed' && row.slot === slot)
   const observed = await controls.waitEvidence(terminal, 'malformed slot rejection or bad commit')
   const event = observed.events.find(terminal)
-  const after = await readWorld(page, engine)
+  const after = await readWorld(page, engine, postWin)
   const menu = (await controls.observe()).menu
   trace.invalid.malformed = { ...injected, slot, input, before, after, menu, event }
   assert.equal(event.kind, 'toast-drawn', 'a malformed manual slot must be rejected before restore')
@@ -471,12 +479,15 @@ async function verifyFreshRestore({
   label,
   records,
   index,
+  postWin,
+  prepareFresh,
 }) {
   const context = `${label}/restart-slot-${index + 1}`
   const page = await newPage(context)
   const controls = driver({ page, engine, label: context, report, until, health })
   controls.setChapter('post-battle-restart')
   try {
+    if (postWin) await prepareFresh?.(page)
     const readbacks = await page.evaluate(accessBattleSaveSlots, {
       engine,
       slots: records.map(({ slot }) => slot),
@@ -492,6 +503,8 @@ async function verifyFreshRestore({
     await navigateTitle(page, baseURL, until, controls, engine)
     await install(page, true)
     await selectTitleSlot(controls, until, engine, index)
+    const measureRespawn = postWin && index === 0
+    if (measureRespawn) await installRespawnWitness(page)
     const slot = manualSaveSlots[engine][index]
     const {
       value: { commit, observed },
@@ -501,15 +514,26 @@ async function verifyFreshRestore({
       const commit = await controls.waitEvent('restore-committed', (row) => row.slot === slot)
       return { commit, observed: await controls.stateAt(savedPoses[index]) }
     })
-    const world = await readWorld(page, engine)
-    assertSavedWorld(world, savedPoses[index])
-    assertRestoredWorld(saveWorldFacts(records[index].payload, engine), world, 3)
+    const world = await readWorld(page, engine, postWin)
+    assertSavedWorld(world, savedPoses[index], postWin)
+    assertRestoredWorld(saveWorldFacts(records[index].payload, engine, postWin), world, 3)
     const resumed = await until(
       controls.observe,
       (s) => s?.ready && s.hidden && s.ticks < observed.ticks,
       'hidden enemy timer resumes on ordinary world ticks',
     )
     assert(resumed.clock > observed.clock)
+    const respawn = measureRespawn
+      ? await verifyBeeRespawn({
+          page,
+          controls,
+          until,
+          health,
+          out,
+          label,
+          savedTicks: saveWorldFacts(records[index].payload, engine, postWin).lifecycle.ticks,
+        })
+      : undefined
     return {
       slot,
       transferred,
@@ -523,6 +547,7 @@ async function verifyFreshRestore({
         `${label}-restored-slot-${index + 1}.json`,
         await controls.readEvidence(),
       ),
+      ...(respawn && { respawn }),
     }
   } finally {
     await page.close()
@@ -540,8 +565,10 @@ export async function verifyPostBattleSave({
   health,
   capture,
   result,
+  postWin = false,
+  prepareFresh,
 }) {
-  assert.equal(result.seed, 99, 'post-battle save requires the fixed two-drop seed')
+  assert.equal(result.seed, postWin ? beePostWin.seed : 99, 'use the fixed two-drop seed')
   const label = result.label
   const trace = { actionRange: { start: report.actions.length }, saves: [] }
   result.postBattleSave = trace
@@ -551,12 +578,13 @@ export async function verifyPostBattleSave({
   await install(page, false)
   try {
     const initial = await controls.stateAt(savedPoses[0])
-    const starting = await readWorld(page, engine)
+    const starting = await readWorld(page, engine, postWin)
     trace.initial = await recordedSnapshot(out, `${label}-post-battle-before-save.json`, starting)
-    assertSavedWorld(starting, savedPoses[0])
+    assertSavedWorld(starting, savedPoses[0], postWin)
     assert(initial.hidden)
     for (const [index, pose] of savedPoses.entries()) {
-      if (index > 0) await controls.retreat(savedPoses[0], pose)
+      if (index > 0)
+        await controls.walk(savedPoses[0].grid, pose.grid, [['ArrowLeft', 1]], 'post-battle-move')
       await controls.openSlots('save')
       await controls.moveSlot(index)
       if (capture.enabled)
@@ -569,8 +597,8 @@ export async function verifyPostBattleSave({
       const slot = slots[index]
       await controls.waitEvent('write-committed', (row) => row.slot === slot)
       const record = await readSlot(page, engine, slot)
-      const world = saveWorldFacts(record.payload, engine)
-      assertSavedWorld(world, pose)
+      const world = saveWorldFacts(record.payload, engine, postWin)
+      assertSavedWorld(world, pose, postWin)
       records.push({ slot, ...record })
       trace.saves.push({
         slot,
@@ -587,7 +615,17 @@ export async function verifyPostBattleSave({
     const { slot: _first, ...firstRecord } = records[0]
     assert.deepEqual(afterSecondWrite, firstRecord, 'writing slot 2 must keep slot 1 bytes intact')
     if (!capture.enabled)
-      await checkInvalidLoads({ page, engine, controls, trace, records, slots, out, label })
+      await checkInvalidLoads({
+        page,
+        engine,
+        controls,
+        trace,
+        records,
+        slots,
+        out,
+        label,
+        postWin,
+      })
     controls.setChapter('post-battle-load')
     await controls.openSlots('load')
     await controls.moveSlot(0)
@@ -597,16 +635,16 @@ export async function verifyPostBattleSave({
         true,
         async () => (await controls.observe())?.menu?.mode === 'load',
       )
-    trace.beforeInGameRestore = await readWorld(page, engine)
-    assertSavedWorld(trace.beforeInGameRestore, savedPoses[1])
+    trace.beforeInGameRestore = await readWorld(page, engine, postWin)
+    assertSavedWorld(trace.beforeInGameRestore, savedPoses[1], postWin)
     const { paints } = await observeLoadPaint(page, engine, async () => {
       await controls.press('Enter', 'restore slot 1 from altered active pose')
       await controls.waitEvent('restore-committed', (row) => row.slot === slots[0])
       await controls.stateAt(savedPoses[0])
     })
     trace.loadPaint = paints
-    trace.restoredInGame = await readWorld(page, engine)
-    assertSavedWorld(trace.restoredInGame, savedPoses[0])
+    trace.restoredInGame = await readWorld(page, engine, postWin)
+    assertSavedWorld(trace.restoredInGame, savedPoses[0], postWin)
     assertRestoredWorld(trace.saves[0].world, trace.restoredInGame, 3)
     if (!capture.enabled) {
       trace.fresh = []
@@ -623,6 +661,8 @@ export async function verifyPostBattleSave({
             label,
             records,
             index,
+            postWin,
+            prepareFresh,
           }),
         )
     }

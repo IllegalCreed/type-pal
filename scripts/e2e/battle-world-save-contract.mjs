@@ -1,5 +1,10 @@
 import assert from 'node:assert/strict'
-import { beePartyMember, beeWorldInput, honeycombItem } from './battle-world-bee-scenario.mjs'
+import {
+  beePartyMember,
+  beePostWin,
+  beeWorldInput,
+  honeycombItem,
+} from './battle-world-bee-scenario.mjs'
 
 export const savedPoses = [
   { grid: beeWorldInput.stop, facing: 'right' },
@@ -8,7 +13,13 @@ export const savedPoses = [
 export const manualSaveSlots = { game: [1, 2, 3], reforge: ['m01', 'm02', 'm03'] }
 export const badSaveToast = '存档损坏，无法读取'
 
-export function saveWorldFacts(loaded, engine) {
+const skillIds = (skills) =>
+  skills
+    .filter((id) => id && id !== 0xffff)
+    .map(String)
+    .sort()
+
+export function saveWorldFacts(loaded, engine, postWin = false) {
   if (engine === 'game') {
     const { wNumScene, party, partyMembers, inventory, dwCash, PlayerRolesRuntime, Exp } = loaded.gs
     const npc = loaded.gs.npcs.find(({ id }) => id === Number(beeWorldInput.enemy.slice(1)))
@@ -28,6 +39,9 @@ export function saveWorldFacts(loaded, engine) {
           level: PlayerRolesRuntime.rgwLevel[id],
           exp: Exp.rgPrimaryExp[id].wExp,
           weapon: String(PlayerRolesRuntime.rgwEquipment[3][id]),
+          ...(postWin && {
+            learned: skillIds(PlayerRolesRuntime.rgwMagic.map((row) => row[id])),
+          }),
         }
       }),
       inventory: inventory.map(({ itemId, count }) => ({ itemId: String(itemId), count })),
@@ -45,7 +59,7 @@ export function saveWorldFacts(loaded, engine) {
     scene: sceneId,
     grid: [pos.col, pos.row],
     facing,
-    party: world.party.map(({ template, hp, maxHP, mp, maxMP, level, exp, equipment }) => ({
+    party: world.party.map(({ id, template, hp, maxHP, mp, maxMP, level, exp, equipment }) => ({
       id: template,
       hp,
       maxHP,
@@ -54,6 +68,7 @@ export function saveWorldFacts(loaded, engine) {
       level,
       exp,
       weapon: equipment.weapon,
+      ...(postWin && { learned: skillIds(world.learnedSkills[id] ?? []) }),
     })),
     inventory: world.inventory.map(({ itemId, count }) => ({ itemId, count })),
     money: world.money,
@@ -61,7 +76,17 @@ export function saveWorldFacts(loaded, engine) {
   }
 }
 
-export function assertSavedWorld(world, pose) {
+const initialSpells = skillIds([353, 352, 329, 318, 394, 308, 299, 302, 305, 304])
+export function assertPostWinPredecessor({ party }) {
+  const { id, hp, maxHP, mp, maxMP, level, exp, weapon } = beePostWin.before
+  assert.deepEqual(
+    party,
+    [{ id, hp, maxHP, mp, maxMP, level, exp, weapon: String(weapon), learned: initialSpells }],
+    'exact checkpoint before the real level-up and spell acquisition',
+  )
+}
+
+export function assertSavedWorld(world, pose, postWin = false) {
   const { lifecycle, ...state } = world
   assert.deepEqual(
     state,
@@ -78,6 +103,10 @@ export function assertSavedWorld(world, pose) {
           level: 28,
           exp: 4,
           weapon: '187',
+          ...(postWin && {
+            ...beePostWin.after,
+            learned: skillIds([...initialSpells, beePostWin.skill.id]),
+          }),
         },
       ],
       inventory: [{ itemId: honeycombItem, count: 2 }],

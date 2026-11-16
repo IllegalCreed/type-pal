@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { createSeedableRng } from '../../packages/game/src/core/rng.ts'
 import {
   beeEscapeParty,
+  beePostWin,
   beeWorldArguments,
   beeWorldInput as input,
   beePartyMember as party,
@@ -20,9 +21,10 @@ const {
   escape: escapeCase,
   escapeExits,
   postBattleSave,
+  postWin,
   probe,
 } = beeWorldArguments()
-const roster = escapeCase ? beeEscapeParty : [party]
+const roster = escapeCase ? beeEscapeParty : [postWin ? beePostWin.before : party]
 const postBattle = postBattleSave
   ? (await import('./battle-world-save.mjs')).verifyPostBattleSave
   : null
@@ -509,8 +511,8 @@ const ready = (s) => s?.scene === 7 && s.ready
 const read = (page) => page.evaluate(() => globalThis.__beeGameRead?.())
 const wait = (page, until, accept, label) => until(() => read(page), accept, label)
 const hpMp = ({ party: [member] }) => [member.hp, member.mp]
-const startingHpMp = [party.hp, party.mp]
-const recoveredHpMp = [475, 405]
+const startingHpMp = [roster[0].hp, roster[0].mp]
+const recoveredHpMp = postWin ? [beePostWin.after.hp, beePostWin.after.mp] : [475, 405]
 
 async function dismissBoot(page) {
   const reject = page.getByRole('button', { name: '拒绝', exact: true })
@@ -561,6 +563,23 @@ async function buildFixture(setup, baseURL, until) {
     roles.rgwEquipment[3][member.role] = member.weapon
     roles.rgwHP[member.role] = member.hp
     roles.rgwMP[member.role] = member.mp
+  }
+  if (postWin) {
+    const { before, priorGrowth } = beePostWin
+    const id = before.role
+    assert.equal(roles.rgwLevel[id], party.level)
+    assert.deepEqual([roles.rgwMaxHP[id], roles.rgwMaxMP[id]], [party.maxHP, party.maxMP])
+    assert(!roles.rgwMagic.some((byRole) => byRole[id] === Number(beePostWin.skill.id)))
+    roles.rgwLevel[id] = before.level
+    roles.rgwMaxHP[id] = before.maxHP
+    roles.rgwMaxMP[id] = before.maxMP
+    roles.rgwAttackStrength[id] += priorGrowth.attack
+    roles.rgwMagicStrength[id] += priorGrowth.magicAttack
+    roles.rgwDefense[id] += priorGrowth.defense
+    roles.rgwDexterity[id] += priorGrowth.speed
+    roles.rgwFleeRate[id] += priorGrowth.luck
+    fixture.gs.Exp.rgPrimaryExp[id].wLevel = before.level
+    fixture.gs.Exp.rgPrimaryExp[id].wExp = before.exp
   }
   return { fixture, canonicalSha256: sha256(baseline) }
 }
@@ -688,7 +707,14 @@ function verifyHandoff({ handoff, inputs, music, timeOrigin }, milestones, hasLo
   assert(Number.isFinite(timeOrigin) && timeOrigin > 0)
   assert.deepEqual(
     inputs.map(({ kind, code }) => [kind, code]),
-    ['ArrowRight', 'Space', 'Space', 'Escape', 'Escape'].flatMap((code) => [
+    [
+      'ArrowRight',
+      'Space',
+      'Space',
+      ...(postWin ? ['Space', 'Space'] : []),
+      'Escape',
+      'Escape',
+    ].flatMap((code) => [
       ['down', code],
       ['up', code],
     ]),
@@ -698,9 +724,9 @@ function verifyHandoff({ handoff, inputs, music, timeOrigin }, milestones, hasLo
       ({ atMs, eventTimeStamp }) => Number.isFinite(eventTimeStamp) && eventTimeStamp <= atMs,
     ),
   )
-  const [approach, attack, confirm, openMenu, closeMenu] = inputs.filter(
-    ({ kind }) => kind === 'down',
-  )
+  const down = inputs.filter(({ kind }) => kind === 'down')
+  const [approach, attack, confirm] = down
+  const [openMenu, closeMenu] = down.slice(-2)
   assert(
     approach.atMs < contact.atMs &&
       command.atMs < attack.atMs &&
@@ -757,34 +783,43 @@ function verifyTrace(trace, result) {
   )
 
   const { rng, slots, frames, commands } = trace.native
+  const growthDraws = postWin ? beePostWin.growthRolls.length : 0
+  const dropStart = 6 + growthDraws
+  const rewardHpMp = postWin ? recoveredHpMp : startingHpMp
   assert.deepEqual(
     rng.map(({ kind, args }) => [kind, args]),
     [
       ...Array.from({ length: 3 }, () => ['rangeFloat', [0.9, 1.1]]),
       ...Array.from({ length: 2 }, () => ['rangeInclusive', [0, 5]]),
       ['rangeInclusive', [2, 3]],
+      ...(postWin ? [7, 5, 1, 1, 1, 1].map((max) => ['rangeInclusive', [0, max]]) : []),
       ['rangeInclusive', [1, 100]],
       ['rangeInclusive', [1, 100]],
     ],
   )
   assert.deepEqual(
-    rng.slice(6).map(({ value }) => value),
+    rng.slice(dropStart).map(({ value }) => value),
     rolls,
   )
+  if (postWin)
+    assert.deepEqual(
+      rng.slice(6, dropStart).map(({ value }) => value),
+      beePostWin.growthRolls,
+    )
   assert.equal(slots.length, 4, 'expected before and after evidence for both enemy slots')
   let count = 0
   for (const [slot, grant] of grants.entries()) {
     const [before, after] = slots.slice(slot * 2, slot * 2 + 2)
     assert.deepEqual(
       [before.stage, before.slot, before.entry, before.draws, before.loot, before.messages],
-      ['before', slot, 41027, 6 + slot, count, []],
+      ['before', slot, 41027, dropStart + slot, count, []],
     )
     count += grant
     assert.deepEqual(
       [after.stage, after.slot, after.entry, after.draws, after.loot, after.messages],
-      ['after', slot, 41027, 7 + slot, count, grant ? [prompt] : []],
+      ['after', slot, 41027, dropStart + 1 + slot, count, grant ? [prompt] : []],
     )
-    assert.deepEqual([before.hp, before.mp, after.hp, after.mp], [...startingHpMp, ...startingHpMp])
+    assert.deepEqual([before.hp, before.mp, after.hp, after.mp], [...rewardHpMp, ...rewardHpMp])
   }
   const attack = frames.find((frame) => frame.battle?.pending.length)
   assert(attack, 'missing native attack commit')
@@ -826,10 +861,12 @@ function verifyTrace(trace, result) {
     damage.map(({ target, color }) => [target.kind, target.idx, color]),
     [1, 0, 1, 0].map((idx) => ['enemy', idx, 'blue']),
   )
-  assert.deepEqual(
-    damage.map(({ value }) => value),
-    sweepDamage.get(seed),
-  )
+  if (postWin) assert(damage.every(({ value }) => value > 32))
+  else
+    assert.deepEqual(
+      damage.map(({ value }) => value),
+      sweepDamage.get(seed),
+    )
   const deaths = observed.filter((cmd) => cmd.op === 'playEnemyDeath')
   assert.deepEqual(
     deaths.map(({ enemyIdx }) => enemyIdx),
@@ -838,20 +875,25 @@ function verifyTrace(trace, result) {
   const rewardDraws = frames.filter(({ dialog }) => dialog?.text === prompt)
   assert.deepEqual(
     rewardDraws.map((frame) => [frame.renderer, frame.loot, frame.npc.state, ...hpMp(frame)]),
-    Array.from({ length: count }, (_, i) => ['battle', i + 1, 1, ...startingHpMp]),
+    Array.from({ length: count }, (_, i) => ['battle', i + 1, 1, ...rewardHpMp]),
   )
   const grantsWithPrompts = slots.filter(({ messages }) => messages.length)
   assert(rewardDraws.every(({ order }, i) => order > grantsWithPrompts[i].order))
   const firstRecovery = frames.find((frame) => hpMp(frame).join() === recoveredHpMp.join())
   const firstHidden = frames.find(({ npc }) => npc?.state === -1)
   assert(firstRecovery && firstHidden, 'missing actual world recovery or enemy hide frame')
-  assert(firstRecovery.order > slots.at(-1).order)
-  assert(rewardDraws.every(({ order }) => order < firstRecovery.order))
+  if (postWin) {
+    assert(firstRecovery.order < slots[0].order, 'normal level up fills HP and MP before drops')
+    assert(rewardDraws.every(({ order }) => order > firstRecovery.order))
+  } else {
+    assert(firstRecovery.order > slots.at(-1).order)
+    assert(rewardDraws.every(({ order }) => order < firstRecovery.order))
+    assert.equal(firstHidden.order, firstRecovery.order)
+  }
   assert.deepEqual(
     [firstHidden.renderer, firstHidden.npc.vanishTime, firstHidden.event?.owner],
     ['world', 800, 154],
   )
-  assert.equal(firstHidden.order, firstRecovery.order)
   assert.equal(returned.loot, count)
   const menu = frames.find(
     ({ menu, order }) => menu?.kind === 'in-game' && order > firstHidden.order,
@@ -878,7 +920,7 @@ function verifyTrace(trace, result) {
 }
 
 await runBrowserJourney({
-  name: `q2-world-bee-game${escapeCase ? `-escape-${escapeCase}` : ''}${postBattleSave ? '-save' : ''}${captureRequested ? `-${selected[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
+  name: `q2-world-bee-game${escapeCase ? `-escape-${escapeCase}` : ''}${postWin ? '-post-win-save' : postBattleSave ? '-save' : ''}${captureRequested ? `-${selected[0].seed}-capture` : probe ? '-probe' : ''}${escapeExits ? '-exits' : ''}`,
   packageName: '@type-pal/game',
   environment: { E2E: '1' },
   traceConfig: postBattleSave
@@ -903,8 +945,12 @@ await runBrowserJourney({
       ? ['data/extracted/sounds/45.wav', 'scripts/e2e/battle-world-escape-compare.mjs']
       : []),
     ...(postBattle ? ['scripts/e2e/battle-world-save.mjs'] : []),
+    ...(postWin
+      ? ['data/extracted/data/level-up-exp.json', 'data/extracted/data/level-up-magic.json']
+      : []),
   ],
   arguments: ['--headless', ...(captureRequested ? ['--capture'] : [])],
+  ...(postWin && { journeyTimeoutMs: 300_000 }),
   viewport: { width: 960, height: 720 },
   initScripts: [
     installCommittedRoutePlayback,
@@ -918,7 +964,11 @@ await runBrowserJourney({
         : escapeCase
           ? 'q2-world-player-escape'
           : 'q2-world-bee',
-      input: escapeCase ? { ...input, party: roster, battleInput: ['KeyQ'] } : input,
+      input: escapeCase
+        ? { ...input, party: roster, battleInput: ['KeyQ'] }
+        : postWin
+          ? { ...input, party: roster, postWin: true }
+          : input,
       cases: [],
     })
     const setup = await newPage('canonical-scene-baseline')
@@ -1063,7 +1113,7 @@ await runBrowserJourney({
             cashGained: 4,
             isBoss: false,
           })
-          assert.deepEqual(hpMp(victory), startingHpMp)
+          assert.deepEqual(hpMp(victory), postWin ? recoveredHpMp : startingHpMp)
           result.victory = victory
           if (capture.enabled)
             await capture.readable(
@@ -1072,6 +1122,19 @@ await runBrowserJourney({
               async () => (await read(page)).battle?.settlement?.screen?.kind === 'exp-cash',
             )
           await press('Space', 'settlement', 'confirm earned experience and cash screen')
+          if (postWin) {
+            for (const [kind, text] of [
+              ['level-up', '阿奴修行提升'],
+              ['learn-magic', `阿奴练成${beePostWin.skill.label}`],
+            ]) {
+              const shown = (s) =>
+                s?.battle?.settlement?.screen?.kind === kind && s.battle.settlement.shownMs > 40
+              await wait(page, until, shown, `native Game ${kind} page`)
+              if (capture.enabled)
+                await capture.readable(text, true, async () => shown(await read(page)))
+              await press('Space', 'settlement', `confirm ${kind} page`)
+            }
+          }
           const returned = await wait(
             page,
             until,
@@ -1096,17 +1159,18 @@ await runBrowserJourney({
             (frame) => ready(frame) && frame.grid[0] === stop[0] && frame.grid[1] === stop[1],
             'rendered world after closing menu',
           )
-          await until(
-            () =>
-              page.evaluate(() => {
-                const { ambient, handoff } = globalThis.__beeGameEvidence().native
-                const resumed = handoff.find(({ stage }) => stage === 'world-ready')
-                return resumed && ambient.some(({ atMs }) => atMs >= resumed.atMs)
-              }),
-            Boolean,
-            'actual ten-mile ambience resumes after the world menu closes',
-            2_000,
-          )
+          if (!postWin)
+            await until(
+              () =>
+                page.evaluate(() => {
+                  const { ambient, handoff } = globalThis.__beeGameEvidence().native
+                  const resumed = handoff.find(({ stage }) => stage === 'world-ready')
+                  return resumed && ambient.some(({ atMs }) => atMs >= resumed.atMs)
+                }),
+              Boolean,
+              'actual ten-mile ambience resumes after the world menu closes',
+              2_000,
+            )
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
           result.milestones = verifyTrace(trace, result)
@@ -1123,6 +1187,7 @@ await runBrowserJourney({
               health,
               capture,
               result,
+              postWin,
             })
           }
           if (capture.enabled)
