@@ -1300,6 +1300,11 @@ export function dispatchBattleOpcode(
         }
         copiesLeft--
       }
+      // 0x9C alone recomputes wMaxEnemyIndex before reloading battle sprite positions
+      // (script.c:2836–2842). Interior empty slots keep their original indices.
+      while (state.enemies.length > 0 && !isActiveEnemy(state.enemies[state.enemies.length - 1])) {
+        state.enemies.pop()
+      }
       refreshEnemyBattlePositions(ctx)
       // 分裂散开动画(sdlpal script.c case 0x009C 末段 10 帧缓动):副本先叠在原敌 posOriginal,再散到各自阵型位。
       //   缺此 → 副本瞬现(user 2026-06-08 报)。startBattleAnim 同 0x9E/0x9F 挂法。

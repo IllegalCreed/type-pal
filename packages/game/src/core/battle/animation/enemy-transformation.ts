@@ -89,11 +89,12 @@ export function buildEnemyDivisionTimeline(input: {
       c.y = Math.trunc((c.y + t.pos.y) / 2)
       return { side: 'enemy' as const, idx: t.idx, pos: { x: c.x, y: c.y } }
     })
-    frames.push({ durationMs: delayMs(1), fighters })
+    frames.push({ durationMs: delayMs(1), fighters, updateGesture: true })
   }
   // 末帧归位 posOriginal(PAL_BattleUpdateFighters)。
   frames.push({
     durationMs: delayMs(1),
+    updateGesture: true,
     fighters: input.targets.map((t) => ({
       side: 'enemy' as const,
       idx: t.idx,

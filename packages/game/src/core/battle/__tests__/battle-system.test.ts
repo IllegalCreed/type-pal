@@ -4084,6 +4084,42 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
     expect(state.phase).toBe('selectAction')
     expect(state.currentActionIndex).toBe(0)
   })
+
+  it('drops trailing empty slots while a split unfolds in the new layout', () => {
+    const divisionPos: EnemyPosTable = {
+      layouts: [
+        ...DIV_ENEMY_POS.layouts,
+        [
+          { x: 60, y: 100 },
+          { x: 200, y: 85 },
+          { x: 250, y: 70 },
+        ],
+      ],
+    }
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, idleFrames: 4, idleAnimSpeed: 2 })],
+      teamSlots: [0, 100, 0, 0xffff, 0xffff],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x9c, operands: [1, 0, 0] }, { op: 'end' }],
+      enemyPos: divisionPos,
+    })
+    const state = gs.battleState!
+    const caster = state.enemies[1]!
+    caster.scriptOnTurnStart = 1
+    expect(caster.posOriginal).toEqual({ x: 200, y: 85 })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus)
+
+    expect(state.enemies.map((enemy) => enemy.posOriginal)).toEqual([
+      { x: 120, y: 80 },
+      { x: 220, y: 70 },
+    ])
+    expect(state.enemies[0]!.pos).toEqual({ x: 170, y: 75 })
+    expect(caster.pos).toEqual({ x: 220, y: 70 })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus)
+    expect(state.battleAnim!.idx).toBe(2)
+    expect(state.enemies.map((enemy) => enemy.idleFrame)).toEqual([1, 1])
+  })
 })
 
 // ============================================================================
