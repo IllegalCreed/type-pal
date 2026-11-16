@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ed28f66a177f06d92d004d618025e5eeb206008753277aac19d8f769de38e91b",
+      "afterSha256": "ee476674ed8925356548b8417e5f355c3a04a4c78345ba3c11dd92656df78f14",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 43,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
+        "reviewedLines": 44,
+        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "dd23c1ade0cc7a08bc6cf1b82c9391f2656e705dc9448ab1df9f4854cd1f9e33",
+      "afterSha256": "ab140f167de58250a25c02445b9467e74648c969250d8273e48708bfaba85a0f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
         "date": "2026-11-16",
-        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
-        "reviewedLines": 551,
-        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
+        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
+        "reviewedLines": 567,
+        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "188c141ed13e495df805f76ec71c0b5318611c189217f09e18fc61db55cca4d8",
+      "afterSha256": "3e20209e87a0313dd56666e6f71800075bef71ea3fb570e96d9221be8c7d616f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
+        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
         "date": "2026-11-16",
-        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
-        "reviewedLines": 503,
-        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
+        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
+        "reviewedLines": 511,
+        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
       }
     },
     {
@@ -5916,6 +5916,12 @@
       "bytes": 79582913,
       "sha256": "4968593d6d516c7ed71cda365e974edc225c208058334a1e447a4fc6088f1368",
       "purpose": "Q2 收尾双端正式运行、原始带声音画、业务与采集反例及归档索引"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-field-render-20261116.tar.gz",
+      "bytes": 7976137,
+      "sha256": "ff34c480422a136f960af9158639f790ed1dcc1f7b9bf4e3c766510517f22e27",
+      "purpose": "Codex 逐一启动 52 个战场的 Game 和 Reforge 原生轨迹与画布、原盘像素比较、反控和复跑入口"
     }
   ],
   "artifactAliases": [],
