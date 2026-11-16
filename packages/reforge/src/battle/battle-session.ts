@@ -1221,7 +1221,10 @@ export class BattleSession {
       this.actionFeedback = null
       // 投掷在收招前等键，偷窃在归位后提示。
       if (feedback.dismiss === 'confirm') this.actionPresentation.advancePlayback(0)
-      if (!s.casualtyDialogue) this.beginEnemyCastRecovery()
+      if (this.enemyCastRecoveryPending && !s.casualtyDialogue) {
+        this.beginEnemyCastRecovery()
+        this.actionPresentation.satisfyActionCadence()
+      }
       return
     }
 
