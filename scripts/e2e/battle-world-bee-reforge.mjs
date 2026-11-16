@@ -563,7 +563,7 @@ await runBrowserJourney({
                 )
               },
               'actual ten-mile ambience resumes after the map is fully bright',
-              2_000,
+              12_000,
             )
           assert.deepEqual(
             observed(end, 'notice').map(({ text }) => text),

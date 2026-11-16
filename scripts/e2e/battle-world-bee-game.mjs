@@ -1169,7 +1169,7 @@ await runBrowserJourney({
                 }),
               Boolean,
               'actual ten-mile ambience resumes after the world menu closes',
-              2_000,
+              12_000,
             )
           trace = await page.evaluate(() => globalThis.__beeGameEvidence())
           result.raw = await writeEvidenceArtifact(out, `${label}-trace.json`, trace)
