@@ -133,7 +133,7 @@ export function instrumentGameBattle(source, file) {
           add(
             'trance-fade-composited',
             node.end,
-            "\nif (summon.spriteKey === '') globalThis.__battleEvidence?.appearanceTransitionDrawn(this.summonFadeApplied + 1, 72);\n",
+            "\nif (summon?.spriteKey === '') globalThis.__battleEvidence?.appearanceTransitionDrawn(this.summonFadeApplied + 1, 72);\n",
           )
         if (call.expression.getText(ast) === 'drawBattleSettlement')
           visualCall(
