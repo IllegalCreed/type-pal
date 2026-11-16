@@ -1325,8 +1325,9 @@ export class BattleSession {
       // 本步数值反馈：回血黄字/回 MP 青字；物品造成的自伤按原版
       // PAL_BattleDisplayStatChange 显示蓝字。其它伤害仍由各自攻击时间线负责，避免重复。
       this.pendingGains = []
+      const hpBeforeEffects = la?.kind === 'coop' ? la.hpAfterContribution : pHp
       s.players.forEach((p, i) => {
-        const dh = p.hp - (pHp[i] ?? p.hp)
+        const dh = p.hp - (hpBeforeEffects[i] ?? p.hp)
         if (dh > 0)
           this.pendingGains.push({ target: { side: 'player', idx: i }, value: dh, tone: 'yellow' })
         else if (dh < 0 && la?.kind === 'item' && la.side === 'player')
@@ -1468,6 +1469,17 @@ export class BattleSession {
       // fight.c:3145;⚠ animation.effectTimes 是二次法术循环数,与染色无关 —— 曾混淆)
       this.summonTintShift = !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       const fireFrames = la.fizzled ? 0 : (fire?.frames.length ?? 0)
+      let allyTargets: NonNullable<Parameters<typeof buildPlayerCast>[0]['allyTargets']> = []
+      if (!la.fizzled && !summonEff && fx.placement === 'normal') {
+        // 全队效果覆盖每个队伍槽；单体与 core 使用同一个目标槽范围。
+        const targetIdx = Math.min(Math.max(la.targetAllyIdx ?? la.idx, 0), s.players.length - 1)
+        if (skill.target === 'allAllies' || skill.target === 'oneAlly' || skill.target === 'self')
+          allyTargets = s.players.flatMap((_, idx) => {
+            if (skill.target !== 'allAllies' && idx !== targetIdx) return []
+            const pos = getPlayerBasePos(s.players.length, idx)
+            return pos ? [{ idx, pos }] : []
+          })
+      }
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
       if (la.coopContributors && !summonSprite) {
@@ -1480,23 +1492,13 @@ export class BattleSession {
           fireFrames,
           fx,
           targetPos,
+          ...(allyTargets.length ? { allyTargets } : {}),
           damageNums,
           postTargets,
           ...(this.opts.soundRoles?.['audio.battleCoopCastSound']
             ? { castSound: this.opts.soundRoles['audio.battleCoopCastSound'] }
             : {}),
         })
-      }
-      let allyTargets: NonNullable<Parameters<typeof buildPlayerCast>[0]['allyTargets']> = []
-      if (la.kind === 'cast' && !la.fizzled && !summonEff && fx.placement === 'normal') {
-        // 全队效果覆盖每个队伍槽；单体与 core 使用同一个目标槽范围。
-        const targetIdx = Math.min(Math.max(la.targetAllyIdx ?? la.idx, 0), s.players.length - 1)
-        if (skill.target === 'allAllies' || skill.target === 'oneAlly' || skill.target === 'self')
-          allyTargets = s.players.flatMap((_, idx) => {
-            if (skill.target !== 'allAllies' && idx !== targetIdx) return []
-            const pos = getPlayerBasePos(s.players.length, idx)
-            return pos ? [{ idx, pos }] : []
-          })
       }
       return buildPlayerCast({
         casterFrames: playerProfile.frames,

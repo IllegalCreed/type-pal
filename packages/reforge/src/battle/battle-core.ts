@@ -1766,6 +1766,7 @@ function performCoopMagic(
     kind: 'coop',
     skillId: skill.id,
     coopContributors: [...contributors],
+    hpAfterContribution: s.players.map(({ hp }) => hp),
     ...(targets.enemies.length === 1 ? { targetEnemyIdx: targets.enemies[0] } : {}),
     ...(skill.target === 'oneAlly' || skill.target === 'self'
       ? { targetAllyIdx: expectDefined(targets.allies[0]) }

@@ -71,6 +71,54 @@ function recordingPort(): {
 }
 
 describe('BattleCommandSelection', () => {
+  test('合击点名队友，取消不消费回合，确认只提交选中的队友槽', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const support = context({
+      player: {
+        skills: [],
+        mp: 1,
+        silenced: false,
+        healthy: true,
+        cooperativeMagicSkillId: 'heal',
+      },
+      skills: { heal: { ...skill('heal', 'oneAlly'), cost: { mp: 120 } } },
+    })
+
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(selection.view).toMatchObject({ phase: 'target', targetSide: 'ally', targetIndex: 0 })
+    selection.advance(support, new Set(['Escape']), recorded.port)
+    expect(selection.phase).toBe('menu')
+    expect(recorded.submissions).toEqual([])
+    expect(recorded.consume).not.toHaveBeenCalled()
+
+    selection.advance(support, new Set(['Enter']), recorded.port)
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'coop', targetAllyIdx: 1 } },
+    ])
+    expect(recorded.consume.mock.calls).toEqual([[0]])
+  })
+
+  test.each(['self', 'allAllies'] as const)('合击 %s 无须进入目标选择', (target) => {
+    const selection = new BattleCommandSelection()
+    const recorded = recordingPort()
+    const support = context({
+      player: {
+        skills: [],
+        mp: 1,
+        silenced: false,
+        healthy: true,
+        cooperativeMagicSkillId: 'heal',
+      },
+      skills: { heal: skill('heal', target) },
+    })
+    selection.advance(support, new Set(['ArrowRight', 'Enter']), recorded.port)
+    expect(recorded.submissions).toEqual([{ playerIndex: 0, action: { kind: 'coop' } }])
+    expect(recorded.consume.mock.calls).toEqual([[0]])
+    expect(selection.phase).toBe('menu')
+  })
+
   test('keeps invalid main directions on attack and synchronously commits the selected enemy', () => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()

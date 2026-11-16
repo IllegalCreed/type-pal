@@ -61,7 +61,12 @@ export type BattleLastAction =
   | (PlayerMagicAction & { kind: 'cast'; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'item'; itemId: string; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'throw'; itemId: string; targetEnemyIdx?: number })
-  | (PlayerMagicAction & { kind: 'coop'; targetAllyIdx?: number })
+  | (PlayerMagicAction & {
+      kind: 'coop'
+      targetAllyIdx?: number
+      /** 术效前的 HP，排除合击扣费后再计算恢复数字。 */
+      hpAfterContribution: number[]
+    })
   | (PlayerActionBase & { kind: 'defend' })
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions

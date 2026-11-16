@@ -205,15 +205,16 @@ export class BattleCommandSelection {
         } else if (this.menuIndex === 2) {
           const coopSkillId = context.player.cooperativeMagicSkillId
           const coopSkill = coopSkillId ? context.skills[coopSkillId] : undefined
-          if (coopSkill?.target === 'allEnemies') {
+          if (!coopSkill) return
+          if (coopSkill.target === 'oneEnemy' || coopSkill.target === 'oneAlly') {
+            this.pendingCoop = true
+            this.currentPhase = 'target'
+            this.targetSide = coopSkill.target === 'oneAlly' ? 'ally' : 'enemy'
+            this.targetIndex = this.targetSide === 'ally' ? sel : 0
+          } else {
             this.submit(context, port, { kind: 'coop' })
             port.consumeOthersForCoop(sel)
             this.backToMain()
-          } else {
-            this.pendingCoop = true
-            this.currentPhase = 'target'
-            this.targetSide = 'enemy'
-            this.targetIndex = 0
           }
         } else if (this.menuIndex === 3) {
           this.currentPhase = 'misc'
@@ -361,6 +362,11 @@ export class BattleCommandSelection {
         this.targetIndex = (this.targetIndex + 1) % count
       if (pressed.has('Escape')) {
         this.targetSide = 'enemy'
+        if (this.pendingCoop) {
+          this.pendingCoop = false
+          this.currentPhase = 'menu'
+          return
+        }
         if (this.pendingItemId) {
           this.pendingItemId = null
           this.currentPhase = 'item'
@@ -371,17 +377,18 @@ export class BattleCommandSelection {
       }
       if (confirm) {
         const target = this.targetIndex % count
+        const wasCoop = this.pendingCoop
+        this.pendingCoop = false
         const action: BattleAction = this.pendingItemId
           ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: target }
-          : {
-              kind: 'cast',
-              skillId: this.requirePendingSkill(),
-              targetAllyIdx: target,
-            }
+          : wasCoop
+            ? { kind: 'coop', targetAllyIdx: target }
+            : { kind: 'cast', skillId: this.requirePendingSkill(), targetAllyIdx: target }
         this.pendingItemId = null
         this.pendingSkillId = null
         this.targetSide = 'enemy'
         this.submit(context, port, action)
+        if (wasCoop) port.consumeOthersForCoop(sel)
         this.backToMain()
       }
       return
