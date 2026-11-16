@@ -759,10 +759,9 @@ export class BattleSession {
 
   private queueTurnStartHooks(): void {
     if (this.state.hidingTime > 0 || this.pendingTerminal) return
-    this.state.enemies.forEach((enemy, enemyIdx) => {
-      if (enemy && enemy.hp > 0)
-        this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
-    })
+    // Scan slots in order, checking occupancy at execution so a later slot can be filled mid-scan.
+    for (const enemyIdx of this.state.enemies.keys())
+      this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
   }
 
   private flushScheduledMusicStop(): void {
@@ -1818,6 +1817,11 @@ export class BattleSession {
     if (la.kind === 'divide' && la.side === 'enemy' && la.spawnedIdxs?.length) {
       const mother = s.enemies[la.idx]
       if (!mother) return null
+      const motherVisual = this.visual.enemies[la.idx]
+      if (motherVisual) {
+        motherVisual.x = mother.basePos.x
+        motherVisual.y = mother.basePos.y
+      }
       for (const si of la.spawnedIdxs) {
         this.visual.enemies[si] = {
           x: mother.basePos.x,

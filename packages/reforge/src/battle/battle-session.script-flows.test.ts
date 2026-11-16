@@ -191,6 +191,39 @@ describe('W4 敌钩子与屏障组合', () => {
     expect(sfx.plays.filter((asset) => asset === 'sound.summon')).toEqual(['sound.summon'])
   })
 
+  test('分裂填入后方槽位时，分身的回合起手在当前扫描内执行一次', async () => {
+    const sfx = recordingSfx()
+    const enemy = wfEnemy('slime', { health: 110 })
+    enemy.ai.hooks = {
+      turnStart: {
+        initial: 'divide',
+        states: {
+          divide: {
+            body: [{ kind: 'effect', id: 'divide', effect: { kind: 'divide', copies: 1 } }],
+            next: {
+              kind: 'commandOutcome',
+              commandId: 'divide',
+              outcome: 'succeeded',
+              then: { kind: 'stay' },
+              else: { kind: 'continue', state: 'blocked' },
+            },
+          },
+          blocked: {
+            body: [{ kind: 'playSound', asset: 'sound.split-blocked' }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [enemy] })
+    Object.assign(h.assets, { sfx: sfx.player })
+    for (let i = 0; i < 90; i += 1) {
+      h.idle(16)
+      await flush()
+    }
+    expect(sfx.plays).toEqual(['sound.split-blocked'])
+  })
+
   test('同一个 ready 脚本连续召唤时，第二次出声等待第一次完整入场', async () => {
     const sfx = recordingSfx()
     const summoner = wfEnemy('summoner', { health: 500 })
