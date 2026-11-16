@@ -776,6 +776,7 @@ const closureCallers = new Set([
   'scripts/e2e/battle-world-bee-game.mjs',
   'scripts/e2e/battle-world-bee-reforge.mjs',
   'scripts/e2e/battle-world-bee-compare.mjs',
+  'scripts/e2e/battle-world-save-compare.mjs',
 ])
 const closureChangedSources = new Set([
   ...closureCallers,
@@ -786,6 +787,8 @@ const closureChangedSources = new Set([
   'scripts/e2e/battle-status-scenarios.mjs',
   'scripts/e2e/battle-trace-observer.mjs',
   'scripts/e2e/battle-world-bee-reforge.config.mts',
+  'scripts/e2e/battle-world-bee-scenario.mjs',
+  'scripts/e2e/battle-world-save.mjs',
   'packages/reforge/src/main.ts',
   'packages/reforge/src/battle/battle-core.ts',
   'packages/reforge/src/battle/battle-command-selection.ts',
@@ -796,6 +799,9 @@ const closureNewSources = new Set([
   'scripts/e2e/battle-status-rules.mjs',
   'scripts/e2e/battle-status-scenarios.mjs',
   'scripts/e2e/battle-world-bee-reforge.config.mts',
+  'scripts/e2e/battle-world-bee-scenario.mjs',
+  'scripts/e2e/battle-world-save-respawn.mjs',
+  'scripts/e2e/battle-world-save.mjs',
   'packages/reforge/src/main.ts',
   'packages/reforge/src/battle/battle-anim.ts',
   'packages/reforge/src/battle/battle-core.ts',

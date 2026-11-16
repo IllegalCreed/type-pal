@@ -570,7 +570,7 @@ test('battle presentation review preserves the accepted shell callers and openin
 })
 
 test('battle closure restores four live source records and only appends paired Q2 execution', () => {
-  const revision = 'c4d22fb3879c75a22b9209da995e75788d3664e3'
+  const revision = '73c189a0a5004ce2fa6315087fc58d739651024b'
   const readBase = (path) => readFixed(testingBattleClosurePublicationBase, path)
   const readCandidate = (path) => readFixed(revision, path)
   const readSource = (path) => documents.get(path) ?? readCandidate(path)
@@ -633,7 +633,11 @@ test('battle closure restores four live source records and only appends paired Q
     const newSource = readCandidate(ref.path)
     if (oldSource.equals(newSource)) return ref
     const oldLine = oldSource.toString().split('\n')[Number(ref.lines) - 1]
-    const lines = String(newSource.toString().split('\n').indexOf(oldLine) + 1)
+    const candidateLines = newSource.toString().split('\n')
+    const index = candidateLines.indexOf(oldLine)
+    const lines = String(
+      (index >= 0 ? index : candidateLines.findIndex((line) => line.includes(ref.anchor))) + 1,
+    )
     previous.push(ref)
     return { ...ref, lines, sha256: hash(newSource) }
   })
