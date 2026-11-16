@@ -40,12 +40,13 @@ import {
 import { fixedRng, recordingSfx, stubGlyphs } from '../__tests__/battle-workflows/controlled-io.js'
 import {
   makeWfSession,
+  makeWfSessionFromWorld,
   wfLoadedBattleSprite,
 } from '../__tests__/battle-workflows/session-driver.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { expectDefined } from '../defined.js'
 import { DialogBox } from '../dialog/dialog-box.js'
-import type { MenuAssets } from '../menu/menu-box.js'
+import { type MenuAssets, MenuBox } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
 import { createBattlePlayers } from './battle-player-input.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
@@ -201,6 +202,50 @@ describe('W3 执行时间线接线', () => {
     expect(panelVisible()).toBe(true)
     h.press(['a'])
     expect(panelVisible()).toBe(false)
+  })
+
+  test('战斗杂项状态页实际绘制施法后的真气，关闭后回到选招', () => {
+    const spell = wfSkill('status-mp-spell', 9)
+    const { harness: battle, world } = makeWfSessionFromWorld({
+      actorIds: ['p1'],
+      enemies: [wfEnemy('status-mp-target', { health: 900, attackStrength: 1 })],
+      initialMagic: [spell.id],
+      extraOpts: { skills: { [spell.id]: spell } },
+    })
+    const menu = infoBoxAssets()
+    menu.statusBg = bitmap(320, 200, '#0f1113')
+    // Distinct numeric tiles let the pixel oracle distinguish 31 from the entry snapshot 40.
+    menu.nums = Array.from({ length: 10 }, (_, digit) =>
+      bitmap(6, 8, `rgb(${20 + 20 * digit}, 7, 30)`),
+    )
+    battle.assets.statusPanel = {
+      renderer: new MenuBox(stubGlyphs, {}, menu, {}),
+      party: world.party,
+    }
+
+    for (const key of ['ArrowLeft', 'Enter', 'Enter', 'Enter']) battle.press([key])
+    battle.idle(40)
+    for (let step = 0; step < 80 && battle.session.debugReadiness().phase !== 'menu'; step++)
+      battle.idle(40)
+    expect(battle.session.debugReadiness().phase).toBe('menu')
+    expect(battle.readParty()[0]?.mp).toBe(31)
+    expect(world.party[0]?.mp).toBe(40)
+
+    for (const key of ['ArrowDown', 'Enter', 'ArrowUp', 'Enter']) battle.press([key])
+    const ctx = battleCanvas()
+    battle.session.render(ctx, 1)
+    const pixel = (x: number, y: number) => Array.from(ctx.getImageData(x, y, 1, 1).data)
+    expect([pixel(61, 75), pixel(67, 75)]).toEqual([
+      [80, 7, 30, 255],
+      [40, 7, 30, 255],
+    ])
+    expect(pixel(0, 0)).toEqual([15, 17, 19, 255])
+
+    battle.press(['Escape'])
+    expect(battle.session.debugReadiness().phase).toBe('menu')
+    ctx.clearRect(0, 0, 320, 200)
+    battle.session.render(ctx, 1)
+    expect(pixel(0, 0)).not.toEqual([15, 17, 19, 255])
   })
 
   test('用物和仙术列表按当前选项在 PAL 原坐标、色板与行距实绘说明', () => {
