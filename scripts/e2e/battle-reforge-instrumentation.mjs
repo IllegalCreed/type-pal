@@ -304,6 +304,16 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
             node.end,
             `\n${evidenceCall('numberDrawn', 'f, f.num, f.tone, f.x, f.y - age, age')}\n`,
           )
+        if (source === 'ctx.drawImage(img, dx, dy)') {
+          const enclosing = node.parent.parent
+          const fades =
+            ts.isIfStatement(enclosing) && enclosing.expression.getText(ast) === 'summonShow > 0'
+          add(
+            fades ? 'summon-fade-draw' : 'summon-full-draw',
+            node.end,
+            `\nif (o.sheet === 'summon') { ${evidenceCall('summonDrawn', 'o.x, o.y, o.frameIdx')} }\n`,
+          )
+        }
         if (name === 'drawPlayerInfoBox')
           add('panel-draw', node.end, `\n${evidenceCall('panelDrawn', 'i')}\n`)
         if (name === 'drawSettlementScreen') {
@@ -426,6 +436,8 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'physical-overlay-draw',
                       'number-identity',
                       'number-draw',
+                      'summon-fade-draw',
+                      'summon-full-draw',
                       'panel-draw',
                       'settlement-draw-begin',
                       'settlement-draw-end',

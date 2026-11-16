@@ -317,6 +317,9 @@ export function installBattleTraceObserver(context, createRecorder) {
         paintOrder: nextPaintOrder++,
       })
     },
+    summonDrawn(x, y, frameIndex) {
+      if (frame && observeMagicOverlays) frame.summon = { x, y, frameIndex }
+    },
     physicalOverlayDrawn(x, y, frameIndex) {
       if (!frame || !observePhysicalOverlays) return
       frame.physicalOverlays ??= []

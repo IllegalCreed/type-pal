@@ -261,6 +261,20 @@ export function instrumentGameBattle(source, file) {
         "drawBattleMagicOverlay(fb, { kind: 'magic', ...blit }, assets.magicSprites)"
     )
       add('background-magic-draw', node.arguments.end, ', true')
+    if (
+      file.endsWith('/present-battle.ts') &&
+      ts.isIfStatement(node) &&
+      node.expression.getText(ast) === 'frame' &&
+      node.thenStatement.getText(ast) === 'blitFrame(fb, frame, summon.pos.x, summon.pos.y)'
+    ) {
+      const draw = node.thenStatement
+      add('summon-draw-begin', draw.getStart(ast), '{\n')
+      add(
+        'summon-draw-end',
+        draw.end,
+        '\nglobalThis.__battleEvidence?.summonDrawn(summon.pos.x, summon.pos.y, god.frames[summon.frame] === frame ? summon.frame : 0);\n}',
+      )
+    }
     if (file.endsWith('/draw-battle-effect.ts')) {
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'blitFrame')
         add(
@@ -459,10 +473,13 @@ export function instrumentGameBattle(source, file) {
       } else {
         const slot = node.arguments[0]
         assert(ts.isIdentifier(slot), 'Game command slot is no longer a simple native variable')
+        // A leading parenthesis can continue the preceding semicolonless expression.
+        // Discard the result only where the original standalone statement discarded it.
+        const prefix = ts.isExpressionStatement(node.parent) ? 'void ' : ''
         add(
           'command',
           node.getStart(ast),
-          `(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
+          `${prefix}(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
           node.end,
         )
       }
@@ -543,6 +560,8 @@ export function instrumentGameBattle(source, file) {
       'settlement-draw': 1,
       'dialogue-slot': 2,
       'background-magic-draw': 1,
+      'summon-draw-begin': 1,
+      'summon-draw-end': 1,
       'trance-fade-composited': 1,
     },
     'dialog-draw.ts': { 'dialogue-line': 3, 'dialogue-portrait': 1, 'dialogue-narration': 1 },
