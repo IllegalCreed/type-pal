@@ -65,7 +65,7 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
         fighters: [
           { idx: 0, frame: 0 },
           { idx: 2, frame: 0 },
-          { idx: 1, frame: 0 },
+          { idx: 1, frame: 0, holdFrame: true },
         ],
       },
       {
@@ -73,6 +73,7 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
         fighters: [
           { idx: 0, frame: 0 },
           { idx: 2, frame: 1 },
+          { idx: 1, holdFrame: false },
         ],
       },
     ])

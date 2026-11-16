@@ -23,8 +23,8 @@ export interface FighterDelta {
   idx: number
   /** 精灵帧号(缺 = 不变)。 */
   frame?: number
-  /** 时间线持有敌方当前帧，包括本来会继续循环的待机帧。 */
-  holdFrame?: true
+  /** true 固定当前帧，false 恢复闲站循环，缺省沿用。 */
+  holdFrame?: boolean
   /** 底锚位置(缺 = 不变)。 */
   pos?: { x: number; y: number }
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
@@ -1799,8 +1799,13 @@ export function buildEnemySummon(input: {
     if (arriving) {
       for (let tick = 0; tick < ENEMY_SUMMON_HOLD_TICKS; tick += 1) {
         const hold = [...spawnPoses(tick), ...earlierPoses(tick)]
-        if (tick === 0 && input.profile.magic.count > 0)
-          hold.push({ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start })
+        if (input.profile.magic.count > 0)
+          hold.push({
+            side: 'enemy',
+            idx: input.casterIdx,
+            ...(tick === 0 ? { frame: input.profile.idle.start } : {}),
+            holdFrame: tick === 0,
+          })
         frames.push({ durationMs: delayMs(1), fighters: hold })
       }
     }

@@ -233,7 +233,7 @@ interface VisualFighter {
   x: number
   y: number
   frame: number
-  holdFrame?: true
+  holdFrame?: boolean
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
@@ -2145,7 +2145,7 @@ export class BattleSession {
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
-    if (d.holdFrame) v.holdFrame = true
+    if (d.holdFrame !== undefined) v.holdFrame = d.holdFrame
     if (d.pos) {
       v.x = d.pos.x
       v.y = d.pos.y
