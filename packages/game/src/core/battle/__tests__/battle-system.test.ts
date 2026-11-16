@@ -643,7 +643,7 @@ describe('enemy summon scripts around the native turn and action boundaries', ()
   ] as const)('completes each consecutive summon before resuming %s', (trigger) => {
     const { gs, bus, emptyInput } = bootstrap({
       enemies: [
-        makeEnemy({ id: 100, idleFrames: 1, magicFrames: 2, actWaitFrames: 2 }),
+        makeEnemy({ id: 100, idleFrames: 1, idleAnimSpeed: 99, magicFrames: 2, actWaitFrames: 2 }),
         makeEnemy({ id: 101 }),
       ],
       enemyObjects: [
@@ -682,6 +682,10 @@ describe('enemy summon scripts around the native turn and action boundaries', ()
       if (tick === 0) {
         expect(children.map((enemy) => enemy.defeated)).toEqual([true, true])
         expect(state.enemies[0]!.currentFrame).toBe(1)
+      }
+      if (tick === 33) {
+        expect(children[0]!.iColorShift).toBe(8)
+        expect(state.enemies[0]!.currentFrame).toBe(0)
       }
       for (const { cmd } of bus.drain()) {
         if (cmd.op === 'playSound' && cmd.soundId === 212) {

@@ -30,6 +30,11 @@ export function buildEnemySummonTimeline(input: {
   // script.c:2935–2947: dissolve into tinted occupants, animate two idle beats,
   // then dissolve from the still-tinted scene into the restored colours.
   const fadeDuration = SUMMON_FADE_STEP_MS * SUMMON_FADE_STEPS
+  const hold: BattleAnimFrame = { durationMs: delayMs(2), updateGesture: true }
+  if (frames.length > 0) {
+    // PAL_BattleDelay(TRUE) wraps the casting pose even before the idle timer expires.
+    hold.fighters = [{ side: 'enemy', idx: input.casterIdx, currentFrame: 0 }]
+  }
   frames.push(
     {
       durationMs: fadeDuration,
@@ -37,7 +42,7 @@ export function buildEnemySummonTimeline(input: {
       fighters: input.summonedIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
       sound: 212,
     },
-    { durationMs: delayMs(2), updateGesture: true },
+    hold,
     {
       durationMs: fadeDuration,
       enemySummonFade: 'release',
