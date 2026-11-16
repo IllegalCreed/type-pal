@@ -270,7 +270,7 @@ const battleClosureRanges = new Map([
   ],
   [
     testingBattleSessionSourcePath,
-    { '242-244': '245-247', '407-419': '411-423', '1254-1263': '1260-1269' },
+    { '242-244': '246-248', '407-419': '412-424', '1254-1263': '1261-1270' },
   ],
   [reforgeBattleCommandSelectionTest, { '73-96': '73-96' }],
 ])

@@ -570,7 +570,7 @@ test('battle presentation review preserves the accepted shell callers and openin
 })
 
 test('battle closure restores four live source records and only appends paired Q2 execution', () => {
-  const revision = '0368bd0d8d3271960f1cc999af0c1d1785b849b7'
+  const revision = 'c4d22fb3879c75a22b9209da995e75788d3664e3'
   const readBase = (path) => readFixed(testingBattleClosurePublicationBase, path)
   const readCandidate = (path) => readFixed(revision, path)
   const readSource = (path) => documents.get(path) ?? readCandidate(path)
@@ -590,9 +590,9 @@ test('battle closure restores four live source records and only appends paired Q
     ],
   ])
   const moved = new Map([
-    ['242-244', '245-247'],
-    ['407-419', '411-423'],
-    ['1254-1263', '1260-1269'],
+    ['242-244', '246-248'],
+    ['407-419', '412-424'],
+    ['1254-1263', '1261-1270'],
   ])
   const history = (previousSourceRefs) => ({
     action: 'q2-battle-closure-source-rebinding',
