@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e1b32563347ed8b2fb5ff2c759394031459769df86fb594967599e405dcfc939",
+      "afterSha256": "9e6b0dc8820221e273d4a3162cfb86e81b482b66e20f3387fe1eae02fb0f96e1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 121,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
+        "reviewedLines": 122,
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "eca1bb8909e47eb90ff6f8f5daaee72ecc475fa202fb1fee8e83e112e73bc036",
+      "afterSha256": "9b82453c772180e868881afb43527c79e56ced0773881c5deab3738bd5583194",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
         "reviewedLines": 588,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       }
     },
     {
@@ -3384,14 +3384,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "3df0a424b5d7376f6c98ef53afefa5b228ddca0f9d5c187a41d06d47cfdff16f",
+      "afterSha256": "5406ba1761fe84467680682a12e4d4a621c2e0a67198fc71dbdaa5dab879ef89",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
         "reviewedLines": 357,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "d226fb3b42f5c3d31097ed8bbc36c2b94a1106b46ffbd10e65bcb1168ac0fb35",
+      "afterSha256": "dd23c1ade0cc7a08bc6cf1b82c9391f2656e705dc9448ab1df9f4854cd1f9e33",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 537,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
+        "reviewedLines": 551,
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4725f1195de32adbda048ebabfa77af1ad71df0ccbcd3ce7d3783385ca2638e9",
+      "afterSha256": "188c141ed13e495df805f76ec71c0b5318611c189217f09e18fc61db55cca4d8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核实际素材、操作、保存和失败原件，按来源列明本次与历史执行。",
-        "reviewedLines": 495,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
+        "reviewedLines": 503,
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       }
     },
     {
