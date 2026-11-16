@@ -47,7 +47,7 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
     }
     const before = structuredClone(input)
     const frames = buildPlayerCast(input)
-    expect(frames).toHaveLength(28)
+    expect(frames).toHaveLength(29)
     expect(frames.filter((frame) => frame.sound).map((frame) => frame.sound)).toEqual([
       'sound.caster',
       'sound.summon',
@@ -75,18 +75,21 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
       [162, 97],
     ])
     expect(frames[21]?.burnBg?.map((overlay) => overlay.sheet)).toEqual(['magic', 'magic', 'magic'])
-    expect(frames.slice(22, 26).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
+    expect(frames[22]).toMatchObject({
+      damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 43 }],
+    })
+    expect(frames.slice(23, 27).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
       82, 86, 84, 90,
     ])
-    expect(frames.slice(22, 26).map((frame) => frame.summonPhase)).toEqual([
+    expect(frames.slice(23, 27).map((frame) => frame.summonPhase)).toEqual([
       'hold',
       'hold',
       'hold',
       'hold',
     ])
-    expect(frames[26]).toMatchObject({ summonPhase: 'out', durationMs: 1152 })
-    expect(frames[27]).toMatchObject({
-      damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 43 }],
+    expect(frames[27]).toMatchObject({ summonPhase: 'out', durationMs: 1152 })
+    expect(frames.filter((frame) => frame.damageNums)).toHaveLength(1)
+    expect(frames[28]).toMatchObject({
       fighters: [{ side: 'player', idx: 1, frame: 0, pos: { x: 130, y: 140 } }],
     })
     expect(input).toEqual(before)

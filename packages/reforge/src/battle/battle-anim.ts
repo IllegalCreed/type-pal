@@ -1133,15 +1133,15 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }),
   )
 
-  if (offensive) {
-    // 主特效结束即复原屏波，并在敌人位移前取飘字底锚（fight.c:2835、4322–4323）。
+  if (offensive || inSummon) {
+    // Draw damage before recoil and before the summoned figure fades out (fight.c:4322–4323).
     frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
   }
 
   // PostMagic 三拍受击和一拍敌人复位（fight.c:3190–3245）。无掉血时仍经过四拍。
   // 召唤在场时继续画定格神将，随后走既有淡出（fight.c:4323、889）。
   const postTargets = input.postTargets ?? []
-  if (offensive || postTargets.length > 0) {
+  if (offensive || inSummon || postTargets.length > 0) {
     for (const [beat, offset] of [-8, -4, -6, 0].entries()) {
       frames.push({
         durationMs: delayMs(1),
@@ -1170,7 +1170,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   // —— 结算数字 + 回位 ——
   frames.push({
     durationMs: delayMs(2),
-    ...(damageNums.length ? { damageNums } : {}),
+    ...(!inSummon && damageNums.length ? { damageNums } : {}),
     fighters: [
       { side: 'player', idx: casterIdx, frame: input.casterFrames.idle, pos: { ...casterPos } },
     ],
