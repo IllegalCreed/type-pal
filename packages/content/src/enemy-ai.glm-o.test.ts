@@ -130,8 +130,8 @@ describe('O08 pickAiTarget：策略与稳定并列序', () => {
   })
 })
 
-describe('O08 buildActionQueue：dualMove 相对位与稳定排序', () => {
-  test('无 dualMove：dex 降序、同 dex 敌人先于队员', () => {
+describe('O08 buildActionQueue：双动标记与两项队列次序', () => {
+  test('同速敌人与队员单独在队列中时保持填充次序', () => {
     const queue = buildActionQueue([{ idx: 0, dex: 50 }], [{ idx: 1, dex: 50, dualMove: false }])
     expect(queue.map(({ isEnemy, idx }) => ({ isEnemy, idx }))).toEqual([
       { isEnemy: true, idx: 1 },

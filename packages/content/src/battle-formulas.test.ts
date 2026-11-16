@@ -145,9 +145,21 @@ describe('dexterity (fight.c:289-389)', () => {
 })
 
 describe('buildActionQueue (fight.c:1451-1584)', () => {
-  test('dex 降序;同 dex 敌人在前', () => {
-    const q = buildActionQueue([{ idx: 0, dex: 50 }], [{ idx: 0, dex: 50, dualMove: false }])
-    expect(q.map((i) => i.isEnemy)).toEqual([true, false]) // 同 dex 敌人先
+  test('较快队员交换到队首后，方丈先于同身法的刀僧', () => {
+    const queue = buildActionQueue(
+      [{ idx: 0, dex: 2265 }],
+      [
+        { idx: 0, dex: 36, dualMove: false },
+        { idx: 1, dex: 36, dualMove: false },
+        { idx: 2, dex: 35, dualMove: false },
+      ],
+    )
+    expect(queue.map(({ isEnemy, idx }) => [isEnemy, idx])).toEqual([
+      [false, 0],
+      [true, 1],
+      [true, 0],
+      [true, 2],
+    ])
   })
   test('dualMove:小 dex 二抽标 fIsSecond', () => {
     const q = buildActionQueue([], [{ idx: 0, dex: 60, dualMove: true, dex2: 30 }])

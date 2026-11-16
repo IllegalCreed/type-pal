@@ -193,7 +193,7 @@ export interface ActionQueueItem {
  * 构建一轮行动队列。fight.c:1451-1584 PAL_CLASSIC。
  *   1. 敌人塞队列;dualMove 进两次（小 dex 者标 fIsSecond）
  *   2. 队员塞队列
- *   3. dex 降序稳定排序（同 dex 保填充序 = 敌人先于队员）
+ *   3. 逐槽比较并立即交换更快项。更快项的交换可以改变同速行动的次序。
  */
 export function buildActionQueue(
   players: readonly PlayerSlot[],
@@ -215,7 +215,16 @@ export function buildActionQueue(
     }
   }
   for (const p of players) items.push({ isEnemy: false, idx: p.idx, dex: p.dex, fIsSecond: false })
-  items.sort((a, b) => b.dex - a.dex) // stable：同 dex 敌人在前
+  for (let slot = 0; slot < items.length - 1; slot++) {
+    for (let next = slot + 1; next < items.length; next++) {
+      const current = items[slot]
+      const candidate = items[next]
+      if (current && candidate && current.dex < candidate.dex) {
+        items[slot] = candidate
+        items[next] = current
+      }
+    }
+  }
   return items
 }
 
