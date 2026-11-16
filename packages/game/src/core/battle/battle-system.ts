@@ -495,12 +495,14 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   PAL_BattleUpdateFighters 复位(script.c:2866)+ 清时间线,不碰 action 队列。
   if (state.phase === 'selectAction' && state.battleAnim) {
     const a = state.battleAnim
+    if (a.frames[a.idx]?.updateGesture) tickEnemyIdleGestures(state)
     if (advanceBattleAnimFrames(state, bus, BATTLE_DT)) {
       for (const dn of a.pendingDamageNums ?? []) {
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
-      resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined
+      resumeEnemySummonScript(state)
+      if (!state.battleAnim) resetFightersAfterAction(state, res.playerRoles)
     }
     return
   }
@@ -2099,6 +2101,60 @@ export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
   return true
 }
 
+// A waiting interpreter belongs to one live battle and is released after its summon animation.
+const pendingEnemySummonScripts = new WeakMap<BattleState, () => void>()
+
+function resumeEnemySummonScript(state: BattleState): boolean {
+  const resume = pendingEnemySummonScripts.get(state)
+  if (!resume) return false
+  pendingEnemySummonScripts.delete(state)
+  resume()
+  return true
+}
+
+function runEnemyBattleTrigger(
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+  idx: number,
+  script: 'scriptOnReady' | 'scriptOnTurnStart',
+  onResumeComplete?: () => void,
+): boolean {
+  const enemy = state.enemies[idx]!
+  let suspended = false
+  const run = (continueScript: () => number) => {
+    const entry = continueScript()
+    if (pendingEnemySummonScripts.has(state)) return
+    enemy[script] = entry
+    if (suspended) onResumeComplete?.()
+  }
+  run(() =>
+    runBattleTrigger(runScript, idx, {
+      commands: res.commands,
+      ip: enemy[script],
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        state,
+        caster: { type: 'enemy', idx },
+        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        enemyPos: res.enemyPos,
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
+        gs,
+        playerRoles: res.playerRoles,
+        battleEffectIndex: res.battleEffectIndex,
+        deferEnemySummon: true,
+      },
+      suspendForEnemySummon(resume) {
+        suspended = true
+        pendingEnemySummonScripts.set(state, () => run(resume))
+      },
+    }),
+  )
+  return suspended
+}
+
 /**
  * scriptOnTurnStart:每轮起手对全体活敌跑一次(sdlpal fight.c:1184-1191,fTurnStart gate)。
  * 在玩家**选动作之前**跑(tickBattle round-start)→ boss 嘲讽对话(林月如/拜月/蜘蛛精)进战斗
@@ -2114,11 +2170,12 @@ function runEnemyTurnStartScripts(
   gs: GameState,
   bus: CommandBus,
   res: BattleResources,
+  firstSlot = 0,
 ): void {
   state.turnStartDoneForTurn = state.turn
   // B2 c5 / D24:隐身期间(iHidingTime>0)敌整轮跳过 → 不跑 turnStart 脚本(sdlpal fight.c:1680 ==0 才跑)
   if ((state.iHidingTime ?? 0) > 0) return
-  for (let ei = 0; ei < state.enemies.length; ei++) {
+  for (let ei = firstSlot; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
     // PAL_BattleMain calls empty slots on entry. Later rounds skip them.
     if (!en) continue
@@ -2135,24 +2192,18 @@ function runEnemyTurnStartScripts(
     //   (fight.c:1186-1187 / 1689-1690)把脚本**返回值**写回。runScript 返回 wNextScriptEntry:
     //   0x01 收尾 → 推进过本段(show-once,多数 boss 嘲讽);0x00 收尾 → 起始 entry(每轮重显,
     //   如 enemyId 23 跳跳蛙 / 25 怪老子 scriptOnTurnStart=42840);0x02 → re-arm 指定 entry。
-    //   runScript 同步跑到 end 才返回(showDialog 只入队不挂起),故此回写每轮一次(turnStartDoneForTurn 守)。
-    en.scriptOnTurnStart = runBattleTrigger(runScript, ei, {
-      commands: res.commands,
-      ip: en.scriptOnTurnStart,
-      bus,
-      runtimeMode: 'battle',
-      battleCtx: {
-        state,
-        caster: { type: 'enemy', idx: ei },
-        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-        enemyPos: res.enemyPos,
-        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
-        gs, // raw opcode fall 到 applyRawOpcode 需 gs
-        // 0x92 show-magic-anim(赵灵儿觉醒 cutscene scriptOnTurnStart)需 cast 特效帧基号 + 角色战斗精灵
-        playerRoles: res.playerRoles,
-        battleEffectIndex: res.battleEffectIndex,
-      },
-    })
+    //   若碰到 0x9E，先播完当前召唤，再继续执行当前及剩余敌人的脚本。
+    if (
+      runEnemyBattleTrigger(state, gs, bus, res, ei, 'scriptOnTurnStart', () => {
+        if (!state.terminatedByEnemyEscape && state.phase === 'selectAction') {
+          runEnemyTurnStartScripts(state, gs, bus, res, ei + 1)
+        } else {
+          state.battleDialogPendingClear = false
+        }
+      })
+    ) {
+      return
+    }
     // sdlpal:某只敌人的 turn-start 脚本触发敌逃(0x69 → kBattleResultTerminated)→ 主循环 battle.c:774
     //   `BattleResult != OnGoing` 即退出,本回合**后续敌人的 turn-start 脚本不再跑**(且 sdlpal 每帧只一只
     //   敌人行动 fight.c:1233 fMoved gate → fTurnStart 错帧,逃跑那只先跑就终止)。ts 把 turn-start 简化成
@@ -2221,6 +2272,9 @@ function tickPerformAction(
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
       state.battleAnim = undefined
+      // The ready script runs before the enemy action. Finishing its gesture or
+      // dissolve resumes the script and leaves the same action queue item armed.
+      if (resumeEnemySummonScript(state)) return
       if (afterComplete?.kind === 'perform-item') {
         // CLASSIC fight.c:4385–4406: run the item script, restore the fighters, draw stat
         // changes, then wait eight beats. The follow-up waits for any scripted presentation.
@@ -2318,25 +2372,7 @@ function tickPerformAction(
         // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnReady = PAL_RunTriggerScript(...)`
         //   (fight.c:1226-1227 / 1719-1720)返回值回写。0x01 收尾 → 推进(show-once);0x00 → 起始
         //   entry(每次 ready 重跑);0x02 → re-arm 指定。scriptReadyRan guard 保本 action 一次性。
-        enemy.scriptOnReady = runBattleTrigger(runScript, item.idx, {
-          commands: res.commands,
-          ip: enemy.scriptOnReady,
-          bus,
-          runtimeMode: 'battle',
-          battleCtx: {
-            state,
-            caster: { type: 'enemy', idx: item.idx },
-            // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
-            summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-            enemyPos: res.enemyPos,
-            enemySpriteFrameHeights: res.enemySpriteFrameHeights,
-            // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
-            gs,
-            // 0x92 show-magic-anim(scriptOnReady 出场施法演出)需 cast 特效帧基号 + 角色战斗精灵
-            playerRoles: res.playerRoles,
-            battleEffectIndex: res.battleEffectIndex,
-          },
-        })
+        if (runEnemyBattleTrigger(state, gs, bus, res, item.idx, 'scriptOnReady')) return
         // scriptOnReady 里 0xFFFF showDialog 入了对话队列 → 先暂停本 action,让顶层 tickBattleDialog
         //   放完对话再回来(scriptReadyRan guard 防重跑)→ 决策 + 行动。忠实 sdlpal:
         //   scriptOnReady 对话在敌人行动前显示(fight.c:1719-1724 脚本先跑,后 PerformAction)。

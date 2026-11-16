@@ -150,6 +150,7 @@ const frame = object<Frame>({
   screenWave: arg,
   keepEffect: flag,
   summon: optional(summon),
+  enemySummonFade: optional(oneOf('arrival', 'release')),
   updateGesture: flag,
 })
 const animation = object<Anim>({

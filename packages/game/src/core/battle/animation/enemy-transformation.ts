@@ -1,14 +1,13 @@
 /** Enemy summon, transformation and division gestures for battle opcodes. */
 import type { BattleAnimFrame, FighterDelta } from '../battle-state.js'
 import { delayMs } from './frames.js'
+import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from './summon.js'
 
 export function buildEnemySummonTimeline(input: {
   casterIdx: number
-  casterPos: { x: number; y: number }
   caster: {
     idleFrames: number
     magicFrames: number
-    attackFrames: number
     actWaitFrames: number
   }
   summonedIdxs: number[]
@@ -26,19 +25,29 @@ export function buildEnemySummonTimeline(input: {
     })
   }
 
-  if (input.summonedIdxs.length > 0) {
-    frames.push({
-      durationMs: delayMs(1),
+  if (input.summonedIdxs.length === 0) return frames
+
+  // script.c:2935–2947: dissolve into tinted occupants, animate two idle beats,
+  // then dissolve from the still-tinted scene into the restored colours.
+  const fadeDuration = SUMMON_FADE_STEP_MS * SUMMON_FADE_STEPS
+  frames.push(
+    {
+      durationMs: fadeDuration,
+      enemySummonFade: 'arrival',
       fighters: input.summonedIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
       sound: 212,
-    })
-    frames.push({ durationMs: delayMs(2) })
-  }
-
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: input.activeEnemyIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 0 })),
-  })
+    },
+    { durationMs: delayMs(2), updateGesture: true },
+    {
+      durationMs: fadeDuration,
+      enemySummonFade: 'release',
+      fighters: input.activeEnemyIdxs.map((idx) => ({
+        side: 'enemy' as const,
+        idx,
+        iColorShift: 0,
+      })),
+    },
+  )
   return frames
 }
 

@@ -392,6 +392,7 @@ interface BootstrapOpts {
   roles?: PlayerRole[]
   /** 注入的 enemies(全表);默认 [makeEnemy({ id: 100 })]。 */
   enemies?: Enemy[]
+  enemyObjects?: EnemyObject[]
   /** EnemyTeam.enemies 槽位(指向上面 enemies 的 id);默认 [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF]。 */
   teamSlots?: [number, number, number, number, number]
   isBoss?: boolean
@@ -468,6 +469,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     objectMagics,
     objectPoisons,
     objectPlayers,
+    enemyObjects: opts.enemyObjects,
     enemyPos: opts.enemyPos,
     commands,
     levelUpExp: opts.levelUpExp,
@@ -631,6 +633,90 @@ describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#31
   })
   it('无异常状态 → 正常跑 scriptOnReady(反例,防过度拦截)', () => {
     expect(readyScriptRanUnderStatus({})).toBe(true)
+  })
+})
+
+describe('enemy summon scripts around the native turn and action boundaries', () => {
+  it.each([
+    'scriptOnReady',
+    'scriptOnTurnStart',
+  ] as const)('completes each consecutive summon before resuming %s', (trigger) => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [
+        makeEnemy({ id: 100, idleFrames: 1, magicFrames: 2, actWaitFrames: 2 }),
+        makeEnemy({ id: 101 }),
+      ],
+      enemyObjects: [
+        {
+          objectIndex: 501,
+          enemyId: 101,
+          scriptOnTurnStart: 0,
+          scriptOnBattleEnd: 0,
+          scriptOnReady: 0,
+          resistanceToSorcery: 0,
+        },
+      ],
+      teamSlots: [100, 0, 0, 0xffff, 0xffff],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x9e, operands: [501, 1, 0] },
+        { op: 'raw', opcode: 0x9e, operands: [501, 1, 0] },
+        { op: 'end', advance: true },
+        { op: 'end' },
+      ],
+    })
+    const state = gs.battleState!
+    state.enemies[0]![trigger] = 1
+    if (trigger === 'scriptOnReady') {
+      state.phase = 'performAction'
+      state.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    } else {
+      tickBattle(gs, emptyInput, bus)
+    }
+
+    const sightings: { tick: number; slots: boolean[]; shades: number[] }[] = []
+    const completed: number[] = []
+    for (let tick = 0; tick < 170; tick++) {
+      tickBattle(gs, emptyInput, bus)
+      const children = state.enemies.slice(1)
+      if (tick === 0) {
+        expect(children.map((enemy) => enemy.defeated)).toEqual([true, true])
+        expect(state.enemies[0]!.currentFrame).toBe(1)
+      }
+      for (const { cmd } of bus.drain()) {
+        if (cmd.op === 'playSound' && cmd.soundId === 212) {
+          sightings.push({
+            tick,
+            slots: children.map((enemy) => !enemy.defeated),
+            shades: children.map((enemy) => enemy.iColorShift ?? 0),
+          })
+        }
+      }
+      if (state.enemies[0]![trigger] === 4) {
+        completed.push(tick)
+        expect(state.currentActionIndex).toBe(0)
+        expect(state.enemies.slice(1).map((enemy) => enemy.iColorShift)).toEqual([0, 0])
+        break
+      }
+      expect(state.enemies[0]![trigger]).toBe(1)
+      expect(state.currentActionIndex).toBe(0)
+    }
+
+    expect(sightings).toEqual([
+      { tick: 4, slots: [true, false], shades: [8, 0] },
+      { tick: 68, slots: [true, true], shades: [0, 8] },
+    ])
+    expect(completed).toEqual([128])
+    if (trigger === 'scriptOnReady') {
+      for (let tick = 0; tick < 35 && state.currentActionIndex === 0; tick++) {
+        tickBattle(gs, emptyInput, bus)
+      }
+      expect(state.currentActionIndex).toBe(1)
+    } else {
+      tickBattle(gs, emptyInput, bus)
+      expect(state.phase).toBe('selectAction')
+      expect(state.battleAnim).toBeUndefined()
+    }
   })
 })
 

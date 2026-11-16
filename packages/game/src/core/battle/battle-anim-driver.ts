@@ -4,11 +4,36 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
+import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from './animation/summon.js'
 import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-state.js'
 
 // The action stores the first frame after its dialogue. The host owns dismissal and
 // both animation clocks stop before this frame, including a delayed render callback.
 const dialogueBoundaries = new WeakMap<BattleAnimState, number>()
+
+interface EnemySummonPresentation {
+  onArrival?: () => void
+  clock?: { frame: BattleAnimFrame; startMs: number }
+}
+
+const enemySummonPresentations = new WeakMap<BattleAnimState, EnemySummonPresentation>()
+
+export function stepEnemySummonFadeRender(
+  state: BattleState,
+  nowMs: number,
+): { phase: NonNullable<BattleAnimFrame['enemySummonFade']>; step: number } | undefined {
+  const animation = state.battleAnim
+  const frame = animation?.frames[animation.idx]
+  const phase = frame?.enemySummonFade
+  if (!animation || !frame || !phase) return undefined
+  const presentation = enemySummonPresentations.get(animation)
+  if (!presentation) return undefined
+  if (presentation.clock?.frame !== frame) {
+    presentation.clock = { frame, startMs: nowMs - animation.frameElapsedMs }
+  }
+  const elapsed = Math.max(animation.frameElapsedMs, nowMs - presentation.clock.startMs)
+  return { phase, step: Math.min(SUMMON_FADE_STEPS - 1, Math.floor(elapsed / SUMMON_FADE_STEP_MS)) }
+}
 
 export function holdBattleAnimationForDialogue(
   animation: BattleAnimState,
@@ -64,6 +89,15 @@ export function applyAnimFrameVisual(state: BattleState, frame: BattleAnimFrame)
 
 /** Commit one logical frame. The coordinator calls this once on entry, never for render-only advancement. */
 export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: CommandBus): void {
+  const animation = state.battleAnim
+  if (frame.enemySummonFade === 'arrival' && animation) {
+    const presentation = enemySummonPresentations.get(animation)
+    if (presentation?.onArrival) {
+      const arrive = presentation.onArrival
+      presentation.onArrival = undefined
+      arrive()
+    }
+  }
   applyAnimFrameVisual(state, frame)
 
   // W4 keepEffect:本帧标记烙背景 → 把 overlays 的魔法精灵追加到 persistentBgBlits(跨帧持久,present 画在 bg 上)。
@@ -114,7 +148,7 @@ export function startBattleAnim(
   frames: BattleAnimFrame[],
   bus: CommandBus,
   pendingDamageNums?: BattleAnimState['pendingDamageNums'],
-  opts?: { afterComplete?: BattleAnimState['afterComplete'] },
+  opts?: { afterComplete?: BattleAnimState['afterComplete']; onEnemySummonArrival?: () => void },
 ): void {
   if (frames.length === 0) return
   state.battleAnim = {
@@ -124,6 +158,9 @@ export function startBattleAnim(
     overlay: undefined,
     pendingDamageNums,
     afterComplete: opts?.afterComplete,
+  }
+  if (frames.some((frame) => frame.enemySummonFade !== undefined)) {
+    enemySummonPresentations.set(state.battleAnim, { onArrival: opts?.onEnemySummonArrival })
   }
   applyAnimFrame(state, frames[0]!, bus)
 }
@@ -175,7 +212,13 @@ export function advanceBattleAnimFrames(
 export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
   const a = state.battleAnim
   // loop/fade 帧交专驱;无动画 / 空帧不处理。清锚点 → 离开特例段后重新对齐。
-  if (!a || a.frames.length === 0 || a.summon?.loop != null || a.summon?.fadeStep != null) {
+  if (
+    !a ||
+    a.frames.length === 0 ||
+    a.summon?.loop != null ||
+    a.summon?.fadeStep != null ||
+    enemySummonPresentations.has(a)
+  ) {
     if (a) {
       a.renderStartMs = undefined
       a.renderIdx = undefined

@@ -388,6 +388,8 @@ interface DispatchResult {
   consumed: boolean
   /** 若 opcode 改了 ip,返回新 ip;否则 undefined caller ip++ */
   newIp?: number
+  /** The enemy trigger resumes after this summon animation, including a failed gesture. */
+  waitForEnemySummon?: true
 }
 
 /**
@@ -1370,22 +1372,33 @@ export function dispatchBattleOpcode(
       // 从预载 battleSprites(`enemy-${id}`)取 ABC.MKF 战斗精灵。
       const tables = ctx.summonTables
       if (!tables || ctx.caster?.type !== 'enemy') return { consumed: true }
-      const self = state.enemies[ctx.caster.idx]
+      const casterIdx = ctx.caster.idx
+      const self = state.enemies[casterIdx]
       if (!self) return { consumed: true }
 
+      const buildTimeline = (summonedIdxs: number[], activeEnemyIdxs: number[]) =>
+        buildEnemySummonTimeline({ casterIdx, caster: self.e, summonedIdxs, activeEnemyIdxs })
+      const visualBus = ctx.bus
       const w = operands[0] ?? 0
       let count = asShort(operands[1] ?? 0)
       if (count <= 0) count = 1
       const failJump = operands[2] ?? 0
 
-      const room = state.enemies.reduce((n, enemy) => n + (enemy.defeated ? 1 : 0), 0)
+      const freeSlots = state.enemies.flatMap((enemy, idx) => (enemy.defeated ? [idx] : []))
       const disabled =
         (self.status.sleep ?? 0) > 0 ||
         (self.status.paralyzed ?? 0) > 0 ||
         (self.status.confused ?? 0) > 0
       const hiding = (state.iHidingTime ?? 0) > 0 // sdlpal:我方隐身中不可召唤(对齐 0x9F)
-      if (room < count || hiding || disabled)
-        return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
+      if (freeSlots.length < count || hiding || disabled) {
+        const result: DispatchResult = { consumed: true }
+        if (failJump !== 0) result.newIp = failJump
+        if (visualBus && self.e.magicFrames > 0) {
+          startBattleAnim(state, buildTimeline([], []), visualBus)
+          result.waitForEnemySummon = true
+        }
+        return result
+      }
 
       // 解析召唤兽:w=0/0xFFFF → 自身同种;否则 enemyObjects[objectIndex==w] → enemyId/scripts/抗性。
       let enemyId: number
@@ -1427,49 +1440,39 @@ export function dispatchBattleOpcode(
       const base = tables.enemies.find((e) => e.id === enemyId)
       if (!base) return { consumed: true }
 
-      const summonedIdxs: number[] = []
-      let left = count
-      for (let i = 0; i < state.enemies.length && left > 0; i++) {
-        if (!state.enemies[i]?.defeated) continue
-        resetEnemySlot(state.enemies[i]!, {
-          e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          prevHp: base.health,
-          maxHealth: base.health,
-          objectId: summonObjectId, // L25:对象身份(wObjectID)
-          scriptOnTurnStart: onTurnStart,
-          scriptOnBattleEnd: onBattleEnd,
-          scriptOnReady: onReady,
-          resistanceToSorcery: resist,
-          poisons: [],
-          spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
-          defeated: false,
-        })
-        summonedIdxs.push(i)
-        left--
+      const summonedIdxs = freeSlots.slice(0, count)
+      const arrive = () => {
+        for (const idx of summonedIdxs) {
+          resetEnemySlot(state.enemies[idx]!, {
+            e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
+            status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+            prevHp: base.health,
+            maxHealth: base.health,
+            objectId: summonObjectId, // L25:对象身份(wObjectID)
+            scriptOnTurnStart: onTurnStart,
+            scriptOnBattleEnd: onBattleEnd,
+            scriptOnReady: onReady,
+            resistanceToSorcery: resist,
+            poisons: [],
+            spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
+            defeated: false,
+          })
+        }
+        refreshEnemyBattlePositions(ctx)
       }
-      refreshEnemyBattlePositions(ctx)
-      if (ctx.bus && self.posOriginal) {
-        startBattleAnim(
-          state,
-          buildEnemySummonTimeline({
-            casterIdx: ctx.caster.idx,
-            casterPos: self.posOriginal,
-            caster: {
-              idleFrames: self.e.idleFrames,
-              magicFrames: self.e.magicFrames,
-              attackFrames: self.e.attackFrames,
-              actWaitFrames: self.e.actWaitFrames,
-            },
-            summonedIdxs,
-            activeEnemyIdxs: state.enemies
-              .map((enemy, idx) => ({ enemy, idx }))
-              .filter(({ enemy }) => !enemy.defeated)
-              .map(({ idx }) => idx),
-          }),
-          ctx.bus,
+      if (visualBus) {
+        const activeEnemyIdxs = state.enemies.flatMap((enemy, idx) =>
+          !enemy.defeated || summonedIdxs.includes(idx) ? [idx] : [],
         )
-      } else if (ctx.gs) {
+        if (!ctx.deferEnemySummon) arrive()
+        startBattleAnim(state, buildTimeline(summonedIdxs, activeEnemyIdxs), visualBus, undefined, {
+          onEnemySummonArrival: ctx.deferEnemySummon ? arrive : undefined,
+        })
+        return { consumed: true, waitForEnemySummon: true }
+      }
+
+      arrive()
+      if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
         ctx.gs.pendingSounds ??= []
         ctx.gs.pendingSounds.push(212)

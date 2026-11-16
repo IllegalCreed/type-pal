@@ -12,8 +12,7 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
   it('buildEnemySummonTimeline:召唤起手仅手势(原地不动)+ 新召唤敌 iColorShift=8 + 音效 212 + 全敌复位', () => {
     const frames = buildEnemySummonTimeline({
       casterIdx: 0,
-      casterPos: { x: 160, y: 80 },
-      caster: { idleFrames: 1, magicFrames: 2, attackFrames: 3, actWaitFrames: 2 },
+      caster: { idleFrames: 1, magicFrames: 2, actWaitFrames: 2 },
       summonedIdxs: [1, 2],
       activeEnemyIdxs: [0, 1, 2],
     })
@@ -23,6 +22,7 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
     expect(frames[0]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 1 }])
     expect(frames[1]!.fighters).toEqual([{ side: 'enemy', idx: 0, currentFrame: 2 }])
     const summonFrame = frames.find((f) => f.sound === 212)!
+    expect(summonFrame).toMatchObject({ durationMs: 1152, enemySummonFade: 'arrival' })
     expect(summonFrame.fighters).toEqual([
       { side: 'enemy', idx: 1, iColorShift: 8 },
       { side: 'enemy', idx: 2, iColorShift: 8 },
@@ -31,6 +31,16 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
       { side: 'enemy', idx: 0, iColorShift: 0 },
       { side: 'enemy', idx: 1, iColorShift: 0 },
       { side: 'enemy', idx: 2, iColorShift: 0 },
+    ])
+    expect(
+      frames.slice(-2).map(({ durationMs, enemySummonFade, updateGesture }) => ({
+        durationMs,
+        enemySummonFade,
+        updateGesture,
+      })),
+    ).toEqual([
+      { durationMs: 80, enemySummonFade: undefined, updateGesture: true },
+      { durationMs: 1152, enemySummonFade: 'release', updateGesture: undefined },
     ])
   })
 

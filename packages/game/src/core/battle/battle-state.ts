@@ -311,6 +311,8 @@ export interface BattleAnimFrame {
   keepEffect?: boolean
   /** 本帧召唤神演出状态(set → 隐队员改画召唤神;driver 落到 battleAnim.summon,present 读)。 */
   summon?: SummonFrameState
+  /** Enemy 0x9E uses the same indexed scene dissolve without replacing the party. */
+  enemySummonFade?: 'arrival' | 'release'
   /**
    * 本帧期间敌人 idle 呼吸动画照常推进 —— sdlpal PAL_BattleDelay 第三参 fUpdateGesture=TRUE
    * 的帧级等价(fight.c:498-525)。C 演出主体 Delay 全 FALSE(敌 idle 定格),收尾停顿段 TRUE

@@ -919,9 +919,11 @@ export interface BattleCtx {
   /**
    * 0x9E enemy summon 需:enemies(enemies.json,按 enemyId 取召唤兽 stats)+
    * enemyObjects(enemy-objects.json,按 objectIndex 解 op0 → enemyId/scripts/抗性)。
-   * 由 enemy scriptOnReady 的 runScript 注入(battle-system tickPerformAction)。
+   * 由敌人的 ready/turn-start 脚本入口注入。
    */
   summonTables?: { enemies: Enemy[]; enemyObjects: EnemyObject[] }
+  /** The battle host can keep the 0x9E trigger on the same actor across its two dissolves. */
+  deferEnemySummon?: boolean
   /**
    * ENEMYPOS(DATA.MKF chunk 13)—— 0x9C/0x9E/0x9F 动态改变敌方阵容后,
    * 需按当前敌人数重算 g_Battle.rgEnemy[].posOriginal(同 PAL_BattleMakeScene)。
@@ -966,6 +968,8 @@ export interface RunScriptOptions {
   battleTriggerArgument?: number
   /** The single-enemy HP branch of an all-target throw uses the PAL trigger argument. */
   allTargetThrow?: boolean
+  /** Only enemy ready and turn-start triggers can suspend after an animated 0x9E. */
+  suspendForEnemySummon?: (resume: () => number) => void
 }
 
 /** 上下位置互换(top↔bottom)—— 原版 PAL_StartDialog 切位置时不擦掉另一侧旧像素。 */
@@ -2835,12 +2839,11 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
  * raw fallback 可改队伍、装备等共享状态，不能把未写 eventCursor 当成无副作用。
  * showDialog 只入队；显示、按键等待与恢复推进归战斗宿主所有。
  *
- * 本入口不跨 tick 等待：支持的即时指令同步推进，未支持的命令按分支跳过或抛错。
+ * 即时指令同步推进。敌人召唤由选择等待的战斗 caller 接收后续游标。
  * 终止指令返回入口；越界告警后返回原入口；超过单次指令上限则抛错。
  */
 export function runScript(opts: RunScriptOptions): number {
-  const { commands, bus, runtimeMode, battleCtx } = opts
-  let ip = opts.ip
+  const { bus, runtimeMode, battleCtx } = opts
 
   if (runtimeMode === 'battle' && !battleCtx) {
     throw new Error('runScript: runtimeMode=battle 必须提供 battleCtx')
@@ -2852,23 +2855,38 @@ export function runScript(opts: RunScriptOptions): number {
   // D17b:让 battle opcode 拿到 bus emit showDamageNum(caller 未塞则默认 = opts.bus)。
   if (battleCtx && battleCtx.bus === undefined) battleCtx.bus = bus
 
-  const logPrefix = runtimeMode === 'battle' ? '[event-system battle]' : '[event-system explore]'
+  return runScriptFrom(opts, {
+    ip: opts.ip,
+    labelMap: buildLabelMap(opts.commands),
+    callStack: [],
+    battleTriggerArgument: opts.battleTriggerArgument,
+    curEventObjId: opts.eventObjectId,
+    stepCount: 0,
+  })
+}
 
-  // 局部 labelMap —— goto 用;runScript 跑一段子脚本,labelMap 在全 commands 中查
-  const labelMap = buildLabelMap(commands)
+interface BattleScriptPosition {
+  ip: number
+  labelMap: Record<string, number>
+  callStack: NonNullable<ScriptCursor['callStack']>
+  battleTriggerArgument?: number
+  curEventObjId?: number
+  stepCount: number
+}
+
+function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): number {
+  const { commands, runtimeMode, battleCtx } = opts
+  const { labelMap, callStack } = position
+  let { ip, battleTriggerArgument, curEventObjId, stepCount } = position
+  const logPrefix = runtimeMode === 'battle' ? '[event-system battle]' : '[event-system explore]'
 
   // battle 模式统一解释器(对齐 sdlpal 单一 PAL_InterpretInstruction):未被 dispatchBattleOpcode
   //   消费的 raw opcode → fall 到 applyRawOpcode(大世界已实现的控制流/数据/资源 opcode:0x06 概率跳、
   //   0x1E 钱、0x1F/0x20 物品、0x55/0x56 法术、各 JUMP_IF_*、0x04 call…)。否则只 skip → 法术脚本的
   //   概率/条件失败分支(如"失败 没有效果")永不触发(2026-05-31 修)。call/return 用持久 callStack +
   //   curEventObjId(循环外声明,raw case 共享给重建的 cursor),'end' 弹帧返回。
-  const callStack: NonNullable<ScriptCursor['callStack']> = []
-  let battleTriggerArgument = opts.battleTriggerArgument
   // battle 脚本 wEventObjectID:opts.eventObjectId seed(如敌普攻 equivItem.scriptOnUse(wPlayerRole)→
   //   脚本 0x29 单体毒该队员);0x04 call 的 op1 eventObjId 覆盖经此持久。
-  let curEventObjId: number | undefined = opts.eventObjectId
-
-  let stepCount = 0
   while (true) {
     if (++stepCount > SINGLE_TICK_LIMIT) {
       throw new Error(
@@ -3000,6 +3018,18 @@ export function runScript(opts: RunScriptOptions): number {
           )
           if (r.consumed) {
             ip = r.newIp !== undefined ? r.newIp : ip + 1
+            if (r.waitForEnemySummon && opts.suspendForEnemySummon) {
+              const next = {
+                ip,
+                labelMap,
+                callStack,
+                battleTriggerArgument,
+                curEventObjId,
+                stepCount,
+              }
+              opts.suspendForEnemySummon(() => runScriptFrom(opts, next))
+              return opts.ip
+            }
             break
           }
           // dispatchBattleOpcode 未消费(非战斗特定 opcode)→ fall 到大世界统一解释器 applyRawOpcode
