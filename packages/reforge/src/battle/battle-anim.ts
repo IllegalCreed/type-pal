@@ -27,6 +27,8 @@ export interface FighterDelta {
   pos?: { x: number; y: number }
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
   colorShift?: number
+  /** 新敌已在 core 入槽，在本帧开始绘制。 */
+  showSpawn?: true
 }
 
 export interface OverlayDraw {

@@ -525,26 +525,26 @@ export class BattleSession {
     })
   }
 
+  private enemyRestVisual(index: number): VisualFighter | null {
+    const enemy = this.state.enemies[index]
+    if (!enemy) return null
+    const profile = this.enemyAppearance(index).definition.profile
+    if (profile.kind !== 'enemy') throw new Error('enemy appearance profile 漂移')
+    return {
+      x: enemy.basePos.x,
+      y: enemy.basePos.y,
+      frame: profile.idle.start,
+      colorShift: 0,
+      displayHp: this.visual.enemies[index]?.displayHp ?? enemy.hp,
+    }
+  }
+
   /** 表现层复位:全员回站位/复位姿势/无染色(一阶段 resetFightersAfterAction 语义)。
    *  队员姿势 = playerRestFrame(死→傀儡0/死2;睡/濒死→1;防→3;站0 —— 一夜三刀簇,
    *  曾一律 frame0 丢死/濒死/防御姿,演出审计 §2-8)。 */
   private resetVisual(): void {
-    const s = this.state
     this.resetPlayersVisual()
-    this.visual.enemies = s.enemies.map((e, i) => {
-      if (!e) return null
-      const pos = e.basePos
-      const prev = this.visual.enemies[i]
-      const profile = this.enemyAppearance(i).definition.profile
-      if (profile.kind !== 'enemy') throw new Error('enemy appearance profile 漂移')
-      return {
-        x: pos.x,
-        y: pos.y,
-        frame: profile.idle.start,
-        colorShift: 0,
-        displayHp: prev?.displayHp ?? e.hp,
-      }
-    })
+    this.visual.enemies = this.state.enemies.map((_, index) => this.enemyRestVisual(index))
     this.overlays = null
     this.currentFire = null
     this.enemyAppearanceTransitions.clear()
@@ -1835,20 +1835,29 @@ export class BattleSession {
         })),
       })
     }
-    // 敌召唤：本体 magic 段起手；所有可达新怪已由 readiness 预载。
+    // 敌召唤：本体先做手势，新敌与成功音效在同一帧入场（script.c:2870–2941）。
     if (la.kind === 'summon' && la.side === 'enemy') {
       const profile = this.enemyAppearance(la.idx).definition.profile
       if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      if (profile.magic.count <= 0) return null
+      const spawned = la.spawnedIdxs ?? []
+      if (!spawned.length && profile.magic.count <= 0) return null
+      // 复用已击倒的槽位也得等起手结束，清掉该槽上一次的表现。
+      for (const index of spawned) this.visual.enemies[index] = null
       const frames: AnimFrame[] = []
       for (let i = 0; i < profile.magic.count; i++)
         frames.push({
-          durationMs: 40 * profile.actTicksPerFrame,
+          durationMs: BATTLE_FRAME_MS * profile.actTicksPerFrame,
           fighters: [{ side: 'enemy', idx: la.idx, frame: profile.magic.start + i }],
         })
+      const sound = spawned.length
+        ? this.opts.soundRoles?.['audio.battleEnemySummonSound']
+        : undefined
       frames.push({
-        durationMs: 40,
-        fighters: [{ side: 'enemy', idx: la.idx, frame: profile.idle.start }],
+        durationMs: BATTLE_FRAME_MS,
+        fighters: spawned.length
+          ? spawned.map((idx) => ({ side: 'enemy', idx, showSpawn: true }))
+          : [{ side: 'enemy', idx: la.idx, frame: profile.idle.start }],
+        ...(sound ? { sound } : {}),
       })
       return frames
     }
@@ -2087,6 +2096,7 @@ export class BattleSession {
 
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
   private applyDelta(d: FighterDelta): void {
+    if (d.side === 'enemy' && d.showSpawn) this.visual.enemies[d.idx] = this.enemyRestVisual(d.idx)
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame

@@ -150,6 +150,7 @@ describe('W4 敌钩子与屏障组合', () => {
   })
 
   test('敌 hook effect 召唤接线：summon 填空槽，新敌随后以自己名义真实攻击', async () => {
+    const sfx = recordingSfx()
     const boss = wfEnemy('boss', { attackStrength: 1, health: 500 })
     boss.ai.hooks = {
       turnStart: {
@@ -172,8 +173,12 @@ describe('W4 敌钩子与屏障组合', () => {
       players: [wfPlayer('p1', { attackStrength: 10, hp: 200, maxHp: 200 })],
       enemies: [boss, null], // 固定敌槽留一个空位
       enemiesById: { minion: wfEnemy('minion', { attackStrength: 25, health: 100 }) },
-      extraOpts: { auto: true }, // 自动推进回合，敌每轮行动（hook 效果不走 AI 决策 log）
+      extraOpts: {
+        auto: true,
+        soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' },
+      },
     })
+    Object.assign(h.assets, { sfx: sfx.player })
     for (let i = 0; i < 80; i += 1) {
       h.idle(500)
       await flush()
@@ -183,6 +188,40 @@ describe('W4 敌钩子与屏障组合', () => {
       h.session.debugLog().some((line) => line.startsWith('minion ') && line.includes('攻击')),
     ).toBe(true)
     expect(h.session.debugPlayers()[0]!.hp).toBeLessThan(200) // 其行动真实落在我方
+    expect(sfx.plays.filter((asset) => asset === 'sound.summon')).toEqual(['sound.summon'])
+  })
+
+  test.each([
+    { count: 1, result: 'caster 召唤了 1 个 minion', sounds: ['sound.summon'] },
+    { count: 2, result: 'caster 召唤失败', sounds: [] },
+  ])('敌普通 AI $result，召唤音等待手势结束并取决于实际入槽', async (sample) => {
+    const sfx = recordingSfx()
+    const boss = wfEnemy('caster', { health: 500 }, { battleSprite: 'battle-sprite.caster.magic' })
+    boss.ai.rules = [
+      { at: 'act', do: { kind: 'summon', enemyId: 'minion', count: sample.count }, once: true },
+    ]
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 1, hp: 200, maxHp: 200 })],
+      enemies: [boss, null],
+      enemiesById: { minion: wfEnemy('minion', { health: 100 }) },
+      extraOpts: {
+        auto: true,
+        soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' },
+      },
+    })
+    Object.assign(h.assets, { sfx: sfx.player })
+    for (let i = 0; i < 70 && !h.session.debugLog().includes(sample.result); i += 1) {
+      h.idle(40)
+      await flush()
+    }
+    expect(h.session.debugLog()).toContain(sample.result)
+    const summonSounds = () => sfx.plays.filter((asset) => asset === 'sound.summon')
+    h.idle(39)
+    expect(summonSounds()).toEqual([])
+    h.idle(1)
+    expect(summonSounds()).toEqual(sample.sounds)
+    h.idle(40)
+    expect(summonSounds()).toEqual(sample.sounds)
   })
 
   test('敌 hook effect 变身接线：transform 换身后新敌形以新名义继续行动', async () => {

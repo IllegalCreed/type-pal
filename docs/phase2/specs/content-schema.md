@@ -46,6 +46,10 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 工程资源 `assets.roles['audio.defeatMusic']` 是可选音乐角色，编辑器将它显示在「战斗音乐」。配置时必须解析为存在的 music 资源。PAL 正式工程绑定 `music.pal.001`，普通全灭渐红开始时播放一次。 [资产角色校验](../../../packages/content/src/asset.ts) · [全灭复验](../../testing/domains/cross-phase/battle-foundation/report.md)
 
+### 敌人召唤音效
+
+工程资源 `assets.roles['audio.battleEnemySummonSound']` 是可选的战斗音效。配置时需引用音效库中已有的 sound 资源，战斗启动时预载。PAL 绑定 `sound.pal.212`，敌人成功召唤时在新敌第一次入场绘制的那一拍播放一次。召唤失败时保持静音。 [资源角色](../../../packages/content/src/asset.ts) · [战斗演出](../../../packages/reforge/src/battle/battle-session.ts)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。
