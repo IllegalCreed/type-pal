@@ -2493,6 +2493,7 @@ export class BattleSession {
     }
     const sel =
       s.phase === 'selectAction' &&
+      this.selectionStartedForTurn === s.turn &&
       now >= this.roundEndFeedbackUntilMs &&
       !this.selection.isAutoAttacking
         ? this.nextSelecting()
