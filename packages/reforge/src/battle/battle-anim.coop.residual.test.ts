@@ -105,4 +105,34 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
     )
     expect(frames.at(-1)?.fighters?.map((fighter) => fighter.idx)).toEqual([1, 0])
   })
+
+  test('友方合击用聚拢后的受术站位绘制疗效，辉光结束再归位', () => {
+    const partyPositions = [
+      { x: 110, y: 130 },
+      { x: 140, y: 145 },
+      { x: 170, y: 160 },
+    ]
+    const frames = buildPlayerCoop({
+      framesByPlayer: [pose, pose, pose],
+      casterIdx: 0,
+      contributorIdxs: [0, 1],
+      partySize: 3,
+      partyPositions,
+      fireFrames: 2,
+      fx: { ...fx, xOffset: -10, yOffset: -6, sound: 'sound.pal.138' },
+      allyTargets: [{ idx: 1, pos: { x: 140, y: 145 } }],
+      damageNums: [],
+    })
+    expect(frames[9]).toMatchObject({
+      overlays: [{ sheet: 'magic', frameIdx: 0, x: 224, y: 164 }],
+      sound: 'sound.pal.138',
+    })
+    expect(frames.slice(11, 24).map((frame) => frame.fighters)).toEqual(
+      [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0].map((colorShift) => [
+        { side: 'player', idx: 1, colorShift },
+      ]),
+    )
+    expect(frames.some((frame) => frame.damageNums?.length)).toBe(false)
+    expect(frames.at(-1)?.fighters?.map(({ pos }) => pos)).toEqual(partyPositions.slice(0, 2))
+  })
 })

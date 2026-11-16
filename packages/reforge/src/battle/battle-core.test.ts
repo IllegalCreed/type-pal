@@ -2857,6 +2857,58 @@ describe('P3 合体技(coop magic)', () => {
     expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
   })
 
+  test.each([
+    { target: 'oneAlly', chosen: 1, expectedHp: [1, 47, 1] },
+    { target: 'self', chosen: 0, expectedHp: [38, 10, 1] },
+    { target: 'allAllies', chosen: undefined, expectedHp: [38, 47, 38] },
+  ] as const)('治疗合击按 $target 施放，在扣贡献者 HP 后执行术效', ({
+    target,
+    chosen,
+    expectedHp,
+  }) => {
+    const skill: SkillData = {
+      ...coopSkill,
+      name: '协力调息',
+      cost: { mp: 120 },
+      target,
+      effects: [{ kind: 'healHp', amount: 9 }],
+      execution: { player: { effects: [{ kind: 'healHp', amount: 37 }] } },
+    }
+    const s = createBattleState({
+      players: [
+        { ...coopPlayer('li'), hp: 90, maxHp: 150, mp: 4 },
+        { ...coopPlayer('zhao'), hp: 130, maxHp: 240, mp: 3 },
+        { ...coopPlayer('lin'), hp: 1, maxHp: 250, mp: 5 },
+      ],
+      enemies: [mkEnemy('slime')],
+      skills: { c386: skill },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, {
+      kind: 'coop',
+      ...(target === 'oneAlly' ? { targetAllyIdx: chosen } : {}),
+    })
+    s.pendingActions.set(1, { kind: 'defend' })
+    s.pendingActions.set(2, { kind: 'defend' })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+
+    expect(s.players.map(({ hp }) => hp)).toEqual(expectedHp)
+    expect(s.players.map(({ mp, hiddenCounts }) => ({ mp, hiddenCounts }))).toEqual([
+      { mp: 4, hiddenCounts: {} },
+      { mp: 3, hiddenCounts: {} },
+      { mp: 5, hiddenCounts: {} },
+    ])
+    expect(s.enemies[0]?.hp).toBe(30)
+    expect(s.lastAction).toMatchObject({
+      kind: 'coop',
+      skillId: skill.id,
+      coopContributors: [0, 1],
+      ...(chosen !== undefined ? { targetAllyIdx: chosen } : {}),
+    })
+    expect(s.lastAction).not.toHaveProperty('targetEnemyIdx')
+  })
+
   test('全体合击技(allEnemies)打全场', () => {
     const tnsh: SkillData = {
       ...coopSkill,

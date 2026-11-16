@@ -1000,20 +1000,13 @@ function appendPlayerApproach(
 /** 友方 DefMagic 直放特效帧，随后在受术队员身上走 13 拍辉光（fight.c:2492–2605）。 */
 function appendDefMagic(
   frames: AnimFrame[],
-  { casterIdx, casterFrames, fireFrames, fx, damageNums }: BuildPlayerCastInput,
+  { fireFrames, fx }: Pick<BuildPlayerCastInput, 'fireFrames' | 'fx'>,
   targets: NonNullable<BuildPlayerCastInput['allyTargets']>,
-  approachedPos: { x: number; y: number },
 ): void {
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
-  })
   for (let i = 0; i < fireFrames; i++) {
     frames.push({
       durationMs: (fx.speed + 5) * 10,
-      overlays: targets.map(({ idx, pos }) =>
-        magicOverlay(i, fx, idx === casterIdx ? approachedPos : pos),
-      ),
+      overlays: targets.map(({ pos }) => magicOverlay(i, fx, pos)),
       ...(i === 0 && fx.sound ? { sound: fx.sound } : {}),
     })
   }
@@ -1024,7 +1017,6 @@ function appendDefMagic(
       fighters: targets.map(({ idx }) => ({ side: 'player', idx, colorShift })),
     })
   }
-  if (damageNums.length) frames.push({ durationMs: 0, damageNums })
 }
 
 /**
@@ -1057,7 +1049,18 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   frames.push({ durationMs: delayMs(1) })
 
   if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
-    appendDefMagic(frames, input, input.allyTargets, { x: cx, y: cy })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters: [{ side: 'player', idx: casterIdx, frame: input.casterFrames.magic }],
+    })
+    appendDefMagic(
+      frames,
+      input,
+      input.allyTargets.map((target) =>
+        target.idx === casterIdx ? { idx: casterIdx, pos: { x: cx, y: cy } } : target,
+      ),
+    )
+    if (damageNums.length) frames.push({ durationMs: 0, damageNums })
     return frames // 会话在辉光结束后恢复实际姿态并显示回复数字。
   }
 
@@ -1182,6 +1185,7 @@ export interface BuildPlayerCoopInput {
   fireFrames: number
   fx: CastFxParams
   targetPos?: { x: number; y: number }
+  allyTargets?: BuildPlayerCastInput['allyTargets']
   /** 结算伤害数字(挂 PostMagic 首帧)。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
@@ -1195,7 +1199,7 @@ export interface BuildPlayerCoopInput {
  *  ① 聚拢:全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
  *  ② 蓄势:非发起贡献者 slot 倒序(后→前)逐个摆施法姿 frame5。
  *  ③ 发起者闪白(colorShift6+frame5,起手音29)→ ④ 出招(frame6)。
- *  ⑤ OffMagic:fire 精灵放法术特效(caster 已 frame6,不再注入)。
+ *  ⑤ 技能特效在受术者实际位置释放；敌方沿 OffMagic，友方沿 DefMagic。
  *  ⑥ PostMagic:掉血敌三轮抖动 + 闪白,伤害数字挂首帧。
  *  ⑦ 滑回:全贡献者反向插值回原位 + frame0(t 计数仅非发起贡献者递增,fight.c:4091 非对称,如实复刻)。
  * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
@@ -1246,6 +1250,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
+  const gatheredFighters = frames.at(-1)?.fighters
 
   // ② 非发起贡献者逐个 frame5(slot 倒序 = 后→前)
   for (let i = partySize - 1; i >= 0; i--) {
@@ -1283,14 +1288,15 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     ],
   })
 
-  // ⑤ OffMagic:fire 精灵帧循环(caster 已 frame6,不注入)
-  frames.push(
-    ...buildOffMagic({
-      fireFrames,
-      fx,
-      ...(targetPos ? { targetPos } : {}),
-    }),
-  )
+  if (fireFrames > 0 && input.allyTargets?.length) {
+    const gatheredTargets = input.allyTargets.map(({ idx, pos }) => ({
+      idx,
+      pos: gatheredFighters?.find((fighter) => fighter.idx === idx)?.pos ?? pos,
+    }))
+    appendDefMagic(frames, input, gatheredTargets)
+  } else {
+    frames.push(...buildOffMagic({ fireFrames, fx, ...(targetPos ? { targetPos } : {}) }))
+  }
 
   // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
   if (postTargets?.length) {

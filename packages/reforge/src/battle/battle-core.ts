@@ -29,6 +29,7 @@ import type {
   PoisonCurability,
   PoisonDef,
   SkillData,
+  SkillEffect,
   ThrowEffect,
 } from '@type-pal/content'
 import {
@@ -288,7 +289,7 @@ export interface BattleState {
 export type BattleAction =
   | { kind: 'attack'; targetEnemyIdx: number }
   | { kind: 'cast'; skillId: string; targetEnemyIdx?: number; targetAllyIdx?: number } // 对敌单体带敌目标;oneAlly 带己方目标(缺省=施法者)
-  | { kind: 'coop'; targetEnemyIdx?: number } // 合击:发起者(pendingActions key)用其 coop 技,全 healthy 队员合力(HP 代价);全体技不带目标
+  | { kind: 'coop'; targetEnemyIdx?: number; targetAllyIdx?: number } // 按发起者合体技的目标选择；全体技不带目标
   | { kind: 'item'; itemId: string; targetAllyIdx?: number } // 战斗用品(oneAlly 可点名队友,缺省施于自己;consuming 扣库存)
   | { kind: 'throw'; itemId: string; targetEnemyIdx?: number } // 单体需目标；全体由 ThrowSpec.target 直提
   | { kind: 'defend' }
@@ -1313,7 +1314,6 @@ function applyPlayerSkill(
   }
   p.mp -= mpCost
   const execution = resolveSkillExecution(skill, 'player')
-  const effects = execution.effects
   // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
   // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
   // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
@@ -1373,22 +1373,7 @@ function applyPlayerSkill(
       s.log.push(`${p.roleId} 施展 ${skill.name}：使用次数已用尽，技能已移除`)
     }
   }
-  const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
-  const enemyTargets =
-    skill.target === 'allEnemies'
-      ? aliveEnemies(s)
-      : onEnemies
-        ? [targetEnemyIdx ?? aliveEnemies(s)[0] ?? -1].filter(
-            (i) => i >= 0 && (s.enemies[i]?.hp ?? 0) > 0,
-          )
-        : []
-  // 己方目标:oneAlly/self 单点(可指死者 —— 还魂咒复活要选尸体);allAllies 全活人
-  const allyTargets =
-    skill.target === 'allAllies'
-      ? alivePlayers(s)
-      : skill.target === 'oneAlly' || skill.target === 'self'
-        ? [Math.min(Math.max(targetAllyIdx ?? idx, 0), s.players.length - 1)]
-        : []
+  const targets = playerSkillTargets(s, idx, skill, targetEnemyIdx, targetAllyIdx)
   // 370 的 0x57：普通 MP 扣除与物品门成功后，读取**剩余** MP×8，再清空 MP；
   // prepare 本身就是主伤害语义，不能再在 effects 里补一份 damage。
   for (const prepare of execution.prepare) {
@@ -1396,7 +1381,7 @@ function applyPlayerSkill(
     const amount = Math.max(0, Math.trunc(p.mp * prepare.multiplier))
     p.mp = 0
     if (amount <= 0) continue
-    for (const ti of enemyTargets) {
+    for (const ti of targets.enemies) {
       const enemy = expectDefined(s.enemies[ti])
       const dealt = Math.min(enemy.hp, amount)
       enemy.hp -= dealt
@@ -1404,6 +1389,55 @@ function applyPlayerSkill(
         s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
     }
   }
+  applyPlayerSkillEffects(s, p, skill, execution.effects, targets, rng, (ti, power, elemental) =>
+    dealSkillDamage(s, p, ti, power, elemental, skill.name, rng),
+  )
+  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
+  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
+  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
+}
+
+interface PlayerSkillTargets {
+  enemies: number[]
+  allies: number[]
+}
+
+function playerSkillTargets(
+  s: BattleState,
+  idx: number,
+  skill: SkillData,
+  targetEnemyIdx?: number,
+  targetAllyIdx?: number,
+): PlayerSkillTargets {
+  const enemies =
+    skill.target === 'allEnemies'
+      ? aliveEnemies(s)
+      : skill.target === 'oneEnemy'
+        ? [targetEnemyIdx ?? aliveEnemies(s)[0] ?? -1].filter(
+            (i) => i >= 0 && (s.enemies[i]?.hp ?? 0) > 0,
+          )
+        : []
+  // 单体队友可选择倒下成员；全体效果沿用普通仙术的全体存活成员。
+  const allies =
+    skill.target === 'allAllies'
+      ? alivePlayers(s)
+      : skill.target === 'oneAlly' || skill.target === 'self'
+        ? [Math.min(Math.max(targetAllyIdx ?? idx, 0), s.players.length - 1)]
+        : []
+  return { enemies, allies }
+}
+
+/** 结算已获准施放的有序术效。普通施法和合击各自负责代价、伤害来源和成长。 */
+function applyPlayerSkillEffects(
+  s: BattleState,
+  p: BattlePlayerState,
+  skill: SkillData,
+  effects: readonly SkillEffect[],
+  { enemies: enemyTargets, allies: allyTargets }: PlayerSkillTargets,
+  rng: () => number,
+  dealDamage: (target: number, power: number, elemental: number) => void,
+): void {
+  const onEnemies = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
   let enemyStatusAttempted = false
   let anyEnemyStatusApplied = false
   applyEffects: for (let effectIdx = 0; effectIdx < effects.length; effectIdx++) {
@@ -1509,8 +1543,7 @@ function applyPlayerSkill(
         break
       }
       case 'damage': {
-        for (const ti of enemyTargets)
-          dealSkillDamage(s, p, ti, eff.power, eff.elemental, skill.name, rng)
+        for (const ti of enemyTargets) dealDamage(ti, eff.power, eff.elemental)
         break
       }
       case 'moneyDamage': {
@@ -1525,8 +1558,7 @@ function applyPlayerSkill(
         s.moneyDelta -= spend
         s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
         const power = Math.trunc((spend * eff.num) / eff.den)
-        for (const ti of enemyTargets)
-          dealSkillDamage(s, p, ti, power, eff.elemental, skill.name, rng)
+        for (const ti of enemyTargets) dealDamage(ti, power, eff.elemental)
         break
       }
       case 'fleeBattle': {
@@ -1616,9 +1648,6 @@ function applyPlayerSkill(
   // 以整次 action 聚合：任一敌方状态成功即不报失败；友方状态链不走此旁白。
   if (enemyStatusAttempted && !anyEnemyStatusApplied && s.lastAction)
     s.lastAction.failureFeedback = 'statusIneffective'
-  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
-  p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
-  p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
 }
 
 /** 玩家法术伤害单敌结算(damage/moneyDamage 共用):魔强+抗性+战场五灵,防御姿减半,保底 1。 */
@@ -1688,12 +1717,12 @@ export function healthyPlayerCount(s: BattleState): number {
  * · contributors = 全 healthy 队员；执行前人数不足已由 validatePlayerAction 降级为普攻。
  * · HP 代价(非 MP!):每贡献者扣合体技 cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)。
  * · magStr = Σ(攻+法力) / 4(fight.c:3982-3995);伤害走 calcMagicDamage(同普通仙术),保底 1。
- * · 目标:allEnemies 技 → 全体,否则单体 targetEnemyIdx。伤害系数(合体×10)是出手身法非伤害。
+ * · 目标和有序术效沿用作者技能。合体×10 是出手身法系数。
  */
 function performCoopMagic(
   s: BattleState,
   casterIdx: number,
-  targetEnemyIdx: number | undefined,
+  action: Extract<BattleAction, { kind: 'coop' }>,
   rng: () => number,
 ): void {
   const caster = s.players[casterIdx]
@@ -1727,31 +1756,23 @@ function performCoopMagic(
     str += p.attackStrength + p.magicStrength
   }
   str = Math.trunc(str / 4)
-  // 目标:allEnemies 技 → 全体,否则单体(死目标环扫改选)
-  const targets =
-    skill.target === 'allEnemies'
-      ? aliveEnemies(s)
-      : (() => {
-          const ti =
-            targetEnemyIdx !== undefined && (s.enemies[targetEnemyIdx]?.hp ?? 0) > 0
-              ? targetEnemyIdx
-              : retargetEnemy(s, targetEnemyIdx ?? 0)
-          return ti >= 0 ? [ti] : []
-        })()
+  const enemyIdx =
+    skill.target === 'oneEnemy' ? retargetEnemy(s, action.targetEnemyIdx ?? 0) : undefined
+  const allyIdx = skill.target === 'oneAlly' ? action.targetAllyIdx : undefined
+  const targets = playerSkillTargets(s, casterIdx, skill, enemyIdx, allyIdx)
   s.lastAction = {
     side: 'player',
     idx: casterIdx,
     kind: 'coop',
     skillId: skill.id,
     coopContributors: [...contributors],
-    ...(targets.length === 1 ? { targetEnemyIdx: targets[0] } : {}),
+    ...(targets.enemies.length === 1 ? { targetEnemyIdx: targets.enemies[0] } : {}),
+    ...(skill.target === 'oneAlly' || skill.target === 'self'
+      ? { targetAllyIdx: expectDefined(targets.allies[0]) }
+      : {}),
   }
-  const dmgEff = skill.effects.find((e) => e.kind === 'damage')
-  if (!dmgEff || dmgEff.kind !== 'damage') {
-    s.log.push(`合体技 ${skill.name}(非伤害效果暂未接)`)
-    return
-  }
-  for (const ti of targets) {
+  const effects = resolveSkillExecution(skill, 'player').effects
+  applyPlayerSkillEffects(s, caster, skill, effects, targets, rng, (ti, power, elemental) => {
     const e = expectDefined(s.enemies[ti])
     const dmg = Math.max(
       1,
@@ -1760,7 +1781,7 @@ function performCoopMagic(
           magStr: str,
           def: e.def.stats.defense + (e.def.stats.level + 6) * 4, // fight.c:4012–4016,4031–4035
           rngFactor: 1 + rng() * 0.1,
-          magicData: { baseDamage: dmgEff.power, elemental: dmgEff.elemental },
+          magicData: { baseDamage: power, elemental },
           elemRes: e.def.stats.elemResistance,
           poisonRes: e.def.stats.poisonResistance,
           resistMult: 1,
@@ -1771,7 +1792,7 @@ function performCoopMagic(
     )
     applyPlayerMagicHit(s, e, ti, dmg)
     s.log.push(`合体技 ${skill.name} 对 ${e.def.id} 造成 ${dmg}`)
-  }
+  })
 }
 
 /**
@@ -2007,7 +2028,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     act = validatePlayerAction(s, idx, queued)
   }
   if (act.kind === 'coop') {
-    performCoopMagic(s, idx, act.targetEnemyIdx, _rng)
+    performCoopMagic(s, idx, act, _rng)
     return
   }
   s.lastAction = createPlayerLastAction(idx, act)

@@ -61,7 +61,7 @@ export type BattleLastAction =
   | (PlayerMagicAction & { kind: 'cast'; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'item'; itemId: string; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'throw'; itemId: string; targetEnemyIdx?: number })
-  | (PlayerMagicAction & { kind: 'coop' })
+  | (PlayerMagicAction & { kind: 'coop'; targetAllyIdx?: number })
   | (PlayerActionBase & { kind: 'defend' })
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions

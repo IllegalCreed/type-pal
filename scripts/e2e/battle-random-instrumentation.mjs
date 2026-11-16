@@ -194,9 +194,9 @@ export function instrumentBattleRandomDraws(source, file) {
           )
             mark(node, 'throw-weapon-strength')
         }
-        if (owner === 'applyPlayerSkill') {
+        if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
+        if (owner === 'applyPlayerSkillEffects') {
           const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
-          if (multiplier === '2') mark(node, 'cast-growth')
           if (effect === "'gate'" && multiplier === '100') mark(node, 'battle-script-chance')
           if (effect === "'applyStatus'" && multiplier === '10')
             mark(node, 'status-resistance', {
@@ -211,7 +211,7 @@ export function instrumentBattleRandomDraws(source, file) {
       }
       if (
         file.endsWith('/battle-core.ts') &&
-        ['performThrow', 'applyPlayerSkill'].includes(owner) &&
+        ['performThrow', 'applyPlayerSkillEffects'].includes(owner) &&
         node.expression.getText(ast) === 'applyEnemyPoisonEffect' &&
         node.arguments[3]?.getText(ast) === 'rng'
       ) {
