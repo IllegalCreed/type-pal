@@ -15,6 +15,7 @@ import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
 const delayMs = (n: number): number => n * BATTLE_FRAME_MS
+export const ENEMY_SUMMON_COLOR_SHIFT = 8
 
 export interface FighterDelta {
   side: 'player' | 'enemy'
@@ -63,6 +64,12 @@ export interface EnemyAppearanceTransition {
   total: number
 }
 
+export interface EnemySummonFade {
+  phase: 'arrival' | 'settle'
+  slots: readonly number[]
+  step: number
+}
+
 export interface AnimFrame {
   durationMs: number
   fighters?: FighterDelta[]
@@ -90,6 +97,8 @@ export interface AnimFrame {
   /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
    *  hold = 队员隐、神在场;out = 反向溶回。无字段 = 非召唤态(session 清相)。 */
   summonPhase?: 'in' | 'hold' | 'out'
+  /** Each 0x9E summons its own group through two complete scene fades. */
+  enemySummonFade?: EnemySummonFade
   /** keepEffect 烙背景(fight.c:2757 末帧 blit lpBackground):把这些特效帧永久画进
    *  战斗背景(整场留存,随屏波卷动;万剑诀插剑入地)。session 侧屏波 ≥9 时丢弃(原版门)。 */
   burnBg?: OverlayDraw[]
@@ -1532,6 +1541,7 @@ export interface AnimSideEffects {
   onAppearanceTransition?(transition: NonNullable<AnimFrame['appearanceTransition']>): void
   /** 召唤相切换(每帧派发当前相;null = 本帧无相 → session 清态)。 */
   onSummonPhase?(phase: 'in' | 'hold' | 'out' | null): void
+  onEnemySummonFade?(fade: EnemySummonFade | null): void
   /** keepEffect 烙背景(末帧一次;session 屏波 ≥9 时丢弃,fight.c:2757 wScreenWave<9 门)。 */
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
@@ -1587,6 +1597,7 @@ export class AnimPlayer {
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)
     if (f.banner) this.fx.onBanner?.(f.banner.text, f.banner.durationMs, f.banner.x, f.banner.y)
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
+    this.fx.onEnemySummonFade?.(f.enemySummonFade ?? null)
   }
 }
 
@@ -1711,6 +1722,52 @@ export function buildEnemyEscape(input: {
     })
   }
   frames.push({ durationMs: 500 })
+  return frames
+}
+
+/** script.c:2870–2945, each successful call fades in the tinted newcomers, holds, then restores their colors. */
+export function buildEnemySummon(input: {
+  casterIdx: number
+  profile: EnemyBattleSpriteProfile
+  slots: readonly number[]
+  sound?: AssetId
+}): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  for (let i = 0; i < input.profile.magic.count; i++) {
+    frames.push({
+      durationMs: delayMs(input.profile.actTicksPerFrame),
+      fighters: [
+        {
+          side: 'enemy',
+          idx: input.casterIdx,
+          frame: input.profile.magic.start + i,
+          holdFrame: true,
+        },
+      ],
+    })
+  }
+  if (!input.slots.length) return frames
+
+  for (const phase of ['arrival', 'settle'] as const) {
+    const arriving = phase === 'arrival'
+    const fighters = input.slots.map(
+      (idx): FighterDelta => ({
+        side: 'enemy',
+        idx,
+        colorShift: arriving ? ENEMY_SUMMON_COLOR_SHIFT : 0,
+        ...(arriving ? { showSpawn: true } : {}),
+      }),
+    )
+    for (let step = 1; step <= DITHER_TOTAL_STEPS; step++) {
+      frames.push({
+        durationMs: 16,
+        enemySummonFade: { phase, slots: input.slots, step },
+        ...(step === 1 ? { fighters } : {}),
+        ...(step === 1 && arriving && input.sound ? { sound: input.sound } : {}),
+      })
+    }
+    if (arriving) frames.push({ durationMs: delayMs(2) })
+  }
   return frames
 }
 

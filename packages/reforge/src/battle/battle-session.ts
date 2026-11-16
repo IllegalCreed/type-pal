@@ -60,6 +60,7 @@ import {
   buildEnemyEscape,
   buildEnemyMateAttack,
   buildEnemyPhysical,
+  buildEnemySummon,
   buildEnemyTransform,
   buildFleeFail,
   buildMateAttack,
@@ -74,7 +75,9 @@ import {
   buildThrowItem,
   buildUseItem,
   type CastFxParams,
+  ENEMY_SUMMON_COLOR_SHIFT,
   type EnemyAppearanceTransition,
+  type EnemySummonFade,
   type FighterDelta,
   type OverlayDraw,
   type PlayerAppearanceTransition,
@@ -130,9 +133,8 @@ import {
 import {
   type BattleDepthOverlayDraw,
   type BattleScene,
+  BattleSceneFade,
   type BattleSpriteDraw,
-  BattleTranceFade,
-  type BattleTranceFadeFrame,
   renderBattleScene,
 } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
@@ -282,10 +284,11 @@ export class BattleSession {
   /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
   private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
   private pendingStealNotice: TextSpan[] | undefined
-  /** 敌变身使用精灵级过渡，梦蛇使用冻结的场景层。动作收尾统一清除。 */
+  /** 敌变身使用精灵级过渡，梦蛇与敌召唤使用冻结的场景层。 */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
   private playerAppearanceTransition: PlayerAppearanceTransition | null = null
-  private readonly tranceFade = new BattleTranceFade()
+  private enemySummonFade: EnemySummonFade | null = null
+  private readonly sceneFade = new BattleSceneFade()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
   /** 波动背景缓存(仅相位/波幅变化时重卷)。 */
   private readonly wavedBg = new WavedBgCache()
@@ -549,7 +552,8 @@ export class BattleSession {
     this.currentFire = null
     this.enemyAppearanceTransitions.clear()
     this.playerAppearanceTransition = null
-    this.tranceFade.reset()
+    this.enemySummonFade = null
+    this.sceneFade.reset()
   }
 
   /** 当前待选指令的队员下标;全填 → undefined。眠/定/疯/死者不出菜单
@@ -597,7 +601,8 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
-    this.tranceFade.reset()
+    this.enemySummonFade = null
+    this.sceneFade.reset()
     if (this.casualtyDialogueShown || this.actionFeedback) this.assets.dialogBox?.close()
     this.actionFeedback = null
     this.pendingStealNotice = undefined
@@ -725,6 +730,10 @@ export class BattleSession {
           if (phase === 'out') this.resetPlayersVisual()
           this.summonVis = { phase, start: this.nowMs }
         }
+      },
+      onEnemySummonFade: (fade) => {
+        if (fade && fade.phase !== this.enemySummonFade?.phase) this.sceneFade.reset()
+        this.enemySummonFade = fade
       },
     }
     this.actionPresentation.start(timeline, effects, scripted)
@@ -978,7 +987,7 @@ export class BattleSession {
       enemyAppearances: string[]
     },
   ): void {
-    if (result.result.outcome === 'failed') return
+    if (result.result.outcome === 'failed' && result.result.kind !== 'summon') return
     const action = {
       side: 'enemy' as const,
       idx: activation.enemyIdx,
@@ -993,7 +1002,7 @@ export class BattleSession {
       before.enemyAppearances,
     )
     if (timeline) this.startTimeline(timeline, true)
-    else this.resetVisual()
+    else if (result.result.outcome === 'succeeded') this.resetVisual()
   }
 
   private pumpCasualtyDialogue(pressed: ReadonlySet<string>): boolean {
@@ -1835,31 +1844,19 @@ export class BattleSession {
         })),
       })
     }
-    // 敌召唤：本体先做手势，新敌与成功音效在同一帧入场（script.c:2870–2941）。
+    // 敌召唤手势先于空槽/状态失败，成功时播放两段入场溶解（script.c:2870–2945）。
     if (la.kind === 'summon' && la.side === 'enemy') {
       const profile = this.enemyAppearance(la.idx).definition.profile
       if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
       const spawned = la.spawnedIdxs ?? []
       if (!spawned.length && profile.magic.count <= 0) return null
-      // 复用已击倒的槽位也得等起手结束，清掉该槽上一次的表现。
       for (const index of spawned) this.visual.enemies[index] = null
-      const frames: AnimFrame[] = []
-      for (let i = 0; i < profile.magic.count; i++)
-        frames.push({
-          durationMs: BATTLE_FRAME_MS * profile.actTicksPerFrame,
-          fighters: [{ side: 'enemy', idx: la.idx, frame: profile.magic.start + i }],
-        })
-      const sound = spawned.length
-        ? this.opts.soundRoles?.['audio.battleEnemySummonSound']
-        : undefined
-      frames.push({
-        durationMs: BATTLE_FRAME_MS,
-        fighters: spawned.length
-          ? spawned.map((idx) => ({ side: 'enemy', idx, showSpawn: true }))
-          : [{ side: 'enemy', idx: la.idx, frame: profile.idle.start }],
-        ...(sound ? { sound } : {}),
+      return buildEnemySummon({
+        casterIdx: la.idx,
+        profile,
+        slots: spawned,
+        sound: this.opts.soundRoles?.['audio.battleEnemySummonSound'],
       })
-      return frames
     }
     // 投掷道具(前移、挥臂、出手 → 数字 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
@@ -2512,6 +2509,8 @@ export class BattleSession {
         : undefined
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = alpha 渐隐)
     const deathFade = this.deathFade
+    const summonFade = this.enemySummonFade
+    const arrivingDraws = summonFade ? new Set<BattleSpriteDraw>() : null
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
       if (!e) return
@@ -2556,15 +2555,18 @@ export class BattleSession {
             dissolve: 1 - progress,
           },
         )
-      } else
-        enemies.push({
+      } else {
+        const draw: BattleSpriteDraw = {
           sprite,
           x: v.x + jx,
           y: v.y,
           frame,
           colorShift: i === highlightEnemy ? 6 : v.colorShift,
           ...(alpha < 1 ? { alpha } : {}),
-        })
+        }
+        enemies.push(draw)
+        if (summonFade?.slots.includes(i)) arrivingDraws?.add(draw)
+      }
     })
     const players: BattleSpriteDraw[] = []
     const trance = this.playerAppearanceTransition
@@ -2642,15 +2644,26 @@ export class BattleSession {
       palette: this.assets.palette,
     }
     if (trance?.fade) {
-      const fade: BattleTranceFadeFrame = {
-        step: trance.fade.step,
-        source: {
-          sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
-          ...trance.fade.source,
-        },
-        target: tranceTarget,
-      }
-      this.tranceFade.render(ctx, scene, worldScale, fade)
+      const source = { ...scene, players: players.filter((draw) => draw !== tranceTarget) }
+      source.players.push({
+        sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
+        ...trance.fade.source,
+      })
+      this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)
+    } else if (summonFade && arrivingDraws) {
+      const sourceEnemies =
+        summonFade.phase === 'arrival'
+          ? enemies.filter((draw) => !arrivingDraws.has(draw))
+          : enemies.map((draw) =>
+              arrivingDraws.has(draw) ? { ...draw, colorShift: ENEMY_SUMMON_COLOR_SHIFT } : draw,
+            )
+      this.sceneFade.render(
+        ctx,
+        { ...scene, enemies: sourceEnemies },
+        scene,
+        worldScale,
+        summonFade.step,
+      )
     } else renderBattleScene(ctx, scene, worldScale)
 
     // 特效 overlay:**底中锚** blit(fight.c:2436/2183 真值 PAL_XY(x−w/2, y−h) ——

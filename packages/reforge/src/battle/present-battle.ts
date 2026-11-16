@@ -56,14 +56,8 @@ export interface BattleScene {
 const VIEW_W = 320
 const VIEW_H = 200
 
-export interface BattleTranceFadeFrame {
-  step: number
-  source: BattleSpriteDraw
-  target: BattleSpriteDraw | undefined
-}
-
 /** PAL_BattleFadeScene 混合两份冻结的战斗场景，战斗 UI 由调用方随后绘制。 */
-export class BattleTranceFade {
+export class BattleSceneFade {
   private canvas: HTMLCanvasElement | undefined
   private frames:
     | { source: ImageData; target: ImageData; output: ImageData; plan: DitherPalettePlan }
@@ -75,9 +69,10 @@ export class BattleTranceFade {
 
   render(
     ctx: CanvasRenderingContext2D,
-    scene: BattleScene,
+    sourceScene: BattleScene,
+    targetScene: BattleScene,
     worldScale: number,
-    fade: BattleTranceFadeFrame,
+    step: number,
   ): void {
     if (!this.canvas) {
       this.canvas = document.createElement('canvas')
@@ -87,21 +82,19 @@ export class BattleTranceFade {
     const scratch = expectDefined(this.canvas.getContext('2d', { willReadFrequently: true }))
     const pixels = VIEW_W * VIEW_H
     if (!this.frames) {
-      const sourcePlayers = scene.players.filter((draw) => draw !== fade.target)
-      sourcePlayers.push(fade.source)
-      renderBattleScene(scratch, { ...scene, players: sourcePlayers }, 1)
+      renderBattleScene(scratch, sourceScene, 1)
       const source = scratch.getImageData(0, 0, VIEW_W, VIEW_H)
-      renderBattleScene(scratch, scene, 1)
+      renderBattleScene(scratch, targetScene, 1)
       const target = scratch.getImageData(0, 0, VIEW_W, VIEW_H)
       this.frames = {
         source,
         target,
         output: scratch.createImageData(VIEW_W, VIEW_H),
-        plan: buildDitherPalettePlan(source.data, target.data, scene.palette.colors, pixels),
+        plan: buildDitherPalettePlan(source.data, target.data, targetScene.palette.colors, pixels),
       }
     }
     const { source, target, output, plan } = this.frames
-    applyDitherPaletteTransition(source.data, target.data, output.data, fade.step, pixels, plan)
+    applyDitherPaletteTransition(source.data, target.data, output.data, step, pixels, plan)
     scratch.putImageData(output, 0, 0)
     ctx.save()
     ctx.imageSmoothingEnabled = false

@@ -191,6 +191,53 @@ describe('W4 敌钩子与屏障组合', () => {
     expect(sfx.plays.filter((asset) => asset === 'sound.summon')).toEqual(['sound.summon'])
   })
 
+  test('同一个 ready 脚本连续召唤时，第二次出声等待第一次完整入场', async () => {
+    const sfx = recordingSfx()
+    const summoner = wfEnemy('summoner', { health: 500 })
+    summoner.ai.hooks = {
+      ready: {
+        initial: 'summon-both',
+        states: {
+          'summon-both': {
+            body: [
+              {
+                kind: 'effect',
+                id: 'first-arrival',
+                effect: { kind: 'summon', enemyId: 'minion', count: 1 },
+              },
+              {
+                kind: 'effect',
+                id: 'second-arrival',
+                effect: { kind: 'summon', enemyId: 'minion', count: 1 },
+              },
+            ],
+            next: { kind: 'advance', state: 'finished' },
+          },
+          finished: { body: [], next: { kind: 'stay' } },
+        },
+      },
+    }
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 1, hp: 200, maxHp: 200 })],
+      enemies: [null, summoner, null],
+      enemiesById: { minion: wfEnemy('minion', { health: 100 }) },
+      extraOpts: { auto: true, soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' } },
+    })
+    Object.assign(h.assets, { sfx: sfx.player })
+    const summons = () => sfx.plays.filter((asset) => asset === 'sound.summon')
+    for (let i = 0; i < 120 && !summons().length; i += 1) {
+      h.idle(16)
+      await flush()
+    }
+    expect(summons()).toEqual(['sound.summon'])
+
+    const firstArrivalMs = 72 * 16 * 2 + 2 * 40
+    for (let elapsed = 16; elapsed < firstArrivalMs; elapsed += 16) h.idle(16)
+    expect(summons()).toEqual(['sound.summon'])
+    for (let i = 0; i < 40 && summons().length === 1; i += 1) h.idle(16)
+    expect(summons()).toEqual(['sound.summon', 'sound.summon'])
+  })
+
   test.each([
     { count: 1, result: 'caster 召唤了 1 个 minion', sounds: ['sound.summon'] },
     { count: 2, result: 'caster 召唤失败', sounds: [] },
