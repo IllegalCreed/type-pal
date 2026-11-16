@@ -692,7 +692,7 @@ function performSteal(
   if (slot) slot.count += 1
   else s.inventory.push({ itemId: spec.itemId, count: 1 })
   const name = s.items[spec.itemId]?.name ?? spec.itemId
-  if (s.lastAction) s.lastAction.notice = `获得 ${name}`
+  if (s.lastAction) s.lastAction.notice = `获得${name}`
   s.log.push(`${p.roleId} 获得 ${name}`)
 }
 

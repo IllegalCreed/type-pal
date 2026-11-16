@@ -279,7 +279,8 @@ export class BattleSession {
   /** 结算后等待时间线到达提示位置的失败反馈。 */
   private pendingFailureFeedback: BattleFailureFeedback | null = null
   /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
-  private throwFeedbackUntilMs: number | null = null
+  private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
+  private pendingStealNotice: string | undefined
   /** 敌变身使用精灵级过渡，梦蛇使用冻结的场景层。动作收尾统一清除。 */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
   private playerAppearanceTransition: PlayerAppearanceTransition | null = null
@@ -596,9 +597,9 @@ export class BattleSession {
     this.pendingHookActivations = []
     this.activeHook = null
     this.tranceFade.reset()
-    if (this.casualtyDialogueShown || this.throwFeedbackUntilMs !== null)
-      this.assets.dialogBox?.close()
-    this.throwFeedbackUntilMs = null
+    if (this.casualtyDialogueShown || this.actionFeedback) this.assets.dialogBox?.close()
+    this.actionFeedback = null
+    this.pendingStealNotice = undefined
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
@@ -1186,16 +1187,18 @@ export class BattleSession {
       this.resetPlayersVisual()
     }
     if (this.nowMs < this.enemyCastRecoveryUntilMs) return
-    if (this.throwFeedbackUntilMs !== null) {
-      const confirmed = pressed.has(' ') || pressed.has('Enter')
-      if (!confirmed && this.nowMs < this.throwFeedbackUntilMs) return
+    const feedback = this.actionFeedback
+    if (feedback) {
+      const dismissed =
+        feedback.dismiss === 'anyKey' ? pressed.size > 0 : pressed.has(' ') || pressed.has('Enter')
+      if (!dismissed && this.nowMs < feedback.untilMs) return
       const box = this.assets.dialogBox
-      if (confirmed && this.nowMs < this.throwFeedbackUntilMs) box?.advance(this.nowMs)
+      if (dismissed && this.nowMs < feedback.untilMs) box?.advance(this.nowMs)
       if (box?.active) box.close()
       this.itemBanner = null
-      this.throwFeedbackUntilMs = null
-      // 关框当帧开始四拍收招，等待时间不进入动作时钟。
-      this.actionPresentation.advancePlayback(0)
+      this.actionFeedback = null
+      // 投掷在收招前等键，偷窃在归位后提示。
+      if (feedback.dismiss === 'confirm') this.actionPresentation.advancePlayback(0)
       return
     }
 
@@ -1312,10 +1315,6 @@ export class BattleSession {
       s.lastAction = null // 消费即清(回合末空步不重播)
       this.enemyCastRecoveryPending = la?.side === 'enemy' && la.kind === 'cast'
       this.pendingFailureFeedback = la?.failureFeedback ?? null
-      // 结果横幅(偷窃「获得 …」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;fight.c:5288 CLASSIC
-      // 居中对话框,一阶段 narration 同款):战斗标签位 (130,75),1.2s 自清(时间线播完后仍显示)
-      if (la?.notice)
-        this.itemBanner = { text: la.notice, untilMs: this.nowMs + 1200, x: 130, y: 75 }
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) =>
@@ -1349,6 +1348,8 @@ export class BattleSession {
         playerAppearanceBefore,
         enemyAppearanceBefore,
       )
+      if (la?.notice && !this.pendingStealNotice)
+        this.itemBanner = { text: la.notice, untilMs: this.nowMs + 1200, x: 130, y: 75 }
       if (timeline) {
         s.enemies.forEach((enemy, index) => {
           if (enemy && (eConfused[index] ?? 0) <= 0 && enemy.status.confused > 0)
@@ -1643,7 +1644,8 @@ export class BattleSession {
       // 偷窃技(飞龙探云手):专用冲刺时间线(一阶段 buildStealTimeline;技能 effectSprite=65535
       // 本就无特效,generic cast 会打空气)—— 冲到敌前 5 步滑步 + 敌闪白
       const sk = la.skillId ? s.skills[la.skillId] : undefined
-      const skEffects = sk ? resolveSkillExecution(sk, la.side).effects : []
+      const execution = sk && resolveSkillExecution(sk, la.side)
+      const skEffects = execution?.effects ?? []
       if (
         la.side === 'player' &&
         la.targetEnemyIdx !== undefined &&
@@ -1651,17 +1653,23 @@ export class BattleSession {
       ) {
         const pos = s.enemies[la.targetEnemyIdx]?.basePos
         const stealFrame = this.playerFrames(la.idx).steal
-        if (pos && stealFrame !== undefined)
-          return buildSteal({
-            casterIdx: la.idx,
-            targetIdx: la.targetEnemyIdx,
-            enemyPos: pos,
-            stealFrame,
-          })
-        if (pos)
+        if (!pos) return null
+        if (stealFrame === undefined)
           throw new Error(
             `BattleSpriteDef "${this.playerAppearance(la.idx).definition.id}" 缺 steal 命名帧`,
           )
+        // SSS 43144 发出技能音，角色施法音与实际冲刺同拍。
+        const effectSound = execution?.animation.sound
+        if (effectSound) this.assets.sfx?.play(effectSound)
+        const castSound = this.opts.playerSounds?.[la.idx]?.magic
+        if (castSound) this.assets.sfx?.play(castSound)
+        this.pendingStealNotice = la.notice
+        return buildSteal({
+          casterIdx: la.idx,
+          targetIdx: la.targetEnemyIdx,
+          enemyPos: pos,
+          stealFrame,
+        })
       }
       // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
       // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
@@ -2124,22 +2132,24 @@ export class BattleSession {
     this.pendingFailureFeedback = null
     if (!feedback) return
     const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
-    const waitForThrow = feedback === 'throwIneffective'
-    if (waitForThrow) {
+    this.showActionFeedback(text, feedback === 'throwIneffective' ? 'confirm' : undefined)
+  }
+
+  private showActionFeedback(text: string, dismiss?: 'confirm' | 'anyKey'): void {
+    if (dismiss) {
       this.itemBanner = null
-      this.throwFeedbackUntilMs = this.nowMs + FAILURE_FEEDBACK_MS
+      this.actionFeedback = { untilMs: this.nowMs + FAILURE_FEEDBACK_MS, dismiss }
     }
     const box = this.assets.dialogBox
     if (box) {
       box.open(
         startDialogue({
-          id: '__battle_action_failure',
+          id: '__battle_action_feedback',
           cues: [
             {
               rows: [{ text }],
               slot: 'narration',
-              // 普通 autoAdvance 不响应确认；0x3E 的提前确认由会话接管。
-              ...(waitForThrow ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
+              ...(dismiss ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
             },
           ],
         }),
@@ -2192,6 +2202,10 @@ export class BattleSession {
       this.casualtyDialogueReadyAtMs = this.nowMs + CASUALTY_DIALOGUE_DELAY_MS
     else this.beginEnemyCastRecovery()
     this.presentPendingFailureFeedback()
+    if (this.pendingStealNotice) {
+      this.showActionFeedback(this.pendingStealNotice, 'anyKey')
+      this.pendingStealNotice = undefined
+    }
   }
 
   private syncPlayerDisplayHp(): void {
@@ -2245,11 +2259,12 @@ export class BattleSession {
     }))
   }
 
-  /** 战后把背包写回 world.inventory(消耗持久;count 0 清项)。 */
+  /** 写回真实战斗中的道具增减，保留战斗期间新增的可用道具。 */
   writeBackInventory(inv: { itemId: string; count: number }[]): void {
     for (const s of this.state.inventory) {
       const w = inv.find((x) => x.itemId === s.itemId)
       if (w) w.count = s.count
+      else if (s.count > 0) inv.push({ ...s })
     }
     for (let i = inv.length - 1; i >= 0; i--) if (expectDefined(inv[i]).count <= 0) inv.splice(i, 1)
   }

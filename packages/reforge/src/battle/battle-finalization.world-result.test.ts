@@ -498,6 +498,58 @@ test('BF-06 偷得金钱逃跑保留：moneyDelta 公开读数 + finish 并入�
   }
 })
 
+test('an item stolen from an enemy becomes a new world stack after fleeing', async () => {
+  const actor = structuredClone(combatActor())
+  actor.battler!.baseStats.luck = 100
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 1 }, { steal: { itemId: 'tonic', count: 1 } }),
+    actors: [actor, shellActor('friend')],
+    items: [medicine('tonic', 10)],
+    worldSkills: ['steal-item'],
+    extraSkills: {
+      skills: [
+        {
+          id: 'steal-item',
+          name: 'skill.steal-item',
+          desc: '',
+          cost: { mp: 5 },
+          usableOutsideBattle: false,
+          target: 'oneEnemy',
+          effects: [{ kind: 'steal', rate: 10 }],
+          animation: { effectSprite: 0 },
+        },
+      ],
+    },
+  })
+  try {
+    const settled = settleAware(h)
+    h.press(['ArrowLeft'])
+    for (let i = 0; i < 3; i++) h.press([' '])
+    const stole = () => h.session.debugLog().some((line) => line.includes(' 获得 '))
+    for (let i = 0; i < 200 && !stole(); i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(stole()).toBe(true)
+    for (let i = 0; i < 200 && h.session.debugReadiness().phase !== 'menu'; i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.press(['q', 'Q'])
+    for (let i = 0; i < 200 && settled() === undefined; i++) {
+      h.idle(200)
+      await drain()
+    }
+    expect(settled()).toBe('playerFled')
+    expect(h.world.inventory).toEqual([])
+    h.finish('playerFled')
+    expect(h.world.inventory).toEqual([{ itemId: 'tonic', count: 1 }])
+  } finally {
+    await h.close()
+  }
+})
+
 test('BF-07 收妖值战后并入：collectGained 公开读数 + world.collectValue 累加', async () => {
   const h = await finalizationHarness({
     enemy: foeWith({ health: 1, collectValue: 9 }),
