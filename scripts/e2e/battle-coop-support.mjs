@@ -125,6 +125,10 @@ function verify(trace, selection) {
     )
     const spirit = frames.flatMap(({ payload }) => (payload.summon ? [payload.summon] : []))
     assert(spirit.length > 1 && spirit[0].frameIndex === 0, 'missing actual 武神 sprite draws')
+    assert(
+      spirit.every(({ x, y }) => x === 232 && y === 187),
+      '武神出场偏移应独立于 FIRE13',
+    )
     return {
       selection,
       settledHp,
