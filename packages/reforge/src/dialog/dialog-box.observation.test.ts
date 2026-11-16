@@ -160,7 +160,7 @@ test('runtime narration paints literal spans using the supplied colors', async (
   const name = 'B<yellow>C</yellow>'
   ui.openNarration('stolen-item', [{ text: 'A' }, { text: name, color: 'redAlt' }], 0)
   ui.render(0)
-  expect(ui.observeSlots()[0]?.visibleText).toBe('A' + name)
+  expect(ui.observeSlots()[0]?.visibleText).toBe(`A${name}`)
   const colors = renderedGlyphs(h).map(({ rgba }) => rgba)
   expect(colors).toEqual([[0, 0, 0, 255], ...[...name].map(() => [150, 32, 24, 255])])
 })

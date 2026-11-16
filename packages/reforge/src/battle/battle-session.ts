@@ -19,8 +19,8 @@ import type {
   LevelGrowthDelta,
   PlayerFighterFrames,
   SkillData,
-  TextSpan,
   SoundAssetRole,
+  TextSpan,
   WorldState,
 } from '@type-pal/content'
 import {
