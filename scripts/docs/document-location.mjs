@@ -35,6 +35,7 @@ import {
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
   isTestingBattleSessionEvidencePath,
+  isTestingBattleSpellFeedbackSource,
   isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
   restoreTestingBattleClosureSourceBindings,
@@ -43,6 +44,7 @@ import {
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
+  restoreTestingBattleSpellFeedbackSourceBindings,
   restoreTestingBattleSummonDivisionSourceBindings,
   restoreTestingBattleSummonPlaybackSourceBindings,
   restoreTestingBattleSummonSourceBindings,
@@ -69,6 +71,7 @@ import {
   testingBattleSessionSourcePath,
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
+  testingBattleSpellFeedbackPublicationBase,
   testingBattleSummonDivisionPublicationBase,
   testingBattleSummonPlaybackPublicationBase,
   testingBattleSummonPublicationBase,
@@ -587,8 +590,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const summonPlaybackSource = summonPlaybackRevision && gitTree(root, summonPlaybackRevision, [])
   const preSummonPlayback =
     summonPlaybackSource && gitTree(root, testingBattleSummonPlaybackPublicationBase, [])
-  const readBeforeBattleSummonPlayback = (path) => {
+  const spellFeedbackRevision = admission.testingBattleSpellFeedbackSourceRevision
+  if (spellFeedbackRevision !== undefined)
+    assert(
+      summonPlaybackSource && /^[a-f0-9]{40}$/u.test(spellFeedbackRevision),
+      'spell feedback source bridge requires the fixed preceding playback revision',
+    )
+  const spellFeedbackSource = spellFeedbackRevision && gitTree(root, spellFeedbackRevision, [])
+  const preSpellFeedback =
+    spellFeedbackSource && gitTree(root, testingBattleSpellFeedbackPublicationBase, [])
+  const readBeforeBattleSpellFeedback = (path) => {
     const live = readSource(path)
+    if (!preSpellFeedback || !isTestingBattleSpellFeedbackSource(path)) return live
+    assert(
+      live?.equals(spellFeedbackSource.read(path)),
+      `enemy spell feedback source changed: ${path}`,
+    )
+    return preSpellFeedback.read(path)
+  }
+  const readBeforeBattleSummonPlayback = (path) => {
+    const live = readBeforeBattleSpellFeedback(path)
     if (!preSummonPlayback || path !== testingBattleSessionSourcePath) return live
     assert(
       live?.equals(summonPlaybackSource.read(path)),
@@ -624,13 +645,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorSummonPlayback = preSummonPlayback
-      ? restoreTestingBattleSummonPlaybackSourceBindings(path, bytes, {
+    const priorSpellFeedback = preSpellFeedback
+      ? restoreTestingBattleSpellFeedbackSourceBindings(path, bytes, {
           readSource,
+          readBase: preSpellFeedback.read,
+          readFixed: spellFeedbackSource.read,
+        })
+      : bytes
+    const priorSummonPlayback = preSummonPlayback
+      ? restoreTestingBattleSummonPlaybackSourceBindings(path, priorSpellFeedback, {
+          readSource: readBeforeBattleSpellFeedback,
           readBase: preSummonPlayback.read,
           readFixed: summonPlaybackSource.read,
         })
-      : bytes
+      : priorSpellFeedback
     const priorEnemyColor = preEnemyColor
       ? restoreTestingBattleEnemyColorSourceBindings(path, priorSummonPlayback, {
           readSource: readBeforeBattleSummonPlayback,

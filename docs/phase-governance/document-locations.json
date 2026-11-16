@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "cb07cca47913bf0816aeee51bc26a22078faf3b46f618b6261eee8d3b2d009d1",
+      "afterSha256": "adae19dd94af70dc894b732680c98ffe789aafee3edf8281e9e322f3e2074fdf",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核差异及实际归档",
+        "reviewedLines": 53,
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 52,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
+        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "b99eb1fa05345f360c8d9a6bc32eaa88bd0b71e0d25ba2ef8f6955753a62ef96",
+      "afterSha256": "d69f1bc5f85dc544d872489d72ed569d423cfbb2ea75ede242bdb54e914af289",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_throw_empty",
-        "date": "2026-11-15",
-        "conclusion": "核对本轮变更与独立原件，按实际运行范围登记。",
-        "reviewedLines": 1798,
-        "acceptanceScope": "限本轮战斗退出与原生存读增量。核固定路线、合法局面、表现、原生存读样本和评审状态，复验结果各由原件证明。"
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
+        "date": "2026-11-16",
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewedLines": 1800,
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     },
     {
@@ -3996,14 +3996,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "4b98fdd2c2a78c1c94a2740155366cd8763e8d8d7facc525e4e97562a6704109",
+      "afterSha256": "0f83c5e13b104086f4a57a4452d5ed8deac69beb5c5f9b4f733e905c5fd9036c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 642,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "reviewer": "Codex /root 核差异及实际归档",
+        "reviewedLines": 656,
+        "date": "2026-11-16",
+        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
+        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a38523affed26e27a4215c1bf14fea7907e642e4003beb5644c026794ed397fb",
+      "afterSha256": "55797920a4bde473e63414dce8e874afebcc05a44b3e96ba4b81818561cb6fd2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 7652,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewedLines": 7698,
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a2943c92abca3366c8ee64e3383f32884b7a5890e179d7462d5e76aad430940a",
+      "afterSha256": "61a4691707311a5975d329f31c51a6bb407cb6fc8700e09f7ba14da2dfb99824",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 792,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewedLines": 822,
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "e0c0d41c055a27b16e67f438a1f738af90015c48047ec18b210567ccc93160d1",
+      "afterSha256": "63703fc291abc334d2d4c789756a3b054d9fb501c1ee2564a32252aec425a208",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
         "reviewedLines": 101,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "f840bd3cb6461d08795a38d5e6d8fa7bcb34b959833bf7ca3e32705882cfb21a",
+      "afterSha256": "f4d0aad4a59ee95b03a0811ba40d440b30903c2702b83fedaa926020cd0eb1d2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核差异及实际归档",
+        "reviewedLines": 617,
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 614,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
+        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "824e79219c6e11ffb7a4b533daf1621b18b3f7b608c5aa634515b409fd8da88c",
+      "afterSha256": "a82def850fb7f718fd50051c5e8b9e56cf09921b4c91fdfcc283fc6ae83aa175",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 14459,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewedLines": 14475,
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f22792374da9338f5b9ceea64e975856cfc275a91c7a319ecc6f63f50b6c5561",
+      "afterSha256": "1266cb81c31fe3bf7ad8f4fe71d2b1e8a42dcd56ed1005a0689db0182bd25397",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核差异及实际归档",
+        "reviewedLines": 646,
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 638,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
+        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "718d38c37e2c03422de117e1285fcb03a9550c16d0bf5b743323aba286abfd96",
+      "afterSha256": "831f05d1cbe5419b305e5c044d64eaac131a7d990579d5f2330f2efc09e5a209",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
+        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
         "date": "2026-11-16",
-        "conclusion": "核敌方召唤原生路径、容量、画素、实际音效、后续行动和下一次选择。",
-        "reviewedLines": 268,
-        "acceptanceScope": "逐个核原盘召唤者和近邻反控，冻结相同双端输入，既有归属片段保持原字节。"
+        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewedLines": 279,
+        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
       }
     }
   ],
@@ -5970,6 +5970,12 @@
       "bytes": 76958455,
       "sha256": "c79077e5eb558bed0c73fdf473e95186400063c1fc994aad1ff1e18d60751b11",
       "purpose": "11 种敌方召唤者的原盘逐项双端、像素反控、采集团与原速双声"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-spell-failure-20261116.tar.gz",
+      "bytes": 136529,
+      "sha256": "906f79cee3fafb288b7d5727933e996eac0f3fa2cc3fc0dd2e215ea8f11e88b1",
+      "purpose": "拜月两端原生轨迹、离线判据与失败复验的最小原件"
     }
   ],
   "artifactAliases": [],

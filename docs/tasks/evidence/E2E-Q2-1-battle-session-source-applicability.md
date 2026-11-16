@@ -265,3 +265,14 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `packages/reforge/src/battle/battle-session.ts` | 248-250 | 251-253 |
 | `packages/reforge/src/battle/battle-session.ts` | 415-427 | 420-432 |
 | `packages/reforge/src/battle/battle-session.ts` | 1269-1278 | 1282-1291 |
+
+## 2026-11-16 敌方施法失败卷轴修复后的来源
+
+从 `257296ec61b0dd8a6e103df9d26b8af374ca702b` 到 `d5da81104291894c48bd6b0e606fc22518d55fa9` 逐段核对已有来源引用。下表片段保持原字节，现行摘要随文件更新。历史运行继续由原候选及原件支撑。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 251-253 | 251-253 |
+| `packages/reforge/src/battle/battle-session.ts` | 420-432 | 420-432 |
+| `packages/reforge/src/battle/battle-session.ts` | 1282-1291 | 1286-1295 |
+| `packages/reforge/src/battle/battle-core.ts` | 2466 | 2466 |

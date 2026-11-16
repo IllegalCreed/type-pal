@@ -892,6 +892,45 @@ export function restoreTestingBattleSummonPlaybackSourceBindings(path, bytes, in
   )
 }
 
+export const testingBattleSpellFeedbackPublicationBase = '257296ec61b0dd8a6e103df9d26b8af374ca702b'
+const battleSpellFeedbackCore = 'packages/reforge/src/battle/battle-core.ts'
+const battleSpellFeedbackStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1282-1291': '1286-1295' },
+    ],
+    [battleSpellFeedbackCore, { 2466: '2466' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSpellFeedbackPublicationBase,
+  action: 'q2-enemy-spell-feedback-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSpellFeedbackBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleSpellFeedbackCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleSpellFeedbackSource = (path) =>
+  battleSpellFeedbackStage.ranges.has(path)
+
+export function restoreTestingBattleSpellFeedbackSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSpellFeedbackStage,
+    battleSpellFeedbackBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

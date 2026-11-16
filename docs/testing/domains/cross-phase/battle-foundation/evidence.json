@@ -252,7 +252,7 @@
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
       "lines": "2466",
-      "sha256": "1918315cf7c47780d7746028054b9bde39b4740cf71f8a18c248269202da6814"
+      "sha256": "977390196d1f57aaa8efbd57fdfef2090fa7946c588f3f6a9865c366235df487"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -13187,6 +13187,22 @@
         }
       ],
       "scope": "增加真实敌方实绘色偏及敌方召唤淡变的采集兼容后，四处旧调用片段保持原字节。原执行和反例继续对应其候选。"
+    },
+    {
+      "action": "q2-enemy-spell-feedback-source-rebinding",
+      "base": "257296ec61b0dd8a6e103df9d26b8af374ca702b",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2466",
+          "sha256": "1918315cf7c47780d7746028054b9bde39b4740cf71f8a18c248269202da6814"
+        }
+      ],
+      "scope": "敌方施法失败卷轴修复后，既有调用片段保持原字节。原执行和反例各对应其冻结候选。"
     }
   ],
   "_governance": {
