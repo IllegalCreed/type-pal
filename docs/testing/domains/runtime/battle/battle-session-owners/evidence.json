@@ -14,21 +14,21 @@
       "lines": "246-248",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "412-424",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1261-1270",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -655,6 +655,36 @@
         }
       ],
       "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
+    },
+    {
+      "action": "q2-battle-enemy-summon-source-rebinding",
+      "base": "b8b8dd2fcc551a782a2e90387bcf91170bc4899f",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "246-248",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "412-424",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1261-1270",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        }
+      ],
+      "scope": "召唤动作的声音与入场接线变化。选择实例、构造与指令提交的完整片段行号和字节一致，保留已接受的历史执行。"
     }
   ],
   "_governance": {

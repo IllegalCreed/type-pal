@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0806385c04a63fe0925d1d3e63a55264a0607c48f91cf116ad4d8cb8aaecd494",
+      "afterSha256": "01839998ccc83a11639a9d910b6a77ef18c34628bf2fce7cb90b7df63a2ec8bf",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 7479,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
+        "reviewedLines": 7525,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6d868960e2c108176b2952cfbb7dc87818da776fbaff78e706bfe23580576f00",
+      "afterSha256": "39ce4bd6e5212b334784e3e951fe5c3b3f37630033d88ee28661d395e6cd53c1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 702,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
+        "reviewedLines": 732,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4ef2212e275bd562973e6ae4f2daf05754021290bb386fe3970f8159b05dbeb0",
+      "afterSha256": "1e0ee306bc5a17ac1f310f0df3d6ff6e71ace823111398c45abe658c08ddac23",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
+        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
         "reviewedLines": 101,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3514078833e32a4378fbcedead75fbd03ef548b20d453a296472e86985300a71",
+      "afterSha256": "1738c46a269dfec10a1cccff6ea59207103c492a6585a79800b8ef085ae251af",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
-        "reviewedLines": 569,
-        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
+        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
+        "reviewedLines": 581,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "4165078a01aa60ebc484ff9398baf685e2b595608961f9d5b3738966f52d5cc1",
+      "afterSha256": "7b714bc900110dfa867fb11670a933aed1c9e3ba02489436d13deba2303b93bb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核实际素材、操作、保存和失败原件，按来源列明本次与历史执行。",
-        "reviewedLines": 14376,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
+        "reviewedLines": 14392,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4f57cc5ff04aa5c988bdd2f3714fc4a90abebbaf980e8c8524004465ff6f560c",
+      "afterSha256": "915ae02361dd70a3ec7633499a0b4c29c1f6955d0d00434ceab0f6694ff2e220",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
+        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
         "reviewedLines": 533,
-        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "b10ab78e56bd8b942fe6e921f94a2617adae4b3eeb7e3de0b45e449fbf5dbd14",
+      "afterSha256": "e9f4fe34d6161dd190819b56c252548788127964ce2a6b0b96105f72e2dab166",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 228,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "conclusion": "核对原会话调用片段及 PAL 明雷胜利转场配置，摘要绑定本次召唤代码和音效配置，保留旧执行原件。",
+        "reviewedLines": 234,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     }
   ],

@@ -294,6 +294,8 @@ export function isTestingBattleClosureSource(path) {
   return battleClosureRanges.has(path)
 }
 
+export const testingBattleSummonPublicationBase = 'b8b8dd2fcc551a782a2e90387bcf91170bc4899f'
+
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
   path === gameBootstrap || path === gameSceneSystem
@@ -755,6 +757,66 @@ const publication = {
   evidence: 'domains/cross-phase/battle-foundation/evidence.json',
 }
 const evidencePath = `docs/testing/${publication.evidence}`
+const palManifestPath = 'projects/pal/manifest.json'
+const battleSummonBinding = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '246-248': '246-248', '412-424': '412-424', '1261-1270': '1261-1270' },
+    ],
+    [palManifestPath, { 7: '7' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonPublicationBase,
+  action: 'q2-battle-enemy-summon-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [publication.evidence, { id: publication.id, paths: [palManifestPath], artifactClaims: true }],
+])
+
+export const isTestingBattleSummonSource = (path) => battleSummonBinding.ranges.has(path)
+
+export function restoreTestingBattleSummonSourceBindings(path, bytes, inputs) {
+  if (path !== `docs/testing/${publication.canonical}`)
+    return restoreEncounterSourceBindings(
+      path,
+      bytes,
+      inputs,
+      battleSummonBinding,
+      battleSummonBindings,
+    )
+  const priorBytes = inputs.readBase(path)
+  const before = parseTerminalJson(testingMetadata(priorBytes).json)
+  const current = parseTerminalJson(testingMetadata(bytes).json)
+  const previous = encounterReferences(
+    before.sourceRefs,
+    current.sourceRefs,
+    [palManifestPath],
+    {
+      source: testingBridgeSources(inputs.readSource),
+      fixed: testingBridgeSources(inputs.readFixed),
+      predecessor: testingBridgeSources(inputs.readBase),
+    },
+    battleSummonBinding,
+  )
+  const history = encounterHistory(
+    before.revision.history,
+    current.revision.history,
+    previous,
+    inputs.readSource,
+    battleSummonBinding,
+  )
+  assert.deepEqual(
+    { ...current, sourceRefs: before.sourceRefs, revision: { ...current.revision, history } },
+    before,
+  )
+  return priorBytes
+}
 
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath

@@ -34,11 +34,13 @@ import {
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
   isTestingBattleSessionEvidencePath,
+  isTestingBattleSummonSource,
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
+  restoreTestingBattleSummonSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleClosurePublicationBase,
@@ -61,6 +63,7 @@ import {
   testingBattleSessionSourcePath,
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
+  testingBattleSummonPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
   testingProjectVictoryPublicationBase,
@@ -541,14 +544,39 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const closureSource = closureRevision && gitTree(root, closureRevision, [])
   const preClosure = closureSource && gitTree(root, testingBattleClosurePublicationBase, [])
+  const summonRevision = admission.testingBattleSummonSourceRevision
+  if (summonRevision !== undefined)
+    assert(
+      closureSource && /^[a-f0-9]{40}$/u.test(summonRevision),
+      'battle summon source bridge requires the fixed prior battle closure',
+    )
+  const summonSource = summonRevision && gitTree(root, summonRevision, [])
+  const preSummon = summonSource && gitTree(root, testingBattleSummonPublicationBase, [])
+  const readBeforeBattleSummon = (path) => {
+    const live = readSource(path)
+    if (!preSummon || !isTestingBattleSummonSource(path)) return live
+    assert(
+      live?.equals(summonSource.read(path)),
+      'battle summon source differs from its fixed candidate',
+    )
+    return preSummon.read(path)
+  }
+  const beforeBattleSummon = (path, bytes) =>
+    preSummon
+      ? restoreTestingBattleSummonSourceBindings(path, bytes, {
+          readSource,
+          readBase: preSummon.read,
+          readFixed: summonSource.read,
+        })
+      : bytes
   const closureInputs = preClosure && {
     revision: closureRevision,
-    readSource,
+    readSource: (path) => beforeBattleSummon(path, readBeforeBattleSummon(path)),
     readBase: preClosure.read,
     readFixed: closureSource.read,
   }
   const readBeforeBattleClosure = (path) => {
-    const current = readSource(path)
+    const current = readBeforeBattleSummon(path)
     if (!preClosure || !isTestingBattleClosureSource(path)) return current
     assert(
       current?.equals(closureSource.read(path)),
@@ -874,7 +902,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       )
       if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
       if (isTestingBattleEvidencePath(path)) assertTestingBattleEvidence(path, current)
-      if (closureInputs) assertTestingBattleClosureAddition(path, current, closureInputs)
+      if (closureInputs)
+        assertTestingBattleClosureAddition(path, beforeBattleSummon(path, current), closureInputs)
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -955,7 +984,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         path,
         beforeProjectVictory(
           path,
-          beforeBattleLifecycle(path, beforeBattleReview(path, beforeBattleClosure(path, current))),
+          beforeBattleLifecycle(
+            path,
+            beforeBattleReview(path, beforeBattleClosure(path, beforeBattleSummon(path, current))),
+          ),
         ),
       )
       const acceptedCurrent =

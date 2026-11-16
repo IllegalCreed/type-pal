@@ -225,3 +225,9 @@ Game 的正常明雷改为独立的原盘六组换屏节拍，导致两个现行
 | `runtime-battle-session-owners` | `battle-command-selection.test.ts` 73–96 | 73–96 |
 
 会话新增状态页、作者合体技与偷窃反馈。旧选择实例、构造与原指令提交片段逐字节保留，原单测片段仍在同一位置。Q2 现行 runner、比较器和控制的引用按实际出口绑定。上一批的执行、附件及旧引用逐条保存在机器回执。 [Q2 收尾实跑证据](E2E-Q2-1-battle-closeout-20261116.tar.gz)
+
+## 2026-11-16 敌人召唤音效后的来源
+
+`e9a960647` 将敌人召唤音效与新敌入场接入同帧时间线。以 `b8b8dd2fc` 为前驱核对，会话中原指令选择的状态、构造与提交片段 246–248、412–424、1261–1270 字节和行号一致。只续接现行会话源摘要，历史执行、证据和结论沿用各自原版本。 [会话来源](../../../packages/reforge/src/battle/battle-session.ts) · [现行双端报告](../../testing/domains/cross-phase/battle-foundation/report.md)
+
+PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 行明雷胜利转场仍为淡出淡入，目录、报告和机器回执续接现行摘要。 [工程 manifest](../../../projects/pal/manifest.json#L7)

@@ -301,7 +301,7 @@
       "anchor": "\"hostileVictoryTransition\": \"fade\"",
       "role": "world-victory-default-inherited-by-pal-hostiles",
       "lines": "7",
-      "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
+      "sha256": "ec4b4ceb924edcf4e30756c22295c84474d38204602b93f2d4830052021820c4"
     },
     {
       "path": "scripts/e2e/battle-world-escape-compare.mjs",
@@ -13104,6 +13104,22 @@
         }
       ],
       "scope": "本轮 Q2 继续使用原生执行与实际画帧。保留全部旧运行、反例、附件与审阅，追加收尾义务。"
+    },
+    {
+      "action": "q2-battle-enemy-summon-source-rebinding",
+      "base": "b8b8dd2fcc551a782a2e90387bcf91170bc4899f",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "projects/pal/manifest.json",
+          "anchor": "\"hostileVictoryTransition\": \"fade\"",
+          "role": "world-victory-default-inherited-by-pal-hostiles",
+          "lines": "7",
+          "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
+        }
+      ],
+      "scope": "现行 PAL manifest 新增 212 音效角色。明雷胜利转场配置和原执行原件继续保留。"
     }
   ],
   "_governance": {
