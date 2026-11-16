@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "f3f5571e218ccb5e290a6a98d62588962506291a2ef55be677708be28dc65341",
+      "afterSha256": "508ab15a2d86afe85202590c152b304ab4ef0f24e56f00b15063a069dbb9e0b6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
+        "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
-        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
-        "reviewedLines": 46,
-        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
+        "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
+        "reviewedLines": 47,
+        "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,13 +5393,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1738c46a269dfec10a1cccff6ea59207103c492a6585a79800b8ef085ae251af",
+      "afterSha256": "88f32c09d5533a1dcf6d70978aa8e8c775b5416a00831b2a058120aa3c196938",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
         "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
-        "reviewedLines": 581,
+        "reviewedLines": 585,
         "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
@@ -5432,13 +5432,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "915ae02361dd70a3ec7633499a0b4c29c1f6955d0d00434ceab0f6694ff2e220",
+      "afterSha256": "df505877506a2d3fb5b2897bb2777b9c47ffc61875779fcaa1558ddeaf85e1ec",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 对原件和现行源定向核验",
         "date": "2026-11-16",
         "conclusion": "按玉佛寺与三件鞭类的实际输入和覆写范围核对，逐项记录已完成的运行结果及未覆盖处。",
-        "reviewedLines": 533,
+        "reviewedLines": 557,
         "acceptanceScope": "玉佛寺召唤与隐藏成长复验、三件鞭类的战外装卸及其必要来源续接。"
       }
     },
@@ -5934,6 +5934,12 @@
       "bytes": 20935259,
       "sha256": "44ac9e4e7007e949d90d6c9d077a3cd06b3b1c1ac520924b1d8e2bfe10265284",
       "purpose": "三件鞭类群攻与投掷的双端原生轨迹、命中帧回归、原速带声分屏和按稳定 ID 更新的覆盖索引"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-temple-and-whip-follow-up-20261116.tar.gz",
+      "bytes": 53193888,
+      "sha256": "0f5c47efb2ec529d84ec2202af1d7489a909389d38d27b598eb135b72a4c623e",
+      "purpose": "玉佛寺召唤、首战成长、三把鞭子的战外装卸及单件数量修复的双端原件和原速原声分屏"
     }
   ],
   "artifactAliases": [],
