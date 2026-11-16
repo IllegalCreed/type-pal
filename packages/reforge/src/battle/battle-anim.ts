@@ -1741,7 +1741,6 @@ export function buildEnemySummon(input: {
           side: 'enemy',
           idx: input.casterIdx,
           frame: input.profile.magic.start + i,
-          holdFrame: true,
         },
       ],
     })
@@ -1766,7 +1765,17 @@ export function buildEnemySummon(input: {
         ...(step === 1 && arriving && input.sound ? { sound: input.sound } : {}),
       })
     }
-    if (arriving) frames.push({ durationMs: delayMs(2) })
+    if (arriving) {
+      // The two PAL_BattleDelay beats use idle gestures after the frozen arrival.
+      frames.push({
+        durationMs: delayMs(2),
+        ...(input.profile.magic.count > 0
+          ? {
+              fighters: [{ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start }],
+            }
+          : {}),
+      })
+    }
   }
   return frames
 }

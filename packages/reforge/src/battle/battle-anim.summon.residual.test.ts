@@ -1,6 +1,12 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { buildOffMagic, buildPlayerCast, type CastFxParams } from './battle-anim.js'
+import { enemyProfile } from '../__tests__/battle-workflows/catalog.js'
+import {
+  buildEnemySummon,
+  buildOffMagic,
+  buildPlayerCast,
+  type CastFxParams,
+} from './battle-anim.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,
@@ -29,6 +35,24 @@ const fx: CastFxParams = {
 }
 
 describe('当前召唤型施法与 OffMagic 特效落点', () => {
+  test('敌方召唤完成入场溶解后，施法者在两拍高亮保持里恢复闲站', () => {
+    const frames = buildEnemySummon({
+      casterIdx: 1,
+      slots: [0],
+      profile: enemyProfile('boss.magic'),
+      sound: 'sound.summon',
+    })
+    const restoreColor = frames.findIndex(
+      ({ enemySummonFade }) => enemySummonFade?.phase === 'settle',
+    )
+    expect(frames[0]?.fighters).toMatchObject([{ idx: 1, frame: 2 }])
+    expect(frames[restoreColor - 2]?.enemySummonFade).toMatchObject({ phase: 'arrival', step: 72 })
+    expect(frames[restoreColor - 1]).toMatchObject({
+      durationMs: 80,
+      fighters: [{ side: 'enemy', idx: 1, frame: 0 }],
+    })
+  })
+
   test('召唤全队亮起→神将入场/定格→二次法术→敌受击→退场，二级音不重播', () => {
     const input = {
       casterFrames: pose,
