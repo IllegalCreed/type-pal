@@ -16,6 +16,7 @@ import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
 export const BATTLE_FRAME_MS = 40
 const delayMs = (n: number): number => n * BATTLE_FRAME_MS
 export const ENEMY_SUMMON_COLOR_SHIFT = 8
+export const ENEMY_SUMMON_HOLD_TICKS = 2
 
 export interface FighterDelta {
   side: 'player' | 'enemy'
@@ -1725,16 +1726,36 @@ export function buildEnemyEscape(input: {
   return frames
 }
 
+type EnemySummonIdleProfile = Pick<EnemyBattleSpriteProfile, 'idle' | 'idleTicksPerFrame'>
+type EnemySummonSlot = EnemySummonIdleProfile & { idx: number }
+
+export function enemySummonIdleFrame(
+  { idle, idleTicksPerFrame }: EnemySummonIdleProfile,
+  elapsedTicks: number,
+): number {
+  return (
+    idle.start +
+    (Math.floor(elapsedTicks / Math.max(1, idleTicksPerFrame)) % Math.max(1, idle.count))
+  )
+}
+
 /** script.c:2870–2945, each successful call fades in the tinted newcomers, holds, then restores their colors. */
 export function buildEnemySummon(input: {
   casterIdx: number
   profile: EnemyBattleSpriteProfile
-  spawns: readonly (Pick<EnemyBattleSpriteProfile, 'idle' | 'idleTicksPerFrame'> & {
-    idx: number
-  })[]
+  spawns: readonly EnemySummonSlot[]
+  earlierArrivals?: readonly (EnemySummonSlot & { elapsedTicks: number })[]
   sound?: AssetId
 }): AnimFrame[] {
   const frames: AnimFrame[] = []
+  const idlePose = (slot: EnemySummonSlot, elapsedTicks: number): FighterDelta => ({
+    side: 'enemy',
+    idx: slot.idx,
+    frame: enemySummonIdleFrame(slot, elapsedTicks),
+    holdFrame: true,
+  })
+  const earlierPoses = (ticks: number): FighterDelta[] =>
+    (input.earlierArrivals ?? []).map((slot) => idlePose(slot, slot.elapsedTicks + ticks))
   for (let i = 0; i < input.profile.magic.count; i++) {
     frames.push({
       durationMs: delayMs(input.profile.actTicksPerFrame),
@@ -1744,6 +1765,7 @@ export function buildEnemySummon(input: {
           idx: input.casterIdx,
           frame: input.profile.magic.start + i,
         },
+        ...(i === 0 ? earlierPoses(0) : []),
       ],
     })
   }
@@ -1753,24 +1775,19 @@ export function buildEnemySummon(input: {
   // A new slot starts at the first frame with a fresh countdown. PAL_BattleDelay
   // advances that countdown twice between the two otherwise frozen dissolves.
   const spawnPoses = (elapsedTicks: number): FighterDelta[] =>
-    input.spawns.map(({ idx, idle, idleTicksPerFrame }) => ({
-      side: 'enemy',
-      idx,
-      frame:
-        idle.start +
-        (Math.floor(elapsedTicks / Math.max(1, idleTicksPerFrame)) % Math.max(1, idle.count)),
-      holdFrame: true,
-    }))
+    input.spawns.map((slot) => idlePose(slot, elapsedTicks))
 
   for (const phase of ['arrival', 'settle'] as const) {
     const arriving = phase === 'arrival'
-    const fighters = spawnPoses(arriving ? 0 : 2).map(
+    const elapsedTicks = arriving ? 0 : ENEMY_SUMMON_HOLD_TICKS
+    const fighters = spawnPoses(elapsedTicks).map(
       (pose): FighterDelta => ({
         ...pose,
         colorShift: arriving ? ENEMY_SUMMON_COLOR_SHIFT : 0,
         ...(arriving ? { showSpawn: true } : {}),
       }),
     )
+    fighters.push(...earlierPoses(elapsedTicks))
     for (let step = 1; step <= DITHER_TOTAL_STEPS; step++) {
       frames.push({
         durationMs: 16,
@@ -1780,13 +1797,12 @@ export function buildEnemySummon(input: {
       })
     }
     if (arriving) {
-      const firstHold = spawnPoses(0)
-      if (input.profile.magic.count > 0)
-        firstHold.push({ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start })
-      frames.push(
-        { durationMs: delayMs(1), fighters: firstHold },
-        { durationMs: delayMs(1), fighters: spawnPoses(1) },
-      )
+      for (let tick = 0; tick < ENEMY_SUMMON_HOLD_TICKS; tick += 1) {
+        const hold = [...spawnPoses(tick), ...earlierPoses(tick)]
+        if (tick === 0 && input.profile.magic.count > 0)
+          hold.push({ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start })
+        frames.push({ durationMs: delayMs(1), fighters: hold })
+      }
     }
   }
   return frames

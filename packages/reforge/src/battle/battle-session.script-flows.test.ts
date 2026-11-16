@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 /**
  * TEST-BATTLE-WORKFLOWS-1 W4（含 W3 变身/召唤接线）：敌 hook 与屏障组合。
  * - 敌 ready/turnStart 经真实 ai.hooks（现行 schema）构造；hook 结束后**同一敌真实行动**
@@ -224,7 +225,7 @@ describe('W4 敌钩子与屏障组合', () => {
     expect(sfx.plays).toEqual(['sound.split-blocked'])
   })
 
-  test('同一个 ready 脚本连续召唤时，第二次出声等待第一次完整入场', async () => {
+  test('同一 ready 脚本连续召唤时，先入场的敌人只在两次亮色停拍中切换闲站帧', async () => {
     const sfx = recordingSfx()
     const summoner = wfEnemy('summoner', { health: 500 })
     summoner.ai.hooks = {
@@ -250,13 +251,31 @@ describe('W4 敌钩子与屏障组合', () => {
         },
       },
     }
+    const minion = wfEnemy('minion', { health: 100 })
     const h = makeWfSession({
       players: [wfPlayer('p1', { attackStrength: 1, hp: 200, maxHp: 200 })],
       enemies: [null, summoner, null],
-      enemiesById: { minion: wfEnemy('minion', { health: 100 }) },
+      enemiesById: { minion },
       extraOpts: { auto: true, soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' } },
     })
-    Object.assign(h.assets, { sfx: sfx.player })
+    h.assets.sfx = sfx.player
+    const sprite = h.assets.battleSprites.get(minion.battleSprite)!
+    if (sprite.definition.profile.kind !== 'enemy') throw new Error('召唤敌精灵缺闲站姿势')
+    sprite.definition.profile.idleTicksPerFrame = 4
+    sprite.sprite.frames[0]!.pixels[0] = 0x22
+    sprite.sprite.frames[1]!.pixels[0] = 0x26
+    h.assets.palette = {
+      colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+      cycles: [],
+    }
+    const canvas = document.createElement('canvas')
+    canvas.width = 320
+    canvas.height = 200
+    const ctx = canvas.getContext('2d')!
+    const drawnPoses = () => {
+      h.session.render(ctx, 1)
+      return [ctx.getImageData(70, 139, 1, 1).data[0], ctx.getImageData(160, 99, 1, 1).data[0]]
+    }
     const summons = () => sfx.plays.filter((asset) => asset === 'sound.summon')
     for (let i = 0; i < 120 && !summons().length; i += 1) {
       h.idle(16)
@@ -269,6 +288,13 @@ describe('W4 敌钩子与屏障组合', () => {
     expect(summons()).toEqual(['sound.summon'])
     for (let i = 0; i < 40 && summons().length === 1; i += 1) h.idle(16)
     expect(summons()).toEqual(['sound.summon', 'sound.summon'])
+    expect(drawnPoses()[0]).toBe(0x22)
+    h.idle(72 * 16 - 16)
+    expect(drawnPoses()).toEqual([0x22, 0x2a])
+    h.idle(16 + 40)
+    expect(drawnPoses()).toEqual([0x22, 0x2a])
+    h.idle(40 + 72 * 16 - 16)
+    expect(drawnPoses()).toEqual([0x26, 0x22])
   })
 
   test.each([

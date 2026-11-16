@@ -76,8 +76,10 @@ import {
   buildUseItem,
   type CastFxParams,
   ENEMY_SUMMON_COLOR_SHIFT,
+  ENEMY_SUMMON_HOLD_TICKS,
   type EnemyAppearanceTransition,
   type EnemySummonFade,
+  enemySummonIdleFrame,
   type FighterDelta,
   type OverlayDraw,
   type PlayerAppearanceTransition,
@@ -89,6 +91,7 @@ import {
   type BattleCommandSelectionPhase,
 } from './battle-command-selection.js'
 import {
+  type BattleEnemyState,
   type BattleState,
   buildAiView,
   type CreatePlayerInput,
@@ -314,6 +317,8 @@ export class BattleSession {
   /** 当前尚未开始的 turnStart hook；terminal request 后不再激活。 */
   private pendingHookActivations: { enemyIdx: number; channel: EnemyHookChannel }[] = []
   private activeHook: EnemyHookActivation | null = null
+  /** 连续召唤只在两段溶解之间推进闲站计时，按本次出生的实例记录。 */
+  private readonly hookSummonIdleTicks = new Map<BattleEnemyState, number>()
   /** actionQueue item 以对象身份去重，dualMove 的两个 entry 各跑一次 ready。 */
   private readonly readyHookEntries = new WeakSet<object>()
   private choreoWaitUntil: number | null = null
@@ -587,6 +592,7 @@ export class BattleSession {
     this.doneSettled = true
     this.closed = true
     this.readiness.invalidate()
+    this.hookSummonIdleTicks.clear()
     this.resolveDone(result)
   }
 
@@ -601,6 +607,7 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
+    this.hookSummonIdleTicks.clear()
     this.enemySummonFade = null
     this.sceneFade.reset()
     if (this.casualtyDialogueShown || this.actionFeedback) this.assets.dialogBox?.close()
@@ -986,6 +993,7 @@ export class BattleSession {
       enemyAppearances: string[]
     },
   ): void {
+    if (result.result.kind !== 'summon') this.hookSummonIdleTicks.clear()
     if (result.result.outcome === 'failed' && result.result.kind !== 'summon') return
     const action = {
       side: 'enemy' as const,
@@ -993,13 +1001,16 @@ export class BattleSession {
       kind: result.result.kind,
       ...(result.result.spawnedIdxs ? { spawnedIdxs: result.result.spawnedIdxs } : {}),
     }
-    const timeline = this.buildStepTimeline(
-      action,
-      before.playerHp,
-      before.enemyHp,
-      before.playerAppearances,
-      before.enemyAppearances,
-    )
+    const timeline =
+      action.kind === 'summon'
+        ? this.buildEnemySummonTimeline(activation.enemyIdx, action.spawnedIdxs ?? [], true)
+        : this.buildStepTimeline(
+            action,
+            before.playerHp,
+            before.enemyHp,
+            before.playerAppearances,
+            before.enemyAppearances,
+          )
     if (timeline) this.startTimeline(timeline, true)
     else if (result.result.outcome === 'succeeded') this.resetVisual()
   }
@@ -1079,12 +1090,14 @@ export class BattleSession {
       if (step.kind === 'complete') {
         box?.releaseBattleChoreography()
         this.activeHook = null
+        this.hookSummonIdleTicks.clear()
         return true
       }
       if (step.kind === 'effect') {
         this.startHookEffectPresentation(activation, step, before)
         return true
       }
+      this.hookSummonIdleTicks.clear()
       this.executeBattleChoreographyAction(step.action)
       return true
     }
@@ -1584,7 +1597,7 @@ export class BattleSession {
     return buildEnemyCast({
       enemyIdx: la.idx,
       enemyPos: enemy.basePos,
-      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy.hp),
+      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy),
       anim: enemyProfile,
       playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       magicSound: def.sounds.magic,
@@ -1598,6 +1611,49 @@ export class BattleSession {
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
       hurtPlayers,
+    })
+  }
+
+  /** 敌召唤手势先于空槽/状态失败，成功时播放两段入场溶解（script.c:2870–2945）。 */
+  private buildEnemySummonTimeline(
+    casterIdx: number,
+    spawnedIdxs: readonly number[],
+    fromHook = false,
+  ): AnimFrame[] | null {
+    const profile = this.enemyAppearance(casterIdx).definition.profile
+    if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+    if (!spawnedIdxs.length && profile.magic.count <= 0) return null
+
+    const slotIdle = (idx: number) => {
+      const slotProfile = this.enemyAppearance(idx).definition.profile
+      if (slotProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+      return { idx, idle: slotProfile.idle, idleTicksPerFrame: slotProfile.idleTicksPerFrame }
+    }
+    const earlierArrivals = fromHook
+      ? this.state.enemies.flatMap((enemy, idx) => {
+          if (!enemy || enemy.hp <= 0) return []
+          const elapsedTicks = this.hookSummonIdleTicks.get(enemy)
+          if (elapsedTicks === undefined) return []
+          if (spawnedIdxs.length)
+            this.hookSummonIdleTicks.set(enemy, elapsedTicks + ENEMY_SUMMON_HOLD_TICKS)
+          return [{ ...slotIdle(idx), elapsedTicks }]
+        })
+      : []
+    const spawns = spawnedIdxs.map((idx) => {
+      this.visual.enemies[idx] = null
+      if (fromHook)
+        this.hookSummonIdleTicks.set(
+          expectDefined(this.state.enemies[idx]),
+          ENEMY_SUMMON_HOLD_TICKS,
+        )
+      return slotIdle(idx)
+    })
+    return buildEnemySummon({
+      casterIdx,
+      profile,
+      spawns,
+      earlierArrivals,
+      sound: this.opts.soundRoles?.['audio.battleEnemySummonSound'],
     })
   }
 
@@ -1848,29 +1904,8 @@ export class BattleSession {
         })),
       })
     }
-    // 敌召唤手势先于空槽/状态失败，成功时播放两段入场溶解（script.c:2870–2945）。
-    if (la.kind === 'summon' && la.side === 'enemy') {
-      const profile = this.enemyAppearance(la.idx).definition.profile
-      if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      const spawned = la.spawnedIdxs ?? []
-      if (!spawned.length && profile.magic.count <= 0) return null
-      const spawns = spawned.map((idx) => {
-        this.visual.enemies[idx] = null
-        const spawnedProfile = this.enemyAppearance(idx).definition.profile
-        if (spawnedProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
-        return {
-          idx,
-          idle: spawnedProfile.idle,
-          idleTicksPerFrame: spawnedProfile.idleTicksPerFrame,
-        }
-      })
-      return buildEnemySummon({
-        casterIdx: la.idx,
-        profile,
-        spawns,
-        sound: this.opts.soundRoles?.['audio.battleEnemySummonSound'],
-      })
-    }
+    if (la.kind === 'summon' && la.side === 'enemy')
+      return this.buildEnemySummonTimeline(la.idx, la.spawnedIdxs ?? [])
     // 投掷道具(前移、挥臂、出手 → 数字 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
@@ -2430,15 +2465,17 @@ export class BattleSession {
   private enemyVisualFrame(
     visual: VisualFighter,
     profile: EnemyBattleSpriteProfile,
-    hp: number,
+    enemy: BattleEnemyState,
   ): number {
     if (
       visual.holdFrame ||
       visual.frame !== profile.idle.start ||
       profile.idle.count <= 1 ||
-      hp <= 0
+      enemy.hp <= 0
     )
       return visual.frame
+    const summonTicks = this.hookSummonIdleTicks.get(enemy)
+    if (summonTicks !== undefined) return enemySummonIdleFrame(profile, summonTicks)
     const idleStep = Math.floor(this.nowMs / (profile.idleTicksPerFrame * BATTLE_FRAME_MS))
     return profile.idle.start + (idleStep % profile.idle.count)
   }
@@ -2545,7 +2582,7 @@ export class BattleSession {
       }
       const anim = appearance.definition.profile
       if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      const frame = this.enemyVisualFrame(v, anim, e.hp)
+      const frame = this.enemyVisualFrame(v, anim, e)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
       const transition = this.enemyAppearanceTransitions.get(i)
