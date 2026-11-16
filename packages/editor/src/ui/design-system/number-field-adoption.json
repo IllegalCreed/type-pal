@@ -1249,10 +1249,10 @@
     {
       "source": "SkillTab.tsx",
       "component": "N",
-      "consumerCount": 17,
+      "consumerCount": 19,
       "context": "specialist-grid",
       "owner": "card:ED-NUMBER-FIELD-1",
-      "reason": "十七个技能效果数值消费点。",
+      "reason": "十九个技能效果数值消费点，包含召唤本体的横纵偏移。",
       "verification": "SkillTab.tsx local consumers",
       "removalCondition": "删除 helper 时移除。"
     },

@@ -189,6 +189,7 @@ function N(props: {
   ariaLabel?: string
   min?: number
   step?: number
+  integer?: boolean
 }) {
   return (
     <span className="skill-number-control" style={props.w ? { width: props.w } : undefined}>
@@ -199,6 +200,12 @@ function N(props: {
         aria-label={props.ariaLabel}
         min={props.min}
         step={props.step}
+        integer={props.integer}
+        validate={
+          props.integer
+            ? (value) => (Number.isSafeInteger(value) ? undefined : '请输入安全整数。')
+            : undefined
+        }
         enforceRange={false}
         draftKey={`${props.draftScope}:${props.id ?? props.ariaLabel ?? 'number'}`}
         syncToken={props.syncToken}
@@ -549,6 +556,32 @@ function EffectFields(props: {
                 kind="summon"
                 onChange={(battleSprite) => on({ ...e, battleSprite })}
                 onOpenDefinition={onOpenBattleSprite}
+              />
+            )}
+          </EffectField>
+          <EffectField label="本体横向偏移" help="像素，向右为正">
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.xOffset}
+                on={(xOffset) => on({ ...e, xOffset })}
+                integer
+                ph="0"
+              />
+            )}
+          </EffectField>
+          <EffectField label="本体纵向偏移" help="像素，向下为正">
+            {(id) => (
+              <N
+                draftScope={draftScope}
+                syncToken={syncToken}
+                id={id}
+                v={e.yOffset}
+                on={(yOffset) => on({ ...e, yOffset })}
+                integer
+                ph="0"
               />
             )}
           </EffectField>

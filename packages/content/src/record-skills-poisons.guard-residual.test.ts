@@ -8,6 +8,7 @@
  * （boundary 16 条已覆盖），仅作正控引用不新增。
  */
 import { describe, expect, test } from 'vitest'
+import palSkills from '../../../projects/pal/content/skills.json' with { type: 'json' }
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validatePoisons, validateSkills } from './validate.js'
@@ -175,5 +176,38 @@ describe('G7 validateSkills/validatePoisons 残差', () => {
       'skills.skills[0].effects[0].resource: 只支持 hp/mp',
     )
     expect(badResource).toEqual(badResourceBefore)
+  })
+
+  test('PAL 召唤本体坐标使用原盘有符号偏移，独立于后续 FIRE', () => {
+    const offsets = Object.fromEntries(
+      validateSkills(palSkills).skills.flatMap(({ id, effects }) =>
+        effects.flatMap((effect) =>
+          effect.kind === 'summon' ? [[id, [effect.xOffset, effect.yOffset]]] : [],
+        ),
+      ),
+    )
+    // DATA.MKF 第 4 块的 9 条 MAGIC type 9，按 SHORT 解码 wXOffset / wYOffset。
+    expect(offsets).toEqual({
+      315: [-16, 16],
+      320: [0, 10],
+      325: [0, 32],
+      336: [-28, 13],
+      348: [8, -5],
+      351: [-8, 22],
+      363: [0, 0],
+      370: [0, 18],
+      389: [0, 0],
+    })
+  })
+
+  test.each([
+    ['xOffset', 1.5, '期望整数'],
+    ['yOffset', '-16', '期望有限数'],
+  ] as const)('召唤本体 %s 拒绝非整数输入', (axis, invalid, error) => {
+    const bad = {
+      skills: [skill({ effects: [{ kind: 'summon', battleSprite: 'bs.x', [axis]: invalid }] })],
+      levelUp: {},
+    }
+    expectExactError(() => validateSkills(bad), `skills.skills[0].effects[0].${axis}: ${error}`)
   })
 })

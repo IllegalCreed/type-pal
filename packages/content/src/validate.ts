@@ -870,6 +870,8 @@ function validateSkillEffect(effect: Record<string, unknown>, ctx: string): void
     if ('godId' in effect) throw new Error(`${ctx}.godId: 已退役；请使用 battleSprite`)
     if (typeof effect.battleSprite !== 'string' || effect.battleSprite.length === 0)
       throw new Error(`${ctx}.battleSprite: 期望非空 BattleSpriteDef.id`)
+    for (const key of ['xOffset', 'yOffset'] as const)
+      if (effect[key] !== undefined) requireSafeInteger(effect[key], `${ctx}.${key}`)
     validateOptionalAssetId(effect, 'sound', ctx)
   }
   if (effect.kind === 'trance') {

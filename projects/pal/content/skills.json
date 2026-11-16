@@ -632,6 +632,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-14",
+          "xOffset": -16,
+          "yOffset": 16,
           "speed": 0,
           "tint": -1,
           "sound": "sound.pal.349"
@@ -787,6 +789,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-16",
+          "xOffset": 0,
+          "yOffset": 10,
           "speed": 1,
           "sound": "sound.pal.322"
         },
@@ -941,6 +945,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-12",
+          "xOffset": 0,
+          "yOffset": 32,
           "speed": 0,
           "tint": 5,
           "sound": "sound.pal.336"
@@ -1214,6 +1220,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-13",
+          "xOffset": -28,
+          "yOffset": 13,
           "speed": 0,
           "sound": "sound.pal.329"
         },
@@ -1516,6 +1524,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-11",
+          "xOffset": 8,
+          "yOffset": -5,
           "speed": 0,
           "sound": "sound.pal.304"
         },
@@ -1608,6 +1618,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-10",
+          "xOffset": -8,
+          "yOffset": 22,
           "speed": 2,
           "tint": -2,
           "sound": "sound.pal.303"
@@ -1962,6 +1974,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-17",
+          "xOffset": 0,
+          "yOffset": 0,
           "speed": 4,
           "sound": "sound.pal.343"
         },
@@ -2177,6 +2191,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-15",
+          "xOffset": 0,
+          "yOffset": 18,
           "speed": 1,
           "sound": "sound.pal.301"
         },
@@ -2744,6 +2760,8 @@
         {
           "kind": "summon",
           "battleSprite": "player-summon-18",
+          "xOffset": 0,
+          "yOffset": 0,
           "speed": 0,
           "tint": 5,
           "sound": "sound.pal.302"

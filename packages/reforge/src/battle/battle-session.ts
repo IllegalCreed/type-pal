@@ -1538,12 +1538,9 @@ export class BattleSession {
                 // 神将段帧速 = 召唤 magic 自己的 wSpeed(effects.summon.speed);fx.speed 是二次法术的
                 frameTimeMs:
                   (((summonEff?.kind === 'summon' ? summonEff.speed : undefined) ?? 0) + 5) * 10,
-                // 一阶段真值 posSummon = (240+xOffset, 165+yOffset),底中锚语义;render 已对全部
-                // overlay 统一底中锚 blit(x−⌊w/2⌋, y−h)→ 这里传原值,每帧独立锚底(神将各帧
-                // 尺寸不同也不漂,battle.c:173-177 同义)。曾按旧左上假设预减 → 双重减锚偏左上
-                // (2026-07-05 演出审计发现,随 render 锚点修正未跟所致)。
-                x: 240 + fx.xOffset,
-                y: 165 + fx.yOffset,
+                // fight.c:3143–3144 使用召唤本体的位置偏移，后续 FIRE 另取自己的偏移。
+                x: 240 + (summonEff?.xOffset ?? 0),
+                y: 165 + (summonEff?.yOffset ?? 0),
               },
             }
           : {}),
