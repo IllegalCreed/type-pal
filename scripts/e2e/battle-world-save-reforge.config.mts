@@ -92,7 +92,8 @@ const saves = {
         after(
           source,
           '          this.selection.mainActionValidity(selectionContext),\n          true,\n        )',
-          "        if (selection.phase === 'menu') globalThis.__q2BeePostWin?.menu(selection.menuIndex)",
+          `        if (globalThis.__rfBattle === this && selection.phase === 'menu')
+          globalThis.__q2BeePostWin?.menu(selection.menuIndex)`,
         ),
         '        drawBattleGrid(ctx, ui, g, rows, selection.skillIndex, now, MAGIC_GRID)',
         `        if (globalThis.__q2BeePostWin) {
