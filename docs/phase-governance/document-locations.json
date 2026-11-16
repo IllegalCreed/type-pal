@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "2d839587be633104438b9414d1220c5d09ad720245a37a3a37a85d2885645153",
+      "afterSha256": "20966020b17556d24426f51fa417349d9b5cad594be56411ea15ae6d64997a80",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 50,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 51,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "d2c09c06e2bab629cb157df267e34a4733d170e7fcda99260396a15647a1b0ef",
+      "afterSha256": "517e58beb9de97b960c900a6c4315994c68e6976bb8e7cfeb829f9e512f65566",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 7585,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 7622,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3dd8d90a42c5790d15c5ee1f4ec7ee8a1f38dc4539e9c57ed4d5e812064a3e68",
+      "afterSha256": "bf26805c6287de70d0b3654a6b9a15a00c53170d832025de662f440310a72258",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 612,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 613,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "e1b76b9a06ff7bd3060e8a287dd3f7603315db496d6533c10b194b85c687095d",
+      "afterSha256": "824e79219c6e11ffb7a4b533daf1621b18b3f7b608c5aa634515b409fd8da88c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 14422,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 14459,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "79347f8b5145a3e07449aee1fd9a12980d8b1d51bb27208ef524957b3de05cfe",
+      "afterSha256": "135b2cec07098846c4c4835a4783e65997a068c0f6fa51fea52bdb1ca3fe9012",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 622,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 624,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "fdc3fe35b6d7c45b6442addb1290ae2a7a54f50ba164d27f360ba4904f4e5b1d",
+      "afterSha256": "b534d7b9b9bf8f23368047310b090b50e37ff3301dbd9e0829be1f5b9cfcc2c3",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核贡献者原件、实绘及固定来源",
         "date": "2026-11-16",
-        "conclusion": "核双端召唤、分裂、演出和副作用，并保持既有已刊调用片段、断言和执行身份。",
-        "reviewedLines": 247,
-        "acceptanceScope": "按原脚本和相同输入核方丈、分裂与九种玩家召唤。现行文档来源使用真实候选的逐段核对。"
+        "conclusion": "核九种召唤受击各拍的实绘色偏和伤害数字，旧执行和原件保留。",
+        "reviewedLines": 258,
+        "acceptanceScope": "九种玩家召唤的实际命中和受击，四个既有采集来源片段逐段检查。"
       }
     }
   ],
@@ -5958,6 +5958,12 @@
       "bytes": 69018745,
       "sha256": "c1867b2fd93ace6dfcbf84a55e8a3e5189f02c4acfb9985842febc1d6bf26bb0",
       "purpose": "敌方再召唤及分裂的双端真实原件、反控、覆盖目录及原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-summon-hit-flash-20261116.tar.gz",
+      "bytes": 1219090,
+      "sha256": "0c3a5c2acb9a77cc6061945080d61eec021bf70275f82c0960b7907c746a90b0",
+      "purpose": "九种召唤的敌人受击位置、色偏、抽帧和原生双端复验"
     }
   ],
   "artifactAliases": [],

@@ -5614,14 +5614,14 @@
           "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
           "role": "native-audio-observer",
           "lines": "204",
-          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+          "sha256": "8f41bde0159f23642d4e27df77b83b42be569719d6366cc82429a058194a2c2b"
         },
         {
           "path": "scripts/e2e/battle-game-instrumentation.mjs",
           "anchor": "export function instrumentGameBattle(",
           "role": "game-audio-producer-binding",
           "lines": "42",
-          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+          "sha256": "8742e3d5678a518fcc24127d389dbb2cd6fd899e36e43e4e2a56ce33093b851c"
         },
         {
           "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
@@ -5648,8 +5648,8 @@
           "path": "scripts/e2e/battle-trace-observer.mjs",
           "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
           "role": "native-magic-overlay-observer",
-          "lines": "307",
-          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+          "lines": "309",
+          "sha256": "8f41bde0159f23642d4e27df77b83b42be569719d6366cc82429a058194a2c2b"
         },
         {
           "path": "packages/reforge/src/battle/battle-command-selection.ts",
@@ -5663,7 +5663,7 @@
           "anchor": "'coop-fallback',",
           "role": "native-cooperative-fallback-observer",
           "lines": "336",
-          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+          "sha256": "8742e3d5678a518fcc24127d389dbb2cd6fd899e36e43e4e2a56ce33093b851c"
         },
         {
           "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -7106,6 +7106,43 @@
               }
             ],
             "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
+          },
+          {
+            "action": "q2-enemy-color-source-rebinding",
+            "base": "070e8145c20e3c2cc8cc77c1e696843d453a0a92",
+            "date": "2026-11-16",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+                "role": "native-audio-observer",
+                "lines": "204",
+                "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "export function instrumentGameBattle(",
+                "role": "game-audio-producer-binding",
+                "lines": "42",
+                "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+              },
+              {
+                "path": "scripts/e2e/battle-trace-observer.mjs",
+                "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+                "role": "native-magic-overlay-observer",
+                "lines": "307",
+                "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+              },
+              {
+                "path": "scripts/e2e/battle-game-instrumentation.mjs",
+                "anchor": "'coop-fallback',",
+                "role": "native-cooperative-fallback-observer",
+                "lines": "336",
+                "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+              }
+            ],
+            "scope": "增加真实敌方实绘色偏及敌方召唤淡变的采集兼容后，四处旧调用片段保持原字节。原执行和反例继续对应其候选。"
           }
         ]
       }

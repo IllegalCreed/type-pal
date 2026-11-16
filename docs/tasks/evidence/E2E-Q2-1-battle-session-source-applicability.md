@@ -244,3 +244,14 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `scripts/e2e/battle-reforge-instrumentation.mjs` | 17 | 17 |
 | `packages/reforge/src/battle/battle-core.ts` | 2473 | 2466 |
 | `packages/game/src/core/battle/battle-system.ts` | 2788 | 2824 |
+
+## 2026-11-16 敌方色偏采集后的来源
+
+从 `070e8145c20e3c2cc8cc77c1e696843d453a0a92` 到 `b50fcfbe049f3a16d45bc4352e38dae3937ed4c7` 逐段核对已有来源引用。下表片段保持原字节，现行摘要随文件更新。历史运行继续由原候选及原件支撑。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `scripts/e2e/battle-trace-observer.mjs` | 204 | 204 |
+| `scripts/e2e/battle-game-instrumentation.mjs` | 42 | 42 |
+| `scripts/e2e/battle-trace-observer.mjs` | 307 | 309 |
+| `scripts/e2e/battle-game-instrumentation.mjs` | 336 | 336 |

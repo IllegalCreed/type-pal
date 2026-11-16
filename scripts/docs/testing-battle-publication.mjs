@@ -296,6 +296,7 @@ export function isTestingBattleClosureSource(path) {
 
 export const testingBattleSummonPublicationBase = 'b8b8dd2fcc551a782a2e90387bcf91170bc4899f'
 export const testingBattleSummonDivisionPublicationBase = '62959793cf6fb2450806d12072608ce768d80c39'
+export const testingBattleEnemyColorPublicationBase = '070e8145c20e3c2cc8cc77c1e696843d453a0a92'
 
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
@@ -828,6 +829,36 @@ export function restoreTestingBattleSummonDivisionSourceBindings(path, bytes, in
     inputs,
     battleSummonDivisionBinding,
     battleSummonDivisionBindings,
+  )
+}
+
+const battleEnemyColorRanges = new Map([
+  ['scripts/e2e/battle-trace-observer.mjs', { 204: '204', 307: '309' }],
+  ['scripts/e2e/battle-game-instrumentation.mjs', { 42: '42', 336: '336' }],
+])
+const battleEnemyColorStage = {
+  ranges: battleEnemyColorRanges,
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemyColorPublicationBase,
+  action: 'q2-enemy-color-source-rebinding',
+  date: '2026-11-16',
+}
+const battleEnemyColorBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [...battleEnemyColorRanges.keys()], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleEnemyColorSource = (path) => battleEnemyColorRanges.has(path)
+
+export function restoreTestingBattleEnemyColorSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemyColorStage,
+    battleEnemyColorBindings,
   )
 }
 

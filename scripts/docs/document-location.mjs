@@ -29,6 +29,7 @@ import {
   assertTestingProjectVictoryVersionSource,
   isTestingBattleClosureSource,
   isTestingBattleDefeatSourcePath,
+  isTestingBattleEnemyColorSource,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLifecycleSource,
@@ -38,6 +39,7 @@ import {
   isTestingBattleSummonSource,
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleEnemyColorSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
@@ -47,6 +49,7 @@ import {
   restoreTestingProjectVictoryVersionBindings,
   testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
+  testingBattleEnemyColorPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
   testingBattleLifecyclePublicationBase,
@@ -564,8 +567,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const summonDivisionSource = summonDivisionRevision && gitTree(root, summonDivisionRevision, [])
   const preSummonDivision =
     summonDivisionSource && gitTree(root, testingBattleSummonDivisionPublicationBase, [])
-  const readBeforeBattleSummonDivision = (path) => {
+  const enemyColorRevision = admission.testingBattleEnemyColorSourceRevision
+  if (enemyColorRevision !== undefined)
+    assert(
+      summonDivisionSource && /^[a-f0-9]{40}$/u.test(enemyColorRevision),
+      'enemy color observation bridge requires the fixed summon and division predecessor',
+    )
+  const enemyColorSource = enemyColorRevision && gitTree(root, enemyColorRevision, [])
+  const preEnemyColor =
+    enemyColorSource && gitTree(root, testingBattleEnemyColorPublicationBase, [])
+  const readBeforeBattleEnemyColor = (path) => {
     const live = readSource(path)
+    if (!preEnemyColor || !isTestingBattleEnemyColorSource(path)) return live
+    assert(
+      live?.equals(enemyColorSource.read(path)),
+      `enemy color observation source changed: ${path}`,
+    )
+    return preEnemyColor.read(path)
+  }
+  const readBeforeBattleSummonDivision = (path) => {
+    const live = readBeforeBattleEnemyColor(path)
     if (!preSummonDivision || !isTestingBattleSummonDivisionSource(path)) return live
     assert(
       live?.equals(summonDivisionSource.read(path)),
@@ -583,13 +604,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const current = preSummonDivision
-      ? restoreTestingBattleSummonDivisionSourceBindings(path, bytes, {
+    const priorEnemyColor = preEnemyColor
+      ? restoreTestingBattleEnemyColorSourceBindings(path, bytes, {
           readSource,
+          readBase: preEnemyColor.read,
+          readFixed: enemyColorSource.read,
+        })
+      : bytes
+    const current = preSummonDivision
+      ? restoreTestingBattleSummonDivisionSourceBindings(path, priorEnemyColor, {
+          readSource: readBeforeBattleEnemyColor,
           readBase: preSummonDivision.read,
           readFixed: summonDivisionSource.read,
         })
-      : bytes
+      : priorEnemyColor
     return preSummon
       ? restoreTestingBattleSummonSourceBindings(path, current, {
           readSource: readBeforeBattleSummonDivision,
