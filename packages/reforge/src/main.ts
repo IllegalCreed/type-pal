@@ -5963,7 +5963,7 @@ export async function bootGame(
     ctx.restore()
   }
 
-  function render(): void {
+  function render(frameAt: number): void {
     const scriptConfirm = scriptConfirmModal.view
     if (scriptConfirm) {
       ctx.putImageData(scriptConfirm.frame, 0, 0)
@@ -6264,11 +6264,9 @@ export async function bootGame(
       }
     }
     if (loadReveal) {
-      // Hold the first opaque draw through the handoff, then use wall time for the ramp while
-      // the restored world's simulation and input are held.
-      const now = performance.now()
-      loadReveal.fadeAt ??= now + loadBlackMs
-      const elapsed = Math.max(0, now - loadReveal.fadeAt)
+      // Use the presentation frame timestamp while the restored world's gameplay clock is held.
+      loadReveal.fadeAt ??= frameAt + loadBlackMs
+      const elapsed = Math.max(0, frameAt - loadReveal.fadeAt)
       const alpha = Math.max(0, 1 - elapsed / paletteFadeMs)
       drawPaletteFade(alpha, 'in')
       if (alpha === 0) {
@@ -6562,9 +6560,9 @@ export async function bootGame(
     routeInput: (pressed, realNow) => {
       if (!loadReveal) routeRuntimeInput(pressed, realNow, inputPorts)
     },
-    presentWorld: () => {
+    presentWorld: (frameAt) => {
       motion.clearScriptGaitHandoffs()
-      runWithPresentationFinalizer(render, abortScript)
+      runWithPresentationFinalizer(() => render(frameAt), abortScript)
     },
   }
   async function tick(t: number): Promise<void> {

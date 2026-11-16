@@ -22,7 +22,7 @@ export interface RuntimeFramePorts {
   /** Queries the current battle after world advancement. True consumes the frame. */
   presentBattle(dt: number, pressed: ReadonlySet<string>, now: number): boolean
   routeInput(pressed: ReadonlySet<string>, realNow: number): void
-  presentWorld(): void
+  presentWorld(realNow: number): void
 }
 
 interface FrameWait {
@@ -172,7 +172,7 @@ export class RuntimeFrameSession {
     if (battlePresented) return
     const present = () => {
       if (ports.afterScriptWork && ports.presentBattle(0, new Set(), this.now)) return
-      ports.presentWorld()
+      ports.presentWorld(realNow)
     }
     if (ports.afterScriptWork) await ports.afterScriptWork(present)
     else present()
