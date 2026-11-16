@@ -22,6 +22,7 @@ import {
   medicine,
   opponent,
   scenarioProject,
+  weapon,
 } from '../__tests__/runtime-shell/scenarios.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { loadStandardPalette } from '../assets.js'
@@ -387,6 +388,65 @@ test('BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名
     expect(last).toMatchObject({ kind: 'learn-magic', name: 'Hero', magicName: 'skill.bf-earn' })
     // 升级回满发生在 writeBackHp 之后：战斗内 60 血被升级 refill 到满值（顺序 oracle）。
     expect(hero.hp).toBe(hero.maxHP)
+  } finally {
+    await h.close()
+  }
+})
+
+test('升级结算显示装备后的五项属性，持久属性另记隐藏成长', async () => {
+  const actor = combatActor()
+  const battler = expectDefined(actor.battler)
+  const base = battler.baseStats
+  const gear = weapon('bf-level-display-gear')
+  expectDefined(gear.equip).effects = [
+    { kind: 'statBonus', stat: 'attack', delta: 11 },
+    { kind: 'statBonus', stat: 'magicAttack', delta: 17 },
+    { kind: 'statBonus', stat: 'defense', delta: 3 },
+    { kind: 'statBonus', stat: 'speed', delta: 6 },
+    { kind: 'statBonus', stat: 'luck', delta: 13 },
+  ]
+  battler.initialEquipment = { weapon: gear.id }
+  battler.leveling = { expTable: [0, 10, 10] }
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 1, exp: 15, cash: 0 }),
+    actors: [actor],
+    items: [gear],
+  })
+  try {
+    const settled = settleAware(h)
+    await drive(h, settled, 'attack')
+    expect(settled()).toBe('victory')
+    h.finish('victory')
+    const screens = h.observables.screens ?? []
+    expect(screens[1]).toMatchObject({
+      kind: 'level-up',
+      report: {
+        before: {
+          attack: base.attack + 11,
+          magicAttack: base.magicAttack + 17,
+          defense: base.defense + 3,
+          speed: base.speed + 6,
+          luck: base.luck + 13,
+        },
+        after: {
+          attack: base.attack + 15,
+          magicAttack: base.magicAttack + 21,
+          defense: base.defense + 5,
+          speed: base.speed + 8,
+          luck: base.luck + 15,
+        },
+      },
+    })
+    expect(screens).toContainEqual({ kind: 'hidden-up', name: 'Hero', statLabel: '武术', delta: 1 })
+    expect(h.world.party[0]).toMatchObject({
+      equipment: { weapon: gear.id },
+      level: 2,
+      attack: base.attack + 5,
+      magicAttack: base.magicAttack + 4,
+      defense: base.defense + 2,
+      speed: base.speed + 2,
+      luck: base.luck + 2,
+    })
   } finally {
     await h.close()
   }
