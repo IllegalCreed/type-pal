@@ -2645,10 +2645,11 @@ export class BattleSession {
     }
     if (trance?.fade) {
       const source = { ...scene, players: players.filter((draw) => draw !== tranceTarget) }
-      source.players.push({
+      const sourcePlayer = {
         sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
         ...trance.fade.source,
-      })
+      }
+      source.players.push(sourcePlayer)
       this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)
     } else if (summonFade && arrivingDraws) {
       const sourceEnemies =

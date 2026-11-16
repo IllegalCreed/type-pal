@@ -37,8 +37,8 @@ test('current real battle producers instrument once; drift fails closed and norm
         () =>
           instrumentReforgeBattle(
             source.replace(
-              'this.tranceFade.render(ctx, scene, worldScale, fade)',
-              'this.tranceFade.render(ctx, scene, worldScale, differentFade)',
+              'this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)',
+              'this.sceneFade.render(ctx, source, scene, worldScale, differentFade)',
             ),
             file,
           ),

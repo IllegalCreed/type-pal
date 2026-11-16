@@ -264,11 +264,11 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
             node.end,
             `\n${evidenceCall('labelFighter', "draw, 'player', i, false, undefined, appearance.definition.id")}`,
           )
-        if (source === 'this.tranceFade.render(ctx, scene, worldScale, fade)') {
+        if (source === 'this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)') {
           add(
             'trance-fade-composited',
             node.end,
-            `\n${evidenceCall('appearanceTransitionDrawn', 'fade.step, trance.fade.total, trance.idx, fade.source, trance.oldDefinitionId')}`,
+            `\n${evidenceCall('appearanceTransitionDrawn', 'trance.fade.step, trance.fade.total, trance.idx, sourcePlayer, trance.oldDefinitionId')}`,
           )
         }
         if (name === 'this.selection.advance')
