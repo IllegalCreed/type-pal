@@ -104,12 +104,14 @@ describe('Enemy summon defeated-slot reuse', () => {
       status: { sleep: 4, confused: 3, bravery: 6 },
     })
     dead.poisons = [{ poisonId: 7, scriptEntry: 2 }] // Synthetic residue, not an executed poison script.
+    dead.idleFrame = 1
+    dead.idleTick = 1
     const caster = makeEnemySlot({ id: 76, health: 200, objectId: 473 })
     const state = makeBattleWithSlots([dead, caster])
     const context = makeSummonContext(
       state,
       1,
-      [makeSummonEnemy({ id: 22, health: 80 })],
+      [makeSummonEnemy({ id: 22, health: 80, idleFrames: 4, idleAnimSpeed: 3 })],
       [makeSummonObject(419, 22)],
     )
     const result = dispatchBattleOpcode(0x9e, [419, 1, 300], context)
@@ -118,6 +120,7 @@ describe('Enemy summon defeated-slot reuse', () => {
     expect(dead.objectId).toBe(419)
     expect(dead.status).toMatchObject({ sleep: 0, confused: 0 })
     expect(dead.status.bravery ?? 0).toBe(0)
+    expect([dead.idleFrame, dead.idleTick]).toEqual([0, 3])
   })
 
   test('同席两死亡槽只复用一间：另一间保持 defeated 与残留身份', () => {

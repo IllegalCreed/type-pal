@@ -1448,7 +1448,8 @@ export function dispatchBattleOpcode(
       const summonedIdxs = freeSlots.slice(0, count)
       const arrive = () => {
         for (const idx of summonedIdxs) {
-          resetEnemySlot(state.enemies[idx]!, {
+          const slot = state.enemies[idx]!
+          resetEnemySlot(slot, {
             e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
             status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
             prevHp: base.health,
@@ -1462,6 +1463,9 @@ export function dispatchBattleOpcode(
             spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
             defeated: false,
           })
+          // The original clears the slot and copies a fresh idle countdown (script.c:2909–2925).
+          slot.idleFrame = 0
+          slot.idleTick = Math.max(1, base.idleAnimSpeed)
         }
         refreshEnemyBattlePositions(ctx)
       }

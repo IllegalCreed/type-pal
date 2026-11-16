@@ -35,21 +35,52 @@ const fx: CastFxParams = {
 }
 
 describe('当前召唤型施法与 OffMagic 特效落点', () => {
-  test('敌方召唤完成入场溶解后，施法者在两拍高亮保持里恢复闲站', () => {
-    const frames = buildEnemySummon({
+  test('召唤的新敌从各自初始闲站计时，施法者在高亮保持期恢复闲站', () => {
+    const input = {
       casterIdx: 1,
-      slots: [0],
+      spawns: [
+        { idx: 0, idle: { start: 0, count: 4 }, idleTicksPerFrame: 3 },
+        { idx: 2, idle: { start: 0, count: 4 }, idleTicksPerFrame: 1 },
+      ],
       profile: enemyProfile('boss.magic'),
       sound: 'sound.summon',
-    })
+    }
+    const frames = buildEnemySummon(input)
+    const arrival = frames.find(({ enemySummonFade }) => enemySummonFade?.phase === 'arrival')
     const restoreColor = frames.findIndex(
       ({ enemySummonFade }) => enemySummonFade?.phase === 'settle',
     )
     expect(frames[0]?.fighters).toMatchObject([{ idx: 1, frame: 2 }])
-    expect(frames[restoreColor - 2]?.enemySummonFade).toMatchObject({ phase: 'arrival', step: 72 })
-    expect(frames[restoreColor - 1]).toMatchObject({
-      durationMs: 80,
-      fighters: [{ side: 'enemy', idx: 1, frame: 0 }],
+    expect(arrival).toMatchObject({
+      sound: 'sound.summon',
+      fighters: [
+        { idx: 0, frame: 0, holdFrame: true, showSpawn: true, colorShift: 8 },
+        { idx: 2, frame: 0, holdFrame: true, showSpawn: true, colorShift: 8 },
+      ],
+    })
+    expect(frames[restoreColor - 3]?.enemySummonFade).toMatchObject({ phase: 'arrival', step: 72 })
+    expect(frames.slice(restoreColor - 2, restoreColor)).toMatchObject([
+      {
+        durationMs: 40,
+        fighters: [
+          { idx: 0, frame: 0 },
+          { idx: 2, frame: 0 },
+          { idx: 1, frame: 0 },
+        ],
+      },
+      {
+        durationMs: 40,
+        fighters: [
+          { idx: 0, frame: 0 },
+          { idx: 2, frame: 1 },
+        ],
+      },
+    ])
+    expect(frames[restoreColor]).toMatchObject({
+      fighters: [
+        { idx: 0, frame: 0, holdFrame: true, colorShift: 0 },
+        { idx: 2, frame: 2, holdFrame: true, colorShift: 0 },
+      ],
     })
   })
 

@@ -1729,7 +1729,9 @@ export function buildEnemyEscape(input: {
 export function buildEnemySummon(input: {
   casterIdx: number
   profile: EnemyBattleSpriteProfile
-  slots: readonly number[]
+  spawns: readonly (Pick<EnemyBattleSpriteProfile, 'idle' | 'idleTicksPerFrame'> & {
+    idx: number
+  })[]
   sound?: AssetId
 }): AnimFrame[] {
   const frames: AnimFrame[] = []
@@ -1745,14 +1747,26 @@ export function buildEnemySummon(input: {
       ],
     })
   }
-  if (!input.slots.length) return frames
+  if (!input.spawns.length) return frames
+
+  const slots = input.spawns.map(({ idx }) => idx)
+  // A new slot starts at the first frame with a fresh countdown. PAL_BattleDelay
+  // advances that countdown twice between the two otherwise frozen dissolves.
+  const spawnPoses = (elapsedTicks: number): FighterDelta[] =>
+    input.spawns.map(({ idx, idle, idleTicksPerFrame }) => ({
+      side: 'enemy',
+      idx,
+      frame:
+        idle.start +
+        (Math.floor(elapsedTicks / Math.max(1, idleTicksPerFrame)) % Math.max(1, idle.count)),
+      holdFrame: true,
+    }))
 
   for (const phase of ['arrival', 'settle'] as const) {
     const arriving = phase === 'arrival'
-    const fighters = input.slots.map(
-      (idx): FighterDelta => ({
-        side: 'enemy',
-        idx,
+    const fighters = spawnPoses(arriving ? 0 : 2).map(
+      (pose): FighterDelta => ({
+        ...pose,
         colorShift: arriving ? ENEMY_SUMMON_COLOR_SHIFT : 0,
         ...(arriving ? { showSpawn: true } : {}),
       }),
@@ -1760,21 +1774,19 @@ export function buildEnemySummon(input: {
     for (let step = 1; step <= DITHER_TOTAL_STEPS; step++) {
       frames.push({
         durationMs: 16,
-        enemySummonFade: { phase, slots: input.slots, step },
+        enemySummonFade: { phase, slots, step },
         ...(step === 1 ? { fighters } : {}),
         ...(step === 1 && arriving && input.sound ? { sound: input.sound } : {}),
       })
     }
     if (arriving) {
-      // The two PAL_BattleDelay beats use idle gestures after the frozen arrival.
-      frames.push({
-        durationMs: delayMs(2),
-        ...(input.profile.magic.count > 0
-          ? {
-              fighters: [{ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start }],
-            }
-          : {}),
-      })
+      const firstHold = spawnPoses(0)
+      if (input.profile.magic.count > 0)
+        firstHold.push({ side: 'enemy', idx: input.casterIdx, frame: input.profile.idle.start })
+      frames.push(
+        { durationMs: delayMs(1), fighters: firstHold },
+        { durationMs: delayMs(1), fighters: spawnPoses(1) },
+      )
     }
   }
   return frames

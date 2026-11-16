@@ -1854,11 +1854,20 @@ export class BattleSession {
       if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
       const spawned = la.spawnedIdxs ?? []
       if (!spawned.length && profile.magic.count <= 0) return null
-      for (const index of spawned) this.visual.enemies[index] = null
+      const spawns = spawned.map((idx) => {
+        this.visual.enemies[idx] = null
+        const spawnedProfile = this.enemyAppearance(idx).definition.profile
+        if (spawnedProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+        return {
+          idx,
+          idle: spawnedProfile.idle,
+          idleTicksPerFrame: spawnedProfile.idleTicksPerFrame,
+        }
+      })
       return buildEnemySummon({
         casterIdx: la.idx,
         profile,
-        slots: spawned,
+        spawns,
         sound: this.opts.soundRoles?.['audio.battleEnemySummonSound'],
       })
     }
