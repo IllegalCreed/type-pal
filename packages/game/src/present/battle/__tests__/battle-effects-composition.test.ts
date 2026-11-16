@@ -1,6 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { startBattleAnim } from '../../../core/battle/battle-anim-driver.js'
+import { buildEnemySummonTimeline } from '../../../core/battle/animation/enemy-transformation.js'
+import {
+  advanceBattleAnimFrames,
+  startBattleAnim,
+} from '../../../core/battle/battle-anim-driver.js'
 import type { BattleAnimState } from '../../../core/battle/battle-state.js'
+import { tickEnemyIdleGestures } from '../../../core/battle/battle-system.js'
 import { createCommandBus } from '../../../core/command-bus.js'
 import {
   battleEnemy,
@@ -203,6 +208,57 @@ describe('battle transition and supplemental effects', () => {
     draw()
     expect(at(fb, 0, 0)).toBe(0x5f)
     expect(at(fb, 1, 0)).toBe(0x7f)
+  })
+
+  it('starts the enemy summon restore with the tinted pose at the end of the idle hold', () => {
+    const present = new BattlePresent()
+    const gs = battleGs()
+    const caster = battleEnemy(enemy(7))
+    const summoned = battleEnemy({ ...enemy(6), idleFrames: 4, idleAnimSpeed: 1 })
+    summoned.pos = { x: 40, y: 99 }
+    const state = battleState([], [caster], { phase: 'performAction' })
+    const pack = {
+      battleSprites: new Map([
+        ['enemy-6', { frames: [0x21, 0x22, 0x23, 0x24].map((color) => image(1, 1, color)) }],
+      ]),
+      battleBgs: new Map([[0, solidBg(BG)]]),
+      playerRoles: { roles: [] },
+      spells: [],
+      items: [],
+    }
+    const fb = createFramebuffer()
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(0)
+    const bus = createCommandBus()
+    const draw = () => present.draw(fb, gs, state, [], pack, 0)
+    const frames = buildEnemySummonTimeline({
+      casterIdx: 0,
+      caster: caster.e,
+      summonedIdxs: [1],
+      activeEnemyIdxs: [0, 1],
+    })
+    draw()
+    startBattleAnim(state, frames, bus, undefined, {
+      onEnemySummonArrival: () => state.enemies.push(summoned),
+    })
+    draw()
+    advanceBattleAnimFrames(state, bus, 1152)
+    clock.mockReturnValue(1152)
+    draw()
+    expect(at(fb, 40, 98)).toBe(0x29)
+    tickEnemyIdleGestures(state)
+    advanceBattleAnimFrames(state, bus, 40)
+    clock.mockReturnValue(1192)
+    draw()
+    expect(at(fb, 40, 98)).toBe(0x2a)
+    tickEnemyIdleGestures(state)
+    advanceBattleAnimFrames(state, bus, 40)
+    clock.mockReturnValue(1232)
+    draw()
+    // This pixel is still on the source side of the first dissolve step.
+    expect(at(fb, 40, 98)).toBe(0x2b)
+    clock.mockReturnValue(2368)
+    draw()
+    expect(at(fb, 40, 98)).toBe(0x23)
   })
 
   it('战斗补帧不推进屏波，精灵像素留在原位', () => {

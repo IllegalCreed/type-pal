@@ -39,7 +39,7 @@ import { stepPaletteFade } from '../../core/palette-fade.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import type { GlyphTable } from '../font.js'
 import { renderText } from '../font.js'
-import type { Framebuffer } from '../framebuffer.js'
+import { createFramebuffer, type Framebuffer } from '../framebuffer.js'
 import { applyScreenShake } from '../screen-shake.js'
 import { applyScreenWave } from '../screen-wave.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
@@ -272,6 +272,12 @@ export class BattlePresent {
     collectMagicOv(state.battleAnim?.overlay)
     for (const ov of state.battleAnim?.overlays ?? []) collectMagicOv(ov)
 
+    const summonRestore =
+      enemySummonFade?.phase === 'release' &&
+      !this.reusableSummonFadeBuffer(fb.indices.length, enemySummonFade.step, true)
+        ? this.createSummonRestoreSource(fb, state)
+        : undefined
+
     // 3. 双方精灵(死员画倒下帧 2;召唤 god 模式隐队员)+ 法术精灵(统一排序)
     drawBattleSprites(
       fb,
@@ -281,6 +287,7 @@ export class BattlePresent {
       assets.enemyPos,
       summonGodMode, // 召唤神出场 → 隐队员
       magicOverlayEntries.length > 0 ? magicOverlayEntries : undefined,
+      summonRestore,
     )
 
     // 3.1 召唤神精灵(替换队员;battle.c:163-212/386-405 lpSummonSprite!=NULL)。pos = posSummon 底中锚。
@@ -311,6 +318,7 @@ export class BattlePresent {
       state.phase === 'preBattle' ||
       state.phase === 'selectAction' ||
       state.phase === 'performAction'
+    if (summonRestore) this.beginSummonFade(summonRestore.framebuffer.indices)
     this.applySummonFade(fb, summon, keepScene, enemySummonFade?.step)
 
     // 入场先按六轮整像素置换揭示战斗场景，随后绘制 UI/弹幕；与召唤的 nibble 渐变分开。
@@ -413,6 +421,35 @@ export class BattlePresent {
    * fade 起手快照"from"场景(上一帧),逐步把低 nibble dither 逼近本帧渲染的"to"场景,显示累积态。
    * 高 nibble(调色板块)立即切换,低 nibble(亮度)渐变 → PAL 特征淡变。
    */
+  private createSummonRestoreSource(fb: Framebuffer, state: BattleState) {
+    const arrivals = state.battleAnim?.frames.find(
+      (frame) => frame.enemySummonFade === 'arrival',
+    )?.fighters
+    if (!arrivals?.length) return undefined
+    // The second idle tick has already updated the poses. Repaint those poses with
+    // their arrival tints, as the last PAL_BattleDelay blit does before restoring colors.
+    const enemyColorShifts = new Map<number, number>()
+    for (const delta of arrivals) {
+      if (delta.side === 'enemy' && delta.iColorShift !== undefined)
+        enemyColorShifts.set(delta.idx, delta.iColorShift)
+    }
+    const framebuffer = createFramebuffer(fb.width, fb.height)
+    framebuffer.indices.set(fb.indices)
+    return { framebuffer, enemyColorShifts }
+  }
+
+  private reusableSummonFadeBuffer(length: number, step: number, enemyFade: boolean) {
+    const buffer = this.summonFadeBuf
+    const restarted = enemyFade ? step < this.summonFadeApplied : step === 0
+    return !restarted && buffer?.length === length ? buffer : undefined
+  }
+
+  private beginSummonFade(source: Uint8Array): void {
+    this.summonFadeBuf = source
+    this.summonFadeApplied = -1
+    this.enemySummonFadeTarget = undefined
+  }
+
   private applySummonFade(
     fb: Framebuffer,
     summon: SummonFrameState | undefined,
@@ -434,23 +471,18 @@ export class BattlePresent {
     }
     const rgIndex = [0, 3, 1, 5, 2, 4] as const
     // fade 起手:morphing buf = 上一帧快照("from")。
-    if (
-      (enemyFadeStep === undefined ? fadeStep === 0 : fadeStep < this.summonFadeApplied) ||
-      !this.summonFadeBuf ||
-      this.summonFadeBuf.length !== current.length
-    ) {
+    let buf = this.reusableSummonFadeBuffer(current.length, fadeStep, enemyFadeStep !== undefined)
+    if (!buf) {
       // Consecutive 0x9E instructions can start a new dissolve without a normal frame.
       // The previous target is complete at that boundary even if rendering skipped its last step.
       if (this.enemySummonFadeTarget) this.lastFrameBuf = this.enemySummonFadeTarget
-      this.summonFadeBuf = new Uint8Array(
+      buf = new Uint8Array(
         this.lastFrameBuf && this.lastFrameBuf.length === current.length
           ? this.lastFrameBuf
           : current,
       )
-      this.summonFadeApplied = -1
-      this.enemySummonFadeTarget = undefined
+      this.beginSummonFade(buf)
     }
-    const buf = this.summonFadeBuf
     // Enemy 0x9E runs PAL_BattleMakeScene once per dissolve (script.c:2936, 2947).
     if (enemyFadeStep !== undefined) this.enemySummonFadeTarget ??= new Uint8Array(current)
     const target = this.enemySummonFadeTarget ?? current

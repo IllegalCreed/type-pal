@@ -247,6 +247,7 @@ export function drawBattleSprites(
    * 同列冒泡)。sortY = overlay.y + layerOffset;draw 回调画该 overlay。
    */
   sortedOverlays?: Array<{ x: number; sortY: number; draw: (fb: Framebuffer) => void }>,
+  summonRestore?: { framebuffer: Framebuffer; enemyColorShifts: ReadonlyMap<number, number> },
 ): void {
   const targetBlinkOn = battleSelectBlinkOn()
   // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
@@ -257,6 +258,7 @@ export function drawBattleSprites(
     y: number
     frame?: SpriteFrame
     iColorShift: number
+    restoreColorShift?: number
     /** D17:>=0 时走 blitFrameDeathFade(死亡淡出步);<0 = 普通 blit。 */
     fadeStep: number
     /** DM9:法术 overlay 绘制回调(与精灵同列排序;有此项时 frame 不用)。 */
@@ -311,12 +313,14 @@ export function drawBattleSprites(
       enemy.status.paralyzed <= 0
         ? confusedShakeDelta(Math.random())
         : 0
+    const restoreColorShift = summonRestore?.enemyColorShifts.get(i)
     items.push({
       x: pos.x + enemyShakeX,
       y: pos.y,
       frame,
       // 淡出中 iColorShift 归 0(crossfade 自带渐隐);target 高亮 7 优先;否则 render-state(受击闪白 6)。
       iColorShift: isFading ? 0 : highlight !== 0 ? highlight : (enemy.iColorShift ?? 0),
+      ...(restoreColorShift === undefined ? {} : { restoreColorShift }),
       fadeStep: isFading ? fadeStep : -1,
     })
   })
@@ -369,12 +373,24 @@ export function drawBattleSprites(
   for (const it of items) {
     if (it.drawFn) {
       it.drawFn(fb)
+      if (summonRestore) it.drawFn(summonRestore.framebuffer)
       continue
     } // DM9:法术 overlay
     if (!it.frame) continue
     // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
     if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)
     else blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+    if (summonRestore) {
+      if (it.fadeStep < 0) {
+        blitFrame(
+          summonRestore.framebuffer,
+          it.frame,
+          it.x,
+          it.y,
+          it.restoreColorShift ?? it.iColorShift,
+        )
+      } else blitFrameDeathFade(summonRestore.framebuffer, it.frame, it.x, it.y, it.fadeStep)
+    }
   }
 
   // DM13:PAL_BattleDrawAllSprites 两遍结构(battle.c:471-487)—— 第一遍画全部,第二遍仅
@@ -383,5 +399,8 @@ export function drawBattleSprites(
   for (const it of items) {
     if (it.drawFn || !it.frame) continue
     if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+    const restoreColorShift = it.restoreColorShift ?? it.iColorShift
+    if (summonRestore && it.fadeStep < 0 && restoreColorShift !== 0)
+      blitFrame(summonRestore.framebuffer, it.frame, it.x, it.y, restoreColorShift)
   }
 }
