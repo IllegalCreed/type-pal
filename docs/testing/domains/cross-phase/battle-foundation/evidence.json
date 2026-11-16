@@ -70,21 +70,21 @@
       "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
       "role": "native-audio-observer",
       "lines": "204",
-      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+      "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "42",
-      "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+      "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
       "lines": "17",
-      "sha256": "8cc0c3623771f700bac6eff27d26fc9912649191529acd33e80549655cffce07"
+      "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -98,28 +98,28 @@
       "anchor": "export function instrumentBattleRandomDraws(",
       "role": "native-random-producer-binding",
       "lines": "28",
-      "sha256": "4eac8413fbca36ab98e90555d2178b57ba0f523c52fa654351f05e494aae7226"
+      "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
       "role": "native-magic-overlay-observer",
       "lines": "307",
-      "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+      "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
       "anchor": "export class BattleCommandSelection",
       "role": "native-target-menu-caller",
-      "lines": "59",
-      "sha256": "7933e7ce24d7c92a83a95e2d43efd4fb449ffe0e1a6b38cf0b2b34754ebfd34b"
+      "lines": "60",
+      "sha256": "b131a44e94e45b6b234266db42373042e327543fcac691ab3abc3764cc049bb3"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "'coop-fallback',",
       "role": "native-cooperative-fallback-observer",
-      "lines": "322",
-      "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+      "lines": "336",
+      "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -168,7 +168,7 @@
       "anchor": "export const SCROLL_LABEL_STYLE =",
       "role": "reforge-scroll-style",
       "lines": "169",
-      "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+      "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
     },
     {
       "path": "reference/sdlpal/battle.c",
@@ -189,49 +189,49 @@
       "anchor": "await runBrowserJourney({",
       "role": "native-special-status-caller",
       "lines": "52",
-      "sha256": "7efd247d856fd4601d5f7025ca2b79b2635dee970a905fc1445d6c7101527351"
+      "sha256": "f230e6c7984705a238ad0666014a058d30e79dd9dab944d2d292405264ac922b"
     },
     {
       "path": "scripts/e2e/battle-status-scenarios.mjs",
       "anchor": "export async function prepareBattleStatusInputs(",
       "role": "native-status-legal-inputs",
-      "lines": "377",
-      "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
+      "lines": "397",
+      "sha256": "18a7091d5d94c0340953f94328142b6c6c6f33188e3ed678021518edc9a7cae2"
     },
     {
       "path": "scripts/e2e/battle-status-rules.mjs",
       "anchor": "export function checkStatusRules(",
       "role": "native-status-action-and-frame-oracle",
-      "lines": "1035",
-      "sha256": "ac8f8353f81ef9f388d718305de898301b4c0a63b7de32c4286751d52700e027"
+      "lines": "1138",
+      "sha256": "09f23b18627212aac98b70805e4ff5cbed459ffba8658a5f03e656af40ed166b"
     },
     {
       "path": "scripts/e2e/battle-status-compare.mjs",
       "anchor": "export async function compareStatusReports(",
       "role": "native-status-offline-oracle",
       "lines": "222",
-      "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+      "sha256": "15b09c5b7fc1565672ee432c524e0d847f280c1dcb00150a2a7dec402820cb94"
     },
     {
       "path": "scripts/e2e/battle-world-bee-game.mjs",
       "anchor": "await runBrowserJourney({",
       "role": "native-game-world-caller",
-      "lines": "880",
-      "sha256": "9f8a18addf544fccb777dfc7865d7652d8f0832f522c5055d4b16261d85d880b"
+      "lines": "922",
+      "sha256": "640737430431148e69bbbe24a6114ddc9eca553170c7bea2c2d3850ba142a7af"
     },
     {
       "path": "scripts/e2e/battle-world-bee-reforge.mjs",
       "anchor": "await runBrowserJourney({",
       "role": "native-reforge-world-caller",
-      "lines": "355",
-      "sha256": "0a0c1514a6ad697ceafe45b82c02f5ac7574d96c569f591f205c2b7492a9a38e"
+      "lines": "367",
+      "sha256": "9cb90702d34b3889ec095d816625e41cc7ddeba81f5be7c9229eafb5c83cc022"
     },
     {
       "path": "scripts/e2e/battle-world-bee-scenario.mjs",
       "anchor": "export const beeWorldInput = {",
       "role": "native-world-legal-input",
-      "lines": "19",
-      "sha256": "a231ab2b3dd47d75e36888b819e971587ba28d75a67a5ea750747ac4d1df362b"
+      "lines": "30",
+      "sha256": "c14d831b1826d394512622c7c53b0519203e59c9af223a6427da053d0b7654ba"
     },
     {
       "path": "scripts/e2e/battle-world-bee-compare.mjs",
@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2445",
-      "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+      "lines": "2473",
+      "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -273,7 +273,7 @@
       "anchor": "function observeAmbient(source: string)",
       "role": "native-reforge-world-ambient-start",
       "lines": "148",
-      "sha256": "683a26e637bc2f4e8d796d4dcf4ac740f0d62cb2735d505023101db0d0d396da"
+      "sha256": "25f983e8470931b957981925dfb09959d672ab05be07fdb8191fcb06a3e0be87"
     },
     {
       "path": "packages/reforge/src/battle/battle-entry-presentation.ts",
@@ -326,10 +326,10 @@
     },
     {
       "path": "scripts/e2e/battle-world-save-compare.mjs",
-      "lines": "388",
+      "lines": "559",
       "anchor": "export async function comparePostBattleSave(",
       "role": "oracle",
-      "sha256": "788ac3b4fd1f547711fc55d3f03bd5f12f73e13f2cd76536a4519c5bfe846190"
+      "sha256": "6411e87146ce94aecb0a4ecacffaff503eae313b78a3d2021c1fe14698d69b89"
     },
     {
       "path": "scripts/e2e/battle-world-review-split.mjs",
@@ -356,15 +356,15 @@
       "path": "scripts/e2e/battle-world-save.mjs",
       "anchor": "function beginLoadPaintWitness(engine)",
       "role": "native-save-paint-observer",
-      "lines": "53",
-      "sha256": "42e5662d22d1e8255dd908e0ed3556261b83108e16c9e9b1a80fa9678a8650b9"
+      "lines": "54",
+      "sha256": "66fe531962f7d572e7557e141c7d41d46c17715dc8294a79736793e81630e57c"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
       "lines": "5769",
-      "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -372,6 +372,27 @@
       "role": "saved-slot-menu-caller",
       "lines": "184",
       "sha256": "279e4ee44233fa6642c34c2fb402bdc8fb0d1c474cd58019bf608b661c26f72a"
+    },
+    {
+      "path": "scripts/e2e/battle-misc-compare.mjs",
+      "anchor": "async function readReport",
+      "role": "围攻与状态双端事实和原生报告读取",
+      "lines": "19",
+      "sha256": "a093e171771aaba35398e28ba4de2e5a8303b8d1e5904f2cb7bb226159c3972f"
+    },
+    {
+      "path": "scripts/e2e/battle-coop-support.mjs",
+      "anchor": "async function authoredFiles",
+      "role": "合法作者试打内容与合体技能配置",
+      "lines": "53",
+      "sha256": "76d6282f6ea3356b47abbef51297e4c9fee46d2d534d5f6bd6868ba4db5468c8"
+    },
+    {
+      "path": "scripts/e2e/battle-world-save-respawn.mjs",
+      "anchor": "export async function verifyBeeRespawn",
+      "role": "真实存读档后按世界拍观察可见性及返回接敌",
+      "lines": "155",
+      "sha256": "5857ddc9607f2ff58249486776f2b1c931b7508dd292a4e74f9aadb96997a427"
     }
   ],
   "publicCallers": [
@@ -423,7 +444,11 @@
     "node scripts/e2e/battle-world-review-split.mjs CAPTURE_COMPARISON OUTPUT",
     "node scripts/e2e/battle-world-bee-game.mjs --escape=success --escape-exits and the matching Reforge entry",
     "node scripts/e2e/battle-world-escape-exits-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON",
-    "node scripts/e2e/battle-world-review-split.mjs SAVE_CAPTURE_COMPARISON OUTPUT --load-reveal"
+    "node scripts/e2e/battle-world-review-split.mjs SAVE_CAPTURE_COMPARISON OUTPUT --load-reveal",
+    "node scripts/e2e/battle-misc.mjs game|reforge",
+    "node scripts/e2e/battle-misc-compare.mjs GAME_VERIFY REFORGE_VERIFY",
+    "node scripts/e2e/battle-coop-support.mjs",
+    "node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON verify --post-win-save"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -10699,6 +10724,12 @@
       "sha256": "b974758d54e32c6042a4241fd45439b6831e94fbfe19779ab7dd67b4d33476e0",
       "bytes": 174565,
       "purpose": "三人满队存档槽字模、序号与日期排版的前后实绘"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz",
+      "sha256": "4968593d6d516c7ed71cda365e974edc225c208058334a1e447a4fc6088f1368",
+      "bytes": 79582913,
+      "purpose": "Q2 收尾的模拟、原生浏览器、分屏、反例及质量原件"
     }
   ],
   "claims": [
@@ -11491,6 +11522,64 @@
       "evidence": [
         "docs/tasks/evidence/E2E-Q2-1-save-full-party-20261115.tar.gz#build/q2/save-party/after.json",
         "docs/tasks/evidence/E2E-Q2-1-save-full-party-20261115.tar.gz#build/q2/save-party/before.json"
+      ]
+    },
+    {
+      "id": "battle-misc-auto-and-status",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/misc-final-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/battle-misc/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-misc-game-probe-2026-11-16T01-06-46-270Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/coverage-closeout/counter-receipt.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/review/q2-battle-closeout-20261116.mp4"
+      ]
+    },
+    {
+      "id": "authored-coop-support",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-coop-support-2026-11-16T01-17-27-946Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-coop-support-predecessor-2026-11-16T01-08-21-447Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-coop-support-2026-11-16T01-08-51-695Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-coop-summon-2026-11-16T01-20-22-311Z/report.json"
+      ]
+    },
+    {
+      "id": "summon-spirit-offset",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/special-color-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/special-before-offset.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/summon-offsets/raw-census.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/summon-offsets/editor-fixed-native.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/battle-misc/editor-branch/after/lcov.info",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-battle-coop-summon-2026-11-16T01-20-22-311Z/report.json"
+      ]
+    },
+    {
+      "id": "battle-steal-inventory-and-feedback",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/special-color-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-status-game-probe-2026-11-16T00-55-09-713Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-status-reforge-probe-2026-11-16T00-55-09-713Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/steal-color-media/media.json"
+      ]
+    },
+    {
+      "id": "post-battle-growth-respawn",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/post-win-save/compare-verify-48db.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/post-win-save/compare-capture-48db.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-game-post-win-save-2026-11-16T01-31-07-174Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-reforge-post-win-save-2026-11-16T01-31-07-959Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-game-post-win-save-6-capture-2026-11-16T01-35-45-825Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-reforge-post-win-save-6-capture-2026-11-16T01-35-46-901Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-game-post-win-save-2026-11-16T01-17-33-782Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/e2e/q2-world-bee-reforge-post-win-save-2026-11-16T01-21-40-658Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/review/q2-battle-closeout-20261116.mp4"
       ]
     }
   ],
@@ -12866,6 +12955,155 @@
         }
       ],
       "scope": "当前共享存档槽绘制更新，前轮读档和单人排版的原件保留各自运行候选。"
+    },
+    {
+      "action": "q2-battle-closure-source-rebinding",
+      "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+          "role": "native-audio-observer",
+          "lines": "204",
+          "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "42",
+          "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "8cc0c3623771f700bac6eff27d26fc9912649191529acd33e80549655cffce07"
+        },
+        {
+          "path": "scripts/e2e/battle-random-instrumentation.mjs",
+          "anchor": "export function instrumentBattleRandomDraws(",
+          "role": "native-random-producer-binding",
+          "lines": "28",
+          "sha256": "4eac8413fbca36ab98e90555d2178b57ba0f523c52fa654351f05e494aae7226"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+          "role": "native-magic-overlay-observer",
+          "lines": "307",
+          "sha256": "1ba62d8232e68b519571ce77b2152a56bd4279159475a3193814462612cba92a"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.ts",
+          "anchor": "export class BattleCommandSelection",
+          "role": "native-target-menu-caller",
+          "lines": "59",
+          "sha256": "7933e7ce24d7c92a83a95e2d43efd4fb449ffe0e1a6b38cf0b2b34754ebfd34b"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "'coop-fallback',",
+          "role": "native-cooperative-fallback-observer",
+          "lines": "322",
+          "sha256": "222f6c3ec79526b3ddc55a136d8aa2cd843855f470953db15cf52fe6b36709d5"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-box.ts",
+          "anchor": "export const SCROLL_LABEL_STYLE =",
+          "role": "reforge-scroll-style",
+          "lines": "169",
+          "sha256": "43f9fd4ddd8d22c4d13e98f6dc4c0df6f9998ab0a62d39b4fe79ad43cbd954ea"
+        },
+        {
+          "path": "scripts/e2e/battle-status.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-special-status-caller",
+          "lines": "52",
+          "sha256": "7efd247d856fd4601d5f7025ca2b79b2635dee970a905fc1445d6c7101527351"
+        },
+        {
+          "path": "scripts/e2e/battle-status-scenarios.mjs",
+          "anchor": "export async function prepareBattleStatusInputs(",
+          "role": "native-status-legal-inputs",
+          "lines": "377",
+          "sha256": "1d7c75d943a0248b3d5379b7d5b0a1c0521674542c2994da06d2a58d71c0aec6"
+        },
+        {
+          "path": "scripts/e2e/battle-status-rules.mjs",
+          "anchor": "export function checkStatusRules(",
+          "role": "native-status-action-and-frame-oracle",
+          "lines": "1035",
+          "sha256": "ac8f8353f81ef9f388d718305de898301b4c0a63b7de32c4286751d52700e027"
+        },
+        {
+          "path": "scripts/e2e/battle-status-compare.mjs",
+          "anchor": "export async function compareStatusReports(",
+          "role": "native-status-offline-oracle",
+          "lines": "222",
+          "sha256": "0dfd2a98bf2a680784e81f7e3e5dc4882976ff8ca27896e5044f5d2cc4399a41"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-game.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-game-world-caller",
+          "lines": "880",
+          "sha256": "9f8a18addf544fccb777dfc7865d7652d8f0832f522c5055d4b16261d85d880b"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.mjs",
+          "anchor": "await runBrowserJourney({",
+          "role": "native-reforge-world-caller",
+          "lines": "355",
+          "sha256": "0a0c1514a6ad697ceafe45b82c02f5ac7574d96c569f591f205c2b7492a9a38e"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-scenario.mjs",
+          "anchor": "export const beeWorldInput = {",
+          "role": "native-world-legal-input",
+          "lines": "19",
+          "sha256": "a231ab2b3dd47d75e36888b819e971587ba28d75a67a5ea750747ac4d1df362b"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2445",
+          "sha256": "11de9d9c95f30ebfa6d1bdec717fe8c8ef90975a93935088f328c65531412c36"
+        },
+        {
+          "path": "scripts/e2e/battle-world-bee-reforge.config.mts",
+          "anchor": "function observeAmbient(source: string)",
+          "role": "native-reforge-world-ambient-start",
+          "lines": "148",
+          "sha256": "683a26e637bc2f4e8d796d4dcf4ac740f0d62cb2735d505023101db0d0d396da"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save-compare.mjs",
+          "lines": "388",
+          "anchor": "export async function comparePostBattleSave(",
+          "role": "oracle",
+          "sha256": "788ac3b4fd1f547711fc55d3f03bd5f12f73e13f2cd76536a4519c5bfe846190"
+        },
+        {
+          "path": "scripts/e2e/battle-world-save.mjs",
+          "anchor": "function beginLoadPaintWitness(engine)",
+          "role": "native-save-paint-observer",
+          "lines": "53",
+          "sha256": "42e5662d22d1e8255dd908e0ed3556261b83108e16c9e9b1a80fa9678a8650b9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5769",
+          "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+        }
+      ],
+      "scope": "本轮 Q2 继续使用原生执行与实际画帧。保留全部旧运行、反例、附件与审阅，追加收尾义务。"
     }
   ],
   "_governance": {
@@ -14038,6 +14276,99 @@
         "path": "build/q2/load-reveal/capture-comparison.json",
         "sha256": "e7397b88fbd66ab2a551739d36fa631d4285404c2d0aaaf23f2782798011ba2d",
         "bytes": 5005
+      }
+    }
+  },
+  "battleClosureExecution": {
+    "date": "2026-11-16",
+    "producerRevision": "f8bc4292b7b5e8dc1b39c77502fd9197d2474559",
+    "status": "native-recheck-passed",
+    "archiveIndex": "docs/tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz#build/q2/closeout/archive-index.json",
+    "runs": {
+      "miscVerify": {
+        "path": "build/q2/closeout/misc-final-comparison.json",
+        "sha256": "5e76fadb0c023f19bb371871e6a630beac80d6ad1e964a48185e6599230e0902",
+        "bytes": 5981
+      },
+      "miscCapture": {
+        "path": "build/q2/battle-misc/comparison.json",
+        "sha256": "e84d7470a89ac8a98f158b6b80d0208d7c39f2b97fbbd87fee84fa6bc5cf899c",
+        "bytes": 6992
+      },
+      "coopAuthoredVerify": {
+        "path": "build/e2e/q2-battle-coop-support-2026-11-16T01-17-27-946Z/report.json",
+        "sha256": "ef90005645cbaf01729e913556436fa24311312d9dabdc08c86c4b5a9ad452de",
+        "bytes": 104530
+      },
+      "coopSummonVerify": {
+        "path": "build/e2e/q2-battle-coop-summon-2026-11-16T01-20-22-311Z/report.json",
+        "sha256": "10726080816cce844a5d19404cc47e3b4f42b707b1f2c61b19ba487a2d47d01f",
+        "bytes": 100782
+      },
+      "coopAuthoredCapture": {
+        "path": "build/e2e/q2-battle-coop-support-2026-11-16T01-08-51-695Z/report.json",
+        "sha256": "3fc2c8781e82a8851380203e8ed7c3495f9d66c0999bd50d571a6341b6c251be",
+        "bytes": 147431
+      },
+      "summonRawData": {
+        "path": "build/q2/summon-offsets/raw-census.json",
+        "sha256": "ce38f9076b3bca18abba3720eb99c5aa6e2c750c76571bcef89a07acbccd01fd",
+        "bytes": 2738
+      },
+      "summonEditor": {
+        "path": "build/q2/summon-offsets/editor-fixed-native.json",
+        "sha256": "566cac29dbe7686fe1012c843077be42fbedf6961cb7e8ecaa811dbf7241d641",
+        "bytes": 5679
+      },
+      "summonOffsetCounter": {
+        "path": "build/q2/closeout/special-before-offset.json",
+        "sha256": "5215a254cb84568579d5c989be34656cd4b6441d3eabf9028a16a301a1e71681",
+        "bytes": 14103
+      },
+      "summonOffsetVerify": {
+        "path": "build/q2/closeout/special-final-comparison.json",
+        "sha256": "4dccdd860344aa7fd3de75f447ab3dbd4d0abf96141974cd050d2afcb17abd1d",
+        "bytes": 13592
+      },
+      "specialVerify": {
+        "path": "build/q2/closeout/special-color-comparison.json",
+        "sha256": "2ba42d3f02ac569bf8b35ab555041606c62ac853d74d5b4ac4df07fc115cab4b",
+        "bytes": 13592
+      },
+      "postWinVerify": {
+        "path": "build/q2/post-win-save/compare-verify-48db.json",
+        "sha256": "b57113e0f1ef18ef19bbf50ff43543deff4b450ce0578cd289b9347e14b1c8a2",
+        "bytes": 124808
+      },
+      "postWinCapture": {
+        "path": "build/q2/post-win-save/compare-capture-48db.json",
+        "sha256": "93cff632470950dbf08d35b972d78ab9f527f3e019c8eff7b98a5792a0b0e3b5",
+        "bytes": 6902
+      },
+      "postWinIndependentReplay": {
+        "path": "build/q2/closeout/independent-post-win-compare.json",
+        "sha256": "bd2a417a27cce8cd9b31837a7b370f5c499441101ece5ec89c31bf5cc8b45193",
+        "bytes": 124866
+      },
+      "previousSaveFixtureVerify": {
+        "path": "build/q2/closeout/save99-final-comparison.json",
+        "sha256": "4f6d60976b266e63a30ef76bd3783af896e800edc9d02db3b9ea8215b0dc0f2e",
+        "bytes": 123376
+      },
+      "reviewSplit": {
+        "path": "build/q2/closeout/review/q2-battle-closeout-20261116.mp4",
+        "sha256": "769b99486db392c89539bf272e9e9d857245795e16ed1f053ef0f5f475e35ee4",
+        "bytes": 11209292
+      },
+      "liveStatusCounter": {
+        "path": "build/q2/coverage-closeout/counter-receipt.json",
+        "sha256": "638c34af7fe92c58ba9c1aa244cb69bb0804614b3d864da6d94b299cca2f754c",
+        "bytes": 6262
+      },
+      "summonFieldCoverage": {
+        "path": "build/q2/battle-misc/editor-branch/after/lcov.info",
+        "sha256": "1c0d27f20d8a3a87426fe22b6f6d91c6629d51449876f0cfeda0c0dc5b2783aa",
+        "bytes": 14284
       }
     }
   }

@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "242-244",
+      "lines": "246-248",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "407-419",
+      "lines": "412-424",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1254-1263",
+      "lines": "1261-1270",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -42,7 +42,7 @@
       "lines": "73-96",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "770f89e7a88746acfd129ece762bf5fa9eac4df1223051fb946ea18aebced60d"
+      "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:242-244",
-        "packages/reforge/src/battle/battle-session.ts:407-419",
-        "packages/reforge/src/battle/battle-session.ts:1254-1263",
+        "packages/reforge/src/battle/battle-session.ts:246-248",
+        "packages/reforge/src/battle/battle-session.ts:412-424",
+        "packages/reforge/src/battle/battle-session.ts:1261-1270",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
         "packages/content/src/character.ts:169-171"
@@ -618,6 +618,43 @@
         }
       ],
       "scope": "依据当前冻结源码，保全旧候选、调用片段、原件与运行结果。新的行为只由战斗生命周期证据证明。"
+    },
+    {
+      "action": "q2-battle-closure-source-rebinding",
+      "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "242-244",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "407-419",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1254-1263",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "abf1c057df8cd63229d075775a9e2c6dc6bb9b31fbaf92834c7a80f86cce17bb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "73-96",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "770f89e7a88746acfd129ece762bf5fa9eac4df1223051fb946ea18aebced60d"
+        }
+      ],
+      "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
     }
   ],
   "_governance": {

@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-15
+Last reviewed: 2026-11-16
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -211,3 +211,17 @@ Game 的正常明雷改为独立的原盘六组换屏节拍，导致两个现行
 前驱 `761bc57b8c2420413580b209088db0b87d060cc2`，现行来源候选 `af644d2fd07b2d1ed528e50680ac0ad99a891116`。Game 壳的变化只在脚本走位障碍接线。Reforge 主文件的变化在剧情跟随和战利品对白绘制。Game 壳 354、Reforge 主文件 414–421、441–452、455–462、1269–1367 均原位置同字节。开场采集测试补了 `needsRender` 的 fixture，原绘制断言 `551–666` 移到 `554–669`，116 行字节相同。独立校验先恢复三份旧来源引用及两个开场主张指针，再重放原有生命周期校验，保留旧主张、执行版本和反例。Q2 的新采集和判据按各自运行候选取证。 [双端实跑与限制](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
 
 读档淡入冻结 `4a8cf1d83` 延用上述三个归属报告的 Reforge 主文件片段，四个范围 `414–421`、`441–452`、`455–462`、`1269–1367` 逐字节保留。新增行为由读档恢复和最后一层画布呈现接线承接。存档恢复采集继续在共同提交后、自动脚本恢复前取证。三个旧归属主张仍由各自原有执行与反例支撑。 [读档双端运行](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-读取进度的淡入与槽位布局)
+
+## 2026-11-16 Q2 收尾来源
+
+紧接前驱 `4b2692d65917034f3743a348ca161d2ffb447b97`，收尾文档绑定 `f8bc4292b7b5e8dc1b39c77502fd9197d2474559`。逐字节核对八段旧调用和选择语义。各原件的实际运行版本、旧主张、反例与独立审阅依其自身回执保存。
+
+| 旧记录 | 文件与范围 | 当前范围 |
+| --- | --- | --- |
+| `runtime-active-scene` | Reforge `main.ts` 414–421、455–462 | 414–421、455–462 |
+| `runtime-world-owners` | Reforge `main.ts` 441–452 | 441–452 |
+| `runtime-battle-host` | Reforge `main.ts` 1269–1367 | 1269–1367 |
+| `runtime-battle-session-owners` | `battle-session.ts` 242–244、407–419、1254–1263 | 246–248、412–424、1261–1270 |
+| `runtime-battle-session-owners` | `battle-command-selection.test.ts` 73–96 | 73–96 |
+
+会话新增状态页、作者合体技与偷窃反馈。旧选择实例、构造与原指令提交片段逐字节保留，原单测片段仍在同一位置。Q2 现行 runner、比较器和控制的引用按实际出口绑定。上一批的执行、附件及旧引用逐条保存在机器回执。 [Q2 收尾实跑证据](E2E-Q2-1-battle-closeout-20261116.tar.gz)

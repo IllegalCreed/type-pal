@@ -14,14 +14,14 @@
       "lines": "414-421",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "455-462",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -310,6 +310,29 @@
         }
       ],
       "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+    },
+    {
+      "action": "q2-battle-closure-source-rebinding",
+      "base": "4b2692d65917034f3743a348ca161d2ffb447b97",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "414-421",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "455-462",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "5af0d49fd26c095bb28f8c74b2e4c365febcf9881706fe6a25afa645f363d305"
+        }
+      ],
+      "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
     }
   ],
   "_governance": {

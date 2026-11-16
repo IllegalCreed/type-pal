@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-16
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -45,3 +45,7 @@ Template: governance-index-v1 / 1.0.0
 敌方逃跑用 `node scripts/e2e/battle-enemy-escape.mjs game|reforge`，再用 `node scripts/e2e/battle-enemy-escape-compare.mjs GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON`。剧情必败对应 `battle-scripted-defeat.mjs` 和 `battle-scripted-defeat-compare.mjs`。战后读档用双端蜜蜂入口的 `--post-battle-save --seed=99`，对应 `battle-world-save-compare.mjs`；三例可追加 `--capture` 录单次。剧情必败与存读的比较器在输出路径之后加 `capture`，以复核录制报告。 [本批覆盖与原件](report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
 
 解包主归档后，用其中的 `build/q2/battle-lifecycle/recompare-extracted.py ARCHIVE_ROOT player|enemy|defeat|save REPO OUTPUT` 重跑正式比较。对比时使用归档清单所列生产闭包。玩家逃跑用 `951f801c`，敌方逃跑用 `113460b3`，剧情必败用 `93f61810`，战后存读用 `ffef79bf` 的判据复核 `bac7d802` 的报告。已有本轮前驱时，主归档中的 Git bundle 可以恢复分支与这些固定版本。
+
+杂项菜单用 `node scripts/e2e/battle-misc.mjs game`、`node scripts/e2e/battle-misc.mjs reforge` 各跑两次，再用 `node scripts/e2e/battle-misc-compare.mjs GAME_REPORT REFORGE_REPORT` 重比。额外给两份 `--capture` 报告可连带验证录制报告中的输入与画帧轨迹。原声文件与分屏按归档字节校验。作者合体技直接跑 `node scripts/e2e/battle-coop-support.mjs`，武神召唤落点传 `--summon`。风神和飞龙探云手取 `battle-status` 的 `special-magic` 选择器，分别用 `wind-god-summon`、`steal-item` 并加 `--capture` 录制。
+
+战后成长与明雷重现，同端蜜蜂入口均加 `--seed=6 --post-win-save`，用 `node scripts/e2e/battle-world-save-compare.mjs GAME_REPORT REFORGE_REPORT NEW_JSON verify --post-win-save` 重比。正式 verify 各两次，实走倒计时耗尽、移出判定范围和返回接敌。短录追加 `--capture`，比较器的 `verify` 改为 `capture`，聚焦胜利、存档与重启读回。 [成长与重现](report.md#2026-11-16-升级学会仙术和明雷重现) · [收尾原件](../../../../tasks/evidence/E2E-Q2-1-battle-closeout-20261116.tar.gz)
