@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ee476674ed8925356548b8417e5f355c3a04a4c78345ba3c11dd92656df78f14",
+      "afterSha256": "f3f5571e218ccb5e290a6a98d62588962506291a2ef55be677708be28dc65341",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
+        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
         "date": "2026-11-16",
-        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
-        "reviewedLines": 44,
-        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
+        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
+        "reviewedLines": 46,
+        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "ab140f167de58250a25c02445b9467e74648c969250d8273e48708bfaba85a0f",
+      "afterSha256": "3514078833e32a4378fbcedead75fbd03ef548b20d453a296472e86985300a71",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
+        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
         "date": "2026-11-16",
-        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
-        "reviewedLines": 567,
-        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
+        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
+        "reviewedLines": 569,
+        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "3e20209e87a0313dd56666e6f71800075bef71ea3fb570e96d9221be8c7d616f",
+      "afterSha256": "4f57cc5ff04aa5c988bdd2f3714fc4a90abebbaf980e8c8524004465ff6f560c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 实跑与复核；q2_restore_drain_probe 定向核原生画布、比较及归档",
+        "reviewer": "Codex /root 定向复核双端原件、反控、比较和最终媒体",
         "date": "2026-11-16",
-        "conclusion": "核战场的原盘索引绘制、五灵系数配置、两个原生入口的实际输出和反控。",
-        "reviewedLines": 511,
-        "acceptanceScope": "完成 52 个战场的启动和背景采样。剧情起战、队形及伤害按具体场次继续核验。"
+        "conclusion": "核鞭类的六条实跑、群攻变更及相邻回归，玉佛寺真实起战前后与召唤槽、原作用和证据归档。",
+        "reviewedLines": 533,
+        "acceptanceScope": "接受已完成的战场启动、鞭类装备后的效果与投掷、玉佛寺的场地与两僧实绘。装备菜单、召唤音效及其余条目仍按原入口复验。"
       }
     },
     {
@@ -5922,6 +5922,18 @@
       "bytes": 7976137,
       "sha256": "ff34c480422a136f960af9158639f790ed1dcc1f7b9bf4e3c766510517f22e27",
       "purpose": "Codex 逐一启动 52 个战场的 Game 和 Reforge 原生轨迹与画布、原盘像素比较、反控和复跑入口"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jade-buddha-temple-20261116.tar.gz",
+      "bytes": 18696953,
+      "sha256": "62116e8eaaa885778163ea85ee39d87f6d7df18888920b09b074fccb8d5f7af5",
+      "purpose": "Codex 核玉佛寺两战的原盘入口、修前反例、同候选双端重复及实绘召唤和 212 音效差异"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-whip-attacks-20261116.tar.gz",
+      "bytes": 20935259,
+      "sha256": "44ac9e4e7007e949d90d6c9d077a3cd06b3b1c1ac520924b1d8e2bfe10265284",
+      "purpose": "三件鞭类群攻与投掷的双端原生轨迹、命中帧回归、原速带声分屏和按稳定 ID 更新的覆盖索引"
     }
   ],
   "artifactAliases": [],
