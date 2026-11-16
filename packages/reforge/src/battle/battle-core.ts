@@ -2593,11 +2593,13 @@ function applyEnemySkill(
         // 原版玩家无灵抗字段(global.h:203 wResistanceToSorcery 是敌专属,0x2D 对玩家
         // 上状态也无抗掷);HP 阈值门按玩家血量。失败截断其后(夺魂 miss)。
         const t = s.players[targets[0] ?? -1]
-        let pass = true
-        if (eff.chance !== undefined) pass &&= 1 + Math.floor(rng() * 100) < eff.chance
-        if (pass && eff.hpAtMostPercent !== undefined)
-          pass = !!t && t.hp * 100 <= t.maxHp * eff.hpAtMostPercent
-        if (!pass) {
+        const missed = eff.chance !== undefined && 1 + Math.floor(rng() * 100) >= eff.chance
+        if (
+          missed ||
+          (eff.hpAtMostPercent !== undefined && (!t || t.hp * 100 > t.maxHp * eff.hpAtMostPercent))
+        ) {
+          // 三种原盘敌方概率门的失败分支都跳到 SSS 43072 的中央卷轴。
+          if (missed) action.failureFeedback = 'enemySpellIneffective'
           s.log.push(`${skill.name} 无任何效果`)
           break applyEnemyEffects
         }

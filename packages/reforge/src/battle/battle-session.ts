@@ -1221,6 +1221,7 @@ export class BattleSession {
       this.actionFeedback = null
       // 投掷在收招前等键，偷窃在归位后提示。
       if (feedback.dismiss === 'confirm') this.actionPresentation.advancePlayback(0)
+      if (!s.casualtyDialogue) this.beginEnemyCastRecovery()
       return
     }
 
@@ -2192,6 +2193,10 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
+    if (feedback === 'enemySpellIneffective') {
+      this.showActionFeedback('失败　没有效果', 'anyKey')
+      return
+    }
     const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
     this.showActionFeedback(text, feedback === 'throwIneffective' ? 'confirm' : undefined)
   }
@@ -2216,7 +2221,7 @@ export class BattleSession {
             {
               rows: [{ text }],
               slot: 'narration',
-              ...(dismiss ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
+              ...(dismiss === 'confirm' ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
             },
           ],
         }),
@@ -2264,11 +2269,12 @@ export class BattleSession {
     }
     this.pendingConfusedReveal.clear()
     this.syncPlayerDisplayHp()
+    // Game 在敌方施法收尾复位后画出失败卷轴，清除后才进入八拍停顿。
+    this.presentPendingFailureFeedback()
     // 原版完整复位后等十帧才进伤亡脚本（fight.c:804–819,865–882）。
     if (this.state.casualtyDialogue)
       this.casualtyDialogueReadyAtMs = this.nowMs + CASUALTY_DIALOGUE_DELAY_MS
-    else this.beginEnemyCastRecovery()
-    this.presentPendingFailureFeedback()
+    else if (!this.actionFeedback) this.beginEnemyCastRecovery()
     if (this.pendingStealNotice) {
       this.showActionFeedback(this.pendingStealNotice, 'anyKey')
       this.pendingStealNotice = undefined
