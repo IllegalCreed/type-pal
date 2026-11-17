@@ -56,17 +56,22 @@ export function buildEnemySummonTimeline(input: {
   return frames
 }
 
-export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[] {
+export function buildEnemyTransformTimeline(
+  enemyAppearance: NonNullable<BattleAnimFrame['enemyAppearance']>,
+): BattleAnimFrame[] {
+  const enemyIdx = enemyAppearance.idx
   const frames: BattleAnimFrame[] = []
   for (let i = 0; i < 6; i++) {
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: i }],
+      fighters: [{ side: 'enemy', idx: enemyIdx, currentFrame: 0, iColorShift: i }],
+      enemyAppearance,
     })
   }
   frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: 0 }],
+    durationMs: SUMMON_FADE_STEPS * SUMMON_FADE_STEP_MS,
+    fighters: [{ side: 'enemy', idx: enemyIdx, currentFrame: 0, iColorShift: 0 }],
+    enemySummonFade: 'arrival',
     sound: 47,
   })
   return frames

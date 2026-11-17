@@ -577,7 +577,8 @@ describe('M4d-2 战斗动画时间线', () => {
     const frames = buildEnemyTransform({
       idx: 2,
       oldDefinitionId: 'battle-sprite.enemy.001',
-      newDefinitionId: 'battle-sprite.enemy.002',
+      oldPos: { x: 140, y: 106 },
+      newPos: { x: 140, y: 128 },
       oldIdleFrame: 0,
       newIdleFrame: 3,
       sound: 'sound.pal.047',
@@ -590,7 +591,15 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(steps.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0])
     expect(steps.slice(6)).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
     expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
-    expect(frames[6]!.fighters![0]!.frame).toBe(3)
+    expect(frames[6]!.fighters![0]).toMatchObject({
+      frame: 3,
+      pos: { x: 140, y: 128 },
+      holdFrame: true,
+    })
+    expect(frames[6]!.appearanceTransition).toMatchObject({
+      step: 1,
+      source: { x: 140, y: 106, frame: 0, colorShift: 5 },
+    })
     expect(frames[6]!.sound).toBe('sound.pal.047')
   })
 

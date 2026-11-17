@@ -1078,6 +1078,7 @@ export function applyEnemyEffect(
     enemy.def = target
     enemy.fallback = target.ai.fallback ? cloneFallback(target.ai.fallback) : undefined
     enemy.firedRules = new Set()
+    recomputeEnemyPositions(s)
     return { outcome: 'succeeded', kind: effect.kind, beforeDef }
   }
 

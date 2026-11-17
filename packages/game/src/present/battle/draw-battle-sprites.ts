@@ -288,9 +288,12 @@ export function drawBattleSprites(
     const isFading = fadeStep !== undefined // 0..71(>=72 已 return);undefined = 活/刚死未淡
     // D17a:动画期间用 render-state pos(逐帧 mutate);旧 fixture 无 pos → 共享 anchor
     // (含 wYPosOffset,sdlpal battle.c:939),与伤害数字锚点同源杜绝漂移。
-    const pos = enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
+    const animation = state.battleAnim
+    const before = animation?.frames[animation.renderIdx ?? animation.idx]?.enemyAppearance
+    const original = before?.idx === i ? before : undefined
+    const pos = original?.pos ?? enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
-    const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
+    const sprite = battleSprites.get(`enemy-${original?.spriteId ?? enemy.e.id}`)
     if (!sprite?.frames[0]) return
     // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 per-enemy idle 帧
     // (DM11,fight.c:991-1019:battle-system tickEnemyIdleGestures 推进——演出期间按 C 冻结/

@@ -44,19 +44,20 @@ describe('enemy summon/transform opcode timelines (script.c:009E/009F)', () => {
     ])
   })
 
-  it('buildEnemyTransformTimeline:0..5 闪色后复位并在末帧播 47', () => {
-    const frames = buildEnemyTransformTimeline(2)
-    expect(frames.slice(0, 6).map((f) => f.fighters?.[0])).toEqual([
-      { side: 'enemy', idx: 2, iColorShift: 0 },
-      { side: 'enemy', idx: 2, iColorShift: 1 },
-      { side: 'enemy', idx: 2, iColorShift: 2 },
-      { side: 'enemy', idx: 2, iColorShift: 3 },
-      { side: 'enemy', idx: 2, iColorShift: 4 },
-      { side: 'enemy', idx: 2, iColorShift: 5 },
-    ])
+  it('flashes the original appearance before an indexed scene fade and sound 47', () => {
+    const original = { idx: 2, spriteId: 13, pos: { x: 140, y: 106 } }
+    const frames = buildEnemyTransformTimeline(original)
+    expect(frames.slice(0, 6)).toEqual(
+      [0, 1, 2, 3, 4, 5].map((tint) => ({
+        durationMs: FRAME_MS,
+        fighters: [{ side: 'enemy', idx: 2, currentFrame: 0, iColorShift: tint }],
+        enemyAppearance: original,
+      })),
+    )
     expect(frames.at(-1)).toEqual({
-      durationMs: FRAME_MS,
-      fighters: [{ side: 'enemy', idx: 2, iColorShift: 0 }],
+      durationMs: 1152,
+      fighters: [{ side: 'enemy', idx: 2, currentFrame: 0, iColorShift: 0 }],
+      enemySummonFade: 'arrival',
       sound: 47,
     })
   })

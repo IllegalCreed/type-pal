@@ -58,11 +58,8 @@ export interface EnemyAppearanceTransition {
   side: 'enemy'
   idx: number
   oldDefinitionId: string
-  newDefinitionId: string
-  oldFrame: number
-  newFrame: number
+  source: { x: number; y: number; frame: number; colorShift: number }
   step: number
-  total: number
 }
 
 export interface EnemySummonFade {
@@ -108,7 +105,7 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
   waitForThrowFeedback?: boolean
-  /** 玩家梦蛇混合场景快照，敌变身沿用精灵级过渡。 */
+  /** Player trance and enemy transformation both use frozen scene transitions. */
   appearanceTransition?: PlayerAppearanceTransition | EnemyAppearanceTransition
 }
 
@@ -1818,48 +1815,49 @@ export function buildEnemySummon(input: {
   return frames
 }
 
-/** 敌变身现形(script.c:2954 0x9F):colorShift 0→5 六帧 ×40ms 染白渐显 → 归 0 + 音效 47
- *  定格一拍。换精灵由 session 侧异步重载 —— 原版 PAL_LoadBattleSprites + FadeScene
- *  交叉淡的 clean 表达(def 已在 core 换好、保 HP)。 */
+/** PAL 0x9F flashes the old sprite before dissolving between two whole-scene stills. */
 export function buildEnemyTransform(input: {
   idx: number
   oldDefinitionId: string
-  newDefinitionId: string
+  oldPos: { x: number; y: number }
+  newPos: { x: number; y: number }
   oldIdleFrame: number
   newIdleFrame: number
   sound?: AssetId
 }): AnimFrame[] {
   const frames: AnimFrame[] = []
-  for (let i = 0; i < 6; i++)
+  const lastTint = 5
+  const transition = {
+    side: 'enemy' as const,
+    idx: input.idx,
+    oldDefinitionId: input.oldDefinitionId,
+    source: { ...input.oldPos, frame: input.oldIdleFrame, colorShift: lastTint },
+  }
+  for (let tint = 0; tint <= lastTint; tint++)
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'enemy', idx: input.idx, frame: input.oldIdleFrame, colorShift: i }],
-      appearanceTransition: {
-        side: 'enemy',
-        idx: input.idx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldIdleFrame,
-        newFrame: input.newIdleFrame,
-        step: 0,
-        total: 72,
-      },
+      fighters: [{ side: 'enemy', idx: input.idx, frame: input.oldIdleFrame, colorShift: tint }],
+      appearanceTransition: { ...transition, step: 0 },
     })
-  for (let step = 1; step <= 72; step++)
+  for (let step = 1; step <= DITHER_TOTAL_STEPS; step++)
     frames.push({
       durationMs: 16,
-      fighters: [{ side: 'enemy', idx: input.idx, frame: input.newIdleFrame, colorShift: 0 }],
-      appearanceTransition: {
-        side: 'enemy',
-        idx: input.idx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldIdleFrame,
-        newFrame: input.newIdleFrame,
-        step,
-        total: 72,
-      },
-      ...(step === 1 && input.sound ? { sound: input.sound } : {}),
+      appearanceTransition: { ...transition, step },
+      ...(step === 1
+        ? {
+            fighters: [
+              {
+                side: 'enemy',
+                idx: input.idx,
+                pos: input.newPos,
+                frame: input.newIdleFrame,
+                holdFrame: true,
+                colorShift: 0,
+              },
+            ],
+            ...(input.sound ? { sound: input.sound } : {}),
+          }
+        : {}),
     })
   return frames
 }

@@ -968,8 +968,8 @@ export interface RunScriptOptions {
   battleTriggerArgument?: number
   /** The single-enemy HP branch of an all-target throw uses the PAL trigger argument. */
   allTargetThrow?: boolean
-  /** Only enemy ready and turn-start triggers can suspend after an animated 0x9E. */
-  suspendForEnemySummon?: (resume: () => number) => void
+  /** Only enemy ready and turn-start triggers can suspend during an animated 0x9E or 0x9F. */
+  suspendForEnemySceneFade?: (resume: () => number) => void
 }
 
 /** 上下位置互换(top↔bottom)—— 原版 PAL_StartDialog 切位置时不擦掉另一侧旧像素。 */
@@ -3018,7 +3018,7 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
           )
           if (r.consumed) {
             ip = r.newIp !== undefined ? r.newIp : ip + 1
-            if (r.waitForEnemySummon && opts.suspendForEnemySummon) {
+            if (r.waitForEnemySceneFade && opts.suspendForEnemySceneFade) {
               const next = {
                 ip,
                 labelMap,
@@ -3027,7 +3027,7 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
                 curEventObjId,
                 stepCount,
               }
-              opts.suspendForEnemySummon(() => runScriptFrom(opts, next))
+              opts.suspendForEnemySceneFade(() => runScriptFrom(opts, next))
               return opts.ip
             }
             break

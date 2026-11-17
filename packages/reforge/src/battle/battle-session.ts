@@ -287,7 +287,7 @@ export class BattleSession {
   /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
   private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
   private pendingStealNotice: TextSpan[] | undefined
-  /** 敌变身使用精灵级过渡，梦蛇与敌召唤使用冻结的场景层。 */
+  /** Retain the old enemy appearance through its flash and scene dissolve. */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
   private playerAppearanceTransition: PlayerAppearanceTransition | null = null
   private enemySummonFade: EnemySummonFade | null = null
@@ -1865,10 +1865,12 @@ export class BattleSession {
       const newProfile = next.definition.profile
       if (oldProfile.kind !== 'enemy' || newProfile.kind !== 'enemy')
         throw new Error('enemy transform profile 漂移')
+      const original = expectDefined(this.visual.enemies[la.idx])
       return buildEnemyTransform({
         idx: la.idx,
         oldDefinitionId,
-        newDefinitionId: next.definition.id,
+        oldPos: { x: original.x, y: original.y },
+        newPos: expectDefined(s.enemies[la.idx]).basePos,
         oldIdleFrame: oldProfile.idle.start,
         newIdleFrame: newProfile.idle.start,
         ...(this.opts.soundRoles?.['audio.battleEnemyTransformSound']
@@ -2578,12 +2580,15 @@ export class BattleSession {
     const summonFade = this.enemySummonFade
     const arrivingDraws = summonFade ? new Set<BattleSpriteDraw>() : null
     const enemies: BattleSpriteDraw[] = []
-    s.enemies.forEach((e, i) => {
-      if (!e) return
+    let transformFade:
+      | { source: BattleSpriteDraw; target: BattleSpriteDraw; step: number }
+      | undefined
+    for (const [i, e] of s.enemies.entries()) {
+      if (!e) continue
       const appearance = this.enemyAppearance(i)
       const sprite = appearance.sprite
       const v = this.visual.enemies[i]
-      if (!sprite || !v) return
+      if (!sprite || !v) continue
       // 死亡可见性(2026-07-05 作者报「施法时怪物消失」):真 hp 在时间线**播放前**已结算,
       // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
@@ -2591,49 +2596,41 @@ export class BattleSession {
       const dyingNow = this.pendingDeaths.includes(i) || this.fleeingEnemies?.includes(i) === true
       let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
-        if (!deathFade?.enemySlots.includes(i)) return
+        if (!deathFade?.enemySlots.includes(i)) continue
         alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
-        if (alpha <= 0) return
+        if (alpha <= 0) continue
       }
       const anim = appearance.definition.profile
       if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
       const frame = this.enemyVisualFrame(v, anim, e)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
+      const draw: BattleSpriteDraw = {
+        sprite,
+        x: v.x + jx,
+        y: v.y,
+        frame,
+        colorShift: i === highlightEnemy ? 6 : v.colorShift,
+        ...(alpha < 1 ? { alpha } : {}),
+      }
       const transition = this.enemyAppearanceTransitions.get(i)
       if (transition) {
-        const progress = transition.step / transition.total
-        enemies.push(
-          {
-            sprite: this.requireAppearance(transition.oldDefinitionId, 'enemy').sprite,
-            x: v.x + jx,
-            y: v.y,
-            frame: transition.oldFrame,
-            colorShift: i === highlightEnemy ? 6 : v.colorShift,
-            dissolve: progress,
-          },
-          {
-            sprite: this.requireAppearance(transition.newDefinitionId, 'enemy').sprite,
-            x: v.x + jx,
-            y: v.y,
-            frame: transition.newFrame,
-            colorShift: i === highlightEnemy ? 6 : v.colorShift,
-            dissolve: 1 - progress,
-          },
-        )
-      } else {
-        const draw: BattleSpriteDraw = {
-          sprite,
-          x: v.x + jx,
-          y: v.y,
-          frame,
-          colorShift: i === highlightEnemy ? 6 : v.colorShift,
-          ...(alpha < 1 ? { alpha } : {}),
+        const source = {
+          sprite: this.requireAppearance(transition.oldDefinitionId, 'enemy').sprite,
+          ...transition.source,
         }
+        if (transition.step === 0) {
+          enemies.push({ ...source, colorShift: draw.colorShift })
+        } else {
+          const target = draw
+          enemies.push(target)
+          transformFade = { source, target, step: transition.step }
+        }
+      } else {
         enemies.push(draw)
         if (summonFade?.slots.includes(i)) arrivingDraws?.add(draw)
       }
-    })
+    }
     const players: BattleSpriteDraw[] = []
     const trance = this.playerAppearanceTransition
     let tranceTarget: BattleSpriteDraw | undefined
@@ -2717,6 +2714,10 @@ export class BattleSession {
       }
       source.players.push(sourcePlayer)
       this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)
+    } else if (transformFade) {
+      const { source, target, step } = transformFade
+      const sourceEnemies = enemies.map((draw) => (draw === target ? source : draw))
+      this.sceneFade.render(ctx, { ...scene, enemies: sourceEnemies }, scene, worldScale, step)
     } else if (summonFade && arrivingDraws) {
       const sourceEnemies =
         summonFade.phase === 'arrival'

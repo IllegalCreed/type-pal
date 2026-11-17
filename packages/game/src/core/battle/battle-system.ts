@@ -501,7 +501,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
       state.battleAnim = undefined
-      resumeEnemySummonScript(state)
+      resumeEnemySceneScript(state)
       if (!state.battleAnim) resetFightersAfterAction(state, res.playerRoles)
     }
     return
@@ -2101,13 +2101,13 @@ export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
   return true
 }
 
-// A waiting interpreter belongs to one live battle and is released after its summon animation.
-const pendingEnemySummonScripts = new WeakMap<BattleState, () => void>()
+// A waiting interpreter belongs to one live battle and is released after the enemy scene fade.
+const pendingEnemySceneScripts = new WeakMap<BattleState, () => void>()
 
-function resumeEnemySummonScript(state: BattleState): boolean {
-  const resume = pendingEnemySummonScripts.get(state)
+function resumeEnemySceneScript(state: BattleState): boolean {
+  const resume = pendingEnemySceneScripts.get(state)
   if (!resume) return false
-  pendingEnemySummonScripts.delete(state)
+  pendingEnemySceneScripts.delete(state)
   resume()
   return true
 }
@@ -2125,7 +2125,7 @@ function runEnemyBattleTrigger(
   let suspended = false
   const run = (continueScript: () => number) => {
     const entry = continueScript()
-    if (pendingEnemySummonScripts.has(state)) return
+    if (pendingEnemySceneScripts.has(state)) return
     enemy[script] = entry
     if (suspended) onResumeComplete?.()
   }
@@ -2146,9 +2146,9 @@ function runEnemyBattleTrigger(
         battleEffectIndex: res.battleEffectIndex,
         deferEnemySummon: true,
       },
-      suspendForEnemySummon(resume) {
+      suspendForEnemySceneFade(resume) {
         suspended = true
-        pendingEnemySummonScripts.set(state, () => run(resume))
+        pendingEnemySceneScripts.set(state, () => run(resume))
       },
     }),
   )
@@ -2274,7 +2274,7 @@ function tickPerformAction(
       state.battleAnim = undefined
       // The ready script runs before the enemy action. Finishing its gesture or
       // dissolve resumes the script and leaves the same action queue item armed.
-      if (resumeEnemySummonScript(state)) return
+      if (resumeEnemySceneScript(state)) return
       if (afterComplete?.kind === 'perform-item') {
         // CLASSIC fight.c:4385–4406: run the item script, restore the fighters, draw stat
         // changes, then wait eight beats. The follow-up waits for any scripted presentation.

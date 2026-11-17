@@ -151,6 +151,7 @@ const frame = object<Frame>({
   keepEffect: flag,
   summon: optional(summon),
   enemySummonFade: optional(oneOf('arrival', 'release')),
+  enemyAppearance: optional(object({ idx: number, spriteId: number, pos: optional(position) })),
   updateGesture: flag,
 })
 const animation = object<Anim>({

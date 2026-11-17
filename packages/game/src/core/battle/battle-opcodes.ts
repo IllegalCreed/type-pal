@@ -389,7 +389,7 @@ interface DispatchResult {
   /** 若 opcode 改了 ip,返回新 ip;否则 undefined caller ip++ */
   newIp?: number
   /** The enemy trigger resumes after this summon animation, including a failed gesture. */
-  waitForEnemySummon?: true
+  waitForEnemySceneFade?: true
 }
 
 /**
@@ -1344,12 +1344,19 @@ export function dispatchBattleOpcode(
       if (!eo) return { consumed: true }
       const base = tables.enemies.find((e) => e.id === eo.enemyId)
       if (!base) return { consumed: true }
+      const before = {
+        idx: ctx.caster.idx,
+        spriteId: self.e.id,
+        ...(self.pos ? { pos: { ...self.pos } } : {}),
+      }
       const keepHealth = self.e.health
       self.e = { ...base, health: keepHealth }
       self.defeated = false
       self.deathFadeStep = undefined
       self.currentFrame = 0
       self.iColorShift = 0
+      self.idleFrame = 0
+      self.idleTick = base.idleAnimSpeed
       self.maxHealth = base.health
       self.objectId = eo.objectIndex // L25:sdlpal 0x9F 同步 wObjectID=op0(script.c:2965),供后续 0x91 同种判定
       // DM1:script.c:2954-2986 变身仅改 wObjectID/e(保 wHealth)/wCurrentFrame,三个 wScriptOn*
@@ -1360,8 +1367,10 @@ export function dispatchBattleOpcode(
       self.spriteFrameHeight = ctx.enemySpriteFrameHeights?.get(base.id)
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus) {
-        startBattleAnim(state, buildEnemyTransformTimeline(ctx.caster.idx), ctx.bus)
-      } else if (ctx.gs) {
+        startBattleAnim(state, buildEnemyTransformTimeline(before), ctx.bus)
+        return { consumed: true, waitForEnemySceneFade: true }
+      }
+      if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
         ctx.gs.pendingSounds ??= []
         ctx.gs.pendingSounds.push(47)
@@ -1400,7 +1409,7 @@ export function dispatchBattleOpcode(
         if (failJump !== 0) result.newIp = failJump
         if (visualBus && self.e.magicFrames > 0) {
           startBattleAnim(state, buildTimeline([], []), visualBus)
-          result.waitForEnemySummon = true
+          result.waitForEnemySceneFade = true
         }
         return result
       }
@@ -1477,7 +1486,7 @@ export function dispatchBattleOpcode(
         startBattleAnim(state, buildTimeline(summonedIdxs, activeEnemyIdxs), visualBus, undefined, {
           onEnemySummonArrival: ctx.deferEnemySummon ? arrive : undefined,
         })
-        return { consumed: true, waitForEnemySummon: true }
+        return { consumed: true, waitForEnemySceneFade: true }
       }
 
       arrive()
