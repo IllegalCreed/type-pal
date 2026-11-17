@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "bebda605b1c874fa5d98da6bf211d10b4bd2364d2b019e13467ec53d1bc98c3b",
+      "afterSha256": "d6c0c2ef6c96fbf8410a014697de0a84a81625696bb07c9b9a8a6df11c966756",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 逐项对账与双端复算",
-        "date": "2026-11-17",
-        "conclusion": "登记逐项台账和四符的可恢复原件。",
-        "reviewedLines": 60,
-        "acceptanceScope": "核归档入链、双端原件和录制恢复入口。"
+        "reviewer": "Codex 治疗与复活原件复核",
+        "date": "2026-11-18",
+        "conclusion": "登记五种治疗与复活仙术的原始执行和重录入口。",
+        "reviewedLines": 61,
+        "acceptanceScope": "核新归档、回执、反例与链接。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,13 +5393,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "5f35773d1e0d7082fec9941fc83a12db2c4a4e3b6e4da3ea225dd851f8fdb05f",
+      "afterSha256": "7e0554b940cea5d024e699384a92765b22b7fdc86b5c70d6aaba6baadbcba697",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 治疗与复活原件复核",
         "date": "2026-11-18",
         "conclusion": "核五种治疗与复活仙术的准入和实际原件。",
-        "reviewedLines": 691,
+        "reviewedLines": 697,
         "acceptanceScope": "核同局面、Game 装备置换和复活姿态的反例及复验结果。"
       }
     },
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d4e87cde3d604e1d0a61e3feba4b5dd42628597f9955a3e314015f9792cb5596",
+      "afterSha256": "7a1c05342468b0a125bfec4b02170ec40c0b9429eaa892266a6d7bb7e02b327a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 逐项对账与双端复算",
-        "date": "2026-11-17",
-        "conclusion": "更新六类待测入口和四符分场地的实际判据。",
-        "reviewedLines": 775,
-        "acceptanceScope": "核原件配对、稳定 ID、角色和敌方技能边界、伤害与音画。保留旧发布元数据与原始证据。"
+        "reviewer": "Codex 治疗与复活原件复核",
+        "date": "2026-11-18",
+        "conclusion": "登记五种仙术的对应战斗实测。",
+        "reviewedLines": 791,
+        "acceptanceScope": "核装备初态、伤害后复活、实际恢复和真气、双端音画与证据边界。"
       }
     },
     {
@@ -6024,6 +6024,12 @@
       "bytes": 4024092,
       "sha256": "3ddec5045e717aacb9d54b091ad3b41282961c4d540aead4ae04255775719ba8",
       "purpose": "按稳定 ID 的 Q2 逐项对账及雷水火土四符的五组双端运行、录制、失败回执与重放入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-healing-and-revival-20261118.tar.gz",
+      "bytes": 7567860,
+      "sha256": "83615970543a39252a22aa27ddcdd93f1413fd9039aebc3695cbc4ad48c2bc35",
+      "purpose": "五种治疗与复活仙术的双端原始运行、装备初态和复活姿态反例、逐项回执与原速分屏重录。"
     }
   ],
   "artifactAliases": [],
