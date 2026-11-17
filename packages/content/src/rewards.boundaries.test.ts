@@ -33,13 +33,13 @@ function actor(expTable: number[] = [0, 10, 20, 100]): ActorDef {
   return value
 }
 
-test('reward learning initializes the instance list and deduplicates only skills at crossed levels', () => {
+test('reward learning initializes the instance list and deduplicates eligible skills across levels', () => {
   const definition = actor()
   const character = instantiate(definition)
   character.id = 'hero-instance'
   const skills = {
     hero: [
-      { level: 1, skillId: 'too-early' },
+      { level: 1, skillId: 'already-eligible' },
       { level: 2, skillId: 'heal' },
       { level: 2, skillId: 'heal' },
       { level: 3, skillId: 'fire' },
@@ -57,7 +57,10 @@ test('reward learning initializes the instance list and deduplicates only skills
     { exp: 35, cash: 7 },
     rng,
   )
-  expect(learned).toEqual({ outsider: ['untouched'], 'hero-instance': ['heal', 'fire'] })
+  expect(learned).toEqual({
+    outsider: ['untouched'],
+    'hero-instance': ['already-eligible', 'heal', 'fire'],
+  })
   expect(character).toEqual({
     ...instantiate(definition),
     id: 'hero-instance',
@@ -77,12 +80,16 @@ test('reward learning initializes the instance list and deduplicates only skills
     exp: 35,
     cash: 7,
     hiddenUps: [],
+    learned: [
+      { characterId: 'hero-instance', skillId: 'already-eligible' },
+      { characterId: 'hero-instance', skillId: 'heal' },
+      { characterId: 'hero-instance', skillId: 'fire' },
+    ],
     levelUps: [
       {
         characterId: 'hero-instance',
         from: 1,
         to: 3,
-        learned: ['heal', 'fire'],
         before: { ...definition.battler!.baseStats },
         after: {
           level: 3,
@@ -103,7 +110,7 @@ test('reward learning initializes the instance list and deduplicates only skills
   expect({ definition, skills }).toEqual(before)
 })
 
-test('reward level cap still consumes thresholds without growth, skill grants or random calls', () => {
+test('reward level cap consumes thresholds and grants missing skills without growth or random calls', () => {
   const definition = actor(Array.from({ length: 100 }, () => 10))
   const character = instantiate(definition)
   character.level = 99
@@ -116,13 +123,24 @@ test('reward level cap still consumes thresholds without growth, skill grants or
       [character],
       learned,
       { hero: definition },
-      { hero: [{ level: 99, skillId: 'not-new' }] },
+      {
+        hero: [
+          { level: 7, skillId: 'known' },
+          { level: 99, skillId: 'missing' },
+        ],
+      },
       { exp: 25, cash: 0 },
       rng,
     ),
-  ).toEqual({ exp: 25, cash: 0, levelUps: [], hiddenUps: [] })
+  ).toEqual({
+    exp: 25,
+    cash: 0,
+    levelUps: [],
+    hiddenUps: [],
+    learned: [{ characterId: 'hero', skillId: 'missing' }],
+  })
   expect(character).toEqual({ ...before, exp: 8, hp: 70, mp: 20 })
-  expect(learned).toEqual({ hero: ['known'] })
+  expect(learned).toEqual({ hero: ['known', 'missing'] })
   expect(rng).not.toHaveBeenCalled()
 })
 
@@ -140,7 +158,8 @@ test('reward upgrade without a levelUp registry never creates an empty learned-s
   )
   expect(character.level).toBe(2)
   expect(character.exp).toBe(0)
-  expect(report.levelUps.map(({ learned }) => learned)).toEqual([[]])
+  expect(report.levelUps.map(({ to }) => to)).toEqual([2])
+  expect(report.learned).toEqual([])
   expect(learned).toEqual({})
 })
 

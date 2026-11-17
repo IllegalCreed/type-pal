@@ -238,7 +238,7 @@ export function collectSkillPoisonReferences(
 /** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */
 export type SkillDataMap = Record<string, SkillData>
 
-/** ③ 习得规则:角色模板升到 level 自动习得 skillId(原版 level-up-magic.json)。 */
+/** ③ 习得规则:存活角色胜利时等级达到 level 即可习得 skillId(原版 level-up-magic.json)。 */
 export interface LevelUpSkill {
   level: number
   skillId: string

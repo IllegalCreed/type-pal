@@ -4,7 +4,7 @@
  * - exp:全体存活队员各得全额(死者不获);扣减式升级(dwExp -= levelUpExp[level])
  * - 成长:maxHP+10+R(0,7) / maxMP+8+R(0,5) / 武术·灵力+4+R(0,1) / 防·身法+2+R(0,1) /
  *   吉运+2(固定);各项 cap 999;升级 HP/MP 回满
- * - 学技能:升级跨过的 level 在 levelUp 表内 → 习得(去重)
+ * - 学技能:按存活角色结算后的等级补学符合条件的仙术，已学和次数用尽的跳过
  * - Phase F:战后全员 HP += (max−HP)/2、MP 同。普通世界在战后脚本完成后执行。
  */
 import type { ActorDef } from './actor.js'
@@ -94,6 +94,8 @@ export interface RewardInput {
   hiddenCounts?: Record<string, HiddenCounts>
   /** 世界战斗需等战后脚本结束才半恢复。独立结算默认立即恢复。 */
   deferRecovery?: boolean
+  /** 持久限用次数已经用尽的技能不再授予。 */
+  isSkillExhausted?: (characterId: string, skillId: string) => boolean
 }
 
 /** 升级屏 8 属性快照(顺序 = 原版 battle.c:1141-1148:修行/体力/真气/武术/灵力/防御/身法/吉运)。
@@ -115,8 +117,6 @@ export interface LevelUpReport {
   characterId: string
   from: number
   to: number
-  /** 本次升级习得的技能 id(已并入 learnedSkills)。 */
-  learned: string[]
   /** 升级屏 old→cur(8 属性;原版 Phase B box)。 */
   before: StatSnapshot
   after: StatSnapshot
@@ -128,6 +128,8 @@ export interface RewardReport {
   levelUps: LevelUpReport[]
   /** B7c 隐藏经验属性提升(过阈值的单项 +N;结算屏逐条一屏)。 */
   hiddenUps: HiddenUpReport[]
+  /** 本次新增的习得，可独立于主等级提升。 */
+  learned: { characterId: string; skillId: string }[]
 }
 
 /** 隐藏经验一条提升(结算屏「{name}{属性}提升 {delta}」)。 */
@@ -198,6 +200,7 @@ export function grantBattleRewards(
 ): RewardReport {
   const levelUps: LevelUpReport[] = []
   const hiddenUps: HiddenUpReport[] = []
+  const learned: RewardReport['learned'] = []
   for (const c of party) {
     if (c.hp <= 0) continue // 死者不获经验(原版 alive gate)
     const expTable = actorsById[c.template]?.battler?.leveling?.expTable
@@ -208,7 +211,6 @@ export function grantBattleRewards(
     const from = c.level
     const before = snapshotStats(c)
     let exp = c.exp + input.exp
-    const learned: string[] = []
     while (true) {
       const threshold = expTable[c.level]
       if (threshold === undefined || threshold <= 0 || exp < threshold) break
@@ -217,20 +219,6 @@ export function grantBattleRewards(
       applyLevelGrowth(c, 1, rng)
       c.hp = c.maxHP // 升级回满(battle.c:1115-1116)
       c.mp = c.maxMP
-      // 学新技能(battle.c:1300-1321):该 level 的 levelUp 条目
-      for (const lu of levelUp[c.template] ?? []) {
-        if (lu.level === c.level) {
-          let list = learnedSkills[c.id]
-          if (!list) {
-            list = []
-            learnedSkills[c.id] = list
-          }
-          if (!list.includes(lu.skillId)) {
-            list.push(lu.skillId)
-            learned.push(lu.skillId)
-          }
-        }
-      }
     }
     c.exp = exp
     if (c.level > from)
@@ -238,16 +226,34 @@ export function grantBattleRewards(
         characterId: c.id,
         from,
         to: c.level,
-        learned,
         before,
         after: snapshotStats(c),
       })
     // B7c 隐藏经验分配(原版 CHECK_HIDDEN_EXP:主升级之后、per 角色)
     const counts = input.hiddenCounts?.[c.id]
     if (counts) hiddenUps.push(...applyHiddenExp(c, counts, input.exp, expTable, rng))
+
+    // PAL_BattleWon 在主升级循环外按当前等级扫描习得表（battle.c:1298–1328）。
+    const rules = Object.hasOwn(levelUp, c.template) ? levelUp[c.template] : undefined
+    let skills = Object.hasOwn(learnedSkills, c.id) ? learnedSkills[c.id] : undefined
+    for (const { level, skillId } of rules ?? []) {
+      if (level > c.level || skills?.includes(skillId) || input.isSkillExhausted?.(c.id, skillId))
+        continue
+      if (!skills) {
+        skills = []
+        Object.defineProperty(learnedSkills, c.id, {
+          value: skills,
+          configurable: true,
+          enumerable: true,
+          writable: true,
+        })
+      }
+      skills.push(skillId)
+      learned.push({ characterId: c.id, skillId })
+    }
   }
   if (!input.deferRecovery) recoverBattleParty(party)
-  return { exp: input.exp, cash: input.cash, levelUps, hiddenUps }
+  return { exp: input.exp, cash: input.cash, levelUps, hiddenUps, learned }
 }
 
 /** battle.c:1342–1353，按当前缺口恢复一半，含 0 HP 的参战队员。 */
