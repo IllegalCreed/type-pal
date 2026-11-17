@@ -1322,7 +1322,11 @@ export class BattleSession {
               this.opts.locale ?? {},
             )
             this.pumpScriptExecution(dtMs, pressed)
-            return
+            if (this.activeHook) {
+              this.actionPresentation.resetActionCadence()
+              return
+            }
+            // A synchronous ready hook and its action share a battle frame (fight.c:1719-1724).
           }
         }
       }
@@ -2207,6 +2211,7 @@ export class BattleSession {
   private showActionFeedback(message: string | TextSpan[], dismiss?: 'confirm' | 'anyKey'): void {
     if (dismiss) {
       this.itemBanner = null
+      this.actionPresentation.resetActionCadence()
       this.actionFeedback = { untilMs: this.nowMs + FAILURE_FEEDBACK_MS, dismiss }
     }
     const box = this.assets.dialogBox
@@ -2295,6 +2300,7 @@ export class BattleSession {
     // 原版敌法在受击复位及伤亡检查后保持八帧（fight.c:4904–4908）。
     if (!this.enemyCastRecoveryPending) return
     this.enemyCastRecoveryPending = false
+    this.actionPresentation.resetActionCadence()
     this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
   }
 

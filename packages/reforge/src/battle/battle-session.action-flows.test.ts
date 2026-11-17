@@ -2091,8 +2091,9 @@ describe('W3 执行时间线接线', () => {
     const ctx = battleCanvas()
     const tick = (ms: number) => session.tick(ms, new Set())
     const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
-    session.tick(16, new Set(['d']))
-    for (let i = 0; i < 60 && sfx.plays.length === 0; i++) tick(16)
+    // Start on a complete battle beat before measuring the relative attack frames.
+    session.tick(40, new Set(['d']))
+    for (let i = 0; i < 60 && sfx.plays.length === 0; i++) tick(40)
     expect(session.debugLog()).toContain('li-xiaoyao 格挡了 block-check 的攻击')
     expect(sfx.plays).toEqual(['sound.pal.355'])
 

@@ -31,12 +31,13 @@ export class BattleActionPresentationScheduler {
     this.actionElapsedMs = BATTLE_FRAME_MS
   }
 
-  /** CLASSIC 每战斗帧一步（battle.c:782-797，fight.c:1710-1768）。余量不跨动作累计。 */
+  /** One CLASSIC beat per advancing frame, retaining only sub-beat time. */
   consumeActionCadence(dtMs: number): boolean {
     if (dtMs <= 0) return false
     this.actionElapsedMs += dtMs
     if (this.actionElapsedMs < BATTLE_FRAME_MS) return false
-    this.actionElapsedMs = 0
+    const overrunMs = this.actionElapsedMs - BATTLE_FRAME_MS
+    this.actionElapsedMs = overrunMs < BATTLE_FRAME_MS ? overrunMs : 0
     return true
   }
 
@@ -52,7 +53,13 @@ export class BattleActionPresentationScheduler {
   /** 普通行动/终态专用：只清 player，不暗改脚本标志。 */
   advancePlayback(dtMs: number): BattlePlaybackAdvance {
     if (!this.player) return 'inactive'
-    if (!this.player.tick(dtMs)) return 'playing'
+    // The first frame was presented on dispatch. Account for the time already
+    // elapsed past that dispatch when the next advancing frame arrives.
+    const elapsed = dtMs > 0 ? dtMs + this.actionElapsedMs : dtMs
+    if (dtMs > 0) this.actionElapsedMs = 0
+    if (!this.player.tick(elapsed)) return 'playing'
+    const overrunMs = this.player.overrunMs
+    this.actionElapsedMs = overrunMs < BATTLE_FRAME_MS ? overrunMs : 0
     this.player = null
     return 'finished'
   }

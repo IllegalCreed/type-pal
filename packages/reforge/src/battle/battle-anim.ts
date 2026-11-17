@@ -1585,6 +1585,11 @@ export class AnimPlayer {
     }
   }
 
+  /** Frame time beyond the last frame of a finished timeline. */
+  get overrunMs(): number {
+    return this.idx >= this.frames.length ? this.elapsed : 0
+  }
+
   private enter(f: AnimFrame): void {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
     this.fx.onOverlay?.(f.overlays ?? null)
