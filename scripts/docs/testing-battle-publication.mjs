@@ -1107,6 +1107,39 @@ export function restoreTestingBattleCasualtyRosterSourceBindings(path, bytes, in
   )
 }
 
+export const testingBattleLearnedSkillsPublicationBase = '23c111a58d091685b556b0dc8f69e861317592e4'
+const rewardSource = 'packages/content/src/rewards.ts'
+const settlementSource = 'packages/reforge/src/battle/settlement.ts'
+const battleLearnedSkillsStage = {
+  ranges: new Map([
+    [rewardSource, { 254: '260' }],
+    [settlementSource, { 334: '322' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleLearnedSkillsPublicationBase,
+  action: 'q2-learned-skills-source-rebinding',
+  date: '2026-11-17',
+}
+const battleLearnedSkillsBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [rewardSource, settlementSource], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleLearnedSkillsSource = (path) =>
+  battleLearnedSkillsStage.ranges.has(path)
+
+export function restoreTestingBattleLearnedSkillsSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleLearnedSkillsStage,
+    battleLearnedSkillsBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

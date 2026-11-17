@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "303254c27cea185b3cca7133d7467d06521d14d2be065362608f4c15e67fb6a6",
+      "afterSha256": "a2ddd0731644da384e75351d4372e0804c389a21236bc36df8dd82cdcaf49ef1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "接入六名角色阵亡联动的证据恢复入口。",
-        "reviewedLines": 58,
-        "acceptanceScope": "核逐例执行索引、离线复算和分屏重录来源。"
+        "conclusion": "登记本批战后练成的唯一归档。",
+        "reviewedLines": 59,
+        "acceptanceScope": "核原件索引、报告入链及重录入口，旧归档导航继续有效。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "c66bd8631a3a7d30ede59077afbf4455d69737cd7223afeb8ffa68b066c3fe2c",
+      "afterSha256": "38a47c628b638fe8ea3ffdc1a1ec8c9c1d30616ee209c80b500f390f4f05678b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "核原盘队友阵亡入口、分支和临时属性。",
-        "reviewedLines": 1810,
-        "acceptanceScope": "核三道概率门、裸属性基数、同槽覆盖和战后清除，原文保全。"
+        "conclusion": "记录存活角色按结算后等级补学仙术。",
+        "reviewedLines": 1814,
+        "acceptanceScope": "定向核原版经验、主升级、隐藏成长、习得与半恢复的顺序及源码锚点。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "70b0dc82e4c5887d27b0dd55179a27a3073e3fc3b4130411ec90ee657926df9a",
+      "afterSha256": "37b4f454a5c2e3bdde35374ed872a0804e78b8e7bc6721c0f47623f312d632de",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "跟进 Reforge 群攻调用的当前坐标与来源。",
-        "reviewedLines": 7866,
-        "acceptanceScope": "核固定候选的同一片段和旧原件，保持已刊案例与执行历史。"
+        "conclusion": "更新两条现行战斗来源与一条适用性历史。",
+        "reviewedLines": 7889,
+        "acceptanceScope": "核固定前驱、候选完整字节和实际位置校验器。旧成员、发布与运行承诺按原值保全。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "80c325e4339d7bfd2e91c824118644a892ea8bd4a4306fe0984bd4c908978714",
+      "afterSha256": "8612029f2b5e710b5957ed3b02dfe74636ed8980002d167ac408bb998fa51804",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "收合击视觉验收并记录六名角色阵亡联动的正式运行和复验。",
-        "reviewedLines": 661,
-        "acceptanceScope": "核 21 个局面两轮双端、八种反应、盖罗娇无联动、成片与最小留存。"
+        "conclusion": "收战后练成返工的技术验收并记录最小留存。",
+        "reviewedLines": 673,
+        "acceptanceScope": "核卡面准入、真实正反例、录像和独立解包。Q2 继续逐项验收，用户反馈按实际记录。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "ada9a5c2f5bf5afcdf58e8953390111005d8d6b904d18da86c58690b433bab80",
+      "afterSha256": "ba9b9f631ad9005cee580d6772f96df473db4cd166b1e7b4799b3ec18b811a89",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "更新 Reforge 群攻片段的来源坐标和适用性。",
-        "reviewedLines": 14553,
-        "acceptanceScope": "只改逐字相同的来源绑定，保留旧机器回执与运行身份。"
+        "conclusion": "同步战后半恢复和练成实绘的源位置及适用性历史。",
+        "reviewedLines": 14576,
+        "acceptanceScope": "实际桥接恢复固定回执。历史运行、反例、断言和附件身份继续绑定原件。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "7bb66fa25039b9562141425012306ec578b67737132b96da20c0c875897bbd61",
+      "afterSha256": "29e04a27e068a2fb810821c033a3a38e32e3fc64805c2a20d0816767481841a6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "核六名角色阵亡时的全随机分支及盖罗娇无联动。",
-        "reviewedLines": 734,
-        "acceptanceScope": "核原盘源、双端两轮、实绘实播、属性生效与退出、成片解码和归档复算。"
+        "conclusion": "登记战后补学的原盘归因、双端验证和补片结果。",
+        "reviewedLines": 742,
+        "acceptanceScope": "核 22 组实际结算、21 组阵亡比较、三组修前红例与两组录制取样。正文与配对来源同步。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "9c6b4784470a439581f184088530d5ce9692d49e882a5a9dc5db3b71eb1e9e47",
+      "afterSha256": "9ed2c68e21159e8e1ee706abc850203b28dac2ec1d57167f555e1bfdeddae183",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端原件与成片",
+        "reviewer": "Codex 续接会话复核",
         "date": "2026-11-17",
-        "conclusion": "记录阵亡联动修复后 Reforge 群攻锚点的坐标。",
-        "reviewedLines": 313,
-        "acceptanceScope": "固定候选和前驱片段逐字相同，保留执行范围与原身份。"
+        "conclusion": "归档两个相同函数的新版坐标和来源桥复核。",
+        "reviewedLines": 317,
+        "acceptanceScope": "核声明及完整函数体逐字相同，检验桥接拒绝历史 claim 变动和当前源码漂移。"
       }
     }
   ],
@@ -6012,6 +6012,12 @@
       "bytes": 1990362,
       "sha256": "4b9e083339c73ae085ebbb8ff49784b8be57a24f48ee08d9af69b76f2180a045",
       "purpose": "六名角色阵亡联动的 21 组正式双端、逐例重跑、旧版反例和原速带声分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-victory-spell-learning-20261117.tar.gz",
+      "bytes": 646404,
+      "sha256": "b2727de5c7dddfcc6763d26cb825f4fee2d83463735c67a86419c94266f57e68",
+      "purpose": "战后补学仙术的实际双端习得、逐页实绘、修前反例、归档复算及原速分屏重录入口。"
     }
   ],
   "artifactAliases": [],

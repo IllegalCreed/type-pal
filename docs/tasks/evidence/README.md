@@ -46,6 +46,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 敌方变身 | [四条指令的首次复验与重录入口](E2E-Q2-1-enemy-transform-20261117.tar.gz) · [最终像素复验与旧分屏反例](E2E-Q2-1-enemy-transform-pixels-20261117.tar.gz) |
 | Q2 角色默认合击 | [七局双端原件、旧版反例与分屏重录入口](E2E-Q2-1-cooperative-roster-20261117.tar.gz) |
 | Q2 六名角色阵亡联动 | [21 组双端原件、修前反例与 12 段原速分屏重录入口](E2E-Q2-1-player-casualty-roster-20261117.tar.gz) |
+| Q2 战后补学仙术 | [22 组习得与逐页实绘、旧版反例和原速分屏重录入口](E2E-Q2-1-victory-spell-learning-20261117.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

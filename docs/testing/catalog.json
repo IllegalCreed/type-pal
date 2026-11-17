@@ -5854,8 +5854,8 @@
           "path": "packages/reforge/src/battle/settlement.ts",
           "anchor": "function drawLearnMagic(",
           "role": "reforge-scroll-renderer",
-          "lines": "334",
-          "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+          "lines": "322",
+          "sha256": "a8cabfe0f8c62dbffcae25f379b9e5a7bb621c6bc8106c417ca8fa1018bd9be5"
         },
         {
           "path": "packages/reforge/src/menu/menu-box.ts",
@@ -5952,8 +5952,8 @@
           "path": "packages/content/src/rewards.ts",
           "anchor": "export function recoverBattleParty(",
           "role": "post-world-script-half-recovery",
-          "lines": "254",
-          "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+          "lines": "260",
+          "sha256": "95338fd47c8029d0d1cf043258eb97e9306c4a8a2f463952bc4c085e101a07b8"
         },
         {
           "path": "scripts/e2e/battle-world-bee-game.config.mts",
@@ -7387,6 +7387,29 @@
               }
             ],
             "scope": "伤亡增益复用临时属性槽，复核既有群攻函数声明逐字相同，保留原执行与反例各自的生产基点。"
+          },
+          {
+            "action": "q2-learned-skills-source-rebinding",
+            "base": "23c111a58d091685b556b0dc8f69e861317592e4",
+            "date": "2026-11-17",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/settlement.ts",
+                "anchor": "function drawLearnMagic(",
+                "role": "reforge-scroll-renderer",
+                "lines": "334",
+                "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+              },
+              {
+                "path": "packages/content/src/rewards.ts",
+                "anchor": "export function recoverBattleParty(",
+                "role": "post-world-script-half-recovery",
+                "lines": "254",
+                "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+              }
+            ],
+            "scope": "按当前等级补学仙术并按角色编排结算后，练成渲染和战后半恢复声明的片段逐字相同，旧执行及反例保持原候选。"
           }
         ]
       }

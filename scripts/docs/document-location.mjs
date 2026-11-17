@@ -35,6 +35,7 @@ import {
   isTestingBattleEnemyTransformSource,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
+  isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
   isTestingBattleSceneObserverSource,
@@ -50,6 +51,7 @@ import {
   restoreTestingBattleEnemyColorSourceBindings,
   restoreTestingBattleEnemyTransformSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleSceneObserverSourceBindings,
@@ -68,6 +70,7 @@ import {
   testingBattleEnemyTransformPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleLearnedSkillsPublicationBase,
   testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
   testingBattleReviewPublicationBase,
@@ -659,8 +662,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const casualtyRosterSource = casualtyRosterRevision && gitTree(root, casualtyRosterRevision, [])
   const preCasualtyRoster =
     casualtyRosterSource && gitTree(root, testingBattleCasualtyRosterPublicationBase, [])
-  const readBeforeBattleCasualtyRoster = (path) => {
+  const learnedSkillsRevision = admission.testingBattleLearnedSkillsSourceRevision
+  if (learnedSkillsRevision !== undefined)
+    assert(
+      casualtyRosterSource && /^[a-f0-9]{40}$/u.test(learnedSkillsRevision),
+      'battle learned-skills source bridge requires the fixed preceding casualty revision',
+    )
+  const learnedSkillsSource = learnedSkillsRevision && gitTree(root, learnedSkillsRevision, [])
+  const preLearnedSkills =
+    learnedSkillsSource && gitTree(root, testingBattleLearnedSkillsPublicationBase, [])
+  const readBeforeBattleLearnedSkills = (path) => {
     const live = readSource(path)
+    if (!preLearnedSkills || !isTestingBattleLearnedSkillsSource(path)) return live
+    assert(
+      live?.equals(learnedSkillsSource.read(path)),
+      'battle learned-skills source differs from the frozen candidate',
+    )
+    return preLearnedSkills.read(path)
+  }
+  const readBeforeBattleCasualtyRoster = (path) => {
+    const live = readBeforeBattleLearnedSkills(path)
     if (!preCasualtyRoster || !isTestingBattleCasualtyRosterSource(path)) return live
     assert(
       live?.equals(casualtyRosterSource.read(path)),
@@ -750,13 +771,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorCasualtyRoster = preCasualtyRoster
-      ? restoreTestingBattleCasualtyRosterSourceBindings(path, bytes, {
+    const priorLearnedSkills = preLearnedSkills
+      ? restoreTestingBattleLearnedSkillsSourceBindings(path, bytes, {
           readSource,
+          readBase: preLearnedSkills.read,
+          readFixed: learnedSkillsSource.read,
+        })
+      : bytes
+    const priorCasualtyRoster = preCasualtyRoster
+      ? restoreTestingBattleCasualtyRosterSourceBindings(path, priorLearnedSkills, {
+          readSource: readBeforeBattleLearnedSkills,
           readBase: preCasualtyRoster.read,
           readFixed: casualtyRosterSource.read,
         })
-      : bytes
+      : priorLearnedSkills
     const priorCooperativeRoster = preCooperativeRoster
       ? restoreTestingBattleCooperativeRosterSourceBindings(path, priorCasualtyRoster, {
           readSource: readBeforeBattleCasualtyRoster,
