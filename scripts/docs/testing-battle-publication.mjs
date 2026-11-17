@@ -1006,6 +1006,35 @@ export function restoreTestingBattleEnemyTransformSourceBindings(path, bytes, in
   )
 }
 
+export const testingBattleSceneObserverPublicationBase = '53f5fc147de8e987365ef7531dade6c83958ca1f'
+const reforgeBattleObserver = 'scripts/e2e/battle-reforge-instrumentation.mjs'
+const battleSceneObserverStage = {
+  ranges: new Map([[reforgeBattleObserver, { 17: '17' }]]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSceneObserverPublicationBase,
+  action: 'q2-scene-observer-source-rebinding',
+  date: '2026-11-17',
+}
+const battleSceneObserverBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [reforgeBattleObserver], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleSceneObserverSource = (path) =>
+  battleSceneObserverStage.ranges.has(path)
+
+export function restoreTestingBattleSceneObserverSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSceneObserverStage,
+    battleSceneObserverBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

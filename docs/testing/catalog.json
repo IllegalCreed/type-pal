@@ -5748,7 +5748,7 @@
           "anchor": "function observeSfx(",
           "role": "reforge-audio-producer-binding",
           "lines": "17",
-          "sha256": "58c41b9a02887ce8270d8b4ec78ca5a7e2f71d92ed09663e5bee8f083e4ec679"
+          "sha256": "de22d569969d296532986f263a1272a5139d7aaceb2ca86da70d7f814f522e24"
         },
         {
           "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -7302,6 +7302,22 @@
               }
             ],
             "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
+          },
+          {
+            "action": "q2-scene-observer-source-rebinding",
+            "base": "53f5fc147de8e987365ef7531dade6c83958ca1f",
+            "date": "2026-11-17",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "17",
+                "sha256": "58c41b9a02887ce8270d8b4ec78ca5a7e2f71d92ed09663e5bee8f083e4ec679"
+              }
+            ],
+            "scope": "观察插入点由分支内部移到整条绘制链之前。既有音效观察函数入口保持原字节，历史图像由本次终帧复验校正。"
           }
         ]
       }

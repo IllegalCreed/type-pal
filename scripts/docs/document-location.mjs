@@ -35,6 +35,7 @@ import {
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
+  isTestingBattleSceneObserverSource,
   isTestingBattleSessionEvidencePath,
   isTestingBattleSpellFeedbackSource,
   isTestingBattleSummonDivisionSource,
@@ -47,6 +48,7 @@ import {
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
+  restoreTestingBattleSceneObserverSourceBindings,
   restoreTestingBattleSpellFeedbackSourceBindings,
   restoreTestingBattleSummonDivisionSourceBindings,
   restoreTestingBattleSummonPlaybackSourceBindings,
@@ -63,6 +65,7 @@ import {
   testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
   testingBattleReviewPublicationBase,
+  testingBattleSceneObserverPublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
@@ -622,8 +625,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const enemyTransformSource = enemyTransformRevision && gitTree(root, enemyTransformRevision, [])
   const preEnemyTransform =
     enemyTransformSource && gitTree(root, testingBattleEnemyTransformPublicationBase, [])
-  const readBeforeBattleEnemyTransform = (path) => {
+  const sceneObserverRevision = admission.testingBattleSceneObserverSourceRevision
+  if (sceneObserverRevision !== undefined)
+    assert(
+      enemyTransformSource && /^[a-f0-9]{40}$/u.test(sceneObserverRevision),
+      'battle scene observer bridge requires the fixed preceding transform revision',
+    )
+  const sceneObserverSource = sceneObserverRevision && gitTree(root, sceneObserverRevision, [])
+  const preSceneObserver =
+    sceneObserverSource && gitTree(root, testingBattleSceneObserverPublicationBase, [])
+  const readBeforeBattleSceneObserver = (path) => {
     const live = readSource(path)
+    if (!preSceneObserver || !isTestingBattleSceneObserverSource(path)) return live
+    assert(
+      live?.equals(sceneObserverSource.read(path)),
+      'battle scene observer differs from the frozen candidate',
+    )
+    return preSceneObserver.read(path)
+  }
+  const readBeforeBattleEnemyTransform = (path) => {
+    const live = readBeforeBattleSceneObserver(path)
     if (!preEnemyTransform || !isTestingBattleEnemyTransformSource(path)) return live
     assert(
       live?.equals(enemyTransformSource.read(path)),
@@ -686,13 +707,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorEnemyTransform = preEnemyTransform
-      ? restoreTestingBattleEnemyTransformSourceBindings(path, bytes, {
+    const priorSceneObserver = preSceneObserver
+      ? restoreTestingBattleSceneObserverSourceBindings(path, bytes, {
           readSource,
+          readBase: preSceneObserver.read,
+          readFixed: sceneObserverSource.read,
+        })
+      : bytes
+    const priorEnemyTransform = preEnemyTransform
+      ? restoreTestingBattleEnemyTransformSourceBindings(path, priorSceneObserver, {
+          readSource: readBeforeBattleSceneObserver,
           readBase: preEnemyTransform.read,
           readFixed: enemyTransformSource.read,
         })
-      : bytes
+      : priorSceneObserver
     const priorActionCadence = preActionCadence
       ? restoreTestingBattleActionCadenceSourceBindings(path, priorEnemyTransform, {
           readSource: readBeforeBattleEnemyTransform,

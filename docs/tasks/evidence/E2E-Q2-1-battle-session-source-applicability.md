@@ -298,3 +298,7 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `packages/reforge/src/battle/battle-session.ts` | 1286-1295 | 1286-1295 |
 | `packages/reforge/src/battle/battle-core.ts` | 2466 | 2467 |
 | `packages/game/src/core/battle/battle-system.ts` | 2824 | 2824 |
+
+## 2026-11-17 绘制观察修复后的来源
+
+从 `53f5fc147de8e987365ef7531dade6c83958ca1f` 到 `cc32d9214288e559dab6f0d47293afd438807861` 核对 `scripts/e2e/battle-reforge-instrumentation.mjs` 第 17 行的 `observeSfx` 入口，逐字节相同。场景绘制观察改在渐变分支之前插入。旧执行保留原候选，最终画帧及分屏以新采集复验。 [修后双端与反例](E2E-Q2-1-enemy-transform-pixels-20261117.tar.gz)
