@@ -5393,13 +5393,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "14bdb8865eb0c86c3a72f7f791130aeefa868e52bf1da6a5aec3839c1af83120",
+      "afterSha256": "503f9d71bdeb5f3de234f607786368570b64bebd4570ca6a08e12b39512459a2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "记录五个角色合击入口的七局双端验证、最小留存及阵亡联动缺口。",
-        "reviewedLines": 651,
+        "conclusion": "记录五个角色合击入口的七局双端验证、最小留存及阵亡联动缺口。记录用户对七局合击分屏的通过回执。",
+        "reviewedLines": 653,
         "acceptanceScope": "核实际按键、候选与原件 SHA、分屏及逐角色伤亡台账。保持用户视觉状态准确。"
       }
     },
@@ -5432,12 +5432,12 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "b9f3417596486ca2c04d28fea561629d6a85b0a0ebb8e271741249ba94f5e9c2",
+      "afterSha256": "27238a86b051fcafcc202a4e9347c0e57deadc77ccbbd14ca0868a81d072e2b7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核原盘合击伤害与演出、双端七局及六名角色阵亡联动覆盖。",
+        "conclusion": "核原盘合击伤害与演出、双端七局及六名角色阵亡联动覆盖。记录用户对七局合击分屏的通过回执。",
         "reviewedLines": 724,
         "acceptanceScope": "核原始抽样、真实队形和图层、成片关键像素、原件回读；待测队友阵亡分支保持待测。"
       }
