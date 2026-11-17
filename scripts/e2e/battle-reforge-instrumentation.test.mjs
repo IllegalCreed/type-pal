@@ -75,6 +75,34 @@ test('current real battle producers instrument once; drift fails closed and norm
   })
 })
 
+test('the scene observer preserves the native fade and fallback branches', async () => {
+  const file = 'packages/reforge/src/battle/battle-session.ts'
+  const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
+
+  function paintBranches(code) {
+    const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
+    const session = ast.statements.find(
+      (node) => ts.isClassDeclaration(node) && node.name?.text === 'BattleSession',
+    )
+    const painter = session.members.find(
+      (member) => ts.isMethodDeclaration(member) && member.name.getText(ast) === 'renderInner',
+    )
+    let branch = painter.body.statements.find(
+      (node) => ts.isIfStatement(node) && node.expression.getText(ast) === 'trance?.fade',
+    )
+    const result = []
+    while (branch && ts.isIfStatement(branch)) {
+      result.push(branch.expression.getText(ast))
+      branch = branch.elseStatement
+    }
+    return [...result, branch?.getText(ast)]
+  }
+
+  const native = paintBranches(source)
+  assert.equal(native.at(-1), 'renderBattleScene(ctx, scene, worldScale)')
+  assert.deepEqual(paintBranches(instrumentReforgeBattle(source, file).code), native)
+})
+
 test('explicit counter changes real item state before the same factual completion hook', async () => {
   const file = REFORGE_BATTLE_TARGETS[2]
   const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')

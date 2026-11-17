@@ -286,12 +286,20 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         if (
           source === 'renderBattleScene(ctx, scene, worldScale)' &&
           ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'renderInner'
-        )
+        ) {
+          // Inserting between "else" and "if" would detach the fallback painter.
+          let sceneBranch = node
+          while (
+            ts.isIfStatement(sceneBranch.parent) &&
+            sceneBranch.parent.elseStatement === sceneBranch
+          )
+            sceneBranch = sceneBranch.parent
           add(
             'magic-overlay-resources',
-            ts.isIfStatement(node.parent) ? node.parent.getStart(ast) : node.getStart(ast),
+            sceneBranch.getStart(ast),
             evidenceCall('labelMagicOverlays', 'scene.depthOverlays, this.assets.fireSprites'),
           )
+        }
         if (name === 'this.floats.push' && source.includes('num: value'))
           add(
             'number-identity',
