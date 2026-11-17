@@ -1982,15 +1982,15 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "d6c0c2ef6c96fbf8410a014697de0a84a81625696bb07c9b9a8a6df11c966756",
+      "afterSha256": "2426858190fa87497d8f489bbc64d142c8411a29822b9f852552f7dbf92b25f2",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 治疗与复活原件复核",
+        "reviewer": "Codex 雷冰仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记五种治疗与复活仙术的原始执行和重录入口。",
-        "reviewedLines": 61,
+        "conclusion": "登记五种雷冰仙术的原始执行和重录入口。",
+        "reviewedLines": 62,
         "acceptanceScope": "核新归档、回执、反例与链接。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5393,13 +5393,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8d8a108a65ee0450403470d987253b954864427827656a57f1f24a83645f7553",
+      "afterSha256": "d926c113584b93c225c4f6b2ab4c66c17369b5cfd64d22e3322b2c4683080bf9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 雷冰仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "核五种雷冰仙术的准入、旧节拍与实际原件。",
-        "reviewedLines": 703,
+        "reviewedLines": 707,
         "acceptanceScope": "核合法习得、同局面雷冰仙术、场效和 Reforge FIRE 准备拍。"
       }
     },
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "7a1c05342468b0a125bfec4b02170ec40c0b9429eaa892266a6d7bb7e02b327a",
+      "afterSha256": "054999bc86a300dc0292bfe62cbedabe40fcb41c68251703b9dd583ffa2e7a70",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 治疗与复活原件复核",
+        "reviewer": "Codex 雷冰仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记五种仙术的对应战斗实测。",
-        "reviewedLines": 791,
-        "acceptanceScope": "核装备初态、伤害后复活、实际恢复和真气、双端音画与证据边界。"
+        "conclusion": "登记五种雷冰仙术和正负场地对照的战斗实测。",
+        "reviewedLines": 813,
+        "acceptanceScope": "核同输入独立伤害、双端节拍、FIRE 实绘及分屏。"
       }
     },
     {
@@ -6030,6 +6030,12 @@
       "bytes": 7567860,
       "sha256": "83615970543a39252a22aa27ddcdd93f1413fd9039aebc3695cbc4ad48c2bc35",
       "purpose": "五种治疗与复活仙术的双端原始运行、装备初态和复活姿态反例、逐项回执与原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-thunder-ice-20261118.tar.gz",
+      "bytes": 5759137,
+      "sha256": "ad853342d131abbfabbe331df9010e8775929eccad38311f6d88e13252e685a2",
+      "purpose": "五种雷冰仙术与正负场效的双端实跑、旧节拍反例、逐项回执及分屏重录。"
     }
   ],
   "artifactAliases": [],

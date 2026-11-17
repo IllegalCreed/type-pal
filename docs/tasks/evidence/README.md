@@ -49,6 +49,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 战后补学仙术 | [22 组习得与逐页实绘、旧版反例和原速分屏重录入口](E2E-Q2-1-victory-spell-learning-20261117.tar.gz) |
 | Q2 逐项对账与雷水火土灵符 | [逐 ID 台账、5 组双端实跑和录制、反例与原速分屏重录](E2E-Q2-1-elemental-talismans-20261117.tar.gz) |
 | Q2 治疗与复活仙术 | [五组双端实跑、装备与复活姿态反例、逐 ID 回执和原速带声分屏重录](E2E-Q2-1-healing-and-revival-20261118.tar.gz) |
+| Q2 雷冰仙术与正负场效 | [七组双端实跑、缺拍反例、逐敌伤害与场效、原速带声分屏重录](E2E-Q2-1-player-thunder-ice-20261118.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

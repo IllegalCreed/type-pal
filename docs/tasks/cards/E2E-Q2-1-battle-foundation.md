@@ -7,7 +7,7 @@ Coding Owner: Codex（逐项验收目录、原件核对与集成）
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
-Last reviewed: 2026-11-17
+Last reviewed: 2026-11-18
 Template: task-card-v1 / 1.0.0
 Branch: codex/q2-content-coverage
 
@@ -662,6 +662,10 @@ Q2 继续按逐项台账推进。下一组先跑五雷咒、天雷破、狂雷�
 Codex 记录 build allowed，单写本轮原盘用例、Reforge 普通对敌仙术时间线和相邻定向测试。同一原队 28、合法仙术习得、种子 4 与实际按键复现五招，各命中槽独立复算防御、抗性和场地。另以五雷咒、风雪冰天各换一个负系数战场，对照相同抽样下的伤害。
 
 旧候选双端伤害、所选敌槽、真气、逐敌抽样和 FIRE 顺序一致。Reforge 从实际施法姿到 FIRE 首帧只有约 483 毫秒。原盘在起手末拍和主特效循环之间还单独等一拍。Game 普通攻击仙术已表现这拍，Reforge 投掷路径也有对应等待。修复范围为有主特效的普通对敌仙术，保留旧原件用于反控。 [原盘起手收尾](../../../reference/sdlpal/fight.c#L2444) · [原盘主特效准备](../../../reference/sdlpal/fight.c#L2659)
+
+候选 `f2607f9d10612336bc1d69eb90b6a185e55d2606` 的七组双端验证和独立录制完成，伤害、规则随机、场效、实际输入、FIRE 序列与层序、出手姿、蓝字和音效通过。缺拍真实反例与最后一槽数字反控均检出。Reforge 战斗测试 619 项、类型检查及全仓 6,844 文件零诊断 lint 通过。首版类型检查与解码判据的校准失败按原结果保留。用户分屏观看回执待记录。 [逐项验收报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-18-五种雷冰仙术与正负场效)
+
+归档已解包逐成员核 SHA、重算双端原件与缺拍反例，再复核录制计划。移除本轮 236 个临时文件，共 319,516,822 字节。归档 5,759,137 字节，净清理 313,757,685 字节。暂留当前原速带声分屏 11,160,383 字节。台账更新为 36/63 招玩家仙术、54/57 种已出现敌人的实际行动。下一批先补冰心诀、灵血咒和真元护体的实际状态与解毒，再补其余攻击仙术。 [原件与恢复入口](../evidence/E2E-Q2-1-player-thunder-ice-20261118.tar.gz)
 
 ## 状态与交接
 
