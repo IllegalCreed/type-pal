@@ -961,6 +961,51 @@ export function restoreTestingBattleActionCadenceSourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleEnemyTransformPublicationBase = 'b0afdd9e54203fbe5f6d7a457acdf9958168be7f'
+const battleTransformGameSystem = 'packages/game/src/core/battle/battle-system.ts'
+const battleTransformCore = 'packages/reforge/src/battle/battle-core.ts'
+const battleEnemyTransformStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1286-1295' },
+    ],
+    [battleTransformGameSystem, { 2824: '2824' }],
+    [battleTransformCore, { 2466: '2467' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemyTransformPublicationBase,
+  action: 'q2-enemy-transform-source-rebinding',
+  date: '2026-11-17',
+}
+const battleEnemyTransformBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformGameSystem, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleEnemyTransformSource = (path) =>
+  battleEnemyTransformStage.ranges.has(path)
+
+export function restoreTestingBattleEnemyTransformSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemyTransformStage,
+    battleEnemyTransformBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

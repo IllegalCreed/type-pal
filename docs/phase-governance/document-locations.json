@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "606736d08ba2d5adb315a0dd7867371f84aa9878dabf477678db33e5be5b57e1",
+      "afterSha256": "ca419ccf80d955e64b799beba096c152ef3818c08fbef08dab6a26cefc55b518",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 55,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 56,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "9bfd93b64d257618d6934950019ce0aa1945b2bc79998ff3d3c4458b0bdde65f",
+      "afterSha256": "4e83c43d56058dc5c39ee535a28346f0090c7ceface0b78f2fdb17e95c10d214",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 7728,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 7781,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "fb24854d96d2db08004b53165119448b89fd87efd5718f14e3fd301dfbeacff6",
+      "afterSha256": "3fc36312fe2f912559109b21a8ccf365512c6077aa070c7b3836a0adc74613b2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 852,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 882,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "eeacba64e786fb03232f6b4a0edfe66da72bc45b96c5523b14321817c38a463c",
+      "afterSha256": "c56f290e7cf35c76e09322685b0a831cbd267e9864f13ec7190f5a29065b7864",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
         "reviewedLines": 101,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c9fde455f007219646ed950ba986e435adef780752e037885957ae71583aad09",
+      "afterSha256": "ca6e540ef403baf31abbf4fff67d2d363acd23921ee641d044ee6270a22d0f21",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 627,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 634,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "a82def850fb7f718fd50051c5e8b9e56cf09921b4c91fdfcc283fc6ae83aa175",
+      "afterSha256": "f6352738a8299940bce3cc61609a3a57098a331069b8f1fbb39081513612091b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
-        "reviewedLines": 14475,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
+        "date": "2026-11-17",
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 14498,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d4f1bceff7585b67235e3d2138b7375139837bdcad402906dddaf23fd937aa1a",
+      "afterSha256": "38f9c32a598e42dbcc4fa8d3a2bdd8b86b30f2cf05eda5867b80634238d07313",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 673,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 685,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "77f2c5bc87b6773259e42c49296b884eda4ff6d5e8d80b49581c8e274afc36a8",
+      "afterSha256": "f2b6cd9b68aa7da4cfe59962e528b31168d8e44ce0ea5c85a4acca1e02ad6e65",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "reviewer": "Codex /root 核原盘、双端实绘与回读",
         "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 289,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "reviewedLines": 301,
+        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
       }
     }
   ],
@@ -5988,6 +5988,12 @@
       "bytes": 1157224,
       "sha256": "e17f6fb9e1bd10d860c1a121a487867a51ecce190e4a99a79c13bacdb7aa3aba",
       "purpose": "连续行动节拍的双端轨迹、校验器、旧版反例和回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-transform-20261117.tar.gz",
+      "bytes": 853810,
+      "sha256": "293191d8a29fe4f94d944af5ffd8aeab2a215bd34127343693a495254e24b433",
+      "purpose": "敌方四条变身指令的双端轨迹、旧版反例、召唤回归及重录入口。"
     }
   ],
   "artifactAliases": [],

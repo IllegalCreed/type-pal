@@ -286,3 +286,15 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `packages/reforge/src/battle/battle-session.ts` | 251-253 | 251-253 |
 | `packages/reforge/src/battle/battle-session.ts` | 420-432 | 420-432 |
 | `packages/reforge/src/battle/battle-session.ts` | 1286-1295 | 1286-1295 |
+
+## 2026-11-17 敌方变身后的来源
+
+从连续行动节拍复验候选到新变身候选 `f692f6546188221f8d827346669731bbb71bc851` 逐段比较下列引用。五处接线的片段字节逐一相等，新的文件摘要应用于现行来源。实跑结果见 [Q2 敌方变身复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-17-敌方变身与站位)。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 251-253 | 251-253 |
+| `packages/reforge/src/battle/battle-session.ts` | 420-432 | 420-432 |
+| `packages/reforge/src/battle/battle-session.ts` | 1286-1295 | 1286-1295 |
+| `packages/reforge/src/battle/battle-core.ts` | 2466 | 2467 |
+| `packages/game/src/core/battle/battle-system.ts` | 2824 | 2824 |

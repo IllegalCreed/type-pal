@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "420-432",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1286-1295",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -805,6 +805,36 @@
         }
       ],
       "scope": "核原盘行动节拍与 Reforge 调度实测，三处既有会话接线片段逐字节比对相等。各次验收继续链接到对应原件。"
+    },
+    {
+      "action": "q2-enemy-transform-source-rebinding",
+      "base": "b0afdd9e54203fbe5f6d7a457acdf9958168be7f",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1286-1295",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        }
+      ],
+      "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
     }
   ],
   "_governance": {

@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2466",
-      "sha256": "977390196d1f57aaa8efbd57fdfef2090fa7946c588f3f6a9865c366235df487"
+      "lines": "2467",
+      "sha256": "dfabef69a1c08450739ca60c8edadaa5ebf4432852fd2703c9a2e45a4126f20a"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -287,7 +287,7 @@
       "anchor": "function tickPostAction(",
       "role": "first-game-exhausted-queue-tick",
       "lines": "2824",
-      "sha256": "1a0d5c35ae790035fac21caf7b5629728da3b3bf0ce56c098dcf864bf1ef58e2"
+      "sha256": "0a59cf8973b1f6fe989e86f896b86d9c5b6d454ef0a58fe25afbac83b27e4414"
     },
     {
       "path": "projects/pal/content/shared-scripts.json",
@@ -13203,6 +13203,29 @@
         }
       ],
       "scope": "敌方施法失败卷轴修复后，既有调用片段保持原字节。原执行和反例各对应其冻结候选。"
+    },
+    {
+      "action": "q2-enemy-transform-source-rebinding",
+      "base": "b0afdd9e54203fbe5f6d7a457acdf9958168be7f",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2466",
+          "sha256": "977390196d1f57aaa8efbd57fdfef2090fa7946c588f3f6a9865c366235df487"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2824",
+          "sha256": "1a0d5c35ae790035fac21caf7b5629728da3b3bf0ce56c098dcf864bf1ef58e2"
+        }
+      ],
+      "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
     }
   ],
   "_governance": {

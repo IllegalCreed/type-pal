@@ -30,6 +30,7 @@ import {
   isTestingBattleClosureSource,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEnemyColorSource,
+  isTestingBattleEnemyTransformSource,
   isTestingBattleEvidencePath,
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLifecycleSource,
@@ -42,6 +43,7 @@ import {
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
+  restoreTestingBattleEnemyTransformSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
@@ -55,6 +57,7 @@ import {
   testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
+  testingBattleEnemyTransformPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
   testingBattleLifecyclePublicationBase,
@@ -610,8 +613,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const actionCadenceSource = actionCadenceRevision && gitTree(root, actionCadenceRevision, [])
   const preActionCadence =
     actionCadenceSource && gitTree(root, testingBattleActionCadencePublicationBase, [])
-  const readBeforeBattleActionCadence = (path) => {
+  const enemyTransformRevision = admission.testingBattleEnemyTransformSourceRevision
+  if (enemyTransformRevision !== undefined)
+    assert(
+      actionCadenceSource && /^[a-f0-9]{40}$/u.test(enemyTransformRevision),
+      'battle enemy transform source bridge requires the fixed preceding cadence revision',
+    )
+  const enemyTransformSource = enemyTransformRevision && gitTree(root, enemyTransformRevision, [])
+  const preEnemyTransform =
+    enemyTransformSource && gitTree(root, testingBattleEnemyTransformPublicationBase, [])
+  const readBeforeBattleEnemyTransform = (path) => {
     const live = readSource(path)
+    if (!preEnemyTransform || !isTestingBattleEnemyTransformSource(path)) return live
+    assert(
+      live?.equals(enemyTransformSource.read(path)),
+      'battle transform source differs from the frozen candidate',
+    )
+    return preEnemyTransform.read(path)
+  }
+  const readBeforeBattleActionCadence = (path) => {
+    const live = readBeforeBattleEnemyTransform(path)
     if (!preActionCadence || path !== testingBattleSessionSourcePath) return live
     assert(
       live?.equals(actionCadenceSource.read(path)),
@@ -665,13 +686,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorActionCadence = preActionCadence
-      ? restoreTestingBattleActionCadenceSourceBindings(path, bytes, {
+    const priorEnemyTransform = preEnemyTransform
+      ? restoreTestingBattleEnemyTransformSourceBindings(path, bytes, {
           readSource,
+          readBase: preEnemyTransform.read,
+          readFixed: enemyTransformSource.read,
+        })
+      : bytes
+    const priorActionCadence = preActionCadence
+      ? restoreTestingBattleActionCadenceSourceBindings(path, priorEnemyTransform, {
+          readSource: readBeforeBattleEnemyTransform,
           readBase: preActionCadence.read,
           readFixed: actionCadenceSource.read,
         })
-      : bytes
+      : priorEnemyTransform
     const priorSpellFeedback = preSpellFeedback
       ? restoreTestingBattleSpellFeedbackSourceBindings(path, priorActionCadence, {
           readSource: readBeforeBattleActionCadence,
