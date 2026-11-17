@@ -66,10 +66,11 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
       { sheet: 'magic', frameIdx: 0, x: 105, y: 70, layerOffset: 0 },
     ])
     expect(frames[12]).toMatchObject({
+      durationMs: 0,
       damageNums: [{ target: { side: 'enemy', idx: 1 }, value: 23 }],
-      fighters: [{ side: 'enemy', idx: 1, pos: { x: 97, y: 70 }, colorShift: 0 }],
     })
-    expect(frames.slice(12, 16).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
+    expect(frames[12]?.fighters).toBeUndefined()
+    expect(frames.slice(13, 17).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
       97, 101, 99, 105,
     ])
     const events: string[] = []
@@ -79,8 +80,8 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
         if (fighter.side === 'player' && fighter.frame === 0) events.push('return')
       },
     })
-    const fadeAt = frames.slice(0, 17).reduce((duration, frame) => duration + frame.durationMs, 0)
-    expect(frames[16]).toEqual({ durationMs: 200 })
+    const fadeAt = frames.slice(0, 18).reduce((duration, frame) => duration + frame.durationMs, 0)
+    expect(frames[17]).toEqual({ durationMs: 200 })
     expect(playback.tick(fadeAt - 1)).toBe(false)
     expect(events).toEqual([])
     expect(playback.tick(1200)).toBe(false)

@@ -974,7 +974,7 @@ historical。do not promote historical claims to current truth without a current
 >
 > **引擎立场**:本引擎按 sdlpal 真值 1:1 复刻(`actionDexMultiplier` coop×10 [battle-system.ts:602-625](../../packages/game/src/core/battle/battle-system.ts#L602-L625) + `buildActionQueue` 纯 dex 降序),**不修**此边界——修它会偏离原版行为,属机制取舍,未经用户裁决不动。
 >
-> 普通合击在队伍聚拢首拍播放 29 号起手音。特效结束后显示伤害，播四拍受击反馈，再保留聚拢五拍。若敌方阵亡，先播死亡音和淡出，队伍再用六拍归位。 [聚拢与起手](../../reference/sdlpal/fight.c#L3870-L3925) · [四拍受击](../../reference/sdlpal/fight.c#L3190-L3245) · [伤害、淡出和归位](../../reference/sdlpal/fight.c#L4044-L4106)
+> 普通合击在队伍聚拢首拍播放 29 号起手音。特效结束后在敌人受击移动前的位置显示伤害，播四拍受击反馈，再保留聚拢五拍。若敌方阵亡，先播死亡音和淡出，队伍再用六拍归位。 [聚拢与起手](../../reference/sdlpal/fight.c#L3870-L3925) · [四拍受击](../../reference/sdlpal/fight.c#L3190-L3245) · [伤害、淡出和归位](../../reference/sdlpal/fight.c#L4044-L4106)
 >
 > ---
 >

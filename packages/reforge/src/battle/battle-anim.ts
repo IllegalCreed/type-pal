@@ -1325,30 +1325,20 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     )
   }
 
-  // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
+  // PAL_BattleDisplayStatChange captures the resting anchor before PostMagic moves the enemy.
   if (postTargets?.length) {
-    const SHAKE_X = [-8, -4, -6]
-    for (let r = 0; r < 3; r++) {
+    frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
+    for (const [beat, offset] of [-8, -4, -6, 0].entries()) {
       frames.push({
         durationMs: delayMs(1),
-        ...(r === 0 && damageNums.length ? { damageNums } : {}),
         fighters: postTargets.map((t) => ({
           side: 'enemy' as const,
           idx: t.idx,
-          pos: { x: t.pos.x + expectDefined(SHAKE_X[r]), y: t.pos.y },
-          colorShift: r === 1 ? 6 : 0,
+          pos: { x: t.pos.x + offset, y: t.pos.y },
+          colorShift: beat === 1 ? 6 : 0,
         })),
       })
     }
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: postTargets.map((t) => ({
-        side: 'enemy' as const,
-        idx: t.idx,
-        pos: { x: t.pos.x, y: t.pos.y },
-        colorShift: 0,
-      })),
-    })
   } else if (damageNums.length) {
     frames.push({ durationMs: delayMs(2), damageNums })
   }
