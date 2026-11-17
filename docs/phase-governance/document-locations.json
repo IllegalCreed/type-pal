@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "adae19dd94af70dc894b732680c98ffe789aafee3edf8281e9e322f3e2074fdf",
+      "afterSha256": "d033495d86566142f2e7b1bf30cb09dba1a8c5644ad87d49765b8c625c4b3a34",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核差异及实际归档",
-        "reviewedLines": 53,
-        "date": "2026-11-16",
-        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
-        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
+        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "date": "2026-11-17",
+        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
+        "reviewedLines": 54,
+        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "f4d0aad4a59ee95b03a0811ba40d440b30903c2702b83fedaa926020cd0eb1d2",
+      "afterSha256": "e26c682481992192fe6415df3eaec4a3820097f8ea4852d2746bde552f9f39e4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核差异及实际归档",
-        "reviewedLines": 617,
-        "date": "2026-11-16",
-        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
-        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
+        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "date": "2026-11-17",
+        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
+        "reviewedLines": 620,
+        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "1266cb81c31fe3bf7ad8f4fe71d2b1e8a42dcd56ed1005a0689db0182bd25397",
+      "afterSha256": "d8dcaa8b9805cd589a728fe7dc0a6e43829180854337484cb72c944633ba7637",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核差异及实际归档",
-        "reviewedLines": 646,
-        "date": "2026-11-16",
-        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
-        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
+        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "date": "2026-11-17",
+        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
+        "reviewedLines": 663,
+        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
       }
     },
     {
@@ -5976,6 +5976,12 @@
       "bytes": 136529,
       "sha256": "906f79cee3fafb288b7d5727933e996eac0f3fa2cc3fc0dd2e215ea8f11e88b1",
       "purpose": "拜月两端原生轨迹、离线判据与失败复验的最小原件"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-summon-followup-20261117.tar.gz",
+      "bytes": 882470,
+      "sha256": "cd0ecbf72346b028e8911b037256e3b27ce0ff3ba0d9bad0d8051afa2b28a52f",
+      "purpose": "剩余九处敌方召唤指令的双端轨迹与复跑回执。"
     }
   ],
   "artifactAliases": [],

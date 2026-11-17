@@ -41,6 +41,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 敌方召唤和分裂 | [方丈再召唤、菜刀婆婆召唤、两种分裂的原件、反例及原速带声分屏](E2E-Q2-1-summon-and-division-20261116.tar.gz) |
 | Q2 敌方召唤逐项验收 | [11 种召唤者、场地与原始脚本、复色像素及原速带声分屏](E2E-Q2-1-enemy-summoner-roster-20261116.tar.gz) |
 | Q2 拜月鬼降的失败卷轴 | [双端原始轨迹、离线判据、旧版反例和重录入口](E2E-Q2-1-enemy-spell-failure-20261116.tar.gz) |
+| Q2 敌方召唤剩余九处 | [五组双端原件、渐变反例、逐地址执行索引及分屏重录入口](E2E-Q2-1-enemy-summon-followup-20261117.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
