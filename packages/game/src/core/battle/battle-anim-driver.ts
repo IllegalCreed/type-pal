@@ -148,7 +148,11 @@ export function startBattleAnim(
   frames: BattleAnimFrame[],
   bus: CommandBus,
   pendingDamageNums?: BattleAnimState['pendingDamageNums'],
-  opts?: { afterComplete?: BattleAnimState['afterComplete']; onEnemySummonArrival?: () => void },
+  opts?: {
+    afterComplete?: BattleAnimState['afterComplete']
+    onEnemySummonArrival?: () => void
+    enemyDeathCheckFrame?: number
+  },
 ): void {
   if (frames.length === 0) return
   state.battleAnim = {
@@ -158,6 +162,7 @@ export function startBattleAnim(
     overlay: undefined,
     pendingDamageNums,
     afterComplete: opts?.afterComplete,
+    enemyDeathCheckFrame: opts?.enemyDeathCheckFrame,
   }
   if (frames.some((frame) => frame.enemySummonFade !== undefined)) {
     enemySummonPresentations.set(state.battleAnim, { onArrival: opts?.onEnemySummonArrival })
@@ -182,7 +187,7 @@ export function advanceBattleAnimFrames(
   a.frameElapsedMs += dtMs
   while (a.idx < a.frames.length && a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)) {
     const duration = a.frames[a.idx]?.durationMs ?? 0
-    if (a.idx + 1 === dialogueBoundary) {
+    if (a.idx + 1 === dialogueBoundary || a.idx + 1 === a.enemyDeathCheckFrame) {
       a.frameElapsedMs = duration
       return false
     }
@@ -238,7 +243,10 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
   let vIdx = a.renderIdx
   let acc = 0
   for (let i = 0; i < vIdx && i < a.frames.length; i++) acc += a.frames[i]!.durationMs ?? 0
-  const end = dialogueBoundaries.get(a) ?? a.frames.length
+  const end = Math.min(
+    dialogueBoundaries.get(a) ?? a.frames.length,
+    a.enemyDeathCheckFrame ?? a.frames.length,
+  )
   while (vIdx + 1 < end && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
     acc += a.frames[vIdx]!.durationMs ?? 0
     vIdx++

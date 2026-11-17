@@ -159,6 +159,7 @@ const animation = object<Anim>({
   frames: array(frame),
   idx: number,
   frameElapsedMs: number,
+  enemyDeathCheckFrame: arg,
   renderIdx: arg,
   renderStartMs: arg,
   summon: optional(summon),

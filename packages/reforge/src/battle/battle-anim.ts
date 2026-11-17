@@ -105,6 +105,8 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
   waitForThrowFeedback?: boolean
+  /** Hold the gathered formation until the session finishes fading defeated enemies. */
+  waitForEnemyDeathFade?: boolean
   /** Player trance and enemy transformation both use frozen scene transitions. */
   appearanceTransition?: PlayerAppearanceTransition | EnemyAppearanceTransition
 }
@@ -1201,17 +1203,20 @@ export interface BuildPlayerCoopInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
   postTargets?: { idx: number; pos: { x: number; y: number } }[]
+  keepEffect?: boolean
+  waitForEnemyDeathFade?: boolean
+  settlementHoldMs?: number
   /** 原版固定槽位 29 的工程角色绑定；函数本身不认识 PAL 编号。 */
   castSound?: AssetId
 }
 
 /**
  * 协力合击动画(port fight.c:3856-4107 PAL_CLASSIC 非召唤分支 / anim-timeline.ts buildCoopMagicTimeline):
- *  ① 聚拢:全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
+ *  ① 起手音29随聚拢开始，全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
  *  ② 蓄势:非发起贡献者 slot 倒序(后→前)逐个摆施法姿 frame5。
- *  ③ 发起者闪白(colorShift6+frame5,起手音29)→ ④ 出招(frame6)。
+ *  ③ 发起者闪白(colorShift6+frame5)→ ④ 出招(frame6)。
  *  ⑤ 技能特效在受术者实际位置释放；敌方沿 OffMagic，友方沿 DefMagic。
- *  ⑥ PostMagic:掉血敌三轮抖动 + 闪白,伤害数字挂首帧。
+ *  ⑥ PostMagic 显示伤害和受击，停五拍，等待死亡淡出后滑回。
  *  ⑦ 滑回:全贡献者反向插值回原位 + frame0(t 计数仅非发起贡献者递增,fight.c:4091 非对称,如实复刻)。
  * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
  */
@@ -1259,7 +1264,11 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
         pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) },
       })
     }
-    frames.push({ durationMs: delayMs(1), fighters })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters,
+      ...(i === 1 && input.castSound ? { sound: input.castSound } : {}),
+    })
   }
   const gatheredFighters = frames.at(-1)?.fighters
 
@@ -1274,10 +1283,9 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     })
   }
 
-  // ③ 发起者闪白 + 起手音 → ④ 出招
+  // ③ 发起者闪白 → ④ 出招
   frames.push({
     durationMs: delayMs(5),
-    ...(input.castSound ? { sound: input.castSound } : {}),
     fighters: [
       {
         side: 'player',
@@ -1305,8 +1313,16 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       pos: gatheredFighters?.find((fighter) => fighter.idx === idx)?.pos ?? pos,
     }))
     appendDefMagic(frames, input, gatheredTargets)
-  } else {
-    frames.push(...buildOffMagic({ fireFrames, fx, ...(targetPos ? { targetPos } : {}) }))
+  } else if (fireFrames > 0) {
+    frames.push(
+      { durationMs: delayMs(1) },
+      ...buildOffMagic({
+        fireFrames,
+        fx,
+        ...(targetPos ? { targetPos } : {}),
+        ...(input.keepEffect ? { keepEffect: true } : {}),
+      }),
+    )
   }
 
   // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
@@ -1336,6 +1352,10 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
   } else if (damageNums.length) {
     frames.push({ durationMs: delayMs(2), damageNums })
   }
+
+  // fight.c:4047–4053 keeps the party gathered through the hold and death fade.
+  if (fireFrames > 0 && !input.allyTargets?.length) frames.push({ durationMs: delayMs(5) })
+  if (input.waitForEnemyDeathFade) frames.push({ durationMs: 0, waitForEnemyDeathFade: true })
 
   // ⑦ 滑回(i=1..6):反向插值回原位 + frame0(t 仅非发起贡献者递增,fight.c:4091)
   for (let i = 1; i <= 6; i++) {
@@ -1371,7 +1391,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
-
+  if (input.settlementHoldMs) frames.push({ durationMs: input.settlementHoldMs })
   return frames
 }
 
@@ -1545,6 +1565,7 @@ export interface AnimSideEffects {
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
   onThrowFeedback?(): void
+  onEnemyDeathFade?(): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -1573,10 +1594,11 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
-      if (next.waitForThrowFeedback) {
-        // 丢弃越过等待点的余量，避免确认前已经播放收招。
+      if (next.waitForThrowFeedback || next.waitForEnemyDeathFade) {
+        // Discard overrun at a presentation hold so recovery starts after it.
         this.elapsed = 0
-        this.fx.onThrowFeedback?.()
+        if (next.waitForThrowFeedback) this.fx.onThrowFeedback?.()
+        if (next.waitForEnemyDeathFade) this.fx.onEnemyDeathFade?.()
         return false
       }
     }

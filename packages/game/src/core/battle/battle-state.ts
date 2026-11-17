@@ -395,6 +395,8 @@ export interface BattleAnimState {
   idx: number
   /** 当前帧已播放时长(ms)。 */
   frameElapsedMs: number
+  /** Run the death fade before entering this frame of a cooperative spell. */
+  enemyDeathCheckFrame?: number
   /**
    * present 端 wall-clock **视觉帧索引** —— `stepBattleAnimRender` 每 rAF 按真实时间算(惰性锚点),
    * present 据此画法术特效/精灵/抖屏,绕开 40ms 逻辑 tick 对 (speed+5)*10ms 效果帧的拍频顿挫

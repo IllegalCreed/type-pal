@@ -2985,17 +2985,12 @@ describe('P3 合体技(coop magic)', () => {
     expect(s.log.some((l) => l.includes('人手不足'))).toBe(true)
   })
 
-  test('coop×10 出手身法:合击者敏捷极低仍先手(慢发起者也能消耗快队友)', () => {
+  test('先轮到已提交防御的逍遥时先防御，再由低身法队友发起合击', () => {
     const s = createBattleState({
       players: [
-        player('slow', {
-          baseDexterity: 1,
-          attackStrength: 40,
-          magicStrength: 20,
-          cooperativeMagicSkillId: 'c386',
-        }),
-        player('fast', {
-          baseDexterity: 200,
+        player('li', { baseDexterity: 66, attackStrength: 40, magicStrength: 20 }),
+        player('lin', {
+          baseDexterity: 21,
           attackStrength: 40,
           magicStrength: 20,
           cooperativeMagicSkillId: 'c386',
@@ -3005,12 +3000,14 @@ describe('P3 合体技(coop magic)', () => {
       skills: { c386: coopSkill },
     })
     stepBattle(s, rng0)
-    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
-    s.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
-    runTurn(s)
-    // 快队友(dex 200)本会先手,但 coopThisTurn 令其普攻作废 → 无玩家物攻打到 slime
-    expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
-    expect(s.log.filter((l) => l.includes('合体技')).length).toBe(1)
+    s.pendingActions.set(0, { kind: 'defend' })
+    s.pendingActions.set(1, { kind: 'coop', targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({ side: 'player', idx: 0, kind: 'defend' })
+    expect(s.players[0]?.defending).toBe(true)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({ side: 'player', idx: 1, kind: 'coop' })
   })
 })
 

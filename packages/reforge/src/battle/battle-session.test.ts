@@ -719,7 +719,7 @@ describe('A7-1 战斗回合 SFX readiness 屏障', () => {
     expect(snapshots).toHaveLength(1)
     expect([...expectDefined(snapshots[0]).actions.entries()]).toEqual([
       [0, { kind: 'coop' }],
-      [1, { kind: 'attack', targetEnemyIdx: -1 }],
+      [1, { kind: 'pass' }],
     ])
   })
 

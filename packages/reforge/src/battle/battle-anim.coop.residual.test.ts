@@ -1,6 +1,6 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { buildPlayerCoop, type CastFxParams } from './battle-anim.js'
+import { AnimPlayer, buildPlayerCoop, type CastFxParams } from './battle-anim.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,
@@ -46,29 +46,47 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
       damageNums: [{ target: { side: 'enemy' as const, idx: 1 }, value: 23 }],
       postTargets: [{ idx: 1, pos: { x: 105, y: 70 } }],
       castSound: 'sound.coop',
+      waitForEnemyDeathFade: true,
     }
     const before = structuredClone(input)
     const frames = buildPlayerCoop(input)
+    expect(frames[0]?.sound).toBe('sound.coop')
     expect(frames[5]?.fighters).toEqual([
       { side: 'player', idx: 0, pos: { x: 208, y: 157 } },
       { side: 'player', idx: 2, pos: { x: 260, y: 183 } },
     ])
     expect(frames[6]?.fighters).toEqual([{ side: 'player', idx: 2, frame: 5 }])
     expect(frames[7]).toMatchObject({
-      sound: 'sound.coop',
       fighters: [{ side: 'player', idx: 0, frame: 5, colorShift: 6 }],
     })
+    expect(frames[7]?.sound).toBeUndefined()
     expect(frames[8]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 6, colorShift: 0 }])
-    expect(frames[9]?.overlays).toEqual([
+    expect(frames[9]).toEqual({ durationMs: 40 })
+    expect(frames[10]?.overlays).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 105, y: 70, layerOffset: 0 },
     ])
-    expect(frames[11]).toMatchObject({
+    expect(frames[12]).toMatchObject({
       damageNums: [{ target: { side: 'enemy', idx: 1 }, value: 23 }],
       fighters: [{ side: 'enemy', idx: 1, pos: { x: 97, y: 70 }, colorShift: 0 }],
     })
-    expect(frames.slice(11, 15).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
+    expect(frames.slice(12, 16).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
       97, 101, 99, 105,
     ])
+    const events: string[] = []
+    const playback = new AnimPlayer(frames, {
+      onEnemyDeathFade: () => events.push('fade'),
+      onFighter: (fighter) => {
+        if (fighter.side === 'player' && fighter.frame === 0) events.push('return')
+      },
+    })
+    const fadeAt = frames.slice(0, 17).reduce((duration, frame) => duration + frame.durationMs, 0)
+    expect(frames[16]).toEqual({ durationMs: 200 })
+    expect(playback.tick(fadeAt - 1)).toBe(false)
+    expect(events).toEqual([])
+    expect(playback.tick(1200)).toBe(false)
+    expect(events).toEqual(['fade'])
+    expect(playback.tick(0)).toBe(false)
+    expect(events).toEqual(['fade', 'return', 'return'])
     expect(frames.at(-1)?.fighters).toEqual([
       { side: 'player', idx: 0, frame: 0, pos: partyPositions[0] },
       { side: 'player', idx: 2, frame: 0, pos: partyPositions[2] },

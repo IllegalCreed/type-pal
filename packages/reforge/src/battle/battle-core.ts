@@ -294,6 +294,7 @@ export type BattleAction =
   | { kind: 'throw'; itemId: string; targetEnemyIdx?: number } // 单体需目标；全体由 ThrowSpec.target 直提
   | { kind: 'defend' }
   | { kind: 'flee' }
+  | { kind: 'pass' }
 
 /** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 大世界带入;
  * grantedStatuses 是装备实时派生的常驻状态；carriedStatuses 是大世界护体符等临时状态。 */
@@ -1198,8 +1199,6 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
         return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
       })
-      // 合击标记:本回合有人选合击 → 其余队员出手作废(fight.c fThisTurnCoop;perform 侧 pass)
-      s.coopThisTurn = [...s.pendingActions.values()].some((a) => a.kind === 'coop')
       s.actionQueue = buildActionQueue(players, enemies)
       // defending 不在此预置:原版出手时才置位(fight.c:4115,见 performPlayerAction defend 分支),
       // 先手敌打到"选了防御但还没轮到"的队员时不减半。曾建队列预置并误标"原版语义"。
@@ -1739,6 +1738,8 @@ function performCoopMagic(
     s.log.push(`${caster.roleId} 无合体技,合击失败`)
     return
   }
+  // Only a validated cooperative move can suppress later allied actions (fight.c:3858).
+  s.coopThisTurn = true
   const contributors = s.players
     .map((_, i) => i)
     .filter((i) => isPlayerHealthy(expectDefined(s.players[i])))
@@ -1942,7 +1943,7 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
 
 function createPlayerLastAction(
   idx: number,
-  action: Exclude<BattleAction, { kind: 'coop' }>,
+  action: Exclude<BattleAction, { kind: 'coop' | 'pass' }>,
 ): BattleLastAction {
   switch (action.kind) {
     case 'attack':
@@ -1992,7 +1993,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   // fight.c:1730–1747: 死傀儡强制普攻；睡眠、定身和混乱只检查活人。
   const queued = dead ? { kind: 'attack' as const, targetEnemyIdx: -1 } : s.pendingActions.get(idx)
   if (!queued) return
-  // 合击消耗:本回合有人合击 → 其余队员本次出手作废(HP 贡献已在合击结算内扣;fight.c:2532)
+  // 合击执行后跳过同一回合稍晚的队友动作；已先手的动作保留（fight.c:3858）。
   if (s.coopThisTurn && queued.kind !== 'coop') {
     s.lastAction = { side: 'player', idx, kind: 'pass' }
     return
@@ -2028,6 +2029,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   } else {
     act = validatePlayerAction(s, idx, queued)
   }
+  if (act.kind === 'pass') return
   if (act.kind === 'coop') {
     performCoopMagic(s, idx, act, _rng)
     return

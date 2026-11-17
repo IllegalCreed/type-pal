@@ -1705,10 +1705,8 @@ function commitDraftAsAction(state: BattleState, target: number, alivePlayerIdxs
 }
 
 /**
- * 合击是**整队一回合一次**的动作(sdlpal fight.c:1417-1424:选 coop 即结束选择,其余未选队员不再选;
- *   3973:coop 把全 healthy contributor 设 kFighterWait → 行动队列里被跳过)。ts 净效果:整回合就这一次
- *   coop,其余 healthy 队员(= coop contributor)不单独行动 → 设 pass。失能(睡眠/混乱/麻痹)队员非
- *   contributor(coop 不消耗),保留其 autoFill action(如混乱→attackmate);若尚未填则补 pass 保证回合收尾。
+ * 合击提交后结束剩余手选(fight.c:1409–1424)。保留已提交的动作与入队身法，
+ * 比合击先轮到的队友仍可出手；合击执行后才跳过队友的后续动作。
  */
 function applyCoopConsumesOthers(
   state: BattleState,
@@ -1716,10 +1714,7 @@ function applyCoopConsumesOthers(
   alivePlayerIdxs: number[],
 ): void {
   for (const i of alivePlayerIdxs) {
-    if (i === casterIdx) continue
-    const st = state.players[i]!.status
-    const incapacitated = (st.sleep ?? 0) > 0 || (st.confused ?? 0) > 0 || (st.paralyzed ?? 0) > 0
-    if (!incapacitated || !state.pendingActions.has(i)) {
+    if (i !== casterIdx && !state.pendingActions.has(i)) {
       state.pendingActions.set(i, { type: 'pass', target: -1 })
     }
   }
@@ -2303,6 +2298,17 @@ function tickPerformAction(
       const activeItem = state.actionQueue[state.currentActionIndex]
       checkPlayerCasualties(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)
       state.currentActionIndex++
+    } else if (
+      a.idx + 1 === a.enemyDeathCheckFrame &&
+      a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)
+    ) {
+      // Hold the formation through PAL_BattlePostActionCheck, then re-anchor the return.
+      if (!checkEnemyDeaths(state, bus)) {
+        a.enemyDeathCheckFrame = undefined
+        a.renderStartMs = undefined
+        a.renderIdx = undefined
+        advanceBattleAnimFrames(state, bus, 0)
+      }
     } else if (battleAnimationIsWaitingForDialogue(a)) {
       // Open the script's narration when the release pose finishes its second beat.
       tickBattleDialog(state, gs, input)
@@ -2802,9 +2808,6 @@ function performBattleAction(
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 有 → 建合击动画(聚拢/施法/法术效果/滑回)
         summonSpriteFrameCounts: res.summonSpriteFrameCounts, // summon 型协力(武神等)召唤神逐帧 loop
       })
-      // DL3:fThisTurnCoop(fight.c:3858 置位;:3762 等所有玩家 case 顶 `if(fThisTurnCoop) break`)——
-      //   合击后同回合其余玩家行动(含混乱攻友/失能 autoFill)全部被吞。回合末清。
-      state.fThisTurnCoop = true
       break
     }
   }

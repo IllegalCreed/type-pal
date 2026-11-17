@@ -682,16 +682,11 @@ export class BattleSession {
     }
   }
 
-  /**
-   * 合击消耗其余队员本回合出手(fight.c applyCoopConsumesOthers):给尚未选招的其他队员
-   * 填占位动作,令 nextSelecting 结束选招 → 直接进出手。core coopThisTurn 令这些非合击动作
-   * 出手作废(HP 贡献已在合击结算内扣)。已选招的队员亦同(coopThisTurn 侧统一 pass)。
-   */
+  /** Stop asking for commands without overwriting any previously committed actions. */
   private consumeOthersForCoop(caster: number): void {
-    for (let i = 0; i < this.state.players.length; i++) {
-      if (i === caster) continue
-      if (!this.state.pendingActions.has(i)) {
-        this.state.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
+    for (const [i, player] of this.state.players.entries()) {
+      if (i !== caster && needsManualSelect(player) && !this.state.pendingActions.has(i)) {
+        this.state.pendingActions.set(i, { kind: 'pass' })
       }
     }
   }
@@ -713,6 +708,7 @@ export class BattleSession {
         }
       },
       onThrowFeedback: () => this.presentPendingFailureFeedback(),
+      onEnemyDeathFade: () => this.startEnemyDeathFade(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
         this.screenShake = {
@@ -1230,7 +1226,8 @@ export class BattleSession {
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
-      // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
+      // A finishing cooperative move still holds its formation during the death fade.
+      if (this.actionPresentation.active && this.advanceDeathFade()) return
       const terminalPlayback = this.actionPresentation.advancePlayback(dtMs)
       if (terminalPlayback === 'playing') return
       if (terminalPlayback === 'finished') {
@@ -1526,6 +1523,13 @@ export class BattleSession {
           ...(allyTargets.length ? { allyTargets } : {}),
           damageNums,
           postTargets,
+          ...(a.keepEffect ? { keepEffect: true } : {}),
+          ...(this.pendingDeaths.length
+            ? {
+                waitForEnemyDeathFade: true,
+                ...(s.phase === 'won' ? { settlementHoldMs: DEATH_SETTLEMENT_PAUSE_MS } : {}),
+              }
+            : {}),
           ...(this.opts.soundRoles?.['audio.battleCoopCastSound']
             ? { castSound: this.opts.soundRoles['audio.battleCoopCastSound'] }
             : {}),
@@ -2249,9 +2253,20 @@ export class BattleSession {
     if (!fade) return false
     if (this.nowMs - fade.startedAtMs < DEATH_FADE_MS + pauseAfterMs) return true
     this.deathFade = null
-    if (this.state.phase === 'performAction') this.actionPresentation.satisfyActionCadence()
+    if (this.state.phase === 'performAction' && !this.actionPresentation.active)
+      this.actionPresentation.satisfyActionCadence()
     // 没有结算停拍时，把淡出完成的这一帧留给战场终帧。
     return pauseAfterMs === 0
+  }
+
+  private startEnemyDeathFade(): void {
+    if (!this.pendingDeaths.length) return
+    this.deathFade = { startedAtMs: this.nowMs, enemySlots: this.pendingDeaths }
+    for (const i of this.pendingDeaths) {
+      const e = this.state.enemies[i]
+      if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
+    }
+    this.pendingDeaths = []
   }
 
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
@@ -2269,14 +2284,7 @@ export class BattleSession {
     // 涨益飘字(回血黄/回 MP 青;特效播完后弹 = DisplayStatChange 时序)
     for (const g of this.pendingGains) this.applyDamageFx(g.target, g.value, g.tone)
     this.pendingGains = []
-    if (this.pendingDeaths.length) {
-      this.deathFade = { startedAtMs: this.nowMs, enemySlots: this.pendingDeaths }
-      for (const i of this.pendingDeaths) {
-        const e = this.state.enemies[i]
-        if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
-      }
-      this.pendingDeaths = []
-    }
+    this.startEnemyDeathFade()
     this.pendingConfusedReveal.clear()
     this.syncPlayerDisplayHp()
     // Game 在敌方施法收尾复位后画出失败卷轴，清除后才进入八拍停顿。

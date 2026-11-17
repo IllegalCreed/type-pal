@@ -230,6 +230,28 @@ describe('startBattleAnim', () => {
     expect(state.players[0]!.pos).toEqual({ x: 224, y: 100 })
   })
 
+  it('渲染时间到达归位时仍等待合击的死亡检查', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    const bus = createCommandBus()
+    const gathered = { x: 208, y: 157 }
+    const resting = { x: 240, y: 170 }
+    startBattleAnim(
+      state,
+      [
+        { durationMs: 200, fighters: [{ side: 'player', idx: 0, pos: gathered }] },
+        { durationMs: 40, fighters: [{ side: 'player', idx: 0, pos: resting }] },
+      ],
+      bus,
+      undefined,
+      { enemyDeathCheckFrame: 1 },
+    )
+    stepBattleAnimRender(state, 0)
+    expect(advanceBattleAnimFrames(state, bus, 200)).toBe(false)
+    stepBattleAnimRender(state, 1400)
+    expect(state.players[0]?.pos).toEqual(gathered)
+    expect(state.battleAnim?.idx).toBe(0)
+  })
+
   it('空 frames → 不建 battleAnim', () => {
     const state = mkState([mkPlayer(0)], [mkEnemy()])
     startBattleAnim(state, [], createCommandBus())
