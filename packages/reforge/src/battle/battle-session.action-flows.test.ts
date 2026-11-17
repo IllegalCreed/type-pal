@@ -1131,7 +1131,9 @@ describe('W3 执行时间线接线', () => {
       if (blue(92, 10)) break
     }
     // 固定倍率 1，合击灵力 157、有效防御 82、火抗 5、战场 +1，伤害 159。
-    expect([80, 86, 92].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    // 受击首拍向左移 8px，数字仍以受击前的坐标为锚点。
+    expect([88, 94, 100].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    expect(blue(80, 10)).toBe(0)
     // 合击时队员暂在 (208,157) 与 (234,170)，两处不应绘出生命代价。
     expect([blue(208, 82), blue(234, 95)]).toEqual([0, 0])
     expect(h.readParty().map(({ hp }) => hp)).toEqual([140, 140])

@@ -1035,6 +1035,50 @@ export function restoreTestingBattleSceneObserverSourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleCooperativeRosterPublicationBase =
+  '839c6829346a53d8e5e149986d034460aba10432'
+const battleCooperativeRosterStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1283-1292' },
+    ],
+    [battleTransformGameSystem, { 2824: '2827' }],
+    [battleTransformCore, { 2467: '2469' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleCooperativeRosterPublicationBase,
+  action: 'q2-cooperative-roster-source-rebinding',
+  date: '2026-11-17',
+}
+const battleCooperativeRosterBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformGameSystem, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleCooperativeRosterSource = (path) =>
+  battleCooperativeRosterStage.ranges.has(path)
+
+export function restoreTestingBattleCooperativeRosterSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleCooperativeRosterStage,
+    battleCooperativeRosterBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

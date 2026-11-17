@@ -8,6 +8,12 @@ Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
+## 2026-11-17 合击执行与归位
+
+提交合击结束余下选招。先前提交的动作按各自的身法倍率入队，合击身法乘十。先轮到的队友先行动，合击真正执行时设置本回合的跳过标记。出手前因健康队员不足而降级时走普通攻击。 [提交与排队](../../reference/sdlpal/fight.c#L1409-L1424) · [身法倍率](../../reference/sdlpal/fight.c#L1529-L1558) · [降级检查](../../reference/sdlpal/fight.c#L3361-L3378)
+
+普通合击在队伍聚拢首拍播放 29 号起手音。特效结束后按敌人受击前的坐标显示伤害。四拍受击之后，队伍保持聚拢五拍，再播阵亡敌人的声音与淡出，最后用六拍归位。 [聚拢与起手](../../reference/sdlpal/fight.c#L3870-L3925) · [受击](../../reference/sdlpal/fight.c#L3190-L3245) · [伤害、淡出和归位](../../reference/sdlpal/fight.c#L4044-L4106)
+
 ## 2026-11-15 玩家逃跑与敌方逃跑
 
 十里坡蜜蜂的原盘触碰脚本 41142 将玩家逃跑续接到 41073。该处用 0x4B 设置 -15 世界拍，敌人保持可见，暂停行动和接敌。选择逃跑后队友按行动顺序各自判定，任一成功就结束战斗。失败者返回站位时清掉「逃跑失败」提示。
@@ -960,9 +966,9 @@ historical。do not promote historical claims to current truth without a current
 >
 > 合击结算后 CLASSIC 把全员 state 复位 `kFighterWait`([fight.c:3971-3976](../../reference/sdlpal/fight.c#L3971-L3976) `#ifdef PAL_CLASSIC` 分支);非 CLASSIC ATB 则是 `flTimeMeter=0` + `flTimeSpeedModifier=2`(下一轮充能加倍,本引擎不适用)。
 >
-> ### 回合代价
+> ### 回合代价(吞掉全队本轮行动)
 >
-> 提交合击后结束余下的选招，已提交的动作仍按各自的身法倍率排队。合击真正执行时设置 `fThisTurnCoop`，跳过比它晚的队友动作。降级成普通攻击时，队列仍按普通攻击流程推进。 [提交与排队](../../reference/sdlpal/fight.c#L1409-L1424) · [出手前验证](../../reference/sdlpal/fight.c#L3361-L3378) · [合击执行](../../reference/sdlpal/fight.c#L3856-L3861)
+> 合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
 >
 > ### 先手边界怪癖(用户 2026-10-17 实机确认的原版 bug;引擎忠实复刻)
 >
@@ -974,7 +980,7 @@ historical。do not promote historical claims to current truth without a current
 >
 > **引擎立场**:本引擎按 sdlpal 真值 1:1 复刻(`actionDexMultiplier` coop×10 [battle-system.ts:602-625](../../packages/game/src/core/battle/battle-system.ts#L602-L625) + `buildActionQueue` 纯 dex 降序),**不修**此边界——修它会偏离原版行为,属机制取舍,未经用户裁决不动。
 >
-> 普通合击在队伍聚拢首拍播放 29 号起手音。特效结束后在敌人受击移动前的位置显示伤害，播四拍受击反馈，再保留聚拢五拍。若敌方阵亡，先播死亡音和淡出，队伍再用六拍归位。 [聚拢与起手](../../reference/sdlpal/fight.c#L3870-L3925) · [四拍受击](../../reference/sdlpal/fight.c#L3190-L3245) · [伤害、淡出和归位](../../reference/sdlpal/fight.c#L4044-L4106)
+> ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价(钳 1)、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作;若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画与经验/RNG 序。
 >
 > ---
 >

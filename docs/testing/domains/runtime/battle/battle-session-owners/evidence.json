@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+      "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "420-432",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+      "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1286-1295",
+      "lines": "1283-1292",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+      "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:251-253",
         "packages/reforge/src/battle/battle-session.ts:420-432",
-        "packages/reforge/src/battle/battle-session.ts:1286-1295",
+        "packages/reforge/src/battle/battle-session.ts:1283-1292",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
         "packages/content/src/character.ts:169-171"
@@ -835,6 +835,36 @@
         }
       ],
       "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
+    },
+    {
+      "action": "q2-cooperative-roster-source-rebinding",
+      "base": "839c6829346a53d8e5e149986d034460aba10432",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1286-1295",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        }
+      ],
+      "scope": "合击执行与归位前死亡淡出修复后，复核 Game 回合收尾、Reforge 群攻及会话调用片段。旧候选和实跑原件保留原版本。"
     }
   ],
   "_governance": {

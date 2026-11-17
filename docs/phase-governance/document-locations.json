@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "576173a363634ae392ba8ee6bd6db8aa015c7a9b02ca8002dc4fdd5c8476bb41",
+      "afterSha256": "aaf3e099eba8914e3c7ec5e9fd17090bb6883bd3303e5e159d0309881af3d7dd",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 56,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "加入本轮角色默认合击的原件和重录入口。",
+        "reviewedLines": 57,
+        "acceptanceScope": "归档读回成功，执行、录制和修前反例均可复算。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "d69f1bc5f85dc544d872489d72ed569d423cfbb2ea75ede242bdb54e914af289",
+      "afterSha256": "f2ee97422dd1bfa633af6a6dee372b2bb8eec26d89aabda7c712cc359c1aa7d7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
-        "reviewedLines": 1800,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "date": "2026-11-17",
+        "conclusion": "核合击的提交、执行、数值与阵亡回位机制。",
+        "reviewedLines": 1806,
+        "acceptanceScope": "核已提交队友行动、数值原坐标、四拍受击、五拍停留与先淡出后归位的原版分支。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1c21b0ce0ede3cabc191ea4086b8d3816f0e493bb9d032e1b2894af7b32d88b9",
+      "afterSha256": "1fb809ae09db24255cf8a83e9813bcd81571fb335e618b34e714c9df2161ae78",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 7797,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "更新现行回合收尾、群攻、会话调用的来源与适用性。",
+        "reviewedLines": 7850,
+        "acceptanceScope": "核固定旧版与当前源码的五处相同片段，保留既有执行、版本和历史。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "3fc36312fe2f912559109b21a8ccf365512c6077aa070c7b3836a0adc74613b2",
+      "afterSha256": "85c48d3f15dbc95b82c90b44d634fcead29d089a4740fd4dadd8b56ba29d93f0",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
-        "reviewedLines": 882,
-        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
+        "conclusion": "校准三处会话调用来源及既有主张指针。",
+        "reviewedLines": 912,
+        "acceptanceScope": "核现行坐标、文件摘要和固定前驱，保留原动态覆盖范围。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "c56f290e7cf35c76e09322685b0a831cbd267e9864f13ec7190f5a29065b7864",
+      "afterSha256": "03e7e8e9543fd40df25636795faca4406cc541b11348aba5e28bbdf6a9634468",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核四条敌方变身指令的六拍闪色、站位和战场渐变，复核历史调用片段的字节。",
+        "conclusion": "校准合击修复后的三处会话调用来源。",
         "reviewedLines": 101,
-        "acceptanceScope": "仅核本次增量。回读三个修后局面、三个旧版反例及菜刀婆婆召唤回归，保留既有实跑适用范围。"
+        "acceptanceScope": "三个源码片段逐字保持，原会话归属证据继续对应原版本。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "84784e8b590a838d7856b5b283aff3c2de812d7a1ec74c09c948727aeba544a7",
+      "afterSha256": "14bdb8865eb0c86c3a72f7f791130aeefa868e52bf1da6a5aec3839c1af83120",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核用户回执与分屏校验值",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "记录用户对修正后的敌方变身原速带声分屏的视觉验收。",
-        "reviewedLines": 641,
-        "acceptanceScope": "仅三组敌方变身的修订分屏。核用户原话、冻结候选、分屏校验值及重录入口。"
+        "conclusion": "记录五个角色合击入口的七局双端验证、最小留存及阵亡联动缺口。",
+        "reviewedLines": 651,
+        "acceptanceScope": "核实际按键、候选与原件 SHA、分屏及逐角色伤亡台账。保持用户视觉状态准确。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "d81ff84c880cc23df82a77a9a9a4cf8ebfbefa7227b2fd457211d22ae971fb30",
+      "afterSha256": "b2b0c4e2569f218349e0964eb519e1cb1d70979d4aa8b6aeda87551a7132b676",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 14514,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "校准现行 Game 回合收尾和 Reforge 群攻来源。",
+        "reviewedLines": 14537,
+        "acceptanceScope": "仅更新两个相同源码片段的适用性及坐标，未改旧测试证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "37c26699af8ce972b43c279b802e398bd998f0e0bcd6f81ea4f681546e47f41f",
+      "afterSha256": "b9f3417596486ca2c04d28fea561629d6a85b0a0ebb8e271741249ba94f5e9c2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 691,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "核原盘合击伤害与演出、双端七局及六名角色阵亡联动覆盖。",
+        "reviewedLines": 724,
+        "acceptanceScope": "核原始抽样、真实队形和图层、成片关键像素、原件回读；待测队友阵亡分支保持待测。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "ca9a6c9da6e597682b72b2d15556d47589a54ddba8c0199394c6f81df943b183",
+      "afterSha256": "e7e03b03599ae9e7750b66f4315d720af3a1cd5dcf368dabafbe6cdadb832a67",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核源码、双端实跑与适用性",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 305,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "记录合击修复后五处源码片段的实际坐标。",
+        "reviewedLines": 309,
+        "acceptanceScope": "核旧版与候选片段逐字相同，原有执行仍绑定各自候选。"
       }
     }
   ],
@@ -6000,6 +6000,12 @@
       "bytes": 988373,
       "sha256": "bee900563b3873fed9e4ca7918e09c60da0d7ef938dd4dc24d554b053f789bf4",
       "purpose": "敌方变身的最终画布与成片复验、反例、梦蛇及召唤回归。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cooperative-roster-20261117.tar.gz",
+      "bytes": 1357653,
+      "sha256": "56c6cedbf67bac567ac3e60b708ed20604f810a36d26ada01c856638c434ad5b",
+      "purpose": "验证五个角色默认合击入口的七组正式执行、录制轨迹、修前反例和分屏重录入口。"
     }
   ],
   "artifactAliases": [],
