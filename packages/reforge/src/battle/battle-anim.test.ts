@@ -208,9 +208,9 @@ describe('M4d-2 战斗动画时间线', () => {
       offensive: true,
       damageNums: [],
     })
-    const lastEffect = frames.findLastIndex((frame) =>
-      frame.overlays?.some(({ sheet }) => sheet === 'effect'),
-    )
+    const lastEffect = frames
+      .map((frame) => frame.overlays?.some(({ sheet }) => sheet === 'effect'))
+      .lastIndexOf(true)
     const firstFire = frames.findIndex((frame) =>
       frame.overlays?.some(({ sheet }) => sheet === 'magic'),
     )
