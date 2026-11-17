@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "986ca1eb30faca641dedca825ca57a10ac9e6531af61378e2eec55b1061fe1ba",
+      "afterSha256": "84784e8b590a838d7856b5b283aff3c2de812d7a1ec74c09c948727aeba544a7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核最终画布、成片解码及回读",
+        "reviewer": "Codex /root 核用户回执与分屏校验值",
         "date": "2026-11-17",
-        "conclusion": "核渐变被普通绘制覆盖的原件、采集器修复后的最终像素与旧版反例。",
-        "reviewedLines": 639,
-        "acceptanceScope": "只核本次增量。三组敌方变身、梦蛇、菜刀婆婆召唤重新双端执行并回读，既有音效调用片段逐字节校准。"
+        "conclusion": "记录用户对修正后的敌方变身原速带声分屏的视觉验收。",
+        "reviewedLines": 641,
+        "acceptanceScope": "仅三组敌方变身的修订分屏。核用户原话、冻结候选、分屏校验值及重录入口。"
       }
     },
     {
