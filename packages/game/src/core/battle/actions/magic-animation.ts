@@ -16,7 +16,7 @@ import {
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
 import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
-import type { BattleAnimFrame, BattleState } from '../battle-state.js'
+import type { BattleAnimFrame, BattleState, FighterDelta } from '../battle-state.js'
 import {
   asMagicShort as asShort,
   isOffensiveMagicType,
@@ -44,6 +44,7 @@ interface MagicAnimationEffects {
   hitPlayerIdxs: number[]
   playerDeathSounds: number[]
   autoDefendIdxs: number[]
+  preRevivalPoses: FighterDelta[]
   scriptSuccess: boolean
   tranceSpriteBefore: number | undefined
   tranceSpriteAfter: number | undefined
@@ -59,6 +60,7 @@ export function startMagicAnimation(
     dmgResults,
     pendingNums,
     pendingScreenShake,
+    preRevivalPoses,
     scriptSuccess,
     tranceSpriteBefore,
     tranceSpriteAfter,
@@ -68,7 +70,7 @@ export function startMagicAnimation(
     if (isOffensiveMagicType(magic.type)) {
       built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums, pendingScreenShake)
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
-      built = buildAndStartDefMagicAnim(input, magic, pendingNums)
+      built = buildAndStartDefMagicAnim(input, magic, pendingNums, preRevivalPoses)
     } else if (magic.type === 'trance') {
       built =
         scriptSuccess &&
@@ -432,6 +434,7 @@ function buildAndStartDefMagicAnim(
   input: MagicAnimationInput,
   magic: Magic,
   pendingNums: PendingDamageNums,
+  preRevivalPoses: FighterDelta[],
 ): boolean {
   if (magic.type !== 'applyToPlayer' && magic.type !== 'applyToParty') return false
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
@@ -452,6 +455,8 @@ function buildAndStartDefMagicAnim(
     isSummon: false,
     castSound: dmRole?.magicSound ?? 0,
   })
+  // Keep the pre-revival pose throughout the cast. Action completion restores it from the new HP.
+  preFrames[0]?.fighters?.push(...preRevivalPoses)
 
   // DefMagic 以每个受术者当时的脚点为准 (fight.c:2527-2555)。施法者已由起手帧前移。
   const casterEffectPos = preFrames.reduce((pos, frame) => {

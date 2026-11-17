@@ -17,12 +17,13 @@ import type {
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getMagicScriptEntry, setMagicScriptEntry } from '../../object-script-state.js'
+import { playerRestFrame } from '../battle-anim-driver.js'
 import {
   INHERIT_BATTLE_TRIGGER_ARGUMENT,
   type RunScriptFn,
   runBattleTrigger,
 } from '../battle-runtime-context.js'
-import type { BattleState } from '../battle-state.js'
+import type { BattleState, FighterDelta } from '../battle-state.js'
 import {
   applyEnemyMagicDamage,
   applyMagicDamage,
@@ -300,8 +301,22 @@ export function performMagic(input: PerformMagicInput): void {
         : (targetCtx?.idx ?? 0)
     }
   }
+  // SDLPal displays PreMagic and DefMagic before the revival script (fight.c:4184–4242).
+  const fallenPoses =
+    !input.casterIsEnemy && (magic.type === 'applyToPlayer' || magic.type === 'applyToParty')
+      ? input.state.players.flatMap<FighterDelta>((player, idx) => {
+          const role = input.playerRoles.roles[player.roleId]
+          return role?.hp === 0
+            ? [{ side: 'player', idx, currentFrame: playerRestFrame(player, role) }]
+            : []
+        })
+      : []
   if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript('scriptOnSuccess', successArgument)
+  const preRevivalPoses = fallenPoses.filter(({ idx }) => {
+    const player = input.state.players[idx]
+    return player && (input.playerRoles.roles[player.roleId]?.hp ?? 0) > 0
+  })
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
   const tranceSpriteAfter =
     !input.casterIsEnemy && magic.type === 'trance'
@@ -435,6 +450,7 @@ export function performMagic(input: PerformMagicInput): void {
     hitPlayerIdxs,
     playerDeathSounds,
     autoDefendIdxs,
+    preRevivalPoses,
     scriptSuccess,
     tranceSpriteBefore,
     tranceSpriteAfter,

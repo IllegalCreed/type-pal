@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "38a47c628b638fe8ea3ffdc1a1ec8c9c1d30616ee209c80b500f390f4f05678b",
+      "afterSha256": "0bc890a9cd83558ff158a57943b1ea1d14fd7e9c5c7b0a3166f2a04289563e98",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
-        "date": "2026-11-17",
-        "conclusion": "记录存活角色按结算后等级补学仙术。",
-        "reviewedLines": 1814,
-        "acceptanceScope": "定向核原版经验、主升级、隐藏成长、习得与半恢复的顺序及源码锚点。"
+        "reviewer": "Codex 治疗与复活原件复核",
+        "date": "2026-11-18",
+        "conclusion": "记录防御仙术动画与复活脚本的执行时点。",
+        "reviewedLines": 1818,
+        "acceptanceScope": "核原盘起手、FIRE、色移、0x22 与恢复数值的执行顺序。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "6f303862d2883744ad07e02fffbca357095553533ea1d78c40aad34b49890006",
+      "afterSha256": "5f35773d1e0d7082fec9941fc83a12db2c4a4e3b6e4da3ea225dd851f8fdb05f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 治疗与复活原件复核",
-        "date": "2026-11-17",
+        "date": "2026-11-18",
         "conclusion": "核五种治疗与复活仙术的准入和实际原件。",
-        "reviewedLines": 689,
-        "acceptanceScope": "核同局面、Game 装备置换的反例及已获得的复验结果。"
+        "reviewedLines": 691,
+        "acceptanceScope": "核同局面、Game 装备置换和复活姿态的反例及复验结果。"
       }
     },
     {
