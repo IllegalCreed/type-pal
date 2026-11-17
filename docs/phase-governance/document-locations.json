@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "a2ddd0731644da384e75351d4372e0804c389a21236bc36df8dd82cdcaf49ef1",
+      "afterSha256": "bebda605b1c874fa5d98da6bf211d10b4bd2364d2b019e13467ec53d1bc98c3b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
+        "reviewer": "Codex 逐项对账与双端复算",
         "date": "2026-11-17",
-        "conclusion": "登记本批战后练成的唯一归档。",
-        "reviewedLines": 59,
-        "acceptanceScope": "核原件索引、报告入链及重录入口，旧归档导航继续有效。"
+        "conclusion": "登记逐项台账和四符的可恢复原件。",
+        "reviewedLines": 60,
+        "acceptanceScope": "核归档入链、双端原件和录制恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8612029f2b5e710b5957ed3b02dfe74636ed8980002d167ac408bb998fa51804",
+      "afterSha256": "e6b14364d6cd3cd28611727ad1f16dda82371db8d2af62965c795e6177e0d278",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
+        "reviewer": "Codex 逐项对账与双端复算",
         "date": "2026-11-17",
-        "conclusion": "收战后练成返工的技术验收并记录最小留存。",
-        "reviewedLines": 673,
-        "acceptanceScope": "核卡面准入、真实正反例、录像和独立解包。Q2 继续逐项验收，用户反馈按实际记录。"
+        "conclusion": "记录逐项对账、限定的四符实跑和最小留存。",
+        "reviewedLines": 683,
+        "acceptanceScope": "核当前任务准入、五组日志和五组录制、失败重试与恢复。"
       }
     },
     {
@@ -5432,14 +5432,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "29e04a27e068a2fb810821c033a3a38e32e3fc64805c2a20d0816767481841a6",
+      "afterSha256": "d4e87cde3d604e1d0a61e3feba4b5dd42628597f9955a3e314015f9792cb5596",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
+        "reviewer": "Codex 逐项对账与双端复算",
         "date": "2026-11-17",
-        "conclusion": "登记战后补学的原盘归因、双端验证和补片结果。",
-        "reviewedLines": 742,
-        "acceptanceScope": "核 22 组实际结算、21 组阵亡比较、三组修前红例与两组录制取样。正文与配对来源同步。"
+        "conclusion": "更新六类待测入口和四符分场地的实际判据。",
+        "reviewedLines": 775,
+        "acceptanceScope": "核原件配对、稳定 ID、角色和敌方技能边界、伤害与音画。保留旧发布元数据与原始证据。"
       }
     },
     {
@@ -6018,6 +6018,12 @@
       "bytes": 646404,
       "sha256": "b2727de5c7dddfcc6763d26cb825f4fee2d83463735c67a86419c94266f57e68",
       "purpose": "战后补学仙术的实际双端习得、逐页实绘、修前反例、归档复算及原速分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-elemental-talismans-20261117.tar.gz",
+      "bytes": 4024092,
+      "sha256": "3ddec5045e717aacb9d54b091ad3b41282961c4d540aead4ae04255775719ba8",
+      "purpose": "按稳定 ID 的 Q2 逐项对账及雷水火土四符的五组双端运行、录制、失败回执与重放入口。"
     }
   ],
   "artifactAliases": [],
