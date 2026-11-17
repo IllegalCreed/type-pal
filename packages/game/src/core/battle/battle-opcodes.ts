@@ -20,6 +20,7 @@ import {
   getPlayerAttackStrength,
   getPlayerDefense,
   getPlayerDexterity,
+  getPlayerFleeRate,
   getPlayerMagicStrength,
   getPlayerPoisonResistance,
 } from '../equipment-state.js'
@@ -342,15 +343,20 @@ const OP_STEAL_FROM_ENEMY = 0x006a
  *   - field:战斗 snapshot(PlayerRole)字段名
  *   - rgw:PlayerRolesRuntime / EquipmentEffectRoles 行字段名(读 base + 写 Extra 槽)
  *   - getter:effective getter(base + Σ rgEquipmentEffect[0..6],含 Extra)recompute snapshot 用
- * row 17 atk / 18 mag / 19 def / 20 dex(sdlpal global.h tagPLAYERROLES)。
+ * row 17 atk / 18 mag / 19 def / 20 dex / 21 luck(sdlpal global.h tagPLAYERROLES)。
  */
 const STAT_ROW_BUFF: Readonly<
   Partial<
     Record<
       number,
       {
-        readonly field: 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity'
-        readonly rgw: 'rgwAttackStrength' | 'rgwMagicStrength' | 'rgwDefense' | 'rgwDexterity'
+        readonly field: 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity' | 'fleeRate'
+        readonly rgw:
+          | 'rgwAttackStrength'
+          | 'rgwMagicStrength'
+          | 'rgwDefense'
+          | 'rgwDexterity'
+          | 'rgwFleeRate'
         readonly getter: typeof getPlayerAttackStrength
       }
     >
@@ -360,6 +366,7 @@ const STAT_ROW_BUFF: Readonly<
   18: { field: 'magicStrength', rgw: 'rgwMagicStrength', getter: getPlayerMagicStrength },
   19: { field: 'defense', rgw: 'rgwDefense', getter: getPlayerDefense },
   20: { field: 'dexterity', rgw: 'rgwDexterity', getter: getPlayerDexterity },
+  21: { field: 'fleeRate', rgw: 'rgwFleeRate', getter: getPlayerFleeRate },
 }
 
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */

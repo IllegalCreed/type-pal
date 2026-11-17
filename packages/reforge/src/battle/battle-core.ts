@@ -733,8 +733,7 @@ function sumStatBuffs(target: BattlePlayerState, stat: BuffableStat): number {
   )
 }
 
-/** 0x1B/0x1C 回满 + 0x30 临时百分比 buff(B11-1)。P3:0x30 基数 = 未 buff 运行时值
- *  (含装备、不含既有 Extra;多次不叠加),delta = base × percent / 100 截断。 */
+/** 伤亡脚本的 0x1B/0x1C 回满资源，并复用 0x30 的裸属性基数与 Extra 槽覆盖规则。 */
 function applyCasualtyBranchEffects(
   target: BattlePlayerState,
   effects: readonly CasualtyEffect[],
@@ -745,14 +744,11 @@ function applyCasualtyBranchEffects(
       else target.mp = target.maxMp
       continue
     }
-    const buffStat = CASUALTY_STAT_TO_BUFF[effect.stat]
-    const field = STAT_BUFF_FIELD[buffStat]
-    const buffed = sumStatBuffs(target, buffStat) + (target.extraStatBuffs?.[buffStat] ?? 0)
-    const base = target[field] - buffed
-    const delta = Math.trunc((base * effect.percent) / 100)
-    target[field] += delta
-    target.statBuffs ??= []
-    target.statBuffs.push({ stat: buffStat, delta, turnsLeft: 'battle' })
+    applyStatBuff(target, {
+      stat: CASUALTY_STAT_TO_BUFF[effect.stat],
+      percent: effect.percent,
+      duration: 'battle',
+    })
   }
 }
 

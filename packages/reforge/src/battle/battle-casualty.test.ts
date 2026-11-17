@@ -377,7 +377,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
     expect(state.casualtyDialogue).toBeUndefined()
   })
 
-  test('P3:同一 stat 连续 buff 以未 buff 基数为准(100 → 150,不叠加)', () => {
+  test('队友阵亡后的增益按裸属性计算，同属性覆盖 Extra 槽', () => {
     const doubleAttack: CasualtyScript = {
       gates: [
         {
@@ -386,7 +386,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
             lines: [{ text: 'dlg.x', style: 'bottom' }],
             effects: [
               { kind: 'tempStatBuff', stat: 'attack', percent: 25 },
-              { kind: 'tempStatBuff', stat: 'attack', percent: 25 },
+              { kind: 'tempStatBuff', stat: 'attack', percent: 50 },
             ],
           },
         },
@@ -401,7 +401,18 @@ describe('B11-1 战斗伤亡 sweep', () => {
           actorTemplateId: 'yue',
           hp: 50,
           maxHp: 100,
-          attackStrength: 100,
+          attackStrength: 120, // 裸武术 100，装备武术 +20。
+          persistentProgress: {
+            level: 1,
+            exp: 0,
+            maxHP: 100,
+            maxMP: 50,
+            attack: 100,
+            defense: 0,
+            magicAttack: 30,
+            speed: 50,
+            luck: 20,
+          },
         }),
       ],
       {
@@ -414,7 +425,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
         },
       },
     )
-    expect(state.players[1]!.attackStrength).toBe(150)
+    expect(state.players[1]!.attackStrength).toBe(170)
   })
 
   test('P6:prevHp 防重入:未再次受伤不得重放 dying', () => {
