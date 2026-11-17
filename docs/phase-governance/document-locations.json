@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "d033495d86566142f2e7b1bf30cb09dba1a8c5644ad87d49765b8c625c4b3a34",
+      "afterSha256": "606736d08ba2d5adb315a0dd7867371f84aa9878dabf477678db33e5be5b57e1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
         "date": "2026-11-17",
-        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
-        "reviewedLines": 54,
-        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 55,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3996,14 +3996,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "0f83c5e13b104086f4a57a4452d5ed8deac69beb5c5f9b4f733e905c5fd9036c",
+      "afterSha256": "79926ed9fecbe4e392db6cc57671d7bf874c5fe0584acb5a8bc9a76ffd7b7159",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核差异及实际归档",
-        "reviewedLines": 656,
-        "date": "2026-11-16",
-        "conclusion": "按用户要求登记 E2E 最小留存并用拜月双端回执试读复算。",
-        "acceptanceScope": "核本轮规则差异、恢复入口和离线判据。原始双端轨迹及历史反例按各自版本保留。"
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "date": "2026-11-17",
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 657,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "55797920a4bde473e63414dce8e874afebcc05a44b3e96ba4b81818561cb6fd2",
+      "afterSha256": "9bfd93b64d257618d6934950019ce0aa1945b2bc79998ff3d3c4458b0bdde65f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
-        "reviewedLines": 7698,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "date": "2026-11-17",
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 7728,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "61a4691707311a5975d329f31c51a6bb407cb6fc8700e09f7ba14da2dfb99824",
+      "afterSha256": "fb24854d96d2db08004b53165119448b89fd87efd5718f14e3fd301dfbeacff6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
-        "reviewedLines": 822,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "date": "2026-11-17",
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 852,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "63703fc291abc334d2d4c789756a3b054d9fb501c1ee2564a32252aec425a208",
+      "afterSha256": "eeacba64e786fb03232f6b4a0edfe66da72bc45b96c5523b14321817c38a463c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "date": "2026-11-17",
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
         "reviewedLines": 101,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e26c682481992192fe6415df3eaec4a3820097f8ea4852d2746bde552f9f39e4",
+      "afterSha256": "c9fde455f007219646ed950ba986e435adef780752e037885957ae71583aad09",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
         "date": "2026-11-17",
-        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
-        "reviewedLines": 620,
-        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 627,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     },
     {
@@ -5432,27 +5432,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d8dcaa8b9805cd589a728fe7dc0a6e43829180854337484cb72c944633ba7637",
+      "afterSha256": "d4f1bceff7585b67235e3d2138b7375139837bdcad402906dddaf23fd937aa1a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核双端原件并用既有判据复算",
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
         "date": "2026-11-17",
-        "conclusion": "核五组双端运行、逐处原盘指令及渐变反例，检查归档恢复。",
-        "reviewedLines": 663,
-        "acceptanceScope": "核本轮新增地址、实际入场、音效和后续行动，记录实绘时序及重录入口。"
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 673,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "831f05d1cbe5419b305e5c044d64eaac131a7d990579d5f2330f2efc09e5a209",
+      "afterSha256": "77f2c5bc87b6773259e42c49296b884eda4ff6d5e8d80b49581c8e274afc36a8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘分支、实际画面和双端原件",
-        "date": "2026-11-16",
-        "conclusion": "核拜月两次失败卷轴的原始分支、实画、清除及下一次出手。",
-        "reviewedLines": 279,
-        "acceptanceScope": "本次变更和关联记录，核旧局面零次、当前双端各两次实绘，保留既有调用片段与原执行。"
+        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
+        "date": "2026-11-17",
+        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
+        "reviewedLines": 289,
+        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
       }
     }
   ],
@@ -5982,6 +5982,12 @@
       "bytes": 882470,
       "sha256": "cd0ecbf72346b028e8911b037256e3b27ce0ff3ba0d9bad0d8051afa2b28a52f",
       "purpose": "剩余九处敌方召唤指令的双端轨迹与复跑回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-consecutive-action-cadence-20261117.tar.gz",
+      "bytes": 1157224,
+      "sha256": "e17f6fb9e1bd10d860c1a121a487867a51ecce190e4a99a79c13bacdb7aa3aba",
+      "purpose": "连续行动节拍的双端轨迹、校验器、旧版反例和回执。"
     }
   ],
   "artifactAliases": [],

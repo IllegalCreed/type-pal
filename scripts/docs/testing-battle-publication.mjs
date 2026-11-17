@@ -931,6 +931,36 @@ export function restoreTestingBattleSpellFeedbackSourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleActionCadencePublicationBase = 'f1a72ef4c649db5a1d75650d18a84991306d6936'
+const battleActionCadenceStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1286-1295' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleActionCadencePublicationBase,
+  action: 'q2-battle-action-cadence-source-rebinding',
+  date: '2026-11-17',
+}
+const battleActionCadenceBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleActionCadenceSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleActionCadenceStage,
+    battleActionCadenceBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

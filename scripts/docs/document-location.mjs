@@ -38,6 +38,7 @@ import {
   isTestingBattleSpellFeedbackSource,
   isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
+  restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
@@ -50,6 +51,7 @@ import {
   restoreTestingBattleSummonSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  testingBattleActionCadencePublicationBase,
   testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
@@ -599,8 +601,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const spellFeedbackSource = spellFeedbackRevision && gitTree(root, spellFeedbackRevision, [])
   const preSpellFeedback =
     spellFeedbackSource && gitTree(root, testingBattleSpellFeedbackPublicationBase, [])
-  const readBeforeBattleSpellFeedback = (path) => {
+  const actionCadenceRevision = admission.testingBattleActionCadenceSourceRevision
+  if (actionCadenceRevision !== undefined)
+    assert(
+      spellFeedbackSource && /^[a-f0-9]{40}$/u.test(actionCadenceRevision),
+      'battle action cadence source bridge requires the fixed preceding spell feedback revision',
+    )
+  const actionCadenceSource = actionCadenceRevision && gitTree(root, actionCadenceRevision, [])
+  const preActionCadence =
+    actionCadenceSource && gitTree(root, testingBattleActionCadencePublicationBase, [])
+  const readBeforeBattleActionCadence = (path) => {
     const live = readSource(path)
+    if (!preActionCadence || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(actionCadenceSource.read(path)),
+      'battle action cadence source differs from its fixed candidate',
+    )
+    return preActionCadence.read(path)
+  }
+  const readBeforeBattleSpellFeedback = (path) => {
+    const live = readBeforeBattleActionCadence(path)
     if (!preSpellFeedback || !isTestingBattleSpellFeedbackSource(path)) return live
     assert(
       live?.equals(spellFeedbackSource.read(path)),
@@ -645,13 +665,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorSpellFeedback = preSpellFeedback
-      ? restoreTestingBattleSpellFeedbackSourceBindings(path, bytes, {
+    const priorActionCadence = preActionCadence
+      ? restoreTestingBattleActionCadenceSourceBindings(path, bytes, {
           readSource,
+          readBase: preActionCadence.read,
+          readFixed: actionCadenceSource.read,
+        })
+      : bytes
+    const priorSpellFeedback = preSpellFeedback
+      ? restoreTestingBattleSpellFeedbackSourceBindings(path, priorActionCadence, {
+          readSource: readBeforeBattleActionCadence,
           readBase: preSpellFeedback.read,
           readFixed: spellFeedbackSource.read,
         })
-      : bytes
+      : priorActionCadence
     const priorSummonPlayback = preSummonPlayback
       ? restoreTestingBattleSummonPlaybackSourceBindings(path, priorSpellFeedback, {
           readSource: readBeforeBattleSpellFeedback,

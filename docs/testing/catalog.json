@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "420-432",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1286-1295",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -2916,6 +2916,36 @@
               }
             ],
             "scope": "敌方施法失败卷轴修复后，既有调用片段保持原字节。原执行和反例各对应其冻结候选。"
+          },
+          {
+            "action": "q2-battle-action-cadence-source-rebinding",
+            "base": "f1a72ef4c649db5a1d75650d18a84991306d6936",
+            "date": "2026-11-17",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "420-432",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1286-1295",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+              }
+            ],
+            "scope": "核原盘行动节拍与 Reforge 调度实测，三处既有会话接线片段逐字节比对相等。各次验收继续链接到对应原件。"
           }
         ]
       },

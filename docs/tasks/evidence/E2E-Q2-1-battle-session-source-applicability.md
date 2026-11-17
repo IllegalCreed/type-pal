@@ -276,3 +276,13 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `packages/reforge/src/battle/battle-session.ts` | 420-432 | 420-432 |
 | `packages/reforge/src/battle/battle-session.ts` | 1282-1291 | 1286-1295 |
 | `packages/reforge/src/battle/battle-core.ts` | 2466 | 2466 |
+
+## 2026-11-17 行动节拍修复后的来源
+
+从 `f1a72ef4c649db5a1d75650d18a84991306d6936` 到 `b74ce91dda71a1f23494dd96ea8f49c16e29fbbd` 核对战斗会话的三处已验接线。逐段字节一致，实时来源摘要已按当前文件重新绑定。实际节拍另见 [Q2 连续行动复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-17-连续行动的累计节拍)。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 251-253 | 251-253 |
+| `packages/reforge/src/battle/battle-session.ts` | 420-432 | 420-432 |
+| `packages/reforge/src/battle/battle-session.ts` | 1286-1295 | 1286-1295 |
