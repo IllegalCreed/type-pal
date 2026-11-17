@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "0bc890a9cd83558ff158a57943b1ea1d14fd7e9c5c7b0a3166f2a04289563e98",
+      "afterSha256": "e4227e81965b0f7cb7a74325f66a16b893f8d4a6a0139407ad0cf1ffac444c76",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 治疗与复活原件复核",
+        "reviewer": "Codex 雷冰仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "记录防御仙术动画与复活脚本的执行时点。",
+        "conclusion": "记录普通对敌仙术起手末拍与 FIRE 前准备拍。",
         "reviewedLines": 1818,
-        "acceptanceScope": "核原盘起手、FIRE、色移、0x22 与恢复数值的执行顺序。"
+        "acceptanceScope": "分别核起手结束和进入主特效后的两处原盘等待。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "7e0554b940cea5d024e699384a92765b22b7fdc86b5c70d6aaba6baadbcba697",
+      "afterSha256": "8d8a108a65ee0450403470d987253b954864427827656a57f1f24a83645f7553",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 治疗与复活原件复核",
+        "reviewer": "Codex 雷冰仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "核五种治疗与复活仙术的准入和实际原件。",
-        "reviewedLines": 697,
-        "acceptanceScope": "核同局面、Game 装备置换和复活姿态的反例及复验结果。"
+        "conclusion": "核五种雷冰仙术的准入、旧节拍与实际原件。",
+        "reviewedLines": 703,
+        "acceptanceScope": "核合法习得、同局面雷冰仙术、场效和 Reforge FIRE 准备拍。"
       }
     },
     {

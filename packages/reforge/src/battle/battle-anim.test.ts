@@ -188,6 +188,40 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(snd).toBe(gesture + 1) // 与 frame5 同帧派发(fighter 先于 sound)
   })
 
+  test('对敌仙术在起手特效与 FIRE 之间各保留一拍收尾和准备', () => {
+    const frames = buildPlayerCast({
+      casterFrames: PLAYER_FRAMES,
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      castEffectBase: 15,
+      fireFrames: 7,
+      fx: {
+        placement: 'attackAll',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 2,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+      },
+      offensive: true,
+      damageNums: [],
+    })
+    const lastEffect = frames.findLastIndex((frame) =>
+      frame.overlays?.some(({ sheet }) => sheet === 'effect'),
+    )
+    const firstFire = frames.findIndex((frame) =>
+      frame.overlays?.some(({ sheet }) => sheet === 'magic'),
+    )
+    expect(lastEffect).toBeGreaterThanOrEqual(0)
+    expect(firstFire).toBeGreaterThan(lastEffect)
+    expect(frames.slice(lastEffect + 1, firstFire)).toEqual([
+      { durationMs: 40 },
+      { durationMs: 40 },
+    ])
+  })
+
   test('敌施法无特效资源时仍从原地显示数字和五拍受击', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,

@@ -1110,6 +1110,8 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
 
   // —— OffMagic:fire sprite 帧循环 ——
+  // 普通对敌仙术在起手收尾之后，等一拍再开始主特效（fight.c:2659）。
+  if (offensive && fireFrames > 0) frames.push({ durationMs: delayMs(1) })
   frames.push(
     ...buildOffMagic({
       fireFrames,

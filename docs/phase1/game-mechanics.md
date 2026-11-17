@@ -102,7 +102,7 @@ SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底�
 
 合击在实际出手时重查健康队员。只剩一名或更少时，改为普通攻击，再按武器和剩余敌槽校准目标。单敌双击各自抽伤害与会心，完成普攻后只记一次攻击成长。每次挥击按本次会心结果选角色音，兵器音也各自播放。 [执行时资格](../../reference/sdlpal/fight.c#L3364) · [武器目标校准](../../reference/sdlpal/fight.c#L3482) · [逐击与声音](../../reference/sdlpal/fight.c#L3611) · [普攻成长](../../reference/sdlpal/fight.c#L3756)
 
-普通对敌仙术在主特效结束后显示血量变化，随后用三个战斗帧处理受击位移，第四帧复位敌人，再等五帧。即使没有敌人掉血，四拍和五拍仍执行。回梦在当前 Game 与 Reforge 的同局面归位后才显示抵抗旁白。CLASSIC 的成功脚本在伤害和收招前执行。 [变化数字](../../reference/sdlpal/fight.c#L603) · [收招](../../reference/sdlpal/fight.c#L3190) · [成功脚本及五拍停留](../../reference/sdlpal/fight.c#L4265)
+普通对敌仙术的起手 EFFECT 序列结束后等待一拍，进入主特效时另等一拍，再开始 FIRE 帧循环。主特效结束后显示血量变化，随后用三个战斗帧处理受击位移，第四帧复位敌人，再等五帧。即使没有敌人掉血，四拍和五拍仍执行。回梦在当前 Game 与 Reforge 的同局面归位后才显示抵抗旁白。CLASSIC 的成功脚本在伤害和收招前执行。 [起手收尾](../../reference/sdlpal/fight.c#L2444) · [主特效准备](../../reference/sdlpal/fight.c#L2659) · [变化数字](../../reference/sdlpal/fight.c#L603) · [收招](../../reference/sdlpal/fight.c#L3190) · [成功脚本及五拍停留](../../reference/sdlpal/fight.c#L4265)
 
 ## 2026-11-13 CLASSIC 伤亡对白、法术抗性与全灭
 
