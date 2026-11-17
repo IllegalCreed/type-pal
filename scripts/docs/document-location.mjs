@@ -27,6 +27,7 @@ import {
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   assertTestingProjectVictoryVersionSource,
+  isTestingBattleCasualtyRosterSource,
   isTestingBattleClosureSource,
   isTestingBattleCooperativeRosterSource,
   isTestingBattleDefeatSourcePath,
@@ -42,6 +43,7 @@ import {
   isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
   restoreTestingBattleActionCadenceSourceBindings,
+  restoreTestingBattleCasualtyRosterSourceBindings,
   restoreTestingBattleClosureSourceBindings,
   restoreTestingBattleCooperativeRosterSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
@@ -58,6 +60,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleActionCadencePublicationBase,
+  testingBattleCasualtyRosterPublicationBase,
   testingBattleClosurePublicationBase,
   testingBattleCooperativeRosterPublicationBase,
   testingBattleDefeatSourceRevision,
@@ -647,8 +650,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     cooperativeRosterRevision && gitTree(root, cooperativeRosterRevision, [])
   const preCooperativeRoster =
     cooperativeRosterSource && gitTree(root, testingBattleCooperativeRosterPublicationBase, [])
-  const readBeforeBattleCooperativeRoster = (path) => {
+  const casualtyRosterRevision = admission.testingBattleCasualtyRosterSourceRevision
+  if (casualtyRosterRevision !== undefined)
+    assert(
+      cooperativeRosterSource && /^[a-f0-9]{40}$/u.test(casualtyRosterRevision),
+      'battle casualty source bridge requires the fixed preceding cooperative revision',
+    )
+  const casualtyRosterSource = casualtyRosterRevision && gitTree(root, casualtyRosterRevision, [])
+  const preCasualtyRoster =
+    casualtyRosterSource && gitTree(root, testingBattleCasualtyRosterPublicationBase, [])
+  const readBeforeBattleCasualtyRoster = (path) => {
     const live = readSource(path)
+    if (!preCasualtyRoster || !isTestingBattleCasualtyRosterSource(path)) return live
+    assert(
+      live?.equals(casualtyRosterSource.read(path)),
+      'battle casualty source differs from the frozen candidate',
+    )
+    return preCasualtyRoster.read(path)
+  }
+  const readBeforeBattleCooperativeRoster = (path) => {
+    const live = readBeforeBattleCasualtyRoster(path)
     if (!preCooperativeRoster || !isTestingBattleCooperativeRosterSource(path)) return live
     assert(
       live?.equals(cooperativeRosterSource.read(path)),
@@ -729,13 +750,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorCooperativeRoster = preCooperativeRoster
-      ? restoreTestingBattleCooperativeRosterSourceBindings(path, bytes, {
+    const priorCasualtyRoster = preCasualtyRoster
+      ? restoreTestingBattleCasualtyRosterSourceBindings(path, bytes, {
           readSource,
+          readBase: preCasualtyRoster.read,
+          readFixed: casualtyRosterSource.read,
+        })
+      : bytes
+    const priorCooperativeRoster = preCooperativeRoster
+      ? restoreTestingBattleCooperativeRosterSourceBindings(path, priorCasualtyRoster, {
+          readSource: readBeforeBattleCasualtyRoster,
           readBase: preCooperativeRoster.read,
           readFixed: cooperativeRosterSource.read,
         })
-      : bytes
+      : priorCasualtyRoster
     const priorSceneObserver = preSceneObserver
       ? restoreTestingBattleSceneObserverSourceBindings(path, priorCooperativeRoster, {
           readSource: readBeforeBattleCooperativeRoster,

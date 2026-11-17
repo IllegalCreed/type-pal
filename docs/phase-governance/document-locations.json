@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "aaf3e099eba8914e3c7ec5e9fd17090bb6883bd3303e5e159d0309881af3d7dd",
+      "afterSha256": "303254c27cea185b3cca7133d7467d06521d14d2be065362608f4c15e67fb6a6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "加入本轮角色默认合击的原件和重录入口。",
-        "reviewedLines": 57,
-        "acceptanceScope": "归档读回成功，执行、录制和修前反例均可复算。"
+        "conclusion": "接入六名角色阵亡联动的证据恢复入口。",
+        "reviewedLines": 58,
+        "acceptanceScope": "核逐例执行索引、离线复算和分屏重录来源。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "f2ee97422dd1bfa633af6a6dee372b2bb8eec26d89aabda7c712cc359c1aa7d7",
+      "afterSha256": "c66bd8631a3a7d30ede59077afbf4455d69737cd7223afeb8ffa68b066c3fe2c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "核合击的提交、执行、数值与阵亡回位机制。",
-        "reviewedLines": 1806,
-        "acceptanceScope": "核已提交队友行动、数值原坐标、四拍受击、五拍停留与先淡出后归位的原版分支。"
+        "conclusion": "核原盘队友阵亡入口、分支和临时属性。",
+        "reviewedLines": 1810,
+        "acceptanceScope": "核三道概率门、裸属性基数、同槽覆盖和战后清除，原文保全。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1fb809ae09db24255cf8a83e9813bcd81571fb335e618b34e714c9df2161ae78",
+      "afterSha256": "70b0dc82e4c5887d27b0dd55179a27a3073e3fc3b4130411ec90ee657926df9a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "更新现行回合收尾、群攻、会话调用的来源与适用性。",
-        "reviewedLines": 7850,
-        "acceptanceScope": "核固定旧版与当前源码的五处相同片段，保留既有执行、版本和历史。"
+        "conclusion": "跟进 Reforge 群攻调用的当前坐标与来源。",
+        "reviewedLines": 7866,
+        "acceptanceScope": "核固定候选的同一片段和旧原件，保持已刊案例与执行历史。"
       }
     },
     {
@@ -5393,14 +5393,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "503f9d71bdeb5f3de234f607786368570b64bebd4570ca6a08e12b39512459a2",
+      "afterSha256": "80c325e4339d7bfd2e91c824118644a892ea8bd4a4306fe0984bd4c908978714",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "记录五个角色合击入口的七局双端验证、最小留存及阵亡联动缺口。记录用户对七局合击分屏的通过回执。",
-        "reviewedLines": 653,
-        "acceptanceScope": "核实际按键、候选与原件 SHA、分屏及逐角色伤亡台账。保持用户视觉状态准确。"
+        "conclusion": "收合击视觉验收并记录六名角色阵亡联动的正式运行和复验。",
+        "reviewedLines": 661,
+        "acceptanceScope": "核 21 个局面两轮双端、八种反应、盖罗娇无联动、成片与最小留存。"
       }
     },
     {
@@ -5419,40 +5419,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "b2b0c4e2569f218349e0964eb519e1cb1d70979d4aa8b6aeda87551a7132b676",
+      "afterSha256": "ada9a5c2f5bf5afcdf58e8953390111005d8d6b904d18da86c58690b433bab80",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "校准现行 Game 回合收尾和 Reforge 群攻来源。",
-        "reviewedLines": 14537,
-        "acceptanceScope": "仅更新两个相同源码片段的适用性及坐标，未改旧测试证据。"
+        "conclusion": "更新 Reforge 群攻片段的来源坐标和适用性。",
+        "reviewedLines": 14553,
+        "acceptanceScope": "只改逐字相同的来源绑定，保留旧机器回执与运行身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "27238a86b051fcafcc202a4e9347c0e57deadc77ccbbd14ca0868a81d072e2b7",
+      "afterSha256": "7bb66fa25039b9562141425012306ec578b67737132b96da20c0c875897bbd61",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "核原盘合击伤害与演出、双端七局及六名角色阵亡联动覆盖。记录用户对七局合击分屏的通过回执。",
-        "reviewedLines": 724,
-        "acceptanceScope": "核原始抽样、真实队形和图层、成片关键像素、原件回读；待测队友阵亡分支保持待测。"
+        "conclusion": "核六名角色阵亡时的全随机分支及盖罗娇无联动。",
+        "reviewedLines": 734,
+        "acceptanceScope": "核原盘源、双端两轮、实绘实播、属性生效与退出、成片解码和归档复算。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "e7e03b03599ae9e7750b66f4315d720af3a1cd5dcf368dabafbe6cdadb832a67",
+      "afterSha256": "9c6b4784470a439581f184088530d5ce9692d49e882a5a9dc5db3b71eb1e9e47",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
+        "reviewer": "Codex /root 核原盘、双端原件与成片",
         "date": "2026-11-17",
-        "conclusion": "记录合击修复后五处源码片段的实际坐标。",
-        "reviewedLines": 309,
-        "acceptanceScope": "核旧版与候选片段逐字相同，原有执行仍绑定各自候选。"
+        "conclusion": "记录阵亡联动修复后 Reforge 群攻锚点的坐标。",
+        "reviewedLines": 313,
+        "acceptanceScope": "固定候选和前驱片段逐字相同，保留执行范围与原身份。"
       }
     }
   ],
@@ -6006,6 +6006,12 @@
       "bytes": 1357653,
       "sha256": "56c6cedbf67bac567ac3e60b708ed20604f810a36d26ada01c856638c434ad5b",
       "purpose": "验证五个角色默认合击入口的七组正式执行、录制轨迹、修前反例和分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-casualty-roster-20261117.tar.gz",
+      "bytes": 1990362,
+      "sha256": "4b9e083339c73ae085ebbb8ff49784b8be57a24f48ee08d9af69b76f2180a045",
+      "purpose": "六名角色阵亡联动的 21 组正式双端、逐例重跑、旧版反例和原速带声分屏重录入口。"
     }
   ],
   "artifactAliases": [],

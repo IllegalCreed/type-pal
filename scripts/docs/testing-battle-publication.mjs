@@ -1079,6 +1079,34 @@ export function restoreTestingBattleCooperativeRosterSourceBindings(path, bytes,
   )
 }
 
+export const testingBattleCasualtyRosterPublicationBase = 'dd4bd6afd23882b8777ba8b50c3bb8d10a534d17'
+const battleCasualtyRosterStage = {
+  ranges: new Map([[battleTransformCore, { 2469: '2465' }]]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleCasualtyRosterPublicationBase,
+  action: 'q2-casualty-roster-source-rebinding',
+  date: '2026-11-17',
+}
+const battleCasualtyRosterBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleCasualtyRosterSource = (path) =>
+  battleCasualtyRosterStage.ranges.has(path)
+
+export function restoreTestingBattleCasualtyRosterSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleCasualtyRosterStage,
+    battleCasualtyRosterBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

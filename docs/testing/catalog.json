@@ -5945,8 +5945,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2469",
-          "sha256": "4566fa4ec4ec3349ddc0b09b010cf1ee8cb94f3c522539bafc33beb9f919d088"
+          "lines": "2465",
+          "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7371,6 +7371,22 @@
               }
             ],
             "scope": "合击执行与归位前死亡淡出修复后，复核 Game 回合收尾、Reforge 群攻及会话调用片段。旧候选和实跑原件保留原版本。"
+          },
+          {
+            "action": "q2-casualty-roster-source-rebinding",
+            "base": "dd4bd6afd23882b8777ba8b50c3bb8d10a534d17",
+            "date": "2026-11-17",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2469",
+                "sha256": "4566fa4ec4ec3349ddc0b09b010cf1ee8cb94f3c522539bafc33beb9f919d088"
+              }
+            ],
+            "scope": "伤亡增益复用临时属性槽，复核既有群攻函数声明逐字相同，保留原执行与反例各自的生产基点。"
           }
         ]
       }
