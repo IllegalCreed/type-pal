@@ -281,7 +281,7 @@ export function performMagic(input: PerformMagicInput): void {
 
   // OffMagic 的吹飞先抽样，随后才运行成功脚本及逐槽伤害（fight.c:2681、4255–4268）。
   const playerOffMagicOpening = input.state.iBlow
-    ? buildPlayerOffMagicOpening(input, magic, pendingScreenShake)
+    ? buildPlayerOffMagicOpening(input, magic, pendingScreenShake, true)
     : undefined
 
   // scriptOnUse 成功后运行 scriptOnSuccess，再结算与拼装帧链。

@@ -87,7 +87,13 @@ export function startMagicAnimation(
         })
     } else if (magic.type === 'summon') {
       // 召唤魔法(火神/雷神/武神/剑神/酒神…):变亮→召唤神出场动画→二次法术效果。伤害已由动作协调层结算。
-      built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
+      built = buildAndStartSummonAnim(
+        input,
+        magic,
+        dmgResults,
+        pendingNums,
+        effects.playerOffMagicOpening,
+      )
     }
   } else if (isOffensiveMagicType(magic.type)) {
     built = buildAndStartEnemyMagicAnim(input, magic, effects)
@@ -128,25 +134,40 @@ function addPendingEnemyDamageNumTargets(
   }
 }
 
+function playerBlowInput(state: BattleState) {
+  return {
+    iBlow: state.iBlow,
+    // 原盘对在场敌人共用一步；足点取施法前的位置（fight.c:2681–2693）。
+    blowTargets: state.enemies.flatMap((enemy, idx) =>
+      !enemy.defeated && enemy.e.health > 0 && enemy.posOriginal
+        ? [{ side: 'enemy' as const, idx, pos: enemy.posOriginal }]
+        : [],
+    ),
+    rng: state.rng,
+  }
+}
+
 /**
- * D17:为 player 攻击魔法 build PreMagic → OffMagic → PostMagic 链并 startBattleAnim。
+ * 普通攻击法术准备 PreMagic → OffMagic。召唤吹飞只预先准备本体之后的二次攻击段。
  *
- * 前置都满足才建链(否则 no-op,走原即时路径,保持现有无链反馈策略):
- *   - magic.type ∈ 4 攻击类型(治疗/防御/召唤已被上层 DEFENSIVE / 非攻击 type 排除)
- *   - magicSpriteFrameCounts 有该 effect chunk(→ n)
- *   - caster fighter render-state(posOriginal)存在(无动画资源的调用 缺则不建链)
+ * 普通攻击需要施法者足点和 FIRE 资源。召唤还需要本体资源，且只在成功起手后预先生成吹飞。
  */
 export function buildPlayerOffMagicOpening(
   input: MagicAnimationInput,
   magic: Magic,
   pendingScreenShake: { time: number; level: number },
+  sampleBlow = false,
 ): BattleAnimFrame[] | undefined {
-  if (input.casterIsEnemy || !isOffensiveMagicType(magic.type)) return undefined
-  const n = input.magicSpriteFrameCounts?.get(magic.effect)
-  if (n === undefined || n <= 0) return undefined
-
+  if (input.casterIsEnemy) return undefined
   const caster = input.state.players[input.casterIdx]
   if (!caster?.posOriginal) return undefined
+  if (magic.type === 'summon') {
+    const frames = input.summonSpriteFrameCounts?.get(magic.special + 10) ?? 0
+    return sampleBlow && frames > 0 ? buildPlayerSummonOffMagic(input, magic, true) : undefined
+  }
+  if (!isOffensiveMagicType(magic.type)) return undefined
+  const n = input.magicSpriteFrameCounts?.get(magic.effect)
+  if (n === undefined || n <= 0) return undefined
 
   // —— PreMagic:cast 特效帧基号 = rgwBattleEffectIndex[battleSpriteId][0] * 10 + 15(fight.c:2387-2389)——
   const role = input.playerRoles.roles[caster.roleId]
@@ -192,15 +213,7 @@ export function buildPlayerOffMagicOpening(
     targetIdx: offTargetIdx,
     targetEnemyPos: offTargetPos,
     baseScreenWave: input.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
-    iBlow: input.state.iBlow,
-    // W4 iBlow:吹飞全体活敌(wObjectID!=0,fight.c:2685);仅 iBlow!=0 时 builder 真摇 rng。posOriginal 底锚。
-    blowTargets: input.state.iBlow
-      ? input.state.enemies
-          .map((e, idx) => ({ e, idx }))
-          .filter(({ e }) => !e.defeated && e.e.health > 0 && e.posOriginal)
-          .map(({ e, idx }) => ({ side: 'enemy' as const, idx, pos: e.posOriginal! }))
-      : undefined,
-    rng: input.state.rng,
+    ...(sampleBlow ? playerBlowInput(input.state) : {}),
   })
   return [...preFrames, ...offFrames]
 }
@@ -234,6 +247,38 @@ function startPlayerOffMagic(
   startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
 }
 
+function buildPlayerSummonOffMagic(
+  input: MagicAnimationInput,
+  magic: Magic,
+  sampleBlow = false,
+): BattleAnimFrame[] {
+  // wEffect 指向二次攻击的 MAGIC 编号；召唤本体之后以全敌为目标（fight.c:3098–3105、3186）。
+  const secondary = input.magics.find((entry) => entry.id === magic.effect)
+  if (!secondary || !isOffensiveMagicType(secondary.type)) return []
+  const n = input.magicSpriteFrameCounts?.get(secondary.effect) ?? 0
+  if (n <= 0) return []
+  return buildPlayerOffMagicTimeline({
+    casterIdx: -1,
+    magic: {
+      effect: secondary.effect,
+      type: secondary.type,
+      speed: secondary.speed,
+      special: secondary.special,
+      fireDelay: secondary.fireDelay,
+      effectTimes: secondary.effectTimes,
+      shake: secondary.shake,
+      xOffset: secondary.xOffset,
+      yOffset: secondary.yOffset,
+      wave: secondary.wave,
+      keepEffect: secondary.keepEffect,
+    },
+    n,
+    targetIdx: -1,
+    baseScreenWave: input.state.field.screenWave,
+    ...(sampleBlow ? playerBlowInput(input.state) : {}),
+  })
+}
+
 /**
  * D17:player 召唤魔法(kMagicTypeSummon)build 召唤动画链 + startBattleAnim
  * (port fight.c:3072-3187 PAL_BattleShowPlayerSummonMagicAnim + fight.c:2380 PreMagic fSummon 分支)。
@@ -250,6 +295,7 @@ function buildAndStartSummonAnim(
   magic: Magic,
   dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
   pendingNums: PendingDamageNums,
+  preparedOffMagic?: BattleAnimFrame[],
 ): boolean {
   if (magic.type !== 'summon') return false
   const summonChunk = magic.special + 10 // F.MKF chunk = wSummonEffect + 10(fight.c:3135)
@@ -273,35 +319,7 @@ function buildAndStartSummonAnim(
   //   (此前在 PreMagic 之前就 push → user 2026-06-05 报"天剑音效又提前了")。
   if (magic.sound > 0 && brightenFrames.length > 0) brightenFrames[0]!.sound = magic.sound
 
-  // 二次法术效果:secondary = magics[summonMagic.effect](wEffect 是 magic 编号,fight.c:3098-3105),
-  //   PAL_BattleShowPlayerOffMagicAnim(-1, ..., -1, TRUE) → 全敌 + secondary 落点(fight.c:3186)。
-  let offMagicFrames: BattleAnimFrame[] = []
-  const secondary = input.magics.find((m) => m.id === magic.effect)
-  if (secondary && isOffensiveMagicType(secondary.type)) {
-    const sn = input.magicSpriteFrameCounts?.get(secondary.effect)
-    if (sn !== undefined && sn > 0) {
-      offMagicFrames = buildPlayerOffMagicTimeline({
-        casterIdx: -1,
-        magic: {
-          effect: secondary.effect,
-          type: secondary.type,
-          speed: secondary.speed,
-          special: secondary.special, // DM9:sLayerOffset(z 排序)—— 漏传致召唤二次法术 layerOffset 落 0
-          fireDelay: secondary.fireDelay,
-          effectTimes: secondary.effectTimes,
-          shake: secondary.shake,
-          xOffset: secondary.xOffset,
-          yOffset: secondary.yOffset,
-          wave: secondary.wave,
-          keepEffect: secondary.keepEffect,
-        },
-        n: sn,
-        targetIdx: -1,
-        iBlow: input.state.iBlow,
-        baseScreenWave: input.state.field.screenWave, // L17:普通召唤 secondary 也需按战场基础屏波判定 keepEffect<9。
-      })
-    }
-  }
+  const offMagicFrames = preparedOffMagic ?? buildPlayerSummonOffMagic(input, magic)
 
   // PostMagic:命中后敌人受击抖动(sdlpal PAL_BattleShowPostMagicAnim,fight.c:4323)。
   //   ts 此前召唤分支漏建 → 天剑等召唤法术敌人不抖(user 2026-06-04 报);又把 fadeOut bundle 在 PostMagic 前
