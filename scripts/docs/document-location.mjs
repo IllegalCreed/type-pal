@@ -29,6 +29,7 @@ import {
   assertTestingProjectVictoryVersionSource,
   isTestingBattleCasualtyRosterSource,
   isTestingBattleClosureSource,
+  isTestingBattleConditionalSpellSource,
   isTestingBattleCooperativeRosterSource,
   isTestingBattleDefeatSourcePath,
   isTestingBattleEnemyColorSource,
@@ -47,6 +48,7 @@ import {
   restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleCasualtyRosterSourceBindings,
   restoreTestingBattleClosureSourceBindings,
+  restoreTestingBattleConditionalSpellSourceBindings,
   restoreTestingBattleCooperativeRosterSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
@@ -67,6 +69,7 @@ import {
   testingBattleActionCadencePublicationBase,
   testingBattleCasualtyRosterPublicationBase,
   testingBattleClosurePublicationBase,
+  testingBattleConditionalSpellPublicationBase,
   testingBattleCooperativeRosterPublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
@@ -693,8 +696,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const windBlowSource = windBlowRevision && gitTree(root, windBlowRevision, [])
   const preWindBlow = windBlowSource && gitTree(root, testingBattleWindBlowPublicationBase, [])
-  const readBeforeBattleWindBlow = (path) => {
+  const conditionalSpellRevision = admission.testingBattleConditionalSpellSourceRevision
+  if (conditionalSpellRevision !== undefined)
+    assert(
+      windBlowSource && /^[a-f0-9]{40}$/u.test(conditionalSpellRevision),
+      'battle conditional spell source bridge requires the fixed preceding wind blow revision',
+    )
+  const conditionalSpellSource =
+    conditionalSpellRevision && gitTree(root, conditionalSpellRevision, [])
+  const preConditionalSpell =
+    conditionalSpellSource && gitTree(root, testingBattleConditionalSpellPublicationBase, [])
+  const readBeforeBattleConditionalSpell = (path) => {
     const live = readSource(path)
+    if (!preConditionalSpell || !isTestingBattleConditionalSpellSource(path)) return live
+    assert(
+      live?.equals(conditionalSpellSource.read(path)),
+      'battle conditional spell source differs from the frozen candidate',
+    )
+    return preConditionalSpell.read(path)
+  }
+  const readBeforeBattleWindBlow = (path) => {
+    const live = readBeforeBattleConditionalSpell(path)
     if (!preWindBlow || !isTestingBattleWindBlowSource(path)) return live
     assert(
       live?.equals(windBlowSource.read(path)),
@@ -811,13 +833,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorWindBlow = preWindBlow
-      ? restoreTestingBattleWindBlowSourceBindings(path, bytes, {
+    const priorConditionalSpell = preConditionalSpell
+      ? restoreTestingBattleConditionalSpellSourceBindings(path, bytes, {
           readSource,
+          readBase: preConditionalSpell.read,
+          readFixed: conditionalSpellSource.read,
+        })
+      : bytes
+    const priorWindBlow = preWindBlow
+      ? restoreTestingBattleWindBlowSourceBindings(path, priorConditionalSpell, {
+          readSource: readBeforeBattleConditionalSpell,
           readBase: preWindBlow.read,
           readFixed: windBlowSource.read,
         })
-      : bytes
+      : priorConditionalSpell
     const priorScriptedShake = preScriptedShake
       ? restoreTestingBattleScriptedShakeSourceBindings(path, priorWindBlow, {
           readSource: readBeforeBattleWindBlow,

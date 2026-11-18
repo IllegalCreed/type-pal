@@ -1207,6 +1207,45 @@ export function restoreTestingBattleWindBlowSourceBindings(path, bytes, inputs) 
   )
 }
 
+export const testingBattleConditionalSpellPublicationBase =
+  'af55382a655a20b5c78095d0de52f4419d0bad71'
+const battleConditionalSpellStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1289-1298': '1289-1298' },
+    ],
+    [battleTransformCore, { 2490: '2497' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleConditionalSpellPublicationBase,
+  action: 'q2-conditional-spell-source-rebinding',
+  date: '2026-11-18',
+}
+const battleConditionalSpellBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleConditionalSpellSource = (path) =>
+  battleConditionalSpellStage.ranges.has(path)
+
+export function restoreTestingBattleConditionalSpellSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleConditionalSpellStage,
+    battleConditionalSpellBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

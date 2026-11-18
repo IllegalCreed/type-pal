@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2490",
-      "sha256": "febe65792973d19ffa6ca17e55cc875a8be4330e4341bf7f2229500e269a384f"
+      "lines": "2497",
+      "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -13320,6 +13320,22 @@
         }
       ],
       "scope": "风卷残云的吹飞步长先于伤害结算消耗。既有多目标物攻调用坐标迁移，片段逐字节复核相等，原始 Q2 执行及断言仍对应各自候选。"
+    },
+    {
+      "action": "q2-conditional-spell-source-rebinding",
+      "base": "af55382a655a20b5c78095d0de52f4419d0bad71",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2490",
+          "sha256": "febe65792973d19ffa6ca17e55cc875a8be4330e4341bf7f2229500e269a384f"
+        }
+      ],
+      "scope": "零灵葫值的目标退出收妖及后续效果。既有群体物攻声明移动七行，片段逐字节相同，原执行、断言及反例保持固定来源。"
     }
   ],
   "_governance": {

@@ -54,6 +54,10 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 技能的 `animation.blow` 是可选的有符号 16 位整数，用于玩家的群体攻击，含召唤本体之后的群攻段。目标须为 `allEnemies`，特效须使用进攻落位。PAL 的风卷残云取 `-2`，风神取 `-3`。运行时按实际 FIRE 帧和重复次数抽每次位移，先抽位移，再执行成功效果和伤害抽样。位移作用于施法时存活的敌槽，保留至最后一张特效帧，进入受击前恢复原站位。该字段沿用现行内容与存档版本。 [动画字段](../../../packages/content/src/skill.ts) · [内容校验](../../../packages/content/src/validate.ts) · [实战复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-18-风卷残云与三种攻击仙术)
 
+### 灵葫咒与处决类效果
+
+有序技能效果 `collectTreasure` 从实际敌方目标读取可收灵葫值。成功时累加入账，后续目标效果沿用有效收下的敌槽。目标没有可收值时终止剩余效果。当前 PAL 灵葫咒把这一项置于体力和概率门之后、即死之前。玩家对敌处决类技能在门失败时沿用战斗中央失败卷轴。 [技能效果结算](../../../packages/reforge/src/battle/battle-core.ts#L1468-L1535)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。

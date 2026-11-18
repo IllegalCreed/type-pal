@@ -1982,15 +1982,15 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "fac4d53458e63468f43a871582515779d403238df2065cf955557de2dad78b84",
+      "afterSha256": "165eb16a50fac317f53444dc00bc773684fff8d790ada3eccefada8ca10df3fe",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "登记带声分屏与日志归档。",
-        "reviewedLines": 66,
+        "reviewedLines": 67,
         "acceptanceScope": "核本批归档和逐案重录入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "b9bdadc218d2d389c0cf8274a23bbee58e15fa95d71949493068e8092983d83e",
+      "afterSha256": "6927dfa30b6db9de3a8a9849acae072fa5eada6c14c6e7c1216184c914b39cb7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "记录两个风系技能共用的原盘攻击特效及各自吹飞。",
-        "reviewedLines": 1822,
-        "acceptanceScope": "核两条 SSS 写入、有符号位移、FIRE 帧数、恢复与伤害次序。"
+        "conclusion": "记录玩家三种仙术的原盘判定顺序和失败卷轴。",
+        "reviewedLines": 1826,
+        "acceptanceScope": "核三条原 SSS、门槛与实际作用。"
       }
     },
     {
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1fb3bb0333de6cee63ccce47c6f02a02969f53ee191165104c5465afc8819091",
+      "afterSha256": "59e990b8e105525414a51f4519507edac380404f44b0677a3bb8b0ceab8c1b52",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "核定 Reforge 会话和群体物攻的现行来源。",
-        "reviewedLines": 7965,
+        "reviewedLines": 8011,
         "acceptanceScope": "逐字核原调用范围、固定工作树指纹和既有执行身份。"
       }
     },
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "35c125c2ff21aebe0258d61ce4484f3e31dd682c38d87ddabe941f933394ef31",
+      "afterSha256": "52993b9e45acdfe241a5b3a4aaea8272f2a19f1b9b95d42ccfcd6c1dfae3ac33",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "同步当前玩家吹飞字段。",
-        "reviewedLines": 240,
-        "acceptanceScope": "核 signed 16 位校验、普通群体和召唤后段的实战入口以及现行版本。"
+        "conclusion": "同步当前技能收妖条件与失败表现。",
+        "reviewedLines": 244,
+        "acceptanceScope": "核有序效果、可收值、处决和战后读取。"
       }
     },
     {
@@ -4736,13 +4736,13 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b7dc18a8e3fbe0581c4f4b31c7cfc77b036890dbfb034cb9f6f53d796885c4c0",
+      "afterSha256": "e5b18fc7c0723b4c959bb80fe6533f94cc96d5ddf69e236de01c8b53c97710b2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "复核原会话调用坐标和断言指针。",
-        "reviewedLines": 972,
+        "reviewedLines": 1002,
         "acceptanceScope": "核固定候选、原 claim、历史追加和适用性回执。"
       }
     },
@@ -4750,10 +4750,10 @@
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4084607286cf4bb959c5d7c71f450565b5e0a7f1645d115e4afe8cac2fdc5b0c",
+      "afterSha256": "03d0357619514d1befc9fd72931f6516d38a5fa37ecdb9acdfe5c2d7dfa11cc5",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "更新会话归属报告的来源坐标。",
         "reviewedLines": 101,
@@ -5403,13 +5403,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "80ad52be91814960727aac11910e42bba07930ec7087c7849b3723b8496c7760",
+      "afterSha256": "4f60896a05d5d46c1889ef415dcfad520e1f5cd9aab0484008a53cecaf998dc6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "核普通仙术批与风神追加根因、修复、复验及清理。",
-        "reviewedLines": 751,
+        "conclusion": "核玩家特殊仙术三项差异、复验及清理。",
+        "reviewedLines": 763,
         "acceptanceScope": "合法实战、定向与静态门、双端原件、录像与恢复。"
       }
     },
@@ -5429,39 +5429,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "03bc137759482496737e42f1e4923c2a6989bfde6e2562070c8f4f6c8d832735",
+      "afterSha256": "866eb21a48a610cadd3b1ff14f5c4c001a4647dac71df44d92dcb6164870225a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "群体物攻声明来源随风卷残云分支更新。",
-        "reviewedLines": 14592,
+        "conclusion": "群体物攻声明来源随收妖分支更新。",
+        "reviewedLines": 14608,
         "acceptanceScope": "移动行号逐字复核，核原始历史、断言及附件适用性。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "ce3fdfc77527a3500ec0161b03605065ddaf4d4ed31a1dbfd82ac99f0eefb262",
+      "afterSha256": "e24e929f970b96c8bac9efe1e348a043bd6d453a89711c594cccd52fce6abf55",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
-        "conclusion": "四招实战列入台账并补核风神吹飞。",
-        "reviewedLines": 898,
-        "acceptanceScope": "四招独立伤害、两个风场、两招吹飞原件和原速声画。"
+        "conclusion": "新增夺魂、鬼降、灵葫咒实战。",
+        "reviewedLines": 914,
+        "acceptanceScope": "十组真实施放、失败分支与原速声画。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "72a8e0782a165d2a27808586eced008fae6b8633e4d8d16eadb2195d5a5a27ca",
+      "afterSha256": "5345f2f478d8f2479bbfb19888cebfb6523bb5c7bd7e9cca19b8f1577876fb46",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 风系施法原件复核",
+        "reviewer": "Codex 玩家特殊仙术原件复核",
         "date": "2026-11-18",
         "conclusion": "核对现行会话与群体物攻的来源桥。",
-        "reviewedLines": 329,
+        "reviewedLines": 335,
         "acceptanceScope": "四个冻结出版物还原和历史断言反控。"
       }
     }
@@ -6070,6 +6070,12 @@
       "bytes": 10224730,
       "sha256": "5dc02217c6690a5dd24249b482c7f6d01f43b60879b461efd25b1a15049c9f8d",
       "purpose": "风卷残云、天师符法、万蚁蚀象、爆炸蛊和风神的双端原件、反例、像素回执及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-conditional-casts-20261118.tar.gz",
+      "bytes": 14060713,
+      "sha256": "bed3fb6d2285abad38f23bdc4d528fed4a8652d191d8a186b0f1617ed2727e91",
+      "purpose": "夺魂、鬼降及灵葫咒的双端原件、反例、像素回执及重录入口。"
     }
   ],
   "artifactAliases": [],

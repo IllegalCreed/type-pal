@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1289-1298",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -925,6 +925,36 @@
         }
       ],
       "scope": "风卷残云使用已预载的实际 FIRE 帧数及现有战斗动作进入演出。三处既有会话接线片段逐字节复核相等，原执行继续对应固定候选。"
+    },
+    {
+      "action": "q2-conditional-spell-source-rebinding",
+      "base": "af55382a655a20b5c78095d0de52f4419d0bad71",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1289-1298",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        }
+      ],
+      "scope": "玩家处决类失败复用既有卷轴。三处构造及选招调用范围逐字节相同，按各自原候选保留历史执行。"
     }
   ],
   "_governance": {
