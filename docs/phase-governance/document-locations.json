@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "d27906072dc8c9fad5026272b6bf3cdbe4019a0f991e07c4c8739e0a31ddda45",
+      "afterSha256": "af3b20d7ced92c7350e9d173ed94fac7d0864043b983af302a4c75f044d18d84",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外复活机制复核",
+        "reviewer": "Codex 战外施毒机制复核",
         "date": "2026-11-19",
-        "conclusion": "核战外复活与中毒致死的当前规则。",
-        "reviewedLines": 1878,
-        "acceptanceScope": "核原盘血海棠的致死条件、当前角色 ID 以及成功值和毒槽。"
+        "conclusion": "核战外施毒和体力减半的当前规则。",
+        "reviewedLines": 1880,
+        "acceptanceScope": "核战外无影毒的原盘 `0x5A`、当前目标与整数取半。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "cef0faa913fb019533ac381c05856bbfa19e2a9f8cd0481a05782b131fdc2964",
+      "afterSha256": "0fa540412f08a7b8e4294ad26913106eaa2f1dacd95b1988093eb1aa4565cdb7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外复活机制复核",
+        "reviewer": "Codex 战外施毒机制复核",
         "date": "2026-11-19",
-        "conclusion": "核战外复活与中毒致死的当前规则。",
-        "reviewedLines": 264,
-        "acceptanceScope": "核战外复活、清毒档位和无效施用的库存合同。"
+        "conclusion": "核战外施毒和体力减半的当前规则。",
+        "reviewedLines": 266,
+        "acceptanceScope": "核战外毒抗、实际新增毒槽、入口首拍与后续游标。"
       }
     },
     {

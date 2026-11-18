@@ -1056,13 +1056,44 @@ export function resolveWorldItemUse(
           }
           break
         case 'applyPoison': {
-          // 大世界自毒(毒蛇卵/尸腐肉)或对己 use 毒药(相克/致死)—— 毒态随存档、带入战斗
           const beforeHp = next.hp
-          const beforePoisons = (next.poisons ?? []).map((poison) => ({ ...poison }))
-          applyPoisonSelf(next, Number(eff.poisonId), poisonDefs)
+          const beforeMp = next.mp
+          const beforePoisons = next.poisons?.map((poison) => ({ ...poison })) ?? []
+          const poisonRes = effectiveResistances(next, items).poisonRes + (next.extraPoisonRes ?? 0)
+          applyPoisonSelf(
+            next,
+            Number(eff.poisonId),
+            poisonDefs,
+            () => 1 + Math.floor(rng() * 100) > poisonRes,
+          )
+
+          // 0x29 只在新增毒槽时立即执行首拍。相克、双毒致死和已中的毒沿用原续点。
+          const poisons = next.poisons
+          const added = poisons?.[beforePoisons.length]
+          const ticks = added && poisonDefs?.[added.poisonId]?.playerTicks
+          const entry = ticks?.[0]
+          if (poisons && added && ticks && entry) {
+            if (next.hp > 0) {
+              next.hp = Math.max(0, Math.min(next.maxHP, next.hp + (entry.hpDelta ?? 0)))
+              next.mp = Math.max(0, Math.min(next.maxMP, next.mp + (entry.mpDelta ?? 0)))
+              if (entry.halveHp)
+                next.hp = Math.max(
+                  0,
+                  next.hp - Math.min(entry.halveHp, Math.trunc(next.hp / 2) + 1),
+                )
+            }
+            if (entry.grantItem) {
+              changeInventory(nextWorld, entry.grantItem, 1)
+              effectChanged = true
+            }
+            if (entry.selfCure) poisons.splice(beforePoisons.length, 1)
+            else added.tickIndex = Math.min(1, ticks.length - 1)
+          }
+
           const afterPoisons = next.poisons ?? []
           effectChanged ||=
             next.hp !== beforeHp ||
+            next.mp !== beforeMp ||
             beforePoisons.length !== afterPoisons.length ||
             beforePoisons.some(
               (poison, index) =>

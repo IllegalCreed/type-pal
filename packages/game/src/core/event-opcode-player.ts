@@ -36,6 +36,7 @@ export const OP_REMOVE_PLAYER_STATUS = 0x002f
 export const OP_MARK_SCRIPT_FAILED = 0x0041
 export { OP_ADD_MAGIC } from './script-opcode-ids.js'
 export const OP_REMOVE_MAGIC = 0x0056
+const OP_HALVE_PLAYER_HP = 0x005a
 const OP_KILL_PLAYER = 0x005f
 export const OP_INCREASE_PLAYER_LEVEL = 0x008d
 
@@ -185,10 +186,14 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
       // BattleState-owned variants remain handled by battle-opcodes.
       return true
 
+    case OP_HALVE_PLAYER_HP:
     case OP_KILL_PLAYER: {
-      const hp = gs.PlayerRolesRuntime.rgwHP
       const roleId = currentEventObjectId
-      if (roleId !== undefined && hp[roleId] !== undefined) hp[roleId] = 0
+      if (roleId === undefined) return true
+      const hp = gs.PlayerRolesRuntime.rgwHP
+      const current = hp[roleId]
+      if (current !== undefined)
+        hp[roleId] = opcode === OP_HALVE_PLAYER_HP ? Math.floor(current / 2) : 0
       return true
     }
 

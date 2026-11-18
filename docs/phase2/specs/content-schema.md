@@ -24,6 +24,8 @@ Template: design-spec-v1 / 1.0.0
 
 战外用物的 `revive` 效果按设定比例恢复倒地目标的体力，同时清除其临时状态、常规毒和重毒。不可解除的毒及其续点继续保留。复活未发生且本次用物的其它效果均无变化时，保留库存。 [战外用物结算](../../../packages/content/src/item.ts)
 
+战外施毒先处理相克与双毒致死。尝试上毒时掷 1–100，结果严格大于装备和临时毒抗之和才可新增毒槽。新增时立即执行 `playerTicks` 首项，有后续项时从下一项续走。同种毒保留原槽与续点。 [战外用物结算](../../../packages/content/src/item.ts) · [原版上毒与入口执行](../../../reference/sdlpal/script.c#L1257-L1285)
+
 ### 寄生毒与产物旁白
 
 `PoisonDef.enemyTicks` 的首项由新增敌方毒槽消费，后续项按回合末推进。PAL 的食妖虫附和碧血蚕附各以空首项开始，接八项扣血和单独的入账自解项。第九次回合末发放产物。 [毒定义类型](../../../packages/content/src/poison.ts) · [PAL 毒定义](../../../projects/pal/content/poisons.json)
