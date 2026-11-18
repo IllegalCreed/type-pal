@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "297097fe47e68c32df0037fd93a3d26bc27a98fb62a8b61a8d4e37024a2cb890",
+      "afterSha256": "98ef1bf408b6ab8cb0b9243339bd3d168160ab01f0f3a9e72068c486908d169c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记两份本次 Q2 原件。",
-        "reviewedLines": 69,
-        "acceptanceScope": "核归档及分屏重录入口。"
+        "conclusion": "登记金钱仙术实战原件。",
+        "reviewedLines": 70,
+        "acceptanceScope": "核归档和成片重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "c5f8753433b011930c4fc3a9f203c91eb5c72441c6b33c5b480ebadbd9bbbf74",
+      "afterSha256": "db7e9a68fbdb8ddce44dfcf2b4c4fc806cdb7b447d1ae1b08fe547d3c919dbe1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录两种蛊术的耗材与伤害，及鬼降混乱抖动的绘制起点。",
-        "reviewedLines": 1836,
-        "acceptanceScope": "核 MAGIC、SSS 和 SDLPal 行动与绘制顺序。"
+        "conclusion": "记录原盘金钱门、失败卷轴与零基础威力。",
+        "reviewedLines": 1842,
+        "acceptanceScope": "核 MAGIC、SSS 与 SDLPal 扣真气、伤害及成长。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c3a5c74b08153df13a9c143828650396050f0a40ab77543956ba55893efd9541",
+      "afterSha256": "8ece09b32d26af2fda60f3fd6d277af24a644101115c1e58830e1f8c96bb1224",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "重绑既有战斗会话、群攻和随机观察来源。",
-        "reviewedLines": 8064,
-        "acceptanceScope": "五个调用片段逐字核对，完整恢复前驱。"
+        "conclusion": "同步现行战斗会话、试打与选招来源。",
+        "reviewedLines": 8131,
+        "acceptanceScope": "七处片段逐字节相等并恢复前驱。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "4d0fbc6a149584bea6a1a7eb9de02097e8c73fae42cf767ad7159587a7401be7",
+      "afterSha256": "68cf3428e967f6a4b1848c0c69a5f772b1cca740618337f39c35f5b7cdf4c174",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录消耗不足和混乱的当前战斗合同。",
-        "reviewedLines": 250,
-        "acceptanceScope": "核公共效果、耗材、成长与演出启动边界。"
+        "conclusion": "记录普通仙术金钱成本及零威力合同。",
+        "reviewedLines": 252,
+        "acceptanceScope": "核当轮金额、失败反馈与正余额分支。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e3a95b27bab67b753d2b406e56e4d6ef98374110701c805f3fbd64091038c4ba",
+      "afterSha256": "cfeeb5f41c7656c42a72cf687b0e317997748e40231344e0facd3fda9bc174da",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "调整现行会话断言的实际坐标。",
-        "reviewedLines": 1032,
-        "acceptanceScope": "保留固定历史执行、核旧坐标反控。"
+        "conclusion": "调整会话来源与原选招判据坐标。",
+        "reviewedLines": 1069,
+        "acceptanceScope": "保留历史执行和原判据，核坐标反控。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "82b3dfd3378dc5fdcc4a257668d297769694299ef68f23b8b9786436e4e474e0",
+      "afterSha256": "63cf990b2b977db7c391f9ca8a302d25f9f9bc0b831108feaada59552680eead",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步现行三处会话来源坐标与文件摘要。",
+        "conclusion": "同步会话来源和选招判据的现行行号及摘要。",
         "reviewedLines": 101,
-        "acceptanceScope": "复核同一会话构造、载入和选招入口。"
+        "acceptanceScope": "核两处构造、一次选招调用及原选招断言。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "15a9dcb25b7069162ffe89a23b5d94b7831f7de3494f602a61bb928389df2aad",
+      "afterSha256": "8529a30bfb4c865748466cf67dbf80f3036ca7169c4ea0589101790e6bbc43fd",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录本批复验与新反馈处理。",
-        "reviewedLines": 773,
-        "acceptanceScope": "核配对录制、恢复与清理、实际质量门。"
+        "conclusion": "核定本批实跑、修复、复验和最小留存。",
+        "reviewedLines": 781,
+        "acceptanceScope": "核业务、录制与原件恢复和实际删减。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "7ce38a56af0a57cb3b2ec4ea1892574035fae8f38a5dbbe0e229749858e5516e",
+      "afterSha256": "fd6069540466aedd187ab5b0efa0d1142978d42c36def1d4961397e447eadd1a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步群体物攻与随机观察当前来源。",
-        "reviewedLines": 14631,
-        "acceptanceScope": "核历史身份、现行来源及拒绝漂移。"
+        "conclusion": "同步现行试打适配、选招和群攻声明。",
+        "reviewedLines": 14661,
+        "acceptanceScope": "核既有运行与现行来源，保留历史哈希。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "cd37ac9c0627c04377038bda1fed1e1b03a5f8ad59e2877a815303a2d4d0a6a7",
+      "afterSha256": "9e49e1e098f1b8a8f7a869f1e362982e6922b4fcfefdec17c45f5755e0827a24",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记三尸咒、万蛊蚀天和鬼降抖动复验。",
-        "reviewedLines": 936,
-        "acceptanceScope": "七加三组双端实战、原件、反例与两份带声分屏。"
+        "conclusion": "登记铜钱镖、乾坤一掷及覆盖增量。",
+        "reviewedLines": 952,
+        "acceptanceScope": "七组正式双端、五组原速带声录制与三种负例。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "c5ee2cf4c7a21e0829e4f3b70fd6d0eb0723634bb74108c876be5e886a2fd3e1",
+      "afterSha256": "c2c8574cda3eabb0173f5a179a74ad8983deccbd427c3330dc3be8098501e986",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "reviewer": "Codex 金钱仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "追加耗材卷轴和混乱抖动后的来源复核。",
-        "reviewedLines": 341,
-        "acceptanceScope": "五处现行片段、四件前驱及三项反控。"
+        "conclusion": "追加普通仙术金钱结算后的现行来源。",
+        "reviewedLines": 355,
+        "acceptanceScope": "七处片段、四件出版物和三项反控。"
       }
     }
   ],
@@ -6088,6 +6088,12 @@
       "bytes": 2073240,
       "sha256": "614936cbb7caa15050db6078f144ead5f1a9b0507a8e35f0d9856ffa55b27bb4",
       "purpose": "鬼降抖动复核的三组同局原件、修前定位、解码像素与带声分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-money-casts-20261119.tar.gz",
+      "bytes": 10771772,
+      "sha256": "0139cbfb25a4d03914c649eccf130183d107299bc4efbaedf5aef85b6b32789a",
+      "purpose": "铜钱镖和乾坤一掷的七组双端原件，旧版反例、解码像素及分屏重录。"
     }
   ],
   "artifactAliases": [],

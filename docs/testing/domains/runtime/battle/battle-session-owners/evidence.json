@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1290-1299",
+      "lines": "1284-1293",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -39,10 +39,10 @@
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-      "lines": "73-96",
+      "lines": "72-95",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
+      "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -85,9 +85,9 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:251-253",
         "packages/reforge/src/battle/battle-session.ts:426-438",
-        "packages/reforge/src/battle/battle-session.ts:1290-1299",
+        "packages/reforge/src/battle/battle-session.ts:1284-1293",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
-        "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
+        "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
       ]
     }
@@ -985,6 +985,43 @@
         }
       ],
       "scope": "耗材卷轴与混乱抖动由动作时间线消费。三处选择与构造片段逐字节相同，既有执行保留其候选。"
+    },
+    {
+      "action": "q2-spell-currency-source-rebinding",
+      "base": "1805ef135a1238b5c75d152ec643a6ff56053c1d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1290-1299",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "73-96",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
+        }
+      ],
+      "scope": "施法时结算金钱，选择提交、构造及原选招测试四处片段逐字节相同，既有执行保留其候选。"
     }
   ],
   "_governance": {

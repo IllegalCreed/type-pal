@@ -1290,6 +1290,53 @@ export function restoreTestingBattleGuAndConfusionSourceBindings(path, bytes, in
   )
 }
 
+export const testingBattleSpellCurrencyPublicationBase = '1805ef135a1238b5c75d152ec643a6ff56053c1d'
+const battleCurrencyTrialAdapter = 'scripts/e2e/battle-reforge-adapter.mjs'
+const battleCurrencySelection = 'packages/reforge/src/battle/battle-command-selection.ts'
+const battleSpellCurrencyStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1290-1299': '1284-1293' },
+    ],
+    [reforgeBattleCommandSelectionTest, { '73-96': '72-95' }],
+    [battleCurrencyTrialAdapter, { 179: '179' }],
+    [battleCurrencySelection, { 60: '59' }],
+    [battleTransformCore, { 2500: '2500' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSpellCurrencyPublicationBase,
+  action: 'q2-spell-currency-source-rebinding',
+  date: '2026-11-19',
+}
+const battleSpellCurrencyBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath, reforgeBattleCommandSelectionTest] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleCurrencyTrialAdapter, battleCurrencySelection, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleSpellCurrencySource = (path) =>
+  battleSpellCurrencyStage.ranges.has(path)
+
+export function restoreTestingBattleSpellCurrencySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSpellCurrencyStage,
+    battleSpellCurrencyBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

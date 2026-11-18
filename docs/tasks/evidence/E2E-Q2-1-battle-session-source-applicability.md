@@ -338,3 +338,17 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 固定前驱 `839c1ede2ffff006b0fc67be3deb1c1674b1b303`，候选 `1d84214d2395cd12cde31b651b7a67e1412fe70a`。耗材失败用已有动作反馈在起手结束时显示卷轴。鬼降的混乱抖动从主特效清除时启用。会话选招与构造三处片段分别核 251–253、426–438 及 1289–1298 → 1290–1299，逐字节相同。另核群体物攻声明 2497 → 2500 与随机观察入口第 28 行，两处片段相同。随机观察将同一个成长标记交给提取后的公共增长函数消费。 [卷轴和抖动接线](../../../packages/reforge/src/battle/battle-session.ts#L713-L719)
 
 用现行源码与两个固定 Git 候选复算 catalog、两份机器原件及覆盖报告的前驱值。改动历史事件、旧会话断言指针、现行随机观察源码三项反控都被拒绝。早先候选只用于原执行的恢复。 [耗材实战](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-三尸咒与万蛊蚀天) · [鬼降抖动实战](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-鬼降命中后的抖动)
+
+## 2026-11-19 玩家仙术金钱结算后的来源
+
+固定前驱 `1805ef135a1238b5c75d152ec643a6ff56053c1d`，候选 `a20e5e0b09ce42c8f0573c3a577f174041944de6`。选招移除了余额预检，Reforge 试打观察器分阶段记录战内实时余额及终态世界余额。下列已引用片段逐字节相同。现行摘要及坐标同步到 catalog、报告和机器回执，早先运行继续绑定原候选。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 251–253、426–438、1290–1299 | 251–253、426–438、1284–1293 |
+| `packages/reforge/src/battle/battle-command-selection.test.ts` | 73–96 | 72–95 |
+| `packages/reforge/src/battle/battle-command-selection.ts` | 60 | 59 |
+| `packages/reforge/src/battle/battle-core.ts` | 2500 | 2500 |
+| `scripts/e2e/battle-reforge-adapter.mjs` | 179 | 179 |
+
+实际桥接器复算四份出版物的固定前驱，拒绝旧历史事件、选招断言坐标和实时观察源字节三种改动。文档位置与战斗出版工具共 86 项通过。 [七组修后实战](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-铜钱镖与乾坤一掷)
