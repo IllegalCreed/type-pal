@@ -2225,6 +2225,7 @@ export class BattleSession {
     if (!feedback) return
     if (feedback === 'spellIneffective') {
       this.showActionFeedback('失败　没有效果', 'anyKey')
+      this.actionPresentation.satisfyActionCadence()
       return
     }
     const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
