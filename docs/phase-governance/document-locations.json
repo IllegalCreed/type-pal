@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "3a90ea4661fc116b526090c0e25f54a51dcfccebc14ab56f759cb59e746b6424",
+      "afterSha256": "c785b020830ff7d8680e4b53e836b56d167e65ff5d4791389b8f9bbb17226837",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
+        "reviewer": "Codex 拜月教主三招复核",
         "date": "2026-11-19",
-        "conclusion": "登记六柱和三招的分屏。",
-        "reviewedLines": 76,
-        "acceptanceScope": "核报告、归档路径、原生声画指纹。"
+        "conclusion": "登记拜月教主三招的归档。",
+        "reviewedLines": 77,
+        "acceptanceScope": "核归档、执行清单及分屏入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "6e9d26f0c22ae1a50d79073adbc81f1b2f602bdfe4268de94498e7d73dc2c002",
+      "afterSha256": "61079da94302f951a46aa5cbffe2dc6a74747312d9d971278b00981ff9345f36",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
+        "reviewer": "Codex 拜月教主三招复核",
         "date": "2026-11-19",
-        "conclusion": "保全六柱返场及三招双端原件。",
-        "reviewedLines": 827,
-        "acceptanceScope": "核同候选录制、原盘震屏及可复算证据。"
+        "conclusion": "登记三种仙术及归档恢复。",
+        "reviewedLines": 833,
+        "acceptanceScope": "核双端复算、漏帧反例及清理实绩。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "db9cd92120104fefaf0f1746c545bda65489af604d8dc9c43e731d073fc58286",
+      "afterSha256": "b9e56a42d698c838834e19c87dcf587a16f6925b83ca051e1b6d442aa6253f41",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
+        "reviewer": "Codex 拜月教主三招复核",
         "date": "2026-11-19",
-        "conclusion": "登记六个正式入口与三种敌方仙术。",
-        "reviewedLines": 1045,
-        "acceptanceScope": "核真实战斗、结算写回、退场及声画。"
+        "conclusion": "登记最后三个敌方仙术施放条目。",
+        "reviewedLines": 1057,
+        "acceptanceScope": "核同局指令、随机值、毒槽、胜利结算及声画。"
       }
     },
     {
@@ -6130,6 +6130,12 @@
       "bytes": 14070474,
       "sha256": "d479555fe15184279bd7349096e2c1cde0c8f95b33702c489eaa8ec2f4172db4",
       "purpose": "六个龙柱实战与返场、弦月斩、爆炸、气魔焰及两条原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-moon-leader-casts-20261119.tar.gz",
+      "bytes": 5959994,
+      "sha256": "ed40dc225526c38c9606deec4eb1b4a9949a7f8ff21180a379f6e815ca16a87e",
+      "purpose": "拜月教主三种仙术的双端实战、漏帧反例及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

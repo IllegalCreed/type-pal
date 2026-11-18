@@ -64,6 +64,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 姜清剧情与六种敌方仙术 | [逐轮出招、真实掉落、世界等待反例和两条原速带声分屏](E2E-Q2-1-jiang-qing-enemy-casts-20261119.tar.gz) |
 | Q2 三种敌方仙术和七星盘龙柱 | [逐轮出招、震屏、三种剧情出口和两条原速带声分屏](E2E-Q2-1-three-enemy-spells-and-dragon-pillars-20261119.tar.gz) |
 | Q2 六根龙柱与三种敌方仙术 | [原生接敌、返场、三招声画与分屏](E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz) |
+| Q2 拜月教主三招 | [双端实战、毒槽、漏帧反例和原速带声分屏重录](E2E-Q2-1-moon-leader-casts-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
