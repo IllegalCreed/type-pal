@@ -1096,7 +1096,7 @@ historical。do not promote historical claims to current truth without a current
 >
 > - 触发战斗的脚本 opcode `0x0007`(start battle)调 `PAL_StartBattle(operand[0], !operand[2])`([script.c:3314-3333](../../reference/sdlpal/script.c#L3314-L3333))——即 `fIsBoss = !operand[2]`。
 > - `operand[2]` **身兼二职**:既是"可逃标志",又是"逃跑成功后跳转的脚本地址"。所以 `operand[2] != 0` ⇔ `fIsBoss = FALSE` ⇔ **可逃**(逃了就跳去 operand[2] 那段善后脚本);`operand[2] == 0` ⇔ boss 战、逃不掉。
-> - 金蝉脱壳的 `0x003A` 走同一道闸。`fIsBoss` 时跳指定卷轴分支，可逃时调用 `PAL_BattlePlayerEscape()`。 [原盘金蝉脱壳](#2026-11-19-金蝉脱壳) · [退场分支](../../reference/sdlpal/script.c#L1588-L1603)
+> - 脚本驱动的逃跑 opcode `0x003A` 走同一道闸([script.c:1588-1603](../../reference/sdlpal/script.c#L1588-L1603)):`fIsBoss` 时直接跳"逃不掉",否则才 `PAL_BattlePlayerEscape()`。
 >
 > **实例:锁妖塔「七星磐龙柱」七神龙——长着 boss 的样子,却能逃。** 锁妖塔底层七星磐龙柱召出的七条神龙(毒 / 金 / 土 / 火 / 冰 / 风 / 雷神龙,enemy id 141–147 / 敌队 305–311)在玩家眼里是七场独一无二的 boss,但它们的 `0x0007` 触发操作数全是 `[队号, 41075, 41073]`——`operand[2] = 41073 ≠ 0` → `fIsBoss = FALSE` → **能逃**(逃跑旁白跳 41073)。真值出处:`data/extracted/events/all.json` `commands[24784..24802]`(紧邻前一行旁白 `commands[24781]` = "七星磐龙柱")。
 >

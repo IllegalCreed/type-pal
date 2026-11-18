@@ -34,6 +34,7 @@ import {
   isTestingBattleDefeatSourcePath,
   isTestingBattleEnemyColorSource,
   isTestingBattleEnemyTransformSource,
+  isTestingBattleEscapeSpellSource,
   isTestingBattleEvidencePath,
   isTestingBattleGuAndConfusionSource,
   isTestingBattleHandoffHistoricalSource,
@@ -55,6 +56,7 @@ import {
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
   restoreTestingBattleEnemyTransformSourceBindings,
+  restoreTestingBattleEscapeSpellSourceBindings,
   restoreTestingBattleGuAndConfusionSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLearnedSkillsSourceBindings,
@@ -78,6 +80,7 @@ import {
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
   testingBattleEnemyTransformPublicationBase,
+  testingBattleEscapeSpellPublicationBase,
   testingBattleGuAndConfusionPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
@@ -730,8 +733,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const spellCurrencySource = spellCurrencyRevision && gitTree(root, spellCurrencyRevision, [])
   const preSpellCurrency =
     spellCurrencySource && gitTree(root, testingBattleSpellCurrencyPublicationBase, [])
-  const readBeforeBattleSpellCurrency = (path) => {
+  const escapeSpellRevision = admission.testingBattleEscapeSpellSourceRevision
+  if (escapeSpellRevision !== undefined)
+    assert(
+      spellCurrencySource && /^[a-f0-9]{40}$/u.test(escapeSpellRevision),
+      'battle escape spell source bridge requires the fixed preceding spell currency revision',
+    )
+  const escapeSpellSource = escapeSpellRevision && gitTree(root, escapeSpellRevision, [])
+  const preEscapeSpell =
+    escapeSpellSource && gitTree(root, testingBattleEscapeSpellPublicationBase, [])
+  const readBeforeBattleEscapeSpell = (path) => {
     const live = readSource(path)
+    if (!preEscapeSpell || !isTestingBattleEscapeSpellSource(path)) return live
+    assert(
+      live?.equals(escapeSpellSource.read(path)),
+      'battle escape spell source differs from the frozen candidate',
+    )
+    return preEscapeSpell.read(path)
+  }
+  const readBeforeBattleSpellCurrency = (path) => {
+    const live = readBeforeBattleEscapeSpell(path)
     if (!preSpellCurrency || !isTestingBattleSpellCurrencySource(path)) return live
     assert(
       live?.equals(spellCurrencySource.read(path)),
@@ -875,13 +896,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorSpellCurrency = preSpellCurrency
-      ? restoreTestingBattleSpellCurrencySourceBindings(path, bytes, {
+    const priorEscapeSpell = preEscapeSpell
+      ? restoreTestingBattleEscapeSpellSourceBindings(path, bytes, {
           readSource,
+          readBase: preEscapeSpell.read,
+          readFixed: escapeSpellSource.read,
+        })
+      : bytes
+    const priorSpellCurrency = preSpellCurrency
+      ? restoreTestingBattleSpellCurrencySourceBindings(path, priorEscapeSpell, {
+          readSource: readBeforeBattleEscapeSpell,
           readBase: preSpellCurrency.read,
           readFixed: spellCurrencySource.read,
         })
-      : bytes
+      : priorEscapeSpell
     const priorGuAndConfusion = preGuAndConfusion
       ? restoreTestingBattleGuAndConfusionSourceBindings(path, priorSpellCurrency, {
           readSource: readBeforeBattleSpellCurrency,

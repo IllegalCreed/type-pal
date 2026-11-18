@@ -28,7 +28,7 @@
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
       "lines": "480",
-      "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+      "sha256": "9b6711b6b5503b55ecd1345170262f562336cc08647aed26813085e3e383a324"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
@@ -252,7 +252,7 @@
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
       "lines": "2500",
-      "sha256": "a4b9bfc4b143ae95303466a9ffe147c17aa419b680ac0c2e2a4250f55cf3ef0b"
+      "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -286,8 +286,8 @@
       "path": "packages/game/src/core/battle/battle-system.ts",
       "anchor": "function tickPostAction(",
       "role": "first-game-exhausted-queue-tick",
-      "lines": "2827",
-      "sha256": "a093b0c4cbf79bd58e9d7f477586c406ea4d9b60ae7b9ba1d7313c394d99214b"
+      "lines": "2828",
+      "sha256": "72615052ac514abb6f770bc4aa6ab016383934b615f826313320cb33cb0240c9"
     },
     {
       "path": "projects/pal/content/shared-scripts.json",
@@ -13389,6 +13389,36 @@
         }
       ],
       "scope": "观察战内实时余额。试打入口、选招类声明与群体物攻函数声明片段相同，原始执行及断言保留。"
+    },
+    {
+      "action": "q2-escape-spell-source-rebinding",
+      "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "lines": "480",
+          "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2500",
+          "sha256": "a4b9bfc4b143ae95303466a9ffe147c17aa419b680ac0c2e2a4250f55cf3ef0b"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2827",
+          "sha256": "a093b0c4cbf79bd58e9d7f477586c406ea4d9b60ae7b9ba1d7313c394d99214b"
+        }
+      ],
+      "scope": "前摇与退场接线更新。群攻声明、Game 回合收尾与测试入场片段逐字节相等，旧运行与断言保留。"
     }
   ],
   "_governance": {

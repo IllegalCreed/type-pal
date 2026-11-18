@@ -1337,6 +1337,50 @@ export function restoreTestingBattleSpellCurrencySourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleEscapeSpellPublicationBase = '768c8de4ea02d931826e583d00dc108677adbbea'
+const battleEscapeFixtureAdapter = 'scripts/e2e/battle-game-adapter.mjs'
+const battleEscapeSpellStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+    [battleEscapeFixtureAdapter, { 480: '480' }],
+    [battleTransformCore, { 2500: '2500' }],
+    [battleTransformGameSystem, { 2827: '2828' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEscapeSpellPublicationBase,
+  action: 'q2-escape-spell-source-rebinding',
+  date: '2026-11-19',
+}
+const battleEscapeSpellBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleEscapeFixtureAdapter, battleTransformCore, battleTransformGameSystem],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleEscapeSpellSource = (path) => battleEscapeSpellStage.ranges.has(path)
+
+export function restoreTestingBattleEscapeSpellSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEscapeSpellStage,
+    battleEscapeSpellBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

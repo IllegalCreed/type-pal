@@ -352,3 +352,16 @@ PAL 工程 manifest 的唯一变更是绑定召唤音效。Q2 已引用的第 7 
 | `scripts/e2e/battle-reforge-adapter.mjs` | 179 | 179 |
 
 实际桥接器复算四份出版物的固定前驱，拒绝旧历史事件、选招断言坐标和实时观察源字节三种改动。文档位置与战斗出版工具共 86 项通过。 [七组修后实战](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-铜钱镖与乾坤一掷)
+
+## 2026-11-19 金蝉脱壳演出后的来源
+
+固定前驱 `768c8de4ea02d931826e583d00dc108677adbbea`，候选 `9cba55f6b2a1432a471572921a8d32fae3718717`。同一施法时间线在使用者起手后衔接退场或禁逃卷轴。以下既有片段逐字节相同，现行摘要同步，旧原件继续按原候选读取。
+
+| 文件 | 旧范围 | 现行范围 |
+| --- | --- | --- |
+| `packages/reforge/src/battle/battle-session.ts` | 251–253、426–438、1284–1293 | 251–253、426–438、1284–1293 |
+| `packages/reforge/src/battle/battle-core.ts` | 2500 | 2500 |
+| `packages/game/src/core/battle/battle-system.ts` | 2827 | 2828 |
+| `scripts/e2e/battle-game-adapter.mjs` | 480 | 480 |
+
+复算四份出版物的固定前驱值及历史断言。旧事件、选招断言坐标及 Game 适配器实时字节的改动均被拒绝。两套文档工具共 86 项通过。 [金蝉脱壳实战](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-金蝉脱壳的退场和禁逃)

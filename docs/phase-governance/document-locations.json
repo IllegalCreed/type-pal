@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "98ef1bf408b6ab8cb0b9243339bd3d168160ab01f0f3a9e72068c486908d169c",
+      "afterSha256": "849bbb21e246b65fdbfd134390a0df19f4e69a44996d9dc77ba8ec97a72a1956",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记金钱仙术实战原件。",
-        "reviewedLines": 70,
-        "acceptanceScope": "核归档和成片重录入口。"
+        "conclusion": "登记金蝉脱壳实战原件。",
+        "reviewedLines": 71,
+        "acceptanceScope": "核归档和原速带声重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "db7e9a68fbdb8ddce44dfcf2b4c4fc806cdb7b447d1ae1b08fe547d3c919dbe1",
+      "afterSha256": "ac1ed561a1f01227868cd7cff014aa7e3d8296afd8eb825eb779573229fc36bb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录原盘金钱门、失败卷轴与零基础威力。",
-        "reviewedLines": 1842,
-        "acceptanceScope": "核 MAGIC、SSS 与 SDLPal 扣真气、伤害及成长。"
+        "conclusion": "记录金蝉脱壳的施法、退场及禁逃分支。",
+        "reviewedLines": 1848,
+        "acceptanceScope": "核原盘 MAGIC、SSS 和原版入场动作。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8ece09b32d26af2fda60f3fd6d277af24a644101115c1e58830e1f8c96bb1224",
+      "afterSha256": "8b4e9bf403fc6a94d6201b52389c3c9a4c03363016ea97a77aefa65720177182",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步现行战斗会话、试打与选招来源。",
-        "reviewedLines": 8131,
-        "acceptanceScope": "七处片段逐字节相等并恢复前驱。"
+        "conclusion": "同步两端施法与逃离后的现行来源。",
+        "reviewedLines": 8191,
+        "acceptanceScope": "六处源码片段逐字相等并恢复前驱。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "68cf3428e967f6a4b1848c0c69a5f772b1cca740618337f39c35f5b7cdf4c174",
+      "afterSha256": "081a0074485237ca19355101612a2aca7121d61d616e8197a259705d8dd1ccdd",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录普通仙术金钱成本及零威力合同。",
-        "reviewedLines": 252,
-        "acceptanceScope": "核当轮金额、失败反馈与正余额分支。"
+        "conclusion": "记录玩家退场法术的显示和结果合同。",
+        "reviewedLines": 254,
+        "acceptanceScope": "核允许逃离与禁逃的施法、真气和反馈。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "cfeeb5f41c7656c42a72cf687b0e317997748e40231344e0facd3fda9bc174da",
+      "afterSha256": "a92b6267b3208bc56387d366f5d6ab9ab634de053cd7a931eb3ea6042a3fdbc8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "调整会话来源与原选招判据坐标。",
-        "reviewedLines": 1069,
-        "acceptanceScope": "保留历史执行和原判据，核坐标反控。"
+        "conclusion": "重绑当前会话来源文件摘要。",
+        "reviewedLines": 1099,
+        "acceptanceScope": "保持选择和原断言，拒绝坐标漂移。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "63cf990b2b977db7c391f9ca8a302d25f9f9bc0b831108feaada59552680eead",
+      "afterSha256": "d8c8a4e645a7ce3e2c7e9945a089ffdba138e12e3b68c92a7ab3f64b64efa9c1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步会话来源和选招判据的现行行号及摘要。",
+        "conclusion": "同步三个既有会话来源的现行摘要。",
         "reviewedLines": 101,
-        "acceptanceScope": "核两处构造、一次选招调用及原选招断言。"
+        "acceptanceScope": "核原构造和选择接线。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8529a30bfb4c865748466cf67dbf80f3036ca7169c4ea0589101790e6bbc43fd",
+      "afterSha256": "db299c07a7a6d169822d88d9551b47df7f40cccd2a1fc58d75173b8713ae6b48",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "核定本批实跑、修复、复验和最小留存。",
-        "reviewedLines": 781,
-        "acceptanceScope": "核业务、录制与原件恢复和实际删减。"
+        "conclusion": "记录金蝉脱壳实战及最小留存。",
+        "reviewedLines": 789,
+        "acceptanceScope": "核修前反例、正式实战、分屏及主动清理。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "fd6069540466aedd187ab5b0efa0d1142978d42c36def1d4961397e447eadd1a",
+      "afterSha256": "b8d906cc4b6375a601909f058d2f7268760b979c295849b04f3b4642faa8da8f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步现行试打适配、选招和群攻声明。",
-        "reviewedLines": 14661,
-        "acceptanceScope": "核既有运行与现行来源，保留历史哈希。"
+        "conclusion": "同步试打入口、群攻和回合收尾来源。",
+        "reviewedLines": 14691,
+        "acceptanceScope": "现行引用已核字节，保留历史原件和结论。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "9e49e1e098f1b8a8f7a869f1e362982e6922b4fcfefdec17c45f5755e0827a24",
+      "afterSha256": "51b0324216e4fc25049d0e634fbcedef2fad68906d5f575a32aefc8b6b916268",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记铜钱镖、乾坤一掷及覆盖增量。",
-        "reviewedLines": 952,
-        "acceptanceScope": "七组正式双端、五组原速带声录制与三种负例。"
+        "conclusion": "登记金蝉脱壳的实战及普通仙术覆盖。",
+        "reviewedLines": 960,
+        "acceptanceScope": "核退场和禁逃双端、原件、反例及原声分屏。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "c2c8574cda3eabb0173f5a179a74ad8983deccbd427c3330dc3be8098501e986",
+      "afterSha256": "382b0aea2314f9c25da22a99647e012f4d59d3df649822950fd8b35e78b86164",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金钱仙术实战复核",
+        "reviewer": "Codex 金蝉脱壳实战复核",
         "date": "2026-11-19",
-        "conclusion": "追加普通仙术金钱结算后的现行来源。",
-        "reviewedLines": 355,
-        "acceptanceScope": "七处片段、四件出版物和三项反控。"
+        "conclusion": "记录退场演出变更后的适用来源。",
+        "reviewedLines": 368,
+        "acceptanceScope": "六处片段、四件前驱及三项反控。"
       }
     }
   ],
@@ -6094,6 +6094,12 @@
       "bytes": 10771772,
       "sha256": "0139cbfb25a4d03914c649eccf130183d107299bc4efbaedf5aef85b6b32789a",
       "purpose": "铜钱镖和乾坤一掷的七组双端原件，旧版反例、解码像素及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-escape-cast-20261119.tar.gz",
+      "bytes": 4774687,
+      "sha256": "813de2ef213d3a971cd4468a8f61e2e39c474f23f3407392b710e6f0ff50b6ce",
+      "purpose": "金蝉脱壳允许和禁逃双端实战、旧版反例、退出观察、分屏解码及重录。"
     }
   ],
   "artifactAliases": [],

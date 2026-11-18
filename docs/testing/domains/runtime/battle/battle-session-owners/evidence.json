@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+      "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+      "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1284-1293",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+      "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1022,6 +1022,36 @@
         }
       ],
       "scope": "施法时结算金钱，选择提交、构造及原选招测试四处片段逐字节相同，既有执行保留其候选。"
+    },
+    {
+      "action": "q2-escape-spell-source-rebinding",
+      "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1284-1293",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        }
+      ],
+      "scope": "金蝉脱壳使用共同施法时间线。构造和选招调用的三处片段保持原字节，现行摘要更新。"
     }
   ],
   "_governance": {

@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1284-1293",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3163,6 +3163,36 @@
               }
             ],
             "scope": "施法时结算金钱，选择提交、构造及原选招测试四处片段逐字节相同，既有执行保留其候选。"
+          },
+          {
+            "action": "q2-escape-spell-source-rebinding",
+            "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1284-1293",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+              }
+            ],
+            "scope": "金蝉脱壳使用共同施法时间线。构造和选招调用的三处片段保持原字节，现行摘要更新。"
           }
         ]
       },
@@ -5879,7 +5909,7 @@
           "anchor": "launch(input) {",
           "role": "public-fixture-adapter",
           "lines": "480",
-          "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+          "sha256": "9b6711b6b5503b55ecd1345170262f562336cc08647aed26813085e3e383a324"
         },
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
@@ -6103,7 +6133,7 @@
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
           "lines": "2500",
-          "sha256": "a4b9bfc4b143ae95303466a9ffe147c17aa419b680ac0c2e2a4250f55cf3ef0b"
+          "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -6137,8 +6167,8 @@
           "path": "packages/game/src/core/battle/battle-system.ts",
           "anchor": "function tickPostAction(",
           "role": "first-game-exhausted-queue-tick",
-          "lines": "2827",
-          "sha256": "a093b0c4cbf79bd58e9d7f477586c406ea4d9b60ae7b9ba1d7313c394d99214b"
+          "lines": "2828",
+          "sha256": "72615052ac514abb6f770bc4aa6ab016383934b615f826313320cb33cb0240c9"
         },
         {
           "path": "projects/pal/content/shared-scripts.json",
@@ -7652,6 +7682,36 @@
               }
             ],
             "scope": "观察战内实时余额。试打入口、选招类声明与群体物攻函数声明片段相同，原始执行及断言保留。"
+          },
+          {
+            "action": "q2-escape-spell-source-rebinding",
+            "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-game-adapter.mjs",
+                "anchor": "launch(input) {",
+                "role": "public-fixture-adapter",
+                "lines": "480",
+                "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2500",
+                "sha256": "a4b9bfc4b143ae95303466a9ffe147c17aa419b680ac0c2e2a4250f55cf3ef0b"
+              },
+              {
+                "path": "packages/game/src/core/battle/battle-system.ts",
+                "anchor": "function tickPostAction(",
+                "role": "first-game-exhausted-queue-tick",
+                "lines": "2827",
+                "sha256": "a093b0c4cbf79bd58e9d7f477586c406ea4d9b60ae7b9ba1d7313c394d99214b"
+              }
+            ],
+            "scope": "前摇与退场接线更新。群攻声明、Game 回合收尾与测试入场片段逐字节相等，旧运行与断言保留。"
           }
         ]
       }
