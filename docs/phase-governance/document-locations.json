@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "840c4f6b45d053045793348c8e17d24576f99daf8537e57eef86d533a80b0392",
+      "afterSha256": "3a90ea4661fc116b526090c0e25f54a51dcfccebc14ab56f759cb59e746b6424",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
+        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记三种敌方仙术与盘龙柱的两条分屏。",
-        "reviewedLines": 75,
-        "acceptanceScope": "核执行摘要、归档路径与独立比较。"
+        "conclusion": "登记六柱和三招的分屏。",
+        "reviewedLines": 76,
+        "acceptanceScope": "核报告、归档路径、原生声画指纹。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e8ece473b6c205060a5aa1b9da06ff5ba578789ec6b7cbf5cd3c74407b1f2c11",
+      "afterSha256": "6e9d26f0c22ae1a50d79073adbc81f1b2f602bdfe4268de94498e7d73dc2c002",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
+        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "保全两条错切场和八处旧等待反例。",
-        "reviewedLines": 821,
-        "acceptanceScope": "核修前原件、修后复验、分屏和归档恢复。"
+        "conclusion": "保全六柱返场及三招双端原件。",
+        "reviewedLines": 827,
+        "acceptanceScope": "核同候选录制、原盘震屏及可复算证据。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "80f61aeaedc30a85a686a4088823be3bdcebfeb6bcc92571ed8d10d61c2ed28f",
+      "afterSha256": "db9cd92120104fefaf0f1746c545bda65489af604d8dc9c43e731d073fc58286",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
+        "reviewer": "Codex 六柱返场与三种敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记三种敌方仙术与毒神龙正式入口。",
-        "reviewedLines": 1026,
-        "acceptanceScope": "核同局指令、音画、八次等待及三条出口。"
+        "conclusion": "登记六个正式入口与三种敌方仙术。",
+        "reviewedLines": 1045,
+        "acceptanceScope": "核真实战斗、结算写回、退场及声画。"
       }
     },
     {
@@ -6124,6 +6124,12 @@
       "bytes": 10151120,
       "sha256": "cfc3a771231c81974781ff03157e2e9f19b861946f4cc01de40c32d1381a3c35",
       "purpose": "三种敌方仙术、盘龙柱三种出口和世界等待反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz",
+      "bytes": 14070474,
+      "sha256": "d479555fe15184279bd7349096e2c1cde0c8f95b33702c489eaa8ec2f4172db4",
+      "purpose": "六个龙柱实战与返场、弦月斩、爆炸、气魔焰及两条原速带声分屏。"
     }
   ],
   "artifactAliases": [],
