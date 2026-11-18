@@ -4,7 +4,9 @@ import { palMagicEffectSpriteAssetId, validateProjectRelativePath } from '@type-
 import {
   collectBattleTrialIssues,
   type FileSource,
+  fsaSource,
   loadAllAuthorScenes,
+  loadAuthorScene,
   loadCurrentProjectFrom,
   loadStampTemplates,
   prepareBattleTrial,
@@ -12,6 +14,7 @@ import {
 import { beforeAll, expect, test } from 'vitest'
 import { collectBattleSkillFireChunks } from '../../reforge/src/battle/battle-sprite-readiness.js'
 import { collectReachableEnemySkillIds } from '../../reforge/src/battle/enemy-closure.js'
+import { memoryAuthorDirectory } from '../src/core/__tests__/author-save-fixture.js'
 import {
   BATTLE_SIMULATOR_PATH,
   battleSimulatorRemovalPaths,
@@ -21,6 +24,7 @@ import {
   resolveBattleSimulatorPlan,
 } from '../src/core/battle-simulator-library.js'
 import { serializeProject, toEditorState } from '../src/core/project-io.js'
+import { buildBlankProject } from '../src/core/seed.js'
 
 const root = new URL('../../../projects/pal/', import.meta.url)
 const source: FileSource = {
@@ -189,16 +193,13 @@ test('gear is applied once and trial changes cannot mutate shipped presets or de
 })
 
 test('normal editor serialization keeps user changes and missing/deleted libraries are not reinjected', async () => {
-  const loaded = await loadBattleSimulatorLibrary(source)
+  const [loaded, scenes, stamps] = await Promise.all([
+    loadBattleSimulatorLibrary(source),
+    Promise.all(project.sceneIds.map((id) => loadAuthorScene(project, id))),
+    loadStampTemplates(project),
+  ])
   expect(loaded).toEqual(library)
-  const state = toEditorState(
-    project,
-    await loadAllAuthorScenes(project),
-    {},
-    {},
-    await loadStampTemplates(project),
-    loaded,
-  )
+  const state = toEditorState(project, scenes, {}, {}, stamps, loaded)
   state.battleSimulator!.plans[0]!.name = '作者自定方案'
   const files = serializeProject(state)
   const saved = JSON.stringify(files[BATTLE_SIMULATOR_PATH])
@@ -211,15 +212,20 @@ test('normal editor serialization keeps user changes and missing/deleted librari
   })
   expect(reopened).toEqual(state.battleSimulator)
   expect(library.plans[0]!.name).toBe('三人成型')
-  state.battleSimulator = emptyBattleSimulatorLibrary()
-  expect(serializeProject(state)).not.toHaveProperty(BATTLE_SIMULATOR_PATH)
-  expect(battleSimulatorRemovalPaths(state.battleSimulator)).toEqual([BATTLE_SIMULATOR_PATH])
-  expect(
-    await loadBattleSimulatorLibrary({
-      ...source,
-      readBytes: async () => {
-        throw new DOMException('deleted by author', 'NotFoundError')
-      },
-    }),
-  ).toBeUndefined()
+
+  // An empty sidecar has no dependencies on the PAL asset catalog or script corpus.
+  const disk = memoryAuthorDirectory(await buildBlankProject('empty-simulator'))
+  const blank = await loadCurrentProjectFrom(fsaSource(disk.dir))
+  const emptyLibrary = emptyBattleSimulatorLibrary()
+  const emptyState = toEditorState(
+    blank,
+    await loadAllAuthorScenes(blank),
+    {},
+    {},
+    await loadStampTemplates(blank),
+    emptyLibrary,
+  )
+  expect(serializeProject(emptyState)).not.toHaveProperty(BATTLE_SIMULATOR_PATH)
+  expect(battleSimulatorRemovalPaths(emptyLibrary)).toEqual([BATTLE_SIMULATOR_PATH])
+  expect(await loadBattleSimulatorLibrary(blank.source)).toBeUndefined()
 })

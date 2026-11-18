@@ -4,16 +4,16 @@ import {
   type CommandTargetReference,
   collectCommandTargetReferences,
   rewriteExplicitSceneReferences,
-  type SceneDef,
+  validateAuthorScenes,
   validateSceneIndex,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const repo = resolve(import.meta.dirname, '../../..')
 const read = (path: string): unknown =>
-  JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8')) as unknown
+  JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8'))
 const index = validateSceneIndex(read('content/scenes/index.json'))
-const scenes = index.scenes.map((entry) => read(entry.path) as SceneDef)
+const scenes = validateAuthorScenes(index.scenes.map((entry) => read(entry.path)))
 
 function targetSceneId(reference: CommandTargetReference): string | undefined {
   switch (reference.target.kind) {
@@ -73,7 +73,8 @@ describe('PAL full-tree scene copy differential', () => {
     expect(withSelf).toHaveLength(245)
     expect([...selfCounts].sort((left, right) => right.count - left.count).slice(0, 5)).toEqual([
       { id: 's108', count: 3128 },
-      { id: 's019', count: 2098 },
+      // The palace guide now finishes in its trigger flow and no longer selects the auto behavior.
+      { id: 's019', count: 2097 },
       { id: 's176', count: 883 },
       { id: 's049', count: 786 },
       { id: 's052', count: 760 },

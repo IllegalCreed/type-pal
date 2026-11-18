@@ -116,7 +116,8 @@ describe('ED-3 PAL project reference index', () => {
     // s005/e116's carrier bob now belongs to its page animation, not four self-target commands.
     // E2E 008/009 moved the hammer targets and simplified pond movement; acquisition
     // recipes also remove generated self-targets from authored reference scans.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_642)
+    // The current defeat routes remove duplicated targets in s093.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_634)
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
     expect(
@@ -198,7 +199,8 @@ describe('ED-3 PAL project reference index', () => {
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
     // Pond e212→e217 loses 20 targets, e213→e218 gains 9; the reed route
     // loses two e260 targets and the hammer gains seven explicit target reads.
-    expect(actualEntityBlockers).toHaveLength(4_370)
+    // The single s093 defeat continuation removes one more external blocker.
+    expect(actualEntityBlockers).toHaveLength(4_369)
   })
 
   test('keeps scene-entry, shop, map and environment reference facts', () => {
@@ -351,7 +353,7 @@ describe('ED-3 PAL project reference index', () => {
       battleDataEdges.filter(
         (edge) => edge.relation.kind === 'battle-data-use' && edge.relation.target === 'poison',
       ),
-    ).toHaveLength(65)
+    ).toHaveLength(67)
     expect(
       battleDataEdges.filter(
         (edge) =>
@@ -385,7 +387,7 @@ describe('ED-3 PAL project reference index', () => {
     const { state, edges, index } = referenceContext()
 
     const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
-    expect(actorEdges).toHaveLength(829)
+    expect(actorEdges).toHaveLength(827)
     const oldActorReferences = collectActorReferences(state)
     const oldActorKeys = oldActorReferences
       .map((reference) => `${reference.actorId}\0${reference.kind}`)
@@ -427,8 +429,8 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.actorId}\0${reference.kind}\0${reference.where}`)
         .sort(),
     )
-    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(825)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(538)
+    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(823)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(536)
     expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
     expect(
       actorEdges
@@ -450,7 +452,7 @@ describe('ED-3 PAL project reference index', () => {
           count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
         )
       }, 0),
-    ).toBe(825)
+    ).toBe(823)
     expect(
       Object.fromEntries(
         [
@@ -476,7 +478,7 @@ describe('ED-3 PAL project reference index', () => {
       'item-battle-sprite-by-actor': 7,
       'command-set-actor-sprite': 121,
       'command-set-actor-appearance': 21,
-      'command-set-party-member': 219,
+      'command-set-party-member': 217,
       'enemy-apply-actor-growth': 1,
       'enemy-play-actor-cast-effect': 1,
       'dialogue-actor': 173,
@@ -805,7 +807,7 @@ describe('ED-3 PAL project reference index', () => {
     const { state, canonical, diagnostics, edges } = referenceContext()
 
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(assetEdges).toHaveLength(5_974)
+    expect(assetEdges).toHaveLength(5_988)
     // Six explicit Asura hit sounds are now owned by the six hammer-trigger flows.
     expect(
       assetEdges
@@ -969,8 +971,8 @@ describe('ED-3 PAL project reference index', () => {
   test('preserves behavior, hook and parent-scene dependency locators', () => {
     const { edges, index } = referenceContext()
 
-    // Six hammer trigger page bindings replace one retired Ling'er auto selection.
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_456)
+    // The s093 branches now share one continuation and retire two auto selections.
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_454)
     expect(
       edges
         .filter(
@@ -1148,8 +1150,8 @@ describe('ED-3 PAL project reference index', () => {
   test('transports the compact reference snapshot through a fresh worker runtime', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_230)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_150)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_241)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_161)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(
