@@ -2128,6 +2128,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
         const roll = 1 + Math.floor(Math.max(0, Math.min(0.999999999, _rng())) * 100)
         if (!(roll < chance)) {
           s.log.push(`${item.name} 无任何效果`)
+          if (s.lastAction) s.lastAction.failureFeedback = 'itemIneffective'
           return
         }
         continue

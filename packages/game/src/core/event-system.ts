@@ -3489,6 +3489,7 @@ function applyRawOpcode(
       opcode,
       operands,
       currentEventObjectId,
+      battleRng,
       runPlayerPoisonEntry: runPlayerPoisonEntrySync,
     })
   )

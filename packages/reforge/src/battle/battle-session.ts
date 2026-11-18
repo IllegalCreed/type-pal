@@ -284,7 +284,7 @@ export class BattleSession {
   private readonly pendingConfusedReveal = new Set<number>()
   /** 结算后等待时间线到达提示位置的失败反馈。 */
   private pendingFailureFeedback: BattleFailureFeedback | null = null
-  /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
+  /** 动作旁白阻塞时间线，按键或到时后释放。 */
   private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
   private pendingStealNotice: TextSpan[] | undefined
   /** Retain the old enemy appearance through its flash and scene dissolve. */
@@ -1216,7 +1216,7 @@ export class BattleSession {
       if (box?.active) box.close()
       this.itemBanner = null
       this.actionFeedback = null
-      // 投掷在收招前等键，偷窃在归位后提示。
+      // 投掷等确认后即可进入收招，其他旁白从下一拍继续。
       if (feedback.dismiss === 'confirm') this.actionPresentation.advancePlayback(0)
       if (this.enemyCastRecoveryPending && !s.casualtyDialogue) {
         this.beginEnemyCastRecovery()
@@ -1794,8 +1794,10 @@ export class BattleSession {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
       const item = s.items[la.itemId]
+      const useTarget = item?.use?.target
+      // 两种香走场景效果，原盘用物旗标仍要求全队辉光。
       const targetIdxs =
-        item?.use?.target === 'allAllies'
+        useTarget === 'allAllies' || useTarget === 'scene'
           ? s.players.map((_, slot) => slot)
           : [la.targetAllyIdx ?? la.idx]
       const gains = this.pendingGains
@@ -1816,6 +1818,7 @@ export class BattleSession {
         casterPos,
         targetIdxs,
         revivedTargets,
+        waitForUseFailureFeedback: la.failureFeedback === 'itemIneffective',
         itemName: item?.name,
         ...(sound ? { sound } : {}),
         gains,
@@ -2216,6 +2219,7 @@ export class BattleSession {
     if (!feedback) return
     const text = {
       statusIneffective: '攻击无效',
+      itemIneffective: '无任何效果',
       throwIneffective: '无任何效果',
       spellIneffective: '失败　没有效果',
       missingSpellItem: '道具不足无法使用',
@@ -2225,7 +2229,7 @@ export class BattleSession {
     else if (feedback === 'throwIneffective') this.showActionFeedback(text, 'confirm')
     else {
       this.showActionFeedback(text, 'anyKey')
-      this.actionPresentation.satisfyActionCadence()
+      if (feedback !== 'itemIneffective') this.actionPresentation.satisfyActionCadence()
     }
   }
 

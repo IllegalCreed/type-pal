@@ -1390,7 +1390,7 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(s.inventory[0]!.count).toBe(0)
   })
 
-  test('战斗 0x06 门失败仍按原版消耗：roll 49 通过、roll 50 失败', () => {
+  test('战斗用物 roll 49 生效，roll 50 消耗一份且记录失败旁白', () => {
     const gated: ItemData = {
       id: 'salt',
       name: '盐巴',
@@ -1418,15 +1418,21 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
       s.enemies[0]!.status.sleep = 99
       s.pendingActions.set(0, { kind: 'item', itemId: 'salt' })
       let guard = 0
-      do stepBattle(s, rng)
-      while (s.phase === 'performAction' && guard++ < 40)
-      return s
+      let itemAction: typeof s.lastAction = null
+      do {
+        stepBattle(s, rng)
+        if (s.lastAction?.kind === 'item') itemAction = s.lastAction
+      } while (s.phase === 'performAction' && guard++ < 40)
+      return { state: s, itemAction }
     }
-    expect(run(() => 0.48).players[0]!.hp).toBe(20)
+    const passed = run(() => 0.48)
+    expect(passed.state.players[0]!.hp).toBe(20)
+    expect(passed.itemAction).toMatchObject({ itemId: 'salt' })
+    expect(passed.itemAction?.failureFeedback).toBeUndefined()
     const failed = run(() => 0.49)
-    expect(failed.players[0]!.hp).toBe(10)
-    expect(failed.inventory[0]!.count).toBe(0)
-    expect(failed.log.some((line) => line.includes('无任何效果'))).toBe(true)
+    expect(failed.state.players[0]!.hp).toBe(10)
+    expect(failed.state.inventory[0]!.count).toBe(0)
+    expect(failed.itemAction).toMatchObject({ itemId: 'salt', failureFeedback: 'itemIneffective' })
   })
 
   test('gate 缺省阈值 100 仍遵循严格小于：roll 100 失败且与大世界一致', () => {

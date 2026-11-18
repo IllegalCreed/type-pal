@@ -506,6 +506,8 @@ export interface BuildUseItemInput {
   itemName?: string
   /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
   sound?: AssetId
+  /** 使用脚本的失败旁白在复位后放出，关闭后再进入末尾八拍。 */
+  waitForUseFailureFeedback?: boolean
   /** 呼吸结束并归位后，从目标底锚显示实际 HP 或 MP 变化。 */
   gains?: Array<{ idx: number; value: number; tone: 'blue' | 'yellow' | 'cyan' }>
 }
@@ -565,12 +567,17 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     value: g.value,
     tone: g.tone,
   }))
+  const restored: FighterDelta[] = [
+    { side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle },
+    ...(revivedTargets ?? []).map(({ idx, frame }) => ({ side: 'player' as const, idx, frame })),
+  ]
+  if (input.waitForUseFailureFeedback) {
+    frames.push({ durationMs: delayMs(1), fighters: restored })
+    frames.push({ durationMs: 0, waitForActionFeedback: true })
+  }
   frames.push({
     durationMs: delayMs(8),
-    fighters: [
-      { side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle },
-      ...(revivedTargets ?? []).map(({ idx, frame }) => ({ side: 'player' as const, idx, frame })),
-    ],
+    fighters: restored,
     ...(damageNums?.length ? { damageNums } : {}),
   })
   return frames

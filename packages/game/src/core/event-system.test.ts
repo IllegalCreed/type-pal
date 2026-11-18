@@ -776,6 +776,37 @@ function makeBattleContext(
 }
 
 describe('runScript (M3 T17, battle mode)', () => {
+  it('0x8D applies six seeded growth rolls and resets primary experience in battle', () => {
+    const context = makeBattleContext()
+    const { gs, state } = context
+    gs.Exp.rgPrimaryExp[0] = { wExp: 100, wLevel: 10 }
+    const worldRandom = vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    runScript({
+      commands: [{ op: 'raw', opcode: 0x8d, operands: [1, 0, 0] }, { op: 'end' }],
+      ip: 0,
+      bus: createCommandBus(),
+      eventObjectId: 0,
+      runtimeMode: 'battle',
+      battleCtx: context,
+    })
+
+    const runtime = gs.PlayerRolesRuntime
+    expect([
+      runtime.rgwLevel[0],
+      runtime.rgwMaxHP[0],
+      runtime.rgwMaxMP[0],
+      runtime.rgwAttackStrength[0],
+      runtime.rgwMagicStrength[0],
+      runtime.rgwDefense[0],
+      runtime.rgwDexterity[0],
+      runtime.rgwFleeRate[0],
+    ]).toEqual([11, 115, 58, 35, 25, 18, 20, 12])
+    expect(gs.Exp.rgPrimaryExp[0]).toEqual({ wExp: 0, wLevel: 11 })
+    expect(state.rng.getState()).toBe(2399460287)
+    expect(worldRandom).not.toHaveBeenCalled()
+  })
+
   it.each([
     { choices: 1, selectedMagic: 396, draws: 0 },
     { choices: 2, selectedMagic: 397, draws: 1 },

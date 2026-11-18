@@ -138,7 +138,7 @@ export function applyHiddenExpGrowth(input: {
  *   升级了 → 学新法术(level-up-magic[j][roleId],level<=新等级 + magic!=0 + 未学 → AddMagic)。
  *
  * stat成长消费同一state.rng流的闭区间整数抽样,保持SDLPal调用范围/顺序;
- * 不声称本项目PRNG与SDLPal算法同种子同序。opcode 0x8D的playerLevelUp另用Math.random。
+ * 本项目与 SDLPal 使用不同的 PRNG。战内 opcode 0x8D 也消费当前战斗的随机流。
  */
 export function battleWonLevelUp(input: {
   gs: GameState
