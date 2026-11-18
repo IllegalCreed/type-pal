@@ -1511,6 +1511,45 @@ export function restoreTestingBattleThrowStatusSourceBindings(path, bytes, input
   )
 }
 
+export const testingBattlePoisonNarrationPublicationBase =
+  'aa2e8d2c69c714d050e0d0ae0f684a123a968007'
+const battlePoisonNarrationStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1298-1307': '1305-1314' },
+    ],
+    [battleTransformCore, { 2501: '2506' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattlePoisonNarrationPublicationBase,
+  action: 'q2-battle-poison-narration-source-rebinding',
+  date: '2026-11-19',
+}
+const battlePoisonNarrationBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattlePoisonNarrationSource = (path) =>
+  battlePoisonNarrationStage.ranges.has(path)
+
+export function restoreTestingBattlePoisonNarrationSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battlePoisonNarrationStage,
+    battlePoisonNarrationBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

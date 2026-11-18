@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ed291f32acc24e661ab2a0cec0a812edb04e62f537ced65dabb87d198eb6b83a",
+      "afterSha256": "fc63de85da2deeef2a2c6993e144106d9e0b542eca10b71573766cb27b1c492f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 二十七件武器投掷复核",
+        "reviewer": "Codex 投掷收口与战外恢复复核",
         "date": "2026-11-19",
-        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
-        "reviewedLines": 83,
-        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
+        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
+        "reviewedLines": 85,
+        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,7 +3206,7 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "97e80f6a19133960641727bf5a530f753f84888003a550caec85b0adc02bed87",
+      "afterSha256": "1c07b407ffcc01084e7981bcd9ef0d81dab082d325ddf401214b84a1b23dd0eb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒时序复核",
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "3ff2228f9af53ca776957b93e39df9260d9e2af8b1296fc335952269cb58fe53",
+      "afterSha256": "a80a0e579982d00672fa1d949d0dab6beccf24f534ba6664a9ca12e4c575fb47",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 8359,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "复核寄生毒演出修改后的现行引用。",
+        "reviewedLines": 8405,
+        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e335c9b74d2e65c278d6324b6e060e438e755f43bcbdf3fa98ac0433a37ccbdc",
+      "afterSha256": "e6202c8768e994c713f2f2aaf39919daa165dffd2d2e8ce974e3aff2b0562e81",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 1219,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "复核寄生毒演出修改后的现行引用。",
+        "reviewedLines": 1249,
+        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f0b1994308798ad036e14dda64cf1309b0589cb4544a7d7bfcc872b62fb65954",
+      "afterSha256": "00943c494f8ee1b3a3422fdfb2466be0286b1bd91cbdfb664c6e5d91c123d1ac",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
+        "conclusion": "复核寄生毒演出修改后的现行引用。",
         "reviewedLines": 101,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "fb637976d187bfd91b6cb38c018c283575eb8c13ffcbdca9f8061cd1dfa4651d",
+      "afterSha256": "606b675f98672b0f1780650bcca18b657e91e7ae863c55edea99ec9ce894e860",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 二十七件武器投掷复核",
+        "reviewer": "Codex 投掷收口与战外恢复复核",
         "date": "2026-11-19",
-        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
-        "reviewedLines": 869,
-        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
+        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
+        "reviewedLines": 881,
+        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "cc5edfa94cf00841dc614aa1c2696c18441e4e71f889d2466bc4afe9d532c7f4",
+      "afterSha256": "de194c3dccddd21403810299e858623830022ccd004ea064c96a200b91fbaeb4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 14739,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "复核寄生毒演出修改后的现行引用。",
+        "reviewedLines": 14755,
+        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "debca4c723ae746083a9316db317686cb2cd0c81ff70bd2b47e6f7dae1d44632",
+      "afterSha256": "82164c503b42b92b304ffd4252f847c82f685e9a04d54a86aab0106cd4557fb9",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 二十七件武器投掷复核",
+        "reviewer": "Codex 投掷收口与战外恢复复核",
         "date": "2026-11-19",
-        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
-        "reviewedLines": 1142,
-        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
+        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
+        "reviewedLines": 1171,
+        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "00ca8cfbcecae90b492e434146c4a652de7eb8ae63bd7b3ec6ce574b5df36c3b",
+      "afterSha256": "142288e05c695eaaebcac6349e4c812deedc2566befd47cdde94f3c6be77aa9e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 386,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "复核寄生毒演出修改后的现行引用。",
+        "reviewedLines": 390,
+        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     }
   ],
@@ -6172,6 +6172,18 @@
       "bytes": 38053340,
       "sha256": "3279d0c4440f1a5812ede8bda0ad5afab9f262d6d861ebff5d4036fa3eeaf4fa",
       "purpose": "二十七件武器投掷、七组实战与录制、逐件伤害抽样、原速分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-misc-throws-and-hatching-20261119.tar.gz",
+      "bytes": 26103731,
+      "sha256": "6d660b11bdd134faba244ef471d8adddfe8e52396db9dc815df71a1a754221a5",
+      "purpose": "最后十四件投掷、两种孵化的原件、反例、原速分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-recovery-items-20261119.tar.gz",
+      "bytes": 27339586,
+      "sha256": "009b614189f23e605440f0ee6ea567dc3068144b05120c6b2e195ff3378bd8ac",
+      "purpose": "首批十三件战外恢复道具、两轮合法存档和双端实用、带声分屏及恢复证据。"
     }
   ],
   "artifactAliases": [],

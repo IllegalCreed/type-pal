@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1298-1307",
+      "lines": "1305-1314",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:251-253",
         "packages/reforge/src/battle/battle-session.ts:426-438",
-        "packages/reforge/src/battle/battle-session.ts:1298-1307",
+        "packages/reforge/src/battle/battle-session.ts:1305-1314",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
@@ -1172,6 +1172,36 @@
         }
       ],
       "scope": "投掷抵抗后由会话在收招前呈现卷轴。三处选招与构造引用和固定前驱逐字节相同，历史执行按各自原件核验。"
+    },
+    {
+      "action": "q2-battle-poison-narration-source-rebinding",
+      "base": "aa2e8d2c69c714d050e0d0ae0f684a123a968007",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1298-1307",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        }
+      ],
+      "scope": "养蛊道具的卷轴由战斗会话按队列展示。构造与选招三处引用行与固定前驱逐字节相同。"
     }
   ],
   "_governance": {

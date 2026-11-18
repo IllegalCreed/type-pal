@@ -42,6 +42,7 @@ import {
   isTestingBattleItemUseSource,
   isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
+  isTestingBattlePoisonNarrationSource,
   isTestingBattleReviewSource,
   isTestingBattleSceneObserverSource,
   isTestingBattleSessionEvidencePath,
@@ -67,6 +68,7 @@ import {
   restoreTestingBattleItemUseSourceBindings,
   restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
+  restoreTestingBattlePoisonNarrationSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleSceneObserverSourceBindings,
   restoreTestingBattleScriptedShakeSourceBindings,
@@ -96,6 +98,7 @@ import {
   testingBattleItemUsePublicationBase,
   testingBattleLearnedSkillsPublicationBase,
   testingBattleLifecyclePublicationBase,
+  testingBattlePoisonNarrationPublicationBase,
   testingBattlePublicationBase,
   testingBattleReviewPublicationBase,
   testingBattleSceneObserverPublicationBase,
@@ -788,8 +791,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const throwStatusSource = throwStatusRevision && gitTree(root, throwStatusRevision, [])
   const preThrowStatus =
     throwStatusSource && gitTree(root, testingBattleThrowStatusPublicationBase, [])
-  const readBeforeBattleThrowStatus = (path) => {
+  const poisonNarrationRevision = admission.testingBattlePoisonNarrationSourceRevision
+  if (poisonNarrationRevision !== undefined)
+    assert(
+      throwStatusSource && /^[a-f0-9]{40}$/u.test(poisonNarrationRevision),
+      'battle poison narration source bridge requires the fixed preceding throw status revision',
+    )
+  const poisonNarrationSource =
+    poisonNarrationRevision && gitTree(root, poisonNarrationRevision, [])
+  const prePoisonNarration =
+    poisonNarrationSource && gitTree(root, testingBattlePoisonNarrationPublicationBase, [])
+  const readBeforeBattlePoisonNarration = (path) => {
     const live = readSource(path)
+    if (!prePoisonNarration || !isTestingBattlePoisonNarrationSource(path)) return live
+    assert(
+      live?.equals(poisonNarrationSource.read(path)),
+      'battle poison narration source differs from the frozen candidate',
+    )
+    return prePoisonNarration.read(path)
+  }
+  const readBeforeBattleThrowStatus = (path) => {
+    const live = readBeforeBattlePoisonNarration(path)
     if (!preThrowStatus || !isTestingBattleThrowStatusSource(path)) return live
     assert(
       live?.equals(throwStatusSource.read(path)),
@@ -978,13 +1000,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorThrowStatus = preThrowStatus
-      ? restoreTestingBattleThrowStatusSourceBindings(path, bytes, {
+    const priorPoisonNarration = prePoisonNarration
+      ? restoreTestingBattlePoisonNarrationSourceBindings(path, bytes, {
           readSource,
+          readBase: prePoisonNarration.read,
+          readFixed: poisonNarrationSource.read,
+        })
+      : bytes
+    const priorThrowStatus = preThrowStatus
+      ? restoreTestingBattleThrowStatusSourceBindings(path, priorPoisonNarration, {
+          readSource: readBeforeBattlePoisonNarration,
           readBase: preThrowStatus.read,
           readFixed: throwStatusSource.read,
         })
-      : bytes
+      : priorPoisonNarration
     const priorHiding = preHiding
       ? restoreTestingBattleHidingSourceBindings(path, priorThrowStatus, {
           readSource: readBeforeBattleThrowStatus,

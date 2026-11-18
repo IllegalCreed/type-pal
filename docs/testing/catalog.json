@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1298-1307",
+          "lines": "1305-1314",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3313,6 +3313,36 @@
               }
             ],
             "scope": "投掷抵抗后由会话在收招前呈现卷轴。三处选招与构造引用和固定前驱逐字节相同，历史执行按各自原件核验。"
+          },
+          {
+            "action": "q2-battle-poison-narration-source-rebinding",
+            "base": "aa2e8d2c69c714d050e0d0ae0f684a123a968007",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1298-1307",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+              }
+            ],
+            "scope": "养蛊道具的卷轴由战斗会话按队列展示。构造与选招三处引用行与固定前驱逐字节相同。"
           }
         ]
       },
@@ -6252,8 +6282,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2501",
-          "sha256": "3282f9337a3faba540df13fb8af46d20788578969f0020ef03afdd4c4cbdd4d6"
+          "lines": "2506",
+          "sha256": "d157bb150c7678582a8cc82ab99d5e6eb51ff4a985907bed8e4ea397f07a1209"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7880,6 +7910,22 @@
               }
             ],
             "scope": "投掷巫抗失败写入结构化结果。战斗核的原有声明引用行逐字节相同。"
+          },
+          {
+            "action": "q2-battle-poison-narration-source-rebinding",
+            "base": "aa2e8d2c69c714d050e0d0ae0f684a123a968007",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2501",
+                "sha256": "3282f9337a3faba540df13fb8af46d20788578969f0020ef03afdd4c4cbdd4d6"
+              }
+            ],
+            "scope": "寄生毒把产物卷轴随入账结果交给演出层。全体攻击声明的引用行与固定前驱逐字节相同。"
           }
         ]
       }

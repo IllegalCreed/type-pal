@@ -134,7 +134,7 @@ SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底�
 
 捆仙绳的投掷入口 39408 在模拟法术 24 后执行 0x2E。命中令该槽定身 5 回合，接着由 0x21 扣 4 点体力。被巫抗挡下时跳到 38783，中央卷轴「攻击无效」保留出手姿和末帧特效，约 1.4 秒后清除，再继续投掷收招。 [原版巫抗](../../reference/sdlpal/script.c#L1377) · [卷轴等待](../../reference/sdlpal/text.c#L1663-L1712) · [捆仙绳实战](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-七种投掷道具与捆仙绳抵抗)
 
-食妖虫 144 和碧血蚕 147 投掷成功后分别进入寄生毒 561、562 的敌方脚本 40917、40940。0x28 新增毒槽时执行首条 0x0001，只推进入口。随后八次回合末依次用 0x21 扣 1 到 8 点体力，每次以 0x0001 切到下一拍。第九次回合末显示中央卷轴，分别发放灵蛊 145、赤血蚕 149 各一件，再用 0x2A 移除对应毒槽。同一轮有两个毒槽到期时，两张卷轴按毒脚本执行顺序显示。 [毒定义入口](../../data/extracted/data/object-poisons.json) · [原始脚本](../../data/extracted/events/all.json) · [0x28 新增毒槽](../../reference/sdlpal/script.c#L1175-L1268) · [0x0001 推进](../../reference/sdlpal/script.c#L3211-L3217)
+食妖虫 144 和碧血蚕 147 投掷成功后分别进入寄生毒 561、562 的敌方脚本 40917、40940。0x28 新增毒槽时执行首条 0x0001，只推进入口。随后八次回合末依次用 0x21 扣 1 到 8 点体力，每次以 0x0001 切到下一拍。第九次回合末显示中央卷轴，分别发放灵蛊 145、赤血蚕 149 各一件，再用 0x2A 移除对应毒槽。同一轮有两个毒槽到期时，两张卷轴按毒脚本执行顺序显示。入口和指令逐条对照原盘提取的 `data/extracted/data/object-poisons.json` 和 `data/extracted/events/all.json`。 [0x28 新增毒槽](../../reference/sdlpal/script.c#L1175-L1268) · [0x0001 推进](../../reference/sdlpal/script.c#L3211-L3217)
 
 普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
 

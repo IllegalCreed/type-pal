@@ -71,6 +71,8 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 最后六种战内道具 | [七个实战局面、隐身与成长反例、原速带声分屏及重录](E2E-Q2-1-final-battle-items-20261119.tar.gz) |
 | Q2 七种投掷道具与捆仙绳抵抗 | [八组双端原件、卷轴修前反例、原速带声分屏及重录](E2E-Q2-1-seven-throw-items-20261119.tar.gz) |
 | Q2 二十七件武器投掷 | [逐件实战、完整抽样、原速带声分屏及重录](E2E-Q2-1-weapon-throws-20261119.tar.gz) |
+| Q2 最后十四件投掷道具与养蛊孵化 | [五组实战、修前及漏卷轴反例、孵化和原速带声分屏](E2E-Q2-1-misc-throws-and-hatching-20261119.tar.gz) |
+| Q2 十三件战外恢复道具 | [两轮逐件实用、存档、录制恢复与带声分屏](E2E-Q2-1-world-recovery-items-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
