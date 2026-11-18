@@ -117,7 +117,13 @@ export function startMagicAnimation(
         effects.playerOffMagicOpening ??
         buildPlayerOffMagicOpening(input, magic, pendingScreenShake)
       if (opening) {
-        startPlayerOffMagic(input, opening, dmgResults, pendingNums, effects.newlyConfusedEnemySlots)
+        startPlayerOffMagic(
+          input,
+          opening,
+          dmgResults,
+          pendingNums,
+          effects.newlyConfusedEnemySlots,
+        )
         built = true
       }
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {

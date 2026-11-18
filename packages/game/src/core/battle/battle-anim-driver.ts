@@ -27,7 +27,10 @@ export function deferEnemyConfusionUntilFrame(
   enemyConfusionReveals.set(animation, { slots, firstVisibleFrame })
 }
 
-export function isEnemyConfusionRevealed(animation: BattleAnimState | undefined, slot: number): boolean {
+export function isEnemyConfusionRevealed(
+  animation: BattleAnimState | undefined,
+  slot: number,
+): boolean {
   if (!animation) return true
   const reveal = enemyConfusionReveals.get(animation)
   return (
