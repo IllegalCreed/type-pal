@@ -98,7 +98,7 @@
       "anchor": "export function instrumentBattleRandomDraws(",
       "role": "native-random-producer-binding",
       "lines": "28",
-      "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+      "sha256": "142d360697729a2006c38a5c36e8b2cef66a4ad50678ecea5071ea5f8571f683"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2497",
-      "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
+      "lines": "2500",
+      "sha256": "e6459591d94658306264bd2f964413e911aed164bbdd274c9abd9ef86d04acf8"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -13336,6 +13336,29 @@
         }
       ],
       "scope": "零灵葫值的目标退出收妖及后续效果。既有群体物攻声明移动七行，片段逐字节相同，原执行、断言及反例保持固定来源。"
+    },
+    {
+      "action": "q2-gu-and-confusion-source-rebinding",
+      "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-random-instrumentation.mjs",
+          "anchor": "export function instrumentBattleRandomDraws(",
+          "role": "native-random-producer-binding",
+          "lines": "28",
+          "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2497",
+          "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
+        }
+      ],
+      "scope": "记录有效耗材失败的成长抽样。群体物攻声明和随机观察入口逐字节相同，原始执行及断言保留。"
     }
   ],
   "_governance": {

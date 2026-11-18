@@ -7,7 +7,7 @@ Coding Owner: Codex（逐项验收目录、原件核对与集成）
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
-Last reviewed: 2026-11-18
+Last reviewed: 2026-11-19
 Template: task-card-v1 / 1.0.0
 Branch: codex/q2-content-coverage
 
@@ -722,6 +722,16 @@ Codex 记录 build allowed，负责三招的双端真实输入、原件比较和
 十组同候选独立录制通过，46 秒原速分屏核两路声音与 48 个解码取样，用户观看回执待记录。当前全仓 lint 核过 6,845 个文件，零诊断。 [原件与分屏索引](../evidence/E2E-Q2-1-player-conditional-casts-20261118.tar.gz)
 
 归档包含 30 份实跑和试跑报告。解包后复算三个候选、十组录制计划和 48 个像素取样。回读通过后清理本批 369 个临时文件、433,944,742 字节。持久归档 14,060,713 字节和分屏 21,405,504 字节，扣除新增归档净清理 419,884,029 字节。 [原件、重录入口与指纹](../evidence/E2E-Q2-1-player-conditional-casts-20261118.tar.gz)
+
+## 2026-11-19 两种蛊术与鬼降抖动
+
+Codex 负责本批原队 59 与 28 的七组双端实战。用实际选招验证两种蛊术的耗材、常规真气、两个抗性域、蓝字与回合末三尸蛊毒。旧 Reforge 五个有蛊局面均漏直接伤害，两个缺蛊局面漏成长及原卷轴。以实战加原始脚本定性。修复有序效果与耗材收尾，在正式比较核原脚点、FIRE 层偏移及一次胜利。玩家可获得普通仙术实测 60/63。 [实测与剩余三招](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-三尸咒与万蛊蚀天)
+
+按用户指出的鬼降抖动缺口重开视觉验收。用上批原始采样分别观察起手、FIRE 和收招。确认 Game 提前抖动，Reforge 延至整段收招后。按原成功脚本顺序修到主特效刚清除时启用。成功和两个失败分支在原局面独立复验，与历史原生业务和抽样一致。重录成功局，保留主特效、收招和混乱打同伴的画面。 [鬼降复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-鬼降命中后的抖动)
+
+两端类型检查通过，最终 Game 战斗及绘制 1,237 项和 Reforge 战斗 621 项通过。E2E 工具 468 项，PAL 作者工程 294 场景、223 地图和 1,934 资源通过。全仓 lint 与文档门分别验收。原速带声分屏分别核 44 和 8 个原生像素取样。 [三尸咒与万蛊蚀天原件](../evidence/E2E-Q2-1-player-gu-casts-20261119.tar.gz) · [鬼降抖动原件](../evidence/E2E-Q2-1-ghost-confusion-20261119.tar.gz)
+
+从两份归档恢复 24 份报告、前后比较、录制计划和 52 个成片取样。复核通过后清理 275 个临时文件共 334,147,079 字节。两份新归档共 13,042,247 字节，净清理 321,104,832 字节。保留各自原速带声分屏。后续格式化仅换行并补逗号，两份 Game 源码的解析树与录像候选相同。
 
 ## 状态与交接
 

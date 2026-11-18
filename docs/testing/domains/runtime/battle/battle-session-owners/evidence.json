@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1289-1298",
+      "lines": "1290-1299",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+      "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:251-253",
         "packages/reforge/src/battle/battle-session.ts:426-438",
-        "packages/reforge/src/battle/battle-session.ts:1289-1298",
+        "packages/reforge/src/battle/battle-session.ts:1290-1299",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
         "packages/content/src/character.ts:169-171"
@@ -955,6 +955,36 @@
         }
       ],
       "scope": "玩家处决类失败复用既有卷轴。三处构造及选招调用范围逐字节相同，按各自原候选保留历史执行。"
+    },
+    {
+      "action": "q2-gu-and-confusion-source-rebinding",
+      "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1289-1298",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        }
+      ],
+      "scope": "耗材卷轴与混乱抖动由动作时间线消费。三处选择与构造片段逐字节相同，既有执行保留其候选。"
     }
   ],
   "_governance": {

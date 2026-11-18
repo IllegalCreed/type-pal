@@ -1246,6 +1246,50 @@ export function restoreTestingBattleConditionalSpellSourceBindings(path, bytes, 
   )
 }
 
+export const testingBattleGuAndConfusionPublicationBase = '839c1ede2ffff006b0fc67be3deb1c1674b1b303'
+const randomInstrumentation = 'scripts/e2e/battle-random-instrumentation.mjs'
+const battleGuAndConfusionStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1289-1298': '1290-1299' },
+    ],
+    [battleTransformCore, { 2497: '2500' }],
+    [randomInstrumentation, { 28: '28' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleGuAndConfusionPublicationBase,
+  action: 'q2-gu-and-confusion-source-rebinding',
+  date: '2026-11-19',
+}
+const battleGuAndConfusionBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformCore, randomInstrumentation],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleGuAndConfusionSource = (path) =>
+  battleGuAndConfusionStage.ranges.has(path)
+
+export function restoreTestingBattleGuAndConfusionSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleGuAndConfusionStage,
+    battleGuAndConfusionBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

@@ -35,6 +35,7 @@ import {
   isTestingBattleEnemyColorSource,
   isTestingBattleEnemyTransformSource,
   isTestingBattleEvidencePath,
+  isTestingBattleGuAndConfusionSource,
   isTestingBattleHandoffHistoricalSource,
   isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
@@ -53,6 +54,7 @@ import {
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
   restoreTestingBattleEnemyTransformSourceBindings,
+  restoreTestingBattleGuAndConfusionSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
   restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
@@ -74,6 +76,7 @@ import {
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
   testingBattleEnemyTransformPublicationBase,
+  testingBattleGuAndConfusionPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
   testingBattleLearnedSkillsPublicationBase,
@@ -706,8 +709,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     conditionalSpellRevision && gitTree(root, conditionalSpellRevision, [])
   const preConditionalSpell =
     conditionalSpellSource && gitTree(root, testingBattleConditionalSpellPublicationBase, [])
-  const readBeforeBattleConditionalSpell = (path) => {
+  const guAndConfusionRevision = admission.testingBattleGuAndConfusionSourceRevision
+  if (guAndConfusionRevision !== undefined)
+    assert(
+      conditionalSpellSource && /^[a-f0-9]{40}$/u.test(guAndConfusionRevision),
+      'battle Gu and confusion source bridge requires the fixed preceding conditional spell revision',
+    )
+  const guAndConfusionSource = guAndConfusionRevision && gitTree(root, guAndConfusionRevision, [])
+  const preGuAndConfusion =
+    guAndConfusionSource && gitTree(root, testingBattleGuAndConfusionPublicationBase, [])
+  const readBeforeBattleGuAndConfusion = (path) => {
     const live = readSource(path)
+    if (!preGuAndConfusion || !isTestingBattleGuAndConfusionSource(path)) return live
+    assert(
+      live?.equals(guAndConfusionSource.read(path)),
+      'battle Gu and confusion source differs from the frozen candidate',
+    )
+    return preGuAndConfusion.read(path)
+  }
+  const readBeforeBattleConditionalSpell = (path) => {
+    const live = readBeforeBattleGuAndConfusion(path)
     if (!preConditionalSpell || !isTestingBattleConditionalSpellSource(path)) return live
     assert(
       live?.equals(conditionalSpellSource.read(path)),
@@ -833,13 +854,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorConditionalSpell = preConditionalSpell
-      ? restoreTestingBattleConditionalSpellSourceBindings(path, bytes, {
+    const priorGuAndConfusion = preGuAndConfusion
+      ? restoreTestingBattleGuAndConfusionSourceBindings(path, bytes, {
           readSource,
+          readBase: preGuAndConfusion.read,
+          readFixed: guAndConfusionSource.read,
+        })
+      : bytes
+    const priorConditionalSpell = preConditionalSpell
+      ? restoreTestingBattleConditionalSpellSourceBindings(path, priorGuAndConfusion, {
+          readSource: readBeforeBattleGuAndConfusion,
           readBase: preConditionalSpell.read,
           readFixed: conditionalSpellSource.read,
         })
-      : bytes
+      : priorGuAndConfusion
     const priorWindBlow = preWindBlow
       ? restoreTestingBattleWindBlowSourceBindings(path, priorConditionalSpell, {
           readSource: readBeforeBattleConditionalSpell,

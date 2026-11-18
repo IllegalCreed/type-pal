@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1289-1298",
+          "lines": "1290-1299",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3096,6 +3096,36 @@
               }
             ],
             "scope": "玩家处决类失败复用既有卷轴。三处构造及选招调用范围逐字节相同，按各自原候选保留历史执行。"
+          },
+          {
+            "action": "q2-gu-and-confusion-source-rebinding",
+            "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1289-1298",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+              }
+            ],
+            "scope": "耗材卷轴与混乱抖动由动作时间线消费。三处选择与构造片段逐字节相同，既有执行保留其候选。"
           }
         ]
       },
@@ -5882,7 +5912,7 @@
           "anchor": "export function instrumentBattleRandomDraws(",
           "role": "native-random-producer-binding",
           "lines": "28",
-          "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+          "sha256": "142d360697729a2006c38a5c36e8b2cef66a4ad50678ecea5071ea5f8571f683"
         },
         {
           "path": "scripts/e2e/battle-trace-observer.mjs",
@@ -6035,8 +6065,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2497",
-          "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
+          "lines": "2500",
+          "sha256": "e6459591d94658306264bd2f964413e911aed164bbdd274c9abd9ef86d04acf8"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7532,6 +7562,29 @@
               }
             ],
             "scope": "零灵葫值的目标退出收妖及后续效果。既有群体物攻声明移动七行，片段逐字节相同，原执行、断言及反例保持固定来源。"
+          },
+          {
+            "action": "q2-gu-and-confusion-source-rebinding",
+            "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-random-instrumentation.mjs",
+                "anchor": "export function instrumentBattleRandomDraws(",
+                "role": "native-random-producer-binding",
+                "lines": "28",
+                "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2497",
+                "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
+              }
+            ],
+            "scope": "记录有效耗材失败的成长抽样。群体物攻声明和随机观察入口逐字节相同，原始执行及断言保留。"
           }
         ]
       }

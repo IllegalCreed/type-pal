@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "165eb16a50fac317f53444dc00bc773684fff8d790ada3eccefada8ca10df3fe",
+      "afterSha256": "297097fe47e68c32df0037fd93a3d26bc27a98fb62a8b61a8d4e37024a2cb890",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "登记带声分屏与日志归档。",
-        "reviewedLines": 67,
-        "acceptanceScope": "核本批归档和逐案重录入口。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "登记两份本次 Q2 原件。",
+        "reviewedLines": 69,
+        "acceptanceScope": "核归档及分屏重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "6927dfa30b6db9de3a8a9849acae072fa5eada6c14c6e7c1216184c914b39cb7",
+      "afterSha256": "c5f8753433b011930c4fc3a9f203c91eb5c72441c6b33c5b480ebadbd9bbbf74",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "记录玩家三种仙术的原盘判定顺序和失败卷轴。",
-        "reviewedLines": 1826,
-        "acceptanceScope": "核三条原 SSS、门槛与实际作用。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "记录两种蛊术的耗材与伤害，及鬼降混乱抖动的绘制起点。",
+        "reviewedLines": 1836,
+        "acceptanceScope": "核 MAGIC、SSS 和 SDLPal 行动与绘制顺序。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "59e990b8e105525414a51f4519507edac380404f44b0677a3bb8b0ceab8c1b52",
+      "afterSha256": "c3a5c74b08153df13a9c143828650396050f0a40ab77543956ba55893efd9541",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "核定 Reforge 会话和群体物攻的现行来源。",
-        "reviewedLines": 8011,
-        "acceptanceScope": "逐字核原调用范围、固定工作树指纹和既有执行身份。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "重绑既有战斗会话、群攻和随机观察来源。",
+        "reviewedLines": 8064,
+        "acceptanceScope": "五个调用片段逐字核对，完整恢复前驱。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "52993b9e45acdfe241a5b3a4aaea8272f2a19f1b9b95d42ccfcd6c1dfae3ac33",
+      "afterSha256": "4d0fbc6a149584bea6a1a7eb9de02097e8c73fae42cf767ad7159587a7401be7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "同步当前技能收妖条件与失败表现。",
-        "reviewedLines": 244,
-        "acceptanceScope": "核有序效果、可收值、处决和战后读取。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "记录消耗不足和混乱的当前战斗合同。",
+        "reviewedLines": 250,
+        "acceptanceScope": "核公共效果、耗材、成长与演出启动边界。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e5b18fc7c0723b4c959bb80fe6533f94cc96d5ddf69e236de01c8b53c97710b2",
+      "afterSha256": "e3a95b27bab67b753d2b406e56e4d6ef98374110701c805f3fbd64091038c4ba",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "复核原会话调用坐标和断言指针。",
-        "reviewedLines": 1002,
-        "acceptanceScope": "核固定候选、原 claim、历史追加和适用性回执。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "调整现行会话断言的实际坐标。",
+        "reviewedLines": 1032,
+        "acceptanceScope": "保留固定历史执行、核旧坐标反控。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "03d0357619514d1befc9fd72931f6516d38a5fa37ecdb9acdfe5c2d7dfa11cc5",
+      "afterSha256": "82b3dfd3378dc5fdcc4a257668d297769694299ef68f23b8b9786436e4e474e0",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "更新会话归属报告的来源坐标。",
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "同步现行三处会话来源坐标与文件摘要。",
         "reviewedLines": 101,
-        "acceptanceScope": "三个原调用片段相等，报告与机器证据配对。"
+        "acceptanceScope": "复核同一会话构造、载入和选招入口。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "4f60896a05d5d46c1889ef415dcfad520e1f5cd9aab0484008a53cecaf998dc6",
+      "afterSha256": "15a9dcb25b7069162ffe89a23b5d94b7831f7de3494f602a61bb928389df2aad",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "核玩家特殊仙术三项差异、复验及清理。",
-        "reviewedLines": 763,
-        "acceptanceScope": "合法实战、定向与静态门、双端原件、录像与恢复。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "记录本批复验与新反馈处理。",
+        "reviewedLines": 773,
+        "acceptanceScope": "核配对录制、恢复与清理、实际质量门。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "866eb21a48a610cadd3b1ff14f5c4c001a4647dac71df44d92dcb6164870225a",
+      "afterSha256": "7ce38a56af0a57cb3b2ec4ea1892574035fae8f38a5dbbe0e229749858e5516e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "群体物攻声明来源随收妖分支更新。",
-        "reviewedLines": 14608,
-        "acceptanceScope": "移动行号逐字复核，核原始历史、断言及附件适用性。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "同步群体物攻与随机观察当前来源。",
+        "reviewedLines": 14631,
+        "acceptanceScope": "核历史身份、现行来源及拒绝漂移。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "e24e929f970b96c8bac9efe1e348a043bd6d453a89711c594cccd52fce6abf55",
+      "afterSha256": "cd37ac9c0627c04377038bda1fed1e1b03a5f8ad59e2877a815303a2d4d0a6a7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "新增夺魂、鬼降、灵葫咒实战。",
-        "reviewedLines": 914,
-        "acceptanceScope": "十组真实施放、失败分支与原速声画。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "登记三尸咒、万蛊蚀天和鬼降抖动复验。",
+        "reviewedLines": 936,
+        "acceptanceScope": "七加三组双端实战、原件、反例与两份带声分屏。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "5345f2f478d8f2479bbfb19888cebfb6523bb5c7bd7e9cca19b8f1577876fb46",
+      "afterSha256": "c5ee2cf4c7a21e0829e4f3b70fd6d0eb0723634bb74108c876be5e886a2fd3e1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 玩家特殊仙术原件复核",
-        "date": "2026-11-18",
-        "conclusion": "核对现行会话与群体物攻的来源桥。",
-        "reviewedLines": 335,
-        "acceptanceScope": "四个冻结出版物还原和历史断言反控。"
+        "reviewer": "Codex 蛊术与鬼降实测复核",
+        "date": "2026-11-19",
+        "conclusion": "追加耗材卷轴和混乱抖动后的来源复核。",
+        "reviewedLines": 341,
+        "acceptanceScope": "五处现行片段、四件前驱及三项反控。"
       }
     }
   ],
@@ -6076,6 +6076,18 @@
       "bytes": 14060713,
       "sha256": "bed3fb6d2285abad38f23bdc4d528fed4a8652d191d8a186b0f1617ed2727e91",
       "purpose": "夺魂、鬼降及灵葫咒的双端原件、反例、像素回执及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-gu-casts-20261119.tar.gz",
+      "bytes": 10969007,
+      "sha256": "4925d978b91fcedc8ce4e978c8cb87a84f66036281ad14f6549fa7778b6cb6c2",
+      "purpose": "三尸咒、万蛊蚀天的七组双端原件、耗材与毒伤判据、解码像素及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ghost-confusion-20261119.tar.gz",
+      "bytes": 2073240,
+      "sha256": "614936cbb7caa15050db6078f144ead5f1a9b0507a8e35f0d9856ffa55b27bb4",
+      "purpose": "鬼降抖动复核的三组同局原件、修前定位、解码像素与带声分屏重录。"
     }
   ],
   "artifactAliases": [],
