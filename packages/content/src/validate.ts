@@ -635,7 +635,7 @@ export function validateSkills(json: unknown): {
       string,
       unknown
     >
-    validateSkillAnimation(animation, `skills.skills[${i}].animation`)
+    validateSkillAnimation(animation, `skills.skills[${i}].animation`, so.target === 'allEnemies')
     const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
     effects.forEach((effect, effectIndex) => {
       validateSkillEffect(
@@ -690,6 +690,7 @@ export function validateSkills(json: unknown): {
               `skills.skills[${i}].execution.${side}.animation`,
             ) as Record<string, unknown>,
             `skills.skills[${i}].execution.${side}.animation`,
+            side === 'player' && so.target === 'allEnemies',
           )
         if (override.prepare !== undefined) {
           if (side === 'enemy')
@@ -811,7 +812,11 @@ function requireSafeInteger(value: unknown, ctx: string): number {
   return number
 }
 
-function validateSkillAnimation(animation: Record<string, unknown>, ctx: string): void {
+function validateSkillAnimation(
+  animation: Record<string, unknown>,
+  ctx: string,
+  allowGroupBlow = false,
+): void {
   requireOnlyKeys(
     animation,
     [
@@ -825,6 +830,7 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       'effectTimes',
       'shake',
       'preShake',
+      ...(allowGroupBlow ? ['blow'] : []),
       'wave',
       'sound',
       'keepEffect',
@@ -855,6 +861,12 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       throw new Error(`${ctx}.${key}: 期望有限数`)
   if (animation.keepEffect !== undefined && typeof animation.keepEffect !== 'boolean')
     throw new Error(`${ctx}.keepEffect: 期望 boolean`)
+  if (animation.blow !== undefined) {
+    const blow = requireSafeInteger(animation.blow, `${ctx}.blow`)
+    if (blow < -32768 || blow > 32767) throw new Error(`${ctx}.blow: 期望有符号 16 位整数`)
+    if (animation.placement === undefined || animation.placement === 'normal')
+      throw new Error(`${ctx}.blow: 需要全体攻击落点`)
+  }
   if (animation.preShake !== undefined) {
     const pre = assertObject(animation.preShake, `${ctx}.preShake`) as Record<string, unknown>
     requireOnlyKeys(pre, ['frames', 'level'], `${ctx}.preShake`)

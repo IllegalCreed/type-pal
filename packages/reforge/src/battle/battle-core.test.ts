@@ -740,6 +740,45 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.enemies[0]!.hp).toBeLessThan(eHpBefore) // 物攻真落敌
   })
 
+  test('全体仙术先按 FIRE 帧抽取吹飞步长，保留伤害前的敌槽', () => {
+    const spell: SkillData = {
+      id: 'wind',
+      name: '横风',
+      desc: '',
+      usableOutsideBattle: false,
+      cost: { mp: 7 },
+      target: 'allEnemies',
+      effects: [{ kind: 'damage', power: 30, elemental: 1 }],
+      animation: {
+        effectSprite: 44,
+        placement: 'attackField',
+        fireDelay: 1,
+        effectTimes: 1,
+        shake: 1,
+        blow: -2,
+      },
+    }
+    const s = createBattleState({
+      players: [player('li', { baseDexterity: 900, skills: [spell.id] })],
+      enemySlots: [mkEnemy('a', { health: 1 }), null, mkEnemy('b', { health: 1 })],
+      skills: { [spell.id]: spell },
+      fireFrameCounts: { 44: 3 },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'cast', skillId: spell.id })
+    stepBattle(s, rng0)
+    const samples = [0, 0.5, 0.9, 0.1, 0.6, 0.92, 0.08, 0.2, 0.75]
+    let consumed = 0
+    stepBattle(s, () => expectDefined(samples[consumed++]))
+    expect(s.lastAction).toMatchObject({
+      kind: 'cast',
+      blow: { targetSlots: [0, 2], steps: [-2, -1, 0, -2, -1, 0] },
+    })
+    expect(s.phase).toBe('won')
+    expect(consumed).toBe(samples.length)
+    expect(s.players[0]?.hiddenCounts.maxMP).toBe(3)
+  })
+
   test('SkillCost.items:先扣 MP 再原子扣物品；成功才结算 effects 与隐藏成长', () => {
     const guSkill: SkillData = {
       ...bolt2,

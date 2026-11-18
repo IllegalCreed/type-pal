@@ -101,6 +101,8 @@ export interface SkillAnimation {
   shake?: number
   /** 特效起手时并发的前置震屏；不取代末尾 shake。 */
   preShake?: { frames: number; level: number }
+  /** 玩家群体攻击在每个 FIRE 帧上的有符号横向吹飞幅度，单位为逻辑像素。 */
+  blow?: number
   /** 屏幕波幅叠加(原 wWave;演出期叠在战场常驻波上,fight.c:2666;原版仅 4 条法术非零)。 */
   wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */

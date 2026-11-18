@@ -11,6 +11,7 @@
 import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
+import { getOffMagicTiming } from './battle-off-magic.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
@@ -901,6 +902,7 @@ export interface BuildPlayerCastInput {
   partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
   postTargets?: Array<{ idx: number; pos: { x: number; y: number } }>
+  blow?: BuildOffMagicInput['blow']
   /** 特效末帧烙背景(SkillAnimation.keepEffect;fight.c:2757)。 */
   keepEffect?: boolean
 }
@@ -920,6 +922,11 @@ export interface BuildOffMagicInput {
   targetPos?: { x: number; y: number }
   /** 普通玩家施法在 fireDelay 帧切到 frame6；投掷/合击不传。 */
   casterMagic?: FighterDelta
+  /** 已按规则顺序抽样的步长及敌人原站位。 */
+  blow?: {
+    steps: readonly number[]
+    targets: readonly { idx: number; pos: { x: number; y: number } }[]
+  }
   /** 召唤二次法术期间需要每帧保留的神将定格。 */
   holdOverlays?: readonly OverlayDraw[]
   /** 召唤二次法术期间保持队员隐藏。 */
@@ -969,11 +976,12 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   const { fireFrames, fx } = input
   if (fireFrames <= 0) return []
   const n = fireFrames
-  const fd = Math.min(fx.fireDelay, n - 1)
-  const l = (n - fd) * fx.effectTimes + n + fx.shake
+  const { fireDelay: fd, totalFrames: l } = getOffMagicTiming(n, fx)
   const frameDur = (fx.speed + 5) * 10
   const hold = input.holdOverlays ?? []
   const frames: AnimFrame[] = []
+  let blowX = 0
+  let blowY = 0
   for (let i = 0; i < l; i++) {
     const inShake = l - i <= fx.shake
     const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
@@ -984,11 +992,24 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       const remaining = fx.preShake.frames - i
       scriptedShakeOffsetY = remaining % 2 === 0 ? fx.preShake.level : -fx.preShake.level
     }
+    const fighters: FighterDelta[] = []
+    if (input.casterMagic && i === fd) fighters.push(input.casterMagic)
+    if (input.blow) {
+      const step = expectDefined(input.blow.steps[i])
+      blowX += step
+      blowY += Math.trunc(step / 2)
+      for (const { idx, pos } of input.blow.targets)
+        fighters.push({
+          side: 'enemy',
+          idx,
+          pos: { x: pos.x + blowX, y: pos.y + blowY },
+        })
+    }
     frames.push({
       durationMs: frameDur,
       overlays: [...drop, ...hold],
       ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
-      ...(input.casterMagic && i === fd ? { fighters: [input.casterMagic] } : {}),
+      ...(fighters.length ? { fighters } : {}),
       ...(i === 0 && !input.suppressSound && fx.sound ? { sound: fx.sound } : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
@@ -996,6 +1017,11 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
     })
   }
+  if (input.blow)
+    frames.push({
+      durationMs: 0,
+      fighters: input.blow.targets.map(({ idx, pos }) => ({ side: 'enemy', idx, pos })),
+    })
   return frames
 }
 
@@ -1138,6 +1164,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
             },
           }),
       ...(input.keepEffect ? { keepEffect: true } : {}),
+      ...(input.blow ? { blow: input.blow } : {}),
     }),
   )
 

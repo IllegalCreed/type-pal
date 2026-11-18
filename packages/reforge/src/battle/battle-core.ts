@@ -57,6 +57,7 @@ import {
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import type { BattleLastAction, PlayerAttackSweep } from './battle-last-action.js'
+import { getOffMagicTiming } from './battle-off-magic.js'
 import { getEnemyBasePos } from './battle-positions.js'
 
 function assertNever(value: never, context: string): never {
@@ -240,6 +241,8 @@ export interface BattleState {
   log: string[]
   /** 技能表(敌施法;M4c)。 */
   skills: Record<string, SkillData>
+  /** 已预载的 FIRE 帧数，供按资源实际长度结算 0x6B。 */
+  fireFrameCounts: Readonly<Record<number, number>>
   /** 敌人表(transform/summon;M4c-2)。 */
   enemiesById: Record<string, EnemyDef>
   /** 物品表 + 背包(战斗内扣,writeBack 回世界)。 */
@@ -319,6 +322,8 @@ export interface CreateBattleInput {
   enemies?: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
+  /** 已预载的 FIRE 帧数；无可播放资源时不执行其吹飞抽样。 */
+  fireFrameCounts?: Readonly<Record<number, number>>
   /** 敌人表(transform/summon 查 EnemyDef;缺省空 = 动作落普攻并 log)。 */
   enemiesById?: Record<string, EnemyDef>
   /** 物品表 + 背包副本(战斗用品;count 战斗内扣,main 战后写回)。 */
@@ -395,6 +400,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     actionQueue: [],
     log: [],
     skills: input.skills ?? {},
+    fireFrameCounts: input.fireFrameCounts ?? {},
     enemiesById: input.enemiesById ?? {},
     items: input.items ?? {},
     inventory: input.inventory ?? [],
@@ -1377,6 +1383,25 @@ function applyPlayerSkill(
     }
   }
   const targets = playerSkillTargets(s, idx, skill, targetEnemyIdx, targetAllyIdx)
+  const { animation } = execution
+  const fireFrames = s.fireFrameCounts[animation.effectSprite] ?? 0
+  const action = s.lastAction
+  if (
+    animation.blow &&
+    fireFrames > 0 &&
+    skill.target === 'allEnemies' &&
+    action?.side === 'player' &&
+    action.kind === 'cast'
+  ) {
+    // 成功耗用之后，OffMagic 的每个实有帧先抽 0x6B，成功脚本及伤害随后执行。
+    const { totalFrames } = getOffMagicTiming(fireFrames, animation)
+    const low = Math.min(0, animation.blow)
+    const range = Math.abs(animation.blow) + 1
+    action.blow = {
+      targetSlots: aliveEnemies(s),
+      steps: Array.from({ length: totalFrames }, () => low + Math.floor(rng() * range)),
+    }
+  }
   // 0x57 writes a neutral spell's base power after ordinary costs, then clears the caster's MP.
   for (const prepare of execution.prepare) {
     const power = Math.trunc(p.mp * prepare.multiplier)

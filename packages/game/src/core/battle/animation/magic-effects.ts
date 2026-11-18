@@ -172,7 +172,7 @@ export interface BuildOffMagicInput {
   targetEnemyPos?: { x: number; y: number }
   /**
    * 吹飞强度(g_Battle.iBlow,fight.c:2681)。每帧 blow = iBlow>0?RandomLong(0,iBlow):RandomLong(iBlow,0),
-   * 全体受击方逐帧累加 (x+=blow, y+=trunc(blow/2)),末帧复位 posOriginal(fight.c:2840+)。
+   * 全体受击方逐帧累加 (x+=blow, y+=trunc(blow/2))，播放结束后复位 posOriginal（fight.c:2840+）。
    * iBlow==0 时不抽样：SDLPal util.c 的 RandomLong(0,0) 直接返回 0，同样不推进随机状态。
    */
   iBlow?: number
@@ -307,19 +307,12 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
       })
     }
 
-    // W4 iBlow:本帧 blow 位移 —— 全体受击方累加 (x+=blow, y+=trunc(blow/2));末帧复位 posOriginal(fight.c:2681-2694/2840+)。
+    // 每张 FIRE 帧都按抽样移动；播放结束后才复位（fight.c:2681–2694、2825–2841）。
     if (blowOn) {
       const blow = iBlow! > 0 ? rng!.rangeInclusive(0, iBlow!) : rng!.rangeInclusive(iBlow!, 0)
-      const isLast = i === l - 1
       for (const t of blowAcc) {
-        if (isLast) {
-          t.x = t.pos.x
-          t.y = t.pos.y
-        } // 末帧复位 posOriginal
-        else {
-          t.x += blow
-          t.y += Math.trunc(blow / 2)
-        }
+        t.x += blow
+        t.y += Math.trunc(blow / 2)
         fighters.push({ side: t.side, idx: t.idx, pos: { x: t.x, y: t.y } })
       }
     }
@@ -345,6 +338,11 @@ export function buildPlayerOffMagicTimeline(input: BuildOffMagicInput): BattleAn
     if (sound && sound > 0 && i === 0) frame.sound = sound
     frames.push(frame)
   }
+  if (blowOn)
+    frames.push({
+      durationMs: 0,
+      fighters: blowAcc.map(({ side, idx, pos }) => ({ side, idx, pos })),
+    })
 
   return frames
 }

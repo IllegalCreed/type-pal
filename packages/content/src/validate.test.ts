@@ -546,6 +546,28 @@ test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义�
   ).toThrow('只允许一个前置资源效果')
 })
 
+test('吹飞接受玩家全体攻击的有符号整数，并拒绝非整数及敌方覆写', () => {
+  const animation = { effectSprite: 44, placement: 'attackField', blow: -2 }
+  const spell = {
+    id: 'wind',
+    name: '横风',
+    cost: { mp: 5 },
+    target: 'allEnemies',
+    effects: [{ kind: 'damage', power: 10, elemental: 1 }],
+    animation,
+  }
+  expect(validateSkills({ skills: [spell], levelUp: {} }).skills[0]?.animation.blow).toBe(-2)
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, blow: -1.5 } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow')
+  expect(() =>
+    validateSkills({ skills: [{ ...spell, execution: { enemy: { animation } } }], levelUp: {} }),
+  ).toThrow('blow')
+})
+
 test('敌方 execution 只允许 runtime 已实现效果且拒绝 prepare', () => {
   const bundle = (enemy: unknown) => ({
     skills: [

@@ -405,6 +405,12 @@ export class BattleSession {
       players,
       enemySlots: enemyDefs,
       skills: opts.skills,
+      fireFrameCounts: Object.fromEntries(
+        Object.entries(assets.fireSprites ?? {}).map(([chunk, sprite]) => [
+          chunk,
+          sprite.frames.length,
+        ]),
+      ),
       enemiesById: opts.enemiesById,
       items: opts.items,
       inventory: opts.inventory,
@@ -1552,6 +1558,17 @@ export class BattleSession {
         fireFrames,
         fx,
         targetPos,
+        ...(la.blow
+          ? {
+              blow: {
+                steps: la.blow.steps,
+                targets: la.blow.targetSlots.map((idx) => ({
+                  idx,
+                  pos: expectDefined(s.enemies[idx]).basePos,
+                })),
+              },
+            }
+          : {}),
         ...(allyTargets.length ? { allyTargets } : {}),
         offensive:
           la.kind === 'cast' &&

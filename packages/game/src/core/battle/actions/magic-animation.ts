@@ -38,6 +38,7 @@ interface MagicAnimationInput {
 }
 
 interface MagicAnimationEffects {
+  playerOffMagicOpening?: BattleAnimFrame[]
   dmgResults: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>
   pendingNums: PendingDamageNums
   pendingScreenShake: { time: number; level: number }
@@ -68,7 +69,13 @@ export function startMagicAnimation(
   let built = false
   if (!input.casterIsEnemy) {
     if (isOffensiveMagicType(magic.type)) {
-      built = buildAndStartMagicAnim(input, magic, dmgResults, pendingNums, pendingScreenShake)
+      const opening =
+        effects.playerOffMagicOpening ??
+        buildPlayerOffMagicOpening(input, magic, pendingScreenShake)
+      if (opening) {
+        startPlayerOffMagic(input, opening, dmgResults, pendingNums)
+        built = true
+      }
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
       built = buildAndStartDefMagicAnim(input, magic, pendingNums, preRevivalPoses)
     } else if (magic.type === 'trance') {
@@ -129,19 +136,17 @@ function addPendingEnemyDamageNumTargets(
  *   - magicSpriteFrameCounts 有该 effect chunk(→ n)
  *   - caster fighter render-state(posOriginal)存在(无动画资源的调用 缺则不建链)
  */
-function buildAndStartMagicAnim(
+export function buildPlayerOffMagicOpening(
   input: MagicAnimationInput,
   magic: Magic,
-  results: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
-  pendingNums: PendingDamageNums,
   pendingScreenShake: { time: number; level: number },
-): boolean {
-  if (!isOffensiveMagicType(magic.type)) return false
+): BattleAnimFrame[] | undefined {
+  if (input.casterIsEnemy || !isOffensiveMagicType(magic.type)) return undefined
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
-  if (n === undefined || n <= 0) return false
+  if (n === undefined || n <= 0) return undefined
 
   const caster = input.state.players[input.casterIdx]
-  if (!caster?.posOriginal) return false
+  if (!caster?.posOriginal) return undefined
 
   // —— PreMagic:cast 特效帧基号 = rgwBattleEffectIndex[battleSpriteId][0] * 10 + 15(fight.c:2387-2389)——
   const role = input.playerRoles.roles[caster.roleId]
@@ -197,7 +202,15 @@ function buildAndStartMagicAnim(
       : undefined,
     rng: input.state.rng,
   })
+  return [...preFrames, ...offFrames]
+}
 
+function startPlayerOffMagic(
+  input: MagicAnimationInput,
+  opening: BattleAnimFrame[],
+  results: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
+  pendingNums: PendingDamageNums,
+): void {
   // —— PostMagic:HP **有变化**的敌人抖动(sdlpal fight.c:3220 `if (wHealth == wPrevHP) continue`,
   //   即掉血/回血都抖。攻击魔法只掉血,二者等价;用 != 严格忠实,兼容未来对敌回血法术)——
   const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
@@ -214,13 +227,11 @@ function buildAndStartMagicAnim(
   // DM12:攻击法术收尾停顿 PAL_BattleDelay(5,0,TRUE)(fight.c:4322-4324,PostMagic 后)——
   //   数字弹出后停 ~200ms 再进下一动作。
   const chain: BattleAnimFrame[] = [
-    ...preFrames,
-    ...offFrames,
+    ...opening,
     ...postFrames,
     { durationMs: 5 * BATTLE_FRAME_TIME },
   ]
   startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
-  return true
 }
 
 /**

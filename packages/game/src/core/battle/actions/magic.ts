@@ -36,7 +36,7 @@ import {
   isOffensiveMagicType,
   type PendingDamageNums,
 } from './magic-action-contract.js'
-import { startMagicAnimation } from './magic-animation.js'
+import { buildPlayerOffMagicOpening, startMagicAnimation } from './magic-animation.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
 
@@ -279,6 +279,11 @@ export function performMagic(input: PerformMagicInput): void {
     return
   }
 
+  // OffMagic 的吹飞先抽样，随后才运行成功脚本及逐槽伤害（fight.c:2681、4255–4268）。
+  const playerOffMagicOpening = input.state.iBlow
+    ? buildPlayerOffMagicOpening(input, magic, pendingScreenShake)
+    : undefined
+
   // scriptOnUse 成功后运行 scriptOnSuccess，再结算与拼装帧链。
   // M6 法术效果音 magic.sound:**player 攻击魔法(OffMagic)已挪到动画时间线帧同步**(见下方动画派发后),
   //   此处不再 cast 起手立即 push(那样比效果动画提前,user 2026-06-03 报"音效没对齐")。其余类型在派发后即时 push。
@@ -444,6 +449,7 @@ export function performMagic(input: PerformMagicInput): void {
 
   // Resolve effects before handing frame composition its narrow battle/resource view.
   const built = startMagicAnimation(input, magic, {
+    playerOffMagicOpening,
     dmgResults,
     pendingNums,
     pendingScreenShake,
