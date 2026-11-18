@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "fc63de85da2deeef2a2c6993e144106d9e0b542eca10b71573766cb27b1c492f",
+      "afterSha256": "b2b8e8014372f17cfc4b6c578e8ba81e8b5c244bab168e2e2005e78c7055b9d8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 投掷收口与战外恢复复核",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
-        "reviewedLines": 85,
-        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 86,
+        "acceptanceScope": "核新恢复包的唯一索引与实际文件。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a80a0e579982d00672fa1d949d0dab6beccf24f534ba6664a9ca12e4c575fb47",
+      "afterSha256": "84db0f244d32b15291bcf918f2cdd1e6cfcf3db57068f0764f28bdd3be9d2b89",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 寄生毒来源复核",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "复核寄生毒演出修改后的现行引用。",
-        "reviewedLines": 8405,
-        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 8428,
+        "acceptanceScope": "核菜单会话与原 oracle 的固定前后引用。"
       }
     },
     {
@@ -4763,28 +4763,28 @@
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "ac22a5465d78dcbecbde8bef1d2c57fb78b34c576430d2816c149a905ef3ec78",
+      "afterSha256": "2b3c729e0c534322b0f244b66b1a772961f93cfb2e8595652939fb39567f61a4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 174,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "reviewer": "Codex 战外道具复核",
+        "date": "2026-11-19",
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 197,
+        "acceptanceScope": "核引用坐标、旧主张、执行身份和新历史条目。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "c52854e7dd66874d06b630e6be47fb66e875d43ee623ebe6dcf4e9e06a52261a",
+      "afterSha256": "1845b4a4aaff972f3a8892ab3b818a144456049143e5c489a6ab45bee19d5f08",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 70,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "reviewer": "Codex 战外道具复核",
+        "date": "2026-11-19",
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 72,
+        "acceptanceScope": "核菜单目标槽位、合法输入和双端证据的职责。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "606b675f98672b0f1780650bcca18b657e91e7ae863c55edea99ec9ce894e860",
+      "afterSha256": "49b66178c41823958d86b9c55d7d83e477043fac4bf403790894a70b05b3dd1e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 投掷收口与战外恢复复核",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
-        "reviewedLines": 881,
-        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 889,
+        "acceptanceScope": "核修复边界、正反例、质量回执和已清理输出。"
       }
     },
     {
@@ -5442,27 +5442,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "82164c503b42b92b304ffd4252f847c82f685e9a04d54a86aab0106cd4557fb9",
+      "afterSha256": "3c1fb8d9164a45cea0c1b02c58294d7a42e74518a047da4cfcb8e7164ac6e561",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 投掷收口与战外恢复复核",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "核十四件投掷、孵化反馈及十三件战外恢复道具。",
-        "reviewedLines": 1171,
-        "acceptanceScope": "核实际输入、双端日志、独立录制、解码取点及归档恢复。"
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 1190,
+        "acceptanceScope": "核 24 个战外入口、正式选人复验、结果台账和分屏来源。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "142288e05c695eaaebcac6349e4c812deedc2566befd47cdde94f3c6be77aa9e",
+      "afterSha256": "494b476525df864ad6027369a024a8bb99dd948332ba41fdd6c123843762b1e9",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 寄生毒来源复核",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "复核寄生毒演出修改后的现行引用。",
-        "reviewedLines": 390,
-        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
+        "conclusion": "核对战外用物的当前证据和源码引用。",
+        "reviewedLines": 394,
+        "acceptanceScope": "核旧归属片段和现行菜单源码逐字节保真。"
       }
     }
   ],
@@ -6184,6 +6184,12 @@
       "bytes": 27339586,
       "sha256": "009b614189f23e605440f0ee6ea567dc3068144b05120c6b2e195ff3378bd8ac",
       "purpose": "首批十三件战外恢复道具、两轮合法存档和双端实用、带声分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-recovery-followup-20261119.tar.gz",
+      "bytes": 33116058,
+      "sha256": "c6833c2954915d98f084143ba8e2cc7efd8ca2c5d2db6436c74db4d66192affa",
+      "purpose": "战外选人修前反例、正式候选的双端复验、两条带声分屏和复算证据。"
     }
   ],
   "artifactAliases": [],

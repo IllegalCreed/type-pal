@@ -4007,10 +4007,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu/menu-session.ts",
-          "lines": "105-128",
+          "lines": "106-130",
           "anchor": "export class MenuSession",
           "role": "contract",
-          "sha256": "85ae2bc5120c08bd3d20c6a44fadcc66da43e5f1bea265b2eeae8d4e92ac9e64"
+          "sha256": "679a085984d7f36509524342f332a30baf53dcec504a70dad89df5969b7469e4"
         },
         {
           "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -4024,7 +4024,7 @@
           "lines": "9-32",
           "anchor": "test('closed menu ignores input",
           "role": "oracle",
-          "sha256": "e4c4b3108a268d769814eabc2414f79ee8112ac3ef885a8348796f359fae81cf"
+          "sha256": "becadd7d546413f6f3f02aab5aca37e3a4e6e6ad15c04f62b448f638c5755f78"
         },
         {
           "path": "packages/reforge/src/menu/item-use-session.test.ts",
@@ -4083,6 +4083,29 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "q2-world-item-target-source-rebinding",
+            "base": "0daf5f51472d793258dd8d3a331ae60e95bc881b",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/menu-session.ts",
+                "lines": "105-128",
+                "anchor": "export class MenuSession",
+                "role": "contract",
+                "sha256": "85ae2bc5120c08bd3d20c6a44fadcc66da43e5f1bea265b2eeae8d4e92ac9e64"
+              },
+              {
+                "path": "packages/reforge/src/menu/menu-session.test.ts",
+                "lines": "9-32",
+                "anchor": "test('closed menu ignores input",
+                "role": "oracle",
+                "sha256": "e4c4b3108a268d769814eabc2414f79ee8112ac3ef885a8348796f359fae81cf"
+              }
+            ],
+            "scope": "菜单会话原所有权片段补入上次选人槽位。移除该字段后原片段逐字节相等。原 oracle 范围逐字节相等，新反例位于其下方。"
           }
         ]
       },

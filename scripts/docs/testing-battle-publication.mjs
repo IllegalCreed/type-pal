@@ -1550,6 +1550,39 @@ export function restoreTestingBattlePoisonNarrationSourceBindings(path, bytes, i
   )
 }
 
+export const testingWorldItemTargetPublicationBase = '0daf5f51472d793258dd8d3a331ae60e95bc881b'
+const worldItemMenuSession = 'packages/reforge/src/menu/menu-session.ts'
+const worldItemTargetRanges = new Map([
+  [worldItemMenuSession, { '105-128': '106-130' }],
+  ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '9-32' }],
+])
+const worldItemTargetStage = {
+  ranges: worldItemTargetRanges,
+  normalizeExcerpt: (excerpt, ref) =>
+    ref.path === worldItemMenuSession ? excerpt.replace('  #lastUseTargetIdx = 0\n', '') : excerpt,
+  base: testingWorldItemTargetPublicationBase,
+  action: 'q2-world-item-target-source-rebinding',
+  date: '2026-11-19',
+}
+const worldItemTargetBindings = new Map([
+  [
+    'domains/runtime/menu/menu-session/evidence.json',
+    { id: 'reforge-menu-session', paths: [...worldItemTargetRanges.keys()] },
+  ],
+])
+
+export const isTestingWorldItemTargetSource = (path) => worldItemTargetRanges.has(path)
+
+export function restoreTestingWorldItemTargetSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    worldItemTargetStage,
+    worldItemTargetBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

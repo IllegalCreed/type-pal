@@ -52,6 +52,7 @@ import {
   isTestingBattleSummonSource,
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
+  isTestingWorldItemTargetSource,
   restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleCasualtyRosterSourceBindings,
   restoreTestingBattleClosureSourceBindings,
@@ -81,6 +82,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingWorldItemTargetSourceBindings,
   testingBattleActionCadencePublicationBase,
   testingBattleCasualtyRosterPublicationBase,
   testingBattleClosurePublicationBase,
@@ -127,6 +129,7 @@ import {
   testingBattleWindBlowPublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
 import {
   assertTestingChestSourceBridge,
@@ -801,8 +804,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     poisonNarrationRevision && gitTree(root, poisonNarrationRevision, [])
   const prePoisonNarration =
     poisonNarrationSource && gitTree(root, testingBattlePoisonNarrationPublicationBase, [])
-  const readBeforeBattlePoisonNarration = (path) => {
+  const worldItemTargetRevision = admission.testingWorldItemTargetSourceRevision
+  if (worldItemTargetRevision !== undefined)
+    assert(
+      poisonNarrationSource && /^[a-f0-9]{40}$/u.test(worldItemTargetRevision),
+      'world item target source bridge requires the fixed preceding poison narration revision',
+    )
+  const worldItemTargetSource =
+    worldItemTargetRevision && gitTree(root, worldItemTargetRevision, [])
+  const preWorldItemTarget =
+    worldItemTargetSource && gitTree(root, testingWorldItemTargetPublicationBase, [])
+  const readBeforeWorldItemTarget = (path) => {
     const live = readSource(path)
+    if (!preWorldItemTarget || !isTestingWorldItemTargetSource(path)) return live
+    assert(
+      live?.equals(worldItemTargetSource.read(path)),
+      'world item target source differs from the frozen candidate',
+    )
+    return preWorldItemTarget.read(path)
+  }
+  const readBeforeBattlePoisonNarration = (path) => {
+    const live = readBeforeWorldItemTarget(path)
     if (!prePoisonNarration || !isTestingBattlePoisonNarrationSource(path)) return live
     assert(
       live?.equals(poisonNarrationSource.read(path)),
@@ -1000,13 +1022,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorPoisonNarration = prePoisonNarration
-      ? restoreTestingBattlePoisonNarrationSourceBindings(path, bytes, {
+    const priorWorldItemTarget = preWorldItemTarget
+      ? restoreTestingWorldItemTargetSourceBindings(path, bytes, {
           readSource,
+          readBase: preWorldItemTarget.read,
+          readFixed: worldItemTargetSource.read,
+        })
+      : bytes
+    const priorPoisonNarration = prePoisonNarration
+      ? restoreTestingBattlePoisonNarrationSourceBindings(path, priorWorldItemTarget, {
+          readSource: readBeforeWorldItemTarget,
           readBase: prePoisonNarration.read,
           readFixed: poisonNarrationSource.read,
         })
-      : bytes
+      : priorWorldItemTarget
     const priorThrowStatus = preThrowStatus
       ? restoreTestingBattleThrowStatusSourceBindings(path, priorPoisonNarration, {
           readSource: readBeforeBattlePoisonNarration,
