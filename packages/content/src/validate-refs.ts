@@ -965,7 +965,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const skillsById = new Map(b.skills.map((skill) => [skill.id, skill]))
   const itemIds = new Set(b.items.map((i) => i.id))
   const actorIds = new Set(b.actors.map((a) => a.id))
-  const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
+  const actorsById = new Map(b.actors.map((actor) => [actor.id, actor]))
   const enemyIds = new Set((b.enemies ?? []).map((e) => e.id))
   const scenesById = new Map(b.scenes.map((scene) => [scene.id, scene]))
   const spriteIds = new Set(b.sprites.map((s) => s.id))
@@ -991,7 +991,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   const validateBattleActor = (actorId: string, where: string): void => {
-    const actor = actorsById[actorId]
+    const actor = actorsById.get(actorId)
     if (!actor)
       issues.push({
         severity: 'error',
@@ -1316,7 +1316,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       }
       if (target.kind === 'scene-entry') {
         const scene = scenesById.get(target.sceneId)
-        if (scene && !scene.entries?.[target.entryId])
+        if (scene && (!scene.entries || !Object.hasOwn(scene.entries, target.entryId)))
           addTargetIssue(
             'error',
             reference.where,
@@ -1326,7 +1326,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       }
       if (target.kind === 'scene-hook') {
         const scene = scenesById.get(target.sceneId) as AuthorSceneDef | undefined
-        if (scene && !scene.hooks?.[target.slot]?.variants[target.hookId])
+        const variants = scene?.hooks?.[target.slot]?.variants
+        if (scene && (!variants || !Object.hasOwn(variants, target.hookId)))
           addTargetIssue(
             'error',
             reference.where,
@@ -1745,7 +1746,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const existingActorIssuePaths = new Set(issues.map((issue) => issue.where))
   for (const reference of tagged) {
     if (existingActorIssuePaths.has(reference.where)) continue
-    const actor = actorsById[reference.actorId]
+    const actor = actorsById.get(reference.actorId)
     if (!actor)
       issues.push({
         severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
