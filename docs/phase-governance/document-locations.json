@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "3105eda89b9028a529c667384515448f84311da1ec87c555a4d37d824629a1a9",
+      "afterSha256": "ea7cd5f420ec3da52a3df6b0835b18fcd7d48fd5cd54ec56370fc2898ed26c1d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外复活实测复核",
+        "reviewer": "Codex 战外施毒与成长实测复核",
         "date": "2026-11-19",
-        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
-        "reviewedLines": 87,
-        "acceptanceScope": "核战外复活归档的唯一索引和实际文件。"
+        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
+        "reviewedLines": 88,
+        "acceptanceScope": "核战外施毒与成长归档的唯一索引及实际文件。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "2d119568f8bbe5a87aaa76706cd0ff7849a21712430e150920a60171978950b1",
+      "afterSha256": "c9658b5e0b6296c2b2c2265acb38cd0b7e1103129fde247ced926262dee52913",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外复活实测复核",
+        "reviewer": "Codex 战外施毒与成长实测复核",
         "date": "2026-11-19",
-        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
-        "reviewedLines": 897,
-        "acceptanceScope": "核战外复活与致死的三组反例、复验、质量与清理。"
+        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
+        "reviewedLines": 903,
+        "acceptanceScope": "核新增 22 个入口、质量原件、录像来源与清理账。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "38469cb5849a4807d2cb05ec3ac6be513abd24ecb02f3f1a0659972679d892c3",
+      "afterSha256": "569421f886be41186edd7b754a105a83a5b920209b499d26ecbb6abde5e7195b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外复活实测复核",
+        "reviewer": "Codex 战外施毒与成长实测复核",
         "date": "2026-11-19",
-        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
-        "reviewedLines": 1207,
-        "acceptanceScope": "核七个新战外入口、带毒实用与固定候选的双端分屏。"
+        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
+        "reviewedLines": 1224,
+        "acceptanceScope": "核 53 个战外入口、三个机制反例、原盘指令与原速双声道。"
       }
     },
     {
@@ -6196,6 +6196,12 @@
       "bytes": 18409786,
       "sha256": "9b64321e13bc3a2819108224c047fbe916d8079d5f96913c7d9d99ce9d649e90",
       "purpose": "战外复活与中毒致死的双端原件、三组修前反例、原速分屏与复算结果。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-poison-and-growth-20261119.tar.gz",
+      "bytes": 53489285,
+      "sha256": "2b2c3e8e457356ff960a1a0ad0afcc2890363e602bc8f500910890daf493d759",
+      "purpose": "战外首拍施毒、毒抗、风险用物、永久成长的双端原件、反例与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
