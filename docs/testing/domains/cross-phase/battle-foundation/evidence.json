@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2500",
-      "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
+      "lines": "2501",
+      "sha256": "6efb3ffd980d6f1e605a0df7273027ce214a3329368ebb29d13b244669d076fe"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -13419,6 +13419,22 @@
         }
       ],
       "scope": "前摇与退场接线更新。群攻声明、Game 回合收尾与测试入场片段逐字节相等，旧运行与断言保留。"
+    },
+    {
+      "action": "q2-battle-item-use-source-rebinding",
+      "base": "89dab268613141283aa49ddb228351060607316e",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2500",
+          "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
+        }
+      ],
+      "scope": "用物失败结果先于后续群攻声明。群攻声明的新坐标仍引用同一原字节，旧运行与断言保留。"
     }
   ],
   "_governance": {

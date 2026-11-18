@@ -1412,6 +1412,37 @@ export function restoreTestingBattleEnemySpellShakeSourceBindings(path, bytes, i
   )
 }
 
+export const testingBattleItemUsePublicationBase = '89dab268613141283aa49ddb228351060607316e'
+const battleItemUseStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+    [battleTransformCore, { 2500: '2501' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleItemUsePublicationBase,
+  action: 'q2-battle-item-use-source-rebinding',
+  date: '2026-11-19',
+}
+const battleItemUseBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleItemUseSource = (path) => battleItemUseStage.ranges.has(path)
+
+export function restoreTestingBattleItemUseSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleItemUseStage, battleItemUseBindings)
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

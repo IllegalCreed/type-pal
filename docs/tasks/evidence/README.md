@@ -67,6 +67,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 拜月教主三招 | [双端实战、毒槽、漏帧反例和原速带声分屏重录](E2E-Q2-1-moon-leader-casts-20261119.tar.gz) |
 | Q2 五件战内恢复道具 | [逐件实用、毒槽、实际倒地与复活、原速带声分屏](E2E-Q2-1-five-battle-recovery-items-20261119.tar.gz) |
 | Q2 十九件战内补血回气与复活道具 | [双端实用、回气飘字反例、失败回执和原速带声分屏重录](E2E-Q2-1-nineteen-battle-restorative-items-20261119.tar.gz) |
+| Q2 战内解毒道具和毒卵 | [十一件逐项实用、盐巴修前反例、复验及两条带声分屏重录](E2E-Q2-1-battle-antidotes-and-poison-eggs-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

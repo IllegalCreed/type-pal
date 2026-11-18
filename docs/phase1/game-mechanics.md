@@ -134,6 +134,8 @@ SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底�
 
 普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
 
+盐巴的战内使用入口 39579 用 0x06 掷 1 至 100，掷到 1 至 49 时解除全队赤毒 551，从 50 起转到 38780 的「无任何效果」。两支都扣一份盐巴。失败旁白在施用者归位后显示，约 1.4 秒后自动清除，也可用方向键提前关闭。旁白清除后继续用物收尾八拍。 [概率门](../../reference/sdlpal/script.c#L3298-L3312) · [中央旁白](../../reference/sdlpal/text.c#L1666-L1707) · [盐巴双端实战与重录](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-战内解毒道具和毒卵)
+
 同一批原盘 SSS 核出糯米、盐巴、大蒜、黑狗血、雄黄酒、烧肉与腌肉的投掷入口均为 0，物品仍允许投掷。标准战斗播放投掷动作并消耗一件。盐巴使用全体目标，其余六件使用单体目标。投掷起手的四步前移只改位置，到举手才改姿态。防御类法术落在受术者当时的坐标，包含已前移的施法者。五气朝元使用 FIRE28、偏移 `(-6, -18)`、绘制层 `+99`。 [投掷原程序](../../reference/sdlpal/fight.c#L4332) · [防御类法术原程序](../../reference/sdlpal/fight.c#L2527)
 
 化尸水的原始投掷入口 39592 使用 `0x64` 比较当前敌槽的 HP 和满血，超过 5% 时转向「无任何效果」，其余由 `0x60` 击倒该槽。全体菜单把 `0xffff` 传入触发解释器，SDLPal 继承上次调用的数值，入口为 0 的调用也更新该值。已用完整 SDLPal CLASSIC 解释器与本地原始数据运行 30 个独立进程的边界用例。两敌都低时仍只命中继承槽。该结果适用于已核原始数据和 SDLPal 解释器。原程序在两拍出手之后同步执行脚本。失败分支用 0x3E 开中央小窗，关闭后再进入原有投掷收招。 [判断与击倒](../../reference/sdlpal/script.c#L1950) · [触发入口](../../reference/sdlpal/script.c#L3161) · [实现及证据](../testing/domains/cross-phase/battle-foundation/report.md)

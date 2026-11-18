@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1284-1293",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3223,6 +3223,36 @@
               }
             ],
             "scope": "合成时消费 FIRE 固定纵移，三个既有构造及选招片段逐字节相同，历史执行保留。"
+          },
+          {
+            "action": "q2-battle-item-use-source-rebinding",
+            "base": "89dab268613141283aa49ddb228351060607316e",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1284-1293",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+              }
+            ],
+            "scope": "盐巴失败旁白和两种香的辉光从用物时间线消费。三处会话构造与选招的源码片段逐字节相同。"
           }
         ]
       },
@@ -6162,8 +6192,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2500",
-          "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
+          "lines": "2501",
+          "sha256": "6efb3ffd980d6f1e605a0df7273027ce214a3329368ebb29d13b244669d076fe"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7742,6 +7772,22 @@
               }
             ],
             "scope": "前摇与退场接线更新。群攻声明、Game 回合收尾与测试入场片段逐字节相等，旧运行与断言保留。"
+          },
+          {
+            "action": "q2-battle-item-use-source-rebinding",
+            "base": "89dab268613141283aa49ddb228351060607316e",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2500",
+                "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
+              }
+            ],
+            "scope": "用物失败结果先于后续群攻声明。群攻声明的新坐标仍引用同一原字节，旧运行与断言保留。"
           }
         ]
       }

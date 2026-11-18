@@ -38,6 +38,7 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleGuAndConfusionSource,
   isTestingBattleHandoffHistoricalSource,
+  isTestingBattleItemUseSource,
   isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
   isTestingBattleReviewSource,
@@ -60,6 +61,7 @@ import {
   restoreTestingBattleEscapeSpellSourceBindings,
   restoreTestingBattleGuAndConfusionSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleItemUseSourceBindings,
   restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
@@ -86,6 +88,7 @@ import {
   testingBattleGuAndConfusionPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleItemUsePublicationBase,
   testingBattleLearnedSkillsPublicationBase,
   testingBattleLifecyclePublicationBase,
   testingBattlePublicationBase,
@@ -754,8 +757,25 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     enemySpellShakeRevision && gitTree(root, enemySpellShakeRevision, [])
   const preEnemySpellShake =
     enemySpellShakeSource && gitTree(root, testingBattleEnemySpellShakePublicationBase, [])
-  const readBeforeBattleEnemySpellShake = (path) => {
+  const itemUseRevision = admission.testingBattleItemUseSourceRevision
+  if (itemUseRevision !== undefined)
+    assert(
+      enemySpellShakeSource && /^[a-f0-9]{40}$/u.test(itemUseRevision),
+      'battle item use source bridge requires the fixed preceding enemy spell shake revision',
+    )
+  const itemUseSource = itemUseRevision && gitTree(root, itemUseRevision, [])
+  const preItemUse = itemUseSource && gitTree(root, testingBattleItemUsePublicationBase, [])
+  const readBeforeBattleItemUse = (path) => {
     const live = readSource(path)
+    if (!preItemUse || !isTestingBattleItemUseSource(path)) return live
+    assert(
+      live?.equals(itemUseSource.read(path)),
+      'battle item use source differs from the frozen candidate',
+    )
+    return preItemUse.read(path)
+  }
+  const readBeforeBattleEnemySpellShake = (path) => {
+    const live = readBeforeBattleItemUse(path)
     if (!preEnemySpellShake || path !== testingBattleSessionSourcePath) return live
     assert(
       live?.equals(enemySpellShakeSource.read(path)),
@@ -917,13 +937,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorEnemySpellShake = preEnemySpellShake
-      ? restoreTestingBattleEnemySpellShakeSourceBindings(path, bytes, {
+    const priorItemUse = preItemUse
+      ? restoreTestingBattleItemUseSourceBindings(path, bytes, {
           readSource,
+          readBase: preItemUse.read,
+          readFixed: itemUseSource.read,
+        })
+      : bytes
+    const priorEnemySpellShake = preEnemySpellShake
+      ? restoreTestingBattleEnemySpellShakeSourceBindings(path, priorItemUse, {
+          readSource: readBeforeBattleItemUse,
           readBase: preEnemySpellShake.read,
           readFixed: enemySpellShakeSource.read,
         })
-      : bytes
+      : priorItemUse
     const priorEscapeSpell = preEscapeSpell
       ? restoreTestingBattleEscapeSpellSourceBindings(path, priorEnemySpellShake, {
           readSource: readBeforeBattleEnemySpellShake,
