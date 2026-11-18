@@ -174,7 +174,7 @@ const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
 const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
 const FAILURE_FEEDBACK_MS = 1400
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
-const DEATH_FADE_MS = 72 * 16
+const SCENE_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
 
 interface FloatNum {
@@ -270,9 +270,9 @@ export class BattleSession {
   private currentFire: LoadedSprite | null = null
   /** 敌整场逃离演出中的敌槽(hp 已被 core 清零,渲染豁免继续画 —— 滑出屏动画可见)。 */
   private fleeingEnemies: number[] | null = null
-  /** 隐身渐隐/渐显过渡(0x5C;hidingTime 边沿触发,72×16ms = 原版 FadeScene 时长)。 */
+  /** 隐身过渡在用物与轮末暂停战斗，沿用原版 FadeScene 时长。 */
   private hideFade: { dir: 'out' | 'in'; start: number } | null = null
-  private prevHidden = false
+  private partyHidden = false
   /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
   private skipNextReset = false
   private clearBannerOnActionEnd = false
@@ -713,6 +713,11 @@ export class BattleSession {
         }
       },
       onActionFeedback: () => this.presentPendingFailureFeedback(),
+      onHidingFade: () => {
+        this.state.hidingTime = Math.abs(this.state.hidingTime)
+        this.partyHidden = true
+        this.hideFade = { dir: 'out', start: this.nowMs }
+      },
       onRevealEnemyConfusion: () => this.pendingConfusedReveal.clear(),
       onEnemyDeathFade: () => this.startEnemyDeathFade(),
       onScreenShake: (durationMs, level) => {
@@ -1250,6 +1255,15 @@ export class BattleSession {
     }
 
     if (this.advanceDeathFade()) return
+    if (this.hideFade) {
+      if (this.nowMs - this.hideFade.start < SCENE_FADE_MS) return
+      this.hideFade = null
+    }
+    if (this.partyHidden && s.hidingTime === 0) {
+      this.partyHidden = false
+      this.hideFade = { dir: 'in', start: this.nowMs }
+      return
+    }
 
     if (s.phase === 'selectAction') {
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
@@ -1819,6 +1833,7 @@ export class BattleSession {
         targetIdxs,
         revivedTargets,
         waitForUseFailureFeedback: la.failureFeedback === 'itemIneffective',
+        activateHiding: s.hidingTime < 0,
         itemName: item?.name,
         ...(sound ? { sound } : {}),
         gains,
@@ -2270,7 +2285,7 @@ export class BattleSession {
   private advanceDeathFade(pauseAfterMs = 0): boolean {
     const fade = this.deathFade
     if (!fade) return false
-    if (this.nowMs - fade.startedAtMs < DEATH_FADE_MS + pauseAfterMs) return true
+    if (this.nowMs - fade.startedAtMs < SCENE_FADE_MS + pauseAfterMs) return true
     this.deathFade = null
     if (this.state.phase === 'performAction' && !this.actionPresentation.active)
       this.actionPresentation.satisfyActionCadence()
@@ -2569,18 +2584,10 @@ export class BattleSession {
           ? 1
           : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
     const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
-    // 隐身可见度 hideVis(0 显 → 1 全隐):hidingTime 边沿触发 72×16ms 渐变
-    // (原版激活/结束各走一次 PAL_BattleFadeScene 溶解,battle.c:609 12×6×16ms)
-    const hiddenNow = s.hidingTime > 0
-    if (hiddenNow !== this.prevHidden) {
-      this.hideFade = { dir: hiddenNow ? 'out' : 'in', start: now }
-      this.prevHidden = hiddenNow
-    }
-    let hideVis = hiddenNow ? 1 : 0
+    let hideVis = this.partyHidden ? 1 : 0
     if (this.hideFade) {
-      const ht = Math.min(1, (now - this.hideFade.start) / (72 * 16))
-      hideVis = this.hideFade.dir === 'out' ? ht : 1 - ht
-      if (ht >= 1) this.hideFade = null
+      const elapsed = Math.min(1, (now - this.hideFade.start) / SCENE_FADE_MS)
+      hideVis = this.hideFade.dir === 'out' ? elapsed : 1 - elapsed
     }
     const sel =
       s.phase === 'selectAction' &&
@@ -2625,7 +2632,7 @@ export class BattleSession {
       let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
         if (!deathFade?.enemySlots.includes(i)) continue
-        alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
+        alpha = 1 - (now - deathFade.startedAtMs) / SCENE_FADE_MS
         if (alpha <= 0) continue
       }
       const anim = appearance.definition.profile

@@ -340,7 +340,9 @@ export function drawBattleSprites(
       if (!role) return
       // DM10:隐身(0x5C 仙风云体类)期间不画队员 —— battle.c:202-211 `else if (iHidingTime == 0)`
       //   才 blit;colorShift≠0 例外(解除隐身的渐显演出仍画)。
-      if ((state.iHidingTime ?? 0) > 0 && (p.iColorShift ?? 0) === 0) return
+      const revealWaiting =
+        state.hidingFade?.revealing && (state.battleFade || (state.roundEndDelayTicks ?? 0) > 0)
+      if (((state.iHidingTime ?? 0) > 0 || revealWaiting) && (p.iColorShift ?? 0) === 0) return
       const pos = p.pos ?? computePlayerAnchor(state, i)
       if (!pos) return
       // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。

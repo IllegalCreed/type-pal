@@ -156,6 +156,7 @@ export function advanceRafFrame(
     ctx.gs.fadeState != null ||
     ctx.gs.paletteFadeState != null ||
     ctx.gs.battleState?.battleFade != null ||
+    ctx.gs.battleState?.hidingFade != null ||
     // 战斗动画期:每 rAF present 让 stepBattleAnimRender 按 wall-clock 细分 renderIdx(法术效果帧 (speed+5)*10ms
     //   在 40ms 逻辑 tick 下抖成拍频 = "施法慢"根因;实测施法期 present 仅 25fps、rAF 120fps)。涵盖普通仙术/
     //   回复/合体/召唤攻击 + 物理(40ms 帧细分后 renderIdx≈idx,无副作用)。battleAnim 外照常按 tick present。

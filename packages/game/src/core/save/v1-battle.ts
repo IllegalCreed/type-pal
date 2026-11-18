@@ -348,6 +348,7 @@ export const battle = object<Data>({
   enemyEscapeAnim: optional(object({ step: number, holdTicks: arg })),
   terminatedByEnemyEscape: flag,
   battleFade: optional(object({ elapsedMs: number, startMs: arg })),
+  hidingFade: optional(object({ elapsedMs: number, startMs: arg, revealing: boolean })),
   battleDialogQueue: optional(
     array(
       object({

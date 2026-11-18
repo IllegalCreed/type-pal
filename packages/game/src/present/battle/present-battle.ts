@@ -22,7 +22,7 @@
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import { SUMMON_FADE_STEPS } from '../../core/battle/animation/summon.js'
+import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from '../../core/battle/animation/summon.js'
 import {
   stepBattleAnimRender,
   stepEnemySummonFadeRender,
@@ -319,7 +319,17 @@ export class BattlePresent {
       state.phase === 'selectAction' ||
       state.phase === 'performAction'
     if (summonRestore) this.beginSummonFade(summonRestore.framebuffer.indices)
-    this.applySummonFade(fb, summon, keepScene, enemySummonFade?.step)
+    const hidingFade = state.hidingFade
+    let hidingStep: number | undefined
+    if (hidingFade && !state.battleFade && (state.roundEndDelayTicks ?? 0) <= 0) {
+      const now = performance.now()
+      hidingFade.startMs ??= now
+      hidingStep = Math.min(
+        SUMMON_FADE_STEPS - 1,
+        Math.floor(Math.max(hidingFade.elapsedMs, now - hidingFade.startMs) / SUMMON_FADE_STEP_MS),
+      )
+    }
+    this.applySummonFade(fb, summon, keepScene, enemySummonFade?.step ?? hidingStep)
 
     // 入场先按六轮整像素置换揭示战斗场景，随后绘制 UI/弹幕；与召唤的 nibble 渐变分开。
     if (state.introFade && this.introBackup) {

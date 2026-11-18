@@ -473,6 +473,13 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     return
   }
 
+  const hidingFade = state.hidingFade
+  if (hidingFade) {
+    hidingFade.elapsedMs += BATTLE_DT
+    if (hidingFade.elapsedMs >= DEATH_FADE_STEPS * DEATH_FADE_STEP_MS) state.hidingFade = undefined
+    return
+  }
+
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
@@ -2218,8 +2225,12 @@ function runEnemyTurnStartScripts(
  * 0x5C 把 iHidingTime 存为**负值**(待激活标记);CLASSIC 激活 = **纯取反**(`-iHidingTime`),
  * **无 *20 / 无 bBattleSpeed 缩放**(那是非 CLASSIC 分支,type-pal 走 CLASSIC)。
  */
-export function activateHidingEffect(state: BattleState): void {
-  if ((state.iHidingTime ?? 0) < 0) state.iHidingTime = -(state.iHidingTime ?? 0)
+export function activateHidingEffect(state: BattleState): boolean {
+  const turns = state.iHidingTime ?? 0
+  if (turns >= 0) return false
+  state.iHidingTime = -turns
+  state.hidingFade = { elapsedMs: 0, revealing: false }
+  return true
 }
 
 /**
@@ -2227,7 +2238,10 @@ export function activateHidingEffect(state: BattleState): void {
  * CLASSIC 每轮无条件 -1(非 CLASSIC 才有充能速度门控)。
  */
 export function decrementHidingEffect(state: BattleState): void {
-  if ((state.iHidingTime ?? 0) > 0) state.iHidingTime = (state.iHidingTime ?? 0) - 1
+  const turns = state.iHidingTime ?? 0
+  if (turns <= 0) return
+  state.iHidingTime = turns - 1
+  if (turns === 1) state.hidingFade = { elapsedMs: 0, revealing: true }
 }
 
 /** 保持原公开入口和签名；队列消费只依赖自己的状态/宿主字段。 */
@@ -2289,6 +2303,8 @@ function tickPerformAction(
           commands: res.commands,
           runScript: getBattleRunScript(gs, runScript),
         })
+        // fight.c:4402 activates hiding before the eight normal recovery beats.
+        activateHidingEffect(state)
         if (state.battleAnim) return // 道具脚本自身又起了动画 → 交给那条新动画收尾复位
       }
       // Restore from the resulting HP and status before the renderer anchors any new numbers.
@@ -2343,7 +2359,7 @@ function tickPerformAction(
 
   // B2 c5 / D24:激活隐身(0x5C 存的负值 → 取反,CLASSIC 无缩放)。在处理本动作前激活,
   //   使隐身后队列里后续敌人动作被下面的 gate 跳过。
-  activateHidingEffect(state)
+  if (activateHidingEffect(state)) return
 
   const item = state.actionQueue[state.currentActionIndex]!
   let action: BattleAction | undefined

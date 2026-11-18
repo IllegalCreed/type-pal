@@ -108,6 +108,7 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 进入此帧后交会话显示动作提示，关闭前保持当前姿态。 */
   waitForActionFeedback?: boolean
+  waitForHidingFade?: boolean
   /** Reveal the confusion applied by this cast in the first frame after FIRE. */
   revealEnemyConfusion?: boolean
   /** Hold the gathered formation until the session finishes fading defeated enemies. */
@@ -508,6 +509,7 @@ export interface BuildUseItemInput {
   sound?: AssetId
   /** 使用脚本的失败旁白在复位后放出，关闭后再进入末尾八拍。 */
   waitForUseFailureFeedback?: boolean
+  activateHiding?: boolean
   /** 呼吸结束并归位后，从目标底锚显示实际 HP 或 MP 变化。 */
   gains?: Array<{ idx: number; value: number; tone: 'blue' | 'yellow' | 'cyan' }>
 }
@@ -561,6 +563,8 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
+  // fight.c:4402 finishes the hiding fade before the normal use-item recovery.
+  if (input.activateHiding) frames.push({ durationMs: 0, waitForHidingFade: true })
   // fight.c:4404-4406 先复位再 DisplayStatChange + Delay(8)。AnimPlayer 在同帧先提交位移。
   const damageNums = gains?.map((g) => ({
     target: { side: 'player' as const, idx: g.idx },
@@ -1629,6 +1633,7 @@ export interface AnimSideEffects {
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
   onActionFeedback?(): void
+  onHidingFade?(): void
   onRevealEnemyConfusion?(): void
   onEnemyDeathFade?(): void
 }
@@ -1663,11 +1668,12 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
-      if (next.waitForActionFeedback || next.waitForEnemyDeathFade) {
+      if (next.waitForActionFeedback || next.waitForEnemyDeathFade || next.waitForHidingFade) {
         // Discard overrun at a presentation hold so recovery starts after it.
         this.elapsed = 0
         if (next.waitForActionFeedback) this.fx.onActionFeedback?.()
         if (next.waitForEnemyDeathFade) this.fx.onEnemyDeathFade?.()
+        if (next.waitForHidingFade) this.fx.onHidingFade?.()
         return false
       }
     }

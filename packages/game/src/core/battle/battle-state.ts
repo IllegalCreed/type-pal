@@ -643,6 +643,8 @@ export interface BattleState {
    *   恒 undefined,deathFadeStep 全靠 elapsedMs(逻辑 tick)推进。两者用 max 合流,互不回退。
    */
   battleFade?: { elapsedMs: number; startMs?: number }
+  /** PAL_BattleFadeScene on party hide/reveal. The core holds the current action or next menu. */
+  hidingFade?: { elapsedMs: number; startMs?: number; revealing: boolean }
   /**
    * 战斗内对话队列(战斗脚本 0xFFFF showDialog;scriptOnReady / scriptOnTurnStart 等)。
    * runScript(battle) 同步跑完时把 dialog 行收集进此队列;tickBattleDialog hold 逐 tick 把队列
