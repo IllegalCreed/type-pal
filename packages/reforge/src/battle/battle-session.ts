@@ -713,7 +713,7 @@ export class BattleSession {
           ...(y !== undefined ? { y } : {}),
         }
       },
-      onThrowFeedback: () => this.presentPendingFailureFeedback(),
+      onActionFeedback: () => this.presentPendingFailureFeedback(),
       onEnemyDeathFade: () => this.startEnemyDeathFade(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
@@ -1558,6 +1558,7 @@ export class BattleSession {
         fireFrames,
         fx,
         targetPos,
+        waitForUseFailureFeedback: la.failureFeedback === 'missingSpellItem',
         ...(la.blow
           ? {
               blow: {
@@ -2223,8 +2224,9 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    if (feedback === 'spellIneffective') {
-      this.showActionFeedback('失败　没有效果', 'anyKey')
+    if (feedback === 'spellIneffective' || feedback === 'missingSpellItem') {
+      const text = feedback === 'missingSpellItem' ? '道具不足无法使用' : '失败　没有效果'
+      this.showActionFeedback(text, 'anyKey')
       this.actionPresentation.satisfyActionCadence()
       return
     }

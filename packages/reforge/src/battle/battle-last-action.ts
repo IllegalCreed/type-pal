@@ -6,7 +6,11 @@
  */
 
 /** 表现层可在任一行动上追加的共同证据。 */
-export type BattleFailureFeedback = 'statusIneffective' | 'throwIneffective' | 'spellIneffective'
+export type BattleFailureFeedback =
+  | 'statusIneffective'
+  | 'throwIneffective'
+  | 'spellIneffective'
+  | 'missingSpellItem'
 
 export interface BattleLastActionBase {
   idx: number

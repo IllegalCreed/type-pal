@@ -1665,6 +1665,11 @@
         {
           "kind": "applyPoison",
           "poisonId": "555"
+        },
+        {
+          "kind": "damage",
+          "power": 81,
+          "elemental": 6
         }
       ],
       "animation": {
@@ -1679,21 +1684,6 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
-      },
-      "execution": {
-        "enemy": {
-          "effects": [
-            {
-              "kind": "applyPoison",
-              "poisonId": "555"
-            },
-            {
-              "kind": "damage",
-              "power": 81,
-              "elemental": 6
-            }
-          ]
-        }
       }
     },
     {
@@ -2291,6 +2281,11 @@
         {
           "kind": "applyPoison",
           "poisonId": "555"
+        },
+        {
+          "kind": "damage",
+          "power": 150,
+          "elemental": 6
         }
       ],
       "animation": {
@@ -2305,21 +2300,6 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
-      },
-      "execution": {
-        "enemy": {
-          "effects": [
-            {
-              "kind": "applyPoison",
-              "poisonId": "555"
-            },
-            {
-              "kind": "damage",
-              "power": 150,
-              "elemental": 6
-            }
-          ]
-        }
       }
     },
     {

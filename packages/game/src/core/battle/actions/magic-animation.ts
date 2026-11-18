@@ -15,7 +15,11 @@ import {
   SUMMON_FADE_STEP_MS,
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
-import { playerRestFrame, startBattleAnim } from '../battle-anim-driver.js'
+import {
+  holdBattleAnimationForDialogue,
+  playerRestFrame,
+  startBattleAnim,
+} from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState, FighterDelta } from '../battle-state.js'
 import {
   asMagicShort as asShort,
@@ -49,6 +53,44 @@ interface MagicAnimationEffects {
   scriptSuccess: boolean
   tranceSpriteBefore: number | undefined
   tranceSpriteAfter: number | undefined
+}
+
+function buildPlayerCastWindup(
+  input: MagicAnimationInput,
+  casterPos: { x: number; y: number },
+  isSummon = false,
+): BattleAnimFrame[] {
+  const role = input.playerRoles.roles[input.state.players[input.casterIdx]?.roleId ?? -1]
+  const castListVal = input.battleEffectIndex?.[(role?.spriteNumInBattle ?? 0) * 2] ?? 0
+  return buildPreMagicTimeline({
+    casterPos,
+    casterIdx: input.casterIdx,
+    castEffectFrameBase: castListVal * 10 + 15,
+    isSummon,
+    castSound: role?.magicSound ?? 0,
+  })
+}
+
+/** Failed use still shows the cast pose, script dialogue, then the ordinary recovery beats. */
+export function startFailedPlayerCastAnimation(
+  input: MagicAnimationInput,
+  magic: Magic,
+  pendingNums: PendingDamageNums,
+): boolean {
+  const { state, casterIdx } = input
+  if (input.casterIsEnemy || state.battleAnim) return false
+  const caster = state.players[casterIdx]
+  const pos = caster?.pos ?? caster?.posOriginal
+  if (!pos) return false
+  const windup = buildPlayerCastWindup(input, pos, magic.type === 'summon')
+  const recovery = buildPostMagicTimeline({ hurtEnemies: [] })
+  recovery.push({ durationMs: BATTLE_FRAME_TIME * 5 })
+  attachDamageNumsToFirstFrame(recovery, pendingNums)
+  startBattleAnim(state, [...windup, ...recovery], input.bus)
+  if (state.battleAnim && state.battleDialogQueue?.length) {
+    holdBattleAnimationForDialogue(state.battleAnim, windup.length)
+  }
+  return true
 }
 
 /** Start the selected frame chain, returning false when its existing resource prerequisites fail. */
@@ -169,18 +211,7 @@ export function buildPlayerOffMagicOpening(
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
   if (n === undefined || n <= 0) return undefined
 
-  // —— PreMagic:cast 特效帧基号 = rgwBattleEffectIndex[battleSpriteId][0] * 10 + 15(fight.c:2387-2389)——
-  const role = input.playerRoles.roles[caster.roleId]
-  const battleSpriteId = role?.spriteNumInBattle ?? 0
-  const castListVal = input.battleEffectIndex?.[battleSpriteId * 2 + 0] ?? 0
-  const castEffectFrameBase = castListVal * 10 + 15
-  const preFrames = buildPreMagicTimeline({
-    casterPos: caster.posOriginal,
-    casterIdx: input.casterIdx,
-    castEffectFrameBase,
-    isSummon: false,
-    castSound: role?.magicSound ?? 0, // M6 施法音帧同步到"施法姿"帧(修"略快")
-  })
+  const preFrames = buildPlayerCastWindup(input, caster.posOriginal)
 
   // —— OffMagic:单体取 target enemy idle pos;全体类型 target=-1 走落点表(fight.c:2742-2825)——
   const offType = magic.type
@@ -305,13 +336,7 @@ function buildAndStartSummonAnim(
   if (!caster?.posOriginal) return false
 
   // PreMagic(fSummon=TRUE):上移 4 帧 + 施法姿,跳过 10 帧施法特效(fight.c:2380)。
-  const preFrames = buildPreMagicTimeline({
-    casterPos: caster.posOriginal,
-    casterIdx: input.casterIdx,
-    castEffectFrameBase: 0,
-    isSummon: true,
-    castSound: input.playerRoles.roles[caster.roleId]?.magicSound ?? 0, // M6 施法音帧同步(修"略快")
-  })
+  const preFrames = buildPlayerCastWindup(input, caster.posOriginal, true)
   // 全员变亮 iColorShift 1..10(fight.c:3120-3128)。
   const brightenFrames = buildSummonBrightenTimeline(input.state.players.length)
   // 召唤自身 magic.sound(如天剑 304):WIN95 在召唤函数**起手**(PreMagic 之后、变亮之前)播一次
@@ -395,16 +420,7 @@ function buildAndStartTranceAnim(
   if (opts.spriteBefore === undefined) delete player.spriteNumOverride
   else player.spriteNumOverride = opts.spriteBefore
 
-  const role = input.playerRoles.roles[player.roleId]
-  const battleSpriteId = role?.spriteNumInBattle ?? 0
-  const castListVal = input.battleEffectIndex?.[battleSpriteId * 2 + 0] ?? 0
-  const preFrames = buildPreMagicTimeline({
-    casterPos: player.posOriginal,
-    casterIdx: input.casterIdx,
-    castEffectFrameBase: castListVal * 10 + 15,
-    isSummon: false,
-    castSound: role?.magicSound ?? 0,
-  })
+  const preFrames = buildPlayerCastWindup(input, player.posOriginal)
 
   const frames: BattleAnimFrame[] = []
   for (let i = 0; i < 6; i++) {
@@ -475,17 +491,8 @@ function buildAndStartDefMagicAnim(
   if (!caster?.posOriginal) return false
 
   // 防御法术也先播放完整起手 (fight.c:4184 → 2363-2444)。
-  const dmRole = input.playerRoles.roles[caster.roleId]
-  const dmSpriteId = dmRole?.spriteNumInBattle ?? 0
-  const dmCastListVal = input.battleEffectIndex?.[dmSpriteId * 2 + 0] ?? 0
   const casterStartPos = caster.pos ?? caster.posOriginal
-  const preFrames = buildPreMagicTimeline({
-    casterPos: casterStartPos,
-    casterIdx: input.casterIdx,
-    castEffectFrameBase: dmCastListVal * 10 + 15,
-    isSummon: false,
-    castSound: dmRole?.magicSound ?? 0,
-  })
+  const preFrames = buildPlayerCastWindup(input, casterStartPos)
   // Keep the pre-revival pose throughout the cast. Action completion restores it from the new HP.
   preFrames[0]?.fighters?.push(...preRevivalPoses)
 

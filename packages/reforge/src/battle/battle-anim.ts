@@ -106,8 +106,8 @@ export interface AnimFrame {
   /** 战斗消息条(一阶段 battleMessage):从本帧起显示 durationMs。缺省位 = 物品名 (210,50);
    *  x/y 覆写 = 战斗标签位(逃跑失败/偷窃「获得」用 (130,75),一阶段渲染真值)。 */
   banner?: { text: string; durationMs: number; x?: number; y?: number }
-  /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
-  waitForThrowFeedback?: boolean
+  /** 进入此帧后交会话显示动作提示，关闭前保持当前姿态。 */
+  waitForActionFeedback?: boolean
   /** Hold the gathered formation until the session finishes fading defeated enemies. */
   waitForEnemyDeathFade?: boolean
   /** Player trance and enemy transformation both use frozen scene transitions. */
@@ -648,7 +648,7 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
   }
   if (input.waitForThrowFeedback) {
     // 0x3E 在投掷结果脚本内等待，随后才显示数字和收招（fight.c:4361–4372）。
-    frames.push({ durationMs: 0, waitForThrowFeedback: true })
+    frames.push({ durationMs: 0, waitForActionFeedback: true })
   }
   const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
@@ -891,6 +891,8 @@ export interface BuildPlayerCastInput {
   allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
   /** 有主特效的普通对敌仙术使用完整 PostMagic。 */
   offensive?: boolean
+  /** 耗材门失败，在施法起手与收尾之间显示提示。 */
+  waitForUseFailureFeedback?: boolean
   /** 特效结束后显示的掉血数字。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
@@ -1092,6 +1094,12 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }
   }
   frames.push({ durationMs: delayMs(1) })
+
+  if (input.waitForUseFailureFeedback) {
+    // scriptOnUse 失败后仍保留 PostMagic 四拍和末尾五拍（fight.c:4322–4324）。
+    frames.push({ durationMs: 0, waitForActionFeedback: true }, { durationMs: delayMs(9) })
+    return frames
+  }
 
   if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
     frames.push({
@@ -1589,7 +1597,7 @@ export interface AnimSideEffects {
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
-  onThrowFeedback?(): void
+  onActionFeedback?(): void
   onEnemyDeathFade?(): void
 }
 
@@ -1623,10 +1631,10 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
-      if (next.waitForThrowFeedback || next.waitForEnemyDeathFade) {
+      if (next.waitForActionFeedback || next.waitForEnemyDeathFade) {
         // Discard overrun at a presentation hold so recovery starts after it.
         this.elapsed = 0
-        if (next.waitForThrowFeedback) this.fx.onThrowFeedback?.()
+        if (next.waitForActionFeedback) this.fx.onActionFeedback?.()
         if (next.waitForEnemyDeathFade) this.fx.onEnemyDeathFade?.()
         return false
       }

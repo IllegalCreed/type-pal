@@ -779,7 +779,7 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.players[0]?.hiddenCounts.maxMP).toBe(3)
   })
 
-  test('SkillCost.items:先扣 MP 再原子扣物品；成功才结算 effects 与隐藏成长', () => {
+  test('SkillCost.items:先扣 MP 再原子扣物品，成功后结算 effects 与隐藏成长', () => {
     const guSkill: SkillData = {
       ...bolt2,
       id: '352',
@@ -813,7 +813,7 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.lastAction?.fizzled).not.toBe(true)
   })
 
-  test('SkillCost.items 不足:MP 仍扣，库存不部分消耗，effects/隐藏成长均熄火', () => {
+  test('SkillCost.items 不足:MP 仍扣，库存不部分消耗，跳过 effects 后累计成长', () => {
     const guSkill: SkillData = {
       ...bolt2,
       id: '372',
@@ -841,13 +841,13 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.players[0]!.mp).toBe(25)
     expect(s.inventory).toEqual([{ itemId: '148', count: 2 }])
     expect(s.enemies[0]!.hp).toBe(500)
-    expect(s.players[0]!.hiddenCounts.maxMP).toBeUndefined()
-    expect(s.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
+    expect(s.players[0]!.hiddenCounts.maxMP).toBe(2)
+    expect(s.players[0]!.hiddenCounts.magicAttack).toBe(1)
     expect(s.lastAction).toMatchObject({
       kind: 'cast',
       skillId: guSkill.id,
       fizzled: true,
-      notice: '道具不足无法使用',
+      failureFeedback: 'missingSpellItem',
     })
     expect(s.log.some((line) => line.includes('物品不足,万蛊蚀天 施放失败'))).toBe(true)
   })
@@ -902,7 +902,7 @@ describe('M4b-3 玩家仙术', () => {
 
     expect(s.players.map((entry) => entry.mp)).toEqual([25, 25])
     expect(s.inventory).toEqual([{ itemId: '148', count: 0 }])
-    expect(s.players.reduce((sum, entry) => sum + (entry.hiddenCounts.magicAttack ?? 0), 0)).toBe(1)
+    expect(s.players.map((entry) => entry.hiddenCounts.magicAttack)).toEqual([1, 1])
     expect(s.lastAction).toMatchObject({
       side: 'player',
       idx: 1,

@@ -3,6 +3,8 @@ import type { Command } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 import { runScript } from '../../event-system.js'
 import { performMagic, type RunScriptFn } from '../actions/magic.js'
+import { BATTLE_FRAME_TIME } from '../anim-timeline.js'
+import { advanceBattleAnimFrames } from '../battle-anim-driver.js'
 import { makeMagic, makeSpell, makeState } from './magic-action.test-fixtures.js'
 
 describe('magic script sequencing', () => {
@@ -69,7 +71,7 @@ describe('magic script sequencing', () => {
 
   test.each([
     9, 0,
-  ])('failed use keeps MP cost, skips success/effects, and handles cast sound %i', (sound) => {
+  ])('failed use keeps MP cost and plays cast sound %i only on the windup pose', (sound) => {
     const fixture = makeState({ hp: 50, magicSound: sound }, [])
     const calls: number[] = []
     const runObserved: RunScriptFn = (options) => {
@@ -98,8 +100,14 @@ describe('magic script sequencing', () => {
     expect(calls).toEqual([1])
     expect(fixture.gs.fScriptSuccess).toBe(false)
     expect(fixture.playerRoles.roles[0]!.mp).toBe(25)
-    expect(fixture.gs.pendingSounds).toEqual(sound === 9 ? [9] : undefined)
-    expect(fixture.state.battleAnim).toBeUndefined()
+    expect(fixture.gs.pendingSounds).toBeUndefined()
+    expect(fixture.bus.drain()).toEqual([])
+    expect(advanceBattleAnimFrames(fixture.state, fixture.bus, BATTLE_FRAME_TIME * 6)).toBe(false)
+    expect(fixture.state.players[0]?.currentFrame).toBe(5)
+    expect(fixture.bus.drain().map(({ cmd }) => cmd)).toEqual(
+      sound ? [{ op: 'playSound', soundId: sound }] : [],
+    )
+    expect(advanceBattleAnimFrames(fixture.state, fixture.bus, BATTLE_FRAME_TIME * 30)).toBe(true)
     expect(fixture.bus.drain()).toEqual([])
   })
 })

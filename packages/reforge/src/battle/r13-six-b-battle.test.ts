@@ -221,11 +221,11 @@ describe('R13-6B 酒神剩余真气结算', () => {
     expect(state.inventory).toEqual([{ itemId: '86', count: 0 }])
   })
 
-  test('酒不足仍扣常规 MP，但不扣酒、不结算伤害或隐藏成长', () => {
+  test('酒不足仍扣常规 MP，跳过伤害并保留施法成长', () => {
     const state = playerCast(wineGod, 30, 0)
     expect(state.players[0]!.mp).toBe(29)
     expect(state.enemies[0]!.hp).toBe(999)
-    expect(state.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
+    expect(state.players[0]!.hiddenCounts.magicAttack).toBe(1)
     expect(state.log.some((line) => line.includes('物品不足,酒神 施放失败'))).toBe(true)
   })
 

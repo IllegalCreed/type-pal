@@ -36,7 +36,11 @@ import {
   isOffensiveMagicType,
   type PendingDamageNums,
 } from './magic-action-contract.js'
-import { buildPlayerOffMagicOpening, startMagicAnimation } from './magic-animation.js'
+import {
+  buildPlayerOffMagicOpening,
+  startFailedPlayerCastAnimation,
+  startMagicAnimation,
+} from './magic-animation.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
 
@@ -267,8 +271,9 @@ export function performMagic(input: PerformMagicInput): void {
   //   scriptOnSuccess**(失败提示已由 scriptOnUse 跳失败分支入 battleDialogQueue)。MP 仍已扣(sdlpal 总扣,
   //   fight.c:4190 在 scriptOnUse 前)。修 user 报"物品不够还有技能动画"。
   if (!scriptUseSuccess) {
-    // fizzle(道具/钱不足):sdlpal 前摇动画+施法音已在 scriptOnUse 之前播(fight.c:4184 vs 4215),故仍播施法音
-    //   (保持忠实 sdlpal;user 选"只改略快、fizzle 仍播")。ts 此时无前摇动画可挂 → 即时播。
+    // 起手手势和吟唱声在 scriptOnUse 前，失败提示在主特效本应开始的位置。
+    if (startFailedPlayerCastAnimation(input, magic, pendingNums)) return
+    // 没有可用动画锚点时保留已有声音和脚本数字。
     if (pendingCastSound > 0 && input.gs) {
       input.gs.pendingSounds ??= []
       input.gs.pendingSounds.push(pendingCastSound)

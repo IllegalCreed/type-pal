@@ -1349,11 +1349,10 @@ function applyPlayerSkill(
   if (!hasRequiredItems) {
     if (s.lastAction) {
       s.lastAction.fizzled = true
-      // 三条蛊术共用源失败臂 L_43058；沿用一阶段可见文案，不让“前摇后熄火”
-      // 变成无反馈。notice 是既有表现通道，不新增 content/save 状态。
-      s.lastAction.notice = '道具不足无法使用'
+      s.lastAction.failureFeedback = 'missingSpellItem'
     }
     s.log.push(`${p.roleId} 物品不足,${skill.name} 施放失败`)
+    if (validItemCosts) recordPlayerSpellGrowth(p, rng)
     return
   }
   for (const [itemId, amount] of itemCosts) {
@@ -1412,7 +1411,11 @@ function applyPlayerSkill(
   applyPlayerSkillEffects(s, p, skill, execution.effects, targets, rng, (ti, power, elemental) =>
     dealSkillDamage(s, p, ti, power, elemental, skill.name, rng),
   )
-  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
+  recordPlayerSpellGrowth(p, rng)
+}
+
+// 法术效果、逐目标伤害抽样或耗材失败分支结束后累计成长（fight.c:4328–4329）。
+function recordPlayerSpellGrowth(p: BattlePlayerState, rng: () => number): void {
   p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
   p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
 }
