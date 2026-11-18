@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ec4ac5d73eb70898a159bdc2cc3d8fb019ed84cde3259d19b943bddf64a67898",
+      "afterSha256": "6f454fe5970f7e418d377e2d6d6c8da16b72ced23114319e66b40639bdd60fde",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内解毒与毒卵复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "登记解毒道具、毒卵及失败提示归档。",
-        "reviewedLines": 80,
-        "acceptanceScope": "核执行、反例及两条分屏入口。"
+        "conclusion": "核对现行来源与实战入口。",
+        "reviewedLines": 81,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "769e2b06d267268dac7d510e9203ba10b5f1ca1a16b05dfe9ba9dfdae5abd7d8",
+      "afterSha256": "ce5fde233c802c1917355290d342a46f0d3fd68f7036e87ba1ff670965e18c1d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内解毒与毒卵复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "补盐巴战内判定和失败旁白。",
-        "reviewedLines": 1868,
-        "acceptanceScope": "核原盘使用入口、条件跳转及关闭后收尾。"
+        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
+        "reviewedLines": 1872,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "af4cd16ffd614989ebefb3300ac90c3b4f757af559f1a0d06078e8b7b100457a",
+      "afterSha256": "4e49a21e99415551a06fc96a4bd6ca9a83fa0f6a53a246dc63e66870e2b31b3e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "根据固定候选更新现行源码引用。",
-        "reviewedLines": 8267,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "conclusion": "核对现行来源与实战入口。",
+        "reviewedLines": 8313,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "f67240ca49e5911a4d1f2e7bac747251c1e2609cc4e0aceaa47fc40ec27be8eb",
+      "afterSha256": "57d02cdddc89f84aefa0aff200d557d8625e610f5a585bf90663414a390e498f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "根据固定候选更新现行源码引用。",
-        "reviewedLines": 1159,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "conclusion": "核对现行来源与实战入口。",
+        "reviewedLines": 1189,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "449f7baed5d9f4f4033104695c5a0e58259c3aa5ee7a1b41c79e1ab4ff566a24",
+      "afterSha256": "7c82feb85c0025ef4ce582ac62bd19c58f6daa91616f98e506c7f99ac8e639db",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "根据固定候选更新现行源码引用。",
+        "conclusion": "核对现行来源与实战入口。",
         "reviewedLines": 101,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e3cd9864307b8837bfdb410bfeb8e6d61ed21dd775ebb2fcb4a385081cfd3338",
+      "afterSha256": "eaca3922b3d102fdee558a2f4230a6347ad2b640fc52c7a4f739c7a9acc6df0e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内解毒与毒卵复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "登记十一件用物回执和复原验证。",
-        "reviewedLines": 851,
-        "acceptanceScope": "核修前复现、独立重录、数值和清理实绩。"
+        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
+        "reviewedLines": 857,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "426f8f473afcf5ea54e9fb79a48009f8268832f4c4fcad5a7f5f55cdbede21a3",
+      "afterSha256": "8df171e70cec58d7fbf9348febc1c2de1a47f9e24f72ba2c09d0377f4f4370f4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "根据固定候选更新现行源码引用。",
-        "reviewedLines": 14707,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "conclusion": "核对现行来源与实战入口。",
+        "reviewedLines": 14723,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "ea1c8ac337aead35e9004f6755f7487923dd8c2b79fa18d0ec164ecaa003ac14",
+      "afterSha256": "f577f77bc6a67a24d81e036cfe5270b7fecf66c10324791e5665fdf89b165da3",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "录入解毒与毒卵实战，更新现行源码引用。",
-        "reviewedLines": 1100,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
+        "reviewedLines": 1116,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "4290c8ead67fb2c0a0a23216ff3333d84c5b0b4e74241abe303103713646557d",
+      "afterSha256": "32ad0262f2bfe27b1b1bd3f4d583569ea1d8c9f60db49d63e17ca5e23e91ceee",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内道具复核",
+        "reviewer": "Codex 战内用物收口复核",
         "date": "2026-11-19",
-        "conclusion": "根据固定候选更新现行源码引用。",
-        "reviewedLines": 378,
-        "acceptanceScope": "核原运行原件、固定前驱和现行源码片段。"
+        "conclusion": "核对现行来源与实战入口。",
+        "reviewedLines": 382,
+        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     }
   ],
@@ -6154,6 +6154,12 @@
       "bytes": 15848675,
       "sha256": "e424e422094df13d61a6234275dc2d717a9601b09d817a90429d3301647bdb34",
       "purpose": "十一件战内道具、盐巴修前反例、修后验证和两条原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-final-battle-items-20261119.tar.gz",
+      "bytes": 19226323,
+      "sha256": "94748a4577eb69ba8b1c3e5b635a7c65fb052cf52d6f0bcb5b4a5b01688960a4",
+      "purpose": "最后六种战内道具、七组实用与录制、隐蛊两段渐变原件和分屏。"
     }
   ],
   "artifactAliases": [],

@@ -1443,6 +1443,37 @@ export function restoreTestingBattleItemUseSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, battleItemUseStage, battleItemUseBindings)
 }
 
+export const testingBattleHidingPublicationBase = '970731da74e22ee1aa7bf661f6e5be6481d26332'
+const battleHidingStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1298-1307' },
+    ],
+    [battleTransformGameSystem, { 2828: '2844' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleHidingPublicationBase,
+  action: 'q2-battle-hiding-source-rebinding',
+  date: '2026-11-19',
+}
+const battleHidingBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformGameSystem], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleHidingSource = (path) => battleHidingStage.ranges.has(path)
+
+export function restoreTestingBattleHidingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleHidingStage, battleHidingBindings)
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

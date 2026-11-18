@@ -38,6 +38,7 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleGuAndConfusionSource,
   isTestingBattleHandoffHistoricalSource,
+  isTestingBattleHidingSource,
   isTestingBattleItemUseSource,
   isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
@@ -61,6 +62,7 @@ import {
   restoreTestingBattleEscapeSpellSourceBindings,
   restoreTestingBattleGuAndConfusionSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleHidingSourceBindings,
   restoreTestingBattleItemUseSourceBindings,
   restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
@@ -88,6 +90,7 @@ import {
   testingBattleGuAndConfusionPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleHidingPublicationBase,
   testingBattleItemUsePublicationBase,
   testingBattleLearnedSkillsPublicationBase,
   testingBattleLifecyclePublicationBase,
@@ -765,8 +768,25 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const itemUseSource = itemUseRevision && gitTree(root, itemUseRevision, [])
   const preItemUse = itemUseSource && gitTree(root, testingBattleItemUsePublicationBase, [])
-  const readBeforeBattleItemUse = (path) => {
+  const hidingRevision = admission.testingBattleHidingSourceRevision
+  if (hidingRevision !== undefined)
+    assert(
+      itemUseSource && /^[a-f0-9]{40}$/u.test(hidingRevision),
+      'battle hiding source bridge requires the fixed preceding item use revision',
+    )
+  const hidingSource = hidingRevision && gitTree(root, hidingRevision, [])
+  const preHiding = hidingSource && gitTree(root, testingBattleHidingPublicationBase, [])
+  const readBeforeBattleHiding = (path) => {
     const live = readSource(path)
+    if (!preHiding || !isTestingBattleHidingSource(path)) return live
+    assert(
+      live?.equals(hidingSource.read(path)),
+      'battle hiding source differs from the frozen candidate',
+    )
+    return preHiding.read(path)
+  }
+  const readBeforeBattleItemUse = (path) => {
+    const live = readBeforeBattleHiding(path)
     if (!preItemUse || !isTestingBattleItemUseSource(path)) return live
     assert(
       live?.equals(itemUseSource.read(path)),
@@ -937,13 +957,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorItemUse = preItemUse
-      ? restoreTestingBattleItemUseSourceBindings(path, bytes, {
+    const priorHiding = preHiding
+      ? restoreTestingBattleHidingSourceBindings(path, bytes, {
           readSource,
+          readBase: preHiding.read,
+          readFixed: hidingSource.read,
+        })
+      : bytes
+    const priorItemUse = preItemUse
+      ? restoreTestingBattleItemUseSourceBindings(path, priorHiding, {
+          readSource: readBeforeBattleHiding,
           readBase: preItemUse.read,
           readFixed: itemUseSource.read,
         })
-      : bytes
+      : priorHiding
     const priorEnemySpellShake = preEnemySpellShake
       ? restoreTestingBattleEnemySpellShakeSourceBindings(path, priorItemUse, {
           readSource: readBeforeBattleItemUse,

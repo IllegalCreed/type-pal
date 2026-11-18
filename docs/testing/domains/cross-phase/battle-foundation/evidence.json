@@ -286,8 +286,8 @@
       "path": "packages/game/src/core/battle/battle-system.ts",
       "anchor": "function tickPostAction(",
       "role": "first-game-exhausted-queue-tick",
-      "lines": "2828",
-      "sha256": "72615052ac514abb6f770bc4aa6ab016383934b615f826313320cb33cb0240c9"
+      "lines": "2844",
+      "sha256": "29cbb0366cc3f2673c449440b1d58ed100cabb04edc92cc678ea20e2adb499fd"
     },
     {
       "path": "projects/pal/content/shared-scripts.json",
@@ -13435,6 +13435,22 @@
         }
       ],
       "scope": "用物失败结果先于后续群攻声明。群攻声明的新坐标仍引用同一原字节，旧运行与断言保留。"
+    },
+    {
+      "action": "q2-battle-hiding-source-rebinding",
+      "base": "970731da74e22ee1aa7bf661f6e5be6481d26332",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2828",
+          "sha256": "72615052ac514abb6f770bc4aa6ab016383934b615f826313320cb33cb0240c9"
+        }
+      ],
+      "scope": "Game 在下一轮选招前等待隐蛊渐显。轮末声明使用新坐标，引用行逐字节相同。"
     }
   ],
   "_governance": {
