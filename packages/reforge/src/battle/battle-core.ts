@@ -1480,14 +1480,13 @@ function applyPlayerSkillEffects(
           pass = !!t && Math.floor(rng() * 10) >= t.def.ai.resistanceToSorcery
         if (!pass) {
           s.log.push(`${skill.name} 无任何效果`)
-          // 回梦/鬼降等状态术的失败分支是战斗旁白“攻击无效”。按 effect 语义派生，
-          // 不把 PAL 技能 ID 或源脚本 label 泄漏进 clean runtime。
-          if (
-            onEnemies &&
-            enemyTargets.length > 0 &&
-            effects.slice(effectIdx + 1).some((later) => later.kind === 'applyStatus')
-          )
-            enemyStatusAttempted = true
+          // 失败在演出收尾后显示。状态术与处决术使用各自的原盘旁白。
+          if (onEnemies && enemyTargets.length > 0) {
+            const remaining = effects.slice(effectIdx + 1)
+            if (remaining.some((later) => later.kind === 'applyStatus')) enemyStatusAttempted = true
+            else if (s.lastAction && remaining.some((later) => later.kind === 'instantKill'))
+              s.lastAction.failureFeedback = 'spellIneffective'
+          }
           break applyEffects
         }
         break
@@ -1513,13 +1512,21 @@ function applyPlayerSkillEffects(
         break
       }
       case 'collectTreasure': {
-        // 0x33 收妖(灵葫咒二段):敌 collectValue 累进全局收妖值(战后无条件入 world)
+        // 0x33 先判可收值。没有可收目标时跳到失败旁白，不能继续 0x60 即死。
+        const collectible = enemyTargets.filter(
+          (slot) => expectDefined(s.enemies[slot]).def.stats.collectValue > 0,
+        )
+        if (enemyTargets.length > 0 && collectible.length === 0) {
+          if (s.lastAction) s.lastAction.failureFeedback = 'spellIneffective'
+          s.log.push(`${skill.name} 无任何效果`)
+          break applyEffects
+        }
+        // 收妖后的目标效果沿用实际收下的敌槽。
+        enemyTargets = collectible
         for (const ti of enemyTargets) {
           const v = expectDefined(s.enemies[ti]).def.stats.collectValue
-          if (v > 0) {
-            s.collectGained += v
-            s.log.push(`收妖值 +${v}`)
-          }
+          s.collectGained += v
+          s.log.push(`收妖值 +${v}`)
         }
         break
       }
@@ -2623,7 +2630,7 @@ function applyEnemySkill(
           (eff.hpAtMostPercent !== undefined && (!t || t.hp * 100 > t.maxHp * eff.hpAtMostPercent))
         ) {
           // 三种原盘敌方概率门的失败分支都跳到 SSS 43072 的中央卷轴。
-          if (missed) action.failureFeedback = 'enemySpellIneffective'
+          if (missed) action.failureFeedback = 'spellIneffective'
           s.log.push(`${skill.name} 无任何效果`)
           break applyEnemyEffects
         }

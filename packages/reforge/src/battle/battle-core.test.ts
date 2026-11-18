@@ -3147,6 +3147,30 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(s2.log.some((l) => l.includes('无任何效果'))).toBe(true)
   })
 
+  test('灵葫咒在残血敌没有灵葫值时终止后续即死', () => {
+    const gourd = mkSkill('gourd', {
+      effects: [
+        { kind: 'gate', hpAtMostPercent: 25 },
+        { kind: 'gate', chance: 60 },
+        { kind: 'collectTreasure' },
+        { kind: 'instantKill' },
+      ],
+    })
+    const state = createBattleState({
+      players: [player('li', { skills: [gourd.id], baseDexterity: 500 })],
+      enemies: [dummy({ health: 100, collectValue: 0 })],
+      skills: { [gourd.id]: gourd },
+    })
+    state.enemies[0]!.hp = 25
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'cast', skillId: gourd.id, targetEnemyIdx: 0 })
+    stepBattle(state, rng0)
+    stepBattle(state, rng0)
+    expect(state.enemies[0]!.hp).toBe(25)
+    expect(state.collectGained).toBe(0)
+    expect(state.lastAction?.failureFeedback).toBe('spellIneffective')
+  })
+
   test('概率门(0x06):掷 100 ≥ 60 → 截断即死;灵抗门:巫抗 0 过 / 巫抗满不过', () => {
     const kill60 = mkSkill('k60', {
       effects: [{ kind: 'gate', chance: 60 }, { kind: 'instantKill' }],

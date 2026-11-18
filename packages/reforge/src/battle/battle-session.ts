@@ -2223,7 +2223,7 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    if (feedback === 'enemySpellIneffective') {
+    if (feedback === 'spellIneffective') {
       this.showActionFeedback('失败　没有效果', 'anyKey')
       return
     }
@@ -2304,7 +2304,7 @@ export class BattleSession {
     this.startEnemyDeathFade()
     this.pendingConfusedReveal.clear()
     this.syncPlayerDisplayHp()
-    // Game 在敌方施法收尾复位后画出失败卷轴，清除后才进入八拍停顿。
+    // 失败卷轴在收尾复位后显示。敌方另在清除后进入施法恢复停顿。
     this.presentPendingFailureFeedback()
     // 原版完整复位后等十帧才进伤亡脚本（fight.c:804–819,865–882）。
     if (this.state.casualtyDialogue)
