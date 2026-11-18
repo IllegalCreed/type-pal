@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "6429f788ead24c361f7bc9a797c95375ad90e2c4ad9107a7a13b6f16737de6be",
+      "afterSha256": "4c87acccaa6e39fb644946eec247c66aa5ef166ca553c36df8b96ead7b261287",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方五灵实战复核",
+        "reviewer": "Codex 敌方仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记四种敌方五灵仙术的原件。",
-        "reviewedLines": 72,
-        "acceptanceScope": "核原速重录及像素回读入口。"
+        "conclusion": "登记本批敌方施法、场景掉落和原速带声分屏。",
+        "reviewedLines": 73,
+        "acceptanceScope": "核持久归档的校验值与重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "04a1f3bfdf063d0653413ba7e1de8e58a29a5b94e1cf0a6de19afa7b2db90a61",
+      "afterSha256": "bd50b1779c972e4642ad82b8305635ba46ff9a2cf3afacbf73b00c38892eabf6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方五灵实战复核",
+        "reviewer": "Codex 敌方仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录敌方土咒定帧和尾震的原盘时序。",
-        "reviewedLines": 1852,
-        "acceptanceScope": "核 MAGIC、FIRE、SDLPal 帧长与合成方向。"
+        "conclusion": "记录敌方仙术的原盘脚本震屏。",
+        "reviewedLines": 1856,
+        "acceptanceScope": "核三条原盘用途、0x35 操作数和尾震接管。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "ecaa63f205fb788da711f3aa50a315234fdd4aff8d3cf87a02b2add47860bd07",
+      "afterSha256": "2ff4d5f6fe03f6778cb5eea092694f4b2b779567c68c127a58650b83825ddd9c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方五灵实战复核",
+        "reviewer": "Codex 敌方仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录四组真实敌方施法、修复和最小留存。",
-        "reviewedLines": 797,
-        "acceptanceScope": "核当前原件、历史反例及真实清理字节。"
+        "conclusion": "记录五组施法实战和一处正常场景的复验。",
+        "reviewedLines": 805,
+        "acceptanceScope": "核原始报告、单次业务反例和实际清理字节。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "603292b12feae224e0efeceef6fa0bdb6dc0b2237c2bdda994f60b7ca66c107b",
+      "afterSha256": "0178cbbea76f197e9437cdf2a9859e4b0438b0a435be1d043c3974666a6e10da",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方五灵实战复核",
+        "reviewer": "Codex 敌方仙术实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记四种敌方五灵仙术与实测覆盖增量。",
-        "reviewedLines": 975,
-        "acceptanceScope": "核业务、声画、土咒尾震反例和录制。"
+        "conclusion": "登记五种敌方仙术及 s292 土蜘蛛的真实掉落。",
+        "reviewedLines": 993,
+        "acceptanceScope": "核双端、FIRE 位移旧版反例、正常场景回执与成片。"
       }
     },
     {
@@ -6106,6 +6106,12 @@
       "bytes": 8298588,
       "sha256": "1e8793b5efede1c2d192dc1c9d4ef7c93897a47d86570e7b11ed91ce477d8d58",
       "purpose": "四种敌方五灵仙术、土咒原速帧震屏反例、修后像素及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-direct-casts-20261119.tar.gz",
+      "bytes": 11412338,
+      "sha256": "981929847aca8382f955d64483b8c6f6215fa9204d8cafc5043ff3034866f66d",
+      "purpose": "敌方五招的同局实战、三种脚本震屏反例与复验、土蜘蛛实收傀儡虫及分屏。"
     }
   ],
   "artifactAliases": [],

@@ -22,7 +22,7 @@ Template: reference-canon-v1 / 1.0.0
 
 ## 2026-11-19 敌方仙术的脚本震屏
 
-炼狱爪的起手脚本 43107 请求震屏 24 拍，火龙掌和横扫千军共用 43111，请求 14 拍。三者的强度操作数为 0，原版取 4 像素。起手脚本执行后即进入 FIRE。每张主特效只减少一拍震屏倒计数，偶数向下，奇数向上。FIRE 结束时清零，所以三招实绘 11、7、14 拍。若主特效进入原生尾震，尾震按自己的帧下标重置位移。 [起手脚本](../../data/extracted/events/all.json) · [0x35 参数](../../reference/sdlpal/script.c#L1521-L1534) · [逐帧合成](../../reference/sdlpal/video.c#L571-L616) · [主特效与清零](../../reference/sdlpal/fight.c#L2890-L3061) · [敌方脚本顺序](../../reference/sdlpal/fight.c#L4765-L4772)
+炼狱爪的起手脚本 43107 请求震屏 24 拍，火龙掌和横扫千军共用 43111，请求 14 拍。三者的强度操作数为 0，原版取 4 像素。起手脚本执行后即进入 FIRE。每张主特效只减少一拍震屏倒计数，偶数向下，奇数向上。FIRE 结束时清零，所以三招实绘 11、7、14 拍。若主特效进入原生尾震，尾震按自己的帧下标重置位移。 原盘脚本见 `data/extracted/events/all.json`。 [0x35 参数](../../reference/sdlpal/script.c#L1521-L1534) · [逐帧合成](../../reference/sdlpal/video.c#L571-L616) · [主特效与清零](../../reference/sdlpal/fight.c#L2890-L3061) · [敌方脚本顺序](../../reference/sdlpal/fight.c#L4765-L4772)
 
 ## 2026-11-19 金蝉脱壳
 

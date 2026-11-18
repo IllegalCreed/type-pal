@@ -60,6 +60,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 铜钱镖与乾坤一掷 | [七组双端、旧版实跑反例、缺钱卷轴与原速带声分屏重录](E2E-Q2-1-player-money-casts-20261119.tar.gz) |
 | Q2 金蝉脱壳 | [可逃和禁逃实战、退出及卷轴、原速带声分屏重录](E2E-Q2-1-player-escape-cast-20261119.tar.gz) |
 | Q2 四种敌方五灵仙术 | [双端实战、土咒震屏原像素及原速带声分屏重录](E2E-Q2-1-enemy-elemental-casts-20261119.tar.gz) |
+| Q2 五种敌方仙术与土蜘蛛掉落 | [震屏反例、实战及傀儡虫实收、原速带声分屏重录](E2E-Q2-1-enemy-direct-casts-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
