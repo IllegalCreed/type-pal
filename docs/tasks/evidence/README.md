@@ -74,6 +74,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 最后十四件投掷道具与养蛊孵化 | [五组实战、修前及漏卷轴反例、孵化和原速带声分屏](E2E-Q2-1-misc-throws-and-hatching-20261119.tar.gz) |
 | Q2 十三件战外恢复道具 | [两轮逐件实用、存档、录制恢复与带声分屏](E2E-Q2-1-world-recovery-items-20261119.tar.gz) |
 | Q2 战外选人和十一件恢复道具 | [修前反例、正式候选双端复验、存档与两条原速带声分屏](E2E-Q2-1-world-recovery-followup-20261119.tar.gz) |
+| Q2 战外复活与中毒致死 | [四件复活药、三个对照局面、原始反例与两条原速带声分屏](E2E-Q2-1-world-revival-and-poison-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

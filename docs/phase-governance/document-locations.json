@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "b2b8e8014372f17cfc4b6c578e8ba81e8b5c244bab168e2e2005e78c7055b9d8",
+      "afterSha256": "3105eda89b9028a529c667384515448f84311da1ec87c555a4d37d824629a1a9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外道具复核",
+        "reviewer": "Codex 战外复活实测复核",
         "date": "2026-11-19",
-        "conclusion": "核对战外用物的当前证据和源码引用。",
-        "reviewedLines": 86,
-        "acceptanceScope": "核新恢复包的唯一索引与实际文件。"
+        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
+        "reviewedLines": 87,
+        "acceptanceScope": "核战外复活归档的唯一索引和实际文件。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "49b66178c41823958d86b9c55d7d83e477043fac4bf403790894a70b05b3dd1e",
+      "afterSha256": "2d119568f8bbe5a87aaa76706cd0ff7849a21712430e150920a60171978950b1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外道具复核",
+        "reviewer": "Codex 战外复活实测复核",
         "date": "2026-11-19",
-        "conclusion": "核对战外用物的当前证据和源码引用。",
-        "reviewedLines": 889,
-        "acceptanceScope": "核修复边界、正反例、质量回执和已清理输出。"
+        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
+        "reviewedLines": 897,
+        "acceptanceScope": "核战外复活与致死的三组反例、复验、质量与清理。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "3c1fb8d9164a45cea0c1b02c58294d7a42e74518a047da4cfcb8e7164ac6e561",
+      "afterSha256": "38469cb5849a4807d2cb05ec3ac6be513abd24ecb02f3f1a0659972679d892c3",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外道具复核",
+        "reviewer": "Codex 战外复活实测复核",
         "date": "2026-11-19",
-        "conclusion": "核对战外用物的当前证据和源码引用。",
-        "reviewedLines": 1190,
-        "acceptanceScope": "核 24 个战外入口、正式选人复验、结果台账和分屏来源。"
+        "conclusion": "核战外复活、致死、毒槽及库存双端复验。",
+        "reviewedLines": 1207,
+        "acceptanceScope": "核七个新战外入口、带毒实用与固定候选的双端分屏。"
       }
     },
     {
@@ -6190,6 +6190,12 @@
       "bytes": 33116058,
       "sha256": "c6833c2954915d98f084143ba8e2cc7efd8ca2c5d2db6436c74db4d66192affa",
       "purpose": "战外选人修前反例、正式候选的双端复验、两条带声分屏和复算证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-revival-and-poison-20261119.tar.gz",
+      "bytes": 18409786,
+      "sha256": "9b64321e13bc3a2819108224c047fbe916d8079d5f96913c7d9d99ce9d649e90",
+      "purpose": "战外复活与中毒致死的双端原件、三组修前反例、原速分屏与复算结果。"
     }
   ],
   "artifactAliases": [],
