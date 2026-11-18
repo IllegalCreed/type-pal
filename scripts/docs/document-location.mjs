@@ -55,6 +55,7 @@ import {
   restoreTestingBattleCooperativeRosterSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
   restoreTestingBattleEnemyColorSourceBindings,
+  restoreTestingBattleEnemySpellShakeSourceBindings,
   restoreTestingBattleEnemyTransformSourceBindings,
   restoreTestingBattleEscapeSpellSourceBindings,
   restoreTestingBattleGuAndConfusionSourceBindings,
@@ -79,6 +80,7 @@ import {
   testingBattleCooperativeRosterPublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleEnemyColorPublicationBase,
+  testingBattleEnemySpellShakePublicationBase,
   testingBattleEnemyTransformPublicationBase,
   testingBattleEscapeSpellPublicationBase,
   testingBattleGuAndConfusionPublicationBase,
@@ -742,8 +744,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const escapeSpellSource = escapeSpellRevision && gitTree(root, escapeSpellRevision, [])
   const preEscapeSpell =
     escapeSpellSource && gitTree(root, testingBattleEscapeSpellPublicationBase, [])
-  const readBeforeBattleEscapeSpell = (path) => {
+  const enemySpellShakeRevision = admission.testingBattleEnemySpellShakeSourceRevision
+  if (enemySpellShakeRevision !== undefined)
+    assert(
+      escapeSpellSource && /^[a-f0-9]{40}$/u.test(enemySpellShakeRevision),
+      'battle enemy spell shake source bridge requires the fixed preceding escape spell revision',
+    )
+  const enemySpellShakeSource =
+    enemySpellShakeRevision && gitTree(root, enemySpellShakeRevision, [])
+  const preEnemySpellShake =
+    enemySpellShakeSource && gitTree(root, testingBattleEnemySpellShakePublicationBase, [])
+  const readBeforeBattleEnemySpellShake = (path) => {
     const live = readSource(path)
+    if (!preEnemySpellShake || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(enemySpellShakeSource.read(path)),
+      'battle enemy spell shake source differs from the frozen candidate',
+    )
+    return preEnemySpellShake.read(path)
+  }
+  const readBeforeBattleEscapeSpell = (path) => {
+    const live = readBeforeBattleEnemySpellShake(path)
     if (!preEscapeSpell || !isTestingBattleEscapeSpellSource(path)) return live
     assert(
       live?.equals(escapeSpellSource.read(path)),
@@ -896,13 +917,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorEscapeSpell = preEscapeSpell
-      ? restoreTestingBattleEscapeSpellSourceBindings(path, bytes, {
+    const priorEnemySpellShake = preEnemySpellShake
+      ? restoreTestingBattleEnemySpellShakeSourceBindings(path, bytes, {
           readSource,
+          readBase: preEnemySpellShake.read,
+          readFixed: enemySpellShakeSource.read,
+        })
+      : bytes
+    const priorEscapeSpell = preEscapeSpell
+      ? restoreTestingBattleEscapeSpellSourceBindings(path, priorEnemySpellShake, {
+          readSource: readBeforeBattleEnemySpellShake,
           readBase: preEscapeSpell.read,
           readFixed: escapeSpellSource.read,
         })
-      : bytes
+      : priorEnemySpellShake
     const priorSpellCurrency = preSpellCurrency
       ? restoreTestingBattleSpellCurrencySourceBindings(path, priorEscapeSpell, {
           readSource: readBeforeBattleEscapeSpell,

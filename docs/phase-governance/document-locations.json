@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "849bbb21e246b65fdbfd134390a0df19f4e69a44996d9dc77ba8ec97a72a1956",
+      "afterSha256": "6429f788ead24c361f7bc9a797c95375ad90e2c4ad9107a7a13b6f16737de6be",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记金蝉脱壳实战原件。",
-        "reviewedLines": 71,
-        "acceptanceScope": "核归档和原速带声重录入口。"
+        "conclusion": "登记四种敌方五灵仙术的原件。",
+        "reviewedLines": 72,
+        "acceptanceScope": "核原速重录及像素回读入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "ac1ed561a1f01227868cd7cff014aa7e3d8296afd8eb825eb779573229fc36bb",
+      "afterSha256": "04a1f3bfdf063d0653413ba7e1de8e58a29a5b94e1cf0a6de19afa7b2db90a61",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录金蝉脱壳的施法、退场及禁逃分支。",
-        "reviewedLines": 1848,
-        "acceptanceScope": "核原盘 MAGIC、SSS 和原版入场动作。"
+        "conclusion": "记录敌方土咒定帧和尾震的原盘时序。",
+        "reviewedLines": 1852,
+        "acceptanceScope": "核 MAGIC、FIRE、SDLPal 帧长与合成方向。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8b4e9bf403fc6a94d6201b52389c3c9a4c03363016ea97a77aefa65720177182",
+      "afterSha256": "10718a240ca78f3430bc9556c49678e4bd7dda28d50629bb9cedb90b3fc997c6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步两端施法与逃离后的现行来源。",
-        "reviewedLines": 8191,
-        "acceptanceScope": "六处源码片段逐字相等并恢复前驱。"
+        "conclusion": "重绑复用的现行战斗会话。",
+        "reviewedLines": 8221,
+        "acceptanceScope": "三个构造和选招片段已逐字节核对。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "081a0074485237ca19355101612a2aca7121d61d616e8197a259705d8dd1ccdd",
+      "afterSha256": "8dbf83442850b5fb2e7d9e43490871727235386bb19b9bbad3762149e7866cb6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录玩家退场法术的显示和结果合同。",
-        "reviewedLines": 254,
-        "acceptanceScope": "核允许逃离与禁逃的施法、真气和反馈。"
+        "conclusion": "明确敌方 FIRE 尾震的播放合同。",
+        "reviewedLines": 256,
+        "acceptanceScope": "核固定帧时钟及整屏移动。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a92b6267b3208bc56387d366f5d6ab9ab634de053cd7a931eb3ea6042a3fdbc8",
+      "afterSha256": "b6008b2ffd1bb50b6fc86e287457c26b29bdfa7a500650c90d784c9ed7b1f62a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "重绑当前会话来源文件摘要。",
-        "reviewedLines": 1099,
-        "acceptanceScope": "保持选择和原断言，拒绝坐标漂移。"
+        "conclusion": "校准现行会话来源指纹。",
+        "reviewedLines": 1129,
+        "acceptanceScope": "核选择、构造及断言坐标反控。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d8c8a4e645a7ce3e2c7e9945a089ffdba138e12e3b68c92a7ab3f64b64efa9c1",
+      "afterSha256": "26b83f3ec1991c7c0da5f816add26d09aa65042744c5631c168238038a3a451d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "同步三个既有会话来源的现行摘要。",
+        "conclusion": "更新既有会话来源的当前文件摘要。",
         "reviewedLines": 101,
-        "acceptanceScope": "核原构造和选择接线。"
+        "acceptanceScope": "核三处接线与历史执行保留。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "db299c07a7a6d169822d88d9551b47df7f40cccd2a1fc58d75173b8713ae6b48",
+      "afterSha256": "ecaa63f205fb788da711f3aa50a315234fdd4aff8d3cf87a02b2add47860bd07",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录金蝉脱壳实战及最小留存。",
-        "reviewedLines": 789,
-        "acceptanceScope": "核修前反例、正式实战、分屏及主动清理。"
+        "conclusion": "记录四组真实敌方施法、修复和最小留存。",
+        "reviewedLines": 797,
+        "acceptanceScope": "核当前原件、历史反例及真实清理字节。"
       }
     },
     {
@@ -5442,27 +5442,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "51b0324216e4fc25049d0e634fbcedef2fad68906d5f575a32aefc8b6b916268",
+      "afterSha256": "603292b12feae224e0efeceef6fa0bdb6dc0b2237c2bdda994f60b7ca66c107b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "登记金蝉脱壳的实战及普通仙术覆盖。",
-        "reviewedLines": 960,
-        "acceptanceScope": "核退场和禁逃双端、原件、反例及原声分屏。"
+        "conclusion": "登记四种敌方五灵仙术与实测覆盖增量。",
+        "reviewedLines": 975,
+        "acceptanceScope": "核业务、声画、土咒尾震反例和录制。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "382b0aea2314f9c25da22a99647e012f4d59d3df649822950fd8b35e78b86164",
+      "afterSha256": "0ea89781972294374b7d6b10b40a27b47c58abd5ea6e57fc91322cf8e959857c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 金蝉脱壳实战复核",
+        "reviewer": "Codex 敌方五灵实战复核",
         "date": "2026-11-19",
-        "conclusion": "记录退场演出变更后的适用来源。",
-        "reviewedLines": 368,
-        "acceptanceScope": "六处片段、四件前驱及三项反控。"
+        "conclusion": "追加敌方 FIRE 帧震屏后的来源。",
+        "reviewedLines": 374,
+        "acceptanceScope": "三个片段、固定前驱与三项反控。"
       }
     }
   ],
@@ -6100,6 +6100,12 @@
       "bytes": 4774687,
       "sha256": "813de2ef213d3a971cd4468a8f61e2e39c474f23f3407392b710e6f0ff50b6ce",
       "purpose": "金蝉脱壳允许和禁逃双端实战、旧版反例、退出观察、分屏解码及重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-elemental-casts-20261119.tar.gz",
+      "bytes": 8298588,
+      "sha256": "1e8793b5efede1c2d192dc1c9d4ef7c93897a47d86570e7b11ed91ce477d8d58",
+      "purpose": "四种敌方五灵仙术、土咒原速帧震屏反例、修后像素及分屏重录。"
     }
   ],
   "artifactAliases": [],

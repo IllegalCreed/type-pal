@@ -1381,6 +1381,37 @@ export function restoreTestingBattleEscapeSpellSourceBindings(path, bytes, input
   )
 }
 
+export const testingBattleEnemySpellShakePublicationBase =
+  'ac11b220065fbbd76cb059132bd6732ab086f998'
+const battleEnemySpellShakeStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemySpellShakePublicationBase,
+  action: 'q2-enemy-spell-shake-source-rebinding',
+  date: '2026-11-19',
+}
+const battleEnemySpellShakeBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleEnemySpellShakeSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemySpellShakeStage,
+    battleEnemySpellShakeBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
