@@ -12,6 +12,7 @@
  *   同 draw-sprite 约定);屏外像素经 fb.writePixel 边界检查裁剪。
  */
 import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
+import { isEnemyConfusionRevealed } from '../../core/battle/battle-anim-driver.js'
 import { ENEMY_POSITIONS_FALLBACK, getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -312,6 +313,7 @@ export function drawBattleSprites(
     const enemyShakeX =
       !isFading &&
       enemy.status.confused > 0 &&
+      isEnemyConfusionRevealed(animation, i) &&
       enemy.status.sleep <= 0 &&
       enemy.status.paralyzed <= 0
         ? confusedShakeDelta(Math.random())

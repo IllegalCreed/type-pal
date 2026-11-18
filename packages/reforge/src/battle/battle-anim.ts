@@ -108,6 +108,8 @@ export interface AnimFrame {
   banner?: { text: string; durationMs: number; x?: number; y?: number }
   /** 进入此帧后交会话显示动作提示，关闭前保持当前姿态。 */
   waitForActionFeedback?: boolean
+  /** Reveal the confusion applied by this cast in the first frame after FIRE. */
+  revealEnemyConfusion?: boolean
   /** Hold the gathered formation until the session finishes fading defeated enemies. */
   waitForEnemyDeathFade?: boolean
   /** Player trance and enemy transformation both use frozen scene transitions. */
@@ -1178,7 +1180,12 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
 
   if (offensive || inSummon) {
     // Draw damage before recoil and before the summoned figure fades out (fight.c:4322–4323).
-    frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
+    frames.push({
+      durationMs: 0,
+      waveAdd: 0,
+      revealEnemyConfusion: true,
+      ...(damageNums.length ? { damageNums } : {}),
+    })
   }
 
   // PostMagic 三拍受击和一拍敌人复位（fight.c:3190–3245）。无掉血时仍经过四拍。
@@ -1598,6 +1605,7 @@ export interface AnimSideEffects {
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
   onActionFeedback?(): void
+  onRevealEnemyConfusion?(): void
   onEnemyDeathFade?(): void
 }
 
@@ -1649,6 +1657,7 @@ export class AnimPlayer {
   private enter(f: AnimFrame): void {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
     this.fx.onOverlay?.(f.overlays ?? null)
+    if (f.revealEnemyConfusion) this.fx.onRevealEnemyConfusion?.()
     if (f.sound) this.fx.onSound?.(f.sound)
     if (f.damageNum)
       this.fx.onDamage?.(f.damageNum.target, f.damageNum.value, undefined, f.damageNum.anchor)

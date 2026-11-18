@@ -321,8 +321,16 @@ export function performMagic(input: PerformMagicInput): void {
             : []
         })
       : []
+  const enemiesConfusedBefore =
+    !input.casterIsEnemy && isOffensiveMagicType(magic.type)
+      ? input.state.enemies.map((enemy) => enemy.status.confused > 0)
+      : []
   if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript('scriptOnSuccess', successArgument)
+  // In the original the success script runs after FIRE, then the first PostMagic frame shows confusion.
+  const newlyConfusedEnemySlots = enemiesConfusedBefore.flatMap((wasConfused, slot) =>
+    !wasConfused && (input.state.enemies[slot]?.status.confused ?? 0) > 0 ? [slot] : [],
+  )
   const preRevivalPoses = fallenPoses.filter(({ idx }) => {
     const player = input.state.players[idx]
     return player && (input.playerRoles.roles[player.roleId]?.hp ?? 0) > 0
@@ -459,6 +467,7 @@ export function performMagic(input: PerformMagicInput): void {
     pendingNums,
     pendingScreenShake,
     hitPlayerIdxs,
+    newlyConfusedEnemySlots,
     playerDeathSounds,
     autoDefendIdxs,
     preRevivalPoses,

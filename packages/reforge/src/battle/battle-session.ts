@@ -714,6 +714,7 @@ export class BattleSession {
         }
       },
       onActionFeedback: () => this.presentPendingFailureFeedback(),
+      onRevealEnemyConfusion: () => this.pendingConfusedReveal.clear(),
       onEnemyDeathFade: () => this.startEnemyDeathFade(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
@@ -2492,7 +2493,7 @@ export class BattleSession {
     }
   }
 
-  /** confused idle 抖动只属于已完成生效的状态；本步新状态在 OffMagic 收尾前保持静止。 */
+  /** 新施加的混乱从主特效结束后的第一拍开始抖动。 */
   private enemyConfusedJitterX(
     enemyIdx: number,
     enemy: { hp: number; status: BattleStatus },

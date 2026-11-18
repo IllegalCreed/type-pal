@@ -14,6 +14,28 @@ import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-sta
 // The action stores the first frame after its dialogue. The host owns dismissal and
 // both animation clocks stop before this frame, including a delayed render callback.
 const dialogueBoundaries = new WeakMap<BattleAnimState, number>()
+const enemyConfusionReveals = new WeakMap<
+  BattleAnimState,
+  { slots: readonly number[]; firstVisibleFrame: number }
+>()
+
+export function deferEnemyConfusionUntilFrame(
+  animation: BattleAnimState,
+  slots: readonly number[],
+  firstVisibleFrame: number,
+): void {
+  enemyConfusionReveals.set(animation, { slots, firstVisibleFrame })
+}
+
+export function isEnemyConfusionRevealed(animation: BattleAnimState | undefined, slot: number): boolean {
+  if (!animation) return true
+  const reveal = enemyConfusionReveals.get(animation)
+  return (
+    !reveal ||
+    Math.max(animation.idx, animation.renderIdx ?? 0) >= reveal.firstVisibleFrame ||
+    !reveal.slots.includes(slot)
+  )
+}
 
 interface EnemySummonPresentation {
   onArrival?: () => void

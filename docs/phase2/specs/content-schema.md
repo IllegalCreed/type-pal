@@ -62,6 +62,8 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 `cost.items` 的多行同物品成本先合计，玩家施法支付真气后原子扣除所需物品。背包不足时保留已付真气和当前库存，跳过成功效果，仍执行施法成长。战斗演出保留施法起手与吟唱，显示耗材不足的中央卷轴，清除后继续收招。三尸咒和万蛊蚀天的公共效果先判三尸蛊毒，再按毒抗结算各自的直接伤害。 [技能字段](../../../packages/content/src/skill.ts#L7-L12) · [耗材门与成长](../../../packages/reforge/src/battle/battle-core.ts#L1324-L1425)
 
+对敌仙术的 `applyStatus` 若新加混乱，战斗会话在主特效结束的首拍开始绘制目标的横向抖动。混乱回合数仍按战斗规则结算，演出边界由当前时间线消费。 [混乱绘制的原盘来源](../../phase1/game-mechanics.md#2026-11-19-鬼降混乱抖动的起点) · [施法时间线](../../../packages/reforge/src/battle/battle-anim.ts)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。

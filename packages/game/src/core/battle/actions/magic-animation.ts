@@ -16,6 +16,7 @@ import {
   SUMMON_FADE_STEPS,
 } from '../anim-timeline.js'
 import {
+  deferEnemyConfusionUntilFrame,
   holdBattleAnimationForDialogue,
   playerRestFrame,
   startBattleAnim,
@@ -47,6 +48,7 @@ interface MagicAnimationEffects {
   pendingNums: PendingDamageNums
   pendingScreenShake: { time: number; level: number }
   hitPlayerIdxs: number[]
+  newlyConfusedEnemySlots: number[]
   playerDeathSounds: number[]
   autoDefendIdxs: number[]
   preRevivalPoses: FighterDelta[]
@@ -115,7 +117,7 @@ export function startMagicAnimation(
         effects.playerOffMagicOpening ??
         buildPlayerOffMagicOpening(input, magic, pendingScreenShake)
       if (opening) {
-        startPlayerOffMagic(input, opening, dmgResults, pendingNums)
+        startPlayerOffMagic(input, opening, dmgResults, pendingNums, effects.newlyConfusedEnemySlots)
         built = true
       }
     } else if (magic.type === 'applyToPlayer' || magic.type === 'applyToParty') {
@@ -254,6 +256,7 @@ function startPlayerOffMagic(
   opening: BattleAnimFrame[],
   results: ReadonlyArray<{ enemyIdx: number; hpBefore: number; hpAfter: number }>,
   pendingNums: PendingDamageNums,
+  newlyConfusedEnemySlots: number[],
 ): void {
   // —— PostMagic:HP **有变化**的敌人抖动(sdlpal fight.c:3220 `if (wHealth == wPrevHP) continue`,
   //   即掉血/回血都抖。攻击魔法只掉血,二者等价;用 != 严格忠实,兼容未来对敌回血法术)——
@@ -276,6 +279,10 @@ function startPlayerOffMagic(
     { durationMs: 5 * BATTLE_FRAME_TIME },
   ]
   startBattleAnim(input.state, chain, input.bus, numsAttached ? undefined : pendingNums)
+  const animation = input.state.battleAnim
+  if (animation && newlyConfusedEnemySlots.length) {
+    deferEnemyConfusionUntilFrame(animation, newlyConfusedEnemySlots, opening.length)
+  }
 }
 
 function buildPlayerSummonOffMagic(
