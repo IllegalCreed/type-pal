@@ -1982,15 +1982,15 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "c785b020830ff7d8680e4b53e836b56d167e65ff5d4791389b8f9bbb17226837",
+      "afterSha256": "203925b3fddcb70a841171201eb9d3e90767d61f34af8ee484956d808c1c456a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 拜月教主三招复核",
+        "reviewer": "Codex 战内恢复道具复核",
         "date": "2026-11-19",
-        "conclusion": "登记拜月教主三招的归档。",
-        "reviewedLines": 77,
+        "conclusion": "登记两批战内道具证据。",
+        "reviewedLines": 79,
         "acceptanceScope": "核归档、执行清单及分屏入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "61079da94302f951a46aa5cbffe2dc6a74747312d9d971278b00981ff9345f36",
+      "afterSha256": "4afe6c29f8f7c8d2f73266dc34c4a921a4cd7c702b617a78f35f1ea42cda3fe2",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 拜月教主三招复核",
+        "reviewer": "Codex 战内恢复道具复核",
         "date": "2026-11-19",
-        "conclusion": "登记三种仙术及归档恢复。",
-        "reviewedLines": 833,
-        "acceptanceScope": "核双端复算、漏帧反例及清理实绩。"
+        "conclusion": "登记两批逐件实用和归档恢复。",
+        "reviewedLines": 845,
+        "acceptanceScope": "核双端复算、反例及清理实绩。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "b9e56a42d698c838834e19c87dcf587a16f6925b83ca051e1b6d442aa6253f41",
+      "afterSha256": "8c40fed4c8f20c5faeb23c70a0dc5e33d8441f89ce654a8bfc897275dcb3ede6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 拜月教主三招复核",
+        "reviewer": "Codex 战内恢复道具复核",
         "date": "2026-11-19",
-        "conclusion": "登记最后三个敌方仙术施放条目。",
-        "reviewedLines": 1057,
-        "acceptanceScope": "核同局指令、随机值、毒槽、胜利结算及声画。"
+        "conclusion": "登记二十四个战内道具施用入口。",
+        "reviewedLines": 1084,
+        "acceptanceScope": "核指令、抽样、库存、实际回气补血复活及声画。"
       }
     },
     {
@@ -6136,6 +6136,18 @@
       "bytes": 5959994,
       "sha256": "ed40dc225526c38c9606deec4eb1b4a9949a7f8ff21180a379f6e815ca16a87e",
       "purpose": "拜月教主三种仙术的双端实战、漏帧反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-five-battle-recovery-items-20261119.tar.gz",
+      "bytes": 7174122,
+      "sha256": "850da5b10843ad790d4349d5808175de9a6d88d8faebfb852f5c9ef90e97ecea",
+      "purpose": "五件战内恢复道具的双端实用、姿态反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-nineteen-battle-restorative-items-20261119.tar.gz",
+      "bytes": 20493514,
+      "sha256": "6255b19741009e6f8af520369b2578e644de50872ceee17fded01747596e73dd",
+      "purpose": "十九件战内恢复道具的双端实用、回气飘字反例及原速带声分屏。"
     }
   ],
   "artifactAliases": [],
