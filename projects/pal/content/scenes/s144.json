@@ -53,6 +53,12 @@
                             "entity": "e2390"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -101,243 +107,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2390"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2390"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2390"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -370,7 +237,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -379,7 +246,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -388,7 +255,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -401,7 +268,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -410,7 +277,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -419,7 +286,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -432,7 +299,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -441,7 +308,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -508,6 +375,12 @@
                             "entity": "e2391"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -556,243 +429,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2391"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2391"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2391"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -825,7 +559,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -834,7 +568,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -843,7 +577,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -856,7 +590,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -865,7 +599,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -874,7 +608,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -887,7 +621,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -896,7 +630,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -963,6 +697,12 @@
                             "entity": "e2392"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -1011,243 +751,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2392"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2392"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2392"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -1280,7 +881,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -1289,7 +890,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -1298,7 +899,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -1311,7 +912,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -1320,7 +921,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -1329,7 +930,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -1342,7 +943,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -1351,7 +952,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -1418,6 +1019,12 @@
                             "entity": "e2393"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -1466,243 +1073,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2393"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2393"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2393"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -1735,7 +1203,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -1744,7 +1212,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -1753,7 +1221,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -1766,7 +1234,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -1775,7 +1243,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -1784,7 +1252,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -1797,7 +1265,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -1806,7 +1274,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -1873,6 +1341,12 @@
                             "entity": "e2394"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -1921,243 +1395,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2394"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2394"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2394"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -2190,7 +1525,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -2199,7 +1534,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -2208,7 +1543,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -2221,7 +1556,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -2230,7 +1565,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -2239,7 +1574,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -2252,7 +1587,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -2261,7 +1596,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -2328,6 +1663,12 @@
                             "entity": "e2395"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -2376,243 +1717,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2395"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2395"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2395"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2396"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -2645,7 +1847,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -2654,7 +1856,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -2663,7 +1865,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -2676,7 +1878,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -2685,7 +1887,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -2694,7 +1896,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -2707,7 +1909,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -2716,7 +1918,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
@@ -2783,6 +1985,12 @@
                             "entity": "e2396"
                           },
                           "ticks": 15
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
                         }
                       ],
                       "onLose": [
@@ -2831,243 +2039,104 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 1,
-                      "target": {
-                        "scene": "s144",
-                        "entity": "e2396"
-                      }
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2390"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2391"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2392"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2393"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2394"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2395"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "branch",
-                      "cond": {
-                        "kind": "entityState",
-                        "target": {
-                          "scene": "s144",
-                          "entity": "e2396"
-                        },
-                        "is": 2
-                      },
-                      "then": [
-                        {
-                          "kind": "clearDialog"
-                        },
-                        {
-                          "kind": "setEntityState",
-                          "state": 0,
-                          "target": {
-                            "scene": "s144",
-                            "entity": "e2396"
-                          }
-                        },
-                        {
-                          "asset": "sound.pal.262",
-                          "kind": "playSound"
-                        },
-                        {
-                          "kind": "ditherScreen",
-                          "ms": 2160
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 0,
                       "target": {
                         "scene": "s144",
                         "entity": "e2396"
                       }
+                    },
+                    {
+                      "kind": "branch",
+                      "cond": {
+                        "kind": "any",
+                        "of": [
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2390"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2391"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2392"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2393"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2394"
+                              },
+                              "is": 0
+                            }
+                          },
+                          {
+                            "kind": "not",
+                            "cond": {
+                              "kind": "entityState",
+                              "target": {
+                                "scene": "s144",
+                                "entity": "e2395"
+                              },
+                              "is": 0
+                            }
+                          }
+                        ]
+                      },
+                      "then": [
+                        {
+                          "kind": "clearDialog"
+                        },
+                        {
+                          "asset": "sound.pal.262",
+                          "kind": "playSound"
+                        },
+                        {
+                          "kind": "ditherScreen",
+                          "ms": 2160
+                        },
+                        {
+                          "kind": "finishStep",
+                          "next": {
+                            "kind": "stay"
+                          }
+                        }
+                      ]
                     },
                     {
                       "kind": "stopMusic"
@@ -3100,7 +2169,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "facing": "up",
@@ -3109,7 +2178,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "left",
@@ -3118,7 +2187,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -3131,7 +2200,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "right",
@@ -3140,7 +2209,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "down",
@@ -3149,7 +2218,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "frames": 99,
@@ -3162,7 +2231,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -3171,7 +2240,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "facing": "right",
