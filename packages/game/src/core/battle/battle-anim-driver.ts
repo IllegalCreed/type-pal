@@ -248,6 +248,7 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
     a.enemyDeathCheckFrame ?? a.frames.length,
   )
   while (vIdx + 1 < end && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
+    if (vIdx >= a.idx && a.frames[vIdx + 1]?.renderAfterCommit) break
     acc += a.frames[vIdx]!.durationMs ?? 0
     vIdx++
   }

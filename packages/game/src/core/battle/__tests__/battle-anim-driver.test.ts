@@ -305,6 +305,33 @@ describe('stepBattleAnimRender — present wall-clock 视觉帧细分(修"施法
     expect(a.renderIdx).toBe(4)
   })
 
+  it('吹飞末帧到受击时，绘制等逻辑提交归位和伤害数字', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    const bus = createCommandBus()
+    const damage = { target: { kind: 'enemy', idx: 0 }, value: 325, color: 'blue' } as const
+    startBattleAnim(
+      state,
+      [
+        ...mk50msMagicFrames().slice(0, 1),
+        { durationMs: 0, renderAfterCommit: true },
+        { durationMs: 40, renderAfterCommit: true, damageNums: [damage] },
+        { durationMs: 40, renderAfterCommit: true },
+      ],
+      bus,
+    )
+    stepBattleAnimRender(state, 1000)
+    stepBattleAnimRender(state, 1090)
+    expect(state.battleAnim?.renderIdx).toBe(0)
+    expect(state.battleAnim?.overlays).toHaveLength(1)
+    expect(bus.drain()).toEqual([])
+
+    advanceBattleAnimFrames(state, bus, 50)
+    stepBattleAnimRender(state, 1091)
+    expect(state.battleAnim?.renderIdx).toBe(2)
+    expect(state.battleAnim?.overlays).toBeUndefined()
+    expect(bus.drain().map(({ cmd }) => cmd)).toEqual([{ op: 'showDamageNum', ...damage }])
+  })
+
   it('惰性锚点对齐逻辑进度:present 中途接管(idx=2,frameElapsed=20)→ renderIdx 从 2 起', () => {
     const state = mkAnimState(mk50msMagicFrames(), { idx: 2, frameElapsedMs: 20 })
     const a = state.battleAnim!

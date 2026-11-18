@@ -275,6 +275,8 @@ export interface BattleAnimOverlay {
 export interface BattleAnimFrame {
   /** 该帧停留时长(ms;sdlpal PAL_BattleDelay(N) = N × 40ms)。 */
   durationMs: number
+  /** 待逻辑提交后才绘制，用于需要与伤害数字同时呈现的归位和受击。 */
+  renderAfterCommit?: true
   /** 本帧要 mutate 的 fighter 增量。 */
   fighters?: FighterDelta[]
   /** 本帧叠加的单个特效 sprite(物理攻击 effect overlay;= state.battleAnim.overlay,供 present 画)。 */
