@@ -3354,7 +3354,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(b.log.some((l) => l.includes('无法逃离'))).toBe(true)
   })
 
-  test('乾坤一掷(0x88):消耗 min(金钱,5000)、基伤=消耗×2/5;分文没有 → 无任何效果不扣钱', () => {
+  test('乾坤一掷按上限扣钱，零基础威力跳过伤害', () => {
     const qk = mkSkill('qk', {
       target: 'allEnemies',
       cost: { mp: 1 },
@@ -3376,10 +3376,15 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     turn(poor, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
     expect(poor.moneyDelta).toBe(0)
     expect(poor.enemies[0]!.hp).toBe(9999)
+    expect(poor.players[0]!.mp).toBe(29)
     expect(poor.log.some((l) => l.includes('金钱不足'))).toBe(true)
+    const one = mk(1)
+    turn(one, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
+    expect(one.moneyDelta).toBe(-1)
+    expect(one.enemies[0]!.hp).toBe(9999)
   })
 
-  test('铜钱镖(cost.money):固定扣 500 + 伤害;不足 500 → 降级普攻不扣钱(与 MP 门同待遇)', () => {
+  test('铜钱镖选招后检查固定金钱成本，缺钱时只扣真气并保留成长', () => {
     const tq = mkSkill('tq', {
       target: 'oneEnemy',
       cost: { mp: 1, money: 500 },
@@ -3402,8 +3407,11 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     turn(poor, rng0, (st) =>
       st.pendingActions.set(0, { kind: 'cast', skillId: 'tq', targetEnemyIdx: 0 }),
     )
-    expect(poor.moneyDelta).toBe(0) // 降级普攻,消耗未发生
-    expect(poor.log.some((l) => l.includes('金钱不足') && l.includes('降级普攻'))).toBe(true)
+    expect(poor.moneyDelta).toBe(0)
+    expect(poor.enemies[0]!.hp).toBe(9999)
+    expect(poor.players[0]!.mp).toBe(29)
+    expect(poor.players[0]!.hiddenCounts.maxMP).toBe(2)
+    expect(poor.log.some((l) => l.includes('金钱不足'))).toBe(true)
   })
 
   test('解状态(0x2F)按 targetAllyIdx 点名队友;buffStat 烙属性 + 定时到期扣回', () => {

@@ -64,6 +64,8 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 对敌仙术的 `applyStatus` 若新加混乱，战斗会话在主特效结束的首拍开始绘制目标的横向抖动。混乱回合数仍按战斗规则结算，演出边界由当前时间线消费。 [混乱绘制的原盘来源](../../phase1/game-mechanics.md#2026-11-19-鬼降混乱抖动的起点) · [施法时间线](../../../packages/reforge/src/battle/battle-anim.ts)
 
+普通仙术的 `cost.money` 在出手并扣除真气后检查。铜钱镖的固定费用是 500 文。普通仙术首项为 `moneyDamage` 时，先确认剩余至少一文，再按该项比例换算基础威力。两种缺钱情况均保留真气支出和成长，显示失败卷轴。兑换后的基础威力为零时仍支付金钱并播放特效，跳过伤害和浮动抽样。 [原盘消费顺序](../../phase1/game-mechanics.md#2026-11-19-玩家仙术的金钱门)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。

@@ -7,7 +7,7 @@ import type { AssetId } from './asset.js'
 export interface SkillCost {
   mp?: number
   stamina?: number // 体力(合体技)
-  money?: number // 乾坤一掷耗金钱
+  money?: number // 铜钱镖等普通仙术在出手时支付的固定金钱
   items?: { itemId: string; amount: number }[] // 酒神耗酒 / 巫术耗蛊(依赖 item 系统)
 }
 

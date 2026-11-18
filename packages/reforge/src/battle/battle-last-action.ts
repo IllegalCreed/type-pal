@@ -11,6 +11,7 @@ export type BattleFailureFeedback =
   | 'throwIneffective'
   | 'spellIneffective'
   | 'missingSpellItem'
+  | 'missingSpellMoney'
 
 export interface BattleLastActionBase {
   idx: number

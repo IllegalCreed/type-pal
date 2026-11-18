@@ -1314,15 +1314,21 @@ function applyPlayerSkill(
     s.log.push(`${p.roleId} MP 不足,${skill.name} 施放失败`)
     return
   }
-  // 金钱消耗门(铜钱镖 cost.money=500;原版 scriptOnUse 0x1E 扣钱、不足跳「金钱不足」臂):
-  // 与 MP 同待遇 —— validatePlayerAction 已降级,此守卫纯兜底(在扣 MP 之前,失败不吃任何消耗)
-  const moneyCost = skill.cost.money ?? 0
-  if (moneyCost > battleMoney(s)) {
-    s.log.push(`${p.roleId} 金钱不足,${skill.name} 施放失败`)
-    return
-  }
   p.mp -= mpCost
   const execution = resolveSkillExecution(skill, 'player')
+  // scriptOnUse 在施法已扣 MP 后才检查钱。乾坤一掷首项换算威力前须至少有一文。
+  const moneyCost = skill.cost.money ?? 0
+  const availableMoney = battleMoney(s)
+  const needsMoneyForPower = execution.effects[0]?.kind === 'moneyDamage'
+  if (moneyCost > availableMoney || (needsMoneyForPower && availableMoney === moneyCost)) {
+    if (s.lastAction) {
+      s.lastAction.fizzled = true
+      s.lastAction.failureFeedback = 'missingSpellMoney'
+    }
+    s.log.push(`${p.roleId} 金钱不足,${skill.name} 施放失败`)
+    recordPlayerSpellGrowth(p, rng)
+    return
+  }
   // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
   // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
   // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
@@ -1588,7 +1594,7 @@ function applyPlayerSkillEffects(
         s.moneyDelta -= spend
         s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
         const power = Math.trunc((spend * eff.num) / eff.den)
-        for (const ti of enemyTargets) dealDamage(ti, power, eff.elemental)
+        if (power > 0) for (const ti of enemyTargets) dealDamage(ti, power, eff.elemental)
         break
       }
       case 'fleeBattle': {
@@ -1899,14 +1905,8 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
   let a = act
   if (a.kind === 'cast') {
     const skill = s.skills[a.skillId]
-    if (
-      skill &&
-      (p.status.silence > 0 ||
-        p.mp < (skill.cost.mp ?? 0) ||
-        battleMoney(s) < (skill.cost.money ?? 0))
-    ) {
-      const why =
-        p.status.silence > 0 ? '被封咒' : p.mp < (skill.cost.mp ?? 0) ? 'MP 不足' : '金钱不足'
+    if (skill && (p.status.silence > 0 || p.mp < (skill.cost.mp ?? 0))) {
+      const why = p.status.silence > 0 ? '被封咒' : 'MP 不足'
       if (skill.target === 'oneEnemy' || skill.target === 'allEnemies') {
         a = { kind: 'attack', targetEnemyIdx: a.targetEnemyIdx ?? -1 }
         s.log.push(`${p.roleId} ${why},${skill.name} 降级普攻`)

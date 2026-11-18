@@ -100,7 +100,7 @@ function snapshot(persistent = false) {
     inventory: (persistent ? world.inventory : nativeState.inventory)
       .filter((entry) => entry.count > 0)
       .map(({ itemId, count }) => ({ itemId, count })),
-    money: world.money,
+    money: persistent ? world.money : Math.max(0, nativeState.money + nativeState.moneyDelta),
   }
 }
 
@@ -411,10 +411,7 @@ const harness = {
                 const skill = nativeState.skills[skillId]
                 return {
                   skillId,
-                  disabled:
-                    !skill ||
-                    selecting.mp < (skill.cost.mp ?? 0) ||
-                    world.money < (skill.cost.money ?? 0),
+                  disabled: !skill || selecting.mp < (skill.cost.mp ?? 0),
                 }
               }),
             }

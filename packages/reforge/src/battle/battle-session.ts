@@ -684,7 +684,6 @@ export class BattleSession {
       throwableItems: this.throwableItems(),
       skills: this.opts.skills ?? {},
       items: this.state.items,
-      money: this.moneyNow(),
     }
   }
 
@@ -1172,11 +1171,6 @@ export class BattleSession {
     return this.state.moneyDelta
   }
 
-  /** 战内当前可用金钱(快照+增减;铜钱镖 cost.money 选单门)。 */
-  private moneyNow(): number {
-    return Math.max(0, this.state.money + this.state.moneyDelta)
-  }
-
   /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
   collectGained(): number {
     return this.state.collectGained
@@ -1559,7 +1553,7 @@ export class BattleSession {
         fireFrames,
         fx,
         targetPos,
-        waitForUseFailureFeedback: la.failureFeedback === 'missingSpellItem',
+        waitForUseFailureFeedback: la.fizzled === true,
         ...(la.blow
           ? {
               blow: {
@@ -2225,14 +2219,19 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    if (feedback === 'spellIneffective' || feedback === 'missingSpellItem') {
-      const text = feedback === 'missingSpellItem' ? '道具不足无法使用' : '失败　没有效果'
+    const text = {
+      statusIneffective: '攻击无效',
+      throwIneffective: '无任何效果',
+      spellIneffective: '失败　没有效果',
+      missingSpellItem: '道具不足无法使用',
+      missingSpellMoney: '钱不够，只好作罢',
+    }[feedback]
+    if (feedback === 'statusIneffective') this.showActionFeedback(text)
+    else if (feedback === 'throwIneffective') this.showActionFeedback(text, 'confirm')
+    else {
       this.showActionFeedback(text, 'anyKey')
       this.actionPresentation.satisfyActionCadence()
-      return
     }
-    const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
-    this.showActionFeedback(text, feedback === 'throwIneffective' ? 'confirm' : undefined)
   }
 
   private showActionFeedback(message: string | TextSpan[], dismiss?: 'confirm' | 'anyKey'): void {
@@ -2972,7 +2971,7 @@ export class BattleSession {
           const mp = sk?.cost.mp ?? 0
           return {
             label: sk?.name ?? sid,
-            disabled: !sk || p.mp < mp || this.moneyNow() < (sk.cost.money ?? 0),
+            disabled: !sk || p.mp < mp,
           }
         })
         const selSkill = this.opts.skills?.[p.skills[selection.skillIndex % p.skills.length] ?? '']
