@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "9fa834bd4d7c4293e64269705a81ca1c6d7dc1bf1f7ef5a6676ceae8de3209ee",
+      "afterSha256": "3cdb5855972a212092b7a0331c506be451b422f2a2c3f261cf1aff8c356e66cf",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 从原盘与归档独立复算实际差异",
+        "reviewer": "Codex 据原盘与双端实战原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记火土仙术的证据包及分屏重录入口。",
-        "reviewedLines": 64,
-        "acceptanceScope": "仅新增火土仙术归档链接和执行范围。"
+        "conclusion": "登记剑诀对照归档及重录入口。",
+        "reviewedLines": 65,
+        "acceptanceScope": "本批新增归档链接和可复算范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "37b4f454a5c2e3bdde35374ed872a0804e78b8e7bc6721c0f47623f312d632de",
+      "afterSha256": "3adc681f0d3e130336575f81b26118881c278d4856336bafc30c9191f4f955d4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
-        "date": "2026-11-17",
-        "conclusion": "更新两条现行战斗来源与一条适用性历史。",
-        "reviewedLines": 7889,
-        "acceptanceScope": "核固定前驱、候选完整字节和实际位置校验器。旧成员、发布与运行承诺按原值保全。"
+        "reviewer": "Codex 据固定源码与双端原件复核",
+        "date": "2026-11-18",
+        "conclusion": "核战斗会话三个已刊调用片段的来源。",
+        "reviewedLines": 7919,
+        "acceptanceScope": "只重绑同范围文件摘要和附一条适用性记录。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "85c48d3f15dbc95b82c90b44d634fcead29d089a4740fd4dadd8b56ba29d93f0",
+      "afterSha256": "49c598e4fcf0c6c2c22c2b1a20ab1996681be2e7c3ade2d082f5155f0c846953",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
-        "date": "2026-11-17",
-        "conclusion": "校准三处会话调用来源及既有主张指针。",
-        "reviewedLines": 912,
-        "acceptanceScope": "核现行坐标、文件摘要和固定前驱，保留原动态覆盖范围。"
+        "reviewer": "Codex 据固定源码与双端原件复核",
+        "date": "2026-11-18",
+        "conclusion": "核三个会话片段的来源和既有 claim 指针。",
+        "reviewedLines": 942,
+        "acceptanceScope": "当前源码片段和历史指针逐值复验。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "03e7e8e9543fd40df25636795faca4406cc541b11348aba5e28bbdf6a9634468",
+      "afterSha256": "02b3862a0631019a21dcb54a4791b69342e555b35b6bdcc9120f1612729772a4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核源码、双端实跑与适用性",
-        "date": "2026-11-17",
-        "conclusion": "校准合击修复后的三处会话调用来源。",
+        "reviewer": "Codex 据固定源码与双端原件复核",
+        "date": "2026-11-18",
+        "conclusion": "同步三个现行会话来源及其历史回执。",
         "reviewedLines": 101,
-        "acceptanceScope": "三个源码片段逐字保持，原会话归属证据继续对应原版本。"
+        "acceptanceScope": "仅本次 metadata 变更和配对消费者。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c77b459bb9e5b63251b2757b07f4563a99977346657e37e451fd99b50e1d963a",
+      "afterSha256": "af59c1854ec5939106a8750eb7ab86b3e1bcca7e487c04aa98856905c3931e1f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 从原盘与归档独立复算实际差异",
+        "reviewer": "Codex 据原盘与双端实战原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记火土仙术的首轮差异、当前复验和可恢复的实跑原件。",
-        "reviewedLines": 723,
-        "acceptanceScope": "本批八个局面的实际验收和清理，用户观看回执待记录。"
+        "conclusion": "登记六招剑诀的实跑、两类旧差异、修后复验和留存。",
+        "reviewedLines": 737,
+        "acceptanceScope": "七个局面、修前原件和解码复验，用户观看回执待记录。"
       }
     },
     {
@@ -5442,27 +5442,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "619d2aa06dadf872f94aed10453d41b745d97aefa2a421885d2fae328efa78dc",
+      "afterSha256": "f7c6d3557a1af1e15816bb926650df3be5ae11a5f731dcc8937b62b900962128",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 从原盘与归档独立复算实际差异",
+        "reviewer": "Codex 据原盘与双端实战原件复核",
         "date": "2026-11-18",
-        "conclusion": "复核三昧真火至泰山压顶六招的原生动作、场效及遮挡层序。",
-        "reviewedLines": 852,
-        "acceptanceScope": "八组双端原件、独立录制、旧版画序反例及逐项覆盖计数。"
+        "conclusion": "核六种剑诀、震屏帧序、背景留痕及覆盖进度。",
+        "reviewedLines": 874,
+        "acceptanceScope": "七组双端轨迹、旧画序和旧震屏反例、原速分屏解码。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "9ed2c68e21159e8e1ee706abc850203b28dac2ec1d57167f555e1bfdeddae183",
+      "afterSha256": "4412eb6b1c409b883de185872f1c96952ccf13e2b6a0ec9b9af858f29a650b19",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
-        "date": "2026-11-17",
-        "conclusion": "归档两个相同函数的新版坐标和来源桥复核。",
-        "reviewedLines": 317,
-        "acceptanceScope": "核声明及完整函数体逐字相同，检验桥接拒绝历史 claim 变动和当前源码漂移。"
+        "reviewer": "Codex 据原盘与双端实战原件复核",
+        "date": "2026-11-18",
+        "conclusion": "核三个会话来源、固定版本和适用性桥接反控。",
+        "reviewedLines": 323,
+        "acceptanceScope": "原来源坐标、当前摘要、断言指针和已核消费者。"
       }
     }
   ],
@@ -6058,6 +6058,12 @@
       "bytes": 5650689,
       "sha256": "63a9447fda4ea32b7aaf68961b8d024178577a1180e54fadf7c9ed7d6361c507",
       "purpose": "六种玩家火土仙术与场效的双端实跑、层序反例及原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-sword-arts-20261118.tar.gz",
+      "bytes": 10692570,
+      "sha256": "0026579f3192f0650494dda2838a883fd739bce9a9dc40205ac1230d67c98e28",
+      "purpose": "六种剑诀的双端实跑，层序与震屏反例，留痕像素及原速分屏重录。"
     }
   ],
   "artifactAliases": [],

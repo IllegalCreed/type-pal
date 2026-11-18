@@ -55,6 +55,7 @@ import {
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleSceneObserverSourceBindings,
+  restoreTestingBattleScriptedShakeSourceBindings,
   restoreTestingBattleSpellFeedbackSourceBindings,
   restoreTestingBattleSummonDivisionSourceBindings,
   restoreTestingBattleSummonPlaybackSourceBindings,
@@ -75,6 +76,7 @@ import {
   testingBattlePublicationBase,
   testingBattleReviewPublicationBase,
   testingBattleSceneObserverPublicationBase,
+  testingBattleScriptedShakePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
@@ -671,8 +673,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const learnedSkillsSource = learnedSkillsRevision && gitTree(root, learnedSkillsRevision, [])
   const preLearnedSkills =
     learnedSkillsSource && gitTree(root, testingBattleLearnedSkillsPublicationBase, [])
-  const readBeforeBattleLearnedSkills = (path) => {
+  const scriptedShakeRevision = admission.testingBattleScriptedShakeSourceRevision
+  if (scriptedShakeRevision !== undefined)
+    assert(
+      learnedSkillsSource && /^[a-f0-9]{40}$/u.test(scriptedShakeRevision),
+      'battle scripted shake source bridge requires the fixed preceding learned-skills revision',
+    )
+  const scriptedShakeSource = scriptedShakeRevision && gitTree(root, scriptedShakeRevision, [])
+  const preScriptedShake =
+    scriptedShakeSource && gitTree(root, testingBattleScriptedShakePublicationBase, [])
+  const readBeforeBattleScriptedShake = (path) => {
     const live = readSource(path)
+    if (!preScriptedShake || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(scriptedShakeSource.read(path)),
+      'battle scripted shake source differs from the frozen candidate',
+    )
+    return preScriptedShake.read(path)
+  }
+  const readBeforeBattleLearnedSkills = (path) => {
+    const live = readBeforeBattleScriptedShake(path)
     if (!preLearnedSkills || !isTestingBattleLearnedSkillsSource(path)) return live
     assert(
       live?.equals(learnedSkillsSource.read(path)),
@@ -771,13 +791,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorLearnedSkills = preLearnedSkills
-      ? restoreTestingBattleLearnedSkillsSourceBindings(path, bytes, {
+    const priorScriptedShake = preScriptedShake
+      ? restoreTestingBattleScriptedShakeSourceBindings(path, bytes, {
           readSource,
+          readBase: preScriptedShake.read,
+          readFixed: scriptedShakeSource.read,
+        })
+      : bytes
+    const priorLearnedSkills = preLearnedSkills
+      ? restoreTestingBattleLearnedSkillsSourceBindings(path, priorScriptedShake, {
+          readSource: readBeforeBattleScriptedShake,
           readBase: preLearnedSkills.read,
           readFixed: learnedSkillsSource.read,
         })
-      : bytes
+      : priorScriptedShake
     const priorCasualtyRoster = preCasualtyRoster
       ? restoreTestingBattleCasualtyRosterSourceBindings(path, priorLearnedSkills, {
           readSource: readBeforeBattleLearnedSkills,

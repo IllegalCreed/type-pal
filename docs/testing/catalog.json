@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "420-432",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1283-1292",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3006,6 +3006,36 @@
               }
             ],
             "scope": "合击执行与归位前死亡淡出修复后，复核 Game 回合收尾、Reforge 群攻及会话调用片段。旧候选和实跑原件保留原版本。"
+          },
+          {
+            "action": "q2-scripted-shake-source-rebinding",
+            "base": "087d243365e62759930c7db40787a7620da6420f",
+            "date": "2026-11-18",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "420-432",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1283-1292",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+              }
+            ],
+            "scope": "玩家仙术的脚本震屏改随 FIRE 帧保持整屏偏移。会话选择和构造期的三个已有片段逐字节相同，原执行保留固定候选。"
           }
         ]
       },

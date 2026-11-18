@@ -52,6 +52,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 雷冰仙术与正负场效 | [七组双端实跑、缺拍反例、逐敌伤害与场效、原速带声分屏重录](E2E-Q2-1-player-thunder-ice-20261118.tar.gz) |
 | Q2 解除状态、解毒与护体 | [九组双端实跑、逐项判据、战内道具增量及原速带声分屏重录](E2E-Q2-1-cleanse-and-protect-20261118.tar.gz) |
 | Q2 火土仙术与场效 | [八组双端实跑、泰山压顶画序反例、逐敌伤害及原速带声分屏重录](E2E-Q2-1-player-fire-earth-20261118.tar.gz) |
+| Q2 六种剑诀与场地留痕 | [七组双端实跑、画序和震屏反例、解码像素与原速带声分屏重录](E2E-Q2-1-player-sword-arts-20261118.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

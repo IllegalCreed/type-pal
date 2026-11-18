@@ -1140,6 +1140,36 @@ export function restoreTestingBattleLearnedSkillsSourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleScriptedShakePublicationBase = '087d243365e62759930c7db40787a7620da6420f'
+const battleScriptedShakeStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1283-1292': '1283-1292' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleScriptedShakePublicationBase,
+  action: 'q2-scripted-shake-source-rebinding',
+  date: '2026-11-18',
+}
+const battleScriptedShakeBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleScriptedShakeSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleScriptedShakeStage,
+    battleScriptedShakeBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
