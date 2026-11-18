@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "9c3c8367983212aa4ce53a9d3d3fe89eb56d4259593e43fc8c750581cd1fc19f",
+      "afterSha256": "840c4f6b45d053045793348c8e17d24576f99daf8537e57eef86d533a80b0392",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 姜清剧情与敌方仙术复核",
+        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记姜清剧情与六种敌方仙术的两条分屏。",
-        "reviewedLines": 74,
-        "acceptanceScope": "核归档、执行摘要和逐项声画。"
+        "conclusion": "登记三种敌方仙术与盘龙柱的两条分屏。",
+        "reviewedLines": 75,
+        "acceptanceScope": "核执行摘要、归档路径与独立比较。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "ee5b294ccb085348e272036ca4e95dadffbbac8cce2ee7e8f6dd0f5b5c3b148b",
+      "afterSha256": "555f3de3f6451a533ccfbcea2d38e4774bb17997e48c884c6bbd4665cedc9312",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 姜清剧情与敌方仙术复核",
+        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "记录姜清剧情中六个世界等待。",
-        "reviewedLines": 1860,
-        "acceptanceScope": "核触发指令、原盘帧长与三个实绘退移位置。"
+        "conclusion": "记录盘龙柱胜利、逃离和末柱等待。",
+        "reviewedLines": 1866,
+        "acceptanceScope": "核触发指令、世界帧与后台状态写回边界。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "cdd58debd22c47ee0221dacf41599d5492bd8e03353693604b29f5a463d32f5b",
+      "afterSha256": "e8ece473b6c205060a5aa1b9da06ff5ba578789ec6b7cbf5cd3c74407b1f2c11",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 姜清剧情与敌方仙术复核",
+        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "保全六个旧等待的反例和当前双端复验。",
-        "reviewedLines": 813,
-        "acceptanceScope": "核原件、重录入口以及临时文件清理。"
+        "conclusion": "保全两条错切场和八处旧等待反例。",
+        "reviewedLines": 821,
+        "acceptanceScope": "核修前原件、修后复验、分屏和归档恢复。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "3c1bb1ff245460eaa0a02825277a110aca539eabfac686a4d16f041122ebe560",
+      "afterSha256": "80f61aeaedc30a85a686a4088823be3bdcebfeb6bcc92571ed8d10d61c2ed28f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 姜清剧情与敌方仙术复核",
+        "reviewer": "Codex 七星盘龙柱与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记六个敌方仙术和姜清正式剧情入口。",
-        "reviewedLines": 1014,
-        "acceptanceScope": "核真操作、伤害、音画、原盘等待与返场控制。"
+        "conclusion": "登记三种敌方仙术与毒神龙正式入口。",
+        "reviewedLines": 1026,
+        "acceptanceScope": "核同局指令、音画、八次等待及三条出口。"
       }
     },
     {
@@ -6118,6 +6118,12 @@
       "bytes": 12835670,
       "sha256": "46f88099f20669801e8ff68f8c3607b8659002ad6bc6302b8f354a1faed71327",
       "purpose": "六种敌方仙术、姜清正式剧情、六个世界等待反例和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-three-enemy-spells-and-dragon-pillars-20261119.tar.gz",
+      "bytes": 10151120,
+      "sha256": "cfc3a771231c81974781ff03157e2e9f19b861946f4cc01de40c32d1381a3c35",
+      "purpose": "三种敌方仙术、盘龙柱三种出口和世界等待反例及原速带声分屏。"
     }
   ],
   "artifactAliases": [],
