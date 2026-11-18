@@ -1205,11 +1205,6 @@ export class BattleSession {
         this.cancel(this.readiness.error ?? undefined)
       return
     }
-    if (this.nowMs < this.roundEndFeedbackUntilMs) return
-    if (this.roundEndFeedbackUntilMs !== 0) {
-      this.roundEndFeedbackUntilMs = 0
-      this.resetPlayersVisual()
-    }
     if (this.nowMs < this.enemyCastRecoveryUntilMs) return
     const feedback = this.actionFeedback
     if (feedback) {
@@ -1228,6 +1223,18 @@ export class BattleSession {
         this.actionPresentation.satisfyActionCadence()
       }
       return
+    }
+    if (!this.actionPresentation.active && !this.assets.dialogBox?.active) {
+      const textId = s.pendingPoisonNarrations.shift()
+      if (textId !== undefined) {
+        this.showActionFeedback(lookupText(textId, this.opts.locale ?? {}), 'anyKey')
+        return
+      }
+    }
+    if (this.nowMs < this.roundEndFeedbackUntilMs) return
+    if (this.roundEndFeedbackUntilMs !== 0) {
+      this.roundEndFeedbackUntilMs = 0
+      this.resetPlayersVisual()
     }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {

@@ -782,7 +782,11 @@ export function validatePoisons(json: unknown): PoisonDef[] {
       ticks.forEach((rawTick, tickIndex) => {
         const tickPath = `${ctx}.${side}[${tickIndex}]`
         const tick = assertObject(rawTick, tickPath) as Record<string, unknown>
-        requireOnlyKeys(tick, ['hpDelta', 'mpDelta', 'halveHp', 'grantItem', 'selfCure'], tickPath)
+        requireOnlyKeys(
+          tick,
+          ['hpDelta', 'mpDelta', 'halveHp', 'grantItem', 'grantNarration', 'selfCure'],
+          tickPath,
+        )
         for (const field of ['hpDelta', 'mpDelta'] as const) {
           const value = tick[field]
           if (value !== undefined && !Number.isSafeInteger(value))
@@ -798,6 +802,13 @@ export function validatePoisons(json: unknown): PoisonDef[] {
           (typeof tick.grantItem !== 'string' || tick.grantItem.length === 0)
         )
           throw new Error(`${tickPath}.grantItem: 期望非空物品 id`)
+        if (
+          tick.grantNarration !== undefined &&
+          (typeof tick.grantNarration !== 'string' ||
+            tick.grantNarration.trim().length === 0 ||
+            tick.grantItem === undefined)
+        )
+          throw new Error(`${tickPath}.grantNarration: 期望非空文本 id，并同时提供 grantItem`)
         if (tick.selfCure !== undefined && typeof tick.selfCure !== 'boolean')
           throw new Error(`${tickPath}.selfCure: 期望 boolean`)
       })

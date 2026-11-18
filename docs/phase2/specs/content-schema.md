@@ -22,6 +22,12 @@ Template: design-spec-v1 / 1.0.0
 
 物品的 `throw` 能力显式保存目标类型和效果列表。启用时允许空效果列表，战斗菜单仍可选，成功投掷播放动作并消耗一份。关闭能力会移除 `throw`，投掷菜单随之隐藏该物品。编辑器保存与重开保留两种配置。 [投掷能力类型](../../../packages/content/src/item.ts)
 
+### 寄生毒与产物旁白
+
+`PoisonDef.enemyTicks` 的首项由新增敌方毒槽消费，后续项按回合末推进。PAL 的食妖虫附和碧血蚕附各以空首项开始，接八项扣血和单独的入账自解项。第九次回合末发放产物。 [毒定义类型](../../../packages/content/src/poison.ts) · [PAL 毒定义](../../../projects/pal/content/poisons.json)
+
+有 `grantItem` 的同一拍可选填 `grantNarration`，引用工程 locale 的旁白文本。战斗会话依实际发放顺序在行动结束后逐张显示中央卷轴，约 1.4 秒自动清除，也可按键提前清除。背包入账和毒槽自解由战斗核完成。 [字段与校验](../../../packages/content/src/validate.ts) · [战斗核](../../../packages/reforge/src/battle/battle-core.ts) · [卷轴消费](../../../packages/reforge/src/battle/battle-session.ts)
+
 ### 世界与角色初值
 
 ActorDef.battler拥有初始等级、HP/MP基线、属性、装备与技能；实例经验从0开始。StartWorld持队伍顺序、金钱、库存和世界资源，seedStats只稀疏覆盖当前hp/mp，seedConditions只用于该入口开局队员。buildWorld只在新建时消费；读档不重播种，learnedSkills键已存在（包括空数组）不得恢复出厂技能。

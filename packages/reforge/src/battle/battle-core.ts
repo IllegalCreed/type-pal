@@ -30,6 +30,7 @@ import type {
   PoisonDef,
   SkillData,
   SkillEffect,
+  TextId,
   ThrowEffect,
 } from '@type-pal/content'
 import {
@@ -285,6 +286,8 @@ export interface BattleState {
   }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: BattleLastAction | null
+  /** 按毒槽执行顺序产生的入账旁白，由当前战斗的表现层消费。 */
+  pendingPoisonNarrations: TextId[]
   /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
   pendingWorldMutations: BattleWorldMutation[]
 }
@@ -420,6 +423,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     skillUseCounts: structuredClone(input.skillUseCounts ?? {}),
     casualtyDialogue: undefined,
     lastAction: null,
+    pendingPoisonNarrations: [],
     pendingWorldMutations: [],
   }
 }
@@ -525,12 +529,13 @@ function tickPoison(
     if (tick.hpDelta || tick.mpDelta || tick.halveHp)
       s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
   }
-  // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
+  // 寄生毒到期产出的道具归队伍背包。
   if (tick.grantItem) {
     const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
     if (slot) slot.count += 1
     else s.inventory.push({ itemId: tick.grantItem, count: 1 })
     s.log.push(`${name} 到期化作 ${tick.grantItem}`)
+    if (tick.grantNarration) s.pendingPoisonNarrations.push(tick.grantNarration)
   }
   if (tick.selfCure) return undefined
   return {

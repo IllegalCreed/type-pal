@@ -10,6 +10,7 @@ import { validatePoisons, validateSkills } from './validate.js'
 
 describe('validatePoisons · 正控', () => {
   test('丰富毒定义（含双 tick/grantItem/halveHp/关系字段）通过并原样返回', () => {
+    const enemyTicks = [{}, { hpDelta: -5 }, { grantItem: 'item-2', grantNarration: 'dlg.hatch' }]
     const poisons = [
       {
         ...minimalPoison(551),
@@ -19,7 +20,7 @@ describe('validatePoisons · 正控', () => {
           { halveHp: 2 },
           { selfCure: true },
         ],
-        enemyTicks: [{ hpDelta: -5 }],
+        enemyTicks,
         lethalWith: 552,
         counters: 553,
       },
@@ -28,6 +29,7 @@ describe('validatePoisons · 正控', () => {
     const out = validatePoisons(poisons)
     expect(out.map((x) => x.id)).toEqual([551, 552])
     expect(out[0]!.playerTicks).toHaveLength(4)
+    expect(out[0]!.enemyTicks).toEqual(enemyTicks)
   })
   test('非数组输入拒绝', () => {
     expect(() => validatePoisons({})).toThrow(/期望/)
@@ -59,6 +61,16 @@ describe('validatePoisons · 字段损坏矩阵', () => {
       'grantItem 空串',
       [{ ...minimalPoison(), playerTicks: [{ grantItem: '' }] }],
       /grantItem: 期望非空物品 id/,
+    ],
+    [
+      'grantNarration 缺同拍 grantItem',
+      [{ ...minimalPoison(), enemyTicks: [{ grantNarration: 'dlg.hatch' }] }],
+      /enemyTicks\[0\]\.grantNarration/,
+    ],
+    [
+      'grantNarration 空白',
+      [{ ...minimalPoison(), enemyTicks: [{ grantItem: 'item-1', grantNarration: ' ' }] }],
+      /enemyTicks\[0\]\.grantNarration/,
     ],
     ['selfCure 非 boolean', [{ ...minimalPoison(), playerTicks: [{ selfCure: 1 }] }], /selfCure/],
     [

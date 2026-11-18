@@ -215,6 +215,7 @@
     "curability": "incurable",
     "color": 0,
     "enemyTicks": [
+      {},
       {
         "hpDelta": -1
       },
@@ -237,8 +238,11 @@
         "hpDelta": -7
       },
       {
-        "hpDelta": -8,
+        "hpDelta": -8
+      },
+      {
         "grantItem": "145",
+        "grantNarration": "dlg.13101",
         "selfCure": true
       }
     ]
@@ -249,6 +253,7 @@
     "curability": "incurable",
     "color": 0,
     "enemyTicks": [
+      {},
       {
         "hpDelta": -1
       },
@@ -271,8 +276,11 @@
         "hpDelta": -7
       },
       {
-        "hpDelta": -8,
+        "hpDelta": -8
+      },
+      {
         "grantItem": "149",
+        "grantNarration": "dlg.13102",
         "selfCure": true
       }
     ]

@@ -9,6 +9,8 @@
  * 逐回合递增伤害。固定毒 = 单元素(重复);递进毒 = 多元素;到尾 clamp 末项或 selfCure。
  */
 
+import type { TextId } from './index.js'
+
 /** 单回合毒效果(脚本反汇编成数据:玩家 0x1B / 敌 0x21 扣血;无影毒 0x5B 半血;末尾 0x2A/2B 自解)。 */
 export interface PoisonTick {
   /** 每回合扣血(玩家 0x1B / 敌 0x21;负值扣、正值极罕见)。 */
@@ -17,8 +19,10 @@ export interface PoisonTick {
   mpDelta?: number
   /** 无影毒 0x5B 一次性:扣 = min(halveHp, 当前HP/2+1)。 */
   halveHp?: number
-  /** 到期给玩家一件道具(养蛊:食妖虫附→灵蛊、碧血蚕附→碧血蚕;寄生 9 回合后产出)。 */
+  /** 到期给玩家一件道具(养蛊:食妖虫附→灵蛊、碧血蚕附→赤血蚕)。 */
   grantItem?: string
+  /** 发放道具时的旁白文本 ID。与同一拍的 grantItem 搭配。 */
+  grantNarration?: TextId
   /** 末回合自解(三尸蛊暴扣后自除;寄生到期;移除本毒)。 */
   selfCure?: boolean
 }
