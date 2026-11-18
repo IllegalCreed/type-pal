@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "1c07b407ffcc01084e7981bcd9ef0d81dab082d325ddf401214b84a1b23dd0eb",
+      "afterSha256": "d27906072dc8c9fad5026272b6bf3cdbe4019a0f991e07c4c8739e0a31ddda45",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 寄生毒时序复核",
+        "reviewer": "Codex 战外复活机制复核",
         "date": "2026-11-19",
-        "conclusion": "核对原盘入口、八次扣血与单独发放产物的一拍。",
-        "reviewedLines": 1876,
-        "acceptanceScope": "核原盘脚本、毒定义、战斗会话与同局双端复验。"
+        "conclusion": "核战外复活与中毒致死的当前规则。",
+        "reviewedLines": 1878,
+        "acceptanceScope": "核原盘血海棠的致死条件、当前角色 ID 以及成功值和毒槽。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "42609dcb2df053cdbdc89f7b546744ba70ac73cddb86a798a1b35b0e853c6799",
+      "afterSha256": "cef0faa913fb019533ac381c05856bbfa19e2a9f8cd0481a05782b131fdc2964",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 寄生毒时序复核",
+        "reviewer": "Codex 战外复活机制复核",
         "date": "2026-11-19",
-        "conclusion": "核对原盘入口、八次扣血与单独发放产物的一拍。",
-        "reviewedLines": 262,
-        "acceptanceScope": "核原盘脚本、毒定义、战斗会话与同局双端复验。"
+        "conclusion": "核战外复活与中毒致死的当前规则。",
+        "reviewedLines": 264,
+        "acceptanceScope": "核战外复活、清毒档位和无效施用的库存合同。"
       }
     },
     {

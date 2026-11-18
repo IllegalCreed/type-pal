@@ -1046,6 +1046,12 @@ export function resolveWorldItemUse(
           if (next.hp <= 0) {
             next.hp = Math.max(1, Math.floor((next.maxHP * eff.hpPercent) / 100))
             next.extraStatuses = []
+            if (poisonDefs && next.poisons) {
+              next.poisons = next.poisons.filter(({ poisonId }) => {
+                const definition = poisonDefs[poisonId]
+                return !definition || !poisonCurableBy(definition, 'severe')
+              })
+            }
             effectChanged = true
           }
           break
@@ -1151,7 +1157,8 @@ export function resolveWorldItemUse(
       ...(targetCharIds.length > 0 ? { targetCharIds } : {}),
     })
   }
-  const consumed = consumeItem(nextWorld, itemId, useSpec.consuming)
+  const ineffectiveRevive = !changed && effectResults.some(({ kind }) => kind === 'revive')
+  const consumed = consumeItem(nextWorld, itemId, useSpec.consuming && !ineffectiveRevive)
   const committedChanged = changed || consumed
   return {
     status: 'success',

@@ -22,6 +22,8 @@ Template: design-spec-v1 / 1.0.0
 
 物品的 `throw` 能力显式保存目标类型和效果列表。启用时允许空效果列表，战斗菜单仍可选，成功投掷播放动作并消耗一份。关闭能力会移除 `throw`，投掷菜单随之隐藏该物品。编辑器保存与重开保留两种配置。 [投掷能力类型](../../../packages/content/src/item.ts)
 
+战外用物的 `revive` 效果按设定比例恢复倒地目标的体力，同时清除其临时状态、常规毒和重毒。不可解除的毒及其续点继续保留。复活未发生且本次用物的其它效果均无变化时，保留库存。 [战外用物结算](../../../packages/content/src/item.ts)
+
 ### 寄生毒与产物旁白
 
 `PoisonDef.enemyTicks` 的首项由新增敌方毒槽消费，后续项按回合末推进。PAL 的食妖虫附和碧血蚕附各以空首项开始，接八项扣血和单独的入账自解项。第九次回合末发放产物。 [毒定义类型](../../../packages/content/src/poison.ts) · [PAL 毒定义](../../../projects/pal/content/poisons.json)

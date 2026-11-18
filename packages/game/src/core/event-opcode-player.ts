@@ -36,6 +36,7 @@ export const OP_REMOVE_PLAYER_STATUS = 0x002f
 export const OP_MARK_SCRIPT_FAILED = 0x0041
 export { OP_ADD_MAGIC } from './script-opcode-ids.js'
 export const OP_REMOVE_MAGIC = 0x0056
+const OP_KILL_PLAYER = 0x005f
 export const OP_INCREASE_PLAYER_LEVEL = 0x008d
 
 export type PlayerPoisonEntryRunner = (
@@ -183,6 +184,13 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_SET_ENEMY_STATUS:
       // BattleState-owned variants remain handled by battle-opcodes.
       return true
+
+    case OP_KILL_PLAYER: {
+      const hp = gs.PlayerRolesRuntime.rgwHP
+      const roleId = currentEventObjectId
+      if (roleId !== undefined && hp[roleId] !== undefined) hp[roleId] = 0
+      return true
+    }
 
     case OP_REVIVE_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
