@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "720a087ce46221fb40bb77988b517b21fb14b8f4d2ba9079e2df008c7d94fd20",
+      "afterSha256": "9fa834bd4d7c4293e64269705a81ca1c6d7dc1bf1f7ef5a6676ceae8de3209ee",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 辅助仙术原件复核",
+        "reviewer": "Codex 从原盘与归档独立复算实际差异",
         "date": "2026-11-18",
-        "conclusion": "登记解除状态、解毒和护体的原始执行和重录入口。",
-        "reviewedLines": 63,
-        "acceptanceScope": "核新归档、回执、反例与链接。"
+        "conclusion": "登记火土仙术的证据包及分屏重录入口。",
+        "reviewedLines": 64,
+        "acceptanceScope": "仅新增火土仙术归档链接和执行范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "fd60c98c46f29573b389f3e6e1d52e97614ddeb4978812c95cb77b9e8fbd4ea4",
+      "afterSha256": "c77b459bb9e5b63251b2757b07f4563a99977346657e37e451fd99b50e1d963a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 辅助仙术原件复核",
+        "reviewer": "Codex 从原盘与归档独立复算实际差异",
         "date": "2026-11-18",
-        "conclusion": "核三种辅助仙术、实际用物和双端复验回执。",
-        "reviewedLines": 719,
-        "acceptanceScope": "核真实施放、当轮恢复、毒等级、护体减伤和录像。"
+        "conclusion": "登记火土仙术的首轮差异、当前复验和可恢复的实跑原件。",
+        "reviewedLines": 723,
+        "acceptanceScope": "本批八个局面的实际验收和清理，用户观看回执待记录。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f7144ef6e75e5ff5d991c4fa5de500a62fcee92ec4b0189624fd0feafbe43767",
+      "afterSha256": "619d2aa06dadf872f94aed10453d41b745d97aefa2a421885d2fae328efa78dc",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 辅助仙术原件复核",
+        "reviewer": "Codex 从原盘与归档独立复算实际差异",
         "date": "2026-11-18",
-        "conclusion": "记三种辅助仙术和五个新增战内道具入口的实测。",
-        "reviewedLines": 831,
-        "acceptanceScope": "核同输入实际状态、毒伤、减伤、色移与分屏。"
+        "conclusion": "复核三昧真火至泰山压顶六招的原生动作、场效及遮挡层序。",
+        "reviewedLines": 852,
+        "acceptanceScope": "八组双端原件、独立录制、旧版画序反例及逐项覆盖计数。"
       }
     },
     {
@@ -6052,6 +6052,12 @@
       "bytes": 6465085,
       "sha256": "8fdec789a3e4deed3b81d1b0fe1cd1dbc77bbdda640cfe9851b1fcd8c9b45d8a",
       "purpose": "冰心诀、灵血咒、真元护体的双端实跑、战内用物增量及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-fire-earth-20261118.tar.gz",
+      "bytes": 5650689,
+      "sha256": "63a9447fda4ea32b7aaf68961b8d024178577a1180e54fadf7c9ed7d6361c507",
+      "purpose": "六种玩家火土仙术与场效的双端实跑、层序反例及原速分屏重录。"
     }
   ],
   "artifactAliases": [],
