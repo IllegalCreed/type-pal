@@ -2453,7 +2453,8 @@ export class BattleSession {
   render(ctx: CanvasRenderingContext2D, worldScale: number): void {
     // 震屏 = 整帧合成级垂直位移(所有图层+UI 之上;video.c UpdateScreen 输出级 —— 一阶段
     // daaaae51 血泪:只接大世界路径漏战斗侧 = 山神震屏不显示)。露出条带填黑。
-    const dy = shakeOffsetY(this.screenShake, this.nowMs)
+    const dy =
+      this.actionPresentation.scriptedShakeOffsetY ?? shakeOffsetY(this.screenShake, this.nowMs)
     if (dy !== 0) {
       ctx.save()
       ctx.translate(0, dy * worldScale)

@@ -68,7 +68,7 @@ function record(frames: AnimFrame[]) {
 }
 
 describe('M4d-2 战斗动画时间线', () => {
-  test('R13-6B preShake 与 OffMagic 起手帧并发，末尾 shake 仍是独立时间点', () => {
+  test('OffMagic 以特效帧推进施法脚本震屏，末尾 shake 仍独立', () => {
     const frames = buildOffMagic({
       fireFrames: 3,
       fx: {
@@ -85,14 +85,21 @@ describe('M4d-2 战斗动画时间线', () => {
     })
     expect(frames.length).toBeGreaterThan(3)
     expect(frames[0]).toMatchObject({
-      screenShake: true,
-      screenShakeLevel: 3,
       overlays: [expect.objectContaining({ sheet: 'magic', frameIdx: 0 })],
     })
-    expect(frames[1]).toMatchObject({ screenShake: true, screenShakeLevel: 3 })
-    expect(frames[2]?.screenShakeLevel).toBeUndefined()
+    const { player } = record(frames)
+    player.tick(0)
+    expect(player.scriptedShakeOffsetY).toBe(3)
+    player.tick(40)
+    expect(player.scriptedShakeOffsetY).toBe(3)
+    player.tick(10)
+    expect(player.scriptedShakeOffsetY).toBe(-3)
+    player.tick(49)
+    expect(player.scriptedShakeOffsetY).toBe(-3)
+    player.tick(1)
+    expect(player.scriptedShakeOffsetY).toBeUndefined()
     expect(frames.at(-1)).toMatchObject({ screenShake: true })
-    expect(frames.at(-1)?.screenShakeLevel).toBeUndefined()
+    expect(frames.at(-1)?.scriptedShakeOffsetY).toBeUndefined()
   })
 
   test('OffMagic 在第一张特效帧播放一次音效，施法者切姿和特效循环保持原帧序', () => {
