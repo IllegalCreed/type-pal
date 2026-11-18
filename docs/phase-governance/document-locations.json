@@ -3457,7 +3457,17 @@
     },
     {
       "path": "docs/phase3/backlog.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "templateId": "narrative-idea-v1",
+      "afterSha256": "fba555779b2fa998e5fe0530dbf143dcf0d4d7b335a8daa05d435fe95a669d28",
+      "review": {
+        "author": "用户确定阶段归属，Codex 记录",
+        "reviewer": "Codex 核对资源帧、施放落点和本次文档差异",
+        "date": "2026-11-18",
+        "conclusion": "将泰山压顶的素材切边与反向演出问题记入第三阶段候选。",
+        "reviewedLines": 238,
+        "acceptanceScope": "本次新增候选及素材和落点来源。反向演出待设计，Q2 保持现行我方施放验收范围。"
+      }
     },
     {
       "path": "docs/phase3/README.md",
