@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "4c87acccaa6e39fb644946eec247c66aa5ef166ca553c36df8b96ead7b261287",
+      "afterSha256": "9c3c8367983212aa4ce53a9d3d3fe89eb56d4259593e43fc8c750581cd1fc19f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方仙术实战复核",
+        "reviewer": "Codex 姜清剧情与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记本批敌方施法、场景掉落和原速带声分屏。",
-        "reviewedLines": 73,
-        "acceptanceScope": "核持久归档的校验值与重录入口。"
+        "conclusion": "登记姜清剧情与六种敌方仙术的两条分屏。",
+        "reviewedLines": 74,
+        "acceptanceScope": "核归档、执行摘要和逐项声画。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "bd50b1779c972e4642ad82b8305635ba46ff9a2cf3afacbf73b00c38892eabf6",
+      "afterSha256": "ee5b294ccb085348e272036ca4e95dadffbbac8cce2ee7e8f6dd0f5b5c3b148b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方仙术实战复核",
+        "reviewer": "Codex 姜清剧情与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "记录敌方仙术的原盘脚本震屏。",
-        "reviewedLines": 1856,
-        "acceptanceScope": "核三条原盘用途、0x35 操作数和尾震接管。"
+        "conclusion": "记录姜清剧情中六个世界等待。",
+        "reviewedLines": 1860,
+        "acceptanceScope": "核触发指令、原盘帧长与三个实绘退移位置。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "2ff4d5f6fe03f6778cb5eea092694f4b2b779567c68c127a58650b83825ddd9c",
+      "afterSha256": "cdd58debd22c47ee0221dacf41599d5492bd8e03353693604b29f5a463d32f5b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方仙术实战复核",
+        "reviewer": "Codex 姜清剧情与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "记录五组施法实战和一处正常场景的复验。",
-        "reviewedLines": 805,
-        "acceptanceScope": "核原始报告、单次业务反例和实际清理字节。"
+        "conclusion": "保全六个旧等待的反例和当前双端复验。",
+        "reviewedLines": 813,
+        "acceptanceScope": "核原件、重录入口以及临时文件清理。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "0178cbbea76f197e9437cdf2a9859e4b0438b0a435be1d043c3974666a6e10da",
+      "afterSha256": "3c1bb1ff245460eaa0a02825277a110aca539eabfac686a4d16f041122ebe560",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 敌方仙术实战复核",
+        "reviewer": "Codex 姜清剧情与敌方仙术复核",
         "date": "2026-11-19",
-        "conclusion": "登记五种敌方仙术及 s292 土蜘蛛的真实掉落。",
-        "reviewedLines": 993,
-        "acceptanceScope": "核双端、FIRE 位移旧版反例、正常场景回执与成片。"
+        "conclusion": "登记六个敌方仙术和姜清正式剧情入口。",
+        "reviewedLines": 1014,
+        "acceptanceScope": "核真操作、伤害、音画、原盘等待与返场控制。"
       }
     },
     {
@@ -6112,6 +6112,12 @@
       "bytes": 11412338,
       "sha256": "981929847aca8382f955d64483b8c6f6215fa9204d8cafc5043ff3034866f66d",
       "purpose": "敌方五招的同局实战、三种脚本震屏反例与复验、土蜘蛛实收傀儡虫及分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jiang-qing-enemy-casts-20261119.tar.gz",
+      "bytes": 12835670,
+      "sha256": "46f88099f20669801e8ff68f8c3607b8659002ad6bc6302b8f354a1faed71327",
+      "purpose": "六种敌方仙术、姜清正式剧情、六个世界等待反例和原速带声分屏。"
     }
   ],
   "artifactAliases": [],
