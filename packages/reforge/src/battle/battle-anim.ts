@@ -973,6 +973,12 @@ function magicDrops(
   return [magicOverlay(frameIdx, fx, base)]
 }
 
+/** 0x35 的倒计数每个 FIRE 帧减一（video.c:586–615）。 */
+function scriptShakeOffsetY(preShake: CastFxParams['preShake'], frame: number): number | undefined {
+  if (!preShake || frame >= preShake.frames) return undefined
+  return (preShake.frames - frame) % 2 === 0 ? preShake.level : -preShake.level
+}
+
 /**
  * 原版 OffMagic 主段。玩家施法、合击与投掷法术物品共用同一帧循环；调用方只决定
  * 是否注入施法者 frame6、召唤定格和后续结果帧。效果音在特效首帧播一次
@@ -992,12 +998,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
     const inShake = l - i <= fx.shake
     const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
     const drop = magicDrops(k, fx, input.targetPos)
-    let frameShakeOffsetY: number | undefined
-    if (!inShake && fx.preShake && i < fx.preShake.frames) {
-      // video.c:586-615 按剩余拍数的奇偶决定本拍的整屏偏移。
-      const remaining = fx.preShake.frames - i
-      frameShakeOffsetY = remaining % 2 === 0 ? fx.preShake.level : -fx.preShake.level
-    }
+    const frameShakeOffsetY = inShake ? undefined : scriptShakeOffsetY(fx.preShake, i)
     const fighters: FighterDelta[] = []
     if (input.casterMagic && i === fd) fighters.push(input.casterMagic)
     if (input.blow) {
@@ -1545,6 +1546,12 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       const overlays = positions.map((pos) => magicOverlay(k, fx, pos))
       const fighters = i === 0 ? guardPoses : []
       const attackFrame = i - fx.fireDelay
+      // 原生尾震用 FIRE 下标重置 VIDEO_ShakeScreen，覆盖剩余的 0x35（fight.c:2942）。
+      const frameShakeOffsetY = inShake
+        ? i % 2 === 0
+          ? 3
+          : -3
+        : scriptShakeOffsetY(fx.preShake, i)
       // 正延迟在 FIRE 帧内推进攻击段，后震期间保持最后姿势（fight.c:2932–2943）。
       if (!inShake && fx.fireDelay > 0 && attackFrame >= 0 && attackFrame < anim.attack.count)
         fighters.push({ side: 'enemy', idx: enemyIdx, frame: anim.attack.start + attackFrame })
@@ -1553,13 +1560,8 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         overlays,
         ...(fighters.length ? { fighters } : {}),
         ...(i === 0 && fx.sound ? { sound: fx.sound } : {}), // WIN95 效果音只在 FIRE 首帧触发。
-        // 原版敌方尾震按 FIRE 帧下标奇偶切换，前段脚本震屏保持原接线。
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
-        ...(fx.preShake && i < fx.preShake.frames
-          ? { screenShake: true, screenShakeLevel: fx.preShake.level }
-          : inShake
-            ? { frameShakeOffsetY: i % 2 === 0 ? 3 : -3 }
-            : {}),
+        ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
         ...(i === l - 1 && input.keepEffect ? { burnBg: overlays } : {}),
       })

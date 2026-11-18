@@ -34,7 +34,7 @@ const fx: CastFxParams = {
   fireDelay: 1,
   effectTimes: 1,
   shake: 2,
-  preShake: { frames: 2, level: 4 },
+  preShake: { frames: 4, level: 4 },
   wave: 3,
   sound: 'sound.enemy-magic',
 }
@@ -89,15 +89,15 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
       undefined,
       undefined,
     ])
-    expect(effect[0]).toMatchObject({
-      durationMs: 60,
-      waveAdd: 3,
-      screenShake: true,
-      screenShakeLevel: 4,
-    })
-    expect(effect[1]).toMatchObject({ screenShake: true, screenShakeLevel: 4 })
-    expect(effect[2]?.screenShake).toBeUndefined()
-    expect(effect.slice(3).map((frame) => frame.frameShakeOffsetY)).toEqual([-3, 3])
+    expect(effect[0]).toMatchObject({ durationMs: 60, waveAdd: 3 })
+    // The last scripted beat overlaps the first native tail beat. The tail wins.
+    expect(effect.map((frame) => frame.frameShakeOffsetY)).toEqual([4, -4, 4, -3, 3])
+    expect(frames.every((frame) => frame.screenShake === undefined)).toBe(true)
+    expect(
+      frames
+        .slice(firstEffect + effect.length)
+        .every((frame) => frame.frameShakeOffsetY === undefined),
+    ).toBe(true)
     expect(effect.at(-1)?.burnBg).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 243, y: 146, layerOffset: 2 },
     ])
@@ -137,7 +137,15 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
     expect(frames.find((frame) => frame.overlays?.length)?.overlays).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 160, y: 130, layerOffset: 0 },
     ])
-    expect(frames.filter((frame) => frame.sound || frame.waveAdd || frame.screenShake)).toEqual([])
+    expect(
+      frames.filter(
+        (frame) =>
+          frame.sound ||
+          frame.waveAdd ||
+          frame.screenShake ||
+          frame.frameShakeOffsetY !== undefined,
+      ),
+    ).toEqual([])
     expect(frames.some((frame) => frame.damageNums)).toBe(false)
   })
 
