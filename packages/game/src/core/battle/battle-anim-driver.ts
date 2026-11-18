@@ -4,7 +4,11 @@
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
-import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from './animation/summon.js'
+import {
+  SUMMON_FADE_STEP_MS,
+  SUMMON_FADE_STEPS,
+  summonFrameWaitsForCommit,
+} from './animation/summon.js'
 import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-state.js'
 
 // The action stores the first frame after its dialogue. The host owns dismissal and
@@ -248,7 +252,7 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
     a.enemyDeathCheckFrame ?? a.frames.length,
   )
   while (vIdx + 1 < end && elapsed >= acc + (a.frames[vIdx]!.durationMs ?? 0)) {
-    if (vIdx >= a.idx && a.frames[vIdx + 1]?.renderAfterCommit) break
+    if (vIdx >= a.idx && summonFrameWaitsForCommit(a.frames[vIdx + 1]!)) break
     acc += a.frames[vIdx]!.durationMs ?? 0
     vIdx++
   }

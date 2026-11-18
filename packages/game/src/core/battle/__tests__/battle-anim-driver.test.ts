@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createCommandBus } from '../../command-bus.js'
+import { buildSummonGodSequence } from '../animation/summon.js'
 import {
   advanceBattleAnimFrames,
   applyAnimFrame,
@@ -309,16 +310,17 @@ describe('stepBattleAnimRender — present wall-clock 视觉帧细分(修"施法
     const state = mkState([mkPlayer(0)], [mkEnemy()])
     const bus = createCommandBus()
     const damage = { target: { kind: 'enemy', idx: 0 }, value: 325, color: 'blue' } as const
-    startBattleAnim(
-      state,
-      [
-        ...mk50msMagicFrames().slice(0, 1),
-        { durationMs: 0, renderAfterCommit: true },
-        { durationMs: 40, renderAfterCommit: true, damageNums: [damage] },
-        { durationMs: 40, renderAfterCommit: true },
-      ],
-      bus,
-    )
+    const frames = buildSummonGodSequence({
+      spriteKey: 'player-14',
+      pos: { x: 224, y: 181 },
+      bgColorShift: -1,
+      totalFrames: 2,
+      frameTimeMs: 50,
+      offMagicFrames: [...mk50msMagicFrames().slice(0, 1), { durationMs: 0 }],
+      postMagicFrames: [{ durationMs: 40, damageNums: [damage] }, { durationMs: 40 }],
+      syncBlowReaction: true,
+    })
+    startBattleAnim(state, frames.slice(frames.findIndex(({ overlays }) => overlays?.length)), bus)
     stepBattleAnimRender(state, 1000)
     stepBattleAnimRender(state, 1090)
     expect(state.battleAnim?.renderIdx).toBe(0)

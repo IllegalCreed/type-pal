@@ -335,11 +335,6 @@ function buildAndStartSummonAnim(
   const postMagicFrames = buildPostMagicTimeline({ hurtEnemies })
   const numsAttached = attachDamageNumsToFirstFrame(postMagicFrames, pendingNums)
   const restore = preparedOffMagic?.at(-1)
-  if (restore?.durationMs === 0 && pendingNums.length > 0 && numsAttached) {
-    // The logic tick restores the targets and emits numbers before painting the recoil.
-    restore.renderAfterCommit = true
-    for (const frame of postMagicFrames) frame.renderAfterCommit = true
-  }
 
   // 召唤神序列(fadeIn 72 步 crossfade → 逐帧 loop → 二次效果 → **PostMagic 敌抖(神留场)** → fadeOut 72 步 crossfade)。
   //   PostMagic 排在 fadeOut 前(fight.c:4323 神在场 → 899 后淡出);present summonGodMode 下仍画敌(present-battle.ts drawBattleSprites
@@ -370,6 +365,7 @@ function buildAndStartSummonAnim(
     frameTimeMs: (magic.speed + 5) * 10,
     offMagicFrames,
     postMagicFrames,
+    syncBlowReaction: restore?.durationMs === 0 && pendingNums.length > 0 && numsAttached,
     resetFighters,
   })
 
