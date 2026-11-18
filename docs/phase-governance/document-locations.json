@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "eb14276f58f1393c69ac290e7059dc9ba614af82de5a2ef78cc7b3f33fa498f0",
+      "afterSha256": "ed291f32acc24e661ab2a0cec0a812edb04e62f537ced65dabb87d198eb6b83a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 二十七件武器投掷复核",
         "date": "2026-11-19",
-        "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 82,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
+        "reviewedLines": 83,
+        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "45f5c45e892de3be4cd2f04281fcc66ead0bf01634ec9d7e876ba95ab3beeae8",
+      "afterSha256": "fb637976d187bfd91b6cb38c018c283575eb8c13ffcbdca9f8061cd1dfa4651d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 二十七件武器投掷复核",
         "date": "2026-11-19",
-        "conclusion": "核验七种投掷道具及捆仙绳抵抗，登记双端实战和复验。",
-        "reviewedLines": 863,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
+        "reviewedLines": 869,
+        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "53a678e9eeaeea79d0a79c5c5bb5492e0d46f87b2f04d2783d781e331ec7d686",
+      "afterSha256": "debca4c723ae746083a9316db317686cb2cd0c81ff70bd2b47e6f7dae1d44632",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 七种投掷道具复核",
+        "reviewer": "Codex 二十七件武器投掷复核",
         "date": "2026-11-19",
-        "conclusion": "核验七种投掷道具及捆仙绳抵抗，登记双端实战和复验。",
-        "reviewedLines": 1134,
-        "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
+        "conclusion": "核验二十七件武器的投掷入口及双端实战。",
+        "reviewedLines": 1142,
+        "acceptanceScope": "核实际指令、原始记录、固定候选、逐章画面与恢复入口。"
       }
     },
     {
@@ -6166,6 +6166,12 @@
       "bytes": 22317745,
       "sha256": "875ce86bf18317eda6968263943088c5bbd8bb53fdf06fab1ab28658d90c7c08",
       "purpose": "七种投掷道具、八组实战与录制、捆仙绳抵抗卷轴修前反例和分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-weapon-throws-20261119.tar.gz",
+      "bytes": 38053340,
+      "sha256": "3279d0c4440f1a5812ede8bda0ad5afab9f262d6d861ebff5d4036fa3eeaf4fa",
+      "purpose": "二十七件武器投掷、七组实战与录制、逐件伤害抽样、原速分屏及恢复证据。"
     }
   ],
   "artifactAliases": [],

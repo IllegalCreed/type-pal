@@ -70,6 +70,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 战内解毒道具和毒卵 | [十一件逐项实用、盐巴修前反例、复验及两条带声分屏重录](E2E-Q2-1-battle-antidotes-and-poison-eggs-20261119.tar.gz) |
 | Q2 最后六种战内道具 | [七个实战局面、隐身与成长反例、原速带声分屏及重录](E2E-Q2-1-final-battle-items-20261119.tar.gz) |
 | Q2 七种投掷道具与捆仙绳抵抗 | [八组双端原件、卷轴修前反例、原速带声分屏及重录](E2E-Q2-1-seven-throw-items-20261119.tar.gz) |
+| Q2 二十七件武器投掷 | [逐件实战、完整抽样、原速带声分屏及重录](E2E-Q2-1-weapon-throws-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
