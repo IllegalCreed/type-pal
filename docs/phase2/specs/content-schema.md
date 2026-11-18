@@ -68,6 +68,8 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 玩家用 `fleeBattle` 仙术仍有施法起手。允许逃离时全队退场并提交 `playerFled`，禁逃时显示失败卷轴，按正常动作节拍续战。金蝉脱壳两条分支均消耗真气并保留成长。 [原盘演出和禁逃规则](../../phase1/game-mechanics.md#2026-11-19-金蝉脱壳)
 
+敌方仙术的 `animation.shake` 指定尾段 FIRE 定帧次数。每一拍沿用该法术的特效速度，并根据本次 FIRE 的帧下标产生 3 像素纵移。 [原盘帧序](../../phase1/game-mechanics.md#2026-11-19-敌方土咒的尾段震屏)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。

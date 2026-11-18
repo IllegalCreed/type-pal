@@ -14,8 +14,8 @@ export class BattleActionPresentationScheduler {
     return this.player !== null
   }
 
-  get scriptedShakeOffsetY(): number | undefined {
-    return this.player?.scriptedShakeOffsetY
+  get frameShakeOffsetY(): number | undefined {
+    return this.player?.frameShakeOffsetY
   }
 
   start(timeline: AnimFrame[], effects: AnimSideEffects, scripted = false): void {

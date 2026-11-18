@@ -91,8 +91,8 @@ export interface AnimFrame {
   screenShake?: boolean
   /** 震屏强度；缺省沿用原版末尾震屏 level=3。 */
   screenShakeLevel?: number
-  /** 施法脚本在当前 FIRE 帧固定的整屏纵向位移，单位为逻辑像素。 */
-  scriptedShakeOffsetY?: number
+  /** 当前 FIRE 帧的固定整屏纵向位移，单位为逻辑像素。 */
+  frameShakeOffsetY?: number
   /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
   waveAdd?: number
   /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
@@ -992,11 +992,11 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
     const inShake = l - i <= fx.shake
     const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
     const drop = magicDrops(k, fx, input.targetPos)
-    let scriptedShakeOffsetY: number | undefined
+    let frameShakeOffsetY: number | undefined
     if (!inShake && fx.preShake && i < fx.preShake.frames) {
       // video.c:586-615 按剩余拍数的奇偶决定本拍的整屏偏移。
       const remaining = fx.preShake.frames - i
-      scriptedShakeOffsetY = remaining % 2 === 0 ? fx.preShake.level : -fx.preShake.level
+      frameShakeOffsetY = remaining % 2 === 0 ? fx.preShake.level : -fx.preShake.level
     }
     const fighters: FighterDelta[] = []
     if (input.casterMagic && i === fd) fighters.push(input.casterMagic)
@@ -1019,7 +1019,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       ...(i === 0 && !input.suppressSound && fx.sound ? { sound: fx.sound } : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
-      ...(scriptedShakeOffsetY !== undefined ? { scriptedShakeOffsetY } : {}),
+      ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
       ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
     })
   }
@@ -1553,12 +1553,13 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         overlays,
         ...(fighters.length ? { fighters } : {}),
         ...(i === 0 && fx.sound ? { sound: fx.sound } : {}), // WIN95 效果音只在 FIRE 首帧触发。
-        // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
+        // 原版敌方尾震按 FIRE 帧下标奇偶切换，前段脚本震屏保持原接线。
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
-        ...(inShake ? { screenShake: true } : {}),
         ...(fx.preShake && i < fx.preShake.frames
           ? { screenShake: true, screenShakeLevel: fx.preShake.level }
-          : {}),
+          : inShake
+            ? { frameShakeOffsetY: i % 2 === 0 ? 3 : -3 }
+            : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
         ...(i === l - 1 && input.keepEffect ? { burnBg: overlays } : {}),
       })
@@ -1633,8 +1634,8 @@ export class AnimPlayer {
     private readonly fx: AnimSideEffects,
   ) {}
 
-  get scriptedShakeOffsetY(): number | undefined {
-    return this.frames[this.idx]?.scriptedShakeOffsetY
+  get frameShakeOffsetY(): number | undefined {
+    return this.frames[this.idx]?.frameShakeOffsetY
   }
 
   /** 推进 dt;进入的每个新帧派发其副作用。返回是否播完。 */

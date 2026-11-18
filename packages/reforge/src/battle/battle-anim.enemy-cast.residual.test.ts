@@ -97,7 +97,7 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
     })
     expect(effect[1]).toMatchObject({ screenShake: true, screenShakeLevel: 4 })
     expect(effect[2]?.screenShake).toBeUndefined()
-    expect(effect.slice(3).map((frame) => frame.screenShake)).toEqual([true, true])
+    expect(effect.slice(3).map((frame) => frame.frameShakeOffsetY)).toEqual([-3, 3])
     expect(effect.at(-1)?.burnBg).toEqual([
       { sheet: 'magic', frameIdx: 0, x: 243, y: 146, layerOffset: 2 },
     ])
