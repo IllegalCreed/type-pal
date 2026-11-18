@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1298-1307",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3283,6 +3283,36 @@
               }
             ],
             "scope": "隐蛊渐变的暂停接入战斗会话。三处选招与构造引用和固定前驱逐字节相同，执行原件不变。"
+          },
+          {
+            "action": "q2-battle-throw-status-source-rebinding",
+            "base": "55fcc99d356c1bb0332e687019b495c6eb340052",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1298-1307",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+              }
+            ],
+            "scope": "投掷抵抗后由会话在收招前呈现卷轴。三处选招与构造引用和固定前驱逐字节相同，历史执行按各自原件核验。"
           }
         ]
       },
@@ -6223,7 +6253,7 @@
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
           "lines": "2501",
-          "sha256": "6efb3ffd980d6f1e605a0df7273027ce214a3329368ebb29d13b244669d076fe"
+          "sha256": "3282f9337a3faba540df13fb8af46d20788578969f0020ef03afdd4c4cbdd4d6"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7834,6 +7864,22 @@
               }
             ],
             "scope": "Game 在下一轮选招前等待隐蛊渐显。轮末声明使用新坐标，引用行逐字节相同。"
+          },
+          {
+            "action": "q2-battle-throw-status-source-rebinding",
+            "base": "55fcc99d356c1bb0332e687019b495c6eb340052",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2501",
+                "sha256": "6efb3ffd980d6f1e605a0df7273027ce214a3329368ebb29d13b244669d076fe"
+              }
+            ],
+            "scope": "投掷巫抗失败写入结构化结果。战斗核的原有声明引用行逐字节相同。"
           }
         ]
       }

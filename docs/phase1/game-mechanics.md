@@ -132,6 +132,8 @@ SDLPal 的战后经验、金钱、修行提升和隐藏属性提升都在浅底�
 
 模拟法术 0x42 先按原始无符号字段判断是否进入计算，随后基础伤害以有符号值相加。物品使用的模拟法术 24 基础字段 64537 相当于 −999，仍消耗一次独立浮动抽样。伤害钳为零，此步没有掉血数字。脚本接着执行 0x28 时，另掷巫抗。PAL 作者工程以现有零伤害效果表达该抽样，表现仍由独立特效配置持有。 [模拟法术入口](../../reference/sdlpal/fight.c#L5331-L5400) · [伤害抽样](../../reference/sdlpal/fight.c#L210-L245) · [施毒门](../../reference/sdlpal/script.c#L1175-L1219)
 
+捆仙绳的投掷入口 39408 在模拟法术 24 后执行 0x2E。命中令该槽定身 5 回合，接着由 0x21 扣 4 点体力。被巫抗挡下时跳到 38783，中央卷轴「攻击无效」保留出手姿和末帧特效，约 1.4 秒后清除，再继续投掷收招。 [原版巫抗](../../reference/sdlpal/script.c#L1377) · [卷轴等待](../../reference/sdlpal/text.c#L1663-L1712) · [捆仙绳实战](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-七种投掷道具与捆仙绳抵抗)
+
 普通用物举起后目标色移 0 → 6 → 0，群体目标遍历队伍槽。脚本完成后按新 HP 更新姿态，绘制实际 HP 变化和 MP 增量，再保持八拍。0x22 复活把满血乘脚本倍率、除以 10 并取整，解除 3 级及以下毒和临时状态。Game 沿用 SDLPal 参考的单次靠近，Reforge 保留已裁定的六步靠近。 [用物色移](../../reference/sdlpal/fight.c#L2266-L2336) · [用物收尾](../../reference/sdlpal/fight.c#L4385-L4406) · [复活](../../reference/sdlpal/script.c#L1052-L1102) · [Reforge 六步靠近](../../packages/reforge/src/battle/battle-anim.ts#L457) · [双端复验](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-13-战斗道具与投掷)
 
 盐巴的战内使用入口 39579 用 0x06 掷 1 至 100，掷到 1 至 49 时解除全队赤毒 551，从 50 起转到 38780 的「无任何效果」。两支都扣一份盐巴。失败旁白在施用者归位后显示，约 1.4 秒后自动清除，也可用方向键提前关闭。旁白清除后继续用物收尾八拍。 [概率门](../../reference/sdlpal/script.c#L3298-L3312) · [中央旁白](../../reference/sdlpal/text.c#L1666-L1707) · [盐巴双端实战与重录](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-战内解毒道具和毒卵)

@@ -49,6 +49,7 @@ import {
   isTestingBattleSpellFeedbackSource,
   isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
+  isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
   restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleCasualtyRosterSourceBindings,
@@ -74,6 +75,7 @@ import {
   restoreTestingBattleSummonDivisionSourceBindings,
   restoreTestingBattleSummonPlaybackSourceBindings,
   restoreTestingBattleSummonSourceBindings,
+  restoreTestingBattleThrowStatusSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
@@ -116,6 +118,7 @@ import {
   testingBattleSummonDivisionPublicationBase,
   testingBattleSummonPlaybackPublicationBase,
   testingBattleSummonPublicationBase,
+  testingBattleThrowStatusPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
   testingBattleWindBlowPublicationBase,
@@ -776,8 +779,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const hidingSource = hidingRevision && gitTree(root, hidingRevision, [])
   const preHiding = hidingSource && gitTree(root, testingBattleHidingPublicationBase, [])
-  const readBeforeBattleHiding = (path) => {
+  const throwStatusRevision = admission.testingBattleThrowStatusSourceRevision
+  if (throwStatusRevision !== undefined)
+    assert(
+      hidingSource && /^[a-f0-9]{40}$/u.test(throwStatusRevision),
+      'battle throw status source bridge requires the fixed preceding hiding revision',
+    )
+  const throwStatusSource = throwStatusRevision && gitTree(root, throwStatusRevision, [])
+  const preThrowStatus =
+    throwStatusSource && gitTree(root, testingBattleThrowStatusPublicationBase, [])
+  const readBeforeBattleThrowStatus = (path) => {
     const live = readSource(path)
+    if (!preThrowStatus || !isTestingBattleThrowStatusSource(path)) return live
+    assert(
+      live?.equals(throwStatusSource.read(path)),
+      'battle throw status source differs from the frozen candidate',
+    )
+    return preThrowStatus.read(path)
+  }
+  const readBeforeBattleHiding = (path) => {
+    const live = readBeforeBattleThrowStatus(path)
     if (!preHiding || !isTestingBattleHidingSource(path)) return live
     assert(
       live?.equals(hidingSource.read(path)),
@@ -957,13 +978,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorHiding = preHiding
-      ? restoreTestingBattleHidingSourceBindings(path, bytes, {
+    const priorThrowStatus = preThrowStatus
+      ? restoreTestingBattleThrowStatusSourceBindings(path, bytes, {
           readSource,
+          readBase: preThrowStatus.read,
+          readFixed: throwStatusSource.read,
+        })
+      : bytes
+    const priorHiding = preHiding
+      ? restoreTestingBattleHidingSourceBindings(path, priorThrowStatus, {
+          readSource: readBeforeBattleThrowStatus,
           readBase: preHiding.read,
           readFixed: hidingSource.read,
         })
-      : bytes
+      : priorThrowStatus
     const priorItemUse = preItemUse
       ? restoreTestingBattleItemUseSourceBindings(path, priorHiding, {
           readSource: readBeforeBattleHiding,

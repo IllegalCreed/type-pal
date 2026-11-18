@@ -1982,15 +1982,15 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "6f454fe5970f7e418d377e2d6d6c8da16b72ced23114319e66b40639bdd60fde",
+      "afterSha256": "eb14276f58f1393c69ac290e7059dc9ba614af82de5a2ef78cc7b3f33fa498f0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 81,
+        "reviewedLines": 82,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,13 +3206,13 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "ce5fde233c802c1917355290d342a46f0d3fd68f7036e87ba1ff670965e18c1d",
+      "afterSha256": "ee6660bc59b2542100172b83cfec24f8bf2a14da6f9ed4419cb5588203800822",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
-        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
-        "reviewedLines": 1872,
+        "conclusion": "核验七种投掷道具及捆仙绳抵抗，登记双端实战和复验。",
+        "reviewedLines": 1874,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "4e49a21e99415551a06fc96a4bd6ca9a83fa0f6a53a246dc63e66870e2b31b3e",
+      "afterSha256": "3ff2228f9af53ca776957b93e39df9260d9e2af8b1296fc335952269cb58fe53",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 8313,
+        "reviewedLines": 8359,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
@@ -4736,13 +4736,13 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "57d02cdddc89f84aefa0aff200d557d8625e610f5a585bf90663414a390e498f",
+      "afterSha256": "e335c9b74d2e65c278d6324b6e060e438e755f43bcbdf3fa98ac0433a37ccbdc",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 1189,
+        "reviewedLines": 1219,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
@@ -4750,10 +4750,10 @@
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "7c82feb85c0025ef4ce582ac62bd19c58f6daa91616f98e506c7f99ac8e639db",
+      "afterSha256": "f0b1994308798ad036e14dda64cf1309b0589cb4544a7d7bfcc872b62fb65954",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
         "reviewedLines": 101,
@@ -5403,13 +5403,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "eaca3922b3d102fdee558a2f4230a6347ad2b640fc52c7a4f739c7a9acc6df0e",
+      "afterSha256": "45f5c45e892de3be4cd2f04281fcc66ead0bf01634ec9d7e876ba95ab3beeae8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
-        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
-        "reviewedLines": 857,
+        "conclusion": "核验七种投掷道具及捆仙绳抵抗，登记双端实战和复验。",
+        "reviewedLines": 863,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
@@ -5429,39 +5429,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "8df171e70cec58d7fbf9348febc1c2de1a47f9e24f72ba2c09d0377f4f4370f4",
+      "afterSha256": "cc5edfa94cf00841dc614aa1c2696c18441e4e71f889d2466bc4afe9d532c7f4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 14723,
+        "reviewedLines": 14739,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f577f77bc6a67a24d81e036cfe5270b7fecf66c10324791e5665fdf89b165da3",
+      "afterSha256": "53a678e9eeaeea79d0a79c5c5bb5492e0d46f87b2f04d2783d781e331ec7d686",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
-        "conclusion": "核验最后六种战内道具，登记双端实战和复验。",
-        "reviewedLines": 1116,
+        "conclusion": "核验七种投掷道具及捆仙绳抵抗，登记双端实战和复验。",
+        "reviewedLines": 1134,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "32ad0262f2bfe27b1b1bd3f4d583569ea1d8c9f60db49d63e17ca5e23e91ceee",
+      "afterSha256": "00ca8cfbcecae90b492e434146c4a652de7eb8ae63bd7b3ec6ce574b5df36c3b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战内用物收口复核",
+        "reviewer": "Codex 七种投掷道具复核",
         "date": "2026-11-19",
         "conclusion": "核对现行来源与实战入口。",
-        "reviewedLines": 382,
+        "reviewedLines": 386,
         "acceptanceScope": "核完整文档、实际调用、原始记录、固定候选与恢复入口。"
       }
     }
@@ -6160,6 +6160,12 @@
       "bytes": 19226323,
       "sha256": "94748a4577eb69ba8b1c3e5b635a7c65fb052cf52d6f0bcb5b4a5b01688960a4",
       "purpose": "最后六种战内道具、七组实用与录制、隐蛊两段渐变原件和分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-seven-throw-items-20261119.tar.gz",
+      "bytes": 22317745,
+      "sha256": "875ce86bf18317eda6968263943088c5bbd8bb53fdf06fab1ab28658d90c7c08",
+      "purpose": "七种投掷道具、八组实战与录制、捆仙绳抵抗卷轴修前反例和分屏。"
     }
   ],
   "artifactAliases": [],
