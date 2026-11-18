@@ -16,8 +16,8 @@ export interface PlayerFighterFrames {
 }
 
 /**
- * 可参战角色的动作 ABI。命中特效与施法前摇特效目前仍是 effect frame base；
- * A7-3E 会把二者升级为 effect clip 引用，A7-3B 不拥有 effect-sprite 二进制。
+ * 可参战角色的动作 ABI。frames 索引角色精灵，两个 effect base 索引独立的
+ * 战斗特效资源，不能计入角色精灵的帧容量。
  */
 export interface PlayerFighterBattleSpriteProfile {
   kind: 'player-fighter'

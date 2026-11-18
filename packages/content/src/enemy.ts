@@ -1,11 +1,6 @@
 /**
- * 敌人定义（M4a/M4c）—— enemies.json(154 stats) + enemy-objects.json(153 AI 指针) 合并层。
- * 类比 ActorDef→battler:一个 EnemyDef 是一种可战斗的敌人（stats + 动画 + 音效 + AI）。
- *
- * 设计:battle-model-m4-design.md §4 + enemy-ai-design.md(M4c)。战斗效果复用 SkillEffect,
- * 故 EnemyDef 不含效果定义。M4c 分层(2026-07-04 用户定调):
- * - ai.rules = **战斗策略**(条件规则列表,enemy-ai.ts 求值;默认 = 原版行为)
- * - choreography = **剧情演出借战斗舞台**(嘲讽/剧情逃跑,事件 Command 词汇,M4c-2 执行)
+ * 作者工程的敌人、敌队与战场定义。定义作为遇敌输入，实例生命、当前决策和脚本游标由本场战斗持有。
+ * 战斗精灵与音效按稳定资源身份关联。战场环境与敌方站位分别声明。
  */
 import type { AssetId } from './asset.js'
 import type { ElementVec } from './battle-formulas.js'
@@ -46,13 +41,12 @@ export interface EnemyStats {
   collectValue: number
 }
 
-/** 敌人 AI(M4c:条件规则列表,enemy-ai.ts 求值)。 */
+/** 战斗实例的行动策略与脚本初始值。 */
 export interface EnemyAI {
-  /** 异常状态抗性 0-10（0x2E:rng(0,9) >= 此 → 命中；10 = 完全免疫）。 */
+  /** 对随机异常状态判定，0–9 的掷值至少达到此值才能命中。10 抵抗这类判定。 */
   resistanceToSorcery: number
   /**
-   * 战斗策略规则(act:首条命中即本回合行动;无命中/缺省 = 普攻)。
-   * 原版 fallback(magic+magicRate)由迁移器翻成 [chance] cast + 兜底 attack。
+   * 首条可用且命中的规则决定行动。没有命中时尝试实例的 fallback，最后进入普通攻击。
    */
   rules?: AiRule[]
   /** 源敌表的实例级默认行动；hook 可在战斗内覆盖或清空。 */
@@ -61,10 +55,10 @@ export interface EnemyAI {
   hooks?: Partial<Record<EnemyHookChannel, EnemyHookFlow>>
 }
 
-/** 战斗演出钩子(剧情借战斗舞台,**不是 AI**;M4c-2 执行)。 */
+/** 遇敌演出的声明；通过战斗宿主执行其支持的动作。 */
 export interface BattleChoreography {
   at: 'battleStart' | 'turnStart'
-  /** 整场一次(boss 嘲讽只说一遍;原版 advance 返回值语义)。 */
+  /** 本场战斗至多触发一次。 */
   once?: boolean
   when?: AiCond
   /** battle context 的穷尽动作集；不得偷渡通用世界命令。 */
@@ -83,7 +77,7 @@ export interface EnemySounds {
 }
 
 export interface EnemyDef {
-  /** 稳定 id（enemy-<objectIndex>）。 */
+  /** 工程内稳定 ID；原盘迁入的敌人可用源对象编号派生。 */
   id: string
   /** 名字 textId。 */
   name: TextId
@@ -98,9 +92,9 @@ export interface EnemyDef {
   steal?: { itemId: string; count: number }
   /** 物攻附带物品效果 + 概率（如喷毒;可选）。 */
   attackEquivItem?: { itemId: string; rate: number }
-  /** 剧情演出钩子(M4c-2 执行;蛇女嘲讽逃跑等)。 */
+  /** 未指定遭遇专属演出时，可由本敌人提供默认脚本。 */
   choreography?: BattleChoreography[]
-  /** 战后剧情(scriptOnBattleEnd 翻译:胜利结算时逐敌跑；使用当前敌人战后命令子集)。 */
+  /** 胜利结算时由脚本宿主逐敌执行；变身后的实例保留原脚本属主。 */
   onDefeated?: EnemyOnDefeatedCommand[]
 }
 
@@ -114,7 +108,10 @@ export interface EnemyTeamDef {
   slots: Array<string | null>
 }
 
-/** 战场（battle-fields.json;D24 三层化后为一等 content 域,编辑器战场页管理）。 */
+/** 新建首个战场时使用的默认编号，也是编辑器的项目默认引用。 */
+export const DEFAULT_BATTLE_FIELD_ID = 24
+
+/** 战场是遇敌环境定义，由场景默认、明雷实体或开战参数选择。 */
 export interface BattleFieldDef {
   /** 战场号(数字稳定 id;SceneDef.battleFieldId/startBattle.fieldId/hostile 同域引用)。 */
   id: number
@@ -123,6 +120,6 @@ export interface BattleFieldDef {
   /** 背景图显式资源引用；缺席表示刻意黑底。 */
   background?: AssetId
   screenWave: number
-  /** 5 元素战场加成（-10..+10,喂 calcMagicDamage.fieldEffect）。 */
+  /** 风、雷、水、火、土五项有限数，作为双方元素伤害的场地修正。 */
   magicEffect: ElementVec
 }

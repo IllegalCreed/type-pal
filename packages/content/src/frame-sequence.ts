@@ -47,7 +47,7 @@ export interface EncodeFrameSequenceInput {
   frames: readonly FrameSequenceFrameInput[]
 }
 
-/** 流式完整帧提供器；允许保存端每次只恢复一个 32 帧块。 */
+/** 流式完整帧提供器；同一块内前一帧的像素仍用于差分，不应复用可改写的缓冲。 */
 export interface EncodeFrameSequenceProviderInput {
   width: number
   height: number
@@ -252,6 +252,7 @@ export function validateFrameSequenceIndex(
   }
 }
 
+/** Validate the container header; the payload view borrows the caller's bytes. */
 export function parseFrameSequence(bytes: Uint8Array): ParsedFrameSequenceV1 {
   if (bytes.byteLength < 12) throw new Error('TPFS: 文件头被截断')
   for (let index = 0; index < FRAME_SEQUENCE_MAGIC.length; index++) {
@@ -304,7 +305,12 @@ type FrameSequenceEncodingMetadata = Pick<
   'width' | 'height' | 'defaultFrameMs' | 'colorTreatment' | 'frames' | 'frameBytes'
 >
 
-function prepareFrameSequenceInput(input: EncodeFrameSequenceInput): PreparedFrameSequenceInput {
+function prepareFrameSequenceMetadata(
+  input: Pick<
+    EncodeFrameSequenceProviderInput,
+    'width' | 'height' | 'defaultFrameMs' | 'colorTreatment' | 'frames'
+  >,
+): Pick<FrameSequenceEncodingMetadata, 'width' | 'height' | 'defaultFrameMs' | 'colorTreatment'> {
   const width = integerAt(input.width, 'TPFS.encode.width', 1)
   const height = integerAt(input.height, 'TPFS.encode.height', 1)
   const defaultFrameMs = positiveNumberAt(input.defaultFrameMs, 'TPFS.encode.defaultFrameMs')
@@ -315,7 +321,21 @@ function prepareFrameSequenceInput(input: EncodeFrameSequenceInput): PreparedFra
   )
     throw new Error('TPFS.encode.colorTreatment: 期望 preserve 或 project-standard')
   if (input.frames.length === 0) throw new Error('TPFS.encode.frames: 期望非空数组')
-  const frameBytes = checkedProduct(checkedProduct(width, height, 'TPFS.encode'), 4, 'TPFS.encode')
+  return {
+    width,
+    height,
+    defaultFrameMs,
+    ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
+  }
+}
+
+function prepareFrameSequenceInput(input: EncodeFrameSequenceInput): PreparedFrameSequenceInput {
+  const metadata = prepareFrameSequenceMetadata(input)
+  const frameBytes = checkedProduct(
+    checkedProduct(metadata.width, metadata.height, 'TPFS.encode'),
+    4,
+    'TPFS.encode',
+  )
   const frames = input.frames.map((frame, index) => {
     if (frame.rgba.byteLength !== frameBytes)
       throw new Error(`TPFS.encode.frames[${index}].rgba: 期望 ${frameBytes} 字节`)
@@ -325,10 +345,7 @@ function prepareFrameSequenceInput(input: EncodeFrameSequenceInput): PreparedFra
   })
 
   return {
-    width,
-    height,
-    defaultFrameMs,
-    ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
+    ...metadata,
     inputFrames: input.frames,
     frames,
     frameBytes,
@@ -408,28 +425,20 @@ function finishFrameSequenceEncoding(
 function prepareFrameSequenceProviderInput(
   input: EncodeFrameSequenceProviderInput,
 ): FrameSequenceEncodingMetadata {
-  const width = integerAt(input.width, 'TPFS.encode.width', 1)
-  const height = integerAt(input.height, 'TPFS.encode.height', 1)
-  const defaultFrameMs = positiveNumberAt(input.defaultFrameMs, 'TPFS.encode.defaultFrameMs')
-  if (
-    input.colorTreatment !== undefined &&
-    input.colorTreatment !== 'preserve' &&
-    input.colorTreatment !== 'project-standard'
-  )
-    throw new Error('TPFS.encode.colorTreatment: 期望 preserve 或 project-standard')
-  if (input.frames.length === 0) throw new Error('TPFS.encode.frames: 期望非空数组')
+  const metadata = prepareFrameSequenceMetadata(input)
   const frames = input.frames.map((frame, index) => {
     if (frame.durationMs !== undefined)
       positiveNumberAt(frame.durationMs, `TPFS.encode.frames[${index}].durationMs`)
     return frame.durationMs === undefined ? {} : { durationMs: frame.durationMs }
   })
   return {
-    width,
-    height,
-    defaultFrameMs,
-    ...(input.colorTreatment === undefined ? {} : { colorTreatment: input.colorTreatment }),
+    ...metadata,
     frames,
-    frameBytes: checkedProduct(checkedProduct(width, height, 'TPFS.encode'), 4, 'TPFS.encode'),
+    frameBytes: checkedProduct(
+      checkedProduct(metadata.width, metadata.height, 'TPFS.encode'),
+      4,
+      'TPFS.encode',
+    ),
   }
 }
 

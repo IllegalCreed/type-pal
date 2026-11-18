@@ -1,8 +1,3 @@
-/**
- * TEST-CONTENT-CONTRACTS-1 B2/B3/B5：project-map v4 矩阵/来源/格式往返（project-map.ts）。
- * 关键合同：height×2 矩阵行数、tile0 非空格（tiles/sources 同 null 或同非 null）、
- * format/parse 确定性往返、不污染输入。
- */
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ProjectMap } from './project-map.js'
@@ -33,7 +28,7 @@ const map = (): ProjectMap => ({
   ],
 })
 
-describe('B2 validateProjectMap · v4 矩阵合同', () => {
+describe('ProjectMap v4 matrix shapes', () => {
   test('合法地图通过且语义等价返回（验证器可重建对象，serialize 相同）；输入不变', () => {
     const raw = map()
     const before = deepSnapshot(raw)
@@ -83,7 +78,7 @@ describe('B2 validateProjectMap · v4 矩阵合同', () => {
   })
 })
 
-describe('B5 formatProjectMap/parseProjectMap · 确定性往返', () => {
+describe('ProjectMap v4 encoding', () => {
   test('format→parse 完整往返保真；两次 format 字节相同；输入不被污染', () => {
     const raw = map()
     const before = deepSnapshot(raw)
@@ -95,5 +90,26 @@ describe('B5 formatProjectMap/parseProjectMap · 确定性往返', () => {
     expect(raw).toEqual(before) // 不污染
     // parse 再 format 稳定
     expect(formatProjectMap(parsed)).toBe(text1)
+  })
+
+  test('多来源全 0 格 format 仍写 sources，往返保真且输入不变', () => {
+    const raw = {
+      version: 4,
+      width: 1,
+      height: 1,
+      tilesetRefs: ['tiles-a', 'tiles-b'],
+      layers: [{ id: 'ground', name: '地面', tiles: [[3], [null]], sources: [[0], [null]] }],
+      collision: [[0], [1]],
+    }
+    const snap = deepSnapshot(raw)
+    const map = validateProjectMap(raw)
+    expect(raw).toEqual(snap)
+    const text = formatProjectMap(map)
+    const disk = JSON.parse(text)
+    expect(disk.tilesetRefs).toEqual(['tiles-a', 'tiles-b'])
+    expect(disk.layers[0].sources).toEqual([[0], [null]])
+    expect(parseProjectMap(text)).toEqual(snap)
+    expect(formatProjectMap(parseProjectMap(text))).toBe(text)
+    expect(raw).toEqual(snap)
   })
 })

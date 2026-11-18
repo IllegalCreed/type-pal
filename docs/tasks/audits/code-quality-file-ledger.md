@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-16
+Last reviewed: 2026-11-19
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,809。
-当前已闭合核验：970；已读但待审：0；尚未逐文件核验：2,839；合计未闭合：2,839。
+起始基点机器清单：2,962。当前 tracked 清单：3,792。
+当前已闭合核验：1,054；已读但待审：7；尚未逐文件核验：2,731；合计未闭合：2,738。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -49,6 +49,34 @@ Template: governance-index-v1 / 1.0.0
 2026-11-14 Q2 转场返工增加两个引擎的入场呈现文件、项目回场命令、作者选项和 007 观察合同测试，五项计入 pending。 [Q2 任务卡](../cards/E2E-Q2-1-battle-foundation.md#2026-11-14-双端差异返工准入)
 
 2026-11-16：Q2 后续批次与收尾累计新增 26 个受跟踪代码路径，按生成库存计入待逐文件核验。双端实跑的验收边界见 [Q2 任务卡](../cards/E2E-Q2-1-battle-foundation.md)。
+
+2026-11-18，十二个内容引用原主体已逐文件完成。五个旧专测按职责合并，另四个旧战场/敌队扫描及专测经用户批准退役。有效合同由统一引用入口的专测承接，默认战场编号归现有战斗数据定义。新增八条闭合登记含 [命名落点与入口方案](../cards/CONTENT-SCENE-REFERENCE-OWN-KEY-1.md) 的合法回归。其校验实现和常量承接文件按有限改动验收，未升完整文件状态。全门和集成见[引用治理卡](../cards/QUALITY-CONTENT-REFERENCES-1.md)。
+
+2026-11-18，同窗再完成两份内容数据引用专测，精确诊断与有效断言迁入单一职责专测。这两份原路径退出，后继一项登记闭合；统一门仍按约百文件窗口集中执行。 [引用治理卡](../cards/QUALITY-CONTENT-REFERENCES-1.md#工程数据引用专测)
+
+2026-11-18，同窗完成内容引用校验主入口。精灵扫描迁入单一职责模块，保留公共出口。角色字典经正式红绿验证。 [引用治理卡](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用校验主入口与精灵扫描)
+
+2026-11-18，余项诊断套件的 23 个原身份完成全文审核。原路径按开局、敌人和场景职责迁移，共用合法项目夹具。 [引用治理卡](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用诊断专测分组)
+
+2026-11-18，46 个原综合专测身份按实际职责迁移、合并或去除无效前提。新增工程闭包、精灵专测两份；跨表聚合因战后条件重复诊断撤回 review。 [诊断归属卡](../cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md)
+
+2026-11-18，敌队、帧定义及作者投影共追加 13 个实际原主体，11 项完成；两份精灵实现因容量与枚举边界进入 review。两项测试替换的历史身份合并记录；active E2E 路径按各自 Owner 保留。 [本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影)
+
+2026-11-18，作者、运行场景及明雷政策测试按真实边界重组。十个原主体完成，七条旧测试／夹具路径退出，三个职责专测承接有效合同，数量只计原主体。 [本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测)
+
+2026-11-18，敌人脚本、演出与变量范围核验十三个原主体，十一个完成。实际编辑、存档与活动 E2E 未改；两份实现按字段和命令校验缺口登记 review。 [本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测)
+
+2026-11-18，十个角色定义、状态形状与毒／对白原主体完成。四条历史专测退出，新后继按实际业务分工。已有条件实现等价整理不计原主体，以原、新定向对照验证。 [本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行)
+
+2026-11-18，八个当前脚本词表、命令边界和存档生命周期专测原主体完成。两条重复分组并入职责明确的运行脚本专测。这些合同按实际调用及定向原件验证。 [本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验)
+
+2026-11-19，本窗十个作者流程、投影、存档结构、命令校验或测试夹具原主体完成；按实际作用域合并，明确旧游标负例的一次反控。[本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界)
+
+2026-11-19，核七个地图和角色相关原专测，保留全部有效身份并按运行职责重组；角色世界实现因合法角色首次播种缺失登记 review。[本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验)
+
+2026-11-19，取物与帧资产新增十个完成原主体；作者格式问题保持 review，帧编码只复用等价元数据检查与原生测试边界。[本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同)
+
+2026-11-19，八个作者入口、开局、仙术、毒及使用上下文原主体完成；合并重复测试和夹具，保留真实调用的有效边界。[本片记录](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料)
 
 ## 入口与责任
 
@@ -1038,3 +1066,94 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/docs/testing-source-bridge.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-bridge.test.mjs` | test | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-refs.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
+| `packages/content/src/command-target-reference.ts` | product | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 共享场景类型表，保留完整树与单条指令的引用分工 |
+| `packages/content/src/command-target-reference.test.ts` | test | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 合法作者流及只读分片的完整目标和路径 |
+| `packages/content/src/scene-reference-rewrite.test.ts` | test | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 独立副本字面预期与行对象隔离反控 |
+| `packages/content/src/actor-reference.ts` | product | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 共享对白定位，扫描和改名保留原有角色键合同 |
+| `packages/content/src/actor-reference.test.ts` | test | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 队员和战斗编排角色引用及精确路径 |
+| `packages/content/src/dialogue-portrait-reference.test.ts` | test | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 实际角色表情的改名与副本隔离 |
+| `packages/content/src/battle-command-references.test.ts` | test | 已验证 | [QUALITY-CONTENT-REFERENCES-1](../cards/QUALITY-CONTENT-REFERENCES-1.md) | 正式入口保留战场和敌队独立位置及草稿输入边界 |
+| `packages/content/src/scene-target-validation.test.ts` | test | 已验证 | [CONTENT-SCENE-REFERENCE-OWN-KEY-1](../cards/CONTENT-SCENE-REFERENCE-OWN-KEY-1.md) | 正式作者结构与引用校验，指定缺名红例、普通缺名及真实同名双对照 |
+| `packages/content/src/project-data-references.test.ts` | test | 已验证 | [工程数据引用专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#工程数据引用专测) | 合法项目夹具与独立字面诊断，保留实体回补、世界精灵、货单及升级轴 |
+| `packages/content/src/validate-refs.ts` | product | review | [战后条件诊断归属](../cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md) | 保留角色注册修复与精灵职责迁移证据；合法战后条件可产生重复引用诊断 |
+| `packages/content/src/sprite-references.ts` | product | 已验证 | [精灵扫描](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用校验主入口与精灵扫描) | 原精灵引用移动实现，经实际出入口回归；计原文件一次 |
+| `packages/content/src/startup-reference-validation.test.ts` | test | 已验证 | [引用诊断专测分组](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用诊断专测分组) | 开局队伍、播种、库存与角色战斗配置的精确诊断 |
+| `packages/content/src/enemy-reference-validation.test.ts` | test | 已验证 | [引用诊断专测分组](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用诊断专测分组) | 敌条件、编队、变更和物品诊断的精确顺序及严重性反控 |
+| `packages/content/src/__tests__/reference-project.ts` | test | 已验证 | [引用诊断专测分组](../cards/QUALITY-CONTENT-REFERENCES-1.md#引用诊断专测分组) | 独立合法工程测试种子、真实结构用法和所有权 |
+| `packages/content/src/project-reference-closure.test.ts` | test | 已验证 | [工程引用闭包](../cards/QUALITY-CONTENT-REFERENCES-1.md#工程引用闭包与精灵专测) | 合法输入的跨表缺失、严重性、完整路径及回补 |
+| `packages/content/src/sprite-reference-validation.test.ts` | test | 已验证 | [精灵专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#工程引用闭包与精灵专测) | 精灵定义、动作、运行快照和不同战斗 profile 的真实合同 |
+| `packages/content/src/enemy.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 敌人、敌队、战场数据的稳定身份与战斗生命周期 |
+| `packages/content/src/enemy-team.test.ts` | test | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 编队槽序、条件注册表、复制所有权及精确拒绝 |
+| `packages/content/src/sprite.ts` | product | review | [帧容量](../cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | 帧布局职责已核，容量枚举与历史声明上界未核 |
+| `packages/content/src/sprite-frames.test.ts` | test | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 当前作者定义和内存 loop 输入的精确索引与容量 |
+| `packages/content/src/battle-sprite.ts` | product | review | [帧容量](../cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | 已证真实编辑器容量判定之前抛出 RangeError |
+| `packages/content/src/author-enemy.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 作者敌人范围、stable 引用和实际对话投影 |
+| `packages/content/src/author-item.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 作者和运行脚本表示、加载消费 |
+| `packages/content/src/author-item-core.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 物品能力、合法 effect 组合与世界／战斗分域 |
+| `packages/content/src/author-scene.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 作者实体联合和行为、方向、入场／传送方案的稳定形状 |
+| `packages/content/src/scene-core.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 明雷胜利和逃跑输入、当前基底场景及过渡判定 |
+| `packages/content/src/command-validation-options.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 根词法、方言、循环祖先、stage 与前台限制 |
+| `packages/content/src/item-script-runtime-ref.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 不解析用户 ID，按运行态来源分派私有脚本 |
+| `packages/content/src/acquisition-preview-stages.ts` | product | 已验证 | [敌队与作者投影片](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌队精灵帧与作者投影) | 正式取物结构的一个或两个有序阶段，Node 与 Editor 共用 |
+| `packages/content/src/validate-author.ts` | product | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 现行形状守卫、人物和表情跨根引用及实际保存入口 |
+| `packages/content/src/author-scene-validation.test.ts` | test | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 正式作者场景、标签和局部行为关系 |
+| `packages/content/src/author-item-validation.test.ts` | test | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 作者物品脚本所有权、空编辑和使用域 |
+| `packages/content/src/runtime-hostile-policy.test.ts` | test | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 明雷败北指令与胜利、逃跑、追逐政策 |
+| `packages/content/src/validate-runtime.test.ts` | test | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 场景外层结构、动态实体和精确 hook 路径 |
+| `packages/content/src/author-battle-dialogue-boundary.test.ts` | test | 已验证 | [作者与运行态专测](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者与运行态校验专测) | 作者／运行方言通过真实演出调用入口的嵌套对白 |
+| `packages/content/src/enemy-script.ts` | product | review | [敌脚本字段](../cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | 状态和归属已核，离散目标字段接受数组及原型继承诊断缺口 |
+| `packages/content/src/battle-choreography.ts` | product | review | [敌脚本字段](../cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | 惯用合法演出已核，结束结果离散字段接受数组 |
+| `packages/content/src/enemy-script.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 实际作者守卫、图终止及 64 步边界反控 |
+| `packages/content/src/enemy-ai-validation.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 敌 AI 规则、命令目标、fallback 概率及真实参数错误 |
+| `packages/content/src/enemy-hook-validation.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | hook 流形状、局部 effect 和跨状态边界 |
+| `packages/content/src/enemy-defeated-commands.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 战后叶、双臂条件、拒绝精确定位与输入不变 |
+| `packages/content/src/enemy-ai-condition-guard.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 条件叶、百分比范围、合取和嵌套根 |
+| `packages/content/src/battle-choreography.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 演出动作形状、多 hook 和原 cue 保真 |
+| `packages/content/src/world-variable.boundaries.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 变量名边界、初值、保留前缀、对象隔离 |
+| `packages/content/src/enemy-dialogue-validation.test.ts` | test | 已验证 | [敌人脚本与政策](../cards/QUALITY-CONTENT-REFERENCES-1.md#敌人脚本与政策专测) | 实际作者四个敌脚本入口识别嵌套对白 |
+| `packages/content/src/actor.ts` | product | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 角色定义、视觉实体和战斗数据引用 |
+| `packages/content/src/actor.test.ts` | test | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 角色、静物、区域与无定义时的真实视觉引用 |
+| `packages/content/src/actor-condition.test.ts` | test | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 播种原子性、已死条件、毒恢复与时序 |
+| `packages/content/src/actor-condition-validation.test.ts` | test | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 开局状态及实际命令的精确形状错误 |
+| `packages/content/src/poison.ts` | product | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 相克、致死、抗性与实际毒游标 |
+| `packages/content/src/poison.test.ts` | test | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 正式毒关系、可解排序、状态副作用与回合游标 |
+| `packages/content/src/dialogue-row.ts` | product | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 作者质检、运行对白、预览共享行模型 |
+| `packages/content/src/dialogue-row.test.ts` | test | 已验证 | [角色与状态](../cards/QUALITY-CONTENT-REFERENCES-1.md#角色异常状态和对白行) | 字面显示、双解析器和正式作者校验 |
+| `packages/content/src/runtime-script.ts` | product | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 运行方言、递归作用域与生命周期形状 |
+| `packages/content/src/runtime-script.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 词表、回调、变体与合法根边界 |
+| `packages/content/src/frame-animation-control.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 当前动画命令的 hold、fade、clear 与精确诊断 |
+| `packages/content/src/run-entity-trigger.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 实体地址及前台调用范围 |
+| `packages/content/src/entity-lifecycle.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 状态联合、引用闭包和独立归一对象 |
+| `packages/content/src/entities-near-condition.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 两地址解析、阈值结构、精确诊断与回补 |
+| `packages/content/src/auto-script-continuation.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | SAVE12 续跑帧形状、精确错误路径及不可污染 |
+| `packages/content/src/author-script.ts` | product | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 作者命令、所属实体与对白投影边界 |
+| `packages/content/src/author-flow-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 入场策略、步骤身份、非法正文和有效作用域 |
+| `packages/content/src/author-script-projection.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 作者对白投影、嵌套位置与原输入保全 |
+| `packages/content/src/author-command-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 作者和运行方言、命令叶、实体和场景选择 |
+| `packages/content/src/world-script-state.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 保存世界脚本叶、游标归属、地图覆写和快照 |
+| `packages/content/src/author-unified-control.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 步骤与词法循环作用域、准备段和旧游标字段拒绝 |
+| `packages/content/src/__tests__/validation-assertions.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 真实校验函数的精确错误和独立输入快照 |
+| `packages/content/src/project-map-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 格点形状、来源索引、密集与 nullable 碰撞及原始输入 |
+| `packages/content/src/project-map-authoring.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 稳定放置排序、视觉和碰撞所有权及深复制 |
+| `packages/content/src/character.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 角色实例化、入口默认及队伍移动的真实对象／事务边界 |
+| `packages/content/src/actor-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 作者角色正反例的当前字段、表情和伤亡对白 |
+| `packages/content/src/world-reference-collection.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 真实开局与 reserve 后的角色、仙术及毒关系 |
+| `packages/content/src/character.ts` | product | review | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#地图与角色校验) | 合法角色首次入队漏登出厂技能，见 CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1 |
+| `packages/content/src/frame-sequence.ts` | product | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | TPFS 宽高、时长、借用边界与同序元数据检查 |
+| `packages/content/src/frame-sequence-provider.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 真实 zlib、工作读取顺序、失败传播和像素所有权 |
+| `packages/content/src/frame-sequence-index.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 逐字段空间、结构、独立 UTF-8 和非法索引无 IO |
+| `packages/content/src/frame-sequence-encoding.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 编码器输入拒绝、真实压缩端口与时长/像素 |
+| `packages/content/src/__tests__/frame-sequence-test-codecs.mjs` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 测试宿主原生 zlib 与 UTF-8 编码 oracle |
+| `packages/content/src/__tests__/frame-sequence-test-codecs.d.mts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 原生测试边界的 Uint8Array 类型声明 |
+| `packages/content/src/item-acquisition.ts` | product | review | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 宝箱方向数组被作者入口误接受，见 CONTENT-ACQUISITION-CHEST-FACING-1 |
+| `packages/content/src/item-acquisition-expansion.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 流程执行展开、展示顺序、所属实体和独立拷贝 |
+| `packages/content/src/item-acquisition-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 作者参数、奖励、步骤和归属的独立合法对照 |
+| `packages/content/src/acquisition-reference-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 可编辑参数及角色、声音、物品和文案引用 |
+| `packages/content/src/__tests__/item-acquisition-fixtures.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#取物与帧资源合同) | 取物流程与作者场景的最小合法 fixture |
+| `packages/content/src/author-scene-flow-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 作者实体页及初始入场方案、精确归属和入口限制 |
+| `packages/content/src/author-condition-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 当前作者条件的值域、嵌套路径和合法输入 |
+| `packages/content/src/author-shared-script-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 当前作者共享脚本元数据及调用指令 |
+| `packages/content/src/world-start-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 开局记录字段、数值、空队伍的形状与运行期分工 |
+| `packages/content/src/poison-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 毒定义关系、tick 叶和去重错误 |
+| `packages/content/src/skill-validation.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 仙术作者文档、实际动画和当前效果字段 |
+| `packages/content/src/item-use-context.test.ts` | test | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者入口与运行资料) | 物品状态可进入的实际世界/战斗上下文 |

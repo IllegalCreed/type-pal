@@ -1,8 +1,7 @@
 /**
  * ActorDef.id 的持久引用分类真值。
  *
- * 这里只定义 schema 字段族的 typed ownership/policy；具体 locator 由编辑器按作者对象构造。
- * 删除门禁、诊断和 UI 必须复用这些 kind，禁止各自维护一份容易漏项的字符串清单。
+ * 内容校验和编辑器共享引用类别与角色定位规则。编辑器负责对象 locator 和删除决策。
  */
 
 import { dialogueCuesAtNode } from './author-dialogue.js'
@@ -142,53 +141,58 @@ export interface ActorTaggedReference {
   where: string
 }
 
-/** Inspect one tagged command/condition node only; callers own recursive traversal. */
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
+
+function isActorCueIdentity(value: unknown): value is Record<string, unknown> & { actor: string } {
+  return isRecord(value) && value.kind === 'actor' && typeof value.actor === 'string'
+}
+
+/** Inspect one command, condition or authored dialogue site. Callers own recursion. */
 export function actorTaggedReferencesAtNode(value: unknown, path: string): ActorTaggedReference[] {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  if (!isRecord(value)) return []
   const out: ActorTaggedReference[] = []
-  const record = value as Record<string, unknown>
   const push = (actorId: unknown, kind: ActorTaggedReference['kind'], leaf: string): void => {
     if (typeof actorId === 'string' && actorId.length > 0)
       out.push({ actorId, kind, where: `${path}.${leaf}` })
   }
-  switch (record.kind) {
+  switch (value.kind) {
     case 'inParty':
-      push(record.actorId, 'condition-in-party', 'actorId')
+      push(value.actorId, 'condition-in-party', 'actorId')
       break
     case 'playerInParty':
-      push(record.role, 'enemy-condition-player-in-party', 'role')
+      push(value.role, 'enemy-condition-player-in-party', 'role')
       break
     case 'setActorSprite':
-      push(record.actor, 'command-set-actor-sprite', 'actor')
+      push(value.actor, 'command-set-actor-sprite', 'actor')
       break
     case 'setActorAppearance':
-      push(record.actor, 'command-set-actor-appearance', 'actor')
+      push(value.actor, 'command-set-actor-appearance', 'actor')
       break
     case 'setParty':
-      if (Array.isArray(record.members))
-        record.members.forEach((actorId, index) => {
+      if (Array.isArray(value.members))
+        value.members.forEach((actorId, index) => {
           push(actorId, 'command-set-party-member', `members[${index}]`)
         })
       break
     case 'applyActorCondition':
     case 'clearActorCondition':
-      push(record.actor, 'command-actor-condition', 'actor')
+      push(value.actor, 'command-actor-condition', 'actor')
       break
     case 'applyActorGrowth':
-      push(record.actor, 'enemy-apply-actor-growth', 'actor')
+      push(value.actor, 'enemy-apply-actor-growth', 'actor')
       break
     case 'playActorCastEffect':
-      push(record.actor, 'enemy-play-actor-cast-effect', 'actor')
+      push(value.actor, 'enemy-play-actor-cast-effect', 'actor')
       break
     default:
       break
   }
-  for (const site of dialogueCuesAtNode(record)) {
+  for (const site of dialogueCuesAtNode(value)) {
     const identity = site.cue.identity
-    if (!identity || typeof identity !== 'object' || Array.isArray(identity)) continue
-    const identityRecord = identity as Record<string, unknown>
-    if (identityRecord.kind === 'actor')
-      push(identityRecord.actor, 'dialogue-actor', `${site.path.join('.')}.identity.actor`)
+    if (isActorCueIdentity(identity))
+      push(identity.actor, 'dialogue-actor', `${site.path.join('.')}.identity.actor`)
   }
   return out
 }
@@ -206,28 +210,26 @@ export function collectActorTaggedReferences(
       })
       return
     }
-    if (!node || typeof node !== 'object') return
-    const record = node as Record<string, unknown>
-    out.push(...actorTaggedReferencesAtNode(record, path))
-    for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
+    if (!isRecord(node)) return
+    out.push(...actorTaggedReferencesAtNode(node, path))
+    for (const [key, child] of Object.entries(node)) visit(child, `${path}.${key}`)
   }
   visit(value, where)
   return out
 }
 
-/** One canonical command visit: direct command leaves plus its condition tree, never nested arms. */
+/** One canonical visit includes conditions and battle choreography. Child commands have their own visits. */
 export function collectCanonicalActorTaggedReferences(
   command: unknown,
   where: string,
 ): ActorTaggedReference[] {
   const references = actorTaggedReferencesAtNode(command, where)
-  if (!command || typeof command !== 'object' || Array.isArray(command)) return references
-  const record = command as Record<string, unknown>
-  const condition = record.cond
+  if (!isRecord(command)) return references
+  const condition = command.cond
   if (condition !== undefined)
     references.push(...collectActorTaggedReferences(condition, `${where}.cond`))
-  if (record.kind === 'startBattle' && record.choreography !== undefined)
-    references.push(...collectActorTaggedReferences(record.choreography, `${where}.choreography`))
+  if (command.kind === 'startBattle' && command.choreography !== undefined)
+    references.push(...collectActorTaggedReferences(command.choreography, `${where}.choreography`))
   return references
 }
 
@@ -251,40 +253,28 @@ export function collectDialoguePortraitReferences(
       })
       return
     }
-    if (!node || typeof node !== 'object') return
-    const record = node as Record<string, unknown>
-    for (const site of dialogueCuesAtNode(record)) {
+    if (!isRecord(node)) return
+    for (const site of dialogueCuesAtNode(node)) {
       const identity = site.cue.identity
-      const identityRecord =
-        identity && typeof identity === 'object' && !Array.isArray(identity)
-          ? (identity as Record<string, unknown>)
-          : undefined
-      const portrait = identityRecord?.portrait
-      const portraitRecord =
-        portrait && typeof portrait === 'object' && !Array.isArray(portrait)
-          ? (portrait as Record<string, unknown>)
-          : undefined
-      if (
-        identityRecord?.kind === 'actor' &&
-        typeof identityRecord.actor === 'string' &&
-        (portraitRecord?.kind === 'default' || portraitRecord?.kind === 'expression')
-      )
+      if (!isActorCueIdentity(identity)) continue
+      const portrait = identity.portrait
+      if (isRecord(portrait) && (portrait.kind === 'default' || portrait.kind === 'expression'))
         out.push({
-          actorId: identityRecord.actor,
-          portraitKind: portraitRecord.kind,
-          ...(portraitRecord.kind === 'expression' && typeof portraitRecord.expression === 'string'
-            ? { expression: portraitRecord.expression }
+          actorId: identity.actor,
+          portraitKind: portrait.kind,
+          ...(portrait.kind === 'expression' && typeof portrait.expression === 'string'
+            ? { expression: portrait.expression }
             : {}),
           where: `${path}.${site.path.join('.')}.identity.portrait`,
         })
     }
-    for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
+    for (const [key, child] of Object.entries(node)) visit(child, `${path}.${key}`)
   }
   visit(value, where)
   return out
 }
 
-/** expression key refactor；仅改 exact actor+expression 引用，并返回可审计改写数。 */
+/** 深拷贝作者正文。只在副本中改写同一角色、同一表情键的引用。 */
 export function renameDialoguePortraitExpression<T>(
   value: T,
   actorId: string,
@@ -294,45 +284,19 @@ export function renameDialoguePortraitExpression<T>(
   let rewritten = 0
   const visit = (node: unknown): unknown => {
     if (Array.isArray(node)) return node.map(visit)
-    if (!node || typeof node !== 'object') return node
-    const record = Object.fromEntries(
-      Object.entries(node as Record<string, unknown>).map(([key, child]) => [key, visit(child)]),
-    )
-    for (const site of dialogueCuesAtNode(record)) {
-      const cue = site.cue
+    if (!isRecord(node)) return node
+    const copy = Object.fromEntries(Object.entries(node).map(([key, child]) => [key, visit(child)]))
+    // Cue 定位器返回副本中已有的对象，改写方不依赖 notice / empty 的容器层数。
+    for (const { cue } of dialogueCuesAtNode(copy)) {
       const identity = cue.identity
-      const identityRecord =
-        identity && typeof identity === 'object' && !Array.isArray(identity)
-          ? (identity as Record<string, unknown>)
-          : undefined
-      const portrait = identityRecord?.portrait
-      const portraitRecord =
-        portrait && typeof portrait === 'object' && !Array.isArray(portrait)
-          ? (portrait as Record<string, unknown>)
-          : undefined
-      if (
-        identityRecord?.kind === 'actor' &&
-        identityRecord.actor === actorId &&
-        portraitRecord?.kind === 'expression' &&
-        portraitRecord.expression === from
-      ) {
+      if (!isActorCueIdentity(identity) || identity.actor !== actorId) continue
+      const portrait = identity.portrait
+      if (isRecord(portrait) && portrait.kind === 'expression' && portrait.expression === from) {
+        portrait.expression = to
         rewritten++
-        const changed = {
-          ...cue,
-          identity: {
-            ...identityRecord,
-            portrait: { ...portraitRecord, expression: to },
-          },
-        }
-        if (site.path.length === 1) record.cue = changed
-        else {
-          const key = site.path[0]
-          if (!key) throw new Error('dialogue cue path 缺容器')
-          record[key] = { ...(record[key] as Record<string, unknown>), cue: changed }
-        }
       }
     }
-    return record
+    return copy
   }
   return { value: visit(value) as T, rewritten }
 }

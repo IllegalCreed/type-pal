@@ -5,6 +5,83 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'content-references-structural-recount-20261119',
+    authority:
+      'The user permits exact coverage baseline changes for justified restructuring. The content reference window retired test-only scanners and unsupported projection fixtures, removed redundant counters, and restored two missed legal diagnostics. Main CI and the same local V8 profile agree on the old counts. The execution archive compares actual per-file counters and maps retained diagnostics. Only content floors change. All current source remains in coverage.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz',
+    baselineSha256: '6b3fa1e8f36a5812c9820d009139d337e44146d596e0347720fa326a35f9c824',
+    sources: [
+      {
+        path: 'packages/content/src/actor-condition.ts',
+        sha256: 'ad65008aefe4878d61d24e1ae4eb8183aff8a453a7dce58e2ea3898247fa96f6',
+      },
+      {
+        path: 'packages/content/src/actor-reference.ts',
+        sha256: '2f399a7c988afd84d0b24c8f8599801895c4fde97ab13b5006520fff866da512',
+      },
+      {
+        path: 'packages/content/src/command-target-reference.ts',
+        sha256: 'ff3036b5e5b7dd09cd6e86d24809e38805340e906077961e1c61319211360042',
+      },
+      {
+        path: 'packages/content/src/enemy-reference-validation.test.ts',
+        sha256: '13f5865bbacacecce2a3601d31c0ff87d34d382902075cba279d4902a2df8bd4',
+      },
+      {
+        path: 'packages/content/src/frame-sequence.ts',
+        sha256: '7f1442484e9822e1cbf8361efd5350b4ee3eeec8853fbce432a1a2b064e1056c',
+      },
+      {
+        path: 'packages/content/src/project-data-references.test.ts',
+        sha256: 'c5fd6bddf2ed2175f45f26e83d82a12d55c3dd86e703259ec4e97ff92c8da2b7',
+      },
+      {
+        path: 'packages/content/src/runtime-script.ts',
+        sha256: 'e111ed46e4fd734aa5dbecc9888a8b34f4ed68473d01ee43a3b0aa5d36bf5020',
+      },
+      {
+        path: 'packages/content/src/sprite-reference-validation.test.ts',
+        sha256: '6d4cc1664d50497b64dc09a468f35e908b0b95c4da582c8e7a1bc33f559b3378',
+      },
+      {
+        path: 'packages/content/src/sprite-references.ts',
+        sha256: '17ac8dab835a01385fe8028dc4f38c317aaba2954d41e1ba6f6fb8c6d31310d1',
+      },
+      {
+        path: 'packages/content/src/sprite.ts',
+        sha256: 'd060cf9128c695e03833cb13ec3bf1b20564f751f2f4b56b781099ef08a950a7',
+      },
+      {
+        path: 'packages/content/src/startup-reference-validation.test.ts',
+        sha256: '4c5e8f6dc5f5c70d7462405cbcbf18feda4452cb8941670d2b4100d3bb5b6740',
+      },
+      {
+        path: 'packages/content/src/validate-refs.ts',
+        sha256: 'c6752bad2e336ffe64bea555ef7e3776dfa993cea93b9bad0f3df397fb440939',
+      },
+      {
+        path: 'packages/content/src/world-start-validation.test.ts',
+        sha256: '5f48fd86bdcb862e203ca16ebe30477bb94742296bf795c8d2e7edab1cab69fc',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: { covered: 5942, total: 6155 },
+          branches: { covered: 5158, total: 5471 },
+          functions: { covered: 858, total: 870 },
+          lines: { covered: 5305, total: 5441 },
+        },
+        after: {
+          statements: { covered: 5837, total: 6085 },
+          branches: { covered: 5067, total: 5390 },
+          functions: { covered: 841, total: 863 },
+          lines: { covered: 5214, total: 5386 },
+        },
+      },
+    },
+  },
+  {
     id: 'phase1-pending93-quality-20261105',
     authority:
       'Standing user authority permits justified exact baseline changes after code/test-quality restructuring, without dead code restoration or weak tests. The user approved this 93-subject phase1 batch, semantic organization, legal fixtures, throw-inventory/co-op/own-key fixes and final-only coverage. Conserved/strengthened test identities and timeline declaration equivalence are in the single audit. One official collection passed20273 tests. Game branches change9954/12268 to9961/12278 (only this metric, about0.009 percentage-point decline); retain all uncovered counters. Current per-source summaries are retained, but no pre-window per-source V8 capture exists: this is a finite aggregate mixed restructuring/approved-guard recount, not a claimed single-helper counter proof. Keep the other3 game metric floors and all6 other packages. No scope exclusion, tolerance, predicate, timeout, random-bound or assertion weakening.',

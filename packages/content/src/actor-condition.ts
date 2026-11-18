@@ -125,8 +125,9 @@ export interface ActorConditionCarrier {
   extraPoisonRes?: number
 }
 
-function assertPositiveSafeInteger(value: number, where: string): void {
-  if (!Number.isSafeInteger(value) || value <= 0) throw new Error(`${where}: 必须是正安全整数`)
+function assertPositiveSafeInteger(value: unknown, where: string): asserts value is number {
+  if (typeof value !== 'number' || !Number.isSafeInteger(value) || value <= 0)
+    throw new Error(`${where}: 必须是正安全整数`)
 }
 
 function record(value: unknown, where: string): Record<string, unknown> {
@@ -151,7 +152,7 @@ function nonEmptyStableId(value: unknown, where: string): string {
   return value
 }
 
-function assertCarriedStatusTurns(value: number, where: string): void {
+function assertCarriedStatusTurns(value: unknown, where: string): void {
   assertPositiveSafeInteger(value, where)
   if (value > CARRIED_STATUS_TURN_RANGE.max)
     throw new Error(`${where}: 不得大于 ${CARRIED_STATUS_TURN_RANGE.max}`)
@@ -181,14 +182,14 @@ export function checkActorConditionSeedShape(value: unknown, where: string): Act
       exactKeys(status, ['status', 'turns'], statusPath)
       if (!isCarryableStatusId(status.status))
         throw new Error(`${statusPath}.status: 状态 ${String(status.status)} 不可携带`)
-      assertCarriedStatusTurns(status.turns as number, `${statusPath}.turns`)
+      assertCarriedStatusTurns(status.turns, `${statusPath}.turns`)
       if (seen.has(status.status))
         throw new Error(`${statusPath}.status: 状态 ${status.status} 重复`)
       seen.add(status.status)
     })
   }
   if (seed.poisonResistance !== undefined)
-    assertPositiveSafeInteger(seed.poisonResistance as number, `${where}.poisonResistance`)
+    assertPositiveSafeInteger(seed.poisonResistance, `${where}.poisonResistance`)
   return seed as unknown as ActorConditionSeed
 }
 
@@ -220,7 +221,7 @@ export function checkActorConditionCommandShape(value: unknown, where: string): 
     if (!isCarryableStatusId(condition.status))
       throw new Error(`${conditionPath}.status: 状态 ${String(condition.status)} 不可携带`)
     if (command.kind === 'applyActorCondition')
-      assertCarriedStatusTurns(condition.turns as number, `${conditionPath}.turns`)
+      assertCarriedStatusTurns(condition.turns, `${conditionPath}.turns`)
     return
   }
   if (condition.kind === 'poisonResistance') {
@@ -230,7 +231,7 @@ export function checkActorConditionCommandShape(value: unknown, where: string): 
       conditionPath,
     )
     if (command.kind === 'applyActorCondition')
-      assertPositiveSafeInteger(condition.amount as number, `${conditionPath}.amount`)
+      assertPositiveSafeInteger(condition.amount, `${conditionPath}.amount`)
     return
   }
   throw new Error(`${conditionPath}.kind: 未知角色状态 ${String(condition.kind)}`)
@@ -325,9 +326,11 @@ export function applyActorCondition(
   switch (condition.kind) {
     case 'poison': {
       assertKnownPoison(condition.poisonId, poisonDefs, 'applyActorCondition.poisonId')
-      const before = JSON.stringify({ hp: carrier.hp, poisons: carrier.poisons ?? [] })
-      applyPoisonSelf(carrier, condition.poisonId, poisonDefs as Record<number, PoisonDef>)
-      return before !== JSON.stringify({ hp: carrier.hp, poisons: carrier.poisons ?? [] })
+      const hp = carrier.hp
+      const poisonCount = carrier.poisons?.length ?? 0
+      const outcome = applyPoisonSelf(carrier, condition.poisonId, poisonDefs)
+      // A lethal outcome only sets HP to zero. The other outcomes only add or remove slots.
+      return outcome === 'lethal' ? hp !== 0 : (carrier.poisons?.length ?? 0) !== poisonCount
     }
     case 'status':
       return applyCarriedStatus(carrier, condition.status, condition.turns)

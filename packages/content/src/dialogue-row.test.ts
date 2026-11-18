@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { expectExactError } from './__tests__/validation-assertions.js'
 import {
   checkAuthorDialogueCue,
   type DialogueRow,

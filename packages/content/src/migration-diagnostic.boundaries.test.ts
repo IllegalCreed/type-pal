@@ -4,14 +4,22 @@
  * 本文件补容器错型路径、target/source 各字段轴与 category×capability 支持域矩阵。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot, legalDiagnostic } from './__tests__/glm-state-boundary-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   MIGRATION_DIAGNOSTIC_CATEGORIES,
   validateMigrationDiagnostics,
 } from './migration-diagnostic.js'
 
-const diagnosticAt = (index: number): Record<string, unknown> =>
-  (legalDiagnostic().diagnostics as Record<string, unknown>[])[index]!
+const diagnostic = () => ({
+  id: 'diag-1',
+  severity: 'warn',
+  target: { domain: 'item', objectId: '151', capability: 'use', label: '引路蜂' },
+  category: 'unsupported-command',
+  reason: '原版脚本包含尚未迁移的命令',
+  source: { kind: 'legacy-script', label: 'L_39805', address: 0 },
+})
+
+const legalDiagnostic = () => ({ version: 1, diagnostics: [diagnostic()] })
 
 describe('A5 容器错型（主 fixture 先过现行守卫）', () => {
   test('合法基线先证明可过守卫，再按轴改坏 root/version/diagnostics 容器', () => {
@@ -32,24 +40,24 @@ describe('A5 容器错型（主 fixture 先过现行守卫）', () => {
     expect(() =>
       validateMigrationDiagnostics({
         version: 1,
-        diagnostics: [{ ...diagnosticAt(0), id: '' }],
+        diagnostics: [{ ...diagnostic(), id: '' }],
       }),
     ).toThrow('migrationDiagnostics.diagnostics[0].id: 期望非空 string')
     expect(() =>
       validateMigrationDiagnostics({
         version: 1,
-        diagnostics: [{ ...diagnosticAt(0), severity: 'error' }],
+        diagnostics: [{ ...diagnostic(), severity: 'error' }],
       }),
     ).toThrow('migrationDiagnostics.diagnostics[0].severity: 期望 warn')
     expect(() =>
       validateMigrationDiagnostics({
         version: 1,
-        diagnostics: [{ ...diagnosticAt(0), reason: '' }],
+        diagnostics: [{ ...diagnostic(), reason: '' }],
       }),
     ).toThrow('migrationDiagnostics.diagnostics[0].reason: 期望非空 string')
   })
   test('验证拒绝不修改原输入（深快照同一对象）', () => {
-    const bad = { version: 1, diagnostics: [{ ...diagnosticAt(0), category: 'nope' }] }
+    const bad = { version: 1, diagnostics: [{ ...diagnostic(), category: 'nope' }] }
     const snapshot = deepSnapshot(bad)
     expect(() => validateMigrationDiagnostics(bad)).toThrow(
       'migrationDiagnostics.diagnostics[0].category: 未知类别 nope',
@@ -61,9 +69,8 @@ describe('A5 容器错型（主 fixture 先过现行守卫）', () => {
 describe('A6 target 与 source 字段轴', () => {
   test('target domain/objectId/label 与 source kind/label/address 各自精确路径', () => {
     const badTarget = (patch: Record<string, unknown>): unknown => {
-      const d = diagnosticAt(0)
-      const target = d.target as Record<string, unknown>
-      return { version: 1, diagnostics: [{ ...d, target: { ...target, ...patch } }] }
+      const d = diagnostic()
+      return { version: 1, diagnostics: [{ ...d, target: { ...d.target, ...patch } }] }
     }
     expect(() => validateMigrationDiagnostics(badTarget({ domain: 'actor' }))).toThrow(
       'diagnostics[0].target.domain: 期望 item',
@@ -75,9 +82,8 @@ describe('A6 target 与 source 字段轴', () => {
       'diagnostics[0].target.label: 期望非空 string',
     )
     const badSource = (patch: Record<string, unknown>): unknown => {
-      const d = diagnosticAt(0)
-      const source = d.source as Record<string, unknown>
-      return { version: 1, diagnostics: [{ ...d, source: { ...source, ...patch } }] }
+      const d = diagnostic()
+      return { version: 1, diagnostics: [{ ...d, source: { ...d.source, ...patch } }] }
     }
     expect(() => validateMigrationDiagnostics(badSource({ kind: 'modern-script' }))).toThrow(
       'diagnostics[0].source.kind: 期望 legacy-script',
@@ -102,13 +108,12 @@ describe('A7 category×capability 支持域与同对象返回', () => {
     let serial = 0
     for (const category of MIGRATION_DIAGNOSTIC_CATEGORIES)
       for (const capability of ['equip', 'use', 'throw'] as const) {
-        const d = diagnosticAt(0)
-        const target = d.target as Record<string, unknown>
+        const d = diagnostic()
         diagnostics.push({
           ...d,
           id: `diag-${serial++}`,
           category,
-          target: { ...target, capability },
+          target: { ...d.target, capability },
         })
       }
     const input = { version: 1, diagnostics }
@@ -116,7 +121,7 @@ describe('A7 category×capability 支持域与同对象返回', () => {
     expect(result).toBe(input) // 返回同一输入对象（现行合同）
     expect(result.diagnostics).toHaveLength(15)
     // 当前 sidecar 保留未知元信息；这不代表旧格式升级或新版本兼容能力
-    const extra = diagnosticAt(0)
+    const extra = diagnostic()
     const withExtra = {
       version: 1,
       diagnostics: [{ ...extra, id: 'diag-extra', extraMetadata: { note: '当前版本未知元信息' } }],
