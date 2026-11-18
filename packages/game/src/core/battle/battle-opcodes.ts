@@ -31,6 +31,7 @@ import {
   curePlayerPoisonByLevel,
   isPlayerPoisoned,
 } from '../player-poison-state.js'
+import { OP_PLAYER_FLEE } from '../script-opcode-ids.js'
 import {
   buildEnemyDivisionTimeline,
   buildEnemySummonTimeline,
@@ -324,7 +325,6 @@ const OP_ENABLE_AUTO_BATTLE = 0x008a
 const OP_COLLECT_ENEMY = 0x0033
 
 /** sdlpal `script.c case 0x003A` 0x003A:player flee(boss → jump op0,否则 PlayerEscape)。 */
-const OP_PLAYER_FLEE = 0x003a
 
 /** sdlpal `script.c case 0x0030` 0x0030:temp +op1% 某 stat(op0=row,梦蛇 等)。 */
 const OP_BUFF_PLAYER_STAT_PCT = 0x0030
@@ -895,11 +895,7 @@ export function dispatchBattleOpcode(
     case OP_PLAYER_FLEE: {
       // sdlpal `script.c case 0x003A`:if (fIsBoss) jump op0; else PAL_BattlePlayerEscape()。
       if (state.isBoss) return { consumed: true, newIp: operands[0] ?? 0 }
-      state.fleeAnim = { step: 0 }
-      if (ctx.gs) {
-        ctx.gs.pendingSounds ??= []
-        ctx.gs.pendingSounds.push(45) // battle.c:1459 AUDIO_PlaySound(45)
-      }
+      state.fleeAnim = { step: 0, sound: 45 }
       return { consumed: true }
     }
 

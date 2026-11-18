@@ -3331,7 +3331,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(coins.enemies[0]!.stealLeft).toBe(50)
   })
 
-  test('金蝉脱壳(0x3A):非 boss 全队必逃 → fled;boss 战「无法逃离!」战斗继续', () => {
+  test('金蝉脱壳耗费 33 真气，禁逃时继续战斗', () => {
     const jc = mkSkill('jc', {
       target: 'allAllies',
       cost: { mp: 33 },
@@ -3350,7 +3350,8 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(s.players[0]!.mp).toBe(17) // MP 33 照扣
     const b = mk(true)
     turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'jc' }))
-    expect(b.phase).not.toBe('fled')
+    expect(b.phase).toBe('selectAction')
+    expect(b.players[0]!.mp).toBe(17)
     expect(b.log.some((l) => l.includes('无法逃离'))).toBe(true)
   })
 

@@ -440,7 +440,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   // 逃跑动画 hold(phase-agnostic):flee 成功后 16 步右下滑 + 移出屏(PAL_BattlePlayerEscape),
   //   放完才 phase='fleed' → finalize。期间暂停一切推进。
-  if (tickBattleFleeAnim(state, res)) return
+  if (!state.battleAnim && tickBattleFleeAnim(state, res, bus)) return
 
   // D13 敌人主动逃飞出屏 hold(phase-agnostic):0x69 触发后全活敌往左挪到出屏 → phase='fleed'。
   if (advanceBattleEnemyEscape(gs, BATTLE_FRAME_TIME)) return
@@ -2038,11 +2038,12 @@ const FLEE_ANIM_STEPS = 16
  * 逃跑动画 hold(phase-agnostic;sdlpal `PAL_BattlePlayerEscape` battle.c:1438-1527)。
  * flee roll 成功(performFlee 设 state.fleeAnim)→ 16 步把活队员往右下挪 + 站立帧,满步移出屏
  * (9999,9999)→ phase='fleed'(下 tick finalize)。返回 true = 本 tick 被逃跑动画占用(暂停推进)。
- * 音效 45 在 performFlee 成功时写入 gs.pendingSounds。
+ * 普通逃跑在 performFlee 派发声音。法术退场音等施法起手完成，与第一步同拍。
  */
-function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
+function tickBattleFleeAnim(state: BattleState, res: BattleResources, bus: CommandBus): boolean {
   const fa = state.fleeAnim
   if (!fa) return false
+  if (fa.step === 0 && fa.sound) bus.emit({ op: 'playSound', soundId: fa.sound })
   if (fa.step < FLEE_ANIM_STEPS) {
     state.players.forEach((p) => {
       const role = res.playerRoles.roles[p.roleId]

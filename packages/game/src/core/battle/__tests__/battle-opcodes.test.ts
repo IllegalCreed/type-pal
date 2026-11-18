@@ -990,8 +990,7 @@ describe('Batch A 状态/数据 opcode', () => {
     const ctx = stateCtx({ isBoss: false }, undefined, undefined, gs)
     dispatchBattleOpcode(0x3a, [200, 0, 0], ctx)
     expect(ctx.state.phase).toBe('performAction') // 动画结束后才 fleed
-    expect(ctx.state.fleeAnim).toEqual({ step: 0 })
-    expect(gs.pendingSounds).toEqual([45])
+    expect(ctx.state.fleeAnim).toEqual({ step: 0, sound: 45 })
     const bossCtx = stateCtx({ isBoss: true })
     expect(dispatchBattleOpcode(0x3a, [200, 0, 0], bossCtx).newIp).toBe(200)
   })

@@ -73,8 +73,8 @@ function buildPlayerCastWindup(
   })
 }
 
-/** Failed use still shows the cast pose, script dialogue, then the ordinary recovery beats. */
-export function startFailedPlayerCastAnimation(
+/** A failed or escaping cast still plays the original spell opening without FIRE. */
+export function startPlayerCastWithoutFire(
   input: MagicAnimationInput,
   magic: Magic,
   pendingNums: PendingDamageNums,
@@ -85,6 +85,10 @@ export function startFailedPlayerCastAnimation(
   const pos = caster?.pos ?? caster?.posOriginal
   if (!pos) return false
   const windup = buildPlayerCastWindup(input, pos, magic.type === 'summon')
+  if (state.fleeAnim) {
+    startBattleAnim(state, windup, input.bus, pendingNums)
+    return true
+  }
   const recovery = buildPostMagicTimeline({ hurtEnemies: [] })
   recovery.push({ durationMs: BATTLE_FRAME_TIME * 5 })
   attachDamageNumsToFirstFrame(recovery, pendingNums)

@@ -88,6 +88,7 @@ export interface BattleFixture {
   inventory?: { itemId: number; count: number }[]
   enemyTeamId: number
   battleFieldId: number
+  isBoss?: boolean
 }
 
 export interface BattleFixturesData {
@@ -1682,7 +1683,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       gs: deps.gs,
       enemyTeamId: fixture.enemyTeamId,
       battleFieldId: fixture.battleFieldId,
-      isBoss: false,
+      isBoss: fixture.isBoss ?? false,
       enemies: deps.resources.enemies,
       enemyObjects: deps.resources.enemyObjects, // 对话:enemy scriptOnReady/scriptOnTurnStart(boss 嘲讽)
       enemyTeams: deps.resources.enemyTeams,

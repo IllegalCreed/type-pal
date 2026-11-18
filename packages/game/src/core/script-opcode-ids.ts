@@ -4,4 +4,5 @@
 export const OP_START_BATTLE = 0x0007
 export const OP_ADD_CASH = 0x001e
 export const OP_ADD_ITEM = 0x001f
+export const OP_PLAYER_FLEE = 0x003a
 export const OP_ADD_MAGIC = 0x0055

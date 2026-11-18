@@ -66,6 +66,8 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 普通仙术的 `cost.money` 在出手并扣除真气后检查。铜钱镖的固定费用是 500 文。普通仙术首项为 `moneyDamage` 时，先确认剩余至少一文，再按该项比例换算基础威力。两种缺钱情况均保留真气支出和成长，显示失败卷轴。兑换后的基础威力为零时仍支付金钱并播放特效，跳过伤害和浮动抽样。 [原盘消费顺序](../../phase1/game-mechanics.md#2026-11-19-玩家仙术的金钱门)
 
+玩家用 `fleeBattle` 仙术仍有施法起手。允许逃离时全队退场并提交 `playerFled`，禁逃时显示失败卷轴，按正常动作节拍续战。金蝉脱壳两条分支均消耗真气并保留成长。 [原盘演出和禁逃规则](../../phase1/game-mechanics.md#2026-11-19-金蝉脱壳)
+
 ### 地图、组合与图像资源分层
 
 [ProjectMap](../../../packages/content/src/project-map.ts)唯一版本4，共享IsometricMapContent：width/height是逻辑尺寸，tiles/sources/heights及collision的lattice为2×height行、width列。tilesetRefs稳定id按字典序，sources逐格选择其下标；layers数组序决定z/tie-break，编辑引用使用layer.id。

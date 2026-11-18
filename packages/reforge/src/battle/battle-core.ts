@@ -1598,11 +1598,11 @@ function applyPlayerSkillEffects(
         break
       }
       case 'fleeBattle': {
-        // 0x3A 金蝉脱壳:全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离!」文案臂)
+        // 0x3A 金蝉脱壳成功时不掷逃跑概率。禁逃时进入 SSS 的居中失败卷轴。
         if (s.boss) {
           s.log.push('无法逃离!')
           if (s.lastAction) {
-            s.lastAction.notice = '无法逃离!'
+            s.lastAction.failureFeedback = 'spellIneffective'
             s.lastAction.fleeSuccess = false
           }
         } else {

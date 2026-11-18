@@ -16,6 +16,12 @@ Template: reference-canon-v1 / 1.0.0
 
 玩家鬼降先画完攻击特效，再由成功脚本判定混乱。受术者从第一拍收招画面开始，每次绘制在原脚点上横移 −1、0 或 +1 像素，昏睡或定身时压制抖动。已有混乱的敌人继续按自身状态绘制。本项目将绘制用随机数与行动随机序列分开。 [成功脚本顺序](../../reference/sdlpal/fight.c#L4250-L4266) · [绘制位置](../../reference/sdlpal/battle.c#L111-L122)
 
+## 2026-11-19 金蝉脱壳
+
+金蝉脱壳的原盘对象 392 使用 MAGIC 99，消耗 33 点真气，主特效编号为 `0xFFFF`。施放仍有手势、施法前摇和角色吟唱声。SSS 43142 的 `0x3A` 在可逃战中直接启动退场，没有普通逃跑掷点。退场音 45 与队伍撤离开始相邻。本项目按既定演出每拍向右 5、向下 4，活队员共移 16 拍，最后移出所有队员再返场。 [施法起手与真气](../../reference/sdlpal/fight.c#L4180-L4194) · [逃离指令](../../reference/sdlpal/script.c#L1588-L1603) · [退场时序](../../reference/sdlpal/battle.c#L1457-L1527)
+
+禁逃时原脚本跳到 SSS 43072–43074，显示居中卷轴「失败　没有效果」后继续战斗。两条路径均保留真气支出和施法成长。 [成长](../../reference/sdlpal/fight.c#L4322-L4329)
+
 ## 2026-11-19 玩家仙术的金钱门
 
 铜钱镖在真实选招时检查真气，出手扣 1 点真气后，由 SSS 43062 尝试扣 500 文。乾坤一掷扣 1 点真气后，SSS 43068–43070 用扣一文再还一文核验余额，随后最多掷出 5000 文。两招的缺钱分支共用中央卷轴「钱不够，只好作罢」，并保留施法成长。 [起手和真气](../../reference/sdlpal/fight.c#L4180-L4194) · [失败结算](../../reference/sdlpal/fight.c#L4250-L4272) · [成长](../../reference/sdlpal/fight.c#L4322-L4329)
@@ -1090,7 +1096,7 @@ historical。do not promote historical claims to current truth without a current
 >
 > - 触发战斗的脚本 opcode `0x0007`(start battle)调 `PAL_StartBattle(operand[0], !operand[2])`([script.c:3314-3333](../../reference/sdlpal/script.c#L3314-L3333))——即 `fIsBoss = !operand[2]`。
 > - `operand[2]` **身兼二职**:既是"可逃标志",又是"逃跑成功后跳转的脚本地址"。所以 `operand[2] != 0` ⇔ `fIsBoss = FALSE` ⇔ **可逃**(逃了就跳去 operand[2] 那段善后脚本);`operand[2] == 0` ⇔ boss 战、逃不掉。
-> - 脚本驱动的逃跑 opcode `0x003A` 走同一道闸([script.c:1588-1603](../../reference/sdlpal/script.c#L1588-L1603)):`fIsBoss` 时直接跳"逃不掉",否则才 `PAL_BattlePlayerEscape()`。
+> - 金蝉脱壳的 `0x003A` 走同一道闸。`fIsBoss` 时跳指定卷轴分支，可逃时调用 `PAL_BattlePlayerEscape()`。 [原盘金蝉脱壳](#2026-11-19-金蝉脱壳) · [退场分支](../../reference/sdlpal/script.c#L1588-L1603)
 >
 > **实例:锁妖塔「七星磐龙柱」七神龙——长着 boss 的样子,却能逃。** 锁妖塔底层七星磐龙柱召出的七条神龙(毒 / 金 / 土 / 火 / 冰 / 风 / 雷神龙,enemy id 141–147 / 敌队 305–311)在玩家眼里是七场独一无二的 boss,但它们的 `0x0007` 触发操作数全是 `[队号, 41075, 41073]`——`operand[2] = 41073 ≠ 0` → `fIsBoss = FALSE` → **能逃**(逃跑旁白跳 41073)。真值出处:`data/extracted/events/all.json` `commands[24784..24802]`(紧邻前一行旁白 `commands[24781]` = "七星磐龙柱")。
 >

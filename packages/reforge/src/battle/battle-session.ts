@@ -1536,6 +1536,21 @@ export class BattleSession {
             : {}),
         })
       }
+      const partyIdxs = s.players.map((_, index) => index)
+      const retreat = la.fleeSuccess
+        ? {
+            partySlots: partyIdxs,
+            players: partyIdxs.flatMap((idx) => {
+              const pos = getPlayerBasePos(s.players.length, idx)
+              if (!pos || (pHp[idx] ?? 0) <= 0) return []
+              return [{ idx, pos, idleFrame: this.playerFrames(idx).idle }]
+            }),
+            ...(this.opts.soundRoles?.['audio.battleEscapeSound']
+              ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
+              : {}),
+          }
+        : undefined
+      if (retreat) this.skipNextReset = true
       return buildPlayerCast({
         casterFrames: playerProfile.frames,
         casterIdx: la.idx,
@@ -1549,11 +1564,12 @@ export class BattleSession {
           summonEff?.kind !== 'summon' && this.assets.effectSprite
             ? playerProfile.castEffectBase
             : -1,
-        partyIdxs: s.players.map((_, i) => i),
+        partyIdxs,
         fireFrames,
         fx,
         targetPos,
-        waitForUseFailureFeedback: la.fizzled === true,
+        waitForUseFailureFeedback: la.fizzled === true || la.fleeSuccess === false,
+        ...(retreat ? { retreat } : {}),
         ...(la.blow
           ? {
               blow: {
@@ -1764,27 +1780,6 @@ export class BattleSession {
           targetIdx: la.targetEnemyIdx,
           enemyPos: pos,
           stealFrame,
-        })
-      }
-      // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
-      // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
-      if (la.side === 'player' && skEffects.some((e) => e.kind === 'fleeBattle')) {
-        if (!la.fleeSuccess) return null
-        const alive = s.players
-          .map((_, i) => i)
-          .filter((i) => (pHp[i] ?? 0) > 0)
-          .map((i) => ({
-            idx: i,
-            pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
-            idleFrame: this.playerFrames(i).idle,
-          }))
-        if (!alive.length) return null
-        this.skipNextReset = true
-        return buildPartyFlee({
-          players: alive,
-          ...(this.opts.soundRoles?.['audio.battleEscapeSound']
-            ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
-            : {}),
         })
       }
       return this.buildCastTimeline(la, pHp, eHp)

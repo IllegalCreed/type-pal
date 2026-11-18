@@ -467,9 +467,9 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs) return
       require(!terminal, 'Game terminal cleanup ran twice')
       require(!action, 'Game terminated before a native action completed')
-      require(result === 'won' || result === 'lost', `Q2 Game battle ended with ${result}`)
+      require(['won', 'lost', 'fled'].includes(result), `Q2 Game battle ended with ${result}`)
       terminal = {
-        result: result === 'won' ? 'victory' : 'defeat',
+        result: { won: 'victory', lost: 'defeat', fled: 'playerFled' }[result],
         settlementCount,
         after: snapshot(),
       }

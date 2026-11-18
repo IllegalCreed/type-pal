@@ -893,8 +893,10 @@ export interface BuildPlayerCastInput {
   allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
   /** 有主特效的普通对敌仙术使用完整 PostMagic。 */
   offensive?: boolean
-  /** 耗材门失败，在施法起手与收尾之间显示提示。 */
+  /** 起手脚本进入失败分支，在施法起手与收尾之间显示提示。 */
   waitForUseFailureFeedback?: boolean
+  /** 0x3A 成功后先拉开逃跑，再移出全部队员。 */
+  retreat?: BuildPartyFleeInput & { sound?: AssetId; partySlots: readonly number[] }
   /** 特效结束后显示的掉血数字。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
@@ -1096,6 +1098,18 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
     }
   }
   frames.push({ durationMs: delayMs(1) })
+
+  if (input.retreat) {
+    frames.push(...buildPartyFlee(input.retreat), {
+      durationMs: delayMs(1),
+      fighters: input.retreat.partySlots.map((idx) => ({
+        side: 'player',
+        idx,
+        pos: { x: 9999, y: 9999 },
+      })),
+    })
+    return frames
+  }
 
   if (input.waitForUseFailureFeedback) {
     // scriptOnUse 失败后仍保留 PostMagic 四拍和末尾五拍（fight.c:4322–4324）。

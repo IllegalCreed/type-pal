@@ -620,7 +620,7 @@ export interface BattleState {
    * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(当前实现按用户实测取统一右下位移),
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
    */
-  fleeAnim?: { step: number }
+  fleeAnim?: { step: number; sound?: number }
   /** PAL_BattleEnemyEscape moves live slots out of view before the terminal hold. */
   enemyEscapeAnim?: { step: number; elapsedMs?: number; offscreenAtMs?: number }
   /**

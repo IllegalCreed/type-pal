@@ -106,8 +106,7 @@ describe('0x33 CollectEnemy / 0x3A PlayerFlee', () => {
       gs: fx.gs,
       target: { type: 'player', idx: 0 },
     })
-    expect(fx.state.fleeAnim).toEqual({ step: 0 })
-    expect(fx.gs.pendingSounds).toContain(45)
+    expect(fx.state.fleeAnim).toEqual({ step: 0, sound: 45 })
   })
 })
 describe('0x31 ChangeBattleSprite / 0x92 ShowMagicAnim', () => {
