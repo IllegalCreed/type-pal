@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "8c221aa656a3944a554d27077f7f8e44e85783ba34828f3525b042d8c1f7be0a",
+      "afterSha256": "8b3e7519c6dcafb180a9e567bd3d560e98127b63c09fe1fdeba07778f430e00b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 1041,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际差异与原件接收现行范围、状态、索引和证据边界。",
+        "reviewedLines": 1160,
+        "acceptanceScope": "核 108 个唯一原主体、101 完成与 7 待审，保留旧 970 条，机器账本与生成索引一致；定向核引用夹具、帧容器真实消费者和各问题卡边界。集中门、远端 CI、合并、E2E 与视觉信用按各自执行原件。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e1b32563347ed8b2fb5ff2c759394031459769df86fb594967599e405dcfc939",
+      "afterSha256": "ba16bb7720117a56a58bca293401ec8fd3c3afc8ca88b581fb932f8df1859ae8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 121,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受现行看板及已完成窗口的归档入口。",
+        "reviewedLines": 133,
+        "acceptanceScope": "在先前四份终态正文审查上，复核看板第56行切换为唯一执行归档，101完成、7待审和原状态一致。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "eca1bb8909e47eb90ff6f8f5daaee72ecc475fa202fb1fee8e83e112e73bc036",
+      "afterSha256": "a79daddd8313ad949c38a23786db1877142e1c0190f86a02fc7124d26e3ebdc0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 588,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
+        "reviewedLines": 595,
+        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
       }
     },
     {
@@ -4936,6 +4936,97 @@
   ],
   "additions": [
     {
+      "path": "docs/tasks/cards/CONTENT-ACQUISITION-CHEST-FACING-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "36163d83ed182c79add2f0764dfea45f73a60e8a1eb4ff45140bd12827f0ea13",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
+        "reviewedLines": 34,
+        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "fab3f6e2d09a2a2e01dfdbf122b54b5f465c8be87e2a190394e150156750d422",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
+        "reviewedLines": 38,
+        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "106b3010029a367fb07488fc39cb5402f6e74bd68d7e40e33d8af449145c5ca8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
+        "reviewedLines": 39,
+        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "b79020f14af3d31c2701e58e2d34bbe0a5b31ebcfa04df48fd89d8f9fc72bfae",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
+        "reviewedLines": 39,
+        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-SCENE-REFERENCE-OWN-KEY-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "4e90394525e620dc2b8e2f5d4270d9e936abb4c5a80bf0d07bca1d7e9d7507d9",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
+        "reviewedLines": 52,
+        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "b475723165535c345cc712e833252db7c892faef500efaee2b5fdba3939cff09",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
+        "reviewedLines": 39,
+        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-CONTENT-REFERENCES-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "79683dcf2203f7c1fc98b98f5b03c5cbbbebfee10b55d9bffa1576bdac6b006e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
+        "reviewedLines": 313,
+        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
+      }
+    },
+    {
       "path": "docs/engineering/guides/README.md",
       "templateId": "governance-index-v1",
       "afterSha256": "e7dcf02a1b001eb382a556162b2dda58e732080d692f4bb468dcfd9316c13fb4",
@@ -5527,6 +5618,12 @@
     ]
   },
   "artifacts": [
+    {
+      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz",
+      "sha256": "fc2294a4887f5c77509ecd13a8d1407139a8d46835c38c2d15e21a6528117c82",
+      "bytes": 1530580,
+      "purpose": "内容引用治理唯一执行原件。记录逐文件八维读域和测试迁移、反控/恢复、定向和实际统一门；历史运行使用各自输入身份。"
+    },
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
       "sha256": "47f3fd9d743545bf3671e1d79a2fd379206300afdd34def990f571c2f5a16f47",

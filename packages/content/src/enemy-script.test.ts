@@ -1,13 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { validateEnemies } from './validate.js'
+import { createEnemyReferenceProject } from './__tests__/reference-project.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
+import { validateAuthorEnemies } from './validate-author.js'
 
 function enemy(over: Record<string, unknown> = {}): Record<string, unknown> {
+  const { enemy: definition } = createEnemyReferenceProject()
   return {
-    id: 'enemy-test',
-    name: 'name.enemy-test',
-    battleSprite: 'battle-sprite-test',
-    yPosOffset: 0,
-    stats: {},
+    ...definition,
     ai: {
       resistanceToSorcery: 0,
       fallback: {
@@ -82,28 +81,31 @@ function enemy(over: Record<string, unknown> = {}): Record<string, unknown> {
   }
 }
 
-describe('contentVersion 10 enemy script schema', () => {
+describe('enemy definition script validation', () => {
   test('接受具名 hook state、真实 effect outcome、battle action 与受限 onDefeated', () => {
-    expect(validateEnemies([enemy()])).toHaveLength(1)
+    const input = [enemy()]
+    const before = deepSnapshot(input)
+    expect(validateAuthorEnemies(input)).toEqual(before)
+    expect(input).toEqual(before)
   })
 
   test('法术抗性接受完全免疫值 10，拒绝越界值与非整数', () => {
     expect(
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           ai: { resistanceToSorcery: 10 },
         }),
       ]),
     ).toHaveLength(1)
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           ai: { resistanceToSorcery: 11 },
         }),
       ]),
     ).toThrow(/0\.\.10 整数/)
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           ai: { resistanceToSorcery: 9.5 },
         }),
@@ -118,7 +120,7 @@ describe('contentVersion 10 enemy script schema', () => {
     const ready = hooks.ready as Record<string, unknown>
     const states = ready.states as Record<string, Record<string, unknown>>
     states.summon!.next = { kind: 'advance', state: 'missing' }
-    expect(() => validateEnemies([source])).toThrow(/未知 state missing/)
+    expect(() => validateAuthorEnemies([source])).toThrow(/未知 state missing/)
 
     const crossState = enemy()
     const crossAi = crossState.ai as Record<string, unknown>
@@ -132,10 +134,10 @@ describe('contentVersion 10 enemy script schema', () => {
       then: { kind: 'stay' },
       else: { kind: 'stay' },
     }
-    expect(() => validateEnemies([crossState])).toThrow(/同 state 顶层 effect id/)
+    expect(() => validateAuthorEnemies([crossState])).toThrow(/同 state 顶层 effect id/)
 
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           ai: { resistanceToSorcery: 0, accidentalLegacyField: true },
         }),
@@ -156,42 +158,50 @@ describe('contentVersion 10 enemy script schema', () => {
           },
         },
       })
-    expect(() => validateEnemies([withNext({ kind: 'random', choices: [] })])).toThrow(
+    expect(() => validateAuthorEnemies([withNext({ kind: 'random', choices: [] })])).toThrow(
       /非空 random/,
     )
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         withNext({
           kind: 'random',
           choices: [{ weight: 0, then: { kind: 'stay' } }],
         }),
       ]),
     ).toThrow(/正整数/)
-    expect(() => validateEnemies([withNext({ kind: 'continue', state: 'a' })])).toThrow(
+    expect(() => validateAuthorEnemies([withNext({ kind: 'continue', state: 'a' })])).toThrow(
       /无调度边界循环/,
     )
 
-    const states: Record<string, unknown> = {}
-    for (let index = 0; index < 65; index += 1)
-      states[`s${index}`] = {
-        body: [],
-        next: index === 64 ? { kind: 'stay' } : { kind: 'continue', state: `s${index + 1}` },
-      }
-    expect(() =>
-      validateEnemies([
-        enemy({
-          ai: {
-            resistanceToSorcery: 0,
-            hooks: { ready: { initial: 's0', states } },
+    const chain = (length: number) => {
+      const states = Object.fromEntries(
+        Array.from({ length }, (_, index) => [
+          `s${index}`,
+          {
+            body: [],
+            next:
+              index + 1 === length
+                ? { kind: 'stay' }
+                : { kind: 'continue', state: `s${index + 1}` },
           },
-        }),
-      ]),
-    ).toThrow(/超过 64 步/)
+        ]),
+      )
+      return enemy({
+        ai: { resistanceToSorcery: 0, hooks: { ready: { initial: 's0', states } } },
+      })
+    }
+    const legal = [chain(64)]
+    const before = deepSnapshot(legal)
+    expect(() => validateAuthorEnemies(legal)).not.toThrow()
+    expect(legal).toEqual(before)
+    expect(() => validateAuthorEnemies([chain(65)])).toThrow(
+      new Error('enemies[0].ai.hooks.ready.states.s0: synchronous continue closure 超过 64 步'),
+    )
   })
 
   test('拒绝同一同步路径上的多个 terminal action', () => {
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           ai: {
             resistanceToSorcery: 0,
@@ -218,7 +228,7 @@ describe('contentVersion 10 enemy script schema', () => {
 
   test('battle choreography 与 onDefeated 都拒绝宽泛世界命令', () => {
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           choreography: [
             {
@@ -230,7 +240,7 @@ describe('contentVersion 10 enemy script schema', () => {
       ]),
     ).toThrow(/battle context 不支持动作/)
     expect(() =>
-      validateEnemies([
+      validateAuthorEnemies([
         enemy({
           onDefeated: [{ kind: 'startBattle', enemyTeamId: 'team-1' }],
         }),

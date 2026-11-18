@@ -1,14 +1,13 @@
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
-  ACTOR_STATUS_DEFINITIONS,
   type ActorConditionCarrier,
+  type ActorConditionSeed,
   applyActorCondition,
   applyActorConditionSeed,
   applyCarriedStatus,
-  checkActorConditionCommandShape,
   checkActorConditionSeedShape,
   clearActorCondition,
-  isCarryableStatusId,
 } from './actor-condition.js'
 import type { PoisonDef } from './poison.js'
 
@@ -21,67 +20,6 @@ const poisons: Record<number, PoisonDef> = {
 function carrier(hp = 100): ActorConditionCarrier {
   return { hp }
 }
-
-describe('actor condition registry', () => {
-  test('全部 StatusId 只有傀儡不可作为大世界携带状态', () => {
-    expect(Object.keys(ACTOR_STATUS_DEFINITIONS)).toHaveLength(9)
-    expect(isCarryableStatusId('protect')).toBe(true)
-    expect(isCarryableStatusId('puppet')).toBe(false)
-    expect(ACTOR_STATUS_DEFINITIONS.protect.description).toContain('伤害减半')
-  })
-})
-
-describe('actor condition shape guards', () => {
-  test('快照拒绝重复、傀儡、超界回合与内部字段', () => {
-    expect(() =>
-      checkActorConditionSeedShape({ statuses: [{ status: 'protect', turns: 1000 }] }, 'seed'),
-    ).toThrow('999')
-    expect(() =>
-      checkActorConditionSeedShape({ statuses: [{ status: 'puppet', turns: 1 }] }, 'seed'),
-    ).toThrow('不可携带')
-    expect(() => checkActorConditionSeedShape({ tickIndex: 3 }, 'seed')).toThrow('未知字段')
-  })
-
-  test('剧情命令完整覆盖 apply/clear 三类 condition 并拒绝多余字段', () => {
-    const commands = [
-      { kind: 'applyActorCondition', actor: 'hero', condition: { kind: 'poison', poisonId: 551 } },
-      {
-        kind: 'applyActorCondition',
-        actor: 'hero',
-        condition: { kind: 'status', status: 'protect', turns: 7 },
-      },
-      {
-        kind: 'applyActorCondition',
-        actor: 'hero',
-        condition: { kind: 'poisonResistance', amount: 30 },
-      },
-      { kind: 'clearActorCondition', actor: 'hero', condition: { kind: 'poison', poisonId: 551 } },
-      {
-        kind: 'clearActorCondition',
-        actor: 'hero',
-        condition: { kind: 'status', status: 'protect' },
-      },
-      {
-        kind: 'clearActorCondition',
-        actor: 'hero',
-        condition: { kind: 'poisonResistance' },
-      },
-    ]
-    commands.forEach((command) =>
-      expect(() => checkActorConditionCommandShape(command, 'cmd')).not.toThrow(),
-    )
-    expect(() =>
-      checkActorConditionCommandShape(
-        {
-          kind: 'clearActorCondition',
-          actor: 'hero',
-          condition: { kind: 'poisonResistance', amount: 0 },
-        },
-        'cmd',
-      ),
-    ).toThrow('未知字段')
-  })
-})
 
 describe('applyCarriedStatus', () => {
   test('坏状态已有时不刷新', () => {
@@ -100,9 +38,12 @@ describe('applyCarriedStatus', () => {
     expect(applyCarriedStatus(carrier(0), 'protect', 7)).toBe(false)
   })
 
-  test('傀儡与非正整数回合 fail-loud', () => {
-    expect(() => applyCarriedStatus(carrier(), 'puppet' as never, 1)).toThrow('不可携带')
-    expect(() => applyCarriedStatus(carrier(), 'protect', 0)).toThrow('正安全整数')
+  test('rejects a zero duration before writing the carrier', () => {
+    const target = carrier()
+    expect(() => applyCarriedStatus(target, 'protect', 0)).toThrow(
+      new Error('applyCarriedStatus.turns: 必须是正安全整数'),
+    )
+    expect(target).toEqual({ hp: 100 })
   })
 })
 
@@ -135,23 +76,27 @@ describe('entry condition seed', () => {
     })
   })
 
-  test('未知/重复毒、重复/不可携带状态在任何写入前 fail-loud', () => {
-    const cases = [
-      { poisonIds: [999] },
-      { poisonIds: [551, 551] },
+  test.each([
+    [{ poisonIds: [999] }, 'applyActorConditionSeed.poisonIds: 未知毒 999'],
+    [{ poisonIds: [0] }, 'applyActorConditionSeed.poisonIds: 毒 id 必须是正安全整数'],
+    [{ poisonIds: [551, 551] }, 'applyActorConditionSeed.poisonIds: 毒 551 重复'],
+    [
       {
         statuses: [
           { status: 'protect' as const, turns: 1 },
           { status: 'protect' as const, turns: 2 },
         ],
       },
-      { statuses: [{ status: 'puppet' as never, turns: 1 }] },
-    ]
-    for (const seed of cases) {
-      const target = carrier()
-      expect(() => applyActorConditionSeed(target, seed, poisons)).toThrow()
-      expect(target).toEqual({ hp: 100 })
-    }
+      'applyActorConditionSeed.statuses: 状态 protect 重复',
+    ],
+  ] satisfies [
+    ActorConditionSeed,
+    string,
+  ][])('rejects an invalid seed before any carrier write %#', (input, message) => {
+    const target = carrier()
+    const seed = deepSnapshot(input)
+    expect(() => applyActorConditionSeed(target, seed, poisons)).toThrow(new Error(message))
+    expect(target).toEqual({ hp: 100 })
   })
 
   test('入口死亡角色拒绝好状态，并在任何 carrier 写入前 fail-loud', () => {
@@ -182,22 +127,138 @@ describe('story condition operations', () => {
     lethal.poisons = [{ poisonId: 553, tickIndex: 0 }]
     expect(applyActorCondition(lethal, { kind: 'poison', poisonId: 552 }, poisons)).toBe(true)
     expect(lethal.hp).toBe(0)
+    const alreadyDead = deepSnapshot(lethal)
+    expect(applyActorCondition(lethal, { kind: 'poison', poisonId: 552 }, poisons)).toBe(false)
+    expect(lethal).toEqual(alreadyDead)
+  })
+
+  test('reports an unknown poison before touching the target', () => {
+    const target = carrier()
+    expect(() => applyActorCondition(target, { kind: 'poison', poisonId: 999 }, poisons)).toThrow(
+      new Error('applyActorCondition.poisonId: 未知毒 999'),
+    )
+    expect(target).toEqual({ hp: 100 })
+  })
+
+  test('a dead actor can receive a harmful status while a beneficial one is rejected', () => {
+    const target = carrier(0)
+    expect(
+      applyActorCondition(target, { kind: 'status', status: 'protect', turns: 4 }, poisons),
+    ).toBe(false)
+    expect(target).toEqual({ hp: 0 })
+    expect(
+      applyActorCondition(target, { kind: 'status', status: 'confused', turns: 3 }, poisons),
+    ).toBe(true)
+    expect(target).toEqual({ hp: 0, extraStatuses: [{ status: 'confused', turns: 3 }] })
   })
 
   test('临时毒抗取高，三种 condition 可分别清除', () => {
     const target = carrier()
     target.poisons = [{ poisonId: 551, tickIndex: 2 }]
     target.extraStatuses = [{ status: 'protect', turns: 7 }]
-    target.extraPoisonRes = 30
+    expect(applyActorCondition(target, { kind: 'poisonResistance', amount: 30 }, poisons)).toBe(
+      true,
+    )
+    expect(target.extraPoisonRes).toBe(30)
     expect(applyActorCondition(target, { kind: 'poisonResistance', amount: 20 }, poisons)).toBe(
       false,
     )
     expect(applyActorCondition(target, { kind: 'poisonResistance', amount: 40 }, poisons)).toBe(
       true,
     )
+    expect(target.extraPoisonRes).toBe(40)
     expect(clearActorCondition(target, { kind: 'poison', poisonId: 551 }, poisons)).toBe(true)
     expect(clearActorCondition(target, { kind: 'status', status: 'protect' }, poisons)).toBe(true)
     expect(clearActorCondition(target, { kind: 'poisonResistance' }, poisons)).toBe(true)
     expect(target).toEqual({ hp: 100, poisons: [], extraStatuses: [] })
   })
+})
+
+test('invalid seed resistance rejects before replacing existing poison or status carriers', () => {
+  const target: ActorConditionCarrier = {
+    hp: 100,
+    poisons: [{ poisonId: 553, tickIndex: 5 }],
+    extraStatuses: [{ status: 'sleep', turns: 4 }],
+    extraPoisonRes: 20,
+  }
+  const before = deepSnapshot(target)
+  const input = {
+    poisonIds: [551, 553],
+    statuses: [{ status: 'protect' as const, turns: 999 }],
+    poisonResistance: 1,
+  }
+  checkActorConditionSeedShape(input, 'seed')
+  input.poisonResistance = 0 // One invalid runtime input axis, not a valid author seed.
+  expect(() => applyActorConditionSeed(target, input, poisons)).toThrow(
+    'applyActorConditionSeed.poisonResistance',
+  )
+  expect(target).toEqual(before)
+  input.poisonResistance = 30
+  applyActorConditionSeed(target, input, poisons)
+  expect(target).toEqual({
+    hp: 100,
+    poisons: [
+      { poisonId: 551, tickIndex: 0 },
+      { poisonId: 553, tickIndex: 0 },
+    ],
+    extraStatuses: [
+      { status: 'sleep', turns: 4 },
+      { status: 'protect', turns: 999 },
+    ],
+    extraPoisonRes: 30,
+  })
+})
+
+test('status refresh preserves unrelated entries and clearing is idempotent without materializing absent fields', () => {
+  const target: ActorConditionCarrier = {
+    hp: 100,
+    extraStatuses: [
+      { status: 'sleep', turns: 4 },
+      { status: 'protect', turns: 2 },
+    ],
+  }
+  expect(
+    applyActorCondition(target, { kind: 'status', status: 'protect', turns: 7 }, poisons),
+  ).toBe(true)
+  expect(target.extraStatuses).toEqual([
+    { status: 'sleep', turns: 4 },
+    { status: 'protect', turns: 7 },
+  ])
+  expect(clearActorCondition(target, { kind: 'status', status: 'protect' }, poisons)).toBe(true)
+  expect(target.extraStatuses).toEqual([{ status: 'sleep', turns: 4 }])
+  expect(clearActorCondition(target, { kind: 'status', status: 'protect' }, poisons)).toBe(false)
+  const absent: ActorConditionCarrier = { hp: 100 }
+  for (const condition of [
+    { kind: 'status', status: 'protect' },
+    { kind: 'poison', poisonId: 551 },
+    { kind: 'poisonResistance' },
+  ] as const) {
+    expect(clearActorCondition(absent, condition, poisons)).toBe(false)
+    expect(absent).toEqual({ hp: 100 })
+  }
+  expect(applyCarriedStatus(absent, 'sleep', 1)).toBe(true)
+  expect(absent).toEqual({ hp: 100, extraStatuses: [{ status: 'sleep', turns: 1 }] })
+})
+
+test('poison add and selective clear preserve the other poison tick cursor', () => {
+  const target: ActorConditionCarrier = { hp: 100, poisons: [{ poisonId: 553, tickIndex: 5 }] }
+  const beforeDefs = deepSnapshot(poisons)
+  expect(applyActorCondition(target, { kind: 'poison', poisonId: 551 }, poisons)).toBe(true)
+  expect(target.poisons).toEqual([
+    { poisonId: 553, tickIndex: 5 },
+    { poisonId: 551, tickIndex: 0 },
+  ])
+  expect(applyActorCondition(target, { kind: 'poison', poisonId: 551 }, poisons)).toBe(false)
+  expect(clearActorCondition(target, { kind: 'poison', poisonId: 551 }, poisons)).toBe(true)
+  expect(target).toEqual({ hp: 100, poisons: [{ poisonId: 553, tickIndex: 5 }] })
+  expect(clearActorCondition(target, { kind: 'poison', poisonId: 551 }, poisons)).toBe(false)
+  expect(poisons).toEqual(beforeDefs)
+})
+
+test.each([0, -5])('rejects non-positive resistance %s without touching the carrier', (amount) => {
+  const target = carrier()
+  expect(() => applyActorCondition(target, { kind: 'poisonResistance', amount }, poisons)).toThrow(
+    new Error('applyTemporaryPoisonResistance.amount: 必须是正安全整数'),
+  )
+  expect(target).toEqual({ hp: 100 })
 })

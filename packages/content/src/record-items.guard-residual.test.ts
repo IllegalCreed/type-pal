@@ -2,7 +2,7 @@
  * TEST-GLM-CONTENT-GUARDS-3 G8：validateItems / validateAuthorItemCore / checkThrowSpec 残差。
  * 去重：validate.test.ts（C8 用途契约：合法三用途/gate 缺省/傀儡/15 条非法 each/投掷空效果/
  * 8 条安全整数 each/私有脚本/配方资源池/自消耗/装备映射）、validate-author-items.boundaries、
- * validate-author.test.ts——本文件只补冻结池内：use 效果 kind 域与各 switch 臂、
+ * author-item-validation.test.ts——本文件只补冻结池内：use 效果 kind 域与各 switch 臂、
  * checkThrowSpec 全分支、顶层/装备/作者物品核叶。
  * R1：角色效果行以同型角色效果为正控；场景效果（runSceneHook/craftRecipe/
  * drawFromResourcePool/modifyHostileAwareness）行以 target:'scene' 的同型场景效果为正控，
@@ -11,8 +11,7 @@
  * 逐次取实际入参独立快照并立即比较（含同一测试的后续调用）。
  */
 import { describe, test } from 'vitest'
-import { expectRejectUnchanged } from './__tests__/glm-guard-residual-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
+import { expectAcceptsUnchanged, expectRejectUnchanged } from './__tests__/validation-assertions.js'
 import { checkThrowSpec, validateAuthorItemCore, validateItems } from './validate.js'
 
 const item = (use: unknown) => ({

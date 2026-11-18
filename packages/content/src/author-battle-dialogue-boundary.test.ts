@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AuthorDialogueCue } from './author-dialogue.js'
 import { type AuthorCommand, checkAuthorCommands } from './author-script.js'
 import { checkBaseAuthorCommands } from './author-script-core.js'
@@ -61,7 +62,7 @@ describe('author battle choreography preserves the active dialogue dialect', () 
     path,
   }) => {
     const legal = wrap([battle().command])
-    const legalBefore: unknown = JSON.parse(JSON.stringify(legal))
+    const legalBefore = deepSnapshot(legal)
     expect(() => checkAuthorCommands(legal, 'commands')).not.toThrow()
     expect(legal).toEqual(legalBefore)
 
@@ -69,9 +70,9 @@ describe('author battle choreography preserves the active dialogue dialect', () 
     // Deliberately violate one author field after constructing a valid typed command.
     Reflect.deleteProperty(broken.cue, 'identity')
     const input = wrap([broken.command])
-    const before: unknown = JSON.parse(JSON.stringify(input))
+    const before = deepSnapshot(input)
     expect(() => checkAuthorCommands(input, 'commands')).toThrow(
-      `${path}.choreography[0].body[0].cue.identity: 期望对象`,
+      new Error(`${path}.choreography[0].body[0].cue.identity: 期望对象`),
     )
     expect(input).toEqual(before)
   })
@@ -82,7 +83,7 @@ describe('author battle choreography preserves the active dialogue dialect', () 
     { kind: 'unbound', speaker: 'name.vendor' },
   ])('accepts current identity $kind without rewriting it', (identity) => {
     const input = [battle(identity).command]
-    const before: unknown = JSON.parse(JSON.stringify(input))
+    const before = deepSnapshot(input)
     checkAuthorCommands(input, 'commands')
     expect(input).toEqual(before)
   })
@@ -113,7 +114,7 @@ describe('author battle choreography preserves the active dialogue dialect', () 
         ],
       },
     ]
-    const before: unknown = JSON.parse(JSON.stringify(input))
+    const before = deepSnapshot(input)
     expect(() => checkRuntimeCommands(input, 'commands')).not.toThrow()
     expect(input).toEqual(before)
   })

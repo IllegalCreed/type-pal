@@ -15,7 +15,7 @@ import {
   heroActor,
   item as makeItem,
 } from './__tests__/glm-item-logic-fixtures.js'
-import { expectAcceptsUnchanged } from './__tests__/guard-leaf-fixtures.js'
+import { expectAcceptsUnchanged } from './__tests__/validation-assertions.js'
 import type { CharacterInstance } from './character.js'
 import {
   describeEquipEffects,

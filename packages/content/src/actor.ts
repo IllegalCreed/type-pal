@@ -1,29 +1,29 @@
 /**
- * 统一角色定义(C0;设计 docs/phase2/archive/designs/actor-model-design.md)。
+ * 当前工程的角色定义。NPC 与战斗角色共享身份和基础外观。
  *
- * ActorDef:NPC 与可入队角色**同一类型**(用户拍板)——名字/头像/精灵一处定义,处处引用。
- * 可战斗/可入队的多带 `battler` 块(普通村民 NPC 不带)。
- * 场景实体(EntityDef)引用 actor(角色实例)或直接引用 sprite(纯静物 prop),二选一。
+ * 名字、立绘和世界精灵在 ActorDef 注册，场景用稳定角色 ID 引用。
+ * `battler` 声明入队与战斗所需的定义；普通 NPC 可以省略。
+ * 静物实体直接使用世界精灵，区域只声明空间范围。
  *
- * 与 content-schema §9「外观解耦」对齐:spriteId/battleSprite = 基础造型层;
- * 装备驱动的外观覆盖 = 将来加字段(appearanceRules),纯加法。
+ * spriteId 与 battleSprite 是基础外观。装备、存档实例和场景行为的覆写由各自所有者提供。
+ * 二进制资产与动画帧语义保存在精灵注册表，角色不会重复声明。
  */
 import type { AssetId } from './asset.js'
 import type { DialogueCue, EntityDef, TextId } from './index.js'
 
 /**
- * 战斗音效七件套(原版 PlayerRoles rgw*Sound 全量;敌侧对应 EnemySounds)。
- * schema 一次定全(数据地基);演出侧按落地进度消费:attack/weapon/magic 已接
- * (出招/挥击/吟唱帧),critical 等暴击落地、cover/dying/death 等对应演出落地。
+ * 战斗演出读取的角色音效标识。
+ * 普攻和暴击各用自己的出招音，武器命中及援护使用独立音效。
+ * 未登记的音效可保持静默。
  */
 export interface BattlerSounds {
   /** 普攻出招(rgwAttackSound,冲锋帧)。 */
   attack?: AssetId
-  /** 暴击出招(rgwCriticalSound,替换 attack;暴击未实现,先存数据)。 */
+  /** 暴击出招使用的音效。 */
   critical?: AssetId
-  /** 兵器命中(rgwWeaponSound,挥击帧 frame9)。 */
+  /** 兵器命中时播放的音效。 */
   weapon?: AssetId
-  /** 施法吟唱(rgwMagicSound,PreMagic 姿势帧 frame5)。 */
+  /** 施法吟唱时播放的音效。 */
   magic?: AssetId
   /** 替挡/格挡(rgwCoverSound)。 */
   cover?: AssetId
@@ -93,9 +93,9 @@ export interface BattlerSpec {
   coveredBy?: string
   /** 战斗伤亡脚本(原版 OBJECT_PLAYER.scriptOnFriendDeath/scriptOnDying;B11-1)。
    *  队友阵亡 → 死者 coveredBy 援护者跑 friendDeath(台词+临时增益);
-   *  自己跌入濒死 → 守护者在队且健康时跑 dying(纯对白)。 */
+   *  自己跌入濒死 → 符合援护者条件时跑 dying。有对白时，效果在对白结束后消费。 */
   casualty?: { friendDeath?: CasualtyScript; dying?: CasualtyScript }
-  /** 升级曲线槽位:expTable[i] = 从 level i 升 i+1 所需 exp。属性成长表迁移一阶段时定形。C0 不消费。 */
+  /** expTable[level] 为当前等级升下一级的经验阈值，状态菜单据此显示。 */
   leveling?: { expTable: number[] }
   /** 战斗精灵语义定义 id；二进制与动作 ABI 由 BattleSpriteDef 统一解析。 */
   battleSprite: string

@@ -67,7 +67,10 @@ describe('entity lifecycle table', () => {
 
     const source = { s001: { e001: { phase: 'removed' as const } } }
     const normalized = normalizeEntityLifecycleTable(source, references)
-    normalized.s001!.e001 = { phase: 'awaitingExit' }
+    expect(normalized.s001?.e001).not.toBe(source.s001.e001)
+    const scene = normalized.s001
+    if (!scene) throw new Error('Expected the normalized scene lifecycle table')
+    scene.e001 = { phase: 'awaitingExit' }
     expect(source.s001.e001).toEqual({ phase: 'removed' })
   })
 

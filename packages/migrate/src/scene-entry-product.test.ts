@@ -1,25 +1,25 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import type {
-  BaseAuthorCommand,
-  BaseSceneDef,
-  BaseSceneEntryPresentation,
-  BaseScriptFlow,
-  SceneIndexV1,
+import {
+  type AuthorCommand,
+  type AuthorScriptFlow,
+  type AuthorStagesFlow,
+  validateAuthorScenes,
+  validateSceneIndex,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
-const readJson = <T>(rel: string): T => JSON.parse(readFileSync(root + rel, 'utf8')) as T
+const readJson = (rel: string): unknown => JSON.parse(readFileSync(root + rel, 'utf8'))
 
-const sceneIndex = readJson<SceneIndexV1>('projects/pal/content/scenes/index.json')
-const scenes = sceneIndex.scenes.map((entry) =>
-  readJson<BaseSceneDef>(`projects/pal/${entry.path}`),
+const sceneIndex = validateSceneIndex(readJson('projects/pal/content/scenes/index.json'))
+const scenes = validateAuthorScenes(
+  sceneIndex.scenes.map((entry) => readJson(`projects/pal/${entry.path}`)),
 )
 
 function visitCommands(
-  body: readonly BaseAuthorCommand[],
-  visit: (command: BaseAuthorCommand) => void,
+  body: readonly AuthorCommand[],
+  visit: (command: AuthorCommand) => void,
 ): void {
   for (const command of body) {
     visit(command)
@@ -47,26 +47,25 @@ function visitCommands(
   }
 }
 
-function visitFlow(flow: BaseScriptFlow, visit: (command: BaseAuthorCommand) => void): void {
+function flowHasDither(flow: AuthorScriptFlow): boolean {
+  // Acquisition stages hold recipe parameters. Authored commands live in staged flows.
+  if (flow.kind === 'acquisition') return false
+  let found = false
+  const visit = (command: AuthorCommand) => {
+    if (command.kind === 'ditherScreen') found = true
+  }
   for (const stage of flow.stages) {
     visitCommands(stage.entry?.prepare ?? [], visit)
     visitCommands(stage.body, visit)
   }
-}
-
-function flowHasDither(flow: BaseScriptFlow): boolean {
-  let found = false
-  visitFlow(flow, (command) => {
-    if (command.kind === 'ditherScreen') found = true
-  })
   return found
 }
 
 interface EntrySite {
   targetScene: string
   ownerPath: string
-  entry: BaseSceneEntryPresentation
-  body: BaseAuthorCommand[]
+  entry: NonNullable<AuthorStagesFlow['stages'][number]['entry']>
+  body: AuthorCommand[]
 }
 
 function collectEntrySites(): EntrySite[] {
@@ -85,22 +84,10 @@ function collectEntrySites(): EntrySite[] {
   return sites
 }
 
-const expectedEntryScenes = [
-  's001',
-  's018',
-  's057',
-  's090',
-  's151',
-  's180',
-  's182',
-  's196',
-  's197',
-  's198',
-  's200',
-]
 const expectedIndependentDitherScenes = [
   's003',
   's011',
+  's017',
   's020',
   's058',
   's059',
@@ -137,25 +124,27 @@ const expectedNonEarlyOnEnterScenes = [
   's251',
 ]
 
-describe('X3-1 · PAL 作者工程的显式入场分类', () => {
-  test('11 个早期 dither 站点全部提升，含 s182 dynamic hook', () => {
+describe('PAL 作者工程的显式入场分类', () => {
+  test('精确核对 dither 入场和 s037 战败切回的显式呈现', () => {
     const sites = collectEntrySites()
-    expect(sites.map((site) => site.targetScene).sort()).toEqual(expectedEntryScenes)
-    expect(sites.map((site) => site.ownerPath).sort()).toEqual([
-      's001/onEnter/default/initial',
-      's018/onEnter/default/initial',
-      's057/onEnter/default/initial',
-      's090/onEnter/default/initial',
-      's151/onEnter/default/initial',
-      's180/onEnter/default/initial',
-      's182/onEnter/legacy-001/initial',
-      's196/onEnter/default/initial',
-      's197/onEnter/default/initial',
-      's198/onEnter/default/initial',
-      's200/onEnter/default/initial',
+    const locations = sites
+      .map(({ ownerPath, entry }) => `${ownerPath} ${entry.reveal.kind}`)
+      .sort()
+    expect(locations).toEqual([
+      's001/onEnter/default/initial dither',
+      's018/onEnter/default/initial dither',
+      's037/onEnter/legacy-002/initial cut',
+      's057/onEnter/default/initial dither',
+      's090/onEnter/default/initial dither',
+      's151/onEnter/default/initial dither',
+      's180/onEnter/default/initial dither',
+      's182/onEnter/legacy-001/initial dither',
+      's196/onEnter/default/initial dither',
+      's197/onEnter/default/initial dither',
+      's198/onEnter/default/initial dither',
+      's200/onEnter/default/initial dither',
     ])
     for (const { entry } of sites) {
-      expect(entry.reveal.kind).toBe('dither')
       expect(entry.prepare.some((command) => command.kind === 'ditherScreen')).toBe(false)
     }
   })
@@ -219,7 +208,7 @@ describe('X3-1 · PAL 作者工程的显式入场分类', () => {
     }
   })
 
-  test('19 个实体独立 dither 与 13 个非早期 onEnter 保持通用命令', () => {
+  test('实体独立 dither 与非早期 onEnter 保持通用命令', () => {
     const independent = scenes
       .filter((scene) =>
         scene.entities.some((entity) =>

@@ -3,7 +3,7 @@
  *
  * 毒 ≠ BattleStatus 字段,是独立 {poisonId, tickIndex} 列表:每回合跑当前 tick、**指针推进**。
  * 敌我两套 tick(同毒效果不同);到序列尾重复末项,或 selfCure 移除该毒(三尸蛊暴扣后自除)。
- * 两侧序列的首项是新增毒槽时的入口效果，后续各项由回合末消费。
+ * 序列首项可以由战斗入口消费；新世界播种只设置游标，后续效果由运行时推进。
  *
  * **递进毒**天然可表达 —— ticks 是**序列**、指针每回合前进:如三尸蛊 [0,0,−1,−2,−3,−200] 就是
  * 逐回合递增伤害。固定毒 = 单元素(重复);递进毒 = 多元素;到尾 clamp 末项或 selfCure。
@@ -13,9 +13,9 @@
 export interface PoisonTick {
   /** 每回合扣血(玩家 0x1B / 敌 0x21;负值扣、正值极罕见)。 */
   hpDelta?: number
-  /** 每回合扣蓝(负值;当前无扣蓝毒药,留给未来内容 —— 毒系统能力保留)。 */
+  /** 真气变化量，负数表示消耗。 */
   mpDelta?: number
-  /** 无影毒 0x5B 一次性:扣 = min(halveHp, 当前HP/2+1)。 */
+  /** 无影毒入口扣血上限；实际扣 min(halveHp, trunc(当前 HP / 2) + 1)。 */
   halveHp?: number
   /** 到期给玩家一件道具(养蛊:食妖虫附→灵蛊、碧血蚕附→碧血蚕;寄生 9 回合后产出)。 */
   grantItem?: string
@@ -28,11 +28,11 @@ export interface PoisonTick {
  * 是省空间的下标式身份。clean 版用语义明确的可解度分层):
  * - common:常规毒(赤/尸/瘴/毒丝),灵血咒/九节菖蒲即解。
  * - severe:六大毒(三尸蛊等),仅复活类(连带 ≤ severe)或相克可解。
- * - incurable:无影毒(谁都不解)、寄生毒(食妖虫/碧血蚕,只能撑到期自产道具)。
+ * - incurable:无影毒与寄生毒。普通解毒和战后恢复的可解范围不含此级。
  */
 export type PoisonCurability = 'common' | 'severe' | 'incurable'
 
-/** 可解度分层排序(cure 力 ≥ 毒可解度秩 才能解;incurable 无 cure 可及)。 */
+/** 可解度的比较顺序。具体解毒上限来自道具、技能或战后清理。 */
 export const POISON_CURE_RANK: Record<PoisonCurability, number> = {
   common: 0,
   severe: 1,
@@ -116,7 +116,10 @@ export function poisonCurableBy(
 type PoisonSelfResult = 'cured' | 'lethal' | 'applied'
 type PoisonSelfHost = { hp: number; poisons?: ActivePoison[] }
 
-/** 使用毒道具依次处理相克、致死搭档和新增毒槽。传入的毒抗门只在第三步执行。 */
+/**
+ * 依次处理相克、致死搭档和新增毒槽。毒抗门只参与最后一步。
+ * applied 表示通过毒抗门；同一种毒已占槽时保留原游标。
+ */
 export function applyPoisonSelf(
   host: PoisonSelfHost,
   poisonId: number,

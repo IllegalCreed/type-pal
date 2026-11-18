@@ -33,6 +33,11 @@ Template: governance-index-v1 / 1.0.0
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-ACQUISITION-CHEST-FACING-1 — 宝箱打开方向的作者字段校验](CONTENT-ACQUISITION-CHEST-FACING-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1 — 角色首次入队的技能归属](CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1 — 战后条件引用的诊断归属](CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-ENEMY-COMMAND-DOMAINS-1 — 敌脚本字段与命令诊断](CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-SPRITE-FRAME-BOUNDARY-1 — 精灵声明与实际帧容量](CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -474,6 +479,7 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）](CODE-QUALITY-98-menu-opening-player-status.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）](CODE-QUALITY-99-menu-driver-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-SCENE-REFERENCE-OWN-KEY-1 — 命名落点与入口方案存在性](CONTENT-SCENE-REFERENCE-OWN-KEY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理](DOCS-NATIVE-JSON-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -528,6 +534,7 @@ Template: governance-index-v1 / 1.0.0
 | [N6B-ITEM-FLOWS-1 — 四类共享取物流程与参数表单](N6B-ITEM-FLOWS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [PAL-SHARED-CHEST-1 — 普通宝箱首次开盖](PAL-SHARED-CHEST-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-CONTENT-REFERENCES-1 — 二阶段内容引用与场景复制治理](QUALITY-CONTENT-REFERENCES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |

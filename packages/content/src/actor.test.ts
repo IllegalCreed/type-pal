@@ -23,4 +23,10 @@ describe('实体引用判别 + 精灵解析', () => {
     const dangling: EntityDef = { id: 'e3', pos: { col: 0, row: 0, height: 0 }, actor: 'nobody' }
     expect(resolveEntitySpriteId(dangling, actors)).toBeUndefined()
   })
+
+  test('a zone has no visual reference even when its entity ID matches an actor', () => {
+    const zone: EntityDef = { id: 'youhun', pos: { col: 0, row: 0, height: 0 }, zone: true }
+    expect(isActorEntity(zone)).toBe(false)
+    expect(resolveEntitySpriteId(zone, actors)).toBeUndefined()
+  })
 })

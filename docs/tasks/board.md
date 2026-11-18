@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-16
+Last reviewed: 2026-11-19
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -52,6 +52,18 @@ Template: governance-index-v1 / 1.0.0
 ### 代码治理：最近完成的文件批次
 
 `QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
+
+`QUALITY-CONTENT-REFERENCES-1` 已完成 101 个原文件，七个风险文件保持 review。全仓、覆盖率、lint 和账本的实际回执见[唯一执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz)。
+
+### 代码治理：内容引用风险留项
+
+| ID | 原任务入口 | 状态 | 阶段 | 当前范围 | Owner / 下一步 |
+|---|---|---|---|---|---|
+| CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1 | [战后条件诊断归属](cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md) | draft | 第二阶段 | 已复现合法作者条件的重复诊断 | Codex / 核公开诊断归属及顺序后另行准入 |
+| CONTENT-SPRITE-FRAME-BOUNDARY-1 | [精灵声明与实际帧容量](cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | draft | 第二阶段 | 战斗编辑容量校验前 RangeError 已复现 | Codex / 核两类帧集合和资产边界后另行准入 |
+| CONTENT-ENEMY-COMMAND-DOMAINS-1 | [敌脚本字段与命令诊断](cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | draft | 第二阶段 | 已复现数组通过离散值守卫及错误分派 | Codex / 格式守卫整改另行准入 |
+| CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1 | [角色首次入队的技能归属](cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md) | draft | 第二阶段 | 合法角色在开局或初次入队漏记初始技能 | Codex / 核运行与输入边界后另行准入 |
+| CONTENT-ACQUISITION-CHEST-FACING-1 | [宝箱打开方向的作者字段校验](cards/CONTENT-ACQUISITION-CHEST-FACING-1.md) | draft | 第二阶段 | 作者场景校验错误接受数组方向 | Codex / 先核合法载体与加载，再单独准入 |
 
 ### 代码治理：既有批次与卡面收口
 
