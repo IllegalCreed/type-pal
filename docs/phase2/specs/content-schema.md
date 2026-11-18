@@ -26,6 +26,8 @@ Template: design-spec-v1 / 1.0.0
 
 战外施毒先处理相克与双毒致死。尝试上毒时掷 1–100，结果严格大于装备和临时毒抗之和才可新增毒槽。新增时立即执行 `playerTicks` 首项，有后续项时从下一项续走。同种毒保留原槽与续点。 [战外用物结算](../../../packages/content/src/item.ts) · [原版上毒与入口执行](../../../reference/sdlpal/script.c#L1257-L1285)
 
+战外用物的 `gate` 掷 1–100，严格小于 `chance` 时继续后续效果。门失败结束当前效果链。配置 `consumeOnFailure: true` 时按成功提交用物，依 `use.consuming` 扣库存，并在已有的居中结果框显示「无任何效果」。省略此配置的概率门失败时拒绝用物并保留库存。PAL 盐巴使用失败仍完成的配置。 [用物结算](../../../packages/content/src/item.ts) · [结果框入口](../../../packages/reforge/src/menu/item-use-result.ts)
+
 ### 寄生毒与产物旁白
 
 `PoisonDef.enemyTicks` 的首项由新增敌方毒槽消费，后续项按回合末推进。PAL 的食妖虫附和碧血蚕附各以空首项开始，接八项扣血和单独的入账自解项。第九次回合末发放产物。 [毒定义类型](../../../packages/content/src/poison.ts) · [PAL 毒定义](../../../projects/pal/content/poisons.json)

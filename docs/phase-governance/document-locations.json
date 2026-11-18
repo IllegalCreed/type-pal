@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "af3b20d7ced92c7350e9d173ed94fac7d0864043b983af302a4c75f044d18d84",
+      "afterSha256": "8ce3f8f1e07a5750f4c32b5566827fecffa5452fa155ae87ad4dca67995bd7b6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外施毒机制复核",
+        "reviewer": "Codex 战外概率门证据复核",
         "date": "2026-11-19",
-        "conclusion": "核战外施毒和体力减半的当前规则。",
-        "reviewedLines": 1880,
-        "acceptanceScope": "核战外无影毒的原盘 `0x5A`、当前目标与整数取半。"
+        "conclusion": "核原始盐巴指令与用物完成分支。",
+        "reviewedLines": 1882,
+        "acceptanceScope": "核战外盐巴两个抽样分支及全体用物的扣库存条件。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "0fa540412f08a7b8e4294ad26913106eaa2f1dacd95b1988093eb1aa4565cdb7",
+      "afterSha256": "98e818127005a663f857ef06a8f82925dca1e67b7fa7c064ea99fbec3d92849b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外施毒机制复核",
+        "reviewer": "Codex 战外概率门证据复核",
         "date": "2026-11-19",
-        "conclusion": "核战外施毒和体力减半的当前规则。",
-        "reviewedLines": 266,
-        "acceptanceScope": "核战外毒抗、实际新增毒槽、入口首拍与后续游标。"
+        "conclusion": "核原始盐巴指令与用物完成分支。",
+        "reviewedLines": 268,
+        "acceptanceScope": "核概率门失败完成、后效截断和独立结果框输入。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c9658b5e0b6296c2b2c2265acb38cd0b7e1103129fde247ced926262dee52913",
+      "afterSha256": "de36564666db9ac0bfd0d6a4f71fcbddec90e08a853aaa75fc890885a08934a8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外施毒与成长实测复核",
+        "reviewer": "Codex 战外用物范围复核",
         "date": "2026-11-19",
-        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
-        "reviewedLines": 903,
-        "acceptanceScope": "核新增 22 个入口、质量原件、录像来源与清理账。"
+        "conclusion": "核战外解毒、状态、升级的用物范围和盐巴修前反例。",
+        "reviewedLines": 909,
+        "acceptanceScope": "接受新增批次准入与已实跑的事实。本轮正式复验继续按双端原件登记。"
       }
     },
     {

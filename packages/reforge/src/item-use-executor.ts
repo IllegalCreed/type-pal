@@ -157,6 +157,7 @@ async function executeMixedItemPrivateUse(
       ...segment.effectResults.map((entry) => ({ ...entry, index: start + entry.index })),
     )
     presentations.push(...segment.presentations)
+    if (segment.effectResults.at(-1)?.gate?.passed === false) break
   }
 
   options.signal?.throwIfAborted()

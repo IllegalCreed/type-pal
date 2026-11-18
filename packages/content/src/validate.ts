@@ -996,6 +996,8 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
               integer: true,
             })
       if (chance > 100) throw new Error(`${ctx}.chance: 不得大于 100`)
+      if (effect.consumeOnFailure !== undefined && typeof effect.consumeOnFailure !== 'boolean')
+        throw new Error(`${ctx}.consumeOnFailure: 期望 boolean`)
       break
     }
     case 'runScript':

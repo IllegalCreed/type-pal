@@ -112,6 +112,39 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
     })
   })
 
+  test('已结算的概率门失败会截断后续物品私有脚本', async () => {
+    let active = world('book')
+    const ref: ScriptRef = { chunk: '__author-item-private-runtime', id: 'book' }
+    const items = item('book', { kind: 'gate', chance: 50, consumeOnFailure: true })
+    items.book!.use!.effects.push({ kind: 'runScript', script: ref })
+    const runScript = vi.fn(async () => {
+      active = { ...active, money: 77 }
+    })
+    const outcome = await executeWorldItemUse({
+      world: active,
+      targetCharId: '',
+      itemId: 'book',
+      items,
+      rng: () => 0.495,
+      host: {
+        currentWorld: () => active,
+        replaceWorld: (next) => {
+          active = next
+        },
+        runScript,
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: vi.fn(async () => false),
+      },
+    })
+    expect(runScript).not.toHaveBeenCalled()
+    expect(outcome).toMatchObject({
+      status: 'success',
+      consumed: true,
+      presentations: [{ kind: 'item-message', text: '无任何效果' }],
+    })
+    expect(outcome.world.inventory).toEqual([])
+  })
+
   test('物品私有脚本可与纯效果按原顺序执行，最后只消耗一次', async () => {
     let active = world('book')
     const ref: ScriptRef = { chunk: '__author-item-private-runtime', id: 'book' }

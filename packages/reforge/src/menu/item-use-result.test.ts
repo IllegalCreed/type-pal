@@ -49,6 +49,11 @@ describe('C8 · item use result presentation', () => {
     ])
   })
 
+  test('道具文字提示按原文送入居中卷轴', () => {
+    const entries = buildItemUseResultEntries([{ kind: 'item-message', text: '无任何效果' }], items)
+    expect(entries.map(itemUseResultText)).toEqual(['无任何效果'])
+  })
+
   test('D14-3:reward-gain 单行文本(炼成/炼出 + 名 + 数量)', () => {
     const entry: ItemUseResultEntry = {
       itemId: 'a',

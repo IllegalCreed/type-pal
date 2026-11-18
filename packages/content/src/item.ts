@@ -137,7 +137,7 @@ export type ItemUseEffect =
   | { kind: 'applyPoison'; poisonId: string } // 0x29(尸腐肉/毒蛇卵——下毒食物)
   | { kind: 'curePoison'; curesTier?: import('./poison.js').PoisonCurability; poisonId?: string } // 0x2B/0x2C(糯米/雄黄/九节菖蒲)
   | { kind: 'permanentStatBoost'; stat: CombatStat | 'maxHP' | 'maxMP'; delta: number } // 0x19(舍利子/雪蛤蟆——永久成长)
-  | { kind: 'gate'; chance?: number } // 0x6 概率门(盐巴 50% 解毒);失败截断其后
+  | { kind: 'gate'; chance?: number; consumeOnFailure?: boolean } // 0x06 概率门，失败截断其后
   | { kind: 'dieIfNotPoisoned' } // 0x61(毒龙胆/九阴散):没中毒则秒杀自己,否则续跑后效(解毒/回血)
   /** 长剧情仍是一等共享脚本；引用必须完整、可校验、可反跳。 */
   | { kind: 'runScript'; script: ScriptRef }
@@ -608,20 +608,22 @@ export interface WorldItemUseEffectResult {
 }
 
 /** 交给 Reforge 表现层的数据；内容层不决定框的位置、停留时间或输入方式。 */
-export interface WorldItemUsePresentation {
-  kind: 'item-result'
-  source: 'craftRecipe' | 'drawFromResourcePool'
-  items: ItemAmount[]
-}
+export type WorldItemUsePresentation =
+  | {
+      kind: 'item-result'
+      source: 'craftRecipe' | 'drawFromResourcePool'
+      items: ItemAmount[]
+    }
+  | { kind: 'item-message'; text: string }
 
 export interface WorldItemUseOutcome {
   status: 'success' | 'failure' | 'external'
   world: WorldState
   consumed: boolean
   changed: boolean
-  /** 已执行/尝试的效果结果；成功时完整且严格保序。 */
+  /** 按实际执行顺序记录结果，概率门失败可截断后续效果。 */
   effectResults: WorldItemUseEffectResult[]
-  /** 需要独立结果框呈现的产物；不靠具体 PAL itemId 判断。 */
+  /** 按顺序交给世界用物结果框的内容。 */
   presentations: WorldItemUsePresentation[]
   /** 只有 status=external 时存在；reforge 必须逐项执行并据真实结果决定是否消耗。 */
   externalEffects?: ExternalItemUseEffect[]
@@ -897,19 +899,22 @@ export function resolveWorldItemUse(
         changed: false,
         gate: { chance, roll, passed },
       })
-      // 原版 0x06: RandomLong(1,100) < threshold 才通过，因此阈值 N 的成功率是 N-1%。
-      if (!passed)
-        return {
-          status: 'failure',
-          world,
-          consumed: false,
-          changed: false,
-          effectResults,
-          presentations: [],
-          reason: 'gate-failed',
-          menu,
-        }
-      continue
+      // 原版 0x06 掷 1–100，严格小于阈值才执行后续效果。
+      if (passed) continue
+      if (eff.consumeOnFailure) {
+        presentations.push({ kind: 'item-message', text: '无任何效果' })
+        break
+      }
+      return {
+        status: 'failure',
+        world,
+        consumed: false,
+        changed: false,
+        effectResults,
+        presentations: [],
+        reason: 'gate-failed',
+        menu,
+      }
     }
     if (eff.kind === 'craftRecipe') {
       const recipeIndex = eff.recipes.findIndex((candidate) =>
@@ -1188,7 +1193,9 @@ export function resolveWorldItemUse(
       ...(targetCharIds.length > 0 ? { targetCharIds } : {}),
     })
   }
-  const ineffectiveRevive = !changed && effectResults.some(({ kind }) => kind === 'revive')
+  const completedAtGate = effectResults.at(-1)?.gate?.passed === false
+  const ineffectiveRevive =
+    !completedAtGate && !changed && effectResults.some(({ kind }) => kind === 'revive')
   const consumed = consumeItem(nextWorld, itemId, useSpec.consuming && !ineffectiveRevive)
   const committedChanged = changed || consumed
   return {

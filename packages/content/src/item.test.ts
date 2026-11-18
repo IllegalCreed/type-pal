@@ -923,6 +923,44 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
     expect(failure.world).toBe(initial)
     expect(initial.inventory).toEqual([{ itemId: 'salt', count: 1 }])
   })
+
+  test('配置为失败仍结算的概率门扣一份库存，显示无效果并截断后效', () => {
+    const items: ItemDataMap = {
+      salt: {
+        id: 'salt',
+        name: '盐巴',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'allAllies',
+          consuming: true,
+          menuAfterUse: 'close',
+          effects: [
+            { kind: 'gate', chance: 50, consumeOnFailure: true },
+            { kind: 'curePoison', poisonId: '551' },
+          ],
+        },
+      },
+    }
+    const initial = world([{ itemId: 'salt', count: 2 }], 10)
+    initial.party[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }]
+    const result = resolveWorldItemUse(initial, 'hero', 'salt', items, undefined, () => 0.495)
+    expect(result).toMatchObject({
+      status: 'success',
+      consumed: true,
+      changed: true,
+      menu: 'close',
+      presentations: [{ kind: 'item-message', text: '无任何效果' }],
+    })
+    expect(result.effectResults).toEqual([
+      { index: 0, kind: 'gate', changed: false, gate: { chance: 50, roll: 50, passed: false } },
+    ])
+    expect(result.world.party).toEqual(initial.party)
+    expect(result.world.inventory).toEqual([{ itemId: 'salt', count: 1 }])
+    expect(initial.inventory).toEqual([{ itemId: 'salt', count: 2 }])
+  })
 })
 
 describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)', () => {
