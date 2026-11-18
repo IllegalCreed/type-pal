@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "3cdb5855972a212092b7a0331c506be451b422f2a2c3f261cf1aff8c356e66cf",
+      "afterSha256": "fac4d53458e63468f43a871582515779d403238df2065cf955557de2dad78b84",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据原盘与双端实战原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记剑诀对照归档及重录入口。",
-        "reviewedLines": 65,
-        "acceptanceScope": "本批新增归档链接和可复算范围。"
+        "conclusion": "登记带声分屏与日志归档。",
+        "reviewedLines": 66,
+        "acceptanceScope": "核本批归档和逐案重录入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "e4227e81965b0f7cb7a74325f66a16b893f8d4a6a0139407ad0cf1ffac444c76",
+      "afterSha256": "b9bdadc218d2d389c0cf8274a23bbee58e15fa95d71949493068e8092983d83e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 雷冰仙术原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "记录普通对敌仙术起手末拍与 FIRE 前准备拍。",
-        "reviewedLines": 1818,
-        "acceptanceScope": "分别核起手结束和进入主特效后的两处原盘等待。"
+        "conclusion": "记录两个风系技能共用的原盘攻击特效及各自吹飞。",
+        "reviewedLines": 1822,
+        "acceptanceScope": "核两条 SSS 写入、有符号位移、FIRE 帧数、恢复与伤害次序。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "3adc681f0d3e130336575f81b26118881c278d4856336bafc30c9191f4f955d4",
+      "afterSha256": "1fb3bb0333de6cee63ccce47c6f02a02969f53ee191165104c5465afc8819091",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据固定源码与双端原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "核战斗会话三个已刊调用片段的来源。",
-        "reviewedLines": 7919,
-        "acceptanceScope": "只重绑同范围文件摘要和附一条适用性记录。"
+        "conclusion": "核定 Reforge 会话和群体物攻的现行来源。",
+        "reviewedLines": 7965,
+        "acceptanceScope": "逐字核原调用范围、固定工作树指纹和既有执行身份。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "fac16c3b0d1e308da63a9b24cef8fdacf44fae1aed69661ff29843632a9ccf98",
+      "afterSha256": "35c125c2ff21aebe0258d61ce4484f3e31dd682c38d87ddabe941f933394ef31",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 与 q2_restore_drain_probe 定向核对触发与预载",
-        "date": "2026-11-16",
-        "conclusion": "原盘 0x9E 成功音效，现行可选资源角色、预载和运行时召唤时间线一致。",
-        "reviewedLines": 236,
-        "acceptanceScope": "补齐敌人召唤音效的可选角色和入场时机。实际玉佛寺双端复验按 Q2 回执。"
+        "reviewer": "Codex 风系施法原件复核",
+        "date": "2026-11-18",
+        "conclusion": "同步当前玩家吹飞字段。",
+        "reviewedLines": 240,
+        "acceptanceScope": "核 signed 16 位校验、普通群体和召唤后段的实战入口以及现行版本。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "49c598e4fcf0c6c2c22c2b1a20ab1996681be2e7c3ade2d082f5155f0c846953",
+      "afterSha256": "b7dc18a8e3fbe0581c4f4b31c7cfc77b036890dbfb034cb9f6f53d796885c4c0",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据固定源码与双端原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "核三个会话片段的来源和既有 claim 指针。",
-        "reviewedLines": 942,
-        "acceptanceScope": "当前源码片段和历史指针逐值复验。"
+        "conclusion": "复核原会话调用坐标和断言指针。",
+        "reviewedLines": 972,
+        "acceptanceScope": "核固定候选、原 claim、历史追加和适用性回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "02b3862a0631019a21dcb54a4791b69342e555b35b6bdcc9120f1612729772a4",
+      "afterSha256": "4084607286cf4bb959c5d7c71f450565b5e0a7f1645d115e4afe8cac2fdc5b0c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据固定源码与双端原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "同步三个现行会话来源及其历史回执。",
+        "conclusion": "更新会话归属报告的来源坐标。",
         "reviewedLines": 101,
-        "acceptanceScope": "仅本次 metadata 变更和配对消费者。"
+        "acceptanceScope": "三个原调用片段相等，报告与机器证据配对。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "af59c1854ec5939106a8750eb7ab86b3e1bcca7e487c04aa98856905c3931e1f",
+      "afterSha256": "80ad52be91814960727aac11910e42bba07930ec7087c7849b3723b8496c7760",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据原盘与双端实战原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "登记六招剑诀的实跑、两类旧差异、修后复验和留存。",
-        "reviewedLines": 737,
-        "acceptanceScope": "七个局面、修前原件和解码复验，用户观看回执待记录。"
+        "conclusion": "核普通仙术批与风神追加根因、修复、复验及清理。",
+        "reviewedLines": 751,
+        "acceptanceScope": "合法实战、定向与静态门、双端原件、录像与恢复。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "ba9b9f631ad9005cee580d6772f96df473db4cd166b1e7b4799b3ec18b811a89",
+      "afterSha256": "03bc137759482496737e42f1e4923c2a6989bfde6e2562070c8f4f6c8d832735",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 续接会话复核",
-        "date": "2026-11-17",
-        "conclusion": "同步战后半恢复和练成实绘的源位置及适用性历史。",
-        "reviewedLines": 14576,
-        "acceptanceScope": "实际桥接恢复固定回执。历史运行、反例、断言和附件身份继续绑定原件。"
+        "reviewer": "Codex 风系施法原件复核",
+        "date": "2026-11-18",
+        "conclusion": "群体物攻声明来源随风卷残云分支更新。",
+        "reviewedLines": 14592,
+        "acceptanceScope": "移动行号逐字复核，核原始历史、断言及附件适用性。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f7c6d3557a1af1e15816bb926650df3be5ae11a5f731dcc8937b62b900962128",
+      "afterSha256": "ce3fdfc77527a3500ec0161b03605065ddaf4d4ed31a1dbfd82ac99f0eefb262",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据原盘与双端实战原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "核六种剑诀、震屏帧序、背景留痕及覆盖进度。",
-        "reviewedLines": 874,
-        "acceptanceScope": "七组双端轨迹、旧画序和旧震屏反例、原速分屏解码。"
+        "conclusion": "四招实战列入台账并补核风神吹飞。",
+        "reviewedLines": 898,
+        "acceptanceScope": "四招独立伤害、两个风场、两招吹飞原件和原速声画。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "4412eb6b1c409b883de185872f1c96952ccf13e2b6a0ec9b9af858f29a650b19",
+      "afterSha256": "72a8e0782a165d2a27808586eced008fae6b8633e4d8d16eadb2195d5a5a27ca",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 据原盘与双端实战原件复核",
+        "reviewer": "Codex 风系施法原件复核",
         "date": "2026-11-18",
-        "conclusion": "核三个会话来源、固定版本和适用性桥接反控。",
-        "reviewedLines": 323,
-        "acceptanceScope": "原来源坐标、当前摘要、断言指针和已核消费者。"
+        "conclusion": "核对现行会话与群体物攻的来源桥。",
+        "reviewedLines": 329,
+        "acceptanceScope": "四个冻结出版物还原和历史断言反控。"
       }
     }
   ],
@@ -6064,6 +6064,12 @@
       "bytes": 10692570,
       "sha256": "0026579f3192f0650494dda2838a883fd739bce9a9dc40205ac1230d67c98e28",
       "purpose": "六种剑诀的双端实跑，层序与震屏反例，留痕像素及原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-other-attacks-20261118.tar.gz",
+      "bytes": 10224730,
+      "sha256": "5dc02217c6690a5dd24249b482c7f6d01f43b60879b461efd25b1a15049c9f8d",
+      "purpose": "风卷残云、天师符法、万蚁蚀象、爆炸蛊和风神的双端原件、反例、像素回执及重录入口。"
     }
   ],
   "artifactAliases": [],

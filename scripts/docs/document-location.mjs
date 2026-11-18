@@ -43,6 +43,7 @@ import {
   isTestingBattleSpellFeedbackSource,
   isTestingBattleSummonDivisionSource,
   isTestingBattleSummonSource,
+  isTestingBattleWindBlowSource,
   restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleCasualtyRosterSourceBindings,
   restoreTestingBattleClosureSourceBindings,
@@ -61,6 +62,7 @@ import {
   restoreTestingBattleSummonPlaybackSourceBindings,
   restoreTestingBattleSummonSourceBindings,
   restoreTestingBattleVictorySourceBindings,
+  restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   testingBattleActionCadencePublicationBase,
   testingBattleCasualtyRosterPublicationBase,
@@ -96,6 +98,7 @@ import {
   testingBattleSummonPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
+  testingBattleWindBlowPublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
 } from './testing-battle-publication.mjs'
@@ -682,8 +685,25 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const scriptedShakeSource = scriptedShakeRevision && gitTree(root, scriptedShakeRevision, [])
   const preScriptedShake =
     scriptedShakeSource && gitTree(root, testingBattleScriptedShakePublicationBase, [])
-  const readBeforeBattleScriptedShake = (path) => {
+  const windBlowRevision = admission.testingBattleWindBlowSourceRevision
+  if (windBlowRevision !== undefined)
+    assert(
+      scriptedShakeSource && /^[a-f0-9]{40}$/u.test(windBlowRevision),
+      'battle wind blow source bridge requires the fixed preceding scripted shake revision',
+    )
+  const windBlowSource = windBlowRevision && gitTree(root, windBlowRevision, [])
+  const preWindBlow = windBlowSource && gitTree(root, testingBattleWindBlowPublicationBase, [])
+  const readBeforeBattleWindBlow = (path) => {
     const live = readSource(path)
+    if (!preWindBlow || !isTestingBattleWindBlowSource(path)) return live
+    assert(
+      live?.equals(windBlowSource.read(path)),
+      'battle wind blow source differs from the frozen candidate',
+    )
+    return preWindBlow.read(path)
+  }
+  const readBeforeBattleScriptedShake = (path) => {
+    const live = readBeforeBattleWindBlow(path)
     if (!preScriptedShake || path !== testingBattleSessionSourcePath) return live
     assert(
       live?.equals(scriptedShakeSource.read(path)),
@@ -791,13 +811,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorScriptedShake = preScriptedShake
-      ? restoreTestingBattleScriptedShakeSourceBindings(path, bytes, {
+    const priorWindBlow = preWindBlow
+      ? restoreTestingBattleWindBlowSourceBindings(path, bytes, {
           readSource,
+          readBase: preWindBlow.read,
+          readFixed: windBlowSource.read,
+        })
+      : bytes
+    const priorScriptedShake = preScriptedShake
+      ? restoreTestingBattleScriptedShakeSourceBindings(path, priorWindBlow, {
+          readSource: readBeforeBattleWindBlow,
           readBase: preScriptedShake.read,
           readFixed: scriptedShakeSource.read,
         })
-      : bytes
+      : priorWindBlow
     const priorLearnedSkills = preLearnedSkills
       ? restoreTestingBattleLearnedSkillsSourceBindings(path, priorScriptedShake, {
           readSource: readBeforeBattleScriptedShake,

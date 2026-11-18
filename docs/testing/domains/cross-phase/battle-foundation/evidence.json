@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2465",
-      "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
+      "lines": "2490",
+      "sha256": "febe65792973d19ffa6ca17e55cc875a8be4330e4341bf7f2229500e269a384f"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -13304,6 +13304,22 @@
         }
       ],
       "scope": "按当前等级补学仙术并按角色编排结算后，练成渲染和战后半恢复声明的片段逐字相同，旧执行及反例保持原候选。"
+    },
+    {
+      "action": "q2-wind-blow-source-rebinding",
+      "base": "aa999b84470b487dfff963ddcc55a90e1df84d7b",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2465",
+          "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
+        }
+      ],
+      "scope": "风卷残云的吹飞步长先于伤害结算消耗。既有多目标物攻调用坐标迁移，片段逐字节复核相等，原始 Q2 执行及断言仍对应各自候选。"
     }
   ],
   "_governance": {

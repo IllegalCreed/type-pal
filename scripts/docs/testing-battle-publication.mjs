@@ -1170,6 +1170,43 @@ export function restoreTestingBattleScriptedShakeSourceBindings(path, bytes, inp
   )
 }
 
+export const testingBattleWindBlowPublicationBase = 'aa999b84470b487dfff963ddcc55a90e1df84d7b'
+const battleWindBlowStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '426-438', '1283-1292': '1289-1298' },
+    ],
+    [battleTransformCore, { 2465: '2490' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleWindBlowPublicationBase,
+  action: 'q2-wind-blow-source-rebinding',
+  date: '2026-11-18',
+}
+const battleWindBlowBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleWindBlowSource = (path) => battleWindBlowStage.ranges.has(path)
+
+export function restoreTestingBattleWindBlowSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleWindBlowStage,
+    battleWindBlowBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

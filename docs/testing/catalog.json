@@ -2201,21 +2201,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "420-432",
+          "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1283-1292",
+          "lines": "1289-1298",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -3036,6 +3036,36 @@
               }
             ],
             "scope": "玩家仙术的脚本震屏改随 FIRE 帧保持整屏偏移。会话选择和构造期的三个已有片段逐字节相同，原执行保留固定候选。"
+          },
+          {
+            "action": "q2-wind-blow-source-rebinding",
+            "base": "aa999b84470b487dfff963ddcc55a90e1df84d7b",
+            "date": "2026-11-18",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "420-432",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1283-1292",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+              }
+            ],
+            "scope": "风卷残云使用已预载的实际 FIRE 帧数及现有战斗动作进入演出。三处既有会话接线片段逐字节复核相等，原执行继续对应固定候选。"
           }
         ]
       },
@@ -5975,8 +6005,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2465",
-          "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
+          "lines": "2490",
+          "sha256": "febe65792973d19ffa6ca17e55cc875a8be4330e4341bf7f2229500e269a384f"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -7440,6 +7470,22 @@
               }
             ],
             "scope": "按当前等级补学仙术并按角色编排结算后，练成渲染和战后半恢复声明的片段逐字相同，旧执行及反例保持原候选。"
+          },
+          {
+            "action": "q2-wind-blow-source-rebinding",
+            "base": "aa999b84470b487dfff963ddcc55a90e1df84d7b",
+            "date": "2026-11-18",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2465",
+                "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
+              }
+            ],
+            "scope": "风卷残云的吹飞步长先于伤害结算消耗。既有多目标物攻调用坐标迁移，片段逐字节复核相等，原始 Q2 执行及断言仍对应各自候选。"
           }
         ]
       }

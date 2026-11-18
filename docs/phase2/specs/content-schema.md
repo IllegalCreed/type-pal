@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-11-13
+Last reviewed: 2026-11-18
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -49,6 +49,10 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 ### 敌人召唤音效
 
 工程资源 `assets.roles['audio.battleEnemySummonSound']` 是可选的战斗音效。配置时需引用音效库中已有的 sound 资源，战斗启动时预载。PAL 绑定 `sound.pal.212`，敌人成功召唤时在新敌第一次入场绘制的那一拍播放一次。召唤失败时保持静音。 [资源角色](../../../packages/content/src/asset.ts) · [战斗演出](../../../packages/reforge/src/battle/battle-session.ts)
+
+### 玩家群攻仙术吹飞
+
+技能的 `animation.blow` 是可选的有符号 16 位整数，用于玩家的群体攻击，含召唤本体之后的群攻段。目标须为 `allEnemies`，特效须使用进攻落位。PAL 的风卷残云取 `-2`，风神取 `-3`。运行时按实际 FIRE 帧和重复次数抽每次位移，先抽位移，再执行成功效果和伤害抽样。位移作用于施法时存活的敌槽，保留至最后一张特效帧，进入受击前恢复原站位。该字段沿用现行内容与存档版本。 [动画字段](../../../packages/content/src/skill.ts) · [内容校验](../../../packages/content/src/validate.ts) · [实战复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-18-风卷残云与三种攻击仙术)
 
 ### 地图、组合与图像资源分层
 
