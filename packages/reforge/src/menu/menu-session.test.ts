@@ -180,6 +180,20 @@ test('system cancellation returns to hub and repeated item execution preserves e
   expect(h.menus.view.menu.openPanel).toBeUndefined()
 })
 
+test('item target selection wraps, survives reopening, and sends both uses to the chosen ally', async () => {
+  const h = menuFixture()
+  h.openPanel('use')
+  h.press('Enter', 'ArrowLeft', 'Escape', 'Enter', 'Enter')
+  await settle()
+  expect(h.world.party.map(({ hp }) => hp)).toEqual([60, 70])
+  expect(h.menus.view.useMenu.phase).toBe('pick-target')
+  h.press('Enter')
+  await settle()
+  expect(h.world.party.map(({ hp }) => hp)).toEqual([60, 80])
+  expect(h.world.inventory).toEqual([{ itemId: 'sword', count: 1 }])
+  expect(h.menus.view.useMenu.phase).toBe('pick-item')
+})
+
 const failures: [WorldItemUseOutcome['reason'], string][] = [
   ['not-owned', '物品已经不在背包或装备中'],
   ['missing-target', '没有可作用的目标'],

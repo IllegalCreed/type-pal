@@ -46,6 +46,8 @@ Historical A1 receipt states its original SAVE8/content20 scope and browser boun
 
 公开调用链：main menu input → MenuSession；main item action → ItemUseSession → world/save ports。合法输入：typed menu input；current world/save port；AbortSignal and canonical item/skill/actor inputs。
 
+战外单体用物按上下或左右在队伍中环绕选人。属性面板和角色高亮跟随光标，确认时以该槽位的角色 ID 执行。返回列表或重开面板时保留上次选人，用光物品后返回列表。光标超出当前队伍时从首位开始。全队和场景用途由物品列表直接执行。相关实战回执见 [Q2 台账](../../../cross-phase/battle-foundation/report.md)。
+
 业务判据：cancelled item use remains owned until settle；menu pop restores the correct view；save/load completion is observed through real port events。这里是对既有测试合同的核读，不是新增测试或历史运行真实性再认证。
 
 ## Results and gaps

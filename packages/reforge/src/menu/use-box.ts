@@ -80,8 +80,8 @@ export function drawUseMenu(
   drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, describeCtx)
   if (state.phase !== 'pick-target') return
 
-  const caster = world.party[0] // demo 单人 = 目标
-  if (!caster) return
+  const target = world.party[state.targetIdx]
+  if (!target) return
   const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
   // ② 右侧黄框(主菜单九宫格 style 0)
@@ -97,22 +97,22 @@ export function drawUseMenu(
       forceRgba: COLOR_STAT_LABEL,
     })
     if (row.level) {
-      drawNumber(ctx, caster.level, UB_VAL_RIGHT, vy, assets.nums)
+      drawNumber(ctx, target.level, UB_VAL_RIGHT, vy, assets.nums)
     } else if (row.pool) {
-      const cur = row.pool === 'hp' ? caster.hp : caster.mp
-      const max = row.pool === 'hp' ? caster.maxHP : caster.maxMP
+      const cur = row.pool === 'hp' ? target.hp : target.mp
+      const max = row.pool === 'hp' ? target.maxHP : target.maxMP
       drawNumber(ctx, cur, UB_VAL_RIGHT, vy, assets.nums)
       if (assets.slash) ctx.drawImage(assets.slash, UB_SLASH_X, vy + 1)
       drawNumber(ctx, max, UB_MAX_RIGHT, vy + UB_MAX_DOWN, assets.numsBlue)
     } else if (row.stat) {
-      drawNumber(ctx, effectiveStat(caster, row.stat, items), UB_VAL_RIGHT, vy, assets.nums)
+      drawNumber(ctx, effectiveStat(target, row.stat, items), UB_VAL_RIGHT, vy, assets.nums)
     }
   })
 
-  // ④ 角色名(选目标列表;单人=李逍遥,选中闪烁)
+  // ④ 角色名(按队伍顺序绘制，当前目标闪烁)
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_PARTY
   world.party.forEach((member, i) => {
-    const selected = i === 0 // 单人:目标恒为 party[0]
+    const selected = i === state.targetIdx
     renderSpans(
       ctx,
       [{ text: lookupText(`name.${member.template}` as TextId, locale) }],

@@ -58,6 +58,7 @@ import {
   useBackFromTarget,
   useConfirm,
   useMoveCursor,
+  useMoveTarget,
 } from '../use-menu-state.js'
 import { buildItemUseResultEntries, type ItemUseResultEntry } from './item-use-result.js'
 import type { ItemUseSession } from './item-use-session.js'
@@ -110,6 +111,7 @@ export class MenuSession {
   #systemMenu = closeSystemMenu()
   #saveBrowser = closeSaveBrowser()
   #lastUseCursor = 0
+  #lastUseTargetIdx = 0
   #lastMagicCaster = 0
   #lastMainCursor = 0
   #lastSystemCursor = 0
@@ -318,10 +320,16 @@ export class MenuSession {
     } else if (this.#useMenu.phase === 'pick-target') {
       // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
       if (interact) {
-        const request = useApply(this.#useMenu, world, world.party[0]?.id ?? '', project.items)
+        const target = world.party[this.#useMenu.targetIdx]
+        const request = useApply(this.#useMenu, world, target?.id ?? '', project.items)
         if (request) void this.dispatchItemUse(request)
       } else if (esc) {
+        this.#lastUseTargetIdx = this.#useMenu.targetIdx
         this.#useMenu = useBackFromTarget(this.#useMenu)
+      } else if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+        this.#useMenu = useMoveTarget(this.#useMenu, world.party.length, -1)
+      } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
+        this.#useMenu = useMoveTarget(this.#useMenu, world.party.length, 1)
       }
     } else {
       // pick-item:网格选可用物 + Enter(单体进选目标 / 脚本类直接执行)+ Esc 关使用面板
@@ -466,7 +474,12 @@ export class MenuSession {
       } else if (this.#menu.openPanel === 'equip' && caster) {
         this.#equipMenu = openEquipMenu(world, caster.id, project.items)
       } else if (this.#menu.openPanel === 'use') {
-        this.#useMenu = openUseMenu(world, project.items, this.#lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
+        this.#useMenu = openUseMenu(
+          world,
+          project.items,
+          this.#lastUseCursor,
+          this.#lastUseTargetIdx,
+        )
       } else if (this.#menu.openPanel === 'status') {
         this.#statusIdx = 0 // 开状态板从首位队员看起
       } else if (this.#menu.openPanel === 'system') {
@@ -483,6 +496,7 @@ export class MenuSession {
       const menuBefore = this.#menu
       const sceneBefore = this.ports.sceneId()
       this.#lastUseCursor = request.state.cursor
+      this.#lastUseTargetIdx = request.state.targetIdx
       this.#useMenu = closeUseMenu()
       this.#menu = CLOSED
       try {

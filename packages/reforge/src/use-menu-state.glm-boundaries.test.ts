@@ -111,6 +111,7 @@ describe('A04 use-menu-state 残差', () => {
       phase: 'pick-item',
       items: [],
       cursor: 0,
+      targetIdx: 0,
     })
   })
 })
