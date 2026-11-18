@@ -1994,7 +1994,9 @@ export class BattleSession {
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
-        waitForThrowFeedback: la.failureFeedback === 'throwIneffective',
+        waitForThrowFeedback:
+          la.failureFeedback === 'throwIneffective' ||
+          la.failureFeedback === 'throwStatusIneffective',
         hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
         ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
@@ -2236,6 +2238,7 @@ export class BattleSession {
       statusIneffective: '攻击无效',
       itemIneffective: '无任何效果',
       throwIneffective: '无任何效果',
+      throwStatusIneffective: '攻击无效',
       spellIneffective: '失败　没有效果',
       missingSpellItem: '道具不足无法使用',
       missingSpellMoney: '钱不够，只好作罢',
@@ -2244,7 +2247,8 @@ export class BattleSession {
     else if (feedback === 'throwIneffective') this.showActionFeedback(text, 'confirm')
     else {
       this.showActionFeedback(text, 'anyKey')
-      if (feedback !== 'itemIneffective') this.actionPresentation.satisfyActionCadence()
+      if (feedback !== 'itemIneffective' && feedback !== 'throwStatusIneffective')
+        this.actionPresentation.satisfyActionCadence()
     }
   }
 

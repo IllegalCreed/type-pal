@@ -2385,7 +2385,7 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[0]!.hp).toBe(100)
     expect(s.enemies[1]!.status.sleep).toBe(3)
     expect(s.enemies[1]!.hp).toBe(75)
-    expect(s.lastAction?.notice).toBe('攻击无效')
+    expect(s.lastAction?.failureFeedback).toBe('throwStatusIneffective')
     expect(calls).toBe(5)
   })
 

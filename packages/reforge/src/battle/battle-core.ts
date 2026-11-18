@@ -2452,7 +2452,7 @@ function performThrow(
           } else {
             if (eff.onResist === 'stopTarget') {
               s.log.push('攻击无效')
-              if (s.lastAction) s.lastAction.notice = '攻击无效'
+              if (s.lastAction) s.lastAction.failureFeedback = 'throwStatusIneffective'
               stoppedTargets.add(enemyIdx)
             } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
           }

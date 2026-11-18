@@ -660,8 +660,9 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
     )
   }
   if (input.waitForThrowFeedback) {
-    // 0x3E 在投掷结果脚本内等待，随后才显示数字和收招（fight.c:4361–4372）。
-    frames.push({ durationMs: 0, waitForActionFeedback: true })
+    // 结果脚本在收招前保留刚绘制的场景（fight.c:4361–4372）。
+    const overlays = frames.at(-1)?.overlays
+    frames.push({ durationMs: 0, waitForActionFeedback: true, ...(overlays ? { overlays } : {}) })
   }
   const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。

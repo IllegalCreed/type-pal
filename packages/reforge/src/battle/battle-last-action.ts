@@ -10,6 +10,7 @@ export type BattleFailureFeedback =
   | 'statusIneffective'
   | 'itemIneffective'
   | 'throwIneffective'
+  | 'throwStatusIneffective'
   | 'spellIneffective'
   | 'missingSpellItem'
   | 'missingSpellMoney'
