@@ -150,6 +150,18 @@ const observeForeground: Plugin = {
   enforce: 'pre',
   transform(source, id) {
     const path = id.split('?')[0]?.replaceAll('\\', '/')
+    if (path?.endsWith('/packages/game/src/present/battle/present-battle.ts')) {
+      const anchor = '    const settlement = state.settlement'
+      return {
+        code: replaceOnce(
+          source,
+          anchor,
+          `    globalThis.__openingCauseDialogueDraw?.('game', gs, assets.dialogAssets)
+${anchor}`,
+        ),
+        map: null,
+      }
+    }
     if (path?.endsWith('/packages/game/src/present/present.ts')) {
       const actor = '      draw: (f) => drawSprite(f, capturedSprite, capturedSX, capturedSY + 7),'
       let code = replaceOnce(

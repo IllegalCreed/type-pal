@@ -6,16 +6,20 @@ import { sha256 } from '../browser-journey.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import {
+  battleOperands,
+  battlePartyFor,
   departingPosition,
   gameScene,
   grid,
   initialTrack,
-  party,
+  observesForeground,
+  partyFor,
   readSources,
   returnedPosition,
   returnTrack,
   scenarios,
 } from './scenarios.mjs'
+import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
 const spec = scenarios[scenario]
@@ -24,6 +28,9 @@ assert(
   'usage: node scripts/e2e/boss-entrances/compare.mjs SCENARIO GAME_REPORT REFORGE_REPORT',
 )
 const source = await readSources(spec)
+const party = partyFor(spec)
+const battleParty = battlePartyFor(spec)
+const handoff = spec.world.handoff
 const fieldMusic = initialTrack(spec)
 const returnMusic = returnTrack(spec)
 const returnedAt = returnedPosition(spec)
@@ -31,7 +38,7 @@ const departureAt = departingPosition(spec)
 const approachKey = spec.approach ?? 'ArrowUp'
 const exitKey = spec.world.exit ?? 'ArrowDown'
 const facing = (key) => key.slice('Arrow'.length).toLowerCase()
-const roles = party.map(({ role }) => role)
+const roles = battleParty.map(({ role }) => role)
 const subtitle = (s) => s?.replace(/[\s"“”]/gu, '') ?? ''
 const speaker = (s) => s?.replace(/^spk\./u, '').replace(/∶$/u, '') ?? null
 const totalReward = () => [
@@ -114,6 +121,58 @@ function checkDialogue(events, before, after, game) {
     assert.equal(displayed, texts.join(''), `native drawn dialogue ${label}`)
   }
   return { pre, post }
+}
+
+function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
+  const expectedPages = (commands) => {
+    const pages = []
+    let slot, portrait, name
+    let lines = []
+    const finish = () => {
+      if (lines.length) pages.push({ slot, portrait, speaker: name, lines })
+      lines = []
+    }
+    for (const command of commands) {
+      if (command.op.startsWith('setDialogStyle')) {
+        finish()
+        slot = command.op.slice('setDialogStyle'.length).toLowerCase()
+        portrait = command.arg0 || null
+        name = null
+      } else if (command.op === 'showDialog') {
+        if (command.text.endsWith('∶')) {
+          finish()
+          name = speaker(command.text)
+        } else lines.push(subtitle(command.text))
+      } else finish()
+    }
+    finish()
+    return pages
+  }
+  const pairs = [
+    { from: trigger, to: launch, commands: source.pre },
+    { from: launch, to: menu, commands: source.turnStart },
+    { from: won, to: control, commands: source.post },
+  ]
+  return pairs.flatMap(({ from, to, commands }) => {
+    let lastAt = from.atMs
+    const candidates = draws
+      .filter(({ atMs, scene }) => scene === spec.scene && atMs >= lastAt && atMs < to.atMs)
+      .flatMap(({ atMs, slots }) => slots.map((slot) => ({ ...slot, atMs })))
+    return expectedPages(commands).map((page) => {
+      const drawn = candidates.find(
+        (slot) =>
+          slot.atMs >= lastAt &&
+          slot.slot === page.slot &&
+          slot.portrait === page.portrait &&
+          slot.portraitLayout === (page.portrait !== null) &&
+          speaker(slot.speaker) === page.speaker &&
+          isDeepStrictEqual(slot.lines.map(subtitle), page.lines),
+      )
+      assert(drawn, `missing draw of original dialogue ${JSON.stringify(page)}`)
+      lastAt = drawn.atMs
+      return { ...page, atMs: lastAt }
+    })
+  })
 }
 
 function checkThiefForeground(events, draws, { trigger, launch, won, control }, game) {
@@ -427,10 +486,7 @@ async function inspect(path, engine) {
   assert.deepEqual(report.cleanupErrors ?? [], [])
   assert.equal(report.inputExecution.status, 'passed')
   assertInputLedger(report.actions, { requireReceipts: true })
-  for (const [phase, key] of [
-    ['approach', approachKey],
-    ['exit', exitKey],
-  ])
+  for (const [phase, key] of [['approach', approachKey], ...(handoff ? [] : [['exit', exitKey]])])
     assert.deepEqual(
       report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
       [
@@ -480,7 +536,7 @@ async function inspect(path, engine) {
   const events = raw.events
   assert(events.length > 0)
   const resources = raw.resources ?? []
-  if (spec.prelude) {
+  if (observesForeground(spec)) {
     assert(resources.length > 0, 'actual decoded sprites')
     const orders = new Set(resources.map(({ order }) => order))
     for (const { kind, seq, width, height, pixels, opaque } of resources) {
@@ -527,7 +583,7 @@ async function inspect(path, engine) {
     find('move').map(({ from, to, facing }) => [from, to, facing]),
     [
       [spec.start, spec.contact, facing(approachKey)],
-      [returnedAt, departureAt, facing(exitKey)],
+      ...(handoff ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
     ],
   )
   assert(approach.order < trigger.order)
@@ -536,7 +592,7 @@ async function inspect(path, engine) {
   assert.equal(launch.length, 1)
   if (game) {
     assert.equal(trigger.ip, spec.disk.entry)
-    assert.deepEqual([launch[0].ip, launch[0].operands], [spec.disk.battle, [spec.team, 41075, 0]])
+    assert.deepEqual([launch[0].ip, launch[0].operands], [spec.disk.battle, battleOperands(spec)])
     const caller = once('battle-caller')
     assert.deepEqual(
       [caller.enemyTeamId, caller.battleFieldId, caller.isBoss],
@@ -547,7 +603,7 @@ async function inspect(path, engine) {
       'initial',
       source.canonical.findIndex(({ kind }) => kind === 'startBattle'),
     ])
-    assert.equal(once('script-result').arm, 'none')
+    if (!handoff) assert.equal(once('script-result').arm, 'none')
   }
   const prepared = once('prepared')
   assert.deepEqual(
@@ -562,7 +618,7 @@ async function inspect(path, engine) {
   if (!game) assert.equal(prepared.team, `team-${spec.team}`)
   assert.deepEqual(
     prepared.players.map(({ id, roleId, hp, mp }) => [id ?? roleId, hp, mp]),
-    party.map(({ role, hp, mp }) => [role, hp, mp]),
+    battleParty.map(({ role, hp, mp }) => [role, hp, mp]),
   )
   const actualSlots = game ? prepared.slots : find('action')[0]?.slots
   assert(Array.isArray(actualSlots))
@@ -577,7 +633,9 @@ async function inspect(path, engine) {
     [0, 1, 2, 3, 4, 5, 6],
   )
   assert(find('entry-band').every(({ pixels }) => pixels.length === 6))
-  const music = find('music-start').filter(({ track }) => track === spec.music)
+  const music = find('music-start').filter(
+    ({ track, order }) => track === spec.music && order > trigger.order,
+  )
   const fieldTracks = find('music-start').filter(
     ({ track, context }) => track === fieldMusic && context === 'running',
   )
@@ -600,10 +658,7 @@ async function inspect(path, engine) {
   }))
   assert.deepEqual(
     commands.filter(({ turn }) => turn === 1).map(({ slot, kind }) => [slot, kind]),
-    [
-      [0, 'defend'],
-      [1, 'defend'],
-    ],
+    battleParty.map((_, slot) => [slot, 'defend']),
   )
   assert(
     commands
@@ -632,11 +687,20 @@ async function inspect(path, engine) {
     44: ['cast', 'cast', 'pass', 'cast'],
     43: ['cast', 'cast', 'cast', 'attack'],
     29: ['cast', 'pass', 'cast'],
+    21: ['cast', 'cast'],
   }[spec.team]
-  assert.deepEqual(
-    enemy.map(({ kind }) => kind),
-    expectedEnemyActions,
-  )
+  if (expectedEnemyActions)
+    assert.deepEqual(
+      enemy.map(({ kind }) => kind),
+      expectedEnemyActions,
+    )
+  if (source.original.dualMove)
+    assert.equal(
+      enemy.filter(({ turn }) => turn === 1).length,
+      2,
+      'the initial turn includes both boss actions',
+    )
+  if (spec.team === 21) assert(enemy.every(({ spell }) => spell === String(source.original.magic)))
   if (spec.team === 29)
     assert.deepEqual(
       enemy.map(({ spell }) => spell),
@@ -696,7 +760,9 @@ async function inspect(path, engine) {
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
   const won = once('battle-finished')
   const soundIds = effectSounds
-    .filter(({ order }) => !spec.prelude || (order > prepared.order && order < won.order))
+    .filter(
+      ({ order }) => !observesForeground(spec) || (order > prepared.order && order < won.order),
+    )
     .map(({ asset }) => asset)
   let spiderForeground
   if (spec.team === 45)
@@ -728,35 +794,68 @@ async function inspect(path, engine) {
     game && spec.disk.defeated ? spec.world.inventory : [],
     'hook inventory at the engine-specific battle completion boundary',
   )
-  const control = once('world-control')
-  assert.deepEqual(control.position, returnedAt)
-  assert(won.order < control.order && control.order < departure.order)
-  const last = run.departure.state
-  assert.deepEqual(
-    [last.scene, last.position, last.ready, last.box, last.battle],
-    [spec.scene, departureAt, true, null, null],
-  )
+  const control = once(handoff ? 'successor-drawn' : 'world-control')
+  const last = handoff ? run.returned.state : run.departure.state
+  assert(won.order < control.order)
+  if (handoff) {
+    assert.equal(control.scene, handoff.scene)
+    assert.deepEqual(last.position, handoff.position)
+    const [col, row] = handoff.position
+    const x = 16 * (col - row)
+    const y = 8 * (col + row)
+    assert.deepEqual(
+      [control.leader, control.camera],
+      [
+        [x, y],
+        [x - 160, y - 112],
+      ],
+      'first visible successor coordinates',
+    )
+    const landed = events.find(
+      ({ kind, order }) => kind === 'world-drawn' && order === control.order - 1,
+    )
+    assert.equal(landed?.scene, handoff.scene, 'successor receipt must bind to an actual draw')
+    assert.deepEqual([last.scene, last.battle], [handoff.scene, null])
+    const load = script.find(
+      ({ op, ip, order }) =>
+        order > won.order &&
+        order < control.order &&
+        (game ? ip === handoff.ip : op === 'loadScene'),
+    )
+    assert(load, 'missing actual authored scene handoff')
+  } else {
+    assert.deepEqual(control.position, returnedAt)
+    assert(control.order < departure.order)
+    assert.deepEqual(
+      [last.scene, last.position, last.ready, last.box, last.battle],
+      [spec.scene, departureAt, true, null, null],
+    )
+    assert.deepEqual(control.inventory, spec.world.inventory)
+  }
   assert.deepEqual([last.cash, last.inventory], [cash, spec.world.inventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
     roles.map((role) => [role, exp]),
   )
-  assert.deepEqual(control.inventory, spec.world.inventory)
-  assert(
-    find('music-start').some(
-      ({ order, track, context }) =>
-        order > won.order && track === returnMusic && context === 'running',
-    ),
-    'original field music after victory',
-  )
-  assert.equal(last.music, returnMusic)
-  if (!spec.prelude)
+  if (!handoff) {
+    assert(
+      find('music-start').some(
+        ({ order, track, context }) =>
+          order > won.order && track === returnMusic && context === 'running',
+      ),
+      'original field music after victory',
+    )
+    assert.equal(last.music, returnMusic)
+  }
+  if (!handoff && scenario !== 'thief')
     assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
-    assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
-    assert.equal(run.returned.owner.resume, spec.team === 45 ? spec.disk.last + 1 : null)
-    assert(script.some(({ ip }) => ip === spec.disk.last))
+    if (!handoff) {
+      assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
+      assert.equal(run.returned.owner.resume, spec.team === 45 ? spec.disk.last + 1 : null)
+      assert(script.some(({ ip }) => ip === spec.disk.last))
+    }
     if (spec.disk.reward)
       assert.equal(
         script.filter(
@@ -775,7 +874,7 @@ async function inspect(path, engine) {
       at: { kind: 'stage', stage: 'legacy-002' },
     })
   } else {
-    if (!spec.prelude) assert.equal(run.returned.owner.hidden, true)
+    if (!handoff && scenario !== 'thief') assert.equal(run.returned.owner.hidden, true)
     if (spec.disk.reward)
       assert.equal(
         script.filter(
@@ -802,19 +901,19 @@ async function inspect(path, engine) {
     { won: won.order, control: control.order },
     game,
   )
-  const foreground = spec.prelude
-    ? checkThiefForeground(
-        events,
-        await read(run.renderedDialogue),
-        {
-          trigger,
-          launch: launch[0],
-          won,
-          control,
-        },
-        game,
-      )
-    : undefined
+  const boundaries = { trigger, launch: launch[0], menu, won, control }
+  const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const foreground =
+    scenario === 'thief'
+      ? checkThiefForeground(events, renderedDialogue, boundaries, game)
+      : undefined
+  const outside =
+    scenario === 'yueru-outside'
+      ? {
+          ...inspectOutsidePresentation(raw, source, boundaries),
+          dialogue: checkOutsideDialogue(renderedDialogue, boundaries),
+        }
+      : undefined
   if (
     foreground &&
     ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
@@ -849,6 +948,13 @@ async function inspect(path, engine) {
           formation: foreground.formations,
         }
       : {}),
+    ...(outside
+      ? {
+          contactFormation: outside.contact,
+          beforeBattleFormation: outside.beforeBattle,
+          returnFormation: outside.return,
+        }
+      : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -867,8 +973,13 @@ async function inspect(path, engine) {
     warnings: report.warnings,
     dialogue,
     foreground,
+    outside,
     spiderForeground,
-    clips: { contactMs: trigger.atMs, returnMs: control.atMs, exitMs: departure.atMs },
+    clips: {
+      contactMs: trigger.atMs,
+      returnMs: control.atMs,
+      exitMs: departure?.atMs ?? control.atMs,
+    },
     audioTiming: {
       cueAfterRevealMs: music[0].atMs - entry.atMs,
       cueAfterMenuMs: music[0].atMs - menu.atMs,
@@ -890,7 +1001,7 @@ const failures = sides.flatMap((result, i) =>
 const [game, reforge] = sides.map(({ value }) => value)
 if (!failures.length) {
   for (const result of [game, reforge]) {
-    for (const issue of result.foreground?.issues ?? [])
+    for (const issue of [...(result.foreground?.issues ?? []), ...(result.outside?.issues ?? [])])
       failures.push({ engine: result.engine, ...issue })
   }
   const comparableGame = game.comparable

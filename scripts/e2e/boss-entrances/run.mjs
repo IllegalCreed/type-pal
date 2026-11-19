@@ -17,7 +17,8 @@ import {
   initialTrack,
   json,
   nativeMusic,
-  party,
+  observesForeground,
+  partyFor,
   readSources,
   returnedPosition,
   scenarios,
@@ -41,7 +42,10 @@ const facing = approach.slice('Arrow'.length).toLowerCase()
 const returned = returnedPosition(spec)
 const departure = departingPosition(spec)
 const source = await readSources(spec)
-const hasPrelude = spec.prelude !== undefined
+const foreground = observesForeground(spec)
+const night = spec.prelude?.night !== undefined
+const handoff = spec.world.handoff
+const party = partyFor(spec)
 const roles = party.map(({ role }) => role)
 const nativeRoles = party.map(({ roleId }) => roleId)
 const initialOwner = Number(spec.owner.slice(1))
@@ -51,7 +55,9 @@ const observe = bossObserver({
   gameScene: gameScene(spec),
   owner: spec.owner,
   watched: spec.watched,
-  foreground: hasPrelude,
+  foreground,
+  handoffScene: handoff?.scene,
+  assets: Object.fromEntries(source.spriteChunks),
   seed: spec.seed,
 })
 const ready = (state) => state?.scene === spec.scene && state.ready
@@ -84,6 +90,7 @@ async function read(page) {
       return {
         ...observed,
         atMs: performance.now(),
+        successor: globalThis.__bossForeground?.successor(),
         owner:
           owner &&
           (game
@@ -161,11 +168,24 @@ async function makeGameFixture(page, baseURL, until) {
     'Game canonical scene',
     60_000,
   )
-  const canonical = await page.evaluate(async () => {
-    const { serializeSave } = await import('/src/tools/save-io.ts')
-    return serializeSave(globalThis.__tpgs)
-  })
-  const payload = JSON.parse(canonical)
+  const { canonical, staged } = await page.evaluate(
+    async (preparation) => {
+      const { serializeSave } = await import('/src/tools/save-io.ts')
+      const world = globalThis.__tpgs
+      const canonical = serializeSave(world)
+      if (!preparation) return { canonical, staged: canonical }
+      const { removeEquipmentEffect } = await import('/src/core/equipment-state.ts')
+      for (const id of preparation) {
+        for (const [slot, row] of world.PlayerRolesRuntime.rgwEquipment.entries()) {
+          removeEquipmentEffect(world, id, slot)
+          row[id] = 0
+        }
+      }
+      return { canonical, staged: serializeSave(world) }
+    },
+    spec.party === 'city' ? nativeRoles : null,
+  )
+  const payload = JSON.parse(staged)
   const gs = payload.gs
   assert.equal(gs.wNumScene, gameScene(spec))
   for (const table of [gs.npcs, gs.allEventObjects]) {
@@ -176,7 +196,7 @@ async function makeGameFixture(page, baseURL, until) {
     )
     for (const [id, state] of Object.entries(source.preludeStates)) {
       const activated = table.find(({ id: objectId }) => `e${objectId}` === id)
-      assert.equal(activated?.sState, 0, `predecessor must activate hidden ${id}`)
+      assert.equal(activated?.sState, source.preludeBefore[id], `predecessor input for ${id}`)
       activated.sState = state
     }
   }
@@ -203,10 +223,9 @@ async function makeGameFixture(page, baseURL, until) {
   gs.inventory = []
   gs.dwCash = 0
   gs.wNumMusic = fieldMusic
-  if (hasPrelude) {
-    gs.nightPalette = true
-    gs.partyScriptedFrame = {}
-  }
+  if (night) gs.nightPalette = true
+  if (foreground) gs.partyScriptedFrame = {}
+  if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
   if (scenario === 'fox') {
     const snake = gs.allEventObjects.find(({ id }) => id === 671)
     assert.equal(snake.triggerLabel, 'L_9472')
@@ -244,8 +263,8 @@ async function makeReforgeFixture() {
     world.learnedSkills[role] = []
   }
   world.audio = { currentMusic: fieldMusicAsset }
-  if (hasPrelude) {
-    world.ambience = 'night'
+  if (night) world.ambience = 'night'
+  if (spec.prelude) {
     world.script.entityState[spec.scene] = source.preludeStates
   }
   if (scenario === 'fox') {
@@ -374,12 +393,12 @@ async function walk({ page, health, record, key, phase, from, to, mode }) {
 async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
-  const deadline = Date.now() + 125_000
+  const deadline = Date.now() + (handoff ? 195_000 : 125_000)
   for (;;) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if (ended && ready(state)) return view
+    if (ended && (handoff ? view.successor?.scene === handoff.scene : ready(state))) return view
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
     const line = lineKey(box)
@@ -419,7 +438,7 @@ await runBrowserJourney({
     E2E: '1',
     VITE_PROJECT_ID: 'pal',
     Q2_DEFEAT_ENGINE: engine,
-    Q2_BOSS_FOREGROUND: hasPrelude ? '1' : '0',
+    Q2_BOSS_FOREGROUND: foreground ? '1' : '0',
   },
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
@@ -427,7 +446,7 @@ await runBrowserJourney({
   initScripts: [
     installCommittedRoutePlayback,
     observe,
-    ...(hasPrelude ? [installRenderedDialogueObservation] : []),
+    ...(foreground ? [installRenderedDialogueObservation] : []),
   ],
   async journey({ newPage, until, baseURL, report, out, capture, health }) {
     const result = { context: spec.id }
@@ -544,6 +563,20 @@ await runBrowserJourney({
         mode: 'dialogue',
       })
       result.returned = await playEncounter({ page, press, health, capture })
+      if (handoff) {
+        if (capture.enabled) {
+          await page.waitForFunction(
+            (atMs) => performance.now() >= atMs + 550,
+            result.returned.atMs,
+          )
+        }
+        await capture.finish(page, {
+          event: 'world-boss-scene-handoff',
+          scene: handoff.scene,
+          world: result.returned.state,
+        })
+        return
+      }
       assert.deepEqual(result.returned.state.position, returned)
       await walk({
         page,
@@ -572,7 +605,7 @@ await runBrowserJourney({
       result.last = await read(page).catch(() => null)
       const raw = await trace(page).catch(() => undefined)
       if (raw) result.raw = await writeEvidenceArtifact(out, 'trace.json', raw)
-      if (hasPrelude) {
+      if (foreground) {
         const dialogue = await page.evaluate(() => globalThis.__e2eRenderedDialogue())
         result.renderedDialogue = await writeEvidenceArtifact(
           out,

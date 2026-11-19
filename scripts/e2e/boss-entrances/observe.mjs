@@ -24,26 +24,37 @@ export function bossObserver(input) {
   return `${world};${battle}${foreground}`
 }
 
-function installBossForeground({ scene, owner, watched }) {
+function installBossForeground({ scene, handoffScene, owner, watched, assets }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
   let gameActors = {}
   let pending
   let previous
+  let previousVisible
+  let successor
   function commit(frame, context) {
     const signature = JSON.stringify(frame)
-    if (previous === signature) return
-    previous = signature
+    const arriving = handoffScene && frame.scene === handoffScene && !successor
+    if (previous === signature && !arriving) return
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
         Array.from(context.getImageData(Math.floor(x * width), Math.floor(y * height), 1, 1).data),
       ),
     )
+    const visible = colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0)
+    if (previous === signature && previousVisible === visible) return
+    previous = signature
+    previousVisible = visible
     observation.event('world-drawn', { ...frame, colors })
+    if (arriving && visible) {
+      successor = { ...frame, colors }
+      observation.eventOnce('successor-drawn', successor)
+    }
   }
 
   globalThis.__bossForeground = {
+    successor: () => successor,
     battleFrame() {
       previous = undefined
     },
@@ -62,13 +73,14 @@ function installBossForeground({ scene, owner, watched }) {
     gameFrame(gs, battle, context) {
       const actors = gameActors
       gameActors = {}
-      if (battle || `s${String(gs.wNumScene - 1).padStart(3, '0')}` !== scene) {
+      const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
+      if (battle || (sceneId !== scene && sceneId !== handoffScene)) {
         previous = undefined
         return
       }
       commit(
         {
-          scene,
+          scene: sceneId,
           camera: [gs.camera.x, gs.camera.y],
           leader: [gs.party.x, gs.party.y],
           actors,
@@ -79,7 +91,7 @@ function installBossForeground({ scene, owner, watched }) {
       )
     },
     reforgeWorld(sceneId, camera, draws) {
-      if (sceneId !== scene) return
+      if (sceneId !== scene && sceneId !== handoffScene) return
       const pixels = ([col, row]) => [16 * (col - row), 8 * (col + row)]
       const actors = {}
       for (const id of ids) {
@@ -89,7 +101,7 @@ function installBossForeground({ scene, owner, watched }) {
         if (x + w <= camera.x || x >= camera.x + 320 || y + h <= camera.y || y >= camera.y + 200)
           continue
         actors[id] = {
-          asset: Number(pose.assetId.split('-').at(-1)),
+          asset: assets[pose.assetId] ?? null,
           position: pixels(pose.position),
           facing: pose.facing,
           frame: pose.frame,
@@ -99,7 +111,7 @@ function installBossForeground({ scene, owner, watched }) {
       }
       if (draws?.party?.drawStatus !== 'drawn') return
       pending = {
-        scene,
+        scene: sceneId,
         camera: [camera.x, camera.y],
         leader: pixels(draws.party.position),
         actors,

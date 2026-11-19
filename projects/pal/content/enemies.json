@@ -7395,117 +7395,108 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.023",
+                        "side": "left"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13193"
                       }
-                    ]
+                    ],
+                    "slot": "top"
                   }
                 },
                 {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.005",
+                        "side": "right"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13194"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13195"
                       }
-                    ]
+                    ],
+                    "slot": "bottom"
                   }
+                },
+                {
+                  "kind": "clearDialog"
                 },
                 {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.022",
+                        "side": "left"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13196"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13197"
                       }
-                    ]
+                    ],
+                    "slot": "top"
                   }
+                },
+                {
+                  "kind": "clearDialog"
                 },
                 {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.009",
+                        "side": "right"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13198"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13199"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13200"
                       }
-                    ]
+                    ],
+                    "slot": "bottom"
                   }
                 },
                 {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.022",
+                        "side": "left"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13201"
                       }
-                    ]
+                    ],
+                    "slot": "top"
                   }
                 }
               ],
