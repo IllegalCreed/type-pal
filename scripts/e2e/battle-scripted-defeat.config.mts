@@ -24,12 +24,19 @@ function after(source: string, anchor: string, observation: string): string {
 function observeGame(source: string, file: string): string | null {
   const target = `/packages/game/src/${file}`
   switch (file) {
-    case 'core/scene-system.ts':
-      return after(
+    case 'core/scene-system.ts': {
+      const contact = '      globalThis.__defeat?.gameContact(gs, npc)'
+      const withTouch = after(
         instrumentInnTrace(source, `packages/game/src/${file}`).code,
         'if (loadEventFromNpc(gs, npc)) {',
-        '      globalThis.__defeat?.gameContact(gs, npc)',
+        contact,
       )
+      return after(
+        withTouch,
+        '      loadEventFromNpc(gs, npc)',
+        '      if (gs.eventCursor?.triggerOwnerId === npc.id) globalThis.__defeat?.gameContact(gs, npc)',
+      )
+    }
     case 'core/event-system.ts': {
       const dispatch = "    switch (cmd.op) {\n      case 'end':\n        // sdlpal script.c:3475"
       return replaceOnce(

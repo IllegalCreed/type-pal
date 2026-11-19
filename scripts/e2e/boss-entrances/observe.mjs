@@ -34,6 +34,7 @@ function installBossForeground({
   entrance,
   includesParty,
   victoryFade,
+  watchChoice,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -50,11 +51,12 @@ function installBossForeground({
   let ditherStep
   let previousComposite
   let victoryReturnComplete = false
+  let choice
+  let jarDark = false
+  let jarRevealed = false
+  let firstFieldReturned = false
 
-  function recordVictoryReturn(frame, context) {
-    if (!victoryFade || victoryReturnComplete) return
-    const { ended, state } = observation.read()
-    if (!ended || state.scene !== scene) return
+  function canvasState(context) {
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
@@ -64,6 +66,14 @@ function installBossForeground({
     const black =
       colors.every(([r, g, b]) => r === 0 && g === 0 && b === 0) &&
       context.getImageData(0, 0, width, height).data.every((value, i) => i % 4 === 3 || value === 0)
+    return { colors, black }
+  }
+
+  function recordVictoryReturn(frame, context) {
+    if (!victoryFade || victoryReturnComplete) return
+    const { ended, state } = observation.read()
+    if (!ended || state.scene !== scene) return
+    const { colors, black } = canvasState(context)
     observation.event('victory-return-paint', {
       scene,
       black,
@@ -72,6 +82,33 @@ function installBossForeground({
       world: frame && { ...frame, party: observation.worldDraw()?.party },
     })
     victoryReturnComplete = state.ready && !!frame && !black
+  }
+
+  function recordJarPresentation(frame, context) {
+    if (!watchChoice || choice?.yes !== true || firstFieldReturned) return
+    const { ended } = observation.read()
+    if (jarRevealed && !ended) return
+    const { colors, black } = canvasState(context)
+    if (!jarRevealed) {
+      if (black && !jarDark) {
+        jarDark = true
+        observation.eventOnce('jar-black-drawn', { scene, colors })
+      } else if (!black && jarDark) {
+        jarRevealed = true
+        observation.eventOnce('jar-reveal-drawn', {
+          ...frame,
+          colors,
+          party: frame && observation.worldDraw()?.party,
+        })
+      }
+    } else if (!black) {
+      firstFieldReturned = true
+      observation.eventOnce('tian-first-return-drawn', {
+        ...frame,
+        colors,
+        party: frame && observation.worldDraw()?.party,
+      })
+    }
   }
 
   function recordComposite(sceneId, context, step) {
@@ -148,6 +185,11 @@ function installBossForeground({
   globalThis.__bossForeground = {
     successor: () => successor,
     scriptedReturn: () => returned,
+    choice: () => choice,
+    showChoice(yes) {
+      if (!watchChoice || choice?.yes === yes) return
+      choice = observation.event('jar-choice-drawn', { yes })
+    },
     beginComposite() {
       shift = 0
       requestedShift = 0
@@ -188,6 +230,7 @@ function installBossForeground({
       if (!drewWorld || battle || (sceneId !== scene && sceneId !== handoffScene)) {
         previous = undefined
         recordVictoryReturn(undefined, context)
+        recordJarPresentation(undefined, context)
         return
       }
       const frame = {
@@ -201,6 +244,7 @@ function installBossForeground({
       }
       commit(frame, context)
       recordVictoryReturn(frame, context)
+      recordJarPresentation(frame, context)
       recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
     },
     reforgeWorld(sceneId, camera, draws, partyLayer) {
@@ -235,12 +279,14 @@ function installBossForeground({
       if (!pending) {
         previous = undefined
         recordVictoryReturn(undefined, context)
+        recordJarPresentation(undefined, context)
         return
       }
       const frame = pending
       pending = undefined
       commit({ ...frame, ambience, tint, changing }, context)
       recordVictoryReturn(frame, context)
+      recordJarPresentation(frame, context)
       recordComposite(frame.scene, context, ditherStep)
     },
   }

@@ -14010,52 +14010,45 @@
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.023",
+                        "side": "right"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13268"
                       }
-                    ]
+                    ],
+                    "slot": "bottom"
                   }
+                },
+                {
+                  "kind": "clearDialog"
                 },
                 {
                   "kind": "dialog",
                   "cue": {
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "portrait": {
+                        "asset": "portrait.pal.043",
+                        "side": "left"
+                      }
                     },
                     "rows": [
                       {
                         "text": "dlg.13269"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13270"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13271"
                       }
-                    ]
+                    ],
+                    "slot": "top"
                   }
                 },
                 {
@@ -14196,9 +14189,14 @@
                         "text": "dlg.13273"
                       }
                     ],
+                    "slot": "bottom",
                     "identity": {
                       "kind": "unbound",
-                      "speaker": "spk.李逍遥"
+                      "speaker": "spk.李逍遥",
+                      "portrait": {
+                        "asset": "portrait.pal.010",
+                        "side": "right"
+                      }
                     }
                   }
                 },

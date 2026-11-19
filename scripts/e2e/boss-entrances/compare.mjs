@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { sha256 } from '../browser-journey.mjs'
+import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import {
@@ -129,9 +130,11 @@ function checkDialogue(events, before, after, game) {
   return { pre, post }
 }
 
-function expectedDialoguePages(commands) {
+function expectedDialoguePages(commands, initialSlot) {
   const pages = []
-  let slot, portrait, name
+  let slot = initialSlot
+  let portrait = null
+  let name = null
   let lines = []
   const finish = () => {
     if (lines.length) pages.push({ slot, portrait, speaker: name, lines })
@@ -152,6 +155,190 @@ function expectedDialoguePages(commands) {
   }
   finish()
   return pages
+}
+
+function checkTianPresentation(
+  events,
+  draws,
+  { trigger, launch, entry, menu, won, control },
+  game,
+) {
+  const issues = []
+  const check = (rule, expected, actual) => {
+    if (!isDeepStrictEqual(expected, actual)) issues.push({ rule, expected, actual })
+  }
+  const first = (kind) => events.find((event) => event.kind === kind)
+  const choices = events.filter(({ kind }) => kind === 'jar-choice-drawn')
+  const black = first('jar-black-drawn')
+  const reveal = first('jar-reveal-drawn')
+  const returned = first('tian-first-return-drawn')
+  check(
+    'default No and deliberate Yes',
+    [false, true],
+    choices.map(({ yes }) => yes),
+  )
+  const route = [trigger, ...choices, black, reveal, launch, won, returned, control]
+  check(
+    'opening, fully covered map, entry and first return order',
+    true,
+    route.every((event, i) => event && (!i || route[i - 1]?.order < event.order)),
+  )
+  const [col, row] = returnedAt
+  const leader = [16 * (col - row), 8 * (col + row)]
+  const camera = [leader[0] - 160, leader[1] - 112]
+  const y = game ? 4 : 7
+  const party = [
+    ['li-xiaoyao', game ? 2 : 'li-xiaoyao', 3, leader, [160, 112 + y]],
+    ['lin-yueru', game ? 7 : 'lin-yueru', 0, [leader[0] + 16, leader[1] - 8], [176, 104 + y]],
+  ]
+  for (const [phase, frame] of [
+    ['jar revealed', reveal],
+    ['first return', returned],
+  ]) {
+    check(
+      `${phase} scene, world position and camera`,
+      [spec.scene, leader, camera],
+      [frame?.scene, frame?.leader, frame?.camera],
+    )
+    check(
+      `${phase} actual party sprites, frames and foot positions`,
+      party,
+      frame?.party
+        ?.toSorted((a, b) => a.slot - b.slot)
+        .map(({ id, spriteId, frame, world, foot }) => [id, spriteId, frame, world, foot]),
+    )
+    for (const [id, actor, facing, expectedFrame] of [
+      ['e2432', source.tian.target, 'right', 9],
+      ['e2433', source.tian.jar, 'down', 1],
+    ]) {
+      const actual = frame?.actors?.[id]
+      check(
+        `${phase} drawn ${id}`,
+        [actor.asset, actor.position, facing, expectedFrame],
+        actual && [actual.asset, actual.position, actual.facing, actual.frame],
+      )
+    }
+  }
+  const revival = events.filter(
+    ({ kind, ip, op }) =>
+      kind === 'script-op' && (game ? ip === source.tian.revive.ip : op === 'revivePartyAll'),
+  )
+  check(
+    'one scripted revival before the first field draw',
+    true,
+    revival.length === 1 && won.order < revival[0].order && revival[0].order < returned?.order,
+  )
+  const fallenHp = won.party.map(({ hp }) => hp)
+  const revivedHp = won.party.map(({ maxHP }, i) => {
+    const hp = [0, 336][i]
+    return hp === 0 ? Math.trunc((maxHP * source.tian.revive.tenths) / 10) : hp
+  })
+  const firstPaint = events.find(
+    ({ kind, surface, order }) => kind === 'paint' && surface === 'world' && order > won.order,
+  )
+  check('terminal half-revival sees the actual casualty', [0, 336], fallenHp)
+  check(
+    'half-revival reaches the first drawn field and world control',
+    [revivedHp, revivedHp],
+    [firstPaint?.party.map(({ hp }) => hp), control.party.map(({ hp }) => hp)],
+  )
+  const finalField = events.find(
+    ({ kind, order, actors }) =>
+      kind === 'world-drawn' &&
+      order > (returned?.order ?? won.order) &&
+      actors.e2433?.frame === 1 &&
+      !actors.e2432,
+  )
+  check('Tian disappears on the map while the open jar stays visible', true, Boolean(finalField))
+
+  const lastAction = events.findLast(({ kind }) => kind === 'action')
+  const pageState = ({ slot, speaker: name, portrait, portraitLayout, lines }) => ({
+    slot,
+    speaker: speaker(name),
+    portrait,
+    portraitLayout,
+    lines: lines.map(subtitle).filter(Boolean),
+  })
+  const dialogue = [
+    [
+      'opening',
+      source.pre,
+      trigger,
+      events.find(({ kind, band }) => kind === 'entry-band' && band === 1),
+      'top',
+    ],
+    ['battle challenge', source.tian.hookIntro, entry, menu],
+    ['battle termination', source.tian.hookEnd, lastAction, won],
+    ['returned field', source.post, won, control],
+  ].map(([phase, commands, from, until, initialSlot]) => {
+    let at = from.atMs
+    let earlier = []
+    let group = []
+    const pages = []
+    const flush = () => {
+      for (const page of expectedDialoguePages(group, initialSlot)) {
+        const center = page.slot === 'center'
+        const caption = {
+          ...page,
+          portraitLayout: page.portrait !== null,
+          ...(center &&
+            page.speaker && {
+              speaker: null,
+              lines: [`${page.speaker}∶`, ...page.lines],
+            }),
+        }
+        earlier = [...earlier.filter(({ slot }) => slot !== page.slot), caption]
+        pages.push(earlier)
+      }
+      group = []
+      earlier = []
+    }
+    for (const command of commands) {
+      if ([0x05, 0x0a].includes(command.opcode)) flush()
+      else
+        group.push(
+          command.op === 'showDialog'
+            ? { ...command, text: sourceDialogueText(command.text) }
+            : command,
+        )
+    }
+    flush()
+    return {
+      phase,
+      pages: pages.map((expected, i) => {
+        const witness = draws.find(
+          ({ scene, atMs, slots }) =>
+            scene === spec.scene &&
+            atMs >= at &&
+            atMs < until.atMs &&
+            slots.length === expected.length &&
+            expected.every((page) =>
+              slots.some((slot) => isDeepStrictEqual(pageState(slot), page)),
+            ),
+        )
+        if (witness) at = witness.atMs
+        else issues.push({ rule: `${phase} draw ${i + 1} and retained slots`, expected })
+        return { slots: expected, atMs: witness?.atMs }
+      }),
+    }
+  })
+  const lastWorldPage = dialogue[0].pages.at(-1).slots[0]
+  const battleHandoff = events.find(
+    ({ kind, atMs, surface, box }) =>
+      kind === 'paint' &&
+      surface === 'battle' &&
+      atMs >= entry.atMs &&
+      atMs < dialogue[1].pages[0].atMs &&
+      box?.phase.startsWith('waiting') &&
+      speaker(box.speaker) === lastWorldPage.speaker &&
+      subtitle(box.text) === lastWorldPage.lines.join(''),
+  )
+  check(
+    'the last field page is acknowledged after the native entry reveal',
+    true,
+    Boolean(battleHandoff),
+  )
+  return { issues, choices, black, reveal, returned, revival, dialogue, finalField, battleHandoff }
 }
 
 function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
@@ -1070,6 +1257,19 @@ async function inspect(path, engine) {
         ]
       : []),
   ]
+  if (source.tian) {
+    const keys = {
+      interact: game ? 'Space' : 'Enter',
+      'open-jar-highlight': 'ArrowRight',
+      'open-jar-confirm': game ? 'Space' : 'Enter',
+    }
+    for (const [phase, key] of Object.entries(keys))
+      assert.deepEqual(
+        report.actions.filter((action) => action.phase === phase).map((action) => action.key),
+        [key],
+        `one physical press for ${phase}`,
+      )
+  }
   for (const [phase, keys] of routeInputs)
     assert.deepEqual(
       report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
@@ -1259,18 +1459,36 @@ async function inspect(path, engine) {
     commands.filter(({ turn }) => turn === 1).map(({ slot, kind }) => [slot, kind]),
     battleParty.map((_, slot) => [slot, 'defend']),
   )
-  assert(
-    commands
-      .filter(({ turn }) => turn > 1)
-      .every(
-        ({ kind, target }) =>
-          kind === 'attack' &&
-          Number.isInteger(target) &&
-          target >= 0 &&
-          target < source.slots.length,
-      ),
-  )
-  assert(report.actions.some(({ phase }) => phase === 'battle-select'))
+  const battleKeys = report.actions.filter(({ phase }) => phase === 'battle-select')
+  if (source.tian) {
+    const expected = Array.from({ length: source.tian.turns }, (_, i) =>
+      battleParty.map((_, slot) => ({
+        slot,
+        turn: i + 1,
+        kind: 'defend',
+        spell: null,
+        target: null,
+      })),
+    ).flat()
+    assert.deepEqual(commands, expected, 'nine actual turns of two guards each')
+    assert.deepEqual(
+      battleKeys.map(({ key }) => key),
+      expected.map(() => 'KeyD'),
+    )
+  } else {
+    assert(
+      commands
+        .filter(({ turn }) => turn > 1)
+        .every(
+          ({ kind, target }) =>
+            kind === 'attack' &&
+            Number.isInteger(target) &&
+            target >= 0 &&
+            target < source.slots.length,
+        ),
+    )
+    assert(battleKeys.length > 0)
+  }
 
   const actions = find('action').map(({ turn, actor, action, party: members, slots }) => ({
     turn,
@@ -1357,8 +1575,19 @@ async function inspect(path, engine) {
       'both summoned slots take actual actions',
     )
   }
-  assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
-  assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp === 0))
+  if (source.tian) {
+    assert.deepEqual(
+      enemy.map(({ spell }) => spell),
+      source.tian.spells,
+    )
+    assert.equal(actions.length, source.tian.turns * (battleParty.length + 1))
+    assert.equal(actions.at(-1), enemy.at(-1))
+    assert.equal(enemy.at(-1).turn, source.tian.turns)
+    assert.equal(enemy.at(-1).enemies[spec.slot].hp, source.original.health)
+  } else {
+    assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
+    assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp === 0))
+  }
 
   const poses = find('boss-frame').filter(
     ({ slot, active }) => slot === spec.slot && active?.side === 'enemy' && active.slot === slot,
@@ -1398,13 +1627,28 @@ async function inspect(path, engine) {
     assert(trigger.order < worldCue.order && worldCue.order < launch[0].order)
     spiderForeground = checkSpiderForeground(events, trigger, worldCue, launch[0])
   }
-  assert.equal(soundIds.filter((asset) => asset === source.original.deathSound).length, 1)
+  assert.equal(
+    soundIds.filter((asset) => asset === source.original.deathSound).length,
+    source.tian ? 0 : 1,
+  )
 
-  assert.equal(won.result, game ? 'won' : 'victory')
-  const summary = once('victory-summary-drawn')
-  const [exp, cash] = totalReward()
-  assert.deepEqual([summary.exp, summary.cash], [exp, cash])
-  assert(summary.order < won.order)
+  assert.equal(won.result, source.tian ? 'terminated' : game ? 'won' : 'victory')
+  const [exp, cash] = source.tian ? [0, 0] : totalReward()
+  let summary
+  if (source.tian) {
+    assert.deepEqual(
+      [
+        ...find('victory-summary-drawn'),
+        ...find('settlement'),
+        ...find('ordinary-game-over-drawn'),
+      ],
+      [],
+    )
+  } else {
+    summary = once('victory-summary-drawn')
+    assert.deepEqual([summary.exp, summary.cash], [exp, cash])
+    assert(summary.order < won.order)
+  }
   assert.equal(won.cash, cash)
   assert.deepEqual(
     won.inventory,
@@ -1493,7 +1737,7 @@ async function inspect(path, engine) {
         ({ order, track, context }) =>
           order > won.order && track === returnMusic && context === 'running',
       ),
-      'original field music after victory',
+      'original field music after battle',
     )
     assert.equal(last.music, returnMusic)
   }
@@ -1503,7 +1747,10 @@ async function inspect(path, engine) {
     assert.equal(won.continuation, spec.disk.battle + 1)
     if (!leavesByScript) {
       assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
-      assert.equal(run.returned.owner.resume, spec.team === 45 ? spec.disk.last + 1 : null)
+      assert.equal(
+        run.returned.owner.resume,
+        source.tian?.resume.ip ?? (spec.team === 45 ? spec.disk.last + 1 : null),
+      )
       assert(script.some(({ ip }) => ip === spec.disk.last))
     }
     if (spec.disk.reward)
@@ -1513,6 +1760,12 @@ async function inspect(path, engine) {
         ).length,
         1,
       )
+  } else if (source.tian) {
+    assert.equal(run.returned.owner.hidden, false)
+    assert.deepEqual(run.returned.owner.behavior.trigger.cursor, {
+      behavior: 'default',
+      at: { kind: 'stage', stage: source.tian.resume.stage },
+    })
   } else if (spec.team === 45) {
     const { behavior } = run.returned.owner
     assert.deepEqual(behavior.triggerActivation, {
@@ -1545,12 +1798,25 @@ async function inspect(path, engine) {
     )
     assert(game ? granted.order < won.order : won.order < begun.order)
   }
-  const dialogue = checkDialogue(
-    events,
-    { trigger: trigger.order, battle: launch[0].order },
-    { won: won.order, control: control.order },
-    game,
-  )
+  if (source.tian) {
+    assert.deepEqual(
+      run.returned.gate,
+      game
+        ? 'L_23297'
+        : {
+            selection: { kind: 'use', value: source.tian.gateVariant },
+          },
+    )
+    assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
+  }
+  const dialogue = source.tian
+    ? undefined
+    : checkDialogue(
+        events,
+        { trigger: trigger.order, battle: launch[0].order },
+        { won: won.order, control: control.order },
+        game,
+      )
   const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
   const foreground =
@@ -1569,6 +1835,24 @@ async function inspect(path, engine) {
     : undefined
   const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
   const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
+  const tian = source.tian
+    ? checkTianPresentation(events, renderedDialogue, boundaries, game)
+    : undefined
+  if (tian) {
+    const phaseKeys = (phase) => report.actions.filter((action) => action.phase === phase)
+    const before = phaseKeys('before-dialogue')
+    const counts = [
+      before.filter(({ atMs }) => atMs - raw.timeOrigin < launch[0].atMs).length,
+      before.length,
+      phaseKeys('after-dialogue').length,
+    ]
+    if (!isDeepStrictEqual(counts, [3, 7, 15]))
+      tian.issues.push({
+        rule: 'original physical dialogue confirms',
+        expected: [3, 7, 15],
+        actual: counts,
+      })
+  }
   const tower = source.tower
     ? inspectTowerFoxPresentation({
         events,
@@ -1600,9 +1884,11 @@ async function inspect(path, engine) {
     'summoned bee drop probes must use original failed drop samples',
   )
   const comparable = {
-    dialogue: [dialogue.pre, dialogue.post].map((pages) =>
-      pages.map(({ text, speaker }) => ({ text: subtitle(text), speaker })),
-    ),
+    ...(dialogue && {
+      dialogue: [dialogue.pre, dialogue.post].map((pages) =>
+        pages.map(({ text, speaker }) => ({ text: subtitle(text), speaker })),
+      ),
+    }),
     commands,
     actions,
     rng: find('rng').map(({ value }) => value),
@@ -1665,6 +1951,7 @@ async function inspect(path, engine) {
     inn,
     tomb,
     tower,
+    tian,
     spiderForeground,
     clips: {
       contactMs: entered?.atMs ?? trigger.atMs,
@@ -1698,6 +1985,7 @@ if (!failures.length) {
       ...(result.inn?.issues ?? []),
       ...(result.tomb?.issues ?? []),
       ...(result.tower?.issues ?? []),
+      ...(result.tian?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

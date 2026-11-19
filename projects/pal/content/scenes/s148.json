@@ -518,6 +518,7 @@
                             "text": "dlg.8683"
                           }
                         ],
+                        "slot": "top",
                         "identity": {
                           "kind": "unbound",
                           "speaker": "spk.坛中妖怪"
@@ -535,6 +536,7 @@
                             "text": "dlg.8685"
                           }
                         ],
+                        "autoAdvance": 0,
                         "identity": {
                           "kind": "unbound",
                           "speaker": "spk.林月如",
@@ -664,6 +666,7 @@
                             "text": "dlg.8693"
                           }
                         ],
+                        "autoAdvance": 0,
                         "identity": {
                           "kind": "unbound",
                           "speaker": "spk.天鬼皇",
@@ -678,7 +681,41 @@
                     {
                       "kind": "startBattle",
                       "boss": true,
-                      "enemyTeamId": "team-293"
+                      "enemyTeamId": "team-293",
+                      "choreography": [
+                        {
+                          "at": "battleStart",
+                          "body": [
+                            {
+                              "kind": "dialog",
+                              "cue": {
+                                "identity": {
+                                  "kind": "unbound",
+                                  "speaker": "spk.天鬼皇",
+                                  "portrait": {
+                                    "asset": "portrait.pal.043",
+                                    "side": "left"
+                                  }
+                                },
+                                "rows": [
+                                  {
+                                    "text": "dlg.8692",
+                                    "speed": 0
+                                  },
+                                  {
+                                    "text": "dlg.8693",
+                                    "speed": 0
+                                  }
+                                ],
+                                "slot": "top"
+                              }
+                            },
+                            {
+                              "kind": "clearDialog"
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "kind": "revivePartyAll",
@@ -986,6 +1023,9 @@
                       "cue": {
                         "rows": [
                           {
+                            "text": "dlg.8731"
+                          },
+                          {
                             "text": "dlg.8732"
                           },
                           {
@@ -993,8 +1033,7 @@
                           }
                         ],
                         "identity": {
-                          "kind": "unbound",
-                          "speaker": "spk.李逍遥心里想"
+                          "kind": "narration"
                         },
                         "slot": "center"
                       }

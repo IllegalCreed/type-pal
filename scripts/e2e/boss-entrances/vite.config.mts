@@ -196,6 +196,11 @@ ${anchor}`,
       code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')
       code = after(
         code,
+        '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)',
+        '    globalThis.__bossForeground?.showChoice(gs.eventCursor.confirmYes ?? false)',
+      )
+      code = after(
+        code,
         '  const entries: DrawEntry[] = []',
         '  globalThis.__bossForeground?.beginComposite()',
       )
@@ -251,8 +256,13 @@ ${anchor}`,
         '      globalThis.__defeat?.reforgeDraw(true)',
         '      globalThis.__bossForeground?.battleFrame()',
       )
-      const staged = after(
+      const choice = after(
         surfaces,
+        '      scriptConfirmModal.presented()',
+        '      globalThis.__bossForeground?.showChoice(scriptConfirm.selectedYes)',
+      )
+      const staged = after(
+        choice,
         '        advanceWaveFrame: motion.worldTicksThisFrame > 0,\n      })',
         `      globalThis.__bossForeground?.reforgeWorld(activeScene.scene.id, camera,
         globalThis.__e2eNpcDrawPasses?.get(sprites), partyLayer)`,

@@ -66,7 +66,8 @@ export function finishBattleWorldState(
   project: LoadedCurrentProjectCore,
 ): void {
   session.writeBackPersistentEffects(world)
-  if (result !== 'victory') session.writeBackHp(world.party)
+  // The resumed scene script may explicitly revive actors who were down at battle end.
+  if (result !== 'victory') session.writeBackHp(world.party, { preserveZeroHp: true })
   session.writeBackInventory(world.inventory)
   if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
   if (session.collectGained() > 0)

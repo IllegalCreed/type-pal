@@ -17,7 +17,8 @@ export const observesForeground = (spec) =>
   spec.prelude !== undefined ||
   spec.world.handoff !== undefined ||
   spec.world.scriptedReturn !== undefined ||
-  spec.disk.victory !== undefined
+  spec.disk.victory !== undefined ||
+  spec.disk.termination !== undefined
 
 export const party = [
   {
@@ -234,6 +235,41 @@ export const scenarios = {
     ip: 22381,
     track: 80,
   }),
+  'tian-ghost': {
+    id: 'tower-tian-ghost',
+    scene: 's148',
+    owner: 'e2433',
+    watched: ['e2432', 'e2429'],
+    team: 293,
+    enemy: 'enemy-529',
+    start: [117, 61, 0],
+    contact: [117, 62, 0],
+    approach: 'ArrowDown',
+    music: 37,
+    field: 40,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 23512,
+      battle: 23538,
+      last: 23618,
+      loss: 0,
+      confirm: 23518,
+      termination: 42235,
+      music: 22386,
+      field: 22378,
+      owner: [864, 1440, 2, 2],
+    },
+    mapMusic: { scene: 's148', ip: 22385, track: 79 },
+    world: {
+      inventory: [],
+      gameState: 2,
+      triggerMode: 2,
+      returned: [121, 62, 0],
+      departure: [121, 61, 0],
+      exit: 'ArrowUp',
+    },
+  },
   spider: {
     id: 'black-spider',
     scene: 's139',
@@ -453,6 +489,9 @@ export async function readSources(spec) {
     teams: 'data/extracted/data/enemy-teams.json',
     rfScene: `projects/pal/content/scenes/${spec.scene}.json`,
     rfTeams: 'projects/pal/content/enemy-teams.json',
+    ...(spec.disk.termination === undefined
+      ? {}
+      : { rfEnemies: 'projects/pal/content/enemies.json' }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -692,6 +731,10 @@ export async function readSources(spec) {
     .map((id) => data.enemies.find((enemy) => enemy.id === id))
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
+  const tian =
+    spec.disk.termination === undefined
+      ? undefined
+      : tianSource(data, commands, spec, native, object)
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -789,6 +832,7 @@ export async function readSources(spec) {
     turnStart,
     ring,
     tower,
+    tian,
     summonBonus,
     summoning: summonScript && {
       id: `enemy-${summonObject}`,
@@ -804,6 +848,65 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
+  }
+}
+
+function tianSource({ gameScene, rfScene }, commands, spec, body, object) {
+  const target = gameScene.eventObjects.find(({ id }) => id === 2432)
+  const jar = gameScene.eventObjects.find(({ id }) => id === 2433)
+  const gate = gameScene.eventObjects.find(({ id }) => id === 2429)
+  assert.deepEqual([commands[22377].opcode, commands[22377].operands], [0x75, [1, 3, 0]])
+  assert.deepEqual(
+    [jar.spriteNum, jar.nSpriteFrames, target.spriteNum, target.sState],
+    [506, 0, 12, 0],
+  )
+  assert.deepEqual(commands[spec.disk.confirm].operands, [23511, 0, 0])
+  assert.equal(commands[spec.disk.confirm].opcode, 0x0a)
+  assert.equal(commands[23511].op, 'end')
+  assert(
+    body.find(({ kind }) => kind === 'confirm')?.onNo.some(({ kind }) => kind === 'finishStep'),
+  )
+  const [x, y, half] = commands[23522].operands
+  assert.deepEqual(spec.world.returned, [x + y + half, y - x, 0])
+  assert.equal(commands[23522].opcode, 0x46)
+  assert.deepEqual([commands[23523].opcode, commands[23523].operands], [0x15, [1, 0, 0]])
+  assert.deepEqual(
+    body.find(({ kind }) => kind === 'teleportParty')?.pos,
+    grid(spec.world.returned),
+  )
+  assert.deepEqual([commands[23540].opcode, commands[23540].operands], [0x22, [1, 5, 0]])
+  assert.equal(body.find(({ kind }) => kind === 'revivePartyAll')?.tenths, 5)
+  assert.deepEqual([commands[23616].opcode, commands[23616].operands], [0x49, [2433, 0, 0]])
+  assert.deepEqual([commands[23617].opcode, commands[23617].operands], [0x25, [2430, 23297, 0]])
+  assert.equal(gate.triggerLabel, 'L_23294')
+  const selected = body.find(({ kind }) => kind === 'selectEntityBehavior')
+  assert.equal(selected.target.entity, 'e2429')
+  const relocation = rfScene.entities.find(({ id }) => id === 'e2429')
+  assert(relocation.behaviors.trigger[selected.selection.value])
+  const terminal = commands[spec.disk.termination]
+  assert.deepEqual([terminal.opcode, terminal.operands], [0x89, [0, 0, 0]])
+  const hook = commands.slice(object.scriptOnTurnStart, spec.disk.termination + 1)
+  const turns = hook.filter(({ advance }) => advance).length
+  assert.equal(turns, 9)
+  const spells = []
+  let spell = null
+  for (const command of hook) {
+    if (command.opcode === 0x67) spell = command.operands[0] ? String(command.operands[0]) : null
+    if (command.advance) spells.push(spell)
+  }
+  const resumed = commands[spec.disk.last].resetTo
+  assert.equal(commands[resumed]?.op, 'setDialogStyleCenter')
+  return {
+    turns,
+    spells,
+    revive: { ip: 23540, tenths: commands[23540].operands[1] },
+    resume: { ip: resumed, stage: 'legacy-002' },
+    hookIntro: commands.slice(object.scriptOnTurnStart, 42215),
+    hookEnd: commands.slice(42232, spec.disk.termination),
+    target: { asset: target.spriteNum, position: [target.x, target.y] },
+    jar: { asset: jar.spriteNum, position: [jar.x, jar.y] },
+    gateId: selected.target.entity,
+    gateVariant: selected.selection.value,
   }
 }
 

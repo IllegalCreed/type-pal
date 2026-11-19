@@ -65,8 +65,9 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
-  includesParty: spec.party === 'tomb' || Boolean(source.tower),
+  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.tian),
   victoryFade: Boolean(source.tower),
+  watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
   entrance,
   assets: Object.fromEntries(source.spriteChunks),
@@ -81,7 +82,7 @@ const trace = (page) => page.evaluate(() => globalThis.__defeat.trace())
 
 async function read(page) {
   return page.evaluate(
-    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs, victoryFade }) => {
+    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs, victoryFade, gateId }) => {
       const observed = globalThis.__defeat?.read()
       if (!observed?.state) return observed
       const gs = globalThis.__tpgs
@@ -104,6 +105,12 @@ async function read(page) {
         atMs: performance.now(),
         successor: globalThis.__bossForeground?.successor(),
         scriptedReturn: globalThis.__bossForeground?.scriptedReturn(),
+        choice: globalThis.__bossForeground?.choice(),
+        ...(gateId && {
+          gate: game
+            ? gs.npcs.find(({ id }) => `e${id}` === gateId)?.triggerLabel
+            : world.script.behaviors.entities?.[observed.state.scene]?.[gateId]?.trigger,
+        }),
         owner:
           owner &&
           (game
@@ -168,6 +175,7 @@ async function read(page) {
       initialOwner,
       settlementDwellMs: spec.settlementDwellMs,
       victoryFade: Boolean(source.tower),
+      gateId: source.tian?.gateId,
     },
   )
 }
@@ -273,7 +281,7 @@ async function makeGameFixture(page, baseURL, until) {
   if (source.preludePartyLayer !== undefined) assert.equal(gs.wLayer, source.preludePartyLayer * 8)
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
-  if (source.tower) {
+  if (source.tower || source.tian) {
     gs.wNumBattleField = spec.field
     gs.wNumBattleMusic = spec.music
   }
@@ -488,8 +496,10 @@ async function walk({
 async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
+  let confirmed = false
   const deadline =
-    Date.now() + (handoff || scriptedReturn || spec.prelude?.completedAt ? 195_000 : 125_000)
+    Date.now() +
+    (handoff || scriptedReturn || source.tian || spec.prelude?.completedAt ? 195_000 : 125_000)
   for (;;) {
     health()
     const view = await read(page)
@@ -504,7 +514,13 @@ async function playEncounter({ page, press, health, capture }) {
     const box = state.box
     const line = lineKey(box)
     const timedReward = ended && source.tomb?.reward === box?.text
-    if (box?.text && waiting.has(box.phase) && line !== lastLine && !timedReward) {
+    if (source.tian && !confirmed && view.choice) {
+      assert.equal(view.choice.yes, false, 'first painted choice is No')
+      await press('ArrowRight', 'open-jar-highlight')
+      await page.waitForFunction(() => globalThis.__bossForeground?.choice()?.yes === true)
+      await press(confirm, 'open-jar-confirm')
+      confirmed = true
+    } else if (box?.text && waiting.has(box.phase) && line !== lastLine && !timedReward) {
       lastLine = line
       if (capture.enabled)
         await capture.readable(box.text, line, async () => lineKey((await read(page)).state.box))
@@ -514,7 +530,7 @@ async function playEncounter({ page, press, health, capture }) {
       await press(confirm, 'settlement')
     } else if (live?.selectingPlayerId) {
       assert(live.turn <= 10, 'manual battle exceeded ten rounds')
-      const defending = live.turn === 1
+      const defending = live.turn === 1 || !!source.tian
       const enemies = live.snapshot.enemies.filter((enemy) => enemy?.alive)
       const target = enemies.find(({ id }) => id === spec.enemy) ?? enemies[0]
       const command = {
@@ -690,8 +706,15 @@ await runBrowserJourney({
         phase: 'approach',
         from: spec.start,
         to: spec.contact,
-        mode: source.tower ? undefined : 'dialogue',
+        mode: source.tower ? undefined : source.tian ? 'ready' : 'dialogue',
       })
+      if (source.tian) {
+        await press(confirm, 'interact')
+        await wait(
+          ({ state }) => state?.box?.text && state.scene === spec.scene,
+          'native interaction reads the sealed jar',
+        )
+      }
       if (source.tower)
         await wait(
           ({ state }) => state?.battle && state.scene === spec.scene,
