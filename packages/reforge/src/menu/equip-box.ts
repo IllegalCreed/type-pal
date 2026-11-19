@@ -94,13 +94,20 @@ function drawEquipPickRole(
   now: number,
   items: ItemDataMap,
 ): void {
-  if (assets.statusBg) ctx.drawImage(assets.statusBg, 0, 0, 320, 200)
+  if (assets.statusBg) {
+    ctx.drawImage(assets.statusBg, 0, 0, 320, 200)
+    // 装备选人页的暖色层在卷轴、外阴影和文字之前绘制。
+    ctx.save()
+    ctx.fillStyle = 'rgba(255, 235, 184, 0.1)'
+    ctx.fillRect(0, 0, 320, 200)
+    ctx.restore()
+  }
   const caster = world.party.find((c) => c.id === state.casterId)
   if (!caster) return
   const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
   // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标 + 数量(青)+ 名(金,左对齐)
-  drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64, { shadow: false })
+  drawSlicedBox(ctx, assets.itembox, PR_IMAGE_BOX.x, PR_IMAGE_BOX.y, 64, 64)
   if (sel) {
     const icon = sel.icon ? assets.itemIcons[sel.icon] : undefined
     if (icon) {
