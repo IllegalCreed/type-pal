@@ -913,6 +913,10 @@ Codex 记录 build allowed。桂花酒从客栈 s003 的道士旁实际赠送，
 
 用户指出末柱分屏三人的造型和受色差异。更正双端取档，Reforge 从正常 s144 进场的原生存档保留外观和水波。双端复验从末柱实战到两段过场及 s150，另以旧存档复现衣装和红色像素差异。 [台账](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-末柱倒塌红廊外观复验) · [原件与新版分屏](../evidence/E2E-Q2-1-dragon-pillar-party-appearance-20261119.tar.gz)
 
+## 2026-11-19 末柱过场交接和走廊群像
+
+修正两段过场之间的 NPC 启动时机和两次片尾持帧。雪崖首画面使用入场准备后的剧情站位。用同局双端实跑核每个呈现边界，并在共用宿主上复验提前丢末帧、提前揭示两种反例。 [复验台账](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-末柱过场交接和走廊群像) · [原件与原速带声分屏](../evidence/E2E-Q2-1-dragon-pillar-cutscene-boundaries-20261119.tar.gz)
+
 ## 2026-11-19 紫金丹、钓竿与六神丹
 
 Codex 记录 build allowed。实施范围为三条场景用物脚本、紫金丹的客房换场与继承乐曲、钓鱼的原版等待节拍及双端验证。先实测三条有效路线和对应的无目标分支。用 010 双端原生终点原件交叉确认紫金丹库存和病中李大娘的初态。当前候选通过真实用物触发角色脚本，紫金丹由道具编排回客房，六神丹由合法目标分支扣除。客房默认开场仍由开场方案起曲。 [原始用物入口与节拍](../../phase1/game-mechanics.md)

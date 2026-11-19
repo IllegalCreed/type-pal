@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "e2e37436f97e7e4bb0b45670bbfd6afdbdf8c1aef10d1eef961f65f4dc8f2bca",
+      "afterSha256": "f4218a31cbe11e2293c93fe0b5f803bc57384f44d57e5f466ec19451adb041d3",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原始画布复核",
+        "reviewer": "Codex 双端演出相位复核",
         "date": "2026-11-19",
-        "conclusion": "登记末柱红廊外观和像素复验的恢复入口。",
-        "reviewedLines": 94,
-        "acceptanceScope": "核原件清单、原生读档和带声分屏。"
+        "conclusion": "登记最后一柱逐段重录和逐帧解码的恢复入口。",
+        "reviewedLines": 95,
+        "acceptanceScope": "核原件清单、原生与分屏解码证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "3202d7e8d19b3a1fddf8dac10df16dfed9e78c3b662d5fbcc713fcfbdc216145",
+      "afterSha256": "519e93344f701b4068e3d8de3fe14dfbf17fbf197ba6dc601362fdb06a7465fb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原始画布复核",
+        "reviewer": "Codex 双端演出相位复核",
         "date": "2026-11-19",
-        "conclusion": "补录盘龙柱红廊入口的换装和水波。",
-        "reviewedLines": 1896,
-        "acceptanceScope": "核原盘指令、三套精灵的索引及来源色表。"
+        "conclusion": "找准两段过场期间的对象更新时间和下一场景原盘入口。",
+        "reviewedLines": 1898,
+        "acceptanceScope": "核原盘脚本码、影片输出语义和首次出画前定位。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "1a4c2b5b6d71f6fb40af22dd454103eac5e08665bd1315a8c7245bb7ea3d1217",
+      "afterSha256": "277452804a8195e489942885e6807345a833cd1f1f6d2d58a2f95141c0f77d77",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 双端演出相位复核",
         "date": "2026-11-19",
-        "conclusion": "同步退移、震屏与动画首帧淡入的当前运行语义。",
-        "reviewedLines": 344,
-        "acceptanceScope": "核实际调用层、两个时钟、清震边界和作者选项。"
+        "conclusion": "记录末帧持留和入场准备的共用呈现合同。",
+        "reviewedLines": 346,
+        "acceptanceScope": "核实际作者入口、黑幕边界和 NPC 启动顺序。"
       },
       "templateId": "design-spec-v1"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "0b59ee41ae79ebd738bd3def9534dbd93d555354ae3c523598ffd011591ce39b",
+      "afterSha256": "2ba56fffed94b7213aed8cd97441b6119ada629ead4bafbebd2c63fc12b21602",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原始画布复核",
+        "reviewer": "Codex 双端演出相位复核",
         "date": "2026-11-19",
-        "conclusion": "接收末柱红廊外观的双端复验。",
-        "reviewedLines": 957,
-        "acceptanceScope": "核正常进场存档、最终画布、原速分屏及两段过场。"
+        "conclusion": "登记走廊群像和末柱两处交接的同局复验。",
+        "reviewedLines": 961,
+        "acceptanceScope": "核双端实绘、两个共用回归反例及新分屏。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "899b89af9eadd1b67dec9f778b2af1f4508607a750e54500b3a16320fda1bd8b",
+      "afterSha256": "2685b258c75834cfec9986fb28c9a723ad62afd0e8d44cd0578222a3136da004",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原始画布复核",
+        "reviewer": "Codex 双端演出相位复核",
         "date": "2026-11-19",
-        "conclusion": "更正末柱红廊的外观验收并登记重录。",
-        "reviewedLines": 1296,
-        "acceptanceScope": "核真实取档、旧造型反例、双端精灵取样以及完整出画。"
+        "conclusion": "记录两处用户指出的交接差异和完整演出复验。",
+        "reviewedLines": 1306,
+        "acceptanceScope": "核八个自动对象及实际在屏集合、持帧和下一场景首帧。"
       }
     },
     {
@@ -6136,6 +6136,12 @@
       "bytes": 19517295,
       "sha256": "7474e985054ee48c265864d18ef4ea6bb76f1cb9de56292ec1745d72d9fbc3f7",
       "purpose": "末柱红廊三套精灵、标准色表与实际像素、原生及旧测试存档和修正取档后的双端原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dragon-pillar-cutscene-boundaries-20261119.tar.gz",
+      "bytes": 23776225,
+      "sha256": "90b2baaf10c61201f1b35e336bd6655d4c9c9c080452d1537afe6785bb0c1bac",
+      "purpose": "末柱两段过场的群像、片尾持帧、切场首帧、原生及分屏解码反例和共用回归。"
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz",

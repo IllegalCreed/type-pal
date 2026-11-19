@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
-import { type AuthorCommand, encodeFrameSequence } from '@type-pal/content'
+import { type AuthorCommand, type AuthorSceneDef, encodeFrameSequence } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
-import { sceneWithCommands, shellProject } from './__tests__/runtime-shell/project.js'
+import { sceneWithCommands, shellProject, shellScene } from './__tests__/runtime-shell/project.js'
 import { advance, installShellHost, state } from './__tests__/runtime-shell/scenarios.js'
 import { sha256Bytes } from './hash.js'
 import { loadCurrentProjectFrom } from './project-loader.js'
@@ -50,9 +50,9 @@ function movie() {
   }
 }
 
-async function boot(body: AuthorCommand[] = []) {
+async function boot(body: AuthorCommand[] = [], second?: AuthorSceneDef) {
   host = await installShellHost()
-  const f = await shellProject()
+  const f = await shellProject(second ? { second } : {})
   const catalog = structuredClone(f.project.assetCatalog)
   for (const [asset, value] of [
     ['movie-a', 17],
@@ -270,20 +270,90 @@ test('a legal SAVE12 restore resets held cinematic state rather than replaying i
   unchanged()
 })
 
-test('a real scene commit clears held cinematic pixels while its own scene fade stays authoritative', async () => {
-  const { h, unchanged } = await boot([
-    { kind: 'wait', ms: 200 },
-    { kind: 'playFrameAnimation', asset: 'movie-a', endFrame: 0, holdLastFrame: true },
-    { kind: 'loadScene', scene: 'b' },
-    { kind: 'giveMoney', delta: 9 },
-  ])
-  await vi.waitFor(async () => {
-    await h.frame(100)
-    await h.settleIO()
-    await drain()
-    expect(state().sceneId).toBe('b')
-    expect(state().script.running).toBe(false)
-  })
+test('movie fades on the last image and reveals only the prepared destination', async () => {
+  const prepared = { col: 3, row: 2, height: 0 }
+  const second: AuthorSceneDef = {
+    ...shellScene('b'),
+    hooks: {
+      onEnter: {
+        initial: 'main',
+        variants: {
+          main: {
+            label: 'Entry',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'arrive',
+              stages: [
+                {
+                  id: 'arrive',
+                  entry: {
+                    prepare: [{ kind: 'teleportParty', pos: prepared }],
+                    reveal: { kind: 'fade', outMs: 0, inMs: 260 },
+                  },
+                  body: [],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  }
+  const { h, unchanged } = await boot(
+    [
+      { kind: 'wait', ms: 200 },
+      { kind: 'playFrameAnimation', asset: 'movie-a', endFrame: 0, holdLastFrame: true },
+      { kind: 'fade', dir: 'out', ms: 260 },
+      { kind: 'loadScene', scene: 'b' },
+      { kind: 'giveMoney', delta: 9 },
+    ],
+    second,
+  )
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const sprites = vi.spyOn(WorldScenePresentation.prototype, 'sprites')
+  const sourceModes: unknown[] = []
+  const fadedMovieFrames: boolean[] = []
+  const visibleTargetPositions: (Readonly<typeof prepared> | undefined)[] = []
+  await vi.waitFor(
+    async () => {
+      const drawStart = h.draws.length
+      const spriteStart = sprites.mock.calls.length
+      await h.frame(100)
+      const cinematic = movie()
+      const opacity = Number(cinematic.black)
+      if (state().sceneId === 'a') {
+        sourceModes.push(cinematic.mode)
+        if (opacity > 0 && opacity < 1) {
+          fadedMovieFrames.push(
+            cinematic.mode === 'held' &&
+              h.draws.slice(drawStart).some(({ method, args }) => {
+                const image = args[0]
+                return (
+                  method === 'drawImage' &&
+                  args.length === 5 &&
+                  image instanceof HTMLCanvasElement &&
+                  image.width === 1 &&
+                  image.height === 1
+                )
+              }),
+          )
+        }
+      }
+      if (state().sceneId === 'b' && opacity < 1 && sprites.mock.calls.length > spriteStart)
+        visibleTargetPositions.push(sprites.mock.lastCall?.[0].player.pos)
+      await h.settleIO()
+      await drain()
+      expect(state().sceneId).toBe('b')
+      expect(state().script.running).toBe(false)
+    },
+    { timeout: 4000 },
+  )
+  expect(sourceModes).not.toContain('buffered')
+  expect(fadedMovieFrames.length).toBeGreaterThan(0)
+  expect(fadedMovieFrames.every(Boolean)).toBe(true)
+  expect(visibleTargetPositions.length).toBeGreaterThan(0)
+  for (const position of visibleTargetPositions) expect(position).toEqual(prepared)
   expect(movie().mode).toBe('idle')
   expect(movie().visible).toBe(false)
   expect(movie().black).toBe(0)
