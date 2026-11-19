@@ -110,6 +110,7 @@ export interface DialogueSlotObservation extends Omit<DialogueObservation, 'phas
   readonly phase: DialogueObservation['phase'] | 'retained'
   readonly visibleText: string | null
   readonly portraitAsset: string | null
+  readonly portraitLayout: boolean
 }
 
 export class DialogBox {
@@ -160,6 +161,10 @@ export class DialogBox {
         if (!render) return []
         const active = this.active && slot === this.slots.activeSlot
         const observation = this.observeSlot(slot, render)
+        const portraitAsset =
+          render.cue.portrait && this.portraits.has(render.cue.portrait.asset)
+            ? render.cue.portrait.asset
+            : null
         return [
           Object.freeze({
             ...observation,
@@ -167,10 +172,8 @@ export class DialogBox {
             active,
             phase: active ? observation.phase : ('retained' as const),
             visibleText: render.visibleText,
-            portraitAsset:
-              render.cue.portrait && this.portraits.has(render.cue.portrait.asset)
-                ? render.cue.portrait.asset
-                : null,
+            portraitAsset,
+            portraitLayout: render.cue.portraitLayout ?? portraitAsset !== null,
           }),
         ]
       }),
@@ -234,8 +237,8 @@ export class DialogBox {
     if (!cue) throw new Error('reforge: layoutCueInto cueIdx 越界')
     const slot: SlotId = cue.slot ?? 'bottom'
     const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.asset) : undefined
-    const hasPortrait = Boolean(portraitImg)
-    const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
+    const portraitLayout = cue.portraitLayout ?? Boolean(portraitImg)
+    const startX = portraitLayout ? POS[slot].textWithPortrait.x : POS[slot].text.x
     // D14-1:不再按头像收窄、不再扣光标预留;头像只改起点(startX 已处理)。
     // 光标按原版 posIcon 语义画在末行末尾,接近屏边时本就会被裁(视觉验收项)。
     const maxRight = MAX_RIGHT
@@ -472,8 +475,9 @@ export class DialogBox {
       this.ctx.drawImage(portraitImg, px, py)
     }
     // 正文 / 姓名 x:有头像时缩进(须与 layoutLineInto 的 startX 一致)
-    const titleX = hasPortrait ? pos.titleWithPortrait.x : pos.title.x
-    const textX = hasPortrait ? pos.textWithPortrait.x : pos.text.x
+    const portraitLayout = cue.portraitLayout ?? hasPortrait
+    const titleX = portraitLayout ? pos.titleWithPortrait.x : pos.title.x
+    const textX = portraitLayout ? pos.textWithPortrait.x : pos.text.x
 
     // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
     if (cue?.speaker) {

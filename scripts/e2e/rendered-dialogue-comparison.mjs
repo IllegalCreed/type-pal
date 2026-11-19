@@ -18,11 +18,12 @@ export function sourceDialogueGroups(commands, windows) {
     let slot
     let speaker = null
     let portrait = null
+    let portraitLayout = false
     let rows = []
     const finish = () => {
       if (rows.length) {
         assert(slot, 'source dialogue window must name its initial slot')
-        groups.push({ scene, slot, speaker, portrait, rows })
+        groups.push({ scene, slot, speaker, portrait, portraitLayout, rows })
       }
       rows = []
       speaker = null
@@ -34,6 +35,7 @@ export function sourceDialogueGroups(commands, windows) {
         finish()
         slot = styles[op]
         portrait = ['top', 'bottom'].includes(slot) && arg0 > 0 ? arg0 : null
+        portraitLayout = portrait !== null
       } else if (op === 'showDialog') {
         const visible = sourceDialogueText(text)
         if (/[∶：:]$/u.test(visible)) speaker = heading(visible)
@@ -52,7 +54,12 @@ export function compareRenderedDialogue(draws, groups, locale = {}) {
   const expected = groups.map((group) => ({
     ...group,
     text: normalize(group.rows.map(({ text }) => text).join('')),
-    identity: { slot: group.slot, speaker: group.speaker, portrait: group.portrait },
+    identity: {
+      slot: group.slot,
+      speaker: group.speaker,
+      portrait: group.portrait,
+      portraitLayout: group.portraitLayout,
+    },
   }))
   const seen = new Map()
   const findings = new Map()
@@ -86,6 +93,7 @@ export function compareRenderedDialogue(draws, groups, locale = {}) {
         slot: slot.slot,
         speaker: heading(locale[slot.speaker] ?? slot.speaker),
         portrait: slot.portrait,
+        portraitLayout: slot.portraitLayout ?? slot.portrait !== null,
       }
       const compatible = candidates.filter(({ identity }) => isDeepStrictEqual(identity, actual))
       if (compatible.length === 0) {

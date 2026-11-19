@@ -32,6 +32,7 @@ export function installRenderedDialogueObservation() {
             speaker: slot.speaker,
             portrait:
               slot.portraitAsset === null ? null : Number(slot.portraitAsset.split('.').at(-1)),
+            portraitLayout: slot.portraitLayout,
             ids: slot.pageTextIds,
             lines: slot.visibleText.split('\n'),
           }))

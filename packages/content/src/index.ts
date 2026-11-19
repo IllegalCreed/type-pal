@@ -49,6 +49,8 @@ export interface DialogueCue {
   slot?: 'top' | 'bottom' | 'narration' | 'center'
   /** 头像资源 + 左/右;省略 = 无头像。 */
   portrait?: { asset: AssetId; side: 'left' | 'right' }
+  /** 保留头像对应的文字排版，即使本段没有画头像。 */
+  portraitLayout?: true
   /** 等键光标形态(0 默认箭头 / 1 / 2);省略 = 0。原版 `(`/`)` 控制符 → 此显式字段。 */
   cursorFrame?: 0 | 1 | 2
 }

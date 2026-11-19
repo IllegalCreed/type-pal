@@ -14,7 +14,7 @@ const source = [
 ]
 const expected = sourceDialogueGroups(source, [{ scene, first: 0, last: 6 }])
 const visible = (i, overrides) => {
-  const { rows, slot, speaker, portrait } = expected[i]
+  const { rows, slot, speaker, portrait, portraitLayout } = expected[i]
   return {
     scene,
     atMs: i * 1000 + 80,
@@ -23,6 +23,7 @@ const visible = (i, overrides) => {
         slot,
         speaker,
         portrait,
+        portraitLayout,
         lines: rows.map(({ text }) => text),
         ids: rows.map(({ id }) => id),
         ...overrides,
@@ -54,6 +55,7 @@ test('missing text, a relocated slot and a changed body independently fail', () 
   for (const [draws, issue] of [
     [[visible(0)], 'missing-complete-dialogue-draw'],
     [[visible(0), visible(1, { slot: 'bottom' })], 'wrong-drawn-dialogue-identity'],
+    [[visible(0), visible(1, { portraitLayout: false })], 'wrong-drawn-dialogue-identity'],
     [[visible(0), visible(1, { lines: ['记忆没有失去'] })], 'unexpected-drawn-dialogue'],
   ]) {
     const result = compareRenderedDialogue(draws, expected)
