@@ -97,8 +97,20 @@ async function side(engine, relocatedReport) {
     assert.deepEqual(rawReference, compare.raw)
     const { events } = raw
     const contact = events.find(({ kind }) => kind === 'trigger')
-    const returned = events.find(({ kind }) => kind === 'world-control')
-    const exit = events.find(({ kind, order }) => kind === 'move' && order > returned.order)
+    const successor = events.find(({ kind }) => kind === 'successor-drawn')
+    const battleEnd = events.find(({ kind }) => kind === 'battle-finished')
+    const returned = successor
+      ? events.find(
+          ({ kind, order, scene, colors }) =>
+            kind === 'world-drawn' &&
+            order > battleEnd.order &&
+            scene === contact.scene &&
+            colors.some(([r, g, b]) => r || g || b),
+        )
+      : events.find(({ kind }) => kind === 'world-control')
+    assert(returned, `${engine} missing actual return frame`)
+    const exit =
+      successor ?? events.find(({ kind, order }) => kind === 'move' && order > returned.order)
     const { contactMs, returnMs, exitMs } = compare.clips
     assert.deepEqual([contact.atMs, returned.atMs, exit.atMs], [contactMs, returnMs, exitMs])
     const start = report.media.browser.startedAt

@@ -110,7 +110,7 @@ describe('E4 立即类分支：完整参数/默认值/非目标零调用', () =>
       { method: 'loseItem', args: ['78', 1] },
       { method: 'giveMoney', args: [-120] },
       { method: 'playSound', args: ['sfx.hit'] },
-      { method: 'playMusic', args: ['music.m1'] },
+      { method: 'playMusic', args: ['music.m1', signal] },
       { method: 'stopMusic', args: [] },
       { method: 'setAmbience', args: ['night'] },
     ])

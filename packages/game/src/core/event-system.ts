@@ -89,7 +89,17 @@ import {
   resolveLabelIp,
   resolveScriptLabel,
 } from './script-catalog.js'
-import { OP_ADD_CASH, OP_ADD_ITEM, OP_START_BATTLE } from './script-opcode-ids.js'
+import {
+  OP_ADD_CASH,
+  OP_ADD_ITEM,
+  OP_DELAY,
+  OP_ENEMY_ESCAPE,
+  OP_PLAY_CD_MUSIC,
+  OP_PLAY_MUSIC,
+  OP_PLAY_SOUND,
+  OP_START_BATTLE,
+  OP_STOP_MUSIC,
+} from './script-opcode-ids.js'
 import { getWord } from './word-lookup.js'
 
 export {
@@ -155,16 +165,15 @@ export const OP_SET_CAMERA = 0x007f // 127
 export const OP_CENTER_CAMERA_ON_PARTY = 0x007f // 127 (operand[0]=0, operand[1]=0 変体)
 // case 0x0043(67):  Set background music
 //   operand[0]=musicId → gs.wNumMusic; shell AudioManager 轮询播放
-export const OP_PLAY_MUSIC = 0x0043 // 67
+export { OP_PLAY_MUSIC } from './script-opcode-ids.js'
 // case 0x0045(69):  Set battle music(sdlpal script.c:1658)
 //   operand[0]=musicId → gs.wNumBattleMusic(进战斗时由 shell AudioManager 播)
 export const OP_SET_BATTLE_MUSIC = 0x0045 // 69
 // case 0x0077(119): Stop current playing music(sdlpal script.c:2215)
 //   AUDIO_PlayMusic(0,FALSE,op0==0?2.0:op0*3) + gpGlobals->wNumMusic=0(fade 出后停)
-export const OP_STOP_MUSIC = 0x0077 // 119
 // case 0x00A3(163): Play CD music, RIX fallback(sdlpal script.c:3023)
 //   gpGlobals->wNumMusic=op1;CD 可用 → PlayCDTrack(op0,-1→-2)失败回 RIX;否则 PlayMusic(op1)
-export const OP_PLAY_CD_MUSIC = 0x00a3 // 163
+export { OP_PLAY_CD_MUSIC, OP_STOP_MUSIC } from './script-opcode-ids.js'
 // case 0x0049(73):  Set state of current event object
 //   operand[0]=condition(non-zero → execute), operand[1]=newState
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
@@ -181,7 +190,7 @@ export { OP_ADD_CASH, OP_ADD_ITEM } from './script-opcode-ids.js'
 export const OP_REMOVE_ITEM = 0x0020 // 32
 // case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
 //   operand[0] = soundId → gs.pendingSounds; shell AudioManager drain 播放。
-export const OP_PLAY_SOUND = 0x0047 // 71
+export { OP_PLAY_SOUND } from './script-opcode-ids.js'
 // case 0x0012(18):  Set position of event object relative to party(script.c:706-714)
 //   pCurrent.x = operand[1] + viewport.x + partyoffset.x = operand[1] + party.x(world)
 //   pCurrent.y = operand[2] + viewport.y + partyoffset.y = operand[2] + party.y
@@ -384,7 +393,7 @@ export const OP_SET_FOLLOWER = 0x0098 // 152 operand[0..1]=follower roleId → g
 export const OP_CHANGE_MAP = 0x0099 // 153 op0==0xFFFF 当前换图+reload;else 设 scene op0 mapNum
 // case 0x0085(133): Delay for a period(script.c:2511-2516)— UTIL_Delay(operand[0]*80)实时阻塞延迟,
 //   期间不调 PAL_GameUpdate(autoScript 暂停)。ts:time-based waiting='delay'(仿 0x73 fade-screen)。
-export const OP_DELAY = 0x0085 // 133
+export { OP_DELAY } from './script-opcode-ids.js'
 // case 0x008F(143): Halve the cash amount(script.c:2598-2603)— dwCash /= 2。
 export const OP_HALVE_CASH = 0x008f // 143
 // case 0x00A1(161): Set positions of all party members = first(script.c:2998-3014)
@@ -1418,6 +1427,15 @@ function translatedDialogWidth(style: DialogBoxStyle, hasPortrait: boolean): num
   return right - getDialogTextPos(style, hasPortrait).x - 8
 }
 
+function panCameraBy(gs: GameState, dx: number, dy: number): void {
+  gs.camera.x += dx
+  gs.camera.y += dy
+  gs.partyCameraOffset ??= { x: PARTYOFFSET_X, y: PARTYOFFSET_Y }
+  const offset = gs.partyCameraOffset
+  offset.x -= dx
+  offset.y -= dy
+}
+
 export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFade = false): void {
   const cursor = gs.eventCursor
   if (!cursor) {
@@ -1449,8 +1467,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
   // 1a'') waiting 处理:camera-pan(opcode 0x7F 多帧 viewport 平移,sdlpal script.c:2331-2377)
   //   每 tick 移 camera += (dx,dy) + 自减;归 0 时 clear + ip++,fall through 续跑下条 opcode。
   if (cursor.waiting === 'camera-pan') {
-    gs.camera.x += cursor.cameraPanDx ?? 0
-    gs.camera.y += cursor.cameraPanDy ?? 0
+    panCameraBy(gs, cursor.cameraPanDx ?? 0, cursor.cameraPanDy ?? 0)
     const remaining = (cursor.cameraPanFramesRemaining ?? 1) - 1
     if (remaining > 0) {
       cursor.cameraPanFramesRemaining = remaining
@@ -2366,8 +2383,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
             // sdlpal 0x7F else:`do{ viewport+=(x,y); PAL_GameUpdate; DelayUntil } while(++i<op2)`
             //   —— op2=0 跑 1 帧(1 步 + 逐帧延时)。**每个 0x7F 至少 yield 1 渲染帧**:这是 cutscene
             //   走步动画(`0x6E+0x7F` 对反复走,如林家堡李逍遥走出场)的逐帧节拍来源。第一帧立即移。
-            gs.camera.x += dx
-            gs.camera.y += dy
+            panCameraBy(gs, dx, dy)
             cursor.waiting = 'camera-pan'
             if (frames > 1) {
               // 多帧:余 frames-1 帧逐 tick 各再移 (dx,dy)。
@@ -2989,21 +3005,24 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
       case 'raw': {
         // M5.B-w2.a:battle mode 先尝试 dispatchBattleOpcode(scripted enemy AI 入口 + 战斗特定 opcode)
         if (runtimeMode === 'battle' && battleCtx) {
-          // D26(2b):0x69 敌逃跑动画夹在 dialog 序列中(蛇女灵儿 obj502 turnStart@41060:嘲讽对话 →
-          //   0x69 → narration「逃走了」)。runScript 同步若立即跑 → 逃跑动画跑在所有对话前(错序)。
-          //   故 **dialog 已入队时**(mid-sequence)把 0x69 也入队按位置保序,tickBattleDialog 处理到时
-          //   才 dispatch(set enemyEscapeAnim)→ sdlpal 真值序:对话 → 逃跑动画 → narration → fleed。
-          //   队列空(无前置对话)→ 不 defer,照旧立即跑(0x69 → narration 顺序天然对)。
+          // Battle hooks collect dialogue synchronously. Queue presentation cues at their script
+          // position so active dialogue, waits, and effects are consumed in the original order.
           const bs = battleCtx.state
-          if (cmd.opcode === 0x69 && (bs.battleDialogQueue?.length ?? 0) > 0) {
+          const hasPendingPresentation = Boolean(bs.battleDialogQueue?.length)
+          const orderedEscape = cmd.opcode === OP_ENEMY_ESCAPE && hasPendingPresentation
+          const scriptMusic =
+            cmd.opcode === OP_PLAY_MUSIC ||
+            cmd.opcode === OP_PLAY_CD_MUSIC ||
+            cmd.opcode === OP_STOP_MUSIC
+          const orderedAudio =
+            battleCtx.gs && hasPendingPresentation && (scriptMusic || cmd.opcode === OP_PLAY_SOUND)
+          if (orderedEscape || cmd.opcode === OP_DELAY || orderedAudio) {
             bs.battleDialogQueue ??= []
             bs.battleDialogQueue.push({
               effect: { opcode: cmd.opcode, operands: cmd.operands },
             })
-            // 敌逃 = sdlpal kBattleResultTerminated:标记"战斗将终止"。供 runEnemyTurnStartScripts 在本回合
-            //   后续敌人的 turn-start 脚本前 break(对齐 sdlpal:逃跑即退出主循环,后续敌 turn-start 不跑),
-            //   及 finalize 归 outcome='terminated'。
-            bs.terminatedByEnemyEscape = true
+            // Escape is terminal even while its animation is waiting behind the dialogue.
+            if (orderedEscape) bs.terminatedByEnemyEscape = true
             ip++
             break
           }
@@ -3037,6 +3056,7 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
           //   → 退回 D26 skip(优雅降级,不崩)。cursor 复用持久 callStack/curEventObjId 支持 call/return;
           //   commands/labelMap = 全局(jumpToGlobalIp / getLabels 解析跳转目标)。
           if (battleCtx.gs) {
+            if (scriptMusic) bs.scriptMusicActive = true
             if (cmd.opcode === OP_SHAKE_SCREEN) {
               // 战斗法术 scriptOnUse 0x35(斩龙诀 L_43111)应挂到随后 OffMagic 阶段,
               // 不可立即写 gs.shakeTime,否则 TS 的整条 timeline 会在 PreMagic 阶段先抖。
@@ -3551,8 +3571,8 @@ function applyRawOpcode(
       const py = (row ?? 0) * 16 + (h ?? 0) * 8
       gs.party.x = px
       gs.party.y = py
-      gs.camera.x = px - PARTYOFFSET_X
-      gs.camera.y = py - PARTYOFFSET_Y
+      gs.camera.x = px - (gs.partyCameraOffset?.x ?? PARTYOFFSET_X)
+      gs.camera.y = py - (gs.partyCameraOffset?.y ?? PARTYOFFSET_Y)
       // sdlpal script.c 0x46:还把 rgTrail[0..4] 全填成队伍世界坐标 + i*(xOffset,yOffset)(每槽往身后
       //   退一格),朝向 = wPartyDirection。→ 进场景队员 / 0x98 跟随者立刻排好(否则 trail 残留旧场景坐标
       //   或为空 → 跟随者要走几步把 trail 铺满才定位)。xOffset=(西/南?16:-16)、yOffset=(西/北?8:-8)。
@@ -3604,14 +3624,14 @@ function applyRawOpcode(
       //   partyoffset)的净视觉(party.world 不动 + camera 移 = sdlpal partyoffset 移)。
       const [cx, cy, flag] = operands
       if ((cx ?? 0) === 0 && (cy ?? 0) === 0) {
+        gs.partyCameraOffset = undefined
         gs.camera.x = gs.party.x - PARTYOFFSET_X
         gs.camera.y = gs.party.y - PARTYOFFSET_Y
       } else if (flag === 0xffff) {
         gs.camera.x = (cx ?? 0) * 32 - PARTYOFFSET_X
         gs.camera.y = (cy ?? 0) * 16 - PARTYOFFSET_Y
       } else {
-        gs.camera.x += toInt16(cx ?? 0)
-        gs.camera.y += toInt16(cy ?? 0)
+        panCameraBy(gs, toInt16(cx ?? 0), toInt16(cy ?? 0))
       }
       break
     }

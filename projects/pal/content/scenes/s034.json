@@ -1570,23 +1570,33 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 116,
-                      "height": 0,
-                      "row": 39
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 116,
+                        "height": 0,
+                        "row": 39
+                      }
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "asset": "music.pal.074",
+                      "kind": "playMusic"
                     }
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "asset": "music.pal.074",
-                    "kind": "playMusic"
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                },
+                "body": [
                   {
                     "kind": "clearDialog"
                   },

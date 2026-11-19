@@ -327,9 +327,6 @@ export class BattleSession {
     phase: 'won' | 'lost' | 'fled'
     result: BattleResult
   } | null = null
-  /** battle choreography 音乐请求序号；迟到 fade-stop 不得误停后播的新曲。 */
-  private musicSerial = 0
-  private scheduledMusicStop: { serial: number; deadline: number } | null = null
   /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
   private itemBanner: { text: string; untilMs: number; x?: number; y?: number } | null = null
   private choreoName = ''
@@ -391,9 +388,9 @@ export class BattleSession {
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
       reportReadinessError?: (error: Error, context: BattleReadinessErrorContext) => void
-      /** 战斗演出音乐桥；stopMusic(fadeMs) 由会话用 gameplay clock 延后提交。 */
+      /** 战斗演出在当前 cue 提交音乐命令，音频播放器持有淡出。 */
       playMusic?: (asset: AssetId) => void
-      stopMusic?: () => void
+      stopMusic?: (fadeMs?: number) => void
       /**
        * 开战时的大世界队伍身份快照。固定剧情成长在任何 mutation 前同时校验
        * battle player 与 world party 的模板唯一性和实例 id 一致性。
@@ -608,8 +605,6 @@ export class BattleSession {
     this.doneSettled = true
     this.closed = true
     this.readiness.invalidate()
-    this.musicSerial++
-    this.scheduledMusicStop = null
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
@@ -778,13 +773,6 @@ export class BattleSession {
       this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
   }
 
-  private flushScheduledMusicStop(): void {
-    const scheduled = this.scheduledMusicStop
-    if (!scheduled || this.nowMs < scheduled.deadline) return
-    this.scheduledMusicStop = null
-    if (scheduled.serial === this.musicSerial) this.opts.stopMusic?.()
-  }
-
   private battleActor(actor: string): BattleState['players'][number] {
     const matches = this.state.players.filter((player) => player.actorTemplateId === actor)
     if (matches.length !== 1)
@@ -924,24 +912,11 @@ export class BattleSession {
         this.state.log.push(`♪ 音效 ${action.asset}`)
         return
       case 'playMusic':
-        this.musicSerial += 1
-        this.scheduledMusicStop = null
         this.opts.playMusic?.(action.asset)
         return
-      case 'stopMusic': {
-        const serial = ++this.musicSerial
-        const fadeMs = action.fadeMs ?? 0
-        if (fadeMs > 0)
-          this.scheduledMusicStop = {
-            serial,
-            deadline: this.nowMs + fadeMs,
-          }
-        else {
-          this.scheduledMusicStop = null
-          this.opts.stopMusic?.()
-        }
+      case 'stopMusic':
+        this.opts.stopMusic?.(action.fadeMs)
         return
-      }
       case 'wait':
         this.choreoWaitUntil = this.nowMs + action.ms
         return
@@ -1191,7 +1166,6 @@ export class BattleSession {
   tick(dtMs: number, pressed: ReadonlySet<string>, gameplayNowMs?: number): void {
     if (this.closed) return
     this.nowMs = gameplayNowMs ?? this.nowMs + dtMs
-    this.flushScheduledMusicStop()
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),

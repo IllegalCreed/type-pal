@@ -1342,7 +1342,7 @@ describe('B9 特殊战斗形态', () => {
 })
 
 describe('R13-5 enemy hook 会话接线', () => {
-  test('turnStart 使用 gameplay clock，迟到 fade-stop 不误停随后播放的新曲', () => {
+  test('turnStart 立刻开始音乐淡出，用 gameplay clock 等待换曲', () => {
     const enemy = mkEnemy('music-hook', { attackStrength: 0, health: 9999 })
     enemy.ai.hooks = {
       turnStart: {
@@ -1366,7 +1366,7 @@ describe('R13-5 enemy hook 会话接线', () => {
       {},
       {
         playMusic: (asset) => music.push(`play:${asset}`),
-        stopMusic: () => music.push('stop'),
+        stopMusic: (fadeMs) => music.push(`stop:${fadeMs}`),
       },
     )
 
@@ -1376,12 +1376,12 @@ describe('R13-5 enemy hook 会话接线', () => {
     session.tick(0, new Set(), 0) // wait 1600
     session.tick(1000, new Set(), 0) // real dt 前进，gameplay clock 冻结
     session.tick(0, new Set(), 1599)
-    expect(music).toEqual([])
+    expect(music).toEqual(['stop:3000'])
     session.tick(0, new Set(), 1600)
     expect(plays).toContain('sound.pal.213')
-    expect(music).toEqual(['play:music.pal.038'])
+    expect(music).toEqual(['stop:3000', 'play:music.pal.038'])
     session.tick(0, new Set(), 3000)
-    expect(music).toEqual(['play:music.pal.038'])
+    expect(music).toEqual(['stop:3000', 'play:music.pal.038'])
   })
 
   test('ready hook 每个行动 entry 先执行，完成后同一敌人仍正常行动', () => {

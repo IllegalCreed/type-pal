@@ -2852,10 +2852,28 @@ export async function bootGame(
     playSound: (asset) => {
       sfx.play(asset)
     },
-    playMusic: (asset) => {
-      world.audio ??= {}
-      world.audio.currentMusic = asset
-      bgm.play(asset)
+    playMusic: (asset, signal) => {
+      const entry = sceneEntrySession.active
+      const commitMusic = (play: () => void) => {
+        world.audio ??= {}
+        world.audio.currentMusic = asset
+        play()
+      }
+      if (
+        signal &&
+        entry?.phase === 'preparing' &&
+        entry.targetSceneId === activeScene.scene.id &&
+        !autoActivationBySignal.has(signal)
+      ) {
+        const cancelled = '入场配乐所属的场景已取消'
+        return awaitRunner(bgm.prepare(asset, signal), signal, cancelled).then((play) => {
+          assertRunnerActive(signal, cancelled)
+          if (sceneEntrySession.active?.token !== entry.token)
+            throw asyncIntentAbortError(cancelled)
+          commitMusic(play)
+        })
+      }
+      commitMusic(() => bgm.play(asset))
     },
     stopMusic: () => {
       world.audio ??= {}

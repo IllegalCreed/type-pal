@@ -123,31 +123,32 @@ function checkDialogue(events, before, after, game) {
   return { pre, post }
 }
 
-function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
-  const expectedPages = (commands) => {
-    const pages = []
-    let slot, portrait, name
-    let lines = []
-    const finish = () => {
-      if (lines.length) pages.push({ slot, portrait, speaker: name, lines })
-      lines = []
-    }
-    for (const command of commands) {
-      if (command.op.startsWith('setDialogStyle')) {
-        finish()
-        slot = command.op.slice('setDialogStyle'.length).toLowerCase()
-        portrait = command.arg0 || null
-        name = null
-      } else if (command.op === 'showDialog') {
-        if (command.text.endsWith('∶')) {
-          finish()
-          name = speaker(command.text)
-        } else lines.push(subtitle(command.text))
-      } else finish()
-    }
-    finish()
-    return pages
+function expectedDialoguePages(commands) {
+  const pages = []
+  let slot, portrait, name
+  let lines = []
+  const finish = () => {
+    if (lines.length) pages.push({ slot, portrait, speaker: name, lines })
+    lines = []
   }
+  for (const command of commands) {
+    if (command.op.startsWith('setDialogStyle')) {
+      finish()
+      slot = command.op.slice('setDialogStyle'.length).toLowerCase()
+      portrait = command.arg0 || null
+      name = null
+    } else if (command.op === 'showDialog') {
+      if (command.text.endsWith('∶')) {
+        finish()
+        name = speaker(command.text)
+      } else lines.push(subtitle(command.text.replace(/~\d+$/u, '')))
+    } else finish()
+  }
+  finish()
+  return pages
+}
+
+function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
   const pairs = [
     { from: trigger, to: launch, commands: source.pre },
     { from: launch, to: menu, commands: source.turnStart },
@@ -158,7 +159,7 @@ function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
     const candidates = draws
       .filter(({ atMs, scene }) => scene === spec.scene && atMs >= lastAt && atMs < to.atMs)
       .flatMap(({ atMs, slots }) => slots.map((slot) => ({ ...slot, atMs })))
-    return expectedPages(commands).map((page) => {
+    return expectedDialoguePages(commands).map((page) => {
       const drawn = candidates.find(
         (slot) =>
           slot.atMs >= lastAt &&
@@ -173,6 +174,138 @@ function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
       return { ...page, atMs: lastAt }
     })
   })
+}
+
+function checkRingPresentation(
+  events,
+  draws,
+  { trigger, launch, entry, menu, won, control },
+  game,
+) {
+  const expected = source.ring
+  const window = (event) => event.atMs > entry.atMs && event.atMs < menu.atMs
+  const audible = (event) => event.context === 'running'
+  const dialogue = draws
+    .filter((draw) => window(draw) && draw.scene === spec.scene && draw.slots.length > 0)
+    .map(({ atMs, slots }) => ({
+      atMs,
+      slots: slots.map(({ slot, speaker: name, portrait, portraitLayout, lines }) => ({
+        slot,
+        speaker: speaker(name),
+        portrait,
+        portraitLayout,
+        lines: lines.map(subtitle).filter(Boolean),
+      })),
+    }))
+  const pages = expectedDialoguePages(source.turnStart).map((page) => ({
+    ...page,
+    portraitLayout: true,
+  }))
+  assert.equal(pages.length, 6, 'six original battle pages')
+  const full = pages.map((page, i) => {
+    const slots = i === 4 ? [page, pages[3]] : [page]
+    const draw = dialogue.find(
+      ({ slots: actual }) =>
+        actual.length === slots.length &&
+        slots.every((slot) => actual.some((candidate) => isDeepStrictEqual(candidate, slot))),
+    )
+    assert(draw, `missing ring battle page ${i + 1} with all intended portraits`)
+    return draw
+  })
+  assert(
+    full.every(({ atMs }, i) => i === 0 || full[i - 1].atMs < atMs),
+    'ring page order',
+  )
+
+  const stop = events.find(
+    (event) =>
+      window(event) &&
+      event.kind === (game ? 'music-stop' : 'music-fade-out') &&
+      event.track === spec.music &&
+      audible(event),
+  )
+  assert(stop, 'native battle track stops or starts fading at the script cue')
+  if (!game) assert.equal(stop.ms, expected.fadeMs, 'authored battle fade duration')
+  assert(full[4].atMs < stop.atMs && stop.atMs < full[5].atMs, 'music stop between the two pages')
+  const effects = events.filter(
+    (event) => window(event) && event.kind === 'sfx-start' && event.asset === expected.cue,
+  )
+  assert.equal(effects.length, 1, 'ring challenge sound plays once')
+  const [sound] = effects
+  assert(audible(sound) && sound.atMs > full[5].atMs, 'sound follows the final timed line')
+  assert(dialogue.at(-1).atMs < sound.atMs, 'battle dialogue is cleared before the sound')
+  const restart = events.find(
+    (event) =>
+      event.kind === 'music-start' && event.track === expected.restartTrack && window(event),
+  )
+  assert(restart && audible(restart), 'native duel music starts before player selection')
+  const waitMs = restart.atMs - sound.atMs
+  assert(
+    Math.abs(waitMs - expected.waitMs) < 100,
+    `ring duel music after source wait (${waitMs}ms, expected ${expected.waitMs}ms)`,
+  )
+
+  const frames = events.filter(({ kind }) => kind === 'world-drawn')
+  const moves = []
+  for (const frame of frames) {
+    if (frame.order <= trigger.order || frame.order >= launch.order) continue
+    const actor = frame.actors.e548
+    if (!actor || isDeepStrictEqual(moves.at(-1)?.position, actor.position)) continue
+    moves.push({ atMs: frame.atMs, camera: frame.camera, ...actor })
+  }
+  assert.deepEqual(
+    moves.map(({ position }) => position),
+    expected.movements,
+    'Yueru actual movement',
+  )
+  assert(
+    moves.every(({ frame, asset }) => Number.isInteger(frame) && asset === expected.yueruSprite),
+    'Yueru uses the actual movement sprite',
+  )
+  let nextStep = 1
+  const movementIntervals = expected.movementBeats.map(({ count, intervalMs }, i) => {
+    const run = moves.slice(nextStep, nextStep + count)
+    nextStep += count
+    const intervals = run.slice(1).map(({ atMs }, index) => atMs - run[index].atMs)
+    assert(
+      intervals.every((elapsed) => Math.abs(elapsed - intervalMs) <= 50),
+      `ring movement ${i + 1} cadence: ${JSON.stringify(intervals)}ms`,
+    )
+    return intervals
+  })
+  const returned = frames.find(
+    ({ order, scene, colors }) =>
+      order > won.order && scene === spec.scene && colors.some(([r, g, b]) => r || g || b),
+  )
+  assert(returned && returned.order < control.order, 'actual first visible ring return')
+  assert.deepEqual(
+    [returned.leader, returned.camera],
+    [expected.leader, expected.camera],
+    'ring return at the source party position and camera anchor',
+  )
+  assert.deepEqual(
+    [returned.actors.e547 ?? null, returned.actors.e548?.position, returned.actors.e551?.position],
+    [null, expected.movements.at(-1), expected.patriarch],
+    'ring winner and Lin family actors at the actual first visible return',
+  )
+  const successorMusic = events.find(
+    (event) =>
+      event.kind === 'music-start' &&
+      event.track === expected.successorTrack &&
+      event.order > returned.order,
+  )
+  assert(
+    successorMusic && audible(successorMusic) && successorMusic.order < control.order,
+    'Lin family music starts before the first visible frame',
+  )
+  for (const frame of frames.filter(({ scene }) => scene === control.scene)) {
+    assert.deepEqual(
+      [frame.camera, frame.leader],
+      [control.camera, control.leader],
+      'successor geometry throughout the recorded entrance',
+    )
+  }
+  return { full, stop, sound, restart, waitMs, moves, movementIntervals, returned, successorMusic }
 }
 
 function checkThiefForeground(events, draws, { trigger, launch, won, control }, game) {
@@ -901,7 +1034,7 @@ async function inspect(path, engine) {
     { won: won.order, control: control.order },
     game,
   )
-  const boundaries = { trigger, launch: launch[0], menu, won, control }
+  const boundaries = { trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
   const foreground =
     scenario === 'thief'
@@ -914,6 +1047,9 @@ async function inspect(path, engine) {
           dialogue: checkOutsideDialogue(renderedDialogue, boundaries),
         }
       : undefined
+  const ring = source.ring
+    ? checkRingPresentation(events, renderedDialogue, boundaries, game)
+    : undefined
   if (
     foreground &&
     ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
@@ -955,6 +1091,16 @@ async function inspect(path, engine) {
           returnFormation: outside.return,
         }
       : {}),
+    ...(ring
+      ? {
+          ringMovement: ring.moves.map(({ position, facing, frame, camera }) => ({
+            position,
+            facing,
+            frame,
+            camera,
+          })),
+        }
+      : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -974,10 +1120,11 @@ async function inspect(path, engine) {
     dialogue,
     foreground,
     outside,
+    ring,
     spiderForeground,
     clips: {
       contactMs: trigger.atMs,
-      returnMs: control.atMs,
+      returnMs: ring?.returned.atMs ?? control.atMs,
       exitMs: departure?.atMs ?? control.atMs,
     },
     audioTiming: {

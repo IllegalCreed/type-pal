@@ -687,6 +687,8 @@ export interface GameState {
    * 相机左上角的世界像素坐标。普通探索跟随队伍并按地图边界钳制，脚本相机另行推进。
    */
   camera: { x: number; y: number }
+  /** 原版 partyoffset。相对运镜会改写队伍锚点，绝对镜头跳转只改变当前取景。 */
+  partyCameraOffset?: { x: number; y: number }
   npcs: NpcState[]
   /**
    * 当前队伍的roleId顺序。新游戏/读档与队伍脚本维护；菜单按显示位置读取，

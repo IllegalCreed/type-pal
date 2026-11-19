@@ -104,7 +104,7 @@ export interface ScriptHost {
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
   playSound(asset: AssetId): void
-  playMusic(asset: AssetId): void
+  playMusic(asset: AssetId, signal?: AbortSignal): void | Promise<void>
   stopMusic(): void
   /** W6 氛围(昼夜):切全局氛围(全帧乘法滤镜;原版 0x53/0x54 全局调色板 flag)。 */
   setAmbience(ambience: string): void
@@ -699,7 +699,7 @@ export class ScriptRunner {
       case 'playSound':
         return h.playSound(cmd.asset)
       case 'playMusic':
-        return h.playMusic(cmd.asset)
+        return h.playMusic(cmd.asset, this.signal)
       case 'stopMusic':
         return h.stopMusic()
       case 'setAmbience':

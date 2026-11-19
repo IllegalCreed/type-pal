@@ -566,7 +566,7 @@ await runBrowserJourney({
       if (handoff) {
         if (capture.enabled) {
           await page.waitForFunction(
-            (atMs) => performance.now() >= atMs + 550,
+            (atMs) => performance.now() >= atMs + 750,
             result.returned.atMs,
           )
         }

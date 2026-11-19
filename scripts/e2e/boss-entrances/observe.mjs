@@ -131,6 +131,8 @@ function installBossForeground({ scene, handoffScene, owner, watched, assets }) 
 
 function installBossFrameObserver(engine) {
   const observation = globalThis.__defeat
+  globalThis.__bossMusicFade = (asset, ms, context) =>
+    observation.event('music-fade-out', { track: Number(asset.split('.').at(-1)), ms, context })
   let drop
   const observeRandom = globalThis.__battleGameRandom
   globalThis.__battleGameRandom = (...args) => {

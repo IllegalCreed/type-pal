@@ -363,6 +363,8 @@ export const battle = object<Data>({
     ),
   ),
   battleDialogTypingAccMs: arg,
+  battleDialogWaitMs: arg,
+  scriptMusicActive: flag,
   battleDialogNarrationFrames: arg,
   battleDialogStyle: optional(object({ style: dialogStyle, portrait: arg, fontColor: arg })),
   battleDialogPendingClear: flag,

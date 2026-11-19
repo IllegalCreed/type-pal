@@ -57,6 +57,13 @@ function gamePresentation(source: string, file: string) {
 }
 
 function reforgeDrop(source: string, file: string) {
+  if (file === 'audio/bgm.ts') {
+    return after(
+      source,
+      '      seq.fadeTo(0, fadeOutMs)',
+      '      globalThis.__bossMusicFade?.(playing, fadeOutMs, ctx.state)',
+    )
+  }
   if (file === 'main.ts') {
     const loop = '        for (const def of scripted) {'
     const begin = replaceOnce(

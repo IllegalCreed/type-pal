@@ -654,6 +654,10 @@ export interface BattleState {
    * 战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉。空/undefined = 无待显对话。
    */
   battleDialogQueue?: BattleDialogLine[]
+  /** The remaining 0x85 delay while its cue is at the head of the battle dialogue queue. */
+  battleDialogWaitMs?: number
+  /** A battle script has taken over music from the encounter's opening track. */
+  scriptMusicActive?: boolean
   /** typing 节拍累加器:BATTLE_DT(40ms) 累到 FRAME_MS_EXPLORE(100ms) 才 tickDialog 一次,保打字速率与大世界一致。 */
   battleDialogTypingAccMs?: number
   /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
@@ -701,12 +705,7 @@ export interface BattleDialogLine {
   fontColor?: number
   /** 此行前需清屏另起新框(0x05/0x8E ClearDialog → 上一段 dialog 结束、重开)。 */
   clearBefore?: boolean
-  /**
-   * D26(2b):dialog 序列中**内联可见 effect**(目前仅 0x69 敌逃跑动画)。runScript 同步收集对话时,
-   * 夹在 dialog 之间的可见 effect 若立即跑会错序(逃跑动画跑在嘲讽台词之前)→ 改入队按位置保序;
-   * tickBattleDialog 处理到此条目时 dispatch,保 sdlpal 真值时序(嘲讽对话→逃跑动画→narration)。
-   * 非 undefined 时本条目是 effect 而非 dialog(无 text)。
-   */
+  /** Ordered presentation cue, including enemy escape, script audio, or an 0x85 delay. */
   effect?: { opcode: number; operands: readonly number[] }
 }
 

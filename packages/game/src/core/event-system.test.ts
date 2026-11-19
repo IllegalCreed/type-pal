@@ -5978,6 +5978,28 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.camera).toEqual({ x: 84, y: 92 })
   })
 
+  it('0x46 retains the relative camera anchor through an absolute shot until recentering', () => {
+    const gs = createInitialGameState({ x: 1200, y: 760, facing: 'down' })
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x7f, operands: [65528, 65532, 2] },
+      { op: 'raw', opcode: 0x7f, operands: [31, 37, 0xffff] },
+      { op: 'raw', opcode: 0x46, operands: [34, 43, 1] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    expect(gs.party).toEqual({ x: 1104, y: 696, facing: 'down' })
+    expect(gs.camera).toEqual({ x: 928, y: 576 })
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x7f, operands: [0, 0, 0] },
+      { op: 'raw', opcode: 0x46, operands: [38, 77, 1] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap())
+    expect(gs.camera).toEqual({ x: 1072, y: 1128 })
+  })
+
   // 林家堡李逍遥走出场(all.json,赵灵儿变蛇逃跑 → 林天南"林家不屑"前):`0x6E[-16,8] + 0x7F[16,-8,0]`
   //   成对反复。0x6E 相对移 party+camera、0x7F 把 camera 移回 → **每对净相机=0(固定),party 在固定屏上
   //   走 (-16,8)**,逐帧 yield 不瞬移,走出画后队首离屏消失。user 2026-06-08 报:旧码 0x6E 绝对回正 →

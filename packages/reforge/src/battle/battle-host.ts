@@ -169,7 +169,7 @@ export class BattleHost {
         ...(worldPresentation ? { worldSettlement: { boss: options?.boss === true } } : {}),
         handoffDefeat: captureDefeatFrame !== undefined || scripted,
         playMusic: (asset) => this.music.bgm.play(asset),
-        stopMusic: () => this.music.bgm.stop(),
+        stopMusic: (fadeMs) => this.music.bgm.stop(fadeMs),
         buildSettlement: () => {
           assertCurrent()
           return this.ports.settleVictory(session, () => {

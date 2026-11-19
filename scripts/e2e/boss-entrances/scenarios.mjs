@@ -213,7 +213,7 @@ export const scenarios = {
     id: 'lin-yueru-ring',
     scene: 's032',
     owner: 'e550',
-    watched: ['e547', 'e548', 'e549'],
+    watched: ['e547', 'e548', 'e549', 'e551'],
     team: 24,
     enemy: 'enemy-483',
     start: [85, 12, 0],
@@ -373,6 +373,7 @@ export async function readSources(spec) {
       `dlg.${commands[spec.disk.loss + 2].messageIndex}`,
     )
   }
+  let successorTrack
   if (spec.world.handoff) {
     const { scene, ip, position } = spec.world.handoff
     assert.equal(commands[ip].sceneId, gameScene({ scene }))
@@ -380,9 +381,15 @@ export async function readSources(spec) {
     const first = Number(data.diskHandoffScene.onEnterLabel.slice(2))
     const [x, y, half] = commands[first].operands
     assert.deepEqual(position, [x + y + half, y - x, 0])
-    assert.deepEqual(
-      data.handoffScene.hooks.onEnter.variants.default.flow.stages[0].body[0].pos,
-      grid(position),
+    const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
+    assert.deepEqual(landing.entry.prepare[0].pos, grid(position))
+    successorTrack = commands[first + 2].operands[0]
+    assert.deepEqual([commands[first + 2].opcode, commands[first + 3].opcode], [0x43, 0x05])
+    assert(
+      landing.entry.prepare.some(
+        ({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(successorTrack),
+      ),
+      'successor music must be prepared before revealing the map',
     )
   }
   if (spec.world.music) {
@@ -433,6 +440,17 @@ export async function readSources(spec) {
         `projects/pal/assets/migrated/music/${musicId(spec.world.music.track)}.mid`,
       ]
     : []
+  const ring =
+    spec.id === 'lin-yueru-ring'
+      ? ringSource(commands, turnStart, data.gameScene.eventObjects, successorTrack)
+      : undefined
+  const ringAudioPaths = ring
+    ? ['data/extracted', 'projects/pal/assets/migrated'].flatMap((root) => [
+        `${root}/music/${musicId(ring.restartTrack)}.mid`,
+        `${root}/music/${musicId(ring.successorTrack)}.mid`,
+        `${root}/sounds/${ring.cue}.wav`,
+      ])
+    : []
   return {
     paths: [
       ...Object.values(files),
@@ -448,6 +466,7 @@ export async function readSources(spec) {
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
       ...returnMusicPaths,
+      ...ringAudioPaths,
     ],
     preludeStates,
     outsideActors,
@@ -463,11 +482,65 @@ export async function readSources(spec) {
     slots,
     original,
     turnStart,
+    ring,
     summonBonus,
     pre: commands.slice(entry, battle),
     post: commands.slice(battle + 1, last),
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
+  }
+}
+
+function ringSource(commands, turnStart, actors, successorTrack) {
+  const [stop, sound, delay, music] = [0x77, 0x47, 0x85, 0x43].map((opcode) =>
+    turnStart.find((command) => command.opcode === opcode),
+  )
+  assert.equal(commands[8029].opcode, 0x46)
+  const [col, row, half] = commands[8029].operands
+  const leader = [col * 32 + half * 16, row * 16 + half * 8]
+  const signed = (word) => (word << 16) >> 16
+  const anchor = commands
+    .slice(7703, 8023)
+    .filter(({ opcode, operands }) => opcode === 0x7f && operands[2] !== 0xffff)
+    .map(({ operands }) => operands)
+    .reduce(
+      (point, [dx, dy, count]) =>
+        point.map((value, i) => value - signed(i === 0 ? dx : dy) * Math.max(count, 1)),
+      [160, 112],
+    )
+  // 8119/8122 alternate a step with a yielding reset. 8125 can step on each
+  // update once the first camera tick has put its new entry into effect.
+  const rightFrames = commands
+    .slice(7862, 7882)
+    .filter(({ opcode }) => opcode === 0x09)
+    .reduce((sum, { operands }) => sum + operands[0], 0)
+  const beats = [
+    [commands[7829].operands[0] / 2, -4],
+    [Math.ceil(rightFrames / 2), 4],
+    [commands[7911].operands[2] - 1, -4],
+  ]
+  const yueru = actors.find(({ id }) => id === 548)
+  const movements = [[yueru.x, yueru.y]]
+  for (const [count, dx] of beats) {
+    for (let n = 0; n < count; n++) {
+      const [x, y] = movements.at(-1)
+      movements.push([x + dx, y + dx / 2])
+    }
+  }
+  const patriarch = actors.find(({ id }) => id === 551)
+  const [, dx, dy] = commands[8028].operands
+  return {
+    leader,
+    camera: leader.map((value, i) => value - anchor[i]),
+    movements,
+    movementBeats: beats.map(([count], i) => ({ count, intervalMs: i === 2 ? 100 : 200 })),
+    yueruSprite: yueru.spriteNum,
+    patriarch: [patriarch.x + dx, patriarch.y + dy],
+    fadeMs: stop.operands[0] ? stop.operands[0] * 3000 : 2000,
+    cue: sound.operands[0],
+    waitMs: delay.operands[0] * 80,
+    restartTrack: music.operands[0],
+    successorTrack,
   }
 }

@@ -230,7 +230,10 @@ function pushPartyAwayFromBlockingNpcs(gs: GameState, ctx: SceneContext): void {
         // DL24:推离落点也受 blockX/Y 下边界(play.c:218 fCheckRange=TRUE)
         gs.party.x = x
         gs.party.y = y
-        gs.camera = { x: x - PARTYOFFSET_X, y: y - PARTYOFFSET_Y }
+        gs.camera = {
+          x: x - (gs.partyCameraOffset?.x ?? PARTYOFFSET_X),
+          y: y - (gs.partyCameraOffset?.y ?? PARTYOFFSET_Y),
+        }
         break
       }
       dirNum = (dirNum + 1) % 4
@@ -284,8 +287,8 @@ function syncCameraToParty(gs: GameState, tilemap: Tilemap): void {
   const maxX = (tilemap.width - 1) * TILE_W
   const maxY = (tilemap.height - 1) * TILE_H
   gs.camera = {
-    x: Math.max(0, Math.min(maxX, gs.party.x - PARTYOFFSET_X)),
-    y: Math.max(0, Math.min(maxY, gs.party.y - PARTYOFFSET_Y)),
+    x: Math.max(0, Math.min(maxX, gs.party.x - (gs.partyCameraOffset?.x ?? PARTYOFFSET_X))),
+    y: Math.max(0, Math.min(maxY, gs.party.y - (gs.partyCameraOffset?.y ?? PARTYOFFSET_Y))),
   }
 }
 

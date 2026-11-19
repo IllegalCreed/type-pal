@@ -237,7 +237,7 @@ export async function executeScriptHostEffect(
       host.playSound(command.asset)
       return
     case 'playMusic':
-      host.playMusic(command.asset)
+      await host.playMusic(command.asset, signal)
       return
     case 'stopMusic':
       host.stopMusic()

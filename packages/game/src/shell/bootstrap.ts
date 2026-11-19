@@ -197,13 +197,15 @@ export function syncShellAudio(
   // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
   const victoryTrack = battleVictoryTrack(gs.battleState)
   const battleIntroActive = gs.battleState?.introFade !== undefined // DM29:揭场未完 → 静默
+  const useEncounterMusic = inBattle && !gs.battleState?.scriptMusicActive
   audio.sync(gs.pendingSounds, {
-    track: stoppingForContact
-      ? 0
-      : victoryTrack > 0
-        ? victoryTrack
-        : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
-    loop: victoryTrack > 0 ? false : inBattle ? true : (gs.musicLoop ?? true),
+    track:
+      stoppingForContact || battleIntroActive
+        ? 0
+        : victoryTrack > 0
+          ? victoryTrack
+          : pickMusicTrack(useEncounterMusic, gs.wNumMusic, gs.wNumBattleMusic),
+    loop: victoryTrack > 0 ? false : useEncounterMusic ? true : (gs.musicLoop ?? true),
   })
   // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
   //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
@@ -749,6 +751,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     //   换场景(传送/0x59)即清屏波,上一场景的 0x71 常驻波不跨场景。读档(fromSavedGame)路径
     //   C 中 fEnteringScene=FALSE 不清(波从存档恢复),与此分支一致。
     if (!opts.fromSavedGame) {
+      gs.partyCameraOffset = undefined // res.c:301 restores the default party anchor for the loaded scene.
       gs.wScreenWave = 0
       gs.sWaveProgression = 0
     }
@@ -1488,6 +1491,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
+    gs.partyCameraOffset = loadedGs.partyCameraOffset && { ...loadedGs.partyCameraOffset }
     // 「跟着存档走」:dialogHistory 随 deepClone(gs) 进存档,但 Object.assign 对老档(无此字段)**不覆盖**
     //   → 残留当前 session 历史(圣姑家+比武招亲时间线倒错的根因)。显式从 loadedGs 归一(老档兜底空、
     //   超 CAP 截断)。**须读 loadedGs.dialogHistory 而非 gs.dialogHistory**:后者对老档恰是要清掉的残留值。
