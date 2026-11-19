@@ -1575,6 +1575,13 @@ export async function bootGame(
     clearMotionStick({ kind: 'entity', id })
   }
 
+  function matchesCurrentAutoCursor(id: string, saved: SceneRuntimeState): boolean {
+    return (
+      JSON.stringify(saved.automatic[id]?.cursor) ===
+      JSON.stringify(canonicalScript.behaviors.entities?.[activeScene.scene.id]?.[id]?.auto?.cursor)
+    )
+  }
+
   /** 进场/读档的完整世界投影。 */
   function applyWorldToScene(): void {
     applyWorldEntityGatesToScene()
@@ -1583,9 +1590,7 @@ export async function bootGame(
     restoredWaits.clear()
     const saved = sceneRuntimeStates[activeScene.scene.id]
     if (!saved) return
-    const matchingOwner = (id: string): boolean =>
-      JSON.stringify(saved.automatic[id]?.cursor) ===
-      JSON.stringify(canonicalScript.behaviors.entities?.[activeScene.scene.id]?.[id]?.auto?.cursor)
+    const matchingOwner = (id: string) => matchesCurrentAutoCursor(id, saved)
     for (const entity of activeScene.scene.entities) {
       const pose = saved.entities[entity.id]
       if (!pose) continue
@@ -4791,6 +4796,10 @@ export async function bootGame(
     // Suspended is a resumable activation gate. Hidden exit/removal phases, however, own no
     // activation until lifecycle explicitly restores/reappears them.
     if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed') return
+    const saved = sceneRuntimeStates[activeScene.scene.id]
+    // Entry scripts can select a new behavior before the projected wait was consumed.
+    if (saved && restoredWaits.has(e.id) && !matchesCurrentAutoCursor(e.id, saved))
+      restoredWaits.delete(e.id)
     const runtime = scriptRuntime
     const canonical = sceneResources.peek(activeScene.scene.id)
     if (!runtime || !canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
@@ -5222,6 +5231,13 @@ export async function bootGame(
     cameraSession.reset()
   }
 
+  function finishEntryAutoActivation(sceneId: string | null): void {
+    if (autoRunnersPendingForEntry && sceneId === activeScene.scene.id && pendingOnEnter === null) {
+      autoRunnersPendingForEntry = false
+      startAutoRunners()
+    }
+  }
+
   /**
    * 在当前主 runner 内调用时作为同步子链执行；从物品菜单独立发起时临时占用全局 runner，
    * 并完整接续目标场景 onEnter。这样外部用途不会留下“已切场景但入场脚本没跑”的半状态。
@@ -5253,6 +5269,7 @@ export async function bootGame(
           signal: runSignal,
           runSceneEntry: true,
         })
+        finishEntryAutoActivation(pending.sceneId)
       }
       return result
     } finally {
@@ -5350,14 +5367,7 @@ export async function bootGame(
             }
             sceneEntrySession.cancel()
           }
-          if (
-            autoRunnersPendingForEntry &&
-            finishedSceneId === activeScene.scene.id &&
-            pendingOnEnter === null
-          ) {
-            autoRunnersPendingForEntry = false
-            startAutoRunners()
-          }
+          finishEntryAutoActivation(finishedSceneId)
           if (sceneChangedByScript) {
             sceneChangedByScript = false
             void doSave('auto', captureThumbnail(canvas)).catch(() => undefined)
