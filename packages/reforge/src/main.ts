@@ -6385,11 +6385,7 @@ export async function bootGame(
     }
     // W6 氛围滤镜:一切画完之后全帧 multiply(原版夜盘是全局调色板 —— UI 也染,数据实证)
     // RNG 已按其专用 palette 烘成 RGBA，不再套用大世界 ambience；普通世界/UI 保持原有全帧染色。
-    if (!cinematicLayerDrawn) {
-      applyAmbienceTint()
-      if (motion.worldTicksThisFrame > 0) screenShake.advance()
-    }
-    screenShake.apply(ctx, WORLD_SCALE)
+    if (!cinematicLayerDrawn) applyAmbienceTint()
     // 0x73 是壳层整屏输出特效，必须放在氛围滤镜之后：backup 来自上一张最终 canvas，
     // target 也取本帧最终 canvas，避免夜景旧像素被重复 multiply。首帧强制 pr=0。
     const dither = ditherTransition.active
@@ -6427,6 +6423,7 @@ export async function bootGame(
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
       if (dither.plan && dither.output && dither.lastStep !== step) {
+        const newSteps = step - (dither.lastStep ?? 0)
         applyDitherPaletteTransition(
           dither.backup.data,
           dither.target.data,
@@ -6436,6 +6433,7 @@ export async function bootGame(
           dither.plan,
           { width: canvas.width, pixelScale: WORLD_SCALE },
         )
+        if (newSteps > 0) screenShake.advance(newSteps)
         dither.lastStep = step
       }
       if (dither.output) ctx.putImageData(dither.output, 0, 0)
@@ -6449,7 +6447,16 @@ export async function bootGame(
         ditherZeroFrameMatchesBackup = equals(shown, dither.backup.data)
         ditherZeroFrameDiffersFromTarget = !equals(shown, dither.target.data)
       }
-      if (pr >= 1) ditherTransition.finish()
+    } else if (!cinematicLayerDrawn && motion.worldTicksThisFrame > 0) {
+      screenShake.advance()
+    }
+    // Shift the blended output as a whole. Step zero already contains the previous display.
+    if (!dither || (dither.lastStep ?? 0) > 0) {
+      screenShake.apply(ctx, WORLD_SCALE)
+    }
+    if (dither?.lastStep === DITHER_TOTAL_STEPS) {
+      screenShake.clearOffset()
+      ditherTransition.finish()
     }
     const returning = victoryFrame?.returning
     if (returning?.revealingWorld && !victoryFrame?.signal.aborted) {

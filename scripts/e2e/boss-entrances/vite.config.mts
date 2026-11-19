@@ -194,12 +194,42 @@ ${anchor}`,
       const dialog =
         '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)\n  }'
       code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')
+      code = after(
+        code,
+        '  const entries: DrawEntry[] = []',
+        '  globalThis.__bossForeground?.beginComposite()',
+      )
       code = replaceOnce(
         code,
         '\n}\n\nexport function flushToCanvas(',
         '\n  globalThis.__bossForeground?.gameWorldDrawn()\n}\n\nexport function flushToCanvas(',
       )
       return { code, map: null }
+    }
+    if (path?.endsWith('/packages/game/src/present/screen-shake.ts')) {
+      const up = after(
+        source,
+        '      indices.fill(0, (SCREEN_H - level) * SCREEN_W, SCREEN_H * SCREEN_W)',
+        '      globalThis.__bossForeground?.shift(-level)',
+      )
+      return {
+        code: after(
+          up,
+          '      indices.fill(0, 0, shift)',
+          '      globalThis.__bossForeground?.shift(level)',
+        ),
+        map: null,
+      }
+    }
+    if (path?.endsWith('/packages/reforge/src/screen-shake-presentation.ts')) {
+      return {
+        code: after(
+          source,
+          '    context.restore()',
+          '    globalThis.__bossForeground?.shift(shift / scale)',
+        ),
+        map: null,
+      }
     }
     if (path?.endsWith('/packages/game/src/shell/bootstrap.ts')) {
       return {
@@ -233,11 +263,21 @@ ${anchor}`,
         dialog,
         `${dialog} else { globalThis.__openingCauseDialogueDraw?.('reforge', []) }`,
       )
+      const composed = replaceOnce(
+        withDialog,
+        '      if (dither.output) ctx.putImageData(dither.output, 0, 0)',
+        `      if (dither.output) {
+        ctx.putImageData(dither.output, 0, 0)
+        globalThis.__bossForeground?.dither(step)
+      }`,
+      )
       return {
-        code: after(
-          withDialog,
+        code: replaceOnce(
+          composed,
           '      runWithPresentationFinalizer(() => render(frameAt), abortScript)',
-          '      globalThis.__bossForeground?.reforgeFrame(world.ambience ?? "day", ambienceShown, !!ambienceFx, ctx)',
+          `      globalThis.__bossForeground?.beginComposite()
+      runWithPresentationFinalizer(() => render(frameAt), abortScript)
+      globalThis.__bossForeground?.reforgeFrame(world.ambience ?? "day", ambienceShown, !!ambienceFx, ctx)`,
         ),
         map: null,
       }

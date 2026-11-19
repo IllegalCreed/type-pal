@@ -101,9 +101,11 @@ async function side(engine, relocatedReport) {
       events.find(({ kind }) => kind === 'trigger')
     const successor = events.find(({ kind }) => kind === 'successor-drawn')
     const scriptedReturn = events.find(({ kind }) => kind === 'scripted-return-drawn')
+    const directHandoff = successor && compare.clips.returnMs === successor.atMs
     const battleEnd = events.find(({ kind }) => kind === 'battle-finished')
     const returned =
       scriptedReturn ??
+      (directHandoff ? successor : undefined) ??
       (successor
         ? events.find(
             ({ kind, order, scene, colors }) =>
@@ -125,7 +127,9 @@ async function side(engine, relocatedReport) {
     const returnSeconds = (returnMs - start) / 1000
     const exitSeconds = (exitMs - start) / 1000
     assert(contactSeconds >= 0 && returnSeconds > contactSeconds)
-    assert(scriptedReturn ? exitSeconds === returnSeconds : exitSeconds > returnSeconds)
+    assert(
+      scriptedReturn || directHandoff ? exitSeconds === returnSeconds : exitSeconds > returnSeconds,
+    )
     assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
     return { ...identity, contactSeconds, returnSeconds, exitSeconds }
   }

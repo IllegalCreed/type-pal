@@ -65,6 +65,7 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
+  includesParty: spec.party === 'tomb',
   scriptedReturn: Boolean(scriptedReturn),
   entrance,
   assets: Object.fromEntries(source.spriteChunks),
@@ -194,7 +195,7 @@ async function makeGameFixture(page, baseURL, until) {
       }
       return { canonical, staged: serializeSave(world) }
     },
-    spec.party === 'city' ? nativeRoles : null,
+    spec.party === 'city' || spec.party === 'tomb' ? nativeRoles : null,
   )
   const payload = JSON.parse(staged)
   const gs = payload.gs
@@ -250,6 +251,13 @@ async function makeGameFixture(page, baseURL, until) {
   gs.dwCash = 0
   gs.wNumMusic = fieldMusic
   if (night) gs.nightPalette = true
+  if (spec.party === 'tomb') gs.PlayerRolesRuntime.rgwEquipment[5][1] = 274
+  if (spec.prelude?.completedAt !== undefined)
+    gs.sceneOnEnterIp[gs.wNumScene] = spec.prelude.completedAt + 1
+  if (source.preludeWave) {
+    gs.wScreenWave = source.preludeWave.level
+    gs.sWaveProgression = source.preludeWave.progression
+  }
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
   if (scenario === 'fox') {
@@ -281,7 +289,7 @@ async function makeReforgeFixture() {
   )
   for (const [i, { role, roleId, ...stats }] of party.entries()) {
     Object.assign(world.party[i], stats, {
-      equipment: {},
+      equipment: spec.party === 'tomb' && roleId === 1 ? { accessory: '274' } : {},
       hiddenExp: Object.fromEntries(
         Object.keys(growthPools).map((name) => [name, { level: source.hiddenLevels[i], exp: 0 }]),
       ),
@@ -292,6 +300,15 @@ async function makeReforgeFixture() {
   if (night) world.ambience = 'night'
   if (spec.prelude) {
     world.script.entityState[spec.scene] = source.preludeStates
+  }
+  if (spec.prelude?.completedAt !== undefined) {
+    world.script.behaviors.scenes = {
+      [spec.scene]: { onEnter: { cursor: { hook: 'default', at: { kind: 'completed' } } } },
+    }
+  }
+  if (source.preludeWave) {
+    world.script.vars['sys:screenWave'] = source.preludeWave.level
+    world.script.vars['sys:waveProgression'] = source.preludeWave.progression
   }
   if (source.setup) {
     world.script.entityState[spec.scene] = {}
@@ -450,7 +467,8 @@ async function walk({
 async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
-  const deadline = Date.now() + (handoff || scriptedReturn ? 195_000 : 125_000)
+  const deadline =
+    Date.now() + (handoff || scriptedReturn || spec.prelude?.completedAt ? 195_000 : 125_000)
   for (;;) {
     health()
     const view = await read(page)
@@ -464,7 +482,8 @@ async function playEncounter({ page, press, health, capture }) {
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
     const line = lineKey(box)
-    if (box?.text && waiting.has(box.phase) && line !== lastLine) {
+    const timedReward = ended && source.tomb?.reward === box?.text
+    if (box?.text && waiting.has(box.phase) && line !== lastLine && !timedReward) {
       lastLine = line
       if (capture.enabled)
         await capture.readable(box.text, line, async () => lineKey((await read(page)).state.box))
@@ -658,6 +677,19 @@ await runBrowserJourney({
       }
       result.returned = await playEncounter({ page, press, health, capture })
       if (handoff || scriptedReturn) {
+        if (handoff?.musicIp !== undefined) {
+          await until(
+            async () =>
+              (await trace(page)).events.find(
+                ({ kind, track, context }) =>
+                  kind === 'music-start' &&
+                  track === source.successorTrack &&
+                  context === 'running',
+              ),
+            Boolean,
+            'authored successor music actually starts',
+          )
+        }
         if (capture.enabled) {
           await page.waitForFunction(
             (atMs) => performance.now() >= atMs + 750,

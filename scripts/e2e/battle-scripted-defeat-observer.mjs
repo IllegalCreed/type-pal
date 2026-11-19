@@ -6,11 +6,12 @@ export function scriptedDefeatObserver(input) {
 }
 
 function install(
-  { engine, scene, gameScene, owner, seed, foreground, entrance, contactActors = [] },
+  { engine, scene, gameScene, owner, seed, foreground, entrance, handoffScene, contactActors = [] },
   makeRng,
   createRecorder,
 ) {
   const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
+  const handoffGameScene = handoffScene ? Number(handoffScene.slice(1)) + 1 : null
   const events = [],
     errors = []
   let overflow = false,
@@ -25,6 +26,7 @@ function install(
     entryLastBand,
     entryWorldPixels,
     worldGeometry,
+    lastWorldGeometry,
     nextCue = 0
   const { append, resources } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -225,6 +227,7 @@ function install(
   const draw = (state, inBattle) => {
     const geometry = inBattle ? undefined : worldGeometry
     worldGeometry = undefined
+    if (foreground) lastWorldGeometry = geometry
     pushRoute('render:world-or-battle', state)
     if (state.scene !== scene) return
     if (state.gameOver) once('ordinary-game-over-drawn', {})
@@ -271,6 +274,7 @@ function install(
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
       return { state, ended: !!ended, menuClosed: menuClosed() }
     },
+    worldDraw: () => lastWorldGeometry,
     trace: () => ({
       engine,
       seed,
@@ -345,7 +349,7 @@ function install(
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
     gameDraw(gs, renderedBattle, indices) {
-      if (gs.wNumScene !== gameScene && gs.wNumScene !== entranceGameScene) return
+      if (![gameScene, entranceGameScene, handoffGameScene].includes(gs.wNumScene)) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
       if (!contact || ended) return

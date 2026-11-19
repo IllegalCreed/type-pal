@@ -40,6 +40,7 @@ import {
   startDialogLine,
   tickDialog,
 } from '../present/dialog-box.js'
+import { DITHER_TOTAL_STEPS } from '../present/dither-fade.js'
 import { computeFollowerWorldPos } from '../present/follower-pos.js'
 import { markScriptBattleEntry } from './battle/battle-entry.js'
 import { dispatchBattleOpcode } from './battle/battle-opcodes.js'
@@ -1481,17 +1482,12 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
     // fall through to main while loop
   }
 
-  // 1a') waiting 处理:fade-screen(opcode 0x0073 fade-in)
-  //   time-based:elapsed = performance.now() - startTimeMs;到 totalMs 即完成。
-  //   raf 帧率(60Hz / 20Hz 都行)不影响实际时长 — 1:1 还原 sdlpal video.c wall-clock 节拍。
+  // VIDEO_FadeScreen returns after its last composited step, including any shake on that step.
   if (cursor.waiting === 'fade-screen') {
     if (!gs.fadeState) {
       cursor.waiting = undefined // 防御:无 fadeState 不应等
     } else {
-      const elapsed = performance.now() - gs.fadeState.startTimeMs
-      if (elapsed < gs.fadeState.totalMs) {
-        return // 仍在 fade,present.ts 按 elapsed/totalMs 应用对应数量 sdlpal step
-      }
+      if (gs.fadeState.appliedSteps < DITHER_TOTAL_STEPS) return
       gs.fadeState = undefined
       cursor.waiting = undefined
       cursor.ip++

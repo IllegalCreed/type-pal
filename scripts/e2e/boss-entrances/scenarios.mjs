@@ -48,7 +48,8 @@ export const party = [
 ]
 
 const cityParty = [party[0], { ...party[1], role: 'zhao-linger', roleId: 1 }]
-export const partyFor = (spec) => (spec.party === 'city' ? cityParty : party)
+const tombParty = [...cityParty, party[1]]
+export const partyFor = (spec) => ({ city: cityParty, tomb: tombParty })[spec.party] ?? party
 export const battlePartyFor = (spec) => (spec.solo ? partyFor(spec).slice(0, 1) : partyFor(spec))
 
 export const statsFields = {
@@ -317,6 +318,60 @@ export const scenarios = {
     mapMusic: { scene: 's032', ip: 9039, track: 14, cdFallback: true },
     world: { inventory: [], handoff: { scene: 's034', ip: 8117, position: [116, 39, 0] } },
   },
+  'ghost-general': {
+    id: 'general-tomb-ghost-general',
+    scene: 's065',
+    owner: 'e1302',
+    team: 26,
+    enemy: 'enemy-472',
+    start: [35, 4, 0],
+    contact: [35, 3, 0],
+    party: 'tomb',
+    music: 45,
+    field: 21,
+    slot: 0,
+    seed: 4,
+    settlementDwellMs: 180,
+    disk: { entry: 12143, battle: 12162, last: 12165, owner: [544, 256, 1, 8] },
+    mapMusic: { scene: 's060', ip: 12501, track: 78 },
+    world: {
+      inventory: [],
+      handoff: {
+        scene: 's066',
+        ip: 12164,
+        position: [33, 3, 0],
+        musicIp: 12172,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
+  'red-ghost': {
+    id: 'blood-pool-red-ghost',
+    scene: 's059',
+    owner: 'e1048',
+    watched: ['e1049'],
+    team: 27,
+    enemy: 'enemy-473',
+    start: [35, -18, 0],
+    contact: [34, -18, 0],
+    approach: 'ArrowLeft',
+    party: 'tomb',
+    music: 44,
+    field: 22,
+    slot: 1,
+    seed: 4,
+    settlementDwellMs: 180,
+    disk: { entry: 12356, battle: 12407, last: 12462, owner: [752, 104, 1, 8], reward: 12408 },
+    mapMusic: { scene: 's059', ip: 12182, track: 83 },
+    prelude: { states: { e983: 12239, e984: 12240 }, completedAt: 12241, wave: 12184 },
+    world: {
+      gameState: 0,
+      triggerMode: 0,
+      exit: 'ArrowRight',
+      inventory: [{ itemId: '267', count: 1 }],
+      music: { ip: 12413, track: 30 },
+    },
+  },
 }
 
 export const projectFile = (path) => new URL(`../../../${path}`, import.meta.url)
@@ -396,8 +451,9 @@ export async function readSources(spec) {
     ),
   )
   const preludeStates = {}
+  let preludeWave
   if (spec.prelude) {
-    const { night, visible, states, trigger } = spec.prelude
+    const { night, visible, states, trigger, completedAt, wave } = spec.prelude
     if (night !== undefined) {
       assert.equal(commands[night].opcode, 0x50)
       assert(musicBody.some(({ kind, ambience }) => kind === 'setAmbience' && ambience === 'night'))
@@ -424,6 +480,32 @@ export async function readSources(spec) {
       )
       preludeStates[entity] = state
     }
+    if (completedAt !== undefined) {
+      assert.deepEqual(commands[completedAt], { op: 'end', advance: true })
+      assert.equal(
+        data.canonicalMusicScene.hooks.onEnter.variants.default.flow.stages.at(-1).next.kind,
+        'complete',
+      )
+    }
+    if (wave !== undefined) {
+      const [level, progression] = commands[wave].operands
+      assert.equal(commands[wave].opcode, 0x71)
+      assert(
+        musicBody.some(
+          (command) =>
+            command.kind === 'setScreenWave' &&
+            command.level === level &&
+            command.progression === progression,
+        ),
+      )
+      preludeWave = { level, progression }
+    }
+  }
+  if (spec.party === 'tomb') {
+    assert.deepEqual([commands[11986].opcode, commands[11986].operands[0]], [0x86, 274])
+    const itemsPath = 'projects/pal/content/items.json'
+    const jade = (await json(itemsPath)).find(({ id }) => id === '274')
+    assert.deepEqual([jade.equip.slot, jade.equip.equipableBy], ['accessory', ['zhao-linger']])
   }
   const { battle, entry, last, reward, defeated } = spec.disk
   const setMusic = commands[spec.disk.music ?? battle - 2]
@@ -483,18 +565,21 @@ export async function readSources(spec) {
   }
   let successorTrack
   if (spec.world.handoff) {
-    const { scene, ip, position } = spec.world.handoff
+    const { scene, ip, position, musicIp } = spec.world.handoff
     assert.equal(commands[ip].sceneId, gameScene({ scene }))
     assert.equal(native.at(-1).scene, scene)
     const first = Number(data.diskHandoffScene.onEnterLabel.slice(2))
     const [x, y, half] = commands[first].operands
     assert.deepEqual(position, [x + y + half, y - x, 0])
     const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
-    assert.deepEqual(landing.entry.prepare[0].pos, grid(position))
-    successorTrack = commands[first + 2].operands[0]
-    assert.deepEqual([commands[first + 2].opcode, commands[first + 3].opcode], [0x43, 0x05])
+    const actions = [...(landing.entry?.prepare ?? []), ...landing.body]
+    assert.deepEqual(actions.find(({ kind }) => kind === 'teleportParty')?.pos, grid(position))
+    const musicAddress = musicIp ?? first + 2
+    successorTrack = commands[musicAddress].operands[0]
+    assert.equal(commands[musicAddress].opcode, 0x43)
+    if (musicIp === undefined) assert.equal(commands[musicAddress + 1].opcode, 0x05)
     assert(
-      landing.entry.prepare.some(
+      (musicIp === undefined ? landing.entry.prepare : actions).some(
         ({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(successorTrack),
       ),
       'successor music must be prepared before revealing the map',
@@ -528,9 +613,12 @@ export async function readSources(spec) {
     )
     assert.equal(commands[defeated.ip + 2].messageIndex, defeated.note)
   }
-  const bee = data.objects.find(({ objectIndex }) => objectIndex === 403)
-  const summoned = data.enemies.find(({ id }) => id === bee.enemyId)
-  const summonCount = spec.team === 44 ? 4 : 0
+  const summonScript = spec.team === 27 ? commands[42512] : null
+  if (summonScript) assert.equal(summonScript.opcode, 0x9e)
+  const summonObject = summonScript?.operands[0] ?? 403
+  const summonedObject = data.objects.find(({ objectIndex }) => objectIndex === summonObject)
+  const summoned = data.enemies.find(({ id }) => id === summonedObject.enemyId)
+  const summonCount = summonScript?.operands[1] ?? (spec.team === 44 ? 4 : 0)
   const summonBonus = { exp: summonCount * summoned.exp, cash: summonCount * summoned.cash }
   const battleTrack = musicId(spec.music)
   const outsideActors = ['e401', 'e402', 'e403']
@@ -575,6 +663,7 @@ export async function readSources(spec) {
       'projects/pal/content/actors.json',
       'projects/pal/content/enemies.json',
       'projects/pal/content/battle-fields.json',
+      ...(spec.party === 'tomb' ? ['projects/pal/content/items.json'] : []),
       `projects/pal/content/maps/${data.rfScene.mapId}.json`,
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
@@ -582,6 +671,7 @@ export async function readSources(spec) {
       ...ringAudioPaths,
     ],
     preludeStates,
+    preludeWave,
     outsideActors,
     preludeBefore: Object.fromEntries(
       data.gameScene.eventObjects
@@ -597,9 +687,16 @@ export async function readSources(spec) {
     nativeEnemies,
     setup,
     inn,
+    successorTrack,
     turnStart,
     ring,
     summonBonus,
+    summoning: summonScript && {
+      id: `enemy-${summonObject}`,
+      count: summonCount,
+      hp: summoned.health,
+    },
+    tomb: spec.party === 'tomb' ? tombSource(data, commands, spec, actor) : undefined,
     pre: commands.slice(entry, battle),
     post: commands.slice(
       battle + 1,
@@ -608,6 +705,64 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
+  }
+}
+
+function tombSource(data, commands, spec, owner) {
+  const beforeBattle = commands.slice(spec.disk.entry, spec.disk.battle)
+  const isGeneral = spec.world.handoff !== undefined
+  const reveal = beforeBattle.find(({ opcode, operands }) => opcode === 0x49 && operands[1] === 1)
+  const actor = isGeneral
+    ? owner
+    : data.gameScene.eventObjects.find(({ id }) => id + 1 === reveal.operands[0])
+  const autoStart = isGeneral ? null : Number(actor.autoLabel.slice(2))
+  const flow = isGeneral
+    ? beforeBattle
+    : commands.slice(
+        autoStart,
+        commands.findIndex(({ op }, i) => i >= autoStart && op === 'end'),
+      )
+  const poses = [
+    0,
+    ...flow.filter(({ opcode }) => opcode === 0x14).map(({ operands }) => operands[0]),
+  ]
+  const steps = flow.filter(({ opcode }) => opcode === 0x09).slice(0, poses.length - 1)
+  assert.equal(steps.length, poses.length - 1)
+  const beforeTalkMs = isGeneral
+    ? flow.filter(({ opcode }) => opcode === 0x09).at(-1).operands[0] * 100
+    : beforeBattle.find(({ opcode }) => opcode === 0x09).operands[0] * 100
+  let arrival
+  if (isGeneral) {
+    const address = Number(data.diskHandoffScene.onEnterLabel.slice(2))
+    const [sprite, party, facing] = commands.slice(address + 1, address + 4)
+    assert.deepEqual([sprite.opcode, party.opcode, facing.opcode], [0x65, 0x75, 0x15])
+    assert.deepEqual(party.operands, [1, 0, 0])
+    arrival = { sprite: sprite.operands[1], frame: facing.operands[0] * 3 + facing.operands[1] }
+  }
+  const afterBattle = commands.slice(spec.disk.battle + 1, spec.disk.last + 1)
+  const quakeAt = afterBattle.findIndex(({ opcode }) => opcode === 0x35)
+  let quake
+  if (!isGeneral) {
+    assert(quakeAt >= 0)
+    const [shake, blend] = afterBattle.slice(quakeAt, quakeAt + 2)
+    assert.equal(blend.opcode, 0x73)
+    quake = {
+      frames: shake.operands[0],
+      level: shake.operands[1] || 4,
+      stepMs: (blend.operands[0] + 1) * 10,
+      steps: 72,
+    }
+  }
+  return {
+    actor: `e${actor.id}`,
+    asset: actor.spriteNum,
+    position: [actor.x, actor.y],
+    poses,
+    intervals: steps.map(({ operands }) => (operands[0] + (isGeneral ? 0 : 1)) * 100),
+    beforeTalkMs,
+    arrival,
+    quake,
+    reward: spec.disk.reward && commands[spec.disk.reward + 2].text,
   }
 }
 

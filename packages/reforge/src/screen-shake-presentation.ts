@@ -10,14 +10,15 @@ export class ScreenShakePresentation {
     this.offset = 0
   }
 
-  /** Called once per world tick or once per cinematic frame. Repaints hold the same offset. */
-  advance(): void {
-    if (this.remainingFrames <= 0) {
-      this.offset = 0
-      return
-    }
-    this.offset = this.remainingFrames % 2 === 1 ? -this.level : this.level
-    this.remainingFrames--
+  /** Advance by the number of world, cinematic or dither steps rendered. */
+  advance(steps = 1): void {
+    const displayed = this.remainingFrames - steps + 1
+    this.offset = displayed > 0 ? (displayed % 2 === 1 ? -this.level : this.level) : 0
+    this.remainingFrames = Math.max(0, displayed - 1)
+  }
+
+  clearOffset(): void {
+    this.offset = 0
   }
 
   apply(context: CanvasRenderingContext2D, scale: number): void {

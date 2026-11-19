@@ -96,7 +96,7 @@ function checkDialogue(events, before, after, game) {
         event.order <= start ||
         event.order >= end ||
         !box?.text ||
-        !box.phase.startsWith('waiting')
+        (!box.phase.startsWith('waiting') && box.phase !== 'auto-advance')
       )
         continue
       pages.set(JSON.stringify([box.at, box.id, box.page]), box)
@@ -360,6 +360,180 @@ function checkInnPresentation(
     returned: control,
     actorPixels: [start, control].map(drawnSprites),
   }
+}
+
+function checkTombPresentation({ events, resources }, draws, { trigger, launch, won, control }) {
+  const original = source.tomb
+  const issues = []
+  const check = (rule, expected, actual) => {
+    const issue = difference(expected, actual)
+    if (issue) issues.push({ rule, ...issue })
+  }
+  const world = events.filter(({ kind }) => kind === 'world-drawn')
+  const firstSpeech = draws.find(
+    ({ scene, atMs, slots }) =>
+      scene === spec.scene && atMs > trigger.atMs && atMs < launch.atMs && slots.length > 0,
+  )
+  assert(firstSpeech, 'the speech after the boss reveal was not rendered')
+  const rise = []
+  for (const frame of world) {
+    if (frame.order <= trigger.order || frame.atMs > firstSpeech.atMs) continue
+    const actor = frame.actors[original.actor]
+    if (actor && actor.frame !== rise.at(-1)?.frame) rise.push({ ...actor, atMs: frame.atMs })
+  }
+  if (handoff && rise[0]?.frame !== 0) {
+    const previous = world.findLast(
+      ({ order, scene, actors }) =>
+        order < trigger.order && scene === spec.scene && actors[original.actor],
+    )
+    if (previous) rise.unshift({ ...previous.actors[original.actor], atMs: previous.atMs })
+  }
+  check(
+    'all reveal frames painted before speech',
+    original.poses,
+    rise.map(({ frame }) => frame),
+  )
+  for (const pose of rise)
+    check(
+      'revealing actor feet and sprite',
+      [original.position, original.asset],
+      [pose.position, pose.asset],
+    )
+  const stopMusic =
+    handoff &&
+    events.find(
+      ({ kind, order }) => kind === 'music-stop' && order > trigger.order && order < launch.order,
+    )
+  if (handoff) assert(stopMusic, 'music stops before the coffin begins to open')
+  const intervals = rise.slice(1).map(({ atMs }, index) => {
+    const previous = rise[index].atMs
+    return atMs - (stopMusic && index === 0 ? Math.max(stopMusic.atMs, previous) : previous)
+  })
+  for (const [index, actual] of intervals.entries()) {
+    const expected = original.intervals[index]
+    if (Math.abs(actual - expected) > 50)
+      issues.push({ rule: 'drawn boss reveal cadence', step: index + 1, expected, actual })
+  }
+  const visibleBeforeSpeech = rise.length > 0 ? firstSpeech.atMs - rise[0].atMs : 0
+  if (
+    (!handoff && Math.abs(visibleBeforeSpeech - original.beforeTalkMs) > 100) ||
+    (handoff &&
+      firstSpeech.atMs - (rise.at(-1)?.atMs ?? firstSpeech.atMs) < original.beforeTalkMs - 50)
+  )
+    issues.push({ rule: 'speech must follow the full reveal', actual: visibleBeforeSpeech })
+
+  if (original.arrival) {
+    const lead = control.party?.map(({ id, spriteId, frame, world }) => ({
+      id,
+      sprite: typeof spriteId === 'number' ? spriteId : source.spriteChunks.get(spriteId),
+      frame,
+      world,
+    }))
+    check(
+      'first visible handoff costume and party',
+      [{ id: 'li-xiaoyao', ...original.arrival, world: control.leader }],
+      lead,
+    )
+    const falseReturn = world.find(
+      ({ order, scene, colors, visible }) =>
+        scene === spec.scene &&
+        won.order < order &&
+        order < control.order &&
+        (visible ?? colors.some(([r, g, b]) => r || g || b)),
+    )
+    if (falseReturn)
+      issues.push({ rule: 'source scene flashed before the direct handoff', actual: falseReturn })
+    const music = events.find(
+      ({ kind, track, context, order }) =>
+        kind === 'music-start' &&
+        track === source.successorTrack &&
+        context === 'running' &&
+        won.order < order,
+    )
+    assert(music, 'authored handoff music reached the audio output')
+  }
+
+  let rewardMs
+  if (original.reward) {
+    const visible = ({ slots }) =>
+      slots.some(({ slot, lines }) => slot === 'narration' && lines.join('') === original.reward)
+    const note = draws.find((draw) => draw.atMs > won.atMs && visible(draw))
+    const cleared = note && draws.find((draw) => draw.atMs > note.atMs && !visible(draw))
+    assert(note && cleared, 'earned item notice must be visibly shown and cleared')
+    rewardMs = cleared.atMs - note.atMs
+    if (Math.abs(rewardMs - 1400) > 45)
+      issues.push({ rule: 'earth bead notice dwell', actual: rewardMs })
+  }
+  let quake
+  if (original.quake) {
+    const { frames, level, steps, stepMs } = original.quake
+    const finalFrames = events.filter(
+      ({ kind, scene, order }) =>
+        kind === 'scene-composite' &&
+        scene === spec.scene &&
+        order > won.order &&
+        order < control.order,
+    )
+    quake = finalFrames.filter(({ ditherStep }) => ditherStep !== undefined)
+    check(
+      'all dither steps reached the final screen',
+      Array.from({ length: steps + 1 }, (_, step) => step),
+      [...new Set(quake.map(({ ditherStep }) => ditherStep))],
+    )
+    const start = quake[0]?.atMs
+    for (const { atMs, ditherStep, shift, black } of quake) {
+      const countdown = frames - ditherStep + 1
+      const expected = ditherStep > 0 && countdown > 0 ? (countdown % 2 ? -level : level) : 0
+      check(`composited quake step ${ditherStep}`, [expected, expected !== 0], [shift, black])
+      if (Math.abs(atMs - start - ditherStep * stepMs) > 75)
+        issues.push({ rule: 'dither output cadence', step: ditherStep, actual: atMs - start })
+    }
+    if (frames === steps) {
+      const trailing = finalFrames.filter(
+        ({ order, shift }) => order > (quake.at(-1)?.order ?? won.order) && shift !== 0,
+      )
+      check('no quake bleeds into the following dialogue', [], trailing)
+    }
+  }
+  const dialogue = [
+    [source.pre, trigger, launch],
+    [source.post, won, control],
+  ].flatMap(([commands, from, until]) => {
+    let at = from.atMs
+    const presented = draws.filter(
+      ({ scene, atMs }) => scene === spec.scene && atMs >= at && atMs < until.atMs,
+    )
+    const pages = expectedDialoguePages(commands).flatMap(({ lines, ...heading }) => {
+      const result = []
+      for (let i = 0; i < lines.length; i += 4)
+        result.push({ ...heading, lines: lines.slice(i, i + 4) })
+      return result
+    })
+    return pages.map((page) => {
+      const witness = presented.find(
+        ({ atMs, slots }) =>
+          atMs >= at &&
+          slots.some(
+            ({ portrait, slot, portraitLayout, speaker: heading, lines }) =>
+              portrait === page.portrait &&
+              slot === page.slot &&
+              speaker(heading) === page.speaker &&
+              portraitLayout === (page.portrait !== null) &&
+              isDeepStrictEqual(lines.map(subtitle), page.lines),
+          ),
+      )
+      if (!witness)
+        issues.push({ rule: 'rendered dialogue page, portrait, speaker and slot', expected: page })
+      else at = witness.atMs
+      return { ...page, atMs: witness?.atMs }
+    })
+  })
+  const rawSprites = new Map(resources.map((item) => [item.order, item]))
+  const pixels = rise.map(({ resource }) => {
+    const { width, height, pixels, opaque } = rawSprites.get(resource)
+    return sha256(JSON.stringify([width, height, pixels, opaque]))
+  })
+  return { issues, rise, intervals, firstSpeech, rewardMs, quake, dialogue, pixels }
 }
 
 function checkRingPresentation(
@@ -1085,6 +1259,24 @@ async function inspect(path, engine) {
       actions.some(({ side, slot, kind }) => side === 'enemy' && slot !== 1 && kind === 'attack'),
     )
   }
+  if (source.summoning) {
+    const summoned = enemy.find(({ kind }) => kind === 'pass')
+    const { id, count, hp } = source.summoning
+    assert(summoned, 'boss actually used the first summoning command')
+    assert.deepEqual(
+      summoned.enemies.flatMap((slot, index) => (slot?.id === id ? [{ index, hp: slot.hp }] : [])),
+      [0, 2].slice(0, count).map((index) => ({ index, hp })),
+    )
+    assert(
+      [0, 2].every((slot) =>
+        actions.some(
+          (action) =>
+            action.side === 'enemy' && action.slot === slot && action.turn > summoned.turn,
+        ),
+      ),
+      'both summoned slots take actual actions',
+    )
+  }
   assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
   assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp === 0))
 
@@ -1209,7 +1401,7 @@ async function inspect(path, engine) {
   assert.deepEqual([last.cash, last.inventory], [cash, spec.world.inventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
-    (scriptedReturn?.members ?? roles).map((role) => [role, exp]),
+    (scriptedReturn?.members ?? handoff?.members ?? roles).map((role) => [role, exp]),
   )
   assert.deepEqual(
     won.party.map(({ id, exp: gained }) => [id, gained]),
@@ -1296,6 +1488,7 @@ async function inspect(path, engine) {
     ? checkRingPresentation(events, renderedDialogue, boundaries, game)
     : undefined
   const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
+  const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
   if (
     foreground &&
     ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
@@ -1348,6 +1541,7 @@ async function inspect(path, engine) {
         }
       : {}),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
+    ...(tomb ? { revealPixels: tomb.pixels } : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -1369,6 +1563,7 @@ async function inspect(path, engine) {
     outside,
     ring,
     inn,
+    tomb,
     spiderForeground,
     clips: {
       contactMs: entered?.atMs ?? trigger.atMs,
@@ -1400,6 +1595,7 @@ if (!failures.length) {
       ...(result.foreground?.issues ?? []),
       ...(result.outside?.issues ?? []),
       ...(result.inn?.issues ?? []),
+      ...(result.tomb?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

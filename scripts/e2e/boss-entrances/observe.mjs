@@ -32,6 +32,7 @@ function installBossForeground({
   assets,
   scriptedReturn,
   entrance,
+  includesParty,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -43,12 +44,39 @@ function installBossForeground({
   let successor
   let returned
   let entered
+  let shift = 0
+  let requestedShift = 0
+  let ditherStep
+  let previousComposite
+
+  function recordComposite(sceneId, context, step) {
+    if (!includesParty || (!requestedShift && step === undefined && !previousComposite)) return
+    const key = JSON.stringify([sceneId, step, shift, requestedShift])
+    if (key === previousComposite) return
+    previousComposite = key
+    const { width, height } = context.canvas
+    const band = Math.abs(shift) * (width / 320)
+    const black =
+      band > 0 &&
+      context
+        .getImageData(0, shift > 0 ? 0 : height - band, width, band)
+        .data.every((value, index) => index % 4 === 3 || value === 0)
+    observation.event('scene-composite', {
+      scene: sceneId,
+      ditherStep: step,
+      shift,
+      requestedShift,
+      black,
+    })
+  }
   function commit(frame, context) {
+    if (includesParty) frame = { ...frame, party: observation.worldDraw()?.party }
     const signature = JSON.stringify(frame)
     const entering = entrance && frame.scene === scene && !entered
     const arriving = handoffScene && frame.scene === handoffScene && !successor
     const returning = scriptedReturn && !returned && observation.read().ended
-    if (previous === signature && !entering && !arriving && !returning) return
+    const leaving = handoffScene && frame.scene === scene && !successor && observation.read().ended
+    if (previous === signature && !entering && !arriving && !returning && !leaving) return
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
@@ -56,7 +84,7 @@ function installBossForeground({
       ),
     )
     const visible =
-      entering || returning
+      entering || arriving || returning || leaving
         ? context
             .getImageData(0, 0, width, height)
             .data.some((value, index) => index % 4 !== 3 && value > 0)
@@ -64,7 +92,7 @@ function installBossForeground({
     if (previous === signature && previousVisible === visible) return
     previous = signature
     previousVisible = visible
-    observation.event('world-drawn', { ...frame, colors })
+    observation.event('world-drawn', { ...frame, colors, visible })
     if (entering && visible) {
       entered = true
       observation.eventOnce('entrance-drawn', { ...frame, colors })
@@ -82,6 +110,19 @@ function installBossForeground({
   globalThis.__bossForeground = {
     successor: () => successor,
     scriptedReturn: () => returned,
+    beginComposite() {
+      shift = 0
+      requestedShift = 0
+      ditherStep = undefined
+    },
+    shift(value) {
+      shift = value
+      requestedShift = value
+    },
+    dither(step) {
+      ditherStep = step
+      shift = 0
+    },
     battleFrame() {
       previous = undefined
     },
@@ -121,6 +162,7 @@ function installBossForeground({
         },
         context,
       )
+      recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
     },
     reforgeWorld(sceneId, camera, draws) {
       if (sceneId !== scene && sceneId !== handoffScene) return
@@ -157,6 +199,7 @@ function installBossForeground({
       const frame = pending
       pending = undefined
       commit({ ...frame, ambience, tint, changing }, context)
+      recordComposite(frame.scene, context, ditherStep)
     },
   }
 }

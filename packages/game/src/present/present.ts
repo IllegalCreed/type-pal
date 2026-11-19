@@ -185,9 +185,7 @@ export function presentFrame(
   fb: Framebuffer,
   gs: GameState,
   ctx: PresentContext,
-  // DM32:false = fade-only 补帧(palette/dither fade 进行中)——wave/shake 计数器不推进
-  //   (C scene.c:389/video.c:615 计数只随逻辑帧;PAL_SceneFade 期间每 100ms 一步,
-  //   rAF 60fps 补帧若推进会让水波快 ~6 倍/震屏提前结束)。
+  // 调色板补帧不推进世界水波或普通震屏。场景 dither 用自己的输出步推进震屏。
   advanceEffects = true,
 ): void {
   // M5.6 T18:全屏 modal 播放期间(AVI / RNG / splash)暂停 canvas render,
@@ -663,11 +661,18 @@ export function presentFrame(
     // time-based:elapsedMs / totalMs * 72 = target step。raf 慢就一帧多跑几步追上。
     const elapsedMs = performance.now() - startTimeMs
     const progress = Math.min(elapsedMs / totalMs, 1)
-    const targetSteps = Math.floor(progress * DITHER_TOTAL_STEPS)
+    const targetSteps = Math.max(appliedSteps, Math.floor(progress * DITHER_TOTAL_STEPS))
 
     // 推进场景 nibble-dither 的 [appliedSteps, targetSteps) 步；backupPixels 由 fadeState 持有。
     applyDitherSteps(current, backupPixels, appliedSteps, targetSteps)
     gs.fadeState.appliedSteps = targetSteps
+
+    // VIDEO_FadeScreen consumes one shake phase per dither step.
+    const newSteps = targetSteps - appliedSteps
+    if (newSteps > 0) {
+      gs.fadeState.presentedShakeTime = Math.max(0, gs.shakeTime - newSteps + 1)
+      gs.shakeTime = Math.max(0, gs.shakeTime - newSteps)
+    }
 
     // 显示累积的 backupPixels，而非直接切到目标画面 current。
     current.set(backupPixels)
@@ -711,7 +716,12 @@ export function presentFrame(
   // opcode 0x0035 设 shakeTime/shakeLevel 后逐帧生效,applyScreenShake 末尾自减 shakeTime 至 0 停。
   //   注:战斗法术 frame.shake(magic.shake → anim-timeline shake 区)在 present-battle.ts BattlePresent.draw
   //   末尾施加(战斗走 presentBattleFrame,不经本函数)→ 此处只认大世界/cutscene 的 gs.shakeTime。
-  if (gs.shakeTime !== 0) {
+  if (gs.fadeState?.backupPixels) {
+    const displayed = gs.fadeState.presentedShakeTime
+    if (displayed) {
+      applyScreenShake(fb.indices, { shakeTime: displayed, shakeLevel: gs.shakeLevel }, false)
+    }
+  } else if (gs.shakeTime !== 0) {
     applyScreenShake(fb.indices, gs, advanceEffects)
   }
 }

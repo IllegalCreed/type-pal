@@ -5411,8 +5411,69 @@
                       }
                     },
                     {
+                      "kind": "sceneTimeline",
+                      "label": "赤鬼王从血池升起",
+                      "tracks": [
+                        {
+                          "id": "blood-pool-rise",
+                          "label": "赤鬼王",
+                          "target": {
+                            "scene": "s059",
+                            "entity": "e1049"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 300,
+                              "body": [
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 1
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 700,
+                              "body": [
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 2
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1100,
+                              "body": [
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 3
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1500,
+                              "body": [
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 4
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1900,
+                              "body": [
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 5
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 880
+                      "ms": 300
                     },
                     {
                       "cue": {
@@ -6230,7 +6291,8 @@
                             "text": "dlg.4375"
                           }
                         ],
-                        "slot": "narration"
+                        "slot": "narration",
+                        "autoAdvance": 1400
                       },
                       "kind": "dialog"
                     },
@@ -6568,164 +6630,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 180
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 2,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 3,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 4,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 5,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s059",
-                        "entity": "e1049"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e1050",

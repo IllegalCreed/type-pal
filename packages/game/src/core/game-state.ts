@@ -1281,6 +1281,8 @@ export interface GameState {
      * 把 missing steps 全跑完(raf 慢时一次跑多步追上)。
      */
     appliedSteps: number
+    /** Shake countdown for the last composited dither step, held across repaints. */
+    presentedShakeTime?: number
     /**
      * sdlpal video.c:VIDEO_BackupScreen 的 gpScreenBak buffer — 在 opcode 0x73 firing
      * 当 frame 进 present.ts 时,从上一帧 fb.indices 拷一份快照。
