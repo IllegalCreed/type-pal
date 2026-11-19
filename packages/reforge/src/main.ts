@@ -6423,7 +6423,7 @@ export async function bootGame(
       }
       const step = Math.floor(pr * DITHER_TOTAL_STEPS)
       if (dither.plan && dither.output && dither.lastStep !== step) {
-        const newSteps = step - (dither.lastStep ?? 0)
+        const newSteps = step - Math.max(0, dither.lastStep)
         applyDitherPaletteTransition(
           dither.backup.data,
           dither.target.data,
@@ -6451,7 +6451,7 @@ export async function bootGame(
       screenShake.advance()
     }
     // Shift the blended output as a whole. Step zero already contains the previous display.
-    if (!dither || (dither.lastStep ?? 0) > 0) {
+    if (!dither || dither.lastStep > 0) {
       screenShake.apply(ctx, WORLD_SCALE)
     }
     if (dither?.lastStep === DITHER_TOTAL_STEPS) {
