@@ -133,6 +133,42 @@ function createEnemyScriptProject() {
 }
 
 describe('enemy script references', () => {
+  test('reports each authored defeated-script entity reference once at its address', () => {
+    const target = { scene: 'hall', entity: 'missing' }
+    const { bundle, enemy } = createEnemyReferenceProject({
+      onDefeated: [
+        {
+          kind: 'branch',
+          cond: { kind: 'entityInScene', target },
+          then: [{ kind: 'giveItem', itemId: 'herb', count: 1 }],
+        },
+      ],
+    })
+    const issue: Issue = {
+      severity: 'error',
+      where: 'enemies[0](slime).onDefeated[0].cond.target.entity',
+      message: '实体 "hall/missing" 不在 scenes',
+    }
+    validateAuthorEnemies([enemy])
+    expect(validateReferences(bundle)).toEqual([issue])
+
+    const secondTarget = { ...target }
+    enemy.onDefeated?.push({
+      kind: 'branch',
+      cond: { kind: 'entityInScene', target: secondTarget },
+      then: [{ kind: 'giveItem', itemId: 'herb', count: 1 }],
+    })
+    validateAuthorEnemies([enemy])
+    expect(validateReferences(bundle)).toEqual([
+      issue,
+      { ...issue, where: 'enemies[0](slime).onDefeated[1].cond.target.entity' },
+    ])
+
+    target.entity = 'sentry'
+    secondTarget.entity = 'sentry'
+    expect(validateReferences(bundle)).toEqual([])
+  })
+
   test('reports the missing scene in a defeated branch condition at its authored location', () => {
     const condition = {
       kind: 'currentScene',
@@ -147,11 +183,13 @@ describe('enemy script references', () => {
         },
       ],
     })
-    expect(validateReferences(bundle)).toContainEqual({
-      severity: 'error',
-      where: 'enemies[0](slime).onDefeated[0].cond.scene',
-      message: '场景 "missing-scene" 不在 scenes',
-    })
+    expect(validateReferences(bundle)).toEqual([
+      {
+        severity: 'error',
+        where: 'enemies[0](slime).onDefeated[0].cond.scene',
+        message: '场景 "missing-scene" 不在 scenes',
+      },
+    ])
     condition.scene = 'hall'
     expect(validateReferences(bundle)).toEqual([])
   })
@@ -181,6 +219,38 @@ describe('enemy script references', () => {
       {
         severity: 'error',
         where: 'enemies[0](slime).ai.rules[0].when.of[0].of[0].cond.role',
+        message: '战斗角色 "missing" 不在 actors',
+      },
+    ])
+  })
+
+  test('reports a missing hook actor once using the authored state address', () => {
+    const { bundle, enemy } = createEnemyReferenceProject({
+      ai: {
+        resistanceToSorcery: 0,
+        hooks: {
+          ready: {
+            initial: 'check.actor',
+            states: {
+              'check.actor': {
+                body: [],
+                next: {
+                  kind: 'branch',
+                  cond: { kind: 'playerInParty', role: 'missing' },
+                  then: { kind: 'stay' },
+                  else: { kind: 'restart' },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    validateAuthorEnemies([enemy])
+    expect(validateReferences(bundle)).toEqual([
+      {
+        severity: 'error',
+        where: 'enemies[0](slime).ai.hooks.ready.states["check.actor"].next.cond.role',
         message: '战斗角色 "missing" 不在 actors',
       },
     ])

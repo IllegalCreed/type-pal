@@ -10,6 +10,7 @@ import {
   type WorldState,
 } from './character.js'
 import type { PoisonDef } from './poison.js'
+import { validateActors, validateStartWorld } from './validate.js'
 
 const hero: ActorDef = {
   id: 'test-hero',
@@ -71,6 +72,39 @@ describe('actor instantiation', () => {
 })
 
 describe('world initialization', () => {
+  test.each([
+    'constructor',
+    '__proto__',
+  ])('seeds initial skills for registered actor %s at startup', (id) => {
+    const actors = validateActors([{ ...hero, id }])
+    const registered = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+    const start = validateStartWorld({ party: [id], money: 0, inventory: [] })
+
+    const world = buildWorld(start, registered)
+
+    expect(world.party.map((member) => member.template)).toEqual([id])
+    expect(Object.entries(world.learnedSkills)).toEqual([[id, ['296']]])
+    expect(Object.getPrototypeOf(world.learnedSkills)).toBe(Object.prototype)
+  })
+  test.each([
+    'constructor',
+    '__proto__',
+  ])('seeds initial skills for registered actor %s on first arrival', (id) => {
+    const actors = validateActors([hero, { ...hero, id }])
+    const registered = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+    const start = validateStartWorld({ party: [hero.id], money: 0, inventory: [] })
+    const world = buildWorld(start, registered)
+
+    applySetParty(world, [hero.id, id], registered)
+
+    expect(world.party.map((member) => member.template)).toEqual([hero.id, id])
+    expect(Object.entries(world.learnedSkills)).toEqual([
+      [hero.id, ['296']],
+      [id, ['296']],
+    ])
+    expect(Object.getPrototypeOf(world.learnedSkills)).toBe(Object.prototype)
+  })
+
   test('组装:party instantiate + seedStats 覆盖当前 hp/mp + 角色定义播种技能', () => {
     const sw: StartWorld = {
       party: ['test-hero'],

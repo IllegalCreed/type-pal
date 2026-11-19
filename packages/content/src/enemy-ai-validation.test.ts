@@ -1,8 +1,30 @@
 import { describe, expect, test } from 'vitest'
+import { createEnemyReferenceProject } from './__tests__/reference-project.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AiCond } from './enemy-ai.js'
 import { checkEnemyAi, checkEnemyFallback } from './enemy-script.js'
+import { validateAuthorEnemies } from './validate-author.js'
+
+test('author enemy validation rejects an array at the targeting policy field', () => {
+  const { enemy } = createEnemyReferenceProject({
+    ai: {
+      resistanceToSorcery: 0,
+      rules: [{ at: 'act', do: { kind: 'attack', target: 'lowestHp' } }],
+    },
+  })
+  expect(validateAuthorEnemies([enemy])).toEqual([enemy])
+  expectExactError(
+    () =>
+      validateAuthorEnemies([
+        {
+          ...enemy,
+          ai: { ...enemy.ai, rules: [{ at: 'act', do: { kind: 'attack', target: ['lowestHp'] } }] },
+        },
+      ]),
+    'enemies[0].ai.rules[0].do.target: 未知目标策略',
+  )
+})
 
 const conditions: { label: string; good: AiCond; bad: unknown; error: string }[] = [
   {

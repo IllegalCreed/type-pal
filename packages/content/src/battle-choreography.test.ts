@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { createEnemyReferenceProject } from './__tests__/reference-project.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { BattleChoreographyAction } from './battle-choreography.js'
@@ -10,6 +11,24 @@ import {
 import type { AiCond } from './enemy-ai.js'
 import type { DialogueCue } from './index.js'
 import type { LevelGrowthDelta } from './rewards.js'
+import { validateAuthorEnemies } from './validate-author.js'
+
+test('author enemy validation rejects an array as a battle termination result', () => {
+  const { enemy } = createEnemyReferenceProject({
+    choreography: [{ at: 'turnStart', body: [{ kind: 'endBattle', result: 'lost' }] }],
+  })
+  expect(validateAuthorEnemies([enemy])).toEqual([enemy])
+  expectExactError(
+    () =>
+      validateAuthorEnemies([
+        {
+          ...enemy,
+          choreography: [{ at: 'turnStart', body: [{ kind: 'endBattle', result: ['lost'] }] }],
+        },
+      ]),
+    'enemies[0].choreography[0].body[0].result: 期望 terminate|won|lost',
+  )
+})
 
 function waitAction(ms: number): BattleChoreographyAction {
   return { kind: 'wait', ms }

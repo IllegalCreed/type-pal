@@ -68,15 +68,21 @@ export interface SpriteDef {
   poses?: Record<SpriteActionId, SpriteActionDef>
 }
 
+const DIRECTION_COUNT = 4
+
 function layoutFrameCount(layout: SpriteLayout): number {
   switch (layout.kind) {
     case 'directional':
-      return layout.framesPerDir * 4
+      return layout.framesPerDir * DIRECTION_COUNT
     case 'loop':
       return layout.frameCount
     default:
       return 1
   }
+}
+
+function* actionFrameIndices(poses: SpriteDef['poses']): Iterable<number> {
+  for (const action of Object.values(poses ?? {})) for (const step of action.steps) yield step.frame
 }
 
 /**
@@ -89,20 +95,49 @@ function layoutFrameCount(layout: SpriteLayout): number {
 export function spriteDefinitionFrameDemand(sprite: Pick<SpriteDef, 'layout' | 'poses'>): number {
   const layoutDemand = layoutFrameCount(sprite.layout)
   let poseDemand = 0
-  for (const action of Object.values(sprite.poses ?? {})) {
-    for (const step of action.steps) poseDemand = Math.max(poseDemand, step.frame + 1)
-  }
+  for (const frame of actionFrameIndices(sprite.poses)) poseDemand = Math.max(poseDemand, frame + 1)
   return Math.max(layoutDemand, poseDemand)
 }
 
-/** 定义会直接索引的帧集合；编辑器用它逐槽比较历史越界债是否扩大。 */
+/** 逐槽列出可物化的声明；调用者先核布局尺寸，超实际格式范围时只需检查缺失边界。 */
 export function spriteDefinitionFrameIndices(
   sprite: Pick<SpriteDef, 'layout' | 'poses'>,
 ): Set<number> {
   const indices = new Set<number>()
   const layoutCount = layoutFrameCount(sprite.layout)
   for (let index = 0; index < layoutCount; index++) indices.add(index)
-  for (const action of Object.values(sprite.poses ?? {}))
-    for (const step of action.steps) indices.add(step.frame)
+  for (const frame of actionFrameIndices(sprite.poses)) indices.add(frame)
   return indices
+}
+
+function exactLayoutFrameCount(layout: SpriteLayout): bigint {
+  return layout.kind === 'directional'
+    ? BigInt(layout.framesPerDir) * BigInt(DIRECTION_COUNT)
+    : BigInt(layoutFrameCount(layout))
+}
+
+/**
+ * 首个曾未声明且不在解码资源内的帧。以连续布局区间加显式动作帧为依据，
+ * 允许保留或收缩历史缺失范围。极端声明仍可精确比较，且不会按声明长度创建集合。
+ */
+export function firstNewUnavailableSpriteFrame(
+  previous: Pick<SpriteDef, 'layout' | 'poses'>,
+  next: Pick<SpriteDef, 'layout' | 'poses'>,
+  actualFrameCount: number,
+): bigint | undefined {
+  const actual = BigInt(actualFrameCount)
+  const previousLayout = exactLayoutFrameCount(previous.layout)
+  const nextLayout = exactLayoutFrameCount(next.layout)
+  const previousActions = new Set<bigint>()
+  for (const frame of actionFrameIndices(previous.poses)) previousActions.add(BigInt(frame))
+  const firstUnchecked = actual > previousLayout ? actual : previousLayout
+  let frame = firstUnchecked
+  while (frame < nextLayout && previousActions.has(frame)) frame += 1n
+  if (frame < nextLayout) return frame
+
+  for (const actionFrame of actionFrameIndices(next.poses)) {
+    const index = BigInt(actionFrame)
+    if (index >= firstUnchecked && !previousActions.has(index)) return index
+  }
+  return undefined
 }

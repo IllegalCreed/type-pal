@@ -1,9 +1,11 @@
-import type {
-  BattleSpriteDef,
-  BattleSpriteProfile,
-  BattleSpriteProfileKind,
-  PlayerFighterFrames,
+import {
+  type BattleSpriteDef,
+  type BattleSpriteProfile,
+  type BattleSpriteProfileKind,
+  battleSpriteDefinitionFrameDemand,
+  type PlayerFighterFrames,
 } from '@type-pal/content'
+import { INDEXED_RLE_MAX_FRAME_SLOTS } from '@type-pal/reforge'
 import type { SemanticFrameGroup } from './SpriteFrameWorkbench.js'
 
 export const BATTLE_SPRITE_PROFILE_LABEL: Record<BattleSpriteProfileKind, string> = {
@@ -104,19 +106,27 @@ export function battleSpriteActionsForProfile(
       })
     }
   } else if (profile?.kind === 'enemy') {
+    // A bound larger than the RLE table cannot be previewed as individual slots.
+    const previewLimit =
+      battleSpriteDefinitionFrameDemand({ profile }) > INDEXED_RLE_MAX_FRAME_SLOTS
+        ? actualFrameCount
+        : Infinity
     for (const [label, section] of [
       ['待机', profile.idle],
       ['施法', profile.magic],
       ['攻击', profile.attack],
     ] as const) {
-      const frames =
-        section.count === 0
-          ? []
-          : label !== '待机' && profile.actTicksPerFrame === 0
-            ? [section.start + section.count - 1]
-            : label === '攻击'
-              ? Array.from({ length: section.count + 1 }, (_, index) => section.start + index - 1)
-              : Array.from({ length: section.count }, (_, index) => section.start + index)
+      let frames: number[] = []
+      const declaredEnd = section.start + section.count
+      if (section.count > 0 && section.start < previewLimit) {
+        if (label !== '待机' && profile.actTicksPerFrame === 0) {
+          if (declaredEnd <= previewLimit) frames = [declaredEnd - 1]
+        } else {
+          const start = label === '攻击' ? section.start - 1 : section.start
+          const end = Math.min(declaredEnd, previewLimit)
+          frames = Array.from({ length: end - start }, (_, index) => start + index)
+        }
+      }
       actions.push({
         key: label,
         label,

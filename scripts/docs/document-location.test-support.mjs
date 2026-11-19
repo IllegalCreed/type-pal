@@ -28,6 +28,7 @@ export const docsCliModulePaths = Object.freeze([
   'scripts/docs/terminal-namespace.mjs',
   'scripts/docs/testing-acquisition-source-bridge.mjs',
   'scripts/docs/testing-battle-publication.mjs',
+  'scripts/docs/testing-content-version-rebinding.mjs',
   'scripts/docs/testing-source-bridge.mjs',
   'scripts/docs/testing-source-maintenance-admission.mjs',
   'scripts/docs/testing-source-maintenance.mjs',

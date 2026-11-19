@@ -901,7 +901,7 @@ describe('editor design-system static boundary', () => {
     expect(spriteFramesCall).not.toContain('session=')
     expect(spriteFramesCall).not.toContain('mode=')
     expect(spriteFrames).toContain('<SemanticFrameShelf')
-    expect(spriteFrames).toContain('groups={worldSpriteSemanticGroups([sprite], sprite.id)}')
+    expect(spriteFrames).toContain('groups={worldSpriteSemanticGroups([sprite], total, sprite.id)}')
     expect(spriteFrames).toContain('presentation="embedded"')
     expect(spriteFrames).toContain('ariaLabel="四向行走与动作帧预览"')
     expect(spriteFrames).not.toMatch(/className="(?:frames-preview|dirgroup|fcell|posegroup)"/)

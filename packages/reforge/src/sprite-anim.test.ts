@@ -59,6 +59,12 @@ describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+
     expect(idleFrameIndex(d3, 'left', 12)).toBe(3)
   })
 
+  test('walking preserves an available frame and falls back for oversized directional layouts', () => {
+    const layout: SpriteLayout = { kind: 'directional', framesPerDir: 2 ** 32 }
+    expect(walkFrameIndex(layout, 'down', 1, 2)).toBe(1)
+    expect(walkFrameIndex(layout, 'right', 1, 2)).toBe(0)
+  })
+
   test.each([
     [627, 4],
     [361, 5],

@@ -383,5 +383,22 @@ describe('BattleSpriteDef + catalog loader/cache 唯一链', () => {
     await expect(
       loadBattleSpriteDefinition(cache, reader, outOfRange, 'player-fighter'),
     ).rejects.toThrow(/AssetId.*只有 1 帧/)
+
+    const count = 160_000
+    const enemy: BattleSpriteDef = {
+      ...definition(),
+      id: 'wide-enemy',
+      profile: {
+        kind: 'enemy',
+        idle: { start: 0, count },
+        magic: { start: count, count: 0 },
+        attack: { start: count, count: 0 },
+        idleTicksPerFrame: 1,
+        actTicksPerFrame: 0,
+      },
+    }
+    await expect(loadBattleSpriteDefinition(cache, reader, enemy, 'enemy')).rejects.toThrow(
+      new Error('BattleSpriteDef "wide-enemy" 引用帧 1，AssetId "battle.shared" 只有 1 帧'),
+    )
   })
 })

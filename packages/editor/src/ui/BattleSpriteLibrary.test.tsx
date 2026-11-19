@@ -681,4 +681,30 @@ describe('BattleSpriteLibrary', () => {
       .semanticGroups?.[0]?.rows.find((row: { label: string }) => row.label === '攻击')
     expect(attack?.frames).toEqual([2, 3, 4])
   })
+
+  test('a wide imported enemy layout shows only available frames in the resource library', async () => {
+    const count = 2 ** 32
+    const enemy: BattleSpriteDef = {
+      id: 'enemy-wide',
+      label: '敌人甲',
+      asset: 'battle-sprite.shared',
+      profile: {
+        kind: 'enemy',
+        idle: { start: 0, count },
+        magic: { start: count, count: 1 },
+        attack: { start: count + 1, count: 1 },
+        idleTicksPerFrame: 5,
+        actTicksPerFrame: 1,
+      },
+    }
+
+    await act(async () => root.render(library([enemy])))
+
+    const groups: SemanticFrameGroup[] = previewRender.mock.calls.at(-1)?.[0].semanticGroups
+    expect(groups[0]?.rows.map((row) => [row.label, row.frames])).toEqual([
+      ['待机', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+      ['施法', []],
+      ['攻击', []],
+    ])
+  })
 })

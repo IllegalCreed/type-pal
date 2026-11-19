@@ -254,6 +254,11 @@ test.each([
     'opening.facing: 期望 up|down|left|right',
   ],
   [
+    'array opening direction',
+    { ...chest, opening: { ...chest.opening, facing: ['down'] } },
+    'opening.facing: 期望 up|down|left|right',
+  ],
+  [
     'negative opening frame',
     { ...chest, opening: { facing: 'down', frame: -1 } },
     'opening.frame: 期望非负安全整数',

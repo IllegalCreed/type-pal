@@ -275,10 +275,16 @@ export function SpriteResourceViewer(props: {
     selectFrame,
   ])
 
+  const actualFrameCount = loaded?.sprite.frames.length ?? 0
   const groups = useMemo(
     () =>
-      worldSpriteSemanticGroups(props.consumers, props.activeDefinitionId, props.activeActionId),
-    [props.activeActionId, props.activeDefinitionId, props.consumers],
+      worldSpriteSemanticGroups(
+        props.consumers,
+        actualFrameCount,
+        props.activeDefinitionId,
+        props.activeActionId,
+      ),
+    [actualFrameCount, props.activeActionId, props.activeDefinitionId, props.consumers],
   )
 
   const reportError = (reason: unknown): void => {

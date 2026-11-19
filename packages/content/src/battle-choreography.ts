@@ -78,7 +78,10 @@ export function checkBattleChoreographyAction(
       return
     case 'endBattle':
       exactKeys(action, ['kind', 'result'], path)
-      if (!['terminate', 'won', 'lost'].includes(String(action.result)))
+      if (
+        typeof action.result !== 'string' ||
+        !['terminate', 'won', 'lost'].includes(action.result)
+      )
         throw new Error(`${path}.result: 期望 terminate|won|lost`)
       return
     case 'revivePartyAll':

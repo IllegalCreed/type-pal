@@ -4,10 +4,12 @@
  */
 import type { AssetId, AssetRecordV1, SpriteDef } from '@type-pal/content'
 import {
+  firstNewUnavailableSpriteFrame,
   spriteDefinitionFrameDemand,
   spriteDefinitionFrameIndices,
   validateSprites,
 } from '@type-pal/content'
+import { INDEXED_RLE_MAX_FRAME_SLOTS } from '@type-pal/reforge'
 import { AssetInUseError, assertSpriteRecord, sameAssetRecord } from './command-asset-record.js'
 import type { Command } from './command-contract.js'
 import type { EditorState } from './edit-session.js'
@@ -83,6 +85,29 @@ function assertSpriteEditShape(sprite: Pick<SpriteDef, 'id' | 'layout' | 'poses'
   }
 }
 
+function assertDoesNotAddMissingFrames(
+  previous: SpriteDef,
+  next: SpriteDef,
+  actualFrameCount: number,
+): void {
+  const firstMissing = firstNewUnavailableSpriteFrame(previous, next, actualFrameCount)
+  if (firstMissing === undefined) return
+
+  // Preserve the exact slot list for materializable layouts. Wider declarations are compared as
+  // ranges so that a rejected edit does not allocate or print a frame list that cannot exist.
+  if (
+    spriteDefinitionFrameDemand({ layout: previous.layout }) > INDEXED_RLE_MAX_FRAME_SLOTS ||
+    spriteDefinitionFrameDemand({ layout: next.layout }) > INDEXED_RLE_MAX_FRAME_SLOTS
+  )
+    throw new Error(`布局会新增越界帧 ${firstMissing}（首个），资源实际只有 ${actualFrameCount} 帧`)
+
+  const previousFrames = spriteDefinitionFrameIndices(previous)
+  const added = [...spriteDefinitionFrameIndices(next)].filter(
+    (frame) => frame >= actualFrameCount && !previousFrames.has(frame),
+  )
+  throw new Error(`布局会新增越界帧 ${added.join(', ')}，资源实际只有 ${actualFrameCount} 帧`)
+}
+
 /**
  * 改精灵字段(layout/poses/label)。语义同 UpdateEntityCommand:首次 apply 捕获旧值,invert 还原。
  * layout/poses 是对象 → 深拷贝入参 + 捕获时深拷贝旧值(防回写)。
@@ -143,17 +168,7 @@ export class UpdateSpriteCommand implements Command {
             )
         }
       }
-      const previousMissing = new Set(
-        [...spriteDefinitionFrameIndices(sp)].filter((frame) => frame >= proof.actualFrameCount),
-      )
-      const nextMissing = [...spriteDefinitionFrameIndices(next)].filter(
-        (frame) => frame >= proof.actualFrameCount,
-      )
-      const addedMissing = nextMissing.filter((frame) => !previousMissing.has(frame))
-      if (addedMissing.length)
-        throw new Error(
-          `布局会新增越界帧 ${addedMissing.join(', ')}，资源实际只有 ${proof.actualFrameCount} 帧`,
-        )
+      assertDoesNotAddMissingFrames(sp, next, proof.actualFrameCount)
     }
     if (!this.oldPatch) this.oldPatch = this.captureOld(sp)
     return withSprite(state, this.spriteId, { ...sp, ...this.patch })

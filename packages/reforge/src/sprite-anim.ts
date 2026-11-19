@@ -15,9 +15,11 @@ import type { Facing, SpriteLayout } from '@type-pal/content'
 /** 朝向 → 方向序号(格式约定,4 向固定序;非数据)。 */
 export const FACING_TO_DIR: Record<Facing, number> = { down: 0, left: 1, up: 2, right: 3 }
 
+const THREE_FRAME_WALK_CYCLE = [0, 1, 0, 2] as const
+
 /** 按每向帧数推导步序(暂不进数据;要自定义步序时再加字段,加法)。 */
 export function deriveStepCycle(framesPerDir: number): number[] {
-  if (framesPerDir === 3) return [0, 1, 0, 2]
+  if (framesPerDir === 3) return [...THREE_FRAME_WALK_CYCLE]
   return Array.from({ length: Math.max(1, framesPerDir) }, (_, i) => i)
 }
 
@@ -67,9 +69,14 @@ export function walkFrameIndex(
   totalFrames?: number,
 ): number {
   if (layout.kind !== 'directional') return 0
-  const cycle = deriveStepCycle(layout.framesPerDir)
-  const phase = cycle[((step % cycle.length) + cycle.length) % cycle.length] ?? 0
-  return actualFrameIndex(FACING_TO_DIR[facing] * layout.framesPerDir + phase, totalFrames)
+  const { framesPerDir } = layout
+  const cycle = framesPerDir === 3 ? THREE_FRAME_WALK_CYCLE : undefined
+  const cycleLength = cycle?.length ?? Math.max(1, Math.trunc(framesPerDir))
+  // The sequential cycle is implicit. Imported declarations can far exceed decoded capacity.
+  const offset = Number.isInteger(step) ? step % cycleLength : 0
+  const index = offset < 0 ? offset + cycleLength : offset
+  const phase = cycle ? (cycle[index] ?? 0) : index
+  return actualFrameIndex(FACING_TO_DIR[facing] * framesPerDir + phase, totalFrames)
 }
 
 /**
