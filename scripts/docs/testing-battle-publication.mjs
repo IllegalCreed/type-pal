@@ -579,8 +579,9 @@ function encounterReferences(before, current, paths, { source, fixed, predecesso
       actual.equals(fixed.read(old.path)),
       'encounter source differs from the frozen Q2 candidate',
     )
+    const excerpt = clip(actual, nextRange)
     assert.equal(
-      stage.normalizeExcerpt(clip(actual, nextRange), old),
+      stage.normalizeExcerpt ? stage.normalizeExcerpt(excerpt, old) : excerpt,
       clip(predecessor.read(old.path), old.lines),
       'encounter bridge changed the accepted caller excerpt',
     )
@@ -2415,6 +2416,55 @@ export function restoreTestingQ2TowerFoxSourceBindings(path, bytes, inputs) {
     inputs,
     towerFoxSourceStage,
     towerFoxSourceBindings,
+  )
+}
+
+export const testingQ2TianGhostPublicationBase = 'ff8308de5330908af0492578a91c97631551fde3'
+const tianGhostSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5969: '5970',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2TianGhostPublicationBase,
+  action: 'q2-tian-ghost-source-rebinding',
+  date: '2026-11-20',
+}
+const tianGhostSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2TianGhostSource = (path) => tianGhostSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TianGhostSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    tianGhostSourceStage,
+    tianGhostSourceBindings,
   )
 }
 

@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5969",
-      "sha256": "5b558dd928ca7586a96dba88cf39246bcf4f2fb9fbf8a7a024ef6dd0f71e169f"
+      "lines": "5970",
+      "sha256": "bc32c04d62500e773b229b376080a851881074291e241bd24642958b321deecd"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13823,6 +13823,22 @@
         }
       ],
       "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
+    },
+    {
+      "action": "q2-tian-ghost-source-rebinding",
+      "base": "ff8308de5330908af0492578a91c97631551fde3",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5969",
+          "sha256": "5b558dd928ca7586a96dba88cf39246bcf4f2fb9fbf8a7a024ef6dd0f71e169f"
+        }
+      ],
+      "scope": "开坛淡出在续跑前提交全幕布画面。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
     }
   ],
   "_governance": {
