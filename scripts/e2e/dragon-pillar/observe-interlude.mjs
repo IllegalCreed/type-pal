@@ -423,7 +423,9 @@ export function installInterludeWitness() {
         meta.opacity === 0,
         meta.opacity === 1,
       ].join('/')
-      if (key !== lastTick || meta.scene === 's150' || film === 2) {
+      // Foreground cues use the gameplay clock. More than one genuinely displayed pose can
+      // land inside the same locomotion tick; a tick-only key dropped those intermediate draws.
+      if (key !== lastTick || !cinematic || meta.scene === 's150' || film === 2) {
         lastTick = key
         emit('world-output', detail)
       }
