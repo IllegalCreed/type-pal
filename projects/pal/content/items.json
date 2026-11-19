@@ -8487,6 +8487,11 @@
                 "ms": 600
               },
               {
+                "actor": "li-xiaoyao",
+                "kind": "setActorSprite",
+                "sprite": "sprite-232"
+              },
+              {
                 "kind": "loadScene",
                 "scene": "s227"
               }
@@ -8766,6 +8771,11 @@
                 "ms": 600
               },
               {
+                "actor": "li-xiaoyao",
+                "kind": "setActorSprite",
+                "sprite": "sprite-232"
+              },
+              {
                 "kind": "loadScene",
                 "scene": "s227"
               }
@@ -9040,6 +9050,11 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
                   },
                   {
                     "kind": "loadScene",
@@ -9318,6 +9333,11 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
                   },
                   {
                     "kind": "loadScene",
@@ -9611,6 +9631,11 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
+                  },
+                  {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
                   },
                   {
                     "kind": "loadScene",
