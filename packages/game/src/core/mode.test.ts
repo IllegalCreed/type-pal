@@ -15,6 +15,7 @@ import {
   OP_FADE_IN,
   OP_PARTY_WALK_TO,
   OP_SHOW_FBP,
+  OP_WAIT_FRAMES,
   setGlobalEvents,
   tickEventSystem,
 } from './event-system.js'
@@ -124,6 +125,36 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
 })
 
 describe('tickByMode auto fade-in gate', () => {
+  it('keeps the first wait pose and pauses world updates until its scene fade completes', () => {
+    const gs = gsWithAutoNpc()
+    setGlobalEvents([{ op: 'end', advance: true }, { op: 'end', advance: true }, { op: 'end' }])
+    gs.mode = 'event'
+    gs.palette = palette([0, 0, 0])
+    gs.basePalette = palette([120, 60, 30])
+    gs.needToFadeIn = true
+    gs.eventCursor = {
+      commands: [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [2, 0, 0] }, { op: 'end' }],
+      labelMap: {},
+      ip: 0,
+    }
+    tickEventSystem(gs, snap())
+    tickWithTime(gs)
+    expect(gs.paletteFadeState).toBeDefined()
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
+
+    tickWithTime(gs)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
+
+    gs.paletteFadeState = undefined
+    tickWithTime(gs)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(2)
+    tickWithTime(gs)
+    expect(gs.mode).toBe('explore')
+  })
+
   it('水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;居中字 + 0x51 期间 blackScreenHold 撑住(场景靠后续 0x73 揭)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'

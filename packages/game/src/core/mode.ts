@@ -82,6 +82,7 @@ export function tickByMode(
   if (waitForEncounterFadeDraw) return // 浏览器宿主在黑帧绘制后续跑这个等待中的 trigger。
 
   // PAL_MakeScene 的自动淡入可能冻结探索；先交给 event-system 判断当前等待点是否会绘制场景。
+  const paletteWasFading = gs.paletteFadeState !== undefined
   tickSceneAutoFadeIn(gs)
 
   // PAL_GameUpdate 每次调用都跑自动脚本和追逐计时（play.c:169-238）。探索模式由 scene-system
@@ -94,6 +95,7 @@ export function tickByMode(
     !gs.sceneLoading &&
     gs.mode === 'event' &&
     !isBattleContact(cursor) &&
+    !(waiting === 'frame-wait' && paletteWasFading) &&
     (waiting === undefined ||
       waiting === 'frame-wait' ||
       waiting === 'scene-fade' ||

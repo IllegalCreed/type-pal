@@ -1424,7 +1424,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
     return
   }
 
-  // 1a) waiting 处理:frame-wait(opcode 0x0009 wait N frames,sdlpal script.c:3593-3604)
+  // 1a) waiting 处理:frame-wait(opcode 0x0009 wait N frames,sdlpal script.c:3343-3370)
   //   每 tick 自减;归 0 时 ip++ + clear waiting,fall through 跑下条 opcode
   if (cursor.waiting === 'frame-wait') {
     // DL16:op2 → 每帧站立帧(scene.c:773-774 stepFrame &=2 ^=2 + walking=false)。
@@ -1432,6 +1432,8 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
       gs.walkingFrame.walking = false
       gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
     }
+    // PAL_MakeScene completes its pending palette fade before returning to the wait loop.
+    if (gs.paletteFadeState) return
     const remaining = (cursor.waitFramesRemaining ?? 1) - 1
     if (remaining > 0) {
       cursor.waitFramesRemaining = remaining
