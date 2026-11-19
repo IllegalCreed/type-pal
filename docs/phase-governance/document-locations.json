@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "9048d294a270bd897378dd79e35ee2b8675b3bd99b9ee39874b99f0bedab8227",
+      "afterSha256": "7f099f86d8dcf67857b9baa14a87d3a4479f2b0c9ef8b27aa7e1e395fc8ce4e2",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 100,
+        "reviewedLines": 101,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4556a87751d685136a0a2ec7ea64652d97fb569b1ab5bfa5079188d8524fcd36",
+      "afterSha256": "a3179a57c6099c04834f1ea623a60a6aa7f7f633fe7aceebae9087f13c6c000c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1342,
+        "reviewedLines": 1348,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6315,6 +6315,12 @@
       "bytes": 85701027,
       "sha256": "90b9c297e46566f0ec52f85811ff09eb0c1e1cd3cc4734748037ca9013379567",
       "purpose": "紫金丹后客栈逐句对白、起点演员、整屏淡出及卧房首帧的原生视频、拒绝发布反例与最终原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-cabinet-occlusion-20261119.tar.gz",
+      "bytes": 6461,
+      "sha256": "759c7060ec1d3d5ef2770992641aee19dba8849ed27d5b39f321b9333a523bfe",
+      "purpose": "客栈同一脚点与角色姿态下，柜边和相邻柜面深度及两个渲染器实像素归因。复用已登记的原生录制。"
     }
   ],
   "artifactAliases": [],
