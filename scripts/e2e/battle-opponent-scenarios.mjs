@@ -242,11 +242,13 @@ export async function battleOpponentScenarios(root, selector = 'all') {
       // Ling'er would make the leaf monster end team 40 before command selection.
       const activeHeroes = team === 40 ? [heroes[0], heroes[2]] : heroes
       const partySize = team === 42 ? 3 : opponents.length
+      // The old tree grants a level. Use the original primary-growth HP cap.
+      const hp = team === 222 ? 999 : 2000
       const party = activeHeroes.slice(0, partySize).map((id, index) => ({
         id,
         level: 36,
-        hp: 2000,
-        maxHP: 2000,
+        hp,
+        maxHP: hp,
         defense: 250,
         attack: 6500,
         speed: [900, 600, 300][index],
