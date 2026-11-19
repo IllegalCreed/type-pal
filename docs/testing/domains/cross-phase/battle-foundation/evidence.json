@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5883",
-      "sha256": "f2cf272fba59ab7ec2a80126ec76a56dbd254c1a59d2978c86ba92d57718fcb2"
+      "lines": "5893",
+      "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13669,6 +13669,22 @@
         }
       ],
       "scope": "战外定时叙述归并关闭入口。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-entry-auto-source-rebinding",
+      "base": "814bd6c6195232e432cd39ccbcd450e78b9e2f95",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5883",
+          "sha256": "f2cf272fba59ab7ec2a80126ec76a56dbd254c1a59d2978c86ba92d57718fcb2"
+        }
+      ],
+      "scope": "脚本换场收尾与已恢复自动等待按当前游标接线。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
     }
   ],
   "_governance": {

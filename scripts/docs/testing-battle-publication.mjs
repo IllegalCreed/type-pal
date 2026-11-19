@@ -2044,6 +2044,32 @@ export function restoreTestingQ2NoticeSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, noticeSourceStage, peachSourceBindings)
 }
 
+export const testingQ2EntryAutoPublicationBase = '814bd6c6195232e432cd39ccbcd450e78b9e2f95'
+const entryAutoSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5883: '5893',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2EntryAutoPublicationBase,
+  action: 'q2-entry-auto-source-rebinding',
+  date: '2026-11-20',
+}
+
+export const isTestingQ2EntryAutoSource = (path) => entryAutoSourceStage.ranges.has(path)
+
+export function restoreTestingQ2EntryAutoSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, entryAutoSourceStage, peachSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
