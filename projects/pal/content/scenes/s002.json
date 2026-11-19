@@ -855,6 +855,14 @@
                       }
                     },
                     {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e39"
+                      },
+                      "frame": 2
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
