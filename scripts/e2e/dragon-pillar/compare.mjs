@@ -4,11 +4,39 @@ import { readFile } from 'node:fs/promises'
 import { basename, dirname, resolve } from 'node:path'
 import { recompareBoundStory } from '../bound-story-comparison.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
+import { firstWrongSceneView } from '../scene-handoff.mjs'
 import { compareCollapse } from './compare-collapse.mjs'
 import { card, fragment, party, scope } from './contract.mjs'
 import { compareGallery, galleryEvidence } from './gallery.mjs'
 import { comparePartyTurns, partyTurnEvidence } from './party-turns.mjs'
 import { proofSources, readSpecialProofs } from './special-proof.mjs'
+
+// SSS 24998 places the leader before the cliff opens. The Sword Saint moves
+// during this reveal, so his stride is independently checked by the sage proof.
+const cliffView = { scene: 's150', camera: [960, 416], feet: [1120, 528] }
+
+export function compareCliffArrival(side) {
+  const rows = side.frames.filter(
+    ({ held, needsFade, opacity }) =>
+      !held && !needsFade && (opacity === undefined || opacity < 0.999),
+  )
+  const frames = rows.map(({ at, scene, camera, leader }) => ({
+    atMs: at,
+    world: {
+      scene,
+      camera: [camera.x, camera.y],
+      feet:
+        side.engine === 'game'
+          ? [leader.x, leader.y]
+          : [
+              16 * (leader.position.col - leader.position.row),
+              8 * (leader.position.col + leader.position.row),
+            ],
+    },
+  }))
+  const finding = firstWrongSceneView(frames, cliffView)
+  return { engine: side.engine, first: frames[0], count: frames.length, finding }
+}
 
 async function readSide(path, engine) {
   const directory = dirname(path)
@@ -87,6 +115,7 @@ export async function recomparePillar(root, gamePath, reforgePath) {
         compareCollapse(gamePath, reforgePath),
         readSpecialProofs(root, gamePath, reforgePath),
       ])
+      const arrivals = [special.sage.game, special.sage.reforge].map(compareCliffArrival)
       const turns = comparePartyTurns(game.party, reforge.party)
       const gallery = compareGallery(game.gallery, reforge.gallery)
       const redPaletteFindings = []
@@ -120,6 +149,7 @@ export async function recomparePillar(root, gamePath, reforgePath) {
           ...redPaletteFindings,
           ...gallery.findings,
           ...special.findings,
+          ...arrivals.flatMap(({ engine, finding }) => (finding ? [{ engine, ...finding }] : [])),
           ...collapse.differences.map((finding) => ({ ...finding, type: 'collapse-presentation' })),
         ],
         party: { game: game.party, reforge: reforge.party, explainedAssets: turns.explainedAssets },
@@ -131,6 +161,7 @@ export async function recomparePillar(root, gamePath, reforgePath) {
         collapse,
         interlude: special.interlude,
         sage: special.sage,
+        arrivals,
       }
     },
   })

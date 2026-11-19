@@ -144,7 +144,8 @@ def read_side(path, engine):
         "nativeSageAutoOpCount": len(actual_nudges), "autoBeforeFirstLine": auto,
         "phaseFullAt": full["at"], "steps": steps,
         "firstFull": pixel(actor(full["detail"])), "stopped": pixel(actor(turned["detail"])),
-        "meanIntervalMs": round(mean(intervals), 1) if intervals else None,
+        "firstToSecondMs": round(intervals[0], 1) if intervals else None,
+        "meanIntervalMs": round(mean(intervals[1:]), 1) if len(intervals) > 1 else None,
         "stopRelativeToRevealMs": round(stop["at"] - full["at"], 1) if stop else None,
         "turnRelativeToStopMs": round(turn["at"] - stop["at"], 1) if stop else None,
         "autoSelectionDisabledAt": stop["at"] if stop else None, "leftFacingSelectedAt": turn["at"],
@@ -161,7 +162,9 @@ def read_side(path, engine):
     if game:
         assert [row["position"] for row in steps] == TRAVEL
         assert [row["frame"] for row in steps] == GAIT
-        assert source["firstFull"] == (1080, 596)
+        assert source["firstFull"] == TRAVEL[0]
+        assert 630 <= source["firstToSecondMs"] <= 770
+        assert 90 <= source["meanIntervalMs"] <= 110
         assert source["stopped"] == END
         assert source["nativeSageAutoOpCount"] == len(TRAVEL)
         assert not source["movesAfterTurn"]
@@ -178,6 +181,9 @@ def visual_issues(game, reforge):
                        "expectedSteps": len(TRAVEL), "actualSteps": len(reforge["steps"])})
     if [row["frame"] for row in reforge["steps"]] != GAIT:
         issues.append({"kind": "walk-frame-order", "expected": GAIT, "actual": [row["frame"] for row in reforge["steps"]]})
+    first = reforge["firstToSecondMs"]
+    if first is None or abs(first - game["firstToSecondMs"]) > 75:
+        issues.append({"kind": "reveal-hold-before-second-step", "gameMs": game["firstToSecondMs"], "reforgeMs": first})
     if reforge["meanIntervalMs"] is None or abs(reforge["meanIntervalMs"] - game["meanIntervalMs"]) > 15:
         issues.append({"kind": "walk-beat", "gameMs": game["meanIntervalMs"], "reforgeMs": reforge["meanIntervalMs"]})
     if any(row["facing"] != "up" for row in reforge["steps"]) or reforge["movesAfterTurn"]:

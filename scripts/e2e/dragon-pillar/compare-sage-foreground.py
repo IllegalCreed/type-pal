@@ -39,21 +39,22 @@ def check_author_scene(report, issues, working_scene):
     flow = variant["flow"]
     stage, = (row for row in flow["stages"] if row["id"] == flow["initial"])
     entry = stage["entry"]
-    expected_reveal = {"kind": "fade", "outMs": 0, "inMs": 600, "withBody": True}
+    expected_reveal = {"kind": "fade", "outMs": 0, "inMs": 600}
     if entry["reveal"] != expected_reveal:
-        issues.append({"kind": "author-reveal-does-not-own-body", "actual": entry["reveal"]})
+        issues.append({"kind": "author-reveal-does-not-hold-the-first-step", "actual": entry["reveal"]})
     prepare = entry["prepare"]
     prepare_kinds = [row["kind"] for row in prepare]
-    if prepare_kinds != ["shakeScreen", "teleportParty"]:
-        issues.append({"kind": "author-prepare-should-only-clear-shake-and-place-party"})
+    if (prepare_kinds != ["shakeScreen", "teleportParty", *STRIDE] or
+            any(row.get("target") != SAGE for row in prepare[2:])):
+        issues.append({"kind": "author-prepare-must-place-party-and-commit-first-step"})
     repeats = [row for row in stage["body"] if row["kind"] == "repeat"]
-    walk = next((row for row in repeats if row.get("count") == 15 and
+    walk = next((row for row in repeats if row.get("count") == 14 and
                  [leaf["kind"] for leaf in row["body"]] == list(STRIDE) and
                  all(leaf.get("target") == SAGE for leaf in row["body"]) and
                  row.get("intervalMs") == 100), None)
     if not walk or not walk.get("label", "").strip():
-        issues.append({"kind": "author-body-lacks-named-fifteen-beat-walk"})
-    if stage["body"][:2] != [walk, {"kind": "wait", "ms": 400}]:
+        issues.append({"kind": "author-body-lacks-the-fourteen-remaining-steps"})
+    if stage["body"][:3] != [{"kind": "wait", "ms": 100}, walk, {"kind": "wait", "ms": 400}]:
         issues.append({"kind": "author-first-and-last-beats-lack-explicit-timing"})
     return {
         "revision": revision, "path": SCENE, "sha256": digest, "variant": hook["initial"],
@@ -111,7 +112,7 @@ def check_sage_foreground(report_path, side, working_scene):
     for i, target in enumerate(visuals.TRAVEL):
         moved, painted = strides[2 * i:2 * i + 2]
         move_effect, paint_effect = paints[2 * i:2 * i + 2]
-        logical_phase = "body"
+        logical_phase = "body" if i else "prepare"
         clocks = [row["clock"] for row in (moved, move_effect, painted, paint_effect)]
         clocks += [moved["runnerClock"], painted["runnerClock"]]
         one_clock = clocks[0] is not None and all(clock == clocks[0] for clock in clocks)
@@ -126,13 +127,13 @@ def check_sage_foreground(report_path, side, working_scene):
         proof["strides"].append(audited)
         if (scope != (logical_phase, logical_phase) or not one_clock or exact_pixel != target or
                 [moved["dx"], moved["dy"], move_effect["dx"], move_effect["dy"]] != [8, -4, 8, -4] or
-                move_effect["held"] or paint_effect["held"] or
+                move_effect["held"] != (i == 0) or paint_effect["held"] != (i == 0) or
                 not moved["at"] <= move_effect["at"] <= painted["at"] <= paint_effect["at"]):
             issues.append({"kind": "wrong-stride-clock-position-or-phase", **audited})
-    if not any(0.001 < row["fadeBlack"] < 0.999 for row in proof["strides"][1:]):
-        issues.append({"kind": "body-never-moves-on-real-fade"})
-    if not reveal or reveal[0]["clock"] != proof["strides"][0]["clocks"][0] or not reveal[0]["at"] <= proof["strides"][0]["effectAt"]:
-        issues.append({"kind": "first-stride-is-not-in-the-reveal-start-clock"})
+    if any(row["fadeBlack"] > 0.001 for row in proof["strides"][1:]):
+        issues.append({"kind": "later-stride-ran-before-the-reveal-completed"})
+    if not reveal or proof["strides"][0]["effectAt"] > reveal[0]["at"]:
+        issues.append({"kind": "first-stride-did-not-prepare-before-reveal"})
     first_visible = next((frame for frame in side["frames"] if 0 <= frame["opacity"] < 0.999), None)
     if (first_visible is None or visuals.pixel(visuals.actor(first_visible)) != visuals.TRAVEL[0] or
             visuals.actual_index(visuals.drawing(first_visible)) != visuals.GAIT[0] or
