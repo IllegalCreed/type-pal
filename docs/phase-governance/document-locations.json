@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "8ce3f8f1e07a5750f4c32b5566827fecffa5452fa155ae87ad4dca67995bd7b6",
+      "afterSha256": "4b4838b3146b59c9ef62c4b7aa66b869146150d226e87d09d653f586a29c9ac3",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外概率门证据复核",
+        "reviewer": "Codex 感知香原始轨迹复核",
         "date": "2026-11-19",
-        "conclusion": "核原始盐巴指令与用物完成分支。",
-        "reviewedLines": 1882,
-        "acceptanceScope": "核战外盐巴两个抽样分支及全体用物的扣库存条件。"
+        "conclusion": "核原地转向、步态和已编排动作的优先顺序。",
+        "reviewedLines": 1884,
+        "acceptanceScope": "核两种感知香的原地步态、追逐范围和原始计时。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "e1135794c90be71f0dfa297faa90190118288d033651dd493b6ea7aa8acd590b",
+      "afterSha256": "9d01b92ed425fe2c56c649ed5a23c33715c9ce256ffcf9e3f209b912bb3f4229",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 338,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "reviewer": "Codex 感知香原始轨迹复核",
+        "date": "2026-11-19",
+        "conclusion": "核原地转向、步态和已编排动作的优先顺序。",
+        "reviewedLines": 340,
+        "acceptanceScope": "核引擎追逐、原地步态与脚本拥有姿态之间的边界。"
       },
       "templateId": "design-spec-v1"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "5dd6a43c7c712d9ada0e17ba2b12c86d3d0abbc0507665098bfcbf6ae82000e7",
+      "afterSha256": "809446f56c22818c8d12cf7f3c844e24c2d6b87fff11e5e7de6a4430386c369c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外解毒状态复核",
+        "reviewer": "Codex 感知香原始轨迹复核",
         "date": "2026-11-19",
-        "conclusion": "核双端执行、盐巴边界、逐项结果与分屏归档。",
-        "reviewedLines": 913,
-        "acceptanceScope": "核准入、修前反例、源候选验收回执和产物退出。"
+        "conclusion": "核原地转向、步态和已编排动作的优先顺序。",
+        "reviewedLines": 919,
+        "acceptanceScope": "核两香实跑范围、两组修前原件与炼化读物的行为验收。"
       }
     },
     {

@@ -38,6 +38,7 @@ export interface WorldSpriteInput {
   entityGaitSource?(id: string): MotionSource | undefined
   entityExplicitAnimation(id: string): number | undefined
   entityActionFrame(id: string): number | undefined
+  entityIdleWalkPhase?(entity: EntityDef): number | undefined
   entityLayer(id: string): number | undefined
   party: readonly PartyMember[]
   partyVisual(member: PartyMember): { def: SpriteDef; frames: LoadedSprite } | undefined
@@ -133,6 +134,7 @@ export class WorldScenePresentation {
       const explicitAnimation = input.entityExplicitAnimation(entity.id)
       const hasOverride = this.entityFrames.has(entity.id)
       const actionFrame = input.entityActionFrame(entity.id)
+      const idleWalk = input.entityIdleWalkPhase?.(entity)
       // Movement phases start at one. Non-directional hostile walks start with resource frame zero.
       const frameIndex = definition
         ? hasOverride
@@ -152,7 +154,9 @@ export class WorldScenePresentation {
                 ? actualFrameIndex(actionFrame, frameCount ?? 0)
                 : definition.layout.kind === 'loop'
                   ? loopFrameIndex(definition.layout, input.now(), frameCount ?? 0)
-                  : idleFrameIndex(definition.layout, facing, frameCount)
+                  : idleWalk !== undefined
+                    ? animFrameIndex(definition.layout, facing, idleWalk, frameCount ?? 1)
+                    : idleFrameIndex(definition.layout, facing, frameCount)
         : 0
       const frame = definition ? loaded?.frames[frameIndex] : undefined
       if (!loaded || !frame) {

@@ -141,6 +141,57 @@ describe('WorldScenePresentation sprite ownership', () => {
     expect(instance.renderedEntityFrame('npc')).toBe(5)
   })
 
+  test('in-place walking advances facing frames while an authored action owns its frame', () => {
+    const { instance } = presentation()
+    const entity: EntityDef = {
+      id: 'bee',
+      sprite: 'bee-sprite',
+      pos: { col: 4, row: 1, height: 0 },
+      facing: 'up',
+      hostile: {
+        enemyTeamId: 'team-bee',
+        chase: { range: 8, speed: 6, floating: true },
+      },
+    }
+    const definition: SpriteDef = {
+      id: 'bee-sprite',
+      label: 'Bee',
+      asset: 'sprite.bee',
+      layout: { kind: 'directional', framesPerDir: 2 },
+    }
+    const frames = loaded(8)
+    const draw = (idlePhase?: number, actionFrame?: number) =>
+      instance.sprites({
+        entities: [entity],
+        visible: () => true,
+        entitySprite: () => definition,
+        loadedSprite: () => frames,
+        entityGait: () => undefined,
+        entityExplicitAnimation: () => undefined,
+        entityActionFrame: () => actionFrame,
+        entityIdleWalkPhase: (target) => (target === entity ? idlePhase : undefined),
+        entityLayer: () => undefined,
+        party: [],
+        partyVisual: () => undefined,
+        player: {
+          pos: { col: 0, row: 0, height: 0 },
+          facing: 'down',
+          walking: false,
+          stepFrame: 0,
+          layer: 0,
+        },
+        followers: [],
+        extraFollowerSpriteIds: [],
+        extraFollowerPosition: () => ({ pos: { col: 0, row: 0, height: 0 }, facing: 'down' }),
+        spriteById: () => undefined,
+        now: () => 0,
+      })[0]?.frame
+    expect(draw(-2)).toBe(frames.frames[4])
+    expect(draw(-1)).toBe(frames.frames[5])
+    expect(draw(-1, 7)).toBe(frames.frames[7])
+    expect(draw()).toBe(frames.frames[4])
+  })
+
   test('only static hostile gait advances actual frames and returns to idle when the gait ends', () => {
     const { instance } = presentation()
     const definition: SpriteDef = {

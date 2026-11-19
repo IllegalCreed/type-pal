@@ -4852,14 +4852,15 @@ export async function bootGame(
     if (!live) pendingChaseTerminal.delete(entityId)
     return live
   }
+  const hostileControlAvailable = (entity: EntityDef): boolean =>
+    !authority.has(entity.id) && entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed
   const eligibleHostiles = (): EntityDef[] =>
     activeScene.scene.entities
       .filter(
         (entity) =>
           !!entity.hostile &&
           !hasLivePendingChaseTerminal(entity.id) &&
-          !authority.has(entity.id) &&
-          entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed,
+          hostileControlAvailable(entity),
       )
       .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
   const hostileAtContact = (
@@ -4885,16 +4886,26 @@ export async function bootGame(
       if (!isAbortError(error)) console.error('[battle] hostile encounter', entity.id, error)
     })
   }
+  const repelTurnMs = 2 * STEP_MS
+  const repelFacings: readonly Facing[] = ['down', 'left', 'up', 'right']
+
   function tickHostiles(dt: number): void {
-    // Only accrue readiness here. Contact claims and movement are linearized by advanceMoves on the
-    // shared 100ms snapshot, so hostiles can no longer race the player/entity commit order.
+    // Contact claims and movement are linearized by advanceMoves on the shared 100ms snapshot.
     if (!hostileMotionGateOpen()) return
     let awarenessMultiplier = 1
+    let repelTurns = 0
     const awareness = world.hostileAwareness
     if (awareness) {
-      awareness.remainingMs = Math.max(0, awareness.remainingMs - dt)
+      const before = awareness.remainingMs
+      awareness.remainingMs = Math.max(0, before - dt)
       if (awareness.remainingMs <= 0) world.hostileAwareness = undefined
-      else awarenessMultiplier = awareness.rangeMultiplier
+      else {
+        awarenessMultiplier = awareness.rangeMultiplier
+        // 驱魔香使原本会追逐的明雷每两拍原地转向（script.c:486–498）。
+        if (awarenessMultiplier === 0)
+          repelTurns =
+            Math.ceil(before / repelTurnMs) - Math.ceil(awareness.remainingMs / repelTurnMs)
+      }
     }
     for (const e of eligibleHostiles()) {
       const h = e.hostile
@@ -4907,7 +4918,11 @@ export async function bootGame(
         hostileReady.delete(e.id)
         hostileMotionEpoch.delete(e.id)
         clearMotionStick({ kind: 'entity', id: e.id })
-        continue // 原地怪 / 出程:不动
+        if (chase && repelTurns > 0) {
+          const index = repelFacings.indexOf(e.facing ?? 'down')
+          e.facing = expectDefined(repelFacings[(index + repelTurns) % repelFacings.length])
+        }
+        continue
       }
       hostileReady.add(e.id)
       if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, motion.nextCommandEpoch())
@@ -6017,6 +6032,11 @@ export async function bootGame(
         authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
           ? authoredPartyFacing.facing
           : facing
+      const awareness = world.hostileAwareness
+      const repelWalkPhase =
+        awareness?.rangeMultiplier === 0 && awareness.remainingMs > 0
+          ? -Math.ceil(awareness.remainingMs / STEP_MS)
+          : undefined
       const sprites = worldPresentation.sprites({
         entities: activeScene.scene.entities,
         visible: (entity) => entityLifecycleGates(entity).visible,
@@ -6030,6 +6050,13 @@ export async function bootGame(
         entityGaitSource: (id) => motion.gaitOwner(id)?.source,
         entityExplicitAnimation: (id) => motion.explicitAnimation(id),
         entityActionFrame: (id) => entityActions.frame(id),
+        entityIdleWalkPhase: (entity) =>
+          repelWalkPhase !== undefined &&
+          entity.hostile?.chase &&
+          !pendingChaseTerminal.has(entity.id) &&
+          hostileControlAvailable(entity)
+            ? repelWalkPhase
+            : undefined,
         entityLayer: (id) => runtimeScript.entityLayer?.[id],
         party: world.party,
         partyVisual,
