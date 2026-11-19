@@ -83,6 +83,24 @@ describe('invalid registry shape', () => {
       }),
     ).toThrow('worldVariables.v.initial: number 期望有限数值')
   })
+  test.each([
+    ['', 'worldVariables.<empty>: 不能为空'],
+    ['a b', 'worldVariables.a b: 只允许字母开头及字母、数字、点、冒号、下划线、连字符'],
+  ])('登记表拒绝无效键 %j 并定位实际条目', (id, message) => {
+    const definition = variableDefinitions()['flag.opened-chest:1']
+    expect(() => validateWorldVariableRegistryV1({ [id]: definition })).toThrow(new Error(message))
+  })
+
+  test.each([
+    [{ name: ' A' }, 'worldVariables.entry.name: 不得包含首尾空格'],
+    [{ description: 3 }, 'worldVariables.entry.description: 期望字符串'],
+  ])('登记表拒绝格式错误的标签字段 %j', (invalid, message) => {
+    const definition = variableDefinitions()['flag.opened-chest:1']
+    expect(() => validateWorldVariableRegistryV1({ entry: { ...definition, ...invalid } })).toThrow(
+      new Error(message),
+    )
+  })
+
   test('验证拒绝不修改原输入（同一对象深快照在最后消费后比较）', () => {
     const bad = {
       v: { kind: 'number', name: 'n', description: '', initial: Number.NaN },

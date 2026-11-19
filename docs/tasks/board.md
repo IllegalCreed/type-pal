@@ -49,7 +49,16 @@ Template: governance-index-v1 / 1.0.0
 
 全量父卡、catalog/registry存储、原生JSON/Vitest与记录可信度五子卡已经按后继有效接受和最终主线硬门收口，006任务仅复用原技术/用户判断解除集成停止线。终态卡从活动分工退出，通过[生成索引](cards/index.md)检索；旧R波撤信不恢复，未知历史来源不认证。
 
+### 代码治理：内容资产批次留项
+
+九张卡仍为 draft，各自记录停止线、证据和接续范围。
+
+- Content／Editor：[旧脚本分片](cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md)、[登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)、[迁移能力校验](cards/CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1.md)、[帧编码 Worker](cards/EDITOR-FRAME-WORKER-POST-CLEANUP-1.md)。
+- Reforge：[本地对象 URL](cards/REFORGE-FSA-URL-OWNERSHIP-1.md)、[静态图片缓存](cards/REFORGE-IMAGE-CACHE-DISPOSAL-1.md)、[过场换版缓存](cards/REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md)、[视频重试](cards/REFORGE-VIDEO-PLAY-RETRY-1.md)、[命名落点](cards/REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md)。
+
 ### 代码治理：最近完成的文件批次
+
+`QUALITY-CONTENT-ASSET-CONTRACTS-1` 已接受 Content 校验和夹具、Editor 资源工具及 Reforge 资源和呈现事务的 97 个原文件，14 个继续 review。ActiveScene 两个证据绑定归活跃 E2E 的文件保持 pending。质量门和必要失败复验见[单一执行归档](evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz)。
 
 `QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
 

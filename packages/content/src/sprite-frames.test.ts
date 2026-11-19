@@ -15,13 +15,20 @@ function validateWorldSprite(layout: SpriteDef['layout'], poses?: SpriteDef['pos
 }
 
 test.each([
-  { layout: { kind: 'static' }, frameCount: 1 },
-  { layout: { kind: 'directional', framesPerDir: 3 }, frameCount: 12 },
+  { layout: { kind: 'static' }, frameCount: 1, frames: [0] },
+  {
+    layout: { kind: 'directional', framesPerDir: 3 },
+    frameCount: 12,
+    frames: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  },
 ] satisfies {
   layout: SpriteDef['layout']
   frameCount: number
-}[])('computes the declared demand for $layout.kind layout', ({ layout, frameCount }) => {
-  expect(spriteDefinitionFrameDemand(validateWorldSprite(layout))).toBe(frameCount)
+  frames: number[]
+}[])('computes the declared demand for $layout.kind layout', ({ layout, frameCount, frames }) => {
+  const sprite = validateWorldSprite(layout)
+  expect(spriteDefinitionFrameDemand(sprite)).toBe(frameCount)
+  expect([...spriteDefinitionFrameIndices(sprite)]).toEqual(frames)
 })
 
 test('includes out-of-layout actions and deduplicates reused frame numbers', () => {

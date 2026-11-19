@@ -1,50 +1,66 @@
-import { describe, expect, test, vi } from 'vitest'
+import { expect, test } from 'vitest'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 
-describe('ScreenHoldTransaction', () => {
-  test('正常 hold/reveal 精确配对，重复 reveal fail-loud', () => {
-    const transaction = new ScreenHoldTransaction()
-    transaction.begin('night')
-    expect(transaction.active?.token).toBe('night')
-    transaction.takeForReveal('night')
-    expect(transaction.active).toBeNull()
-    expect(() => transaction.takeForReveal('night')).toThrow(/token 不匹配/)
-  })
+test('a matching reveal consumes the handle, while mismatches leave it available', () => {
+  const hold = new ScreenHoldTransaction()
+  const current = hold.begin('night')
+  expect(() => hold.takeForReveal('morning')).toThrow('黑屏恢复 token 不匹配: morning')
+  expect(hold.takeForReveal('night')).toBe(current)
+  expect(() => hold.takeForReveal('night')).toThrow('黑屏恢复 token 不匹配: night')
+})
 
-  test('跨 token reveal fail-loud 且不丢当前事务', () => {
-    const transaction = new ScreenHoldTransaction()
-    transaction.begin('night')
-    expect(() => transaction.takeForReveal('morning')).toThrow(/token 不匹配/)
-    expect(transaction.active?.token).toBe('night')
-  })
+test('a stale owner cannot cancel a new hold with the same token', () => {
+  const hold = new ScreenHoldTransaction()
+  const first = hold.begin('night')
+  const current = hold.begin('night')
+  hold.cancelOwned(first)
+  expect(hold.active).toBe(current)
+  hold.cancelOwned(current)
+  expect(() => hold.takeForReveal('night')).toThrow('黑屏恢复 token 不匹配: night')
+})
 
-  test('二次 begin 接管后，旧 owner cleanup 不能清掉新事务', () => {
-    const transaction = new ScreenHoldTransaction()
-    const first = transaction.begin('first')
-    const second = transaction.begin('second')
-    transaction.cancelOwned(first)
-    expect(transaction.active?.owner).toBe(second.owner)
-    expect(transaction.active?.token).toBe('second')
-  })
+test('rejecting an empty token leaves the running hold intact', () => {
+  const hold = new ScreenHoldTransaction()
+  const current = hold.begin('night')
+  expect(() => hold.begin('')).toThrow('黑屏保持 token 不能为空')
+  expect(hold.takeForReveal('night')).toBe(current)
+})
 
-  test.each(['脚本 abort', '读档', 'loadScene'])('%s 使用同一 cancel finalizer', () => {
-    const transaction = new ScreenHoldTransaction()
-    transaction.begin('held')
-    transaction.cancel()
-    expect(transaction.active).toBeNull()
-  })
+test('host cancellation clears the hold even without its handle', () => {
+  const hold = new ScreenHoldTransaction()
+  hold.begin('night')
+  hold.cancel()
+  hold.cancel()
+  expect(() => hold.takeForReveal('night')).toThrow('黑屏恢复 token 不匹配: night')
+})
 
-  test('renderer error 先执行 finalizer，再保留原错误', () => {
-    const transaction = new ScreenHoldTransaction()
-    transaction.begin('held')
-    const finalize = vi.fn(() => transaction.cancel())
-    const error = new Error('renderer failed')
-    expect(() =>
-      runWithPresentationFinalizer(() => {
+test('normal rendering returns its value and leaves the current hold untouched', () => {
+  const hold = new ScreenHoldTransaction()
+  const current = hold.begin('night')
+  const image = ['rendered map']
+  expect(
+    runWithPresentationFinalizer(
+      () => image,
+      () => hold.cancel(),
+    ),
+  ).toBe(image)
+  expect(hold.takeForReveal('night')).toBe(current)
+})
+
+test('a rendering error reaches the host only after it canceled the presentation', () => {
+  const hold = new ScreenHoldTransaction()
+  hold.begin('night')
+  const error = new Error('renderer failed')
+  try {
+    runWithPresentationFinalizer(
+      () => {
         throw error
-      }, finalize),
-    ).toThrow(error)
-    expect(finalize).toHaveBeenCalledOnce()
-    expect(transaction.active).toBeNull()
-  })
+      },
+      () => hold.cancel(),
+    )
+    throw new Error('render failure was swallowed')
+  } catch (caught) {
+    expect(caught).toBe(error)
+    expect(() => hold.takeForReveal('night')).toThrow('黑屏恢复 token 不匹配: night')
+  }
 })

@@ -1,96 +1,116 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { httpSource } from './file-source.js'
+import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
 
-describe('httpSource', () => {
-  afterEach(() => vi.restoreAllMocks())
+const projectUrl = 'projects/pal'
+const manifestPath = 'manifest.json'
 
-  test('readJson / readText:base 拼 rel 后 fetch,返回解析结果', async () => {
-    const fetchMock = vi.fn(
-      async (url: string) => new Response(JSON.stringify({ at: url }), { status: 200 }),
-    )
-    vi.stubGlobal('fetch', fetchMock)
-    const s = httpSource('projects/pal')
-    expect(await s.readJson('manifest.json')).toEqual({ at: 'projects/pal/manifest.json' })
-    expect(await s.readText('content/a.json')).toContain('projects/pal/content/a.json')
-  })
+afterEach(() => vi.unstubAllGlobals())
 
-  test('所有读取都拒绝绝对路径', async () => {
-    const fetchMock = vi.fn(async () => new Response('x', { status: 200 }))
-    vi.stubGlobal('fetch', fetchMock)
-    const s = httpSource('projects/pal')
-    await expect(s.readText('/extracted/data/maps/1.json')).rejects.toThrow('禁止绝对路径')
-    expect(fetchMock).not.toHaveBeenCalled()
-  })
+describe('HTTP project reads', () => {
+  test('requests the registered relative paths and returns the native response data', async () => {
+    const reply = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response('{"n":7,"label":"中文"}'))
+      .mockResolvedValueOnce(new Response(' \n{ "id": "target" }\n'))
+      .mockResolvedValueOnce(new Response(Uint8Array.of(1, 2, 3)))
+    vi.stubGlobal('fetch', reply)
+    const source = httpSource(`${projectUrl}/`)
 
-  test('readBytes 返回 ArrayBuffer', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => new Response(new Uint8Array([1, 2, 3]), { status: 200 })),
-    )
-    const s = httpSource('projects/pal')
-    const buf = await s.readBytes('assets/x.rle')
-    expect(new Uint8Array(buf)).toEqual(new Uint8Array([1, 2, 3]))
-  })
-
-  test('非 200 抛错带 url + 状态码', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => new Response('', { status: 404 })),
-    )
-    const s = httpSource('projects/pal')
-    await expect(s.readJson('nope.json')).rejects.toThrow('404')
-  })
-
-  test('AbortSignal 透传 fetch，取消未完成读取', async () => {
-    const fetchMock = vi.fn(
-      (_url: string, init?: RequestInit) =>
-        new Promise<Response>((_resolve, reject) => {
-          init?.signal?.addEventListener(
-            'abort',
-            () => reject(new DOMException('aborted', 'AbortError')),
-            { once: true },
-          )
-        }),
-    )
-    vi.stubGlobal('fetch', fetchMock)
-    const ac = new AbortController()
-    const reading = httpSource('projects/pal').readJson('content/scripts/chunk.json', ac.signal)
-    ac.abort()
-    await expect(reading).rejects.toMatchObject({ name: 'AbortError' })
-    expect(fetchMock.mock.calls[0]?.[1]?.signal).toBe(ac.signal)
-  })
-
-  test('urlFor:相对拼 base，绝对路径被拒绝', async () => {
-    const s = httpSource('projects/pal')
-    expect(await s.urlFor('content/a.json')).toBe('projects/pal/content/a.json')
-    await expect(s.urlFor('/extracted/x.png')).rejects.toThrow('禁止绝对路径')
-  })
-
-  test('恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障', async () => {
-    const fetchMock = vi.fn(async () => new Response('', { status: 404 }))
-    vi.stubGlobal('fetch', fetchMock)
-    await expect(
-      httpSource('projects/pal').readText('.type-pal/save-state.json'),
-    ).rejects.toMatchObject({
-      name: 'NotFoundError',
-    })
-    expect(fetchMock.mock.calls[0]).toEqual([
-      'projects/pal/.type-pal/save-state.json',
-      { cache: 'no-store' },
+    await expect(source.readJson(manifestPath)).resolves.toEqual({ n: 7, label: '中文' })
+    await expect(source.readText('content/a.json')).resolves.toBe(' \n{ "id": "target" }\n')
+    expect(new Uint8Array(await source.readBytes('assets/x.rle'))).toEqual(Uint8Array.of(1, 2, 3))
+    expect(reply.mock.calls).toEqual([
+      [`${projectUrl}/manifest.json`],
+      [`${projectUrl}/content/a.json`],
+      [`${projectUrl}/assets/x.rle`],
     ])
   })
 
-  test('恢复状态的 HTTP 403/500 不伪装成缺文件', async () => {
-    for (const status of [403, 500]) {
-      vi.stubGlobal(
-        'fetch',
-        vi.fn(async () => new Response('', { status })),
-      )
-      await expect(
-        httpSource('projects/pal').readText('.type-pal/save-state.json'),
-      ).rejects.not.toMatchObject({
-        name: 'NotFoundError',
+  test('passes the native JSON syntax error through to the caller', async () => {
+    vi.stubGlobal('fetch', vi.fn<typeof fetch>().mockResolvedValue(new Response('{"incomplete":')))
+    await expect(httpSource(projectUrl).readJson(manifestPath)).rejects.toBeInstanceOf(SyntaxError)
+  })
+
+  test('rejects an absolute path from any entry before requesting it', async () => {
+    const reply = vi.fn<typeof fetch>()
+    vi.stubGlobal('fetch', reply)
+    const source = httpSource(projectUrl)
+    const absolute = '/extracted/data/maps/1.json'
+    const diagnostic = new Error(`FileSource 路径: 禁止绝对路径 "${absolute}"`)
+    await expect(source.readText(absolute)).rejects.toThrow(diagnostic)
+    await expect(source.readJson(absolute)).rejects.toThrow(diagnostic)
+    await expect(source.readBytes(absolute)).rejects.toThrow(diagnostic)
+    await expect(source.urlFor(absolute)).rejects.toThrow(diagnostic)
+    expect(reply).not.toHaveBeenCalled()
+  })
+
+  test('constructs a relative URL without contacting the transport', async () => {
+    const reply = vi.fn<typeof fetch>()
+    vi.stubGlobal('fetch', reply)
+    await expect(httpSource(projectUrl).urlFor('content/a.json')).resolves.toBe(
+      `${projectUrl}/content/a.json`,
+    )
+    expect(reply).not.toHaveBeenCalled()
+  })
+
+  test('passes the same abort signal to fetch and preserves its cancellation', async () => {
+    const reply = vi.fn<typeof fetch>(async (_input, init) => {
+      const signal = init?.signal
+      if (!signal) return new Response('null')
+      return new Promise<Response>((_resolve, reject) => {
+        signal.addEventListener('abort', () => reject(signal.reason), { once: true })
       })
-    }
+    })
+    vi.stubGlobal('fetch', reply)
+    const controller = new AbortController()
+    const reading = httpSource(projectUrl).readJson(manifestPath, controller.signal)
+    const rejection = expect(reading).rejects.toBeInstanceOf(DOMException)
+    const reason = new DOMException('cancel this read', 'AbortError')
+    controller.abort(reason)
+    await rejection
+    await expect(reading).rejects.toBe(reason)
+    expect(reply.mock.calls).toEqual([
+      [`${projectUrl}/manifest.json`, { signal: controller.signal }],
+    ])
+  })
+})
+
+describe('HTTP status and project save-state', () => {
+  test('reports a missing ordinary file with its original address and NotFoundError', async () => {
+    const reply = vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 404 }))
+    vi.stubGlobal('fetch', reply)
+    await expect(httpSource(projectUrl).readJson('nope.json')).rejects.toMatchObject({
+      name: 'NotFoundError',
+      message: `httpSource ${projectUrl}/nope.json -> 404`,
+    })
+  })
+
+  test('bypasses the HTTP cache for the project save-state metadata', async () => {
+    const reply = vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 404 }))
+    vi.stubGlobal('fetch', reply)
+    const source = httpSource(projectUrl)
+    const controller = new AbortController()
+    await expect(source.readText(PROJECT_SAVE_STATE_PATH)).rejects.toMatchObject({
+      name: 'NotFoundError',
+    })
+    await expect(source.readText(PROJECT_SAVE_STATE_PATH, controller.signal)).rejects.toMatchObject(
+      {
+        name: 'NotFoundError',
+      },
+    )
+    expect(reply.mock.calls).toEqual([
+      [`${projectUrl}/.type-pal/save-state.json`, { cache: 'no-store' }],
+      [`${projectUrl}/.type-pal/save-state.json`, { cache: 'no-store', signal: controller.signal }],
+    ])
+  })
+
+  test.each([403, 500])('reports HTTP %i as a read error rather than absence', async (status) => {
+    vi.stubGlobal('fetch', vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status })))
+    const reading = httpSource(projectUrl).readText(PROJECT_SAVE_STATE_PATH)
+    await expect(reading).rejects.toMatchObject({
+      name: 'Error',
+      message: `httpSource ${projectUrl}/.type-pal/save-state.json -> ${status}`,
+    })
   })
 })

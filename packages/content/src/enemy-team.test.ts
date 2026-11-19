@@ -36,6 +36,11 @@ describe('enemy team loading', () => {
       message: 'enemyTeams[0].slots: 槽位数超上限 5',
     },
     {
+      label: 'a formation whose slots are not a list',
+      input: [{ id: 'patrol', slots: 'scout' }],
+      message: 'enemyTeams[0].slots: 期望数组',
+    },
+    {
       label: 'a numeric enemy slot',
       input: [{ id: 'patrol', slots: [null, 1] }],
       message: 'enemyTeams[0].slots[1]: 期望 string|null',

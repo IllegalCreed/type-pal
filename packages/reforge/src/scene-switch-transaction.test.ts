@@ -1,255 +1,33 @@
-import {
-  buildWorld,
-  emptyWorldScriptState,
-  type RuntimeSceneDef,
-  type WorldEntityBehaviorState,
-  type WorldState,
-} from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import { sceneFixture } from './__tests__/world-async-fixture.js'
+import { deferred } from './__tests__/world-async-fixture.js'
 import { AsyncIntentController } from './async-intent.js'
 import { DitherTransitionController } from './dither-transition.js'
 import { SupersedingFadeDriver } from './fade-driver.js'
-import {
-  assertSceneSwitchDependenciesCurrent,
-  captureSceneSwitchDependencies,
-  prepareAndCommitSceneSwitch,
-  type SceneActorSpriteOverride,
-} from './scene-switch-transaction.js'
-
-function deferred<T>() {
-  let resolve!: (value: T) => void
-  const promise = new Promise<T>((yes) => {
-    resolve = yes
-  })
-  return { promise, resolve }
-}
-
-function worldFixture(): WorldState {
-  const world = buildWorld(
-    { party: ['hero'], money: 10, inventory: [{ itemId: 'herb', count: 2 }] },
-    {
-      hero: {
-        id: 'hero',
-        name: 'hero',
-        spriteId: 'sprite.hero',
-        portraits: { default: 'portrait.hero' },
-        battler: {
-          baseStats: {
-            level: 1,
-            hp: 10,
-            maxHP: 10,
-            mp: 10,
-            maxMP: 10,
-            attack: 1,
-            defense: 1,
-            magicAttack: 1,
-            speed: 1,
-            luck: 1,
-          },
-          initialEquipment: {},
-          initialMagic: [],
-          battleSprite: 'battle-sprite.hero',
-        },
-      },
-    },
-  )
-  world.script = emptyWorldScriptState()
-  return world
-}
-
-describe('scene switch dependency guard', () => {
-  test('所有预检依赖变化都拒绝陈旧 plan，无关世界字段不误伤', () => {
-    const overrides = new Map<string, SceneActorSpriteOverride>()
-    const base = worldFixture()
-    const definition = sceneFixture('s002')
-    const expected = captureSceneSwitchDependencies(base, base.script!, definition, overrides, true)
-    const mutations: Array<
-      (
-        world: WorldState,
-        definition: RuntimeSceneDef,
-        map: Map<string, SceneActorSpriteOverride>,
-      ) => void
-    > = [
-      (world) => {
-        world.script!.mapOverride = { s002: 'map.changed' }
-      },
-      (world) => {
-        world.party[0]!.appearance = { spriteId: 'sprite.changed' }
-      },
-      (world) => {
-        world.party[0]!.equipment.weapon = 'sword'
-      },
-      (world) => {
-        world.script!.followers = ['sprite.follower']
-      },
-      (world) => {
-        world.inventory[0]!.count++
-      },
-      (world) => {
-        world.script!.behaviors.scenes = { s002: { onEnter: { selection: { kind: 'disabled' } } } }
-      },
-      (world) => {
-        world.script!.behaviors.scenes = {
-          s002: { onEnter: { cursor: { hook: 'before', at: { kind: 'stage', stage: 'two' } } } },
-        }
-      },
-      (_world, _projection, map) => {
-        map.set('hero', { def: { id: 'sprite.override', asset: 'asset.override' } })
-      },
-    ]
-
-    for (const mutate of mutations) {
-      const current = structuredClone(base)
-      const currentDefinition = structuredClone(definition)
-      const currentOverrides = new Map(overrides)
-      mutate(current, currentDefinition, currentOverrides)
-      expect(() =>
-        assertSceneSwitchDependenciesCurrent(
-          expected,
-          captureSceneSwitchDependencies(
-            current,
-            current.script!,
-            currentDefinition,
-            currentOverrides,
-            true,
-          ),
-          '依赖已变化',
-        ),
-      ).toThrowError(expect.objectContaining({ name: 'AbortError' }))
-    }
-
-    const unrelated = structuredClone(base)
-    unrelated.money++
-    unrelated.script!.flags.unrelated = true
-    expect(
-      captureSceneSwitchDependencies(unrelated, unrelated.script!, definition, overrides, true),
-    ).toEqual(expected)
-  })
-
-  test('读档计划显式忽略活动 actor override', () => {
-    const world = worldFixture()
-    const definition = sceneFixture('s002')
-    const before = captureSceneSwitchDependencies(
-      world,
-      world.script!,
-      definition,
-      new Map(),
-      false,
-    )
-    const overrides = new Map<string, SceneActorSpriteOverride>([
-      ['hero', { def: { id: 'sprite.override', asset: 'asset.override' } }],
-    ])
-    expect(
-      captureSceneSwitchDependencies(world, world.script!, definition, overrides, false),
-    ).toEqual(before)
-  })
-})
-
-describe('resolved canonical scene dependencies', () => {
-  const make = () => {
-    const world = worldFixture(),
-      definition = sceneFixture('s002')
-    const entity = definition.entities[0]!
-    entity.behaviors!.auto = {
-      idle: {
-        label: 'idle',
-        order: 0,
-        flow: { kind: 'stages', initial: 'one', stages: [{ id: 'one', body: [] }] },
-      },
-    }
-    entity.pages![0]!.auto = 'idle'
-    entity.pages![0]!.animation = { sprite: 'sprite', action: 'idle', loop: true, startAtMs: 7 }
-    entity.pages![1]!.animation = { sprite: 'sprite', action: 'walk', loop: false }
-    const capture = () =>
-      captureSceneSwitchDependencies(world, world.script!, definition, new Map(), true)
-    return { world, definition, capture }
-  }
-  const changes: Array<[string, WorldEntityBehaviorState]> = [
-    ['page/animation', { page: 'second' }],
-    ['trigger selection', { trigger: { selection: { kind: 'use', value: 'second' } } }],
-    ['trigger disabled', { trigger: { selection: { kind: 'disabled' } } }],
-    ['auto disabled', { auto: { selection: { kind: 'disabled' } } }],
-    ['activation', { triggerActivation: { kind: 'use', value: { on: 'touch', range: 3 } } }],
-    ['activation disabled', { triggerActivation: { kind: 'disabled' } }],
-  ]
-  test.each(changes)('%s changes the actual target projection footprint', (_label, state) => {
-    const h = make(),
-      before = h.capture()
-    h.world.script!.behaviors.entities = { s002: { entity: state } }
-    expect(h.capture()).not.toEqual(before)
-  })
-  test('same resolved IDs/cursor order and unrelated entity cursors do not introduce false invalidation', () => {
-    const h = make(),
-      before = h.capture()
-    h.world.script!.behaviors.entities = {
-      s002: {
-        entity: {
-          page: 'first',
-          trigger: {
-            selection: { kind: 'use', value: 'first' },
-            cursor: { behavior: 'first', at: { kind: 'stage', stage: 'two' } },
-          },
-          auto: { selection: { kind: 'use', value: 'idle' } },
-        },
-      },
-    }
-    h.world.script!.behaviors.scenes = {
-      s002: {
-        onEnter: {
-          selection: { kind: 'use', value: 'before' },
-          cursor: { hook: 'before', at: { stage: 'one', kind: 'stage' } },
-        },
-      },
-    }
-    expect(h.capture()).toEqual(before)
-  })
-  test('empty target and disabled hook ignore state that is not consumed', () => {
-    const h = make()
-    h.definition.entities = []
-    h.definition.hooks = undefined
-    const before = h.capture()
-    h.world.script!.behaviors.entities = { s002: { unused: { page: 'unused' } } }
-    h.world.script!.behaviors.scenes = { s002: { onEnter: { selection: { kind: 'disabled' } } } }
-    expect(h.capture()).toEqual(before)
-  })
-  test('onTeleport selection is also a target scene view dependency', () => {
-    const h = make(),
-      before = h.capture()
-    h.world.script!.behaviors.scenes = { s002: { onTeleport: { selection: { kind: 'disabled' } } } }
-    expect(h.capture()).not.toEqual(before)
-  })
-})
+import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 
 describe('prepareAndCommitSceneSwitch', () => {
-  test.each([
-    'scene',
-    'map',
-    'palette',
-    'sprite',
-    'sound',
-  ])('%s 预检失败零提交并清理当前呈现', async (stage) => {
-    const stop = vi.fn()
+  test('preflight failure preserves the original error and cannot present or publish', async () => {
+    const failure = new Error('map preflight failed')
+    const assertCurrent = vi.fn()
+    const present = vi.fn()
     const commit = vi.fn()
     const cleanup = vi.fn()
     await expect(
       prepareAndCommitSceneSwitch({
         prepare: async () => {
-          throw new Error(`${stage} failed`)
+          throw failure
         },
-        assertCurrent: vi.fn(),
-        present: vi.fn(),
-        commit: (plan) => {
-          stop()
-          commit(plan)
-        },
+        assertCurrent,
+        present,
+        commit,
         shouldCleanup: () => true,
         cleanup,
       }),
-    ).rejects.toThrow(`${stage} failed`)
-    expect(stop).not.toHaveBeenCalled()
+    ).rejects.toBe(failure)
+    expect(assertCurrent).not.toHaveBeenCalled()
+    expect(present).not.toHaveBeenCalled()
     expect(commit).not.toHaveBeenCalled()
-    expect(cleanup).toHaveBeenCalledOnce()
+    expect(cleanup).toHaveBeenCalledTimes(1)
   })
 
   test('A 淡出时 B 预检失败：只由当前 B 收口黑幕，A 不得提交或二次清理', async () => {
@@ -324,6 +102,7 @@ describe('prepareAndCommitSceneSwitch', () => {
     const fade = new SupersedingFadeDriver(1)
     const commits: string[] = []
     const done: string[] = []
+    const revealingA = deferred<void>()
     const aToken = intent.begin()
     const a = (async () => {
       await prepareAndCommitSceneSwitch({
@@ -334,11 +113,14 @@ describe('prepareAndCommitSceneSwitch', () => {
         shouldCleanup: () => intent.isCurrent(aToken),
         cleanup: vi.fn(),
       })
-      await fade.begin(0, 0, 100)
+      const reveal = fade.begin(0, 0, 100)
+      revealingA.resolve()
+      await reveal
       intent.assertCurrent(aToken, 'A post-commit stale')
       done.push('A')
     })()
-    await vi.waitFor(() => expect(commits).toEqual(['A']))
+    await revealingA.promise
+    expect(commits).toEqual(['A'])
     expect(fade.advance(40)).toBeCloseTo(0.6)
 
     const bToken = intent.begin()
@@ -433,22 +215,5 @@ describe('prepareAndCommitSceneSwitch', () => {
     expect(dither.active?.owner).toBe(newerOwner)
     dither.finish()
     await expect(newer).resolves.toBeUndefined()
-  })
-
-  test('停止旧 auto 会失效已经进入资源 await 的 host 提交', async () => {
-    const scriptMutations = new AsyncIntentController()
-    const gate = deferred<void>()
-    const token = scriptMutations.capture()
-    let partyCommitted = false
-    const pending = (async () => {
-      await gate.promise
-      scriptMutations.assertCurrent(token, '旧场景 auto 已停止')
-      partyCommitted = true
-    })()
-
-    scriptMutations.invalidate()
-    gate.resolve()
-    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-    expect(partyCommitted).toBe(false)
   })
 })

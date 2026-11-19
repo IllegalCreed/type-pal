@@ -123,6 +123,7 @@ async function fixture() {
 
 test('readDirectoryCopy inventories nested and empty directories without reading bytes, excludes private identity aliases, and reads lazily', async () => {
   const { source } = await fixture()
+  const expectedFiles = [...source.files.keys()].sort()
   for (const path of [
     SANDBOX_WORKSPACE_MARKER_PATH,
     PAL_DEVELOPMENT_SENTINEL_PATH,
@@ -137,12 +138,12 @@ test('readDirectoryCopy inventories nested and empty directories without reading
   }
   const before = fileSnapshot(source)
   const copied = await readDirectoryCopy(source.dir, fsaSource(source.dir))
-  expect(copied.copies.map((input) => input.path)).toEqual(
-    [...source.files.keys()].filter((path) => !isWorkspaceIdentityPath(path)).sort(),
-  )
+  expect(copied.copies.map((input) => input.path)).toEqual(expectedFiles)
   expect(copied.directories).toEqual([...copied.directories].sort())
   expect(copied.directories).toEqual(expect.arrayContaining(['empty', 'notes', 'notes/nested']))
-  expect(copied.directories.some(isWorkspaceIdentityPath)).toBe(false)
+  expect(copied.directories).not.toContain('.type-pal')
+  expect(copied.directories).not.toContain('.TYPE-PAL')
+  expect(copied.directories).not.toContain('.type-pal.')
   await copied.verify()
   expect(reads).toEqual([])
   expect(fileSnapshot(source)).toEqual(before)
@@ -228,14 +229,16 @@ test('current copy writer preserves nested bytes, real canonical assets and empt
   )
   expect(result.cleanupWarning).toBeUndefined()
   expect((await openLocalProject(target.dir)).project.manifest.name).toBe('current author name')
-  expect(target.files.get('notes/nested/data.bin')).toEqual(binary)
-  expect(target.files.get('notes/nested/text.txt')).toEqual(
-    source.files.get('notes/nested/text.txt'),
+  const savedSource = fsaSource(target.dir)
+  expect(new Uint8Array(await savedSource.readBytes('notes/nested/data.bin'))).toEqual(
+    new Uint8Array(binary),
   )
-  expect(await fsaSource(target.dir).readText('notes/keep.txt')).toBe('unrelated source note')
+  expect(await savedSource.readText('notes/nested/text.txt')).toBe('nested text\n原始字节')
+  expect(await savedSource.readText('notes/keep.txt')).toBe('unrelated source note')
   expect(Object.values(files).some((value) => value instanceof ArrayBuffer)).toBe(true)
   for (const [path, bytes] of Object.entries(files))
-    if (bytes instanceof ArrayBuffer) expect(target.files.get(path)).toEqual(bytes)
+    if (bytes instanceof ArrayBuffer)
+      expect(new Uint8Array(await savedSource.readBytes(path))).toEqual(new Uint8Array(bytes))
   await expect(target.dir.getDirectoryHandle('empty')).resolves.toMatchObject({ kind: 'directory' })
   expect(target.json(SANDBOX_WORKSPACE_MARKER_PATH)).toEqual(sandboxMarkerFor(context))
   expect(context.workspaceId).not.toBe(sourceContext.workspaceId)

@@ -52,6 +52,7 @@ test('world and explicit script are frozen before the first scene read can resum
     const plan = await pending
     expect(plan.dependencies.mapOverride).toBe('map-extra-0')
     expect(plan.dependencies.followers).toEqual(['other'])
+    expect([...plan.neededSprites]).toEqual(['sprite', 'sprite-other'])
     expect(plan.dependencies.party[0]!.spriteId).toBeNull()
     expect(f.readCalls).toContain('map:map-extra-0')
     expect(f.readCalls).not.toContain('map:map-extra-1')
@@ -71,8 +72,8 @@ test('actor override definitions are cloned on entry while the selected world ca
   const f = await scenePreparationFixture(),
     gate = deferredScene<void>()
   const override = {
-    def: structuredClone(f.project.spritesById.walker!),
-    frames: await f.ports.loadSprite('sprite'),
+    def: structuredClone(f.project.spritesById.other!),
+    frames: await f.ports.loadSprite('sprite-other'),
   }
   f.overrides.set('hero', override)
   const read = f.ports.canonicalScene
@@ -82,13 +83,16 @@ test('actor override definitions are cloned on entry while the selected world ca
   }
   const pending = f.preparer.prepare('a', f.world)
   try {
-    override.def.id = 'other'
+    override.def.id = 'walker'
+    override.def.asset = 'sprite'
     gate.resolve()
     const plan = await pending
-    expect(plan.dependencies.actorOverrides[0]).toEqual(['hero', 'walker', 'sprite'])
+    expect(plan.dependencies.actorOverrides[0]).toEqual(['hero', 'other', 'sprite-other'])
+    expect([...plan.neededSprites]).toEqual(['sprite', 'sprite-other'])
     expect(() => f.preparer.assertCurrent(plan, f.world)).toThrow(/预检依赖已变化/)
     const without = await f.preparer.prepare('a', f.world, undefined, false)
     expect(without.dependencies.actorOverrides).toEqual([])
+    expect([...without.neededSprites]).toEqual(['sprite'])
     expect(() => f.preparer.assertCurrent(without, f.world)).not.toThrow()
   } finally {
     gate.resolve()
@@ -164,7 +168,7 @@ test.each([
   expect(() => f.preparer.assertCurrent(plan, f.world)).toThrow(/预检依赖已变化/)
 })
 
-test('unrelated money and flags remain allowed and missing script is not filled into the caller', async () => {
+test('unrelated money is allowed and a missing script is not filled into the caller', async () => {
   const f = await scenePreparationFixture()
   delete f.world.script
   const before = structuredClone(f.world)

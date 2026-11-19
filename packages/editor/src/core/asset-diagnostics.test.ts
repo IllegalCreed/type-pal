@@ -1,12 +1,14 @@
 import {
-  type AssetCatalogV1,
+  collectAssetReferences,
   type LocatedAssetReference,
+  validateActors,
+  validateAssetCatalog,
   validateAuthorScenes,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { collectEditorAssetDiagnostics, editorAssetCatalogTitle } from './asset-diagnostics.js'
 import { collectCanonicalAssetReferenceEntries } from './project-reference-adapters.js'
-import { collectCanonicalScriptCommandVisits, type ScriptEditorState } from './script-editor.js'
+import { collectCanonicalScriptCommandVisits } from './script-editor.js'
 
 describe('编辑器资源诊断展示', () => {
   test('目录标题对空白标签使用唯一 AssetKind 中文 owner，且不接收 AssetId 回退', () => {
@@ -14,6 +16,8 @@ describe('编辑器资源诊断展示', () => {
       ['music', '未命名音乐'],
       ['sound', '未命名音效'],
       ['battle-sprite', '未命名战斗精灵'],
+      ['battle-background', '未命名战斗背景'],
+      ['portrait', '未命名角色立绘'],
       ['video', '未命名视频'],
       ['frame-animation', '未命名帧动画'],
       ['face', '未命名战斗头像'],
@@ -28,12 +32,12 @@ describe('编辑器资源诊断展示', () => {
   })
 
   test('保留机器 code/where，并用结构化资源字段生成不重复的中文标题', () => {
-    const catalog: AssetCatalogV1 = {
+    const catalog = validateAssetCatalog({
       version: 1,
       assets: {
         'music.wrong': {
           kind: 'sound',
-          path: 'assets/sound/wrong.wav',
+          path: 'assets/authored/sound/wrong.wav',
           mediaType: 'audio/wav',
           bytes: 1,
           sha256: '1'.repeat(64),
@@ -42,7 +46,7 @@ describe('编辑器资源诊断展示', () => {
         },
         'sound.unused': {
           kind: 'sound',
-          path: 'assets/sound/unused.wav',
+          path: 'assets/authored/sound/unused.wav',
           mediaType: 'audio/wav',
           bytes: 1,
           sha256: '2'.repeat(64),
@@ -50,7 +54,7 @@ describe('编辑器资源诊断展示', () => {
           origin: { kind: 'authored' },
         },
       },
-    }
+    })
     const references: LocatedAssetReference[] = [
       {
         asset: 'music.missing',
@@ -92,48 +96,75 @@ describe('编辑器资源诊断展示', () => {
         title: '未使用音效（ID：sound.unused）当前未被使用',
       },
     ])
+    expect(diagnostics[1]).toMatchObject({
+      assetLabel: '错误类型资源',
+      expectedKind: 'music',
+      actualKind: 'sound',
+      origin: { kind: 'scene', id: 's002', section: 'music' },
+    })
     expect(diagnostics.map((issue) => issue.title).join(' ')).not.toMatch(
       /AssetId|unused-asset|assets\[/,
     )
   })
 
-  test('相同显示路径的多条失败引用仍按验证顺序保留各自 owner', () => {
-    const references: LocatedAssetReference[] = [
-      {
-        asset: 'missing.one',
-        expectedKind: 'sound',
-        where: 'scenes.a.entities.b.entities.c.behaviors.auto.id.flow.stages.stage.body[0].asset',
-        site: 'canonical:first',
-        origin: { kind: 'scene', id: 'a', section: 'entities' },
+  test('an unlabelled unused sprite still has its kind and id in the title', () => {
+    const catalog = validateAssetCatalog({
+      version: 1,
+      assets: {
+        'sprite.idle': {
+          kind: 'sprite',
+          path: 'assets/authored/sprite/idle.png',
+          mediaType: 'image/png',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
       },
+    })
+    expect(collectEditorAssetDiagnostics(catalog, [])).toEqual([
       {
-        asset: 'missing.two',
-        expectedKind: 'music',
-        where: 'scenes.a.entities.b.entities.c.behaviors.auto.id.flow.stages.stage.body[0].asset',
-        site: 'canonical:second',
-        origin: { kind: 'scene', id: 'a.entities.b', section: 'entities' },
+        severity: 'warn',
+        code: 'unused-asset',
+        where: 'assets["sprite.idle"]',
+        message: 'AssetId "sprite.idle" 当前未被引用',
+        assetId: 'sprite.idle',
+        actualKind: 'sprite',
+        title: '场景精灵资源 ID “sprite.idle”当前未被使用',
       },
-    ]
+    ])
+  })
 
-    const diagnostics = collectEditorAssetDiagnostics({ version: 1, assets: {} }, references)
-    expect(
-      diagnostics.map(({ assetId, expectedKind, origin }) => ({ assetId, expectedKind, origin })),
-    ).toEqual([
+  test('a missing actor portrait names the expected resource kind', () => {
+    const actors = validateActors([
       {
-        assetId: 'missing.one',
-        expectedKind: 'sound',
-        origin: { kind: 'scene', id: 'a', section: 'entities' },
+        id: 'a',
+        name: 'name.a',
+        spriteId: 'sprite.a',
+        portraits: { default: 'portrait.gone' },
       },
+    ])
+    const references = collectAssetReferences({ actors })
+    expect(collectEditorAssetDiagnostics({ version: 1, assets: {} }, references)).toEqual([
       {
-        assetId: 'missing.two',
-        expectedKind: 'music',
-        origin: { kind: 'scene', id: 'a.entities.b', section: 'entities' },
+        severity: 'error',
+        code: 'missing-asset',
+        where: 'actors[0].portraits.default',
+        message: 'AssetId "portrait.gone" 不在 catalog',
+        assetId: 'portrait.gone',
+        expectedKind: 'portrait',
+        origin: { kind: 'actor', id: 'a', section: 'portraits' },
+        title: '角色立绘资源 ID “portrait.gone”不存在',
       },
     ])
   })
 
   test('合法但含路径分隔片段的作者 ID 不会让 canonical 资源诊断串 owner', () => {
-    const scene = (sceneId: string, entityId: string, asset: string) => ({
+    const scene = (
+      sceneId: string,
+      entityId: string,
+      kind: 'playMusic' | 'playSound',
+      asset: string,
+    ) => ({
       id: sceneId,
       mapId: `map.${sceneId}`,
       entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
@@ -150,7 +181,7 @@ describe('编辑器资源诊断展示', () => {
                 flow: {
                   kind: 'stages' as const,
                   initial: 'stage',
-                  stages: [{ id: 'stage', body: [{ kind: 'playSound' as const, asset }] }],
+                  stages: [{ id: 'stage', body: [{ kind, asset }] }],
                 },
               },
             },
@@ -159,24 +190,37 @@ describe('编辑器资源诊断展示', () => {
       ],
     })
     const scenes = validateAuthorScenes([
-      scene('a', 'b.entities.c', 'missing.one'),
-      scene('a.entities.b', 'c', 'missing.two'),
+      scene('a', 'b.entities.c', 'playSound', 'missing.one'),
+      scene('a.entities.b', 'c', 'playMusic', 'missing.two'),
     ])
     const visits = collectCanonicalScriptCommandVisits({
       scenes,
       items: [],
       sharedScripts: {},
-    } as ScriptEditorState)
+    })
     const references = collectCanonicalAssetReferenceEntries(visits).map((entry) => entry.reference)
 
     const diagnostics = collectEditorAssetDiagnostics({ version: 1, assets: {} }, references)
-    expect(diagnostics.map(({ assetId, origin }) => ({ assetId, origin }))).toEqual([
+    expect(references).toHaveLength(2)
+    expect(references[0]?.where).toBe(references[1]?.where)
+    expect(
+      diagnostics.map(({ code, assetId, expectedKind, origin }) => ({
+        code,
+        assetId,
+        expectedKind,
+        origin,
+      })),
+    ).toEqual([
       {
+        code: 'missing-asset',
         assetId: 'missing.one',
+        expectedKind: 'sound',
         origin: { kind: 'scene', id: 'a', section: 'entities' },
       },
       {
+        code: 'missing-asset',
         assetId: 'missing.two',
+        expectedKind: 'music',
         origin: { kind: 'scene', id: 'a.entities.b', section: 'entities' },
       },
     ])

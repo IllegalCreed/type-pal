@@ -139,3 +139,39 @@ describe('starting actor overrides', () => {
     expectRejectUnchanged(validateStartWorld, { ...world(), ...overrides }, message)
   })
 })
+
+test.each([
+  [{ ' ': 1 }, 'startWorld.resources: 资源键不能为空'],
+  [{ ' herb': 1 }, 'startWorld.resources. herb: 资源键不得包含首尾空格'],
+  [{ collectValue: 1 }, 'startWorld.resources.collectValue: 保留资源必须使用专用世界字段'],
+  [{ herb: -1 }, 'startWorld.resources.herb: 必须是非负安全整数'],
+  [{ herb: 1.5 }, 'startWorld.resources.herb: 必须是非负安全整数'],
+])('rejects an invalid opening resource balance or key: %j', (resources, message) => {
+  expectRejectUnchanged(validateStartWorld, { ...world(), resources }, message)
+})
+
+test('retains omitted opening resources and preserves an explicit zero balance', () => {
+  expect(validateStartWorld(world()).resources).toBeUndefined()
+  expect(validateStartWorld({ ...world(), resources: { herb: 0, gold: 10 } }).resources).toEqual({
+    herb: 0,
+    gold: 10,
+  })
+})
+
+test('rejects negative opening stock at the actual inventory slot', () => {
+  const input = world()
+  const [first] = input.inventory
+  expectRejectUnchanged(
+    validateStartWorld,
+    { ...input, inventory: [{ ...first, count: -1 }] },
+    'startWorld.inventory[0].count: 必须是非负安全整数',
+  )
+})
+
+test('rejects an unnamed seeded stat owner', () => {
+  expectRejectUnchanged(
+    validateStartWorld,
+    { ...world(), seedStats: { ' ': { hp: 10 } } },
+    'startWorld.seedStats: 角色 id 不能为空',
+  )
+})

@@ -3,6 +3,7 @@ import {
   type AuthorSceneDef,
   buildWorld,
   type SpriteDef,
+  validateAssetCatalog,
 } from '@type-pal/content'
 import { expect, vi } from 'vitest'
 import { loadStandardPalette, SpriteAssetCache } from '../assets.js'
@@ -74,12 +75,17 @@ export async function scenePreparationFixture() {
       },
     },
   }
+  const catalog = validateAssetCatalog(raw.files['assets/index.json'])
+  const walkerAsset = expectDefined(catalog.assets.sprite)
+  const alternateSpritePath = 'assets/generated/sprite-other.rle'
+  raw.binaries.set(alternateSpritePath, expectDefined(raw.binaries.get(walkerAsset.path)).slice())
+  catalog.assets['sprite-other'] = { ...walkerAsset, path: alternateSpritePath }
   raw.files['content/sprites.json'] = [
     walker,
     {
       id: 'other',
       label: 'Other',
-      asset: 'sprite',
+      asset: 'sprite-other',
       layout: { kind: 'static' },
     } satisfies SpriteDef,
   ]

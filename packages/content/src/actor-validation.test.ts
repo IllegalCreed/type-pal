@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { wave2Actor } from './__tests__/cursor-pure-wave2-fixtures.js'
+import { actorWithPortraitsAndBattler } from './__tests__/actor-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef, CasualtyLine, CasualtyScript } from './actor.js'
@@ -29,7 +29,7 @@ describe('actor identity fields', () => {
 
 describe('actor battle metadata', () => {
   const battler = (extra: Record<string, unknown> = {}) => ({
-    ...wave2Actor('hero', 'name.hero').battler,
+    ...actorWithPortraitsAndBattler('hero', 'name.hero').battler,
     ...extra,
   })
   test('合法 battler 通过', () => {
@@ -65,7 +65,7 @@ describe('actor casualty dialogue', () => {
   const narration = { text: 'dlg.casualty.narration', style: 'narration' } satisfies CasualtyLine
 
   function withLines(lines: readonly unknown[]) {
-    const actor = wave2Actor('hero', 'name.hero')
+    const actor = actorWithPortraitsAndBattler('hero', 'name.hero')
     return [
       {
         ...actor,
@@ -135,7 +135,7 @@ const nonCombatActor = () => ({
 })
 
 const battlerActor = (over: Record<string, unknown> = {}) => {
-  const template = wave2Actor('hero', 'name.hero')
+  const template = actorWithPortraitsAndBattler('hero', 'name.hero')
   return { ...template, battler: { ...template.battler, ...over } }
 }
 

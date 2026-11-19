@@ -237,6 +237,19 @@ describe('command target references', () => {
     ])
   })
 
+  test('a canonical scene load reports both the scene and its named entry at the original path', () => {
+    const command = { kind: 'loadScene', scene: 'hall', entryId: 'door' } satisfies AuthorCommand
+    checkAuthorCommands([command], 'hook')
+    expect(collectCanonicalCommandTargetReferences(command, 'hook[0]')).toEqual([
+      { target: { kind: 'scene', id: 'hall' }, relation: 'load-scene', where: 'hook[0].scene' },
+      {
+        target: { kind: 'scene-entry', sceneId: 'hall', entryId: 'door' },
+        relation: 'load-scene-entry',
+        where: 'hook[0].entryId',
+      },
+    ])
+  })
+
   test('visitor delivers one stable edge per target and preserves explicit field zero', () => {
     const load = { kind: 'loadScene', scene: 'hall', entryId: 'door' } satisfies AuthorCommand
     const change = {

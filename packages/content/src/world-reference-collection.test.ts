@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { wave2Actor } from './__tests__/cursor-pure-wave2-fixtures.js'
+import { actorWithPortraitsAndBattler } from './__tests__/actor-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   applySetParty,
@@ -9,8 +9,8 @@ import {
   type StartWorld,
 } from './character.js'
 
-const hero = wave2Actor('hero.li', 'name.li')
-const mate = wave2Actor('hero.zhao', 'name.zhao')
+const hero = actorWithPortraitsAndBattler('hero.li', 'name.li')
+const mate = actorWithPortraitsAndBattler('hero.zhao', 'name.zhao')
 const actors = { [hero.id]: hero, [mate.id]: mate }
 
 describe('world actor and battle-data references', () => {

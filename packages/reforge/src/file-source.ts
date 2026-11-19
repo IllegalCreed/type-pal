@@ -1,7 +1,6 @@
 /**
- * FileSource —— 工程「从哪读文件」的抽象(自包含工程地基,project-lifecycle-design §3)。
- * 内容 JSON 与素材二进制统一走它:httpSource(种子/dev)/ fsaSource(本地工程,P3 落)。
- * rel = 当前工程根下的规范相对路径；所有内容和资源都必须位于工程闭包内。
+ * HTTP 与本地目录共用只读入口。rel 是相对当前工程根的规范路径；
+ * 是否有权引用该文件，由上层资产目录和工程闭包校验决定。
  */
 import { validateProjectRelativePath } from '@type-pal/content'
 import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
@@ -11,7 +10,7 @@ export interface FileSource {
   readText(rel: string, signal?: AbortSignal): Promise<string>
   readJson<T>(rel: string, signal?: AbortSignal): Promise<T>
   readBytes(rel: string, signal?: AbortSignal): Promise<ArrayBuffer>
-  /** 给 <img>/createImageBitmap 用的可加载 URL(http = 直接 URL;fsa = blob URL,P3)。 */
+  /** 供资源宿主加载的 URL。HTTP 只拼路径，不确认文件存在；本地源打开文件后生成 blob URL。 */
   urlFor(rel: string): Promise<string>
   /** 释放本 source 创建的 object URL。HTTP source 为 no-op。 */
   dispose?(): void

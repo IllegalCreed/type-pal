@@ -1,73 +1,110 @@
-import type { CurrentManifest } from '@type-pal/content'
-import type { FileSource } from '@type-pal/reforge'
-import { describe, expect, it, vi } from 'vitest'
-import type { EditorState } from './edit-session.js'
+import { type AssetRecordV1, validateAssetCatalog } from '@type-pal/content'
+import { expect, test, vi } from 'vitest'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { originalPortrait, pngBytes, replacementPortrait } from './__tests__/portrait-bytes.js'
+import { UpsertAssetCommand } from './asset-commands.js'
+import { sha256Hex } from './binary-signature.js'
+import { EditSession } from './edit-session.js'
 import { createEditorAssetReader } from './editor-asset-reader.js'
+import { openLocalProject } from './open-local.js'
+import { toEditorState } from './project-io.js'
+import { buildBlankProject } from './seed.js'
 
-function fixture(): Pick<EditorState, 'assetCatalog' | 'assetBlobs' | 'manifest'> {
-  return {
-    assetCatalog: {
-      version: 1,
-      assets: {
-        'video.demo': {
-          kind: 'video',
-          path: 'assets/authored/video/demo.mp4',
-          mediaType: 'video/mp4',
-          bytes: 3,
-          sha256: '0'.repeat(64),
-          origin: { kind: 'authored' },
-        },
-        'color.demo': {
-          kind: 'color-table',
-          path: 'assets/authored/color/demo.json',
-          mediaType: 'application/json',
-          bytes: 2,
-          sha256: '1'.repeat(64),
-          origin: { kind: 'authored' },
-        },
-        'sound.demo': {
-          kind: 'sound',
-          path: 'assets/authored/sound/demo.wav',
-          mediaType: 'audio/wav',
-          bytes: 2,
-          sha256: '2'.repeat(64),
-          origin: { kind: 'authored' },
-        },
-      },
-    },
-    assetBlobs: { 'assets/authored/video/demo.mp4': Uint8Array.from([1, 2, 3]).buffer },
-    manifest: {
-      id: 'test-project',
-      assets: {
-        catalog: 'assets/index.json',
-        roles: { 'visual.standardColorTable': 'color.demo' },
-      },
-    } as CurrentManifest,
+const portraitId = 'portrait.reader-test'
+const portraitPath = 'assets/authored/portraits/reader-test.png'
+
+async function portraitReader() {
+  const files = await buildBlankProject('Asset reader')
+  const original = pngBytes(originalPortrait)
+  const record: AssetRecordV1 = {
+    kind: 'portrait',
+    path: portraitPath,
+    mediaType: 'image/png',
+    bytes: original.byteLength,
+    sha256: await sha256Hex(original),
+    origin: { kind: 'authored' },
   }
+  const catalog = validateAssetCatalog(files['assets/index.json'])
+  files['assets/index.json'] = { ...catalog, assets: { ...catalog.assets, [portraitId]: record } }
+  files[portraitPath] = original
+  const disk = memoryAuthorDirectory(files)
+  const { project, scenes, scriptChunks, stamps } = await openLocalProject(disk.dir)
+  const source = project.source
+  const session = new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps))
+  return { original, record, source, session, disk }
 }
 
-describe('editor asset reader', () => {
-  it('未保存 blob 覆盖文件源，并对 kind/role fail-loud', async () => {
-    const readBytes = vi.fn(async () => Uint8Array.from([9, 9]).buffer)
-    const source = {
-      readBytes,
-      readText: vi.fn(),
-      readJson: vi.fn(),
-      urlFor: vi.fn(async (path: string) => `/project/${path}`),
-    } as unknown as FileSource
-    const reader = createEditorAssetReader(source, fixture())
-    expect(reader.projectId).toBe('test-project')
-    await expect(reader.readBytes('video.demo', 'video')).resolves.toEqual(
-      Uint8Array.from([1, 2, 3]).buffer,
+test('one reader follows replacement and undo without exposing unsaved image bytes to mutation', async () => {
+  const { original, record, source, session } = await portraitReader()
+  const reader = createEditorAssetReader(source, () => session.getState())
+  const read = vi.spyOn(source, 'readBytes')
+  try {
+    expect(reader.projectId).toBe('asset-reader')
+    expect(new Uint8Array(await reader.readBytes(portraitId, 'portrait'))).toEqual(
+      new Uint8Array(original),
     )
-    expect(readBytes).not.toHaveBeenCalled()
-    await expect(reader.readRoleBytes('visual.standardColorTable')).resolves.toEqual(
-      Uint8Array.from([9, 9]).buffer,
+    expect(read).toHaveBeenCalledExactlyOnceWith(portraitPath)
+    read.mockClear()
+
+    const replacement = pngBytes(replacementPortrait)
+    const updated = {
+      ...record,
+      bytes: replacement.byteLength,
+      sha256: await sha256Hex(replacement),
+    }
+    session.dispatch(new UpsertAssetCommand(portraitId, updated, replacement))
+    const readback = await reader.readBytes(portraitId, 'portrait')
+    expect(new Uint8Array(readback)).toEqual(new Uint8Array(replacement))
+    expect(reader.record(portraitId, 'portrait')).toEqual(updated)
+    new Uint8Array(readback)[0] = 0
+    expect(new Uint8Array(await reader.readBytes(portraitId, 'portrait'))).toEqual(
+      new Uint8Array(replacement),
     )
-    await expect(reader.readBytes('video.demo', 'music')).rejects.toThrow(/期望 music/)
-    await expect(reader.readBytes('missing')).rejects.toThrow(/不在 catalog/)
-    await expect(reader.readBytes('sound.demo', 'sound')).resolves.toEqual(
-      Uint8Array.from([9, 9]).buffer,
+    expect(read).not.toHaveBeenCalled()
+
+    expect(session.undo()).toBe(true)
+    expect(new Uint8Array(await reader.readBytes(portraitId, 'portrait'))).toEqual(
+      new Uint8Array(original),
     )
-  })
+    expect(read).toHaveBeenCalledExactlyOnceWith(portraitPath)
+  } finally {
+    read.mockRestore()
+    source.dispose?.()
+  }
+})
+
+test('unregistered and mismatched assets fail before any source read', async () => {
+  const { source, session } = await portraitReader()
+  const reader = createEditorAssetReader(source, session.getState())
+  const read = vi.spyOn(source, 'readBytes')
+  try {
+    await expect(reader.readBytes('portrait.missing', 'portrait')).rejects.toThrow(
+      'AssetId "portrait.missing" 不在 catalog',
+    )
+    await expect(reader.readBytes(portraitId, 'music')).rejects.toThrow(
+      'AssetId "portrait.reader-test" 期望 music，实际 portrait',
+    )
+    expect(read).not.toHaveBeenCalled()
+  } finally {
+    read.mockRestore()
+    source.dispose?.()
+  }
+})
+
+test('roles select their registered resource and reject an absent role', async () => {
+  const { disk, source, session } = await portraitReader()
+  const reader = createEditorAssetReader(source, session.getState())
+  try {
+    const path = 'assets/generated/colors/project-standard.json'
+    const expected = disk.files.get(path)
+    if (!expected) throw new Error(`Missing color table ${path}`)
+    expect(new Uint8Array(await reader.readRoleBytes('visual.standardColorTable'))).toEqual(
+      new Uint8Array(expected),
+    )
+    await expect(reader.readRoleBytes('audio.midiSoundfont')).rejects.toThrow(
+      '项目缺资源角色 "audio.midiSoundfont"',
+    )
+  } finally {
+    source.dispose?.()
+  }
 })

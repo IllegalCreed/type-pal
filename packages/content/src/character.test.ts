@@ -246,7 +246,9 @@ describe('world initialization', () => {
   })
   test('缺角色 → throw', () => {
     const sw: StartWorld = { party: ['nobody'], money: 0, inventory: [] }
-    expect(() => buildWorld(sw, {})).toThrow(new Error('buildWorld: 角色 "nobody" 不在 actors 表'))
+    expect(() => buildWorld(sw, { [hero.id]: hero })).toThrow(
+      new Error('buildWorld: 角色 "nobody" 不在 actors 表'),
+    )
   })
   test('party 引无 battler 的 actor → throw(经 instantiate)', () => {
     const sw: StartWorld = { party: ['villager'], money: 0, inventory: [] }

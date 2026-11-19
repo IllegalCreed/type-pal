@@ -1,4 +1,3 @@
-import { readSaveFiles } from './save-read-pool.js'
 /** Optimistic source evidence for staging a copy. Retains hashes, never the whole asset set. */
 
 import { validateAssetCatalog } from '@type-pal/content'
@@ -6,6 +5,7 @@ import { assertProjectSaveReadable, type FileSource } from '@type-pal/reforge'
 import { AuthorSaveConflictError } from './author-disk-baseline.js'
 import { binarySnapshotSignature } from './binary-signature.js'
 import type { ProjectCopyInput } from './project-io.js'
+import { readSaveFiles } from './save-read-pool.js'
 
 /** Only missing source assets are streamed; in-memory upload overrides remain authoritative. */
 export function assetCopyInputs(
@@ -19,6 +19,7 @@ export function assetCopyInputs(
     .map((path) => ({ path, read: async () => new Blob([await source.readBytes(path)]) }))
 }
 
+/** Capture byte identities, including absent optional files, until the copy is sealed. */
 export async function observeProjectCopySource(original: FileSource) {
   const state = await assertProjectSaveReadable(original)
   const signatures = new Map<string, string | null>()

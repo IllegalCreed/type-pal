@@ -13,7 +13,9 @@ export interface SceneResourceReaders {
   loadPalette(): Promise<Palette>
 }
 
-/** Project-scoped resource ownership; does not know active world, rendering or scene commits. */
+const mapCacheCapacity = 16
+
+/** Project-scoped resources. Prepared scene ownership and renderer changes belong to the host. */
 export class SceneResources {
   #scenes = new Map<string, RuntimeSceneDef>()
   #maps = new Map<string, SceneMapAssets>()
@@ -48,15 +50,15 @@ export class SceneResources {
     }
     const loaded = await this.readers.loadMap(id)
     this.#maps.set(id, loaded)
-    while (this.#maps.size > 16) {
+    // A completion inserts at most one key; the oldest entry cannot be a newly inserted map.
+    if (this.#maps.size > mapCacheCapacity) {
       const oldest = this.#maps.keys().next().value
-      // Preserve the old protection of this completed request, not a new active-scene pin policy.
-      if (oldest === undefined || oldest === id) break
-      this.#maps.delete(oldest)
+      if (oldest !== undefined) this.#maps.delete(oldest)
     }
     return loaded
   }
 
+  // The palette and full reference index share one bootstrap outcome for this project instance.
   palette(): Promise<Palette> {
     this.#palette ??= this.readers.loadPalette()
     return this.#palette

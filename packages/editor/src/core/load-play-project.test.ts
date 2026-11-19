@@ -1,57 +1,77 @@
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { fsaSource } from '@type-pal/reforge'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
+import { loadPlayProject } from './load-play-project.js'
+import { buildBlankProject } from './seed.js'
 
-const reforge = vi.hoisted(() => ({
-  source: { kind: 'fixture-source' },
-  fsaSource: vi.fn(),
-  loadCurrentProject: vi.fn(),
-  loadCurrentProjectFrom: vi.fn(),
-}))
-
-vi.mock('@type-pal/reforge', () => ({
-  fsaSource: reforge.fsaSource,
-  loadCurrentProject: reforge.loadCurrentProject,
-  loadCurrentProjectFrom: reforge.loadCurrentProjectFrom,
-}))
+vi.mock('@type-pal/reforge', async (original) => {
+  const runtime = await original<typeof import('@type-pal/reforge')>()
+  return { ...runtime, fsaSource: vi.fn(runtime.fsaSource) }
+})
 
 vi.mock('./handle-store.js', async (original) => ({
   ...(await original<typeof import('./handle-store.js')>()),
   findWorkspaceRecordByHandle: async () => null,
 }))
 
-import { loadPlayProject } from './load-play-project.js'
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.mocked(fsaSource).mockClear()
+})
 
-describe('loadPlayProject current canonical boundary', () => {
-  beforeEach(() => {
-    vi.resetAllMocks()
-    reforge.fsaSource.mockReturnValue(reforge.source)
-    reforge.loadCurrentProject.mockResolvedValue({ manifest: { contentVersion: 23 } })
-    reforge.loadCurrentProjectFrom.mockResolvedValue({ manifest: { contentVersion: 23 } })
+function observeSource(dir: FileSystemDirectoryHandle) {
+  const real = fsaSource(dir)
+  return { ...real, dispose: vi.fn(() => real.dispose?.()) }
+}
+
+describe('loading the game preview from its selected project source', () => {
+  test('opens the requested HTTP project through the real current-project loader', async () => {
+    const id = 'http-play-project'
+    const disk = memoryAuthorDirectory(await buildBlankProject(id))
+    const prefix = `projects/${id}/`
+    const fetchProject = vi.fn<typeof fetch>(async (input) => {
+      if (typeof input !== 'string' || !input.startsWith(prefix))
+        throw new Error(`Read outside this preview project: ${String(input)}`)
+      const body = disk.files.get(input.slice(prefix.length))
+      return body ? new Response(body.slice(0)) : new Response(null, { status: 404 })
+    })
+    vi.stubGlobal('fetch', fetchProject)
+
+    const loaded = await loadPlayProject(id)
+    expect(loaded.manifest.id).toBe(id)
+    expect(loaded.manifest.assets.catalog).toBe('assets/index.json')
+    expect(fetchProject).toHaveBeenCalledWith(`${prefix}manifest.json`)
+    expect(fsaSource).not.toHaveBeenCalled()
   })
 
-  test('loads repository projects through the current canonical loader', async () => {
-    await loadPlayProject('pal')
+  test('keeps the actual directory source available for lazy reads after a successful load', async () => {
+    const disk = memoryAuthorDirectory(await buildBlankProject('local-play-project'))
+    const source = observeSource(disk.dir)
+    vi.mocked(fsaSource).mockReturnValueOnce(source)
 
-    expect(reforge.loadCurrentProject).toHaveBeenCalledExactlyOnceWith('pal')
-    expect(reforge.fsaSource).not.toHaveBeenCalled()
-    expect(reforge.loadCurrentProjectFrom).not.toHaveBeenCalled()
+    const loaded = await loadPlayProject('ignored-http-project', disk.dir)
+    expect(loaded.manifest.id).toBe('local-play-project')
+    expect(loaded.source).toBe(source)
+    expect(source.dispose).not.toHaveBeenCalled()
+    await expect(loaded.source.readJson('manifest.json')).resolves.toMatchObject({
+      id: 'local-play-project',
+    })
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 
-  test('loads directory-backed projects through the current canonical loader', async () => {
-    const dir = { name: 'local-pal' } as FileSystemDirectoryHandle
+  test('releases the directory source if loading fails and propagates the original failure', async () => {
+    const disk = memoryAuthorDirectory()
+    const source = observeSource(disk.dir)
+    const failure = new DOMException('directory read denied', 'NotAllowedError')
+    vi.mocked(fsaSource).mockReturnValueOnce({
+      ...source,
+      async readText() {
+        throw failure
+      },
+    })
 
-    await loadPlayProject('pal', dir)
-
-    expect(reforge.fsaSource).toHaveBeenCalledExactlyOnceWith(dir)
-    expect(reforge.loadCurrentProjectFrom).toHaveBeenCalledExactlyOnceWith(reforge.source)
-    expect(reforge.loadCurrentProject).not.toHaveBeenCalled()
-  })
-
-  test('failed local load disposes its source and preserves the original error', async () => {
-    const error = new Error('rejected current project')
-    const dispose = vi.fn()
-    reforge.fsaSource.mockReturnValue({ ...reforge.source, dispose })
-    reforge.loadCurrentProjectFrom.mockRejectedValue(error)
-    await expect(loadPlayProject('pal', {} as FileSystemDirectoryHandle)).rejects.toBe(error)
-    expect(dispose).toHaveBeenCalledOnce()
+    await expect(loadPlayProject('no-http-fallback', disk.dir)).rejects.toBe(failure)
+    expect(source.dispose).toHaveBeenCalledOnce()
+    expect(disk.changes).toEqual({ creates: [], closes: [], removes: [] })
   })
 })

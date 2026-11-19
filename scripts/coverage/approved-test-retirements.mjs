@@ -7,6 +7,32 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-11-19 Content + adjacent quality window; Codex approved exact transfers.
+    // Full identity maps: QUALITY-CONTENT-ASSET-CONTRACTS-1 execution archive.
+    {
+      file: 'packages/reforge/src/async-intent.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: 'ad4fe548d0fb4268e78ed9e4cde6a1c8cb2a106f1f8b80f39f143a630b458765',
+      currentIdentityDigest: '3f6d645cdd017a14af614f143a4f6346993ddbc4d99fc09732bbbc8ad0b2e56c',
+      fileSha256: '8fe8e9a360d44efc10cf32d81306c193a31e3afca9910d2ab158287bece808dd',
+    },
+    {
+      file: 'packages/reforge/src/scene-switch-transaction.test.ts',
+      previous: 23,
+      current: 7,
+      previousIdentityDigest: '3c6ee69ee247734b4548a4f29746bbddb713a810d22d050251a79bee9cb5fa93',
+      currentIdentityDigest: 'c13ac2113075b6237f9f08e170357294986384e68e8f5acfbdce24d9a6e1ad54',
+      fileSha256: 'e2e0ee6755806a3d46b76f2de995f12eff1d1ee7f1cbae9d2ed51843ebbbd381',
+    },
+    {
+      file: 'packages/reforge/src/screen-hold-transaction.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'c2d72957627756d2317ffd9d8ddee33aeecba159ef232694d8b3893b164b0247',
+      currentIdentityDigest: 'e393b1efb29255962f5cce8d16c2cc1c68a418f3822d9dab2879032991c12e9e',
+      fileSha256: 'd8dd062fa5d30d68a4903c63d26a074ae75c7e5e8f28cb469cb25ec80303368f',
+    },
     // User2026-11-03/05: responsibility-based phase1 pending93 test quality.
     // Five exact per-file count reductions include transfers and proven subsumption,
     // not66 deleted contracts. Full old-to-new maps and native reports: parent audit/archive.

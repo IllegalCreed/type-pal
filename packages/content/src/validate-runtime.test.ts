@@ -50,6 +50,14 @@ test('keeps behavior registries and hostile policy with or without a named page'
   expect(input).toEqual(before)
 })
 
+test('rejects a noncardinal facing at the scene entry', () => {
+  const { scene } = createReferenceProject()
+  expect(validateRuntimeScenes([scene])).toEqual([scene])
+  expect(() =>
+    validateRuntimeScenes([{ ...scene, entry: { ...scene.entry, facing: 'south' } }]),
+  ).toThrow(new Error('scenes[0].entry.facing: 期望 up/down/left/right'))
+})
+
 test('rejects a zero-duration lifecycle command in a dynamic behavior', () => {
   const { scene, actor, talk, target } = sceneWithBehavior()
   const valid = [{ ...scene, entities: [actor] }]

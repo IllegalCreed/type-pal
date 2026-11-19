@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { createReferenceProject } from './__tests__/reference-project.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AuthorSceneDef } from './author-scene.js'
@@ -95,4 +95,57 @@ test('allows a behavior registry without pages and rejects an orphaned initial p
   expect(() =>
     validateAuthorScenes([{ ...scene, entities: [{ ...withoutPages, initialPage }] }]),
   ).toThrow(new Error('scenes[0].entities[0].initialPage: 必须与非空 pages 一起声明'))
+})
+
+describe('spatial admission of author scenes', () => {
+  function sceneWithNamedEntry() {
+    const { scene, entity, actor } = createReferenceProject()
+    const named = { label: '西门', pos: scene.entry.pos, facing: 'left' } as const
+    return { entity, actor, named, scene: { ...scene, entries: { west: named } } }
+  }
+
+  test('retains a registered named entry and validates the key independently', () => {
+    const { scene, named } = sceneWithNamedEntry()
+    expect(validateAuthorScenes([scene])[0]?.entries).toEqual({ west: named })
+    expect(() => validateAuthorScenes([{ ...scene, entries: { '': named } }])).toThrow(
+      new Error('scenes[0].entries: 命名落点 id 不能为空'),
+    )
+  })
+
+  test('requires an explicit position in a named entry', () => {
+    const { scene, named } = sceneWithNamedEntry()
+    const { pos: _pos, ...withoutPosition } = named
+    expect(() => validateAuthorScenes([{ ...scene, entries: { west: withoutPosition } }])).toThrow(
+      new Error('scenes[0].entries.west: 缺键 "pos"'),
+    )
+  })
+
+  test.each([
+    ['label', { label: 3 }, 'label: 期望 string'],
+    ['orientation', { facing: 'south' }, 'facing: 期望 up/down/left/right'],
+  ])('rejects an invalid named entry %s', (_field, patch, reason) => {
+    const { scene, named } = sceneWithNamedEntry()
+    expect(() =>
+      validateAuthorScenes([{ ...scene, entries: { west: { ...named, ...patch } } }]),
+    ).toThrow(new Error(`scenes[0].entries.west.${reason}`))
+  })
+
+  test.each([0, 2])('requires exactly one character, sprite or zone owner, not %s', (owners) => {
+    const { scene, entity, actor } = sceneWithNamedEntry()
+    const { id, pos } = entity
+    const valid = entity
+    expect(validateAuthorScenes([{ ...scene, entities: [valid] }])[0]?.entities).toEqual([valid])
+    const invalid = owners === 0 ? { id, pos } : { ...valid, sprite: actor.spriteId }
+    expect(() => validateAuthorScenes([{ ...scene, entities: [invalid] }])).toThrow(
+      new Error(`scenes[0].entities[0]: 须恰有 actor/sprite/zone 之一(现 ${owners} 个)`),
+    )
+  })
+
+  test('reports a missing floor coordinate at the default scene entry', () => {
+    const { scene } = sceneWithNamedEntry()
+    const { col, row } = scene.entry.pos
+    expect(() =>
+      validateAuthorScenes([{ ...scene, entry: { ...scene.entry, pos: { col, row } } }]),
+    ).toThrow(new Error('scenes[0].entry.pos: 缺键 "height"'))
+  })
 })
