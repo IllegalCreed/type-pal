@@ -77,6 +77,25 @@ function witness(row) {
   return evidence
 }
 
+/** Any extra transfer seen in the output must carry its own scene proof. */
+export function requireSceneTransferCoverage(frames, expectedRoute) {
+  const route = []
+  for (const { world } of frames) {
+    const scene = world?.scene
+    if (scene && route.at(-1) !== scene) route.push(scene)
+  }
+  return isDeepStrictEqual(route, expectedRoute)
+    ? null
+    : { issue: 'unreviewed-scene-transfer', expected: expectedRoute, route }
+}
+
+/** Apply the declared target composition to every visible frame of the reveal. */
+export function firstWrongSceneView(visible, expected) {
+  assert(visible.length > 0, 'missing first visible scene and camera')
+  const wrong = visible.find(({ world }) => !isDeepStrictEqual(world, expected))
+  return wrong ? { issue: 'wrong-visible-scene-frame', expected, ...witness(wrong) } : null
+}
+
 /**
  * The caller supplies authored source/target cues and the actual first target composition.
  * Coalescing rendered frames by scene, or substituting the settled state, hides a one-frame error.
@@ -142,13 +161,10 @@ export function compareSceneHandoff(recording, contract) {
   if (firstVisible < 0) findings.push({ issue: 'target-never-revealed' })
   const revealed =
     firstVisible < 0 ? [] : segment.slice(firstVisible).filter((row) => !isBlack(row))
-  const badArrival = revealed.find(({ world }) => !isDeepStrictEqual(world, contract.target))
-  if (badArrival)
-    findings.push({
-      issue: 'wrong-visible-scene-frame',
-      expected: contract.target,
-      ...witness(badArrival),
-    })
+  if (revealed.length > 0) {
+    const badArrival = firstWrongSceneView(revealed, contract.target)
+    if (badArrival) findings.push(badArrival)
+  }
   const leaked = revealed.find((row) => cueOnScreen(row, contract.sourceCue))
   if (leaked) findings.push({ issue: 'stale-dialogue-on-target-scene', ...witness(leaked) })
 

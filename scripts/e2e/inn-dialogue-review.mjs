@@ -1,16 +1,23 @@
 import assert from 'node:assert/strict'
-import { execFile } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { link, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
-import { dirname, join, resolve } from 'node:path'
+import { readFile, writeFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { promisify } from 'node:util'
-import { gunzipSync } from 'node:zlib'
-import { tsImport } from 'tsx/esm/api'
 import { readEvidenceArtifact } from './evidence-artifact.mjs'
-import { checkWorldDialoguePixels, decodeWorldDialoguePixels } from './world-dialogue-pixels.mjs'
+import { compareRenderedDialogue, sourceDialogueGroups } from './rendered-dialogue-comparison.mjs'
+import {
+  bindSceneHandoffVideo,
+  compareSceneHandoff,
+  decodeSceneHandoff,
+  requireSceneTransferCoverage,
+} from './scene-handoff.mjs'
+import {
+  checkWorldSpritePixels,
+  inspectDialogueBackground,
+  publishWorldDialogueSplit,
+  readWorldSpritePose,
+} from './world-dialogue-review.mjs'
 
-const run = promisify(execFile)
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const sha256 = async (path) => hash(await readFile(path))
 
@@ -197,77 +204,11 @@ export function inspectInnActorFrames(engine, records, span) {
   return { status: 'passed', engine, id: span.id, actor: 'e39', ranges: observed }
 }
 
-let spriteDecoder
-async function nativeNightPose(spriteId, frame) {
-  spriteDecoder ??= tsImport('../../packages/shared/src/rle.ts', import.meta.url)
-  const { parsePalSpriteChunk } = await spriteDecoder
-  const paths = [`data/extracted/data/sprite/${spriteId}.rle`, 'data/extracted/data/palette/0.json']
-  const files = await Promise.all(
-    paths.map((path) => readFile(new URL(`../../${path}`, import.meta.url))),
-  )
-  const [sprite, colors] = files
-  const { width, height, pixels, opaque } = parsePalSpriteChunk(gunzipSync(sprite))[frame]
-  return {
-    width,
-    height,
-    pixels,
-    opaque,
-    palette: JSON.parse(colors).nightColors,
-    sources: Object.fromEntries(paths.map((path, i) => [path, hash(files[i])])),
-  }
-}
-
-async function checkActorPixels(video, seconds, expected, panel) {
-  const viewport = panel === undefined ? '' : `crop=640:400:${panel * 640}:0,`
-  const { width, height, pixelPosition } = expected
-  const [x, y] = pixelPosition
-  const { stdout } = await run(
-    'ffmpeg',
-    [
-      '-v',
-      'error',
-      '-nostdin',
-      '-ss',
-      seconds.toFixed(6),
-      '-i',
-      video,
-      '-frames:v',
-      '1',
-      '-vf',
-      `${viewport}scale=320:200:flags=area,crop=${width}:${height}:${x}:${y}`,
-      '-pix_fmt',
-      'rgb24',
-      '-f',
-      'rawvideo',
-      'pipe:1',
-    ],
-    { encoding: 'buffer' },
-  )
-  assert.equal(stdout.length, width * height * 3, 'missing decoded actor pixels')
-  let totalError = 0
-  let opaquePixels = 0
-  for (const [index, drawn] of expected.opaque.entries()) {
-    if (!drawn) continue
-    const rgb = expected.palette[expected.pixels[index]]
-    totalError += rgb.reduce(
-      (sum, value, channel) => sum + Math.abs(value - stdout[index * 3 + channel]),
-      0,
-    )
-    opaquePixels++
-  }
-  const paletteError = totalError / (opaquePixels * 3)
-  return {
-    status: paletteError < 14 ? 'passed' : 'wrong-actor-pixels',
-    seconds,
-    opaquePixels,
-    paletteError,
-    pixelPosition,
-    sources: expected.sources,
-  }
-}
-
 async function nightActorPixels(source, video, trim = 0, panel) {
-  const [aunt, player] = await Promise.all([nativeNightPose(215, 2), nativeNightPose(193, 0)])
+  const [aunt, player] = await Promise.all([
+    readWorldSpritePose(215, 2, true),
+    readWorldSpritePose(193, 0, true),
+  ])
   const span = source.spans.find(({ id }) => id === 's002-night')
   const { standing, camera } = source.actors.ranges[0]
   assert.deepEqual(standing.rect.slice(2), [aunt.width, aunt.height])
@@ -287,9 +228,106 @@ async function nightActorPixels(source, video, trim = 0, panel) {
   return Promise.all(
     Object.entries(poses).map(async ([actor, pose]) => ({
       actor,
-      ...(await checkActorPixels(video, span.start - trim + 0.12, pose, panel)),
+      ...(await checkWorldSpritePixels(video, span.start - trim + 0.12, pose, panel)),
     })),
   )
+}
+
+// SSS 1771 fades the composited farewell. SSS 1782 (41,15,1) is (57,-26)
+// and SSS 1783 selects the bed pose on the already changed world sprite.
+const expectedBedroom = {
+  scene: 's001',
+  map: 'map-012',
+  camera: [1168, 136],
+  leader: { position: [1328, 248], sprite: 193, frame: 11, facing: 'down' },
+}
+const bedroomPoses = [
+  [[1328, 248], 193, 11],
+  [[1328, 248], 193, 10],
+  [[1312, 256], 193, 1],
+  [[1312, 272], 193, 1],
+  [[1312, 272], 193, 2],
+  [[1312, 272], 2, 0],
+]
+
+function innHandoff(source) {
+  const frames = source.trial.presentedHandoff
+  if (!frames?.length)
+    return { status: 'rejected', findings: [{ issue: 'missing-handoff-frames' }] }
+  const coverage = requireSceneTransferCoverage(frames, ['s002', 's001'])
+  if (coverage) return { status: 'rejected', findings: [coverage] }
+  const game = source.engine === 'game'
+  const handoff = compareSceneHandoff(frames, {
+    source: 's002',
+    sourceCue: game ? '回房间睡觉去！' : 'dlg.633',
+    targetCue: game ? '奇怪．．好像有件很重要的事' : 'dlg.634',
+    target: expectedBedroom,
+  })
+  if (handoff.status !== 'passed') return handoff
+  const { history } = source.trial.realPartyDraws
+  const start = history.findIndex(
+    ({ slot, world, frame }) => slot === 0 && world[0] === 1328 && world[1] === 248 && frame === 11,
+  )
+  const moves = history
+    .slice(start)
+    .filter(({ slot }) => slot === 0)
+    .map(({ world, sprite, frame, atMs }) => ({
+      position: world,
+      sprite: game ? sprite : sprite === 'li-xiaoyao' ? 2 : Number(sprite.split('-').at(-1)),
+      frame,
+      atMs,
+    }))
+  const actual = moves.map(({ position, sprite, frame }) => [position, sprite, frame])
+  if (start < 0 || JSON.stringify(actual) !== JSON.stringify(bedroomPoses))
+    return {
+      ...handoff,
+      status: 'rejected',
+      findings: [{ issue: 'wrong-bedroom-pose-sequence', expected: bedroomPoses, actual }],
+    }
+  return { ...handoff, moves }
+}
+
+async function decodedInnScene(source, recording, trim = 0, panel) {
+  const bytes = await readFile(source.report)
+  assert.equal(hash(bytes), source.reportSha256)
+  const report = JSON.parse(bytes)
+  const captured = report.cases[0].presentedHandoff
+  const frames = await decodeSceneHandoff(recording, panel)
+  const scopes = {
+    'scene-handoff': source.handoff,
+    'dialogue-draws': {
+      source: source.renderedDialogue.checked[0].firstComplete,
+      firstTargetDialogue: source.renderedDialogue.checked.at(-1).firstComplete,
+    },
+  }
+  return Object.entries(scopes).map(([check, proof]) => ({
+    check,
+    ...bindSceneHandoffVideo(frames, captured, proof, source.startClock, trim),
+  }))
+}
+
+async function checkInnSplit(source, video, trim, panel) {
+  return [
+    ...(await nightActorPixels(source, video, trim, panel)),
+    ...(await decodedInnScene(source, video, trim, panel)),
+  ]
+}
+
+async function innDialogueContract() {
+  const input = ['data/extracted/events/all.json', 'projects/pal/content/locale.json']
+  const bytes = await Promise.all(
+    input.map((file) => readFile(new URL(`../../${file}`, import.meta.url))),
+  )
+  const [original, locale] = bytes.map((value) => JSON.parse(value))
+  const commands = original.segments.find(({ name }) => name === 'all').commands
+  return {
+    locale,
+    sources: Object.fromEntries(input.map((path, index) => [path, hash(bytes[index])])),
+    groups: sourceDialogueGroups(commands, [
+      { scene: 's002', first: 1690, last: 1771 },
+      { scene: 's001', first: 1785, last: 1808 },
+    ]),
+  }
 }
 
 export async function compareInnDialogue(game, reforge) {
@@ -299,14 +337,15 @@ export async function compareInnDialogue(game, reforge) {
   assert.deepEqual(sources[0].trial.before.position, sources[1].trial.before.position)
   assert.deepEqual(sources[0].trial.returned.position, sources[1].trial.returned.position)
   assert.deepEqual(sources[0].trial.returned.inventory, sources[1].trial.returned.inventory)
+  const { groups, locale, sources: dialogueSources } = await innDialogueContract()
   const findings = []
   for (const source of sources) {
-    const frames = await decodeWorldDialoguePixels(source.recording)
-    source.lastSeconds = frames.at(-1).seconds
-    source.background = source.spans.map(({ id, ...span }) => ({
-      id,
-      ...checkWorldDialoguePixels(frames, span),
-    }))
+    const { lastSeconds, background } = await inspectDialogueBackground(
+      source.recording,
+      source.spans,
+    )
+    source.lastSeconds = lastSeconds
+    source.background = background
     for (const proof of source.background) {
       if (proof.status !== 'passed') findings.push({ engine: source.engine, ...proof })
     }
@@ -337,6 +376,18 @@ export async function compareInnDialogue(game, reforge) {
       for (const proof of source.actorPixels) {
         if (proof.status !== 'passed') findings.push({ engine: source.engine, ...proof })
       }
+      source.handoff = innHandoff(source)
+      const draws = source.trial.renderedDialogue?.filter(
+        ({ atMs }) => atMs >= source.trial.applied.dispatches[0].atMs,
+      )
+      source.renderedDialogue = compareRenderedDialogue(draws, groups, locale)
+      for (const proof of [...source.handoff.findings, ...source.renderedDialogue.findings])
+        findings.push({ engine: source.engine, ...proof })
+      if (source.handoff.status === 'passed' && source.renderedDialogue.status === 'passed') {
+        source.nativeVideo = await decodedInnScene(source, source.recording)
+        for (const proof of source.nativeVideo)
+          if (proof.status !== 'passed') findings.push({ engine: source.engine, ...proof })
+      }
     }
   }
   for (const source of sources) {
@@ -354,132 +405,8 @@ export async function compareInnDialogue(game, reforge) {
   return {
     status: findings.length ? 'rejected' : 'passed',
     findings,
+    dialogueSources,
     recordings: sources.map(({ trial: _trial, ...proof }) => proof),
-  }
-}
-
-async function publishSplit(comparison, output, receiptPath) {
-  assert.equal(comparison.status, 'passed')
-  assert.equal(dirname(output), dirname(receiptPath))
-  const temporary = await mkdtemp(join(dirname(output), '.dialogue-review-'))
-  try {
-    const clip = join(temporary, 'split.mp4')
-    const preroll = Math.min(0.34, ...comparison.recordings.map(({ anchor }) => anchor))
-    const sides = comparison.recordings.map((entry) => ({ ...entry, trim: entry.anchor - preroll }))
-    const duration = Math.max(...sides.map(({ lastSeconds, trim }) => lastSeconds - trim))
-    const filters = sides.flatMap(({ trim, lastSeconds }, i) => [
-      `[${i}:v]trim=start=${trim},setpts=PTS-${trim}/TB,fps=60:start_time=0,scale=640:400:flags=neighbor,setsar=1,tpad=stop_mode=clone:stop_duration=${duration - lastSeconds + trim + 0.12}[v${i}]`,
-      `[${i}:a]atrim=start=${trim},asetpts=PTS-${trim}/TB,aresample=async=1:first_pts=0,aformat=channel_layouts=stereo,pan=mono|c0=0.5*c0+0.5*c1,apad[a${i}]`,
-    ])
-    filters.push('[v0][v1]hstack=inputs=2[v]', '[a0][a1]join=inputs=2:channel_layout=stereo[a]')
-    await run('ffmpeg', [
-      '-v',
-      'error',
-      '-nostdin',
-      '-n',
-      '-copyts',
-      ...sides.flatMap(({ recording }) => ['-i', recording]),
-      '-filter_complex',
-      filters.join(';'),
-      '-map',
-      '[v]',
-      '-map',
-      '[a]',
-      '-t',
-      duration.toFixed(6),
-      '-c:v',
-      'libx264',
-      '-preset',
-      'fast',
-      '-crf',
-      '18',
-      '-pix_fmt',
-      'yuv420p',
-      '-c:a',
-      'aac',
-      '-b:a',
-      '192k',
-      '-movflags',
-      '+faststart',
-      clip,
-    ])
-    const decoded = []
-    for (const [panel, source] of sides.entries()) {
-      const frames = await decodeWorldDialoguePixels(clip, panel)
-      const spans = source.spans.map(({ id, start, end, minLitFraction }) => ({
-        id,
-        ...checkWorldDialoguePixels(frames, {
-          start: start - source.trim,
-          end: end - source.trim,
-          minLitFraction,
-        }),
-      }))
-      assert(
-        spans.every(({ status }) => status === 'passed'),
-        JSON.stringify({ engine: source.engine, spans }),
-      )
-      const actorPixels = await nightActorPixels(source, clip, source.trim, panel)
-      assert(
-        actorPixels.every(({ status }) => status === 'passed'),
-        JSON.stringify({ engine: source.engine, actorPixels }),
-      )
-      decoded.push({ engine: source.engine, spans, actorPixels, trim: source.trim })
-    }
-    const { stdout } = await run(
-      'ffmpeg',
-      [
-        '-v',
-        'error',
-        '-nostdin',
-        '-i',
-        clip,
-        '-map',
-        '0:a:0',
-        '-vn',
-        '-ar',
-        '8000',
-        '-f',
-        's16le',
-        'pipe:1',
-      ],
-      { encoding: 'buffer', maxBuffer: Math.ceil((duration + 1) * 8000 * 4) },
-    )
-    const peaks = [0, 0]
-    for (let i = 0; i < stdout.length; i += 2) {
-      const channel = (i / 2) % 2
-      peaks[channel] = Math.max(peaks[channel], Math.abs(stdout.readInt16LE(i)))
-    }
-    assert(
-      peaks.every((peak) => peak >= 16),
-      'the split needs both engines’ original audio',
-    )
-    const receipt = join(temporary, 'receipt.json')
-    await writeFile(
-      receipt,
-      `${JSON.stringify(
-        {
-          ...comparison,
-          target: output,
-          sha256: await sha256(clip),
-          duration,
-          speed: 1,
-          channels: { left: 'game', right: 'reforge' },
-          decoded,
-          peaks,
-        },
-        null,
-        2,
-      )}\n`,
-    )
-    await link(receipt, receiptPath)
-    try {
-      await link(clip, output)
-    } catch (error) {
-      await rm(receiptPath)
-      throw error
-    }
-  } finally {
-    await rm(temporary, { recursive: true })
   }
 }
 
@@ -494,6 +421,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     await writeFile(receipt, `${JSON.stringify(compare, null, 2)}\n`, { flag: 'wx' })
     process.exitCode = 1
   } else {
-    await publishSplit(compare, resolve(output), resolve(receipt))
+    await publishWorldDialogueSplit(compare, resolve(output), resolve(receipt), checkInnSplit)
   }
 }
