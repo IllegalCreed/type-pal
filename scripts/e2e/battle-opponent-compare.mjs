@@ -194,6 +194,47 @@ const cueList = (roster) =>
     actions.map(({ seq, motion }) => [seq, motion.cues.map(({ assetId }) => assetId)]),
   ])
 
+function compareSceneRewards(game, reforge, owners, patch) {
+  const drawCount = owners.filter(({ chanceUnder }) => chanceUnder !== null).length
+  const split = Math.max(0, game.random.length - drawCount)
+  const rolls = game.random.slice(split)
+  patch('native random draws', game.random.slice(0, split), reforge.random)
+  patch('Game scene reward draw count', rolls.length, drawCount)
+  patch(
+    'Game scene reward draw ownership',
+    game.sceneRewardDraws,
+    rolls.map(({ index }) => index),
+  )
+
+  const expected = new Map()
+  let drawIndex = 0
+  const rewards = owners.map((owner) => {
+    const draw = owner.chanceUnder === null ? null : (rolls[drawIndex++] ?? null)
+    const roll = draw && Math.floor(draw.value * 100) + 1
+    const granted = owner.chanceUnder === null || (roll !== null && roll < owner.chanceUnder)
+    if (granted) expected.set(owner.itemId, (expected.get(owner.itemId) ?? 0) + 1)
+    return { ...owner, randomIndex: draw?.index ?? null, roll, granted }
+  })
+  const inventory = [...expected].map(([itemId, count]) => ({ itemId, count }))
+  inventory.sort((first, second) => first.itemId.localeCompare(second.itemId))
+
+  const { inventory: gameInventory, ...gameAfter } = game.business.terminal.after
+  const { inventory: rfInventory, ...rfAfter } = reforge.business.terminal.after
+  patch('Game original scene reward', gameInventory, inventory)
+  patch('Reforge standalone trial inventory', rfInventory, [])
+  patch(
+    'terminal outside scene reward',
+    { ...game.business.terminal, after: gameAfter },
+    { ...reforge.business.terminal, after: rfAfter },
+  )
+  return {
+    source: 'original victory scripts and canonical onDefeated',
+    rewards,
+    gameInventory,
+    rfInventory,
+  }
+}
+
 function comparePair(first, second, scenario) {
   const repeat = first.engine === second.engine
   assert(!repeat || first.runId !== second.runId, 'replay reused a browser context')
@@ -205,32 +246,13 @@ function comparePair(first, second, scenario) {
   for (const key of ['start', 'commands', 'actions', 'rounds'])
     patch(key, first.business[key], second.business[key])
   patch('starting effective player stats', first.players, second.players)
-  patch('native random draws', first.random, second.random)
   patch('played enemy action sound cues', cueList(first.roster), cueList(second.roster))
   const observations = []
   if (!repeat && scenario.victoryScriptOwners.length) {
     // A Reforge trial settles combat without running scene onDefeated commands.
-    const { inventory: gameInventory, ...gameAfter } = first.business.terminal.after
-    const { inventory: rfInventory, ...rfAfter } = second.business.terminal.after
-    patch('Game original scene reward', gameInventory, [
-      { itemId: '152', count: scenario.victoryScriptOwners.length },
-    ])
-    patch('Reforge standalone trial inventory', rfInventory, [])
-    patch(
-      'terminal outside scene reward',
-      { ...first.business.terminal, after: gameAfter },
-      {
-        ...second.business.terminal,
-        after: rfAfter,
-      },
-    )
-    observations.push({
-      source: 'SSS 42828–42831 and canonical onDefeated',
-      owners: scenario.victoryScriptOwners,
-      gameInventory,
-      rfInventory,
-    })
+    observations.push(compareSceneRewards(first, second, scenario.victoryScriptOwners, patch))
   } else {
+    patch('native random draws', first.random, second.random)
     patch('terminal', first.business.terminal, second.business.terminal)
   }
   return { id: scenario.id, first: first.runId, second: second.runId, differences, observations }
@@ -306,6 +328,12 @@ async function readReport(path, engine, scenarios, sources) {
     assert.deepEqual(result.terminal, { result: battleResult, settlementCount, after })
     const players = result.initial.nativePlayers.map(({ gameRole: _gameRole, ...player }) => player)
     assert.equal(players.length, scenario.configured.party.length)
+    const lastAction = trace.actions.at(-1)?.order ?? trace.start.order
+    const sceneRewardDraws = trace.randomDraws.flatMap(({ index, order, purpose }) =>
+      order > lastAction && order < trace.terminal.order && purpose === 'battle-script-chance'
+        ? [index]
+        : [],
+    )
     runs.push({
       id: scenario.id,
       engine,
@@ -313,6 +341,7 @@ async function readReport(path, engine, scenarios, sources) {
       trace: result.trace,
       players,
       random: gameplayRandom(trace),
+      sceneRewardDraws,
       inputs: input.length,
       ...inspectOpponentRun(trace, scenario),
     })

@@ -7,6 +7,7 @@ import { battleStatusSources, prepareBattleStatusInputs } from './battle-status-
 
 const raw = 'data/extracted/data'
 const canonical = 'projects/pal/content'
+const sceneRewardScripts = new Set([41012, 41022, 41027, 42828])
 const fields = [
   { team: 228, scene: 's201', field: 35 },
   { team: 104, scene: 's071', field: 55 },
@@ -47,7 +48,7 @@ const fields = [
   { team: 288, scene: 's279', field: 57, attackStrength: 10200 },
   { team: 292, scene: 's279', field: 57 },
   { team: 293, scene: 's148', field: 40, attackStrength: 11500 },
-  { team: 315, scene: 's250', field: 50, attackStrength: 13000 },
+  { team: 315, scene: 's250', field: 50, seed: 6, attackStrength: 13000 },
   { team: 348, scene: 's222', field: 34 },
   { team: 0, scene: 's006', field: 12 },
   { team: 18, scene: 's001', field: 24 },
@@ -62,6 +63,8 @@ const fields = [
   // Both original encounter commands lack a migrated scene entry. Use the trial's default field.
   { team: 189, scene: null, field: 7, rawBattleStart: 41843 },
   { team: 212, scene: null, field: 7, rawBattleStart: 41889 },
+  // The alternate Elder is present in the original formation table and has no scripted entrance.
+  { team: 312, scene: null, field: 7 },
 ]
 
 const heroes = ['li-xiaoyao', 'zhao-linger', 'anu']
@@ -72,6 +75,32 @@ function findEncounters(value, team) {
     ...(value.enemyTeamId === team ? [value] : []),
     ...Object.values(value).flatMap((child) => findEncounters(child, team)),
   ]
+}
+
+function sceneReward(source, onDefeated, entry) {
+  const branch = source[entry]
+  const chanceUnder = branch.opcode === 0x06 ? branch.operands[0] : null
+  let body = onDefeated
+  if (chanceUnder !== null) {
+    assert.deepEqual(branch.operands.slice(1), [0, 0])
+    assert.equal(onDefeated.length, 1)
+    const [compiled] = onDefeated
+    assert.equal(compiled.kind, 'branch')
+    assert.deepEqual(compiled.cond, { kind: 'chance', percent: chanceUnder - 1 })
+    body = compiled.then
+  }
+  const start = entry + Number(chanceUnder !== null)
+  const [item, style, dialogue, end] = source.slice(start, start + 4)
+  assert.deepEqual(
+    [item.op, item.count, style.op, dialogue.op, end.op],
+    ['giveItem', 0, 'setDialogStyleNarration', 'showDialog', 'end'],
+  )
+  const itemId = String(item.itemId)
+  assert.equal(body.length, 2)
+  assert.deepEqual(body[0], { kind: 'giveItem', itemId })
+  assert.equal(body[1].kind, 'dialog')
+  assert.equal(body[1].cue.rows[0].text, `dlg.${dialogue.messageIndex}`)
+  return { itemId, chanceUnder }
 }
 
 const defend = (turn, actorId) => ({ turn, actorId, kind: 'defend', targetId: null })
@@ -155,9 +184,12 @@ export async function battleOpponentScenarios(root, selector = 'all') {
       )
       const rawEncounter = rawBattleStart === undefined ? null : script[rawBattleStart]
       if (source) assert(encounter, `${scene} has no ${id} encounter on battle field ${field}`)
-      else {
+      else if (rawBattleStart !== undefined) {
         assert.equal(rawEncounter?.opcode, 0x07)
         assert.deepEqual(rawEncounter.operands, [team, 41075, 41073])
+      } else {
+        assert.equal(team, 312)
+        assert(!script.some((entry) => entry.opcode === 0x07 && entry.operands[0] === team))
       }
       if (source && rawBattleStart !== undefined) {
         const { opcode: setField, operands: fieldOperands } = script[rawBattleStart - 2]
@@ -198,20 +230,14 @@ export async function battleOpponentScenarios(root, selector = 'all') {
         assert(original && authored, `missing object ${objectIndex}`)
         assert.equal(authored.stats.health, original.health)
         assert.equal(authored.yPosOffset, original.yPosOffset)
-        if (object.scriptOnBattleEnd === 42828) {
-          assert.deepEqual(
-            [
-              script[42828].op,
-              script[42828].itemId,
-              script[42828].count,
-              script[42830].text,
-              script[42831].op,
-            ],
-            ['giveItem', 152, 0, '获得一只傀儡虫', 'end'],
-          )
-          assert.deepEqual(authored.onDefeated?.[0], { kind: 'giveItem', itemId: '152' })
-          assert.equal(authored.onDefeated?.[1].cue.rows[0].text, 'dlg.13349')
-          victoryScriptOwners.push({ slot, templateId, script: 42828 })
+        const victoryScript = object.scriptOnBattleEnd
+        if (sceneRewardScripts.has(victoryScript)) {
+          victoryScriptOwners.push({
+            slot,
+            templateId,
+            script: victoryScript,
+            ...sceneReward(script, authored.onDefeated, victoryScript),
+          })
         }
         if (team === 26) {
           assert.equal(object.scriptOnTurnStart, 42476)
@@ -291,7 +317,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
       }))
       const commands = commandPlan(team, opponents, party)
       const configured = prepare({ id, seed, team, party, commands })
-      const boss = source ? Boolean(encounter.boss) : rawEncounter.operands[2] === 0
+      const boss = source ? Boolean(encounter.boss) : rawEncounter?.operands[2] === 0
       if (!source) assert.equal(configured.game.fixture.battleFieldId, field)
       configured.game.fixture.battleFieldId = field
       configured.game.fixture.isBoss = boss
