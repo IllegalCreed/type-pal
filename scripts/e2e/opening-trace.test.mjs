@@ -289,6 +289,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
     gameOverPresentation: { draw: () => showingDefeat },
     preserveClosedDialogFrame: true,
     sceneEntrySession: { heldFrame: null },
+    fadingDialogueFrame: undefined,
     victoryFrame: undefined,
     ctx: { putImageData() {}, save() {}, scale() {}, restore() {} },
     drawFadeCurtain() {},
@@ -357,6 +358,11 @@ test('real render early returns and failed draws never claim a freshly rendered 
   assert.deepEqual(points, ['before:render'])
   points.length = 0
   scope.sceneEntrySession.heldFrame = null
+  scope.fadingDialogueFrame = {}
+  render()
+  assert.deepEqual(points, ['before:render'], 'the composited farewell is held during fade')
+  points.length = 0
+  scope.fadingDialogueFrame = undefined
   showingDefeat = true
   scope.dialogBox.active = true
   continueAfterWorld = true
