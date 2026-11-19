@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "e7e0d2d743442613fbf49a9e2ca8a5f5f36f8d4f3524881cd580956746c8ee5b",
+      "afterSha256": "3eeb9c87f663d227adad0f6fca114ac58c7e605323c94fc0e606344f60fbb5c0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核原盘出口、聚拢和开门脚本。",
-        "reviewedLines": 1886,
-        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
+        "conclusion": "核场景赠物、两条布包触发和奖励的原盘入口。",
+        "reviewedLines": 1887,
+        "acceptanceScope": "核原始面向对象、角色触发、消耗归属和灵葫咒授予命令。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "6ee1268853e2a83a000e1c15e4921acb1a6d3d02a53a7c02526ff9e93b9d585c",
+      "afterSha256": "db98fd5400da252e02a2ba1e16518eab1a5db81d326d6e75c20928fbf6ba1c21",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
-        "reviewedLines": 933,
-        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
+        "conclusion": "复核桂花酒、布包同局基线及本批准入。",
+        "reviewedLines": 938,
+        "acceptanceScope": "固定五个合法局面的实施边界及应验结果，保留原始记录。"
       }
     },
     {
@@ -5501,31 +5501,48 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
+        "required": [
+          "docs/engineering/guides/agent-workflow.md",
+          "docs/tasks/board.md"
+        ]
       },
       {
         "operation": "写、改或审查测试",
-        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
+        "required": [
+          "docs/testing/governance.md",
+          "docs/engineering/guides/agent-workflow.md"
+        ]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": ["docs/phase1/README.md"]
+        "required": [
+          "docs/phase1/README.md"
+        ]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": ["docs/phase2/READ-FIRST.md"]
+        "required": [
+          "docs/phase2/READ-FIRST.md"
+        ]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": ["docs/lore/README.md"]
+        "required": [
+          "docs/lore/README.md"
+        ]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": ["docs/phase3/README.md"]
+        "required": [
+          "docs/phase3/README.md"
+        ]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+        "required": [
+          "docs/testing/e2e/contract.md",
+          "docs/lore/timeline.md"
+        ]
       },
       {
         "operation": "封板、合并或发布回执",

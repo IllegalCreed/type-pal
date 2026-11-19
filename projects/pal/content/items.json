@@ -9858,20 +9858,6 @@
                     ]
                   },
                   {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s137",
-                      "entity": "e2332"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
-                  },
-                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s137",
@@ -9888,23 +9874,16 @@
                     "itemId": "271"
                   },
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s137",
+                      "entity": "e2332"
+                    }
+                  },
+                  {
                     "kind": "returnScript"
                   }
                 ]
-              },
-              {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s097",
-                  "entity": "e1782"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
               },
               {
                 "kind": "selectEntityBehavior",
@@ -9916,6 +9895,13 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-4ddfec39e30e"
+                }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s097",
+                  "entity": "e1782"
                 }
               }
             ]
