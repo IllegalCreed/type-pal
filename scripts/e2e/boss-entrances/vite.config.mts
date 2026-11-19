@@ -122,11 +122,22 @@ const observeBoss: Plugin = {
     if (file?.endsWith(`/${reforgeSprites}`))
       return { code: instrumentReforgeBattle(source, reforgeSprites).code, map: null }
     if (file?.endsWith('/packages/reforge/src/battle/battle-session.ts')) {
-      const code = after(
+      let code = after(
         source,
         '        enemies.push(draw)',
         "        globalThis.__battleEvidence?.labelFighter(draw, 'enemy', i, e.hp <= 0 && !dyingNow)",
       )
+      if (process.env.Q2_BOSS_FOREGROUND === '1') {
+        const dialogue =
+          '    if (this.assets.dialogBox?.visible) {\n      this.assets.dialogBox.render(now)'
+        code = replaceOnce(
+          code,
+          dialogue,
+          `    if (!this.assets.dialogBox?.visible && !this.choreoBanner)
+      globalThis.__openingCauseDialogueDraw?.('reforge', [])
+${dialogue}`,
+        )
+      }
       return {
         code: after(
           code,
@@ -183,6 +194,11 @@ ${anchor}`,
       const dialog =
         '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)\n  }'
       code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')
+      code = replaceOnce(
+        code,
+        '\n}\n\nexport function flushToCanvas(',
+        '\n  globalThis.__bossForeground?.gameWorldDrawn()\n}\n\nexport function flushToCanvas(',
+      )
       return { code, map: null }
     }
     if (path?.endsWith('/packages/game/src/shell/bootstrap.ts')) {

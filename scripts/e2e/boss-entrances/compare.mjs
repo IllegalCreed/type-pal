@@ -30,7 +30,10 @@ assert(
 const source = await readSources(spec)
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
+const entrance = spec.entrance
 const handoff = spec.world.handoff
+const scriptedReturn = spec.world.scriptedReturn
+const leavesByScript = Boolean(handoff || scriptedReturn)
 const fieldMusic = initialTrack(spec)
 const returnMusic = returnTrack(spec)
 const returnedAt = returnedPosition(spec)
@@ -42,8 +45,8 @@ const roles = battleParty.map(({ role }) => role)
 const subtitle = (s) => s?.replace(/[\s"“”]/gu, '') ?? ''
 const speaker = (s) => s?.replace(/^spk\./u, '').replace(/∶$/u, '') ?? null
 const totalReward = () => [
-  source.original.exp + source.summonBonus.exp,
-  source.original.cash + source.summonBonus.cash,
+  source.nativeEnemies.reduce((sum, enemy) => sum + enemy.exp, source.summonBonus.exp),
+  source.nativeEnemies.reduce((sum, enemy) => sum + enemy.cash, source.summonBonus.cash),
 ]
 const mainAction = (action, game) => {
   const kind = game ? (action.type === 'magic' ? 'cast' : action.type) : action.kind
@@ -174,6 +177,133 @@ function checkOutsideDialogue(draws, { trigger, launch, menu, won, control }) {
       return { ...page, atMs: lastAt }
     })
   })
+}
+
+function expectedInnDialogue() {
+  const phases = []
+  const group = []
+  let visible = {}
+  const flush = () => {
+    for (const { lines, ...page } of expectedDialoguePages(group)) {
+      for (let row = 0; row < lines.length; row += 4) {
+        visible = {
+          ...visible,
+          [page.slot]: { ...page, portraitLayout: true, lines: lines.slice(row, row + 4) },
+        }
+        phases.push(['top', 'bottom'].flatMap((slot) => (visible[slot] ? [visible[slot]] : [])))
+      }
+    }
+    group.length = 0
+    visible = {}
+    phases.push([])
+  }
+  for (const command of source.turnStart) {
+    if (command.opcode === 0x05) flush()
+    else group.push(command)
+  }
+  flush()
+  return phases
+}
+
+function checkInnPresentation(
+  { events, resources },
+  draws,
+  { entered, trigger, entry, menu, control },
+) {
+  const issues = []
+  const check = (rule, expected, actual) => {
+    const issue = difference(expected, actual)
+    if (issue) issues.push({ rule, ...issue })
+  }
+  const phases = expectedInnDialogue()
+  const fullPages = []
+  let retainedGap
+  let index = 0
+  for (const { atMs, scene, slots } of draws) {
+    if (scene !== spec.scene || atMs < entry.atMs || atMs > menu.atMs) continue
+    const actual = slots
+      .map(({ speaker: name, lines, slot, portrait, portraitLayout }) => ({
+        slot,
+        portrait,
+        portraitLayout,
+        speaker: speaker(name),
+        lines: lines.map(subtitle).filter(Boolean),
+      }))
+      .sort((a, b) => (a.slot === b.slot ? 0 : a.slot === 'top' ? -1 : 1))
+    const expected = phases[index]
+    if (isDeepStrictEqual(expected, actual)) {
+      if (actual.length) fullPages.push({ atMs, slots: actual })
+      index += 1
+      continue
+    }
+    const previous = phases[index - 1]
+    if (isDeepStrictEqual(previous, actual)) continue
+    const retained = expected?.find((page) =>
+      previous?.some((visible) => isDeepStrictEqual(visible, page)),
+    )
+    if (retained && !retainedGap && !actual.some((page) => isDeepStrictEqual(page, retained))) {
+      retainedGap = {
+        rule: 'retained inn dialogue slot disappeared',
+        phase: index + 1,
+        atMs,
+        retained,
+        actual,
+      }
+    }
+    if (!actual.length) continue
+    const printsExpected = actual.every(({ lines, ...style }) =>
+      expected?.some(
+        ({ lines: text, ...page }) =>
+          isDeepStrictEqual(style, page) && lines.every((line, row) => text[row]?.startsWith(line)),
+      ),
+    )
+    if (!printsExpected && !issues.length)
+      issues.push({ rule: 'unexpected inn dialogue draw', phase: index + 1, expected, actual })
+  }
+  check(
+    'inn battle dialogue completed every page and clear before the command menu',
+    phases.length,
+    index,
+  )
+  if (retainedGap) issues.push(retainedGap)
+
+  const [start, duplicate] = events.filter(({ kind }) => kind === 'entrance-drawn')
+  assert(start && !duplicate, 'one first visible inn entrance')
+  assert.equal(start.scene, spec.scene)
+  assert(entered.order < start.order && start.order < trigger.order)
+  assert(
+    events.some(({ kind, order }) => kind === 'world-drawn' && order === start.order - 1),
+    'the entrance receipt must bind to an actual draw',
+  )
+  const formation = (frame) =>
+    frame && {
+      leader: frame.leader,
+      camera: frame.camera,
+      actors: Object.fromEntries(
+        Object.entries(frame.actors).map(([id, { asset, position, facing, frame }]) => [
+          id,
+          { asset, position, facing, frame },
+        ]),
+      ),
+    }
+  check('inn actors on the first visible entrance draw', source.inn.start, formation(start))
+  check('inn actors on the script return first draw', source.inn.returned, formation(control))
+  const byOrder = new Map(resources.map((resource) => [resource.order, resource]))
+  const drawnSprites = (frame) =>
+    frame &&
+    Object.fromEntries(
+      Object.entries(frame.actors).map(([id, { rect, resource }]) => {
+        const { width, height, pixels, opaque } = byOrder.get(resource)
+        return [id, { rect, rgba: sha256(JSON.stringify([width, height, pixels, opaque])) }]
+      }),
+    )
+  return {
+    issues,
+    fullPages,
+    start,
+    returned: control,
+    actorPixels: [start, control].map(drawnSprites),
+  }
 }
 
 function checkRingPresentation(
@@ -619,14 +749,24 @@ async function inspect(path, engine) {
   assert.deepEqual(report.cleanupErrors ?? [], [])
   assert.equal(report.inputExecution.status, 'passed')
   assertInputLedger(report.actions, { requireReceipts: true })
-  for (const [phase, key] of [['approach', approachKey], ...(handoff ? [] : [['exit', exitKey]])])
+  const routeInputs = [
+    ['approach', approachKey, 1],
+    ...(leavesByScript ? [] : [['exit', exitKey, 1]]),
+    ...(entrance
+      ? [
+          ['entrance', entrance.key, 1],
+          ['inn-walk', approachKey, entrance.walk.length],
+        ]
+      : []),
+  ]
+  for (const [phase, key, count] of routeInputs)
     assert.deepEqual(
       report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
-      [
+      Array.from({ length: count }, () => [
         ['down', key],
         ['up', key],
-      ],
-      `one held key for ${phase}`,
+      ]).flat(),
+      `physical held keys for ${phase}`,
     )
   assert.deepEqual(
     report.contexts.map(({ label, initialDatabases }) => [label, initialDatabases]),
@@ -645,7 +785,7 @@ async function inspect(path, engine) {
   }
   const [saved, raw] = await Promise.all([read(report.save), read(run.raw)])
   if (game) {
-    assert.equal(gameScene(spec), saved.gs.wNumScene)
+    assert.equal(gameScene({ scene: entrance?.scene ?? spec.scene }), saved.gs.wNumScene)
     assert.deepEqual(
       saved.gs.partyMembers,
       party.map(({ roleId }) => roleId),
@@ -654,8 +794,8 @@ async function inspect(path, engine) {
   } else {
     const readback = await read(run.slotReadback)
     assert.deepEqual(readback.position, {
-      sceneId: spec.scene,
-      pos: grid(spec.start),
+      sceneId: entrance?.scene ?? spec.scene,
+      pos: grid(entrance?.start ?? spec.start),
       facing: facing(approachKey),
     })
     assert.equal(readback.version, saved.version)
@@ -707,16 +847,37 @@ async function inspect(path, engine) {
     return hits[0]
   }
   const trigger = once('trigger')
+  const entered = entrance ? once('entrance-trigger') : undefined
+  if (entrance) {
+    const doorStep = once('entrance-move')
+    assert.deepEqual(
+      [doorStep.from, doorStep.to, doorStep.facing],
+      [entrance.start, entrance.contact, facing(entrance.key)],
+    )
+    assert.deepEqual(
+      [entered.scene, entered.owner, entered.position],
+      [entrance.scene, entrance.owner, entrance.contact],
+    )
+    if (game) assert.equal(entered.ip, entrance.ip)
+    assert(doorStep.order < entered.order && entered.order < trigger.order)
+  }
   assert.deepEqual(
     [trigger.scene, trigger.owner, trigger.position],
     [spec.scene, spec.owner, spec.contact],
   )
-  const [approach, departure] = find('move')
+  const [approach, departure] = find('move').slice(entrance?.walk.length ?? 0)
   assert.deepEqual(
     find('move').map(({ from, to, facing }) => [from, to, facing]),
     [
+      ...(entrance
+        ? entrance.walk.map((to, i) => [
+            i === 0 ? entrance.landing : entrance.walk[i - 1],
+            to,
+            facing(approachKey),
+          ])
+        : []),
       [spec.start, spec.contact, facing(approachKey)],
-      ...(handoff ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
+      ...(leavesByScript ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
     ],
   )
   assert(approach.order < trigger.order)
@@ -927,8 +1088,10 @@ async function inspect(path, engine) {
     game && spec.disk.defeated ? spec.world.inventory : [],
     'hook inventory at the engine-specific battle completion boundary',
   )
-  const control = once(handoff ? 'successor-drawn' : 'world-control')
-  const last = handoff ? run.returned.state : run.departure.state
+  const control = once(
+    handoff ? 'successor-drawn' : scriptedReturn ? 'scripted-return-drawn' : 'world-control',
+  )
+  const last = leavesByScript ? run.returned.state : run.departure.state
   assert(won.order < control.order)
   if (handoff) {
     assert.equal(control.scene, handoff.scene)
@@ -956,6 +1119,33 @@ async function inspect(path, engine) {
         (game ? ip === handoff.ip : op === 'loadScene'),
     )
     assert(load, 'missing actual authored scene handoff')
+  } else if (scriptedReturn) {
+    const [col, row] = returnedAt
+    const leader = [16 * (col - row), 8 * (col + row)]
+    const camera = [leader[0] - 160, leader[1] - 112]
+    assert.deepEqual(
+      [control.scene, control.leader, control.camera],
+      [spec.scene, leader, camera],
+      'first visible scripted return on the source camera and feet',
+    )
+    assert.deepEqual([last.scene, last.position, last.battle], [spec.scene, returnedAt, null])
+    assert(!last.ready, 'the return script still owns control')
+    const returned = events.find(
+      ({ kind, order }) => kind === 'world-drawn' && order === control.order - 1,
+    )
+    assert(
+      returned && returned.scene === spec.scene,
+      'the return receipt binds an actual field draw',
+    )
+    assert(
+      script.some(
+        ({ op, ip, order }) =>
+          won.order < order &&
+          order < control.order &&
+          (game ? ip === scriptedReturn.position : op === 'teleportParty'),
+      ),
+      'author relocation must commit before the first visible return',
+    )
   } else {
     assert.deepEqual(control.position, returnedAt)
     assert(control.order < departure.order)
@@ -968,6 +1158,10 @@ async function inspect(path, engine) {
   assert.deepEqual([last.cash, last.inventory], [cash, spec.world.inventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
+    (scriptedReturn?.members ?? roles).map((role) => [role, exp]),
+  )
+  assert.deepEqual(
+    won.party.map(({ id, exp: gained }) => [id, gained]),
     roles.map((role) => [role, exp]),
   )
   if (!handoff) {
@@ -980,11 +1174,11 @@ async function inspect(path, engine) {
     )
     assert.equal(last.music, returnMusic)
   }
-  if (!handoff && scenario !== 'thief')
+  if (!leavesByScript && scenario !== 'thief')
     assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
-    if (!handoff) {
+    if (!leavesByScript) {
       assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
       assert.equal(run.returned.owner.resume, spec.team === 45 ? spec.disk.last + 1 : null)
       assert(script.some(({ ip }) => ip === spec.disk.last))
@@ -1007,7 +1201,7 @@ async function inspect(path, engine) {
       at: { kind: 'stage', stage: 'legacy-002' },
     })
   } else {
-    if (!handoff && scenario !== 'thief') assert.equal(run.returned.owner.hidden, true)
+    if (!leavesByScript && scenario !== 'thief') assert.equal(run.returned.owner.hidden, true)
     if (spec.disk.reward)
       assert.equal(
         script.filter(
@@ -1034,7 +1228,7 @@ async function inspect(path, engine) {
     { won: won.order, control: control.order },
     game,
   )
-  const boundaries = { trigger, launch: launch[0], entry, menu, won, control }
+  const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
   const foreground =
     scenario === 'thief'
@@ -1050,6 +1244,7 @@ async function inspect(path, engine) {
   const ring = source.ring
     ? checkRingPresentation(events, renderedDialogue, boundaries, game)
     : undefined
+  const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
   if (
     foreground &&
     ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
@@ -1101,6 +1296,7 @@ async function inspect(path, engine) {
           })),
         }
       : {}),
+    ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -1121,9 +1317,10 @@ async function inspect(path, engine) {
     foreground,
     outside,
     ring,
+    inn,
     spiderForeground,
     clips: {
-      contactMs: trigger.atMs,
+      contactMs: entered?.atMs ?? trigger.atMs,
       returnMs: ring?.returned.atMs ?? control.atMs,
       exitMs: departure?.atMs ?? control.atMs,
     },
@@ -1148,7 +1345,11 @@ const failures = sides.flatMap((result, i) =>
 const [game, reforge] = sides.map(({ value }) => value)
 if (!failures.length) {
   for (const result of [game, reforge]) {
-    for (const issue of [...(result.foreground?.issues ?? []), ...(result.outside?.issues ?? [])])
+    for (const issue of [
+      ...(result.foreground?.issues ?? []),
+      ...(result.outside?.issues ?? []),
+      ...(result.inn?.issues ?? []),
+    ])
       failures.push({ engine: result.engine, ...issue })
   }
   const comparableGame = game.comparable

@@ -96,28 +96,36 @@ async function side(engine, relocatedReport) {
     assert(!reviewLoadReveal && !comparison.failures.length)
     assert.deepEqual(rawReference, compare.raw)
     const { events } = raw
-    const contact = events.find(({ kind }) => kind === 'trigger')
+    const contact =
+      events.find(({ kind }) => kind === 'entrance-trigger') ??
+      events.find(({ kind }) => kind === 'trigger')
     const successor = events.find(({ kind }) => kind === 'successor-drawn')
+    const scriptedReturn = events.find(({ kind }) => kind === 'scripted-return-drawn')
     const battleEnd = events.find(({ kind }) => kind === 'battle-finished')
-    const returned = successor
-      ? events.find(
-          ({ kind, order, scene, colors }) =>
-            kind === 'world-drawn' &&
-            order > battleEnd.order &&
-            scene === contact.scene &&
-            colors.some(([r, g, b]) => r || g || b),
-        )
-      : events.find(({ kind }) => kind === 'world-control')
+    const returned =
+      scriptedReturn ??
+      (successor
+        ? events.find(
+            ({ kind, order, scene, colors }) =>
+              kind === 'world-drawn' &&
+              order > battleEnd.order &&
+              scene === contact.scene &&
+              colors.some(([r, g, b]) => r || g || b),
+          )
+        : events.find(({ kind }) => kind === 'world-control'))
     assert(returned, `${engine} missing actual return frame`)
     const exit =
-      successor ?? events.find(({ kind, order }) => kind === 'move' && order > returned.order)
+      scriptedReturn ??
+      successor ??
+      events.find(({ kind, order }) => kind === 'move' && order > returned.order)
     const { contactMs, returnMs, exitMs } = compare.clips
     assert.deepEqual([contact.atMs, returned.atMs, exit.atMs], [contactMs, returnMs, exitMs])
     const start = report.media.browser.startedAt
     const contactSeconds = (contactMs - start) / 1000
     const returnSeconds = (returnMs - start) / 1000
     const exitSeconds = (exitMs - start) / 1000
-    assert(contactSeconds >= 0 && returnSeconds > contactSeconds && exitSeconds > returnSeconds)
+    assert(contactSeconds >= 0 && returnSeconds > contactSeconds)
+    assert(scriptedReturn ? exitSeconds === returnSeconds : exitSeconds > returnSeconds)
     assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
     return { ...identity, contactSeconds, returnSeconds, exitSeconds }
   }

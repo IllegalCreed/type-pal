@@ -12,7 +12,9 @@ export const returnedPosition = (spec) => spec.world.returned ?? spec.contact
 export const departingPosition = (spec) => spec.world.departure ?? spec.start
 export const battleOperands = (spec) => [spec.team, spec.disk.loss ?? 41075, 0]
 export const observesForeground = (spec) =>
-  spec.prelude !== undefined || spec.world.handoff !== undefined
+  spec.prelude !== undefined ||
+  spec.world.handoff !== undefined ||
+  spec.world.scriptedReturn !== undefined
 
 export const party = [
   {
@@ -73,6 +75,45 @@ export const growthPools = {
 }
 
 export const scenarios = {
+  'inn-leader': {
+    id: 'inn-miao-leader',
+    scene: 's003',
+    owner: 'e59',
+    watched: ['e56', 'e57', 'e58', 'e60', 'e61', 'e68'],
+    team: 19,
+    enemy: 'enemy-485',
+    start: [137, 69, 0],
+    contact: [137, 68, 0],
+    approach: 'ArrowUp',
+    party: 'city',
+    music: 38,
+    field: 24,
+    slot: 1,
+    seed: 4,
+    settlementDwellMs: 180,
+    disk: { entry: 2719, battle: 2721, last: 2872, owner: [1216, 1344, 2, 3] },
+    predecessor: { scene: 's020', actor: 'e349', start: 4881, end: 4907 },
+    mapMusic: { scene: 's004', ip: 1, track: 49 },
+    entrance: {
+      scene: 's004',
+      owner: 'e94',
+      ip: 43,
+      key: 'ArrowUp',
+      start: [95, 16, 0],
+      contact: [95, 15, 0],
+      landing: [137, 71, 0],
+      walk: [
+        [137, 70, 0],
+        [137, 69, 0],
+      ],
+    },
+    world: {
+      inventory: [],
+      returned: [142, 70, 0],
+      scriptedReturn: { position: 2728, wait: 2741, members: ['li-xiaoyao'] },
+      music: { ip: 2722, track: 30 },
+    },
+  },
   snake: {
     id: 'hidden-dragon-snake',
     scene: 's041',
@@ -252,6 +293,9 @@ export async function readSources(spec) {
     teams: 'data/extracted/data/enemy-teams.json',
     rfScene: `projects/pal/content/scenes/${spec.scene}.json`,
     rfTeams: 'projects/pal/content/enemy-teams.json',
+    ...(spec.predecessor
+      ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
+      : {}),
     ...(observesForeground(spec) ? { sprites: 'projects/pal/content/sprites.json' } : {}),
     ...(spec.world.handoff
       ? {
@@ -266,7 +310,7 @@ export async function readSources(spec) {
   )
   const actor = data.gameScene.eventObjects.find(({ id }) => `e${id}` === spec.owner)
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-  assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
+  if (!spec.predecessor) assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
   const commands = data.commands.segments.flatMap(({ commands }) => commands)
   const fieldTrack = musicId(mapMusic.track)
   const musicOwner = mapMusic.trigger
@@ -334,14 +378,16 @@ export async function readSources(spec) {
   const team = data.teams.find(({ id }) => id === spec.team)
   const slots = team.enemyObjectIndexes.map((id) => (id > 0 && id < 65535 ? `enemy-${id}` : null))
   assert.equal(slots[spec.slot], spec.enemy)
-  assert.equal(slots.filter(Boolean).length, 1)
   const rfTeam = data.rfTeams.find(({ id }) => id === `team-${spec.team}`)
   assert.deepEqual(
     Array.from({ length: 5 }, (_, i) => rfTeam.slots[i] ?? null),
     slots,
   )
   const boss = data.rfScene.entities.find(({ id }) => id === spec.owner)
-  const native = boss.behaviors.trigger.default.flow.stages[0].body
+  const setup = spec.predecessor ? readInnPredecessor(data.predecessor, commands, spec) : undefined
+  const inn = spec.entrance ? readInnFrames(data, commands, setup, spec) : undefined
+  const native =
+    boss.behaviors.trigger[setup?.[spec.owner].triggerVariant ?? 'default'].flow.stages[0].body
   const launch = native.find(({ kind }) => kind === 'startBattle')
   assert.deepEqual(
     [
@@ -398,15 +444,20 @@ export async function readSources(spec) {
     assert(native.some(({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(track)))
   }
   const original = data.enemies.find(({ id }) => id === team.enemies[spec.slot])
+  const nativeEnemies = team.enemies
+    .filter((_, i) => slots[i] !== null)
+    .map((id) => data.enemies.find((enemy) => enemy.id === id))
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
+  const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
-    spec.party === 'city'
+    hook ??
+    (spec.party === 'city'
       ? commands.slice(
           object.scriptOnTurnStart,
           commands.findIndex(({ op }, ip) => ip >= object.scriptOnTurnStart && op === 'end'),
         )
-      : []
+      : [])
   if (defeated) {
     assert.equal(object.scriptOnBattleEnd, defeated.ip)
     assert.deepEqual(
@@ -481,15 +532,167 @@ export async function readSources(spec) {
     hiddenLevels: partyFor(spec).map(({ roleId }) => data.actors.roles[roleId].level),
     slots,
     original,
+    nativeEnemies,
+    setup,
+    inn,
     turnStart,
     ring,
     summonBonus,
     pre: commands.slice(entry, battle),
-    post: commands.slice(battle + 1, last),
+    post: commands.slice(
+      battle + 1,
+      spec.world.scriptedReturn ? spec.world.scriptedReturn.wait + 1 : last,
+    ),
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
   }
+}
+
+function readInnPredecessor(scene, commands, spec) {
+  const { actor, start, end } = spec.predecessor
+  const author = scene.entities.find(({ id }) => id === actor)
+  const body = author.behaviors.trigger.default.flow.stages.flatMap(({ body }) => body)
+  const original = commands.slice(start, end + 1)
+  const directions = ['down', 'left', 'up', 'right']
+  const ids = [spec.owner, 'e60', 'e61']
+  const sceneActions = (id) =>
+    body.filter(({ target }) => target?.scene === spec.scene && target.entity === id)
+  const states = {}
+  for (const id of ['e56', ...ids]) {
+    const address = Number(id.slice(1)) + 1
+    const field = (opcode) =>
+      original.find(({ opcode: actual, operands }) => actual === opcode && operands[0] === address)
+        ?.operands
+    const authored = sceneActions(id)
+    const state = field(0x49)[1]
+    assert.equal(authored.find(({ kind }) => kind === 'setEntityState')?.state, state)
+    if (id === 'e56') {
+      states[id] = { state }
+      continue
+    }
+    const [, x, y] = field(0x13)
+    const facing = directions[field(0x16)[1]]
+    const triggerIp = field(0x25)[1]
+    const triggerMode = field(0x40)[1]
+    const autoIp = field(0x24)[1]
+    assert.equal(triggerIp, spec.disk.entry)
+    const selection = (channel) =>
+      authored.find(
+        ({ kind, channel: actual }) => kind === 'selectEntityBehavior' && actual === channel,
+      )?.selection
+    const activation = authored.find(({ kind }) => kind === 'setEntityTriggerActivation')?.selection
+    assert(activation?.kind === 'use' && activation.value.on === 'touch')
+    states[id] = {
+      state,
+      x,
+      y,
+      facing,
+      frame: field(0x16)[2],
+      triggerIp,
+      triggerMode,
+      autoIp,
+      pos: authored.find(({ kind }) => kind === 'setEntityPos')?.pos,
+      triggerVariant: selection('trigger').value,
+      activation,
+      auto: selection('auto'),
+    }
+    assert(states[id].pos)
+  }
+  return states
+}
+
+function readInnFrames(data, commands, setup, spec) {
+  const { entrance, world } = spec
+  const door = data.musicScene.eventObjects.find(({ id }) => `e${id}` === entrance.owner)
+  assert.equal(door.triggerLabel, `L_${entrance.ip}`)
+  const [x, y, half] = commands[entrance.ip].operands
+  assert.equal(commands[entrance.ip].opcode, 0x46)
+  assert.deepEqual(entrance.landing, [x + y + half, y - x, 0])
+  assert.equal(commands[entrance.ip + 1].sceneId, gameScene(spec))
+  const entry = data.canonicalMusicScene.entities.find(({ id }) => id === entrance.owner)
+  const [load] = entry.behaviors.trigger.default.flow.stages[0].body
+  assert.deepEqual(
+    [load.kind, load.scene, data.rfScene.entries[load.entryId].pos],
+    ['loadScene', spec.scene, grid(entrance.landing)],
+  )
+  assert.deepEqual(entrance.walk.at(-1), spec.start)
+  const initialActor = (id, x, y, facing, offset) => {
+    const actor = data.gameScene.eventObjects.find((entry) => `e${entry.id}` === id)
+    const direction = ['down', 'left', 'up', 'right'].indexOf(facing)
+    return {
+      asset: actor.spriteNum,
+      position: [x, y],
+      facing,
+      frame: actor.nSpriteFrames * direction + offset,
+    }
+  }
+  const cameraAndActors = ([col, row], actors) => {
+    const leader = [16 * (col - row), 8 * (col + row)]
+    return { leader, camera: [leader[0] - 160, leader[1] - 112], actors }
+  }
+  const start = cameraAndActors(
+    entrance.landing,
+    Object.fromEntries(
+      Object.entries(setup)
+        .filter(([, state]) => state.state > 0)
+        .map(([id, { x, y, facing, frame }]) => [id, initialActor(id, x, y, facing, frame)]),
+    ),
+  )
+  const afterVictory = commands.slice(spec.disk.battle + 1, world.scriptedReturn.wait + 1)
+  const field = (opcode, id) =>
+    afterVictory.find(
+      ({ opcode: actual, operands }) =>
+        actual === opcode && operands[0] === Number(id.slice(1)) + 1,
+    )?.operands
+  const actors = Object.fromEntries(
+    ['e56', spec.owner, 'e68'].map((id) => {
+      const [, x, y] = field(0x13, id)
+      const [, direction, frame] = field(0x16, id)
+      return [id, initialActor(id, x, y, ['down', 'left', 'up', 'right'][direction], frame)]
+    }),
+  )
+  for (const id of ['e60', 'e61']) assert.equal(field(0x49, id)[1], 0)
+  const [a, b, h] = commands[world.scriptedReturn.position].operands
+  assert.equal(commands[world.scriptedReturn.position].opcode, 0x46)
+  const landed = [a + b + h, b - a, 0]
+  assert.deepEqual(landed, world.returned)
+  const predecessor = data.predecessor.entities.find(({ id }) => id === spec.predecessor.actor)
+  const selector = predecessor.behaviors.trigger.default.flow.stages
+    .flatMap(({ body }) => body)
+    .find(({ kind, scene }) => kind === 'selectSceneHooks' && scene === spec.scene)
+  const setupHook = selector?.selection.onEnter?.value
+  if (setupHook) {
+    const hook = data.rfScene.hooks.onEnter
+    const stage = hook.variants[setupHook].flow.stages[0]
+    assert.equal(hook.initial, undefined, 'ambush prep is selected by the story')
+    assert.deepEqual(stage.next, { kind: 'complete' })
+    assert.deepEqual(stage.entry.reveal, {
+      kind: 'fade',
+      outMs: load.transition.outMs,
+      inMs: load.transition.inMs,
+    })
+    for (const [id, { facing, frame, pos, x, y }] of Object.entries(setup)) {
+      if (!pos) continue
+      const steps = stage.entry.prepare.filter(({ target }) => target?.entity === id)
+      assert.deepEqual(steps, [
+        { kind: 'setEntityFacing', target: { scene: spec.scene, entity: id }, facing },
+        { kind: 'setEntityFrame', target: { scene: spec.scene, entity: id }, frame },
+      ])
+      assert.deepEqual([16 * (pos.col - pos.row), 8 * (pos.col + pos.row)], [x, y])
+    }
+  }
+  return { start, returned: cameraAndActors(landed, actors), setupHook }
+}
+
+function readInnBattleDialogue(commands, leader, actors) {
+  const gate = commands[leader.scriptOnTurnStart]
+  assert.equal(gate.opcode, 0x79)
+  assert.equal(gate.operands[0], actors.roles[1].name)
+  const start = gate.operands[1]
+  const last = commands.findIndex(({ op }, ip) => ip > start && op === 'end')
+  assert(last > start)
+  return commands.slice(start, last)
 }
 
 function ringSource(commands, turnStart, actors, successorTrack) {

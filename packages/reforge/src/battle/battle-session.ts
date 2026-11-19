@@ -2873,7 +2873,8 @@ export class BattleSession {
 
     // 战斗内对话框 = 大世界同款 DialogBox 叠战斗场景上(一阶段真值;text.c:1687 不擦底)。
     // 已在 320 逻辑坐标 ×scale 上下文里,DialogBox.render 内部也走 320 坐标 → 直接调。
-    if (this.assets.dialogBox?.active) {
+    // 一句确认后仍可能保留上下槽，清框或演出收尾才释放这些画面。
+    if (this.assets.dialogBox?.visible) {
       this.assets.dialogBox.render(now)
     } else if (this.choreoBanner) {
       // 无 DialogBox(单测/资产缺)时的文字兜底横幅

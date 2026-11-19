@@ -5,7 +5,12 @@ export function scriptedDefeatObserver(input) {
   return `(${install})(${JSON.stringify(input)}, ${createSeedableRng}, ${createEvidenceRecorder})`
 }
 
-function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng, createRecorder) {
+function install(
+  { engine, scene, gameScene, owner, seed, foreground, entrance },
+  makeRng,
+  createRecorder,
+) {
+  const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
   const events = [],
     errors = []
   let overflow = false,
@@ -197,9 +202,9 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
     }
   }
   const pushRoute = (source, state) => {
-    if (state.scene !== scene) return
+    if (state.scene !== scene && state.scene !== entrance?.scene) return
     globalThis.__routeObserve(source, {
-      scene,
+      scene: state.scene,
       sceneVisit: 1,
       routeReady: state.ready,
       routeDialogue: state.box !== null,
@@ -220,9 +225,9 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
   const draw = (state, inBattle) => {
     const geometry = inBattle ? undefined : worldGeometry
     worldGeometry = undefined
+    pushRoute('render:world-or-battle', state)
     if (state.scene !== scene) return
     if (state.gameOver) once('ordinary-game-over-drawn', {})
-    pushRoute('render:world-or-battle', state)
     if (!contact) return
     const { ready, box, position, actors, party } = state
     const key = JSON.stringify({ inBattle, ready, box, position, actors, party, geometry })
@@ -316,15 +321,25 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
       })
     },
     gameContact(gs, npc) {
+      if (gs.wNumScene === entranceGameScene && `e${npc.id}` === entrance.owner) {
+        once('entrance-trigger', {
+          scene: entrance.scene,
+          owner: entrance.owner,
+          ip: gs.eventCursor?.ip,
+          position: grid(gs.party),
+        })
+      }
       if (gs.wNumScene !== gameScene || `e${npc.id}` !== owner) return
       contact = event('trigger', { scene, owner, ip: gs.eventCursor?.ip, position: grid(gs.party) })
     },
     reforgeContact(sceneId, id, position) {
+      if (sceneId === entrance?.scene && id === entrance.owner)
+        once('entrance-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
       if (sceneId !== scene || id !== owner) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
     gameDraw(gs, renderedBattle, indices) {
-      if (gs.wNumScene !== gameScene) return
+      if (gs.wNumScene !== gameScene && gs.wNumScene !== entranceGameScene) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
       if (!contact || ended) return
@@ -397,9 +412,13 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
       if (self?.scene === scene && self.entity === owner) event('script-result', { path, arm })
     },
     reforgeMove(sceneId, from, to, facing) {
-      if (sceneId !== scene) return
+      if (sceneId !== scene && sceneId !== entrance?.scene) return
       const state = reforgeWorld()
-      event('move', { from: rfPos(from), to: rfPos(to), facing })
+      event(sceneId === scene ? 'move' : 'entrance-move', {
+        from: rfPos(from),
+        to: rfPos(to),
+        facing,
+      })
       pushRoute('commit:player.input', state)
     },
     command(slot, turn, action) {
@@ -433,12 +452,16 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
       event('music-stop', { track: Number(String(track).split('.').at(-1)), context }),
   }
   globalThis.__innGame = (gs, source) => {
-    if (gs.wNumScene !== gameScene) return
+    if (gs.wNumScene !== gameScene && gs.wNumScene !== entranceGameScene) return
     if (source === 'before:tickSceneInput') previousMove = grid(gs.party)
     if (source !== 'commit:tickSceneInput') return
     const to = grid(gs.party)
     if (previousMove?.some((n, i) => n !== to[i]))
-      event('move', { from: previousMove, to, facing: gs.party.facing })
+      event(gs.wNumScene === gameScene ? 'move' : 'entrance-move', {
+        from: previousMove,
+        to,
+        facing: gs.party.facing,
+      })
     pushRoute(source, gameWorld(gs))
   }
   globalThis.__defeatGameRestored = (gs) => event('restore', { scene: gs.wNumScene })

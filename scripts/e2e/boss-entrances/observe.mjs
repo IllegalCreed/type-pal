@@ -24,39 +24,69 @@ export function bossObserver(input) {
   return `${world};${battle}${foreground}`
 }
 
-function installBossForeground({ scene, handoffScene, owner, watched, assets }) {
+function installBossForeground({
+  scene,
+  handoffScene,
+  owner,
+  watched,
+  assets,
+  scriptedReturn,
+  entrance,
+}) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
   let gameActors = {}
+  let gameWorldDrawn = false
   let pending
   let previous
   let previousVisible
   let successor
+  let returned
+  let entered
   function commit(frame, context) {
     const signature = JSON.stringify(frame)
+    const entering = entrance && frame.scene === scene && !entered
     const arriving = handoffScene && frame.scene === handoffScene && !successor
-    if (previous === signature && !arriving) return
+    const returning = scriptedReturn && !returned && observation.read().ended
+    if (previous === signature && !entering && !arriving && !returning) return
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
         Array.from(context.getImageData(Math.floor(x * width), Math.floor(y * height), 1, 1).data),
       ),
     )
-    const visible = colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0)
+    const visible =
+      entering || returning
+        ? context
+            .getImageData(0, 0, width, height)
+            .data.some((value, index) => index % 4 !== 3 && value > 0)
+        : colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0)
     if (previous === signature && previousVisible === visible) return
     previous = signature
     previousVisible = visible
     observation.event('world-drawn', { ...frame, colors })
+    if (entering && visible) {
+      entered = true
+      observation.eventOnce('entrance-drawn', { ...frame, colors })
+    }
     if (arriving && visible) {
       successor = { ...frame, colors }
       observation.eventOnce('successor-drawn', successor)
+    }
+    if (returning && visible) {
+      returned = { ...frame, colors }
+      observation.eventOnce('scripted-return-drawn', returned)
     }
   }
 
   globalThis.__bossForeground = {
     successor: () => successor,
+    scriptedReturn: () => returned,
     battleFrame() {
       previous = undefined
+    },
+    gameWorldDrawn() {
+      gameWorldDrawn = true
     },
     gameActor(npc, sprite, frame) {
       const id = `e${npc.id}`
@@ -72,9 +102,11 @@ function installBossForeground({ scene, handoffScene, owner, watched, assets }) 
     },
     gameFrame(gs, battle, context) {
       const actors = gameActors
+      const drewWorld = gameWorldDrawn
       gameActors = {}
+      gameWorldDrawn = false
       const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
-      if (battle || (sceneId !== scene && sceneId !== handoffScene)) {
+      if (!drewWorld || battle || (sceneId !== scene && sceneId !== handoffScene)) {
         previous = undefined
         return
       }

@@ -35,6 +35,9 @@ assert(
   'usage: node scripts/e2e/boss-entrances/run.mjs game|reforge SCENARIO [--capture]',
 )
 const game = engine === 'game'
+const entrance = spec.entrance
+const checkpointScene = entrance?.scene ?? spec.scene
+const checkpoint = entrance?.start ?? spec.start
 const fieldMusic = initialTrack(spec)
 const fieldMusicAsset = nativeMusic(fieldMusic)
 const approach = spec.approach ?? 'ArrowUp'
@@ -45,6 +48,7 @@ const source = await readSources(spec)
 const foreground = observesForeground(spec)
 const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
+const scriptedReturn = spec.world.scriptedReturn
 const party = partyFor(spec)
 const roles = party.map(({ role }) => role)
 const nativeRoles = party.map(({ roleId }) => roleId)
@@ -57,10 +61,12 @@ const observe = bossObserver({
   watched: spec.watched,
   foreground,
   handoffScene: handoff?.scene,
+  scriptedReturn: Boolean(scriptedReturn),
+  entrance,
   assets: Object.fromEntries(source.spriteChunks),
   seed: spec.seed,
 })
-const ready = (state) => state?.scene === spec.scene && state.ready
+const ready = (state, scene = spec.scene) => state?.scene === scene && state.ready
 const waiting = new Set(['waiting-input', 'waiting-page-key', 'waiting-end-key'])
 const lineKey = (box) => (box ? JSON.stringify([box.at, box.id, box.page, box.text]) : null)
 const nextKey = game ? nextGameBattleKey : nextReforgeBattleKey
@@ -91,6 +97,7 @@ async function read(page) {
         ...observed,
         atMs: performance.now(),
         successor: globalThis.__bossForeground?.successor(),
+        scriptedReturn: globalThis.__bossForeground?.scriptedReturn(),
         owner:
           owner &&
           (game
@@ -158,13 +165,13 @@ async function dismissGameBoot(page) {
 }
 
 async function makeGameFixture(page, baseURL, until) {
-  await page.goto(`${baseURL}/?skip-intro=1&dev-scene=${gameScene(spec) - 1}`)
+  await page.goto(`${baseURL}/?skip-intro=1&dev-scene=${gameScene({ scene: checkpointScene }) - 1}`)
   await until(
     async () => {
       await dismissGameBoot(page)
       return read(page)
     },
-    ({ state } = {}) => ready(state),
+    ({ state } = {}) => ready(state, checkpointScene),
     'Game canonical scene',
     60_000,
   )
@@ -187,23 +194,38 @@ async function makeGameFixture(page, baseURL, until) {
   )
   const payload = JSON.parse(staged)
   const gs = payload.gs
-  assert.equal(gs.wNumScene, gameScene(spec))
-  for (const table of [gs.npcs, gs.allEventObjects]) {
+  assert.equal(gs.wNumScene, gameScene({ scene: checkpointScene }))
+  for (const table of entrance ? [gs.allEventObjects] : [gs.npcs, gs.allEventObjects]) {
     const actor = table.find(({ id }) => id === initialOwner)
-    assert.deepEqual(
-      [actor.x, actor.y, actor.sState, actor.triggerMode, actor.triggerLabel],
-      [...spec.disk.owner, `L_${spec.disk.entry}`],
-    )
+    assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
+    if (!source.setup) assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
+    for (const [id, prepared] of Object.entries(source.setup ?? {})) {
+      const npc = table.find(({ id: number }) => `e${number}` === id)
+      assert(npc, `missing original predecessor actor ${id}`)
+      npc.sState = prepared.state
+      if (prepared.triggerIp === undefined) continue
+      Object.assign(npc, {
+        x: prepared.x,
+        y: prepared.y,
+        facing: prepared.facing,
+        scriptedFrame: prepared.frame,
+        currentFrameNum: 0,
+        triggerMode: prepared.triggerMode,
+        triggerLabel: `L_${prepared.triggerIp}`,
+      })
+      if (prepared.autoIp) npc.autoLabel = `L_${prepared.autoIp}`
+      else delete npc.autoLabel
+    }
     for (const [id, state] of Object.entries(source.preludeStates)) {
       const activated = table.find(({ id: objectId }) => `e${objectId}` === id)
       assert.equal(activated?.sState, source.preludeBefore[id], `predecessor input for ${id}`)
       activated.sState = state
     }
   }
-  const [x, y] = toGamePixel(spec.start)
+  const [x, y] = toGamePixel(checkpoint)
   gs.party = { x, y, facing }
   gs.camera = { x: x - 160, y: y - 112 }
-  const [xx, yy] = toGamePixel(spec.contact)
+  const [xx, yy] = toGamePixel(entrance?.contact ?? spec.contact)
   gs.trail = Array.from({ length: 5 }, (_, i) => ({
     x: x - (xx - x) * i,
     y: y - (yy - y) * i,
@@ -267,6 +289,27 @@ async function makeReforgeFixture() {
   if (spec.prelude) {
     world.script.entityState[spec.scene] = source.preludeStates
   }
+  if (source.setup) {
+    world.script.entityState[spec.scene] = {}
+    world.script.entityPos ??= {}
+    world.script.entityPos[spec.scene] = {}
+    world.script.behaviors.entities = { [spec.scene]: {} }
+    for (const [id, prepared] of Object.entries(source.setup)) {
+      world.script.entityState[spec.scene][id] = prepared.state
+      if (!prepared.pos) continue
+      world.script.entityPos[spec.scene][id] = prepared.pos
+      world.script.behaviors.entities[spec.scene][id] = {
+        trigger: { selection: { kind: 'use', value: prepared.triggerVariant } },
+        triggerActivation: prepared.activation,
+        auto: { selection: prepared.auto },
+      }
+    }
+    if (source.inn.setupHook) {
+      world.script.behaviors.scenes = {
+        [spec.scene]: { onEnter: { selection: { kind: 'use', value: source.inn.setupHook } } },
+      }
+    }
+  }
   if (scenario === 'fox') {
     world.script.behaviors.entities = {
       s041: {
@@ -280,7 +323,7 @@ async function makeReforgeFixture() {
   return {
     payload: buildCurrentSavePayload(
       world,
-      { sceneId: spec.scene, pos: grid(spec.start), facing },
+      { sceneId: checkpointScene, pos: grid(checkpoint), facing },
       'pal',
     ),
   }
@@ -331,9 +374,19 @@ async function restoreGame(page, baseURL, until, press, payload) {
 }
 
 const committed = (position) => (game ? toGamePixel(position) : position)
-async function walk({ page, health, record, key, phase, from, to, mode }) {
+async function walk({
+  page,
+  health,
+  record,
+  key,
+  phase,
+  from,
+  to,
+  mode,
+  scene = spec.scene,
+  arrival = { scene, position: to },
+}) {
   health()
-  const scene = spec.scene
   const hold = createRecordedHold({
     keyboard: page.keyboard,
     key,
@@ -364,8 +417,8 @@ async function walk({ page, health, record, key, phase, from, to, mode }) {
     await Promise.all([hold.down(), moved.then(() => hold.up())])
     await finalize()
     await page.evaluate((target) => globalThis.__routeArm({ kind: 'end', target }), {
-      scene,
-      position: step.to,
+      scene: arrival.scene,
+      position: committed(arrival.position),
       mode,
     })
     await wait()
@@ -393,12 +446,17 @@ async function walk({ page, health, record, key, phase, from, to, mode }) {
 async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
-  const deadline = Date.now() + (handoff ? 195_000 : 125_000)
+  const deadline = Date.now() + (handoff || scriptedReturn ? 195_000 : 125_000)
   for (;;) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if (ended && (handoff ? view.successor?.scene === handoff.scene : ready(state))) return view
+    const returned = handoff
+      ? view.successor?.scene === handoff.scene
+      : scriptedReturn
+        ? view.scriptedReturn?.scene === spec.scene
+        : ready(state)
+    if (ended && returned) return view
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
     const line = lineKey(box)
@@ -510,7 +568,7 @@ await runBrowserJourney({
         await page.goto(`${baseURL}/?e2e-load=%2F__q2-world-boss-save.json`)
       }
       result.initial = await wait(
-        ({ state }) => ready(state) && (game || state.checkpoint === 'loaded'),
+        ({ state }) => ready(state, checkpointScene) && (game || state.checkpoint === 'loaded'),
         'loaded checkpoint ready for real player movement',
         60_000,
       )
@@ -518,7 +576,7 @@ await runBrowserJourney({
         const readback = await page.evaluate(() => globalThis.__tpE2e.dumpSave())
         result.slotReadback = await writeEvidenceArtifact(out, 'readback.json', readback)
       }
-      assert.deepEqual(result.initial.state.position, spec.start)
+      assert.deepEqual(result.initial.state.position, checkpoint)
       assert.deepEqual(
         result.initial.state.party.map(({ id, level, hp, mp }) => [id, level, hp, mp]),
         party.map(({ role, level, hp, mp }) => [role, level, hp, mp]),
@@ -529,7 +587,7 @@ await runBrowserJourney({
         // The defend shortcut has no world action here.
         await press('KeyD', 'bootstrap')
         const primed = await wait(
-          ({ state }) => ready(state),
+          ({ state }) => ready(state, checkpointScene),
           'unchanged exploration after audio gesture',
         )
         assert.deepEqual(primed.state, result.initial.state)
@@ -549,9 +607,37 @@ await runBrowserJourney({
       )
       await capture.arm(page, {
         event: 'before-world-boss-contact',
-        scene: spec.scene,
-        grid: spec.start,
+        scene: checkpointScene,
+        grid: checkpoint,
       })
+      if (entrance) {
+        await walk({
+          page,
+          health,
+          record,
+          key: entrance.key,
+          phase: 'entrance',
+          scene: entrance.scene,
+          from: entrance.start,
+          to: entrance.contact,
+          arrival: { scene: spec.scene, position: entrance.landing },
+          mode: 'ready',
+        })
+        let from = entrance.landing
+        for (const to of entrance.walk) {
+          await walk({
+            page,
+            health,
+            record,
+            key: approach,
+            phase: 'inn-walk',
+            from,
+            to,
+            mode: 'ready',
+          })
+          from = to
+        }
+      }
       await walk({
         page,
         health,
@@ -563,7 +649,7 @@ await runBrowserJourney({
         mode: 'dialogue',
       })
       result.returned = await playEncounter({ page, press, health, capture })
-      if (handoff) {
+      if (handoff || scriptedReturn) {
         if (capture.enabled) {
           await page.waitForFunction(
             (atMs) => performance.now() >= atMs + 750,
@@ -571,8 +657,8 @@ await runBrowserJourney({
           )
         }
         await capture.finish(page, {
-          event: 'world-boss-scene-handoff',
-          scene: handoff.scene,
+          event: handoff ? 'world-boss-scene-handoff' : 'world-boss-scripted-return',
+          scene: handoff?.scene ?? spec.scene,
           world: result.returned.state,
         })
         return
