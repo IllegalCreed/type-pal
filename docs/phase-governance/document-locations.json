@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "f7f96dda5a78709d1c80ac95e061701081133d8a2d1e753ef1de49484442188e",
+      "afterSha256": "d8ab333de28973d0cb3b60318e352b99f528c00e16934670c7723c12412ef72a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "补入钓竿、鱼的巡游与可恢复原件入口。",
-        "reviewedLines": 98,
-        "acceptanceScope": "核任务证据索引入口、同局实测回执链接和可恢复内容。"
+        "conclusion": "登记客栈逐帧证据入口。",
+        "reviewedLines": 99,
+        "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "6c72642a91cd3c49ef86103bc5337f8f6de7bdda1ab546fb60dfd1e4d2aea8d0",
+      "afterSha256": "816dcf0b9e9834e18ef9f814b8b678d352cbe9311a513f826a6b7bce71764e6f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "收口白河村钓竿的复验。",
-        "reviewedLines": 983,
-        "acceptanceScope": "核问题归因、合法用物、实际动作和待补范围。"
+        "conclusion": "收口客栈夜景并登记机器验收入口。",
+        "reviewedLines": 987,
+        "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8cea6cc59380cca432cd428440220c6a79dfb663a8a38d4a1ef20eef0e61d4f4",
+      "afterSha256": "eb6a815f1ff0bfba5f80b2eda48c76f150b44b4ff837b6a061942441e287e5cb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "复核白河村钓竿的双端用物与两条鱼巡视。",
-        "reviewedLines": 1324,
-        "acceptanceScope": "核逐步实绘、世界拍、上钩、返场和成片解码。"
+        "conclusion": "复核客栈三段对白的背景与实际角色。",
+        "reviewedLines": 1332,
+        "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
     {
@@ -6320,6 +6320,12 @@
       "bytes": 12718932,
       "sha256": "d01c0e5a155a28ae33316835466ee6c7c75ae53d6bda4452956b039692507db7",
       "purpose": "白河村钓竿与两条鱼的双端原生实绘、逐步节拍、上钩显隐、两组反例和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-night-visibility-20261119.tar.gz",
+      "bytes": 53095544,
+      "sha256": "dda35753bb239621882417b054bc3b6cdd5588c3daa7bf1117189c962090512c",
+      "purpose": "紫金丹后客栈夜景的同局带声原录像、背景遮挡和角色错帧反例、自动判定及原速分屏。"
     }
   ],
   "artifactAliases": [],

@@ -2,7 +2,7 @@
 // manifest. A candidate manifest cannot authorize itself by recomputing hashes.
 export const documentLocationAdmission = Object.freeze({
   baseRevision: '159cd0e2f8753536800ba4635e896020a897fddc',
-  manifestSha256: '96eb281f97d6217d48090255b42fc946061d1bc989ae179fcf4d10eea1c8e5da',
+  manifestSha256: 'd012cd83e36daf3d846e9dff7e5784e981a4bd7e5f589beff0fd0effda0b82da',
   // Exact accepted E2E catalog bytes precede the separately checked main source bridge.
   testingCatalogMaintenanceRevision: '98628aa7593a2d0867cb85b1d08f2be694e047d3',
   testingCatalogStagePublicationBaseRevision: 'c3273852ec273299d8caf41062bdc2a15442784d',
