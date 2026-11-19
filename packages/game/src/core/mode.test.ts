@@ -125,7 +125,9 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
 })
 
 describe('tickByMode auto fade-in gate', () => {
-  it('keeps the first wait pose and pauses world updates until its scene fade completes', () => {
+  it.each([
+    1, 2,
+  ])('counts the first MakeScene update once before its palette fade (%i waits)', (waits) => {
     const gs = gsWithAutoNpc()
     setGlobalEvents([{ op: 'end', advance: true }, { op: 'end', advance: true }, { op: 'end' }])
     gs.mode = 'event'
@@ -133,25 +135,23 @@ describe('tickByMode auto fade-in gate', () => {
     gs.basePalette = palette([120, 60, 30])
     gs.needToFadeIn = true
     gs.eventCursor = {
-      commands: [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [2, 0, 0] }, { op: 'end' }],
+      commands: [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [waits, 0, 0] }, { op: 'end' }],
       labelMap: {},
       ip: 0,
     }
     tickEventSystem(gs, snap())
     tickWithTime(gs)
     expect(gs.paletteFadeState).toBeDefined()
-    expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(waits - 1)
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
 
     tickWithTime(gs)
-    expect(gs.eventCursor?.waitFramesRemaining).toBe(2)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(waits - 1)
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
 
     gs.paletteFadeState = undefined
     tickWithTime(gs)
-    expect(gs.eventCursor?.waitFramesRemaining).toBe(1)
-    expect(gs.npcs[0]?.autoCursor?.ip).toBe(2)
-    tickWithTime(gs)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(waits)
     expect(gs.mode).toBe('explore')
   })
 

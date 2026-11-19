@@ -1417,7 +1417,7 @@ function translatedDialogWidth(style: DialogBoxStyle, hasPortrait: boolean): num
   return right - getDialogTextPos(style, hasPortrait).x - 8
 }
 
-export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
+export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFade = false): void {
   const cursor = gs.eventCursor
   if (!cursor) {
     gs.mode = 'explore'
@@ -1427,15 +1427,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot): void {
   // 1a) waiting 处理:frame-wait(opcode 0x0009 wait N frames,sdlpal script.c:3343-3370)
   //   每 tick 自减;归 0 时 ip++ + clear waiting,fall through 跑下条 opcode
   if (cursor.waiting === 'frame-wait') {
+    // 本拍的 GameUpdate 先于 PAL_MakeScene 的阻塞淡入。只消费这一次，完成后再推进脚本。
+    if (gs.paletteFadeState && !beganAutoFade) return
     // DL16:op2 → 每帧站立帧(scene.c:773-774 stepFrame &=2 ^=2 + walking=false)。
     if (cursor.waitGestureReset && gs.walkingFrame.walking) {
       gs.walkingFrame.walking = false
       gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
     }
-    // PAL_MakeScene completes its pending palette fade before returning to the wait loop.
-    if (gs.paletteFadeState) return
-    const remaining = (cursor.waitFramesRemaining ?? 1) - 1
-    if (remaining > 0) {
+    const remaining = Math.max(0, (cursor.waitFramesRemaining ?? 1) - 1)
+    if (remaining > 0 || gs.paletteFadeState) {
       cursor.waitFramesRemaining = remaining
       return
     }
