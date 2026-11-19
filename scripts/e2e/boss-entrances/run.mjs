@@ -4,9 +4,9 @@ import { nextGameBattleKey } from '../battle-game-input.mjs'
 import { nextReforgeBattleKey } from '../battle-reforge-input.mjs'
 import { toGamePixel } from '../battle-scripted-defeat-scenario.mjs'
 import { runBrowserJourney, sha256 } from '../browser-journey.mjs'
-import { installCommittedRoutePlayback, replayCommittedRoute } from '../committed-route.mjs'
+import { installCommittedRoutePlayback } from '../committed-route.mjs'
 import { writeEvidenceArtifact } from '../evidence-artifact.mjs'
-import { canonicalInput, pressRecordedKey } from '../input-ledger.mjs'
+import { canonicalInput, createRecordedHold, pressRecordedKey } from '../input-ledger.mjs'
 import { bossObserver } from './observe.mjs'
 import {
   fieldMusic,
@@ -282,25 +282,63 @@ async function restoreGame(page, baseURL, until, press, payload) {
 }
 
 const committed = (position) => (game ? toGamePixel(position) : position)
-function walk({ page, health, record, key, phase, from, to, mode }) {
+async function walk({ page, health, record, key, phase, from, to, mode }) {
+  health()
   const scene = spec.scene
-  return replayCommittedRoute({
-    page,
-    health,
-    onInput: (event) => record({ ...event, phase }),
-    route: {
-      steps: [
-        {
-          key,
-          scene,
-          from: committed(from),
-          to: committed(to),
-          source: game ? 'commit:tickSceneInput' : 'commit:player.input',
-        },
-      ],
-      completion: { scene, position: committed(to), mode },
-    },
+  const hold = createRecordedHold({
+    keyboard: page.keyboard,
+    key,
+    metadata: { phase },
+    onInput: record,
   })
+  const step = {
+    key,
+    scene,
+    from: committed(from),
+    to: committed(to),
+    source: game ? 'commit:tickSceneInput' : 'commit:player.input',
+  }
+  const wait = async () => {
+    const result = await page.evaluate(() => globalThis.__routeWait())
+    assert(!result.error, result.error)
+  }
+  const finalize = async () => {
+    const result = await page.evaluate(() => globalThis.__routeFinalize())
+    assert(!result.error, result.error)
+  }
+  const errors = []
+  try {
+    await page.evaluate((step) => globalThis.__routeArm({ kind: 'moves', steps: [step] }), step)
+    // Submit the waiter before keydown. The first real movement proves the key
+    // has arrived, so release while the separate keydown acknowledgement can be in flight.
+    const moved = wait()
+    await Promise.all([hold.down(), moved.then(() => hold.up())])
+    await finalize()
+    await page.evaluate((target) => globalThis.__routeArm({ kind: 'end', target }), {
+      scene,
+      position: step.to,
+      mode,
+    })
+    await wait()
+    await finalize()
+  } catch (error) {
+    errors.push(error)
+  } finally {
+    if (hold.held) {
+      try {
+        await hold.up()
+      } catch (error) {
+        errors.push(error)
+      }
+    }
+    try {
+      await page.evaluate(() => globalThis.__routeCancel())
+    } catch (error) {
+      errors.push(error)
+    }
+  }
+  if (errors.length === 1) throw errors[0]
+  if (errors.length > 1) throw new AggregateError(errors, 'world route and cleanup failed')
 }
 
 async function playEncounter({ page, press, health, capture }) {
@@ -378,7 +416,7 @@ await runBrowserJourney({
         action: { context: spec.id, key, phase },
         record,
       })
-      if (!game) return
+      if (!game || phase === 'restore') return
       const frame = await page.evaluate(() => globalThis.__tpgs?.frameNum)
       if (frame === undefined) return
       const advanced = await page.waitForFunction(
