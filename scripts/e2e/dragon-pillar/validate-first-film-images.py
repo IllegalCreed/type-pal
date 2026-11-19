@@ -89,4 +89,4 @@ if __name__ == "__main__":
     with output.open("x", encoding="utf8") as handle:
         json.dump(result, handle, indent=2)
         handle.write("\n")
-    print(output, {name: {key:len(rows["matchedFirstFrameSamples"]) for key,rows in tests.items()} for name, tests in result.items()})
+    print(output, {name: {key:len(rows["matchedFirstFrameSamples"]) for key,rows in tests.items()} for name, tests in result.items() if name != "status"})
