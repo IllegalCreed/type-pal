@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "fa11f91b2757a262834f8007050af8f7bc9f8c7d3a6d219265f5cff070c9715f",
+      "afterSha256": "350dfc7efd804d5321fefa1a14445967153a6247bf9ed089be0052c8c8a7f0a7",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 113,
+        "reviewedLines": 114,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "61c2af4fd0004eb457a0f9c27788f9e2eede91a272ae35da8688451c2c88ab42",
+      "afterSha256": "5fe5750f72cc95524a7fc0425740ff29f2bb07dd195204e63eb712bdd60a7024",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1045,
+        "reviewedLines": 1047,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d9b2cef7b483bfb3c455fcdb0ffa7cca23852b516b943d7250dfe34ff020ed9a",
+      "afterSha256": "0bc93cce1e432a687193e806abfd85b3a2deecd99f15aca99da5e893f250627d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1465,
+        "reviewedLines": 1479,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6417,6 +6417,12 @@
       "bytes": 42278399,
       "sha256": "c5bd4ed662b637018ad6e00f3a1fa47f8d8de94c53e57e0274f8ad0e08ab52f1",
       "purpose": "扬州城墙战的同局实跑、实绘、结算按键和追逐反例、原速带声分屏及原录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-yueru-outside-20261120.tar.gz",
+      "bytes": 96227541,
+      "sha256": "cfcfd2af52c23526b4508e2dc6844b142f115b02ea001b6691a5bed7f10c6a11",
+      "purpose": "城外林月如的双端实跑、实绘原录、原速分屏重建和擂台同局差异。"
     }
   ],
   "artifactAliases": [],
