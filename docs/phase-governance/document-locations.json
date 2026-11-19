@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "41591fe7396349d93f7f2a7261b15ba8d243042e96d5df990b166c1fd2e20ba5",
+      "afterSha256": "182bce856a165706a6376999b8cf60f8582caf0a77cc803c057c7dc8b781b496",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 109,
+        "reviewedLines": 110,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,13 +3206,13 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "8b04251d7a8ec39ff6605cbba22a2f5d983dac7c0e53bf075801e01b8e3447d3",
+      "afterSha256": "0a9f7817ca0e17cdcdc8ec78da49a4cf577e4c2baa0f119e2763f0e52db655b3",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核原盘钓鱼开场的同步淡入与逐帧等待。",
-        "reviewedLines": 1912,
+        "reviewedLines": 1916,
         "acceptanceScope": "核 0x09 的首次实际合成、挂起淡入、等待余拍和实绘原件。"
       }
     },
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "16a654c3db8582619943cbc81eab541fbbaa2a059d8f4bf1954aad948edb9e9f",
+      "afterSha256": "5f7aa518cf27e5b2e313dc8fd5fe20fbc00950f5bdc7ff5c3b336df5f2daeaf5",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1025,
+        "reviewedLines": 1031,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "112c3103f36138edeb8e62e8829916695b05f40f4401aad06b66e2d0ab471363",
+      "afterSha256": "d83d6927ee096316ae52ab8f905b009fd3829077dc96b9c9ae1512d00abd937e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1414,
+        "reviewedLines": 1424,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6387,6 +6387,12 @@
       "bytes": 53328750,
       "sha256": "b34e6e860b7a664fbc4e6842a69f24eacd1e011befddf6dd052ccb0185bf6b82",
       "purpose": "桃花林在两个脚点的双端驱雾、土灵珠传送与聚队、首帧及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-heaven-breaker-20261120.tar.gz",
+      "bytes": 40473059,
+      "sha256": "cc84bfb18e2c5b8c612ec4d4327fd3959f2b6ae1f9caab5d65f21e267e3ccdd7",
+      "purpose": "破天锤六次实际用物、踏板开路及无目标提示差异，附双端原件和原速带声分屏。"
     }
   ],
   "artifactAliases": [],
