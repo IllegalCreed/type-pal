@@ -112,6 +112,7 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
   const tail = ui.observe()
   expect(tail).toMatchObject({ cueIndex: 0, phase: 'auto-advance', slot: 'bottom' })
   ui.advance(150)
+  expect(ui.dismissTimedNarration(150)).toBe(false)
   expect(ui.observe()).toEqual(tail)
   ui.render(209)
   expect(ui.observe()).toEqual(tail)
@@ -124,6 +125,31 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
     rowTextIds: ['B'],
   })
   ui.close()
+  expect(ui.observe()).toBeNull()
+})
+
+test('world timed narration owns a full visible interval or the next pressed key', async () => {
+  const { ui, startDialogue } = await box()
+  const notice: Dialogue = {
+    id: 'timed-notice',
+    cues: [{ slot: 'narration', rows: [{ text: 'A' }], autoAdvance: 1400 }],
+  }
+  ui.open(startDialogue(notice), 10, 'script')
+  expect(ui.dismissTimedNarration(100)).toBe(false)
+  ui.render(250)
+  expect(ui.observe()).toMatchObject({
+    slot: 'narration',
+    phase: 'auto-advance',
+    pageStartedAtMs: 250,
+  })
+  expect(ui.dismissTimedNarration(500)).toBe(true)
+  expect(ui.observeSlots()).toEqual([])
+
+  ui.open(startDialogue(notice), 2000, 'script')
+  ui.render(2300)
+  ui.render(3699)
+  expect(ui.observe()?.phase).toBe('auto-advance')
+  ui.render(3700)
   expect(ui.observe()).toBeNull()
 })
 

@@ -5510,7 +5510,6 @@ export async function bootGame(
     imageCache: project.imageCache,
     palette: await getStandardPalette().catch(() => undefined),
   })
-  let placementFailurePending = false
   const menus = new MenuSession(
     { items: project.items, skills: project.skills, poisonsById: project.poisonsById },
     {
@@ -5520,14 +5519,8 @@ export async function bootGame(
       executeItemUse,
       playSound: (asset) => sfx.play(asset),
       presentItemResults: showItemUseResults,
-      presentPlacementFailure: async (text, signal) => {
-        placementFailurePending = true
-        try {
-          await host.dialog({ slot: 'narration', rows: [{ text }], autoAdvance: 1400 }, signal)
-        } finally {
-          placementFailurePending = false
-        }
-      },
+      presentPlacementFailure: (text, signal) =>
+        host.dialog({ slot: 'narration', rows: [{ text }], autoAdvance: 1400 }, signal),
       showToast,
       report: (message) => host.report(message),
       audioPreferences: () => audioPrefs,
@@ -6595,11 +6588,7 @@ export async function bootGame(
     },
     dialogue: {
       active: () => dialogBox.active,
-      dismissOnKey: () => {
-        if (!placementFailurePending) return false
-        dialogBox.close()
-        return true
-      },
+      dismissOnKey: (realNow) => dialogBox.dismissTimedNarration(realNow),
       advance: (realNow) => dialogBox.advance(realNow),
     },
     scriptRunning: () => runner !== null || victoryFrame !== undefined,

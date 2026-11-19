@@ -338,9 +338,25 @@ export class DialogBox {
       this.pageDone = false
       return
     }
-    // 作者配置的尾停顿不可跳过。战后叙述的默认计时也接受确认键。
+    // 普通对白保留完整尾停顿。场景定时叙述由其按键退场入口处理。
     if (r?.cue.autoAdvance !== undefined) return
     this.advanceToNextCue(nowMs)
+  }
+
+  dismissTimedNarration(nowMs: number): boolean {
+    const narration = this.renders.narration
+    if (
+      !this.state ||
+      this.battleChoreography ||
+      this.battleVictory ||
+      this.slots.activeSlot !== 'narration' ||
+      narration?.cue.autoAdvance === undefined ||
+      narration.visibleText === null
+    ) {
+      return false
+    }
+    this.advanceToNextCue(nowMs)
+    return true
   }
 
   /** 推进到下一个 cue；确认结束和可见槽清除有独立生命周期。 */
@@ -451,13 +467,8 @@ export class DialogBox {
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
     if (slotId === 'narration') {
-      // The original reward wait starts after the text is drawn.
-      if (
-        isActive &&
-        (this.battleChoreography || this.battleVictory) &&
-        r.cue.autoAdvance === undefined &&
-        r.visibleText === null
-      ) {
+      // Both the countdown and key dismissal are tied to the first drawn scroll.
+      if (isActive && r.autoAdvance !== undefined && r.visibleText === null) {
         this.lineStartMs = nowMs
         r.pageStartedAtMs = nowMs
       }

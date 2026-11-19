@@ -43,7 +43,7 @@ export interface DialogueCue {
   speaker?: TextId
   /** 原版每条 showDialog 对应一行；不得再用 locale 内换行模拟行边界。 */
   rows: DialogueRow[]
-  /** 尾停顿 + 自动推进(ms);存在 = 打完停 N ms 自动进下一页、不等键。原版 ~NN。 */
+  /** 显示后的自动推进时间(ms)。大世界 narration 在实绘后开始计时，可按任意键提前关闭。 */
   autoAdvance?: number
   /** 画到哪个面板;默认 bottom。异 slot 推进 = 共存,同 slot = 覆盖。narration = 中央叙述窗(原版 0x3E)。 */
   slot?: 'top' | 'bottom' | 'narration' | 'center'
