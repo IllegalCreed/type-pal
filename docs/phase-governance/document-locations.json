@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "7f099f86d8dcf67857b9baa14a87d3a4479f2b0c9ef8b27aa7e1e395fc8ce4e2",
+      "afterSha256": "fd78fd0c6cfbb610c19ae2576f80c45e4996bb4b09cd0fcf01caec907ec969d9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 101,
+        "reviewedLines": 102,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "a0e4de6cb2757855392bca25c15109ae1123b7ed673b7a832228a5ecd4c6edff",
+      "afterSha256": "e16afbcb679d8a40a72a06b58b809efe2a9a3bcdb39ba3ac22b58de5642d192f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 991,
+        "reviewedLines": 995,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "a3179a57c6099c04834f1ea623a60a6aa7f7f633fe7aceebae9087f13c6c000c",
+      "afterSha256": "664b8e62d94aa26ea35ae1059d2dfd45922ec047c7c3531b10b8e41a19877d3e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1348,
+        "reviewedLines": 1358,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6321,6 +6321,12 @@
       "bytes": 6461,
       "sha256": "759c7060ec1d3d5ef2770992641aee19dba8849ed27d5b39f321b9333a523bfe",
       "purpose": "客栈同一脚点与角色姿态下，柜边和相邻柜面深度及两个渲染器实像素归因。复用已登记的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-operations-20261119.tar.gz",
+      "bytes": 34797925,
+      "sha256": "5a6041fc4ab70d139a0e7ab265f9fbb584a9d8c0d451500b17942e1f0665c2f2",
+      "purpose": "106 件装备的逐件装卸、同槽替换、双人选人、原速带声分屏及身法负值的原生证据。"
     }
   ],
   "artifactAliases": [],
