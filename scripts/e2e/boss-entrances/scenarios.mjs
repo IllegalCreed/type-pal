@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 
+export const fieldMusic = 78
+export const fieldMusicAsset = 'music.pal.078'
+
 export const party = [
   {
     role: 'li-xiaoyao',
@@ -98,6 +101,9 @@ export async function readSources(spec) {
   const files = {
     gameScene: `data/extracted/data/scene/${sceneNumber}.json`,
     commands: 'data/extracted/events/all.json',
+    caveEntry: 'data/extracted/data/scene/44.json',
+    canonicalCaveEntry: 'projects/pal/content/scenes/s044.json',
+    canonicalMaze: 'projects/pal/content/scenes/s046.json',
     actors: 'data/extracted/data/player-roles.json',
     enemies: 'data/extracted/data/enemies.json',
     objects: 'data/extracted/data/enemy-objects.json',
@@ -113,6 +119,16 @@ export async function readSources(spec) {
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
   assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
   const commands = data.commands.segments.flatMap(({ commands }) => commands)
+  const caveEntrance = Number(data.caveEntry.onEnterLabel.slice(2))
+  assert.deepEqual(
+    [caveEntrance, commands[caveEntrance + 2].opcode, commands[caveEntrance + 2].operands[0]],
+    [9671, 67, fieldMusic],
+  )
+  assert(
+    data.canonicalCaveEntry.hooks.onEnter.variants.default.flow.stages[0].body.some(
+      ({ kind, asset }) => kind === 'playMusic' && asset === fieldMusicAsset,
+    ),
+  )
   const { battle, entry, last, reward } = spec.disk
   assert.deepEqual(
     [commands[battle - 2].opcode, commands[battle - 2].operands[0]],
@@ -156,11 +172,13 @@ export async function readSources(spec) {
       'data/extracted/data/battle-fields.json',
       `data/extracted/data/tilemap/${data.gameScene.mapNum}.json`,
       `data/extracted/music/${battleTrack}.mid`,
+      'data/extracted/music/078.mid',
       'projects/pal/content/actors.json',
       'projects/pal/content/enemies.json',
       'projects/pal/content/battle-fields.json',
       `projects/pal/content/maps/${data.rfScene.mapId}.json`,
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
+      'projects/pal/assets/migrated/music/078.mid',
     ],
     hiddenLevels: party.map(({ roleId }) => data.actors.roles[roleId].level),
     slots,

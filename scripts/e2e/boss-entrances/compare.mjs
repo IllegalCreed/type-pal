@@ -5,7 +5,7 @@ import { isDeepStrictEqual } from 'node:util'
 import { sha256 } from '../browser-journey.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
-import { gameScene, grid, party, readSources, scenarios } from './scenarios.mjs'
+import { fieldMusic, gameScene, grid, party, readSources, scenarios } from './scenarios.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
 const spec = scenarios[scenario]
@@ -239,6 +239,13 @@ async function inspect(path, engine) {
   )
   assert(find('entry-band').every(({ pixels }) => pixels.length === 6))
   const music = find('music-start').filter(({ track }) => track === spec.music)
+  const fieldTracks = find('music-start').filter(
+    ({ track, context }) => track === fieldMusic && context === 'running',
+  )
+  assert(
+    fieldTracks.some(({ order }) => order < trigger.order),
+    'original cave music started before contact',
+  )
   assert.equal(music.length, 1)
   assert.equal(music[0].context, 'running')
   const menu = once('command-menu-drawn')
@@ -352,6 +359,11 @@ async function inspect(path, engine) {
     roles.map((role) => [role, exp]),
   )
   assert.deepEqual(control.inventory, spec.world.inventory)
+  assert(
+    fieldTracks.some(({ order }) => order > won.order),
+    'original cave music resumed after victory',
+  )
+  assert.equal(last.music, fieldMusic)
   assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)

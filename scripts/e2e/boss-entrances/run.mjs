@@ -9,6 +9,8 @@ import { writeEvidenceArtifact } from '../evidence-artifact.mjs'
 import { canonicalInput, pressRecordedKey } from '../input-ledger.mjs'
 import { bossObserver } from './observe.mjs'
 import {
+  fieldMusic,
+  fieldMusicAsset,
   gameScene,
   grid,
   growthPools,
@@ -178,6 +180,7 @@ async function makeGameFixture(page, baseURL, until) {
   }
   gs.inventory = []
   gs.dwCash = 0
+  gs.wNumMusic = fieldMusic
   if (scenario === 'fox') {
     const snake = gs.allEventObjects.find(({ id }) => id === 671)
     assert.equal(snake.triggerLabel, 'L_9472')
@@ -214,6 +217,7 @@ async function makeReforgeFixture() {
     })
     world.learnedSkills[role] = []
   }
+  world.audio = { currentMusic: fieldMusicAsset }
   if (scenario === 'fox') {
     world.script.behaviors.entities = {
       s041: {
@@ -436,6 +440,17 @@ await runBrowserJourney({
         assert(
           await page.evaluate(() => navigator.userActivation.hasBeenActive),
           'missing native audio gesture',
+        )
+      }
+      if (capture.enabled) {
+        await until(
+          async () =>
+            (await trace(page)).events.find(
+              ({ kind, track, context }) =>
+                kind === 'music-start' && track === fieldMusic && context === 'running',
+            ),
+          Boolean,
+          'source-authored cave music audible before recording',
         )
       }
       await capture.arm(page, {
