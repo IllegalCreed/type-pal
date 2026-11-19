@@ -59,6 +59,50 @@ test('magic reads the current world instead of a startup snapshot and remembers 
   expect(h.menus.view.magicMenu.casterIdx).toBe(1)
 })
 
+test('equipment lists a teammate-only weapon and commits only to the eligible selected member', () => {
+  const h = menuFixture()
+  const sword = h.items.sword
+  if (!sword?.equip) throw new Error('fixture weapon missing')
+  const equip = { ...sword.equip, equipableBy: ['b'] }
+  h.items.sword = { ...sword, equip }
+  h.items['old-sword'] = { ...sword, equip, id: 'old-sword', name: 'Old Sword' }
+  const starting = structuredClone(h.world)
+  starting.party[1]!.equipment.weapon = 'old-sword'
+  const before = structuredClone(starting)
+  h.ports.replaceWorld(starting)
+  h.ports.replaceWorld.mockClear()
+
+  h.openPanel('equip')
+  expect(h.menus.view.equipMenu.items.map(({ id }) => id)).toEqual(['sword'])
+  h.press('Enter', 'Enter')
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'a',
+    selectedItemId: 'sword',
+  })
+  expect(h.ports.replaceWorld).not.toHaveBeenCalled()
+  expect(h.world).toEqual(before)
+
+  h.press('ArrowUp', 'Enter')
+  expect(h.world.party.map(({ equipment }) => equipment.weapon)).toEqual([undefined, 'sword'])
+  expect(h.world.inventory).toEqual([
+    { itemId: 'tonic', count: 2 },
+    { itemId: 'old-sword', count: 1 },
+  ])
+  expect(h.ports.replaceWorld).toHaveBeenCalledTimes(1)
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'b',
+    selectedItemId: 'old-sword',
+  })
+  h.press('Escape', 'Enter')
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'a',
+    selectedItemId: 'old-sword',
+  })
+})
+
 test.each([
   'music',
   'sound',

@@ -19,22 +19,20 @@ import type { EquipMenuState } from '../equip-menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawItemGridList } from './item-list.js'
-import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import {
+  COLOR_DISABLED,
+  COLOR_DISABLED_SEL,
+  COLOR_NORMAL,
+  drawNumber,
+  drawSlicedBox,
+  type MenuAssets,
+  SELECTED_COLORS,
+} from './menu-box.js'
 
 // pick-role 配色(列表布局已抽到 item-list.ts)
-const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_GOLD = [255, 203, 113] as const // 选中物名(MENUITEM_COLOR_CONFIRMED 0x2C 金黄)
 const COLOR_DARK = [0, 0, 0] as const // 槽位/属性 label(原版烤进 FBP 的纯黑字,无阴影)
 const COLOR_DARK_SHADOW = [92, 84, 72] as const // 黑 label 的深灰影(作者三轮裁决:单线条黑字+深灰影,不加粗)
-const SELECTED_COLORS = [
-  [247, 231, 109],
-  [235, 211, 97],
-  [227, 190, 89],
-  [219, 174, 81],
-  [231, 195, 93],
-  [243, 219, 105],
-] as const
-
 // ── pick-role 换装面板布局(状态板 bg;坐标 = 一阶段 draw-equip.ts sdlpal ScreenLayout 真值)──
 const PR_IMAGE_BOX = { x: 8, y: 8 } // EquipImageBox — frame-70 纵向卷轴框(64×64)
 const PR_ITEM_NAME = { x: 5, y: 73 } // EquipItemName(金,左对齐)
@@ -43,6 +41,7 @@ const PR_ITEM_AMOUNT_Y = 52
 const PR_ROLE_BOX = { x: 2, y: 95 } // EquipRoleListBox(主菜单九宫格黄框,draw-equip style 0)
 const PR_ROLE_BOX_W = 77 // sdlpal cols=2(22 + 2×16 + 23);右端+卷轴头 ~89,让开 x=92 的槽位 label
 const PR_ROLE_BOX_H = 40 // 主菜单 9-slice 单行最小高(MENU_H_BASE 22 + ITEM_H 18)
+const PR_ROLE_LINE = 18
 const PR_ROLE_NAME = { dx: 13, dy: 13 } // 名 = 框 + (13,13)(sdlpal uigame.c:1952)
 const PR_LABEL_X = 92 // EquipLabels(深色)
 const PR_NAME_X = 130 // EquipNames(白)
@@ -117,16 +116,34 @@ function drawEquipPickRole(
       forceRgba: COLOR_GOLD,
     })
   }
-  // 角色名牌(主菜单九宫格黄框,sdlpal draw-equip role list box style 0)+ 名(6 色炫彩 = 选中角色)
-  drawSlicedBox(ctx, assets.box, PR_ROLE_BOX.x, PR_ROLE_BOX.y, PR_ROLE_BOX_W, PR_ROLE_BOX_H)
-  const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_GOLD
-  renderSpans(
+  // 队员名牌与原版选人列表共用四种状态色，当前光标决定右侧属性。
+  drawSlicedBox(
     ctx,
-    [{ text: lookupText(`name.${caster.template}` as TextId, locale) }],
-    PR_ROLE_BOX.x + PR_ROLE_NAME.dx,
-    PR_ROLE_BOX.y + PR_ROLE_NAME.dy,
-    { glyphs, shadow: true, forceRgba: blink },
+    assets.box,
+    PR_ROLE_BOX.x,
+    PR_ROLE_BOX.y,
+    PR_ROLE_BOX_W,
+    PR_ROLE_BOX_H + (world.party.length - 1) * PR_ROLE_LINE,
   )
+  const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_GOLD
+  for (const [index, member] of world.party.entries()) {
+    const selected = member.id === state.casterId
+    const allowed = sel?.equip?.equipableBy.includes(member.template) ?? false
+    const color = allowed
+      ? selected
+        ? blink
+        : COLOR_NORMAL
+      : selected
+        ? COLOR_DISABLED_SEL
+        : COLOR_DISABLED
+    renderSpans(
+      ctx,
+      [{ text: lookupText(`name.${member.template}` as TextId, locale) }],
+      PR_ROLE_BOX.x + PR_ROLE_NAME.dx,
+      PR_ROLE_BOX.y + PR_ROLE_NAME.dy + index * PR_ROLE_LINE,
+      { glyphs, shadow: true, forceRgba: color },
+    )
+  }
 
   // ② 中:6 槽 label(黑字+深灰影)+ 当前装备名(白)
   PR_SLOTS.forEach(({ slot, label }, i) => {
