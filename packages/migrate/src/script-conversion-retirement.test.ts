@@ -1,11 +1,12 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import ts from 'typescript'
 import { describe, expect, it } from 'vitest'
 import * as publicApi from './index.js'
 import * as overlays from './pal-authored-overlays.js'
 import * as battleSprites from './pal-battle-sprites.js'
-import * as derived from './pal-derived-content.js'
+import * as shopProjection from './pal-shop-projection.js'
 import { createPalWorldSpriteRegistry } from './pal-world-sprite-registry.js'
 import * as facts from './source-facts.js'
 
@@ -36,22 +37,37 @@ const retired = [
   'translate-event-motion',
   'translate-events',
 ]
-const oldImports = (body: string): string[] =>
-  [...body.matchAll(/(?:from\s*|import\s*\(\s*|export\s*\*\s*from\s*)['"]([^'"]+)['"]/g)]
-    .map((match) => match[1]!)
-    .filter((path) =>
-      retired.includes(
-        path
-          .split('/')
-          .at(-1)!
-          .replace(/\.(js|ts)$/, ''),
-      ),
-    )
+function retiredModuleRefs(source: string): string[] {
+  const file = ts.createSourceFile('migration-module.ts', source, ts.ScriptTarget.Latest)
+  const references: string[] = []
+  function add(specifier: ts.Node | undefined): void {
+    if (!specifier || !ts.isStringLiteralLike(specifier)) return
+    const name = specifier.text
+      .split('/')
+      .at(-1)
+      ?.replace(/\.(?:[mc]?[jt]s)$/, '')
+    if (name && retired.includes(name)) references.push(specifier.text)
+  }
+
+  function visit(node: ts.Node): void {
+    if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
+      add(node.moduleSpecifier)
+    } else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword) {
+      add(node.arguments[0])
+    } else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument)) {
+      add(node.argument.literal)
+    }
+    ts.forEachChild(node, visit)
+  }
+
+  visit(file)
+  return references
+}
 function implementationFiles(root: string): string[] {
   return readdirSync(root, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(root, entry.name)
     if (entry.isDirectory()) return entry.name === '__tests__' ? [] : implementationFiles(path)
-    return /\.(ts|mts)$/.test(entry.name) && !entry.name.endsWith('.test.ts') ? [path] : []
+    return /\.(ts|mts|mjs)$/.test(entry.name) && !entry.name.endsWith('.test.ts') ? [path] : []
   })
 }
 describe('original script conversion retirement', () => {
@@ -66,19 +82,30 @@ describe('original script conversion retirement', () => {
     expect(Object.keys(publicApi)).not.toContain('auditPalSpriteActions')
     expect(Object.keys(publicApi)).not.toContain('materializePalSpriteActions')
   })
-  it('has no runtime, re-export or type-only import edge to a retired kernel', () => {
+  it('has no literal import, re-export or type reference to a retired kernel', () => {
     for (const path of [
       ...implementationFiles(resolve(packageRoot, 'src')),
       ...implementationFiles(resolve(packageRoot, 'scripts')),
     ])
-      expect(oldImports(readFileSync(path, 'utf8')), path).toEqual([])
-    expect(oldImports("import type { SourceRole } from './migrate-content.js'")).toEqual([
+      expect(retiredModuleRefs(readFileSync(path, 'utf8')), path).toEqual([])
+    expect(retiredModuleRefs("import type { SourceRole } from './migrate-content.js'")).toEqual([
       './migrate-content.js',
     ])
-    expect(oldImports("const x = import('./pal-migration.js')")).toEqual(['./pal-migration.js'])
-    expect(oldImports("export * from './pal-sprite-action-census.js'")).toEqual([
+    expect(retiredModuleRefs("const x = import('./pal-migration.js')")).toEqual([
+      './pal-migration.js',
+    ])
+    expect(retiredModuleRefs("export * from './pal-sprite-action-census.js'")).toEqual([
       './pal-sprite-action-census.js',
     ])
+  })
+  it('finds literal side-effect and type imports while ignoring comments and strings', () => {
+    const source = [
+      "import './translate-events.js'",
+      "type Source = import('./migrate-content.js').SourceRole",
+      "// import './scene-entry.js'",
+      `const text = "import './pal-migration.js'"`,
+    ].join('\n')
+    expect(retiredModuleRefs(source)).toEqual(['./translate-events.js', './migrate-content.js'])
   })
   it('does not retain retired profiles, full builders or script-number resolvers behind leaf APIs', () => {
     expect(Object.keys(overlays).sort()).toEqual(
@@ -89,7 +116,7 @@ describe('original script conversion retirement', () => {
       ].sort(),
     )
     expect(Object.keys(battleSprites)).toEqual(['palPlayerBattleSpriteDefinitionId'])
-    expect(Object.keys(derived)).toEqual(['migratePalShops'])
+    expect(Object.keys(shopProjection)).toEqual(['migratePalShops'])
     expect(Object.keys(facts).sort()).toEqual(
       ['PAL_PLAYER_FACE_FRAME_BY_ROLE_ID', 'ROLE_SLUGS', 'sceneSlug'].sort(),
     )

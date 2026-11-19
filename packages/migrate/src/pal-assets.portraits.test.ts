@@ -25,6 +25,10 @@ describe('PAL portrait sparse extraction', () => {
       path: 'assets/migrated/portraits/002.png',
       origin: { kind: 'legacy-migrated', ref: 'images/portraits/02.png' },
     })
+    expect(portraits.at(-1)?.record.origin).toEqual({
+      kind: 'legacy-migrated',
+      ref: 'images/portraits/89.png',
+    })
     expect(result.report.portraitBytes).toBe(portraits.reduce((sum, s) => sum + s.record.bytes, 0))
   })
   test.each([undefined, 0, -1, 88.5, '88'])('rejects nonpositive/noninteger count %j', (count) => {

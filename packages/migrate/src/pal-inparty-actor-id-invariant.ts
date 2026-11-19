@@ -10,8 +10,8 @@ export interface PalInPartyActorIdReport {
 }
 
 /**
- * PAL current-only 永久门禁：作者树中的 inParty 只允许引用现存稳定 ActorId。
- * 递归域直接复用 content 的 typed Actor reference walker，禁止在 migrate 再长第二套遍历。
+ * 现行 PAL 发布先校验作者脚本结构，再核对 inParty 的 ActorId。
+ * 旧数字角色编号单独报错，以便和已命名但缺定义的角色区分。
  */
 export function assertPalInPartyActorIdInvariant(args: {
   actors: readonly Pick<ActorDef, 'id'>[]

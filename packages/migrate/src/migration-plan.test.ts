@@ -1,58 +1,28 @@
+import {
+  type SpriteDef,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
+  validateMapIndex,
+  validateSprites,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import type { MigrationSnapshot } from './migration-baseline.js'
-import type { MigrationFileSet, MigrationJson } from './migration-files.js'
+import type { MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
 
 const snapshot = (files: Record<string, MigrationJson>): MigrationSnapshot => ({
   files: new Map(Object.entries(files)),
   managedFiles: new Set(Object.keys(files)),
 })
-const generated = (
-  files: Record<string, MigrationJson>,
-): Pick<MigrationFileSet, 'files' | 'managedFiles'> => ({
-  files: new Map(Object.entries(files)),
-  managedFiles: new Set(Object.keys(files)),
-})
-
-const projectMap = (tile: number): MigrationJson => ({
-  version: 4,
-  width: 1,
-  height: 1,
-  tilesetRefs: ['tileset-001'],
-  layers: [
-    {
-      id: 'floor',
-      name: '地板',
-      tiles: [[tile], [tile]],
-      sources: [[0], [0]],
-      heights: [[0], [0]],
-    },
-  ],
-  collision: [[0], [0]],
-})
-
-describe('createMigrationPlan', () => {
-  test('独立吸收上游和人工字段并只计划真实变化', () => {
-    const base = snapshot({ 'content/locale.json': { a: 1, b: 1 } })
-    const ours = snapshot({ 'content/locale.json': { a: 2, b: 1 } })
-    const plan = createMigrationPlan(
-      base,
-      ours,
-      generated({ 'content/locale.json': { a: 1, b: 3 } }),
-    )
-    expect(plan.conflicts).toEqual([])
-    expect(plan.target.get('content/locale.json')).toEqual({ a: 2, b: 3 })
-    expect(plan.summary).toMatchObject({ writes: 1, conflicts: 0 })
-  })
-
+describe('authors and sources in the migration plan', () => {
   test('base 等于 theirs 时保留 ours，推进 baseline 后重放仍严格零计划', () => {
     const path = 'content/locale.json'
-    const base = snapshot({ [path]: { a: 1 } })
-    const ours = snapshot({ [path]: { a: 2 } })
-    const theirs = generated({ [path]: { a: 1 } })
+    const base = snapshot({ [path]: { 'dlg.opening': '原文' } })
+    const ours = snapshot({ [path]: { 'dlg.opening': '作者改文' } })
+    const theirs = snapshot({ [path]: { 'dlg.opening': '原文' } })
 
     const first = createMigrationPlan(base, ours, theirs)
-    expect(first.target.get(path)).toEqual({ a: 2 })
+    expect(first.target.get(path)).toEqual({ 'dlg.opening': '作者改文' })
     expect(first.conflicts).toEqual([])
     expect(first.writes.size).toBe(0)
     expect(first.deletes).toEqual([])
@@ -60,10 +30,10 @@ describe('createMigrationPlan', () => {
 
     const replay = createMigrationPlan(
       snapshotOf(theirs),
-      snapshotOf(generated({ [path]: first.target.get(path)! })),
+      snapshotOf(snapshot({ [path]: first.target.get(path)! })),
       theirs,
     )
-    expect(replay.target.get(path)).toEqual({ a: 2 })
+    expect(replay.target.get(path)).toEqual({ 'dlg.opening': '作者改文' })
     expect(replay.conflicts).toEqual([])
     expect(replay.writes.size).toBe(0)
     expect(replay.deletes).toEqual([])
@@ -113,7 +83,7 @@ describe('createMigrationPlan', () => {
     const path = 'assets/index.json'
     const base = snapshot({ [path]: migratedCatalog('a') })
     const ours = snapshot({ [path]: authoredCatalog })
-    const nextGenerated = generated({ [path]: migratedCatalog('b') })
+    const nextGenerated = snapshot({ [path]: migratedCatalog('b') })
 
     const first = createMigrationPlan(base, ours, nextGenerated)
     expect(first.conflicts).toEqual([])
@@ -128,25 +98,20 @@ describe('createMigrationPlan', () => {
     expect(second.deletes).toEqual([])
   })
 
-  test('冲突时严格零写盘计划', () => {
-    const base = snapshot({ 'content/locale.json': { a: 1 } })
-    const ours = snapshot({ 'content/locale.json': { a: 2 } })
-    const plan = createMigrationPlan(base, ours, generated({ 'content/locale.json': { a: 3 } }))
-    expect(plan.conflicts).toHaveLength(1)
-    expect(plan.writes.size).toBe(0)
-    expect(plan.deletes).toEqual([])
-  })
-
   test('地图名称双方同改时冲突并保持零写盘计划', () => {
     const path = 'content/maps/index.json'
-    const index = (name: string): MigrationJson => ({
-      version: 1,
-      maps: [{ id: 'map-001', name, path: 'content/maps/map-001.json' }],
-    })
+    const index = (name: string): MigrationJson => {
+      const value = {
+        version: 1,
+        maps: [{ id: 'map-001', name, path: 'content/maps/map-001.json' }],
+      }
+      validateMapIndex(value)
+      return value
+    }
     const plan = createMigrationPlan(
       snapshot({ [path]: index('PAL 地图 1') }),
       snapshot({ [path]: index('作者命名') }),
-      generated({ [path]: index('盛渔村') }),
+      snapshot({ [path]: index('盛渔村') }),
     )
     expect(plan.conflicts).toMatchObject([
       { file: path, path: expect.stringContaining('/maps/@string:map-001/name') },
@@ -155,16 +120,9 @@ describe('createMigrationPlan', () => {
     expect(plan.deletes).toEqual([])
   })
 
-  test('生成文件退役只删托管文件', () => {
-    const base = snapshot({ 'content/old.json': { a: 1 } })
-    const ours = snapshot({ 'content/old.json': { a: 1 } })
-    const plan = createMigrationPlan(base, ours, generated({}))
-    expect(plan.deletes).toEqual(['content/old.json'])
-  })
-
   test('精灵双定义合并时保留 base 作者字段，并接受上游布局修正与未改变变体删除', () => {
     const path = 'content/sprites.json'
-    const legacyBase: MigrationJson = [
+    const legacyBase: Pick<SpriteDef, 'id' | 'asset' | 'label' | 'layout'>[] = [
       {
         id: 'sprite-541',
         asset: 'sprite.pal.541',
@@ -179,7 +137,7 @@ describe('createMigrationPlan', () => {
       },
     ]
     const ours = structuredClone(legacyBase)
-    ;(ours[0] as { label: string }).label = '作者命名：乘船李逍遥'
+    ours[0]!.label = '作者命名：乘船李逍遥'
     const theirs: MigrationJson = [
       {
         id: 'sprite-541',
@@ -188,10 +146,12 @@ describe('createMigrationPlan', () => {
         layout: { kind: 'static' },
       },
     ]
+    validateSprites(legacyBase)
+    validateSprites(ours)
     const plan = createMigrationPlan(
       snapshot({ [path]: legacyBase }),
       snapshot({ [path]: ours }),
-      generated({ [path]: theirs }),
+      snapshot({ [path]: theirs }),
     )
     expect(plan.conflicts).toEqual([])
     expect(plan.target.get(path)).toEqual([
@@ -206,7 +166,7 @@ describe('createMigrationPlan', () => {
 
   test('作者修改待删除的错误精灵变体时必须 delete-modify 冲突且零写盘', () => {
     const path = 'content/sprites.json'
-    const legacyBase: MigrationJson = [
+    const legacyBase: Pick<SpriteDef, 'id' | 'asset' | 'label' | 'layout'>[] = [
       {
         id: 'sprite-541',
         asset: 'sprite.pal.541',
@@ -221,11 +181,13 @@ describe('createMigrationPlan', () => {
       },
     ]
     const ours = structuredClone(legacyBase)
-    ;(ours[1] as { label: string }).label = '作者仍在使用的变体'
+    ours[1]!.label = '作者仍在使用的变体'
+    validateSprites(legacyBase)
+    validateSprites(ours)
     const plan = createMigrationPlan(
       snapshot({ [path]: legacyBase }),
       snapshot({ [path]: ours }),
-      generated({
+      snapshot({
         [path]: [
           {
             id: 'sprite-541',
@@ -247,232 +209,127 @@ describe('createMigrationPlan', () => {
     expect(plan.deletes).toEqual([])
   })
 
-  test('动作迁移可与作者新增动作、场景 trigger 修改独立合并', () => {
-    const spritesPath = 'content/sprites.json'
-    const scenePath = 'content/scenes/s001.json'
-    const baseSprite: MigrationJson = [
-      { id: 'sprite-1', asset: 'sprite.pal.001', label: '精灵', layout: { kind: 'static' } },
-    ]
-    const baseScene: MigrationJson = {
-      id: 's001',
-      entities: [
-        {
-          id: 'e1',
-          sprite: 'sprite-1',
-          pages: [
-            {
-              auto: { stages: [{ body: [{ kind: 'wait', ms: 100 }] }] },
-              trigger: { on: 'interact', stages: [{ body: [{ kind: 'wait', ms: 1 }] }] },
-            },
-          ],
-        },
-      ],
+  test('merges an authored pose and trigger change with a new source animation', () => {
+    const sprites = 'content/sprites.json'
+    const scene = 'content/scenes/s001.json'
+    const baseDef = {
+      id: 'sprite-1',
+      asset: 'sprite.pal.001',
+      label: '精灵',
+      layout: { kind: 'static' },
     }
-    const oursSprite = structuredClone(baseSprite)
-    ;(oursSprite[0] as Record<string, MigrationJson>).poses = {
-      authored: { label: '作者动作', steps: [{ frame: 2, durationMs: 90 }] },
+    const authoredPose = { label: '作者动作', steps: [{ frame: 2, durationMs: 90 }] }
+    const sourcePose = {
+      label: 'PAL 自动循环',
+      steps: [{ frame: 0, durationMs: 100 }],
+      loopFrom: 0,
     }
-    const oursScene = structuredClone(baseScene)
-    ;(
-      (oursScene as { entities: Array<{ pages: Array<{ trigger: unknown }> }> }).entities[0]!
-        .pages[0]!.trigger as { stages: Array<{ body: MigrationJson[] }> }
-    ).stages[0]!.body = [{ kind: 'wait', ms: 2 }]
-    const theirsSprite = structuredClone(baseSprite)
-    ;(theirsSprite[0] as Record<string, MigrationJson>).poses = {
-      'pal-auto-v1-generated': {
-        label: 'PAL 自动循环',
-        steps: [{ frame: 0, durationMs: 100 }],
-        loopFrom: 0,
-      },
-    }
-    const theirsScene = structuredClone(baseScene) as {
-      id: string
-      entities: Array<{ pages: Array<Record<string, MigrationJson>> }>
-    }
-    delete theirsScene.entities[0]!.pages[0]!.auto
-    theirsScene.entities[0]!.pages[0]!.animation = {
-      sprite: 'sprite-1',
-      action: 'pal-auto-v1-generated',
-      loop: true,
-    }
-
+    const ourSprite = [{ ...baseDef, poses: { authored: authoredPose } }]
+    const newSprite = [{ ...baseDef, poses: { idle: sourcePose } }]
+    const mergedSprite = [{ ...baseDef, poses: { authored: authoredPose, idle: sourcePose } }]
+    const page = { id: 'default', label: '默认', trigger: 'talk' }
+    const initial = legalScene(page, 100)
+    const ours = legalScene(page, 200)
+    const animation = { sprite: 'sprite-1', action: 'idle', loop: true }
+    const incoming = legalScene({ ...page, animation }, 100)
+    for (const value of [[baseDef], ourSprite, newSprite, mergedSprite]) validateSprites(value)
     const plan = createMigrationPlan(
-      snapshot({ [spritesPath]: baseSprite, [scenePath]: baseScene }),
-      snapshot({ [spritesPath]: oursSprite, [scenePath]: oursScene }),
-      generated({ [spritesPath]: theirsSprite, [scenePath]: theirsScene as MigrationJson }),
+      snapshot({ [sprites]: [baseDef], [scene]: initial }),
+      snapshot({ [sprites]: ourSprite, [scene]: ours }),
+      snapshot({ [sprites]: newSprite, [scene]: incoming }),
     )
     expect(plan.conflicts).toEqual([])
-    expect(plan.target.get(spritesPath)).toMatchObject([
-      {
-        poses: {
-          'pal-auto-v1-generated': expect.any(Object),
-          authored: expect.any(Object),
-        },
-      },
-    ])
-    expect(plan.target.get(scenePath)).toMatchObject({
-      entities: [
-        {
-          pages: [
-            {
-              animation: { action: 'pal-auto-v1-generated' },
-              trigger: { stages: [{ body: [{ kind: 'wait', ms: 2 }] }] },
-            },
-          ],
-        },
-      ],
-    })
+    expect(plan.writes).toEqual(
+      new Map([
+        [scene, legalScene({ ...page, animation }, 200)],
+        [sprites, mergedSprite],
+      ]),
+    )
   })
 
-  test('作者修改待动作化 auto 时必须 delete-modify 冲突且整批零写盘', () => {
+  test('detects a source deletion of the automatic behavior changed by the author', () => {
     const path = 'content/scenes/s001.json'
-    const scene = (ms: number, animation = false): MigrationJson => ({
-      id: 's001',
-      entities: [
-        {
-          id: 'e1',
-          pages: [
-            animation
-              ? {
-                  animation: {
-                    sprite: 'sprite-1',
-                    action: 'pal-auto-v1-generated',
-                    loop: true,
-                  },
-                }
-              : { auto: { stages: [{ body: [{ kind: 'wait', ms }] }] } },
-          ],
-        },
-      ],
-    })
+    const page = { id: 'default', label: '默认', auto: 'patrol' }
     const plan = createMigrationPlan(
-      snapshot({ [path]: scene(100) }),
-      snapshot({ [path]: scene(200) }),
-      generated({ [path]: scene(0, true) }),
+      snapshot({ [path]: legalScene(page, 100) }),
+      snapshot({ [path]: legalScene({ ...page, auto: 'patrol-slow' }, 100) }),
+      snapshot({ [path]: legalScene({ id: 'default', label: '默认' }, 100) }),
     )
-    expect(plan.conflicts).toMatchObject([
-      { file: path, path: expect.stringContaining('/pages/0/auto'), type: 'delete-modify' },
+    expect(plan.conflicts).toEqual([
+      expect.objectContaining({
+        file: path,
+        path: '/entities/@string:e1/pages/@string:default/auto',
+        type: 'delete-modify',
+      }),
     ])
     expect(plan.writes.size).toBe(0)
     expect(plan.deletes).toEqual([])
   })
 
-  test('当前 index 引用的 ours-only 文件会保留', () => {
-    const base = snapshot({})
-    const ours = snapshot({ 'content/scripts/chunks/manual.json': { id: 'manual' } })
-    const plan = createMigrationPlan(base, ours, generated({}))
-    expect(plan.target.get('content/scripts/chunks/manual.json')).toEqual({ id: 'manual' })
-    expect(plan.deletes).toEqual([])
+  test('merges independent authored and source shared-script records in the current library', () => {
+    const path = 'content/shared-scripts.json'
+    const script = (ms: number) => ({ name: '节拍', self: 'none', body: [{ kind: 'wait', ms }] })
+    const base = { intro: script(100) }
+    const ours = { intro: script(100), authored: script(90) }
+    const theirs = { intro: script(200) }
+    for (const value of [base, ours, theirs]) validateAuthorSharedScripts(value)
+    const plan = createMigrationPlan(
+      snapshot({ [path]: base }),
+      snapshot({ [path]: ours }),
+      snapshot({ [path]: theirs }),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.writes.get(path)).toEqual({ intro: script(200), authored: script(90) })
   })
 
-  test('ours-only 作者目录与作者 body 可和 theirs 同 shard 内部脚本无冲突合并', () => {
-    const authoredId = 'shared/user/demo-a1b2c3d4'
-    const internalId = 'shared/L_1/default'
-    const chunkId = 'shared/c00'
-    const path = 'content/scripts/chunks/shared/c00.json'
-    const makeIndex = (library?: MigrationJson): MigrationJson => ({
-      version: 1,
-      shards: { shared: 1, global: {} },
-      chunks: { [chunkId]: { path: 'chunks/shared/c00.json', bytes: 1 } },
-      ...(library ? { library } : {}),
-    })
-    const makeChunk = (internalWait: number, authoredWait?: number): MigrationJson => ({
-      version: 1,
-      id: chunkId,
-      scripts: {
-        [internalId]: [{ kind: 'wait', ms: internalWait }],
-        ...(authoredWait === undefined
-          ? {}
-          : { [authoredId]: [{ kind: 'wait', ms: authoredWait }] }),
-      },
-    })
-    const authorLibrary: MigrationJson = {
-      [authoredId]: { name: '演示', self: 'none' },
+  test('divergent edits of the same current shared script step block the entire write plan', () => {
+    const path = 'content/shared-scripts.json'
+    const version = (ms: number) => {
+      const library = { intro: { name: '节拍', self: 'none', body: [{ kind: 'wait', ms }] } }
+      validateAuthorSharedScripts(library)
+      return snapshot({ [path]: library })
     }
-    const plan = createMigrationPlan(
-      snapshot({ 'content/scripts/index.json': makeIndex(), [path]: makeChunk(1) }),
-      snapshot({
-        'content/scripts/index.json': makeIndex(authorLibrary),
-        [path]: makeChunk(1, 9),
+    const plan = createMigrationPlan(version(100), version(150), version(200))
+    expect(plan.conflicts).toEqual([
+      expect.objectContaining({
+        file: path,
+        path: expect.stringContaining('/intro/body'),
+        type: 'value',
       }),
-      generated({ 'content/scripts/index.json': makeIndex(), [path]: makeChunk(2) }),
-    )
-    expect(plan.conflicts).toEqual([])
-    expect(plan.target.get('content/scripts/index.json')).toMatchObject({ library: authorLibrary })
-    expect(plan.target.get(path)).toMatchObject({
-      scripts: {
-        [internalId]: [{ kind: 'wait', ms: 2 }],
-        [authoredId]: [{ kind: 'wait', ms: 9 }],
-      },
-    })
-  })
-
-  test('双方修改同一作者 body 时显式冲突且零写盘', () => {
-    const authoredId = 'shared/user/demo-a1b2c3d4'
-    const chunkId = 'shared/c00'
-    const path = 'content/scripts/chunks/shared/c00.json'
-    const index: MigrationJson = {
-      version: 1,
-      shards: { shared: 1, global: {} },
-      chunks: { [chunkId]: { path: 'chunks/shared/c00.json', bytes: 1 } },
-      library: { [authoredId]: { name: '演示', self: 'none' } },
-    }
-    const chunk = (ms: number): MigrationJson => ({
-      version: 1,
-      id: chunkId,
-      scripts: { [authoredId]: [{ kind: 'wait', ms }] },
-    })
-    const plan = createMigrationPlan(
-      snapshot({ 'content/scripts/index.json': index, [path]: chunk(1) }),
-      snapshot({ 'content/scripts/index.json': index, [path]: chunk(2) }),
-      generated({ 'content/scripts/index.json': index, [path]: chunk(3) }),
-    )
-    expect(plan.conflicts.length).toBeGreaterThan(0)
+    ])
     expect(plan.writes.size).toBe(0)
     expect(plan.deletes).toEqual([])
-  })
-
-  test('原子地图 baseline 仅有 hash 时仍按三方规则保作者修改', () => {
-    const path = 'content/maps/map-001.json'
-    const fullBase = snapshotOf(generated({ [path]: projectMap(1) }))
-    const hashOnlyBase: MigrationSnapshot = {
-      files: new Map(),
-      managedFiles: new Set([path]),
-      hashes: fullBase.hashes,
-    }
-    const plan = createMigrationPlan(
-      hashOnlyBase,
-      snapshot({ [path]: projectMap(2) }),
-      generated({ [path]: projectMap(1) }),
-    )
-    expect(plan.conflicts).toEqual([])
-    expect(plan.target.get(path)).toEqual(projectMap(2))
-    expect(plan.writes.size).toBe(0)
-  })
-
-  test('原子地图 ours=base 时接收新迁移，双方变化时报 hash 冲突', () => {
-    const path = 'content/maps/map-001.json'
-    const fullBase = snapshotOf(generated({ [path]: projectMap(1) }))
-    const hashOnlyBase: MigrationSnapshot = {
-      files: new Map(),
-      managedFiles: new Set([path]),
-      hashes: fullBase.hashes,
-    }
-    const update = createMigrationPlan(
-      hashOnlyBase,
-      snapshot({ [path]: projectMap(1) }),
-      generated({ [path]: projectMap(2) }),
-    )
-    expect(update.conflicts).toEqual([])
-    expect(update.writes.get(path)).toEqual(projectMap(2))
-
-    const conflict = createMigrationPlan(
-      hashOnlyBase,
-      snapshot({ [path]: projectMap(2) }),
-      generated({ [path]: projectMap(3) }),
-    )
-    expect(conflict.conflicts).toHaveLength(1)
-    expect(conflict.conflicts[0]?.base.value).toHaveProperty('sha256')
-    expect(conflict.writes.size).toBe(0)
   })
 })
+
+function legalScene(page: MigrationJson, waitMs: number): MigrationJson {
+  const behavior = (ms: number) => ({
+    label: '脚步',
+    order: 0,
+    flow: {
+      kind: 'stages',
+      initial: 'initial',
+      stages: [{ id: 'initial', body: [{ kind: 'wait', ms }] }],
+    },
+  })
+  const scene = {
+    id: 's001',
+    mapId: 'map-001',
+    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+    entities: [
+      {
+        id: 'e1',
+        sprite: 'sprite-1',
+        pos: { col: 0, row: 0, height: 0 },
+        initialPage: 'default',
+        pages: [page],
+        behaviors: {
+          trigger: { talk: behavior(waitMs) },
+          auto: { patrol: behavior(100), 'patrol-slow': { ...behavior(200), order: 1 } },
+        },
+      },
+    ],
+  }
+  validateAuthorScenes([scene])
+  return scene
+}

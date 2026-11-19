@@ -41,6 +41,17 @@ describe('hash-only map versions', () => {
 
   const DOC = 'content/scenes/s000.json'
 
+  test('keeps a changed author map against the previous hash-only source with an unchanged new source', () => {
+    const plan = createMigrationPlan(
+      snap([[MAP, mapV(1)]], [MAP]),
+      snap([[MAP, mapV(2)]]),
+      snap([[MAP, mapV(1)]]),
+    )
+    expect(plan.conflicts).toEqual([])
+    expect(plan.target.get(MAP)).toEqual(mapV(2))
+    expect(plan.writes.size).toBe(0)
+  })
+
   test('ours 的 hash-only 版本与新迁移相同，从 theirs 回填选中正文', () => {
     const base = snap([[MAP, mapV(1)]], [MAP])
     const ours = snap([[MAP, mapV(9)]], [MAP])

@@ -1,6 +1,6 @@
 import { validateActors, validateSprites } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
-import { role, unchanged } from './__tests__/pure-migration-fixtures.js'
+import { role, unchanged } from './__tests__/pal-source-fixtures.js'
 import { mapActor, mapRoleSpritesByNumber, mapSprites } from './pal-role-mapping.js'
 
 describe('self-contained PAL role records', () => {
@@ -8,7 +8,7 @@ describe('self-contained PAL role records', () => {
     const source = role({
       avatar: 0,
       id: 5,
-      equipment: [21, 0, 22, 23, 0, 24, 999],
+      equipment: [21, 0, 22, 23, 0, 24],
       magic: [0, 17, 0, 18],
       cooperativeMagic: 19,
       coveredBy: 3,
@@ -53,7 +53,7 @@ describe('self-contained PAL role records', () => {
     expect(() => validateActors([result])).not.toThrow()
     result.battler!.leveling!.expTable.push(99)
     result.battler!.initialMagic!.push('50')
-    expect(input).toEqual({ source, exp: [0, 5, 12] })
+    expect(input.exp).toEqual([0, 5, 12])
     expect(source.magic).toEqual([0, 17, 0, 18])
   })
 

@@ -28,12 +28,12 @@ import {
 import type { PalAssetMigrationReport } from '../../pal-assets.js'
 import { applyPalCasualtyOverlays, PAL_CASUALTY_LOCALE_KEYS } from '../../pal-casualty-scripts.js'
 import type { PalContentSupplySources } from '../../pal-content-supply.js'
-import { migratePalShops, type SourceStore } from '../../pal-derived-content.js'
 import {
   buildPalItemMessageSources,
   type PalItemMessageSource,
 } from '../../pal-item-message-source.js'
 import { mapActor } from '../../pal-role-mapping.js'
+import { migratePalShops, type SourceStore } from '../../pal-shop-projection.js'
 import type { SourceItem, SourceRole, SourceScene } from '../../pal-source-types.js'
 import {
   PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES,

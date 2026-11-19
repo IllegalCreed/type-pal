@@ -134,17 +134,34 @@ describe('project changes and snapshot consistency', () => {
     ])
   })
 
-  test('invalid retirement diagnostics identify the exact resource and path without writes', () => {
+  test.each([
+    ['assets/other/x.png', 'a'.repeat(64)],
+    ['assets/migrated/../author.png', 'a'.repeat(64)],
+    ['assets/migrated//retired.png', 'a'.repeat(64)],
+    ['assets/migrated\\retired.png', 'a'.repeat(64)],
+    ['assets/migrated/retired.png', 'not-a-sha256'],
+  ])('refuses invalid retirement %s before writes', (path, expectedSha256) => {
     const f = fixture()
     const before = tree(f.root)
     expect(() =>
       buildMigrationTransactionChanges({
         ...baseArgs(f.repo),
-        retiredAssets: [
-          { id: 'ret-1', path: 'assets/other/x.png', expectedSha256: 'a'.repeat(64) },
-        ],
+        retiredAssets: [{ id: 'ret-1', path, expectedSha256 }],
       }),
-    ).toThrow('退役迁移资源计划无效: ret-1 -> assets/other/x.png')
+    ).toThrow(`退役迁移资源计划无效: ret-1 -> ${path}`)
+    expect(tree(f.root)).toEqual(before)
+  })
+
+  test('a project write and deletion cannot use the same target', () => {
+    const f = fixture()
+    const before = tree(f.root)
+    expect(() =>
+      buildMigrationTransactionChanges({
+        ...baseArgs(f.repo),
+        plan: { writes: new Map([[path, []]]), deletes: [path] },
+        projectSnapshot: loadProjectMigrationSnapshot(f.repo, new Set([path])),
+      }),
+    ).toThrow('迁移写入计划包含重复工程目标')
     expect(tree(f.root)).toEqual(before)
   })
 

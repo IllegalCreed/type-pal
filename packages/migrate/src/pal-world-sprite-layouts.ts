@@ -1,9 +1,9 @@
-import type { SpriteLayout } from '@type-pal/content'
+import { type SpriteLayout, spriteDefinitionFrameDemand } from '@type-pal/content'
 
 /**
- * 仅用于 PAL 迁移边界的逐项审计覆盖。
+ * PAL 来源中逐项核实的剧情精灵布局。
  *
- * 这些条目无法仅凭 0x65/0x1A 的资源号确定脚本所需布局；部分还同时有 scene 布局证据。
+ * 0x65 只给出资源号；布局还取决于场景声明、0x1A 修改的步行帧数及脚本访问的帧。
  * 每项都钉住实际物理帧数和出处；新增条目必须经数据审计，禁止按编号、标签或帧数推广。
  */
 export interface PalWorldSpriteLayoutOverlay {
@@ -114,7 +114,7 @@ export const PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIAS_IDS: ReadonlySet<string> = ne
 )
 
 export const PAL_WORLD_SPRITE_LAYOUT_OVERLAYS = [
-  // 物理帧不足 4×3，且脚本用 0x15 gesture 把它们当无方向绝对帧带。
+  // 这些脚本按绝对帧访问资源。即使物理帧数够 4×3，也不能据此推定四向布局。
   {
     spriteNum: 236,
     layout: { kind: 'static' },
@@ -327,14 +327,6 @@ export const PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT = [
   { spriteNum: 632, expectedFrameCount: 7, evidence: 'overlay L_35359' },
 ] as const
 
-function layoutFrameDemand(layout: SpriteLayout): number {
-  return layout.kind === 'directional'
-    ? layout.framesPerDir * 4
-    : layout.kind === 'loop'
-      ? layout.frameCount
-      : 1
-}
-
 export function assertPalWorldSpriteLayoutOverlaySources(frameCounts: readonly number[]): void {
   if (frameCounts.length !== 636)
     throw new Error(`PAL 大世界精灵帧数表期望 636 项，收到 ${frameCounts.length}`)
@@ -348,7 +340,7 @@ export function assertPalWorldSpriteLayoutOverlaySources(frameCounts: readonly n
       throw new Error(
         `PAL 大世界精灵 ${overlay.spriteNum} 物理帧漂移: overlay 期望 ${overlay.expectedFrameCount}，实际 ${String(actual)}`,
       )
-    const demand = layoutFrameDemand(overlay.layout)
+    const demand = spriteDefinitionFrameDemand(overlay)
     if (demand > actual)
       throw new Error(
         `PAL 大世界精灵 ${overlay.spriteNum} overlay 布局需求 ${demand} 超过物理帧 ${actual}`,

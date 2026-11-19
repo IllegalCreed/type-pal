@@ -40,6 +40,9 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-MAP-SOURCE-WORD-DOMAIN-1 — PAL 提取地图的原始字范围](MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1 — PAL 视觉定义按内容比对](MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1 — 旧商店指令计数退役](MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -569,6 +572,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-SOURCE-PROJECTIONS-1 — 迁移来源投影与专测质量复审](QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |

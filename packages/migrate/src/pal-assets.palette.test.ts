@@ -12,6 +12,13 @@ describe('PAL palette loader boundaries', () => {
   test('bakes real PNG palette RGB while transparent pixels become transparent zero', () => {
     const f = staticFixture()
     const result = f.run()
+    expect(result.report).toMatchObject({
+      portraits: 88,
+      faces: 5,
+      itemIcons: 233,
+      battleBackgrounds: 52,
+    })
+    expect(result.binaries).toHaveLength(378)
     assertSources(result.binaries)
     for (const source of result.binaries.filter((s) => s.record.kind !== 'battle-background')) {
       const image = PNG.sync.read(sourceBytes(source))

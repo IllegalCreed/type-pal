@@ -1,14 +1,14 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { type EntityDef, isActorEntity, type SpriteDef } from '@type-pal/content'
+import { validateAuthorScenes, validateSprites } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES } from './pal-world-sprite-layouts.js'
 
 const repoRoot = fileURLToPath(new URL('../../..', import.meta.url))
 
 function readJson(path: string): unknown {
-  return JSON.parse(readFileSync(join(repoRoot, path), 'utf8')) as unknown
+  return JSON.parse(readFileSync(join(repoRoot, path), 'utf8'))
 }
 
 describe('PAL 大世界视觉语义别名产物', () => {
@@ -16,31 +16,45 @@ describe('PAL 大世界视觉语义别名产物', () => {
     'projects/pal/content',
     'packages/migrate/baselines/pal/content',
   ])('%s 只保留稳定视觉定义且 51 个实体仍无 Actor 身份', (contentRoot) => {
-    const sprites = readJson(`${contentRoot}/sprites.json`) as SpriteDef[]
+    const sprites = validateSprites(readJson(`${contentRoot}/sprites.json`))
     expect(
       sprites.filter(({ id }) =>
         ['sprite-2', 'sprite-3', 'sprite-5', 'sprite-7', 'sprite-26'].includes(id),
       ),
     ).toEqual([])
-
-    expect(PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES).toHaveLength(5)
     expect(
-      PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES.reduce(
-        (total, alias) => total + alias.references.length,
-        0,
-      ),
-    ).toBe(51)
+      PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES.map(({ semanticId, references }) => [
+        semanticId,
+        references.length,
+      ]),
+    ).toEqual([
+      ['li-xiaoyao', 7],
+      ['zhao-linger', 6],
+      ['lin-yueru', 18],
+      ['anu', 11],
+      ['gai-luojiao', 9],
+    ])
 
-    for (const alias of PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES)
+    const sceneIds = new Set(
+      PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES.flatMap(({ references }) =>
+        references.map(({ sceneId }) => sceneId),
+      ),
+    )
+    const scenes = new Map(
+      validateAuthorScenes(
+        [...sceneIds].map((sceneId) => readJson(`${contentRoot}/scenes/${sceneId}.json`)),
+      ).map((scene) => [scene.id, scene]),
+    )
+    for (const alias of PAL_WORLD_SCENE_SEMANTIC_SPRITE_ALIASES) {
+      const def = sprites.find(({ id }) => id === alias.semanticId)
+      expect(def?.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
       for (const { sceneId, entityId } of alias.references) {
-        const scene = readJson(`${contentRoot}/scenes/${sceneId}.json`) as {
-          entities: EntityDef[]
-        }
-        const entity = scene.entities.find(({ id }) => id === entityId)
-        expect(entity, `${contentRoot}/${sceneId}/${entityId}`).toBeDefined()
-        expect(entity).toEqual(expect.objectContaining({ sprite: alias.semanticId }))
-        expect(entity && isActorEntity(entity)).toBe(false)
+        const entity = scenes.get(sceneId)?.entities.find(({ id }) => id === entityId)
+        expect(entity, `${contentRoot}/${sceneId}/${entityId}`).toMatchObject({
+          sprite: alias.semanticId,
+        })
         expect(entity).not.toHaveProperty('actor')
       }
+    }
   })
 })

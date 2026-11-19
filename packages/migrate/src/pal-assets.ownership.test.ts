@@ -42,11 +42,18 @@ describe('PAL asset materialization ownership boundaries', () => {
     delete f.catalog.assets.b
     rejectUnchanged(f, 'PAL catalog 缺迁移资源 b')
   })
+  test('two asset IDs cannot publish to the same path', () => {
+    const f = ownedFixture()
+    f.catalog.assets.b!.path = 'assets/migrated/a.png'
+    rejectUnchanged(f, 'PAL catalog 资源路径冲突: a / b -> assets/migrated/a.png')
+  })
   test.each([
     'kind',
     'mediaType',
     'bytes',
     'sha256',
+    'origin',
+    'path',
   ] as const)('rejects target-controlled %s drift before writing the valid first source', (key) => {
     const f = ownedFixture()
     const record = f.catalog.assets.b!
@@ -63,12 +70,21 @@ describe('PAL asset materialization ownership boundaries', () => {
       case 'sha256':
         record.sha256 = '0'.repeat(64)
         break
+      case 'origin':
+        record.origin = { kind: 'legacy-migrated', ref: 'images/replaced.png' }
+        break
+      case 'path':
+        record.path = 'assets/migrated/other.png'
+        break
     }
     rejectUnchanged(f, `迁移资源 b.${key} 被非 authored 记录改写`)
   })
   test('a presentation label change is allowed without replacing source ownership', () => {
     const f = ownedFixture()
-    f.catalog.assets.b!.label = '作者显示名'
+    const secondBytes = png(1, 1, [9, 8, 7, 255])
+    const secondRecord = imageRecord('assets/migrated/b.png', secondBytes)
+    f.sources[1] = { id: 'b', record: secondRecord, bytes: Uint8Array.from(secondBytes) }
+    f.catalog.assets.b = { ...secondRecord, label: '作者显示名' }
     const args = { repo: f.repo, catalog: f.catalog, binaries: f.sources }
     const before = structuredClone(args)
     expect(materializePalAssets(args)).toEqual({
@@ -76,12 +92,14 @@ describe('PAL asset materialization ownership boundaries', () => {
       unchanged: 0,
       authored: 0,
       files: 2,
-      bytes: 2 * f.bytes.length,
+      bytes: f.bytes.length + secondBytes.length,
     })
-    for (const record of Object.values(f.catalog.assets))
-      expect(fs.readFileSync(resolve(f.repo, 'projects/pal', record.path))).toEqual(
-        Buffer.from(f.bytes),
-      )
+    expect(fs.readFileSync(resolve(f.repo, 'projects/pal/assets/migrated/a.png'))).toEqual(
+      Buffer.from(f.bytes),
+    )
+    expect(fs.readFileSync(resolve(f.repo, 'projects/pal/assets/migrated/b.png'))).toEqual(
+      secondBytes,
+    )
     expect(args).toEqual(before)
   })
   test('same-length second source hash corruption rejects before any first-source write', () => {
@@ -239,4 +257,37 @@ describe('PAL asset materialization ownership boundaries', () => {
     expect(diskTree(f.repo)).toEqual(disk)
     for (const spy of writes) expect(spy).not.toHaveBeenCalled()
   })
+})
+
+test('publishes a generated file in a new nested directory and validates existing migrated and authored bytes', () => {
+  const f = ownedFixture()
+  const replacement = png(1, 1, [12, 34, 56, 255])
+  const original = png(1, 1, [56, 34, 12, 255])
+  const originalRecord = imageRecord('assets/migrated/c.png', original)
+  f.sources.push({ id: 'c', record: originalRecord, bytes: Uint8Array.from(original) })
+  const generatedRecord = imageRecord('assets/generated/portraits/a.png', f.bytes, {
+    kind: 'generated',
+  })
+  f.sources[0] = { id: 'a', record: generatedRecord, bytes: f.bytes }
+  f.catalog.assets.a = generatedRecord
+  f.catalog.assets.c = imageRecord('assets/authored/replacement.png', replacement, {
+    kind: 'authored',
+  })
+  put(f.repo, 'projects/pal/assets/migrated/b.png', f.bytes)
+  put(f.repo, 'projects/pal/assets/authored/replacement.png', replacement)
+  expect(materializePalAssets({ repo: f.repo, catalog: f.catalog, binaries: f.sources })).toEqual({
+    written: 1,
+    unchanged: 1,
+    authored: 1,
+    files: 3,
+    bytes: 2 * f.bytes.length + replacement.length,
+  })
+  const project = resolve(f.repo, 'projects/pal/assets')
+  expect(fs.readdirSync(resolve(project, 'migrated'))).toEqual(['b.png'])
+  expect(fs.readdirSync(resolve(project, 'generated/portraits'))).toEqual(['a.png'])
+  expect(fs.readFileSync(resolve(project, 'generated/portraits/a.png'))).toEqual(
+    Buffer.from(f.bytes),
+  )
+  expect(fs.readFileSync(resolve(project, 'migrated/b.png'))).toEqual(Buffer.from(f.bytes))
+  expect(fs.readFileSync(resolve(project, 'authored/replacement.png'))).toEqual(replacement)
 })

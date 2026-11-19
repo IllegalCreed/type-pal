@@ -62,8 +62,8 @@ import {
   buildPalCurrentPublication,
   validatePalCurrentPublication,
 } from './pal-current-publication.js'
-import type { SourceStore } from './pal-derived-content.js'
 import { buildPalCurrentManifest } from './pal-manifest.js'
+import type { SourceStore } from './pal-shop-projection.js'
 import type { SourceScene } from './pal-source-types.js'
 import { assertPalAlchemyBoundaryInvariant } from './pal-store-boundary.js'
 import { PAL_WORLD_SPRITE_LAYOUT_OVERLAYS } from './pal-world-sprite-layouts.js'

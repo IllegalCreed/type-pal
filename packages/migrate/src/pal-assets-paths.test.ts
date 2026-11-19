@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path'
 import { type AssetCatalogV1, validateAssetCatalog } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import { guardFixture, put, tree } from './__tests__/migration-guard-fixture.js'
-import { sha256 } from './migration-baseline.js'
+import { imageRecord, png } from './__tests__/pal-asset-fixtures.js'
 import { materializePalAssets, type PalBinaryAssetSource } from './pal-assets.js'
 
 vi.mock('node:fs', async (original) => ({ ...(await original<typeof fs>()) }))
@@ -18,16 +18,8 @@ afterEach(() => {
 function fixture() {
   const f = guardFixture()
   roots.push(f.root)
-  // The materializer's contract is opaque source bytes/catalog, not video decoding.
-  const bytes = Buffer.from('exact source bytes')
-  const record = {
-    kind: 'video' as const,
-    path: 'assets/migrated/videos/a.mp4',
-    mediaType: 'video/mp4',
-    bytes: bytes.length,
-    sha256: sha256(bytes),
-    origin: { kind: 'legacy-migrated' as const },
-  }
+  const bytes = png(1, 1, [9, 8, 7, 255])
+  const record = imageRecord('assets/migrated/portraits/a.png', bytes)
   const catalog: AssetCatalogV1 = { version: 1, assets: { a: record } }
   validateAssetCatalog(catalog)
   const source: PalBinaryAssetSource = { id: 'a', record, bytes }
@@ -44,7 +36,7 @@ test.each([
   'dangling-leaf',
 ] as const)('rejects native %s links before resource mutation and preserves the whole fixture', (variant) => {
   const f = fixture()
-  put(join(f.outside, 'a.mp4'), 'outside-original')
+  put(join(f.outside, 'a.png'), 'outside-original')
   const leaf = variant.endsWith('leaf')
   const link = leaf
     ? f.destination
@@ -56,7 +48,7 @@ test.each([
     variant.startsWith('dangling')
       ? join(f.outside, 'missing')
       : leaf
-        ? join(f.outside, 'a.mp4')
+        ? join(f.outside, 'a.png')
         : f.outside,
     link,
   )
@@ -73,7 +65,7 @@ test.each([
 
 test('a bad later catalog path prevents writes of an earlier good resource', () => {
   const f = fixture()
-  const second = { ...f.record, path: 'assets/migrated/linked/b.mp4' }
+  const second = { ...f.record, path: 'assets/migrated/linked/b.png' }
   const catalog = { version: 1 as const, assets: { a: f.record, b: second } }
   validateAssetCatalog(catalog)
   native.mkdirSync(join(f.repo, 'projects/pal/assets/migrated'), { recursive: true })
@@ -89,6 +81,22 @@ test('a bad later catalog path prevents writes of an earlier good resource', () 
   expect(tree(f.root)).toEqual(before)
 })
 
+test('rejects a noncanonical catalog path without changing files', () => {
+  const f = fixture()
+  f.record.path = 'assets/migrated/../other.png'
+  const before = tree(f.root)
+  expect(f.run).toThrow('assets["a"].path')
+  expect(tree(f.root)).toEqual(before)
+})
+
+test('preserves a directory already present at a file target and leaves no temporary file', () => {
+  const f = fixture()
+  native.mkdirSync(f.destination, { recursive: true })
+  const before = tree(f.root)
+  expect(f.run).toThrow('资源 a 路径类型无效: projects/pal/assets/migrated/portraits/a.png')
+  expect(tree(f.root)).toEqual(before)
+})
+
 test('normal write, unchanged replay, and authored ownership retain exact bytes', () => {
   const f = fixture()
   expect(f.run()).toEqual({
@@ -99,6 +107,7 @@ test('normal write, unchanged replay, and authored ownership retain exact bytes'
     bytes: f.bytes.length,
   })
   expect(native.readFileSync(f.destination)).toEqual(f.bytes)
+  expect(native.readdirSync(dirname(f.destination))).toEqual(['a.png'])
   const before = tree(f.root)
   expect(f.run()).toEqual({
     written: 0,
@@ -108,7 +117,7 @@ test('normal write, unchanged replay, and authored ownership retain exact bytes'
     bytes: f.bytes.length,
   })
   expect(tree(f.root)).toEqual(before)
-  const authoredPath = 'assets/authored/videos/a.mp4'
+  const authoredPath = 'assets/authored/portraits/a.png'
   f.catalog.assets.a = { ...f.record, path: authoredPath, origin: { kind: 'authored' } }
   put(join(f.repo, 'projects/pal', authoredPath), f.bytes)
   const authoredBefore = tree(f.root)

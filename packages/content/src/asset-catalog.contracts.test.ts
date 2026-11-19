@@ -89,6 +89,11 @@ describe('asset catalog records', () => {
 
   test.each([
     ['invalid kind', { kind: 'movie' }, 'kind: 非法 AssetKind'],
+    [
+      'migrated source outside its owned directory',
+      { origin: { kind: 'legacy-migrated', ref: 'sprite/1.rle' } },
+      'path: legacy-migrated 资源必须位于 assets/migrated/',
+    ],
     ['blank media type', { mediaType: ' ' }, 'mediaType: 期望非空字符串'],
     ['negative byte count', { bytes: -1 }, 'bytes: 期望非负整数'],
     ['fractional byte count', { bytes: 1.5 }, 'bytes: 期望非负整数'],

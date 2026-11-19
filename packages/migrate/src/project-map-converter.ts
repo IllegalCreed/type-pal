@@ -32,7 +32,7 @@ export interface DecodedSourceWord {
   encodedLayer1Tile: number
 }
 
-/** 旧 packed word 的唯一解码边界。 */
+/** 读取一个 PAL 半格的底层、覆盖层和碰撞位。空覆盖层没有实例高度。 */
 export function decodeSourceMapWord(word: number): DecodedSourceWord {
   const value = word >>> 0
   const encodedLayer1Tile = ((value >>> 16) & 0xff) | ((value >>> 20) & 0x100)
@@ -88,7 +88,7 @@ function assertSourceShape(source: Tilemap): void {
   })
 }
 
-/** 把一张旧源图无损展开为工程唯一 ProjectMap。 */
+/** 按逻辑行展开两个半格。残差位和空覆盖层编码高度由原图审计报告。 */
 export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMap {
   assertSourceShape(source)
   const rows = source.height * 2
@@ -147,6 +147,7 @@ export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMa
   }
 }
 
+/** 回读本模块转换得到的底层和覆盖层，供原图逐半格往返审计。 */
 export function sourceWordFromProjectMap(map: ProjectMap, latticeRow: number, col: number): number {
   const lower = map.layers[0]
   const upper = map.layers[1]

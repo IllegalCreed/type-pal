@@ -1,5 +1,13 @@
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  readlinkSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { type AssetCatalogV1, type AssetRecordV1, validateAssetCatalog } from '@type-pal/content'
@@ -29,15 +37,22 @@ export function put(repo: string, path: string, bytes: string | Uint8Array) {
 }
 export const json = (repo: string, path: string, value: unknown) =>
   put(repo, path, JSON.stringify(value))
-export function diskTree(repo: string): Record<string, string> {
-  const tree: Record<string, string> = {}
+export function diskTree(repo: string): ReadonlyMap<string, string> {
+  const tree = new Map<string, string>()
   function walk(path: string) {
     for (const entry of readdirSync(resolve(repo, path), { withFileTypes: true }).sort((a, b) =>
       a.name.localeCompare(b.name),
     )) {
       const next = path ? `${path}/${entry.name}` : entry.name
-      tree[next] = entry.isDirectory() ? 'directory' : digest(readFileSync(resolve(repo, next)))
-      if (entry.isDirectory()) walk(next)
+      const full = resolve(repo, next)
+      if (entry.isDirectory()) {
+        tree.set(next, 'directory')
+        walk(next)
+      } else if (entry.isSymbolicLink()) {
+        tree.set(next, `symlink:${readlinkSync(full)}`)
+      } else {
+        tree.set(next, digest(readFileSync(full)))
+      }
     }
   }
   walk('')
@@ -153,7 +168,8 @@ export function assertSources(sources: readonly PalBinaryAssetSource[]) {
     version: 1,
     assets: Object.fromEntries(sources.map((s) => [s.id, s.record])),
   }
-  expect(validateAssetCatalog(catalog)).toBe(catalog)
+  validateAssetCatalog(catalog)
+  expect(Object.keys(catalog.assets)).toHaveLength(sources.length)
   for (const source of sources) {
     const bytes = sourceBytes(source)
     expect(source.record.bytes).toBe(bytes.length)

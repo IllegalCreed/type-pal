@@ -34,8 +34,7 @@ export function createPalWorldSpriteRegistry(
   } = { layoutConflicts: [], layoutEvidence: [] }
   if (options.worldSpriteFrameCounts)
     assertPalWorldSpriteLayoutOverlaySources(options.worldSpriteFrameCounts)
-  // ── 精灵布局注册表(预扫描 + 只读解析)──
-  // 先扫描全部 scene 声明，再叠加逐项 PAL 布局证据；引用路径不猜默认布局。
+  // 扫描场景声明和 PAL 布局证据。只有 spriteRef 实际取用时，才存入定义和报告。
   type LayoutRegistration = {
     spriteNum: number
     id: string
@@ -46,12 +45,16 @@ export function createPalWorldSpriteRegistry(
     /** 稳定视觉定义由角色迁移持有；场景只复用 id，不能再生成一份重复 SpriteDef。 */
     externalDefinition?: true
   }
-  const layoutKey = (layout: SpriteDef['layout']): string =>
-    layout.kind === 'directional'
-      ? `directional:${layout.framesPerDir}`
-      : layout.kind === 'loop'
-        ? `loop:${layout.frameCount}:${layout.ticksPerFrame ?? ''}`
-        : 'static'
+  const layoutKey = (layout: SpriteDef['layout']): string => {
+    switch (layout.kind) {
+      case 'directional':
+        return `directional:${layout.framesPerDir}`
+      case 'loop':
+        return `loop:${layout.frameCount}:${layout.ticksPerFrame ?? ''}`
+      default:
+        return 'static'
+    }
+  }
   const sceneLayout = (nSpriteFrames: number): SpriteDef['layout'] =>
     nSpriteFrames > 0 ? { kind: 'directional', framesPerDir: nSpriteFrames } : { kind: 'static' }
   const roleSpriteAliasFor = (spriteNum: number): SpriteDef | undefined => {
@@ -138,18 +141,16 @@ export function createPalWorldSpriteRegistry(
       const matchesPrimary = key === primaryKey
       // overlay 与场景证据相同 = 同一个 stable base；保留历史人读 label，避免纯布局修复
       // 与作者改名形成无意义 MG2 冲突。不同布局才建立 scene -f<n> 变体。
-      const registration: LayoutRegistration = layouts.has(key)
-        ? layouts.get(key)!
-        : {
-            spriteNum,
-            id: matchesPrimary
-              ? migratedSpriteId(spriteNum)
-              : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
-            layout,
-            source: 'scene',
-            evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
-            label: `原精灵 ${spriteNum}`,
-          }
+      const registration: LayoutRegistration = layouts.get(key) ?? {
+        spriteNum,
+        id: matchesPrimary
+          ? migratedSpriteId(spriteNum)
+          : migratedSpriteId(spriteNum, evidence.nSpriteFrames),
+        layout,
+        source: 'scene',
+        evidence: `scene ${sceneSlug(evidence.sceneId)}/e${evidence.entityId} nSpriteFrames=${evidence.nSpriteFrames}`,
+        label: `原精灵 ${spriteNum}`,
+      }
       layouts.set(key, registration)
       sceneRegistrationByKey.set(`${spriteNum}:${evidence.nSpriteFrames}`, registration)
     }

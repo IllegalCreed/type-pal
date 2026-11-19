@@ -1,4 +1,9 @@
-import type { AssetCatalogV1, AssetKind } from '@type-pal/content'
+import {
+  type AssetCatalogV1,
+  type AssetKind,
+  validateAssetCatalog,
+  validateCurrentManifestStartup,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
 import { buildPalCurrentManifest } from './pal-manifest.js'
@@ -12,7 +17,7 @@ function kindOf(id: string): AssetKind {
 }
 
 function catalog(): AssetCatalogV1 {
-  return {
+  return validateAssetCatalog({
     version: 1,
     assets: Object.fromEntries(
       Object.values(PAL_ASSET_ROLES).map((id) => [
@@ -27,22 +32,28 @@ function catalog(): AssetCatalogV1 {
         },
       ]),
     ),
-  }
+  })
 }
 
 describe('PAL current manifest', () => {
   test('只生成 canonical content23/SAVE12，且没有旧顶层启动字段或 legacy 通道', () => {
-    const manifest = buildPalCurrentManifest(catalog())
+    const source = catalog()
+    const before = structuredClone(source)
+    const { manifest, defaultEntry } = validateCurrentManifestStartup(
+      buildPalCurrentManifest(source),
+      ['s000'],
+    )
     expect(manifest.contentVersion).toBe(23)
     expect(manifest.minimumSaveVersion).toBe(12)
     expect(manifest.defaultEntryId).toBe('new-game')
-    expect(manifest.entryPoints).toEqual([
-      expect.objectContaining({
-        id: 'new-game',
-        scene: 's000',
-        startWorld: expect.objectContaining({ party: ['li-xiaoyao'] }),
-      }),
-    ])
+    expect(manifest.entryPoints).toEqual([defaultEntry])
+    expect(defaultEntry).toEqual({
+      id: 'new-game',
+      scene: 's000',
+      label: '新的故事',
+      introVideo: 'video.pal.003',
+      startWorld: { party: ['li-xiaoyao'], money: 0, inventory: [] },
+    })
     expect(manifest).not.toHaveProperty('entryScene')
     expect(manifest).not.toHaveProperty('startWorld')
     expect(manifest.entryPoints[0]?.startWorld).not.toHaveProperty('learnedSkills')
@@ -50,6 +61,7 @@ describe('PAL current manifest', () => {
     expect(manifest).not.toHaveProperty('migrations')
     expect(manifest.assets).not.toHaveProperty('legacy')
     expect(manifest.content).not.toHaveProperty('scripts')
+    expect(source).toEqual(before)
   })
 
   test('必需资源角色必须全部存在于 catalog', () => {
@@ -60,6 +72,9 @@ describe('PAL current manifest', () => {
     const source = catalog()
     delete source.assets['music.pal.001']
     expect(buildPalCurrentManifest(source).assets.roles).not.toHaveProperty(['audio.defeatMusic'])
+    expect(buildPalCurrentManifest(catalog()).assets.roles['audio.defeatMusic']).toBe(
+      'music.pal.001',
+    )
   })
 
   test('死亡曲资产存在但类型错误时拒绝发布', () => {

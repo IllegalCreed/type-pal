@@ -20,7 +20,7 @@ function baselineContent() {
 
 function projectContent() {
   const readJson = (path: string): unknown =>
-    JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8')) as unknown
+    JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8'))
   const sceneIndex = validateSceneIndex(readJson('content/scenes/index.json'))
   return {
     items: validateAuthorItems(readJson('content/items.json')),

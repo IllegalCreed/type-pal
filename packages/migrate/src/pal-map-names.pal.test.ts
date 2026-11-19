@@ -1,5 +1,6 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { validateMapIndex } from '@type-pal/content'
 import {
   getPalAuthoredMapName,
   PAL_AUTHORED_MAP_NAMES,
@@ -25,7 +26,6 @@ describe('PAL map-name migration truth', () => {
     expect([...authoredMapNums].filter((mapNum) => mapNum > 0).sort((a, b) => a - b)).toEqual(
       [...playableMapNums].sort((a, b) => a - b),
     )
-    expect([...playableMapNums].filter((mapNum) => !authoredMapNums.has(mapNum))).toEqual([])
     expect(physicalMapNums.size).toBe(223)
     expect(physicalMapNums.has(0)).toBe(false)
     expect(unnamedPhysical.sort((a, b) => a - b)).toEqual([104, 164])
@@ -44,10 +44,7 @@ describe('PAL map-name migration truth', () => {
     ])
 
     const migration = buildPalContentSupply(sources)
-    const index = migration.files.get('content/maps/index.json') as {
-      version: number
-      maps: Array<{ id: string; name: string; path: string }>
-    }
+    const index = validateMapIndex(migration.files.get('content/maps/index.json'))
     expect(index.maps).toHaveLength(223)
     expect(index.maps.map(({ id }) => Number(id.slice(4))).sort((a, b) => a - b)).toEqual(
       [...physicalMapNums].sort((a, b) => a - b),
