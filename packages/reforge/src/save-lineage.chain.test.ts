@@ -67,7 +67,7 @@ test.each([
       return answer.promise
     },
     startBattle: (request, signal, source) => start(request, signal, source),
-    teleportOut: (signal) => teleport(signal),
+    teleportOut: (signal, presentation) => teleport(signal, presentation),
   })
   const activeParent = { running: true }
   const activeScene = new ActiveScene(runtimeSceneView(f.scene, f.world.script!), () => {})
@@ -122,9 +122,9 @@ test.each([
     return 'victory'
   })
   env.battleHost.start = battleBoundary
-  env.host.teleportOut = evaluate(property('teleportOut', 'signal', true), env)
+  env.host.teleportOut = evaluate(property('teleportOut', 'signal,presentation', true), env)
   start = evaluate(property('startBattle', 'request,signal,source', true), env)
-  teleport = evaluate(property('teleportOut', 'signal', false), env)
+  teleport = evaluate(property('teleportOut', 'signal,presentation', false), env)
 
   const running = f.runtime.runCommands(
     [

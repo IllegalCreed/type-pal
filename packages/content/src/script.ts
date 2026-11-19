@@ -13,6 +13,11 @@ import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
 import type { SpriteActionBinding } from './sprite.js'
 
+export interface TeleportOutPresentation {
+  gatherParty?: boolean
+  arrivalSound?: AssetId
+}
+
 type ScriptBinding =
   | { stages: ScriptStage[]; script?: never }
   | { script: ScriptRef; stages?: never }
@@ -215,7 +220,7 @@ export type Command =
     }
   // 传送出口(原版 0x38;引路蜂/土灵珠道具用):跑当前场景 onTeleport 脚本;场景无此槽 →
   // 走 onFail(「引路蜂不灵」提示)。战斗中禁用(原版 !fInBattle,道具菜单本就战外,冗余守卫)。
-  | { kind: 'teleportOut'; onFail?: Command[] }
+  | ({ kind: 'teleportOut'; onFail?: Command[] } & TeleportOutPresentation)
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onYes: Command[]; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)
@@ -696,7 +701,15 @@ export function checkCommands(
       if (battle.onFlee !== undefined) checkCommands(battle.onFlee, `${path}[${i}].onFlee`, options)
     }
     if (k === 'teleportOut') {
-      const onFail = (c as { onFail?: unknown }).onFail
+      const { gatherParty, arrivalSound, onFail } = c as {
+        gatherParty?: unknown
+        arrivalSound?: unknown
+        onFail?: unknown
+      }
+      if (gatherParty !== undefined && typeof gatherParty !== 'boolean')
+        throw new Error(`${path}[${i}].gatherParty: 期望 boolean`)
+      if (arrivalSound !== undefined && (typeof arrivalSound !== 'string' || !arrivalSound))
+        throw new Error(`${path}[${i}].arrivalSound: 期望非空 AssetId`)
       if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`, options)
     }
     if (k === 'confirm') {

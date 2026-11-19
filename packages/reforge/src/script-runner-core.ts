@@ -6,6 +6,7 @@ import type {
   FlowCursor,
   SceneReveal,
   StepExit,
+  TeleportOutPresentation,
 } from '@type-pal/content'
 import { flowCanComplete } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -75,7 +76,7 @@ export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
   gameplayNow?(): number
   confirm(signal: AbortSignal, reportInteraction?: () => void): Promise<boolean>
   startBattle(request: BattleRequest, signal: AbortSignal): Promise<BattleResult>
-  teleportOut(signal: AbortSignal): Promise<boolean>
+  teleportOut(signal: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean>
   revealSceneEntry?(reveal: SceneReveal, signal: AbortSignal): Promise<void>
   wait(ms: number, signal: AbortSignal): Promise<void>
   waitWorldTick(signal: AbortSignal): Promise<void>
@@ -525,7 +526,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         const failed =
           frame.control?.kind === 'teleportOut'
             ? frame.control.failed
-            : !(await this.host.teleportOut(this.signal))
+            : !(await this.host.teleportOut(this.signal, command))
         frame.control = { kind: 'teleportOut', failed }
         if (failed && command.onFail) await this.runCommands(command.onFail, [...path, 'onFail'])
         return

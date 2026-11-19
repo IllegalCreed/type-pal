@@ -24,6 +24,7 @@ import type {
   ScriptRef,
   ScriptStage,
   SpriteActionBinding,
+  TeleportOutPresentation,
   WalkSpeed,
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
@@ -165,7 +166,7 @@ export interface ScriptHost {
     signal?: AbortSignal,
   ): Promise<BattleResult>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
-  teleportOut(signal?: AbortSignal): Promise<boolean>
+  teleportOut(signal?: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean>
   /** 过场编排:按稳定 AssetId 播视频，阻塞至播完或跳过。 */
   playVideo(asset: AssetId, signal?: AbortSignal): Promise<void>
   /** 过场编排:按稳定 AssetId 播真彩帧动画，阻塞至播完或跳过。 */
@@ -768,7 +769,7 @@ export class ScriptRunner {
         return
       }
       case 'teleportOut': {
-        const ok = await h.teleportOut(this.signal)
+        const ok = await h.teleportOut(this.signal, cmd)
         throwIfAborted(this.signal)
         if (!ok && cmd.onFail) return this.runBody(cmd.onFail, [...path, 'onFail'])
         return

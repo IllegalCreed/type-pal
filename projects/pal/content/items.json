@@ -3061,16 +3061,47 @@
     "sellable": true,
     "use": {
       "target": "scene",
-      "consuming": true,
+      "consuming": false,
       "effects": [
         {
-          "kind": "runSceneHook",
-          "hook": "onTeleport",
-          "unavailableMessage": "无任何效果"
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "引路蜂传送出口",
+            "body": [
+              {
+                "kind": "teleportOut",
+                "onFail": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ]
+                    },
+                    "slot": "narration"
+                  },
+                  {
+                    "kind": "returnScript"
+                  }
+                ],
+                "gatherParty": true,
+                "arrivalSound": "sound.pal.045"
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "151"
+              }
+            ]
+          }
         }
       ],
-      "menuAfterUse": "close",
-      "sound": "sound.pal.045"
+      "menuAfterUse": "close"
     }
   },
   {
@@ -11094,20 +11125,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s047",
-                  "entity": "e757"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s047",
@@ -11122,6 +11139,13 @@
               {
                 "kind": "loseItem",
                 "itemId": "289"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s047",
+                  "entity": "e757"
+                }
               }
             ]
           }

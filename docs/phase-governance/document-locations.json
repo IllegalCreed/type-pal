@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "4b4838b3146b59c9ef62c4b7aa66b869146150d226e87d09d653f586a29c9ac3",
+      "afterSha256": "e7e0d2d743442613fbf49a9e2ca8a5f5f36f8d4f3524881cd580956746c8ee5b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 感知香原始轨迹复核",
+        "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核原地转向、步态和已编排动作的优先顺序。",
-        "reviewedLines": 1884,
-        "acceptanceScope": "核两种感知香的原地步态、追逐范围和原始计时。"
+        "conclusion": "核原盘出口、聚拢和开门脚本。",
+        "reviewedLines": 1886,
+        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "9d01b92ed425fe2c56c649ed5a23c33715c9ce256ffcf9e3f209b912bb3f4229",
+      "afterSha256": "11d8fcd261de7a61d97a03a026ad146627a6492142c909d8a1c9d1ab8a86a585",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 感知香原始轨迹复核",
+        "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核原地转向、步态和已编排动作的优先顺序。",
-        "reviewedLines": 340,
-        "acceptanceScope": "核引擎追逐、原地步态与脚本拥有姿态之间的边界。"
+        "conclusion": "核原盘出口、聚拢和开门脚本。",
+        "reviewedLines": 342,
+        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "98e818127005a663f857ef06a8f82925dca1e67b7fa7c064ea99fbec3d92849b",
+      "afterSha256": "42504fd92b8248454f35e58d87b6f56e77272efcb2b7dfe39b8450219e28621e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外概率门证据复核",
+        "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核原始盐巴指令与用物完成分支。",
-        "reviewedLines": 268,
-        "acceptanceScope": "核概率门失败完成、后效截断和独立结果框输入。"
+        "conclusion": "核原盘出口、聚拢和开门脚本。",
+        "reviewedLines": 270,
+        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "fdcbd6a1d5a9aac1bd8d6fe05b682e36fe3ad78e6f9b16f3c36314ce5a2c7e34",
+      "afterSha256": "d719aa989e7e2c234cc008a8358b9e2c7c94906f0aab82ef441ea4b628274122",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 感知香与场景用物实测复核",
+        "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核双端输入、追逐、炼化和返场原件。",
-        "reviewedLines": 923,
-        "acceptanceScope": "核七件战外道具、两组修前反例、原速声画、归档回读及当前入口计数。"
+        "conclusion": "核原盘出口、聚拢和开门脚本。",
+        "reviewedLines": 929,
+        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
       }
     },
     {

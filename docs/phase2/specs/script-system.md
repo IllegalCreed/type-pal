@@ -68,6 +68,8 @@ onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面
 
 驱魔香、十里香用现有 `hostileAwareness` 倒计时调节引擎追逐。倍率为零时，原本可追逐的明雷在原脚点每拍推进步态，每两拍沿下、左、上、右转向。场景内已有的姿态覆盖、已编排动作及移动步态优先绘制。世界计时结束后恢复场景默认感知距离。 [原盘行为](../../phase1/game-mechanics.md) · [引擎计时](../../../packages/reforge/src/main.ts) · [精灵绘制](../../../packages/reforge/src/world-scene-presentation.ts)
 
+传送出口指令 `teleportOut` 运行当前有效的 `onTeleport`。配置 `gatherParty: true` 时，出口的目的场景从首个揭示帧起按聚拢队形摆放，成功收尾时以队首重置跟随轨迹。`arrivalSound` 在目的场景提交时播放一次，位于淡入之前。失败执行 `onFail`。引路蜂用这两个选项，成功扣库存，失败显示旁白。 [原盘行为](../../phase1/game-mechanics.md) · [当前宿主](../../../packages/reforge/src/main.ts)
+
 普通明雷的胜利回场在「项目设置 → 项目概览 → 明雷战斗」统一设置，保存为 `manifest.hostileVictoryTransition`。实体的「行为 → 胜利回场转场」默认沿用项目设置；只有需要例外才保存 `hostile.victoryTransition`，选择「沿用默认」即清除覆盖。未设置项目默认时直接返回地图。PAL 项目默认淡出战场、淡入地图，现有 828 个普通明雷全部继承。这个默认只用于引擎接敌；剧情或触碰脚本发起的战斗仍由自己的指令编排。
 
 选择淡出淡入后，先完成胜利奖励、逐槽脚本和半恢复，再应用敌人胜利后的世界状态。保留最后实际绘制的战场帧淡到全黑，随后淡入更新后的地图。地图恢复前由当前遭遇持有控制权。

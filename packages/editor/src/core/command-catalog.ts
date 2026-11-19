@@ -757,7 +757,11 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     icon: '🌀',
     name: '传送出口',
     group: '战斗/商店',
-    params: [['onFail', '无出口时指令(「引路蜂不灵」)']],
+    params: [
+      ['gatherParty', '落地时聚拢队形'],
+      ['arrivalSound', '落地音效'],
+      ['onFail', '无出口时指令'],
+    ],
     desc: '引路蜂/土灵珠:跑当前场景传送出口脚本;场景没配出口走 onFail。出口本身在场景属性配。',
     origin: '0x38',
   },

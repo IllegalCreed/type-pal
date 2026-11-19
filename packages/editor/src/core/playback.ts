@@ -553,7 +553,7 @@ export class Playback {
             },
             signal,
           ),
-        teleportOut: (signal) => this.host.teleportOut(signal),
+        teleportOut: (signal, presentation) => this.host.teleportOut(signal, presentation),
         revealSceneEntry: (reveal, signal) =>
           this.host.revealSceneEntry?.(reveal, signal) ?? Promise.resolve(),
         wait: (ms, signal) => this.host.wait(ms, signal),

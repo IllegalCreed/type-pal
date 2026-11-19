@@ -63,6 +63,7 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
     'syncRuntimeScriptScratch',
     'replaceWorld',
     'requireSpriteDef',
+    'itemPrivateCommands',
     'prepareSceneSounds',
     'sceneScriptBinding',
     'scenePreparation',

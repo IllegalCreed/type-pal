@@ -4,7 +4,13 @@ import { checkBattleChoreography } from './battle-choreography.js'
 import type { CommandValidationOptions } from './command-validation-options.js'
 import type { GridPos } from './grid.js'
 import type { Facing } from './index.js'
-import type { Command as RuntimeCommandBase, SceneReveal, SceneSpawn, WalkSpeed } from './script.js'
+import type {
+  Command as RuntimeCommandBase,
+  SceneReveal,
+  SceneSpawn,
+  TeleportOutPresentation,
+  WalkSpeed,
+} from './script.js'
 import { SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import type { SpriteActionBinding } from './sprite.js'
 
@@ -226,7 +232,7 @@ export type BaseAuthorCommand =
       music?: AssetId | null
       choreography?: import('./enemy.js').BattleChoreography[]
     }
-  | { kind: 'teleportOut'; onFail?: BaseAuthorCommand[] }
+  | ({ kind: 'teleportOut'; onFail?: BaseAuthorCommand[] } & TeleportOutPresentation)
   | { kind: 'confirm'; onYes: BaseAuthorCommand[]; onNo: BaseAuthorCommand[] }
   | { kind: 'finishStep'; next: StepExit }
   | { kind: 'returnScript' }
@@ -875,8 +881,14 @@ export function checkBaseAuthorCommands(
       if (command.mode !== 'buy' && command.mode !== 'sell')
         throw new Error(`${commandPath}.mode: 期望 buy|sell`)
     }
-    if (kind === 'teleportOut' && command.onFail !== undefined)
-      checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
+    if (kind === 'teleportOut') {
+      if (command.gatherParty !== undefined && typeof command.gatherParty !== 'boolean')
+        throw new Error(`${commandPath}.gatherParty: 期望 boolean`)
+      if (command.arrivalSound !== undefined)
+        nonEmptyString(command.arrivalSound, `${commandPath}.arrivalSound`)
+      if (command.onFail !== undefined)
+        checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
+    }
     if (kind === 'confirm') {
       exactKeys(command, ['kind', 'onYes', 'onNo'], commandPath)
       checkBaseAuthorCommands(command.onYes, `${commandPath}.onYes`, options)

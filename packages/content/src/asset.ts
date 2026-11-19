@@ -399,6 +399,7 @@ export function commandAssetTaggedReferencesAtNode(
   }
   if (record.kind === 'playMusic') push(record.asset, 'music', '.asset')
   if (record.kind === 'playSound') push(record.asset, 'sound', '.asset')
+  if (record.kind === 'teleportOut') push(record.arrivalSound, 'sound', '.arrivalSound')
   if (record.kind === 'startBattle') push(record.music, 'music', '.music')
   if (record.kind === 'playVideo') push(record.asset, 'video', '.asset')
   if (record.kind === 'playFrameAnimation') push(record.asset, 'frame-animation', '.asset')

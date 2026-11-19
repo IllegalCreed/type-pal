@@ -1,3 +1,4 @@
+import type { TeleportOutPresentation } from '@type-pal/content'
 import {
   type AssetId,
   applySetParty,
@@ -52,7 +53,7 @@ import {
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
-import { collectSceneSoundAssets } from './audio/sfx-readiness.js'
+import { collectSceneSoundAssets, collectScriptSoundAssets } from './audio/sfx-readiness.js'
 import { executeAutomaticTargetCommand } from './automatic-target-command.js'
 import { curePoisons } from './battle/battle-core.js'
 import { BattleEntryPresentation } from './battle/battle-entry-presentation.js'
@@ -701,7 +702,22 @@ export async function bootGame(
         : undefined,
     ].filter((asset): asset is string => !!asset)
   }
-  const prepareItemSounds = (itemId: string): Promise<void> => sfx.prepare(itemSoundAssets(itemId))
+  const itemPrivateCommands = (itemId: string) =>
+    (canonicalProject.items[itemId]?.use?.effects ?? []).flatMap((effect) =>
+      effect.kind === 'itemPrivateScript' ? [effect.script.body] : [],
+    )
+  const prepareItemSounds = async (
+    itemId: string,
+    signal = new AbortController().signal,
+  ): Promise<void> => {
+    const scripted = await collectScriptSoundAssets(
+      itemPrivateCommands(itemId),
+      canonicalProject.sharedScripts,
+      signal,
+      project.spritesById,
+    )
+    await sfx.prepare([...itemSoundAssets(itemId), ...scripted])
+  }
   const prepareSceneSounds = async (def: SceneDef, worldView: WorldState): Promise<void> => {
     const canonicalScene = await getCanonicalScene(def.id)
     const currentItems = new Map(
@@ -714,6 +730,7 @@ export async function bootGame(
     const sounds = await collectSceneSoundAssets({
       scene: canonicalScene,
       inventoryItems: [...currentItems.values()],
+      additionalRoots: [...currentItems.keys()].flatMap(itemPrivateCommands),
       sharedScripts: canonicalProject.sharedScripts,
       spritesById: project.spritesById,
       signal: new AbortController().signal,
@@ -2350,6 +2367,23 @@ export async function bootGame(
     isRunnerActive: () => runner !== null || victoryFrame !== undefined || loadReveal !== undefined,
   })
 
+  const teleportArrivals = new WeakMap<AbortSignal, TeleportOutPresentation>()
+  const gatherPartyFormation = (): void => {
+    // 0xA1 seeds every trail slot at the leader. The stationary followers are one pixel above it.
+    walking = false
+    stepFrame = 0
+    trail = Array.from({ length: 6 }, () => ({ pos: { ...player.pos }, dir: facing }))
+    followerFrozen.length = world.party.length
+    followerFrozen.fill({ dcol: -1 / 16, drow: -1 / 16, dir: facing }, 1)
+  }
+  const applyTeleportArrival = (arrival: TeleportOutPresentation): void => {
+    if (arrival.gatherParty) gatherPartyFormation()
+    if (arrival.arrivalSound) {
+      sfx.play(arrival.arrivalSound)
+      delete arrival.arrivalSound
+    }
+  }
+
   const host: ScriptHost = {
     dialog: async (cue, signal) =>
       presentation.run([{ kind: 'dialog', cue }], signal ?? new AbortController().signal),
@@ -2495,6 +2529,8 @@ export async function bootGame(
           const restoreActions = prepareSceneActions(prepared.def, prepared.entityDefs, saved)
           stopAutoRunners()
           commitSceneSwitch(prepared, worldView, true, restoreActions)
+          const arrival = signal && teleportArrivals.get(signal)
+          if (arrival) applyTeleportArrival(arrival)
         },
         shouldCleanup: () => sceneSwitchIntent.isCurrent(sceneToken) && world === worldView,
         cleanup: () => {
@@ -2745,7 +2781,11 @@ export async function bootGame(
       const targetWorld = world
       const mutationToken = worldMutationIntent.capture()
       const scriptMutationToken = scriptMutationIntent.capture()
-      await awaitRunner(prepareItemSounds(itemId), signal, `giveItem(${itemId}) 的 runner 已取消`)
+      await awaitRunner(
+        prepareItemSounds(itemId, signal),
+        signal,
+        `giveItem(${itemId}) 的 runner 已取消`,
+      )
       await atScriptMutation(signal, () => {
         assertRunnerActive(signal, `giveItem(${itemId}) 的 runner 已取消`)
         worldMutationIntent.assertCurrent(mutationToken, `giveItem(${itemId}) 的所属世界已失效`)
@@ -3095,17 +3135,34 @@ export async function bootGame(
         if (signal?.aborted) abort()
       })
     },
-    // 传送出口(0x38 引路蜂/土灵珠):当前场景有 onTeleport → 内联跑(loadScene 回洞口/城镇),
-    // 返回 true;无此槽 → false(调用方走 onFail「引路蜂不灵」)。runner 槽被道具脚本占着 →
-    // detached 内联跑(同 Phase E)。0x6D op2 运行时装的出口(赤鬼王血池 s059 打完才装)存
-    // sceneScriptOverrides 覆写优先于静态槽;null 显式禁用,不得回退。
-    teleportOut: async (signal) => {
+    // The destination commits the requested pose and cue under the caller's lifetime.
+    teleportOut: async (signal, presentation) => {
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
       const canonical = sceneResources.peek(activeScene.scene.id)
       if (!canonical) throw new Error(`script 当前场景未缓存: ${activeScene.scene.id}`)
-      const ran = await runDetachedScriptChain(signal, (runtime, runSignal) =>
-        runtime.runSceneHook(canonical, 'onTeleport', { signal: runSignal }),
-      )
+      const ran = await runDetachedScriptChain(signal, async (runtime, runSignal) => {
+        const arrival =
+          presentation?.gatherParty || presentation?.arrivalSound
+            ? { gatherParty: presentation.gatherParty, arrivalSound: presentation.arrivalSound }
+            : undefined
+        const previous = arrival && teleportArrivals.get(runSignal)
+        if (arrival) teleportArrivals.set(runSignal, arrival)
+        try {
+          const completed = await runtime.runSceneHook(canonical, 'onTeleport', {
+            signal: runSignal,
+          })
+          if (completed && arrival) {
+            assertRunnerActive(runSignal, '传送出口所属 runner 已取消')
+            applyTeleportArrival(arrival)
+          }
+          return completed
+        } finally {
+          if (arrival) {
+            if (previous) teleportArrivals.set(runSignal, previous)
+            else teleportArrivals.delete(runSignal)
+          }
+        }
+      })
       assertRunnerActive(signal, '传送出口所属 runner 已取消')
       return ran
     },
@@ -3812,7 +3869,7 @@ export async function bootGame(
           signal,
         )
       },
-      teleportOut: (signal) => host.teleportOut(signal),
+      teleportOut: (signal, presentation) => host.teleportOut(signal, presentation),
       revealSceneEntry: (reveal, signal) => hostSceneEntryReveal(reveal, signal),
       wait: (ms, signal) => host.wait(ms, signal),
       waitWorldTick: (signal) => host.wait(STEP_MS, signal),

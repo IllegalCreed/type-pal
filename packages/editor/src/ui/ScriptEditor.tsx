@@ -925,7 +925,7 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
     case 'startBattle':
       return { ...command, onLose: [], onFlee: [] }
     case 'teleportOut':
-      return { kind: command.kind, onFail: [] }
+      return { ...command, onFail: [] }
     case 'confirm':
       return undefined
     case 'branch':

@@ -93,6 +93,30 @@ export function ControlCommandForm(props: ControlCommandFormProps) {
   const set = (patch: object): void => onChange({ ...cmd, ...patch } as ControlCommand)
 
   switch (cmd.kind) {
+    case 'teleportOut':
+      return (
+        <>
+          <Row label="落地队形">
+            <Sel
+              value={cmd.gatherParty ? 'gathered' : 'default'}
+              options={['default', 'gathered']}
+              labels={['场景默认', '聚拢到队首']}
+              onChange={(value) => set({ gatherParty: value === 'gathered' || undefined })}
+            />
+          </Row>
+          <Row label="落地音效">
+            <SoundPicker
+              catalog={assetCatalog}
+              reader={assetReader}
+              value={cmd.arrivalSound}
+              allowUnset
+              ariaLabel="落地音效"
+              onChange={(arrivalSound) => set({ arrivalSound })}
+              onOpenAsset={onOpenSound}
+            />
+          </Row>
+        </>
+      )
     case 'setFlag':
       return (
         <>

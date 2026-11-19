@@ -11,6 +11,7 @@ import {
   type EntityAddress,
   type StageNext,
   type StepExit,
+  type TeleportOutPresentation,
 } from '@type-pal/content'
 
 export const SCRIPT_COMPILER_VERSION = 3 as const
@@ -68,7 +69,10 @@ export type ExecutableCommandLike<T> =
       onLose?: readonly ExecutableCommandLike<T>[]
       onFlee?: readonly ExecutableCommandLike<T>[]
     }
-  | { kind: 'teleportOut'; onFail?: readonly ExecutableCommandLike<T>[] }
+  | ({
+      kind: 'teleportOut'
+      onFail?: readonly ExecutableCommandLike<T>[]
+    } & TeleportOutPresentation)
   | { kind: 'callScript'; script: string; self?: EntityAddress }
 
 export type ExecutableBaseCommand = ExecutableCommandLike<BaseRuntimeLeafCommand>
@@ -175,6 +179,8 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
     case 'teleportOut':
       return {
         kind: 'teleportOut',
+        ...(command.gatherParty === undefined ? {} : { gatherParty: command.gatherParty }),
+        ...(command.arrivalSound === undefined ? {} : { arrivalSound: command.arrivalSound }),
         ...(command.onFail === undefined ? {} : { onFail: body(command.onFail) }),
       }
     case 'callScript':
