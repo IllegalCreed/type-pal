@@ -5003,14 +5003,14 @@
     {
       "path": "docs/tasks/cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "32ac8125c49107f88ad9cb5c5b3de2685b2e4cd6d1f623046f6c1c2f2730bbaa",
+      "afterSha256": "91083307107d460ab54fe83fbf3dffd434608594dd3c6a6a8c26995cfc224556",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 59,
-        "acceptanceScope": "在已接受原条款上接受 done 与新 Editor 专测八维记录。逐行核了实际解码、两种正式命令、相等容量正控和历史布局恢复；本地集中门成立，未授 E2E 或视觉信用。"
+        "conclusion": "接受本次返工证据与限定范围正文。与旧正文和 145 份旧附件逐字保全，32 份新附件可复验，不把 coverage 命令退出 1 记为门通过。",
+        "reviewedLines": 74,
+        "acceptanceScope": "仅接受「集成复验的预览切换」追加节。独立对照首轮远端 RGB 失败及真实 Canvas2D 加载闸门的指定单红、55 项定向、Editor check 5,050、101 项成对邻接 LCOV 与两分支 33→0。原生全量 20,592 测试均通过，但覆盖率命令因未合入候选两个精确比例退出 1；实测与候选基线匹配，保护主线真实整数比较零回退，范围和测试身份不变。两份 Editor 相邻文件继续 pending。仅核本地回执和已发生的首轮远端失败，未授后续远端、合并或 E2E 信用。"
       }
     },
     {
@@ -5620,8 +5620,8 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",
-      "sha256": "660a217548e2a9dc3bdd962cbc223a297aa812e521f7d30f9f4314697cd4ec87",
-      "bytes": 638657,
+      "sha256": "8de120b974e393bfd16ec8e1ee9e747c54dd401682a6435fd59daa884ae99aa5",
+      "bytes": 843049,
       "purpose": "内容引用后继五卡的定向反例与恢复、实际精灵清点、统一质量门及精确候选边界。前一窗口原件保留其固定历史执行身份。"
     },
     {
