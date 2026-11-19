@@ -20,17 +20,21 @@ export function resolveSceneFacing(
   return explicit ?? namedEntry ?? inherited ?? sceneDefault
 }
 
-/** 统一解析默认/命名/临时坐标三态；主循环只消费已校验结果。 */
+/** Resolve the default, a registered named entry, or temporary coordinates. */
 export function resolveSceneSpawn(
   sceneId: string,
   scene: Pick<SceneDef, 'entry' | 'entries'>,
   spawn?: RuntimeSceneSpawn,
 ): ResolvedSceneSpawn {
-  if (spawn?.entryId !== undefined && spawn.pos !== undefined)
+  const entryId = spawn?.entryId
+  if (entryId !== undefined && spawn?.pos !== undefined)
     throw new Error(`场景 ${sceneId}: entryId 与 pos 不能同时存在`)
-  const entry = spawn?.entryId !== undefined ? scene.entries?.[spawn.entryId] : undefined
-  if (spawn?.entryId !== undefined && !entry)
-    throw new Error(`场景 ${sceneId}: 找不到命名落点 ${spawn.entryId}`)
+  const entries = scene.entries
+  const entry =
+    entryId !== undefined && entries && Object.hasOwn(entries, entryId)
+      ? entries[entryId]
+      : undefined
+  if (entryId !== undefined && !entry) throw new Error(`场景 ${sceneId}: 找不到命名落点 ${entryId}`)
   return {
     pos: { ...(spawn?.pos ?? entry?.pos ?? scene.entry.pos) },
     facing: resolveSceneFacing(

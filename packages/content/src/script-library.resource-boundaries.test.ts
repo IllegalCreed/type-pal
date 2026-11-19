@@ -267,3 +267,29 @@ test('shared SCC members colocate; absent global configuration stays unresolved 
   expect(visited[0]).toBe(ref)
   expect(input).toEqual(before)
 })
+
+test('script lookup treats prototype names as missing unless explicitly registered', () => {
+  const chunks = { 'scene/a': chunk('scene/a', { 'scene/a/root': [] }) }
+  expect(findScriptOwnerChunk(chunks, 'constructor')).toBeUndefined()
+  expect(getScriptBody(index(), chunks, 'constructor')).toBeUndefined()
+  const explicit = { 'scene/a': chunk('scene/a', { constructor: [{ kind: 'wait', ms: 7 }] }) }
+  expect(getScriptBody(index(), explicit, 'constructor')).toEqual([{ kind: 'wait', ms: 7 }])
+})
+
+test('an inherited member does not satisfy a declared script reference', () => {
+  const raw = {
+    'scene/a': chunk('scene/a', {
+      'scene/a/root': [{ kind: 'callScript', ref: { chunk: 'scene/a', id: 'constructor' } }],
+    }),
+  }
+  const library = normalizeScriptLibrary(index(), raw)
+  expect(() => checkScriptLibrary(library.index, library.chunks)).toThrow(
+    'scripts: 孤儿 ref scene/a:constructor(derived=none)',
+  )
+})
+
+test('rejects a JSON array where named global shard counts must be an object', () => {
+  expect(() => checkScriptIndex({ ...index(), shards: { shared: 1, global: [1] } })).toThrow(
+    'scripts/index.json.shards.global: 期望对象',
+  )
+})

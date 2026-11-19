@@ -221,6 +221,20 @@ for (const operation of [
     await rejected
     expect(port.terminated).toBe(1)
   })
+
+  test(`${operation.name} releases its worker and propagates the original dispatch failure`, async () => {
+    const failure = new DOMException('Dispatch unavailable', 'OperationError')
+    class FailingWorker extends WorkerPort {
+      override postMessage(): void {
+        throw failure
+      }
+    }
+    WorkerPort.instances = []
+    vi.stubGlobal('Worker', FailingWorker)
+
+    await expect(operation.start()).rejects.toBe(failure)
+    expect(worker().terminated).toBe(1)
+  })
 }
 
 test('without worker support encoding produces an actual sequence containing the original pixel', async () => {

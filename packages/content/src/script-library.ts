@@ -55,6 +55,10 @@ export interface NormalizedScriptLibrary {
   chunks: Record<string, ScriptChunkV1>
 }
 
+function isDictionary(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
 /** 内容模型只含 JSON 值；用 JSON 复制避免给纯逻辑包引入 DOM structuredClone。 */
 function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
@@ -131,7 +135,7 @@ export function deriveScriptChunk(id: string, shards: ScriptShardConfigV1): stri
     return shardName('shared', sharedShardKey(id), shards.shared)
   if (parts[0] === 'global' && parts.length >= 3) {
     const domain = parts[1]
-    if (!domain) return undefined
+    if (!domain || !Object.hasOwn(shards.global, domain)) return undefined
     const count = shards.global[domain]
     return count === undefined ? undefined : shardName(`global/${domain}`, id, count)
   }
@@ -139,7 +143,7 @@ export function deriveScriptChunk(id: string, shards: ScriptShardConfigV1): stri
 }
 
 function checkSharedScriptMeta(value: unknown, path: string): asserts value is SharedScriptMetaV1 {
-  if (typeof value !== 'object' || value === null) throw new Error(`${path}: 期望对象`)
+  if (!isDictionary(value)) throw new Error(`${path}: 期望对象`)
   const meta = value as Partial<SharedScriptMetaV1>
   if (typeof meta.name !== 'string' || meta.name.trim().length === 0)
     throw new Error(`${path}.name: 期望非空字符串`)
@@ -153,24 +157,21 @@ export function checkScriptIndex(
   value: unknown,
   path = 'scripts/index.json',
 ): asserts value is ScriptIndexV1 {
-  if (typeof value !== 'object' || value === null) throw new Error(`${path}: 期望对象`)
+  if (!isDictionary(value)) throw new Error(`${path}: 期望对象`)
   const index = value as Partial<ScriptIndexV1>
   if (index.version !== 1) throw new Error(`${path}.version: 期望 1`)
-  if (typeof index.shards !== 'object' || index.shards === null)
-    throw new Error(`${path}.shards: 期望对象`)
+  if (!isDictionary(index.shards)) throw new Error(`${path}.shards: 期望对象`)
   if (!Number.isInteger(index.shards.shared) || index.shards.shared <= 0)
     throw new Error(`${path}.shards.shared: 期望正整数`)
-  if (typeof index.shards.global !== 'object' || index.shards.global === null)
-    throw new Error(`${path}.shards.global: 期望对象`)
+  if (!isDictionary(index.shards.global)) throw new Error(`${path}.shards.global: 期望对象`)
   for (const [domain, count] of Object.entries(index.shards.global)) {
     if (!domain || !Number.isInteger(count) || count <= 0)
       throw new Error(`${path}.shards.global.${domain}: 期望正整数`)
   }
-  if (typeof index.chunks !== 'object' || index.chunks === null)
-    throw new Error(`${path}.chunks: 期望对象`)
+  if (!isDictionary(index.chunks)) throw new Error(`${path}.chunks: 期望对象`)
   const chunkPaths = new Map<string, string>()
   for (const [id, raw] of Object.entries(index.chunks)) {
-    if (typeof raw !== 'object' || raw === null) throw new Error(`${path}.chunks.${id}: 期望对象`)
+    if (!isDictionary(raw)) throw new Error(`${path}.chunks.${id}: 期望对象`)
     const meta = raw as Partial<ScriptChunkMetaV1>
     if (typeof meta.path !== 'string' || meta.path.length === 0)
       throw new Error(`${path}.chunks.${id}.path: 期望非空字符串`)
@@ -183,8 +184,7 @@ export function checkScriptIndex(
       throw new Error(`${path}.chunks.${id}.bytes: 期望非负整数`)
   }
   if (index.library !== undefined) {
-    if (typeof index.library !== 'object' || index.library === null)
-      throw new Error(`${path}.library: 期望对象`)
+    if (!isDictionary(index.library)) throw new Error(`${path}.library: 期望对象`)
     for (const [id, raw] of Object.entries(index.library)) {
       if (!id.startsWith(AUTHORED_SCRIPT_PREFIX) || id.length <= AUTHORED_SCRIPT_PREFIX.length)
         throw new Error(
@@ -281,11 +281,20 @@ export function findScriptOwnerChunk(
 ): string | undefined {
   let owner: string | undefined
   for (const [chunkId, chunk] of Object.entries(chunks)) {
-    if (!(id in chunk.scripts)) continue
+    if (!Object.hasOwn(chunk.scripts, id)) continue
     if (owner) throw new Error(`脚本 id 重复 ${id}(${owner},${chunkId})`)
     owner = chunkId
   }
   return owner
+}
+
+function scriptInChunk(
+  chunks: Readonly<Record<string, ScriptChunkV1>>,
+  chunkId: string,
+  id: string,
+): Command[] | undefined {
+  const chunk = Object.hasOwn(chunks, chunkId) ? chunks[chunkId] : undefined
+  return chunk && Object.hasOwn(chunk.scripts, id) ? chunk.scripts[id] : undefined
 }
 
 export function getScriptBody(
@@ -294,10 +303,10 @@ export function getScriptBody(
   id: string,
 ): Command[] | undefined {
   const derived = deriveScriptChunk(id, index.shards)
-  const direct = derived ? chunks[derived]?.scripts[id] : undefined
+  const direct = derived ? scriptInChunk(chunks, derived, id) : undefined
   if (direct) return direct
   const owner = findScriptOwnerChunk(chunks, id)
-  return owner ? chunks[owner]?.scripts[id] : undefined
+  return owner ? scriptInChunk(chunks, owner, id) : undefined
 }
 
 function authoredMetaIndex(
@@ -372,14 +381,9 @@ export function checkScriptLibrary(
   checkScriptIndex(index, `${path}/index.json`)
   const owners = new Map<string, string>()
   for (const [chunkId, chunk] of Object.entries(chunks)) {
-    if (
-      chunk.version !== 1 ||
-      chunk.id !== chunkId ||
-      typeof chunk.scripts !== 'object' ||
-      chunk.scripts === null
-    )
+    if (chunk.version !== 1 || chunk.id !== chunkId || !isDictionary(chunk.scripts))
       throw new Error(`${path}/${chunkId}: chunk 格式无效`)
-    const meta = index.chunks[chunkId]
+    const meta = Object.hasOwn(index.chunks, chunkId) ? index.chunks[chunkId] : undefined
     if (!meta) throw new Error(`${path}/${chunkId}: chunk 不在 index`)
     const json = JSON.stringify(chunk)
     const actualBytes = utf8ByteLength(json)
@@ -395,7 +399,7 @@ export function checkScriptLibrary(
     }
   }
   for (const id of Object.keys(index.chunks)) {
-    if (!chunks[id]) throw new Error(`${path}/${id}: index chunk 缺文件`)
+    if (!Object.hasOwn(chunks, id)) throw new Error(`${path}/${id}: index chunk 缺文件`)
   }
   for (const id of Object.keys(index.library ?? {})) {
     const owner = owners.get(id)
@@ -407,7 +411,10 @@ export function checkScriptLibrary(
   for (const chunk of Object.values(chunks)) {
     visitScriptRefs(chunk.scripts, (ref) => {
       const derived = deriveScriptChunk(ref.id, index.shards)
-      if (!chunks[ref.chunk]?.scripts[ref.id] && !(derived && chunks[derived]?.scripts[ref.id]))
+      if (
+        !scriptInChunk(chunks, ref.chunk, ref.id) &&
+        !(derived && scriptInChunk(chunks, derived, ref.id))
+      )
         throw new Error(`${path}: 孤儿 ref ${ref.chunk}:${ref.id}(derived=${derived ?? 'none'})`)
     })
   }

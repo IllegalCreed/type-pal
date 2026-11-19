@@ -68,3 +68,23 @@ test('missing entry and conflicting decoded input report different errors', () =
     '场景 town: entryId 与 pos 不能同时存在',
   )
 })
+
+test('an unregistered name matching an inherited property is reported missing', () => {
+  expect(() => resolveSceneSpawn('town', scene, { entryId: 'constructor' })).toThrow(
+    '场景 town: 找不到命名落点 constructor',
+  )
+})
+
+test('a genuinely registered constructor entry supplies its own position and facing', () => {
+  const entry = { pos: { col: 17, row: 23, height: 1 }, facing: 'right' } as const
+  expect(
+    resolveSceneSpawn(
+      'town',
+      {
+        ...scene,
+        entries: { ...scene.entries, constructor: entry },
+      },
+      { entryId: 'constructor' },
+    ),
+  ).toEqual(entry)
+})

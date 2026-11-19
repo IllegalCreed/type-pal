@@ -180,6 +180,55 @@ test('aborting a live playback releases the media and its prompt', async () => {
   }
 })
 
+test('the visible prompt can retry again after the first gesture fails', async () => {
+  const { play } = mediaPort()
+  const denial = new DOMException('gesture rejected', 'NotAllowedError')
+  play.mockRejectedValueOnce(denial).mockRejectedValueOnce(denial)
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const container = document.createElement('section')
+  document.body.append(container)
+  const playback = startPlayback({ containerEl: container })
+  try {
+    await vi.advanceTimersByTimeAsync(0)
+    const prompt = container.querySelector('div')
+    if (!prompt) throw new Error('autoplay denial did not display the gesture prompt')
+    prompt.click()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(warn.mock.calls).toEqual([
+      ['[video-player] play() rejected (autoplay policy?): NotAllowedError: gesture rejected'],
+      ['[video-player] play() rejected (autoplay policy?): NotAllowedError: gesture rejected'],
+    ])
+    expect(prompt.isConnected).toBe(true)
+    prompt.click()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(play).toHaveBeenCalledTimes(3)
+    expect(prompt.isConnected).toBe(false)
+    requireVideo(container).dispatchEvent(new Event('ended'))
+    await playback.pending
+    expect(container.children).toHaveLength(0)
+  } finally {
+    await playback.close()
+    container.remove()
+  }
+})
+
+test('finishing before the skip delay releases its scheduled cleanup', async () => {
+  mediaPort()
+  const playback = startPlayback()
+  try {
+    const video = requireVideo(document.body)
+    dispatchKey('Space')
+    expect(vi.getTimerCount()).toBe(1)
+    video.dispatchEvent(new Event('ended'))
+    await playback.pending
+    expect(video.isConnected).toBe(false)
+    expect(vi.getTimerCount()).toBe(0)
+  } finally {
+    await playback.close()
+    vi.clearAllTimers()
+  }
+})
+
 test('an already aborted playback never mounts or starts the video', async () => {
   const { play } = mediaPort()
   await expect(playVideo({ src, signal: AbortSignal.abort() })).resolves.toBeUndefined()

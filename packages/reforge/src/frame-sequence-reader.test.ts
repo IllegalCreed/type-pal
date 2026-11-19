@@ -145,6 +145,63 @@ test('invalidating one completed asset reloads only its replacement; invalidatin
   expect(read.mock.calls.map(([id]) => id)).toEqual(['a', 'b', 'a', 'b'])
 })
 
+test('an old file read finishing after invalidation does not use the replacement pixels', async () => {
+  const oldBytes = await frameSequenceBytes([1])
+  const latestBytes = await frameSequenceBytes([9])
+  const entered = frameGate()
+  const release = frameGate()
+  const readBytes = vi.fn(async () => latestBytes)
+  readBytes.mockImplementationOnce(async () => {
+    entered.release()
+    await release.promise
+    return oldBytes
+  })
+  const reader = new FrameSequenceReader({ readBytes })
+  const obsolete = reader.frame('opening', 0)
+  try {
+    await entered.promise
+    reader.invalidate('opening')
+    const replacement = await reader.frame('opening', 0)
+    expect(replacement.rgba).toEqual(Uint8Array.of(9, 10, 11, 255))
+    release.release()
+    await expect(obsolete).resolves.toMatchObject({ rgba: Uint8Array.of(1, 2, 3, 255) })
+    await expect(reader.frame('opening', 0)).resolves.toEqual(replacement)
+  } finally {
+    release.release()
+    await Promise.allSettled([obsolete])
+  }
+})
+
+test('an old inflation completing after invalidation cannot replace cached pixels', async () => {
+  const files = new Map([['opening', await frameSequenceBytes([1])]])
+  const replacement = await frameSequenceBytes([9])
+  const entered = frameGate()
+  const release = frameGate()
+  const inflate = vi.fn(decompressFrameSequenceBlock).mockImplementationOnce(async (bytes) => {
+    entered.release()
+    await release.promise
+    return decompressFrameSequenceBlock(bytes)
+  })
+  const reader = new FrameSequenceReader(source(files), inflate)
+  const obsolete = reader.frame('opening', 0)
+  try {
+    await entered.promise
+    files.set('opening', replacement)
+    reader.invalidate()
+    await expect(reader.frame('opening', 0)).resolves.toMatchObject({
+      rgba: Uint8Array.of(9, 10, 11, 255),
+    })
+    release.release()
+    await expect(obsolete).resolves.toMatchObject({ rgba: Uint8Array.of(1, 2, 3, 255) })
+    await expect(reader.frame('opening', 0)).resolves.toMatchObject({
+      rgba: Uint8Array.of(9, 10, 11, 255),
+    })
+  } finally {
+    release.release()
+    await Promise.allSettled([obsolete])
+  }
+})
+
 test('a hit refreshes LRU recency, leaving the older frame to be decoded again', async () => {
   const files = new Map([
     ['a', await frameSequenceBytes([1, 2])],
