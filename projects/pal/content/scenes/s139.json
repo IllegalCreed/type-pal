@@ -168,11 +168,14 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "setEntityState",
-                      "state": 1,
+                      "kind": "selectEntityBehavior",
                       "target": {
                         "scene": "s139",
                         "entity": "e2347"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
@@ -181,22 +184,63 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 100
                     },
                     {
-                      "kind": "repeat",
-                      "count": 3,
-                      "body": [
-                        {
-                          "dx": 8,
-                          "dy": 4,
-                          "kind": "nudgeParty"
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 40
-                        }
-                      ]
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 2,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 4,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 8,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 12,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
                     },
                     {
                       "dx": 8,
@@ -205,7 +249,74 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 16,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "dx": 8,
+                      "dy": 4,
+                      "kind": "nudgeParty"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 18,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "dx": 8,
+                      "dy": 4,
+                      "kind": "nudgeParty"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 18,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "dx": 8,
+                      "dy": 4,
+                      "kind": "nudgeParty"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "dx": 0,
+                      "dy": 18,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s139",
+                        "entity": "e2347"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "cue": {
