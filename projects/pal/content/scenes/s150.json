@@ -3,9 +3,9 @@
   "mapId": "map-137",
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
-      "height": 0
+      "col": 68,
+      "height": 0,
+      "row": -2
     },
     "facing": "down"
   },
@@ -238,20 +238,29 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "frames": 0,
-                    "kind": "shakeScreen",
-                    "level": 4
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 68,
-                      "height": 0,
-                      "row": -2
+                "entry": {
+                  "prepare": [
+                    {
+                      "frames": 0,
+                      "kind": "shakeScreen",
+                      "level": 4
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 68,
+                        "height": 0,
+                        "row": -2
+                      }
                     }
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600
+                  }
+                },
+                "body": [
                   {
                     "kind": "wait",
                     "ms": 1500

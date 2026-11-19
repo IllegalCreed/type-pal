@@ -22,8 +22,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -120,8 +119,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -225,8 +223,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -356,8 +353,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -505,8 +501,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -682,8 +677,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -882,8 +876,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -996,8 +989,7 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
@@ -1130,15 +1122,22 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 91,
-                      "height": 0,
-                      "row": 39
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 39
+                      }
                     }
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                },
+                "body": [
                   {
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
@@ -1179,12 +1178,112 @@
                     "frameRate": 7,
                     "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true
                   },
                   {
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
+                  },
+                  {
+                    "kind": "clearFrameAnimation"
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2456"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2457"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2458"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2459"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2460"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2461"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2462"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
+                  },
+                  {
+                    "kind": "selectEntityBehavior",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2463"
+                    },
+                    "channel": "auto",
+                    "selection": {
+                      "kind": "use",
+                      "value": "default"
+                    }
                   },
                   {
                     "dir": "in",
@@ -1201,6 +1300,62 @@
                     "ms": 3200
                   },
                   {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2456"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2457"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2458"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2459"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2460"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2461"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2462"
+                    }
+                  },
+                  {
+                    "kind": "takeEntity",
+                    "target": {
+                      "scene": "s149",
+                      "entity": "e2463"
+                    }
+                  },
+                  {
                     "frames": 999,
                     "kind": "shakeScreen",
                     "level": 1
@@ -1210,7 +1365,8 @@
                     "frameRate": 16,
                     "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true
                   },
                   {
                     "dir": "out",
