@@ -249,8 +249,10 @@ async function inspect(path, engine) {
   assert.equal(music.length, 1)
   assert.equal(music[0].context, 'running')
   const menu = once('command-menu-drawn')
+  assert(prepared.order < entry.order && entry.order < menu.order, 'menu after the native reveal')
   assert(
-    prepared.order < entry.order && entry.order < music[0].order && music[0].order < menu.order,
+    entry.order < music[0].order && music[0].order < find('action')[0]?.order,
+    'battle music audible after reveal and before the first executed combat action',
   )
   const commands = find('command').map(({ slot, turn, action }) => ({
     slot,
@@ -438,6 +440,10 @@ async function inspect(path, engine) {
     warnings: report.warnings,
     dialogue,
     clips: { contactMs: trigger.atMs, returnMs: control.atMs, exitMs: departure.atMs },
+    audioTiming: {
+      cueAfterRevealMs: music[0].atMs - entry.atMs,
+      cueAfterMenuMs: music[0].atMs - menu.atMs,
+    },
     visual: {
       bossFrames: poses.length,
       frameIndexes: [...new Set(poses.map(({ frame }) => frame))],
