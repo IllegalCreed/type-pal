@@ -2018,6 +2018,32 @@ export function restoreTestingQ2PeachSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, peachSourceStage, peachSourceBindings)
 }
 
+export const testingQ2NoticePublicationBase = '0b315ffc89248b157112ca83ebf77d557d6224ad'
+const noticeSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5890: '5883',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2NoticePublicationBase,
+  action: 'q2-world-notice-source-rebinding',
+  date: '2026-11-20',
+}
+
+export const isTestingQ2NoticeSource = (path) => noticeSourceStage.ranges.has(path)
+
+export function restoreTestingQ2NoticeSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, noticeSourceStage, peachSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

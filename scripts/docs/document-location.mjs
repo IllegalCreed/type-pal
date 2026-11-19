@@ -55,6 +55,7 @@ import {
   isTestingCliffEntrySource,
   isTestingPartyPoseSource,
   isTestingQ2CoverageSource,
+  isTestingQ2NoticeSource,
   isTestingQ2PeachSource,
   isTestingQ2PlacementSource,
   isTestingSceneItemExitSource,
@@ -93,6 +94,7 @@ import {
   restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingQ2CoverageSourceBindings,
+  restoreTestingQ2NoticeSourceBindings,
   restoreTestingQ2PeachSourceBindings,
   restoreTestingQ2PlacementSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
@@ -148,6 +150,7 @@ import {
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
   testingQ2CoveragePublicationBase,
+  testingQ2NoticePublicationBase,
   testingQ2PeachPublicationBase,
   testingQ2PlacementPublicationBase,
   testingSceneItemExitPublicationBase,
@@ -894,8 +897,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2PeachRevision) assert(q2PlacementRevision && /^[a-f0-9]{40}$/u.test(q2PeachRevision))
   const q2PeachSource = q2PeachRevision && gitTree(root, q2PeachRevision, [])
   const preQ2Peach = q2PeachSource && gitTree(root, testingQ2PeachPublicationBase, [])
-  const readBeforeQ2Peach = (path) => {
+  const q2NoticeRevision = admission.testingQ2NoticeSourceRevision
+  if (q2NoticeRevision) assert(q2PeachRevision && /^[a-f0-9]{40}$/u.test(q2NoticeRevision))
+  const q2NoticeSource = q2NoticeRevision && gitTree(root, q2NoticeRevision, [])
+  const preQ2Notice = q2NoticeSource && gitTree(root, testingQ2NoticePublicationBase, [])
+  const readBeforeQ2Notice = (path) => {
     const live = readSource(path)
+    if (!preQ2Notice || !isTestingQ2NoticeSource(path)) return live
+    assert(
+      live?.equals(q2NoticeSource.read(path)),
+      'world notice source differs from the frozen candidate',
+    )
+    return preQ2Notice.read(path)
+  }
+  const readBeforeQ2Peach = (path) => {
+    const live = readBeforeQ2Notice(path)
     if (!preQ2Peach || !isTestingQ2PeachSource(path)) return live
     assert(
       live?.equals(q2PeachSource.read(path)),
@@ -1174,13 +1190,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorPeach = preQ2Peach
-      ? restoreTestingQ2PeachSourceBindings(path, bytes, {
+    const priorNotice = preQ2Notice
+      ? restoreTestingQ2NoticeSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2Notice.read,
+          readFixed: q2NoticeSource.read,
+        })
+      : bytes
+    const priorPeach = preQ2Peach
+      ? restoreTestingQ2PeachSourceBindings(path, priorNotice, {
+          readSource: readBeforeQ2Notice,
           readBase: preQ2Peach.read,
           readFixed: q2PeachSource.read,
         })
-      : bytes
+      : priorNotice
     const priorPlacement = preQ2Placement
       ? restoreTestingQ2PlacementSourceBindings(path, priorPeach, {
           readSource: readBeforeQ2Peach,

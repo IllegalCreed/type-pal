@@ -14,7 +14,7 @@
       "lines": "444-456",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
+      "sha256": "f2cf272fba59ab7ec2a80126ec76a56dbd254c1a59d2978c86ba92d57718fcb2"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -448,6 +448,22 @@
         }
       ],
       "scope": "桃花林沿用来源脚点和常规跟随状态。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-world-notice-source-rebinding",
+      "base": "0b315ffc89248b157112ca83ebf77d557d6224ad",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "444-456",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
+        }
+      ],
+      "scope": "战外定时叙述归并关闭入口。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
     }
   ],
   "_governance": {
