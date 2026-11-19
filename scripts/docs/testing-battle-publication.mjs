@@ -2070,6 +2070,50 @@ export function restoreTestingQ2EntryAutoSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, entryAutoSourceStage, peachSourceBindings)
 }
 
+export const testingQ2RooftopPublicationBase = '7488f2961b0ef59a6020b6fe8bf419ccda8f1bc9'
+const rooftopSplitSource = 'scripts/e2e/battle-world-review-split.mjs'
+const rooftopSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5893: '5900',
+      },
+    ],
+    [reforgeBattleHost, { '72-88': '72-88', '277-288': '277-288', 289: '289' }],
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2RooftopPublicationBase,
+  action: 'q2-yangzhou-rooftop-source-rebinding',
+  date: '2026-11-20',
+}
+const rooftopSourceBindings = new Map([
+  ...peachSourceBindings,
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [reforgeMain, reforgeBattleHost, rooftopSplitSource],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain, reforgeBattleHost] },
+  ],
+])
+
+export const isTestingQ2RooftopSource = (path) => rooftopSourceStage.ranges.has(path)
+
+export function restoreTestingQ2RooftopSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, rooftopSourceStage, rooftopSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

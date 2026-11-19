@@ -59,6 +59,7 @@ import {
   isTestingQ2NoticeSource,
   isTestingQ2PeachSource,
   isTestingQ2PlacementSource,
+  isTestingQ2RooftopSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -99,6 +100,7 @@ import {
   restoreTestingQ2NoticeSourceBindings,
   restoreTestingQ2PeachSourceBindings,
   restoreTestingQ2PlacementSourceBindings,
+  restoreTestingQ2RooftopSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
@@ -156,6 +158,7 @@ import {
   testingQ2NoticePublicationBase,
   testingQ2PeachPublicationBase,
   testingQ2PlacementPublicationBase,
+  testingQ2RooftopPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
@@ -908,8 +911,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2EntryAutoRevision) assert(q2NoticeRevision && /^[a-f0-9]{40}$/u.test(q2EntryAutoRevision))
   const q2EntryAutoSource = q2EntryAutoRevision && gitTree(root, q2EntryAutoRevision, [])
   const preQ2EntryAuto = q2EntryAutoSource && gitTree(root, testingQ2EntryAutoPublicationBase, [])
-  const readBeforeQ2EntryAuto = (path) => {
+  const q2RooftopRevision = admission.testingQ2RooftopSourceRevision
+  if (q2RooftopRevision) assert(q2EntryAutoRevision && /^[a-f0-9]{40}$/u.test(q2RooftopRevision))
+  const q2RooftopSource = q2RooftopRevision && gitTree(root, q2RooftopRevision, [])
+  const preQ2Rooftop = q2RooftopSource && gitTree(root, testingQ2RooftopPublicationBase, [])
+  const readBeforeQ2Rooftop = (path) => {
     const live = readSource(path)
+    if (!preQ2Rooftop || !isTestingQ2RooftopSource(path)) return live
+    assert(
+      live?.equals(q2RooftopSource.read(path)),
+      'rooftop source differs from the frozen candidate',
+    )
+    return preQ2Rooftop.read(path)
+  }
+  const readBeforeQ2EntryAuto = (path) => {
+    const live = readBeforeQ2Rooftop(path)
     if (!preQ2EntryAuto || !isTestingQ2EntryAutoSource(path)) return live
     assert(
       live?.equals(q2EntryAutoSource.read(path)),
@@ -1206,13 +1222,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorEntryAuto = preQ2EntryAuto
-      ? restoreTestingQ2EntryAutoSourceBindings(path, bytes, {
+    const priorRooftop = preQ2Rooftop
+      ? restoreTestingQ2RooftopSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2Rooftop.read,
+          readFixed: q2RooftopSource.read,
+        })
+      : bytes
+    const priorEntryAuto = preQ2EntryAuto
+      ? restoreTestingQ2EntryAutoSourceBindings(path, priorRooftop, {
+          readSource: readBeforeQ2Rooftop,
           readBase: preQ2EntryAuto.read,
           readFixed: q2EntryAutoSource.read,
         })
-      : bytes
+      : priorRooftop
     const priorNotice = preQ2Notice
       ? restoreTestingQ2NoticeSourceBindings(path, priorEntryAuto, {
           readSource: readBeforeQ2EntryAuto,

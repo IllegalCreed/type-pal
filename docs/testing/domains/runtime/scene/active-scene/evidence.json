@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+      "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "459-466",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+      "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -563,6 +563,29 @@
         }
       ],
       "scope": "脚本换场收尾与已恢复自动等待按当前游标接线。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-yangzhou-rooftop-source-rebinding",
+      "base": "7488f2961b0ef59a6020b6fe8bf419ccda8f1bc9",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "459-466",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+        }
+      ],
+      "scope": "剧情战共享实绘结算输入门，落步触发先落实跟随队形，追逐转弯保留离格方向。分屏器接入原场景起战。九个既有引用片段逐字节相等。"
     }
   ],
   "_governance": {

@@ -245,7 +245,7 @@
       "anchor": "private async finishEncounter(",
       "role": "world-encounter-finalizer",
       "lines": "289",
-      "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
+      "sha256": "62bfff1e975011e5b619981418aef3c3fa3630fdc5b5c345cb8f8c93f3eabc4b"
     },
     {
       "path": "packages/reforge/src/battle/battle-core.ts",
@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "25",
-      "sha256": "1303221f282edd7af88a91ca5bb64507e15b80bdda7c7ceb6d4dd63577b592b0",
+      "sha256": "1a2d06555204d47b4f0c1089665588fa3d16f99b350586b212d0a85f62c770b5",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5893",
-      "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+      "lines": "5900",
+      "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13685,6 +13685,36 @@
         }
       ],
       "scope": "脚本换场收尾与已恢复自动等待按当前游标接线。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-yangzhou-rooftop-source-rebinding",
+      "base": "7488f2961b0ef59a6020b6fe8bf419ccda8f1bc9",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "289",
+          "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "1303221f282edd7af88a91ca5bb64507e15b80bdda7c7ceb6d4dd63577b592b0",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5893",
+          "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+        }
+      ],
+      "scope": "剧情战共享实绘结算输入门，落步触发先落实跟随队形，追逐转弯保留离格方向。分屏器接入原场景起战。九个既有引用片段逐字节相等。"
     }
   ],
   "_governance": {

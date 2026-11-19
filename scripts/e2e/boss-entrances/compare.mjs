@@ -12,8 +12,8 @@ import {
   initialTrack,
   party,
   readSources,
-  returnTrack,
   returnedPosition,
+  returnTrack,
   scenarios,
 } from './scenarios.mjs'
 
