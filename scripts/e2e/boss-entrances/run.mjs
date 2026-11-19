@@ -9,14 +9,16 @@ import { writeEvidenceArtifact } from '../evidence-artifact.mjs'
 import { canonicalInput, createRecordedHold, pressRecordedKey } from '../input-ledger.mjs'
 import { bossObserver } from './observe.mjs'
 import {
-  fieldMusic,
-  fieldMusicAsset,
+  departingPosition,
   gameScene,
   grid,
   growthPools,
+  initialTrack,
   json,
+  nativeMusic,
   party,
   readSources,
+  returnedPosition,
   scenarios,
   statsFields,
 } from './scenarios.mjs'
@@ -28,9 +30,15 @@ assert(
     spec &&
     [undefined, '--capture'].includes(option) &&
     process.argv.length <= 5,
-  'usage: node scripts/e2e/boss-entrances/run.mjs game|reforge snake|fox [--capture]',
+  'usage: node scripts/e2e/boss-entrances/run.mjs game|reforge SCENARIO [--capture]',
 )
 const game = engine === 'game'
+const fieldMusic = initialTrack(spec)
+const fieldMusicAsset = nativeMusic(fieldMusic)
+const approach = spec.approach ?? 'ArrowUp'
+const facing = approach === 'ArrowRight' ? 'right' : 'up'
+const returned = returnedPosition(spec)
+const departure = departingPosition(spec)
 const source = await readSources(spec)
 const roles = party.map(({ role }) => role)
 const nativeRoles = party.map(({ roleId }) => roleId)
@@ -40,6 +48,7 @@ const observe = bossObserver({
   scene: spec.scene,
   gameScene: gameScene(spec),
   owner: spec.owner,
+  watched: spec.watched,
   seed: spec.seed,
 })
 const ready = (state) => state?.scene === spec.scene && state.ready
@@ -164,9 +173,14 @@ async function makeGameFixture(page, baseURL, until) {
     )
   }
   const [x, y] = toGamePixel(spec.start)
-  gs.party = { x, y, facing: 'up' }
+  gs.party = { x, y, facing }
   gs.camera = { x: x - 160, y: y - 112 }
-  gs.trail = Array.from({ length: 5 }, (_, i) => ({ x: x - 16 * i, y: y + 8 * i, dir: 'up' }))
+  const [xx, yy] = toGamePixel(spec.contact)
+  gs.trail = Array.from({ length: 5 }, (_, i) => ({
+    x: x - (xx - x) * i,
+    y: y - (yy - y) * i,
+    dir: facing,
+  }))
   gs.partyMembers = nativeRoles
   for (const [i, member] of party.entries()) {
     const id = member.roleId
@@ -231,7 +245,7 @@ async function makeReforgeFixture() {
   return {
     payload: buildCurrentSavePayload(
       world,
-      { sceneId: spec.scene, pos: grid(spec.start), facing: 'up' },
+      { sceneId: spec.scene, pos: grid(spec.start), facing },
       'pal',
     ),
   }
@@ -466,7 +480,7 @@ await runBrowserJourney({
         party.map(({ role, level, hp, mp }) => [role, level, hp, mp]),
       )
       assert.deepEqual(result.initial.state.inventory, [])
-      if (!game && capture.enabled) {
+      if (!game) {
         // Unlock Web Audio through a real keydown while the party is in exploration.
         // The defend shortcut has no world action here.
         await press('KeyD', 'bootstrap')
@@ -480,17 +494,15 @@ await runBrowserJourney({
           'missing native audio gesture',
         )
       }
-      if (capture.enabled) {
-        await until(
-          async () =>
-            (await trace(page)).events.find(
-              ({ kind, track, context }) =>
-                kind === 'music-start' && track === fieldMusic && context === 'running',
-            ),
-          Boolean,
-          'source-authored cave music audible before recording',
-        )
-      }
+      await until(
+        async () =>
+          (await trace(page)).events.find(
+            ({ kind, track, context }) =>
+              kind === 'music-start' && track === fieldMusic && context === 'running',
+          ),
+        Boolean,
+        'source-authored field music audible before recording',
+      )
       await capture.arm(page, {
         event: 'before-world-boss-contact',
         scene: spec.scene,
@@ -500,26 +512,26 @@ await runBrowserJourney({
         page,
         health,
         record,
-        key: 'ArrowUp',
+        key: approach,
         phase: 'approach',
         from: spec.start,
         to: spec.contact,
         mode: 'dialogue',
       })
       result.returned = await playEncounter({ page, press, health, capture })
-      assert.deepEqual(result.returned.state.position, spec.contact)
+      assert.deepEqual(result.returned.state.position, returned)
       await walk({
         page,
         health,
         record,
-        key: 'ArrowDown',
+        key: spec.world.exit ?? 'ArrowDown',
         phase: 'exit',
-        from: spec.contact,
-        to: spec.start,
+        from: returned,
+        to: departure,
         mode: 'ready',
       })
       result.departure = await wait(
-        ({ state }) => ready(state) && state.position.join() === spec.start.join(),
+        ({ state }) => ready(state) && state.position.join() === departure.join(),
         'real return movement',
       )
       if (capture.enabled) {
@@ -528,7 +540,7 @@ await runBrowserJourney({
       await capture.finish(page, {
         event: 'world-boss-departure',
         scene: spec.scene,
-        grid: spec.start,
+        grid: departure,
         world: result.departure.state,
       })
     } finally {

@@ -4,6 +4,12 @@ import { readFile } from 'node:fs/promises'
 export const fieldMusic = 78
 export const fieldMusicAsset = 'music.pal.078'
 
+const musicId = (track) => String(track).padStart(3, '0')
+export const nativeMusic = (track) => `music.pal.${musicId(track)}`
+export const initialTrack = (spec) => spec.mapMusic?.track ?? fieldMusic
+export const returnedPosition = (spec) => spec.world.returned ?? spec.contact
+export const departingPosition = (spec) => spec.world.departure ?? spec.start
+
 export const party = [
   {
     role: 'li-xiaoyao',
@@ -89,6 +95,39 @@ export const scenarios = {
     disk: { entry: 9498, battle: 9552, last: 9589, owner: [1440, 304, 2, 6], reward: 9554 },
     world: { gameState: 0, triggerMode: 6, inventory: [{ itemId: '289', count: 1 }] },
   },
+  spider: {
+    id: 'black-spider',
+    scene: 's139',
+    owner: 'e2346',
+    watched: ['e2347'],
+    team: 43,
+    enemy: 'enemy-498',
+    start: [67, 29, 0],
+    contact: [68, 29, 0],
+    approach: 'ArrowRight',
+    music: 39,
+    field: 11,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 21672,
+      battle: 21690,
+      last: 21691,
+      owner: [608, 784, 1, 5],
+      field: 21647,
+      music: 21648,
+      defeated: { ip: 42828, note: 13349, itemId: '152' },
+    },
+    mapMusic: { scene: 's139', ip: 21649, track: 36 },
+    world: {
+      gameState: 0,
+      triggerMode: 5,
+      returned: [70, 29, 0],
+      departure: [71, 29, 0],
+      exit: 'ArrowRight',
+      inventory: [{ itemId: '152', count: 1 }],
+    },
+  },
 }
 
 export const projectFile = (path) => new URL(`../../../${path}`, import.meta.url)
@@ -98,12 +137,13 @@ export const grid = ([col, row, height]) => ({ col, row, height })
 
 export async function readSources(spec) {
   const sceneNumber = gameScene(spec) - 1
+  const mapMusic = spec.mapMusic ?? { scene: 's044', ip: 9673, track: fieldMusic }
   const files = {
     gameScene: `data/extracted/data/scene/${sceneNumber}.json`,
     commands: 'data/extracted/events/all.json',
-    caveEntry: 'data/extracted/data/scene/44.json',
-    canonicalCaveEntry: 'projects/pal/content/scenes/s044.json',
-    canonicalMaze: 'projects/pal/content/scenes/s046.json',
+    musicScene: `data/extracted/data/scene/${Number(mapMusic.scene.slice(1))}.json`,
+    canonicalMusicScene: `projects/pal/content/scenes/${mapMusic.scene}.json`,
+    ...(spec.mapMusic ? {} : { canonicalMaze: 'projects/pal/content/scenes/s046.json' }),
     actors: 'data/extracted/data/player-roles.json',
     enemies: 'data/extracted/data/enemies.json',
     objects: 'data/extracted/data/enemy-objects.json',
@@ -119,28 +159,31 @@ export async function readSources(spec) {
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
   assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
   const commands = data.commands.segments.flatMap(({ commands }) => commands)
-  const caveEntrance = Number(data.caveEntry.onEnterLabel.slice(2))
+  const fieldTrack = musicId(mapMusic.track)
+  const initialScript = Number(data.musicScene.onEnterLabel.slice(2))
+  assert(mapMusic.ip >= initialScript)
+  assert(!commands.slice(initialScript, mapMusic.ip).some(({ op }) => op === 'end'))
   assert.deepEqual(
-    [caveEntrance, commands[caveEntrance + 2].opcode, commands[caveEntrance + 2].operands[0]],
-    [9671, 67, fieldMusic],
+    [commands[mapMusic.ip].opcode, commands[mapMusic.ip].operands[0]],
+    [67, mapMusic.track],
   )
   assert(
-    data.canonicalCaveEntry.hooks.onEnter.variants.default.flow.stages[0].body.some(
-      ({ kind, asset }) => kind === 'playMusic' && asset === fieldMusicAsset,
+    data.canonicalMusicScene.hooks.onEnter.variants.default.flow.stages[0].body.some(
+      ({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(mapMusic.track),
     ),
   )
-  const { battle, entry, last, reward } = spec.disk
-  assert.deepEqual(
-    [commands[battle - 2].opcode, commands[battle - 2].operands[0]],
-    [69, spec.music],
-  )
-  assert.deepEqual(
-    [commands[battle - 1].opcode, commands[battle - 1].operands[0]],
-    [74, spec.field],
-  )
+  const { battle, entry, last, reward, defeated } = spec.disk
+  const setMusic = commands[spec.disk.music ?? battle - 2]
+  const setField = commands[spec.disk.field ?? battle - 1]
+  assert.deepEqual([setMusic.opcode, setMusic.operands[0]], [69, spec.music])
+  assert.deepEqual([setField.opcode, setField.operands[0]], [74, spec.field])
   assert.deepEqual([commands[battle].opcode, commands[battle].operands], [7, [spec.team, 41075, 0]])
   assert.equal(commands[last].op, 'end')
-  if (reward) assert.deepEqual([commands[reward].op, commands[reward].itemId], ['giveItem', 289])
+  if (reward)
+    assert.deepEqual(
+      [commands[reward].op, String(commands[reward].itemId)],
+      ['giveItem', spec.world.inventory[0].itemId],
+    )
   const team = data.teams.find(({ id }) => id === spec.team)
   const slots = team.enemyObjectIndexes.map((id) => (id > 0 && id < 65535 ? `enemy-${id}` : null))
   assert.equal(slots[spec.slot], spec.enemy)
@@ -154,17 +197,30 @@ export async function readSources(spec) {
   const native = boss.behaviors.trigger.default.flow.stages[0].body
   const launch = native.find(({ kind }) => kind === 'startBattle')
   assert.deepEqual(
-    [launch.boss, launch.fieldId, launch.music, launch.enemyTeamId],
-    [true, spec.field, `music.pal.${String(spec.music).padStart(3, '0')}`, `team-${spec.team}`],
+    [
+      launch.boss,
+      launch.fieldId ?? data.rfScene.battleFieldId,
+      launch.music ?? data.rfScene.battleMusic,
+      launch.enemyTeamId,
+    ],
+    [true, spec.field, nativeMusic(spec.music), `team-${spec.team}`],
   )
   const original = data.enemies.find(({ id }) => id === team.enemies[spec.slot])
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
+  if (defeated) {
+    assert.equal(object.scriptOnBattleEnd, defeated.ip)
+    assert.deepEqual(
+      [commands[defeated.ip].op, String(commands[defeated.ip].itemId)],
+      ['giveItem', defeated.itemId],
+    )
+    assert.equal(commands[defeated.ip + 2].messageIndex, defeated.note)
+  }
   const bee = data.objects.find(({ objectIndex }) => objectIndex === 403)
   const summoned = data.enemies.find(({ id }) => id === bee.enemyId)
-  const summonCount = spec.slot === 1 ? 4 : 0
+  const summonCount = spec.team === 44 ? 4 : 0
   const summonBonus = { exp: summonCount * summoned.exp, cash: summonCount * summoned.cash }
-  const battleTrack = String(spec.music).padStart(3, '0')
+  const battleTrack = musicId(spec.music)
   return {
     paths: [
       ...Object.values(files),
@@ -172,13 +228,13 @@ export async function readSources(spec) {
       'data/extracted/data/battle-fields.json',
       `data/extracted/data/tilemap/${data.gameScene.mapNum}.json`,
       `data/extracted/music/${battleTrack}.mid`,
-      'data/extracted/music/078.mid',
+      `data/extracted/music/${fieldTrack}.mid`,
       'projects/pal/content/actors.json',
       'projects/pal/content/enemies.json',
       'projects/pal/content/battle-fields.json',
       `projects/pal/content/maps/${data.rfScene.mapId}.json`,
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
-      'projects/pal/assets/migrated/music/078.mid',
+      `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
     ],
     hiddenLevels: party.map(({ roleId }) => data.actors.roles[roleId].level),
     slots,
@@ -186,6 +242,7 @@ export async function readSources(spec) {
     summonBonus,
     pre: commands.slice(entry, battle),
     post: commands.slice(battle + 1, last),
+    defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
   }
