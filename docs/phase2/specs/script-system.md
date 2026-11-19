@@ -66,6 +66,8 @@ onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面
 
 普通明雷在世界拍开始时统一以小于 1.5 格判定接敌。拍后检查仍以贴脸为准，并让玩家最终落点触发优先。引擎自动追逐每个合格世界拍按 `min(speed / 8, 1)` 格推进，感知距离严格小于作者设置的追逐范围。脚本追逐按自己的命令节拍和接触认领执行。采用 `static` 布局的无方向多帧精灵在引擎追逐实际落步时推进步态，站定归回静止绘制。实际对照见 [007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)。
 
+队伍相对位移 `nudgeParty` 将队伍当前朝向写入跟随轨迹，后退期间队首和跟随者可以保持同一朝向。脚本 `shakeScreen` 的帧数按实际世界拍或实际帧动画的当前帧推进，整幅合成画面沿纵向交替位移，零帧立即清除。需要从黑幕揭示帧动画时，作者在对应播放指令的 `initialFadeInMs` 指定首帧淡入。 [原盘退移与倒塌演出](../../phase1/game-mechanics.md#2026-11-19-七星盘龙柱返场与倒塌演出)
+
 驱魔香、十里香用现有 `hostileAwareness` 倒计时调节引擎追逐。倍率为零时，原本可追逐的明雷在原脚点每拍推进步态，每两拍沿下、左、上、右转向。场景内已有的姿态覆盖、已编排动作及移动步态优先绘制。世界计时结束后恢复场景默认感知距离。 [原盘行为](../../phase1/game-mechanics.md) · [引擎计时](../../../packages/reforge/src/main.ts) · [精灵绘制](../../../packages/reforge/src/world-scene-presentation.ts)
 
 传送出口指令 `teleportOut` 运行当前有效的 `onTeleport`。配置 `gatherParty: true` 时，出口的目的场景从首个揭示帧起按聚拢队形摆放，成功收尾时以队首重置跟随轨迹。`arrivalSound` 在目的场景提交时播放一次，位于淡入之前。失败执行 `onFail`。引路蜂用这两个选项，成功扣库存，失败显示旁白。 [原盘行为](../../phase1/game-mechanics.md) · [当前宿主](../../../packages/reforge/src/main.ts)

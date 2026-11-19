@@ -199,6 +199,7 @@ import type {
 } from './scene-runtime-state.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
+import { ScreenShakePresentation } from './screen-shake-presentation.js'
 import {
   registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
@@ -442,6 +443,7 @@ export async function bootGame(
   const followerPos: ({ pos: GridPos; facing: Facing } | undefined)[] = [] // 派生(idx 0 空=队长)
   // 世界拍与 locomotion 注册必须早于 switchScene 首调；活动 scene/world 坐标仍由各自 owner 持有。
   const motion = new WorldMotionRuntime(STEP_MS)
+  const screenShake = new ScreenShakePresentation()
   const worldPresentation = new WorldScenePresentation({
     canvas,
     context: ctx,
@@ -759,6 +761,7 @@ export async function bootGame(
     if (!frameAnimationPresentation.present(frame, owner))
       throw asyncIntentAbortError('frame animation presentation owner changed')
     writeFrameAnimationLayer(frame)
+    screenShake.advance()
   }
   /** 首段资源加载期间冻结当前完整输出；连续段已有上一张末帧，不再另取世界帧。 */
   const beginFrameAnimationPlayback = (): number => {
@@ -2834,10 +2837,7 @@ export async function bootGame(
       world.ambience = next
       ambienceFx = { from: ambienceShown, start: frames.now, durMs: fadeMs }
     },
-    // 0x35 震屏:渲染时世界层 y ±level 交替(40ms 相位 = 原版逐帧);time=0 立即关
-    shakeScreen: (timeFrames, level) => {
-      worldPresentation.shake(frames.now, timeFrames, level)
-    },
+    shakeScreen: (timeFrames, level) => screenShake.start(timeFrames, level),
     // 0x1B-1D 全队资源变化:仅活人,clamp；0x1D 缺省 HP/MP 同改。
     increaseHpMp: (amount, pools) => {
       for (const c of world.party) {
@@ -3042,9 +3042,9 @@ export async function bootGame(
       // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
       partyLayer = layer
       const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
-      const from = { ...player.pos }
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
-      pushTrail(trail, player.pos, displacementFacing(from, player.pos, facing))
+      // 0x6E keeps the authored heading in the trail even when the party backs away.
+      pushTrail(trail, player.pos, facing)
       if (dx !== 0 || dy !== 0) {
         authoredPartyFacing = null
         walking = true
@@ -3982,14 +3982,6 @@ export async function bootGame(
         followerPos[m] = { pos: { ...a.pos }, facing: a.facing }
       }
     }
-  }
-
-  function displacementFacing(from: GridPos, to: GridPos, fallback: Facing): Facing {
-    const dcol = to.col - from.col
-    const drow = to.row - from.row
-    if (Math.abs(dcol) >= Math.abs(drow) && dcol !== 0) return dcol > 0 ? 'right' : 'left'
-    if (drow !== 0) return drow > 0 ? 'down' : 'up'
-    return fallback
   }
 
   interface EntityMotionCommitMeta {
@@ -5906,6 +5898,7 @@ export async function bootGame(
     abortScript()
     replaceWorld(candidate)
     sceneRuntimeStates = structuredClone(payload.sceneRuntime)
+    screenShake.start(0, 4)
     commitSceneSwitch(plan, world, false, restoreActions)
     syncRuntimeScriptScratch(activeScene.scene.id)
     refreshCurrentCanonicalBindings()
@@ -6136,7 +6129,6 @@ export async function bootGame(
         camera,
         sprites,
         vars: runtimeScript.vars,
-        now: frames.now,
         advanceWaveFrame: motion.worldTicksThisFrame > 0,
       })
       // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
@@ -6273,7 +6265,11 @@ export async function bootGame(
     }
     // W6 氛围滤镜:一切画完之后全帧 multiply(原版夜盘是全局调色板 —— UI 也染,数据实证)
     // RNG 已按其专用 palette 烘成 RGBA，不再套用大世界 ambience；普通世界/UI 保持原有全帧染色。
-    if (!cinematicLayerDrawn) applyAmbienceTint()
+    if (!cinematicLayerDrawn) {
+      applyAmbienceTint()
+      if (motion.worldTicksThisFrame > 0) screenShake.advance()
+    }
+    screenShake.apply(ctx, WORLD_SCALE)
     // 0x73 是壳层整屏输出特效，必须放在氛围滤镜之后：backup 来自上一张最终 canvas，
     // target 也取本帧最终 canvas，避免夜景旧像素被重复 multiply。首帧强制 pr=0。
     const dither = ditherTransition.active

@@ -97,6 +97,27 @@ test('an authored turn and two-step walk retain the follower formation through t
   h.assertInputUnchanged()
 })
 
+test('three backward nudges carry the authored heading to the rendered follower', async () => {
+  const h = await bootNudge([
+    { kind: 'teleportParty', pos: { col: 3, row: 3, height: 0 } },
+    { kind: 'setParty', members: ['hero', 'friend'] },
+    { kind: 'setPartyFacing', facing: 'left' },
+    {
+      kind: 'repeat',
+      count: 3,
+      body: [
+        { kind: 'nudgeParty', dx: 16, dy: 8 },
+        { kind: 'wait', ms: 100 },
+      ],
+    },
+  ])
+  const layout = () => h.sprites.mock.lastCall?.[0]
+  await advance(h.h, () => layout()?.player.pos.col === 6 && !!layout()?.player.walking)
+  expect(layout()?.player).toMatchObject({ pos: { col: 6, row: 3, height: 0 }, facing: 'left' })
+  expect(layout()?.followers[1]).toEqual({ pos: { col: 5, row: 3, height: 0 }, facing: 'left' })
+  h.assertInputUnchanged()
+})
+
 test('an already pending real load cancels a nudge wait without late movement or rewards', async () => {
   host = await installShellHost()
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')

@@ -1,22 +1,14 @@
 /**
  * TEST-GLM-NEW-G-1 G04：world-scene-presentation 残差。
- * 旧证（world-scene-presentation.test.ts / .residual）已证精灵优先级/队尾序/姿势覆盖/
- * 波动绘制/隐藏缺定义过滤/奇数拍震屏；本文件只补旧题未覆盖的公开臂：
- *   1) 震屏偶数拍 +level 臂（world-scene-presentation.ts:263）与 shake(now,0) 显式清场（:108-110）；
- *   2) 实体帧覆盖注册表尾：hasEntityFrame / entityFrame / clearEntityFrame / clearEntityFrames
- *      （:88-106）经 sprites() 真实帧选择互证；
- *   3) extraFollowerSpriteIds 稀疏空洞 fail-loud（:226 expectDefined）。
+ * 覆盖实体帧注册表读写与清理经 sprites() 的实际选帧，以及额外跟随者精灵的稀疏空洞校验。
  * 演出观感不留证；只断言公开方法的状态迁移与有限 tick 输出。
  */
 import type { EntityDef, SpriteDef } from '@type-pal/content'
-import type { Palette, RleFrame } from '@type-pal/shared'
+import type { RleFrame } from '@type-pal/shared'
 import { describe, expect, test, vi } from 'vitest'
 import type { LoadedSprite } from './assets.js'
-import { buildBlankProjectMap } from './project-map.js'
 import type { Renderer } from './render.js'
 import { WorldScenePresentation, type WorldSpriteInput } from './world-scene-presentation.js'
-
-const palette: Palette = { colors: Array.from({ length: 256 }, () => [0, 0, 0]), cycles: [] }
 
 function frame(width: number, height: number): RleFrame {
   return {
@@ -84,16 +76,7 @@ function presentation() {
     contextFor: () => context(),
     createRenderer: (ctx) => renderer(ctx, log, 'wave'),
   })
-  const mainRenderer = renderer(mainContext, log, 'main')
-  const scene = {
-    map: buildBlankProjectMap(2, 2, 'tiles'),
-    room: { col: 0, row: 0, cols: 2, rows: 2 },
-    palette,
-    tiles: new Map(),
-    renderer: mainRenderer,
-    rendererForWave: (create: () => Renderer) => create(),
-  }
-  return { instance, scene, log }
+  return { instance }
 }
 
 function input(overrides: Partial<WorldSpriteInput> = {}): WorldSpriteInput {
@@ -125,36 +108,6 @@ function input(overrides: Partial<WorldSpriteInput> = {}): WorldSpriteInput {
 }
 
 describe('G04 world-scene-presentation 残差', () => {
-  test('震屏偶数拍 +level 臂；shake(now,0) 显式清场后相机原样', () => {
-    const { instance, scene, log } = presentation()
-    const camera = { x: 5, y: 9 }
-    instance.shake(80, 2, 3) // until = 80 + 80 = 160
-    // now=80：floor(80/40)%2===0 → 偶数拍 +level（旧题只钉过 now=120 奇数拍 −level）。
-    expect(
-      instance.renderWorld({
-        scene,
-        camera,
-        sprites: [],
-        vars: {},
-        now: 80,
-        advanceWaveFrame: true,
-      }),
-    ).toEqual({ x: 5, y: 12 })
-    // timeFrames 0：显式清场三元 false 臂 → 震屏消失，now=120 相机原样（奇偶不再影响）。
-    instance.shake(80, 0, 3)
-    expect(
-      instance.renderWorld({
-        scene,
-        camera,
-        sprites: [],
-        vars: {},
-        now: 120,
-        advanceWaveFrame: true,
-      }),
-    ).toEqual(camera)
-    expect(log).toEqual(['main:clear', 'main:render:5,12:0', 'main:clear', 'main:render:5,9:0'])
-  })
-
   test('实体帧覆盖注册表尾：has/entityFrame 读出、单体与全清恢复 gait 帧选择', () => {
     const { instance } = presentation()
     const definition = spriteDef('npc-sprite')

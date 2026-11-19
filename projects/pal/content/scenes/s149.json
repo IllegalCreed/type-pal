@@ -1177,6 +1177,7 @@
                   {
                     "asset": "frame-animation.pal.005",
                     "frameRate": 7,
+                    "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
                     "startFrame": 0
                   },
@@ -1192,7 +1193,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1200
+                    "ms": 3000
                   },
                   {
                     "dir": "out",
@@ -1207,6 +1208,7 @@
                   {
                     "asset": "frame-animation.pal.002",
                     "frameRate": 16,
+                    "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
                     "startFrame": 0
                   },

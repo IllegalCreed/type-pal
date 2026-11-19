@@ -70,14 +70,13 @@ type WorldPresentationScene = Pick<
   'map' | 'room' | 'palette' | 'tiles' | 'renderer' | 'rendererForWave'
 >
 
-/** World-only drawing owner: visual overrides, shake, wave phase/canvas and sprite assembly. */
+/** World-only drawing owner: visual overrides, wave phase/canvas and sprite assembly. */
 export class WorldScenePresentation {
   private readonly entityFrames = new Map<string, number>()
   // Last frame index actually selected by the renderer for each visible entity. Transient command
   // counters (gait/anim/action) are not the rendered sprite frame and must not be E2E evidence.
   private readonly renderedEntityFrames = new Map<string, number>()
   private gesture: number | null = null
-  private shakeFx: { untilMs: number; level: number } | null = null
   private readonly wave = new WorldWaveRenderer()
   private waveCanvas: HTMLCanvasElement | null = null
 
@@ -113,10 +112,6 @@ export class WorldScenePresentation {
 
   clearEntityFrames(): void {
     this.entityFrames.clear()
-  }
-
-  shake(now: number, timeFrames: number, level: number): void {
-    this.shakeFx = timeFrames > 0 ? { untilMs: now + timeFrames * 40, level } : null
   }
 
   sprites(input: WorldSpriteInput): SpriteDraw[] {
@@ -277,18 +272,9 @@ export class WorldScenePresentation {
     camera: Camera
     sprites: readonly SpriteDraw[]
     vars: Record<string, number>
-    now: number
     advanceWaveFrame: boolean
   }): Camera {
-    if (this.shakeFx && input.now >= this.shakeFx.untilMs) this.shakeFx = null
-    const camera = this.shakeFx
-      ? {
-          x: input.camera.x,
-          y:
-            input.camera.y +
-            (Math.floor(input.now / 40) % 2 === 0 ? this.shakeFx.level : -this.shakeFx.level),
-        }
-      : input.camera
+    const { camera } = input
     const waveAmplitude = advanceWave(input.vars, input.advanceWaveFrame)
     if (waveAmplitude > 0) {
       const waveCanvas = this.ensureWaveCanvas()

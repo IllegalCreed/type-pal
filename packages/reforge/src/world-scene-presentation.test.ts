@@ -360,39 +360,6 @@ describe('WorldScenePresentation world painter', () => {
     }
   }
 
-  test('shake samples frame time before the unchanged ordinary scene pass and expires at boundary', () => {
-    const f = presentation()
-    const mainRenderer = renderer(f.mainContext, f.log, 'main')
-    const scene = sceneFixture(mainRenderer, f.log)
-    f.instance.shake(100, 2, 3)
-    expect(
-      f.instance.renderWorld({
-        scene,
-        camera: { x: 5, y: 9 },
-        sprites: [],
-        vars: {},
-        now: 120,
-        advanceWaveFrame: false,
-      }),
-    ).toEqual({ x: 5, y: 6 })
-    expect(
-      f.instance.renderWorld({
-        scene,
-        camera: { x: 5, y: 9 },
-        sprites: [],
-        vars: {},
-        now: 180,
-        advanceWaveFrame: false,
-      }),
-    ).toEqual({ x: 5, y: 9 })
-    expect(f.log).toEqual([
-      'main:clear',
-      'main:render:5,6:0:all',
-      'main:clear',
-      'main:render:5,9:0:all',
-    ])
-  })
-
   test('wave draws background offscreen, applies rows, then overlays static sprites without clearing', () => {
     const f = presentation()
     const mainRenderer = renderer(f.mainContext, f.log, 'main')
@@ -404,7 +371,6 @@ describe('WorldScenePresentation world painter', () => {
       camera: { x: 1, y: 2 },
       sprites,
       vars,
-      now: 0,
       advanceWaveFrame: true,
     })
     expect(f.waveCanvas).toMatchObject({ width: 1280, height: 800 })

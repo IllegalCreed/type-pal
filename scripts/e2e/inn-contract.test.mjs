@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
+import { tsImport } from 'tsx/esm/api'
 import ts from 'typescript'
 import { sha256 } from './browser-journey.mjs'
 import { evidenceObserverScript } from './evidence-recorder.mjs'
@@ -549,7 +550,12 @@ test('actual transformed restore reads committed World before real auto call, no
     h = observer(),
     calls = [],
     payload = restorePayloadFixture()
+  const { ScreenShakePresentation } = await tsImport(
+    '../../packages/reforge/src/screen-shake-presentation.ts',
+    import.meta.url,
+  )
   const scope = {
+    screenShake: new ScreenShakePresentation(),
     scriptWorkIO: new Function(
       'executions',
       `${actualFunction(readFileSync(new URL('../../packages/reforge/src/script-work-queue.ts', import.meta.url), 'utf8'), 'scriptWorkIO')}\nreturn scriptWorkIO;`,
