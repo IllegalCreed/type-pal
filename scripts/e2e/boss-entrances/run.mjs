@@ -7,6 +7,7 @@ import { runBrowserJourney, sha256 } from '../browser-journey.mjs'
 import { installCommittedRoutePlayback } from '../committed-route.mjs'
 import { writeEvidenceArtifact } from '../evidence-artifact.mjs'
 import { canonicalInput, createRecordedHold, pressRecordedKey } from '../input-ledger.mjs'
+import { installRenderedDialogueObservation } from '../rendered-dialogue-observation.mjs'
 import { bossObserver } from './observe.mjs'
 import {
   departingPosition,
@@ -36,10 +37,11 @@ const game = engine === 'game'
 const fieldMusic = initialTrack(spec)
 const fieldMusicAsset = nativeMusic(fieldMusic)
 const approach = spec.approach ?? 'ArrowUp'
-const facing = approach === 'ArrowRight' ? 'right' : 'up'
+const facing = approach.slice('Arrow'.length).toLowerCase()
 const returned = returnedPosition(spec)
 const departure = departingPosition(spec)
 const source = await readSources(spec)
+const hasPrelude = spec.prelude !== undefined
 const roles = party.map(({ role }) => role)
 const nativeRoles = party.map(({ roleId }) => roleId)
 const initialOwner = Number(spec.owner.slice(1))
@@ -49,6 +51,7 @@ const observe = bossObserver({
   gameScene: gameScene(spec),
   owner: spec.owner,
   watched: spec.watched,
+  foreground: hasPrelude,
   seed: spec.seed,
 })
 const ready = (state) => state?.scene === spec.scene && state.ready
@@ -60,7 +63,7 @@ const trace = (page) => page.evaluate(() => globalThis.__defeat.trace())
 
 async function read(page) {
   return page.evaluate(
-    ({ game, roles, nativeRoles, initialOwner }) => {
+    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs }) => {
       const observed = globalThis.__defeat?.read()
       if (!observed?.state) return observed
       const gs = globalThis.__tpgs
@@ -126,15 +129,15 @@ async function read(page) {
                 settlement:
                   screen &&
                   (game
-                    ? settlement.shownMs >= 120 && settlement.index
+                    ? settlement.shownMs >= (settlementDwellMs ?? 120) && settlement.index
                     : settlement.pageDrawn &&
-                      settlement.elapsedMs >= 325 &&
+                      settlement.elapsedMs >= (settlementDwellMs ?? 325) &&
                       settlement.screenIndex),
               }
             : null,
       }
     },
-    { game, roles, nativeRoles, initialOwner },
+    { game, roles, nativeRoles, initialOwner, settlementDwellMs: spec.settlementDwellMs },
   )
 }
 
@@ -171,6 +174,11 @@ async function makeGameFixture(page, baseURL, until) {
       [actor.x, actor.y, actor.sState, actor.triggerMode, actor.triggerLabel],
       [...spec.disk.owner, `L_${spec.disk.entry}`],
     )
+    for (const [id, state] of Object.entries(source.preludeStates)) {
+      const activated = table.find(({ id: objectId }) => `e${objectId}` === id)
+      assert.equal(activated?.sState, 0, `predecessor must activate hidden ${id}`)
+      activated.sState = state
+    }
   }
   const [x, y] = toGamePixel(spec.start)
   gs.party = { x, y, facing }
@@ -195,6 +203,10 @@ async function makeGameFixture(page, baseURL, until) {
   gs.inventory = []
   gs.dwCash = 0
   gs.wNumMusic = fieldMusic
+  if (hasPrelude) {
+    gs.nightPalette = true
+    gs.partyScriptedFrame = {}
+  }
   if (scenario === 'fox') {
     const snake = gs.allEventObjects.find(({ id }) => id === 671)
     assert.equal(snake.triggerLabel, 'L_9472')
@@ -232,6 +244,10 @@ async function makeReforgeFixture() {
     world.learnedSkills[role] = []
   }
   world.audio = { currentMusic: fieldMusicAsset }
+  if (hasPrelude) {
+    world.ambience = 'night'
+    world.script.entityState[spec.scene] = source.preludeStates
+  }
   if (scenario === 'fox') {
     world.script.behaviors.entities = {
       s041: {
@@ -399,11 +415,20 @@ await runBrowserJourney({
   name: `q2-${spec.id}-${engine}-${option ? 'capture' : 'verify'}`,
   packageName: `@type-pal/${engine}`,
   traceConfig: 'scripts/e2e/boss-entrances/vite.config.mts',
-  environment: { E2E: '1', VITE_PROJECT_ID: 'pal', Q2_DEFEAT_ENGINE: engine },
+  environment: {
+    E2E: '1',
+    VITE_PROJECT_ID: 'pal',
+    Q2_DEFEAT_ENGINE: engine,
+    Q2_BOSS_FOREGROUND: hasPrelude ? '1' : '0',
+  },
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
   viewport: { width: 960, height: 720 },
-  initScripts: [installCommittedRoutePlayback, observe],
+  initScripts: [
+    installCommittedRoutePlayback,
+    observe,
+    ...(hasPrelude ? [installRenderedDialogueObservation] : []),
+  ],
   async journey({ newPage, until, baseURL, report, out, capture, health }) {
     const result = { context: spec.id }
     Object.assign(report, { engine, fragment: spec.id, input: spec, cases: [result] })
@@ -547,6 +572,14 @@ await runBrowserJourney({
       result.last = await read(page).catch(() => null)
       const raw = await trace(page).catch(() => undefined)
       if (raw) result.raw = await writeEvidenceArtifact(out, 'trace.json', raw)
+      if (hasPrelude) {
+        const dialogue = await page.evaluate(() => globalThis.__e2eRenderedDialogue())
+        result.renderedDialogue = await writeEvidenceArtifact(
+          out,
+          'rendered-dialogue.json',
+          dialogue,
+        )
+      }
       await page.close()
     }
   },

@@ -1073,10 +1073,11 @@ export class Playback {
       new Promise<void>((resolve) => {
         this.moves.push({ who: 'player', to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })
       }),
-    nudgeParty: (dx, dy) => {
+    nudgeParty: (dx, dy, _layer, facing) => {
       const p = this.view.player
       const d = pixelDeltaToGridDelta(dx, dy)
       p.pos = { col: p.pos.col + d.dcol, row: p.pos.row + d.drow, height: p.pos.height }
+      if (facing !== undefined) p.facing = facing
       p.gesture = null
     },
     cameraPan: async (dx, dy, frames) => {

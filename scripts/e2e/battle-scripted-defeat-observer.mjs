@@ -5,7 +5,7 @@ export function scriptedDefeatObserver(input) {
   return `(${install})(${JSON.stringify(input)}, ${createSeedableRng}, ${createEvidenceRecorder})`
 }
 
-function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecorder) {
+function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng, createRecorder) {
   const events = [],
     errors = []
   let overflow = false,
@@ -21,7 +21,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     entryWorldPixels,
     worldGeometry,
     nextCue = 0
-  const { append } = createRecorder({
+  const { append, resources } = createRecorder({
     context: () => ({ atMs: performance.now() }),
     errors,
     onOverflow: () => {
@@ -266,7 +266,15 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
       return { state, ended: !!ended, menuClosed: menuClosed() }
     },
-    trace: () => ({ engine, seed, timeOrigin: performance.timeOrigin, overflow, errors, events }),
+    trace: () => ({
+      engine,
+      seed,
+      timeOrigin: performance.timeOrigin,
+      overflow,
+      errors,
+      events,
+      ...(foreground ? { resources: resources() } : {}),
+    }),
     beginWorldDraw(camera, walking, trail) {
       if (!contact || !ended) return
       worldGeometry = {

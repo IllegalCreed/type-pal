@@ -472,6 +472,20 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
           <Row label="层号">
             <Num value={cmd.layer ?? 0} onChange={(n) => set({ layer: n })} />
           </Row>
+          <Row label="朝向">
+            <DsSelect
+              size="compact"
+              value={cmd.facing ?? ''}
+              options={[
+                { value: '', label: '保持' },
+                ...FACINGS.map((facing) => ({ value: facing, label: facing })),
+              ]}
+              onValueChange={(value) => {
+                const facing = FACINGS.find((option) => option === value)
+                set({ facing })
+              }}
+            />
+          </Row>
         </>
       )
     case 'setActorSprite':

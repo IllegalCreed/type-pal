@@ -63,8 +63,10 @@ function equipmentTimes(report, trace, videoEnd) {
 async function side(engine, relocatedReport) {
   const compare = verified.find((entry) => entry.engine === engine)
   assert(compare, `missing verified ${engine} capture`)
+  const bossEntrance = comparison.kind === 'world-boss-entrance'
   const reportPath = resolve(relocatedReport ?? compare.path ?? compare.report)
-  assert.equal(await sha256(reportPath), compare.sha256)
+  const reportSha256 = bossEntrance ? compare.reportSha256 : compare.sha256
+  assert.equal(await sha256(reportPath), reportSha256)
   const report = await json(reportPath)
   assert.equal(report.profile, 'capture')
   assert.equal(report.media.status, 'passed')
@@ -77,7 +79,7 @@ async function side(engine, relocatedReport) {
     recording,
     recordingSha256: report.media.native.sha256,
     report: reportPath,
-    reportSha256: compare.sha256,
+    reportSha256,
     videoEnd,
   }
   const equipment = comparison.kind === 'world-equipment'
@@ -90,6 +92,23 @@ async function side(engine, relocatedReport) {
   assert.equal(await sha256(rawPath), rawReference.sha256)
   const raw = await json(rawPath)
   if (equipment) return { ...identity, ...equipmentTimes(report, raw, videoEnd) }
+  if (bossEntrance) {
+    assert(!reviewLoadReveal && !comparison.failures.length)
+    assert.deepEqual(rawReference, compare.raw)
+    const { events } = raw
+    const contact = events.find(({ kind }) => kind === 'trigger')
+    const returned = events.find(({ kind }) => kind === 'world-control')
+    const exit = events.find(({ kind, order }) => kind === 'move' && order > returned.order)
+    const { contactMs, returnMs, exitMs } = compare.clips
+    assert.deepEqual([contact.atMs, returned.atMs, exit.atMs], [contactMs, returnMs, exitMs])
+    const start = report.media.browser.startedAt
+    const contactSeconds = (contactMs - start) / 1000
+    const returnSeconds = (returnMs - start) / 1000
+    const exitSeconds = (exitMs - start) / 1000
+    assert(contactSeconds >= 0 && returnSeconds > contactSeconds && exitSeconds > returnSeconds)
+    assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
+    return { ...identity, contactSeconds, returnSeconds, exitSeconds }
+  }
   const handoff = raw.native?.handoff ?? raw.handoff
   const contact =
     engine === 'game'

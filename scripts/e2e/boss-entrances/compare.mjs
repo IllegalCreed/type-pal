@@ -12,6 +12,7 @@ import {
   initialTrack,
   party,
   readSources,
+  returnTrack,
   returnedPosition,
   scenarios,
 } from './scenarios.mjs'
@@ -24,6 +25,7 @@ assert(
 )
 const source = await readSources(spec)
 const fieldMusic = initialTrack(spec)
+const returnMusic = returnTrack(spec)
 const returnedAt = returnedPosition(spec)
 const departureAt = departingPosition(spec)
 const approachKey = spec.approach ?? 'ArrowUp'
@@ -112,6 +114,218 @@ function checkDialogue(events, before, after, game) {
     assert.equal(displayed, texts.join(''), `native drawn dialogue ${label}`)
   }
   return { pre, post }
+}
+
+function checkThiefForeground(events, draws, { trigger, launch, won, control }, game) {
+  const issues = []
+  const expect = (condition, rule, actual) => {
+    if (!condition) issues.push({ rule, actual })
+  }
+  const worldFrames = events.filter(({ kind }) => kind === 'world-drawn')
+  const pre = worldFrames.filter(({ order }) => order >= trigger.order && order < launch.order)
+  const post = worldFrames.filter(
+    ({ order, atMs }) => order > won.order && atMs <= control.atMs + 34,
+  )
+  const initial = pre.find(({ ambience, changing }) => ambience === 'night' && !changing)
+  const day = post.find(({ ambience, changing }) => ambience === 'day' && !changing)
+  const palette = events.find(
+    (event) =>
+      event.order > won.order && (game ? event.ip === 13843 : event.op === 'toggleDayNight'),
+  )
+  const expectedPages = [
+    {
+      slot: 'top',
+      speaker: null,
+      portrait: null,
+      lines: source.pre.slice(2, 3).map((row) => row.text),
+    },
+    {
+      slot: 'bottom',
+      speaker: '女飞贼',
+      portrait: 41,
+      lines: source.post
+        .filter(({ messageIndex }) => [4608, 4609].includes(messageIndex))
+        .map((row) => row.text),
+    },
+    {
+      slot: 'bottom',
+      speaker: '林月如',
+      portrait: 22,
+      lines: source.post.filter(({ messageIndex }) => messageIndex === 4611).map((row) => row.text),
+    },
+  ]
+  const painted = expectedPages.map((page, index) => {
+    const opening = index === 0
+    const start = opening ? trigger.atMs : won.atMs
+    const end = opening ? launch.atMs : control.atMs
+    const frames = draws.filter(
+      ({ atMs, scene, slots }) =>
+        scene === spec.scene &&
+        atMs >= start &&
+        atMs <= end &&
+        slots.some(
+          ({ speaker: heading, lines }) => speaker(heading) === page.speaker && lines.length > 0,
+        ),
+    )
+    const full = frames.find(({ slots }) =>
+      slots.some(({ lines }) => isDeepStrictEqual(lines.map(subtitle), page.lines.map(subtitle))),
+    )
+    const first = frames[0]
+    const slot = full?.slots.find(({ speaker: heading }) => speaker(heading) === page.speaker)
+    const actual = slot && {
+      slot: slot.slot,
+      speaker: speaker(slot.speaker),
+      portrait: slot.portrait,
+      lines: slot.lines,
+      portraitLayout: slot.portraitLayout,
+    }
+    expect(
+      actual &&
+        isDeepStrictEqual(
+          { ...actual, lines: actual.lines.map(subtitle) },
+          { ...page, lines: page.lines.map(subtitle), portraitLayout: page.portrait !== null },
+        ),
+      `rendered dialogue ${index + 1}`,
+      actual ?? null,
+    )
+    return { firstMs: first?.atMs ?? null, full: actual ?? null }
+  })
+  expect(initial, 'settled night frame before entering battle', pre[0] ?? null)
+  expect(
+    post[0]?.ambience === 'night' && !post[0].changing,
+    'first world frame still at night',
+    post[0] ?? null,
+  )
+  for (const [rule, frame] of [
+    ['contact', initial],
+    ['world return', post[0]],
+  ]) {
+    if (!frame) {
+      expect(false, `${rule} frame present`, null)
+      continue
+    }
+    expect(
+      isDeepStrictEqual(frame.camera, [1088, 144]) && isDeepStrictEqual(frame.leader, [1248, 256]),
+      `${rule} first camera and leader`,
+      frame,
+    )
+    const thief = frame.actors[spec.owner]
+    const standIn = frame.actors.e1630
+    expect(
+      thief?.asset === 350 &&
+        thief.frame === 3 &&
+        thief.facing === 'left' &&
+        isDeepStrictEqual(thief.position, [1296, 280]),
+      `${rule} thief pose`,
+      thief ?? null,
+    )
+    expect(
+      standIn?.asset === 380 && isDeepStrictEqual(standIn.position, [1312, 272]),
+      `${rule} second actor draw`,
+      standIn ?? null,
+    )
+  }
+  const paletteMs = day && palette ? day.atMs - palette.atMs : null
+  expect(
+    paletteMs !== null && paletteMs >= 775 && paletteMs <= 1050,
+    '800 ms palette transition',
+    paletteMs,
+  )
+  expect(
+    day && painted[1].firstMs !== null && painted[1].firstMs >= day.atMs - 20,
+    'dawn finishes before the first rendered line',
+    { dayMs: day?.atMs, firstLineMs: painted[1].firstMs },
+  )
+  const colorWeight = (frame) => frame?.colors.reduce((total, [r, g, b]) => total + r + g + b, 0)
+  expect(
+    initial && day && colorWeight(initial) > 0 && colorWeight(day) > colorWeight(initial),
+    'visible brightening at the unchanged camera',
+    { night: colorWeight(initial), day: colorWeight(day) },
+  )
+
+  const jump = events.filter(
+    ({ kind, asset, order }) =>
+      kind === 'sfx-start' && asset === 45 && order > won.order && order < control.order,
+  )
+  expect(jump.length === 1, 'one actual jump sound', jump)
+  const thiefDraws = post.filter(({ actors }) => actors[spec.owner])
+  const firstStep = thiefDraws.find(({ actors }) => actors[spec.owner].position[1] === 288)
+  const lastJump = thiefDraws.find(({ actors }) => actors[spec.owner].position[1] === 452)
+  const hidden =
+    lastJump && post.find(({ actors, order }) => order > lastJump.order && !actors[spec.owner])
+  expect(
+    hidden && painted[2].firstMs !== null && hidden.atMs < painted[2].firstMs,
+    'thief finishes escape before Lin Yueru speaks',
+    { hiddenMs: hidden?.atMs, firstLineMs: painted[2].firstMs },
+  )
+  const positions = []
+  if (firstStep && lastJump) {
+    for (const { actors, leader, order } of thiefDraws) {
+      if (order < firstStep.order || order > lastJump.order) continue
+      const pose = actors[spec.owner]
+      const frame = [pose.position, pose.frame, pose.facing, leader]
+      if (!isDeepStrictEqual(frame, positions.at(-1))) positions.push(frame)
+    }
+  }
+  const afterJump = [
+    [20, 8],
+    [16, 8],
+    [12, 8],
+    [8, 10],
+    [4, 12],
+    [0, 14],
+    [0, 16],
+  ]
+  const sources = []
+  let [x, y] = [1104, 376]
+  for (const [dx, dy] of afterJump) {
+    x -= dx
+    y += dy
+    sources.push([[x, y], 13, 'down'])
+  }
+  const jumps = positions.map((frame) => frame.slice(0, 3)).filter(([[, y]]) => y > 376)
+  expect(isDeepStrictEqual(jumps, sources), 'all seven drawn leap positions', jumps)
+  const leaderRoute = [
+    [55, -23, 0],
+    [56, -23, 0],
+    [57, -23, 0],
+    ...Array.from({ length: 11 }, (_, step) => [58, -22 + step, 0]),
+  ]
+  const frames = events.filter(
+    ({ kind, surface, order }) =>
+      kind === 'paint' && surface === 'world' && order > won.order && order < control.order,
+  )
+  const formations = leaderRoute.map((position) => {
+    const frame = frames.find((entry) => isDeepStrictEqual(entry.position, position))
+    const party = frame?.geometry?.party
+      .slice()
+      .sort((a, b) => a.slot - b.slot)
+      .map((member) => ({
+        role: member.id,
+        position: member.world,
+        frame: member.frame,
+        sprite:
+          typeof member.spriteId === 'string'
+            ? source.spriteChunks.get(member.spriteId)
+            : member.spriteId,
+      }))
+    expect(
+      party?.length === 2 &&
+        party.every(({ frame, sprite }) => Number.isInteger(frame) && Number.isInteger(sprite)),
+      'both party sprites at the actual route footstep',
+      { position, party },
+    )
+    return party ?? null
+  })
+  return {
+    issues,
+    paletteMs,
+    painted,
+    positions,
+    formations,
+    jumpMs: jump[0]?.atMs,
+    hiddenMs: hidden?.atMs,
+  }
 }
 
 function checkSpiderForeground(events, trigger, cue, launch) {
@@ -259,14 +473,37 @@ async function inspect(path, engine) {
   assert.equal(raw.seed, spec.seed)
   const events = raw.events
   assert(events.length > 0)
+  const resources = raw.resources ?? []
+  if (spec.prelude) {
+    assert(resources.length > 0, 'actual decoded sprites')
+    const orders = new Set(resources.map(({ order }) => order))
+    for (const { kind, seq, width, height, pixels, opaque } of resources) {
+      assert.equal(kind, 'sprite-frame')
+      assert.equal(resources[seq]?.pixels, pixels)
+      assert(
+        width > 0 &&
+          height > 0 &&
+          pixels.length === width * height &&
+          opaque.length === pixels.length,
+      )
+    }
+    for (const { actors } of events.filter(({ kind }) => kind === 'world-drawn'))
+      assert(
+        Object.values(actors).every(({ resource }) => orders.has(resource)),
+        'missing draw receipt',
+      )
+  }
   assert(
-    events.every(
-      ({ order, seq, atMs }, i) =>
-        seq === i &&
-        order === i &&
-        Number.isFinite(atMs) &&
-        (i === 0 || atMs >= events[i - 1].atMs),
+    events.every(({ seq }, i) => seq === i),
+    'truncated event stream',
+  )
+  const nativeOrder = [...events, ...resources].sort((left, right) => left.order - right.order)
+  assert(
+    nativeOrder.every(
+      ({ order, atMs }, i) =>
+        order === i && Number.isFinite(atMs) && (i === 0 || atMs >= nativeOrder[i - 1].atMs),
     ),
+    'unbound or out-of-order native evidence',
   )
   const find = (type) => events.filter(({ kind }) => kind === type)
   const once = (type) => {
@@ -388,11 +625,17 @@ async function inspect(path, engine) {
     45: Array(6).fill('attack'),
     44: ['cast', 'cast', 'pass', 'cast'],
     43: ['cast', 'cast', 'cast', 'attack'],
+    29: ['cast', 'pass', 'cast'],
   }[spec.team]
   assert.deepEqual(
     enemy.map(({ kind }) => kind),
     expectedEnemyActions,
   )
+  if (spec.team === 29)
+    assert.deepEqual(
+      enemy.map(({ spell }) => spell),
+      ['381', null, '343'],
+    )
   if (spec.team === 43) {
     assert.deepEqual(
       enemy.filter(({ kind }) => kind === 'cast').map(({ spell }) => spell),
@@ -445,7 +688,10 @@ async function inspect(path, engine) {
   )
   const effectSounds = find('sfx-start')
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
-  const soundIds = effectSounds.map(({ asset }) => asset)
+  const won = once('battle-finished')
+  const soundIds = effectSounds
+    .filter(({ order }) => !spec.prelude || (order > prepared.order && order < won.order))
+    .map(({ asset }) => asset)
   let spiderForeground
   if (spec.team === 45)
     assert.equal(
@@ -465,7 +711,6 @@ async function inspect(path, engine) {
   }
   assert.equal(soundIds.filter((asset) => asset === source.original.deathSound).length, 1)
 
-  const won = once('battle-finished')
   assert.equal(won.result, game ? 'won' : 'victory')
   const summary = once('victory-summary-drawn')
   const [exp, cash] = totalReward()
@@ -492,11 +737,15 @@ async function inspect(path, engine) {
   )
   assert.deepEqual(control.inventory, spec.world.inventory)
   assert(
-    fieldTracks.some(({ order }) => order > won.order),
-    'original field music resumed after victory',
+    find('music-start').some(
+      ({ order, track, context }) =>
+        order > won.order && track === returnMusic && context === 'running',
+    ),
+    'original field music after victory',
   )
-  assert.equal(last.music, fieldMusic)
-  assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
+  assert.equal(last.music, returnMusic)
+  if (!spec.prelude)
+    assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
     assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
@@ -520,7 +769,7 @@ async function inspect(path, engine) {
       at: { kind: 'stage', stage: 'legacy-002' },
     })
   } else {
-    assert.equal(run.returned.owner.hidden, true)
+    if (!spec.prelude) assert.equal(run.returned.owner.hidden, true)
     if (spec.disk.reward)
       assert.equal(
         script.filter(
@@ -547,6 +796,28 @@ async function inspect(path, engine) {
     { won: won.order, control: control.order },
     game,
   )
+  const foreground = spec.prelude
+    ? checkThiefForeground(
+        events,
+        await read(run.renderedDialogue),
+        {
+          trigger,
+          launch: launch[0],
+          won,
+          control,
+        },
+        game,
+      )
+    : undefined
+  if (
+    foreground &&
+    ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
+      (!game && !run.returned.owner.hidden))
+  )
+    foreground.issues.push({
+      rule: 'thief hidden when control returns',
+      actual: run.returned.owner,
+    })
   const drops = find('drop-sample')
   assert.deepEqual(
     drops.map(({ slot }) => slot),
@@ -565,6 +836,7 @@ async function inspect(path, engine) {
     rng: find('rng').map(({ value }) => value),
     drops: drops.map(({ id, value }) => ({ id, value })),
     sounds: soundIds,
+    ...(foreground ? { visibleChase: foreground.positions, formation: foreground.formations } : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -582,6 +854,7 @@ async function inspect(path, engine) {
     sourceHashes: report.dependencies.hashes,
     warnings: report.warnings,
     dialogue,
+    foreground,
     spiderForeground,
     clips: { contactMs: trigger.atMs, returnMs: control.atMs, exitMs: departure.atMs },
     audioTiming: {
@@ -604,6 +877,10 @@ const failures = sides.flatMap((result, i) =>
 )
 const [game, reforge] = sides.map(({ value }) => value)
 if (!failures.length) {
+  for (const result of [game, reforge]) {
+    for (const issue of result.foreground?.issues ?? [])
+      failures.push({ engine: result.engine, ...issue })
+  }
   const comparableGame = game.comparable
   assert.equal(difference(comparableGame, structuredClone(comparableGame)), null)
   const changed = structuredClone(comparableGame)
@@ -628,7 +905,14 @@ if (!failures.length) {
 }
 console.log(
   JSON.stringify(
-    { status: failures.length ? 'failed' : 'passed', scenario, game, reforge, failures },
+    {
+      kind: 'world-boss-entrance',
+      status: failures.length ? 'failed' : 'passed',
+      scenario,
+      game,
+      reforge,
+      failures,
+    },
     null,
     2,
   ),

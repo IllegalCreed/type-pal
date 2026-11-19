@@ -4,6 +4,10 @@ import type { Plugin } from 'vite'
 import { instrumentGameBattle } from '../battle-game-instrumentation.mjs'
 import { instrumentReforgeBattle } from '../battle-reforge-instrumentation.mjs'
 import base from '../battle-scripted-defeat.config.mts'
+import {
+  instrumentReforgeRenderEvidence,
+  REFORGE_RENDER_TARGETS,
+} from '../reforge-render-evidence.mjs'
 
 const engine = process.env.Q2_DEFEAT_ENGINE
 
@@ -140,8 +144,90 @@ const observeBoss: Plugin = {
   },
 }
 
+const observeForeground: Plugin = {
+  name: 'world-boss-foreground-observation',
+  apply: 'serve',
+  enforce: 'pre',
+  transform(source, id) {
+    const path = id.split('?')[0]?.replaceAll('\\', '/')
+    if (path?.endsWith('/packages/game/src/present/present.ts')) {
+      const actor = '      draw: (f) => drawSprite(f, capturedSprite, capturedSX, capturedSY + 7),'
+      let code = replaceOnce(
+        source,
+        actor,
+        `      draw: (f) => {
+        drawSprite(f, capturedSprite, capturedSX, capturedSY + 7)
+        globalThis.__bossForeground?.gameActor(npc, capturedSprite,
+          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(capturedSprite) ?? null)
+      },`,
+      )
+      const dialog =
+        '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)\n  }'
+      code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')
+      return { code, map: null }
+    }
+    if (path?.endsWith('/packages/game/src/shell/bootstrap.ts')) {
+      return {
+        code: after(
+          source,
+          '      globalThis.__defeat?.gameDraw(gs, renderedBattle, fb.indices)',
+          '      globalThis.__bossForeground?.gameFrame(gs, renderedBattle, canvasCtx)',
+        ),
+        map: null,
+      }
+    }
+    const reforgeTarget = REFORGE_RENDER_TARGETS.find((file) => path?.endsWith(`/${file}`))
+    if (reforgeTarget)
+      return { code: instrumentReforgeRenderEvidence(source, reforgeTarget).code, map: null }
+
+    if (path?.endsWith('/packages/reforge/src/main.ts')) {
+      const surfaces = after(
+        source,
+        '      globalThis.__defeat?.reforgeDraw(true)',
+        '      globalThis.__bossForeground?.battleFrame()',
+      )
+      const staged = after(
+        surfaces,
+        '        advanceWaveFrame: motion.worldTicksThisFrame > 0,\n      })',
+        `      globalThis.__bossForeground?.reforgeWorld(activeScene.scene.id, camera,
+        globalThis.__e2eNpcDrawPasses?.get(sprites))`,
+      )
+      const dialog = '      dialogBox.render(performance.now())\n      ctx.restore()\n    }'
+      const withDialog = replaceOnce(
+        staged,
+        dialog,
+        `${dialog} else { globalThis.__openingCauseDialogueDraw?.('reforge', []) }`,
+      )
+      return {
+        code: after(
+          withDialog,
+          '      runWithPresentationFinalizer(() => render(frameAt), abortScript)',
+          '      globalThis.__bossForeground?.reforgeFrame(world.ambience ?? "day", ambienceShown, !!ambienceFx, ctx)',
+        ),
+        map: null,
+      }
+    }
+    if (path?.endsWith('/packages/reforge/src/dialog/dialog-box.ts')) {
+      const update = '    this.update(nowMs)'
+      return {
+        code: replaceOnce(
+          source,
+          update,
+          `    globalThis.__openingCauseDialogueDraw?.('reforge', this.observeSlots())\n${update}`,
+        ),
+        map: null,
+      }
+    }
+    return null
+  },
+}
+
 export default {
   ...base,
   cacheDir: fileURLToPath(new URL(`../../../build/e2e/vite-world-boss-${engine}`, import.meta.url)),
-  plugins: [...base.plugins, observeBoss],
+  plugins: [
+    ...base.plugins,
+    observeBoss,
+    ...(process.env.Q2_BOSS_FOREGROUND === '1' ? [observeForeground] : []),
+  ],
 }

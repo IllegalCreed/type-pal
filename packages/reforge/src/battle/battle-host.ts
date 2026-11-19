@@ -164,9 +164,9 @@ export class BattleHost {
       Math.random,
       {
         ...sessionOptions,
-        ...(worldPresentation && !scripted
-          ? { worldSettlement: { boss: options?.boss === true } }
-          : {}),
+        // All encounters with a world presentation use the same rendered-page input gate.
+        // Scripted callers still own the outcome branches and their return to the scene.
+        ...(worldPresentation ? { worldSettlement: { boss: options?.boss === true } } : {}),
         handoffDefeat: captureDefeatFrame !== undefined || scripted,
         playMusic: (asset) => this.music.bgm.play(asset),
         stopMusic: () => this.music.bgm.stop(),

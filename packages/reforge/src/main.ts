@@ -3086,14 +3086,20 @@ export async function bootGame(
       takeByScript('party')
       return motion.schedulePartyMove(to, speed, signal)
     },
-    nudgeParty: (dx, dy, layer) => {
+    nudgeParty: (dx, dy, layer, nextFacing) => {
       takeByScript('party')
       // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
       partyLayer = layer
+      const departure = facing
+      if (nextFacing !== undefined && nextFacing !== facing) {
+        const settled = settleWalkAnimation({ walking, stepFrame })
+        walking = settled.walking
+        stepFrame = settled.stepFrame
+        facing = nextFacing
+      }
       const d = pixelDeltaToGridDelta(dx, dy) // 同 nudgeEntity:增量制保碎步小数
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
-      // 0x6E keeps the authored heading in the trail even when the party backs away.
-      pushTrail(trail, player.pos, facing)
+      pushTrail(trail, player.pos, facing, departure)
       if (dx !== 0 || dy !== 0) {
         authoredPartyFacing = null
         walking = true

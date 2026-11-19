@@ -432,7 +432,7 @@ export function describeScriptCommand(
       return {
         icon: '↔',
         label: '队伍位移',
-        detail: `(${cmd.dx},${cmd.dy})px${cmd.layer !== undefined ? ` · 层${cmd.layer}` : ''}`,
+        detail: `(${cmd.dx},${cmd.dy})px${cmd.layer !== undefined ? ` · 层${cmd.layer}` : ''}${cmd.facing ? ` · ${cmd.facing}` : ''}`,
       }
     case 'startBattle':
       return {

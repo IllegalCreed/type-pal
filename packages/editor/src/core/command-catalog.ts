@@ -666,8 +666,9 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['dx/dy', '像素(带走姿)'],
       ['layer', '层号(可选)'],
+      ['facing', '朝向(可选)'],
     ],
-    desc: '楼梯登阶类演出碎步；第三层号会覆盖队伍遮挡层。',
+    desc: '队伍相对走位。可设转向并保留出发方向供跟随者使用。层号覆盖队伍遮挡层。',
     origin: '0x6E',
   },
   {

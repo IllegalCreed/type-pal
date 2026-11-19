@@ -824,6 +824,8 @@ export function checkBaseAuthorCommands(
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
     if (kind === 'sceneTimeline') checkSceneTimeline(command, commandPath, options)
+    if (kind === 'nudgeParty' && command.facing !== undefined)
+      checkFacing(command.facing, `${commandPath}.facing`)
     if (kind === 'playFrameAnimation') {
       exactKeys(
         command,

@@ -319,7 +319,8 @@ export async function executeScriptHostEffect(
       await host.moveParty(command.to, command.speed, signal)
       return
     case 'nudgeParty':
-      host.nudgeParty(command.dx, command.dy, command.layer ?? 0)
+      if (command.facing === undefined) host.nudgeParty(command.dx, command.dy, command.layer ?? 0)
+      else host.nudgeParty(command.dx, command.dy, command.layer ?? 0, command.facing)
       return
     case 'playVideo':
       await host.playVideo(command.asset, signal)

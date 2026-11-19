@@ -19,7 +19,102 @@ export function bossObserver(input) {
       world = world.replace(anchor, replacement)
     }
   }
-  return `${world};(${installBossFrameObserver})(${JSON.stringify(input.engine)})`
+  const battle = `(${installBossFrameObserver})(${JSON.stringify(input.engine)})`
+  const foreground = input.foreground ? `;(${installBossForeground})(${JSON.stringify(input)})` : ''
+  return `${world};${battle}${foreground}`
+}
+
+function installBossForeground({ scene, owner, watched }) {
+  const observation = globalThis.__defeat
+  const ids = [owner, ...(watched ?? [])]
+  let gameActors = {}
+  let pending
+  let previous
+  function commit(frame, context) {
+    const signature = JSON.stringify(frame)
+    if (previous === signature) return
+    previous = signature
+    const { width, height } = context.canvas
+    const colors = [0.2, 0.48, 0.79].flatMap((x) =>
+      [0.18, 0.47, 0.72].map((y) =>
+        Array.from(context.getImageData(Math.floor(x * width), Math.floor(y * height), 1, 1).data),
+      ),
+    )
+    observation.event('world-drawn', { ...frame, colors })
+  }
+
+  globalThis.__bossForeground = {
+    battleFrame() {
+      previous = undefined
+    },
+    gameActor(npc, sprite, frame) {
+      const id = `e${npc.id}`
+      if (!ids.includes(id)) return
+      gameActors[id] = {
+        asset: npc.spriteNum,
+        position: [npc.x, npc.y],
+        facing: npc.facing ?? null,
+        frame,
+        resource: globalThis.__e2eRecordSpriteFrame(sprite),
+        rect: [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height],
+      }
+    },
+    gameFrame(gs, battle, context) {
+      const actors = gameActors
+      gameActors = {}
+      if (battle || `s${String(gs.wNumScene - 1).padStart(3, '0')}` !== scene) {
+        previous = undefined
+        return
+      }
+      commit(
+        {
+          scene,
+          camera: [gs.camera.x, gs.camera.y],
+          leader: [gs.party.x, gs.party.y],
+          actors,
+          ambience: gs.nightPalette ? 'night' : 'day',
+          changing: !!gs.paletteFadeState,
+        },
+        context,
+      )
+    },
+    reforgeWorld(sceneId, camera, draws) {
+      if (sceneId !== scene) return
+      const pixels = ([col, row]) => [16 * (col - row), 8 * (col + row)]
+      const actors = {}
+      for (const id of ids) {
+        const pose = draws?.[id]
+        if (pose?.drawStatus !== 'drawn') continue
+        const [x, y, w, h] = pose.geometry.worldRect
+        if (x + w <= camera.x || x >= camera.x + 320 || y + h <= camera.y || y >= camera.y + 200)
+          continue
+        actors[id] = {
+          asset: Number(pose.assetId.split('-').at(-1)),
+          position: pixels(pose.position),
+          facing: pose.facing,
+          frame: pose.frame,
+          resource: pose.frameResourceId,
+          rect: pose.geometry.worldRect,
+        }
+      }
+      if (draws?.party?.drawStatus !== 'drawn') return
+      pending = {
+        scene,
+        camera: [camera.x, camera.y],
+        leader: pixels(draws.party.position),
+        actors,
+      }
+    },
+    reforgeFrame(ambience, tint, changing, context) {
+      if (!pending) {
+        previous = undefined
+        return
+      }
+      const frame = pending
+      pending = undefined
+      commit({ ...frame, ambience, tint, changing }, context)
+    },
+  }
 }
 
 function installBossFrameObserver(engine) {
