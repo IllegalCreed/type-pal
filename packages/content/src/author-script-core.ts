@@ -238,7 +238,14 @@ export type BaseAuthorCommand =
   | { kind: 'returnScript' }
   | { kind: 'breakLoop' }
   | { kind: 'continueLoop'; loop?: LoopId }
-  | { kind: 'repeat'; id?: LoopId; label?: string; count: number; body: BaseAuthorCommand[] }
+  | {
+      kind: 'repeat'
+      id?: LoopId
+      label?: string
+      count: number
+      intervalMs?: number
+      body: BaseAuthorCommand[]
+    }
   | { kind: 'branch'; cond: AuthorCondition; then: BaseAuthorCommand[]; else?: BaseAuthorCommand[] }
   | {
       kind: 'loop'
@@ -815,9 +822,19 @@ export function checkBaseAuthorCommands(
       if (command.label !== undefined) nonEmptyString(command.label, `${commandPath}.label`)
       if (options.rootScope === 'prepare') throw new Error(`${commandPath}: prepare 禁止循环`)
       if (kind === 'repeat') {
-        exactKeys(command, ['kind', 'id', 'label', 'count', 'body'], commandPath)
+        exactKeys(command, ['kind', 'id', 'label', 'count', 'intervalMs', 'body'], commandPath)
         if (!Number.isSafeInteger(command.count) || Number(command.count) < 1)
           throw new Error(`${commandPath}.count: 期望正安全整数`)
+        if (command.intervalMs !== undefined) {
+          if (options.rootScope !== 'flow' || options.flowOwner === 'auto')
+            throw new Error(`${commandPath}.intervalMs: 只允许前景步骤中的重复指令`)
+          if (
+            !Number.isSafeInteger(command.intervalMs) ||
+            Number(command.intervalMs) < 1 ||
+            !Number.isSafeInteger(Number(command.intervalMs) * Number(command.count))
+          )
+            throw new Error(`${commandPath}.intervalMs: 期望正毫秒整数，且总节拍不超过安全整数`)
+        }
       } else if (command.mode === 'forever') {
         exactKeys(command, ['kind', 'id', 'label', 'mode', 'body'], commandPath)
       } else {

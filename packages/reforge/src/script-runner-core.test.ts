@@ -6,9 +6,12 @@ import type {
   FlowCursor,
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { SupersedingFadeDriver } from './fade-driver.js'
+import { RuntimeFrameSession } from './runtime-frame-session.js'
 import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
 import type { BaseScriptRuntimeHost, FlowCursorController } from './script-runner-core.js'
 import { ScriptRunnerCore } from './script-runner-core.js'
+import { ScriptWorkQueue } from './script-work-queue.js'
 
 const digest = 'b'.repeat(64)
 
@@ -529,6 +532,96 @@ describe('ScriptRunnerCore flow semantics', () => {
     waitGate.resolve()
     await running
     expect(host.calls).toEqual(['execute:wait', 'reveal:cut'])
+  })
+
+  test('a paced entrance does not lose a stride to frame rounding during the fade', async () => {
+    const frames = new RuntimeFrameSession(100)
+    const work = new ScriptWorkQueue()
+    const fade = new SupersedingFadeDriver(1)
+    const host = fakeHost()
+    const walkedAt: number[] = []
+    const output: Array<{ opacity: number; walked: number; at: number }> = []
+    const noop = () => {}
+    const ports = {
+      afterScriptWork: (action: () => void) => work.whenIdle(action),
+      activateConfirm: noop,
+      resumeScriptGates: noop,
+      gameplayFrozen: () => false,
+      advanceFade: (now: number) => fade.advance(now),
+      settleClosedDialogue: noop,
+      consumePressed: () => new Set<string>(),
+      tickHostiles: noop,
+      advanceMoves: noop,
+      deriveMounts: noop,
+      advanceLifecycle: noop,
+      advanceEntityActions: noop,
+      clearWorldTicks: noop,
+      presentBattle: () => false,
+      routeInput: noop,
+      presentWorld: () =>
+        output.push({ opacity: fade.value, walked: walkedAt.length, at: frames.now }),
+    }
+    host.gameplayNow = () => frames.now
+    host.wait = (ms, signal) => frames.wait(ms, signal)
+    host.revealSceneEntry = (reveal, signal) => {
+      if (reveal.kind !== 'fade') throw new Error('test entrance requires a fade')
+      return fade.begin(0, frames.now, reveal.inMs, signal)
+    }
+    host.execute = (command, _context, signal) => {
+      if (command.kind === 'wait') return frames.wait(command.ms, signal)
+      if (command.kind === 'nudgeEntity') walkedAt.push(frames.now)
+    }
+    await frames.tick(1_000, ports)
+    const abort = new AbortController()
+    const endWork = work.begin(abort.signal)
+    const step = {
+      kind: 'nudgeEntity',
+      target: { scene: 'cliff', entity: 'sage' },
+      dx: 8,
+      dy: -4,
+    } as const
+    const running = new ScriptRunnerCore(host, abort.signal)
+      .runFlow(
+        compile({
+          kind: 'stages',
+          initial: 'arrival',
+          stages: [
+            {
+              id: 'arrival',
+              entry: {
+                prepare: [step],
+                reveal: { kind: 'fade', outMs: 0, inMs: 600, withBody: true },
+              },
+              body: [
+                { kind: 'wait', ms: 50 },
+                { kind: 'repeat', count: 14, intervalMs: 100, body: [step] },
+              ],
+            },
+          ],
+        }),
+        { cursorController: controller(), allowSceneEntry: true, runSceneEntry: true },
+      )
+      .finally(endWork)
+    try {
+      for (let frame = 1; frame <= 85; frame++) await frames.tick(1_000 + frame * 19, ports)
+      await running
+      expect(output.find(({ opacity }) => opacity === 0)).toEqual({
+        opacity: 0,
+        walked: 7,
+        at: 1_608,
+      })
+      expect(walkedAt).toHaveLength(15)
+      const firstBody = walkedAt[1]
+      expect(firstBody).toBe(1_057)
+      expect(
+        walkedAt
+          .slice(1)
+          .every((at, i) => at - firstBody - 100 * i >= 0 && at - firstBody - 100 * i < 19),
+      ).toBe(true)
+    } finally {
+      abort.abort()
+      await running.catch(() => {})
+    }
   })
 
   test.each([

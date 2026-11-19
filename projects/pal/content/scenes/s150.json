@@ -208,8 +208,9 @@
                   },
                   {
                     "kind": "repeat",
-                    "label": "淡入时剑圣继续走向酒剑仙",
+                    "label": "剑圣每拍走近酒剑仙",
                     "count": 14,
+                    "intervalMs": 100,
                     "body": [
                       {
                         "kind": "nudgeEntity",
@@ -226,16 +227,12 @@
                           "scene": "s150",
                           "entity": "e2465"
                         }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 100
                       }
                     ]
                   },
                   {
                     "kind": "wait",
-                    "ms": 300
+                    "ms": 400
                   },
                   {
                     "facing": "left",

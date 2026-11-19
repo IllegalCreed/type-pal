@@ -10,6 +10,7 @@ import type {
 } from '@type-pal/content'
 import { flowCanComplete } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
+import { runSceneEntryBody } from './scene-entry-session.js'
 import {
   type BaseRuntimeLeafCommand,
   type ExecutableBaseCommand,
@@ -26,8 +27,6 @@ import {
   type ScriptContinuationLocation,
   validateScriptContinuation,
 } from './script-continuation.js'
-
-import { runSceneEntryBody } from './scene-entry-session.js'
 import { ScriptExecutionBudget } from './script-execution-budget.js'
 import {
   atScriptExecutionGate,
@@ -321,7 +320,8 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     await this.awaitGate()
     return runSceneEntryBody(
       reveal,
-      () => revealSceneEntry.call(this.host, reveal, this.signal),
+      this.signal,
+      (visualSignal) => revealSceneEntry.call(this.host, reveal, visualSignal),
       () => {
         throwIfAborted(this.signal)
         return runBody()
@@ -567,6 +567,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           ? { kind: 'repeat', iteration: 1 }
           : { kind: 'loop', phase: command.mode === 'while' ? 'test' : 'body' }
     const control = frame.control
+    const interval = command.kind === 'repeat' ? command.intervalMs : undefined
+    const gameplayNow = this.host.gameplayNow?.bind(this.host)
+    if (interval !== undefined && (!gameplayNow || this.checkpointController))
+      throw new Error('repeat.intervalMs requires a foreground gameplay clock')
+    let start: number | undefined
     this.loopAncestors.push(command.id)
     try {
       while (true) {
@@ -592,6 +597,17 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           if (command.mode === 'while' ? !selected : selected) return
           control.phase = 'body'
           this.checkpoint(true)
+        }
+        if (interval !== undefined && control.kind === 'repeat' && gameplayNow) {
+          const now = gameplayNow()
+          start ??= now
+          if (control.iteration > 1) {
+            const deadline = start + (control.iteration - 1) * interval
+            // Keep the phase through small frame delays and avoid bursts of overdue iterations.
+            await this.host.wait(Math.max(1, deadline - now), this.signal)
+            this.budget.resumedAfterProgress()
+            throwIfAborted(this.signal)
+          }
         }
         try {
           await this.runCommands(command.body, [...path, 'body'])

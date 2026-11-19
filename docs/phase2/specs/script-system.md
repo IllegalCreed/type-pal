@@ -58,6 +58,7 @@ onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备
 - takeEntity暂停目标自身整条auto执行链，包括剩余等待、结构判断及由该链驱动的跨实体动作；release接原进度而非重启。已加载资源可完成，但暂停时不能提交效果；其他实体链不被全局冻结，对目标移动/姿态仍受其权威控制。原2026-10-07醉道士对白确认仅属该合同来源，不是本轮E2E。
 - faceEntityToParty是显式执行时实时坐标转向，同点保方向、异场景无现场副作用；不移动、不停步、不定帧、不接管。对白不隐式接管或朝向修正，需要时作者编排take→face→setFrame→dialog→release，恢复工作朝向也显式写。
 - applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
+- 前景步骤的有限 `repeat` 可选 `intervalMs`。第一轮立即开始；后续轮次以第一轮的游戏时钟为锚，按指定间隔启动。上一轮须执行完，过期的轮次至少等下一绘制拍，不在同一拍追赶。末轮完成即退出；站定、转身等额外停顿显式写在循环之后。该选项不用于可保存续跑的自动行为或独立脚本根。
 - 指令只有明确等待/真实异步动作消耗游戏时间；节拍由正文repeat/loop/wait表达，不给每条auto加100ms、循环强塞世界拍或步后40ms。零时间循环用工作量保护，不限制正常巡逻累计寿命；公平yield/已兑现Promise/wait0不算真实进展，技术计数不暴露成作者状态。
 
 多帧 `cameraPan` 的步数以探索帧为单位。首个合格运行帧推进第一步，后续每到 100 毫秒推进一步，帧间延迟时依次经过中间位置。指令完成后继续正文。换镜、淡入等段落需要清除旧对白时，作者在相应时点显式使用 `clearDialog`。实际镜头终点、时长和转场对白层分别核对。实现和池塘正反例见[镜头推进](../../../packages/reforge/src/world-camera.ts)及 [009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)。
@@ -68,7 +69,7 @@ onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备
 
 队伍相对位移 `nudgeParty` 将队伍当前朝向写入跟随轨迹，后退期间队首和跟随者可以保持同一朝向。脚本 `shakeScreen` 的帧数按实际世界拍或实际帧动画的当前帧推进，整幅合成画面沿纵向交替位移，零帧立即清除。需要从黑幕揭示帧动画时，作者在对应播放指令的 `initialFadeInMs` 指定首帧淡入。 [原盘退移与倒塌演出](../../phase1/game-mechanics.md#2026-11-19-七星盘龙柱返场与倒塌演出)
 
-过场淡出可以由帧动画的 `holdLastFrame` 保留影片末帧。黑幕后用 `clearFrameAnimation` 交回当下场景，切场提交也会收掉影片层。新场景在首个可见帧前要定位队伍或清除旧震屏时，将这些动作放在目标 `entry.prepare`，由 `entry.reveal` 接续。需要在片段间才启动的 NPC 由当前演出显式激活自动行为。 [场景入场编排](../guides/scene-entry-authoring.md)
+过场淡出可以由帧动画的 `holdLastFrame` 保留影片末帧。黑幕后用 `clearFrameAnimation` 交回当下场景，切场提交也会收掉影片层。新场景在首个可见帧前要定位队伍或清除旧震屏时，将这些动作放在目标 `entry.prepare`，由 `entry.reveal` 接续。片段间需要才恢复的后台职责由当前演出显式接通。固定剧情走位的起步、步数、停点和后续对白由前景正文持有。 [场景入场编排](../guides/scene-entry-authoring.md)
 
 驱魔香、十里香用现有 `hostileAwareness` 倒计时调节引擎追逐。倍率为零时，原本可追逐的明雷在原脚点每拍推进步态，每两拍沿下、左、上、右转向。场景内已有的姿态覆盖、已编排动作及移动步态优先绘制。世界计时结束后恢复场景默认感知距离。 [原盘行为](../../phase1/game-mechanics.md) · [引擎计时](../../../packages/reforge/src/main.ts) · [精灵绘制](../../../packages/reforge/src/world-scene-presentation.ts)
 

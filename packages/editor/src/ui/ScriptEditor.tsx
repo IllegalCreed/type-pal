@@ -1002,7 +1002,11 @@ export function describeCanonicalCommand(
         children,
       }
     case 'repeat':
-      return { icon: '🔁', label: `重复 ${command.count} 次`, children }
+      return {
+        icon: '🔁',
+        label: `重复 ${command.count} 次${command.intervalMs ? ` · 每 ${command.intervalMs} ms` : ''}`,
+        children,
+      }
     case 'confirm':
       return { icon: '❓', label: '是/否询问', children }
     case 'finishStep': {
@@ -2189,17 +2193,32 @@ function CanonicalCommandForm(props: {
           </CanonicalField>
         ) : null}
         {command.kind === 'repeat' ? (
-          <CanonicalField label="重复次数">
-            <DsNumberInput
-              size="compact"
-              min={1}
-              step={1}
-              value={command.count}
-              onChange={(event) =>
-                props.onChange({ ...command, count: Number(event.target.value) })
-              }
-            />
-          </CanonicalField>
+          <>
+            <CanonicalField label="重复次数">
+              <DsNumberInput
+                size="compact"
+                min={1}
+                step={1}
+                value={command.count}
+                onChange={(event) =>
+                  props.onChange({ ...command, count: Number(event.target.value) })
+                }
+              />
+            </CanonicalField>
+            <CanonicalField label="前景重复间隔（毫秒，可留空）">
+              <DsNumberInput
+                size="compact"
+                min={1}
+                step={1}
+                value={command.intervalMs ?? ''}
+                onChange={(event) => {
+                  const { intervalMs: _intervalMs, ...repeat } = command
+                  const intervalMs = event.target.valueAsNumber
+                  props.onChange(Number.isNaN(intervalMs) ? repeat : { ...repeat, intervalMs })
+                }}
+              />
+            </CanonicalField>
+          </>
         ) : null}
         {command.kind === 'loop' ? (
           <CanonicalField label="循环方式">

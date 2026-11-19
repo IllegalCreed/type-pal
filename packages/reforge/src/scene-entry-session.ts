@@ -1,4 +1,5 @@
 import type { SceneReveal } from '@type-pal/content'
+import { scriptWorkWait } from './script-work-queue.js'
 
 export type SceneEntryPhase = 'preparing' | 'revealing'
 
@@ -35,17 +36,25 @@ function sameReveal(left: SceneReveal, right: SceneReveal): boolean {
 /** A concurrent entry keeps the reveal and foreground body in the same step's lifetime. */
 export async function runSceneEntryBody(
   reveal: SceneReveal,
-  startReveal: () => Promise<void>,
+  signal: AbortSignal,
+  startReveal: (visualSignal: AbortSignal) => Promise<void>,
   runBody: () => Promise<void>,
 ): Promise<void> {
-  const revealing = startReveal()
   if (reveal.kind !== 'fade' || !reveal.withBody) {
-    await revealing
+    await startReveal(signal)
     await runBody()
     return
   }
-  const [visual, body] = await Promise.allSettled([revealing, Promise.resolve().then(runBody)])
-  if (visual.status === 'rejected') throw visual.reason
+  // Cancel with the scene runner, but do not park its foreground while it has work to commit.
+  const visual = startReveal(AbortSignal.any([signal])).then(
+    () => ({ ok: true as const }),
+    (error: unknown) => ({ ok: false as const, error }),
+  )
+  const [body] = await Promise.allSettled([Promise.resolve().then(runBody)])
+  const completed = await scriptWorkWait<Awaited<typeof visual>>(signal, (resolve) => {
+    void visual.then(resolve)
+  })
+  if (!completed.ok) throw completed.error
   if (body.status === 'rejected') throw body.reason
 }
 

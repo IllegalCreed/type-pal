@@ -496,7 +496,8 @@ export class ScriptRunner {
         throwIfAborted(this.signal)
         await runSceneEntryBody(
           reveal,
-          () => revealSceneEntry.call(this.host, reveal, this.signal),
+          this.signal,
+          (visualSignal) => revealSceneEntry.call(this.host, reveal, visualSignal),
           () => {
             throwIfAborted(this.signal)
             return this.run(stage.body, [idx])

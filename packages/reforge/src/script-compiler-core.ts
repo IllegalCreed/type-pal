@@ -57,7 +57,13 @@ export type ExecutableCommandLike<T> =
       body: readonly ExecutableCommandLike<T>[]
     }
   | { kind: 'loop'; id?: string; mode: 'forever'; body: readonly ExecutableCommandLike<T>[] }
-  | { kind: 'repeat'; id?: string; count: number; body: readonly ExecutableCommandLike<T>[] }
+  | {
+      kind: 'repeat'
+      id?: string
+      count: number
+      intervalMs?: number
+      body: readonly ExecutableCommandLike<T>[]
+    }
   | {
       kind: 'confirm'
       onYes: readonly ExecutableCommandLike<T>[]
@@ -159,10 +165,13 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
             body: body(command.body),
           }
     case 'repeat':
+      if (command.intervalMs !== undefined && timing !== 'interactive')
+        throw new Error('repeat.intervalMs 仅允许 interactive 编译时序')
       return {
         kind: 'repeat',
         ...(command.id ? { id: command.id } : {}),
         count: command.count,
+        ...(command.intervalMs !== undefined ? { intervalMs: command.intervalMs } : {}),
         body: body(command.body),
       }
     case 'confirm':
