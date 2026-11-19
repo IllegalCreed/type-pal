@@ -91,6 +91,8 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 客栈柜面遮挡 | [双端同位姿局部合成回执](E2E-Q2-1-inn-cabinet-occlusion-20261119.tar.gz) |
 | Q2 装备装卸与选人 | [106 件逐件原件、菜单切换与原速带声分屏](E2E-Q2-1-equipment-operations-20261119.tar.gz) |
 | Q2 装备选人页外阴影和木纹 | [实跑前后像素回执、逐帧及原声验证](E2E-Q2-1-equipment-appearance-20261119.tar.gz) |
+| Q2 敌人出场与行动 | [153 种逐敌原件和五场原速带声分屏](E2E-Q2-1-opponents-153-20261119.tar.gz) · [十份原生录制](E2E-Q2-1-opponents-native-media-20261119.tar.gz) |
+| Q2 隐龙窟两战与黑蜘蛛 | [三场起战到返场的原件和原速带声分屏](E2E-Q2-1-boss-entrances-20261119.tar.gz) · [隐龙窟原生录制](E2E-Q2-1-hidden-dragon-bosses-native-20261119.tar.gz) · [黑蜘蛛原生录制](E2E-Q2-1-black-spider-boss-native-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

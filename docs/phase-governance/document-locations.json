@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "d2d73bd0a43d45c7b8de6e5b96bb1f6e3551d270ed00bdcd539f8e8ebb16976a",
+      "afterSha256": "73d3db86824851e2dfd812356ed42c3e0111060d17b6e7819249afcce5bc9491",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 103,
+        "reviewedLines": 105,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "50f2e6c578cde1933dd538fdf9c10730a06a5b8a98dd23f9714086ab7a5b2911",
+      "afterSha256": "20dbdd786978eff2e05c08e102b92f54243fce74b68943fbf8a989d16053ad8e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 997,
+        "reviewedLines": 1005,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "5888f2b65086246fa6ad0218e47c23b10ce02b30707538ab4d573ea281eff457",
+      "afterSha256": "b1b0da597f46e796aeecfb5b1d712400168f208e8de228547ceee9b28b6dad0a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1366,
+        "reviewedLines": 1378,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6333,6 +6333,36 @@
       "bytes": 24818970,
       "sha256": "65e92ac1aa8d2c4e3c1fae625c6c74646c4c77d47f239ebda22384c80d0f9af7",
       "purpose": "装备选人页木纹与卷轴外阴影的旧版反例、修后双端实跑、像素回执与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-opponents-153-20261119.tar.gz",
+      "bytes": 52721619,
+      "sha256": "52d7aba94ae56b94989d4f99a627ea249208b81068fbcd2a00d890c1576bf461",
+      "purpose": "153 种敌人出场和行动的逐项来源与复算、五场代表战斗原速带声分屏、解码验收和拼接反例。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-opponents-native-media-20261119.tar.gz",
+      "bytes": 86914836,
+      "sha256": "17fa412f72a31c05939567d6a5b7f5fb2f406684f3693666f227950601508ada",
+      "purpose": "五场代表战斗的十份原生录制与更新捕获回执，为对照分屏提供唯一原件。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-boss-entrances-20261119.tar.gz",
+      "bytes": 26603190,
+      "sha256": "b736d7bc4dc86f4bc45fca891dc6eb2164aef2d44df901c6629f290385138e58",
+      "purpose": "隐龙窟两战和黑蜘蛛双引擎从原场景触发到返场的复算、分屏和音画核验。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-hidden-dragon-bosses-native-20261119.tar.gz",
+      "bytes": 88729571,
+      "sha256": "4c34c2158361cc9084c143b3d3dbf0cf126bc199f1f39c409e8ddcf95b58c1f8",
+      "purpose": "隐龙窟蛇妖男和狐妖女的四份原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-black-spider-boss-native-20261119.tar.gz",
+      "bytes": 28298430,
+      "sha256": "9648c883c501e77c5188c9218817bd067c04ed330d8c4006c443df9beb9c1f34",
+      "purpose": "黑蜘蛛进战前四拍、原生战斗、奖励和返场的双端原生录制。"
     }
   ],
   "artifactAliases": [],
