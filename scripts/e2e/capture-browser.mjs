@@ -338,6 +338,7 @@ export function installLocalCapture() {
         lastVisual = visual
       }
       if (phase === 'armed') startRecorder()
+      if (!video) window.__e2eSceneHandoff?.sample(output, renderedFrames, performance.now())
       if (video) videoFrames++
       else canvasFrames++
       renderedFrames++

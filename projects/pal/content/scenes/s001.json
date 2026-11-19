@@ -6740,23 +6740,32 @@
             "stages": [
               {
                 "id": "stage-1",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 57,
+                        "row": -26,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down",
+                      "gesture": 11
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600
+                  }
+                },
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 57,
-                      "row": -26,
-                      "height": 0
-                    }
-                  },
-                  {
-                    "kind": "setPartyFacing",
-                    "facing": "down",
-                    "gesture": 11
-                  },
-                  {
                     "kind": "wait",
-                    "ms": 600
+                    "ms": 1500
                   },
                   {
                     "kind": "dialog",
@@ -6779,8 +6788,11 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "kind": "setPartyFacing",
@@ -6788,7 +6800,8 @@
                     "gesture": 10
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "dialog",
@@ -6814,6 +6827,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "teleportParty",
                     "pos": {
                       "col": 57,
@@ -6827,7 +6843,8 @@
                     "gesture": 1
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "teleportParty",
@@ -6838,7 +6855,8 @@
                     }
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "setPartyFacing",
@@ -6846,7 +6864,8 @@
                     "gesture": 2
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "setActorSprite",
@@ -6856,9 +6875,6 @@
                   {
                     "kind": "setPartyFacing",
                     "facing": "down"
-                  },
-                  {
-                    "kind": "clearDialog"
                   },
                   {
                     "kind": "dialog",

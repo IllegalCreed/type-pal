@@ -1156,6 +1156,7 @@ export async function bootGame(
   let scriptDialogResolve: (() => void) | null = null
   // ~NN 自动收尾时保留最后已呈现帧一拍。若下一条立即 loadScene，它会在重画前取走该帧。
   let preserveClosedDialogFrame = false
+  let fadingDialogueFrame: ImageData | undefined
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   // ── R13-4 脚本二选一：独立于系统菜单业务的中央 FIFO + dedicated held-frame。──
@@ -2280,7 +2281,19 @@ export async function bootGame(
       preserveClosedDialogFrame = false
       dialogBox.close()
     },
-    fade: (dir, ms, color, signal) => hostFade(dir, ms, color, signal),
+    fade: async (dir, ms, color, signal) => {
+      if (dir !== 'out' || !dialogBox.visible) return hostFade(dir, ms, color, signal)
+
+      const source = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      fadingDialogueFrame = source
+      preserveClosedDialogFrame = false
+      dialogBox.close()
+      try {
+        await hostFade(dir, ms, color, signal)
+      } finally {
+        if (fadingDialogueFrame === source) fadingDialogueFrame = undefined
+      }
+    },
     cameraPan: (dx, dy, frames, signal) => cameraSession.pan(dx, dy, frames, signal),
     cameraSnap: (to) => cameraSession.snap(to),
     frameAnimation: async (opts, signal) => {
@@ -5372,6 +5385,7 @@ export async function bootGame(
     releaseAllAuthority() // E6a:强停演出同样归还全部实体
     frames.clearWaits()
     screenHold.cancel()
+    fadingDialogueFrame = undefined
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     worldPresentation.clearEntityFrames()
@@ -6078,9 +6092,9 @@ export async function bootGame(
       if (preserveClosedDialogFrame) return
       // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
       // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
-      const heldEntryFrame = sceneEntrySession.heldFrame
-      if (heldEntryFrame) {
-        ctx.putImageData(heldEntryFrame, 0, 0)
+      const heldFrame = sceneEntrySession.heldFrame ?? fadingDialogueFrame
+      if (heldFrame) {
+        ctx.putImageData(heldFrame, 0, 0)
         drawFadeCurtain()
         syncDitherDebugDataset()
         return
