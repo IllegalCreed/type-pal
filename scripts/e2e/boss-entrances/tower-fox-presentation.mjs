@@ -82,6 +82,7 @@ export function inspectTowerFoxPresentation({
   )
   check(
     dark &&
+      !dark.world &&
       paint[0] &&
       !paint[0].black &&
       paint.filter(({ order }) => order < dark.order).every(({ world }) => !world) &&

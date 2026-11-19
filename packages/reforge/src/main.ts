@@ -2312,7 +2312,8 @@ export async function bootGame(
       dialogBox.close()
     },
     fade: async (dir, ms, color, signal) => {
-      if (dir !== 'out' || (!dialogBox.visible && !presentedBattleFrame))
+      const fromBattle = presentedBattleFrame
+      if (dir !== 'out' || (!dialogBox.visible && !fromBattle))
         return hostFade(dir, ms, color, signal)
 
       assertRunnerActive(signal, '淡出所属 runner 已取消')
@@ -2322,6 +2323,9 @@ export async function bootGame(
       dialogBox.close()
       try {
         await hostFade(dir, ms, color, signal)
+        // Advance settles before this frame is presented. Keep the source through the
+        // opaque frame so an immediately following fade-in cannot consume that draw.
+        if (fromBattle && signal) await frames.wait(0, signal)
       } finally {
         if (fadingSourceFrame === source) fadingSourceFrame = undefined
       }
