@@ -77,14 +77,18 @@ export function instrumentOpeningCausalTrace(code, file) {
               ? 'scene-transition'
               : owners.includes('ditherScreen')
                 ? 'ditherScreen'
-                : owners.some((owner) => ['startScript', 'runDetachedScriptChain'].includes(owner))
-                  ? 'script-end'
-                  : null
+                : owners.includes('fade')
+                  ? 'fade-out'
+                  : owners.some((owner) =>
+                        ['startScript', 'runDetachedScriptChain'].includes(owner),
+                      )
+                    ? 'script-end'
+                    : null
       assert(reason, `unknown dialogue clear caller: ${owners.join('/')}`)
       add(
         'dialog-clear-caller',
         node.getStart(ast),
-        `globalThis.__openingCauseDialogClear?.(${JSON.stringify(reason)},${['runner-abort', 'scene-transition', 'ditherScreen'].includes(reason) ? 'signal' : reason === 'script-end' ? (owners.includes('runDetachedScriptChain') ? 'runSignal' : 'controller.signal') : 'null'});\n`,
+        `globalThis.__openingCauseDialogClear?.(${JSON.stringify(reason)},${['runner-abort', 'scene-transition', 'ditherScreen', 'fade-out'].includes(reason) ? 'signal' : reason === 'script-end' ? (owners.includes('runDetachedScriptChain') ? 'runSignal' : 'controller.signal') : 'null'});\n`,
       )
     }
     if (
@@ -634,7 +638,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                         }
                       : file.endsWith('/main.ts')
                         ? {
-                            'dialog-clear-caller': 7,
+                            'dialog-clear-caller': 8,
                             'dialog-portrait-start': 1,
                             'dialog-portrait-end': 1,
                             'lifecycle-snapshot': 1,

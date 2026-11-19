@@ -2284,6 +2284,7 @@ export async function bootGame(
     fade: async (dir, ms, color, signal) => {
       if (dir !== 'out' || !dialogBox.visible) return hostFade(dir, ms, color, signal)
 
+      assertRunnerActive(signal, '对白淡出所属 runner 已取消')
       const source = ctx.getImageData(0, 0, canvas.width, canvas.height)
       fadingDialogueFrame = source
       preserveClosedDialogFrame = false
