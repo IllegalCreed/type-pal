@@ -2,12 +2,15 @@ import assert from 'node:assert/strict'
 import { resolve } from 'node:path'
 import { setTimeout as pause } from 'node:timers/promises'
 import {
+  actors,
+  equipmentCatalogue,
+  equipmentScenario,
   gameWorldCheckpoint,
-  makeWorldWhipFixtures,
-  plan,
+  loadEquipmentInputs,
+  makeEquipmentFixture,
+  room,
   scriptFixtureRoutes,
-  worldCase,
-  worldWhipSources,
+  worldEquipmentSources,
 } from './battle-weapon-world-scenarios.mjs'
 import { runBrowserJourney } from './browser-journey.mjs'
 import { installCommittedRoutePlayback } from './committed-route.mjs'
@@ -15,55 +18,111 @@ import { writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { evidenceObserverScript } from './evidence-recorder.mjs'
 import { pressRecordedKey } from './input-ledger.mjs'
 
-const [engine, mode] = process.argv.slice(2)
+const [engine, ...options] = process.argv.slice(2)
+const profileArgs = options.filter((arg) => arg.startsWith('--case='))
+const [mode] = options.filter((arg) => !arg.startsWith('--case='))
 assert(
   ['game', 'reforge'].includes(engine) &&
+    profileArgs.length <= 1 &&
+    options.length <= profileArgs.length + 1 &&
     [undefined, '--probe', '--capture', '--wrong-slot'].includes(mode),
-  'usage: node scripts/e2e/battle-weapon-world.mjs game|reforge [--probe|--capture|--wrong-slot]',
+  'usage: node scripts/e2e/battle-weapon-world.mjs game|reforge [--case=PROFILE] [--probe|--capture|--wrong-slot]',
 )
 const isGame = engine === 'game'
+const inputs = await loadEquipmentInputs()
+const scenario = equipmentScenario(
+  profileArgs[0]?.slice('--case='.length) ?? 'whips',
+  equipmentCatalogue(inputs),
+  mode === '--wrong-slot',
+)
+assert(!scenario.wrongSlot || scenario.id === 'whips')
 const repeats = mode ? 1 : 2
-const counter = mode === '--wrong-slot'
-const route = counter ? plan.slice(0, 6) : plan
-const fixtures = await makeWorldWhipFixtures(counter ? 2 : worldCase.weaponSlot)
-const read = (page) => page.evaluate(() => globalThis.__whipWorldRead?.())
-const evidence = (page) => page.evaluate(() => globalThis.__whipWorldEvidence.read())
-const ready = (state) => state?.ready && state.scene === worldCase.scene
-const started = ({ role, stock }) => ({ role, stock })
+const fixtures = await makeEquipmentFixture(inputs, scenario)
+const read = (page) => page.evaluate(() => globalThis.__worldEquipmentRead?.())
+const evidence = (page, full = false) =>
+  page.evaluate((all) => globalThis.__worldEquipmentEvidence.read(all), full)
+const ready = (state) => state?.ready && state.scene === room.scene
+const equipmentState = ({ party, stock }) => ({ party, stock })
+const normalizedRole = (id) => (typeof id === 'number' ? id : actors.indexOf(id))
 
 function installWitness(_context, makeRecorder) {
-  const paints = [],
-    removals = [],
-    errors = []
-  let overflow = false,
-    lastPaint,
-    quantity
-  const { append } = makeRecorder({
+  const paints = []
+  const equips = []
+  const removals = []
+  const errors = []
+  let overflow = false
+  let lastPaint, pending, quantity, icon, stats
+  const { append, fail } = makeRecorder({
     context: () => ({ atMs: performance.now() }),
     errors,
     onOverflow: () => {
       overflow = true
     },
   })
-  globalThis.__whipWorldEvidence = Object.freeze({
+  function sampleFrame({ width, height, data }) {
+    let digest = 2166136261
+    const colors = new Set()
+    // Sample the logical 320 × 200 board regardless of the backing canvas scale.
+    for (let y = 0; y < 200; y += 5)
+      for (let x = 0; x < 320; x += 5) {
+        const offset = (Math.floor((y * height) / 200) * width + Math.floor((x * width) / 320)) * 4
+        const rgb = data[offset] * 65536 + data[offset + 1] * 256 + data[offset + 2]
+        colors.add(rgb)
+        digest = Math.imul(digest ^ rgb, 16777619)
+      }
+    if (colors.size <= 1) throw new Error('equipment canvas sample is blank')
+    return {
+      width,
+      height,
+      colors: colors.size,
+      digest: (digest >>> 0).toString(16).padStart(8, '0'),
+    }
+  }
+  globalThis.__worldEquipmentEvidence = Object.freeze({
     begin: () => {
       quantity = null
+      icon = null
+      stats = []
     },
-    amount: (draw) => {
-      quantity = draw
+    amount: (value) => {
+      quantity = value
     },
-    leave: () => {
-      lastPaint = undefined
+    icon: (value) => {
+      icon = value
     },
-    paint: (draw) => {
-      const frame = { ...draw, quantity }
-      const signature = JSON.stringify(frame)
+    stat: (value) => {
+      stats.push(value)
+      return value
+    },
+    draw: (value) => {
+      pending = { ...value, quantity, icon, stats }
+    },
+    present: (pixels) => {
+      const draw = pending
+      pending = undefined
+      if (!draw) {
+        lastPaint = undefined
+        return
+      }
+      const signature = JSON.stringify(draw)
       if (signature === lastPaint) return
       lastPaint = signature
-      append(paints, frame, 128)
+      try {
+        append(paints, { ...draw, frame: sampleFrame(pixels()) }, 2048)
+      } catch (error) {
+        fail(error)
+      }
     },
-    remove: (command) => append(removals, command, 8),
-    read: () => ({ paints, removals, errors, overflow }),
+    equip: (command) => append(equips, command, 512),
+    remove: (command) => append(removals, command, 256),
+    read: (full) =>
+      full
+        ? { paints, equips, removals, errors, overflow, timeOrigin: performance.timeOrigin }
+        : {
+            paint: paints.at(-1) ?? null,
+            equip: equips.at(-1) ?? null,
+            removal: removals.at(-1) ?? null,
+          },
   })
 }
 
@@ -76,15 +135,14 @@ async function installRoutes(page) {
       ]
     : [
         [scriptFixtureRoutes.reforgeScene, fixtures.reforgeScene],
-        ['/__q2-world-equip-save.json', fixtures.save],
+        [scriptFixtureRoutes.reforgeSave, fixtures.save],
       ]
-  for (const [url, payload] of routes)
+  for (const [url, payload] of routes) {
+    const body = JSON.stringify(payload)
     await page.route(`**${url}`, (consumer) =>
-      consumer.fulfill({
-        contentType: 'application/json',
-        body: JSON.stringify(payload),
-      }),
+      consumer.fulfill({ contentType: 'application/json', body }),
     )
+  }
 }
 
 async function dismissBoot(page) {
@@ -100,7 +158,7 @@ async function makeGameFixture(newPage, baseURL, until) {
   const setup = await newPage('fixture')
   try {
     await installRoutes(setup)
-    await setup.goto(`${baseURL}/?skip-intro=1&dev-scene=${worldCase.index}`)
+    await setup.goto(`${baseURL}/?skip-intro=1&dev-scene=${room.index}`)
     await until(
       async () => {
         await dismissBoot(setup)
@@ -114,7 +172,7 @@ async function makeGameFixture(newPage, baseURL, until) {
       const { serializeSave } = await import('/src/tools/save-io.ts')
       return JSON.parse(serializeSave(globalThis.__tpgs))
     })
-    return gameWorldCheckpoint(baseline)
+    return gameWorldCheckpoint(baseline, scenario)
   } finally {
     await setup.close()
   }
@@ -123,7 +181,7 @@ async function makeGameFixture(newPage, baseURL, until) {
 async function openFixture(page, baseURL, boot, press, until) {
   await installRoutes(page)
   if (!isGame) {
-    await page.goto(`${baseURL}/?e2e-load=%2F__q2-world-equip-save.json`)
+    await page.goto(`${baseURL}/?e2e-load=${encodeURIComponent(scriptFixtureRoutes.reforgeSave)}`)
     return until(() => read(page), ready, 'Reforge normal room ready', 60_000)
   }
   await page.goto(baseURL)
@@ -166,96 +224,88 @@ async function openFixture(page, baseURL, boot, press, until) {
     'slot one selected',
   )
   await press('Enter', 'load-slot-one', 'restore')
-  return until(
-    () => read(page),
-    (s) => ready(s) && s.role.weapon === worldCase.initialWeapon,
-    'Game loaded real slot',
-    60_000,
-  )
+  return until(() => read(page), ready, 'Game loaded real slot', 60_000)
 }
 
-async function selectInEquipMenu(page, wait, press, id, item, before, hold) {
-  const readCurrent = () => read(page)
+function equipListKey(menu) {
+  if (!menu || menu.kind === 'equip') return 'Escape'
+  const wanted =
+    menu.kind === 'in-game'
+      ? '5'
+      : menu.kind === 'inventory-action'
+        ? '22'
+        : menu.entries.includes('item')
+          ? 'item'
+          : 'equip'
+  assert(menu.entries.includes(wanted), `missing equipment menu entry ${wanted}`)
+  return menu.entries[menu.cursor] === wanted ? 'Enter' : 'ArrowDown'
+}
+
+async function selectItem(page, wait, press, { id, item }, before) {
   for (let keys = 0; keys < 16; keys++) {
-    const { menu } = await readCurrent()
+    const { menu } = await read(page)
     if (menu?.kind === 'equip' && menu.phase === 'list') break
-    let key
-    if (!menu || menu.kind === 'equip') key = 'Escape'
-    else {
-      const wanted =
-        menu.kind === 'in-game'
-          ? '5'
-          : menu.kind === 'inventory-action'
-            ? '22'
-            : menu.entries.includes('item')
-              ? 'item'
-              : 'equip'
-      assert(menu.entries.includes(wanted), `missing equipment menu entry ${wanted}`)
-      key = menu.entries[menu.cursor] === wanted ? 'Enter' : 'ArrowDown'
-    }
+    const key = equipListKey(menu)
     await press(key, id)
     await wait((s) => JSON.stringify(s?.menu) !== JSON.stringify(menu), `${id} accepted ${key}`)
   }
-  const current = (await readCurrent()).menu
-  assert(current?.kind === 'equip' && current.phase === 'list')
-  const desired = current.entries.indexOf(item)
+  const { menu } = await read(page)
+  assert(menu?.kind === 'equip' && menu.phase === 'list')
+  const desired = menu.entries.indexOf(item)
+  // The party case preserves the leader-only list as a product observation.
+  if (desired < 0 && scenario.id === 'party') return { absentFromMenu: menu.entries }
   assert(desired >= 0, `${id}: real equip menu lacks the stocked item`)
-  for (let i = current.cursor; i !== desired; ) {
-    const delta = i < desired ? 1 : -1
-    await press(delta > 0 ? 'ArrowRight' : 'ArrowLeft', id)
-    i += delta
-    await wait((s) => s?.menu?.cursor === i, `${id} moved equipment cursor`)
+  for (let cursor = menu.cursor; cursor !== desired; ) {
+    const distance = desired - cursor
+    const delta = Math.abs(distance) >= 3 ? Math.sign(distance) * 3 : Math.sign(distance)
+    const keys = { '-3': 'ArrowUp', '-1': 'ArrowLeft', 1: 'ArrowRight', 3: 'ArrowDown' }
+    await press(keys[delta], id)
+    cursor += delta
+    await wait((s) => s?.menu?.cursor === cursor, `${id} moved equipment cursor`)
   }
-  const previousOrder = (await evidence(page)).paints.at(-1)?.order ?? -1
+  const previousOrder = (await evidence(page)).paint?.order ?? -1
   await press('Enter', id)
   const selected = await wait(
     (s) => s?.menu?.phase === 'pick-role' && s.menu.selected === item,
     `${id} confirmed the item in the actual equip list`,
   )
   assert.deepEqual(
-    started(selected),
-    started(before),
-    'item selection equipped before role confirmation',
+    equipmentState(selected),
+    equipmentState(before),
+    'item selection changed equipment',
   )
-  const preview = await hold(item, before.role.weapon, id, previousOrder)
-  return { selected: started(selected), preview }
+  return { selected, previousOrder }
 }
 
 await runBrowserJourney({
-  name: `q2-whip-world-${engine}-${mode?.slice(2) ?? 'verify'}`,
+  name: `q2-equipment-${scenario.id}-${engine}-${mode?.slice(2) ?? 'verify'}`,
   packageName: `@type-pal/${engine}`,
   traceConfig: 'scripts/e2e/battle-weapon-world.config.mts',
   environment: { E2E: '1', VITE_PROJECT_ID: 'pal', Q2_WHIP_WORLD_ENGINE: engine },
   arguments: ['--headless', ...(mode === '--capture' ? [mode] : [])],
   viewport: { width: 960, height: 720 },
-  journeyTimeoutMs: 180_000,
-  sources: await worldWhipSources(),
+  journeyTimeoutMs: scenario.id.startsWith('catalogue-') ? 480_000 : 180_000,
+  sources: await worldEquipmentSources(),
   initScripts: [installCommittedRoutePlayback, evidenceObserverScript(installWitness)],
   async journey({ newPage, baseURL, out, report, until, capture }) {
     Object.assign(report, {
       engine,
       lane: 'Q2',
+      scenario: scenario.id,
       repeats,
-      counter: counter ? 'body-slot' : 'none',
+      counter: scenario.wrongSlot ? 'body-slot' : 'none',
       cases: [],
     })
     const checkpoint = isGame ? await makeGameFixture(newPage, baseURL, until) : fixtures.save
     report.fixture = await writeEvidenceArtifact(out, 'input.json', {
       checkpoint,
-      event: fixtures.fixtureCommand,
-      plan: route,
+      event: fixtures.event,
+      scenario,
     })
     for (let repetition = 1; repetition <= repeats; repetition++) {
       const runId = `world-equip-${repetition}`
       const page = await newPage(runId)
       const result = { runId, steps: [], resourceErrors: [] }
-      page.on('console', (message) => {
-        if (
-          message.type() === 'error' &&
-          !message.location().url.endsWith('/projects/pal/.type-pal/save-state.json')
-        )
-          result.resourceErrors.push({ text: message.text(), location: message.location() })
-      })
       page.on('response', (response) => {
         const { pathname } = new URL(response.url())
         if (response.status() >= 400 && !pathname.endsWith('/.type-pal/save-state.json'))
@@ -265,61 +315,95 @@ await runBrowserJourney({
       const press = (key, step, phase = 'world-equip') =>
         pressRecordedKey({
           keyboard: page.keyboard,
-          action: { key, phase, scope: 'story', context: runId, step },
+          action: { key, phase, context: runId, step },
           record: (input) => report.actions.push(input),
         })
-      const readCurrent = () => read(page)
-      const wait = (accept, label) => until(readCurrent, accept, label, 3_500)
-      const hold = async (selected, weapon, id, previousOrder) => {
-        const row = await until(
-          () => evidence(page),
-          ({ paints }) => {
-            const frame = paints.at(-1)
-            return (
-              frame?.selected === selected && frame.weapon === weapon && frame.order > previousOrder
-            )
-          },
+      const wait = (accept, label) => until(() => read(page), accept, label, 3_500)
+      const native = (accept, label) => until(() => evidence(page), accept, label, 3_500)
+      const hold = async (item, role, afterOrder, id) => {
+        const { paint } = await native(
+          ({ paint: draw }) =>
+            draw?.selected === item &&
+            normalizedRole(draw.role) === role &&
+            draw.order > afterOrder,
           `${id} actual pick-role draw`,
-          3_500,
         )
-        if (capture.enabled) await pause(640)
-        return row.paints.at(-1)
+        if (capture.enabled) await pause(scenario.id.startsWith('catalogue-') ? 250 : 600)
+        return paint
       }
       try {
         result.initial = await openFixture(page, baseURL, checkpoint, press, until)
-        assert.equal(result.initial.role.weapon, worldCase.initialWeapon)
-        assert.deepEqual(result.initial.grid, worldCase.grid)
-        assert.equal(result.initial.music, worldCase.music)
-        assert.equal(result.initial.facing, worldCase.facing)
+        assert.deepEqual(
+          result.initial.party.map(({ id, equipment }) => [id, equipment]),
+          scenario.party.map((role, index) => [role, scenario.starting[index]]),
+        )
+        assert.deepEqual(result.initial.grid, room.grid)
+        assert.equal(result.initial.music, room.music)
+        assert.equal(result.initial.facing, room.facing)
         if (capture.enabled) {
-          report.fragment = 'q2-whip-world-equip'
+          report.fragment = `q2-equipment-${scenario.id}`
           report.predecessor = { kind: 'world-equip-fixture', ...report.fixture }
           await capture.arm(page, { event: 'before-world-equipment', runId, state: result.initial })
         }
-        for (const { id, kind, item } of route) {
+        for (const step of scenario.plan) {
+          const { id, kind, item, role } = step
           const begin = report.actions.length
-          const before = await readCurrent()
+          const before = await read(page)
+          let observed
           if (kind === 'equip') {
-            const candidate = await selectInEquipMenu(page, wait, press, id, item, before, hold)
-            await press('Enter', id)
-            const after = await wait(
-              (s) => s?.role.weapon === item,
-              `${id} actual role confirmation`,
-            )
-            if (after.menu?.phase === 'pick-role')
-              await hold(before.role.weapon, item, id, candidate.preview.order)
-            result.steps.push({
-              id,
-              kind,
-              item,
-              before,
-              after,
-              ...candidate,
-              inputs: [begin, report.actions.length],
-            })
+            const selection = await selectItem(page, wait, press, step, before)
+            if (selection.absentFromMenu) observed = selection
+            else {
+              const first = await hold(
+                item,
+                selection.selected.menu.role,
+                selection.previousOrder,
+                id,
+              )
+              let navigated = selection.selected
+              let preview = first
+              if (role !== first.role && role !== normalizedRole(first.role)) {
+                // The party scenario uses exactly one normal down key to select its second member.
+                assert.deepEqual(scenario.party, [0, role])
+                await press('ArrowDown', id)
+                // Let input processing and the presentation tick run before reading the cursor.
+                await page.evaluate(
+                  () =>
+                    new Promise((done) =>
+                      requestAnimationFrame(() =>
+                        requestAnimationFrame(() => requestAnimationFrame(done)),
+                      ),
+                    ),
+                )
+                navigated = await read(page)
+                if (navigated.menu.role !== selection.selected.menu.role)
+                  preview = await hold(item, navigated.menu.role, first.order, id)
+              }
+              const old = (await evidence(page)).equip?.order ?? -1
+              await press('Enter', id)
+              const { equip } = await native(
+                (row) => row.equip?.order > old,
+                `${id} native equip commit`,
+              )
+              const after = await wait(
+                (s) => s?.party.some(({ equipment }) => equipment.includes(item)),
+                `${id} equipped after physical confirmation`,
+              )
+              let swapped = null
+              if (after.menu?.phase === 'pick-role')
+                swapped = await hold(after.menu.selected, after.menu.role, preview.order, id)
+              observed = {
+                selected: selection.selected,
+                navigated,
+                first,
+                preview,
+                equip,
+                after,
+                swapped,
+              }
+            }
           } else {
-            assert.equal(before.role.weapon, item)
-            for (let menu = before.menu; menu; menu = (await readCurrent()).menu) {
+            for (let menu = before.menu; menu; menu = (await read(page)).menu) {
               await press('Escape', id)
               await wait(
                 (s) => JSON.stringify(s?.menu) !== JSON.stringify(menu),
@@ -327,43 +411,26 @@ await runBrowserJourney({
               )
             }
             await wait(ready, `${id} actual world control`)
-            const old = (await evidence(page)).removals.length
+            const old = (await evidence(page)).removal?.order ?? -1
             await press('Enter', id)
-            const witness = await until(
-              () => evidence(page),
-              (native) => native.removals.length > old,
-              `${id} production script removed a slot`,
-              3_500,
+            const { removal } = await native(
+              (row) => row.removal?.order > old,
+              `${id} native room unequip`,
             )
             const after = await wait(ready, `${id} script returned normal control`)
-            result.steps.push({
-              id,
-              kind,
-              item,
-              before,
-              after,
-              inputWitness: witness.removals.at(-1),
-              inputs: [begin, report.actions.length],
-            })
-            if (capture.enabled) await pause(800)
+            observed = { removal, after }
+            if (capture.enabled && !scenario.id.startsWith('catalogue-')) await pause(650)
           }
+          result.steps.push({
+            ...step,
+            before,
+            ...observed,
+            inputs: [begin, report.actions.length],
+          })
         }
-        result.final = await readCurrent()
+        result.final = await read(page)
         if (capture.enabled) {
-          const begin = report.actions.length
-          const { preview } = await selectInEquipMenu(
-            page,
-            wait,
-            press,
-            'show-empty-weapon',
-            '165',
-            result.final,
-            hold,
-          )
-          result.finalPreview = preview
-          result.finalPreviewInputs = [begin, report.actions.length]
-          assert.deepEqual(started(await readCurrent()), started(result.final))
-          await pause(800)
+          await pause(850)
           await capture.finish(page, {
             event: 'world-equipment-finished',
             runId,
@@ -376,7 +443,7 @@ await runBrowserJourney({
         await page.screenshot({ path: resolve(out, `${runId}-failure.png`) }).catch(() => {})
         throw error
       } finally {
-        const raw = await evidence(page).catch(() => null)
+        const raw = await evidence(page, true).catch(() => null)
         result.trace = await writeEvidenceArtifact(out, `${runId}-trace.json`, raw)
         await page.close()
       }
