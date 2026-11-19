@@ -619,6 +619,112 @@ describe('ScriptRunnerCore flow semantics', () => {
     }
   })
 
+  test.each([false, true])('schedules the same two actors and fade, abort=%s', async (cancel) => {
+    const frames = new RuntimeFrameSession(100)
+    const work = new ScriptWorkQueue()
+    const shade = new SupersedingFadeDriver(1)
+    const host = fakeHost()
+    const receipt: Array<{ at: number; entity: string; opacity: number }> = []
+    let tail = false
+    const noop = () => {}
+    const ports = {
+      afterScriptWork: (action: () => void) => work.whenIdle(action),
+      activateConfirm: noop,
+      resumeScriptGates: noop,
+      gameplayFrozen: () => false,
+      advanceFade: (now: number) => shade.advance(now),
+      settleClosedDialogue: noop,
+      consumePressed: () => new Set<string>(),
+      tickHostiles: noop,
+      advanceMoves: noop,
+      deriveMounts: noop,
+      advanceLifecycle: noop,
+      advanceEntityActions: noop,
+      clearWorldTicks: noop,
+      presentBattle: () => false,
+      routeInput: noop,
+      presentWorld: noop,
+    }
+    host.gameplayNow = () => frames.now
+    host.wait = (ms, signal) => frames.wait(ms, signal)
+    host.execute = (leaf, _context, signal) => {
+      if (leaf.kind === 'fade') return shade.begin(0, frames.now, leaf.ms ?? 0, signal)
+      if (leaf.kind === 'nudgeEntity')
+        receipt.push({ at: frames.now, entity: leaf.target.entity, opacity: shade.value })
+      if (leaf.kind === 'clearDialog') tail = true
+    }
+    await frames.tick(1_000, ports)
+    const abort = new AbortController()
+    const execution = new ScriptRunnerCore(host, abort.signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'scene',
+        stages: [
+          {
+            id: 'scene',
+            body: [
+              {
+                kind: 'sceneTimeline',
+                label: 'Actor entrance',
+                tracks: [
+                  {
+                    id: 'light',
+                    label: 'Light',
+                    cues: [{ atMs: 0, body: [{ kind: 'fade', dir: 'in', ms: 400 }] }],
+                  },
+                  ...['first', 'second'].map((entity) => ({
+                    id: entity,
+                    label: entity,
+                    target: { scene: 's001', entity },
+                    cues: [
+                      {
+                        atMs: 100,
+                        repeat: { count: 2, intervalMs: 100 },
+                        body: [{ kind: 'nudgeEntity' as const, dx: 6, dy: 3 }],
+                      },
+                    ],
+                  })),
+                ],
+              },
+              { kind: 'clearDialog' },
+            ],
+          },
+        ],
+      }),
+      { cursorController: controller() },
+    )
+    const stopWork = work.begin(abort.signal)
+    const observed = execution.catch((error: unknown) => error).finally(stopWork)
+    try {
+      await frames.tick(1_100, ports)
+      expect(receipt.map(({ entity, at }) => [entity, at])).toEqual([
+        ['first', 1_100],
+        ['second', 1_100],
+      ])
+      expect(receipt.every(({ opacity }) => opacity > 0 && opacity < 1)).toBe(true)
+      expect(tail).toBe(false)
+      if (cancel) abort.abort()
+      for (let at = 1_200; at <= 1_500; at += 100) await frames.tick(at, ports)
+      if (cancel) {
+        expect(await observed).toMatchObject({ name: 'AbortError' })
+        expect(receipt).toHaveLength(2)
+        expect(tail).toBe(false)
+      } else {
+        await execution
+        expect(receipt.map(({ entity, at }) => [entity, at])).toEqual([
+          ['first', 1_100],
+          ['second', 1_100],
+          ['first', 1_200],
+          ['second', 1_200],
+        ])
+        expect(tail).toBe(true)
+      }
+    } finally {
+      abort.abort()
+      await observed
+    }
+  })
+
   test.each([
     'fade',
     'body',

@@ -893,8 +893,9 @@ export class Playback {
       d?.resolve()
       this.onUi?.()
     },
-    fade: (dir, ms) =>
-      new Promise<void>((resolve) => {
+    fade: (dir, ms, _color, signal) =>
+      new Promise<void>((resolve, reject) => {
+        signal?.throwIfAborted()
         this.fadeJob?.resolve()
         this.fadeJob = null
         if (ms <= 0) {
@@ -902,7 +903,22 @@ export class Playback {
           resolve()
           return
         }
-        this.fadeJob = { dir, ms, done: 0, resolve }
+        const abort = () => {
+          if (this.fadeJob === job) this.fadeJob = null
+          signal?.removeEventListener('abort', abort)
+          reject(new DOMException('preview aborted', 'AbortError'))
+        }
+        const job = {
+          dir,
+          ms,
+          done: 0,
+          resolve: () => {
+            signal?.removeEventListener('abort', abort)
+            resolve()
+          },
+        }
+        this.fadeJob = job
+        signal?.addEventListener('abort', abort, { once: true })
       }),
     holdScreen: async (color, token, signal) => {
       if (signal?.aborted) throw new DOMException('preview aborted', 'AbortError')
@@ -1041,7 +1057,8 @@ export class Playback {
     },
     animEntity: (id) => {
       const o = this.ov(id)
-      o.anim = (o.anim ?? 0) + 1
+      o.anim = (o.frame ?? o.anim ?? 0) + 1
+      o.frame = undefined
     },
     nudgeEntity: (id, dx, dy) => {
       const o = this.ov(id)

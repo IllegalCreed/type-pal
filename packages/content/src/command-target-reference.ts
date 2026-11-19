@@ -319,5 +319,9 @@ export function collectCanonicalCommandTargetReferences(
   for (const key of ['target', 'targets', 'self', 'cond'] as const)
     if (command[key] !== undefined)
       references.push(...collectCommandTargetReferences(command[key], `${where}.${key}`))
+  if (command.kind === 'sceneTimeline' && Array.isArray(command.tracks))
+    for (const [index, track] of command.tracks.entries())
+      if (isRecord(track) && track.target)
+        commandTargetReferencesAtNode(track.target, `${where}.tracks[${index}].target`, references)
   return references
 }

@@ -9,6 +9,7 @@ import {
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
   type EntityAddress,
+  type SceneTimelineTrack,
   type StageNext,
   type StepExit,
   type TeleportOutPresentation,
@@ -28,6 +29,7 @@ export type BaseRuntimeLeafCommand = Exclude<
       | 'confirm'
       | 'loop'
       | 'repeat'
+      | 'sceneTimeline'
       | 'startBattle'
       | 'returnScript'
       | 'finishStep'
@@ -63,6 +65,16 @@ export type ExecutableCommandLike<T> =
       count: number
       intervalMs?: number
       body: readonly ExecutableCommandLike<T>[]
+    }
+  | {
+      kind: 'sceneTimeline'
+      cues: ReadonlyArray<{
+        atMs: number
+        track: string
+        cue: number
+        fade: boolean
+        body: readonly ExecutableCommandLike<T>[]
+      }>
     }
   | {
       kind: 'confirm'
@@ -164,6 +176,12 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
             cond: structuredClone(command.cond),
             body: body(command.body),
           }
+    case 'sceneTimeline': {
+      if (timing !== 'interactive') throw new Error('sceneTimeline 仅允许 interactive 编译时序')
+      const cues = command.tracks.flatMap((track) => compileTimelineTrack(track, body))
+      cues.sort((a, b) => a.atMs - b.atMs)
+      return { kind: 'sceneTimeline', cues }
+    }
     case 'repeat':
       if (command.intervalMs !== undefined && timing !== 'interactive')
         throw new Error('repeat.intervalMs 仅允许 interactive 编译时序')
@@ -202,6 +220,30 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
       return { kind: 'leaf', command: structuredClone(command) }
   }
 }
+function compileTimelineTrack(
+  track: SceneTimelineTrack,
+  compile: (commands: readonly BaseAuthorCommand[]) => readonly ExecutableBaseCommand[],
+): Extract<ExecutableBaseCommand, { kind: 'sceneTimeline' }>['cues'] {
+  return track.cues.flatMap((cue, index) => {
+    const body = compile(
+      cue.body.map((action) => {
+        if (action.kind === 'fade') return action
+        if (!track.target) throw new Error('sceneTimeline actor track requires a target')
+        return { ...action, target: track.target }
+      }),
+    )
+    const fade = cue.body[0]?.kind === 'fade'
+    const { count, intervalMs } = cue.repeat ?? { count: 1, intervalMs: 0 }
+    return Array.from({ length: count }, (_, step) => ({
+      atMs: cue.atMs + step * intervalMs,
+      track: track.id,
+      cue: index,
+      fade,
+      body,
+    }))
+  })
+}
+
 /** Already validated by the owning author/runtime dialect. No implicit scheduling boundaries. */
 export function compileBaseCommandsUncheckedAfterValidation(
   commands: readonly BaseAuthorCommand[],

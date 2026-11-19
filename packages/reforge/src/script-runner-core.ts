@@ -32,6 +32,7 @@ import {
   atScriptExecutionGate,
   ScriptGateStopped as ScriptStopped,
 } from './script-execution-gate.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
@@ -488,6 +489,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         await this.runCommands(command[arm], [...path, 'branch'])
         return
       }
+      case 'sceneTimeline':
+        await this.runSceneTimeline(command, path)
+        return
       case 'loop':
       case 'repeat':
         await this.runLoopCommand(command, path)
@@ -550,6 +554,77 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       case 'callScript':
         await this.callScript(command, path)
         return
+    }
+  }
+
+  private async runSceneTimeline(
+    command: Extract<ExecutableCommandLike<RuntimeLeafCommand>, { kind: 'sceneTimeline' }>,
+    path: readonly (number | string)[],
+  ): Promise<void> {
+    const clock = this.host.gameplayNow?.bind(this.host)
+    if (!clock || this.checkpointController || this.runningTiming !== 'interactive')
+      throw new Error('sceneTimeline requires a foreground gameplay clock')
+    const start = clock()
+    const visual = new AbortController()
+    // An overlapping fade belongs to this timeline but must not park its ready actor work.
+    const visualSignal = AbortSignal.any([this.signal, visual.signal])
+    let fade: Promise<{ ok: true } | { ok: false; error: unknown }> | undefined
+    let fadeFailure: { error: unknown } | undefined
+    const finishFade = async () => {
+      const active = fade
+      if (!active) return
+      const result = await scriptWorkWait<Awaited<typeof active>>(this.signal, (resolve) => {
+        void active.then(resolve)
+      })
+      if (!result.ok) throw result.error
+      fade = undefined
+    }
+    let previousTime = 0
+    try {
+      for (const cue of command.cues) {
+        if (cue.atMs !== previousTime) {
+          await this.host.wait(Math.max(1, start + cue.atMs - clock()), this.signal)
+          this.budget.resumedAfterProgress()
+          previousTime = cue.atMs
+        }
+        throwIfAborted(this.signal)
+        if (fadeFailure) throw fadeFailure.error
+        const cuePath = [...path, 'tracks', cue.track, 'cues', cue.cue, 'body']
+        if (!cue.fade) {
+          await this.runCommands(cue.body, cuePath)
+          continue
+        }
+        const leaf = cue.body[0]
+        if (!leaf || leaf.kind !== 'leaf') throw new Error('sceneTimeline has an invalid fade')
+        await finishFade()
+        const event = { path: [...cuePath, 0], command: leaf }
+        if (this.beforeStep) {
+          await this.awaitGate()
+          await this.beforeStep(event)
+        }
+        await atScriptExecutionGate(this.host, this.signal, undefined, () => {
+          this.onStep?.(event)
+          fade = Promise.resolve(
+            this.host.execute(
+              leaf.command,
+              { self: this.self, timing: this.runningTiming },
+              visualSignal,
+            ),
+          ).then(
+            () => ({ ok: true }),
+            (error: unknown) => {
+              fadeFailure = { error }
+              return { ok: false, error }
+            },
+          )
+        })
+      }
+      await finishFade()
+    } finally {
+      if (fade) {
+        visual.abort()
+        await fade
+      }
     }
   }
 

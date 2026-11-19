@@ -732,6 +732,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   finishStep: ['⛔', '结束本次执行'],
   returnScript: ['↩', '返回调用处'],
   repeat: ['🔁', '重复指定次数'],
+  sceneTimeline: ['🎬', '场景演出'],
   breakLoop: ['↪', '退出当前循环'],
   continueLoop: ['🔄', '开始下一轮'],
   takeEntity: ['🔒', '接管实体控制'],
@@ -983,6 +984,13 @@ export function describeCanonicalCommand(
       children,
     }
   switch (command.kind) {
+    case 'sceneTimeline':
+      return {
+        icon: '🎬',
+        label: command.label,
+        detail: `${command.tracks.length} 条演出轨道`,
+        children,
+      }
     case 'runEntityTrigger':
       return {
         icon: '▶',
@@ -2073,6 +2081,52 @@ function CanonicalCommandForm(props: {
       />
     ) : (
       <p>请从项目脚本中编辑领取内容。</p>
+    )
+
+  if (command.kind === 'sceneTimeline')
+    return (
+      <div className="canonical-command-form-fields">
+        <CanonicalField label="演出名称">
+          <DsTextInput
+            size="compact"
+            value={command.label}
+            onChange={(event) => props.onChange({ ...command, label: event.target.value })}
+          />
+        </CanonicalField>
+        {command.tracks.map((track) => (
+          <section key={track.id}>
+            <strong>{track.label}</strong>
+            {track.target ? <div>{addressLabel(track.target, context)}</div> : null}
+            <ul>
+              {track.cues.map((cue) => (
+                <li key={cue.atMs}>
+                  {`${cue.atMs} 毫秒：`}
+                  {cue.body
+                    .map((action) => {
+                      switch (action.kind) {
+                        case 'fade':
+                          return `${action.dir === 'in' ? '淡入' : '淡出'} ${action.ms} 毫秒`
+                        case 'nudgeEntity':
+                          return `移动 ${action.dx}, ${action.dy}`
+                        case 'setEntityFacing':
+                          return `转向 ${action.facing}`
+                        case 'setEntityFrame':
+                          return `定姿 ${action.frame}`
+                        case 'animEntity':
+                          return '推进步态'
+                      }
+                      throw new Error('场景演出动作无法显示')
+                    })
+                    .join('、')}
+                  {cue.repeat
+                    ? `；每 ${cue.repeat.intervalMs} 毫秒一次，共 ${cue.repeat.count} 次`
+                    : ''}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
     )
 
   const commandFormBridge = context ? createAuthorCommandFormBridge(command) : undefined
@@ -3229,6 +3283,8 @@ function fallbackInsertionChoice(
   })
 
   switch (kind) {
+    case 'sceneTimeline':
+      return unavailable('请在场景作者数据中编排有限轨道；可在当前步骤预览')
     case 'applyActorCondition': {
       const actor = Object.values(context?.actors ?? {}).find((candidate) => candidate.battler)?.id
       const poisonId = Number(context?.references.choices('poison')[0]?.id)
@@ -3608,7 +3664,11 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
           unavailableReason: '触发区没有朝向；请先选择一个可见实体',
         } satisfies InsertionChoice
       const command = examples.get(kind)
-      if (!command || ('target' in command && command.target === 'self' && !target))
+      if (
+        kind === 'sceneTimeline' ||
+        !command ||
+        ('target' in command && command.target === 'self' && !target)
+      )
         return fallbackInsertionChoice(kind, context, target)
       const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[kind]
       return {
