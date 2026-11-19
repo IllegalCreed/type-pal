@@ -1717,6 +1717,32 @@ export function restoreTestingStoryPresentationSourceBindings(path, bytes, input
   )
 }
 
+export const testingCliffEntryPublicationBase = 'abfc31fcfd9a4ef16380ef4ae054604ad6159762'
+const cliffEntryStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1289-1387': '1289-1387',
+        '443-455': '443-455',
+        5833: '5840',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingCliffEntryPublicationBase,
+  action: 'q2-cliff-entry-source-rebinding',
+  date: '2026-11-19',
+}
+
+export const isTestingCliffEntrySource = (path) => cliffEntryStage.ranges.has(path)
+
+export function restoreTestingCliffEntrySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, cliffEntryStage, sceneItemExitBindings)
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

@@ -14,7 +14,7 @@
       "lines": "443-455",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
+      "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -361,6 +361,22 @@
         }
       ],
       "scope": "重绑四组现行引用。旧执行按既有候选恢复，两处构造片段按震屏输出职责迁移逐字节核对。"
+    },
+    {
+      "action": "q2-cliff-entry-source-rebinding",
+      "base": "abfc31fcfd9a4ef16380ef4ae054604ad6159762",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "443-455",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
+        }
+      ],
+      "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
     }
   ],
   "_governance": {

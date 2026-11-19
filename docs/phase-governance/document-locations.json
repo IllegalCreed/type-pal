@@ -50,14 +50,14 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "200541dec654b0244053ede7f5d85d7157f25ae9b0a0984a8df592c5580d974d",
+      "afterSha256": "70629eacb8d41a52bbfebd9bffb61cfd44ecad83b2cd340589e03ef65a234bb6",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
-        "date": "2026-11-07",
-        "conclusion": "核 010 更新行、实际停止线、用户原话及正式报告链接；原历史不重审。",
-        "reviewedLines": 573,
-        "acceptanceScope": "核当前一行与真实报告，剧情历史字节保持。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 577,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "9e6b0dc8820221e273d4a3162cfb86e81b482b66e20f3387fe1eae02fb0f96e1",
+      "afterSha256": "477dd5eb0629f1f86810b5100a24d0f1a4983def23e99508c91bd92fa5f29673",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-16",
-        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
-        "reviewedLines": 122,
-        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 123,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "f4218a31cbe11e2293c93fe0b5f803bc57384f44d57e5f466ec19451adb041d3",
+      "afterSha256": "02853d1e3e32685696204d5bddd67b2783b46993e2ce26e51fce97cc33be1e23",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端演出相位复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记最后一柱逐段重录和逐帧解码的恢复入口。",
-        "reviewedLines": 95,
-        "acceptanceScope": "核原件清单、原生与分屏解码证据。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 96,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "9b82453c772180e868881afb43527c79e56ced0773881c5deab3738bd5583194",
+      "afterSha256": "c28d24559110efbaf13ae2da04f0aaa15a45ced4e0c1ee0065fb22425abc04ea",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-16",
-        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
-        "reviewedLines": 588,
-        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 589,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "519e93344f701b4068e3d8de3fe14dfbf17fbf197ba6dc601362fdb06a7465fb",
+      "afterSha256": "9de2f37c5c78e240374da1ba72c5d8413d6c3fef62a2b5b35eb70d13db3f190a",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端演出相位复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "找准两段过场期间的对象更新时间和下一场景原盘入口。",
-        "reviewedLines": 1898,
-        "acceptanceScope": "核原盘脚本码、影片输出语义和首次出画前定位。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 1900,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "277452804a8195e489942885e6807345a833cd1f1f6d2d58a2f95141c0f77d77",
+      "afterSha256": "8352efdf100ce09ee0571ce5d4e99eb76f80bc2400425c5dbad566f8df3df599",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端演出相位复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "记录末帧持留和入场准备的共用呈现合同。",
-        "reviewedLines": 346,
-        "acceptanceScope": "核实际作者入口、黑幕边界和 NPC 启动顺序。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 347,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "230d5c1b597210206d0df09be9ed0725ca8cdd470ea38a566b7c3ffca1a01b1b",
+      "afterSha256": "c03650d74f11d8fc8c20ae26d79a0c1da7b56e36fc611ba822146e3a15581a95",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "更新受影响的七处现行源码引用。",
-        "reviewedLines": 8669,
-        "acceptanceScope": "按实际引用复算对应片段并保全前驱执行。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 8740,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "accd7a00761a46edc29848230f4b2e6ffb3ff42555202224aa81bff0de253156",
+      "afterSha256": "4fcf95a87e43a0cb12cc6284dd2f526c0c0d4dfddd8e53d27c984659bec11226",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
         "reviewedLines": 99,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b72b90572e8845da15342ddc9ed2ce53f693bea46d58ea284b55a87490b8160a",
+      "afterSha256": "0fe5c5fbde61c42e48f6c648a7e6e19b17c727e5b52b1bc7c26513b6ff46235b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
-        "reviewedLines": 474,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 497,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "bb622821231d873fa9e8ed8d66cfc6bda52babe88eaee9cd5ebf0ce78abcb901",
+      "afterSha256": "5f0a7f68a670552645c95a435896b1a89c7abe42418039ecab9dc364cb1a222d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
         "reviewedLines": 98,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "604aa61128cb46f514ae3dc818d5c44568fff28f4639a8cf76c01bef64a851b7",
+      "afterSha256": "e70172755afad498cc405c23b29e0d74cfd46ca3258d5da313fcc7c59bb85d17",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
-        "reviewedLines": 439,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 455,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "fab91d678b55de0ac1aca595f746be6cdf1f519af97de4bf589f9107b2263b0e",
+      "afterSha256": "4e0535eeceeaf23e3533a9ae39cc4e7badfeab07df01dcaabb674b93b0b850cb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
         "reviewedLines": 99,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "abe90a05f7cf9607a207a55b4706a090c63dd63ab9bd4380449aaf3b75d501f6",
+      "afterSha256": "0ad205d4f82f4e23691bb648cf8a5984ab35e7db9e255581b1b15ee52b08f2f1",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
-        "reviewedLines": 428,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 444,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -4942,6 +4942,21 @@
         "reviewedLines": 363,
         "acceptanceScope": "核化尸水与零入口投掷的本轮勘误。历史物品表从历史范围到末尾与 5a5a02a2f 字节一致，旧秒杀全体原文的历史身份保留。"
       }
+    },
+    {
+      "path": "docs/phase2/guides/scene-entry-authoring.md",
+      "mode": "reviewed",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": true,
+      "afterSha256": "7c9ca9ebbf5fded07c0bd224105b8b2e6eb3c459ce78edcb15ce0f5ccf7b629e",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "reviewedLines": 90,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+      }
     }
   ],
   "additions": [
@@ -5013,14 +5028,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "3384e3508a91e99b6807f1170d154bb712787015fa767517c7048e8fbbb7851c",
+      "afterSha256": "6ed1fb555e811c286d70f5177b84ce232e363a4978ef3899bd52cf94e7f9b852",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 223082,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 223243,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -5403,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "2ba56fffed94b7213aed8cd97441b6119ada629ead4bafbebd2c63fc12b21602",
+      "afterSha256": "e0e152bb2355087c3a2e92bf4fc44982a35bdd34f09b0ff5011dab4334c76caa",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端演出相位复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记走廊群像和末柱两处交接的同局复验。",
-        "reviewedLines": 961,
-        "acceptanceScope": "核双端实绘、两个共用回归反例及新分屏。"
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 965,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
@@ -5429,40 +5444,53 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "597008d1a621f4bafe17ef7b2ab73985547960ab710103c84f790d0f112cf392",
+      "afterSha256": "714af42266bc6884c6b3fe15b92d7a696fd94343391043f7cdca3107bae2dba5",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "将当前范围绑定到已复验的演出候选。",
-        "reviewedLines": 14803,
-        "acceptanceScope": "核对应引文、候选文件摘要及历史执行身份。"
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 14819,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "2685b258c75834cfec9986fb28c9a723ad62afd0e8d44cd0578222a3136da004",
+      "afterSha256": "48d41033df4ebca3ff85be2ecf74c49ebe67ce68e8ef4134b3cc628e76872c94",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端演出相位复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "记录两处用户指出的交接差异和完整演出复验。",
-        "reviewedLines": 1306,
-        "acceptanceScope": "核八个自动对象及实际在屏集合、持帧和下一场景首帧。"
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 1316,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "24191d6772fc6fcd936d51a40c7cce08f75ba1eb611304a0659b9c42f1b48413",
+      "afterSha256": "346f7e9c292b4d42b37f8bffb83247c8a7d49a870e4ccd430070aa0b72bb2b3f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "记录四组现行来源的对应变更。",
-        "reviewedLines": 406,
-        "acceptanceScope": "核固定前驱、候选及七处引用片段。"
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 410,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/PAL-ENTRY-FADE-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "b4d31754591c3862b7cc62cbb398acf3d4eb044b8ac8ee49e66b0f54c2c30e3e",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "reviewedLines": 69,
+        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     }
   ],
@@ -6244,6 +6272,12 @@
       "bytes": 19521524,
       "sha256": "261c62ad30fbd96e142d348e1b2711f825356c57b9327f55145415ffc7a2ce7c",
       "purpose": "桂花酒和布包的同局用物、对白位置、库存和技能奖励的双端实测、反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz",
+      "bytes": 25992714,
+      "sha256": "cdbb7a404b1a56446ab7914fabaf6a95889d190140ba61c478a7fcbf17cb59ac",
+      "purpose": "盘龙柱末柱至剑圣雪崖首句的双端日志、画面与命令权属反例、编辑器预览和原速带声分屏。"
     }
   ],
   "artifactAliases": [],

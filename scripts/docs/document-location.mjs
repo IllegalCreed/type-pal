@@ -52,6 +52,7 @@ import {
   isTestingBattleSummonSource,
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
+  isTestingCliffEntrySource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -84,6 +85,7 @@ import {
   restoreTestingBattleThrowStatusSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
+  restoreTestingCliffEntrySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
@@ -133,6 +135,7 @@ import {
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
   testingBattleWindBlowPublicationBase,
+  testingCliffEntryPublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
   testingSceneItemExitPublicationBase,
@@ -851,8 +854,25 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     storyPresentationRevision && gitTree(root, storyPresentationRevision, [])
   const preStoryPresentation =
     storyPresentationSource && gitTree(root, testingStoryPresentationPublicationBase, [])
-  const readBeforeStoryPresentation = (path) => {
+  const cliffEntryRevision = admission.testingCliffEntrySourceRevision
+  if (cliffEntryRevision)
+    assert(
+      storyPresentationRevision,
+      'cliff entry bridge requires the fixed story presentation revision',
+    )
+  const cliffEntrySource = cliffEntryRevision && gitTree(root, cliffEntryRevision, [])
+  const preCliffEntry = cliffEntrySource && gitTree(root, testingCliffEntryPublicationBase, [])
+  const readBeforeCliffEntry = (path) => {
     const live = readSource(path)
+    if (!preCliffEntry || !isTestingCliffEntrySource(path)) return live
+    assert(
+      live?.equals(cliffEntrySource.read(path)),
+      'cliff entry source differs from the frozen candidate',
+    )
+    return preCliffEntry.read(path)
+  }
+  const readBeforeStoryPresentation = (path) => {
+    const live = readBeforeCliffEntry(path)
     if (!preStoryPresentation || !isTestingStoryPresentationSource(path)) return live
     assert(
       live?.equals(storyPresentationSource.read(path)),
@@ -1086,13 +1106,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorStoryPresentation = preStoryPresentation
-      ? restoreTestingStoryPresentationSourceBindings(path, bytes, {
+    const priorCliffEntry = preCliffEntry
+      ? restoreTestingCliffEntrySourceBindings(path, bytes, {
           readSource,
+          readBase: preCliffEntry.read,
+          readFixed: cliffEntrySource.read,
+        })
+      : bytes
+    const priorStoryPresentation = preStoryPresentation
+      ? restoreTestingStoryPresentationSourceBindings(path, priorCliffEntry, {
+          readSource: readBeforeCliffEntry,
           readBase: preStoryPresentation.read,
           readFixed: storyPresentationSource.read,
         })
-      : bytes
+      : priorCliffEntry
     const priorSceneItemExit = preSceneItemExit
       ? restoreTestingSceneItemExitSourceBindings(path, priorStoryPresentation, {
           readSource: readBeforeStoryPresentation,
