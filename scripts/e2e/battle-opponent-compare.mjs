@@ -41,10 +41,20 @@ function activeFoe(action, opponent) {
 
 function actionDraw(trace, action, frames, slot) {
   // Game records an action as the queue leaves it. Reforge records the action
-  // before its BattleSession consumes the matching animation.
-  const previous = trace.actions[action.seq - 1]?.order ?? trace.start.order
+  // before its BattleSession consumes the matching animation. The round receipt
+  // bounds that action even if the next action comes after a turn-start script.
+  const command = trace.commands.findLast(
+    ({ turn, order }) => turn === action.turn && order < action.order,
+  )
+  const previous = Math.max(
+    command?.order ?? trace.start.order,
+    trace.actions[action.seq - 1]?.order ?? trace.start.order,
+  )
   const next = trace.actions[action.seq + 1]?.order ?? trace.terminal.order
-  const [left, right] = trace.engine === 'game' ? [previous, action.order] : [action.order, next]
+  const roundEnd =
+    trace.rounds?.find(({ turn }) => turn === action.turn)?.order ?? trace.terminal.order
+  const [left, right] =
+    trace.engine === 'game' ? [previous, action.order] : [action.order, Math.min(next, roundEnd)]
   const inside = ({ order }) => order > left && order < right
   const motion = frames.filter(
     (frame) =>
@@ -54,8 +64,17 @@ function actionDraw(trace, action, frames, slot) {
       frame.payload.enemies.some((draw) => draw.slot === slot && Number.isInteger(draw.frameIndex)),
   )
   const cues = trace.audioEvents
-    .filter((event) => inside(event) && event.kind === 'sfx-start')
-    .map(({ assetId, seq }) => ({ assetId, seq }))
+    .filter((event) => inside(event) && event.kind === 'sfx-request')
+    .flatMap((request) => {
+      // The native request owns the cue. Loading may finish after action dispatch.
+      const started = trace.audioEvents.find(
+        (event) => event.kind === 'sfx-start' && event.cueId === request.cueId,
+      )
+      if (!started) return []
+      assert.equal(started.assetId, request.assetId)
+      assert(started.order > request.order, 'sound started before its native request')
+      return [{ assetId: started.assetId, seq: started.seq, requestSeq: request.seq }]
+    })
   return {
     first: motion[0]?.seq ?? null,
     firstAtMs: motion[0]?.atMs ?? null,
