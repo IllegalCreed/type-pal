@@ -3,7 +3,7 @@
  * 公式 = 原版考证(battle.c:991-1372 + global.c:2347-2454,经一阶段 battle-system 移植):
  * - exp:全体存活队员各得全额(死者不获);扣减式升级(dwExp -= levelUpExp[level])
  * - 成长:maxHP+10+R(0,7) / maxMP+8+R(0,5) / 武术·灵力+4+R(0,1) / 防·身法+2+R(0,1) /
- *   吉运+2(固定);各项 cap 999;升级 HP/MP 回满
+ *   吉运+2(固定);各项 cap 999;主升级后 HP/MP 回满到隐藏成长后的上限
  * - 学技能:按存活角色结算后的等级补学符合条件的仙术，已学和次数用尽的跳过
  * - Phase F:战后全员 HP += (max−HP)/2、MP 同。普通世界在战后脚本完成后执行。
  */
@@ -221,7 +221,8 @@ export function grantBattleRewards(
       c.mp = c.maxMP
     }
     c.exp = exp
-    if (c.level > from)
+    const leveledUp = c.level > from
+    if (leveledUp)
       levelUps.push({
         characterId: c.id,
         from,
@@ -231,7 +232,14 @@ export function grantBattleRewards(
       })
     // B7c 隐藏经验分配(原版 CHECK_HIDDEN_EXP:主升级之后、per 角色)
     const counts = input.hiddenCounts?.[c.id]
-    if (counts) hiddenUps.push(...applyHiddenExp(c, counts, input.exp, expTable, rng))
+    if (counts) {
+      hiddenUps.push(...applyHiddenExp(c, counts, input.exp, expTable, rng))
+      // 原版 battle.c:1289–1292 在隐藏成长后同步本次主升级角色的当前 HP/MP。
+      if (leveledUp) {
+        c.hp = c.maxHP
+        c.mp = c.maxMP
+      }
+    }
 
     // PAL_BattleWon 在主升级循环外按当前等级扫描习得表（battle.c:1298–1328）。
     const rules = Object.hasOwn(levelUp, c.template) ? levelUp[c.template] : undefined
