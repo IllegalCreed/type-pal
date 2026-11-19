@@ -2344,6 +2344,80 @@ export function restoreTestingQ2TombSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, tombSourceStage, tombSourceBindings)
 }
 
+export const testingQ2TowerFoxPublicationBase = '725e768fc2964cb051b624797cdec50bcf9bb313'
+const towerFoxSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/battle/battle-host.ts',
+      { 289: '289', '72-88': '72-88', '277-288': '277-288' },
+    ],
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5951: '5969',
+        '1295-1393': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+    ['scripts/e2e/opening-trace.test.mjs', { '560-675': '563-678' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    return ref.path === 'packages/reforge/src/battle/battle-host.ts' && ref.lines === '277-288'
+      ? excerpt.replace(
+          'presentation?.holdVictoryFrame === true',
+          'presentation?.fadeOnVictory === true',
+        )
+      : excerpt
+  },
+  base: testingQ2TowerFoxPublicationBase,
+  action: 'q2-tower-fox-source-rebinding',
+  date: '2026-11-20',
+}
+const towerFoxSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: ['packages/reforge/src/battle/battle-host.ts', 'packages/reforge/src/main.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    {
+      id: 'runtime-battle-host',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/battle/battle-host.ts'],
+    },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: ['scripts/e2e/opening-trace.test.mjs'] }],
+  [
+    'e2e/evidence/e2e-common-issues.json',
+    { id: 'e2e-common-issues', paths: ['scripts/e2e/opening-trace.test.mjs'] },
+  ],
+])
+
+export const isTestingQ2TowerFoxSource = (path) => towerFoxSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TowerFoxSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    towerFoxSourceStage,
+    towerFoxSourceBindings,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

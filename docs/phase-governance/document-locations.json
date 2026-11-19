@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "c63ec4907a048d2680776cd842672f39ef223d064a7f074623a0a9091c04c7a2",
+      "afterSha256": "627b23a0bad4910863586f1e5916c945c19ce583f75559126f77bfe93390b0ba",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 118,
+        "reviewedLines": 119,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,13 +3206,13 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "2225556988227ab5dd964ea53e4f99b78967bfb1302c8544e4ee449a5c5f4257",
+      "afterSha256": "439c6f850540d5604ce3d2c18deca10607a8db7d29c9cd83d33c5fe969cae52a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-20",
         "conclusion": "核实林家擂台的原盘镜头锚点、战斗配乐和林家入场顺序。",
-        "reviewedLines": 1938,
+        "reviewedLines": 1944,
         "acceptanceScope": "新增原盘指令证据。按原引用和固定 Git 对象核历史正文与保留片段。"
       }
     },
@@ -3414,13 +3414,13 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "77dec167ff40b37d7e10d3bb9e429815c26a179997e02edfc8ce6ba1bc3f3df6",
+      "afterSha256": "06a867df163b12b0a832dbb40d577f2819bbf0f7d17c662c2e07de12ca81102b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记独立队员站姿以及有限前景演出轨道合同。",
-        "reviewedLines": 363,
+        "reviewedLines": 365,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       },
       "templateId": "design-spec-v1"
@@ -4020,7 +4020,7 @@
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "mode": "reviewed",
-      "afterSha256": "1583a85d1ccfc73923df8aa11cffb3aa000e65fe38c1b8bd7c9eed6f15f4698d",
+      "afterSha256": "1a5e1de0a88bf899718a5004039dfe943bec2bd6405ddc785af2d25ec6508046",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
@@ -4078,7 +4078,7 @@
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
       "mode": "reviewed",
-      "afterSha256": "125604644d1963faee469433a3fb38fca2bcff0f413e20854a341e747a47e1b9",
+      "afterSha256": "c4a0e7630675d2a31594bfea58bd32afef007706a898b5417186d38d6533ddb9",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "ec2bcdacba7f8ec80f6475cb206ae5a189d506b0baeb59bb847194089f5fa4ff",
+      "afterSha256": "1c243dcd8b7f48303a860a5fe5f84a9623a89458956d6c83c7402bb1e13c35b1",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 9835,
+        "reviewedLines": 9959,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -4428,7 +4428,7 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "f2c9d3e802501f2deafc99dd16104e8dc603c202fa22715d2570399fdbbf4489",
+      "afterSha256": "82f4df9cfd9d52fca8dc1954199f618f330770365341ef88d2a27739b5b18b11",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
@@ -4442,20 +4442,20 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "01ef0d850a75db91a527de6e3636660f2c27670e4f3106bc776cf0ff52892773",
+      "afterSha256": "18e0d4a8281cb5b96d4a71cf828f2fc0f1e6e0f0b7a0e896f79c1d262587b96e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 727,
+        "reviewedLines": 750,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "3f3a478567eb70fa730d8dfad849a61afbbb2decd0c51e27b6fec2b2432dad2b",
+      "afterSha256": "0db22dcd00e75b222fbe66f322ed7355d4ec78335fa9616e571bd2f1ab8666b0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
@@ -4469,20 +4469,20 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "d8c232d2345374adcbea19b4762d4a6ec43be438aefebde6a6175b2f38bb48ff",
+      "afterSha256": "a7654fcd0d400b3b6586e079e3953a294e4f27fc63f9af74ce72ddab934e00c2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 643,
+        "reviewedLines": 673,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "dcffc8130895e6102d828bbe7b4cafc237b050c60a1cac99b085f4cc453a5c2c",
+      "afterSha256": "49d198bd4dc119a592420346b1e5d9d9692ce8c281f820a7471266dd5ab975fa",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
@@ -4496,13 +4496,13 @@
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2dc4e91d17e3cad7402ff16adce5d93f3a146c431edb103da4f902e618f59680",
+      "afterSha256": "ac27a3e45f26309ce7088dc1312a082c4bce947ec8d719f026bfe0b43c051573",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 618,
+        "reviewedLines": 634,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -4790,13 +4790,13 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a1fdd969c87d03ef1b135b0776322700fad9f9d8d82996dc35b08630010625d1",
+      "afterSha256": "f5e5b5442209b8bce84f5dac113241c61f1c42c320c7bf6610eb258fe6f4ffa4",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
         "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 253,
+        "reviewedLines": 269,
         "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
       }
     },
@@ -4868,13 +4868,13 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "845c05c38db0a334bdf672776dae56dbc165e537b66f3163154ca994e9de2843",
+      "afterSha256": "234bf42099553dd92fd8e8224ba6baa3c648d28284708ec50275157b633e5873",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
         "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 254,
+        "reviewedLines": 270,
         "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
       }
     },
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "aecaca50e0bebbc74bbd98fa57e737a42e319bea9b458ebd1d6d40d70f44b6bd",
+      "afterSha256": "066df02cb62090b270be882dcc410f36d5f276f0bca5a3c8c4c0f0522316a8a9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1055,
+        "reviewedLines": 1057,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5444,39 +5444,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "83173370b851bbdd050053e38c1ca076e29e8e1c2206a9f505cadd058b0833ce",
+      "afterSha256": "b7ec5e45b62bc3a8c5d0bc08d182170a31a3b6c21786e6f48c329e454b371630",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 15072,
+        "reviewedLines": 15095,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "27e24f353202b1202b142b21931d1b7e4682c257244f3fa033a842936f69a909",
+      "afterSha256": "fda460bf88804dffd846899f97c3a26c32fd447e9f297f9b10fb75e45fdb3258",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1545,
+        "reviewedLines": 1562,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "c6bdc50e78ec9baaa602395743faf5933d7cdede4b31af2cf17e0ba84fdbe9b8",
+      "afterSha256": "d069a717b3a5b96bc5255f757a9f010ae1782acb0b1a8b921cfdbe61ebc68c5a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记队员姿势变更对历史来源的适用范围。",
-        "reviewedLines": 458,
+        "reviewedLines": 462,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -6501,6 +6501,18 @@
       "bytes": 75098229,
       "sha256": "9b6c67d54a0c5d8af7ae8a04f93e2e5f1f5e4a78f200628b0950aefa8ee27b6b",
       "purpose": "将军冢或血池实战的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-fox-s148-20261120.tar.gz",
+      "bytes": 62349100,
+      "sha256": "f34a5e084ebac57d72b93f1dc286fadfbc42c28c7ddb09917f4933507d7ed607",
+      "purpose": "锁妖塔 s148 狐妖女双端实测、原生录制、反例与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-fox-s165-20261120.tar.gz",
+      "bytes": 43381399,
+      "sha256": "d70fe2472d0d4537e5c4249b3f5f54515594130a268992671ad301c44840b502",
+      "purpose": "锁妖塔 s165 狐妖女双端实测、原生录制、反例与原速分屏。"
     }
   ],
   "artifactAliases": [],

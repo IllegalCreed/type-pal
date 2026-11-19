@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
+      "sha256": "5b558dd928ca7586a96dba88cf39246bcf4f2fb9fbf8a7a024ef6dd0f71e169f"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "456-463",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
+      "sha256": "5b558dd928ca7586a96dba88cf39246bcf4f2fb9fbf8a7a024ef6dd0f71e169f"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -655,6 +655,29 @@
         }
       ],
       "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
+    },
+    {
+      "action": "q2-tower-fox-source-rebinding",
+      "base": "725e768fc2964cb051b624797cdec50bcf9bb313",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "456-463",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
+        }
+      ],
+      "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
     }
   ],
   "_governance": {
