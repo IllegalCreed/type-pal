@@ -2536,6 +2536,14 @@ function CanonicalCommandForm(props: {
         </div>
         <DsCheckbox
           size="compact"
+          label="按世界拍直接追逐"
+          checked={command.worldStep ?? false}
+          onChange={(event) =>
+            props.onChange({ ...command, worldStep: event.target.checked || undefined })
+          }
+        />
+        <DsCheckbox
+          size="compact"
           label="追击时忽略地形与阻挡实体"
           checked={command.floating ?? false}
           onChange={(event) =>

@@ -124,7 +124,7 @@ export function describeScriptCommand(
     case 'chasePlayer':
       return {
         icon: '👣',
-        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 忽略障碍' : ''})`,
+        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.worldStep ? ' · 世界拍步进' : ''}${cmd.floating ? ' · 忽略障碍' : ''})`,
       }
     case 'vanishEntity':
       return {

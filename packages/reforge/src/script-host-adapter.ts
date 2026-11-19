@@ -58,6 +58,7 @@ export async function executeScriptHostEffect(
           command.speed ?? 4,
           command.floating ?? false,
           signal,
+          ...(command.worldStep ? ([command.worldStep] as const) : []),
         )
       return
     }

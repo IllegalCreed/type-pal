@@ -6520,11 +6520,8 @@
                         {
                           "kind": "chasePlayer",
                           "range": 8,
-                          "speed": 4
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
+                          "speed": 4,
+                          "worldStep": true
                         }
                       ]
                     }
@@ -8105,11 +8102,8 @@
                         {
                           "kind": "chasePlayer",
                           "range": 8,
-                          "speed": 4
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
+                          "speed": 4,
+                          "worldStep": true
                         }
                       ]
                     }

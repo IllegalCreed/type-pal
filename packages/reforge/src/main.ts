@@ -1925,6 +1925,7 @@ export async function bootGame(
     range: number,
     floating: boolean,
     signal: AbortSignal,
+    worldStride?: number,
     checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
   ): Promise<AutoOneShotAck> {
     try {
@@ -1950,6 +1951,7 @@ export async function bootGame(
       floating,
       sceneId: activeScene.scene.id,
       signal,
+      ...(worldStride === undefined ? {} : { worldStride }),
       ...(activation
         ? { activation: { ownerId: activation.entityId, epoch: activation.epoch } }
         : {}),
@@ -1984,6 +1986,11 @@ export async function bootGame(
     })
   }
 
+  function chaseContactRange(entity: EntityDef, worldStep: boolean): number {
+    const trigger = entity.pages?.[0]?.trigger
+    return worldStep && trigger?.on === 'touch' ? (trigger.range ?? 0) : 1
+  }
+
   async function runChaseStep(
     source: EntityMoveSource,
     entityId: string,
@@ -1991,6 +1998,7 @@ export async function bootGame(
     speed: number,
     floating: boolean,
     signal: AbortSignal,
+    worldStep?: true,
     checkpoint?: ScriptRuntimeContext['autoMotionCheckpoint'],
   ): Promise<void> {
     const continuationSceneToken = currentMotionSceneSessionId()
@@ -2025,7 +2033,7 @@ export async function bootGame(
           })
       }
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
-      await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
+      if (!worldStep) await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
       return
     }
     if (source === 'auto') {
@@ -2055,12 +2063,13 @@ export async function bootGame(
         activationOwnerId: activation?.entityId,
         activationEpoch: activation?.epoch,
       })
+      if (worldStep) await wait(STEP_MS, 'chase-pacing')
       return
     }
     const dc = player.pos.col - e.pos.col
     const dr = player.pos.row - e.pos.row
     const dist = Math.max(Math.abs(dc), Math.abs(dr))
-    if (dist <= 1) {
+    if (dist <= chaseContactRange(e, Boolean(worldStep))) {
       assertRunnerActive(signal, `追逐 ${entityId} 所属 runner 已取消`)
       const terminalAuthorityEpoch = authorityEpoch.get(entityId) ?? 0
       const existing = pendingChaseTerminal.get(entityId)
@@ -2171,14 +2180,24 @@ export async function bootGame(
     if (dist > range) {
       checkpoint?.settle('done')
       pendingChaseTerminal.delete(entityId)
-      await wait(240, 'chase-range')
+      await wait(worldStep ? STEP_MS : 240, 'chase-range')
       return
     }
     pendingChaseTerminal.delete(entityId)
-    const outcome = await scheduleChaseMotion(source, entityId, range, floating, signal, checkpoint)
+    const worldStride = worldStep ? Math.min((speed || 4) / 8, 1) : undefined
+    const outcome = await scheduleChaseMotion(
+      source,
+      entityId,
+      range,
+      floating,
+      signal,
+      worldStride,
+      checkpoint,
+    )
     if (source === 'auto' && outcome === 'attempted')
       await waitForAutoMotionContinuation(entityId, continuationSceneToken, signal)
-    await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
+    if (!worldStep) await wait(Math.max(80, 480 / Math.max(1, speed)), 'chase-pacing')
+    else if (outcome === 'droppedByAuthority') await wait(STEP_MS, 'chase-pacing')
   }
 
   function waitAutomaticDelay(
@@ -2432,7 +2451,7 @@ export async function bootGame(
       presentation.run([{ kind: 'fade', dir, ms, color }], signal ?? new AbortController().signal),
     revealSceneEntry: hostSceneEntryReveal,
     // ── B8 野外遇敌 ──
-    chaseStep: (entityId, range, speed, floating, signal) =>
+    chaseStep: (entityId, range, speed, floating, signal, worldStep) =>
       runChaseStep(
         'script',
         entityId,
@@ -2440,6 +2459,7 @@ export async function bootGame(
         speed,
         floating,
         signal ?? new AbortController().signal,
+        worldStep,
       ),
     vanishEntity: (entityId, seconds) => {
       const e = activeScene.scene.entities.find((x) => x.id === entityId)
@@ -3396,7 +3416,7 @@ export async function bootGame(
       takeByScript(id)
       host.nudgeEntity(id, dx, dy)
     },
-    chaseStep: (id, range, speed, floating, signal) => {
+    chaseStep: (id, range, speed, floating, signal, worldStep) => {
       if (entityMotionPermanentlyRemoved(id))
         return Promise.reject(asyncIntentAbortError(`追逐实体 ${id} 已永久移除`))
       takeByScript(id)
@@ -3407,6 +3427,7 @@ export async function bootGame(
         speed,
         floating,
         signal ?? new AbortController().signal,
+        worldStep,
       )
     },
   }
@@ -3442,8 +3463,16 @@ export async function bootGame(
       if (authority.has(id)) return
       host.nudgeEntity(id, dx, dy)
     },
-    chaseStep: (id, range, speed, floating, signal) =>
-      runChaseStep('auto', id, range, speed, floating, signal ?? new AbortController().signal),
+    chaseStep: (id, range, speed, floating, signal, worldStep) =>
+      runChaseStep(
+        'auto',
+        id,
+        range,
+        speed,
+        floating,
+        signal ?? new AbortController().signal,
+        worldStep,
+      ),
     takeEntity: (id) => {
       host.report(`auto 脚本不可接管实体(${id});takeEntity 仅主脚本可用`)
     },
@@ -3820,6 +3849,7 @@ export async function bootGame(
           command.speed ?? 4,
           command.floating ?? false,
           signal,
+          command.worldStep,
           context.autoMotionCheckpoint,
         )
         await context.autoCommandCheckpoint?.beginMutation()
@@ -4355,7 +4385,8 @@ export async function bootGame(
           // A paused one-shot chase never commits a stale target. It re-evaluates the live party
           // position; becoming adjacent/out-of-range completes this attempt and lets the next leaf
           // retain the authored pre-close trigger semantics.
-          if (distance <= 1 || distance > slot.range) {
+          const worldStep = slot.worldStride !== undefined
+          if (distance <= chaseContactRange(entity, worldStep) || distance > slot.range) {
             slot.commitAttempt?.()
             // Do not wake the command synchronously. A same-tick touch may take/hide/replace this
             // actor; its script must establish that ownership before the chase reaches its next
@@ -4365,10 +4396,11 @@ export async function bootGame(
           }
           desiredFacing = facingToward(entity.pos, player.pos)
           const delta = WALK_STEP[desiredFacing]
+          const stride = slot.worldStride ?? 1
           desired = {
             ...entity.pos,
-            col: entity.pos.col + delta.dcol,
-            row: entity.pos.row + delta.drow,
+            col: entity.pos.col + delta.dcol * stride,
+            row: entity.pos.row + delta.drow * stride,
           }
           source = slot.source === 'auto' ? 'auto' : 'script-chase'
           collision = runtimeMotionCollision(slot.kind)
@@ -4399,7 +4431,10 @@ export async function bootGame(
         floating,
         epoch,
         quantum,
-        allowSidestep: collision === 'dynamic' && !floating,
+        allowSidestep:
+          collision === 'dynamic' &&
+          !floating &&
+          !(slot?.kind === 'chase' && slot.worldStride !== undefined),
       })
       commitMeta.set(motionActorKey(actor), {
         entity,

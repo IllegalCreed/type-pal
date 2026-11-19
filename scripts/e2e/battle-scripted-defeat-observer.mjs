@@ -6,7 +6,7 @@ export function scriptedDefeatObserver(input) {
 }
 
 function install(
-  { engine, scene, gameScene, owner, seed, foreground, entrance },
+  { engine, scene, gameScene, owner, seed, foreground, entrance, contactActors = [] },
   makeRng,
   createRecorder,
 ) {
@@ -321,7 +321,8 @@ function install(
       })
     },
     gameContact(gs, npc) {
-      if (gs.wNumScene === entranceGameScene && `e${npc.id}` === entrance.owner) {
+      const id = `e${npc.id}`
+      if (gs.wNumScene === entranceGameScene && id === entrance.owner) {
         once('entrance-trigger', {
           scene: entrance.scene,
           owner: entrance.owner,
@@ -329,13 +330,18 @@ function install(
           position: grid(gs.party),
         })
       }
-      if (gs.wNumScene !== gameScene || `e${npc.id}` !== owner) return
-      contact = event('trigger', { scene, owner, ip: gs.eventCursor?.ip, position: grid(gs.party) })
+      if (gs.wNumScene !== gameScene || (id !== owner && !contactActors.includes(id))) return
+      contact = event('trigger', {
+        scene,
+        owner: id,
+        ip: gs.eventCursor?.ip,
+        position: grid(gs.party),
+      })
     },
     reforgeContact(sceneId, id, position) {
       if (sceneId === entrance?.scene && id === entrance.owner)
         once('entrance-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
-      if (sceneId !== scene || id !== owner) return
+      if (sceneId !== scene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
     gameDraw(gs, renderedBattle, indices) {

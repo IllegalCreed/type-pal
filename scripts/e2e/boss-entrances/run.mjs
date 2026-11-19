@@ -11,6 +11,7 @@ import { installRenderedDialogueObservation } from '../rendered-dialogue-observa
 import { bossObserver } from './observe.mjs'
 import {
   departingPosition,
+  entranceSteps,
   gameScene,
   grid,
   growthPools,
@@ -41,7 +42,7 @@ const checkpoint = entrance?.start ?? spec.start
 const fieldMusic = initialTrack(spec)
 const fieldMusicAsset = nativeMusic(fieldMusic)
 const approach = spec.approach ?? 'ArrowUp'
-const facing = approach.slice('Arrow'.length).toLowerCase()
+const facing = (entrance?.key ?? approach).slice('Arrow'.length).toLowerCase()
 const returned = returnedPosition(spec)
 const departure = departingPosition(spec)
 const source = await readSources(spec)
@@ -59,6 +60,9 @@ const observe = bossObserver({
   gameScene: gameScene(spec),
   owner: spec.owner,
   watched: spec.watched,
+  contactActors: Object.entries(source.setup ?? {})
+    .filter(([, actor]) => actor.triggerIp)
+    .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
   scriptedReturn: Boolean(scriptedReturn),
@@ -623,19 +627,15 @@ await runBrowserJourney({
           arrival: { scene: spec.scene, position: entrance.landing },
           mode: 'ready',
         })
-        let from = entrance.landing
-        for (const to of entrance.walk) {
+        for (const step of entranceSteps(spec)) {
           await walk({
             page,
             health,
             record,
-            key: approach,
+            ...step,
             phase: 'inn-walk',
-            from,
-            to,
             mode: 'ready',
           })
-          from = to
         }
       }
       await walk({
@@ -648,6 +648,14 @@ await runBrowserJourney({
         to: spec.contact,
         mode: 'dialogue',
       })
+      if (entrance) {
+        const contacts = (await trace(page)).events.filter(({ kind }) => kind === 'trigger')
+        assert.deepEqual(
+          contacts.map(({ owner, position }) => [owner, position]),
+          [[spec.owner, spec.contact]],
+          'actual ambush trigger after the recorded walk',
+        )
+      }
       result.returned = await playEncounter({ page, press, health, capture })
       if (handoff || scriptedReturn) {
         if (capture.enabled) {

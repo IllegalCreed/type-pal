@@ -9,6 +9,7 @@ import {
   battleOperands,
   battlePartyFor,
   departingPosition,
+  entranceSteps,
   gameScene,
   grid,
   initialTrack,
@@ -288,6 +289,60 @@ function checkInnPresentation(
     }
   check('inn actors on the first visible entrance draw', source.inn.start, formation(start))
   check('inn actors on the script return first draw', source.inn.returned, formation(control))
+  const chaseFrames = events.filter(
+    ({ kind, order }) => kind === 'world-drawn' && order > start.order && order < trigger.order,
+  )
+  const chase =
+    spec.owner === 'e59'
+      ? undefined
+      : Object.fromEntries(
+          Object.entries(source.inn.chase).map(([id, { stride, step }]) => {
+            const original = source.inn.start.actors[id]
+            const frames = chaseFrames.map(({ order, atMs, leader, actors }) => ({
+              order,
+              atMs,
+              leader,
+              actor: actors[id] ?? null,
+            }))
+            const moves = []
+            let previous = original.position
+            for (const sample of frames) {
+              if (!sample.actor || isDeepStrictEqual(sample.actor.position, previous)) continue
+              moves.push(sample)
+              previous = sample.actor.position
+            }
+            // Every approach starts with two unobstructed chases. The door entry and the
+            // half-step rule come from 0x46 and 0x4c. A later collision can change the path.
+            const expected = [1, 2].map((index) => ({
+              position: original.position.map((value, axis) => value + index * step[axis]),
+              facing: original.facing,
+              frame: original.frame + (index % 2),
+            }))
+            const first = moves.slice(0, expected.length)
+            check(`inn chase ${id} drew two consecutive steps`, expected.length, first.length)
+            check(
+              `inn chase ${id} stride and gait`,
+              expected,
+              expected.map((_, index) => {
+                const actor = first[index]?.actor
+                return (
+                  actor && {
+                    position: actor.position,
+                    facing: actor.facing,
+                    frame: actor.frame,
+                  }
+                )
+              }),
+            )
+            if (first.length === 2) {
+              const intervalMs = first[1].atMs - first[0].atMs
+              // The 100 ms world tick is observed at draw time, up to two display frames later.
+              if (intervalMs < 70 || intervalMs > 135)
+                issues.push({ rule: `inn chase ${id} world cadence`, actual: intervalMs })
+            }
+            return [id, { stride, step, frames }]
+          }),
+        )
   const byOrder = new Map(resources.map((resource) => [resource.order, resource]))
   const drawnSprites = (frame) =>
     frame &&
@@ -301,6 +356,7 @@ function checkInnPresentation(
     issues,
     fullPages,
     start,
+    chase,
     returned: control,
     actorPixels: [start, control].map(drawnSprites),
   }
@@ -749,23 +805,24 @@ async function inspect(path, engine) {
   assert.deepEqual(report.cleanupErrors ?? [], [])
   assert.equal(report.inputExecution.status, 'passed')
   assertInputLedger(report.actions, { requireReceipts: true })
+  const steps = entranceSteps(spec)
   const routeInputs = [
-    ['approach', approachKey, 1],
-    ...(leavesByScript ? [] : [['exit', exitKey, 1]]),
+    ['approach', [approachKey]],
+    ...(leavesByScript ? [] : [['exit', [exitKey]]]),
     ...(entrance
       ? [
-          ['entrance', entrance.key, 1],
-          ['inn-walk', approachKey, entrance.walk.length],
+          ['entrance', [entrance.key]],
+          ['inn-walk', steps.map(({ key }) => key)],
         ]
       : []),
   ]
-  for (const [phase, key, count] of routeInputs)
+  for (const [phase, keys] of routeInputs)
     assert.deepEqual(
       report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
-      Array.from({ length: count }, () => [
+      keys.flatMap((key) => [
         ['down', key],
         ['up', key],
-      ]).flat(),
+      ]),
       `physical held keys for ${phase}`,
     )
   assert.deepEqual(
@@ -796,7 +853,7 @@ async function inspect(path, engine) {
     assert.deepEqual(readback.position, {
       sceneId: entrance?.scene ?? spec.scene,
       pos: grid(entrance?.start ?? spec.start),
-      facing: facing(approachKey),
+      facing: facing(entrance?.key ?? approachKey),
     })
     assert.equal(readback.version, saved.version)
     assert.equal(readback.contentVersion, saved.contentVersion)
@@ -865,17 +922,11 @@ async function inspect(path, engine) {
     [trigger.scene, trigger.owner, trigger.position],
     [spec.scene, spec.owner, spec.contact],
   )
-  const [approach, departure] = find('move').slice(entrance?.walk.length ?? 0)
+  const [approach, departure] = find('move').slice(steps.length)
   assert.deepEqual(
     find('move').map(({ from, to, facing }) => [from, to, facing]),
     [
-      ...(entrance
-        ? entrance.walk.map((to, i) => [
-            i === 0 ? entrance.landing : entrance.walk[i - 1],
-            to,
-            facing(approachKey),
-          ])
-        : []),
+      ...steps.map(({ from, to, key }) => [from, to, facing(key)]),
       [spec.start, spec.contact, facing(approachKey)],
       ...(leavesByScript ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
     ],

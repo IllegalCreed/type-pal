@@ -74,46 +74,92 @@ export const growthPools = {
   luck: 'rgFleeExp',
 }
 
-export const scenarios = {
-  'inn-leader': {
-    id: 'inn-miao-leader',
-    scene: 's003',
-    owner: 'e59',
-    watched: ['e56', 'e57', 'e58', 'e60', 'e61', 'e68'],
-    team: 19,
-    enemy: 'enemy-485',
-    start: [137, 69, 0],
-    contact: [137, 68, 0],
-    approach: 'ArrowUp',
-    party: 'city',
-    music: 38,
-    field: 24,
-    slot: 1,
-    seed: 4,
-    settlementDwellMs: 180,
-    disk: { entry: 2719, battle: 2721, last: 2872, owner: [1216, 1344, 2, 3] },
-    predecessor: { scene: 's020', actor: 'e349', start: 4881, end: 4907 },
-    mapMusic: { scene: 's004', ip: 1, track: 49 },
-    entrance: {
-      scene: 's004',
-      owner: 'e94',
-      ip: 43,
-      key: 'ArrowUp',
-      start: [95, 16, 0],
-      contact: [95, 15, 0],
-      landing: [137, 71, 0],
-      walk: [
-        [137, 70, 0],
-        [137, 69, 0],
-      ],
-    },
-    world: {
-      inventory: [],
-      returned: [142, 70, 0],
-      scriptedReturn: { position: 2728, wait: 2741, members: ['li-xiaoyao'] },
-      music: { ip: 2722, track: 30 },
-    },
+const innLeader = {
+  id: 'inn-miao-leader',
+  scene: 's003',
+  owner: 'e59',
+  watched: ['e56', 'e57', 'e58', 'e60', 'e61', 'e68'],
+  team: 19,
+  enemy: 'enemy-485',
+  start: [137, 69, 0],
+  contact: [137, 68, 0],
+  approach: 'ArrowUp',
+  party: 'city',
+  music: 38,
+  field: 24,
+  slot: 1,
+  seed: 4,
+  settlementDwellMs: 180,
+  disk: { entry: 2719, battle: 2721, last: 2872, owner: [1216, 1344, 2, 3] },
+  predecessor: { scene: 's020', actor: 'e349', start: 4881, end: 4907 },
+  mapMusic: { scene: 's004', ip: 1, track: 49 },
+  entrance: {
+    scene: 's004',
+    owner: 'e94',
+    ip: 43,
+    key: 'ArrowUp',
+    start: [95, 16, 0],
+    contact: [95, 15, 0],
+    landing: [137, 71, 0],
+    walk: [
+      [137, 70, 0],
+      [137, 69, 0],
+    ],
   },
+  world: {
+    inventory: [],
+    returned: [142, 70, 0],
+    scriptedReturn: { position: 2728, wait: 2741, members: ['li-xiaoyao'] },
+    music: { ip: 2722, track: 30 },
+  },
+}
+
+function innEscort(owner, originalPose, approach, walk, contact) {
+  return {
+    ...innLeader,
+    id: `inn-miao-${owner}`,
+    owner,
+    watched: ['e56', 'e57', 'e58', 'e59', 'e60', 'e61', 'e68'].filter((id) => id !== owner),
+    start: walk.at(-1),
+    contact,
+    approach,
+    disk: { ...innLeader.disk, owner: originalPose },
+    entrance: { ...innLeader.entrance, walk },
+  }
+}
+
+export const scenarios = {
+  'inn-leader': innLeader,
+  'inn-e60': innEscort(
+    'e60',
+    [1184, 1312, 2, 3],
+    'ArrowRight',
+    [
+      [136, 71, 0],
+      [135, 71, 0],
+      [134, 71, 0],
+      [134, 70, 0],
+      [134, 69, 0],
+      [134, 68, 0],
+      [134, 67, 0],
+      [134, 66, 0],
+      [134, 65, 0],
+      [134, 64, 0],
+      [134, 63, 0],
+      [135, 63, 0],
+    ],
+    [136, 63, 0],
+  ),
+  'inn-e61': innEscort(
+    'e61',
+    [1152, 1344, 2, 3],
+    'ArrowRight',
+    [
+      [138, 71, 0],
+      [139, 71, 0],
+    ],
+    [140, 71, 0],
+  ),
   snake: {
     id: 'hidden-dragon-snake',
     scene: 's041',
@@ -277,6 +323,22 @@ export const projectFile = (path) => new URL(`../../../${path}`, import.meta.url
 export const json = async (path) => JSON.parse(await readFile(projectFile(path), 'utf8'))
 export const gameScene = ({ scene }) => Number(scene.slice(1)) + 1
 export const grid = ([col, row, height]) => ({ col, row, height })
+
+export function entranceSteps({ entrance }) {
+  if (!entrance) return []
+  const directions = {
+    '-1,0': 'ArrowLeft',
+    '1,0': 'ArrowRight',
+    '0,-1': 'ArrowUp',
+    '0,1': 'ArrowDown',
+  }
+  return entrance.walk.map((to, i) => {
+    const from = i === 0 ? entrance.landing : entrance.walk[i - 1]
+    const key = directions[[to[0] - from[0], to[1] - from[1]].join()]
+    assert(key && to[2] === from[2], `non-cardinal entrance step ${from} → ${to}`)
+    return { key, from, to }
+  })
+}
 
 export async function readSources(spec) {
   const sceneNumber = gameScene(spec) - 1
@@ -555,11 +617,10 @@ function readInnPredecessor(scene, commands, spec) {
   const body = author.behaviors.trigger.default.flow.stages.flatMap(({ body }) => body)
   const original = commands.slice(start, end + 1)
   const directions = ['down', 'left', 'up', 'right']
-  const ids = [spec.owner, 'e60', 'e61']
   const sceneActions = (id) =>
     body.filter(({ target }) => target?.scene === spec.scene && target.entity === id)
   const states = {}
-  for (const id of ['e56', ...ids]) {
+  for (const id of ['e56', 'e59', 'e60', 'e61']) {
     const address = Number(id.slice(1)) + 1
     const field = (opcode) =>
       original.find(({ opcode: actual, operands }) => actual === opcode && operands[0] === address)
@@ -639,6 +700,18 @@ function readInnFrames(data, commands, setup, spec) {
         .map(([id, { x, y, facing, frame }]) => [id, initialActor(id, x, y, facing, frame)]),
     ),
   )
+  const chase = Object.fromEntries(
+    Object.entries(setup)
+      .filter(([, state]) => state.autoIp)
+      .map(([id, { autoIp, x, y }]) => {
+        const command = commands[autoIp]
+        assert.equal(command.opcode, 0x4c)
+        const speed = command.operands[1] || 4
+        const stride = [2 * speed, speed]
+        const step = stride.map((size, i) => size * Math.sign(start.leader[i] - [x, y][i]))
+        return [id, { stride, step }]
+      }),
+  )
   const afterVictory = commands.slice(spec.disk.battle + 1, world.scriptedReturn.wait + 1)
   const field = (opcode, id) =>
     afterVictory.find(
@@ -646,7 +719,7 @@ function readInnFrames(data, commands, setup, spec) {
         actual === opcode && operands[0] === Number(id.slice(1)) + 1,
     )?.operands
   const actors = Object.fromEntries(
-    ['e56', spec.owner, 'e68'].map((id) => {
+    ['e56', 'e59', 'e68'].map((id) => {
       const [, x, y] = field(0x13, id)
       const [, direction, frame] = field(0x16, id)
       return [id, initialActor(id, x, y, ['down', 'left', 'up', 'right'][direction], frame)]
@@ -682,7 +755,7 @@ function readInnFrames(data, commands, setup, spec) {
       assert.deepEqual([16 * (pos.col - pos.row), 8 * (pos.col + pos.row)], [x, y])
     }
   }
-  return { start, returned: cameraAndActors(landed, actors), setupHook }
+  return { start, returned: cameraAndActors(landed, actors), setupHook, chase }
 }
 
 function readInnBattleDialogue(commands, leader, actors) {

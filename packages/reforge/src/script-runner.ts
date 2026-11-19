@@ -57,6 +57,7 @@ export interface ScriptHost {
     speed: number,
     floating: boolean,
     signal?: AbortSignal,
+    worldStep?: true,
   ): Promise<void>
   /** B8:实体消失 seconds 秒后重现(临时态)。 */
   vanishEntity(entityId: string, seconds: number): void
@@ -539,6 +540,7 @@ export class ScriptRunner {
           cmd.speed ?? 4,
           cmd.floating ?? false,
           this.signal,
+          ...(cmd.worldStep ? ([cmd.worldStep] as const) : []),
         )
       case 'vanishEntity':
         return h.vanishEntity(cmd.entity ?? this.selfId ?? '', cmd.seconds ?? 2)

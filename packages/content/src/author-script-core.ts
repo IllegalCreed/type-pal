@@ -826,6 +826,14 @@ export function checkBaseAuthorCommands(
     if (kind === 'sceneTimeline') checkSceneTimeline(command, commandPath, options)
     if (kind === 'nudgeParty' && command.facing !== undefined)
       checkFacing(command.facing, `${commandPath}.facing`)
+    if (kind === 'chasePlayer' && command.worldStep !== undefined) {
+      if (command.worldStep !== true) throw new Error(`${commandPath}.worldStep: 期望 true`)
+      if (
+        command.speed !== undefined &&
+        (!Number.isFinite(command.speed) || Number(command.speed) < 0)
+      )
+        throw new Error(`${commandPath}.speed: 期望非负有限数`)
+    }
     if (kind === 'playFrameAnimation') {
       exactKeys(
         command,
