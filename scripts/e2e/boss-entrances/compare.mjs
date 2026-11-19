@@ -147,16 +147,50 @@ function checkSpiderForeground(events, trigger, cue, launch) {
       `Black Spider foreground beat ${i + 1}: ${duration.toFixed(1)} ms, original ${expected[i]} ms`,
     )
   }
+  const spiderPosition = ({ actors }) => actors.find(({ id }) => id === 'e2347')?.position
+  const spiderSteps = []
+  for (const frame of paint) {
+    if (frame.order <= cue.order || frame.order > speech.order) continue
+    const position = spiderPosition(frame)
+    if (position && !isDeepStrictEqual(spiderSteps.at(-1)?.position, position))
+      spiderSteps.push({ atMs: frame.atMs, position })
+  }
+  const originalSpiderPath = [
+    [61.125, 25.125, 0],
+    [61.375, 25.375, 0],
+    [61.875, 25.875, 0],
+    [62.625, 26.625, 0],
+    [63.625, 27.625, 0],
+    [64.75, 28.75, 0],
+    [65.875, 29.875, 0],
+    [67, 31, 0],
+  ]
+  assert.deepEqual(
+    movement.map(spiderPosition),
+    originalSpiderPath.slice(3, 7),
+    'Black Spider pose drawn in the same frame as each party nudge',
+  )
+  assert.deepEqual(
+    spiderSteps.map(({ position }) => position),
+    originalSpiderPath,
+  )
+  assert.deepEqual(spiderPosition(speech), originalSpiderPath.at(-1))
+  const firstSpiderStep = spiderSteps[0].atMs - cue.atMs
+  assert(
+    Math.abs(firstSpiderStep - 100) <= 50,
+    `Black Spider starts moving after the first world tick: ${firstSpiderStep.toFixed(1)} ms`,
+  )
   return {
     intervalsMs: intervals,
     soundAtMs: cue.atMs,
-    movement: movement.map(({ atMs, position, actors }) => ({
-      atMs,
-      position,
-      spiderPosition: actors.find(({ id }) => id === 'e2347')?.position,
+    spiderSteps,
+    movement: movement.map((frame) => ({
+      atMs: frame.atMs,
+      position: frame.position,
+      spiderPosition: spiderPosition(frame),
     })),
     speechAtMs: speech.atMs,
-    speechSpiderPosition: speech.actors.find(({ id }) => id === 'e2347')?.position,
+    speechSpiderPosition: spiderPosition(speech),
   }
 }
 
