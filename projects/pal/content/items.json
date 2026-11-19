@@ -8013,7 +8013,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8072,6 +8073,11 @@
                 }
               },
               {
+                "kind": "fade",
+                "dir": "in",
+                "ms": 600
+              },
+              {
                 "kind": "setMultiEntityState",
                 "targets": [
                   {
@@ -8112,6 +8118,11 @@
               },
               {
                 "kind": "cameraSnap"
+              },
+              {
+                "kind": "fade",
+                "dir": "in",
+                "ms": 600
               }
             ]
           }
@@ -8273,7 +8284,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8551,7 +8563,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8828,7 +8841,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     },
                     "kind": "dialog"
                   }
@@ -9036,7 +9050,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -9104,7 +9119,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     },
                     "kind": "dialog"
                   }
@@ -9312,7 +9328,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -9386,9 +9403,13 @@
                               "text": "dlg.12538"
                             }
                           ],
-                          "slot": "narration"
+                          "slot": "narration",
+                          "autoAdvance": 1400
                         },
                         "kind": "dialog"
+                      },
+                      {
+                        "kind": "returnScript"
                       }
                     ]
                   },
@@ -9600,7 +9621,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {

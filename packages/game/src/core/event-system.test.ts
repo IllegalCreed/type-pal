@@ -5387,6 +5387,37 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     expect(g5.needToFadeIn).toBe(false)
   })
 
+  it('reveals the snapped camera before the next script instruction after a blackout', () => {
+    const gs = createInitialGameState({ x: 912, y: 1144, facing: 'left' })
+    gs.basePalette = mkPal([120, 60, 30])
+    gs.palette = mkPal([0, 0, 0])
+    gs.needToFadeIn = true
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [35, 66, 0xffff] },
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [260, 0, 0] },
+      { op: 'end' },
+    ])
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(1000)
+    try {
+      tickEventSystem(gs, snap())
+      expect(gs.camera).toEqual({ x: 960, y: 944 })
+      expect(gs.eventCursor?.waiting).toBe('palette-fade')
+      expect(gs.needToFadeIn).toBe(false)
+      expect(gs.pendingSounds ?? []).toEqual([])
+
+      clock.mockReturnValue(1599)
+      tickEventSystem(gs, snap())
+      expect(gs.pendingSounds ?? []).toEqual([])
+
+      clock.mockReturnValue(1600)
+      tickEventSystem(gs, snap())
+      expect(gs.palette?.colors[0]).toEqual([120, 60, 30])
+      expect(gs.pendingSounds).toEqual([260])
+    } finally {
+      clock.mockRestore()
+    }
+  })
+
   // 锁妖塔 scene164 运镜全黑回归(user 2026-06-17:进塔后镜头扫描整段黑,小地图证镜头路径正确 = camera 没出界、
   //   sceneLoading 已解冻,但调色板卡在 FadeOut 的黑)。根因:0x7F 多帧 pan 是**唯一**"演出逐帧推进却用独立
   //   waiting='camera-pan'"的 op,既非白名单显式列的 frame-wait/scene-fade,又被 isEventCursorAtMakeSceneStep

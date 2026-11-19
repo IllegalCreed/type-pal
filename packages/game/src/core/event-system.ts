@@ -612,18 +612,19 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
         w === 'scene-fade' ||
         w === 'camera-pan' ||
         isEventCursorAtMakeSceneStep(gs.eventCursor)))
-  if (!palGameUpdateRuns || gs.sceneLoading) return
-  if (gs.paletteFadeState || gs.fadeState) return // fade 进行中(present 自清 explore fade)
-  if (!gs.needToFadeIn) return
+  if (palGameUpdateRuns && !gs.sceneLoading) startPendingSceneFadeIn(gs)
+}
+
+/** PAL_MakeScene reveals the already-composed scene with the active day/night palette. */
+function startPendingSceneFadeIn(gs: GameState, cursor?: EventCursor): boolean {
+  if (!gs.needToFadeIn || gs.paletteFadeState || gs.fadeState) return false
   gs.needToFadeIn = false
   gs.blackScreenHold = false
-  if (!gs.palette) {
-    const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
-    gs.palette = makeWorkingPalette(src)
-  }
-  // sdlpal scene.c:506 PAL_FadeIn(wNumPalette, **fNightPalette**, 1) → delay=1 → 600ms。黑 → (夜/昼)basePalette。
   const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
-  gs.paletteFadeState = buildFadeIn(baseColors, 600, performance.now())
+  const fade = buildFadeIn(baseColors, 600, performance.now())
+  if (cursor) startPaletteFade(gs, cursor, fade, false)
+  else setPaletteFadeCursorless(gs, fade)
+  return true
 }
 
 /**
@@ -2426,22 +2427,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
           //   needToFadeIn 时在此触发淡入(对话前岛就显出),结构性补回 0x05 的重绘/淡入职责。
           gs.blackScreenHold = false
           gs.sceneLoading = false // PAL_MakeScene 重绘 = 解冻渲染(scene 已 load,setPartyPos 已定位 camera)
-          if (gs.needToFadeIn && !gs.paletteFadeState && !gs.fadeState) {
-            if (!gs.palette) {
-              const src = gs.basePalette ?? { colors: blackColors(), cycles: [] }
-              gs.palette = makeWorkingPalette(src)
-            }
-            const baseColors = resolveNightColors(gs.basePalette ?? gs.palette, gs.nightPalette)
-            startPaletteFade(
-              gs,
-              cursor,
-              buildFadeIn(baseColors, 600, performance.now()),
-              false,
-              true,
-            )
-            gs.needToFadeIn = false
-            return // 阻塞等淡入完(对齐 sdlpal PAL_FadeIn);palette-fade 分支完成时 ip++ 到下一条
-          }
+          if (startPendingSceneFadeIn(gs, cursor)) return
           // 无 dialog 且无 pending 淡入 → sdlpal 0x05 真值(script.c:3290-3293,非 RNG/battle):
           //   PAL_MakeScene + VIDEO_UpdateScreen + **UTIL_Delay((operand[1]==0)?60:operand[1]*60) ms**。
           // ⚠ 旧码从未实现这段延时(只有注释提过)→ 触发脚本里 "0x0B-0x0E 走一步 + 0x05" 的逐步序列
@@ -2709,6 +2695,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
         // P0.e: 6 wScriptOnEnter opcode 真生效 + Sync.2 fix3: 4 个 NPC 动作 opcode;其余 D26 兜底 skip
         // cursor 传入 → 条件跳转 / call / 随机跳等"动游标"opcode 操作本 trigger cursor。
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
+        // A 0x7F snap redraws at the new camera before the next instruction runs.
+        // The [0, 0, 0xFFFF] restore variant skips PAL_MakeScene.
+        if (
+          cmd.opcode === OP_SET_CAMERA &&
+          (cmd.operands[0] !== 0 || cmd.operands[1] !== 0 || cmd.operands[2] !== 0xffff) &&
+          startPendingSceneFadeIn(gs, cursor)
+        )
+          return
+
         // 0x34 炼丹弹了物品框(applyRawOpcode 设 gs.dialogBox style='item-box')→ 设 waiting + 暂停本
         //   tick,**不** ip++;dismiss 由 waiting handler('item-box' 同 narration 分支)做 ip++(否则双进)。
         if (gs.dialogBox?.style === 'item-box') {
