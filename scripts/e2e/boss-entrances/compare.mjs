@@ -446,7 +446,8 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
       lead,
     )
     const successorFrames = world.filter(
-      ({ scene, order }) => scene === handoff.scene && order >= control.order - 1,
+      ({ scene, order, atMs }) =>
+        scene === handoff.scene && order >= control.order - 1 && atMs <= control.atMs + 2350,
     )
     for (const [actor, { asset, position, frame, facing: direction, turns }] of Object.entries(
       original.arrivalActors,
