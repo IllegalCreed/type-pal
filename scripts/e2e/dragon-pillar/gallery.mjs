@@ -34,11 +34,7 @@ export function galleryEvidence(interlude, engine) {
       for (const row of world) {
         const actor = row.cast.find((candidate) => candidate.id === id)
         assert(actor, `${engine} gallery cast missing ${id}`)
-        const pose = {
-          position: pos(actor),
-          facing: actor.facing,
-          resource: resource(actor.sprite),
-        }
+        const pose = { position: pos(actor), facing: actor.facing }
         const atMs = row.at - startAt
         const draw = row.draws.find((candidate) => candidate.id === id && candidate.intersects)
         if (!same(states.at(-1)?.pose, pose))
@@ -64,8 +60,10 @@ export function galleryEvidence(interlude, engine) {
               frame: actualFrame(draw),
               blit: [draw.x, draw.y, draw.width, draw.height],
             })
-        } else if (states.at(-1).frames.at(-1) !== actualFrame(draw)) {
-          states.at(-1).frames.push(actualFrame(draw))
+        } else {
+          const sourceFrame = [resource(draw.sprite), actualFrame(draw)]
+          if (!same(states.at(-1).frames.at(-1), sourceFrame))
+            states.at(-1).frames.push(sourceFrame)
         }
       }
       assert(
