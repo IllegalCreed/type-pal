@@ -696,7 +696,7 @@ await runBrowserJourney({
         if (capture.enabled || source.tomb?.arrival) {
           await page.waitForFunction(({ atMs, duration }) => performance.now() >= atMs + duration, {
             atMs: result.returned.atMs,
-            duration: source.tomb?.arrival ? 2250 : 750,
+            duration: source.tomb?.arrival ? 2350 : 750,
           })
         }
         await capture.finish(page, {

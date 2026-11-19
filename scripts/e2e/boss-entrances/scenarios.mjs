@@ -754,7 +754,8 @@ function tombSource(data, commands, spec, owner) {
       const { id, spriteNum, x, y, direction, nSpriteFrames, currentFrameNum } = actor
       assert.equal(actor.sState, 1)
       assert.equal(nSpriteFrames, 1)
-      let ticks = 0
+      // The first visible arrival precedes the first world update of the stand-ins.
+      let ticks = 1
       const turns = []
       for (let ip = Number(actor.autoLabel.slice(2)); commands[ip].op !== 'end'; ip++) {
         const { opcode, operands } = commands[ip]

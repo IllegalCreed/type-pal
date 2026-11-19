@@ -446,11 +446,18 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
       lead,
     )
     const successorFrames = world.filter(
-      ({ scene, atMs }) => scene === handoff.scene && atMs >= control.atMs,
+      ({ scene, order }) => scene === handoff.scene && order >= control.order - 1,
     )
     for (const [actor, { asset, position, frame, facing: direction, turns }] of Object.entries(
       original.arrivalActors,
     )) {
+      check(
+        `returned actor ${actor} remains in the visible cast`,
+        [],
+        successorFrames
+          .filter((sample) => sample.visible && !sample.actors[actor])
+          .map(({ order }) => order),
+      )
       const poses = []
       for (const sample of successorFrames) {
         const draw = sample.actors[actor]
@@ -463,7 +470,7 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
           facing: draw.facing,
         }
         if (isDeepStrictEqual(poses.at(-1)?.pose, pose)) continue
-        poses.push({ atMs, pose, resource: draw.resource })
+        poses.push({ atMs, pose, resource: draw.resource, rect: draw.rect })
       }
       const expected = [{ ms: 0, frame, facing: direction }, ...turns]
       check(
@@ -583,11 +590,27 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
     })
   })
   const rawSprites = new Map(resources.map((item) => [item.order, item]))
-  const pixels = rise.map(({ resource }) => {
+  const paintDigest = (resource) => {
     const { width, height, pixels, opaque } = rawSprites.get(resource)
     return sha256(JSON.stringify([width, height, pixels, opaque]))
-  })
-  return { issues, rise, intervals, firstSpeech, arrival, rewardMs, quake, dialogue, pixels }
+  }
+  const pixels = rise.map(({ resource }) => paintDigest(resource))
+  const arrivalPixels = arrival.map(({ actor, poses }) => ({
+    actor,
+    draws: poses.map(({ resource, rect }) => ({ rect, pixels: paintDigest(resource) })),
+  }))
+  return {
+    issues,
+    rise,
+    intervals,
+    firstSpeech,
+    arrival,
+    arrivalPixels,
+    rewardMs,
+    quake,
+    dialogue,
+    pixels,
+  }
 }
 
 function checkRingPresentation(
@@ -1595,7 +1618,7 @@ async function inspect(path, engine) {
         }
       : {}),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
-    ...(tomb ? { revealPixels: tomb.pixels } : {}),
+    ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
