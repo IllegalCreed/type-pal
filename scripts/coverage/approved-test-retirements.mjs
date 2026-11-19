@@ -7,6 +7,39 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // 2026-11-20 migration source projections: exact caller-based transfers and deduplication.
+    {
+      file: 'packages/migrate/src/migration-plan.test.ts',
+      previous: 15,
+      current: 9,
+      previousIdentityDigest: '30d86b5148e228619dc996d448e074d0050cccc97177ea75d7e228e45e2e2eca',
+      currentIdentityDigest: '79061fd9bacdcbf678c7e9a941d2f3ae9d19e990cfbb7cd822d05edfe363bd68',
+      fileSha256: 'c18a1fd04a63cbbabf53a2e92f8b10ee197576323ae62b2b098239b5067cdd38',
+    },
+    {
+      file: 'packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '7ab45309efd6a8963269cef59cd1a2566b2d4ca27316692ad7e73f5d36ea19b1',
+      currentIdentityDigest: 'cd1e2d406d8e6238946fd1ff9f43a021444cea0343b6c924368e168cced9e069',
+      fileSha256: '9d36957693e9f5526461d6aa2c2ec86ebde99fe36185d96c61bf1795ae6ada24',
+    },
+    {
+      file: 'packages/migrate/src/project-map-converter.boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '4156e3ff6d5876f072f51bb791e44a516e2055366f26f24917d6438bd3e8fbc6',
+      currentIdentityDigest: 'fa267ef2b9cce7873fb9a761346bca16a5bc3e20ccad059e730918a73ef9a480',
+      fileSha256: '45425491aafb651d2d619aa526297b3c5274a083285e04ec46572a23d231d87f',
+    },
+    {
+      file: 'packages/migrate/src/project-map-converter.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '15eb30060cfcad8fcc85dbe13645ab2d3f00f8dc6edcccb12349f299b569cab7',
+      currentIdentityDigest: '230582f98a8351e3cbe052e971ca0c44b04cc52d9c9813691c2f4c988d859122',
+      fileSha256: 'ba72a7509ef55b14904e32c1e5f94ce2732d68fd4b601d6851ba48b3d31a452d',
+    },
     // User2026-11-19 Content + adjacent quality window; Codex approved exact transfers.
     // Full identity maps: QUALITY-CONTENT-ASSET-CONTRACTS-1 execution archive.
     {

@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "a54d0a5e15ce916884c5dfa25bfcdb6034badfa9ab409a7339b0e31fe60f50ec",
+      "afterSha256": "cd0d70f9ee6526c078bb754f0fa4d46c40cdeacee496c4dc9bc108c740f9be6e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
-        "date": "2026-11-19",
-        "reviewedLines": 1263,
-        "conclusion": "接受实际账本变化。",
-        "acceptanceScope": "复核 3771/1147/1/2623、退出5/新增4、8原条目由 review 转已验证。 统一门和发布取实际运行。"
+        "date": "2026-11-20",
+        "conclusion": "接受逐文件账本变化。",
+        "reviewedLines": 1372,
+        "acceptanceScope": "独立实跑 3772/1247/8/2517。100 条新增关闭可回索引，七条新增 review 与既有资源诊断边界分明。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "2f7a48fcb60dc41c49a2cd02a316720476fb64249a0f533751fee7ffdd258a5c",
+      "afterSha256": "c79454232174bfbbd75098f49e1ea8a7c60d4f1b5f485443b28e06dbfa0a1b17",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
-        "date": "2026-11-19",
-        "reviewedLines": 134,
-        "conclusion": "接受后继范围及留项入口。",
-        "acceptanceScope": "后继13与此前97分开，待E2E资产诊断导航有效。 统一门和发布取实际运行。"
+        "date": "2026-11-20",
+        "conclusion": "接受文件批次收口和剩余分工。",
+        "reviewedLines": 138,
+        "acceptanceScope": "98 原路径、100 账本新增关闭和七个新 review 分开，保留归档、三张 blocked 卡与 E2E 归属范围。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "0ee7c9e52c7f79963a76abbf13efa5acd3c36d579789dadd62c87db2dce59ff7",
+      "afterSha256": "95e9012d55e47c149dc1470f2229a437f8d9e586d9856018597a1b9ea95aaf9c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
-        "date": "2026-11-19",
-        "reviewedLines": 605,
-        "conclusion": "接受实际任务索引。",
-        "acceptanceScope": "生成器逐字节一致，八卡done、一卡blocked，按文件层状态。 统一门和发布取实际运行。"
+        "date": "2026-11-20",
+        "conclusion": "接受最终生成任务索引。",
+        "reviewedLines": 609,
+        "acceptanceScope": "只读生成逐字一致，父卡按文件层 done，三个产品阻塞保持 blocked。"
       }
     },
     {
@@ -5675,6 +5675,58 @@
         "reviewedLines": 458,
         "acceptanceScope": "复用已接受八维与范围原件，核原始失败、覆盖率逐文件归因、14 个实际字节锚点及退出结果。接受文件批次和本地执行，正式 protected fast、E2E、视觉与发布仍取各自结果。"
       }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "2f19d41a95ad8c6f8adb2ab114cf8865414a6c49b3e68574fe7764c5007b4cc5",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_window_doc_review",
+        "date": "2026-11-20",
+        "conclusion": "接受 98 个原文件的文件层收口与本地执行事实。",
+        "reviewedLines": 55,
+        "acceptanceScope": "首轮模板诊断及完成 7 包 typecheck、20870 项测试后唯一格式诊断均留原件。只读保护预检与正式 840/20527 ratchet 分开，最终静态和远端以实际原件验收。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "d018c0aca6bfff999bddc96e0bb42bd343413f17865e45bdea44cf0177e88d64",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_window_doc_review",
+        "date": "2026-11-20",
+        "conclusion": "接受模板补齐后的原始字事实与停线。",
+        "reviewedLines": 37,
+        "acceptanceScope": "实际审计一绿一红，合法 u32 与越界合同分开；补范围及验收模板。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "e5150e4499b1488b9482e8edb61581420249ac5337db1bec4799fb23c08cc713",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_window_doc_review",
+        "date": "2026-11-20",
+        "conclusion": "接受模板补齐后的生产扫描范围。",
+        "reviewedLines": 32,
+        "acceptanceScope": "实际生产只传空参数；现行引用、店铺和奖励继续走现有入口。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "0fd5893628800f7e2c969619075c19c04ec8c6d79894336cde75e256a39e3355",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_window_doc_review",
+        "date": "2026-11-20",
+        "conclusion": "接受模板补齐后的发布反例与停线。",
+        "reviewedLines": 30,
+        "acceptanceScope": "实际 PAL 发布只改对象键顺序的一绿一红，拟议修复尚待裁决。"
+      }
     }
   ],
   "retired": [
@@ -6161,6 +6213,12 @@
       "sha256": "76eed2afacc5f5114997b4acffa08a49da2a4925d5dcefb7a53ae0bace5b15af",
       "bytes": 271482,
       "purpose": "资产留项八维验收、写入出口退役、原始失败、定向与浏览器回执、集中质量门。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz",
+      "sha256": "b0dd88f288ede5e290ea24c50cce45346e11b456fca097f4312a9e721a4159bd",
+      "bytes": 947199,
+      "purpose": "本批迁移来源和 Content 专测八维、路径迁移、正式反例、原盘重建与集中质量门的单一执行归档。"
     }
   ],
   "artifactAliases": [],

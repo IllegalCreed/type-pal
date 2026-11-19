@@ -13,7 +13,6 @@ import {
   applyPalItemOverlays,
 } from './pal-authored-overlays.js'
 import { applyPalCasualtyOverlays, translateCasualtyScript } from './pal-casualty-scripts.js'
-import type { SourceStore } from './pal-derived-content.js'
 import type { PalItemMessageSource } from './pal-item-message-source.js'
 import {
   applyPalItemMessageSources,
@@ -22,6 +21,7 @@ import {
   translateCraftRecipeScript,
   translateResourcePoolScript,
 } from './pal-item-message-source.js'
+import type { SourceStore } from './pal-shop-projection.js'
 import type { SourceItem } from './pal-source-types.js'
 import {
   assertPalAlchemyBoundaryInvariant,

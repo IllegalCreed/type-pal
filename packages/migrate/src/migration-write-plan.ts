@@ -17,7 +17,7 @@ function differs(repo: string, path: string, content: string): boolean {
   return !existsSync(full) || readFileSync(full, 'utf8') !== content
 }
 
-/** 工程 target 与新纯 theirs baseline 的改动属于同一个可恢复事务。 */
+/** 生成工程、基线和 manifest 的同一事务。工程文件的前置指纹来自规划时的磁盘快照。 */
 export function buildMigrationTransactionChanges(args: {
   repo: string
   plan: Pick<MigrationPlan, 'writes' | 'deletes'>
@@ -39,6 +39,7 @@ export function buildMigrationTransactionChanges(args: {
       throw new Error(`工程规划快照缺原始字节 hash: ${path}`)
     return hash ?? null
   }
+  // 场景正文先就绪，对应索引再公布路径。
   const projectWriteOrder = (path: string): number => (path === 'content/scenes/index.json' ? 1 : 0)
   for (const [path, value] of [...plan.writes].sort(
     ([left], [right]) =>

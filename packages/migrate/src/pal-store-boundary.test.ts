@@ -1,6 +1,6 @@
 import type { ItemData, ShopDef } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
-import { migratePalShops, type SourceStore } from './pal-derived-content.js'
+import { migratePalShops, type SourceStore } from './pal-shop-projection.js'
 import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
 
 const rewards = ['100', '105', '95', '112', '72', '131', '97', '102', '111']

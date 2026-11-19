@@ -1,71 +1,69 @@
-import type { ActorDef } from '@type-pal/content'
+import type { AuthorCommand, AuthorScriptFlow } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 
-const actors = [{ id: 'zhao-linger' }, { id: 'anu' }] as ActorDef[]
+const actors = [{ id: 'zhao-linger' }, { id: 'anu' }]
 
 describe('PAL inParty stable ActorId invariant', () => {
-  test('复用 typed walker 覆盖普通步骤、循环、双臂确认与 all-any-not', () => {
-    const report = assertPalInPartyActorIdInvariant({
-      actors,
-      commandRoots: [
+  test('reports each condition in source order with its complete path', () => {
+    const flow = {
+      kind: 'stages',
+      initial: 'main',
+      stages: [
         {
-          kind: 'stages',
-          initial: 'main',
-          stages: [
+          id: 'main',
+          body: [
             {
-              id: 'main',
-              body: [
+              kind: 'branch',
+              cond: {
+                kind: 'all',
+                of: [
+                  { kind: 'inParty', actorId: 'zhao-linger' },
+                  { kind: 'not', cond: { kind: 'inParty', actorId: 'anu' } },
+                ],
+              },
+              then: [
                 {
-                  kind: 'branch',
+                  kind: 'loop',
+                  mode: 'while',
                   cond: {
-                    kind: 'all',
-                    of: [
-                      { kind: 'inParty', actorId: 'zhao-linger' },
-                      { kind: 'not', cond: { kind: 'inParty', actorId: 'anu' } },
-                    ],
+                    kind: 'any',
+                    of: [{ kind: 'inParty', actorId: 'anu' }],
                   },
-                  then: [
-                    {
-                      kind: 'loop',
-                      mode: 'while',
-                      cond: {
-                        kind: 'any',
-                        of: [{ kind: 'inParty', actorId: 'anu' }],
-                      },
-                      body: [{ kind: 'wait', ms: 100 }],
-                    },
-                  ],
-                },
-                {
-                  kind: 'repeat',
-                  count: 2,
-                  body: [
-                    {
-                      kind: 'confirm',
-                      onYes: [
-                        {
-                          kind: 'branch',
-                          cond: { kind: 'inParty', actorId: 'zhao-linger' },
-                          then: [],
-                        },
-                      ],
-                      onNo: [],
-                    },
-                  ],
+                  body: [{ kind: 'wait', ms: 100 }],
                 },
               ],
             },
+            {
+              kind: 'repeat',
+              count: 2,
+              body: [
+                {
+                  kind: 'confirm',
+                  onYes: [
+                    {
+                      kind: 'branch',
+                      cond: { kind: 'inParty', actorId: 'zhao-linger' },
+                      then: [],
+                    },
+                  ],
+                  onNo: [{ kind: 'branch', cond: { kind: 'inParty', actorId: 'anu' }, then: [] }],
+                },
+              ],
+            },
+            { kind: 'setParty', members: ['zhao-linger'] },
           ],
         },
       ],
-    })
-
-    expect(report.references.map(({ actorId }) => actorId)).toEqual([
-      'zhao-linger',
-      'anu',
-      'anu',
-      'zhao-linger',
+    } satisfies AuthorScriptFlow
+    const report = assertPalInPartyActorIdInvariant({ actors, commandRoots: [flow] })
+    const path = 'commandRoots[0].stages[0].body'
+    expect(report.references).toEqual([
+      { actorId: 'zhao-linger', where: `${path}[0].cond.of[0].actorId` },
+      { actorId: 'anu', where: `${path}[0].cond.of[1].cond.actorId` },
+      { actorId: 'anu', where: `${path}[0].then[0].cond.of[0].actorId` },
+      { actorId: 'zhao-linger', where: `${path}[1].body[0].onYes[0].cond.actorId` },
+      { actorId: 'anu', where: `${path}[1].body[0].onNo[0].cond.actorId` },
     ])
   })
 
@@ -77,7 +75,8 @@ describe('PAL inParty stable ActorId invariant', () => {
           {
             kind: 'branch',
             cond: { kind: 'not', cond: { kind: 'inParty', actorId: '37' } },
-          },
+            then: [],
+          } satisfies AuthorCommand,
         ],
       }),
     ).toThrow(/commandRoots\[0\]\.cond\.cond\.actorId="37"/)
@@ -87,8 +86,12 @@ describe('PAL inParty stable ActorId invariant', () => {
     expect(() =>
       assertPalInPartyActorIdInvariant({
         actors,
-        commandRoots: [{ kind: 'inParty', actorId: 'missing-actor' }],
+        commandRoots: [
+          [
+            { kind: 'branch', cond: { kind: 'inParty', actorId: 'missing-actor' }, then: [] },
+          ] satisfies AuthorCommand[],
+        ],
       }),
-    ).toThrow(/未知 ActorId.*missing-actor/)
+    ).toThrow('PAL inParty 引用未知 ActorId: commandRoots[0][0].cond.actorId="missing-actor"')
   })
 })

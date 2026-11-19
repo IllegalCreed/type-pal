@@ -1,5 +1,5 @@
 import type { AuthorItemData, ItemData, ShopDef } from '@type-pal/content'
-import type { SourceStore } from './pal-derived-content.js'
+import type { SourceStore } from './pal-shop-projection.js'
 
 export const PAL_STORE0_REWARD_ITEM_IDS = [
   '100',

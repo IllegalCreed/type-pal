@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-19
+Last reviewed: 2026-11-20
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -53,7 +53,11 @@ Template: governance-index-v1 / 1.0.0
 
 [资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)保留一个 review。用户已裁定等 E2E 合入，随后核对同一资产文件归属并复用缺记录反例。
 
+迁移窗口的[地图源字](cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md)、[旧商店扫描](cards/MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md)和[精灵布局等价](cards/MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md)已登记证据，当前等待用户裁决。
+
 ### 代码治理：最近完成的文件批次
+
+`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。现行账本增加 100 条关闭登记，七个新增 review 保留停止线与后继证据。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
 
 内容资产后继复核已处理 13 个原 review 文件，其中 8 个实现已验证、5 个旧专测路径退役。四个承接测试和夹具按实际职责独立登记。 [后继执行归档](evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)
 

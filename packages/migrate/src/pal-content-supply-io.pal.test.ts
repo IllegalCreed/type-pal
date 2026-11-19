@@ -62,7 +62,7 @@ afterEach(() => {
 })
 
 describe('PAL supply input boundary', () => {
-  it('loads and publishes without skills, enemy AI or scene event inputs, while full modules throw', () => {
+  it('loads and publishes using global commands and the narrow resource input set', () => {
     const temporary = narrowRepo()
     expect(existsSync(resolve(temporary, 'data/extracted/data/spells.json'))).toBe(false)
     expect(readdirSync(resolve(temporary, 'data/extracted/events'))).toEqual(['all.json'])
@@ -96,7 +96,14 @@ describe('PAL supply input boundary', () => {
     const target = resolve(temporary, 'data/extracted', path)
     expect(lstatSync(target).isSymbolicLink()).toBe(true)
     unlinkSync(target)
-    expect(() => loadPalContentSupplySources(temporary)).toThrow()
+    if (path === 'data/scene') {
+      expect(() => loadPalContentSupplySources(temporary)).toThrow('PAL 场景源期望 295 个，收到 0')
+      return
+    }
+    const missing = path === 'data/palette' ? resolve(target, '0.json') : target
+    expect(() => loadPalContentSupplySources(temporary)).toThrow(
+      expect.objectContaining({ code: 'ENOENT', path: missing }),
+    )
   })
 
   it('proves native Node runtime reachability excludes every complete conversion entry', () => {

@@ -1,242 +1,118 @@
-/**
- * TEST-MIGRATION-BOUNDARIES-1 T08：pal-item-scheme-labels 剩余漂移轴。
- * 既有 pal-item-scheme-labels.test 已覆盖闭包/稳定序/零/多 root/环/悬空/opaque——不重复。
- * 本文件：期望计数单轴漂移（schemes/itemRoots）精确拒绝、
- * 同 root 菱形（两 root 指向同一 hook）非环、完整 labels 报告与输入不变。
- */
-import type {
-  AuthorCommand,
-  AuthorItemData,
-  AuthorSceneDef,
-  AuthorStagesFlow,
-} from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { validateAuthorItems, validateAuthorScenes } from '@type-pal/content'
+import { expect, test } from 'vitest'
+import {
+  scheme,
+  schemeItem,
+  schemeScene,
+  selectBehavior,
+  selectHook,
+} from './__tests__/item-scheme-fixtures.js'
 import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
 
-const target = (entity: string, behavior: string, sceneId = 's001'): AuthorCommand => ({
-  kind: 'selectEntityBehavior',
-  target: { scene: sceneId, entity },
-  channel: 'auto',
-  selection: { kind: 'use', value: behavior },
-})
-
-const hook = (id: string, sceneId = 's001'): AuthorCommand => ({
-  kind: 'selectSceneHooks',
-  scene: sceneId,
-  selection: { onEnter: { kind: 'use', value: id } },
-})
-
-const stages = (body: AuthorCommand[]): AuthorStagesFlow => ({
-  kind: 'stages',
-  initial: 'main',
-  stages: [{ id: 'main', body }],
-})
-
-function item(id: string, body: AuthorCommand[]): AuthorItemData {
-  return {
-    id,
-    name: `物品${id}`,
-    desc: [],
-    buyPrice: 0,
-    sellPrice: 0,
-    sellable: false,
-    use: {
-      target: 'scene',
-      consuming: false,
-      effects: [{ kind: 'itemPrivateScript', script: { id: 'use', body } }],
+function firstScene() {
+  return schemeScene(
+    's001',
+    { auto: { search: scheme('信物剧情方案', 10) } },
+    {
+      onEnter: { variants: { entry: scheme('信物剧情方案 2', 20, [selectBehavior('search')]) } },
     },
-  } as unknown as AuthorItemData
+  )
 }
 
-function scene(sceneId = 's001'): AuthorSceneDef {
-  return {
-    id: sceneId,
-    mapId: 'map-1',
-    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-    entities: [
-      {
-        id: 'e1',
-        pos: { col: 0, row: 0, height: 0 },
-        zone: true,
-        behaviors: {
-          auto: {
-            'c8-a': {
-              label: '物品292剧情方案',
-              order: 10,
-              flow: stages([]),
-            },
-          },
-        },
-      },
-    ],
-    hooks: {
-      onEnter: {
-        variants: {
-          // hook 正文选择实体行为（item → hook → behavior 链；不自选避免环）
-          'c8-hook': {
-            label: '物品292剧情方案 2',
-            order: 20,
-            flow: stages([target('e1', 'c8-a')]),
-          },
-        },
-      },
-    },
-  } as unknown as AuthorSceneDef
+function firstItem() {
+  return schemeItem('292', '信物', [selectHook('entry')])
 }
 
-function args() {
-  return {
-    items: [item('292', [hook('c8-hook')])],
-    scenes: [scene()],
+test('reports independent expected counts for schemes and root items', () => {
+  const args = {
+    items: validateAuthorItems([firstItem()]),
+    scenes: validateAuthorScenes([firstScene()]),
     expectedSchemes: 2,
     expectedItemRoots: 1,
   }
-}
+  expect(() => inspectPalItemSchemeRoots({ ...args, expectedSchemes: 3 })).toThrow(
+    'PAL 物品剧情方案数量漂移: 2 != 3',
+  )
+  expect(() => inspectPalItemSchemeRoots({ ...args, expectedItemRoots: 2 })).toThrow(
+    'PAL 物品剧情方案 item root 数漂移: 1 != 2',
+  )
+})
 
-describe('T08 scheme-labels 剩余漂移轴', () => {
-  test('合法报告完整作者 labels；输入深快照不变', () => {
-    const input = args()
-    const snapshot = structuredClone(input)
-    const report = inspectPalItemSchemeRoots(input)
-    expect(report.labels).toEqual([
-      {
-        id: 'c8-a',
-        itemId: '292',
-        path: 'scenes.s001.entities.e1.behaviors.auto.c8-a',
-        label: '物品292剧情方案',
-      },
-      {
-        id: 'c8-hook',
-        itemId: '292',
-        path: 'scenes.s001.hooks.onEnter.variants.c8-hook',
-        label: '物品292剧情方案 2',
-      },
-    ])
-    expect(structuredClone(input)).toEqual(snapshot)
-  })
-  test('期望计数单轴漂移（schemes/itemRoots）各自精确拒绝', () => {
-    expect(() => inspectPalItemSchemeRoots({ ...args(), expectedSchemes: 3 })).toThrow(
-      'PAL 物品剧情方案数量漂移: 2 != 3',
-    )
-    expect(() => inspectPalItemSchemeRoots({ ...args(), expectedItemRoots: 2 })).toThrow(
-      'PAL 物品剧情方案 item root 数漂移: 1 != 2',
-    )
-  })
-  test('两个 item 各指各的 hook（共享底层行为）→ 各自独立成方案、报告合法且输入不变', () => {
-    // 第二场景：同名 c8-a 行为（独立节点）+ 自己的 hook；两个 root 各自成链（共享行为名非环）
-    const secondScene = scene('s002')
-    const secondEntity = secondScene.entities[0] as {
-      behaviors: { auto: Record<string, unknown>; trigger: Record<string, unknown> }
-    }
-    secondEntity.behaviors.auto['c8-a'] = {
-      label: '物品293剧情方案 2',
-      order: 10,
-      flow: stages([]),
-    }
-    secondScene.hooks = {
+test('same scheme ID names remain independent across both scenes and behavior channels', () => {
+  const next = schemeScene(
+    's002',
+    {
+      auto: { search: scheme('饰物剧情方案 2', 10) },
+      trigger: { search: scheme('饰物剧情方案', 5) },
+    },
+    {
       onEnter: {
         variants: {
-          'c9-hook': {
-            label: '物品293剧情方案 2',
-            order: 20,
-            flow: stages([target('e1', 'c8-a', 's002')]),
-          },
+          entry: scheme('饰物剧情方案 3', 20, [
+            selectBehavior('search', 's002'),
+            selectBehavior('search', 's002', 'trigger'),
+          ]),
         },
       },
-    }
-    // 同实体第二个通道（trigger）复用同 id：channel 是地址键的一维（去通道即误判重复）
-    const triggerTarget = (entity: string, behavior: string, sceneId: string): AuthorCommand => ({
-      kind: 'selectEntityBehavior',
-      target: { scene: sceneId, entity },
-      channel: 'trigger',
-      selection: { kind: 'use', value: behavior },
-    })
-    const secondWithTrigger = {
-      ...secondScene,
-      entities: [
-        {
-          ...secondEntity,
-          behaviors: {
-            ...secondEntity.behaviors,
-            trigger: {
-              'c8-a': { label: '物品293剧情方案', order: 5, flow: stages([]) }, // 同 id 复用于另一通道：channel 是地址键一维
-            },
-          },
-        },
-      ],
-      hooks: {
-        onEnter: {
-          variants: {
-            'c9-hook': {
-              label: '物品293剧情方案 3',
-              order: 20,
-              flow: stages([target('e1', 'c8-a', 's002'), triggerTarget('e1', 'c8-a', 's002')]),
-            },
-          },
-        },
-      },
-    } as unknown as AuthorSceneDef
-    const input = {
-      items: [item('292', [hook('c8-hook')]), item('293', [hook('c9-hook', 's002')])],
-      scenes: [scene(), secondWithTrigger],
-      expectedSchemes: 5,
-      expectedItemRoots: 2,
-    }
-    const snapshot = structuredClone(input)
-    /** 拒绝见证取值形式（mutation 负控下 produces 纯 AssertionError）。 */
-    const report = (() => {
-      try {
-        return inspectPalItemSchemeRoots(input)
-      } catch (error) {
-        return (error as Error).message
-      }
-    })()
-    expect(report).toBeTypeOf('object') // 合法输入不得拒绝（拒绝消息以值形式可见）
-    const typed = report as Exclude<typeof report, string>
-    expect(typed.schemes).toBe(5)
-    expect(typed.itemRoots).toBe(2)
-    expect(new Set(typed.labels.map(({ itemId }) => itemId))).toEqual(new Set(['292', '293']))
-    expect(typed.labels.map(({ label }) => label)).toEqual([
-      '物品292剧情方案',
-      '物品292剧情方案 2',
-      '物品293剧情方案',
-      '物品293剧情方案 2',
-      '物品293剧情方案 3',
-    ])
-    expect(structuredClone(input)).toEqual(snapshot)
+    },
+  )
+  const input = {
+    items: validateAuthorItems([
+      firstItem(),
+      schemeItem('293', '饰物', [selectHook('entry', 's002')]),
+    ]),
+    scenes: validateAuthorScenes([firstScene(), next]),
+    expectedSchemes: 5,
+    expectedItemRoots: 2,
+  }
+  const before = structuredClone(input)
+  const report = inspectPalItemSchemeRoots(input)
+  expect(report.labels).toEqual([
+    {
+      id: 'search',
+      itemId: '292',
+      path: 'scenes.s001.entities.e1.behaviors.auto.search',
+      label: '信物剧情方案',
+    },
+    {
+      id: 'entry',
+      itemId: '292',
+      path: 'scenes.s001.hooks.onEnter.variants.entry',
+      label: '信物剧情方案 2',
+    },
+    {
+      id: 'search',
+      itemId: '293',
+      path: 'scenes.s002.entities.e1.behaviors.trigger.search',
+      label: '饰物剧情方案',
+    },
+    {
+      id: 'search',
+      itemId: '293',
+      path: 'scenes.s002.entities.e1.behaviors.auto.search',
+      label: '饰物剧情方案 2',
+    },
+    {
+      id: 'entry',
+      itemId: '293',
+      path: 'scenes.s002.hooks.onEnter.variants.entry',
+      label: '饰物剧情方案 3',
+    },
+  ])
+  expect(input).toEqual(before)
+})
+
+test('two paths from one item count the shared destination once without a cycle', () => {
+  const result = inspectPalItemSchemeRoots({
+    items: validateAuthorItems([
+      schemeItem('292', '信物', [selectHook('entry'), selectBehavior('search')]),
+    ]),
+    scenes: validateAuthorScenes([firstScene()]),
+    expectedSchemes: 2,
+    expectedItemRoots: 1,
   })
-  test('同 root 菱形：item 经 hook 与直连两条路径达同一行为 → 非环、方案计数按节点不按路径', () => {
-    // item292 的脚本既直连 c8-a，又经 c8-hook 到 c8-a（同一 root 两条路径 = 菱形，不是环）
-    const diamondScene = scene()
-    diamondScene.hooks = {
-      onEnter: {
-        variants: {
-          'c8-hook': {
-            label: '物品292剧情方案 2',
-            order: 20,
-            flow: stages([target('e1', 'c8-a')]),
-          },
-        },
-      },
-    }
-    const input = {
-      items: [item('292', [hook('c8-hook'), target('e1', 'c8-a')])],
-      scenes: [diamondScene],
-      expectedSchemes: 2, // c8-a(10) + c8-hook(20)：同一 c8-a 只计一次（去重按地址）
-      expectedItemRoots: 1,
-    }
-    const report = (() => {
-      try {
-        return inspectPalItemSchemeRoots(input)
-      } catch (error) {
-        return (error as Error).message
-      }
-    })()
-    expect(report).toBeTypeOf('object') // 菱形不触发成环拒绝
-    const typed = report as Exclude<typeof report, string>
-    expect(typed.schemes).toBe(2)
-    expect(typed.itemRoots).toBe(1)
-    expect(typed.labels.map(({ id }) => id)).toEqual(['c8-a', 'c8-hook']) // 菱形终点只出现一次
-    expect(typed.labels.map(({ label }) => label)).toEqual(['物品292剧情方案', '物品292剧情方案 2'])
-  })
+  expect(result.labels.map(({ id, itemId }) => [id, itemId])).toEqual([
+    ['search', '292'],
+    ['entry', '292'],
+  ])
 })

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-19T13:50:01.336Z",
+  "generatedAt": "2026-11-19T16:41:03.498Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 840,
-  "testCount": 20566,
+  "testCount": 20527,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -215,8 +215,8 @@
       ],
       "scopeDigest": "2b7e31a36efd1e3ef45b0f6062b2963ba4e431baea41884078709b666e98ca01",
       "fastTests": {
-        "testCount": 1556,
-        "testFileCount": 123,
+        "testCount": 1553,
+        "testFileCount": 121,
         "files": [
           "packages/content/src/acquisition-reference-validation.test.ts",
           "packages/content/src/actor-condition-validation.test.ts",
@@ -247,6 +247,7 @@
           "packages/content/src/battle-choreography.test.ts",
           "packages/content/src/battle-command-references.test.ts",
           "packages/content/src/battle-formulas.test.ts",
+          "packages/content/src/battle-rewards-casualties.test.ts",
           "packages/content/src/battle-sprite-profile.contracts.test.ts",
           "packages/content/src/battle-sprite.boundaries.test.ts",
           "packages/content/src/battle-sprite.test.ts",
@@ -275,21 +276,20 @@
           "packages/content/src/frame-sequence.test.ts",
           "packages/content/src/frame-sequence.validation.test.ts",
           "packages/content/src/grid.test.ts",
-          "packages/content/src/hidden-exp-grid.glm-o.test.ts",
+          "packages/content/src/hidden-experience.test.ts",
           "packages/content/src/item-acquisition-expansion.test.ts",
           "packages/content/src/item-acquisition-validation.test.ts",
-          "packages/content/src/item-effects.glm-o.test.ts",
-          "packages/content/src/item-equip.glm-o.test.ts",
+          "packages/content/src/item-equipment-effects.test.ts",
+          "packages/content/src/item-inventory-equipment.test.ts",
+          "packages/content/src/item-ownership-and-resources.test.ts",
+          "packages/content/src/item-resource-pool.test.ts",
           "packages/content/src/item-use-context.test.ts",
-          "packages/content/src/item-use.glm-o.test.ts",
-          "packages/content/src/item.cursor-pure-wave2.test.ts",
-          "packages/content/src/item.derived.background.test.ts",
+          "packages/content/src/item-world-effects.test.ts",
+          "packages/content/src/item-world-external-use.test.ts",
+          "packages/content/src/item-world-preflight.test.ts",
           "packages/content/src/item.effects.background.test.ts",
-          "packages/content/src/item.external.background.test.ts",
-          "packages/content/src/item.inventory.background.test.ts",
-          "packages/content/src/item.ownership.background.test.ts",
-          "packages/content/src/item.preflight.background.test.ts",
           "packages/content/src/item.test.ts",
+          "packages/content/src/level-growth.test.ts",
           "packages/content/src/locale.test.ts",
           "packages/content/src/map-index.contracts.test.ts",
           "packages/content/src/map-index.residual.test.ts",
@@ -309,9 +309,7 @@
           "packages/content/src/projected-script-stages.test.ts",
           "packages/content/src/projected-script-validation.test.ts",
           "packages/content/src/record-items.guard-residual.test.ts",
-          "packages/content/src/rewards-lifecycle.glm-o.test.ts",
           "packages/content/src/rewards.boundaries.test.ts",
-          "packages/content/src/rewards.cursor-pure-wave2.test.ts",
           "packages/content/src/rewards.test.ts",
           "packages/content/src/rich-text.test.ts",
           "packages/content/src/run-entity-trigger.test.ts",
@@ -380,8 +378,8 @@
           },
           {
             "file": "packages/content/src/asset-catalog.contracts.test.ts",
-            "testCount": 43,
-            "identityDigest": "1bc1d413a30c1d25c465b17c923f679fa10bebade83a3ba4d1e6cee686c0f6d9"
+            "testCount": 44,
+            "identityDigest": "a5b1c4828de097dce15d07540ea496a36bf6472562109132d4d8aa6ebbdfcc55"
           },
           {
             "file": "packages/content/src/asset-closure.contracts.test.ts",
@@ -487,6 +485,11 @@
             "file": "packages/content/src/battle-formulas.test.ts",
             "testCount": 25,
             "identityDigest": "ca92d883bb2963470343c75efa24b3ce13df7279804d355b8e121fca3faaca13"
+          },
+          {
+            "file": "packages/content/src/battle-rewards-casualties.test.ts",
+            "testCount": 1,
+            "identityDigest": "7a282b94be687619974827636edf0ce67c180a6b3441b03278c7b1e278320117"
           },
           {
             "file": "packages/content/src/battle-sprite-profile.contracts.test.ts",
@@ -629,9 +632,9 @@
             "identityDigest": "5f83ce41281090ac103c49bab2fa8eaae96b94bb281c4bc00f796a2896508a13"
           },
           {
-            "file": "packages/content/src/hidden-exp-grid.glm-o.test.ts",
+            "file": "packages/content/src/hidden-experience.test.ts",
             "testCount": 1,
-            "identityDigest": "d686d5e412e2475df8f93fe339ff025dfce8e2b1a7f6d0b3d294a0dec0f4f1ad"
+            "identityDigest": "b3688958495e3b3742d32d06e4a590adeaaa7613d8c17dcdc6c52401071f55bb"
           },
           {
             "file": "packages/content/src/item-acquisition-expansion.test.ts",
@@ -644,14 +647,24 @@
             "identityDigest": "35fcbc8a4d4ecb647990b65bc31cb7721b096130f884852112785d87d1259322"
           },
           {
-            "file": "packages/content/src/item-effects.glm-o.test.ts",
-            "testCount": 9,
-            "identityDigest": "36c0cd4c293d8b952722dcafd2a63760859478c4bba806888314b1266fe06c1a"
+            "file": "packages/content/src/item-equipment-effects.test.ts",
+            "testCount": 8,
+            "identityDigest": "bb0dc33b45affbca0d3d9a8b13336728a71c0c50f17d1424bba937bc7d56a9ac"
           },
           {
-            "file": "packages/content/src/item-equip.glm-o.test.ts",
-            "testCount": 3,
-            "identityDigest": "576b4b6715c5bd6b20b5ffd2f2476d6f6f51d0323d557f9ddf8ee49bbb806692"
+            "file": "packages/content/src/item-inventory-equipment.test.ts",
+            "testCount": 9,
+            "identityDigest": "fb6c3e8272e8dbb740096e18efdd6d3cc58ccbefe34139cfea8460b26d19ed38"
+          },
+          {
+            "file": "packages/content/src/item-ownership-and-resources.test.ts",
+            "testCount": 10,
+            "identityDigest": "69302180bdc54155d79289768dad415aaa03cc53b6694dbc388e8982fe435a8d"
+          },
+          {
+            "file": "packages/content/src/item-resource-pool.test.ts",
+            "testCount": 1,
+            "identityDigest": "bcffc6746f18b4d530bddae3e0c7179d4c2b0217413c5686f063a6edc1ceadee"
           },
           {
             "file": "packages/content/src/item-use-context.test.ts",
@@ -659,19 +672,19 @@
             "identityDigest": "93d7dff73648ed0ba13f3cbb90f16a7ced4aaba9b0922ea8994297eee095809d"
           },
           {
-            "file": "packages/content/src/item-use.glm-o.test.ts",
+            "file": "packages/content/src/item-world-effects.test.ts",
+            "testCount": 11,
+            "identityDigest": "48a6311d1c334be04dbd9562e6fb7305cc3d7b16e937aad4353fe5d81b6b64c1"
+          },
+          {
+            "file": "packages/content/src/item-world-external-use.test.ts",
+            "testCount": 6,
+            "identityDigest": "388b2caa6516236badba65839e90785c5d20ab467c97fa6d2b8c8ab256a8279f"
+          },
+          {
+            "file": "packages/content/src/item-world-preflight.test.ts",
             "testCount": 7,
-            "identityDigest": "59edf3d5fa33d9489f5ad72c806ad8e3e5fcdc13b95819b6b79dd0fee33e0b65"
-          },
-          {
-            "file": "packages/content/src/item.cursor-pure-wave2.test.ts",
-            "testCount": 1,
-            "identityDigest": "3f93b42e2c6b8dff3cbd613b86b8003752eaa8dc445dba0c332997f6d174dd56"
-          },
-          {
-            "file": "packages/content/src/item.derived.background.test.ts",
-            "testCount": 8,
-            "identityDigest": "e257bd2c2c6efabc3bfc60f6070712677f1446cd2a465c47c8a83c751af8f468"
+            "identityDigest": "77f94beb77982afe9faaf40aa5bd5d91b706af568cfb0a2d15d0dcd709721db4"
           },
           {
             "file": "packages/content/src/item.effects.background.test.ts",
@@ -679,29 +692,14 @@
             "identityDigest": "9207d8f709e78d0bc76272e6f52b54a609cafe0b04295b95351e7e7b1b275399"
           },
           {
-            "file": "packages/content/src/item.external.background.test.ts",
-            "testCount": 6,
-            "identityDigest": "cce521fabc3fbdfc0e2891724cd37303114fc08dd8a42ebd83e641fb731f9f44"
-          },
-          {
-            "file": "packages/content/src/item.inventory.background.test.ts",
-            "testCount": 8,
-            "identityDigest": "7ae71289a5f667e79a08f34beebd6d1125c24607e7d5d6edd575630719e05673"
-          },
-          {
-            "file": "packages/content/src/item.ownership.background.test.ts",
-            "testCount": 8,
-            "identityDigest": "fe0cf1e3572faebead7b35635db92e3dd8c5e2ecc772ec7e7185008579033464"
-          },
-          {
-            "file": "packages/content/src/item.preflight.background.test.ts",
-            "testCount": 6,
-            "identityDigest": "2e299184c833063e6086ca31631bc59d738b31ad0ab5d45318c7dfb541fc9565"
-          },
-          {
             "file": "packages/content/src/item.test.ts",
             "testCount": 51,
             "identityDigest": "b4b838ef40156cfcdf470cbdce31fd7a49c6b4bb1e7ff678d7788bbd774d8c95"
+          },
+          {
+            "file": "packages/content/src/level-growth.test.ts",
+            "testCount": 3,
+            "identityDigest": "21cd70fe164294d321a0f314d667a0a5dca297b08e7439746ddcf45cfb5be0b7"
           },
           {
             "file": "packages/content/src/locale.test.ts",
@@ -799,19 +797,9 @@
             "identityDigest": "a0e987e6bd19e572c799d68f2f0e44b99e77673fae6594b738e5b88781705ba8"
           },
           {
-            "file": "packages/content/src/rewards-lifecycle.glm-o.test.ts",
-            "testCount": 3,
-            "identityDigest": "10c8a6054f38355aa6bf4687db5bf2b0ab35ff4a7aecdbd1749ade604a34c8fe"
-          },
-          {
             "file": "packages/content/src/rewards.boundaries.test.ts",
             "testCount": 6,
             "identityDigest": "4e4af005f7a46e3bf3ec0ed7c8a2723e26b8531f18d732733177ffa04256b75f"
-          },
-          {
-            "file": "packages/content/src/rewards.cursor-pure-wave2.test.ts",
-            "testCount": 1,
-            "identityDigest": "35b3b8203eedfc41e6b1a51d032e68328d499da56592aa56caf27201a1e47a59"
           },
           {
             "file": "packages/content/src/rewards.test.ts",
@@ -959,9 +947,9 @@
             "identityDigest": "ab550285fabf73032d71c68bc310ae5aa39d42b869c5ed34ee9ecb6000e43707"
           }
         ],
-        "identityDigest": "3da98bd1279167ea23651575e84a5cbff3522a6b599f9d83b6579f93d5505036",
+        "identityDigest": "cff9b5bbeca72536d18fbae6e1e67495664f6ca9923f43f8c7b774dbe5d44281",
         "duplicateIdentityCount": 0,
-        "executionDigest": "cebe36b1cd035534124bd46baa19ea2161d6d5ab44000c2c619cf64f4f2cd880"
+        "executionDigest": "49ddfbd833cddf66de5b7cd316c94da1db8d656afd6c31e1f1d9263647dcd025"
       },
       "metrics": {
         "statements": {
@@ -969,7 +957,7 @@
           "total": 6046
         },
         "branches": {
-          "covered": 5044,
+          "covered": 5045,
           "total": 5354
         },
         "functions": {
@@ -1450,7 +1438,6 @@
         "packages/migrate/src/pal-content-supply-io.ts",
         "packages/migrate/src/pal-content-supply.ts",
         "packages/migrate/src/pal-current-publication.ts",
-        "packages/migrate/src/pal-derived-content.ts",
         "packages/migrate/src/pal-inparty-actor-id-invariant.ts",
         "packages/migrate/src/pal-item-message-source.ts",
         "packages/migrate/src/pal-item-scheme-labels.ts",
@@ -1458,6 +1445,7 @@
         "packages/migrate/src/pal-map-names.ts",
         "packages/migrate/src/pal-role-mapping.ts",
         "packages/migrate/src/pal-scene-index.ts",
+        "packages/migrate/src/pal-shop-projection.ts",
         "packages/migrate/src/pal-sound-assets.ts",
         "packages/migrate/src/pal-source-io.ts",
         "packages/migrate/src/pal-source-types.ts",
@@ -1470,16 +1458,16 @@
         "packages/migrate/src/sound-migration.ts",
         "packages/migrate/src/source-facts.ts"
       ],
-      "scopeDigest": "09c599aefe89ba7f0a912775a0df817bc13cb1e1cbc19e322b2a85d1c1aadb91",
+      "scopeDigest": "5b40765a655c0ee51457c42da26a86c27c07a82becbe92c2315f4e81373165dc",
       "fastTests": {
-        "testCount": 723,
+        "testCount": 687,
         "testFileCount": 78,
         "files": [
           "packages/migrate/src/bake-indexed-rgba.test.ts",
           "packages/migrate/src/current-only-product-boundary.test.ts",
           "packages/migrate/src/demo-project.test.ts",
           "packages/migrate/src/engine-chrome-assets.test.ts",
-          "packages/migrate/src/migrate-content-script.kimi-r1.test.ts",
+          "packages/migrate/src/migrate-content-cli.test.ts",
           "packages/migrate/src/migration-baseline-paths.test.ts",
           "packages/migrate/src/migration-baseline.io.test.ts",
           "packages/migrate/src/migration-baseline.snapshot.test.ts",
@@ -1502,13 +1490,10 @@
           "packages/migrate/src/migration-write-plan.baseline.test.ts",
           "packages/migrate/src/migration-write-plan.ordering.test.ts",
           "packages/migrate/src/migration-write-plan.project.test.ts",
-          "packages/migrate/src/migration-write-plan.test.ts",
-          "packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts",
-          "packages/migrate/src/pal-assets-materialize.kimi-r1.test.ts",
+          "packages/migrate/src/migration-write-plan.publication.test.ts",
           "packages/migrate/src/pal-assets-paths.test.ts",
           "packages/migrate/src/pal-assets.backgrounds.test.ts",
           "packages/migrate/src/pal-assets.glm-next-wave.test.ts",
-          "packages/migrate/src/pal-assets.glm-o.test.ts",
           "packages/migrate/src/pal-assets.items.test.ts",
           "packages/migrate/src/pal-assets.ownership.test.ts",
           "packages/migrate/src/pal-assets.palette.test.ts",
@@ -1518,47 +1503,50 @@
           "packages/migrate/src/pal-assets.sound-metadata.test.ts",
           "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
           "packages/migrate/src/pal-authored-overlays.test.ts",
-          "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts",
-          "packages/migrate/src/pal-casualty-scripts.wave2.test.ts",
-          "packages/migrate/src/pal-content-supply.glm-o.test.ts",
-          "packages/migrate/src/pal-current-publication.glm-next-wave.test.ts",
+          "packages/migrate/src/pal-casualty-overlay.test.ts",
+          "packages/migrate/src/pal-casualty-scripts.test.ts",
+          "packages/migrate/src/pal-content-supply.test.ts",
+          "packages/migrate/src/pal-current-publication.asset-preconditions.test.ts",
+          "packages/migrate/src/pal-current-publication.equipment.test.ts",
           "packages/migrate/src/pal-current-publication.glm-o.test.ts",
-          "packages/migrate/src/pal-derived-content.test.ts",
+          "packages/migrate/src/pal-frame-animation-input.test.ts",
           "packages/migrate/src/pal-inparty-actor-id-invariant.test.ts",
           "packages/migrate/src/pal-item-message-source.test.ts",
           "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
-          "packages/migrate/src/pal-item-scheme-labels.kimi-r1.test.ts",
+          "packages/migrate/src/pal-item-scheme-labels.selection-paths.test.ts",
           "packages/migrate/src/pal-item-scheme-labels.test.ts",
           "packages/migrate/src/pal-manifest.test.ts",
           "packages/migrate/src/pal-map-name-boundary.test.ts",
+          "packages/migrate/src/pal-map-names.test.ts",
           "packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
+          "packages/migrate/src/pal-player-battle-sprite-ids.test.ts",
           "packages/migrate/src/pal-role-mapping.test.ts",
           "packages/migrate/src/pal-scene-index.test.ts",
+          "packages/migrate/src/pal-shop-projection.test.ts",
           "packages/migrate/src/pal-sound-assets.test.ts",
           "packages/migrate/src/pal-source-io.guards.test.ts",
+          "packages/migrate/src/pal-sprite-loaders.test.ts",
           "packages/migrate/src/pal-sprite-report.fast.test.ts",
           "packages/migrate/src/pal-store-boundary.boundaries.test.ts",
           "packages/migrate/src/pal-store-boundary.test.ts",
           "packages/migrate/src/pal-supply-guards.glm-o.test.ts",
           "packages/migrate/src/pal-world-sprite-layouts.test.ts",
-          "packages/migrate/src/pal-world-sprite-registry.kimi-r1.test.ts",
           "packages/migrate/src/pal-world-sprite-registry.test.ts",
+          "packages/migrate/src/pal-world-sprite-semantic-alias.boundaries.test.ts",
           "packages/migrate/src/pal-world-sprite-semantic-alias.test.ts",
-          "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
+          "packages/migrate/src/project-map-audit.test.ts",
           "packages/migrate/src/project-map-converter.boundaries.test.ts",
-          "packages/migrate/src/project-map-converter.glm-runtime-resource.test.ts",
           "packages/migrate/src/project-map-converter.test.ts",
           "packages/migrate/src/script-conversion-retirement.test.ts",
           "packages/migrate/src/shop-author-merge.test.ts",
-          "packages/migrate/src/sound-migration.glm-next-wave.test.ts",
-          "packages/migrate/src/source-facts.boundaries.test.ts",
-          "packages/migrate/src/world-sprite-layout-registry.test.ts"
+          "packages/migrate/src/sound-migration.test.ts",
+          "packages/migrate/src/source-facts.boundaries.test.ts"
         ],
         "fileEntries": [
           {
             "file": "packages/migrate/src/bake-indexed-rgba.test.ts",
             "testCount": 3,
-            "identityDigest": "b69e26f6fce1b48c0d17bebbea7d6273af281fe211691eefad76a2024ef7649c"
+            "identityDigest": "000c7d4da0cd89e74698cf9cdd88ec4c8dc872ffe24b54e1da51b3c27b8de7e9"
           },
           {
             "file": "packages/migrate/src/current-only-product-boundary.test.ts",
@@ -1576,9 +1564,9 @@
             "identityDigest": "78d159df68110037d4c123e48f0db10bf3ebab30ec3edee3b6dcc45b2854cca9"
           },
           {
-            "file": "packages/migrate/src/migrate-content-script.kimi-r1.test.ts",
+            "file": "packages/migrate/src/migrate-content-cli.test.ts",
             "testCount": 3,
-            "identityDigest": "f3bea779fcf11017a5c7999b784ebaffb36b05c431ae2f15337706a75b966ee6"
+            "identityDigest": "a44282747f364854dadcbfe14e29ad450a34f96607445553e35cef1af9a1bab0"
           },
           {
             "file": "packages/migrate/src/migration-baseline-paths.test.ts",
@@ -1632,13 +1620,13 @@
           },
           {
             "file": "packages/migrate/src/migration-plan.maps.test.ts",
-            "testCount": 12,
-            "identityDigest": "920c21eb1f63286c68656ba07e498284852738a255b938d4abee228da8eb0747"
+            "testCount": 13,
+            "identityDigest": "cb40686740dfcc7ca54f23f7face28f8531c3bcfc98627123776ef36b97fbff3"
           },
           {
             "file": "packages/migrate/src/migration-plan.test.ts",
-            "testCount": 15,
-            "identityDigest": "30d86b5148e228619dc996d448e074d0050cccc97177ea75d7e228e45e2e2eca"
+            "testCount": 9,
+            "identityDigest": "79061fd9bacdcbf678c7e9a941d2f3ae9d19e990cfbb7cd822d05edfe363bd68"
           },
           {
             "file": "packages/migrate/src/migration-project-io.discovery.test.ts",
@@ -1687,28 +1675,18 @@
           },
           {
             "file": "packages/migrate/src/migration-write-plan.project.test.ts",
-            "testCount": 10,
-            "identityDigest": "d68f4c0be7f000e6da72d4b73ca1b54689c4faf4e0d98edccc59af1b57056b5f"
+            "testCount": 15,
+            "identityDigest": "cae85d5a1006bcf2126eca050eccd5d4dde549dae92f7f6a5ab427983f11a7e6"
           },
           {
-            "file": "packages/migrate/src/migration-write-plan.test.ts",
-            "testCount": 12,
-            "identityDigest": "155b0c939e3522ff183761c965490bc984cb5bf7e8c439bad5bbea16ca34cdae"
-          },
-          {
-            "file": "packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts",
-            "testCount": 23,
-            "identityDigest": "8010b7db2afdcdd29a760ded51f5b90fe775a4af08402fa973d235c9ec01a05c"
-          },
-          {
-            "file": "packages/migrate/src/pal-assets-materialize.kimi-r1.test.ts",
-            "testCount": 2,
-            "identityDigest": "68b67f60e698fc66194915bbb12601f96fe4ba8d740a52ea4f3978ee419f9b26"
+            "file": "packages/migrate/src/migration-write-plan.publication.test.ts",
+            "testCount": 4,
+            "identityDigest": "c2fa4c50a72e73e5510a66c364139495fd401ddcdcc9d4ac41e2b1a5277ff7d3"
           },
           {
             "file": "packages/migrate/src/pal-assets-paths.test.ts",
-            "testCount": 14,
-            "identityDigest": "bbce5cbcd7ec4da7c299d0e3aa6ebbe520831cfc9bb0a8f63891d90bfc3e2d61"
+            "testCount": 16,
+            "identityDigest": "e890539c74161d83cc2689de0129c884214d8bd356e4540d5fbbe0407fa1eb3d"
           },
           {
             "file": "packages/migrate/src/pal-assets.backgrounds.test.ts",
@@ -1721,19 +1699,14 @@
             "identityDigest": "248f5543b6f020fef34bb16f58e66d28b83dadf2a58251f45bcc5d367214db1f"
           },
           {
-            "file": "packages/migrate/src/pal-assets.glm-o.test.ts",
-            "testCount": 37,
-            "identityDigest": "513e82f58a9035cfd239ebc88e20211e580f33afe440119bd202a282a5711beb"
-          },
-          {
             "file": "packages/migrate/src/pal-assets.items.test.ts",
             "testCount": 8,
             "identityDigest": "534be0d05ee811686f832c94e82e32443cf3aa13186c6f88e3263a3a5d1d5f22"
           },
           {
             "file": "packages/migrate/src/pal-assets.ownership.test.ts",
-            "testCount": 21,
-            "identityDigest": "d9b1efa752a164c066a6616b433edcf4d748785ab9a2ebb08e423e4f1748d6f1"
+            "testCount": 25,
+            "identityDigest": "6177c6164b9f78f05cbc2072e5fd0ede8140588490cdf5de4c82caf4cba33c39"
           },
           {
             "file": "packages/migrate/src/pal-assets.palette.test.ts",
@@ -1747,48 +1720,53 @@
           },
           {
             "file": "packages/migrate/src/pal-assets.retirements.test.ts",
-            "testCount": 6,
-            "identityDigest": "d7db3b9dfe3a5ba3cb9f63f3b480f18785b9dc7c562a728cea8d13f291f522f3"
+            "testCount": 8,
+            "identityDigest": "0808a2710138153ce22c6390bb9b41b32f5b754ac7a7114983e8c9dab1ffb838"
           },
           {
             "file": "packages/migrate/src/pal-assets.sound-closure.test.ts",
-            "testCount": 13,
-            "identityDigest": "08b1365b0cefecd8c5c9c3e12f3f2d81cf4ea1eb9164454d85c0aa270f520faa"
+            "testCount": 14,
+            "identityDigest": "efffd689bb2efc24b2f32eb12c54774f720d7f72cfbdc8443b54a9a7835f52a5"
           },
           {
             "file": "packages/migrate/src/pal-assets.sound-metadata.test.ts",
-            "testCount": 12,
-            "identityDigest": "e7d9aac65862c732faf94b6453e7f24d74dfb97cf73c6cefe6aa40374404eb34"
+            "testCount": 15,
+            "identityDigest": "902393692e7c2c5b8d1138b9466d09cd292d93aea5dfbba8ea05d7be911e9f3c"
           },
           {
             "file": "packages/migrate/src/pal-authored-overlays.boundaries.test.ts",
             "testCount": 2,
-            "identityDigest": "0c0cbba32625f61770974b3891c3e92990736a54bccf94523d29abe923df156e"
+            "identityDigest": "26b6ba1fd9f7726ff47f63beaa9cb341afd8d59f5d39b295f08410b5bb8996ac"
           },
           {
             "file": "packages/migrate/src/pal-authored-overlays.test.ts",
             "testCount": 7,
-            "identityDigest": "7c1553cce3b077559d53217b63869f7010bffa6e8e478e3956b1955b8073b2eb"
+            "identityDigest": "b47ff4883bbbe2bb4006baf8a950b533cb427442fc6a285df0228cfdca501d6b"
           },
           {
-            "file": "packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts",
-            "testCount": 1,
-            "identityDigest": "27764260b6d82fcc6c73213133c21ecabbc470544f4bf628a4b24ada7b6d07e0"
+            "file": "packages/migrate/src/pal-casualty-overlay.test.ts",
+            "testCount": 3,
+            "identityDigest": "b96ad5ef225388c9564a5634bfc087a02248266c2ff248b33da7a8afc34bb758"
           },
           {
-            "file": "packages/migrate/src/pal-casualty-scripts.wave2.test.ts",
-            "testCount": 9,
-            "identityDigest": "46a644203962863e0352a591aa433e6f7aaf36549d30969c925b710f1f20cd46"
+            "file": "packages/migrate/src/pal-casualty-scripts.test.ts",
+            "testCount": 8,
+            "identityDigest": "78bcaab51de0ff50aa452b569724353e1312ba30bbe663f66d3d48ed1e0f954f"
           },
           {
-            "file": "packages/migrate/src/pal-content-supply.glm-o.test.ts",
-            "testCount": 10,
-            "identityDigest": "005268e3db56e9ad783b4c0d8bf37d9d2f316254040db9dd121d82150a3ff2fa"
+            "file": "packages/migrate/src/pal-content-supply.test.ts",
+            "testCount": 5,
+            "identityDigest": "a4c9a1f3a3516513653e930c57b26ade5fb6a62d6187885d44198683fc841285"
           },
           {
-            "file": "packages/migrate/src/pal-current-publication.glm-next-wave.test.ts",
+            "file": "packages/migrate/src/pal-current-publication.asset-preconditions.test.ts",
             "testCount": 4,
-            "identityDigest": "c3db430b860f5382d86064dc4af0a44562f62353d0db9b58dca19a894371b5bf"
+            "identityDigest": "0b36d95b8431bf566ea27bff39cbdb0e9526a369315461ced4968789d15a0cd5"
+          },
+          {
+            "file": "packages/migrate/src/pal-current-publication.equipment.test.ts",
+            "testCount": 4,
+            "identityDigest": "5f89a184d0c166b434bc8127d6eb4631693c41575e2ea1f442164066cc276eff"
           },
           {
             "file": "packages/migrate/src/pal-current-publication.glm-o.test.ts",
@@ -1796,29 +1774,29 @@
             "identityDigest": "60b2718e34b4cd7ea200fc9103b521d7d9c93e496353ad83223a57cd1a5a5830"
           },
           {
-            "file": "packages/migrate/src/pal-derived-content.test.ts",
-            "testCount": 1,
-            "identityDigest": "76223c26198d72abcbc0d1c4077a7dea6cc374f0b64da39be45549781b6e676f"
+            "file": "packages/migrate/src/pal-frame-animation-input.test.ts",
+            "testCount": 5,
+            "identityDigest": "137a852969c438cd43d8a1e30b292197419b68b8ea5e84188b1834183276dfee"
           },
           {
             "file": "packages/migrate/src/pal-inparty-actor-id-invariant.test.ts",
             "testCount": 3,
-            "identityDigest": "931f9ee7cba9077e469c6c45d2cafdb2c321ad2190d0fb5bae7268f6471a5254"
+            "identityDigest": "55510da73d981054fa396a1551dac673cf36c063107cff3bda7d09ad666881a5"
           },
           {
             "file": "packages/migrate/src/pal-item-message-source.test.ts",
-            "testCount": 6,
-            "identityDigest": "ccbf4bdab2e3b853848112b894847e490735e8cae55f97e12387a7b6157b186e"
+            "testCount": 23,
+            "identityDigest": "1a5e744dcc30297a73c4143ee9cfd389aa245bee1c9b8a6cdea12d4b94c2ab29"
           },
           {
             "file": "packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts",
-            "testCount": 4,
-            "identityDigest": "7ab45309efd6a8963269cef59cd1a2566b2d4ca27316692ad7e73f5d36ea19b1"
+            "testCount": 3,
+            "identityDigest": "cd1e2d406d8e6238946fd1ff9f43a021444cea0343b6c924368e168cced9e069"
           },
           {
-            "file": "packages/migrate/src/pal-item-scheme-labels.kimi-r1.test.ts",
+            "file": "packages/migrate/src/pal-item-scheme-labels.selection-paths.test.ts",
             "testCount": 4,
-            "identityDigest": "c6720f682d1bec9cc02a9fe7aaaf6d01a37f000eb8f5d371f96c6f505b570b96"
+            "identityDigest": "5d1594b678c2a19126a55026a612b6a4a229621bfd7b68559d4698526e505c88"
           },
           {
             "file": "packages/migrate/src/pal-item-scheme-labels.test.ts",
@@ -1836,9 +1814,19 @@
             "identityDigest": "8a4f31ea16b87fd4cc30a1f773e1a578b7808c01f7af5c0cedb22a1c7e9d93dc"
           },
           {
+            "file": "packages/migrate/src/pal-map-names.test.ts",
+            "testCount": 2,
+            "identityDigest": "fac2aca9d75ec8f31befa09e76dac06f607f7f6e464fe87098e6c736ba536322"
+          },
+          {
             "file": "packages/migrate/src/pal-migrate-asset-supply.glm-r1.test.ts",
             "testCount": 15,
             "identityDigest": "12b90e8aae33b8a65ae3369fca2290dbb18b585faedef75517b634102c5995d5"
+          },
+          {
+            "file": "packages/migrate/src/pal-player-battle-sprite-ids.test.ts",
+            "testCount": 2,
+            "identityDigest": "8650d74f631e91693811ed24eaa0691170e4bcd912af33aa086bd3b018ed5e37"
           },
           {
             "file": "packages/migrate/src/pal-role-mapping.test.ts",
@@ -1847,18 +1835,28 @@
           },
           {
             "file": "packages/migrate/src/pal-scene-index.test.ts",
-            "testCount": 2,
-            "identityDigest": "6825b2f3495dc328755fda7dd4454a56bf72ec23fd9f79f680f64d3e6499cac3"
+            "testCount": 4,
+            "identityDigest": "448aac7820218dc280db0021671287ec8ee2d351d6d46ced56bacabcdcc6ac59"
+          },
+          {
+            "file": "packages/migrate/src/pal-shop-projection.test.ts",
+            "testCount": 1,
+            "identityDigest": "80b2bb142535f4c43b6225d421b224310643b0d6e3111511a1be4791cda68f93"
           },
           {
             "file": "packages/migrate/src/pal-sound-assets.test.ts",
             "testCount": 2,
-            "identityDigest": "7d80581be582a8905f5eac41b04b2e34c09761d33a615ae0bb294bed4db690cb"
+            "identityDigest": "37c2e2038cc4d581cb043587f6e49660d92244be63d119605b83e160cdc3a261"
           },
           {
             "file": "packages/migrate/src/pal-source-io.guards.test.ts",
             "testCount": 5,
             "identityDigest": "0f997d4b1217ddfaabcd6df5241a305335c4db79aae602ec5b316ef51b0f821e"
+          },
+          {
+            "file": "packages/migrate/src/pal-sprite-loaders.test.ts",
+            "testCount": 8,
+            "identityDigest": "f5f41a8e42f117ba32367d6695b2e5b2ff1eaea57a9248083304c95eb4fbb3d4"
           },
           {
             "file": "packages/migrate/src/pal-sprite-report.fast.test.ts",
@@ -1883,47 +1881,42 @@
           {
             "file": "packages/migrate/src/pal-world-sprite-layouts.test.ts",
             "testCount": 3,
-            "identityDigest": "a094b0149d7d897a259c894b67d92bce247b65defbc09341b29b2230032193da"
-          },
-          {
-            "file": "packages/migrate/src/pal-world-sprite-registry.kimi-r1.test.ts",
-            "testCount": 5,
-            "identityDigest": "b92c395db6dcdf20533f420b9fbff3809ea5f6886215eeef676fef4560f7656a"
+            "identityDigest": "2d7a0246304bb75fc986a72bf94396fc8dcec2f08e042e3cf0b68e95896f8770"
           },
           {
             "file": "packages/migrate/src/pal-world-sprite-registry.test.ts",
+            "testCount": 12,
+            "identityDigest": "22a1dafc97892701acc35b401f820981b97cfb1aa7bc429c6892327ecfe73149"
+          },
+          {
+            "file": "packages/migrate/src/pal-world-sprite-semantic-alias.boundaries.test.ts",
             "testCount": 4,
-            "identityDigest": "291f609e03e1fbc5ff21107606e17a848228a93028e8c1e61c23c22d38adb81d"
+            "identityDigest": "528eae06283238d8fb854cb47c485a8337638dc8d087acfc808058cf32d0d01d"
           },
           {
             "file": "packages/migrate/src/pal-world-sprite-semantic-alias.test.ts",
             "testCount": 4,
-            "identityDigest": "724f3db66dff5dcc4b051cd37e0d6bb59cf581ce794e8b262b3f8aad8a59332b"
+            "identityDigest": "36521124fa816c7ab5e78398630f589a43e2c4ff67eef4c24605944fec60d58f"
           },
           {
-            "file": "packages/migrate/src/pal-world-sprites.glm-o.test.ts",
-            "testCount": 13,
-            "identityDigest": "2be5388c8733afe96815cebea7bf7fa0c45e84d9b6f3ac3549d1d76ddf1819e5"
+            "file": "packages/migrate/src/project-map-audit.test.ts",
+            "testCount": 6,
+            "identityDigest": "5dac7e74efcd8016f5eb134f3865b79c219e3c02a5e10902db01360f23cfbbb9"
           },
           {
             "file": "packages/migrate/src/project-map-converter.boundaries.test.ts",
-            "testCount": 4,
-            "identityDigest": "4156e3ff6d5876f072f51bb791e44a516e2055366f26f24917d6438bd3e8fbc6"
-          },
-          {
-            "file": "packages/migrate/src/project-map-converter.glm-runtime-resource.test.ts",
-            "testCount": 1,
-            "identityDigest": "2863147204842ec01f4ef756d0f8f5814c639c34b201d4d09829145aa929aee3"
+            "testCount": 3,
+            "identityDigest": "fa267ef2b9cce7873fb9a761346bca16a5bc3e20ccad059e730918a73ef9a480"
           },
           {
             "file": "packages/migrate/src/project-map-converter.test.ts",
-            "testCount": 5,
-            "identityDigest": "15eb30060cfcad8fcc85dbe13645ab2d3f00f8dc6edcccb12349f299b569cab7"
+            "testCount": 4,
+            "identityDigest": "230582f98a8351e3cbe052e971ca0c44b04cc52d9c9813691c2f4c988d859122"
           },
           {
             "file": "packages/migrate/src/script-conversion-retirement.test.ts",
-            "testCount": 3,
-            "identityDigest": "f9886075b8657680cb882cacf7205b127d83ffeaa2157d351177247594e56ceb"
+            "testCount": 4,
+            "identityDigest": "9cf4809a72a5b8f9688c4f19f18ccc871e06f4d346e6ed5f1edf0eb31ca192b9"
           },
           {
             "file": "packages/migrate/src/shop-author-merge.test.ts",
@@ -1931,41 +1924,36 @@
             "identityDigest": "ade489a6c7d308557f56aa4653713ff81d44cc1364f05781f92b0e39d565b215"
           },
           {
-            "file": "packages/migrate/src/sound-migration.glm-next-wave.test.ts",
+            "file": "packages/migrate/src/sound-migration.test.ts",
             "testCount": 3,
-            "identityDigest": "03608e8cbed0c838b0e5ed24a650697c0e38bb9eea17353944a11f909f396871"
+            "identityDigest": "8389fc53404fc5b2897df4710fd33ce9ab03a745af1a190be6c3035b5d8e9e34"
           },
           {
             "file": "packages/migrate/src/source-facts.boundaries.test.ts",
             "testCount": 1,
-            "identityDigest": "7e0720ea0cae3984fc77e0b590bc311ed6e25ff03165e5b61159370bcbafe7e1"
-          },
-          {
-            "file": "packages/migrate/src/world-sprite-layout-registry.test.ts",
-            "testCount": 11,
-            "identityDigest": "1fa632b86555f5bd13b1050a308fd3f0b4267d6fe361da86e80a7bf83eb68849"
+            "identityDigest": "fb92bf2dee6e6e41086f0f251d1c3bda86f258ebc3504f49772a1e309f4fabf6"
           }
         ],
-        "identityDigest": "0741c71dce58015d6fe0a4d0047d83c8e46778251c21bd2e78f784d2ff7950c7",
+        "identityDigest": "6d7d4a7a6cbe465b94d23db979c2b277fb6939383067858a8620ebe62710f3a6",
         "duplicateIdentityCount": 1,
-        "executionDigest": "cb872fc2335b5673158e3809443e40bf42f9b64b927a5bf68398b411b0b62371"
+        "executionDigest": "c2a4e1eedacf1de39ed76c54f7ce108fc352045e7a2c0eec60a5d3489454ff9c"
       },
       "metrics": {
         "statements": {
-          "covered": 2335,
-          "total": 2572
+          "covered": 2316,
+          "total": 2547
         },
         "branches": {
-          "covered": 1639,
-          "total": 1799
+          "covered": 1614,
+          "total": 1772
         },
         "functions": {
-          "covered": 381,
-          "total": 405
+          "covered": 376,
+          "total": 399
         },
         "lines": {
-          "covered": 2049,
-          "total": 2250
+          "covered": 2030,
+          "total": 2229
         }
       }
     },
@@ -10745,20 +10733,20 @@
   },
   "total": {
     "statements": {
-      "covered": 75962,
-      "total": 83322
+      "covered": 75943,
+      "total": 83297
     },
     "branches": {
-      "covered": 55381,
-      "total": 65368
+      "covered": 55357,
+      "total": 65341
     },
     "functions": {
-      "covered": 14354,
-      "total": 15878
+      "covered": 14349,
+      "total": 15872
     },
     "lines": {
-      "covered": 67873,
-      "total": 72937
+      "covered": 67854,
+      "total": 72916
     }
   }
 }

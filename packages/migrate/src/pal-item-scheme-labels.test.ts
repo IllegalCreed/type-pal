@@ -1,46 +1,18 @@
-import type {
-  AuthorCommand,
-  AuthorItemData,
-  AuthorSceneDef,
-  AuthorStagesFlow,
+import {
+  type AuthorCommand,
+  type AuthorSceneDef,
+  type AuthorStagesFlow,
+  validateAuthorItems,
+  validateAuthorScenes,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import {
+  selectHook as hook,
+  schemeItem as item,
+  selectBehavior,
+  stages,
+} from './__tests__/item-scheme-fixtures.js'
 import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
-
-const target = (entity: string, behavior: string): AuthorCommand => ({
-  kind: 'selectEntityBehavior',
-  target: { scene: 's001', entity },
-  channel: 'auto',
-  selection: { kind: 'use', value: behavior },
-})
-
-const hook = (id: string): AuthorCommand => ({
-  kind: 'selectSceneHooks',
-  scene: 's001',
-  selection: { onEnter: { kind: 'use', value: id } },
-})
-
-const stages = (body: AuthorCommand[]): AuthorStagesFlow => ({
-  kind: 'stages',
-  initial: 'main',
-  stages: [{ id: 'main', body }],
-})
-
-function item(id: string, name: string, body: AuthorCommand[]): AuthorItemData {
-  return {
-    id,
-    name,
-    desc: [],
-    buyPrice: 0,
-    sellPrice: 0,
-    sellable: false,
-    use: {
-      target: 'scene',
-      consuming: false,
-      effects: [{ kind: 'itemPrivateScript', script: { id: 'use', body } }],
-    },
-  }
-}
 
 function scene(args: {
   hookBody?: AuthorCommand[]
@@ -76,6 +48,14 @@ function scene(args: {
   }
 }
 
+function inspect(args: Parameters<typeof inspectPalItemSchemeRoots>[0]) {
+  return inspectPalItemSchemeRoots({
+    ...args,
+    items: validateAuthorItems(args.items),
+    scenes: validateAuthorScenes(args.scenes),
+  })
+}
+
 describe('PAL item scheme label invariant', () => {
   test('取物奖励不会伪造成物品用途脚本的选择关系', () => {
     const authored = scene({})
@@ -95,7 +75,7 @@ describe('PAL item scheme label invariant', () => {
       },
     }
     expect(
-      inspectPalItemSchemeRoots({
+      inspect({
         items: [item('292', '信物', [])],
         scenes: [authored],
         expectedSchemes: 0,
@@ -105,11 +85,11 @@ describe('PAL item scheme label invariant', () => {
   })
 
   test('沿 hooks[channel].variants 与固有挂载方案闭包，并按 order + id 稳定消歧', () => {
-    const result = inspectPalItemSchemeRoots({
+    const result = inspect({
       items: [item('292', '信物', [hook('c8-hook')])],
       scenes: [
         scene({
-          hookBody: [target('e1', 'c8-b'), target('e1', 'c8-a')],
+          hookBody: [selectBehavior('c8-b'), selectBehavior('c8-a')],
           behaviors: {
             'c8-a': {
               label: '信物剧情方案 2',
@@ -118,7 +98,7 @@ describe('PAL item scheme label invariant', () => {
                 {
                   kind: 'repeat',
                   count: 2,
-                  body: [{ kind: 'confirm', onYes: [target('e1', 'c8-b')], onNo: [] }],
+                  body: [{ kind: 'confirm', onYes: [selectBehavior('c8-b')], onNo: [] }],
                 },
               ]),
             },
@@ -143,7 +123,7 @@ describe('PAL item scheme label invariant', () => {
 
   test('零 root fail-loud', () => {
     expect(() =>
-      inspectPalItemSchemeRoots({
+      inspect({
         items: [item('1', '孤儿', [])],
         scenes: [
           scene({
@@ -159,7 +139,7 @@ describe('PAL item scheme label invariant', () => {
 
   test('作者可读名称保留，审计不把它重新生成为物品序号名', () => {
     const input = {
-      items: [item('292', '信物', [target('e1', 'custom')])],
+      items: [item('292', '信物', [selectBehavior('custom')])],
       scenes: [
         scene({
           behaviors: {
@@ -171,7 +151,7 @@ describe('PAL item scheme label invariant', () => {
       expectedItemRoots: 1,
     }
     const before = structuredClone(input)
-    expect(inspectPalItemSchemeRoots(input).labels).toEqual([
+    expect(inspect(input).labels).toEqual([
       {
         id: 'custom',
         itemId: '292',
@@ -184,10 +164,10 @@ describe('PAL item scheme label invariant', () => {
 
   test('多 root fail-loud', () => {
     expect(() =>
-      inspectPalItemSchemeRoots({
+      inspect({
         items: [
-          item('1', '甲', [target('e1', 'c8-shared')]),
-          item('2', '乙', [target('e1', 'c8-shared')]),
+          item('1', '甲', [selectBehavior('c8-shared')]),
+          item('2', '乙', [selectBehavior('c8-shared')]),
         ],
         scenes: [
           scene({
@@ -203,13 +183,13 @@ describe('PAL item scheme label invariant', () => {
 
   test('选择图成环 fail-loud', () => {
     expect(() =>
-      inspectPalItemSchemeRoots({
-        items: [item('1', '循环', [target('e1', 'c8-a')])],
+      inspect({
+        items: [item('1', '循环', [selectBehavior('c8-a')])],
         scenes: [
           scene({
             behaviors: {
-              'c8-a': { label: '循环剧情方案', order: 1, flow: stages([target('e1', 'c8-b')]) },
-              'c8-b': { label: '循环剧情方案 2', order: 2, flow: stages([target('e1', 'c8-a')]) },
+              'c8-a': { label: '循环剧情方案', order: 1, flow: stages([selectBehavior('c8-b')]) },
+              'c8-b': { label: '循环剧情方案 2', order: 2, flow: stages([selectBehavior('c8-a')]) },
             },
           }),
         ],
@@ -220,8 +200,8 @@ describe('PAL item scheme label invariant', () => {
 
   test('悬空选择 fail-loud', () => {
     expect(() =>
-      inspectPalItemSchemeRoots({
-        items: [item('1', '悬空', [target('e1', 'c8-missing')])],
+      inspect({
+        items: [item('1', '悬空', [selectBehavior('c8-missing')])],
         scenes: [scene({})],
         expectedSchemes: 1,
       }),
@@ -230,8 +210,8 @@ describe('PAL item scheme label invariant', () => {
 
   test('opaque label fail-loud', () => {
     expect(() =>
-      inspectPalItemSchemeRoots({
-        items: [item('1', '药', [target('e1', 'c8-old')])],
+      inspect({
+        items: [item('1', '药', [selectBehavior('c8-old')])],
         scenes: [
           scene({
             behaviors: {

@@ -1,20 +1,17 @@
 import type { ItemData } from '@type-pal/content'
 
-/** 隐蛊原脚本是战斗全队隐形 3 回合，目标 schema 已有 hideParty 精确表达。 */
+/** 将隐蛊的 0x005C [3,0,0] 译成全队隐形，傀儡用途限定为战斗。 */
 export function applyPalItemOverlays(input: readonly ItemData[]): ItemData[] {
   return input.map((item) => {
-    const overlaid =
-      item.id === '141'
-        ? {
-            ...structuredClone(item),
-            use: {
-              target: 'allAllies' as const,
-              consuming: true,
-              battleOnly: true,
-              effects: [{ kind: 'hideParty' as const, turns: 3 }],
-            },
-          }
-        : structuredClone(item)
+    const overlaid = structuredClone(item)
+    if (item.id === '141') {
+      overlaid.use = {
+        target: 'allAllies',
+        consuming: true,
+        battleOnly: true,
+        effects: [{ kind: 'hideParty', turns: 3 }],
+      }
+    }
     if (
       overlaid.use?.effects.some(
         (effect) => effect.kind === 'applyStatus' && effect.status === 'puppet',

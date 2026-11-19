@@ -8,18 +8,16 @@ import type {
 import type { SourceCmd } from './source-facts.js'
 
 /**
- * B11-1: 原版 OBJECT_PLAYER.scriptOnFriendDeath / scriptOnDying 的结构化翻译。
+ * 将原版 OBJECT_PLAYER 的队友阵亡和濒死脚本译成第二阶段的结构化分支。
  *
- * 真值来源（2026-08-05 三方 agree）：
  * - object-players.json：obj[0] 李逍遥 friendDeath=43445、obj[1] 赵灵儿 dying=43374、
  *   obj[2] 林月如 friendDeath=43474 + dying=43400；
  * - 0x06 = 顺序概率门（r≥阈值跳分支，命中即停，不再掷后续门）；
  * - 0x1B/0x1C = 回体力/真气满；0x30 = 临时百分比 buff（17=attack、18=magic、20=speed、
  *   21=luck；delta = 未 buff 运行时值 × percent/100，战内有效、战后清空）；
- * - showDialog 台词按 `dlg.<messageIndex>` 落 locale（源文本随脚本一起带出）。
+ * - showDialog 引用 `dlg.<messageIndex>`。源文本用于核对翻译结果，现行发布保留作者 locale。
  *
- * 只接受本卡四个脚本已用到的 opcode；遇到未知 opcode 或结构漂移 fail-closed，
- * 禁止静默丢语义。
+ * 只翻译这四个原盘脚本的指令子集。遇到未知指令或结构漂移时停止发布。
  */
 
 const STAT_INDEX_TO_NAME = {
@@ -32,8 +30,7 @@ const STAT_INDEX_TO_NAME = {
 type DialogStyle = CasualtyLine['style']
 
 /**
- * B11-1 四个伤亡脚本的台词 messageIndex(P0 冻结;36 键)。
- * 当前 PAL 发布用它把来源 messageIndex 精确映射到 locale；parse 结果必须与该集合逐键一致。
+ * 四份原盘伤亡脚本使用的 36 个台词键。发布器用集合比对来检出源脚本漂移。
  */
 export const PAL_CASUALTY_LOCALE_KEYS: readonly string[] = [
   13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477, 13478, 13479, 13480, 13481, 13482, 13483,
@@ -76,7 +73,7 @@ function parseBranch(
         continuesCue = false
         break
       case 'showDialog': {
-        const messageIndex = (command as { messageIndex?: unknown }).messageIndex
+        const { messageIndex } = command
         if (typeof messageIndex !== 'number' || typeof command.text !== 'string')
           throw new Error(`B11-1 casualty: branch @${from} showDialog 缺 messageIndex/text`)
         const key = `dlg.${messageIndex}`
@@ -121,7 +118,7 @@ function parseBranch(
             break
           }
           case 0x05:
-            // 原版重绘红点帧 [0,0,0]：纯演出 no-op，结构化数据不保留。
+            // 月如濒死脚本的这条重绘后立即设置新对白样式，结构化演出由下一段对白接管。
             if ((operands[1] ?? 0) !== 0 || (operands[2] ?? 0) !== 0)
               throw new Error(
                 `B11-1 casualty: branch @${from} 0x05 参数非空 ${JSON.stringify(operands)}`,
@@ -174,7 +171,7 @@ export function applyPalCasualtyOverlays(
   commands: readonly SourceCmd[],
   objectPlayers: readonly { scriptOnFriendDeath: number; scriptOnDying: number }[],
 ): { actors: ActorDef[]; locale: Record<string, string> } {
-  // object-players 顺序 = player-roles 顺序（36..41 → 李逍遥/赵灵儿/林月如/巫后/阿奴/盖罗娇）。
+  // 两个提取表都以 roleId 排列。0–2 对应李逍遥、赵灵儿、林月如。
   const expected = [
     {
       roleIndex: 0,

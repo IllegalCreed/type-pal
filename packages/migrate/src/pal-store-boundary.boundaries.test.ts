@@ -6,7 +6,7 @@
  */
 import type { ItemData, ShopDef } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
-import { migratePalShops, type SourceStore } from './pal-derived-content.js'
+import { migratePalShops, type SourceStore } from './pal-shop-projection.js'
 import {
   assertPalAlchemyBoundaryInvariant,
   assertPalStoreBoundaryInvariant,

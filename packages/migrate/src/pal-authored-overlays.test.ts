@@ -1,4 +1,4 @@
-import type { ItemData } from '@type-pal/content'
+import { type ItemData, type ItemUseEffect, validateItems } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   applyPalGeneratedCraftMessages,
@@ -6,254 +6,160 @@ import {
   applyPalItemOverlays,
 } from './pal-authored-overlays.js'
 
-describe('PAL 已审计内容 overlay', () => {
-  test('隐蛊使用效果在上游纯函数中回补且幂等', () => {
-    const source = [{ id: '141', name: '隐蛊' }] as ItemData[]
+function item(id: string, changes: Partial<ItemData> = {}): ItemData {
+  return {
+    id,
+    name: `作者物品 ${id}`,
+    desc: ['作者说明'],
+    buyPrice: 123,
+    sellPrice: 45,
+    sellable: true,
+    ...changes,
+  }
+}
+
+function craftItem(id = '999', message?: string, product = '148'): ItemData {
+  return item(id, {
+    use: {
+      target: 'scene',
+      consuming: false,
+      effects: [
+        {
+          kind: 'craftRecipe',
+          recipes: [
+            {
+              ingredients: [{ itemId: '117', count: 1 }],
+              products: [{ itemId: product, count: 1 }],
+            },
+          ],
+          ...(message === undefined ? {} : { unavailableMessage: message }),
+        },
+      ],
+    },
+  })
+}
+
+function poolItem(message?: string, reward = '100'): ItemData {
+  const effect: ItemUseEffect = {
+    kind: 'drawFromResourcePool',
+    resource: 'collectValue',
+    maxRoll: 2,
+    rewards: [
+      { itemId: reward, count: 1 },
+      { itemId: '105', count: 1 },
+    ],
+    ...(message === undefined ? {} : { unavailableMessage: message }),
+  }
+  return item('888', { use: { target: 'scene', consuming: false, effects: [effect] } })
+}
+
+describe('PAL item-use overrides', () => {
+  test('gives Hidden Gu the original three-turn whole-party battle effect', () => {
+    const source = validateItems([item('141', { name: '隐蛊' })])
     const once = applyPalItemOverlays(source)
-    expect(once[0]?.use).toEqual({
-      target: 'allAllies',
-      consuming: true,
-      battleOnly: true,
-      effects: [{ kind: 'hideParty', turns: 3 }],
-    })
+    expect(once).toEqual([
+      item('141', {
+        name: '隐蛊',
+        use: {
+          target: 'allAllies',
+          consuming: true,
+          battleOnly: true,
+          effects: [{ kind: 'hideParty', turns: 3 }],
+        },
+      }),
+    ])
     expect(applyPalItemOverlays(once)).toEqual(once)
-    expect(source[0]?.use).toBeUndefined()
+    expect(source).toEqual([item('141', { name: '隐蛊' })])
+    validateItems(once)
   })
 
-  test('傀儡状态用途由上游明确限制为战斗内使用', () => {
+  test('adds the battle-use restriction before final validation for the raw puppet effect', () => {
     const source = [
-      {
-        id: '152',
+      item('152', {
         name: '傀儡虫',
         use: {
           target: 'oneAlly',
           consuming: true,
           effects: [{ kind: 'applyStatus', status: 'puppet', turns: 9 }],
         },
-      },
-    ] as ItemData[]
+      }),
+    ]
+    const before = structuredClone(source)
     const once = applyPalItemOverlays(source)
-    expect(once[0]?.use?.battleOnly).toBe(true)
+    expect(once[0]?.use).toEqual({
+      target: 'oneAlly',
+      consuming: true,
+      battleOnly: true,
+      effects: [{ kind: 'applyStatus', status: 'puppet', turns: 9 }],
+    })
     expect(applyPalItemOverlays(once)).toEqual(once)
-    expect(source[0]?.use?.battleOnly).toBeUndefined()
+    expect(source).toEqual(before)
+    validateItems(once)
   })
+})
 
-  test('current publication 只同步同轮 producer 的 craft failure message', () => {
-    const recipes = [
-      {
-        ingredients: [{ itemId: '117', count: 1 }],
-        products: [{ itemId: '148', count: 1 }],
-      },
-    ]
-    const current = [
-      {
-        id: '999',
-        name: '作者标题',
-        desc: ['作者说明'],
-        buyPrice: 123,
-        sellPrice: 45,
-        sellable: true,
-        use: {
-          target: 'scene',
-          consuming: false,
-          effects: [{ kind: 'craftRecipe', recipes }],
-        },
-      },
-    ] as ItemData[]
-    const generated = [
-      {
-        ...structuredClone(current[0]!),
-        name: 'producer 标题不得覆盖作者标题',
-        use: {
-          ...structuredClone(current[0]!.use!),
-          effects: [
-            {
-              kind: 'craftRecipe' as const,
-              recipes: structuredClone(recipes),
-              unavailableMessage: '源失败原文',
-            },
-          ],
-        },
-      },
-    ]
-
+describe('PAL generated failure texts', () => {
+  test('overlays only the craft text and leaves existing text when the source has none', () => {
+    const current = validateItems([craftItem()])
+    const generated = validateItems([{ ...craftItem('999', '源失败原文'), name: '生成标题' }])
+    const before = structuredClone(current)
     const once = applyPalGeneratedCraftMessages(current, generated)
-    expect(once).toEqual([
-      {
-        ...current[0],
-        use: {
-          ...current[0]!.use,
-          effects: [{ kind: 'craftRecipe', recipes, unavailableMessage: '源失败原文' }],
-        },
-      },
-    ])
+    expect(once).toEqual([craftItem('999', '源失败原文')])
     expect(applyPalGeneratedCraftMessages(once, generated)).toEqual(once)
-    expect(current[0]!.use!.effects[0]).not.toHaveProperty('unavailableMessage')
-
-    const generatedWithoutMessage = structuredClone(generated)
-    const generatedCraft = generatedWithoutMessage[0]!.use!.effects[0]!
-    if (generatedCraft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
-    Reflect.deleteProperty(generatedCraft, 'unavailableMessage')
-    expect(applyPalGeneratedCraftMessages(once, generatedWithoutMessage)).toEqual(once)
+    expect(applyPalGeneratedCraftMessages(once, current)).toEqual(once)
+    expect(current).toEqual(before)
   })
 
-  test('producer craft message 的空白值或配方结构不一致时 fail-loud', () => {
-    const current = [
-      {
-        id: '999',
-        name: '作者物品',
-        use: {
-          target: 'scene',
-          consuming: false,
-          effects: [
-            {
-              kind: 'craftRecipe',
-              recipes: [
-                {
-                  ingredients: [{ itemId: '117', count: 1 }],
-                  products: [{ itemId: '148', count: 1 }],
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ] as ItemData[]
-    const generated = structuredClone(current)
-    const generatedCraft = generated[0]!.use!.effects[0]!
-    if (generatedCraft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
-    generatedCraft.unavailableMessage = '源失败原文'
-    generatedCraft.recipes[0]!.products[0] = { itemId: '149', count: 1 }
-    expect(() => applyPalGeneratedCraftMessages(current, generated)).toThrow(/recipes drift/)
-
-    generatedCraft.recipes[0]!.products[0] = { itemId: '148', count: 1 }
-    generatedCraft.unavailableMessage = '   '
-    expect(() => applyPalGeneratedCraftMessages(current, generated)).toThrow(/message 非法/)
-  })
-
-  test('producer message ownership 的重复 id、缺 current 与 craft 数量歧义全部 fail-loud', () => {
-    const current = [
-      {
-        id: '999',
-        name: '作者物品',
-        use: {
-          target: 'scene',
-          consuming: false,
-          effects: [
-            {
-              kind: 'craftRecipe',
-              recipes: [
-                {
-                  ingredients: [{ itemId: '117', count: 1 }],
-                  products: [{ itemId: '148', count: 1 }],
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ] as ItemData[]
-    const generated = structuredClone(current)
-    const generatedCraft = generated[0]!.use!.effects[0]!
-    if (generatedCraft.kind !== 'craftRecipe') throw new Error('expected craftRecipe')
-    generatedCraft.unavailableMessage = '源失败原文'
-
-    expect(() => applyPalGeneratedCraftMessages([...current, current[0]!], generated)).toThrow(
-      /current 重复 item id/,
+  test('rejects a craft text for a different recipe or a blank source message', () => {
+    const current = validateItems([craftItem()])
+    expect(() =>
+      applyPalGeneratedCraftMessages(
+        current,
+        validateItems([craftItem('999', '源失败原文', '149')]),
+      ),
+    ).toThrow('PAL generated craft message: item999 recipes drift')
+    expect(() => applyPalGeneratedCraftMessages(current, [craftItem('999', '   ')])).toThrow(
+      'PAL generated craft message: item999 message 非法',
     )
-    expect(() => applyPalGeneratedCraftMessages(current, [...generated, generated[0]!])).toThrow(
-      /generated 重复 item id/,
-    )
-    expect(() => applyPalGeneratedCraftMessages([], generated)).toThrow(/current 缺物品 999/)
-
-    const missingCraft = structuredClone(current)
-    missingCraft[0]!.use!.effects = []
-    expect(() => applyPalGeneratedCraftMessages(missingCraft, generated)).toThrow(/craft 数量漂移/)
   })
 
-  test('current publication 只同步同轮 producer 的 resource-pool failure message', () => {
-    const rewards = [
-      { itemId: '100', count: 1 },
-      { itemId: '105', count: 1 },
-    ]
-    const current = [
-      {
-        id: '888',
-        name: '作者葫芦',
-        desc: ['作者说明'],
-        buyPrice: 321,
-        use: {
-          target: 'scene',
-          consuming: false,
-          effects: [
-            {
-              kind: 'drawFromResourcePool',
-              resource: 'collectValue',
-              maxRoll: 2,
-              rewards,
-            },
-          ],
-        },
-      },
-    ] as ItemData[]
-    const generated = structuredClone(current)
-    generated[0]!.name = 'producer 标题不得覆盖作者标题'
-    const generatedPool = generated[0]!.use!.effects[0]!
-    if (generatedPool.kind !== 'drawFromResourcePool') throw new Error('expected pool')
-    generatedPool.unavailableMessage = '无任何效果'
+  test('requires unique current and generated items and a matching number of craft effects', () => {
+    const current = craftItem()
+    const generated = craftItem('999', '源失败原文')
+    expect(() => applyPalGeneratedCraftMessages([current, current], [generated])).toThrow(
+      'PAL generated craft message: current 重复 item id 999',
+    )
+    expect(() => applyPalGeneratedCraftMessages([current], [generated, generated])).toThrow(
+      'PAL generated craft message: generated 重复 item id 999',
+    )
+    expect(() => applyPalGeneratedCraftMessages([], [generated])).toThrow(
+      'PAL generated craft message: current 缺物品 999',
+    )
+    expect(() => applyPalGeneratedCraftMessages([item('999')], [generated])).toThrow(
+      'PAL generated craft message: item999 craft 数量漂移',
+    )
+  })
 
+  test('overlays only the source resource-pool text on the matching author item', () => {
+    const current = validateItems([poolItem()])
+    const generated = validateItems([{ ...poolItem('无任何效果'), name: '生成标题' }])
+    const before = structuredClone(current)
     const once = applyPalGeneratedResourcePoolMessages(current, generated)
-    expect(once).toEqual([
-      {
-        ...current[0],
-        use: {
-          ...current[0]!.use,
-          effects: [
-            {
-              kind: 'drawFromResourcePool',
-              resource: 'collectValue',
-              maxRoll: 2,
-              rewards,
-              unavailableMessage: '无任何效果',
-            },
-          ],
-        },
-      },
-    ])
+    expect(once).toEqual([poolItem('无任何效果')])
     expect(applyPalGeneratedResourcePoolMessages(once, generated)).toEqual(once)
-    expect(current[0]!.use!.effects[0]).not.toHaveProperty('unavailableMessage')
+    expect(current).toEqual(before)
   })
 
-  test('producer resource-pool message 的空白值或结构漂移时 fail-loud', () => {
-    const current = [
-      {
-        id: '888',
-        name: '作者葫芦',
-        use: {
-          target: 'scene',
-          consuming: false,
-          effects: [
-            {
-              kind: 'drawFromResourcePool',
-              resource: 'collectValue',
-              maxRoll: 1,
-              rewards: [{ itemId: '100', count: 1 }],
-            },
-          ],
-        },
-      },
-    ] as ItemData[]
-    const generated = structuredClone(current)
-    const generatedPool = generated[0]!.use!.effects[0]!
-    if (generatedPool.kind !== 'drawFromResourcePool') throw new Error('expected pool')
-    generatedPool.unavailableMessage = '无任何效果'
-    generatedPool.resource = 'other'
-    expect(() => applyPalGeneratedResourcePoolMessages(current, generated)).toThrow(
-      /resource pool drift/,
-    )
-
-    generatedPool.resource = 'collectValue'
-    generatedPool.unavailableMessage = ' 无任何效果 '
-    expect(() => applyPalGeneratedResourcePoolMessages(current, generated)).toThrow(/message 非法/)
+  test('rejects source pool text with a different reward or surrounding whitespace', () => {
+    const current = validateItems([poolItem()])
+    expect(() =>
+      applyPalGeneratedResourcePoolMessages(
+        current,
+        validateItems([poolItem('无任何效果', '111')]),
+      ),
+    ).toThrow('PAL generated resource message: item888 resource pool drift')
+    expect(() =>
+      applyPalGeneratedResourcePoolMessages(current, [poolItem(' 无任何效果 ')]),
+    ).toThrow('PAL generated resource message: item888 message 非法')
   })
 })

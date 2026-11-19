@@ -1,10 +1,14 @@
 import { type AssetId, palSoundAssetId } from '@type-pal/content'
 
-/** 旧 PAL 音效号到工程 AssetId 的迁移边界；undefined 表示 0 或空 chunk。 */
+/** 从值域合法的 PAL 音效号读取已登记的音效。缺少对应素材时返回 undefined。 */
 export type SoundAssetForNum = (sound: number) => AssetId | undefined
 
+function isPalSoundNumber(sound: number | undefined): sound is number {
+  return sound !== undefined && Number.isInteger(sound) && sound > 0
+}
+
 export function palOptionalSoundAssetId(sound: number | undefined): AssetId | undefined {
-  if (sound === undefined || !Number.isInteger(sound) || sound <= 0) return undefined
+  if (!isPalSoundNumber(sound)) return undefined
   return palSoundAssetId(sound)
 }
 
@@ -12,6 +16,6 @@ export function resolveSoundAsset(
   sound: number | undefined,
   resolver?: SoundAssetForNum,
 ): AssetId | undefined {
-  if (sound === undefined || !Number.isInteger(sound) || sound <= 0) return undefined
+  if (!isPalSoundNumber(sound)) return undefined
   return resolver ? resolver(sound) : palSoundAssetId(sound)
 }

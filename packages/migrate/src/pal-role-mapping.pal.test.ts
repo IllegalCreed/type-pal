@@ -18,8 +18,8 @@ const out = {
 const demoLi = readJson<ActorDef[]>('projects/demo/content/actors.json').find(
   (a) => a.id === 'li-xiaoyao',
 )!
-describe('M1a · 角色(装备槽真序哨兵)', () => {
-  test('mapActor(role0) 与 demo 手作 li-xiaoyao 深等(baseStats/initialEquipment/initialMagic/spriteId)', () => {
+describe('PAL 原始角色到作者战斗定义', () => {
+  test('李逍遥的装备槽顺序与属性符合独立对照，初始不带演示仙术', () => {
     const li = out.actors.find((a) => a.id === 'li-xiaoyao')!
     expect(li.spriteId).toBe(demoLi.spriteId)
     expect(li.name).toBe(demoLi.name)
@@ -28,7 +28,7 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
     // 原版真值:role0 初始只会气疗术(296)。demo 手作的 ['296','298','299'] 是菜单演示播种
     // 此处直接以原版角色表为 ActorDef.initialMagic 唯一种子源。
     expect(li.battler!.initialMagic).toEqual(['296'])
-    // C1:头像组(主头像 = role.avatar;命名表情由编辑器人工加)
+    // 原始角色表提供默认立绘号。
     expect(li.portraits).toEqual({ default: 'portrait.pal.001' })
     expect(li.face).toBe('face.pal.li-xiaoyao')
 
@@ -52,17 +52,22 @@ describe('M1a · 角色(装备槽真序哨兵)', () => {
       'anu',
       'gai-luojiao',
     ])
-    for (const a of out.actors) {
-      expect(a.battler!.leveling!.expTable).toHaveLength(100)
-      expect(a.battler!.battleSprite).toMatch(/^player-fighter-\d+$/)
-    }
+    for (const actor of out.actors) expect(actor.battler?.leveling?.expTable).toHaveLength(100)
+    expect(out.actors.map(({ battler }) => battler?.battleSprite)).toEqual([
+      'player-fighter-0',
+      'player-fighter-1',
+      'player-fighter-2',
+      'player-fighter-3',
+      'player-fighter-4',
+      'player-fighter-8',
+    ])
     expect(src.roles[0]!._name).toBe('李逍遥')
     expect(src.roles[4]!._name).toBe('阿奴') // roleId 4 = 阿奴(3/4 对调 parser 已修的确认)
     expect(src.roles[3]!._name).toBe('巫后')
   })
 })
 
-describe('M1a · 精灵表', () => {
+describe('PAL 原始角色的大世界精灵定义', () => {
   test('6 张,asset=player-roles.spriteNum 对应 AssetId,布局 directional×(walkFrames||3)', () => {
     expect(out.sprites.map((s) => s.asset)).toEqual([
       'sprite.pal.002',
@@ -75,7 +80,7 @@ describe('M1a · 精灵表', () => {
     for (const s of out.sprites) expect(s.layout).toEqual({ kind: 'directional', framesPerDir: 3 })
   })
 
-  test('旧编号到角色语义 id 显式映射，错误资源与一号多义都 fail-loud', () => {
+  test('六个来源精灵编号绑定实际角色身份', () => {
     expect(
       [...mapRoleSpritesByNumber(src.roles, out.sprites)].map(([spriteNum, sprite]) => [
         spriteNum,
@@ -89,17 +94,5 @@ describe('M1a · 精灵表', () => {
       [5, 'anu'],
       [26, 'gai-luojiao'],
     ])
-    expect(() =>
-      mapRoleSpritesByNumber(src.roles, [
-        { ...out.sprites[0]!, asset: 'sprite.pal.999' },
-        ...out.sprites.slice(1),
-      ]),
-    ).toThrow(/资源应为 sprite\.pal\.002/)
-    expect(() =>
-      mapRoleSpritesByNumber(
-        [{ ...src.roles[0]!, spriteNum: src.roles[1]!.spriteNum }, ...src.roles.slice(1)],
-        [{ ...out.sprites[0]!, asset: out.sprites[1]!.asset }, ...out.sprites.slice(1)],
-      ),
-    ).toThrow(/同时对应 li-xiaoyao 与 zhao-linger/)
   })
 })

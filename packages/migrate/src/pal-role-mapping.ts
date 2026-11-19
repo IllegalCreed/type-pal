@@ -6,14 +6,11 @@ import { resolveSoundAsset, type SoundAssetForNum } from './sound-migration.js'
 import { PAL_PLAYER_FACE_FRAME_BY_ROLE_ID, ROLE_SLUGS } from './source-facts.js'
 
 /**
- * role.equipment[] 下标 → 装备槽真序。
- * ⚠ pal-extract player-roles.ts:130 的注释(0=武器…)是**错的**:role0 = [196头巾,225披风,208布袍,166木剑,235草鞋,249护腕]
- * 对已核物品名逐位验证 → 真序如下(= sdlpal 身体部位枚举 Head/Body(→cloak)/Shoulder(→body)/Hand/Feet/Wear)。
- * golden 测:mapActor(role0).initialEquipment 必须深等 demo 手作 li-xiaoyao。
+ * 旧装备表按 Head、Body、Shoulder、Hand、Feet、Wear 排列（sdlpal global.h）。
+ * Body 对应披风。李逍遥原始第 4 项 166 是木剑，手部栏映射到 weapon。
  */
 export const EQUIP_INDEX_TO_SLOT = ['head', 'cloak', 'body', 'weapon', 'feet', 'accessory'] as const
 
-// ── 角色 ──────────────────────────────────────────────────
 export function mapActor(
   role: SourceRole,
   expTable: readonly number[],
@@ -30,7 +27,7 @@ export function mapActor(
     id: slug,
     name: `name.${slug}`,
     spriteId: slug,
-    // 头像组(C1):迁移填主头像(role.avatar);命名表情由编辑器人工加(原版无表情组数据)
+    // 原始数据只提供默认立绘。命名表情归作者目录。
     ...(role.avatar ? { portraits: { default: palPortraitAssetId(role.avatar) } } : {}),
     ...(PAL_PLAYER_FACE_FRAME_BY_ROLE_ID[role.id] !== undefined
       ? { face: palFaceAssetId(slug) }
@@ -50,26 +47,25 @@ export function mapActor(
       },
       initialEquipment,
       initialMagic: role.magic.filter((m) => m > 0).map(String),
-      // 合体技 id(原版 player-roles cooperativeMagic obj-id = 合体仙术 skills.json id;0 = 无)
+      // 原始物件号同时是技能 id，0 表示没有合体技。
       ...((role.cooperativeMagic ?? 0) > 0
         ? { cooperativeMagicSkillId: String(role.cooperativeMagic) }
         : {}),
-      // 援护关系(原版 player-roles rgwCoveredBy;B11-1 阵亡/濒死脚本与 B9 替挡都依赖它)
+      // rgwCoveredBy 记录角色下标，0 也是实际角色。
       coveredBy: ROLE_SLUGS[role.coveredBy],
       leveling: { expTable: [...expTable] },
       battleSprite: palPlayerBattleSpriteDefinitionId(role.spriteNumInBattle),
-      // 战斗音效七件套(rgw*Sound 全量;演出层经 session opts 消费)
       sounds: Object.fromEntries(
-        [
-          ['attack', role.attackSound],
-          ['critical', role.criticalSound],
-          ['weapon', role.weaponSound],
-          ['magic', role.magicSound],
-          ['cover', role.coverSound],
-          ['dying', role.dyingSound],
-          ['death', role.deathSound],
-        ].flatMap(([field, value]) => {
-          const asset = resolveSoundAsset(value as number, soundAssetForNum)
+        Object.entries({
+          attack: role.attackSound,
+          critical: role.criticalSound,
+          weapon: role.weaponSound,
+          magic: role.magicSound,
+          cover: role.coverSound,
+          dying: role.dyingSound,
+          death: role.deathSound,
+        }).flatMap(([field, soundNumber]) => {
+          const asset = resolveSoundAsset(soundNumber, soundAssetForNum)
           return asset ? [[field, asset]] : []
         }),
       ),
@@ -79,14 +75,14 @@ export function mapActor(
 
 /** 6 角色的大世界精灵表登记(walkFrames 0 = 默认 3;非字面拷贝)。 */
 export function mapSprites(roles: readonly SourceRole[]): SpriteDef[] {
-  return roles.map((r) => {
-    const slug = ROLE_SLUGS[r.id]
-    if (!slug) throw new Error(`mapSprites: 未知 roleId ${r.id}`)
+  return roles.map((role) => {
+    const slug = ROLE_SLUGS[role.id]
+    if (!slug) throw new Error(`mapSprites: 未知 roleId ${role.id}`)
     return {
       id: slug,
-      asset: palSpriteAssetId(r.spriteNum),
-      label: `${r._name}(大世界)`,
-      layout: { kind: 'directional' as const, framesPerDir: r.walkFrames || 3 },
+      asset: palSpriteAssetId(role.spriteNum),
+      label: `${role._name}(大世界)`,
+      layout: { kind: 'directional' as const, framesPerDir: role.walkFrames || 3 },
     }
   })
 }

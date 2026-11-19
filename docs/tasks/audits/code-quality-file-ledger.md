@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-19
+Last reviewed: 2026-11-20
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,771。
-当前已闭合核验：1,147；已读但待审：1；尚未逐文件核验：2,623；合计未闭合：2,624。
+起始基点机器清单：2,962。当前 tracked 清单：3,772。
+当前已闭合核验：1,247；已读但待审：8；尚未逐文件核验：2,517；合计未闭合：2,525。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -108,10 +108,119 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-19，Reforge 图片缓存三份原专测完成职责合并，旧两个路径退役，产品和在途专测有释放缺口保留 review。[图片缓存八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-静态图片缓存)
 
+2026-11-20：迁移来源投影、PAL 资产发布及 Content 物品专测完成 98 个原 pending 文件。新增 100 条现行关闭登记、7 条 review。代码清单新增 33 路径、退出 32 路径。地图旧度量专测的孤立弱断言另行退役，现行 UTF-8 字节合同在真实报告验证，未重复计入完成数。原资产诊断继续等待 E2E 合入。来源、命名重组、测试身份和执行原件见[迁移与 Content 质量任务](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md)。
+
 ## 逐文件登记
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/content/src/__tests__/glm-item-logic-fixtures.ts` | test | review | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 活跃 E2E 专测仍直接导入，命名和引用整改需等待其合入。 |
+| `packages/content/src/battle-rewards-casualties.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/rewards.cursor-pure-wave2.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/hidden-experience.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/hidden-exp-grid.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-equipment-effects.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.derived.background.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-inventory-equipment.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.inventory.background.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-ownership-and-resources.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.ownership.background.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-resource-pool.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.cursor-pure-wave2.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-world-effects.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item-effects.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-world-external-use.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.external.background.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/item-world-preflight.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.preflight.background.test.ts` 的有效合同按职责迁移。 |
+| `packages/content/src/level-growth.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/rewards-lifecycle.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/package.json` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 实际 tsx、Unit/PAL 入口，以及 CI scope。 |
+| `packages/migrate/scripts/audit-project-maps.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实命令并与独立计数对照。 |
+| `packages/migrate/scripts/bake-assets.mts` | product | review | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真盘隔离重建逐字节一致；既有先写部分产物再检查后继文件的失败语义尚未验收。 |
+| `packages/migrate/scripts/generate-project-battle-placeholders.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 2套目录目标实际生成、字节与 hash 吻合。 |
+| `packages/migrate/scripts/migrate-content.mts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 子进程真入口。发布由既有 PAL 隔离测试覆盖。 |
+| `packages/migrate/scripts/preview-fbp.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原色和输出真实定位/像素。 |
+| `packages/migrate/src/__tests__/item-scheme-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 为物品选择分支专测构造合法且独立的类型化输入，输出由实际图入口及固定地址集合验证。 |
+| `packages/migrate/src/__tests__/pal-asset-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真 `validateAssetCatalog` 加独立 bytes/sha + 唯一 ID。 |
+| `packages/migrate/src/__tests__/pal-casualty-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/__tests__/coverage-wave2/f-casualty-overlays.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/__tests__/pal-source-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/__tests__/pure-migration-fixtures.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/bake-indexed-rgba.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 1 与 255 都变成不透明；透明与黑区分。 |
+| `packages/migrate/src/bake-indexed-rgba.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 颜色、alpha=1/255、透明、缺索引分开。 |
+| `packages/migrate/src/engine-chrome-assets.test.ts` | test | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 增删、改名、字节漂移改变固定结果。 |
+| `packages/migrate/src/index.ts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 已查禁用旧符号与实际三路径。 |
+| `packages/migrate/src/migrate-content-cli.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/migrate-content-script.kimi-r1.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/migration-plan.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 完整 conflict path、动作与讲述目标，清理假绿 obsolete schema；45局部零诊断。 |
+| `packages/migrate/src/migration-write-plan.publication.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/migration-write-plan.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/migration-write-plan.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 邻近验实际 target/hash/排序，真实事务执行另验。 |
+| `packages/migrate/src/pal-assets-paths.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | out-of-bound path/预检目录/after write/replacement inode 不会被删。 |
+| `packages/migrate/src/pal-assets.backgrounds.test.ts` | test | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 每一非法形状独立，52 精确 ID/字节。 |
+| `packages/migrate/src/pal-assets.items.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 顺序反转与精确库目标，原6类bad保留。 |
+| `packages/migrate/src/pal-assets.ownership.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 不同源颜色排除串写、两路+接管、精确 preflight，并保留写点观察。 |
+| `packages/migrate/src/pal-assets.palette.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 首尾正色及各数值类型、shape 反例；合成378结果 exact。 |
+| `packages/migrate/src/pal-assets.portraits.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 002与089来源及首尾编号、正负边界。 |
+| `packages/migrate/src/pal-assets.retirements.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 异长与等长异内容、复用路径、多旧 alias、真实三非迁移类型。 |
+| `packages/migrate/src/pal-assets.sound-closure.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 两独立重复、仅额外变体、完整尺寸和头部错误。 |
+| `packages/migrate/src/pal-assets.sound-metadata.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 2非空/0非空精确 report；shape, size, off-by-one, flag 各失败见证。 |
+| `packages/migrate/src/pal-authored-overlays.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 第二位有消息、源顺序反转、父字段与两实参未改、返回对象隔离。 |
+| `packages/migrate/src/pal-authored-overlays.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 固定完整产物与差异文本，确切原因，覆盖缺项/漂移并加上源对象快照。 |
+| `packages/migrate/src/pal-authored-overlays.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 单条/多条效果标识、真原盘提示和重放。 |
+| `packages/migrate/src/pal-battle-sprites.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 两段端点、连续边界与原 6 角色回归。 |
+| `packages/migrate/src/pal-casualty-overlay.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-casualty-scripts.wave2.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-casualty-scripts.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 实际原盘四条伤亡命令、具名角色与发布结构，和纯句法及作者覆盖测试各有独立输入。 |
+| `packages/migrate/src/pal-casualty-scripts.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 精确完整输出；明确合法 redraw、其余六个定向坏形状，未知 opcode 重复去除。 |
+| `packages/migrate/src/pal-casualty-scripts.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 短输入错误仍由原残余 suite 拿正式错误，PAL 真实 C 等价证据连到结构层。 |
+| `packages/migrate/src/pal-content-supply-io.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 13例确切实际路径 ENOENT 或缺295帧源诊断，避免错原因绿灯。 |
+| `packages/migrate/src/pal-content-supply-io.ts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实 guard 和 PAL 只读。 |
+| `packages/migrate/src/pal-content-supply.pal.test.ts` | test | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原样四用例含多轴一手版并无误计。 |
+| `packages/migrate/src/pal-content-supply.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-content-supply.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-content-supply.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实隔离回放；同实体/tileset/无 sprite 都有独立验证。 |
+| `packages/migrate/src/pal-current-publication.asset-preconditions.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-current-publication.glm-next-wave.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-current-publication.equipment.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-content-supply.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-frame-animation-input.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-inparty-actor-id-invariant.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 独立 scene/stage/command 地址及四个固定 ID，能辨正文漂移。 |
+| `packages/migrate/src/pal-inparty-actor-id-invariant.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 两个确认臂、嵌套条件、setParty 过滤，两个带位置信息的拒绝。 |
+| `packages/migrate/src/pal-inparty-actor-id-invariant.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 法定正负输入与基线/项目实证。 |
+| `packages/migrate/src/pal-item-message-source.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 炼蛊皿五配方和灵葫九档固定独立期望、失败原文精确。 |
+| `packages/migrate/src/pal-item-message-source.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 23 项通过，覆盖依序奖励、配方、缺命令/漂移/重复等。 |
+| `packages/migrate/src/pal-item-message-source.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原盘两件 + 合成 SP 地址/缺分支/特殊标签拒绝。 |
+| `packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 完整路径/两个不同 item、同节点去重。 |
+| `packages/migrate/src/pal-item-scheme-labels.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 精确名称/断开的实际指令错误。 |
+| `packages/migrate/src/pal-item-scheme-labels.selection-paths.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-item-scheme-labels.kimi-r1.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-item-scheme-labels.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 精确根/路径/名称及原输入未变化。 |
+| `packages/migrate/src/pal-item-scheme-labels.ts` | product | review | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 孤儿编号识别对以 1 起始的多位后缀有未决缺口，未确认当前真盘生成影响。 |
+| `packages/migrate/src/pal-manifest.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 入口、角色、钱、背包、开场精确，验证可选角色不串实例。 |
+| `packages/migrate/src/pal-manifest.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实启动验证、缺资源、错误类型、跨实例。 |
+| `packages/migrate/src/pal-map-name-boundary.test.ts` | test | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 断言实际三消费者字面边界和跨包反向依赖；人为动态构造字符串不是这项证据。 |
+| `packages/migrate/src/pal-map-names.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 独立实际物理编号/已考据名集合，精确两条动态操作数与固定命名代表。去掉 equality 已含的子集断言。 |
+| `packages/migrate/src/pal-map-names.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 固定六名称、四种拒绝输入，独立期望与真实 caller 验证各自边界。 |
+| `packages/migrate/src/pal-map-names.ts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 单测固定名称、两个兜底和非法域。PAL 全量测试与源地图集对账。 |
+| `packages/migrate/src/pal-player-battle-sprite-ids.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-battle-sprites.glm-runtime-resource.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-role-mapping.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 逐角色 battleSprite 精确断言取代正则。错资源/旧号多义与单测证据排重。 |
+| `packages/migrate/src/pal-role-mapping.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 输出对象独立固定，exp/magic 变动证明无共享，错误资源与多义精确。 |
+| `packages/migrate/src/pal-role-mapping.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 单测精确对象和错误，真实 PAL+demo 证据。 |
+| `packages/migrate/src/pal-scene-index.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 固定目录、完整 path、重复标题增长、同名/同路径不同 id 拒绝。作者可改的对照保留。 |
+| `packages/migrate/src/pal-scene-index.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 归属的同名同路径/不同 id 反例区别缺项与显示名。 |
+| `packages/migrate/src/pal-shop-projection.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-derived-content.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-shop-projection.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-derived-content.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-sound-assets.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-assets.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-sound-assets.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | A 有、B 无、重返 A 能识别串用状态。 |
+| `packages/migrate/src/pal-sound-assets.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 双目录隔离、缺失、错 kind。 |
+| `packages/migrate/src/pal-source-types.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | .pal 原盘来源和真调用类型检查。 |
+| `packages/migrate/src/pal-sprite-assets.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-assets.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-sprite-loaders.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-assets-loaders.kimi-r1.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-static-images.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-assets.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-store-boundary.ts` | product | review | [逐文件证据](../cards/MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md) | 现行发布不消费旧买卖指令计数，仍有专测，退役待裁决。 |
+| `packages/migrate/src/pal-world-sprite-identity-boundary.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 双操作数、跨行、括号、注释/字符串，固定输出行。 |
+| `packages/migrate/src/pal-world-sprite-layouts.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 13修复实际成为 static、27完整名单、截断及实际 534 缺帧诊断。 |
+| `packages/migrate/src/pal-world-sprite-layouts.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实供给与冻结需求漂移各自实跑。 |
+| `packages/migrate/src/pal-world-sprite-registry.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 12 个本体用例，输出真假采用真实布局/资源 ID。 |
+| `packages/migrate/src/pal-world-sprite-registry.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 角色授权/无授权/错误 asset、主次场景、未登记、报告。 |
+| `packages/migrate/src/pal-world-sprite-semantic-alias.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-world-sprites.glm-o.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/pal-world-sprite-semantic-alias.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 准确角色计数与完整资源无旧定义，从实际实体看视觉赋值。 |
+| `packages/migrate/src/pal-world-sprite-semantic-alias.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 全实体字段、原封显示朝向、无 actor、确切冲突报告。 |
+| `packages/migrate/src/pal-world-sprite-semantic-alias.ts` | product | review | [逐文件证据](../cards/MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md) | 真实发布入口将相同布局的 JSON 对象键顺序当成内容差异，保留正式红例。 |
+| `packages/migrate/src/project-map-audit.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 精确坐标/word、同瓦片的异高计数、同名输入拒绝。两图实际 UTF-8 报告和零分母不互相替代。 |
+| `packages/migrate/src/project-map-audit.ts` | product | review | [逐文件证据](../cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | 转换和报告同时截断同一个越界来源字，当前报告无法发现。 |
+| `packages/migrate/src/project-map-converter.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 第二行交换只打红对应一例。直接断言原始输入不变，两个碰撞值和空/0 均有正反对照。 |
+| `packages/migrate/src/project-map-converter.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 独立的 0x1fff3fff 与固定两层数组，平地全零、三位 id 和错误消息分开。 |
+| `packages/migrate/src/project-map-converter.ts` | product | review | [逐文件证据](../cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | 源半格超出 u32 截断，保留正式失败与合法最大值正控，输入合同待裁决。 |
+| `packages/migrate/src/script-conversion-retirement.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原 regex 的无绑定 import 单红；注释和字符串不作为依赖。旧三证据身份保留。 |
+| `packages/migrate/src/sound-migration.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/sound-migration.glm-next-wave.test.ts` 的有效合同按职责迁移。 |
+| `packages/migrate/src/sound-migration.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 无 resolver、非法、覆写、明确缺失。 |
+| `packages/migrate/src/source-facts.boundaries.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 可观察三个直接结果，编号相同与最小位数不会从实现推导。 |
+| `packages/migrate/src/source-facts.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 固定场景 id、真实头像帧、角色映射和退役接口已有分层证据。 |
+| `packages/migrate/vitest.config.ts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 单元和真实路径都有 native 结果。 |
 | `packages/content/src/script-library.ts` | product | 已验证 | [后继验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 保留内存引用与目录校验，拒绝伪登记和数组字典。四个旧写入导出退役，测试身份已映射。 |
 | `packages/content/src/script-chunk-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 内存分片专测，保留原结构、归属、闭包和稳定 id 观察。Unicode 路径的字节及 hash 由固定独立值验收。 |
 | `packages/content/src/script-command-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 生产命令和页守卫入口。迁移原投影、场景入口与已退出字段的独有断言，测试结果按完整身份映射。 |

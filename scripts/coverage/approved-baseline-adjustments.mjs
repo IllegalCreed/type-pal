@@ -5,6 +5,115 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'migration-source-projections-20261120',
+    authority:
+      'User authorizes exact baseline recounts after justified restructuring and responsibility-based test deduplication. Local isolated main and candidate V8 unit profiles match the protected base counts. Migrate branches alone decrease 1639/1799 to 1614/1772. The attached native hit maps show removal of duplicate graph, labeling and audio branches, a partial RGBA pixel outside the production PNG contract, and synthetic loop, static role aliases and duplicate entity IDs excluded by the PAL producer. The existing legacy-tail loader branch was retained and rerun. The statement, function and line floors, test and production selection rules, measured gains, and every other package floor are preserved.',
+    evidence: 'docs/tasks/evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz',
+    baselineSha256: 'df13aef72443c75ca67655849f4a60abb862056a958d9a4b8c0fe86757c07b65',
+    sources: [
+      {
+        path: 'packages/migrate/src/bake-indexed-rgba.ts',
+        sha256: 'cd03da96ae8cadc9fc8230b957e93cfc6c7ae380409a492c447f65d1e81381c1',
+      },
+      {
+        path: 'packages/migrate/src/pal-authored-overlays.ts',
+        sha256: '7e875b69f1c7d95eb8a7ee0eb897d534e17d6554c3c70698eb42b321ead35fb0',
+      },
+      {
+        path: 'packages/migrate/src/pal-content-supply.ts',
+        sha256: '077dae8fea0e46ad22423c7e80f0f9e69d6e46f4947963400471915b776857f7',
+      },
+      {
+        path: 'packages/migrate/src/pal-item-message-source.ts',
+        sha256: '1f2f9df4706796239df0100fa406ec441d31d2688e2e2c7a27cf0e3351d2e173',
+      },
+      {
+        path: 'packages/migrate/src/pal-item-scheme-labels.ts',
+        sha256: '344fa8292fb30b392d54c95b42409b4a8db31072bf15c91bac4896f48ff67b5e',
+      },
+      {
+        path: 'packages/migrate/src/pal-shop-projection.ts',
+        sha256: '73dc93107d319a61395b7ade4838c40e8670904883804eca3e9ddb8cc930aa03',
+      },
+      {
+        path: 'packages/migrate/src/pal-sound-assets.ts',
+        sha256: '7785f953354495afda05e3ef5784f23b08326185d27e3ac1780ec49c6ba6f9c5',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-layouts.ts',
+        sha256: '0018896c1b8a4cb1926d0c72b338caf382c5dead0493b0d61bed3aa6174d4408',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-registry.ts',
+        sha256: 'd6afc8819ce4417f01b3536878fa03db8521b9125c89b1d85714dac4eee77871',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-semantic-alias.ts',
+        sha256: 'f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6',
+      },
+      {
+        path: 'packages/migrate/src/sound-migration.ts',
+        sha256: '984bfb4532fc6ba10166418e4754ecb7b0bcd16d6e8534465187e75a495db5e9',
+      },
+      {
+        path: 'packages/migrate/src/bake-indexed-rgba.test.ts',
+        sha256: 'be492054106a9dad6ec9a630289d9531ca0f33720d09f41ef80ff20b08c9e9a4',
+      },
+      {
+        path: 'packages/migrate/src/pal-sprite-loaders.test.ts',
+        sha256: '7bfc9cb3245fc10e010671119b8355e0024a9caee08e52625d1f73f6b92fa2d5',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-registry.test.ts',
+        sha256: 'b4e58224cd244f6de1ee722e796d4302e867d17bf4559c792c2f69d7aab3ec68',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      migrate: {
+        before: {
+          statements: {
+            covered: 2335,
+            total: 2572,
+          },
+          branches: {
+            covered: 1639,
+            total: 1799,
+          },
+          functions: {
+            covered: 381,
+            total: 405,
+          },
+          lines: {
+            covered: 2049,
+            total: 2250,
+          },
+        },
+        after: {
+          statements: {
+            covered: 2335,
+            total: 2572,
+          },
+          branches: {
+            covered: 1614,
+            total: 1772,
+          },
+          functions: {
+            covered: 381,
+            total: 405,
+          },
+          lines: {
+            covered: 2049,
+            total: 2250,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'content-script-writer-retirement-20261119',
     authority:
       'User approved retiring four test-only script writer exports and exact baseline recounts after justified restructuring. Native Content V8 runs use the same profile before and after retirement. The archive accounts for each changed source counter. The three declining ratios come from removed covered code and validated guard boundaries. Preserve every other floor and all source selection.',

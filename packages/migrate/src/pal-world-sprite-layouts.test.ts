@@ -6,7 +6,7 @@ import {
 } from './pal-world-sprite-layouts.js'
 
 describe('PAL 大世界精灵逐项布局证据', () => {
-  test('13 条确定债集合、物理帧与证据文本冻结', () => {
+  test('the thirteen corrected frame debts stay on static layouts', () => {
     expect(
       PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT.map(({ spriteNum, expectedFrameCount }) => [
         spriteNum,
@@ -27,30 +27,32 @@ describe('PAL 大世界精灵逐项布局证据', () => {
       [631, 7],
       [632, 7],
     ])
-    for (const audit of PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT)
-      expect(audit.evidence, `sprite ${audit.spriteNum}`).not.toHaveLength(0)
+    for (const { spriteNum, expectedFrameCount } of PAL_WORLD_SPRITE_LAYOUT_DEBT_AUDIT)
+      expect(
+        PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.find((overlay) => overlay.spriteNum === spriteNum),
+      ).toMatchObject({
+        layout: { kind: 'static' },
+        expectedFrameCount,
+      })
   })
 
-  test('overlay 是无重复的逐项清单，不含通用推断入口', () => {
+  test('keeps exactly the audited PAL layout overrides', () => {
     const spriteNums = PAL_WORLD_SPRITE_LAYOUT_OVERLAYS.map(({ spriteNum }) => spriteNum)
-    expect(new Set(spriteNums).size).toBe(spriteNums.length)
     expect(spriteNums).toEqual([
       236, 242, 259, 273, 361, 379, 385, 394, 541, 550, 627, 630, 631, 632, 193, 228, 232, 245, 521,
       531, 532, 533, 534, 538, 563, 576, 607,
     ])
-    for (const overlay of PAL_WORLD_SPRITE_LAYOUT_OVERLAYS) {
-      expect(overlay.usage, `sprite ${overlay.spriteNum}`).not.toHaveLength(0)
-      expect(overlay.evidence, `sprite ${overlay.spriteNum}`).not.toHaveLength(0)
-      expect(overlay.expectedFrameCount, `sprite ${overlay.spriteNum}`).toBeGreaterThan(0)
-    }
   })
 
-  test('物理帧只验证 overlay 漂移，不用于反推布局', () => {
+  test('reports a truncated source table and drift in sprite 534 frame count', () => {
     const frameCounts = Array.from({ length: 636 }, () => 1)
     for (const overlay of PAL_WORLD_SPRITE_LAYOUT_OVERLAYS)
       frameCounts[overlay.spriteNum - 1] = overlay.expectedFrameCount
     expect(() => assertPalWorldSpriteLayoutOverlaySources(frameCounts)).not.toThrow()
 
+    expect(() => assertPalWorldSpriteLayoutOverlaySources(frameCounts.slice(1))).toThrow(
+      'PAL 大世界精灵帧数表期望 636 项，收到 635',
+    )
     frameCounts[534 - 1] = 15
     expect(() => assertPalWorldSpriteLayoutOverlaySources(frameCounts)).toThrow(
       /精灵 534 物理帧漂移.*期望 16.*实际 15/,

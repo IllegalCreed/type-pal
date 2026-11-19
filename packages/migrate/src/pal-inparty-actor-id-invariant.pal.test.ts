@@ -1,36 +1,38 @@
 import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import type { ActorDef, AuthorCommand, AuthorSceneDef, SceneIndexV1 } from '@type-pal/content'
+import {
+  type AuthorSceneDef,
+  validateActors,
+  validateAuthorEnemies,
+  validateAuthorItems,
+  validateAuthorScenes,
+  validateAuthorSharedScripts,
+  validateSceneIndex,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { assertPalInPartyActorIdInvariant } from './pal-inparty-actor-id-invariant.js'
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
-const currentRoot = resolve(repo, 'projects/pal/content')
-const baselineRoot = resolve(repo, 'packages/migrate/baselines/pal/content')
+const currentRoot = resolve(repo, 'projects/pal')
+const baselineRoot = resolve(repo, 'packages/migrate/baselines/pal')
 
-function readJson<T>(path: string): T {
-  return JSON.parse(readFileSync(path, 'utf8')) as T
+function readJson(root: string, path: string): unknown {
+  return JSON.parse(readFileSync(resolve(root, path), 'utf8'))
 }
 
-function loadSurface(root: string): {
-  actors: ActorDef[]
-  scenes: AuthorSceneDef[]
-  commandRoots: unknown[]
-} {
-  const sceneIndex = readJson<SceneIndexV1>(resolve(root, 'scenes/index.json'))
-  const scenes = sceneIndex.scenes.map((entry) =>
-    readJson<AuthorSceneDef>(resolve(root, entry.path.replace(/^content\//, ''))),
-  )
-  const actors = readJson<ActorDef[]>(resolve(root, 'actors.json'))
+function loadSurface(root: string) {
+  const sceneIndex = validateSceneIndex(readJson(root, 'content/scenes/index.json'))
+  const scenes = validateAuthorScenes(sceneIndex.scenes.map(({ path }) => readJson(root, path)))
+  const actors = validateActors(readJson(root, 'content/actors.json'))
   return {
     actors,
     scenes,
     commandRoots: [
       scenes,
-      readJson(resolve(root, 'items.json')),
-      readJson(resolve(root, 'enemies.json')),
-      readJson(resolve(root, 'shared-scripts.json')),
+      validateAuthorItems(readJson(root, 'content/items.json')),
+      validateAuthorEnemies(readJson(root, 'content/enemies.json')),
+      validateAuthorSharedScripts(readJson(root, 'content/shared-scripts.json')),
     ],
   }
 }
@@ -44,25 +46,6 @@ function targetBranches(scenes: readonly AuthorSceneDef[]) {
       throw new Error(`expected ordinary target flow ${sceneId}/${entityId}`)
     return flow
   }
-  const s023 = flowOf('s023', 'e433')
-  const inPartyBranches: Extract<AuthorCommand, { kind: 'branch' }>[] = []
-  const collect = (commands: readonly AuthorCommand[]): void => {
-    for (const command of commands) {
-      if (command.kind === 'branch') {
-        if (command.cond.kind === 'inParty') inPartyBranches.push(command)
-        collect(command.then)
-        collect(command.else ?? [])
-      } else if (command.kind === 'loop' || command.kind === 'repeat') collect(command.body)
-      else if (command.kind === 'confirm') {
-        collect(command.onYes)
-        collect(command.onNo)
-      }
-    }
-  }
-  for (const stage of s023.stages) collect(stage.body)
-  if (inPartyBranches.length !== 1) throw new Error('s023/e433 expected one inParty branch')
-  const s023Branch = inPartyBranches[0]!
-
   const stageBranch = (sceneId: string, entityId: string, stageId: string, index: number) => {
     const flow = flowOf(sceneId, entityId)
     const command = flow.stages.find(({ id }) => id === stageId)?.body[index]
@@ -71,7 +54,7 @@ function targetBranches(scenes: readonly AuthorSceneDef[]) {
     return command
   }
   return [
-    s023Branch,
+    stageBranch('s023', 'e433', 'initial', 0),
     stageBranch('s202', 'e3392', 'initial', 0),
     stageBranch('s202', 'e3392', 'legacy-002', 0),
     stageBranch('s213', 'e3638', 'initial', 3),
