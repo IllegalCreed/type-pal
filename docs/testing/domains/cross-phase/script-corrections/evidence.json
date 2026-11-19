@@ -80,10 +80,10 @@
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "lines": "354",
+      "lines": "356",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "2cfc2cae35c1dc77fd393ff3219178607b2a44d43ecd3b2afa3c1b0a23f6c745"
+      "sha256": "578da65a0d688ce42f9b977e9368a1951b3c192f321bafb838eeaefb44822f4b"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -440,6 +440,22 @@
         }
       ],
       "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "354",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "2cfc2cae35c1dc77fd393ff3219178607b2a44d43ecd3b2afa3c1b0a23f6c745"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
     }
   ],
   "claims": [

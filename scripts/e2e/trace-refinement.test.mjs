@@ -729,6 +729,7 @@ test('all six independent author paths are supported before any matching recordi
 test('persistent own-deadline proof checks real host money, inventory, music and appearance effects before the next command', async (t) => {
   const server = await runtime(t)
   const { executeScriptHostEffect } = await server.ssrLoadModule('/src/script-host-adapter.ts')
+  const { SceneEntrySession } = await server.ssrLoadModule('/src/scene-entry-session.ts')
   const { removeOwnedItems } = await server.ssrLoadModule('/../content/src/item.ts')
   const source = readFileSync(
     new URL('../../packages/reforge/src/main.ts', import.meta.url),
@@ -768,6 +769,7 @@ test('persistent own-deadline proof checks real host money, inventory, music and
     requireSpriteDef: (id) => ({ asset: id }),
     spriteCache: { load: async () => [] },
     project: { assetResolver: {} },
+    sceneEntrySession: new SceneEntrySession(),
     bgm: { play: () => {}, stop: () => {} },
     asyncIntentAbortError: (message) => new Error(message),
   }

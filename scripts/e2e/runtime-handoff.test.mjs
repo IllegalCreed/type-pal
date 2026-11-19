@@ -252,6 +252,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
       [
         'captureSceneRuntime',
         'applyWorldToScene',
+        'matchesCurrentAutoCursor',
         'battleOwnsScene',
         'automaticWaitPaused',
         'waitAutomaticDelay',
@@ -278,7 +279,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
     ts.forEachChild(node, visit)
   }
   visit(ast)
-  assert.equal(declarations.length, 9)
+  assert.equal(declarations.length, 10)
   assert(edges.cache && edges.load)
   const body = `const {${Object.keys(deps).join(',')}}=deps; let sceneRuntimeStates={}; ${declarations.join('\n')}
     return { captureSceneRuntime,applyWorldToScene,waitAutomaticDelay,captureCurrentSavePayload,runAutoStepThroughContinuation,

@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+      "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "426-438",
+      "lines": "423-435",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+      "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1305-1314",
+      "lines": "1279-1288",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+      "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -84,8 +84,8 @@
       "result": "source-backed",
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:251-253",
-        "packages/reforge/src/battle/battle-session.ts:426-438",
-        "packages/reforge/src/battle/battle-session.ts:1305-1314",
+        "packages/reforge/src/battle/battle-session.ts:423-435",
+        "packages/reforge/src/battle/battle-session.ts:1279-1288",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
@@ -1202,6 +1202,36 @@
         }
       ],
       "scope": "养蛊道具的卷轴由战斗会话按队列展示。构造与选招三处引用行与固定前驱逐字节相同。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1305-1314",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
     }
   ],
   "_governance": {

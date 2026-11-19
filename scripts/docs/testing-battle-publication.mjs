@@ -2114,6 +2114,95 @@ export function restoreTestingQ2RooftopSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, rooftopSourceStage, rooftopSourceBindings)
 }
 
+export const testingQ2RingPublicationBase = '99e87957d4c286470a0a827d8b473b4c782d638c'
+const ringSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/battle/battle-host.ts',
+      { 289: '289', '72-88': '72-88', '277-288': '277-288' },
+    ],
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5900: '5918',
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+      },
+    ],
+    ['packages/game/src/shell/bootstrap.ts', { 354: '356' }],
+    ['packages/game/src/core/scene-system.ts', { 46: '46' }],
+    [
+      'packages/reforge/src/battle/battle-session.ts',
+      { '251-253': '251-253', '426-438': '423-435', '1305-1314': '1279-1288' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2RingPublicationBase,
+  action: 'q2-lin-family-ring-source-rebinding',
+  date: '2026-11-20',
+}
+const ringSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: [
+        'packages/reforge/src/battle/battle-host.ts',
+        'scripts/e2e/battle-world-review-split.mjs',
+        'packages/reforge/src/main.ts',
+      ],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/cross-phase/script-corrections/evidence.json',
+    {
+      id: 'game-script-corrections',
+      paths: ['packages/game/src/shell/bootstrap.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/phase1-runtime/control-rotation/evidence.json',
+    {
+      id: 'game-input-rotation',
+      paths: ['packages/game/src/core/scene-system.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    {
+      id: 'runtime-battle-host',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/battle/battle-host.ts'],
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: 'runtime-battle-session-owners',
+      paths: ['packages/reforge/src/battle/battle-session.ts'],
+    },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2RingSource = (path) => ringSourceStage.ranges.has(path)
+
+export function restoreTestingQ2RingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, ringSourceStage, ringSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

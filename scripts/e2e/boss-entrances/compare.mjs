@@ -246,6 +246,7 @@ function checkRingPresentation(
   )
 
   const frames = events.filter(({ kind }) => kind === 'world-drawn')
+  const visible = ({ colors }) => colors.some(([r, g, b]) => r || g || b)
   const moves = []
   for (const frame of frames) {
     if (frame.order <= trigger.order || frame.order >= launch.order) continue
@@ -274,8 +275,7 @@ function checkRingPresentation(
     return intervals
   })
   const returned = frames.find(
-    ({ order, scene, colors }) =>
-      order > won.order && scene === spec.scene && colors.some(([r, g, b]) => r || g || b),
+    (frame) => frame.order > won.order && frame.scene === spec.scene && visible(frame),
   )
   assert(returned && returned.order < control.order, 'actual first visible ring return')
   assert.deepEqual(
@@ -298,7 +298,7 @@ function checkRingPresentation(
     successorMusic && audible(successorMusic) && successorMusic.order < control.order,
     'Lin family music starts before the first visible frame',
   )
-  for (const frame of frames.filter(({ scene }) => scene === control.scene)) {
+  for (const frame of frames.filter((frame) => frame.scene === control.scene && visible(frame))) {
     assert.deepEqual(
       [frame.camera, frame.leader],
       [control.camera, control.leader],

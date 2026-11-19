@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
+      "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "459-466",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
+      "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -586,6 +586,29 @@
         }
       ],
       "scope": "剧情战共享实绘结算输入门，落步触发先落实跟随队形，追逐转弯保留离格方向。分屏器接入原场景起战。九个既有引用片段逐字节相等。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "459-466",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
     }
   ],
   "_governance": {

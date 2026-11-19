@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "350dfc7efd804d5321fefa1a14445967153a6247bf9ed089be0052c8c8a7f0a7",
+      "afterSha256": "e01b6787840a244eb0827d92d822561f9bbe7f2e1d2caf541f6921eaea37a87b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 114,
+        "reviewedLines": 115,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "0a9f7817ca0e17cdcdc8ec78da49a4cf577e4c2baa0f119e2763f0e52db655b3",
+      "afterSha256": "3852df42f25cc981754ecf6cb9ae03de6bce84769169fa135f5d182d019ed364",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "复核原盘钓鱼开场的同步淡入与逐帧等待。",
-        "reviewedLines": 1916,
-        "acceptanceScope": "核 0x09 的首次实际合成、挂起淡入、等待余拍和实绘原件。"
+        "date": "2026-11-20",
+        "conclusion": "核实林家擂台的原盘镜头锚点、战斗配乐和林家入场顺序。",
+        "reviewedLines": 1922,
+        "acceptanceScope": "新增原盘指令证据。按原引用和固定 Git 对象核历史正文与保留片段。"
       }
     },
     {
@@ -3781,14 +3781,14 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
       "mode": "reviewed",
-      "afterSha256": "6da62d92d1cf00f09964976f8187e1534e6a2d9d5992977afda7d9659b58ecde",
+      "afterSha256": "bbd0fc735074fdd36ab302797e75511ac4328b3ae12446164d0e9ba0b2d178d3",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 111,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       },
       "templateId": "test-domain-report-v1"
     },
@@ -3867,14 +3867,14 @@
     {
       "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
       "mode": "reviewed",
-      "afterSha256": "378e7a8792d11f899eb517f109d9c50f91772868488842dfe29d23fce7d83f5c",
+      "afterSha256": "016e9119258cb2481ae94ce6b33daa475a122a00fbc693190e208c60143393d6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 110,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       }
     },
     {
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2d3a3d7b631ebc6afd79895b8a202d1438606a43b526cc6b651b7a4a1165b046",
+      "afterSha256": "2a4d4a191d4fe06b0d8514cdaf277c2256fdab11735314a10efe6be7e95337f7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 9440,
+        "reviewedLines": 9601,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -4402,107 +4402,107 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "dcec2b7584b5f85efa033f1307dd4e9ea92c6b256d0f08451cca7534a8e77ead",
+      "afterSha256": "a4c604d13ebbe18765feb468fa2592d034f5fff403516845a39f779884b5e9ed",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
         "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 608,
+        "reviewedLines": 624,
         "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
       }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "128afb4b4bcce8562b2dd24a9a7732728c6969889afbeb8c2db40c4f7c4c8409",
+      "afterSha256": "1fb215518abf9b63d078721d926aeda1e582e8c1c1ad88b2a69425ebee415c60",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
         "date": "2026-11-14",
         "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 479,
+        "reviewedLines": 495,
         "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "acc072ad3a9c1b5916af6fe696db9955b15be3a22d8ebf28cc120746a7535de2",
+      "afterSha256": "fe9a0ad9da4c444e7dd1cc50fc14696491efcdb98466270779b1480b23948654",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "核实际场景宿主引用片段与运行结果未变。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a0bfd1a926c73af6d4657865d9e6e5141da77cc9c61e4292dc4f20fb5789c8a7",
+      "afterSha256": "6287372964f3d8de10cd55693bbe5fd629b05efc3084f2f57fa5c7250347e3d7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 658,
+        "reviewedLines": 681,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "ab9051b9cfb7063712e46d2a0e724318280080d0dc1d53136111aa6e8a70fb39",
+      "afterSha256": "8314496c0f17295cc1e7ecc940eb59e805c9d33d89148a596d0539b0d22c9d76",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "核战斗宿主引用片段与运行结果未变。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 98,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "17c793380b090e557ca2416c2a7f99888c23b8778d4ef77932aeeae0b19a282d",
+      "afterSha256": "0c5ddc210e3cec6c8ca9d65f5860d4d2e020a9a36805d1a3099b6470de692088",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 581,
+        "reviewedLines": 611,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "48de26a183b3c2f13f3223c14fdd4b6c11daa46f4b9128c2c708d6b9e42e49a5",
+      "afterSha256": "d7c506d9c29ba34cd8d73dbb38b15fd78c2bc2c750ce4dad086ae58c0c57a7be",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "核呈现宿主范围与新增临时队员姿势字段。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1a0a611d1baf9f92fa26d975ed67a4e3ff65dec82d47512976c8470b92e43d0d",
+      "afterSha256": "f5c200593a61ac884f442e6e080842fd393357fe9aa354f1ac1000d3f1dc3e68",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 563,
+        "reviewedLines": 579,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -4736,13 +4736,13 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e6202c8768e994c713f2f2aaf39919daa165dffd2d2e8ce974e3aff2b0562e81",
+      "afterSha256": "f4b50ba983fd23d7928cce27ea89da7fe04a437b6b1e78e7c4d76226af738b2b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
         "conclusion": "复核寄生毒演出修改后的现行引用。",
-        "reviewedLines": 1249,
+        "reviewedLines": 1279,
         "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
@@ -4750,14 +4750,14 @@
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "00943c494f8ee1b3a3422fdfb2466be0286b1bd91cbdfb664c6e5d91c123d1ac",
+      "afterSha256": "92a20062121718e084fdef7e428bb4a4460b060d53ce7dc07a1dbfcd1d0cbd27",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
-        "date": "2026-11-19",
-        "conclusion": "复核寄生毒演出修改后的现行引用。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 101,
-        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       }
     },
     {
@@ -4948,14 +4948,14 @@
       "mode": "reviewed",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
-      "afterSha256": "41e1f05de1f08f6f03f61c57171bb8479604e915c6c0f9188ab8fc10b0478098",
+      "afterSha256": "4944cb691c400717bfd9e61bb77f30ee140038b444e536e37eaa5a20cd6d22d9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
-        "reviewedLines": 92,
-        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+        "date": "2026-11-20",
+        "conclusion": "核实入场准备的配乐读取和提交。",
+        "reviewedLines": 94,
+        "acceptanceScope": "核现行脚本端口、入场准备的配乐提交和取消归属。雪崖与其它历史执行沿用原记录。"
       }
     }
   ],
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "5fe5750f72cc95524a7fc0425740ff29f2bb07dd195204e63eb712bdd60a7024",
+      "afterSha256": "38ce92d2e8a9a32322a229284971b1773f63e587cf0ad26cce97a57bf0d239ca",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1047,
+        "reviewedLines": 1049,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5444,39 +5444,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "884bd8cfb42cf678bb48c1674213e42a0bcfc60787b1cd9bdeab3b724dd8b92e",
+      "afterSha256": "bfe7402408597550c728e60bda9018e9f2d8d6943528c1816458b9298839efa8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 14987,
+        "reviewedLines": 15017,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "0bc93cce1e432a687193e806abfd85b3a2deecd99f15aca99da5e893f250627d",
+      "afterSha256": "fe3fc3c71ea33407db8d7fb2c5a3dd37c7a72af554fe7ec67e6c70b352a46c58",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1479,
+        "reviewedLines": 1489,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "21f19ae87d31aa9f8dd4ac2692742a64ffa61088796aa51639835ba741140e27",
+      "afterSha256": "a9d81d97b994b3d5df8067e1f1a90467853667576855835c171c72d4cc9ea772",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记队员姿势变更对历史来源的适用范围。",
-        "reviewedLines": 442,
+        "reviewedLines": 446,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -6423,6 +6423,24 @@
       "bytes": 96227541,
       "sha256": "cfcfd2af52c23526b4508e2dc6844b142f115b02ea001b6691a5bed7f10c6a11",
       "purpose": "城外林月如的双端实跑、实绘原录、原速分屏重建和擂台同局差异。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part1.tar.gz",
+      "bytes": 81883511,
+      "sha256": "8003781ac87d6cc12ea79709cfbe840dad596da1ae1ddc6f81df88d994e51263",
+      "purpose": "林家擂台双端验收原件第 1 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part2.tar.gz",
+      "bytes": 79887864,
+      "sha256": "78dc15571e7c37dbf2dfc9412c438a30a848804a2c6733e6d77e1a040f3247ee",
+      "purpose": "林家擂台双端验收原件第 2 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part3.tar.gz",
+      "bytes": 64335376,
+      "sha256": "d452e87e4fe5282bee098292717e2416dd08017c1f67492455e49c07ba6e30ac",
+      "purpose": "林家擂台双端验收原件第 3 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
     }
   ],
   "artifactAliases": [],
