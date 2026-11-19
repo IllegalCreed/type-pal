@@ -172,26 +172,6 @@
                         "height": 0,
                         "row": -2
                       }
-                    },
-                    {
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      },
-                      "dx": 8,
-                      "dy": -4
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s150",
-                        "entity": "e2465"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 50
                     }
                   ],
                   "reveal": {
@@ -203,13 +183,9 @@
                 },
                 "body": [
                   {
-                    "kind": "wait",
-                    "ms": 50
-                  },
-                  {
                     "kind": "repeat",
                     "label": "剑圣每拍走近酒剑仙",
-                    "count": 14,
+                    "count": 15,
                     "intervalMs": 100,
                     "body": [
                       {

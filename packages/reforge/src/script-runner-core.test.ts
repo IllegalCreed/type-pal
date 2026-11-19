@@ -589,13 +589,10 @@ describe('ScriptRunnerCore flow semantics', () => {
             {
               id: 'arrival',
               entry: {
-                prepare: [step],
+                prepare: [],
                 reveal: { kind: 'fade', outMs: 0, inMs: 600, withBody: true },
               },
-              body: [
-                { kind: 'wait', ms: 50 },
-                { kind: 'repeat', count: 14, intervalMs: 100, body: [step] },
-              ],
+              body: [{ kind: 'repeat', count: 15, intervalMs: 100, body: [step] }],
             },
           ],
         }),
@@ -611,12 +608,10 @@ describe('ScriptRunnerCore flow semantics', () => {
         at: 1_608,
       })
       expect(walkedAt).toHaveLength(15)
-      const firstBody = walkedAt[1]
-      expect(firstBody).toBe(1_057)
+      const firstBody = 1_000
+      expect(walkedAt[0]).toBe(firstBody)
       expect(
-        walkedAt
-          .slice(1)
-          .every((at, i) => at - firstBody - 100 * i >= 0 && at - firstBody - 100 * i < 19),
+        walkedAt.every((at, i) => at - firstBody - 100 * i >= 0 && at - firstBody - 100 * i < 19),
       ).toBe(true)
     } finally {
       abort.abort()
