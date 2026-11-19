@@ -34,13 +34,30 @@ function nativeVideoEnd(path) {
     'json',
     path,
   ]
-  const { packets } = JSON.parse(execFileSync('ffprobe', args, { encoding: 'utf8' }))
+  const { packets } = JSON.parse(
+    execFileSync('ffprobe', args, { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
+  )
   assert(packets.length > 0, 'native recording has no video frames')
   const end = Math.max(
     ...packets.map(({ pts_time, duration_time }) => Number(pts_time) + Number(duration_time ?? 0)),
   )
   assert(Number.isFinite(end) && end > 0, 'invalid native video time')
   return end
+}
+
+function equipmentTimes(report, trace, videoEnd) {
+  assert.equal(report.scenario, comparison.scenario)
+  const first = report.actions.find(({ phase }) => phase === 'world-equip')
+  const last = [...trace.paints, ...trace.equips, ...trace.removals].reduce(
+    (latest, event) => Math.max(latest, event.atMs),
+    -Infinity,
+  )
+  const started = report.media.browser.startedAt
+  const inputSeconds = (first.atMs - trace.timeOrigin - started) / 1000
+  const lastPresentedSeconds = (last - started) / 1000
+  assert(inputSeconds >= 0 && lastPresentedSeconds > inputSeconds)
+  assert(videoEnd - lastPresentedSeconds >= 0.5, 'equipment recording cuts off the final operation')
+  return { inputSeconds, lastPresentedSeconds }
 }
 
 async function side(engine, relocatedReport) {
@@ -54,9 +71,25 @@ async function side(engine, relocatedReport) {
   const recording = resolve(dirname(reportPath), 'story.webm')
   assert.equal(await sha256(recording), report.media.native.sha256)
   const [run] = report.cases
-  const rawPath = resolve(dirname(reportPath), run.raw.path)
-  assert.equal(await sha256(rawPath), run.raw.sha256)
+  const videoEnd = nativeVideoEnd(recording)
+  const identity = {
+    engine,
+    recording,
+    recordingSha256: report.media.native.sha256,
+    report: reportPath,
+    reportSha256: compare.sha256,
+    videoEnd,
+  }
+  const equipment = comparison.kind === 'world-equipment'
+  const rawReference = equipment ? run.trace : run.raw
+  if (equipment) {
+    assert(!reviewLoadReveal, 'equipment footage starts with the first physical menu input')
+    assert.deepEqual(rawReference, compare.runs[0].trace)
+  }
+  const rawPath = resolve(dirname(reportPath), rawReference.path)
+  assert.equal(await sha256(rawPath), rawReference.sha256)
   const raw = await json(rawPath)
+  if (equipment) return { ...identity, ...equipmentTimes(report, raw, videoEnd) }
   const handoff = raw.native?.handoff ?? raw.handoff
   const contact =
     engine === 'game'
@@ -65,7 +98,6 @@ async function side(engine, relocatedReport) {
   assert(contact, 'missing real contact for split alignment')
   const started = report.media.browser.startedAt
   const contactSeconds = (contact.atMs - started) / 1000
-  const videoEnd = nativeVideoEnd(recording)
   assert(contactSeconds >= 0 && contactSeconds < videoEnd, 'contact outside the native video')
   const returned = handoff.find(({ stage }) => stage === 'world-ready')
   assert(returned, 'missing actual world return')
@@ -87,12 +119,7 @@ async function side(engine, relocatedReport) {
     )
   }
   return {
-    engine,
-    recording,
-    recordingSha256: report.media.native.sha256,
-    report: reportPath,
-    reportSha256: compare.sha256,
-    videoEnd,
+    ...identity,
     contactSeconds,
     returnSeconds,
     ...(loadRevealSeconds !== undefined && { loadRevealSeconds }),
@@ -100,7 +127,8 @@ async function side(engine, relocatedReport) {
 }
 
 const sides = await Promise.all([side('game', gameReport), side('reforge', reforgeReport)])
-const anchor = ({ loadRevealSeconds, contactSeconds }) => loadRevealSeconds ?? contactSeconds
+const anchor = ({ loadRevealSeconds, contactSeconds, inputSeconds }) =>
+  loadRevealSeconds ?? contactSeconds ?? inputSeconds
 const preroll = Math.min(reviewLoadReveal ? 0.9 : 1.35, ...sides.map(anchor))
 for (const entry of sides) entry.trimSeconds = anchor(entry) - preroll
 const duration = Math.max(...sides.map(({ videoEnd, trimSeconds }) => videoEnd - trimSeconds))
@@ -170,18 +198,11 @@ assert(
   Math.abs(Number(media.format.duration) - duration) <= 0.06,
   'encoded video lost its final frames',
 )
-const pcm = execFileSync('ffmpeg', [
-  '-v',
-  'error',
-  '-i',
-  target,
-  '-vn',
-  '-ar',
-  '8000',
-  '-f',
-  's16le',
-  'pipe:1',
-])
+const pcm = execFileSync(
+  'ffmpeg',
+  ['-v', 'error', '-i', target, '-vn', '-ar', '8000', '-f', 's16le', 'pipe:1'],
+  { maxBuffer: Math.ceil((duration + 1) * 8000 * 2 * 2) },
+)
 const peaks = [0, 0]
 for (let byte = 0; byte < pcm.length; byte += 2) {
   const channel = (byte / 2) % 2
