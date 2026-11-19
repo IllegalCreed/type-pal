@@ -215,6 +215,52 @@ export function auditEquipmentRun({ engine, scenario, row, trace, actions, input
     )
     check(step, `${label}-inventory`, sortedStock(state.stock), sortedStock(expectedStock))
   }
+  function checkRoleNames(step, draw, state, item) {
+    const { roleNames } = draw
+    const permitted = catalogue.get(item).roles
+    const selected = normalizedRole(draw.role)
+    check(
+      step,
+      'drawn-role-roster-and-eligibility',
+      roleNames.map(({ role, allowed, selected: focused, x, y }) => [
+        normalizedRole(role),
+        allowed,
+        focused,
+        x,
+        y,
+      ]),
+      state.party.map(({ id }, index) => [
+        id,
+        permitted.includes(id),
+        id === selected,
+        15,
+        108 + index * 18,
+      ]),
+    )
+    for (const entry of roleNames) {
+      const { allowed, selected: focused, color } = entry
+      if (engine === 'game') {
+        const correct =
+          allowed && focused
+            ? color >= 0xf9 && color <= 0xfe
+            : color === (allowed ? 0x4f : focused ? 0x1c : 0x18)
+        check(step, 'drawn-role-color', correct, true)
+      } else {
+        const correct =
+          allowed && focused
+            ? [
+                [247, 231, 109],
+                [235, 211, 97],
+                [227, 190, 89],
+                [219, 174, 81],
+                [231, 195, 93],
+                [243, 219, 105],
+              ].some((rgb) => same(rgb, color))
+            : same(color, allowed ? [199, 186, 174] : focused ? [215, 109, 93] : [166, 40, 32])
+        check(step, 'drawn-role-color', correct, true)
+      }
+    }
+  }
   function confirmPaint(step, draw, state, item, action) {
     assert(
       trace.paints.some((candidate) => same(candidate, draw)),
@@ -239,6 +285,7 @@ export function auditEquipmentRun({ engine, scenario, row, trace, actions, input
       engine === 'game'
         ? String(inputs.gameItems.find(({ id }) => id === Number(item)).bitmap)
         : inputs.palItems.find(({ id }) => id === item).icon
+    checkRoleNames(step, draw, state, item)
     check(step, 'rendered-item-icon', draw.icon, icon)
     check(step, 'rendered-inventory-count', draw.quantity, {
       count: state.stock.find(([id]) => id === item)?.[1],
@@ -289,26 +336,30 @@ export function auditEquipmentRun({ engine, scenario, row, trace, actions, input
     assert.equal(lastKey.key, 'Enter')
     if (kind === 'equip') {
       equips++
-      const itemPress =
-        keys[
-          step.first.order === step.preview.order && step.selected.menu.role === role
-            ? keys.length - 2
-            : keys.length - 3
-        ]
-      assert.equal(
-        itemPress.key,
-        'Enter',
-        'the physical item selection must precede the role confirm',
-      )
+      const itemPress = keys.find(({ operation }) => operation === 'select-item')
+      const navigate = keys.find(({ operation }) => operation === 'next-party-member')
+      assert.equal(itemPress?.key, 'Enter', 'missing physical item selection')
+      assert.equal(lastKey.operation, 'confirm-role', 'missing physical role confirmation')
+      if (scenario.id === 'party' && item === '164') {
+        const denied = keys.find(({ operation }) => operation === 'confirm-ineligible-role')
+        assert.equal(denied?.key, 'Enter')
+        assert(step.denied && afterInput(step.first, itemPress, trace.timeOrigin))
+        assert(itemPress.atMs <= denied.atMs && denied.atMs <= lastKey.atMs)
+        check(id, 'ineligible-confirm-keeps-menu', step.denied.state.menu, step.selected.menu)
+        check(id, 'ineligible-confirm-never-committed', step.denied.after, step.denied.before)
+        checkState(id, step.denied.state, 'ineligible-confirm')
+      }
       checkState(id, step.selected, 'item-select')
       checkState(id, step.navigated, 'role-select')
       confirmPaint(id, step.first, step.selected, item, itemPress)
       confirmPaint(id, step.preview, step.navigated, item, itemPress)
-      if (step.first.order !== step.preview.order)
+      if (step.first.order !== step.preview.order) {
+        assert.equal(navigate?.key, 'ArrowDown')
         assert(
-          afterInput(step.preview, keys.at(-2), trace.timeOrigin),
+          afterInput(step.preview, navigate, trace.timeOrigin),
           'role render preceded navigation',
         )
+      }
       check(id, 'role-cursor-consumed-navigation', step.navigated.menu.role, role)
       assert(
         trace.equips.some((event) => same(event, step.equip)),
@@ -351,6 +402,7 @@ export function auditEquipmentRun({ engine, scenario, row, trace, actions, input
       } else assert.equal(step.swapped, null)
     } else {
       removals++
+      assert.equal(lastKey.operation, 'interact-unequip')
       assert.equal(present, item)
       assert(keys.slice(0, -1).every(({ key }) => key === 'Escape'))
       assert(

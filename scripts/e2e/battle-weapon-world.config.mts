@@ -129,7 +129,14 @@ function gameEquipmentDraw(code: string): string {
         count: amount, x: EQUIP_ITEM_AMOUNT.x, y: EQUIP_ITEM_AMOUNT.y, color: 'cyan', alignment: 'right',
       })`,
   )
-  return instrumented
+  return after(
+    instrumented,
+    '      EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,\n      color,\n      glyphs,\n      true,\n    )',
+    `    witness?.roleName({
+      role: roleId, allowed: canEquip, selected: isSelected, color,
+      x: EQUIP_ROLE_LIST_BOX.x + 13, y: EQUIP_ROLE_LIST_BOX.y + 13 + 18 * i,
+    })`,
+  )
 }
 
 function gamePaint(code: string): string {
@@ -175,6 +182,14 @@ function reforgePaint(code: string): string {
     instrumented,
     '      effectiveStat(caster, stat, items),',
     '      (witness?.stat ?? ((value) => value))(effectiveStat(caster, stat, items)),',
+  )
+  instrumented = after(
+    instrumented,
+    '      { glyphs, shadow: true, forceRgba: color },\n    )',
+    `    witness?.roleName({
+      role: member.template, allowed, selected, color,
+      x: PR_ROLE_BOX.x + PR_ROLE_NAME.dx, y: PR_ROLE_BOX.y + PR_ROLE_NAME.dy + index * PR_ROLE_LINE,
+    })`,
   )
   return replace(
     instrumented,

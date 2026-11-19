@@ -51,7 +51,7 @@ function installWitness(_context, makeRecorder) {
   const removals = []
   const errors = []
   let overflow = false
-  let lastPaint, pending, quantity, icon, stats
+  let lastPaint, pending, quantity, icon, stats, roleNames
   const { append, fail } = makeRecorder({
     context: () => ({ atMs: performance.now() }),
     errors,
@@ -83,6 +83,7 @@ function installWitness(_context, makeRecorder) {
       quantity = null
       icon = null
       stats = []
+      roleNames = []
     },
     amount: (value) => {
       quantity = value
@@ -94,8 +95,11 @@ function installWitness(_context, makeRecorder) {
       stats.push(value)
       return value
     },
+    roleName: (value) => {
+      roleNames.push(value)
+    },
     draw: (value) => {
-      pending = { ...value, quantity, icon, stats }
+      pending = { ...value, quantity, icon, stats, roleNames }
     },
     present: (pixels) => {
       const draw = pending
@@ -104,7 +108,10 @@ function installWitness(_context, makeRecorder) {
         lastPaint = undefined
         return
       }
-      const signature = JSON.stringify(draw)
+      const signature = JSON.stringify({
+        ...draw,
+        roleNames: draw.roleNames.map(({ color: _blink, ...row }) => row),
+      })
       if (signature === lastPaint) return
       lastPaint = signature
       try {
@@ -264,7 +271,7 @@ async function selectItem(page, wait, press, { id, item }, before) {
     await wait((s) => s?.menu?.cursor === cursor, `${id} moved equipment cursor`)
   }
   const previousOrder = (await evidence(page)).paint?.order ?? -1
-  await press('Enter', id)
+  await press('Enter', id, 'world-equip', 'select-item')
   const selected = await wait(
     (s) => s?.menu?.phase === 'pick-role' && s.menu.selected === item,
     `${id} confirmed the item in the actual equip list`,
@@ -312,10 +319,10 @@ await runBrowserJourney({
           result.resourceErrors.push({ url: pathname, status: response.status() })
       })
       report.cases.push(result)
-      const press = (key, step, phase = 'world-equip') =>
+      const press = (key, step, phase = 'world-equip', operation) =>
         pressRecordedKey({
           keyboard: page.keyboard,
-          action: { key, phase, context: runId, step },
+          action: { key, phase, context: runId, step, ...(operation && { operation }) },
           record: (input) => report.actions.push(input),
         })
       const wait = (accept, label) => until(() => read(page), accept, label, 3_500)
@@ -362,10 +369,18 @@ await runBrowserJourney({
               )
               let navigated = selection.selected
               let preview = first
+              let denied = null
+              if (scenario.id === 'party' && item === '164') {
+                const before = (await evidence(page)).equip?.order ?? null
+                await press('Enter', id, 'world-equip', 'confirm-ineligible-role')
+                await pause(225)
+                const after = (await evidence(page)).equip?.order ?? null
+                denied = { before, after, state: await read(page) }
+              }
               if (role !== normalizedRole(first.role)) {
                 // The party scenario uses exactly one normal down key to select its second member.
                 assert.deepEqual(scenario.party, [0, role])
-                await press('ArrowDown', id)
+                await press('ArrowDown', id, 'world-equip', 'next-party-member')
                 // Game's field/menu update uses a slower tick than the browser's paint loop.
                 // Observe both accepted and ignored navigation after that tick has elapsed.
                 await pause(225)
@@ -374,7 +389,7 @@ await runBrowserJourney({
                   preview = await hold(item, navigated.menu.role, first.order, id)
               }
               const old = (await evidence(page)).equip?.order ?? -1
-              await press('Enter', id)
+              await press('Enter', id, 'world-equip', 'confirm-role')
               const { equip } = await native(
                 (row) => row.equip?.order > old,
                 `${id} native equip commit`,
@@ -394,6 +409,7 @@ await runBrowserJourney({
                 equip,
                 after,
                 swapped,
+                denied,
               }
             }
           } else {
@@ -406,7 +422,7 @@ await runBrowserJourney({
             }
             await wait(ready, `${id} actual world control`)
             const old = (await evidence(page)).removal?.order ?? -1
-            await press('Enter', id)
+            await press('Enter', id, 'world-equip', 'interact-unequip')
             const { removal } = await native(
               (row) => row.removal?.order > old,
               `${id} native room unequip`,
