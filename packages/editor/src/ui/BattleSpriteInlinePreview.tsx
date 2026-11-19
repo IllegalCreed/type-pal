@@ -39,6 +39,12 @@ export interface BattleSpriteResourceSnapshot {
   baked: readonly HTMLCanvasElement[]
 }
 
+interface LoadedPreview {
+  asset: AssetId
+  revision: string
+  frames: HTMLCanvasElement[]
+}
+
 function drawCentered(
   context: CanvasRenderingContext2D,
   image: HTMLCanvasElement,
@@ -145,7 +151,7 @@ export function BattleSpriteInlinePreview(props: {
 }) {
   const cacheRef = useRef(new BattleSpriteAssetCache(4))
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [frames, setFrames] = useState<HTMLCanvasElement[] | null>()
+  const [loadedPreview, setLoadedPreview] = useState<LoadedPreview | null>()
   const [error, setError] = useState('')
   const [tick, setTick] = useState(0)
   const [selectedRawFrame, setSelectedRawFrame] = useState(0)
@@ -164,17 +170,24 @@ export function BattleSpriteInlinePreview(props: {
     }
   }
 
+  // 加载和绘制 effect 可在同一次提交执行，旧资源的帧不可画回已清空的画布。
+  const currentPreview =
+    loadedPreview?.asset === asset && loadedPreview?.revision === revision
+      ? loadedPreview
+      : undefined
+  const frames = loadedPreview === null ? null : currentPreview?.frames
+
   useEffect(() => {
     let alive = true
     props.onLoaded?.(undefined)
     props.onResourceLoaded?.(undefined)
-    setFrames(undefined)
+    setLoadedPreview(undefined)
     setError('')
     setTick(0)
     const context = canvasRef.current?.getContext('2d')
     context?.clearRect(0, 0, WIDTH, HEIGHT)
     if (!asset || !revision) {
-      setFrames(null)
+      setLoadedPreview(null)
       if (recordError) setError(recordError)
       return () => {
         alive = false
@@ -193,7 +206,7 @@ export function BattleSpriteInlinePreview(props: {
       .then(([sprite, palette]) => {
         if (!alive) return
         const baked = sprite.frames.map((frame) => bakeFrame(frame, palette))
-        setFrames(baked)
+        setLoadedPreview({ asset, revision, frames: baked })
         setSelectedRawFrame((index) => Math.min(index, baked.length - 1))
         props.onResourceLoaded?.({ frames: sprite.frames, palette, baked })
         props.onLoaded?.({

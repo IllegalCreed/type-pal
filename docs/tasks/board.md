@@ -53,21 +53,15 @@ Template: governance-index-v1 / 1.0.0
 
 `QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
 
-`QUALITY-CONTENT-REFERENCES-1` 已完成 101 个原文件，七个风险文件保持 review。全仓、覆盖率、lint 和账本的实际回执见[唯一执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz)。
+`QUALITY-CONTENT-REFERENCES-1` 已完成 101 个原文件，七个风险文件在该批发布时留为 review。全仓、覆盖率、lint 和账本的实际回执见[唯一执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz)。
 
 ### 代码治理：内容引用风险留项
 
-| ID | 原任务入口 | 状态 | 阶段 | 当前范围 | Owner / 下一步 |
-|---|---|---|---|---|---|
-| CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1 | [战后条件诊断归属](cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md) | draft | 第二阶段 | 已复现合法作者条件的重复诊断 | Codex / 核公开诊断归属及顺序后另行准入 |
-| CONTENT-SPRITE-FRAME-BOUNDARY-1 | [精灵声明与实际帧容量](cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | draft | 第二阶段 | 战斗编辑容量校验前 RangeError 已复现 | Codex / 核两类帧集合和资产边界后另行准入 |
-| CONTENT-ENEMY-COMMAND-DOMAINS-1 | [敌脚本字段与命令诊断](cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | draft | 第二阶段 | 已复现数组通过离散值守卫及错误分派 | Codex / 格式守卫整改另行准入 |
-| CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1 | [角色首次入队的技能归属](cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md) | draft | 第二阶段 | 合法角色在开局或初次入队漏记初始技能 | Codex / 核运行与输入边界后另行准入 |
-| CONTENT-ACQUISITION-CHEST-FACING-1 | [宝箱打开方向的作者字段校验](cards/CONTENT-ACQUISITION-CHEST-FACING-1.md) | draft | 第二阶段 | 作者场景校验错误接受数组方向 | Codex / 先核合法载体与加载，再单独准入 |
+七项内容引用留项已按五张卡收口，原实现均已验证。新增帧容量专测单列，集中门见[后继执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz)。
 
 ### 代码治理：既有批次与卡面收口
 
-下表仅保留本轮对账后仍未终态的12张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
+下表仅保留本轮对账后仍未终态的11张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
 后继[pre94 回执](evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)、
 [52 文件收口](evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)、[第三窗口收口](evidence/QUALITY-PENDING-100-3/local-closeout.json)
 和[语言资源批次](evidence/QUALITY-GAME-LOCALIZATION-1/README.md)按各自版本消费；不能把旧 coverage/act 阻塞当成今天统一门仍红。
@@ -75,7 +69,6 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 当前剩余范围 | 下一步 |
 |---|---|---|---|---|---|
-| QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](cards/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 第二阶段 | 合法帧需求/资源边界尚未获产品build准入 | 核最小输入、真实caller与资源前提，再定Owner/白名单 |
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](cards/CODE-QUALITY-103-editor-residual-tests-review.md) | review | 第二阶段 | 仅P1 puppet自动battleOnly的产品选择；测试及旧发布已承接 | 明确可见before/after后交用户裁定，不夹改行为 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](cards/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 第二阶段 | 共享host挂起/异常清理及C01三个oracle候选 | 按原卡真实caller窄核root/DOM/spy恢复与指定oracle |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](cards/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 第二阶段 | 共享host pending/失败退出与清理独验 | 只核已有harness catch/finally及实际caller |

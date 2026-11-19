@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
+  firstNewUnavailableSpriteFrame,
   type SpriteDef,
   spriteDefinitionFrameDemand,
   spriteDefinitionFrameIndices,
@@ -50,4 +51,42 @@ test('preserves the frame range of an in-memory loop layout', () => {
   }
   expect(spriteDefinitionFrameDemand(sprite)).toBe(3)
   expect([...spriteDefinitionFrameIndices(sprite)]).toEqual([0, 1, 2])
+})
+
+test('finds a new layout gap after an existing action frame beyond safe integer precision', () => {
+  const framesPerDir = 2 ** 52
+  const previous = validateWorldSprite(
+    { kind: 'directional', framesPerDir },
+    { motion: { label: '招手', steps: [{ frame: framesPerDir * 4, durationMs: 90 }] } },
+  )
+  const grown = validateWorldSprite(
+    { kind: 'directional', framesPerDir: framesPerDir + 1 },
+    previous.poses,
+  )
+
+  expect(firstNewUnavailableSpriteFrame(previous, grown, 4)).toBe(2n ** 54n + 1n)
+  expect(firstNewUnavailableSpriteFrame(grown, previous, 4)).toBeUndefined()
+})
+
+test('only reports a new out-of-range action when its slot was outside the previous layout', () => {
+  const previous = validateWorldSprite({ kind: 'directional', framesPerDir: 2 })
+  const edited = validateWorldSprite(
+    { kind: 'static' },
+    {
+      motion: {
+        label: '招手',
+        steps: [
+          { frame: 3, durationMs: 90 },
+          { frame: 6, durationMs: 90 },
+        ],
+      },
+    },
+  )
+  expect(firstNewUnavailableSpriteFrame(previous, edited, 4)).toBeUndefined()
+
+  const withNewSlot = validateWorldSprite(edited.layout, {
+    ...edited.poses,
+    stride: { label: '迈步', steps: [{ frame: 8, durationMs: 90 }] },
+  })
+  expect(firstNewUnavailableSpriteFrame(previous, withNewSlot, 4)).toBe(8n)
 })

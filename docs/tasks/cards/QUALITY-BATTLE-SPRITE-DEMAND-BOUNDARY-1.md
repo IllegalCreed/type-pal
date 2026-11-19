@@ -1,17 +1,17 @@
 # QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界
 
-Status: draft
-Last reviewed: 2026-11-03
+Status: cancelled
+Last reviewed: 2026-11-19
 Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-核定并修复 profile 声明远大于实际资源时的帧集合分配与需求计算边界；本卡尚未取得产品 build 准入，不扩张当前百文件窗口。
+核定并修复 profile 声明远大于实际资源时的帧集合分配与需求计算边界；早期取证由后继精灵帧容量卡承接。
 
 ## 范围
 
-候选 `packages/content/src/battle-sprite.ts` 的FrameIndices/FrameDemand；相邻 `reforge/src/assets.ts` readiness 和 `editor/src/core/battle-sprite-commands.ts` 校验时序。普通合法资源的 ABI/显示/输出与schema值域不得顺手改变；该实现文件保持 pending，不计窗口主体完成数。
+候选 `packages/content/src/battle-sprite.ts` 的FrameIndices/FrameDemand；相邻 `reforge/src/assets.ts` readiness 和 `editor/src/core/battle-sprite-commands.ts` 校验时序。普通合法资源的 ABI/显示/输出与schema值域不得顺手改变；此处保留原边界和历史证据。
 
 ## 前提与证据
 
@@ -23,7 +23,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-2026-11-03核当前FrameDemand仍枚举并spread，原风险尚未修；Status保持draft，不继承已完成第二窗口的产品build许可。下一有限动作由Codex核定最小输入/资源边界与正式caller反例后给准入；没有新增普通工程、上传UI或OOM实跑证据。
+后继 [CONTENT-SPRITE-FRAME-BOUNDARY-1](CONTENT-SPRITE-FRAME-BOUNDARY-1.md) 已完成此处的声明需求、编辑器证明和 Reforge 运行准备。此卡关闭重复实施席位，早期失败与原时点状态仍可按原文复验。
 
 ## 原文保全
 

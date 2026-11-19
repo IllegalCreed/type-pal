@@ -207,17 +207,28 @@ test('C06-G04-08 换定义 asset：清除旧像素且呈现新色', async () => 
   const altAsset = 'battle-sprite.authored.c06-inline-alt'
   mounted = await mountExtra({ playAllFrames: true })
   await waitDrawn(mounted)
+  expect([...samplePrimary(mounted)]).toEqual(expectedBattleRgb(project, ASSET, 0))
   const altDef = project.state.battleSprites.find((entry) => entry.id === 'c06-inline-alt-def')!
-  await act(async () => {
-    mounted!.root.render(
-      <BattleSpriteInlinePreview
-        definition={altDef}
-        assetBase={project.assetBase}
-        assetReader={createEditorAssetReader(project.source, () => project.state)}
-        playAllFrames
-      />,
-    )
-  })
+  const path = project.seeded.get(altAsset)!.path
+  const gated = gatedFileSource(project.source)
+  const hold = gated.gate(path)
+  try {
+    await act(async () => {
+      mounted!.root.render(
+        <BattleSpriteInlinePreview
+          definition={altDef}
+          assetBase={project.assetBase}
+          assetReader={createEditorAssetReader(gated.source, () => project.state)}
+          playAllFrames
+        />,
+      )
+    })
+    expect(gated.calls).toContain(path)
+    expect(gated.completed).not.toContain(path)
+    expect(isBlank(mounted.primaryCanvas())).toBe(true)
+  } finally {
+    hold.resolve()
+  }
   await waitDrawn(mounted)
   expect([...samplePrimary(mounted)]).toEqual(expectedBattleRgb(project, altAsset, 0))
   expect(colorCensus(mounted.primaryCanvas()).opaque.size).toBe(1)

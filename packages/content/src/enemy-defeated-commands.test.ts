@@ -1,7 +1,35 @@
 import { describe, expect, test } from 'vitest'
+import { createEnemyReferenceProject } from './__tests__/reference-project.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { checkEnemyOnDefeatedCommands } from './enemy-script.js'
+import { validateAuthorEnemies } from './validate-author.js'
+
+test('author enemy validation locates an unregistered defeated command', () => {
+  const { enemy } = createEnemyReferenceProject({ onDefeated: [{ kind: 'returnScript' }] })
+  expect(validateAuthorEnemies([enemy])).toEqual([enemy])
+  expectExactError(
+    () => validateAuthorEnemies([{ ...enemy, onDefeated: [{ kind: 'constructor' }] }]),
+    'enemies[0].onDefeated[0].kind: onDefeated context 不支持命令 "constructor"',
+  )
+})
+
+test('author enemy validation locates the dialogue cue at its actual command position', () => {
+  const { enemy } = createEnemyReferenceProject()
+  const cue = { identity: { kind: 'narration' }, rows: [{ text: 'line' }] }
+  const onDefeated = [
+    { kind: 'wait', ms: 0 },
+    { kind: 'dialog', cue },
+  ]
+  expect(validateAuthorEnemies([{ ...enemy, onDefeated }])).toEqual([{ ...enemy, onDefeated }])
+  expectExactError(
+    () =>
+      validateAuthorEnemies([
+        { ...enemy, onDefeated: [onDefeated[0], { kind: 'dialog', cue: { ...cue, rows: [] } }] },
+      ]),
+    'enemies[0].onDefeated[1].cue.rows: 期望非空数组',
+  )
+})
 
 test('onDefeated recursion reports exact count/number errors and does not rewrite nonempty branch arms', () => {
   const good = [

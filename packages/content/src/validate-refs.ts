@@ -479,7 +479,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
   }
 
-  const validateAuthorCondition = (condition: AuthorCondition, where: string): void => {
+  // Scene and entity conditions are already checked by the shared target scan, in authored order.
+  const validateDefeatedCondition = (condition: AuthorCondition, where: string): void => {
     switch (condition.kind) {
       case 'hasItem':
       case 'ownsItem':
@@ -499,31 +500,14 @@ export function validateReferences(b: ContentBundle): Issue[] {
             message: `角色 "${condition.actorId}" 不在 actors`,
           })
         return
-      case 'currentScene':
-        if (!scenesById.has(condition.scene))
-          issues.push({
-            severity: 'error',
-            where: `${where}.scene`,
-            message: `场景 "${condition.scene}" 不在 scenes`,
-          })
-        return
-      case 'entityState':
-      case 'entityInScene':
-      case 'facingEntity':
-        validateEntityAddress(condition.target, `${where}.target`)
-        return
-      case 'entitiesNear':
-        validateEntityAddress(condition.from, `${where}.from`)
-        validateEntityAddress(condition.to, `${where}.to`)
-        return
       case 'all':
       case 'any':
         condition.of.forEach((child, index) => {
-          validateAuthorCondition(child, `${where}.of[${index}]`)
+          validateDefeatedCondition(child, `${where}.of[${index}]`)
         })
         return
       case 'not':
-        validateAuthorCondition(condition.cond, `${where}.cond`)
+        validateDefeatedCondition(condition.cond, `${where}.cond`)
         return
       default:
         return
@@ -543,7 +527,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
         return
       }
       if (command.kind === 'branch') {
-        validateAuthorCondition(command.cond, `${commandWhere}.cond`)
+        validateDefeatedCondition(command.cond, `${commandWhere}.cond`)
         validateOnDefeated(command.then, `${commandWhere}.then`)
         if (command.else) validateOnDefeated(command.else, `${commandWhere}.else`)
       }
@@ -1093,8 +1077,15 @@ export function validateReferences(b: ContentBundle): Issue[] {
     ...b.items.flatMap((item, index) =>
       collectActorTaggedReferences(item, `items[${index}](${item.id})`),
     ),
+    // The enemy pass owns these references because it also checks battler eligibility and
+    // preserves quoted hook state IDs. Keep scanning other tags such as dialogue identities.
     ...(b.enemies ?? []).flatMap((enemy, index) =>
-      collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
+      collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`).filter(
+        (reference) =>
+          reference.kind !== 'enemy-condition-player-in-party' &&
+          reference.kind !== 'enemy-apply-actor-growth' &&
+          reference.kind !== 'enemy-play-actor-cast-effect',
+      ),
     ),
   ]
   const existingActorIssuePaths = new Set(issues.map((issue) => issue.where))

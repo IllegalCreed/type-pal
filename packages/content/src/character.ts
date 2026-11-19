@@ -271,10 +271,16 @@ function seedActorInitialSkills(
   actor: ActorDef,
   instanceId: string,
 ): void {
-  if (learnedSkills[instanceId] !== undefined) return
+  if (Object.hasOwn(learnedSkills, instanceId)) return
   const battler = actor.battler
   if (!battler) throw new Error(`seedActorInitialSkills: 角色 "${actor.id}" 无 battler`)
-  learnedSkills[instanceId] = [...battler.initialMagic]
+  // 角色 ID 可与对象原型的属性同名，技能表仍按自有数据字段写入。
+  Object.defineProperty(learnedSkills, instanceId, {
+    value: [...battler.initialMagic],
+    enumerable: true,
+    writable: true,
+    configurable: true,
+  })
 }
 
 /**

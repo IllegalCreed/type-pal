@@ -45,7 +45,7 @@ function enemyWithDialogue(route: (typeof dialogueRoutes)[number]) {
 test.each([
   ['ready', 'enemies[0].ai.hooks.ready.states.warn.body[0].cue.identity'],
   ['turnStart', 'enemies[0].ai.hooks.turnStart.states.warn.body[0].cue.identity'],
-  ['onDefeated', 'enemies[0].onDefeated[0][0].cue.identity'],
+  ['onDefeated', 'enemies[0].onDefeated[0].cue.identity'],
   ['choreography', 'enemies[0].choreography[0].body[0].cue.identity'],
 ] as const)('validates author identity through the enemy %s route', (route, path) => {
   const { enemy, cue } = enemyWithDialogue(route)

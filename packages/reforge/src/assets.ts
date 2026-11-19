@@ -8,6 +8,7 @@ import {
   type AssetRecordV1,
   type BattleSpriteDef,
   type BattleSpriteProfileKind,
+  battleSpriteDefinitionFrameDemand,
   battleSpriteDefinitionFrameIndices,
   PAL_PHYSICAL_EFFECT_ASSET_ID,
   type ProjectMap,
@@ -410,7 +411,13 @@ export async function loadBattleSpriteDefinition(
       `BattleSpriteDef "${definition.id}" (AssetId "${definition.asset}") profile 期望 ${expected}，实际 ${definition.profile.kind}`,
     )
   const sprite = await cache.load(reader, definition.asset)
-  const indices = battleSpriteDefinitionFrameIndices(definition, sprite.frames.length)
+  const frameCount = sprite.frames.length
+  // Enemy profiles have contiguous sections from frame 0 and decoded frames are dense.
+  const indices =
+    definition.profile.kind === 'enemy' &&
+    battleSpriteDefinitionFrameDemand(definition) > frameCount
+      ? [frameCount]
+      : battleSpriteDefinitionFrameIndices(definition, frameCount)
   for (const frame of indices)
     if (!sprite.frames[frame])
       throw new Error(

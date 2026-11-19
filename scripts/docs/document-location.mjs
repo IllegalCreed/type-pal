@@ -66,6 +66,7 @@ import {
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
 } from './testing-battle-publication.mjs'
+import { loadTestingContentVersionRebinding } from './testing-content-version-rebinding.mjs'
 import {
   assertTestingChestSourceBridge,
   assertTestingPalaceStagePublication,
@@ -492,7 +493,17 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionEnemyCastBase, [testingCatalogPath])
   const preBattleSpecialStatus =
     preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
-  const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const versionAdmission = admission.testingContentVersionRebinding
+  const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
+  const versionRebinding =
+    versionBase &&
+    loadTestingContentVersionRebinding({
+      admission: versionAdmission,
+      readCurrent: readCurrentSource,
+      readPredecessor: versionBase.read,
+    })
+  const readSource = versionRebinding?.readPredecessorSource ?? readCurrentSource
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -842,6 +853,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
+    const priorVersionBody = versionRebinding?.restore(path, current) ?? current
     const artifact = artifacts.get(path)
     if (artifact) {
       // New receipt attachments are ordinary non-executable checkout files;
@@ -858,7 +870,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const addition = additions.get(path)
     if (addition) {
       if (postPalace && isPublishedTestingStagePath(path)) {
-        const older = beforeProjectVictory(path, current)
+        const older = beforeProjectVictory(path, priorVersionBody)
         const predecessor = acquisitionPrevious(path, older)
         assert(
           postPalace.read(path)?.equals(predecessor),
@@ -955,7 +967,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         path,
         beforeProjectVictory(
           path,
-          beforeBattleLifecycle(path, beforeBattleReview(path, beforeBattleClosure(path, current))),
+          beforeBattleLifecycle(
+            path,
+            beforeBattleReview(path, beforeBattleClosure(path, priorVersionBody)),
+          ),
         ),
       )
       const acceptedCurrent =
@@ -1162,6 +1177,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       compressed.assertUnchanged()
       artifactRetirements.assertUnchanged()
       retirementList.assertUnchanged()
+      versionRebinding?.assertUnchanged()
       assertInventory()
     },
   }

@@ -3,7 +3,7 @@
  * 语义行与资源库同源，展示层与战斗动作预览共用 embedded shelf。
  */
 
-import type { SpriteDef } from '@type-pal/content'
+import { type SpriteDef, spriteDefinitionFrameDemand } from '@type-pal/content'
 import type { AssetBase, LoadedSprite } from '@type-pal/reforge'
 import { bakeFrame, loadStandardPalette } from '@type-pal/reforge'
 import { useEffect, useState } from 'react'
@@ -69,17 +69,7 @@ export function SpriteFrames(props: {
     )
 
   const total = loaded.sprite.frames.length
-  const layout = sprite.layout
-  const declaredDemand = Math.max(
-    layout.kind === 'directional'
-      ? layout.framesPerDir * 4
-      : layout.kind === 'loop'
-        ? layout.frameCount
-        : 1,
-    ...Object.values(sprite.poses ?? {}).flatMap((action) =>
-      action.steps.map((step) => step.frame + 1),
-    ),
-  )
+  const declaredDemand = spriteDefinitionFrameDemand(sprite)
 
   return (
     <div className="sprite-frames actor-world-sprite-preview">
@@ -92,7 +82,7 @@ export function SpriteFrames(props: {
       <SemanticFrameShelf
         ariaLabel="四向行走与动作帧预览"
         frames={loaded.frames}
-        groups={worldSpriteSemanticGroups([sprite], sprite.id)}
+        groups={worldSpriteSemanticGroups([sprite], total, sprite.id)}
         presentation="embedded"
       />
     </div>

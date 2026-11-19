@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "8b3e7519c6dcafb180a9e567bd3d560e98127b63c09fe1fdeba07778f430e00b",
+      "afterSha256": "6589475728f1a0e4c06a0d1294a6904a9ef25d594bcc92bce64248449e40009c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "按实际差异与原件接收现行范围、状态、索引和证据边界。",
-        "reviewedLines": 1160,
-        "acceptanceScope": "核 108 个唯一原主体、101 完成与 7 待审，保留旧 970 条，机器账本与生成索引一致；定向核引用夹具、帧容器真实消费者和各问题卡边界。集中门、远端 CI、合并、E2E 与视觉信用按各自执行原件。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 1161,
+        "acceptanceScope": "只接受原七条 review 转已验证及一条新 Editor 帧容量专测登记。机器复跑 3795 / 1062 / 0 / 2733；其他 1054 条原行不变，两份来源维护工具仍 pending。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "ba16bb7720117a56a58bca293401ec8fd3c3afc8ca88b581fb932f8df1859ae8",
+      "afterSha256": "a44122fd353fb1a699fde846d9361f48cce3b39bb9bbfab1dd0e4fbbb9046eec",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "接受现行看板及已完成窗口的归档入口。",
-        "reviewedLines": 133,
-        "acceptanceScope": "在先前四份终态正文审查上，复核看板第56行切换为唯一执行归档，101完成、7待审和原状态一致。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 126,
+        "acceptanceScope": "仅接受七项后继关闭的活动看板更新：第一窗口的 101+7 保留旧状态，后继档链接现行原件；关闭五卡和重复旧卡退出活动视图，不授远端、合并或 E2E 信用。"
       }
     },
     {
@@ -2097,17 +2097,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "6c36a5a98f8990b2362b434142fe33651f9b88131e395bf196258b8b578d387a",
+      "afterSha256": "23de662cd208fd50f894e069e6feaa0d083ddb27eab9264dd180ed3fe15a926d",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 103,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 105,
+        "acceptanceScope": "仅接受新增版本来源维护段。实核固定发布前驱、20 条记录和 41 个载体、回绑历史、整记录及原报告正文保全、将原字节交回既有限定桥接；仍为版本引用适用性，不授运行或全仓门信用。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "a79daddd8313ad949c38a23786db1877142e1c0190f86a02fc7124d26e3ebdc0",
+      "afterSha256": "13d8a5e13ac011ae95461f0043e04b3e62ccc930a37e36618eeaed718692fb7b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 595,
-        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
+        "acceptanceScope": "仅接受生成导航变化。五张验收卡转 done，重复帧需求旧卡转 cancelled；重算与候选索引字节一致，不作为产品或远端验收。"
       }
     },
     {
@@ -2623,14 +2623,14 @@
     {
       "path": "docs/ops/tasks/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md",
       "mode": "reviewed",
-      "afterSha256": "4868422f4e94f5d2b0d01af8deaabd857e5fc58f4f2ade6c5901c35a25227c5a",
+      "afterSha256": "c38bcd409a64b04274357c90e6e6e1b1d5ab5892d6659971185bf5d1aa021625",
       "review": {
-        "author": "/root/status_reconcile",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 72,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "接受重复实施席位转 cancelled、明确后继卡；固定引文 2492B、SHA 精确不变，原只读失败、原时点状态完整保留，不发双重完成信用。"
       }
     },
     {
@@ -3878,14 +3878,14 @@
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
       "mode": "reviewed",
-      "afterSha256": "ca7d0299d580dff08893d8bd29cd5d0a581967a5947442775bf79ace1f301a2f",
+      "afterSha256": "38ce1e0178abaad9d7a9bffec437c0343b902692b0d2edf388a79b7e69b32ad9",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 124,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 phase1-dependency-ownership 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-domain-report-v1"
     },
@@ -3996,14 +3996,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "4b98fdd2c2a78c1c94a2740155366cd8763e8d8d7facc525e4e97562a6704109",
+      "afterSha256": "2ba42041e338d735fb4edb9b4c44adf7c774c0a246ba552321afe22c4eb5e3de",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 642,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-contract 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4051,14 +4051,14 @@
       "path": "docs/testing/e2e/route-proposal.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "6076d231760bcbe980d61ec2851ee13e43c9183359779a73d95d06fb48a25a12",
+      "afterSha256": "f0d00820da4c6aa87f375c339a2e4a2fd691a54d36763a5e4b6f19b7ad5c6665",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 283,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-route 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4068,14 +4068,14 @@
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
       "mode": "reviewed",
-      "afterSha256": "993579605c4bc007fd7203dca93ad4abf00024f0759158fd5d7442ad0eee47a8",
+      "afterSha256": "5490eb021470dd26d73f3c21e4fc946898ebc7c5d871d6d3108add497f072bec",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 299,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-001 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-run-report-v1"
     },
@@ -4087,14 +4087,14 @@
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "c43ad7c09444dc10d9f7876fd13984909b2e382abe0af077e662030c56e8d215",
+      "afterSha256": "2c15756257f4efe33c577fe230a22dd3eeea9bc8d494a5fe27be33ab7b6a5f7e",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 372,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-002 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4105,14 +4105,14 @@
       "path": "docs/testing/e2e/stages/003-kitchen/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "509bdba9a40f48441c3b32aacedf0ceead0e73aa234af12c4a28ed853572dad5",
+      "afterSha256": "4bf6549419105fa63910d99b571620ad09d54abc7b2488699deef4708adb49c8",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 205,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-003 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4123,14 +4123,14 @@
       "path": "docs/testing/e2e/stages/004-meal/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "67df5f45b917518446521df5dc71ce0f3a2e93b17e65211612894f0c95da7793",
+      "afterSha256": "271cd5aa22ad56b0b9940fc886d17c35f8f6ff6a93c4885f943263f969ff1715",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 320,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-004 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4141,14 +4141,14 @@
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "4129f3aaf6351ae6a2ca7743200d29ce439c7a2565e731fdabb980b9ceaddd61",
+      "afterSha256": "37cfe0335d31def4626b1402905a816d7546ead560372a776a1681074cf43d2f",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 250,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-005 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4169,14 +4169,14 @@
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
       "mode": "reviewed",
-      "afterSha256": "88b54d5c16a209c1ee20f94aea9b6b81a57358d9cc5f1c6c9265578b8f81a7ff",
+      "afterSha256": "517dadd13546a9412170150ed9bb7bedd204e6e88b1204bc9c8f8ce3259c9897",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 149,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-006 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-run-report-v1"
     },
@@ -4366,27 +4366,27 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0806385c04a63fe0925d1d3e63a55264a0607c48f91cf116ad4d8cb8aaecd494",
+      "afterSha256": "b746f945e8a287364ccf5606e8c89683c744ad7099c6d4fe088a8945d4ff38cb",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 7479,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 7799,
+        "acceptanceScope": "以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。"
       }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "178290ca376fc85f86128cec827677c7aeb1d14c44c2fb9dbf39d616ad76c67e",
+      "afterSha256": "fcab7ccaa724cf90499ddb2427313ab70e5c7044dc7347708ec56ce6b35f2d14",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 454,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 470,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 phase1-dependency-ownership 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4418,82 +4418,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "214ef2c5dd2a59a234bab4630875d2fab6c117433ecccfbbd264ad79a3d85e07",
+      "afterSha256": "a5132f2670cc72c33c71370183ca010297cd49226d45760d1c96b422a7059503",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 99,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-active-scene 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1cc0088f85f12563dc397b426c9280545c02afe1baaf4fd7f3b3c16ad27ee649",
+      "afterSha256": "5c8725091d22ec32150a2fb8b4a05c28d8f2ae345c3c10e19b6d57ce7fa575cf",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 405,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 421,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-active-scene 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "63aac69a45dc7093480c058ddb37ab9ccc34d36a41280a07523233b845d47fba",
+      "afterSha256": "30b6f4839e3975908d1cca36d8a22ffeb9fbf57215f6cb75997727eb52676d49",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 98,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-battle-host 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "db0633554b72bacef63705fbeb029261963193bc2a694938cb420907190bc940",
+      "afterSha256": "acfe5c003366b02c90f12d2964afc26ff972f5b3b05e4a3f016159ad9d2b0459",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 391,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 407,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-host 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "0d872e27111771b0d1c62cad4a21ed86631feff3243a3fefb1c57b5002992854",
+      "afterSha256": "fd129ca7ab4172d5e59d6e37a19adfb1d3c50309f48987b3c7a0135ee32d9ed0",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 99,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-world-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "431b26f20d566373252d6a6adba0b76781ac237fc1ae0871675b10049f0187e0",
+      "afterSha256": "aed3a24d1c57d36a59e9025f262b87b518561b094c5f19933a415095059c0248",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 352,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 368,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-world-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4645,214 +4645,214 @@
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "cffb0fdd32567f0fe4498d5a5617791bc27462eb723c1b2af5652209534b3685",
+      "afterSha256": "b2bf69abbc0c765b344d75d364753ff67a83b7c1fed159fecc47045356c80968",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 181,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 197,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 editor-command-form-families 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "53be443df57d75c2fa994ecceae4acf3aeab9a55670563b1e34c4f3446d4a69c",
+      "afterSha256": "c33e2e518e308889573a9c3c060b4287ee766eebf389ceb8ab29393c4e5ab9d4",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 82,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 editor-command-form-families 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2f0a7a9e504704cd95ff301ce8fc791919e6cefb32d6e0a23a63b62f17801e9f",
+      "afterSha256": "cfa99bf699651da7a82a8780009e32b6ebacc0191be77407bba700ccf6042628",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 183,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 199,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 editor-map-workspace-sessions 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d4e68e674735e890048c020c4fb2226d1833a8f306fb2f2b4f785c01a06fb115",
+      "afterSha256": "5e67dbf5ea6e50cfefa89645e61f4c1cc7948acb3694476d58ce80e79183000b",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 83,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 editor-map-workspace-sessions 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e9d71b61a85fa517f4bcae208eb64dc512c856e166485fedcc555a0ea7d11db8",
+      "afterSha256": "cd90732394bfe6b69b3172a857ed39834f4a87be7efe1ec23d6a7c10fa7da4a4",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 215,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 231,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 legacy-flat-audit 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "6bf27ac714e8ef0e8c4b0262ea2c1edfa989fd9356e46a31628c2b6b4863665b",
+      "afterSha256": "e5b17cc55cab5158d603ffeefff7738dfa0743d3214ad458d84bd8fe604e1ecb",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 92,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 legacy-flat-audit 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6d868960e2c108176b2952cfbb7dc87818da776fbaff78e706bfe23580576f00",
+      "afterSha256": "91fb30334de716bea163491d7d09a1656c2c52a1428f2bb4ad46ed1415d873c7",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
-        "reviewedLines": 702,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 718,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-session-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4ef2212e275bd562973e6ae4f2daf05754021290bb386fe3970f8159b05dbeb0",
+      "afterSha256": "ca55b7037d5211f20cfb22b8ce7cd71e7e57e59bee0fbd85e3f1e3afa39b5da6",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核冻结 Git 的源文件指纹、旧锚点字节和当前行号，旧执行、原件及审阅范围保留。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 101,
-        "acceptanceScope": "四项旧调用所有权的事实范围保留，本轮证据只追加到 Q2。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-battle-session-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "ac22a5465d78dcbecbde8bef1d2c57fb78b34c576430d2816c149a905ef3ec78",
+      "afterSha256": "f3942e610188ca15b8067c034c53fb4ed8ace6ccb4270ec96ff66c6038f3255f",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 174,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 190,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "c52854e7dd66874d06b630e6be47fb66e875d43ee623ebe6dcf4e9e06a52261a",
+      "afterSha256": "15c728364804cf9d32496c139c4d5c2b8828e39e578960beda2ce424360bf606",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 70,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "554b48b2a68b3efef5e47304aa864a7031ec7fd1708e6b1a73c4c63005a494e0",
+      "afterSha256": "402cf826c51424166a856771d7c6e95af2a9c6af4b88f70dafa11df3158703d7",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 221,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 237,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-001 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-002.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "5de5c89054b346757e1993f218258e550c999bc870cb64383cae35b6eb267fa2",
+      "afterSha256": "f5bc7ff34430161be38bb9e056b37651dbe600c814b0e06eca0fb7c69a93286b",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 593,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 609,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-002 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-003.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2c59bf168680251b686154551e2c2dc80700f3095118175a9e673e2a8c711d2a",
+      "afterSha256": "75cb100f6db6eb25ffc249c896c88efc96bfa99ae7f5092e06426406386e0455",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 656,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 672,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-003 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-004.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c6296ada445248fe4085a19d3af411f96edc05c54668b4118d72e5b2004cd241",
+      "afterSha256": "24a10f6ee6ae5370cd1eca1c481abfdc0c75d4a36b5cdd18ac8a024a8d987a51",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 681,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 697,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-004 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b442a791cb3b11f57f6924e02f679ac96c96c1eefdaaa25b7c1ba4272e232958",
+      "afterSha256": "34fb2ca76c9e0b35c28ed721bf98b058579b117c31844a9a7f68f6fb2d406751",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 649,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 665,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-005 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-006-current.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8b7d9bb30f5de5a76d3abc6688fc0f75e1b3f5cd6d0260231ab48434438dd519",
+      "afterSha256": "1f2f6f926537ce7d33027f19825f49cef769f18cf594c47991871067c4c9b470",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 399,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 415,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-006 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4871,27 +4871,27 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-contract.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8b455116203e806294c4aa6309514abc74d00ff6fe160212a0d2c4886efe2a2c",
+      "afterSha256": "36cab2c48cbf6680462104ca6adf968f8ba7a5ff011d7d74927f196129368de5",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 146,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 162,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-contract 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-route.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "113ef6d6a8ced2098bb589b1f3cc1179bb955582ee5d551a7ba7dbd7823b0e55",
+      "afterSha256": "70a11389149bed4013dbff35a4b21ce7663d52a0c3952e8a9f54ebb5ff51a91c",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 384,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 400,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-route 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -4938,53 +4938,53 @@
     {
       "path": "docs/tasks/cards/CONTENT-ACQUISITION-CHEST-FACING-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "36163d83ed182c79add2f0764dfea45f73a60e8a1eb4ff45140bd12827f0ea13",
+      "afterSha256": "7c8df72de92ea024f963719b3619ff0800b98d319153b58aa18ef134e731bd47",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
-        "reviewedLines": 34,
-        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 48,
+        "acceptanceScope": "仅接受已验收宝箱严格方向及合法展开回归后的 done 和集中门。视觉仍由活动 E2E 负责；未接受视觉或新 E2E。"
       }
     },
     {
       "path": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "fab3f6e2d09a2a2e01dfdbf122b54b5f465c8be87e2a190394e150156750d422",
+      "afterSha256": "f42580d21a249cc46feff72f9fc337e88a2545a0d688bf4cf142212d689b3554",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
-        "reviewedLines": 38,
-        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 52,
+        "acceptanceScope": "仅接受已验收技能种子与 41 个来源载体回绑后的 done 和本地集中门；既有测试、存档声明、E2E 执行身份保持，角色形状另项不抬状态。"
       }
     },
     {
       "path": "docs/tasks/cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "106b3010029a367fb07488fc39cb5402f6e74bd68d7e40e33d8af449145c5ca8",
+      "afterSha256": "c532fef9f4fc2009ca56e0a69472cdd7342a6cdae3db1de296f20de6c551191e",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
-        "reviewedLines": 39,
-        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 53,
+        "acceptanceScope": "复用已核代码和红绿证据，仅接受该卡转 done 及本地集中门路径。场景、实体和敌 hook 角色诊断归属，动作执行和作者剧情不在验收范围。"
       }
     },
     {
       "path": "docs/tasks/cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "b79020f14af3d31c2701e58e2d34bbe0a5b31ebcfa04df48fd89d8f9fc72bfae",
+      "afterSha256": "6bd87098e35c64d93f0c9f1bb6830aa2d503cb1e0e146b239c197f5ec55777f7",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
-        "reviewedLines": 39,
-        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 54,
+        "acceptanceScope": "复用已核代码和红绿证据，仅接受转 done 与集中门：作者字段严格字符串、实际战后命令分派及台词索引；没有新的战斗机制、运行或 E2E 授信。"
       }
     },
     {
@@ -5003,27 +5003,27 @@
     {
       "path": "docs/tasks/cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "b475723165535c345cc712e833252db7c892faef500efaee2b5fdba3939cff09",
+      "afterSha256": "91083307107d460ab54fe83fbf3dffd434608594dd3c6a6a8c26995cfc224556",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "核现行任务卡章节、实际边界及相应执行原件，接受正文增量。",
-        "reviewedLines": 39,
-        "acceptanceScope": "保持五张 draft 与两张 review，核两条指定反控和 1541 内容测试、20572 ratchet 通过及首次全仓缺节的 25 条诊断。全仓复跑、protected fast、远端 CI、合并、E2E 和视觉按各自原件。"
+        "conclusion": "接受本次返工证据与限定范围正文。与旧正文和 145 份旧附件逐字保全，32 份新附件可复验，不把 coverage 命令退出 1 记为门通过。",
+        "reviewedLines": 74,
+        "acceptanceScope": "仅接受「集成复验的预览切换」追加节。独立对照首轮远端 RGB 失败及真实 Canvas2D 加载闸门的指定单红、55 项定向、Editor check 5,050、101 项成对邻接 LCOV 与两分支 33→0。原生全量 20,592 测试均通过，但覆盖率命令因未合入候选两个精确比例退出 1；实测与候选基线匹配，保护主线真实整数比较零回退，范围和测试身份不变。两份 Editor 相邻文件继续 pending。仅核本地回执和已发生的首轮远端失败，未授后续远端、合并或 E2E 信用。"
       }
     },
     {
       "path": "docs/tasks/cards/QUALITY-CONTENT-REFERENCES-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "79683dcf2203f7c1fc98b98f5b03c5cbbbebfee10b55d9bffa1576bdac6b006e",
+      "afterSha256": "b5ca4b44708ab428231997206a1dacf9cfa2d54bd280f8d7f72ec41e99b2f15d",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_receipt_review",
         "date": "2026-11-19",
-        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
-        "reviewedLines": 313,
-        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 323,
+        "acceptanceScope": "仅接受后继验收追加节，早期 101 与 7 保留原时点。独立核过本地三门和明确的后续静态接入节点、失败恢复、旧归档保全与新归档索引；未经实际执行不授字段、远端、合并、E2E 或视觉信用。"
       }
     },
     {
@@ -5276,27 +5276,27 @@
     {
       "path": "docs/testing/e2e/stages/007-island-entrance/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "7193ab1c5b8e6a8c577ec775dc697c4ec14d6b8696231bcb3a2dce9599cc2073",
+      "afterSha256": "f52793eae75f9cee562377745054b425f836373e38b533fde4c44573ae7276e7",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 81,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-007 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-007.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "92499394a59586390e8fe24ac9fbb2198ae2da25fcdc44336831b768225128eb",
+      "afterSha256": "1021c0421e84a1e641ad250ca012ac24b966faf3285cf3df6b03bda6f0a5be4d",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 572,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 588,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-007 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -5315,27 +5315,27 @@
     {
       "path": "docs/testing/e2e/stages/008-fairy-island-maze/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "7aeb778e832b11a8ab125f3370771587f9a932f243c34eb47954264970b12772",
+      "afterSha256": "505a912093b03cf1768cbb35905c38905689dfb6fb0da5d9eaa22562cf5fcd47",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 58,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-008 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-008.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "ba2d7faed51ac70ec1f22471aae55f6c72b64c421d0832001f46f00b66a4219b",
+      "afterSha256": "1a0211da7a57cb3ec71d621ab8a88c57cbab517670023cf4f291f3d7f04c91ac",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 493,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 509,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-008 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -5354,27 +5354,27 @@
     {
       "path": "docs/testing/e2e/stages/009-fairy-island-pool/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "51795212b3e3042455034acf9e2c27d40ff842e52d77d8dbdee7d2bec86f3005",
+      "afterSha256": "4a08e18b289aa6adddeaf911a81f58a2b68374f95c333d11102178571b686703",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
         "reviewedLines": 73,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-009 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-009.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "ce81339625edc8e6614ca8162627c0a31f9638cb607ee7ef52d35b2ab272653d",
+      "afterSha256": "da8bb7b6bc6bea83590fac6578426ce595503bd7bbf1cb8d413f9fa995105dea",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 713,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 729,
+        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-009 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
       }
     },
     {
@@ -5618,6 +5618,12 @@
     ]
   },
   "artifacts": [
+    {
+      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",
+      "sha256": "8de120b974e393bfd16ec8e1ee9e747c54dd401682a6435fd59daa884ae99aa5",
+      "bytes": 843049,
+      "purpose": "内容引用后继五卡的定向反例与恢复、实际精灵清点、统一质量门及精确候选边界。前一窗口原件保留其固定历史执行身份。"
+    },
     {
       "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz",
       "sha256": "fc2294a4887f5c77509ecd13a8d1407139a8d46835c38c2d15e21a6528117c82",

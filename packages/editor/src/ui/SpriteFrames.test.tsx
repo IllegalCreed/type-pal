@@ -88,11 +88,11 @@ describe('SpriteFrames embedded preview', () => {
     host.remove()
   })
 
-  test('复用共享 embedded 动作架展示四向与命名动作，不渲染旧预览皮肤', async () => {
+  async function renderPreview(sprite: SpriteDef): Promise<void> {
     await act(async () => {
       root.render(
         <SpriteFrames
-          sprite={definition}
+          sprite={sprite}
           assetBase={{} as never}
           assetReader={
             {
@@ -102,6 +102,10 @@ describe('SpriteFrames embedded preview', () => {
         />,
       )
     })
+  }
+
+  test('复用共享 embedded 动作架展示四向与命名动作，不渲染旧预览皮肤', async () => {
+    await renderPreview(definition)
 
     const shelf = host.querySelector<HTMLElement>(
       '.semantic-frame-shelf--embedded[data-presentation="embedded"]',
@@ -131,5 +135,46 @@ describe('SpriteFrames embedded preview', () => {
     expect(host.querySelector('.dirgroup')).toBeNull()
     expect(host.querySelector('.fcell')).toBeNull()
     expect(host.querySelector('.posegroup')).toBeNull()
+  })
+
+  test('shows available source frames when the declaration exceeds any RLE table', async () => {
+    await renderPreview({
+      ...definition,
+      layout: { kind: 'directional', framesPerDir: 2 ** 32 },
+      poses: undefined,
+    })
+
+    expect(host.textContent).toContain('资源实际 14 帧')
+    const rows = [...host.querySelectorAll('.semantic-frame-row')]
+    expect(rows).toHaveLength(4)
+    expect(
+      rows.map((row) => row.querySelectorAll('.sprite-frame-cell:not(.animated)').length),
+    ).toEqual([14, 0, 0, 0])
+  })
+
+  test.each([
+    { name: 'keeps the declared loop of a normal sprite', frameCount: 3, expectedFrames: 3 },
+    {
+      name: 'limits an impossible loop to the decoded frames',
+      frameCount: 2 ** 32,
+      expectedFrames: 14,
+    },
+  ])('$name', async ({ frameCount, expectedFrames }) => {
+    await renderPreview({
+      ...definition,
+      layout: { kind: 'loop', frameCount, ticksPerFrame: 2 },
+      poses: undefined,
+    })
+
+    const tracks = host.querySelectorAll('.semantic-frame-track')
+    expect(tracks).toHaveLength(1)
+    expect(host.textContent).toContain('自动循环')
+    expect(host.querySelector('[aria-label="主角行走精灵 自动循环动态预览"]')).not.toBeNull()
+    const labels = tracks[0]?.querySelectorAll(
+      '.sprite-frame-cell:not(.animated) .sprite-frame-cell-caption b',
+    )
+    expect(Array.from(labels ?? [], (label) => label.textContent)).toEqual(
+      Array.from({ length: expectedFrames }, (_, index) => `#${index}`),
+    )
   })
 })

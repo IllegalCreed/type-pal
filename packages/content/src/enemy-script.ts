@@ -117,9 +117,11 @@ function checkAiAction(value: unknown, path: string): asserts value is AiAction 
   const action = record(value, path)
   const kind = nonEmptyString(action.kind, `${path}.kind`) as AiAction['kind']
   const checkTarget = (): void => {
+    const { target } = action
     if (
-      action.target !== undefined &&
-      !['random', 'lowestHp', 'highestHp', 'lowestMp', 'strongest'].includes(String(action.target))
+      target !== undefined &&
+      (typeof target !== 'string' ||
+        !['random', 'lowestHp', 'highestHp', 'lowestMp', 'strongest'].includes(target))
     )
       throw new Error(`${path}.target: 未知目标策略`)
   }
@@ -381,12 +383,21 @@ export function checkEnemyOnDefeatedCommands(
         checkEnemyOnDefeatedCommands(command.else, `${commandPath}.else`, options)
       return
     }
-    const allowed = ON_DEFEATED_LEAF_KEYS[kind as EnemyOnDefeatedLeaf['kind']]
-    if (!allowed)
+    if (!Object.hasOwn(ON_DEFEATED_LEAF_KEYS, kind))
       throw new Error(`${commandPath}.kind: onDefeated context 不支持命令 ${JSON.stringify(kind)}`)
+    const allowed = ON_DEFEATED_LEAF_KEYS[kind as EnemyOnDefeatedLeaf['kind']]
     exactKeys(command, allowed, commandPath)
-    checkBaseAuthorCommands([command], commandPath, options)
-    if (kind === 'dialog' && !options.checkDialogueCue) checkCommands([command], commandPath)
+    const { checkDialogueCue } = options
+    if (kind === 'dialog' && checkDialogueCue) {
+      // The shared list validator wraps this leaf at [0]. The cue belongs to its real index.
+      checkBaseAuthorCommands([command], commandPath, {
+        ...options,
+        checkDialogueCue: (cue) => checkDialogueCue(cue, `${commandPath}.cue`),
+      })
+    } else {
+      checkBaseAuthorCommands([command], commandPath, options)
+      if (kind === 'dialog') checkCommands([command], commandPath)
+    }
     if (kind === 'wait' && finite(command.ms, `${commandPath}.ms`) < 0)
       throw new Error(`${commandPath}.ms: 期望非负有限数`)
     if ((kind === 'playSound' || kind === 'playMusic') && command.asset !== undefined)
