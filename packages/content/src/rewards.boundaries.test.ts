@@ -2,7 +2,7 @@ import { expect, test, vi } from 'vitest'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef } from './actor.js'
 import { instantiate } from './character.js'
-import { applyHiddenExp, grantBattleRewards } from './rewards.js'
+import { applyHiddenExp, grantBattleRewards, recoverBattleParty } from './rewards.js'
 import { validateActors } from './validate.js'
 
 function actor(expTable: number[] = [0, 10, 20, 100]): ActorDef {
@@ -161,6 +161,47 @@ test('reward upgrade without a levelUp registry never creates an empty learned-s
   expect(report.levelUps.map(({ to }) => to)).toEqual([2])
   expect(report.learned).toEqual([])
   expect(learned).toEqual({})
+})
+
+test('hidden HP and MP growth refills the actor who levels up before deferred recovery', () => {
+  const definition = actor()
+  const leveled = instantiate(definition)
+  leveled.exp = 1
+  const hiddenOnly = { ...instantiate(definition), id: 'hero-ally' }
+  for (const character of [leveled, hiddenOnly]) {
+    character.hiddenExp = {
+      maxHP: { exp: 2, level: 1 },
+      maxMP: { exp: 2, level: 1 },
+    }
+  }
+
+  const rng = vi.fn(() => 0)
+  const counts = { maxHP: 1, maxMP: 1 }
+  const report = grantBattleRewards(
+    [leveled, hiddenOnly],
+    {},
+    { hero: definition },
+    {},
+    { exp: 9, cash: 0, hiddenCounts: { hero: counts, 'hero-ally': counts }, deferRecovery: true },
+    rng,
+  )
+
+  expect(report.levelUps).toMatchObject([
+    { characterId: 'hero', from: 1, to: 2, after: { hp: 110, maxHP: 110, mp: 38, maxMP: 38 } },
+  ])
+  expect(report.hiddenUps).toEqual([
+    { characterId: 'hero', stat: 'maxHP', delta: 1 },
+    { characterId: 'hero', stat: 'maxMP', delta: 1 },
+    { characterId: 'hero-ally', stat: 'maxHP', delta: 1 },
+    { characterId: 'hero-ally', stat: 'maxMP', delta: 1 },
+  ])
+  expect(leveled).toMatchObject({ level: 2, hp: 111, maxHP: 111, mp: 39, maxMP: 39 })
+  expect(hiddenOnly).toMatchObject({ level: 1, hp: 40, maxHP: 101, mp: 10, maxMP: 31 })
+  expect(rng).toHaveBeenCalledTimes(10)
+
+  recoverBattleParty([leveled, hiddenOnly])
+  expect(leveled).toMatchObject({ hp: 111, mp: 39 })
+  expect(hiddenOnly).toMatchObject({ hp: 70, mp: 20 })
 })
 
 test('hidden exp floors before doubling and preserves existing pools without input-count mutation', () => {

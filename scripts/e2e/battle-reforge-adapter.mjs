@@ -334,16 +334,26 @@ const harness = {
         ? action.targetAllyIdx
         : slot
     let inaction = !action ? 'incapacitated' : undefined
+    let scriptedPass
     if (action?.kind === 'pass') {
       const unit = (isEnemy ? state.enemies : state.players)[slot]
       const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
       const cooperative = !isEnemy && state.coopThisTurn
       const confused = unit.status.confused > 0
-      invariant(
-        unit.hp > 0 && (disabled || cooperative || confused),
-        'Q2 Reforge pass lacks a native reason',
-      )
-      inaction = disabled ? 'incapacitated' : cooperative ? 'cooperative-action' : 'confusion'
+      if (disabled) inaction = 'incapacitated'
+      else if (cooperative) inaction = 'cooperative-action'
+      else if (confused) inaction = 'confusion'
+      else if (
+        isEnemy &&
+        !unit.def.ai.rules?.length &&
+        unit.fallback?.action.kind === 'pass' &&
+        unit.fallback.chancePercent === 100 &&
+        beforeAction.players.some(({ hp }) => hp > 0)
+      ) {
+        inaction = 'scripted-pass'
+        scriptedPass = { fallback: clone(unit.fallback) }
+      }
+      invariant(unit.hp > 0 && inaction, 'Q2 Reforge pass lacks a native reason')
     }
     const executed = action
       ? semanticAction(slot, action)
@@ -366,6 +376,7 @@ const harness = {
         lastAction: action ? JSON.parse(JSON.stringify(action)) : null,
         actionLog: state.log.slice(beforeLog),
         ...(inaction ? { inaction } : {}),
+        ...(scriptedPass ? { scriptedPass } : {}),
         ...(!isEnemy
           ? {
               growthBefore: beforeGrowth[slot],
