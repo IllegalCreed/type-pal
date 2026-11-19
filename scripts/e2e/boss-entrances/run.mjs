@@ -258,6 +258,7 @@ async function makeGameFixture(page, baseURL, until) {
     gs.wScreenWave = source.preludeWave.level
     gs.sWaveProgression = source.preludeWave.progression
   }
+  if (source.preludePartyLayer !== undefined) assert.equal(gs.wLayer, source.preludePartyLayer * 8)
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
   if (scenario === 'fox') {
@@ -310,6 +311,8 @@ async function makeReforgeFixture() {
     world.script.vars['sys:screenWave'] = source.preludeWave.level
     world.script.vars['sys:waveProgression'] = source.preludeWave.progression
   }
+  if (source.preludePartyLayer !== undefined)
+    world.script.vars['sys:partyLayer'] = source.preludePartyLayer
   if (source.setup) {
     world.script.entityState[spec.scene] = {}
     world.script.entityPos ??= {}

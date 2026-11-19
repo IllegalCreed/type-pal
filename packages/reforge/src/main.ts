@@ -423,9 +423,6 @@ export async function bootGame(
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
   let authoredPartyFacing: { owner: ActiveScriptRunner; facing: Facing } | null = null
-  // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
-  // sort/cover；换场景由 sdlpal 真值清零。
-  let partyLayer = 0
   let walking = false
   let stepFrame = 0 // 0..3 走帧相位(步进节拍 = advanceMoves 的全局世界拍)
   // ── E7 跟随者定位(party[1..N])──────────────────────────────────────────
@@ -1006,7 +1003,7 @@ export async function bootGame(
     facing = plan.spawn.facing
     authoredPartyFacing = null
     worldPresentation.clearPartyPoses()
-    partyLayer = 0
+    delete canonicalScript.vars['sys:partyLayer']
     walking = false
     stepFrame = 0
     // 定点落位按朝向铺满新轨迹。原地切场沿用来源队形和之前的脚迹。
@@ -3127,7 +3124,8 @@ export async function bootGame(
     nudgeParty: (dx, dy, layer, nextFacing) => {
       takeByScript('party')
       // 0x6E 第三操作数是覆盖写，不是增量；layer=0 也必须清掉上一段演出的层。
-      partyLayer = layer
+      if (layer === 0) delete canonicalScript.vars['sys:partyLayer']
+      else canonicalScript.vars['sys:partyLayer'] = layer
       const departure = facing
       if (nextFacing !== undefined && nextFacing !== facing) {
         const settled = settleWalkAnimation({ walking, stepFrame })
@@ -6019,7 +6017,10 @@ export async function bootGame(
     replaceWorld(candidate)
     sceneRuntimeStates = structuredClone(payload.sceneRuntime)
     screenShake.start(0, 4)
+    const restoredPartyLayer = canonicalScript.vars['sys:partyLayer']
     commitSceneSwitch(plan, world, false, restoreActions)
+    if (restoredPartyLayer !== undefined)
+      canonicalScript.vars['sys:partyLayer'] = restoredPartyLayer
     syncRuntimeScriptScratch(activeScene.scene.id)
     refreshCurrentCanonicalBindings()
     syncAmbience() // W6:读档瞬时还原氛围(夜档回夜;旧档缺省昼),不播过渡
@@ -6202,6 +6203,7 @@ export async function bootGame(
         authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
           ? authoredPartyFacing.facing
           : facing
+      const partyLayer = canonicalScript.vars['sys:partyLayer'] ?? 0
       const awareness = world.hostileAwareness
       const repelWalkPhase =
         awareness?.rangeMultiplier === 0 && awareness.remainingMs > 0

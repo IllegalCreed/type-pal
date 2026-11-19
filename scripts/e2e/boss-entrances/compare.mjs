@@ -370,6 +370,16 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
     if (issue) issues.push({ rule, ...issue })
   }
   const world = events.filter(({ kind }) => kind === 'world-drawn')
+  if (source.preludePartyLayer !== undefined) {
+    const drawn = world.filter(
+      ({ scene, order }) => scene === spec.scene && trigger.order < order && order < control.order,
+    )
+    check(
+      'actual party layer in the restored blood pool',
+      [source.preludePartyLayer],
+      [...new Set(drawn.map(({ partyLayer }) => partyLayer))],
+    )
+  }
   const firstSpeech = draws.find(
     ({ scene, atMs, slots }) =>
       scene === spec.scene && atMs > trigger.atMs && atMs < launch.atMs && slots.length > 0,
@@ -479,6 +489,11 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
       'all dither steps reached the final screen',
       Array.from({ length: steps + 1 }, (_, step) => step),
       [...new Set(quake.map(({ ditherStep }) => ditherStep))],
+    )
+    check(
+      'reward panel cleared before the dither snapshot',
+      true,
+      quake[0]?.ditherStep === 0 && quake[0].notePlatePixels < 64,
     )
     const start = quake[0]?.atMs
     for (const { atMs, ditherStep, shift, black } of quake) {

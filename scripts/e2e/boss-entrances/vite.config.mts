@@ -255,7 +255,7 @@ ${anchor}`,
         surfaces,
         '        advanceWaveFrame: motion.worldTicksThisFrame > 0,\n      })',
         `      globalThis.__bossForeground?.reforgeWorld(activeScene.scene.id, camera,
-        globalThis.__e2eNpcDrawPasses?.get(sprites))`,
+        globalThis.__e2eNpcDrawPasses?.get(sprites), partyLayer)`,
       )
       const dialog = '      dialogBox.render(performance.now())\n      ctx.restore()\n    }'
       const withDialog = replaceOnce(

@@ -452,6 +452,7 @@ export async function readSources(spec) {
   )
   const preludeStates = {}
   let preludeWave
+  let preludePartyLayer
   if (spec.prelude) {
     const { night, visible, states, trigger, completedAt, wave } = spec.prelude
     if (night !== undefined) {
@@ -486,6 +487,14 @@ export async function readSources(spec) {
         data.canonicalMusicScene.hooks.onEnter.variants.default.flow.stages.at(-1).next.kind,
         'complete',
       )
+      const enter = Number(data.gameScene.onEnterLabel.slice(2))
+      const placement = commands.slice(enter, completedAt).findLast(({ opcode }) => opcode === 0x6e)
+      if (placement) {
+        preludePartyLayer = placement.operands[2]
+        assert(
+          musicBody.some(({ kind, layer }) => kind === 'nudgeParty' && layer === preludePartyLayer),
+        )
+      }
     }
     if (wave !== undefined) {
       const [level, progression] = commands[wave].operands
@@ -672,6 +681,7 @@ export async function readSources(spec) {
     ],
     preludeStates,
     preludeWave,
+    preludePartyLayer,
     outsideActors,
     preludeBefore: Object.fromEntries(
       data.gameScene.eventObjects

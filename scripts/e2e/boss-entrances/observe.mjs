@@ -55,18 +55,31 @@ function installBossForeground({
     if (key === previousComposite) return
     previousComposite = key
     const { width, height } = context.canvas
-    const band = Math.abs(shift) * (width / 320)
+    const scale = width / 320
+    const band = Math.abs(shift) * scale
     const black =
       band > 0 &&
       context
         .getImageData(0, shift > 0 ? 0 : height - band, width, band)
         .data.every((value, index) => index % 4 === 3 || value === 0)
+    let notePlatePixels
+    if (step === 0) {
+      // Sample the Earth Bead scroll panel on the unmodified first dither output.
+      const panel = context.getImageData(112 * scale, 45 * scale, 98 * scale, 9 * scale).data
+      let pale = 0
+      for (let pixel = 0; pixel < panel.length; pixel += 4) {
+        const [r, g, b] = [panel[pixel], panel[pixel + 1], panel[pixel + 2]]
+        if (g >= 105 && b >= 85 && Math.abs(r - g) < 30) pale++
+      }
+      notePlatePixels = Math.round(pale / (scale * scale))
+    }
     observation.event('scene-composite', {
       scene: sceneId,
       ditherStep: step,
       shift,
       requestedShift,
       black,
+      notePlatePixels,
     })
   }
   function commit(frame, context) {
@@ -159,12 +172,13 @@ function installBossForeground({
           actors,
           ambience: gs.nightPalette ? 'night' : 'day',
           changing: !!gs.paletteFadeState,
+          ...(includesParty && { partyLayer: gs.wLayer / 8 }),
         },
         context,
       )
       recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
     },
-    reforgeWorld(sceneId, camera, draws) {
+    reforgeWorld(sceneId, camera, draws, partyLayer) {
       if (sceneId !== scene && sceneId !== handoffScene) return
       const pixels = ([col, row]) => [16 * (col - row), 8 * (col + row)]
       const actors = {}
@@ -189,6 +203,7 @@ function installBossForeground({
         camera: [camera.x, camera.y],
         leader: pixels(draws.party.position),
         actors,
+        ...(includesParty && { partyLayer }),
       }
     },
     reforgeFrame(ambience, tint, changing, context) {

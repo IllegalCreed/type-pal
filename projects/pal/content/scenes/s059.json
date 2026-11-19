@@ -6304,6 +6304,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
