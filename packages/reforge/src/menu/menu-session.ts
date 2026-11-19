@@ -13,6 +13,7 @@ import {
   equipBackToList,
   equipConfirmItem,
   equipMoveCursor,
+  equipMoveRole,
   openEquipMenu,
 } from '../equip-menu-state.js'
 import {
@@ -287,10 +288,13 @@ export class MenuSession {
     const project = this.content
 
     if (this.#equipMenu.phase === 'pick-role') {
-      // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
-      if (interact) {
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+        this.#equipMenu = equipMoveRole(this.#equipMenu, world, -1)
+      } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
+        this.#equipMenu = equipMoveRole(this.#equipMenu, world, 1)
+      } else if (interact) {
         const r = equipApply(this.#equipMenu, world, project.items)
-        this.ports.replaceWorld(r.world)
+        if (r.world !== world) this.ports.replaceWorld(r.world)
         this.#equipMenu = r.state
       } else if (esc) {
         this.#equipMenu = equipBackToList(this.#equipMenu, world, project.items)
