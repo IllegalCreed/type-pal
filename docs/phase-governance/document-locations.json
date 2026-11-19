@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "fd78fd0c6cfbb610c19ae2576f80c45e4996bb4b09cd0fcf01caec907ec969d9",
+      "afterSha256": "d2d73bd0a43d45c7b8de6e5b96bb1f6e3551d270ed00bdcd539f8e8ebb16976a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 102,
+        "reviewedLines": 103,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e16afbcb679d8a40a72a06b58b809efe2a9a3bcdb39ba3ac22b58de5642d192f",
+      "afterSha256": "50f2e6c578cde1933dd538fdf9c10730a06a5b8a98dd23f9714086ab7a5b2911",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 995,
+        "reviewedLines": 997,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5457,13 +5457,13 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8503ebbf05fa6d8c9f48f02824e54f724ad0ce25a8205eb4799e3af089b398f2",
+      "afterSha256": "5888f2b65086246fa6ad0218e47c23b10ce02b30707538ab4d573ea281eff457",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1364,
+        "reviewedLines": 1366,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
@@ -6327,6 +6327,12 @@
       "bytes": 34797925,
       "sha256": "5a6041fc4ab70d139a0e7ab265f9fbb584a9d8c0d451500b17942e1f0665c2f2",
       "purpose": "106 件装备的逐件装卸、同槽替换、双人选人、原速带声分屏及身法负值的原生证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-appearance-20261119.tar.gz",
+      "bytes": 24818970,
+      "sha256": "65e92ac1aa8d2c4e3c1fae625c6c74646c4c77d47f239ebda22384c80d0f9af7",
+      "purpose": "装备选人页木纹与卷轴外阴影的旧版反例、修后双端实跑、像素回执与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
