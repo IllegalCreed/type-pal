@@ -291,12 +291,8 @@ function checkThiefForeground(events, draws, { trigger, launch, won, control }, 
     [57, -23, 0],
     ...Array.from({ length: 11 }, (_, step) => [58, -22 + step, 0]),
   ]
-  const frames = events.filter(
-    ({ kind, surface, order }) =>
-      kind === 'paint' && surface === 'world' && order > won.order && order < control.order,
-  )
-  const formations = leaderRoute.map((position) => {
-    const frame = frames.find((entry) => isDeepStrictEqual(entry.position, position))
+  const paints = events.filter(({ kind, surface }) => kind === 'paint' && surface === 'world')
+  function formationAt(frame, reason) {
     const party = frame?.geometry?.party
       .slice()
       .sort((a, b) => a.slot - b.slot)
@@ -312,17 +308,27 @@ function checkThiefForeground(events, draws, { trigger, launch, won, control }, 
     expect(
       party?.length === 2 &&
         party.every(({ frame, sprite }) => Number.isInteger(frame) && Number.isInteger(sprite)),
-      'both party sprites at the actual route footstep',
-      { position, party },
+      reason,
+      { position: frame?.position, party },
     )
     return party ?? null
-  })
+  }
+  const arrival = paints.find(({ order }) => order > trigger.order && order < launch.order)
+  const contactFormation = formationAt(arrival, 'both party sprites on the first contact frame')
+  const afterVictory = paints.filter(({ order }) => order > won.order && order < control.order)
+  const formations = leaderRoute.map((position) =>
+    formationAt(
+      afterVictory.find((entry) => isDeepStrictEqual(entry.position, position)),
+      'both party sprites at the actual route footstep',
+    ),
+  )
   return {
     issues,
     paletteMs,
     painted,
     positions,
     formations,
+    contactFormation,
     jumpMs: jump[0]?.atMs,
     hiddenMs: hidden?.atMs,
   }
@@ -836,7 +842,13 @@ async function inspect(path, engine) {
     rng: find('rng').map(({ value }) => value),
     drops: drops.map(({ id, value }) => ({ id, value })),
     sounds: soundIds,
-    ...(foreground ? { visibleChase: foreground.positions, formation: foreground.formations } : {}),
+    ...(foreground
+      ? {
+          contactFormation: foreground.contactFormation,
+          visibleChase: foreground.positions,
+          formation: foreground.formations,
+        }
+      : {}),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,

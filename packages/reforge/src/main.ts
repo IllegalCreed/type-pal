@@ -5308,6 +5308,7 @@ export async function bootGame(
     // 一阶段 DLc / sdlpal play.c:120-148:剧情接管即走非行走姿势更新。
     // touch 触发发生在本次落步之后；若不在这里归位，runner/dialog 会吞掉后续
     // 探索 tick，walking=true 将让队长整段剧情冻结在迈步帧。
+    if (walking) deriveFollowers()
     const settledWalk = settleWalkAnimation({ walking, stepFrame })
     walking = settledWalk.walking
     stepFrame = settledWalk.stepFrame

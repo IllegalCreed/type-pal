@@ -69,7 +69,7 @@ onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备
 
 多帧 `cameraPan` 的步数以探索帧为单位。首个合格运行帧推进第一步，后续每到 100 毫秒推进一步，帧间延迟时依次经过中间位置。指令完成后继续正文。换镜、淡入等段落需要清除旧对白时，作者在相应时点显式使用 `clearDialog`。实际镜头终点、时长和转场对白层分别核对。实现和池塘正反例见[镜头推进](../../../packages/reforge/src/world-camera.ts)及 [009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)。
 
-剧情 `moveParty` 记录每次离开原位置时的队长朝向。最后一拍先落实跟随者坐标，再切到站姿，使接下来的对白延续该站位。 [扬州逐页实绘](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
+剧情 `moveParty` 记录每次离开原位置时的队长朝向。最后一拍先落实跟随者坐标，再切到站姿。玩家落步后触发脚本时也先落实这一步的跟随者坐标，首张接触画面延续该队形。 [扬州逐页实绘](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
 
 普通明雷在世界拍开始时统一以小于 1.5 格判定接敌。拍后检查仍以贴脸为准，并让玩家最终落点触发优先。引擎自动追逐每个合格世界拍按 `min(speed / 8, 1)` 格推进，感知距离严格小于作者设置的追逐范围。脚本追逐按自己的命令节拍和接触认领执行。采用 `static` 布局的无方向多帧精灵在引擎追逐实际落步时推进步态，站定归回静止绘制。实际对照见 [007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)。
 

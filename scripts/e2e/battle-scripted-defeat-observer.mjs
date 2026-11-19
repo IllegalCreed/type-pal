@@ -276,7 +276,7 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
       ...(foreground ? { resources: resources() } : {}),
     }),
     beginWorldDraw(camera, walking, trail) {
-      if (!contact || !ended) return
+      if (!foreground && (!contact || !ended)) return
       worldGeometry = {
         camera: [camera.x, camera.y],
         walking,
@@ -299,7 +299,8 @@ function install({ engine, scene, gameScene, owner, seed, foreground }, makeRng,
       })
     },
     tagReforgePartyDraw(sprite, id, slot, spriteId, frame) {
-      if (contact && ended) reforgePartySprites.set(sprite, { id, slot, spriteId, frame })
+      if (foreground || (contact && ended))
+        reforgePartySprites.set(sprite, { id, slot, spriteId, frame })
     },
     reforgeCamera(camera) {
       if (worldGeometry) worldGeometry.camera = [camera.x, camera.y]
