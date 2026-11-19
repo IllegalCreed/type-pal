@@ -59,7 +59,7 @@ const observe = bossObserver({
   scene: spec.scene,
   gameScene: gameScene(spec),
   owner: spec.owner,
-  watched: spec.watched,
+  watched: [...(spec.watched ?? []), ...Object.keys(source.tomb?.arrivalActors ?? {})],
   contactActors: Object.entries(source.setup ?? {})
     .filter(([, actor]) => actor.triggerIp)
     .map(([id]) => id),
@@ -693,11 +693,11 @@ await runBrowserJourney({
             'authored successor music actually starts',
           )
         }
-        if (capture.enabled) {
-          await page.waitForFunction(
-            (atMs) => performance.now() >= atMs + 750,
-            result.returned.atMs,
-          )
+        if (capture.enabled || source.tomb?.arrival) {
+          await page.waitForFunction(({ atMs, duration }) => performance.now() >= atMs + duration, {
+            atMs: result.returned.atMs,
+            duration: source.tomb?.arrival ? 2250 : 750,
+          })
         }
         await capture.finish(page, {
           event: handoff ? 'world-boss-scene-handoff' : 'world-boss-scripted-return',

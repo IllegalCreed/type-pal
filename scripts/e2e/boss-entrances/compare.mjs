@@ -432,6 +432,7 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
   )
     issues.push({ rule: 'speech must follow the full reveal', actual: visibleBeforeSpeech })
 
+  const arrival = []
   if (original.arrival) {
     const lead = control.party?.map(({ id, spriteId, frame, world }) => ({
       id,
@@ -444,6 +445,44 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
       [{ id: 'li-xiaoyao', ...original.arrival, world: control.leader }],
       lead,
     )
+    const successorFrames = world.filter(
+      ({ scene, atMs }) => scene === handoff.scene && atMs >= control.atMs,
+    )
+    for (const [actor, { asset, position, frame, facing: direction, turns }] of Object.entries(
+      original.arrivalActors,
+    )) {
+      const poses = []
+      for (const sample of successorFrames) {
+        const draw = sample.actors[actor]
+        if (!draw) continue
+        const { atMs } = sample
+        const pose = {
+          asset: draw.asset,
+          position: draw.position,
+          frame: draw.frame,
+          facing: draw.facing,
+        }
+        if (isDeepStrictEqual(poses.at(-1)?.pose, pose)) continue
+        poses.push({ atMs, pose, resource: draw.resource })
+      }
+      const expected = [{ ms: 0, frame, facing: direction }, ...turns]
+      check(
+        `returned actor ${actor} pose sequence`,
+        expected.map(({ frame, facing }) => ({ asset, position, frame, facing })),
+        poses.map(({ pose }) => pose),
+      )
+      for (const [index, { atMs }] of poses.entries()) {
+        const actual = atMs - control.atMs
+        if (expected[index] && Math.abs(actual - expected[index].ms) > 65)
+          issues.push({
+            rule: `returned actor ${actor} turn time`,
+            step: index,
+            expected: expected[index].ms,
+            actual,
+          })
+      }
+      arrival.push({ actor, poses })
+    }
     const falseReturn = world.find(
       ({ order, scene, colors, visible }) =>
         scene === spec.scene &&
@@ -548,7 +587,7 @@ function checkTombPresentation({ events, resources }, draws, { trigger, launch, 
     const { width, height, pixels, opaque } = rawSprites.get(resource)
     return sha256(JSON.stringify([width, height, pixels, opaque]))
   })
-  return { issues, rise, intervals, firstSpeech, rewardMs, quake, dialogue, pixels }
+  return { issues, rise, intervals, firstSpeech, arrival, rewardMs, quake, dialogue, pixels }
 }
 
 function checkRingPresentation(

@@ -545,6 +545,7 @@ test('actual transformed restore reads committed World before real auto call, no
       'utf8',
     ),
     world = { money: 0 },
+    canonicalScript = { vars: {} },
     activeScene = { scene: { id: 's000', entities: [] }, entitySpriteDefs: new Map() },
     player = { pos: { col: 0, row: 0, height: 0 } },
     h = observer(),
@@ -568,6 +569,7 @@ test('actual transformed restore reads committed World before real auto call, no
     frames: { now: 0 },
     globalThis: h,
     world,
+    canonicalScript,
     activeScene,
     player,
     facing: 'down',
@@ -590,11 +592,14 @@ test('actual transformed restore reads committed World before real auto call, no
     replaceWorld: (value) => {
       for (const key of Object.keys(world)) delete world[key]
       Object.assign(world, structuredClone(value))
+      Object.assign(canonicalScript, world.script)
+      world.script = canonicalScript
       // A deliberately wrong production commit must remain observable rather than be replaced by p.
       world.money = 499
       calls.push('world')
     },
     commitSceneSwitch: () => {
+      delete canonicalScript.vars['sys:partyLayer']
       activeScene.scene.id = 's003'
       player.pos = structuredClone(payload.position.pos)
       calls.push('scene')

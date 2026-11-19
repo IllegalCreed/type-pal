@@ -742,12 +742,38 @@ function tombSource(data, commands, spec, owner) {
     ? flow.filter(({ opcode }) => opcode === 0x09).at(-1).operands[0] * 100
     : beforeBattle.find(({ opcode }) => opcode === 0x09).operands[0] * 100
   let arrival
+  const arrivalActors = {}
   if (isGeneral) {
     const address = Number(data.diskHandoffScene.onEnterLabel.slice(2))
     const [sprite, party, facing] = commands.slice(address + 1, address + 4)
     assert.deepEqual([sprite.opcode, party.opcode, facing.opcode], [0x65, 0x75, 0x15])
     assert.deepEqual(party.operands, [1, 0, 0])
     arrival = { sprite: sprite.operands[1], frame: facing.operands[0] * 3 + facing.operands[1] }
+    const facings = ['down', 'left', 'up', 'right']
+    for (const actor of data.diskHandoffScene.eventObjects) {
+      const { id, spriteNum, x, y, direction, nSpriteFrames, currentFrameNum } = actor
+      assert.equal(actor.sState, 1)
+      assert.equal(nSpriteFrames, 1)
+      let ticks = 0
+      const turns = []
+      for (let ip = Number(actor.autoLabel.slice(2)); commands[ip].op !== 'end'; ip++) {
+        const { opcode, operands } = commands[ip]
+        if (opcode === 0x09) ticks += operands[0] || 1
+        else {
+          assert.equal(opcode, 0x0f)
+          assert.equal(operands[1], 0)
+          turns.push({ ms: ticks * 100, frame: operands[0], facing: facings[operands[0]] })
+          ticks++
+        }
+      }
+      arrivalActors[`e${id}`] = {
+        asset: spriteNum,
+        position: [x, y],
+        frame: direction * nSpriteFrames + currentFrameNum,
+        facing: facings[direction],
+        turns,
+      }
+    }
   }
   const afterBattle = commands.slice(spec.disk.battle + 1, spec.disk.last + 1)
   const quakeAt = afterBattle.findIndex(({ opcode }) => opcode === 0x35)
@@ -771,6 +797,7 @@ function tombSource(data, commands, spec, owner) {
     intervals: steps.map(({ operands }) => (operands[0] + (isGeneral ? 0 : 1)) * 100),
     beforeTalkMs,
     arrival,
+    arrivalActors,
     quake,
     reward: spec.disk.reward && commands[spec.disk.reward + 2].text,
   }
