@@ -52,6 +52,7 @@ import {
   isTestingBattleSummonSource,
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
+  isTestingWorldAwarenessSource,
   isTestingWorldItemTargetSource,
   restoreTestingBattleActionCadenceSourceBindings,
   restoreTestingBattleCasualtyRosterSourceBindings,
@@ -82,6 +83,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingWorldAwarenessSourceBindings,
   restoreTestingWorldItemTargetSourceBindings,
   testingBattleActionCadencePublicationBase,
   testingBattleCasualtyRosterPublicationBase,
@@ -129,6 +131,7 @@ import {
   testingBattleWindBlowPublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingWorldAwarenessPublicationBase,
   testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
 import {
@@ -814,8 +817,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     worldItemTargetRevision && gitTree(root, worldItemTargetRevision, [])
   const preWorldItemTarget =
     worldItemTargetSource && gitTree(root, testingWorldItemTargetPublicationBase, [])
-  const readBeforeWorldItemTarget = (path) => {
+  const worldAwarenessRevision = admission.testingWorldAwarenessSourceRevision
+  if (worldAwarenessRevision !== undefined)
+    assert(
+      worldItemTargetSource && /^[a-f0-9]{40}$/u.test(worldAwarenessRevision),
+      'world incense source bridge requires the fixed preceding item target revision',
+    )
+  const worldAwarenessSource = worldAwarenessRevision && gitTree(root, worldAwarenessRevision, [])
+  const preWorldAwareness =
+    worldAwarenessSource && gitTree(root, testingWorldAwarenessPublicationBase, [])
+  const readBeforeWorldAwareness = (path) => {
     const live = readSource(path)
+    if (!preWorldAwareness || !isTestingWorldAwarenessSource(path)) return live
+    assert(
+      live?.equals(worldAwarenessSource.read(path)),
+      'world incense source differs from the frozen candidate',
+    )
+    return preWorldAwareness.read(path)
+  }
+  const readBeforeWorldItemTarget = (path) => {
+    const live = readBeforeWorldAwareness(path)
     if (!preWorldItemTarget || !isTestingWorldItemTargetSource(path)) return live
     assert(
       live?.equals(worldItemTargetSource.read(path)),
@@ -1022,13 +1043,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorWorldItemTarget = preWorldItemTarget
-      ? restoreTestingWorldItemTargetSourceBindings(path, bytes, {
+    const priorWorldAwareness = preWorldAwareness
+      ? restoreTestingWorldAwarenessSourceBindings(path, bytes, {
           readSource,
+          readBase: preWorldAwareness.read,
+          readFixed: worldAwarenessSource.read,
+        })
+      : bytes
+    const priorWorldItemTarget = preWorldItemTarget
+      ? restoreTestingWorldItemTargetSourceBindings(path, priorWorldAwareness, {
+          readSource: readBeforeWorldAwareness,
           readBase: preWorldItemTarget.read,
           readFixed: worldItemTargetSource.read,
         })
-      : bytes
+      : priorWorldAwareness
     const priorPoisonNarration = prePoisonNarration
       ? restoreTestingBattlePoisonNarrationSourceBindings(path, priorWorldItemTarget, {
           readSource: readBeforeWorldItemTarget,

@@ -14,7 +14,7 @@
       "lines": "1269-1367",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+      "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -325,6 +325,22 @@
         }
       ],
       "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
+    },
+    {
+      "action": "q2-world-incense-source-rebinding",
+      "base": "5e3c1f59de533fa43ceed1ac052c9bcd84f1849b",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1269-1367",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+        }
+      ],
+      "scope": "核感知香候选后的七处现行片段。旧执行、原件、断言和发布身份按原记录。"
     }
   ],
   "_governance": {

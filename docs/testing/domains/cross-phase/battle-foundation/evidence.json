@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5769",
-      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+      "lines": "5784",
+      "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13483,6 +13483,22 @@
         }
       ],
       "scope": "寄生毒把产物卷轴随入账结果交给演出层。全体攻击声明的引用行与固定前驱逐字节相同。"
+    },
+    {
+      "action": "q2-world-incense-source-rebinding",
+      "base": "5e3c1f59de533fa43ceed1ac052c9bcd84f1849b",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5769",
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+        }
+      ],
+      "scope": "核感知香候选后的七处现行片段。旧执行、原件、断言和发布身份按原记录。"
     }
   ],
   "_governance": {

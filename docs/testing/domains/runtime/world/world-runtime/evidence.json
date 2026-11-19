@@ -14,7 +14,7 @@
       "lines": "441-452",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+      "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -25,10 +25,10 @@
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.ts",
-      "lines": "71-88",
+      "lines": "72-89",
       "anchor": "export class WorldScenePresentation",
       "role": "contract",
-      "sha256": "81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2"
+      "sha256": "213eebd6ee915b21baad7403e67ec5f9fb7810203e39cb2f1eafc1f616476b80"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -42,7 +42,7 @@
       "lines": "82-105",
       "anchor": "describe('WorldScenePresentation sprite ownership'",
       "role": "oracle",
-      "sha256": "f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6"
+      "sha256": "2dfb43293476c7f6d468320612871cc1943c81914a8309ec5189894c0a120a25"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/main.ts:441-452",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
-        "packages/reforge/src/world-scene-presentation.ts:71-88",
+        "packages/reforge/src/world-scene-presentation.ts:72-89",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
         "packages/content/src/character.ts:169-171"
@@ -285,6 +285,36 @@
         }
       ],
       "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
+    },
+    {
+      "action": "q2-world-incense-source-rebinding",
+      "base": "5e3c1f59de533fa43ceed1ac052c9bcd84f1849b",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "441-452",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "lines": "71-88",
+          "anchor": "export class WorldScenePresentation",
+          "role": "contract",
+          "sha256": "81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.test.ts",
+          "lines": "82-105",
+          "anchor": "describe('WorldScenePresentation sprite ownership'",
+          "role": "oracle",
+          "sha256": "f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6"
+        }
+      ],
+      "scope": "核感知香候选后的七处现行片段。旧执行、原件、断言和发布身份按原记录。"
     }
   ],
   "_governance": {

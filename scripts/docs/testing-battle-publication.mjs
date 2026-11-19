@@ -1583,6 +1583,60 @@ export function restoreTestingWorldItemTargetSourceBindings(path, bytes, inputs)
   )
 }
 
+export const testingWorldAwarenessPublicationBase = '5e3c1f59de533fa43ceed1ac052c9bcd84f1849b'
+const worldScenePresentation = 'packages/reforge/src/world-scene-presentation.ts'
+const worldScenePresentationTest = 'packages/reforge/src/world-scene-presentation.test.ts'
+const worldAwarenessStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '414-421': '414-421',
+        '455-462': '455-462',
+        '1269-1367': '1269-1367',
+        '441-452': '441-452',
+        5769: '5784',
+      },
+    ],
+    [worldScenePresentation, { '71-88': '72-89' }],
+    [worldScenePresentationTest, { '82-105': '82-105' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingWorldAwarenessPublicationBase,
+  action: 'q2-world-incense-source-rebinding',
+  date: '2026-11-19',
+}
+const worldAwarenessBindings = new Map([
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    {
+      id: 'runtime-world-owners',
+      paths: [reforgeMain, worldScenePresentation, worldScenePresentationTest],
+    },
+  ],
+  [publication.evidence, { id: publication.id, paths: [reforgeMain], artifactClaims: true }],
+])
+
+export const isTestingWorldAwarenessSource = (path) => worldAwarenessStage.ranges.has(path)
+
+export function restoreTestingWorldAwarenessSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    worldAwarenessStage,
+    worldAwarenessBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

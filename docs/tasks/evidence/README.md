@@ -77,6 +77,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 战外复活与中毒致死 | [四件复活药、三个对照局面、原始反例与两条原速带声分屏](E2E-Q2-1-world-revival-and-poison-20261119.tar.gz) |
 | Q2 战外施毒、条件用物与永久成长 | [22 个新入口、三组修前反例、27 段原速带声分屏与复算原件](E2E-Q2-1-world-poison-and-growth-20261119.tar.gz) |
 | Q2 战外解毒、状态与升级道具 | [18 个新入口、盐巴修前反例、21 段原速带声分屏与复算原件](E2E-Q2-1-world-conditions-and-level-20261119.tar.gz) |
+| Q2 战外感知香、炼化与读物 | [十组双端实测、两组原地步态反例及原速带声分屏](E2E-Q2-1-world-incense-alchemy-and-reading-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
