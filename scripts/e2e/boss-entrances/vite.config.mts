@@ -72,6 +72,13 @@ function reforgeDrop(source: string, file: string) {
       ),
     )
   }
+  if (file === 'dialog/dialog-box.ts') {
+    return after(
+      source,
+      '      this.renderNarrationScroll(r, isActive)',
+      '      globalThis.__bossReforgeNarration?.(r.visibleText, Boolean(this.battleVictory))',
+    )
+  }
   if (file === 'script-project-core.ts') {
     const anchor = '      random: this.options.random,'
     return replaceOnce(

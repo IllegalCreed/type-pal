@@ -73,6 +73,9 @@ function installBossFrameObserver(engine) {
       observation.eventOnce(kind, { text })
     }
   }
+  globalThis.__bossReforgeNarration = (text, victoryHeld) => {
+    if (text && victoryHeld && drop) observation.eventOnce('defeated-note-drawn', { text })
+  }
   const seen = new WeakMap()
   const frameKeys = new Map()
   let actor, lastAction

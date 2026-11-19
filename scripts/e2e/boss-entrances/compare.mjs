@@ -5,15 +5,30 @@ import { isDeepStrictEqual } from 'node:util'
 import { sha256 } from '../browser-journey.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
-import { fieldMusic, gameScene, grid, party, readSources, scenarios } from './scenarios.mjs'
+import {
+  departingPosition,
+  gameScene,
+  grid,
+  initialTrack,
+  party,
+  readSources,
+  returnedPosition,
+  scenarios,
+} from './scenarios.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
 const spec = scenarios[scenario]
 assert(
   spec && gamePath && reforgePath && process.argv.length === 5,
-  'usage: node scripts/e2e/boss-entrances/compare.mjs snake|fox GAME_REPORT REFORGE_REPORT',
+  'usage: node scripts/e2e/boss-entrances/compare.mjs SCENARIO GAME_REPORT REFORGE_REPORT',
 )
 const source = await readSources(spec)
+const fieldMusic = initialTrack(spec)
+const returnedAt = returnedPosition(spec)
+const departureAt = departingPosition(spec)
+const approachKey = spec.approach ?? 'ArrowUp'
+const exitKey = spec.world.exit ?? 'ArrowDown'
+const facing = (key) => key.slice('Arrow'.length).toLowerCase()
 const roles = party.map(({ role }) => role)
 const subtitle = (s) => s?.replace(/[\s"“”]/gu, '') ?? ''
 const speaker = (s) => s?.replace(/^spk\./u, '').replace(/∶$/u, '') ?? null
@@ -112,8 +127,8 @@ async function inspect(path, engine) {
   assert.equal(report.inputExecution.status, 'passed')
   assertInputLedger(report.actions, { requireReceipts: true })
   for (const [phase, key] of [
-    ['approach', 'ArrowUp'],
-    ['exit', 'ArrowDown'],
+    ['approach', approachKey],
+    ['exit', exitKey],
   ])
     assert.deepEqual(
       report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
@@ -151,7 +166,7 @@ async function inspect(path, engine) {
     assert.deepEqual(readback.position, {
       sceneId: spec.scene,
       pos: grid(spec.start),
-      facing: 'up',
+      facing: facing(approachKey),
     })
     assert.equal(readback.version, saved.version)
     assert.equal(readback.contentVersion, saved.contentVersion)
@@ -187,8 +202,8 @@ async function inspect(path, engine) {
   assert.deepEqual(
     find('move').map(({ from, to, facing }) => [from, to, facing]),
     [
-      [spec.start, spec.contact, 'up'],
-      [spec.contact, spec.start, 'down'],
+      [spec.start, spec.contact, facing(approachKey)],
+      [returnedAt, departureAt, facing(exitKey)],
     ],
   )
   assert(approach.order < trigger.order)
@@ -244,7 +259,7 @@ async function inspect(path, engine) {
   )
   assert(
     fieldTracks.some(({ order }) => order < trigger.order),
-    'original cave music started before contact',
+    'original field music started before contact',
   )
   assert.equal(music.length, 1)
   assert.equal(music[0].context, 'running')
@@ -288,13 +303,35 @@ async function inspect(path, engine) {
     enemies: Array.from({ length: 5 }, (_, i) => slots[i] ?? null),
   }))
   const enemy = actions.filter(({ side, slot }) => side === 'enemy' && slot === spec.slot)
-  const expectedEnemyActions =
-    spec.slot === 0 ? Array(6).fill('attack') : ['cast', 'cast', 'pass', 'cast']
+  const expectedEnemyActions = {
+    45: Array(6).fill('attack'),
+    44: ['cast', 'cast', 'pass', 'cast'],
+    43: ['cast', 'cast', 'cast', 'attack'],
+  }[spec.team]
   assert.deepEqual(
     enemy.map(({ kind }) => kind),
     expectedEnemyActions,
   )
-  if (spec.slot === 1) {
+  if (spec.team === 43) {
+    assert.deepEqual(
+      enemy.filter(({ kind }) => kind === 'cast').map(({ spell }) => spell),
+      ['317', '317', '317'],
+    )
+    const nudges = script.filter(({ op, ip }) =>
+      game ? [21678, 21680, 21682, 21684].includes(ip) : op === 'nudgeParty',
+    )
+    assert.equal(nudges.length, 4, 'four actual pre-battle nudge commands')
+    assert(nudges.every(({ order }) => order < launch[0].order))
+    assert(
+      events.some(
+        (e) =>
+          e.kind === 'paint' &&
+          e.order < launch[0].order &&
+          e.actors.some(({ id, state }) => id === 'e2347' && state === 1),
+      ),
+    )
+  }
+  if (spec.team === 44) {
     assert.deepEqual(
       enemy.map(({ spell }) => spell),
       ['316', '303', null, '316'],
@@ -328,14 +365,20 @@ async function inspect(path, engine) {
   const effectSounds = find('sfx-start')
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
   const soundIds = effectSounds.map(({ asset }) => asset)
-  if (spec.slot === 0)
+  if (spec.team === 45)
     assert.equal(
       soundIds.filter((asset) => asset === source.original.attackSound).length,
       enemy.length,
     )
-  else {
+  else if (spec.team === 44) {
     assert(soundIds.includes(source.original.magicSound), 'fox spell sound did not start')
     assert.equal(soundIds.filter((asset) => asset === 212).length, 1, 'fox summon sound count')
+  } else if (spec.team === 43) {
+    assert.equal(soundIds.filter((asset) => asset === 182).length, 1)
+    assert.equal(soundIds.filter((asset) => asset === 502).length, 1)
+    assert.equal(soundIds.filter((asset) => asset === 503).length, 3)
+    const worldCue = effectSounds.find(({ asset }) => asset === 182)
+    assert(trigger.order < worldCue.order && worldCue.order < launch[0].order)
   }
   assert.equal(soundIds.filter((asset) => asset === source.original.deathSound).length, 1)
 
@@ -346,14 +389,18 @@ async function inspect(path, engine) {
   assert.deepEqual([summary.exp, summary.cash], [exp, cash])
   assert(summary.order < won.order)
   assert.equal(won.cash, cash)
-  assert.deepEqual(won.inventory, [], 'story loot must follow the completed battle')
+  assert.deepEqual(
+    won.inventory,
+    game && spec.disk.defeated ? spec.world.inventory : [],
+    'hook inventory at the engine-specific battle completion boundary',
+  )
   const control = once('world-control')
-  assert.deepEqual(control.position, spec.contact)
+  assert.deepEqual(control.position, returnedAt)
   assert(won.order < control.order && control.order < departure.order)
   const last = run.departure.state
   assert.deepEqual(
     [last.scene, last.position, last.ready, last.box, last.battle],
-    [spec.scene, spec.start, true, null, null],
+    [spec.scene, departureAt, true, null, null],
   )
   assert.deepEqual([last.cash, last.inventory], [cash, spec.world.inventory])
   assert.deepEqual(
@@ -363,14 +410,14 @@ async function inspect(path, engine) {
   assert.deepEqual(control.inventory, spec.world.inventory)
   assert(
     fieldTracks.some(({ order }) => order > won.order),
-    'original cave music resumed after victory',
+    'original field music resumed after victory',
   )
   assert.equal(last.music, fieldMusic)
   assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
     assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
-    assert.equal(run.returned.owner.resume, spec.slot === 0 ? spec.disk.last + 1 : null)
+    assert.equal(run.returned.owner.resume, spec.team === 45 ? spec.disk.last + 1 : null)
     assert(script.some(({ ip }) => ip === spec.disk.last))
     if (spec.disk.reward)
       assert.equal(
@@ -379,7 +426,7 @@ async function inspect(path, engine) {
         ).length,
         1,
       )
-  } else if (spec.slot === 0) {
+  } else if (spec.team === 45) {
     const { behavior } = run.returned.owner
     assert.deepEqual(behavior.triggerActivation, {
       kind: 'use',
@@ -391,12 +438,25 @@ async function inspect(path, engine) {
     })
   } else {
     assert.equal(run.returned.owner.hidden, true)
-    assert.equal(
-      script.filter(
-        ({ op, order }) => op === 'giveItem' && order > won.order && order < control.order,
-      ).length,
-      1,
+    if (spec.disk.reward)
+      assert.equal(
+        script.filter(
+          ({ op, order }) => op === 'giveItem' && order > won.order && order < control.order,
+        ).length,
+        1,
+      )
+  }
+  if (spec.disk.defeated) {
+    const begun = once('defeated-script-start')
+    const granted = once('defeated-script-end')
+    const notice = once('defeated-note-drawn')
+    assert.deepEqual([begun.id, granted.id], [spec.enemy, spec.enemy])
+    assert.deepEqual(granted.inventory, spec.world.inventory)
+    assert.equal(subtitle(notice.text), subtitle(source.defeatedNote))
+    assert(
+      summary.order < begun.order && begun.order < notice.order && notice.order < control.order,
     )
+    assert(game ? granted.order < won.order : won.order < begun.order)
   }
   const dialogue = checkDialogue(
     events,
@@ -407,7 +467,7 @@ async function inspect(path, engine) {
   const drops = find('drop-sample')
   assert.deepEqual(
     drops.map(({ slot }) => slot),
-    spec.slot === 0 ? [] : game ? [0, 2, 3, 4] : [0, 1, 2, 3],
+    spec.team === 44 ? (game ? [0, 2, 3, 4] : [0, 1, 2, 3]) : [],
   )
   assert(
     drops.every(({ id, value }) => id === 'enemy-403' && Math.floor(value * 100) >= 11),
