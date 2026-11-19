@@ -95,6 +95,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 隐龙窟两战与黑蜘蛛 | [三场起战到返场的原件和原速带声分屏](E2E-Q2-1-boss-entrances-20261119.tar.gz) · [隐龙窟原生录制](E2E-Q2-1-hidden-dragon-bosses-native-20261119.tar.gz) · [黑蜘蛛原生录制](E2E-Q2-1-black-spider-boss-native-20261119.tar.gz) |
 | Q2 六神丹医馆回场 | [双端实际用物、第一次可见画面与原速带声分屏](E2E-Q2-1-clinic-first-visible-20261119.tar.gz) |
 | Q2 捕兽夹与芦苇漂 | [双端四个放置局面、旧提示反例和原速带声分屏](E2E-Q2-1-world-item-placement-20261119.tar.gz) |
+| Q2 圣灵珠与五灵珠祭坛 | [双端实际摆珠、首帧反例和原速带声分屏](E2E-Q2-1-altar-bead-chain-20261119.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
