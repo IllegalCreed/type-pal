@@ -114,6 +114,52 @@ function checkDialogue(events, before, after, game) {
   return { pre, post }
 }
 
+function checkSpiderForeground(events, trigger, cue, launch) {
+  const paint = events.filter(
+    ({ kind, order, surface }) =>
+      kind === 'paint' && surface === 'world' && order > trigger.order && order < launch.order,
+  )
+  const warning = paint.find(
+    ({ box }) => box?.text === '月如～小心！' && box.phase.startsWith('waiting'),
+  )
+  assert(warning && warning.order < cue.order, 'the warning was painted before 182 started')
+  const [col, row, height] = spec.contact
+  const movement = [0.5, 1, 1.5, 2].map((delta) => {
+    const frame = paint.find(
+      (event) =>
+        event.order > cue.order && isDeepStrictEqual(event.position, [col + delta, row, height]),
+    )
+    assert(frame, `missing painted spider nudge ${delta} cells from contact`)
+    return frame
+  })
+  const speech = paint.find(
+    ({ box, order }) => order > movement.at(-1).order && speaker(box?.speaker) === '黑蜘蛛',
+  )
+  assert(speech, 'missing the spider dialogue after the fourth nudge')
+  const observed = [cue, ...movement, speech]
+  assert(observed.slice(1).every((event, i) => event.order > observed[i].order))
+  const intervals = observed.slice(1).map((event, i) => event.atMs - observed[i].atMs)
+  const expected = [400, 100, 100, 100, 200]
+  const samplingTolerance = [90, 44, 44, 44, 60]
+  for (const [i, duration] of intervals.entries()) {
+    assert(
+      Math.abs(duration - expected[i]) <= samplingTolerance[i],
+      `Black Spider foreground beat ${i + 1}: ${duration.toFixed(1)} ms, original ${expected[i]} ms`,
+    )
+  }
+  return {
+    intervalsMs: intervals,
+    soundAtMs: cue.atMs,
+    movement: movement.map(({ atMs, position, actors }) => ({
+      atMs,
+      position,
+      spiderPosition: actors.find(({ id }) => id === 'e2347')?.position,
+    })),
+    speechAtMs: speech.atMs,
+    speechSpiderPosition: speech.actors.find(({ id }) => id === 'e2347')?.position,
+  }
+}
+
 async function inspect(path, engine) {
   const bytes = await readFile(path)
   const report = JSON.parse(bytes)
@@ -365,6 +411,7 @@ async function inspect(path, engine) {
   const effectSounds = find('sfx-start')
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
   const soundIds = effectSounds.map(({ asset }) => asset)
+  let spiderForeground
   if (spec.team === 45)
     assert.equal(
       soundIds.filter((asset) => asset === source.original.attackSound).length,
@@ -379,6 +426,7 @@ async function inspect(path, engine) {
     assert.equal(soundIds.filter((asset) => asset === 503).length, 3)
     const worldCue = effectSounds.find(({ asset }) => asset === 182)
     assert(trigger.order < worldCue.order && worldCue.order < launch[0].order)
+    spiderForeground = checkSpiderForeground(events, trigger, worldCue, launch[0])
   }
   assert.equal(soundIds.filter((asset) => asset === source.original.deathSound).length, 1)
 
@@ -499,6 +547,7 @@ async function inspect(path, engine) {
     sourceHashes: report.dependencies.hashes,
     warnings: report.warnings,
     dialogue,
+    spiderForeground,
     clips: { contactMs: trigger.atMs, returnMs: control.atMs, exitMs: departure.atMs },
     audioTiming: {
       cueAfterRevealMs: music[0].atMs - entry.atMs,
