@@ -83,7 +83,9 @@ export function instrumentOpeningCausalTrace(code, file) {
                         ['startScript', 'runDetachedScriptChain'].includes(owner),
                       )
                     ? 'script-end'
-                    : null
+                    : owners.includes('inputPorts') && owners.includes('dismissOnKey')
+                      ? 'item-placement-key'
+                      : null
       assert(reason, `unknown dialogue clear caller: ${owners.join('/')}`)
       add(
         'dialog-clear-caller',
@@ -638,7 +640,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                         }
                       : file.endsWith('/main.ts')
                         ? {
-                            'dialog-clear-caller': 8,
+                            'dialog-clear-caller': 9,
                             'dialog-portrait-start': 1,
                             'dialog-portrait-end': 1,
                             'lifecycle-snapshot': 1,
