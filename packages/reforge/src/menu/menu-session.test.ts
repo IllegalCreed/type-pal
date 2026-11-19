@@ -68,6 +68,7 @@ test('equipment lists a teammate-only weapon and commits only to the eligible se
   h.items['old-sword'] = { ...sword, equip, id: 'old-sword', name: 'Old Sword' }
   const starting = structuredClone(h.world)
   starting.party[1]!.equipment.weapon = 'old-sword'
+  const before = structuredClone(starting)
   h.ports.replaceWorld(starting)
   h.ports.replaceWorld.mockClear()
 
@@ -80,7 +81,7 @@ test('equipment lists a teammate-only weapon and commits only to the eligible se
     selectedItemId: 'sword',
   })
   expect(h.ports.replaceWorld).not.toHaveBeenCalled()
-  expect(h.world).toEqual(starting)
+  expect(h.world).toEqual(before)
 
   h.press('ArrowUp', 'Enter')
   expect(h.world.party.map(({ equipment }) => equipment.weapon)).toEqual([undefined, 'sword'])

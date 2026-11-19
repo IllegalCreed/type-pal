@@ -154,9 +154,19 @@ const equip = (item, role) => ({ kind: 'equip', item: String(item), role })
 const remove = (item, role) => ({ kind: 'remove', item: String(item), role })
 const sixSlotBefore = [196, 226, 208, 166, 236, 250]
 const sixSlotAfter = [201, 225, 211, 175, 235, 249]
-const profileIds = ['whips', 'six-slots', 'party', ...leaders.map((id) => `catalogue-${id}`)]
+const standaloneProfiles = ['whips', 'six-slots', 'party']
+const catalogueSections = {
+  'head-cloak': ['head', 'cloak'],
+  'body-weapon': ['body', 'weapon'],
+  'feet-accessory': ['feet', 'accessory'],
+}
 export function equipmentScenario(id, catalogue, wrongSlot = false) {
-  assert(profileIds.includes(id), `unknown equipment scenario ${id}`)
+  const [, roleId, section] =
+    /^catalogue-(0|1|2|4)(?:-(head-cloak|body-weapon|feet-accessory))?$/u.exec(id) ?? []
+  assert(
+    standaloneProfiles.includes(id) || roleId !== undefined,
+    `unknown equipment scenario ${id}`,
+  )
   let party, starting, stock, steps, covered
   if (id === 'whips') {
     party = [2]
@@ -183,13 +193,17 @@ export function equipmentScenario(id, catalogue, wrongSlot = false) {
     stock = ['167', '164']
     steps = [equip(167, 2), equip(164, 2)]
   } else {
-    const role = Number(id.split('-')[1])
+    const role = Number(roleId)
     party = [role]
     starting = [emptyGear()]
+    const sectionSlots = section ? catalogueSections[section] : slots
     const assigned = [...catalogue.values()].filter(
-      (item) => leaders.find((lead) => item.roles.includes(lead)) === role,
+      (item) =>
+        sectionSlots.includes(item.slot) &&
+        leaders.find((lead) => item.roles.includes(lead)) === role,
     )
-    const groups = slots.map((slot) => assigned.filter((item) => item.slot === slot))
+    assert(assigned.length > 0, `no legal equipment in ${id}`)
+    const groups = sectionSlots.map((slot) => assigned.filter((item) => item.slot === slot))
     stock = assigned.map(({ id }) => id)
     steps = groups.flatMap((group) => {
       if (!group.length) return []
