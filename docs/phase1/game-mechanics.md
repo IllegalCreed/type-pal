@@ -8,6 +8,10 @@ Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
+## 2026-11-20 桃花林原地驱雾与传送
+
+风灵珠的原盘 `39824` 按场景判断桃花林支路。`39828` 把传送回来后的入口触发改为 `25168`，其后 `39829` 的 0x59 更换场景和重载状态，并清零队伍绘制层。当前队伍世界脚点及轨迹沿用。土灵珠的 `39664` 执行当前出口。无雾地的出口 `25176–25179` 切往相邻场景，明确改队首坐标后淡黑。物品脚本恢复执行 `39665` 的音效 45，再由 `39666` 的 0xA1 聚队。两种战外支路都保留物品。 [切场](../../reference/sdlpal/script.c#L1870-L1883) · [传送](../../reference/sdlpal/script.c#L1554-L1571) · [聚队](../../reference/sdlpal/script.c#L2998) · [双端录像与复算](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-20-桃花林驱雾与传送出口)
+
 ## 2026-11-19 圣灵珠的换镜与淡入
 
 圣灵珠在女娲祭坛的原始指令 39768–39780 先核石碑正面并换物件，随后扣一份。39773 以 0x50 淡黑，39774 用 0x7F 将镜头置于 (960, 944) 并调 `PAL_MakeScene`。有待淡入标志时，该调用在当前镜头绘完后淡入 600 毫秒。随后激活五座珠台、播放 260，再用 0x73 渐变到已激活的景物。第二次淡黑后由 39779 回正并再次触发绘制及淡入。0x7F 的 `[0, 0, 0xFFFF]` 回正变体直接跳过重绘。 [淡出指令](../../reference/sdlpal/script.c#L1775-L1782) · [0x7F 绘制分支](../../reference/sdlpal/script.c#L2292-L2379) · [绘完后的待淡入](../../reference/sdlpal/scene.c#L499-L508) · [当前双端实测](../testing/domains/cross-phase/battle-foundation/report.md#2026-11-19-圣灵珠与五灵珠祭坛)

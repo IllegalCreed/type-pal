@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "416-423",
+      "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+      "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "458-465",
+      "lines": "459-466",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+      "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:416-423",
-        "packages/reforge/src/main.ts:458-465",
+        "packages/reforge/src/main.ts:417-424",
+        "packages/reforge/src/main.ts:459-466",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -494,6 +494,29 @@
         }
       ],
       "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
+    },
+    {
+      "action": "q2-peach-grove-source-rebinding",
+      "base": "b1d046a12de4ec4082a5acbae64be24253881990",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "416-423",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "458-465",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+        }
+      ],
+      "scope": "桃花林沿用来源脚点和常规跟随状态。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
     }
   ],
   "_governance": {

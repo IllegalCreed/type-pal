@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5878",
-      "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+      "lines": "5890",
+      "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13637,6 +13637,22 @@
         }
       ],
       "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
+    },
+    {
+      "action": "q2-peach-grove-source-rebinding",
+      "base": "b1d046a12de4ec4082a5acbae64be24253881990",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5878",
+          "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+        }
+      ],
+      "scope": "桃花林沿用来源脚点和常规跟随状态。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
     }
   ],
   "_governance": {

@@ -1984,6 +1984,40 @@ export function restoreTestingQ2PlacementSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2PeachPublicationBase = 'b1d046a12de4ec4082a5acbae64be24253881990'
+const peachSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '417-424',
+        '458-465': '459-466',
+        '443-455': '444-456',
+        '1291-1389': '1298-1396',
+        5878: '5890',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2PeachPublicationBase,
+  action: 'q2-peach-grove-source-rebinding',
+  date: '2026-11-20',
+}
+const peachSourceBindings = new Map(
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    'domains/runtime/battle/battle-host/evidence.json',
+    'domains/runtime/world/world-runtime/evidence.json',
+    publication.evidence,
+  ].map((path) => [path, placementSourceBindings.get(path)]),
+)
+
+export const isTestingQ2PeachSource = (path) => peachSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PeachSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, peachSourceStage, peachSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
