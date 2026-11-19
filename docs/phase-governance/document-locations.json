@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "5178f834e8e9e70126bbf6ada0ddee9a6f2d532911e6cecd7dc5c5a27cb67d9a",
+      "afterSha256": "e2e37436f97e7e4bb0b45670bbfd6afdbdf8c1aef10d1eef961f65f4dc8f2bca",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 双端原始画布复核",
         "date": "2026-11-19",
-        "conclusion": "增加本轮双端实录及反例的恢复入口。",
-        "reviewedLines": 93,
-        "acceptanceScope": "核压缩包路径、媒体和双端原始轨迹。"
+        "conclusion": "登记末柱红廊外观和像素复验的恢复入口。",
+        "reviewedLines": 94,
+        "acceptanceScope": "核原件清单、原生读档和带声分屏。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "069db93e9f14d7e1f37874880a89664ec1ac049995f50bea413c1421db5eba73",
+      "afterSha256": "3202d7e8d19b3a1fddf8dac10df16dfed9e78c3b662d5fbcc713fcfbdc216145",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 双端原始画布复核",
         "date": "2026-11-19",
-        "conclusion": "核退移轨迹、世界震屏与两段过场的原盘指令。",
-        "reviewedLines": 1894,
-        "acceptanceScope": "复核脚本地址、跟随者偏移、世界节拍及逐帧与淡入规则。"
+        "conclusion": "补录盘龙柱红廊入口的换装和水波。",
+        "reviewedLines": 1896,
+        "acceptanceScope": "核原盘指令、三套精灵的索引及来源色表。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "150006fac63b3bc20ee862de6fa2fd8210d7510aeca36d00cab149e75bd1a92b",
+      "afterSha256": "0b59ee41ae79ebd738bd3def9534dbd93d555354ae3c523598ffd011591ce39b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 双端原始画布复核",
         "date": "2026-11-19",
-        "conclusion": "登记姜清站位与末柱过场的复验。",
-        "reviewedLines": 953,
-        "acceptanceScope": "核两组同局、原速音轨与归档恢复。"
+        "conclusion": "接收末柱红廊外观的双端复验。",
+        "reviewedLines": 957,
+        "acceptanceScope": "核正常进场存档、最终画布、原速分屏及两段过场。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "1185a5d75c368f810311dc6a02b196ae001c2d2e5d1277614813329c5233c0c0",
+      "afterSha256": "899b89af9eadd1b67dec9f778b2af1f4508607a750e54500b3a16320fda1bd8b",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 双端原件与来源复核",
+        "reviewer": "Codex 双端原始画布复核",
         "date": "2026-11-19",
-        "conclusion": "记录两处用户指出的差异和双端实跑结果。",
-        "reviewedLines": 1290,
-        "acceptanceScope": "核同局脚点、震屏节拍、逐帧播毕、入场淡入及原速声道。"
+        "conclusion": "更正末柱红廊的外观验收并登记重录。",
+        "reviewedLines": 1296,
+        "acceptanceScope": "核真实取档、旧造型反例、双端精灵取样以及完整出画。"
       }
     },
     {
@@ -6130,6 +6130,12 @@
       "bytes": 31876999,
       "sha256": "95cd3face8f09b3dfa8b384dc35444c6dc18d548f89186e4b97b30ce8da8e29c",
       "purpose": "姜清同对白镜头脚点、盘龙柱末柱震屏、两段过场末帧的双端反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dragon-pillar-party-appearance-20261119.tar.gz",
+      "bytes": 19517295,
+      "sha256": "7474e985054ee48c265864d18ef4ea6bb76f1cb9de56292ec1745d72d9fbc3f7",
+      "purpose": "末柱红廊三套精灵、标准色表与实际像素、原生及旧测试存档和修正取档后的双端原速带声分屏。"
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz",
