@@ -1,8 +1,7 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { tsImport } from 'tsx/esm/api'
-import { battleFoundationInputSources } from './battle-foundation-scenarios.mjs'
 import { repoRoot } from './browser-journey.mjs'
 
 export const slots = ['head', 'cloak', 'body', 'weapon', 'feet', 'accessory']
@@ -39,19 +38,63 @@ const source = {
   palActors: 'projects/pal/content/actors.json',
   palItems: 'projects/pal/content/items.json',
   palSkills: 'projects/pal/content/skills.json',
+  palManifest: 'projects/pal/manifest.json',
+  assetIndex: 'projects/pal/assets/index.json',
 }
-export async function worldEquipmentSources() {
+export async function worldEquipmentSources(inputs) {
+  const raw = 'data/extracted'
+  const ui = 'packages/reforge/src/engine-chrome/assets/ui'
+  const rawTables = (await readdir(resolve(repoRoot, raw, 'data')))
+    .filter((name) => name.endsWith('.json'))
+    .map((name) => `${raw}/data/${name}`)
+  const authoredTables = Object.values(inputs.palManifest.content)
+    .filter((name) => name.endsWith('.json'))
+    .map((name) => `projects/pal/${name}`)
+  const rawIcons = inputs.gameItems
+    .filter(({ flags }) => flags.equipable)
+    .map(({ bitmap }) => `${raw}/images/items/${String(bitmap).padStart(3, '0')}.png`)
+  const authoredIcons = inputs.palItems
+    .filter(({ equip }) => equip)
+    .map(({ icon }) => `projects/pal/${inputs.assetIndex.assets[icon].path}`)
+  const gameMenuFrames = [
+    ...Array.from({ length: 9 }, (_, i) => i),
+    69,
+    ...Array.from({ length: 10 }, (_, i) => 56 + i),
+  ].map((index) => `${raw}/images/ui/frame-${String(index).padStart(2, '0')}.png`)
+  const reforgeMenuFrames = [
+    ...['box', 'itembox'].flatMap((name) =>
+      Array.from({ length: 9 }, (_, i) => `${name}/frame-0${i}.png`),
+    ),
+    ...Array.from({ length: 10 }, (_, i) => `num-cyan/${i}.png`),
+    'status/bg.png',
+    'cursor/grid.png',
+  ].map((name) => `${ui}/${name}`)
   return [
     ...new Set([
-      ...(await battleFoundationInputSources(repoRoot)),
       ...Object.values(source),
+      ...rawTables,
+      ...authoredTables,
+      ...rawIcons,
+      ...authoredIcons,
+      ...gameMenuFrames,
+      ...reforgeMenuFrames,
+      `${raw}/data/font/glyphs.json`,
+      `${raw}/data/palette/0.json`,
+      `${raw}/data/tilemap/${inputs.gameScene.mapNum}.json`,
+      `${raw}/data/tileset/${inputs.gameScene.mapNum}.rle`,
+      `${raw}/data/ui-sprite/spriteui.json`,
+      `${raw}/events/scene-002.json`,
+      `${raw}/images/battle/bg/001.png`,
+      `${raw}/lookup/words.json`,
+      `${raw}/music/031.mid`,
+      `projects/pal/content/maps/${inputs.reforgeScene.mapId}.json`,
+      'projects/pal/assets/migrated/tilesets/012.rle',
+      'projects/pal/assets/migrated/music/031.mid',
       'packages/game/src/core/battle-role-projection.ts',
       'packages/reforge/src/battle/battle-player-input.ts',
       'packages/content/src/item.ts',
       'reference/sdlpal/uigame.c',
       'reference/sdlpal/script.c',
-      'data/extracted/music/031.mid',
-      'projects/pal/assets/migrated/music/031.mid',
     ]),
   ].sort()
 }

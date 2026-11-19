@@ -175,7 +175,8 @@ for (const judge of ['battle-weapon-world-compare.mjs', 'battle-weapon-world-rul
     git('show', `${judgeRevision}:${file}`),
   )
 }
-const [inputs, sources] = await Promise.all([loadEquipmentInputs(), worldEquipmentSources()])
+const inputs = await loadEquipmentInputs()
+const sources = await worldEquipmentSources(inputs)
 const catalogue = equipmentCatalogue(inputs)
 const gameReport = JSON.parse(await readFile(resolve(gamePath), 'utf8'))
 const scenario = equipmentScenario(gameReport.scenario, catalogue, profile === 'counter')

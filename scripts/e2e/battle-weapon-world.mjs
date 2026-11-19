@@ -292,7 +292,7 @@ await runBrowserJourney({
   arguments: ['--headless', ...(mode === '--capture' ? [mode] : [])],
   viewport: { width: 960, height: 720 },
   journeyTimeoutMs: scenario.id.startsWith('catalogue-') ? 480_000 : 180_000,
-  sources: await worldEquipmentSources(),
+  sources: await worldEquipmentSources(inputs),
   initScripts: [installCommittedRoutePlayback, evidenceObserverScript(installWitness)],
   async journey({ newPage, baseURL, out, report, until, capture }) {
     Object.assign(report, {
