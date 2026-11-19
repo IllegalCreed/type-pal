@@ -4153,6 +4153,7 @@ export function CanonicalHostileOnLoseEditor(props: {
 
 function CanonicalFlowBodyTabs(props: {
   prepare?: readonly AuthorCommand[]
+  bodyDuringFade?: true
   body: readonly AuthorCommand[]
   bodyLabel: string
   context?: CanonicalScriptEditorContext
@@ -4235,7 +4236,7 @@ function CanonicalFlowBodyTabs(props: {
           onClick={() => setTab('body')}
           onKeyDown={onTabKeyDown}
         >
-          脚本正文
+          {props.bodyDuringFade ? '淡入时开始的正文' : '脚本正文'}
           <small>{props.body.length} 条</small>
         </DsButton>
       </div>
@@ -4496,6 +4497,9 @@ function CanonicalStagesFlowEditor(
         <CanonicalFlowBodyTabs
           key={stage.id}
           prepare={stage.entry?.prepare}
+          bodyDuringFade={
+            stage.entry?.reveal.kind === 'fade' ? stage.entry.reveal.withBody : undefined
+          }
           body={stage.body}
           bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
           context={
@@ -4580,6 +4584,30 @@ function CanonicalStagesFlowEditor(
         >
           <div className="canonical-flow-settings-fields">
             {props.renderStepPreview?.(stage.id, () => setDetailsOpen(false))}
+            {stage.entry?.reveal.kind === 'fade' ? (
+              <section className="canonical-flow-setting">
+                <DsCheckbox
+                  size="compact"
+                  label="淡入时开始执行正文"
+                  checked={stage.entry.reveal.withBody === true}
+                  onChange={(event) => {
+                    const enabled = event.target.checked
+                    props.onChange({
+                      ...flow,
+                      stages: flow.stages.map((candidate) => {
+                        const entry = candidate.entry
+                        if (candidate.id !== stage.id || entry?.reveal.kind !== 'fade')
+                          return candidate
+                        const reveal = { ...entry.reveal }
+                        if (enabled) reveal.withBody = true
+                        else delete reveal.withBody
+                        return { ...candidate, entry: { ...entry, reveal } }
+                      }),
+                    })
+                  }}
+                />
+              </section>
+            ) : null}
             <section className="canonical-flow-setting">
               <DsField
                 id={stageNameInputId}

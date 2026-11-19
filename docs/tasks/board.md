@@ -91,6 +91,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
 | E2E-Q2-1 | [正常战斗逐项验收](cards/E2E-Q2-1-battle-foundation.md) | build | 双阶段正常战斗 | 逐条核仙术、道具、装备、敌人、战场及剧情 Boss，复用已验收的双端原件 | Codex / 对账现行目录、补实际入口和回执 |
+| PAL-ENTRY-FADE-1 | [场景淡入与前景正文](cards/PAL-ENTRY-FADE-1.md) | build | Reforge 入场编排 | 剑圣前景走位随雪崖淡入开始 | Codex / 同局双端与预览复验 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 001–010 已分段验收，N6b 同基线复验与用户视觉已收口；010 正式终档为 011 前驱，先推进 Q2 逐项验收 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |

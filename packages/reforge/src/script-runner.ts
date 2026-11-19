@@ -30,6 +30,7 @@ import type {
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import { expectDefined } from './defined.js'
+import { runSceneEntryBody } from './scene-entry-session.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = RuntimeScriptBinding
@@ -488,14 +489,20 @@ export class ScriptRunner {
       if (stage.entry) {
         if (!options.allowSceneEntry)
           throw new Error(`ScriptRunner: ${key} 非 scene onEnter，禁止执行 stage.entry`)
-        if (!this.host.revealSceneEntry)
-          throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
-        await this.run(stage.entry.prepare, [idx, 'entry', 'prepare'])
+        const revealSceneEntry = this.host.revealSceneEntry
+        if (!revealSceneEntry) throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
+        const { prepare, reveal } = stage.entry
+        await this.run(prepare, [idx, 'entry', 'prepare'])
         throwIfAborted(this.signal)
-        await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
-        throwIfAborted(this.signal)
-      }
-      await this.run(stage.body, [idx])
+        await runSceneEntryBody(
+          reveal,
+          () => revealSceneEntry.call(this.host, reveal, this.signal),
+          () => {
+            throwIfAborted(this.signal)
+            return this.run(stage.body, [idx])
+          },
+        )
+      } else await this.run(stage.body, [idx])
       throwIfAborted(this.signal)
       applyStageNext(this.world, key, idx, stage.next)
     } catch (err) {

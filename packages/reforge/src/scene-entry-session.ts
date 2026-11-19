@@ -21,10 +21,32 @@ function sameReveal(left: SceneReveal, right: SceneReveal): boolean {
     case 'dither':
       return right.kind === 'dither' && left.ms === right.ms && left.source === right.source
     case 'fade':
-      return right.kind === 'fade' && left.outMs === right.outMs && left.inMs === right.inMs
+      return (
+        right.kind === 'fade' &&
+        left.outMs === right.outMs &&
+        left.inMs === right.inMs &&
+        left.withBody === right.withBody
+      )
     case 'cut':
       return right.kind === 'cut'
   }
+}
+
+/** A concurrent entry keeps the reveal and foreground body in the same step's lifetime. */
+export async function runSceneEntryBody(
+  reveal: SceneReveal,
+  startReveal: () => Promise<void>,
+  runBody: () => Promise<void>,
+): Promise<void> {
+  const revealing = startReveal()
+  if (reveal.kind !== 'fade' || !reveal.withBody) {
+    await revealing
+    await runBody()
+    return
+  }
+  const [visual, body] = await Promise.allSettled([revealing, Promise.resolve().then(runBody)])
+  if (visual.status === 'rejected') throw visual.reason
+  if (body.status === 'rejected') throw body.reason
 }
 
 /**

@@ -186,7 +186,7 @@ import type {
   StoredAutomaticChaseClaim,
   StoredSavePayload,
 } from './save/types.js'
-import { SceneEntrySession } from './scene-entry-session.js'
+import { type SceneEntryRevealHandle, SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
 import { type PreparedScene, ScenePreparer } from './scene-preparer.js'
@@ -1671,11 +1671,18 @@ export async function bootGame(
     }
   }
 
-  async function hostSceneEntryReveal(reveal: SceneReveal, signal?: AbortSignal): Promise<void> {
+  function hostSceneEntryReveal(reveal: SceneReveal, signal?: AbortSignal): Promise<void> {
     assertRunnerActive(signal, '场景入场呈现所属 runner 已取消')
     const entry = sceneEntrySession.startReveal(activeScene.scene.id, reveal)
     // boot、读档直达或 dev ?scene 没有 previous presented frame：prepare 照跑，呈现直接提交。
-    if (!entry) return
+    return entry ? finishSceneEntryReveal(entry, signal) : Promise.resolve()
+  }
+
+  async function finishSceneEntryReveal(
+    entry: SceneEntryRevealHandle<ImageData>,
+    signal?: AbortSignal,
+  ): Promise<void> {
+    const { reveal } = entry
     try {
       switch (reveal.kind) {
         case 'dither':

@@ -265,7 +265,7 @@ export type WalkSpeed = 'slow' | 'normal' | 'fast' | 'run'
 /** 场景入场把目标世界交给呈现层的唯一提交边界。 */
 export type SceneReveal =
   | { kind: 'dither'; ms: number; source: 'previousPresentedFrame' }
-  | { kind: 'fade'; outMs: number; inMs: number }
+  | { kind: 'fade'; outMs: number; inMs: number; withBody?: true }
   | { kind: 'cut' }
 
 /** 仅 scene onEnter stage 可声明；prepare 在目标画面尚未呈现时执行。 */
@@ -780,23 +780,29 @@ function checkSceneEntry(value: unknown, path: string): void {
     if (safety !== 'safe')
       throw new Error(`${path}.prepare[${index}]: 命令 ${String(kind)} 不允许在隐藏目标画面时执行`)
   }
-  if (typeof entry.reveal !== 'object' || entry.reveal === null || Array.isArray(entry.reveal))
-    throw new Error(`${path}.reveal: 期望对象`)
-  const reveal = entry.reveal as Record<string, unknown>
+  checkSceneReveal(entry.reveal, `${path}.reveal`)
+}
+
+export function checkSceneReveal(value: unknown, path: string): void {
+  if (typeof value !== 'object' || value === null || Array.isArray(value))
+    throw new Error(`${path}: 期望对象`)
+  const reveal = value as Record<string, unknown>
+  if (reveal.withBody !== undefined && (reveal.kind !== 'fade' || reveal.withBody !== true))
+    throw new Error(`${path}.withBody: 仅淡入允许指定 true`)
   switch (reveal.kind) {
     case 'dither':
-      checkNonNegativeFinite(reveal.ms, `${path}.reveal.ms`)
+      checkNonNegativeFinite(reveal.ms, `${path}.ms`)
       if (reveal.source !== 'previousPresentedFrame')
-        throw new Error(`${path}.reveal.source: 期望 previousPresentedFrame`)
+        throw new Error(`${path}.source: 期望 previousPresentedFrame`)
       break
     case 'fade':
-      checkNonNegativeFinite(reveal.outMs, `${path}.reveal.outMs`)
-      checkNonNegativeFinite(reveal.inMs, `${path}.reveal.inMs`)
+      checkNonNegativeFinite(reveal.outMs, `${path}.outMs`)
+      checkNonNegativeFinite(reveal.inMs, `${path}.inMs`)
       break
     case 'cut':
       break
     default:
-      throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
+      throw new Error(`${path}.kind: 期望 dither|fade|cut`)
   }
 }
 

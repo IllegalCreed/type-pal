@@ -11,7 +11,7 @@ import type {
   TeleportOutPresentation,
   WalkSpeed,
 } from './script.js'
-import { SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
+import { checkSceneReveal, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import type { SpriteActionBinding } from './sprite.js'
 
 export type PageId = string
@@ -938,9 +938,7 @@ function checkSceneEntry(value: unknown, path: string, options: CommandValidatio
     loopDepth: 0,
     loopAncestors: undefined,
   })
-  const reveal = record(entry.reveal, `${path}.reveal`)
-  if (reveal.kind !== 'dither' && reveal.kind !== 'fade' && reveal.kind !== 'cut')
-    throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
+  checkSceneReveal(entry.reveal, `${path}.reveal`)
 }
 
 export interface CheckBaseScriptFlowOptions extends CommandValidationOptions {

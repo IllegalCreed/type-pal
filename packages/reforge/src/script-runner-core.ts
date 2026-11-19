@@ -16,6 +16,7 @@ import {
   type ExecutableBaseScriptFlowLike,
   type ExecutableCommandLike,
   type ExecutableSharedScriptLike,
+  type ExecutableStageLike,
   SCRIPT_COMPILER_VERSION,
   type ScriptRootScope,
   type ScriptTiming,
@@ -26,6 +27,7 @@ import {
   validateScriptContinuation,
 } from './script-continuation.js'
 
+import { runSceneEntryBody } from './scene-entry-session.js'
 import { ScriptExecutionBudget } from './script-execution-budget.js'
 import {
   atScriptExecutionGate,
@@ -280,17 +282,8 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           : { kind: 'stay' }
     try {
       this.checkpointCursor = { kind: 'stage', stage: stageId }
-      if (options.runSceneEntry && stage.entry) {
-        if (!options.allowSceneEntry || !this.host.revealSceneEntry)
-          throw new Error('ScriptRunnerCore: scene entry 不允许或缺少 host')
-        await this.runCommands(stage.entry.prepare, [stage.id, 'entry', 'prepare'])
-        throwIfAborted(this.signal)
-        await this.awaitGate()
-        await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
-        throwIfAborted(this.signal)
-      }
       try {
-        await this.runCommands(stage.body, [stage.id])
+        await this.runStageBody(stage, options)
       } catch (error) {
         if (error instanceof StepFinished) next = error.next
         else if (error instanceof ScriptReturned && executable.rootScope === 'script') return
@@ -311,6 +304,29 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     } catch (error) {
       if (!(error instanceof ScriptStopped)) throw error
     }
+  }
+
+  private async runStageBody(
+    stage: ExecutableStageLike<RuntimeLeafCommand>,
+    options: RunBaseScriptFlowOptions,
+  ): Promise<void> {
+    const runBody = (): Promise<void> => this.runCommands(stage.body, [stage.id])
+    if (!options.runSceneEntry || !stage.entry) return runBody()
+    const revealSceneEntry = this.host.revealSceneEntry
+    if (!options.allowSceneEntry || !revealSceneEntry)
+      throw new Error('ScriptRunnerCore: scene entry 不允许或缺少 host')
+    const { prepare, reveal } = stage.entry
+    await this.runCommands(prepare, [stage.id, 'entry', 'prepare'])
+    throwIfAborted(this.signal)
+    await this.awaitGate()
+    return runSceneEntryBody(
+      reveal,
+      () => revealSceneEntry.call(this.host, reveal, this.signal),
+      () => {
+        throwIfAborted(this.signal)
+        return runBody()
+      },
+    )
   }
 
   private async runCommands(

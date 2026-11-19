@@ -530,4 +530,56 @@ describe('ScriptRunnerCore flow semantics', () => {
     await running
     expect(host.calls).toEqual(['execute:wait', 'reveal:cut'])
   })
+
+  test.each([
+    'fade',
+    'body',
+  ] as const)('a concurrent scene entry waits for both effects when %s finishes first', async (first) => {
+    const host = fakeHost()
+    const fade = deferred<void>()
+    const body = deferred<void>()
+    host.revealSceneEntry = async () => {
+      host.calls.push('reveal:fade')
+      await fade.promise
+      host.calls.push('finish:fade')
+    }
+    host.execute = async (command) => {
+      host.calls.push(command.kind)
+      if (command.kind === 'setFlag') {
+        await body.promise
+        host.calls.push('finish:body')
+      }
+    }
+    const cursorController = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'initial',
+        stages: [
+          {
+            id: 'initial',
+            entry: {
+              prepare: [{ kind: 'clearDialog' }],
+              reveal: { kind: 'fade', outMs: 0, inMs: 600, withBody: true },
+            },
+            body: [{ kind: 'setFlag', flag: 'entered', value: true }],
+            next: { kind: 'complete' },
+          },
+        ],
+      }),
+      { cursorController, allowSceneEntry: true, runSceneEntry: true },
+    )
+
+    const opening = ['clearDialog', 'reveal:fade', 'setFlag']
+    await vi.waitFor(() => expect(host.calls).toEqual(opening))
+    const pending = { fade, body }
+    const second = first === 'fade' ? 'body' : 'fade'
+    pending[first].resolve()
+    await vi.waitFor(() => expect(host.calls).toEqual([...opening, `finish:${first}`]))
+    expect(cursorController.cursors).toEqual([])
+    pending[second].resolve()
+    await running
+    expect(host.calls).toEqual([...opening, `finish:${first}`, `finish:${second}`])
+    expect(cursorController.cursors).toEqual([{ kind: 'completed' }])
+  })
 })
