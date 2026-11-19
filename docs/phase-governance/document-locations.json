@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "10d9bbc63a9b79c3e7202df2faefde09dc4e7a01bcbfb568f98e20ce339fdf64",
+      "afterSha256": "618dba4eb62007dd220677cfe88117e9e390f44efd2e855aeaf13de87ea2ed3b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
-        "reviewedLines": 91,
-        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
+        "conclusion": "登记桂花酒和布包的同局实战归档。",
+        "reviewedLines": 92,
+        "acceptanceScope": "核原件、业务反例、带声分屏附件及其恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3212,7 +3212,7 @@
         "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
         "conclusion": "核场景赠物、两条布包触发和奖励的原盘入口。",
-        "reviewedLines": 1887,
+        "reviewedLines": 1888,
         "acceptanceScope": "核原始面向对象、角色触发、消耗归属和灵葫咒授予命令。"
       }
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "db98fd5400da252e02a2ba1e16518eab1a5db81d326d6e75c20928fbf6ba1c21",
+      "afterSha256": "8f3f4f7a7f1fc9ab5c43578a0de7bcb4f8cf2df245b1169add373d30b28d2aff",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "复核桂花酒、布包同局基线及本批准入。",
-        "reviewedLines": 938,
-        "acceptanceScope": "固定五个合法局面的实施边界及应验结果，保留原始记录。"
+        "conclusion": "收口桂花酒与布包的 Q2 场景用物。",
+        "reviewedLines": 943,
+        "acceptanceScope": "核合法局面、修复范围、验证结果、质量门和原件保留。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "edf87686e1df6255b3ab9344c97d672a82e1c443dd85e0a8371f68108c38133d",
+      "afterSha256": "573f33aa9be9d2bbd13f9e0931ab59b931c5e25015e68cd2c5571677c6a65acc",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
-        "reviewedLines": 1267,
-        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
+        "conclusion": "复核桂花酒和布包的双端用物和交付。",
+        "reviewedLines": 1282,
+        "acceptanceScope": "核五组实际操作、对白和奖励、原声分屏、三组反例及剩余覆盖义务。"
       }
     },
     {
@@ -5501,48 +5501,31 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": [
-          "docs/engineering/guides/agent-workflow.md",
-          "docs/tasks/board.md"
-        ]
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
       },
       {
         "operation": "写、改或审查测试",
-        "required": [
-          "docs/testing/governance.md",
-          "docs/engineering/guides/agent-workflow.md"
-        ]
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": [
-          "docs/phase1/README.md"
-        ]
+        "required": ["docs/phase1/README.md"]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": [
-          "docs/phase2/READ-FIRST.md"
-        ]
+        "required": ["docs/phase2/READ-FIRST.md"]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": [
-          "docs/lore/README.md"
-        ]
+        "required": ["docs/lore/README.md"]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": [
-          "docs/phase3/README.md"
-        ]
+        "required": ["docs/phase3/README.md"]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": [
-          "docs/testing/e2e/contract.md",
-          "docs/lore/timeline.md"
-        ]
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
       },
       {
         "operation": "封板、合并或发布回执",
@@ -6237,6 +6220,12 @@
       "bytes": 12879476,
       "sha256": "27e3084ce2699607417292118d40c6a9912610f4fb877cae4a36f682a45b686d",
       "purpose": "场景用物传送、聚拢、开门和场景退出的双端实测、同判据反例及原声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-quest-items-20261119.tar.gz",
+      "bytes": 19521524,
+      "sha256": "261c62ad30fbd96e142d348e1b2711f825356c57b9327f55145415ffc7a2ce7c",
+      "purpose": "桂花酒和布包的同局用物、对白位置、库存和技能奖励的双端实测、反例与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
