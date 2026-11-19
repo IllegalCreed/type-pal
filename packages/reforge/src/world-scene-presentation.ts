@@ -76,6 +76,7 @@ export class WorldScenePresentation {
   // Last frame index actually selected by the renderer for each visible entity. Transient command
   // counters (gait/anim/action) are not the rendered sprite frame and must not be E2E evidence.
   private readonly renderedEntityFrames = new Map<string, number>()
+  private readonly followerPoses = new Map<PartyMember['id'], { facing: Facing; gesture: number }>()
   private gesture: number | null = null
   private readonly wave = new WorldWaveRenderer()
   private waveCanvas: HTMLCanvasElement | null = null
@@ -88,6 +89,19 @@ export class WorldScenePresentation {
 
   setPartyGesture(gesture: number | null): void {
     this.gesture = gesture
+  }
+
+  setFollowerPose(memberId: PartyMember['id'], facing: Facing, gesture: number): void {
+    this.followerPoses.set(memberId, { facing, gesture })
+  }
+
+  clearFollowerPoses(): void {
+    this.followerPoses.clear()
+  }
+
+  clearPartyPoses(): void {
+    this.setPartyGesture(null)
+    this.clearFollowerPoses()
   }
 
   setEntityFrame(id: string, frame: number): void {
@@ -212,16 +226,18 @@ export class WorldScenePresentation {
     for (let partyIndex = 1; partyIndex < input.party.length; partyIndex++) {
       const follower = input.followers[partyIndex]
       const member = input.party[partyIndex]
-      const visual = member ? input.partyVisual(member) : undefined
-      if (!follower || !visual) continue
+      if (!follower || !member) continue
+      const visual = input.partyVisual(member)
+      if (!visual) continue
+      const pose = this.followerPoses.get(member.id)
+      const frameCount = visual.frames.frames.length
       const frameIndex = input.player.walking
-        ? walkFrameIndex(
-            visual.def.layout,
-            follower.facing,
-            input.player.stepFrame,
-            visual.frames.frames.length,
+        ? walkFrameIndex(visual.def.layout, follower.facing, input.player.stepFrame, frameCount)
+        : actualFrameIndex(
+            idleFrameIndex(visual.def.layout, pose?.facing ?? follower.facing, frameCount) +
+              (pose?.gesture ?? 0),
+            frameCount,
           )
-        : idleFrameIndex(visual.def.layout, follower.facing, visual.frames.frames.length)
       const frame = visual.frames.frames[frameIndex]
       if (!frame) continue
       sprites.push(

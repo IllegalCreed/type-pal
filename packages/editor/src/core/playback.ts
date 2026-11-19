@@ -960,8 +960,10 @@ export class Playback {
       await this.switchScene(sceneId, spawn, signal, transition)
     },
     setPartyFacing: (fc, gesture, member) => {
+      // This preview has only a leader; a follower command must not pose it.
+      if (member) return
       this.view.player.facing = fc
-      if (!member) this.view.player.gesture = gesture ?? null
+      this.view.player.gesture = gesture ?? null
     },
     fleeBattle: () => {
       this.log('🏃 敌人逃离战场(战斗演出命令,预览记日志)')

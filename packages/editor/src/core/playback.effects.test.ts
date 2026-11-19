@@ -125,7 +125,7 @@ describe('Canonical preview effect boundaries', () => {
     expect(r.p.view.logs).toEqual(['🎥 镜头平移 (3,-4)×5', '🎥 镜头定位 (2,7)', '🎥 镜头回正'])
   })
 
-  test('member facing preserves leader gesture; leader default clears it and nudge clears the next gesture', async () => {
+  test('a follower pose does not change the rendered preview leader; leader default and nudge clear its gesture', async () => {
     const r = preview(),
       p = r.p
     await r.start(
@@ -140,7 +140,7 @@ describe('Canonical preview effect boundaries', () => {
       ]),
     )
     expect(p.view.player.gesture).toBe(3)
-    expect(p.view.player.facing).toBe('up')
+    expect(p.view.player.facing).toBe('left')
     p.tick(10)
     await settle()
     expect(p.view.player.gesture).toBeNull()

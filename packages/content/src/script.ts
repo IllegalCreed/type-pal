@@ -115,9 +115,8 @@ export type Command =
   // 队伍 / 场景
   | { kind: 'teleportParty'; pos: GridPos; facing?: Facing } // 场景内瞬移(0x46)
   | LoadSceneCommand // 门传送模式折叠(0x59[+0x46+0x50])
-  // 0x15:原版同时写 wPartyDirection 和 rgParty[member].wFrame = dir*3 + gesture。
-  // gesture 缺省 = 0(站立帧,清脚本姿势);>0 = 脚本姿势帧(配合 setActorSprite 演出,
-  // 如开场李逍遥练武 gesture 9)。member 缺省 = 0(队长;跟随者渲染落地后生效)。
+  // member 缺省为队长；编号按执行时队伍解析，只更新该角色姿势。
+  // gesture 缺省为所选方向站立帧；非零为该站立帧后的姿势偏移。
   | { kind: 'setPartyFacing'; facing: Facing; gesture?: number; member?: number }
   // 实体
   | { kind: 'setEntityState'; entity: string; state: number } // 0x49;≤0 隐,≥2 挡路

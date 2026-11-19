@@ -999,6 +999,7 @@ export async function bootGame(
     player.pos = plan.spawn.pos
     facing = plan.spawn.facing
     authoredPartyFacing = null
+    worldPresentation.clearPartyPoses()
     partyLayer = 0
     walking = false
     stepFrame = 0
@@ -2385,6 +2386,7 @@ export async function bootGame(
     trail = Array.from({ length: 6 }, () => ({ pos: { ...player.pos }, dir: facing }))
     followerFrozen.length = world.party.length
     followerFrozen.fill({ dcol: -1 / 16, drow: -1 / 16, dir: facing }, 1)
+    worldPresentation.clearFollowerPoses()
   }
   const applyTeleportArrival = (arrival: TeleportOutPresentation): void => {
     if (arrival.gatherParty) gatherPartyFormation()
@@ -2467,6 +2469,7 @@ export async function bootGame(
       trail = seedFormationTrail(player.pos, facing)
       followerFrozen.length = 0
       followerPos.length = 0
+      worldPresentation.clearFollowerPoses()
       updateCamera()
     },
     loadScene: async (sceneId, spawn, signal, transition) => {
@@ -2594,13 +2597,15 @@ export async function bootGame(
     holdScreen: hostHoldScreen,
     revealScreen: hostRevealScreen,
     setPartyFacing: (fc, gesture, member) => {
-      // 原版 0x15:wPartyDirection=o[0] + rgParty[o[2]].wFrame=dir*3+o[1] —— 每次都写帧;
-      // gesture 缺省(=0 站立帧)即清脚本姿势。member>0 = 跟随者(渲染落地后生效,先忽略)。
-      facing = fc
-      if (!member) {
-        walking = false
-        worldPresentation.setPartyGesture(gesture ?? null)
+      if (member) {
+        // The command selects a slot; the pose belongs to the actor in it.
+        const follower = world.party[member]
+        if (follower) worldPresentation.setFollowerPose(follower.id, fc, gesture ?? 0)
+        return
       }
+      facing = fc
+      walking = false
+      worldPresentation.setPartyGesture(gesture ?? null)
     },
     setActorSprite: async (actorId, spriteId, signal) => {
       assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
@@ -2945,6 +2950,12 @@ export async function bootGame(
             false,
           ).then(() => undefined),
         commit: (candidate) => {
+          if (targetWorld.party[0]?.id !== candidate.party[0]?.id) {
+            authoredPartyFacing = null
+            worldPresentation.clearPartyPoses()
+          } else {
+            worldPresentation.clearFollowerPoses()
+          }
           targetWorld.party = candidate.party
           targetWorld.reserve = candidate.reserve
           targetWorld.learnedSkills = candidate.learnedSkills
@@ -3055,7 +3066,7 @@ export async function bootGame(
       if (dx !== 0 || dy !== 0) {
         authoredPartyFacing = null
         walking = true
-        worldPresentation.setPartyGesture(null)
+        worldPresentation.clearPartyPoses()
         stepFrame = (stepFrame + 1) % 4
       }
       updateCamera()
@@ -4107,7 +4118,7 @@ export async function bootGame(
       const moved = from.col !== result.pos.col || from.row !== result.pos.row
       if (moved) {
         authoredPartyFacing = null
-        worldPresentation.setPartyGesture(null)
+        worldPresentation.clearPartyPoses()
         pushTrail(trail, player.pos, result.facing, departingFacing)
         // The final step still lays out every follower before the idle frame is drawn.
         walking = true
@@ -4599,7 +4610,10 @@ export async function bootGame(
               player.pos.col !== playerOutcome.to.col || player.pos.row !== playerOutcome.to.row
             player.pos = { ...playerOutcome.to }
             facing = playerOutcome.facing
-            if (playerMoved) pushTrail(trail, player.pos, playerOutcome.actualDirection)
+            if (playerMoved) {
+              pushTrail(trail, player.pos, playerOutcome.actualDirection)
+              worldPresentation.clearFollowerPoses()
+            }
             if (playerOutcome.kind === 'passive-yield') {
               walking = false
               if (playerMoved) {
@@ -5361,7 +5375,7 @@ export async function bootGame(
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     worldPresentation.clearEntityFrames()
-    worldPresentation.setPartyGesture(null) // 演出态随脚本终止一并清(dev 强停/读档;正常流脚本自清)
+    worldPresentation.clearPartyPoses()
     actorSpriteOverrides.clear()
     motion.resolvePartyMove()
     walking = false
@@ -6946,6 +6960,8 @@ export async function bootGame(
             { party: actorIds, money: 0, inventory: [], seedStats: {} },
             project.actorsById,
           )
+          authoredPartyFacing = null
+          worldPresentation.clearPartyPoses()
           world.party = built.party
           for (const [actorId, skillIds] of Object.entries(built.learnedSkills))
             if (world.learnedSkills[actorId] === undefined)
