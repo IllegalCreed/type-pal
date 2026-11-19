@@ -14,6 +14,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { docsCliModulePaths } from '../docs/document-location.test-support.mjs'
 
 const script = fileURLToPath(new URL('./code-quality-inventory.mjs', import.meta.url))
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -163,34 +164,7 @@ function largePathFixture(t) {
 
 test('actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task', (t) => {
   const fixture = largePathFixture(t)
-  for (const path of [
-    'scripts/docs/check.mjs',
-    'scripts/docs/config.mjs',
-    'scripts/docs/document-integrity.mjs',
-    'scripts/docs/document-location.mjs',
-    'scripts/docs/testing-acquisition-source-bridge.mjs',
-    'scripts/docs/testing-battle-publication.mjs',
-    'scripts/docs/testing-source-bridge.mjs',
-    'scripts/docs/testing-source-refs.mjs',
-    'scripts/docs/artifact-compression.mjs',
-    'scripts/docs/artifact-content-alias.mjs',
-    'scripts/docs/artifact-retirement.mjs',
-    'scripts/docs/document-location-admission.mjs',
-    'scripts/docs/testing-source-maintenance.mjs',
-    'scripts/docs/testing-source-maintenance-admission.mjs',
-    'scripts/docs/relocate.mjs',
-    'scripts/docs/review-record-storage-io.mjs',
-    'scripts/docs/review-record-storage.mjs',
-    'scripts/docs/git-document-snapshot.mjs',
-    'scripts/docs/git-inventory.mjs',
-    'scripts/docs/markdown.mjs',
-    'scripts/docs/markdown-source-spans.mjs',
-    'scripts/docs/terminal-codec.mjs',
-    'scripts/docs/terminal-json.mjs',
-    'scripts/docs/terminal-git.mjs',
-    'scripts/docs/terminal-namespace.mjs',
-    'scripts/docs/terminal-contract.mjs',
-  ]) {
+  for (const path of docsCliModulePaths) {
     fixture.copyFromRepository(path)
   }
   // This isolated Git fixture exercises inventory, not this repository's admitted migration.
