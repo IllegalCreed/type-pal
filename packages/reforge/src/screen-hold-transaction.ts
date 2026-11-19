@@ -4,8 +4,8 @@ export interface ScreenHoldHandle {
 }
 
 /**
- * 0x76 黑屏保持的纯表现事务。它不持有世界态；owner 只用于防止旧异步 cleanup
- * 清掉后来接管的事务。
+ * 黑屏持有只属于呈现层。脚本按 token 恢复画面，异步清理按 owner 判定，
+ * 这样重用同一个 token 时，旧任务也不能取消刚接管的呈现。
  */
 export class ScreenHoldTransaction {
   #active: ScreenHoldHandle | null = null
@@ -38,7 +38,7 @@ export class ScreenHoldTransaction {
   }
 }
 
-/** renderer/presentation 抛错必须先走同一个宿主 finalizer，再把原错误交回上层。 */
+/** 渲染异常先交给同步宿主收尾；收尾成功后原错误继续传播。 */
 export function runWithPresentationFinalizer<T>(render: () => T, finalize: () => void): T {
   try {
     return render()

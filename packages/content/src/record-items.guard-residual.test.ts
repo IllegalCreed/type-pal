@@ -497,6 +497,16 @@ describe('G8 checkThrowSpec 残差', () => {
     )
   })
 
+  test('投掷效果可显式留空，字段缺失会报错', () => {
+    const presentation = {
+      target: 'oneEnemy',
+      sound: 'sound.pal.028',
+      presentation: { kind: 'magic', animation: { effectSprite: 1 } },
+    }
+    expectAcceptsUnchanged(checkThrowSpec, { ...presentation, effects: [] })
+    expectRejectUnchanged(checkThrowSpec, presentation, 'throw.effects: 期望数组')
+  })
+
   test('target 域与 presentation 正负控', () => {
     const legalPresentation = {
       target: 'oneEnemy',

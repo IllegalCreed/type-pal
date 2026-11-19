@@ -40,6 +40,18 @@ describe('migration diagnostics sidecar', () => {
     expect(validateMigrationDiagnostics(value)).toBe(value)
   })
 
+  test('定位没有稳定 id 的诊断条目', () => {
+    const [entry] = valid().diagnostics
+    if (!entry) throw new Error('诊断夹具缺少条目')
+    const { severity, target, category, reason, source } = entry
+    expect(() =>
+      validateMigrationDiagnostics({
+        version: 1,
+        diagnostics: [{ severity, target, category, reason, source }],
+      }),
+    ).toThrow(new Error('migrationDiagnostics.diagnostics[0].id: 期望非空 string'))
+  })
+
   test('拒绝重复 id、未知类别与非法目标能力', () => {
     const duplicate = valid()
     duplicate.diagnostics.push({ ...duplicate.diagnostics[0]! })

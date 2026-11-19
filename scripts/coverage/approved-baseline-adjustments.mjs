@@ -5,6 +5,187 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'content-assets-structural-recount-20261119',
+    authority:
+      'User permits exact baseline adjustment for justified restructuring. Content covered statements change by -2 in asset.ts and +1 in validate.ts; asset.ts loses one covered function as duplicate old scriptChunks checks leave. Reforge removes one covered scene-preparation callback. Editor covered lines change by -12 in command-asset-record.ts, -3 in clone.ts, -3 in frame-animation-codec.ts, -2 in frame-animation-draft.ts, and +2 in frame-animation-worker-client.ts. Three resource signatures share their validation, clone and codec paths lose redundant lines, and production frame/timing assertions replace the test-only metadata projection. All other metric floors and source selection remain fixed. The execution archive compares the native counters.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz',
+    baselineSha256: '3148647c9803d2ab27fef90c60874ec047a8eedef58ea9f24a130b602682c218',
+    sources: [
+      {
+        path: 'packages/content/src/asset.ts',
+        sha256: '62fa1cd851160649b1eef2c8fbe6295d64b8acbf0b491aa4aa0898ca20dcbd37',
+      },
+      {
+        path: 'packages/content/src/asset-project-references.test.ts',
+        sha256: '080ff3965fa57f74594bb93ca71bbbf87fda369407273b6ca87d99c6841b3032',
+      },
+      {
+        path: 'packages/content/src/asset-command-references.test.ts',
+        sha256: '5d8205dcbb63970c48bca07ee65b9259d08910de552cea57b17c577c91a5ec35',
+      },
+      {
+        path: 'packages/content/src/validate.ts',
+        sha256: '4402b150741930a195b6da676e141bffb5015e3a60f49c3e731b9326fb4b538b',
+      },
+      {
+        path: 'packages/reforge/src/scene-preparer.ts',
+        sha256: '7f4c45acc64312a53bd1a12e73744546e25ebee7d33e56b04665692d44107899',
+      },
+      {
+        path: 'packages/reforge/src/scene-preparer.test.ts',
+        sha256: 'b92ca73f73ee777c371cb1c848d6922c990588fe5d7cb147439d383708ac0b39',
+      },
+      {
+        path: 'packages/reforge/src/__tests__/scene-preparation-fixture.ts',
+        sha256: 'd484d5f9accf3a8e6b4d007ca8e3a1d25b6c00427b31e57203d95aac669f78b7',
+      },
+      {
+        path: 'packages/editor/src/core/command-asset-record.ts',
+        sha256: 'ef739e9cff2cd4ccd7111233d42efe2a9287c14282dcfbafc3b5df54666f3537',
+      },
+      {
+        path: 'packages/editor/src/core/clone.ts',
+        sha256: 'eeb7937165a1cd8f7a2c86fcdf9f74200843a31e917977e0a730f080d7ba8fb0',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-codec.ts',
+        sha256: 'e2a161845a514c836373bcb6b905434457f3818b4b455ed669de38e99c20f7c0',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.ts',
+        sha256: 'df551929357629660e260f32e2d021592b483842b1f60deaae1f3d688045667b',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.test.ts',
+        sha256: '5386d43790c131dac13ad04486d5380a5ad6930bb92df3711fa0b5c5585c1d8e',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-codec.test.ts',
+        sha256: '3cd3f7050fa14a6e73d5544639e0468bb76e2eefd445349b69d6701c2b8ac543',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-worker-client.ts',
+        sha256: '4691a1a556c4df58fd46ed8f11d84ae5c2808401e68b14442ea3471b0d5c4c04',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: {
+            covered: 5870,
+            total: 6114,
+          },
+          branches: {
+            covered: 5088,
+            total: 5409,
+          },
+          functions: {
+            covered: 847,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+        after: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5088,
+            total: 5409,
+          },
+          functions: {
+            covered: 846,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+      },
+      reforge: {
+        before: {
+          statements: {
+            covered: 18203,
+            total: 19922,
+          },
+          branches: {
+            covered: 11769,
+            total: 13928,
+          },
+          functions: {
+            covered: 2931,
+            total: 3211,
+          },
+          lines: {
+            covered: 16297,
+            total: 17393,
+          },
+        },
+        after: {
+          statements: {
+            covered: 18203,
+            total: 19922,
+          },
+          branches: {
+            covered: 11769,
+            total: 13928,
+          },
+          functions: {
+            covered: 2930,
+            total: 3210,
+          },
+          lines: {
+            covered: 16297,
+            total: 17393,
+          },
+        },
+      },
+      editor: {
+        before: {
+          statements: {
+            covered: 31688,
+            total: 35061,
+          },
+          branches: {
+            covered: 25651,
+            total: 30633,
+          },
+          functions: {
+            covered: 8065,
+            total: 8968,
+          },
+          lines: {
+            covered: 28361,
+            total: 30644,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31688,
+            total: 35061,
+          },
+          branches: {
+            covered: 25651,
+            total: 30633,
+          },
+          functions: {
+            covered: 8065,
+            total: 8968,
+          },
+          lines: {
+            covered: 28343,
+            total: 30625,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'content-references-structural-recount-20261119',
     authority:
       'The user permits exact coverage baseline changes for justified restructuring. The content reference window retired test-only scanners and unsupported projection fixtures, removed redundant counters, and restored two missed legal diagnostics. Main CI and the same local V8 profile agree on the old counts. The execution archive compares actual per-file counters and maps retained diagnostics. Only content floors change. All current source remains in coverage.',

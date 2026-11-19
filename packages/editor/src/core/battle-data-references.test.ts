@@ -1,6 +1,13 @@
 import { describe, expect, test } from 'vitest'
+import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { collectBattleDataReferences } from './battle-data-references.js'
+import { UpdateActorCommand } from './commands.js'
 import type { EditorState } from './edit-session.js'
+import { EditSession } from './edit-session.js'
+import { openLocalProject } from './open-local.js'
+import { toEditorState } from './project-io.js'
+import { buildBlankProject } from './seed.js'
+import { AddSkillCommand } from './skill-commands.js'
 
 function fixture(): EditorState {
   return {
@@ -213,4 +220,52 @@ describe('battle data deletion references', () => {
       references.some((entry) => entry.locator?.kind === 'poison' && entry.locator.poisonId === 9),
     ).toBe(true)
   })
+})
+
+test('author skills used by the cooperative slot and initial list have distinct deletion locations', async () => {
+  const { project, scenes, scriptChunks, stamps } = await openLocalProject(
+    memoryAuthorDirectory(await buildBlankProject('Battle skill references')).dir,
+  )
+  try {
+    const session = new EditSession(toEditorState(project, scenes, {}, scriptChunks, stamps))
+    session.dispatch(new AddSkillCommand('skill.fire', '火'))
+    session.dispatch(new AddSkillCommand('skill.ice', '冰'))
+    session.dispatch(new AddSkillCommand('skill.duo', '合击'))
+    const hero = session.getState().actors.find((actor) => actor.id === 'hero')
+    if (!hero?.battler) throw new Error('Missing seed hero battler')
+    session.dispatch(
+      new UpdateActorCommand(hero.id, {
+        battler: {
+          ...hero.battler,
+          initialMagic: ['skill.fire', 'skill.ice'],
+          cooperativeMagicSkillId: 'skill.duo',
+        },
+      }),
+    )
+    const references = collectBattleDataReferences(session.getState(), 'skill')
+    expect(
+      references.map(({ kind, targetId, where, locator }) => ({ kind, targetId, where, locator })),
+    ).toEqual([
+      {
+        kind: 'actor-cooperative-magic',
+        targetId: 'skill.duo',
+        where: 'actors[0](hero).battler.cooperativeMagicSkillId',
+        locator: { kind: 'actor', actorId: 'hero' },
+      },
+      {
+        kind: 'actor-initial-magic',
+        targetId: 'skill.fire',
+        where: 'actors[0](hero).battler.initialMagic[0]',
+        locator: { kind: 'actor', actorId: 'hero' },
+      },
+      {
+        kind: 'actor-initial-magic',
+        targetId: 'skill.ice',
+        where: 'actors[0](hero).battler.initialMagic[1]',
+        locator: { kind: 'actor', actorId: 'hero' },
+      },
+    ])
+  } finally {
+    project.source.dispose?.()
+  }
 })

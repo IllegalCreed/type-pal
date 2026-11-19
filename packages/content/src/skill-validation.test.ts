@@ -1,9 +1,22 @@
 import { describe, expect, test } from 'vitest'
 import palSkills from '../../../projects/pal/content/skills.json' with { type: 'json' }
-import { minimalSkill } from './__tests__/glm-foundation-fixtures.js'
 import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
+import type { SkillData } from './skill.js'
 import { validateSkills } from './validate.js'
+
+function minimalSkill() {
+  return {
+    id: '370',
+    name: '技能370',
+    desc: '',
+    cost: {},
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 1 },
+  } satisfies SkillData
+}
 
 const skill = (over: Record<string, unknown>) => ({ ...minimalSkill(), ...over })
 

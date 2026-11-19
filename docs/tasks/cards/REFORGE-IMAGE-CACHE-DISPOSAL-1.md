@@ -1,0 +1,31 @@
+# REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期
+
+Status: draft
+Phase: phase2
+Owner: Codex
+Reviewer: Codex
+Last reviewed: 2026-11-19
+Template: task-card-v1 / 1.0.0
+Visual Verification Timing: N/A
+
+## 目标
+
+确定图片解码晚于缓存释放时，旧位图的释放归属和未完成调用的结果。
+
+## 范围
+
+仅取证。`ProjectImageCache` 及其在途专测；加载器创建的工程缓存与战斗试玩私有缓存是实际消费者。正常已完成图像的释放、复用和重试已有独立专测。不改资源、引擎绘制、文件格式或 E2E。
+
+## 前提与证据
+
+两次解码跨一次释放并重读同一键时，两张位图都会返回，后完成的一张覆盖前一张；再次释放只有后者收到 `close()`。另一路在同一笔解码完成前连续释放两次；完成后仍写入缓存，位图没有关闭，下一次读取还命中这张图。观测用真实 `AssetResolver`、可等待的解码端口与合法目录，不改产品。
+
+试玩会同时读取多个资源；失败后会释放私有缓存，提前取消后也会在主准备 Promise 结束时再释放。由于一个分支的失败能先结束多资源等待，其余解码是否晚于最后一次释放需在真实试玩入口补证。未证明玩家流程已遇到该窗口。
+
+## 验收
+
+[单一归档](../evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz) 内 `project-image-disposal-witness.mts` 与 `runs/reforge-image-disposal-witness/` 保留观察和精确失败原件。先确认缓存被释放后是否允许复用及旧请求应如何结束，再用真实消费者补红例；不把旧专测的晚回填预期当成新合同。
+
+## 状态与交接
+
+2026-11-19：两个观察已复现；实现与在途专测保持 review。未取得异步所有权调整的 build 准入。下一步核真实试玩解码释放顺序和结果约束。

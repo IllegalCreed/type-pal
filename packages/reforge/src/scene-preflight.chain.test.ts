@@ -109,7 +109,7 @@ function harness() {
   }
 }
 
-describe('WORLD-ASYNC-COMMIT-1 real main preflight consumes frozen canonical state', () => {
+describe('scene preparation uses the source captured before resource reads', () => {
   test('main wrapper freezes inputs synchronously before yielding to any caller mutation', async () => {
     const f = await scenePreparationFixture()
     const api = mainApi<{
@@ -192,16 +192,46 @@ describe('WORLD-ASYNC-COMMIT-1 real main preflight consumes frozen canonical sta
       )
     const preparing = h.api.prepareSceneSwitch('target', h.world)
     await h.entered.promise
-    const activation = h.runtime.coordinator.beginSceneHook(
-      h.world.script!,
-      h.definition as unknown as content.BaseSceneDef,
-      'onEnter',
-    )
-    expect(activation).toBeDefined()
-    await activation!.lease.reachSafePoint({ kind: 'stage', stage: 'two' })
-    activation!.lease.close()
-    h.assets.resolve()
+    const hookScene: content.BaseSceneDef = {
+      id: h.definition.id,
+      mapId: h.definition.mapId,
+      entry: h.definition.entry,
+      entities: [],
+      hooks: {
+        onEnter: {
+          initial: kind,
+          variants: {
+            [kind]: {
+              label: kind,
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'one',
+                stages: [
+                  { id: 'one', body: [] },
+                  { id: 'two', body: [] },
+                ],
+              },
+            },
+          },
+        },
+      },
+    }
+    try {
+      const script = expectDefined(h.world.script)
+      const { lease } = expectDefined(
+        h.runtime.coordinator.beginSceneHook(script, hookScene, 'onEnter'),
+      )
+      try {
+        await lease.reachSafePoint({ kind: 'stage', stage: 'two' })
+      } finally {
+        lease.close()
+      }
+    } finally {
+      h.assets.resolve()
+    }
     const plan = await preparing
+    expect(plan.onEnterEntry?.reveal.kind).toBe(kind === 'before' ? 'fade' : 'cut')
     expect(() => h.api.assertSceneSwitchPlanCurrent(plan, h.world)).toThrow(/预检依赖已变化/)
   })
 

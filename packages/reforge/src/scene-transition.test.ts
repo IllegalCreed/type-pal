@@ -1,68 +1,70 @@
-import { describe, expect, test } from 'vitest'
-import { resolveSceneFacing, resolveSceneSpawn } from './scene-transition.js'
+import type { SceneDef } from '@type-pal/content'
+import { expect, test } from 'vitest'
+import { type RuntimeSceneSpawn, resolveSceneSpawn } from './scene-transition.js'
 
-describe('resolveSceneFacing', () => {
-  test('普通跨场景未显式指定时继承上一场景朝向', () => {
-    expect(resolveSceneFacing(undefined, undefined, 'left', 'down')).toBe('left')
-    expect(resolveSceneFacing(undefined, undefined, 'right', 'up')).toBe('right')
-  })
+const scene = {
+  entry: { pos: { col: 10, row: 20, height: 0 }, facing: 'down' },
+  entries: {
+    west: { pos: { col: 1, row: 2, height: 0 }, facing: 'up' },
+    east: { pos: { col: 8, row: 9, height: 1 } },
+  },
+} satisfies Pick<SceneDef, 'entry' | 'entries'>
 
-  test('loadScene 显式朝向优先于继承值', () => {
-    expect(resolveSceneFacing('up', 'right', 'left', 'down')).toBe('up')
-  })
-
-  test('命名落点朝向优先于继承值', () => {
-    expect(resolveSceneFacing(undefined, 'right', 'left', 'down')).toBe('right')
-  })
-
-  test('首次启动没有继承值时使用入口默认朝向', () => {
-    expect(resolveSceneFacing(undefined, undefined, undefined, 'down')).toBe('down')
-  })
+test.each([
+  { mode: 'boot default', spawn: undefined, pos: scene.entry.pos, facing: 'down' },
+  {
+    mode: 'inherited across scenes',
+    spawn: { inheritFacing: 'left' },
+    pos: scene.entry.pos,
+    facing: 'left',
+  },
+  {
+    mode: 'named entry',
+    spawn: { entryId: 'west', inheritFacing: 'left' },
+    pos: scene.entries.west.pos,
+    facing: 'up',
+  },
+  {
+    mode: 'named entry without facing',
+    spawn: { entryId: 'east', inheritFacing: 'right' },
+    pos: scene.entries.east.pos,
+    facing: 'right',
+  },
+  {
+    mode: 'command facing overrides the entry',
+    spawn: { entryId: 'west', facing: 'down', inheritFacing: 'left' },
+    pos: scene.entries.west.pos,
+    facing: 'down',
+  },
+  {
+    mode: 'temporary coordinates',
+    spawn: { pos: { col: 4, row: 5, height: 2 }, facing: 'left', inheritFacing: 'right' },
+    pos: { col: 4, row: 5, height: 2 },
+    facing: 'left',
+  },
+] satisfies {
+  mode: string
+  spawn: RuntimeSceneSpawn | undefined
+  pos: SceneDef['entry']['pos']
+  facing: SceneDef['entry']['facing']
+}[])('$mode selects the actual position and facing without borrowing the configured coordinates', ({
+  spawn,
+  pos,
+  facing,
+}) => {
+  const landing = resolveSceneSpawn('town', scene, spawn)
+  expect(landing).toEqual({ pos, facing })
+  expect(landing.pos).not.toBe(pos)
+  if (spawn?.pos) expect(landing.pos).not.toBe(spawn.pos)
 })
 
-describe('resolveSceneSpawn', () => {
-  const scene = {
-    entry: { pos: { col: 10, row: 20, height: 0 }, facing: 'down' as const },
-    entries: {
-      west: { pos: { col: 1, row: 2, height: 0 }, facing: 'up' as const },
-      east: { pos: { col: 8, row: 9, height: 1 } },
-    },
-  }
-
-  test('同场景两扇门分别解析到稳定命名落点', () => {
-    expect(resolveSceneSpawn('s001', scene, { entryId: 'west', inheritFacing: 'left' })).toEqual({
-      pos: { col: 1, row: 2, height: 0 },
-      facing: 'up',
-    })
-    expect(resolveSceneSpawn('s001', scene, { entryId: 'east', inheritFacing: 'right' })).toEqual({
-      pos: { col: 8, row: 9, height: 1 },
-      facing: 'right',
-    })
-  })
-
-  test('显式坐标/朝向覆盖；默认模式继承朝向', () => {
-    expect(
-      resolveSceneSpawn('s001', scene, {
-        pos: { col: 4, row: 5, height: 2 },
-        facing: 'left',
-        inheritFacing: 'right',
-      }),
-    ).toEqual({ pos: { col: 4, row: 5, height: 2 }, facing: 'left' })
-    expect(resolveSceneSpawn('s001', scene, { inheritFacing: 'right' })).toEqual({
-      pos: { col: 10, row: 20, height: 0 },
-      facing: 'right',
-    })
-  })
-
-  test('缺失命名落点与 entryId+pos 均 fail-loud', () => {
-    expect(() => resolveSceneSpawn('s001', scene, { entryId: 'missing' })).toThrow(
-      /找不到命名落点 missing/,
-    )
-    expect(() =>
-      resolveSceneSpawn('s001', scene, {
-        entryId: 'west',
-        pos: { col: 0, row: 0, height: 0 },
-      } as unknown as NonNullable<Parameters<typeof resolveSceneSpawn>[2]>),
-    ).toThrow(/entryId 与 pos 不能同时存在/)
-  })
+test('missing entry and conflicting decoded input report different errors', () => {
+  expect(() => resolveSceneSpawn('town', scene, { entryId: 'missing' })).toThrow(
+    '场景 town: 找不到命名落点 missing',
+  )
+  // Deliberately bypass the typed union to exercise the runtime guard for decoded data.
+  const conflicting = { entryId: 'west', pos: { col: 0, row: 0, height: 0 } }
+  expect(() => Reflect.apply(resolveSceneSpawn, undefined, ['town', scene, conflicting])).toThrow(
+    '场景 town: entryId 与 pos 不能同时存在',
+  )
 })

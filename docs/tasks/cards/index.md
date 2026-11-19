@@ -33,9 +33,13 @@ Template: governance-index-v1 / 1.0.0
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项](CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1 — 迁移诊断能力应为字符串](CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-SHARD-RETIREMENT-BOUNDARY-1 — 旧脚本分片出口与在用测试分界](CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [EDITOR-FRAME-WORKER-POST-CLEANUP-1 — 过场编码发送失败后的 Worker 释放](EDITOR-FRAME-WORKER-POST-CLEANUP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -46,7 +50,12 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-FRAME-SEQUENCE-INVALIDATION-1 — 过场素材换版后旧解码重写缓存](REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属](REFORGE-FSA-URL-OWNERSHIP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1 — 运行时只解析工程登记的命名落点](REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-VIDEO-PLAY-RETRY-1 — 二阶段视频多次播放重试](REFORGE-VIDEO-PLAY-RETRY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -533,6 +542,7 @@ Template: governance-index-v1 / 1.0.0
 | [N6B-ITEM-FLOWS-1 — 四类共享取物流程与参数表单](N6B-ITEM-FLOWS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [PAL-SHARED-CHEST-1 — 普通宝箱首次开盖](PAL-SHARED-CHEST-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-CONTENT-ASSET-CONTRACTS-1 — 内容资产登记与引用闭包专测](QUALITY-CONTENT-ASSET-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-CONTENT-REFERENCES-1 — 二阶段内容引用与场景复制治理](QUALITY-CONTENT-REFERENCES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |

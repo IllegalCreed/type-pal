@@ -5,7 +5,7 @@
  * speed/autoAdvance 允许 0 及非整数非负有限数（r2 收口确认）。
  */
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-content-residual-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { type AuthorDialogueCue, checkAuthorDialogueCue } from './author-dialogue.js'
 
 const base = (): AuthorDialogueCue => ({

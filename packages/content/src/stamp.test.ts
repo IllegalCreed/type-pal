@@ -107,6 +107,23 @@ describe('StampTemplate shared isometric content', () => {
     expect(() => validateStampTemplates(broken)).toThrow('tiles/sources 必须同时')
   })
 
+  test('保留迁移图章的来源和放置锚点', () => {
+    const migrated = layeredStamps().map(
+      (template): StampTemplate => ({
+        ...template,
+        origin: 'migrated',
+      }),
+    )
+    expect(validateStampTemplates(migrated)).toEqual(migrated)
+  })
+
+  test('锚点不接受负的半行坐标', () => {
+    const [template] = layeredStamps()
+    expect(() => validateStampTemplates([{ ...template, anchor: { row: -1, col: 0 } }])).toThrow(
+      new Error('stamps[0].anchor.row: 期望非负安全整数'),
+    )
+  })
+
   test('anchor 仅 col 越界拒绝；同模板 row 合法空格锚通过', () => {
     function singleLayerStamp(): StampTemplate {
       return {

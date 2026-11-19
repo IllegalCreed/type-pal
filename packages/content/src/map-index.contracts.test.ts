@@ -37,6 +37,12 @@ describe('B1 validateMapIndex · 稳定 ID/名称规范化与查找', () => {
   ])('%s 拒绝', (_name, maps, pattern) => {
     expect(() => validateMapIndex({ version: 1, maps })).toThrow(pattern)
   })
+  test('缺失稳定身份时拒绝有效名称和路径的条目', () => {
+    expect(() =>
+      validateMapIndex({ version: 1, maps: [{ name: '房间', path: 'content/maps/room.json' }] }),
+    ).toThrow(new Error('mapIndex.maps[0].id: 非法稳定 id "undefined"'))
+  })
+
   test('nextMapAssetId 唯一性选择与 mapAssetById 查找', () => {
     const validated = validateMapIndex({ version: 1, maps: index() })
     expect(nextMapAssetId(validated, 'map-a')).toBe('map-a-2') // 冲突时派生

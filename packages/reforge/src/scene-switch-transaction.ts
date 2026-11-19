@@ -46,7 +46,7 @@ export function captureSceneSwitchDependencies(
     party,
     followers: [...(script.followers ?? [])],
     inventory: world.inventory
-      .map(({ itemId, count }) => [itemId, count] as [string, number])
+      .map<[string, number]>(({ itemId, count }) => [itemId, count])
       .sort(([leftId, leftCount], [rightId, rightCount]) =>
         leftId === rightId ? leftCount - rightCount : leftId.localeCompare(rightId),
       ),
@@ -85,8 +85,8 @@ export interface SceneSwitchTransactionHooks<TPlan> {
 }
 
 /**
- * 场景事务的唯一异步边界：预检和呈现均成功且仍为最新请求后，才进入同步 commit。
- * 当前请求在任何阶段失败都收口呈现态；已过期请求不得清掉后来请求的画面。
+ * 预检结束与呈现结束后各核一次请求身份；只有仍属当前请求的方案才同步提交。
+ * 出错时由宿主判断呈现归属，避免旧请求的收尾清掉接管后的画面。
  */
 export async function prepareAndCommitSceneSwitch<TPlan>(
   hooks: SceneSwitchTransactionHooks<TPlan>,

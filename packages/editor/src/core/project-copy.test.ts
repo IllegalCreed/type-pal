@@ -3,6 +3,7 @@ import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pa
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+import { originalPortrait, pngBytes } from './__tests__/portrait-bytes.js'
 
 const bindings = vi.hoisted(
   () => new Map<string, import('./handle-store.js').WorkspaceHandleRecord>(),
@@ -32,11 +33,16 @@ vi.mock('./handle-store.js', async (original) => {
   }
 })
 
-import { observeAuthorSource } from './author-disk-baseline.js'
+import { AuthorSaveConflictError, observeAuthorSource } from './author-disk-baseline.js'
 import { sha256Hex } from './binary-signature.js'
 import { finishOpen, saveProjectAs } from './open-actions.js'
 import { assetCopyInputs, observeProjectCopySource } from './project-copy-source.js'
 import { serializeProjectWithMapCopies, toEditorState, writeProject } from './project-io.js'
+import {
+  emptyScriptPreviewLibrary,
+  loadScriptPreviewDocument,
+  SCRIPT_PREVIEW_PATH,
+} from './script-preview-library.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import {
@@ -147,13 +153,13 @@ test('无目录的FileSource另存为逐项复制旧素材，未落源盘的新�
   const project = await loadCurrentProjectFrom(observed.source)
   await loadAllAuthorScenes(project)
   const baseline = await observed.finish(project)
-  const path = 'assets/authored/portraits/new.png',
-    bytes = new ArrayBuffer(51)
+  const path = 'assets/authored/portraits/new.png'
+  const bytes = pngBytes(originalPortrait)
   const catalog = files['assets/index.json'] as import('@type-pal/content').AssetCatalogV1
   catalog.assets['portrait.upload.new'] = {
     kind: 'portrait',
     path,
-    bytes: 51,
+    bytes: bytes.byteLength,
     sha256: await sha256Hex(bytes),
     mediaType: 'image/png',
     origin: { kind: 'authored' },
@@ -164,7 +170,7 @@ test('无目录的FileSource另存为逐项复制旧素材，未落源盘的新�
     authorBaseline: baseline,
   })
   expect(result?.project.manifest.name).toBe('saved edits')
-  expect(target.files.get(path)).toEqual(bytes)
+  expect(new Uint8Array(await fsaSource(target.dir).readBytes(path))).toEqual(new Uint8Array(bytes))
   expect(source.files.has(path)).toBe(false)
   for (const record of Object.values(opened.project.assetCatalog.assets))
     expect(target.files.has(record.path)).toBe(true)
@@ -204,10 +210,10 @@ test('另存为后段源IO失败只留暂存，不产生作者文件或最近项
 })
 
 test.each([
-  'bytes',
-  'inventory',
-  'epoch',
-] as const)('另存为封存前源%s变化拒绝，零作者覆盖', async (kind) => {
+  ['bytes', () => new AuthorSaveConflictError('notes/keep.txt')],
+  ['inventory', () => new Error('源项目文件清单在复制期间变化，请重新打开后再复制')],
+  ['epoch', () => new Error('项目在复制期间完成了新的保存，请重新打开后再复制')],
+] as const)('另存为封存前源%s变化拒绝，零作者覆盖', async (kind, error) => {
   const { source, target, save } = await fixture()
   target.hooks.afterClose = (path) => {
     if (!path.endsWith('/plan.json')) return
@@ -215,7 +221,7 @@ test.each([
     if (kind === 'inventory') source.set('notes/new.txt', 'new external file')
     if (kind === 'epoch') source.set('.type-pal/save-state.json', state('committed'))
   }
-  await expect(save()).rejects.toThrow(/修改|清单|复制期间/)
+  await expect(save()).rejects.toThrow(error())
   expect(authors(target)).toEqual([])
   expect([...authorSaveStorage.receipts.values()].find((r) => r.handle === target.dir)?.phase).toBe(
     'staging',
@@ -238,7 +244,7 @@ test('另存为提交中断后源不可读取仍可重开恢复，删除意图�
   expect(await result.project.source.readText('notes/keep.txt')).toBe('keep exact bytes')
 })
 
-test('HTTP首存流式资产不进入编辑差异清单，第二次普通保存不删除复制素材', async () => {
+test('无目录首存流式资产不进入编辑差异清单，第二次普通保存不删除复制素材', async () => {
   const { opened, target, files } = await fixture()
   const workspace = createLocalWorkspaceContext(opened.project.manifest.id, 'blank-project')
   const observed = await observeProjectCopySource(opened.project.source)
@@ -277,6 +283,22 @@ test('复制源各读取接口共享字节证据，重复读取变化立即拒�
   await observed.verify()
   disk.set('value.json', { value: 2 })
   await expect(observed.source.readBytes('value.json')).rejects.toThrow('value.json')
+})
+
+test('复制时已观察为缺失的可选文件若突然出现，不能封存旧快照', async () => {
+  const disk = memoryAuthorDirectory(await buildBlankProject('Copy source'))
+  const source = fsaSource(disk.dir)
+  const observed = await observeProjectCopySource(source)
+
+  await expect(loadScriptPreviewDocument(observed.source)).resolves.toBeUndefined()
+  await expect(observed.verify()).resolves.toBeUndefined()
+  const preview = {
+    ...emptyScriptPreviewLibrary(),
+    states: [{ id: 'arrival', name: '到达', scenes: [] }],
+  }
+  disk.set(SCRIPT_PREVIEW_PATH, preview)
+  await expect(loadScriptPreviewDocument(source)).resolves.toMatchObject({ library: preview })
+  await expect(observed.verify()).rejects.toThrow(new AuthorSaveConflictError(SCRIPT_PREVIEW_PATH))
 })
 
 test('复制清单重复路径在私有暂存前拒绝，不调用源读取', async () => {

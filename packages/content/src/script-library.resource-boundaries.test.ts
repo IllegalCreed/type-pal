@@ -1,7 +1,7 @@
 // @ts-expect-error Node-only oracle; production content has no Node/DOM library.
 import { TextEncoder } from 'node:util'
 import { expect, test } from 'vitest'
-import { resourceSnapshot } from './__tests__/codex-resource-contract-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { type Command, checkCommands } from './script.js'
 import {
   checkScriptIndex,
@@ -83,7 +83,7 @@ test.each([
   }
   expect(() => checkScriptIndex(good)).not.toThrow()
   const input = invalid()
-  const before = resourceSnapshot(input)
+  const before = deepSnapshot(input)
   expect(() => checkScriptIndex(input)).toThrow(new Error(message))
   expect(input).toEqual(before)
 })
@@ -106,7 +106,7 @@ test('normalization keeps custom paths, unique external imports, Unicode byte co
     }),
     'scene/b': chunk('scene/b', { 'scene/b/root': [] }),
   }
-  const before = resourceSnapshot({ sourceIndex, sources })
+  const before = deepSnapshot({ sourceIndex, sources })
   const result = normalizeScriptLibrary(sourceIndex, sources)
   checkScriptLibrary(result.index, result.chunks)
   expect({ sourceIndex, sources }).toEqual(before)
@@ -137,7 +137,7 @@ test('normalization enforces the exact 1MiB serialized chunk boundary using inde
   const normalized = normalizeScriptLibrary(index(), below)
   checkScriptLibrary(normalized.index, normalized.chunks)
   expect(normalized.index.chunks['scene/a']?.bytes).toBe(1024 * 1024 - 1)
-  const before = resourceSnapshot(at)
+  const before = deepSnapshot(at)
   expect(() => normalizeScriptLibrary(index(), at)).toThrow(
     new Error('脚本 chunk scene/a 1048576B 超过 1MiB'),
   )
@@ -149,7 +149,7 @@ test('script ownership detects duplicates, resolves the actual owner, and distin
     'scene/a': chunk('scene/a', { 'scene/a/empty': [] }),
     'scene/b': chunk('scene/b', { 'internal/body': [{ kind: 'wait', ms: 7 }] }),
   }
-  const before = resourceSnapshot(chunks)
+  const before = deepSnapshot(chunks)
   expect(getScriptBody(index(), chunks, 'scene/a/empty')).toBe(
     chunks['scene/a'].scripts['scene/a/empty'],
   )
@@ -175,7 +175,7 @@ test('authored removal keeps collocated siblings and updates metadata without mu
     [{ kind: 'wait', ms: 5 }],
   )
   checkScriptLibrary(both.index, both.chunks)
-  const before = resourceSnapshot(both)
+  const before = deepSnapshot(both)
   const result = removeAuthoredScript(both.index, both.chunks, 'shared/user/a')
   checkScriptLibrary(result.index, result.chunks)
   expect(result.index.library).toEqual({ 'shared/user/b': { name: 'B', self: 'optional' } })
@@ -203,7 +203,7 @@ test('library independently rejects stale bytes/hash, missing files and unregist
   checkScriptLibrary(library.index, library.chunks)
   const meta = library.index.chunks['scene/a']
   if (!meta) throw new Error('missing fixture metadata')
-  const original = resourceSnapshot(library)
+  const original = deepSnapshot(library)
   for (const [patch, message] of [
     [
       { bytes: meta.bytes + 1 },
@@ -212,7 +212,7 @@ test('library independently rejects stale bytes/hash, missing files and unregist
     [{ hash: 'bad' }, `scripts/scene/a: hash bad 与实际 ${meta.hash} 不一致`],
   ] as const) {
     const input = { ...library.index, chunks: { 'scene/a': { ...meta, ...patch } } }
-    const before = resourceSnapshot(input)
+    const before = deepSnapshot(input)
     expect(() => checkScriptLibrary(input, library.chunks)).toThrow(new Error(message))
     expect(input).toEqual(before)
   }
@@ -241,7 +241,7 @@ test('ref validation accepts a stale chunk hint only when the stable ID resolves
         'scene/a/root': [{ kind: 'callScript', ref: { chunk: 'old-hint', id } }],
       }),
     })
-    const before = resourceSnapshot(bad)
+    const before = deepSnapshot(bad)
     expect(() => checkScriptLibrary(bad.index, bad.chunks)).toThrow(
       new Error(
         `scripts: 孤儿 ref old-hint:${id}(derived=${id === 'unknown' ? 'none' : 'scene/b'})`,
@@ -260,7 +260,7 @@ test('shared SCC members colocate; absent global configuration stays unresolved 
   expect(deriveScriptChunk('global//x', shards)).toBeUndefined()
   const ref = { chunk: 'scene/a', id: 'scene/a/root' }
   const input = { inner: [null, 'not-ref', { child: ref }] }
-  const before = resourceSnapshot(input)
+  const before = deepSnapshot(input)
   const visited: unknown[] = []
   visitScriptRefs(input, (value) => visited.push(value))
   expect(visited).toEqual([ref])

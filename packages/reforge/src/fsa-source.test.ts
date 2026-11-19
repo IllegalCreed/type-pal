@@ -1,77 +1,220 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { fsaSource } from './fsa-source.js'
 
-/** 内存 mock:files 以 'a/b.json' 全路径为键;值 = 字符串内容。递归造目录/文件句柄。 */
-function mockDir(files: Record<string, string>): FileSystemDirectoryHandle {
-  const make = (prefix: string): FileSystemDirectoryHandle =>
-    ({
-      async getDirectoryHandle(name: string) {
-        return make(prefix ? `${prefix}/${name}` : name)
-      },
-      async getFileHandle(name: string) {
-        const full = prefix ? `${prefix}/${name}` : name
-        if (!(full in files)) throw new DOMException(`NotFound ${full}`, 'NotFoundError')
-        return {
-          async getFile() {
-            const content = files[full] ?? ''
-            return {
-              text: async () => content,
-              arrayBuffer: async () => new TextEncoder().encode(content).buffer,
-            }
-          },
-        }
-      },
-    }) as unknown as FileSystemDirectoryHandle
-  return make('')
+function gate() {
+  let release: () => void = () => {
+    throw new Error('Test gate was not initialized')
+  }
+  const promise = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  return { promise, release }
 }
 
-describe('fsaSource', () => {
-  const dir = mockDir({
-    'manifest.json': '{"id":"proj"}',
-    'content/actors.json': '[{"id":"a"}]',
-    'assets/tilemap/1.json': '{"w":2}',
+function assetDirectory(
+  body = '{"caption":"山路"}',
+  after: (step: string) => void | Promise<void> = () => {},
+) {
+  const operations: string[] = []
+  async function step(name: string) {
+    operations.push(name)
+    await after(name)
+  }
+  const file = new File([body], 'route.json', { type: 'application/json' })
+  const readFileText = file.text.bind(file)
+  file.text = async () => {
+    await step('read text')
+    return readFileText()
+  }
+  const readFileBytes = file.arrayBuffer.bind(file)
+  file.arrayBuffer = async () => {
+    await step('read bytes')
+    return readFileBytes()
+  }
+
+  const handle: FileSystemFileHandle = {
+    kind: 'file',
+    name: file.name,
+    async isSameEntry(other) {
+      return other === handle
+    },
+    async getFile() {
+      await step('get file')
+      return file
+    },
+    async createWritable() {
+      throw new Error('Read fixture cannot write a file')
+    },
+  }
+  function unexpectedListing(): never {
+    throw new Error('A direct file read does not list a directory')
+  }
+  function directory(name: string): FileSystemDirectoryHandle {
+    const dir: FileSystemDirectoryHandle = {
+      kind: 'directory',
+      name,
+      async getDirectoryHandle(child) {
+        await step(`directory ${child}`)
+        if (name === 'project' && child === 'content') return directory(child)
+        if (name === 'content' && child === 'maps') return directory(child)
+        throw new DOMException(child, 'NotFoundError')
+      },
+      async getFileHandle(child) {
+        await step(`file ${child}`)
+        if (name === 'maps' && child === file.name) return handle
+        throw new DOMException(child, 'NotFoundError')
+      },
+      async isSameEntry(other) {
+        return other === dir
+      },
+      async removeEntry() {
+        throw new Error('Read fixture cannot remove an entry')
+      },
+      async resolve() {
+        return null
+      },
+      [Symbol.asyncIterator]: unexpectedListing,
+      entries: unexpectedListing,
+      keys: unexpectedListing,
+      values: unexpectedListing,
+    }
+    return dir
+  }
+  return { source: fsaSource(directory('project')), operations }
+}
+
+const route = 'content/maps/route.json'
+const traverse = ['directory content', 'directory maps', 'file route.json', 'get file']
+
+function pauseAt(operation: string) {
+  const entered = gate()
+  const resume = gate()
+  return {
+    entered: entered.promise,
+    release: resume.release,
+    async after(step: string) {
+      if (step !== operation) return
+      entered.release()
+      await resume.promise
+    },
+  }
+}
+
+function operationOf(
+  source: ReturnType<typeof fsaSource>,
+  operation: 'text' | 'json' | 'bytes',
+  signal: AbortSignal,
+) {
+  switch (operation) {
+    case 'text':
+      return source.readText(route, signal)
+    case 'json':
+      return source.readJson(route, signal)
+    case 'bytes':
+      return source.readBytes(route, signal)
+  }
+}
+
+describe('directory file reads', () => {
+  test('traverses the registered project path and returns text, parsed JSON and exact bytes', async () => {
+    const literal = '{"caption":"山路"}'
+    const { source, operations } = assetDirectory(literal)
+    await expect(source.readText(route)).resolves.toBe(literal)
+    await expect(source.readJson(route)).resolves.toEqual({ caption: '山路' })
+    expect(new Uint8Array(await source.readBytes(route))).toEqual(new TextEncoder().encode(literal))
+    expect(operations).toEqual([
+      ...traverse,
+      'read text',
+      ...traverse,
+      'read text',
+      ...traverse,
+      'read bytes',
+    ])
   })
 
-  test('readText / readJson 逐段进目录取文件', async () => {
-    const s = fsaSource(dir)
-    expect(await s.readText('manifest.json')).toBe('{"id":"proj"}')
-    expect(await s.readJson('content/actors.json')).toEqual([{ id: 'a' }])
-    expect(await s.readJson('assets/tilemap/1.json')).toEqual({ w: 2 })
-  })
-
-  test('readBytes 返回 ArrayBuffer', async () => {
-    const buf = await fsaSource(dir).readBytes('manifest.json')
-    expect(new TextDecoder().decode(new Uint8Array(buf))).toBe('{"id":"proj"}')
-  })
-
-  test('urlFor 同路径缓存，dispose 统一 revoke', async () => {
-    const createObjectURL = vi.fn(() => 'blob:xyz')
-    const revokeObjectURL = vi.fn()
-    vi.stubGlobal('URL', { createObjectURL, revokeObjectURL })
-    const source = fsaSource(dir)
-    expect(await source.urlFor('manifest.json')).toBe('blob:xyz')
-    expect(await source.urlFor('manifest.json')).toBe('blob:xyz')
-    expect(createObjectURL).toHaveBeenCalledTimes(1)
-    source.dispose?.()
-    expect(revokeObjectURL).toHaveBeenCalledWith('blob:xyz')
-    vi.restoreAllMocks()
-  })
-
-  test('拒绝越界与绝对路径', async () => {
-    const source = fsaSource(dir)
-    await expect(source.readText('../manifest.json')).rejects.toThrow('禁止空段、. 或 ..')
-    await expect(source.readText('/manifest.json')).rejects.toThrow('禁止绝对路径')
-  })
-
-  test('缺文件 → 抛(NotFound 透传)', async () => {
-    await expect(fsaSource(dir).readText('nope.json')).rejects.toThrow()
-  })
-
-  test('已取消读取立即抛 AbortError', async () => {
-    const ac = new AbortController()
-    ac.abort()
-    await expect(fsaSource(dir).readJson('manifest.json', ac.signal)).rejects.toMatchObject({
-      name: 'AbortError',
+  test('reports native absence separately from malformed JSON', async () => {
+    const { source } = assetDirectory('{incomplete')
+    await expect(source.readText('content/maps/absent.json')).rejects.toMatchObject({
+      name: 'NotFoundError',
+      message: 'absent.json',
     })
+    await expect(source.readText(route)).resolves.toBe('{incomplete')
+    await expect(source.readJson(route)).rejects.toBeInstanceOf(SyntaxError)
+  })
+
+  test('rejects absolute and parent paths without opening any handle', async () => {
+    const { source, operations } = assetDirectory()
+    await expect(source.readText(`/${route}`)).rejects.toThrow(
+      new Error(`fsaSource 路径: 禁止绝对路径 "/${route}"`),
+    )
+    await expect(source.urlFor('../route.json')).rejects.toThrow(
+      new Error('fsaSource 路径: 禁止空段、. 或 .. "../route.json"'),
+    )
+    expect(operations).toEqual([])
+  })
+})
+
+describe('directory read cancellation', () => {
+  test('a signal already aborted rejects before directory traversal', async () => {
+    const { source, operations } = assetDirectory()
+    await expect(source.readJson(route, AbortSignal.abort())).rejects.toMatchObject({
+      name: 'AbortError',
+      message: 'file read aborted',
+    })
+    expect(operations).toEqual([])
+  })
+
+  test.each([
+    { interrupted: 'directory content', method: 'text', started: ['directory content'] },
+    { interrupted: 'file route.json', method: 'bytes', started: traverse.slice(0, 3) },
+    { interrupted: 'get file', method: 'json', started: traverse },
+    { interrupted: 'read text', method: 'json', started: [...traverse, 'read text'] },
+    { interrupted: 'read bytes', method: 'bytes', started: [...traverse, 'read bytes'] },
+  ] satisfies {
+    interrupted: string
+    method: Parameters<typeof operationOf>[1]
+    started: string[]
+  }[])('cancels during $interrupted before observing success or starting the next IO', async ({
+    interrupted,
+    method,
+    started,
+  }) => {
+    // Invalid JSON distinguishes cancellation after the body read from an accidental parse.
+    const paused = pauseAt(interrupted)
+    const { source, operations } = assetDirectory('{incomplete', paused.after)
+    const controller = new AbortController()
+    const outcome = operationOf(source, method, controller.signal)
+    const rejection = expect(outcome).rejects.toMatchObject({
+      name: 'AbortError',
+      message: 'file read aborted',
+    })
+    await paused.entered
+    try {
+      expect(operations).toEqual(started)
+      controller.abort()
+    } finally {
+      paused.release()
+    }
+    await rejection
+    expect(operations).toEqual(started)
+  })
+})
+
+describe('local object URL lifetime', () => {
+  test('reuses a file URL within a source and revokes it when that source is disposed', async () => {
+    const { source, operations } = assetDirectory()
+    const url = await source.urlFor(route)
+    try {
+      expect(await source.urlFor(route)).toBe(url)
+      const response = await fetch(url)
+      expect(response.ok).toBe(true)
+      await expect(response.text()).resolves.toBe('{"caption":"山路"}')
+      expect(operations).toEqual(traverse)
+      source.dispose?.()
+      await expect(fetch(url)).rejects.toBeInstanceOf(TypeError)
+    } finally {
+      source.dispose?.()
+      URL.revokeObjectURL(url)
+    }
   })
 })

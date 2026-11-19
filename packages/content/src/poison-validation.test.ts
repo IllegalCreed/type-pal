@@ -1,8 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { minimalPoison } from './__tests__/glm-foundation-fixtures.js'
 import { expectExactError, expectRejectUnchanged } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
+import type { PoisonDef } from './poison.js'
 import { validatePoisons } from './validate.js'
+
+function minimalPoison(id = 551) {
+  return { id, name: `毒${id}`, curability: 'common', color: 16 } satisfies PoisonDef
+}
 
 describe('poison definitions', () => {
   test('loads both tick tables and relationship IDs from complete poison records', () => {
