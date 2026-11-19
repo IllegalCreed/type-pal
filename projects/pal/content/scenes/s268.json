@@ -1310,48 +1310,61 @@
             "stages": [
               {
                 "id": "stage-1",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4673"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4674"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s268",
+                        "entity": "e4678"
+                      }
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 47,
+                        "row": 0,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "cameraSnap",
+                      "to": {
+                        "col": 49,
+                        "row": 0.375,
+                        "height": 0
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                },
                 "body": [
                   {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s268",
-                      "entity": "e4673"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s268",
-                      "entity": "e4674"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s268",
-                      "entity": "e4678"
-                    }
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 47,
-                      "row": 0,
-                      "height": 0
-                    }
-                  },
-                  {
-                    "kind": "setPartyFacing",
-                    "facing": "up"
-                  },
-                  {
-                    "kind": "cameraPan",
-                    "dx": 26,
-                    "dy": 19,
-                    "frames": 1
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "dialog",
@@ -1389,7 +1402,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1409,7 +1422,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1641,10 +1654,7 @@
                     "kind": "loadScene",
                     "scene": "s273"
                   }
-                ],
-                "next": {
-                  "kind": "complete"
-                }
+                ]
               }
             ]
           }
