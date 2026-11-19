@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "414-421",
+      "lines": "415-422",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
+      "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "455-462",
+      "lines": "456-463",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
+      "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:414-421",
-        "packages/reforge/src/main.ts:455-462",
+        "packages/reforge/src/main.ts:415-422",
+        "packages/reforge/src/main.ts:456-463",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -356,6 +356,29 @@
         }
       ],
       "scope": "核感知香候选后的七处现行片段。旧执行、原件、断言和发布身份按原记录。"
+    },
+    {
+      "action": "q2-scene-item-exit-source-rebinding",
+      "base": "25b4d5430f7daa410cef5e91447ac02e1dc00c3d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "414-421",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "455-462",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
+        }
+      ],
+      "scope": "核场景用物候选后的五处现行片段。旧执行、原件、断言和发布身份按原记录。"
     }
   ],
   "_governance": {

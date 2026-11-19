@@ -1637,6 +1637,38 @@ export function restoreTestingWorldAwarenessSourceBindings(path, bytes, inputs) 
   )
 }
 
+export const testingSceneItemExitPublicationBase = '25b4d5430f7daa410cef5e91447ac02e1dc00c3d'
+const sceneItemExitStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '414-421': '415-422',
+        '455-462': '456-463',
+        '1269-1367': '1286-1384',
+        '441-452': '442-453',
+        5784: '5841',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingSceneItemExitPublicationBase,
+  action: 'q2-scene-item-exit-source-rebinding',
+  date: '2026-11-19',
+}
+const sceneItemExitBindings = new Map(
+  [...worldAwarenessBindings].map(([path, binding]) => [
+    path,
+    { ...binding, paths: [reforgeMain] },
+  ]),
+)
+
+export const isTestingSceneItemExitSource = (path) => sceneItemExitStage.ranges.has(path)
+
+export function restoreTestingSceneItemExitSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, sceneItemExitStage, sceneItemExitBindings)
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

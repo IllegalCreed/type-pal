@@ -52,6 +52,7 @@ import {
   isTestingBattleSummonSource,
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
+  isTestingSceneItemExitSource,
   isTestingWorldAwarenessSource,
   isTestingWorldItemTargetSource,
   restoreTestingBattleActionCadenceSourceBindings,
@@ -83,6 +84,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingSceneItemExitSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
   restoreTestingWorldItemTargetSourceBindings,
   testingBattleActionCadencePublicationBase,
@@ -131,6 +133,7 @@ import {
   testingBattleWindBlowPublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingSceneItemExitPublicationBase,
   testingWorldAwarenessPublicationBase,
   testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
@@ -826,8 +829,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const worldAwarenessSource = worldAwarenessRevision && gitTree(root, worldAwarenessRevision, [])
   const preWorldAwareness =
     worldAwarenessSource && gitTree(root, testingWorldAwarenessPublicationBase, [])
-  const readBeforeWorldAwareness = (path) => {
+  const sceneItemExitRevision = admission.testingSceneItemExitSourceRevision
+  if (sceneItemExitRevision !== undefined)
+    assert(
+      worldAwarenessSource && /^[a-f0-9]{40}$/u.test(sceneItemExitRevision),
+      'scene item exit source bridge requires the fixed preceding world incense revision',
+    )
+  const sceneItemExitSource = sceneItemExitRevision && gitTree(root, sceneItemExitRevision, [])
+  const preSceneItemExit =
+    sceneItemExitSource && gitTree(root, testingSceneItemExitPublicationBase, [])
+  const readBeforeSceneItemExit = (path) => {
     const live = readSource(path)
+    if (!preSceneItemExit || !isTestingSceneItemExitSource(path)) return live
+    assert(
+      live?.equals(sceneItemExitSource.read(path)),
+      'scene item exit source differs from the frozen candidate',
+    )
+    return preSceneItemExit.read(path)
+  }
+  const readBeforeWorldAwareness = (path) => {
+    const live = readBeforeSceneItemExit(path)
     if (!preWorldAwareness || !isTestingWorldAwarenessSource(path)) return live
     assert(
       live?.equals(worldAwarenessSource.read(path)),
@@ -1043,13 +1064,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorWorldAwareness = preWorldAwareness
-      ? restoreTestingWorldAwarenessSourceBindings(path, bytes, {
+    const priorSceneItemExit = preSceneItemExit
+      ? restoreTestingSceneItemExitSourceBindings(path, bytes, {
           readSource,
+          readBase: preSceneItemExit.read,
+          readFixed: sceneItemExitSource.read,
+        })
+      : bytes
+    const priorWorldAwareness = preWorldAwareness
+      ? restoreTestingWorldAwarenessSourceBindings(path, priorSceneItemExit, {
+          readSource: readBeforeSceneItemExit,
           readBase: preWorldAwareness.read,
           readFixed: worldAwarenessSource.read,
         })
-      : bytes
+      : priorSceneItemExit
     const priorWorldItemTarget = preWorldItemTarget
       ? restoreTestingWorldItemTargetSourceBindings(path, priorWorldAwareness, {
           readSource: readBeforeWorldAwareness,

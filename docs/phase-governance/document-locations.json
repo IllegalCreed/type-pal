@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "668b53708762afbde8fc830e71deed1ef7e010c87dfd3ebb1911a83f430c4f92",
+      "afterSha256": "10d9bbc63a9b79c3e7202df2faefde09dc4e7a01bcbfb568f98e20ce339fdf64",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 感知香与场景用物实测复核",
+        "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核双端输入、追逐、炼化和返场原件。",
-        "reviewedLines": 90,
-        "acceptanceScope": "核七件战外道具、两组修前反例、原速声画、归档回读及当前入口计数。"
+        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
+        "reviewedLines": 91,
+        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1d28e78346abbd6a33a642e07e4dda031318e8f851870f01c8a8b5d190da0ee9",
+      "afterSha256": "a0bdb210d5089dd9a58aa3e98767af3e2bfd2398f8b9e2dfcce801a030ce0bdb",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 8513,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 8584,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "7d27a7387857f5bdd27d2363e35b7fc83bd6cba31d6739207e0588d55161b85d",
+      "afterSha256": "3cfead36b664012cfd3764bb9cf33505cdf5c9f13a9b161923fd25548cb672aa",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
+        "conclusion": "核固定源码指纹和对应片段。",
         "reviewedLines": 99,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "cee2ea099b72a819e54119a948688fcb1c0b54fae8281fc00bced96308ef50ce",
+      "afterSha256": "e56c9ba9615bab71088144fd9c49b5b31227b9196a37b8f402e592b61f2c0eea",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 428,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 451,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "73cd9bd21e08fb162037b41b329eef24e70e3ac3c2a3b70dbe7634e6c374036c",
+      "afterSha256": "47db8f0f5997002199788a9418db12ada275ec2f8fb09a3769e05d591376051d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
+        "conclusion": "核固定源码指纹和对应片段。",
         "reviewedLines": 98,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6031ac594d94ad2605762fa929f13fc0a35efce53830c382f1c9835a2180e455",
+      "afterSha256": "e5664f53be3107f3f3bf6bc9968b4983774730c4f94fb513074d32b37d625be5",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 407,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 423,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "5507854ad31fa1aef918f94cb7f3568707dff994ce1ac5be589b045e9807400f",
+      "afterSha256": "9999d5bfff6e5211de19d3d575159cc8b06d5e17488aedd01495b1dcc8532710",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
+        "conclusion": "核固定源码指纹和对应片段。",
         "reviewedLines": 99,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "22707b37760bf582bf213c7800a325ee654fff5da009b6d9383ad63568737f55",
+      "afterSha256": "f68f80a074797b968ee9289a7b1cb2a5443a9ad03daa7d8776ab2dde7a819958",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 382,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 398,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "d719aa989e7e2c234cc008a8358b9e2c7c94906f0aab82ef441ea4b628274122",
+      "afterSha256": "6ee1268853e2a83a000e1c15e4921acb1a6d3d02a53a7c02526ff9e93b9d585c",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 场景用物同局复核",
+        "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核原盘出口、聚拢和开门脚本。",
-        "reviewedLines": 929,
-        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
+        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
+        "reviewedLines": 933,
+        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
       }
     },
     {
@@ -5429,40 +5429,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "8e346fc1046980dd59dd0a47ff00c519ad290efeb7f181de4618c29fcd6a0e01",
+      "afterSha256": "22219d03067b164e2c6a53e6f4630b0938f276afcd423b23c20bd830590f5ff3",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 14771,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 14787,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "9c74d1e11c79150b4fa106a9f82ab5165c7a4794b1c9e30747115add70bd4a11",
+      "afterSha256": "edf87686e1df6255b3ab9344c97d672a82e1c443dd85e0a8371f68108c38133d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 感知香与场景用物实测复核",
+        "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
-        "conclusion": "核双端输入、追逐、炼化和返场原件。",
-        "reviewedLines": 1257,
-        "acceptanceScope": "核七件战外道具、两组修前反例、原速声画、归档回读及当前入口计数。"
+        "conclusion": "核引路蜂和石钥匙在真实操作下的状态与实绘。",
+        "reviewedLines": 1267,
+        "acceptanceScope": "核五组同局、短录重试、五个业务反例、带声分屏、归档复算和当前入口计数。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "cc70b5dee25e426f837ead332249a3bcd9d516c75a1909cbff706a30ff4ade50",
+      "afterSha256": "6d78711bb1c932fd28d45889b57a4d0a2f32c25f048998477b8321aa4170afc3",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 世界调用来源复核",
+        "reviewer": "Codex 场景用物来源复核",
         "date": "2026-11-19",
-        "conclusion": "核固定源文件指纹和对应片段。",
-        "reviewedLines": 398,
-        "acceptanceScope": "核七处现行片段的前后字节、历史执行和原件身份。"
+        "conclusion": "核固定源码指纹和对应片段。",
+        "reviewedLines": 402,
+        "acceptanceScope": "核五处现行片段的前后字节及历史执行、断言、原件和发布身份。"
       }
     }
   ],
@@ -6214,6 +6214,12 @@
       "bytes": 24239880,
       "sha256": "61a8954a4ffef93dcd2ae3cf143ad435876b80b315f01ed93022e2042fb719a8",
       "purpose": "战外感知香、炼化与读物的原生回执、同判据反例、复算和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-scene-items-20261119.tar.gz",
+      "bytes": 12879476,
+      "sha256": "27e3084ce2699607417292118d40c6a9912610f4fb877cae4a36f682a45b686d",
+      "purpose": "场景用物传送、聚拢、开门和场景退出的双端实测、同判据反例及原声分屏。"
     }
   ],
   "artifactAliases": [],
