@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "bf035aff417c62b8432116b8549dcc40fef6eb899cb485391b33bdb65a652328",
+      "afterSha256": "f7f96dda5a78709d1c80ac95e061701081133d8a2d1e753ef1de49484442188e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记本片可恢复的正式原件与回放。",
-        "reviewedLines": 97,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "conclusion": "补入钓竿、鱼的巡游与可恢复原件入口。",
+        "reviewedLines": 98,
+        "acceptanceScope": "核任务证据索引入口、同局实测回执链接和可恢复内容。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "869fed61a4166734c0dd492e89dee0b5638f8401d4be47c6ccdc2e355a9710b2",
+      "afterSha256": "ac7128c9aaa8fe1686ddeb5dae7aec6a29fbb4de3e490aa6461e895ac9760e33",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记原盘点名转向及各服装素材的帧组来源。",
-        "reviewedLines": 1902,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "conclusion": "复核原盘钓鱼开场的同步淡入与逐帧等待。",
+        "reviewedLines": 1904,
+        "acceptanceScope": "核 0x09 的首次实际合成、挂起淡入、等待余拍和实绘原件。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c3bcc092eea94fc37e90984cdb7894da14fb57c6ebfd2f0c14f8b7d0aa428fd3",
+      "afterSha256": "6c72642a91cd3c49ef86103bc5337f8f6de7bdda1ab546fb60dfd1e4d2aea8d0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "区分战斗证据与末柱演出分片。保留历史回执。",
-        "reviewedLines": 967,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "conclusion": "收口白河村钓竿的复验。",
+        "reviewedLines": 983,
+        "acceptanceScope": "核问题归因、合法用物、实际动作和待补范围。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4b549af73533016f2eaf5f98c3a00eacbcc05c1f585025d51040c226661cd120",
+      "afterSha256": "8cea6cc59380cca432cd428440220c6a79dfb663a8a38d4a1ef20eef0e61d4f4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "现行来源锚点重绑，保持全部战斗执行和结论原样。",
-        "reviewedLines": 1316,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "conclusion": "复核白河村钓竿的双端用物与两条鱼巡视。",
+        "reviewedLines": 1324,
+        "acceptanceScope": "核逐步实绘、世界拍、上钩、返场和成片解码。"
       }
     },
     {
@@ -5542,31 +5542,48 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
+        "required": [
+          "docs/engineering/guides/agent-workflow.md",
+          "docs/tasks/board.md"
+        ]
       },
       {
         "operation": "写、改或审查测试",
-        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
+        "required": [
+          "docs/testing/governance.md",
+          "docs/engineering/guides/agent-workflow.md"
+        ]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": ["docs/phase1/README.md"]
+        "required": [
+          "docs/phase1/README.md"
+        ]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": ["docs/phase2/READ-FIRST.md"]
+        "required": [
+          "docs/phase2/READ-FIRST.md"
+        ]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": ["docs/lore/README.md"]
+        "required": [
+          "docs/lore/README.md"
+        ]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": ["docs/phase3/README.md"]
+        "required": [
+          "docs/phase3/README.md"
+        ]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+        "required": [
+          "docs/testing/e2e/contract.md",
+          "docs/lore/timeline.md"
+        ]
       },
       {
         "operation": "封板、合并或发布回执",
@@ -6297,6 +6314,12 @@
       "bytes": 22437438,
       "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
       "purpose": "末柱至雪崖单分片的双端执行、拒收实证、编辑器预览、原速带声分屏和逐段解码证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fishing-patrol-20261119.tar.gz",
+      "bytes": 12718932,
+      "sha256": "d01c0e5a155a28ae33316835466ee6c7c75ae53d6bda4452956b039692507db7",
+      "purpose": "白河村钓竿与两条鱼的双端原生实绘、逐步节拍、上钩显隐、两组反例和原速带声分屏。"
     }
   ],
   "artifactAliases": [],
