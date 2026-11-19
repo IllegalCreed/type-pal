@@ -1875,6 +1875,69 @@ function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   return priorBytes
 }
 
+export const testingQ2CoveragePublicationBase = '45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335'
+const q2CoverageBattleRanges = new Map([
+  ['scripts/e2e/battle-game-adapter.mjs', { 480: '486' }],
+  ['scripts/e2e/battle-reforge-adapter.mjs', { 179: '179' }],
+  ['scripts/e2e/battle-trace-contract.mjs', { 973: '1014' }],
+  ['scripts/e2e/battle-reforge-instrumentation.mjs', { 17: '18' }],
+  ['packages/content/src/rewards.ts', { 260: '268' }],
+  ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+])
+const q2CoverageStage = {
+  ranges: new Map([
+    ...q2CoverageBattleRanges,
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1290-1388': '1291-1389',
+        '443-455': '443-455',
+        5854: '5869',
+      },
+    ],
+    [openingTraceTest, { '554-669': '560-675' }],
+    [worldItemMenuSession, { '106-130': '107-131' }],
+    ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '9-32' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2CoveragePublicationBase,
+  action: 'q2-coverage-and-scene-fade-source-rebinding',
+  date: '2026-11-19',
+}
+const q2CoverageBindings = new Map([
+  ...worldItemTargetBindings,
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+  ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [...q2CoverageBattleRanges.keys(), reforgeMain],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingQ2CoverageSource = (path) => q2CoverageStage.ranges.has(path)
+
+export function restoreTestingQ2CoverageSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, q2CoverageStage, q2CoverageBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

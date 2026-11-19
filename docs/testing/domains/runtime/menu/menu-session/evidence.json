@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/menu/menu-session.ts",
-      "lines": "106-130",
+      "lines": "107-131",
       "anchor": "export class MenuSession",
       "role": "contract",
-      "sha256": "679a085984d7f36509524342f332a30baf53dcec504a70dad89df5969b7469e4"
+      "sha256": "364a1b49ecd49c57c0cea63e3cb76f6f2dfccab0f6db713ae0efafc9d3418854"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -28,7 +28,7 @@
       "lines": "9-32",
       "anchor": "test('closed menu ignores input",
       "role": "oracle",
-      "sha256": "becadd7d546413f6f3f02aab5aca37e3a4e6e6ad15c04f62b448f638c5755f78"
+      "sha256": "27af2ccb2d40f470fdd8c5ede51e908d4c64dadead670698c602674e1a00c1e9"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.test.ts",
@@ -75,7 +75,7 @@
       "id": "reforge-menu-session-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/menu/menu-session.ts:106-130",
+        "packages/reforge/src/menu/menu-session.ts:107-131",
         "packages/reforge/src/menu/item-use-session.ts:2-19",
         "packages/reforge/src/menu/menu-session.test.ts:9-32",
         "packages/reforge/src/menu/item-use-session.test.ts:5-22",
@@ -154,6 +154,29 @@
         }
       ],
       "scope": "菜单会话原所有权片段补入上次选人槽位。移除该字段后原片段逐字节相等。原 oracle 范围逐字节相等，新反例位于其下方。"
+    },
+    {
+      "action": "q2-coverage-and-scene-fade-source-rebinding",
+      "base": "45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-session.ts",
+          "lines": "106-130",
+          "anchor": "export class MenuSession",
+          "role": "contract",
+          "sha256": "679a085984d7f36509524342f332a30baf53dcec504a70dad89df5969b7469e4"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-session.test.ts",
+          "lines": "9-32",
+          "anchor": "test('closed menu ignores input",
+          "role": "oracle",
+          "sha256": "becadd7d546413f6f3f02aab5aca37e3a4e6e6ad15c04f62b448f638c5755f78"
+        }
+      ],
+      "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
     }
   ],
   "_governance": {

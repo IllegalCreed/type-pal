@@ -54,6 +54,7 @@ import {
   isTestingBattleWindBlowSource,
   isTestingCliffEntrySource,
   isTestingPartyPoseSource,
+  isTestingQ2CoverageSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -89,6 +90,7 @@ import {
   restoreTestingCliffEntrySourceBindings,
   restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingQ2CoverageSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
@@ -141,6 +143,7 @@ import {
   testingPartyPosePublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingQ2CoveragePublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
@@ -873,8 +876,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const partyPoseSource = partyPoseRevision && gitTree(root, partyPoseRevision, [])
   const prePartyPose = partyPoseSource && gitTree(root, testingPartyPosePublicationBase, [])
-  const readBeforePartyPose = (path) => {
+  const q2CoverageRevision = admission.testingQ2CoverageSourceRevision
+  if (q2CoverageRevision) assert(partyPoseRevision && /^[a-f0-9]{40}$/u.test(q2CoverageRevision))
+  const q2CoverageSource = q2CoverageRevision && gitTree(root, q2CoverageRevision, [])
+  const preQ2Coverage = q2CoverageSource && gitTree(root, testingQ2CoveragePublicationBase, [])
+  const readBeforeQ2Coverage = (path) => {
     const live = readSource(path)
+    if (!preQ2Coverage || !isTestingQ2CoverageSource(path)) return live
+    assert(
+      live?.equals(q2CoverageSource.read(path)),
+      `Q2 source differs from the fixed candidate: ${path}`,
+    )
+    return preQ2Coverage.read(path)
+  }
+  const readBeforePartyPose = (path) => {
+    const live = readBeforeQ2Coverage(path)
     if (!prePartyPose || !isTestingPartyPoseSource(path)) return live
     assert(
       live?.equals(partyPoseSource.read(path)),
@@ -1125,16 +1141,24 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
     return preSummon.read(path)
   }
+  const beforeQ2Coverage = (path, bytes) =>
+    preQ2Coverage
+      ? restoreTestingQ2CoverageSourceBindings(path, bytes, {
+          readSource,
+          readBase: preQ2Coverage.read,
+          readFixed: q2CoverageSource.read,
+        })
+      : bytes
   const beforePartyPose = (path, bytes) =>
     prePartyPose
       ? restoreTestingPartyPoseSourceBindings(path, bytes, {
-          readSource,
+          readSource: readBeforeQ2Coverage,
           readBase: prePartyPose.read,
           readFixed: partyPoseSource.read,
         })
       : bytes
   const beforeBattleSummon = (path, bytes) => {
-    const priorPartyPose = beforePartyPose(path, bytes)
+    const priorPartyPose = beforePartyPose(path, beforeQ2Coverage(path, bytes))
     const priorCliffEntry = preCliffEntry
       ? restoreTestingCliffEntrySourceBindings(path, priorPartyPose, {
           readSource: readBeforePartyPose,

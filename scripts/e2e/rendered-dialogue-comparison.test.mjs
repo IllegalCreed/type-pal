@@ -63,3 +63,14 @@ test('missing text, a relocated slot and a changed body independently fail', () 
     assert.equal(result.findings[0].issue, issue)
   }
 })
+
+test('an absent field cannot stand for a drawn box without a title or portrait', () => {
+  for (const field of ['speaker', 'portrait', 'portraitLayout']) {
+    const incomplete = visible(1)
+    delete incomplete.slots[0][field]
+    const result = compareRenderedDialogue([visible(0), incomplete, visible(1)], expected)
+    assert.equal(result.status, 'rejected')
+    assert.equal(result.findings[0].issue, 'incomplete-drawn-dialogue-record')
+    assert.deepEqual(result.findings[0].missing, [field])
+  }
+})

@@ -27,22 +27,22 @@
       "path": "scripts/e2e/battle-game-adapter.mjs",
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
-      "lines": "480",
-      "sha256": "9b6711b6b5503b55ecd1345170262f562336cc08647aed26813085e3e383a324"
+      "lines": "486",
+      "sha256": "77340c8dfc43b751fb160fd1d44c677ce453a507af37cf439ac7be2b55f9a73a"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
       "anchor": "running = runBattleTrial(",
       "role": "public-trial-adapter",
       "lines": "179",
-      "sha256": "1dbaabeaac8b477dc937396e287feb7c8975ec6606b7a2e6af5674bd72e81a6d"
+      "sha256": "dd90cb64282e9e2b32696418d288dff2334ea6c5440e06243108798b5131926f"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
       "anchor": "export function validateBattleTrace(",
       "role": "oracle",
-      "lines": "973",
-      "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
+      "lines": "1014",
+      "sha256": "f475eba68766bd881c16938fe3413141cbf5e2c660e7851490c0999670a782eb"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -83,8 +83,8 @@
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
-      "lines": "17",
-      "sha256": "de22d569969d296532986f263a1272a5139d7aaceb2ca86da70d7f814f522e24"
+      "lines": "18",
+      "sha256": "a27b2d225e393e7b64f3f39d08ad3502810d1db353b7822f0b1f5242205d8254"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -258,8 +258,8 @@
       "path": "packages/content/src/rewards.ts",
       "anchor": "export function recoverBattleParty(",
       "role": "post-world-script-half-recovery",
-      "lines": "260",
-      "sha256": "95338fd47c8029d0d1cf043258eb97e9306c4a8a2f463952bc4c085e101a07b8"
+      "lines": "268",
+      "sha256": "3d7b878bebc001942c654e9253e9243eff935dfd83372d7639045dd62a116073"
     },
     {
       "path": "scripts/e2e/battle-world-bee-game.config.mts",
@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "25",
-      "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
+      "sha256": "1303221f282edd7af88a91ca5bb64507e15b80bdda7c7ceb6d4dd63577b592b0",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5854",
-      "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+      "lines": "5869",
+      "sha256": "b4775126324865d875104f49c04c8794117393f2d2cb4bc2ad467dcf5692eb58"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13563,6 +13563,64 @@
         }
       ],
       "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
+    },
+    {
+      "action": "q2-coverage-and-scene-fade-source-rebinding",
+      "base": "45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "lines": "480",
+          "sha256": "9b6711b6b5503b55ecd1345170262f562336cc08647aed26813085e3e383a324"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "anchor": "running = runBattleTrial(",
+          "role": "public-trial-adapter",
+          "lines": "179",
+          "sha256": "1dbaabeaac8b477dc937396e287feb7c8975ec6606b7a2e6af5674bd72e81a6d"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "anchor": "export function validateBattleTrace(",
+          "role": "oracle",
+          "lines": "973",
+          "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "de22d569969d296532986f263a1272a5139d7aaceb2ca86da70d7f814f522e24"
+        },
+        {
+          "path": "packages/content/src/rewards.ts",
+          "anchor": "export function recoverBattleParty(",
+          "role": "post-world-script-half-recovery",
+          "lines": "260",
+          "sha256": "95338fd47c8029d0d1cf043258eb97e9306c4a8a2f463952bc4c085e101a07b8"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5854",
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+        }
+      ],
+      "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
     }
   ],
   "_governance": {

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
 import { readEvidenceArtifact } from './evidence-artifact.mjs'
 import { compareRenderedDialogue, sourceDialogueGroups } from './rendered-dialogue-comparison.mjs'
 import {
@@ -116,10 +117,16 @@ async function readSide(path, engine) {
     revision: report.revision,
     startClock,
     trial,
+    sourceHashes: report.hashes,
     anchor: (trial.applied.dispatches[0].atMs - startClock) / 1000,
   }
   source.authoredInputs = Object.fromEntries(
-    ['projects/pal/content/items.json', 'projects/pal/content/scenes/s002.json'].map((file) => {
+    [
+      'projects/pal/content/items.json',
+      'projects/pal/content/scenes/s002.json',
+      'projects/pal/content/scenes/s001.json',
+      'projects/pal/content/maps/map-012.json',
+    ].map((file) => {
       const digest = report.hashes[file]
       assert.match(digest ?? '', /^[a-f\d]{64}$/u, `${engine} missing authored input: ${file}`)
       return [file, digest]
@@ -155,29 +162,86 @@ function compareDrawings(source) {
   return { stood: turns.slice(down), firstCollapsed: first }
 }
 
-/** E39 is a static sprite with native CurrentFrameNum 2, at [1424,728]. */
-export function inspectInnActorFrames(engine, records, span) {
-  // A presented pose remains on screen until the next world draw. In Game a
-  // dialogue can keep that frame while the separate palette and UI clocks advance.
-  const ranges =
+function actorFramesIn(records, span) {
+  // Game can present one world draw while separate palette and dialogue clocks advance.
+  return (
     records?.map((row, index) => ({
       ...row,
       heldUntilMs: records[index + 1]?.atMs ?? row.endAtMs,
     })) ?? []
-  const observed = ranges.filter(
-    ({ atMs, heldUntilMs }) => heldUntilMs > span.startAtMs && atMs <= span.endAtMs,
+  ).filter(({ atMs, heldUntilMs }) => heldUntilMs > span.startAtMs && atMs <= span.endAtMs)
+}
+
+function coversTime(observed, span) {
+  return (
+    observed.length > 0 &&
+    observed[0].atMs <= span.startAtMs &&
+    observed.at(-1).heldUntilMs >= span.endAtMs
   )
+}
+
+const wangXiaohu = { id: 'e36', position: [1472, 736], sprite: 32, frame: 0, facing: 'down' }
+const treatmentCast = [
+  { id: 'e34', position: [1488, 728], sprite: 58, frame: 0, facing: 'down' },
+  wangXiaohu,
+]
+const nightCast = [
+  wangXiaohu,
+  { id: 'e39', position: [1424, 728], sprite: 215, frame: 2, facing: 'down' },
+]
+
+const bedroomCast = [{ id: 'e8', position: [1376, 288], sprite: 55, frame: 0, facing: 'down' }]
+
+function inspectInnCast(source) {
+  const start = {
+    id: 'inn-before-use',
+    scene: 's002',
+    startAtMs: source.trial.before.atMs,
+    endAtMs: source.trial.applied.dispatches[0].atMs,
+  }
+  const firstBedroom = source.handoff.firstVisible?.atMs
+  const spans = source.spans.map((span) =>
+    span.scene === 's001' && firstBedroom !== undefined
+      ? { ...span, startAtMs: firstBedroom }
+      : span,
+  )
+  const casts = {
+    'inn-before-use': treatmentCast,
+    's002-treatment': treatmentCast,
+    's002-night': nightCast,
+    's001-bedroom': bedroomCast,
+  }
+  return [start, ...spans].map((span) => {
+    const expected = casts[span.id]
+    const observed = actorFramesIn(source.trial.actorFrames, span)
+    const receipt = { id: span.id, expected }
+    if (!coversTime(observed, span) || observed.some(({ cast }) => !Array.isArray(cast)))
+      return { ...receipt, status: 'missing-visible-cast' }
+    const differing = observed.find(
+      ({ scene, cast, camera }) =>
+        scene !== span.scene ||
+        !isDeepStrictEqual(cast, expected) ||
+        (span.id === 'inn-before-use' && !isDeepStrictEqual(camera, [1296, 616])),
+    )
+    if (differing) return { ...receipt, status: 'wrong-visible-cast', observed: differing }
+    return {
+      ...receipt,
+      status: 'passed',
+      draws: observed.reduce((n, { frames }) => n + frames, 0),
+    }
+  })
+}
+
+/** E39 is a static sprite with native CurrentFrameNum 2, at [1424,728]. */
+export function inspectInnActorFrames(engine, records, span) {
+  const observed = actorFramesIn(records, span)
   const expected = {
     resource: engine === 'game' ? 215 : 'sprite.pal.215',
     frame: 2,
     facing: 'down',
     position: engine === 'game' ? [1424, 728] : [90, 1, 0],
   }
-  if (
-    !observed.length ||
-    observed[0].atMs > span.startAtMs ||
-    observed.at(-1).heldUntilMs < span.endAtMs
-  ) {
+  if (!coversTime(observed, span)) {
     return { status: 'missing-actor-frames', engine, id: span.id, actor: 'e39', expected }
   }
   for (const row of observed) {
@@ -335,11 +399,32 @@ export async function compareInnDialogue(game, reforge) {
   assert.equal(sources[0].revision, sources[1].revision)
   assert.deepEqual(sources[0].authoredInputs, sources[1].authoredInputs)
   assert.deepEqual(sources[0].trial.before.position, sources[1].trial.before.position)
+  assert.deepEqual(sources[0].trial.before.inventory, sources[1].trial.before.inventory)
+  assert.equal(sources[0].trial.before.facing, sources[1].trial.before.facing)
+  assert.equal(sources[0].trial.before.music, sources[1].trial.before.music)
   assert.deepEqual(sources[0].trial.returned.position, sources[1].trial.returned.position)
   assert.deepEqual(sources[0].trial.returned.inventory, sources[1].trial.returned.inventory)
   const { groups, locale, sources: dialogueSources } = await innDialogueContract()
   const findings = []
   for (const source of sources) {
+    for (const [file, digest] of Object.entries(dialogueSources))
+      assert.equal(
+        source.sourceHashes[file],
+        digest,
+        `${source.engine} dialogue source drift: ${file}`,
+      )
+    const draws = source.trial.renderedDialogue?.filter(
+      ({ atMs }) => atMs >= source.trial.applied.dispatches[0].atMs,
+    )
+    source.renderedDialogue = compareRenderedDialogue(draws, groups, locale)
+    source.handoff = innHandoff(source)
+    source.cast = inspectInnCast(source)
+    for (const proof of [
+      ...source.handoff.findings,
+      ...source.renderedDialogue.findings,
+      ...source.cast.filter(({ status }) => status !== 'passed'),
+    ])
+      findings.push({ engine: source.engine, ...proof })
     const { lastSeconds, background } = await inspectDialogueBackground(
       source.recording,
       source.spans,
@@ -350,7 +435,7 @@ export async function compareInnDialogue(game, reforge) {
       if (proof.status !== 'passed') findings.push({ engine: source.engine, ...proof })
     }
   }
-  if (findings.length === 0) {
+  if (sources.every(({ background }) => background.every(({ status }) => status === 'passed'))) {
     for (const source of sources) {
       const span = source.spans.find(({ id }) => id === 's002-night')
       const trace = source.trial.nightFrames?.filter(
@@ -376,13 +461,6 @@ export async function compareInnDialogue(game, reforge) {
       for (const proof of source.actorPixels) {
         if (proof.status !== 'passed') findings.push({ engine: source.engine, ...proof })
       }
-      source.handoff = innHandoff(source)
-      const draws = source.trial.renderedDialogue?.filter(
-        ({ atMs }) => atMs >= source.trial.applied.dispatches[0].atMs,
-      )
-      source.renderedDialogue = compareRenderedDialogue(draws, groups, locale)
-      for (const proof of [...source.handoff.findings, ...source.renderedDialogue.findings])
-        findings.push({ engine: source.engine, ...proof })
       if (source.handoff.status === 'passed' && source.renderedDialogue.status === 'passed') {
         source.nativeVideo = await decodedInnScene(source, source.recording)
         for (const proof of source.nativeVideo)
@@ -406,7 +484,7 @@ export async function compareInnDialogue(game, reforge) {
     status: findings.length ? 'rejected' : 'passed',
     findings,
     dialogueSources,
-    recordings: sources.map(({ trial: _trial, ...proof }) => proof),
+    recordings: sources.map(({ trial: _trial, sourceHashes: _sourceHashes, ...proof }) => proof),
   }
 }
 

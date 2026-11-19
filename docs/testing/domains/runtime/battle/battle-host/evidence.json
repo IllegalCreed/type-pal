@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1290-1388",
+      "lines": "1291-1389",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+      "sha256": "b4775126324865d875104f49c04c8794117393f2d2cb4bc2ad467dcf5692eb58"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -75,7 +75,7 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1290-1388",
+        "packages/reforge/src/main.ts:1291-1389",
         "packages/reforge/src/battle/battle-host.ts:72-88",
         "packages/reforge/src/battle/battle-host.ts:277-288",
         "packages/reforge/src/battle/battle-host.test.ts:14-37",
@@ -405,6 +405,22 @@
         }
       ],
       "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
+    },
+    {
+      "action": "q2-coverage-and-scene-fade-source-rebinding",
+      "base": "45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1290-1388",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+        }
+      ],
+      "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
     }
   ],
   "_governance": {

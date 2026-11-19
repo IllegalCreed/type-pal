@@ -68,6 +68,19 @@ export function compareRenderedDialogue(draws, groups, locale = {}) {
   }
   for (const { scene, atMs, slots } of draws) {
     for (const slot of slots) {
+      const missing = ['slot', 'lines', 'speaker', 'portrait', 'portraitLayout'].filter(
+        (field) => !Object.hasOwn(slot, field),
+      )
+      if (missing.length) {
+        record(`${scene}:missing:${missing.join(',')}`, {
+          issue: 'incomplete-drawn-dialogue-record',
+          scene,
+          atMs,
+          missing,
+          actual: slot,
+        })
+        continue
+      }
       const visible = normalize(slot.lines.join(''))
       if (!visible && !slot.ids?.length) continue
       const candidates = expected.filter(
@@ -93,7 +106,7 @@ export function compareRenderedDialogue(draws, groups, locale = {}) {
         slot: slot.slot,
         speaker: heading(locale[slot.speaker] ?? slot.speaker),
         portrait: slot.portrait,
-        portraitLayout: slot.portraitLayout ?? slot.portrait !== null,
+        portraitLayout: slot.portraitLayout,
       }
       const compatible = candidates.filter(({ identity }) => isDeepStrictEqual(identity, actual))
       if (compatible.length === 0) {
