@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/scripts/workflow/codex-hook.mjs\"",
+            "statusMessage": "加载 Type-PAL 开工路由"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch|Edit|Write)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/scripts/workflow/codex-hook.mjs\"",
+            "statusMessage": "核对 Type-PAL 工作流来源"
+          }
+        ]
+      }
+    ]
+  }
+}

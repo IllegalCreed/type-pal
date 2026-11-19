@@ -25,6 +25,12 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 步骤
 
+### 开工入口与工具拦截
+
+用一条独立命令按根路由加载当前工作类型和相应任务卡。可组合命中类型：`code`、`docs`、`cleanup`、`task`、`test`、`game`、`reforge`、`lore`、`phase3`、`e2e`、`release`。例如 `node scripts/workflow/open.mjs task,e2e,test,reforge docs/tasks/cards/E2E-PILLAR-CINEMATIC-1.md`。读命中分支，向用户报范围、首步和验收，再执行。工作类型或作用范围变更时重新开工。
+
+[项目 Hook](../../../.codex/hooks.json)启用后，在 Codex 的受支持 shell／文件编辑工具调用前核对本轮开工及对应文件摘要。跨轮、换工作树或规范／卡面变化均须重新加载。项目受信和 Hook 定义的信任是不同设置；未信任的本地 Hook 会跳过，按 [Codex 的 Hook 信任流程](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks)验一次。此门证明路由文件已加载，不能证明已理解规范，也不覆盖其他工具。正式验收入口独立验证实际证据，Hook 不授予通过信用。
+
 ### 1. 进入 build 前核前提
 
 任务沿用 `draft → build → review → done`，以及 `blocked/rework/cancelled`。`Status` 本身不代替准入证据。

@@ -38,6 +38,8 @@ Template: test-contract-v1 / 1.0.0
 node scripts/e2e/recompare-recording.mjs FRAGMENT GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON
 ```
 
+分片专项可以复用战斗专项的合法原生局面作为复验起点，但演出仍按分片合同比较；返场或战斗通过不授演出信用。末柱演出用 `dragon-pillar` 作为离线片段 ID。其[正式分屏入口](../../../scripts/e2e/dragon-pillar/split.mjs)先重算双端回执，逐队员实绘、走廊群演、影片交接或雪崖前景存在缺证和差异时拒绝输出验收片。本回执不替代正式前驱与终档新会话读回。
+
 逐段任务卡引用这条命令的原件和结果。独立 verify 跑完后，按比较回执裁定双轨状态。两端同候选且 `status: passed`、记录来源适用于本次范围时，交付分屏回放。若需用户决策，附同一语义点的原件、备选表现和影响。
 
 ### 1. 产品定位与前置关系

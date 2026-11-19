@@ -6,14 +6,14 @@
     {
       "path": "AGENTS.md",
       "mode": "reviewed",
-      "afterSha256": "3e2f6299becf51476c7c183bd82482fbf8362c9c71aec3e3dc47fc3d354522c1",
+      "afterSha256": "f7f1017da11cb55248bb178920fccfd36da5631192cb8a67e60b99a87dfc36b9",
       "review": {
-        "author": "/root/thin_indexes",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "保留新主线质量/瘦身/协作约定，单根11类操作与领域路由；第一阶段、lore、phase3按需进入，不恢复历史授权。",
-        "reviewedLines": 47,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记执行前加载根路由并向用户说明范围与验收。",
+        "reviewedLines": 49,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -50,29 +50,29 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "70629eacb8d41a52bbfebd9bffb61cfd44ecad83b2cd340589e03ef65a234bb6",
+      "afterSha256": "492534997d84ada8b28be71d4033338325565a5ad0fd3beaff080b5603ef2996",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
+        "conclusion": "将末柱至雪崖复验指到分片现行任务，历史结论保持。",
         "reviewedLines": 577,
-        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/ops/agent-workflow.md",
       "mode": "reviewed",
-      "afterSha256": "a999e6f09b7c5efd2826cf0cb108a1eb4d95fb3528250dc5a15423031afc9c2b",
+      "afterSha256": "dabcf38550ef4281a345b38cb56d8de3f502545581bc37434a9fbfbb36809edc",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/status_reconcile",
-        "date": "2026-11-04",
-        "conclusion": "从已完成总纲承接原八项长期清理清单，逐字保留表格，现行工程流程维护唯一规则；默认路径不依赖终态任务。",
-        "reviewedLines": 164,
-        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记项目开工命令、工具拦截和实际信任边界。",
+        "reviewedLines": 170,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -4006,14 +4006,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "79926ed9fecbe4e392db6cc57671d7bf874c5fe0584acb5a8bc9a76ffd7b7159",
+      "afterSha256": "5ae6bf1d7eceb8552c9b9183dfc2f06d6daaaadbcceb14a6c8ebcc0d53ead2ee",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 核原盘、双端实绘与恢复原件",
-        "date": "2026-11-17",
-        "conclusion": "核已修节拍、实跑回归和历史三处已验接线的逐字节适用性。",
-        "reviewedLines": 657,
-        "acceptanceScope": "复算旧版反例、修后节拍、主动防御、自动格挡和失败卷轴，核真实调用及录制。"
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记末柱分片的统一离线入口及正式出片准入。",
+        "reviewedLines": 659,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4947,7 +4947,7 @@
       "path": "docs/phase2/guides/scene-entry-authoring.md",
       "mode": "reviewed",
       "templateId": "guide-runbook-v1",
-      "historyOverlay": true,
+      "historyOverlay": false,
       "afterSha256": "7c9ca9ebbf5fded07c0bd224105b8b2e6eb3c459ce78edcb15ce0f5ccf7b629e",
       "review": {
         "author": "Codex /root",
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e0e152bb2355087c3a2e92bf4fc44982a35bdd34f09b0ff5011dab4334c76caa",
+      "afterSha256": "c3bcc092eea94fc37e90984cdb7894da14fb57c6ebfd2f0c14f8b7d0aa428fd3",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
-        "reviewedLines": 965,
-        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+        "conclusion": "区分战斗证据与末柱演出分片。保留历史回执。",
+        "reviewedLines": 967,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -5483,14 +5483,27 @@
     {
       "path": "docs/tasks/cards/PAL-ENTRY-FADE-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "b4d31754591c3862b7cc62cbb398acf3d4eb044b8ac8ee49e66b0f54c2c30e3e",
+      "afterSha256": "15b691a4723b0d1c0fd28066f161b6ce417597808eba5fea06a043f0e638b1ff",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记本轮入场复验的实际范围及证据指针。",
+        "conclusion": "核任务模板标题并指向现行分片。",
         "reviewedLines": 69,
-        "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-PILLAR-CINEMATIC-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "66077c620056f09e260cd6f2cabdeeadbb057034a1297b314e378fcf742ef1a8",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记用户授权的末柱至雪崖分片范围、真值门与证据。",
+        "reviewedLines": 41,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     }
   ],
