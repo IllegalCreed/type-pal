@@ -233,9 +233,9 @@ export async function executeWorldItemUse(
             changed: false,
             effectResults: planned.effectResults,
             presentations: [],
-            reason: 'external-unavailable',
+            reason: 'placement-unavailable',
             message: effect.unavailableMessage,
-            menu: 'keep',
+            menu: planned.menu,
           }
         break
       }

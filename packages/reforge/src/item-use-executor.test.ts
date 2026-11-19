@@ -533,7 +533,7 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
     })
     expect(failed).toMatchObject({
       status: 'failure',
-      reason: 'external-unavailable',
+      reason: 'placement-unavailable',
       message: '此处无法放置',
       consumed: false,
     })

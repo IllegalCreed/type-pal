@@ -637,6 +637,7 @@ export interface WorldItemUseOutcome {
     | 'missing-materials'
     | 'empty-resource-pool'
     | 'external-unavailable'
+    | 'placement-unavailable'
   message?: string
   menu: 'keep' | 'close'
 }

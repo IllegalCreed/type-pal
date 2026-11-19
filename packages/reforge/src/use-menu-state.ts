@@ -116,14 +116,18 @@ export function useApply(
   return { itemId: s.selectedItemId, targetCharId, origin: 'pick-target', state: s }
 }
 
-/** 异步执行完成后的唯一菜单归并；失败保持原位，成功再按来源/配置决定留菜单或关闭。 */
+/** 异步执行完成后的菜单归并。放置不成功也走该道具配置的退场方式。 */
 export function finishUseExecution(
   request: UseExecutionRequest,
   outcome: WorldItemUseOutcome,
   items: ItemDataMap,
 ): UseMenuState {
+  if (
+    outcome.menu === 'close' &&
+    (outcome.status === 'success' || outcome.reason === 'placement-unavailable')
+  )
+    return closeUseMenu()
   if (outcome.status !== 'success') return request.state
-  if (outcome.menu === 'close') return closeUseMenu()
   if (request.origin === 'pick-target') {
     const stillUsable = usableItems(outcome.world, items).some((it) => it.id === request.itemId)
     return stillUsable

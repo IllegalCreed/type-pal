@@ -1,6 +1,7 @@
 import type { WorldItemUseOutcome } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import { deferred, menuFixture, settle } from '../__tests__/menu-session-fixture.js'
+import { executeWorldItemUse } from '../item-use-executor.js'
 import { CLOSED } from '../menu-state.js'
 import type { UseExecutionRequest } from '../use-menu-state.js'
 
@@ -276,6 +277,62 @@ test.each(
   expect(h.world).toEqual(before)
   expect(h.ports.showToast).toHaveBeenCalledExactlyOnceWith(text)
   expect(h.ports.report).toHaveBeenCalledExactlyOnceWith(`itemUse(tonic): ${text}`)
+})
+
+test('blocked placement shows a world notice and returns to exploration with the item', async () => {
+  const h = menuFixture()
+  const gate = deferred<void>()
+  const inventory = structuredClone(h.world.inventory)
+  const message = '此处无法放置'
+  h.items.tonic!.use = {
+    target: 'scene',
+    consuming: true,
+    menuAfterUse: 'close',
+    effects: [
+      {
+        kind: 'placeEntityInFront',
+        target: { scene: 'room', entity: 'trap' },
+        state: 2,
+        unavailableMessage: message,
+      },
+    ],
+  }
+  const placement = vi.fn(async () => false)
+  h.ports.executeItemUse.mockImplementation((request, signal) =>
+    executeWorldItemUse({
+      world: h.world,
+      itemId: request.itemId,
+      targetCharId: request.targetCharId,
+      items: h.items,
+      host: {
+        currentWorld: () => h.world,
+        runScript: vi.fn(async () => undefined),
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: placement,
+      },
+      signal,
+    }),
+  )
+  h.ports.presentPlacementFailure.mockReturnValue(gate.promise)
+  h.openPanel('use')
+  h.press('Enter')
+  await settle()
+  try {
+    expect(placement).toHaveBeenCalledOnce()
+    expect(h.ports.presentPlacementFailure).toHaveBeenCalledExactlyOnceWith(
+      message,
+      h.ports.executeItemUse.mock.calls[0]?.[1],
+    )
+    expect(h.ports.showToast).not.toHaveBeenCalled()
+    expect(h.menus.closed).toBe(true)
+    expect(h.operation.pending).toBe(true)
+  } finally {
+    gate.resolve()
+    await settle()
+  }
+  expect(h.menus.closed).toBe(true)
+  expect(h.operation.pending).toBe(false)
+  expect(h.world.inventory).toEqual(inventory)
 })
 
 test('custom item message is retained and unexpected executor failure restores the original menu', async () => {

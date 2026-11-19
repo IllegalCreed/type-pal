@@ -79,6 +79,7 @@ export interface MenuPorts {
   executeItemUse(request: UseExecutionRequest, signal: AbortSignal): Promise<WorldItemUseOutcome>
   playSound(asset: AssetId): void
   presentItemResults(entries: readonly ItemUseResultEntry[], signal: AbortSignal): Promise<void>
+  presentPlacementFailure(text: string, signal: AbortSignal): Promise<void>
   showToast(text: string): void
   report(text: string): void
   audioPreferences(): Readonly<{ music: boolean; sound: boolean }>
@@ -515,9 +516,12 @@ export class MenuSession {
           if (results.length > 0) await this.ports.presentItemResults(results, signal)
         } else {
           const message = itemUseFailureText(outcome.reason, outcome.message)
-          this.ports.showToast(message)
           this.ports.report(`itemUse(${request.itemId}): ${message}`)
+          if (outcome.reason === 'placement-unavailable')
+            await this.ports.presentPlacementFailure(message, signal)
+          else this.ports.showToast(message)
         }
+        if (signal.aborted) return
         this.#useMenu = finishUseExecution(request, outcome, this.content.items)
         if (this.#useMenu.active) this.#menu = menuBefore
       } catch (error) {
@@ -537,7 +541,10 @@ export class MenuSession {
   }
 }
 
-function itemUseFailureText(reason: string | undefined, message: string | undefined): string {
+function itemUseFailureText(
+  reason: WorldItemUseOutcome['reason'],
+  message: string | undefined,
+): string {
   if (message) return message
   switch (reason) {
     case 'not-owned':
@@ -554,6 +561,8 @@ function itemUseFailureText(reason: string | undefined, message: string | undefi
       return '当前没有可用资源'
     case 'external-unavailable':
       return '当前场景无法执行这个用途'
+    case 'placement-unavailable':
+      return '此处无法放置'
     case 'invalid-effect-chain':
       return '物品用途配置不完整'
     default:

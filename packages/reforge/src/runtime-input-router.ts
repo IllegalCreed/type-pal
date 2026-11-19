@@ -4,7 +4,7 @@ export interface RuntimeInputPorts {
   consumeShop(pressed: ReadonlySet<string>): boolean
   consumeReward(pressed: ReadonlySet<string>): boolean
   menu: { active(): boolean; input(pressed: ReadonlySet<string>): void; open(): void }
-  dialogue: { active(): boolean; advance(realNow: number): void }
+  dialogue: { active(): boolean; dismissOnKey?(): boolean; advance(realNow: number): void }
   scriptRunning(): boolean
   hostileBusy(): boolean
   quickSave(): void
@@ -36,6 +36,7 @@ export function routeRuntimeInput(
     // Advancing one reward must not deliver the same key to the menu below it.
   } else if (ports.menu.active()) ports.menu.input(pressed)
   else if (ports.dialogue.active()) {
+    if (pressed.size > 0 && ports.dialogue.dismissOnKey?.()) return
     if (confirm) ports.dialogue.advance(realNow)
   } else if (ports.scriptRunning() || ports.hostileBusy()) {
     // Script presentation / pending encounter preparation owns exploration input.
