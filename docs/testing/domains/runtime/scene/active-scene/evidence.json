@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "459-466",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -609,6 +609,29 @@
         }
       ],
       "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-inn-escorts-source-rebinding",
+      "base": "92ff3fcef43905f172b41fb5411b8852ef7f6bf3",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "459-466",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+        }
+      ],
+      "scope": "角色的循环追逐可选世界拍节奏，原有推进和存读档入口的被引片段逐字节相等。复用既有历史执行并保留各自原候选。"
     }
   ],
   "_governance": {

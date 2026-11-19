@@ -14,14 +14,14 @@
       "lines": "444-456",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
-      "lines": "167-193",
+      "lines": "169-195",
       "anchor": "export class WorldMotionRuntime",
       "role": "contract",
-      "sha256": "a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6"
+      "sha256": "a5b9f840eb8ebc847246120fc45c96a56fb827214891a33bda3a0f3c95948ea3"
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.ts",
@@ -84,7 +84,7 @@
       "result": "source-backed",
       "evidence": [
         "packages/reforge/src/main.ts:444-456",
-        "packages/reforge/src/world-motion-runtime.ts:167-193",
+        "packages/reforge/src/world-motion-runtime.ts:169-195",
         "packages/reforge/src/world-scene-presentation.ts:72-89",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
@@ -512,6 +512,29 @@
         }
       ],
       "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-inn-escorts-source-rebinding",
+      "base": "92ff3fcef43905f172b41fb5411b8852ef7f6bf3",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "444-456",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+        },
+        {
+          "path": "packages/reforge/src/world-motion-runtime.ts",
+          "lines": "167-193",
+          "anchor": "export class WorldMotionRuntime",
+          "role": "contract",
+          "sha256": "a4088a8995b861377e03e98736ee8992fa018c57b031f377897fc9885dbdb2a6"
+        }
+      ],
+      "scope": "角色的循环追逐可选世界拍节奏，原有推进和存读档入口的被引片段逐字节相等。复用既有历史执行并保留各自原候选。"
     }
   ],
   "_governance": {

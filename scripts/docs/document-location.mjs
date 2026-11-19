@@ -56,6 +56,7 @@ import {
   isTestingPartyPoseSource,
   isTestingQ2CoverageSource,
   isTestingQ2EntryAutoSource,
+  isTestingQ2EscortsSource,
   isTestingQ2InnSource,
   isTestingQ2NoticeSource,
   isTestingQ2PeachSource,
@@ -99,6 +100,7 @@ import {
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingQ2CoverageSourceBindings,
   restoreTestingQ2EntryAutoSourceBindings,
+  restoreTestingQ2EscortsSourceBindings,
   restoreTestingQ2InnSourceBindings,
   restoreTestingQ2NoticeSourceBindings,
   restoreTestingQ2PeachSourceBindings,
@@ -159,6 +161,7 @@ import {
   testingProjectVictoryVersionPath,
   testingQ2CoveragePublicationBase,
   testingQ2EntryAutoPublicationBase,
+  testingQ2EscortsPublicationBase,
   testingQ2InnPublicationBase,
   testingQ2NoticePublicationBase,
   testingQ2PeachPublicationBase,
@@ -929,8 +932,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2InnRevision) assert(q2RingRevision && /^[a-f0-9]{40}$/u.test(q2InnRevision))
   const q2InnSource = q2InnRevision && gitTree(root, q2InnRevision, [])
   const preQ2Inn = q2InnSource && gitTree(root, testingQ2InnPublicationBase, [])
-  const readBeforeQ2Inn = (path) => {
+  const q2EscortsRevision = admission.testingQ2EscortsSourceRevision
+  if (q2EscortsRevision) assert(q2InnRevision && /^[a-f0-9]{40}$/u.test(q2EscortsRevision))
+  const q2EscortsSource = q2EscortsRevision && gitTree(root, q2EscortsRevision, [])
+  const preQ2Escorts = q2EscortsSource && gitTree(root, testingQ2EscortsPublicationBase, [])
+  const readBeforeQ2Escorts = (path) => {
     const live = readSource(path)
+    if (!preQ2Escorts || !isTestingQ2EscortsSource(path)) return live
+    assert(
+      live?.equals(q2EscortsSource.read(path)),
+      'inn escorts source differs from the frozen candidate',
+    )
+    return preQ2Escorts.read(path)
+  }
+  const readBeforeQ2Inn = (path) => {
+    const live = readBeforeQ2Escorts(path)
     if (!preQ2Inn || !isTestingQ2InnSource(path)) return live
     assert(live?.equals(q2InnSource.read(path)), 'inn source differs from the frozen candidate')
     return preQ2Inn.read(path)
@@ -1248,13 +1264,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorInn = preQ2Inn
-      ? restoreTestingQ2InnSourceBindings(path, bytes, {
+    const priorEscorts = preQ2Escorts
+      ? restoreTestingQ2EscortsSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2Escorts.read,
+          readFixed: q2EscortsSource.read,
+        })
+      : bytes
+    const priorInn = preQ2Inn
+      ? restoreTestingQ2InnSourceBindings(path, priorEscorts, {
+          readSource: readBeforeQ2Escorts,
           readBase: preQ2Inn.read,
           readFixed: q2InnSource.read,
         })
-      : bytes
+      : priorEscorts
     const priorRing = preQ2Ring
       ? restoreTestingQ2RingSourceBindings(path, priorInn, {
           readSource: readBeforeQ2Inn,

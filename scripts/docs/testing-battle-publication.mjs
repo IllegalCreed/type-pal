@@ -2241,6 +2241,54 @@ export function restoreTestingQ2InnSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, innSourceStage, innSourceBindings)
 }
 
+export const testingQ2EscortsPublicationBase = '92ff3fcef43905f172b41fb5411b8852ef7f6bf3'
+const escortsSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5918: '5953',
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+      },
+    ],
+    ['packages/reforge/src/world-motion-runtime.ts', { '167-193': '169-195' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2EscortsPublicationBase,
+  action: 'q2-inn-escorts-source-rebinding',
+  date: '2026-11-20',
+}
+const escortsSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    {
+      id: 'runtime-world-owners',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/world-motion-runtime.ts'],
+    },
+  ],
+])
+
+export const isTestingQ2EscortsSource = (path) => escortsSourceStage.ranges.has(path)
+
+export function restoreTestingQ2EscortsSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, escortsSourceStage, escortsSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
