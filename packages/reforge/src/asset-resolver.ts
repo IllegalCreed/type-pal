@@ -18,7 +18,8 @@ export class AssetResolver {
   ) {}
 
   record(asset: AssetId, expectedKind?: AssetKind): AssetRecordV1 {
-    const record = this.catalog.assets[asset]
+    const assets = this.catalog.assets
+    const record = Object.hasOwn(assets, asset) ? assets[asset] : undefined
     if (!record)
       throw new Error(
         `工程 "${this.projectId}" 解析 AssetId "${asset}" 失败:catalog 无此记录` +

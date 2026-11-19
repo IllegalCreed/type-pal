@@ -1,4 +1,4 @@
-import type { AssetCatalogV1 } from '@type-pal/content'
+import { type AssetCatalogV1, validateAssetCatalog } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import { AssetResolver } from './asset-resolver.js'
 import type { FileSource } from './file-source.js'
@@ -78,6 +78,28 @@ describe('AssetResolver', () => {
     await expect(resolver.readBytes('song', 'music')).rejects.toThrow(
       /demo.*song.*music.*assets\/authored\/song\.mid.*NotFound/,
     )
+  })
+
+  test('only actual catalog entries can be resolved, including registered built-in names', async () => {
+    const io = source()
+    const id = 'constructor'
+    const missing = new AssetResolver('demo', validateAssetCatalog(catalog), roles, io)
+    expect(() => missing.record(id)).toThrow(
+      new Error('工程 "demo" 解析 AssetId "constructor" 失败:catalog 无此记录'),
+    )
+    await expect(missing.readBytes(id, 'music')).rejects.toThrow(
+      new Error('工程 "demo" 解析 AssetId "constructor" 失败:catalog 无此记录，期望 kind=music'),
+    )
+    expect(io.readBytes).not.toHaveBeenCalled()
+
+    const registered = validateAssetCatalog({
+      ...catalog,
+      assets: { ...catalog.assets, [id]: catalog.assets.song },
+    })
+    const resolver = new AssetResolver('demo', registered, roles, io)
+    expect(resolver.record(id, 'music')).toBe(catalog.assets.song)
+    const bytes = await resolver.readBytes(id, 'music')
+    expect(new TextDecoder().decode(bytes)).toBe('assets/authored/song.mid')
   })
 
   test('dispose 委托给 source，切工程可释放其 URL', () => {
