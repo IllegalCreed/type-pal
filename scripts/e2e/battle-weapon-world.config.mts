@@ -71,9 +71,9 @@ function reforgeRead(code: string): string {
         role: ORIGINAL_ROLE_TEMPLATES.indexOf(world.party.find(({id}) => id === equipMenu.casterId)?.template) }
       : { kind: 'cascade', cursor: level?.cursor ?? null, entries: level?.nodes.map(({id}) => id) ?? [] }
     return {
-      ready: !worldTriggerDeliveryBusy() && !presentation.busy() && fadeDriver.value === 0,
+      ready: checkpointLoad === 'loaded' && !worldTriggerDeliveryBusy() && !presentation.busy() && fadeDriver.value === 0,
       scene: activeScene.scene.id, grid: [player.pos.col, player.pos.row],
-      facing, music: Number(world.audio.currentMusic?.split('.').at(-1)), menu: active,
+      facing, music: Number(world.audio?.currentMusic?.split('.').at(-1)), menu: active,
       stock: world.inventory.map(({ itemId, count }) => [itemId, count]),
       party: world.party.map((role) => {
         const battle = derived.find((entry) => entry.roleId === role.id)

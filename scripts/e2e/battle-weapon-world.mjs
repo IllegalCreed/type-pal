@@ -362,19 +362,13 @@ await runBrowserJourney({
               )
               let navigated = selection.selected
               let preview = first
-              if (role !== first.role && role !== normalizedRole(first.role)) {
+              if (role !== normalizedRole(first.role)) {
                 // The party scenario uses exactly one normal down key to select its second member.
                 assert.deepEqual(scenario.party, [0, role])
                 await press('ArrowDown', id)
-                // Let input processing and the presentation tick run before reading the cursor.
-                await page.evaluate(
-                  () =>
-                    new Promise((done) =>
-                      requestAnimationFrame(() =>
-                        requestAnimationFrame(() => requestAnimationFrame(done)),
-                      ),
-                    ),
-                )
+                // Game's field/menu update uses a slower tick than the browser's paint loop.
+                // Observe both accepted and ignored navigation after that tick has elapsed.
+                await pause(225)
                 navigated = await read(page)
                 if (navigated.menu.role !== selection.selected.menu.role)
                   preview = await hold(item, navigated.menu.role, first.order, id)
