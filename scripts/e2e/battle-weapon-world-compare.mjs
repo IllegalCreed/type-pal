@@ -37,13 +37,13 @@ function validateGameCheckpoint(checkpoint, scenario) {
   )
 }
 
-async function readSide(path, engine, profile, inputs, catalogue, sources) {
+async function readSide(path, engine, profile, inputs, catalogue, sources, scenario, fixtureData) {
   const absolute = resolve(path)
   const directory = dirname(absolute)
   const { value: report, sha256 } = await readEvidenceArtifact(directory, {
     path: basename(absolute),
   })
-  const scenario = equipmentScenario(report.scenario, catalogue, profile === 'counter')
+  assert.equal(report.scenario, scenario.id)
   assert.deepEqual(
     [report.engine, report.profile, report.counter, report.repeats, report.status],
     [
@@ -87,7 +87,7 @@ async function readSide(path, engine, profile, inputs, catalogue, sources) {
     report.cases.map(({ runId }) => runId),
     ids,
   )
-  const { event, save } = await makeEquipmentFixture(inputs, scenario)
+  const { event, save } = fixtureData
   const { value: fixture, binding } = await readEvidenceArtifact(directory, report.fixture)
   assert.equal(binding.status, 'verified')
   assert.deepEqual([fixture.event, fixture.scenario], [event, scenario])
@@ -177,9 +177,12 @@ for (const judge of ['battle-weapon-world-compare.mjs', 'battle-weapon-world-rul
 }
 const [inputs, sources] = await Promise.all([loadEquipmentInputs(), worldEquipmentSources()])
 const catalogue = equipmentCatalogue(inputs)
+const gameReport = JSON.parse(await readFile(resolve(gamePath), 'utf8'))
+const scenario = equipmentScenario(gameReport.scenario, catalogue, profile === 'counter')
+const fixture = await makeEquipmentFixture(inputs, scenario)
 const [game, reforge] = await Promise.all([
-  readSide(gamePath, 'game', profile, inputs, catalogue, sources),
-  readSide(reforgePath, 'reforge', profile, inputs, catalogue, sources),
+  readSide(gamePath, 'game', profile, inputs, catalogue, sources, scenario, fixture),
+  readSide(reforgePath, 'reforge', profile, inputs, catalogue, sources, scenario, fixture),
 ])
 assert.equal(game.revision, reforge.revision)
 assert.deepEqual(game.scenario, reforge.scenario)
