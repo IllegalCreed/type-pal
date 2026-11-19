@@ -108,7 +108,8 @@ export function installInterludeWitness() {
       take('149-before-005', context, detail, indexPixels, palette)
     if (scene === 's149' && film === 5 && filmEndAt !== null && !cinematic) {
       take('between-first-world', context, detail, indexPixels, palette)
-      const full = opacity !== undefined ? opacity < 0.001 : !fade
+      const full =
+        opacity !== undefined ? opacity === 0 : !fade || (fade.total === 800 && fade.progress === 1)
       if (full) {
         if (!wasLit) take('between-first-full', context, detail, indexPixels, palette)
         wasLit = true
@@ -130,7 +131,10 @@ export function installInterludeWitness() {
         take('150-correct-position', context, detail, indexPixels, palette)
       const actor = detail.cast.find(({ id }) => id === 'e2465')
       if (actor && detail.draws.some((row) => row.id === 'e2465' && row.intersects)) {
-        const fullReveal = opacity !== undefined ? opacity < 0.001 : !fade && !detail.needsFade
+        const fullReveal =
+          opacity !== undefined
+            ? opacity === 0
+            : !detail.needsFade && (!fade || fade.progress === 1)
         if (fullReveal && !held) take('150-reveal-full', context, detail, indexPixels, palette)
         const walking = actor.position
           ? actor.position.col !== 71 || actor.position.row !== 7

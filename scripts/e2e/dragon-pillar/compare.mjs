@@ -88,6 +88,7 @@ export async function recomparePillar(root, gamePath, reforgePath) {
         readSpecialProofs(root, gamePath, reforgePath),
       ])
       const turns = comparePartyTurns(game.party, reforge.party)
+      const gallery = compareGallery(game.gallery, reforge.gallery)
       const redPaletteFindings = []
       for (const [side, engine] of [
         [game, 'game'],
@@ -117,12 +118,16 @@ export async function recomparePillar(root, gamePath, reforgePath) {
         findings: [
           ...turns.findings,
           ...redPaletteFindings,
-          ...compareGallery(game.gallery, reforge.gallery),
+          ...gallery.findings,
           ...special.findings,
           ...collapse.differences.map((finding) => ({ ...finding, type: 'collapse-presentation' })),
         ],
         party: { game: game.party, reforge: reforge.party, explainedAssets: turns.explainedAssets },
-        gallery: { game: game.gallery, reforge: reforge.gallery },
+        gallery: {
+          game: game.gallery,
+          reforge: reforge.gallery,
+          edgeDifferences: gallery.edgeDifferences,
+        },
         collapse,
         interlude: special.interlude,
         sage: special.sage,

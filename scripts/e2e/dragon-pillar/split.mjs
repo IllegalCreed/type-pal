@@ -33,6 +33,11 @@ async function publish(files) {
   }
 }
 const compare = await recompareRecording(fragment, game, reforge)
+const stale = compare.sourceChanges.filter(({ impact }) => impact !== 'declared-oracle')
+if (stale.length) {
+  compare.status = 'needs-review'
+  compare.comparison.findings.push({ type: 'changed-execution-sources', sources: stale })
+}
 if (compare.status !== 'passed') {
   await writeFile(proof, `${JSON.stringify(compare, null, 2)}\n`, { flag: 'wx' })
   process.exitCode = 1

@@ -7,8 +7,11 @@ const pos = ({ x, y, position }) =>
     : [(y / 8 + x / 16) / 2, (y / 8 - x / 16) / 2, 0]
 const resource = (value) => Number(String(value).replace(/^sprite-/u, ''))
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+const actualFrame = (draw) => draw.frame ?? draw.index
+const beatMs = 100
 
 export function galleryEvidence(interlude, engine) {
+  const game = engine === 'game'
   const world = interlude.events.filter(
     (event) =>
       event.kind === 'world-output' &&
@@ -16,89 +19,127 @@ export function galleryEvidence(interlude, engine) {
       event.part === 'after-5' &&
       !event.held &&
       !event.cinematic &&
-      (engine === 'game' ? event.phase === 'world' : event.opacity < 0.999),
+      (game ? event.phase === 'world' : event.opacity < 1),
   )
-  const firstFullyLit = world.find((row) => (engine === 'game' ? !row.fade : row.opacity <= 0.001))
+  const firstFullyLit = world.find((row) =>
+    game ? !row.fade || (row.fade.total === 800 && row.fade.progress === 1) : row.opacity === 0,
+  )
   assert(firstFullyLit && world.length > 35, `${engine} missing the visible gallery run`)
-  const visibleTurns = (rows) =>
-    rows.reduce((result, entry) => {
-      if (result.at(-1)?.facing !== entry.facing) result.push(entry)
-      return result
-    }, [])
+  const startAt = world[0].at
   const actors = Object.fromEntries(
     gallery.map((id) => {
-      const at = (row) => {
-        const state = row.cast.find((actor) => actor.id === id)
-        const draw = row.draws.find((actor) => actor.id === id && actor.intersects)
-        assert(state, `${engine} gallery cast missing ${id}`)
-        return {
-          tick: row.tick - world[0].tick,
-          at: row.at,
-          position: pos(state),
-          facing: state.facing,
-          frame: draw?.frame ?? draw?.index ?? null,
-          resource: draw ? resource(draw.sprite) : null,
+      const states = []
+      const lowerCrop = []
+      let fullyLit
+      for (const row of world) {
+        const actor = row.cast.find((candidate) => candidate.id === id)
+        assert(actor, `${engine} gallery cast missing ${id}`)
+        const pose = {
+          position: pos(actor),
+          facing: actor.facing,
+          resource: resource(actor.sprite),
+        }
+        const atMs = row.at - startAt
+        const draw = row.draws.find((candidate) => candidate.id === id && candidate.intersects)
+        if (!same(states.at(-1)?.pose, pose))
+          states.push({
+            pose,
+            atMs,
+            frames: [],
+            fadingOut: game && row.script?.ip === 24901 ? (row.fade?.progress ?? null) : null,
+          })
+        if (row === firstFullyLit) fullyLit = { ...pose, atMs }
+        if (!draw) continue
+        // Game culls NPCs using blitY + 4. Preserve excluded bottom-edge draws as facts, but compare
+        // the shared display region. This is neither a world-coordinate tolerance nor a cast filter.
+        if (draw.y + 4 >= 200) {
+          if (
+            !lowerCrop.some(
+              (entry) => same(entry.position, pose.position) && entry.frame === actualFrame(draw),
+            )
+          )
+            lowerCrop.push({
+              atMs,
+              position: pose.position,
+              frame: actualFrame(draw),
+              blit: [draw.x, draw.y, draw.width, draw.height],
+            })
+        } else if (states.at(-1).frames.at(-1) !== actualFrame(draw)) {
+          states.at(-1).frames.push(actualFrame(draw))
         }
       }
-      const samples = world.map(at),
-        fullyLit = at(firstFullyLit),
-        visible = samples.filter(({ frame }) => frame !== null)
-      assert(visible.length, `${engine} has no onscreen draw for ${id}`)
-      const frames = [...new Set(visible.map(({ frame }) => frame))].sort((a, b) => a - b)
-      const moves = visibleTurns(visible).map(({ tick, position, facing }) => ({
-        tick,
-        position,
-        facing,
-      }))
+      assert(
+        states.some(({ frames }) => frames.length),
+        `${engine} has no onscreen draw for ${id}`,
+      )
+      const foreground = interlude.events.filter(
+        (e) =>
+          e.kind === 'foreground' &&
+          e.scene === 's149' &&
+          e.after === 'after-5' &&
+          e.path?.includes('tracks') &&
+          e.target?.entity === id &&
+          e.op === 'nudgeEntity',
+      )
+      const automatic = interlude.events.filter(
+        (e) => e.kind === 'auto-op' && e.scene === 's149' && (e.id === id || e.self?.entity === id),
+      )
       return [
         id,
-        {
-          fullyLit,
-          first: visible[0],
-          last: visible.at(-1),
-          frames,
-          moves,
-          samples,
-          automatic: interlude.events.filter(
-            (e) =>
-              e.kind === 'auto-op' && e.scene === 's149' && (e.id === id || e.self?.entity === id),
-          ).length,
-        },
+        { states, fullyLit, lowerCrop, foreground: foreground.length, automatic: automatic.length },
       ]
     }),
   )
-  return { actors, firstOutputAt: world[0].at, firstFullTick: firstFullyLit.tick - world[0].tick }
+  return { actors, firstOutputAt: startAt, firstFullyLitAt: firstFullyLit.at }
 }
 
 export function compareGallery(game, reforge) {
   const findings = []
+  const edgeDifferences = []
   for (const id of gallery) {
-    const expected = game.actors[id],
-      actual = reforge.actors[id]
-    const fail = (field, left, right) =>
-      findings.push({ type: 'gallery-actor', scene: 's149', id, field, game: left, reforge: right })
-    if (actual.automatic)
-      fail('foreground-caller', 'one-shot foreground choreography', actual.automatic)
-    // Browser render counts vary. Path corners, relative beats and the frames actually shown do not
-    // become interchangeable merely because a different command expresses the movement.
-    if (
-      !same(expected.fullyLit.position, actual.fullyLit.position) ||
-      expected.fullyLit.facing !== actual.fullyLit.facing
-    )
+    const expected = game.actors[id]
+    const actual = reforge.actors[id]
+    const fail = (field, game, reforge) =>
+      findings.push({ type: 'gallery-actor', scene: 's149', id, field, game, reforge })
+    if (actual.automatic || !actual.foreground)
+      fail('foreground-caller', 'one-shot foreground choreography', {
+        foreground: actual.foreground,
+        automatic: actual.automatic,
+      })
+    const { atMs: expectedRevealAt, ...expectedReveal } = expected.fullyLit
+    const { atMs: actualRevealAt, ...actualReveal } = actual.fullyLit
+    if (!same(expectedReveal, actualReveal) || Math.abs(expectedRevealAt - actualRevealAt) > beatMs)
       fail('first-full-reveal-pose', expected.fullyLit, actual.fullyLit)
-    if (!same(expected.frames, actual.frames))
-      fail('visible-resource-frames', expected.frames, actual.frames)
-    const concise = ({ facing, position }) => ({ facing, position })
+
+    const expectedStates = expected.states
+    const actualStates = actual.states
+    const length = Math.min(expectedStates.length, actualStates.length)
+    const route = expectedStates
+      .slice(0, length)
+      .findIndex(({ pose }, index) => !same(pose, actualStates[index].pose))
+    const timing = expectedStates
+      .slice(0, length)
+      .findIndex(({ atMs }, index) => Math.abs(atMs - actualStates[index].atMs) > beatMs)
+    const draw = expectedStates
+      .slice(0, length)
+      .findIndex(({ frames }, index) => !same(frames, actualStates[index].frames))
+    for (const [field, index] of [
+      ['ordered-positions-and-facing', route],
+      ['movement-timing', timing],
+      ['rendered-frame-order-at-pose', draw],
+    ])
+      if (index >= 0) fail(field, expectedStates[index], actualStates[index])
+    const tail = expectedStates.slice(length)
+    // SDL's final world update can run as its last two palette levels are presented; Reforge's
+    // foreground cue clock stops all eight tracks under black. No extra non-dark movement qualifies.
     if (
-      !same(expected.moves.map(concise), actual.moves.map(concise)) ||
-      expected.moves.some(({ tick }, i) => Math.abs(tick - actual.moves[i].tick) > 1)
+      actualStates.length > expectedStates.length ||
+      tail.length > 2 ||
+      tail.some(({ fadingOut }) => fadingOut === null || fadingOut < 31 / 32)
     )
-      fail('visible-route-and-turns', expected.moves, actual.moves)
-    if (
-      Math.abs(expected.last.tick - actual.last.tick) > 1 ||
-      !same(expected.last.position, actual.last.position)
-    )
-      fail('last-visible-beat', expected.last, actual.last)
+      fail('unpaired-visible-tail', tail, actualStates.slice(length))
+    if (tail.length || actual.lowerCrop.length)
+      edgeDifferences.push({ id, terminalPaletteSteps: tail, lowerViewportRows: actual.lowerCrop })
   }
-  return findings
+  return { findings, edgeDifferences }
 }
