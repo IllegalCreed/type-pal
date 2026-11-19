@@ -424,6 +424,20 @@ await runBrowserJourney({
         party.map(({ role, level, hp, mp }) => [role, level, hp, mp]),
       )
       assert.deepEqual(result.initial.state.inventory, [])
+      if (!game && capture.enabled) {
+        // Unlock Web Audio through a real keydown while the party is in exploration.
+        // The defend shortcut has no world action here.
+        await press('KeyD', 'bootstrap')
+        const primed = await wait(
+          ({ state }) => ready(state),
+          'unchanged exploration after audio gesture',
+        )
+        assert.deepEqual(primed.state, result.initial.state)
+        assert(
+          await page.evaluate(() => navigator.userActivation.hasBeenActive),
+          'missing native audio gesture',
+        )
+      }
       await capture.arm(page, {
         event: 'before-world-boss-contact',
         scene: spec.scene,

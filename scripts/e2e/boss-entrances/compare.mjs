@@ -400,6 +400,9 @@ async function inspect(path, engine) {
     'summoned bee drop probes must use original failed drop samples',
   )
   const comparable = {
+    dialogue: [dialogue.pre, dialogue.post].map((pages) =>
+      pages.map(({ text, speaker }) => ({ text: subtitle(text), speaker })),
+    ),
     commands,
     actions,
     rng: find('rng').map(({ value }) => value),

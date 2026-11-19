@@ -33,9 +33,15 @@ function installBossFrameObserver(engine) {
         cash: screen.cashGained ?? screen.cash,
       })
   }
+  const nativeTerminal = globalThis.__battleGameTerminal
+  let victory = false
+  globalThis.__battleGameTerminal = (gs, outcome) => {
+    nativeTerminal(gs, outcome)
+    victory = outcome === 'won'
+  }
   globalThis.__bossNarration = (state) => {
     const text = state.currentLineText ?? state.shownLines[0]
-    if (text) observation.eventOnce('reward-note-drawn', { text })
+    if (victory && text) observation.eventOnce('reward-note-drawn', { text })
   }
   const seen = new WeakMap()
   const frameKeys = new Map()
