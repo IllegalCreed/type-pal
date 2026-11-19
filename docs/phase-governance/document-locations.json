@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ea7cd5f420ec3da52a3df6b0835b18fcd7d48fd5cd54ec56370fc2898ed26c1d",
+      "afterSha256": "64f4f25216d2f7c206a902c624c9aa2aae7f5c3418d5b53c532403afb2951ca3",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外施毒与成长实测复核",
+        "reviewer": "Codex 战外解毒状态复核",
         "date": "2026-11-19",
-        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
-        "reviewedLines": 88,
-        "acceptanceScope": "核战外施毒与成长归档的唯一索引及实际文件。"
+        "conclusion": "核双端执行、盐巴边界、逐项结果与分屏归档。",
+        "reviewedLines": 89,
+        "acceptanceScope": "核本批归档入口与实际成员清单及恢复验证。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "de36564666db9ac0bfd0d6a4f71fcbddec90e08a853aaa75fc890885a08934a8",
+      "afterSha256": "5dd6a43c7c712d9ada0e17ba2b12c86d3d0abbc0507665098bfcbf6ae82000e7",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外用物范围复核",
+        "reviewer": "Codex 战外解毒状态复核",
         "date": "2026-11-19",
-        "conclusion": "核战外解毒、状态、升级的用物范围和盐巴修前反例。",
-        "reviewedLines": 909,
-        "acceptanceScope": "接受新增批次准入与已实跑的事实。本轮正式复验继续按双端原件登记。"
+        "conclusion": "核双端执行、盐巴边界、逐项结果与分屏归档。",
+        "reviewedLines": 913,
+        "acceptanceScope": "核准入、修前反例、源候选验收回执和产物退出。"
       }
     },
     {
@@ -5442,14 +5442,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "569421f886be41186edd7b754a105a83a5b920209b499d26ecbb6abde5e7195b",
+      "afterSha256": "3dcd67bbe7828ee92883a114120d929c267ed1716e513badeb12087e351b0a32",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex 战外施毒与成长实测复核",
+        "reviewer": "Codex 战外解毒状态复核",
         "date": "2026-11-19",
-        "conclusion": "核对首拍、毒抗、条件用物与成长的双端执行回执。",
-        "reviewedLines": 1224,
-        "acceptanceScope": "核 53 个战外入口、三个机制反例、原盘指令与原速双声道。"
+        "conclusion": "核双端执行、盐巴边界、逐项结果与分屏归档。",
+        "reviewedLines": 1240,
+        "acceptanceScope": "核新登记的 18 件战外道具、21 组双端正式比较与媒体取样。"
       }
     },
     {
@@ -6202,6 +6202,12 @@
       "bytes": 53489285,
       "sha256": "2b2c3e8e457356ff960a1a0ad0afcc2890363e602bc8f500910890daf493d759",
       "purpose": "战外首拍施毒、毒抗、风险用物、永久成长的双端原件、反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-conditions-and-level-20261119.tar.gz",
+      "bytes": 69111503,
+      "sha256": "b5d324ef869860c827e086766adbf36c748bb5d1113ebb05f468dbeb75203766",
+      "purpose": "战外解毒、状态、升级的实战原件、盐巴边界反例与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
