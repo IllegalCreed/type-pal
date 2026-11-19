@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "415-422",
+      "lines": "416-423",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+      "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "456-463",
+      "lines": "458-465",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+      "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:415-422",
-        "packages/reforge/src/main.ts:456-463",
+        "packages/reforge/src/main.ts:416-423",
+        "packages/reforge/src/main.ts:458-465",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -379,6 +379,29 @@
         }
       ],
       "scope": "核场景用物候选后的五处现行片段。旧执行、原件、断言和发布身份按原记录。"
+    },
+    {
+      "action": "q2-story-presentation-source-rebinding",
+      "base": "759886346d091f3dc2c0b67f72547c6861b81b6a",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "415-422",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "456-463",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+        }
+      ],
+      "scope": "重绑四组现行引用。旧执行按既有候选恢复，两处构造片段按震屏输出职责迁移逐字节核对。"
     }
   ],
   "_governance": {

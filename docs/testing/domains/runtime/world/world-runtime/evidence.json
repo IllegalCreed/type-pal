@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "442-453",
+      "lines": "443-455",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+      "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -25,10 +25,10 @@
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.ts",
-      "lines": "72-89",
+      "lines": "72-88",
       "anchor": "export class WorldScenePresentation",
       "role": "contract",
-      "sha256": "213eebd6ee915b21baad7403e67ec5f9fb7810203e39cb2f1eafc1f616476b80"
+      "sha256": "ccd2bd9a94e7b76c85320f2c86e890f2625d61b72c89477fb8d3d4227a8ab00e"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -42,7 +42,7 @@
       "lines": "82-105",
       "anchor": "describe('WorldScenePresentation sprite ownership'",
       "role": "oracle",
-      "sha256": "2dfb43293476c7f6d468320612871cc1943c81914a8309ec5189894c0a120a25"
+      "sha256": "2fa7b81e44587f618e64c0eef791e8c73be4ad59693cbe314ee314015ff4ae3b"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:442-453",
+        "packages/reforge/src/main.ts:443-455",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
-        "packages/reforge/src/world-scene-presentation.ts:72-89",
+        "packages/reforge/src/world-scene-presentation.ts:72-88",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
         "packages/content/src/character.ts:169-171"
@@ -331,6 +331,36 @@
         }
       ],
       "scope": "核场景用物候选后的五处现行片段。旧执行、原件、断言和发布身份按原记录。"
+    },
+    {
+      "action": "q2-story-presentation-source-rebinding",
+      "base": "759886346d091f3dc2c0b67f72547c6861b81b6a",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "442-453",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "lines": "72-89",
+          "anchor": "export class WorldScenePresentation",
+          "role": "contract",
+          "sha256": "213eebd6ee915b21baad7403e67ec5f9fb7810203e39cb2f1eafc1f616476b80"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.test.ts",
+          "lines": "82-105",
+          "anchor": "describe('WorldScenePresentation sprite ownership'",
+          "role": "oracle",
+          "sha256": "2dfb43293476c7f6d468320612871cc1943c81914a8309ec5189894c0a120a25"
+        }
+      ],
+      "scope": "重绑四组现行引用。旧执行按既有候选恢复，两处构造片段按震屏输出职责迁移逐字节核对。"
     }
   ],
   "_governance": {

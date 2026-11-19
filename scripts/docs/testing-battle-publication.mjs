@@ -1669,6 +1669,54 @@ export function restoreTestingSceneItemExitSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, sceneItemExitStage, sceneItemExitBindings)
 }
 
+export const testingStoryPresentationPublicationBase = '759886346d091f3dc2c0b67f72547c6861b81b6a'
+const storyPresentationStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '415-422': '416-423',
+        '456-463': '458-465',
+        '1286-1384': '1289-1387',
+        '442-453': '443-455',
+        5841: '5833',
+      },
+    ],
+    [worldScenePresentation, { '72-89': '72-88' }],
+    [worldScenePresentationTest, { '82-105': '82-105' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    if (ref.path === reforgeMain && ref.lines === '442-453')
+      return excerpt.replace('  const screenShake = new ScreenShakePresentation()\n', '')
+    if (ref.path === worldScenePresentation)
+      return excerpt
+        .replace(
+          'visual overrides, wave phase/canvas',
+          'visual overrides, shake, wave phase/canvas',
+        )
+        .replace(
+          '  private readonly wave = ',
+          '  private shakeFx: { untilMs: number; level: number } | null = null\n  private readonly wave = ',
+        )
+    return excerpt
+  },
+  base: testingStoryPresentationPublicationBase,
+  action: 'q2-story-presentation-source-rebinding',
+  date: '2026-11-19',
+}
+
+export const isTestingStoryPresentationSource = (path) => storyPresentationStage.ranges.has(path)
+
+export function restoreTestingStoryPresentationSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    storyPresentationStage,
+    worldAwarenessBindings,
+  )
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

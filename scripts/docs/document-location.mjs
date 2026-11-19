@@ -53,6 +53,7 @@ import {
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
   isTestingSceneItemExitSource,
+  isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
   isTestingWorldItemTargetSource,
   restoreTestingBattleActionCadenceSourceBindings,
@@ -85,6 +86,7 @@ import {
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingSceneItemExitSourceBindings,
+  restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
   restoreTestingWorldItemTargetSourceBindings,
   testingBattleActionCadencePublicationBase,
@@ -134,6 +136,7 @@ import {
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
   testingSceneItemExitPublicationBase,
+  testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
   testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
@@ -838,8 +841,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const sceneItemExitSource = sceneItemExitRevision && gitTree(root, sceneItemExitRevision, [])
   const preSceneItemExit =
     sceneItemExitSource && gitTree(root, testingSceneItemExitPublicationBase, [])
-  const readBeforeSceneItemExit = (path) => {
+  const storyPresentationRevision = admission.testingStoryPresentationSourceRevision
+  if (storyPresentationRevision !== undefined)
+    assert(
+      sceneItemExitSource && /^[a-f0-9]{40}$/u.test(storyPresentationRevision),
+      'story presentation source bridge requires the fixed scene item exit revision',
+    )
+  const storyPresentationSource =
+    storyPresentationRevision && gitTree(root, storyPresentationRevision, [])
+  const preStoryPresentation =
+    storyPresentationSource && gitTree(root, testingStoryPresentationPublicationBase, [])
+  const readBeforeStoryPresentation = (path) => {
     const live = readSource(path)
+    if (!preStoryPresentation || !isTestingStoryPresentationSource(path)) return live
+    assert(
+      live?.equals(storyPresentationSource.read(path)),
+      'story presentation source differs from the frozen candidate',
+    )
+    return preStoryPresentation.read(path)
+  }
+  const readBeforeSceneItemExit = (path) => {
+    const live = readBeforeStoryPresentation(path)
     if (!preSceneItemExit || !isTestingSceneItemExitSource(path)) return live
     assert(
       live?.equals(sceneItemExitSource.read(path)),
@@ -1064,13 +1086,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeBattleSummon = (path, bytes) => {
-    const priorSceneItemExit = preSceneItemExit
-      ? restoreTestingSceneItemExitSourceBindings(path, bytes, {
+    const priorStoryPresentation = preStoryPresentation
+      ? restoreTestingStoryPresentationSourceBindings(path, bytes, {
           readSource,
+          readBase: preStoryPresentation.read,
+          readFixed: storyPresentationSource.read,
+        })
+      : bytes
+    const priorSceneItemExit = preSceneItemExit
+      ? restoreTestingSceneItemExitSourceBindings(path, priorStoryPresentation, {
+          readSource: readBeforeStoryPresentation,
           readBase: preSceneItemExit.read,
           readFixed: sceneItemExitSource.read,
         })
-      : bytes
+      : priorStoryPresentation
     const priorWorldAwareness = preWorldAwareness
       ? restoreTestingWorldAwarenessSourceBindings(path, priorSceneItemExit, {
           readSource: readBeforeSceneItemExit,

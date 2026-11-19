@@ -63,6 +63,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 五种敌方仙术与土蜘蛛掉落 | [震屏反例、实战及傀儡虫实收、原速带声分屏重录](E2E-Q2-1-enemy-direct-casts-20261119.tar.gz) |
 | Q2 姜清剧情与六种敌方仙术 | [逐轮出招、真实掉落、世界等待反例和两条原速带声分屏](E2E-Q2-1-jiang-qing-enemy-casts-20261119.tar.gz) |
 | Q2 三种敌方仙术和七星盘龙柱 | [逐轮出招、震屏、三种剧情出口和两条原速带声分屏](E2E-Q2-1-three-enemy-spells-and-dragon-pillars-20261119.tar.gz) |
+| Q2 姜清退移和末柱倒塌复验 | [同局脚点、震屏反例、两段过场末帧和原速带声分屏](E2E-Q2-1-story-presentation-recheck-20261119.tar.gz) |
 | Q2 六根龙柱与三种敌方仙术 | [原生接敌、返场、三招声画与分屏](E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz) |
 | Q2 拜月教主三招 | [双端实战、毒槽、漏帧反例和原速带声分屏重录](E2E-Q2-1-moon-leader-casts-20261119.tar.gz) |
 | Q2 五件战内恢复道具 | [逐件实用、毒槽、实际倒地与复活、原速带声分屏](E2E-Q2-1-five-battle-recovery-items-20261119.tar.gz) |
