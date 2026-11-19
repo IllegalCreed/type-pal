@@ -1,6 +1,6 @@
 # CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项
 
-Status: draft
+Status: blocked
 Phase: phase2
 Owner: Codex
 Reviewer: Codex
@@ -29,3 +29,5 @@ Visual Verification Timing: N/A
 ## 状态与交接
 
 2026-11-19 已复现，准入未开启。Content 资产源在活跃 E2E 分支有两项业务修改。合入后对照最新版本核全部实际调用、错误传播和单一 Coding Owner。用户可感知的诊断合同按真实缺失表述，保持现有拒绝层级。
+
+2026-11-19 用户裁定在 E2E 合入后接续。活跃 E2E 工作树的 Content 资源模块仍有音效角色和命令引用修改。合入后重新核单一 Owner 和来源绑定，先复用现有区分缺失与类型错误的反例，再做实际登记查询的修复。本轮该 Editor 文件保留 review。

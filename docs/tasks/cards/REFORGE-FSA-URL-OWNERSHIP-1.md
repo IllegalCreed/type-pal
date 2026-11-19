@@ -1,8 +1,9 @@
 # REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属
 
-Status: draft
+Status: done
 Phase: phase2
 Owner: Codex
+Coding Owner: Codex
 Reviewer: Codex
 Last reviewed: 2026-11-19
 Template: task-card-v1 / 1.0.0
@@ -14,7 +15,7 @@ Visual Verification Timing: N/A
 
 ## 范围
 
-目前仅取证。`packages/reforge/src/fsa-source.ts` 的 `urlFor` 与 `dispose`，以及 `FileSource` 的资源合同。实际消费者包括 `AssetResolver.urlFor`、游戏显示与编辑器试玩；编辑器 `open-local.ts` 和 `load-play-project.ts` 持有取消或失败时的释放入口。HTTP source、资产文件和磁盘格式不在本卡范围。
+初次仅取证。`packages/reforge/src/fsa-source.ts` 的 `urlFor` 与 `dispose`，以及 `FileSource` 的资源合同。实际消费者包括 `AssetResolver.urlFor`、游戏显示与编辑器试玩；编辑器 `open-local.ts` 和 `load-play-project.ts` 持有取消或失败时的释放入口。HTTP source、资产文件和磁盘格式不在本卡范围。
 
 ## 前提与证据
 
@@ -26,4 +27,10 @@ Visual Verification Timing: N/A
 
 ## 状态与交接
 
+本轮 Codex build allowed。真实消费者在失败或退出时结束本次 URL 寿命。并发同路径共享一个分配，在途读随此次释放失效，新读取可重新分配。保持现有文件接口和读取消合同，原生对象 URL 用字节与回收结果验收。
+
 2026-11-19：两个反例均成立，本地来源产品保持 review，未改公开接口或实现。普通交互是否已触发泄漏尚未证实；已完成的串行释放和逐段取消测试仍保留。下一步按真实工程切换生命周期定界，不继承本轮其它源的验收信用。
+
+### 本轮验收
+
+同路径的在途请求共用一次分配。释放使旧请求失去分配权，晚来的成功读按 AbortError 交还，新的同路径请求仍可读取。两个定向用例用真实 blob URL 读取字节及观察失效。在 Chrome 的原生目录句柄中也确认并发共用和撤销。 逐文件复核、反例及实际命令见[本轮统一原件](../evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)。发布结果取受保护 PR 的实际作业。

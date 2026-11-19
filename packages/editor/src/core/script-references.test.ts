@@ -1,11 +1,8 @@
-import {
-  type Command,
-  createScriptIndex,
-  deriveScriptChunk,
-  type ScriptRef,
-  upsertAuthoredScript,
-} from '@type-pal/content'
+import type { Command } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { loadLegalUiProject } from '../ui/__tests__/glm-leaf-workflows/legal-session.js'
+import { stubNodeTestHost } from '../ui/__tests__/glm-leaf-workflows/node-bridge.js'
+import { fixtureScriptRef, withFixtureScript } from './__tests__/script-reference-fixture.js'
 import type { EditorState } from './edit-session.js'
 import type { ScriptEditorState } from './script-editor.js'
 import {
@@ -18,98 +15,40 @@ import {
 const targetId = 'shared/user/target-a1b2c3d4'
 const callerId = 'shared/user/caller-a1b2c3d4'
 
-function ref(state: EditorState, id: string): ScriptRef {
-  return { chunk: deriveScriptChunk(id, state.scriptIndex!.shards)!, id }
-}
-
-function baseState(): EditorState {
+async function baseState(): Promise<EditorState> {
+  await stubNodeTestHost()
+  const { state } = await loadLegalUiProject('script-reference-reader')
+  const [scene] = state.scenes
+  if (!scene) throw new Error('Fixture is missing its opening scene')
   return {
-    manifest: {
-      id: 'test',
-      name: 'test',
-      contentVersion: 23,
-      minimumSaveVersion: 12,
-      defaultEntryId: 'main',
-      content: {
-        scenes: 'content/scenes/',
-        scripts: 'content/scripts/',
-        maps: 'content/maps/index.json',
-      },
-      assets: {
-        catalog: 'assets/index.json',
-        roles: {},
-      },
-      entryPoints: [
-        {
-          id: 'main',
-          label: '主要入口',
-          scene: 's1',
-          startWorld: { party: [], money: 0, inventory: [] },
-        },
-      ],
-    },
+    ...state,
     scenes: [
       {
-        id: 's1',
-        mapId: 'map-s1',
-        entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+        ...scene,
         entities: [
           {
             id: 'e1',
             pos: { col: 0, row: 0, height: 0 },
-            sprite: '1',
+            sprite: 'sprite-1',
             pages: [{ trigger: { on: 'interact', stages: [{ body: [] }] } }],
           },
         ],
       },
     ],
-    actors: [],
-    skills: [],
-    levelUp: {},
-    items: [],
-    locale: {},
-    sprites: [],
-    battleSprites: [],
-    maps: {},
-    sceneIndex: { version: 1, scenes: [] },
-    mapIndex: { version: 1, maps: [] },
-    tilesets: [],
-    tilesetBlobs: {},
-    assetCatalog: { version: 1, assets: {} },
-    assetBlobs: {},
-    stamps: [],
-    scriptIndex: createScriptIndex(),
-    scriptChunks: {},
-  } as unknown as EditorState
+  }
 }
 
-function addScript(
-  state: EditorState,
-  id: string,
-  body: Command[],
-  self: 'none' | 'optional' | 'required' = 'none',
-): EditorState {
-  const next = upsertAuthoredScript(
-    state.scriptIndex!,
-    state.scriptChunks,
-    id,
-    { name: id, self },
-    body,
-  )
-  return { ...state, scriptIndex: next.index, scriptChunks: next.chunks }
-}
-
-describe('N6 脚本引用图', () => {
-  test('覆盖场景入口、共享体互调、动态绑定与嵌套分支', () => {
-    let state = addScript(baseState(), targetId, [{ kind: 'wait', ms: 10 }])
-    state = addScript(state, callerId, [
+describe('内存脚本引用图', () => {
+  test('覆盖场景入口、共享体互调、动态绑定与嵌套分支', async () => {
+    let state = withFixtureScript(await baseState(), targetId, [{ kind: 'wait', ms: 10 }])
+    state = withFixtureScript(state, callerId, [
       {
         kind: 'branch',
         cond: { kind: 'chance', percent: 50 },
-        then: [{ kind: 'callScript', ref: ref(state, targetId) }],
+        then: [{ kind: 'callScript', ref: fixtureScriptRef(targetId) }],
       },
     ])
-    const target = ref(state, targetId)
+    const target = fixtureScriptRef(targetId)
     state = {
       ...state,
       scenes: [
@@ -136,20 +75,22 @@ describe('N6 脚本引用图', () => {
     expect(buildScriptReferenceIndex(state).errors).toEqual([])
   })
 
-  test('作者 call 环、孤儿 ref 与 required self 均阻止保存', () => {
-    let state = addScript(
-      baseState(),
+  test('作者 call 环、孤儿 ref 与 required self 均阻止保存', async () => {
+    let state = withFixtureScript(
+      await baseState(),
       targetId,
       [{ kind: 'callScript', ref: { chunk: 'shared/c00', id: callerId } }],
       'required',
     )
-    state = addScript(state, callerId, [{ kind: 'callScript', ref: ref(state, targetId) }])
+    state = withFixtureScript(state, callerId, [
+      { kind: 'callScript', ref: fixtureScriptRef(targetId) },
+    ])
     state = {
       ...state,
       scenes: [
         {
           ...state.scenes[0]!,
-          onEnter: [{ body: [{ kind: 'callScript', ref: ref(state, targetId) }] }],
+          onEnter: [{ body: [{ kind: 'callScript', ref: fixtureScriptRef(targetId) }] }],
         },
       ],
     }
@@ -172,13 +113,13 @@ describe('N6 脚本引用图', () => {
           ],
         },
       ],
-    } as unknown as EditorState
+    } satisfies EditorState
     expect(buildScriptReferenceIndex(orphan).errors.join('\n')).toMatch(/孤儿 ref/)
   })
 
-  test('作者体硬编码 eNN 只警告；实体触发上下文可继承 required self', () => {
-    let state = addScript(
-      baseState(),
+  test('作者体硬编码 eNN 只警告；实体触发上下文可继承 required self', async () => {
+    let state = withFixtureScript(
+      await baseState(),
       targetId,
       [{ kind: 'moveEntity', entity: 'e12', to: { col: 1, row: 1, height: 0 }, speed: 'normal' }],
       'required',
@@ -195,7 +136,7 @@ describe('N6 脚本引用图', () => {
                 {
                   trigger: {
                     on: 'interact',
-                    stages: [{ body: [{ kind: 'callScript', ref: ref(state, targetId) }] }],
+                    stages: [{ body: [{ kind: 'callScript', ref: fixtureScriptRef(targetId) }] }],
                   },
                 },
               ],
@@ -210,7 +151,7 @@ describe('N6 脚本引用图', () => {
   })
 })
 
-describe('W4-1 命名落点引用图', () => {
+describe('命名落点引用图', () => {
   test('canonical visitor builds one reusable index for a 31-entry scene', () => {
     const entryIds = Array.from({ length: 31 }, (_, index) => `entry-${index + 1}`)
     const canonical: ScriptEditorState = {
@@ -250,10 +191,10 @@ describe('W4-1 命名落点引用图', () => {
     }
   })
 
-  test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支与战败命令', () => {
+  test('同一 walker 覆盖场景槽、实体页、共享 chunk、分支与战败命令', async () => {
     const entryId = 'door-west'
     const load = (): Command => ({ kind: 'loadScene', scene: 's2', entryId })
-    let state = addScript(baseState(), callerId, [
+    let state = withFixtureScript(await baseState(), callerId, [
       {
         kind: 'branch',
         cond: { kind: 'flag', flag: 'x', is: true },
@@ -278,7 +219,7 @@ describe('W4-1 命名落点引用图', () => {
         },
         {
           id: 's2',
-          mapId: 'map-s2',
+          mapId: source.mapId,
           entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
           entries: { [entryId]: { label: '西门', pos: { col: 2, row: 3, height: 0 } } },
           entities: [],
@@ -294,29 +235,44 @@ describe('W4-1 命名落点引用图', () => {
     expect(buildScriptReferenceIndex(state).errors).toEqual([])
   })
 
-  test('缺场景、缺落点、旧裸 entry 与 entryId+pos 全部阻止保存', () => {
-    const state = baseState()
-    state.scenes[0] = {
-      ...state.scenes[0]!,
+  test('缺场景、缺落点、旧裸 entry 与 entryId+pos 全部阻止保存', async () => {
+    const state = await baseState()
+    const [opening] = state.scenes
+    if (!opening) throw new Error('Fixture is missing its opening scene')
+    const decoded = {
+      ...opening,
       onEnter: [
         {
           body: [
             { kind: 'loadScene', scene: 'missing' },
-            { kind: 'loadScene', scene: 's1', entryId: 'missing-entry' },
             {
               kind: 'loadScene',
-              scene: 's1',
+              scene: opening.id,
+              entryId: 'missing-entry',
+            },
+            {
+              kind: 'loadScene',
+              scene: opening.id,
               entryId: 'x',
               pos: { col: 1, row: 2, height: 0 },
-            } as unknown as Command,
-            { kind: 'loadScene', scene: 's1', entry: 'old' } as unknown as Command,
+            },
+            {
+              kind: 'loadScene',
+              scene: opening.id,
+              entry: 'old',
+            },
           ],
         },
       ],
     }
-    const errors = buildScriptReferenceIndex(state).errors.join('\n')
+    const results: ReturnType<typeof buildScriptReferenceIndex> = Reflect.apply(
+      buildScriptReferenceIndex,
+      undefined,
+      [{ ...state, scenes: [decoded] }],
+    )
+    const errors = results.errors.join('\n')
     expect(errors).toMatch(/目标场景 missing 不存在/)
-    expect(errors).toMatch(/命名落点 s1\/missing-entry 不存在/)
+    expect(errors).toContain(`命名落点 ${opening.id}/missing-entry 不存在`)
     expect(errors).toMatch(/entryId 与 pos 不能同时存在/)
     expect(errors).toMatch(/loadScene\.entry 已退役/)
   })

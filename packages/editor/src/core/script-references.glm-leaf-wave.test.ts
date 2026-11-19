@@ -1,36 +1,29 @@
-import { upsertAuthoredScript } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { loadLegalUiProject } from '../ui/__tests__/glm-leaf-workflows/legal-session.js'
 import { stubNodeTestHost } from '../ui/__tests__/glm-leaf-workflows/node-bridge.js'
+import { fixtureScriptRef, withFixtureScript } from './__tests__/script-reference-fixture.js'
 import { findScriptReferences } from './script-references.js'
 
-/** 合法项目 + 真实 upsertAuthoredScript：route 调 helper，均为作者命名空间脚本。 */
 async function scriptedState() {
   await stubNodeTestHost()
-  const legal = await loadLegalUiProject('glm-leaf-script-refs')
-  const index = legal.state.scriptIndex ?? {
-    version: 1,
-    shards: { shared: 16, global: {} },
-    chunks: {},
-  }
-  const route = upsertAuthoredScript(
-    index,
-    legal.state.scriptChunks,
+  const { state } = await loadLegalUiProject('authored-script-references')
+  const index = withFixtureScript(
+    state,
     'shared/user/route',
-    { name: '路线', self: 'none' },
     [
-      { kind: 'callScript', ref: { chunk: 'shared/c00', id: 'shared/user/helper' } },
+      { kind: 'callScript', ref: fixtureScriptRef('shared/user/helper') },
       { kind: 'setFlag', flag: 'routed', value: true },
     ],
+    'none',
+    '路线',
   )
-  const withHelper = upsertAuthoredScript(
-    route.index,
-    route.chunks,
+  return withFixtureScript(
+    index,
     'shared/user/helper',
-    { name: '辅助', self: 'none' },
     [{ kind: 'setFlag', flag: 'helped', value: true }],
+    'none',
+    '辅助',
   )
-  return { ...legal.state, scriptIndex: withHelper.index, scriptChunks: withHelper.chunks }
 }
 
 describe('script-references 剩余合同', () => {
