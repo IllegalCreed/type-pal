@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "25",
-      "sha256": "02e0cfea55d49be033b6253e56d6df43130157c9be0fa83992b7fdfc5db73460",
+      "sha256": "c8bf851b4fb1126a83439a42f4b53e9a66d8097a5a096a0c8955850bbbf4c750",
       "role": "visual-review"
     },
     {
@@ -13745,6 +13745,22 @@
         }
       ],
       "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-inn-boss-source-rebinding",
+      "base": "19f77feda2bb26bc4bf69d479fb8e513c3277878",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "02e0cfea55d49be033b6253e56d6df43130157c9be0fa83992b7fdfc5db73460",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "战中对白保留已确认的可见槽直至脚本清除，分屏器接入有脚本移位的胜利返场。现行引用的原片段逐字节相等，历史执行继续绑定原候选。"
     }
   ],
   "_governance": {

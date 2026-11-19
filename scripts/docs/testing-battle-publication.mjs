@@ -2203,6 +2203,44 @@ export function restoreTestingQ2RingSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, ringSourceStage, ringSourceBindings)
 }
 
+export const testingQ2InnPublicationBase = '19f77feda2bb26bc4bf69d479fb8e513c3277878'
+const innSourceStage = {
+  ranges: new Map([
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+    [
+      'packages/reforge/src/battle/battle-session.ts',
+      { '251-253': '251-253', '423-435': '423-435', '1279-1288': '1279-1288' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2InnPublicationBase,
+  action: 'q2-inn-boss-source-rebinding',
+  date: '2026-11-20',
+}
+const innSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: ['scripts/e2e/battle-world-review-split.mjs'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: 'runtime-battle-session-owners',
+      paths: ['packages/reforge/src/battle/battle-session.ts'],
+    },
+  ],
+])
+
+export const isTestingQ2InnSource = (path) => innSourceStage.ranges.has(path)
+
+export function restoreTestingQ2InnSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, innSourceStage, innSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

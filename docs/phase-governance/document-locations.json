@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "e01b6787840a244eb0827d92d822561f9bbe7f2e1d2caf541f6921eaea37a87b",
+      "afterSha256": "847aea9fb41728fdc465e6d6f562bf510851a040fdd1b9793ea193e6f06b00fd",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记客栈逐帧证据入口。",
-        "reviewedLines": 115,
+        "reviewedLines": 116,
         "acceptanceScope": "核受影响的索引行、归档及原件恢复入口。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3206,13 +3206,13 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "3852df42f25cc981754ecf6cb9ae03de6bce84769169fa135f5d182d019ed364",
+      "afterSha256": "de346dff758d107a6640f1f3e5893a75fbecd11182111ba65f73de9d6fbd701b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-20",
         "conclusion": "核实林家擂台的原盘镜头锚点、战斗配乐和林家入场顺序。",
-        "reviewedLines": 1922,
+        "reviewedLines": 1928,
         "acceptanceScope": "新增原盘指令证据。按原引用和固定 Git 对象核历史正文与保留片段。"
       }
     },
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2a4d4a191d4fe06b0d8514cdaf277c2256fdab11735314a10efe6be7e95337f7",
+      "afterSha256": "cdb208268c83ef8de2a76a8abb3fe2decf1523f6c06a83ee32ecea3e52ede4cb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 9601,
+        "reviewedLines": 9647,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -4736,13 +4736,13 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "f4b50ba983fd23d7928cce27ea89da7fe04a437b6b1e78e7c4d76226af738b2b",
+      "afterSha256": "da52992b436a3f01c092224324a28381e2d52a43b361adbea15862f4aa713109",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
         "conclusion": "复核寄生毒演出修改后的现行引用。",
-        "reviewedLines": 1279,
+        "reviewedLines": 1309,
         "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
       }
     },
@@ -4750,7 +4750,7 @@
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "92a20062121718e084fdef7e428bb4a4460b060d53ce7dc07a1dbfcd1d0cbd27",
+      "afterSha256": "dec1aca1e10f7a4ea8e947047e175e4e31ad7da8b3ede8214c19756dbf43fff4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "38ce92d2e8a9a32322a229284971b1773f63e587cf0ad26cce97a57bf0d239ca",
+      "afterSha256": "038f032d3611ee38043ecea98a1d34497bc2980bd5a2690c38226f7301e2da4c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1049,
+        "reviewedLines": 1051,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },
@@ -5444,39 +5444,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "bfe7402408597550c728e60bda9018e9f2d8d6943528c1816458b9298839efa8",
+      "afterSha256": "c0dc3faa18a62532880172bf24493533ccee6603c9823a263cef7a347b2258a7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "核同一来源调用范围，保留所有原生执行与既有结论。",
-        "reviewedLines": 15017,
+        "reviewedLines": 15033,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "fe3fc3c71ea33407db8d7fb2c5a3dd37c7a72af554fe7ec67e6c70b352a46c58",
+      "afterSha256": "d3ae4e4e996ea7c90ac7281214335caeafe974073ced7e26e20681d82649068d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "复核客栈三段对白的背景与实际角色。",
-        "reviewedLines": 1489,
+        "reviewedLines": 1503,
         "acceptanceScope": "核真实用物、同句实绘、RLE 像素、两组反例和成片。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "a9d81d97b994b3d5df8067e1f1a90467853667576855835c171c72d4cc9ea772",
+      "afterSha256": "415eaadcccd3b6eb60fe3416b37245850a4915b2b791a90d6b1aa498cbec8d68",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记队员姿势变更对历史来源的适用范围。",
-        "reviewedLines": 446,
+        "reviewedLines": 450,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
@@ -6441,6 +6441,24 @@
       "bytes": 64335376,
       "sha256": "d452e87e4fe5282bee098292717e2416dd08017c1f67492455e49c07ba6e30ac",
       "purpose": "林家擂台双端验收原件第 3 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120.tar.gz",
+      "sha256": "7ef871e237a971881b335a230d7f2c79fbbe21856f36bdb6794f3293e757dc56",
+      "bytes": 13974560,
+      "purpose": "余杭客栈苗人头领双端执行、分屏、反例和原录恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120-originals-1.tar.gz",
+      "sha256": "81bdd2f4f22e1e9cf85d986d1caca55606a69df79370f98c8c9e81e8fbeaced5",
+      "bytes": 45817010,
+      "purpose": "余杭客栈苗人头领 Game 原生录制卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120-originals-2.tar.gz",
+      "sha256": "5d0519a8793d424ef954d71072debb2bb246159a54f7708d73b1c367c810a1d4",
+      "bytes": 45193982,
+      "purpose": "余杭客栈苗人头领 Reforge 原生录制卷。"
     }
   ],
   "artifactAliases": [],
