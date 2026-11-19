@@ -1520,14 +1520,14 @@
           "lines": "416-423",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "458-465",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1883,6 +1883,29 @@
               }
             ],
             "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "416-423",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "458-465",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+              }
+            ],
+            "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
           }
         ]
       },
@@ -1951,10 +1974,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1289-1387",
+          "lines": "1290-1388",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -2282,6 +2305,22 @@
               }
             ],
             "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1289-1387",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+              }
+            ],
+            "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
           }
         ]
       },
@@ -3571,7 +3610,7 @@
           "lines": "443-455",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -3582,10 +3621,10 @@
         },
         {
           "path": "packages/reforge/src/world-scene-presentation.ts",
-          "lines": "72-88",
+          "lines": "72-89",
           "anchor": "export class WorldScenePresentation",
           "role": "contract",
-          "sha256": "ccd2bd9a94e7b76c85320f2c86e890f2625d61b72c89477fb8d3d4227a8ab00e"
+          "sha256": "1ea1fe7be8d8e441db8537c9195dbee58e29531f6586c059b4d3e45d13a5e52b"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -3885,6 +3924,29 @@
               }
             ],
             "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "443-455",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.ts",
+                "lines": "72-88",
+                "anchor": "export class WorldScenePresentation",
+                "role": "contract",
+                "sha256": "ccd2bd9a94e7b76c85320f2c86e890f2625d61b72c89477fb8d3d4227a8ab00e"
+              }
+            ],
+            "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
           }
         ]
       },
@@ -5673,10 +5735,10 @@
         },
         {
           "path": "scripts/e2e/recompare-recording.mjs",
-          "lines": "33-37",
+          "lines": "33-41",
           "anchor": "return recompareIslandEntrance",
           "role": "offline public caller",
-          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+          "sha256": "906c8231300786b9366fb04589321dae27144c3411c942d0937c78b90edef57e"
         },
         {
           "path": "scripts/e2e/island-entrance-comparison.mjs",
@@ -5796,6 +5858,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/recompare-recording.mjs",
+                "lines": "33-37",
+                "anchor": "return recompareIslandEntrance",
+                "role": "offline public caller",
+                "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+              }
+            ],
+            "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
           }
         ]
       },
@@ -6000,10 +6078,10 @@
         },
         {
           "path": "scripts/e2e/recompare-recording.mjs",
-          "lines": "42-45",
+          "lines": "46-49",
           "anchor": "if (fragment === '009')",
           "role": "caller",
-          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+          "sha256": "906c8231300786b9366fb04589321dae27144c3411c942d0937c78b90edef57e"
         },
         {
           "path": "scripts/e2e/fairy-island-pool-comparison.mjs",
@@ -6169,6 +6247,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/recompare-recording.mjs",
+                "lines": "42-45",
+                "anchor": "if (fragment === '009')",
+                "role": "caller",
+                "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+              }
+            ],
+            "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
           }
         ]
       },
@@ -6208,10 +6302,10 @@
         },
         {
           "path": "scripts/e2e/recompare-recording.mjs",
-          "lines": "46-49",
+          "lines": "50-53",
           "anchor": "if (fragment === '010')",
           "role": "caller",
-          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+          "sha256": "906c8231300786b9366fb04589321dae27144c3411c942d0937c78b90edef57e"
         },
         {
           "path": "scripts/e2e/water-moon-palace-comparison.mjs",
@@ -6284,6 +6378,22 @@
               "clipSha256": "3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a",
               "seconds": 73.2
             }
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/recompare-recording.mjs",
+                "lines": "46-49",
+                "anchor": "if (fragment === '010')",
+                "role": "caller",
+                "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+              }
+            ],
+            "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
           }
         ]
       },
@@ -6665,8 +6775,8 @@
           "path": "packages/reforge/src/main.ts",
           "anchor": "async function restorePayload(",
           "role": "save-restore-caller",
-          "lines": "5840",
-          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+          "lines": "5854",
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
         },
         {
           "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -8261,6 +8371,22 @@
               }
             ],
             "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+          },
+          {
+            "action": "fragment-party-pose-source-rebinding",
+            "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "5840",
+                "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+              }
+            ],
+            "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
           }
         ]
       }

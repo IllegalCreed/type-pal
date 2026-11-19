@@ -418,7 +418,7 @@ test('003 actual synchronous nudge commit observes post-body gait even on thrown
       let partyLayer=8, walking=false, stepFrame=1;
       let authoredPartyFacing={owner:{running:true},facing:'left'};
       const takeByScript=()=>{}, pixelDeltaToGridDelta=(dx,dy)=>({dcol:dx,drow:dy}),
-        pushTrail=()=>{}, displacementFacing=()=>facing, worldPresentation={setPartyGesture:()=>{}},
+        pushTrail=()=>{}, displacementFacing=()=>facing, worldPresentation={clearPartyPoses:()=>{}},
         updateCamera=()=>{if(failCamera)throw new Error('camera failed')},
         __openingPoint=(source)=>points.push({
           source,pos:{...player.pos},partyLayer,walking,stepFrame,

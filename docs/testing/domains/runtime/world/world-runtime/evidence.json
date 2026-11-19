@@ -14,7 +14,7 @@
       "lines": "443-455",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+      "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -25,10 +25,10 @@
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.ts",
-      "lines": "72-88",
+      "lines": "72-89",
       "anchor": "export class WorldScenePresentation",
       "role": "contract",
-      "sha256": "ccd2bd9a94e7b76c85320f2c86e890f2625d61b72c89477fb8d3d4227a8ab00e"
+      "sha256": "1ea1fe7be8d8e441db8537c9195dbee58e29531f6586c059b4d3e45d13a5e52b"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -85,7 +85,7 @@
       "evidence": [
         "packages/reforge/src/main.ts:443-455",
         "packages/reforge/src/world-motion-runtime.ts:167-193",
-        "packages/reforge/src/world-scene-presentation.ts:72-88",
+        "packages/reforge/src/world-scene-presentation.ts:72-89",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
         "packages/reforge/src/world-scene-presentation.test.ts:82-105",
         "packages/content/src/character.ts:169-171"
@@ -377,6 +377,29 @@
         }
       ],
       "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+    },
+    {
+      "action": "fragment-party-pose-source-rebinding",
+      "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "443-455",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "lines": "72-88",
+          "anchor": "export class WorldScenePresentation",
+          "role": "contract",
+          "sha256": "ccd2bd9a94e7b76c85320f2c86e890f2625d61b72c89477fb8d3d4227a8ab00e"
+        }
+      ],
+      "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
     }
   ],
   "_governance": {

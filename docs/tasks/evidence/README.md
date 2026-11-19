@@ -66,6 +66,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 姜清退移和末柱倒塌复验 | [同局脚点、震屏反例、两段过场末帧和原速带声分屏](E2E-Q2-1-story-presentation-recheck-20261119.tar.gz) |
 | Q2 末柱红廊外观 | [场景原生存档、角色着色像素与新版原速带声分屏](E2E-Q2-1-dragon-pillar-party-appearance-20261119.tar.gz) |
 | Q2 末柱交接与走廊群像 | [双端逐阶段画布、逐帧解码反例、共用回归和原速带声分屏](E2E-Q2-1-dragon-pillar-cutscene-boundaries-20261119.tar.gz) |
+| 分片 E2E 末柱至雪崖首句 | [红廊逐人实绘、八名群演、片尾边界、开工门、编辑器和原速带声分屏](E2E-PILLAR-CINEMATIC-1-20261119.tar.gz) |
 | Q2 雪崖剑圣入场 | [同局前景轨迹、自动行为反例、编辑器复验和原速带声分屏](E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz) |
 | Q2 六根龙柱与三种敌方仙术 | [原生接敌、返场、三招声画与分屏](E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz) |
 | Q2 拜月教主三招 | [双端实战、毒槽、漏帧反例和原速带声分屏重录](E2E-Q2-1-moon-leader-casts-20261119.tar.gz) |

@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "1289-1387",
+      "lines": "1290-1388",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+      "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -75,7 +75,7 @@
       "id": "runtime-battle-host-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:1289-1387",
+        "packages/reforge/src/main.ts:1290-1388",
         "packages/reforge/src/battle/battle-host.ts:72-88",
         "packages/reforge/src/battle/battle-host.ts:277-288",
         "packages/reforge/src/battle/battle-host.test.ts:14-37",
@@ -389,6 +389,22 @@
         }
       ],
       "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+    },
+    {
+      "action": "fragment-party-pose-source-rebinding",
+      "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1289-1387",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        }
+      ],
+      "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
     }
   ],
   "_governance": {

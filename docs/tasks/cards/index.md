@@ -34,7 +34,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|---|
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |

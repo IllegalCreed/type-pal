@@ -1743,6 +1743,107 @@ export function restoreTestingCliffEntrySourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, cliffEntryStage, sceneItemExitBindings)
 }
 
+export const testingPartyPosePublicationBase = 'aee2d69c439378a5be98b154c2b788fbfed0a594'
+const storyComparator = 'scripts/e2e/recompare-recording.mjs'
+const routedStoryReports = new Map([
+  ['docs/testing/e2e/stages/007-island-entrance/report.md', 'e2e-007'],
+  ['docs/testing/e2e/stages/009-fairy-island-pool/report.md', 'e2e-009'],
+  ['docs/testing/e2e/stages/010-water-moon-palace/report.md', 'e2e-010'],
+])
+const partyPoseStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1289-1387': '1290-1388',
+        '443-455': '443-455',
+        5840: '5854',
+      },
+    ],
+    [worldScenePresentation, { '72-88': '72-89' }],
+    [storyComparator, { '33-37': '33-41', '42-45': '46-49', '46-49': '50-53' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    if (ref.path === worldScenePresentation)
+      return excerpt.replace(
+        "  private readonly followerPoses = new Map<PartyMember['id'], { facing: Facing; gesture: number }>()\n",
+        '',
+      )
+    if (ref.path === storyComparator && ref.lines === '33-37')
+      return excerpt.replace(
+        "  if (fragment === 'dragon-pillar') {\n    const { recomparePillar } = await import('./dragon-pillar/compare.mjs')\n    return recomparePillar(root, resolve(gamePath), resolve(reforgePath))\n  }\n",
+        '',
+      )
+    return excerpt
+  },
+  base: testingPartyPosePublicationBase,
+  action: 'fragment-party-pose-source-rebinding',
+  date: '2026-11-19',
+}
+const partyPoseBindings = new Map([
+  ...[...sceneItemExitBindings].map(([path, binding]) => [
+    path,
+    {
+      ...binding,
+      paths:
+        binding.id === 'runtime-world-owners'
+          ? [reforgeMain, worldScenePresentation]
+          : [reforgeMain],
+    },
+  ]),
+  ...[...routedStoryReports.values()].map((id) => [
+    `e2e/evidence/${id}.json`,
+    { id, paths: [storyComparator], artifactClaims: true },
+  ]),
+])
+
+export const isTestingPartyPoseSource = (path) => partyPoseStage.ranges.has(path)
+
+export function restoreTestingPartyPoseSourceBindings(path, bytes, inputs) {
+  if (routedStoryReports.has(path)) {
+    const previous = inputs.readBase(path)
+    const prior = testingMetadata(previous)
+    const current = testingMetadata(bytes)
+    const before = parseTerminalJson(prior.json)
+    const now = parseTerminalJson(current.json)
+    assert.equal(before.id, routedStoryReports.get(path))
+    const touched = encounterReferences(
+      before.sourceRefs,
+      now.sourceRefs,
+      [storyComparator],
+      {
+        source: testingBridgeSources(inputs.readSource),
+        fixed: testingBridgeSources(inputs.readFixed),
+        predecessor: testingBridgeSources(inputs.readBase),
+      },
+      partyPoseStage,
+    )
+    const history = encounterHistory(
+      before.revision.history,
+      now.revision.history,
+      touched,
+      inputs.readSource,
+      partyPoseStage,
+    )
+    assert.deepEqual(
+      { ...now, sourceRefs: before.sourceRefs, revision: { ...now.revision, history } },
+      before,
+    )
+    const around = (metadata) =>
+      metadata.text.slice(0, metadata.start) +
+      metadata.text.slice(metadata.start + metadata.json.toString().length)
+    assert.equal(
+      around(current),
+      around(prior),
+      'offline dispatch binding may not change the accepted fragment report',
+    )
+    return previous
+  }
+  return restoreBattleSourceBindings(path, bytes, inputs, partyPoseStage, partyPoseBindings)
+}
+
 function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
   if (path !== `docs/testing/${publication.canonical}`)
     return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)

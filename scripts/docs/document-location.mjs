@@ -53,6 +53,7 @@ import {
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
   isTestingCliffEntrySource,
+  isTestingPartyPoseSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -86,6 +87,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingCliffEntrySourceBindings,
+  restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
@@ -136,6 +138,7 @@ import {
   testingBattleVictorySourceRevision,
   testingBattleWindBlowPublicationBase,
   testingCliffEntryPublicationBase,
+  testingPartyPosePublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
   testingSceneItemExitPublicationBase,
@@ -862,8 +865,25 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const cliffEntrySource = cliffEntryRevision && gitTree(root, cliffEntryRevision, [])
   const preCliffEntry = cliffEntrySource && gitTree(root, testingCliffEntryPublicationBase, [])
-  const readBeforeCliffEntry = (path) => {
+  const partyPoseRevision = admission.testingPartyPoseSourceRevision
+  if (partyPoseRevision)
+    assert(
+      cliffEntryRevision && /^[a-f0-9]{40}$/u.test(partyPoseRevision),
+      'party pose source needs the fixed cliff candidate',
+    )
+  const partyPoseSource = partyPoseRevision && gitTree(root, partyPoseRevision, [])
+  const prePartyPose = partyPoseSource && gitTree(root, testingPartyPosePublicationBase, [])
+  const readBeforePartyPose = (path) => {
     const live = readSource(path)
+    if (!prePartyPose || !isTestingPartyPoseSource(path)) return live
+    assert(
+      live?.equals(partyPoseSource.read(path)),
+      'party pose source differs from the frozen candidate',
+    )
+    return prePartyPose.read(path)
+  }
+  const readBeforeCliffEntry = (path) => {
+    const live = readBeforePartyPose(path)
     if (!preCliffEntry || !isTestingCliffEntrySource(path)) return live
     assert(
       live?.equals(cliffEntrySource.read(path)),
@@ -1105,14 +1125,23 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
     return preSummon.read(path)
   }
-  const beforeBattleSummon = (path, bytes) => {
-    const priorCliffEntry = preCliffEntry
-      ? restoreTestingCliffEntrySourceBindings(path, bytes, {
+  const beforePartyPose = (path, bytes) =>
+    prePartyPose
+      ? restoreTestingPartyPoseSourceBindings(path, bytes, {
           readSource,
+          readBase: prePartyPose.read,
+          readFixed: partyPoseSource.read,
+        })
+      : bytes
+  const beforeBattleSummon = (path, bytes) => {
+    const priorPartyPose = beforePartyPose(path, bytes)
+    const priorCliffEntry = preCliffEntry
+      ? restoreTestingCliffEntrySourceBindings(path, priorPartyPose, {
+          readSource: readBeforePartyPose,
           readBase: preCliffEntry.read,
           readFixed: cliffEntrySource.read,
         })
-      : bytes
+      : priorPartyPose
     const priorStoryPresentation = preStoryPresentation
       ? restoreTestingStoryPresentationSourceBindings(path, priorCliffEntry, {
           readSource: readBeforeCliffEntry,
@@ -1613,7 +1642,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const addition = additions.get(path)
     if (addition) {
       if (postPalace && isPublishedTestingStagePath(path)) {
-        const older = beforeProjectVictory(path, current)
+        const older = beforeProjectVictory(path, beforePartyPose(path, current))
         const predecessor = acquisitionPrevious(path, older)
         assert(
           postPalace.read(path)?.equals(predecessor),
