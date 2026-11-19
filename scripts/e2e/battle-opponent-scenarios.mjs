@@ -37,6 +37,31 @@ const fields = [
   { team: 201, scene: 's185', field: 16 },
   { team: 222, scene: 's278', field: 48 },
   { team: 224, scene: 's201', field: 35 },
+  { team: 225, scene: 's201', field: 35 },
+  { team: 226, scene: 's201', field: 35 },
+  { team: 241, scene: 's229', field: 11 },
+  { team: 259, scene: 's250', field: 50 },
+  { team: 275, scene: 's289', field: 57 },
+  { team: 286, scene: 's279', field: 57, attackStrength: 9000 },
+  { team: 287, scene: 's231', field: 54, attackStrength: 10500 },
+  { team: 288, scene: 's279', field: 57, attackStrength: 10200 },
+  { team: 292, scene: 's279', field: 57 },
+  { team: 293, scene: 's148', field: 40, attackStrength: 11500 },
+  { team: 315, scene: 's250', field: 50, attackStrength: 13000 },
+  { team: 348, scene: 's222', field: 34 },
+  { team: 0, scene: 's006', field: 12 },
+  { team: 18, scene: 's001', field: 24 },
+  { team: 160, scene: 's161', field: 33 },
+  { team: 195, scene: 's185', field: 16 },
+  { team: 213, scene: 's180', field: 47 },
+  { team: 223, scene: 's215', field: 20, attackStrength: 8200 },
+  { team: 316, scene: 's228', field: 11 },
+  { team: 5, scene: 's006', field: 12 },
+  { team: 109, scene: 's072', field: 55 },
+  { team: 253, scene: 's250', field: 50 },
+  // Both original encounter commands lack a migrated scene entry. Use the trial's default field.
+  { team: 189, scene: null, field: 7, rawBattleStart: 41843 },
+  { team: 212, scene: null, field: 7, rawBattleStart: 41889 },
 ]
 
 const heroes = ['li-xiaoyao', 'zhao-linger', 'anu']
@@ -54,8 +79,9 @@ const attack = (turn, actorId, targetId) => ({ turn, actorId, kind: 'attack', ta
 
 function commandPlan(team, opponents, party) {
   const opening = party.map(({ id }) => defend(1, id))
-  // SSS 42476 skips the enemy's first turn. Leave time for its scheduled cast.
-  if (team === 26) return [...opening, defend(2, heroes[0]), attack(3, heroes[0], opponents[0].id)]
+  // Continue to the Zombie King's scheduled spell and the Ghost King's post-dialogue spell.
+  if (team === 26 || team === 293)
+    return [...opening, defend(2, heroes[0]), attack(3, heroes[0], opponents[0].id)]
   if (team === 42)
     return [
       ...opening,
@@ -99,7 +125,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
     `${canonical}/battle-sprites.json`,
     'projects/pal/assets/index.json',
     'data/extracted/events/all.json',
-    ...selected.map(({ scene }) => `${canonical}/scenes/${scene}.json`),
+    ...selected.map(({ scene }) => scene && `${canonical}/scenes/${scene}.json`),
   ]
   const [
     originalTeams,
@@ -114,20 +140,28 @@ export async function battleOpponentScenarios(root, selector = 'all') {
     assetIndex,
     events,
     ...scenes
-  ] = await Promise.all(paths.map(async (path) => JSON.parse(await readFile(resolve(root, path)))))
+  ] = await Promise.all(
+    paths.map(async (path) => (path ? JSON.parse(await readFile(resolve(root, path))) : null)),
+  )
   const prepare = await prepareBattleStatusInputs()
   const script = events.segments.find(({ name }) => name === 'all').commands
   return Promise.all(
-    selected.map(async ({ team, scene, field, rawBattleStart, seed = 4 }, index) => {
+    selected.map(async (formationSpec, index) => {
+      const { team, scene, field, rawBattleStart, seed = 4, attackStrength = 6500 } = formationSpec
       const id = `team-${team}`
       const source = scenes[index]
       const encounter = findEncounters(source, id).find(
         (entry) => (entry.fieldId ?? source.battleFieldId) === field,
       )
-      assert(encounter, `${scene} has no ${id} encounter on battle field ${field}`)
-      if (rawBattleStart !== undefined) {
+      const rawEncounter = rawBattleStart === undefined ? null : script[rawBattleStart]
+      if (source) assert(encounter, `${scene} has no ${id} encounter on battle field ${field}`)
+      else {
+        assert.equal(rawEncounter?.opcode, 0x07)
+        assert.deepEqual(rawEncounter.operands, [team, 41075, 41073])
+      }
+      if (source && rawBattleStart !== undefined) {
         const { opcode: setField, operands: fieldOperands } = script[rawBattleStart - 2]
-        const { opcode: startBattle, operands: battleOperands } = script[rawBattleStart]
+        const { opcode: startBattle, operands: battleOperands } = rawEncounter
         assert.deepEqual(
           [setField, fieldOperands, startBattle, battleOperands[0]],
           [0x4a, [field, 0, 0], 0x07, team],
@@ -250,17 +284,19 @@ export async function battleOpponentScenarios(root, selector = 'all') {
         hp,
         maxHP: hp,
         defense: 250,
-        attack: 6500,
+        attack: attackStrength,
         speed: [900, 600, 300][index],
         skills: [],
         weapon: null,
       }))
       const commands = commandPlan(team, opponents, party)
       const configured = prepare({ id, seed, team, party, commands })
+      const boss = source ? Boolean(encounter.boss) : rawEncounter.operands[2] === 0
+      if (!source) assert.equal(configured.game.fixture.battleFieldId, field)
       configured.game.fixture.battleFieldId = field
-      configured.game.fixture.isBoss = Boolean(encounter.boss)
+      configured.game.fixture.isBoss = boss
       configured.reforge.config.fieldId = field
-      configured.reforge.config.boss = Boolean(encounter.boss)
+      configured.reforge.config.boss = boss
       return {
         id,
         team,
