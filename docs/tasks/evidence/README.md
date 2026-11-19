@@ -105,6 +105,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 林家擂台 | [第 1 卷](E2E-Q2-1-lin-family-ring-20261120-part1.tar.gz) · [第 2 卷](E2E-Q2-1-lin-family-ring-20261120-part2.tar.gz) · [第 3 卷](E2E-Q2-1-lin-family-ring-20261120-part3.tar.gz)，第 1 卷含双端原件索引与分屏复算入口 |
 | Q2 余杭客栈苗人头领 | [分屏、双端执行与恢复索引](E2E-Q2-1-inn-miao-leader-20261120.tar.gz) · [Game 原录卷](E2E-Q2-1-inn-miao-leader-20261120-originals-1.tar.gz) · [Reforge 原录卷](E2E-Q2-1-inn-miao-leader-20261120-originals-2.tar.gz) |
 | Q2 余杭客栈两名苗人随从 | [双端实测、原速带声分屏与复算索引](E2E-Q2-1-inn-miao-escorts-20261120.tar.gz) · [e60 原录](E2E-Q2-1-inn-miao-escorts-20261120-inn-e60-originals.tar.gz) · [e61 原录](E2E-Q2-1-inn-miao-escorts-20261120-inn-e61-originals.tar.gz) |
+| Q2 将军冢鬼将军与血池赤鬼王 | [双端实测、原速带声分屏与复算索引](E2E-Q2-1-tomb-bosses-20261120.tar.gz) · [鬼将军原录](E2E-Q2-1-tomb-bosses-20261120-ghost-general-originals.tar.gz) · [赤鬼王 Game原录](E2E-Q2-1-tomb-bosses-20261120-red-ghost-game-original.tar.gz) · [赤鬼王 Reforge原录](E2E-Q2-1-tomb-bosses-20261120-red-ghost-reforge-original.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

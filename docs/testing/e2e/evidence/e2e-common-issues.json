@@ -49,7 +49,7 @@
       "lines": "560-675",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "428dfc1708e37177687db33f3ee7054bc1288d5e3b28c709094b48c4e0da7a30"
+      "sha256": "7205c4c8f6e92cf649a3ff947515d4cfbbf2a3efdcbafe86c9201c7e6d2aeb42"
     }
   ],
   "publicCallers": [
@@ -193,6 +193,22 @@
         }
       ],
       "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
+    },
+    {
+      "action": "q2-tomb-source-rebinding",
+      "base": "fa362b07eedf6d472e215d71b951bf22c9d8b826",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "560-675",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "428dfc1708e37177687db33f3ee7054bc1288d5e3b28c709094b48c4e0da7a30"
+        }
+      ],
+      "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
     }
   ],
   "_governance": {

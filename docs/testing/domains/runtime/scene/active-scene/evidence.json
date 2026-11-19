@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+      "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "459-466",
+      "lines": "456-463",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+      "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -83,7 +83,7 @@
       "result": "source-backed",
       "evidence": [
         "packages/reforge/src/main.ts:417-424",
-        "packages/reforge/src/main.ts:459-466",
+        "packages/reforge/src/main.ts:456-463",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -632,6 +632,29 @@
         }
       ],
       "scope": "角色的循环追逐可选世界拍节奏，原有推进和存读档入口的被引片段逐字节相等。复用既有历史执行并保留各自原候选。"
+    },
+    {
+      "action": "q2-tomb-source-rebinding",
+      "base": "fa362b07eedf6d472e215d71b951bf22c9d8b826",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "459-466",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+        }
+      ],
+      "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
     }
   ],
   "_governance": {

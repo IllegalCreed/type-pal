@@ -63,6 +63,7 @@ import {
   isTestingQ2PlacementSource,
   isTestingQ2RingSource,
   isTestingQ2RooftopSource,
+  isTestingQ2TombSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -107,6 +108,7 @@ import {
   restoreTestingQ2PlacementSourceBindings,
   restoreTestingQ2RingSourceBindings,
   restoreTestingQ2RooftopSourceBindings,
+  restoreTestingQ2TombSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
@@ -168,6 +170,7 @@ import {
   testingQ2PlacementPublicationBase,
   testingQ2RingPublicationBase,
   testingQ2RooftopPublicationBase,
+  testingQ2TombPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
@@ -936,8 +939,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2EscortsRevision) assert(q2InnRevision && /^[a-f0-9]{40}$/u.test(q2EscortsRevision))
   const q2EscortsSource = q2EscortsRevision && gitTree(root, q2EscortsRevision, [])
   const preQ2Escorts = q2EscortsSource && gitTree(root, testingQ2EscortsPublicationBase, [])
-  const readBeforeQ2Escorts = (path) => {
+  const q2TombRevision = admission.testingQ2TombSourceRevision
+  if (q2TombRevision) assert(q2EscortsRevision && /^[a-f0-9]{40}$/u.test(q2TombRevision))
+  const q2TombSource = q2TombRevision && gitTree(root, q2TombRevision, [])
+  const preQ2Tomb = q2TombSource && gitTree(root, testingQ2TombPublicationBase, [])
+  const readBeforeQ2Tomb = (path) => {
     const live = readSource(path)
+    if (!preQ2Tomb || !isTestingQ2TombSource(path)) return live
+    assert(live?.equals(q2TombSource.read(path)), 'tomb source differs from the frozen candidate')
+    return preQ2Tomb.read(path)
+  }
+  const readBeforeQ2Escorts = (path) => {
+    const live = readBeforeQ2Tomb(path)
     if (!preQ2Escorts || !isTestingQ2EscortsSource(path)) return live
     assert(
       live?.equals(q2EscortsSource.read(path)),
@@ -1264,13 +1277,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorEscorts = preQ2Escorts
-      ? restoreTestingQ2EscortsSourceBindings(path, bytes, {
+    const priorTomb = preQ2Tomb
+      ? restoreTestingQ2TombSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2Tomb.read,
+          readFixed: q2TombSource.read,
+        })
+      : bytes
+    const priorEscorts = preQ2Escorts
+      ? restoreTestingQ2EscortsSourceBindings(path, priorTomb, {
+          readSource: readBeforeQ2Tomb,
           readBase: preQ2Escorts.read,
           readFixed: q2EscortsSource.read,
         })
-      : bytes
+      : priorTomb
     const priorInn = preQ2Inn
       ? restoreTestingQ2InnSourceBindings(path, priorEscorts, {
           readSource: readBeforeQ2Escorts,

@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "25",
-      "sha256": "c8bf851b4fb1126a83439a42f4b53e9a66d8097a5a096a0c8955850bbbf4c750",
+      "sha256": "492c257d49c673662a6aa2cbe5d047188f6ceab5fea18ad0b6773bf2a2fc7f4c",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5953",
-      "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+      "lines": "5951",
+      "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13777,6 +13777,29 @@
         }
       ],
       "scope": "角色的循环追逐可选世界拍节奏，原有推进和存读档入口的被引片段逐字节相等。复用既有历史执行并保留各自原候选。"
+    },
+    {
+      "action": "q2-tomb-source-rebinding",
+      "base": "fa362b07eedf6d472e215d71b951bf22c9d8b826",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "c8bf851b4fb1126a83439a42f4b53e9a66d8097a5a096a0c8955850bbbf4c750",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5953",
+          "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+        }
+      ],
+      "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
     }
   ],
   "_governance": {
