@@ -2,14 +2,12 @@ import {
   type ActorDef,
   type AssetId,
   emptyWorldScriptState,
-  type Facing,
   type ProjectedWorldScriptState,
   type RuntimeSceneDef,
   type RuntimeScriptBinding,
   resolveEntitySpriteId,
   type SceneDef,
   type SceneEntryPresentation,
-  type SceneSpawn,
   type ScriptStage,
   type SpriteDef,
   stageIndexFor,
@@ -27,7 +25,7 @@ import {
   captureSceneSwitchDependencies,
   type SceneSwitchDependencies,
 } from './scene-switch-transaction.js'
-import { resolveSceneSpawn } from './scene-transition.js'
+import { type RuntimeSceneSpawn, resolveSceneSpawn } from './scene-transition.js'
 
 export interface PreparedScene<TRenderer> {
   sceneId: string
@@ -82,7 +80,7 @@ export class ScenePreparer<TRenderer> {
   async prepare(
     sceneId: string,
     worldView: WorldState,
-    spawn?: SceneSpawn & { inheritFacing?: Facing },
+    spawn?: RuntimeSceneSpawn,
     useActorOverrides = true,
     scriptState?: WorldScriptState,
   ): Promise<PreparedScene<TRenderer>> {

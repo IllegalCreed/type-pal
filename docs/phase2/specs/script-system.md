@@ -48,6 +48,8 @@ runEntityTrigger{target:{scene,entity}}等待目标当前trigger/当前步骤结
 
 子链在同场景session内，直接/间接loadScene、loadLastSave、quitToTitle、gameOver、teleportOut、startBattle都须在副作用前拒绝；需要这些效果时放在调用返回后。session替换取消旧父/子尾，最终派发和游标提交仍核signal/session，不新增存档调用栈或parallel/join。
 
+场景切换 `loadScene` 通过 `entryId` 指定命名落点，或通过 `pos` 指定临时坐标。省略二者时用目标默认落点。`pos: 'current'` 用于原地换景，切换事务在等待资源前取得队伍当前脚点、朝向及跟随轨迹，目标第一次揭示就使用该落点。目标入场准备仍可明确安排新的位置和动作。编辑器预览用同一落点解析，`entryId` 与 `pos` 互斥。 [场景入场指南](../guides/scene-entry-authoring.md)
+
 onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备目标画面，揭示完成后开始正文。需要角色在淡入期间完成演出时，为 fade 揭示设置 `withBody: true`。准备结束后，淡入和正文共享本次入场 runner 的生命周期，步骤收尾等待两者结束。移动、定姿和对白的先后关系仍由正文编排。其他步骤、行为、共享与物品私有脚本不能声明 entry。 [场景入场指南](../guides/scene-entry-authoring.md)
 
 剧情内 `startBattle` 由正在执行的脚本持有，使用真实世界画面作入场底帧。原盘败北地址与自然后继相同的关卡，只在同一位置保留一份续段。作者可在战斗对白演出中使用「清除对话框」主动清除已留显的上、下槽。敌方逃跑先完成撤离演出；当前演出脚本可继续显示 1.4 秒自动关闭的中央旁白并回到场景后续。 [双端验证](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
@@ -79,7 +81,7 @@ onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备
 
 驱魔香、十里香用现有 `hostileAwareness` 倒计时调节引擎追逐。倍率为零时，原本可追逐的明雷在原脚点每拍推进步态，每两拍沿下、左、上、右转向。场景内已有的姿态覆盖、已编排动作及移动步态优先绘制。世界计时结束后恢复场景默认感知距离。 [原盘行为](../../phase1/game-mechanics.md) · [引擎计时](../../../packages/reforge/src/main.ts) · [精灵绘制](../../../packages/reforge/src/world-scene-presentation.ts)
 
-传送出口指令 `teleportOut` 运行当前有效的 `onTeleport`。配置 `gatherParty: true` 时，出口的目的场景从首个揭示帧起按聚拢队形摆放，成功收尾时以队首重置跟随轨迹。`arrivalSound` 在目的场景提交时播放一次，位于淡入之前。失败执行 `onFail`。引路蜂用这两个选项，成功扣库存，失败显示旁白。 [原盘行为](../../phase1/game-mechanics.md) · [当前宿主](../../../packages/reforge/src/main.ts)
+传送出口指令 `teleportOut` 运行当前有效的 `onTeleport`。配置 `gatherParty: true` 时，出口的目的场景从首个揭示帧起按聚拢队形摆放，成功收尾时以队首重置跟随轨迹。`arrivalSound` 在目的场景提交时播放一次，位于淡入之前。失败执行 `onFail`。引路蜂和土灵珠都用这两个选项。引路蜂成功扣库存，土灵珠用于传送时保留库存，两者失败都显示旁白。 [原盘行为](../../phase1/game-mechanics.md) · [当前宿主](../../../packages/reforge/src/main.ts)
 
 普通明雷的胜利回场在「项目设置 → 项目概览 → 明雷战斗」统一设置，保存为 `manifest.hostileVictoryTransition`。实体的「行为 → 胜利回场转场」默认沿用项目设置；只有需要例外才保存 `hostile.victoryTransition`，选择「沿用默认」即清除覆盖。未设置项目默认时直接返回地图。PAL 项目默认淡出战场、淡入地图，现有 828 个普通明雷全部继承。这个默认只用于引擎接敌；剧情或触碰脚本发起的战斗仍由自己的指令编排。
 

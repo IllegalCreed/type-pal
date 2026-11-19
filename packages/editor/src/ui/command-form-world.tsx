@@ -28,6 +28,7 @@ const SPEEDS: WalkSpeed[] = ['slow', 'normal', 'fast', 'run']
 
 export type LoadSceneTarget =
   | { mode: 'default' }
+  | { mode: 'current' }
   | { mode: 'entry'; entryId: string }
   | { mode: 'pos'; pos: GridPos }
 
@@ -43,6 +44,8 @@ export function makeLoadScene(
     return { kind: 'loadScene', scene, entryId: target.entryId, ...facingPatch, ...transitionPatch }
   if (target.mode === 'pos')
     return { kind: 'loadScene', scene, pos: { ...target.pos }, ...facingPatch, ...transitionPatch }
+  if (target.mode === 'current')
+    return { kind: 'loadScene', scene, pos: 'current', ...facingPatch, ...transitionPatch }
   return { kind: 'loadScene', scene, ...facingPatch, ...transitionPatch }
 }
 
@@ -581,7 +584,14 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
       const availableScenes = scenes ?? [scene]
       const target = availableScenes.find((s) => s.id === cmd.scene)
       const entries = Object.entries(target?.entries ?? {})
-      const mode = cmd.entryId ? 'entry' : cmd.pos ? 'pos' : 'default'
+      const placement: LoadSceneTarget = cmd.entryId
+        ? { mode: 'entry', entryId: cmd.entryId }
+        : cmd.pos === 'current'
+          ? { mode: 'current' }
+          : cmd.pos
+            ? { mode: 'pos', pos: cmd.pos }
+            : { mode: 'default' }
+      const coordinates = placement.mode === 'pos' ? placement.pos : undefined
       const rebuild = (targetMode: LoadSceneTarget, facing = cmd.facing) =>
         makeLoadScene(cmd.scene, targetMode, facing, cmd.transition)
       return (
@@ -603,41 +613,26 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
             />
           </Row>
           <Row label="落点">
-            <fieldset className="cf-segment" aria-label="落点模式">
-              <DsButton
-                size="compact"
-                variant={mode === 'default' ? 'primary' : 'secondary'}
-                onClick={() => onChange(rebuild({ mode: 'default' }))}
-              >
-                默认
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant={mode === 'entry' ? 'primary' : 'secondary'}
-                disabled={!entries.length}
-                onClick={() => {
-                  const entryId =
-                    cmd.entryId && target?.entries?.[cmd.entryId] ? cmd.entryId : entries[0]?.[0]
-                  if (entryId) onChange(rebuild({ mode: 'entry', entryId }))
-                }}
-              >
-                命名
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant={mode === 'pos' ? 'primary' : 'secondary'}
-                onClick={() =>
+            <DsSelect
+              aria-label="落点模式"
+              size="compact"
+              value={placement.mode}
+              options={[
+                { value: 'default', label: '默认落点' },
+                { value: 'entry', label: '命名落点', disabled: !entries.length },
+                { value: 'pos', label: '临时坐标' },
+                { value: 'current', label: '沿用当前脚点' },
+              ]}
+              onValueChange={(mode) => {
+                if (mode === 'default' || mode === 'current') onChange(rebuild({ mode }))
+                if (mode === 'entry' && entries[0])
+                  onChange(rebuild({ mode, entryId: entries[0][0] }))
+                if (mode === 'pos')
                   onChange(
-                    rebuild({
-                      mode: 'pos',
-                      pos: { ...(target?.entry.pos ?? { col: 0, row: 0, height: 0 }) },
-                    }),
+                    rebuild({ mode, pos: target?.entry.pos ?? { col: 0, row: 0, height: 0 } }),
                   )
-                }
-              >
-                临时坐标
-              </DsButton>
-            </fieldset>
+              }}
+            />
           </Row>
           {cmd.entryId && (
             <Row label="命名落点">
@@ -657,20 +652,24 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
               />
             </Row>
           )}
-          {cmd.pos && (
+          {coordinates && (
             <Row label="col / row / h">
               <Num
-                value={cmd.pos.col}
-                onChange={(n) => onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, col: n } }))}
-              />
-              <Num
-                value={cmd.pos.row}
-                onChange={(n) => onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, row: n } }))}
-              />
-              <Num
-                value={cmd.pos.height ?? 0}
+                value={coordinates.col}
                 onChange={(n) =>
-                  onChange(rebuild({ mode: 'pos', pos: { ...cmd.pos!, height: n } }))
+                  onChange(rebuild({ mode: 'pos', pos: { ...coordinates, col: n } }))
+                }
+              />
+              <Num
+                value={coordinates.row}
+                onChange={(n) =>
+                  onChange(rebuild({ mode: 'pos', pos: { ...coordinates, row: n } }))
+                }
+              />
+              <Num
+                value={coordinates.height ?? 0}
+                onChange={(n) =>
+                  onChange(rebuild({ mode: 'pos', pos: { ...coordinates, height: n } }))
                 }
               />
             </Row>
@@ -685,12 +684,7 @@ export function WorldCommandForm(props: WorldCommandFormProps) {
               ]}
               onValueChange={(value) => {
                 const f = value as Facing | ''
-                const targetMode: LoadSceneTarget = cmd.entryId
-                  ? { mode: 'entry', entryId: cmd.entryId }
-                  : cmd.pos
-                    ? { mode: 'pos', pos: cmd.pos }
-                    : { mode: 'default' }
-                onChange(makeLoadScene(cmd.scene, targetMode, f || undefined, cmd.transition))
+                onChange(makeLoadScene(cmd.scene, placement, f || undefined, cmd.transition))
               }}
             />
           </Row>

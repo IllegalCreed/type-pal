@@ -395,7 +395,10 @@ describe('script library schema', () => {
     ).toThrow(/portrait.*AssetId/)
   })
 
-  it('loadScene 只允许默认、命名落点、显式坐标三种互斥目标', () => {
+  it('loadScene 支持默认、命名落点、显式坐标和原地切场', () => {
+    expect(() =>
+      checkCommands([{ kind: 'loadScene', scene: 's001', pos: 'current' }], 'script'),
+    ).not.toThrow()
     expect(() => checkCommands([{ kind: 'loadScene', scene: 's001' }], 'script')).not.toThrow()
     expect(() =>
       checkCommands([{ kind: 'loadScene', scene: 's001', entryId: 'pal-entry-a1' }], 'script'),

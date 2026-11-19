@@ -204,7 +204,10 @@ describe('G3 author/runtime command 残差', () => {
   })
 
   test('loadScene entryId/pos 互斥、facing 与 transition 叶拒绝', () => {
-    const control = [{ kind: 'loadScene', scene: 's', entryId: 'a' }]
+    const control = [
+      { kind: 'loadScene', scene: 's', entryId: 'a' },
+      { kind: 'loadScene', scene: 's', pos: 'current' },
+    ]
     expectAcceptsUnchanged((value) => checkAuthorCommands(value, 'commands'), control)
     const badBoth = [{ kind: 'loadScene', scene: 's', entryId: 'a', pos: { col: 1, row: 1 } }]
     expectRejectUnchanged(

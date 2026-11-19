@@ -3414,13 +3414,13 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "6c7a473666128da97d7456a361a73b93f067b23f8eef50db70aa51b3d59515d9",
+      "afterSha256": "5ce5c036aefe536e8062e198f79f3ff37b95e2aa53357762b940da0a149541ee",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "登记独立队员站姿以及有限前景演出轨道合同。",
-        "reviewedLines": 353,
+        "reviewedLines": 355,
         "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       },
       "templateId": "design-spec-v1"
@@ -4334,7 +4334,7 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "faa15771d7efc86fc17daa72d40521c073a244e4121b9fec9466253acfd929ec",
+      "afterSha256": "9d2581c268ab377fa7fe5c45bf285eb359a7e101c8dae2cd38ba33e9f4155f3d",
       "review": {
         "author": "Codex /root（本次集成与现行正文维护）",
         "reviewer": "Codex /root/item_flow_final_review",
@@ -4948,13 +4948,13 @@
       "mode": "reviewed",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
-      "afterSha256": "ebecb6cb52492c6eb34b373a47c834c5628e269d18389c9a736749eb383cb231",
+      "afterSha256": "41e1f05de1f08f6f03f61c57171bb8479604e915c6c0f9188ab8fc10b0478098",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "雪崖前景入场修复、脚本分工与现行出处。",
-        "reviewedLines": 90,
+        "reviewedLines": 92,
         "acceptanceScope": "本轮入场前景编排、原生证据与现行引用；旧正文及历史执行的适用范围沿用既有收据。"
       }
     }
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c840cd093c2040435327cfcf1bdf74e1f28e7003a7cdd090d648859bbc0ab2d0",
+      "afterSha256": "e8372cfe4049eaedec3ec8f80d43cd5e45e51e138bbba4b163b01d06920e5c96",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
         "conclusion": "收口客栈夜景并登记机器验收入口。",
-        "reviewedLines": 1017,
+        "reviewedLines": 1021,
         "acceptanceScope": "核旧分屏原因、作者修复、对比与发布的反例、录制复验。"
       }
     },

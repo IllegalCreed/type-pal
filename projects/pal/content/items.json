@@ -8266,6 +8266,7 @@
                       },
                       {
                         "kind": "loadScene",
+                        "pos": "current",
                         "scene": "s180"
                       },
                       {
@@ -9431,11 +9432,9 @@
                       {
                         "kind": "returnScript"
                       }
-                    ]
-                  },
-                  {
-                    "asset": "sound.pal.045",
-                    "kind": "playSound"
+                    ],
+                    "gatherParty": true,
+                    "arrivalSound": "sound.pal.045"
                   }
                 ],
                 "else": [

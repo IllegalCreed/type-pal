@@ -54,6 +54,18 @@ describe('resolveSceneSpawn', () => {
     })
   })
 
+  test('原地切场使用调用方的完整脚点和朝向', () => {
+    const currentPosition = { col: 156, row: 53, height: 2 }
+    const landing = resolveSceneSpawn('s001', scene, {
+      pos: 'current',
+      currentPosition,
+      inheritFacing: 'up',
+    })
+    currentPosition.row = 54
+    expect(landing).toEqual({ pos: { col: 156, row: 53, height: 2 }, facing: 'up' })
+    expect(() => resolveSceneSpawn('s001', scene, { pos: 'current' })).toThrow('需要来源脚点')
+  })
+
   test('缺失命名落点与 entryId+pos 均 fail-loud', () => {
     expect(() => resolveSceneSpawn('s001', scene, { entryId: 'missing' })).toThrow(
       /找不到命名落点 missing/,

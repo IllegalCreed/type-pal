@@ -422,6 +422,7 @@ export class Playback {
       const landing = resolveSceneSpawn(sceneId, target, {
         ...spawn,
         inheritFacing: this.view.player.facing,
+        currentPosition: this.view.player.pos,
       })
       this.loadingScene = sceneId
       this.onUi?.()

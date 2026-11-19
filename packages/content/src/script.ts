@@ -61,12 +61,12 @@ export type ScriptCondition =
 
 // ── 命令(M3a 集;增量见设计 §2.3 表)──
 /**
- * 跨场景落位的三种互斥模式：缺省=场景默认落点，entryId=命名落点，pos=一次性坐标。
+ * 跨场景落位：缺省用场景默认落点，entryId 用命名落点，pos 可指定坐标或 current。
  * facing 是命令级覆盖，不属于目标身份。
  */
 export type SceneSpawn =
   | { entryId: string; pos?: never; facing?: Facing }
-  | { pos: GridPos; entryId?: never; facing?: Facing }
+  | { pos: GridPos | 'current'; entryId?: never; facing?: Facing }
   | { entryId?: never; pos?: never; facing?: Facing }
 
 export type SceneTransitionProfile =
@@ -536,7 +536,8 @@ export function checkCommands(
         throw new Error(`${path}[${i}].entryId: 期望非空命名落点 id`)
       if (load.entryId !== undefined && load.pos !== undefined)
         throw new Error(`${path}[${i}]: entryId 与 pos 不能同时存在`)
-      if (load.pos !== undefined) checkGridPos(load.pos, `${path}[${i}].pos`)
+      if (load.pos !== undefined && load.pos !== 'current')
+        checkGridPos(load.pos, `${path}[${i}].pos`)
       if (load.facing !== undefined) checkFacing(load.facing, `${path}[${i}].facing`)
       if (load.transition !== undefined) {
         const transition = load.transition as Record<string, unknown>

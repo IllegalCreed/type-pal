@@ -198,6 +198,7 @@ import type {
   SceneRuntimeStates,
 } from './scene-runtime-state.js'
 import { prepareAndCommitSceneSwitch } from './scene-switch-transaction.js'
+import type { RuntimeSceneSpawn } from './scene-transition.js'
 import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-hold-transaction.js'
 import { ScreenShakePresentation } from './screen-shake-presentation.js'
 import {
@@ -930,6 +931,10 @@ export async function bootGame(
   }
 
   type SceneSwitchPlan = PreparedScene<Canvas2DRenderer>
+  type SceneFollowState = {
+    trail: TrailEntry[]
+    frozen: (FollowerFrozen | null)[]
+  }
   const scenePreparation = new ScenePreparer(project.actorsById, {
     actorOverrides: () => actorSpriteOverrides,
     canonicalScene: (id) => getCanonicalScene(id),
@@ -944,7 +949,7 @@ export async function bootGame(
   function prepareSceneSwitch(
     sceneId: string,
     worldView: WorldState,
-    spawn?: SceneSpawn & { inheritFacing?: Facing },
+    spawn?: RuntimeSceneSpawn,
     useActorOverrides = true,
     scriptState?: WorldScriptState,
   ): Promise<SceneSwitchPlan> {
@@ -992,6 +997,7 @@ export async function bootGame(
     worldView: typeof world,
     applySceneMusic = true,
     restoreActions?: () => void,
+    followState?: SceneFollowState,
   ): void {
     spriteCache.prune(plan.neededSprites)
     resetFrameAnimationPresentation()
@@ -1003,9 +1009,10 @@ export async function bootGame(
     partyLayer = 0
     walking = false
     stepFrame = 0
-    // 场景落点等价 0x46:按当前朝向向身后铺满轨迹，队员无需先走一步才显出队形。
-    trail = seedFormationTrail(player.pos, facing)
+    // 定点落位按朝向铺满新轨迹。原地切场沿用来源队形和之前的脚迹。
+    trail = followState?.trail ?? seedFormationTrail(player.pos, facing)
     followerFrozen.length = 0
+    if (followState) followerFrozen.push(...followState.frozen)
     followerPos.length = 0
     followerAuth.clear() // 跨场景回 follow(骑乘/站位权威是演出期瞬时态,不跨场景)
     motion.resetCadence() // 世界拍相位随场景重置
@@ -1024,7 +1031,7 @@ export async function bootGame(
    */
   async function switchScene(
     sceneId: string,
-    spawn?: SceneSpawn & { inheritFacing?: Facing },
+    spawn?: RuntimeSceneSpawn,
     beforeCommit?: () => void,
     useActorOverrides = true,
   ): Promise<void> {
@@ -2493,6 +2500,10 @@ export async function bootGame(
       const worldToken = worldMutationIntent.capture()
       const worldView = world
       const inheritedFacing = facing
+      const currentPosition = spawn.pos === 'current' ? { ...player.pos } : undefined
+      const followState = currentPosition
+        ? { trail: structuredClone(trail), frozen: structuredClone(followerFrozen) }
+        : undefined
       const assertRequestCurrent = (): void => {
         assertRunnerActive(signal, `脚本切场景 ${sceneId} 的 runner 已取消`)
         sceneSwitchIntent.assertCurrent(sceneToken, `脚本切场景 ${sceneId} 已被更新请求取代`)
@@ -2511,6 +2522,7 @@ export async function bootGame(
             prepareSceneSwitch(sceneId, worldView, {
               ...spawn,
               inheritFacing: inheritedFacing,
+              ...(currentPosition === undefined ? {} : { currentPosition }),
             }),
             signal,
           ),
@@ -2555,7 +2567,7 @@ export async function bootGame(
               : sceneRuntimeStates[sceneId]
           const restoreActions = prepareSceneActions(prepared.def, prepared.entityDefs, saved)
           stopAutoRunners()
-          commitSceneSwitch(prepared, worldView, true, restoreActions)
+          commitSceneSwitch(prepared, worldView, true, restoreActions, followState)
           const arrival = signal && teleportArrivals.get(signal)
           if (arrival) applyTeleportArrival(arrival)
         },

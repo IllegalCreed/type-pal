@@ -1,6 +1,9 @@
 import type { Facing, GridPos, SceneDef, SceneSpawn } from '@type-pal/content'
 
-export type RuntimeSceneSpawn = SceneSpawn & { inheritFacing?: Facing }
+export type RuntimeSceneSpawn = SceneSpawn & {
+  inheritFacing?: Facing
+  currentPosition?: GridPos
+}
 
 export interface ResolvedSceneSpawn {
   pos: GridPos
@@ -20,7 +23,7 @@ export function resolveSceneFacing(
   return explicit ?? namedEntry ?? inherited ?? sceneDefault
 }
 
-/** 统一解析默认/命名/临时坐标三态；主循环只消费已校验结果。 */
+/** Resolve every landing mode before a new scene is committed. */
 export function resolveSceneSpawn(
   sceneId: string,
   scene: Pick<SceneDef, 'entry' | 'entries'>,
@@ -31,8 +34,11 @@ export function resolveSceneSpawn(
   const entry = spawn?.entryId !== undefined ? scene.entries?.[spawn.entryId] : undefined
   if (spawn?.entryId !== undefined && !entry)
     throw new Error(`场景 ${sceneId}: 找不到命名落点 ${spawn.entryId}`)
+  const pos = spawn?.pos === 'current' ? spawn.currentPosition : spawn?.pos
+  if (spawn?.pos === 'current' && pos === undefined)
+    throw new Error(`场景 ${sceneId}: 沿用原地需要来源脚点`)
   return {
-    pos: { ...(spawn?.pos ?? entry?.pos ?? scene.entry.pos) },
+    pos: { ...(pos ?? entry?.pos ?? scene.entry.pos) },
     facing: resolveSceneFacing(
       spawn?.facing,
       entry?.facing,

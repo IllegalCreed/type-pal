@@ -200,9 +200,11 @@ export function describeScriptCommand(
         ? entry
           ? `${entry.label || cmd.entryId} · ${cmd.entryId} · (${entry.pos.col},${entry.pos.row},h${entry.pos.height ?? 0})`
           : `${cmd.entryId} (落点缺失)`
-        : cmd.pos
-          ? `临时坐标 (${cmd.pos.col},${cmd.pos.row},h${cmd.pos.height ?? 0})`
-          : '默认落点'
+        : cmd.pos === 'current'
+          ? '沿用当前脚点'
+          : cmd.pos
+            ? `临时坐标 (${cmd.pos.col},${cmd.pos.row},h${cmd.pos.height ?? 0})`
+            : '默认落点'
       return {
         icon: '🚪',
         label: `切到场景 ${cmd.scene}`,
