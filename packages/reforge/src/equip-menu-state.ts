@@ -106,7 +106,8 @@ export function equipApply(
   if (s.phase !== 'pick-role' || !s.selectedItemId) return { world, state: s }
   const slot = items[s.selectedItemId]?.equip?.slot
   const caster = world.party.find((c) => c.id === s.casterId)
-  const oldItemId = caster && slot ? caster.equipment[slot] : undefined // 换下的旧件(原槽位)
+  if (!slot || !caster) return { world, state: openEquipMenu(world, s.casterId, items) }
+  const oldItemId = caster.equipment[slot]
   const next = equipItem(world, s.casterId, s.selectedItemId, items)
   if (next === world) return { world, state: s }
   if (oldItemId) return { world: next, state: { ...s, selectedItemId: oldItemId } } // 留面板续换
