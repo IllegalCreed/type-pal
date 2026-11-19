@@ -33,6 +33,7 @@ function installBossForeground({
   scriptedReturn,
   entrance,
   includesParty,
+  victoryFade,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -48,6 +49,30 @@ function installBossForeground({
   let requestedShift = 0
   let ditherStep
   let previousComposite
+  let victoryReturnComplete = false
+
+  function recordVictoryReturn(frame, context) {
+    if (!victoryFade || victoryReturnComplete) return
+    const { ended, state } = observation.read()
+    if (!ended || state.scene !== scene) return
+    const { width, height } = context.canvas
+    const colors = [0.2, 0.48, 0.79].flatMap((x) =>
+      [0.18, 0.47, 0.72].map((y) =>
+        Array.from(context.getImageData(Math.floor(x * width), Math.floor(y * height), 1, 1).data),
+      ),
+    )
+    const black =
+      colors.every(([r, g, b]) => r === 0 && g === 0 && b === 0) &&
+      context.getImageData(0, 0, width, height).data.every((value, i) => i % 4 === 3 || value === 0)
+    observation.event('victory-return-paint', {
+      scene,
+      black,
+      ready: state.ready,
+      colors,
+      world: frame && { ...frame, party: observation.worldDraw()?.party },
+    })
+    victoryReturnComplete = state.ready && !!frame && !black
+  }
 
   function recordComposite(sceneId, context, step) {
     if (!includesParty || (!requestedShift && step === undefined && !previousComposite)) return
@@ -162,20 +187,20 @@ function installBossForeground({
       const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
       if (!drewWorld || battle || (sceneId !== scene && sceneId !== handoffScene)) {
         previous = undefined
+        recordVictoryReturn(undefined, context)
         return
       }
-      commit(
-        {
-          scene: sceneId,
-          camera: [gs.camera.x, gs.camera.y],
-          leader: [gs.party.x, gs.party.y],
-          actors,
-          ambience: gs.nightPalette ? 'night' : 'day',
-          changing: !!gs.paletteFadeState,
-          ...(includesParty && { partyLayer: gs.wLayer / 8 }),
-        },
-        context,
-      )
+      const frame = {
+        scene: sceneId,
+        camera: [gs.camera.x, gs.camera.y],
+        leader: [gs.party.x, gs.party.y],
+        actors,
+        ambience: gs.nightPalette ? 'night' : 'day',
+        changing: !!gs.paletteFadeState,
+        ...(includesParty && { partyLayer: gs.wLayer / 8 }),
+      }
+      commit(frame, context)
+      recordVictoryReturn(frame, context)
       recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
     },
     reforgeWorld(sceneId, camera, draws, partyLayer) {
@@ -209,11 +234,13 @@ function installBossForeground({
     reforgeFrame(ambience, tint, changing, context) {
       if (!pending) {
         previous = undefined
+        recordVictoryReturn(undefined, context)
         return
       }
       const frame = pending
       pending = undefined
       commit({ ...frame, ambience, tint, changing }, context)
+      recordVictoryReturn(frame, context)
       recordComposite(frame.scene, context, ditherStep)
     },
   }

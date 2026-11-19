@@ -1376,17 +1376,6 @@
                         {
                           "kind": "wait",
                           "ms": 100
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s148",
-                            "entity": "e2436"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
                         }
                       ]
                     }

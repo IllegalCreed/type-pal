@@ -202,7 +202,7 @@ export class BattleHost {
           }
         }
       },
-      fadeOnVictory: worldPresentation.fadeOnVictory,
+      holdVictoryFrame: scripted || worldPresentation.fadeOnVictory,
     }
     if (!presentation) this.#active = session
     return await this.awaitSession(
@@ -229,7 +229,7 @@ export class BattleHost {
     assertCurrent: () => void,
     restoreMusic: (result?: BattleResult) => void,
     captureDefeatFrame: (() => void) | undefined,
-    presentation?: { enter(): Promise<void>; fadeOnVictory: boolean },
+    presentation?: { enter(): Promise<void>; holdVictoryFrame: boolean },
   ): Promise<BattleResult> {
     const abort = () => {
       if (!published || this.#active === session) session.cancel()
@@ -281,7 +281,7 @@ export class BattleHost {
       signal,
       assertCurrent,
       restoreMusic,
-      presentation?.fadeOnVictory === true,
+      presentation?.holdVictoryFrame === true,
     )
     return result
   }
@@ -292,7 +292,7 @@ export class BattleHost {
     signal: AbortSignal,
     assertCurrent: () => void,
     restoreMusic: (result?: BattleResult) => void,
-    fadeOnVictory: boolean,
+    holdVictoryFrame: boolean,
   ) {
     const definitions = result === 'victory' ? session.enemySlotDefs() : []
     const finish = async (scriptSignal: AbortSignal): Promise<void> => {
@@ -315,7 +315,7 @@ export class BattleHost {
     if (
       result === 'victory' &&
       this.ports.presentVictory &&
-      (fadeOnVictory || definitions.some((def) => def.onDefeated?.length))
+      (holdVictoryFrame || definitions.some((def) => def.onDefeated?.length))
     ) {
       const controller = new AbortController()
       this.#victoryPresentation = controller

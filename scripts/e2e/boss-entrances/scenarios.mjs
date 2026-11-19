@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
+import { gunzipSync } from 'node:zlib'
 
 export const fieldMusic = 78
 export const fieldMusicAsset = 'music.pal.078'
@@ -10,11 +11,13 @@ export const initialTrack = (spec) => spec.mapMusic?.track ?? fieldMusic
 export const returnTrack = (spec) => spec.world.music?.track ?? initialTrack(spec)
 export const returnedPosition = (spec) => spec.world.returned ?? spec.contact
 export const departingPosition = (spec) => spec.world.departure ?? spec.start
-export const battleOperands = (spec) => [spec.team, spec.disk.loss ?? 41075, 0]
+export const battleOperands = (spec) => [spec.team, spec.disk.loss ?? 41075, spec.disk.flee ?? 0]
+export const isBossBattle = (spec) => battleOperands(spec)[2] === 0
 export const observesForeground = (spec) =>
   spec.prelude !== undefined ||
   spec.world.handoff !== undefined ||
-  spec.world.scriptedReturn !== undefined
+  spec.world.scriptedReturn !== undefined ||
+  spec.disk.victory !== undefined
 
 export const party = [
   {
@@ -129,6 +132,36 @@ function innEscort(owner, originalPose, approach, walk, contact) {
   }
 }
 
+function towerFox(scene, owner, start, contact, position, music, musicIp, mapMusic) {
+  return {
+    id: `tower-fox-${scene}`,
+    scene,
+    owner,
+    team: 44,
+    enemy: 'enemy-469',
+    start: [...start, 0],
+    contact: [...contact, 0],
+    approach: 'ArrowDown',
+    music,
+    field: 40,
+    slot: 1,
+    seed: 4,
+    settlementDwellMs: 180,
+    disk: {
+      entry: 41264,
+      battle: 41264,
+      victory: 41127,
+      last: 41129,
+      flee: 41073,
+      music: musicIp,
+      field: 22378,
+      owner: [...position, 2, 5],
+    },
+    mapMusic,
+    world: { gameState: -2, triggerMode: 5, inventory: [], exit: 'ArrowUp' },
+  }
+}
+
 export const scenarios = {
   'inn-leader': innLeader,
   'inn-e60': innEscort(
@@ -191,6 +224,16 @@ export const scenarios = {
     disk: { entry: 9498, battle: 9552, last: 9589, owner: [1440, 304, 2, 6], reward: 9554 },
     world: { gameState: 0, triggerMode: 6, inventory: [{ itemId: '289', count: 1 }] },
   },
+  'fox-tower-s148': towerFox('s148', 'e2436', [83, 48], [83, 49], [512, 1056], 37, 22386, {
+    scene: 's148',
+    ip: 22385,
+    track: 79,
+  }),
+  'fox-tower-s165': towerFox('s165', 'e2716', [49, 21], [49, 22], [432, 584], 43, 22379, {
+    scene: 's146',
+    ip: 22381,
+    track: 80,
+  }),
   spider: {
     id: 'black-spider',
     scene: 's139',
@@ -516,7 +559,7 @@ export async function readSources(spec) {
     const jade = (await json(itemsPath)).find(({ id }) => id === '274')
     assert.deepEqual([jade.equip.slot, jade.equip.equipableBy], ['accessory', ['zhao-linger']])
   }
-  const { battle, entry, last, reward, defeated } = spec.disk
+  const { battle, entry, last, reward, defeated, victory, flee } = spec.disk
   const setMusic = commands[spec.disk.music ?? battle - 2]
   const setField = commands[spec.disk.field ?? battle - 1]
   assert.deepEqual([setMusic.opcode, setMusic.operands[0]], [69, spec.music])
@@ -544,13 +587,57 @@ export async function readSources(spec) {
   const launch = native.find(({ kind }) => kind === 'startBattle')
   assert.deepEqual(
     [
-      launch.boss,
+      launch.boss ?? false,
       launch.fieldId ?? data.rfScene.battleFieldId,
       launch.music ?? data.rfScene.battleMusic,
       launch.enemyTeamId,
     ],
-    [true, spec.field, nativeMusic(spec.music), `team-${spec.team}`],
+    [isBossBattle(spec), spec.field, nativeMusic(spec.music), `team-${spec.team}`],
   )
+  let tower
+  const towerAssets = []
+  if (victory !== undefined) {
+    assert.deepEqual([commands[22377].opcode, commands[22377].operands], [0x75, [1, 3, 0]])
+    assert.deepEqual([commands[battle + 1].op, commands[battle + 1].to], ['goto', `L_${victory}`])
+    assert.deepEqual(
+      commands.slice(victory, last).map(({ opcode, operands }) => [opcode, operands]),
+      [
+        [0x52, [0, 0, 0]],
+        [0x50, [0, 0, 0]],
+      ],
+    )
+    assert.deepEqual([commands[flee].opcode, commands[flee].operands], [0x4b, [0, 0, 0]])
+    assert.equal(commands[flee + 1].op, 'end')
+    const owned = { scene: spec.scene, entity: spec.owner }
+    assert.deepEqual(launch.onFlee, [
+      { kind: 'suspendEntity', target: owned, ticks: 15 },
+      { kind: 'finishStep', next: { kind: 'stay' } },
+    ])
+    assert.deepEqual(native.slice(native.indexOf(launch) + 1), [
+      { kind: 'hideEntity', target: owned, ticks: 800 },
+      { kind: 'fade', dir: 'out', ms: 600 },
+      { kind: 'fade', dir: 'in', ms: 600 },
+    ])
+    const ambient = Number(actor.autoLabel.slice(2))
+    assert.deepEqual([commands[ambient].opcode, commands[ambient + 1].to], [0x87, actor.autoLabel])
+    const asset = actor.spriteNum
+    towerAssets.push(
+      `data/extracted/data/sprite/${asset}.rle`,
+      `projects/pal/assets/migrated/sprites/${musicId(asset)}.rle`,
+    )
+    const [original, authored] = await Promise.all(
+      towerAssets.map((path) => readFile(projectFile(path))),
+    )
+    assert.deepEqual(original, authored)
+    const chunk = gunzipSync(original)
+    const offsets = chunk.readUInt16LE(0)
+    assert.equal(
+      chunk.readUInt16LE((offsets - 1) * 2),
+      0,
+      'original sprite has a terminal empty slot',
+    )
+    tower = { asset, position: [actor.x, actor.y], frameCount: offsets - 1 }
+  }
   if (spec.solo) {
     assert(
       commands
@@ -678,6 +765,7 @@ export async function readSources(spec) {
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
       ...returnMusicPaths,
       ...ringAudioPaths,
+      ...towerAssets,
     ],
     preludeStates,
     preludeWave,
@@ -700,6 +788,7 @@ export async function readSources(spec) {
     successorTrack,
     turnStart,
     ring,
+    tower,
     summonBonus,
     summoning: summonScript && {
       id: `enemy-${summonObject}`,
@@ -709,7 +798,7 @@ export async function readSources(spec) {
     tomb: spec.party === 'tomb' ? tombSource(data, commands, spec, actor) : undefined,
     pre: commands.slice(entry, battle),
     post: commands.slice(
-      battle + 1,
+      victory ?? battle + 1,
       spec.world.scriptedReturn ? spec.world.scriptedReturn.wait + 1 : last,
     ),
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,

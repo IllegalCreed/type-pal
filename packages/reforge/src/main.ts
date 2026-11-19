@@ -1160,7 +1160,9 @@ export async function bootGame(
   let scriptDialogResolve: (() => void) | null = null
   // ~NN 自动收尾时保留最后已呈现帧一拍。若下一条立即 loadScene，它会在重画前取走该帧。
   let preserveClosedDialogFrame = false
-  let fadingDialogueFrame: ImageData | undefined
+  let fadingSourceFrame: ImageData | undefined
+  let presentedBattleFrame = false
+  let touchLandingNeedsPaint = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   // ── R13-4 脚本二选一：独立于系统菜单业务的中央 FIFO + dedicated held-frame。──
@@ -2310,17 +2312,18 @@ export async function bootGame(
       dialogBox.close()
     },
     fade: async (dir, ms, color, signal) => {
-      if (dir !== 'out' || !dialogBox.visible) return hostFade(dir, ms, color, signal)
+      if (dir !== 'out' || (!dialogBox.visible && !presentedBattleFrame))
+        return hostFade(dir, ms, color, signal)
 
-      assertRunnerActive(signal, '对白淡出所属 runner 已取消')
+      assertRunnerActive(signal, '淡出所属 runner 已取消')
       const source = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      fadingDialogueFrame = source
+      fadingSourceFrame = source
       preserveClosedDialogFrame = false
       dialogBox.close()
       try {
         await hostFade(dir, ms, color, signal)
       } finally {
-        if (fadingDialogueFrame === source) fadingDialogueFrame = undefined
+        if (fadingSourceFrame === source) fadingSourceFrame = undefined
       }
     },
     cameraPan: (dx, dy, frames, signal) => cameraSession.pan(dx, dy, frames, signal),
@@ -3956,7 +3959,9 @@ export async function bootGame(
         reportInteraction?.()
         return answer
       },
-      startBattle: (request, signal, source) => {
+      startBattle: async (request, signal, source) => {
+        // An immediate touch battle needs the just-committed landing as its entry image.
+        if (source === 'script' && touchLandingNeedsPaint) await frames.wait(0, signal)
         return battleHost.start(
           request.enemyTeamId,
           {
@@ -4794,7 +4799,10 @@ export async function bootGame(
           const touched = findTrigger('touch')
           if (touched) {
             if (runner) enqueuePendingTouchTrigger(touched)
-            else fireTrigger(touched)
+            else {
+              touchLandingNeedsPaint = true
+              fireTrigger(touched)
+            }
             // The landing owns this world's post-contact slot even when another runner currently
             // occupies the single script driver. Delivery is deferred, never silently discarded.
             return true
@@ -5356,13 +5364,17 @@ export async function bootGame(
     if (runner) return
     const triggerOwnerId =
       key.startsWith('s:') || key.startsWith('hostile:') ? null : (selfId ?? key)
-    // 一阶段 DLc / sdlpal play.c:120-148:剧情接管即走非行走姿势更新。
-    // touch 触发发生在本次落步之后；若不在这里归位，runner/dialog 会吞掉后续
-    // 探索 tick，walking=true 将让队长整段剧情冻结在迈步帧。
     if (walking) deriveFollowers()
-    const settledWalk = settleWalkAnimation({ walking, stepFrame })
-    walking = settledWalk.walking
-    stepFrame = settledWalk.stepFrame
+    const triggerEntity = activeScene.scene.entities.find(({ id }) => id === triggerOwnerId)
+    const stationaryTouch =
+      triggerEntity?.pages?.[0]?.trigger?.on === 'touch' &&
+      activeScene.entitySpriteDefs.get(triggerEntity.id)?.layout.kind === 'static'
+    // Original non-directional touch sprites do not reset the party's just-completed step.
+    if (!stationaryTouch) {
+      const settledWalk = settleWalkAnimation({ walking, stepFrame })
+      walking = settledWalk.walking
+      stepFrame = settledWalk.stepFrame
+    }
     if (scriptRuntime) {
       const runtime = scriptRuntime
       const canonical = sceneResources.peek(activeScene.scene.id)
@@ -5466,7 +5478,9 @@ export async function bootGame(
     releaseAllAuthority() // E6a:强停演出同样归还全部实体
     frames.clearWaits()
     screenHold.cancel()
-    fadingDialogueFrame = undefined
+    fadingSourceFrame = undefined
+    presentedBattleFrame = false
+    touchLandingNeedsPaint = false
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     worldPresentation.clearEntityFrames()
@@ -6178,7 +6192,7 @@ export async function bootGame(
       if (preserveClosedDialogFrame) return
       // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
       // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
-      const heldFrame = sceneEntrySession.heldFrame ?? fadingDialogueFrame
+      const heldFrame = sceneEntrySession.heldFrame ?? fadingSourceFrame
       if (heldFrame) {
         ctx.putImageData(heldFrame, 0, 0)
         drawFadeCurtain()
@@ -6194,6 +6208,7 @@ export async function bootGame(
           return
         }
       }
+      presentedBattleFrame = false
       updateCamera() // 相机跟随玩家
       // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
       // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
@@ -6768,6 +6783,7 @@ export async function bootGame(
       battleHost.active.tick(dt, pressed, now)
       battleHost.active.render(ctx, WORLD_SCALE)
       applyAmbienceTint()
+      presentedBattleFrame = true
       return true
     },
     routeInput: (pressed, realNow) => {
@@ -6776,6 +6792,7 @@ export async function bootGame(
     presentWorld: (frameAt) => {
       motion.clearScriptGaitHandoffs()
       runWithPresentationFinalizer(() => render(frameAt), abortScript)
+      touchLandingNeedsPaint = false
     },
   }
   async function tick(t: number): Promise<void> {

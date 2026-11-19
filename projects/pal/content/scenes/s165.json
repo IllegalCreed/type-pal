@@ -511,17 +511,6 @@
                         {
                           "kind": "wait",
                           "ms": 100
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s165",
-                            "entity": "e2716"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
                         }
                       ]
                     }

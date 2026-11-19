@@ -13,6 +13,7 @@ import {
   gameScene,
   grid,
   initialTrack,
+  isBossBattle,
   observesForeground,
   partyFor,
   readSources,
@@ -20,6 +21,7 @@ import {
   returnTrack,
   scenarios,
 } from './scenarios.mjs'
+import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
 import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
@@ -1193,7 +1195,7 @@ async function inspect(path, engine) {
     const caller = once('battle-caller')
     assert.deepEqual(
       [caller.enemyTeamId, caller.battleFieldId, caller.isBoss],
-      [spec.team, spec.field, true],
+      [spec.team, spec.field, isBossBattle(spec)],
     )
   } else {
     assert.deepEqual(launch[0].path, [
@@ -1210,7 +1212,7 @@ async function inspect(path, engine) {
       prepared.boss,
       prepared.auto,
     ],
-    [spec.field, spec.music, true, false],
+    [spec.field, spec.music, isBossBattle(spec), false],
   )
   if (!game) assert.equal(prepared.team, `team-${spec.team}`)
   assert.deepEqual(
@@ -1495,7 +1497,7 @@ async function inspect(path, engine) {
     )
     assert.equal(last.music, returnMusic)
   }
-  if (!leavesByScript && scenario !== 'thief')
+  if (!leavesByScript && scenario !== 'thief' && (!source.tower || game))
     assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
@@ -1567,6 +1569,18 @@ async function inspect(path, engine) {
     : undefined
   const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
   const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
+  const tower = source.tower
+    ? inspectTowerFoxPresentation({
+        events,
+        spec,
+        actor: source.tower,
+        game,
+        approach,
+        won,
+        control,
+        returnedOwner: run.returned.owner,
+      })
+    : undefined
   if (
     foreground &&
     ((run.returned.owner.state ?? spec.disk.owner[2]) !== spec.world.gameState ||
@@ -1620,6 +1634,14 @@ async function inspect(path, engine) {
       : {}),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
+    ...(tower?.contact && {
+      towerFormation: {
+        leader: tower.contact.leader,
+        camera: tower.contact.camera,
+        // An equivalent stationary save can enter on either leg of the original walk cycle.
+        party: tower.contact.party?.map(({ frame, ...pose }) => pose),
+      },
+    }),
     ending: {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
@@ -1642,6 +1664,7 @@ async function inspect(path, engine) {
     ring,
     inn,
     tomb,
+    tower,
     spiderForeground,
     clips: {
       contactMs: entered?.atMs ?? trigger.atMs,
@@ -1674,6 +1697,7 @@ if (!failures.length) {
       ...(result.outside?.issues ?? []),
       ...(result.inn?.issues ?? []),
       ...(result.tomb?.issues ?? []),
+      ...(result.tower?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

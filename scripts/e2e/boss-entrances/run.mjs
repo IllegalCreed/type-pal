@@ -65,7 +65,8 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
-  includesParty: spec.party === 'tomb',
+  includesParty: spec.party === 'tomb' || Boolean(source.tower),
+  victoryFade: Boolean(source.tower),
   scriptedReturn: Boolean(scriptedReturn),
   entrance,
   assets: Object.fromEntries(source.spriteChunks),
@@ -80,7 +81,7 @@ const trace = (page) => page.evaluate(() => globalThis.__defeat.trace())
 
 async function read(page) {
   return page.evaluate(
-    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs }) => {
+    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs, victoryFade }) => {
       const observed = globalThis.__defeat?.read()
       if (!observed?.state) return observed
       const gs = globalThis.__tpgs
@@ -108,12 +109,16 @@ async function read(page) {
           (game
             ? {
                 state: owner.sState,
+                ...(victoryFade && { vanishTime: owner.sVanishTime ?? 0 }),
                 triggerMode: owner.triggerMode,
                 label: owner.triggerLabel,
                 resume: owner.triggerResume?.ip ?? null,
               }
             : {
                 hidden: owner.hidden === true,
+                ...(victoryFade && {
+                  lifecycle: world.entityLifecycles?.[observed.state.scene]?.[owner.id] ?? null,
+                }),
                 state: world.script.entityState[observed.state.scene]?.[owner.id] ?? null,
                 behavior:
                   world.script.behaviors.entities?.[observed.state.scene]?.[owner.id] ?? null,
@@ -156,7 +161,14 @@ async function read(page) {
             : null,
       }
     },
-    { game, roles, nativeRoles, initialOwner, settlementDwellMs: spec.settlementDwellMs },
+    {
+      game,
+      roles,
+      nativeRoles,
+      initialOwner,
+      settlementDwellMs: spec.settlementDwellMs,
+      victoryFade: Boolean(source.tower),
+    },
   )
 }
 
@@ -261,6 +273,10 @@ async function makeGameFixture(page, baseURL, until) {
   if (source.preludePartyLayer !== undefined) assert.equal(gs.wLayer, source.preludePartyLayer * 8)
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
+  if (source.tower) {
+    gs.wNumBattleField = spec.field
+    gs.wNumBattleMusic = spec.music
+  }
   if (scenario === 'fox') {
     const snake = gs.allEventObjects.find(({ id }) => id === 671)
     assert.equal(snake.triggerLabel, 'L_9472')
@@ -440,13 +456,15 @@ async function walk({
     const moved = wait()
     await Promise.all([hold.down(), moved.then(() => hold.up())])
     await finalize()
-    await page.evaluate((target) => globalThis.__routeArm({ kind: 'end', target }), {
-      scene: arrival.scene,
-      position: committed(arrival.position),
-      mode,
-    })
-    await wait()
-    await finalize()
+    if (mode) {
+      await page.evaluate((target) => globalThis.__routeArm({ kind: 'end', target }), {
+        scene: arrival.scene,
+        position: committed(arrival.position),
+        mode,
+      })
+      await wait()
+      await finalize()
+    }
   } catch (error) {
     errors.push(error)
   } finally {
@@ -636,6 +654,10 @@ await runBrowserJourney({
         scene: checkpointScene,
         grid: checkpoint,
       })
+      if (source.tower) {
+        const idleSince = await page.evaluate(() => performance.now())
+        await page.waitForFunction((start) => performance.now() >= start + 850, idleSince)
+      }
       if (entrance) {
         await walk({
           page,
@@ -668,8 +690,13 @@ await runBrowserJourney({
         phase: 'approach',
         from: spec.start,
         to: spec.contact,
-        mode: 'dialogue',
+        mode: source.tower ? undefined : 'dialogue',
       })
+      if (source.tower)
+        await wait(
+          ({ state }) => state?.battle && state.scene === spec.scene,
+          'touch encounter enters the battle without a dialogue',
+        )
       if (entrance) {
         const contacts = (await trace(page)).events.filter(({ kind }) => kind === 'trigger')
         assert.deepEqual(
