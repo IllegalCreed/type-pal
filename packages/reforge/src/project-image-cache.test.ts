@@ -77,6 +77,16 @@ const bitmap = () => ({ width: 1, height: 1, close: vi.fn() }) satisfies ImageBi
 const decoder = vi.fn(async (_blob: Blob): Promise<ImageBitmap> => bitmap())
 const caches: ProjectImageCache[] = []
 
+function pauseDecode() {
+  const entered = deferred<void>()
+  const decoded = deferred<ImageBitmap>()
+  decoder.mockImplementationOnce(() => {
+    entered.resolve(undefined)
+    return decoded.promise
+  })
+  return { entered: entered.promise, finish: decoded.resolve }
+}
+
 beforeEach(() => {
   decoder.mockClear()
   vi.stubGlobal('createImageBitmap', decoder)
@@ -205,6 +215,59 @@ describe('image decoding and ownership', () => {
       [pathFor('face.guide')],
       [pathFor('portrait.guide')],
     ])
+  })
+
+  test('a bitmap decoded after disposal is closed and never reused', async () => {
+    const { cache, readBytes } = projectCache()
+    const decode = pauseDecode()
+    const obsolete = cache.load('portrait.guide', 'portrait').then(
+      (value) => ({ value }),
+      (error: unknown) => ({ error }),
+    )
+    await decode.entered
+    cache.dispose()
+    cache.dispose()
+    const discarded = bitmap()
+    decode.finish(discarded)
+    expect(await obsolete).toEqual({ error: expect.objectContaining({ name: 'AbortError' }) })
+    expect(discarded.close).toHaveBeenCalledOnce()
+    const fresh = bitmap()
+    decoder.mockResolvedValueOnce(fresh)
+    await expect(cache.load('portrait.guide', 'portrait')).resolves.toBe(fresh)
+    expect(readBytes.mock.calls).toEqual([[pathFor('portrait.guide')], [pathFor('portrait.guide')]])
+  })
+
+  test('stale completion cannot clear the replacement request for the same asset', async () => {
+    const { cache, readBytes } = projectCache()
+    const oldDecode = pauseDecode()
+    const obsolete = cache.load('portrait.guide', 'portrait').then(
+      (value) => ({ value }),
+      (error: unknown) => ({ error }),
+    )
+    await oldDecode.entered
+    cache.dispose()
+    const newDecode = pauseDecode()
+    const replacement = cache.load('portrait.guide', 'portrait')
+    await newDecode.entered
+    const discarded = bitmap()
+    const published = bitmap()
+    oldDecode.finish(discarded)
+    try {
+      expect(await obsolete).toEqual({ error: expect.objectContaining({ name: 'AbortError' }) })
+      const overlap = cache.load('portrait.guide', 'portrait')
+      expect(overlap).toBe(replacement)
+      newDecode.finish(published)
+      await expect(overlap).resolves.toBe(published)
+      expect(discarded.close).toHaveBeenCalledOnce()
+      expect(published.close).not.toHaveBeenCalled()
+      expect(readBytes.mock.calls).toEqual([
+        [pathFor('portrait.guide')],
+        [pathFor('portrait.guide')],
+      ])
+    } finally {
+      newDecode.finish(published)
+      await Promise.allSettled([obsolete, replacement])
+    }
   })
 
   test('only closes this project cache, even when another cache uses the same asset id', async () => {

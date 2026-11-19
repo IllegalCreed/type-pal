@@ -1,8 +1,9 @@
 # REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期
 
-Status: draft
+Status: done
 Phase: phase2
 Owner: Codex
+Coding Owner: Codex
 Reviewer: Codex
 Last reviewed: 2026-11-19
 Template: task-card-v1 / 1.0.0
@@ -28,4 +29,10 @@ Visual Verification Timing: N/A
 
 ## 状态与交接
 
+本轮 Codex build allowed。试玩和工程缓存持有位图直到释放；已释放请求的晚到位图由原请求关闭。沿用现有释放后可重读合同，新请求的结果和同键等待互不受旧请求影响。先改为可证伪的正式缓存专测，再核真实试玩边界。
+
 2026-11-19：两个观察已复现；实现与在途专测保持 review。未取得异步所有权调整的 build 准入。下一步核真实试玩解码释放顺序和结果约束。
+
+### 本轮验收
+
+正在解码的请求随 dispose 失效，晚到位图由原请求关闭，同时拒绝为 AbortError。旧完成不清掉新请求的同键等待。两个用例保留合法图片字节和真实 AssetResolver，在平台解码端口控制完成顺序。旧测试固化的泄漏预期退役，合并到图片缓存的生命周期专测。试玩资源准备和实际加载仍以各自定向相邻结果为准。 逐文件复核、反例及实际命令见[本轮统一原件](../evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)。发布结果取受保护 PR 的实际作业。

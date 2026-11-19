@@ -5,24 +5,8 @@ import {
   checkStages,
   SCENE_ENTRY_PREPARE_SAFETY,
 } from './script.js'
-import {
-  AUTHORED_SCRIPT_PREFIX,
-  checkScriptIndex,
-  checkScriptLibrary,
-  createScriptIndex,
-  deriveScriptChunk,
-  getScriptBody,
-  isScriptRef,
-  normalizeScriptLibrary,
-  removeAuthoredScript,
-  type ScriptIndexV1,
-  stableScriptHash,
-  upsertAuthoredScript,
-} from './script-library.js'
 
-const shards = { shared: 16, global: { items: 4 } }
-
-describe('script library schema', () => {
+describe('projected script command validation', () => {
   it('auto stages 递归拒绝 loadScene，trigger stages 仍允许剧情切场', () => {
     expect(() =>
       checkEntityPages(
@@ -58,155 +42,6 @@ describe('script library schema', () => {
         'entity.pages',
       ),
     ).not.toThrow()
-  })
-
-  it('按稳定 id 重算 scene/shared/global chunk', () => {
-    expect(deriveScriptChunk('scene/s001/on-enter/0', shards)).toBe('scene/s001')
-    expect(deriveScriptChunk('shared/L_123/default', shards)).toMatch(/^shared\/c\d{2}$/)
-    expect(deriveScriptChunk('global/items/use/i42', shards)).toMatch(/^global\/items\/c\d{2}$/)
-    expect(deriveScriptChunk('global/skills/use/s1', shards)).toBeUndefined()
-    expect(stableScriptHash('shared/L_123/default')).toBe(stableScriptHash('shared/L_123/default'))
-  })
-
-  it('ScriptRef 需要完整 chunk 和稳定 id', () => {
-    expect(isScriptRef({ chunk: 'scene/s001', id: 'scene/s001/on-enter/0' })).toBe(true)
-    expect(isScriptRef({ chunk: '', id: 'x' })).toBe(false)
-  })
-
-  it('index 只接受元数据与有效分桶配置', () => {
-    const index: ScriptIndexV1 = {
-      version: 1,
-      shards,
-      chunks: { 'scene/s001': { path: 'chunks/scene/s001.json', bytes: 123 } },
-    }
-    expect(() => checkScriptIndex(index)).not.toThrow()
-    expect(() => checkScriptIndex({ ...index, shards: { ...shards, shared: 0 } })).toThrow(/正整数/)
-    expect(() =>
-      checkScriptIndex({
-        ...index,
-        chunks: {
-          'scene/s001': { path: 'chunks/shared.json', bytes: 1 },
-          'scene/s002': { path: 'chunks/shared.json', bytes: 2 },
-        },
-      }),
-    ).toThrow(/重复使用 chunks\/shared\.json/)
-    expect(() =>
-      checkScriptIndex({
-        ...index,
-        chunks: { 'scene/s001': { path: '../outside.json', bytes: 1 } },
-      }),
-    ).toThrow(/禁止空段、\. 或 \.\./)
-  })
-
-  it('作者目录只接受 shared/user 稳定 id 与合法 self 契约', () => {
-    const index: ScriptIndexV1 = {
-      version: 1,
-      shards,
-      chunks: {},
-      library: {
-        [`${AUTHORED_SCRIPT_PREFIX}heal-a1b2c3d4`]: {
-          name: '旅店休息',
-          description: '恢复后播放提示',
-          self: 'none',
-        },
-      },
-    }
-    expect(() => checkScriptIndex(index)).not.toThrow()
-    expect(() =>
-      checkScriptIndex({
-        ...index,
-        library: { 'shared/L_1/default': { name: '伪装内部脚本', self: 'none' } },
-      }),
-    ).toThrow(/shared\/user/)
-    expect(() =>
-      checkScriptIndex({
-        ...index,
-        library: { [`${AUTHORED_SCRIPT_PREFIX}bad`]: { name: '', self: 'sometimes' } },
-      }),
-    ).toThrow()
-  })
-
-  it('归一化保留作者目录并统一重算 imports/bytes/hash', () => {
-    const target = `${AUTHORED_SCRIPT_PREFIX}target-a1b2c3d4`
-    const caller = `${AUTHORED_SCRIPT_PREFIX}caller-a1b2c3d4`
-    const index: ScriptIndexV1 = {
-      version: 1,
-      shards,
-      chunks: {},
-      library: {
-        [target]: { name: '目标', self: 'none' },
-        [caller]: { name: '调用者', self: 'optional' },
-      },
-    }
-    const targetChunk = deriveScriptChunk(target, shards)!
-    const callerChunk = deriveScriptChunk(caller, shards)!
-    const normalized = normalizeScriptLibrary(index, {
-      [targetChunk]: {
-        version: 1,
-        id: targetChunk,
-        scripts: { [target]: [{ kind: 'wait', ms: 40 }] },
-      },
-      [callerChunk]: {
-        version: 1,
-        id: callerChunk,
-        scripts: {
-          [caller]: [{ kind: 'callScript', ref: { chunk: targetChunk, id: target } }],
-        },
-      },
-    })
-    expect(normalized.index.library).toEqual(index.library)
-    expect(normalized.index.chunks[callerChunk]?.bytes).toBeGreaterThan(0)
-    expect(normalized.index.chunks[callerChunk]?.hash).toMatch(/^[0-9a-f]{8}$/)
-    if (callerChunk !== targetChunk)
-      expect(normalized.chunks[callerChunk]?.imports).toEqual([targetChunk])
-    expect(() => checkScriptLibrary(normalized.index, normalized.chunks)).not.toThrow()
-  })
-
-  it('作者脚本可初始化、更新、定位和删除且不留空 chunk', () => {
-    const id = `${AUTHORED_SCRIPT_PREFIX}demo-a1b2c3d4`
-    const empty = { index: createScriptIndex(), chunks: {} }
-    const created = upsertAuthoredScript(
-      empty.index,
-      empty.chunks,
-      id,
-      {
-        name: '演示',
-        self: 'required',
-      },
-      [{ kind: 'wait', ms: 100 }],
-    )
-    expect(getScriptBody(created.index, created.chunks, id)).toEqual([{ kind: 'wait', ms: 100 }])
-    const updated = upsertAuthoredScript(
-      created.index,
-      created.chunks,
-      id,
-      {
-        name: '演示改名',
-        self: 'required',
-      },
-      [{ kind: 'wait', ms: 200 }],
-    )
-    expect(updated.index.library?.[id]?.name).toBe('演示改名')
-    expect(getScriptBody(updated.index, updated.chunks, id)).toEqual([{ kind: 'wait', ms: 200 }])
-    const removed = removeAuthoredScript(updated.index, updated.chunks, id)
-    expect(removed.index.library).toBeUndefined()
-    expect(Object.keys(removed.chunks)).toEqual([])
-    expect(Object.keys(removed.index.chunks)).toEqual([])
-  })
-
-  it('完整校验拒绝有元数据无 body 和作者 body 放错 chunk', () => {
-    const id = `${AUTHORED_SCRIPT_PREFIX}bad-a1b2c3d4`
-    const index: ScriptIndexV1 = {
-      version: 1,
-      shards,
-      chunks: {},
-      library: { [id]: { name: '缺失', self: 'none' } },
-    }
-    expect(() => checkScriptLibrary(index, {})).toThrow(/没有脚本体/)
-    const wrong = 'shared/c99'
-    const chunks = { [wrong]: { version: 1 as const, id: wrong, scripts: { [id]: [] } } }
-    const normalized = normalizeScriptLibrary(index, chunks)
-    expect(() => checkScriptLibrary(normalized.index, normalized.chunks)).toThrow(/应位于/)
   })
 
   it('stage 同时支持 inline、call/jump 与 ref 换页', () => {
@@ -275,7 +110,7 @@ describe('script library schema', () => {
     ).not.toThrow()
   })
 
-  it('scene entry reveal 参数 fail-loud，普通旧 stage 仍兼容', () => {
+  it('scene entry reveal rejects negative time while an ordinary stage can omit entry', () => {
     expect(() =>
       checkStages([{ body: [] }], 'legacy.onEnter', { allowSceneEntry: true }),
     ).not.toThrow()

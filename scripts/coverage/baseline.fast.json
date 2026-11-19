@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-19T12:08:04.678Z",
+  "generatedAt": "2026-11-19T13:50:01.336Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 840,
-  "testCount": 20571,
+  "testCount": 20566,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -215,8 +215,8 @@
       ],
       "scopeDigest": "2b7e31a36efd1e3ef45b0f6062b2963ba4e431baea41884078709b666e98ca01",
       "fastTests": {
-        "testCount": 1571,
-        "testFileCount": 125,
+        "testCount": 1556,
+        "testFileCount": 123,
         "files": [
           "packages/content/src/acquisition-reference-validation.test.ts",
           "packages/content/src/actor-condition-validation.test.ts",
@@ -322,10 +322,8 @@
           "packages/content/src/scene-index.test.ts",
           "packages/content/src/scene-reference-rewrite.test.ts",
           "packages/content/src/scene-target-validation.test.ts",
-          "packages/content/src/script-library.glm-leaf-wave.test.ts",
-          "packages/content/src/script-library.glm-o.test.ts",
-          "packages/content/src/script-library.resource-boundaries.test.ts",
-          "packages/content/src/script-library.test.ts",
+          "packages/content/src/script-chunk-validation.test.ts",
+          "packages/content/src/script-command-validation.test.ts",
           "packages/content/src/shop.test.ts",
           "packages/content/src/skill-execution.test.ts",
           "packages/content/src/skill-validation.test.ts",
@@ -732,8 +730,8 @@
           },
           {
             "file": "packages/content/src/migration-diagnostic.test.ts",
-            "testCount": 3,
-            "identityDigest": "7bc2846bf4be05e4c0ab28697e7cb6141ca4ca80fe03323cb2603d6d2c9fe821"
+            "testCount": 4,
+            "identityDigest": "66f40c38303b9b036a1db47bb9e692c853779f04d3868f480540f2fa04512306"
           },
           {
             "file": "packages/content/src/pal-asset-ids.test.ts",
@@ -866,24 +864,14 @@
             "identityDigest": "8f20b5dcf2d4a6c6cd8510db44d53465f906d7ee586ddb70a3cb66a2d35f3dfa"
           },
           {
-            "file": "packages/content/src/script-library.glm-leaf-wave.test.ts",
-            "testCount": 4,
-            "identityDigest": "c3e98d8032ed1037b6563fe477daf127d0c6341d14bcedef180b17e83a1a7d8d"
+            "file": "packages/content/src/script-chunk-validation.test.ts",
+            "testCount": 25,
+            "identityDigest": "47cd79688f91ba497202efb3c2e18f5220aa959e3ea5755f954bd1dde6635122"
           },
           {
-            "file": "packages/content/src/script-library.glm-o.test.ts",
-            "testCount": 10,
-            "identityDigest": "603b9d184f6ad11ed7910fb5c803b363aae1f2a2fb12d8d43d3c4b0a4c2dc73a"
-          },
-          {
-            "file": "packages/content/src/script-library.resource-boundaries.test.ts",
-            "testCount": 20,
-            "identityDigest": "86a189133a14eeac2e291bdadd885fdf36466cc0929030eea00afca408f2931b"
-          },
-          {
-            "file": "packages/content/src/script-library.test.ts",
-            "testCount": 19,
-            "identityDigest": "7cad7f10a5544e8df72c299ceb630afd299149d8ace9f886f067308d6d740e45"
+            "file": "packages/content/src/script-command-validation.test.ts",
+            "testCount": 12,
+            "identityDigest": "926be6021f4b06f35c8690d2f1dbfcaa293d373fed311a23356d010f39709646"
           },
           {
             "file": "packages/content/src/shop.test.ts",
@@ -971,26 +959,26 @@
             "identityDigest": "ab550285fabf73032d71c68bc310ae5aa39d42b869c5ed34ee9ecb6000e43707"
           }
         ],
-        "identityDigest": "4793f9a27688089078e703f96ea87c9d56c3ba397b5bf47c8fea2d01b2b41f9a",
+        "identityDigest": "3da98bd1279167ea23651575e84a5cbff3522a6b599f9d83b6579f93d5505036",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8b5f768e18de1da24670f033d98115937b238322d62ef30a1d490007a557cf33"
+        "executionDigest": "cebe36b1cd035534124bd46baa19ea2161d6d5ab44000c2c619cf64f4f2cd880"
       },
       "metrics": {
         "statements": {
-          "covered": 5869,
-          "total": 6114
+          "covered": 5805,
+          "total": 6046
         },
         "branches": {
-          "covered": 5097,
-          "total": 5409
+          "covered": 5044,
+          "total": 5354
         },
         "functions": {
-          "covered": 846,
-          "total": 869
+          "covered": 838,
+          "total": 861
         },
         "lines": {
-          "covered": 5239,
-          "total": 5407
+          "covered": 5179,
+          "total": 5347
         }
       }
     },
@@ -2159,8 +2147,8 @@
       ],
       "scopeDigest": "896f48e7f7687fa732b1d80d1f6b3fd34108d23c2a5e9f0d82ec86da907ac238",
       "fastTests": {
-        "testCount": 9137,
-        "testFileCount": 364,
+        "testCount": 9145,
+        "testFileCount": 363,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2410,7 +2398,6 @@
           "packages/reforge/src/pal-story-corrections.test.ts",
           "packages/reforge/src/pal-trial-portals-corrections.test.ts",
           "packages/reforge/src/pal-unified-steps-content.test.ts",
-          "packages/reforge/src/project-image-cache.inflight-dispose.test.ts",
           "packages/reforge/src/project-image-cache.test.ts",
           "packages/reforge/src/project-loader.current-boundaries.test.ts",
           "packages/reforge/src/project-loader.image-cache-binding.test.ts",
@@ -3245,13 +3232,13 @@
           },
           {
             "file": "packages/reforge/src/frame-sequence-reader.test.ts",
-            "testCount": 8,
-            "identityDigest": "ef535ff6a79393ebb88770807b270276711cdabcfb9350c93986ec0945fb0cdd"
+            "testCount": 10,
+            "identityDigest": "5e84cc738709c08bbe40479d24eebe6c558f1a116b0bd5b404049dce70fa65fd"
           },
           {
             "file": "packages/reforge/src/fsa-source.test.ts",
-            "testCount": 10,
-            "identityDigest": "cc54fa43272c8bed50525be6db848c7c82e4466f1cb14fff479ee3821007cede"
+            "testCount": 12,
+            "identityDigest": "feff7229ae3e6e34dee9b57bf8b495512c63114108b5880da0c9439fe11ab8ee"
           },
           {
             "file": "packages/reforge/src/game-over-dialog.test.ts",
@@ -3769,14 +3756,9 @@
             "identityDigest": "ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84"
           },
           {
-            "file": "packages/reforge/src/project-image-cache.inflight-dispose.test.ts",
-            "testCount": 2,
-            "identityDigest": "5c49dd63faae945528a9d28343febf871729240a8b1daf04bb40b5ddabc72b9a"
-          },
-          {
             "file": "packages/reforge/src/project-image-cache.test.ts",
-            "testCount": 12,
-            "identityDigest": "0dc05c525ae9a934ef5747fbcd0eb31df813e0426323b94f1ad68bc705841c3d"
+            "testCount": 14,
+            "identityDigest": "c71cad27269e54d971b070cb6d0a1c94402b651a6e9603accc8d176a32fabe5f"
           },
           {
             "file": "packages/reforge/src/project-loader.current-boundaries.test.ts",
@@ -4035,8 +4017,8 @@
           },
           {
             "file": "packages/reforge/src/scene-transition.test.ts",
-            "testCount": 7,
-            "identityDigest": "590547f074d0f1000878fc21213ed84d6eb09b79c8df6fcf8512e52c6fb74b90"
+            "testCount": 9,
+            "identityDigest": "66ba370b95d9b5a8a7ca05598ea61a9d671220a92c3270e4ffa0c700d1d7883f"
           },
           {
             "file": "packages/reforge/src/screen-fx.glm-next-wave.test.ts",
@@ -4290,8 +4272,8 @@
           },
           {
             "file": "packages/reforge/src/video-player.test.ts",
-            "testCount": 7,
-            "identityDigest": "0cd8cc6b98172dd6fad3512de75578a0702095adf23e841eb2c915cf2d8b933d"
+            "testCount": 9,
+            "identityDigest": "441583bcead6c53b592ca47b82218445fdc28b037a6143c734539ab6f01b12e3"
           },
           {
             "file": "packages/reforge/src/video-sfx-ports.glm-q.test.ts",
@@ -4349,26 +4331,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "93df1910e822a95dab8f99a1a74ca1319c2020fca826188f36126e956889a7ee",
+        "identityDigest": "c4cab8932c8185fb425070c385cf29b27926b025d01946c1f1b9c4d3f91c0ff9",
         "duplicateIdentityCount": 3,
-        "executionDigest": "12cf8f6e8c78ef338338e9a6d6451287e8ff501fdb9bc048e96d7a80feaa5488"
+        "executionDigest": "96e9ea3efb3a227e11dc53032495f96f06acb8a5d054f13dbf9dffa9977b1717"
       },
       "metrics": {
         "statements": {
-          "covered": 18204,
-          "total": 19919
+          "covered": 18234,
+          "total": 19950
         },
         "branches": {
-          "covered": 11773,
-          "total": 13926
+          "covered": 11798,
+          "total": 13951
         },
         "functions": {
-          "covered": 2930,
-          "total": 3210
+          "covered": 2932,
+          "total": 3212
         },
         "lines": {
-          "covered": 16296,
-          "total": 17390
+          "covered": 16320,
+          "total": 17414
         }
       }
     },
@@ -7023,7 +7005,7 @@
       ],
       "scopeDigest": "d5771d8e70861155ac0fd698a5fe65b93d83513e617238ae3353da723e777dff",
       "fastTests": {
-        "testCount": 4843,
+        "testCount": 4845,
         "testFileCount": 618,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -8138,8 +8120,8 @@
           },
           {
             "file": "packages/editor/src/core/frame-animation-worker-client.test.ts",
-            "testCount": 12,
-            "identityDigest": "77fadb03348a665bdc60f2dfa3aef0db67377c545232d46de280fb0930b68f6b"
+            "testCount": 14,
+            "identityDigest": "75c796e4527454a1ad2f8d99f895751c0926fae211c630dd779a358f3458dc12"
           },
           {
             "file": "packages/editor/src/core/frame-quantization.test.ts",
@@ -8674,7 +8656,7 @@
           {
             "file": "packages/editor/src/core/script-references.test.ts",
             "testCount": 6,
-            "identityDigest": "91022b29b82df7078c137872c4241f7cfd6b72b3505588cc7a9166468db01cda"
+            "identityDigest": "d3e42683206e15f6230391c7adafcf6b2fc01d5fa9d3fe38b67722f5f607d8e1"
           },
           {
             "file": "packages/editor/src/core/script-references.wave2.test.ts",
@@ -10737,46 +10719,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "fc42534878f39ea0acda16edd00cb4540c99da233aeeffd579444dd3f1b19251",
+        "identityDigest": "7a2ebd12037385e1f236f7ed208a54566aa6bc04a4409c68c43beaffc25f6b15",
         "duplicateIdentityCount": 8,
-        "executionDigest": "2131e96af8da4bc59d34b447b30ec68cd75d576eabc3460c13b77244df18ce64"
+        "executionDigest": "99c1384127b23fc737e5e3128b9c93c72c578ed3d339617e6371cecafeb6f923"
       },
       "metrics": {
         "statements": {
-          "covered": 31665,
-          "total": 35032
+          "covered": 31667,
+          "total": 35033
         },
         "branches": {
-          "covered": 25630,
-          "total": 30605
+          "covered": 25626,
+          "total": 30599
         },
         "functions": {
-          "covered": 8066,
-          "total": 8969
+          "covered": 8069,
+          "total": 8972
         },
         "lines": {
-          "covered": 28343,
-          "total": 30625
+          "covered": 28347,
+          "total": 30629
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 75994,
-      "total": 83358
+      "covered": 75962,
+      "total": 83322
     },
     "branches": {
-      "covered": 55413,
-      "total": 65404
+      "covered": 55381,
+      "total": 65368
     },
     "functions": {
-      "covered": 14357,
-      "total": 15881
+      "covered": 14354,
+      "total": 15878
     },
     "lines": {
-      "covered": 67905,
-      "total": 72969
+      "covered": 67873,
+      "total": 72937
     }
   }
 }

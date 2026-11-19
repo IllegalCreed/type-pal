@@ -5,6 +5,75 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'content-script-writer-retirement-20261119',
+    authority:
+      'User approved retiring four test-only script writer exports and exact baseline recounts after justified restructuring. Native Content V8 runs use the same profile before and after retirement. The archive accounts for each changed source counter. The three declining ratios come from removed covered code and validated guard boundaries. Preserve every other floor and all source selection.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz',
+    baselineSha256: '9b621a70849a9cd6a25e8b8a11361823f1e646f46fa3928495db93c60be3b329',
+    sources: [
+      {
+        path: 'packages/content/src/script-library.ts',
+        sha256: 'df4f394a7f6c5211a859f3621c20b3a286b39908e40ec0b9cdcaa374051c7222',
+      },
+      {
+        path: 'packages/content/src/migration-diagnostic.ts',
+        sha256: '99b13ea11a13e15d47ddb7eb8e6fa1d34602de98ff4799cb01bb26ee903bf954',
+      },
+      {
+        path: 'packages/content/src/migration-diagnostic.test.ts',
+        sha256: 'd1bd55c5f517d132b0539962d3884681527269fd8219780deeba0532f481d022',
+      },
+      {
+        path: 'packages/content/src/script-chunk-validation.test.ts',
+        sha256: 'fa12dadd8aaf08154eef7afba2ddc3b559e2c4ff6daa3dbc2c5ce930cabdef2b',
+      },
+      {
+        path: 'packages/content/src/script-command-validation.test.ts',
+        sha256: 'a70fb2d002587ac1cd394f33508eb8f0b3befbce171d6bf4836e6e14ed102d9f',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5097,
+            total: 5409,
+          },
+          functions: {
+            covered: 846,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+        after: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5044,
+            total: 5354,
+          },
+          functions: {
+            covered: 838,
+            total: 861,
+          },
+          lines: {
+            covered: 5179,
+            total: 5347,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'content-assets-structural-recount-20261119',
     authority:
       'User permits exact baseline adjustment for justified restructuring. Content covered statements change by -2 in asset.ts and +1 in validate.ts; asset.ts loses one covered function as duplicate old scriptChunks checks leave. Reforge removes one covered scene-preparation callback. Editor covered lines change by -12 in command-asset-record.ts, -3 in clone.ts, -3 in frame-animation-codec.ts, -2 in frame-animation-draft.ts, and +2 in frame-animation-worker-client.ts. Three resource signatures share their validation, clone and codec paths lose redundant lines, and production frame/timing assertions replace the test-only metadata projection. All other metric floors and source selection remain fixed. The execution archive compares the native counters.',

@@ -10,7 +10,7 @@ const PROJECT_IMAGE_KINDS = new Set<AssetKind>([
 
 /**
  * 工程级静态图像缓存。键只使用稳定 AssetId；kind/path 校验和字节读取都由
- * AssetResolver 完成，调用方不得再按编号、角色 id 或目录猜文件名。
+ * AssetResolver 完成。位图由缓存持有至 dispose，晚于释放完成的解码不再发布。
  */
 export class ProjectImageCache {
   private readonly pending = new Map<AssetId, Promise<ImageBitmap>>()
@@ -30,18 +30,25 @@ export class ProjectImageCache {
     if (inflight) return inflight
 
     const promise = this.decode(asset, expectedKind, record)
+      .then((bitmap) => {
+        if (this.pending.get(asset) !== promise) {
+          bitmap.close()
+          throw new DOMException('project image request disposed', 'AbortError')
+        }
+        this.decoded.set(asset, bitmap)
+        return bitmap
+      })
+      .finally(() => {
+        if (this.pending.get(asset) === promise) this.pending.delete(asset)
+      })
     this.pending.set(asset, promise)
-    void promise.then(
-      () => this.pending.delete(asset),
-      () => this.pending.delete(asset),
-    )
     return promise
   }
 
   dispose(): void {
+    this.pending.clear()
     for (const bitmap of this.decoded.values()) bitmap.close()
     this.decoded.clear()
-    this.pending.clear()
   }
 
   private async decode(
@@ -50,16 +57,13 @@ export class ProjectImageCache {
     record: AssetRecordV1,
   ): Promise<ImageBitmap> {
     const bytes = await this.resolver.readBytes(asset, expectedKind)
-    let bitmap: ImageBitmap
     try {
-      bitmap = await createImageBitmap(new Blob([bytes], { type: record.mediaType }))
+      return await createImageBitmap(new Blob([bytes], { type: record.mediaType }))
     } catch (error) {
       throw new Error(
         `工程 "${this.resolver.projectId}" 解码 AssetId "${asset}" 失败:` +
           `${error instanceof Error ? error.message : String(error)}`,
       )
     }
-    this.decoded.set(asset, bitmap)
-    return bitmap
   }
 }

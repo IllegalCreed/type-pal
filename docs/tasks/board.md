@@ -51,14 +51,13 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-九张卡仍为 draft，各自记录停止线、证据和接续范围。
-
-- Content／Editor：[旧脚本分片](cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md)、[登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)、[迁移能力校验](cards/CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1.md)、[帧编码 Worker](cards/EDITOR-FRAME-WORKER-POST-CLEANUP-1.md)。
-- Reforge：[本地对象 URL](cards/REFORGE-FSA-URL-OWNERSHIP-1.md)、[静态图片缓存](cards/REFORGE-IMAGE-CACHE-DISPOSAL-1.md)、[过场换版缓存](cards/REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md)、[视频重试](cards/REFORGE-VIDEO-PLAY-RETRY-1.md)、[命名落点](cards/REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md)。
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)保留一个 review。用户已裁定等 E2E 合入，随后核对同一资产文件归属并复用缺记录反例。
 
 ### 代码治理：最近完成的文件批次
 
-`QUALITY-CONTENT-ASSET-CONTRACTS-1` 已接受 Content 校验和夹具、Editor 资源工具及 Reforge 资源和呈现事务的 97 个原文件，14 个继续 review。ActiveScene 两个证据绑定归活跃 E2E 的文件保持 pending。质量门和必要失败复验见[单一执行归档](evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz)。
+内容资产后继复核已处理 13 个原 review 文件，其中 8 个实现已验证、5 个旧专测路径退役。四个承接测试和夹具按实际职责独立登记。 [后继执行归档](evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)
+
+`QUALITY-CONTENT-ASSET-CONTRACTS-1` 已接受 Content 校验和夹具、Editor 资源工具及 Reforge 资源和呈现事务的 97 个原文件，当时 14 个进入后继复核。ActiveScene 两个证据绑定归活跃 E2E 的文件保持 pending。质量门和必要失败复验见[单一执行归档](evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz)。
 
 `QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
 

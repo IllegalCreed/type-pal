@@ -1,7 +1,8 @@
 /**
  * fsaSource —— FileSource 经 File System Access 目录句柄读(本地工程,离线自包含)。
  * rel 恒为工程内相对(无 /extracted 绝对);逐段 getDirectoryHandle → getFileHandle → getFile。
- * urlFor 产 blob URL —— 一次性解码类调用方须在解码后 revokeObjectURL(design §3;缓存层管理)。
+ * The source owns its object URLs. Disposing it revokes those URLs and
+ * invalidates pending requests, while later reads can start again.
  */
 import { validateProjectRelativePath } from '@type-pal/content'
 import type { FileSource } from './file-source.js'
@@ -34,6 +35,7 @@ async function fileOf(
 
 export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
   const urls = new Map<string, string>()
+  const pendingUrls = new Map<string, Promise<string>>()
   const source: FileSource = {
     async readText(rel, signal) {
       const text = await (await fileOf(dir, rel, signal)).text()
@@ -53,11 +55,25 @@ export function fsaSource(dir: FileSystemDirectoryHandle): FileSource {
     async urlFor(rel) {
       const existing = urls.get(rel)
       if (existing) return existing
-      const url = URL.createObjectURL(await fileOf(dir, rel))
-      urls.set(rel, url)
-      return url
+      const pending = pendingUrls.get(rel)
+      if (pending) return pending
+
+      const request = fileOf(dir, rel)
+        .then((file) => {
+          if (pendingUrls.get(rel) !== request)
+            throw new DOMException('file URL request disposed', 'AbortError')
+          const url = URL.createObjectURL(file)
+          urls.set(rel, url)
+          return url
+        })
+        .finally(() => {
+          if (pendingUrls.get(rel) === request) pendingUrls.delete(rel)
+        })
+      pendingUrls.set(rel, request)
+      return request
     },
     dispose() {
+      pendingUrls.clear()
       for (const url of urls.values()) URL.revokeObjectURL(url)
       urls.clear()
     },

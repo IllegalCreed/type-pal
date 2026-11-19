@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "2749ea92f3b888bc2dfaedbfcdb3f0149dfce5e2e2583022efc9c88c513e2908",
+      "afterSha256": "a54d0a5e15ce916884c5dfa25bfcdb6034badfa9ab409a7339b0e31fe60f50ec",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受恢复两项 pending 和机器计数。",
-        "reviewedLines": 1264,
-        "acceptanceScope": "比对两条旧已验证撤回及确切 3772/1135/14/2623，保留其它既有决定。"
+        "reviewedLines": 1263,
+        "conclusion": "接受实际账本变化。",
+        "acceptanceScope": "复核 3771/1147/1/2623、退出5/新增4、8原条目由 review 转已验证。 统一门和发布取实际运行。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "1b28573ff3ec32a0ca87253421e2cb2622f782c181fee22b044d51ad28eba2c2",
+      "afterSha256": "2f7a48fcb60dc41c49a2cd02a316720476fb64249a0f533751fee7ffdd258a5c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受文件批次归档及九张留项。",
-        "reviewedLines": 135,
-        "acceptanceScope": "仅将已接受的 97 个原主体归入完成文件批次，14 个 review 与两个 pending 原样，未授 PR 合并状态。"
+        "reviewedLines": 134,
+        "conclusion": "接受后继范围及留项入口。",
+        "acceptanceScope": "后继13与此前97分开，待E2E资产诊断导航有效。 统一门和发布取实际运行。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "5111e8b646897eaad12e32746faaa22256a3460650a3369d15e3dc829012e845",
+      "afterSha256": "0ee7c9e52c7f79963a76abbf13efa5acd3c36d579789dadd62c87db2dce59ff7",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "索引生成器与当前卡面一致。",
         "reviewedLines": 605,
-        "acceptanceScope": "只读复算通过，由 review 调整父卡到已接受的文件批次。"
+        "conclusion": "接受实际任务索引。",
+        "acceptanceScope": "生成器逐字节一致，八卡done、一卡blocked，按文件层状态。 统一门和发布取实际运行。"
       }
     },
     {
@@ -5549,118 +5549,118 @@
     {
       "path": "docs/tasks/cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "db09787a433c6f4e59c49f3aaa2dbde3327fca2bfe87674d3f1dc1d2b4660690",
+      "afterSha256": "3ab33f489b32b2b89185f771ef0824e28605c6fda243a5bea2e2ae9c0fe51fa8",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受问题范围和当前停线。",
-        "reviewedLines": 32,
-        "acceptanceScope": "定向核对作者诊断与原始探针：仍拒绝，但归错 kind。未授产品修复、活跃 E2E 或视觉信用。"
+        "reviewedLines": 34,
+        "conclusion": "接受继续 blocked 和 review。",
+        "acceptanceScope": "核活跃 E2E 的资产源重叠与用户裁定，实际诊断实现保持基点。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "443299ad432a627b37fe01f7139284ede65d009f7fc37148de653d3e16977b72",
+      "afterSha256": "808678c9f4b61a619b3b90e97a7e72fc58d7fb60eb393aac3cd81b32840f6c84",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受能力字段类型的证据与适用范围。",
-        "reviewedLines": 30,
-        "acceptanceScope": "单一 capability 字段，实际 PAL 数据空、合法结构中的合成坏值已复现；未授资产管线实现信用。"
+        "reviewedLines": 37,
+        "conclusion": "接受能力字符串守卫。",
+        "acceptanceScope": "核一字段红绿及发布相邻48。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "7eae6b931aa1c2c6f2ff144da32acdd1728e22dbe7613cfecf69075195c670fd",
+      "afterSha256": "bdabfea0057aa54a5078617bf53575666c54559f72367ea1a6b66aaa532b9991",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受旧分片与在用引用的分界，不批准退役实现。",
-        "reviewedLines": 40,
-        "acceptanceScope": "生产当前载入拒绝磁盘分片，五原文件继续 review，86 项绿只说明现状；另核实际伪归属观察。"
+        "reviewedLines": 47,
+        "conclusion": "接受授权范围内的旧写入退役和读取回归。",
+        "acceptanceScope": "核四仅测试调用出口及附属退出，56个旧身份逐项、两个职责套件12+25及三红。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/EDITOR-FRAME-WORKER-POST-CLEANUP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "88bf81807491135e85a670f16bb23570c0d3676df9c237139e5214c8a4535f66",
+      "afterSha256": "fbd860df245b78a79e5b27e0fb61ff4afa0a67c929d79ac6f12559e47bcfb102",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受同步 Worker 异常的资源诊断。",
-        "reviewedLines": 30,
-        "acceptanceScope": "注入宿主的两个入口都传播同原错误、零释放；正常浏览器可达性没有授信。"
+        "reviewedLines": 37,
+        "conclusion": "接受单次 Worker 释放。",
+        "acceptanceScope": "核两同步失败红绿和原异常，Chrome 验 native 编码成功和像素。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "644072ddedc14657d08aaefc7a4c90a4780baeb6a43f64d606c85929f0ab612b",
+      "afterSha256": "85d6c81f5addd02e9bf35d71693273afce42cf0a64b4507edfdf03767de6502f",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受同资源换版的缓存竞态与停线。",
-        "reviewedLines": 30,
-        "acceptanceScope": "真实 reader 18 绿 1 红，核生产 invalidate 接线和原像素结果，未运行完整编辑器。"
+        "reviewedLines": 37,
+        "conclusion": "接受版内缓存归属。",
+        "acceptanceScope": "两在途顺序红绿、Chrome旧帧1与新版及Canvas9。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/REFORGE-FSA-URL-OWNERSHIP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8ac80e5beb09de9d31d2ecd150e556bd10ef75835a3c1ce610637ddc131eae27",
+      "afterSha256": "ebb23bd0e9465f478e94e1e06254c8a09b670c604a39579b36c41187ae39c2ac",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受对象 URL 释放归属的复现范围。",
-        "reviewedLines": 30,
-        "acceptanceScope": "核两次跨释放的原生 URL 反例与十项通过，尚未批准产品修复。"
+        "reviewedLines": 37,
+        "conclusion": "接受 URL 分配与释放。",
+        "acceptanceScope": "两定向交错及原生OPFS同URL、实际读取、撤销。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/REFORGE-IMAGE-CACHE-DISPOSAL-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "85e7b00952f15c9270e52bc3e5ba3b5ee6109c51f5aa9ec50e13973d7327e38a",
+      "afterSha256": "9850974d7b6e66b5ec59c4c9d3e62b82c46b54297de901cfaa2b8959057bcf43",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受在途解码后的对象去向观察。",
-        "reviewedLines": 32,
-        "acceptanceScope": "核关闭计数和旧缓存仍可命中的实际原件，不外推到普通工程试玩路径。"
+        "reviewedLines": 39,
+        "conclusion": "接受旧位图释放和新请求隔离。",
+        "acceptanceScope": "两实际缓存时序与真实 resolver，限定解码端口替身和相邻范围。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9d8b12f24ae71923d9784723da4f5e901bdc7adc0c57f9fa43b95c555914dff9",
+      "afterSha256": "bd2ffc517bf3a35cf3ae3a38e66bfd551c88ded0dec816d6a04680d66814bcfd",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受缺少项目登记却回落默认位置的反例。",
-        "reviewedLines": 30,
-        "acceptanceScope": "真正共用的落点入口一红一绿，完整校验后的合法工程可达性未知。"
+        "reviewedLines": 37,
+        "conclusion": "接受真实命名落点读取。",
+        "acceptanceScope": "同入口未知拒绝、登记同名保留，Editor和预检相邻。 统一门和发布取实际运行。"
       }
     },
     {
       "path": "docs/tasks/cards/REFORGE-VIDEO-PLAY-RETRY-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "bbcfe068b91b9f3687ae49406f8b45ac53c3f419b4fee0af1017a31c4f0350d9",
+      "afterSha256": "2c743497c97f58d4cbf3f9d19b862f38eab8f202c2b3a36f0a331263475164dd",
       "review": {
         "author": "/root",
         "reviewer": "/root/content_window_doc_review",
         "date": "2026-11-19",
-        "conclusion": "接受多次点击失去播放重试的有限证据。",
-        "reviewedLines": 30,
-        "acceptanceScope": "核七项通过及唯一业务红例；浏览器媒体端口为模拟，不是实机或视觉验收。"
+        "reviewedLines": 37,
+        "conclusion": "接受可重复重试和定时器释放。",
+        "acceptanceScope": "两受控拒绝后 native 播放和DOM释放，范围为Chrome独立宿主。 统一门和发布取实际运行。"
       }
     },
     {
@@ -6155,6 +6155,12 @@
       "sha256": "e46e1a14a57c7f5ae6cb7999cd9bc9cedba6153154fdf31dc91a377e7ca7b7f9",
       "bytes": 831945,
       "purpose": "本批内容、编辑器和运行时资源的逐文件 A–H 读域索引、测试迁移、必要原件与统一质量门。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz",
+      "sha256": "76eed2afacc5f5114997b4acffa08a49da2a4925d5dcefb7a53ae0bace5b15af",
+      "bytes": 271482,
+      "purpose": "资产留项八维验收、写入出口退役、原始失败、定向与浏览器回执、集中质量门。"
     }
   ],
   "artifactAliases": [],

@@ -1,8 +1,9 @@
 # CONTENT-SHARD-RETIREMENT-BOUNDARY-1 — 旧脚本分片出口与在用测试分界
 
-Status: draft
+Status: done
 Phase: phase2
 Owner: Codex
+Coding Owner: Codex
 Reviewer: Codex
 Last reviewed: 2026-11-19
 Template: task-card-v1 / 1.0.0
@@ -14,7 +15,7 @@ Visual Verification Timing: N/A
 
 ## 范围
 
-`packages/content/src/` 下的 `script-library.ts`、`script-library.test.ts`、`script-library.glm-leaf-wave.test.ts`、`script-library.glm-o.test.ts`、`script-library.resource-boundaries.test.ts`。此卡只读取证。相邻编辑器引用、Reforge 运行时解析、活跃 E2E 改写留原 Owner。
+`packages/content/src/` 下的 `script-library.ts`、`script-library.test.ts`、`script-library.glm-leaf-wave.test.ts`、`script-library.glm-o.test.ts`、`script-library.resource-boundaries.test.ts`。初次只读取证。相邻编辑器引用、Reforge 运行时解析、活跃 E2E 改写留原 Owner。
 
 ## 前提与证据
 
@@ -36,4 +37,10 @@ Visual Verification Timing: N/A
 
 ## 状态与交接
 
+本轮 Codex build allowed。用户批准退役仅测试调用的旧写入接口。范围为 `createScriptIndex`、`normalizeScriptLibrary`、`upsertAuthoredScript`、`removeAuthoredScript` 及其独占辅助和测试。Content、Editor、Reforge 的仍用断言改用合法的内存读取夹具。编辑器和 Reforge 仍持有读取与引用诊断，原有入口及磁盘格式依照现行合同。
+
 2026-11-19：原实现与四个测试均留 review，不计本窗口完成数。暂不修改公开出口或活跃 E2E 表单。仅整合既有夹具时发生的一处专测导入迁移有独立回执。
+
+### 本轮验收
+
+四个旧写入导出已退役。四份旧专测按职责退役，实际命令守卫与内存分片读取合同分别由 script-command-validation.test.ts 和 script-chunk-validation.test.ts 承接。Editor 和 Reforge 仍用的调用点以真实工程与显式内存片构造测试输入。三个读取边界的正式反例覆盖字典数组、脚本归属及引用缺失，原缺失分支在保留的读取接口均可复验。无当前工程加载或发布使用的旧写出入口。 逐文件复核、反例及实际命令见[本轮统一原件](../evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)。发布结果取受保护 PR 的实际作业。

@@ -217,4 +217,47 @@ describe('local object URL lifetime', () => {
       URL.revokeObjectURL(url)
     }
   })
+
+  test('overlapping callers can share a single readable URL that is revoked on dispose', async () => {
+    const paused = pauseAt('get file')
+    const { source, operations } = assetDirectory(undefined, paused.after)
+    const first = source.urlFor(route)
+    await paused.entered
+    const second = source.urlFor(route)
+    paused.release()
+    const urls = await Promise.all([first, second])
+    try {
+      expect(urls[0]).toBe(urls[1])
+      await expect((await fetch(urls[0])).text()).resolves.toBe('{"caption":"山路"}')
+      expect(operations).toEqual(traverse)
+      source.dispose?.()
+      await expect(fetch(urls[0])).rejects.toBeInstanceOf(TypeError)
+    } finally {
+      source.dispose?.()
+      for (const url of urls) URL.revokeObjectURL(url)
+    }
+  })
+
+  test('disposal cancels an in-flight URL without affecting a fresh read', async () => {
+    const paused = pauseAt('get file')
+    const { source } = assetDirectory(undefined, paused.after)
+    const first = source.urlFor(route).then(
+      (url) => ({ url }),
+      (error: unknown) => ({ error }),
+    )
+    await paused.entered
+    source.dispose?.()
+    const fresh = source.urlFor(route)
+    paused.release()
+    const [outcome, freshUrl] = await Promise.all([first, fresh])
+    try {
+      expect(outcome).toEqual({ error: expect.objectContaining({ name: 'AbortError' }) })
+      await expect((await fetch(freshUrl)).text()).resolves.toBe('{"caption":"山路"}')
+      expect(await source.urlFor(route)).toBe(freshUrl)
+    } finally {
+      source.dispose?.()
+      if ('url' in outcome) URL.revokeObjectURL(outcome.url)
+      URL.revokeObjectURL(freshUrl)
+    }
+  })
 })
