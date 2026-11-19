@@ -14,7 +14,7 @@
       "lines": "1291-1389",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "b4775126324865d875104f49c04c8794117393f2d2cb4bc2ad467dcf5692eb58"
+      "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -421,6 +421,22 @@
         }
       ],
       "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
+    },
+    {
+      "action": "q2-placement-feedback-source-rebinding",
+      "base": "cb83b4f76a150915105121482cbef9e4edd58d58",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1291-1389",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "b4775126324865d875104f49c04c8794117393f2d2cb4bc2ad467dcf5692eb58"
+        }
+      ],
+      "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
     }
   ],
   "_governance": {

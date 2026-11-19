@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/menu/menu-session.ts",
-      "lines": "107-131",
+      "lines": "108-132",
       "anchor": "export class MenuSession",
       "role": "contract",
-      "sha256": "364a1b49ecd49c57c0cea63e3cb76f6f2dfccab0f6db713ae0efafc9d3418854"
+      "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -25,10 +25,10 @@
     },
     {
       "path": "packages/reforge/src/menu/menu-session.test.ts",
-      "lines": "9-32",
+      "lines": "10-33",
       "anchor": "test('closed menu ignores input",
       "role": "oracle",
-      "sha256": "27af2ccb2d40f470fdd8c5ede51e908d4c64dadead670698c602674e1a00c1e9"
+      "sha256": "cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.test.ts",
@@ -75,9 +75,9 @@
       "id": "reforge-menu-session-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/menu/menu-session.ts:107-131",
+        "packages/reforge/src/menu/menu-session.ts:108-132",
         "packages/reforge/src/menu/item-use-session.ts:2-19",
-        "packages/reforge/src/menu/menu-session.test.ts:9-32",
+        "packages/reforge/src/menu/menu-session.test.ts:10-33",
         "packages/reforge/src/menu/item-use-session.test.ts:5-22",
         "packages/content/src/character.ts:169-171"
       ]
@@ -177,6 +177,29 @@
         }
       ],
       "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
+    },
+    {
+      "action": "q2-placement-feedback-source-rebinding",
+      "base": "cb83b4f76a150915105121482cbef9e4edd58d58",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-session.ts",
+          "lines": "107-131",
+          "anchor": "export class MenuSession",
+          "role": "contract",
+          "sha256": "364a1b49ecd49c57c0cea63e3cb76f6f2dfccab0f6db713ae0efafc9d3418854"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-session.test.ts",
+          "lines": "9-32",
+          "anchor": "test('closed menu ignores input",
+          "role": "oracle",
+          "sha256": "27af2ccb2d40f470fdd8c5ede51e908d4c64dadead670698c602674e1a00c1e9"
+        }
+      ],
+      "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
     }
   ],
   "_governance": {

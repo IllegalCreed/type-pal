@@ -1938,6 +1938,52 @@ export function restoreTestingQ2CoverageSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, q2CoverageStage, q2CoverageBindings)
 }
 
+export const testingQ2PlacementPublicationBase = 'cb83b4f76a150915105121482cbef9e4edd58d58'
+const placementSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1291-1389': '1291-1389',
+        '443-455': '443-455',
+        5869: '5878',
+      },
+    ],
+    [worldItemMenuSession, { '107-131': '108-132' }],
+    ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '10-33' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2PlacementPublicationBase,
+  action: 'q2-placement-feedback-source-rebinding',
+  date: '2026-11-19',
+}
+const placementSourceBindings = new Map([
+  [
+    'domains/runtime/menu/menu-session/evidence.json',
+    worldItemTargetBindings.get('domains/runtime/menu/menu-session/evidence.json'),
+  ],
+  ...[
+    'domains/runtime/scene/active-scene/evidence.json',
+    'domains/runtime/battle/battle-host/evidence.json',
+    'domains/runtime/world/world-runtime/evidence.json',
+  ].map((path) => [path, q2CoverageBindings.get(path)]),
+  [publication.evidence, { id: publication.id, paths: [reforgeMain], artifactClaims: true }],
+])
+
+export const isTestingQ2PlacementSource = (path) => placementSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PlacementSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    placementSourceStage,
+    placementSourceBindings,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
