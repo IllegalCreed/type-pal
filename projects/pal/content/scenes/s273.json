@@ -1728,6 +1728,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "setEntityFacing",
                     "facing": "down",
                     "target": {
@@ -1745,7 +1748,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1765,7 +1768,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "dialog",
@@ -1777,13 +1780,13 @@
                       ],
                       "identity": {
                         "kind": "unbound",
-                        "speaker": "spk.灵月宫主",
-                        "portrait": {
-                          "asset": "portrait.pal.072",
-                          "side": "right"
-                        }
-                      }
+                        "speaker": "spk.灵月宫主"
+                      },
+                      "portraitLayout": true
                     }
+                  },
+                  {
+                    "kind": "clearDialog"
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1799,7 +1802,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1815,7 +1818,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1831,7 +1834,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1600
+                    "ms": 4000
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2195,6 +2198,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s273",
@@ -2260,7 +2266,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1080
+                    "ms": 2700
                   },
                   {
                     "kind": "setPartyFacing",
@@ -2268,7 +2274,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "kind": "moveParty",
@@ -2281,7 +2287,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "kind": "dialog",
