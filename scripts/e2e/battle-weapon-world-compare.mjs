@@ -3,7 +3,11 @@ import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
-import { auditEquipmentRun, authoredBeadSemantics } from './battle-weapon-world-rules.mjs'
+import {
+  auditEquipmentRun,
+  authoredBeadSemantics,
+  equipmentAppearanceFindings,
+} from './battle-weapon-world-rules.mjs'
 import {
   equipmentCatalogue,
   equipmentScenario,
@@ -127,6 +131,18 @@ async function readSide(path, engine, profile, inputs, catalogue, sources, scena
           inputs,
           catalogue,
         }),
+        appearance: row.steps.flatMap(({ id, first, preview, swapped }) =>
+          Object.entries({ first, preview, swapped })
+            .filter(([, draw]) => draw)
+            .map(([stage, draw]) => ({
+              step: id,
+              stage,
+              selected: draw.selected,
+              order: draw.order,
+              atMs: draw.atMs,
+              sample: draw.frame.appearance ?? null,
+            })),
+        ),
       }
     }),
   )
@@ -196,6 +212,19 @@ const paired = game.runs.map((run, i) => ({
   runId: run.runId,
   matched: same(run.steps, reforge.runs[i].steps),
 }))
+const appearanceKeys = (draws) => draws.map(({ step, stage, selected }) => [step, stage, selected])
+for (const [index, run] of game.runs.entries()) {
+  const other = reforge.runs[index]
+  if (!same(appearanceKeys(run.appearance), appearanceKeys(other.appearance))) {
+    findings.push({ rule: 'same-equipment-appearance-sequence', runId: run.runId })
+    continue
+  }
+  for (const [i, { step, stage, selected, sample }] of run.appearance.entries()) {
+    for (const finding of equipmentAppearanceFindings(sample, other.appearance[i].sample)) {
+      findings.push({ runId: run.runId, step, stage, selected, ...finding })
+    }
+  }
+}
 const repeats =
   profile === 'verify'
     ? [game, reforge].map(({ engine, runs }) => ({

@@ -446,6 +446,39 @@ export function auditEquipmentRun({ engine, scenario, row, trace, actions, input
   return { findings, steps }
 }
 
+/** The same-room equipment fixtures always use these unobstructed board and frame-edge regions. */
+export function equipmentAppearanceFindings(game, reforge) {
+  const findings = []
+  for (const [engine, sample] of Object.entries({ game, reforge })) {
+    const { boardLuma, itemShadowLuma, itemBackdropLuma } = sample ?? {}
+    if (
+      ![boardLuma, itemShadowLuma, itemBackdropLuma].every(
+        (value) => Number.isFinite(value) && value > 0 && value <= 255,
+      )
+    ) {
+      findings.push({ rule: 'equipment-appearance-samples', engine, sample })
+      continue
+    }
+    const shadowRatio = itemShadowLuma / itemBackdropLuma
+    if (shadowRatio < 0.5 || shadowRatio > 0.85)
+      findings.push({
+        rule: 'equipment-item-outer-shadow',
+        engine,
+        actual: shadowRatio,
+        range: [0.5, 0.85],
+      })
+  }
+  if (game && reforge && Math.abs(reforge.boardLuma - game.boardLuma) > game.boardLuma * 0.08)
+    findings.push({
+      rule: 'equipment-wood-background-luma',
+      engine: 'reforge',
+      actual: reforge.boardLuma,
+      reference: game.boardLuma,
+      relativeTolerance: 0.08,
+    })
+  return findings
+}
+
 export const authoredBeadSemantics = [...skillBeads].map(([item, skill]) => ({
   item,
   skill,

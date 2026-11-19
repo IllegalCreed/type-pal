@@ -60,12 +60,25 @@ function installWitness(_context, makeRecorder) {
     },
   })
   function sampleFrame({ width, height, data }) {
+    function offsetAt(x, y) {
+      return (Math.floor((y * height) / 200) * width + Math.floor((x * width) / 320)) * 4
+    }
+    function meanLuma(left, top, right, bottom) {
+      let sum = 0
+      for (let y = top; y < bottom; y++) {
+        for (let x = left; x < right; x++) {
+          const offset = offsetAt(x + 0.5, y + 0.5)
+          sum += 0.2126 * data[offset] + 0.7152 * data[offset + 1] + 0.0722 * data[offset + 2]
+        }
+      }
+      return sum / ((right - left) * (bottom - top))
+    }
     let digest = 2166136261
     const colors = new Set()
     // Sample the logical 320 × 200 board regardless of the backing canvas scale.
     for (let y = 0; y < 200; y += 5)
       for (let x = 0; x < 320; x += 5) {
-        const offset = (Math.floor((y * height) / 200) * width + Math.floor((x * width) / 320)) * 4
+        const offset = offsetAt(x, y)
         const rgb = data[offset] * 65536 + data[offset + 1] * 256 + data[offset + 2]
         colors.add(rgb)
         digest = Math.imul(digest ^ rgb, 16777619)
@@ -76,6 +89,11 @@ function installWitness(_context, makeRecorder) {
       height,
       colors: colors.size,
       digest: (digest >>> 0).toString(16).padStart(8, '0'),
+      appearance: {
+        boardLuma: meanLuma(96, 151, 217, 181),
+        itemShadowLuma: meanLuma(73, 29, 77, 64),
+        itemBackdropLuma: meanLuma(80, 29, 85, 64),
+      },
     }
   }
   globalThis.__worldEquipmentEvidence = Object.freeze({
