@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "3eeb9c87f663d227adad0f6fca114ac58c7e605323c94fc0e606344f60fbb5c0",
+      "afterSha256": "65d1f0111a18299eea7a2855fa7016c2f4ad63df902e17455a5a7b73e02cfb95",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
         "conclusion": "核场景赠物、两条布包触发和奖励的原盘入口。",
-        "reviewedLines": 1888,
-        "acceptanceScope": "核原始面向对象、角色触发、消耗归属和灵葫咒授予命令。"
+        "reviewedLines": 1890,
+        "acceptanceScope": "核对三件场景道具的脚本入口、库存消耗、世界节拍与客房曲目。"
       }
     },
     {
@@ -5403,14 +5403,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8f3f4f7a7f1fc9ab5c43578a0de7bcb4f8cf2df245b1169add373d30b28d2aff",
+      "afterSha256": "6d83a1e96f32a37572ef47743ec592a331fdc6fc832980c23914ac7f30072c0d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物实战复核",
         "date": "2026-11-19",
         "conclusion": "收口桂花酒与布包的 Q2 场景用物。",
-        "reviewedLines": 943,
-        "acceptanceScope": "核合法局面、修复范围、验证结果、质量门和原件保留。"
+        "reviewedLines": 947,
+        "acceptanceScope": "核场景用物候选、双端初态和验收范围。"
       }
     },
     {
