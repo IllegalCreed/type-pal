@@ -310,16 +310,21 @@ export function installGameBattleAdapter() {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
       liveRoles = roles
-      let inaction
+      let inaction, scriptedPass
       if (nativeAction.type === 'pass') {
         const unit = (actor.isEnemy ? state.enemies : state.players)[actor.idx]
         const hp = actor.isEnemy ? unit.e.health : liveRoles.roles[unit.roleId]?.hp
         const disabled = unit.status.sleep > 0 || unit.status.paralyzed > 0
         const cooperative = !actor.isEnemy && state.fThisTurnCoop
         const confused = unit.status.confused > 0
-        require(hp > 0 &&
-          (disabled || cooperative || confused), 'Q2 Game pass lacks a native reason')
-        inaction = disabled ? 'incapacitated' : cooperative ? 'cooperative-action' : 'confusion'
+        if (disabled) inaction = 'incapacitated'
+        else if (cooperative) inaction = 'cooperative-action'
+        else if (confused) inaction = 'confusion'
+        else if (actor.isEnemy && nativeAction.target >= 0 && unit.e.magic === 0xffff) {
+          inaction = 'scripted-pass'
+          scriptedPass = { magic: unit.e.magic }
+        }
+        require(hp > 0 && inaction, 'Q2 Game pass lacks a native reason')
       }
       action = {
         ...describe(state, actor, nativeAction, magicType),
@@ -329,6 +334,7 @@ export function installGameBattleAdapter() {
           command: structuredClone(nativeAction),
           animationEffects: [],
           ...(inaction ? { inaction } : {}),
+          ...(scriptedPass ? { scriptedPass } : {}),
           ...(actor.isEnemy
             ? {}
             : { growthBefore: hiddenCounts(gs, state.players[actor.idx].roleId) }),

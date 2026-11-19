@@ -90,6 +90,26 @@ export function inspectOpponentRun(trace, scenario) {
     [business.terminal.result, business.terminal.settlementCount],
     ['victory', 1],
   )
+  const scriptedPasses = trace.actions
+    .filter((action) => action.native?.inaction === 'scripted-pass')
+    .map(({ actorId, turn, seq, native: { scriptedPass } }) => ({
+      actorId,
+      turn,
+      seq,
+      proof: scriptedPass,
+    }))
+  if (scenario.team === 26) {
+    check(
+      'Zombie King skips its first turn then casts the original spell on turn two',
+      trace.actions
+        .filter(({ actorId }) => actorId === 'foe-0')
+        .map(({ turn, kind, skillId, native }) => [turn, kind, skillId ?? native.inaction]),
+      [
+        [1, 'pass', 'scripted-pass'],
+        [2, 'cast', '357'],
+      ],
+    )
+  }
 
   const frames = trace.presentations.filter(({ kind }) => kind === 'battle-frame')
   const first = frames.find(
@@ -138,7 +158,7 @@ export function inspectOpponentRun(trace, scenario) {
       actions: appearances,
     }
   })
-  return { findings, roster, business }
+  return { findings, roster, business, scriptedPasses }
 }
 
 const gameplayRandom = (trace) =>
@@ -169,12 +189,13 @@ function comparePair(first, second, scenario) {
   patch('native random draws', first.random, second.random)
   patch('played enemy action sound cues', cueList(first.roster), cueList(second.roster))
   const observations = []
-  if (!repeat && scenario.team === 344) {
-    // SSS 42828–42831 is the GOLD toad's post-battle grant. A Reforge trial
-    // settles combat without running scene onDefeated commands.
+  if (!repeat && scenario.victoryScriptOwners.length) {
+    // A Reforge trial settles combat without running scene onDefeated commands.
     const { inventory: gameInventory, ...gameAfter } = first.business.terminal.after
     const { inventory: rfInventory, ...rfAfter } = second.business.terminal.after
-    patch('Game gold toad reward', gameInventory, [{ itemId: '152', count: 1 }])
+    patch('Game original scene reward', gameInventory, [
+      { itemId: '152', count: scenario.victoryScriptOwners.length },
+    ])
     patch('Reforge standalone trial inventory', rfInventory, [])
     patch(
       'terminal outside scene reward',
@@ -185,7 +206,8 @@ function comparePair(first, second, scenario) {
       },
     )
     observations.push({
-      source: 'SSS 42828–42831 / enemy-465.onDefeated',
+      source: 'SSS 42828–42831 and canonical onDefeated',
+      owners: scenario.victoryScriptOwners,
       gameInventory,
       rfInventory,
     })

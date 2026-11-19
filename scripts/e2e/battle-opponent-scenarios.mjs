@@ -13,10 +13,33 @@ const fields = [
   { team: 55, scene: 's045', field: 27 },
   { team: 344, scene: 's218', field: 34 },
   { team: 203, scene: 's185', field: 17, rawBattleStart: 26202 },
+  { team: 40, scene: 's015', field: 10 },
+  { team: 137, scene: 's101', field: 20 },
+  { team: 237, scene: 's229', field: 11 },
+  { team: 264, scene: 's279', field: 57 },
+  { team: 332, scene: 's219', field: 34 },
+  { team: 340, scene: 's217', field: 34 },
+  { team: 30, scene: 's092', field: 57 },
+  { team: 74, scene: 's060', field: 39 },
+  { team: 105, scene: 's070', field: 55 },
+  { team: 154, scene: 's161', field: 33 },
+  { team: 168, scene: 's166', field: 40, seed: 6 },
+  { team: 207, scene: 's180', field: 47 },
+  { team: 8, scene: 's006', field: 12 },
+  { team: 26, scene: 's065', field: 21 },
+  { team: 42, scene: 's138', field: 42 },
+  { team: 68, scene: 's060', field: 39 },
+  { team: 86, scene: 's059', field: 53 },
+  { team: 139, scene: 's139', field: 11 },
+  { team: 164, scene: 's148', field: 40 },
+  { team: 179, scene: 's147', field: 40 },
+  { team: 185, scene: 's147', field: 40 },
+  { team: 201, scene: 's185', field: 16 },
+  { team: 222, scene: 's278', field: 48 },
+  { team: 224, scene: 's201', field: 35 },
 ]
 
 const heroes = ['li-xiaoyao', 'zhao-linger', 'anu']
-const seed = 4
 
 function findEncounters(value, team) {
   if (typeof value !== 'object' || value === null) return []
@@ -28,6 +51,34 @@ function findEncounters(value, team) {
 
 const defend = (turn, actorId) => ({ turn, actorId, kind: 'defend', targetId: null })
 const attack = (turn, actorId, targetId) => ({ turn, actorId, kind: 'attack', targetId })
+
+function commandPlan(team, opponents, party) {
+  const opening = party.map(({ id }) => defend(1, id))
+  // SSS 42476 skips the enemy's first turn. Leave time for its scheduled cast.
+  if (team === 26) return [...opening, defend(2, heroes[0]), attack(3, heroes[0], opponents[0].id)]
+  if (team === 42)
+    return [
+      ...opening,
+      ...[2, 3].flatMap((turn) => party.map(({ id }) => attack(turn, id, opponents[0].id))),
+    ]
+  // Ghost Confusion makes the sole player attack the remaining enemy automatically.
+  if (team === 68) return opening
+  // In rotation two the confused third member knocks out the first member.
+  if (team === 168)
+    return [
+      ...opening,
+      attack(2, heroes[0], opponents[0].id),
+      attack(2, heroes[1], opponents[1].id),
+      attack(3, heroes[1], opponents[2].id),
+    ]
+  if (team === 222)
+    return [...opening, ...[2, 3, 4].map((turn) => attack(turn, heroes[0], opponents[0].id))]
+  assert(
+    opponents.length && opponents.length <= party.length,
+    `team-${team} requires a finish plan`,
+  )
+  return [...opening, ...party.map(({ id }, i) => attack(2, id, opponents[i].id))]
+}
 
 export async function battleOpponentScenarios(root, selector = 'all') {
   const chosen = new Set(selector.split(','))
@@ -67,7 +118,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
   const prepare = await prepareBattleStatusInputs()
   const script = events.segments.find(({ name }) => name === 'all').commands
   return Promise.all(
-    selected.map(async ({ team, scene, field, rawBattleStart }, index) => {
+    selected.map(async ({ team, scene, field, rawBattleStart, seed = 4 }, index) => {
       const id = `team-${team}`
       const source = scenes[index]
       const encounter = findEncounters(source, id).find(
@@ -99,6 +150,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
       assert(formation.enemyObjectIndexes.slice(extent).every((entry) => entry === 65535))
       assert.equal(authoredTeam.slots.length, extent, `${id} formation extent`)
       const names = formation._names.values()
+      const victoryScriptOwners = []
       const slots = formation.enemyObjectIndexes.map((objectIndex, slot) => {
         if (objectIndex === 0 || objectIndex === 65535) {
           assert.equal(authoredTeam.slots[slot] ?? null, null, `${id} empty slot ${slot}`)
@@ -112,6 +164,48 @@ export async function battleOpponentScenarios(root, selector = 'all') {
         assert(original && authored, `missing object ${objectIndex}`)
         assert.equal(authored.stats.health, original.health)
         assert.equal(authored.yPosOffset, original.yPosOffset)
+        if (object.scriptOnBattleEnd === 42828) {
+          assert.deepEqual(
+            [
+              script[42828].op,
+              script[42828].itemId,
+              script[42828].count,
+              script[42830].text,
+              script[42831].op,
+            ],
+            ['giveItem', 152, 0, '获得一只傀儡虫', 'end'],
+          )
+          assert.deepEqual(authored.onDefeated?.[0], { kind: 'giveItem', itemId: '152' })
+          assert.equal(authored.onDefeated?.[1].cue.rows[0].text, 'dlg.13349')
+          victoryScriptOwners.push({ slot, templateId, script: 42828 })
+        }
+        if (team === 26) {
+          assert.equal(object.scriptOnTurnStart, 42476)
+          const program = authored.ai.hooks.turnStart
+          assert.equal(program.initial, 'initial')
+          const first = program.states.initial
+          const second = program.states[first.next.state]
+          for (const [index, magic] of [
+            [42476, 0xffff],
+            [42478, 357],
+          ]) {
+            assert.equal(script[index].opcode, 0x67)
+            assert.deepEqual(script[index].operands, [magic, 0, 0])
+            assert.equal(script[index + 1].advance, true)
+          }
+          assert.deepEqual(first.body, [
+            {
+              kind: 'setFallback',
+              fallback: { action: { kind: 'pass' }, chancePercent: 100 },
+            },
+          ])
+          assert.deepEqual(second.body, [
+            {
+              kind: 'setFallback',
+              fallback: { action: { kind: 'cast', skillId: '357' }, chancePercent: 100 },
+            },
+          ])
+        }
         const sprite = battleSprites.find(({ id }) => id === authored.battleSprite)
         assert.equal(
           sprite?.asset,
@@ -145,7 +239,10 @@ export async function battleOpponentScenarios(root, selector = 'all') {
           return { sprite, source, target, sha256: asset.sha256 }
         }),
       )
-      const party = heroes.slice(0, opponents.length).map((id, index) => ({
+      // Ling'er would make the leaf monster end team 40 before command selection.
+      const activeHeroes = team === 40 ? [heroes[0], heroes[2]] : heroes
+      const partySize = team === 42 ? 3 : opponents.length
+      const party = activeHeroes.slice(0, partySize).map((id, index) => ({
         id,
         level: 36,
         hp: 2000,
@@ -156,11 +253,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
         skills: [],
         weapon: null,
       }))
-      assert(opponents.length && opponents.length <= party.length, `${id} requires a finish plan`)
-      const commands = [
-        ...party.map(({ id }) => defend(1, id)),
-        ...party.map(({ id }, i) => attack(2, id, opponents[i].id)),
-      ]
+      const commands = commandPlan(team, opponents, party)
       const configured = prepare({ id, seed, team, party, commands })
       configured.game.fixture.battleFieldId = field
       configured.game.fixture.isBoss = Boolean(encounter.boss)
@@ -174,6 +267,7 @@ export async function battleOpponentScenarios(root, selector = 'all') {
         rawBattleStart,
         slots,
         sprites,
+        victoryScriptOwners,
         seed,
         configured,
         commands,
