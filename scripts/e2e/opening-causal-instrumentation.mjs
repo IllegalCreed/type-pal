@@ -83,9 +83,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                         ['startScript', 'runDetachedScriptChain'].includes(owner),
                       )
                     ? 'script-end'
-                    : owners.includes('inputPorts') && owners.includes('dismissOnKey')
-                      ? 'item-placement-key'
-                      : null
+                    : null
       assert(reason, `unknown dialogue clear caller: ${owners.join('/')}`)
       add(
         'dialog-clear-caller',
@@ -536,6 +534,19 @@ export function instrumentOpeningCausalTrace(code, file) {
       )
     if (
       file.endsWith('/dialog/dialog-box.ts') &&
+      ts.isExpressionStatement(node) &&
+      source === 'this.advanceToNextCue(nowMs)' &&
+      ts.isMethodDeclaration(node.parent.parent) &&
+      node.parent.parent.name.getText(ast) === 'dismissTimedNarration'
+    ) {
+      add(
+        'dialog-timed-narration-key',
+        node.getStart(ast),
+        'globalThis.__openingCauseDialogClear?.("world-narration-key",null);\n',
+      )
+    }
+    if (
+      file.endsWith('/dialog/dialog-box.ts') &&
       ts.isMethodDeclaration(node) &&
       ['open', 'render', 'advance', 'update', 'close'].includes(node.name.getText(ast))
     ) {
@@ -640,7 +651,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                         }
                       : file.endsWith('/main.ts')
                         ? {
-                            'dialog-clear-caller': 9,
+                            'dialog-clear-caller': 8,
                             'dialog-portrait-start': 1,
                             'dialog-portrait-end': 1,
                             'lifecycle-snapshot': 1,
@@ -652,6 +663,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                             file.endsWith('/script-host-adapter.ts')
                           ? { 'dialog-clear-intent-before': 1, 'dialog-clear-intent-after': 1 }
                           : {
+                              'dialog-timed-narration-key': 1,
                               'dialog-open-before': 1,
                               'dialog-open-after': 1,
                               'dialog-advance-before': 1,
