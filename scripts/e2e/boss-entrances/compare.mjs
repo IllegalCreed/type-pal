@@ -147,7 +147,8 @@ function checkSpiderForeground(events, trigger, cue, launch) {
       `Black Spider foreground beat ${i + 1}: ${duration.toFixed(1)} ms, original ${expected[i]} ms`,
     )
   }
-  const spiderPosition = ({ actors }) => actors.find(({ id }) => id === 'e2347')?.position
+  const spiderPosition = ({ actors }) =>
+    actors.find(({ id, state }) => id === 'e2347' && state === 1)?.position
   const spiderSteps = []
   for (const frame of paint) {
     if (frame.order <= cue.order || frame.order > speech.order) continue
