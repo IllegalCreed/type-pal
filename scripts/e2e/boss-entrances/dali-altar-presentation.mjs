@@ -164,7 +164,7 @@ function inspectRainFilms(events, draws, source, game, issues) {
   const spans = []
   const films = []
   const clips = [
-    ['s227', 7, 32056, 14, 32061, 17],
+    ['s227', 7, 32056, 14, 32061, 18],
     ['s245', 8, 31979, 5, 31981, 7],
   ]
   const sourcePlays = route.segments.flatMap(({ scene, start, leave }) =>
@@ -203,6 +203,7 @@ function inspectRainFilms(events, draws, source, game, issues) {
     if (!first || first.atMs - start.atMs > 1500)
       issues.push({ issue: 'rain-film-did-not-reveal', scene, asset, first })
     let held
+    let fadeOut
     if (!game && scene === 's227') {
       const narration = mark(scene, 32057, 15, 'dialog')
       const before = movie.findLast(({ order }) => order < narration?.order)
@@ -215,8 +216,23 @@ function inspectRainFilms(events, draws, source, game, issues) {
           before,
           held,
         })
+      const leave = mark(scene, 32062, 19, 'loadScene')
+      assert(leave && fade.order < leave.order)
+      const curtain = events.filter(
+        (row) =>
+          row.kind === 'rain-draw' &&
+          row.scene === scene &&
+          fade.order < row.order &&
+          row.order < leave.order,
+      )
+      const bad = curtain.find(
+        (row) => row.asset !== asset || row.frame !== expected.at(-1) || row.caption !== false,
+      )
+      if (bad || curtain.at(-1)?.matte !== 1)
+        issues.push({ issue: 'rain-film-fade-carried-dialogue-or-lost-last-image', actual: bad })
+      fadeOut = { first: curtain[0], last: curtain.at(-1), checked: curtain.length }
     }
-    films.push({ scene, asset, frameCount, frames, first, last: movie.at(-1), held })
+    films.push({ scene, asset, frameCount, frames, first, last: movie.at(-1), held, fadeOut })
     if (first && fade.atMs > first.atMs + 200)
       spans.push({ id: `rain-film-${asset}`, startAtMs: first.atMs + 25, endAtMs: fade.atMs - 25 })
   }

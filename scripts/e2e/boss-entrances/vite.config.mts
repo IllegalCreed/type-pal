@@ -364,7 +364,7 @@ ${anchor}`,
           end,
           `    globalThis.__bossForeground?.reforgeRainDraw(activeScene.scene.id,
       cinematicLayerDrawn ? frameAnimationPresentation.visibleFrame : undefined,
-      frameAnimationPresentation.mode, fadeDriver.value)
+      frameAnimationPresentation.mode, fadeDriver.value, presentedWorldDialogue)
 ${end}`,
         )
       }

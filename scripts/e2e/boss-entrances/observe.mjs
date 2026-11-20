@@ -263,7 +263,7 @@ function installBossForeground({
       const id = Number(asset.split('.').at(-1))
       if (rainScenes.has(id)) rainResources.set(resource, { asset: id, frame })
     },
-    reforgeRainDraw(scene, resource, mode, opacity) {
+    reforgeRainDraw(scene, resource, mode, opacity, caption) {
       if (scene !== 's227' && scene !== 's245') return
       const film = resource && rainResources.get(resource)
       // The curtain can uncover an unchanged world submission. Keep its actual
@@ -274,10 +274,10 @@ function installBossForeground({
           : undefined
       const matte = Number(opacity.toFixed(3))
       const actors = world && pending.actors
-      const key = JSON.stringify([scene, film, mode, matte, world, actors])
+      const key = JSON.stringify([scene, film, mode, matte, caption, world, actors])
       if (key === previousRainDraw) return
       previousRainDraw = key
-      observation.event('rain-draw', { scene, ...film, matte, mode, world, actors })
+      observation.event('rain-draw', { scene, ...film, matte, mode, caption, world, actors })
     },
     dialoguePainted(sceneId, slots) {
       if (!coversDialogueWorld(sceneId)) return

@@ -319,6 +319,9 @@
                     "kind": "stopMusic"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "dir": "out",
                     "kind": "fade",
                     "ms": 1800
