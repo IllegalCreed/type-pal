@@ -1182,27 +1182,32 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(bus.drain()).toEqual([])
   })
 
-  it('battle mode 下 setDialogStyle* 只改战斗队列样式，保留宿主样式', () => {
+  it('战斗对白逐条保留槽位，脚本结束恢复战斗默认样式与宿主隔离', () => {
     const bus = createCommandBus()
-
     const ctx = makeBattleContext()
     const { gs } = ctx
     gs.currentDialogStyle = 'narration'
 
     runScript({
-      commands: [{ op: 'setDialogStyleTop' }, { op: 'setDialogStyleBottom' }, { op: 'end' }],
+      commands: [
+        { op: 'setDialogStyleTop' },
+        { op: 'showDialog', messageIndex: 0, text: '甲' },
+        { op: 'setDialogStyleBottom' },
+        { op: 'showDialog', messageIndex: 1, text: '乙' },
+        { op: 'end' },
+      ],
       ip: 0,
       bus,
       runtimeMode: 'battle',
       battleCtx: ctx,
     })
-    // GameState.currentDialogStyle 完全不动(不变量)
     expect(gs.currentDialogStyle).toBe('narration')
-    expect(ctx.state.battleDialogStyle).toEqual({
-      style: 'bottom',
-      portrait: undefined,
-      fontColor: 0x4f,
-    })
+    expect(ctx.state.battleDialogQueue).toMatchObject([
+      { style: 'top', text: '甲', fontColor: 0x4f },
+      { style: 'bottom', text: '乙', fontColor: 0x4f },
+    ])
+    // PAL_RunTriggerScript ends the dialog and PAL_EndDialog restores the upper slot.
+    expect(ctx.state.battleDialogStyle).toEqual({ style: 'top' })
   })
 
   it('死循环防御:battle mode raw 链 > 256 条抛错', () => {
