@@ -1290,13 +1290,13 @@ function checkSpiderForeground(events, trigger, cue, launch) {
   }
 }
 
-async function inspectForegroundRecording(coverage, path, report) {
+async function inspectForegroundRecording(coverage, path, report, dali) {
   if (!coverage || report.profile !== 'capture') return
   const recording = resolve(dirname(path), 'story.webm')
   assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
   const frames = await decodeWorldDialoguePixels(recording)
+  const origin = report.media.browser.startedAt
   for (const phase of coverage.filter(({ backdrop }) => backdrop)) {
-    const origin = report.media.browser.startedAt
     phase.pixels = phase.backdrop.spans.map(({ startAtMs, endAtMs }) =>
       checkWorldDialoguePixels(frames, {
         start: (startAtMs - origin) / 1000,
@@ -1311,6 +1311,19 @@ async function inspectForegroundRecording(coverage, path, report) {
         phase: phase.phase,
         ...bad,
       })
+  }
+  if (dali) {
+    dali.rainPixels = dali.rainPictures.map(({ id, startAtMs, endAtMs, ...sampling }) => ({
+      id,
+      ...sampling,
+      ...checkWorldDialoguePixels(frames, {
+        ...sampling,
+        start: (startAtMs - origin) / 1000,
+        end: (endAtMs - origin) / 1000,
+      }),
+    }))
+    for (const failure of dali.rainPixels.filter(({ status }) => status !== 'passed'))
+      dali.issues.push({ issue: 'recorded-rain-film-or-street-hidden', ...failure })
   }
 }
 
@@ -2329,7 +2342,7 @@ async function inspect(path, engine) {
         entries: stoneElderAuto.firstEntries,
       })
     : (linTiannan?.coverage ?? dali?.coverage)
-  await inspectForegroundRecording(foregroundCoverage, path, report)
+  await inspectForegroundRecording(foregroundCoverage, path, report, dali)
   const ming = source.route?.ming
     ? inspectTowerMingPresentation({
         events,

@@ -1444,7 +1444,9 @@
                     "asset": "frame-animation.pal.008",
                     "frameRate": 8,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true,
+                    "initialFadeInMs": 600
                   },
                   {
                     "asset": "sound.pal.256",
@@ -1454,6 +1456,9 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
+                  },
+                  {
+                    "kind": "clearFrameAnimation"
                   },
                   {
                     "kind": "setEntityState",
@@ -1523,6 +1528,11 @@
                   },
                   {
                     "kind": "clearDialog"
+                  },
+                  {
+                    "dir": "in",
+                    "kind": "fade",
+                    "ms": 600
                   },
                   {
                     "cue": {

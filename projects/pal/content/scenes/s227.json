@@ -291,7 +291,9 @@
                     "asset": "frame-animation.pal.007",
                     "frameRate": 8,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true,
+                    "initialFadeInMs": 600
                   },
                   {
                     "cue": {

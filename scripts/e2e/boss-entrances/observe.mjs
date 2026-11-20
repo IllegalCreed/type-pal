@@ -70,6 +70,12 @@ function installBossForeground({
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
   const visibleRect = ([x, y, w, h], camera) =>
     x + w > camera.x && x < camera.x + 320 && y + h > camera.y && y < camera.y + 200
+  const rainScenes = new Map([
+    [7, 's227'],
+    [8, 's245'],
+  ])
+  const rainResources = new WeakMap()
+  let previousRainDraw
 
   // Geometry metadata is available for the whole draw. Only persist pixel payloads
   // actually referenced by a watched actor that intersects the output frame.
@@ -249,6 +255,23 @@ function installBossForeground({
   }
 
   globalThis.__bossForeground = {
+    gameRainFrame(asset, frame) {
+      const scene = rainScenes.get(asset)
+      if (scene) observation.event('rain-draw', { scene, asset, frame, matte: 0, mode: 'playing' })
+    },
+    reforgeRainResource(asset, frame, resource) {
+      const id = Number(asset.split('.').at(-1))
+      if (rainScenes.has(id)) rainResources.set(resource, { asset: id, frame })
+    },
+    reforgeRainDraw(scene, resource, mode, opacity) {
+      if (scene !== 's227' && scene !== 's245') return
+      const film = resource && rainResources.get(resource)
+      const matte = Math.round(opacity * 20) / 20
+      const key = JSON.stringify([scene, film, mode, matte])
+      if (key === previousRainDraw) return
+      previousRainDraw = key
+      observation.event('rain-draw', { scene, ...film, matte, mode })
+    },
     dialoguePainted(sceneId, slots) {
       if (!coversDialogueWorld(sceneId)) return
       dialogue = slots.some(

@@ -22,7 +22,11 @@ async function readBackgroundSamples(stream) {
           if (frames[offset + y * width + x] >= 16) lit++
         }
       }
-      samples.push(lit / (7 * 56))
+      let picture = 0
+      for (let i = offset; i < offset + frameSize; i++) {
+        if (frames[i] >= 16) picture++
+      }
+      samples.push({ litFraction: lit / (7 * 56), pictureLitFraction: picture / frameSize })
     }
     leftover = frames.subarray(complete)
   }
@@ -89,14 +93,17 @@ export async function decodeWorldDialoguePixels(path, panel) {
         Number.isFinite(seconds) && (!index || seconds > times[index - 1]),
         'decoded timestamps must increase',
       )
-      return { seconds, litFraction: samples[index] }
+      return { seconds, ...samples[index] }
     })
   } finally {
     if (child.exitCode === null && child.signalCode === null) child.kill()
   }
 }
 
-export function checkWorldDialoguePixels(frames, { start, end, minLitFraction }) {
+export function checkWorldDialoguePixels(
+  frames,
+  { start, end, minLitFraction, sample = 'backdrop' },
+) {
   assert(Number.isFinite(start) && Number.isFinite(end) && start >= 0 && end > start)
   assert(minLitFraction > 0 && minLitFraction <= 1)
   const first = frames.findLastIndex(({ seconds }) => seconds <= start)
@@ -108,12 +115,17 @@ export function checkWorldDialoguePixels(frames, { start, end, minLitFraction })
     (row, index) => index && row.seconds - coverage[index - 1].seconds > 0.15,
   )
   if (gap) return { status: 'missing-frames', firstGapAt: gap.seconds, start, end }
-  const dark = visible.find(({ litFraction }) => litFraction < minLitFraction)
+  const light = sample === 'picture' ? 'pictureLitFraction' : 'litFraction'
+  assert(
+    visible.every((row) => Number.isFinite(row[light])),
+    `missing ${sample} pixel samples`,
+  )
+  const dark = visible.find((row) => row[light] < minLitFraction)
   const result = {
     start,
     end,
     checkedFrames: visible.length,
-    minimumLitFraction: Math.min(...visible.map(({ litFraction }) => litFraction)),
+    minimumLitFraction: Math.min(...visible.map((row) => row[light])),
   }
   return dark
     ? { ...result, status: 'background-hidden', firstDarkFrame: dark }

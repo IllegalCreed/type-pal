@@ -22,6 +22,22 @@ function after(source: string, anchor: string, observation: string): string {
 }
 
 function gamePresentation(source: string, file: string) {
+  if (itemEntrance && file === 'shell/rng-player.ts') {
+    const count = after(source, '    let framesShown = 0', '    let observedFrame = 0')
+    const index = after(
+      count,
+      '    for (const frame of frames) {',
+      '      const frameIndex = frameIndices[observedFrame++]',
+    )
+    const observation =
+      '        globalThis.__bossForeground?.gameRainFrame(options.chunkIdx, frameIndex)'
+    const first = after(index, '        await fadeInFirstFrame(options)', observation)
+    return after(
+      first,
+      '        flushToCanvas(options.fb, options.canvasCtx, options.palette)',
+      observation,
+    )
+  }
   if (itemEntrance && file === 'core/event-system.ts') {
     return after(
       source,
@@ -65,6 +81,13 @@ function gamePresentation(source: string, file: string) {
 }
 
 function reforgeDrop(source: string, file: string) {
+  if (itemEntrance && file === 'frame-animation-player.ts') {
+    return after(
+      source,
+      '      options.onFrame(frame)',
+      '      globalThis.__bossForeground?.reforgeRainResource(options.asset, frameIndex, frame)',
+    )
+  }
   if (itemEntrance && file === 'menu/menu-session.ts') {
     return after(
       source,
@@ -326,7 +349,7 @@ ${anchor}`,
         dialog,
         `${dialog} else { globalThis.__openingCauseDialogueDraw?.('reforge', []) }`,
       )
-      const composed = replaceOnce(
+      let composed = replaceOnce(
         withDialog,
         '      if (dither.output) ctx.putImageData(dither.output, 0, 0)',
         `      if (dither.output) {
@@ -334,6 +357,17 @@ ${anchor}`,
         globalThis.__bossForeground?.dither(step)
       }`,
       )
+      if (itemEntrance) {
+        const end = '    syncDitherDebugDataset()\n  }\n\n  /** 调试层'
+        composed = replaceOnce(
+          composed,
+          end,
+          `    globalThis.__bossForeground?.reforgeRainDraw(activeScene.scene.id,
+      cinematicLayerDrawn ? frameAnimationPresentation.visibleFrame : undefined,
+      frameAnimationPresentation.mode, fadeDriver.value)
+${end}`,
+        )
+      }
       return {
         code: replaceOnce(
           composed,

@@ -87,12 +87,13 @@ export async function inspectDialogueBackground(video, spans, { trim = 0, panel 
   const frames = await decodeWorldDialoguePixels(video, panel)
   return {
     lastSeconds: frames.at(-1).seconds,
-    background: spans.map(({ id, start, end, minLitFraction }) => ({
+    background: spans.map(({ id, start, end, minLitFraction, sample }) => ({
       id,
       ...checkWorldDialoguePixels(frames, {
         start: start - trim,
         end: end - trim,
         minLitFraction,
+        sample,
       }),
     })),
   }

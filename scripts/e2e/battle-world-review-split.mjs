@@ -193,6 +193,7 @@ async function side(engine, relocatedReport) {
         startedAt: start,
         rawPath,
       }),
+      ...(compare.dali && { rainPixels: compare.dali.rainPixels }),
     }
   }
   const handoff = raw.native?.handoff ?? raw.handoff
@@ -253,6 +254,14 @@ if (sides.every(({ coverage }) => coverage)) {
         minLitFraction: 0.2,
       })),
     )
+    if (comparison.scenario === 'dali-earth-beast') {
+      assert.deepEqual(
+        entry.rainPixels?.map(({ id, status }) => [id, status]),
+        ['rain-film-7', 'rain-film-8', 'rain-street-after-film'].map((id) => [id, 'passed']),
+        `${entry.engine} needs both rain films and the street reveal verified from the original recording`,
+      )
+      spans.push(...entry.rainPixels)
+    }
     return { ...entry, lastSeconds: entry.videoEnd, anchor: entry.contactSeconds, spans }
   })
   const spriteChecks = {
