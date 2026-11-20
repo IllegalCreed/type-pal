@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "15d7a79fbd91d67bc0a8b3fa584800537dadfe0516933663c1aa4095fd8a5cd8",
+      "afterSha256": "a82e51ff6af6ebe0182c3be3e2fbde0b83dc49808843b46c71eaeb49201f9b0a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
-        "reviewedLines": 127,
-        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
+        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
+        "reviewedLines": 129,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "7d3beb167a7daa44feffee6527f8dec928e685ea1fe6e55f08049f179b432624",
+      "afterSha256": "fc87c231a1e863097869cb0366eae7633ae67437bc673b175859f6c0f9019959",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核盖罗娇和阿奴的原盘指令及擂台、将军冢、血池的清屏边界。",
-        "reviewedLines": 1990,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
+        "reviewedLines": 1992,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "521aff1a9136b8122d577558cef9e19b0463b43f556765c42cf8fb2680caf28b",
+      "afterSha256": "eb99477de5dd2363281a75ec22578c465b988b28d71e2a6f7da2fb66e1b1dd13",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核脚本队形、镜头末拍和已清对白的进战源画面。",
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
         "reviewedLines": 372,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "72a67adbfe640fe5dec2e26b5927bbc976b6da02339e223b679f5af02864d7ba",
+      "afterSha256": "8f2e3f17d430e1374b8255b469234441c948330e9b4052b7ca2e47e5e56519c8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 10172,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 10243,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "209c1aef0344f95969f0e33a5e874033262c537392a5cab615dad311a0de5d72",
+      "afterSha256": "3bfcfd7488387545ddb026651fc36db063b5891012c501b146e33b06a7da6ae2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
         "reviewedLines": 99,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b215f372a93b35377b2ae03af40435b6297679fef50d17a63589b8fc2f066dbd",
+      "afterSha256": "e7d5a74ad15b723e609bc87249cf75c31ffd652add7939cf105cefa9a63956f3",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 819,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 842,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "82e9ac84d2594c4dfcaffe0b5eb83e82f12129062c946b3b3713f9447ab1c101",
+      "afterSha256": "fcf8712bb95573b880d91250a52ca4b45a38690b993c2d653975456d7ada4e68",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
         "reviewedLines": 98,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "bb9aefab8c21fe5d7ad80886b468c399621420a1b62afde1165342d99d629023",
+      "afterSha256": "26ad605dbdbef5078361ad8dc14918c21161c8496721b618a333c465ab73e3cb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 721,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 737,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "925f8e4ee9685c00ce6c306140d16b84d3b1fb1a869b14b01b6bd3d2a5b8b8e2",
+      "afterSha256": "8d900d3424d2497ac29bebd71684a43da75f1688c5a0cb1aa7c5400950de2c25",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
         "reviewedLines": 99,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "33e40d451636cbb1bab3ae7f4e89c5d079ed7ad1c9fb35a920e86e6f36727688",
+      "afterSha256": "908b848960dcd12209ce7e4e293861bed9274b5fd910106e71ce328196e431b7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 682,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 698,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1bec17a11bcc96279ce8a6b82992e598bd951ade9605611b62ea620ed2cff78a",
+      "afterSha256": "a1919e3555e32faf3cc30c7ff04388435b9bedebd470f4a433ada83c421b3eb4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
-        "reviewedLines": 1109,
-        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
+        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
+        "reviewedLines": 1119,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "ef4512704b6b869887b96970592c3c580a7506ddb10124a78f9edcc9b7cc0ee0",
+      "afterSha256": "51e05c1f35ee298d5d405ada8507e571adccbde93a76414402f28a029d004ce2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 15143,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 15159,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "5281ac369689d54874d66c1e8c424f35d1f0412584e8145edc390d58090634de",
+      "afterSha256": "bf8f41e759de3d317f53083d882023c271ef76f1677043674409ddfb9df64b7a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
-        "reviewedLines": 1707,
-        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
+        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
+        "reviewedLines": 1723,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "85dc2b67edcbaa4b7a970463d781b832260231dae196ce6723d4990f451cc6bb",
+      "afterSha256": "7179831a96b1b32b707305fe1751b1f2cfc9cad222d69d1ab94496024e18f17a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段及其固定执行原件。",
-        "reviewedLines": 474,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "reviewedLines": 478,
+        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
       }
     },
     {
@@ -6717,6 +6717,48 @@
       "bytes": 68875422,
       "sha256": "46c1279ecdb8d5e37152721397f1b1f585c0950090e9507b21711bc20815198c",
       "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120.tar.gz",
+      "bytes": 31914086,
+      "sha256": "72c3792aa05b65cf66f2757db951af48e9b28335900ae392590c0960d2143049",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120-game-original.tar.gz",
+      "bytes": 45701480,
+      "sha256": "2a0845440440d25433c6dad7f0bed1e0f59be93c98ed1d4ba5e255699b914d97",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120-reforge-original.tar.gz",
+      "bytes": 35827177,
+      "sha256": "f9b6ada9fe299a07270525face5c43da578d7a05c6689d7c2302d056de490570",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120.tar.gz",
+      "bytes": 47875493,
+      "sha256": "3ca156676e6d3d2a2f6d2f3dcc2042decea438148c627e54ffd11bd9f2f49d4f",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-game-original-1.tar.gz",
+      "bytes": 69842939,
+      "sha256": "c13f8b80d6482475c74a277a9eaa55be30a12f90337b96b40eb3fff6c02ebdfd",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-game-original-2.tar.gz",
+      "bytes": 50652200,
+      "sha256": "48b7a8894ab52b31de38d971849cca3f75a75cd209b3a8ce8d7260abd0c678e2",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-reforge-original.tar.gz",
+      "bytes": 84405770,
+      "sha256": "f885e93ca7d9af125560c740ca5bda90cca54c06575bfce949b4d78372252ab7",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
     }
   ],
   "artifactAliases": [],

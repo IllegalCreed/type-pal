@@ -2566,6 +2566,49 @@ export function restoreTestingQ2GaiLuojiaoSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2PhoenixPublicationBase = '31a5141224a4f03688d15c1f9277a6e43d946341'
+const phoenixSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5977: '5977',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2PhoenixPublicationBase,
+  action: 'q2-phoenix-source-rebinding',
+  date: '2026-11-20',
+}
+const phoenixSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2PhoenixSource = (path) => phoenixSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PhoenixSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, phoenixSourceStage, phoenixSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

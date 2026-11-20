@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
+      "sha256": "238e955fdd8e5c8bfc765aa7164531eab243f043f1a9cedb492d77a47e57665d"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "456-463",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
+      "sha256": "238e955fdd8e5c8bfc765aa7164531eab243f043f1a9cedb492d77a47e57665d"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -747,6 +747,29 @@
         }
       ],
       "scope": "核盖罗娇归队及擂台镜头返工后的现行引用。所引片段的 Git 原件逐字相同，各次运行绑定各自固定候选。"
+    },
+    {
+      "action": "q2-phoenix-source-rebinding",
+      "base": "31a5141224a4f03688d15c1f9277a6e43d946341",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "456-463",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
+        }
+      ],
+      "scope": "镜头允许首步与同拍人物动作一起绘制。原有世界、场景及战斗恢复所引运行时片段逐字相同，各次执行仍绑定各自候选。"
     }
   ],
   "_governance": {
