@@ -1845,16 +1845,19 @@ export function restoreTestingPartyPoseSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, partyPoseStage, partyPoseBindings)
 }
 
-function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings) {
-  if (path !== `docs/testing/${publication.canonical}`)
-    return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
+function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings, additionalReports) {
+  const evidence =
+    path === `docs/testing/${publication.canonical}`
+      ? publication.evidence
+      : additionalReports?.get(path)
+  if (!evidence) return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
   const priorBytes = inputs.readBase(path)
   const before = parseTerminalJson(testingMetadata(priorBytes).json)
   const current = parseTerminalJson(testingMetadata(bytes).json)
   const previous = encounterReferences(
     before.sourceRefs,
     current.sourceRefs,
-    bindings.get(publication.evidence).paths,
+    bindings.get(evidence).paths,
     {
       source: testingBridgeSources(inputs.readSource),
       fixed: testingBridgeSources(inputs.readFixed),
@@ -2607,6 +2610,47 @@ export const isTestingQ2PhoenixSource = (path) => phoenixSourceStage.ranges.has(
 
 export function restoreTestingQ2PhoenixSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, phoenixSourceStage, phoenixSourceBindings)
+}
+
+export const testingQ2StoneElderPublicationBase = '32e520895b58d09174cc74a56d1ca7b8c432be57'
+const stoneElderCore = 'packages/reforge/src/battle/battle-core.ts'
+const stoneElderSession = 'packages/reforge/src/battle/battle-session.ts'
+const stoneElderShared = 'projects/pal/content/shared-scripts.json'
+const stoneElderSessionEvidence = 'domains/runtime/battle/battle-session-owners/evidence.json'
+const stoneElderSourceStage = {
+  ranges: new Map([
+    [stoneElderCore, { 2506: '2528' }],
+    [stoneElderSession, { '251-253': '252-254', '423-435': '424-436', '1279-1288': '1305-1314' }],
+    [stoneElderShared, { 2: '2' }],
+  ]),
+  base: testingQ2StoneElderPublicationBase,
+  action: 'q2-stone-elder-source-rebinding',
+  date: '2026-11-20',
+}
+const stoneElderSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: [stoneElderCore, stoneElderShared], artifactClaims: true },
+  ],
+  [stoneElderSessionEvidence, { id: 'runtime-battle-session-owners', paths: [stoneElderSession] }],
+])
+const stoneElderReports = new Map([
+  [
+    'docs/testing/domains/runtime/battle/battle-session-owners/report.md',
+    stoneElderSessionEvidence,
+  ],
+])
+export const isTestingQ2StoneElderSource = (path) => stoneElderSourceStage.ranges.has(path)
+
+export function restoreTestingQ2StoneElderSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    stoneElderSourceStage,
+    stoneElderSourceBindings,
+    stoneElderReports,
+  )
 }
 
 export const isTestingBattleEvidencePath = (path) => path === evidencePath

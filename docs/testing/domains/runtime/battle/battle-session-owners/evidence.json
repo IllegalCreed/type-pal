@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "251-253",
+      "lines": "252-254",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "423-435",
+      "lines": "424-436",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1279-1288",
+      "lines": "1305-1314",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:251-253",
-        "packages/reforge/src/battle/battle-session.ts:423-435",
-        "packages/reforge/src/battle/battle-session.ts:1279-1288",
+        "packages/reforge/src/battle/battle-session.ts:252-254",
+        "packages/reforge/src/battle/battle-session.ts:424-436",
+        "packages/reforge/src/battle/battle-session.ts:1305-1314",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
@@ -107,7 +107,11 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
     },
     {
       "action": "content23-acquisition-source-rebinding",
@@ -1262,6 +1266,36 @@
         }
       ],
       "scope": "战中对白保留已确认的可见槽直至脚本清除，分屏器接入有脚本移位的胜利返场。现行引用的原片段逐字节相等，历史执行继续绑定原候选。"
+    },
+    {
+      "action": "q2-stone-elder-source-rebinding",
+      "base": "32e520895b58d09174cc74a56d1ca7b8c432be57",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "423-435",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1279-1288",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        }
+      ],
+      "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
     }
   ],
   "_governance": {
@@ -1298,7 +1332,12 @@
       {
         "date": "2026-10-15",
         "action": "actual full JSON machine-envelope migration",
-        "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage"
+        ]
       }
     ],
     "supersedes": [],

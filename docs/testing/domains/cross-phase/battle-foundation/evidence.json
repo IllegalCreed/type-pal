@@ -251,8 +251,8 @@
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2506",
-      "sha256": "d157bb150c7678582a8cc82ab99d5e6eb51ff4a985907bed8e4ea397f07a1209"
+      "lines": "2528",
+      "sha256": "6fca1c43f9159eee6357b6f4efb985878b322c473423c86346b0090b99d79d13"
     },
     {
       "path": "packages/content/src/rewards.ts",
@@ -294,7 +294,7 @@
       "anchor": "\"environment-sound-duet\": {",
       "role": "pal-ten-mile-world-ambience",
       "lines": "2",
-      "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+      "sha256": "62fc0f66be2cd3ee0c02f1131c46f5824415bfd633ddb28b1e1f329d2914aceb"
     },
     {
       "path": "projects/pal/manifest.json",
@@ -558,7 +558,10 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-14",
-    "engines": ["game", "reforge"],
+    "engines": [
+      "game",
+      "reforge"
+    ],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
     "producerRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
@@ -13887,6 +13890,29 @@
         }
       ],
       "scope": "镜头允许首步与同拍人物动作一起绘制。原有世界、场景及战斗恢复所引运行时片段逐字相同，各次执行仍绑定各自候选。"
+    },
+    {
+      "action": "q2-stone-elder-source-rebinding",
+      "base": "32e520895b58d09174cc74a56d1ca7b8c432be57",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2506",
+          "sha256": "d157bb150c7678582a8cc82ab99d5e6eb51ff4a985907bed8e4ea397f07a1209"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "anchor": "\"environment-sound-duet\": {",
+          "role": "pal-ten-mile-world-ambience",
+          "lines": "2",
+          "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+        }
+      ],
+      "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
     }
   ],
   "_governance": {
@@ -14216,8 +14242,14 @@
       "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T05-52-52-789Z/report.json"
     ],
     "executionSummary": "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz#build/q2/av/player-action-followup/execution.json",
-    "maximumCastStartToNextActorDifferenceMs": [15.30000038147, 2.100000286102386],
-    "maximumFireEndToNextActorDifferenceMs": [15.799999904632386, 32.399999904632296]
+    "maximumCastStartToNextActorDifferenceMs": [
+      15.30000038147,
+      2.100000286102386
+    ],
+    "maximumFireEndToNextActorDifferenceMs": [
+      15.799999904632386,
+      32.399999904632296
+    ]
   },
   "itemEffectsExecution": {
     "date": "2026-11-13",
@@ -14576,7 +14608,9 @@
       "producerRevision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
       "video": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/battle-scroll-text-split.mp4",
       "videoSha256": "3ed37f5c493163cb093556ba7373157559ea5b06b14167f26cccd54e378f0567",
-      "scope": ["shadowless-cap-settlement-scrolls"]
+      "scope": [
+        "shadowless-cap-settlement-scrolls"
+      ]
     }
   },
   "specialStatusExecution": {

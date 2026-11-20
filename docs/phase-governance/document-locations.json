@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "6397eeef6f9a7c5e934ac9d6db3f324ea95fb58fb1031f1d7cbad784e7928903",
+      "afterSha256": "d2f5ea1e9fd2e1bca1d13e14f6a30dff859848b1442a99310c8a3a9da0e56154",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
-        "reviewedLines": 130,
-        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 131,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "eb99477de5dd2363281a75ec22578c465b988b28d71e2a6f7da2fb66e1b1dd13",
+      "afterSha256": "01fae030e6840929763d3ab13421a47512d280f5771ce0774c582d27b7b1dfa2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 372,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 376,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8f2e3f17d430e1374b8255b469234441c948330e9b4052b7ca2e47e5e56519c8",
+      "afterSha256": "e295224a3711f1ee10063a72a6f47ba6e50a3d711facc30d26e2dbb04bd13cde",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 10243,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 10296,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "da52992b436a3f01c092224324a28381e2d52a43b361adbea15862f4aa713109",
+      "afterSha256": "3748bafd4d975ab480824e739b506e25a40fe80488932150be33b6281662418a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "复核寄生毒演出修改后的现行引用。",
-        "reviewedLines": 1309,
-        "acceptanceScope": "核四段源码的固定前后版本、实际指令和历史执行锚点。"
+        "conclusion": "核石长老自动战涉及的四处现行源码引用及其固定前驱。",
+        "reviewedLines": 1348,
+        "acceptanceScope": "仅接受引用哈希、行号及证明这次变更的历史回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "dec1aca1e10f7a4ea8e947047e175e4e31ad7da8b3ede8214c19756dbf43fff4",
+      "afterSha256": "1cdb6562c473609158975e09cc2eeb1ceb798bedfe516c7d844d3e9dce4d86b4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-20",
-        "conclusion": "核对林家擂台修复影响的现行来源引用。",
+        "conclusion": "核石长老自动战涉及的四处现行源码引用及其固定前驱。",
         "reviewedLines": 101,
-        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
+        "acceptanceScope": "仅接受引用哈希、行号及证明这次变更的历史回执。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "444de779543f4b129af27e99364b3c3c08b7dceea988d3f4d87f41911ac4088a",
+      "afterSha256": "8f57832f44de908659f39c4a7c33b178e1b85e5e9f4eff036ef6900a0b17b8c4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
-        "reviewedLines": 1127,
-        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 1135,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "51e05c1f35ee298d5d405ada8507e571adccbde93a76414402f28a029d004ce2",
+      "afterSha256": "3a3afa2337ce3d07f9ff90b512c8dfab9a5eaee78449d500b6b16a32b4c82c47",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 15159,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 15193,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8d95e9c1cdad496f636e9fc1acda2dbd60b8f4ba37006784407d634dca5eeeeb",
+      "afterSha256": "6ec251dcae53cfbf86496556e5d30caf6aa4532e456fca0eafe19045c63fbba5",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
-        "reviewedLines": 1746,
-        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 1758,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "7179831a96b1b32b707305fe1751b1f2cfc9cad222d69d1ab94496024e18f17a",
+      "afterSha256": "f5b8bfe7f3ac82bc52f1f191cc7d4acb16ead040d4a74d792a23ac9a889e0699",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 478,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "reviewedLines": 482,
+        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
       }
     },
     {
@@ -6789,6 +6789,36 @@
       "bytes": 36777000,
       "sha256": "6e1e1d8d69603593823dc3d87ac07df4810ab22022869bea685766c6516d3f96",
       "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-game-original-1.tar.gz",
+      "bytes": 48236715,
+      "sha256": "0703168e27a8c6abdd668a603056623e7e1b9b44857f6113caeade76f54926fa",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-game-original-2.tar.gz",
+      "bytes": 40683293,
+      "sha256": "66b8fa1d10cd06ad56537bda17a379f624dd4bd66b8433fa26ad2fc2a452119e",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-reforge-original-1.tar.gz",
+      "bytes": 49057495,
+      "sha256": "9f4ffaf2959b6fa7153bc3ebebf7a79bf9d1fc979161a3dd6e382eb34239c7dd",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-reforge-original-2.tar.gz",
+      "bytes": 16612479,
+      "sha256": "12a0e7f062e876e54e06ae10e5c103b3e47966f31288783857de4194593ad012",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120.tar.gz",
+      "bytes": 36524330,
+      "sha256": "a84d438ce84b82a7103a838ff6633ecf19a401975252e75bcdbaf71ca61f0e36",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
     }
   ],
   "artifactAliases": [],

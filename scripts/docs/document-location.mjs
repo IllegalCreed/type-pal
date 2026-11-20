@@ -65,6 +65,7 @@ import {
   isTestingQ2PlacementSource,
   isTestingQ2RingSource,
   isTestingQ2RooftopSource,
+  isTestingQ2StoneElderSource,
   isTestingQ2TianGhostSource,
   isTestingQ2TombSource,
   isTestingQ2TowerFoxSource,
@@ -115,6 +116,7 @@ import {
   restoreTestingQ2PlacementSourceBindings,
   restoreTestingQ2RingSourceBindings,
   restoreTestingQ2RooftopSourceBindings,
+  restoreTestingQ2StoneElderSourceBindings,
   restoreTestingQ2TianGhostSourceBindings,
   restoreTestingQ2TombSourceBindings,
   restoreTestingQ2TowerFoxSourceBindings,
@@ -182,6 +184,7 @@ import {
   testingQ2PlacementPublicationBase,
   testingQ2RingPublicationBase,
   testingQ2RooftopPublicationBase,
+  testingQ2StoneElderPublicationBase,
   testingQ2TianGhostPublicationBase,
   testingQ2TombPublicationBase,
   testingQ2TowerFoxPublicationBase,
@@ -981,8 +984,23 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2PhoenixRevision) assert(q2GaiLuojiaoRevision && /^[a-f0-9]{40}$/u.test(q2PhoenixRevision))
   const q2PhoenixSource = q2PhoenixRevision && gitTree(root, q2PhoenixRevision, [])
   const preQ2Phoenix = q2PhoenixSource && gitTree(root, testingQ2PhoenixPublicationBase, [])
-  const readBeforeQ2Phoenix = (path) => {
+  const q2StoneElderRevision = admission.testingQ2StoneElderSourceRevision
+  if (q2StoneElderRevision)
+    assert(q2PhoenixRevision && /^[a-f0-9]{40}$/u.test(q2StoneElderRevision))
+  const q2StoneElderSource = q2StoneElderRevision && gitTree(root, q2StoneElderRevision, [])
+  const preQ2StoneElder =
+    q2StoneElderSource && gitTree(root, testingQ2StoneElderPublicationBase, [])
+  const readBeforeQ2StoneElder = (path) => {
     const live = readSource(path)
+    if (!preQ2StoneElder || !isTestingQ2StoneElderSource(path)) return live
+    assert(
+      live?.equals(q2StoneElderSource.read(path)),
+      'Stone Elder source differs from the frozen candidate',
+    )
+    return preQ2StoneElder.read(path)
+  }
+  const readBeforeQ2Phoenix = (path) => {
+    const live = readBeforeQ2StoneElder(path)
     if (!preQ2Phoenix || !isTestingQ2PhoenixSource(path)) return live
     assert(
       live?.equals(q2PhoenixSource.read(path)),
@@ -1360,13 +1378,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorPhoenix = preQ2Phoenix
-      ? restoreTestingQ2PhoenixSourceBindings(path, bytes, {
+    const priorStoneElder = preQ2StoneElder
+      ? restoreTestingQ2StoneElderSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2StoneElder.read,
+          readFixed: q2StoneElderSource.read,
+        })
+      : bytes
+    const priorPhoenix = preQ2Phoenix
+      ? restoreTestingQ2PhoenixSourceBindings(path, priorStoneElder, {
+          readSource: readBeforeQ2StoneElder,
           readBase: preQ2Phoenix.read,
           readFixed: q2PhoenixSource.read,
         })
-      : bytes
+      : priorStoneElder
     const priorGaiLuojiao = preQ2GaiLuojiao
       ? restoreTestingQ2GaiLuojiaoSourceBindings(path, priorPhoenix, {
           readSource: readBeforeQ2Phoenix,
