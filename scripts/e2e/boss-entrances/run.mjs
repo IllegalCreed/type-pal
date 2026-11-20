@@ -1075,7 +1075,7 @@ await runBrowserJourney({
         from: spec.start,
         to: spec.contact,
         mode:
-          source.tower || source.route || source.scriptedStop || source.phoenix
+          source.tower || source.route || source.serial || source.scriptedStop || source.phoenix
             ? undefined
             : source.tian || spec.interact
               ? 'ready'
