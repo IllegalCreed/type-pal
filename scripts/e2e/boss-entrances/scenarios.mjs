@@ -1763,6 +1763,7 @@ export async function readSources(spec) {
     qilin,
     route,
     rainFrames: data.rainFrames?.chunks,
+    rainStreetActors: data['disk-s245']?.eventObjects.filter(({ id }) => id >= 4337 && id <= 4345),
     serial,
     summonBonus,
     summoning: summonScript && {

@@ -77,7 +77,11 @@ const observe = bossObserver({
   gameScene: gameScene(spec),
   contactScene: spec.sceneRoute?.checkpoint,
   owner: spec.owner,
-  watched: [...(spec.watched ?? []), ...Object.keys(source.tomb?.arrivalActors ?? {})],
+  watched: [
+    ...(spec.watched ?? []),
+    ...Object.keys(source.tomb?.arrivalActors ?? {}),
+    ...(source.rainStreetActors?.map(({ id }) => `e${id}`) ?? []),
+  ],
   contactActors: Object.entries(source.setup ?? {})
     .filter(([, actor]) => actor.triggerIp)
     .map(([id]) => id),
@@ -93,9 +97,11 @@ const observe = bossObserver({
     ? [...spec.sceneRoute.visits.map(({ scene }) => scene), spec.scene]
     : source.automatic
       ? [source.automatic.presentation.dialogueWorld]
-      : itemEntrance || source.serial
-        ? [spec.scene]
-        : [],
+      : itemEntrance
+        ? ['s245', spec.scene]
+        : source.serial
+          ? [spec.scene]
+          : [],
   recordDialogueAfterBattle: Boolean(source.scriptedStop || itemEntrance || source.serial),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
