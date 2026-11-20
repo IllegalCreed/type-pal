@@ -2663,6 +2663,9 @@ export async function bootGame(
         if (follower) worldPresentation.setFollowerPose(follower.id, fc, gesture ?? 0)
         return
       }
+      // A nudge and the following stop can commit before the next draw. Freeze
+      // the formation from the last moved position before switching to idle.
+      if (walking) deriveFollowers()
       facing = fc
       walking = false
       worldPresentation.setPartyGesture(gesture ?? null)

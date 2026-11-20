@@ -27,7 +27,7 @@ export function createEvidenceRecorder({ context, errors, onOverflow, budgets = 
       ? 'resources'
       : value.kind === 'cause'
         ? 'causes'
-        : value.kind === 'world-render'
+        : value.kind === 'world-render' || value.kind === 'world-drawn'
           ? 'worldRenders'
           : Object.hasOwn(value, 'payload')
             ? 'atomicSnapshots'

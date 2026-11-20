@@ -18,136 +18,7 @@
         "height": 0
       },
       "sprite": "sprite-373",
-      "facing": "right",
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      },
-                      "to": {
-                        "col": 106,
-                        "row": 58,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      },
-                      "to": {
-                        "col": 106,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s244",
-                        "entity": "e4312"
-                      },
-                      "to": {
-                        "col": 107,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "moveEntity",
-                          "target": {
-                            "scene": "s244",
-                            "entity": "e4312"
-                          },
-                          "to": {
-                            "col": 107,
-                            "row": 63,
-                            "height": 0
-                          },
-                          "speed": "normal"
-                        },
-                        {
-                          "kind": "moveEntity",
-                          "target": {
-                            "scene": "s244",
-                            "entity": "e4312"
-                          },
-                          "to": {
-                            "col": 105,
-                            "row": 63,
-                            "height": 0
-                          },
-                          "speed": "normal"
-                        },
-                        {
-                          "kind": "moveEntity",
-                          "target": {
-                            "scene": "s244",
-                            "entity": "e4312"
-                          },
-                          "to": {
-                            "col": 105,
-                            "row": 65,
-                            "height": 0
-                          },
-                          "speed": "normal"
-                        },
-                        {
-                          "kind": "moveEntity",
-                          "target": {
-                            "scene": "s244",
-                            "entity": "e4312"
-                          },
-                          "to": {
-                            "col": 107,
-                            "row": 65,
-                            "height": 0
-                          },
-                          "speed": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "right"
     },
     {
       "id": "e4313",
@@ -1703,12 +1574,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4325"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -1739,12 +1626,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -1773,12 +1676,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4325"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -1857,12 +1776,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -1907,12 +1842,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4325"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -1943,12 +1894,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -1961,12 +1928,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -1979,12 +1962,28 @@
                           "count": 5,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -1993,12 +1992,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4325"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4325"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2029,12 +2044,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2047,12 +2078,28 @@
                           "count": 6,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2085,12 +2132,28 @@
                           "count": 5,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2120,12 +2183,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2138,12 +2217,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2176,12 +2271,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4325"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4325"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2278,12 +2389,28 @@
                           "count": 6,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2292,12 +2419,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2325,12 +2468,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2343,12 +2502,28 @@
                           "count": 10,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2357,24 +2532,56 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2385,12 +2592,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2420,12 +2643,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2434,12 +2673,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2450,12 +2705,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2504,12 +2775,28 @@
                           "count": 7,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2549,12 +2836,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2582,12 +2885,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2620,12 +2939,28 @@
                           "count": 7,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2645,36 +2980,84 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2733,12 +3116,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2751,12 +3150,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2807,12 +3222,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2843,12 +3274,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2857,12 +3304,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2880,36 +3343,84 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -2968,12 +3479,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4326"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4326"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -2982,12 +3509,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4326"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4326"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3078,12 +3621,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4327"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3114,12 +3673,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3148,12 +3723,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4327"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3232,12 +3823,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3282,12 +3889,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4327"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3318,12 +3941,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3336,12 +3975,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3354,12 +4009,28 @@
                           "count": 5,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3368,12 +4039,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4327"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4327"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3404,12 +4091,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3422,12 +4125,28 @@
                           "count": 6,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3460,12 +4179,28 @@
                           "count": 5,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3495,12 +4230,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3513,12 +4264,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3551,12 +4318,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4327"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4327"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3653,12 +4436,28 @@
                           "count": 6,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3667,12 +4466,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3700,12 +4515,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3718,12 +4549,28 @@
                           "count": 10,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3732,24 +4579,56 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3760,12 +4639,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3795,12 +4690,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3809,12 +4720,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3825,12 +4752,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3879,12 +4822,28 @@
                           "count": 7,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3924,12 +4883,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -3957,12 +4932,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -3995,12 +4986,28 @@
                           "count": 7,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "right"
+                              "facing": "right"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -4020,36 +5027,84 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -4108,12 +5163,28 @@
                           "count": 3,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "down"
+                              "facing": "down"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": 2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -4126,12 +5197,28 @@
                           "count": 2,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -4182,12 +5269,28 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "down"
+                          "facing": "down"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -4218,12 +5321,28 @@
                           "count": 4,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "up"
+                              "facing": "up"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": 4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -4232,12 +5351,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -4255,36 +5390,84 @@
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "left"
+                          "facing": "left"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": -4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
                           "ms": 100
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "up"
+                          "facing": "up"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": -2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -4343,12 +5526,28 @@
                           "count": 9,
                           "body": [
                             {
-                              "kind": "stepEntity",
+                              "kind": "setEntityFacing",
                               "target": {
                                 "scene": "s244",
                                 "entity": "e4328"
                               },
-                              "dir": "left"
+                              "facing": "left"
+                            },
+                            {
+                              "kind": "nudgeEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              },
+                              "dx": -4,
+                              "dy": -2
+                            },
+                            {
+                              "kind": "animEntity",
+                              "target": {
+                                "scene": "s244",
+                                "entity": "e4328"
+                              }
                             },
                             {
                               "kind": "wait",
@@ -4357,12 +5556,28 @@
                           ]
                         },
                         {
-                          "kind": "stepEntity",
+                          "kind": "setEntityFacing",
                           "target": {
                             "scene": "s244",
                             "entity": "e4328"
                           },
-                          "dir": "right"
+                          "facing": "right"
+                        },
+                        {
+                          "kind": "nudgeEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          },
+                          "dx": 4,
+                          "dy": 2
+                        },
+                        {
+                          "kind": "animEntity",
+                          "target": {
+                            "scene": "s244",
+                            "entity": "e4328"
+                          }
                         },
                         {
                           "kind": "wait",
@@ -4465,18 +5680,6 @@
               {
                 "id": "initial",
                 "body": [
-                  {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s244",
-                      "entity": "e4312"
-                    },
-                    "channel": "auto",
-                    "selection": {
-                      "kind": "use",
-                      "value": "default"
-                    }
-                  },
                   {
                     "kind": "selectEntityBehavior",
                     "target": {
@@ -4638,6 +5841,877 @@
                                 "dy": 2,
                                 "frames": 148,
                                 "startImmediately": true
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4312",
+                        "label": "村民沿岔路走完镜头内的往返",
+                        "target": {
+                          "scene": "s244",
+                          "entity": "e4312"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 4,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 14,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 2500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 10,
+                                "dy": -5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 3400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 3900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 4400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 4900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 5400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 5900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 6400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 6900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 7000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 7100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 7400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 7500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 7600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 7900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 8000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 8100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 8400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 8500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 8600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 8900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 9000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 9100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 9400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 9500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 9600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 9900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 10000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 10100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 10400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
                               }
                             ]
                           }

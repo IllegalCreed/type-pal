@@ -7,6 +7,7 @@ const fighters = {
 const villageWalkers = ['e4312', 'e4313', 'e4314', 'e4315']
 const villageLookouts = ['e4316', 'e4317', 'e4319', 'e4322', 'e4323', 'e4324']
 const villageAnimals = ['e4325', 'e4326', 'e4327', 'e4328']
+const directions = ['down', 'left', 'up', 'right']
 
 function location({ order, atMs, renderId }, frame) {
   return { order, atMs, renderId, view: frame?.order, camera: frame?.camera }
@@ -21,6 +22,50 @@ function actorChanges(paints, actor) {
       changes.push({ ...location(render, frame), pose })
   }
   return changes
+}
+
+function originalAnimalCircuit(commands, { x, y, autoLabel }) {
+  const start = Number(autoLabel.slice(2))
+  const path = [[x, y]]
+  const strides = [
+    [-4, 2],
+    [-4, -2],
+    [4, -2],
+    [4, 2],
+  ]
+  for (let ip = start; ip < commands.length; ip++) {
+    const { op, opcode, operands, resetTo } = commands[ip]
+    if (op === 'end') {
+      if (resetTo === start && isDeepStrictEqual(path.at(-1), path[0])) return path.slice(0, -1)
+      break
+    }
+    const delta =
+      strides[opcode - 11] ??
+      (opcode === 0x6c
+        ? operands.slice(1).map((value) => (value >= 32768 ? value - 65536 : value))
+        : null)
+    if (delta) path.push(path.at(-1).map((axis, i) => axis + delta[i]))
+  }
+  throw new Error(`unresolved ambient circuit ${autoLabel}`)
+}
+
+function wrongAnimalStep(changes, path) {
+  let previous
+  let candidates = []
+  for (const row of changes) {
+    if (!row.pose) {
+      previous = undefined
+      continue
+    }
+    const [, position, facing, frame] = row.pose
+    const direction = directions.indexOf(facing)
+    if (direction < 0 || Math.floor(frame / 2) !== direction) return row
+    if (isDeepStrictEqual(previous, position)) continue
+    const indices = previous ? candidates.map((i) => (i + 1) % path.length) : path.keys()
+    candidates = [...indices].filter((i) => isDeepStrictEqual(path[i], position))
+    if (!candidates.length) return row
+    previous = position
+  }
 }
 
 export function inspectRainRouteFrames({ events, hooks, launch, source, issues }) {
@@ -81,7 +126,7 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
         ({ pose: [sprite, position, facing, frame] }) =>
           sprite !== original.spriteNum ||
           !position.every(Number.isFinite) ||
-          !['down', 'left', 'up', 'right'].includes(facing) ||
+          !directions.includes(facing) ||
           !Number.isInteger(frame) ||
           frame < 0,
       )
@@ -93,7 +138,10 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
       const faded = actors[actor].findLast(({ pose }) => pose === null)
       const duration = (faded?.atMs ?? paints.at(-1)?.render.atMs) - steps.at(-1)?.atMs
       const wrong = steps.find(
-        ({ pose }) => !isDeepStrictEqual(pose[1], steps[0].pose[1]) || pose[2] !== 'down',
+        ({ pose }) =>
+          !isDeepStrictEqual(pose[1], steps[0].pose[1]) ||
+          pose[2] !== 'down' ||
+          pose[3] > ([597, 598].includes(pose[0]) ? 2 : 3),
       )
       if (steps.length < 4 || !Number.isFinite(duration) || duration > 1200 || wrong)
         issue('rain-fighter-action-stopped', {
@@ -119,6 +167,14 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
             positions: positions.size,
             frames: frames.size,
           })
+      }
+      for (const actor of villageAnimals) {
+        const original = sourceCast.get(actor)
+        const wrong = wrongAnimalStep(
+          actors[actor],
+          originalAnimalCircuit(source.commands, original),
+        )
+        if (wrong) issue('rain-village-animal-off-route', { actor, actual: wrong })
       }
       const rain = actorChanges(paints, 'e4329')
       const visible = rain.filter(({ pose }) => pose)
@@ -194,6 +250,18 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
   })
 }
 
+function visibilityChanges(track) {
+  return track
+    .map(({ pose }) => Boolean(pose))
+    .filter((shown, i, values) => shown !== values[i - 1])
+}
+
+function travelChanges(track) {
+  return track.filter(
+    ({ pose }, index) => !isDeepStrictEqual(pose?.[1], track[index - 1]?.pose?.[1]),
+  )
+}
+
 export function compareRainRouteCast(game, reforge) {
   const issues = []
   for (const { scene, visit, actors } of game) {
@@ -201,16 +269,48 @@ export function compareRainRouteCast(game, reforge) {
     for (const [actor, track] of Object.entries(actors)) {
       const expected = track.filter(({ pose }) => pose)
       const recorded = actual?.actors[actor]?.filter(({ pose }) => pose) ?? []
-      if (Boolean(expected.length) !== Boolean(recorded.length)) {
+      const actualTrack = actual?.actors[actor] ?? []
+      if (
+        Boolean(expected.length) !== Boolean(recorded.length) ||
+        (['s227', 's230', 's243', 's245'].includes(scene) &&
+          !isDeepStrictEqual(visibilityChanges(track), visibilityChanges(actualTrack)))
+      ) {
         issues.push({
           issue: 'rain-route-actor-visibility',
           scene,
           visit,
           actor,
-          game: expected[0] ?? null,
-          reforge: recorded[0] ?? null,
+          game: { first: expected[0], visibility: visibilityChanges(track) },
+          reforge: { first: recorded[0], visibility: visibilityChanges(actualTrack) },
         })
         continue
+      }
+      const needsExactTrack =
+        (scene === 's244' && villageWalkers.includes(actor)) || scene === 's227'
+      if (needsExactTrack) {
+        // The last villager makes ambient turns once she has finished walking.
+        // 0x11 alternatively starts on either world-tick parity in the original.
+        const staggeredWalk = actor === 'e4315'
+        const original = staggeredWalk ? travelChanges(expected) : expected
+        const candidate = staggeredWalk ? travelChanges(recorded) : recorded
+        const withCamera = scene === 's244' && !staggeredWalk
+        const firstDifference = original.findIndex(
+          (row, i) =>
+            !isDeepStrictEqual(row.pose, candidate[i]?.pose) ||
+            (withCamera && !isDeepStrictEqual(row.camera, candidate[i]?.camera)),
+        )
+        if (firstDifference !== -1 || original.length !== candidate.length) {
+          const at =
+            firstDifference === -1 ? Math.min(original.length, candidate.length) : firstDifference
+          issues.push({
+            issue: 'rain-route-different-scripted-pose',
+            scene,
+            visit,
+            actor,
+            game: original[at] ?? null,
+            reforge: candidate[at] ?? null,
+          })
+        }
       }
       if (
         expected.length &&
