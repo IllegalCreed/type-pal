@@ -443,10 +443,10 @@
                       "identity": {
                         "kind": "unbound",
                         "speaker": "spk.白苗族长"
-                      }
+                      },
+                      "slot": "top"
                     },
-                    "kind": "dialog",
-                    "slot": "top"
+                    "kind": "dialog"
                   },
                   {
                     "kind": "clearDialog"
@@ -577,10 +577,10 @@
                       "identity": {
                         "kind": "unbound",
                         "speaker": "spk.士兵"
-                      }
+                      },
+                      "slot": "top"
                     },
-                    "kind": "dialog",
-                    "slot": "top"
+                    "kind": "dialog"
                   },
                   {
                     "kind": "clearDialog"
