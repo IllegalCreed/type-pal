@@ -31,6 +31,7 @@ export const observesForeground = (spec) =>
   spec.sceneRoute?.checkpoint !== undefined ||
   spec.world.join !== undefined ||
   spec.world.handoff !== undefined ||
+  spec.world.finale !== undefined ||
   spec.world.scriptedReturn !== undefined ||
   spec.disk.victory !== undefined ||
   spec.disk.termination !== undefined
@@ -89,6 +90,13 @@ const taoyuanParty = [
     defense: 330,
   },
 ]
+const southernParty = [taoyuanParty[0], cityParty[1], taoyuanParty[1]].map((member) => ({
+  ...member,
+  hp: 1600,
+  maxHP: 1600,
+  attack: 1120 - member.roleId * 55,
+  defense: 390,
+}))
 export function partyFor(spec) {
   const members =
     {
@@ -106,13 +114,8 @@ export function partyFor(spec) {
         maxHP: 1950,
         attack: 1020 - member.roleId * 60,
       })),
-      'southern-palace': [taoyuanParty[0], cityParty[1], taoyuanParty[1]].map((member) => ({
-        ...member,
-        hp: 1600,
-        maxHP: 1600,
-        attack: 1120 - member.roleId * 55,
-        defense: 390,
-      })),
+      'southern-palace': southernParty,
+      'baiyue-finale': southernParty.slice(0, 1),
     }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
@@ -120,6 +123,7 @@ export function partyFor(spec) {
 }
 export function battlePartyFor(spec) {
   if (spec.party === 'ming') return mingParty
+  if (spec.world.finale) return southernParty
   if (spec.automatic) return spec.automatic.members
   const members = partyFor(spec)
   if (typeof spec.solo === 'string') return members.filter(({ role }) => role === spec.solo)
@@ -672,6 +676,28 @@ export const scenarios = {
       activates: { scene: 's281', owner: 'e4800', ip: 35395, state: 1 },
     },
   },
+  'baiyue-finale': {
+    id: 'baiyue-finale',
+    scene: 's281',
+    owner: 'e4800',
+    team: 313,
+    enemy: 'enemy-546',
+    start: [121, 52, 0],
+    contact: [121, 51, 0],
+    approach: 'ArrowUp',
+    party: 'baiyue-finale',
+    music: 18,
+    field: 48,
+    slot: 1,
+    seed: 4,
+    maxRounds: 20,
+    disk: { entry: 35464, battle: 35573, last: 35622, owner: [1120, 1360, 0, 5] },
+    mapMusic: { scene: 's278', trigger: 'e4742', ip: 35391, track: 34 },
+    world: {
+      inventory: [],
+      finale: { ip: 35621, activateIp: 35395, state: 1 },
+    },
+  },
   'stone-elder-auto': {
     id: 'stone-elder-auto',
     scene: 's106',
@@ -1178,6 +1204,7 @@ export async function readSources(spec) {
   const checkpoint = spec.sceneRoute?.checkpoint
   const routePredecessor = spec.sceneRoute?.predecessor
   const itemEntrance = spec.sceneRoute?.item
+  const finale = spec.world.finale
   const activation = spec.world.activates
   const files = {
     ...(checkpoint && {
@@ -1216,8 +1243,9 @@ export async function readSources(spec) {
     ...(itemEntrance && {
       diskItems: 'data/extracted/data/items.json',
       rfItems: 'projects/pal/content/items.json',
-      rainFrames: 'data/extracted/data/rng-frames.json',
     }),
+    ...((itemEntrance || finale) && { rainFrames: 'data/extracted/data/rng-frames.json' }),
+    ...(finale && { relicsScene: 'projects/pal/content/scenes/s233.json' }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -1376,6 +1404,41 @@ export async function readSources(spec) {
         .stages[0].body
   const route = spec.sceneRoute && readSceneRoute(data, commands, spec, trigger)
   const native = route?.battleBody ?? trigger
+  let finaleSource
+  if (finale) {
+    const activate = commands[finale.activateIp]
+    assert.deepEqual([activate.opcode, activate.operands], [0x49, [4801, finale.state, 0]])
+    assert(
+      musicBody.some(
+        ({ kind, target, state }) =>
+          kind === 'setEntityState' &&
+          target.scene === spec.scene &&
+          target.entity === spec.owner &&
+          state === finale.state,
+      ),
+    )
+    assert.equal(commands[finale.ip].opcode, 0xa0)
+    const handoffIndex = native.findIndex(({ kind }) => kind === 'quitToTitle')
+    assert.equal(handoffIndex, native.length - 1)
+    const films = commands
+      .slice(battle + 1, finale.ip)
+      .flatMap(({ opcode, operands }, index) =>
+        opcode === 0x37 ? [{ ip: battle + 1 + index, start: operands[0], end: operands[1] }] : [],
+      )
+    const authored = native.flatMap(({ kind, asset, startFrame, endFrame }, index) =>
+      kind === 'playFrameAnimation' ? [{ index, asset, start: startFrame, end: endFrame }] : [],
+    )
+    assert.deepEqual(
+      authored.map(({ start, end, asset }) => [start, end, asset]),
+      films.map(({ start, end }) => [start, end, 'frame-animation.pal.009']),
+    )
+    finaleSource = {
+      ...finale,
+      handoffIndex,
+      films: films.map((film, i) => ({ ...film, index: authored[i].index })),
+      roster: data.gameScene.eventObjects.filter(({ spriteNum }) => spriteNum > 0),
+    }
+  }
   const serial =
     spec.serial &&
     readSerialBattles({
@@ -1645,8 +1708,8 @@ export async function readSources(spec) {
         `${root}/sounds/${ring.cue}.wav`,
       ])
     : []
-  let rainAppearance
-  if (itemEntrance) {
+  let lingerAppearance
+  if (itemEntrance || finale) {
     const [portrait, sprite, fighter] = commands.slice(31630, 31633).map((command, index) => {
       assert.equal(command.opcode, 0x1a)
       const [row, value, role] = command.operands
@@ -1658,14 +1721,17 @@ export async function readSources(spec) {
       spriteId: `sprite-${sprite}`,
       battleSprite: `player-fighter-${fighter}`,
     }
-    const costume = musicBody.filter(
+    const relicsBody = finale
+      ? data.relicsScene.hooks.onEnter.variants.default.flow.stages.flatMap(({ body }) => body)
+      : musicBody
+    const costume = relicsBody.filter(
       ({ kind, actor }) => kind === 'setActorAppearance' && actor === 'zhao-linger',
     )
     assert.deepEqual(
       Object.assign({}, ...costume.map(({ kind, actor, ...patch }) => patch)),
       authored,
     )
-    rainAppearance = { native: { portrait, sprite, fighter }, authored }
+    lingerAppearance = { native: { portrait, sprite, fighter }, authored }
   }
   return {
     paths: [
@@ -1789,7 +1855,8 @@ export async function readSources(spec) {
     phoenix,
     qilin,
     route,
-    rainAppearance,
+    lingerAppearance,
+    finale: finaleSource,
     rainFrames: data.rainFrames?.chunks,
     rainStreetActors: data['disk-s245']?.eventObjects.filter(({ id }) => id >= 4337 && id <= 4345),
     rainRouteActors: itemEntrance

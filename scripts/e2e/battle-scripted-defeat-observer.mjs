@@ -21,6 +21,7 @@ function install(
     contactActors = [],
     routeContacts = [],
     itemEntrance = false,
+    finale,
     encounterCount = 1,
   },
   makeRng,
@@ -52,6 +53,7 @@ function install(
     entryWorldPixels,
     worldGeometry,
     lastWorldGeometry,
+    finaleHandoff,
     nextCue = 0
   const { append, resources } = createRecorder({
     context: () => ({ atMs: performance.now() }),
@@ -338,6 +340,7 @@ function install(
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
       return {
         state,
+        ...(finaleHandoff && { finaleHandoff }),
         overflow,
         ended: !!ended,
         ...(encounterCount > 1 && { encounter }),
@@ -525,6 +528,9 @@ function install(
           ? { message: command.messageIndex, text: command.text }
           : {}),
       })
+      if (finale && ended && cursor.ip === finale.ip && command.opcode === 0xa0 && !finaleHandoff) {
+        finaleHandoff = event('ending-handoff', { scene: current, ip: cursor.ip })
+      }
     },
     reforgeSceneHook(scene, slot, resolved) {
       if (!visitScenes || !contact || !observedScene(scene) || slot !== 'onEnter') return
@@ -554,6 +560,9 @@ function install(
         ...(op.kind === 'playSound' ? { asset: op.asset } : {}),
         ...(op.kind === 'setParty' ? { members: op.members } : {}),
       })
+      if (finale && ended && op.kind === 'quitToTitle' && !finaleHandoff) {
+        finaleHandoff = event('ending-handoff', { scene: current, path, videos: op.videos })
+      }
     },
     reforgeArm(self, path, arm) {
       const ownerScript = self?.scene === contactScene && self.entity === owner

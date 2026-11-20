@@ -204,14 +204,14 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
         return (
           !linger ||
           (source.spriteChunks.get(linger.spriteId) ?? linger.spriteId) !==
-            source.rainAppearance.native.sprite
+            source.lingerAppearance.native.sprite
         )
       })
       if (wrong)
         issue('altar-party-costume', {
           actor: 'zhao-linger',
           actual: { ...location(wrong.render, wrong.frame), party: wrong.frame.party },
-          expectedSprite: source.rainAppearance.native.sprite,
+          expectedSprite: source.lingerAppearance.native.sprite,
         })
       const speech = paints.filter(
         ({ frame, render }) => render.dialogue && isDeepStrictEqual(frame.leader, [896, 1248]),

@@ -58,6 +58,7 @@ const foreground = observesForeground(spec)
 const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
+const finale = source.finale
 const activation = spec.world.activates
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
@@ -80,6 +81,7 @@ const observe = bossObserver({
   watched: [
     ...new Set([
       ...(spec.watched ?? []),
+      ...(finale?.roster.map(({ id }) => `e${id}`) ?? []),
       ...Object.keys(source.tomb?.arrivalActors ?? {}),
       ...Object.values(source.rainRouteActors ?? {}).flatMap((actors) =>
         actors.map(({ id }) => `e${id}`),
@@ -93,6 +95,7 @@ const observe = bossObserver({
     .filter(({ owner }) => owner)
     .map(({ scene, owner }) => ({ scene, owner })),
   foreground,
+  finale,
   encounterCount: source.serial?.length,
   itemEntrance: Boolean(itemEntrance),
   handoffScene: handoff?.scene,
@@ -103,10 +106,12 @@ const observe = bossObserver({
       ? [source.automatic.presentation.dialogueWorld]
       : itemEntrance
         ? Object.keys(source.rainRouteActors)
-        : source.serial
+        : source.serial || finale
           ? [spec.scene]
           : [],
-  recordDialogueAfterBattle: Boolean(source.scriptedStop || itemEntrance || source.serial),
+  recordDialogueAfterBattle: Boolean(
+    source.scriptedStop || itemEntrance || source.serial || finale,
+  ),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ??
@@ -117,6 +122,7 @@ const observe = bossObserver({
       source.tower ||
         source.route ||
         source.serial ||
+        finale ||
         revisit ||
         scriptedStop ||
         source.gai ||
@@ -322,6 +328,7 @@ async function makeGameFixture(page, baseURL, until) {
       source.gai ||
       source.route ||
       source.serial ||
+      finale ||
       revisit ||
       source.wood ||
       source.phoenix ||
@@ -335,6 +342,7 @@ async function makeGameFixture(page, baseURL, until) {
   for (const table of entrance ? [gs.allEventObjects] : [gs.npcs, gs.allEventObjects]) {
     const actor = table.find(({ id }) => id === initialOwner)
     assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
+    if (finale) actor.sState = finale.state
     if (!source.setup && !itemEntrance)
       assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
     for (const [id, state] of Object.entries(itemEntrance?.states ?? {})) {
@@ -401,8 +409,8 @@ async function makeGameFixture(page, baseURL, until) {
       assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[id], wCount: 0 })
   }
   gs.inventory = initialInventory.map(({ itemId, count }) => ({ itemId: Number(itemId), count }))
-  if (source.rainAppearance) {
-    const { portrait, sprite, fighter } = source.rainAppearance.native
+  if (source.lingerAppearance) {
+    const { portrait, sprite, fighter } = source.lingerAppearance.native
     gs.PlayerRolesRuntime.rgwAvatar[1] = portrait
     gs.PlayerRolesRuntime.rgwSpriteNum[1] = sprite
     gs.PlayerRolesRuntime.rgwSpriteNumInBattle[1] = fighter
@@ -476,10 +484,12 @@ async function makeReforgeFixture() {
       actorsById,
     )
   world.audio = { currentMusic: fieldMusicAsset }
-  if (source.rainAppearance) {
-    const linger = world.party.find(({ template }) => template === 'zhao-linger')
+  if (source.lingerAppearance) {
+    const linger = [...world.party, ...(world.reserve ?? [])].find(
+      ({ template }) => template === 'zhao-linger',
+    )
     assert(linger, 'the equipped princess must travel with the party to the altar')
-    linger.appearance = source.rainAppearance.authored
+    linger.appearance = source.lingerAppearance.authored
   }
   if (night) world.ambience = 'night'
   if (spec.prelude) {
@@ -497,6 +507,7 @@ async function makeReforgeFixture() {
       }),
     )
   }
+  if (finale) world.script.entityState[checkpointScene] = { [spec.owner]: finale.state }
   if (spec.prelude?.completedAt !== undefined) {
     world.script.behaviors.scenes = {
       [spec.scene]: { onEnter: { cursor: { hook: 'default', at: { kind: 'completed' } } } },
@@ -703,7 +714,7 @@ async function playEncounter({ page, press, health, capture }) {
     ? capture.enabled
       ? 360_000
       : 195_000
-    : source.route || source.serial
+    : source.route || source.serial || finale
       ? capture.enabled
         ? 480_000
         : 215_000
@@ -719,7 +730,10 @@ async function playEncounter({ page, press, health, capture }) {
       encounter = view.encounter
       lastScreen = -1
     }
-    if ((source.route || source.serial || source.wood || source.phoenix || source.qilin) && ended)
+    if (
+      (source.route || source.serial || source.wood || source.phoenix || source.qilin || finale) &&
+      ended
+    )
       assert.equal(
         view.outcome,
         source.automatic || scriptedStop ? 'terminated' : game ? 'won' : 'victory',
@@ -733,12 +747,14 @@ async function playEncounter({ page, press, health, capture }) {
         `the native arrival did not trigger ${followup.scene}/${followup.owner}: ${JSON.stringify(state)}`,
       )
     }
-    const returned = handoff
-      ? view.successor?.scene === handoff.scene &&
-        (!handoff.untilReady || ready(state, handoff.scene))
-      : scriptedReturn
-        ? view.scriptedReturn?.scene === spec.scene
-        : ready(state)
+    const returned = finale
+      ? Boolean(view.finaleHandoff)
+      : handoff
+        ? view.successor?.scene === handoff.scene &&
+          (!handoff.untilReady || ready(state, handoff.scene))
+        : scriptedReturn
+          ? view.scriptedReturn?.scene === spec.scene
+          : ready(state)
     if (ended && returned && (!source.serial || encounter === source.serial.length)) return view
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
@@ -943,10 +959,12 @@ await runBrowserJourney({
     Q2_DEFEAT_ENGINE: engine,
     Q2_BOSS_FOREGROUND: foreground ? '1' : '0',
     Q2_BOSS_ITEM_ENTRANCE: itemEntrance ? '1' : '0',
+    Q2_BOSS_FINALE: finale ? '1' : '0',
   },
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
   ...(source.serial && { journeyTimeoutMs: 540_000 }),
+  ...(finale && { journeyTimeoutMs: option ? 540_000 : 360_000 }),
   ...(itemEntrance && { journeyTimeoutMs: 420_000 }),
   viewport: { width: 960, height: 720 },
   initScripts: [
@@ -1125,6 +1143,18 @@ await runBrowserJourney({
         )
       }
       result.returned = await playEncounter({ page, press, health, capture })
+      if (finale) {
+        if (capture.enabled) {
+          const seen = result.returned.finaleHandoff.atMs
+          await page.waitForFunction((at) => performance.now() >= at + 750, seen)
+        }
+        await capture.finish(page, {
+          event: 'world-boss-ending-handoff',
+          scene: spec.scene,
+          world: result.returned.state,
+        })
+        return
+      }
       if (handoff || scriptedReturn) {
         if (source.phoenix) {
           await until(

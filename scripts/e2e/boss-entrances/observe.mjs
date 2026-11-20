@@ -40,6 +40,7 @@ function installBossForeground({
   victoryFade,
   watchChoice,
   itemEntrance,
+  finale,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -70,10 +71,7 @@ function installBossForeground({
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
   const visibleRect = ([x, y, w, h], camera) =>
     x + w > camera.x && x < camera.x + 320 && y + h > camera.y && y < camera.y + 200
-  const rainScenes = new Map([
-    [7, 's227'],
-    [8, 's245'],
-  ])
+  const rainScenes = new Map([[7, 's227'], [8, 's245'], ...(finale ? [[9, scene]] : [])])
   const rainResources = new WeakMap()
   let previousRainDraw
 
@@ -85,7 +83,7 @@ function installBossForeground({
   const coversDialogueWorld = (id) =>
     foregroundDialogueScenes.includes(id) &&
     (recordDialogueAfterBattle || !observation.read().ended)
-  const recordsFullCast = (id) => itemEntrance && coversDialogueWorld(id)
+  const recordsFullCast = (id) => Boolean(itemEntrance || finale) && coversDialogueWorld(id)
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>
@@ -267,7 +265,7 @@ function installBossForeground({
       if (rainScenes.has(id)) rainResources.set(resource, { asset: id, frame })
     },
     reforgeRainDraw(scene, resource, mode, opacity, caption) {
-      if (scene !== 's227' && scene !== 's245') return
+      if (scene !== 's227' && scene !== 's245' && !(finale && scene === 's281')) return
       const film = resource && rainResources.get(resource)
       // The curtain can uncover an unchanged world submission. Keep its actual
       // render coordinates on the frame that first exposes it.
@@ -342,7 +340,7 @@ function installBossForeground({
       const id = `e${npc.id}`
       if (!ids.includes(id) && !recordsFullCast(sceneId)) return
       const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
-      if (itemEntrance && !visibleRect(rect, camera)) return
+      if ((itemEntrance || finale) && !visibleRect(rect, camera)) return
       gameActors[id] = {
         asset: npc.spriteNum,
         position: [npc.x, npc.y],

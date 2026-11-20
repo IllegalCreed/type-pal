@@ -11,6 +11,7 @@ import {
 
 const engine = process.env.Q2_DEFEAT_ENGINE
 const itemEntrance = process.env.Q2_BOSS_ITEM_ENTRANCE === '1'
+const observesFilms = itemEntrance || process.env.Q2_BOSS_FINALE === '1'
 
 function replaceOnce(source: string, anchor: string, replacement: string): string {
   assert.equal(source.split(anchor).length, 2, `boss observation anchor: ${anchor}`)
@@ -22,7 +23,7 @@ function after(source: string, anchor: string, observation: string): string {
 }
 
 function gamePresentation(source: string, file: string) {
-  if (itemEntrance && file === 'shell/rng-player.ts') {
+  if (observesFilms && file === 'shell/rng-player.ts') {
     const count = after(source, '    let framesShown = 0', '    let observedFrame = 0')
     const index = after(
       count,
@@ -81,7 +82,7 @@ function gamePresentation(source: string, file: string) {
 }
 
 function reforgeDrop(source: string, file: string) {
-  if (itemEntrance && file === 'frame-animation-player.ts') {
+  if (observesFilms && file === 'frame-animation-player.ts') {
     return after(
       source,
       '      options.onFrame(frame)',
@@ -358,7 +359,7 @@ ${anchor}`,
         globalThis.__bossForeground?.dither(step)
       }`,
       )
-      if (itemEntrance) {
+      if (observesFilms) {
         const end = '    syncDitherDebugDataset()\n  }\n\n  /** 调试层'
         composed = replaceOnce(
           composed,

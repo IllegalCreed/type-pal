@@ -44,7 +44,7 @@ export function readSerialBattles({ spec, commands, body, teams, objects, enemie
   })
 }
 
-function inspectPalaceMovement(events, contact, launch, issues) {
+function inspectPalaceMovement(events, contact, launch, game, issues) {
   const stage = events.filter(
     ({ kind, visible, scene, order }) =>
       kind === 'world-drawn' &&
@@ -83,14 +83,20 @@ function inspectPalaceMovement(events, contact, launch, issues) {
       issues.push({ issue: 'palace-foreground-movement', actor: id, actual, expected })
     const timings = poses.slice(1).map(({ atMs }, i) => Math.round(atMs - poses[i].atMs))
     for (const [i, actual] of timings.entries()) {
-      const expected = !first && i === 0 ? pause : interval
-      if (Math.abs(actual - expected) > 75)
+      const start = !first && i === 0
+      const expected = start ? pause : interval
+      // The original waits for the matching frame parity before starting these slow walks.
+      const candidates =
+        game && start && (id === 'e4741' || id === 'e4745')
+          ? [expected, expected + 100]
+          : [expected]
+      if (candidates.every((value) => Math.abs(actual - value) > 75))
         issues.push({
           issue: 'palace-foreground-cadence',
           actor: id,
           step: first + i + 1,
           actual,
-          expected,
+          expected: candidates,
         })
     }
     return { id, poses, timings }
@@ -118,7 +124,7 @@ export function inspectSerialBattles({
   assert.equal(launches.length, source.serial.length, 'native launches in one foreground')
   const finishes = events.filter(({ kind }) => kind === 'battle-finished')
   assert.equal(finishes.length, launches.length, 'each native launch reaches its outcome')
-  const movements = inspectPalaceMovement(events, trigger, launches[0], issues)
+  const movements = inspectPalaceMovement(events, trigger, launches[0], game, issues)
   const battles = source.serial.map((facts, i) => {
     const stage = i + 1
     const from = launches[i]
