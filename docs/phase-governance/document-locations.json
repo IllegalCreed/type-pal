@@ -6,14 +6,14 @@
     {
       "path": "AGENTS.md",
       "mode": "reviewed",
-      "afterSha256": "3e2f6299becf51476c7c183bd82482fbf8362c9c71aec3e3dc47fc3d354522c1",
+      "afterSha256": "f7f1017da11cb55248bb178920fccfd36da5631192cb8a67e60b99a87dfc36b9",
       "review": {
-        "author": "/root/thin_indexes",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "保留新主线质量/瘦身/协作约定，单根11类操作与领域路由；第一阶段、lore、phase3按需进入，不恢复历史授权。",
-        "reviewedLines": 47,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记执行前加载根路由并向用户说明范围与验收。",
+        "reviewedLines": 49,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -50,29 +50,29 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "200541dec654b0244053ede7f5d85d7157f25ae9b0a0984a8df592c5580d974d",
+      "afterSha256": "492534997d84ada8b28be71d4033338325565a5ad0fd3beaff080b5603ef2996",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
-        "date": "2026-11-07",
-        "conclusion": "核 010 更新行、实际停止线、用户原话及正式报告链接；原历史不重审。",
-        "reviewedLines": 573,
-        "acceptanceScope": "核当前一行与真实报告，剧情历史字节保持。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "将末柱至雪崖复验指到分片现行任务，历史结论保持。",
+        "reviewedLines": 577,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/ops/agent-workflow.md",
       "mode": "reviewed",
-      "afterSha256": "a999e6f09b7c5efd2826cf0cb108a1eb4d95fb3528250dc5a15423031afc9c2b",
+      "afterSha256": "dabcf38550ef4281a345b38cb56d8de3f502545581bc37434a9fbfbb36809edc",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/status_reconcile",
-        "date": "2026-11-04",
-        "conclusion": "从已完成总纲承接原八项长期清理清单，逐字保留表格，现行工程流程维护唯一规则；默认路径不依赖终态任务。",
-        "reviewedLines": 164,
-        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记项目开工命令、工具拦截和实际信任边界。",
+        "reviewedLines": 170,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "794e9229f5efb8df2f8b7a1a06204e687034d5d74542fd11fd3aa75f0c57db4f",
+      "afterSha256": "ebee14629bc4fc78e763f01c1061dc4b7056249c20cbb774c8c8b2e06e64874a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/reforge_menu_review",
-        "date": "2026-11-20",
-        "conclusion": "接收 MenuBox 原路径转为留审及账本修订。",
+        "author": "Codex /root",
+        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "date": "2026-11-16",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 1480,
-        "acceptanceScope": "以已独立核验的前版为基，只核 1,344→1,343 闭合、14→15 留审和唯一改状态的 MenuBox 行。重排的表行逐路径比较无其它语义差异。候选库存 3,777，待核 2,419。"
+        "acceptanceScope": "主线：以已独立核验的前版为基，只核 1,344→1,343 闭合、14→15 留审和唯一改状态的 MenuBox 行。重排的表行逐路径比较无其它语义差异。候选库存 3,777，待核 2,419。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "dc7455703907095578aa3db9480a587f94c6c33b24fa46aa98125446ba956172",
+      "afterSha256": "b2255a1c13d72ddfb6e7c9e08eb162452e5ea2d7c567ab022540c97401fa5ea6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/reforge_menu_review",
-        "date": "2026-11-20",
-        "conclusion": "接收活动窗口数量回写。",
-        "reviewedLines": 140,
-        "acceptanceScope": "差异限 97 个原主体中的 84 验收和 13 留审。集中门与合并继续取父卡原件。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-21",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。复核 Q2 完成状态与证据入口。",
+        "reviewedLines": 142,
+        "acceptanceScope": "主线：差异限 97 个原主体中的 84 验收和 13 留审。集中门与合并继续取父卡原件。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "ed28f66a177f06d92d004d618025e5eeb206008753277aac19d8f769de38e91b",
+      "afterSha256": "2b41519ddb636b4d2ad0c4f3105a687ec0be9873c5bc688e29e430edd6673e7e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 43,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 146,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "f669c3d5c42ab0647106e0ab32a97209386737b267e38ff0b3e3b575bc792846",
+      "afterSha256": "d37d88a5e14304ae834f30751dead8b6a976803c5e426a76057b77fba3fad076",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/reforge_menu_review",
-        "date": "2026-11-20",
-        "conclusion": "接收由任务卡顶部状态重新生成的索引。",
-        "reviewedLines": 612,
-        "acceptanceScope": "只读生成器输出字节一致。Reforge 父卡仍 review，五张迁移后继卡按局部验收转 done。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-21",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。核生成索引中的 Q2 状态。",
+        "reviewedLines": 614,
+        "acceptanceScope": "主线：只读生成器输出字节一致。Reforge 父卡仍 review，五张迁移后继卡按局部验收转 done。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "b99eb1fa05345f360c8d9a6bc32eaa88bd0b71e0d25ba2ef8f6955753a62ef96",
+      "afterSha256": "18da197c48d96ad49aeb8fafbbd8cdb50278df0bbdbe7ce5323dfb9fa54f01a4",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_throw_empty",
-        "date": "2026-11-15",
-        "conclusion": "核对本轮变更与独立原件，按实际运行范围登记。",
-        "reviewedLines": 1798,
-        "acceptanceScope": "限本轮战斗退出与原生存读增量。核固定路线、合法局面、表现、原生存读样本和评审状态，复验结果各由原件证明。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 2002,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -3384,14 +3384,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "3df0a424b5d7376f6c98ef53afefa5b228ddca0f9d5c187a41d06d47cfdff16f",
+      "afterSha256": "5406ba1761fe84467680682a12e4d4a621c2e0a67198fc71dbdaa5dab879ef89",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
+        "reviewer": "/root/q2_status_rules",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
+        "conclusion": "对照用户的逐项验收范围、正式工程目录、原盘起战指令和已有原件的证据边界。",
         "reviewedLines": 357,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "acceptanceScope": "逐项战斗内容的范围、现行状态与目录口径。运行和效果信用取各条实际证据。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "e1135794c90be71f0dfa297faa90190118288d033651dd493b6ea7aa8acd590b",
+      "afterSha256": "e53dd40de9f79ba3f74f683d723bc608446ddd74602b91c2a85e4e0aec40b9e8",
       "review": {
         "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 338,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 380,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "templateId": "design-spec-v1"
     },
@@ -3445,19 +3445,29 @@
       "path": "docs/phase2/specs/save-system.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "decbdaea57de957e1feced57d468a680a93c5fd10cab7c548bc885d8afbc2171",
+      "afterSha256": "3173a0411b824ce5785cb2cbea222d95ade9334b8a9eae9c05a9c34b1c770122",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
         "date": "2026-11-16",
         "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 153,
+        "reviewedLines": 154,
         "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
       }
     },
     {
       "path": "docs/phase3/backlog.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "templateId": "narrative-idea-v1",
+      "afterSha256": "fba555779b2fa998e5fe0530dbf143dcf0d4d7b335a8daa05d435fe95a669d28",
+      "review": {
+        "author": "用户确定阶段归属，Codex 记录",
+        "reviewer": "Codex 核对资源帧、施放落点和本次文档差异",
+        "date": "2026-11-18",
+        "conclusion": "将泰山压顶的素材切边与反向演出问题记入第三阶段候选。",
+        "reviewedLines": 238,
+        "acceptanceScope": "本次新增候选及素材和落点来源。反向演出待设计，Q2 保持现行我方施放验收范围。"
+      }
     },
     {
       "path": "docs/phase3/README.md",
@@ -3771,14 +3781,14 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
       "mode": "reviewed",
-      "afterSha256": "6da62d92d1cf00f09964976f8187e1534e6a2d9d5992977afda7d9659b58ecde",
+      "afterSha256": "08aeee6e4af4c2375efd2f611c218ec61a5096ef9a770944fe6cfa2a3de1477c",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "date": "2026-11-20",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 111,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "templateId": "test-domain-report-v1"
     },
@@ -3857,14 +3867,14 @@
     {
       "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
       "mode": "reviewed",
-      "afterSha256": "378e7a8792d11f899eb517f109d9c50f91772868488842dfe29d23fce7d83f5c",
+      "afterSha256": "016e9119258cb2481ae94ce6b33daa475a122a00fbc693190e208c60143393d6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
-        "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "date": "2026-11-20",
+        "conclusion": "核对林家擂台修复影响的现行来源引用。",
         "reviewedLines": 110,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
       }
     },
     {
@@ -3996,21 +4006,21 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "2ba42041e338d735fb4edb9b4c44adf7c774c0a246ba552321afe22c4eb5e3de",
+      "afterSha256": "bbbf6a5eddd5989f9d01a9caf13c9b420c1879422a6998471acd2e003764cba0",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 642,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-contract 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 676,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 e2e-contract 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       },
       "templateId": "test-contract-v1"
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "mode": "reviewed",
-      "afterSha256": "fe730081fed7fe95f7d9e7ebe9d0271e88fe5af01426d60c4b515bb0ba100abb",
+      "afterSha256": "1a5e1de0a88bf899718a5004039dfe943bec2bd6405ddc785af2d25ec6508046",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
@@ -4068,14 +4078,14 @@
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
       "mode": "reviewed",
-      "afterSha256": "5490eb021470dd26d73f3c21e4fc946898ebc7c5d871d6d3108add497f072bec",
+      "afterSha256": "c157d7f0a2fa67955abce00b93febe632709736291f0000412ac7575ac0c7736",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "/root/q2_status_rules",
+        "date": "2026-11-15",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 299,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-001 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 e2e-001 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       },
       "templateId": "test-run-report-v1"
     },
@@ -4141,14 +4151,14 @@
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "37cfe0335d31def4626b1402905a816d7546ead560372a776a1681074cf43d2f",
+      "afterSha256": "6ef8714d0e7608ca2f2b8ae6e01d2f436be08807ea786a794d724a87ac305222",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
+        "date": "2026-11-14",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 250,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-005 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 e2e-005 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -4324,7 +4334,7 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "faa15771d7efc86fc17daa72d40521c073a244e4121b9fec9466253acfd929ec",
+      "afterSha256": "9d2581c268ab377fa7fe5c45bf285eb359a7e101c8dae2cd38ba33e9f4155f3d",
       "review": {
         "author": "Codex /root（本次集成与现行正文维护）",
         "reviewer": "Codex /root/item_flow_final_review",
@@ -4366,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b746f945e8a287364ccf5606e8c89683c744ad7099c6d4fe088a8945d4ff38cb",
+      "afterSha256": "a455d9bb6c48df24fb2b087138b12754b512133ea96c128e4ffe68b138d80a50",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 7799,
-        "acceptanceScope": "以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。"
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 11029,
+        "acceptanceScope": "主线：以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -4392,108 +4402,108 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "dcec2b7584b5f85efa033f1307dd4e9ea92c6b256d0f08451cca7534a8e77ead",
+      "afterSha256": "2952a1b8eeccbc3e9be339b47b643fcf7727be408730bc22cdecaf3404f83147",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 608,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 640,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "128afb4b4bcce8562b2dd24a9a7732728c6969889afbeb8c2db40c4f7c4c8409",
+      "afterSha256": "1fb215518abf9b63d078721d926aeda1e582e8c1c1ad88b2a69425ebee415c60",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
         "date": "2026-11-14",
         "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 479,
+        "reviewedLines": 495,
         "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "a5132f2670cc72c33c71370183ca010297cd49226d45760d1c96b422a7059503",
+      "afterSha256": "81efd70fa5561d3d3e4fb6c3557261162b22287b303efc22ca5ddae7aa11d510",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 99,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-active-scene 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-active-scene 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "5c8725091d22ec32150a2fb8b4a05c28d8f2ae345c3c10e19b6d57ce7fa575cf",
+      "afterSha256": "99b1c7d30dad3cd65d33a44d4b6f045ccfcc6164ef3db8a6a94a07d90863ecf9",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 421,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-active-scene 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 950,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-active-scene 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "30b6f4839e3975908d1cca36d8a22ffeb9fbf57215f6cb75997727eb52676d49",
+      "afterSha256": "65b882fb89018fe974d1e6a7e2e4fb3a35d023221cd080aa243ce5c0dd5ee6e4",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 98,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-battle-host 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-battle-host 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "acfe5c003366b02c90f12d2964afc26ff972f5b3b05e4a3f016159ad9d2b0459",
+      "afterSha256": "247796c5cdbfe699ba4ce28fdd44d5fd6bd37eba282d21c24323f6d8d701a550",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 407,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-host 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 817,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-host 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "fd129ca7ab4172d5e59d6e37a19adfb1d3c50309f48987b3c7a0135ee32d9ed0",
+      "afterSha256": "765b7525bda11f0cae35f2867e021a82a98438f61425cde16ed3879d635a68d5",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 99,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-world-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-world-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "aed3a24d1c57d36a59e9025f262b87b518561b094c5f19933a415095059c0248",
+      "afterSha256": "89dc0441b39eaa442df95d5674f41fecc654ea0ae1e559564adbe7c292654658",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 368,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-world-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 778,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-world-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -4632,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "0b9586e164bc98600c5c91c6a9c10e134888d634eaf9b57322cf0e22eace0cb8",
+      "afterSha256": "e5ca03bca681eaa05ecd39e28aa83715862a257f812c912a302d0b804d4ae409",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_status_rules",
-        "date": "2026-11-13",
-        "conclusion": "按固定候选、原始执行和已登记来源核对本次变更。",
-        "reviewedLines": 232,
-        "acceptanceScope": "仅核本轮 throw 能力说明、内容及存档版本边界。对照 ThrowSpec、菜单与已归档作者编辑器保存重开和原生投掷证据，确认启用可保存空效果、禁用移除能力。"
+        "reviewer": "Codex 场景用物同局复核",
+        "date": "2026-11-19",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 274,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -4726,68 +4736,68 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "91fb30334de716bea163491d7d09a1656c2c52a1428f2bb4ad46ed1415d873c7",
+      "afterSha256": "fbd7aed0e0ec8b4bb4a0de30132eb9daf0bf5c335770f922635c87a6302d6bb1",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 718,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-session-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 1385,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-battle-session-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "ca55b7037d5211f20cfb22b8ce7cd71e7e57e59bee0fbd85e3f1e3afa39b5da6",
+      "afterSha256": "5bda1dd5b7fb39c9e1a0b335dc2fb951bdd28eae3dfd09363bbb070d9e94d72b",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "author": "Codex /root",
+        "reviewer": "Codex 寄生毒来源复核",
+        "date": "2026-11-20",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 101,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 runtime-battle-session-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-battle-session-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "f3942e610188ca15b8067c034c53fb4ed8ace6ccb4270ec96ff66c6038f3255f",
+      "afterSha256": "95b1d762dcc0a36d6b9d8493a75fc9ddf69c9c075c58aed914785756a2e83928",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 190,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 259,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：核引用坐标、旧主张、执行身份和新历史条目。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "15c728364804cf9d32496c139c4d5c2b8828e39e578960beda2ce424360bf606",
+      "afterSha256": "78486e4e87bcb824484306c8d4cdd628bdd3ae29e13643c1a0b54bae05b05867",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 战外道具复核",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 70,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 72,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：核菜单目标槽位、合法输入和双端证据的职责。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "402cf826c51424166a856771d7c6e95af2a9c6af4b88f70dafa11df3158703d7",
+      "afterSha256": "fd4672f5f25a3a9e8965cb87802c81a6f854cb1a52157060c79feda6fea0ffa2",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 237,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-001 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "author": "Codex /root",
+        "reviewer": "/root/q2_status_rules",
+        "date": "2026-11-15",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 285,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 e2e-001 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -4832,14 +4842,14 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "34fb2ca76c9e0b35c28ed721bf98b058579b117c31844a9a7f68f6fb2d406751",
+      "afterSha256": "5f4b8f8dc2bd11625570bb77f60f56f9dd94eb8b4ca82be4dfe7329e79ec408d",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 665,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-005 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex integration /root (non-author of source-applicability changes)",
+        "date": "2026-11-14",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 681,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 e2e-005 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：本轮实跑、复算与代码引用增量。保留历次执行及其原范围。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -4858,13 +4868,13 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1045b23936cb83ffc75c2fd5f52192959f29348c6be753e4f495191924a05e01",
+      "afterSha256": "234bf42099553dd92fd8e8224ba6baa3c648d28284708ec50275157b633e5873",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
         "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 222,
+        "reviewedLines": 270,
         "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
       }
     },
@@ -4932,100 +4942,24 @@
         "reviewedLines": 363,
         "acceptanceScope": "核化尸水与零入口投掷的本轮勘误。历史物品表从历史范围到末尾与 5a5a02a2f 字节一致，旧秒杀全体原文的历史身份保留。"
       }
+    },
+    {
+      "path": "docs/phase2/guides/scene-entry-authoring.md",
+      "mode": "reviewed",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "afterSha256": "ea8033334b27c774488337b7803df283bfebcd5f7bc5e342737676b385c59a49",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "核对回访步骤的入场准备、可编辑边界与精灵资源就绪。",
+        "reviewedLines": 94,
+        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+      }
     }
   ],
   "additions": [
-    {
-      "path": "docs/tasks/cards/CONTENT-ACQUISITION-CHEST-FACING-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "7c8df72de92ea024f963719b3619ff0800b98d319153b58aa18ef134e731bd47",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 48,
-        "acceptanceScope": "仅接受已验收宝箱严格方向及合法展开回归后的 done 和集中门。视觉仍由活动 E2E 负责；未接受视觉或新 E2E。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "f42580d21a249cc46feff72f9fc337e88a2545a0d688bf4cf142212d689b3554",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 52,
-        "acceptanceScope": "仅接受已验收技能种子与 41 个来源载体回绑后的 done 和本地集中门；既有测试、存档声明、E2E 执行身份保持，角色形状另项不抬状态。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "c532fef9f4fc2009ca56e0a69472cdd7342a6cdae3db1de296f20de6c551191e",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 53,
-        "acceptanceScope": "复用已核代码和红绿证据，仅接受该卡转 done 及本地集中门路径。场景、实体和敌 hook 角色诊断归属，动作执行和作者剧情不在验收范围。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "6bd87098e35c64d93f0c9f1bb6830aa2d503cb1e0e146b239c197f5ec55777f7",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 54,
-        "acceptanceScope": "复用已核代码和红绿证据，仅接受转 done 与集中门：作者字段严格字符串、实际战后命令分派及台词索引；没有新的战斗机制、运行或 E2E 授信。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/CONTENT-SCENE-REFERENCE-OWN-KEY-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "4e90394525e620dc2b8e2f5d4270d9e936abb4c5a80bf0d07bca1d7e9d7507d9",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
-        "reviewedLines": 52,
-        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "91083307107d460ab54fe83fbf3dffd434608594dd3c6a6a8c26995cfc224556",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "接受本次返工证据与限定范围正文。与旧正文和 145 份旧附件逐字保全，32 份新附件可复验，不把 coverage 命令退出 1 记为门通过。",
-        "reviewedLines": 74,
-        "acceptanceScope": "仅接受「集成复验的预览切换」追加节。独立对照首轮远端 RGB 失败及真实 Canvas2D 加载闸门的指定单红、55 项定向、Editor check 5,050、101 项成对邻接 LCOV 与两分支 33→0。原生全量 20,592 测试均通过，但覆盖率命令因未合入候选两个精确比例退出 1；实测与候选基线匹配，保护主线真实整数比较零回退，范围和测试身份不变。两份 Editor 相邻文件继续 pending。仅核本地回执和已发生的首轮远端失败，未授后续远端、合并或 E2E 信用。"
-      }
-    },
-    {
-      "path": "docs/tasks/cards/QUALITY-CONTENT-REFERENCES-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "b5ca4b44708ab428231997206a1dacf9cfa2d54bd280f8d7f72ec41e99b2f15d",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
-        "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 323,
-        "acceptanceScope": "仅接受后继验收追加节，早期 101 与 7 保留原时点。独立核过本地三门和明确的后续静态接入节点、失败恢复、旧归档保全与新归档索引；未经实际执行不授字段、远端、合并、E2E 或视觉信用。"
-      }
-    },
     {
       "path": "docs/engineering/guides/README.md",
       "templateId": "governance-index-v1",
@@ -5094,14 +5028,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "3384e3508a91e99b6807f1170d154bb712787015fa767517c7048e8fbbb7851c",
+      "afterSha256": "978f263ffcb3785b0c82e2081649ff450a03fe36e966ce84773ce7f4b9cf2c46",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 223082,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "追加本片实际验收节点与证据，历史原件不动。",
+        "reviewedLines": 223468,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -5276,27 +5210,27 @@
     {
       "path": "docs/testing/e2e/stages/007-island-entrance/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "f52793eae75f9cee562377745054b425f836373e38b533fde4c44573ae7276e7",
+      "afterSha256": "7db92b459a775b01f6abc64e6a1ae05bacb510664627454938d6429ad57fc433",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 81,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-007 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 e2e-007 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-007.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "1021c0421e84a1e641ad250ca012ac24b966faf3285cf3df6b03bda6f0a5be4d",
+      "afterSha256": "ebb4009b7332f457bbf1c0df70fbe15aaf66c59dec526377a4e8052afe429c8e",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 588,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-007 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 604,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 e2e-007 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -5354,27 +5288,27 @@
     {
       "path": "docs/testing/e2e/stages/009-fairy-island-pool/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "4a08e18b289aa6adddeaf911a81f58a2b68374f95c333d11102178571b686703",
+      "afterSha256": "9361c46375dadf9600ead0322249d81fd5c082f419e8c73e132e3543e9f23265",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
         "reviewedLines": 73,
-        "acceptanceScope": "按固定已刊主线 778928d 批验 e2e-009 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 e2e-009 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-009.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "da8bb7b6bc6bea83590fac6578426ce595503bd7bbf1cb8d413f9fa995105dea",
+      "afterSha256": "703e5c77ac4f63fc4836e1c8d4973f6f39835c343274d057b6041897cfbb917c",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/content_receipt_review",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
-        "reviewedLines": 729,
-        "acceptanceScope": "按固定已刊主线 778928d 逐值及原字节反解核验 e2e-009 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。"
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "reviewedLines": 745,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 e2e-009 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
     {
@@ -5406,27 +5340,27 @@
     {
       "path": "docs/testing/e2e/stages/010-water-moon-palace/report.md",
       "templateId": "test-run-report-v1",
-      "afterSha256": "6484052cb543ef701515fa99c78690330f6eaf613ea637dabf27823a4d8db465",
+      "afterSha256": "bd9acd51c08182e92179a2cd218d415d4430be3c0da77dd6cb21b38d2f516bd4",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
-        "date": "2026-11-07",
-        "conclusion": "全文按实跑、重新离线比对的 279 步、独立验证归档与媒体指纹、静态前态及用户确认验收。",
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "核离线分发来源变化，现行测试结论不变。",
         "reviewedLines": 62,
-        "acceptanceScope": "核全文、机器元数据、真实归档、旧反例和静态预览限制。"
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-010.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "c4e958a39babb8b1d17c7390f9b64ea19ff00347fbcc20d3488629d518d9fb12",
+      "afterSha256": "7205f2b3113a5676c6b34f57bd34c96abb72adfd05cd1b2bfe24b1fa09b98a21",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
-        "date": "2026-11-07",
-        "conclusion": "复算两份前驱、执行产物、新会话读回与归档成员；分别核原生、编辑器和作者验收，不混入历史失败。",
-        "reviewedLines": 533,
-        "acceptanceScope": "核完整机器对象、模板、真实归档成员、前驱、源锚点、用户确认和证据范围。"
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "核同一离线分发范围，保留正式运行与验收原件。",
+        "reviewedLines": 549,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
       }
     },
     {
@@ -5484,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "d226fb3b42f5c3d31097ed8bbc36c2b94a1106b46ffbd10e65bcb1168ac0fb35",
+      "afterSha256": "34e727c22c23664e884a02823626537cf4f243c96e02dc47b88bbab9867c8606",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 537,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-21",
+        "conclusion": "核保护基点后的 Q2 双端复验、反控、可复算基线和 GitHub 必需检查。",
+        "reviewedLines": 1223,
+        "acceptanceScope": "本轮核新增回执、各端依赖、实际覆盖率和 GitHub 检查。既有执行及用户视觉结论沿用各自原件。"
       }
     },
     {
@@ -5510,40 +5444,157 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "4165078a01aa60ebc484ff9398baf685e2b595608961f9d5b3738966f52d5cc1",
+      "afterSha256": "0c719e7c02de516d1e7242f2743be0c70db3feaf5ac8a5087a6710f483355528",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核实际素材、操作、保存和失败原件，按来源列明本次与历史执行。",
-        "reviewedLines": 14376,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 15313,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4725f1195de32adbda048ebabfa77af1ad71df0ccbcd3ce7d3783385ca2638e9",
+      "afterSha256": "b933500d6da8663303fb28aa184e9625698d9b8bb2016970b55c137b0581eb64",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核实际素材、操作、保存和失败原件，按来源列明本次与历史执行。",
-        "reviewedLines": 495,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-21",
+        "conclusion": "核合并候选的双端日志和精确反控。",
+        "reviewedLines": 1945,
+        "acceptanceScope": "新增同局复验、实际依赖与反控；既有逐项范围及音画回执沿用各自原件。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "b10ab78e56bd8b942fe6e921f94a2617adae4b3eeb7e3de0b45e449fbf5dbd14",
+      "afterSha256": "2ca18fc8077fba31e9f5506e5328e129d470d590453fb49ea4a98230c6cbe05f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 228,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "reviewer": "Codex 据原件复核",
+        "date": "2026-11-20",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 524,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/PAL-ENTRY-FADE-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "15b691a4723b0d1c0fd28066f161b6ce417597808eba5fea06a043f0e638b1ff",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "核任务模板标题并指向现行分片。",
+        "reviewedLines": 69,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-PILLAR-CINEMATIC-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "bea26a1798c9df1a9157a1189126b102c6e5fbcecbf73664078c1ff4b1d73940",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex 核实际增量与双端原件",
+        "date": "2026-11-19",
+        "conclusion": "登记用户授权的末柱至雪崖分片范围、真值门与证据。",
+        "reviewedLines": 52,
+        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-ACQUISITION-CHEST-FACING-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "7c8df72de92ea024f963719b3619ff0800b98d319153b58aa18ef134e731bd47",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 48,
+        "acceptanceScope": "仅接受已验收宝箱严格方向及合法展开回归后的 done 和集中门。视觉仍由活动 E2E 负责；未接受视觉或新 E2E。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "f42580d21a249cc46feff72f9fc337e88a2545a0d688bf4cf142212d689b3554",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 52,
+        "acceptanceScope": "仅接受已验收技能种子与 41 个来源载体回绑后的 done 和本地集中门；既有测试、存档声明、E2E 执行身份保持，角色形状另项不抬状态。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "c532fef9f4fc2009ca56e0a69472cdd7342a6cdae3db1de296f20de6c551191e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 53,
+        "acceptanceScope": "复用已核代码和红绿证据，仅接受该卡转 done 及本地集中门路径。场景、实体和敌 hook 角色诊断归属，动作执行和作者剧情不在验收范围。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-ENEMY-COMMAND-DOMAINS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "6bd87098e35c64d93f0c9f1bb6830aa2d503cb1e0e146b239c197f5ec55777f7",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 54,
+        "acceptanceScope": "复用已核代码和红绿证据，仅接受转 done 与集中门：作者字段严格字符串、实际战后命令分派及台词索引；没有新的战斗机制、运行或 E2E 授信。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-SCENE-REFERENCE-OWN-KEY-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "4e90394525e620dc2b8e2f5d4270d9e936abb4c5a80bf0d07bca1d7e9d7507d9",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受本地验收范围内的最终正文、状态、导航及原件。",
+        "reviewedLines": 52,
+        "acceptanceScope": "核唯一路径108、完成101、风险7、门禁整改5未入计数，原件核 20930 全仓、20572 ratchet、20572 protected 和最后单文件差异后的 5044 editor。证据字节和生成索引一致，按实际独立门核最终 lint、文档、远端及合并。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/CONTENT-SPRITE-FRAME-BOUNDARY-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "91083307107d460ab54fe83fbf3dffd434608594dd3c6a6a8c26995cfc224556",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "接受本次返工证据与限定范围正文。与旧正文和 145 份旧附件逐字保全，32 份新附件可复验，不把 coverage 命令退出 1 记为门通过。",
+        "reviewedLines": 74,
+        "acceptanceScope": "仅接受「集成复验的预览切换」追加节。独立对照首轮远端 RGB 失败及真实 Canvas2D 加载闸门的指定单红、55 项定向、Editor check 5,050、101 项成对邻接 LCOV 与两分支 33→0。原生全量 20,592 测试均通过，但覆盖率命令因未合入候选两个精确比例退出 1；实测与候选基线匹配，保护主线真实整数比较零回退，范围和测试身份不变。两份 Editor 相邻文件继续 pending。仅核本地回执和已发生的首轮远端失败，未授后续远端、合并或 E2E 信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-CONTENT-REFERENCES-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "b5ca4b44708ab428231997206a1dacf9cfa2d54bd280f8d7f72ec41e99b2f15d",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/content_receipt_review",
+        "date": "2026-11-19",
+        "conclusion": "按实际增量、调用与执行原件独立接受当前正文。",
+        "reviewedLines": 323,
+        "acceptanceScope": "仅接受后继验收追加节，早期 101 与 7 保留原时点。独立核过本地三门和明确的后续静态接入节点、失败恢复、旧归档保全与新归档索引；未经实际执行不授字段、远端、合并、E2E 或视觉信用。"
       }
     },
     {
@@ -5839,18 +5890,6 @@
     ]
   },
   "artifacts": [
-    {
-      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",
-      "sha256": "8de120b974e393bfd16ec8e1ee9e747c54dd401682a6435fd59daa884ae99aa5",
-      "bytes": 843049,
-      "purpose": "内容引用后继五卡的定向反例与恢复、实际精灵清点、统一质量门及精确候选边界。前一窗口原件保留其固定历史执行身份。"
-    },
-    {
-      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz",
-      "sha256": "fc2294a4887f5c77509ecd13a8d1407139a8d46835c38c2d15e21a6528117c82",
-      "bytes": 1530580,
-      "purpose": "内容引用治理唯一执行原件。记录逐文件八维读域和测试迁移、反控/恢复、定向和实际统一门；历史运行使用各自输入身份。"
-    },
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
       "sha256": "47f3fd9d743545bf3671e1d79a2fd379206300afdd34def990f571c2f5a16f47",
@@ -6240,6 +6279,1212 @@
       "bytes": 79582913,
       "sha256": "4968593d6d516c7ed71cda365e974edc225c208058334a1e447a4fc6088f1368",
       "purpose": "Q2 收尾双端正式运行、原始带声音画、业务与采集反例及归档索引"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-field-render-20261116.tar.gz",
+      "bytes": 7976137,
+      "sha256": "ff34c480422a136f960af9158639f790ed1dcc1f7b9bf4e3c766510517f22e27",
+      "purpose": "Codex 逐一启动 52 个战场的 Game 和 Reforge 原生轨迹与画布、原盘像素比较、反控和复跑入口"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jade-buddha-temple-20261116.tar.gz",
+      "bytes": 18696953,
+      "sha256": "62116e8eaaa885778163ea85ee39d87f6d7df18888920b09b074fccb8d5f7af5",
+      "purpose": "Codex 核玉佛寺两战的原盘入口、修前反例、同候选双端重复及实绘召唤和 212 音效差异"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-whip-attacks-20261116.tar.gz",
+      "bytes": 20935259,
+      "sha256": "44ac9e4e7007e949d90d6c9d077a3cd06b3b1c1ac520924b1d8e2bfe10265284",
+      "purpose": "三件鞭类群攻与投掷的双端原生轨迹、命中帧回归、原速带声分屏和按稳定 ID 更新的覆盖索引"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-temple-and-whip-follow-up-20261116.tar.gz",
+      "bytes": 53193888,
+      "sha256": "0f5c47efb2ec529d84ec2202af1d7489a909389d38d27b598eb135b72a4c623e",
+      "purpose": "玉佛寺召唤、首战成长、三把鞭子的战外装卸及单件数量修复的双端原件和原速原声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jade-buddha-victory-20261116.tar.gz",
+      "bytes": 74016410,
+      "sha256": "84ed59c4b78563489a3f7d842acd7cf19c70e979a18e5d29aa5c5eee847ff8ba",
+      "purpose": "玉佛寺胜利与离寺剧情的双端真实原件、节拍和队形反控以及原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-summons-20261116.tar.gz",
+      "bytes": 11803633,
+      "sha256": "dcb6b91c7804a641b20377cebfc623f6357d0453ff021df9d84371e4c52c047a",
+      "purpose": "九种玩家召唤的双端施法、原生声画及规则对照，含酒神的原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-summon-and-division-20261116.tar.gz",
+      "bytes": 69018745,
+      "sha256": "c1867b2fd93ace6dfcbf84a55e8a3e5189f02c4acfb9985842febc1d6bf26bb0",
+      "purpose": "敌方再召唤及分裂的双端真实原件、反控、覆盖目录及原速带声分屏"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-summon-hit-flash-20261116.tar.gz",
+      "bytes": 1219090,
+      "sha256": "0c3a5c2acb9a77cc6061945080d61eec021bf70275f82c0960b7907c746a90b0",
+      "purpose": "九种召唤的敌人受击位置、色偏、抽帧和原生双端复验"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-summoner-roster-20261116.tar.gz",
+      "bytes": 76958455,
+      "sha256": "c79077e5eb558bed0c73fdf473e95186400063c1fc994aad1ff1e18d60751b11",
+      "purpose": "11 种敌方召唤者的原盘逐项双端、像素反控、采集团与原速双声"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-spell-failure-20261116.tar.gz",
+      "bytes": 136529,
+      "sha256": "906f79cee3fafb288b7d5727933e996eac0f3fa2cc3fc0dd2e215ea8f11e88b1",
+      "purpose": "拜月两端原生轨迹、离线判据与失败复验的最小原件"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-summon-followup-20261117.tar.gz",
+      "bytes": 882470,
+      "sha256": "cd0ecbf72346b028e8911b037256e3b27ce0ff3ba0d9bad0d8051afa2b28a52f",
+      "purpose": "剩余九处敌方召唤指令的双端轨迹与复跑回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-consecutive-action-cadence-20261117.tar.gz",
+      "bytes": 1157224,
+      "sha256": "e17f6fb9e1bd10d860c1a121a487867a51ecce190e4a99a79c13bacdb7aa3aba",
+      "purpose": "连续行动节拍的双端轨迹、校验器、旧版反例和回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-transform-20261117.tar.gz",
+      "bytes": 853810,
+      "sha256": "293191d8a29fe4f94d944af5ffd8aeab2a215bd34127343693a495254e24b433",
+      "purpose": "敌方四条变身指令的双端轨迹、旧版反例、召唤回归及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-transform-pixels-20261117.tar.gz",
+      "bytes": 988373,
+      "sha256": "bee900563b3873fed9e4ca7918e09c60da0d7ef938dd4dc24d554b053f789bf4",
+      "purpose": "敌方变身的最终画布与成片复验、反例、梦蛇及召唤回归。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cooperative-roster-20261117.tar.gz",
+      "bytes": 1357653,
+      "sha256": "56c6cedbf67bac567ac3e60b708ed20604f810a36d26ada01c856638c434ad5b",
+      "purpose": "验证五个角色默认合击入口的七组正式执行、录制轨迹、修前反例和分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-casualty-roster-20261117.tar.gz",
+      "bytes": 1990362,
+      "sha256": "4b9e083339c73ae085ebbb8ff49784b8be57a24f48ee08d9af69b76f2180a045",
+      "purpose": "六名角色阵亡联动的 21 组正式双端、逐例重跑、旧版反例和原速带声分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-victory-spell-learning-20261117.tar.gz",
+      "bytes": 646404,
+      "sha256": "b2727de5c7dddfcc6763d26cb825f4fee2d83463735c67a86419c94266f57e68",
+      "purpose": "战后补学仙术的实际双端习得、逐页实绘、修前反例、归档复算及原速分屏重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-elemental-talismans-20261117.tar.gz",
+      "bytes": 4024092,
+      "sha256": "3ddec5045e717aacb9d54b091ad3b41282961c4d540aead4ae04255775719ba8",
+      "purpose": "按稳定 ID 的 Q2 逐项对账及雷水火土四符的五组双端运行、录制、失败回执与重放入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-healing-and-revival-20261118.tar.gz",
+      "bytes": 7567860,
+      "sha256": "83615970543a39252a22aa27ddcdd93f1413fd9039aebc3695cbc4ad48c2bc35",
+      "purpose": "五种治疗与复活仙术的双端原始运行、装备初态和复活姿态反例、逐项回执与原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-thunder-ice-20261118.tar.gz",
+      "bytes": 5759137,
+      "sha256": "ad853342d131abbfabbe331df9010e8775929eccad38311f6d88e13252e685a2",
+      "purpose": "五种雷冰仙术与正负场效的双端实跑、旧节拍反例、逐项回执及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cleanse-and-protect-20261118.tar.gz",
+      "bytes": 6465085,
+      "sha256": "8fdec789a3e4deed3b81d1b0fe1cd1dbc77bbdda640cfe9851b1fcd8c9b45d8a",
+      "purpose": "冰心诀、灵血咒、真元护体的双端实跑、战内用物增量及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-fire-earth-20261118.tar.gz",
+      "bytes": 5650689,
+      "sha256": "63a9447fda4ea32b7aaf68961b8d024178577a1180e54fadf7c9ed7d6361c507",
+      "purpose": "六种玩家火土仙术与场效的双端实跑、层序反例及原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-sword-arts-20261118.tar.gz",
+      "bytes": 10692570,
+      "sha256": "0026579f3192f0650494dda2838a883fd739bce9a9dc40205ac1230d67c98e28",
+      "purpose": "六种剑诀的双端实跑，层序与震屏反例，留痕像素及原速分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-other-attacks-20261118.tar.gz",
+      "bytes": 10224730,
+      "sha256": "5dc02217c6690a5dd24249b482c7f6d01f43b60879b461efd25b1a15049c9f8d",
+      "purpose": "风卷残云、天师符法、万蚁蚀象、爆炸蛊和风神的双端原件、反例、像素回执及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-conditional-casts-20261118.tar.gz",
+      "bytes": 14060713,
+      "sha256": "bed3fb6d2285abad38f23bdc4d528fed4a8652d191d8a186b0f1617ed2727e91",
+      "purpose": "夺魂、鬼降及灵葫咒的双端原件、反例、像素回执及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-gu-casts-20261119.tar.gz",
+      "bytes": 10969007,
+      "sha256": "4925d978b91fcedc8ce4e978c8cb87a84f66036281ad14f6549fa7778b6cb6c2",
+      "purpose": "三尸咒、万蛊蚀天的七组双端原件、耗材与毒伤判据、解码像素及重录入口。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ghost-confusion-20261119.tar.gz",
+      "bytes": 2073240,
+      "sha256": "614936cbb7caa15050db6078f144ead5f1a9b0507a8e35f0d9856ffa55b27bb4",
+      "purpose": "鬼降抖动复核的三组同局原件、修前定位、解码像素与带声分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-money-casts-20261119.tar.gz",
+      "bytes": 10771772,
+      "sha256": "0139cbfb25a4d03914c649eccf130183d107299bc4efbaedf5aef85b6b32789a",
+      "purpose": "铜钱镖和乾坤一掷的七组双端原件，旧版反例、解码像素及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-player-escape-cast-20261119.tar.gz",
+      "bytes": 4774687,
+      "sha256": "813de2ef213d3a971cd4468a8f61e2e39c474f23f3407392b710e6f0ff50b6ce",
+      "purpose": "金蝉脱壳允许和禁逃双端实战、旧版反例、退出观察、分屏解码及重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-elemental-casts-20261119.tar.gz",
+      "bytes": 8298588,
+      "sha256": "1e8793b5efede1c2d192dc1c9d4ef7c93897a47d86570e7b11ed91ce477d8d58",
+      "purpose": "四种敌方五灵仙术、土咒原速帧震屏反例、修后像素及分屏重录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-enemy-direct-casts-20261119.tar.gz",
+      "bytes": 11412338,
+      "sha256": "981929847aca8382f955d64483b8c6f6215fa9204d8cafc5043ff3034866f66d",
+      "purpose": "敌方五招的同局实战、三种脚本震屏反例与复验、土蜘蛛实收傀儡虫及分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-jiang-qing-enemy-casts-20261119.tar.gz",
+      "bytes": 12835670,
+      "sha256": "46f88099f20669801e8ff68f8c3607b8659002ad6bc6302b8f354a1faed71327",
+      "purpose": "六种敌方仙术、姜清正式剧情、六个世界等待反例和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-three-enemy-spells-and-dragon-pillars-20261119.tar.gz",
+      "bytes": 10151120,
+      "sha256": "cfc3a771231c81974781ff03157e2e9f19b861946f4cc01de40c32d1381a3c35",
+      "purpose": "三种敌方仙术、盘龙柱三种出口和世界等待反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-story-presentation-recheck-20261119.tar.gz",
+      "bytes": 31876999,
+      "sha256": "95cd3face8f09b3dfa8b384dc35444c6dc18d548f89186e4b97b30ce8da8e29c",
+      "purpose": "姜清同对白镜头脚点、盘龙柱末柱震屏、两段过场末帧的双端反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dragon-pillar-party-appearance-20261119.tar.gz",
+      "bytes": 19517295,
+      "sha256": "7474e985054ee48c265864d18ef4ea6bb76f1cb9de56292ec1745d72d9fbc3f7",
+      "purpose": "末柱红廊三套精灵、标准色表与实际像素、原生及旧测试存档和修正取档后的双端原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dragon-pillar-cutscene-boundaries-20261119.tar.gz",
+      "bytes": 23776225,
+      "sha256": "90b2baaf10c61201f1b35e336bd6655d4c9c9c080452d1537afe6785bb0c1bac",
+      "purpose": "末柱两段过场的群像、片尾持帧、切场首帧、原生及分屏解码反例和共用回归。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz",
+      "bytes": 14070474,
+      "sha256": "d479555fe15184279bd7349096e2c1cde0c8f95b33702c489eaa8ec2f4172db4",
+      "purpose": "六个龙柱实战与返场、弦月斩、爆炸、气魔焰及两条原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-moon-leader-casts-20261119.tar.gz",
+      "bytes": 5959994,
+      "sha256": "ed40dc225526c38c9606deec4eb1b4a9949a7f8ff21180a379f6e815ca16a87e",
+      "purpose": "拜月教主三种仙术的双端实战、漏帧反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-five-battle-recovery-items-20261119.tar.gz",
+      "bytes": 7174122,
+      "sha256": "850da5b10843ad790d4349d5808175de9a6d88d8faebfb852f5c9ef90e97ecea",
+      "purpose": "五件战内恢复道具的双端实用、姿态反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-nineteen-battle-restorative-items-20261119.tar.gz",
+      "bytes": 20493514,
+      "sha256": "6255b19741009e6f8af520369b2578e644de50872ceee17fded01747596e73dd",
+      "purpose": "十九件战内恢复道具的双端实用、回气飘字反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-antidotes-and-poison-eggs-20261119.tar.gz",
+      "bytes": 15848675,
+      "sha256": "e424e422094df13d61a6234275dc2d717a9601b09d817a90429d3301647bdb34",
+      "purpose": "十一件战内道具、盐巴修前反例、修后验证和两条原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-final-battle-items-20261119.tar.gz",
+      "bytes": 19226323,
+      "sha256": "94748a4577eb69ba8b1c3e5b635a7c65fb052cf52d6f0bcb5b4a5b01688960a4",
+      "purpose": "最后六种战内道具、七组实用与录制、隐蛊两段渐变原件和分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-seven-throw-items-20261119.tar.gz",
+      "bytes": 22317745,
+      "sha256": "875ce86bf18317eda6968263943088c5bbd8bb53fdf06fab1ab28658d90c7c08",
+      "purpose": "七种投掷道具、八组实战与录制、捆仙绳抵抗卷轴修前反例和分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-weapon-throws-20261119.tar.gz",
+      "bytes": 38053340,
+      "sha256": "3279d0c4440f1a5812ede8bda0ad5afab9f262d6d861ebff5d4036fa3eeaf4fa",
+      "purpose": "二十七件武器投掷、七组实战与录制、逐件伤害抽样、原速分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-misc-throws-and-hatching-20261119.tar.gz",
+      "bytes": 26103731,
+      "sha256": "6d660b11bdd134faba244ef471d8adddfe8e52396db9dc815df71a1a754221a5",
+      "purpose": "最后十四件投掷、两种孵化的原件、反例、原速分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-recovery-items-20261119.tar.gz",
+      "bytes": 27339586,
+      "sha256": "009b614189f23e605440f0ee6ea567dc3068144b05120c6b2e195ff3378bd8ac",
+      "purpose": "首批十三件战外恢复道具、两轮合法存档和双端实用、带声分屏及恢复证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-recovery-followup-20261119.tar.gz",
+      "bytes": 33116058,
+      "sha256": "c6833c2954915d98f084143ba8e2cc7efd8ca2c5d2db6436c74db4d66192affa",
+      "purpose": "战外选人修前反例、正式候选的双端复验、两条带声分屏和复算证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-revival-and-poison-20261119.tar.gz",
+      "bytes": 18409786,
+      "sha256": "9b64321e13bc3a2819108224c047fbe916d8079d5f96913c7d9d99ce9d649e90",
+      "purpose": "战外复活与中毒致死的双端原件、三组修前反例、原速分屏与复算结果。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-poison-and-growth-20261119.tar.gz",
+      "bytes": 53489285,
+      "sha256": "2b2c3e8e457356ff960a1a0ad0afcc2890363e602bc8f500910890daf493d759",
+      "purpose": "战外首拍施毒、毒抗、风险用物、永久成长的双端原件、反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-conditions-and-level-20261119.tar.gz",
+      "bytes": 69111503,
+      "sha256": "b5d324ef869860c827e086766adbf36c748bb5d1113ebb05f468dbeb75203766",
+      "purpose": "战外解毒、状态、升级的实战原件、盐巴边界反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-incense-alchemy-and-reading-20261119.tar.gz",
+      "bytes": 24239880,
+      "sha256": "61a8954a4ffef93dcd2ae3cf143ad435876b80b315f01ed93022e2042fb719a8",
+      "purpose": "战外感知香、炼化与读物的原生回执、同判据反例、复算和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-scene-items-20261119.tar.gz",
+      "bytes": 12879476,
+      "sha256": "27e3084ce2699607417292118d40c6a9912610f4fb877cae4a36f682a45b686d",
+      "purpose": "场景用物传送、聚拢、开门和场景退出的双端实测、同判据反例及原声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-quest-items-20261119.tar.gz",
+      "bytes": 19521524,
+      "sha256": "261c62ad30fbd96e142d348e1b2711f825356c57b9327f55145415ffc7a2ce7c",
+      "purpose": "桂花酒和布包的同局用物、对白位置、库存和技能奖励的双端实测、反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz",
+      "bytes": 25992714,
+      "sha256": "cdbb7a404b1a56446ab7914fabaf6a95889d190140ba61c478a7fcbf17cb59ac",
+      "purpose": "盘龙柱末柱至剑圣雪崖首句的双端日志、画面与命令权属反例、编辑器预览和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+      "bytes": 22437438,
+      "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+      "purpose": "末柱至雪崖单分片的双端执行、拒收实证、编辑器预览、原速带声分屏和逐段解码证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fishing-patrol-20261119.tar.gz",
+      "bytes": 12718932,
+      "sha256": "d01c0e5a155a28ae33316835466ee6c7c75ae53d6bda4452956b039692507db7",
+      "purpose": "白河村钓竿与两条鱼的双端原生实绘、逐步节拍、上钩显隐、两组反例和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-night-visibility-20261119.tar.gz",
+      "bytes": 53095544,
+      "sha256": "dda35753bb239621882417b054bc3b6cdd5588c3daa7bf1117189c962090512c",
+      "purpose": "紫金丹后客栈夜景的同局带声原录像、背景遮挡和角色错帧反例、自动判定及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-scene-handoff-20261119.tar.gz",
+      "bytes": 85701027,
+      "sha256": "90b9c297e46566f0ec52f85811ff09eb0c1e1cd3cc4734748037ca9013379567",
+      "purpose": "紫金丹后客栈逐句对白、起点演员、整屏淡出及卧房首帧的原生视频、拒绝发布反例与最终原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-cabinet-occlusion-20261119.tar.gz",
+      "bytes": 6461,
+      "sha256": "759c7060ec1d3d5ef2770992641aee19dba8849ed27d5b39f321b9333a523bfe",
+      "purpose": "客栈同一脚点与角色姿态下，柜边和相邻柜面深度及两个渲染器实像素归因。复用已登记的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-operations-20261119.tar.gz",
+      "bytes": 34797925,
+      "sha256": "5a6041fc4ab70d139a0e7ab265f9fbb584a9d8c0d451500b17942e1f0665c2f2",
+      "purpose": "106 件装备的逐件装卸、同槽替换、双人选人、原速带声分屏及身法负值的原生证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-appearance-20261119.tar.gz",
+      "bytes": 24818970,
+      "sha256": "65e92ac1aa8d2c4e3c1fae625c6c74646c4c77d47f239ebda22384c80d0f9af7",
+      "purpose": "装备选人页木纹与卷轴外阴影的旧版反例、修后双端实跑、像素回执与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-opponents-153-20261119.tar.gz",
+      "bytes": 52721619,
+      "sha256": "52d7aba94ae56b94989d4f99a627ea249208b81068fbcd2a00d890c1576bf461",
+      "purpose": "153 种敌人出场和行动的逐项来源与复算、五场代表战斗原速带声分屏、解码验收和拼接反例。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-opponents-native-media-20261119.tar.gz",
+      "bytes": 86914836,
+      "sha256": "17fa412f72a31c05939567d6a5b7f5fb2f406684f3693666f227950601508ada",
+      "purpose": "五场代表战斗的十份原生录制与更新捕获回执，为对照分屏提供唯一原件。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-boss-entrances-20261119.tar.gz",
+      "bytes": 26603190,
+      "sha256": "b736d7bc4dc86f4bc45fca891dc6eb2164aef2d44df901c6629f290385138e58",
+      "purpose": "隐龙窟两战和黑蜘蛛双引擎从原场景触发到返场的复算、分屏和音画核验。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-hidden-dragon-bosses-native-20261119.tar.gz",
+      "bytes": 88729571,
+      "sha256": "4c34c2158361cc9084c143b3d3dbf0cf126bc199f1f39c409e8ddcf95b58c1f8",
+      "purpose": "隐龙窟蛇妖男和狐妖女的四份原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-black-spider-boss-native-20261119.tar.gz",
+      "bytes": 28298430,
+      "sha256": "9648c883c501e77c5188c9218817bd067c04ed330d8c4006c443df9beb9c1f34",
+      "purpose": "黑蜘蛛进战前四拍、原生战斗、奖励和返场的双端原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-clinic-first-visible-20261119.tar.gz",
+      "bytes": 86001578,
+      "sha256": "9c9680ab919bf0a7851c59cd4edb4f5180e9439a1b087c17f931d5dc129a22b6",
+      "purpose": "六神丹合法用物、医馆黑幕下重组和第一次可见画面的双端原录像、像素反例与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-item-placement-20261119.tar.gz",
+      "bytes": 27050642,
+      "sha256": "1b8e88295a5f2b898e317643784dac3c56e1e416f494a01e43379d61c76350f1",
+      "purpose": "捕兽夹与芦苇漂双端四个局面、放置提示实绘与按键、修前反例和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-altar-bead-chain-20261119.tar.gz",
+      "bytes": 61601956,
+      "sha256": "7cc944d0424c7ec183a974e7ff821b67eeaa1b77de369506701fa76dbe37a2de",
+      "purpose": "圣灵珠和五颗属性灵珠从开启祭坛到首次正确揭幕的双端用物、实绘、反例、桃花林支路诊断及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-peach-grove-20261120.tar.gz",
+      "bytes": 53328750,
+      "sha256": "b34e6e860b7a664fbc4e6842a69f24eacd1e011befddf6dd052ccb0185bf6b82",
+      "purpose": "桃花林在两个脚点的双端驱雾、土灵珠传送与聚队、首帧及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-heaven-breaker-20261120.tar.gz",
+      "bytes": 40473059,
+      "sha256": "cc84bfb18e2c5b8c612ec4d4327fd3959f2b6ae1f9caab5d65f21e267e3ccdd7",
+      "purpose": "破天锤六次实际用物、踏板开路及无目标提示差异，附双端原件和原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-world-notices-20261120.tar.gz",
+      "bytes": 18428821,
+      "sha256": "ff274df4a1531a2a450efa4e70e1a645671bb0f23e99d9048b61bcdaf913847a",
+      "purpose": "战外用物失败的双端实绘、定时和方向键关闭、受阻放置、反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-final-world-quest-items-20261120.tar.gz",
+      "bytes": 94724085,
+      "sha256": "23fcedfce04e5812cf61ed3e6391840dccd173042b7bbb35fe339ca0de55f80f",
+      "purpose": "四件道具的八局双端原生输入、实绘、原声及逐帧比较。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-final-world-quest-counters-20261120.tar.gz",
+      "bytes": 54403969,
+      "sha256": "a8b1f24f71d78a92126905b414a5a23dfeecdd4d998d705cf72863429e5c7d5e",
+      "purpose": "凤纹手绢两处首帧、续跑与对白头像的旧版反例及猴群初现对照。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-rooftop-20261120.tar.gz",
+      "bytes": 42278399,
+      "sha256": "c5bd4ed662b637018ad6e00f3a1fa47f8d8de94c53e57e0274f8ad0e08ab52f1",
+      "purpose": "扬州城墙战的同局实跑、实绘、结算按键和追逐反例、原速带声分屏及原录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-yueru-outside-20261120.tar.gz",
+      "bytes": 96227541,
+      "sha256": "cfcfd2af52c23526b4508e2dc6844b142f115b02ea001b6691a5bed7f10c6a11",
+      "purpose": "城外林月如的双端实跑、实绘原录、原速分屏重建和擂台同局差异。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part1.tar.gz",
+      "bytes": 81883511,
+      "sha256": "8003781ac87d6cc12ea79709cfbe840dad596da1ae1ddc6f81df88d994e51263",
+      "purpose": "林家擂台双端验收原件第 1 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part2.tar.gz",
+      "bytes": 79887864,
+      "sha256": "78dc15571e7c37dbf2dfc9412c438a30a848804a2c6733e6d77e1a040f3247ee",
+      "purpose": "林家擂台双端验收原件第 2 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-lin-family-ring-20261120-part3.tar.gz",
+      "bytes": 64335376,
+      "sha256": "d452e87e4fe5282bee098292717e2416dd08017c1f67492455e49c07ba6e30ac",
+      "purpose": "林家擂台双端验收原件第 3 卷。第 1 卷含执行、比较、分屏复算索引及原录区间。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120.tar.gz",
+      "sha256": "7ef871e237a971881b335a230d7f2c79fbbe21856f36bdb6794f3293e757dc56",
+      "bytes": 13974560,
+      "purpose": "余杭客栈苗人头领双端执行、分屏、反例和原录恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120-originals-1.tar.gz",
+      "sha256": "81bdd2f4f22e1e9cf85d986d1caca55606a69df79370f98c8c9e81e8fbeaced5",
+      "bytes": 45817010,
+      "purpose": "余杭客栈苗人头领 Game 原生录制卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-leader-20261120-originals-2.tar.gz",
+      "sha256": "5d0519a8793d424ef954d71072debb2bb246159a54f7708d73b1c367c810a1d4",
+      "bytes": 45193982,
+      "purpose": "余杭客栈苗人头领 Reforge 原生录制卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-escorts-20261120.tar.gz",
+      "bytes": 27871710,
+      "sha256": "d5cf18923203791aa6afb9a968412ce3f83eee8ad2c103cf3bc58c22cfe1405c",
+      "purpose": "余杭客栈两名苗人随从的执行、反例、复算与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-escorts-20261120-inn-e60-originals.tar.gz",
+      "bytes": 91947644,
+      "sha256": "bd736f499939e0c783a4e70cb7e29a6a9678df83755d9a2f423cc048fbea4a44",
+      "purpose": "余杭客栈苗人随从双端实测的原生音画包。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-inn-miao-escorts-20261120-inn-e61-originals.tar.gz",
+      "bytes": 69409466,
+      "sha256": "4b8788421b0b88c2012bfe3eca8717d4db39d1ddbf334e97af749e36582b4c57",
+      "purpose": "余杭客栈苗人随从双端实测的原生音画包。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tomb-bosses-20261120.tar.gz",
+      "bytes": 70769136,
+      "sha256": "c8b7366ee8f9a10f16dc8a09fea7d644dbbb73b76d6191869593a9694721c0f1",
+      "purpose": "将军冢及血池 Boss 的输入、双端实跑、反例和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tomb-bosses-20261120-ghost-general-originals.tar.gz",
+      "bytes": 34227943,
+      "sha256": "9916358e1c7e250ab6eb1fc5ff5a4ef89e86950abc594081cda462a0e7b49a52",
+      "purpose": "将军冢或血池实战的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tomb-bosses-20261120-red-ghost-game-original.tar.gz",
+      "bytes": 77109341,
+      "sha256": "27b8c54bf4d40f4f6a506c78e7dc240f2bc87224a7aedf1a44091816a0b688c9",
+      "purpose": "将军冢或血池实战的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tomb-bosses-20261120-red-ghost-reforge-original.tar.gz",
+      "bytes": 75098229,
+      "sha256": "9b6c67d54a0c5d8af7ae8a04f93e2e5f1f5e4a78f200628b0950aefa8ee27b6b",
+      "purpose": "将军冢或血池实战的原生录制。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-fox-s148-20261120.tar.gz",
+      "bytes": 62349100,
+      "sha256": "f34a5e084ebac57d72b93f1dc286fadfbc42c28c7ddb09917f4933507d7ed607",
+      "purpose": "锁妖塔 s148 狐妖女双端实测、原生录制、反例与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-fox-s165-20261120.tar.gz",
+      "bytes": 43381399,
+      "sha256": "d70fe2472d0d4537e5c4249b3f5f54515594130a268992671ad301c44840b502",
+      "purpose": "锁妖塔 s165 狐妖女双端实测、原生录制、反例与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tian-ghost-20261120.tar.gz",
+      "bytes": 60845898,
+      "sha256": "b122c97bd0a4371d0af8138ab9c0024b8749d561c06fea182b95e4ac176acbe4",
+      "purpose": "锁妖塔天鬼皇手动开坛、脚本停战及复活双端报告、Game 原录与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tian-ghost-reforge-20261120.tar.gz",
+      "bytes": 84694041,
+      "sha256": "26f1244b9ff516dbdc60a19d1a395bfb863dcf9e5788805c1bae9449d10559f2",
+      "purpose": "锁妖塔天鬼皇独立采录的 Reforge 原生音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-20261120.tar.gz",
+      "bytes": 6867791,
+      "sha256": "f26d735cd9c8812fa8fc03843ca3303c09702c174cc6abf3a1ead4b87b99f04c",
+      "purpose": "锁妖塔镇狱明王的双端报告、音画判定、原件恢复与原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-game-01-20261120.tar.gz",
+      "bytes": 82004379,
+      "sha256": "8d4e365ba753701a94f64df0fd764da7f781404ae3cc760aab9c901c991fccc3",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-game-02-20261120.tar.gz",
+      "bytes": 39760119,
+      "sha256": "6a367302e7492f4e8b0320f7f7f54d0dd93e4e997849d132c8f3463bf0efb6aa",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-reforge-01-20261120.tar.gz",
+      "bytes": 82372647,
+      "sha256": "49c45790efc6e2aa305151582b85d45eac57c6226b12dd6c03574acee8a734b7",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-reforge-02-20261120.tar.gz",
+      "bytes": 53705055,
+      "sha256": "ef39a749800db697ebbcf1aaa634ec07b155e6023a0f07e4e84ce434ccac9a20",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-split-01-20261120.tar.gz",
+      "bytes": 83696536,
+      "sha256": "8da6e47038f4e8cf71c524c509400ad746ff5687b2200489fe257f61ef37a600",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-tower-ming-split-02-20261120.tar.gz",
+      "bytes": 40402537,
+      "sha256": "703b05162853318a87967e767379ce4975583eebe14e0888ed67451c5c1c6226",
+      "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-20261120.tar.gz",
+      "bytes": 24705073,
+      "sha256": "2172764bd301c0f2eb55d2d3f8b545b3d749cf8105199c62ab70519b3b8852a6",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-game-20261120.tar.gz",
+      "bytes": 53398683,
+      "sha256": "777b156a29962af711306ea5645b2154acc3a83090f1ceffd28bd4fb3d9f3496",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-reforge-20261120.tar.gz",
+      "bytes": 56019458,
+      "sha256": "39650d9e20d918163b5e83fec191583569421cc522c9b134bdcf6e0e7055a69c",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-20261120.tar.gz",
+      "bytes": 16274544,
+      "sha256": "168dcb5408e89bca1e97297b3b1ebf506c23a794268b5e5686b16532370a02c3",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-game-20261120.tar.gz",
+      "bytes": 54034045,
+      "sha256": "ce3d04c12d77568b938450b7c1b78d86353cfe5bf1ca7a61844f77913da5a4f8",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-reforge-20261120.tar.gz",
+      "bytes": 43185386,
+      "sha256": "cc0d0f5f06cdb4191c0213fced3b2168012bc3e6c6599bce75203bc942bbce4d",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-golden-toad-20261120.tar.gz",
+      "bytes": 19502077,
+      "sha256": "7b678699c07c6532891ece5eefdde83ee8b5f1933cdc35f8547b5d8d987b99f7",
+      "purpose": "金蟾鬼母的合法回访、实际战斗、首帧与原声音画复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-golden-toad-originals-20261120.tar.gz",
+      "bytes": 87015426,
+      "sha256": "8270cdbd2c2f952089b5e324e8f897f12680fbca9239d526609f37c7f45f99cb",
+      "purpose": "金蟾鬼母的合法回访、实际战斗、首帧与原声音画复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-20261120.tar.gz",
+      "bytes": 30246757,
+      "sha256": "789919b91d38b021b8770aaf055430e18b608b5294305b06bcfa36f300ad7679",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-defeat-originals-20261120.tar.gz",
+      "bytes": 56741792,
+      "sha256": "8efb3ac1e9eaf58da8090a6c9b656b7ce336960e771677942ae469f34fbbc176",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-victory-game-original-20261120.tar.gz",
+      "bytes": 43653969,
+      "sha256": "04910e69421ced161e734fe318852a069e312a4f3a7641bcd10f99b4ff80b14d",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-victory-reforge-original-20261120.tar.gz",
+      "bytes": 45355637,
+      "sha256": "149dee9f7bdbf4f64fe34d58325ea6740fc355c6c56ebb6b489508e0d491f561",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-1.tar.gz",
+      "bytes": 78749040,
+      "sha256": "166bf736da990e96e48c8f5c680d27e78380b0923cd996b15a49787239ddf6f2",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-2.tar.gz",
+      "bytes": 78467261,
+      "sha256": "7626a8ce792262e296f5bc6dcc35aa7005a1724ebff7ffde1cbdaea5cad762ed",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-3.tar.gz",
+      "bytes": 78459587,
+      "sha256": "1d65651ab4beee997d8c12046469439254ca5d8202035f442051b4fe21c10868",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-4.tar.gz",
+      "bytes": 81131268,
+      "sha256": "9bb72262d347da0cadb2f3d2d644722d968a4fe95432c84ea541a2d72fdcd1ff",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-5.tar.gz",
+      "bytes": 82434399,
+      "sha256": "1cebf2f6701aae567596d51ba0ab8435ba940bde03534369ba6bb42cb7a986e6",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-6.tar.gz",
+      "bytes": 82686586,
+      "sha256": "7cb3fe394db968e8e9c3435685030e13c02c1bc1b46ec3e6ca836038659062ed",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-7.tar.gz",
+      "bytes": 16888616,
+      "sha256": "10fac286cf3c6b2d2916b5d837b4d660a43f0693bf28b25ed0f8cc0a6d91528a",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-splits-1.tar.gz",
+      "bytes": 56531245,
+      "sha256": "855afa23b292ee8705e96e564c5faf19b5d7788732fb47a9955ec9f303d962e9",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-splits-2.tar.gz",
+      "bytes": 61240369,
+      "sha256": "023496adb2ef828766780e4bb93752840e1bad9cbef19968cc072af3ca1d84cf",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120.tar.gz",
+      "bytes": 22154004,
+      "sha256": "b9836bd0ee5aa2f7ac58dcbc33af5a57769354e9d3e1470014ae53bd0880cf86",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120.tar.gz",
+      "bytes": 34259703,
+      "sha256": "a3ff26a57db41b7c797d7310f29670a264e3cbb575d17d5189bcd358359a829e",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120-game-original.tar.gz",
+      "bytes": 91785765,
+      "sha256": "a9e084066a50ea64f13a58547d4e40c7fa3483ef912b86a07e58bf848eb3d07b",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120-reforge-original.tar.gz",
+      "bytes": 68875422,
+      "sha256": "46c1279ecdb8d5e37152721397f1b1f585c0950090e9507b21711bc20815198c",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120.tar.gz",
+      "bytes": 31914086,
+      "sha256": "72c3792aa05b65cf66f2757db951af48e9b28335900ae392590c0960d2143049",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120-game-original.tar.gz",
+      "bytes": 45701480,
+      "sha256": "2a0845440440d25433c6dad7f0bed1e0f59be93c98ed1d4ba5e255699b914d97",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-phoenix-20261120-reforge-original.tar.gz",
+      "bytes": 35827177,
+      "sha256": "f9b6ada9fe299a07270525face5c43da578d7a05c6689d7c2302d056de490570",
+      "purpose": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120.tar.gz",
+      "bytes": 47875493,
+      "sha256": "3ca156676e6d3d2a2f6d2f3dcc2042decea438148c627e54ffd11bd9f2f49d4f",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-game-original-1.tar.gz",
+      "bytes": 69842939,
+      "sha256": "c13f8b80d6482475c74a277a9eaa55be30a12f90337b96b40eb3fff6c02ebdfd",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-game-original-2.tar.gz",
+      "bytes": 50652200,
+      "sha256": "48b7a8894ab52b31de38d971849cca3f75a75cd209b3a8ce8d7260abd0c678e2",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-ring-jinyuan-20261120-reforge-original.tar.gz",
+      "bytes": 84405770,
+      "sha256": "f885e93ca7d9af125560c740ca5bda90cca54c06575bfce949b4d78372252ab7",
+      "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120.tar.gz",
+      "bytes": 87759233,
+      "sha256": "d8caeea50f9186b210d5a8623cdf617faadd7a081de5338c822d04b2fe1c5e4f",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-game-original-1.tar.gz",
+      "bytes": 73209663,
+      "sha256": "6eac7975cf5eac3a216b533c538c54adfead7feba9acfaced0dfff20d5874e1e",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-game-original-2.tar.gz",
+      "bytes": 51392056,
+      "sha256": "6428ae7db5756f429f4064129c3302cb58f8c85caa4acb2967d5d1e76aef1261",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-reforge-original-1.tar.gz",
+      "bytes": 73225581,
+      "sha256": "c5e36878dfb72f1fd491fd490412b410dc50da4edd2ce0b2937dea78d307610d",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-reforge-original-2.tar.gz",
+      "bytes": 36777000,
+      "sha256": "6e1e1d8d69603593823dc3d87ac07df4810ab22022869bea685766c6516d3f96",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-game-original-1.tar.gz",
+      "bytes": 48236715,
+      "sha256": "0703168e27a8c6abdd668a603056623e7e1b9b44857f6113caeade76f54926fa",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-game-original-2.tar.gz",
+      "bytes": 40683293,
+      "sha256": "66b8fa1d10cd06ad56537bda17a379f624dd4bd66b8433fa26ad2fc2a452119e",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-reforge-original-1.tar.gz",
+      "bytes": 49057495,
+      "sha256": "9f4ffaf2959b6fa7153bc3ebebf7a79bf9d1fc979161a3dd6e382eb34239c7dd",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120-reforge-original-2.tar.gz",
+      "bytes": 16612479,
+      "sha256": "12a0e7f062e876e54e06ae10e5c103b3e47966f31288783857de4194593ad012",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-auto-20261120.tar.gz",
+      "bytes": 36524330,
+      "sha256": "a84d438ce84b82a7103a838ff6633ecf19a401975252e75bcdbaf71ca61f0e36",
+      "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-game-original-1.tar.gz",
+      "bytes": 45264209,
+      "sha256": "eaa31abce07da3f37c8796c38c6ae5dd4addb3e5d67ca8189acbd9840ba6f08a",
+      "purpose": "野店前景与正式分屏复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-game-original-2.tar.gz",
+      "bytes": 44590791,
+      "sha256": "872353dff6c2cdd47688bebd5884a82e94b4ef95345714324dd35021c8032a88",
+      "purpose": "野店前景与正式分屏复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-1.tar.gz",
+      "bytes": 46604002,
+      "sha256": "2417db77606bb3d9d4365ec36cd2ba6947ea4bef19627dca72fa51ce9c7597da",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-2.tar.gz",
+      "bytes": 46937884,
+      "sha256": "5f7751d9424e9d557ae797723512dd2ae750e4092bfc0a39f0032d2bd6e6b38c",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-3.tar.gz",
+      "bytes": 17454960,
+      "sha256": "f1d83ef6157d709d8a1aea57a3d9f73de7100ef55f28aaf9fd74e98bc11c9049",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120.tar.gz",
+      "bytes": 39793743,
+      "sha256": "d37dbc36855d2af9076b5479604eb221091159486e676e2b240d153eee7daff6",
+      "purpose": "野店前景修复的双端实跑、验收反例、原录恢复索引及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-1.tar.gz",
+      "bytes": 40028440,
+      "sha256": "9618b6b2443521e390ce34ac5d54e2b0facf37e839520fcf3b7c3faf2e7cdd55",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-2.tar.gz",
+      "bytes": 43336499,
+      "sha256": "d503898315187a18d35e36147ce3bdac76e280da0e6cd15fc5a9c4631bf254a3",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-3.tar.gz",
+      "bytes": 41441907,
+      "sha256": "312c3d7340fc797ec5d3a1d91d772bd597da5a36534b3000229d68712316757a",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-1.tar.gz",
+      "bytes": 40724403,
+      "sha256": "aa5e616c69887907438511cd99b63fed2e5a09d4614cb67ed4ebc1d2d28de228",
+      "purpose": "尚书府林天南复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-2.tar.gz",
+      "bytes": 43096596,
+      "sha256": "acecc94b12e01ef7bdbacf171d723e36a8ed5850b0605f642156322865e1a384",
+      "purpose": "尚书府林天南复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120.tar.gz",
+      "bytes": 50764981,
+      "sha256": "109bb67559ccd66c65199405f8a020da53e2f5902a5731664734d712bcbf72f7",
+      "purpose": "尚书府入场、清屏、停战、返场、逐帧判据及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-game-original-1.tar.gz",
+      "bytes": 46670516,
+      "sha256": "ccfd9f74049afac61655b8933f438c3465dd0935a7b0d6160ae353010ffee136",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-game-original-2.tar.gz",
+      "bytes": 41635006,
+      "sha256": "481f6b421dd84126d824c817d2ae1111caed13868fad9bc718ed3e5844e1da27",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-reforge-original-1.tar.gz",
+      "bytes": 46380908,
+      "sha256": "6ff11ffd746f042f0edad61217d7ce423f800644e2f2b7e012cf2ebbf5f536d2",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-reforge-original-2.tar.gz",
+      "bytes": 28001255,
+      "sha256": "5a5c4936ec590ee9fc95b13352080ff21356b80d3c06c57054434d1af390c345",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120.tar.gz",
+      "bytes": 38861652,
+      "sha256": "315ba85713043e52ae0cc56f7d959567dd7ba52ed97ddc4f6617e11165411008",
+      "purpose": "大理祭坛七次切场、真实用物和起战、清屏返场、失败反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-game-original-1.tar.gz",
+      "bytes": 46661572,
+      "sha256": "9cfef7dcb1c1205a230c1f042eb16317e7bef35f3b4ab8645acef20f55436bfe",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-game-original-2.tar.gz",
+      "bytes": 42379138,
+      "sha256": "8b639b434671fa339d13c188f492a4318602de86c59bdd98b352716d596ab4bb",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-1.tar.gz",
+      "bytes": 46623944,
+      "sha256": "21937a76794bfff157030f912447506e79e1260b3f22829a7d53f1f763f6f240",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-2.tar.gz",
+      "bytes": 34689820,
+      "sha256": "8fc7559e49fa38f331316c4cc595d82a33d2a4a63622a3e0e476b4ac80739d2a",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120.tar.gz",
+      "bytes": 40658451,
+      "sha256": "1fe474ad27c5cf40bfa40e089442de137203ae224811931ccfd766c18b013e75",
+      "purpose": "大理求雨、街景、演出差异反例、原速分屏和恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-game-original-1.tar.gz",
+      "bytes": 46674382,
+      "sha256": "9b08b5189f22584ecedac00938a9ac97db1741dd1a74cedb6bc88eaf845cd346",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-game-original-2.tar.gz",
+      "bytes": 43032314,
+      "sha256": "fe89924c6758c7529698b65e201ad812333daff2a1a6afa6b288ccdee489b049",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-reforge-original-1.tar.gz",
+      "bytes": 46647215,
+      "sha256": "00db4c5f6c52b11fca24a2c96595a65d8fdc4ced09b019e7b8394d06b335dae1",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-reforge-original-2.tar.gz",
+      "bytes": 37721208,
+      "sha256": "670889b4acfc1313ceed4b685fc0a40bf4f2d86d2341e4e58cbcc26245f35a69",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120.tar.gz",
+      "bytes": 42246364,
+      "sha256": "fc1eddaa7adea610f350440ccf310eb943d552434d7f734312f4653155855b9e",
+      "purpose": "大理整段双端回执、反例、原速带声分屏和原录恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120-game-original.tar.gz",
+      "bytes": 30130186,
+      "sha256": "ba070cfda4b5c9b04c079b8e5970aa9fc217dec8ed66618283fd607e155de419",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120-reforge-original.tar.gz",
+      "bytes": 32905659,
+      "sha256": "94ab9d2f8d05c95d1f96c9152f18757ed74e830125d6ebf22e966e27ed0dd8a5",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120.tar.gz",
+      "bytes": 14547478,
+      "sha256": "5558cf908af5b9ffcddad838533b1aa40af6b96da4084e64b29e23bb16b3152d",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-game-original-1.tar.gz",
+      "bytes": 46628385,
+      "sha256": "af15cbf6f823f5d8cf6a34e757672f74b3f9b2ec41f771a6c6df6bcedbe3d221",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-game-original-2.tar.gz",
+      "bytes": 31284450,
+      "sha256": "56d60c7b200cc7d7043a68616f4ce08e6e5d17b39cfb329f681e7dccd10581f5",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-reforge-original-1.tar.gz",
+      "bytes": 46731267,
+      "sha256": "225884bf92eb9f7f7cb1ebf5df7159c04afa8d0b9611efc8264fbe2a8bfe019c",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-reforge-original-2.tar.gz",
+      "bytes": 34880399,
+      "sha256": "c63ca55f0cc39df631e79776c7b1f07945a8d9dae5a04854b071910470faba43",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120.tar.gz",
+      "bytes": 28490159,
+      "sha256": "7c165455bbeacbc6ca609dd772c88f454e752fdd70046a54b82f116c840f4276",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120-game-original-1.tar.gz",
+      "bytes": 6434175,
+      "sha256": "6f8296aaa84155efe7b00da1657f36b5e4a8eeb22df1ae20b1df3493b73bd553",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120-reforge-original-1.tar.gz",
+      "bytes": 6002252,
+      "sha256": "8ff858cc5e0ad8d8b4f4346994a0f6da0da1693bd3ea9b7fc5cd9207cfd45e6f",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120.tar.gz",
+      "bytes": 2653882,
+      "sha256": "3b3e0b08835b4f9056b5f53b19c6d86f0a70675af3ba96f70628e0d3edb5eff8",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120-game-original-1.tar.gz",
+      "bytes": 19962151,
+      "sha256": "340c027ecca397fd99bd9a97979b9ebe92e94f648f6a42228a2d15d30a30fc96",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120-reforge-original-1.tar.gz",
+      "bytes": 14921799,
+      "sha256": "937b1f9a4827c0f7630584aff099656c8072b8cce1526f3e09435832774b8fbc",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120.tar.gz",
+      "bytes": 8281211,
+      "sha256": "24a112883a7af40ab541a935c27f39effdc2ad76349d8bb3d57c955c326ea03c",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wine-without-item-20261120.tar.gz",
+      "bytes": 400385,
+      "sha256": "85fc1ac8d7c7f4aac041aba1749100834eb8546869afb337a87f40cb4c003cba",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-signed-equipment-and-wine-20261121.tar.gz",
+      "bytes": 35427851,
+      "sha256": "cc1eb0bbe0347c403c0d3fbd0156b6979947ab98f26dca5eb3bda712efbdfd89",
+      "purpose": "酒神缺酒与装备负身法的双端实跑、比较及原速分屏。含求雨出片反例和恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-hammer-route-and-ring-warmup-20261121.tar.gz",
+      "bytes": 46666844,
+      "sha256": "fe2ede6c82cad4b225cc3a8a0b43002ca97bb22454b171df234bb3b41f18a2df",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-game-original-1.tar.gz",
+      "bytes": 44744127,
+      "sha256": "c0ca60c9ec1c3d61be6eddeb2c8b612e6da4622b930e6558b0b1ac35293d10b7",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-game-original-2.tar.gz",
+      "bytes": 42395579,
+      "sha256": "bd9e0170b245f714ba60721c1df33ac114adf65a85d809e38da5b3718633b0ab",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-reforge-original-1.tar.gz",
+      "bytes": 44468160,
+      "sha256": "15ba5a3eb3c7f225dec04d0aeb2a618c0be8f6eddd7651d2ca59bacb3144ee7e",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-reforge-original-2.tar.gz",
+      "bytes": 36472734,
+      "sha256": "8cd1ad4a6d4a42597b43bc6bed2b233339060ad90c0ca8231ac8107f98e548bf",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121.tar.gz",
+      "bytes": 36241778,
+      "sha256": "4ca0ab8f506dcb024043215cc63803d3497fa7b9e59cd8158fdd51671e4a4cf7",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fishing-hold-and-qilin-order-20261121.tar.gz",
+      "bytes": 12470038,
+      "sha256": "641baad779cdc3f07dcf682b2479b8379469e5bb868771df9ccc1f7e384ed94a",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121.tar.gz",
+      "bytes": 41768788,
+      "sha256": "0c8d25c2cbcb2fc738e0922be311872a22e66683a16a0b70051e8ed9681c9c99",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-protected-integration-20261121.tar.gz",
+      "bytes": 4427841,
+      "sha256": "944035702338a80c16a847711ca83bc46742c611f6856c9a115dbd941ba83b70",
+      "purpose": "合并基点后的双端日志、独立反控、基线和已恢复的 Git 隔离回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz",
+      "bytes": 48263522,
+      "sha256": "ae87722c81fd00976e8df180fc67098e552ac8549d1a34500836bf26faf033e0",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-2.tar.gz",
+      "bytes": 41107825,
+      "sha256": "d380e77b365ba402bdf7671ff3b8d51cee7c08de9b1b03d16dc13042793f665a",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-1.tar.gz",
+      "bytes": 49775492,
+      "sha256": "bef6ed307384f809cd70c2af94b44b0b37f8ca03c437ba642c0ac77d76708692",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-2.tar.gz",
+      "bytes": 50073246,
+      "sha256": "1b99e32f05ae0a472985f30659e9a3b85332bb24d0731fc551688da2b1bcde09",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-3.tar.gz",
+      "bytes": 13435163,
+      "sha256": "63eb6f989599ed8ea5eb38a54b69599ddd6872a298367cc635bfbc4ac4bd109b",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",
+      "sha256": "8de120b974e393bfd16ec8e1ee9e747c54dd401682a6435fd59daa884ae99aa5",
+      "bytes": 843049,
+      "purpose": "内容引用后继五卡的定向反例与恢复、实际精灵清点、统一质量门及精确候选边界。前一窗口原件保留其固定历史执行身份。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz",
+      "sha256": "fc2294a4887f5c77509ecd13a8d1407139a8d46835c38c2d15e21a6528117c82",
+      "bytes": 1530580,
+      "purpose": "内容引用治理唯一执行原件。记录逐文件八维读域和测试迁移、反控/恢复、定向和实际统一门；历史运行使用各自输入身份。"
     },
     {
       "path": "docs/tasks/evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz",

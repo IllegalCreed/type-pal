@@ -88,7 +88,29 @@ export function instrumentReforgeRenderEvidence(code, file) {
         insert(node.statement.getStart(ast), '{ ')
         insert(
           node.end,
-          '; const __selected = globalThis.__e2eNpcDrawSources?.get(entry.sprite); if (__selected) { const {id,...pose} = __selected; __npcDraws[id] = {...pose,frameResourceId:globalThis.__e2eRecordSpriteFrame?.(globalThis.__e2eBakedSpriteFrames?.get(entry.image))??null,frameSource:"drawn",drawStatus:"drawn",drawOrder:__npcDrawOrder}; } __npcDrawOrder++; }\nconst __viewTransform = this.ctx.getTransform(); globalThis.__e2eNpcDrawPasses.set(sprites, __npcDraws); globalThis.__e2eNpcDrawViews.set(sprites,{camera:{...camera},canvasSize:[this.ctx.canvas.width,this.ctx.canvas.height],transform:[__viewTransform.a,__viewTransform.b,__viewTransform.c,__viewTransform.d,__viewTransform.e,__viewTransform.f],pixelRounding:"round-after-camera"});\n',
+          `;
+          const selected = globalThis.__e2eNpcDrawSources?.get(entry.sprite)
+          if (selected) {
+            const { id, ...pose } = selected
+            const wantsPixels = globalThis.__e2eWantsNpcPixels?.(id, pose.geometry.worldRect, camera) ?? true
+            const resource = wantsPixels
+              ? globalThis.__e2eRecordSpriteFrame?.(globalThis.__e2eBakedSpriteFrames?.get(entry.image))
+              : null
+            __npcDraws[id] = {
+              ...pose, frameResourceId: resource ?? null,
+              frameSource: "drawn", drawStatus: "drawn", drawOrder: __npcDrawOrder,
+            }
+          }
+          __npcDrawOrder++
+        }
+        const __viewTransform = this.ctx.getTransform()
+        globalThis.__e2eNpcDrawPasses.set(sprites, __npcDraws)
+        globalThis.__e2eNpcDrawViews.set(sprites, {
+          camera: { ...camera }, canvasSize: [this.ctx.canvas.width, this.ctx.canvas.height],
+          transform: [__viewTransform.a, __viewTransform.b, __viewTransform.c, __viewTransform.d, __viewTransform.e, __viewTransform.f],
+          pixelRounding: "round-after-camera",
+        })
+        `,
         )
       }
     }

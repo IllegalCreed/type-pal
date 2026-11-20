@@ -27,7 +27,7 @@ export function createEvidenceRecorder({ context, errors, onOverflow, budgets = 
       ? 'resources'
       : value.kind === 'cause'
         ? 'causes'
-        : value.kind === 'world-render'
+        : value.kind === 'world-render' || value.kind === 'world-drawn'
           ? 'worldRenders'
           : Object.hasOwn(value, 'payload')
             ? 'atomicSnapshots'
@@ -86,7 +86,13 @@ export function createEvidenceRecorder({ context, errors, onOverflow, budgets = 
   // Keep the actual decoded pixels selected by the draw caller, not an asset-name claim.
   // A cached object is checked byte-for-byte on reuse, so in-place corruption is not hidden.
   const resources = [],
-    frameReceipts = new WeakMap()
+    frameReceipts = new WeakMap(),
+    frameContents = new Map()
+  const sameFrame = (receipt, frame, pixels, opaque) =>
+    receipt.width === frame.width &&
+    receipt.height === frame.height &&
+    pixels.every((value, index) => value === receipt.pixels[index]) &&
+    opaque.every((value, index) => value === receipt.opaque[index])
   globalThis.__e2eRecordSpriteFrame = (frame) => {
     try {
       const pixels = frame?.pixels ?? frame?.indices,
@@ -100,14 +106,21 @@ export function createEvidenceRecorder({ context, errors, onOverflow, budgets = 
       )
         throw new Error('drawn sprite has no complete decoded pixel payload')
       const previous = frameReceipts.get(frame)
-      if (
-        previous &&
-        previous.width === frame.width &&
-        previous.height === frame.height &&
-        pixels.every((value, index) => value === previous.pixels[index]) &&
-        opaque.every((value, index) => value === previous.opaque[index])
-      )
-        return previous.order
+      if (previous && sameFrame(previous, frame, pixels, opaque)) return previous.order
+      // Palette/image rebuilds can wrap the same decoded pixels in different objects.
+      // The fingerprint only selects candidates. Reuse always requires equal bytes.
+      let fingerprint = 2166136261
+      for (let i = 0; i < count; i++) {
+        fingerprint = Math.imul(fingerprint ^ pixels[i], 16777619)
+        fingerprint = Math.imul(fingerprint ^ opaque[i], 16777619)
+      }
+      const key = `${frame.width}:${frame.height}:${fingerprint}`
+      const candidates = frameContents.get(key) ?? []
+      const duplicate = candidates.find((candidate) => sameFrame(candidate, frame, pixels, opaque))
+      if (duplicate) {
+        frameReceipts.set(frame, duplicate)
+        return duplicate.order
+      }
       const receipt = append(
         resources,
         {
@@ -122,6 +135,8 @@ export function createEvidenceRecorder({ context, errors, onOverflow, budgets = 
       )
       if (!receipt) return null
       frameReceipts.set(frame, receipt)
+      candidates.push(receipt)
+      frameContents.set(key, candidates)
       return receipt.order
     } catch (error) {
       fail(error)

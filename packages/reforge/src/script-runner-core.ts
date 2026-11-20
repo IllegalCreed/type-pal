@@ -6,15 +6,18 @@ import type {
   FlowCursor,
   SceneReveal,
   StepExit,
+  TeleportOutPresentation,
 } from '@type-pal/content'
 import { flowCanComplete } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
+import { runSceneEntryBody } from './scene-entry-session.js'
 import {
   type BaseRuntimeLeafCommand,
   type ExecutableBaseCommand,
   type ExecutableBaseScriptFlowLike,
   type ExecutableCommandLike,
   type ExecutableSharedScriptLike,
+  type ExecutableStageLike,
   SCRIPT_COMPILER_VERSION,
   type ScriptRootScope,
   type ScriptTiming,
@@ -24,12 +27,12 @@ import {
   type ScriptContinuationLocation,
   validateScriptContinuation,
 } from './script-continuation.js'
-
 import { ScriptExecutionBudget } from './script-execution-budget.js'
 import {
   atScriptExecutionGate,
   ScriptGateStopped as ScriptStopped,
 } from './script-execution-gate.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 type BattleRequest = Extract<ExecutableBaseCommand, { kind: 'startBattle' }>['request']
 
@@ -38,6 +41,7 @@ export type ScriptGateBoundary = { kind: 'settlement'; committed?: boolean }
 export interface ScriptRuntimeContext {
   self?: EntityAddress
   timing?: ScriptTiming
+  timelineCameraStep?: true
   autoMotionCheckpoint?: AutomaticMotionCheckpoint
   autoCommandCheckpoint?: AutomaticCommandCheckpoint
 }
@@ -75,7 +79,7 @@ export interface ScriptRuntimeHostLike<RuntimeLeafCommand> {
   gameplayNow?(): number
   confirm(signal: AbortSignal, reportInteraction?: () => void): Promise<boolean>
   startBattle(request: BattleRequest, signal: AbortSignal): Promise<BattleResult>
-  teleportOut(signal: AbortSignal): Promise<boolean>
+  teleportOut(signal: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean>
   revealSceneEntry?(reveal: SceneReveal, signal: AbortSignal): Promise<void>
   wait(ms: number, signal: AbortSignal): Promise<void>
   waitWorldTick(signal: AbortSignal): Promise<void>
@@ -279,17 +283,8 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           : { kind: 'stay' }
     try {
       this.checkpointCursor = { kind: 'stage', stage: stageId }
-      if (options.runSceneEntry && stage.entry) {
-        if (!options.allowSceneEntry || !this.host.revealSceneEntry)
-          throw new Error('ScriptRunnerCore: scene entry 不允许或缺少 host')
-        await this.runCommands(stage.entry.prepare, [stage.id, 'entry', 'prepare'])
-        throwIfAborted(this.signal)
-        await this.awaitGate()
-        await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
-        throwIfAborted(this.signal)
-      }
       try {
-        await this.runCommands(stage.body, [stage.id])
+        await this.runStageBody(stage, options)
       } catch (error) {
         if (error instanceof StepFinished) next = error.next
         else if (error instanceof ScriptReturned && executable.rootScope === 'script') return
@@ -310,6 +305,30 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
     } catch (error) {
       if (!(error instanceof ScriptStopped)) throw error
     }
+  }
+
+  private async runStageBody(
+    stage: ExecutableStageLike<RuntimeLeafCommand>,
+    options: RunBaseScriptFlowOptions,
+  ): Promise<void> {
+    const runBody = (): Promise<void> => this.runCommands(stage.body, [stage.id])
+    if (!options.runSceneEntry || !stage.entry) return runBody()
+    const revealSceneEntry = this.host.revealSceneEntry
+    if (!options.allowSceneEntry || !revealSceneEntry)
+      throw new Error('ScriptRunnerCore: scene entry 不允许或缺少 host')
+    const { prepare, reveal } = stage.entry
+    await this.runCommands(prepare, [stage.id, 'entry', 'prepare'])
+    throwIfAborted(this.signal)
+    await this.awaitGate()
+    return runSceneEntryBody(
+      reveal,
+      this.signal,
+      (visualSignal) => revealSceneEntry.call(this.host, reveal, visualSignal),
+      () => {
+        throwIfAborted(this.signal)
+        return runBody()
+      },
+    )
   }
 
   private async runCommands(
@@ -428,6 +447,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           {
             self: this.self,
             timing: this.runningTiming,
+            ...(command.timelineCameraStep ? { timelineCameraStep: true } : {}),
             ...(autoMotionCheckpoint ? { autoMotionCheckpoint } : {}),
             ...(autoCommandCheckpoint ? { autoCommandCheckpoint } : {}),
           },
@@ -471,6 +491,9 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         await this.runCommands(command[arm], [...path, 'branch'])
         return
       }
+      case 'sceneTimeline':
+        await this.runSceneTimeline(command, path)
+        return
       case 'loop':
       case 'repeat':
         await this.runLoopCommand(command, path)
@@ -525,7 +548,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         const failed =
           frame.control?.kind === 'teleportOut'
             ? frame.control.failed
-            : !(await this.host.teleportOut(this.signal))
+            : !(await this.host.teleportOut(this.signal, command))
         frame.control = { kind: 'teleportOut', failed }
         if (failed && command.onFail) await this.runCommands(command.onFail, [...path, 'onFail'])
         return
@@ -533,6 +556,77 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       case 'callScript':
         await this.callScript(command, path)
         return
+    }
+  }
+
+  private async runSceneTimeline(
+    command: Extract<ExecutableCommandLike<RuntimeLeafCommand>, { kind: 'sceneTimeline' }>,
+    path: readonly (number | string)[],
+  ): Promise<void> {
+    const clock = this.host.gameplayNow?.bind(this.host)
+    if (!clock || this.checkpointController || this.runningTiming !== 'interactive')
+      throw new Error('sceneTimeline requires a foreground gameplay clock')
+    const start = clock()
+    const visual = new AbortController()
+    // An overlapping fade belongs to this timeline but must not park its ready actor work.
+    const visualSignal = AbortSignal.any([this.signal, visual.signal])
+    let fade: Promise<{ ok: true } | { ok: false; error: unknown }> | undefined
+    let fadeFailure: { error: unknown } | undefined
+    const finishFade = async () => {
+      const active = fade
+      if (!active) return
+      const result = await scriptWorkWait<Awaited<typeof active>>(this.signal, (resolve) => {
+        void active.then(resolve)
+      })
+      if (!result.ok) throw result.error
+      fade = undefined
+    }
+    let previousTime = 0
+    try {
+      for (const cue of command.cues) {
+        if (cue.atMs !== previousTime) {
+          await this.host.wait(Math.max(1, start + cue.atMs - clock()), this.signal)
+          this.budget.resumedAfterProgress()
+          previousTime = cue.atMs
+        }
+        throwIfAborted(this.signal)
+        if (fadeFailure) throw fadeFailure.error
+        const cuePath = [...path, 'tracks', cue.track, 'cues', cue.cue, 'body']
+        if (!cue.fade) {
+          await this.runCommands(cue.body, cuePath)
+          continue
+        }
+        const leaf = cue.body[0]
+        if (!leaf || leaf.kind !== 'leaf') throw new Error('sceneTimeline has an invalid fade')
+        await finishFade()
+        const event = { path: [...cuePath, 0], command: leaf }
+        if (this.beforeStep) {
+          await this.awaitGate()
+          await this.beforeStep(event)
+        }
+        await atScriptExecutionGate(this.host, this.signal, undefined, () => {
+          this.onStep?.(event)
+          fade = Promise.resolve(
+            this.host.execute(
+              leaf.command,
+              { self: this.self, timing: this.runningTiming },
+              visualSignal,
+            ),
+          ).then(
+            () => ({ ok: true }),
+            (error: unknown) => {
+              fadeFailure = { error }
+              return { ok: false, error }
+            },
+          )
+        })
+      }
+      await finishFade()
+    } finally {
+      if (fade) {
+        visual.abort()
+        await fade
+      }
     }
   }
 
@@ -550,6 +644,11 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           ? { kind: 'repeat', iteration: 1 }
           : { kind: 'loop', phase: command.mode === 'while' ? 'test' : 'body' }
     const control = frame.control
+    const interval = command.kind === 'repeat' ? command.intervalMs : undefined
+    const gameplayNow = this.host.gameplayNow?.bind(this.host)
+    if (interval !== undefined && (!gameplayNow || this.checkpointController))
+      throw new Error('repeat.intervalMs requires a foreground gameplay clock')
+    let start: number | undefined
     this.loopAncestors.push(command.id)
     try {
       while (true) {
@@ -575,6 +674,17 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           if (command.mode === 'while' ? !selected : selected) return
           control.phase = 'body'
           this.checkpoint(true)
+        }
+        if (interval !== undefined && control.kind === 'repeat' && gameplayNow) {
+          const now = gameplayNow()
+          start ??= now
+          if (control.iteration > 1) {
+            const deadline = start + (control.iteration - 1) * interval
+            // Keep the phase through small frame delays and avoid bursts of overdue iterations.
+            await this.host.wait(Math.max(1, deadline - now), this.signal)
+            this.budget.resumedAfterProgress()
+            throwIfAborted(this.signal)
+          }
         }
         try {
           await this.runCommands(command.body, [...path, 'body'])

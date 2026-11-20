@@ -226,15 +226,33 @@ test('Game observes the native cooperative fallback after both hits and before a
 
 test('Game reports the sprite frame that blits, including the frame zero fallback', async () => {
   const file = '/packages/game/src/present/battle/draw-battle-sprites.ts'
-  const [native, positions] = await Promise.all([
+  const battlePath = '/packages/game/src/core/battle/'
+  const [native, positions, driverSource, summonSource, frameSource] = await Promise.all([
     source(file),
-    source('/packages/game/src/core/battle/battle-positions.ts').then((code) => compile(code)),
+    source(`${battlePath}battle-positions.ts`).then((code) => compile(code)),
+    source(`${battlePath}battle-anim-driver.ts`),
+    source(`${battlePath}animation/summon.ts`),
+    source(`${battlePath}animation/frames.ts`),
   ])
+  const frames = compile(frameSource)
+  const summon = compile(summonSource, {
+    require(specifier) {
+      assert.equal(specifier, './frames.js')
+      return frames
+    },
+  })
+  const driver = compile(driverSource, {
+    require(specifier) {
+      assert.equal(specifier, './animation/summon.js')
+      return summon
+    },
+  })
   const labels = new WeakMap()
   const facts = []
   const pixels = []
   const { drawBattleSprites } = compile(instrumentGameBattle(native, file).code, {
     require(specifier) {
+      if (specifier === '../../core/battle/battle-anim-driver.js') return driver
       assert.equal(specifier, '../../core/battle/battle-positions.js')
       return positions
     },
@@ -395,8 +413,9 @@ test('Game SFX observes its decoded buffer and request only after a successful s
   ])
   const response = (id) => ({
     ok: true,
+    headers: new Headers({ 'content-type': 'audio/wav' }),
     url: `http://127.0.0.1/extracted/sounds/${id}.wav`,
-    arrayBuffer: async () => ({ id }),
+    arrayBuffer: async () => Uint8Array.of(id).buffer,
   })
   const startError = new Error('native start failed')
   let failStart = false
@@ -404,7 +423,7 @@ test('Game SFX observes its decoded buffer and request only after a successful s
     state: 'running',
     destination: {},
     async decodeAudioData(bytes) {
-      return buffers.get(bytes.id)
+      return buffers.get(new Uint8Array(bytes)[0])
     },
     createGain() {
       return { gain: { value: 1 }, connect() {} }

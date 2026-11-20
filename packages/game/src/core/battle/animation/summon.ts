@@ -8,6 +8,12 @@ export const SUMMON_FADE_STEPS = 72
 /** crossfade 每步时长(battle.c:631 time = SDL_GetTicks()+16)。 */
 export const SUMMON_FADE_STEP_MS = 16
 
+const committedSummonFrames = new WeakSet<BattleAnimFrame>()
+
+export function summonFrameWaitsForCommit(frame: BattleAnimFrame): boolean {
+  return committedSummonFrames.has(frame)
+}
+
 /**
  * 召唤全员变亮(sdlpal fight.c:3120-3128):i=1..10,所有队员 iColorShift=i,各 Delay(1)。
  * 召唤神精灵载入前的"聚光"前奏。
@@ -42,6 +48,8 @@ export interface BuildSummonInput {
    * 受击动画过晚(user 2026-06-05 报"天剑敌人受击动画太晚")。
    */
   postMagicFrames?: BattleAnimFrame[]
+  /** 吹飞归位与受击数字由逻辑同拍提交，绘制不得先越过该边界。 */
+  syncBlowReaction?: boolean
   /**
    * 召唤淡出**前**复位的队员 fighter delta —— 对齐 sdlpal fight.c:901 `PAL_BattleUpdateFighters()` 在
    * `PAL_BattleFadeScene()`(:911 fadeOut)**之前**调。挂 fadeOut **首帧** → crossfade 目标场景 = 复位后的
@@ -96,12 +104,17 @@ export function buildSummonGodSequence(input: BuildSummonInput): BattleAnimFrame
     })
   }
   // —— offMagic:二次效果落敌,召唤神定格 last frame 在场 ——
-  for (const f of offMagicFrames) {
-    frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
+  for (const [index, f] of offMagicFrames.entries()) {
+    const frame = { ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } }
+    if (input.syncBlowReaction && index === offMagicFrames.length - 1)
+      committedSummonFrames.add(frame)
+    frames.push(frame)
   }
   // —— postMagic:敌受击抖动,召唤神**仍在场**(fight.c:4323 神在场 → 899 后淡出);裹 summon 留场,排 fadeOut 前 ——
   for (const f of postMagicFrames ?? []) {
-    frames.push({ ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } })
+    const frame = { ...f, summon: { spriteKey, frame: lastFrame, pos, bgColorShift } }
+    if (input.syncBlowReaction) committedSummonFrames.add(frame)
+    frames.push(frame)
   }
   // —— fadeOut:72 步 crossfade(召唤神→队员)。**首帧注入 resetFighters** 复位队员(sdlpal fight.c:901
   //   `PAL_BattleUpdateFighters()` 在 :911 `PAL_BattleFadeScene()` 之前调)→ crossfade 目标场景 = 复位后的

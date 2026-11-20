@@ -6,7 +6,14 @@
  */
 
 /** 表现层可在任一行动上追加的共同证据。 */
-export type BattleFailureFeedback = 'statusIneffective' | 'throwIneffective'
+export type BattleFailureFeedback =
+  | 'statusIneffective'
+  | 'itemIneffective'
+  | 'throwIneffective'
+  | 'throwStatusIneffective'
+  | 'spellIneffective'
+  | 'missingSpellItem'
+  | 'missingSpellMoney'
 
 export interface BattleLastActionBase {
   idx: number
@@ -36,6 +43,8 @@ type PlayerActionBase = BattleLastActionBase & { side: 'player' }
 type PlayerMagicAction = PlayerActionBase & {
   skillId: string
   targetEnemyIdx?: number
+  /** 按原施法顺序抽得的 FIRE 吹飞和伤害前的在场敌槽。 */
+  blow?: { targetSlots: number[]; steps: number[] }
   /** 公式伤害与实际扣血量分开记录，供战斗飘字显示完整伤害。 */
   magicHits?: { idx: number; value: number; hpLost: number }[]
 }

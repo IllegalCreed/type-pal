@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 /**
  * TEST-BATTLE-WORKFLOWS-1 W4（含 W3 变身/召唤接线）：敌 hook 与屏障组合。
  * - 敌 ready/turnStart 经真实 ai.hooks（现行 schema）构造；hook 结束后**同一敌真实行动**
@@ -8,11 +9,13 @@
  *   gate 在 finally 放行并**消费实际返回的 pending**（保留最初断言错误，不留悬挂 Promise）；
  * - 取消经公开 cancel：done 以 AbortError 精确拒绝，迟到放行后日志/队员快照完整不变。
  */
+import type { SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { wfEnemy, wfPlayer } from '../__tests__/battle-workflows/catalog.js'
+import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
 import { SfxReadinessResourceError } from '../audio/sfx.js'
+import { DialogBox } from '../dialog/dialog-box.js'
 
 const defer = <T>(): { promise: Promise<T>; resolve: (v: T) => void } => {
   let resolve!: (value: T) => void
@@ -25,6 +28,146 @@ const defer = <T>(): { promise: Promise<T>; resolve: (v: T) => void } => {
 const flush = async (): Promise<void> => {
   for (let i = 0; i < 6; i += 1) await Promise.resolve()
 }
+
+test.each([
+  'oneEnemy',
+  'allEnemies',
+] as const)('scripted auto battle spends MP on the strongest eligible %s spell without input', (target) => {
+  const basic = wfSkill('basic', 5)
+  const chosen: SkillData = {
+    ...wfSkill('chosen', 7),
+    target,
+    effects: [{ kind: 'damage', power: 60, elemental: 0 }],
+  }
+  const ultimate = wfSkill('ultimate', 1)
+  const expensive = wfSkill('expensive', 31)
+  for (const skill of [ultimate, expensive]) {
+    skill.effects = [{ kind: 'damage', power: 100, elemental: 0 }]
+  }
+  const healing: SkillData = {
+    ...wfSkill('healing', 3),
+    target: 'self',
+    effects: [{ kind: 'healHp', amount: 100 }],
+  }
+  const skills = [basic, chosen, ultimate, expensive, healing]
+  const h = makeWfSession({
+    players: [wfPlayer('hero', { skills: skills.map(({ id }) => id) })],
+    enemies: [wfEnemy('target-left', { health: 500 }), wfEnemy('target-right', { health: 500 })],
+    extraOpts: {
+      auto: true,
+      skills: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
+    },
+  })
+
+  for (let i = 0; i < 40 && h.readParty()[0]?.mp === 30; i++) h.idle(40)
+
+  expect(h.readParty()[0]?.mp).toBe(23)
+  const hits = h.session.debugLog().filter((line) => line.includes('name.chosen'))
+  expect(hits).toEqual(
+    target === 'oneEnemy'
+      ? [expect.stringContaining('target-left')]
+      : [expect.stringContaining('target-left'), expect.stringContaining('target-right')],
+  )
+})
+
+test('missing the casting item leaves an authored centered warning until a confirm key', () => {
+  const wine = wfHealItem('wine')
+  const text = '酒不足，无法召唤酒神'
+  const skill = wfSkill('summon', 1)
+  skill.cost = { mp: 1, items: [{ itemId: wine.id, amount: 1 }], missingItemsText: text }
+  const h = makeWfSession({
+    players: [wfPlayer('hero', { skills: [skill.id] })],
+    enemies: [wfEnemy('lantern', { health: 500 })],
+    extraOpts: { skills: { [skill.id]: skill }, items: { [wine.id]: wine }, inventory: [] },
+  })
+  const canvas = document.createElement('canvas')
+  canvas.width = 320
+  canvas.height = 200
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas 2D is unavailable')
+  const dialogue = new DialogBox(ctx, h.assets.glyphs, [])
+  h.assets.dialogBox = dialogue
+  h.press(['ArrowLeft'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  for (let i = 0; i < 40 && !dialogue.active; i++) h.idle(40)
+  expect(dialogue.observe()).toMatchObject({ slot: 'center', pageText: text })
+  expect(h.readParty()[0]?.mp).toBe(29)
+
+  for (let elapsed = 0; elapsed < 1600; elapsed += 40) h.idle(40)
+  h.session.render(ctx, 1)
+  h.press(['ArrowUp'])
+  expect(dialogue.observeSlots()).toMatchObject([{ slot: 'center', visibleText: text }])
+  h.press(['Enter'])
+  expect(dialogue.active).toBe(false)
+  expect(h.readParty()[0]?.mp).toBe(29)
+})
+
+test('a successful escape spell plays one retreat, with fallen allies left in place until exit', async () => {
+  const spell: SkillData = {
+    ...wfSkill('escape', 33),
+    target: 'allAllies',
+    effects: [{ kind: 'fleeBattle' }],
+    animation: { effectSprite: 65535 },
+  }
+  const sound = 'sound.escape'
+  const sfx = recordingSfx()
+  const h = makeWfSession({
+    players: [
+      wfPlayer('hero', { mp: 40, maxMp: 40, skills: [spell.id] }),
+      wfPlayer('fallen', { hp: 0 }),
+    ],
+    enemies: [wfEnemy('guard', { health: 500 })],
+    extraOpts: {
+      skills: { [spell.id]: spell },
+      soundRoles: { 'audio.battleEscapeSound': sound },
+    },
+  })
+  h.assets.sfx = sfx.player
+  const fighter = h.assets.battleSprites.get('battle-sprite.player')
+  if (!fighter) throw new Error('player fighter fixture unavailable')
+  for (const [pose, color] of [
+    [0, 30],
+    [2, 80],
+  ] as const) {
+    const frame = fighter.sprite.frames[pose]
+    if (!frame) throw new Error('player pose unavailable')
+    frame.pixels[0] = color
+  }
+  h.assets.palette = {
+    colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+    cycles: [],
+  }
+  const canvas = document.createElement('canvas')
+  canvas.width = 320
+  canvas.height = 200
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas 2D is unavailable')
+  const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+  h.session.render(ctx, 1)
+  expect([pixel(200, 175), pixel(256, 151)]).toEqual([30, 80])
+
+  h.press(['ArrowLeft'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  for (let i = 0; i < 40 && !sfx.plays.includes(sound); i++) h.idle(40)
+  expect(sfx.plays).toContain(sound)
+  h.session.render(ctx, 1)
+  expect([pixel(205, 179), pixel(200, 175), pixel(256, 151)]).toEqual([30, 0, 80])
+  expect(h.session.debugPlayers()[1]?.hp).toBe(0)
+  let result: string | undefined
+  void h.session.done.then((value) => {
+    result = value
+  })
+  for (let i = 0; i < 50 && result === undefined; i++) {
+    h.idle(40)
+    await flush()
+  }
+  expect(result).toBe('playerFled')
+  expect(sfx.plays.filter((played) => played === sound)).toEqual([sound])
+  expect(h.readParty().map(({ mp }) => mp)).toEqual([7, 30])
+})
 
 describe('W4 敌钩子与屏障组合', () => {
   test('敌 ready hook 真实激活：hook 音先播，完成后同一敌以自己名义真实攻击（HP 实降）', async () => {
@@ -150,6 +293,7 @@ describe('W4 敌钩子与屏障组合', () => {
   })
 
   test('敌 hook effect 召唤接线：summon 填空槽，新敌随后以自己名义真实攻击', async () => {
+    const sfx = recordingSfx()
     const boss = wfEnemy('boss', { attackStrength: 1, health: 500 })
     boss.ai.hooks = {
       turnStart: {
@@ -172,8 +316,12 @@ describe('W4 敌钩子与屏障组合', () => {
       players: [wfPlayer('p1', { attackStrength: 10, hp: 200, maxHp: 200 })],
       enemies: [boss, null], // 固定敌槽留一个空位
       enemiesById: { minion: wfEnemy('minion', { attackStrength: 25, health: 100 }) },
-      extraOpts: { auto: true }, // 自动推进回合，敌每轮行动（hook 效果不走 AI 决策 log）
+      extraOpts: {
+        auto: true,
+        soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' },
+      },
     })
+    Object.assign(h.assets, { sfx: sfx.player })
     for (let i = 0; i < 80; i += 1) {
       h.idle(500)
       await flush()
@@ -183,6 +331,145 @@ describe('W4 敌钩子与屏障组合', () => {
       h.session.debugLog().some((line) => line.startsWith('minion ') && line.includes('攻击')),
     ).toBe(true)
     expect(h.session.debugPlayers()[0]!.hp).toBeLessThan(200) // 其行动真实落在我方
+    expect(sfx.plays.filter((asset) => asset === 'sound.summon')).toEqual(['sound.summon'])
+  })
+
+  test('分裂填入后方槽位时，分身的回合起手在当前扫描内执行一次', async () => {
+    const sfx = recordingSfx()
+    const enemy = wfEnemy('slime', { health: 110 })
+    enemy.ai.hooks = {
+      turnStart: {
+        initial: 'divide',
+        states: {
+          divide: {
+            body: [{ kind: 'effect', id: 'divide', effect: { kind: 'divide', copies: 1 } }],
+            next: {
+              kind: 'commandOutcome',
+              commandId: 'divide',
+              outcome: 'succeeded',
+              then: { kind: 'stay' },
+              else: { kind: 'continue', state: 'blocked' },
+            },
+          },
+          blocked: {
+            body: [{ kind: 'playSound', asset: 'sound.split-blocked' }],
+            next: { kind: 'stay' },
+          },
+        },
+      },
+    }
+    const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [enemy] })
+    Object.assign(h.assets, { sfx: sfx.player })
+    for (let i = 0; i < 90; i += 1) {
+      h.idle(16)
+      await flush()
+    }
+    expect(sfx.plays).toEqual(['sound.split-blocked'])
+  })
+
+  test('同一 ready 脚本连续召唤时，先入场的敌人只在两次亮色停拍中切换闲站帧', async () => {
+    const sfx = recordingSfx()
+    const summoner = wfEnemy('summoner', { health: 500 })
+    summoner.ai.hooks = {
+      ready: {
+        initial: 'summon-both',
+        states: {
+          'summon-both': {
+            body: [
+              {
+                kind: 'effect',
+                id: 'first-arrival',
+                effect: { kind: 'summon', enemyId: 'minion', count: 1 },
+              },
+              {
+                kind: 'effect',
+                id: 'second-arrival',
+                effect: { kind: 'summon', enemyId: 'minion', count: 1 },
+              },
+            ],
+            next: { kind: 'advance', state: 'finished' },
+          },
+          finished: { body: [], next: { kind: 'stay' } },
+        },
+      },
+    }
+    const minion = wfEnemy('minion', { health: 100 })
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 1, hp: 200, maxHp: 200 })],
+      enemies: [null, summoner, null],
+      enemiesById: { minion },
+      extraOpts: { auto: true, soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' } },
+    })
+    h.assets.sfx = sfx.player
+    const sprite = h.assets.battleSprites.get(minion.battleSprite)!
+    if (sprite.definition.profile.kind !== 'enemy') throw new Error('召唤敌精灵缺闲站姿势')
+    sprite.definition.profile.idleTicksPerFrame = 4
+    sprite.sprite.frames[0]!.pixels[0] = 0x22
+    sprite.sprite.frames[1]!.pixels[0] = 0x26
+    h.assets.palette = {
+      colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+      cycles: [],
+    }
+    const canvas = document.createElement('canvas')
+    canvas.width = 320
+    canvas.height = 200
+    const ctx = canvas.getContext('2d')!
+    const drawnPoses = () => {
+      h.session.render(ctx, 1)
+      return [ctx.getImageData(70, 139, 1, 1).data[0], ctx.getImageData(160, 99, 1, 1).data[0]]
+    }
+    const summons = () => sfx.plays.filter((asset) => asset === 'sound.summon')
+    for (let i = 0; i < 120 && !summons().length; i += 1) {
+      h.idle(16)
+      await flush()
+    }
+    expect(summons()).toEqual(['sound.summon'])
+
+    const firstArrivalMs = 72 * 16 * 2 + 2 * 40
+    for (let elapsed = 16; elapsed < firstArrivalMs; elapsed += 16) h.idle(16)
+    expect(summons()).toEqual(['sound.summon'])
+    for (let i = 0; i < 40 && summons().length === 1; i += 1) h.idle(16)
+    expect(summons()).toEqual(['sound.summon', 'sound.summon'])
+    expect(drawnPoses()[0]).toBe(0x22)
+    h.idle(72 * 16 - 16)
+    expect(drawnPoses()).toEqual([0x22, 0x2a])
+    h.idle(16 + 40)
+    expect(drawnPoses()).toEqual([0x22, 0x2a])
+    h.idle(40 + 72 * 16 - 16)
+    expect(drawnPoses()).toEqual([0x26, 0x22])
+  })
+
+  test.each([
+    { count: 1, result: 'caster 召唤了 1 个 minion', sounds: ['sound.summon'] },
+    { count: 2, result: 'caster 召唤失败', sounds: [] },
+  ])('敌普通 AI $result，召唤音等待手势结束并取决于实际入槽', async (sample) => {
+    const sfx = recordingSfx()
+    const boss = wfEnemy('caster', { health: 500 }, { battleSprite: 'battle-sprite.caster.magic' })
+    boss.ai.rules = [
+      { at: 'act', do: { kind: 'summon', enemyId: 'minion', count: sample.count }, once: true },
+    ]
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { attackStrength: 1, hp: 200, maxHp: 200 })],
+      enemies: [boss, null],
+      enemiesById: { minion: wfEnemy('minion', { health: 100 }) },
+      extraOpts: {
+        auto: true,
+        soundRoles: { 'audio.battleEnemySummonSound': 'sound.summon' },
+      },
+    })
+    Object.assign(h.assets, { sfx: sfx.player })
+    for (let i = 0; i < 70 && !h.session.debugLog().includes(sample.result); i += 1) {
+      h.idle(40)
+      await flush()
+    }
+    expect(h.session.debugLog()).toContain(sample.result)
+    const summonSounds = () => sfx.plays.filter((asset) => asset === 'sound.summon')
+    h.idle(39)
+    expect(summonSounds()).toEqual([])
+    h.idle(1)
+    expect(summonSounds()).toEqual(sample.sounds)
+    h.idle(40)
+    expect(summonSounds()).toEqual(sample.sounds)
   })
 
   test('敌 hook effect 变身接线：transform 换身后新敌形以新名义继续行动', async () => {

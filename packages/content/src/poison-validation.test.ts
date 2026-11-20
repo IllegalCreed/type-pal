@@ -19,7 +19,7 @@ describe('poison definitions', () => {
           { halveHp: 2 },
           { selfCure: true },
         ],
-        enemyTicks: [{ hpDelta: -5 }],
+        enemyTicks: [{}, { hpDelta: -5 }, { grantItem: 'item-2', grantNarration: 'dlg.hatch' }],
         lethalWith: 552,
         counters: 553,
       },
@@ -81,6 +81,16 @@ describe('poison record field validation', () => {
       'grantItem 空串',
       [{ ...minimalPoison(), playerTicks: [{ grantItem: '' }] }],
       'poisons[0].playerTicks[0].grantItem: 期望非空物品 id',
+    ],
+    [
+      'grantNarration 需要同拍 grantItem',
+      [{ ...minimalPoison(), enemyTicks: [{ grantNarration: 'dlg.hatch' }] }],
+      'poisons[0].enemyTicks[0].grantNarration: 期望非空文本 id，并同时提供 grantItem',
+    ],
+    [
+      'grantNarration 需要正文',
+      [{ ...minimalPoison(), enemyTicks: [{ grantItem: 'item-1', grantNarration: ' ' }] }],
+      'poisons[0].enemyTicks[0].grantNarration: 期望非空文本 id，并同时提供 grantItem',
     ],
     [
       'selfCure 非 boolean',

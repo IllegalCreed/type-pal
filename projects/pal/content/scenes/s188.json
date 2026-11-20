@@ -322,26 +322,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "setActorSprite",
-                    "actor": "li-xiaoyao",
-                    "sprite": "sprite-521"
-                  },
-                  {
-                    "kind": "setPartyFacing",
-                    "facing": "down"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 107,
-                      "row": 73,
-                      "height": 0
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
                     "kind": "wait",
                     "ms": 180
                   },
@@ -1524,6 +1504,36 @@
                 ],
                 "next": {
                   "kind": "complete"
+                },
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "setActorSprite",
+                      "actor": "li-xiaoyao",
+                      "sprite": "sprite-521"
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 107,
+                        "row": 73,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "color": "black"
+                  }
                 }
               }
             ]

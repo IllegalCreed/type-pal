@@ -60,6 +60,7 @@ import {
   buildEnemyEscape,
   buildEnemyMateAttack,
   buildEnemyPhysical,
+  buildEnemySummon,
   buildEnemyTransform,
   buildFleeFail,
   buildMateAttack,
@@ -74,7 +75,11 @@ import {
   buildThrowItem,
   buildUseItem,
   type CastFxParams,
+  ENEMY_SUMMON_COLOR_SHIFT,
+  ENEMY_SUMMON_HOLD_TICKS,
   type EnemyAppearanceTransition,
+  type EnemySummonFade,
+  enemySummonIdleFrame,
   type FighterDelta,
   type OverlayDraw,
   type PlayerAppearanceTransition,
@@ -86,6 +91,8 @@ import {
   type BattleCommandSelectionPhase,
 } from './battle-command-selection.js'
 import {
+  type BattleAction,
+  type BattleEnemyState,
   type BattleState,
   buildAiView,
   type CreatePlayerInput,
@@ -130,9 +137,8 @@ import {
 import {
   type BattleDepthOverlayDraw,
   type BattleScene,
+  BattleSceneFade,
   type BattleSpriteDraw,
-  BattleTranceFade,
-  type BattleTranceFadeFrame,
   renderBattleScene,
 } from './present-battle.js'
 import { drawSettlementScreen, type SettlementScreen } from './settlement.js'
@@ -169,7 +175,7 @@ const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
 const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
 const FAILURE_FEEDBACK_MS = 1400
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
-const DEATH_FADE_MS = 72 * 16
+const SCENE_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
 
 interface FloatNum {
@@ -228,7 +234,7 @@ interface VisualFighter {
   x: number
   y: number
   frame: number
-  holdFrame?: true
+  holdFrame?: boolean
   colorShift: number
   /** 信息框显示血量(伤害数字帧才同步,避免结算即时扣血提前剧透)。 */
   displayHp: number
@@ -265,9 +271,9 @@ export class BattleSession {
   private currentFire: LoadedSprite | null = null
   /** 敌整场逃离演出中的敌槽(hp 已被 core 清零,渲染豁免继续画 —— 滑出屏动画可见)。 */
   private fleeingEnemies: number[] | null = null
-  /** 隐身渐隐/渐显过渡(0x5C;hidingTime 边沿触发,72×16ms = 原版 FadeScene 时长)。 */
+  /** 隐身过渡在用物与轮末暂停战斗，沿用原版 FadeScene 时长。 */
   private hideFade: { dir: 'out' | 'in'; start: number } | null = null
-  private prevHidden = false
+  private partyHidden = false
   /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
   private skipNextReset = false
   private clearBannerOnActionEnd = false
@@ -278,14 +284,18 @@ export class BattleSession {
   /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
   private readonly pendingConfusedReveal = new Set<number>()
   /** 结算后等待时间线到达提示位置的失败反馈。 */
-  private pendingFailureFeedback: BattleFailureFeedback | null = null
-  /** 投掷 0x3E 提示阻塞收招，确认或到时后释放。 */
-  private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
+  private pendingFailureFeedback: {
+    kind: BattleFailureFeedback
+    centeredText: string | undefined
+  } | null = null
+  /** A null deadline holds the dialogue until its final confirmation. */
+  private actionFeedback: { untilMs: number | null; dismiss: 'confirm' | 'anyKey' } | null = null
   private pendingStealNotice: TextSpan[] | undefined
-  /** 敌变身使用精灵级过渡，梦蛇使用冻结的场景层。动作收尾统一清除。 */
+  /** Retain the old enemy appearance through its flash and scene dissolve. */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
   private playerAppearanceTransition: PlayerAppearanceTransition | null = null
-  private readonly tranceFade = new BattleTranceFade()
+  private enemySummonFade: EnemySummonFade | null = null
+  private readonly sceneFade = new BattleSceneFade()
   // ── 屏幕级特效(演出审计 §2-1;screen-fx 引擎模块)──
   /** 波动背景缓存(仅相位/波幅变化时重卷)。 */
   private readonly wavedBg = new WavedBgCache()
@@ -311,6 +321,8 @@ export class BattleSession {
   /** 当前尚未开始的 turnStart hook；terminal request 后不再激活。 */
   private pendingHookActivations: { enemyIdx: number; channel: EnemyHookChannel }[] = []
   private activeHook: EnemyHookActivation | null = null
+  /** 连续召唤只在两段溶解之间推进闲站计时，按本次出生的实例记录。 */
+  private readonly hookSummonIdleTicks = new Map<BattleEnemyState, number>()
   /** actionQueue item 以对象身份去重，dualMove 的两个 entry 各跑一次 ready。 */
   private readonly readyHookEntries = new WeakSet<object>()
   private choreoWaitUntil: number | null = null
@@ -319,9 +331,6 @@ export class BattleSession {
     phase: 'won' | 'lost' | 'fled'
     result: BattleResult
   } | null = null
-  /** battle choreography 音乐请求序号；迟到 fade-stop 不得误停后播的新曲。 */
-  private musicSerial = 0
-  private scheduledMusicStop: { serial: number; deadline: number } | null = null
   /** 物品使用横幅(fight.c:2316 物品名@(210,50) 白字;13 帧 ≈520ms 到期自清)。 */
   private itemBanner: { text: string; untilMs: number; x?: number; y?: number } | null = null
   private choreoName = ''
@@ -383,9 +392,9 @@ export class BattleSession {
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
       reportReadinessError?: (error: Error, context: BattleReadinessErrorContext) => void
-      /** 战斗演出音乐桥；stopMusic(fadeMs) 由会话用 gameplay clock 延后提交。 */
+      /** 战斗演出在当前 cue 提交音乐命令，音频播放器持有淡出。 */
       playMusic?: (asset: AssetId) => void
-      stopMusic?: () => void
+      stopMusic?: (fadeMs?: number) => void
       /**
        * 开战时的大世界队伍身份快照。固定剧情成长在任何 mutation 前同时校验
        * battle player 与 world party 的模板唯一性和实例 id 一致性。
@@ -397,6 +406,12 @@ export class BattleSession {
       players,
       enemySlots: enemyDefs,
       skills: opts.skills,
+      fireFrameCounts: Object.fromEntries(
+        Object.entries(assets.fireSprites ?? {}).map(([chunk, sprite]) => [
+          chunk,
+          sprite.frames.length,
+        ]),
+      ),
       enemiesById: opts.enemiesById,
       items: opts.items,
       inventory: opts.inventory,
@@ -525,31 +540,32 @@ export class BattleSession {
     })
   }
 
+  private enemyRestVisual(index: number): VisualFighter | null {
+    const enemy = this.state.enemies[index]
+    if (!enemy) return null
+    const profile = this.enemyAppearance(index).definition.profile
+    if (profile.kind !== 'enemy') throw new Error('enemy appearance profile 漂移')
+    return {
+      x: enemy.basePos.x,
+      y: enemy.basePos.y,
+      frame: profile.idle.start,
+      colorShift: 0,
+      displayHp: this.visual.enemies[index]?.displayHp ?? enemy.hp,
+    }
+  }
+
   /** 表现层复位:全员回站位/复位姿势/无染色(一阶段 resetFightersAfterAction 语义)。
    *  队员姿势 = playerRestFrame(死→傀儡0/死2;睡/濒死→1;防→3;站0 —— 一夜三刀簇,
    *  曾一律 frame0 丢死/濒死/防御姿,演出审计 §2-8)。 */
   private resetVisual(): void {
-    const s = this.state
     this.resetPlayersVisual()
-    this.visual.enemies = s.enemies.map((e, i) => {
-      if (!e) return null
-      const pos = e.basePos
-      const prev = this.visual.enemies[i]
-      const profile = this.enemyAppearance(i).definition.profile
-      if (profile.kind !== 'enemy') throw new Error('enemy appearance profile 漂移')
-      return {
-        x: pos.x,
-        y: pos.y,
-        frame: profile.idle.start,
-        colorShift: 0,
-        displayHp: prev?.displayHp ?? e.hp,
-      }
-    })
+    this.visual.enemies = this.state.enemies.map((_, index) => this.enemyRestVisual(index))
     this.overlays = null
     this.currentFire = null
     this.enemyAppearanceTransitions.clear()
     this.playerAppearanceTransition = null
-    this.tranceFade.reset()
+    this.enemySummonFade = null
+    this.sceneFade.reset()
   }
 
   /** 当前待选指令的队员下标;全填 → undefined。眠/定/疯/死者不出菜单
@@ -560,6 +576,37 @@ export class BattleSession {
       if (needsManualSelect(expectDefined(s.players[i])) && !s.pendingActions.has(i)) return i
     }
     return undefined
+  }
+
+  /** 剧情自动战斗选取可施放的攻击仙术，原版 0x8A 的随机加分为 0–9999。 */
+  private scriptedAutoAction(index: number): BattleAction {
+    const player = expectDefined(this.state.players[index])
+    const target = this.aliveEnemyIdxs()[0]
+    if (target === undefined) return { kind: 'defend' }
+    let best: SkillData | undefined
+    let bestScore = 0
+    if (!player.status.silence) {
+      for (const id of player.skills) {
+        const skill = this.state.skills[id]
+        if (!skill) continue
+        const cost = skill.cost.mp ?? 0
+        if (cost === 1 || cost > player.mp) continue
+        const effect = resolveSkillExecution(skill, 'player').effects.find(
+          (candidate) => candidate.kind === 'damage',
+        )
+        if (!effect || effect.power <= 0) continue
+        const score = effect.power + Math.floor(this.rng() * 10_000)
+        if (score > bestScore) {
+          best = skill
+          bestScore = score
+        }
+      }
+    }
+    if (!best) return { kind: 'attack', targetEnemyIdx: player.attackAll ? -1 : target }
+    if (best.target === 'oneEnemy')
+      return { kind: 'cast', skillId: best.id, targetEnemyIdx: target }
+    if (best.target === 'oneAlly') return { kind: 'cast', skillId: best.id, targetAllyIdx: index }
+    return { kind: 'cast', skillId: best.id }
   }
 
   /** 保持 core 同步：只有 readiness 落定后才从 selectAction 跨入 performAction。 */
@@ -583,6 +630,7 @@ export class BattleSession {
     this.doneSettled = true
     this.closed = true
     this.readiness.invalidate()
+    this.hookSummonIdleTicks.clear()
     this.resolveDone(result)
   }
 
@@ -592,12 +640,12 @@ export class BattleSession {
     this.doneSettled = true
     this.closed = true
     this.readiness.invalidate()
-    this.musicSerial++
-    this.scheduledMusicStop = null
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
-    this.tranceFade.reset()
+    this.hookSummonIdleTicks.clear()
+    this.enemySummonFade = null
+    this.sceneFade.reset()
     if (this.casualtyDialogueShown || this.actionFeedback) this.assets.dialogBox?.close()
     this.actionFeedback = null
     this.pendingStealNotice = undefined
@@ -666,20 +714,14 @@ export class BattleSession {
       throwableItems: this.throwableItems(),
       skills: this.opts.skills ?? {},
       items: this.state.items,
-      money: this.moneyNow(),
     }
   }
 
-  /**
-   * 合击消耗其余队员本回合出手(fight.c applyCoopConsumesOthers):给尚未选招的其他队员
-   * 填占位动作,令 nextSelecting 结束选招 → 直接进出手。core coopThisTurn 令这些非合击动作
-   * 出手作废(HP 贡献已在合击结算内扣)。已选招的队员亦同(coopThisTurn 侧统一 pass)。
-   */
+  /** Stop asking for commands without overwriting any previously committed actions. */
   private consumeOthersForCoop(caster: number): void {
-    for (let i = 0; i < this.state.players.length; i++) {
-      if (i === caster) continue
-      if (!this.state.pendingActions.has(i)) {
-        this.state.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
+    for (const [i, player] of this.state.players.entries()) {
+      if (i !== caster && needsManualSelect(player) && !this.state.pendingActions.has(i)) {
+        this.state.pendingActions.set(i, { kind: 'pass' })
       }
     }
   }
@@ -700,7 +742,14 @@ export class BattleSession {
           ...(y !== undefined ? { y } : {}),
         }
       },
-      onThrowFeedback: () => this.presentPendingFailureFeedback(),
+      onActionFeedback: () => this.presentPendingFailureFeedback(),
+      onHidingFade: () => {
+        this.state.hidingTime = Math.abs(this.state.hidingTime)
+        this.partyHidden = true
+        this.hideFade = { dir: 'out', start: this.nowMs }
+      },
+      onRevealEnemyConfusion: () => this.pendingConfusedReveal.clear(),
+      onEnemyDeathFade: () => this.startEnemyDeathFade(),
       onScreenShake: (durationMs, level) => {
         const untilMs = this.nowMs + durationMs
         this.screenShake = {
@@ -726,6 +775,10 @@ export class BattleSession {
           this.summonVis = { phase, start: this.nowMs }
         }
       },
+      onEnemySummonFade: (fade) => {
+        if (fade && fade.phase !== this.enemySummonFade?.phase) this.sceneFade.reset()
+        this.enemySummonFade = fade
+      },
     }
     this.actionPresentation.start(timeline, effects, scripted)
   }
@@ -750,17 +803,9 @@ export class BattleSession {
 
   private queueTurnStartHooks(): void {
     if (this.state.hidingTime > 0 || this.pendingTerminal) return
-    this.state.enemies.forEach((enemy, enemyIdx) => {
-      if (enemy && enemy.hp > 0)
-        this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
-    })
-  }
-
-  private flushScheduledMusicStop(): void {
-    const scheduled = this.scheduledMusicStop
-    if (!scheduled || this.nowMs < scheduled.deadline) return
-    this.scheduledMusicStop = null
-    if (scheduled.serial === this.musicSerial) this.opts.stopMusic?.()
+    // Scan slots in order, checking occupancy at execution so a later slot can be filled mid-scan.
+    for (const enemyIdx of this.state.enemies.keys())
+      this.pendingHookActivations.push({ enemyIdx, channel: 'turnStart' })
   }
 
   private battleActor(actor: string): BattleState['players'][number] {
@@ -902,24 +947,11 @@ export class BattleSession {
         this.state.log.push(`♪ 音效 ${action.asset}`)
         return
       case 'playMusic':
-        this.musicSerial += 1
-        this.scheduledMusicStop = null
         this.opts.playMusic?.(action.asset)
         return
-      case 'stopMusic': {
-        const serial = ++this.musicSerial
-        const fadeMs = action.fadeMs ?? 0
-        if (fadeMs > 0)
-          this.scheduledMusicStop = {
-            serial,
-            deadline: this.nowMs + fadeMs,
-          }
-        else {
-          this.scheduledMusicStop = null
-          this.opts.stopMusic?.()
-        }
+      case 'stopMusic':
+        this.opts.stopMusic?.(action.fadeMs)
         return
-      }
       case 'wait':
         this.choreoWaitUntil = this.nowMs + action.ms
         return
@@ -978,22 +1010,26 @@ export class BattleSession {
       enemyAppearances: string[]
     },
   ): void {
-    if (result.result.outcome === 'failed') return
+    if (result.result.kind !== 'summon') this.hookSummonIdleTicks.clear()
+    if (result.result.outcome === 'failed' && result.result.kind !== 'summon') return
     const action = {
       side: 'enemy' as const,
       idx: activation.enemyIdx,
       kind: result.result.kind,
       ...(result.result.spawnedIdxs ? { spawnedIdxs: result.result.spawnedIdxs } : {}),
     }
-    const timeline = this.buildStepTimeline(
-      action,
-      before.playerHp,
-      before.enemyHp,
-      before.playerAppearances,
-      before.enemyAppearances,
-    )
+    const timeline =
+      action.kind === 'summon'
+        ? this.buildEnemySummonTimeline(activation.enemyIdx, action.spawnedIdxs ?? [], true)
+        : this.buildStepTimeline(
+            action,
+            before.playerHp,
+            before.enemyHp,
+            before.playerAppearances,
+            before.enemyAppearances,
+          )
     if (timeline) this.startTimeline(timeline, true)
-    else this.resetVisual()
+    else if (result.result.outcome === 'succeeded') this.resetVisual()
   }
 
   private pumpCasualtyDialogue(pressed: ReadonlySet<string>): boolean {
@@ -1071,12 +1107,14 @@ export class BattleSession {
       if (step.kind === 'complete') {
         box?.releaseBattleChoreography()
         this.activeHook = null
+        this.hookSummonIdleTicks.clear()
         return true
       }
       if (step.kind === 'effect') {
         this.startHookEffectPresentation(activation, step, before)
         return true
       }
+      this.hookSummonIdleTicks.clear()
       this.executeBattleChoreographyAction(step.action)
       return true
     }
@@ -1148,11 +1186,6 @@ export class BattleSession {
     return this.state.moneyDelta
   }
 
-  /** 战内当前可用金钱(快照+增减;铜钱镖 cost.money 选单门)。 */
-  private moneyNow(): number {
-    return Math.max(0, this.state.money + this.state.moneyDelta)
-  }
-
   /** 收妖值(灵葫咒 0x33;main 无条件并入 world.collectValue)。 */
   collectGained(): number {
     return this.state.collectGained
@@ -1168,7 +1201,6 @@ export class BattleSession {
   tick(dtMs: number, pressed: ReadonlySet<string>, gameplayNowMs?: number): void {
     if (this.closed) return
     this.nowMs = gameplayNowMs ?? this.nowMs + dtMs
-    this.flushScheduledMusicStop()
     // 数字 11 帧×40ms=440ms(uibattle.c:1753 age>10 清);文本飘字维持 900ms
     this.floats = this.floats.filter(
       (f) => this.nowMs - f.bornAt < (f.num !== undefined ? 440 : 900),
@@ -1182,30 +1214,47 @@ export class BattleSession {
         this.cancel(this.readiness.error ?? undefined)
       return
     }
-    if (this.nowMs < this.roundEndFeedbackUntilMs) return
-    if (this.roundEndFeedbackUntilMs !== 0) {
-      this.roundEndFeedbackUntilMs = 0
-      this.resetPlayersVisual()
-    }
     if (this.nowMs < this.enemyCastRecoveryUntilMs) return
     const feedback = this.actionFeedback
     if (feedback) {
       const dismissed =
         feedback.dismiss === 'anyKey' ? pressed.size > 0 : pressed.has(' ') || pressed.has('Enter')
-      if (!dismissed && this.nowMs < feedback.untilMs) return
       const box = this.assets.dialogBox
-      if (dismissed && this.nowMs < feedback.untilMs) box?.advance(this.nowMs)
+      if (feedback.untilMs === null) {
+        if (dismissed) box?.advance(this.nowMs)
+        if (box?.active) return
+      } else if (this.nowMs < feedback.untilMs) {
+        if (!dismissed) return
+        box?.advance(this.nowMs)
+      }
       if (box?.active) box.close()
       this.itemBanner = null
       this.actionFeedback = null
-      // 投掷在收招前等键，偷窃在归位后提示。
+      // 投掷等确认后即可进入收招，其他旁白从下一拍继续。
       if (feedback.dismiss === 'confirm') this.actionPresentation.advancePlayback(0)
+      if (this.enemyCastRecoveryPending && !s.casualtyDialogue) {
+        this.beginEnemyCastRecovery()
+        this.actionPresentation.satisfyActionCadence()
+      }
       return
+    }
+    if (!this.actionPresentation.active && !this.assets.dialogBox?.active) {
+      const textId = s.pendingPoisonNarrations.shift()
+      if (textId !== undefined) {
+        this.showActionFeedback(lookupText(textId, this.opts.locale ?? {}), 'anyKey')
+        return
+      }
+    }
+    if (this.nowMs < this.roundEndFeedbackUntilMs) return
+    if (this.roundEndFeedbackUntilMs !== 0) {
+      this.roundEndFeedbackUntilMs = 0
+      this.resetPlayersVisual()
     }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
-      // 终态但收尾动画未播完(最后一击)→ 先播完(死亡淡出/死音在 finishStepVisuals)
+      // A finishing cooperative move still holds its formation during the death fade.
+      if (this.actionPresentation.active && this.advanceDeathFade()) return
       const terminalPlayback = this.actionPresentation.advancePlayback(dtMs)
       if (terminalPlayback === 'playing') return
       if (terminalPlayback === 'finished') {
@@ -1227,6 +1276,15 @@ export class BattleSession {
     }
 
     if (this.advanceDeathFade()) return
+    if (this.hideFade) {
+      if (this.nowMs - this.hideFade.start < SCENE_FADE_MS) return
+      this.hideFade = null
+    }
+    if (this.partyHidden && s.hidingTime === 0) {
+      this.partyHidden = false
+      this.hideFade = { dir: 'in', start: this.nowMs }
+      return
+    }
 
     if (s.phase === 'selectAction') {
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
@@ -1241,15 +1299,9 @@ export class BattleSession {
         this.beginTurnPreparation(dtMs)
         return
       }
-      // 自动战斗(0x8A):玩家侧不出菜单,逐个活队员派 AI 攻击最近活敌(石长老过场战)
       if (this.opts.auto) {
-        const alive = this.aliveEnemyIdxs()
-        s.pendingActions.set(
-          sel,
-          alive.length
-            ? { kind: 'attack', targetEnemyIdx: expectDefined(alive[0]) }
-            : { kind: 'defend' },
-        )
+        const action = this.scriptedAutoAction(sel)
+        s.pendingActions.set(sel, action)
         return
       }
       if (this.sessionUi === 'acting') {
@@ -1297,7 +1349,11 @@ export class BattleSession {
               this.opts.locale ?? {},
             )
             this.pumpScriptExecution(dtMs, pressed)
-            return
+            if (this.activeHook) {
+              this.actionPresentation.resetActionCadence()
+              return
+            }
+            // A synchronous ready hook and its action share a battle frame (fight.c:1719-1724).
           }
         }
       }
@@ -1315,7 +1371,17 @@ export class BattleSession {
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
       this.enemyCastRecoveryPending = la?.side === 'enemy' && la.kind === 'cast'
-      this.pendingFailureFeedback = la?.failureFeedback ?? null
+      this.pendingFailureFeedback = la?.failureFeedback
+        ? {
+            kind: la.failureFeedback,
+            centeredText:
+              la.failureFeedback === 'missingSpellItem' &&
+              la.side === 'player' &&
+              la.kind === 'cast'
+                ? s.skills[la.skillId]?.cost.missingItemsText
+                : undefined,
+          }
+        : null
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) =>
@@ -1497,11 +1563,33 @@ export class BattleSession {
           ...(allyTargets.length ? { allyTargets } : {}),
           damageNums,
           postTargets,
+          ...(a.keepEffect ? { keepEffect: true } : {}),
+          ...(this.pendingDeaths.length
+            ? {
+                waitForEnemyDeathFade: true,
+                ...(s.phase === 'won' ? { settlementHoldMs: DEATH_SETTLEMENT_PAUSE_MS } : {}),
+              }
+            : {}),
           ...(this.opts.soundRoles?.['audio.battleCoopCastSound']
             ? { castSound: this.opts.soundRoles['audio.battleCoopCastSound'] }
             : {}),
         })
       }
+      const partyIdxs = s.players.map((_, index) => index)
+      const retreat = la.fleeSuccess
+        ? {
+            partySlots: partyIdxs,
+            players: partyIdxs.flatMap((idx) => {
+              const pos = getPlayerBasePos(s.players.length, idx)
+              if (!pos || (pHp[idx] ?? 0) <= 0) return []
+              return [{ idx, pos, idleFrame: this.playerFrames(idx).idle }]
+            }),
+            ...(this.opts.soundRoles?.['audio.battleEscapeSound']
+              ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
+              : {}),
+          }
+        : undefined
+      if (retreat) this.skipNextReset = true
       return buildPlayerCast({
         casterFrames: playerProfile.frames,
         casterIdx: la.idx,
@@ -1515,10 +1603,23 @@ export class BattleSession {
           summonEff?.kind !== 'summon' && this.assets.effectSprite
             ? playerProfile.castEffectBase
             : -1,
-        partyIdxs: s.players.map((_, i) => i),
+        partyIdxs,
         fireFrames,
         fx,
         targetPos,
+        waitForUseFailureFeedback: la.fizzled === true || la.fleeSuccess === false,
+        ...(retreat ? { retreat } : {}),
+        ...(la.blow
+          ? {
+              blow: {
+                steps: la.blow.steps,
+                targets: la.blow.targetSlots.map((idx) => ({
+                  idx,
+                  pos: expectDefined(s.enemies[idx]).basePos,
+                })),
+              },
+            }
+          : {}),
         ...(allyTargets.length ? { allyTargets } : {}),
         offensive:
           la.kind === 'cast' &&
@@ -1576,7 +1677,7 @@ export class BattleSession {
     return buildEnemyCast({
       enemyIdx: la.idx,
       enemyPos: enemy.basePos,
-      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy.hp),
+      enemyFrame: this.enemyVisualFrame(caster, enemyProfile, enemy),
       anim: enemyProfile,
       playerFrames: s.players.map((_, index) => this.playerFrames(index)),
       magicSound: def.sounds.magic,
@@ -1590,6 +1691,49 @@ export class BattleSession {
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
       hurtPlayers,
+    })
+  }
+
+  /** 敌召唤手势先于空槽/状态失败，成功时播放两段入场溶解（script.c:2870–2945）。 */
+  private buildEnemySummonTimeline(
+    casterIdx: number,
+    spawnedIdxs: readonly number[],
+    fromHook = false,
+  ): AnimFrame[] | null {
+    const profile = this.enemyAppearance(casterIdx).definition.profile
+    if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+    if (!spawnedIdxs.length && profile.magic.count <= 0) return null
+
+    const slotIdle = (idx: number) => {
+      const slotProfile = this.enemyAppearance(idx).definition.profile
+      if (slotProfile.kind !== 'enemy') throw new Error('enemy profile 漂移')
+      return { idx, idle: slotProfile.idle, idleTicksPerFrame: slotProfile.idleTicksPerFrame }
+    }
+    const earlierArrivals = fromHook
+      ? this.state.enemies.flatMap((enemy, idx) => {
+          if (!enemy || enemy.hp <= 0) return []
+          const elapsedTicks = this.hookSummonIdleTicks.get(enemy)
+          if (elapsedTicks === undefined) return []
+          if (spawnedIdxs.length)
+            this.hookSummonIdleTicks.set(enemy, elapsedTicks + ENEMY_SUMMON_HOLD_TICKS)
+          return [{ ...slotIdle(idx), elapsedTicks }]
+        })
+      : []
+    const spawns = spawnedIdxs.map((idx) => {
+      this.visual.enemies[idx] = null
+      if (fromHook)
+        this.hookSummonIdleTicks.set(
+          expectDefined(this.state.enemies[idx]),
+          ENEMY_SUMMON_HOLD_TICKS,
+        )
+      return slotIdle(idx)
+    })
+    return buildEnemySummon({
+      casterIdx,
+      profile,
+      spawns,
+      earlierArrivals,
+      sound: this.opts.soundRoles?.['audio.battleEnemySummonSound'],
     })
   }
 
@@ -1677,27 +1821,6 @@ export class BattleSession {
           stealFrame,
         })
       }
-      // 金蝉脱壳(fleeBattle;effectSprite=65535 无特效,generic cast 会打空气):
-      // 成功 → 全队滑出屏(flee 命令成功同款演出);boss 失败 → 无演出,「无法逃离!」横幅已弹
-      if (la.side === 'player' && skEffects.some((e) => e.kind === 'fleeBattle')) {
-        if (!la.fleeSuccess) return null
-        const alive = s.players
-          .map((_, i) => i)
-          .filter((i) => (pHp[i] ?? 0) > 0)
-          .map((i) => ({
-            idx: i,
-            pos: getPlayerBasePos(s.players.length, i) ?? { x: 240, y: 170 },
-            idleFrame: this.playerFrames(i).idle,
-          }))
-        if (!alive.length) return null
-        this.skipNextReset = true
-        return buildPartyFlee({
-          players: alive,
-          ...(this.opts.soundRoles?.['audio.battleEscapeSound']
-            ? { sound: this.opts.soundRoles['audio.battleEscapeSound'] }
-            : {}),
-        })
-      }
       return this.buildCastTimeline(la, pHp, eHp)
     }
     // 合击:走 buildCastTimeline(内含 coopContributors 分支 → buildPlayerCoop 聚拢队形演出;
@@ -1710,8 +1833,10 @@ export class BattleSession {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
       const item = s.items[la.itemId]
+      const useTarget = item?.use?.target
+      // 两种香走场景效果，原盘用物旗标仍要求全队辉光。
       const targetIdxs =
-        item?.use?.target === 'allAllies'
+        useTarget === 'allAllies' || useTarget === 'scene'
           ? s.players.map((_, slot) => slot)
           : [la.targetAllyIdx ?? la.idx]
       const gains = this.pendingGains
@@ -1732,6 +1857,8 @@ export class BattleSession {
         casterPos,
         targetIdxs,
         revivedTargets,
+        waitForUseFailureFeedback: la.failureFeedback === 'itemIneffective',
+        activateHiding: s.hidingTime < 0,
         itemName: item?.name,
         ...(sound ? { sound } : {}),
         gains,
@@ -1793,10 +1920,12 @@ export class BattleSession {
       const newProfile = next.definition.profile
       if (oldProfile.kind !== 'enemy' || newProfile.kind !== 'enemy')
         throw new Error('enemy transform profile 漂移')
+      const original = expectDefined(this.visual.enemies[la.idx])
       return buildEnemyTransform({
         idx: la.idx,
         oldDefinitionId,
-        newDefinitionId: next.definition.id,
+        oldPos: { x: original.x, y: original.y },
+        newPos: expectDefined(s.enemies[la.idx]).basePos,
         oldIdleFrame: oldProfile.idle.start,
         newIdleFrame: newProfile.idle.start,
         ...(this.opts.soundRoles?.['audio.battleEnemyTransformSound']
@@ -1809,6 +1938,11 @@ export class BattleSession {
     if (la.kind === 'divide' && la.side === 'enemy' && la.spawnedIdxs?.length) {
       const mother = s.enemies[la.idx]
       if (!mother) return null
+      const motherVisual = this.visual.enemies[la.idx]
+      if (motherVisual) {
+        motherVisual.x = mother.basePos.x
+        motherVisual.y = mother.basePos.y
+      }
       for (const si of la.spawnedIdxs) {
         this.visual.enemies[si] = {
           x: mother.basePos.x,
@@ -1835,23 +1969,8 @@ export class BattleSession {
         })),
       })
     }
-    // 敌召唤：本体 magic 段起手；所有可达新怪已由 readiness 预载。
-    if (la.kind === 'summon' && la.side === 'enemy') {
-      const profile = this.enemyAppearance(la.idx).definition.profile
-      if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      if (profile.magic.count <= 0) return null
-      const frames: AnimFrame[] = []
-      for (let i = 0; i < profile.magic.count; i++)
-        frames.push({
-          durationMs: 40 * profile.actTicksPerFrame,
-          fighters: [{ side: 'enemy', idx: la.idx, frame: profile.magic.start + i }],
-        })
-      frames.push({
-        durationMs: 40,
-        fighters: [{ side: 'enemy', idx: la.idx, frame: profile.idle.start }],
-      })
-      return frames
-    }
+    if (la.kind === 'summon' && la.side === 'enemy')
+      return this.buildEnemySummonTimeline(la.idx, la.spawnedIdxs ?? [])
     // 投掷道具(前移、挥臂、出手 → 数字 → 复位；纯施毒不显数字)
     if (la.kind === 'throw' && la.side === 'player' && la.throwHits?.length) {
       const attackerPos = getPlayerBasePos(s.players.length, la.idx)
@@ -1900,7 +2019,9 @@ export class BattleSession {
         casterPos: attackerPos,
         casterRestFrame: this.playerRestFrame(expectDefined(s.players[la.idx]), casterFrames),
         ...(item ? { itemName: item.name } : {}),
-        waitForThrowFeedback: la.failureFeedback === 'throwIneffective',
+        waitForThrowFeedback:
+          la.failureFeedback === 'throwIneffective' ||
+          la.failureFeedback === 'throwStatusIneffective',
         hits: la.throwHits.map(({ idx, value }) => ({ idx, damage: value })),
         ...(casterGain ? { casterHeal: casterGain.value } : {}),
         ...(throwSound ? { sound: throwSound } : {}),
@@ -2087,10 +2208,11 @@ export class BattleSession {
 
   /** 时间线 delta → 表现层(原版语义:pos 直落;连续位移由时间线插值帧承担)。 */
   private applyDelta(d: FighterDelta): void {
+    if (d.side === 'enemy' && d.showSpawn) this.visual.enemies[d.idx] = this.enemyRestVisual(d.idx)
     const v = d.side === 'player' ? this.visual.players[d.idx] : this.visual.enemies[d.idx]
     if (!v) return
     if (d.frame !== undefined) v.frame = d.frame
-    if (d.holdFrame) v.holdFrame = true
+    if (d.holdFrame !== undefined) v.holdFrame = d.holdFrame
     if (d.pos) {
       v.x = d.pos.x
       v.y = d.pos.y
@@ -2137,13 +2259,42 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
-    const text = { statusIneffective: '攻击无效', throwIneffective: '无任何效果' }[feedback]
-    this.showActionFeedback(text, feedback === 'throwIneffective' ? 'confirm' : undefined)
+    const box = this.assets.dialogBox
+    if (feedback.centeredText && box) {
+      this.itemBanner = null
+      this.actionPresentation.resetActionCadence()
+      this.actionFeedback = { untilMs: null, dismiss: 'confirm' }
+      box.open(
+        startDialogue({
+          id: '__battle_action_feedback',
+          cues: [{ slot: 'center', rows: [{ text: feedback.centeredText }] }],
+        }),
+        this.nowMs,
+      )
+      return
+    }
+    const text = {
+      statusIneffective: '攻击无效',
+      itemIneffective: '无任何效果',
+      throwIneffective: '无任何效果',
+      throwStatusIneffective: '攻击无效',
+      spellIneffective: '失败　没有效果',
+      missingSpellItem: '道具不足无法使用',
+      missingSpellMoney: '钱不够，只好作罢',
+    }[feedback.kind]
+    if (feedback.kind === 'statusIneffective') this.showActionFeedback(text)
+    else if (feedback.kind === 'throwIneffective') this.showActionFeedback(text, 'confirm')
+    else {
+      this.showActionFeedback(text, 'anyKey')
+      if (feedback.kind !== 'itemIneffective' && feedback.kind !== 'throwStatusIneffective')
+        this.actionPresentation.satisfyActionCadence()
+    }
   }
 
   private showActionFeedback(message: string | TextSpan[], dismiss?: 'confirm' | 'anyKey'): void {
     if (dismiss) {
       this.itemBanner = null
+      this.actionPresentation.resetActionCadence()
       this.actionFeedback = { untilMs: this.nowMs + FAILURE_FEEDBACK_MS, dismiss }
     }
     const box = this.assets.dialogBox
@@ -2161,7 +2312,7 @@ export class BattleSession {
             {
               rows: [{ text }],
               slot: 'narration',
-              ...(dismiss ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
+              ...(dismiss === 'confirm' ? {} : { autoAdvance: FAILURE_FEEDBACK_MS }),
             },
           ],
         }),
@@ -2177,11 +2328,22 @@ export class BattleSession {
   private advanceDeathFade(pauseAfterMs = 0): boolean {
     const fade = this.deathFade
     if (!fade) return false
-    if (this.nowMs - fade.startedAtMs < DEATH_FADE_MS + pauseAfterMs) return true
+    if (this.nowMs - fade.startedAtMs < SCENE_FADE_MS + pauseAfterMs) return true
     this.deathFade = null
-    if (this.state.phase === 'performAction') this.actionPresentation.satisfyActionCadence()
+    if (this.state.phase === 'performAction' && !this.actionPresentation.active)
+      this.actionPresentation.satisfyActionCadence()
     // 没有结算停拍时，把淡出完成的这一帧留给战场终帧。
     return pauseAfterMs === 0
+  }
+
+  private startEnemyDeathFade(): void {
+    if (!this.pendingDeaths.length) return
+    this.deathFade = { startedAtMs: this.nowMs, enemySlots: this.pendingDeaths }
+    for (const i of this.pendingDeaths) {
+      const e = this.state.enemies[i]
+      if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
+    }
+    this.pendingDeaths = []
   }
 
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
@@ -2199,21 +2361,15 @@ export class BattleSession {
     // 涨益飘字(回血黄/回 MP 青;特效播完后弹 = DisplayStatChange 时序)
     for (const g of this.pendingGains) this.applyDamageFx(g.target, g.value, g.tone)
     this.pendingGains = []
-    if (this.pendingDeaths.length) {
-      this.deathFade = { startedAtMs: this.nowMs, enemySlots: this.pendingDeaths }
-      for (const i of this.pendingDeaths) {
-        const e = this.state.enemies[i]
-        if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
-      }
-      this.pendingDeaths = []
-    }
+    this.startEnemyDeathFade()
     this.pendingConfusedReveal.clear()
     this.syncPlayerDisplayHp()
+    // 失败卷轴在收尾复位后显示。敌方另在清除后进入施法恢复停顿。
+    this.presentPendingFailureFeedback()
     // 原版完整复位后等十帧才进伤亡脚本（fight.c:804–819,865–882）。
     if (this.state.casualtyDialogue)
       this.casualtyDialogueReadyAtMs = this.nowMs + CASUALTY_DIALOGUE_DELAY_MS
-    else this.beginEnemyCastRecovery()
-    this.presentPendingFailureFeedback()
+    else if (!this.actionFeedback) this.beginEnemyCastRecovery()
     if (this.pendingStealNotice) {
       this.showActionFeedback(this.pendingStealNotice, 'anyKey')
       this.pendingStealNotice = undefined
@@ -2231,6 +2387,7 @@ export class BattleSession {
     // 原版敌法在受击复位及伤亡检查后保持八帧（fight.c:4904–4908）。
     if (!this.enemyCastRecoveryPending) return
     this.enemyCastRecoveryPending = false
+    this.actionPresentation.resetActionCadence()
     this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
   }
 
@@ -2362,18 +2519,19 @@ export class BattleSession {
     options: { preserveZeroHp?: boolean } = {},
   ): void {
     const minHp = options.preserveZeroHp || this.state.phase === 'lost' ? 0 : 1
-    for (const p of this.state.players) {
-      const c = party.find((x) => x.id === p.roleId)
-      if (!c) continue
-      c.hp = Math.max(p.hp, minHp)
-      c.mp = p.mp
+    for (const member of party) {
+      const battler = this.state.players.find(({ roleId }) => roleId === member.id)
+      if (!battler) continue
+      member.hp = Math.max(battler.hp, minHp)
+      member.mp = battler.mp
     }
   }
 
   render(ctx: CanvasRenderingContext2D, worldScale: number): void {
     // 震屏 = 整帧合成级垂直位移(所有图层+UI 之上;video.c UpdateScreen 输出级 —— 一阶段
     // daaaae51 血泪:只接大世界路径漏战斗侧 = 山神震屏不显示)。露出条带填黑。
-    const dy = shakeOffsetY(this.screenShake, this.nowMs)
+    const dy =
+      this.actionPresentation.frameShakeOffsetY ?? shakeOffsetY(this.screenShake, this.nowMs)
     if (dy !== 0) {
       ctx.save()
       ctx.translate(0, dy * worldScale)
@@ -2391,7 +2549,7 @@ export class BattleSession {
     }
   }
 
-  /** confused idle 抖动只属于已完成生效的状态；本步新状态在 OffMagic 收尾前保持静止。 */
+  /** 新施加的混乱从主特效结束后的第一拍开始抖动。 */
   private enemyConfusedJitterX(
     enemyIdx: number,
     enemy: { hp: number; status: BattleStatus },
@@ -2410,15 +2568,17 @@ export class BattleSession {
   private enemyVisualFrame(
     visual: VisualFighter,
     profile: EnemyBattleSpriteProfile,
-    hp: number,
+    enemy: BattleEnemyState,
   ): number {
     if (
       visual.holdFrame ||
       visual.frame !== profile.idle.start ||
       profile.idle.count <= 1 ||
-      hp <= 0
+      enemy.hp <= 0
     )
       return visual.frame
+    const summonTicks = this.hookSummonIdleTicks.get(enemy)
+    if (summonTicks !== undefined) return enemySummonIdleFrame(profile, summonTicks)
     const idleStep = Math.floor(this.nowMs / (profile.idleTicksPerFrame * BATTLE_FRAME_MS))
     return profile.idle.start + (idleStep % profile.idle.count)
   }
@@ -2467,21 +2627,14 @@ export class BattleSession {
           ? 1
           : Math.min(1, Math.max(0, (now - sv.start) / (72 * 16)))
     const summonShow = sv === null ? 0 : sv.phase === 'out' ? 1 - svT : svT
-    // 隐身可见度 hideVis(0 显 → 1 全隐):hidingTime 边沿触发 72×16ms 渐变
-    // (原版激活/结束各走一次 PAL_BattleFadeScene 溶解,battle.c:609 12×6×16ms)
-    const hiddenNow = s.hidingTime > 0
-    if (hiddenNow !== this.prevHidden) {
-      this.hideFade = { dir: hiddenNow ? 'out' : 'in', start: now }
-      this.prevHidden = hiddenNow
-    }
-    let hideVis = hiddenNow ? 1 : 0
+    let hideVis = this.partyHidden ? 1 : 0
     if (this.hideFade) {
-      const ht = Math.min(1, (now - this.hideFade.start) / (72 * 16))
-      hideVis = this.hideFade.dir === 'out' ? ht : 1 - ht
-      if (ht >= 1) this.hideFade = null
+      const elapsed = Math.min(1, (now - this.hideFade.start) / SCENE_FADE_MS)
+      hideVis = this.hideFade.dir === 'out' ? elapsed : 1 - elapsed
     }
     const sel =
       s.phase === 'selectAction' &&
+      this.selectionStartedForTurn === s.turn &&
       now >= this.roundEndFeedbackUntilMs &&
       !this.selection.isAutoAttacking
         ? this.nextSelecting()
@@ -2502,13 +2655,18 @@ export class BattleSession {
         : undefined
     // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = alpha 渐隐)
     const deathFade = this.deathFade
+    const summonFade = this.enemySummonFade
+    const arrivingDraws = summonFade ? new Set<BattleSpriteDraw>() : null
     const enemies: BattleSpriteDraw[] = []
-    s.enemies.forEach((e, i) => {
-      if (!e) return
+    let transformFade:
+      | { source: BattleSpriteDraw; target: BattleSpriteDraw; step: number }
+      | undefined
+    for (const [i, e] of s.enemies.entries()) {
+      if (!e) continue
       const appearance = this.enemyAppearance(i)
       const sprite = appearance.sprite
       const v = this.visual.enemies[i]
-      if (!sprite || !v) return
+      if (!sprite || !v) continue
       // 死亡可见性(2026-07-05 作者报「施法时怪物消失」):真 hp 在时间线**播放前**已结算,
       // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
@@ -2516,46 +2674,41 @@ export class BattleSession {
       const dyingNow = this.pendingDeaths.includes(i) || this.fleeingEnemies?.includes(i) === true
       let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
-        if (!deathFade?.enemySlots.includes(i)) return
-        alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
-        if (alpha <= 0) return
+        if (!deathFade?.enemySlots.includes(i)) continue
+        alpha = 1 - (now - deathFade.startedAtMs) / SCENE_FADE_MS
+        if (alpha <= 0) continue
       }
       const anim = appearance.definition.profile
       if (anim.kind !== 'enemy') throw new Error('enemy profile 漂移')
-      const frame = this.enemyVisualFrame(v, anim, e.hp)
+      const frame = this.enemyVisualFrame(v, anim, e)
       // 疯魔抖动(battle.c:114-121):敌 X 轴 ±1/帧;眠/定压制不抖(死亡淡出 hp≤0 自然排除)
       const jx = this.enemyConfusedJitterX(i, e)
+      const draw: BattleSpriteDraw = {
+        sprite,
+        x: v.x + jx,
+        y: v.y,
+        frame,
+        colorShift: i === highlightEnemy ? 6 : v.colorShift,
+        ...(alpha < 1 ? { alpha } : {}),
+      }
       const transition = this.enemyAppearanceTransitions.get(i)
       if (transition) {
-        const progress = transition.step / transition.total
-        enemies.push(
-          {
-            sprite: this.requireAppearance(transition.oldDefinitionId, 'enemy').sprite,
-            x: v.x + jx,
-            y: v.y,
-            frame: transition.oldFrame,
-            colorShift: i === highlightEnemy ? 6 : v.colorShift,
-            dissolve: progress,
-          },
-          {
-            sprite: this.requireAppearance(transition.newDefinitionId, 'enemy').sprite,
-            x: v.x + jx,
-            y: v.y,
-            frame: transition.newFrame,
-            colorShift: i === highlightEnemy ? 6 : v.colorShift,
-            dissolve: 1 - progress,
-          },
-        )
-      } else
-        enemies.push({
-          sprite,
-          x: v.x + jx,
-          y: v.y,
-          frame,
-          colorShift: i === highlightEnemy ? 6 : v.colorShift,
-          ...(alpha < 1 ? { alpha } : {}),
-        })
-    })
+        const source = {
+          sprite: this.requireAppearance(transition.oldDefinitionId, 'enemy').sprite,
+          ...transition.source,
+        }
+        if (transition.step === 0) {
+          enemies.push({ ...source, colorShift: draw.colorShift })
+        } else {
+          const target = draw
+          enemies.push(target)
+          transformFade = { source, target, step: transition.step }
+        }
+      } else {
+        enemies.push(draw)
+        if (summonFade?.slots.includes(i)) arrivingDraws?.add(draw)
+      }
+    }
     const players: BattleSpriteDraw[] = []
     const trance = this.playerAppearanceTransition
     let tranceTarget: BattleSpriteDraw | undefined
@@ -2632,15 +2785,31 @@ export class BattleSession {
       palette: this.assets.palette,
     }
     if (trance?.fade) {
-      const fade: BattleTranceFadeFrame = {
-        step: trance.fade.step,
-        source: {
-          sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
-          ...trance.fade.source,
-        },
-        target: tranceTarget,
+      const source = { ...scene, players: players.filter((draw) => draw !== tranceTarget) }
+      const sourcePlayer = {
+        sprite: this.requireAppearance(trance.oldDefinitionId, 'player-fighter').sprite,
+        ...trance.fade.source,
       }
-      this.tranceFade.render(ctx, scene, worldScale, fade)
+      source.players.push(sourcePlayer)
+      this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)
+    } else if (transformFade) {
+      const { source, target, step } = transformFade
+      const sourceEnemies = enemies.map((draw) => (draw === target ? source : draw))
+      this.sceneFade.render(ctx, { ...scene, enemies: sourceEnemies }, scene, worldScale, step)
+    } else if (summonFade && arrivingDraws) {
+      const sourceEnemies =
+        summonFade.phase === 'arrival'
+          ? enemies.filter((draw) => !arrivingDraws.has(draw))
+          : enemies.map((draw) =>
+              arrivingDraws.has(draw) ? { ...draw, colorShift: ENEMY_SUMMON_COLOR_SHIFT } : draw,
+            )
+      this.sceneFade.render(
+        ctx,
+        { ...scene, enemies: sourceEnemies },
+        scene,
+        worldScale,
+        summonFade.step,
+      )
     } else renderBattleScene(ctx, scene, worldScale)
 
     // 特效 overlay:**底中锚** blit(fight.c:2436/2183 真值 PAL_XY(x−w/2, y−h) ——
@@ -2762,7 +2931,8 @@ export class BattleSession {
 
     // 战斗内对话框 = 大世界同款 DialogBox 叠战斗场景上(一阶段真值;text.c:1687 不擦底)。
     // 已在 320 逻辑坐标 ×scale 上下文里,DialogBox.render 内部也走 320 坐标 → 直接调。
-    if (this.assets.dialogBox?.active) {
+    // 一句确认后仍可能保留上下槽，清框或演出收尾才释放这些画面。
+    if (this.assets.dialogBox?.visible) {
       this.assets.dialogBox.render(now)
     } else if (this.choreoBanner) {
       // 无 DialogBox(单测/资产缺)时的文字兜底横幅
@@ -2851,7 +3021,7 @@ export class BattleSession {
           const mp = sk?.cost.mp ?? 0
           return {
             label: sk?.name ?? sid,
-            disabled: !sk || p.mp < mp || this.moneyNow() < (sk.cost.money ?? 0),
+            disabled: !sk || p.mp < mp,
           }
         })
         const selSkill = this.opts.skills?.[p.skills[selection.skillIndex % p.skills.length] ?? '']

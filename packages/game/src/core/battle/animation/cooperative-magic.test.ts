@@ -64,7 +64,7 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
     expect(f10.fighters).toEqual([{ side: 'player', idx: 0, currentFrame: 6, iColorShift: 0 }])
   })
 
-  it('Phase6 PostMagic 第一帧带伤害数字,不等 Phase7 滑回结束', () => {
+  it('受击首拍显示伤害，随后再停留五拍才滑回', () => {
     const numIdx = frames.findIndex((f) => (f.damageNums?.length ?? 0) > 0)
     const postIdx = frames.findIndex((f) =>
       f.fighters?.some((d) => d.side === 'enemy' && d.idx === 0),
@@ -76,7 +76,11 @@ describe('buildCoopMagicTimeline (协力合击,fight.c:3856-4107 CLASSIC)', () =
     const slideBackIdx = frames.findIndex((f) =>
       f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 0),
     )
-    expect(slideBackIdx).toBeGreaterThan(numIdx)
+    expect(
+      frames
+        .slice(numIdx, slideBackIdx)
+        .reduce((duration, frame) => duration + frame.durationMs, 0),
+    ).toBe(9 * FRAME_MS)
   })
 
   it('Phase5 OffMagic:含 magic chunk overlay(法术效果,casterIdx=-1 不切发起者帧6)', () => {

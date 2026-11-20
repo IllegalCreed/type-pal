@@ -10,6 +10,7 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/audio/sfx.ts',
   'packages/reforge/src/battle/present-battle.ts',
   'packages/reforge/src/battle/battle-core.ts',
+  'packages/reforge/src/battle/enemy-hook-runtime.ts',
   'packages/reforge/src/dialog/dialog-box.ts',
   'packages/reforge/src/battle/battle-command-selection.ts',
 ]
@@ -101,6 +102,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const isBattleScene = file.endsWith('/battle/present-battle.ts')
   const isDialogBox = file.endsWith('/dialog/dialog-box.ts')
   const isCommandSelection = file.endsWith('/battle/battle-command-selection.ts')
+  const isEnemyHookRuntime = file.endsWith('/battle/enemy-hook-runtime.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -114,6 +116,25 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const visit = (node) => {
     const source = node.getText(ast)
     if (isCommandSelection) observeTargetCancel(node, ast, add, call)
+    if (
+      isEnemyHookRuntime &&
+      ts.isCallExpression(node) &&
+      node.expression.getText(ast) === 'evalAiCond'
+    ) {
+      assert.equal(node.arguments.length, 3, 'enemy hook condition arguments changed')
+      const [condition, view, rng] = node.arguments
+      assert.deepEqual(
+        [condition.getText(ast), view.getText(ast), rng.getText(ast)],
+        ['transition.cond', 'buildAiView(state, enemy)', 'rng'],
+      )
+      // evalAiCond calls this port only for a live chance condition, including nested conditions.
+      add(
+        'enemy-hook-chance-before',
+        rng.getStart(ast),
+        "() => { globalThis.__battleEvidence?.markRandom('battle-script-chance'); return ",
+      )
+      add('enemy-hook-chance-after', rng.end, '(); }')
+    }
     if (isDialogBox) {
       const method = ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast)
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'advance') {
@@ -264,11 +285,11 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
             node.end,
             `\n${evidenceCall('labelFighter', "draw, 'player', i, false, undefined, appearance.definition.id")}`,
           )
-        if (source === 'this.tranceFade.render(ctx, scene, worldScale, fade)') {
+        if (source === 'this.sceneFade.render(ctx, source, scene, worldScale, trance.fade.step)') {
           add(
             'trance-fade-composited',
             node.end,
-            `\n${evidenceCall('appearanceTransitionDrawn', 'fade.step, trance.fade.total, trance.idx, fade.source, trance.oldDefinitionId')}`,
+            `\n${evidenceCall('appearanceTransitionDrawn', 'trance.fade.step, trance.fade.total, trance.idx, sourcePlayer, trance.oldDefinitionId')}`,
           )
         }
         if (name === 'this.selection.advance')
@@ -286,12 +307,20 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         if (
           source === 'renderBattleScene(ctx, scene, worldScale)' &&
           ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'renderInner'
-        )
+        ) {
+          // Inserting between "else" and "if" would detach the fallback painter.
+          let sceneBranch = node
+          while (
+            ts.isIfStatement(sceneBranch.parent) &&
+            sceneBranch.parent.elseStatement === sceneBranch
+          )
+            sceneBranch = sceneBranch.parent
           add(
             'magic-overlay-resources',
-            ts.isIfStatement(node.parent) ? node.parent.getStart(ast) : node.getStart(ast),
+            sceneBranch.getStart(ast),
             evidenceCall('labelMagicOverlays', 'scene.depthOverlays, this.assets.fireSprites'),
           )
+        }
         if (name === 'this.floats.push' && source.includes('num: value'))
           add(
             'number-identity',
@@ -447,7 +476,14 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                       'action-before',
                       'action-after',
                     ]
-  assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
+  const expectedForSource = isEnemyHookRuntime
+    ? ['enemy-hook-chance-before', 'enemy-hook-chance-after']
+    : expected
+  assert.deepEqual(
+    Object.keys(anchors).sort(),
+    expectedForSource.sort(),
+    `battle producer drift: ${file}`,
+  )
   for (const count of Object.values(anchors))
     assert.equal(count, 1, `unexpected battle producer count: ${file}`)
   for (const edit of edits.sort((a, b) => b.at - a.at))

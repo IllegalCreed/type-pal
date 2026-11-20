@@ -24,7 +24,16 @@ export function settleBattleVictory(
     world.learnedSkills,
     project.actorsById,
     project.levelUp,
-    { ...rewards, hiddenCounts: session.hiddenCounts(), ...options },
+    {
+      ...rewards,
+      hiddenCounts: session.hiddenCounts(),
+      ...options,
+      isSkillExhausted: (characterId, skillId) => {
+        const limit = project.skills[skillId]?.lifetimeLimit
+        const uses = world.skillUseCounts?.[characterId]?.[skillId] ?? 0
+        return limit !== undefined && uses >= limit
+      },
+    },
     rng,
   )
   const levelUps = report.levelUps.map((levelUp) => {
@@ -41,10 +50,8 @@ export function settleBattleVictory(
     return { ...levelUp, before, after }
   })
   return buildSettlementScreens(
-    report.exp,
-    report.cash,
-    levelUps,
-    report.hiddenUps,
+    { ...report, levelUps },
+    world.party.map(({ id }) => id),
     (id) =>
       lookupText(`name.${world.party.find((c) => c.id === id)?.template ?? ''}`, project.locale),
     (id) => project.skills[id]?.name ?? id,
@@ -59,7 +66,8 @@ export function finishBattleWorldState(
   project: LoadedCurrentProjectCore,
 ): void {
   session.writeBackPersistentEffects(world)
-  if (result !== 'victory') session.writeBackHp(world.party)
+  // The resumed scene script may explicitly revive actors who were down at battle end.
+  if (result !== 'victory') session.writeBackHp(world.party, { preserveZeroHp: true })
   session.writeBackInventory(world.inventory)
   if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
   if (session.collectGained() > 0)

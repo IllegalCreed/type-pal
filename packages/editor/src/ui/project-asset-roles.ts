@@ -63,6 +63,10 @@ const ROLE_PRESENTATION = {
     label: '敌人变身音效',
     groupId: 'battle-sfx',
   },
+  'audio.battleEnemySummonSound': {
+    label: '敌人召唤音效',
+    groupId: 'battle-sfx',
+  },
   'video.startupTrademark': {
     label: '启动商标视频',
     groupId: 'startup',

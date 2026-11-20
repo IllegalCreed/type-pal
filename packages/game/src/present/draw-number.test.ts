@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../assets/png.js'
 import { createDigitFrames } from './__tests__/digit-frames.js'
-import { drawNumber } from './draw-number.js'
+import { drawNumber, drawStatNumber } from './draw-number.js'
 import { createFramebuffer, type Framebuffer } from './framebuffer.js'
 
 function digitFramesWithMask(
@@ -29,6 +29,16 @@ function expectDigitPixels(
 }
 
 describe('Number sprite layout and mask pixels', () => {
+  it('keeps the signed stat magnitude at the right anchor', () => {
+    const fb = createFramebuffer()
+    drawStatNumber(fb, -12, 4, { x: 260, y: 80 }, 'cyan', createDigitFrames())
+    expect(Array.from(fb.indices.subarray(84 * fb.width + 267, 84 * fb.width + 271))).toEqual([
+      139, 139, 139, 139,
+    ])
+    expect(fb.indices[80 * fb.width + 272]).toBe(57)
+    expect(fb.indices[80 * fb.width + 278]).toBe(58)
+  })
+
   it('num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)', () => {
     const fb = createFramebuffer()
     drawNumber(fb, 0, 6, { x: 49, y: 14 }, 'yellow', 'right', createDigitFrames())

@@ -1,6 +1,12 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { buildOffMagic, buildPlayerCast, type CastFxParams } from './battle-anim.js'
+import { enemyProfile } from '../__tests__/battle-workflows/catalog.js'
+import {
+  buildEnemySummon,
+  buildOffMagic,
+  buildPlayerCast,
+  type CastFxParams,
+} from './battle-anim.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,
@@ -29,6 +35,56 @@ const fx: CastFxParams = {
 }
 
 describe('当前召唤型施法与 OffMagic 特效落点', () => {
+  test('召唤的新敌从各自初始闲站计时，施法者在高亮保持期恢复闲站', () => {
+    const input = {
+      casterIdx: 1,
+      spawns: [
+        { idx: 0, idle: { start: 0, count: 4 }, idleTicksPerFrame: 3 },
+        { idx: 2, idle: { start: 0, count: 4 }, idleTicksPerFrame: 1 },
+      ],
+      profile: enemyProfile('boss.magic'),
+      sound: 'sound.summon',
+    }
+    const frames = buildEnemySummon(input)
+    const arrival = frames.find(({ enemySummonFade }) => enemySummonFade?.phase === 'arrival')
+    const restoreColor = frames.findIndex(
+      ({ enemySummonFade }) => enemySummonFade?.phase === 'settle',
+    )
+    expect(frames[0]?.fighters).toMatchObject([{ idx: 1, frame: 2 }])
+    expect(arrival).toMatchObject({
+      sound: 'sound.summon',
+      fighters: [
+        { idx: 0, frame: 0, holdFrame: true, showSpawn: true, colorShift: 8 },
+        { idx: 2, frame: 0, holdFrame: true, showSpawn: true, colorShift: 8 },
+      ],
+    })
+    expect(frames[restoreColor - 3]?.enemySummonFade).toMatchObject({ phase: 'arrival', step: 72 })
+    expect(frames.slice(restoreColor - 2, restoreColor)).toMatchObject([
+      {
+        durationMs: 40,
+        fighters: [
+          { idx: 0, frame: 0 },
+          { idx: 2, frame: 0 },
+          { idx: 1, frame: 0, holdFrame: true },
+        ],
+      },
+      {
+        durationMs: 40,
+        fighters: [
+          { idx: 0, frame: 0 },
+          { idx: 2, frame: 1 },
+          { idx: 1, holdFrame: false },
+        ],
+      },
+    ])
+    expect(frames[restoreColor]).toMatchObject({
+      fighters: [
+        { idx: 0, frame: 0, holdFrame: true, colorShift: 0 },
+        { idx: 2, frame: 2, holdFrame: true, colorShift: 0 },
+      ],
+    })
+  })
+
   test('召唤全队亮起→神将入场/定格→二次法术→敌受击→退场，二级音不重播', () => {
     const input = {
       casterFrames: pose,
@@ -47,7 +103,7 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
     }
     const before = structuredClone(input)
     const frames = buildPlayerCast(input)
-    expect(frames).toHaveLength(28)
+    expect(frames).toHaveLength(29)
     expect(frames.filter((frame) => frame.sound).map((frame) => frame.sound)).toEqual([
       'sound.caster',
       'sound.summon',
@@ -75,18 +131,21 @@ describe('当前召唤型施法与 OffMagic 特效落点', () => {
       [162, 97],
     ])
     expect(frames[21]?.burnBg?.map((overlay) => overlay.sheet)).toEqual(['magic', 'magic', 'magic'])
-    expect(frames.slice(22, 26).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
+    expect(frames[22]).toMatchObject({
+      damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 43 }],
+    })
+    expect(frames.slice(23, 27).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
       82, 86, 84, 90,
     ])
-    expect(frames.slice(22, 26).map((frame) => frame.summonPhase)).toEqual([
+    expect(frames.slice(23, 27).map((frame) => frame.summonPhase)).toEqual([
       'hold',
       'hold',
       'hold',
       'hold',
     ])
-    expect(frames[26]).toMatchObject({ summonPhase: 'out', durationMs: 1152 })
-    expect(frames[27]).toMatchObject({
-      damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 43 }],
+    expect(frames[27]).toMatchObject({ summonPhase: 'out', durationMs: 1152 })
+    expect(frames.filter((frame) => frame.damageNums)).toHaveLength(1)
+    expect(frames[28]).toMatchObject({
       fighters: [{ side: 'player', idx: 1, frame: 0, pos: { x: 130, y: 140 } }],
     })
     expect(input).toEqual(before)

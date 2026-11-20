@@ -77,14 +77,18 @@ export function instrumentOpeningCausalTrace(code, file) {
               ? 'scene-transition'
               : owners.includes('ditherScreen')
                 ? 'ditherScreen'
-                : owners.some((owner) => ['startScript', 'runDetachedScriptChain'].includes(owner))
-                  ? 'script-end'
-                  : null
+                : owners.includes('fade')
+                  ? 'fade-out'
+                  : owners.some((owner) =>
+                        ['startScript', 'runDetachedScriptChain'].includes(owner),
+                      )
+                    ? 'script-end'
+                    : null
       assert(reason, `unknown dialogue clear caller: ${owners.join('/')}`)
       add(
         'dialog-clear-caller',
         node.getStart(ast),
-        `globalThis.__openingCauseDialogClear?.(${JSON.stringify(reason)},${['runner-abort', 'scene-transition', 'ditherScreen'].includes(reason) ? 'signal' : reason === 'script-end' ? (owners.includes('runDetachedScriptChain') ? 'runSignal' : 'controller.signal') : 'null'});\n`,
+        `globalThis.__openingCauseDialogClear?.(${JSON.stringify(reason)},${['runner-abort', 'scene-transition', 'ditherScreen', 'fade-out'].includes(reason) ? 'signal' : reason === 'script-end' ? (owners.includes('runDetachedScriptChain') ? 'runSignal' : 'controller.signal') : 'null'});\n`,
       )
     }
     if (
@@ -530,6 +534,19 @@ export function instrumentOpeningCausalTrace(code, file) {
       )
     if (
       file.endsWith('/dialog/dialog-box.ts') &&
+      ts.isExpressionStatement(node) &&
+      source === 'this.advanceToNextCue(nowMs)' &&
+      ts.isMethodDeclaration(node.parent.parent) &&
+      node.parent.parent.name.getText(ast) === 'dismissTimedNarration'
+    ) {
+      add(
+        'dialog-timed-narration-key',
+        node.getStart(ast),
+        'globalThis.__openingCauseDialogClear?.("world-narration-key",null);\n',
+      )
+    }
+    if (
+      file.endsWith('/dialog/dialog-box.ts') &&
       ts.isMethodDeclaration(node) &&
       ['open', 'render', 'advance', 'update', 'close'].includes(node.name.getText(ast))
     ) {
@@ -556,9 +573,8 @@ export function instrumentOpeningCausalTrace(code, file) {
         isEventCursorAtMakeSceneStep: 'getCmds(cursor)[cursor.ip]',
         runOneAutoOp: 'cmds[cursor.ip]!',
         tickEventSystem: 'cmds[cursor.ip]!',
-        // Battle/use and poison have separate dispatchers, outside 001–006's
-        // current story-command proof domain. Do not call this full-engine coverage.
-        runScript: 'commands[ip]!',
+        // The battle/use and poison dispatchers are separate from the story-command reader.
+        runScriptFrom: 'commands[ip]!',
         runPlayerPoisonEntrySync: 'commands[ip]',
         runEnterScript: 'cmds[cursor.ip]!',
       },
@@ -635,7 +651,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                         }
                       : file.endsWith('/main.ts')
                         ? {
-                            'dialog-clear-caller': 7,
+                            'dialog-clear-caller': 8,
                             'dialog-portrait-start': 1,
                             'dialog-portrait-end': 1,
                             'lifecycle-snapshot': 1,
@@ -647,6 +663,7 @@ export function instrumentOpeningCausalTrace(code, file) {
                             file.endsWith('/script-host-adapter.ts')
                           ? { 'dialog-clear-intent-before': 1, 'dialog-clear-intent-after': 1 }
                           : {
+                              'dialog-timed-narration-key': 1,
                               'dialog-open-before': 1,
                               'dialog-open-after': 1,
                               'dialog-advance-before': 1,

@@ -429,6 +429,24 @@ describe('M4c-2 动作:变身/分裂/召唤/整场逃离', () => {
     expect(s2.log.some((l) => l.includes('召唤失败'))).toBe(true)
   })
 
+  test('分裂进低槽后按最高占用槽重排，空尾槽退出阵形', () => {
+    const cloud = { ...mkEnemy('cloud', { health: 1200 }), yPosOffset: 4 }
+    const state = createBattleState({
+      players: [player('li')],
+      enemySlots: [null, cloud, null],
+    })
+    expect(state.maxEnemyIndex).toBe(2)
+
+    const result = applyEnemyEffect(state, 1, { kind: 'divide', copies: 1 })
+
+    expect(result.spawnedIdxs).toEqual([0])
+    expect(state.maxEnemyIndex).toBe(1)
+    expect(state.enemies.slice(0, 2).map((enemy) => enemy?.basePos)).toEqual([
+      { x: 70, y: 134 },
+      { x: 140, y: 110 },
+    ])
+  })
+
   test('站位定死:死怪不换挡、分裂/召唤填死槽继承位置(作者报「死后错位」根治)', () => {
     const a = mkEnemy('a', { health: 10 })
     const b = mkEnemy('b', { health: 200 })
@@ -557,6 +575,21 @@ describe('R13-5 敌实例脚本 owner / fallback / effect outcome', () => {
     expect(instance.fallback).toEqual(target.ai.fallback)
     expect(instance.fallback).not.toBe(target.ai.fallback)
     expect(instance.firedRules.size).toBe(0)
+  })
+
+  test('分裂后赤毒留在母体，分身从无毒状态入场', () => {
+    const state = createBattleState({
+      players: [player('hero')],
+      enemies: [mkEnemy('slime', { health: 110 })],
+    })
+    const mother = state.enemies[0]!
+    expect(applyPoisonToEnemy(mother, 551, () => 0.6)).toBe(true)
+
+    const result = applyEnemyEffect(state, 0, { kind: 'divide', copies: 1 })
+
+    expect(result).toMatchObject({ outcome: 'succeeded', spawnedIdxs: [1] })
+    expect(mother.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+    expect(state.enemies[1]!.poisons).toEqual([])
   })
 
   test('divide 深拷 owner/cursor/fallback/fired；summon 使用目标 initial state', () => {
@@ -707,7 +740,46 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.enemies[0]!.hp).toBeLessThan(eHpBefore) // 物攻真落敌
   })
 
-  test('SkillCost.items:先扣 MP 再原子扣物品；成功才结算 effects 与隐藏成长', () => {
+  test('全体仙术先按 FIRE 帧抽取吹飞步长，保留伤害前的敌槽', () => {
+    const spell: SkillData = {
+      id: 'wind',
+      name: '横风',
+      desc: '',
+      usableOutsideBattle: false,
+      cost: { mp: 7 },
+      target: 'allEnemies',
+      effects: [{ kind: 'damage', power: 30, elemental: 1 }],
+      animation: {
+        effectSprite: 44,
+        placement: 'attackField',
+        fireDelay: 1,
+        effectTimes: 1,
+        shake: 1,
+        blow: -2,
+      },
+    }
+    const s = createBattleState({
+      players: [player('li', { baseDexterity: 900, skills: [spell.id] })],
+      enemySlots: [mkEnemy('a', { health: 1 }), null, mkEnemy('b', { health: 1 })],
+      skills: { [spell.id]: spell },
+      fireFrameCounts: { 44: 3 },
+    })
+    stepBattle(s, rng0)
+    s.pendingActions.set(0, { kind: 'cast', skillId: spell.id })
+    stepBattle(s, rng0)
+    const samples = [0, 0.5, 0.9, 0.1, 0.6, 0.92, 0.08, 0.2, 0.75]
+    let consumed = 0
+    stepBattle(s, () => expectDefined(samples[consumed++]))
+    expect(s.lastAction).toMatchObject({
+      kind: 'cast',
+      blow: { targetSlots: [0, 2], steps: [-2, -1, 0, -2, -1, 0] },
+    })
+    expect(s.phase).toBe('won')
+    expect(consumed).toBe(samples.length)
+    expect(s.players[0]?.hiddenCounts.maxMP).toBe(3)
+  })
+
+  test('SkillCost.items:先扣 MP 再原子扣物品，成功后结算 effects 与隐藏成长', () => {
     const guSkill: SkillData = {
       ...bolt2,
       id: '352',
@@ -741,7 +813,7 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.lastAction?.fizzled).not.toBe(true)
   })
 
-  test('SkillCost.items 不足:MP 仍扣，库存不部分消耗，effects/隐藏成长均熄火', () => {
+  test('SkillCost.items 不足:MP 仍扣，库存不部分消耗，跳过 effects 后累计成长', () => {
     const guSkill: SkillData = {
       ...bolt2,
       id: '372',
@@ -769,13 +841,13 @@ describe('M4b-3 玩家仙术', () => {
     expect(s.players[0]!.mp).toBe(25)
     expect(s.inventory).toEqual([{ itemId: '148', count: 2 }])
     expect(s.enemies[0]!.hp).toBe(500)
-    expect(s.players[0]!.hiddenCounts.maxMP).toBeUndefined()
-    expect(s.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
+    expect(s.players[0]!.hiddenCounts.maxMP).toBe(2)
+    expect(s.players[0]!.hiddenCounts.magicAttack).toBe(1)
     expect(s.lastAction).toMatchObject({
       kind: 'cast',
       skillId: guSkill.id,
       fizzled: true,
-      notice: '道具不足无法使用',
+      failureFeedback: 'missingSpellItem',
     })
     expect(s.log.some((line) => line.includes('物品不足,万蛊蚀天 施放失败'))).toBe(true)
   })
@@ -830,7 +902,7 @@ describe('M4b-3 玩家仙术', () => {
 
     expect(s.players.map((entry) => entry.mp)).toEqual([25, 25])
     expect(s.inventory).toEqual([{ itemId: '148', count: 0 }])
-    expect(s.players.reduce((sum, entry) => sum + (entry.hiddenCounts.magicAttack ?? 0), 0)).toBe(1)
+    expect(s.players.map((entry) => entry.hiddenCounts.magicAttack)).toEqual([1, 1])
     expect(s.lastAction).toMatchObject({
       side: 'player',
       idx: 1,
@@ -1318,7 +1390,7 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
     expect(s.inventory[0]!.count).toBe(0)
   })
 
-  test('战斗 0x06 门失败仍按原版消耗：roll 49 通过、roll 50 失败', () => {
+  test('战斗用物 roll 49 生效，roll 50 消耗一份且记录失败旁白', () => {
     const gated: ItemData = {
       id: 'salt',
       name: '盐巴',
@@ -1346,15 +1418,21 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
       s.enemies[0]!.status.sleep = 99
       s.pendingActions.set(0, { kind: 'item', itemId: 'salt' })
       let guard = 0
-      do stepBattle(s, rng)
-      while (s.phase === 'performAction' && guard++ < 40)
-      return s
+      let itemAction: typeof s.lastAction = null
+      do {
+        stepBattle(s, rng)
+        if (s.lastAction?.kind === 'item') itemAction = s.lastAction
+      } while (s.phase === 'performAction' && guard++ < 40)
+      return { state: s, itemAction }
     }
-    expect(run(() => 0.48).players[0]!.hp).toBe(20)
+    const passed = run(() => 0.48)
+    expect(passed.state.players[0]!.hp).toBe(20)
+    expect(passed.itemAction).toMatchObject({ itemId: 'salt' })
+    expect(passed.itemAction?.failureFeedback).toBeUndefined()
     const failed = run(() => 0.49)
-    expect(failed.players[0]!.hp).toBe(10)
-    expect(failed.inventory[0]!.count).toBe(0)
-    expect(failed.log.some((line) => line.includes('无任何效果'))).toBe(true)
+    expect(failed.state.players[0]!.hp).toBe(10)
+    expect(failed.state.inventory[0]!.count).toBe(0)
+    expect(failed.itemAction).toMatchObject({ itemId: 'salt', failureFeedback: 'itemIneffective' })
   })
 
   test('gate 缺省阈值 100 仍遵循严格小于：roll 100 失败且与大世界一致', () => {
@@ -2307,7 +2385,7 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[0]!.hp).toBe(100)
     expect(s.enemies[1]!.status.sleep).toBe(3)
     expect(s.enemies[1]!.hp).toBe(75)
-    expect(s.lastAction?.notice).toBe('攻击无效')
+    expect(s.lastAction?.failureFeedback).toBe('throwStatusIneffective')
     expect(calls).toBe(5)
   })
 
@@ -2952,17 +3030,12 @@ describe('P3 合体技(coop magic)', () => {
     expect(s.log.some((l) => l.includes('人手不足'))).toBe(true)
   })
 
-  test('coop×10 出手身法:合击者敏捷极低仍先手(慢发起者也能消耗快队友)', () => {
+  test('先轮到已提交防御的逍遥时先防御，再由低身法队友发起合击', () => {
     const s = createBattleState({
       players: [
-        player('slow', {
-          baseDexterity: 1,
-          attackStrength: 40,
-          magicStrength: 20,
-          cooperativeMagicSkillId: 'c386',
-        }),
-        player('fast', {
-          baseDexterity: 200,
+        player('li', { baseDexterity: 66, attackStrength: 40, magicStrength: 20 }),
+        player('lin', {
+          baseDexterity: 21,
           attackStrength: 40,
           magicStrength: 20,
           cooperativeMagicSkillId: 'c386',
@@ -2972,12 +3045,14 @@ describe('P3 合体技(coop magic)', () => {
       skills: { c386: coopSkill },
     })
     stepBattle(s, rng0)
-    s.pendingActions.set(0, { kind: 'coop', targetEnemyIdx: 0 })
-    s.pendingActions.set(1, { kind: 'attack', targetEnemyIdx: 0 })
-    runTurn(s)
-    // 快队友(dex 200)本会先手,但 coopThisTurn 令其普攻作废 → 无玩家物攻打到 slime
-    expect(s.log.some((l) => l.includes('攻击 slime'))).toBe(false)
-    expect(s.log.filter((l) => l.includes('合体技')).length).toBe(1)
+    s.pendingActions.set(0, { kind: 'defend' })
+    s.pendingActions.set(1, { kind: 'coop', targetEnemyIdx: 0 })
+    stepBattle(s, rng0)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({ side: 'player', idx: 0, kind: 'defend' })
+    expect(s.players[0]?.defending).toBe(true)
+    stepBattle(s, rng0)
+    expect(s.lastAction).toMatchObject({ side: 'player', idx: 1, kind: 'coop' })
   })
 })
 
@@ -3076,6 +3151,30 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(s2.enemies[0]!.hp).toBe(100)
     expect(s2.collectGained).toBe(0)
     expect(s2.log.some((l) => l.includes('无任何效果'))).toBe(true)
+  })
+
+  test('灵葫咒在残血敌没有灵葫值时终止后续即死', () => {
+    const gourd = mkSkill('gourd', {
+      effects: [
+        { kind: 'gate', hpAtMostPercent: 25 },
+        { kind: 'gate', chance: 60 },
+        { kind: 'collectTreasure' },
+        { kind: 'instantKill' },
+      ],
+    })
+    const state = createBattleState({
+      players: [player('li', { skills: [gourd.id], baseDexterity: 500 })],
+      enemies: [dummy({ health: 100, collectValue: 0 })],
+      skills: { [gourd.id]: gourd },
+    })
+    state.enemies[0]!.hp = 25
+    stepBattle(state, rng0)
+    state.pendingActions.set(0, { kind: 'cast', skillId: gourd.id, targetEnemyIdx: 0 })
+    stepBattle(state, rng0)
+    stepBattle(state, rng0)
+    expect(state.enemies[0]!.hp).toBe(25)
+    expect(state.collectGained).toBe(0)
+    expect(state.lastAction?.failureFeedback).toBe('spellIneffective')
   })
 
   test('概率门(0x06):掷 100 ≥ 60 → 截断即死;灵抗门:巫抗 0 过 / 巫抗满不过', () => {
@@ -3238,7 +3337,7 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(coins.enemies[0]!.stealLeft).toBe(50)
   })
 
-  test('金蝉脱壳(0x3A):非 boss 全队必逃 → fled;boss 战「无法逃离!」战斗继续', () => {
+  test('金蝉脱壳耗费 33 真气，禁逃时继续战斗', () => {
     const jc = mkSkill('jc', {
       target: 'allAllies',
       cost: { mp: 33 },
@@ -3257,11 +3356,12 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     expect(s.players[0]!.mp).toBe(17) // MP 33 照扣
     const b = mk(true)
     turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'jc' }))
-    expect(b.phase).not.toBe('fled')
+    expect(b.phase).toBe('selectAction')
+    expect(b.players[0]!.mp).toBe(17)
     expect(b.log.some((l) => l.includes('无法逃离'))).toBe(true)
   })
 
-  test('乾坤一掷(0x88):消耗 min(金钱,5000)、基伤=消耗×2/5;分文没有 → 无任何效果不扣钱', () => {
+  test('乾坤一掷按上限扣钱，零基础威力跳过伤害', () => {
     const qk = mkSkill('qk', {
       target: 'allEnemies',
       cost: { mp: 1 },
@@ -3283,10 +3383,15 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     turn(poor, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
     expect(poor.moneyDelta).toBe(0)
     expect(poor.enemies[0]!.hp).toBe(9999)
+    expect(poor.players[0]!.mp).toBe(29)
     expect(poor.log.some((l) => l.includes('金钱不足'))).toBe(true)
+    const one = mk(1)
+    turn(one, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'qk' }))
+    expect(one.moneyDelta).toBe(-1)
+    expect(one.enemies[0]!.hp).toBe(9999)
   })
 
-  test('铜钱镖(cost.money):固定扣 500 + 伤害;不足 500 → 降级普攻不扣钱(与 MP 门同待遇)', () => {
+  test('铜钱镖选招后检查固定金钱成本，缺钱时只扣真气并保留成长', () => {
     const tq = mkSkill('tq', {
       target: 'oneEnemy',
       cost: { mp: 1, money: 500 },
@@ -3309,8 +3414,11 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
     turn(poor, rng0, (st) =>
       st.pendingActions.set(0, { kind: 'cast', skillId: 'tq', targetEnemyIdx: 0 }),
     )
-    expect(poor.moneyDelta).toBe(0) // 降级普攻,消耗未发生
-    expect(poor.log.some((l) => l.includes('金钱不足') && l.includes('降级普攻'))).toBe(true)
+    expect(poor.moneyDelta).toBe(0)
+    expect(poor.enemies[0]!.hp).toBe(9999)
+    expect(poor.players[0]!.mp).toBe(29)
+    expect(poor.players[0]!.hiddenCounts.maxMP).toBe(2)
+    expect(poor.log.some((l) => l.includes('金钱不足'))).toBe(true)
   })
 
   test('解状态(0x2F)按 targetAllyIdx 点名队友;buffStat 烙属性 + 定时到期扣回', () => {

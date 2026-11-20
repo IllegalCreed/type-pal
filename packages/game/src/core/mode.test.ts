@@ -14,7 +14,10 @@ import { createCommandBus } from './command-bus.js'
 import {
   OP_FADE_IN,
   OP_PARTY_WALK_TO,
+  OP_SET_AUTO_SCRIPT,
+  OP_SET_CAMERA,
   OP_SHOW_FBP,
+  OP_WAIT_FRAMES,
   setGlobalEvents,
   tickEventSystem,
 } from './event-system.js'
@@ -96,6 +99,31 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1) // pan 期间 autoScript 不冻(C 每帧 PAL_GameUpdate)
   })
 
+  it('moves a newly cued actor on the first painted relative camera step', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x7d, operands: [1, 4, 2], label: 'L_1' },
+      { op: 'end' },
+    ])
+    gs.mode = 'event'
+    gs.camera = { x: 100, y: 100 }
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [1, 0, 0] },
+        { op: 'raw', opcode: OP_SET_AUTO_SCRIPT, operands: [1, 1, 0] },
+        { op: 'raw', opcode: OP_SET_CAMERA, operands: [8, 4, 3] },
+      ],
+      ip: 0,
+      waiting: 'frame-wait',
+      waitFramesRemaining: 1,
+    }
+    tickByMode(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 108, y: 104 })
+    expect(gs.npcs[0]).toMatchObject({ x: 4, y: 2 })
+  })
+
   it('event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)', () => {
     const gs = gsWithAutoNpc()
     gs.mode = 'event'
@@ -124,6 +152,36 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
 })
 
 describe('tickByMode auto fade-in gate', () => {
+  it.each([
+    1, 2,
+  ])('counts the first MakeScene update once before its palette fade (%i waits)', (waits) => {
+    const gs = gsWithAutoNpc()
+    setGlobalEvents([{ op: 'end', advance: true }, { op: 'end', advance: true }, { op: 'end' }])
+    gs.mode = 'event'
+    gs.palette = palette([0, 0, 0])
+    gs.basePalette = palette([120, 60, 30])
+    gs.needToFadeIn = true
+    gs.eventCursor = {
+      commands: [{ op: 'raw', opcode: OP_WAIT_FRAMES, operands: [waits, 0, 0] }, { op: 'end' }],
+      labelMap: {},
+      ip: 0,
+    }
+    tickEventSystem(gs, snap())
+    tickWithTime(gs)
+    expect(gs.paletteFadeState).toBeDefined()
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(waits - 1)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
+
+    tickWithTime(gs)
+    expect(gs.eventCursor?.waitFramesRemaining).toBe(waits - 1)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(1)
+
+    gs.paletteFadeState = undefined
+    tickWithTime(gs)
+    expect(gs.npcs[0]?.autoCursor?.ip).toBe(waits)
+    expect(gs.mode).toBe('explore')
+  })
+
   it('水月宫:0x50→0x76 黑屏后,waiting 空档不抢先淡入;居中字 + 0x51 期间 blackScreenHold 撑住(场景靠后续 0x73 揭)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'

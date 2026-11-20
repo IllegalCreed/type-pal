@@ -666,8 +666,9 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['dx/dy', '像素(带走姿)'],
       ['layer', '层号(可选)'],
+      ['facing', '朝向(可选)'],
     ],
-    desc: '楼梯登阶类演出碎步；第三层号会覆盖队伍遮挡层。',
+    desc: '队伍相对走位。可设转向并保留出发方向供跟随者使用。层号覆盖队伍遮挡层。',
     origin: '0x6E',
   },
   {
@@ -678,6 +679,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['range', '追逐格半径'],
       ['speed', '快慢'],
+      ['worldStep', '按世界拍直接追逐'],
       ['floating', '追击时忽略地形与阻挡实体'],
     ],
     desc: '放 auto 里=持续追逐(野怪);数据化版本用实体 hostile 字段。',
@@ -691,6 +693,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['dx/dy', '每帧位移'],
       ['frames', '帧数'],
+      ['startImmediately', '与同拍的场景动作一起开始'],
     ],
     desc: '相对平移(阻塞);跨房间演出。⚠ 不许绝对回正打断。',
     origin: '0x7F',
@@ -757,7 +760,11 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     icon: '🌀',
     name: '传送出口',
     group: '战斗/商店',
-    params: [['onFail', '无出口时指令(「引路蜂不灵」)']],
+    params: [
+      ['gatherParty', '落地时聚拢队形'],
+      ['arrivalSound', '落地音效'],
+      ['onFail', '无出口时指令'],
+    ],
     desc: '引路蜂/土灵珠:跑当前场景传送出口脚本;场景没配出口走 onFail。出口本身在场景属性配。',
     origin: '0x38',
   },
@@ -989,6 +996,17 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
       ['label', '可选显示名称'],
     ],
     desc: '固定次数重复正文，不暗加等待。',
+  },
+  {
+    kind: 'sceneTimeline',
+    icon: '🎬',
+    name: '场景演出',
+    group: '控制流',
+    params: [
+      ['label', '演出名称'],
+      ['tracks', '镜头、灯光或单个角色的具名轨道，每组从演出开始计时'],
+    ],
+    desc: '前景步骤共用一条时钟编排镜头、指定角色和灯光。所有轨道结束才继续。',
   },
   {
     kind: 'breakLoop',

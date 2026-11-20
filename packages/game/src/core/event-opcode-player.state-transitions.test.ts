@@ -47,6 +47,35 @@ afterEach(() => {
   setObjectPoisons([])
 })
 
+it('0x5F 将当前道具目标置为倒地并保留毒槽与脚本成功值', () => {
+  const gs = freshPlayerOpcodeState()
+  gs.partyMembers = [0, 1]
+  gs.fScriptSuccess = true
+  gs.PlayerRolesRuntime.rgwHP[0] = 37
+  gs.PlayerRolesRuntime.rgwHP[1] = 38
+  setObjectPoisons([{ id: 555, level: 3, color: 128, playerScript: 40878, enemyScript: 40889 }])
+  addPoisonForPlayer(gs, 1, 555)
+
+  expect(applyOpcode(gs, 0x005f, [0, 0, 0], 1)).toBe(true)
+
+  expect(gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([37, 0])
+  expect(isPlayerPoisoned(gs, 1, 555)).toBe(true)
+  expect(gs.fScriptSuccess).toBe(true)
+})
+
+it('0x5A 对当前道具目标的奇数体力向下取半', () => {
+  const gs = freshPlayerOpcodeState()
+  gs.partyMembers = [0, 1]
+  gs.PlayerRolesRuntime.rgwHP[0] = 90
+  gs.PlayerRolesRuntime.rgwHP[1] = 37
+  gs.fScriptSuccess = true
+
+  expect(applyOpcode(gs, 0x005a, [0, 0, 0], 1)).toBe(true)
+
+  expect(gs.PlayerRolesRuntime.rgwHP.slice(0, 2)).toEqual([90, 18])
+  expect(gs.fScriptSuccess).toBe(true)
+})
+
 describe('0x23 OP_REMOVE_EQUIPMENT 卸指定单槽(slotPlusOne≠0 分支)', () => {
   it('只卸 roleId 指定槽:该槽归零 + 背包 +1,其余槽与异 role 槽不动', () => {
     const gs = freshPlayerOpcodeState()

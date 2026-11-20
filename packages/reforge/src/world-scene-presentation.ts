@@ -38,6 +38,7 @@ export interface WorldSpriteInput {
   entityGaitSource?(id: string): MotionSource | undefined
   entityExplicitAnimation(id: string): number | undefined
   entityActionFrame(id: string): number | undefined
+  entityIdleWalkPhase?(entity: EntityDef): number | undefined
   entityLayer(id: string): number | undefined
   party: readonly PartyMember[]
   partyVisual(member: PartyMember): { def: SpriteDef; frames: LoadedSprite } | undefined
@@ -69,14 +70,14 @@ type WorldPresentationScene = Pick<
   'map' | 'room' | 'palette' | 'tiles' | 'renderer' | 'rendererForWave'
 >
 
-/** World-only drawing owner: visual overrides, shake, wave phase/canvas and sprite assembly. */
+/** World-only drawing owner: visual overrides, wave phase/canvas and sprite assembly. */
 export class WorldScenePresentation {
   private readonly entityFrames = new Map<string, number>()
   // Last frame index actually selected by the renderer for each visible entity. Transient command
   // counters (gait/anim/action) are not the rendered sprite frame and must not be E2E evidence.
   private readonly renderedEntityFrames = new Map<string, number>()
+  private readonly followerPoses = new Map<PartyMember['id'], { facing: Facing; gesture: number }>()
   private gesture: number | null = null
-  private shakeFx: { untilMs: number; level: number } | null = null
   private readonly wave = new WorldWaveRenderer()
   private waveCanvas: HTMLCanvasElement | null = null
 
@@ -88,6 +89,19 @@ export class WorldScenePresentation {
 
   setPartyGesture(gesture: number | null): void {
     this.gesture = gesture
+  }
+
+  setFollowerPose(memberId: PartyMember['id'], facing: Facing, gesture: number): void {
+    this.followerPoses.set(memberId, { facing, gesture })
+  }
+
+  clearFollowerPoses(): void {
+    this.followerPoses.clear()
+  }
+
+  clearPartyPoses(): void {
+    this.setPartyGesture(null)
+    this.clearFollowerPoses()
   }
 
   setEntityFrame(id: string, frame: number): void {
@@ -114,10 +128,6 @@ export class WorldScenePresentation {
     this.entityFrames.clear()
   }
 
-  shake(now: number, timeFrames: number, level: number): void {
-    this.shakeFx = timeFrames > 0 ? { untilMs: now + timeFrames * 40, level } : null
-  }
-
   sprites(input: WorldSpriteInput): SpriteDraw[] {
     const sprites: SpriteDraw[] = []
     for (const entity of input.entities) {
@@ -133,6 +143,7 @@ export class WorldScenePresentation {
       const explicitAnimation = input.entityExplicitAnimation(entity.id)
       const hasOverride = this.entityFrames.has(entity.id)
       const actionFrame = input.entityActionFrame(entity.id)
+      const idleWalk = input.entityIdleWalkPhase?.(entity)
       // Movement phases start at one. Non-directional hostile walks start with resource frame zero.
       const frameIndex = definition
         ? hasOverride
@@ -152,7 +163,9 @@ export class WorldScenePresentation {
                 ? actualFrameIndex(actionFrame, frameCount ?? 0)
                 : definition.layout.kind === 'loop'
                   ? loopFrameIndex(definition.layout, input.now(), frameCount ?? 0)
-                  : idleFrameIndex(definition.layout, facing, frameCount)
+                  : idleWalk !== undefined
+                    ? animFrameIndex(definition.layout, facing, idleWalk, frameCount ?? 1)
+                    : idleFrameIndex(definition.layout, facing, frameCount)
         : 0
       const frame = definition ? loaded?.frames[frameIndex] : undefined
       if (!loaded || !frame) {
@@ -213,16 +226,18 @@ export class WorldScenePresentation {
     for (let partyIndex = 1; partyIndex < input.party.length; partyIndex++) {
       const follower = input.followers[partyIndex]
       const member = input.party[partyIndex]
-      const visual = member ? input.partyVisual(member) : undefined
-      if (!follower || !visual) continue
+      if (!follower || !member) continue
+      const visual = input.partyVisual(member)
+      if (!visual) continue
+      const pose = this.followerPoses.get(member.id)
+      const frameCount = visual.frames.frames.length
       const frameIndex = input.player.walking
-        ? walkFrameIndex(
-            visual.def.layout,
-            follower.facing,
-            input.player.stepFrame,
-            visual.frames.frames.length,
+        ? walkFrameIndex(visual.def.layout, follower.facing, input.player.stepFrame, frameCount)
+        : actualFrameIndex(
+            idleFrameIndex(visual.def.layout, pose?.facing ?? follower.facing, frameCount) +
+              (pose?.gesture ?? 0),
+            frameCount,
           )
-        : idleFrameIndex(visual.def.layout, follower.facing, visual.frames.frames.length)
       const frame = visual.frames.frames[frameIndex]
       if (!frame) continue
       sprites.push(
@@ -273,18 +288,9 @@ export class WorldScenePresentation {
     camera: Camera
     sprites: readonly SpriteDraw[]
     vars: Record<string, number>
-    now: number
     advanceWaveFrame: boolean
   }): Camera {
-    if (this.shakeFx && input.now >= this.shakeFx.untilMs) this.shakeFx = null
-    const camera = this.shakeFx
-      ? {
-          x: input.camera.x,
-          y:
-            input.camera.y +
-            (Math.floor(input.now / 40) % 2 === 0 ? this.shakeFx.level : -this.shakeFx.level),
-        }
-      : input.camera
+    const { camera } = input
     const waveAmplitude = advanceWave(input.vars, input.advanceWaveFrame)
     if (waveAmplitude > 0) {
       const waveCanvas = this.ensureWaveCanvas()

@@ -106,8 +106,7 @@ describe('0x33 CollectEnemy / 0x3A PlayerFlee', () => {
       gs: fx.gs,
       target: { type: 'player', idx: 0 },
     })
-    expect(fx.state.fleeAnim).toEqual({ step: 0 })
-    expect(fx.gs.pendingSounds).toContain(45)
+    expect(fx.state.fleeAnim).toEqual({ step: 0, sound: 45 })
   })
 })
 describe('0x31 ChangeBattleSprite / 0x92 ShowMagicAnim', () => {
@@ -268,7 +267,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
     expect(fx.state.enemies[0]!.e.health).toBe(50)
     expect(fx.state.enemies[1]!.defeated).toBe(false)
     expect(fx.state.enemies[1]!.e.health).toBe(50)
-    expect(fx.state.enemies[2]!.defeated).toBe(true) // w=1 → 只补 1 个空槽
+    expect(fx.state.enemies).toHaveLength(2) // w=1 只补一个空槽，末端空槽移出布局。
   })
 
   it('0x9F:hiding/睡眠 → no-op;查无对象/查无 base → no-op;成功保 health 换 stats', () => {

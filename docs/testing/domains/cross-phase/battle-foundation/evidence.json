@@ -27,22 +27,22 @@
       "path": "scripts/e2e/battle-game-adapter.mjs",
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
-      "lines": "480",
-      "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+      "lines": "486",
+      "sha256": "77340c8dfc43b751fb160fd1d44c677ce453a507af37cf439ac7be2b55f9a73a"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
       "anchor": "running = runBattleTrial(",
       "role": "public-trial-adapter",
       "lines": "179",
-      "sha256": "a2e14923f564ad68d1fd7d0f06b2b8ea8d5fc010c8b6d6fcf04b135c3a580ec7"
+      "sha256": "dd90cb64282e9e2b32696418d288dff2334ea6c5440e06243108798b5131926f"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
       "anchor": "export function validateBattleTrace(",
       "role": "oracle",
-      "lines": "973",
-      "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
+      "lines": "1014",
+      "sha256": "f475eba68766bd881c16938fe3413141cbf5e2c660e7851490c0999670a782eb"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -70,21 +70,21 @@
       "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
       "role": "native-audio-observer",
       "lines": "204",
-      "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+      "sha256": "8f41bde0159f23642d4e27df77b83b42be569719d6366cc82429a058194a2c2b"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "42",
-      "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+      "sha256": "8742e3d5678a518fcc24127d389dbb2cd6fd899e36e43e4e2a56ce33093b851c"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
-      "lines": "17",
-      "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
+      "lines": "18",
+      "sha256": "a27b2d225e393e7b64f3f39d08ad3502810d1db353b7822f0b1f5242205d8254"
     },
     {
       "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -98,28 +98,28 @@
       "anchor": "export function instrumentBattleRandomDraws(",
       "role": "native-random-producer-binding",
       "lines": "28",
-      "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+      "sha256": "142d360697729a2006c38a5c36e8b2cef66a4ad50678ecea5071ea5f8571f683"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
       "role": "native-magic-overlay-observer",
-      "lines": "307",
-      "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+      "lines": "309",
+      "sha256": "8f41bde0159f23642d4e27df77b83b42be569719d6366cc82429a058194a2c2b"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.ts",
       "anchor": "export class BattleCommandSelection",
       "role": "native-target-menu-caller",
-      "lines": "60",
-      "sha256": "b131a44e94e45b6b234266db42373042e327543fcac691ab3abc3764cc049bb3"
+      "lines": "59",
+      "sha256": "3f09578da534395781360d9de73a6b0fb4c30e8d417695c5c7ce715aa7f350d9"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "'coop-fallback',",
       "role": "native-cooperative-fallback-observer",
       "lines": "336",
-      "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+      "sha256": "8742e3d5678a518fcc24127d389dbb2cd6fd899e36e43e4e2a56ce33093b851c"
     },
     {
       "path": "scripts/e2e/battle-enemy-cast-presentation.mjs",
@@ -160,15 +160,15 @@
       "path": "packages/reforge/src/battle/settlement.ts",
       "anchor": "function drawLearnMagic(",
       "role": "reforge-scroll-renderer",
-      "lines": "334",
-      "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+      "lines": "322",
+      "sha256": "a8cabfe0f8c62dbffcae25f379b9e5a7bb621c6bc8106c417ca8fa1018bd9be5"
     },
     {
       "path": "packages/reforge/src/menu/menu-box.ts",
       "anchor": "export const SCROLL_LABEL_STYLE =",
       "role": "reforge-scroll-style",
       "lines": "169",
-      "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
+      "sha256": "870f9701257c7d70c3bd91a381303b47ecb03989a8d38deda0079ae8ba9af1c4"
     },
     {
       "path": "reference/sdlpal/battle.c",
@@ -245,21 +245,21 @@
       "anchor": "private async finishEncounter(",
       "role": "world-encounter-finalizer",
       "lines": "289",
-      "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
+      "sha256": "1b0ce948d79c1eadf8ad63a30248573f12740e5d5fc561f2188fe8d0718f3ad2"
     },
     {
       "path": "packages/reforge/src/battle/battle-core.ts",
       "anchor": "function performAttackAll(",
       "role": "native-reforge-sweep",
-      "lines": "2473",
-      "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
+      "lines": "2528",
+      "sha256": "6fca1c43f9159eee6357b6f4efb985878b322c473423c86346b0090b99d79d13"
     },
     {
       "path": "packages/content/src/rewards.ts",
       "anchor": "export function recoverBattleParty(",
       "role": "post-world-script-half-recovery",
-      "lines": "254",
-      "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+      "lines": "268",
+      "sha256": "3d7b878bebc001942c654e9253e9243eff935dfd83372d7639045dd62a116073"
     },
     {
       "path": "scripts/e2e/battle-world-bee-game.config.mts",
@@ -286,22 +286,22 @@
       "path": "packages/game/src/core/battle/battle-system.ts",
       "anchor": "function tickPostAction(",
       "role": "first-game-exhausted-queue-tick",
-      "lines": "2788",
-      "sha256": "9deef69706a798c70ed6beaba4b869afef4f2e9400ff48e810cc679ab5744c80"
+      "lines": "2844",
+      "sha256": "29cbb0366cc3f2673c449440b1d58ed100cabb04edc92cc678ea20e2adb499fd"
     },
     {
       "path": "projects/pal/content/shared-scripts.json",
       "anchor": "\"environment-sound-duet\": {",
       "role": "pal-ten-mile-world-ambience",
       "lines": "2",
-      "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+      "sha256": "472e455033ccff3566538c3c9d8fc9edb365eddc228d354246f5f532667dfa9f"
     },
     {
       "path": "projects/pal/manifest.json",
       "anchor": "\"hostileVictoryTransition\": \"fade\"",
       "role": "world-victory-default-inherited-by-pal-hostiles",
       "lines": "7",
-      "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
+      "sha256": "ec4b4ceb924edcf4e30756c22295c84474d38204602b93f2d4830052021820c4"
     },
     {
       "path": "scripts/e2e/battle-world-escape-compare.mjs",
@@ -334,8 +334,8 @@
     {
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
-      "lines": "25",
-      "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
+      "lines": "66",
+      "sha256": "0e70dcd27ecb9d2b49048c05608271b595a8e4b2478840c1db23ed3fe32f5b22",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5769",
-      "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+      "lines": "6009",
+      "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13104,6 +13104,943 @@
         }
       ],
       "scope": "本轮 Q2 继续使用原生执行与实际画帧。保留全部旧运行、反例、附件与审阅，追加收尾义务。"
+    },
+    {
+      "action": "q2-battle-enemy-summon-source-rebinding",
+      "base": "b8b8dd2fcc551a782a2e90387bcf91170bc4899f",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "projects/pal/manifest.json",
+          "anchor": "\"hostileVictoryTransition\": \"fade\"",
+          "role": "world-victory-default-inherited-by-pal-hostiles",
+          "lines": "7",
+          "sha256": "5ee2caea36abb544410429368360faab614750a8bc38b016e86280d79e445361"
+        }
+      ],
+      "scope": "现行 PAL manifest 新增 212 音效角色。明雷胜利转场配置和原执行原件继续保留。"
+    },
+    {
+      "action": "q2-summon-division-caller-rebinding",
+      "base": "62959793cf6fb2450806d12072608ce768d80c39",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "c608bcddf38a66601253ae7dbf4a3ba6a8a0d235253f952fb8fcbd086a0f7ef9"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2473",
+          "sha256": "321e5a6980c0490f8f7265dcb37742c49ddde6416f85829261fdfd95b6d3e0f6"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2788",
+          "sha256": "9deef69706a798c70ed6beaba4b869afef4f2e9400ff48e810cc679ab5744c80"
+        }
+      ],
+      "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
+    },
+    {
+      "action": "q2-enemy-color-source-rebinding",
+      "base": "070e8145c20e3c2cc8cc77c1e696843d453a0a92",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+          "role": "native-audio-observer",
+          "lines": "204",
+          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "42",
+          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "magicOverlayDrawn(x, y, frameIndex, resource)",
+          "role": "native-magic-overlay-observer",
+          "lines": "307",
+          "sha256": "8badd9f72542055e1340c37ca5a7e774a2a29731f14d03cc9d16a14093ae760a"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "'coop-fallback',",
+          "role": "native-cooperative-fallback-observer",
+          "lines": "336",
+          "sha256": "00fe3f76c0be724b03c0cc82bfe8508e7d54f787f96c197a5448d0a403a98959"
+        }
+      ],
+      "scope": "增加真实敌方实绘色偏及敌方召唤淡变的采集兼容后，四处旧调用片段保持原字节。原执行和反例继续对应其候选。"
+    },
+    {
+      "action": "q2-enemy-spell-feedback-source-rebinding",
+      "base": "257296ec61b0dd8a6e103df9d26b8af374ca702b",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2466",
+          "sha256": "1918315cf7c47780d7746028054b9bde39b4740cf71f8a18c248269202da6814"
+        }
+      ],
+      "scope": "敌方施法失败卷轴修复后，既有调用片段保持原字节。原执行和反例各对应其冻结候选。"
+    },
+    {
+      "action": "q2-enemy-transform-source-rebinding",
+      "base": "b0afdd9e54203fbe5f6d7a457acdf9958168be7f",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2466",
+          "sha256": "977390196d1f57aaa8efbd57fdfef2090fa7946c588f3f6a9865c366235df487"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2824",
+          "sha256": "1a0d5c35ae790035fac21caf7b5629728da3b3bf0ce56c098dcf864bf1ef58e2"
+        }
+      ],
+      "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
+    },
+    {
+      "action": "q2-scene-observer-source-rebinding",
+      "base": "53f5fc147de8e987365ef7531dade6c83958ca1f",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "58c41b9a02887ce8270d8b4ec78ca5a7e2f71d92ed09663e5bee8f083e4ec679"
+        }
+      ],
+      "scope": "观察插入点由分支内部移到整条绘制链之前。既有音效观察函数入口保持原字节，历史图像由本次终帧复验校正。"
+    },
+    {
+      "action": "q2-cooperative-roster-source-rebinding",
+      "base": "839c6829346a53d8e5e149986d034460aba10432",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2467",
+          "sha256": "dfabef69a1c08450739ca60c8edadaa5ebf4432852fd2703c9a2e45a4126f20a"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2824",
+          "sha256": "0a59cf8973b1f6fe989e86f896b86d9c5b6d454ef0a58fe25afbac83b27e4414"
+        }
+      ],
+      "scope": "合击执行与归位前死亡淡出修复后，复核 Game 回合收尾、Reforge 群攻及会话调用片段。旧候选和实跑原件保留原版本。"
+    },
+    {
+      "action": "q2-casualty-roster-source-rebinding",
+      "base": "dd4bd6afd23882b8777ba8b50c3bb8d10a534d17",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2469",
+          "sha256": "4566fa4ec4ec3349ddc0b09b010cf1ee8cb94f3c522539bafc33beb9f919d088"
+        }
+      ],
+      "scope": "伤亡增益复用临时属性槽，复核既有群攻函数声明逐字相同，保留原执行与反例各自的生产基点。"
+    },
+    {
+      "action": "q2-learned-skills-source-rebinding",
+      "base": "23c111a58d091685b556b0dc8f69e861317592e4",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/settlement.ts",
+          "anchor": "function drawLearnMagic(",
+          "role": "reforge-scroll-renderer",
+          "lines": "334",
+          "sha256": "fb1e40799ca5d96010faa657b3832cdc64f3641f289e6487f2ca38439515c771"
+        },
+        {
+          "path": "packages/content/src/rewards.ts",
+          "anchor": "export function recoverBattleParty(",
+          "role": "post-world-script-half-recovery",
+          "lines": "254",
+          "sha256": "b99050d17542d4c734740d61d28261f1abacf7a662feae2a3f57aea515042e14"
+        }
+      ],
+      "scope": "按当前等级补学仙术并按角色编排结算后，练成渲染和战后半恢复声明的片段逐字相同，旧执行及反例保持原候选。"
+    },
+    {
+      "action": "q2-wind-blow-source-rebinding",
+      "base": "aa999b84470b487dfff963ddcc55a90e1df84d7b",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2465",
+          "sha256": "e2824c80aebd63f0772bd27e4c2c982a7f1f594aeb50ff93f90323e4adca3ebd"
+        }
+      ],
+      "scope": "风卷残云的吹飞步长先于伤害结算消耗。既有多目标物攻调用坐标迁移，片段逐字节复核相等，原始 Q2 执行及断言仍对应各自候选。"
+    },
+    {
+      "action": "q2-conditional-spell-source-rebinding",
+      "base": "af55382a655a20b5c78095d0de52f4419d0bad71",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2490",
+          "sha256": "febe65792973d19ffa6ca17e55cc875a8be4330e4341bf7f2229500e269a384f"
+        }
+      ],
+      "scope": "零灵葫值的目标退出收妖及后续效果。既有群体物攻声明移动七行，片段逐字节相同，原执行、断言及反例保持固定来源。"
+    },
+    {
+      "action": "q2-gu-and-confusion-source-rebinding",
+      "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-random-instrumentation.mjs",
+          "anchor": "export function instrumentBattleRandomDraws(",
+          "role": "native-random-producer-binding",
+          "lines": "28",
+          "sha256": "70f5a39d6ce82e7b292914b644d0bd29f82ee8d1df0e79d79b73a1f5392e403f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2497",
+          "sha256": "72d26dc049e0e32d0276e5154c98eb11c519f331e1052efe52726f9fc14ecc21"
+        }
+      ],
+      "scope": "记录有效耗材失败的成长抽样。群体物攻声明和随机观察入口逐字节相同，原始执行及断言保留。"
+    },
+    {
+      "action": "q2-spell-currency-source-rebinding",
+      "base": "1805ef135a1238b5c75d152ec643a6ff56053c1d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "anchor": "running = runBattleTrial(",
+          "role": "public-trial-adapter",
+          "lines": "179",
+          "sha256": "a2e14923f564ad68d1fd7d0f06b2b8ea8d5fc010c8b6d6fcf04b135c3a580ec7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.ts",
+          "anchor": "export class BattleCommandSelection",
+          "role": "native-target-menu-caller",
+          "lines": "60",
+          "sha256": "b131a44e94e45b6b234266db42373042e327543fcac691ab3abc3764cc049bb3"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2500",
+          "sha256": "e6459591d94658306264bd2f964413e911aed164bbdd274c9abd9ef86d04acf8"
+        }
+      ],
+      "scope": "观察战内实时余额。试打入口、选招类声明与群体物攻函数声明片段相同，原始执行及断言保留。"
+    },
+    {
+      "action": "q2-escape-spell-source-rebinding",
+      "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "lines": "480",
+          "sha256": "447808408e830036b990f165e4d3bc495b0ec90df1608942ca7baa318823af85"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2500",
+          "sha256": "a4b9bfc4b143ae95303466a9ffe147c17aa419b680ac0c2e2a4250f55cf3ef0b"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2827",
+          "sha256": "a093b0c4cbf79bd58e9d7f477586c406ea4d9b60ae7b9ba1d7313c394d99214b"
+        }
+      ],
+      "scope": "前摇与退场接线更新。群攻声明、Game 回合收尾与测试入场片段逐字节相等，旧运行与断言保留。"
+    },
+    {
+      "action": "q2-battle-item-use-source-rebinding",
+      "base": "89dab268613141283aa49ddb228351060607316e",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2500",
+          "sha256": "4d88bd7d9da13d5f97d082181076d446791bdf07cacead405f0b879270c77ee1"
+        }
+      ],
+      "scope": "用物失败结果先于后续群攻声明。群攻声明的新坐标仍引用同一原字节，旧运行与断言保留。"
+    },
+    {
+      "action": "q2-battle-hiding-source-rebinding",
+      "base": "970731da74e22ee1aa7bf661f6e5be6481d26332",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "anchor": "function tickPostAction(",
+          "role": "first-game-exhausted-queue-tick",
+          "lines": "2828",
+          "sha256": "72615052ac514abb6f770bc4aa6ab016383934b615f826313320cb33cb0240c9"
+        }
+      ],
+      "scope": "Game 在下一轮选招前等待隐蛊渐显。轮末声明使用新坐标，引用行逐字节相同。"
+    },
+    {
+      "action": "q2-battle-throw-status-source-rebinding",
+      "base": "55fcc99d356c1bb0332e687019b495c6eb340052",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2501",
+          "sha256": "6efb3ffd980d6f1e605a0df7273027ce214a3329368ebb29d13b244669d076fe"
+        }
+      ],
+      "scope": "投掷巫抗失败写入结构化结果。战斗核的原有声明引用行逐字节相同。"
+    },
+    {
+      "action": "q2-battle-poison-narration-source-rebinding",
+      "base": "aa2e8d2c69c714d050e0d0ae0f684a123a968007",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2501",
+          "sha256": "3282f9337a3faba540df13fb8af46d20788578969f0020ef03afdd4c4cbdd4d6"
+        }
+      ],
+      "scope": "寄生毒把产物卷轴随入账结果交给演出层。全体攻击声明的引用行与固定前驱逐字节相同。"
+    },
+    {
+      "action": "q2-world-incense-source-rebinding",
+      "base": "5e3c1f59de533fa43ceed1ac052c9bcd84f1849b",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5769",
+          "sha256": "8c8472f7c6aab17d385537406fcd6fa79fa1e50ded49d31bf2660fc937725df6"
+        }
+      ],
+      "scope": "核感知香候选后的七处现行片段。旧执行、原件、断言和发布身份按原记录。"
+    },
+    {
+      "action": "q2-scene-item-exit-source-rebinding",
+      "base": "25b4d5430f7daa410cef5e91447ac02e1dc00c3d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5784",
+          "sha256": "8a4af5f672f57bf901a7129645548fcf1f50541f5925f424a2e16987898d5db7"
+        }
+      ],
+      "scope": "核场景用物候选后的五处现行片段。旧执行、原件、断言和发布身份按原记录。"
+    },
+    {
+      "action": "q2-story-presentation-source-rebinding",
+      "base": "759886346d091f3dc2c0b67f72547c6861b81b6a",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5841",
+          "sha256": "090dfdd1f275e9c00e6f94909b0ec91ee1433edb8b02649cf7c6b1791a9b7514"
+        }
+      ],
+      "scope": "重绑四组现行引用。旧执行按既有候选恢复，两处构造片段按震屏输出职责迁移逐字节核对。"
+    },
+    {
+      "action": "q2-cliff-entry-source-rebinding",
+      "base": "abfc31fcfd9a4ef16380ef4ae054604ad6159762",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5833",
+          "sha256": "24c8c811af1b5d863dd45ca3346e93fa2a248f1aa0530589765c3bd9cb917a05"
+        }
+      ],
+      "scope": "核现行引用字节相同；仅将入场淡入与前景正文的并行能力接到现有呈现事务。旧执行保留原修订。"
+    },
+    {
+      "action": "fragment-party-pose-source-rebinding",
+      "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5840",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        }
+      ],
+      "scope": "单次点名姿势落在当前队员实例。核主文件入口范围逐字等同；呈现宿主范围只增加队员临时姿势表，历史执行身份与 Q2 战斗结论原样保留。"
+    },
+    {
+      "action": "q2-coverage-and-scene-fade-source-rebinding",
+      "base": "45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "lines": "480",
+          "sha256": "9b6711b6b5503b55ecd1345170262f562336cc08647aed26813085e3e383a324"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "anchor": "running = runBattleTrial(",
+          "role": "public-trial-adapter",
+          "lines": "179",
+          "sha256": "1dbaabeaac8b477dc937396e287feb7c8975ec6606b7a2e6af5674bd72e81a6d"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "anchor": "export function validateBattleTrace(",
+          "role": "oracle",
+          "lines": "973",
+          "sha256": "f40524a5fbee76f46b7727bc40233bf0d3e0c3c80d213060fabc0a5390c24790"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "17",
+          "sha256": "de22d569969d296532986f263a1272a5139d7aaceb2ca86da70d7f814f522e24"
+        },
+        {
+          "path": "packages/content/src/rewards.ts",
+          "anchor": "export function recoverBattleParty(",
+          "role": "post-world-script-half-recovery",
+          "lines": "260",
+          "sha256": "95338fd47c8029d0d1cf043258eb97e9306c4a8a2f463952bc4c085e101a07b8"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "6f2c354008b765ff88778eccf0b1e627b600f31d58bb328a6810d33701ddebaf",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5854",
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+        }
+      ],
+      "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
+    },
+    {
+      "action": "q2-placement-feedback-source-rebinding",
+      "base": "cb83b4f76a150915105121482cbef9e4edd58d58",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5869",
+          "sha256": "b4775126324865d875104f49c04c8794117393f2d2cb4bc2ad467dcf5692eb58"
+        }
+      ],
+      "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
+    },
+    {
+      "action": "q2-peach-grove-source-rebinding",
+      "base": "b1d046a12de4ec4082a5acbae64be24253881990",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5878",
+          "sha256": "2c0b1b8dd4dfa65558dc01ad32d9d2387484643ced17494cee838a04e3fa6cc2"
+        }
+      ],
+      "scope": "桃花林沿用来源脚点和常规跟随状态。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-world-notice-source-rebinding",
+      "base": "0b315ffc89248b157112ca83ebf77d557d6224ad",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5890",
+          "sha256": "dd136bdc4e175f0273ba803cc3479ad3095455dae4585cd58f403a47f9b4441b"
+        }
+      ],
+      "scope": "战外定时叙述归并关闭入口。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-entry-auto-source-rebinding",
+      "base": "814bd6c6195232e432cd39ccbcd450e78b9e2f95",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5883",
+          "sha256": "f2cf272fba59ab7ec2a80126ec76a56dbd254c1a59d2978c86ba92d57718fcb2"
+        }
+      ],
+      "scope": "脚本换场收尾与已恢复自动等待按当前游标接线。原场景、相机、战斗、世界动作及存档引用片段逐字相等。"
+    },
+    {
+      "action": "q2-yangzhou-rooftop-source-rebinding",
+      "base": "7488f2961b0ef59a6020b6fe8bf419ccda8f1bc9",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "289",
+          "sha256": "ef22b37ef9a3e2eeebc48881553b210b3e10cb8b0a772c3194f9a04f5b3b09ea"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "1303221f282edd7af88a91ca5bb64507e15b80bdda7c7ceb6d4dd63577b592b0",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5893",
+          "sha256": "26fc300b36ff338585b5af66c8d9acfe504496de5f4e38cdec97d19c3d882392"
+        }
+      ],
+      "scope": "剧情战共享实绘结算输入门，落步触发先落实跟随队形，追逐转弯保留离格方向。分屏器接入原场景起战。九个既有引用片段逐字节相等。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "289",
+          "sha256": "62bfff1e975011e5b619981418aef3c3fa3630fdc5b5c345cb8f8c93f3eabc4b"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "1a2d06555204d47b4f0c1089665588fa3d16f99b350586b212d0a85f62c770b5",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5900",
+          "sha256": "0e51a001632f36bb50993d682fb24fb1f9f2f724f5cf83c313dacb00fa897b2a"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-inn-boss-source-rebinding",
+      "base": "19f77feda2bb26bc4bf69d479fb8e513c3277878",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "02e0cfea55d49be033b6253e56d6df43130157c9be0fa83992b7fdfc5db73460",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "战中对白保留已确认的可见槽直至脚本清除，分屏器接入有脚本移位的胜利返场。现行引用的原片段逐字节相等，历史执行继续绑定原候选。"
+    },
+    {
+      "action": "q2-inn-escorts-source-rebinding",
+      "base": "92ff3fcef43905f172b41fb5411b8852ef7f6bf3",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5918",
+          "sha256": "8801ac86c8e0d5c6e3e8fe47a9c89343bcd6c36156def4f6ed214b35730131b0"
+        }
+      ],
+      "scope": "角色的循环追逐可选世界拍节奏，原有推进和存读档入口的被引片段逐字节相等。复用既有历史执行并保留各自原候选。"
+    },
+    {
+      "action": "q2-tomb-source-rebinding",
+      "base": "fa362b07eedf6d472e215d71b951bf22c9d8b826",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "c8bf851b4fb1126a83439a42f4b53e9a66d8097a5a096a0c8955850bbbf4c750",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5953",
+          "sha256": "1d2576cff65085e30445d8937ed7078db8682b07aa513689c033e4c95e5331f3"
+        }
+      ],
+      "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
+    },
+    {
+      "action": "q2-tower-fox-source-rebinding",
+      "base": "725e768fc2964cb051b624797cdec50bcf9bb313",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-host.ts",
+          "anchor": "private async finishEncounter(",
+          "role": "world-encounter-finalizer",
+          "lines": "289",
+          "sha256": "b48a9b7a158ab011f388ac805f7d82db343e74d50e7a55df3a2ecde064ab9099"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5951",
+          "sha256": "f29814e0be6beb911245b97850a7aba8a08c9f7a80c938a6d0585b9e97499324"
+        }
+      ],
+      "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
+    },
+    {
+      "action": "q2-tian-ghost-source-rebinding",
+      "base": "ff8308de5330908af0492578a91c97631551fde3",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5969",
+          "sha256": "5b558dd928ca7586a96dba88cf39246bcf4f2fb9fbf8a7a024ef6dd0f71e169f"
+        }
+      ],
+      "scope": "开坛淡出在续跑前提交全幕布画面。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
+    },
+    {
+      "action": "q2-tower-ming-source-rebinding",
+      "base": "67e2f50b38d16ebcbb67fb20e01959f3d9597d28",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5970",
+          "sha256": "bc32c04d62500e773b229b376080a851881074291e241bd24642958b321deecd"
+        }
+      ],
+      "scope": "镇狱明王入口支持队外角色换装和分段入场。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
+    },
+    {
+      "action": "q2-gai-luojiao-source-rebinding",
+      "base": "11898d694b9dbcd48a8fe6d76d31be9d9796c58d",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5974",
+          "sha256": "7c61515d9af9f16d87a0793ffec671fca8ab19212527368b97ef5d80fa1cf018"
+        }
+      ],
+      "scope": "核盖罗娇归队及擂台镜头返工后的现行引用。所引片段的 Git 原件逐字相同，各次运行绑定各自固定候选。"
+    },
+    {
+      "action": "q2-phoenix-source-rebinding",
+      "base": "31a5141224a4f03688d15c1f9277a6e43d946341",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5977",
+          "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
+        }
+      ],
+      "scope": "镜头允许首步与同拍人物动作一起绘制。原有世界、场景及战斗恢复所引运行时片段逐字相同，各次执行仍绑定各自候选。"
+    },
+    {
+      "action": "q2-stone-elder-source-rebinding",
+      "base": "32e520895b58d09174cc74a56d1ca7b8c432be57",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-core.ts",
+          "anchor": "function performAttackAll(",
+          "role": "native-reforge-sweep",
+          "lines": "2506",
+          "sha256": "d157bb150c7678582a8cc82ab99d5e6eb51ff4a985907bed8e4ea397f07a1209"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "anchor": "\"environment-sound-duet\": {",
+          "role": "pal-ten-mile-world-ambience",
+          "lines": "2",
+          "sha256": "93aed1ad4fd23c7761f8cc1ddfbccc5e582ea4e023e80368f554f02bbe0de816"
+        }
+      ],
+      "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
+    },
+    {
+      "action": "q2-forest-inn-source-rebinding",
+      "base": "e00b63b7eda5c33be3e9e26afca6d9a253601c8b",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "anchor": "\"environment-sound-duet\": {",
+          "role": "pal-ten-mile-world-ambience",
+          "lines": "2",
+          "sha256": "62fc0f66be2cd3ee0c02f1131c46f5824415bfd633ddb28b1e1f329d2914aceb"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "492c257d49c673662a6aa2cbe5d047188f6ceab5fea18ad0b6773bf2a2fc7f4c",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "野店前景与正式分屏门更新。环境音入口和原速录制时钟引用保留原代码与既有执行身份。"
+    },
+    {
+      "action": "q2-shangshu-entry-source-rebinding",
+      "base": "6669ad19b74513d1c5eea8c5420e05ef8d434286",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "65",
+          "sha256": "078baf77426368dfd531178ad1bf841a91931abf59ac5d5435a04be18444398c",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5977",
+          "sha256": "238e955fdd8e5c8bfc765aa7164531eab243f043f1a9cedb492d77a47e57665d"
+        }
+      ],
+      "scope": "尚书府进战先重绘、府内前景覆盖与成片解码增量，保留既有调用区段和历次执行身份。"
+    },
+    {
+      "action": "q2-dali-split-source-rebinding",
+      "base": "8dd8dc609bfa428c27f9c2c13ab339d4c9d5b639",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "65",
+          "sha256": "feb59996c541eb113cc3b4fd77cb2e0b17d9ebfb6e3d06301357e833510e67ae",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "大理祭坛接入实际用物起战及原录、成片主角像素核验，保持既有分屏来源段与执行回执。"
+    },
+    {
+      "action": "q2-dali-rain-source-rebinding",
+      "base": "694b207e0090eeeac045a5548dd6a32a0c97dd1a",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "66",
+          "sha256": "e78f2af3c6baead41d9df15bfc038d0dc072fd57eb89c2c02d9e34cd14ecd8f8",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5983",
+          "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+        }
+      ],
+      "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
+    },
+    {
+      "action": "q2-palace-source-rebinding",
+      "base": "412572bda94d976c0c18030d0157d6f7da15158f",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "66",
+          "sha256": "e1d680199f27911a9cccbdf1955451716dc290548edba23b79ef7772750e0eef",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5991",
+          "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
+        }
+      ],
+      "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-box.ts",
+          "anchor": "export const SCROLL_LABEL_STYLE =",
+          "role": "reforge-scroll-style",
+          "lines": "169",
+          "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "6005",
+          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     }
   ],
   "_governance": {

@@ -112,6 +112,7 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
   const tail = ui.observe()
   expect(tail).toMatchObject({ cueIndex: 0, phase: 'auto-advance', slot: 'bottom' })
   ui.advance(150)
+  expect(ui.dismissTimedNarration(150)).toBe(false)
   expect(ui.observe()).toEqual(tail)
   ui.render(209)
   expect(ui.observe()).toEqual(tail)
@@ -124,6 +125,74 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
     rowTextIds: ['B'],
   })
   ui.close()
+  expect(ui.observe()).toBeNull()
+})
+
+test('a timed cue keeps its first page until the player turns it', async () => {
+  const { ui, startDialogue } = await box()
+  ui.open(
+    startDialogue({
+      id: 'paged-tail',
+      cues: [
+        {
+          slot: 'bottom',
+          rows: ['A', 'B', 'C', 'D', 'E'].map((text) => ({ text, speed: 10 })),
+          autoAdvance: 100,
+        },
+      ],
+    }),
+    0,
+  )
+  ui.render(40)
+  ui.render(1000)
+  expect(ui.observe()).toMatchObject({
+    pageIndex: 0,
+    phase: 'waiting-input',
+    pageText: 'A\nB\nC\nD',
+  })
+  ui.advance(1000)
+  ui.render(1010)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('E')
+  expect(ui.observe()).toMatchObject({ pageIndex: 1, phase: 'auto-advance' })
+  ui.render(1109)
+  expect(ui.observe()?.pageIndex).toBe(1)
+  ui.render(1110)
+  expect(ui.observe()).toBeNull()
+})
+
+test('world timed narration owns a full visible interval or the next pressed key', async () => {
+  const { ui, startDialogue } = await box()
+  const notice: Dialogue = {
+    id: 'timed-notice',
+    cues: [{ slot: 'narration', rows: [{ text: 'A' }], autoAdvance: 1400 }],
+  }
+  ui.open(startDialogue(notice), 10, 'script')
+  expect(ui.dismissTimedNarration(100)).toBe(false)
+  ui.render(250)
+  expect(ui.observe()).toMatchObject({
+    slot: 'narration',
+    phase: 'auto-advance',
+    pageStartedAtMs: 250,
+  })
+  expect(ui.dismissTimedNarration(500)).toBe(true)
+  expect(ui.observeSlots()).toEqual([])
+
+  const joinedScroll: Dialogue = {
+    id: 'joined-scroll',
+    cues: [
+      {
+        slot: 'narration',
+        rows: ['A', 'B', 'C', 'D', 'E'].map((text) => ({ text })),
+        autoAdvance: 1400,
+      },
+    ],
+  }
+  ui.open(startDialogue(joinedScroll), 2000, 'script')
+  ui.render(2300)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('ABCDE')
+  ui.render(3699)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('ABCDE')
+  ui.render(3700)
   expect(ui.observe()).toBeNull()
 })
 

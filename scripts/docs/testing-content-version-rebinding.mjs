@@ -35,8 +35,17 @@ function metadataBlock(bytes) {
 }
 
 /** Validate one accepted version-only change before replaying older publication layers. */
-export function loadTestingContentVersionRebinding({ admission, readCurrent, readPredecessor }) {
+export function loadTestingContentVersionRebinding({
+  admission,
+  readCurrent,
+  readPredecessor,
+  readAcceptedSource = readPredecessor,
+}) {
   const previousSource = readPredecessor(versionPath)
+  assert(
+    previousSource?.equals(readAcceptedSource(versionPath)),
+    'content version: publication changed the previously admitted version source',
+  )
   const currentSource = readCurrent(versionPath)
   assert(Buffer.isBuffer(currentSource), 'content version: live source missing')
   assert.equal(sha256(currentSource), admission.afterSha256, 'content version: live source differs')

@@ -35,28 +35,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 123,
-                      "height": 0,
-                      "row": 55
-                    }
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-361"
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 4,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "ditherScreen",
-                    "ms": 5040
-                  },
-                  {
                     "facing": "down",
                     "kind": "setEntityFacing",
                     "target": {
@@ -261,7 +239,42 @@
                     "kind": "loadScene",
                     "scene": "s171"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 123,
+                        "height": 0,
+                        "row": 55
+                      }
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-361"
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 4,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s170",
+                        "entity": "e2852"
+                      },
+                      "frame": 10
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 5040,
+                    "source": "previousPresentedFrame"
+                  }
+                }
               }
             ]
           }

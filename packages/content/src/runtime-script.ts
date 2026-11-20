@@ -17,7 +17,7 @@ import {
   checkBaseScriptLibrary,
   checkEntityAddress,
 } from './author-script-core.js'
-import type { SceneReveal } from './script.js'
+import type { FadeColor, SceneReveal } from './script.js'
 
 export type EntityLifecycleCommand =
   | { kind: 'suspendEntity'; target: EntityAddress; ticks: number }
@@ -26,13 +26,15 @@ export type EntityLifecycleCommand =
   | { kind: 'removeEntity'; target: EntityAddress }
 
 /** 在保留的递归命令树上换入当前运行时命令词表。 */
-type RewriteRuntimeCommandTree<T> = T extends BaseAuthorCommand[]
-  ? RuntimeCommand[]
-  : T extends readonly (infer Item)[]
-    ? RewriteRuntimeCommandTree<Item>[]
-    : T extends object
-      ? { [Key in keyof T]: RewriteRuntimeCommandTree<T[Key]> }
-      : T
+type RewriteRuntimeCommandTree<T> = T extends FadeColor
+  ? T
+  : T extends BaseAuthorCommand[]
+    ? RuntimeCommand[]
+    : T extends readonly (infer Item)[]
+      ? RewriteRuntimeCommandTree<Item>[]
+      : T extends object
+        ? { [Key in keyof T]: RewriteRuntimeCommandTree<T[Key]> }
+        : T
 
 type RetainedRuntimeCommand = RewriteRuntimeCommandTree<
   Exclude<BaseAuthorCommand, { kind: 'vanishEntity' }>

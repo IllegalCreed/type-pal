@@ -9,7 +9,13 @@
  * 排重：host 旧测 16 例只覆盖 victory 单景间接路径（money+7/hp90），settle/finish 的
  * exp 门、结算屏 wiring、defeat/flee 恢复、毒清理、金钱/收妖合并从未直接合同化。
  */
-import { type ActorDef, type AuthorEnemyDef, buildWorld, lookupText } from '@type-pal/content'
+import {
+  type ActorDef,
+  type AuthorEnemyDef,
+  buildWorld,
+  lookupText,
+  type WorldState,
+} from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { expect, test } from 'vitest'
 import { realFrame } from '../__tests__/battle-workflows/catalog.js'
@@ -92,6 +98,7 @@ interface FinalizationScenario {
   worldPoisons?: Array<{ poisonId: number; tickIndex: number }>
   /** 战前授予首位队员的技能（写 world.learnedSkills；避免 initialMagic 与注入技能的先后环）。 */
   worldSkills?: string[]
+  worldSkillUseCounts?: NonNullable<WorldState['skillUseCounts']>
   worldCollectValue?: number
   injectPoisons?: boolean
 }
@@ -168,6 +175,8 @@ async function finalizationHarness(scenario: FinalizationScenario) {
   world.audio = { currentMusic: null }
   if (scenario.worldPoisons) world.party[0]!.poisons = scenario.worldPoisons.map((p) => ({ ...p }))
   if (scenario.worldSkills) world.learnedSkills[world.party[0]!.id] = [...scenario.worldSkills]
+  if (scenario.worldSkillUseCounts)
+    world.skillUseCounts = structuredClone(scenario.worldSkillUseCounts)
   if (scenario.worldCollectValue !== undefined) world.collectValue = scenario.worldCollectValue
   const content = { ...project, items: projectItemsView(project.items) }
   const players = createBattlePlayers(world, content, { dualLeader: null, allLeader: null })
@@ -388,6 +397,52 @@ test('BF-03 升级链结算：升级、习得入 learnedSkills、结算屏命名
     expect(last).toMatchObject({ kind: 'learn-magic', name: 'Hero', magicName: 'skill.bf-earn' })
     // 升级回满发生在 writeBackHp 之后：战斗内 60 血被升级 refill 到满值（顺序 oracle）。
     expect(hero.hp).toBe(hero.maxHP)
+  } finally {
+    await h.close()
+  }
+})
+
+test('胜利后补学当前等级的仙术，并保留已经用尽的仙术次数', async () => {
+  const actor = combatActor()
+  const battler = expectDefined(actor.battler)
+  battler.baseStats.level = 2
+  battler.leveling = { expTable: [0, 10, 100] }
+  const learnable = {
+    id: 'bf-missing',
+    name: 'Missing',
+    desc: '',
+    cost: { mp: 5 },
+    usableOutsideBattle: false,
+    target: 'oneEnemy',
+    effects: [{ kind: 'damage', power: 20, elemental: 0 }],
+    animation: { effectSprite: 0 },
+  }
+  const h = await finalizationHarness({
+    enemy: foeWith({ exp: 1, cash: 0 }),
+    actors: [actor],
+    extraSkills: {
+      skills: [learnable, { ...learnable, id: 'bf-exhausted', lifetimeLimit: 1 }],
+      levelUp: {
+        hero: [
+          { level: 1, skillId: learnable.id },
+          { level: 2, skillId: 'bf-exhausted' },
+        ],
+      },
+    },
+    worldSkillUseCounts: { hero: { 'bf-exhausted': 1 } },
+  })
+  try {
+    const settled = settleAware(h)
+    await drive(h, settled, 'attack')
+    expect(settled()).toBe('victory')
+    const hero = expectDefined(h.world.party[0])
+    expect(hero).toMatchObject({ level: 2, exp: 1 })
+    expect(h.world.learnedSkills[hero.id]).toEqual(['heal', 'bf-missing'])
+    expect(h.world.skillUseCounts?.[hero.id]).toEqual({ 'bf-exhausted': 1 })
+    expect(h.observables.screens).toEqual([
+      { kind: 'exp-cash', exp: 1, cash: 0 },
+      { kind: 'learn-magic', name: 'Hero', magicName: 'Missing' },
+    ])
   } finally {
     await h.close()
   }

@@ -21,140 +21,11 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 380
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 440
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 280
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1336"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "up"
     },
     {
       "id": "e1337",
@@ -168,140 +39,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 260
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1337"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e1338",
@@ -311,144 +52,14 @@
         "height": 0
       },
       "sprite": "sprite-400",
-      "facing": "left",
+      "facing": "up",
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 220
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 520
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s066",
-                        "entity": "e1338"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     }
   ],
   "hooks": {
@@ -466,40 +77,152 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 33,
-                      "height": 0,
-                      "row": 3
-                    }
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-232"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
+                    "kind": "sceneTimeline",
+                    "label": "棺椁旁三人回望",
+                    "tracks": [
+                      {
+                        "id": "e1336-turns",
+                        "label": "赵灵儿",
+                        "target": {
+                          "scene": "s066",
+                          "entity": "e1336"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e1337-turns",
+                        "label": "李逍遥",
+                        "target": {
+                          "scene": "s066",
+                          "entity": "e1337"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e1338-turns",
+                        "label": "林月如",
+                        "target": {
+                          "scene": "s066",
+                          "entity": "e1338"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2200,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              }
+                            ]
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "frames": 90,
-                    "kind": "shakeScreen",
-                    "level": 4
-                  },
-                  {
-                    "asset": "music.pal.026",
-                    "kind": "playMusic"
-                  },
-                  {
                     "kind": "wait",
-                    "ms": 2500
+                    "ms": 300
                   },
                   {
                     "asset": "sound.pal.117",
@@ -546,7 +269,43 @@
                       "evidenceId": "pal-load-scene-12179"
                     }
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 33,
+                        "height": 0,
+                        "row": 3
+                      }
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "frames": 90,
+                      "kind": "shakeScreen",
+                      "level": 4
+                    },
+                    {
+                      "asset": "music.pal.026",
+                      "kind": "playMusic"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 0
+                  }
+                }
               }
             ]
           }

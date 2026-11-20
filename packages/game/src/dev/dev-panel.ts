@@ -45,6 +45,7 @@ export { togglePartyMembership } from './dev-party-panel.js'
 
 import { startBattle } from '../core/battle/battle-system.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
+import { removeEquipmentEffect } from '../core/equipment-state.js'
 import {
   buildLabelMap,
   getGlobalCommands,
@@ -87,6 +88,7 @@ export interface BattleFixture {
   inventory?: { itemId: number; count: number }[]
   enemyTeamId: number
   battleFieldId: number
+  isBoss?: boolean
 }
 
 export interface BattleFixturesData {
@@ -1624,6 +1626,13 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
     const id = Number(idStr)
     const role = deps.resources.playerRoles.roles[id]
     if (role) {
+      if (Array.isArray(override.equipment)) {
+        const handSlot = 3
+        const previousWeapon = deps.gs.PlayerRolesRuntime.rgwEquipment[handSlot]?.[id] ?? 0
+        // The direct fixture write bypasses the unequip opcode that clears weapon-granted dual attack.
+        if (previousWeapon !== 0 && previousWeapon !== override.equipment[handSlot])
+          removeEquipmentEffect(deps.gs, id, handSlot)
+      }
       Object.assign(role, override)
       if (typeof override.level === 'number') levelOverrides.set(id, override.level)
     } else {
@@ -1674,7 +1683,7 @@ export function applyFixture(deps: DevPanelDeps, fixture: BattleFixture, rngSeed
       gs: deps.gs,
       enemyTeamId: fixture.enemyTeamId,
       battleFieldId: fixture.battleFieldId,
-      isBoss: false,
+      isBoss: fixture.isBoss ?? false,
       enemies: deps.resources.enemies,
       enemyObjects: deps.resources.enemyObjects, // 对话:enemy scriptOnReady/scriptOnTurnStart(boss 嘲讽)
       enemyTeams: deps.resources.enemyTeams,

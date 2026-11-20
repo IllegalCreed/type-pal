@@ -17,12 +17,14 @@ import type {
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getMagicScriptEntry, setMagicScriptEntry } from '../../object-script-state.js'
+import { OP_PLAYER_FLEE } from '../../script-opcode-ids.js'
+import { playerRestFrame } from '../battle-anim-driver.js'
 import {
   INHERIT_BATTLE_TRIGGER_ARGUMENT,
   type RunScriptFn,
   runBattleTrigger,
 } from '../battle-runtime-context.js'
-import type { BattleState } from '../battle-state.js'
+import type { BattleState, FighterDelta } from '../battle-state.js'
 import {
   applyEnemyMagicDamage,
   applyMagicDamage,
@@ -35,7 +37,11 @@ import {
   isOffensiveMagicType,
   type PendingDamageNums,
 } from './magic-action-contract.js'
-import { startMagicAnimation } from './magic-animation.js'
+import {
+  buildPlayerOffMagicOpening,
+  startMagicAnimation,
+  startPlayerCastWithoutFire,
+} from './magic-animation.js'
 
 export type { RunScriptFn } from '../battle-runtime-context.js'
 
@@ -257,6 +263,12 @@ export function performMagic(input: PerformMagicInput): void {
   const actingRole =
     input.state.players[input.casterIsEnemy ? (targetCtx?.idx ?? 0) : input.casterIdx]
   const useArgument = actingRole?.roleId ?? 0
+  const onUse = input.commands[getMagicScriptEntry(input.gs, spell, 'scriptOnUse')]
+  const escapeCast =
+    !input.casterIsEnemy &&
+    magic.effect === 0xffff &&
+    onUse?.op === 'raw' &&
+    onUse.opcode === OP_PLAYER_FLEE
   if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript('scriptOnUse', useArgument)
   const scriptUseSuccess = input.gs ? input.gs.fScriptSuccess : true
@@ -266,8 +278,9 @@ export function performMagic(input: PerformMagicInput): void {
   //   scriptOnSuccess**(失败提示已由 scriptOnUse 跳失败分支入 battleDialogQueue)。MP 仍已扣(sdlpal 总扣,
   //   fight.c:4190 在 scriptOnUse 前)。修 user 报"物品不够还有技能动画"。
   if (!scriptUseSuccess) {
-    // fizzle(道具/钱不足):sdlpal 前摇动画+施法音已在 scriptOnUse 之前播(fight.c:4184 vs 4215),故仍播施法音
-    //   (保持忠实 sdlpal;user 选"只改略快、fizzle 仍播")。ts 此时无前摇动画可挂 → 即时播。
+    // 起手手势和吟唱声在 scriptOnUse 前，失败提示在主特效本应开始的位置。
+    if (startPlayerCastWithoutFire(input, magic, pendingNums)) return
+    // 没有可用动画锚点时保留已有声音和脚本数字。
     if (pendingCastSound > 0 && input.gs) {
       input.gs.pendingSounds ??= []
       input.gs.pendingSounds.push(pendingCastSound)
@@ -277,6 +290,11 @@ export function performMagic(input: PerformMagicInput): void {
       input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
     return
   }
+
+  // OffMagic 的吹飞先抽样，随后才运行成功脚本及逐槽伤害（fight.c:2681、4255–4268）。
+  const playerOffMagicOpening = input.state.iBlow
+    ? buildPlayerOffMagicOpening(input, magic, pendingScreenShake, true)
+    : undefined
 
   // scriptOnUse 成功后运行 scriptOnSuccess，再结算与拼装帧链。
   // M6 法术效果音 magic.sound:**player 攻击魔法(OffMagic)已挪到动画时间线帧同步**(见下方动画派发后),
@@ -300,8 +318,30 @@ export function performMagic(input: PerformMagicInput): void {
         : (targetCtx?.idx ?? 0)
     }
   }
+  // SDLPal displays PreMagic and DefMagic before the revival script (fight.c:4184–4242).
+  const fallenPoses =
+    !input.casterIsEnemy && (magic.type === 'applyToPlayer' || magic.type === 'applyToParty')
+      ? input.state.players.flatMap<FighterDelta>((player, idx) => {
+          const role = input.playerRoles.roles[player.roleId]
+          return role?.hp === 0
+            ? [{ side: 'player', idx, currentFrame: playerRestFrame(player, role) }]
+            : []
+        })
+      : []
+  const enemiesConfusedBefore =
+    !input.casterIsEnemy && isOffensiveMagicType(magic.type)
+      ? input.state.enemies.map((enemy) => enemy.status.confused > 0)
+      : []
   if (input.gs) input.gs.fScriptSuccess = true
   runMagicScript('scriptOnSuccess', successArgument)
+  // In the original the success script runs after FIRE, then the first PostMagic frame shows confusion.
+  const newlyConfusedEnemySlots = enemiesConfusedBefore.flatMap((wasConfused, slot) =>
+    !wasConfused && (input.state.enemies[slot]?.status.confused ?? 0) > 0 ? [slot] : [],
+  )
+  const preRevivalPoses = fallenPoses.filter(({ idx }) => {
+    const player = input.state.players[idx]
+    return player && (input.playerRoles.roles[player.roleId]?.hp ?? 0) > 0
+  })
   const scriptSuccess = input.gs ? input.gs.fScriptSuccess : true
   const tranceSpriteAfter =
     !input.casterIsEnemy && magic.type === 'trance'
@@ -428,17 +468,22 @@ export function performMagic(input: PerformMagicInput): void {
   }
 
   // Resolve effects before handing frame composition its narrow battle/resource view.
-  const built = startMagicAnimation(input, magic, {
-    dmgResults,
-    pendingNums,
-    pendingScreenShake,
-    hitPlayerIdxs,
-    playerDeathSounds,
-    autoDefendIdxs,
-    scriptSuccess,
-    tranceSpriteBefore,
-    tranceSpriteAfter,
-  })
+  const built =
+    (escapeCast && startPlayerCastWithoutFire(input, magic, pendingNums)) ||
+    startMagicAnimation(input, magic, {
+      playerOffMagicOpening,
+      dmgResults,
+      pendingNums,
+      pendingScreenShake,
+      hitPlayerIdxs,
+      newlyConfusedEnemySlots,
+      playerDeathSounds,
+      autoDefendIdxs,
+      preRevivalPoses,
+      scriptSuccess,
+      tranceSpriteBefore,
+      tranceSpriteAfter,
+    })
 
   // M6 玩家施法音 pendingCastSound:OffMagic/Summon/Trance 成功建链 → 已在前摇"施法姿"帧帧同步
   //   (buildPreMagicTimeline,对齐 sdlpal fight.c:2377),**不在此 push**;其余(DefMagic / 未建链)→ 即时播。

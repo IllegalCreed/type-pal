@@ -12,6 +12,7 @@
  *   同 draw-sprite 约定);屏外像素经 fb.writePixel 边界检查裁剪。
  */
 import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
+import { isEnemyConfusionRevealed } from '../../core/battle/battle-anim-driver.js'
 import { ENEMY_POSITIONS_FALLBACK, getPlayerBasePos } from '../../core/battle/battle-positions.js'
 import type { BattleState } from '../../core/battle/battle-state.js'
 import type { Framebuffer } from '../framebuffer.js'
@@ -247,6 +248,7 @@ export function drawBattleSprites(
    * 同列冒泡)。sortY = overlay.y + layerOffset;draw 回调画该 overlay。
    */
   sortedOverlays?: Array<{ x: number; sortY: number; draw: (fb: Framebuffer) => void }>,
+  summonRestore?: { framebuffer: Framebuffer; enemyColorShifts: ReadonlyMap<number, number> },
 ): void {
   const targetBlinkOn = battleSelectBlinkOn()
   // D17a:把双方收集成一个 draw 列表 → Y 升序(平局 X 降序)排序 → 逐条 blit。
@@ -257,6 +259,7 @@ export function drawBattleSprites(
     y: number
     frame?: SpriteFrame
     iColorShift: number
+    restoreColorShift?: number
     /** D17:>=0 时走 blitFrameDeathFade(死亡淡出步);<0 = 普通 blit。 */
     fadeStep: number
     /** DM9:法术 overlay 绘制回调(与精灵同列排序;有此项时 frame 不用)。 */
@@ -286,9 +289,12 @@ export function drawBattleSprites(
     const isFading = fadeStep !== undefined // 0..71(>=72 已 return);undefined = 活/刚死未淡
     // D17a:动画期间用 render-state pos(逐帧 mutate);旧 fixture 无 pos → 共享 anchor
     // (含 wYPosOffset,sdlpal battle.c:939),与伤害数字锚点同源杜绝漂移。
-    const pos = enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
+    const animation = state.battleAnim
+    const before = animation?.frames[animation.renderIdx ?? animation.idx]?.enemyAppearance
+    const original = before?.idx === i ? before : undefined
+    const pos = original?.pos ?? enemy.pos ?? computeEnemyAnchor(state, i, enemyPos)
     if (!pos) return
-    const sprite = battleSprites.get(`enemy-${enemy.e.id}`)
+    const sprite = battleSprites.get(`enemy-${original?.spriteId ?? enemy.e.id}`)
     if (!sprite?.frames[0]) return
     // 帧号:render-state currentFrame 优先(攻击 / 受击 / 淡出复位);缺则 per-enemy idle 帧
     // (DM11,fight.c:991-1019:battle-system tickEnemyIdleGestures 推进——演出期间按 C 冻结/
@@ -307,16 +313,19 @@ export function drawBattleSprites(
     const enemyShakeX =
       !isFading &&
       enemy.status.confused > 0 &&
+      isEnemyConfusionRevealed(animation, i) &&
       enemy.status.sleep <= 0 &&
       enemy.status.paralyzed <= 0
         ? confusedShakeDelta(Math.random())
         : 0
+    const restoreColorShift = summonRestore?.enemyColorShifts.get(i)
     items.push({
       x: pos.x + enemyShakeX,
       y: pos.y,
       frame,
       // 淡出中 iColorShift 归 0(crossfade 自带渐隐);target 高亮 7 优先;否则 render-state(受击闪白 6)。
       iColorShift: isFading ? 0 : highlight !== 0 ? highlight : (enemy.iColorShift ?? 0),
+      ...(restoreColorShift === undefined ? {} : { restoreColorShift }),
       fadeStep: isFading ? fadeStep : -1,
     })
   })
@@ -331,7 +340,9 @@ export function drawBattleSprites(
       if (!role) return
       // DM10:隐身(0x5C 仙风云体类)期间不画队员 —— battle.c:202-211 `else if (iHidingTime == 0)`
       //   才 blit;colorShift≠0 例外(解除隐身的渐显演出仍画)。
-      if ((state.iHidingTime ?? 0) > 0 && (p.iColorShift ?? 0) === 0) return
+      const revealWaiting =
+        state.hidingFade?.revealing && (state.battleFade || (state.roundEndDelayTicks ?? 0) > 0)
+      if (((state.iHidingTime ?? 0) > 0 || revealWaiting) && (p.iColorShift ?? 0) === 0) return
       const pos = p.pos ?? computePlayerAnchor(state, i)
       if (!pos) return
       // D17 0x31:spriteNumOverride(梦蛇295 变身)优先于 role.spriteNumInBattle。
@@ -369,12 +380,24 @@ export function drawBattleSprites(
   for (const it of items) {
     if (it.drawFn) {
       it.drawFn(fb)
+      if (summonRestore) it.drawFn(summonRestore.framebuffer)
       continue
     } // DM9:法术 overlay
     if (!it.frame) continue
     // D17:死亡淡出像素走 crossfade(读 fb 背景逼近);普通精灵走 iColorShift blit。
     if (it.fadeStep >= 0) blitFrameDeathFade(fb, it.frame, it.x, it.y, it.fadeStep)
     else blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+    if (summonRestore) {
+      if (it.fadeStep < 0) {
+        blitFrame(
+          summonRestore.framebuffer,
+          it.frame,
+          it.x,
+          it.y,
+          it.restoreColorShift ?? it.iColorShift,
+        )
+      } else blitFrameDeathFade(summonRestore.framebuffer, it.frame, it.x, it.y, it.fadeStep)
+    }
   }
 
   // DM13:PAL_BattleDrawAllSprites 两遍结构(battle.c:471-487)—— 第一遍画全部,第二遍仅
@@ -383,5 +406,8 @@ export function drawBattleSprites(
   for (const it of items) {
     if (it.drawFn || !it.frame) continue
     if (it.fadeStep < 0 && it.iColorShift !== 0) blitFrame(fb, it.frame, it.x, it.y, it.iColorShift)
+    const restoreColorShift = it.restoreColorShift ?? it.iColorShift
+    if (summonRestore && it.fadeStep < 0 && restoreColorShift !== 0)
+      blitFrame(summonRestore.framebuffer, it.frame, it.x, it.y, restoreColorShift)
   }
 }

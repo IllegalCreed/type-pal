@@ -724,7 +724,9 @@ export function createScriptCausalObserver({ append, context, snapshotGame, fail
     const receipt = presentationEffects.get(effect)
     if (!receipt || receipt.ended) return
     const key = JSON.stringify(
-      receipt.data.kind === 'fade' ? [data.value, data.style, data.alpha, data.color] : [data.step],
+      receipt.data.kind === 'fade'
+        ? [data.value, data.style, data.alpha, data.color, data.ramp]
+        : [data.step],
     )
     if (key === receipt.lastOutput) return
     receipt.lastOutput = key

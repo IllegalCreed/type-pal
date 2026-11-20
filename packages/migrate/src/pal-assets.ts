@@ -278,6 +278,7 @@ export const PAL_SOUND_ROLES = {
   'audio.battleCoopCastSound': palSoundAssetId(29),
   'audio.battleEscapeSound': palSoundAssetId(45),
   'audio.battleEnemyTransformSound': palSoundAssetId(47),
+  'audio.battleEnemySummonSound': palSoundAssetId(212),
 } as const satisfies ManifestAssetConfig['roles']
 
 export const PAL_ASSET_ROLES = {

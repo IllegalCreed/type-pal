@@ -1,6 +1,7 @@
 import type { WorldItemUseOutcome } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import { deferred, menuFixture, settle } from '../__tests__/menu-session-fixture.js'
+import { executeWorldItemUse } from '../item-use-executor.js'
 import { CLOSED } from '../menu-state.js'
 import type { UseExecutionRequest } from '../use-menu-state.js'
 
@@ -57,6 +58,50 @@ test('magic reads the current world instead of a startup snapshot and remembers 
   expect(h.menus.view.magicMenu.phase).toBe('pick-spell')
   h.press('Escape', 'Enter')
   expect(h.menus.view.magicMenu.casterIdx).toBe(1)
+})
+
+test('equipment lists a teammate-only weapon and commits only to the eligible selected member', () => {
+  const h = menuFixture()
+  const sword = h.items.sword
+  if (!sword?.equip) throw new Error('fixture weapon missing')
+  const equip = { ...sword.equip, equipableBy: ['b'] }
+  h.items.sword = { ...sword, equip }
+  h.items['old-sword'] = { ...sword, equip, id: 'old-sword', name: 'Old Sword' }
+  const starting = structuredClone(h.world)
+  starting.party[1]!.equipment.weapon = 'old-sword'
+  const before = structuredClone(starting)
+  h.ports.replaceWorld(starting)
+  h.ports.replaceWorld.mockClear()
+
+  h.openPanel('equip')
+  expect(h.menus.view.equipMenu.items.map(({ id }) => id)).toEqual(['sword'])
+  h.press('Enter', 'Enter')
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'a',
+    selectedItemId: 'sword',
+  })
+  expect(h.ports.replaceWorld).not.toHaveBeenCalled()
+  expect(h.world).toEqual(before)
+
+  h.press('ArrowUp', 'Enter')
+  expect(h.world.party.map(({ equipment }) => equipment.weapon)).toEqual([undefined, 'sword'])
+  expect(h.world.inventory).toEqual([
+    { itemId: 'tonic', count: 2 },
+    { itemId: 'old-sword', count: 1 },
+  ])
+  expect(h.ports.replaceWorld).toHaveBeenCalledTimes(1)
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'b',
+    selectedItemId: 'old-sword',
+  })
+  h.press('Escape', 'Enter')
+  expect(h.menus.view.equipMenu).toMatchObject({
+    phase: 'pick-role',
+    casterId: 'a',
+    selectedItemId: 'old-sword',
+  })
 })
 
 test.each([
@@ -180,6 +225,20 @@ test('system cancellation returns to hub and repeated item execution preserves e
   expect(h.menus.view.menu.openPanel).toBeUndefined()
 })
 
+test('item target selection wraps, survives reopening, and sends both uses to the chosen ally', async () => {
+  const h = menuFixture()
+  h.openPanel('use')
+  h.press('Enter', 'ArrowLeft', 'Escape', 'Enter', 'Enter')
+  await settle()
+  expect(h.world.party.map(({ hp }) => hp)).toEqual([60, 70])
+  expect(h.menus.view.useMenu.phase).toBe('pick-target')
+  h.press('Enter')
+  await settle()
+  expect(h.world.party.map(({ hp }) => hp)).toEqual([60, 80])
+  expect(h.world.inventory).toEqual([{ itemId: 'sword', count: 1 }])
+  expect(h.menus.view.useMenu.phase).toBe('pick-item')
+})
+
 const failures: [WorldItemUseOutcome['reason'], string][] = [
   ['not-owned', '物品已经不在背包或装备中'],
   ['missing-target', '没有可作用的目标'],
@@ -218,6 +277,62 @@ test.each(
   expect(h.world).toEqual(before)
   expect(h.ports.showToast).toHaveBeenCalledExactlyOnceWith(text)
   expect(h.ports.report).toHaveBeenCalledExactlyOnceWith(`itemUse(tonic): ${text}`)
+})
+
+test('blocked placement shows a world notice and returns to exploration with the item', async () => {
+  const h = menuFixture()
+  const gate = deferred<void>()
+  const inventory = structuredClone(h.world.inventory)
+  const message = '此处无法放置'
+  h.items.tonic!.use = {
+    target: 'scene',
+    consuming: true,
+    menuAfterUse: 'close',
+    effects: [
+      {
+        kind: 'placeEntityInFront',
+        target: { scene: 'room', entity: 'trap' },
+        state: 2,
+        unavailableMessage: message,
+      },
+    ],
+  }
+  const placement = vi.fn(async () => false)
+  h.ports.executeItemUse.mockImplementation((request, signal) =>
+    executeWorldItemUse({
+      world: h.world,
+      itemId: request.itemId,
+      targetCharId: request.targetCharId,
+      items: h.items,
+      host: {
+        currentWorld: () => h.world,
+        runScript: vi.fn(async () => undefined),
+        runSceneHook: vi.fn(async () => false),
+        placeEntityInFront: placement,
+      },
+      signal,
+    }),
+  )
+  h.ports.presentPlacementFailure.mockReturnValue(gate.promise)
+  h.openPanel('use')
+  h.press('Enter')
+  await settle()
+  try {
+    expect(placement).toHaveBeenCalledOnce()
+    expect(h.ports.presentPlacementFailure).toHaveBeenCalledExactlyOnceWith(
+      message,
+      h.ports.executeItemUse.mock.calls[0]?.[1],
+    )
+    expect(h.ports.showToast).not.toHaveBeenCalled()
+    expect(h.menus.closed).toBe(true)
+    expect(h.operation.pending).toBe(true)
+  } finally {
+    gate.resolve()
+    await settle()
+  }
+  expect(h.menus.closed).toBe(true)
+  expect(h.operation.pending).toBe(false)
+  expect(h.world.inventory).toEqual(inventory)
 })
 
 test('custom item message is retained and unexpected executor failure restores the original menu', async () => {

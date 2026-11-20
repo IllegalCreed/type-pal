@@ -35,6 +35,7 @@ export interface AuthorDialogueCue {
   rows: DialogueRow[]
   autoAdvance?: number
   slot?: 'top' | 'bottom' | 'narration' | 'center'
+  portraitLayout?: true
   cursorFrame?: 0 | 1 | 2
 }
 
@@ -152,7 +153,7 @@ export function checkAuthorDialogueCue(
   path: string,
 ): asserts value is AuthorDialogueCue {
   const cue = record(value, path)
-  exactKeys(cue, ['identity', 'rows', 'autoAdvance', 'slot', 'cursorFrame'], path)
+  exactKeys(cue, ['identity', 'rows', 'autoAdvance', 'slot', 'portraitLayout', 'cursorFrame'], path)
   checkDialogueIdentity(cue.identity, `${path}.identity`)
   if (!Array.isArray(cue.rows) || cue.rows.length === 0)
     throw new Error(`${path}.rows: 期望非空数组`)
@@ -174,6 +175,8 @@ export function checkAuthorDialogueCue(
     cue.slot !== 'center'
   )
     throw new Error(`${path}.slot: 期望 top|bottom|narration|center`)
+  if (cue.portraitLayout !== undefined && cue.portraitLayout !== true)
+    throw new Error(`${path}.portraitLayout: 期望 true`)
   if (
     cue.cursorFrame !== undefined &&
     cue.cursorFrame !== 0 &&
@@ -237,6 +240,7 @@ export function resolveAuthorDialogueCue(
     ),
     ...(cue.autoAdvance !== undefined ? { autoAdvance: cue.autoAdvance } : {}),
     ...(cue.slot !== undefined ? { slot: cue.slot } : {}),
+    ...(cue.portraitLayout ? { portraitLayout: true } : {}),
     ...(cue.cursorFrame !== undefined ? { cursorFrame: cue.cursorFrame } : {}),
   }
 }

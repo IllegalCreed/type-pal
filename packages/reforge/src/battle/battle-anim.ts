@@ -11,22 +11,27 @@
 import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
+import { getOffMagicTiming } from './battle-off-magic.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
 const delayMs = (n: number): number => n * BATTLE_FRAME_MS
+export const ENEMY_SUMMON_COLOR_SHIFT = 8
+export const ENEMY_SUMMON_HOLD_TICKS = 2
 
 export interface FighterDelta {
   side: 'player' | 'enemy'
   idx: number
   /** 精灵帧号(缺 = 不变)。 */
   frame?: number
-  /** 时间线持有敌方当前帧，包括本来会继续循环的待机帧。 */
-  holdFrame?: true
+  /** true 固定当前帧，false 恢复闲站循环，缺省沿用。 */
+  holdFrame?: boolean
   /** 底锚位置(缺 = 不变)。 */
   pos?: { x: number; y: number }
   /** 受击/高亮染色(0 = 复位;一阶段 iColorShift=6 提亮)。 */
   colorShift?: number
+  /** 新敌已在 core 入槽，在本帧开始绘制。 */
+  showSpawn?: true
 }
 
 export interface OverlayDraw {
@@ -54,11 +59,14 @@ export interface EnemyAppearanceTransition {
   side: 'enemy'
   idx: number
   oldDefinitionId: string
-  newDefinitionId: string
-  oldFrame: number
-  newFrame: number
+  source: { x: number; y: number; frame: number; colorShift: number }
   step: number
-  total: number
+}
+
+export interface EnemySummonFade {
+  phase: 'arrival' | 'settle'
+  slots: readonly number[]
+  step: number
 }
 
 export interface AnimFrame {
@@ -83,20 +91,29 @@ export interface AnimFrame {
   screenShake?: boolean
   /** 震屏强度；缺省沿用原版末尾震屏 level=3。 */
   screenShakeLevel?: number
+  /** 当前 FIRE 帧的固定整屏纵向位移，单位为逻辑像素。 */
+  frameShakeOffsetY?: number
   /** 屏幕波幅叠加设值(OffMagic 首帧设 = fx.wave;演出期叠在战场常驻波上,动作收尾归 0)。 */
   waveAdd?: number
   /** 召唤演出相(fight.c:3130-3187 + 889-912):in = 队员溶出/神将溶入/背景染色溶入(72×16ms);
    *  hold = 队员隐、神在场;out = 反向溶回。无字段 = 非召唤态(session 清相)。 */
   summonPhase?: 'in' | 'hold' | 'out'
+  /** Each 0x9E summons its own group through two complete scene fades. */
+  enemySummonFade?: EnemySummonFade
   /** keepEffect 烙背景(fight.c:2757 末帧 blit lpBackground):把这些特效帧永久画进
    *  战斗背景(整场留存,随屏波卷动;万剑诀插剑入地)。session 侧屏波 ≥9 时丢弃(原版门)。 */
   burnBg?: OverlayDraw[]
   /** 战斗消息条(一阶段 battleMessage):从本帧起显示 durationMs。缺省位 = 物品名 (210,50);
    *  x/y 覆写 = 战斗标签位(逃跑失败/偷窃「获得」用 (130,75),一阶段渲染真值)。 */
   banner?: { text: string; durationMs: number; x?: number; y?: number }
-  /** 投掷结果脚本的同步提示。进入此帧后交会话等待，保持当前出手姿态。 */
-  waitForThrowFeedback?: boolean
-  /** 玩家梦蛇混合场景快照，敌变身沿用精灵级过渡。 */
+  /** 进入此帧后交会话显示动作提示，关闭前保持当前姿态。 */
+  waitForActionFeedback?: boolean
+  waitForHidingFade?: boolean
+  /** Reveal the confusion applied by this cast in the first frame after FIRE. */
+  revealEnemyConfusion?: boolean
+  /** Hold the gathered formation until the session finishes fading defeated enemies. */
+  waitForEnemyDeathFade?: boolean
+  /** Player trance and enemy transformation both use frozen scene transitions. */
   appearanceTransition?: PlayerAppearanceTransition | EnemyAppearanceTransition
 }
 
@@ -188,14 +205,16 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
               })),
             }
           : {}),
-        ...(frame === 0
+        // PAL queues the numbers after rendering the first impact and its UI
+        // (fight.c:2183–2221). They first appear on the next EFFECT frame.
+        ...(frame === 1
           ? {
               damageNums: hits
                 .filter(({ value }) => value > 0)
                 .map(({ idx, value }) => ({ target: { side: 'enemy', idx }, value })),
-              ...(weaponSound ? { sound: weaponSound } : {}),
             }
           : {}),
+        ...(frame === 0 && weaponSound ? { sound: weaponSound } : {}),
       })
     }
 
@@ -488,6 +507,9 @@ export interface BuildUseItemInput {
   itemName?: string
   /** 物品链显式音优先，否则由 manifest 的 battleItemUseSound role 注入。 */
   sound?: AssetId
+  /** 使用脚本的失败旁白在复位后放出，关闭后再进入末尾八拍。 */
+  waitForUseFailureFeedback?: boolean
+  activateHiding?: boolean
   /** 呼吸结束并归位后，从目标底锚显示实际 HP 或 MP 变化。 */
   gains?: Array<{ idx: number; value: number; tone: 'blue' | 'yellow' | 'cyan' }>
 }
@@ -541,18 +563,25 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
+  // fight.c:4402 finishes the hiding fade before the normal use-item recovery.
+  if (input.activateHiding) frames.push({ durationMs: 0, waitForHidingFade: true })
   // fight.c:4404-4406 先复位再 DisplayStatChange + Delay(8)。AnimPlayer 在同帧先提交位移。
   const damageNums = gains?.map((g) => ({
     target: { side: 'player' as const, idx: g.idx },
     value: g.value,
     tone: g.tone,
   }))
+  const restored: FighterDelta[] = [
+    { side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle },
+    ...(revivedTargets ?? []).map(({ idx, frame }) => ({ side: 'player' as const, idx, frame })),
+  ]
+  if (input.waitForUseFailureFeedback) {
+    frames.push({ durationMs: delayMs(1), fighters: restored })
+    frames.push({ durationMs: 0, waitForActionFeedback: true })
+  }
   frames.push({
     durationMs: delayMs(8),
-    fighters: [
-      { side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle },
-      ...(revivedTargets ?? []).map(({ idx, frame }) => ({ side: 'player' as const, idx, frame })),
-    ],
+    fighters: restored,
     ...(damageNums?.length ? { damageNums } : {}),
   })
   return frames
@@ -631,8 +660,9 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
     )
   }
   if (input.waitForThrowFeedback) {
-    // 0x3E 在投掷结果脚本内等待，随后才显示数字和收招（fight.c:4361–4372）。
-    frames.push({ durationMs: 0, waitForThrowFeedback: true })
+    // 结果脚本在收招前保留刚绘制的场景（fight.c:4361–4372）。
+    const overlays = frames.at(-1)?.overlays
+    frames.push({ durationMs: 0, waitForActionFeedback: true, ...(overlays ? { overlays } : {}) })
   }
   const onlyNumber = damageNums.length === 1 ? damageNums[0] : undefined
   // fight.c:4369–4372：数字显示后保持出手姿四拍，队员归位后再等四拍。
@@ -875,6 +905,10 @@ export interface BuildPlayerCastInput {
   allyTargets?: readonly { idx: number; pos: { x: number; y: number } }[]
   /** 有主特效的普通对敌仙术使用完整 PostMagic。 */
   offensive?: boolean
+  /** 起手脚本进入失败分支，在施法起手与收尾之间显示提示。 */
+  waitForUseFailureFeedback?: boolean
+  /** 0x3A 成功后先拉开逃跑，再移出全部队员。 */
+  retreat?: BuildPartyFleeInput & { sound?: AssetId; partySlots: readonly number[] }
   /** 特效结束后显示的掉血数字。 */
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** 召唤神段(B5/P1 召唤束,fight.c:3072-3187):全员变亮 1..10 → crossfade in(队员溶出/
@@ -886,6 +920,7 @@ export interface BuildPlayerCastInput {
   partyIdxs?: number[]
   /** PostMagic 受击目标(fight.c:3190:掉血敌三轮交替位移抖动+第 2 轮闪白;idx+底锚)。 */
   postTargets?: Array<{ idx: number; pos: { x: number; y: number } }>
+  blow?: BuildOffMagicInput['blow']
   /** 特效末帧烙背景(SkillAnimation.keepEffect;fight.c:2757)。 */
   keepEffect?: boolean
 }
@@ -905,6 +940,11 @@ export interface BuildOffMagicInput {
   targetPos?: { x: number; y: number }
   /** 普通玩家施法在 fireDelay 帧切到 frame6；投掷/合击不传。 */
   casterMagic?: FighterDelta
+  /** 已按规则顺序抽样的步长及敌人原站位。 */
+  blow?: {
+    steps: readonly number[]
+    targets: readonly { idx: number; pos: { x: number; y: number } }[]
+  }
   /** 召唤二次法术期间需要每帧保留的神将定格。 */
   holdOverlays?: readonly OverlayDraw[]
   /** 召唤二次法术期间保持队员隐藏。 */
@@ -945,6 +985,12 @@ function magicDrops(
   return [magicOverlay(frameIdx, fx, base)]
 }
 
+/** 0x35 的倒计数每个 FIRE 帧减一（video.c:586–615）。 */
+function scriptShakeOffsetY(preShake: CastFxParams['preShake'], frame: number): number | undefined {
+  if (!preShake || frame >= preShake.frames) return undefined
+  return (preShake.frames - frame) % 2 === 0 ? preShake.level : -preShake.level
+}
+
 /**
  * 原版 OffMagic 主段。玩家施法、合击与投掷法术物品共用同一帧循环；调用方只决定
  * 是否注入施法者 frame6、召唤定格和后续结果帧。效果音在特效首帧播一次
@@ -954,29 +1000,47 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   const { fireFrames, fx } = input
   if (fireFrames <= 0) return []
   const n = fireFrames
-  const fd = Math.min(fx.fireDelay, n - 1)
-  const l = (n - fd) * fx.effectTimes + n + fx.shake
+  const { fireDelay: fd, totalFrames: l } = getOffMagicTiming(n, fx)
   const frameDur = (fx.speed + 5) * 10
   const hold = input.holdOverlays ?? []
   const frames: AnimFrame[] = []
+  let blowX = 0
+  let blowY = 0
   for (let i = 0; i < l; i++) {
     const inShake = l - i <= fx.shake
     const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
     const drop = magicDrops(k, fx, input.targetPos)
+    const frameShakeOffsetY = inShake ? undefined : scriptShakeOffsetY(fx.preShake, i)
+    const fighters: FighterDelta[] = []
+    if (input.casterMagic && i === fd) fighters.push(input.casterMagic)
+    if (input.blow) {
+      const step = expectDefined(input.blow.steps[i])
+      blowX += step
+      blowY += Math.trunc(step / 2)
+      for (const { idx, pos } of input.blow.targets)
+        fighters.push({
+          side: 'enemy',
+          idx,
+          pos: { x: pos.x + blowX, y: pos.y + blowY },
+        })
+    }
     frames.push({
       durationMs: frameDur,
       overlays: [...drop, ...hold],
       ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
-      ...(input.casterMagic && i === fd ? { fighters: [input.casterMagic] } : {}),
+      ...(fighters.length ? { fighters } : {}),
       ...(i === 0 && !input.suppressSound && fx.sound ? { sound: fx.sound } : {}),
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
-      ...(fx.preShake && i < fx.preShake.frames
-        ? { screenShake: true, screenShakeLevel: fx.preShake.level }
-        : {}),
+      ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
       ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
     })
   }
+  if (input.blow)
+    frames.push({
+      durationMs: 0,
+      fighters: input.blow.targets.map(({ idx, pos }) => ({ side: 'enemy', idx, pos })),
+    })
   return frames
 }
 
@@ -1048,6 +1112,24 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
   frames.push({ durationMs: delayMs(1) })
 
+  if (input.retreat) {
+    frames.push(...buildPartyFlee(input.retreat), {
+      durationMs: delayMs(1),
+      fighters: input.retreat.partySlots.map((idx) => ({
+        side: 'player',
+        idx,
+        pos: { x: 9999, y: 9999 },
+      })),
+    })
+    return frames
+  }
+
+  if (input.waitForUseFailureFeedback) {
+    // scriptOnUse 失败后仍保留 PostMagic 四拍和末尾五拍（fight.c:4322–4324）。
+    frames.push({ durationMs: 0, waitForActionFeedback: true }, { durationMs: delayMs(9) })
+    return frames
+  }
+
   if (fireFrames > 0 && input.allyTargets?.length && !input.summon) {
     frames.push({
       durationMs: delayMs(1),
@@ -1097,6 +1179,8 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   }
 
   // —— OffMagic:fire sprite 帧循环 ——
+  // 普通对敌仙术在起手收尾之后，等一拍再开始主特效（fight.c:2659）。
+  if (offensive && fireFrames > 0) frames.push({ durationMs: delayMs(1) })
   frames.push(
     ...buildOffMagic({
       fireFrames,
@@ -1117,18 +1201,24 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
             },
           }),
       ...(input.keepEffect ? { keepEffect: true } : {}),
+      ...(input.blow ? { blow: input.blow } : {}),
     }),
   )
 
-  if (offensive) {
-    // 主特效结束即复原屏波，并在敌人位移前取飘字底锚（fight.c:2835、4322–4323）。
-    frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
+  if (offensive || inSummon) {
+    // Draw damage before recoil and before the summoned figure fades out (fight.c:4322–4323).
+    frames.push({
+      durationMs: 0,
+      waveAdd: 0,
+      revealEnemyConfusion: true,
+      ...(damageNums.length ? { damageNums } : {}),
+    })
   }
 
   // PostMagic 三拍受击和一拍敌人复位（fight.c:3190–3245）。无掉血时仍经过四拍。
   // 召唤在场时继续画定格神将，随后走既有淡出（fight.c:4323、889）。
   const postTargets = input.postTargets ?? []
-  if (offensive || postTargets.length > 0) {
+  if (offensive || inSummon || postTargets.length > 0) {
     for (const [beat, offset] of [-8, -4, -6, 0].entries()) {
       frames.push({
         durationMs: delayMs(1),
@@ -1157,7 +1247,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
   // —— 结算数字 + 回位 ——
   frames.push({
     durationMs: delayMs(2),
-    ...(damageNums.length ? { damageNums } : {}),
+    ...(!inSummon && damageNums.length ? { damageNums } : {}),
     fighters: [
       { side: 'player', idx: casterIdx, frame: input.casterFrames.idle, pos: { ...casterPos } },
     ],
@@ -1190,17 +1280,20 @@ export interface BuildPlayerCoopInput {
   damageNums: Array<{ target: { side: 'player' | 'enemy'; idx: number }; value: number }>
   /** PostMagic 抖动的掉血敌(idx + idle 底锚)。 */
   postTargets?: { idx: number; pos: { x: number; y: number } }[]
+  keepEffect?: boolean
+  waitForEnemyDeathFade?: boolean
+  settlementHoldMs?: number
   /** 原版固定槽位 29 的工程角色绑定；函数本身不认识 PAL 编号。 */
   castSound?: AssetId
 }
 
 /**
  * 协力合击动画(port fight.c:3856-4107 PAL_CLASSIC 非召唤分支 / anim-timeline.ts buildCoopMagicTimeline):
- *  ① 聚拢:全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
+ *  ① 起手音29随聚拢开始，全贡献者 6 帧插值滑向 COOP_POS(发起者→[0],余者按 t 槽)。
  *  ② 蓄势:非发起贡献者 slot 倒序(后→前)逐个摆施法姿 frame5。
- *  ③ 发起者闪白(colorShift6+frame5,起手音29)→ ④ 出招(frame6)。
+ *  ③ 发起者闪白(colorShift6+frame5)→ ④ 出招(frame6)。
  *  ⑤ 技能特效在受术者实际位置释放；敌方沿 OffMagic，友方沿 DefMagic。
- *  ⑥ PostMagic:掉血敌三轮抖动 + 闪白,伤害数字挂首帧。
+ *  ⑥ PostMagic 显示伤害和受击，停五拍，等待死亡淡出后滑回。
  *  ⑦ 滑回:全贡献者反向插值回原位 + frame0(t 计数仅非发起贡献者递增,fight.c:4091 非对称,如实复刻)。
  * 召唤类合击直接走 buildPlayerCast(summon 段),不经此(作者:召唤直接播召唤动画)。
  */
@@ -1248,7 +1341,11 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
         pos: { x: lerp(oj.x, cp[0], i), y: lerp(oj.y, cp[1], i) },
       })
     }
-    frames.push({ durationMs: delayMs(1), fighters })
+    frames.push({
+      durationMs: delayMs(1),
+      fighters,
+      ...(i === 1 && input.castSound ? { sound: input.castSound } : {}),
+    })
   }
   const gatheredFighters = frames.at(-1)?.fighters
 
@@ -1263,10 +1360,9 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     })
   }
 
-  // ③ 发起者闪白 + 起手音 → ④ 出招
+  // ③ 发起者闪白 → ④ 出招
   frames.push({
     durationMs: delayMs(5),
-    ...(input.castSound ? { sound: input.castSound } : {}),
     fighters: [
       {
         side: 'player',
@@ -1294,37 +1390,39 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
       pos: gatheredFighters?.find((fighter) => fighter.idx === idx)?.pos ?? pos,
     }))
     appendDefMagic(frames, input, gatheredTargets)
-  } else {
-    frames.push(...buildOffMagic({ fireFrames, fx, ...(targetPos ? { targetPos } : {}) }))
+  } else if (fireFrames > 0) {
+    frames.push(
+      { durationMs: delayMs(1) },
+      ...buildOffMagic({
+        fireFrames,
+        fx,
+        ...(targetPos ? { targetPos } : {}),
+        ...(input.keepEffect ? { keepEffect: true } : {}),
+      }),
+    )
   }
 
-  // ⑥ PostMagic:掉血敌三轮抖动 + 第2轮闪白;伤害数字挂首帧
+  // PAL_BattleDisplayStatChange captures the resting anchor before PostMagic moves the enemy.
   if (postTargets?.length) {
-    const SHAKE_X = [-8, -4, -6]
-    for (let r = 0; r < 3; r++) {
+    frames.push({ durationMs: 0, waveAdd: 0, ...(damageNums.length ? { damageNums } : {}) })
+    for (const [beat, offset] of [-8, -4, -6, 0].entries()) {
       frames.push({
         durationMs: delayMs(1),
-        ...(r === 0 && damageNums.length ? { damageNums } : {}),
         fighters: postTargets.map((t) => ({
           side: 'enemy' as const,
           idx: t.idx,
-          pos: { x: t.pos.x + expectDefined(SHAKE_X[r]), y: t.pos.y },
-          colorShift: r === 1 ? 6 : 0,
+          pos: { x: t.pos.x + offset, y: t.pos.y },
+          colorShift: beat === 1 ? 6 : 0,
         })),
       })
     }
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: postTargets.map((t) => ({
-        side: 'enemy' as const,
-        idx: t.idx,
-        pos: { x: t.pos.x, y: t.pos.y },
-        colorShift: 0,
-      })),
-    })
   } else if (damageNums.length) {
     frames.push({ durationMs: delayMs(2), damageNums })
   }
+
+  // fight.c:4047–4053 keeps the party gathered through the hold and death fade.
+  if (fireFrames > 0 && !input.allyTargets?.length) frames.push({ durationMs: delayMs(5) })
+  if (input.waitForEnemyDeathFade) frames.push({ durationMs: 0, waitForEnemyDeathFade: true })
 
   // ⑦ 滑回(i=1..6):反向插值回原位 + frame0(t 仅非发起贡献者递增,fight.c:4091)
   for (let i = 1; i <= 6; i++) {
@@ -1360,7 +1458,7 @@ export function buildPlayerCoop(input: BuildPlayerCoopInput): AnimFrame[] {
     }
     frames.push({ durationMs: delayMs(1), fighters })
   }
-
+  if (input.settlementHoldMs) frames.push({ durationMs: input.settlementHoldMs })
   return frames
 }
 
@@ -1460,6 +1558,12 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       const overlays = positions.map((pos) => magicOverlay(k, fx, pos))
       const fighters = i === 0 ? guardPoses : []
       const attackFrame = i - fx.fireDelay
+      // 原生尾震用 FIRE 下标重置 VIDEO_ShakeScreen，覆盖剩余的 0x35（fight.c:2942）。
+      const frameShakeOffsetY = inShake
+        ? i % 2 === 0
+          ? 3
+          : -3
+        : scriptShakeOffsetY(fx.preShake, i)
       // 正延迟在 FIRE 帧内推进攻击段，后震期间保持最后姿势（fight.c:2932–2943）。
       if (!inShake && fx.fireDelay > 0 && attackFrame >= 0 && attackFrame < anim.attack.count)
         fighters.push({ side: 'enemy', idx: enemyIdx, frame: anim.attack.start + attackFrame })
@@ -1468,12 +1572,8 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
         overlays,
         ...(fighters.length ? { fighters } : {}),
         ...(i === 0 && fx.sound ? { sound: fx.sound } : {}), // WIN95 效果音只在 FIRE 首帧触发。
-        // 屏波/震屏同玩家侧(fight.c:2942 敌施法同款孪生)
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
-        ...(inShake ? { screenShake: true } : {}),
-        ...(fx.preShake && i < fx.preShake.frames
-          ? { screenShake: true, screenShakeLevel: fx.preShake.level }
-          : {}),
+        ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
         ...(i === l - 1 && input.keepEffect ? { burnBg: overlays } : {}),
       })
@@ -1528,11 +1628,15 @@ export interface AnimSideEffects {
   onAppearanceTransition?(transition: NonNullable<AnimFrame['appearanceTransition']>): void
   /** 召唤相切换(每帧派发当前相;null = 本帧无相 → session 清态)。 */
   onSummonPhase?(phase: 'in' | 'hold' | 'out' | null): void
+  onEnemySummonFade?(fade: EnemySummonFade | null): void
   /** keepEffect 烙背景(末帧一次;session 屏波 ≥9 时丢弃,fight.c:2757 wScreenWave<9 门)。 */
   onBurnBg?(marks: OverlayDraw[]): void
   /** 战斗消息条(物品名等;进入带 banner 的帧时派发一次)。 */
   onBanner?(text: string, durationMs: number, x?: number, y?: number): void
-  onThrowFeedback?(): void
+  onActionFeedback?(): void
+  onHidingFade?(): void
+  onRevealEnemyConfusion?(): void
+  onEnemyDeathFade?(): void
 }
 
 /** 逐帧推进器:进入新帧时应用 deltas + 派发副作用(每帧恰一次;wall-clock dt 驱动)。 */
@@ -1544,6 +1648,10 @@ export class AnimPlayer {
     private readonly frames: AnimFrame[],
     private readonly fx: AnimSideEffects,
   ) {}
+
+  get frameShakeOffsetY(): number | undefined {
+    return this.frames[this.idx]?.frameShakeOffsetY
+  }
 
   /** 推进 dt;进入的每个新帧派发其副作用。返回是否播完。 */
   tick(dtMs: number): boolean {
@@ -1561,18 +1669,26 @@ export class AnimPlayer {
         return true
       }
       this.enter(next)
-      if (next.waitForThrowFeedback) {
-        // 丢弃越过等待点的余量，避免确认前已经播放收招。
+      if (next.waitForActionFeedback || next.waitForEnemyDeathFade || next.waitForHidingFade) {
+        // Discard overrun at a presentation hold so recovery starts after it.
         this.elapsed = 0
-        this.fx.onThrowFeedback?.()
+        if (next.waitForActionFeedback) this.fx.onActionFeedback?.()
+        if (next.waitForEnemyDeathFade) this.fx.onEnemyDeathFade?.()
+        if (next.waitForHidingFade) this.fx.onHidingFade?.()
         return false
       }
     }
   }
 
+  /** Frame time beyond the last frame of a finished timeline. */
+  get overrunMs(): number {
+    return this.idx >= this.frames.length ? this.elapsed : 0
+  }
+
   private enter(f: AnimFrame): void {
     if (f.fighters) for (const d of f.fighters) this.fx.onFighter?.(d)
     this.fx.onOverlay?.(f.overlays ?? null)
+    if (f.revealEnemyConfusion) this.fx.onRevealEnemyConfusion?.()
     if (f.sound) this.fx.onSound?.(f.sound)
     if (f.damageNum)
       this.fx.onDamage?.(f.damageNum.target, f.damageNum.value, undefined, f.damageNum.anchor)
@@ -1583,6 +1699,7 @@ export class AnimPlayer {
     if (f.burnBg?.length) this.fx.onBurnBg?.(f.burnBg)
     if (f.banner) this.fx.onBanner?.(f.banner.text, f.banner.durationMs, f.banner.x, f.banner.y)
     this.fx.onSummonPhase?.(f.summonPhase ?? null)
+    this.fx.onEnemySummonFade?.(f.enemySummonFade ?? null)
   }
 }
 
@@ -1710,48 +1827,136 @@ export function buildEnemyEscape(input: {
   return frames
 }
 
-/** 敌变身现形(script.c:2954 0x9F):colorShift 0→5 六帧 ×40ms 染白渐显 → 归 0 + 音效 47
- *  定格一拍。换精灵由 session 侧异步重载 —— 原版 PAL_LoadBattleSprites + FadeScene
- *  交叉淡的 clean 表达(def 已在 core 换好、保 HP)。 */
+type EnemySummonIdleProfile = Pick<EnemyBattleSpriteProfile, 'idle' | 'idleTicksPerFrame'>
+type EnemySummonSlot = EnemySummonIdleProfile & { idx: number }
+
+export function enemySummonIdleFrame(
+  { idle, idleTicksPerFrame }: EnemySummonIdleProfile,
+  elapsedTicks: number,
+): number {
+  return (
+    idle.start +
+    (Math.floor(elapsedTicks / Math.max(1, idleTicksPerFrame)) % Math.max(1, idle.count))
+  )
+}
+
+/** script.c:2870–2945, each successful call fades in the tinted newcomers, holds, then restores their colors. */
+export function buildEnemySummon(input: {
+  casterIdx: number
+  profile: EnemyBattleSpriteProfile
+  spawns: readonly EnemySummonSlot[]
+  earlierArrivals?: readonly (EnemySummonSlot & { elapsedTicks: number })[]
+  sound?: AssetId
+}): AnimFrame[] {
+  const frames: AnimFrame[] = []
+  const idlePose = (slot: EnemySummonSlot, elapsedTicks: number): FighterDelta => ({
+    side: 'enemy',
+    idx: slot.idx,
+    frame: enemySummonIdleFrame(slot, elapsedTicks),
+    holdFrame: true,
+  })
+  const earlierPoses = (ticks: number): FighterDelta[] =>
+    (input.earlierArrivals ?? []).map((slot) => idlePose(slot, slot.elapsedTicks + ticks))
+  for (let i = 0; i < input.profile.magic.count; i++) {
+    frames.push({
+      durationMs: delayMs(input.profile.actTicksPerFrame),
+      fighters: [
+        {
+          side: 'enemy',
+          idx: input.casterIdx,
+          frame: input.profile.magic.start + i,
+        },
+        ...(i === 0 ? earlierPoses(0) : []),
+      ],
+    })
+  }
+  if (!input.spawns.length) return frames
+
+  const slots = input.spawns.map(({ idx }) => idx)
+  // A new slot starts at the first frame with a fresh countdown. PAL_BattleDelay
+  // advances that countdown twice between the two otherwise frozen dissolves.
+  const spawnPoses = (elapsedTicks: number): FighterDelta[] =>
+    input.spawns.map((slot) => idlePose(slot, elapsedTicks))
+
+  for (const phase of ['arrival', 'settle'] as const) {
+    const arriving = phase === 'arrival'
+    const elapsedTicks = arriving ? 0 : ENEMY_SUMMON_HOLD_TICKS
+    const fighters = spawnPoses(elapsedTicks).map(
+      (pose): FighterDelta => ({
+        ...pose,
+        colorShift: arriving ? ENEMY_SUMMON_COLOR_SHIFT : 0,
+        ...(arriving ? { showSpawn: true } : {}),
+      }),
+    )
+    fighters.push(...earlierPoses(elapsedTicks))
+    for (let step = 1; step <= DITHER_TOTAL_STEPS; step++) {
+      frames.push({
+        durationMs: 16,
+        enemySummonFade: { phase, slots, step },
+        ...(step === 1 ? { fighters } : {}),
+        ...(step === 1 && arriving && input.sound ? { sound: input.sound } : {}),
+      })
+    }
+    if (arriving) {
+      for (let tick = 0; tick < ENEMY_SUMMON_HOLD_TICKS; tick += 1) {
+        const hold = [...spawnPoses(tick), ...earlierPoses(tick)]
+        if (input.profile.magic.count > 0)
+          hold.push({
+            side: 'enemy',
+            idx: input.casterIdx,
+            ...(tick === 0 ? { frame: input.profile.idle.start } : {}),
+            holdFrame: tick === 0,
+          })
+        frames.push({ durationMs: delayMs(1), fighters: hold })
+      }
+    }
+  }
+  return frames
+}
+
+/** PAL 0x9F flashes the old sprite before dissolving between two whole-scene stills. */
 export function buildEnemyTransform(input: {
   idx: number
   oldDefinitionId: string
-  newDefinitionId: string
+  oldPos: { x: number; y: number }
+  newPos: { x: number; y: number }
   oldIdleFrame: number
   newIdleFrame: number
   sound?: AssetId
 }): AnimFrame[] {
   const frames: AnimFrame[] = []
-  for (let i = 0; i < 6; i++)
+  const lastTint = 5
+  const transition = {
+    side: 'enemy' as const,
+    idx: input.idx,
+    oldDefinitionId: input.oldDefinitionId,
+    source: { ...input.oldPos, frame: input.oldIdleFrame, colorShift: lastTint },
+  }
+  for (let tint = 0; tint <= lastTint; tint++)
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'enemy', idx: input.idx, frame: input.oldIdleFrame, colorShift: i }],
-      appearanceTransition: {
-        side: 'enemy',
-        idx: input.idx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldIdleFrame,
-        newFrame: input.newIdleFrame,
-        step: 0,
-        total: 72,
-      },
+      fighters: [{ side: 'enemy', idx: input.idx, frame: input.oldIdleFrame, colorShift: tint }],
+      appearanceTransition: { ...transition, step: 0 },
     })
-  for (let step = 1; step <= 72; step++)
+  for (let step = 1; step <= DITHER_TOTAL_STEPS; step++)
     frames.push({
       durationMs: 16,
-      fighters: [{ side: 'enemy', idx: input.idx, frame: input.newIdleFrame, colorShift: 0 }],
-      appearanceTransition: {
-        side: 'enemy',
-        idx: input.idx,
-        oldDefinitionId: input.oldDefinitionId,
-        newDefinitionId: input.newDefinitionId,
-        oldFrame: input.oldIdleFrame,
-        newFrame: input.newIdleFrame,
-        step,
-        total: 72,
-      },
-      ...(step === 1 && input.sound ? { sound: input.sound } : {}),
+      appearanceTransition: { ...transition, step },
+      ...(step === 1
+        ? {
+            fighters: [
+              {
+                side: 'enemy',
+                idx: input.idx,
+                pos: input.newPos,
+                frame: input.newIdleFrame,
+                holdFrame: true,
+                colorShift: 0,
+              },
+            ],
+            ...(input.sound ? { sound: input.sound } : {}),
+          }
+        : {}),
     })
   return frames
 }

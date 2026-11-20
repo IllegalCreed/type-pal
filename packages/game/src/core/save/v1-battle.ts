@@ -150,6 +150,8 @@ const frame = object<Frame>({
   screenWave: arg,
   keepEffect: flag,
   summon: optional(summon),
+  enemySummonFade: optional(oneOf('arrival', 'release')),
+  enemyAppearance: optional(object({ idx: number, spriteId: number, pos: optional(position) })),
   updateGesture: flag,
 })
 const animation = object<Anim>({
@@ -157,6 +159,7 @@ const animation = object<Anim>({
   frames: array(frame),
   idx: number,
   frameElapsedMs: number,
+  enemyDeathCheckFrame: arg,
   renderIdx: arg,
   renderStartMs: arg,
   summon: optional(summon),
@@ -345,6 +348,7 @@ export const battle = object<Data>({
   enemyEscapeAnim: optional(object({ step: number, holdTicks: arg })),
   terminatedByEnemyEscape: flag,
   battleFade: optional(object({ elapsedMs: number, startMs: arg })),
+  hidingFade: optional(object({ elapsedMs: number, startMs: arg, revealing: boolean })),
   battleDialogQueue: optional(
     array(
       object({
@@ -359,6 +363,8 @@ export const battle = object<Data>({
     ),
   ),
   battleDialogTypingAccMs: arg,
+  battleDialogWaitMs: arg,
+  scriptMusicActive: flag,
   battleDialogNarrationFrames: arg,
   battleDialogStyle: optional(object({ style: dialogStyle, portrait: arg, fontColor: arg })),
   battleDialogPendingClear: flag,

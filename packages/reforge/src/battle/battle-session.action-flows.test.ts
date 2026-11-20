@@ -498,6 +498,79 @@ describe('W3 执行时间线接线', () => {
     expect(red(116, 110)).toBe(0)
   })
 
+  test.each([
+    'timeout',
+    'arrow',
+  ] as const)('鬼降失败在归位后显示卷轴，%s 清除后恢复战斗', (dismissal) => {
+    const skill = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '305'))
+    const enemy = wfEnemy(
+      'hex-caster',
+      { dexterity: 0 },
+      {
+        ai: {
+          resistanceToSorcery: 0,
+          rules: [{ at: 'act', do: { kind: 'cast', skillId: skill.id } }],
+        },
+      },
+    )
+    const playerSprite = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const enemySprite = poseSprite(
+      wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
+    )
+    const ctx = battleCanvas()
+    const glyph = { width: 16, height: 16, bitmap: Uint8Array.of(0x80, ...Array(31).fill(0)) }
+    const glyphs = { has: () => true, get: () => glyph }
+    const scroll = { tiles: Array.from({ length: 9 }, () => bitmap(8, 8, '#00ff00')) }
+    const box = new DialogBox(ctx, glyphs, [], new Map(), {}, scroll)
+    const session = new BattleSession(
+      [wfPlayer('li-xiaoyao')],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs,
+        dialogBox: box,
+        battleSprites: new Map([
+          [playerSprite.definition.id, playerSprite],
+          [enemySprite.definition.id, enemySprite],
+        ]),
+        playerBaseDefinitionIds: [playerSprite.definition.id],
+        fireSprites: {
+          [skill.animation.effectSprite]: {
+            ...playerSprite.sprite,
+            frames: [expectDefined(playerSprite.sprite.frames[8])],
+          },
+        },
+      },
+      (id) => id,
+      fixedRng([0.99]),
+      { skills: { [skill.id]: skill } },
+    )
+    const draw = (dtMs: number, keys: string[] = []) => {
+      session.tick(dtMs, new Set(keys))
+      session.render(ctx, 1)
+    }
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data
+
+    draw(16, ['d'])
+    for (let i = 0; i < 100 && !box.active; i++) draw(16)
+    expect(session.debugLog()).toContain('鬼降 无任何效果')
+    expect(box.observe()).toMatchObject({ slot: 'narration', pageText: '失败　没有效果' })
+    expect(pixel(110, 40)[1]).toBe(255)
+    expect(pixel(100, 102)[0]).toBeGreaterThan(0)
+    expect(pixel(116, 110)[0]).toBe(0)
+    expect(session.debugPlayers()[0]).toMatchObject({ hp: 100, status: { confused: 0 } })
+
+    draw(dismissal === 'timeout' ? 1399 : 300)
+    expect(pixel(110, 40)[1]).toBe(255)
+    draw(1, dismissal === 'arrow' ? ['ArrowRight'] : [])
+    expect(pixel(110, 40)[1]).toBe(0)
+    expect(box.active).toBe(false)
+    draw(319)
+    expect(session.debugReadiness().phase).toBe('acting')
+    for (let i = 0; i < 20 && session.debugReadiness().phase === 'acting'; i++) draw(40)
+    expect(session.debugReadiness().phase).toBe('menu')
+  })
+
   test('敌方单体封咒无 FIRE 资源且不扣血，目标仍播放五拍受击', () => {
     const spell = {
       ...wfSkill('wf-silence', 0),
@@ -1058,7 +1131,9 @@ describe('W3 执行时间线接线', () => {
       if (blue(92, 10)) break
     }
     // 固定倍率 1，合击灵力 157、有效防御 82、火抗 5、战场 +1，伤害 159。
-    expect([80, 86, 92].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    // 受击首拍向左移 8px，数字仍以受击前的坐标为锚点。
+    expect([88, 94, 100].map((x) => blue(x, 10))).toEqual([32, 96, 160])
+    expect(blue(80, 10)).toBe(0)
     // 合击时队员暂在 (208,157) 与 (234,170)，两处不应绘出生命代价。
     expect([blue(208, 82), blue(234, 95)]).toEqual([0, 0])
     expect(h.readParty().map(({ hp }) => hp)).toEqual([140, 140])
@@ -2018,8 +2093,9 @@ describe('W3 执行时间线接线', () => {
     const ctx = battleCanvas()
     const tick = (ms: number) => session.tick(ms, new Set())
     const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
-    session.tick(16, new Set(['d']))
-    for (let i = 0; i < 60 && sfx.plays.length === 0; i++) tick(16)
+    // Start on a complete battle beat before measuring the relative attack frames.
+    session.tick(40, new Set(['d']))
+    for (let i = 0; i < 60 && sfx.plays.length === 0; i++) tick(40)
     expect(session.debugLog()).toContain('li-xiaoyao 格挡了 block-check 的攻击')
     expect(sfx.plays).toEqual(['sound.pal.355'])
 
@@ -2177,6 +2253,14 @@ describe('W3 执行时间线接线', () => {
 
     draw(2000)
     expect(box.observe()).toMatchObject({ slot: 'narration', rowTextIds: ['dlg.13500'] })
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ slot: 'narration', visibleText: null }),
+    )
+    h.idle(200)
+    draw(0)
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ slot: 'narration', visibleText: expect.any(String) }),
+    )
     draw(1399)
     expect(box.active).toBe(true)
     expect(h.session.debugPlayers()[1]?.hp).toBe(100)

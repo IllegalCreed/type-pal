@@ -5,6 +5,7 @@ import type {
   BaseScriptLibrary,
   EntityAddress,
   GridPos,
+  TeleportOutPresentation,
   WorldScriptState,
 } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
@@ -356,8 +357,8 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
     )
   }
 
-  teleportOut(signal: AbortSignal): Promise<boolean> {
-    return this.options.teleportOut(signal)
+  teleportOut(signal: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean> {
+    return this.options.teleportOut(signal, presentation)
   }
 
   revealSceneEntry(

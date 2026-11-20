@@ -118,6 +118,7 @@ const fields: Fields<SaveDataV1> = {
   partyLeaderSpriteId: arg,
   partyScriptedFrame: record(number),
   camera: position,
+  partyCameraOffset: optional(position),
   npcs: array(npc),
   partyMembers: array(playerRoleId),
   inventory: array(object({ itemId: number, count: number })),

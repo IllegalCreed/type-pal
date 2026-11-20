@@ -1,14 +1,13 @@
 /** Enemy summon, transformation and division gestures for battle opcodes. */
 import type { BattleAnimFrame, FighterDelta } from '../battle-state.js'
 import { delayMs } from './frames.js'
+import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from './summon.js'
 
 export function buildEnemySummonTimeline(input: {
   casterIdx: number
-  casterPos: { x: number; y: number }
   caster: {
     idleFrames: number
     magicFrames: number
-    attackFrames: number
     actWaitFrames: number
   }
   summonedIdxs: number[]
@@ -26,33 +25,53 @@ export function buildEnemySummonTimeline(input: {
     })
   }
 
-  if (input.summonedIdxs.length > 0) {
-    frames.push({
-      durationMs: delayMs(1),
+  if (input.summonedIdxs.length === 0) return frames
+
+  // script.c:2935–2947: dissolve into tinted occupants, animate two idle beats,
+  // then dissolve from the still-tinted scene into the restored colours.
+  const fadeDuration = SUMMON_FADE_STEP_MS * SUMMON_FADE_STEPS
+  const hold: BattleAnimFrame = { durationMs: delayMs(2), updateGesture: true }
+  if (frames.length > 0) {
+    // PAL_BattleDelay(TRUE) wraps the casting pose even before the idle timer expires.
+    hold.fighters = [{ side: 'enemy', idx: input.casterIdx, currentFrame: 0 }]
+  }
+  frames.push(
+    {
+      durationMs: fadeDuration,
+      enemySummonFade: 'arrival',
       fighters: input.summonedIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 8 })),
       sound: 212,
-    })
-    frames.push({ durationMs: delayMs(2) })
-  }
-
-  frames.push({
-    durationMs: delayMs(1),
-    fighters: input.activeEnemyIdxs.map((idx) => ({ side: 'enemy' as const, idx, iColorShift: 0 })),
-  })
+    },
+    hold,
+    {
+      durationMs: fadeDuration,
+      enemySummonFade: 'release',
+      fighters: input.activeEnemyIdxs.map((idx) => ({
+        side: 'enemy' as const,
+        idx,
+        iColorShift: 0,
+      })),
+    },
+  )
   return frames
 }
 
-export function buildEnemyTransformTimeline(enemyIdx: number): BattleAnimFrame[] {
+export function buildEnemyTransformTimeline(
+  enemyAppearance: NonNullable<BattleAnimFrame['enemyAppearance']>,
+): BattleAnimFrame[] {
+  const enemyIdx = enemyAppearance.idx
   const frames: BattleAnimFrame[] = []
   for (let i = 0; i < 6; i++) {
     frames.push({
       durationMs: delayMs(1),
-      fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: i }],
+      fighters: [{ side: 'enemy', idx: enemyIdx, currentFrame: 0, iColorShift: i }],
+      enemyAppearance,
     })
   }
   frames.push({
-    durationMs: delayMs(1),
-    fighters: [{ side: 'enemy', idx: enemyIdx, iColorShift: 0 }],
+    durationMs: SUMMON_FADE_STEPS * SUMMON_FADE_STEP_MS,
+    fighters: [{ side: 'enemy', idx: enemyIdx, currentFrame: 0, iColorShift: 0 }],
+    enemySummonFade: 'arrival',
     sound: 47,
   })
   return frames
@@ -80,11 +99,12 @@ export function buildEnemyDivisionTimeline(input: {
       c.y = Math.trunc((c.y + t.pos.y) / 2)
       return { side: 'enemy' as const, idx: t.idx, pos: { x: c.x, y: c.y } }
     })
-    frames.push({ durationMs: delayMs(1), fighters })
+    frames.push({ durationMs: delayMs(1), fighters, updateGesture: true })
   }
   // 末帧归位 posOriginal(PAL_BattleUpdateFighters)。
   frames.push({
     durationMs: delayMs(1),
+    updateGesture: true,
     fighters: input.targets.map((t) => ({
       side: 'enemy' as const,
       idx: t.idx,

@@ -1,15 +1,14 @@
 import {
   type ActorDef,
   type AssetId,
+  collectCommandSpriteTaggedReferences,
   emptyWorldScriptState,
-  type Facing,
   type ProjectedWorldScriptState,
   type RuntimeSceneDef,
   type RuntimeScriptBinding,
   resolveEntitySpriteId,
   type SceneDef,
   type SceneEntryPresentation,
-  type SceneSpawn,
   type SpriteDef,
   stageIndexFor,
   type WorldScriptState,
@@ -25,7 +24,7 @@ import {
   captureSceneSwitchDependencies,
   type SceneSwitchDependencies,
 } from './scene-switch-transaction.js'
-import { resolveSceneSpawn } from './scene-transition.js'
+import { type RuntimeSceneSpawn, resolveSceneSpawn } from './scene-transition.js'
 
 export interface PreparedScene<TRenderer> {
   sceneId: string
@@ -78,7 +77,7 @@ export class ScenePreparer<TRenderer> {
   async prepare(
     sceneId: string,
     worldView: WorldState,
-    spawn?: SceneSpawn & { inheritFacing?: Facing },
+    spawn?: RuntimeSceneSpawn,
     useActorOverrides = true,
     scriptState?: WorldScriptState,
   ): Promise<PreparedScene<TRenderer>> {
@@ -113,6 +112,11 @@ export class ScenePreparer<TRenderer> {
       currentScript,
       preparedActorOverrides,
     )
+    for (const reference of collectCommandSpriteTaggedReferences(canonicalDef, `场景 ${sceneId}`)) {
+      if (reference.kind !== 'battle-sprite') {
+        needed.add(this.ports.requireSprite(reference.sprite, reference.where).asset)
+      }
+    }
     const [assets, palette, loadedSprites] = await Promise.all([
       this.ports.map(mapId),
       this.ports.palette(),

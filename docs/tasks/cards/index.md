@@ -35,11 +35,13 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项](CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [PAL-ENTRY-FADE-1 — 场景淡入同时执行前景正文](PAL-ENTRY-FADE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |

@@ -22,7 +22,11 @@
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
-import { stepBattleAnimRender } from '../../core/battle/battle-anim-driver.js'
+import { SUMMON_FADE_STEP_MS, SUMMON_FADE_STEPS } from '../../core/battle/animation/summon.js'
+import {
+  stepBattleAnimRender,
+  stepEnemySummonFadeRender,
+} from '../../core/battle/battle-anim-driver.js'
 import type { BattleState, SummonFrameState } from '../../core/battle/battle-state.js'
 import {
   getBattleLiveRoles,
@@ -35,7 +39,7 @@ import { stepPaletteFade } from '../../core/palette-fade.js'
 import { type DialogBoxDrawCtx, drawDialogBox } from '../dialog-box.js'
 import type { GlyphTable } from '../font.js'
 import { renderText } from '../font.js'
-import type { Framebuffer } from '../framebuffer.js'
+import { createFramebuffer, type Framebuffer } from '../framebuffer.js'
 import { applyScreenShake } from '../screen-shake.js'
 import { applyScreenWave } from '../screen-wave.js'
 import { type BattleBgAsset, drawBattleBg } from './draw-battle-bg.js'
@@ -109,6 +113,7 @@ export class BattlePresent {
     | undefined
   /** 召唤 crossfade(PAL_BattleFadeScene)用:上一帧渲染快照(fade 起手 = 对侧"from"场景)。 */
   private lastFrameBuf: Uint8Array | undefined
+  private enemySummonFadeTarget: Uint8Array | undefined
 
   /** 入场整像素切换的旧画面快照；introFade 清除时释放。 */
   private introBackup: Uint8Array | undefined
@@ -150,6 +155,7 @@ export class BattlePresent {
     //   合体/召唤攻击的"施法慢"根因)。按真实时间推 renderIdx,present 据此画特效/精灵/抖屏,平滑到刷新率。
     //   逻辑 idx 仍管副作用与完成判定(确定性不变);loop/fade 帧交各自专驱早退。无动画时纯 no-op。
     stepBattleAnimRender(state, performance.now())
+    const enemySummonFade = stepEnemySummonFadeRender(state, performance.now())
 
     // 战斗脚本 palette ramp fade(0x50/0x51/0x80/0x8C/0x93):每帧 ramp gs.palette.colors —— 与大世界
     //   presentFrame 对称(此前只此处漏调 stepPaletteFade → 战斗内 palette fade 不动画、只 snap)。
@@ -266,6 +272,12 @@ export class BattlePresent {
     collectMagicOv(state.battleAnim?.overlay)
     for (const ov of state.battleAnim?.overlays ?? []) collectMagicOv(ov)
 
+    const summonRestore =
+      enemySummonFade?.phase === 'release' &&
+      !this.reusableSummonFadeBuffer(fb.indices.length, enemySummonFade.step, true)
+        ? this.createSummonRestoreSource(fb, state)
+        : undefined
+
     // 3. 双方精灵(死员画倒下帧 2;召唤 god 模式隐队员)+ 法术精灵(统一排序)
     drawBattleSprites(
       fb,
@@ -275,6 +287,7 @@ export class BattlePresent {
       assets.enemyPos,
       summonGodMode, // 召唤神出场 → 隐队员
       magicOverlayEntries.length > 0 ? magicOverlayEntries : undefined,
+      summonRestore,
     )
 
     // 3.1 召唤神精灵(替换队员;battle.c:163-212/386-405 lpSummonSprite!=NULL)。pos = posSummon 底中锚。
@@ -300,7 +313,23 @@ export class BattlePresent {
     // 3.9 召唤 crossfade(PAL_BattleFadeScene)—— **在 UI/对话之前**对**场景层**(bg+精灵+召唤神+特效)做
     //   dither 渐变;UI 随后画在渐变后的场景上(对齐 sdlpal battle.c:665-671 PAL_BattleFadeScene 后
     //   PAL_BattleUIUpdate 重画 UI,fade 期 UI 始终清晰不被卷进渐变)。非 fade 帧只快照场景供下次 fade 起手。
-    this.applySummonFade(fb, state.battleAnim?.summon, state.battleAnim?.hasSummonFade ?? false)
+    const keepScene =
+      state.battleAnim?.hasSummonFade === true ||
+      state.phase === 'preBattle' ||
+      state.phase === 'selectAction' ||
+      state.phase === 'performAction'
+    if (summonRestore) this.beginSummonFade(summonRestore.framebuffer.indices)
+    const hidingFade = state.hidingFade
+    let hidingStep: number | undefined
+    if (hidingFade && !state.battleFade && (state.roundEndDelayTicks ?? 0) <= 0) {
+      const now = performance.now()
+      hidingFade.startMs ??= now
+      hidingStep = Math.min(
+        SUMMON_FADE_STEPS - 1,
+        Math.floor(Math.max(hidingFade.elapsedMs, now - hidingFade.startMs) / SUMMON_FADE_STEP_MS),
+      )
+    }
+    this.applySummonFade(fb, summon, keepScene, enemySummonFade?.step ?? hidingStep)
 
     // 入场先按六轮整像素置换揭示战斗场景，随后绘制 UI/弹幕；与召唤的 nibble 渐变分开。
     if (state.introFade && this.introBackup) {
@@ -402,44 +431,77 @@ export class BattlePresent {
    * fade 起手快照"from"场景(上一帧),逐步把低 nibble dither 逼近本帧渲染的"to"场景,显示累积态。
    * 高 nibble(调色板块)立即切换,低 nibble(亮度)渐变 → PAL 特征淡变。
    */
+  private createSummonRestoreSource(fb: Framebuffer, state: BattleState) {
+    const arrivals = state.battleAnim?.frames.find(
+      (frame) => frame.enemySummonFade === 'arrival',
+    )?.fighters
+    if (!arrivals?.length) return undefined
+    // The second idle tick has already updated the poses. Repaint those poses with
+    // their arrival tints, as the last PAL_BattleDelay blit does before restoring colors.
+    const enemyColorShifts = new Map<number, number>()
+    for (const delta of arrivals) {
+      if (delta.side === 'enemy' && delta.iColorShift !== undefined)
+        enemyColorShifts.set(delta.idx, delta.iColorShift)
+    }
+    const framebuffer = createFramebuffer(fb.width, fb.height)
+    framebuffer.indices.set(fb.indices)
+    return { framebuffer, enemyColorShifts }
+  }
+
+  private reusableSummonFadeBuffer(length: number, step: number, enemyFade: boolean) {
+    const buffer = this.summonFadeBuf
+    const restarted = enemyFade ? step < this.summonFadeApplied : step === 0
+    return !restarted && buffer?.length === length ? buffer : undefined
+  }
+
+  private beginSummonFade(source: Uint8Array): void {
+    this.summonFadeBuf = source
+    this.summonFadeApplied = -1
+    this.enemySummonFadeTarget = undefined
+  }
+
   private applySummonFade(
     fb: Framebuffer,
     summon: SummonFrameState | undefined,
-    hasSummonFade: boolean,
+    keepScene: boolean,
+    enemyFadeStep?: number,
   ): void {
     const current = fb.indices
-    if (!summon || summon.fadeStep === undefined) {
-      // 非 fade 帧:仅召唤动画期快照本帧场景(下次 fade 起手的 "from");非召唤动画不快照(省 64KB/帧 memcpy)。
-      if (hasSummonFade) {
+    const fadeStep = enemyFadeStep ?? summon?.fadeStep
+    if (fadeStep === undefined) {
+      if (keepScene) {
         if (!this.lastFrameBuf || this.lastFrameBuf.length !== current.length)
           this.lastFrameBuf = new Uint8Array(current.length)
         this.lastFrameBuf.set(current)
       }
+      this.enemySummonFadeTarget = undefined
       this.summonFadeBuf = undefined
       this.summonFadeApplied = -1
       return
     }
     const rgIndex = [0, 3, 1, 5, 2, 4] as const
     // fade 起手:morphing buf = 上一帧快照("from")。
-    if (
-      summon.fadeStep === 0 ||
-      !this.summonFadeBuf ||
-      this.summonFadeBuf.length !== current.length
-    ) {
-      this.summonFadeBuf = new Uint8Array(
+    let buf = this.reusableSummonFadeBuffer(current.length, fadeStep, enemyFadeStep !== undefined)
+    if (!buf) {
+      // Consecutive 0x9E instructions can start a new dissolve without a normal frame.
+      // The previous target is complete at that boundary even if rendering skipped its last step.
+      if (this.enemySummonFadeTarget) this.lastFrameBuf = this.enemySummonFadeTarget
+      buf = new Uint8Array(
         this.lastFrameBuf && this.lastFrameBuf.length === current.length
           ? this.lastFrameBuf
           : current,
       )
-      this.summonFadeApplied = -1
+      this.beginSummonFade(buf)
     }
-    const buf = this.summonFadeBuf
+    // Enemy 0x9E runs PAL_BattleMakeScene once per dissolve (script.c:2936, 2947).
+    if (enemyFadeStep !== undefined) this.enemySummonFadeTarget ??= new Uint8Array(current)
+    const target = this.enemySummonFadeTarget ?? current
     // 应用 dither 步 (applied+1 .. fadeStep):累积把 buf 的低 nibble 逼近 current("to",battle.c:639-661)。
-    for (let s = this.summonFadeApplied + 1; s <= summon.fadeStep; s++) {
+    for (let s = this.summonFadeApplied + 1; s <= fadeStep; s++) {
       const outerI = Math.floor(s / 6)
       const phaseOffset = rgIndex[s % 6]!
       for (let k = phaseOffset; k < current.length; k += 6) {
-        const a = current[k]!
+        const a = target[k]!
         let b = buf[k]!
         if (outerI > 0) {
           const aLow = a & 0x0f
@@ -450,8 +512,12 @@ export class BattlePresent {
         buf[k] = ((a & 0xf0) | (b & 0x0f)) & 0xff
       }
     }
-    this.summonFadeApplied = summon.fadeStep
+    this.summonFadeApplied = fadeStep
     current.set(buf) // 显示累积态(from 渐变到 to)
+    if (enemyFadeStep === SUMMON_FADE_STEPS - 1) {
+      current.set(target)
+      this.lastFrameBuf = target
+    }
   }
 
   /** 释放一场战斗拥有的全部呈现状态；可重复调用，不影响 framebuffer 或核心状态。 */
@@ -461,6 +527,7 @@ export class BattlePresent {
     this.battleMsg = undefined
     this.introBackup = undefined
     this.lastFrameBuf = undefined
+    this.enemySummonFadeTarget = undefined
     this.summonFadeBuf = undefined
     this.summonFadeApplied = -1
   }

@@ -111,6 +111,10 @@ const cases = [
   },
 ]
 
+const towerDreamEntry = scenes
+  .find(({ id }) => id === 's169')
+  ?.hooks?.onEnter?.variants.default?.flow.stages.find(({ id }) => id === 'initial')?.entry
+
 function body(row: (typeof cases)[number]) {
   const flow = scenes
     .find((scene) => scene.id === row.scene)
@@ -127,13 +131,26 @@ test.each(
   const commands = children(body(row))
   const load = commands.find((command) => command.kind === 'loadScene')
   if (load?.kind !== 'loadScene') throw new Error('missing load request')
-  expect(load.transition).toEqual({
-    kind: 'source',
-    outMs: row.outMs,
-    inMs: 600,
-    color: 'black',
-    evidenceId: `pal-load-scene-${row.ip}`,
-  })
+  if (row.ip === 23971) {
+    expect(load).toEqual({ kind: 'loadScene', scene: 's169' })
+    expect(towerDreamEntry).toEqual({
+      prepare: [
+        { kind: 'setAmbience', ambience: 'warm' },
+        { kind: 'setActorSprite', actor: 'li-xiaoyao', sprite: 'sprite-193' },
+        { kind: 'setPartyFacing', facing: 'down', gesture: 12 },
+        { kind: 'teleportParty', pos: { col: 111, height: 0, row: 75 } },
+      ],
+      reveal: { kind: 'fade', outMs: 1200, inMs: 600, color: 'black' },
+    })
+  } else {
+    expect(load.transition).toEqual({
+      kind: 'source',
+      outMs: row.outMs,
+      inMs: 600,
+      color: 'black',
+      evidenceId: `pal-load-scene-${row.ip}`,
+    })
+  }
   const late = commands.slice(commands.indexOf(load) + 1)
   expect(late.filter((command) => command.kind === 'fade' && command.dir === 'out')).toEqual([])
   expect(
@@ -162,7 +179,9 @@ test.each(
     .find((command) => command.kind === 'loadScene')
   const expected = children(body(row)).find((command) => command.kind === 'loadScene')
   expect(request).toEqual(expected)
-  expect(request?.kind === 'loadScene' && request.transition?.kind).toBe('source')
+  expect(request?.kind === 'loadScene' && request.transition?.kind).toBe(
+    row.ip === 23971 ? undefined : 'source',
+  )
   expect(
     run.effects.some((effect) => effect.command.kind === 'fade' && effect.command.dir === 'out'),
   ).toBe(false)
@@ -231,7 +250,33 @@ for (const row of [cases[0]!, cases[7]!])
         },
       },
     ]
-    const fixture = await shellProject({ first })
+    const second = shellScene('b')
+    if (row.ip === 23971) {
+      if (!towerDreamEntry) throw new Error('missing tower dream entry')
+      second.hooks = {
+        onEnter: {
+          initial: 'dream',
+          variants: {
+            dream: {
+              label: 'Dream',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'first',
+                stages: [
+                  {
+                    id: 'first',
+                    body: [],
+                    entry: { prepare: [], reveal: towerDreamEntry.reveal },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      }
+    }
+    const fixture = await shellProject({ first, second })
     await (await import('./main.js')).bootGame(fixture.project, {
       kind: 'project',
       projectId: 'shell-project',

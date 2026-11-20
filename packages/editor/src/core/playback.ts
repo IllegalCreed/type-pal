@@ -14,6 +14,7 @@ import type {
   DialogueCue,
   EntityAddress,
   Facing,
+  FadeColor,
   FlowCursor,
   GridPos,
   Locale,
@@ -68,8 +69,10 @@ export interface PlaybackView {
   /** 对话关闭后紧随 confirm 时，保留问句供二选一框作底图。 */
   heldDialog?: DialogueCue
   confirm: { selectedYes: boolean; resolve: (accepted: boolean) => void } | null
-  /** 0 透明 → 1 全黑(fade 命令补间)。 */
+  /** 0 透明 → 1 遮盖全画面。 */
   fadeBlack: number
+  fadeColor: FadeColor
+  fadeDirection: 'in' | 'out'
   logs: string[]
 }
 
@@ -191,6 +194,8 @@ export class Playback {
       dialog: null,
       confirm: null,
       fadeBlack: 0,
+      fadeColor: 'black',
+      fadeDirection: 'out',
       logs: [],
     }
   }
@@ -422,6 +427,7 @@ export class Playback {
       const landing = resolveSceneSpawn(sceneId, target, {
         ...spawn,
         inheritFacing: this.view.player.facing,
+        currentPosition: this.view.player.pos,
       })
       this.loadingScene = sceneId
       this.onUi?.()
@@ -553,7 +559,7 @@ export class Playback {
             },
             signal,
           ),
-        teleportOut: (signal) => this.host.teleportOut(signal),
+        teleportOut: (signal, presentation) => this.host.teleportOut(signal, presentation),
         revealSceneEntry: (reveal, signal) =>
           this.host.revealSceneEntry?.(reveal, signal) ?? Promise.resolve(),
         wait: (ms, signal) => this.host.wait(ms, signal),
@@ -893,16 +899,34 @@ export class Playback {
       d?.resolve()
       this.onUi?.()
     },
-    fade: (dir, ms) =>
-      new Promise<void>((resolve) => {
+    fade: (dir, ms, color = 'black', signal) =>
+      new Promise<void>((resolve, reject) => {
+        signal?.throwIfAborted()
         this.fadeJob?.resolve()
         this.fadeJob = null
+        this.view.fadeColor = color
+        this.view.fadeDirection = dir
         if (ms <= 0) {
           this.view.fadeBlack = dir === 'out' ? 1 : 0
           resolve()
           return
         }
-        this.fadeJob = { dir, ms, done: 0, resolve }
+        const abort = () => {
+          if (this.fadeJob === job) this.fadeJob = null
+          signal?.removeEventListener('abort', abort)
+          reject(new DOMException('preview aborted', 'AbortError'))
+        }
+        const job = {
+          dir,
+          ms,
+          done: 0,
+          resolve: () => {
+            signal?.removeEventListener('abort', abort)
+            resolve()
+          },
+        }
+        this.fadeJob = job
+        signal?.addEventListener('abort', abort, { once: true })
       }),
     holdScreen: async (color, token, signal) => {
       if (signal?.aborted) throw new DOMException('preview aborted', 'AbortError')
@@ -910,6 +934,8 @@ export class Playback {
       this.fadeJob = null
       this.screenHoldToken = token
       this.view.fadeBlack = 1
+      this.view.fadeColor = color
+      this.view.fadeDirection = 'out'
       this.log(`⬛ 保持${color === 'black' ? '黑屏' : color}（${token}）`)
     },
     revealScreen: (token, signal) => {
@@ -937,6 +963,8 @@ export class Playback {
           })
         case 'fade':
           this.view.fadeBlack = 1
+          this.view.fadeColor = 'black'
+          this.view.fadeDirection = 'in'
           return new Promise<void>((resolve) => {
             this.log(`入场呈现：淡入 ${reveal.inMs}ms`)
             this.fadeJob?.resolve()
@@ -960,8 +988,10 @@ export class Playback {
       await this.switchScene(sceneId, spawn, signal, transition)
     },
     setPartyFacing: (fc, gesture, member) => {
+      // This preview has only a leader; a follower command must not pose it.
+      if (member) return
       this.view.player.facing = fc
-      if (!member) this.view.player.gesture = gesture ?? null
+      this.view.player.gesture = gesture ?? null
     },
     fleeBattle: () => {
       this.log('🏃 敌人逃离战场(战斗演出命令,预览记日志)')
@@ -1039,7 +1069,8 @@ export class Playback {
     },
     animEntity: (id) => {
       const o = this.ov(id)
-      o.anim = (o.anim ?? 0) + 1
+      o.anim = (o.frame ?? o.anim ?? 0) + 1
+      o.frame = undefined
     },
     nudgeEntity: (id, dx, dy) => {
       const o = this.ov(id)
@@ -1053,14 +1084,15 @@ export class Playback {
       new Promise<void>((resolve) => {
         this.moves.push({ who: 'player', to, stepMs: SPEED_MS[speed] ?? 130, acc: 0, resolve })
       }),
-    nudgeParty: (dx, dy) => {
+    nudgeParty: (dx, dy, _layer, facing) => {
       const p = this.view.player
       const d = pixelDeltaToGridDelta(dx, dy)
       p.pos = { col: p.pos.col + d.dcol, row: p.pos.row + d.drow, height: p.pos.height }
+      if (facing !== undefined) p.facing = facing
       p.gesture = null
     },
-    cameraPan: async (dx, dy, frames) => {
-      this.log(`🎥 镜头平移 (${dx},${dy})×${frames}`)
+    cameraPan: async (dx, dy, frames, _signal, startImmediately) => {
+      this.log(`🎥 镜头平移 (${dx},${dy})×${frames}${startImmediately ? ' 同帧起步' : ''}`)
     },
     cameraSnap: (to) => this.log(to ? `🎥 镜头定位 (${to.col},${to.row})` : '🎥 镜头回正'),
     setEntityAuto: (id, script) =>

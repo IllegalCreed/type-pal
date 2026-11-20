@@ -70,7 +70,7 @@
       "lines": "46",
       "anchor": "const DIR_DELTA:",
       "role": "movement-oracle",
-      "sha256": "322f6971116fd38a66c4769316cff8a7c4cbc9a7dd5f839d054688ad9a6ce72d"
+      "sha256": "a5e10c4d5e7d0750f5e291bdc2664197d34db2cf4fa75810e0be9602fda0fd5b"
     },
     {
       "path": "packages/game/src/shell/gamepad-input.test.ts",
@@ -207,6 +207,22 @@
         }
       ],
       "scope": "Game 世界方向表及已刊锚点逐字节一致，原手机控制执行和主张保留。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/scene-system.ts",
+          "lines": "46",
+          "anchor": "const DIR_DELTA:",
+          "role": "movement-oracle",
+          "sha256": "322f6971116fd38a66c4769316cff8a7c4cbc9a7dd5f839d054688ad9a6ce72d"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
     }
   ],
   "kind": "runtime-execution",

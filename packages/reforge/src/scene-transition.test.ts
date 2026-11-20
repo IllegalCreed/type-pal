@@ -88,3 +88,15 @@ test('a genuinely registered constructor entry supplies its own position and fac
     ),
   ).toEqual(entry)
 })
+
+test('原地切场使用调用方的完整脚点和朝向', () => {
+  const currentPosition = { col: 156, row: 53, height: 2 }
+  const landing = resolveSceneSpawn('s001', scene, {
+    pos: 'current',
+    currentPosition,
+    inheritFacing: 'up',
+  })
+  currentPosition.row = 54
+  expect(landing).toEqual({ pos: { col: 156, row: 53, height: 2 }, facing: 'up' })
+  expect(() => resolveSceneSpawn('s001', scene, { pos: 'current' })).toThrow('需要来源脚点')
+})

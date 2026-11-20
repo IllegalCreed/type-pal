@@ -480,7 +480,7 @@ describe('canonical author script schema', () => {
       ],
     }
     expect(() => checkBaseScriptFlow(flow, 'flow', { allowSceneEntry: true })).not.toThrow()
-    expect(() => checkBaseScriptFlow(flow, 'flow')).toThrow(/只允许 onEnter initial stage/)
+    expect(() => checkBaseScriptFlow(flow, 'flow')).toThrow(/只允许 onEnter 步骤/)
     expect(() =>
       checkBaseScriptFlow(
         {
@@ -546,9 +546,7 @@ describe('canonical author script schema', () => {
       },
     }
     expect(() => checkBaseSceneHooks({ onEnter: hook }, 'hooks')).not.toThrow()
-    expect(() => checkBaseSceneHooks({ onTeleport: hook }, 'hooks')).toThrow(
-      /只允许 onEnter initial stage/,
-    )
+    expect(() => checkBaseSceneHooks({ onTeleport: hook }, 'hooks')).toThrow(/只允许 onEnter 步骤/)
 
     expect(() =>
       checkBaseScriptLibrary({

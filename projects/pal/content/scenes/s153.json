@@ -1647,29 +1647,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "li-xiaoyao"
-                  },
-                  {
-                    "facing": "right",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
-                    ]
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 78,
-                      "height": 0,
-                      "row": -27
-                    }
-                  },
-                  {
                     "kind": "wait",
                     "ms": 800
                   },
@@ -5548,6 +5525,36 @@
                 ],
                 "next": {
                   "kind": "complete"
+                },
+                "entry": {
+                  "prepare": [
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "li-xiaoyao"
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 78,
+                        "height": 0,
+                        "row": -27
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
                 }
               }
             ]

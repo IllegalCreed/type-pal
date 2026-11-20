@@ -45,6 +45,7 @@ export class RuntimeFrameSession {
   #stepActive = false
   #stepRequested = false
   #waits: FrameWait[] = []
+  #worldPaintWaits = new Set<() => void>()
 
   constructor(private readonly stepMs: number) {}
 
@@ -69,6 +70,26 @@ export class RuntimeFrameSession {
 
   wait(ms: number, signal: AbortSignal): Promise<void> {
     return this.scheduleWait(ms, signal).done
+  }
+
+  waitForWorldPaint(signal: AbortSignal): Promise<void> {
+    return scriptWorkWait<void>(signal, (resolve, reject) => {
+      const finish = (): void => {
+        this.#worldPaintWaits.delete(painted)
+        signal.removeEventListener('abort', abort)
+      }
+      const painted = (): void => {
+        finish()
+        resolve()
+      }
+      const abort = (): void => {
+        finish()
+        reject(asyncIntentAbortError('等待场景绘制的 runner 已取消'))
+      }
+      this.#worldPaintWaits.add(painted)
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+    })
   }
 
   scheduleWait(ms: number, signal: AbortSignal): RuntimeWait {
@@ -173,6 +194,7 @@ export class RuntimeFrameSession {
     const present = () => {
       if (ports.afterScriptWork && ports.presentBattle(0, new Set(), this.now)) return
       ports.presentWorld(realNow)
+      for (const painted of this.#worldPaintWaits) painted()
     }
     if (ports.afterScriptWork) await ports.afterScriptWork(present)
     else present()

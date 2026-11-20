@@ -251,19 +251,21 @@ export function installBattleTraceObserver(context, createRecorder) {
       const { side, slot, fading, appearance } = fighter
       const frameIndex = appliedFrameIndex ?? fighter.frameIndex
       const position = { slot, x: draw.x, y: draw.y }
+      const colorShift = draw.iColorShift ?? draw.colorShift ?? 0
       const paintOrder = observeMagicOverlays ? { paintOrder: nextPaintOrder++ } : {}
       if (side === 'enemy')
         frame.enemies.set(slot, {
           ...(frameIndex === undefined ? { slot } : { ...position, frameIndex }),
+          ...(input.observeEnemyColorShift === true && frameIndex !== undefined
+            ? { colorShift }
+            : {}),
           fading,
           ...paintOrder,
         })
       else
         frame.players.set(slot, {
           ...position,
-          ...(frameIndex === undefined
-            ? {}
-            : { frameIndex, colorShift: draw.iColorShift ?? draw.colorShift ?? 0 }),
+          ...(frameIndex === undefined ? {} : { frameIndex, colorShift }),
           ...(appearance !== undefined ? { appearance } : {}),
           ...paintOrder,
         })

@@ -94,6 +94,7 @@ function assetRecord(
 export function syntheticCatalog(): AssetCatalogV1 {
   const assets: Record<string, AssetRecordV1> = {
     'soundfont.default': assetRecord('soundfont.default', 'soundfont', FAKE_SHA_B),
+    'sound.pal.212': assetRecord('sound.pal.212', 'sound'),
     'color.project-standard': assetRecord('color.project-standard', 'color-table'),
     'video.pal.001': assetRecord('video.pal.001', 'video'),
     'video.pal.002': assetRecord('video.pal.002', 'video'),

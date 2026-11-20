@@ -214,6 +214,30 @@ export function drawNumber(
   }
 }
 
+/** Draw a signed effective stat without shifting the existing right-aligned digits. */
+export function drawStatNumber(
+  ctx: CanvasRenderingContext2D,
+  value: number,
+  rightX: number,
+  y: number,
+  nums: (ImageBitmap | undefined)[],
+  color: 'yellow' | 'cyan',
+): void {
+  if (!Number.isFinite(value)) return
+  const stat = Math.trunc(value)
+  const magnitude = Math.abs(stat)
+  drawNumber(ctx, magnitude, rightX, y, nums)
+  if (stat >= 0) return
+
+  const x = rightX - 6 * (String(magnitude).length + 1)
+  ctx.save()
+  ctx.fillStyle = '#000'
+  ctx.fillRect(x + 2, y + 5, 4, 1)
+  ctx.fillStyle = color === 'cyan' ? '#51ba96' : '#d7cbaa'
+  ctx.fillRect(x + 1, y + 4, 4, 1)
+  ctx.restore()
+}
+
 /** 画数字(左对齐:首位左边缘固定在 leftX,往右排)。max 紧跟斜杠用,不预留位数空间。 */
 export function drawNumberLeft(
   ctx: CanvasRenderingContext2D,
@@ -596,7 +620,7 @@ export class MenuBox {
         forceRgba: COLOR_NORMAL,
       })
       const ny = y + STAT_NUM_DY
-      drawNumber(ctx, row.value, STAT_VAL_RIGHT, ny, this.assets.nums)
+      drawStatNumber(ctx, row.value, STAT_VAL_RIGHT, ny, this.assets.nums, 'yellow')
       if (row.max !== undefined) {
         if (this.assets.slash) ctx.drawImage(this.assets.slash, STAT_SLASH_X, ny)
         const maxNums = row.maxKind === 'cyan' ? this.assets.numsCyan : this.assets.numsBlue

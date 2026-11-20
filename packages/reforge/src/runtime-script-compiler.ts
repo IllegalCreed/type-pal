@@ -30,6 +30,7 @@ export type RuntimeLeafCommand = Exclude<
   | { kind: 'startBattle' }
   | { kind: 'returnScript' | 'finishStep' | 'breakLoop' | 'continueLoop' | 'repeat' }
   | { kind: 'teleportOut' }
+  | { kind: 'sceneTimeline' }
 >
 
 export type ExecutableRuntimeCommand = ExecutableCommandLike<RuntimeLeafCommand>

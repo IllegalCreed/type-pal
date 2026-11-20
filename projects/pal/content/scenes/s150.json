@@ -3,9 +3,9 @@
   "mapId": "map-137",
   "entry": {
     "pos": {
-      "col": 96,
-      "row": 32,
-      "height": 0
+      "col": 68,
+      "height": 0,
+      "row": -2
     },
     "facing": "down"
   },
@@ -18,7 +18,8 @@
         "height": 0
       },
       "sprite": "sprite-16",
-      "facing": "up"
+      "facing": "up",
+      "label": "酒剑仙"
     },
     {
       "id": "e2465",
@@ -29,88 +30,7 @@
       },
       "sprite": "sprite-358",
       "facing": "up",
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "持续自动动作",
-                  "body": [
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "dx": 8,
-                          "dy": -4,
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s150",
-                            "entity": "e2465"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s150",
-                            "entity": "e2465"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "dx": 8,
-                          "dy": -4,
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s150",
-                            "entity": "e2465"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s150",
-                            "entity": "e2465"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+      "label": "剑圣"
     },
     {
       "id": "e2466",
@@ -230,7 +150,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "雪崖：剑圣质问酒剑仙",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -238,34 +158,72 @@
             "stages": [
               {
                 "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "frames": 0,
+                      "kind": "shakeScreen",
+                      "level": 4
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 68,
+                        "height": 0,
+                        "row": -2
+                      }
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2465"
+                      },
+                      "dx": 8,
+                      "dy": -4
+                    },
+                    {
+                      "kind": "animEntity",
+                      "target": {
+                        "scene": "s150",
+                        "entity": "e2465"
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600
+                  }
+                },
                 "body": [
                   {
-                    "frames": 0,
-                    "kind": "shakeScreen",
-                    "level": 4
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 68,
-                      "height": 0,
-                      "row": -2
-                    }
-                  },
-                  {
                     "kind": "wait",
-                    "ms": 1500
+                    "ms": 100
                   },
                   {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s150",
-                      "entity": "e2465"
-                    },
-                    "channel": "auto",
-                    "selection": {
-                      "kind": "disabled"
-                    }
+                    "kind": "repeat",
+                    "label": "淡入后剑圣每拍走近酒剑仙",
+                    "count": 14,
+                    "intervalMs": 100,
+                    "body": [
+                      {
+                        "kind": "nudgeEntity",
+                        "target": {
+                          "scene": "s150",
+                          "entity": "e2465"
+                        },
+                        "dx": 8,
+                        "dy": -4
+                      },
+                      {
+                        "kind": "animEntity",
+                        "target": {
+                          "scene": "s150",
+                          "entity": "e2465"
+                        }
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
@@ -499,7 +457,8 @@
                     "kind": "loadScene",
                     "scene": "s151"
                   }
-                ]
+                ],
+                "label": "剑圣走近酒剑仙，质问后离开雪崖"
               }
             ]
           }

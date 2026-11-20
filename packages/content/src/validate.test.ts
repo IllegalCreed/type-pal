@@ -480,6 +480,22 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
   ).toThrow('期望非空 AssetId')
 })
 
+test('validates the confirmed shortage message only for an actual item cost', () => {
+  const skill = {
+    id: 's',
+    name: 's',
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 1 },
+    cost: { items: [{ itemId: '86', amount: 1 }], missingItemsText: 'Shortage' },
+  }
+  expect(validateSkills({ skills: [skill], levelUp: {} }).skills[0]?.cost).toEqual(skill.cost)
+  const invalid = { ...skill, cost: { ...skill.cost, items: [] } }
+  expect(() => validateSkills({ skills: [invalid], levelUp: {} })).toThrow('需要物品消耗')
+  const blank = { ...skill, cost: { ...skill.cost, missingItemsText: ' ' } }
+  expect(() => validateSkills({ skills: [blank], levelUp: {} })).toThrow('期望非空提示文字')
+})
+
 test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义可校验', () => {
   expect(() =>
     validateSkills({
@@ -544,6 +560,40 @@ test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义�
       levelUp: {},
     }),
   ).toThrow('只允许一个前置资源效果')
+})
+
+test('吹飞接受玩家全体攻击的有符号整数，并拒绝非整数及敌方覆写', () => {
+  const animation = { effectSprite: 44, placement: 'attackField', blow: -2 }
+  const spell = {
+    id: 'wind',
+    name: '横风',
+    cost: { mp: 5 },
+    target: 'allEnemies',
+    effects: [{ kind: 'damage', power: 10, elemental: 1 }],
+    animation,
+  }
+  expect(validateSkills({ skills: [spell], levelUp: {} }).skills[0]?.animation.blow).toBe(-2)
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, blow: -1.5 } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow')
+  expect(() =>
+    validateSkills({ skills: [{ ...spell, execution: { enemy: { animation } } }], levelUp: {} }),
+  ).toThrow('blow')
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, blow: -32769 } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow: 期望有符号 16 位整数')
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, placement: 'normal' } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow: 需要全体攻击落点')
 })
 
 test('敌方 execution 只允许 runtime 已实现效果且拒绝 prepare', () => {

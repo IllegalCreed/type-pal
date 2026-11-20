@@ -6,9 +6,12 @@ import type {
   FlowCursor,
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { SupersedingFadeDriver } from './fade-driver.js'
+import { RuntimeFrameSession } from './runtime-frame-session.js'
 import { BaseSharedScriptResolver, compileBaseScriptFlow } from './script-compiler-core.js'
 import type { BaseScriptRuntimeHost, FlowCursorController } from './script-runner-core.js'
 import { ScriptRunnerCore } from './script-runner-core.js'
+import { ScriptWorkQueue } from './script-work-queue.js'
 
 const digest = 'b'.repeat(64)
 
@@ -529,5 +532,248 @@ describe('ScriptRunnerCore flow semantics', () => {
     waitGate.resolve()
     await running
     expect(host.calls).toEqual(['execute:wait', 'reveal:cut'])
+  })
+
+  test('a paced entrance does not lose a stride to frame rounding during the fade', async () => {
+    const frames = new RuntimeFrameSession(100)
+    const work = new ScriptWorkQueue()
+    const fade = new SupersedingFadeDriver(1)
+    const host = fakeHost()
+    const walkedAt: number[] = []
+    const output: Array<{ opacity: number; walked: number; at: number }> = []
+    const noop = () => {}
+    const ports = {
+      afterScriptWork: (action: () => void) => work.whenIdle(action),
+      activateConfirm: noop,
+      resumeScriptGates: noop,
+      gameplayFrozen: () => false,
+      advanceFade: (now: number) => fade.advance(now),
+      settleClosedDialogue: noop,
+      consumePressed: () => new Set<string>(),
+      tickHostiles: noop,
+      advanceMoves: noop,
+      deriveMounts: noop,
+      advanceLifecycle: noop,
+      advanceEntityActions: noop,
+      clearWorldTicks: noop,
+      presentBattle: () => false,
+      routeInput: noop,
+      presentWorld: () =>
+        output.push({ opacity: fade.value, walked: walkedAt.length, at: frames.now }),
+    }
+    host.gameplayNow = () => frames.now
+    host.wait = (ms, signal) => frames.wait(ms, signal)
+    host.revealSceneEntry = (reveal, signal) => {
+      if (reveal.kind !== 'fade') throw new Error('test entrance requires a fade')
+      return fade.begin(0, frames.now, reveal.inMs, signal)
+    }
+    host.execute = (command, _context, signal) => {
+      if (command.kind === 'wait') return frames.wait(command.ms, signal)
+      if (command.kind === 'nudgeEntity') walkedAt.push(frames.now)
+    }
+    await frames.tick(1_000, ports)
+    const abort = new AbortController()
+    const endWork = work.begin(abort.signal)
+    const step = {
+      kind: 'nudgeEntity',
+      target: { scene: 'cliff', entity: 'sage' },
+      dx: 8,
+      dy: -4,
+    } as const
+    const running = new ScriptRunnerCore(host, abort.signal)
+      .runFlow(
+        compile({
+          kind: 'stages',
+          initial: 'arrival',
+          stages: [
+            {
+              id: 'arrival',
+              entry: {
+                prepare: [],
+                reveal: { kind: 'fade', outMs: 0, inMs: 600, withBody: true },
+              },
+              body: [{ kind: 'repeat', count: 15, intervalMs: 100, body: [step] }],
+            },
+          ],
+        }),
+        { cursorController: controller(), allowSceneEntry: true, runSceneEntry: true },
+      )
+      .finally(endWork)
+    try {
+      for (let frame = 1; frame <= 85; frame++) await frames.tick(1_000 + frame * 19, ports)
+      await running
+      expect(output.find(({ opacity }) => opacity === 0)).toEqual({
+        opacity: 0,
+        walked: 7,
+        at: 1_608,
+      })
+      expect(walkedAt).toHaveLength(15)
+      const firstBody = 1_000
+      expect(walkedAt[0]).toBe(firstBody)
+      expect(
+        walkedAt.every((at, i) => at - firstBody - 100 * i >= 0 && at - firstBody - 100 * i < 19),
+      ).toBe(true)
+    } finally {
+      abort.abort()
+      await running.catch(() => {})
+    }
+  })
+
+  test.each([false, true])('schedules the same two actors and fade, abort=%s', async (cancel) => {
+    const frames = new RuntimeFrameSession(100)
+    const work = new ScriptWorkQueue()
+    const shade = new SupersedingFadeDriver(1)
+    const host = fakeHost()
+    const receipt: Array<{ at: number; entity: string; opacity: number }> = []
+    let tail = false
+    const noop = () => {}
+    const ports = {
+      afterScriptWork: (action: () => void) => work.whenIdle(action),
+      activateConfirm: noop,
+      resumeScriptGates: noop,
+      gameplayFrozen: () => false,
+      advanceFade: (now: number) => shade.advance(now),
+      settleClosedDialogue: noop,
+      consumePressed: () => new Set<string>(),
+      tickHostiles: noop,
+      advanceMoves: noop,
+      deriveMounts: noop,
+      advanceLifecycle: noop,
+      advanceEntityActions: noop,
+      clearWorldTicks: noop,
+      presentBattle: () => false,
+      routeInput: noop,
+      presentWorld: noop,
+    }
+    host.gameplayNow = () => frames.now
+    host.wait = (ms, signal) => frames.wait(ms, signal)
+    host.execute = (leaf, _context, signal) => {
+      if (leaf.kind === 'fade') return shade.begin(0, frames.now, leaf.ms ?? 0, signal)
+      if (leaf.kind === 'nudgeEntity')
+        receipt.push({ at: frames.now, entity: leaf.target.entity, opacity: shade.value })
+      if (leaf.kind === 'clearDialog') tail = true
+    }
+    await frames.tick(1_000, ports)
+    const abort = new AbortController()
+    const execution = new ScriptRunnerCore(host, abort.signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'scene',
+        stages: [
+          {
+            id: 'scene',
+            body: [
+              {
+                kind: 'sceneTimeline',
+                label: 'Actor entrance',
+                tracks: [
+                  {
+                    id: 'light',
+                    label: 'Light',
+                    cues: [{ atMs: 0, body: [{ kind: 'fade', dir: 'in', ms: 400 }] }],
+                  },
+                  ...['first', 'second'].map((entity) => ({
+                    id: entity,
+                    label: entity,
+                    target: { scene: 's001', entity },
+                    cues: [
+                      {
+                        atMs: 100,
+                        repeat: { count: 2, intervalMs: 100 },
+                        body: [{ kind: 'nudgeEntity' as const, dx: 6, dy: 3 }],
+                      },
+                    ],
+                  })),
+                ],
+              },
+              { kind: 'clearDialog' },
+            ],
+          },
+        ],
+      }),
+      { cursorController: controller() },
+    )
+    const stopWork = work.begin(abort.signal)
+    const observed = execution.catch((error: unknown) => error).finally(stopWork)
+    try {
+      await frames.tick(1_100, ports)
+      expect(receipt.map(({ entity, at }) => [entity, at])).toEqual([
+        ['first', 1_100],
+        ['second', 1_100],
+      ])
+      expect(receipt.every(({ opacity }) => opacity > 0 && opacity < 1)).toBe(true)
+      expect(tail).toBe(false)
+      if (cancel) abort.abort()
+      for (let at = 1_200; at <= 1_500; at += 100) await frames.tick(at, ports)
+      if (cancel) {
+        expect(await observed).toMatchObject({ name: 'AbortError' })
+        expect(receipt).toHaveLength(2)
+        expect(tail).toBe(false)
+      } else {
+        await execution
+        expect(receipt.map(({ entity, at }) => [entity, at])).toEqual([
+          ['first', 1_100],
+          ['second', 1_100],
+          ['first', 1_200],
+          ['second', 1_200],
+        ])
+        expect(tail).toBe(true)
+      }
+    } finally {
+      abort.abort()
+      await observed
+    }
+  })
+
+  test.each([
+    'fade',
+    'body',
+  ] as const)('a concurrent scene entry waits for both effects when %s finishes first', async (first) => {
+    const host = fakeHost()
+    const fade = deferred<void>()
+    const body = deferred<void>()
+    host.revealSceneEntry = async () => {
+      host.calls.push('reveal:fade')
+      await fade.promise
+      host.calls.push('finish:fade')
+    }
+    host.execute = async (command) => {
+      host.calls.push(command.kind)
+      if (command.kind === 'setFlag') {
+        await body.promise
+        host.calls.push('finish:body')
+      }
+    }
+    const cursorController = controller()
+    const running = new ScriptRunnerCore(host, new AbortController().signal).runFlow(
+      compile({
+        kind: 'stages',
+        initial: 'initial',
+        stages: [
+          {
+            id: 'initial',
+            entry: {
+              prepare: [{ kind: 'clearDialog' }],
+              reveal: { kind: 'fade', outMs: 0, inMs: 600, withBody: true },
+            },
+            body: [{ kind: 'setFlag', flag: 'entered', value: true }],
+            next: { kind: 'complete' },
+          },
+        ],
+      }),
+      { cursorController, allowSceneEntry: true, runSceneEntry: true },
+    )
+
+    const opening = ['clearDialog', 'reveal:fade', 'setFlag']
+    await vi.waitFor(() => expect(host.calls).toEqual(opening))
+    const pending = { fade, body }
+    const second = first === 'fade' ? 'body' : 'fade'
+    pending[first].resolve()
+    await vi.waitFor(() => expect(host.calls).toEqual([...opening, `finish:${first}`]))
+    expect(cursorController.cursors).toEqual([])
+    pending[second].resolve()
+    await running
+    expect(host.calls).toEqual([...opening, `finish:${first}`, `finish:${second}`])
+    expect(cursorController.cursors).toEqual([{ kind: 'completed' }])
   })
 })

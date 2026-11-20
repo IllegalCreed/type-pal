@@ -117,7 +117,7 @@ describe('ED-3 PAL project reference index', () => {
     // E2E 008/009 moved the hammer targets and simplified pond movement; acquisition
     // recipes also remove generated self-targets from authored reference scans.
     // The current defeat routes remove duplicated targets in s093.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_634)
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_252)
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
     expect(
@@ -200,7 +200,7 @@ describe('ED-3 PAL project reference index', () => {
     // Pond e212→e217 loses 20 targets, e213→e218 gains 9; the reed route
     // loses two e260 targets and the hammer gains seven explicit target reads.
     // The single s093 defeat continuation removes one more external blocker.
-    expect(actualEntityBlockers).toHaveLength(4_369)
+    expect(actualEntityBlockers).toHaveLength(4_737)
   })
 
   test('keeps scene-entry, shop, map and environment reference facts', () => {
@@ -273,7 +273,7 @@ describe('ED-3 PAL project reference index', () => {
           edge.relation.kind === 'command-target' && edge.relation.use === 'scene-map-override',
       ),
     ).toHaveLength(2)
-    expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(141)
+    expect(edges.filter((edge) => edge.relation.kind === 'battle-field-use')).toHaveLength(143)
     // The independent exit preserves the original s286/e4841 enemy, including its
     // team and world sprite. Pin the restored dependency as well as the census.
     const enemyTeamEdges = edges.filter((edge) => edge.relation.kind === 'enemy-team-use')
@@ -329,7 +329,7 @@ describe('ED-3 PAL project reference index', () => {
         },
         locator: {
           kind: 'canonical-script',
-          reference: { locator: { commandPath: '3' } },
+          reference: { locator: { commandPath: '6' } },
         },
       },
     ])
@@ -353,7 +353,7 @@ describe('ED-3 PAL project reference index', () => {
       battleDataEdges.filter(
         (edge) => edge.relation.kind === 'battle-data-use' && edge.relation.target === 'poison',
       ),
-    ).toHaveLength(67)
+    ).toHaveLength(65)
     expect(
       battleDataEdges.filter(
         (edge) =>
@@ -387,7 +387,7 @@ describe('ED-3 PAL project reference index', () => {
     const { state, edges, index } = referenceContext()
 
     const actorEdges = edges.filter((edge) => edge.relation.kind === 'actor-use')
-    expect(actorEdges).toHaveLength(827)
+    expect(actorEdges).toHaveLength(831)
     const oldActorReferences = collectActorReferences(state)
     const oldActorKeys = oldActorReferences
       .map((reference) => `${reference.actorId}\0${reference.kind}`)
@@ -429,8 +429,8 @@ describe('ED-3 PAL project reference index', () => {
         .map((reference) => `${reference.actorId}\0${reference.kind}\0${reference.where}`)
         .sort(),
     )
-    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(823)
-    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(536)
+    expect(oldActorReferences.filter(actorReferenceBlocksDeletion)).toHaveLength(827)
+    expect(actorEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(540)
     expect(actorEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
     expect(
       actorEdges
@@ -452,7 +452,7 @@ describe('ED-3 PAL project reference index', () => {
           count + index.deletionImpact(target, index.deletionScopeFor([target])).blockers.length
         )
       }, 0),
-    ).toBe(823)
+    ).toBe(827)
     expect(
       Object.fromEntries(
         [
@@ -476,7 +476,7 @@ describe('ED-3 PAL project reference index', () => {
       'actor-covered-by': 6,
       'item-equipable-by': 261,
       'item-battle-sprite-by-actor': 7,
-      'command-set-actor-sprite': 121,
+      'command-set-actor-sprite': 125,
       'command-set-actor-appearance': 21,
       'command-set-party-member': 217,
       'enemy-apply-actor-growth': 1,
@@ -517,7 +517,7 @@ describe('ED-3 PAL project reference index', () => {
 
     const itemEdges = edges.filter((edge) => edge.relation.kind === 'item-use')
     const oldItemReferences = collectItemReferences(state, canonical)
-    expect(itemEdges).toHaveLength(1_183)
+    expect(itemEdges).toHaveLength(1_185)
     expect(
       itemEdges
         .map((edge) => {
@@ -551,8 +551,8 @@ describe('ED-3 PAL project reference index', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ read: 46, lose: 40, consume: 9, reward: 899, hold: 34, configure: 155 })
-    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(799)
+    ).toEqual({ read: 46, lose: 42, consume: 9, reward: 899, hold: 34, configure: 155 })
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(801)
     // The ninth recipe reward and the hammer's scripted self-removal have different
     // ownership: recipes point at their form, while direct grants keep a command locator.
     expect(
@@ -600,7 +600,7 @@ describe('ED-3 PAL project reference index', () => {
       (edge) => edge.relation.kind === 'world-sprite-action-use',
     )
     const battleSpriteEdges = edges.filter((edge) => edge.relation.kind === 'battle-sprite-use')
-    expect(worldSpriteEdges).toHaveLength(3_835)
+    expect(worldSpriteEdges).toHaveLength(3_839)
     expect(
       worldSpriteEdges
         .filter(
@@ -779,7 +779,7 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_236)
+    ).toBe(4_240)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
@@ -807,7 +807,7 @@ describe('ED-3 PAL project reference index', () => {
     const { state, canonical, diagnostics, edges } = referenceContext()
 
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(assetEdges).toHaveLength(5_988)
+    expect(assetEdges).toHaveLength(5_994)
     // Six explicit Asura hit sounds are now owned by the six hammer-trigger flows.
     expect(
       assetEdges
@@ -972,7 +972,7 @@ describe('ED-3 PAL project reference index', () => {
     const { edges, index } = referenceContext()
 
     // The s093 branches now share one continuation and retire two auto selections.
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_454)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_385)
     expect(
       edges
         .filter(
@@ -1104,8 +1104,8 @@ describe('ED-3 PAL project reference index', () => {
         },
       })),
     )
-    expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(294)
-    expect(edges.filter((edge) => edge.relation.kind === 'script-reference')).toHaveLength(10)
+    expect(edges.filter((edge) => edge.relation.kind === 'scene-hook-reference')).toHaveLength(297)
+    expect(edges.filter((edge) => edge.relation.kind === 'script-reference')).toHaveLength(14)
     // D-02: s172 disables both s182 hook slots without selecting a concrete hook. This is one
     // parent-scene dependency, formerly omitted; existing hook/behavior counts above stay unchanged.
     expect(
@@ -1150,8 +1150,8 @@ describe('ED-3 PAL project reference index', () => {
   test('transports the compact reference snapshot through a fresh worker runtime', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_241)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_161)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_563)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_506)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

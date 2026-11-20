@@ -18,6 +18,7 @@ import type { IndexedImage } from '../assets/png.js'
 import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
 import { isBattleContact } from '../core/battle/battle-entry.js'
 import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
+import { resolveMagicObject } from '../core/battle/magic-object.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
@@ -197,13 +198,15 @@ export function syncShellAudio(
   // 战斗胜利曲(battle.c:1030-1032,'won' 结算期 isBoss?2:3 不循环;结算完 battleState 清→场景乐恢复)。
   const victoryTrack = battleVictoryTrack(gs.battleState)
   const battleIntroActive = gs.battleState?.introFade !== undefined // DM29:揭场未完 → 静默
+  const useEncounterMusic = inBattle && !gs.battleState?.scriptMusicActive
   audio.sync(gs.pendingSounds, {
-    track: stoppingForContact
-      ? 0
-      : victoryTrack > 0
-        ? victoryTrack
-        : pickMusicTrack(inBattle, gs.wNumMusic, gs.wNumBattleMusic, battleIntroActive),
-    loop: victoryTrack > 0 ? false : inBattle ? true : (gs.musicLoop ?? true),
+    track:
+      stoppingForContact || battleIntroActive
+        ? 0
+        : victoryTrack > 0
+          ? victoryTrack
+          : pickMusicTrack(useEncounterMusic, gs.wNumMusic, gs.wNumBattleMusic),
+    loop: victoryTrack > 0 ? false : useEncounterMusic ? true : (gs.musicLoop ?? true),
   })
   // M6 战斗 SFX:扫本帧 bus 视觉事件 → per-单位声(敌死 deathSound / 敌攻 attackSound /
   //   我攻 role.weaponSound,fight.c/battle.c AUDIO_PlaySound)。explore SFX 走 gs.pendingSounds。
@@ -530,12 +533,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
 
   // SW 预缓存让路:跟踪 suspendRaf 变化(下方 onPresent 据此 pause/resume 预缓存)。
   let _lastSuspendForPrecache = false
+  let pendingSaveSceneLoads = 0
   const loopCtx: LoopContext = {
     gs,
     bus,
     input,
     tilemap,
     partyWalkFrames,
+    isRestoringSave: () => pendingSaveSceneLoads > 0,
     onPresent: (drained, ticked) => {
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
       // 设置 BGM/SFX。只暂停 canvas present,不能暂停 audio drain,否则声音会等 CG 结束后才一起触发。
@@ -749,6 +754,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     //   换场景(传送/0x59)即清屏波,上一场景的 0x71 常驻波不跨场景。读档(fromSavedGame)路径
     //   C 中 fEnteringScene=FALSE 不清(波从存档恢复),与此分支一致。
     if (!opts.fromSavedGame) {
+      gs.partyCameraOffset = undefined // res.c:301 restores the default party anchor for the loaded scene.
       gs.wScreenWave = 0
       gs.sWaveProgression = 0
     }
@@ -1151,6 +1157,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
     const battleFieldId = gs.wNumBattleField ?? 0
     try {
+      // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
+      //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
+      // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
+      const encounterRoles = projectRuntimeToBattleRoles(
+        gs.PlayerRolesRuntime,
+        playerRoles,
+        gs.rgEquipmentEffect,
+      )
       startBattle({
         gs,
         enemyTeamId,
@@ -1160,14 +1174,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         enemyObjects,
         enemyTeams,
         battleFields,
-        // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
-        //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
-        // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
-        playerRoles: projectRuntimeToBattleRoles(
-          gs.PlayerRolesRuntime,
-          playerRoles,
-          gs.rgEquipmentEffect,
-        ),
+        playerRoles: encounterRoles,
         items,
         spells,
         magics,
@@ -1185,6 +1192,31 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
         introFadeTicks: INTRO_FADE_TICKS, // D19:生产入场 dither fade-in(present-battle 揭示);单测/dev 不传
       })
+      // Decode the current combatants' effects during the opening. A cold decode
+      // starting on the effect frame can finish during the next action.
+      const battle = gs.battleState
+      const spellIds = battle?.enemies.map(({ e }) => e.magic) ?? []
+      const sounds =
+        battle?.enemies.flatMap(({ e }) => [e.attackSound, e.magicSound, e.deathSound]) ?? []
+      for (const { roleId } of battle?.players ?? []) {
+        const role = encounterRoles.roles[roleId]
+        if (!role) continue
+        spellIds.push(...(role.magic ?? []), role.cooperativeMagic ?? 0)
+        sounds.push(
+          role.attackSound,
+          role.weaponSound,
+          role.criticalSound,
+          role.magicSound,
+          role.deathSound,
+          role.coverSound ?? 0,
+          role.dyingSound ?? 0,
+        )
+      }
+      for (const id of new Set(spellIds)) {
+        const effect = resolveMagicObject(id, spells, magics, objectMagics)?.magic.sound
+        if (effect !== undefined) sounds.push(effect)
+      }
+      void audio.preloadSounds(sounds)
     } catch (e) {
       console.error('[bootstrap.startBattleHandler] startBattle FAILED:', e)
       throw e
@@ -1488,6 +1520,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     // mutate gs in-place(外部持有同 ref;无法替换 ref)
     // 把 loadedGs 全字段拷到 gs(用 Object.assign 浅 + 关键嵌套手动 deepClone)
     Object.assign(gs, loadedGs)
+    gs.partyCameraOffset = loadedGs.partyCameraOffset && { ...loadedGs.partyCameraOffset }
     // 「跟着存档走」:dialogHistory 随 deepClone(gs) 进存档,但 Object.assign 对老档(无此字段)**不覆盖**
     //   → 残留当前 session 历史(圣姑家+比武招亲时间线倒错的根因)。显式从 loadedGs 归一(老档兜底空、
     //   超 CAP 截断)。**须读 loadedGs.dialogHistory 而非 gs.dialogHistory**:后者对老档恰是要清掉的残留值。
@@ -1540,7 +1573,12 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.sWaveProgression = 0
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter。
     // sceneLoading 在读档 transition guard 已置 true;loadSceneCommon 完成后恢复目标存档 palette 绘制新场景。
-    await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    pendingSaveSceneLoads++
+    try {
+      await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    } finally {
+      pendingSaveSceneLoads--
+    }
     gs.palette = restoredPalette
     // DM26:PAL_ReloadInNextTick(global.c:910)无条件 fNeedToFadeIn=TRUE → 进场 1s 淡入
     //   (scene.c:503-507)。此前仅 0x4E 死亡读档设,系统菜单读档画面硬切。

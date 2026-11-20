@@ -259,6 +259,14 @@
                       }
                     },
                     {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao",
+                        "zhao-linger",
+                        "lin-yueru"
+                      ]
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -273,14 +281,6 @@
                         "row": -7,
                         "height": 0
                       }
-                    },
-                    {
-                      "kind": "setParty",
-                      "members": [
-                        "li-xiaoyao",
-                        "zhao-linger",
-                        "lin-yueru"
-                      ]
                     },
                     {
                       "kind": "setPartyFacing",

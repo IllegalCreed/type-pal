@@ -32,6 +32,19 @@ export function instrumentPresentationEvidence(code, file) {
           node.body.end - 1,
           ';globalThis.__openingCausePresentationEnd?.(effect,{error:error?String(error):null,value:this.value});',
         )
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawScriptFade') {
+        const params = node.parameters.map((param) => param.name.getText(ast))
+        assert.deepEqual(params, ['ctx', 'opacity', 'color', 'direction'])
+        add('fade-painter', node.parameters.at(-1).end, ', __e2eFadeDraw?: (paint: object) => void')
+      }
+      if (ts.isIfStatement(node) && source === 'if (opacity <= 0.001) return') {
+        add('fade-transparent', node.thenStatement.getStart(ast), '{ __e2eFadeDraw?.({alpha:0}); ')
+        edits.push({ at: node.end, text: ' }' })
+      }
+      if (ts.isExpressionStatement(node) && source === 'ctx.fillRect(0, 0, width, height)')
+        add('fade-fill', node.end, ';__e2eFadeDraw?.({style:ctx.fillStyle});')
+      if (ts.isExpressionStatement(node) && source === 'ctx.putImageData(frame, 0, 0)')
+        add('fade-ramp', node.end, ';__e2eFadeDraw?.({ramp:{distance,direction}});')
     }
     if (file.endsWith('/dither-transition.ts')) {
       if (ts.isExpressionStatement(node) && source.startsWith('this.active = {'))
@@ -54,23 +67,16 @@ export function instrumentPresentationEvidence(code, file) {
         )
     }
     if (file.endsWith('/main.ts')) {
-      if (ts.isIfStatement(node) && source === 'if (fadeDriver.value <= 0.001) return') {
-        add(
-          'fade-transparent',
-          node.thenStatement.getStart(ast),
-          '{ globalThis.__openingCausePresentationDraw?.(fadeDriver,{value:fadeDriver.value,alpha:0,color:fadeCurtain,now:frames.now}); ',
-        )
-        edits.push({ at: node.end, text: ' }' })
-      }
       if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawFadeCurtain') {
         const draw = node.body.statements.find(
-          (s) => s.getText(ast) === 'ctx.fillRect(0, 0, canvas.width, canvas.height)',
+          (s) =>
+            s.getText(ast) === 'drawScriptFade(ctx, fadeDriver.value, fadeCurtain, fadeDirection)',
         )
         assert(draw, 'fade output anchor changed')
         add(
           'fade-output',
-          draw.end,
-          ';globalThis.__openingCausePresentationDraw?.(fadeDriver,{value:fadeDriver.value,style:ctx.fillStyle,color:fadeCurtain,now:frames.now});',
+          draw.expression.arguments.at(-1).end,
+          ', (paint) => globalThis.__openingCausePresentationDraw?.(fadeDriver,{...paint,value:fadeDriver.value,color:fadeCurtain,now:frames.now})',
         )
       }
       if (ts.isIfStatement(node) && node.expression.getText(ast) === 'dither.output') {
@@ -92,9 +98,16 @@ export function instrumentPresentationEvidence(code, file) {
   assert.deepEqual(
     anchors,
     file.endsWith('/main.ts')
-      ? { 'fade-transparent': 1, 'fade-output': 1, 'dither-output': 1 }
+      ? { 'fade-output': 1, 'dither-output': 1 }
       : file.endsWith('/fade-driver.ts')
-        ? { 'fade-start': 1, 'fade-end': 1 }
+        ? {
+            'fade-start': 1,
+            'fade-end': 1,
+            'fade-painter': 1,
+            'fade-transparent': 1,
+            'fade-fill': 1,
+            'fade-ramp': 1,
+          }
         : { 'dither-start': 1, 'dither-end': 1, 'dither-cancel': 1 },
     `presentation anchors changed: ${file}`,
   )

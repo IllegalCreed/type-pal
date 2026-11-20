@@ -2,7 +2,7 @@ import { expect, test, vi } from 'vitest'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef } from './actor.js'
 import { instantiate } from './character.js'
-import { applyHiddenExp, grantBattleRewards } from './rewards.js'
+import { applyHiddenExp, grantBattleRewards, recoverBattleParty } from './rewards.js'
 import { validateActors } from './validate.js'
 
 function actor(expTable: number[] = [0, 10, 20, 100]): ActorDef {
@@ -33,13 +33,13 @@ function actor(expTable: number[] = [0, 10, 20, 100]): ActorDef {
   return value
 }
 
-test('reward learning initializes the instance list and deduplicates only skills at crossed levels', () => {
+test('reward learning initializes the instance list and deduplicates eligible skills across levels', () => {
   const definition = actor()
   const character = instantiate(definition)
   character.id = 'hero-instance'
   const skills = {
     hero: [
-      { level: 1, skillId: 'too-early' },
+      { level: 1, skillId: 'already-eligible' },
       { level: 2, skillId: 'heal' },
       { level: 2, skillId: 'heal' },
       { level: 3, skillId: 'fire' },
@@ -57,7 +57,10 @@ test('reward learning initializes the instance list and deduplicates only skills
     { exp: 35, cash: 7 },
     rng,
   )
-  expect(learned).toEqual({ outsider: ['untouched'], 'hero-instance': ['heal', 'fire'] })
+  expect(learned).toEqual({
+    outsider: ['untouched'],
+    'hero-instance': ['already-eligible', 'heal', 'fire'],
+  })
   expect(character).toEqual({
     ...instantiate(definition),
     id: 'hero-instance',
@@ -77,12 +80,16 @@ test('reward learning initializes the instance list and deduplicates only skills
     exp: 35,
     cash: 7,
     hiddenUps: [],
+    learned: [
+      { characterId: 'hero-instance', skillId: 'already-eligible' },
+      { characterId: 'hero-instance', skillId: 'heal' },
+      { characterId: 'hero-instance', skillId: 'fire' },
+    ],
     levelUps: [
       {
         characterId: 'hero-instance',
         from: 1,
         to: 3,
-        learned: ['heal', 'fire'],
         before: { ...definition.battler!.baseStats },
         after: {
           level: 3,
@@ -103,7 +110,7 @@ test('reward learning initializes the instance list and deduplicates only skills
   expect({ definition, skills }).toEqual(before)
 })
 
-test('reward level cap still consumes thresholds without growth, skill grants or random calls', () => {
+test('reward level cap consumes thresholds and grants missing skills without growth or random calls', () => {
   const definition = actor(Array.from({ length: 100 }, () => 10))
   const character = instantiate(definition)
   character.level = 99
@@ -116,13 +123,24 @@ test('reward level cap still consumes thresholds without growth, skill grants or
       [character],
       learned,
       { hero: definition },
-      { hero: [{ level: 99, skillId: 'not-new' }] },
+      {
+        hero: [
+          { level: 7, skillId: 'known' },
+          { level: 99, skillId: 'missing' },
+        ],
+      },
       { exp: 25, cash: 0 },
       rng,
     ),
-  ).toEqual({ exp: 25, cash: 0, levelUps: [], hiddenUps: [] })
+  ).toEqual({
+    exp: 25,
+    cash: 0,
+    levelUps: [],
+    hiddenUps: [],
+    learned: [{ characterId: 'hero', skillId: 'missing' }],
+  })
   expect(character).toEqual({ ...before, exp: 8, hp: 70, mp: 20 })
-  expect(learned).toEqual({ hero: ['known'] })
+  expect(learned).toEqual({ hero: ['known', 'missing'] })
   expect(rng).not.toHaveBeenCalled()
 })
 
@@ -140,8 +158,50 @@ test('reward upgrade without a levelUp registry never creates an empty learned-s
   )
   expect(character.level).toBe(2)
   expect(character.exp).toBe(0)
-  expect(report.levelUps.map(({ learned }) => learned)).toEqual([[]])
+  expect(report.levelUps.map(({ to }) => to)).toEqual([2])
+  expect(report.learned).toEqual([])
   expect(learned).toEqual({})
+})
+
+test('hidden HP and MP growth refills the actor who levels up before deferred recovery', () => {
+  const definition = actor()
+  const leveled = instantiate(definition)
+  leveled.exp = 1
+  const hiddenOnly = { ...instantiate(definition), id: 'hero-ally' }
+  for (const character of [leveled, hiddenOnly]) {
+    character.hiddenExp = {
+      maxHP: { exp: 2, level: 1 },
+      maxMP: { exp: 2, level: 1 },
+    }
+  }
+
+  const rng = vi.fn(() => 0)
+  const counts = { maxHP: 1, maxMP: 1 }
+  const report = grantBattleRewards(
+    [leveled, hiddenOnly],
+    {},
+    { hero: definition },
+    {},
+    { exp: 9, cash: 0, hiddenCounts: { hero: counts, 'hero-ally': counts }, deferRecovery: true },
+    rng,
+  )
+
+  expect(report.levelUps).toMatchObject([
+    { characterId: 'hero', from: 1, to: 2, after: { hp: 110, maxHP: 110, mp: 38, maxMP: 38 } },
+  ])
+  expect(report.hiddenUps).toEqual([
+    { characterId: 'hero', stat: 'maxHP', delta: 1 },
+    { characterId: 'hero', stat: 'maxMP', delta: 1 },
+    { characterId: 'hero-ally', stat: 'maxHP', delta: 1 },
+    { characterId: 'hero-ally', stat: 'maxMP', delta: 1 },
+  ])
+  expect(leveled).toMatchObject({ level: 2, hp: 111, maxHP: 111, mp: 39, maxMP: 39 })
+  expect(hiddenOnly).toMatchObject({ level: 1, hp: 40, maxHP: 101, mp: 10, maxMP: 31 })
+  expect(rng).toHaveBeenCalledTimes(10)
+
+  recoverBattleParty([leveled, hiddenOnly])
+  expect(leveled).toMatchObject({ hp: 111, mp: 39 })
+  expect(hiddenOnly).toMatchObject({ hp: 70, mp: 20 })
 })
 
 test('hidden exp floors before doubling and preserves existing pools without input-count mutation', () => {

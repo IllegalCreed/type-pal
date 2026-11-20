@@ -457,6 +457,37 @@ function validateScenario(scenario) {
   return expected
 }
 
+function isScriptedEnemyPass(engine, entry) {
+  const enemy = entry.before.enemies.find((unit) => unit?.id === entry.actorId)
+  const { native } = entry
+  if (
+    entry.actorSide !== 'enemy' ||
+    entry.kind !== 'pass' ||
+    native?.inaction !== 'scripted-pass' ||
+    !enemy?.alive ||
+    enemy.statuses.sleep > 0 ||
+    enemy.statuses.paralyzed > 0 ||
+    enemy.statuses.confused > 0 ||
+    !entry.before.players.some(({ hp }) => hp > 0) ||
+    !same(canonicalSnapshot(entry.before), canonicalSnapshot(entry.after))
+  )
+    return false
+  if (engine === 'game')
+    return (
+      !enemy.statuses.silence &&
+      native.scriptedPass?.magic === 0xffff &&
+      native.command?.type === 'pass' &&
+      entry.before.players.some(({ slot, hp }) => slot === native.command.target && hp > 0)
+    )
+  return (
+    native.scriptedPass?.fallback?.action?.kind === 'pass' &&
+    native.scriptedPass.fallback.chancePercent === 100 &&
+    native.lastAction?.kind === 'pass' &&
+    native.lastAction.side === 'enemy' &&
+    native.lastAction.idx === enemy.slot
+  )
+}
+
 /** Validate trace provenance and shape before a scenario-specific business oracle. */
 export function validateRecording(trace, scenario) {
   requireValue(
@@ -534,6 +565,15 @@ export function validateRecording(trace, scenario) {
     action(entry, `actions[${i}]`, 'integrity', true)
     snapshot(entry.before, `actions[${i}].before`)
     snapshot(entry.after, `actions[${i}].after`)
+    if (entry.native?.inaction === 'scripted-pass')
+      requireValue(
+        isScriptedEnemyPass(trace.engine, entry),
+        'integrity',
+        'scripted-enemy-pass-producer',
+        `actions[${i}]`,
+        'unchanged battle state and a live enemy using a native skip instruction',
+        entry,
+      )
   }
   const rounds = trace.rounds ?? []
   for (const [i, entry] of rounds.entries()) {
@@ -817,7 +857,8 @@ function assertBusinessConformance(trace, expected) {
         enemy?.alive &&
           (entry.kind !== 'pass' ||
             (entry.native?.inaction === 'incapacitated' &&
-              (enemy.statuses.sleep > 0 || enemy.statuses.paralyzed > 0))),
+              (enemy.statuses.sleep > 0 || enemy.statuses.paralyzed > 0)) ||
+            isScriptedEnemyPass(trace.engine, entry)),
         'integrity',
         'enemy-action-producer',
         `actions[${i}]`,

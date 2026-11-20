@@ -708,7 +708,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "kind": "nudgeParty",
@@ -717,7 +717,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "nudgeParty",
@@ -726,7 +726,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "nudgeParty",
@@ -735,7 +735,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "kind": "nudgeParty",
@@ -744,7 +744,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "nudgeParty",
@@ -753,7 +753,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "kind": "nudgeParty",
@@ -768,21 +768,24 @@
                       "facing": "down"
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
                       "facing": "left"
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
                       "facing": "up"
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
@@ -790,17 +793,17 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
-                    },
-                    {
-                      "kind": "nudgeParty",
-                      "dx": -32,
-                      "dy": 0
+                      "ms": 400
                     },
                     {
                       "kind": "setActorSprite",
                       "actor": "li-xiaoyao",
                       "sprite": "sprite-193"
+                    },
+                    {
+                      "kind": "nudgeParty",
+                      "dx": -32,
+                      "dy": 0
                     },
                     {
                       "kind": "setPartyFacing",
@@ -852,6 +855,14 @@
                       }
                     },
                     {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s002",
+                        "entity": "e39"
+                      },
+                      "frame": 2
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -877,6 +888,11 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "in",
+                      "ms": 600
                     },
                     {
                       "kind": "wait",
@@ -1036,14 +1052,10 @@
                           }
                         ],
                         "identity": {
-                          "kind": "unbound",
-                          "speaker": "spk.李逍遥",
-                          "portrait": {
-                            "asset": "portrait.pal.010",
-                            "side": "left"
-                          }
+                          "kind": "narration"
                         },
-                        "slot": "top"
+                        "slot": "top",
+                        "portraitLayout": true
                       }
                     },
                     {
@@ -1153,10 +1165,6 @@
                           "value": "c8-731fd69bc3f4"
                         }
                       }
-                    },
-                    {
-                      "kind": "loadScene",
-                      "scene": "s001"
                     }
                   ]
                 }

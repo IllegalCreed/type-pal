@@ -50,7 +50,22 @@ describe('BattleActionPresentationScheduler', () => {
     expect(scheduler.advanceScript(0)).toBe('inactive')
   })
 
-  test('ordinary actions consume one 40ms beat without banking time for another action', () => {
+  test('shares elapsed frame time between a queue beat, playback and the next queue beat', () => {
+    const scheduler = new BattleActionPresentationScheduler()
+    expect(scheduler.consumeActionCadence(17)).toBe(false)
+    expect(scheduler.consumeActionCadence(17)).toBe(false)
+    expect(scheduler.consumeActionCadence(17)).toBe(true)
+    scheduler.start([frame(40), frame(20)], {})
+
+    expect(scheduler.advancePlayback(0)).toBe('playing')
+    expect(scheduler.advancePlayback(17)).toBe('playing')
+    expect(scheduler.advancePlayback(17)).toBe('playing')
+    expect(scheduler.advancePlayback(17)).toBe('finished')
+    expect(scheduler.consumeActionCadence(37)).toBe(false)
+    expect(scheduler.consumeActionCadence(1)).toBe(true)
+  })
+
+  test('discards a full missed beat after a stall and starts a fresh cadence at turn preparation', () => {
     const scheduler = new BattleActionPresentationScheduler()
     expect(scheduler.consumeActionCadence(39)).toBe(false)
     expect(scheduler.consumeActionCadence(1)).toBe(true)
@@ -60,6 +75,11 @@ describe('BattleActionPresentationScheduler', () => {
     expect(scheduler.consumeActionCadence(500)).toBe(true)
     expect(scheduler.consumeActionCadence(0)).toBe(false)
     expect(scheduler.consumeActionCadence(1)).toBe(false)
+    expect(scheduler.consumeActionCadence(39)).toBe(true)
+    expect(scheduler.consumeActionCadence(17)).toBe(false)
+    scheduler.resetActionCadence()
+    expect(scheduler.consumeActionCadence(23)).toBe(false)
+    expect(scheduler.consumeActionCadence(17)).toBe(true)
     scheduler.satisfyActionCadence()
     expect(scheduler.consumeActionCadence(0)).toBe(false)
     expect(scheduler.consumeActionCadence(1)).toBe(true)

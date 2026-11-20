@@ -71,8 +71,8 @@ export function seedFormationTrail(pos: GridPos, facing: Facing, cap = 6): Trail
 /**
  * Exploration turns before writing its departure. Authored walking records the facing at
  * departure before updating the leader (SDLPal scene.c PAL_UpdateParty vs script.c PAL_PartyWalkTo).
- * The current leader sample is stored ahead of those two-frame histories. A placement has already
- * seeded the original history and also needs a distinct departure when authored movement begins.
+ * After placement the first move also records a distinct departure. The seeded history
+ * keeps the position and facing it had before the move.
  */
 export function pushTrail(
   trail: TrailEntry[],
@@ -82,10 +82,11 @@ export function pushTrail(
 ): void {
   const head = trail[0]
   if (head && head.pos.col === pos.col && head.pos.row === pos.row) return
-  if (head?.formationSeed && departingFacing !== undefined) {
-    trail.unshift({ pos: { ...head.pos }, dir: departingFacing })
+  const departure = departingFacing ?? facing
+  if (head?.formationSeed) {
+    trail.unshift({ pos: { ...head.pos }, dir: departure })
   } else if (head) {
-    head.dir = departingFacing ?? facing
+    head.dir = departure
   }
   trail.unshift({ pos: { ...pos }, dir: facing })
   if (trail.length > 6) trail.length = 6

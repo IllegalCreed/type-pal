@@ -135,4 +135,13 @@ describe('seedFormationTrail —— 0x46 / 场景出生立即铺开队形', () =
       expect(first?.pos).not.toEqual(s.party)
     })
   }
+
+  test('进场后第一次自由转向走动沿用落点处的旧朝向和两名队友站位', () => {
+    const trail = seedFormationTrail(g(72, -2), 'right')
+    pushTrail(trail, g(72, -1), 'down')
+    const formation = state(trail)
+
+    expect(computeFollowerPos(formation, 1, walkable)).toEqual({ pos: g(71, -2), dir: 'right' })
+    expect(computeFollowerPos(formation, 2, walkable)).toEqual({ pos: g(72, -1), dir: 'right' })
+  })
 })

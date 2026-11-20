@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（导航维护）；各任务Owner维护原件与caller
-Last reviewed: 2026-11-16
+Last reviewed: 2026-11-17
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -31,6 +31,109 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | 普通宝箱提取后的原件与来源 | [定向复跑原件](PAL-SHARED-CHEST-1-20261107.tar.gz)、[运行时来源核验](PAL-SHARED-CHEST-1-source-applicability.md) |
 | 四类取物 content23 的来源与原件 | [来源适用性](N6B-ITEM-FLOWS-1-source-applicability.md)、[N6b 任务及三份原生归档](../cards/N6B-ITEM-FLOWS-1.md#证据恢复与复跑) |
 | Q2 正常战斗复验 | [五批收尾双端原件和分屏](E2E-Q2-1-battle-closeout-20261116.tar.gz)、[前两批原件与分屏](E2E-Q2-1-battle-followup-20261111.tar.gz)、[第三批原件与分屏](E2E-Q2-1-battle-mechanisms-20261111.tar.gz)、[赤毒头像返工](E2E-Q2-1-battle-poison-face-20261111.tar.gz)、[第四批动画与带声分屏](E2E-Q2-1-battle-av-20261112.tar.gz)、[防御复位与自动格挡](E2E-Q2-1-battle-guard-20261112.tar.gz)、[行动队列节拍与原速分屏](E2E-Q2-1-battle-action-cadence-20261112.tar.gz)、[玩家物攻伤亡与续战](E2E-Q2-1-battle-player-casualties-20261112.tar.gz)、[伤亡对白、雷咒、毒伤与全灭](E2E-Q2-1-battle-casualty-presentations-20261113.tar.gz)、[玩家仙术、合击、投掷与状态](E2E-Q2-1-player-battle-actions-20261113.tar.gz)、[爆炸与同批法术层序复验](E2E-Q2-1-spell-layer-recheck-20261113.tar.gz)、[合击降级和回梦收招](E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz)、[战斗道具与投掷](E2E-Q2-1-battle-item-effects-20261113.tar.gz)、[投掷、异常解除与友方仙术](E2E-Q2-1-battle-status-and-throws-20261113.tar.gz)、[敌方施法与毒道具](E2E-Q2-1-enemy-casts-and-poisons-20261114.tar.gz)、[横向卷轴文字与原速分屏](E2E-Q2-1-scroll-text-20261114.tar.gz)、[特殊状态与增益分屏](E2E-Q2-1-special-status-and-buffs-20261114.tar.gz)、[复活与明雷掉落原件和分屏](E2E-Q2-1-world-rewards-and-revival-20261114.tar.gz)、[转场与复活演出复验原件](E2E-Q2-1-battle-presentation-alignment-20261114.tar.gz)、[战斗退出与存读双端原件](E2E-Q2-1-battle-lifecycle-20261115.tar.gz)、[同批原始浏览器音画](E2E-Q2-1-battle-lifecycle-native-av-20261115.tar.gz)、[战斗会话来源校准](E2E-Q2-1-battle-session-source-applicability.md) |
+| Q2 战场逐项验证 | [52 个战场的双端原始画布、轨迹与反控](E2E-Q2-1-battle-field-render-20261116.tar.gz) |
+| Q2 鞭类逐项验证 | [三把鞭子的群攻与投掷、前后比较和带声分屏](E2E-Q2-1-whip-attacks-20261116.tar.gz) |
+| Q2 玉佛寺场地 | [原剧情两战、场地修复、两僧实绘及音效差异](E2E-Q2-1-jade-buddha-temple-20261116.tar.gz) |
+| Q2 召唤、成长与战外装卸 | [玉佛寺召唤声与首战成长、三把鞭子装卸的双端原件和原声分屏](E2E-Q2-1-temple-and-whip-follow-up-20261116.tar.gz) |
+| Q2 方丈胜利与离寺 | [玉佛寺二战施法、结算、剧情授物和庙外复控的双端原件与分屏](E2E-Q2-1-jade-buddha-victory-20261116.tar.gz) |
+| Q2 九种玩家召唤 | [真实施法双端对照、反例及酒神原速带声分屏](E2E-Q2-1-player-summons-20261116.tar.gz) |
+| Q2 召唤受击提亮 | [九种召唤四拍实绘、色偏及酒神原始录像抽帧](E2E-Q2-1-player-summon-hit-flash-20261116.tar.gz) |
+| Q2 敌方召唤和分裂 | [方丈再召唤、菜刀婆婆召唤、两种分裂的原件、反例及原速带声分屏](E2E-Q2-1-summon-and-division-20261116.tar.gz) |
+| Q2 敌方召唤逐项验收 | [11 种召唤者、场地与原始脚本、复色像素及原速带声分屏](E2E-Q2-1-enemy-summoner-roster-20261116.tar.gz) |
+| Q2 拜月鬼降的失败卷轴 | [双端原始轨迹、离线判据、旧版反例和重录入口](E2E-Q2-1-enemy-spell-failure-20261116.tar.gz) |
+| Q2 敌方召唤剩余九处 | [五组双端原件、渐变反例、逐地址执行索引及分屏重录入口](E2E-Q2-1-enemy-summon-followup-20261117.tar.gz) |
+| Q2 连续行动节拍 | [双端实绘复验、修前反例及最小留存回执](E2E-Q2-1-consecutive-action-cadence-20261117.tar.gz) |
+| Q2 敌方变身 | [四条指令的首次复验与重录入口](E2E-Q2-1-enemy-transform-20261117.tar.gz) · [最终像素复验与旧分屏反例](E2E-Q2-1-enemy-transform-pixels-20261117.tar.gz) |
+| Q2 角色默认合击 | [七局双端原件、旧版反例与分屏重录入口](E2E-Q2-1-cooperative-roster-20261117.tar.gz) |
+| Q2 六名角色阵亡联动 | [21 组双端原件、修前反例与 12 段原速分屏重录入口](E2E-Q2-1-player-casualty-roster-20261117.tar.gz) |
+| Q2 战后补学仙术 | [22 组习得与逐页实绘、旧版反例和原速分屏重录入口](E2E-Q2-1-victory-spell-learning-20261117.tar.gz) |
+| Q2 逐项对账与雷水火土灵符 | [逐 ID 台账、5 组双端实跑和录制、反例与原速分屏重录](E2E-Q2-1-elemental-talismans-20261117.tar.gz) |
+| Q2 治疗与复活仙术 | [五组双端实跑、装备与复活姿态反例、逐 ID 回执和原速带声分屏重录](E2E-Q2-1-healing-and-revival-20261118.tar.gz) |
+| Q2 雷冰仙术与正负场效 | [七组双端实跑、缺拍反例、逐敌伤害与场效、原速带声分屏重录](E2E-Q2-1-player-thunder-ice-20261118.tar.gz) |
+| Q2 解除状态、解毒与护体 | [九组双端实跑、逐项判据、战内道具增量及原速带声分屏重录](E2E-Q2-1-cleanse-and-protect-20261118.tar.gz) |
+| Q2 火土仙术与场效 | [八组双端实跑、泰山压顶画序反例、逐敌伤害及原速带声分屏重录](E2E-Q2-1-player-fire-earth-20261118.tar.gz) |
+| Q2 六种剑诀与场地留痕 | [七组双端实跑、画序和震屏反例、解码像素与原速带声分屏重录](E2E-Q2-1-player-sword-arts-20261118.tar.gz) |
+| Q2 风卷残云、风神与三种攻击仙术 | [六组双端实跑、吹飞与受击反例、解码像素和原速带声分屏重录](E2E-Q2-1-player-other-attacks-20261118.tar.gz) |
+| Q2 夺魂、鬼降与灵葫咒 | [十组双端实战、概率和收妖门、失败卷轴及原速带声分屏重录](E2E-Q2-1-player-conditional-casts-20261118.tar.gz) |
+| Q2 三尸咒与万蛊蚀天 | [耗材与成长、直接伤害与回合末毒伤、七组双端及分屏重录](E2E-Q2-1-player-gu-casts-20261119.tar.gz) |
+| Q2 鬼降抖动复验 | [用户复核后的三组同局、实绘坐标及带声分屏重录](E2E-Q2-1-ghost-confusion-20261119.tar.gz) |
+| Q2 铜钱镖与乾坤一掷 | [七组双端、旧版实跑反例、缺钱卷轴与原速带声分屏重录](E2E-Q2-1-player-money-casts-20261119.tar.gz) |
+| Q2 金蝉脱壳 | [可逃和禁逃实战、退出及卷轴、原速带声分屏重录](E2E-Q2-1-player-escape-cast-20261119.tar.gz) |
+| Q2 四种敌方五灵仙术 | [双端实战、土咒震屏原像素及原速带声分屏重录](E2E-Q2-1-enemy-elemental-casts-20261119.tar.gz) |
+| Q2 五种敌方仙术与土蜘蛛掉落 | [震屏反例、实战及傀儡虫实收、原速带声分屏重录](E2E-Q2-1-enemy-direct-casts-20261119.tar.gz) |
+| Q2 姜清剧情与六种敌方仙术 | [逐轮出招、真实掉落、世界等待反例和两条原速带声分屏](E2E-Q2-1-jiang-qing-enemy-casts-20261119.tar.gz) |
+| Q2 三种敌方仙术和七星盘龙柱 | [逐轮出招、震屏、三种剧情出口和两条原速带声分屏](E2E-Q2-1-three-enemy-spells-and-dragon-pillars-20261119.tar.gz) |
+| Q2 姜清退移和末柱倒塌复验 | [同局脚点、震屏反例、两段过场末帧和原速带声分屏](E2E-Q2-1-story-presentation-recheck-20261119.tar.gz) |
+| Q2 末柱红廊外观 | [场景原生存档、角色着色像素与新版原速带声分屏](E2E-Q2-1-dragon-pillar-party-appearance-20261119.tar.gz) |
+| Q2 末柱交接与走廊群像 | [双端逐阶段画布、逐帧解码反例、共用回归和原速带声分屏](E2E-Q2-1-dragon-pillar-cutscene-boundaries-20261119.tar.gz) |
+| 分片 E2E 末柱至雪崖首句 | [红廊逐人实绘、八名群演、片尾边界、开工门、编辑器和原速带声分屏](E2E-PILLAR-CINEMATIC-1-20261119.tar.gz) |
+| Q2 雪崖剑圣入场 | [同局前景轨迹、自动行为反例、编辑器复验和原速带声分屏](E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz) |
+| Q2 六根龙柱与三种敌方仙术 | [原生接敌、返场、三招声画与分屏](E2E-Q2-1-six-dragon-entrances-and-enemy-casts-20261119.tar.gz) |
+| Q2 拜月教主三招 | [双端实战、毒槽、漏帧反例和原速带声分屏重录](E2E-Q2-1-moon-leader-casts-20261119.tar.gz) |
+| Q2 五件战内恢复道具 | [逐件实用、毒槽、实际倒地与复活、原速带声分屏](E2E-Q2-1-five-battle-recovery-items-20261119.tar.gz) |
+| Q2 十九件战内补血回气与复活道具 | [双端实用、回气飘字反例、失败回执和原速带声分屏重录](E2E-Q2-1-nineteen-battle-restorative-items-20261119.tar.gz) |
+| Q2 战内解毒道具和毒卵 | [十一件逐项实用、盐巴修前反例、复验及两条带声分屏重录](E2E-Q2-1-battle-antidotes-and-poison-eggs-20261119.tar.gz) |
+| Q2 最后六种战内道具 | [七个实战局面、隐身与成长反例、原速带声分屏及重录](E2E-Q2-1-final-battle-items-20261119.tar.gz) |
+| Q2 七种投掷道具与捆仙绳抵抗 | [八组双端原件、卷轴修前反例、原速带声分屏及重录](E2E-Q2-1-seven-throw-items-20261119.tar.gz) |
+| Q2 二十七件武器投掷 | [逐件实战、完整抽样、原速带声分屏及重录](E2E-Q2-1-weapon-throws-20261119.tar.gz) |
+| Q2 最后十四件投掷道具与养蛊孵化 | [五组实战、修前及漏卷轴反例、孵化和原速带声分屏](E2E-Q2-1-misc-throws-and-hatching-20261119.tar.gz) |
+| Q2 十三件战外恢复道具 | [两轮逐件实用、存档、录制恢复与带声分屏](E2E-Q2-1-world-recovery-items-20261119.tar.gz) |
+| Q2 战外选人和十一件恢复道具 | [修前反例、正式候选双端复验、存档与两条原速带声分屏](E2E-Q2-1-world-recovery-followup-20261119.tar.gz) |
+| Q2 战外复活与中毒致死 | [四件复活药、三个对照局面、原始反例与两条原速带声分屏](E2E-Q2-1-world-revival-and-poison-20261119.tar.gz) |
+| Q2 战外施毒、条件用物与永久成长 | [22 个新入口、三组修前反例、27 段原速带声分屏与复算原件](E2E-Q2-1-world-poison-and-growth-20261119.tar.gz) |
+| Q2 战外解毒、状态与升级道具 | [18 个新入口、盐巴修前反例、21 段原速带声分屏与复算原件](E2E-Q2-1-world-conditions-and-level-20261119.tar.gz) |
+| Q2 战外感知香、炼化与读物 | [十组双端实测、两组原地步态反例及原速带声分屏](E2E-Q2-1-world-incense-alchemy-and-reading-20261119.tar.gz) |
+| Q2 引路蜂和石钥匙 | [五组同局实测、五组反例、转身重试与原速带声分屏](E2E-Q2-1-world-scene-items-20261119.tar.gz) |
+| Q2 桂花酒和布包 | [五组同局实测、三组业务反例和原速带声分屏](E2E-Q2-1-world-quest-items-20261119.tar.gz) |
+| Q2 白河村钓竿和两条鱼 | [同局逐步实绘、两组反例与原速带声分屏](E2E-Q2-1-fishing-patrol-20261119.tar.gz) |
+| Q2 紫金丹客栈夜景初次复验 | [背景与站姿的历史原件和反例](E2E-Q2-1-inn-night-visibility-20261119.tar.gz) |
+| Q2 紫金丹客栈逐句对白与首帧 | [同局原件、拒绝发布反例和最终原速带声分屏](E2E-Q2-1-inn-scene-handoff-20261119.tar.gz) |
+| Q2 客栈柜面遮挡 | [双端同位姿局部合成回执](E2E-Q2-1-inn-cabinet-occlusion-20261119.tar.gz) |
+| Q2 装备装卸与选人 | [106 件逐件原件、菜单切换与原速带声分屏](E2E-Q2-1-equipment-operations-20261119.tar.gz) |
+| Q2 装备选人页外阴影和木纹 | [实跑前后像素回执、逐帧及原声验证](E2E-Q2-1-equipment-appearance-20261119.tar.gz) |
+| Q2 敌人出场与行动 | [153 种逐敌原件和五场原速带声分屏](E2E-Q2-1-opponents-153-20261119.tar.gz) · [十份原生录制](E2E-Q2-1-opponents-native-media-20261119.tar.gz) |
+| Q2 隐龙窟两战与黑蜘蛛 | [三场起战到返场的原件和原速带声分屏](E2E-Q2-1-boss-entrances-20261119.tar.gz) · [隐龙窟原生录制](E2E-Q2-1-hidden-dragon-bosses-native-20261119.tar.gz) · [黑蜘蛛原生录制](E2E-Q2-1-black-spider-boss-native-20261119.tar.gz) |
+| Q2 六神丹医馆回场 | [双端实际用物、第一次可见画面与原速带声分屏](E2E-Q2-1-clinic-first-visible-20261119.tar.gz) |
+| Q2 捕兽夹与芦苇漂 | [双端四个放置局面、旧提示反例和原速带声分屏](E2E-Q2-1-world-item-placement-20261119.tar.gz) |
+| Q2 圣灵珠与五灵珠祭坛 | [双端实际摆珠、首帧反例和原速带声分屏](E2E-Q2-1-altar-bead-chain-20261119.tar.gz) |
+| Q2 桃花林驱雾与土灵珠出口 | [双端两局、实际首帧和原速带声分屏](E2E-Q2-1-peach-grove-20261120.tar.gz) |
+| Q2 破天锤 | [六次实砸、踏板开路、失败提示与原速带声分屏](E2E-Q2-1-heaven-breaker-20261120.tar.gz) |
+| Q2 战外定时提示 | [16 件道具的失败分支、受阻放置、位置反例与原速带声分屏](E2E-Q2-1-world-notices-20261120.tar.gz) |
+| Q2 战外用物收尾 | [情书、玉佩、香蕉和凤纹手绢双端原件与分屏](E2E-Q2-1-final-world-quest-items-20261120.tar.gz) · [修前独立反例](E2E-Q2-1-final-world-quest-counters-20261120.tar.gz) |
+| Q2 扬州城墙女飞贼的胜利回场 | [实跑、反例与原速分屏](E2E-Q2-1-yangzhou-rooftop-20261120.tar.gz) |
+| Q2 城外林月如 | [双端实跑、原录、分屏复算与擂台诊断](E2E-Q2-1-lin-yueru-outside-20261120.tar.gz) |
+| Q2 林家擂台 | [第 1 卷](E2E-Q2-1-lin-family-ring-20261120-part1.tar.gz) · [第 2 卷](E2E-Q2-1-lin-family-ring-20261120-part2.tar.gz) · [第 3 卷](E2E-Q2-1-lin-family-ring-20261120-part3.tar.gz)，第 1 卷含双端原件索引与分屏复算入口 |
+| Q2 余杭客栈苗人头领 | [分屏、双端执行与恢复索引](E2E-Q2-1-inn-miao-leader-20261120.tar.gz) · [Game 原录卷](E2E-Q2-1-inn-miao-leader-20261120-originals-1.tar.gz) · [Reforge 原录卷](E2E-Q2-1-inn-miao-leader-20261120-originals-2.tar.gz) |
+| Q2 余杭客栈两名苗人随从 | [双端实测、原速带声分屏与复算索引](E2E-Q2-1-inn-miao-escorts-20261120.tar.gz) · [e60 原录](E2E-Q2-1-inn-miao-escorts-20261120-inn-e60-originals.tar.gz) · [e61 原录](E2E-Q2-1-inn-miao-escorts-20261120-inn-e61-originals.tar.gz) |
+| Q2 将军冢鬼将军与血池赤鬼王 | [双端实测、原速带声分屏与复算索引](E2E-Q2-1-tomb-bosses-20261120.tar.gz) · [鬼将军原录](E2E-Q2-1-tomb-bosses-20261120-ghost-general-originals.tar.gz) · [赤鬼王 Game原录](E2E-Q2-1-tomb-bosses-20261120-red-ghost-game-original.tar.gz) · [赤鬼王 Reforge原录](E2E-Q2-1-tomb-bosses-20261120-red-ghost-reforge-original.tar.gz) |
+| Q2 锁妖塔狐妖女普通遭遇 | [s148 双端原件与分屏](E2E-Q2-1-tower-fox-s148-20261120.tar.gz) · [s165 双端原件与分屏](E2E-Q2-1-tower-fox-s165-20261120.tar.gz) |
+| Q2 锁妖塔天鬼皇 | [双端报告与分屏](E2E-Q2-1-tian-ghost-20261120.tar.gz) · [Reforge 原录](E2E-Q2-1-tian-ghost-reforge-20261120.tar.gz) |
+| Q2 锁妖塔镇狱明王 | [双端报告与恢复入口](E2E-Q2-1-tower-ming-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-tower-ming-game-01-20261120.tar.gz) · [Game 原录 2/2](E2E-Q2-1-tower-ming-game-02-20261120.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-tower-ming-reforge-01-20261120.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-tower-ming-reforge-02-20261120.tar.gz) · [分屏 1/2](E2E-Q2-1-tower-ming-split-01-20261120.tar.gz) · [分屏 2/2](E2E-Q2-1-tower-ming-split-02-20261120.tar.gz) |
+| Q2 毒娘子 | [执行与复算](E2E-Q2-1-poison-lady-20261120.tar.gz) · [原录一](E2E-Q2-1-poison-lady-game-20261120.tar.gz) · [原录二](E2E-Q2-1-poison-lady-reforge-20261120.tar.gz) |
+| Q2 鬼阴坛石长老 | [双端执行与复算](E2E-Q2-1-stone-elder-guiyin-20261120.tar.gz) · [Game 原录](E2E-Q2-1-stone-elder-guiyin-game-20261120.tar.gz) · [Reforge 原录](E2E-Q2-1-stone-elder-guiyin-reforge-20261120.tar.gz) |
+| Q2 金蟾鬼母 | [回访走格、双端实战、反例与原速分屏](E2E-Q2-1-golden-toad-20261120.tar.gz) · [双端原录](E2E-Q2-1-golden-toad-originals-20261120.tar.gz) |
+| Q2 盖罗娇 | [胜负分支执行与原速分屏](E2E-Q2-1-gai-luojiao-20261120.tar.gz) · [败局双端原录](E2E-Q2-1-gai-luojiao-defeat-originals-20261120.tar.gz) · [胜局 Game 原录](E2E-Q2-1-gai-luojiao-victory-game-original-20261120.tar.gz) · [胜局 Reforge 原录](E2E-Q2-1-gai-luojiao-victory-reforge-original-20261120.tar.gz) |
+| Q2 擂台、客栈与进战清槽复验 | [双端日志与执行索引](E2E-Q2-1-presentation-recheck-20261120.tar.gz) · [带声分屏 1/2](E2E-Q2-1-presentation-recheck-20261120-splits-1.tar.gz) · [带声分屏 2/2](E2E-Q2-1-presentation-recheck-20261120-splits-2.tar.gz) · [原录 1/7](E2E-Q2-1-presentation-recheck-20261120-originals-1.tar.gz) · [原录 2/7](E2E-Q2-1-presentation-recheck-20261120-originals-2.tar.gz) · [原录 3/7](E2E-Q2-1-presentation-recheck-20261120-originals-3.tar.gz) · [原录 4/7](E2E-Q2-1-presentation-recheck-20261120-originals-4.tar.gz) · [原录 5/7](E2E-Q2-1-presentation-recheck-20261120-originals-5.tar.gz) · [原录 6/7](E2E-Q2-1-presentation-recheck-20261120-originals-6.tar.gz) · [原录 7/7](E2E-Q2-1-presentation-recheck-20261120-originals-7.tar.gz) |
+| Q2 桃花林木道人与返村 | [双端日志与原速分屏](E2E-Q2-1-wood-taoist-20261120.tar.gz) · [Game 原录](E2E-Q2-1-wood-taoist-20261120-game-original.tar.gz) · [Reforge 原录](E2E-Q2-1-wood-taoist-20261120-reforge-original.tar.gz) |
+| Q2 金翅凤凰与神木林返场 | [双端回执、判据及分屏](E2E-Q2-1-phoenix-20261120.tar.gz) · [原录 1/2](E2E-Q2-1-phoenix-20261120-game-original.tar.gz) · [原录 2/2](E2E-Q2-1-phoenix-20261120-reforge-original.tar.gz) |
+| Q2 擂台刘晋元转身复验 | [双端回执、判据及分屏](E2E-Q2-1-ring-jinyuan-20261120.tar.gz) · [原录 1/3](E2E-Q2-1-ring-jinyuan-20261120-game-original-1.tar.gz) · [原录 2/3](E2E-Q2-1-ring-jinyuan-20261120-game-original-2.tar.gz) · [原录 3/3](E2E-Q2-1-ring-jinyuan-20261120-reforge-original.tar.gz) |
+| Q2 麒麟洞火麒麟与归队 | [双端回执、判据及分屏](E2E-Q2-1-fire-qilin-20261120.tar.gz) · [原录 1/4](E2E-Q2-1-fire-qilin-20261120-game-original-1.tar.gz) · [原录 2/4](E2E-Q2-1-fire-qilin-20261120-game-original-2.tar.gz) · [原录 3/4](E2E-Q2-1-fire-qilin-20261120-reforge-original-1.tar.gz) · [原录 4/4](E2E-Q2-1-fire-qilin-20261120-reforge-original-2.tar.gz) |
+| Q2 野店石长老剧情自动战 | [双端回执、反例及分屏](E2E-Q2-1-stone-elder-auto-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-stone-elder-auto-20261120-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-stone-elder-auto-20261120-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-stone-elder-auto-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-stone-elder-auto-20261120-reforge-original-2.tar.gz) |
+| Q2 野店前景与正式分屏 | [四段对白、双端实绘及原速带声分屏](E2E-Q2-1-forest-inn-review-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-review-20261120-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-review-20261120-game-original-2.tar.gz) · [Reforge 原录 1/3](E2E-Q2-1-forest-inn-review-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/3](E2E-Q2-1-forest-inn-review-20261120-reforge-original-2.tar.gz) · [Reforge 原录 3/3](E2E-Q2-1-forest-inn-review-20261120-reforge-original-3.tar.gz) |
+| Q2 尚书府林天南 | [双端实跑、原录索引、反例及原速带声分屏](E2E-Q2-1-shangshu-lin-tiannan-20261120.tar.gz) · [Game 原录 1/3](E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-1.tar.gz) · [Game 原录 2/3](E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-2.tar.gz) · [Game 原录 3/3](E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-3.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-2.tar.gz) |
+| Q2 大理祭坛首次验收，旧分屏已撤回 | [双端实跑、原录索引、反例及失败分屏](E2E-Q2-1-dali-earth-beast-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-dali-earth-beast-20261120-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-dali-earth-beast-20261120-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-dali-earth-beast-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-dali-earth-beast-20261120-reforge-original-2.tar.gz) |
+| Q2 大理求雨与祭坛复验 | [两段动画与街景复验、反例及已撤回的分屏](E2E-Q2-1-dali-rain-recheck-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-dali-rain-recheck-20261120-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-dali-rain-recheck-20261120-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-2.tar.gz) |
+| Q2 大理求雨全路线 | [双端原件、反例及原速带声分屏](E2E-Q2-1-dali-rain-route-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-dali-rain-route-20261120-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-dali-rain-route-20261120-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-dali-rain-route-20261120-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-dali-rain-route-20261120-reforge-original-2.tar.gz) |
+| Q2 南诏王宫两战 | [首帧反例、双端回执与原速带声分屏](E2E-Q2-1-southern-palace-20261120.tar.gz) · [Game 原录](E2E-Q2-1-southern-palace-20261120-game-original.tar.gz) · [Reforge 原录](E2E-Q2-1-southern-palace-20261120-reforge-original.tar.gz) |
+| Q2 拜月教主 | [原生实战、反例及原速带声分屏](E2E-Q2-1-baiyue-finale-20261120.tar.gz) · Game 原录 [1](E2E-Q2-1-baiyue-finale-20261120-game-original-1.tar.gz) [2](E2E-Q2-1-baiyue-finale-20261120-game-original-2.tar.gz) · Reforge 原录 [1](E2E-Q2-1-baiyue-finale-20261120-reforge-original-1.tar.gz) [2](E2E-Q2-1-baiyue-finale-20261120-reforge-original-2.tar.gz) |
+| Q2 七件装备授法 | [原生实战、判据与佛法无边原速带声分屏](E2E-Q2-1-equipment-grants-20261120.tar.gz) · [Game 原录](E2E-Q2-1-equipment-grants-20261120-game-original-1.tar.gz) · [Reforge 原录](E2E-Q2-1-equipment-grants-20261120-reforge-original-1.tar.gz) |
+| Q2 扬州院内女飞贼 | [双端原件、旧版反例、原速带声分屏](E2E-Q2-1-yangzhou-courtyard-20261120.tar.gz) · [Game 原录](E2E-Q2-1-yangzhou-courtyard-20261120-game-original-1.tar.gz) · [Reforge 原录](E2E-Q2-1-yangzhou-courtyard-20261120-reforge-original-1.tar.gz) |
+| Q2 酒神缺酒 | [实际施放失败、提示差异及双端复算](E2E-Q2-1-wine-without-item-20261120.tar.gz) |
+| Q2 酒神缺酒与负身法复验 | [录像、失败原件、比较与原声分屏](E2E-Q2-1-signed-equipment-and-wine-20261121.tar.gz) |
+| Q2 破天锤复跑与擂台暖场 | [双端轨迹与终档、暖场反例、破天锤原速带声分屏](E2E-Q2-1-hammer-route-and-ring-warmup-20261121.tar.gz) |
+| Q2 持竿初姿与火麒麟画序 | [双端首姿、画序反例、带原声的钓鱼分屏](E2E-Q2-1-fishing-hold-and-qilin-order-20261121.tar.gz) |
+| Q2 野店石长老赤血毒 | [两端复验、旧片差异、单次自爆短片和全场原速带声分屏](E2E-Q2-1-forest-inn-explosion-20261121.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-explosion-20261121-game-original-2.tar.gz) · [Reforge 原录 1/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-1.tar.gz) · [Reforge 原录 2/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-2.tar.gz) · [Reforge 原录 3/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-3.tar.gz) |
+| Q2 野店返场精确色幕 | [两端日志、旧色值反例、新版原速带声分屏](E2E-Q2-1-forest-inn-color-20261121.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-2.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

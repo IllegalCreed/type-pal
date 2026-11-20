@@ -1,3 +1,4 @@
+import type { TeleportOutPresentation } from '@type-pal/content'
 import {
   type AuthorItemCoreMap,
   type BaseSceneDef,
@@ -264,9 +265,9 @@ export class ProjectScriptRuntimeHost implements ScriptRuntimeHost {
     )
   }
 
-  teleportOut(signal: AbortSignal): Promise<boolean> {
+  teleportOut(signal: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean> {
     this.options.guardExecution?.(signal, 'teleportOut')
-    return this.retainedHost.teleportOut(signal)
+    return this.retainedHost.teleportOut(signal, presentation)
   }
 
   revealSceneEntry(

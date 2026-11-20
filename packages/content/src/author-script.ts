@@ -35,19 +35,22 @@ import type {
   RuntimeScriptLibrary,
 } from './runtime-script.js'
 import { runtimeCommandValidationOptions } from './runtime-script.js'
+import type { FadeColor } from './script.js'
 
 /** 作者意图保留类型化参数；仅在运行态投影边界展开，不回写作者正文。 */
-export type RewriteAuthorDialogueTree<T> = T extends RuntimeScriptFlow
-  ? AuthorScriptFlow
-  : T extends { kind: 'dialog'; cue: DialogueCue }
-    ? Omit<T, 'cue'> & { cue: AuthorDialogueCue }
-    : T extends readonly (infer Item)[]
-      ? RuntimeCommand extends Item
-        ? AuthorCommand[]
-        : RewriteAuthorDialogueTree<Item>[]
-      : T extends object
-        ? { [Key in keyof T]: RewriteAuthorDialogueTree<T[Key]> }
-        : T
+export type RewriteAuthorDialogueTree<T> = T extends FadeColor
+  ? T
+  : T extends RuntimeScriptFlow
+    ? AuthorScriptFlow
+    : T extends { kind: 'dialog'; cue: DialogueCue }
+      ? Omit<T, 'cue'> & { cue: AuthorDialogueCue }
+      : T extends readonly (infer Item)[]
+        ? RuntimeCommand extends Item
+          ? AuthorCommand[]
+          : RewriteAuthorDialogueTree<Item>[]
+        : T extends object
+          ? { [Key in keyof T]: RewriteAuthorDialogueTree<T[Key]> }
+          : T
 
 export type AuthorCommand = RewriteAuthorDialogueTree<RuntimeCommand> | AuthorGrantRewardCommand
 export interface AuthorStagesFlow extends Omit<RuntimeScriptFlow, 'stages'> {
@@ -74,17 +77,19 @@ type ResolveArrayEntry<T> = T extends AuthorGrantRewardCommand
   ? RuntimeCommand
   : ResolveAuthorDialogueTree<T>
 
-export type ResolveAuthorDialogueTree<T> = T extends AuthorAcquisitionFlow
-  ? RuntimeScriptFlow
-  : T extends AuthorGrantRewardCommand
-    ? RuntimeCommand[]
-    : T extends { kind: 'dialog'; cue: AuthorDialogueCue }
-      ? Omit<T, 'cue'> & { cue: DialogueCue }
-      : T extends readonly (infer Item)[]
-        ? ResolveArrayEntry<Item>[]
-        : T extends object
-          ? { [Key in keyof T]: ResolveAuthorDialogueTree<T[Key]> }
-          : T
+export type ResolveAuthorDialogueTree<T> = T extends FadeColor
+  ? T
+  : T extends AuthorAcquisitionFlow
+    ? RuntimeScriptFlow
+    : T extends AuthorGrantRewardCommand
+      ? RuntimeCommand[]
+      : T extends { kind: 'dialog'; cue: AuthorDialogueCue }
+        ? Omit<T, 'cue'> & { cue: DialogueCue }
+        : T extends readonly (infer Item)[]
+          ? ResolveArrayEntry<Item>[]
+          : T extends object
+            ? { [Key in keyof T]: ResolveAuthorDialogueTree<T[Key]> }
+            : T
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === 'object' && !Array.isArray(value)
@@ -100,15 +105,17 @@ type ExpandedArrayEntry<T> = T extends AuthorGrantRewardCommand
   ? AuthorCommand
   : ExpandedAuthorScriptTree<T>
 
-export type ExpandedAuthorScriptTree<T> = T extends AuthorAcquisitionFlow
-  ? AuthorStagesFlow
-  : T extends AuthorGrantRewardCommand
-    ? AuthorCommand[]
-    : T extends readonly (infer Item)[]
-      ? ExpandedArrayEntry<Item>[]
-      : T extends object
-        ? { [Key in keyof T]: ExpandedAuthorScriptTree<T[Key]> }
-        : T
+export type ExpandedAuthorScriptTree<T> = T extends FadeColor
+  ? T
+  : T extends AuthorAcquisitionFlow
+    ? AuthorStagesFlow
+    : T extends AuthorGrantRewardCommand
+      ? AuthorCommand[]
+      : T extends readonly (infer Item)[]
+        ? ExpandedArrayEntry<Item>[]
+        : T extends object
+          ? { [Key in keyof T]: ExpandedAuthorScriptTree<T[Key]> }
+          : T
 
 function transformAuthorScriptTree(
   input: unknown,

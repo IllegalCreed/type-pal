@@ -498,8 +498,11 @@ describe('performMagic', () => {
     expect(magicOverlays.length).toBeGreaterThan(0)
     for (const ov of magicOverlays) expect(ov.layerOffset).toBe(99)
   })
-  it('金蝉脱壳 scriptOnUse(0x3A)→ 触发 PlayerEscape 动画,不直接结束战斗', () => {
-    const { state, playerRoles, gs, bus } = makeActionFixture({ role: { mp: 99, maxMP: 99 } })
+  it('金蝉脱壳先进入施法起手，再执行带声退场', () => {
+    const { state, playerRoles, gs, bus } = makeActionFixture({
+      role: { mp: 99, maxMP: 99, magicSound: 9 },
+    })
+    state.players[0]!.pos = { x: 240, y: 170 }
     const commands: Command[] = [
       { op: 'end' },
       { op: 'raw', opcode: 0x3a, operands: [43072, 0, 0] },
@@ -533,9 +536,12 @@ describe('performMagic', () => {
       gs,
     })
     expect(playerRoles.roles[0]!.mp).toBe(66)
-    expect(state.fleeAnim).toEqual({ step: 0 })
+    expect(state.fleeAnim).toEqual({ step: 0, sound: 45 })
     expect(state.phase).toBe('performAction')
-    expect(gs.pendingSounds).toEqual([45])
+    expect(state.battleAnim?.frames.find((frame) => frame.sound === 9)?.fighters).toEqual([
+      { side: 'player', idx: 0, currentFrame: 5 },
+    ])
+    expect(gs.pendingSounds ?? []).toEqual([])
   })
   it('0x2E 抵抗分支以战斗旁白显示「失败　没有效果」', () => {
     const { state, playerRoles, bus, gs } = makeActionFixture({ role: { mp: 99, maxMP: 99 } })

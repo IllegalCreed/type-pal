@@ -36,7 +36,6 @@ export interface BattleCommandSelectionContext {
   throwableItems: readonly BattleSelectableItem[]
   skills: Readonly<Record<string, SkillData>>
   items: Readonly<Record<string, ItemData>>
-  money: number
 }
 
 export interface BattleCommandSelectionPort {
@@ -289,11 +288,7 @@ export class BattleCommandSelection {
         const skillId = list[this.skillIndex % list.length]
         if (skillId === undefined) throw new Error('战斗技能列表为空')
         const skill = context.skills[skillId]
-        if (
-          skill &&
-          context.player.mp >= (skill.cost.mp ?? 0) &&
-          context.money >= (skill.cost.money ?? 0)
-        ) {
+        if (skill && context.player.mp >= (skill.cost.mp ?? 0)) {
           if (skill.target === 'oneEnemy') {
             this.pendingSkillId = skillId
             this.currentPhase = 'target'
@@ -511,12 +506,7 @@ export class BattleCommandSelection {
     }
     if (action?.kind === 'cast') {
       const skill = context.skills[action.skillId]
-      if (
-        !skill ||
-        context.player.mp < (skill.cost.mp ?? 0) ||
-        context.money < (skill.cost.money ?? 0)
-      )
-        action = undefined
+      if (!skill || context.player.mp < (skill.cost.mp ?? 0)) action = undefined
     }
     if (action && 'targetEnemyIdx' in action && action.targetEnemyIdx !== undefined) {
       if (!context.aliveEnemyIndices.includes(action.targetEnemyIdx)) {

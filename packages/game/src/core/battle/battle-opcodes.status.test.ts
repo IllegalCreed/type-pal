@@ -316,6 +316,21 @@ describe('0x30 BuffPlayerStatPct', () => {
     expect(playerRoles.roles[1]!.defense).toBe(0)
   })
 
+  it('吉运按裸属性写入 Extra 并叠加已有装备', () => {
+    const { state, gs, playerRoles } = makeOpcodeBattle({
+      roles: [makeRole(0, { fleeRate: 46 })],
+    })
+    gs.PlayerRolesRuntime.rgwFleeRate[0] = 37
+    gs.rgEquipmentEffect[5]!.rgwFleeRate[0] = 9
+    const ctx: BattleCtx = { state, gs, playerRoles, target: { type: 'player', idx: 0 } }
+
+    dispatchBattleOpcode(0x30, [21, 90, 0], ctx)
+
+    expect(gs.rgEquipmentEffect[6]!.rgwFleeRate[0]).toBe(33)
+    expect(playerRoles.roles[0]!.fleeRate).toBe(79)
+    expect(gs.PlayerRolesRuntime.rgwFleeRate[0]).toBe(37)
+  })
+
   it('无 gs 退化路径:直接 mutate snapshot(叠加)', () => {
     const { state, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { dexterity: 40 })],

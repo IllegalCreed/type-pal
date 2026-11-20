@@ -5,13 +5,45 @@ export function scriptedDefeatObserver(input) {
   return `(${install})(${JSON.stringify(input)}, ${createSeedableRng}, ${createEvidenceRecorder})`
 }
 
-function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecorder) {
+function install(
+  {
+    engine,
+    scene,
+    gameScene,
+    contactScene = scene,
+    owner,
+    seed,
+    foreground,
+    entrance,
+    handoffScene,
+    visitScenes,
+    routeScenes,
+    contactActors = [],
+    routeContacts = [],
+    itemEntrance = false,
+    finale,
+    encounterCount = 1,
+  },
+  makeRng,
+  createRecorder,
+) {
+  const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
+  const sceneId = (number) => `s${String(number - 1).padStart(3, '0')}`
+  const isMainRouteScene = (id) => id === scene || id === contactScene
+  const observedScene = (id) =>
+    isMainRouteScene(id) || id === handoffScene || visitScenes?.includes(id)
+  const routeScene = (id) =>
+    isMainRouteScene(id) || id === entrance?.scene || routeScenes?.includes(id)
+  const movementKind = (id) =>
+    isMainRouteScene(id) ? 'move' : id === entrance?.scene ? 'entrance-move' : 'route-move'
+  const sceneCursors = new WeakSet()
   const events = [],
     errors = []
   let overflow = false,
     contact,
     started,
     ended,
+    encounter = 0,
     pendingAction,
     previousMove,
     previousFrame,
@@ -20,21 +52,51 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     entryLastBand,
     entryWorldPixels,
     worldGeometry,
+    lastWorldGeometry,
+    finaleHandoff,
     nextCue = 0
-  const { append } = createRecorder({
+  const { append, resources } = createRecorder({
     context: () => ({ atMs: performance.now() }),
     errors,
     onOverflow: () => {
       overflow = true
     },
   })
-  const event = (kind, details) => append(events, { kind, ...details }, 4096)
+  // This stream mixes sparse battle events with one receipt per submitted world frame.
+  // The recorder bounds both groups by bytes, including during long foreground visits.
+  const event = (kind, details) => append(events, { kind, ...details }, Number.MAX_SAFE_INTEGER)
   const seen = new Set()
+  const battleOnce = new Set([
+    'entry-source',
+    'entry-complete',
+    'command-menu-drawn',
+    'victory-summary-drawn',
+    'settlement',
+    'party-battle-sprites',
+  ])
+  const ownerKey = (kind) =>
+    encounterCount > 1 && battleOnce.has(kind) ? `${encounter}:${kind}` : kind
+  const has = (kind) => seen.has(ownerKey(kind))
   const once = (kind, details) => {
-    if (seen.has(kind)) return
-    seen.add(kind)
+    if (has(kind)) return
+    seen.add(ownerKey(kind))
     event(kind, details)
   }
+  let rng = makeRng(seed)
+  const nextEncounter = () => {
+    if (encounterCount === 1) return
+    if (encounter && !ended) throw new Error('the next battle opened before the previous result')
+    encounter++
+    if (encounter > encounterCount) throw new Error('unexpected additional encounter')
+    started = undefined
+    ended = undefined
+    pendingAction = undefined
+    entryStarted = false
+    entryPendingBand = undefined
+    entryLastBand = undefined
+    rng = makeRng(seed)
+  }
+  const allBattlesEnded = () => ended && (encounterCount === 1 || encounter === encounterCount)
   // Hash six logical-pixel lanes after a real draw. Game retains indexed framebuffer colors,
   // while Reforge renders directly in RGBA.
   const laneDigests = (image, scale) => {
@@ -66,7 +128,9 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     entryLastBand = band
     event('entry-band', { band, pixels })
   }
-  const roleName = (id) => ({ 0: 'li-xiaoyao', 2: 'lin-yueru' })[id] ?? String(id)
+  const roleName = (id) =>
+    ({ 0: 'li-xiaoyao', 1: 'zhao-linger', 2: 'lin-yueru', 4: 'anu', 5: 'gai-luojiao' })[id] ??
+    String(id)
   const reforgePartySprites = new WeakMap()
   const grid = ({ x, y }) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2, 0]
   const rfPos = ({ col, row, height }) => [col, row, height]
@@ -197,9 +261,9 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     }
   }
   const pushRoute = (source, state) => {
-    if (state.scene !== scene) return
+    if (!routeScene(state.scene)) return
     globalThis.__routeObserve(source, {
-      scene,
+      scene: state.scene,
       sceneVisit: 1,
       routeReady: state.ready,
       routeDialogue: state.box !== null,
@@ -220,15 +284,26 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
   const draw = (state, inBattle) => {
     const geometry = inBattle ? undefined : worldGeometry
     worldGeometry = undefined
-    if (state.scene !== scene) return
-    if (state.gameOver) once('ordinary-game-over-drawn', {})
+    if (foreground) lastWorldGeometry = geometry
     pushRoute('render:world-or-battle', state)
+    if (state.scene !== scene && !(visitScenes && observedScene(state.scene))) return
+    if (state.gameOver) once('ordinary-game-over-drawn', {})
     if (!contact) return
     const { ready, box, position, actors, party } = state
-    const key = JSON.stringify({ inBattle, ready, box, position, actors, party, geometry })
+    const key = JSON.stringify({
+      scene: state.scene,
+      inBattle,
+      ready,
+      box,
+      position,
+      actors,
+      party,
+      geometry,
+    })
     if (key !== previousFrame) {
       previousFrame = key
       event('paint', {
+        ...(visitScenes && { scene: state.scene }),
         surface: inBattle ? 'battle' : 'world',
         ready,
         box,
@@ -238,7 +313,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
         geometry,
       })
     }
-    if (ended && ready)
+    if (allBattlesEnded() && ready && state.scene === scene)
       once('world-control', {
         position,
         party,
@@ -251,7 +326,6 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       once('restored-world-menu-closed', { scene, position })
   }
   const menuClosed = () => seen.has('restored-world-menu-closed')
-  const rng = makeRng(seed)
   globalThis.__defeat = {
     seed,
     event,
@@ -264,11 +338,28 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
     read: () => {
       const state =
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
-      return { state, ended: !!ended, menuClosed: menuClosed() }
+      return {
+        state,
+        ...(finaleHandoff && { finaleHandoff }),
+        overflow,
+        ended: !!ended,
+        ...(encounterCount > 1 && { encounter }),
+        ...(ended && { outcome: ended.result }),
+        menuClosed: menuClosed(),
+      }
     },
-    trace: () => ({ engine, seed, timeOrigin: performance.timeOrigin, overflow, errors, events }),
+    worldDraw: () => lastWorldGeometry,
+    trace: () => ({
+      engine,
+      seed,
+      timeOrigin: performance.timeOrigin,
+      overflow,
+      errors,
+      events,
+      ...(foreground ? { resources: resources() } : {}),
+    }),
     beginWorldDraw(camera, walking, trail) {
-      if (!contact || !ended) return
+      if (!foreground && (!contact || !ended)) return
       worldGeometry = {
         camera: [camera.x, camera.y],
         walking,
@@ -291,7 +382,8 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       })
     },
     tagReforgePartyDraw(sprite, id, slot, spriteId, frame) {
-      if (contact && ended) reforgePartySprites.set(sprite, { id, slot, spriteId, frame })
+      if (foreground || (contact && ended))
+        reforgePartySprites.set(sprite, { id, slot, spriteId, frame })
     },
     reforgeCamera(camera) {
       if (worldGeometry) worldGeometry.camera = [camera.x, camera.y]
@@ -307,21 +399,70 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       })
     },
     gameContact(gs, npc) {
-      if (gs.wNumScene !== gameScene || `e${npc.id}` !== owner) return
-      contact = event('trigger', { scene, owner, ip: gs.eventCursor?.ip, position: grid(gs.party) })
+      const id = `e${npc.id}`
+      if (gs.wNumScene === entranceGameScene && id === entrance.owner) {
+        once('entrance-trigger', {
+          scene: entrance.scene,
+          owner: entrance.owner,
+          ip: gs.eventCursor?.ip,
+          position: grid(gs.party),
+        })
+      }
+      const routeScene = sceneId(gs.wNumScene)
+      if (routeContacts.some(({ scene, owner }) => scene === routeScene && owner === id))
+        event('scene-route-trigger', {
+          scene: routeScene,
+          owner: id,
+          ip: gs.eventCursor?.ip,
+          position: grid(gs.party),
+        })
+      if (routeScene !== contactScene || (id !== owner && !contactActors.includes(id))) return
+      contact = event('trigger', {
+        scene: routeScene,
+        owner: id,
+        ip: gs.eventCursor?.ip,
+        position: grid(gs.party),
+      })
     },
     reforgeContact(sceneId, id, position) {
-      if (sceneId !== scene || id !== owner) return
+      if (sceneId === entrance?.scene && id === entrance.owner)
+        once('entrance-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
+      if (routeContacts.some(({ scene, owner }) => scene === sceneId && owner === id))
+        event('scene-route-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
+      if (sceneId !== contactScene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
+    gameItemContact(gs, id, ip, target) {
+      if (!itemEntrance || sceneId(gs.wNumScene) !== contactScene) return
+      contact = event('item-trigger', {
+        scene: contactScene,
+        position: grid(gs.party),
+        itemId: String(id),
+        ip,
+        target,
+      })
+    },
+    reforgeItemContact(request) {
+      const state = reforgeWorld()
+      if (!itemEntrance || state?.scene !== contactScene) return
+      contact = event('item-trigger', {
+        scene: state.scene,
+        position: state.position,
+        itemId: request.itemId,
+        target: request.targetCharId ?? null,
+        origin: request.origin,
+      })
+    },
     gameDraw(gs, renderedBattle, indices) {
-      if (gs.wNumScene !== gameScene) return
+      if (!observedScene(sceneId(gs.wNumScene)) && gs.wNumScene !== entranceGameScene) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
-      if (!contact || ended) return
+      if (!contact) return
       const band = entryPendingBand
       entryPendingBand = undefined
-      if (!renderedBattle && !entryStarted) entryWorldPixels = indexDigests(indices)
+      if (!renderedBattle && !entryStarted && gs.wNumScene === gameScene)
+        entryWorldPixels = indexDigests(indices)
+      if (ended) return
       if (renderedBattle && band !== undefined && band !== entryLastBand)
         observeBand(band, indexDigests(indices))
       if (renderedBattle && entryLastBand === 6 && !gs.battleState.introFade)
@@ -338,8 +479,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       once('entry-source', { pixels })
     },
     reforgeEntry(frame, band, complete, scale) {
-      if (!entryStarted || (band === entryLastBand && (!complete || seen.has('entry-complete'))))
-        return
+      if (!entryStarted || (band === entryLastBand && (!complete || has('entry-complete')))) return
       const pixels = laneDigests(frame, scale)
       observeBand(band, pixels)
       if (complete)
@@ -351,19 +491,35 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       draw(state, renderedBattle)
     },
     gameOpcode(gs, cursor, command) {
-      if (
-        !contact ||
-        gs.wNumScene !== gameScene ||
-        cursor.triggerOwnerId !== Number(owner.slice(1))
-      )
-        return
+      if (!contact) return
+      const current = sceneId(gs.wNumScene)
+      const ownerScript =
+        current === contactScene &&
+        (cursor.triggerOwnerId === Number(owner.slice(1)) || (itemEntrance && cursor.itemScript))
+      const entryScript =
+        visitScenes && observedScene(current) && cursor.onEnterSceneId === gs.wNumScene
+      if (!ownerScript && !entryScript) return
+      if (entryScript && cursor.ip === cursor.onEnterStartIp && !sceneCursors.has(cursor)) {
+        sceneCursors.add(cursor)
+        event('scene-hook', { scene: current, start: cursor.onEnterStartIp })
+      }
       if (command.opcode === 7 || command.op === 'startBattle') {
+        nextEncounter()
         entryStarted = true
         once('entry-source', { pixels: entryWorldPixels })
+      }
+      const target = command.op === 'loadScene' ? sceneId(command.sceneId) : undefined
+      if (visitScenes && ended && target === handoffScene) {
+        const { party, cash, inventory } = gameWorld(gs)
+        once('post-battle-party', { party, cash, inventory })
       }
       // Some frames retry the same waiting instruction. The raw pointer and command
       // remain visible without inventing repeated logical writes for that wait.
       event('script-op', {
+        ...(visitScenes && {
+          scene: current,
+          target,
+        }),
         ip: cursor.ip,
         op: command.op,
         opcode: command.opcode,
@@ -372,25 +528,59 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
           ? { message: command.messageIndex, text: command.text }
           : {}),
       })
+      if (finale && ended && cursor.ip === finale.ip && command.opcode === 0xa0 && !finaleHandoff) {
+        finaleHandoff = event('ending-handoff', { scene: current, ip: cursor.ip })
+      }
     },
-    reforgeOpcode(self, path, command) {
-      if (!contact || self?.scene !== scene || self.entity !== owner) return
+    reforgeSceneHook(scene, slot, resolved) {
+      if (!visitScenes || !contact || !observedScene(scene) || slot !== 'onEnter') return
+      event('scene-hook', { scene, variant: resolved.hookId, stage: resolved.cursor.stage })
+    },
+    reforgeOpcode(self, path, command, timing) {
+      if (!contact) return
+      const current = globalThis.__rfScene?.id
+      const ownerScript = self?.scene === contactScene && self.entity === owner
+      const entryScript = visitScenes && !self && timing === 'interactive' && observedScene(current)
+      if (!ownerScript && !entryScript) return
       const op = command.kind === 'leaf' ? command.command : command
+      if (op.kind === 'startBattle') nextEncounter()
+      if (visitScenes && ended && op.kind === 'loadScene' && op.scene === handoffScene) {
+        const { party, cash, inventory } = reforgeWorld()
+        once('post-battle-party', { party, cash, inventory })
+      }
       event('script-op', {
+        ...(visitScenes && {
+          scene: current,
+          ...(op.kind === 'loadScene' && { target: op.scene }),
+          ...(op.kind === 'selectSceneHooks' && { selection: op.selection }),
+        }),
         path,
         op: op.kind,
         ...(op.kind === 'dialog' ? { rows: op.cue.rows, speaker: op.cue.speaker } : {}),
         ...(op.kind === 'playSound' ? { asset: op.asset } : {}),
         ...(op.kind === 'setParty' ? { members: op.members } : {}),
       })
+      if (finale && ended && op.kind === 'quitToTitle' && !finaleHandoff) {
+        finaleHandoff = event('ending-handoff', { scene: current, path, videos: op.videos })
+      }
     },
     reforgeArm(self, path, arm) {
-      if (self?.scene === scene && self.entity === owner) event('script-result', { path, arm })
+      const ownerScript = self?.scene === contactScene && self.entity === owner
+      const arrivalScript = contactScene !== scene && !self && globalThis.__rfScene?.id === scene
+      if (ownerScript || arrivalScript) event('script-result', { path, arm })
+    },
+    reforgePartyBattleSprites(sprites) {
+      if (visitScenes && contact) once('party-battle-sprites', { sprites })
     },
     reforgeMove(sceneId, from, to, facing) {
-      if (sceneId !== scene) return
+      if (!routeScene(sceneId)) return
       const state = reforgeWorld()
-      event('move', { from: rfPos(from), to: rfPos(to), facing })
+      event(movementKind(sceneId), {
+        ...(routeScenes && { scene: sceneId }),
+        from: rfPos(from),
+        to: rfPos(to),
+        facing,
+      })
       pushRoute('commit:player.input', state)
     },
     command(slot, turn, action) {
@@ -415,6 +605,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
         cash: world.money,
         inventory: ordered(world.inventory),
       })
+      if (encounterCount > 1 && encounter < encounterCount) entryStarted = false
     },
     gameOver: () => once('ordinary-game-over-drawn', {}),
     loadLastSave: () => event('load-last-save', {}),
@@ -424,12 +615,18 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       event('music-stop', { track: Number(String(track).split('.').at(-1)), context }),
   }
   globalThis.__innGame = (gs, source) => {
-    if (gs.wNumScene !== gameScene) return
+    const id = sceneId(gs.wNumScene)
+    if (!routeScene(id)) return
     if (source === 'before:tickSceneInput') previousMove = grid(gs.party)
     if (source !== 'commit:tickSceneInput') return
     const to = grid(gs.party)
     if (previousMove?.some((n, i) => n !== to[i]))
-      event('move', { from: previousMove, to, facing: gs.party.facing })
+      event(movementKind(id), {
+        ...(routeScenes && { scene: id }),
+        from: previousMove,
+        to,
+        facing: gs.party.facing,
+      })
     pushRoute(source, gameWorld(gs))
   }
   globalThis.__defeatGameRestored = (gs) => event('restore', { scene: gs.wNumScene })
@@ -445,6 +642,10 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       slots: gameWorld(gs).battle.slots,
       resume: { lost: gs.postBattleResume?.lostIp, won: gs.postBattleResume?.wonIp },
     })
+    if (visitScenes) {
+      const sprites = battle.players.map(({ roleId }) => roles.roles[roleId].spriteNumInBattle)
+      once('party-battle-sprites', { sprites })
+    }
   }
   globalThis.__battleGameCommand = (state, slot) => {
     if (started) globalThis.__defeat.command(slot, state.turn + 1, state.pendingActions.get(slot))
@@ -477,6 +678,7 @@ function install({ engine, scene, gameScene, owner, seed }, makeRng, createRecor
       gameOver,
       continuation: gs.eventCursor?.ip,
     })
+    if (encounterCount > 1 && encounter < encounterCount) entryStarted = false
   }
   globalThis.__battleGameSettlement = () => once('settlement', {})
   globalThis.__battleGameRandom = (_seed, _state, value) => {

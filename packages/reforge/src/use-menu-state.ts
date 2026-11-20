@@ -4,7 +4,7 @@
 //    用光(该物从 usableItems 消失)才回列表。
 //  - 脚本/全体类(triggerScript / target≠oneAlly,如土灵珠脱离洞窟、圣灵符全体)→ 不选目标,直接执行
 //    (原版 applyToAll:RunScript; consume; return)。
-//  - 光标跨开关记忆(原版 iCurInvMenuItem)→ openUseMenu 收 initialCursor,记忆由 main.ts 持有。
+//  - MenuSession 记住物品列表光标和上次选中的队伍槽位，供重开面板恢复。
 import {
   type ItemData,
   type ItemDataMap,
@@ -20,6 +20,8 @@ export interface UseMenuState {
   phase: 'pick-item' | 'pick-target'
   items: ItemData[]
   cursor: number
+  /** 选人光标的位置。执行请求使用该槽位的角色 ID。 */
+  targetIdx: number
   selectedItemId?: string
 }
 
@@ -28,14 +30,16 @@ export function openUseMenu(
   world: WorldState,
   items: ItemDataMap,
   initialCursor = 0,
+  initialTargetIdx = 0,
 ): UseMenuState {
   const list = usableItems(world, items)
   const cursor = list.length === 0 ? 0 : Math.min(Math.max(0, initialCursor), list.length - 1)
-  return { active: true, phase: 'pick-item', items: list, cursor }
+  const targetIdx = world.party[initialTargetIdx] ? initialTargetIdx : 0
+  return { active: true, phase: 'pick-item', items: list, cursor, targetIdx }
 }
 
 export function closeUseMenu(): UseMenuState {
-  return { active: false, phase: 'pick-item', items: [], cursor: 0 }
+  return { active: false, phase: 'pick-item', items: [], cursor: 0, targetIdx: 0 }
 }
 
 /** pick-item 网格导航:↑↓ ±3,←→ ±1;越界吸附首/尾(对齐 inventory-menu setCursorClamp)。 */
@@ -51,6 +55,12 @@ export function useMoveCursor(
   // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
   const next = s.cursor + delta
   return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
+}
+
+/** 单体目标按队伍顺序前后环绕，包括可由复活道具选中的倒地队员。 */
+export function useMoveTarget(s: UseMenuState, partySize: number, step: -1 | 1): UseMenuState {
+  if (s.phase !== 'pick-target' || partySize <= 1) return s
+  return { ...s, targetIdx: (s.targetIdx + step + partySize) % partySize }
 }
 
 /** pick-item 确认结果:单体回复/buff → 进选目标;脚本/全体类 → 已直接执行(返回新 world)。 */
@@ -106,17 +116,23 @@ export function useApply(
   return { itemId: s.selectedItemId, targetCharId, origin: 'pick-target', state: s }
 }
 
-/** 异步执行完成后的唯一菜单归并；失败保持原位，成功再按来源/配置决定留菜单或关闭。 */
+/** 异步执行完成后的菜单归并。放置不成功也走该道具配置的退场方式。 */
 export function finishUseExecution(
   request: UseExecutionRequest,
   outcome: WorldItemUseOutcome,
   items: ItemDataMap,
 ): UseMenuState {
+  if (
+    outcome.menu === 'close' &&
+    (outcome.status === 'success' || outcome.reason === 'placement-unavailable')
+  )
+    return closeUseMenu()
   if (outcome.status !== 'success') return request.state
-  if (outcome.menu === 'close') return closeUseMenu()
   if (request.origin === 'pick-target') {
     const stillUsable = usableItems(outcome.world, items).some((it) => it.id === request.itemId)
-    return stillUsable ? request.state : openUseMenu(outcome.world, items, 0)
+    return stillUsable
+      ? request.state
+      : openUseMenu(outcome.world, items, 0, request.state.targetIdx)
   }
-  return openUseMenu(outcome.world, items, request.state.cursor)
+  return openUseMenu(outcome.world, items, request.state.cursor, request.state.targetIdx)
 }

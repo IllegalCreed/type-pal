@@ -755,6 +755,21 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "unbound",
@@ -907,6 +922,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "unbound",
@@ -946,6 +965,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityState",
@@ -2003,6 +2026,60 @@
             "stages": [
               {
                 "id": "initial",
+                "body": [
+                  {
+                    "asset": "music.pal.036",
+                    "kind": "playMusic"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "after-revisit": {
+          "label": "回访山洞",
+          "order": 1,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "asset": "music.pal.036",
+                      "kind": "playMusic"
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "facing": "down",
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 0,
+                      "target": {
+                        "scene": "s103",
+                        "entity": "e1908"
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 600,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                },
+                "body": [],
+                "next": "later"
+              },
+              {
+                "id": "later",
                 "body": [
                   {
                     "asset": "music.pal.036",

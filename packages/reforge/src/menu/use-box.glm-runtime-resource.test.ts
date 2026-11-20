@@ -62,6 +62,7 @@ const state = (over: Partial<UseMenuState>): UseMenuState => ({
   phase: 'pick-item',
   items: [],
   cursor: 0,
+  targetIdx: 0,
   ...over,
 })
 

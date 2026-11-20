@@ -1,3 +1,4 @@
+import type { FadeColor } from '@type-pal/content'
 import { scriptWorkWait } from './script-work-queue.js'
 
 function fadeAbortError(message: string): Error {
@@ -115,4 +116,37 @@ export class SupersedingFadeDriver {
     if (error) effect.reject(error)
     else effect.resolve()
   }
+}
+
+/** Compose a scripted curtain over the current frame in both runtime and preview. */
+export function drawScriptFade(
+  ctx: CanvasRenderingContext2D,
+  opacity: number,
+  color: FadeColor,
+  direction: 'in' | 'out',
+): void {
+  if (opacity <= 0.001) return
+  const { width, height } = ctx.canvas
+  if (typeof color === 'string' || opacity >= 1) {
+    const channels =
+      typeof color === 'string' ? (color === 'red' ? '150,12,12' : '0,0,0') : color.join(',')
+    ctx.save()
+    ctx.fillStyle = `rgba(${channels},${opacity.toFixed(3)})`
+    ctx.fillRect(0, 0, width, height)
+    ctx.restore()
+    return
+  }
+  // Exact RGB curtains move each channel four units per step over 64 steps.
+  const revealing = direction === 'in'
+  const distance = 4 * Math.floor(64 * (revealing ? 1 - opacity : opacity))
+  const frame = ctx.getImageData(0, 0, width, height)
+  for (const [channel, solid] of color.entries()) {
+    for (let offset = channel; offset < frame.data.length; offset += 4) {
+      const pixel = frame.data[offset] ?? 0
+      const start = revealing ? solid : pixel
+      const target = revealing ? pixel : solid
+      frame.data[offset] = Math.max(start - distance, Math.min(start + distance, target))
+    }
+  }
+  ctx.putImageData(frame, 0, 0)
 }

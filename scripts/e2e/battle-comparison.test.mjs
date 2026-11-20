@@ -420,6 +420,42 @@ describe('battle evidence observer', () => {
     assert.equal(verdict.findings[0].rule, 'collector-integrity')
   })
 
+  test('records enemy hit brightness from the completed draw even when the sprite pose stays fixed', () => {
+    for (const [engine, colorField] of [
+      ['game', 'iColorShift'],
+      ['reforge', 'colorShift'],
+    ]) {
+      Function(
+        battleObserverScript({
+          scenarioId: 'medicine-then-victory',
+          runId: `run-${++run}`,
+          engine,
+          random,
+          observeEnemyColorShift: true,
+        }),
+      )()
+      const observer = globalThis.__battleEvidence
+      observer.start(state(50, 30, 2), 'battle:start')
+      for (const [beat, shift] of [0, 6, 0].entries()) {
+        observer.beginFrame('battle:render', { clockMs: beat * 40 })
+        const draw = { x: 100, y: 110, [colorField]: shift }
+        observer.labelFighter(draw, 'enemy', 0, false, 2)
+        observer.fighterDrawn(draw)
+        const undrawn = { ...draw, [colorField]: 9 }
+        observer.labelFighter(undrawn, 'enemy', 1, false, 2)
+        observer.endFrame()
+      }
+      assert.deepEqual(
+        observer
+          .read()
+          .presentations.map(({ payload }) =>
+            payload.enemies.map(({ slot, colorShift }) => [slot, colorShift]),
+          ),
+        [[[0, 0]], [[0, 6]], [[0, 0]]],
+      )
+    }
+  })
+
   test('callers cannot replace recording identity or omit a fact source', () => {
     const { observer } = capture()
     installBattleTraceObserver(

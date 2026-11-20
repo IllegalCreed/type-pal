@@ -4,8 +4,14 @@ import { checkBattleChoreography } from './battle-choreography.js'
 import type { CommandValidationOptions } from './command-validation-options.js'
 import type { GridPos } from './grid.js'
 import type { Facing } from './index.js'
-import type { Command as RuntimeCommandBase, SceneReveal, SceneSpawn, WalkSpeed } from './script.js'
-import { SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
+import type {
+  Command as RuntimeCommandBase,
+  SceneReveal,
+  SceneSpawn,
+  TeleportOutPresentation,
+  WalkSpeed,
+} from './script.js'
+import { checkCameraPanStart, checkSceneReveal, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import type { SpriteActionBinding } from './sprite.js'
 
 export type PageId = string
@@ -180,6 +186,25 @@ type ReplacedAuthorCommandKind =
 
 type AuthorLeafCommand = Exclude<RuntimeCommandBase, { kind: ReplacedAuthorCommandKind }>
 
+export type SceneTimelineAction =
+  | Extract<RuntimeCommandBase, { kind: 'fade' | 'cameraPan' }>
+  | { kind: 'nudgeEntity'; dx: number; dy: number }
+  | { kind: 'animEntity' }
+  | { kind: 'releaseEntity' }
+  | { kind: 'setEntityFacing'; facing: Facing }
+  | { kind: 'setEntityFrame'; frame: number }
+
+export interface SceneTimelineTrack {
+  id: string
+  label: string
+  target?: EntityAddress
+  cues: Array<{
+    atMs: number
+    repeat?: { count: number; intervalMs: number }
+    body: SceneTimelineAction[]
+  }>
+}
+
 export type BaseAuthorCommand =
   | AuthorLeafCommand
   | { kind: 'vanishEntity'; target?: EntityAddress; seconds?: number }
@@ -226,13 +251,21 @@ export type BaseAuthorCommand =
       music?: AssetId | null
       choreography?: import('./enemy.js').BattleChoreography[]
     }
-  | { kind: 'teleportOut'; onFail?: BaseAuthorCommand[] }
+  | ({ kind: 'teleportOut'; onFail?: BaseAuthorCommand[] } & TeleportOutPresentation)
   | { kind: 'confirm'; onYes: BaseAuthorCommand[]; onNo: BaseAuthorCommand[] }
+  | { kind: 'sceneTimeline'; label: string; tracks: SceneTimelineTrack[] }
   | { kind: 'finishStep'; next: StepExit }
   | { kind: 'returnScript' }
   | { kind: 'breakLoop' }
   | { kind: 'continueLoop'; loop?: LoopId }
-  | { kind: 'repeat'; id?: LoopId; label?: string; count: number; body: BaseAuthorCommand[] }
+  | {
+      kind: 'repeat'
+      id?: LoopId
+      label?: string
+      count: number
+      intervalMs?: number
+      body: BaseAuthorCommand[]
+    }
   | { kind: 'branch'; cond: AuthorCondition; then: BaseAuthorCommand[]; else?: BaseAuthorCommand[] }
   | {
       kind: 'loop'
@@ -279,6 +312,7 @@ const AUTHOR_ONLY_COMMAND_KINDS = {
   faceEntityToParty: true,
   loop: true,
   repeat: true,
+  sceneTimeline: true,
   finishStep: true,
   breakLoop: true,
   continueLoop: true,
@@ -631,6 +665,146 @@ function checkSceneTransition(value: unknown, path: string): void {
   throw new Error(`${path}.kind: 未知过渡类型`)
 }
 
+function checkSceneTimeline(
+  command: Record<string, unknown>,
+  path: string,
+  options: CommandValidationOptions,
+): void {
+  exactKeys(command, ['kind', 'label', 'tracks'], path)
+  nonEmptyString(command.label, `${path}.label`)
+  if (options.rootScope !== 'flow' || options.flowOwner === 'auto')
+    throw new Error(`${path}: 只允许前景步骤内的场景演出`)
+  if (!Array.isArray(command.tracks) || command.tracks.length === 0)
+    throw new Error(`${path}.tracks: 期望非空轨道`)
+  const ids = new Set<string>()
+  const targets = new Set<string>()
+  const fadeWindows: Array<{ start: number; end: number }> = []
+  let hasCameraPan = false
+  let totalDispatches = 0
+  for (const [trackIndex, rawTrack] of command.tracks.entries()) {
+    const at = `${path}.tracks[${trackIndex}]`
+    const track = record(rawTrack, at)
+    exactKeys(track, ['id', 'label', 'target', 'cues'], at)
+    const id = nonEmptyString(track.id, `${at}.id`)
+    if (ids.has(id)) throw new Error(`${at}.id: 重复轨道 ID ${id}`)
+    ids.add(id)
+    nonEmptyString(track.label, `${at}.label`)
+    if (!Array.isArray(track.cues) || track.cues.length === 0)
+      throw new Error(`${at}.cues: 期望非空动作组`)
+    const target = track.target
+    if (target !== undefined) {
+      checkEntityAddress(target, `${at}.target`)
+      const identity = JSON.stringify([target.scene, target.entity])
+      if (targets.has(identity)) throw new Error(`${at}: 同一角色不得由两条轨道写入`)
+      targets.add(identity)
+    }
+    let previousEnd = -1
+    for (const [cueIndex, rawCue] of track.cues.entries()) {
+      const where = `${at}.cues[${cueIndex}]`
+      const cue = record(rawCue, where)
+      exactKeys(cue, ['atMs', 'repeat', 'body'], where)
+      const start = Number(cue.atMs)
+      if (!Number.isSafeInteger(cue.atMs) || start < 0 || start <= previousEnd)
+        throw new Error(`${where}.atMs: 期望递增的非负整数毫秒，同轨动作不得重叠`)
+      let count = 1
+      let intervalMs = 0
+      if (cue.repeat !== undefined) {
+        const repeat = record(cue.repeat, `${where}.repeat`)
+        exactKeys(repeat, ['count', 'intervalMs'], `${where}.repeat`)
+        count = Number(repeat.count)
+        intervalMs = Number(repeat.intervalMs)
+        if (
+          !Number.isSafeInteger(repeat.count) ||
+          count < 2 ||
+          !Number.isSafeInteger(repeat.intervalMs) ||
+          intervalMs < 1
+        )
+          throw new Error(`${where}.repeat: 期望正间隔及至少两轮`)
+      }
+      previousEnd = start + (count - 1) * intervalMs
+      if (!Number.isSafeInteger(previousEnd)) throw new Error(`${where}: 演出结束时间超出安全整数`)
+      if (!Array.isArray(cue.body) || cue.body.length === 0)
+        throw new Error(`${where}.body: 期望非空指令`)
+      totalDispatches += count * cue.body.length
+      if (totalDispatches > 4096) throw new Error(`${path}: 演出动作超过 4096 条`)
+      for (const [actionIndex, rawAction] of cue.body.entries()) {
+        const actionPath = `${where}.body[${actionIndex}]`
+        const action = record(rawAction, actionPath)
+        if (action.kind === 'fade') {
+          exactKeys(action, ['kind', 'dir', 'ms', 'color'], actionPath)
+          const duration = Number(action.ms)
+          if (
+            target !== undefined ||
+            cue.body.length !== 1 ||
+            cue.repeat !== undefined ||
+            !Number.isSafeInteger(action.ms) ||
+            duration < 1 ||
+            !Number.isSafeInteger(start + duration) ||
+            (action.dir !== 'in' && action.dir !== 'out') ||
+            (action.color !== undefined && action.color !== 'black' && action.color !== 'red')
+          )
+            throw new Error(`${actionPath}: 淡变须独占动作组，且有确定的正整数延时`)
+          previousEnd = start + duration - 1
+          fadeWindows.push({ start, end: start + duration })
+        } else if (action.kind === 'cameraPan') {
+          exactKeys(action, ['kind', 'dx', 'dy', 'frames', 'startImmediately'], actionPath)
+          if (
+            target !== undefined ||
+            cue.body.length !== 1 ||
+            cue.repeat !== undefined ||
+            hasCameraPan ||
+            !Number.isFinite(action.dx) ||
+            !Number.isFinite(action.dy) ||
+            !Number.isSafeInteger(action.frames) ||
+            Number(action.frames) < 1 ||
+            action.startImmediately !== true
+          )
+            throw new Error(`${actionPath}: 镜头平移须独占同拍起步的动作组，且每段只允许一条`)
+          checkCameraPanStart(action, actionPath)
+          totalDispatches += Number(action.frames) - 1
+          if (totalDispatches > 4096) throw new Error(`${path}: 演出动作超过 4096 条`)
+          hasCameraPan = true
+        } else {
+          if (
+            action.kind !== 'nudgeEntity' &&
+            action.kind !== 'animEntity' &&
+            action.kind !== 'releaseEntity' &&
+            action.kind !== 'setEntityFacing' &&
+            action.kind !== 'setEntityFrame'
+          )
+            throw new Error(`${actionPath}: 只允许瞬时走位、动作帧和转向`)
+          if (!target) throw new Error(`${at}: 实体动作轨道须指定唯一目标`)
+          switch (action.kind) {
+            case 'nudgeEntity':
+              exactKeys(action, ['kind', 'dx', 'dy'], actionPath)
+              if (!Number.isFinite(action.dx) || !Number.isFinite(action.dy))
+                throw new Error(`${actionPath}: 位移须为有限像素值`)
+              break
+            case 'animEntity':
+            case 'releaseEntity':
+              exactKeys(action, ['kind'], actionPath)
+              break
+            case 'setEntityFacing':
+              exactKeys(action, ['kind', 'facing'], actionPath)
+              checkFacing(action.facing, `${actionPath}.facing`)
+              break
+            case 'setEntityFrame':
+              exactKeys(action, ['kind', 'frame'], actionPath)
+              if (!Number.isSafeInteger(action.frame) || Number(action.frame) < 0)
+                throw new Error(`${actionPath}.frame: 期望非负安全整数`)
+              break
+          }
+        }
+      }
+    }
+  }
+  fadeWindows.sort((a, b) => a.start - b.start)
+  for (const [index, fade] of fadeWindows.entries()) {
+    const previous = fadeWindows[index - 1]
+    if (previous && fade.start < previous.end) throw new Error(`${path}: 淡变区间重叠`)
+  }
+}
+
 export function checkBaseAuthorCommands(
   value: unknown,
   path: string,
@@ -671,6 +845,18 @@ export function checkBaseAuthorCommands(
       checkActorConditionCommandShape(command, commandPath)
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
+    if (kind === 'sceneTimeline') checkSceneTimeline(command, commandPath, options)
+    if (kind === 'cameraPan') checkCameraPanStart(command, commandPath)
+    if (kind === 'nudgeParty' && command.facing !== undefined)
+      checkFacing(command.facing, `${commandPath}.facing`)
+    if (kind === 'chasePlayer' && command.worldStep !== undefined) {
+      if (command.worldStep !== true) throw new Error(`${commandPath}.worldStep: 期望 true`)
+      if (
+        command.speed !== undefined &&
+        (!Number.isFinite(command.speed) || Number(command.speed) < 0)
+      )
+        throw new Error(`${commandPath}.speed: 期望非负有限数`)
+    }
     if (kind === 'playFrameAnimation') {
       exactKeys(
         command,
@@ -708,7 +894,8 @@ export function checkBaseAuthorCommands(
       if (command.entryId !== undefined) nonEmptyString(command.entryId, `${commandPath}.entryId`)
       if (command.entryId !== undefined && command.pos !== undefined)
         throw new Error(`${commandPath}: entryId 与 pos 不能同时存在`)
-      if (command.pos !== undefined) checkGridPos(command.pos, `${commandPath}.pos`)
+      if (command.pos !== undefined && command.pos !== 'current')
+        checkGridPos(command.pos, `${commandPath}.pos`)
       if (command.facing !== undefined) checkFacing(command.facing, `${commandPath}.facing`)
       if (command.transition !== undefined)
         checkSceneTransition(command.transition, `${commandPath}.transition`)
@@ -809,9 +996,19 @@ export function checkBaseAuthorCommands(
       if (command.label !== undefined) nonEmptyString(command.label, `${commandPath}.label`)
       if (options.rootScope === 'prepare') throw new Error(`${commandPath}: prepare 禁止循环`)
       if (kind === 'repeat') {
-        exactKeys(command, ['kind', 'id', 'label', 'count', 'body'], commandPath)
+        exactKeys(command, ['kind', 'id', 'label', 'count', 'intervalMs', 'body'], commandPath)
         if (!Number.isSafeInteger(command.count) || Number(command.count) < 1)
           throw new Error(`${commandPath}.count: 期望正安全整数`)
+        if (command.intervalMs !== undefined) {
+          if (options.rootScope !== 'flow' || options.flowOwner === 'auto')
+            throw new Error(`${commandPath}.intervalMs: 只允许前景步骤中的重复指令`)
+          if (
+            !Number.isSafeInteger(command.intervalMs) ||
+            Number(command.intervalMs) < 1 ||
+            !Number.isSafeInteger(Number(command.intervalMs) * Number(command.count))
+          )
+            throw new Error(`${commandPath}.intervalMs: 期望正毫秒整数，且总节拍不超过安全整数`)
+        }
       } else if (command.mode === 'forever') {
         exactKeys(command, ['kind', 'id', 'label', 'mode', 'body'], commandPath)
       } else {
@@ -875,8 +1072,14 @@ export function checkBaseAuthorCommands(
       if (command.mode !== 'buy' && command.mode !== 'sell')
         throw new Error(`${commandPath}.mode: 期望 buy|sell`)
     }
-    if (kind === 'teleportOut' && command.onFail !== undefined)
-      checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
+    if (kind === 'teleportOut') {
+      if (command.gatherParty !== undefined && typeof command.gatherParty !== 'boolean')
+        throw new Error(`${commandPath}.gatherParty: 期望 boolean`)
+      if (command.arrivalSound !== undefined)
+        nonEmptyString(command.arrivalSound, `${commandPath}.arrivalSound`)
+      if (command.onFail !== undefined)
+        checkBaseAuthorCommands(command.onFail, `${commandPath}.onFail`, options)
+    }
     if (kind === 'confirm') {
       exactKeys(command, ['kind', 'onYes', 'onNo'], commandPath)
       checkBaseAuthorCommands(command.onYes, `${commandPath}.onYes`, options)
@@ -926,9 +1129,7 @@ function checkSceneEntry(value: unknown, path: string, options: CommandValidatio
     loopDepth: 0,
     loopAncestors: undefined,
   })
-  const reveal = record(entry.reveal, `${path}.reveal`)
-  if (reveal.kind !== 'dither' && reveal.kind !== 'fade' && reveal.kind !== 'cut')
-    throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
+  checkSceneReveal(entry.reveal, `${path}.reveal`)
 }
 
 export interface CheckBaseScriptFlowOptions extends CommandValidationOptions {
@@ -961,8 +1162,7 @@ export function checkBaseScriptFlow(
     const stagePath = `${path}.stages[${index}]`
     if (stage.label !== undefined) nonEmptyString(stage.label, `${stagePath}.label`)
     if (stage.entry !== undefined) {
-      if (!options.allowSceneEntry || stage.id !== initial)
-        throw new Error(`${stagePath}.entry: 只允许 onEnter initial stage`)
+      if (!options.allowSceneEntry) throw new Error(`${stagePath}.entry: 只允许 onEnter 步骤`)
       checkSceneEntry(stage.entry, `${stagePath}.entry`, options)
     }
     checkBaseAuthorCommands(stage.body, `${stagePath}.body`, {

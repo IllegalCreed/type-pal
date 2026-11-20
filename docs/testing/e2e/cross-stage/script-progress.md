@@ -3,7 +3,7 @@
 Status: active
 Validity: current
 Owner: Codex
-Last reviewed: 2026-11-07
+Last reviewed: 2026-11-19
 Template: plan-status-v1 / 1.0.0
 
 ## 目标与时间范围
@@ -56,6 +56,10 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 当前机器记录如下。事件按实际记录时间追加，`from`连接该入口/context/轴的上一个记录状态；
 查询分别保留记录状态和受源码、依赖、证据、预览变化影响后的待复核状态。本页不另维护手工完成总数。
+
+2026-11-19，末柱红廊、两片之间群演及雪崖首句改按[剧情分片](../../../tasks/cards/E2E-PILLAR-CINEMATIC-1.md)验收；Q2 战斗记录沿用原范围。同局双端与编辑器证据见分片卡。
+
+2026-11-19，雪崖入场已有同局双端、前景权属与编辑器默认初态回执。取证到剑圣首句，全文合理化和离场未判完成。 [Q2 雪崖回执](../../domains/cross-phase/battle-foundation/report.md#2026-11-19-雪崖剑圣入场正文)
 
 2026-11-07，010 按正式 Reforge 的首叶前现场核对入宫、引路、开箱、饮水和交药。跨图预览、两份状态的引用、原生保存和重开单步复位分别留证。桃花林出口补名触及场景指纹，008/009 既有现场以原脚本和绑定的精确差异及新前驱复验续核，原历史事件保留。
 
@@ -223064,6 +223068,388 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "at": "2026-11-19T07:20:11.971Z",
+      "actor": "Codex /root（Q2 雪崖入场）",
+      "entry": {
+        "sceneId": "s150",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "q2-last-pillar-cliff-first-line-20261119",
+        "description": "s144/e2390 已毁六柱的同局原生存档，种子 4；实际获胜后随两段过场抵达 s150，观察到剑圣第一句。"
+      },
+      "sourceFingerprint": "556e73fc549240922c319633cb03b4b48d58309ebe4fc1135eeccb3e98758098",
+      "id": "q2-last-pillar-cliff-first-line-20261119:review",
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s150.json",
+          "sha256": "d06e727c9efef56ac80cc57968daf0a7488a85b255efac20f195766a1092b058"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "3b163e4f3eff40f651c773354813d7facda5fb85fa242eef1870d1d9d837bd43"
+        },
+        {
+          "path": "packages/reforge/src/scene-entry-session.ts",
+          "sha256": "2814440a54eb821a0537b270c98c0c3d6464e4659940f9e75292c1dadd36750b"
+        },
+        {
+          "path": "packages/reforge/src/script-compiler-core.ts",
+          "sha256": "fb1e7b623b19af62e6e2d463232a5bb37ba8ada69bc6b37ad57c1f52f96b1030"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz",
+          "sha256": "cdbb7a404b1a56446ab7914fabaf6a95889d190140ba61c478a7fcbf17cb59ac",
+          "selector": "sage-foreground.json: visible cues, painted strides and command ownership; execution.json: same-encounter save hashes"
+        }
+      ],
+      "note": "核淡入、走近、停四拍、转向到首句；后续对白和离场替身未实跑，整步骤仍待核。"
+    },
+    {
+      "at": "2026-11-19T07:20:11.971Z",
+      "actor": "Codex /root（Q2 雪崖入场）",
+      "entry": {
+        "sceneId": "s150",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "q2-last-pillar-cliff-first-line-20261119",
+        "description": "s144/e2390 已毁六柱的同局原生存档，种子 4；实际获胜后随两段过场抵达 s150，观察到剑圣第一句。"
+      },
+      "sourceFingerprint": "556e73fc549240922c319633cb03b4b48d58309ebe4fc1135eeccb3e98758098",
+      "id": "q2-last-pillar-cliff-first-line-20261119:initial-state",
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s150.json",
+          "sha256": "d06e727c9efef56ac80cc57968daf0a7488a85b255efac20f195766a1092b058"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "3b163e4f3eff40f651c773354813d7facda5fb85fa242eef1870d1d9d837bd43"
+        },
+        {
+          "path": "packages/reforge/src/scene-entry-session.ts",
+          "sha256": "2814440a54eb821a0537b270c98c0c3d6464e4659940f9e75292c1dadd36750b"
+        },
+        {
+          "path": "packages/reforge/src/script-compiler-core.ts",
+          "sha256": "fb1e7b623b19af62e6e2d463232a5bb37ba8ada69bc6b37ad57c1f52f96b1030"
+        },
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "155d519e8efd84bb35022721b8f6cde00df517d00b2792277572f904864d8477"
+        },
+        {
+          "path": "projects/pal/editor/script-preview.json",
+          "sha256": "7a70e994cfd294b766d81b7512073b48328f5740fdefaa06514750e36afd04ee"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz",
+          "sha256": "cdbb7a404b1a56446ab7914fabaf6a95889d190140ba61c478a7fcbf17cb59ac",
+          "selector": "foreground-sage.json: before-first-nudge; editor-verification.json: scene default, playback, reset and reload"
+        }
+      ],
+      "note": "运行首步前和编辑器默认场景摆放的三名相关实体一致，播放、重置、重开保全同一初态。沿用已持久化的场景摆放，本次未重写预览绑定；未独立验收的步骤仍只记取证。"
+    },
+    {
+      "at": "2026-11-19T07:20:11.971Z",
+      "actor": "Codex /root（Q2 雪崖入场）",
+      "entry": {
+        "sceneId": "s150",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "q2-last-pillar-cliff-first-line-20261119",
+        "description": "s144/e2390 已毁六柱的同局原生存档，种子 4；实际获胜后随两段过场抵达 s150，观察到剑圣第一句。"
+      },
+      "sourceFingerprint": "556e73fc549240922c319633cb03b4b48d58309ebe4fc1135eeccb3e98758098",
+      "id": "q2-last-pillar-cliff-first-line-20261119:optimization",
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "changed",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s150.json",
+          "sha256": "d06e727c9efef56ac80cc57968daf0a7488a85b255efac20f195766a1092b058"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ac9ee1b342efa818b3f5ee98ac75c309570c473b347a26c0ef94f0fad86f38e7"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "3b163e4f3eff40f651c773354813d7facda5fb85fa242eef1870d1d9d837bd43"
+        },
+        {
+          "path": "packages/reforge/src/scene-entry-session.ts",
+          "sha256": "2814440a54eb821a0537b270c98c0c3d6464e4659940f9e75292c1dadd36750b"
+        },
+        {
+          "path": "packages/reforge/src/script-compiler-core.ts",
+          "sha256": "fb1e7b623b19af62e6e2d463232a5bb37ba8ada69bc6b37ad57c1f52f96b1030"
+        },
+        {
+          "path": "packages/content/src/author-script-core.ts",
+          "sha256": "d2dbd6d149289b2867959cd493731cd41123c1580014b1b297d21697d469acaf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-Q2-1-cliff-sword-saint-walk-20261119.tar.gz",
+          "sha256": "cdbb7a404b1a56446ab7914fabaf6a95889d190140ba61c478a7fcbf17cb59ac",
+          "selector": "sage-foreground.json: 15 pairs of foreground leaves and no automatic leaves; execution.json: rejected ownership and six-step controls"
+        }
+      ],
+      "note": "改为随淡入一次性执行的前景定拍步行，由入场步骤持有步数、停顿与转身。旧候选画面相符但调用权属错误。离场待核，保留已修改状态。"
+    },
+    {
+      "at": "2026-11-19T08:48:15.448Z",
+      "entry": {
+        "sceneId": "s144",
+        "entityId": "e2390",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "sourceFingerprint": "1144463691f0903a734d47a969ea212b500e98376eaa77cfc97d40b32ddf10c3",
+      "context": {
+        "id": "last-pillar-cinematic-20261119",
+        "description": "s144/e2390 六柱已毁的同局原生存档，种子 4；实际胜利后跟到 s150 剑圣首句。只验本片，不是连续剧情前驱。"
+      },
+      "id": "last-pillar-cinematic-20261119:red-party",
+      "actor": "Codex /root/native_capture_audit",
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "note": "核最后一柱胜利正文的八次点名转身、实绘和脚点。已核此次触发的分支，未将分片判定外推七个起战指针。",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s144.json",
+          "sha256": "f88d0204290299e09335c23e04e79e5fefdabd1fd458a65cb8202ce1eb441957"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "a8752599580032fc642a55272af92bff0ac2e4b0f7006424a07d8570a8e68ead"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "1ea1fe7be8d8e441db8537c9195dbee58e29531f6586c059b4d3e45d13a5e52b"
+        },
+        {
+          "path": "scripts/e2e/dragon-pillar/compare.mjs",
+          "sha256": "0c2d5b9bf1de61b86f8d036244cb2dc29a032c428d117ba1c683358dafc38504"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+          "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+          "selector": "accepted.json: comparison.party and costume/palette witness; official-old-refusal.json"
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T08:48:15.448Z",
+      "entry": {
+        "sceneId": "s149",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "sourceFingerprint": "3ab0f3594e558ae0109f59ab67f9008cf5e2acd48839e300bfac15900d7a9fe9",
+      "context": {
+        "id": "last-pillar-cinematic-20261119",
+        "description": "s144/e2390 六柱已毁的同局原生存档，种子 4；实际胜利后跟到 s150 剑圣首句。只验本片，不是连续剧情前驱。"
+      },
+      "id": "last-pillar-cinematic-20261119:gallery-review",
+      "actor": "Codex /root/interlude_audit",
+      "reviewer": "Codex /root",
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "note": "核影片间八名群演的清晰路标、实绘帧序列、共同时间及前景拥有者；两片的首末帧与转场分别取证。底缘裁切和近黑末拍有单独对账。",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s149.json",
+          "sha256": "9b5a4e99ab73e35f8b86626cc41e864231b4fb295896d9d6915aa7de631b1f7e"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "598e8a370e4d78812e8e246543d85767f7f52d599ce06bbfc0fd3bc7d93c35f2"
+        },
+        {
+          "path": "scripts/e2e/dragon-pillar/gallery.mjs",
+          "sha256": "361cad8c7a0d20037c657aa76348cc6544eb59eed4cfeeb991286bbb5fba55c6"
+        },
+        {
+          "path": "scripts/e2e/dragon-pillar/compare.mjs",
+          "sha256": "0c2d5b9bf1de61b86f8d036244cb2dc29a032c428d117ba1c683358dafc38504"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+          "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+          "selector": "accepted.json: comparison.gallery, comparison.interlude and media.firstFilmDecode"
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T08:48:15.448Z",
+      "entry": {
+        "sceneId": "s149",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "sourceFingerprint": "3ab0f3594e558ae0109f59ab67f9008cf5e2acd48839e300bfac15900d7a9fe9",
+      "context": {
+        "id": "last-pillar-cinematic-20261119",
+        "description": "s144/e2390 六柱已毁的同局原生存档，种子 4；实际胜利后跟到 s150 剑圣首句。只验本片，不是连续剧情前驱。"
+      },
+      "id": "last-pillar-cinematic-20261119:gallery-initial",
+      "actor": "Codex /root/interlude_audit",
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "note": "编辑器按默认现场打开、在淡入期间实际播放并重置；没有写新的持久初态。",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s149.json",
+          "sha256": "9b5a4e99ab73e35f8b86626cc41e864231b4fb295896d9d6915aa7de631b1f7e"
+        },
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "ed19f6035c18765e7ac924d6830064295bcb8fe34c6ab3075a54d60afc299690"
+        },
+        {
+          "path": "projects/pal/editor/script-preview.json",
+          "sha256": "7a70e994cfd294b766d81b7512073b48328f5740fdefaa06514750e36afd04ee"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+          "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+          "selector": "editor/report.json: first, timelineProof and reset; comparison.interlude.firstFullActors"
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T08:48:15.448Z",
+      "entry": {
+        "sceneId": "s149",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "sourceFingerprint": "3ab0f3594e558ae0109f59ab67f9008cf5e2acd48839e300bfac15900d7a9fe9",
+      "context": {
+        "id": "last-pillar-cinematic-20261119",
+        "description": "s144/e2390 六柱已毁的同局原生存档，种子 4；实际胜利后跟到 s150 剑圣首句。只验本片，不是连续剧情前驱。"
+      },
+      "id": "last-pillar-cinematic-20261119:gallery-optimization",
+      "actor": "Codex /root/interlude_audit",
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "changed",
+      "note": "原挂自动的群演改为现有前景步骤持有的有限灯光及角色轨道。正式分屏证据已就绪，待作者复看。",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s149.json",
+          "sha256": "9b5a4e99ab73e35f8b86626cc41e864231b4fb295896d9d6915aa7de631b1f7e"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "598e8a370e4d78812e8e246543d85767f7f52d599ce06bbfc0fd3bc7d93c35f2"
+        },
+        {
+          "path": "packages/content/src/author-script-core.ts",
+          "sha256": "236a469cfa1d4cae6cdb22ef0b926cab75d0f87bdb0da3606c7a92f871733d61"
+        },
+        {
+          "path": "scripts/e2e/dragon-pillar/compare.mjs",
+          "sha256": "0c2d5b9bf1de61b86f8d036244cb2dc29a032c428d117ba1c683358dafc38504"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+          "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+          "selector": "accepted.json: comparison.gallery actor foreground counts and per-pose frames"
+        }
+      ]
+    },
+    {
+      "at": "2026-11-19T08:48:15.448Z",
+      "entry": {
+        "sceneId": "s150",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "sourceFingerprint": "556e73fc549240922c319633cb03b4b48d58309ebe4fc1135eeccb3e98758098",
+      "context": {
+        "id": "last-pillar-cinematic-20261119",
+        "description": "s144/e2390 六柱已毁的同局原生存档，种子 4；实际胜利后跟到 s150 剑圣首句。只验本片，不是连续剧情前驱。"
+      },
+      "id": "last-pillar-cinematic-20261119:cliff-first-line",
+      "actor": "Codex /root",
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "note": "同局只实跑到剑圣第一句。两端都在第7步全亮，走完15步、停四拍后转身；首句以后的替身离场仍不外推。",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s150.json",
+          "sha256": "d06e727c9efef56ac80cc57968daf0a7488a85b255efac20f195766a1092b058"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "598e8a370e4d78812e8e246543d85767f7f52d599ce06bbfc0fd3bc7d93c35f2"
+        },
+        {
+          "path": "packages/reforge/src/scene-entry-session.ts",
+          "sha256": "2814440a54eb821a0537b270c98c0c3d6464e4659940f9e75292c1dadd36750b"
+        },
+        {
+          "path": "scripts/e2e/dragon-pillar/compare.mjs",
+          "sha256": "0c2d5b9bf1de61b86f8d036244cb2dc29a032c428d117ba1c683358dafc38504"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-PILLAR-CINEMATIC-1-20261119.tar.gz",
+          "sha256": "c5aa2292ffb7f27a988b7f397e54d8acb362255c2f59b88b3848cb253946ce52",
+          "selector": "accepted.json: comparison.sage and media.sageDecode"
+        }
+      ]
     }
   ]
 }

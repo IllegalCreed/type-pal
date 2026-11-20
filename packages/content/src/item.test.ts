@@ -923,6 +923,44 @@ describe('C8 · 用途上下文与结构化 world outcome', () => {
     expect(failure.world).toBe(initial)
     expect(initial.inventory).toEqual([{ itemId: 'salt', count: 1 }])
   })
+
+  test('配置为失败仍结算的概率门扣一份库存，显示无效果并截断后效', () => {
+    const items: ItemDataMap = {
+      salt: {
+        id: 'salt',
+        name: '盐巴',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        use: {
+          target: 'allAllies',
+          consuming: true,
+          menuAfterUse: 'close',
+          effects: [
+            { kind: 'gate', chance: 50, consumeOnFailure: true },
+            { kind: 'curePoison', poisonId: '551' },
+          ],
+        },
+      },
+    }
+    const initial = world([{ itemId: 'salt', count: 2 }], 10)
+    initial.party[0]!.poisons = [{ poisonId: 551, tickIndex: 0 }]
+    const result = resolveWorldItemUse(initial, 'hero', 'salt', items, undefined, () => 0.495)
+    expect(result).toMatchObject({
+      status: 'success',
+      consumed: true,
+      changed: true,
+      menu: 'close',
+      presentations: [{ kind: 'item-message', text: '无任何效果' }],
+    })
+    expect(result.effectResults).toEqual([
+      { index: 0, kind: 'gate', changed: false, gate: { chance: 50, roll: 50, passed: false } },
+    ])
+    expect(result.world.party).toEqual(initial.party)
+    expect(result.world.inventory).toEqual([{ itemId: 'salt', count: 1 }])
+    expect(initial.inventory).toEqual([{ itemId: 'salt', count: 2 }])
+  })
 })
 
 describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons;毒源+携带桥)', () => {
@@ -955,14 +993,58 @@ describe('大世界自毒/解毒(useItem applyPoison/curePoison → char.poisons
     },
   }
   const defs = {
-    551: { id: 551, name: '赤毒', curability: 'common' as const, color: 16 },
+    551: {
+      id: 551,
+      name: '赤毒',
+      curability: 'common' as const,
+      color: 16,
+      playerTicks: [{ hpDelta: -7 }],
+    },
     555: { id: 555, name: '三尸蛊', curability: 'severe' as const, color: 0 },
   }
-  test('用毒蛇卵 → 队员中赤毒(char.poisons 有 551,带入战斗的源)', () => {
-    const w = world([{ itemId: 'egg', count: 1 }])
-    const w2 = useItem(w, 'hero', 'egg', poisonItems, defs)
-    expect(w2.party[0]?.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
-    expect(w2.inventory.find((e) => e.itemId === 'egg')).toBeUndefined() // 消耗
+  test('毒蛇卵首次新增赤毒时扣血，重复用物保留毒槽并照常消耗', () => {
+    const original = world([{ itemId: 'egg', count: 2 }], 90)
+    const first = useItem(original, 'hero', 'egg', poisonItems, defs)
+    expect(first.party[0]).toMatchObject({ hp: 83, poisons: [{ poisonId: 551, tickIndex: 0 }] })
+    expect(first.inventory).toEqual([{ itemId: 'egg', count: 1 }])
+
+    const second = useItem(first, 'hero', 'egg', poisonItems, defs)
+    expect(second.party[0]).toMatchObject({ hp: 83, poisons: [{ poisonId: 551, tickIndex: 0 }] })
+    expect(second.inventory).toEqual([])
+    expect(original.party[0]?.hp).toBe(90)
+    expect(original.inventory).toEqual([{ itemId: 'egg', count: 2 }])
+  })
+  test('装备与临时毒抗合并，点数持平时挡下上毒并扣除道具', () => {
+    const available: ItemDataMap = {
+      ...poisonItems,
+      sachet: {
+        id: 'sachet',
+        name: '香袋',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: false,
+        equip: {
+          slot: 'accessory',
+          equipableBy: ['hero'],
+          effects: [{ kind: 'resistance', element: 'poison', percent: 20 }],
+        },
+      },
+    }
+    const initial = world([{ itemId: 'egg', count: 1 }], 90)
+    initial.party[0]!.equipment.accessory = 'sachet'
+    initial.party[0]!.extraPoisonRes = 30
+    const resisted = resolveWorldItemUse(initial, 'hero', 'egg', available, defs, () => 0.49)
+    expect(resisted.world.party[0]?.hp).toBe(90)
+    expect(resisted.world.party[0]?.poisons ?? []).toEqual([])
+    expect(resisted.consumed).toBe(true)
+    expect(resisted.world.inventory).toEqual([])
+
+    const accepted = resolveWorldItemUse(initial, 'hero', 'egg', available, defs, () => 0.5)
+    expect(accepted.world.party[0]).toMatchObject({
+      hp: 83,
+      poisons: [{ poisonId: 551, tickIndex: 0 }],
+    })
   })
   test('用糯米(common)→ 解赤毒留三尸蛊(severe)', () => {
     const w0 = world([{ itemId: 'rice', count: 1 }])

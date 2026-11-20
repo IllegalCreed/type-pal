@@ -42,6 +42,7 @@ export const ASSET_ROLES = [
   'audio.battleCoopCastSound',
   'audio.battleEscapeSound',
   'audio.battleEnemyTransformSound',
+  'audio.battleEnemySummonSound',
   'video.startupTrademark',
   'video.startupSplash',
   'visual.standardColorTable',
@@ -63,6 +64,7 @@ export const SOUND_ASSET_ROLES = {
   'audio.battleCoopCastSound': 'sound',
   'audio.battleEscapeSound': 'sound',
   'audio.battleEnemyTransformSound': 'sound',
+  'audio.battleEnemySummonSound': 'sound',
 } as const satisfies Partial<Record<AssetRole, AssetKind>>
 export type SoundAssetRole = keyof typeof SOUND_ASSET_ROLES
 
@@ -397,6 +399,7 @@ export function commandAssetTaggedReferencesAtNode(
   }
   if (record.kind === 'playMusic') push(record.asset, 'music', '.asset')
   if (record.kind === 'playSound') push(record.asset, 'sound', '.asset')
+  if (record.kind === 'teleportOut') push(record.arrivalSound, 'sound', '.arrivalSound')
   if (record.kind === 'startBattle') push(record.music, 'music', '.music')
   if (record.kind === 'playVideo') push(record.asset, 'video', '.asset')
   if (record.kind === 'playFrameAnimation') push(record.asset, 'frame-animation', '.asset')

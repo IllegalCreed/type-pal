@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-11-13
+Last reviewed: 2026-11-18
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -21,6 +21,20 @@ Template: design-spec-v1 / 1.0.0
 2026-11-07，[四类取物流程](../../tasks/cards/N6B-ITEM-FLOWS-1.md)原子切换作者内容格式至 content23；SAVE12 与最低存档版本12保持独立。实施与同基线复验已完成，并获用户对新版参数表单及 008–010 分屏的视觉接受；旧 E2E 原件保留原版本，新检查点由当前内容的真实流程重建。
 
 物品的 `throw` 能力显式保存目标类型和效果列表。启用时允许空效果列表，战斗菜单仍可选，成功投掷播放动作并消耗一份。关闭能力会移除 `throw`，投掷菜单随之隐藏该物品。编辑器保存与重开保留两种配置。 [投掷能力类型](../../../packages/content/src/item.ts)
+
+当前可用物品的私有用物脚本音效由场景音效准备收集。脚本发放新物品时也在入账前准备其用物脚本音效。石钥匙核对面向和石门后扣库存，并调用门所属的具名开门方案。 [私有脚本和资源准备](../../../packages/reforge/src/main.ts)
+
+战外用物的 `revive` 效果按设定比例恢复倒地目标的体力，同时清除其临时状态、常规毒和重毒。不可解除的毒及其续点继续保留。复活未发生且本次用物的其它效果均无变化时，保留库存。 [战外用物结算](../../../packages/content/src/item.ts)
+
+战外施毒先处理相克与双毒致死。尝试上毒时掷 1–100，结果严格大于装备和临时毒抗之和才可新增毒槽。新增时立即执行 `playerTicks` 首项，有后续项时从下一项续走。同种毒保留原槽与续点。 [战外用物结算](../../../packages/content/src/item.ts) · [原版上毒与入口执行](../../../reference/sdlpal/script.c#L1257-L1285)
+
+战外用物的 `gate` 掷 1–100，严格小于 `chance` 时继续后续效果。门失败结束当前效果链。配置 `consumeOnFailure: true` 时按成功提交用物，依 `use.consuming` 扣库存，并在已有的居中结果框显示「无任何效果」。省略此配置的概率门失败时拒绝用物并保留库存。PAL 盐巴使用失败仍完成的配置。 [用物结算](../../../packages/content/src/item.ts) · [结果框入口](../../../packages/reforge/src/menu/item-use-result.ts)
+
+### 寄生毒与产物旁白
+
+`PoisonDef.enemyTicks` 的首项由新增敌方毒槽消费，后续项按回合末推进。PAL 的食妖虫附和碧血蚕附各以空首项开始，接八项扣血和单独的入账自解项。第九次回合末发放产物。 [毒定义类型](../../../packages/content/src/poison.ts) · [PAL 毒定义](../../../projects/pal/content/poisons.json)
+
+有 `grantItem` 的同一拍可选填 `grantNarration`，引用工程 locale 的旁白文本。战斗会话依实际发放顺序在行动结束后逐张显示中央卷轴，约 1.4 秒自动清除，也可按键提前清除。背包入账和毒槽自解由战斗核完成。 [字段与校验](../../../packages/content/src/validate.ts) · [战斗核](../../../packages/reforge/src/battle/battle-core.ts) · [卷轴消费](../../../packages/reforge/src/battle/battle-session.ts)
 
 ### 世界与角色初值
 
@@ -45,6 +59,34 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 角色 `battler.casualty` 的有序台词行支持显式 `portrait`、`sameCue` 和毫秒 `autoAdvance`。首行可指向肖像，紧随的 `sameCue: true` 把台词接入同一段，实际仍按长度分页。`autoAdvance` 是文字全显后的停留毫秒，PAL 发布器由旧台词末尾的 `~数字` 生成该值。伤亡分支的回满或临时属性效果在对应对白关闭后消费。 [角色字段](../../../packages/content/src/actor.ts#L36) · [PAL 发布器](../../../packages/migrate/src/pal-casualty-scripts.ts)
 
 工程资源 `assets.roles['audio.defeatMusic']` 是可选音乐角色，编辑器将它显示在「战斗音乐」。配置时必须解析为存在的 music 资源。PAL 正式工程绑定 `music.pal.001`，普通全灭渐红开始时播放一次。 [资产角色校验](../../../packages/content/src/asset.ts) · [全灭复验](../../testing/domains/cross-phase/battle-foundation/report.md)
+
+### 敌人召唤音效
+
+工程资源 `assets.roles['audio.battleEnemySummonSound']` 是可选的战斗音效。配置时需引用音效库中已有的 sound 资源，战斗启动时预载。PAL 绑定 `sound.pal.212`，敌人成功召唤时在新敌第一次入场绘制的那一拍播放一次。召唤失败时保持静音。 [资源角色](../../../packages/content/src/asset.ts) · [战斗演出](../../../packages/reforge/src/battle/battle-session.ts)
+
+### 玩家群攻仙术吹飞
+
+技能的 `animation.blow` 是可选的有符号 16 位整数，用于玩家的群体攻击，含召唤本体之后的群攻段。目标须为 `allEnemies`，特效须使用进攻落位。PAL 的风卷残云取 `-2`，风神取 `-3`。运行时按实际 FIRE 帧和重复次数抽每次位移，先抽位移，再执行成功效果和伤害抽样。位移作用于施法时存活的敌槽，保留至最后一张特效帧，进入受击前恢复原站位。该字段沿用现行内容与存档版本。 [动画字段](../../../packages/content/src/skill.ts) · [内容校验](../../../packages/content/src/validate.ts) · [实战复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-18-风卷残云与三种攻击仙术)
+
+### 灵葫咒与处决类效果
+
+有序技能效果 `collectTreasure` 从实际敌方目标读取可收灵葫值。成功时累加入账，后续目标效果沿用有效收下的敌槽。目标没有可收值时终止剩余效果。当前 PAL 灵葫咒把这一项置于体力和概率门之后、即死之前。玩家对敌处决类技能在门失败时沿用战斗中央失败卷轴。 [技能效果结算](../../../packages/reforge/src/battle/battle-core.ts#L1468-L1535)
+
+### 玩家仙术耗材与成长
+
+`cost.items` 的多行同物品成本先合计，玩家施法支付真气后原子扣除所需物品。背包不足时保留已付真气和当前库存，跳过成功效果，仍执行施法成长。战斗演出保留施法起手与吟唱。提供物品成本时可选填非空的 `cost.missingItemsText`，以中央字幕显示这条提示，确认后继续收招。未设置该字段的技能使用定时中央卷轴。三尸咒和万蛊蚀天的公共效果先判三尸蛊毒，再按毒抗结算各自的直接伤害。 [技能字段](../../../packages/content/src/skill.ts#L7-L14) · [耗材门与成长](../../../packages/reforge/src/battle/battle-core.ts#L1324-L1425)
+
+对敌仙术的 `applyStatus` 若新加混乱，战斗会话在主特效结束的首拍开始绘制目标的横向抖动。混乱回合数仍按战斗规则结算，演出边界由当前时间线消费。 [混乱绘制的原盘来源](../../phase1/game-mechanics.md#2026-11-19-鬼降混乱抖动的起点) · [施法时间线](../../../packages/reforge/src/battle/battle-anim.ts)
+
+普通仙术的 `cost.money` 在出手并扣除真气后检查。铜钱镖的固定费用是 500 文。普通仙术首项为 `moneyDamage` 时，先确认剩余至少一文，再按该项比例换算基础威力。两种缺钱情况均保留真气支出和成长，显示失败卷轴。兑换后的基础威力为零时仍支付金钱并播放特效，跳过伤害和浮动抽样。 [原盘消费顺序](../../phase1/game-mechanics.md#2026-11-19-玩家仙术的金钱门)
+
+玩家用 `fleeBattle` 仙术仍有施法起手。允许逃离时全队退场并提交 `playerFled`，禁逃时显示失败卷轴，按正常动作节拍续战。金蝉脱壳两条分支均消耗真气并保留成长。 [原盘演出和禁逃规则](../../phase1/game-mechanics.md#2026-11-19-金蝉脱壳)
+
+敌方仙术的 `animation.shake` 指定尾段 FIRE 定帧次数。每一拍沿用该法术的特效速度，并根据本次 FIRE 的帧下标产生 3 像素纵移。 [原盘帧序](../../phase1/game-mechanics.md#2026-11-19-敌方土咒的尾段震屏)
+
+### 场景色幕
+
+`fade.color` 可用预置 `black`、`red` 或三个 0–255 的 RGB 整数组成的数组。显式 RGB 的入场和退场按 `ms` 分为 64 步，每步各色道向目标靠近至多 4。运行时与编辑器预览共用色幕合成。野店 s106 淡出与 s110 淡入使用同一组 RGB。 [脚本命令校验](../../../packages/content/src/script.ts) · [色幕合成](../../../packages/reforge/src/fade-driver.ts)
 
 ### 地图、组合与图像资源分层
 

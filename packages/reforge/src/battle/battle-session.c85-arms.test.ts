@@ -173,46 +173,48 @@ function makeSession(
   )
 }
 
-/** 空转 tick 直到指定毫秒累计(演出队列推进)。 */
-function idle(session: BattleSession, ms: number, step = 100): void {
-  for (let t = 0; t < ms; t += step) session.tick(step, new Set())
-}
-
 describe('C85 战斗演出动作臂', () => {
-  test('stopMusic 定时臂:fadeMs>0 入排程,越时后原 serial 停曲', () => {
-    const stops: number[] = []
+  test.each([undefined, 300])('stopMusic 当拍提交音频端，淡出 %s 毫秒', (fadeMs) => {
+    const stops: (number | undefined)[] = []
     const session = makeSession([seed('li', 100)], mkEnemy('boss'), {
-      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'stopMusic', fadeMs: 300 }] }],
-      stopMusic: () => stops.push(1),
+      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'stopMusic', fadeMs }] }],
+      stopMusic: (duration) => stops.push(duration),
     })
     session.tick(16, new Set())
-    expect(stops).toEqual([]) // 排程未到
-    idle(session, 600)
-    expect(stops).toEqual([1])
+    expect(stops).toEqual([fadeMs])
   })
 
-  test('stopMusic 即时臂:fadeMs 缺省 0 当拍停曲', () => {
-    const stops: number[] = []
-    const session = makeSession([seed('li', 100)], mkEnemy('boss'), {
-      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'stopMusic' }] }],
-      stopMusic: () => stops.push(1),
-    })
-    session.tick(16, new Set())
-    expect(stops).toEqual([1])
-  })
-
-  test('排程失效臂:排程后的 cancel 使 serial 失配,越时不再停曲', async () => {
-    const stops: number[] = []
-    const session = makeSession([seed('li', 100)], mkEnemy('boss'), {
-      encounterChoreo: [{ at: 'battleStart', body: [{ kind: 'stopMusic', fadeMs: 300 }] }],
-      stopMusic: () => stops.push(1),
-    })
-    session.tick(16, new Set())
-    expect(stops).toEqual([])
-    session.cancel()
-    await expect(session.done).rejects.toMatchObject({ name: 'AbortError' })
-    idle(session, 600)
-    expect(stops).toEqual([])
+  test('canceling a battle while its foreground hold is active never reaches the pending score stop', async () => {
+    const sessionWithPendingStop = (stops: (number | undefined)[]) =>
+      makeSession([seed('li', 100)], mkEnemy('boss'), {
+        encounterChoreo: [
+          {
+            at: 'battleStart',
+            body: [
+              { kind: 'wait', ms: 400 },
+              { kind: 'stopMusic', fadeMs: 300 },
+            ],
+          },
+        ],
+        stopMusic: (fadeMs) => stops.push(fadeMs),
+      })
+    const continuousStops: (number | undefined)[] = []
+    const canceledStops: (number | undefined)[] = []
+    const continuous = sessionWithPendingStop(continuousStops)
+    const canceled = sessionWithPendingStop(canceledStops)
+    for (const session of [continuous, canceled]) {
+      session.tick(16, new Set())
+      session.tick(100, new Set())
+    }
+    expect([continuousStops, canceledStops]).toEqual([[], []])
+    canceled.cancel()
+    await expect(canceled.done).rejects.toMatchObject({ name: 'AbortError' })
+    for (const session of [continuous, canceled]) {
+      for (let beat = 0; beat < 6; beat++) session.tick(100, new Set())
+    }
+    expect([continuousStops, canceledStops]).toEqual([[300], []])
+    continuous.cancel()
+    await expect(continuous.done).rejects.toMatchObject({ name: 'AbortError' })
   })
 
   test('applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud', () => {

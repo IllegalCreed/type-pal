@@ -2995,5 +2995,88 @@
         }
       ]
     }
-  ]
+  ],
+  "q2": {
+    "sourceRevision": "5af7377461b99331470704f6930e058d91ff8886",
+    "stages": [
+      {
+        "originalFirstPath": "s145/e2399/trigger/default/initial/body/11",
+        "stagePath": "s145/e2399/trigger/default/initial",
+        "afterBodyHash": "f24235c313855e0527c9d23e597c4c4b31081f0cf7dbdde209474ca5ddbf68ed",
+        "waits": [[11, 600], [14, 200], [16, 300], [18, 200], [23, 400], [25, 400]]
+      },
+      {
+        "originalFirstPath": "s140/onEnter/default/initial/body/16",
+        "stagePath": "s140/onEnter/default/initial",
+        "afterBodyHash": "8a36887034b7eb0eedc8f1fe66d284bc157ca6d26cc1f66081951e6f3934379b",
+        "waits": [[13, 4200], [15, 1200], [21, 400], [25, 600], [33, 800], [38, 4800], [42, 6000]]
+      },
+      {
+        "originalFirstPath": "s150/onEnter/default/initial/body/2",
+        "stagePath": "s150/onEnter/default/initial",
+        "afterBodyHash": "877bae7e6abf2c27e7180f44604b6a40f7d92d79bf7a55fb1a82c755685ca34c",
+        "waits": [[0, 100], [2, 400], [7, 400], [16, 400], [19, 800], [22, 1200]]
+      },
+      {
+        "originalFirstPath": "s170/onEnter/default/initial/body/6",
+        "stagePath": "s170/onEnter/default/initial",
+        "afterBodyHash": "ee66fc9a1003c6813fd7b91b4f1afb163310645e9f1f29399caad3a13f55c178",
+        "waits": [
+          [2, 800],
+          [5, 400],
+          [7, 100],
+          [9, 800],
+          [11, 200],
+          [13, 200],
+          [17, 200],
+          [21, 200],
+          [25, 200],
+          [28, 200],
+          [31, 1000]
+        ]
+      },
+      {
+        "originalFirstPath": "s171/onEnter/default/initial/body/5",
+        "stagePath": "s171/onEnter/default/initial",
+        "afterBodyHash": "0724b18e07242a8c09e07ac6ae760fed9b6b3edc31231fd32fe871a9511a18cc",
+        "waits": [[1, 1400], [7, 1000]]
+      },
+      {
+        "originalFirstPath": "s183/onEnter/default/initial/body/14",
+        "stagePath": "s183/onEnter/default/initial",
+        "afterBodyHash": "b655ea6da626c7ec145983427d1246d64567c8ffb4ce9d0cf20635660437a7c9",
+        "waits": [[9, 1800], [11, 1400], [18, 600], [58, 200], [60, 400]]
+      },
+      {
+        "originalFirstPath": "s227/onEnter/default/initial/body/6",
+        "stagePath": "s227/onEnter/default/initial",
+        "afterBodyHash": "f68a47c46d221e0b41804edab484aa8b0a3ceba1b48ee5f29352e90097b851c7",
+        "waits": [[0, 800]]
+      },
+      {
+        "originalFirstPath": "s243/onEnter/default/initial/body/2",
+        "stagePath": "s243/onEnter/default/initial",
+        "afterBodyHash": "def5898715fdef505defabe79d215f6450eba07e8a258469327b09d283d359f8",
+        "waits": [[5, 1200], [8, 2500], [14, 500], [19, 600], [23, 3000]]
+      },
+      {
+        "originalFirstPath": "s034/onEnter/default/initial/body/23",
+        "stagePath": "s034/onEnter/default/initial",
+        "afterBodyHash": "e8b0cdcd987db5c06f427c0b824199fb57dd0367b6e5e7ad67a0d4d3293bab20",
+        "waits": [[20, 2000], [38, 400], [59, 400], [61, 400], [63, 2000], [65, 200], [81, 500]]
+      },
+      {
+        "originalFirstPath": "s066/onEnter/default/initial/body/6",
+        "stagePath": "s066/onEnter/default/initial",
+        "afterBodyHash": "f84ed63ed06edc13ed8578ed0ec612a2afd8a7ab1a3dd59a07c1ce7bfdd97990",
+        "waits": [[1, 300]]
+      },
+      {
+        "originalFirstPath": "s077/onEnter/default/initial/body/4",
+        "stagePath": "s077/onEnter/default/initial",
+        "afterBodyHash": "c0c5fc62e282fbcd591585a2e1dd6eaa56c5fb2ce04350d1ed5c9a47b5752263",
+        "waits": [[1, 1200], [10, 1000]]
+      }
+    ]
+  }
 }

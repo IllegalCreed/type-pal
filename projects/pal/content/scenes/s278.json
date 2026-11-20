@@ -182,65 +182,7 @@
         "height": 0
       },
       "sprite": "sprite-564",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 220
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 112,
-                        "height": 0,
-                        "row": 20
-                      },
-                      "target": {
-                        "scene": "s278",
-                        "entity": "e4741"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4742",
@@ -374,6 +316,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -390,8 +335,41 @@
                       }
                     },
                     {
+                      "kind": "sceneTimeline",
+                      "label": "巫王上前",
+                      "tracks": [
+                        {
+                          "id": "e4741",
+                          "label": "巫王上前四步",
+                          "target": {
+                            "scene": "s278",
+                            "entity": "e4741"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 400,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ],
+                              "repeat": {
+                                "count": 4,
+                                "intervalMs": 200
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 480
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -460,6 +438,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "actor": "li-xiaoyao",
                       "kind": "setActorSprite",
                       "sprite": "sprite-232"
@@ -501,8 +482,41 @@
                       }
                     },
                     {
+                      "kind": "sceneTimeline",
+                      "label": "灵儿现身",
+                      "tracks": [
+                        {
+                          "id": "e4748",
+                          "label": "向殿内走四步",
+                          "target": {
+                            "scene": "s278",
+                            "entity": "e4748"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": -8
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ],
+                              "repeat": {
+                                "count": 4,
+                                "intervalMs": 300
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 480
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -635,6 +649,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -659,8 +676,95 @@
                       }
                     },
                     {
+                      "kind": "sceneTimeline",
+                      "label": "拜月与两名侍卫进殿",
+                      "tracks": [
+                        {
+                          "id": "e4743",
+                          "label": "中路进殿",
+                          "target": {
+                            "scene": "s278",
+                            "entity": "e4743"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 200,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": -4
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ],
+                              "repeat": {
+                                "count": 10,
+                                "intervalMs": 200
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "e4744",
+                          "label": "左侧进殿",
+                          "target": {
+                            "scene": "s278",
+                            "entity": "e4744"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 500,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": -4
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ],
+                              "repeat": {
+                                "count": 10,
+                                "intervalMs": 200
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": "e4745",
+                          "label": "右侧进殿",
+                          "target": {
+                            "scene": "s278",
+                            "entity": "e4745"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 400,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": -4
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ],
+                              "repeat": {
+                                "count": 10,
+                                "intervalMs": 200
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 960
+                      "ms": 100
                     },
                     {
                       "asset": "music.pal.034",
@@ -844,6 +948,9 @@
                         ]
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "setParty",
@@ -1339,7 +1446,8 @@
                           "kind": "loadLastSave"
                         }
                       ],
-                      "enemyTeamId": "team-222"
+                      "enemyTeamId": "team-222",
+                      "fieldId": 51
                     },
                     {
                       "asset": "music.pal.034",
@@ -1502,61 +1610,7 @@
       },
       "sprite": "sprite-562",
       "facing": "up",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "fast",
-                      "to": {
-                        "col": 113,
-                        "height": 0,
-                        "row": 31
-                      },
-                      "target": {
-                        "scene": "s278",
-                        "entity": "e4743"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4744",
@@ -1567,65 +1621,7 @@
       },
       "sprite": "sprite-544",
       "facing": "up",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 220
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "fast",
-                      "to": {
-                        "col": 111,
-                        "height": 0,
-                        "row": 31
-                      },
-                      "target": {
-                        "scene": "s278",
-                        "entity": "e4744"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4745",
@@ -1636,65 +1632,7 @@
       },
       "sprite": "sprite-544",
       "facing": "up",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 220
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "fast",
-                      "to": {
-                        "col": 115,
-                        "height": 0,
-                        "row": 31
-                      },
-                      "target": {
-                        "scene": "s278",
-                        "entity": "e4745"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4746",
@@ -1727,67 +1665,7 @@
       },
       "sprite": "sprite-38",
       "facing": "up",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "repeat",
-                      "count": 4,
-                      "body": [
-                        {
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s278",
-                            "entity": "e4748"
-                          },
-                          "dx": 8,
-                          "dy": -8
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s278",
-                            "entity": "e4748"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 180
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4749",
