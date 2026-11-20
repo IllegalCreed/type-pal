@@ -156,6 +156,7 @@ await runBrowserJourney({
         if (game) {
           const reject = page.getByRole('button', { name: '拒绝', exact: true })
           if (await reject.isVisible()) await reject.click()
+          if (capture.enabled) await page.locator('#boot-loading').waitFor({ state: 'detached' })
         }
         await page.evaluate((spec) => globalThis.__battleHarness.launch(spec), configured)
         run.opening = await until(read, (view) => view?.snapshot, 'equipped battle start', 60_000)
