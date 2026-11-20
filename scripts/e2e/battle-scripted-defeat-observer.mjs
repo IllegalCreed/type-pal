@@ -21,6 +21,7 @@ function install(
     contactActors = [],
     routeContacts = [],
     itemEntrance = false,
+    encounterCount = 1,
   },
   makeRng,
   createRecorder,
@@ -41,6 +42,7 @@ function install(
     contact,
     started,
     ended,
+    encounter = 0,
     pendingAction,
     previousMove,
     previousFrame,
@@ -62,11 +64,37 @@ function install(
   // The recorder bounds both groups by bytes, including during long foreground visits.
   const event = (kind, details) => append(events, { kind, ...details }, Number.MAX_SAFE_INTEGER)
   const seen = new Set()
+  const battleOnce = new Set([
+    'entry-source',
+    'entry-complete',
+    'command-menu-drawn',
+    'victory-summary-drawn',
+    'settlement',
+    'party-battle-sprites',
+  ])
+  const ownerKey = (kind) =>
+    encounterCount > 1 && battleOnce.has(kind) ? `${encounter}:${kind}` : kind
+  const has = (kind) => seen.has(ownerKey(kind))
   const once = (kind, details) => {
-    if (seen.has(kind)) return
-    seen.add(kind)
+    if (has(kind)) return
+    seen.add(ownerKey(kind))
     event(kind, details)
   }
+  let rng = makeRng(seed)
+  const nextEncounter = () => {
+    if (encounterCount === 1) return
+    if (encounter && !ended) throw new Error('the next battle opened before the previous result')
+    encounter++
+    if (encounter > encounterCount) throw new Error('unexpected additional encounter')
+    started = undefined
+    ended = undefined
+    pendingAction = undefined
+    entryStarted = false
+    entryPendingBand = undefined
+    entryLastBand = undefined
+    rng = makeRng(seed)
+  }
+  const allBattlesEnded = () => ended && (encounterCount === 1 || encounter === encounterCount)
   // Hash six logical-pixel lanes after a real draw. Game retains indexed framebuffer colors,
   // while Reforge renders directly in RGBA.
   const laneDigests = (image, scale) => {
@@ -283,7 +311,7 @@ function install(
         geometry,
       })
     }
-    if (ended && ready && state.scene === scene)
+    if (allBattlesEnded() && ready && state.scene === scene)
       once('world-control', {
         position,
         party,
@@ -296,7 +324,6 @@ function install(
       once('restored-world-menu-closed', { scene, position })
   }
   const menuClosed = () => seen.has('restored-world-menu-closed')
-  const rng = makeRng(seed)
   globalThis.__defeat = {
     seed,
     event,
@@ -313,6 +340,7 @@ function install(
         state,
         overflow,
         ended: !!ended,
+        ...(encounterCount > 1 && { encounter }),
         ...(ended && { outcome: ended.result }),
         menuClosed: menuClosed(),
       }
@@ -426,11 +454,12 @@ function install(
       if (!observedScene(sceneId(gs.wNumScene)) && gs.wNumScene !== entranceGameScene) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
-      if (!contact || ended) return
+      if (!contact) return
       const band = entryPendingBand
       entryPendingBand = undefined
       if (!renderedBattle && !entryStarted && gs.wNumScene === gameScene)
         entryWorldPixels = indexDigests(indices)
+      if (ended) return
       if (renderedBattle && band !== undefined && band !== entryLastBand)
         observeBand(band, indexDigests(indices))
       if (renderedBattle && entryLastBand === 6 && !gs.battleState.introFade)
@@ -447,8 +476,7 @@ function install(
       once('entry-source', { pixels })
     },
     reforgeEntry(frame, band, complete, scale) {
-      if (!entryStarted || (band === entryLastBand && (!complete || seen.has('entry-complete'))))
-        return
+      if (!entryStarted || (band === entryLastBand && (!complete || has('entry-complete')))) return
       const pixels = laneDigests(frame, scale)
       observeBand(band, pixels)
       if (complete)
@@ -473,6 +501,7 @@ function install(
         event('scene-hook', { scene: current, start: cursor.onEnterStartIp })
       }
       if (command.opcode === 7 || command.op === 'startBattle') {
+        nextEncounter()
         entryStarted = true
         once('entry-source', { pixels: entryWorldPixels })
       }
@@ -508,6 +537,7 @@ function install(
       const entryScript = visitScenes && !self && timing === 'interactive' && observedScene(current)
       if (!ownerScript && !entryScript) return
       const op = command.kind === 'leaf' ? command.command : command
+      if (op.kind === 'startBattle') nextEncounter()
       if (visitScenes && ended && op.kind === 'loadScene' && op.scene === handoffScene) {
         const { party, cash, inventory } = reforgeWorld()
         once('post-battle-party', { party, cash, inventory })
@@ -566,6 +596,7 @@ function install(
         cash: world.money,
         inventory: ordered(world.inventory),
       })
+      if (encounterCount > 1 && encounter < encounterCount) entryStarted = false
     },
     gameOver: () => once('ordinary-game-over-drawn', {}),
     loadLastSave: () => event('load-last-save', {}),
@@ -638,6 +669,7 @@ function install(
       gameOver,
       continuation: gs.eventCursor?.ip,
     })
+    if (encounterCount > 1 && encounter < encounterCount) entryStarted = false
   }
   globalThis.__battleGameSettlement = () => once('settlement', {})
   globalThis.__battleGameRandom = (_seed, _state, value) => {

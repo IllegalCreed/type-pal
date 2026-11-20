@@ -7,6 +7,7 @@ import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPhoenixSources } from './phoenix-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readRingOpening } from './ring-opening-presentation.mjs'
+import { readSerialBattles } from './serial-battles.mjs'
 import { readStoneElderAutoPresentation } from './stone-elder-auto-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
@@ -24,6 +25,7 @@ export const departingPosition = (spec) => spec.world.departure ?? spec.start
 export const battleOperands = (spec) => [spec.team, spec.disk.loss ?? 41075, spec.disk.flee ?? 0]
 export const isBossBattle = (spec) => battleOperands(spec)[2] === 0
 export const observesForeground = (spec) =>
+  spec.serial !== undefined ||
   spec.prelude !== undefined ||
   spec.revisit !== undefined ||
   spec.sceneRoute?.checkpoint !== undefined ||
@@ -103,6 +105,13 @@ export function partyFor(spec) {
         hp: 1950,
         maxHP: 1950,
         attack: 1020 - member.roleId * 60,
+      })),
+      'southern-palace': [taoyuanParty[0], cityParty[1], taoyuanParty[1]].map((member) => ({
+        ...member,
+        hp: 990,
+        maxHP: 990,
+        attack: 1120 - member.roleId * 55,
+        defense: 390,
       })),
     }[spec.party] ?? party
   return spec.initialHP === undefined
@@ -625,6 +634,44 @@ export const scenarios = {
       },
     },
   },
+  'southern-palace-tree': {
+    id: 'southern-palace-tree',
+    scene: 's278',
+    owner: 'e4742',
+    watched: ['e4740', 'e4741', 'e4743', 'e4744', 'e4745', 'e4746', 'e4747', 'e4748'],
+    serial: [
+      [35312, 289],
+      [35389, 222],
+    ],
+    team: 222,
+    enemy: 'enemy-462',
+    start: [114, 26, 0],
+    contact: [114, 25, 0],
+    approach: 'ArrowUp',
+    party: 'southern-palace',
+    music: 38,
+    field: 51,
+    slot: 0,
+    seed: 4,
+    maxRounds: 20,
+    disk: {
+      entry: 35214,
+      battle: 35389,
+      field: 35311,
+      music: 35388,
+      last: 35418,
+      owner: [1424, 1096, 1, 5],
+    },
+    mapMusic: { scene: 's279', ip: 35211, track: 32 },
+    world: {
+      returned: [116, 27, 0],
+      departure: [116, 28, 0],
+      members: ['li-xiaoyao'],
+      inventory: [{ itemId: '217', count: 1 }],
+      music: { ip: 35391, track: 34 },
+      activates: { scene: 's281', owner: 'e4800', ip: 35395, state: 1 },
+    },
+  },
   'stone-elder-auto': {
     id: 'stone-elder-auto',
     scene: 's106',
@@ -1131,6 +1178,7 @@ export async function readSources(spec) {
   const checkpoint = spec.sceneRoute?.checkpoint
   const routePredecessor = spec.sceneRoute?.predecessor
   const itemEntrance = spec.sceneRoute?.item
+  const activation = spec.world.activates
   const files = {
     ...(checkpoint && {
       diskCheckpoint: `data/extracted/data/scene/${Number(checkpoint.slice(1))}.json`,
@@ -1185,6 +1233,10 @@ export async function readSources(spec) {
           diskHandoffScene: `data/extracted/data/scene/${Number(spec.world.handoff.scene.slice(1))}.json`,
         }
       : {}),
+    ...(activation && {
+      activationScene: `projects/pal/content/scenes/${activation.scene}.json`,
+      diskActivationScene: `data/extracted/data/scene/${Number(activation.scene.slice(1))}.json`,
+    }),
     locale: 'projects/pal/content/locale.json',
   }
   const data = Object.fromEntries(
@@ -1323,15 +1375,48 @@ export async function readSources(spec) {
         .stages[0].body
   const route = spec.sceneRoute && readSceneRoute(data, commands, spec, trigger)
   const native = route?.battleBody ?? trigger
-  const launch = native.find(({ kind }) => kind === 'startBattle')
+  const serial =
+    spec.serial &&
+    readSerialBattles({
+      spec,
+      commands,
+      body: native,
+      teams: data.teams,
+      objects: data.objects,
+      enemies: data.enemies,
+    })
+  if (activation) {
+    const { owner, ip, state, scene } = activation
+    const id = Number(owner.slice(1))
+    assert.equal(data.diskActivationScene.eventObjects.find((actor) => actor.id === id).sState, 0)
+    assert(data.activationScene.entities.some((actor) => actor.id === owner))
+    assert.deepEqual(commands[ip].operands, [id + 1, state, 0])
+    assert.equal(commands[ip].opcode, 0x49)
+    assert(
+      native.some(
+        (row) =>
+          row.kind === 'setEntityState' &&
+          row.target.scene === scene &&
+          row.target.entity === owner &&
+          row.state === state,
+      ),
+    )
+  }
+  const launches = native.filter(({ kind }) => kind === 'startBattle')
+  const launch = serial ? launches.at(-1) : launches[0]
   assert.deepEqual(
     [
       launch.boss ?? false,
-      launch.fieldId ?? data.rfScene.battleFieldId,
+      ...(serial ? [] : [launch.fieldId ?? data.rfScene.battleFieldId]),
       launch.music ?? data.rfScene.battleMusic,
       launch.enemyTeamId,
     ],
-    [isBossBattle(spec), spec.field, nativeMusic(spec.music), `team-${spec.team}`],
+    [
+      isBossBattle(spec),
+      ...(serial ? [] : [spec.field]),
+      nativeMusic(spec.music),
+      `team-${spec.team}`,
+    ],
   )
   assert.equal(launch.auto ?? false, Boolean(spec.automatic))
   let tower
@@ -1562,6 +1647,7 @@ export async function readSources(spec) {
   return {
     paths: [
       ...Object.values(files),
+      ...(serial ? ['scripts/e2e/boss-entrances/serial-battles.mjs'] : []),
       ...(itemEntrance ? ['scripts/e2e/boss-entrances/dali-altar-presentation.mjs'] : []),
       'data/extracted/data/event-objects.json',
       'data/extracted/data/battle-fields.json',
@@ -1675,6 +1761,7 @@ export async function readSources(spec) {
     phoenix,
     qilin,
     route,
+    serial,
     summonBonus,
     summoning: summonScript && {
       id: `enemy-${summonObject}`,

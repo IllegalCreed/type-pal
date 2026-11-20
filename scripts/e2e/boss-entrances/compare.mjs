@@ -37,6 +37,7 @@ import {
   returnTrack,
   scenarios,
 } from './scenarios.mjs'
+import { inspectSerialBattles } from './serial-battles.mjs'
 import { inspectStoneElderAutoPresentation } from './stone-elder-auto-presentation.mjs'
 import { inspectStoneElderPresentation } from './stone-elder-presentation.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
@@ -1289,6 +1290,30 @@ function checkSpiderForeground(events, trigger, cue, launch) {
   }
 }
 
+async function inspectForegroundRecording(coverage, path, report) {
+  if (!coverage || report.profile !== 'capture') return
+  const recording = resolve(dirname(path), 'story.webm')
+  assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
+  const frames = await decodeWorldDialoguePixels(recording)
+  for (const phase of coverage.filter(({ backdrop }) => backdrop)) {
+    const origin = report.media.browser.startedAt
+    phase.pixels = phase.backdrop.spans.map(({ startAtMs, endAtMs }) =>
+      checkWorldDialoguePixels(frames, {
+        start: (startAtMs - origin) / 1000,
+        end: (endAtMs - origin) / 1000,
+        minLitFraction: 0.2,
+      }),
+    )
+    const bad = phase.pixels.find(({ status }) => status !== 'passed')
+    if (bad)
+      phase.issues.push({
+        issue: 'recorded-dialogue-background-failed',
+        phase: phase.phase,
+        ...bad,
+      })
+  }
+}
+
 async function inspect(path, engine) {
   const bytes = await readFile(path)
   const report = JSON.parse(bytes)
@@ -1547,6 +1572,59 @@ async function inspect(path, engine) {
       'revisit moves are bound to the actual visited scenes',
     )
   assert(approach.order < trigger.order)
+  if (source.serial) {
+    if (game) assert.equal(trigger.ip, spec.disk.entry)
+    const control = once('world-control')
+    assert(control.order < departure.order, 'actual control returned before the departure')
+    const draws = await read(run.renderedDialogue)
+    const serial = inspectSerialBattles({
+      spec,
+      source,
+      party,
+      events,
+      draws,
+      trigger,
+      control,
+      game,
+      action: mainAction,
+    })
+    await inspectForegroundRecording(serial.coverage, path, report)
+    assert.deepEqual(control.position, returnedAt)
+    assert.deepEqual(
+      control.party.map(({ id }) => id),
+      spec.world.members,
+    )
+    assert.deepEqual(control.inventory, spec.world.inventory)
+    assert.equal(control.music, returnMusic)
+    assert(!run.initial.activation, 'the downstream encounter started inactive')
+    assert.equal(
+      run.returned.activation,
+      spec.world.activates.state,
+      'victory activated the downstream encounter',
+    )
+    return {
+      engine,
+      report: resolve(path),
+      reportSha256: sha256(bytes),
+      revision: report.revision,
+      profile: report.profile,
+      raw: run.raw,
+      sourceHashes: report.dependencies.hashes,
+      warnings: report.warnings,
+      serial,
+      foregroundCoverage: serial.coverage,
+      clips: { contactMs: trigger.atMs, returnMs: control.atMs, exitMs: departure.atMs },
+      comparable: {
+        battles: serial.battles,
+        ending: {
+          party: control.party,
+          cash: control.cash,
+          inventory: control.inventory,
+          music: control.music,
+        },
+      },
+    }
+  }
   const script = find('script-op')
   const launch = script.filter((event) => (game ? event.opcode === 7 : event.op === 'startBattle'))
   assert.equal(launch.length, 1)
@@ -2251,28 +2329,7 @@ async function inspect(path, engine) {
         entries: stoneElderAuto.firstEntries,
       })
     : (linTiannan?.coverage ?? dali?.coverage)
-  if (foregroundCoverage && report.profile === 'capture') {
-    const recording = resolve(dirname(path), 'story.webm')
-    assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
-    const frames = await decodeWorldDialoguePixels(recording)
-    for (const phase of foregroundCoverage.filter(({ backdrop }) => backdrop)) {
-      const origin = report.media.browser.startedAt
-      phase.pixels = phase.backdrop.spans.map(({ startAtMs, endAtMs }) =>
-        checkWorldDialoguePixels(frames, {
-          start: (startAtMs - origin) / 1000,
-          end: (endAtMs - origin) / 1000,
-          minLitFraction: 0.2,
-        }),
-      )
-      const bad = phase.pixels.find(({ status }) => status !== 'passed')
-      if (bad)
-        phase.issues.push({
-          issue: 'recorded-dialogue-background-failed',
-          phase: phase.phase,
-          ...bad,
-        })
-    }
-  }
+  await inspectForegroundRecording(foregroundCoverage, path, report)
   const ming = source.route?.ming
     ? inspectTowerMingPresentation({
         events,
@@ -2505,6 +2562,7 @@ if (!failures.length) {
       ...(result.foregroundCoverage?.flatMap(({ issues }) => issues) ?? []),
       ...(result.linTiannan?.issues ?? []),
       ...(result.dali?.issues ?? []),
+      ...(result.serial?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),

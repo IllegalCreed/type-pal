@@ -58,6 +58,7 @@ const foreground = observesForeground(spec)
 const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
+const activation = spec.world.activates
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const fixtureMembers = source.automatic
@@ -84,6 +85,7 @@ const observe = bossObserver({
     .filter(({ owner }) => owner)
     .map(({ scene, owner }) => ({ scene, owner })),
   foreground,
+  encounterCount: source.serial?.length,
   itemEntrance: Boolean(itemEntrance),
   handoffScene: handoff?.scene,
   handoffMatte: handoff?.fieldPosition !== undefined,
@@ -91,18 +93,20 @@ const observe = bossObserver({
     ? [...spec.sceneRoute.visits.map(({ scene }) => scene), spec.scene]
     : source.automatic
       ? [source.automatic.presentation.dialogueWorld]
-      : itemEntrance
+      : itemEntrance || source.serial
         ? [spec.scene]
         : [],
-  recordDialogueAfterBattle: Boolean(source.scriptedStop || itemEntrance),
+  recordDialogueAfterBattle: Boolean(source.scriptedStop || itemEntrance || source.serial),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
-    spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
+    spec.sceneRoute?.visits.map(({ scene }) => scene) ??
+    (revisit ? [revisit.scene] : source.serial ? [] : undefined),
   includesParty:
     spec.party === 'tomb' ||
     Boolean(
       source.tower ||
         source.route ||
+        source.serial ||
         revisit ||
         scriptedStop ||
         source.gai ||
@@ -135,6 +139,7 @@ async function read(page) {
       victoryFade,
       gateId,
       readsSkills,
+      activation,
     }) => {
       const observed = globalThis.__defeat?.read()
       if (observed?.overflow)
@@ -181,6 +186,11 @@ async function read(page) {
         successor: globalThis.__bossForeground?.successor(),
         scriptedReturn: globalThis.__bossForeground?.scriptedReturn(),
         choice: globalThis.__bossForeground?.choice(),
+        ...(activation && {
+          activation: game
+            ? gs.allEventObjects.find(({ id }) => `e${id}` === activation.owner)?.sState
+            : (world.script.entityState[activation.scene]?.[activation.owner] ?? null),
+        }),
         ...(gateId && {
           gate: game
             ? gs.npcs.find(({ id }) => `e${id}` === gateId)?.triggerLabel
@@ -257,6 +267,7 @@ async function read(page) {
       settlementDwellMs: spec.settlementDwellMs,
       victoryFade: Boolean(source.tower),
       gateId: source.tian?.gateId,
+      activation,
     },
   )
 }
@@ -300,6 +311,7 @@ async function makeGameFixture(page, baseURL, until) {
       spec.party === 'tomb' ||
       source.gai ||
       source.route ||
+      source.serial ||
       revisit ||
       source.wood ||
       source.phoenix ||
@@ -661,6 +673,7 @@ async function walk({
 
 async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
+  let encounter = 0
   let lastLine = null
   let confirmed = false
   let idleVisitAt
@@ -669,7 +682,7 @@ async function playEncounter({ page, press, health, capture }) {
     ? capture.enabled
       ? 360_000
       : 195_000
-    : source.route
+    : source.route || source.serial
       ? capture.enabled
         ? 480_000
         : 215_000
@@ -681,7 +694,11 @@ async function playEncounter({ page, press, health, capture }) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if ((source.route || source.wood || source.phoenix || source.qilin) && ended)
+    if (view.encounter !== undefined && view.encounter !== encounter) {
+      encounter = view.encounter
+      lastScreen = -1
+    }
+    if ((source.route || source.serial || source.wood || source.phoenix || source.qilin) && ended)
       assert.equal(
         view.outcome,
         source.automatic || scriptedStop ? 'terminated' : game ? 'won' : 'victory',
@@ -701,7 +718,7 @@ async function playEncounter({ page, press, health, capture }) {
       : scriptedReturn
         ? view.scriptedReturn?.scene === spec.scene
         : ready(state)
-    if (ended && returned) return view
+    if (ended && returned && (!source.serial || encounter === source.serial.length)) return view
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
     const line = lineKey(box)
@@ -908,6 +925,7 @@ await runBrowserJourney({
   },
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
+  ...(source.serial && { journeyTimeoutMs: 540_000 }),
   viewport: { width: 960, height: 720 },
   initScripts: [
     installCommittedRoutePlayback,
