@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "a82e51ff6af6ebe0182c3be3e2fbde0b83dc49808843b46c71eaeb49201f9b0a",
+      "afterSha256": "6397eeef6f9a7c5e934ac9d6db3f324ea95fb58fb1031f1d7cbad784e7928903",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
-        "reviewedLines": 129,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
+        "reviewedLines": 130,
+        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "fc87c231a1e863097869cb0366eae7633ae67437bc673b175859f6c0f9019959",
+      "afterSha256": "c2cd9b3ce1a356d8c8376f06a69a1763deb5fbe30adf6623c454319c4a64fa3a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
-        "reviewedLines": 1992,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
+        "reviewedLines": 1998,
+        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "a1919e3555e32faf3cc30c7ff04388435b9bedebd470f4a433ada83c421b3eb4",
+      "afterSha256": "444de779543f4b129af27e99364b3c3c08b7dceea988d3f4d87f41911ac4088a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
-        "reviewedLines": 1119,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
+        "reviewedLines": 1127,
+        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "bf8f41e759de3d317f53083d882023c271ef76f1677043674409ddfb9df64b7a",
+      "afterSha256": "8d95e9c1cdad496f636e9fc1acda2dbd60b8f4ba37006784407d634dca5eeeeb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "擂台触发、开场实绘的演员判据与两端同帧证据。",
-        "reviewedLines": 1723,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
+        "reviewedLines": 1746,
+        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
       }
     },
     {
@@ -6759,6 +6759,36 @@
       "bytes": 84405770,
       "sha256": "f885e93ca7d9af125560c740ca5bda90cca54c06575bfce949b4d78372252ab7",
       "purpose": "擂台触发、开场实绘的演员判据与两端同帧证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120.tar.gz",
+      "bytes": 87759233,
+      "sha256": "d8caeea50f9186b210d5a8623cdf617faadd7a081de5338c822d04b2fe1c5e4f",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-game-original-1.tar.gz",
+      "bytes": 73209663,
+      "sha256": "6eac7975cf5eac3a216b533c538c54adfead7feba9acfaced0dfff20d5874e1e",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-game-original-2.tar.gz",
+      "bytes": 51392056,
+      "sha256": "6428ae7db5756f429f4064129c3302cb58f8c85caa4acb2967d5d1e76aef1261",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-reforge-original-1.tar.gz",
+      "bytes": 73225581,
+      "sha256": "c5e36878dfb72f1fd491fd490412b410dc50da4edd2ce0b2937dea78d307610d",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fire-qilin-20261120-reforge-original-2.tar.gz",
+      "bytes": 36777000,
+      "sha256": "6e1e1d8d69603593823dc3d87ac07df4810ab22022869bea685766c6516d3f96",
+      "purpose": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。"
     }
   ],
   "artifactAliases": [],
