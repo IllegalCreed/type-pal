@@ -233,21 +233,33 @@ async function side(engine, relocatedReport) {
 const sides = await Promise.all([side('game', gameReport), side('reforge', reforgeReport)])
 if (sides.every(({ coverage }) => coverage)) {
   const recordings = sides.map((entry) => {
-    const scene = entry.coverage.find(({ backdrop }) => backdrop)
+    const scenes = entry.coverage.filter(({ backdrop }) => backdrop)
     assert(
-      scene?.backdrop.checkedFrames > 0 &&
-        scene.pixels?.length &&
-        scene.pixels.every(({ status }) => status === 'passed'),
+      scenes.length > 0 &&
+        scenes.every(
+          ({ backdrop, pixels }) =>
+            backdrop.checkedFrames > 0 &&
+            pixels?.length &&
+            pixels.every(({ status }) => status === 'passed'),
+        ),
       `${entry.engine} missing decoded world-dialogue coverage`,
     )
-    const spans = scene.pixels.map(({ start, end }, index) => ({
-      id: `${scene.scene}-${index + 1}`,
-      start,
-      end,
-      minLitFraction: 0.2,
-    }))
+    const spans = scenes.flatMap(({ phase, scene, pixels }) =>
+      pixels.map(({ start, end }, index) => ({
+        id: `${scene}-${phase}-${index + 1}`,
+        start,
+        end,
+        minLitFraction: 0.2,
+      })),
+    )
     return { ...entry, lastSeconds: entry.videoEnd, anchor: entry.contactSeconds, spans }
   })
+  const spriteChecks = {
+    'stone-elder-auto': { cue: 'dlg.5865', actor: 'e2061' },
+    'shangshu-lin-tiannan': { cue: 'dlg.6785', actor: 'e2154' },
+  }
+  const spriteCheck = spriteChecks[comparison.scenario]
+  assert(spriteCheck, `${comparison.scenario} needs an independent world sprite check`)
   await publishWorldDialogueSplit(
     {
       status: 'passed',
@@ -258,28 +270,30 @@ if (sides.every(({ coverage }) => coverage)) {
     resolve(target),
     resolve(`${target.replace(/\.mp4$/u, '')}-media.json`),
     async (source, clip, trim, panel) => {
-      const inn = source.coverage.find(({ backdrop }) => backdrop)
-      const seated = inn.cues.find(({ cue }) => cue === 'dlg.5865')
+      const anchored = source.coverage
+        .flatMap(({ cues }) => cues)
+        .find(({ cue }) => cue === spriteCheck.cue)
+      assert(anchored?.views.length, `${source.engine} missing the declared foreground pose`)
       const actual = await json(source.rawPath)
-      const drawing = actual.events.find(({ order }) => order === seated.views[0].order)
-      const { asset, frame, rect } = drawing.actors.e2061
+      const drawing = actual.events.find(({ order }) => order === anchored.views[0].order)
+      const { asset, frame, rect } = drawing.actors[spriteCheck.actor]
       const pixels = await readWorldSpritePose(asset, frame)
       const [left, top] = drawing.camera
       const [x, y, width, height] = rect
       assert.deepEqual([width, height], [pixels.width, pixels.height])
       const pixelPosition = [x - left, y - top]
-      // The completed text can cross the attendant's face. Use independently
+      // Completed text can cross the actor's face. Use independently
       // logged unobscured submissions of that same pose, before the cue finishes.
       const uncovered = actual.events.filter(
         ({ kind, view, atMs, dialogue, backdrop }) =>
           kind === 'world-render' &&
           view === drawing.order &&
-          atMs < seated.firstComplete.atMs &&
+          atMs < anchored.firstComplete.atMs &&
           !dialogue &&
           backdrop?.textured &&
           !backdrop.dark,
       )
-      assert(uncovered.length >= 2, `${source.engine} missing an unobscured seated attendant`)
+      assert(uncovered.length >= 2, `${source.engine} missing an unobscured ${spriteCheck.actor}`)
       const nativeSeconds = ((uncovered[0].atMs + uncovered[1].atMs) / 2 - source.startedAt) / 1000
       const expected = { ...pixels, pixelPosition }
       return Promise.all([

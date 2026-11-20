@@ -10,6 +10,7 @@ function install(
     engine,
     scene,
     gameScene,
+    contactScene = scene,
     owner,
     seed,
     foreground,
@@ -25,10 +26,13 @@ function install(
 ) {
   const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
   const sceneId = (number) => `s${String(number - 1).padStart(3, '0')}`
-  const observedScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
-  const routeScene = (id) => id === scene || id === entrance?.scene || routeScenes?.includes(id)
+  const isMainRouteScene = (id) => id === scene || id === contactScene
+  const observedScene = (id) =>
+    isMainRouteScene(id) || id === handoffScene || visitScenes?.includes(id)
+  const routeScene = (id) =>
+    isMainRouteScene(id) || id === entrance?.scene || routeScenes?.includes(id)
   const movementKind = (id) =>
-    id === scene ? 'move' : id === entrance?.scene ? 'entrance-move' : 'route-move'
+    isMainRouteScene(id) ? 'move' : id === entrance?.scene ? 'entrance-move' : 'route-move'
   const sceneCursors = new WeakSet()
   const events = [],
     errors = []
@@ -380,9 +384,9 @@ function install(
           ip: gs.eventCursor?.ip,
           position: grid(gs.party),
         })
-      if (gs.wNumScene !== gameScene || (id !== owner && !contactActors.includes(id))) return
+      if (routeScene !== contactScene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', {
-        scene,
+        scene: routeScene,
         owner: id,
         ip: gs.eventCursor?.ip,
         position: grid(gs.party),
@@ -393,7 +397,7 @@ function install(
         once('entrance-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
       if (routeContacts.some(({ scene, owner }) => scene === sceneId && owner === id))
         event('scene-route-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
-      if (sceneId !== scene || (id !== owner && !contactActors.includes(id))) return
+      if (sceneId !== contactScene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
     gameDraw(gs, renderedBattle, indices) {
@@ -437,7 +441,7 @@ function install(
       if (!contact) return
       const current = sceneId(gs.wNumScene)
       const ownerScript =
-        gs.wNumScene === gameScene && cursor.triggerOwnerId === Number(owner.slice(1))
+        current === contactScene && cursor.triggerOwnerId === Number(owner.slice(1))
       const entryScript =
         visitScenes && observedScene(current) && cursor.onEnterSceneId === gs.wNumScene
       if (!ownerScript && !entryScript) return
@@ -477,7 +481,7 @@ function install(
     reforgeOpcode(self, path, command, timing) {
       if (!contact) return
       const current = globalThis.__rfScene?.id
-      const ownerScript = self?.scene === scene && self.entity === owner
+      const ownerScript = self?.scene === contactScene && self.entity === owner
       const entryScript = visitScenes && !self && timing === 'interactive' && observedScene(current)
       if (!ownerScript && !entryScript) return
       const op = command.kind === 'leaf' ? command.command : command
@@ -499,7 +503,9 @@ function install(
       })
     },
     reforgeArm(self, path, arm) {
-      if (self?.scene === scene && self.entity === owner) event('script-result', { path, arm })
+      const ownerScript = self?.scene === contactScene && self.entity === owner
+      const arrivalScript = contactScene !== scene && !self && globalThis.__rfScene?.id === scene
+      if (ownerScript || arrivalScript) event('script-result', { path, arm })
     },
     reforgePartyBattleSprites(sprites) {
       if (visitScenes && contact) once('party-battle-sprites', { sprites })

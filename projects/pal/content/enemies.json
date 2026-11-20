@@ -13497,38 +13497,18 @@
                     "rows": [
                       {
                         "text": "dlg.13250"
+                      },
+                      {
+                        "text": "dlg.13251"
+                      },
+                      {
+                        "text": "dlg.13252"
                       }
                     ],
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.林天南"
                     }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
-                      {
-                        "text": "dlg.13251"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
-                      {
-                        "text": "dlg.13252"
-                      }
-                    ]
                   }
                 }
               ],

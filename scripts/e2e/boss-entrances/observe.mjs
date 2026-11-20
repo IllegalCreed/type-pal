@@ -28,7 +28,8 @@ function installBossForeground({
   scene,
   handoffScene,
   handoffMatte,
-  dialogueWorld,
+  foregroundDialogueScenes = [],
+  recordDialogueAfterBattle,
   owner,
   watched,
   visitScenes,
@@ -67,7 +68,8 @@ function installBossForeground({
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
 
   const coversDialogueWorld = (id) =>
-    dialogueWorld !== undefined && id === dialogueWorld && !observation.read().ended
+    foregroundDialogueScenes.includes(id) &&
+    (recordDialogueAfterBattle || !observation.read().ended)
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>

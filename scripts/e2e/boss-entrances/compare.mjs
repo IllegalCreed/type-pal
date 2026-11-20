@@ -13,6 +13,10 @@ import { inspectFireQilin } from './fire-qilin-presentation.mjs'
 import { inspectForestInnCoverage, readForestInnCoverage } from './forest-inn-coverage.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
+import {
+  inspectLinTiannanPresentation,
+  readLinTiannanPresentation,
+} from './lin-tiannan-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
 import { inspectRingOpening } from './ring-opening-presentation.mjs'
 import {
@@ -47,6 +51,13 @@ assert(
   'usage: node scripts/e2e/boss-entrances/compare.mjs SCENARIO GAME_REPORT REFORGE_REPORT',
 )
 const source = await readSources(spec)
+const linTiannanFacts =
+  spec.id === 'shangshu-lin-tiannan'
+    ? readLinTiannanPresentation(
+        (await json('data/extracted/events/all.json')).segments.flatMap(({ commands }) => commands),
+        spec,
+      )
+    : undefined
 const automatic = source.automatic
 const forestInn =
   scenario === 'stone-elder-auto'
@@ -63,6 +74,8 @@ const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const entrance = spec.entrance
 const revisit = spec.revisit
+const contactScene = spec.sceneRoute?.checkpoint ?? spec.scene
+const checkpointScene = entrance?.scene ?? contactScene
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
 const leavesByScript = Boolean(handoff || scriptedReturn)
@@ -1366,7 +1379,7 @@ async function inspect(path, engine) {
   }
   const [saved, raw] = await Promise.all([read(report.save), read(run.raw)])
   if (game) {
-    assert.equal(gameScene({ scene: entrance?.scene ?? spec.scene }), saved.gs.wNumScene)
+    assert.equal(gameScene({ scene: checkpointScene }), saved.gs.wNumScene)
     assert.deepEqual(
       saved.gs.partyMembers,
       party.map(({ roleId }) => roleId),
@@ -1382,7 +1395,7 @@ async function inspect(path, engine) {
   } else {
     const readback = await read(run.slotReadback)
     assert.deepEqual(readback.position, {
-      sceneId: entrance?.scene ?? spec.scene,
+      sceneId: checkpointScene,
       pos: grid(entrance?.start ?? revisit?.checkpoint ?? spec.start),
       facing: facing(entrance?.key ?? source.toad?.steps.into[0].key ?? approachKey),
     })
@@ -1396,6 +1409,16 @@ async function inspect(path, engine) {
         selection: { kind: 'use', value: revisit.hook },
       })
       assert.equal(readback.world.script.entityState[revisit.scene]?.e1846, 0)
+    }
+  }
+  if (spec.sceneRoute?.predecessor) {
+    const [visit] = spec.sceneRoute.visits
+    if (game) assert.equal(saved.gs.sceneOnEnterIp[gameScene(visit)], visit.start)
+    else {
+      const readback = await read(run.slotReadback)
+      assert.deepEqual(readback.world.script.behaviors.scenes[visit.scene]?.onEnter, {
+        selection: { kind: 'use', value: visit.variant },
+      })
     }
   }
   assert.equal(raw.engine, engine)
@@ -1459,7 +1482,7 @@ async function inspect(path, engine) {
   }
   assert.deepEqual(
     [trigger.scene, trigger.owner, trigger.position],
-    [spec.scene, spec.owner, spec.contact],
+    [contactScene, spec.owner, spec.contact],
   )
   const moves = events.filter(({ kind }) => kind === 'move' || (revisit && kind === 'route-move'))
   const [approach, departure] = moves.slice(
@@ -1501,7 +1524,8 @@ async function inspect(path, engine) {
   } else {
     assert.deepEqual(launch[0].path, [
       'initial',
-      source.canonical.findIndex(({ kind }) => kind === 'startBattle'),
+      source.route?.launchPathIndex ??
+        source.canonical.findIndex(({ kind }) => kind === 'startBattle'),
     ])
     if (!handoff) assert.equal(once('script-result').arm, scriptedDefeat ? 'onLose' : 'none')
   }
@@ -1973,7 +1997,9 @@ async function inspect(path, engine) {
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
     [
-      ...(scriptedReturn?.members ?? handoff?.members ?? roles).map((role) => [role, exp]),
+      ...(scriptedReturn?.members ?? handoff?.members ?? spec.world.members ?? roles).map(
+        (role) => [role, exp],
+      ),
       ...(spec.world.join ? [[spec.world.join.role, 0]] : []),
     ],
   )
@@ -1991,11 +2017,16 @@ async function inspect(path, engine) {
     )
     assert.equal(last.music, returnMusic)
   }
-  if (!leavesByScript && scenario !== 'thief' && (!source.tower || game))
+  if (
+    !leavesByScript &&
+    contactScene === spec.scene &&
+    scenario !== 'thief' &&
+    (!source.tower || game)
+  )
     assert.equal(run.returned.owner.state ?? spec.disk.owner[2], spec.world.gameState)
   if (game) {
     assert.equal(won.continuation, spec.disk.battle + 1)
-    if (!leavesByScript) {
+    if (!leavesByScript && contactScene === spec.scene) {
       assert.equal(run.returned.owner.triggerMode, spec.world.triggerMode)
       assert.equal(
         run.returned.owner.resume,
@@ -2027,7 +2058,8 @@ async function inspect(path, engine) {
       at: { kind: 'stage', stage: 'legacy-002' },
     })
   } else {
-    if (!leavesByScript && scenario !== 'thief') assert.equal(run.returned.owner.hidden, true)
+    if (!leavesByScript && contactScene === spec.scene && scenario !== 'thief')
+      assert.equal(run.returned.owner.hidden, true)
     if (spec.disk.reward)
       assert.equal(
         script.filter(
@@ -2079,6 +2111,17 @@ async function inspect(path, engine) {
         )
   const boundaries = { entered, trigger, launch: launch[0], prepared, entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const linTiannan = linTiannanFacts
+    ? inspectLinTiannanPresentation({
+        events,
+        draws: renderedDialogue,
+        boundaries,
+        source,
+        spec,
+        game,
+        facts: linTiannanFacts,
+      })
+    : undefined
   const gai = source.gai
     ? inspectGaiLuojiaoPresentation({
         events,
@@ -2167,7 +2210,7 @@ async function inspect(path, engine) {
         bounds: boundaries,
         entries: stoneElderAuto.firstEntries,
       })
-    : undefined
+    : linTiannan?.coverage
   if (foregroundCoverage && report.profile === 'capture') {
     const recording = resolve(dirname(path), 'story.webm')
     assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
@@ -2332,6 +2375,7 @@ async function inspect(path, engine) {
           })),
         }
       : {}),
+    ...(linTiannan && { linTiannan: linTiannan.comparable }),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
     ...(tower?.contact && {
@@ -2370,6 +2414,7 @@ async function inspect(path, engine) {
     stoneElder,
     stoneElderAuto,
     foregroundCoverage,
+    linTiannan,
     goldenToad,
     gai,
     wood,
@@ -2416,6 +2461,7 @@ if (!failures.length) {
       ...(result.stoneElder?.issues ?? []),
       ...(result.stoneElderAuto?.issues ?? []),
       ...(result.foregroundCoverage?.flatMap(({ issues }) => issues) ?? []),
+      ...(result.linTiannan?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),
@@ -2425,9 +2471,11 @@ if (!failures.length) {
     ])
       failures.push({ engine: result.engine, ...issue })
   }
-  if (forestInn) {
+  if (game.foregroundCoverage) {
     for (const [index, original] of game.foregroundCoverage.entries())
       failures.push(...compareWorldDialogueCast(original, reforge.foregroundCoverage[index]))
+  }
+  if (forestInn) {
     const track = ({ actor, positions }) => [actor, positions.map(({ order, ...pose }) => pose)]
     const choreography = difference(
       game.foregroundCoverage[0].seating.map(track),

@@ -40,7 +40,7 @@ assert(
 const game = engine === 'game'
 const entrance = spec.entrance
 const revisit = spec.revisit
-const checkpointScene = entrance?.scene ?? spec.scene
+const checkpointScene = entrance?.scene ?? spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpoint = entrance?.start ?? revisit?.checkpoint ?? spec.start
 const fieldMusic = initialTrack(spec)
 const fieldMusicAsset = nativeMusic(fieldMusic)
@@ -72,6 +72,7 @@ const observe = bossObserver({
   engine,
   scene: spec.scene,
   gameScene: gameScene(spec),
+  contactScene: spec.sceneRoute?.checkpoint,
   owner: spec.owner,
   watched: [...(spec.watched ?? []), ...Object.keys(source.tomb?.arrivalActors ?? {})],
   contactActors: Object.entries(source.setup ?? {})
@@ -83,7 +84,12 @@ const observe = bossObserver({
   foreground,
   handoffScene: handoff?.scene,
   handoffMatte: handoff?.fieldPosition !== undefined,
-  dialogueWorld: source.automatic?.presentation.dialogueWorld,
+  foregroundDialogueScenes: source.scriptedStop
+    ? [...spec.sceneRoute.visits.map(({ scene }) => scene), spec.scene]
+    : source.automatic
+      ? [source.automatic.presentation.dialogueWorld]
+      : [],
+  recordDialogueAfterBattle: Boolean(source.scriptedStop),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
@@ -333,6 +339,10 @@ async function makeGameFixture(page, baseURL, until) {
     assert.equal(departed.triggerLabel, 'L_21296')
     departed.sState = 0
   }
+  if (spec.sceneRoute?.predecessor) {
+    const [visit] = spec.sceneRoute.visits
+    gs.sceneOnEnterIp[gameScene(visit)] = visit.start
+  }
   const [x, y] = toGamePixel(checkpoint)
   gs.party = { x, y, facing }
   gs.camera = { x: x - 160, y: y - 112 }
@@ -444,6 +454,12 @@ async function makeReforgeFixture() {
       [revisit.scene]: { onEnter: { selection: { kind: 'use', value: revisit.hook } } },
     }
     world.script.entityState[revisit.scene] = { e1846: 0 }
+  }
+  if (spec.sceneRoute?.predecessor) {
+    const [visit] = spec.sceneRoute.visits
+    world.script.behaviors.scenes = {
+      [visit.scene]: { onEnter: { selection: { kind: 'use', value: visit.variant } } },
+    }
   }
   if (source.setup) {
     world.script.entityState[spec.scene] = {}
@@ -626,7 +642,7 @@ async function playEncounter({ page, press, health, capture }) {
     if ((source.route || source.wood || source.phoenix || source.qilin) && ended)
       assert.equal(
         view.outcome,
-        source.automatic ? 'terminated' : game ? 'won' : 'victory',
+        source.automatic || scriptedStop ? 'terminated' : game ? 'won' : 'victory',
         'unexpected native battle outcome',
       )
     if (followup) {
@@ -951,6 +967,7 @@ await runBrowserJourney({
         record,
         key: approach,
         phase: 'approach',
+        scene: spec.sceneRoute?.checkpoint ?? spec.scene,
         from: spec.start,
         to: spec.contact,
         mode:

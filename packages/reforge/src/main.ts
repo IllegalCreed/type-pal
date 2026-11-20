@@ -1162,6 +1162,7 @@ export async function bootGame(
   let preserveClosedDialogFrame = false
   let fadingSourceFrame: ImageData | undefined
   let presentedBattleFrame = false
+  let presentedWorldDialogue = false
   let touchLandingNeedsPaint = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
@@ -3972,8 +3973,12 @@ export async function bootGame(
         return answer
       },
       startBattle: async (request, signal, source) => {
-        // An immediate touch battle needs the just-committed landing as its entry image.
-        if (source === 'script' && touchLandingNeedsPaint) await frames.wait(0, signal)
+        // The entry captures the canvas. A closed dialogue can still be painted there.
+        if (
+          source === 'script' &&
+          (touchLandingNeedsPaint || (presentedWorldDialogue && !dialogBox.visible))
+        )
+          await frames.waitForWorldPaint(signal)
         return battleHost.start(
           request.enemyTeamId,
           {
@@ -5492,6 +5497,7 @@ export async function bootGame(
     screenHold.cancel()
     fadingSourceFrame = undefined
     presentedBattleFrame = false
+    presentedWorldDialogue = false
     touchLandingNeedsPaint = false
     ditherTransition.cancel()
     sceneEntrySession.cancel()
@@ -6307,6 +6313,7 @@ export async function bootGame(
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
     // Dialogue uses 320 logical pixels and the same integer scale as the world.
+    if (!showingGameOver) presentedWorldDialogue = dialogBox.visible
     if (dialogBox.visible) {
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)

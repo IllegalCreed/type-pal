@@ -26,6 +26,7 @@ export const isBossBattle = (spec) => battleOperands(spec)[2] === 0
 export const observesForeground = (spec) =>
   spec.prelude !== undefined ||
   spec.revisit !== undefined ||
+  spec.sceneRoute?.checkpoint !== undefined ||
   spec.world.join !== undefined ||
   spec.world.handoff !== undefined ||
   spec.world.scriptedReturn !== undefined ||
@@ -96,6 +97,7 @@ export function partyFor(spec) {
       ming: mingOpeningParty,
       taoyuan: taoyuanParty,
       'anu-led': [taoyuanParty[1], taoyuanParty[0]],
+      shangshu: [party[1], party[0]],
     }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
@@ -105,6 +107,7 @@ export function battlePartyFor(spec) {
   if (spec.party === 'ming') return mingParty
   if (spec.automatic) return spec.automatic.members
   const members = partyFor(spec)
+  if (typeof spec.solo === 'string') return members.filter(({ role }) => role === spec.solo)
   return spec.solo ? members.slice(0, 1) : members
 }
 
@@ -520,6 +523,46 @@ export const scenarios = {
         inheritsMusic: true,
         members: ['li-xiaoyao'],
       },
+    },
+  },
+  'shangshu-lin-tiannan': {
+    id: 'shangshu-lin-tiannan',
+    scene: 's117',
+    owner: 'e2122',
+    watched: ['e2153', 'e2154', 'e2155', 'e2168', 'e2169'],
+    team: 38,
+    enemy: 'enemy-525',
+    start: [102, 26, 0],
+    contact: [103, 26, 0],
+    approach: 'ArrowRight',
+    party: 'shangshu',
+    solo: 'li-xiaoyao',
+    music: 86,
+    field: 11,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 15657,
+      battle: 18515,
+      last: 18735,
+      owner: [1248, 1040, 1, 5],
+      scriptedStop: 41511,
+      spellOnReady: true,
+    },
+    sceneRoute: {
+      checkpoint: 's114',
+      leave: 15657,
+      visits: [{ scene: 's118', start: 18261, variant: 'legacy-001', leave: 18419 }],
+      return: { select: 18418, start: 18433, variant: 'legacy-001', partyIp: 18434 },
+      predecessor: { scene: 's100', owner: 'e1825', select: 17782 },
+    },
+    mapMusic: { scene: 's114', ip: 15737, track: 73 },
+    world: {
+      returned: [121, 97, 0],
+      departure: [121, 98, 0],
+      members: ['lin-yueru', 'li-xiaoyao'],
+      inventory: [],
+      music: { ip: 18516, track: 24 },
     },
   },
   'stone-elder-auto': {
@@ -1025,7 +1068,16 @@ export function entranceSteps({ entrance }) {
 export async function readSources(spec) {
   const sceneNumber = gameScene(spec) - 1
   const mapMusic = spec.mapMusic ?? { scene: 's044', ip: 9673, track: fieldMusic }
+  const checkpoint = spec.sceneRoute?.checkpoint
+  const routePredecessor = spec.sceneRoute?.predecessor
   const files = {
+    ...(checkpoint && {
+      diskCheckpoint: `data/extracted/data/scene/${Number(checkpoint.slice(1))}.json`,
+      checkpointScene: `projects/pal/content/scenes/${checkpoint}.json`,
+    }),
+    ...(routePredecessor && {
+      routePredecessor: `projects/pal/content/scenes/${routePredecessor.scene}.json`,
+    }),
     gameScene: `data/extracted/data/scene/${sceneNumber}.json`,
     commands: 'data/extracted/events/all.json',
     musicScene: `data/extracted/data/scene/${Number(mapMusic.scene.slice(1))}.json`,
@@ -1073,7 +1125,8 @@ export async function readSources(spec) {
   const data = Object.fromEntries(
     await Promise.all(Object.entries(files).map(async ([kind, path]) => [kind, await json(path)])),
   )
-  const actor = data.gameScene.eventObjects.find(({ id }) => `e${id}` === spec.owner)
+  const originalCheckpoint = data.diskCheckpoint ?? data.gameScene
+  const actor = originalCheckpoint.eventObjects.find(({ id }) => `e${id}` === spec.owner)
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
   if (!spec.predecessor)
     assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
@@ -1195,7 +1248,7 @@ export async function readSources(spec) {
     Array.from({ length: 5 }, (_, i) => rfTeam.slots[i] ?? null),
     slots,
   )
-  const boss = data.rfScene.entities.find(({ id }) => id === spec.owner)
+  const boss = (data.checkpointScene ?? data.rfScene).entities.find(({ id }) => id === spec.owner)
   const setup = spec.predecessor ? readInnPredecessor(data.predecessor, commands, spec) : undefined
   const inn = spec.entrance ? readInnFrames(data, commands, setup, spec) : undefined
   const toad = spec.revisit ? readGoldenToadSources(data, commands, spec) : undefined
@@ -1350,7 +1403,12 @@ export async function readSources(spec) {
       : tianSource(data, commands, spec, native, object)
   const scriptedStop =
     spec.disk.scriptedStop !== undefined
-      ? readTurnStartStop(commands, object.scriptOnTurnStart, spec.disk.scriptedStop)
+      ? readTurnStartStop(
+          commands,
+          object.scriptOnTurnStart,
+          spec.disk.scriptedStop,
+          spec.disk.spellOnReady ? object.scriptOnReady : undefined,
+        )
       : undefined
   const poisonLady =
     spec.id === 'poison-lady'
@@ -1448,6 +1506,16 @@ export async function readSources(spec) {
       'projects/pal/content/battle-fields.json',
       ...(spec.party === 'tomb' || spec.accessory ? ['projects/pal/content/items.json'] : []),
       `projects/pal/content/maps/${data.rfScene.mapId}.json`,
+      ...(checkpoint
+        ? [
+            `data/extracted/data/tilemap/${data.diskCheckpoint.mapNum}.json`,
+            `projects/pal/content/maps/${data.checkpointScene.mapId}.json`,
+            ...spec.sceneRoute.visits.flatMap(({ scene }) => [
+              `data/extracted/data/tilemap/${Number(data[scene].mapId.slice(4))}.json`,
+              `projects/pal/content/maps/${data[scene].mapId}.json`,
+            ]),
+          ]
+        : []),
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
       ...returnMusicPaths,
@@ -1563,14 +1631,14 @@ export async function readSources(spec) {
 
 function readSceneRoute(data, commands, spec, trigger) {
   const { sceneRoute, scene, disk } = spec
-  const { visits, leave, return: entry } = sceneRoute
+  const { visits, leave, return: entry, checkpoint = scene, predecessor } = sceneRoute
   const segments = [
-    { scene, start: disk.entry, leave, body: trigger },
+    { scene: checkpoint, start: disk.entry, leave, body: trigger },
     ...visits.map((visit) => {
       const loaded = data[visit.scene]
       const behavior = visit.owner
         ? loaded.entities.find(({ id }) => id === visit.owner).behaviors.trigger.default
-        : loaded.hooks.onEnter.variants.default
+        : loaded.hooks.onEnter.variants[visit.variant ?? 'default']
       if (visit.owner) {
         const original = data[`disk-${visit.scene}`].eventObjects.find(
           ({ id }) => `e${id}` === visit.owner,
@@ -1637,12 +1705,25 @@ function readSceneRoute(data, commands, spec, trigger) {
     [selection.scene, selection.selection.onEnter],
     [scene, { kind: 'use', value: entry.variant }],
   )
-  const battleBody = data.rfScene.hooks.onEnter.variants[entry.variant].flow.stages[0].body
+  if (predecessor) {
+    const { scene, variant, start } = visits[0]
+    assert.deepEqual(
+      [commands[predecessor.select].opcode, commands[predecessor.select].operands],
+      [0x6d, [gameScene({ scene }), start, 0]],
+    )
+    const actor = data.routePredecessor.entities.find(({ id }) => id === predecessor.owner)
+    const selection = actor.behaviors.trigger.default.flow.stages[0].body.find(
+      (command) => command.kind === 'selectSceneHooks' && command.scene === scene,
+    )
+    assert.deepEqual(selection.selection.onEnter, { kind: 'use', value: variant })
+  }
+  const stage = data.rfScene.hooks.onEnter.variants[entry.variant].flow.stages[0]
+  const battleBody = [...(stage.entry?.prepare ?? []), ...stage.body]
   const members = battlePartyFor(spec)
-  const partyCommand = commands[spec.automatic?.partyIp ?? disk.battle - 4]
+  const partyCommand = commands[entry.partyIp ?? spec.automatic?.partyIp ?? disk.battle - 4]
   assert.deepEqual(
     [partyCommand.opcode, partyCommand.operands],
-    [0x75, members.map(({ roleId }) => roleId + 1)],
+    [0x75, [...members.map(({ roleId }) => roleId + 1), ...Array(3 - members.length).fill(0)]],
   )
   const beforeBattle = battleBody.slice(
     0,
@@ -1652,7 +1733,11 @@ function readSceneRoute(data, commands, spec, trigger) {
     beforeBattle.findLast(({ kind }) => kind === 'setParty')?.members,
     members.map(({ role }) => role),
   )
-  return { segments, battleBody }
+  return {
+    segments,
+    battleBody,
+    launchPathIndex: stage.body.findIndex(({ kind }) => kind === 'startBattle'),
+  }
 }
 
 function readAutomaticBattle(commands, object, spec) {
@@ -1664,7 +1749,7 @@ function readAutomaticBattle(commands, object, spec) {
   return readTurnStartStop(commands, turnStart, stop)
 }
 
-function readTurnStartStop(commands, startAddress, stopAddress) {
+function readTurnStartStop(commands, startAddress, stopAddress, readyAddress) {
   const terminal = commands[stopAddress]
   assert.deepEqual([terminal.opcode, terminal.operands], [0x89, [0, 0, 0]])
   const hook = commands.slice(startAddress, stopAddress + 1)
@@ -1678,6 +1763,18 @@ function readTurnStartStop(commands, startAddress, stopAddress) {
     if (command.advance) spells.push(spell)
   }
   assert(spells.length > 0, 'the scripted stop follows at least one complete turn')
+  if (readyAddress !== undefined) {
+    let round = 0
+    for (let ip = readyAddress; round < spells.length; ip++) {
+      const command = commands[ip]
+      assert(command && ip < readyAddress + 64, 'each ready script resumes after a finite body')
+      if (command.opcode === 0x67) {
+        const [id] = command.operands
+        spell = id > 0 && id < 65535 ? String(id) : null
+      }
+      if (command.advance) spells[round++] = spell
+    }
+  }
   return { turns: spells.length, spells }
 }
 
