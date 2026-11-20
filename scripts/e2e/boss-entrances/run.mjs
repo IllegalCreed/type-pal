@@ -41,7 +41,7 @@ const game = engine === 'game'
 const entrance = spec.entrance
 const revisit = spec.revisit
 const itemEntrance = spec.sceneRoute?.item
-const initialInventory = itemEntrance ? [{ itemId: itemEntrance.id, count: 1 }] : []
+const initialInventory = itemEntrance ? [{ itemId: itemEntrance.id, count: 1 }] : (spec.inventory ?? [])
 const checkpointScene = entrance?.scene ?? spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpoint = entrance?.start ?? revisit?.checkpoint ?? spec.start
 const fieldMusic = initialTrack(spec)
@@ -797,17 +797,20 @@ async function playEncounter({ page, press, health, capture }) {
         kind: defending ? 'defend' : 'attack',
         targetId: defending ? null : target?.id,
       }
-      const planned = source.wood
-        ? woodTaoistCommand(live, command)
-        : spec.recovery?.turn === live.turn
-          ? {
-              ...command,
-              kind: 'cast',
-              skillId: spec.recovery.skill,
-              targetId: live.selectingPlayerId,
-              targetSide: 'player',
-            }
-          : command
+      let planned = command
+      if (source.wood) planned = woodTaoistCommand(live, command)
+      if (spec.recovery?.turn === live.turn) {
+        planned = {
+          ...command,
+          kind: 'cast',
+          skillId: spec.recovery.skill,
+          targetId: live.selectingPlayerId,
+          targetSide: 'player',
+        }
+      }
+      if (finale && command.actorId === 'anu' && live.turn % 3 === 2) {
+        planned = { ...command, kind: 'item', itemId: '80', targetId: null, targetSide: 'player' }
+      }
       const key = nextKey({ ...live, snapshot: { ...live.snapshot, enemies } }, planned)
       if (key) await press(key, 'battle-select')
     }

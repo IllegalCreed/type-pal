@@ -690,7 +690,8 @@ export const scenarios = {
     field: 48,
     slot: 1,
     seed: 4,
-    maxRounds: 20,
+    maxRounds: 23,
+    inventory: [{ itemId: '80', count: 7 }],
     disk: { entry: 35464, battle: 35573, last: 35622, owner: [1120, 1360, 0, 5] },
     mapMusic: { scene: 's278', trigger: 'e4742', ip: 35391, track: 34 },
     world: {
