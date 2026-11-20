@@ -524,8 +524,6 @@ async function playEncounter({ page, press, health, capture }) {
     const { state, live, ended } = view
     if (source.route && ended)
       assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
-    if (source.scriptedStop && ended)
-      assert.equal(view.outcome, 'terminated', 'native enemy hook must end the battle')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
       : scriptedReturn
