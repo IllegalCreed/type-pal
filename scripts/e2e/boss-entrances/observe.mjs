@@ -61,6 +61,7 @@ function installBossForeground({
   let lastVisit
   let lastWorldDraw
   let backdrop
+  let backdropSampler
   let dialogue
   let renderId = 0
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
@@ -253,9 +254,19 @@ function installBossForeground({
     },
     reforgeBackdrop(sceneId, ctx) {
       if (!coversDialogueWorld(sceneId)) return
-      backdrop = backdropSample(ctx.canvas.width, ctx.canvas.height, (x, y) =>
-        Array.from(ctx.getImageData(x, y, 1, 1).data.slice(0, 3)),
-      )
+      // One small readback from the composited background leaves the presentation clock alone.
+      const width = 32
+      const height = 20
+      backdropSampler ??= new OffscreenCanvas(width, height).getContext('2d', {
+        willReadFrequently: true,
+      })
+      backdropSampler.imageSmoothingEnabled = false
+      backdropSampler.drawImage(ctx.canvas, 0, 0, width, height)
+      const { data } = backdropSampler.getImageData(0, 0, width, height)
+      backdrop = backdropSample(width, height, (x, y) => {
+        const start = (y * width + x) * 4
+        return Array.from(data.slice(start, start + 3))
+      })
     },
     successor: () => successor,
     scriptedReturn: () => returned,
