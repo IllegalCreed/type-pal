@@ -230,6 +230,27 @@ describe('当前战场背景索引图的 catalog→位图→调色板链', () =>
     expect(host.putImageData).not.toHaveBeenCalled()
   })
 
+  test.each([
+    { name: '2d context 不可用', contextAvailable: false, message: 'reforge: 2d context 不可用' },
+    { name: 'drawImage 抛错', contextAvailable: true, message: 'canvas draw failed' },
+  ])('$name 时保留原错因并关闭已解码的位图', async ({ contextAvailable, message }) => {
+    const { base } = await project(await png(320, 200, []))
+    const host = imageHost()
+    if (contextAvailable) {
+      host.drawImage.mockImplementationOnce(() => {
+        throw new Error(message)
+      })
+    } else {
+      vi.stubGlobal('document', {
+        createElement: () => ({ ...host.canvas, getContext: () => null }),
+      })
+    }
+
+    await expect(loadBattleBgFull(base, asset, palette)).rejects.toThrow(message)
+    expect(host.close).toHaveBeenCalledTimes(1)
+    expect(host.putImageData).not.toHaveBeenCalled()
+  })
+
   test('非灰度或非不透明像素在精确索引处拒绝，不写入调色板画布', async () => {
     const original = await png(320, 200, [4, 8], { index: 1, rgba: [8, 9, 8, 255] })
     const { base } = await project(original)

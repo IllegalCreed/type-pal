@@ -11,7 +11,6 @@
 
 import type { ItemData, ItemDataMap, WorldState } from '@type-pal/content'
 import { shopBuy, shopSell } from '@type-pal/content'
-import { expectDefined } from '../defined.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawItemGridList } from './item-list.js'
@@ -63,6 +62,10 @@ export interface ShopUiState {
 
 export function openShopUi(mode: 'buy' | 'sell', list: string[]): ShopUiState {
   return { mode, phase: 'list', list, cursor: 0, scrollTop: 0, confirmYes: false }
+}
+
+function definedShopItem(items: ItemDataMap, id: string | undefined): ItemData | undefined {
+  return id !== undefined && Object.hasOwn(items, id) ? items[id] : undefined
 }
 
 /** 「现有」数 = 背包 + 全队已装备(uigame.c:1554-1577)。 */
@@ -135,7 +138,7 @@ export function shopInput(
     if (pressed.has('ArrowDown')) s.cursor = Math.min(s.list.length - 1, s.cursor + 3)
   }
   if (confirm && s.list.length > 0) {
-    const it = items[expectDefined(s.list[s.cursor])]
+    const it = definedShopItem(items, s.list[s.cursor])
     if (!it) return
     if (s.mode === 'buy' && world.money < it.buyPrice) return // 钱不够:不进确认(原版 if price<=cash)
     s.phase = 'confirm'
@@ -156,7 +159,9 @@ export function drawShop(
 ): void {
   if (s.mode === 'sell') {
     // 全屏 picker(noDesc)+ 金钱/售价框
-    const list: ItemData[] = s.list.map((id) => items[id]).filter((x): x is ItemData => !!x)
+    const list: ItemData[] = s.list
+      .map((id) => definedShopItem(items, id))
+      .filter((item): item is ItemData => item !== undefined)
     drawItemGridList(ctx, list, s.cursor, world, assets, glyphs, now, undefined, { noDesc: true })
     drawScroll(ctx, assets.scroll, SELL_CASH_BOX.x, SELL_CASH_BOX.y, SELL_CASH_BOX.len)
     renderSpans(ctx, [{ text: '金钱' }], SELL_CASH_BOX.x + 10, SELL_CASH_BOX.y + 10, {
@@ -167,7 +172,7 @@ export function drawShop(
     })
     drawNumber(ctx, world.money, SELL_CASH_BOX.x + 48 + 30, SELL_CASH_BOX.y + 15, assets.nums)
     drawScroll(ctx, assets.scroll, SELL_PRICE_BOX.x, SELL_PRICE_BOX.y, SELL_PRICE_BOX.len)
-    const sel = s.list[s.cursor] ? items[expectDefined(s.list[s.cursor])] : undefined
+    const sel = definedShopItem(items, s.list[s.cursor])
     if (sel?.sellable) {
       renderSpans(ctx, [{ text: '售价' }], SELL_PRICE_BOX.x + 10, SELL_PRICE_BOX.y + 10, {
         glyphs,
@@ -183,7 +188,7 @@ export function drawShop(
     const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
     const win = s.list.slice(s.scrollTop, s.scrollTop + VISIBLE_ROWS)
     win.forEach((id, i) => {
-      const it = items[id]
+      const it = definedShopItem(items, id)
       if (!it) return
       const idx = s.scrollTop + i
       const y = NAME_Y0 + i * LINE_H
@@ -197,7 +202,7 @@ export function drawShop(
     // 预览:itembox + 图标 + 现有/金钱框
     // ITEMBOX 带阴影(原版 itemmenu.c:196 shadow(+5,+5)+正色两笔;作者报缺影)
     drawSlicedBox(ctx, assets.itembox, PREVIEW_ITEMBOX.x, PREVIEW_ITEMBOX.y, 64, 64)
-    const sel = s.list[s.cursor] ? items[expectDefined(s.list[s.cursor])] : undefined
+    const sel = definedShopItem(items, s.list[s.cursor])
     if (sel) {
       const icon = sel.icon ? assets.itemIcons[sel.icon] : undefined
       if (icon) ctx.drawImage(icon, PREVIEW_ICON.x, PREVIEW_ICON.y)

@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util'
 import type { AuthorSceneDef, SpriteDef } from '@type-pal/content'
 import { migratedSpriteId } from './pal-world-sprite-registry.js'
 
@@ -23,15 +24,14 @@ export interface PalWorldRoleSpriteAliasClosureReport {
 }
 
 function comparableDefinition(sprite: SpriteDef): unknown {
-  return {
-    asset: sprite.asset,
-    layout: sprite.layout,
-    poses: sprite.poses ?? null,
-  }
+  // Compare published JSON values with ordered action steps and unordered object keys.
+  return JSON.parse(
+    JSON.stringify({ asset: sprite.asset, layout: sprite.layout, poses: sprite.poses ?? null }),
+  )
 }
 
 function definitionsEquivalent(left: SpriteDef, right: SpriteDef): boolean {
-  return JSON.stringify(comparableDefinition(left)) === JSON.stringify(comparableDefinition(right))
+  return isDeepStrictEqual(comparableDefinition(left), comparableDefinition(right))
 }
 
 function assertEquivalentDefinition(label: string, left: SpriteDef, right: SpriteDef): void {

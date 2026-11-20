@@ -28,9 +28,11 @@ export function isLineDone(
   return elapsedMs >= typeDoneMs + autoAdvanceMs
 }
 
-/** spans 总字符数(Σ span.text 长度)。打字进度 / 行完成判定用。 */
+/** 用与 renderSpans 相同的 Unicode 码点数计算对白行的时间预算。 */
 export function countChars(spans: readonly TextSpan[]): number {
-  let n = 0
-  for (const span of spans) n += span.text.length
-  return n
+  let count = 0
+  for (const { text } of spans) {
+    for (const _character of text) count++
+  }
+  return count
 }

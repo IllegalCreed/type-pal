@@ -337,6 +337,30 @@ describe('current project loader', () => {
     expect(Object.keys(project.authorContent.entryScenes)).toEqual(['s001', 's002'])
   })
 
+  test.each([
+    's002',
+    'constructor',
+  ])('loads and indexes the configured default scene %s as an own entry', async (sceneId) => {
+    const projectManifest = manifest({
+      defaultEntryId: 'alternate',
+      entryPoints: [
+        manifest().entryPoints[0],
+        {
+          id: 'alternate',
+          label: 'Alternate',
+          scene: sceneId,
+          startWorld: { party: [], money: 17, inventory: [] },
+        },
+      ],
+    })
+    const project = await loadCurrentProjectFrom(memorySource(files(projectManifest)))
+    expect({
+      ownedScene: Object.hasOwn(project.authorContent.entryScenes, sceneId),
+      authorScene: project.authorContent.entryScene.id,
+      runtimeScene: project.entryScene.id,
+    }).toEqual({ ownedScene: true, authorScene: sceneId, runtimeScene: sceneId })
+  })
+
   test('rejects a broken non-default entry world reference', () => {
     const projectManifest = manifest({
       entryPoints: [

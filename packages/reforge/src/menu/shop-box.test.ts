@@ -22,11 +22,31 @@ describe('formal shop input', () => {
         current = next
       })
     input('Enter')
+    expect(ui.phase).toBe('list')
     input('ArrowRight')
     expect(input('Enter')).toBeUndefined()
     expect(current).toEqual(world(100))
     expect(ui.phase).toBe('list')
     expect(ui.confirmYes).toBe(false)
+  })
+
+  test('an explicitly defined constructor item remains purchasable', () => {
+    const item = items.a
+    if (!item) throw new Error('Missing priced shop fixture')
+    const namedItem = { ...item, id: 'constructor' }
+    const catalog: ItemDataMap = { constructor: namedItem }
+    const ui = openShopUi('buy', [namedItem.id])
+    let current = world(50)
+    const input = (key: string) =>
+      shopInput(ui, new Set([key]), current, catalog, (next) => {
+        current = next
+      })
+
+    input('Enter')
+    expect(ui.phase).toBe('confirm')
+    input('ArrowRight')
+    expect(input('Enter')).toBe('changed')
+    expect(current).toEqual({ ...world(0), inventory: [{ itemId: namedItem.id, count: 1 }] })
   })
 
   test.each(['ArrowUp', 'ArrowDown', 'Enter', 'Escape'])('empty stock %s is safe', (key) => {

@@ -89,41 +89,77 @@ function resolver(
   }
 }
 
-function bytesOf(fill: number): Uint8Array {
-  const bytes = new Uint8Array(8)
-  bytes.fill(fill)
-  return bytes
+function singleNoteMidi(pitch: number, ticks: number): Uint8Array {
+  // Format 0, one track, 96 ticks per quarter note. Both test durations fit one delta byte.
+  return Uint8Array.from([
+    0x4d,
+    0x54,
+    0x68,
+    0x64,
+    0,
+    0,
+    0,
+    6,
+    0,
+    0,
+    0,
+    1,
+    0,
+    96,
+    0x4d,
+    0x54,
+    0x72,
+    0x6b,
+    0,
+    0,
+    0,
+    12,
+    0,
+    0x90,
+    pitch,
+    64,
+    ticks,
+    0x80,
+    pitch,
+    64,
+    0,
+    0xff,
+    0x2f,
+    0,
+  ])
 }
 
 describe('L4 播放中替换选择（停止/替换轴）', () => {
   test('旧曲播放中 load 新曲：旧曲被停、新曲字节真入 sequencer、快照归零换时长，play 从头开播', async () => {
     const h = harness()
-    const activityA = createMidiNoteActivity([{ start: 0, length: 2, velocity: 100 }], 10, 8)
-    const activityB = createMidiNoteActivity([{ start: 1, length: 3, velocity: 90 }], 6, 8)
+    const bytesA = singleNoteMidi(60, 96)
+    const bytesB = singleNoteMidi(62, 48)
+    const activityA = createMidiNoteActivity([{ start: 0, length: 0.5, velocity: 64 }], 0.5, 8)
+    const activityB = createMidiNoteActivity([{ start: 0, length: 0.25, velocity: 64 }], 0.25, 8)
     const t = createMidiPreviewTransport(
       resolver(
         new Map([
-          ['music.a', bytesOf(1)],
-          ['music.b', bytesOf(2)],
+          ['music.a', bytesA],
+          ['music.b', bytesB],
         ]),
       ),
       h.runtime,
     )
     await t.load('music.a', 'music.a', activityA)
     await t.play()
-    h.adapter.currentTime = 4 // 旧曲播放推进中
+    h.adapter.currentTime = 0.125 // 旧曲播放推进中
 
     const returned = await t.load('music.b', 'music.b', activityB)
     expect(returned).toBe(activityB) // cachedActivity 原样回传
     expect(h.loads).toEqual([
-      { fileName: 'music.a', bytes: [1, 1, 1, 1, 1, 1, 1, 1] },
-      { fileName: 'music.b', bytes: [2, 2, 2, 2, 2, 2, 2, 2] },
+      { fileName: 'music.a', bytes: [...bytesA] },
+      { fileName: 'music.b', bytes: [...bytesB] },
     ])
     expect(h.adapter.paused).toBe(true) // 旧曲已被替换路径停止
     expect(t.snapshot()).toMatchObject({
       asset: 'music.b',
       currentTime: 0,
-      duration: 6, // 新曲自己的时长
+      duration: 0.25, // 新曲自己的时长
       paused: true,
     })
 
@@ -132,48 +168,53 @@ describe('L4 播放中替换选择（停止/替换轴）', () => {
     expect(h.adapter.paused).toBe(false)
     expect(h.adapter.currentTime).toBe(0) // 从头开播
     expect(h.loads).toHaveLength(2) // 同曲 play 不重载
-    expect(t.snapshot()).toMatchObject({ asset: 'music.b', paused: false, duration: 6 })
+    expect(t.snapshot()).toMatchObject({ asset: 'music.b', paused: false, duration: 0.25 })
   })
 })
 
 describe('L5 播放中替换读取失败（失败轴）', () => {
-  test('替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播', async () => {
-    // sequencer 兜底时长取 99（≠ actA 的 10）：duration 优先级链 activity ?? sequencer，
-    // 失败后若旧 activity 残留会显示 10，回退正确则显示 99 —— 使残留可判别。
-    const h = harness(99)
-    const activityA = createMidiNoteActivity([{ start: 0, length: 2, velocity: 100 }], 10, 8)
-    const activityB = createMidiNoteActivity([{ start: 1, length: 3, velocity: 90 }], 6, 8)
+  test('新曲读取失败时，停止后的快照不沿用旧曲时长，重试后报告新曲时长', async () => {
+    const h = harness(0.5)
+    const bytesA = singleNoteMidi(60, 96)
+    const bytesB = singleNoteMidi(62, 48)
     const t = createMidiPreviewTransport(
       resolver(
         new Map([
-          ['music.a', bytesOf(1)],
-          ['music.b', bytesOf(2)],
+          ['music.a', bytesA],
+          ['music.b', bytesB],
         ]),
         new Set(['music.b']),
       ),
       h.runtime,
     )
-    await t.load('music.a', 'music.a', activityA)
+    await t.load('music.a')
     await t.play()
-    h.adapter.currentTime = 4
+    h.adapter.currentTime = 0.125
+    expect(t.snapshot()).toEqual({
+      asset: 'music.a',
+      currentTime: 0.125,
+      duration: 0.5,
+      paused: false,
+    })
 
-    await expect(t.load('music.b', 'music.b', activityB)).rejects.toThrow('read failed')
+    await expect(t.load('music.b')).rejects.toThrow('read failed')
     expect(h.loads).toHaveLength(1) // 新曲从未进入 sequencer
     expect(h.adapter.paused).toBe(true) // 旧曲不残留出声
-    expect(t.snapshot()).toMatchObject({
+    t.stop()
+    expect(t.snapshot()).toEqual({
       asset: 'music.b',
-      duration: 99, // activity 已清空 → 回退 sequencer 兜底，旧 activity 不冒充新选择
+      duration: 0,
       currentTime: 0,
       paused: true,
     })
     // 旧字节/旧 activity 均已失效：不能把旧曲当新选择播放
     await expect(t.play()).rejects.toThrow('请等待 MIDI 读取完成。')
 
-    await t.load('music.b', 'music.b', activityB) // reader 修复后重载
-    expect(t.snapshot()).toMatchObject({ asset: 'music.b', duration: 6 })
+    await t.load('music.b') // reader 修复后重载
+    expect(t.snapshot()).toMatchObject({ asset: 'music.b', duration: 0.25 })
     await t.play()
     expect(h.loads).toHaveLength(2)
-    expect(h.loads[1]).toEqual({ fileName: 'music.b', bytes: [2, 2, 2, 2, 2, 2, 2, 2] })
+    expect(h.loads[1]).toEqual({ fileName: 'music.b', bytes: [...bytesB] })
     expect(t.snapshot().paused).toBe(false)
   })
 })

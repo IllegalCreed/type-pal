@@ -63,9 +63,10 @@ function addSpriteActionSounds(
   where: string,
 ): void {
   if (!spritesById) throw new Error(`SFX readiness ${where}: 无 sprites 注册表，无法解析动作音效`)
-  const sprite = spritesById[spriteId]
+  const sprite = Object.hasOwn(spritesById, spriteId) ? spritesById[spriteId] : undefined
   if (!sprite) throw new Error(`SFX readiness ${where}: SpriteDef "${spriteId}" 不存在`)
-  const action = sprite.poses?.[actionId]
+  const poses = sprite.poses
+  const action = poses && Object.hasOwn(poses, actionId) ? poses[actionId] : undefined
   if (!action) throw new Error(`SFX readiness ${where}: 动作 "${spriteId}/${actionId}" 不存在`)
   for (const step of action.steps)
     for (const cue of step.cues ?? []) if (cue.kind === 'sound') out.add(cue.asset)
@@ -139,7 +140,7 @@ export async function collectScriptSoundAssets(
       seen.add(id)
       if (!sharedScripts)
         throw new Error(`SFX readiness 无 sharedScripts 注册表，无法解析脚本 "${id}"`)
-      const script = sharedScripts[id]
+      const script = Object.hasOwn(sharedScripts, id) ? sharedScripts[id] : undefined
       if (!script) throw new Error(`SFX readiness sharedScripts 缺脚本 "${id}"`)
       await visit(script.body, `sharedScripts[${JSON.stringify(id)}].body`)
     }

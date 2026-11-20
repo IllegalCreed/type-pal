@@ -120,6 +120,44 @@ describe('C10 optional 表保真', () => {
     expect(bare.migrationDiagnostics, marker).toEqual({ version: 1, diagnostics: [] })
   })
 
+  test.each([
+    {
+      name: '非数组',
+      input: {},
+      diagnostic: 'content/ambiences.json: 期望数组',
+    },
+    {
+      name: '空记录',
+      input: [null],
+      diagnostic: 'content/ambiences.json[0]: 期望对象',
+    },
+    {
+      name: '缺少稳定 ID',
+      input: [{ name: '夜晚', tint: [117, 229, 255] }],
+      diagnostic: 'content/ambiences.json[0].id: 期望非空字符串',
+    },
+    {
+      name: '名称非字符串',
+      input: [{ id: 'night', name: 42, tint: [117, 229, 255] }],
+      diagnostic: 'content/ambiences.json[0].name: 期望字符串',
+    },
+    {
+      name: '不是三色通道',
+      input: [{ id: 'night', name: '夜晚', tint: [117, 229] }],
+      diagnostic: 'content/ambiences.json[0].tint: 期望三个颜色通道',
+    },
+    {
+      name: '颜色超出范围',
+      input: [{ id: 'night', name: '夜晚', tint: [117, 256, 255] }],
+      diagnostic: 'content/ambiences.json[0].tint[1]: 期望 0 到 255 之间的有限数值',
+    },
+  ])('已登记的氛围表拒绝$name，并指出具体路径', async ({ input, diagnostic }) => {
+    const files = lbProjectFiles({ optionalTables: { ambiences: [] } })
+    files['content/ambiences.json'] = input
+    const outcome = await rejectOf(loadCurrentProjectFrom(lbMemorySource(files)))
+    expect(outcome).toEqual({ kind: 'rejected', message: diagnostic })
+  })
+
   test('合法非空当前表逐表保真到工程公开字段', async () => {
     const marker = 'C10-optional-tables-full'
     // 非空当前表（全部合法形状）保真：按稳定键/原序落到工程公开字段

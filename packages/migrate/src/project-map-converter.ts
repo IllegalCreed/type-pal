@@ -105,7 +105,13 @@ export function convertSourceTilemap(mapNum: number, source: Tilemap): ProjectMa
       const cell = source.cells[row]![col]!
       for (let sub = 0; sub < 2; sub++) {
         const targetRow = row * 2 + sub
-        const decoded = decodeSourceMapWord(sub === 0 ? cell.lower : cell.upper)
+        const field = sub === 0 ? 'lower' : 'upper'
+        const word = cell[field]
+        if (!Number.isInteger(word) || word < 0 || word > 0xffff_ffff)
+          throw new Error(
+            `map ${mapNum} tilemap.cells[${row}][${col}].${field}: 期望 32 位无符号整数，收到 ${word}`,
+          )
+        const decoded = decodeSourceMapWord(word)
         layer0Tiles[targetRow]![col] = decoded.layer0Tile
         layer0Sources[targetRow]![col] = 0
         layer0Heights[targetRow]![col] = decoded.layer0Height

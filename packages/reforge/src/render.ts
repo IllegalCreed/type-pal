@@ -5,7 +5,7 @@
  *   2) 精灵 + 「会盖住该精灵的高瓦片」(cover tile) 入同一表，按 baseY 升序画。
  *      tile baseY = 行*16 + 子行*8 + 高度*8（= 把这块瓦片按高度投影回地板的 Y）；精灵 baseY = 脚 Y。
  *   于是投影靠前者后画、盖住投影靠后者 → 正确遮挡（堆叠高墙的每块小瓦片也对）。
- * 图层只是作画组织，与遮挡无关；遮挡纯看 baseY。等距位偏移端口自 game/draw-tilemap.ts。
+ * 图层顺序参与基底绘制，也是 cover 瓦片的深度偏移之一。
  */
 import type { IsometricMapContent } from '@type-pal/content'
 import type { Palette, RleFrame } from '@type-pal/shared'
@@ -333,36 +333,39 @@ export class Canvas2DRenderer implements Renderer {
     ctx.globalAlpha = 1
     ctx.drawImage(cover.image, x, y)
     this.ctx.save()
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
-    if (retainedOnly) {
-      // A vanished candidate is not a normal cover. Repainting its whole tile would change NPC
-      // visibility. Retain foreground colour only inside the current visible party mask instead.
-      this.retainedWallCanvas ??= document.createElement('canvas')
-      const wall = this.retainedWallCanvas
-      if (wall.width !== width) wall.width = width
-      if (wall.height !== height) wall.height = height
-      const wallContext = wall.getContext('2d')
-      if (!wallContext) throw new Error('reforge: 2d context 不可用')
-      wallContext.setTransform(1, 0, 0, 1, 0, 0)
-      wallContext.clearRect(0, 0, width, height)
-      wallContext.globalCompositeOperation = 'source-over'
-      wallContext.drawImage(canvas, 0, 0)
-      wallContext.globalCompositeOperation = 'source-in'
-      wallContext.setTransform(
-        transform.a,
-        transform.b,
-        transform.c,
-        transform.d,
-        transform.e - left,
-        transform.f - top,
-      )
-      wallContext.imageSmoothingEnabled = this.ctx.imageSmoothingEnabled
-      wallContext.drawImage(cover.image, x, y)
-      this.ctx.drawImage(wall, left, top)
+    try {
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+      if (retainedOnly) {
+        // A vanished candidate is not a normal cover. Repainting its whole tile would change NPC
+        // visibility. Retain foreground colour only inside the current visible party mask instead.
+        this.retainedWallCanvas ??= document.createElement('canvas')
+        const wall = this.retainedWallCanvas
+        if (wall.width !== width) wall.width = width
+        if (wall.height !== height) wall.height = height
+        const wallContext = wall.getContext('2d')
+        if (!wallContext) throw new Error('reforge: 2d context 不可用')
+        wallContext.setTransform(1, 0, 0, 1, 0, 0)
+        wallContext.clearRect(0, 0, width, height)
+        wallContext.globalCompositeOperation = 'source-over'
+        wallContext.drawImage(canvas, 0, 0)
+        wallContext.globalCompositeOperation = 'source-in'
+        wallContext.setTransform(
+          transform.a,
+          transform.b,
+          transform.c,
+          transform.d,
+          transform.e - left,
+          transform.f - top,
+        )
+        wallContext.imageSmoothingEnabled = this.ctx.imageSmoothingEnabled
+        wallContext.drawImage(cover.image, x, y)
+        this.ctx.drawImage(wall, left, top)
+      }
+      this.ctx.globalAlpha *= 1 - OCCLUSION_ALPHA
+      this.ctx.drawImage(canvas, left, top)
+    } finally {
+      this.ctx.restore()
     }
-    this.ctx.globalAlpha *= 1 - OCCLUSION_ALPHA
-    this.ctx.drawImage(canvas, left, top)
-    this.ctx.restore()
   }
 
   /**
@@ -481,9 +484,12 @@ export class Canvas2DRenderer implements Renderer {
         return
       }
       this.ctx.save()
-      this.ctx.globalAlpha = alpha
-      this.ctx.drawImage(image, x, y)
-      this.ctx.restore()
+      try {
+        this.ctx.globalAlpha = alpha
+        this.ctx.drawImage(image, x, y)
+      } finally {
+        this.ctx.restore()
+      }
     }
 
     if (!opts?.skipBase) {
@@ -529,9 +535,12 @@ export class Canvas2DRenderer implements Renderer {
           alpha !== undefined && alpha < 1
             ? () => {
                 this.ctx.save()
-                this.ctx.globalAlpha = alpha
-                this.ctx.drawImage(image, x, y)
-                this.ctx.restore()
+                try {
+                  this.ctx.globalAlpha = alpha
+                  this.ctx.drawImage(image, x, y)
+                } finally {
+                  this.ctx.restore()
+                }
               }
             : () => this.ctx.drawImage(image, x, y),
       }

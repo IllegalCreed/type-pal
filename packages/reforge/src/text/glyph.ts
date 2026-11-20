@@ -89,20 +89,21 @@ export async function loadGlyphs(url = ENGINE_CHROME.fontBdf): Promise<GlyphTabl
 
 // ── bakeGlyph(canvas 涂绘 + 缓存,浏览器验) ────────────────────────────
 
-const cache = new Map<string, HTMLCanvasElement>()
+const cache = new WeakMap<Glyph, Map<string, HTMLCanvasElement>>()
 
 function glyphCacheKey(cp: number, rgba: readonly [number, number, number]): string {
   return `${cp}:${rgba[0]},${rgba[1]},${rgba[2]}`
 }
 
-/** decodeGlyph 结果涂到离屏 canvas;按 (cp,色) 缓存。canvas 部分浏览器验。 */
+/** 按字形对象及颜色缓存。同一字符在不同字形表中可以有不同点阵。 */
 export function bakeGlyph(
   cp: number,
   glyph: Glyph,
   rgba: readonly [number, number, number],
 ): HTMLCanvasElement {
   const key = glyphCacheKey(cp, rgba)
-  const hit = cache.get(key)
+  const colors = cache.get(glyph)
+  const hit = colors?.get(key)
   if (hit) return hit
   const cvs = document.createElement('canvas')
   cvs.width = glyph.width
@@ -112,7 +113,8 @@ export function bakeGlyph(
   const img = ctx.createImageData(glyph.width, glyph.height)
   img.data.set(decodeGlyph(glyph, rgba))
   ctx.putImageData(img, 0, 0)
-  cache.set(key, cvs)
+  if (colors) colors.set(key, cvs)
+  else cache.set(glyph, new Map([[key, cvs]]))
   return cvs
 }
 
