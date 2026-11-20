@@ -521,6 +521,19 @@ export function ControlCommandForm(props: ControlCommandFormProps) {
           <Row label="帧数">
             <Num value={cmd.frames} onChange={(n) => set({ frames: n })} />
           </Row>
+          <Row label="镜头起步">
+            <DsSelect
+              size="compact"
+              value={cmd.startImmediately ? 'current' : 'next'}
+              options={[
+                { value: 'next', label: '下一运行帧' },
+                { value: 'current', label: '与场景动作同帧' },
+              ]}
+              onValueChange={(mode) =>
+                set({ startImmediately: mode === 'current' ? true : undefined })
+              }
+            />
+          </Row>
         </>
       )
     case 'clearDialog':

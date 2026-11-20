@@ -79,7 +79,15 @@ const observe = bossObserver({
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
   includesParty:
     spec.party === 'tomb' ||
-    Boolean(source.tower || source.route || revisit || scriptedStop || source.gai || source.wood),
+    Boolean(
+      source.tower ||
+        source.route ||
+        revisit ||
+        scriptedStop ||
+        source.gai ||
+        source.wood ||
+        source.phoenix,
+    ),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -269,7 +277,8 @@ async function makeGameFixture(page, baseURL, until) {
       source.gai ||
       source.route ||
       revisit ||
-      source.wood
+      source.wood ||
+      source.phoenix
       ? nativeRoles
       : null,
   )
@@ -593,7 +602,7 @@ async function playEncounter({ page, press, health, capture }) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if ((source.route || source.wood) && ended)
+    if ((source.route || source.wood || source.phoenix) && ended)
       assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
@@ -639,7 +648,17 @@ async function playEncounter({ page, press, health, capture }) {
         kind: defending ? 'defend' : 'attack',
         targetId: defending ? null : target?.id,
       }
-      const planned = source.wood ? woodTaoistCommand(live, command) : command
+      const planned = source.wood
+        ? woodTaoistCommand(live, command)
+        : spec.recovery?.turn === live.turn
+          ? {
+              ...command,
+              kind: 'cast',
+              skillId: spec.recovery.skill,
+              targetId: live.selectingPlayerId,
+              targetSide: 'player',
+            }
+          : command
       const key = nextKey({ ...live, snapshot: { ...live.snapshot, enemies } }, planned)
       if (key) await press(key, 'battle-select')
     }
@@ -898,7 +917,7 @@ await runBrowserJourney({
         from: spec.start,
         to: spec.contact,
         mode:
-          source.tower || source.route || source.scriptedStop
+          source.tower || source.route || source.scriptedStop || source.phoenix
             ? undefined
             : source.tian
               ? 'ready'
@@ -926,6 +945,20 @@ await runBrowserJourney({
       }
       result.returned = await playEncounter({ page, press, health, capture })
       if (handoff || scriptedReturn) {
+        if (source.phoenix) {
+          await until(
+            async () =>
+              (await trace(page)).events.some(
+                (event) =>
+                  event.kind === 'world-drawn' &&
+                  event.scene === handoff.scene &&
+                  event.visible &&
+                  event.party?.some(({ frame }) => frame === 1),
+              ),
+            Boolean,
+            'successor first discernible animated pose',
+          )
+        }
         if (handoff?.musicIp !== undefined) {
           await until(
             async () =>

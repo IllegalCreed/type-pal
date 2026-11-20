@@ -11,7 +11,7 @@ import type {
   TeleportOutPresentation,
   WalkSpeed,
 } from './script.js'
-import { checkSceneReveal, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
+import { checkCameraPanStart, checkSceneReveal, SCENE_ENTRY_PREPARE_SAFETY } from './script.js'
 import type { SpriteActionBinding } from './sprite.js'
 
 export type PageId = string
@@ -824,6 +824,7 @@ export function checkBaseAuthorCommands(
     if (kind === 'loadScene' && options.forbidLoadScene)
       throw new Error(`${commandPath}: auto 行为禁止 loadScene`)
     if (kind === 'sceneTimeline') checkSceneTimeline(command, commandPath, options)
+    if (kind === 'cameraPan') checkCameraPanStart(command, commandPath)
     if (kind === 'nudgeParty' && command.facing !== undefined)
       checkFacing(command.facing, `${commandPath}.facing`)
     if (kind === 'chasePlayer' && command.worldStep !== undefined) {

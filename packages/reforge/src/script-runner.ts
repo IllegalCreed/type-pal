@@ -145,7 +145,13 @@ export interface ScriptHost {
   moveParty(to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
   nudgeParty(dx: number, dy: number, layer: number, facing?: Facing): void
   // ── M3c 相机 / 页切换 ──
-  cameraPan(dx: number, dy: number, frames: number, signal?: AbortSignal): Promise<void>
+  cameraPan(
+    dx: number,
+    dy: number,
+    frames: number,
+    signal?: AbortSignal,
+    startImmediately?: true,
+  ): Promise<void>
   cameraSnap(to?: GridPos): void
   setEntityAuto(entity: string, script: ScriptBinding): void
   setEntityTrigger(entity: string, script: ScriptBinding): void
@@ -810,7 +816,9 @@ export class ScriptRunner {
         return this.runBody(accepted ? cmd.onYes : cmd.onNo, [...path, accepted ? 'onYes' : 'onNo'])
       }
       case 'cameraPan':
-        return h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
+        return cmd.startImmediately
+          ? h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal, true)
+          : h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
       case 'cameraSnap':
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':

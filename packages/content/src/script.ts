@@ -224,7 +224,7 @@ export type Command =
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onYes: Command[]; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)
-  | { kind: 'cameraPan'; dx: number; dy: number; frames: number } // 相对:每帧位移 ×frames,阻塞
+  | { kind: 'cameraPan'; dx: number; dy: number; frames: number; startImmediately?: true }
   | { kind: 'cameraSnap'; to?: GridPos } // 绝对跳到格(to)/回正跟随(缺省)
   // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
   // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
@@ -467,6 +467,16 @@ function checkRef(value: unknown, path: string): void {
     throw new Error(`${path}: 期望 {chunk,id} ScriptRef`)
 }
 
+export function checkCameraPanStart(
+  value: { startImmediately?: unknown; frames?: unknown },
+  path: string,
+): void {
+  if (value.startImmediately === undefined) return
+  if (value.startImmediately !== true) throw new Error(`${path}.startImmediately: 期望 true`)
+  if (typeof value.frames !== 'number' || !Number.isSafeInteger(value.frames) || value.frames < 1)
+    throw new Error(`${path}.frames: 同帧起步至少需要一步`)
+}
+
 export interface CheckCommandsOptions {
   /** auto runner 不能拥有场景生命周期；禁止直接或在同步执行臂中 loadScene。 */
   forbidLoadScene?: boolean
@@ -487,6 +497,8 @@ export function checkCommands(
       throw new Error(`${path}[${i}].kind: 未知命令 ${JSON.stringify(k)}`)
     if (k === 'applyActorCondition' || k === 'clearActorCondition')
       checkActorConditionCommandShape(c, `${path}[${i}]`)
+    if (k === 'cameraPan')
+      checkCameraPanStart(c as { startImmediately?: unknown; frames?: unknown }, `${path}[${i}]`)
     if (k === 'dialog') {
       const dialog = c as { cue?: unknown; line?: unknown }
       if (dialog.line !== undefined)

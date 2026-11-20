@@ -13,7 +13,7 @@ export type PresentationIntent =
   | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' }
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: FadeColor }
-  | { kind: 'cameraPan'; dx: number; dy: number; frames: number }
+  | { kind: 'cameraPan'; dx: number; dy: number; frames: number; startImmediately?: true }
   | { kind: 'cameraSnap'; to?: GridPos }
   | {
       kind: 'frameAnimation'

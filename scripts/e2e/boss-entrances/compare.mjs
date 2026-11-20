@@ -7,6 +7,7 @@ import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
+import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
@@ -75,7 +76,10 @@ const mainAction = (action, game) => {
         ? action.target === -1
           ? null
           : action.target
-        : (action.targetEnemyIdx ?? action.targetAllyIdx ?? action.targetPlayerIdx ?? null),
+        : (action.targetEnemyIdx ??
+          action.targetAllyIdx ??
+          action.targetPlayerIdx ??
+          (spec.recovery && kind === 'cast' && action.skillId === spec.recovery.skill ? 0 : null)),
   }
 }
 
@@ -1554,14 +1558,24 @@ async function inspect(path, engine) {
       commands
         .filter(({ turn }) => turn > 1)
         .every(
-          ({ kind, target }) =>
-            (kind === 'attack' || (source.wood && kind === 'cast')) &&
+          ({ turn, kind, spell, target }) =>
+            (kind === 'attack' ||
+              (source.wood && kind === 'cast') ||
+              (turn === spec.recovery?.turn && kind === 'cast' && spell === spec.recovery.skill)) &&
             Number.isInteger(target) &&
             target >= 0 &&
             target < source.slots.length,
         ),
     )
     assert(battleKeys.length > 0)
+  }
+
+  if (spec.recovery) {
+    assert.deepEqual(
+      commands.filter(({ kind }) => kind === 'cast'),
+      [{ slot: 0, turn: spec.recovery.turn, kind: 'cast', spell: spec.recovery.skill, target: 0 }],
+      'one self-heal submitted before the endangered round',
+    )
   }
 
   const actions = find('action').map(({ turn, actor, action, party: members, slots }) => ({
@@ -1998,7 +2012,8 @@ async function inspect(path, engine) {
     source.stoneElder ||
     source.toad ||
     source.gai ||
-    source.wood
+    source.wood ||
+    source.phoenix
       ? undefined
       : checkDialogue(
           events,
@@ -2020,6 +2035,16 @@ async function inspect(path, engine) {
     : undefined
   const wood = source.wood
     ? inspectWoodTaoist(events, renderedDialogue, boundaries, report.actions, game, source, spec)
+    : undefined
+  const phoenix = source.phoenix
+    ? inspectPhoenixPresentation({
+        events,
+        draws: renderedDialogue,
+        bounds: boundaries,
+        source,
+        spec,
+        game,
+      })
     : undefined
   const goldenToad = source.toad
     ? inspectGoldenToadPresentation({
@@ -2232,6 +2257,7 @@ async function inspect(path, engine) {
     goldenToad,
     gai,
     wood,
+    phoenix,
     tian,
     spiderForeground,
     clips: {
@@ -2274,9 +2300,14 @@ if (!failures.length) {
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),
+      ...(result.phoenix?.issues ?? []),
       ...(result.ring?.opening.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
+  }
+  if (game.phoenix) {
+    const mismatch = difference(game.phoenix.cast, reforge.phoenix.cast, ['phoenix', 'cast'])
+    if (mismatch) failures.push(mismatch)
   }
   const comparableGame = game.comparable
   assert.equal(difference(comparableGame, structuredClone(comparableGame)), null)

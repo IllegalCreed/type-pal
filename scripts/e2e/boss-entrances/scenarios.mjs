@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
 import { readGaiLuojiaoSources } from './gai-luojiao-presentation.mjs'
 import { readGoldenToadSources } from './golden-toad-presentation.mjs'
+import { readPhoenixSources } from './phoenix-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readRingOpening } from './ring-opening-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
@@ -594,6 +595,59 @@ export const scenarios = {
     id: 'gai-luojiao-defeat',
     world: { ...gaiLuojiao.world, inventory: [], outcome: 'lost' },
   },
+  phoenix: {
+    id: 'gold-winged-phoenix',
+    scene: 's185',
+    owner: 'e3115',
+    watched: [
+      'e3112',
+      'e3113',
+      'e3114',
+      'e3116',
+      'e3117',
+      'e3118',
+      'e3119',
+      'e3120',
+      'e3121',
+      'e3157',
+      'e3158',
+      'e3159',
+    ],
+    team: 203,
+    enemy: 'enemy-464',
+    learned: { 'li-xiaoyao': ['299'] },
+    recovery: { turn: 6, skill: '299' },
+    start: [27, 7, 0],
+    contact: [26, 7, 0],
+    approach: 'ArrowLeft',
+    party: 'xiaoyao-protected',
+    music: 42,
+    field: 17,
+    slot: 0,
+    seed: 4,
+    maxRounds: 12,
+    settlementDwellMs: 180,
+    disk: {
+      entry: 26192,
+      battle: 26202,
+      field: 26200,
+      music: 26201,
+      last: 26312,
+      owner: [256, 240, 1, 7],
+    },
+    mapMusic: { scene: 's186', ip: 27680, track: 70 },
+    world: {
+      inventory: [{ itemId: '263', count: 1 }],
+      handoff: {
+        scene: 's188',
+        ip: 26311,
+        position: [107, 73, 0],
+        positionIp: 26370,
+        inheritsMusic: true,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
   'wood-taoist': {
     id: 'wood-taoist',
     scene: 's181',
@@ -1083,10 +1137,12 @@ export async function readSources(spec) {
     const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
     const actions = [...(landing.entry?.prepare ?? []), ...landing.body]
     assert.deepEqual(actions.find(({ kind }) => kind === 'teleportParty')?.pos, grid(position))
-    const musicAddress = route || inheritsMusic ? spec.world.music.ip : (musicIp ?? first + 2)
-    successorTrack = commands[musicAddress].operands[0]
-    assert.equal(commands[musicAddress].opcode, 0x43)
-    if (!route && !inheritsMusic) {
+    if (inheritsMusic || route) {
+      successorTrack = returnTrack(spec)
+    } else {
+      const musicAddress = musicIp ?? first + 2
+      successorTrack = commands[musicAddress].operands[0]
+      assert.equal(commands[musicAddress].opcode, 0x43)
       if (musicIp === undefined) assert.equal(commands[musicAddress + 1].opcode, 0x05)
       assert(
         (musicIp === undefined ? landing.entry.prepare : actions).some(
@@ -1132,6 +1188,8 @@ export async function readSources(spec) {
       : undefined
   const wood =
     spec.id === 'wood-taoist' ? readWoodTaoistSources(data, commands, spec, object) : undefined
+  const phoenix =
+    spec.id === 'gold-winged-phoenix' ? readPhoenixSources(data, commands, spec) : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -1237,6 +1295,16 @@ export async function readSources(spec) {
             `projects/pal/content/maps/${data.handoffScene.mapId}.json`,
           ]
         : []),
+      ...(phoenix
+        ? [
+            'scripts/e2e/boss-entrances/phoenix-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
+            'data/extracted/data/scene/192.json',
+            'projects/pal/content/scenes/s192.json',
+            `data/extracted/data/tilemap/${data.diskHandoffScene.mapNum}.json`,
+            `projects/pal/content/maps/${data.handoffScene.mapId}.json`,
+          ]
+        : []),
       ...(gai
         ? [
             'scripts/e2e/boss-entrances/gai-luojiao-presentation.mjs',
@@ -1273,6 +1341,7 @@ export async function readSources(spec) {
     toad,
     gai,
     wood,
+    phoenix,
     route,
     summonBonus,
     summoning: summonScript && {
@@ -1702,7 +1771,7 @@ function ringSource(commands, turnStart, actors, successorTrack) {
   const patriarch = actors.find(({ id }) => id === 551)
   const [, dx, dy] = commands[8028].operands
   return {
-    opening: readRingOpening(commands),
+    opening: readRingOpening(commands, actors),
     leader,
     camera: leader.map((value, i) => value - anchor[i]),
     movements,

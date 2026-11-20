@@ -51,7 +51,13 @@ export class WorldCamera {
     )
   }
 
-  pan(dx: number, dy: number, frames: number, signal: AbortSignal): Promise<void> {
+  pan(
+    dx: number,
+    dy: number,
+    frames: number,
+    signal: AbortSignal,
+    startImmediately?: true,
+  ): Promise<void> {
     return scriptWorkWait<void>(signal, (resolve, reject) => {
       if (signal.aborted) throw asyncIntentAbortError('相机移动所属 runner 已取消')
       let settled = false
@@ -82,6 +88,7 @@ export class WorldCamera {
       this.panFx = entry
       signal.addEventListener('abort', abort, { once: true })
       if (signal.aborted) abort()
+      else if (startImmediately) this.advance(0)
     })
   }
 
@@ -101,7 +108,7 @@ export class WorldCamera {
   advance(dt: number): void {
     if (!this.panFx) return
     const fx = this.panFx
-    // Apply the first step on the next eligible frame. Pace the rest on the exploration clock.
+    // A same-frame start already applied its first step. Pace the remaining steps on the exploration clock.
     if (fx.done > 0) {
       fx.elapsedMs += dt
       if (fx.elapsedMs < FRAME_MS_EXPLORE) return

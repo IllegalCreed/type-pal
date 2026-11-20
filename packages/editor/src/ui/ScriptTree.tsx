@@ -470,7 +470,11 @@ export function describeScriptCommand(
         ],
       }
     case 'cameraPan':
-      return { icon: '🎥', label: '镜头平移', detail: `(${cmd.dx},${cmd.dy})×${cmd.frames}` }
+      return {
+        icon: '🎥',
+        label: '镜头平移',
+        detail: `(${cmd.dx},${cmd.dy})×${cmd.frames}${cmd.startImmediately ? ' 同帧起步' : ''}`,
+      }
     case 'cameraSnap':
       return { icon: '🎥', label: cmd.to ? `镜头定位 (${cmd.to.col},${cmd.to.row})` : '镜头回正' }
     case 'setEntityAuto':

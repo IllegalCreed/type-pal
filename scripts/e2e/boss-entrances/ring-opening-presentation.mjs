@@ -8,7 +8,7 @@ import {
 
 const scene = 's032'
 
-export function readRingOpening(commands) {
+export function readRingOpening(commands, actors) {
   const raw = (ip, opcode) => {
     assert.equal(commands[ip].opcode, opcode)
     return commands[ip].operands
@@ -28,7 +28,51 @@ export function readRingOpening(commands) {
     { scene, first: 7808, last: 7810 },
     { scene, first: 7820, last: 7823 },
   ])
-  return { dx, dy, steps, turnFrames, turnBeats, pages }
+  const sourceActor = (id) => {
+    const { spriteNum: asset, x, y } = actors.find((actor) => actor.id === id)
+    return { asset, position: [x, y] }
+  }
+  const interlocutor = actors.find(({ id }) => id === 550)
+  assert.equal(interlocutor.triggerLabel, 'L_7703')
+  assert.equal(interlocutor.nSpriteFrames, 3)
+  const liu = {
+    id: 'e550',
+    ...sourceActor(550),
+    // The normal touch at [1184, 768] makes the caller look southwest.
+    facing: 'down',
+    frame: 0,
+  }
+  const path = (position, steps) => {
+    const points = [position]
+    for (const ip of steps) {
+      const [, dx, dy] = raw(ip, 0x7d).map(signed)
+      const [x, y] = points.at(-1)
+      points.push([x + dx, y + dy])
+    }
+    return points
+  }
+  const performer = sourceActor(547)
+  const opponent = sourceActor(549)
+  const warmup = {
+    e547: {
+      asset: performer.asset,
+      positions: path(performer.position, [8176, 8180]),
+      frames: [8148, ...Array.from({ length: 10 }, (_, i) => 8151 + i), 8168].map(
+        (ip) => raw(ip, 0x14)[0],
+      ),
+    },
+    e549: {
+      asset: opponent.asset,
+      positions: [
+        ...path(opponent.position, [8193, 8195, 8199]),
+        ...path(opponent.position, [8202, 8207, 8208]),
+        ...path(opponent.position, [8183, 8185, 8188, 8189]),
+      ],
+      frames: [8192, 8198, 8196, 8206].map((ip) => raw(ip, 0x14)[0]),
+    },
+  }
+  const patriarch = { ...sourceActor(551), facing: 'right', frame: 3 }
+  return { dx, dy, steps, turnFrames, turnBeats, pages, liu, warmup, patriarch }
 }
 
 export function inspectRingOpening({ events, draws, trigger, launch, expected, locale }) {
@@ -75,6 +119,105 @@ export function inspectRingOpening({ events, draws, trigger, launch, expected, l
       y + (i + 1) * expected.dy,
     ]),
   )
+  const pose = (actor) => {
+    if (!actor) return { visible: false }
+    const { asset, position, facing, frame } = actor
+    return { visible: true, asset, position, facing, frame }
+  }
+  const liuPose = (frame) => pose(frame.actors[expected.liu.id])
+  const { id, ...liuStanding } = expected.liu
+  const expectedLiu = { visible: true, ...liuStanding }
+  const liuFrames = world.filter(
+    ({ order, atMs }) => order > trigger.order && atMs <= pan.at(-1)?.atMs,
+  )
+  const earliestLiuIssue = liuFrames.find(
+    (frame) => !isDeepStrictEqual(liuPose(frame), expectedLiu),
+  )
+  check(
+    'Liu Jinyuan has drawn frames from touch through the full opening pan',
+    !!liuFrames.length,
+    true,
+  )
+  if (earliestLiuIssue)
+    issues.push({
+      rule: 'Liu Jinyuan faces the caller in every painted pose from touch through the opening pan',
+      actor: id,
+      order: earliestLiuIssue.order,
+      camera: earliestLiuIssue.camera,
+      atMs: earliestLiuIssue.atMs,
+      actual: liuPose(earliestLiuIssue),
+      expected: expectedLiu,
+    })
+  const firstPan = pan[0]
+  const liuAtPan = firstPan && {
+    order: firstPan.order,
+    atMs: firstPan.atMs,
+    camera: firstPan.camera,
+    ...liuPose(firstPan),
+  }
+  const panning = world.filter(
+    ({ order }) => order >= firstPan?.order && order <= pan.at(-1)?.order,
+  )
+  const cast = { e548: 0, e550: panning.length, e551: 0 }
+  const reportActor = (rule, id, frame, expected) => {
+    issues.push({
+      rule,
+      actor: id,
+      order: frame.order,
+      camera: frame.camera,
+      atMs: frame.atMs,
+      actual: pose(frame.actors[id]),
+      expected,
+    })
+  }
+  for (const [id, { asset, positions, frames }] of Object.entries(expected.warmup)) {
+    cast[id] = panning.filter(({ actors }) => actors[id]).length
+    const unexpected = panning.find(({ actors }) => {
+      const actor = actors[id]
+      return (
+        !actor ||
+        actor.asset !== asset ||
+        actor.facing !== 'down' ||
+        !frames.includes(actor.frame) ||
+        !positions.some((position) => isDeepStrictEqual(actor.position, position))
+      )
+    })
+    if (unexpected)
+      reportActor(
+        'The warm-up paints the original actors and reachable poses on each pan step',
+        id,
+        unexpected,
+        {
+          visible: true,
+          asset,
+          positions,
+          frames,
+          facing: 'down',
+        },
+      )
+  }
+  const earlyYueru = panning.find(({ actors }) => actors.e548)
+  if (earlyYueru)
+    reportActor('Lin Yueru stays hidden until the warm-up handoff', 'e548', earlyYueru, {
+      visible: false,
+    })
+  const patriarch = { visible: true, ...expected.patriarch }
+  const [px, py] = patriarch.position
+  for (const frame of panning) {
+    const [left, top] = frame.camera
+    const centerIsOnScreen = px >= left && px < left + 320 && py >= top && py < top + 200
+    const actual = pose(frame.actors.e551)
+    if (actual.visible) cast.e551++
+    if ((centerIsOnScreen || actual.visible) && !isDeepStrictEqual(actual, patriarch)) {
+      reportActor(
+        'Lin Tiannan holds the original pose as the camera reveals him',
+        'e551',
+        frame,
+        patriarch,
+      )
+      break
+    }
+  }
   const cleared = inspectClearedDialogueFrames(draws, pan, scene)
   check('the dialogue and portrait are cleared on every panning frame', cleared.issue, null)
   const cameraFrames = world.filter((frame, i) => {
@@ -130,5 +273,8 @@ export function inspectRingOpening({ events, draws, trigger, launch, expected, l
     pan: pan.map(({ atMs, camera, order }) => ({ atMs, camera, order })),
     turns,
     turnIntervals,
+    liuAtPan,
+    liuFrames: liuFrames.length,
+    castDuringPan: cast,
   }
 }

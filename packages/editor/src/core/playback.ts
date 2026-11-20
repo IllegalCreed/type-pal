@@ -1080,8 +1080,8 @@ export class Playback {
       if (facing !== undefined) p.facing = facing
       p.gesture = null
     },
-    cameraPan: async (dx, dy, frames) => {
-      this.log(`🎥 镜头平移 (${dx},${dy})×${frames}`)
+    cameraPan: async (dx, dy, frames, _signal, startImmediately) => {
+      this.log(`🎥 镜头平移 (${dx},${dy})×${frames}${startImmediately ? ' 同帧起步' : ''}`)
     },
     cameraSnap: (to) => this.log(to ? `🎥 镜头定位 (${to.col},${to.row})` : '🎥 镜头回正'),
     setEntityAuto: (id, script) =>

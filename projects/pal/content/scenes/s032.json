@@ -1109,6 +1109,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s032",
+                        "entity": "e550"
+                      }
+                    },
+                    {
                       "kind": "setEntityTriggerActivation",
                       "target": {
                         "scene": "s032",

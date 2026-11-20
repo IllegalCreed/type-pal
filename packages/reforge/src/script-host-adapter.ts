@@ -346,7 +346,9 @@ export async function executeScriptHostEffect(
       await host.openShop(command.shop, command.mode, signal)
       return
     case 'cameraPan':
-      await host.cameraPan(command.dx, command.dy, command.frames, signal)
+      if (command.startImmediately)
+        await host.cameraPan(command.dx, command.dy, command.frames, signal, true)
+      else await host.cameraPan(command.dx, command.dy, command.frames, signal)
       return
     case 'cameraSnap':
       host.cameraSnap(command.to)

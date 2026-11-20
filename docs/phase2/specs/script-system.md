@@ -69,7 +69,7 @@ onEnter 的各步骤可声明 `entry{prepare,reveal}`。切场时根据目标 on
 - 前景步骤的有限 `repeat` 可选 `intervalMs`。第一轮立即开始；后续轮次以第一轮的游戏时钟为锚，按指定间隔启动。上一轮须执行完，过期的轮次至少等下一绘制拍，不在同一拍追赶。末轮完成即退出；站定、转身等额外停顿显式写在循环之后。该选项不用于可保存续跑的自动行为或独立脚本根。
 - 指令只有明确等待/真实异步动作消耗游戏时间；节拍由正文repeat/loop/wait表达，不给每条auto加100ms、循环强塞世界拍或步后40ms。零时间循环用工作量保护，不限制正常巡逻累计寿命；公平yield/已兑现Promise/wait0不算真实进展，技术计数不暴露成作者状态。
 
-多帧 `cameraPan` 的步数以探索帧为单位。首个合格运行帧推进第一步，后续每到 100 毫秒推进一步，帧间延迟时依次经过中间位置。前景游标等最后位置提交到场景绘制后继续正文。换镜、淡入等段落需要清除旧对白时，作者在相应时点显式使用 `clearDialog`。实际镜头终点、时长和转场对白层分别核对。 [镜头推进](../../../packages/reforge/src/world-camera.ts) · [原盘相对镜头](../../../reference/sdlpal/script.c#L2358-L2377) · [009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)
+多帧 `cameraPan` 的步数以探索帧为单位。首个合格运行帧推进第一步，后续每到 100 毫秒推进一步，帧间延迟时依次经过中间位置。需要和同一拍的人物走位一起实绘时，在 `cameraPan` 设 `startImmediately: true`，让第一步与已提交的动作同帧更新。此模式至少一步。前景游标等最后位置提交到场景绘制后继续正文。换镜、淡入等段落需要清除旧对白时，作者在相应时点显式使用 `clearDialog`。实际镜头终点、时长和转场对白层分别核对。 [镜头推进](../../../packages/reforge/src/world-camera.ts) · [原盘相对镜头](../../../reference/sdlpal/script.c#L2358-L2377) · [009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)
 
 剧情 `moveParty` 记录每次离开原位置时的队长朝向。最后一拍先落实跟随者坐标，再切到站姿。玩家落步后触发脚本时也先落实这一步的跟随者坐标，首张接触画面延续该队形。 [扬州逐页实绘](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-分屏返工与明雷暂停复验)
 

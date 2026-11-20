@@ -21,7 +21,13 @@ export interface CutsceneExecutor {
     color: FadeColor | undefined,
     signal: AbortSignal,
   ): Promise<void>
-  cameraPan(dx: number, dy: number, frames: number, signal: AbortSignal): Promise<void>
+  cameraPan(
+    dx: number,
+    dy: number,
+    frames: number,
+    signal: AbortSignal,
+    startImmediately?: true,
+  ): Promise<void>
   cameraSnap(to: GridPos | undefined): void
   frameAnimation(
     opts: {
@@ -99,7 +105,9 @@ export class CutsceneController {
       case 'fade':
         return this.exec.fade(intent.dir, intent.ms ?? 300, intent.color, signal)
       case 'cameraPan':
-        return this.exec.cameraPan(intent.dx, intent.dy, intent.frames, signal)
+        return intent.startImmediately
+          ? this.exec.cameraPan(intent.dx, intent.dy, intent.frames, signal, true)
+          : this.exec.cameraPan(intent.dx, intent.dy, intent.frames, signal)
       case 'cameraSnap':
         this.exec.cameraSnap(intent.to)
         return Promise.resolve()

@@ -693,6 +693,7 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     params: [
       ['dx/dy', '每帧位移'],
       ['frames', '帧数'],
+      ['startImmediately', '与同拍的场景动作一起开始'],
     ],
     desc: '相对平移(阻塞);跨房间演出。⚠ 不许绝对回正打断。',
     origin: '0x7F',

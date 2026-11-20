@@ -2331,8 +2331,8 @@ export async function bootGame(
         if (source && fadingSourceFrame === source) fadingSourceFrame = undefined
       }
     },
-    cameraPan: async (dx, dy, steps, signal) => {
-      await cameraSession.pan(dx, dy, steps, signal)
+    cameraPan: async (dx, dy, steps, signal, startImmediately) => {
+      await cameraSession.pan(dx, dy, steps, signal, startImmediately)
       if (steps > 0) await frames.waitForWorldPaint(signal)
     },
     cameraSnap: (to) => cameraSession.snap(to),
@@ -3159,9 +3159,9 @@ export async function bootGame(
       }
       updateCamera()
     },
-    cameraPan: (dx, dy, frames, signal) =>
+    cameraPan: (dx, dy, frames, signal, startImmediately) =>
       presentation.run(
-        [{ kind: 'cameraPan', dx, dy, frames }],
+        [{ kind: 'cameraPan', dx, dy, frames, ...(startImmediately && { startImmediately }) }],
         signal ?? new AbortController().signal,
       ),
     cameraSnap: (to) => {
