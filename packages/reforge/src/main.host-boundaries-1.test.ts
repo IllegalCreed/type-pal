@@ -62,6 +62,7 @@ function sceneWithEntry(
   id: string,
   reveal: { kind: 'fade'; outMs: number; inMs: number },
   body: AuthorCommand[],
+  prepare: AuthorCommand[] = [],
 ): AuthorSceneDef {
   const scene = shellScene(id)
   scene.hooks = {
@@ -74,7 +75,7 @@ function sceneWithEntry(
           flow: {
             kind: 'stages',
             initial: 's0',
-            stages: [{ id: 's0', entry: { prepare: [], reveal }, body }],
+            stages: [{ id: 's0', entry: { prepare, reveal }, body }],
           },
         },
       },
@@ -101,6 +102,111 @@ test('MHB-ENTRY-REVEAL-1 脚本切场景进入带 fade 入场契约的目标：�
   expect(fadeState().renderDebug.fadeBlack).toBe(0)
   expect(peakFade).toBeGreaterThanOrEqual(0.999)
   h.assertInputUnchanged()
+})
+
+test('the authored arrival score is ready behind the curtain before the destination appears', async () => {
+  host = await installShellHost()
+  const first = sceneWithCommands('a', [{ kind: 'loadScene', scene: 'b' }])
+  const second = sceneWithEntry(
+    'b',
+    { kind: 'fade', outMs: 260, inMs: 260 },
+    [],
+    [{ kind: 'playMusic', asset: 'battle-music' }],
+  )
+  const fixture = await bootScenario(host, { first, second, withBattleMusic: true })
+  expect(state().world.audio?.currentMusic).toBeUndefined()
+  await advance(host, () => state().world.audio?.currentMusic === 'battle-music')
+  expect(state().sceneId).toBe('b')
+  expect(fadeState().renderDebug.fadeBlack).toBe(1)
+
+  await advance(host, () => fadeState().renderDebug.fadeBlack === 0)
+  expect(state().world.audio?.currentMusic).toBe('battle-music')
+  fixture.assertInputUnchanged()
+})
+
+test('foreground camera and actor cues reach the same rendered frames during a fade', async () => {
+  host = await installShellHost()
+  const { WorldCamera } = await import('./world-camera.js')
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const pan = vi.spyOn(WorldCamera.prototype, 'pan')
+  const assemble = WorldScenePresentation.prototype.sprites
+  const beats: { camera: number; guard: number; facing: string | undefined; frame: number }[] = []
+  vi.spyOn(WorldScenePresentation.prototype, 'sprites').mockImplementation(function (
+    this: InstanceType<typeof WorldScenePresentation>,
+    input,
+  ) {
+    const sprites = assemble.call(this, input)
+    const actor = input.entities.find(({ id }) => id === 'guard')
+    const frame = this.renderedEntityFrame('guard')
+    if (actor && frame !== undefined) {
+      const controller = pan.mock.contexts.at(-1)
+      const camera = controller instanceof WorldCamera ? controller.offset.x : 0
+      const previous = beats.at(-1)
+      if (!previous || previous.camera !== camera || previous.guard !== actor.pos.col) {
+        beats.push({ camera, guard: actor.pos.col, facing: actor.facing, frame })
+      }
+    }
+    return sprites
+  })
+  const first = sceneWithCommands('a', [
+    { kind: 'wait', ms: 200 },
+    {
+      kind: 'sceneTimeline',
+      label: '城门演出',
+      tracks: [
+        {
+          id: 'curtain',
+          label: '幕布',
+          cues: [{ atMs: 0, body: [{ kind: 'fade', dir: 'out', ms: 400, color: 'red' }] }],
+        },
+        {
+          id: 'camera',
+          label: '镜头',
+          cues: [
+            {
+              atMs: 0,
+              body: [{ kind: 'cameraPan', dx: 4, dy: 2, frames: 3, startImmediately: true }],
+            },
+          ],
+        },
+        {
+          id: 'guard',
+          label: '守卫',
+          target: { scene: 'a', entity: 'guard' },
+          cues: [
+            {
+              atMs: 0,
+              repeat: { count: 3, intervalMs: 100 },
+              body: [
+                { kind: 'nudgeEntity', dx: -16, dy: -8 },
+                { kind: 'setEntityFacing', facing: 'left' },
+                { kind: 'setEntityFrame', frame: 2 },
+              ],
+            },
+            { atMs: 300, body: [{ kind: 'releaseEntity' }] },
+          ],
+        },
+      ],
+    },
+    { kind: 'giveMoney', delta: 7 },
+  ])
+  first.entities = [
+    { id: 'guard', sprite: 'walker', pos: { col: 6, row: 2, height: 0 }, facing: 'down' },
+  ]
+  const fixture = await bootScenario(host, { first })
+  await advance(host, () => beats.length >= 4)
+  expect(beats).toEqual([
+    { camera: 0, guard: 6, facing: 'down', frame: 0 },
+    { camera: 4, guard: 5, facing: 'left', frame: 2 },
+    { camera: 8, guard: 4, facing: 'left', frame: 2 },
+    { camera: 12, guard: 3, facing: 'left', frame: 2 },
+  ])
+  expect(fadeState().renderDebug.fadeBlack).toBeGreaterThan(0)
+  expect(fadeState().renderDebug.fadeBlack).toBeLessThan(1)
+  expect(state().world.money).toBe(50)
+  await advance(host, () => state().world.money === 57)
+  expect(fadeState().renderDebug.fadeBlack).toBe(1)
+  fixture.assertInputUnchanged()
 })
 
 test('MHB-SCRIPT-ERR-1 触发脚本运行期资源失败：公开脚本错误回执、runner 槽释放、世界保持原状，修复后同一公开入口重试成功', async () => {

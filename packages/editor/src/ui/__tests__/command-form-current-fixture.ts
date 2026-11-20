@@ -237,8 +237,8 @@ export async function commandForm(
 }
 
 export function row(label: string) {
-  const found = [...document.querySelectorAll('.cf-row')].find(
-    (e) => e.querySelector('.cf-label')?.textContent === label,
+  const found = [...document.querySelectorAll('.cf-row, .ds-field')].find(
+    (e) => e.querySelector('.cf-label, .ds-field__label')?.textContent === label,
   )
   if (!found) throw new Error(`missing current form row ${label}`)
   return found

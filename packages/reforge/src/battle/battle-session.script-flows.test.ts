@@ -9,11 +9,13 @@
  *   gate 在 finally 放行并**消费实际返回的 pending**（保留最初断言错误，不留悬挂 Promise）；
  * - 取消经公开 cancel：done 以 AbortError 精确拒绝，迟到放行后日志/队员快照完整不变。
  */
+import type { SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { wfEnemy, wfPlayer } from '../__tests__/battle-workflows/catalog.js'
+import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
 import { SfxReadinessResourceError } from '../audio/sfx.js'
+import { DialogBox } from '../dialog/dialog-box.js'
 
 const defer = <T>(): { promise: Promise<T>; resolve: (v: T) => void } => {
   let resolve!: (value: T) => void
@@ -26,6 +28,146 @@ const defer = <T>(): { promise: Promise<T>; resolve: (v: T) => void } => {
 const flush = async (): Promise<void> => {
   for (let i = 0; i < 6; i += 1) await Promise.resolve()
 }
+
+test.each([
+  'oneEnemy',
+  'allEnemies',
+] as const)('scripted auto battle spends MP on the strongest eligible %s spell without input', (target) => {
+  const basic = wfSkill('basic', 5)
+  const chosen: SkillData = {
+    ...wfSkill('chosen', 7),
+    target,
+    effects: [{ kind: 'damage', power: 60, elemental: 0 }],
+  }
+  const ultimate = wfSkill('ultimate', 1)
+  const expensive = wfSkill('expensive', 31)
+  for (const skill of [ultimate, expensive]) {
+    skill.effects = [{ kind: 'damage', power: 100, elemental: 0 }]
+  }
+  const healing: SkillData = {
+    ...wfSkill('healing', 3),
+    target: 'self',
+    effects: [{ kind: 'healHp', amount: 100 }],
+  }
+  const skills = [basic, chosen, ultimate, expensive, healing]
+  const h = makeWfSession({
+    players: [wfPlayer('hero', { skills: skills.map(({ id }) => id) })],
+    enemies: [wfEnemy('target-left', { health: 500 }), wfEnemy('target-right', { health: 500 })],
+    extraOpts: {
+      auto: true,
+      skills: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
+    },
+  })
+
+  for (let i = 0; i < 40 && h.readParty()[0]?.mp === 30; i++) h.idle(40)
+
+  expect(h.readParty()[0]?.mp).toBe(23)
+  const hits = h.session.debugLog().filter((line) => line.includes('name.chosen'))
+  expect(hits).toEqual(
+    target === 'oneEnemy'
+      ? [expect.stringContaining('target-left')]
+      : [expect.stringContaining('target-left'), expect.stringContaining('target-right')],
+  )
+})
+
+test('missing the casting item leaves an authored centered warning until a confirm key', () => {
+  const wine = wfHealItem('wine')
+  const text = '酒不足，无法召唤酒神'
+  const skill = wfSkill('summon', 1)
+  skill.cost = { mp: 1, items: [{ itemId: wine.id, amount: 1 }], missingItemsText: text }
+  const h = makeWfSession({
+    players: [wfPlayer('hero', { skills: [skill.id] })],
+    enemies: [wfEnemy('lantern', { health: 500 })],
+    extraOpts: { skills: { [skill.id]: skill }, items: { [wine.id]: wine }, inventory: [] },
+  })
+  const canvas = document.createElement('canvas')
+  canvas.width = 320
+  canvas.height = 200
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas 2D is unavailable')
+  const dialogue = new DialogBox(ctx, h.assets.glyphs, [])
+  h.assets.dialogBox = dialogue
+  h.press(['ArrowLeft'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  for (let i = 0; i < 40 && !dialogue.active; i++) h.idle(40)
+  expect(dialogue.observe()).toMatchObject({ slot: 'center', pageText: text })
+  expect(h.readParty()[0]?.mp).toBe(29)
+
+  for (let elapsed = 0; elapsed < 1600; elapsed += 40) h.idle(40)
+  h.session.render(ctx, 1)
+  h.press(['ArrowUp'])
+  expect(dialogue.observeSlots()).toMatchObject([{ slot: 'center', visibleText: text }])
+  h.press(['Enter'])
+  expect(dialogue.active).toBe(false)
+  expect(h.readParty()[0]?.mp).toBe(29)
+})
+
+test('a successful escape spell plays one retreat, with fallen allies left in place until exit', async () => {
+  const spell: SkillData = {
+    ...wfSkill('escape', 33),
+    target: 'allAllies',
+    effects: [{ kind: 'fleeBattle' }],
+    animation: { effectSprite: 65535 },
+  }
+  const sound = 'sound.escape'
+  const sfx = recordingSfx()
+  const h = makeWfSession({
+    players: [
+      wfPlayer('hero', { mp: 40, maxMp: 40, skills: [spell.id] }),
+      wfPlayer('fallen', { hp: 0 }),
+    ],
+    enemies: [wfEnemy('guard', { health: 500 })],
+    extraOpts: {
+      skills: { [spell.id]: spell },
+      soundRoles: { 'audio.battleEscapeSound': sound },
+    },
+  })
+  h.assets.sfx = sfx.player
+  const fighter = h.assets.battleSprites.get('battle-sprite.player')
+  if (!fighter) throw new Error('player fighter fixture unavailable')
+  for (const [pose, color] of [
+    [0, 30],
+    [2, 80],
+  ] as const) {
+    const frame = fighter.sprite.frames[pose]
+    if (!frame) throw new Error('player pose unavailable')
+    frame.pixels[0] = color
+  }
+  h.assets.palette = {
+    colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [index, 0, 0]),
+    cycles: [],
+  }
+  const canvas = document.createElement('canvas')
+  canvas.width = 320
+  canvas.height = 200
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas 2D is unavailable')
+  const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+  h.session.render(ctx, 1)
+  expect([pixel(200, 175), pixel(256, 151)]).toEqual([30, 80])
+
+  h.press(['ArrowLeft'])
+  h.press(['Enter'])
+  h.press(['Enter'])
+  for (let i = 0; i < 40 && !sfx.plays.includes(sound); i++) h.idle(40)
+  expect(sfx.plays).toContain(sound)
+  h.session.render(ctx, 1)
+  expect([pixel(205, 179), pixel(200, 175), pixel(256, 151)]).toEqual([30, 0, 80])
+  expect(h.session.debugPlayers()[1]?.hp).toBe(0)
+  let result: string | undefined
+  void h.session.done.then((value) => {
+    result = value
+  })
+  for (let i = 0; i < 50 && result === undefined; i++) {
+    h.idle(40)
+    await flush()
+  }
+  expect(result).toBe('playerFled')
+  expect(sfx.plays.filter((played) => played === sound)).toEqual([sound])
+  expect(h.readParty().map(({ mp }) => mp)).toEqual([7, 30])
+})
 
 describe('W4 敌钩子与屏障组合', () => {
   test('敌 ready hook 真实激活：hook 音先播，完成后同一敌以自己名义真实攻击（HP 实降）', async () => {

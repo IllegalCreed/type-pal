@@ -1,10 +1,74 @@
 import { describe, expect, it } from 'vitest'
+import { expectAcceptsUnchanged, expectRejectUnchanged } from './__tests__/validation-assertions.js'
 import {
   checkCommands,
   checkEntityPages,
   checkStages,
   SCENE_ENTRY_PREPARE_SAFETY,
 } from './script.js'
+
+const checkProjected = (commands: unknown) => checkCommands(commands, 'script')
+
+describe('projected timing and presentation fields', () => {
+  it('preserves explicit RGB channels at both palette endpoints', () => {
+    expectAcceptsUnchanged(checkProjected, [
+      { kind: 'fade', dir: 'out', ms: 320, color: [0, 128, 255] },
+    ])
+  })
+
+  it.each([
+    { sample: 'alpha channel', color: [0, 128, 255, 255] },
+    { sample: 'string channel', color: [0, '128', 255] },
+    { sample: 'fractional channel', color: [0, 1.5, 255] },
+    { sample: 'negative channel', color: [-1, 128, 255] },
+    { sample: 'overflowing channel', color: [0, 128, 256] },
+  ])('reports an invalid $sample at the RGB field', ({ color }) => {
+    expectRejectUnchanged(
+      checkProjected,
+      [{ kind: 'fade', dir: 'out', ms: 320, color }],
+      'script[0].color: 期望 black|red|三个 0–255 的 RGB 整数',
+    )
+  })
+
+  it('rejects a same-frame pan that cannot advance on that frame', () => {
+    const pan = { kind: 'cameraPan', dx: 4, dy: 2, frames: 1, startImmediately: true }
+    expectAcceptsUnchanged(checkProjected, [pan])
+    expectRejectUnchanged(
+      checkProjected,
+      [{ ...pan, startImmediately: false }],
+      'script[0].startImmediately: 期望 true',
+    )
+    for (const frames of [0, '2', 1.5]) {
+      expectRejectUnchanged(
+        checkProjected,
+        [{ ...pan, frames }],
+        'script[0].frames: 同帧起步至少需要一步',
+      )
+    }
+  })
+
+  it('validates the optional arrival pose and sound without modifying the fallback branch', () => {
+    const command = {
+      kind: 'teleportOut',
+      gatherParty: true,
+      arrivalSound: 'sound.arrival',
+      onFail: [{ kind: 'wait', ms: 40 }],
+    }
+    expectAcceptsUnchanged(checkProjected, [command])
+    expectRejectUnchanged(
+      checkProjected,
+      [{ ...command, gatherParty: 1 }],
+      'script[0].gatherParty: 期望 boolean',
+    )
+    for (const arrivalSound of ['', 45]) {
+      expectRejectUnchanged(
+        checkProjected,
+        [{ ...command, arrivalSound }],
+        'script[0].arrivalSound: 期望非空 AssetId',
+      )
+    }
+  })
+})
 
 describe('projected script command validation', () => {
   it('auto stages 递归拒绝 loadScene，trigger stages 仍允许剧情切场', () => {

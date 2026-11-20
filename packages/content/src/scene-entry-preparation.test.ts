@@ -13,6 +13,30 @@ const validateOnEnter = (stages: unknown) =>
   checkStages(stages, 'scene.onEnter', { allowSceneEntry: true })
 
 describe('scene entry before revealing the target world', () => {
+  test('permits entry body overlap only during an explicit fade', () => {
+    const stage = stageWithPreparation([])
+    const withReveal = (reveal: unknown) => [{ ...stage, entry: { prepare: [], reveal } }]
+    expectAcceptsUnchanged(
+      validateOnEnter,
+      withReveal({ kind: 'fade', outMs: 80, inMs: 120, withBody: true }),
+    )
+    expectRejectUnchanged(
+      validateOnEnter,
+      withReveal(null),
+      'scene.onEnter[0].entry.reveal: 期望对象',
+    )
+    for (const reveal of [
+      { kind: 'fade', outMs: 80, inMs: 120, withBody: false },
+      { kind: 'dither', ms: 120, source: 'previousPresentedFrame', withBody: true },
+    ]) {
+      expectRejectUnchanged(
+        validateOnEnter,
+        withReveal(reveal),
+        'scene.onEnter[0].entry.reveal.withBody: 仅淡入允许指定 true',
+      )
+    }
+  })
+
   test('accepts position, facing, state, inventory, flags and a short wait before reveal', () => {
     const stages = [
       stageWithPreparation([

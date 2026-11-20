@@ -582,6 +582,18 @@ test('吹飞接受玩家全体攻击的有符号整数，并拒绝非整数及�
   expect(() =>
     validateSkills({ skills: [{ ...spell, execution: { enemy: { animation } } }], levelUp: {} }),
   ).toThrow('blow')
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, blow: -32769 } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow: 期望有符号 16 位整数')
+  expect(() =>
+    validateSkills({
+      skills: [{ ...spell, animation: { ...animation, placement: 'normal' } }],
+      levelUp: {},
+    }),
+  ).toThrow('animation.blow: 需要全体攻击落点')
 })
 
 test('敌方 execution 只允许 runtime 已实现效果且拒绝 prepare', () => {

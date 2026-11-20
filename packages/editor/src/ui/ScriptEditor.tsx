@@ -2114,6 +2114,10 @@ function CanonicalCommandForm(props: {
                           return `定姿 ${action.frame}`
                         case 'animEntity':
                           return '推进步态'
+                        case 'cameraPan':
+                          return `镜头平移 ${action.dx}, ${action.dy}，共 ${action.frames} 拍`
+                        case 'releaseEntity':
+                          return '归还实体控制'
                       }
                       throw new Error('场景演出动作无法显示')
                     })

@@ -1,5 +1,27 @@
+// @vitest-environment jsdom
 import { describe, expect, test, vi } from 'vitest'
-import { SupersedingFadeDriver } from './fade-driver.js'
+import { drawScriptFade, SupersedingFadeDriver } from './fade-driver.js'
+
+describe('scripted RGB curtain', () => {
+  test.each([
+    { direction: 'out', opacity: 0.375, expected: [104, 116, 112, 255, 72, 144, 104, 255] },
+    { direction: 'in', opacity: 0.625, expected: [168, 48, 120, 255, 32, 224, 16, 255] },
+  ] as const)('moves both light and dark pixels toward the next $direction frame', (sample) => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 2
+    canvas.height = 1
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Canvas 2D is unavailable')
+    const frame = ctx.createImageData(2, 1)
+    frame.data.set([200, 20, 120, 255, 32, 224, 8, 255])
+    ctx.putImageData(frame, 0, 0)
+
+    // PAL_ColorFade moves each channel by four per palette step, clamping at the target.
+    drawScriptFade(ctx, sample.opacity, [72, 144, 112], sample.direction)
+
+    expect(Array.from(ctx.getImageData(0, 0, 2, 1).data)).toEqual(sample.expected)
+  })
+})
 
 describe('SupersedingFadeDriver', () => {
   test('新 fade 以 AbortError 收敛旧 Promise，并从当前亮度连续接管', async () => {

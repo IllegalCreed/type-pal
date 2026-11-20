@@ -14,6 +14,95 @@ const transition = {
   color: 'black',
   evidenceId: 'fixture.transition',
 } as const
+
+const stepScope = {
+  kind: 'flow',
+  currentStep: 'arrival',
+  steps: [{ id: 'arrival', label: '到达' }],
+} as const
+
+test('the foreground timeline exposes the camera and actor actions and preserves them when renamed', async () => {
+  const command: Extract<AuthorCommand, { kind: 'sceneTimeline' }> = {
+    kind: 'sceneTimeline',
+    label: '进门',
+    tracks: [
+      {
+        id: 'camera',
+        label: '镜头',
+        cues: [
+          {
+            atMs: 0,
+            body: [{ kind: 'cameraPan', dx: 4, dy: 2, frames: 3, startImmediately: true }],
+          },
+        ],
+      },
+      {
+        id: 'fade',
+        label: '幕布',
+        cues: [{ atMs: 0, body: [{ kind: 'fade', dir: 'in', ms: 300 }] }],
+      },
+      {
+        id: 'actor',
+        label: '守卫',
+        target: { scene: 'start', entity: 'npc' },
+        cues: [
+          {
+            atMs: 0,
+            body: [
+              { kind: 'setEntityFacing', facing: 'left' },
+              { kind: 'setEntityFrame', frame: 2 },
+            ],
+          },
+          {
+            atMs: 100,
+            repeat: { count: 2, intervalMs: 100 },
+            body: [{ kind: 'nudgeEntity', dx: -4, dy: 2 }, { kind: 'animEntity' }],
+          },
+          { atMs: 300, body: [{ kind: 'releaseEntity' }] },
+        ],
+      },
+    ],
+  }
+  const form = await commandForm(command, {
+    includeEntity: true,
+    commandScope: stepScope,
+    requireLeafFormRow: false,
+  })
+  const text = document.querySelector('[role="dialog"]')?.textContent
+  expect(text).toContain('镜头平移 4, 2，共 3 拍')
+  expect(text).toContain('淡入 300 毫秒')
+  expect(text).toContain('转向 left、定姿 2')
+  expect(text).toContain('移动 -4, 2、推进步态')
+  expect(text).toContain('每 100 毫秒一次，共 2 次')
+  expect(text).toContain('归还实体控制')
+  await input('演出名称', '城门入场')
+  await form.finish({ ...command, label: '城门入场' })
+})
+
+test.each([
+  { previous: {}, value: 100, saved: { intervalMs: 100 } },
+  { previous: { intervalMs: 100 }, value: '', saved: {} },
+])('the foreground repeat interval round-trips as $value without changing the body', async ({
+  previous,
+  value,
+  saved,
+}) => {
+  const repeat: Extract<AuthorCommand, { kind: 'repeat' }> = {
+    kind: 'repeat',
+    count: 3,
+    body: [{ kind: 'nudgeParty', dx: 2, dy: 1, layer: 0 }],
+  }
+  const form = await commandForm(
+    { ...repeat, ...previous },
+    {
+      commandScope: stepScope,
+      requireLeafFormRow: false,
+    },
+  )
+  await input('前景重复间隔（毫秒，可留空）', value)
+  await form.finish({ ...repeat, ...saved })
+})
+
 describe('Current scene destination aggregate', () => {
   test.each([
     { name: 'default', target: {} },

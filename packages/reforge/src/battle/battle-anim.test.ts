@@ -68,6 +68,38 @@ function record(frames: AnimFrame[]) {
 }
 
 describe('M4d-2 战斗动画时间线', () => {
+  test('a wind spell displaces both occupied enemy slots per FIRE beat and restores both before the hit', () => {
+    const frames = buildOffMagic({
+      fireFrames: 3,
+      fx: {
+        placement: 'attackField',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+      },
+      blow: {
+        steps: [-2, -1, -2],
+        targets: [
+          { idx: 0, pos: { x: 70, y: 140 } },
+          { idx: 2, pos: { x: 160, y: 100 } },
+        ],
+      },
+    })
+    const { events, player } = record(frames)
+    player.tick(0)
+    expect(events).toEqual(['f:enemy0@68,139', 'f:enemy2@158,99'])
+    player.tick(50)
+    expect(events.slice(2)).toEqual(['f:enemy0@67,139', 'f:enemy2@157,99'])
+    player.tick(50)
+    expect(events.slice(4)).toEqual(['f:enemy0@65,138', 'f:enemy2@155,98'])
+    player.tick(50)
+    expect(events.slice(6)).toEqual(['f:enemy0@70,140', 'f:enemy2@160,100'])
+  })
+
   test('OffMagic 以特效帧推进施法脚本震屏，末尾 shake 仍独立', () => {
     const frames = buildOffMagic({
       fireFrames: 3,
