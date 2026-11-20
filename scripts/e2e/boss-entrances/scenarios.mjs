@@ -1908,7 +1908,7 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
-    ...((itemEntrance || serial) && { commands }),
+    ...((itemEntrance || serial || finale) && { commands }),
     ...(itemEntrance && { originalSceneActors: data.gameScene.eventObjects }),
   }
 }
