@@ -2743,7 +2743,8 @@
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.蜘蛛精"
-                    }
+                    },
+                    "slot": "bottom"
                   }
                 }
               ],
@@ -2772,7 +2773,8 @@
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.蜘蛛精"
-                    }
+                    },
+                    "slot": "bottom"
                   }
                 },
                 {
@@ -2806,25 +2808,16 @@
                     "rows": [
                       {
                         "text": "dlg.13264"
+                      },
+                      {
+                        "text": "dlg.13265"
                       }
                     ],
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.蜘蛛精"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
                     },
-                    "rows": [
-                      {
-                        "text": "dlg.13265"
-                      }
-                    ]
+                    "slot": "bottom"
                   }
                 },
                 {
@@ -2863,7 +2856,8 @@
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.蜘蛛精"
-                    }
+                    },
+                    "slot": "bottom"
                   }
                 },
                 {

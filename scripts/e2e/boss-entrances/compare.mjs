@@ -6,6 +6,7 @@ import { sha256 } from '../browser-journey.mjs'
 import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
+import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
 import {
   battleOperands,
   battlePartyFor,
@@ -1814,7 +1815,7 @@ async function inspect(path, engine) {
     assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
   }
   const dialogue =
-    source.tian || source.route
+    source.tian || source.route || source.poisonLady
       ? undefined
       : checkDialogue(
           events,
@@ -1824,6 +1825,9 @@ async function inspect(path, engine) {
         )
   const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const poisonLady = source.poisonLady
+    ? inspectPoisonLadyPresentation({ events, draws: renderedDialogue, boundaries, source })
+    : undefined
   const ming = source.route
     ? inspectTowerMingPresentation({
         events,
@@ -1967,6 +1971,7 @@ async function inspect(path, engine) {
     tomb,
     tower,
     ming,
+    poisonLady,
     tian,
     spiderForeground,
     clips: {
@@ -2003,6 +2008,7 @@ if (!failures.length) {
       ...(result.tower?.issues ?? []),
       ...(result.tian?.issues ?? []),
       ...(result.ming?.issues ?? []),
+      ...(result.poisonLady?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

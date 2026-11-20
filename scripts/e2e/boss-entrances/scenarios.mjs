@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
 
 export const fieldMusic = 78
@@ -844,6 +845,10 @@ export async function readSources(spec) {
     spec.disk.scriptedStop !== undefined
       ? readTurnStartStop(commands, object, spec.disk.scriptedStop)
       : undefined
+  const poisonLady =
+    spec.id === 'poison-lady'
+      ? readPoisonLadySources(commands, data.gameScene, data.diskHandoffScene)
+      : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -943,6 +948,7 @@ export async function readSources(spec) {
     tower,
     tian,
     scriptedStop,
+    poisonLady,
     route,
     summonBonus,
     summoning: summonScript && {
