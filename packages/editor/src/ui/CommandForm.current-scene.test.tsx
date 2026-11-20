@@ -5,7 +5,14 @@ import { describe, expect, test } from 'vitest'
 import { fixtureSource } from '../core/__tests__/battle-trial-project.js'
 import { serializeProjectWithMapCopies, toEditorState } from '../core/project-io.js'
 import { buildBlankProject } from '../core/seed.js'
-import { choose, click, commandForm, input, row } from './__tests__/command-form-current-fixture.js'
+import {
+  checkbox,
+  choose,
+  click,
+  commandForm,
+  input,
+  row,
+} from './__tests__/command-form-current-fixture.js'
 
 const transition = {
   kind: 'source',
@@ -101,6 +108,47 @@ test.each([
   )
   await input('前景重复间隔（毫秒，可留空）', value)
   await form.finish({ ...repeat, ...saved })
+})
+
+test('teleport arrival formation can be authored without changing the failure branch', async () => {
+  const command: Extract<AuthorCommand, { kind: 'teleportOut' }> = {
+    kind: 'teleportOut',
+    onFail: [
+      {
+        kind: 'dialog',
+        cue: { identity: { kind: 'narration' }, rows: [{ text: '这里无法传送' }] },
+      },
+    ],
+  }
+  const form = await commandForm(command)
+  expect(row('落地队形').textContent).toContain('场景默认')
+  await choose('落地队形', '聚拢到队首')
+  await form.finish({ ...command, gatherParty: true })
+})
+
+test('the camera can begin on the authored scene beat while retaining its motion budget', async () => {
+  const command: Extract<AuthorCommand, { kind: 'cameraPan' }> = {
+    kind: 'cameraPan',
+    dx: 4,
+    dy: 2,
+    frames: 3,
+  }
+  const form = await commandForm(command)
+  expect(row('镜头起步').textContent).toContain('下一运行帧')
+  await choose('镜头起步', '与场景动作同帧')
+  await form.finish({ ...command, startImmediately: true })
+})
+
+test('the world-beat chase control keeps the target, speed and range', async () => {
+  const command: Extract<AuthorCommand, { kind: 'chasePlayer' }> = {
+    kind: 'chasePlayer',
+    target: { scene: 'start', entity: 'npc' },
+    speed: 2,
+    range: 3,
+  }
+  const form = await commandForm(command, { includeEntity: true, requireLeafFormRow: false })
+  await checkbox('按世界拍直接追逐')
+  await form.finish({ ...command, worldStep: true })
 })
 
 describe('Current scene destination aggregate', () => {

@@ -184,6 +184,39 @@ describe('C85 战斗演出动作臂', () => {
     expect(stops).toEqual([fadeMs])
   })
 
+  test('canceling a battle while its foreground hold is active never reaches the pending score stop', async () => {
+    const sessionWithPendingStop = (stops: (number | undefined)[]) =>
+      makeSession([seed('li', 100)], mkEnemy('boss'), {
+        encounterChoreo: [
+          {
+            at: 'battleStart',
+            body: [
+              { kind: 'wait', ms: 400 },
+              { kind: 'stopMusic', fadeMs: 300 },
+            ],
+          },
+        ],
+        stopMusic: (fadeMs) => stops.push(fadeMs),
+      })
+    const continuousStops: (number | undefined)[] = []
+    const canceledStops: (number | undefined)[] = []
+    const continuous = sessionWithPendingStop(continuousStops)
+    const canceled = sessionWithPendingStop(canceledStops)
+    for (const session of [continuous, canceled]) {
+      session.tick(16, new Set())
+      session.tick(100, new Set())
+    }
+    expect([continuousStops, canceledStops]).toEqual([[], []])
+    canceled.cancel()
+    await expect(canceled.done).rejects.toMatchObject({ name: 'AbortError' })
+    for (const session of [continuous, canceled]) {
+      for (let beat = 0; beat < 6; beat++) session.tick(100, new Set())
+    }
+    expect([continuousStops, canceledStops]).toEqual([[300], []])
+    continuous.cancel()
+    await expect(continuous.done).rejects.toMatchObject({ name: 'AbortError' })
+  })
+
   test('applyActorGrowth 身份臂:战斗队伍之外的角色 fail-loud', () => {
     const growth: LevelGrowthDelta = {
       level: 1,

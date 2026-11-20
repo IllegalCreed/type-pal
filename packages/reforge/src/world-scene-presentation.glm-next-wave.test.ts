@@ -108,6 +108,28 @@ function input(overrides: Partial<WorldSpriteInput> = {}): WorldSpriteInput {
 }
 
 describe('G04 world-scene-presentation 残差', () => {
+  test('the rendered frame receipt clears when an actor is hidden and resumes with its new pose', () => {
+    const { instance } = presentation()
+    const definition = spriteDef('npc-sprite')
+    const frames = loaded(12)
+    const npc = entity('npc')
+    const layer = input({
+      entities: [npc],
+      entitySprite: () => definition,
+      loadedSprite: () => frames,
+    })
+    instance.setEntityFrame(npc.id, 1)
+    expect(instance.sprites(layer).map(({ frame }) => frame)).toEqual([frames.frames[1]])
+    expect(instance.renderedEntityFrame(npc.id)).toBe(1)
+
+    expect(instance.sprites({ ...layer, visible: () => false })).toEqual([])
+    expect(instance.renderedEntityFrame(npc.id)).toBeUndefined()
+
+    instance.setEntityFrame(npc.id, 2)
+    expect(instance.sprites(layer).map(({ frame }) => frame)).toEqual([frames.frames[2]])
+    expect(instance.renderedEntityFrame(npc.id)).toBe(2)
+  })
+
   test('实体帧覆盖注册表尾：has/entityFrame 读出、单体与全清恢复 gait 帧选择', () => {
     const { instance } = presentation()
     const definition = spriteDef('npc-sprite')
