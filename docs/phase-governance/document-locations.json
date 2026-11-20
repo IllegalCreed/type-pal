@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "cadfcfc50fb4479e2fb5dc3c129fc2a5039bf4ca790d5796c5a75fd0a4b82c20",
+      "afterSha256": "15d7a79fbd91d67bc0a8b3fa584800537dadfe0516933663c1aa4095fd8a5cd8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核战斗原件、原速分屏、恢复入口及普通遭遇分类。",
-        "reviewedLines": 126,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
+        "reviewedLines": 127,
+        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "16beadfac1c3025cc9e21d63c78da642d3a847356c930a671292b83f1b7b462b",
+      "afterSha256": "1bec17a11bcc96279ce8a6b82992e598bd951ade9605611b62ea620ed2cff78a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核本批验收范围、原盘前驱与剧情 Boss 计数。",
-        "reviewedLines": 1099,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
+        "reviewedLines": 1109,
+        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "ddac371d49c0bf175929c123e6135c8903bb3e5db752c7bf78fb890fde9a6874",
+      "afterSha256": "5281ac369689d54874d66c1e8c424f35d1f0412584e8145edc390d58090634de",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核四类返工的合法输入、实绘和覆盖口径。",
-        "reviewedLines": 1695,
-        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
+        "conclusion": "核木道人战斗、桃花林返场、村内第一帧及禁逃编队分类。",
+        "reviewedLines": 1707,
+        "acceptanceScope": "木道人 E2E 及禁逃编队的静态分类，保留历次执行及原件指针。"
       }
     },
     {
@@ -6699,6 +6699,24 @@
       "bytes": 22154004,
       "sha256": "b9836bd0ee5aa2f7ac58dcbc33af5a57769354e9d3e1470014ae53bd0880cf86",
       "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120.tar.gz",
+      "bytes": 34259703,
+      "sha256": "a3ff26a57db41b7c797d7310f29670a264e3cbb575d17d5189bcd358359a829e",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120-game-original.tar.gz",
+      "bytes": 91785765,
+      "sha256": "a9e084066a50ea64f13a58547d4e40c7fa3483ef912b86a07e58bf848eb3d07b",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wood-taoist-20261120-reforge-original.tar.gz",
+      "bytes": 68875422,
+      "sha256": "46c1279ecdb8d5e37152721397f1b1f585c0950090e9507b21711bc20815198c",
+      "purpose": "木道人与桃源村首次揭幕的双端原件、判定与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
