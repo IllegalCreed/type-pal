@@ -1203,6 +1203,13 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:3271 / 3432` PAL_ClearDialog(TRUE):清当前对话框。战斗里标记下条
       //   showDialog 入队时 clearBefore(另起新框 / 结束当前对话段)。纯渲染 op,无其它副作用。
       state.battleDialogPendingClear = true
+      const dialog = state.battleDialogStyle
+      if (opcode === OP_REDRAW_SCREEN && dialog) {
+        if (dialog.style === 'center') state.battleDialogStyle = undefined
+        else if (dialog.portrait !== undefined) {
+          state.battleDialogStyle = { ...dialog, portrait: undefined, portraitLayout: true }
+        }
+      }
       return { consumed: true }
     }
 

@@ -224,6 +224,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "moveParty",
                       "speed": "fast",
                       "to": {
@@ -273,6 +276,9 @@
                         "slot": "center"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "setEntityState",
@@ -341,9 +347,13 @@
                             "text": "dlg.9663"
                           }
                         ],
-                        "slot": "narration"
+                        "slot": "narration",
+                        "autoAdvance": 1400
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "itemId": "261",
@@ -367,6 +377,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -387,8 +400,55 @@
                       "kind": "setPartyFacing"
                     },
                     {
+                      "kind": "sceneTimeline",
+                      "label": "阿桃走到村长面前",
+                      "tracks": [
+                        {
+                          "id": "a-tao",
+                          "label": "阿桃",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2981"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 15,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1600,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 800
+                      "ms": 400
                     },
                     {
                       "cue": {
@@ -453,6 +513,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -486,6 +549,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "down",
                       "kind": "setPartyFacing"
                     },
@@ -512,6 +578,9 @@
                         ]
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "down",
@@ -544,6 +613,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "right",
                       "kind": "setPartyFacing"
                     },
@@ -567,6 +639,9 @@
                         ]
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "right",
@@ -599,6 +674,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "down",
                       "kind": "setPartyFacing",
                       "member": 1
@@ -612,68 +690,102 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 800
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": 8,
-                      "dy": 4,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "animEntity",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 120
+                      "kind": "sceneTimeline",
+                      "label": "宋贺文走近，阿桃转身迎上",
+                      "tracks": [
+                        {
+                          "id": "song-hewen",
+                          "label": "宋贺文",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2982"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 200,
+                              "repeat": {
+                                "count": 15,
+                                "intervalMs": 200
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 3200,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "a-tao",
+                          "label": "阿桃",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2981"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 2000,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2800,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": 4
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 1
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2900,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": 4
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "cue": {
@@ -693,6 +805,9 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "down",
@@ -734,56 +849,121 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
+                      "kind": "clearDialog"
                     },
                     {
-                      "kind": "wait",
-                      "ms": 640
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 240
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
+                      "kind": "sceneTimeline",
+                      "label": "宋贺文走到阿桃旁边",
+                      "tracks": [
+                        {
+                          "id": "song-hewen",
+                          "label": "宋贺文",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2982"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 9,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1000,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -10,
+                                  "dy": -5
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1400,
+                              "repeat": {
+                                "count": 3,
+                                "intervalMs": 200
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2000,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "a-tao",
+                          "label": "阿桃",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2981"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 1600,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "up"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2200,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "left"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "kind": "clearDialog"
@@ -830,6 +1010,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -867,6 +1050,9 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "up",
@@ -921,6 +1107,9 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "left",
@@ -994,6 +1183,9 @@
                         }
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "facing": "down",
@@ -1123,6 +1315,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1140,7 +1335,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -1180,76 +1375,118 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-002"
-                      }
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "sceneTimeline",
+                      "label": "宋贺文退开又回到阿桃身边",
+                      "tracks": [
+                        {
+                          "id": "song-hewen",
+                          "label": "宋贺文",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2982"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 7,
+                                "intervalMs": 200
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1500,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -4,
+                                  "dy": -2
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 3100,
+                              "repeat": {
+                                "count": 7,
+                                "intervalMs": 300
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "a-tao",
+                          "label": "阿桃",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2981"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 600,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "left"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "village-elder",
+                          "label": "老村长",
+                          "target": {
+                            "scene": "s181",
+                            "entity": "e2980"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 2600,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 800
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2980"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2980"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 160
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-003"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 1000
+                      "ms": 600
                     },
                     {
                       "cue": {
@@ -1270,6 +1507,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1287,7 +1527,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -1307,7 +1547,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 400
+                      "ms": 1000
                     },
                     {
                       "dir": "out",
@@ -1350,57 +1590,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 124,
-                        "height": 0,
-                        "row": 83
-                      },
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2981"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e2982",
@@ -1415,179 +1608,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 130,
-                        "height": 0,
-                        "row": 82
-                      },
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 126,
-                        "height": 0,
-                        "row": 82
-                      },
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-002": {
-            "label": "自动行为 2",
-            "order": 2,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 123,
-                        "height": 0,
-                        "row": 82
-                      },
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-003": {
-            "label": "自动行为 3",
-            "order": 3,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "dx": 4,
-                      "dy": 2,
-                      "kind": "nudgeEntity",
-                      "target": {
-                        "scene": "s181",
-                        "entity": "e2982"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     }
   ],
   "battleMusic": "music.pal.039",

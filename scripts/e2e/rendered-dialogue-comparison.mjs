@@ -27,8 +27,8 @@ export function inspectClearedDialogueFrames(draws, frames, scene) {
 /** Source windows must be a verified, linear execution path in the original script. */
 export function sourceDialogueGroups(commands, windows) {
   const groups = []
-  for (const { scene, first, last } of windows) {
-    let slot
+  for (const { scene, first, last, initialSlot } of windows) {
+    let slot = initialSlot
     let speaker = null
     let portrait = null
     let portraitLayout = false

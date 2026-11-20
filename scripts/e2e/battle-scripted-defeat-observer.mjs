@@ -303,7 +303,7 @@ function install(
       return {
         state,
         ended: !!ended,
-        ...(visitScenes && { outcome: ended?.result }),
+        ...(ended && { outcome: ended.result }),
         menuClosed: menuClosed(),
       }
     },

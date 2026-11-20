@@ -8,6 +8,38 @@ import { runScript } from '../event-system.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
 describe('Battle script dialogue clear boundaries', () => {
+  it('erases a portrait on redraw, then resets to upper text for the next trigger', () => {
+    const { state, bus } = makeBattleFixture()
+    const commands: Command[] = [
+      { op: 'setDialogStyleBottom', arg0: 27 },
+      { op: 'showDialog', messageIndex: 0, text: '开场' },
+      { op: 'raw', opcode: 0x05, operands: [0, 0, 0] },
+      { op: 'showDialog', messageIndex: 1, text: '回应' },
+      { op: 'end', advance: true },
+      { op: 'showDialog', messageIndex: 2, text: '下一轮' },
+      { op: 'end' },
+    ]
+    const call = {
+      commands,
+      bus,
+      runtimeMode: 'battle' as const,
+      battleCtx: { state, caster: { type: 'enemy' as const, idx: 0 } },
+    }
+    runScript({ ...call, ip: runScript({ ...call, ip: 0 }) })
+    expect(
+      state.battleDialogQueue?.map(({ style, portrait, portraitLayout, clearBefore }) => [
+        style,
+        portrait,
+        portraitLayout,
+        clearBefore,
+      ]),
+    ).toEqual([
+      ['bottom', 27, undefined, undefined],
+      ['bottom', undefined, true, true],
+      ['top', undefined, undefined, undefined],
+    ])
+  })
+
   it('0x05 → battleDialogPendingClear = true(战斗侧延迟清屏标记)', () => {
     const { state } = makeBattleFixture()
     expect(state.battleDialogPendingClear).toBeUndefined()

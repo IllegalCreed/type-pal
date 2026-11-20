@@ -6298,37 +6298,18 @@
                 {
                   "kind": "dialog",
                   "cue": {
-                    "rows": [
-                      {
-                        "text": "dlg.13346"
-                      }
-                    ],
+                    "slot": "top",
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.木道人"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
                     },
                     "rows": [
                       {
+                        "text": "dlg.13346"
+                      },
+                      {
                         "text": "dlg.13347"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13348"
                       }
@@ -6892,37 +6873,22 @@
                 {
                   "kind": "dialog",
                   "cue": {
+                    "slot": "bottom",
+                    "identity": {
+                      "kind": "unbound",
+                      "speaker": "spk.阿奴",
+                      "portrait": {
+                        "asset": "portrait.pal.027",
+                        "side": "right"
+                      }
+                    },
                     "rows": [
                       {
                         "text": "dlg.13339"
-                      }
-                    ],
-                    "identity": {
-                      "kind": "unbound",
-                      "speaker": "spk.阿奴"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13340"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13341"
                       }
@@ -6932,28 +6898,20 @@
                 {
                   "kind": "dialog",
                   "cue": {
-                    "rows": [
-                      {
-                        "text": "dlg.13343"
-                      }
-                    ],
+                    "slot": "bottom",
                     "identity": {
                       "kind": "unbound",
                       "speaker": "spk.木道人"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
                     },
                     "rows": [
                       {
+                        "text": "dlg.13343"
+                      },
+                      {
                         "text": "dlg.13344"
                       }
-                    ]
+                    ],
+                    "portraitLayout": true
                   }
                 }
               ],

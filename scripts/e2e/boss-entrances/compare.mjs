@@ -30,6 +30,7 @@ import {
 import { inspectStoneElderPresentation } from './stone-elder-presentation.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
 import { inspectTowerMingPresentation } from './tower-ming-presentation.mjs'
+import { inspectWoodTaoist } from './wood-taoist-presentation.mjs'
 import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
@@ -74,7 +75,7 @@ const mainAction = (action, game) => {
         ? action.target === -1
           ? null
           : action.target
-        : (action.targetEnemyIdx ?? action.targetPlayerIdx ?? null),
+        : (action.targetEnemyIdx ?? action.targetAllyIdx ?? action.targetPlayerIdx ?? null),
   }
 }
 
@@ -1554,7 +1555,7 @@ async function inspect(path, engine) {
         .filter(({ turn }) => turn > 1)
         .every(
           ({ kind, target }) =>
-            kind === 'attack' &&
+            (kind === 'attack' || (source.wood && kind === 'cast')) &&
             Number.isInteger(target) &&
             target >= 0 &&
             target < source.slots.length,
@@ -1584,6 +1585,47 @@ async function inspect(path, engine) {
       poison.every(({ hp, previous }) => isDeepStrictEqual(hp, previous)),
       'the visible poison spells were resisted',
     )
+  }
+  if (source.wood) {
+    const opening = source.wood.openingSpell
+    assert.deepEqual(
+      enemy.slice(0, 6).map(({ turn, kind, spell }) => [turn, kind, spell]),
+      [
+        [1, 'cast', opening],
+        [2, 'cast', opening],
+        [3, 'pass', null],
+        [4, 'pass', null],
+        [5, 'pass', null],
+        [6, 'cast', source.wood.secondPhaseSpell],
+      ],
+      'both summon rounds and the changed spell actually occur',
+    )
+    for (const [index, turn] of [3, 4].entries()) {
+      const { id, hp } = source.wood.summons[index]
+      const actionIndex = actions.findIndex((action) => enemy[index + 2] === action)
+      assert(actionIndex > 0)
+      const { enemies: after } = actions[actionIndex]
+      const { enemies: before } = actions[actionIndex - 1]
+      const newSlot = after.findIndex(
+        (unit, slot) => unit?.id === id && unit.hp === hp && !isDeepStrictEqual(unit, before[slot]),
+      )
+      assert(newSlot >= 0, `summoned actor actually enters during round ${turn}`)
+      assert(
+        actions
+          .slice(actionIndex + 1)
+          .some(
+            ({ side, slot, enemies }) =>
+              side === 'enemy' && slot === newSlot && enemies[slot]?.id === id,
+          ),
+        `summoned actor actually acts after round ${turn}`,
+      )
+    }
+    for (const { slot, turn, kind, spell, target } of commands.filter(({ turn }) => turn > 1)) {
+      if (slot === 1 && turn >= 4) assert.deepEqual([kind, spell], ['cast', '374'])
+      else if (slot === 0 && [7, 9].includes(turn))
+        assert.deepEqual([kind, spell, target], ['cast', '299', turn === 7 ? 1 : 0])
+      else assert.equal(kind, 'attack')
+    }
   }
   if (source.toad)
     assert.deepEqual(
@@ -1695,7 +1737,8 @@ async function inspect(path, engine) {
     )
     assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp > 0))
   } else {
-    assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
+    assert.equal(actions.at(-1).side, 'player')
+    assert((source.wood ? ['attack', 'cast'] : ['attack']).includes(actions.at(-1).kind))
     assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp === 0))
   }
 
@@ -1951,7 +1994,8 @@ async function inspect(path, engine) {
     source.poisonLady ||
     source.stoneElder ||
     source.toad ||
-    source.gai
+    source.gai ||
+    source.wood
       ? undefined
       : checkDialogue(
           events,
@@ -1970,6 +2014,9 @@ async function inspect(path, engine) {
         spec,
         run,
       })
+    : undefined
+  const wood = source.wood
+    ? inspectWoodTaoist(events, renderedDialogue, boundaries, report.actions, game, source, spec)
     : undefined
   const goldenToad = source.toad
     ? inspectGoldenToadPresentation({
@@ -2181,6 +2228,7 @@ async function inspect(path, engine) {
     stoneElder,
     goldenToad,
     gai,
+    wood,
     tian,
     spiderForeground,
     clips: {
@@ -2222,6 +2270,7 @@ if (!failures.length) {
       ...(result.stoneElder?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
+      ...(result.wood?.issues ?? []),
       ...(result.ring?.opening.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })

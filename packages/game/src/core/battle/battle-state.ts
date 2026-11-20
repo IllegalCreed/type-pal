@@ -662,8 +662,13 @@ export interface BattleState {
   battleDialogTypingAccMs?: number
   /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
   battleDialogNarrationFrames?: number
-  /** setDialogStyle*(battle)累积的当前对话风格,下条 showDialog 入队时取。undefined = 默认 'bottom'。 */
-  battleDialogStyle?: { style: DialogBoxStyle; portrait?: number; fontColor?: number }
+  /** Style within one trigger invocation. PAL_EndDialog restores the upper, portraitless default. */
+  battleDialogStyle?: {
+    style: DialogBoxStyle
+    portrait?: number
+    portraitLayout?: boolean
+    fontColor?: number
+  }
   /** 0x05/0x8E ClearDialog 置真 → 下条 showDialog 入队标 clearBefore(另起新框),入队后清。 */
   battleDialogPendingClear?: boolean
   /**
@@ -701,6 +706,8 @@ export interface BattleDialogLine {
   style?: DialogBoxStyle
   /** 头像 icon(RGM.MKF chunk;setDialogStyle arg0)。 */
   portrait?: number
+  /** A redraw removes portrait pixels while retaining the text inset. */
+  portraitLayout?: boolean
   /** 字色(setDialogStyle arg1;默认 0x4F)。 */
   fontColor?: number
   /** 此行前需清屏另起新框(0x05/0x8E ClearDialog → 上一段 dialog 结束、重开)。 */

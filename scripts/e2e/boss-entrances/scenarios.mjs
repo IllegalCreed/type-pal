@@ -7,6 +7,7 @@ import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readRingOpening } from './ring-opening-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
+import { readWoodTaoistSources } from './wood-taoist-presentation.mjs'
 
 export const fieldMusic = 78
 export const fieldMusicAsset = 'music.pal.078'
@@ -67,6 +68,21 @@ const mingParty = [
   { ...fullParty[2], hp: 2800, maxHP: 2800, attack: 910 },
 ]
 const mingOpeningParty = [mingParty[0], mingParty[2]]
+const taoyuanParty = [
+  { ...party[0], hp: 990, maxHP: 990, mp: 220, maxMP: 220, defense: 350 },
+  {
+    ...party[1],
+    role: 'anu',
+    roleId: 4,
+    hp: 970,
+    maxHP: 970,
+    mp: 410,
+    maxMP: 410,
+    attack: 360,
+    magicAttack: 420,
+    defense: 330,
+  },
+]
 export function partyFor(spec) {
   const members =
     {
@@ -75,6 +91,7 @@ export function partyFor(spec) {
       city: cityParty,
       tomb: fullParty,
       ming: mingOpeningParty,
+      taoyuan: taoyuanParty,
     }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
@@ -577,6 +594,61 @@ export const scenarios = {
     id: 'gai-luojiao-defeat',
     world: { ...gaiLuojiao.world, inventory: [], outcome: 'lost' },
   },
+  'wood-taoist': {
+    id: 'wood-taoist',
+    scene: 's181',
+    owner: 'e2979',
+    watched: [
+      'e2978',
+      'e2980',
+      'e2981',
+      'e2982',
+      'e2993',
+      'e2994',
+      'e2995',
+      'e2996',
+      'e2997',
+      'e2998',
+      'e2999',
+      'e3000',
+      'e3001',
+    ],
+    team: 221,
+    enemy: 'enemy-474',
+    start: [130, 81, 0],
+    contact: [129, 81, 0],
+    approach: 'ArrowLeft',
+    party: 'taoyuan',
+    music: 38,
+    field: 14,
+    slot: 1,
+    seed: 4,
+    firstTarget: 'enemy-512',
+    maxRounds: 13,
+    learned: { 'li-xiaoyao': ['299'], anu: ['374'] },
+    settlementDwellMs: 180,
+    disk: {
+      entry: 27203,
+      battle: 27241,
+      field: 27239,
+      music: 27240,
+      last: 27413,
+      owner: [688, 1656, 1, 8],
+    },
+    mapMusic: { scene: 's175', ip: 26785, track: 56 },
+    prelude: { completedAt: 27201 },
+    world: {
+      inventory: [{ itemId: '261', count: 1 }],
+      handoff: {
+        scene: 's183',
+        ip: 27412,
+        position: [113, 48, 0],
+        positionIp: 27556,
+        musicIp: 27553,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
   thief: {
     id: 'yangzhou-rooftop-thief',
     scene: 's086',
@@ -758,6 +830,7 @@ export async function readSources(spec) {
     canonicalMusicScene: `projects/pal/content/scenes/${mapMusic.scene}.json`,
     ...(spec.mapMusic ? {} : { canonicalMaze: 'projects/pal/content/scenes/s046.json' }),
     actors: 'data/extracted/data/player-roles.json',
+    ...(spec.learned ? { skills: 'projects/pal/content/skills.json' } : {}),
     enemies: 'data/extracted/data/enemies.json',
     objects: 'data/extracted/data/enemy-objects.json',
     teams: 'data/extracted/data/enemy-teams.json',
@@ -833,7 +906,7 @@ export async function readSources(spec) {
           .find(({ id }) => id === trigger)
           .behaviors.trigger.default.flow.stages.flatMap(({ body }) => body)
       : musicBody
-    for (const [entity, address] of Object.entries(states ?? visible)) {
+    for (const [entity, address] of Object.entries(states ?? visible ?? {})) {
       const command = commands[address]
       const entityId = Number(entity.slice(1))
       assert.equal(command.opcode, 0x49)
@@ -853,7 +926,7 @@ export async function readSources(spec) {
     if (completedAt !== undefined) {
       assert.deepEqual(commands[completedAt], { op: 'end', advance: true })
       assert.equal(
-        data.canonicalMusicScene.hooks.onEnter.variants.default.flow.stages.at(-1).next.kind,
+        data.rfScene.hooks.onEnter.variants.default.flow.stages.at(-1).next.kind,
         'complete',
       )
       const enter = Number(data.gameScene.onEnterLabel.slice(2))
@@ -1057,6 +1130,8 @@ export async function readSources(spec) {
           object.scriptOnTurnStart,
         )
       : undefined
+  const wood =
+    spec.id === 'wood-taoist' ? readWoodTaoistSources(data, commands, spec, object) : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -1083,7 +1158,10 @@ export async function readSources(spec) {
   const summonedObject = data.objects.find(({ objectIndex }) => objectIndex === summonObject)
   const summoned = data.enemies.find(({ id }) => id === summonedObject.enemyId)
   const summonCount = summonScript?.operands[1] ?? (spec.team === 44 ? 4 : 0)
-  const summonBonus = { exp: summonCount * summoned.exp, cash: summonCount * summoned.cash }
+  const summonBonus = wood?.summonBonus ?? {
+    exp: summonCount * summoned.exp,
+    cash: summonCount * summoned.cash,
+  }
   const battleTrack = musicId(spec.music)
   const outsideActors = ['e401', 'e402', 'e403']
     .map((id) => {
@@ -1149,6 +1227,16 @@ export async function readSources(spec) {
             `projects/pal/content/maps/${data.revisitScene.mapId}.json`,
           ]
         : []),
+      ...(wood
+        ? [
+            'scripts/e2e/boss-entrances/wood-taoist-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
+            'data/extracted/data/scene/190.json',
+            'projects/pal/content/scenes/s190.json',
+            `data/extracted/data/tilemap/${data.diskHandoffScene.mapNum}.json`,
+            `projects/pal/content/maps/${data.handoffScene.mapId}.json`,
+          ]
+        : []),
       ...(gai
         ? [
             'scripts/e2e/boss-entrances/gai-luojiao-presentation.mjs',
@@ -1184,6 +1272,7 @@ export async function readSources(spec) {
     stoneElder,
     toad,
     gai,
+    wood,
     route,
     summonBonus,
     summoning: summonScript && {

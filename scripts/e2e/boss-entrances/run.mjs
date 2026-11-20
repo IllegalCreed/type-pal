@@ -26,6 +26,7 @@ import {
   scenarios,
   statsFields,
 } from './scenarios.mjs'
+import { woodTaoistCommand } from './wood-taoist-presentation.mjs'
 
 const [engine, scenario, option] = process.argv.slice(2)
 const spec = scenarios[scenario]
@@ -78,7 +79,7 @@ const observe = bossObserver({
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
   includesParty:
     spec.party === 'tomb' ||
-    Boolean(source.tower || source.route || revisit || scriptedStop || source.gai),
+    Boolean(source.tower || source.route || revisit || scriptedStop || source.gai || source.wood),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -95,7 +96,16 @@ const trace = (page) => page.evaluate(() => globalThis.__defeat.trace())
 
 async function read(page) {
   return page.evaluate(
-    ({ game, roles, nativeRoles, initialOwner, settlementDwellMs, victoryFade, gateId }) => {
+    ({
+      game,
+      roles,
+      nativeRoles,
+      initialOwner,
+      settlementDwellMs,
+      victoryFade,
+      gateId,
+      readsSkills,
+    }) => {
       const observed = globalThis.__defeat?.read()
       if (!observed?.state) return observed
       const gs = globalThis.__tpgs
@@ -108,6 +118,26 @@ async function read(page) {
       const selectingPlayerId = game
         ? roles[nativeRoles.indexOf(selected?.roleId)]
         : state?.players[selected]?.roleId
+      const selection = game ? null : battle?.selection.view
+      const skillMenu =
+        readsSkills && state
+          ? game && state.magicSelect
+            ? {
+                cursor: state.magicSelect.cursor,
+                items: state.magicSelect.items.map(({ id, disabled }) => ({
+                  skillId: String(id),
+                  disabled: Boolean(disabled),
+                })),
+              }
+            : selection?.phase === 'skill' && state.players[selected]
+              ? {
+                  items: state.players[selected].skills.map((skillId) => ({
+                    skillId,
+                    disabled: state.players[selected].mp < state.skills[skillId].cost.mp,
+                  })),
+                }
+              : null
+          : null
       const settlement = game ? state?.settlement : battle?.settlementPresentation
       const screen = game ? settlement?.screens[settlement.index] : settlement?.currentScreen
       const owner = game
@@ -158,8 +188,13 @@ async function read(page) {
                 menuState: game ? state.menuState : undefined,
                 selectedAction: game ? state.selectedAction : undefined,
                 uiCursor: game ? state.uiCursor : undefined,
-                selection: game ? null : battle.selection.view,
+                selection,
+                skillMenu,
                 snapshot: {
+                  players: state.players.map((player, slot) => ({
+                    id: game ? roles[nativeRoles.indexOf(player.roleId)] : player.roleId,
+                    slot,
+                  })),
                   enemies: state.enemies.map((enemy, slot) =>
                     enemy && (game ? enemy.objectId : enemy.def)
                       ? {
@@ -186,6 +221,7 @@ async function read(page) {
       roles,
       nativeRoles,
       initialOwner,
+      readsSkills: Boolean(spec.learned),
       settlementDwellMs: spec.settlementDwellMs,
       victoryFade: Boolean(source.tower),
       gateId: source.tian?.gateId,
@@ -228,7 +264,12 @@ async function makeGameFixture(page, baseURL, until) {
       }
       return { canonical, staged: serializeSave(world) }
     },
-    spec.party === 'city' || spec.party === 'tomb' || source.gai || source.route || revisit
+    spec.party === 'city' ||
+      spec.party === 'tomb' ||
+      source.gai ||
+      source.route ||
+      revisit ||
+      source.wood
       ? nativeRoles
       : null,
   )
@@ -284,7 +325,8 @@ async function makeGameFixture(page, baseURL, until) {
     for (const [name, field] of Object.entries(statsFields))
       gs.PlayerRolesRuntime[field][id] = member[name]
     for (const row of gs.PlayerRolesRuntime.rgwEquipment) row[id] = 0
-    for (const row of gs.PlayerRolesRuntime.rgwMagic) row[id] = 0
+    for (const [slot, row] of gs.PlayerRolesRuntime.rgwMagic.entries())
+      row[id] = Number(spec.learned?.[member.role]?.[slot] ?? 0)
     gs.Exp.rgPrimaryExp[id] = { wExp: 0, wLevel: member.level, wCount: 0 }
     for (const pool of Object.values(growthPools))
       assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[id], wCount: 0 })
@@ -349,7 +391,7 @@ async function makeReforgeFixture() {
         ]),
       ),
     })
-    world.learnedSkills[role] = []
+    world.learnedSkills[role] = spec.learned?.[role] ?? []
   }
   if (hasReserve)
     applySetParty(
@@ -551,7 +593,7 @@ async function playEncounter({ page, press, health, capture }) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if (source.route && ended)
+    if ((source.route || source.wood) && ended)
       assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
@@ -597,7 +639,8 @@ async function playEncounter({ page, press, health, capture }) {
         kind: defending ? 'defend' : 'attack',
         targetId: defending ? null : target?.id,
       }
-      const key = nextKey({ ...live, snapshot: { enemies } }, command)
+      const planned = source.wood ? woodTaoistCommand(live, command) : command
+      const key = nextKey({ ...live, snapshot: { ...live.snapshot, enemies } }, planned)
       if (key) await press(key, 'battle-select')
     }
     await page.evaluate(

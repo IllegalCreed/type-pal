@@ -2906,6 +2906,7 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
 
     switch (cmd.op) {
       case 'end':
+        if (battleCtx) battleCtx.state.battleDialogStyle = undefined
         // 0x04 call 返回:子脚本 'end' → callStack 非空时弹帧回 caller(对齐 applyOneTick/runEnterScript
         //   的 callStack 约定,event-system.ts:978)。栈空 → 整段结束退出。
         if (callStack.length > 0) {
@@ -2943,7 +2944,10 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
         const group = beginDialogPlayback(
           commands,
           ip,
-          translatedDialogWidth(st?.style ?? 'bottom', st?.portrait !== undefined),
+          translatedDialogWidth(
+            st?.style ?? 'top',
+            st?.portraitLayout ?? st?.portrait !== undefined,
+          ),
         )
         bs.battleDialogQueue ??= []
         for (const text of group.lines ?? [cmd.text]) {
@@ -2952,8 +2956,9 @@ function runScriptFrom(opts: RunScriptOptions, position: BattleScriptPosition): 
           } else {
             bs.battleDialogQueue.push({
               text,
-              style: st?.style ?? 'bottom',
+              style: st?.style ?? 'top',
               portrait: st?.portrait,
+              portraitLayout: st?.portraitLayout,
               fontColor: st?.fontColor,
               clearBefore: bs.battleDialogPendingClear || undefined,
             })
