@@ -1216,6 +1216,7 @@ export async function readSources(spec) {
     ...(itemEntrance && {
       diskItems: 'data/extracted/data/items.json',
       rfItems: 'projects/pal/content/items.json',
+      rainFrames: 'data/extracted/data/rng-frames.json',
     }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
@@ -1761,6 +1762,7 @@ export async function readSources(spec) {
     phoenix,
     qilin,
     route,
+    rainFrames: data.rainFrames?.chunks,
     serial,
     summonBonus,
     summoning: summonScript && {

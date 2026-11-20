@@ -28,6 +28,22 @@ test('the frame already displayed at the first syllable counts, and missing cove
   assert.equal(checkWorldDialoguePixels(complete.slice(0, -1), window).status, 'missing-frames')
 })
 
+test('a dark movie can have an off-center subject, but every frame still needs a picture', () => {
+  const movie = complete.map(({ seconds }) => ({
+    seconds,
+    litFraction: 0,
+    pictureLitFraction: 0.14,
+  }))
+  const span = { ...window, sample: 'picture', minLitFraction: 0.1 }
+  assert.equal(checkWorldDialoguePixels(movie, span).status, 'passed')
+  const hidden = movie.map((frame) =>
+    frame.seconds === 0.12 ? { ...frame, pictureLitFraction: 0 } : frame,
+  )
+  const result = checkWorldDialoguePixels(hidden, span)
+  assert.equal(result.status, 'background-hidden')
+  assert.equal(result.firstDarkFrame.seconds, 0.12)
+})
+
 test('the visible aunt pose is held until the next actual world draw', () => {
   const span = { scene: 's002', id: 's002-night', startAtMs: 120, endAtMs: 210 }
   const scene = {

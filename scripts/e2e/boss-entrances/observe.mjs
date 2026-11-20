@@ -266,11 +266,17 @@ function installBossForeground({
     reforgeRainDraw(scene, resource, mode, opacity) {
       if (scene !== 's227' && scene !== 's245') return
       const film = resource && rainResources.get(resource)
-      const matte = Math.round(opacity * 20) / 20
-      const key = JSON.stringify([scene, film, mode, matte])
+      // The curtain can uncover an unchanged world submission. Keep its actual
+      // render coordinates on the frame that first exposes it.
+      const world =
+        scene === 's245' && !resource && pending?.scene === scene
+          ? { leader: pending.leader, camera: pending.camera }
+          : undefined
+      const matte = Number(opacity.toFixed(3))
+      const key = JSON.stringify([scene, film, mode, matte, world])
       if (key === previousRainDraw) return
       previousRainDraw = key
-      observation.event('rain-draw', { scene, ...film, matte, mode })
+      observation.event('rain-draw', { scene, ...film, matte, mode, world })
     },
     dialoguePainted(sceneId, slots) {
       if (!coversDialogueWorld(sceneId)) return

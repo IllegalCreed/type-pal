@@ -150,7 +150,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   return { cadence, chiefAlert: alertPoses }
 }
 
-function inspectRainFilms(events, commands, game, issues) {
+function inspectRainFilms(events, source, game, issues) {
+  const { commands, route, rainFrames } = source
   const ops = events.filter(({ kind }) => kind === 'script-op')
   const mark = (scene, address, index, op) =>
     ops.find(
@@ -161,39 +162,61 @@ function inspectRainFilms(events, commands, game, issues) {
           : row.op === op && isDeepStrictEqual(row.path, ['initial', index])),
     )
   const spans = []
+  const films = []
   const clips = [
-    ['s227', 7, 70, 32056, 14, 32061, 17],
-    ['s245', 8, 33, 31979, 4, 31981, 6],
+    ['s227', 7, 32056, 14, 32061, 17],
+    ['s245', 8, 31979, 4, 31981, 6],
   ]
-  for (const [scene, asset, count, playIp, playIndex, fadeIp, fadeIndex] of clips) {
+  const sourcePlays = route.segments.flatMap(({ scene, start, leave }) =>
+    commands
+      .slice(start, leave)
+      .flatMap(({ opcode }, offset) => (opcode === 0x37 ? [[scene, start + offset]] : [])),
+  )
+  assert.deepEqual(
+    sourcePlays,
+    clips.map(([scene, , ip]) => [scene, ip]),
+  )
+  for (const [scene, asset, playIp, playIndex, fadeIp, fadeIndex] of clips) {
     assert.deepEqual(commands[playIp].operands, [0, 0, 8])
     const start = mark(scene, playIp, playIndex, 'playFrameAnimation')
     const fade = mark(scene, fadeIp, fadeIndex, 'fade')
     assert(start && fade && start.order < fade.order, `${scene} movie boundaries`)
-    const exposed = events.filter(
+    const layers = events.filter(
       (row) =>
         row.kind === 'rain-draw' &&
         row.scene === scene &&
         start.order < row.order &&
-        row.order < fade.order &&
-        row.matte <= 0.05,
+        row.order < fade.order,
     )
-    const movie = exposed.filter((row) => row.asset === asset)
-    const frames = [...new Set(movie.map(({ frame }) => frame))]
-    const expected = Array.from({ length: count }, (_, i) => i)
+    const movie = layers.filter((row) => row.asset === asset && row.matte <= 0.05)
+    const frames = movie.flatMap(({ frame }, i) => (movie[i - 1]?.frame === frame ? [] : [frame]))
+    const { frameCount, frames: sourceFrames } = rainFrames.find(
+      ({ chunkIndex }) => chunkIndex === asset,
+    )
+    const expected = sourceFrames.map(({ index }) => index)
+    assert.equal(expected.length, frameCount)
     if (!isDeepStrictEqual(frames, expected))
       issues.push({ issue: 'rain-film-visible-frames', scene, asset, actual: frames, expected })
-    if (exposed.some((row) => row.asset !== asset))
-      issues.push({ issue: 'world-frame-in-rain-film', scene, asset })
+    const lost = layers.find((row) => row.asset !== asset && row.matte < 1)
+    if (lost) issues.push({ issue: 'world-frame-in-rain-film', scene, asset, actual: lost })
     const first = movie[0]
     if (!first || first.atMs - start.atMs > 1500)
       issues.push({ issue: 'rain-film-did-not-reveal', scene, asset, first })
+    let held
     if (!game && scene === 's227') {
       const narration = mark(scene, 32057, 15, 'dialog')
-      const held = [...exposed].reverse().find(({ atMs }) => atMs <= narration?.atMs)
-      if (held?.mode !== 'held' || held.frame !== count - 1)
-        issues.push({ issue: 'rain-film-missing-last-frame-under-dialogue', scene, asset, held })
+      const before = movie.findLast(({ order }) => order < narration?.order)
+      held = movie.find(({ order, mode }) => order > narration?.order && mode === 'dialogue')
+      if (before?.frame !== expected.at(-1) || held?.frame !== expected.at(-1))
+        issues.push({
+          issue: 'rain-film-missing-last-frame-under-dialogue',
+          scene,
+          asset,
+          before,
+          held,
+        })
     }
+    films.push({ scene, asset, frameCount, frames, first, last: movie.at(-1), held })
     if (first && fade.atMs > first.atMs + 200)
       spans.push({ id: `rain-film-${asset}`, startAtMs: first.atMs + 25, endAtMs: fade.atMs - 25 })
   }
@@ -204,30 +227,44 @@ function inspectRainFilms(events, commands, game, issues) {
     reveal && patrol && fade && reveal.order < patrol.order && patrol.order < fade.order,
     'the rain film returns to the spoken street scene',
   )
-  const firstStreet = events.find(
-    (row) =>
-      row.kind === 'world-drawn' &&
-      row.scene === 's245' &&
-      row.visible &&
-      reveal.order < row.order &&
-      row.order < fade.order,
+  assert.equal(commands[31985].opcode, 0x46)
+  const [col, row, half] = commands[31985].operands
+  const x = col * 32 + half * 16
+  const y = row * 16 + half * 8
+  const expected = { leader: [x, y], camera: [x - 160, y - 112] }
+  const inStreet = (event) =>
+    event.scene === 's245' && reveal.order < event.order && event.order < fade.order
+  const street = events.filter(
+    (event) =>
+      inStreet(event) &&
+      (game
+        ? event.kind === 'world-drawn' && event.visible
+        : event.kind === 'rain-draw' && event.matte < 1),
   )
-  const street = firstStreet && [firstStreet.leader, firstStreet.camera]
-  const expectedStreet = [
-    [832, 976],
-    [672, 864],
-  ]
-  if (!isDeepStrictEqual(street, expectedStreet))
-    issues.push({ issue: 'rain-film-return-composition', actual: street, expected: expectedStreet })
+  const wrong = street.find((event) =>
+    game
+      ? !isDeepStrictEqual({ leader: event.leader, camera: event.camera }, expected)
+      : event.mode !== 'idle' || !isDeepStrictEqual(event.world, expected),
+  )
+  if (!street.length || wrong)
+    issues.push({ issue: 'rain-film-return-composition', actual: wrong, expected })
   if (!game) {
-    const surface = events.findLast(
-      (row) => row.kind === 'rain-draw' && row.scene === 's245' && row.order < patrol.order,
+    const clear = mark('s245', 31982, 7, 'clearFrameAnimation')
+    const surface = street.findLast((row) => row.order < patrol.order)
+    const covered = events.findLast(
+      (row) => row.kind === 'rain-draw' && row.scene === 's245' && row.order < clear?.order,
     )
-    if (!surface || surface.asset !== undefined || surface.mode !== 'idle' || surface.matte > 0.05)
+    if (covered?.asset !== 8 || covered.matte !== 1 || clear.order >= reveal.order)
+      issues.push({ issue: 'rain-film-cleared-before-curtain', actual: covered })
+    if (!surface || surface.matte > 0.05)
       issues.push({ issue: 'rain-film-not-cleared-before-street-dialogue', actual: surface })
   }
   spans.push({ id: 'rain-street-after-film', startAtMs: patrol.atMs + 25, endAtMs: fade.atMs - 25 })
-  return spans.map((span) => ({ ...span, sample: 'picture', minLitFraction: 0.009 }))
+  return {
+    rainFilms: films,
+    rainStreet: { expected, first: street[0] },
+    rainPictures: spans.map((span) => ({ ...span, sample: 'picture', minLitFraction: 0.009 })),
+  }
 }
 
 export function inspectDaliAltar({ events, draws, boundaries, source, spec, game }) {
@@ -434,7 +471,7 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
     issues,
     actions,
     edgeActors,
-    rainPictures: inspectRainFilms(events, source.commands, game, issues),
+    ...inspectRainFilms(events, source, game, issues),
     ...inspectAltarCadence(events, stageFrames, firstFrames.at(-1), source.commands, game, issues),
     comparable: {
       firstViews,
