@@ -50,7 +50,7 @@ test('a world paint waiter survives a battle frame and resumes after the actual 
   const f = frameFixture()
   const controller = new AbortController()
   const detach = vi.spyOn(controller.signal, 'removeEventListener')
-  const settled = vi.fn(() => f.events.push(['entry snapshot']))
+  const settled = vi.fn(() => f.events.push(['next cue']))
   const done = f.session.waitForWorldPaint(controller.signal).then(settled)
   f.state.battle = true
   await f.tick(100)
@@ -59,7 +59,7 @@ test('a world paint waiter survives a battle frame and resumes after the actual 
   f.state.battle = false
   await f.tick(116)
   await done
-  expect(f.events.slice(-2)).toEqual([['world'], ['entry snapshot']])
+  expect(f.events.slice(-2)).toEqual([['world'], ['next cue']])
   controller.abort()
   await f.tick(132)
   expect(settled).toHaveBeenCalledTimes(1)

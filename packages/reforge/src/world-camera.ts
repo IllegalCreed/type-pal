@@ -108,16 +108,14 @@ export class WorldCamera {
       // Keep the partial interval without jumping over any displacement steps after a stall.
       fx.elapsedMs %= FRAME_MS_EXPLORE
     }
-    if (fx.done >= fx.steps) {
-      fx.resolve()
-      return
-    }
-    fx.done++
+    fx.done = Math.min(fx.steps, fx.done + 1)
     this.displacement.x = fx.fromX + fx.dx * fx.done
     this.displacement.y = fx.fromY + fx.dy * fx.done
     this.update()
-    // Give the last position its full world beat before cues can cover or replace it.
-    if (fx.done === fx.steps) fx.elapsedMs = 0
+    if (fx.done >= fx.steps) {
+      this.panFx = null
+      fx.resolve()
+    }
   }
 
   /** Settlement and offset reset only; the host retains the original next-update timing. */

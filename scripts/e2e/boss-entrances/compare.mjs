@@ -2041,21 +2041,22 @@ async function inspect(path, engine) {
   const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
   const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
   if (tomb) {
+    // The first six bands still contain pixels from the outgoing world frame.
     const activeFrames = events.filter(
-      ({ kind, order, surface, active }) =>
+      ({ kind, order, band, surface, active }) =>
         order > launch[0].order &&
         order < won.order &&
-        (kind === 'entry-band' ||
+        ((kind === 'entry-band' && band === 6) ||
           kind === 'entry-complete' ||
           kind === 'command-menu-drawn' ||
           (kind === 'boss-frame' && order > entry.order && active) ||
-          (kind === 'paint' && surface === 'battle')),
+          (kind === 'paint' && order > entry.order && surface === 'battle')),
     )
     const cleared = inspectClearedDialogueFrames(renderedDialogue, activeFrames, spec.scene)
     tomb.clearedDialogue = cleared
     if (cleared.issue)
       tomb.issues.push({
-        rule: 'world dialogue clears before the first battle draw',
+        rule: 'world dialogue clears on the first fully revealed battle frame',
         ...cleared.issue,
       })
   }

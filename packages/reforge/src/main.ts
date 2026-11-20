@@ -1162,7 +1162,7 @@ export async function bootGame(
   let preserveClosedDialogFrame = false
   let fadingSourceFrame: ImageData | undefined
   let presentedBattleFrame = false
-  let battleEntryNeedsWorldPaint = false
+  let touchLandingNeedsPaint = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   // ── R13-4 脚本二选一：独立于系统菜单业务的中央 FIFO + dedicated held-frame。──
@@ -2308,7 +2308,6 @@ export async function bootGame(
       })
     },
     clearDialog: () => {
-      battleEntryNeedsWorldPaint ||= dialogBox.needsRender || preserveClosedDialogFrame
       preserveClosedDialogFrame = false
       dialogBox.close()
     },
@@ -2332,7 +2331,10 @@ export async function bootGame(
         if (source && fadingSourceFrame === source) fadingSourceFrame = undefined
       }
     },
-    cameraPan: (dx, dy, frames, signal) => cameraSession.pan(dx, dy, frames, signal),
+    cameraPan: async (dx, dy, steps, signal) => {
+      await cameraSession.pan(dx, dy, steps, signal)
+      if (steps > 0) await frames.waitForWorldPaint(signal)
+    },
     cameraSnap: (to) => cameraSession.snap(to),
     frameAnimation: async (opts, signal) => {
       assertRunnerActive(signal, `帧动画 ${opts.asset} 所属 runner 已取消`)
@@ -3970,9 +3972,8 @@ export async function bootGame(
         return answer
       },
       startBattle: async (request, signal, source) => {
-        // The entry transition freezes the last painted world, including any dialogue on it.
-        if (source === 'script' && battleEntryNeedsWorldPaint)
-          await frames.waitForWorldPaint(signal)
+        // An immediate touch battle needs the just-committed landing as its entry image.
+        if (source === 'script' && touchLandingNeedsPaint) await frames.wait(0, signal)
         return battleHost.start(
           request.enemyTeamId,
           {
@@ -4811,7 +4812,7 @@ export async function bootGame(
           if (touched) {
             if (runner) enqueuePendingTouchTrigger(touched)
             else {
-              battleEntryNeedsWorldPaint = true
+              touchLandingNeedsPaint = true
               fireTrigger(touched)
             }
             // The landing owns this world's post-contact slot even when another runner currently
@@ -5491,7 +5492,7 @@ export async function bootGame(
     screenHold.cancel()
     fadingSourceFrame = undefined
     presentedBattleFrame = false
-    battleEntryNeedsWorldPaint = false
+    touchLandingNeedsPaint = false
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     worldPresentation.clearEntityFrames()
@@ -6803,7 +6804,7 @@ export async function bootGame(
     presentWorld: (frameAt) => {
       motion.clearScriptGaitHandoffs()
       runWithPresentationFinalizer(() => render(frameAt), abortScript)
-      battleEntryNeedsWorldPaint = false
+      touchLandingNeedsPaint = false
     },
   }
   async function tick(t: number): Promise<void> {
