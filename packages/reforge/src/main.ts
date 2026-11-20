@@ -2680,11 +2680,13 @@ export async function bootGame(
       const scriptMutationToken = scriptMutationIntent.capture()
       const intent = actorMutationIntent(actorSpriteMutationIntents, actorId)
       const actorToken = intent.begin()
-      const frames = await awaitRunner(
-        spriteCache.load(project.assetResolver, def.asset),
-        signal,
-        `0x65 换装 ${actorId} 的 runner 已取消`,
-      )
+      const frames =
+        spriteCache.get(project.assetResolver, def.asset) ??
+        (await awaitRunner(
+          spriteCache.load(project.assetResolver, def.asset),
+          signal,
+          `0x65 换装 ${actorId} 的 runner 已取消`,
+        ))
       await atScriptMutation(signal, () => {
         assertRunnerActive(signal, `0x65 换装 ${actorId} 的 runner 已取消`)
         worldMutationIntent.assertCurrent(worldToken, `0x65 换装 ${actorId} 的所属世界已失效`)
@@ -3026,7 +3028,9 @@ export async function bootGame(
           if (!candidate.party[0]) throw new Error('setParty: 队伍不能为空')
         },
         requiredResources: (candidate) =>
-          candidate.party.map((member) => partySpriteDef(member).asset),
+          candidate.party
+            .map((member) => partySpriteDef(member).asset)
+            .filter((asset) => !spriteCache.get(project.assetResolver, asset)),
         prepare: (asset) =>
           awaitRunner(
             spriteCache.load(project.assetResolver, asset),

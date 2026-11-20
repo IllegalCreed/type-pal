@@ -238,5 +238,71 @@ export function inspectSerialBattles({
       background: true,
     })
   })
-  return { issues, battles, coverage, movements }
+  const world = new Map(
+    events.filter(({ kind }) => kind === 'world-drawn').map((row) => [row.order, row]),
+  )
+  const first = [...world.values()].find(({ order, visible }) => visible && order < trigger.order)
+  const startingRoles = first?.party.map(({ id }) => id)
+  check(
+    0,
+    'inherited visible party order',
+    startingRoles,
+    party.map(({ role }) => role),
+  )
+  const visibleSprite = (id) => (typeof id === 'number' ? id : source.spriteChunks.get(id))
+  const linger = first?.party.find(({ id }) => id === 'zhao-linger')
+  check(
+    0,
+    'inherited Saint Cloak sprite',
+    visibleSprite(linger?.spriteId),
+    source.lingerAppearance.native.sprite,
+  )
+
+  const [col, row, half] = source.commands[35396].operands
+  const [x, y] = [col * 32 + half * 16, row * 16 + half * 8]
+  const gesture = source.commands[35399].operands[1]
+  const sprite = source.commands[35397].operands[1]
+  const from = finishes.at(-1)
+  const through = coverage.at(-1).cues[0]?.firstComplete?.atMs
+  const returnFrames = events.filter(
+    ({ kind, atMs, view, scene }) =>
+      kind === 'world-render' &&
+      scene === spec.scene &&
+      view !== null &&
+      from.atMs < atMs &&
+      atMs <= through,
+  )
+  assert(returnFrames.length, 'actual first palace return composed before speech')
+  for (const receipt of returnFrames) {
+    const composed = world.get(receipt.view)
+    const actual = composed && {
+      leader: composed.leader,
+      camera: composed.camera,
+      cast: Object.keys(composed.actors).sort(),
+      party: composed.party.map(({ id, spriteId, world, frame }) => [
+        id,
+        visibleSprite(spriteId),
+        world,
+        frame,
+      ]),
+      visible: composed.visible,
+    }
+    const expected = {
+      leader: [x, y],
+      camera: [x - 160, y - 112],
+      cast: ['e4749'],
+      party: [['li-xiaoyao', sprite, [x, y], gesture]],
+      visible: true,
+    }
+    if (!isDeepStrictEqual(actual, expected)) {
+      issues.push({
+        issue: 'palace-wrong-first-return-composition',
+        order: receipt.order,
+        actual,
+        expected,
+      })
+      break
+    }
+  }
+  return { issues, battles, coverage, movements, returnFrames: returnFrames.length }
 }

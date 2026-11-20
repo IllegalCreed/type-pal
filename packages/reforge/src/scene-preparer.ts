@@ -1,6 +1,7 @@
 import {
   type ActorDef,
   type AssetId,
+  collectCommandSpriteTaggedReferences,
   emptyWorldScriptState,
   type ProjectedWorldScriptState,
   type RuntimeSceneDef,
@@ -116,6 +117,11 @@ export class ScenePreparer<TRenderer> {
       preparedActorOverrides,
       useActorOverrides,
     )
+    for (const reference of collectCommandSpriteTaggedReferences(canonicalDef, `场景 ${sceneId}`)) {
+      if (reference.kind !== 'battle-sprite') {
+        needed.add(this.ports.requireSprite(reference.sprite, reference.where).asset)
+      }
+    }
     const neededAssets = [...needed]
     const [assets, palette, loadedSprites] = await Promise.all([
       this.ports.map(mapId),
