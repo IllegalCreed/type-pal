@@ -13,7 +13,7 @@ import {
 const d3: SpriteLayout = { kind: 'directional', framesPerDir: 3 }
 const d4: SpriteLayout = { kind: 'directional', framesPerDir: 4 }
 
-describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)', () => {
+describe('方向帧与手动动画帧', () => {
   test('deriveStepCycle:3→[0,1,0,2](站/迈左/站/迈右);4→[0,1,2,3]', () => {
     expect(deriveStepCycle(3)).toEqual([0, 1, 0, 2])
     expect(deriveStepCycle(4)).toEqual([0, 1, 2, 3])
@@ -59,33 +59,31 @@ describe('sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+
     expect(idleFrameIndex(d3, 'left', 12)).toBe(3)
   })
 
-  test.each([
-    [627, 4],
-    [361, 5],
-    [242, 5],
-    [273, 4],
-    [394, 2],
-    [385, 2],
-    [379, 5],
-    [550, 2],
-    [541, 1],
-    [630, 4],
-    [631, 7],
-    [632, 7],
-    [236, 1],
-  ] as const)('PAL layout 债 #%i 的真实 %i 帧在所有方向/步相均不越界', (_number, frames) => {
+  test('walking preserves an available frame and falls back for oversized directional layouts', () => {
+    const layout: SpriteLayout = { kind: 'directional', framesPerDir: 2 ** 32 }
+    expect(walkFrameIndex(layout, 'down', 1, 2)).toBe(1)
+    expect(walkFrameIndex(layout, 'right', 1, 2)).toBe(0)
+  })
+
+  test.each([1, 2, 4, 5, 7])('已解码 %i 帧时，任一方向和步相都返回可用下标', (frames) => {
+    const valid = Array.from({ length: frames }, (_, index) => index)
     for (const facing of ['down', 'left', 'up', 'right'] as const) {
-      expect(idleFrameIndex(d3, facing, frames)).toBeLessThan(frames)
+      expect(valid).toContain(idleFrameIndex(d3, facing, frames))
       for (let phase = 0; phase < 8; phase++) {
-        expect(walkFrameIndex(d3, facing, phase, frames)).toBeLessThan(frames)
-        expect(animFrameIndex(d3, facing, phase, frames)).toBeLessThan(frames)
+        expect(valid).toContain(walkFrameIndex(d3, facing, phase, frames))
+        expect(valid).toContain(animFrameIndex(d3, facing, phase, frames))
       }
     }
   })
+
+  test('无方向的手动帧沿实际帧带循环，负步相取尾帧', () => {
+    expect(animFrameIndex({ kind: 'static' }, 'left', 5, 3)).toBe(2)
+    expect(animFrameIndex({ kind: 'static' }, 'up', -1, 3)).toBe(2)
+  })
 })
 
-describe('loopFrameIndex(E5 环境动画自循环)', () => {
-  const loop4: import('@type-pal/content').SpriteLayout = { kind: 'loop', frameCount: 4 }
+describe('环境循环帧', () => {
+  const loop4: SpriteLayout = { kind: 'loop', frameCount: 4 }
   test('按壁钟 250ms/帧循环 0..n-1', () => {
     expect(loopFrameIndex(loop4, 0)).toBe(0)
     expect(loopFrameIndex(loop4, 260)).toBe(1)

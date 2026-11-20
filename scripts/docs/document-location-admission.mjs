@@ -2,7 +2,7 @@
 // manifest. A candidate manifest cannot authorize itself by recomputing hashes.
 export const documentLocationAdmission = Object.freeze({
   baseRevision: '159cd0e2f8753536800ba4635e896020a897fddc',
-  manifestSha256: 'a79f3930bee377c6e0a65380de533f72289d576cb36a71e8c166a6d1e1046724',
+  manifestSha256: '9a30078d3d82ec8ad7ca5ad65e81d970a09826cee09eb0185cc9e0104062ef28',
   // Exact accepted E2E catalog bytes precede the separately checked main source bridge.
   testingCatalogMaintenanceRevision: '98628aa7593a2d0867cb85b1d08f2be694e047d3',
   testingCatalogStagePublicationBaseRevision: 'c3273852ec273299d8caf41062bdc2a15442784d',
@@ -65,5 +65,13 @@ export const documentLocationAdmission = Object.freeze({
   testingQ2DaliRainSourceRevision: '9be7550c981201224106a839e782c9607ea79b7f',
   testingQ2PalaceSourceRevision: '4749ceffab523a531058b459ff90e650125899d7',
   testingQ2DisplaySourceRevision: 'ece59c98d26fbb8bd8f9097121cced7b1893bc63',
+  // The next publication reads the same version declarations from a changed character module.
+  testingContentVersionRebinding: Object.freeze({
+    baseRevision: '778928d199dc74768d0499d7a42081098bb2390d',
+    afterSha256: '3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea',
+    date: '2026-11-19',
+    entries: 20,
+    publicationBaseRevision: '67da17e4e66793c8aaaf8b853aa990fd05f892df',
+  }),
   testingCatalogBattlePublicationBaseRevision: '43fea71735236272cfb7f6a1c61c3ac2e691a349',
 })

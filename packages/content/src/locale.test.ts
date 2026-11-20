@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { type Locale, lookupText } from './locale.js'
+import { validateLocale } from './validate.js'
 
 const L: Locale = { 'name.youhun': '游魂', 'dlg.x.0': '活人气味', silent: '' }
 
@@ -20,4 +21,10 @@ describe('lookupText', () => {
   test('工程真正定义的 constructor 空译文保持为空串', () => {
     expect(lookupText('constructor', { constructor: '' })).toBe('')
   })
+})
+
+test('rejects a non-text string table entry even when soft wraps are allowed', () => {
+  expect(() => validateLocale({ caption: 1 }, { allowSoftWrap: true })).toThrow(
+    new Error('locale: 键 "caption" 的值非string'),
+  )
 })

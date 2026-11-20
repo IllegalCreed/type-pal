@@ -45,12 +45,12 @@ async function transform(bytes: Uint8Array, kind: 'compress' | 'decompress'): Pr
   return new Uint8Array(await new Response(output).arrayBuffer())
 }
 
-/** Worker 和无 Worker 降级路径共用的保存核；一次只恢复两个旧 block。 */
+/** Worker 与无 Worker 路径共用；旧帧按需解码，不展开整个动画。 */
 export async function encodeFrameAnimationRequest(
   request: FrameAnimationEncodeRequest,
 ): Promise<Uint8Array> {
   const source = request.source ? parseFrameSequence(new Uint8Array(request.source)) : undefined
-  const blockCache = new Map<number, Promise<Uint8Array[]>>()
+  const blockCache = new Map<number, Uint8Array[]>()
   const sourceFrame = async (frameIndex: number): Promise<Uint8Array> => {
     if (!source) throw new Error(`保存帧 ${frameIndex}: 缺旧动画来源`)
     if (
@@ -60,18 +60,15 @@ export async function encodeFrameAnimationRequest(
     )
       throw new Error(`保存帧来源索引 ${frameIndex} 越界`)
     const blockIndex = Math.floor(frameIndex / source.index.blockFrames)
-    let frames = blockCache.get(blockIndex)
-    if (!frames) {
-      frames = decodeFrameSequenceBlock(source, blockIndex, (bytes) =>
+    let decoded = blockCache.get(blockIndex)
+    if (!decoded) {
+      decoded = await decodeFrameSequenceBlock(source, blockIndex, (bytes) =>
         transform(bytes, 'decompress'),
       )
-      blockCache.set(blockIndex, frames)
-      void frames.catch(() => blockCache.delete(blockIndex))
-    }
-    const decoded = await frames
-    for (const cached of [...blockCache.keys()]) {
-      if (blockCache.size <= 2) break
-      if (cached !== blockIndex) blockCache.delete(cached)
+      // 提供器逐帧等待；最多保留最后解码的两个旧块，命中时不改变顺序。
+      blockCache.set(blockIndex, decoded)
+      const oldest = blockCache.keys().next().value
+      if (blockCache.size > 2 && oldest !== undefined) blockCache.delete(oldest)
     }
     const block = source.index.blocks[blockIndex]
     const frame = block ? decoded[frameIndex - block.firstFrame] : undefined

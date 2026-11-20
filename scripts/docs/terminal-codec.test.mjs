@@ -22,7 +22,10 @@ import { fileURLToPath } from 'node:url'
 import { deflateRawSync, gunzipSync } from 'node:zlib'
 import { biomeCli, runLintZero } from '../quality/lint-zero.mjs'
 import { renderTaskIndex } from './check.mjs'
-import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
+import {
+  docsCliModulePaths,
+  installHistoricalLocationFixture,
+} from './document-location.test-support.mjs'
 import { decodeTerminalArchive, encodeTerminalArchive, terminalCrc32 } from './terminal-codec.mjs'
 import {
   terminalFixedBaseline,
@@ -905,36 +908,7 @@ test('actual Git metadata overflow fails the fixed4MiB stdout budget', (t) => {
 
 function entryFixture(t) {
   const fixture = gitFixture(t)
-  for (const path of [
-    'scripts/docs/check.mjs',
-    'scripts/docs/document-integrity.mjs',
-    'scripts/docs/document-location.mjs',
-    'scripts/docs/testing-source-bridge.mjs',
-    'scripts/docs/testing-acquisition-source-bridge.mjs',
-    'scripts/docs/testing-battle-publication.mjs',
-    'scripts/docs/testing-source-refs.mjs',
-    'scripts/docs/artifact-compression.mjs',
-    'scripts/docs/artifact-content-alias.mjs',
-    'scripts/docs/artifact-retirement.mjs',
-    'scripts/docs/document-location-admission.mjs',
-    'scripts/docs/testing-source-maintenance.mjs',
-    'scripts/docs/testing-source-maintenance-admission.mjs',
-    'scripts/docs/markdown-source-spans.mjs',
-    'scripts/docs/relocate.mjs',
-    'scripts/docs/review-record-storage-io.mjs',
-    'scripts/docs/review-record-storage.mjs',
-    'scripts/docs/git-document-snapshot.mjs',
-    'scripts/docs/git-inventory.mjs',
-    'scripts/docs/config.mjs',
-    'scripts/docs/markdown.mjs',
-    'scripts/docs/terminal-codec.mjs',
-    'scripts/docs/terminal-json.mjs',
-    'scripts/docs/terminal-git.mjs',
-    'scripts/docs/terminal-namespace.mjs',
-    'scripts/docs/terminal-contract.mjs',
-    'scripts/quality/lint-zero.mjs',
-    'biome.json',
-  ]) {
+  for (const path of [...docsCliModulePaths, 'scripts/quality/lint-zero.mjs', 'biome.json']) {
     mkdirSync(dirname(join(fixture.root, path)), { recursive: true })
     copyFileSync(join(repository, path), join(fixture.root, path))
   }

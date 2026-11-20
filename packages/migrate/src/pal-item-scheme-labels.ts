@@ -19,11 +19,9 @@ type SchemeAddress =
 
 interface SchemeNode {
   key: string
-  address: SchemeAddress
   id: string
   label: string
   order: number
-  flow: AuthorScriptFlow
   path: string
   edges: SelectionEdge[]
 }
@@ -31,14 +29,6 @@ interface SchemeNode {
 interface SelectionEdge {
   target: string
   path: string
-}
-
-interface PalItemSchemeLabelPlanEntry {
-  address: SchemeAddress
-  id: string
-  itemId: string
-  path: string
-  currentLabel: string
 }
 
 export interface PalItemSchemeLabelReport {
@@ -93,19 +83,6 @@ function walkCommands(
   })
 }
 
-function walkFlow(
-  flow: AuthorScriptFlow,
-  path: string,
-  visit: (command: AuthorCommand, path: string) => void,
-): void {
-  // Built-in acquisition recipes cannot select another entity or scene scheme.
-  if (flow.kind === 'acquisition') return
-  flow.stages.forEach((stage, index) => {
-    walkCommands(stage.entry?.prepare ?? [], `${path}.stages[${index}].entry.prepare`, visit)
-    walkCommands(stage.body, `${path}.stages[${index}].body`, visit)
-  })
-}
-
 function selectionEdges(commands: readonly AuthorCommand[], path: string): SelectionEdge[] {
   const edges: SelectionEdge[] = []
   walkCommands(commands, path, (command, commandPath) => {
@@ -141,37 +118,12 @@ function selectionEdges(commands: readonly AuthorCommand[], path: string): Selec
 }
 
 function flowEdges(flow: AuthorScriptFlow, path: string): SelectionEdge[] {
-  const edges: SelectionEdge[] = []
-  walkFlow(flow, path, (command, commandPath) => {
-    if (command.kind === 'selectEntityBehavior' && command.selection.kind === 'use') {
-      edges.push({
-        target: keyOf({
-          kind: 'entity',
-          sceneId: command.target.scene,
-          entityId: command.target.entity,
-          channel: command.channel,
-          id: command.selection.value,
-        }),
-        path: `${commandPath}.selection.value`,
-      })
-      return
-    }
-    if (command.kind !== 'selectSceneHooks') return
-    for (const channel of ['onEnter', 'onTeleport'] as const) {
-      const selection = command.selection[channel]
-      if (selection?.kind !== 'use') continue
-      edges.push({
-        target: keyOf({
-          kind: 'hook',
-          sceneId: command.scene,
-          channel,
-          id: selection.value,
-        }),
-        path: `${commandPath}.selection.${channel}.value`,
-      })
-    }
-  })
-  return edges
+  // Built-in acquisition recipes contain rewards, without behavior selections.
+  if (flow.kind === 'acquisition') return []
+  return flow.stages.flatMap((stage, index) => [
+    ...selectionEdges(stage.entry?.prepare ?? [], `${path}.stages[${index}].entry.prepare`),
+    ...selectionEdges(stage.body, `${path}.stages[${index}].body`),
+  ])
 }
 
 function isCanonicalTopLabel(label: string, itemNames: readonly string[]): boolean {
@@ -180,7 +132,7 @@ function isCanonicalTopLabel(label: string, itemNames: readonly string[]): boole
     if (label === base) return true
     if (!label.startsWith(`${base} `)) return false
     const suffix = label.slice(base.length + 1)
-    return /^[2-9][0-9]*$/.test(suffix)
+    return /^(?:[2-9]|[1-9][0-9]+)$/.test(suffix)
   })
 }
 
@@ -190,10 +142,13 @@ function isCandidate(node: SchemeNode, itemNames: readonly string[]): boolean {
 
 function collectNodes(scenes: readonly AuthorSceneDef[]): Map<string, SchemeNode> {
   const nodes = new Map<string, SchemeNode>()
-  const add = (node: Omit<SchemeNode, 'key' | 'edges'>): void => {
-    const key = keyOf(node.address)
+  const add = (
+    address: SchemeAddress,
+    { flow, ...node }: Omit<SchemeNode, 'key' | 'id' | 'edges'> & { flow: AuthorScriptFlow },
+  ): void => {
+    const key = keyOf(address)
     if (nodes.has(key)) throw new Error(`PAL 物品剧情方案节点重复: ${node.path}`)
-    nodes.set(key, { ...node, key, edges: flowEdges(node.flow, `${node.path}.flow`) })
+    nodes.set(key, { ...node, key, id: address.id, edges: flowEdges(flow, `${node.path}.flow`) })
   }
   for (const scene of scenes) {
     for (const entity of scene.entities) {
@@ -206,9 +161,7 @@ function collectNodes(scenes: readonly AuthorSceneDef[]): Map<string, SchemeNode
             channel,
             id,
           }
-          add({
-            address,
-            id,
+          add(address, {
             label: behavior.label,
             order: behavior.order,
             flow: behavior.flow,
@@ -220,9 +173,7 @@ function collectNodes(scenes: readonly AuthorSceneDef[]): Map<string, SchemeNode
     for (const channel of ['onEnter', 'onTeleport'] as const) {
       for (const [id, hook] of Object.entries(scene.hooks?.[channel]?.variants ?? {})) {
         const address = { kind: 'hook' as const, sceneId: scene.id, channel, id }
-        add({
-          address,
-          id,
+        add(address, {
           label: hook.label,
           order: hook.order,
           flow: hook.flow,
@@ -234,18 +185,10 @@ function collectNodes(scenes: readonly AuthorSceneDef[]): Map<string, SchemeNode
   return nodes
 }
 
-/**
- * PAL current-only invariant 的纯推导核。它只读取作者树并给出确定性期望，不修改内容；
- * 一次性 canonical rewrite 完成后，生产路径只调用下方断言。
- */
-function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
-  entries: PalItemSchemeLabelPlanEntry[]
-  opaqueLabels: number
-} {
+/** 根由物品私有脚本的选择指令给出。共享的可达节点按地址归属并去重。 */
+function inspectSchemeGraph(args: PalItemSchemeLabelArgs): PalItemSchemeLabelReport {
   const nodes = collectNodes(args.scenes)
   const rootsByNode = new Map<string, Set<string>>()
-  const reachable = new Set<string>()
-  const itemsById = new Map(args.items.map((item) => [item.id, item]))
   const itemOrder = new Map(args.items.map((item, index) => [item.id, index]))
   const itemNames = args.items.map((item) => item.name)
 
@@ -261,7 +204,6 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
     const roots = rootsByNode.get(node.key) ?? new Set<string>()
     roots.add(itemId)
     rootsByNode.set(node.key, roots)
-    reachable.add(node.key)
     if (visiting.has(node.key))
       throw new Error(`PAL 物品剧情方案选择图成环: ${[...stack, node.path].join(' -> ')}`)
     if (done.has(node.key)) return
@@ -283,7 +225,7 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
     }
   }
 
-  const candidates = new Set(reachable)
+  const candidates = new Set(rootsByNode.keys())
   for (const node of nodes.values()) if (isCandidate(node, itemNames)) candidates.add(node.key)
 
   const grouped = new Map<string, SchemeNode[]>()
@@ -308,12 +250,10 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
       `PAL 物品剧情方案 item root 数漂移: ${grouped.size} != ${args.expectedItemRoots}`,
     )
 
-  const entries: PalItemSchemeLabelPlanEntry[] = []
+  const labels: PalItemSchemeLabelReport['labels'] = []
   for (const [itemId, group] of [...grouped].sort(
     ([left], [right]) => itemOrder.get(left)! - itemOrder.get(right)!,
   )) {
-    const item = itemsById.get(itemId)
-    if (!item) throw new Error(`PAL 物品剧情方案缺 item root ${itemId}`)
     group.sort((left, right) => left.order - right.order || left.id.localeCompare(right.id))
     for (let index = 1; index < group.length; index++) {
       const previous = group[index - 1]!
@@ -322,12 +262,11 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
         throw new Error(`PAL 物品剧情方案 order + id 不唯一: ${previous.path} / ${current.path}`)
     }
     group.forEach((node) => {
-      entries.push({
-        address: node.address,
+      labels.push({
         id: node.id,
         itemId,
         path: node.path,
-        currentLabel: node.label,
+        label: node.label,
       })
     })
   }
@@ -336,29 +275,13 @@ function derivePalItemSchemeLabelPlan(args: PalItemSchemeLabelArgs): {
     (count, node) => count + Number(OPAQUE_ITEM_SCHEME_LABEL.test(node.label)),
     0,
   )
-  return { entries, opaqueLabels }
+  return { schemes: labels.length, itemRoots: grouped.size, opaqueLabels, labels }
 }
 
-function labelReport(
-  entries: readonly PalItemSchemeLabelPlanEntry[],
-  opaqueLabels: number,
-): PalItemSchemeLabelReport {
-  return {
-    schemes: entries.length,
-    itemRoots: new Set(entries.map((entry) => entry.itemId)).size,
-    opaqueLabels,
-    labels: entries.map((entry) => ({
-      id: entry.id,
-      itemId: entry.itemId,
-      path: entry.path,
-      label: entry.currentLabel,
-    })),
-  }
-}
-
-/** Read-only author graph audit; names are author-owned, not regenerated from item ordinals. */
+/** Read-only author graph audit. Scheme names belong to the author. */
 export function inspectPalItemSchemeRoots(args: PalItemSchemeLabelArgs): PalItemSchemeLabelReport {
-  const { entries, opaqueLabels } = derivePalItemSchemeLabelPlan(args)
-  if (opaqueLabels) throw new Error(`PAL 物品剧情方案仍含 ${opaqueLabels} 个 opaque label`)
-  return labelReport(entries, opaqueLabels)
+  const report = inspectSchemeGraph(args)
+  if (report.opaqueLabels)
+    throw new Error(`PAL 物品剧情方案仍含 ${report.opaqueLabels} 个 opaque label`)
+  return report
 }

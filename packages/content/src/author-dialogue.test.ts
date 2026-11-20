@@ -265,6 +265,17 @@ describe('author dialogue identity', () => {
     expect(actors[actor.id]).toBe(actor)
   })
 
+  test('叙述保留文本，不凭空绑定演员名称或肖像', () => {
+    const cue = {
+      identity: { kind: 'narration' },
+      rows: [{ text: 'line.narration' }],
+    } satisfies AuthorDialogueCue
+    checkAuthorDialogueCue(cue, 'cue')
+    expect(resolveAuthorDialogueCue(cue, { [actor.id]: actor }, 'cue')).toEqual({
+      rows: [{ text: 'line.narration' }],
+    })
+  })
+
   test('unbound：speaker/portrait 声明性透传（浅拷贝 portrait）', () => {
     expect(resolveDialogueIdentity({ kind: 'unbound', speaker: '旁白甲' }, {})).toEqual({
       speaker: '旁白甲',

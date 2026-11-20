@@ -1,39 +1,13 @@
-import {
-  checkScriptLibrary,
-  normalizeScriptLibrary,
-  type ScriptChunkV1,
-  type ScriptIndexV1,
-} from '@type-pal/content'
+import type { ScriptChunkV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { sceneScriptPair } from './__tests__/script-chunk-fixture.js'
 import type { FileSource } from './file-source.js'
 import { ScriptChunkStore } from './script-chunk-store.js'
 
 function fixture() {
-  const firstId = 'scene/s001/on-enter/0'
-  const secondId = 'scene/s002/on-enter/0'
-  const draft: ScriptIndexV1 = {
-    version: 1,
-    shards: { shared: 1, global: {} },
-    chunks: {
-      'scene/s001': { path: 'chunks/scene/s001.json', bytes: 0 },
-      'scene/s002': { path: 'chunks/scene/s002.json', bytes: 0 },
-    },
-  }
-  const { index, chunks } = normalizeScriptLibrary(draft, {
-    'scene/s001': {
-      version: 1,
-      id: 'scene/s001',
-      scripts: { [firstId]: [{ kind: 'wait', ms: 1 }] },
-    },
-    'scene/s002': {
-      version: 1,
-      id: 'scene/s002',
-      scripts: { [secondId]: [{ kind: 'wait', ms: 2 }] },
-    },
-  })
-  checkScriptLibrary(index, chunks)
+  const { index, chunks, firstId, secondId } = sceneScriptPair()
   const files = Object.fromEntries(
-    Object.entries(index.chunks).map(([id, meta]) => [`content/scripts/${meta.path}`, chunks[id]!]),
+    Object.entries(chunks).map(([id, chunk]) => [`content/scripts/chunks/${id}.json`, chunk]),
   )
   return { index, chunks, files, firstId, secondId }
 }

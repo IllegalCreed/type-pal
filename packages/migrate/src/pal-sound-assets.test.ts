@@ -54,9 +54,19 @@ describe('palSoundAssetForSources：显式 catalog 的音效身份与缺失反�
     expect(catalog).toEqual(input)
   })
 
-  test('同一 resolver 重复调用输出稳定（幂等身份解析）', () => {
-    const resolve = palSoundAssetForSources({ assetCatalog: catalogWith({}) })
-    expect(resolve(7)).toBeUndefined()
-    expect(resolve(7)).toBeUndefined()
+  test('两个解析器只消费各自的资源目录', () => {
+    const registered = palSoundAssetForSources({
+      assetCatalog: catalogWith({
+        'sound.pal.007': {
+          kind: 'sound',
+          path: 'assets/migrated/sounds/007.wav',
+          mediaType: 'audio/wav',
+        },
+      }),
+    })
+    const missing = palSoundAssetForSources({ assetCatalog: catalogWith({}) })
+    expect(registered(7)).toBe('sound.pal.007')
+    expect(missing(7)).toBeUndefined()
+    expect(registered(7)).toBe('sound.pal.007')
   })
 })

@@ -32,7 +32,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "publicCallers": [
@@ -105,6 +105,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -149,7 +165,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
@@ -212,6 +228,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -513,7 +545,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "scripts/e2e/opening-matrix-observer.mjs",
@@ -690,6 +722,22 @@
               }
             ],
             "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -803,7 +851,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "scripts/e2e/inn-observer.mjs",
@@ -895,6 +943,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -960,7 +1024,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
@@ -1062,6 +1126,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -1127,7 +1207,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
@@ -1205,6 +1285,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -1270,7 +1366,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
@@ -1371,6 +1467,22 @@
               }
             ],
             "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -1450,7 +1562,7 @@
           "lines": "169-169",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "publicCallers": [
@@ -1553,6 +1665,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-169",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -1667,7 +1795,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -2432,6 +2560,22 @@
               }
             ],
             "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -2531,7 +2675,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -3177,6 +3321,22 @@
               }
             ],
             "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -3287,7 +3447,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -4514,6 +4674,22 @@
               }
             ],
             "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -4621,7 +4797,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -5218,6 +5394,22 @@
               }
             ],
             "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -5269,7 +5461,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "current version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
@@ -5367,6 +5559,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "current version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -5468,7 +5676,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -5520,6 +5728,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -5619,7 +5843,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -5733,6 +5957,22 @@
               }
             ],
             "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -5842,7 +6082,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -5887,6 +6127,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -6014,7 +6270,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "revision": {
@@ -6288,6 +6544,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -7117,7 +7389,7 @@
           "lines": "169-169",
           "anchor": "export const CONTENT_VERSION = 23",
           "role": "canonical content version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -7239,6 +7511,22 @@
               }
             ],
             "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-169",
+                "anchor": "export const CONTENT_VERSION = 23",
+                "role": "canonical content version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -7302,7 +7590,7 @@
           "lines": "169-171",
           "anchor": "export const CONTENT_VERSION =",
           "role": "PAL content and Reforge minimum save version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         }
       ],
       "publicCallers": [
@@ -7383,6 +7671,22 @@
               }
             ],
             "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-171",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "PAL content and Reforge minimum save version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },
@@ -7481,7 +7785,7 @@
           "lines": "169-169",
           "anchor": "export const CONTENT_VERSION = 23",
           "role": "version",
-          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+          "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -7628,6 +7932,22 @@
               }
             ],
             "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
+          },
+          {
+            "action": "content-version-source-rebinding",
+            "base": "778928d199dc74768d0499d7a42081098bb2390d",
+            "date": "2026-11-19",
+            "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "169-169",
+                "anchor": "export const CONTENT_VERSION = 23",
+                "role": "version",
+                "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+              }
+            ],
+            "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
           }
         ]
       },

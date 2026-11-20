@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-16
+Last reviewed: 2026-11-20
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -49,13 +49,33 @@ Template: governance-index-v1 / 1.0.0
 
 全量父卡、catalog/registry存储、原生JSON/Vitest与记录可信度五子卡已经按后继有效接受和最终主线硬门收口，006任务仅复用原技术/用户判断解除集成停止线。终态卡从活动分工退出，通过[生成索引](cards/index.md)检索；旧R波撤信不恢复，未知历史来源不认证。
 
+### 代码治理：内容资产批次留项
+
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)已完成 97 个原 pending 的逐文件读核，84 个验收、13 个保留 review。定向经过音频、文本、资源、菜单和绘制输入的实际生产合同。集中门与合并按同一卡记录。
+
+迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
+
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)和上一窗口的 Content 物品夹具继续 review。用户已裁定资产诊断等 E2E 合入，夹具仍有 E2E 直接消费者。接续前核新主线和对应 Owner。
+
 ### 代码治理：最近完成的文件批次
+
+`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。现行账本增加 100 条关闭登记，七个新增 review 保留停止线与后继证据。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
+
+内容资产后继复核已处理 13 个原 review 文件，其中 8 个实现已验证、5 个旧专测路径退役。四个承接测试和夹具按实际职责独立登记。 [后继执行归档](evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)
+
+`QUALITY-CONTENT-ASSET-CONTRACTS-1` 已接受 Content 校验和夹具、Editor 资源工具及 Reforge 资源和呈现事务的 97 个原文件，当时 14 个进入后继复核。ActiveScene 两个证据绑定归活跃 E2E 的文件保持 pending。质量门和必要失败复验见[单一执行归档](evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz)。
 
 `QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
 
+`QUALITY-CONTENT-REFERENCES-1` 已完成 101 个原文件，七个风险文件在该批发布时留为 review。全仓、覆盖率、lint 和账本的实际回执见[唯一执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz)。
+
+### 代码治理：内容引用风险留项
+
+七项内容引用留项已按五张卡收口，原实现均已验证。新增帧容量专测单列，集中门见[后继执行归档](evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz)。
+
 ### 代码治理：既有批次与卡面收口
 
-下表仅保留本轮对账后仍未终态的12张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
+下表仅保留本轮对账后仍未终态的11张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
 后继[pre94 回执](evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)、
 [52 文件收口](evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)、[第三窗口收口](evidence/QUALITY-PENDING-100-3/local-closeout.json)
 和[语言资源批次](evidence/QUALITY-GAME-LOCALIZATION-1/README.md)按各自版本消费；不能把旧 coverage/act 阻塞当成今天统一门仍红。
@@ -63,7 +83,6 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 当前剩余范围 | 下一步 |
 |---|---|---|---|---|---|
-| QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](cards/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 第二阶段 | 合法帧需求/资源边界尚未获产品build准入 | 核最小输入、真实caller与资源前提，再定Owner/白名单 |
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](cards/CODE-QUALITY-103-editor-residual-tests-review.md) | review | 第二阶段 | 仅P1 puppet自动battleOnly的产品选择；测试及旧发布已承接 | 明确可见before/after后交用户裁定，不夹改行为 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](cards/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 第二阶段 | 共享host挂起/异常清理及C01三个oracle候选 | 按原卡真实caller窄核root/DOM/spy恢复与指定oracle |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](cards/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 第二阶段 | 共享host pending/失败退出与清理独验 | 只核已有harness catch/finally及实际caller |
@@ -90,7 +109,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-Q2-1 | [正常战斗逐项验收](cards/E2E-Q2-1-battle-foundation.md) | build | 双阶段正常战斗 | 逐条核仙术、道具、装备、敌人、战场及剧情 Boss，复用已验收的双端原件 | Codex / 对账现行目录、补实际入口和回执 |
+| E2E-Q2-1 | [正常战斗逐项验收](cards/E2E-Q2-1-battle-foundation.md) | build | 双阶段正常战斗 | 当前可达目录已完成双端实跑，原件按稳定 ID 回写覆盖报告 | Codex / 核最新主线集成、受保护 CI 和发布回执 |
 | E2E-PILLAR-CINEMATIC-1 | [末柱至雪崖首句](cards/E2E-PILLAR-CINEMATIC-1.md) | review | 双端分片 E2E | 同局双端逐帧、交付拦截、编辑器预览和带声分屏已复验 | Codex / 原速分屏交作者查看 |
 | PAL-ENTRY-FADE-1 | [场景淡入与前景正文](cards/PAL-ENTRY-FADE-1.md) | review | Reforge 入场编排 | 同局双端、脚本权属及编辑器初态已复验到首句 | Codex / 原速分屏交作者查看 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 001–010 已分段验收，N6b 同基线复验与用户视觉已收口；010 正式终档为 011 前驱，先推进 Q2 逐项验收 |

@@ -1,5 +1,5 @@
 import type { AuthorItemData, ItemData, ShopDef } from '@type-pal/content'
-import type { SourceStore } from './pal-derived-content.js'
+import type { SourceStore } from './pal-shop-projection.js'
 
 export const PAL_STORE0_REWARD_ITEM_IDS = [
   '100',
@@ -13,19 +13,9 @@ export const PAL_STORE0_REWARD_ITEM_IDS = [
   '111',
 ] as const
 
-export interface PalStoreBoundaryReport {
-  buyCalls: number
-  sellCalls: number
-}
-
-export interface PalStoreBoundaryArgs {
+interface PalAlchemyInputs {
   sourceStores: readonly SourceStore[]
-  shops: readonly ShopDef[]
   items: readonly (ItemData | AuthorItemData)[]
-  commandRoots: readonly unknown[]
-  expectedBuyCalls?: number
-  expectedSellCalls?: number
-  expectedSellShopId?: number
 }
 
 function sameStrings(left: readonly string[], right: readonly string[]): boolean {
@@ -101,36 +91,8 @@ function assertSpiritGourd(
     throw new Error('PAL Store0 invariant: 试炼果/舍利子原始 buyPrice 应保持 0')
 }
 
-function collectOpenShops(
-  value: unknown,
-  shops: ReadonlySet<number>,
-  report: PalStoreBoundaryReport,
-): void {
-  if (Array.isArray(value)) {
-    for (const entry of value) collectOpenShops(entry, shops, report)
-    return
-  }
-  if (!value || typeof value !== 'object') return
-  const record = value as Record<string, unknown>
-  if (record.kind === 'openShop') {
-    if (!Number.isInteger(record.shop))
-      throw new Error(`PAL Store0 invariant: openShop.shop 非整数 ${String(record.shop)}`)
-    const shop = record.shop as number
-    if (record.mode === 'buy') {
-      report.buyCalls += 1
-      if (!shops.has(shop))
-        throw new Error(`PAL Store0 invariant: buy openShop 引用未知商店 ${shop}`)
-    } else if (record.mode === 'sell') {
-      report.sellCalls += 1
-    } else throw new Error(`PAL Store0 invariant: openShop.mode 非法 ${String(record.mode)}`)
-  }
-  for (const nested of Object.values(record)) collectOpenShops(nested, shops, report)
-}
-
 /** Item mechanisms stay protected independently of the authored shop directory. */
-export function assertPalAlchemyBoundaryInvariant(
-  args: Pick<PalStoreBoundaryArgs, 'sourceStores' | 'items'>,
-): void {
+export function assertPalAlchemyBoundaryInvariant(args: PalAlchemyInputs): void {
   const store0 = args.sourceStores.filter(({ id }) => id === 0)
   if (store0.length !== 1)
     throw new Error(`PAL Store0 invariant: 源 Store0 数量 ${store0.length} != 1`)
@@ -141,10 +103,10 @@ export function assertPalAlchemyBoundaryInvariant(
   assertVesselRecipes(args.items)
 }
 
-/** Generated PAL seed only; never apply this fixed census to a merged author target. */
+/** Fixed source inventory census for the generated seed. Merged author shops use reference validation. */
 export function assertPalStoreBoundaryInvariant(
-  args: PalStoreBoundaryArgs,
-): PalStoreBoundaryReport {
+  args: PalAlchemyInputs & { shops: readonly ShopDef[] },
+): void {
   assertPalAlchemyBoundaryInvariant(args)
   if (args.shops.some(({ id }) => id === 0))
     throw new Error('PAL Store0 invariant: 禁止发布 ShopDef0')
@@ -162,40 +124,4 @@ export function assertPalStoreBoundaryInvariant(
     if (!source || !sameStrings(shop.items, source.items.map(String)))
       throw new Error(`PAL Store0 invariant: 生成商店 ${shop.id} 货单与源不一致`)
   }
-
-  const shopIds = new Set(args.shops.map(({ id }) => id))
-  const report: PalStoreBoundaryReport = { buyCalls: 0, sellCalls: 0 }
-  for (const root of args.commandRoots) collectOpenShops(root, shopIds, report)
-  if (args.expectedBuyCalls !== undefined && report.buyCalls !== args.expectedBuyCalls)
-    throw new Error(
-      `PAL Store0 invariant: buy openShop 数量 ${report.buyCalls} != ${args.expectedBuyCalls}`,
-    )
-  if (args.expectedSellCalls !== undefined && report.sellCalls !== args.expectedSellCalls)
-    throw new Error(
-      `PAL Store0 invariant: sell openShop 数量 ${report.sellCalls} != ${args.expectedSellCalls}`,
-    )
-  if (args.expectedSellShopId !== undefined) {
-    const invalidSellShops: number[] = []
-    const collect = (value: unknown): void => {
-      if (Array.isArray(value)) {
-        value.forEach(collect)
-        return
-      }
-      if (!value || typeof value !== 'object') return
-      const record = value as Record<string, unknown>
-      if (
-        record.kind === 'openShop' &&
-        record.mode === 'sell' &&
-        record.shop !== args.expectedSellShopId
-      )
-        invalidSellShops.push(record.shop as number)
-      Object.values(record).forEach(collect)
-    }
-    args.commandRoots.forEach(collect)
-    if (invalidSellShops.length)
-      throw new Error(
-        `PAL Store0 invariant: sell shop 应为 ${args.expectedSellShopId}，收到 ${invalidSellShops.join(',')}`,
-      )
-  }
-  return report
 }

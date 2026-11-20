@@ -113,7 +113,12 @@ export {
 } from '@type-pal/content'
 export type { Palette, RleFrame } from '@type-pal/shared'
 // RLE 编码/解析转出口(W7B 上传管线;编辑器不直依赖 shared)
-export { encodeSpriteChunk, parseSpriteChunk, parseSpriteChunkStrict } from '@type-pal/shared'
+export {
+  encodeSpriteChunk,
+  INDEXED_RLE_MAX_FRAME_SLOTS,
+  parseSpriteChunk,
+  parseSpriteChunkStrict,
+} from '@type-pal/shared'
 export { AssetResolver } from './asset-resolver.js'
 export { tilesFromChunkBytes } from './assets.js'
 export {

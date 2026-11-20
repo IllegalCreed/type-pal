@@ -143,6 +143,82 @@ describe('SFX readiness 收集', () => {
     ).rejects.toThrow('sharedScripts 缺脚本 "missing"')
   })
 
+  test('脚本音效只解析实际登记的脚本 ID', async () => {
+    const scriptId = 'constructor'
+    const command: RuntimeCommand = { kind: 'callScript', script: scriptId }
+    const signal = new AbortController().signal
+
+    await expect(collectScriptSoundAssets([command], {}, signal)).rejects.toThrow(
+      'SFX readiness sharedScripts 缺脚本 "constructor"',
+    )
+    await expect(
+      collectScriptSoundAssets([command], library({ [scriptId]: [play('sound.script')] }), signal),
+    ).resolves.toEqual(new Set(['sound.script']))
+  })
+
+  test('动作音效只解析实际登记的精灵 ID', async () => {
+    const spriteId = 'constructor'
+    const command: RuntimeCommand = {
+      kind: 'playEntityAction',
+      target: { scene: 's', entity: 'actor' },
+      sprite: spriteId,
+      action: 'speak',
+      loop: false,
+    }
+    const sprite: SpriteDef = {
+      id: spriteId,
+      asset: 'sprite.actor',
+      label: 'Actor',
+      layout: { kind: 'static' },
+      poses: {
+        speak: {
+          label: 'Speak',
+          steps: [{ frame: 0, durationMs: 80, cues: [{ kind: 'sound', asset: 'sound.speak' }] }],
+        },
+      },
+    }
+    const signal = new AbortController().signal
+
+    await expect(collectScriptSoundAssets([command], {}, signal, {})).rejects.toThrow(
+      'SFX readiness root[0]: SpriteDef "constructor" 不存在',
+    )
+    await expect(
+      collectScriptSoundAssets([command], {}, signal, { [spriteId]: sprite }),
+    ).resolves.toEqual(new Set(['sound.speak']))
+  })
+
+  test('动作音效只解析实际登记的动作 ID', async () => {
+    const actionId = 'constructor'
+    const command: RuntimeCommand = {
+      kind: 'playEntityAction',
+      target: { scene: 's', entity: 'actor' },
+      sprite: 'sprite.actor',
+      action: actionId,
+      loop: false,
+    }
+    const sprite: SpriteDef = {
+      id: 'sprite.actor',
+      asset: 'sprite.actor',
+      label: 'Actor',
+      layout: { kind: 'static' },
+      poses: {},
+    }
+    const definedAction: NonNullable<SpriteDef['poses']>[string] = {
+      label: 'Speak',
+      steps: [{ frame: 0, durationMs: 80, cues: [{ kind: 'sound', asset: 'sound.speak' }] }],
+    }
+    const signal = new AbortController().signal
+
+    await expect(
+      collectScriptSoundAssets([command], {}, signal, { [sprite.id]: sprite }),
+    ).rejects.toThrow('SFX readiness root[0]: 动作 "sprite.actor/constructor" 不存在')
+    await expect(
+      collectScriptSoundAssets([command], {}, signal, {
+        [sprite.id]: { ...sprite, poses: { [actionId]: definedAction } },
+      }),
+    ).resolves.toEqual(new Set(['sound.speak']))
+  })
+
   test('场景包含实体脚本、覆写脚本与背包用品声音', async () => {
     const sounds = await collectSceneSoundAssets({
       scene: {

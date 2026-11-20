@@ -4,7 +4,7 @@
  * Parent validators exercise composition; these cases isolate leaf identity and boundaries.
  */
 import { describe, expect, test } from 'vitest'
-import { expectAcceptsUnchanged, expectExactError } from './__tests__/guard-leaf-fixtures.js'
+import { expectAcceptsUnchanged, expectExactError } from './__tests__/validation-assertions.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   exactKeys,

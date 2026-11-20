@@ -1,7 +1,6 @@
 /**
- * 对话资产加载(② 外观 Task 5 光标 + Task 6 头像)。
- * 端口自 packages/game/src/assets/dialog-assets.ts。
- * Canvas2D 适配:光标 sprite → tint bake(6 步轮转);头像 → 预烘 RGBA PNG(@type-pal/migrate bake-assets),直接 drawImage。
+ * Load the built-in DATA chunk 12 dialog cursor outside the project asset catalog.
+ * DialogBox owns the color cycle and caches tinted frames as they are needed.
  */
 import { parseSpriteChunk, type RleFrame } from '@type-pal/shared'
 import { ENGINE_CHROME } from '../engine-chrome/registry.js'
@@ -29,8 +28,7 @@ export function decodeCursorFrames(entry: DialogIconsRaw, source = 'dialog curso
   return frames
 }
 
-/** 单个光标 frame → 离屏 canvas,不透明像素染成指定 rgba(透明背景)。
- *  6 色轮转:DialogBox 对同一 frame 用固定 6 色 bake 出 6 个 canvas,缓存 by step。 */
+/** The RLE mask carries transparency. Palette index 0 can still mark an opaque pixel. */
 export function bakeCursorTinted(
   frame: RleFrame,
   rgba: readonly [number, number, number],

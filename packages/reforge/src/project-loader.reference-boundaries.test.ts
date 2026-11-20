@@ -1,5 +1,6 @@
-/** Loader 接线合同：合法当前工程只破坏一条引用边，红臂附同构闭合对照。 */
+import { validateAssetCatalog } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { gzipFrames, rleRecord } from './__tests__/asset-rle-fixtures.js'
 import {
   lbApplyCondition,
   lbBattleSprite,
@@ -7,9 +8,15 @@ import {
   lbPoison,
   lbPrivateScriptItem,
   lbProjectFiles,
+  lbProjectMap,
   lbSceneWithHookCommands,
 } from './__tests__/project-loading-boundaries/fixture.js'
-import { loadAuthorScene, loadCurrentProjectFrom } from './project-loader.js'
+import { baseJsons, manifest } from './__tests__/project-loading-boundaries/startup-fixture.js'
+import {
+  assembleCurrentProject,
+  loadAuthorScene,
+  loadCurrentProjectFrom,
+} from './project-loader.js'
 
 async function rejectOf(promise: Promise<unknown>) {
   return promise.then(
@@ -21,7 +28,7 @@ async function rejectOf(promise: Promise<unknown>) {
   )
 }
 
-describe('C2 场景 mapId 引用接线', () => {
+describe('场景 mapId 引用接线', () => {
   test('入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功', async () => {
     const marker = 'C2-entry-map-reference'
     const scenes = { s001: { body: lbSceneWithHookCommands('s001', 'map-ghost', []) } }
@@ -58,6 +65,7 @@ describe('C2 场景 mapId 引用接线', () => {
         { id: 'map-ghost', name: '登记地图', path: 'content/maps/map-ghost.json' },
       ],
     }
+    files['content/maps/map-ghost.json'] = lbProjectMap(1)
     const restored = await loadCurrentProjectFrom(lbMemorySource(files))
     await expect(loadAuthorScene(restored, 's002')).resolves.toMatchObject({
       id: 's002',
@@ -81,7 +89,7 @@ const conditionArms = [
   },
 ]
 
-describe('C3 入口场景条件引用接线', () => {
+describe('入口场景条件引用接线', () => {
   test.each(conditionArms)('入口 $axis 引用悬空精确拒绝，闭合同链绿', async ({
     axis,
     actor,
@@ -125,7 +133,7 @@ describe('C3 入口场景条件引用接线', () => {
   })
 })
 
-describe('C4 item-private 使用脚本条件接线', () => {
+describe('item-private 使用脚本条件接线', () => {
   test('item 脚本 actor 引用悬空精确拒绝，闭合同链绿', async () => {
     const marker = 'C4-item-condition'
     const files = (actor: string) =>
@@ -146,7 +154,7 @@ describe('C4 item-private 使用脚本条件接线', () => {
   })
 })
 
-describe('C6 sharedScripts 条件接线', () => {
+describe('sharedScripts 条件接线', () => {
   test.each(conditionArms)('shared $axis 引用悬空精确拒绝，闭合同链绿', async ({
     axis,
     actor,
@@ -173,7 +181,7 @@ describe('C6 sharedScripts 条件接线', () => {
   })
 })
 
-describe('C7 装备战斗精灵引用接线', () => {
+describe('装备战斗精灵引用接线', () => {
   test('悬空 battle sprite 后置接线拒收，补登记同链绿', async () => {
     const marker = 'C7-equip-battle-sprite'
     const items = [
@@ -191,30 +199,28 @@ describe('C7 装备战斗精灵引用接线', () => {
         },
       },
     ]
+    async function filesWithSprites(registered: string[]) {
+      const files = lbProjectFiles({
+        items,
+        battleSprites: registered.map((id) => lbBattleSprite(id, 'battle.hero')),
+      })
+      const pixels = [17, 31, 47, 63] as const
+      const bytes = await gzipFrames(...Array.from({ length: 10 }, () => pixels))
+      const record = await rleRecord('battle-sprite', 'battle-hero', bytes)
+      const assets = validateAssetCatalog(files['assets/index.json'])
+      assets.assets['battle.hero'] = record
+      files[record.path] = bytes
+      return files
+    }
     const red = await rejectOf(
-      loadCurrentProjectFrom(
-        lbMemorySource(
-          lbProjectFiles({
-            items,
-            battleSprites: [lbBattleSprite('bs.hero', 'battle.hero')],
-          }),
-        ),
-      ),
+      loadCurrentProjectFrom(lbMemorySource(await filesWithSprites(['bs.hero']))),
     )
     expect(red.kind, marker).toBe('rejected')
     expect(red.message, marker).toContain(
       'items[0](sword-1).equip.effects[0].byActor.actor.hero: 战斗精灵 "bs.ghost" 不在 battleSprites 注册表',
     )
     const green = await loadCurrentProjectFrom(
-      lbMemorySource(
-        lbProjectFiles({
-          items,
-          battleSprites: [
-            lbBattleSprite('bs.hero', 'battle.hero'),
-            lbBattleSprite('bs.ghost', 'battle.hero'),
-          ],
-        }),
-      ),
+      lbMemorySource(await filesWithSprites(['bs.hero', 'bs.ghost'])),
     )
     expect(green.battleSpritesById['bs.ghost']).toBeDefined()
     expect(green.items['sword-1']?.equip?.effects[0]).toEqual({
@@ -222,4 +228,33 @@ describe('C7 装备战斗精灵引用接线', () => {
       byActor: { 'actor.hero': 'bs.ghost' },
     })
   })
+})
+
+test('拒绝角色唯一出厂技能种子中的悬空 skill id', () => {
+  const invalid = structuredClone(baseJsons)
+  invalid.actors.push({
+    id: 'hero',
+    name: 'name.li',
+    spriteId: 'sprite.li',
+    battler: {
+      battleSprite: 'battle.hero',
+      baseStats: {
+        level: 1,
+        hp: 10,
+        maxHP: 10,
+        mp: 5,
+        maxMP: 5,
+        attack: 1,
+        defense: 1,
+        magicAttack: 1,
+        speed: 1,
+        luck: 1,
+      },
+      initialEquipment: {},
+      initialMagic: ['missing-skill'],
+    },
+  })
+  expect(() => assembleCurrentProject(manifest(), invalid)).toThrow(
+    /actors\[1\]\(hero\)\.battler\.initialMagic\[0\].*missing-skill/,
+  )
 })

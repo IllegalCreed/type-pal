@@ -2,8 +2,8 @@ import type { MapIndexV1, SceneDef, SceneIndexV1 } from '@type-pal/content'
 import { validateSceneIndex } from '@type-pal/content'
 
 /**
- * PAL raw scenes 的当前初始目录。名称只在首次生成时由地图可读名播种；publication 之后
- * baseline-first 保留作者修改的 name/path，不会每次重迁覆盖。
+ * 按来源顺序为 PAL 场景生成初始目录。重名序号跟随输入顺序，场景 id 与路径不参与命名。
+ * 后继发布用这份目录核 raw-owned id，并从作者目录保留现有 name/path。
  */
 export function buildPalSceneIndex(
   scenes: readonly Pick<SceneDef, 'id' | 'mapId'>[],

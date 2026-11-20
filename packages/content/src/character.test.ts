@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ActorDef } from './actor.js'
 import { applyActorCondition } from './actor-condition.js'
 import {
@@ -9,8 +10,8 @@ import {
   type WorldState,
 } from './character.js'
 import type { PoisonDef } from './poison.js'
+import { validateActors, validateStartWorld } from './validate.js'
 
-// 内联角色 fixture(C0:CharacterTemplate → ActorDef,battler 包住战斗数据)
 const hero: ActorDef = {
   id: 'test-hero',
   name: 'name.test-hero',
@@ -34,7 +35,6 @@ const hero: ActorDef = {
   },
 }
 
-/** 无 battler 的普通 NPC(不可入队)。 */
 const villager: ActorDef = { id: 'villager', name: 'name.villager', spriteId: 'ghost' }
 
 const poisons: Record<number, PoisonDef> = {
@@ -42,7 +42,7 @@ const poisons: Record<number, PoisonDef> = {
   555: { id: 555, name: '三尸蛊', curability: 'severe', color: 0 },
 }
 
-describe('角色 schema(ActorDef)', () => {
+describe('actor instantiation', () => {
   test('instantiate 角色 → 实例(读 battler;初始值拷贝;exp=0,tags 空)', () => {
     const inst = instantiate(hero)
     expect(inst.id).toBe('test-hero')
@@ -65,11 +65,46 @@ describe('角色 schema(ActorDef)', () => {
     expect(b.equipment.weapon).toBe('166') // equipment 深拷贝
   })
   test('无 battler 的 actor → instantiate throw(含 id)', () => {
-    expect(() => instantiate(villager)).toThrow(/villager.*battler/)
+    expect(() => instantiate(villager)).toThrow(
+      new Error('instantiate: 角色 "villager" 无 battler(不可入队/参战)'),
+    )
   })
 })
 
-describe('buildWorld(入口 startWorld 数据化)', () => {
+describe('world initialization', () => {
+  test.each([
+    'constructor',
+    '__proto__',
+  ])('seeds initial skills for registered actor %s at startup', (id) => {
+    const actors = validateActors([{ ...hero, id }])
+    const registered = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+    const start = validateStartWorld({ party: [id], money: 0, inventory: [] })
+
+    const world = buildWorld(start, registered)
+
+    expect(world.party.map((member) => member.template)).toEqual([id])
+    expect(Object.entries(world.learnedSkills)).toEqual([[id, ['296']]])
+    expect(Object.getPrototypeOf(world.learnedSkills)).toBe(Object.prototype)
+  })
+  test.each([
+    'constructor',
+    '__proto__',
+  ])('seeds initial skills for registered actor %s on first arrival', (id) => {
+    const actors = validateActors([hero, { ...hero, id }])
+    const registered = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+    const start = validateStartWorld({ party: [hero.id], money: 0, inventory: [] })
+    const world = buildWorld(start, registered)
+
+    applySetParty(world, [hero.id, id], registered)
+
+    expect(world.party.map((member) => member.template)).toEqual([hero.id, id])
+    expect(Object.entries(world.learnedSkills)).toEqual([
+      [hero.id, ['296']],
+      [id, ['296']],
+    ])
+    expect(Object.getPrototypeOf(world.learnedSkills)).toBe(Object.prototype)
+  })
+
   test('组装:party instantiate + seedStats 覆盖当前 hp/mp + 角色定义播种技能', () => {
     const sw: StartWorld = {
       party: ['test-hero'],
@@ -211,11 +246,15 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
   })
   test('缺角色 → throw', () => {
     const sw: StartWorld = { party: ['nobody'], money: 0, inventory: [] }
-    expect(() => buildWorld(sw, {})).toThrow('不在 actors')
+    expect(() => buildWorld(sw, { [hero.id]: hero })).toThrow(
+      new Error('buildWorld: 角色 "nobody" 不在 actors 表'),
+    )
   })
   test('party 引无 battler 的 actor → throw(经 instantiate)', () => {
     const sw: StartWorld = { party: ['villager'], money: 0, inventory: [] }
-    expect(() => buildWorld(sw, { villager })).toThrow(/battler/)
+    expect(() => buildWorld(sw, { villager })).toThrow(
+      new Error('instantiate: 角色 "villager" 无 battler(不可入队/参战)'),
+    )
   })
 
   test('新档直接构造 canonical script 与 lifecycle 空容器', () => {
@@ -228,7 +267,8 @@ describe('buildWorld(入口 startWorld 数据化)', () => {
     expect(w.script).toEqual({ flags: {}, vars: {}, entityState: {}, behaviors: {} })
     expect(w.entityLifecycles).toEqual({})
     expect(w.party[0]?.template).toBe('test-hero')
-    expect(w.inventory).toEqual([{ itemId: '267', count: 1 }])
+    w.inventory[0]!.count = 4
+    expect(sw.inventory).toEqual([{ itemId: '267', count: 1 }])
   })
 })
 
@@ -253,8 +293,8 @@ describe('buildWorld variable defaults', () => {
   })
 })
 
-describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
-  const actors = {
+describe('party and reserve ownership', () => {
+  const actors: Record<string, ActorDef> = {
     'test-hero': {
       id: 'test-hero',
       name: 't.hero',
@@ -274,6 +314,7 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
         },
         initialEquipment: {},
         initialMagic: ['hero-skill'],
+        battleSprite: 'hero-battle-sprite',
       },
     },
     'test-mate': {
@@ -295,13 +336,13 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
         },
         initialEquipment: {},
         initialMagic: ['mate-skill'],
+        battleSprite: 'mate-battle-sprite',
       },
     },
-  } as unknown as Record<string, import('./actor.js').ActorDef>
+  }
 
   function world(): WorldState {
-    const w = buildWorld({ party: ['test-hero'], money: 0, inventory: [] }, actors)
-    return w
+    return buildWorld({ party: ['test-hero'], money: 0, inventory: [] }, actors)
   }
 
   test('新成员首次入队:从模板实例化', () => {
@@ -322,16 +363,18 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
   test('离队进 reserve,状态不丢;再入队原样搬回', () => {
     const w = world()
     applySetParty(w, ['test-hero', 'test-mate'], actors)
-    w.party[1]!.hp = 7 // 打残
+    const mate = w.party[1]!
+    mate.hp = 7
     w.party[1]!.poisons = [{ poisonId: 551, tickIndex: 2 }]
     w.party[1]!.extraStatuses = [{ status: 'protect', turns: 5 }]
     w.party[1]!.extraPoisonRes = 20
     applySetParty(w, ['test-hero'], actors) // mate 离队
     expect(w.party.map((c) => c.template)).toEqual(['test-hero'])
     expect(w.reserve?.map((c) => c.template)).toEqual(['test-mate'])
-    expect(w.reserve?.[0]?.hp).toBe(7) // 不清数据
+    expect(w.reserve?.[0]).toBe(mate)
     applySetParty(w, ['test-hero', 'test-mate'], actors) // 回归
-    expect(w.party[1]?.hp).toBe(7) // 原实例
+    expect(w.party[1]).toBe(mate)
+    expect(w.party[1]?.hp).toBe(7)
     expect(w.party[1]).toMatchObject({
       poisons: [{ poisonId: 551, tickIndex: 2 }],
       extraStatuses: [{ status: 'protect', turns: 5 }],
@@ -391,15 +434,37 @@ describe('applySetParty —— C7 队伍变更(D22 reserve 暂存区)', () => {
 
   test('未知角色 id 抛错', () => {
     const w = world()
-    expect(() => applySetParty(w, ['nobody'], actors)).toThrow(/不在 actors 表/)
+    expect(() => applySetParty(w, ['nobody'], actors)).toThrow(
+      new Error('setParty: 角色 "nobody" 不在 actors 表'),
+    )
   })
 
   test('入队中途失败不留队伍或技能半提交', () => {
     const w = world()
-    const before = JSON.parse(JSON.stringify(w)) as WorldState
+    const before = deepSnapshot(w)
+    const { party, reserve, learnedSkills } = w
     expect(() => applySetParty(w, ['test-hero', 'test-mate', 'nobody'], actors)).toThrow(
-      /不在 actors 表/,
+      new Error('setParty: 角色 "nobody" 不在 actors 表'),
     )
     expect(w).toEqual(before)
+    expect(w.party).toBe(party)
+    expect(w.reserve).toBe(reserve)
+    expect(w.learnedSkills).toBe(learnedSkills)
+  })
+
+  test('setParty 再召回两人时未点名第三人仍留 reserve', () => {
+    const extraActor = { ...actors['test-mate']!, id: 'test-extra' }
+    const available = { ...actors, [extraActor.id]: extraActor }
+    const current = world()
+    applySetParty(current, ['test-hero', 'test-mate', extraActor.id], available)
+    applySetParty(current, ['test-hero'], available)
+    const parked = current.reserve?.find((member) => member.template === extraActor.id)
+    if (!parked) throw new Error('extra actor was not placed in reserve')
+    parked.hp = 17
+    applySetParty(current, ['test-hero', 'test-mate'], available)
+    expect(current.party.map((member) => member.template)).toEqual(['test-hero', 'test-mate'])
+    expect(current.reserve).toHaveLength(1)
+    expect(current.reserve?.[0]).toBe(parked)
+    expect(current.reserve?.[0]?.hp).toBe(17)
   })
 })

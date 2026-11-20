@@ -3,7 +3,7 @@ import {
   applyPalGeneratedCraftMessages,
   applyPalGeneratedResourcePoolMessages,
 } from './pal-authored-overlays.js'
-import type { SourceStore } from './pal-derived-content.js'
+import type { SourceStore } from './pal-shop-projection.js'
 import type { SourceItem } from './pal-source-types.js'
 import type { SourceCmd } from './source-facts.js'
 
@@ -104,7 +104,7 @@ export function translateCraftRecipeScript(
     if (command?.op !== 'raw' || command.opcode !== 0x20) break
     const [itemId = 0, rawCount = 0, failureAddress = 0] = command.operands ?? []
     if (itemId <= 0 || failureAddress <= 0) return undefined
-    const next = commands[cursor + 1] as (SourceCmd & { to?: string }) | undefined
+    const next = commands[cursor + 1]
     const successStart = next?.op === 'goto' && next.to ? labelIndex.get(next.to) : cursor + 1
     if (successStart === undefined) return undefined
     if (productStart === undefined) productStart = successStart
@@ -124,23 +124,11 @@ export function translateCraftRecipeScript(
 
   if (!ingredients.length || productStart === undefined || terminalFailure === undefined)
     return undefined
-  const failureStyle = commands[terminalFailure]
-  const failureMessage = commands[terminalFailure + 1]
-  const failureEnd = commands[terminalFailure + 2]
-  const nextFailureBlock = commands[terminalFailure + 3]
-  if (
-    failureStyle?.op !== 'setDialogStyleNarration' ||
-    failureMessage?.op !== 'showDialog' ||
-    typeof failureMessage.text !== 'string' ||
-    failureMessage.text.trim().length === 0 ||
-    failureEnd?.op !== 'end' ||
-    (nextFailureBlock !== undefined && nextFailureBlock.label === undefined)
-  )
-    return undefined
-  const unavailableMessage = failureMessage.text.trim()
+  const unavailableMessage = strictNarrationFailureMessage(commands, terminalFailure)
+  if (unavailableMessage === undefined) return undefined
   const products: Array<{ itemId: string; count: number }> = []
   for (let index = productStart; index < commands.length; index++) {
-    const command = commands[index] as (SourceCmd & { itemId?: number; count?: number }) | undefined
+    const command = commands[index]
     if (command?.op !== 'giveItem') break
     if ((command.itemId ?? 0) <= 0) return undefined
     products.push({
@@ -156,7 +144,7 @@ export function translateCraftRecipeScript(
   }
 }
 
-/** 读取共享失败臂的严格旁白三元组；共享入边数量不参与 owner 判断。 */
+/** 失败分支仅含旁白、非空正文与结束指令。结束后的下一块须有显式标签。 */
 function strictNarrationFailureMessage(
   commands: readonly SourceCmd[],
   start: number,

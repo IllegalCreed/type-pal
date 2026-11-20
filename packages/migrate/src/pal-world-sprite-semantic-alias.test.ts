@@ -1,8 +1,8 @@
 import {
   type AuthorSceneDef,
-  type EntityDef,
-  isActorEntity,
   type SpriteDef,
+  validateAuthorScenes,
+  validateSprites,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { applyPalWorldSpriteSemanticAliases } from './pal-world-sprite-semantic-alias.js'
@@ -21,18 +21,22 @@ const alias = {
 } as const
 
 function scene(id: string, entityId: string, sprite: string): AuthorSceneDef {
-  return {
-    id,
-    mapId: 'map-1',
-    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
-    entities: [{ id: entityId, pos: { col: 0, row: 0, height: 0 }, sprite }],
-  }
+  const [value] = validateAuthorScenes([
+    {
+      id,
+      mapId: 'map-1',
+      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+      entities: [{ id: entityId, pos: { col: 0, row: 0, height: 0 }, sprite, facing: 'left' }],
+    },
+  ])
+  if (!value) throw new Error('Missing validated scene fixture')
+  return value
 }
 
 function apply(currentSprite = 'sprite-2', currentSprites: SpriteDef[] = [semantic, legacy]) {
   return applyPalWorldSpriteSemanticAliases({
-    currentSprites,
-    generatedSprites: [semantic],
+    currentSprites: validateSprites(currentSprites),
+    generatedSprites: validateSprites([semantic]),
     currentScenes: new Map([['s020', scene('s020', 'e344', currentSprite)]]),
     generatedScenes: new Map([['s020', scene('s020', 'e344', 'li-xiaoyao')]]),
     roleSpritesByNumber: new Map([[2, semantic]]),
@@ -45,8 +49,7 @@ describe('PAL 场景角色精灵语义别名 overlay', () => {
     const first = apply()
     expect(first.sprites).toEqual([semantic])
     const rewrittenEntity = first.updatedScenes.get('s020')?.entities[0]
-    expect(rewrittenEntity).toEqual(expect.objectContaining({ sprite: 'li-xiaoyao' }))
-    expect(rewrittenEntity && isActorEntity(rewrittenEntity as unknown as EntityDef)).toBe(false)
+    expect(rewrittenEntity).toEqual(scene('s020', 'e344', 'li-xiaoyao').entities[0])
     expect(rewrittenEntity).not.toHaveProperty('actor')
     expect(first.report).toEqual([
       {
@@ -114,7 +117,7 @@ describe('PAL 场景角色精灵语义别名 overlay', () => {
     ).toThrow(/纯迁移核场景引用集合漂移/)
   })
 
-  test('完整角色域显式报告无候选角色，并拦截合成第五组严格重复', () => {
+  test('reports an unconfigured role and refuses an unlisted duplicate definition on either surface', () => {
     const wuHou: SpriteDef = {
       id: 'wu-hou',
       asset: 'sprite.pal.525',

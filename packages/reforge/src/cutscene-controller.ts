@@ -1,14 +1,3 @@
-/**
- * D14-2 CutsceneController——演出意图协议的执行器。
- *
- * - run(cutscene, signal):顺序执行;统一取消 = AbortSignal 贯穿(K3:无孤儿状态)。
- * - busy()(K1):呈现占用 = intent 在途 ∪ runner 活跃——脚本 runner 在跑但当前无 intent
- *   (纯逻辑段)时输入仍锁;替代 main.ts 里 runner/dialogBox.active 的拼装判定。
- * - K5 并发语义 = **资源分域**(不全局 supersede):互斥资源(fade/cameraPan/frameAnimation/
- *   video)沿用各自 supersede(fade-driver owner 先例、cameraPanFx 替换);dialog 走 slot
- *   共存不 supersede。controller 只负责顺序执行 + 统一取消收敛。
- * - K6:计时源保持在 executor 内(nowMs tick / 世界拍),控制器不换墙钟。
- */
 import type { AssetId, DialogueCue, GridPos } from '@type-pal/content'
 import type { Cutscene, FadeColor, PresentationIntent } from './presentation-intent.js'
 
@@ -47,6 +36,7 @@ export interface CutsceneExecutor {
   resetPresentation(): void
 }
 
+/** Dispatches each caller’s effects in order. Executors own their own media, clock and cancellation. */
 export class CutsceneController {
   private readonly activeRuns = new Set<AbortSignal>()
   private readonly isRunnerActive: () => boolean
@@ -58,12 +48,12 @@ export class CutsceneController {
     this.isRunnerActive = opts.isRunnerActive
   }
 
-  /** K1:呈现占用 = intent 在途 ∪ runner 活跃。 */
+  /** Holds presentation during a run and while the host runner moves between effects. */
   busy(): boolean {
     return this.activeRuns.size > 0 || this.isRunnerActive()
   }
 
-  /** 顺序执行 cutscene;任一 intent AbortSignal 取消 → 整条中止(无孤儿)。 */
+  /** Runs effects sequentially; an abort is checked before dispatch and passed to the executor. */
   async run(cutscene: Cutscene, signal: AbortSignal): Promise<void> {
     this.activeRuns.add(signal)
     try {

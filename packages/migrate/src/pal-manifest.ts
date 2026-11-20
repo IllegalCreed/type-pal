@@ -7,12 +7,13 @@ import {
 } from '@type-pal/content'
 import { PAL_ASSET_ROLES } from './pal-assets.js'
 
-/** PAL 当前工程 manifest 的唯一生成口；不读取或升级任何旧 manifest。 */
+/** 构建供当前 PAL 发布使用的 manifest，入口状态与开场视频各自登记。 */
 export function buildPalCurrentManifest(catalog: AssetCatalogV1): CurrentManifest {
   const assets: CurrentManifest['assets'] = {
     catalog: 'assets/index.json',
     roles: { ...PAL_ASSET_ROLES },
   }
+  // 败北演出只在配置此角色时播放曲目。已登记的错误类型仍须报错。
   if (!Object.hasOwn(catalog.assets, PAL_ASSET_ROLES['audio.defeatMusic']))
     delete assets.roles['audio.defeatMusic']
   validateManifestAssetConfig(assets, catalog, 'PAL current manifest.assets')

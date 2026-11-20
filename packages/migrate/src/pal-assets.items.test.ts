@@ -6,7 +6,7 @@ import { itemsPath, json, staticFixture } from './__tests__/pal-asset-fixtures.j
 describe('PAL item image manifest boundaries', () => {
   test('input item ordering does not change sorted stable image IDs and zero is omitted', () => {
     const f = staticFixture()
-    json(f.repo, itemsPath, f.items.reverse())
+    json(f.repo, itemsPath, [...f.items].reverse())
     const result = f.run()
     const icons = result.binaries.filter((s) => s.record.kind === 'item-icon')
     expect(icons.map((s) => s.id)).toEqual(

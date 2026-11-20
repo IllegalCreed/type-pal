@@ -1,6 +1,7 @@
 /** Public MenuBox layout. Text spans and bitmap coordinates are observed; glyph pixels are outside this suite. */
 import type { CharacterInstance, ItemDataMap, WorldState } from '@type-pal/content'
 import { afterEach, beforeEach, describe, expect, type MockInstance, test, vi } from 'vitest'
+import { expectDefined } from '../defined.js'
 import { confirm, moveCursor, openMenu } from '../menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import * as textRenderer from '../text/text-render.js'
@@ -262,14 +263,14 @@ describe('MenuBox cascade layout', () => {
     ])
 
     // 项字：层内 (bx+13, by+13+idx×18)，逐层随 CASCADE_DX/DY 偏移
-    expect(recordedLabels().map((row) => [row.x, row.y])).toEqual([
-      [10, 10],
-      [16, 50],
-      [16, 68],
-      [16, 86],
-      [16, 104],
-      [43, 73],
-      [43, 91],
+    expect(recordedLabels().map((row) => [row.text, row.x, row.y])).toEqual([
+      ['金钱', 10, 10],
+      ['状态', 16, 50],
+      ['仙术', 16, 68],
+      ['物品', 16, 86],
+      ['系统', 16, 104],
+      ['装备', 43, 73],
+      ['使用', 43, 91],
     ])
   })
 
@@ -277,15 +278,21 @@ describe('MenuBox cascade layout', () => {
     const rendering = layoutHost()
     rendering.stubShadowCanvas()
     const box = new MenuBox(rendering.glyphs, CASCADE_LOCALE, rendering.assets, items)
-    const twoLevels = confirm(moveCursor(openMenu(), 2))
+    const twoLevels = structuredClone(confirm(moveCursor(openMenu(), 2)))
+    const itemMenu = expectDefined(twoLevels.stack[1])
+    expectDefined(itemMenu.nodes[1]).enabled = false
     const colorOf = (text: string) => recordedLabels().find((row) => row.text === text)?.color
 
     box.render(rendering.ctx, twoLevels, worldWithParty([partyMember({})]), 100)
     expect(colorOf('装备')).toEqual([235, 211, 97]) // floor(100/100)=1
+    expect(colorOf('物品')).toEqual([219, 174, 81])
+    expect(colorOf('使用')).toEqual([166, 40, 32])
 
     textCalls.mockClear()
     box.render(rendering.ctx, twoLevels, worldWithParty([partyMember({})]), 600)
     expect(colorOf('装备')).toEqual([247, 231, 109]) // floor(600/100)%6=0：整表回绕
+    expect(colorOf('物品')).toEqual([219, 174, 81])
+    expect(colorOf('使用')).toEqual([166, 40, 32])
 
     // 系统面板期（confirm 系统叶 → openPanel='system'）主菜单为最深层：选中项「系统」闪烁让位静态高亮
     textCalls.mockClear()

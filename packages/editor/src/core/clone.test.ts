@@ -3,6 +3,7 @@ import { fsaSource } from '@type-pal/reforge'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
+import { originalPortrait, pngBytes } from './__tests__/portrait-bytes.js'
 
 vi.mock('./author-save-store.js', async (original) =>
   memoryAuthorSaveStore(await original<typeof import('./author-save-store.js')>()),
@@ -37,13 +38,13 @@ describe('cloneFromPal', () => {
   test('写当前 manifest、内容和 catalog 资源；进度累计到满', async () => {
     const files = await buildBlankProject('pal')
     const catalog = files['assets/index.json'] as AssetCatalogV1
-    const portrait = new ArrayBuffer(50)
+    const portrait = pngBytes(originalPortrait)
     const path = 'assets/migrated/portraits/001.png'
     catalog.assets['portrait.pal.001'] = {
       kind: 'portrait',
       path,
       mediaType: 'image/png',
-      bytes: 50,
+      bytes: portrait.byteLength,
       sha256: await sha256Hex(portrait),
       origin: { kind: 'legacy-migrated' },
     }
@@ -62,9 +63,9 @@ describe('cloneFromPal', () => {
       'content/actors.json',
       'content/scenes/index.json',
       'content/scenes/start.json',
-      'assets/migrated/portraits/001.png',
     ])
       expect(target.files.has(path)).toBe(true)
+    expect(new Uint8Array(await copied.readBytes(path))).toEqual(new Uint8Array(portrait))
     expect(target.files.has('.type-pal/pal-development.json')).toBe(false)
     expect(target.files.has('.type-pal/workspace.json')).toBe(false)
     const total = [...target.files]
@@ -86,7 +87,11 @@ describe('cloneFromPal', () => {
       await localTarget(target.dir),
       () => {},
     )
-    expect(target.files.get(record.path)).toEqual(files[record.path])
+    const expected = files[record.path]
+    if (!(expected instanceof ArrayBuffer)) throw new Error(`Missing seed bytes at ${record.path}`)
+    expect(new Uint8Array(await fsaSource(target.dir).readBytes(record.path))).toEqual(
+      new Uint8Array(expected),
+    )
     expect([...target.files.keys()].some((path) => path.includes('extracted'))).toBe(false)
   })
 
@@ -100,7 +105,11 @@ describe('cloneFromPal', () => {
       await localTarget(target.dir),
       () => {},
     )
-    expect(target.files.get(record.path)).toEqual(files[record.path])
+    const expected = files[record.path]
+    if (!(expected instanceof ArrayBuffer)) throw new Error(`Missing seed bytes at ${record.path}`)
+    expect(new Uint8Array(await fsaSource(target.dir).readBytes(record.path))).toEqual(
+      new Uint8Array(expected),
+    )
   })
 
   test('地图注册表登记的零场景引用地图也完整克隆', async () => {
@@ -126,13 +135,13 @@ describe('cloneFromPal', () => {
     const content = await source.dir.getDirectoryHandle('content')
     const getFile = content.getFileHandle.bind(content)
     content.getFileHandle = async (name, options) => {
-      if (name === 'locale.json') throw new Error('late network failure')
+      if (name === 'locale.json') throw new Error('late source read failure')
       return getFile(name, options)
     }
     const progress = vi.fn()
     await expect(
       cloneFromPal(fsaSource(source.dir), await localTarget(target.dir), progress),
-    ).rejects.toThrow('late network failure')
+    ).rejects.toThrow('late source read failure')
     expect(authorWrites(target)).toEqual([])
     expect(target.files.has('manifest.json')).toBe(false)
     expect(progress.mock.calls.some(([done, total]) => done === total)).toBe(false)

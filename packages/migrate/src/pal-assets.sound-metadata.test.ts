@@ -1,3 +1,5 @@
+import { unlinkSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
 import {
   assertSources,
@@ -38,12 +40,27 @@ describe('PAL sound metadata boundaries', () => {
     ])
   })
   test.each([
-    { chunkCount: 505.5, chunks: [] },
-    { chunkCount: 505, chunks: {} },
-  ])('rejects noncanonical root shape %j', (value) => {
+    { value: [1, 2] },
+    { value: { chunkCount: '505', chunks: [] } },
+    { value: { chunkCount: 505.5, chunks: [] } },
+    { value: { chunkCount: 505, chunks: {} } },
+  ])('rejects noncanonical root shape $value', ({ value }) => {
     const f = soundFixture()
     json(f.repo, soundMetadataPath, value)
     expect(f.run).toThrow('PAL sounds metadata 期望 {chunkCount,chunks} 对象')
+  })
+  test('accepts a consistent empty sound corpus without inventing a file', () => {
+    const f = soundFixture()
+    for (const index of [1, 45]) {
+      f.metadata.chunks[index] = { index, size: 0, isEmpty: true }
+      unlinkSync(resolve(f.repo, `data/extracted/sounds/${index}.wav`))
+    }
+    f.manifest.files = []
+    f.save()
+    expect(f.run()).toEqual({
+      binaries: [],
+      report: { sounds: 0, emptySounds: 505, soundBytes: 0 },
+    })
   })
   test('rejects declared count mismatch independently of fixed census', () => {
     const f = soundFixture()
@@ -58,7 +75,7 @@ describe('PAL sound metadata boundaries', () => {
     f.save()
     expect(f.run).toThrow('期望 505 段，收到 504')
   })
-  test('rejects reordered empty chunk identity before reading WAVs', () => {
+  test('rejects an empty chunk whose index does not match its source slot', () => {
     const f = soundFixture()
     f.metadata.chunks[2]!.index = 3
     f.save()

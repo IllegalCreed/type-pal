@@ -33,6 +33,7 @@ Template: governance-index-v1 / 1.0.0
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项](CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -43,12 +44,12 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [PAL-ENTRY-FADE-1 — 场景淡入同时执行前景正文](PAL-ENTRY-FADE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界](QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -477,6 +478,14 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）](CODE-QUALITY-97-menu-helper-primitives-item-select.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-98 — menu 域剩余状态机审核（opening-menu / player-status）](CODE-QUALITY-98-menu-opening-player-status.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）](CODE-QUALITY-99-menu-driver-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-ACQUISITION-CHEST-FACING-1 — 宝箱打开方向的作者字段校验](CONTENT-ACQUISITION-CHEST-FACING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1 — 角色首次入队的技能归属](CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1 — 战后条件引用的诊断归属](CONTENT-DEFEATED-REFERENCE-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-ENEMY-COMMAND-DOMAINS-1 — 敌脚本字段与命令诊断](CONTENT-ENEMY-COMMAND-DOMAINS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1 — 迁移诊断能力应为字符串](CONTENT-MIGRATION-DIAGNOSTIC-CAPABILITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-SCENE-REFERENCE-OWN-KEY-1 — 命名落点与入口方案存在性](CONTENT-SCENE-REFERENCE-OWN-KEY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-SHARD-RETIREMENT-BOUNDARY-1 — 旧脚本分片出口与在用测试分界](CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CONTENT-SPRITE-FRAME-BOUNDARY-1 — 精灵声明与实际帧容量](CONTENT-SPRITE-FRAME-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理](DOCS-NATIVE-JSON-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -488,6 +497,7 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-008-1 — 仙灵岛迷宫与桃花林入口](E2E-008-1-fairy-island-maze.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-009-1 — 桃花林采药与池塘初遇](E2E-009-1-fairy-island-pool.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-010-1 — 水月宫取苗刀与紫金丹](E2E-010-1-water-moon-palace.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [EDITOR-FRAME-WORKER-POST-CLEANUP-1 — 过场编码发送失败后的 Worker 释放](EDITOR-FRAME-WORKER-POST-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ASSET-SERVER-READ-FAILURE-1 — 本地资源读取失败的请求与流清理](GAME-ASSET-SERVER-READ-FAILURE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口](GAME-AVI-RETRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -526,10 +536,17 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-CHROME-BAKE-PREFLIGHT-1 — 引擎素材重建的失败前置检查](MIGRATION-CHROME-BAKE-PREFLIGHT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-ITEM-SCHEME-ORDINAL-1 — PAL 物品方案编号归属](MIGRATION-ITEM-SCHEME-ORDINAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-MAP-SOURCE-WORD-DOMAIN-1 — PAL 提取地图的原始字范围](MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1 — PAL 视觉定义按内容比对](MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1 — 旧商店指令计数退役](MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N6B-ITEM-FLOWS-1 — 四类共享取物流程与参数表单](N6B-ITEM-FLOWS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [PAL-SHARED-CHEST-1 — 普通宝箱首次开盖](PAL-SHARED-CHEST-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-CONTENT-ASSET-CONTRACTS-1 — 内容资产登记与引用闭包专测](QUALITY-CONTENT-ASSET-CONTRACTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-CONTENT-REFERENCES-1 — 二阶段内容引用与场景复制治理](QUALITY-CONTENT-REFERENCES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -560,6 +577,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-SOURCE-PROJECTIONS-1 — 迁移来源投影与专测质量复审](QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -572,6 +590,11 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-FRAME-SEQUENCE-INVALIDATION-1 — 过场素材换版后旧解码重写缓存](REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属](REFORGE-FSA-URL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1 — 运行时只解析工程登记的命名落点](REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-VIDEO-PLAY-RETRY-1 — 二阶段视频多次播放重试](REFORGE-VIDEO-PLAY-RETRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TESTING-EVIDENCE-REVISION-1 — 以版本适用性替代 E2E 日历期限](TESTING-EVIDENCE-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -587,3 +610,4 @@ Template: governance-index-v1 / 1.0.0
 | [OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof](../archive/cancelled/OPS-TST-PERF-consolidated-determinism.md) | cancelled | current-only 已删除 P2/P3/P4 producer，证明对象已退役。 |
 | [OPS-TST-PERF-B - shared/fresh 隔离并行 release runner](../archive/cancelled/OPS-TST-PERF-parallel-gates.md) | cancelled | current-only 已删除 shared/fresh release 路由，不重建旧并行链。 |
 | [W7E - 独立地图库与场景地图绑定（已取消）](../archive/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否决双地图模型，由 W7F 唯一新版地图管线承接。 |
+| [QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界](QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |

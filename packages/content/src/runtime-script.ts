@@ -119,20 +119,20 @@ function positiveSafeInt(value: unknown, path: string): void {
   if (!Number.isSafeInteger(value) || Number(value) <= 0) throw new Error(`${path}: 期望正安全整数`)
 }
 
-function checkLifecycleCommand(value: Record<string, unknown>, path: string): void {
+function checkLifecycleCommand(value: Record<string, unknown>, path: string): boolean {
   const kind = value.kind
   if (kind === 'suspendEntity' || kind === 'hideEntity') {
     exactKeys(value, ['kind', 'target', 'ticks'], path)
     checkEntityAddress(value.target, `${path}.target`)
     positiveSafeInt(value.ticks, `${path}.ticks`)
-    return
+    return true
   }
   if (kind === 'restoreEntity' || kind === 'removeEntity') {
     exactKeys(value, ['kind', 'target'], path)
     checkEntityAddress(value.target, `${path}.target`)
-    return
+    return true
   }
-  throw new Error(`${path}.kind: 未知生命周期命令 ${String(kind)}`)
+  return false
 }
 
 export interface CheckRuntimeScriptFlowOptions {
@@ -152,16 +152,7 @@ export function runtimeCommandValidationOptions(
     checkExtensionCommand(command, path) {
       if (command.kind === 'vanishEntity')
         throw new Error(`${path}.kind: current 禁止 vanishEntity；请使用显式生命周期命令`)
-      if (
-        command.kind === 'suspendEntity' ||
-        command.kind === 'hideEntity' ||
-        command.kind === 'restoreEntity' ||
-        command.kind === 'removeEntity'
-      ) {
-        checkLifecycleCommand(command, path)
-        return true
-      }
-      return false
+      return checkLifecycleCommand(command, path)
     },
   }
 }

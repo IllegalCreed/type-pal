@@ -42,7 +42,7 @@
       "lines": "169-171",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+      "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
     }
   ],
   "publicCallers": [
@@ -200,6 +200,22 @@
         }
       ],
       "scope": "核场景用物受阻修复后的来源适用性。原菜单所有权、测试入口、场景和战斗引用片段与前驱逐字节相同。"
+    },
+    {
+      "action": "content-version-source-rebinding",
+      "base": "778928d199dc74768d0499d7a42081098bb2390d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "169-171",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+        }
+      ],
+      "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
     }
   ],
   "_governance": {

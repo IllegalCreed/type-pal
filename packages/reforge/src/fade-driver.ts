@@ -1,10 +1,13 @@
+import type { FadeColor } from '@type-pal/content'
+import { scriptWorkWait } from './script-work-queue.js'
+
 function fadeAbortError(message: string): Error {
   const error = new Error(message)
   error.name = 'AbortError'
   return error
 }
 
-/** 调用侧持有的视觉事务身份；只允许 owner 收口自己仍在活动的 fade。 */
+/** 调用侧持有的视觉事务身份；owner 只能复位自己最后一次写入的幕布。 */
 export type FadeOwner = object
 
 /**
@@ -90,8 +93,8 @@ export class SupersedingFadeDriver {
   }
 
   /**
-   * 失败事务只能收口自己启动且仍未被接管的 fade。旧事务被新 owner supersede 后调用这里是 no-op，
-   * 避免旧 cleanup 把新演出也取消。
+   * 失败事务可以清掉自己正在过渡或已完成的幕布。新 owner 接管之后，
+   * 旧事务的延迟收尾不再影响显示。
    */
   cancelOwned(
     owner: FadeOwner,
@@ -114,9 +117,6 @@ export class SupersedingFadeDriver {
     else effect.resolve()
   }
 }
-
-import type { FadeColor } from '@type-pal/content'
-import { scriptWorkWait } from './script-work-queue.js'
 
 /** Compose a scripted curtain over the current frame in both runtime and preview. */
 export function drawScriptFade(

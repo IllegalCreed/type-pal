@@ -31,7 +31,7 @@ export async function decompressFrameSequenceBlock(bytes: Uint8Array): Promise<U
   return new Uint8Array(await new Response(stream).arrayBuffer())
 }
 
-/** TPFS 随机读取器；容器 Promise 与 block Promise 均在 await 前入缓存。 */
+/** Share TPFS reads within one asset version, identified by its container promise. */
 export class FrameSequenceReader {
   readonly #sequences = new Map<AssetId, Promise<ParsedFrameSequenceV1>>()
   readonly #inflightBlocks = new Map<string, Promise<Uint8Array[]>>()
@@ -60,7 +60,8 @@ export class FrameSequenceReader {
   }
 
   async frame(asset: AssetId, frameIndex: number): Promise<FrameAnimationFrameSnapshot> {
-    const sequence = await this.sequence(asset)
+    const reading = this.sequence(asset)
+    const sequence = await reading
     if (
       !Number.isInteger(frameIndex) ||
       frameIndex < 0 ||
@@ -68,7 +69,8 @@ export class FrameSequenceReader {
     )
       throw new Error(`帧动画 ${asset}: 帧索引 ${String(frameIndex)} 越界`)
     const cacheKey = this.frameKey(asset, frameIndex)
-    const cached = this.#frames.get(cacheKey)
+    const isCurrent = () => this.#sequences.get(asset) === reading
+    const cached = isCurrent() ? this.#frames.get(cacheKey) : undefined
     if (cached) {
       this.#frames.delete(cacheKey)
       this.#frames.set(cacheKey, cached)
@@ -77,20 +79,25 @@ export class FrameSequenceReader {
 
     const blockIndex = Math.floor(frameIndex / sequence.index.blockFrames)
     const blockKey = `${asset}\0${blockIndex}`
-    let promise = this.#inflightBlocks.get(blockKey)
+    let promise = isCurrent() ? this.#inflightBlocks.get(blockKey) : undefined
     if (!promise) {
       promise = decodeFrameSequenceBlock(sequence, blockIndex, this.inflate).then((frames) => {
         const block = sequence.index.blocks[blockIndex]
         if (!block) throw new Error(`帧动画 ${asset}: 缺 block ${blockIndex}`)
-        for (const [local, rgba] of frames.entries())
-          this.rememberFrame(this.frameKey(asset, block.firstFrame + local), rgba)
+        if (isCurrent()) {
+          for (const [local, rgba] of frames.entries())
+            this.rememberFrame(this.frameKey(asset, block.firstFrame + local), rgba)
+        }
         return frames
       })
-      this.#inflightBlocks.set(blockKey, promise)
-      const clearInflight = (): void => {
-        if (this.#inflightBlocks.get(blockKey) === promise) this.#inflightBlocks.delete(blockKey)
+      // A stale caller can still finish against its own bytes after invalidation.
+      if (isCurrent()) {
+        this.#inflightBlocks.set(blockKey, promise)
+        const clearInflight = (): void => {
+          if (this.#inflightBlocks.get(blockKey) === promise) this.#inflightBlocks.delete(blockKey)
+        }
+        void promise.then(clearInflight, clearInflight)
       }
-      void promise.then(clearInflight, clearInflight)
     }
     const frames = await promise
     const block = sequence.index.blocks[blockIndex]

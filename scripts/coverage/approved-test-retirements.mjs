@@ -7,6 +7,133 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Reforge presentation window: responsibility-based transfers and evidenced duplicates.
+    // User authorized test organization. Exact identities and Code Owner decisions are in
+    // QUALITY-REFORGE-PRESENTATION-1.tar.gz, window/coverage-test-identity-delta.json.
+    {
+      file: 'packages/reforge/src/audio/midi-preview.test.ts',
+      previous: 8,
+      current: 7,
+      previousIdentityDigest: 'fee8fc4e895374ddfffe0ac46516dab651dc825fe5d1df06de444942b431327a',
+      currentIdentityDigest: 'a66262a627bb95f8460d02168cf7844d910b9ea06b0185d85d5c0cfb4c30a5ee',
+      fileSha256: '0fbd3b625bfe26357bac0e3002e20ff62694f4a765e2230fa1e5814d29e9f45b',
+    },
+    {
+      file: 'packages/reforge/src/audio/sfx-readiness.collections.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '5fdbf9172206ed1e01a5d22fe5effae73886f2dae2c82ff971626e02db96b74c',
+      currentIdentityDigest: '2316855bfc00e58c64dc8d6790dc8080c01990b901188f5a2610c663223fa3b4',
+      fileSha256: '346b920bde36165ab69d7fe9de0e32adf8429b1cbe04b48919d51f905cc3dbd9',
+    },
+    {
+      file: 'packages/reforge/src/dialog/layout.test.ts',
+      previous: 11,
+      current: 9,
+      previousIdentityDigest: 'd1e6e0a6fd033fe1c3b4d4a61a9567944427298e2fd0b352f163494f99a87e87',
+      currentIdentityDigest: '72ab287390f5019386f1403ad004d9c36e8d0e05bfa979788aaff9fbecb4b8fe',
+      fileSha256: '581dc302861903fc19b1ee8fb64088d254619f7ecb000c8eb96eb6e90212fb15',
+    },
+    {
+      file: 'packages/reforge/src/engine-chrome/registry.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: '1d600484c307de75b4702a9b8041e77d9369e519685019417b83ef7d2d172913',
+      currentIdentityDigest: '0b9b17608988913519a31c7ee3f2d9917f9eccb67c29712ed9ef5a4eeef16c61',
+      fileSha256: '4377a853f81a6d367c50245108456fb0fc83af173f30f7a116a1ceae494e3746',
+    },
+    {
+      file: 'packages/reforge/src/menu/reward-gain-queue.test.ts',
+      previous: 6,
+      current: 3,
+      previousIdentityDigest: '97f3e18753209b1c09b6e44a88251d18ef532da6f44a35593f1f7a1957f0f65d',
+      currentIdentityDigest: 'f0112d69c4fa531123a7e9444e89e4b616b3634eaf6dc2b55ddea870a882c0ce',
+      fileSha256: 'b4d5ab08488c0f873736173f795b720eacd91891d9933ee91eb771fa85f3b7c5',
+    },
+    {
+      file: 'packages/reforge/src/sprite-anim.test.ts',
+      previous: 23,
+      current: 16,
+      previousIdentityDigest: '1b4785804c3b206374d2cb56b50daa58d57b0027b729b4ce1c715054e12303d0',
+      currentIdentityDigest: '59a12d46cede61217b325b19f4c34dfae919daa896649fd4b215f658305476a5',
+      fileSha256: 'e47bf01b1e4b414724f09ae6c7ae53a1bb377312968805fb7519d07c1c088822',
+    },
+    {
+      file: 'packages/reforge/src/text/typewriter.test.ts',
+      previous: 7,
+      current: 4,
+      previousIdentityDigest: '45e8b3baadaa7682e3f96660b52df55f0789b4a376d4ff6fc329682e7e71bf9c',
+      currentIdentityDigest: 'c84851313625bc0e2d64806b04865e67c93f39c0b564901ef892d469ea410c3d',
+      fileSha256: '99802ed9ff9e6bfbc5997de601796f8c701c688879e460e3773edc3ff138fc89',
+    },
+    // User 2026-11-20 approved the PAL shop scanner retirement. Live guards keep their cases.
+    {
+      file: 'packages/migrate/src/pal-supply-guards.glm-o.test.ts',
+      previous: 29,
+      current: 26,
+      previousIdentityDigest: '15102dabcd831b58f47bbee6c7a16a5f5470a8855f301daa1542e065dca9d0ac',
+      currentIdentityDigest: '96b7ae8be979dbd2f46194f9711b3d7ef54465e59ab810cbaaa50398817df7bc',
+      fileSha256: '10c47741341af57fe589aa980be13e831d43eb7744d3709d74a11488a6c39d6e',
+    },
+    // 2026-11-20 migration source projections: exact caller-based transfers and deduplication.
+    {
+      file: 'packages/migrate/src/migration-plan.test.ts',
+      previous: 15,
+      current: 9,
+      previousIdentityDigest: '30d86b5148e228619dc996d448e074d0050cccc97177ea75d7e228e45e2e2eca',
+      currentIdentityDigest: '79061fd9bacdcbf678c7e9a941d2f3ae9d19e990cfbb7cd822d05edfe363bd68',
+      fileSha256: 'c18a1fd04a63cbbabf53a2e92f8b10ee197576323ae62b2b098239b5067cdd38',
+    },
+    {
+      file: 'packages/migrate/src/pal-item-scheme-labels.boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '7ab45309efd6a8963269cef59cd1a2566b2d4ca27316692ad7e73f5d36ea19b1',
+      currentIdentityDigest: 'cd1e2d406d8e6238946fd1ff9f43a021444cea0343b6c924368e168cced9e069',
+      fileSha256: '9d36957693e9f5526461d6aa2c2ec86ebde99fe36185d96c61bf1795ae6ada24',
+    },
+    {
+      file: 'packages/migrate/src/project-map-converter.boundaries.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '4156e3ff6d5876f072f51bb791e44a516e2055366f26f24917d6438bd3e8fbc6',
+      currentIdentityDigest: 'fa267ef2b9cce7873fb9a761346bca16a5bc3e20ccad059e730918a73ef9a480',
+      fileSha256: '45425491aafb651d2d619aa526297b3c5274a083285e04ec46572a23d231d87f',
+    },
+    {
+      file: 'packages/migrate/src/project-map-converter.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '15eb30060cfcad8fcc85dbe13645ab2d3f00f8dc6edcccb12349f299b569cab7',
+      currentIdentityDigest: '230582f98a8351e3cbe052e971ca0c44b04cc52d9c9813691c2f4c988d859122',
+      fileSha256: 'ba72a7509ef55b14904e32c1e5f94ce2732d68fd4b601d6851ba48b3d31a452d',
+    },
+    // User2026-11-19 Content + adjacent quality window; Codex approved exact transfers.
+    // Full identity maps: QUALITY-CONTENT-ASSET-CONTRACTS-1 execution archive.
+    {
+      file: 'packages/reforge/src/async-intent.test.ts',
+      previous: 3,
+      current: 2,
+      previousIdentityDigest: 'ad4fe548d0fb4268e78ed9e4cde6a1c8cb2a106f1f8b80f39f143a630b458765',
+      currentIdentityDigest: '3f6d645cdd017a14af614f143a4f6346993ddbc4d99fc09732bbbc8ad0b2e56c',
+      fileSha256: '8fe8e9a360d44efc10cf32d81306c193a31e3afca9910d2ab158287bece808dd',
+    },
+    {
+      file: 'packages/reforge/src/scene-switch-transaction.test.ts',
+      previous: 23,
+      current: 7,
+      previousIdentityDigest: '3c6ee69ee247734b4548a4f29746bbddb713a810d22d050251a79bee9cb5fa93',
+      currentIdentityDigest: 'c13ac2113075b6237f9f08e170357294986384e68e8f5acfbdce24d9a6e1ad54',
+      fileSha256: 'e2e0ee6755806a3d46b76f2de995f12eff1d1ee7f1cbae9d2ed51843ebbbd381',
+    },
+    {
+      file: 'packages/reforge/src/screen-hold-transaction.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'c2d72957627756d2317ffd9d8ddee33aeecba159ef232694d8b3893b164b0247',
+      currentIdentityDigest: 'e393b1efb29255962f5cce8d16c2cc1c68a418f3822d9dab2879032991c12e9e',
+      fileSha256: 'd8dd062fa5d30d68a4903c63d26a074ae75c7e5e8f28cb469cb25ec80303368f',
+    },
     // User2026-11-03/05: responsibility-based phase1 pending93 test quality.
     // Five exact per-file count reductions include transfers and proven subsumption,
     // not66 deleted contracts. Full old-to-new maps and native reports: parent audit/archive.

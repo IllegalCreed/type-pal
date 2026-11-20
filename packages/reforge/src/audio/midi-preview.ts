@@ -213,7 +213,7 @@ export function createMidiPreviewTransport(
     playPromise = undefined
   }
 
-  const duration = (): number => activity?.duration ?? sequencer?.duration ?? 0
+  const duration = (): number => activity?.duration ?? 0
   const loadSequencer = (): void => {
     if (!sequencer || !asset || !bytes || loadedAsset === asset) return
     sequencer.pause()

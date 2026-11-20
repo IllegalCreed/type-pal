@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
+import type { AudioAssetReader } from './bgm.js'
 import {
-  createMidiNoteActivity,
   createMidiPreviewTransport,
   type MidiPreviewRuntimeAdapter,
   type MidiPreviewSequencerAdapter,
@@ -69,26 +69,26 @@ function sequencer() {
   }
 }
 
-describe('MIDI preview analysis', () => {
-  test('normalizes real note activity deterministically and preserves empty tracks', () => {
-    const notes = [
-      { start: 0, length: 1, velocity: 127 },
-      { start: 1, length: 1, velocity: 64 },
-    ]
-    const first = createMidiNoteActivity(notes, 2, 4)
-    expect(first).toEqual(createMidiNoteActivity(notes, 2, 4))
-    expect(first.noteCount).toBe(2)
-    expect(Math.max(...first.buckets)).toBe(1)
-    expect(createMidiNoteActivity([], 0, 4).buckets).toEqual([0, 0, 0, 0])
-  })
-})
-
 describe('MIDI preview transport', () => {
-  test('does not allocate an AudioContext until the user requests playback', () => {
+  test('starts with an empty snapshot and constructs no AudioContext while reading MIDI', async () => {
     const AudioContext = vi.fn()
     vi.stubGlobal('window', { AudioContext })
     try {
-      const transport = createMidiPreviewTransport({ readBytes: vi.fn() } as never)
+      const reader: AudioAssetReader = {
+        readBytes: vi.fn(async () => midiBytes()),
+        async readRoleBytes() {
+          throw new Error('unexpected soundfont read during analysis')
+        },
+      }
+      const transport = createMidiPreviewTransport(reader)
+      expect(transport.snapshot()).toEqual({
+        asset: undefined,
+        currentTime: 0,
+        duration: 0,
+        paused: true,
+      })
+      expect(AudioContext).not.toHaveBeenCalled()
+      await transport.load('music.test')
       expect(AudioContext).not.toHaveBeenCalled()
       transport.dispose()
       expect(AudioContext).not.toHaveBeenCalled()
@@ -114,7 +114,7 @@ describe('MIDI preview transport', () => {
     await expect(duplicate).resolves.toBe(activity)
     expect(reader.readBytes).toHaveBeenCalledOnce()
 
-    const cached = { ...activity, noteCount: 99 }
+    const cached = { ...activity, buckets: [...activity.buckets] }
     await expect(transport.load('music.test', 'project\0music.test\0sha-b', cached)).resolves.toBe(
       cached,
     )
@@ -141,8 +141,12 @@ describe('MIDI preview transport', () => {
     transport.pause()
     expect(transport.snapshot().paused).toBe(true)
     expect(transport.snapshot().currentTime).toBe(activity.duration / 2)
+    transport.seek(-5)
+    expect(transport.snapshot().currentTime).toBe(0)
     transport.seek(99)
     expect(transport.snapshot().currentTime).toBe(activity.duration)
+    transport.seek(Number.NaN)
+    expect(transport.snapshot().currentTime).toBe(0)
     transport.stop()
     expect(transport.snapshot().currentTime).toBe(0)
 

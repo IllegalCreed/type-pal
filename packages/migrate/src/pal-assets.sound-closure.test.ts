@@ -1,4 +1,4 @@
-import { readdirSync, unlinkSync } from 'node:fs'
+import { unlinkSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, test } from 'vitest'
 import { json, manifestPath, put, soundFixture } from './__tests__/pal-asset-fixtures.js'
@@ -18,13 +18,17 @@ describe('PAL sound three-way closure', () => {
   test.each(['notes.txt', '46.WAV'])('rejects noncanonical directory member %s', (name) => {
     const f = soundFixture()
     put(f.repo, `data/extracted/sounds/${name}`, f.bytes)
-    expect(readdirSync(resolve(f.repo, 'data/extracted/sounds'))).toContain(name)
     expect(f.run).toThrow(`PAL sounds 目录出现非规范文件 ${name}`)
   })
   test('numeric aliases cannot duplicate one directory sound', () => {
     const f = soundFixture()
     put(f.repo, 'data/extracted/sounds/045.wav', f.bytes)
     expect(f.run).toThrow('PAL sounds 目录重复 sound 45')
+  })
+  test('reports an extra valid WAV while all expected sounds are still present', () => {
+    const f = soundFixture()
+    put(f.repo, 'data/extracted/sounds/9.wav', f.bytes)
+    expect(f.run).toThrow('PAL sounds 目录 与 metadata 不闭包：missing= extra=9')
   })
   test.each([
     'manifest',

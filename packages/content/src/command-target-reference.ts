@@ -1,19 +1,34 @@
+import type { EntityAddress } from './author-script-core.js'
+
 /**
- * Canonical/legacy command trees里的持久对象引用叶。
+ * 作者命令和只读运行时脚本分片的持久对象引用。
  *
- * 本文件只识别有明确 command/condition kind 的字段与精确 EntityAddress 形状；不会把普通同名
- * `scene`/`mapId`/`shop` 字段猜成引用。编辑器的 owner、locator 与删除策略属于 editor 层。
+ * 按命令或条件的 kind 以及精确 EntityAddress 形状识别。普通同名
+ * `scene`/`mapId`/`shop` 字段不构成引用。编辑器的 owner、locator 与删除策略属于 editor 层。
  */
+
+type SceneReferenceRelation =
+  | 'condition-current-scene'
+  | 'load-scene'
+  | 'select-scene-hooks'
+  | 'scene-map-override'
+  | 'legacy-scene-script-binding'
+
+// 引用扫描和场景复制共用此表。三种旧绑定仅供只读分片，作者 guard 会拒绝。
+const sceneRelations: ReadonlyMap<unknown, SceneReferenceRelation> = new Map([
+  ['currentScene', 'condition-current-scene'],
+  ['loadScene', 'load-scene'],
+  ['selectSceneHooks', 'select-scene-hooks'],
+  ['setSceneMapOverride', 'scene-map-override'],
+  ['setSceneOnEnter', 'legacy-scene-script-binding'],
+  ['setSceneOnTeleport', 'legacy-scene-script-binding'],
+  ['clearSceneScripts', 'legacy-scene-script-binding'],
+])
 
 export type CommandTargetReference =
   | {
       target: { kind: 'scene'; id: string }
-      relation:
-        | 'condition-current-scene'
-        | 'load-scene'
-        | 'select-scene-hooks'
-        | 'scene-map-override'
-        | 'legacy-scene-script-binding'
+      relation: SceneReferenceRelation
       where: string
     }
   | {
@@ -76,10 +91,12 @@ function nonEmptyString(value: unknown): value is string {
 }
 
 function nonNegativeSafeInteger(value: unknown): value is number {
-  return Number.isSafeInteger(value) && Number(value) >= 0
+  return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0
 }
 
-function isExactEntityAddress(record: Record<string, unknown>): boolean {
+function isExactEntityAddress(
+  record: Record<string, unknown>,
+): record is Record<string, unknown> & EntityAddress {
   const keys = Object.keys(record)
   return (
     keys.length === 2 &&
@@ -90,23 +107,6 @@ function isExactEntityAddress(record: Record<string, unknown>): boolean {
   )
 }
 
-/** 与 collector 共用的显式 SceneId 识别口；复制场景不得另写一套字段名扫描。 */
-function explicitSceneIdAtNode(record: Record<string, unknown>): string | undefined {
-  if (isExactEntityAddress(record)) return record.scene as string
-  switch (record.kind) {
-    case 'currentScene':
-    case 'loadScene':
-    case 'selectSceneHooks':
-    case 'setSceneMapOverride':
-    case 'setSceneOnEnter':
-    case 'setSceneOnTeleport':
-    case 'clearSceneScripts':
-      return nonEmptyString(record.scene) ? record.scene : undefined
-    default:
-      return undefined
-  }
-}
-
 /** Inspect one tagged node only; nested values are not traversed. */
 export function commandTargetReferencesAtNode(
   value: unknown,
@@ -115,91 +115,53 @@ export function commandTargetReferencesAtNode(
 ): CommandTargetReference[] {
   if (!isRecord(value)) return []
   if (isExactEntityAddress(value)) {
-    const sceneId = explicitSceneIdAtNode(value)
-    if (!sceneId) return references
     references.push({
-      target: {
-        kind: 'entity',
-        sceneId,
-        entityId: value.entity as string,
-      },
+      target: { kind: 'entity', sceneId: value.scene, entityId: value.entity },
       relation: 'entity-address',
       where,
     })
     return references
   }
-  const sceneId = explicitSceneIdAtNode(value)
+
+  const relation = sceneRelations.get(value.kind)
+  const sceneId = relation && nonEmptyString(value.scene) ? value.scene : undefined
+  if (relation && sceneId) {
+    references.push({ target: { kind: 'scene', id: sceneId }, relation, where: `${where}.scene` })
+  }
+
   switch (value.kind) {
-    case 'currentScene':
-      if (sceneId)
-        references.push({
-          target: { kind: 'scene', id: sceneId },
-          relation: 'condition-current-scene',
-          where: `${where}.scene`,
-        })
-      break
     case 'loadScene':
-      if (sceneId) {
+      if (sceneId && nonEmptyString(value.entryId))
         references.push({
-          target: { kind: 'scene', id: sceneId },
-          relation: 'load-scene',
-          where: `${where}.scene`,
+          target: { kind: 'scene-entry', sceneId, entryId: value.entryId },
+          relation: 'load-scene-entry',
+          where: `${where}.entryId`,
         })
-        if (nonEmptyString(value.entryId))
-          references.push({
-            target: { kind: 'scene-entry', sceneId, entryId: value.entryId },
-            relation: 'load-scene-entry',
-            where: `${where}.entryId`,
-          })
-      }
       break
     case 'selectSceneHooks':
-      if (sceneId) {
-        references.push({
-          target: { kind: 'scene', id: sceneId },
-          relation: 'select-scene-hooks',
-          where: `${where}.scene`,
-        })
-        if (isRecord(value.selection))
-          for (const slot of ['onEnter', 'onTeleport'] as const) {
-            const selection = value.selection[slot]
-            if (isRecord(selection) && selection.kind === 'use' && nonEmptyString(selection.value))
-              references.push({
-                target: {
-                  kind: 'scene-hook',
-                  sceneId,
-                  slot,
-                  hookId: selection.value,
-                },
-                relation: 'select-scene-hook',
-                where: `${where}.selection.${slot}.value`,
-              })
-          }
+      if (sceneId && isRecord(value.selection)) {
+        for (const slot of ['onEnter', 'onTeleport'] as const) {
+          const selection = value.selection[slot]
+          if (isRecord(selection) && selection.kind === 'use' && nonEmptyString(selection.value))
+            references.push({
+              target: {
+                kind: 'scene-hook',
+                sceneId,
+                slot,
+                hookId: selection.value,
+              },
+              relation: 'select-scene-hook',
+              where: `${where}.selection.${slot}.value`,
+            })
+        }
       }
       break
     case 'setSceneMapOverride':
-      if (sceneId)
-        references.push({
-          target: { kind: 'scene', id: sceneId },
-          relation: 'scene-map-override',
-          where: `${where}.scene`,
-        })
       if (nonEmptyString(value.mapId))
         references.push({
           target: { kind: 'map', id: value.mapId },
           relation: 'scene-map-override',
           where: `${where}.mapId`,
-        })
-      break
-    case 'setSceneOnEnter':
-    case 'setSceneOnTeleport':
-    case 'clearSceneScripts':
-      // 这三种只允许出现在只读 ScriptChunk；current author guard 已明确退役。
-      if (sceneId)
-        references.push({
-          target: { kind: 'scene', id: sceneId },
-          relation: 'legacy-scene-script-binding',
-          where: `${where}.scene`,
         })
       break
     case 'openShop':
@@ -268,13 +230,17 @@ export function rewriteExplicitSceneReferences<T>(
     if (Array.isArray(node)) return node.map(visit)
     if (!isRecord(node)) return node
     const next = Object.fromEntries(Object.entries(node).map(([key, child]) => [key, visit(child)]))
-    if (explicitSceneIdAtNode(node) === sourceSceneId) next.scene = targetSceneId
+    if (
+      node.scene === sourceSceneId &&
+      (isExactEntityAddress(node) || sceneRelations.has(node.kind))
+    )
+      next.scene = targetSceneId
     return next
   }
   return visit(value) as T
 }
 
-/** Full recursive content/legacy walker used by validation and read-only chunk adapters. */
+/** Scans an acyclic JSON tree. Consumers own target existence and diagnostic policy. */
 export function collectCommandTargetReferences(
   value: unknown,
   where: string,

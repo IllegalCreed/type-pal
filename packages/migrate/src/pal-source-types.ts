@@ -1,4 +1,4 @@
-/** Minimal extracted PAL resource input shapes; no script conversion implementation. */
+/** Extracted resource shapes consumed by PAL publication. These types describe producer output. */
 export interface SourceRole {
   id: number
   _name: string
@@ -52,6 +52,7 @@ export interface SourceItem {
 }
 
 export interface SourceEventObject {
+  /** Global, zero-based EventObject index from SSS.MKF. */
   id: number
   x: number
   y: number
@@ -59,6 +60,7 @@ export interface SourceEventObject {
   triggerMode?: number
   sState?: number
   sLayer?: number
+  /** Source directional frame width. Absence is handled as a static layout by the registry. */
   nSpriteFrames?: number
   nSpriteFramesAuto?: number
   direction?: number

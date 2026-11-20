@@ -3,11 +3,15 @@ export interface SourceCmd {
   label?: string
   op?: string
   text?: string
+  messageIndex?: number
   opcode?: number
   operands?: number[]
+  to?: string
+  itemId?: number
+  count?: number
 }
 
-/** 六主角稳定 slug(下标 = 原版 roleId;⚠ 3=巫后 4=阿奴,原版名字指针对调已在解析器修正)。 */
+/** 以原版 roleId 索引稳定角色标识。3 是巫后，4 是阿奴，提取器按各自的名字指针解析。 */
 export const ROLE_SLUGS = [
   'li-xiaoyao',
   'zhao-linger',
@@ -28,7 +32,7 @@ export const ROLE_SLUGS = [
  */
 export const PAL_PLAYER_FACE_FRAME_BY_ROLE_ID = Object.freeze([48, 49, 50, 51, 52] as const)
 
-/** 原版场景号是稳定的不透明资源 id。 */
-export function sceneSlug(n: number): string {
-  return `s${String(n).padStart(3, '0')}`
+/** 将来源场景号转为作者工程的稳定 id，十进制编号至少保留三位。 */
+export function sceneSlug(sourceSceneNumber: number): string {
+  return `s${String(sourceSceneNumber).padStart(3, '0')}`
 }

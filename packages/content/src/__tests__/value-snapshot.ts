@@ -11,7 +11,5 @@ function clone(node: unknown): unknown {
   if (node instanceof Date) return new Date(node.getTime())
   if (Array.isArray(node)) return node.map(clone)
   if (node instanceof Uint8Array) return new Uint8Array(node)
-  const out: Record<string, unknown> = {}
-  for (const [key, value] of Object.entries(node)) out[key] = clone(value)
-  return out
+  return Object.fromEntries(Object.entries(node).map(([key, value]) => [key, clone(value)]))
 }

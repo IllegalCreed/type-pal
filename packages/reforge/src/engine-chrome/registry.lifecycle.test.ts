@@ -1,71 +1,112 @@
-/**
- * TEST-REFORGE-ASSET-IO-1 B10：chrome registry 模块级缓存生命周期（engine-chrome/registry.ts）。
- * registry.test.ts:24 已覆盖失败清缓存重试——不重复；本文件补：成功路径缓存命中返回同一
- * Promise 身份、跨 slot 独立、网络失败与解码失败分别带 slot。模块级 cache 与
- * ProjectImageCache 实例级分开（不跨例预热）；每例 vi.resetModules 隔离 + finally 恢复全局。
- */
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
+import titlePng from './assets/title.png?inline'
+import statusBackground from './assets/ui/status/bg.png?inline'
+import statusSlot from './assets/ui/status/slot.png?inline'
 
-interface FakeBitmap {
-  id: string
+afterEach(() => vi.unstubAllGlobals())
+
+async function registry() {
+  vi.resetModules()
+  return import('./registry.js')
 }
 
-const withModule = async (
-  run: (mod: typeof import('./registry.js')) => Promise<void>,
-): Promise<void> => {
-  const originalFetch = globalThis.fetch
-  const originalCreate = globalThis.createImageBitmap
-  try {
-    vi.resetModules()
-    const mod = await import('./registry.js')
-    await run(mod)
-  } finally {
-    globalThis.fetch = originalFetch
-    globalThis.createImageBitmap = originalCreate
-  }
+function pngBytes(dataUrl: string) {
+  return Uint8Array.from(atob(dataUrl.slice(dataUrl.indexOf(',') + 1)), (byte) =>
+    byte.charCodeAt(0),
+  )
 }
 
-describe('B10 registry 模块级缓存生命周期（fetch/createImageBitmap 双替身）', () => {
-  test('成功路径：同 slot 二次调用返回同一 Promise 身份（缓存命中）；跨 slot 各自独立', async () => {
-    await withModule(async (mod) => {
-      const fetches: string[] = []
-      globalThis.fetch = (async (url: unknown) => {
-        fetches.push(String(url))
-        return new Response('img', { status: 200 })
-      }) as typeof fetch
-      globalThis.createImageBitmap = (async () => ({
-        id: `bm-${fetches.length}`,
-      })) as unknown as typeof createImageBitmap
-      const first = mod.loadEngineChromeImage('status/bg.png')
-      const second = mod.loadEngineChromeImage('status/bg.png')
-      expect(second).toBe(first) // 模块级缓存命中：同一 Promise 对象
-      const bitmap = (await first) as unknown as FakeBitmap
-      expect(bitmap.id).toBe('bm-1')
-      const other = mod.loadEngineChromeImage('status/slot.png')
-      expect(other).not.toBe(first)
-      await other
-      expect(fetches).toHaveLength(2) // 跨 slot 各自取一次
-    })
+function image(width: number, height: number): ImageBitmap {
+  return { width, height, close: vi.fn() }
+}
+
+test('同一槽复用正在加载的位图，不同槽分别解自己的打包文件', async () => {
+  const mod = await registry()
+  const backgroundUrl = mod.engineChromeUiUrl('status/bg.png')
+  const slotUrl = mod.engineChromeUiUrl('status/slot.png')
+  const files = new Map([
+    [backgroundUrl, pngBytes(statusBackground)],
+    [slotUrl, pngBytes(statusSlot)],
+  ])
+  const background = image(320, 200)
+  const slot = image(24, 24)
+  const get = vi.fn(async (url: string) => {
+    const bytes = files.get(url)
+    return bytes
+      ? new Response(bytes, { headers: { 'Content-Type': 'image/png' } })
+      : new Response(null, { status: 404 })
   })
-  test('网络层失败（HTTP 500）与解码失败分别带 slot 且互不污染其它 slot', async () => {
-    await withModule(async (mod) => {
-      globalThis.fetch = (async () => new Response('x', { status: 500 })) as typeof fetch
-      await expect(mod.loadEngineChromeImage('num/1.png')).rejects.toThrow(
-        '引擎 chrome 图像 slot "num/1.png" 加载失败:HTTP 500',
-      )
-      // 解码失败轴（fetch 成功、createImageBitmap 抛错）
-      globalThis.fetch = (async () => new Response('x', { status: 200 })) as typeof fetch
-      globalThis.createImageBitmap = (async () => {
-        throw new Error('corrupt')
-      }) as unknown as typeof createImageBitmap
-      await expect(mod.loadEngineChromeImage('num/2.png')).rejects.toThrow(
-        '引擎 chrome 图像 slot "num/2.png" 加载失败:corrupt',
-      )
-      // 其它 slot 不被污染（失败只清自身）
-      globalThis.createImageBitmap = (async () => ({
-        id: 'ok',
-      })) as unknown as typeof createImageBitmap
-      await expect(mod.loadEngineChromeImage('num/3.png')).resolves.toBeDefined()
-    })
+  const decode = vi.fn(async (blob: Blob) => {
+    const bytes = new Uint8Array(await blob.arrayBuffer())
+    if (bytes.length === files.get(backgroundUrl)?.length) {
+      expect(bytes).toEqual(pngBytes(statusBackground))
+      return background
+    }
+    expect(bytes).toEqual(pngBytes(statusSlot))
+    return slot
   })
+  vi.stubGlobal('fetch', get)
+  vi.stubGlobal('createImageBitmap', decode)
+  const first = mod.loadEngineChromeImage('status/bg.png')
+  expect(mod.loadEngineChromeImage('status/bg.png')).toBe(first)
+  const separate = mod.loadEngineChromeImage('status/slot.png')
+  await expect(first).resolves.toBe(background)
+  await expect(separate).resolves.toBe(slot)
+  expect(get.mock.calls).toEqual([[backgroundUrl], [slotUrl]])
+})
+
+test('HTTP 非 OK 带自身槽位和状态，下一次仍能解码同槽位', async () => {
+  const mod = await registry()
+  const bytes = pngBytes(statusSlot)
+  const restored = image(24, 24)
+  const url = mod.engineChromeUiUrl('status/slot.png')
+  const fetch = vi
+    .fn<(url: string) => Promise<Response>>()
+    .mockResolvedValueOnce(new Response(null, { status: 503 }))
+    .mockResolvedValueOnce(new Response(bytes, { headers: { 'Content-Type': 'image/png' } }))
+  const decode = vi.fn(async (blob: Blob) => {
+    expect(new Uint8Array(await blob.arrayBuffer())).toEqual(bytes)
+    return restored
+  })
+  vi.stubGlobal('fetch', fetch)
+  vi.stubGlobal('createImageBitmap', decode)
+  await expect(mod.loadEngineChromeImage('status/slot.png')).rejects.toThrow(
+    '引擎 chrome 图像 slot "status/slot.png" 加载失败:HTTP 503',
+  )
+  expect(decode).not.toHaveBeenCalled()
+  await expect(mod.loadEngineChromeImage('status/slot.png')).resolves.toBe(restored)
+  expect(fetch.mock.calls).toEqual([[url], [url]])
+})
+
+test('位图解码错误带实际槽位和原因，其他槽仍能解码', async () => {
+  const mod = await registry()
+  const healthy = image(24, 24)
+  vi.stubGlobal('fetch', async () => new Response(pngBytes(statusSlot)))
+  const decode = vi
+    .fn<(blob: Blob) => Promise<ImageBitmap>>()
+    .mockRejectedValueOnce(new Error('corrupt'))
+    .mockResolvedValueOnce(healthy)
+  vi.stubGlobal('createImageBitmap', decode)
+  await expect(mod.loadEngineChromeImage('status/bg.png')).rejects.toThrow(
+    '引擎 chrome 图像 slot "status/bg.png" 加载失败:corrupt',
+  )
+  await expect(mod.loadEngineChromeImage('status/slot.png')).resolves.toBe(healthy)
+})
+
+test('独立标题槽使用实际打包标题 PNG，并把文件字节交给图像端口', async () => {
+  const mod = await registry()
+  const bytes = pngBytes(titlePng)
+  const title = image(320, 200)
+  const fetch = vi.fn(async (url: string) => {
+    if (url !== mod.ENGINE_CHROME.defaultTitle) return new Response(null, { status: 404 })
+    return new Response(bytes, { headers: { 'Content-Type': 'image/png' } })
+  })
+  vi.stubGlobal('fetch', fetch)
+  vi.stubGlobal('createImageBitmap', async (blob: Blob) => {
+    expect(blob.type).toBe('image/png')
+    expect(new Uint8Array(await blob.arrayBuffer())).toEqual(bytes)
+    return title
+  })
+  await expect(mod.loadEngineChromeImage('opening.default-title')).resolves.toBe(title)
+  expect(fetch).toHaveBeenCalledExactlyOnceWith(mod.ENGINE_CHROME.defaultTitle)
 })

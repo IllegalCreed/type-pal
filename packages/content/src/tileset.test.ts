@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { tilesetCatalogRecord } from './__tests__/cursor-pure-wave2-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import { validateAssetCatalog } from './asset.js'
 import { resolveTilesetAsset, validateTilesets } from './tileset.js'
@@ -44,7 +43,15 @@ describe('validateTilesets', () => {
     const catalog = validateAssetCatalog({
       version: 1,
       assets: {
-        'tileset.grass': tilesetCatalogRecord('tileset.grass'),
+        'tileset.grass': {
+          kind: 'tileset',
+          path: 'assets/generated/tileset.grass.rle',
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: 8,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'generated' },
+          label: 'tileset.grass',
+        },
         'sprite.unused': {
           kind: 'sprite',
           path: 'assets/generated/sprite.unused.png',

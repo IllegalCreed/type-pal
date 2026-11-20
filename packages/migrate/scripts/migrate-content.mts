@@ -1,10 +1,9 @@
 /**
  * PAL current-only publication command.
  *
- * Default builds a plan after pending transaction recovery. `--write` publishes
- * current content, assets and the
- * current baseline in one recoverable transaction, then proves the same publication
- * produces a zero-diff plan. There is no bootstrap, intermediate epoch or old-project route.
+ * The command recovers a pending transaction before planning. `--write` materializes
+ * binary assets, publishes JSON, the baseline and manifest in one transaction, then
+ * verifies an empty replay against the resulting project.
  */
 
 import { readFileSync } from 'node:fs'
@@ -37,8 +36,8 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 function usage(): void {
   console.log(`Usage: pnpm --filter @type-pal/migrate migrate:content [--write]
 
-No arguments  Build and validate the current publication plan without writing.
---write       Materialize assets and publish current content + baseline atomically.
+No arguments  Recover a pending transaction, then validate the current publication plan.
+--write       Materialize assets, then publish content and baseline in one transaction.
 --help        Show this help.`)
 }
 

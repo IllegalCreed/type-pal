@@ -23,17 +23,21 @@ export function resolveSceneFacing(
   return explicit ?? namedEntry ?? inherited ?? sceneDefault
 }
 
-/** Resolve every landing mode before a new scene is committed. */
+/** Resolve the default, a registered named entry, or temporary coordinates. */
 export function resolveSceneSpawn(
   sceneId: string,
   scene: Pick<SceneDef, 'entry' | 'entries'>,
   spawn?: RuntimeSceneSpawn,
 ): ResolvedSceneSpawn {
-  if (spawn?.entryId !== undefined && spawn.pos !== undefined)
+  const entryId = spawn?.entryId
+  if (entryId !== undefined && spawn?.pos !== undefined)
     throw new Error(`场景 ${sceneId}: entryId 与 pos 不能同时存在`)
-  const entry = spawn?.entryId !== undefined ? scene.entries?.[spawn.entryId] : undefined
-  if (spawn?.entryId !== undefined && !entry)
-    throw new Error(`场景 ${sceneId}: 找不到命名落点 ${spawn.entryId}`)
+  const entries = scene.entries
+  const entry =
+    entryId !== undefined && entries && Object.hasOwn(entries, entryId)
+      ? entries[entryId]
+      : undefined
+  if (entryId !== undefined && !entry) throw new Error(`场景 ${sceneId}: 找不到命名落点 ${entryId}`)
   const pos = spawn?.pos === 'current' ? spawn.currentPosition : spawn?.pos
   if (spawn?.pos === 'current' && pos === undefined)
     throw new Error(`场景 ${sceneId}: 沿用原地需要来源脚点`)

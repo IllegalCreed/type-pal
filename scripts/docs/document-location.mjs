@@ -212,6 +212,7 @@ import {
   testingWorldAwarenessPublicationBase,
   testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
+import { loadTestingContentVersionRebinding } from './testing-content-version-rebinding.mjs'
 import {
   assertTestingChestSourceBridge,
   assertTestingPalaceStagePublication,
@@ -638,7 +639,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionEnemyCastBase, [testingCatalogPath])
   const preBattleSpecialStatus =
     preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
-  const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const versionAdmission = admission.testingContentVersionRebinding
+  const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
+  const versionPublicationBase = versionAdmission?.publicationBaseRevision
+    ? gitTree(root, versionAdmission.publicationBaseRevision, [])
+    : versionBase
+  const versionRebinding =
+    versionPublicationBase &&
+    loadTestingContentVersionRebinding({
+      admission: versionAdmission,
+      readCurrent: readCurrentSource,
+      readPredecessor: versionPublicationBase.read,
+      readAcceptedSource: versionBase.read,
+    })
+  const readSource = versionRebinding
+    ? (path) => {
+        const live = versionRebinding.readPredecessorSource(path)
+        return live && versionRebinding.restore(path, live)
+      }
+    : readCurrentSource
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -2127,6 +2147,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
+    const priorVersionBody = versionRebinding?.restore(path, current) ?? current
     const artifact = artifacts.get(path)
     if (artifact) {
       // New receipt attachments are ordinary non-executable checkout files;
@@ -2143,7 +2164,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const addition = additions.get(path)
     if (addition) {
       if (postPalace && isPublishedTestingStagePath(path)) {
-        const older = beforeProjectVictory(path, beforePartyPose(path, current))
+        const older = beforeProjectVictory(path, beforePartyPose(path, priorVersionBody))
         const predecessor = acquisitionPrevious(path, older)
         assert(
           postPalace.read(path)?.equals(predecessor),
@@ -2160,7 +2181,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
       if (isTestingBattleEvidencePath(path)) assertTestingBattleEvidence(path, current)
       if (closureInputs)
-        assertTestingBattleClosureAddition(path, beforeBattleSummon(path, current), closureInputs)
+        assertTestingBattleClosureAddition(
+          path,
+          beforeBattleSummon(path, priorVersionBody),
+          closureInputs,
+        )
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -2243,7 +2268,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           path,
           beforeBattleLifecycle(
             path,
-            beforeBattleReview(path, beforeBattleClosure(path, beforeBattleSummon(path, current))),
+            beforeBattleReview(
+              path,
+              beforeBattleClosure(path, beforeBattleSummon(path, priorVersionBody)),
+            ),
           ),
         ),
       )
@@ -2451,6 +2479,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       compressed.assertUnchanged()
       artifactRetirements.assertUnchanged()
       retirementList.assertUnchanged()
+      versionRebinding?.assertUnchanged()
       assertInventory()
     },
   }

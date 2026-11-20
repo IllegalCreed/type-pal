@@ -5,6 +5,527 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'reforge-presentation-migrate-boundaries-20261120',
+    authority:
+      'User authorizes exact baseline recounts for justified structural changes and approved the removal of the test-only PAL shop scan and write-before-validation gaps. The archive compares main CI and candidate V8 file reports. The retired scanner had fully covered statements, and the real POSIX PAL bake command and seven isolation cases require data outside fast. The other two file deltas are fully observed map validation branches. These are all Migrate deltas. Runners, packages, source inventory, other floors and protected checks remain intact.',
+    evidence: 'docs/tasks/evidence/QUALITY-REFORGE-PRESENTATION-1.tar.gz',
+    baselineSha256: '7460534b123c1da08b25ea3b71d4d2793c71ca8ca08b2222ad02f9b53b73057b',
+    sources: [
+      {
+        path: 'packages/migrate/scripts/bake-assets.mts',
+        sha256: 'fb46d0ea5a080a23f8a6cf30cd3facdf9dd60f3f7ee08ece5de4720ab19719e9',
+      },
+      {
+        path: 'packages/migrate/src/pal-store-boundary.ts',
+        sha256: 'd77944ff28fa5ebd52f594bc7e503e1c60dbbe5d1cd1da493133746db3b4ba0e',
+      },
+      {
+        path: 'packages/migrate/src/project-map-audit.ts',
+        sha256: '9ad5cea854771ff5b2b3ab11c519a38ac23c7fd643c9a1c8eac95f0720a04bf0',
+      },
+      {
+        path: 'packages/migrate/src/project-map-converter.ts',
+        sha256: '1e1a1ba50e3bf1c53d7a651fe78e461d0ec04664661af20cc0e3b7eea41411a4',
+      },
+      {
+        path: 'packages/migrate/src/pal-current-publication.ts',
+        sha256: 'd80fd6536f89950f1586859b3cf8167c0c92d341f75194c59f7cf80682a1c7d3',
+      },
+      {
+        path: 'packages/migrate/src/pal-store-boundary.test.ts',
+        sha256: '45a424a6decb3fdba7fcb86ef37f0ee11e60be9ccc8f43385a2e88faac74f1f4',
+      },
+      {
+        path: 'packages/migrate/src/pal-supply-guards.glm-o.test.ts',
+        sha256: '10c47741341af57fe589aa980be13e831d43eb7744d3709d74a11488a6c39d6e',
+      },
+      {
+        path: 'packages/migrate/src/bake-engine-chrome.pal.test.ts',
+        sha256: '763e878282b427be69b01b74b91acee9079cfe516f2ce00ef33e1b5fc177499b',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      migrate: {
+        before: {
+          statements: {
+            covered: 2316,
+            total: 2547,
+          },
+          branches: {
+            covered: 1614,
+            total: 1772,
+          },
+          functions: {
+            covered: 376,
+            total: 399,
+          },
+          lines: {
+            covered: 2030,
+            total: 2229,
+          },
+        },
+        after: {
+          statements: {
+            covered: 2275,
+            total: 2527,
+          },
+          branches: {
+            covered: 1580,
+            total: 1752,
+          },
+          functions: {
+            covered: 373,
+            total: 397,
+          },
+          lines: {
+            covered: 1996,
+            total: 2213,
+          },
+        },
+      },
+    },
+  },
+  {
+    id: 'migration-source-projections-20261120',
+    authority:
+      'User authorizes exact baseline recounts after justified restructuring and responsibility-based test deduplication. Local isolated main and candidate V8 unit profiles match the protected base counts. Migrate branches alone decrease 1639/1799 to 1614/1772. The attached native hit maps show removal of duplicate graph, labeling and audio branches, a partial RGBA pixel outside the production PNG contract, and synthetic loop, static role aliases and duplicate entity IDs excluded by the PAL producer. The existing legacy-tail loader branch was retained and rerun. The statement, function and line floors, test and production selection rules, measured gains, and every other package floor are preserved.',
+    evidence: 'docs/tasks/evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz',
+    baselineSha256: 'df13aef72443c75ca67655849f4a60abb862056a958d9a4b8c0fe86757c07b65',
+    sources: [
+      {
+        path: 'packages/migrate/src/bake-indexed-rgba.ts',
+        sha256: 'cd03da96ae8cadc9fc8230b957e93cfc6c7ae380409a492c447f65d1e81381c1',
+      },
+      {
+        path: 'packages/migrate/src/pal-authored-overlays.ts',
+        sha256: '7e875b69f1c7d95eb8a7ee0eb897d534e17d6554c3c70698eb42b321ead35fb0',
+      },
+      {
+        path: 'packages/migrate/src/pal-content-supply.ts',
+        sha256: '077dae8fea0e46ad22423c7e80f0f9e69d6e46f4947963400471915b776857f7',
+      },
+      {
+        path: 'packages/migrate/src/pal-item-message-source.ts',
+        sha256: '1f2f9df4706796239df0100fa406ec441d31d2688e2e2c7a27cf0e3351d2e173',
+      },
+      {
+        path: 'packages/migrate/src/pal-item-scheme-labels.ts',
+        sha256: '344fa8292fb30b392d54c95b42409b4a8db31072bf15c91bac4896f48ff67b5e',
+      },
+      {
+        path: 'packages/migrate/src/pal-shop-projection.ts',
+        sha256: '73dc93107d319a61395b7ade4838c40e8670904883804eca3e9ddb8cc930aa03',
+      },
+      {
+        path: 'packages/migrate/src/pal-sound-assets.ts',
+        sha256: '7785f953354495afda05e3ef5784f23b08326185d27e3ac1780ec49c6ba6f9c5',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-layouts.ts',
+        sha256: '0018896c1b8a4cb1926d0c72b338caf382c5dead0493b0d61bed3aa6174d4408',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-registry.ts',
+        sha256: 'd6afc8819ce4417f01b3536878fa03db8521b9125c89b1d85714dac4eee77871',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-semantic-alias.ts',
+        sha256: 'f26f0f6bf3df74a327fcb9d1b002c7f788aa985f1fac53c59f8ff9ded472d3f6',
+      },
+      {
+        path: 'packages/migrate/src/sound-migration.ts',
+        sha256: '984bfb4532fc6ba10166418e4754ecb7b0bcd16d6e8534465187e75a495db5e9',
+      },
+      {
+        path: 'packages/migrate/src/bake-indexed-rgba.test.ts',
+        sha256: 'be492054106a9dad6ec9a630289d9531ca0f33720d09f41ef80ff20b08c9e9a4',
+      },
+      {
+        path: 'packages/migrate/src/pal-sprite-loaders.test.ts',
+        sha256: '7bfc9cb3245fc10e010671119b8355e0024a9caee08e52625d1f73f6b92fa2d5',
+      },
+      {
+        path: 'packages/migrate/src/pal-world-sprite-registry.test.ts',
+        sha256: 'b4e58224cd244f6de1ee722e796d4302e867d17bf4559c792c2f69d7aab3ec68',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      migrate: {
+        before: {
+          statements: {
+            covered: 2335,
+            total: 2572,
+          },
+          branches: {
+            covered: 1639,
+            total: 1799,
+          },
+          functions: {
+            covered: 381,
+            total: 405,
+          },
+          lines: {
+            covered: 2049,
+            total: 2250,
+          },
+        },
+        after: {
+          statements: {
+            covered: 2335,
+            total: 2572,
+          },
+          branches: {
+            covered: 1614,
+            total: 1772,
+          },
+          functions: {
+            covered: 381,
+            total: 405,
+          },
+          lines: {
+            covered: 2049,
+            total: 2250,
+          },
+        },
+      },
+    },
+  },
+  {
+    id: 'content-script-writer-retirement-20261119',
+    authority:
+      'User approved retiring four test-only script writer exports and exact baseline recounts after justified restructuring. Native Content V8 runs use the same profile before and after retirement. The archive accounts for each changed source counter. The three declining ratios come from removed covered code and validated guard boundaries. Preserve every other floor and all source selection.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz',
+    baselineSha256: '9b621a70849a9cd6a25e8b8a11361823f1e646f46fa3928495db93c60be3b329',
+    sources: [
+      {
+        path: 'packages/content/src/script-library.ts',
+        sha256: 'df4f394a7f6c5211a859f3621c20b3a286b39908e40ec0b9cdcaa374051c7222',
+      },
+      {
+        path: 'packages/content/src/migration-diagnostic.ts',
+        sha256: '99b13ea11a13e15d47ddb7eb8e6fa1d34602de98ff4799cb01bb26ee903bf954',
+      },
+      {
+        path: 'packages/content/src/migration-diagnostic.test.ts',
+        sha256: 'd1bd55c5f517d132b0539962d3884681527269fd8219780deeba0532f481d022',
+      },
+      {
+        path: 'packages/content/src/script-chunk-validation.test.ts',
+        sha256: 'fa12dadd8aaf08154eef7afba2ddc3b559e2c4ff6daa3dbc2c5ce930cabdef2b',
+      },
+      {
+        path: 'packages/content/src/script-command-validation.test.ts',
+        sha256: 'a70fb2d002587ac1cd394f33508eb8f0b3befbce171d6bf4836e6e14ed102d9f',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5097,
+            total: 5409,
+          },
+          functions: {
+            covered: 846,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+        after: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5044,
+            total: 5354,
+          },
+          functions: {
+            covered: 838,
+            total: 861,
+          },
+          lines: {
+            covered: 5179,
+            total: 5347,
+          },
+        },
+      },
+    },
+  },
+  {
+    id: 'content-assets-structural-recount-20261119',
+    authority:
+      'User permits exact baseline adjustment for justified restructuring. Content covered statements change by -2 in asset.ts and +1 in validate.ts; asset.ts loses one covered function as duplicate old scriptChunks checks leave. Reforge removes one covered scene-preparation callback. Editor covered lines change by -12 in command-asset-record.ts, -3 in clone.ts, -3 in frame-animation-codec.ts, -2 in frame-animation-draft.ts, and +2 in frame-animation-worker-client.ts. Three resource signatures share their validation, clone and codec paths lose redundant lines, and production frame/timing assertions replace the test-only metadata projection. All other metric floors and source selection remain fixed. The execution archive compares the native counters.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-ASSET-CONTRACTS-1.tar.gz',
+    baselineSha256: '3148647c9803d2ab27fef90c60874ec047a8eedef58ea9f24a130b602682c218',
+    sources: [
+      {
+        path: 'packages/content/src/asset.ts',
+        sha256: '62fa1cd851160649b1eef2c8fbe6295d64b8acbf0b491aa4aa0898ca20dcbd37',
+      },
+      {
+        path: 'packages/content/src/asset-project-references.test.ts',
+        sha256: '080ff3965fa57f74594bb93ca71bbbf87fda369407273b6ca87d99c6841b3032',
+      },
+      {
+        path: 'packages/content/src/asset-command-references.test.ts',
+        sha256: '5d8205dcbb63970c48bca07ee65b9259d08910de552cea57b17c577c91a5ec35',
+      },
+      {
+        path: 'packages/content/src/validate.ts',
+        sha256: '4402b150741930a195b6da676e141bffb5015e3a60f49c3e731b9326fb4b538b',
+      },
+      {
+        path: 'packages/reforge/src/scene-preparer.ts',
+        sha256: '7f4c45acc64312a53bd1a12e73744546e25ebee7d33e56b04665692d44107899',
+      },
+      {
+        path: 'packages/reforge/src/scene-preparer.test.ts',
+        sha256: 'b92ca73f73ee777c371cb1c848d6922c990588fe5d7cb147439d383708ac0b39',
+      },
+      {
+        path: 'packages/reforge/src/__tests__/scene-preparation-fixture.ts',
+        sha256: 'd484d5f9accf3a8e6b4d007ca8e3a1d25b6c00427b31e57203d95aac669f78b7',
+      },
+      {
+        path: 'packages/editor/src/core/command-asset-record.ts',
+        sha256: 'ef739e9cff2cd4ccd7111233d42efe2a9287c14282dcfbafc3b5df54666f3537',
+      },
+      {
+        path: 'packages/editor/src/core/clone.ts',
+        sha256: 'eeb7937165a1cd8f7a2c86fcdf9f74200843a31e917977e0a730f080d7ba8fb0',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-codec.ts',
+        sha256: 'e2a161845a514c836373bcb6b905434457f3818b4b455ed669de38e99c20f7c0',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.ts',
+        sha256: 'df551929357629660e260f32e2d021592b483842b1f60deaae1f3d688045667b',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-draft.test.ts',
+        sha256: '5386d43790c131dac13ad04486d5380a5ad6930bb92df3711fa0b5c5585c1d8e',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-codec.test.ts',
+        sha256: '3cd3f7050fa14a6e73d5544639e0468bb76e2eefd445349b69d6701c2b8ac543',
+      },
+      {
+        path: 'packages/editor/src/core/frame-animation-worker-client.ts',
+        sha256: '4691a1a556c4df58fd46ed8f11d84ae5c2808401e68b14442ea3471b0d5c4c04',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: {
+            covered: 5870,
+            total: 6114,
+          },
+          branches: {
+            covered: 5088,
+            total: 5409,
+          },
+          functions: {
+            covered: 847,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+        after: {
+          statements: {
+            covered: 5869,
+            total: 6114,
+          },
+          branches: {
+            covered: 5088,
+            total: 5409,
+          },
+          functions: {
+            covered: 846,
+            total: 869,
+          },
+          lines: {
+            covered: 5239,
+            total: 5407,
+          },
+        },
+      },
+      reforge: {
+        before: {
+          statements: {
+            covered: 18203,
+            total: 19922,
+          },
+          branches: {
+            covered: 11769,
+            total: 13928,
+          },
+          functions: {
+            covered: 2931,
+            total: 3211,
+          },
+          lines: {
+            covered: 16297,
+            total: 17393,
+          },
+        },
+        after: {
+          statements: {
+            covered: 18203,
+            total: 19922,
+          },
+          branches: {
+            covered: 11769,
+            total: 13928,
+          },
+          functions: {
+            covered: 2930,
+            total: 3210,
+          },
+          lines: {
+            covered: 16297,
+            total: 17393,
+          },
+        },
+      },
+      editor: {
+        before: {
+          statements: {
+            covered: 31688,
+            total: 35061,
+          },
+          branches: {
+            covered: 25651,
+            total: 30633,
+          },
+          functions: {
+            covered: 8065,
+            total: 8968,
+          },
+          lines: {
+            covered: 28361,
+            total: 30644,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31688,
+            total: 35061,
+          },
+          branches: {
+            covered: 25651,
+            total: 30633,
+          },
+          functions: {
+            covered: 8065,
+            total: 8968,
+          },
+          lines: {
+            covered: 28343,
+            total: 30625,
+          },
+        },
+      },
+    },
+  },
+  {
+    id: 'content-references-structural-recount-20261119',
+    authority:
+      'The user permits exact coverage baseline changes for justified restructuring. The content reference window retired test-only scanners and unsupported projection fixtures, removed redundant counters, and restored two missed legal diagnostics. Main CI and the same local V8 profile agree on the old counts. The execution archive compares actual per-file counters and maps retained diagnostics. Only content floors change. All current source remains in coverage.',
+    evidence: 'docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-execution.tar.gz',
+    baselineSha256: '6b3fa1e8f36a5812c9820d009139d337e44146d596e0347720fa326a35f9c824',
+    sources: [
+      {
+        path: 'packages/content/src/actor-condition.ts',
+        sha256: 'ad65008aefe4878d61d24e1ae4eb8183aff8a453a7dce58e2ea3898247fa96f6',
+      },
+      {
+        path: 'packages/content/src/actor-reference.ts',
+        sha256: '2f399a7c988afd84d0b24c8f8599801895c4fde97ab13b5006520fff866da512',
+      },
+      {
+        path: 'packages/content/src/command-target-reference.ts',
+        sha256: 'ff3036b5e5b7dd09cd6e86d24809e38805340e906077961e1c61319211360042',
+      },
+      {
+        path: 'packages/content/src/enemy-reference-validation.test.ts',
+        sha256: '13f5865bbacacecce2a3601d31c0ff87d34d382902075cba279d4902a2df8bd4',
+      },
+      {
+        path: 'packages/content/src/frame-sequence.ts',
+        sha256: '7f1442484e9822e1cbf8361efd5350b4ee3eeec8853fbce432a1a2b064e1056c',
+      },
+      {
+        path: 'packages/content/src/project-data-references.test.ts',
+        sha256: 'c5fd6bddf2ed2175f45f26e83d82a12d55c3dd86e703259ec4e97ff92c8da2b7',
+      },
+      {
+        path: 'packages/content/src/runtime-script.ts',
+        sha256: 'e111ed46e4fd734aa5dbecc9888a8b34f4ed68473d01ee43a3b0aa5d36bf5020',
+      },
+      {
+        path: 'packages/content/src/sprite-reference-validation.test.ts',
+        sha256: '6d4cc1664d50497b64dc09a468f35e908b0b95c4da582c8e7a1bc33f559b3378',
+      },
+      {
+        path: 'packages/content/src/sprite-references.ts',
+        sha256: '17ac8dab835a01385fe8028dc4f38c317aaba2954d41e1ba6f6fb8c6d31310d1',
+      },
+      {
+        path: 'packages/content/src/sprite.ts',
+        sha256: 'd060cf9128c695e03833cb13ec3bf1b20564f751f2f4b56b781099ef08a950a7',
+      },
+      {
+        path: 'packages/content/src/startup-reference-validation.test.ts',
+        sha256: '4c5e8f6dc5f5c70d7462405cbcbf18feda4452cb8941670d2b4100d3bb5b6740',
+      },
+      {
+        path: 'packages/content/src/validate-refs.ts',
+        sha256: 'c6752bad2e336ffe64bea555ef7e3776dfa993cea93b9bad0f3df397fb440939',
+      },
+      {
+        path: 'packages/content/src/world-start-validation.test.ts',
+        sha256: '5f48fd86bdcb862e203ca16ebe30477bb94742296bf795c8d2e7edab1cab69fc',
+      },
+    ],
+    packages: {
+      content: {
+        before: {
+          statements: { covered: 5942, total: 6155 },
+          branches: { covered: 5158, total: 5471 },
+          functions: { covered: 858, total: 870 },
+          lines: { covered: 5305, total: 5441 },
+        },
+        after: {
+          statements: { covered: 5837, total: 6085 },
+          branches: { covered: 5067, total: 5390 },
+          functions: { covered: 841, total: 863 },
+          lines: { covered: 5214, total: 5386 },
+        },
+      },
+    },
+  },
+  {
     id: 'phase1-pending93-quality-20261105',
     authority:
       'Standing user authority permits justified exact baseline changes after code/test-quality restructuring, without dead code restoration or weak tests. The user approved this 93-subject phase1 batch, semantic organization, legal fixtures, throw-inventory/co-op/own-key fixes and final-only coverage. Conserved/strengthened test identities and timeline declaration equivalence are in the single audit. One official collection passed20273 tests. Game branches change9954/12268 to9961/12278 (only this metric, about0.009 percentage-point decline); retain all uncovered counters. Current per-source summaries are retained, but no pre-window per-source V8 capture exists: this is a finite aggregate mixed restructuring/approved-guard recount, not a claimed single-helper counter proof. Keep the other3 game metric floors and all6 other packages. No scope exclusion, tolerance, predicate, timeout, random-bound or assertion weakening.',

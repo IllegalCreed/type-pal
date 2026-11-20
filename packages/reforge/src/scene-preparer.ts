@@ -9,7 +9,6 @@ import {
   resolveEntitySpriteId,
   type SceneDef,
   type SceneEntryPresentation,
-  type ScriptStage,
   type SpriteDef,
   stageIndexFor,
   type WorldScriptState,
@@ -17,7 +16,6 @@ import {
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
 import type { LoadedSprite } from './assets.js'
-import { expectDefined } from './defined.js'
 import { type EntityActionSeed, resolveSpriteActionBinding } from './entity-action-player.js'
 import { projectedWorldScriptScratch, runtimeSceneView } from './runtime-project-view.js'
 import type { SceneMapAssets } from './scene-map.js'
@@ -64,14 +62,12 @@ function bindingSceneEntry(
   binding: RuntimeScriptBinding | undefined,
   scriptView: ProjectedWorldScriptState,
 ): SceneEntryPresentation | undefined {
-  if (!binding) return undefined
-  const stages: ScriptStage[] = Array.isArray(binding)
-    ? binding
-    : [{ body: [{ kind: 'callScript', ref: binding }] }]
-  return stages[stageIndexFor(scriptView, key, stages)]?.entry
+  // A direct script reference has no scene-entry presentation of its own.
+  if (!Array.isArray(binding)) return undefined
+  return binding[stageIndexFor(scriptView, key, binding)]?.entry
 }
 
-/** Freezes before IO, prepares only, and checks the same dependency footprint before host commit. */
+/** Owns a snapshot of world, script, and override definitions; the host checks it before commit. */
 export class ScenePreparer<TRenderer> {
   constructor(
     private readonly actors: Readonly<Record<string, ActorDef>>,
@@ -94,12 +90,12 @@ export class ScenePreparer<TRenderer> {
     const preparedRuntimeScript = projectedWorldScriptScratch(currentScript, sceneId)
     const preparedActorOverrides = useActorOverrides
       ? new Map(
-          [...this.ports.actorOverrides()].map(([id, override]) => [
+          [...this.ports.actorOverrides()].map(([id, { def }]) => [
             id,
-            { ...override, def: structuredClone(override.def) },
+            { def: structuredClone(def) },
           ]),
         )
-      : new Map<string, SceneSpriteOverride>()
+      : new Map<string, Pick<SceneSpriteOverride, 'def'>>()
     const canonicalDef = await this.ports.canonicalScene(sceneId)
     const def = runtimeSceneView(canonicalDef, currentScript)
     const dependencies = captureSceneSwitchDependencies(
@@ -115,24 +111,21 @@ export class ScenePreparer<TRenderer> {
       preparedWorld,
       currentScript,
       preparedActorOverrides,
-      useActorOverrides,
     )
     for (const reference of collectCommandSpriteTaggedReferences(canonicalDef, `场景 ${sceneId}`)) {
       if (reference.kind !== 'battle-sprite') {
         needed.add(this.ports.requireSprite(reference.sprite, reference.where).asset)
       }
     }
-    const neededAssets = [...needed]
     const [assets, palette, loadedSprites] = await Promise.all([
       this.ports.map(mapId),
       this.ports.palette(),
-      Promise.all(neededAssets.map((asset) => this.ports.loadSprite(asset))),
+      Promise.all(
+        [...needed].map(async (asset) => [asset, await this.ports.loadSprite(asset)] as const),
+      ),
       this.ports.prepareSounds(def, preparedWorld),
     ])
-    const loaded = new Map(
-      neededAssets.map((asset, index) => [asset, expectDefined(loadedSprites[index])] as const),
-    )
-    const pageActions = this.pageActions(def, entityDefs, loaded)
+    const pageActions = this.pageActions(def, entityDefs, new Map(loadedSprites))
     const onEnterBinding = def.onEnter
     return {
       sceneId,
@@ -170,8 +163,7 @@ export class ScenePreparer<TRenderer> {
     scene: SceneDef,
     world: WorldState,
     script: WorldScriptState,
-    overrides: ReadonlyMap<string, SceneSpriteOverride>,
-    useOverrides: boolean,
+    overrides: ReadonlyMap<string, Pick<SceneSpriteOverride, 'def'>>,
   ) {
     const entityDefs = new Map<string, SpriteDef>()
     for (const entity of scene.entities) {
@@ -179,7 +171,7 @@ export class ScenePreparer<TRenderer> {
       if (id) entityDefs.set(entity.id, this.ports.requireSprite(id, `实体 ${entity.id}`))
     }
     const partyDefs = world.party.map((character) => {
-      const override = useOverrides ? overrides.get(character.template) : undefined
+      const override = overrides.get(character.template)
       if (override) return override.def
       return this.ports.requireSprite(
         character.appearance?.spriteId ?? this.actors[character.template]?.spriteId,

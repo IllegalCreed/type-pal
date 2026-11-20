@@ -20,6 +20,9 @@ export interface RleFrame {
   opaque: Uint8Array
 }
 
+/** The unsigned 16-bit table count includes the optional sentinel slot. */
+export const INDEXED_RLE_MAX_FRAME_SLOTS = 0xffff
+
 export type IndexedRleChunkProfile = 'canonical' | 'legacy-migrated'
 /** @deprecated 使用 IndexedRleChunkProfile；保留给 A7-3W 调用方源码兼容。 */
 export type WorldSpriteChunkProfile = IndexedRleChunkProfile

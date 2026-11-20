@@ -1,149 +1,323 @@
-/**
- * TEST-CONTENT-CONTRACTS-1 A4/A6：tagged 引用归组与物理文件闭包（asset.ts）。
- * 既有 asset.test.ts 覆盖主体；本文件补：site 归组精确计数、非目标不误收、
- * validateAssetFileClosure 的字节/摘要双轴与失败传播、真实字节与独立摘要校验。
- */
-
-// @ts-expect-error Node-only test host; content production type environment is DOM-only.
+// @ts-expect-error Node digest oracle in the ES-only content package.
 import { createHash } from 'node:crypto'
 import { describe, expect, test, vi } from 'vitest'
 import { spriteAssetRecord } from './__tests__/asset-catalog-fixtures.js'
+import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {
   type AssetCatalogV1,
+  type AssetReference,
   collectAssetReferences,
   groupAssetReferencesBySite,
   validateAssetCatalog,
   validateAssetFileClosure,
+  validateAssetReferenceClosure,
+  validateManifestAssetConfig,
 } from './asset.js'
-import { validateAuthorScenes } from './validate-author.js'
+import type { AuthorSceneDef } from './author-scene.js'
+import { validateAuthorScenes, validateAuthorSharedScripts } from './validate-author.js'
 
-const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex')
+function spriteReference(asset: string, where: string): AssetReference {
+  return { asset, where, expectedKind: 'sprite', site: where }
+}
 
-describe('A4 collectAssetReferences + groupAssetReferencesBySite · site 归组精确计数', () => {
-  test('scene music/battleMusic 各成一 site；普通 flag 字符串不误收；音乐 kind 期望正确', () => {
-    // 当前作者场景形态：脚本位于 hooks.onEnter.variants.*.flow（validateAuthorScenes 守卫域）；
-    // 普通字符串放在真实 setFlag.flag 脚本字段，而不是非法 page.body 壳。
-    const scene = {
-      id: 's',
-      music: 'music.m1',
-      battleMusic: 'music.m1',
-      mapId: 'map-s',
-      entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' as const },
-      hooks: {
-        onEnter: {
-          variants: {
-            main: {
-              label: '进场',
-              order: 0,
-              flow: {
-                kind: 'stages',
-                initial: 's0',
-                stages: [{ id: 's0', body: [{ kind: 'setFlag', flag: 'music.m1', value: true }] }],
-              },
+test('groups repeated music commands at the same author site and preserves distinct scene slots', () => {
+  const scene = {
+    id: 's',
+    music: 'music.m1',
+    battleMusic: 'music.m1',
+    mapId: 'map-s',
+    entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+    hooks: {
+      onEnter: {
+        initial: 'main',
+        variants: {
+          main: {
+            label: '进场',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'arrival',
+              stages: [
+                {
+                  id: 'arrival',
+                  body: [
+                    { kind: 'playMusic', asset: 'music.m1' },
+                    { kind: 'setFlag', flag: 'music.m1', value: true },
+                    { kind: 'playMusic', asset: 'music.m1' },
+                  ],
+                },
+              ],
             },
           },
         },
       },
-      entities: [{ id: 'e1', zone: true, pos: { col: 1, row: 1, height: 0 } }],
+    },
+    entities: [],
+  } satisfies AuthorSceneDef
+  validateAuthorScenes([scene])
+  const references = collectAssetReferences({ scenes: [scene] })
+  const hookBody = 'scenes[0].hooks.onEnter.variants["main"].flow.stages[0].body'
+
+  expect(references.map(({ asset, expectedKind, where }) => [asset, expectedKind, where])).toEqual([
+    ['music.m1', 'music', 'scenes[0].music'],
+    ['music.m1', 'music', 'scenes[0].battleMusic'],
+    ['music.m1', 'music', `${hookBody}[0].asset`],
+    ['music.m1', 'music', `${hookBody}[2].asset`],
+  ])
+  expect(
+    groupAssetReferencesBySite(references).map(({ site, occurrences }) => [site, occurrences]),
+  ).toEqual([
+    ['scenes[0].music', 1],
+    ['scenes[0].battleMusic', 1],
+    ['scene:s:hook:onEnter:main', 2],
+  ])
+})
+
+test('an external author visitor can own shared roots while the asset scan still includes manifest roles', () => {
+  const catalog = validateAssetCatalog({
+    version: 1,
+    assets: {
+      'video.intro': {
+        kind: 'video',
+        path: 'assets/runtime/intro.mp4',
+        mediaType: 'video/mp4',
+        bytes: 3,
+        sha256: 'a'.repeat(64),
+        origin: { kind: 'licensed' },
+      },
+    },
+  })
+  const assets = validateManifestAssetConfig(
+    { catalog: 'assets/index.json', roles: { 'video.startupSplash': 'video.intro' } },
+    catalog,
+  )
+  const sharedScripts = validateAuthorSharedScripts({
+    'shared/user/sound-cue': {
+      name: '出场音效',
+      self: 'none',
+      body: [{ kind: 'playSound', asset: 'sound.shared' }],
+    },
+  })
+  const source = { assets, sharedScripts }
+  const before = deepSnapshot(source)
+  const manifest = {
+    asset: 'video.intro',
+    expectedKind: 'video',
+    where: 'manifest.assets.roles.video.startupSplash',
+    site: 'manifest.assets.roles.video.startupSplash',
+    origin: { kind: 'manifest-role', role: 'video.startupSplash' },
+  }
+  expect(collectAssetReferences(source)).toEqual([
+    manifest,
+    {
+      asset: 'sound.shared',
+      expectedKind: 'sound',
+      where: 'sharedScripts["shared/user/sound-cue"].body[0].asset',
+      site: 'sharedScript:shared/user/sound-cue',
+      origin: { kind: 'shared-script', id: 'shared/user/sound-cue' },
+    },
+  ])
+  expect(collectAssetReferences({ ...source, includeCanonicalAuthorCommands: false })).toEqual([
+    manifest,
+  ])
+  expect(source).toEqual(before)
+})
+
+describe('asset reference closure', () => {
+  test('reports no issues for a reference to the only registered asset of the required kind', () => {
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: { 'sprite.x': spriteAssetRecord('sprite.x') },
     }
-    // 主载荷先过当前守卫：本 fixture 是合法当前作者场景
-    validateAuthorScenes([scene])
-    const references = collectAssetReferences({ scenes: [scene] as never })
-    expect(references).toHaveLength(2)
-    expect(references.every((r) => r.asset === 'music.m1' && r.expectedKind === 'music')).toBe(true)
-    expect(references.map((r) => r.where)).toEqual(['scenes[0].music', 'scenes[0].battleMusic'])
-    const grouped = groupAssetReferencesBySite(references)
-    // 两个不同 site 各计 1 次
-    expect(grouped).toHaveLength(2)
-    expect(grouped.every((g) => g.occurrences === 1)).toBe(true)
-    // 同 site 重复出现 → occurrences 递增
-    const doubled = groupAssetReferencesBySite([...references, { ...references[0]! }])
-    const first = doubled.find((g) => g.site === references[0]!.site)
-    expect(first!.occurrences).toBe(2)
+    expect(
+      validateAssetReferenceClosure(catalog, [spriteReference('sprite.x', 'scene/s')]),
+    ).toEqual([])
+  })
+
+  test('preserves missing and wrong-kind references alongside the unused asset warning', () => {
+    const catalog: AssetCatalogV1 = {
+      version: 1,
+      assets: {
+        'sprite.x': spriteAssetRecord('sprite.x'),
+        'sprite.y': spriteAssetRecord('sprite.y'),
+      },
+    }
+    expect(
+      validateAssetReferenceClosure(catalog, [
+        spriteReference('ghost', 'scene/e1'),
+        { ...spriteReference('sprite.x', 'scene/e2'), expectedKind: 'music' },
+      ]),
+    ).toEqual([
+      {
+        severity: 'error',
+        code: 'missing-asset',
+        where: 'scene/e1',
+        message: 'AssetId "ghost" 不在 catalog',
+      },
+      {
+        severity: 'error',
+        code: 'kind-mismatch',
+        where: 'scene/e2',
+        message: 'AssetId "sprite.x" 期望 music，实际 sprite',
+      },
+      {
+        severity: 'warn',
+        code: 'unused-asset',
+        where: 'assets["sprite.y"]',
+        message: 'AssetId "sprite.y" 当前未被引用',
+      },
+    ])
   })
 })
 
-describe('A6 validateAssetFileClosure · 字节/摘要双轴与失败传播', () => {
-  const catalogWith = (record: object): AssetCatalogV1 =>
-    validateAssetCatalog({ version: 1, assets: { 'sprite.x': record } })
-  const realBytes = new Uint8Array([1, 2, 3, 4])
-  const realSha = sha(realBytes)
-  const baseRecord = () => ({
-    ...spriteAssetRecord('sprite.x'),
-    bytes: realBytes.byteLength,
-    sha256: realSha,
+describe('asset file closure', () => {
+  const sha256 = (bytes: Uint8Array): string => createHash('sha256').update(bytes).digest('hex')
+  const references = [spriteReference('sprite.x', 'scene/s')]
+
+  function spriteFile() {
+    const bytes = Uint8Array.of(1, 2, 3, 4)
+    const record = { ...spriteAssetRecord('sprite.x', sha256(bytes)), bytes: bytes.byteLength }
+    return { bytes, record }
+  }
+
+  test('reads the registered path and verifies the returned bytes', async () => {
+    const { bytes, record } = spriteFile()
+    const input = validateAssetCatalog({ version: 1, assets: { 'sprite.x': record } })
+    const readBytes = vi.fn(async () => bytes)
+    const digest = vi.fn(sha256)
+    expect(
+      await validateAssetFileClosure(input, references, { readBytes, sha256: digest }),
+    ).toEqual([])
+    expect(readBytes.mock.calls).toEqual([['assets/generated/sprite.x.png']])
+    expect(digest.mock.calls).toEqual([[bytes]])
   })
-  test('正常闭包（已引用）零 issue；readBytes 收到精确路径、sha 收到真实字节', async () => {
-    const readBytes = vi.fn(async () => realBytes)
-    const shaFn = vi.fn(async (bytes: Uint8Array) => sha(bytes))
-    const issues = await validateAssetFileClosure(
-      catalogWith(baseRecord()),
-      [{ asset: 'sprite.x', expectedKind: 'sprite' as const, where: 'scene/s', site: '测试' }],
-      { readBytes, sha256: shaFn },
-    )
-    expect(issues).toEqual([])
-    expect(readBytes).toHaveBeenCalledWith('assets/generated/sprite.x.png')
-    expect(shaFn).toHaveBeenCalledWith(realBytes)
-  })
-  test('大小错但摘要对 → bytes-mismatch；大小对但摘要错 → hash-mismatch（双轴独立）', async () => {
-    const reference = [
-      { asset: 'sprite.x', expectedKind: 'sprite' as const, where: 'scene/s', site: '测试' },
-    ]
-    const wrongSize = { ...baseRecord(), bytes: 99 }
-    const sizeIssues = await validateAssetFileClosure(catalogWith(wrongSize), reference, {
-      readBytes: async () => realBytes,
-      sha256: async () => realSha,
+
+  test('reports only the byte mismatch when the digest is correct', async () => {
+    const { bytes, record } = spriteFile()
+    const input = validateAssetCatalog({
+      version: 1,
+      assets: { 'sprite.x': { ...record, bytes: 99 } },
     })
-    expect(sizeIssues.map((i) => i.code)).toEqual(['bytes-mismatch'])
-    const wrongSha = { ...baseRecord(), sha256: 'b'.repeat(64) }
-    const hashIssues = await validateAssetFileClosure(catalogWith(wrongSha), reference, {
-      readBytes: async () => realBytes,
-      sha256: async () => realSha, // 真实摘要与登记不符
-    })
-    expect(hashIssues.map((i) => i.code)).toEqual(['hash-mismatch'])
-  })
-  test('读失败 → missing-file 含错误消息；sha 回调失败传播（不吞错）', async () => {
-    const readFail = await validateAssetFileClosure(
-      catalogWith(baseRecord()),
-      [{ asset: 'sprite.x', expectedKind: 'sprite' as const, where: 'scene/s', site: '测试' }],
+    expect(
+      await validateAssetFileClosure(input, references, { readBytes: async () => bytes, sha256 }),
+    ).toEqual([
       {
-        readBytes: async () => {
-          throw new Error('disk gone')
-        },
-        sha256: async () => realSha,
+        severity: 'error',
+        code: 'bytes-mismatch',
+        where: 'assets["sprite.x"].bytes',
+        message: '登记 99，实际 4',
       },
-    )
-    expect(readFail.map((i) => i.code)).toEqual(['missing-file'])
-    expect(readFail[0]!.message).toContain('disk gone')
-    await expect(
-      validateAssetFileClosure(catalogWith(baseRecord()), [], {
-        readBytes: async () => realBytes,
-        sha256: async () => {
-          throw new Error('sha crashed')
-        },
-      }),
-    ).rejects.toThrow('sha crashed')
+    ])
   })
-  test('未引用记录也核文件（unused warn + 物理验证同时发生）', async () => {
-    const twoAssets = validateAssetCatalog({
+
+  test('reports only the digest mismatch when the byte count is correct', async () => {
+    const { bytes, record } = spriteFile()
+    const wrongHash = 'b'.repeat(64)
+    const input = validateAssetCatalog({
+      version: 1,
+      assets: { 'sprite.x': { ...record, sha256: wrongHash } },
+    })
+    expect(
+      await validateAssetFileClosure(input, references, { readBytes: async () => bytes, sha256 }),
+    ).toEqual([
+      {
+        severity: 'error',
+        code: 'hash-mismatch',
+        where: 'assets["sprite.x"].sha256',
+        message: `登记 ${wrongHash}，实际 ${record.sha256}`,
+      },
+    ])
+  })
+
+  test('validates later records after a read error on an unused asset', async () => {
+    const { bytes, record } = spriteFile()
+    const input = validateAssetCatalog({
       version: 1,
       assets: {
-        'sprite.x': baseRecord(),
-        'sprite.y': { ...baseRecord(), path: 'assets/generated/missing.png' },
+        'sprite.a': { ...record, path: 'assets/generated/missing.png' },
+        'sprite.x': { ...record, bytes: 3 },
+        'sprite.z': { ...record, path: 'assets/generated/sprite.z.png', sha256: 'b'.repeat(64) },
       },
     })
-    const issues = await validateAssetFileClosure(
-      twoAssets,
-      [{ asset: 'sprite.x', expectedKind: 'sprite' as const, where: 'scene/s', site: '测试' }],
-      {
-        readBytes: async (path: string) => {
-          if (path.endsWith('missing.png')) throw new Error('ENOENT')
-          return realBytes
+    expect(
+      await validateAssetFileClosure(
+        input,
+        [...references, spriteReference('sprite.z', 'scene/z')],
+        {
+          readBytes: async (path) => {
+            if (path === 'assets/generated/missing.png') throw new Error('disk gone')
+            return bytes
+          },
+          sha256,
         },
-        sha256: async () => realSha,
+      ),
+    ).toEqual([
+      {
+        severity: 'warn',
+        code: 'unused-asset',
+        where: 'assets["sprite.a"]',
+        message: 'AssetId "sprite.a" 当前未被引用',
       },
-    )
-    const codes = issues.map((issue) => issue.code).sort()
-    expect(codes).toEqual(['missing-file', 'unused-asset'])
+      {
+        severity: 'error',
+        code: 'missing-file',
+        where: 'assets["sprite.a"].path',
+        message: '无法读取 "assets/generated/missing.png": disk gone',
+      },
+      {
+        severity: 'error',
+        code: 'bytes-mismatch',
+        where: 'assets["sprite.x"].bytes',
+        message: '登记 3，实际 4',
+      },
+      {
+        severity: 'error',
+        code: 'hash-mismatch',
+        where: 'assets["sprite.z"].sha256',
+        message: `登记 ${'b'.repeat(64)}，实际 ${record.sha256}`,
+      },
+    ])
+  })
+
+  test('keeps non-Error read failures local and verifies bytes when a later scan succeeds', async () => {
+    const { bytes, record } = spriteFile()
+    const input = validateAssetCatalog({ version: 1, assets: { 'sprite.x': record } })
+    const before = deepSnapshot(input)
+    const readBytes = vi
+      .fn<(path: string) => Promise<Uint8Array>>()
+      .mockRejectedValueOnce('offline')
+      .mockResolvedValue(bytes)
+    const digest = vi.fn(sha256)
+    expect(
+      await validateAssetFileClosure(input, references, { readBytes, sha256: digest }),
+    ).toEqual([
+      {
+        severity: 'error',
+        code: 'missing-file',
+        where: 'assets["sprite.x"].path',
+        message: '无法读取 "assets/generated/sprite.x.png": offline',
+      },
+    ])
+    expect(readBytes.mock.calls).toEqual([['assets/generated/sprite.x.png']])
+    expect(digest).not.toHaveBeenCalled()
+    expect(
+      await validateAssetFileClosure(input, references, { readBytes, sha256: digest }),
+    ).toEqual([])
+    expect(digest.mock.calls).toEqual([[bytes]])
+    expect(input).toEqual(before)
+  })
+
+  test('propagates a digest failure for a readable asset', async () => {
+    const { bytes, record } = spriteFile()
+    const input = validateAssetCatalog({ version: 1, assets: { 'sprite.x': record } })
+    const digestFailure = new Error('sha crashed')
+    await expect(
+      validateAssetFileClosure(input, references, {
+        readBytes: async () => bytes,
+        sha256: async () => {
+          throw digestFailure
+        },
+      }),
+    ).rejects.toBe(digestFailure)
   })
 })

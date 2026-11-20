@@ -51,6 +51,8 @@ content23 四类取物的来源维护再以固定 `0973c2c25795fd2aacf78daedebb8
 
 Q2 首批测试域出版另固定已接受的 `43fea71735236272cfb7f6a1c61c3ac2e691a349` catalog。既有维护/来源桥先按原件复核，现行层只追加 `q2-battle-foundation` 和对应 `entryReadings`；旧成员、顺序与字段不变。报告、入口和原生 execution evidence 按三个精确路径配对，使用现行 `test-machine-evidence-v1 / 1.5.0`，由 `check-testing` 继续核实际源码、完整metadata及原件SHA。唯一覆盖台账取[首批报告](../../testing/domains/cross-phase/battle-foundation/report.md)，出版准入不代替真实运行或人工视觉。
 
+内容 23、最低存档 12 的来源只引用版本声明。角色初始化整改后，从固定的已刊候选读取旧版本声明和记录，重新核对当前源码指纹与同一引文。只更新 20 条记录各自的版本引用摘要，在目录、原生回执和报告元数据各追加一次回绑历史。校验整个记录和报告正文后，用原字节复核之前的有限桥接。原记录候选、版本、执行、附件和验收结果保留。适用范围、原源码和实测世界对照见[角色初始化任务卡](../../tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md)。
+
 ### 留存附件的压缩与读取
 
 开发留痕中的大文本可按已独立准入的位置合同无损 gzip；保留每份逻辑路径、固定 Git blob、原载体 SHA/字节及压缩文件 SHA/字节，不合并执行。历史 display 副本与 original 原件按原映射区分，压缩 display 不使其成为原执行输出。

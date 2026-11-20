@@ -1,16 +1,8 @@
 import { readFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import {
-  type ShopDef,
-  validateAuthorEnemies,
-  validateAuthorItems,
-  validateAuthorScenes,
-  validateAuthorSharedScripts,
-  validateSceneIndex,
-  validateShops,
-} from '@type-pal/content'
-import { describe, expect, it } from 'vitest'
+import { validateAuthorItems, validateShops } from '@type-pal/content'
+import { expect, test } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import {
@@ -18,56 +10,23 @@ import {
   assertPalStoreBoundaryInvariant,
 } from './pal-store-boundary.js'
 
-const repo = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
+const repo = fileURLToPath(new URL('../../../', import.meta.url))
 
-function baselineContent() {
+test('actual store seed matches the source and both PAL snapshots retain Store0 alchemy', () => {
   const baseline = loadPalBaseline(repo)
-  if (!baseline) throw new Error('缺 PAL baseline')
-  const sceneIndex = validateSceneIndex(baseline.files.get('content/scenes/index.json'))
-  const items = validateAuthorItems(baseline.files.get('content/items.json'))
-  const scenes = validateAuthorScenes(
-    sceneIndex.scenes.map((entry) => baseline.files.get(entry.path)),
+  if (!baseline) throw new Error('Expected the actual PAL baseline')
+  const { stores: sourceStores } = loadPalContentSupplySources(repo)
+  const seedShops = validateShops(baseline.files.get('content/shops.json'))
+  const seedItems = validateAuthorItems(baseline.files.get('content/items.json'))
+  const currentItems = validateAuthorItems(
+    JSON.parse(readFileSync(resolve(repo, 'projects/pal/content/items.json'), 'utf8')),
   )
-  const enemies = validateAuthorEnemies(baseline.files.get('content/enemies.json'))
-  const sharedScripts = validateAuthorSharedScripts(
-    baseline.files.get('content/shared-scripts.json'),
-  )
-  return {
-    shops: baseline.files.get('content/shops.json') as unknown as ShopDef[],
-    items,
-    commandRoots: [scenes, items, enemies, sharedScripts],
-  }
-}
 
-function projectContent() {
-  const readJson = (path: string): unknown =>
-    JSON.parse(readFileSync(resolve(repo, 'projects/pal', path), 'utf8')) as unknown
-  const sceneIndex = validateSceneIndex(readJson('content/scenes/index.json'))
-  const items = validateAuthorItems(readJson('content/items.json'))
-  const scenes = validateAuthorScenes(sceneIndex.scenes.map((entry) => readJson(entry.path)))
-  const enemies = validateAuthorEnemies(readJson('content/enemies.json'))
-  const sharedScripts = validateAuthorSharedScripts(readJson('content/shared-scripts.json'))
-  return {
-    shops: readJson('content/shops.json') as ShopDef[],
-    items,
-    commandRoots: [scenes, items, enemies, sharedScripts],
-  }
-}
-
-describe('PAL Store0 publication boundary', () => {
-  it('protects source-owned inventory and alchemy while retaining current author shop commands', () => {
-    const sources = loadPalContentSupplySources(repo)
-    const expected = {
-      sourceStores: sources.stores,
-    }
-    const baseline = assertPalStoreBoundaryInvariant({ ...baselineContent(), ...expected })
-    const project = projectContent()
-    assertPalAlchemyBoundaryInvariant({ sourceStores: sources.stores, items: project.items })
-    validateShops(project.shops)
-
-    const current = assertPalStoreBoundaryInvariant({ ...project, ...expected })
-    expect(baseline).toEqual(current)
-    expect(current.buyCalls).toBeGreaterThan(0)
-    expect(current.sellCalls).toBe(6)
-  })
+  expect(seedShops.map(({ id }) => id)).toEqual(Array.from({ length: 20 }, (_, index) => index + 1))
+  expect(() =>
+    assertPalStoreBoundaryInvariant({ sourceStores, shops: seedShops, items: seedItems }),
+  ).not.toThrow()
+  expect(() =>
+    assertPalAlchemyBoundaryInvariant({ sourceStores, items: currentItems }),
+  ).not.toThrow()
 })

@@ -37,6 +37,7 @@ export class FrameAnimationPresentationState {
 
   finishPlayback(owner: number, options: { succeeded: boolean; holdLastFrame?: boolean }): void {
     if (!this.isCurrent(owner) || !this.#playing) return
+    // Stop accepting decoded frames while retaining the owner so its abort can clear a held frame.
     this.#playing = false
     if (!options.succeeded) {
       this.reset()

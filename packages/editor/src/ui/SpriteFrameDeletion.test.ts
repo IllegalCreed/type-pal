@@ -145,6 +145,7 @@ describe('大世界语义动作行', () => {
           },
         },
       ],
+      14,
       'hero',
     )
     expect(groups[0]?.active).toBe(true)

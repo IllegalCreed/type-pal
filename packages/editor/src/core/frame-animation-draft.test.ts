@@ -1,138 +1,270 @@
-import {
-  decodeFrameSequenceFrame,
-  encodeFrameSequence,
-  parseFrameSequence,
-} from '@type-pal/content'
-import { describe, expect, it } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import {
   commitDraftHistory,
   createDraftHistory,
   createFrameAnimationDraft,
   deleteDraftFrames,
   draftDurationMs,
-  draftFrameMetadata,
+  draftFrameDurationMs,
   duplicateDraftFrame,
+  type FrameAnimationDraft,
   frameSelectionAfterReorder,
   insertDraftFrames,
   moveDraftFrame,
-  quantizeCompleteFrame,
   redoDraftHistory,
   replaceDraftFrame,
   resolveDraftFrame,
+  setDraftColorTreatment,
+  setDraftDefaultFrameMs,
   setDraftFrameDuration,
   undoDraftHistory,
 } from './frame-animation-draft.js'
 
-function pixels(...values: number[]): Uint8Array {
-  return Uint8Array.from(values)
+function draftWithBorrowedFrame(): FrameAnimationDraft {
+  return createFrameAnimationDraft({
+    width: 1,
+    height: 1,
+    defaultFrameMs: 40.5,
+    frames: [
+      { id: 'a', source: { kind: 'pixels', rgba: new Uint8Array([1, 2, 3, 4]) } },
+      { id: 'b', source: { kind: 'asset', asset: 'frames.b', frameIndex: 2 }, durationMs: 20.25 },
+    ],
+  })
 }
+test('asset frame awaits its reader and keeps the exact RGBA view', async () => {
+  const input = draftWithBorrowedFrame(),
+    before = structuredClone(input)
+  let release!: (value: { width: number; height: number; rgba: Uint8ClampedArray }) => void
+  const gate = new Promise<{ width: number; height: number; rgba: Uint8ClampedArray }>(
+    (resolve) => {
+      release = resolve
+    },
+  )
+  const reader = { frame: vi.fn(() => gate) }
+  const pending = resolveDraftFrame(input, 1, reader)
+  const observed = { settled: false }
+  const consumed = pending.then(() => {
+    observed.settled = true
+  })
+  const bytes = new Uint8ClampedArray([99, 5, 6, 7, 8, 99]).subarray(1, 5)
+  try {
+    expect(reader.frame).toHaveBeenCalledExactlyOnceWith('frames.b', 2)
+    expect(observed.settled).toBe(false)
+  } finally {
+    release({ width: 1, height: 1, rgba: bytes })
+    await consumed
+  }
+  expect(await pending).toEqual(new Uint8Array([5, 6, 7, 8]))
+  expect(input).toEqual(before)
+})
 
-const red = pixels(255, 0, 0, 255)
-const green = pixels(0, 255, 0, 255)
-const blue = pixels(0, 0, 255, 255)
+test('a reader failure reaches the caller unchanged without publishing a new draft', async () => {
+  const input = draftWithBorrowedFrame()
+  const before = structuredClone(input)
+  const failure = new Error('read failed')
+  await expect(
+    resolveDraftFrame(input, 1, {
+      frame: async () => {
+        throw failure
+      },
+    }),
+  ).rejects.toBe(failure)
+  expect(input).toEqual(before)
+})
+test.each([
+  {
+    label: 'dimensions',
+    loaded: { width: 2, height: 1, rgba: new Uint8Array(8) },
+    error: '来源帧尺寸 2x1',
+  },
+  {
+    label: 'byte length',
+    loaded: { width: 1, height: 1, rgba: new Uint8Array(3) },
+    error: '应为 4 字节',
+  },
+])('asset frame rejects $label and leaves the real draft unchanged', async ({ loaded, error }) => {
+  const input = draftWithBorrowedFrame(),
+    before = structuredClone(input)
+  await expect(resolveDraftFrame(input, 1, { frame: async () => loaded })).rejects.toThrow(error)
+  expect(input).toEqual(before)
+})
+test('fractional frame durations are valid; removing an override inherits the new default', () => {
+  const input = draftWithBorrowedFrame(),
+    before = structuredClone(input)
+  expect(draftFrameDurationMs(input, 1)).toBe(20.25)
+  expect(setDraftDefaultFrameMs(input, 40.5)).toBe(input)
+  expect(setDraftColorTreatment(input, 'preserve')).toBe(input)
+  expect(setDraftFrameDuration(input, 1, 20.25)).toBe(input)
+  const changed = setDraftDefaultFrameMs(setDraftFrameDuration(input, 1), 60.5)
+  expect(draftFrameDurationMs(changed, 1)).toBe(60.5)
+  expect(changed.frames[1]).not.toHaveProperty('durationMs')
+  expect(setDraftColorTreatment(changed, 'project-standard').colorTreatment).toBe(
+    'project-standard',
+  )
+  expect(input).toEqual(before)
+})
+test('a new edit after undo clears nonempty redo, while same-present commits and empty undo/redo are no-ops', () => {
+  const a = draftWithBorrowedFrame(),
+    b = setDraftDefaultFrameMs(a, 80),
+    c = setDraftColorTreatment(b, 'project-standard')
+  const initial = createDraftHistory(a)
+  expect(undoDraftHistory(initial)).toBe(initial)
+  expect(redoDraftHistory(initial)).toBe(initial)
+  const withFuture = undoDraftHistory(commitDraftHistory(commitDraftHistory(initial, b), c))
+  const before = structuredClone(withFuture)
+  expect(withFuture.future).toEqual([c])
+  expect(commitDraftHistory(withFuture, withFuture.present)).toBe(withFuture)
+  const d = setDraftDefaultFrameMs(b, 120)
+  const branch = commitDraftHistory(withFuture, d, 1)
+  expect(branch).toEqual({ past: [b], present: d, future: [] })
+  expect(redoDraftHistory(branch)).toBe(branch)
+  expect(redoDraftHistory(undoDraftHistory(branch))).toEqual(branch)
+  expect(withFuture).toEqual(before)
+})
+test.each([
+  ['insert', (d: FrameAnimationDraft) => insertDraftFrames(d, -1, [])],
+  ['duplicate', (d: FrameAnimationDraft) => duplicateDraftFrame(d, 2, 'new')],
+  [
+    'replace',
+    (d: FrameAnimationDraft) =>
+      replaceDraftFrame(d, 2, { kind: 'pixels', rgba: new Uint8Array(4) }),
+  ],
+  ['delete', (d: FrameAnimationDraft) => deleteDraftFrames(d, [0.5])],
+  ['move', (d: FrameAnimationDraft) => moveDraftFrame(d, 0, 2)],
+  ['duration', (d: FrameAnimationDraft) => setDraftFrameDuration(d, 2, 1)],
+] as const)('invalid %s preserves every frame and metadata field', (_label, operation) => {
+  const input = draftWithBorrowedFrame(),
+    before = structuredClone(input)
+  expect(() => operation(input)).toThrow('越界')
+  expect(input).toEqual(before)
+})
+test('empty structural edits reuse the draft and unknown selection source is rejected', () => {
+  const input = draftWithBorrowedFrame(),
+    before = structuredClone(input)
+  expect(insertDraftFrames(input, 0, [])).toBe(input)
+  expect(deleteDraftFrames(input, [])).toBe(input)
+  expect(moveDraftFrame(input, 0, 0)).toBe(input)
+  expect(() => frameSelectionAfterReorder(input.frames, 'missing', new Set(['a']))).toThrow(
+    '来源帧 missing 不存在',
+  )
+  expect(input).toEqual(before)
+})
 
-function draft() {
+const localFrame = (id: string, shade: number, durationMs?: number) => ({
+  id,
+  source: { kind: 'pixels', rgba: Uint8Array.of(shade, 0, 0, 255) } as const,
+  ...(durationMs === undefined ? {} : { durationMs }),
+})
+
+function timeline() {
   return createFrameAnimationDraft({
     width: 1,
     height: 1,
     defaultFrameMs: 40,
-    frames: [
-      { id: 'a', source: { kind: 'pixels', rgba: red } },
-      { id: 'b', source: { kind: 'pixels', rgba: green }, durationMs: 60 },
-    ],
+    frames: [localFrame('a', 1), localFrame('b', 2, 70), localFrame('c', 3)],
   })
 }
 
-describe('frame animation draft', () => {
-  it('以结构共享完成完整帧编辑和撤销重做', () => {
-    const base = draft()
-    const changed = setDraftFrameDuration(
-      replaceDraftFrame(base, 0, { kind: 'pixels', rgba: blue }),
-      0,
-      80,
-    )
-    expect(changed.frames[1]).toBe(base.frames[1])
-    const moved = moveDraftFrame(duplicateDraftFrame(changed, 0, 'copy'), 1, 2)
-    expect(moved.frames.map((frame) => frame.id)).toEqual(['a', 'b', 'copy'])
-    const trimmed = deleteDraftFrames(moved, [1])
-    expect(trimmed.frames.map((frame) => frame.id)).toEqual(['a', 'copy'])
-    expect(draftDurationMs(trimmed)).toBe(160)
+test('inserting frame groups at the front, middle or end retains each timing override', () => {
+  const original = timeline()
+  const inserted = insertDraftFrames(original, 0, [localFrame('first', 9, 25)])
+  const middle = insertDraftFrames(inserted, 3, [localFrame('m1', 7, 11), localFrame('m2', 8)])
+  const extended = insertDraftFrames(middle, middle.frames.length, [localFrame('last', 6)])
+  expect(draftDurationMs(original)).toBe(150)
+  expect(draftDurationMs(inserted)).toBe(175)
+  expect(draftDurationMs(middle)).toBe(226)
+  expect(draftDurationMs(extended)).toBe(266)
+  expect(
+    extended.frames.map((frame, index) => [frame.id, draftFrameDurationMs(extended, index)]),
+  ).toEqual([
+    ['first', 25],
+    ['a', 40],
+    ['b', 70],
+    ['m1', 11],
+    ['m2', 40],
+    ['c', 40],
+    ['last', 40],
+  ])
+  expect(original.frames.map(({ id }) => id)).toEqual(['a', 'b', 'c'])
+})
 
-    let history = createDraftHistory(base)
-    history = commitDraftHistory(history, changed)
-    expect(undoDraftHistory(history).present).toBe(base)
-    expect(redoDraftHistory(undoDraftHistory(history)).present).toBe(changed)
+test('deleting an override removes its time; nonadjacent removal preserves the remaining frame identities', () => {
+  const original = timeline()
+  const trimmed = deleteDraftFrames(original, [1])
+  expect(trimmed.frames).toEqual([original.frames[0], original.frames[2]])
+  expect(draftDurationMs(trimmed)).toBe(80)
+
+  const extended = insertDraftFrames(original, 3, [localFrame('d', 5, 90)])
+  const selected = deleteDraftFrames(extended, [0, 2, 0])
+  expect(selected.frames.map(({ id, durationMs }) => [id, durationMs])).toEqual([
+    ['b', 70],
+    ['d', 90],
+  ])
+  expect(draftDurationMs(selected)).toBe(160)
+})
+
+test('replacing and duplicating a frame preserve its timing and do not copy unchanged frame objects', async () => {
+  const original = timeline()
+  const replacement = localFrame('unused', 99)
+  const edited = replaceDraftFrame(original, 1, replacement.source)
+  const copy = duplicateDraftFrame(edited, 1, 'copy')
+  expect(copy.frames.map(({ id, durationMs }) => [id, durationMs])).toEqual([
+    ['a', undefined],
+    ['b', 70],
+    ['copy', 70],
+    ['c', undefined],
+  ])
+  expect(draftDurationMs(copy)).toBe(220)
+  expect(edited.frames[0]).toBe(original.frames[0])
+  expect(edited.frames[2]).toBe(original.frames[2])
+  expect(original.frames[1]?.source).not.toBe(replacement.source)
+  const readFromDisk = vi.fn<() => Promise<never>>(() =>
+    Promise.reject(new Error('local frame must not load a resource')),
+  )
+  await expect(resolveDraftFrame(copy, 1, { frame: readFromDisk })).resolves.toEqual(
+    Uint8Array.of(99, 0, 0, 255),
+  )
+  await expect(resolveDraftFrame(copy, 2, { frame: readFromDisk })).resolves.toEqual(
+    Uint8Array.of(99, 0, 0, 255),
+  )
+  expect(readFromDisk).not.toHaveBeenCalled()
+})
+
+test('reorder follows the dragged frame id, retains a multi-selection and is a single undo step', () => {
+  const original = timeline()
+  const moved = moveDraftFrame(original, 0, 2)
+  expect(moved.frames.map(({ id, durationMs }) => [id, durationMs])).toEqual([
+    ['b', 70],
+    ['c', undefined],
+    ['a', undefined],
+  ])
+  expect(draftDurationMs(moved)).toBe(150)
+  expect(frameSelectionAfterReorder(moved.frames, 'a', new Set(['a', 'c']))).toEqual({
+    selectedFrameIds: new Set(['a', 'c']),
+    selectedIndex: 2,
+    selectionAnchor: 2,
   })
-
-  it('一次重排历史让 active/anchor 跟随来源帧，且 undo/redo 对称', () => {
-    const base = duplicateDraftFrame(draft(), 1, 'c')
-    const moved = moveDraftFrame(base, 0, 2)
-    const multi = new Set(['a', 'c'])
-    const followed = frameSelectionAfterReorder(moved.frames, 'a', multi)
-    expect(followed).toEqual({
-      selectedFrameIds: multi,
-      selectedIndex: 2,
-      selectionAnchor: 2,
-    })
-    const collapsed = frameSelectionAfterReorder(moved.frames, 'b', new Set(['a']))
-    expect([...collapsed.selectedFrameIds]).toEqual(['b'])
-    expect(collapsed.selectedIndex).toBe(0)
-    expect(collapsed.selectionAnchor).toBe(0)
-
-    const history = commitDraftHistory(createDraftHistory(base), moved)
-    expect(history.past).toHaveLength(1)
-    expect(undoDraftHistory(history).present.frames.map((frame) => frame.id)).toEqual([
-      'a',
-      'b',
-      'c',
-    ])
-    expect(
-      redoDraftHistory(undoDraftHistory(history)).present.frames.map((frame) => frame.id),
-    ).toEqual(['b', 'c', 'a'])
+  expect(frameSelectionAfterReorder(moved.frames, 'b', new Set(['a', 'c']))).toEqual({
+    selectedFrameIds: new Set(['b']),
+    selectedIndex: 0,
+    selectionAnchor: 0,
   })
+  const committed = commitDraftHistory(createDraftHistory(original), moved)
+  const undone = undoDraftHistory(committed)
+  expect(undone.present).toBe(original)
+  expect(undoDraftHistory(undone)).toBe(undone)
+  expect(redoDraftHistory(undone).present).toBe(moved)
+})
 
-  it('拒绝尺寸错误、重复 id 和删除全部帧', () => {
-    expect(() =>
-      insertDraftFrames(draft(), 1, [{ id: 'a', source: { kind: 'pixels', rgba: blue } }]),
-    ).toThrow(/重复/)
-    expect(() => replaceDraftFrame(draft(), 0, { kind: 'pixels', rgba: pixels(1, 2, 3) })).toThrow(
-      /4 字节/,
-    )
-    expect(() => deleteDraftFrames(draft(), [0, 1])).toThrow(/至少需要一帧/)
-  })
-
-  it('保存和重开后每张完整帧逐像素一致', async () => {
-    const base = draft()
-    const reader = {
-      async frame() {
-        return { width: 1, height: 1, rgba: red }
-      },
-    }
-    const frames = await Promise.all(
-      base.frames.map(async (_frame, index) => ({
-        rgba: await resolveDraftFrame(base, index, reader),
-        ...draftFrameMetadata(base)[index],
-      })),
-    )
-    const encoded = await encodeFrameSequence(
-      { width: 1, height: 1, defaultFrameMs: 40, frames },
-      (bytes) => bytes,
-    )
-    const reopened = parseFrameSequence(encoded)
-    await expect(decodeFrameSequenceFrame(reopened, 0, (bytes) => bytes)).resolves.toEqual(red)
-    await expect(decodeFrameSequenceFrame(reopened, 1, (bytes) => bytes)).resolves.toEqual(green)
-    expect(reopened.index.frames).toEqual([{}, { durationMs: 60 }])
-  })
-
-  it('按最近色或误差扩散量化完整 RGBA 帧并保留 alpha', () => {
-    const source = pixels(220, 10, 10, 255, 10, 230, 10, 127)
-    const palette = [
-      [255, 0, 0],
-      [0, 255, 0],
-    ] as const
-    expect([...quantizeCompleteFrame(source, 2, 1, palette, 'nearest')]).toEqual([
-      255, 0, 0, 255, 0, 255, 0, 127,
-    ])
-    expect(quantizeCompleteFrame(source, 2, 1, palette, 'floyd-steinberg')[3]).toBe(255)
-  })
+test('structure edits reject duplicate ids, short RGBA frames or deletion of the entire draft', () => {
+  const original = timeline()
+  const before = structuredClone(original)
+  expect(() => insertDraftFrames(original, 1, [localFrame('a', 4)])).toThrow(
+    '帧 1 的内部 id 为空或重复',
+  )
+  expect(() =>
+    replaceDraftFrame(original, 0, { kind: 'pixels', rgba: Uint8Array.of(1, 2, 3) }),
+  ).toThrow('帧 0 像素 应为 4 字节')
+  expect(() => deleteDraftFrames(original, [0, 1, 2])).toThrow('帧动画至少需要一帧')
+  expect(original).toEqual(before)
 })

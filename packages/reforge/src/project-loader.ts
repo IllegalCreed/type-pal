@@ -173,6 +173,30 @@ function validateAuthorScene(
   return scene
 }
 
+function assertAmbience(value: unknown, where: string): asserts value is AmbienceDef {
+  if (!value || typeof value !== 'object' || Array.isArray(value))
+    throw new Error(`${where}: 期望对象`)
+  if (!('id' in value) || typeof value.id !== 'string' || !value.id.trim())
+    throw new Error(`${where}.id: 期望非空字符串`)
+  if (!('name' in value) || typeof value.name !== 'string')
+    throw new Error(`${where}.name: 期望字符串`)
+  if (!('tint' in value) || !Array.isArray(value.tint) || value.tint.length !== 3)
+    throw new Error(`${where}.tint: 期望三个颜色通道`)
+  for (const [index, channel] of value.tint.entries()) {
+    if (typeof channel !== 'number' || !Number.isFinite(channel) || channel < 0 || channel > 255)
+      throw new Error(`${where}.tint[${index}]: 期望 0 到 255 之间的有限数值`)
+  }
+}
+
+function validateAmbiences(value: unknown, where: string): AmbienceDef[] {
+  if (value === undefined) return []
+  if (!Array.isArray(value)) throw new Error(`${where}: 期望数组`)
+  return value.map((entry: unknown, index) => {
+    assertAmbience(entry, `${where}[${index}]`)
+    return entry
+  })
+}
+
 export function assembleCurrentProject(
   manifest: CurrentManifest,
   jsons: CurrentContentJsons,
@@ -208,9 +232,9 @@ export function assembleCurrentProject(
   const authorItems = validateAuthorItems(jsons.items)
   const authorEnemies = jsons.enemies === undefined ? [] : validateAuthorEnemies(jsons.enemies)
   const authorSharedScripts = validateAuthorSharedScripts(jsons.sharedScripts)
-  const authorEntryScenes: Record<string, AuthorSceneDef> = {}
+  const authorEntryScenes = new Map<string, AuthorSceneDef>()
   for (const entry of manifest.entryPoints) {
-    if (authorEntryScenes[entry.scene]) continue
+    if (authorEntryScenes.has(entry.scene)) continue
     if (!Object.hasOwn(jsons.entryScenes, entry.scene))
       throw new Error(`manifest.entryPoints[${entry.id}].scene: 缺场景文件 "${entry.scene}.json"`)
     const authorScene = validateAuthorScene(
@@ -224,10 +248,10 @@ export function assembleCurrentProject(
       throw new Error(
         `manifest.entryPoints[${entry.id}].scene: 场景文件 id 不符(期望 "${entry.scene}",得 "${authorScene.id}")`,
       )
-    authorEntryScenes[entry.scene] = authorScene
+    authorEntryScenes.set(entry.scene, authorScene)
   }
   validateAuthorDialogueReferences({
-    scenes: Object.values(authorEntryScenes),
+    scenes: [...authorEntryScenes.values()],
     items: authorItems,
     sharedScripts: authorSharedScripts,
     enemies: authorEnemies,
@@ -266,7 +290,7 @@ export function assembleCurrentProject(
   if (startupIssue) throw new Error(`${startupIssue.where}: ${startupIssue.message}`)
   const initialMagicIssue = validateActorInitialMagicReferences(actors, skills)[0]
   if (initialMagicIssue) throw new Error(`${initialMagicIssue.where}: ${initialMagicIssue.message}`)
-  const authorEntryScene = authorEntryScenes[defaultEntry.scene]
+  const authorEntryScene = authorEntryScenes.get(defaultEntry.scene)
   if (!authorEntryScene)
     throw new Error(
       `manifest.defaultEntryId: 默认入口 "${defaultEntry.id}" 的场景 "${defaultEntry.scene}" 未加载`,
@@ -289,7 +313,7 @@ export function assembleCurrentProject(
   const battleFields =
     jsons.battleFields === undefined ? [] : validateBattleFields(jsons.battleFields)
   const tilesets = validateTilesets(jsons.tilesets, assetCatalog)
-  const ambiences = Array.isArray(jsons.ambiences) ? (jsons.ambiences as AmbienceDef[]) : []
+  const ambiences = validateAmbiences(jsons.ambiences, manifest.content.ambiences ?? 'ambiences')
   const shops = validateShops(jsons.shops === undefined ? [] : jsons.shops)
   const migrationDiagnostics =
     jsons.migrationDiagnostics === undefined
@@ -304,7 +328,7 @@ export function assembleCurrentProject(
     sceneIndex,
     entryScene,
     authorContent: {
-      entryScenes: authorEntryScenes,
+      entryScenes: Object.fromEntries(authorEntryScenes),
       entryScene: authorEntryScene,
       items: authorItems,
       enemies: authorEnemies,

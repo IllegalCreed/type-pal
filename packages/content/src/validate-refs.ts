@@ -1,14 +1,7 @@
 /**
- * 跨引用完整性校验(D-B0 校验层地基)。
- *
- * `validate.ts` 只查形状(单表字段在不在);本层查**跨表引用**是否悬空 ——
- * 这是编辑器的核心价值:不让坏数据越积越多。loader 也能用来告警。
- *
- * 尚无稳定可编辑目标的运行时瞬态边跳过；已数据化的物品/毒/脚本等引用必须闭环。
- * 资产记录是否有对应物理文件
- * 不在此校验 —— 那是 loader/资产层的事。
- *
- * 见 docs/phase2/archive/designs/editor-design.md §6。
+ * 工程结构通过字段校验后，在此按实际登记的稳定 ID 核对跨表引用。
+ * 编辑器保存读取首个 error，诊断面板展示完整列表，故遍历顺序也是输出约定。
+ * 物理文件可读性与加载生命周期由各自的资产和装配层负责。
  */
 
 import { isActorEntity } from './actor.js'
@@ -30,8 +23,6 @@ import type {
   BattleChoreographyAction,
   BattleFieldDef,
   BattleSpriteDef,
-  BattleSpriteProfileKind,
-  Command,
   CurrentManifest,
   EnemyDef,
   EnemyHookCommand,
@@ -49,7 +40,6 @@ import type {
   SceneDef,
   ScriptChunkV1,
   ScriptIndexV1,
-  ScriptStage,
   ShopDef,
   SkillData,
   SpriteDef,
@@ -60,11 +50,16 @@ import type {
 import { acquisitionItemReferencesAtNode } from './item-acquisition.js'
 import { collectPoisonDefinitionReferences } from './poison.js'
 import {
-  authoredSkillExecutionLayers,
   collectSkillPoisonReferences,
   isEnemyRuntimeSkillEffect,
   resolveSkillExecution,
 } from './skill.js'
+import {
+  collectBattleSpriteDefinitionReferences,
+  collectSpriteActionReferences,
+  collectSpriteDefinitionReferences,
+  validateEquipBattleSpriteReferences,
+} from './sprite-references.js'
 
 /** 一条校验问题。severity: error=会让游戏崩/逻辑错;warn=有降级(如显 id)但不崩。 */
 export interface Issue {
@@ -84,20 +79,20 @@ export interface ContentBundle {
   items: AuthorItemCore[] | AuthorItemData[]
   locale: Locale
   sprites: SpriteDef[]
-  /** 战斗精灵定义表；canonical 工程必有，旧升级边界组装 bundle 前先补齐。 */
+  /** 当前工程的战斗精灵定义表。 */
   battleSprites: BattleSpriteDef[]
   /** 当前工程的全部真实启动入口；每项拥有独立完整的初始世界。 */
   entryPoints: readonly EntryPoint[]
-  /** 敌人/敌队(M4c-3 编辑器工作台;旧调用方可缺省 = 空)。 */
+  /** 切片未提供敌人或敌队时按空表核对。 */
   enemies?: EnemyDef[]
   enemyTeams?: EnemyTeamDef[]
-  /** tileset 注册表(W7B;可缺省 = 空)。 */
+  /** 瓦片集注册表。 */
   tilesets?: TilesetDef[]
   /** 组合模板表；每个局部内容可引用多个稳定 tileset id。 */
   stamps?: StampTemplate[]
-  /** 战场表(D24 一等 content 域;可缺省 = 空,引擎走 assetBase 遗留回退)。 */
+  /** 战场定义表。缺省切片没有可引用的战场。 */
   battleFields?: BattleFieldDef[]
-  /** 毒定义表(B10 编辑器结构化;可缺省 = 空。保原文件序 —— 勿经 by-id Record 转,数值键会重排)。 */
+  /** 毒定义表沿输入顺序遍历，避免数字键在对象中的排序改变诊断顺序。 */
   poisons?: PoisonDef[]
   /** 氛围表(W6 昼夜;可缺省 = 空 → setAmbience no-op)。 */
   ambiences?: AmbienceDef[]
@@ -105,9 +100,9 @@ export interface ContentBundle {
   shops?: ShopDef[]
   /** 工程唯一地图发现真值。 */
   mapIndex: MapIndexV1
-  /** 分片脚本正文；编辑器保存门传入后与场景 inline 脚本走同一语义引用扫描。 */
+  /** 可供校验的运行时分片。当前作者正文由场景和共享库提供。 */
   scriptChunks?: Readonly<Record<string, ScriptChunkV1>>
-  /** 作者共享脚本目录；仅登记项与 scene 私有根拥有可编辑的精确命令定位。 */
+  /** 编辑器提供的共享脚本目录元数据。 */
   scriptIndex?: ScriptIndexV1
   /** 当前作者共享脚本正文；纯运行时调用方可缺省。 */
   sharedScripts?: RuntimeScriptLibrary | AuthorScriptLibrary
@@ -117,644 +112,7 @@ export interface ContentBundle {
   migrationDiagnostics?: MigrationDiagnosticsV1
 }
 
-/** 一条 SpriteDef 语义引用；删除保护、保存门和引用面板共用。 */
-export interface SpriteDefinitionReference {
-  sprite: string
-  where: string
-  site: string
-}
-
-/** 一条限定到 SpriteDef 内稳定 ActionId 的复合引用。 */
-export interface SpriteActionReference extends SpriteDefinitionReference {
-  action: string
-}
-
-/** 一条 BattleSpriteDef 语义引用；expectedProfile 同时阻止 player/enemy 同号串线。 */
-export interface BattleSpriteDefinitionReference {
-  battleSprite: string
-  expectedProfile: BattleSpriteProfileKind
-  where: string
-  site: string
-  /** 装备边由更强的角色/equipableBy/profile 联合校验器负责，必须结构化区分。 */
-  origin?: 'equip'
-}
-
-export type CommandSpriteTaggedReference =
-  | { kind: 'world-sprite'; sprite: string; where: string }
-  | {
-      kind: 'world-sprite-action'
-      sprite: string
-      action: string
-      where: string
-      spriteWhere: string
-    }
-  | {
-      kind: 'battle-sprite'
-      battleSprite: string
-      expectedProfile: 'player-fighter'
-      where: string
-    }
-
-/** Inspect one tagged command node only; canonical callers own nested command traversal. */
-export function commandSpriteTaggedReferencesAtNode(
-  value: unknown,
-  where: string,
-): CommandSpriteTaggedReference[] {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
-  const record = value as Record<string, unknown>
-  const references: CommandSpriteTaggedReference[] = []
-  if (record.kind === 'setActorSprite' && typeof record.sprite === 'string')
-    references.push({ kind: 'world-sprite', sprite: record.sprite, where: `${where}.sprite` })
-  if (record.kind === 'setActorAppearance') {
-    if (typeof record.spriteId === 'string')
-      references.push({
-        kind: 'world-sprite',
-        sprite: record.spriteId,
-        where: `${where}.spriteId`,
-      })
-    if (typeof record.battleSprite === 'string')
-      references.push({
-        kind: 'battle-sprite',
-        battleSprite: record.battleSprite,
-        expectedProfile: 'player-fighter',
-        where: `${where}.battleSprite`,
-      })
-  }
-  if (record.kind === 'setFollowers' && Array.isArray(record.sprites))
-    record.sprites.forEach((sprite, index) => {
-      if (typeof sprite === 'string')
-        references.push({
-          kind: 'world-sprite',
-          sprite,
-          where: `${where}.sprites[${index}]`,
-        })
-    })
-  if (
-    record.kind === 'playEntityAction' &&
-    typeof record.sprite === 'string' &&
-    typeof record.action === 'string'
-  )
-    references.push({
-      kind: 'world-sprite-action',
-      sprite: record.sprite,
-      action: record.action,
-      where: `${where}.action`,
-      spriteWhere: `${where}.sprite`,
-    })
-  return references
-}
-
-/** Legacy/enemy/runtime command tree walker; canonical author scripts use one-node visits instead. */
-export function collectCommandSpriteTaggedReferences(
-  value: unknown,
-  where: string,
-): CommandSpriteTaggedReference[] {
-  const references: CommandSpriteTaggedReference[] = []
-  const visit = (node: unknown, path: string): void => {
-    if (Array.isArray(node)) {
-      node.forEach((entry, index) => {
-        visit(entry, `${path}[${index}]`)
-      })
-      return
-    }
-    if (!node || typeof node !== 'object') return
-    references.push(...commandSpriteTaggedReferencesAtNode(node, path))
-    for (const [key, child] of Object.entries(node as Record<string, unknown>))
-      visit(child, `${path}.${key}`)
-  }
-  visit(value, where)
-  return references
-}
-
-/**
- * 装备战斗形象的跨表闭包。canonical loader 与编辑器保存门也直接调用，避免只在诊断面板
- * 报错、却仍让坏映射进入运行时或落盘。
- */
-export function validateEquipBattleSpriteReferences(
-  items: readonly Pick<ItemData, 'id' | 'equip'>[],
-  actors: readonly ActorDef[],
-  battleSprites: readonly BattleSpriteDef[],
-): Issue[] {
-  const issues: Issue[] = []
-  const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
-  const battleSpritesById = new Map(battleSprites.map((sprite) => [sprite.id, sprite]))
-  items.forEach((item, itemIndex) => {
-    const equip = item.equip
-    if (!equip) return
-    equip.effects.forEach((effect, effectIndex) => {
-      if (effect.kind !== 'battleSprite') return
-      for (const [actorId, battleSprite] of Object.entries(effect.byActor)) {
-        const where = `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`
-        const actor = actorsById.get(actorId)
-        if (!actor)
-          issues.push({
-            severity: 'error',
-            where,
-            message: `战斗形象覆写角色 "${actorId}" 不在 actors`,
-          })
-        else if (!actor.battler)
-          issues.push({
-            severity: 'error',
-            where,
-            message: `战斗形象覆写角色 "${actorId}" 不是可战斗角色`,
-          })
-        if (!equip.equipableBy.includes(actorId))
-          issues.push({
-            severity: 'error',
-            where,
-            message: `战斗形象覆写角色 "${actorId}" 不在本物品 equipableBy`,
-          })
-        const definition = battleSpritesById.get(battleSprite)
-        if (!definition)
-          issues.push({
-            severity: 'error',
-            where,
-            message: `战斗精灵 "${battleSprite}" 不在 battleSprites 注册表`,
-          })
-        else if (definition.profile.kind !== 'player-fighter')
-          issues.push({
-            severity: 'error',
-            where,
-            message: `战斗精灵 "${battleSprite}" profile 期望 player-fighter，实际 ${definition.profile.kind}`,
-          })
-      }
-    })
-  })
-  return issues
-}
-
-export function collectCommandBattleSpriteReferences(
-  node: unknown,
-  where: string,
-  site: string,
-  out: BattleSpriteDefinitionReference[],
-): void {
-  for (const reference of collectCommandSpriteTaggedReferences(node, where))
-    if (reference.kind === 'battle-sprite')
-      out.push({
-        battleSprite: reference.battleSprite,
-        expectedProfile: reference.expectedProfile,
-        where: reference.where,
-        site,
-      })
-}
-
-/**
- * 递归收集 Actor/Enemy/Equip/Skill/Script/World 对 BattleSpriteDef.id 的全部持久边。
- * battle transient 不落 content；运行时 readiness 以同一 reference 形状追加后再解析。
- */
-/** Sprite collectors also inspect migration's transient ItemData before author assembly;
- * unlike validateReferences they never classify item script identities. */
-type SpriteReferenceBundle = Omit<ContentBundle, 'items'> & {
-  items: (ItemData | AuthorItemCore | AuthorItemData)[]
-}
-
-export function collectBattleSpriteDefinitionReferences(
-  source: Pick<
-    SpriteReferenceBundle,
-    | 'actors'
-    | 'enemies'
-    | 'items'
-    | 'skills'
-    | 'scenes'
-    | 'scriptChunks'
-    | 'sharedScripts'
-    | 'worlds'
-  >,
-): BattleSpriteDefinitionReference[] {
-  const references: BattleSpriteDefinitionReference[] = []
-  source.actors.forEach((actor, index) => {
-    const battleSprite = actor.battler?.battleSprite
-    if (battleSprite)
-      references.push({
-        battleSprite,
-        expectedProfile: 'player-fighter',
-        where: `actors[${index}](${actor.id}).battler.battleSprite`,
-        site: `actor:${actor.id}:battler`,
-      })
-  })
-  source.enemies?.forEach((enemy, index) => {
-    references.push({
-      battleSprite: enemy.battleSprite,
-      expectedProfile: 'enemy',
-      where: `enemies[${index}](${enemy.id}).battleSprite`,
-      site: `enemy:${enemy.id}:battleSprite`,
-    })
-    collectCommandBattleSpriteReferences(
-      enemy.choreography,
-      `enemies[${index}](${enemy.id}).choreography`,
-      `enemy:${enemy.id}:choreography`,
-      references,
-    )
-    collectCommandBattleSpriteReferences(
-      enemy.onDefeated,
-      `enemies[${index}](${enemy.id}).onDefeated`,
-      `enemy:${enemy.id}:onDefeated`,
-      references,
-    )
-  })
-  source.items.forEach((item, itemIndex) => {
-    item.equip?.effects.forEach((effect, effectIndex) => {
-      if (effect.kind === 'battleSprite')
-        for (const [actorId, battleSprite] of Object.entries(effect.byActor))
-          references.push({
-            battleSprite,
-            expectedProfile: 'player-fighter',
-            where: `items[${itemIndex}](${item.id}).equip.effects[${effectIndex}].byActor.${actorId}`,
-            site: `item:${item.id}:equip:${actorId}`,
-            origin: 'equip',
-          })
-    })
-    collectCommandBattleSpriteReferences(
-      item,
-      `items[${itemIndex}](${item.id})`,
-      `item:${item.id}`,
-      references,
-    )
-  })
-  source.skills.forEach((skill, skillIndex) => {
-    for (const layer of authoredSkillExecutionLayers(skill))
-      (layer.effects ?? []).forEach((effect, effectIndex) => {
-        const layerPath = layer.side === 'base' ? 'effects' : `execution.${layer.side}.effects`
-        if (effect.kind === 'summon')
-          references.push({
-            battleSprite: effect.battleSprite,
-            expectedProfile: 'summon',
-            where: `skills[${skillIndex}](${skill.id}).${layerPath}[${effectIndex}].battleSprite`,
-            site:
-              layer.side === 'base'
-                ? `skill:${skill.id}:effects`
-                : `skill:${skill.id}:execution:${layer.side}:effects`,
-          })
-        if (effect.kind === 'trance')
-          references.push({
-            battleSprite: effect.battleSprite,
-            expectedProfile: 'player-fighter',
-            where: `skills[${skillIndex}](${skill.id}).${layerPath}[${effectIndex}].battleSprite`,
-            site:
-              layer.side === 'base'
-                ? `skill:${skill.id}:effects`
-                : `skill:${skill.id}:execution:${layer.side}:effects`,
-          })
-      })
-  })
-  source.scenes.forEach((scene, sceneIndex) => {
-    collectCommandBattleSpriteReferences(
-      scene,
-      `scenes[${sceneIndex}]`,
-      `scene:${scene.id}`,
-      references,
-    )
-  })
-  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
-    collectCommandBattleSpriteReferences(
-      script.body,
-      `sharedScripts[${JSON.stringify(scriptId)}].body`,
-      `sharedScript:${scriptId}`,
-      references,
-    )
-  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
-    for (const [scriptId, body] of Object.entries(chunk.scripts))
-      collectCommandBattleSpriteReferences(
-        body,
-        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
-        `script:${chunkId}:${scriptId}`,
-        references,
-      )
-  }
-  source.worlds?.forEach((world, worldIndex) => {
-    for (const collection of ['party', 'reserve'] as const) {
-      ;(world[collection] ?? []).forEach((character, characterIndex) => {
-        const battleSprite = character.appearance?.battleSprite
-        if (battleSprite)
-          references.push({
-            battleSprite,
-            expectedProfile: 'player-fighter',
-            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.battleSprite`,
-            site: `world:${worldIndex}:character:${character.id}:appearance`,
-          })
-      })
-    }
-  })
-  return references
-}
-
-export function collectCommandSpriteReferences(
-  node: unknown,
-  where: string,
-  site: string,
-  out: SpriteDefinitionReference[],
-): void {
-  for (const reference of collectCommandSpriteTaggedReferences(node, where)) {
-    if (reference.kind === 'world-sprite')
-      out.push({ sprite: reference.sprite, where: reference.where, site })
-    if (reference.kind === 'world-sprite-action')
-      out.push({ sprite: reference.sprite, where: reference.spriteWhere, site })
-  }
-}
-
-export function collectUnlocatedCommandSpriteActionReferences(
-  node: unknown,
-  where: string,
-  site: string,
-  out: SpriteActionReference[],
-): void {
-  for (const reference of collectCommandSpriteTaggedReferences(node, where))
-    if (reference.kind === 'world-sprite-action')
-      out.push({
-        sprite: reference.sprite,
-        action: reference.action,
-        where: reference.where,
-        site,
-      })
-}
-
-function commandArms(command: Command): Array<[string, readonly Command[] | undefined]> {
-  switch (command.kind) {
-    case 'branch':
-      return [
-        ['then', command.then],
-        ['else', command.else],
-      ]
-    case 'confirm':
-      return [
-        ['onYes', command.onYes],
-        ['onNo', command.onNo],
-      ]
-    case 'startBattle':
-      return [
-        ['onLose', command.onLose],
-        ['onFlee', command.onFlee],
-      ]
-    case 'teleportOut':
-      return [['onFail', command.onFail]]
-    default:
-      return []
-  }
-}
-
-function inlineBindingStages(command: Command): readonly ScriptStage[] | undefined {
-  switch (command.kind) {
-    case 'setEntityAuto':
-    case 'setEntityTrigger':
-    case 'setSceneOnEnter':
-    case 'setSceneOnTeleport':
-      return command.stages
-    default:
-      return undefined
-  }
-}
-
-function collectActionCommandBody(
-  body: readonly Command[],
-  where: string,
-  site: string,
-  out: SpriteActionReference[],
-): void {
-  body.forEach((command, index) => {
-    const commandWhere = `${where}[${index}]`
-    for (const reference of commandSpriteTaggedReferencesAtNode(command, commandWhere))
-      if (reference.kind === 'world-sprite-action')
-        out.push({
-          sprite: reference.sprite,
-          action: reference.action,
-          where: reference.where,
-          site,
-        })
-    const inlineStages = inlineBindingStages(command)
-    if (inlineStages)
-      collectUnlocatedCommandSpriteActionReferences(
-        inlineStages,
-        `${commandWhere}.stages`,
-        site,
-        out,
-      )
-    for (const [arm, nested] of commandArms(command)) {
-      if (!nested?.length) continue
-      collectActionCommandBody(nested, `${commandWhere}.${arm}`, site, out)
-    }
-  })
-}
-
-function collectActionStages(
-  stages: readonly ScriptStage[] | undefined,
-  where: string,
-  site: string,
-  out: SpriteActionReference[],
-): void {
-  // Canonical pages bind a behavior id string instead of embedding `{ stages }`.
-  // Those flows are scanned below from `behaviors`; the renderer projection path
-  // must not treat a behavior id as an inline stage list.
-  if (!Array.isArray(stages)) return
-  stages.forEach((stage, stageIndex) => {
-    if (stage.entry?.prepare.length)
-      collectActionCommandBody(
-        stage.entry.prepare,
-        `${where}[${stageIndex}].entry.prepare`,
-        site,
-        out,
-      )
-    collectActionCommandBody(stage.body, `${where}[${stageIndex}].body`, site, out)
-  })
-}
-
-/** 收集场景页默认绑定和全部嵌套脚本中的 `(sprite, action)` 复合引用。 */
-export function collectSpriteActionReferences(
-  source: Pick<
-    SpriteReferenceBundle,
-    'scenes' | 'items' | 'scriptChunks' | 'scriptIndex' | 'sharedScripts' | 'enemies' | 'worlds'
-  >,
-): SpriteActionReference[] {
-  const references: SpriteActionReference[] = []
-  source.scenes.forEach((scene, sceneIndex) => {
-    scene.entities.forEach((entity, entityIndex) => {
-      entity.pages?.forEach((page, pageIndex) => {
-        if (page.animation)
-          references.push({
-            sprite: page.animation.sprite,
-            action: page.animation.action,
-            where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.action`,
-            site: `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}`,
-          })
-        if (page.trigger)
-          collectActionStages(
-            page.trigger.stages,
-            `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].trigger.stages`,
-            `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:trigger`,
-            references,
-          )
-        if (page.auto)
-          collectActionStages(
-            page.auto.stages,
-            `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].auto.stages`,
-            `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:auto`,
-            references,
-          )
-      })
-      const canonicalBehaviors = (entity as unknown as { behaviors?: unknown }).behaviors
-      if (canonicalBehaviors)
-        collectUnlocatedCommandSpriteActionReferences(
-          canonicalBehaviors,
-          `scenes[${sceneIndex}].entities[${entityIndex}].behaviors`,
-          `scene:${scene.id}:entity:${entity.id}:behaviors`,
-          references,
-        )
-    })
-    if (scene.onEnter)
-      collectActionStages(
-        scene.onEnter,
-        `scenes[${sceneIndex}].onEnter`,
-        `scene:${scene.id}:onEnter`,
-        references,
-      )
-    if (scene.onTeleport)
-      collectActionStages(
-        scene.onTeleport,
-        `scenes[${sceneIndex}].onTeleport`,
-        `scene:${scene.id}:onTeleport`,
-        references,
-      )
-    const canonicalHooks = (scene as unknown as { hooks?: unknown }).hooks
-    if (canonicalHooks)
-      collectUnlocatedCommandSpriteActionReferences(
-        canonicalHooks,
-        `scenes[${sceneIndex}].hooks`,
-        `scene:${scene.id}:hooks`,
-        references,
-      )
-  })
-  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
-    collectUnlocatedCommandSpriteActionReferences(
-      script.body,
-      `sharedScripts[${JSON.stringify(scriptId)}].body`,
-      `sharedScript:${scriptId}`,
-      references,
-    )
-  source.items.forEach((item, index) => {
-    collectUnlocatedCommandSpriteActionReferences(
-      item,
-      `items[${index}](${item.id})`,
-      `item:${item.id}`,
-      references,
-    )
-  })
-  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {}))
-    for (const [scriptId, body] of Object.entries(chunk.scripts)) {
-      const where = `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`
-      const site = `script:${chunkId}:${scriptId}`
-      collectActionCommandBody(body, where, site, references)
-    }
-  source.enemies?.forEach((enemy, index) => {
-    collectUnlocatedCommandSpriteActionReferences(
-      enemy.choreography,
-      `enemies[${index}](${enemy.id}).choreography`,
-      `enemy:${enemy.id}:choreography`,
-      references,
-    )
-    collectUnlocatedCommandSpriteActionReferences(
-      enemy.onDefeated,
-      `enemies[${index}](${enemy.id}).onDefeated`,
-      `enemy:${enemy.id}:onDefeated`,
-      references,
-    )
-  })
-  return references
-}
-
-/** 递归收集 Actor/Entity/appearance/followers 与所有 inline/chunk 命令中的 SpriteDef.id 边。 */
-export function collectSpriteDefinitionReferences(
-  source: Pick<
-    SpriteReferenceBundle,
-    'actors' | 'scenes' | 'items' | 'scriptChunks' | 'sharedScripts' | 'enemies' | 'worlds'
-  >,
-): SpriteDefinitionReference[] {
-  const references: SpriteDefinitionReference[] = []
-  source.actors.forEach((actor, index) => {
-    references.push({
-      sprite: actor.spriteId,
-      where: `actors[${index}](${actor.id}).spriteId`,
-      site: `actor:${actor.id}`,
-    })
-  })
-  source.scenes.forEach((scene, sceneIndex) => {
-    scene.entities.forEach((entity, entityIndex) => {
-      if (!isActorEntity(entity) && 'sprite' in entity)
-        references.push({
-          sprite: entity.sprite,
-          where: `scenes[${sceneIndex}].entities[${entityIndex}].sprite`,
-          site: `scene:${scene.id}:entity:${entity.id}`,
-        })
-      entity.pages?.forEach((page, pageIndex) => {
-        if (!page.animation) return
-        references.push({
-          sprite: page.animation.sprite,
-          where: `scenes[${sceneIndex}].entities[${entityIndex}].pages[${pageIndex}].animation.sprite`,
-          site: `scene:${scene.id}:entity:${entity.id}:page:${pageIndex}:animation`,
-        })
-      })
-    })
-    collectCommandSpriteReferences(scene, `scenes[${sceneIndex}]`, `scene:${scene.id}`, references)
-  })
-  source.items.forEach((item, itemIndex) => {
-    collectCommandSpriteReferences(
-      item,
-      `items[${itemIndex}](${item.id})`,
-      `item:${item.id}`,
-      references,
-    )
-  })
-  for (const [scriptId, script] of Object.entries(source.sharedScripts ?? {}))
-    collectCommandSpriteReferences(
-      script.body,
-      `sharedScripts[${JSON.stringify(scriptId)}].body`,
-      `sharedScript:${scriptId}`,
-      references,
-    )
-  for (const [chunkId, chunk] of Object.entries(source.scriptChunks ?? {})) {
-    for (const [scriptId, body] of Object.entries(chunk.scripts))
-      collectCommandSpriteReferences(
-        body,
-        `scriptChunks[${JSON.stringify(chunkId)}].scripts[${JSON.stringify(scriptId)}]`,
-        `script:${chunkId}:${scriptId}`,
-        references,
-      )
-  }
-  source.enemies?.forEach((enemy, index) => {
-    collectCommandSpriteReferences(
-      enemy.choreography,
-      `enemies[${index}](${enemy.id}).choreography`,
-      `enemy:${enemy.id}:choreography`,
-      references,
-    )
-    collectCommandSpriteReferences(
-      enemy.onDefeated,
-      `enemies[${index}](${enemy.id}).onDefeated`,
-      `enemy:${enemy.id}:onDefeated`,
-      references,
-    )
-  })
-  source.worlds?.forEach((world, worldIndex) => {
-    for (const collection of ['party', 'reserve'] as const) {
-      ;(world[collection] ?? []).forEach((character, characterIndex) => {
-        const sprite = character.appearance?.spriteId
-        if (sprite)
-          references.push({
-            sprite,
-            where: `worlds[${worldIndex}].${collection}[${characterIndex}].appearance.spriteId`,
-            site: `world:${worldIndex}:character:${character.id}:appearance`,
-          })
-      })
-    }
-    world.script?.followers?.forEach((sprite, index) => {
-      references.push({
-        sprite,
-        where: `worlds[${worldIndex}].script.followers[${index}]`,
-        site: `world:${worldIndex}:followers`,
-      })
-    })
-  })
-  return references
-}
+export * from './sprite-references.js'
 
 /** 编辑器被编辑的内容工作副本 = ContentBundle + manifest(EditSession 用)。 */
 export type EditorContent = Omit<ContentBundle, 'entryPoints'> & { manifest: CurrentManifest }
@@ -790,7 +148,6 @@ export function validateEntryPointStartWorldReferences(
   poisons: readonly Pick<PoisonDef, 'id'>[] = [],
 ): Issue[] {
   const issues: Issue[] = []
-  const actorIds = new Set(actors.map((actor) => actor.id))
   const actorsById = new Map(actors.map((actor) => [actor.id, actor]))
   const itemIds = new Set(items.map((item) => item.id))
   const poisonIds = new Set(poisons.map((poison) => poison.id))
@@ -822,7 +179,7 @@ export function validateEntryPointStartWorldReferences(
         })
     })
     for (const actorId of Object.keys(world.seedStats ?? {}))
-      if (!actorIds.has(actorId))
+      if (!actorsById.has(actorId))
         issues.push({
           severity: 'error',
           where: `${prefix}.seedStats[${actorId}]`,
@@ -961,14 +318,11 @@ export function validateReferences(b: ContentBundle): Issue[] {
   const issues: Issue[] = []
 
   // id 集合(O(1) 查表)
-  const skillIds = new Set(b.skills.map((s) => s.id))
   const skillsById = new Map(b.skills.map((skill) => [skill.id, skill]))
   const itemIds = new Set(b.items.map((i) => i.id))
-  const actorIds = new Set(b.actors.map((a) => a.id))
-  const actorsById = Object.fromEntries(b.actors.map((a) => [a.id, a]))
+  const actorsById = new Map(b.actors.map((actor) => [actor.id, actor]))
   const enemyIds = new Set((b.enemies ?? []).map((e) => e.id))
   const scenesById = new Map(b.scenes.map((scene) => [scene.id, scene]))
-  const spriteIds = new Set(b.sprites.map((s) => s.id))
   const spritesById = new Map(b.sprites.map((sprite) => [sprite.id, sprite]))
   const battleSpritesById = new Map(b.battleSprites.map((sprite) => [sprite.id, sprite]))
   const localeKeys = new Set(Object.keys(b.locale))
@@ -991,7 +345,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
   }
 
   const validateBattleActor = (actorId: string, where: string): void => {
-    const actor = actorsById[actorId]
+    const actor = actorsById.get(actorId)
     if (!actor)
       issues.push({
         severity: 'error',
@@ -1125,7 +479,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
   }
 
-  const validateAuthorCondition = (condition: AuthorCondition, where: string): void => {
+  // Scene and entity conditions are already checked by the shared target scan, in authored order.
+  const validateDefeatedCondition = (condition: AuthorCondition, where: string): void => {
     switch (condition.kind) {
       case 'hasItem':
       case 'ownsItem':
@@ -1138,38 +493,21 @@ export function validateReferences(b: ContentBundle): Issue[] {
           })
         return
       case 'inParty':
-        if (!actorIds.has(condition.actorId))
+        if (!actorsById.has(condition.actorId))
           issues.push({
             severity: 'error',
             where: `${where}.actorId`,
             message: `角色 "${condition.actorId}" 不在 actors`,
           })
         return
-      case 'currentScene':
-        if (!scenesById.has(condition.scene))
-          issues.push({
-            severity: 'error',
-            where: `${where}.scene`,
-            message: `场景 "${condition.scene}" 不在 scenes`,
-          })
-        return
-      case 'entityState':
-      case 'entityInScene':
-      case 'facingEntity':
-        validateEntityAddress(condition.target, `${where}.target`)
-        return
-      case 'entitiesNear':
-        validateEntityAddress(condition.from, `${where}.from`)
-        validateEntityAddress(condition.to, `${where}.to`)
-        return
       case 'all':
       case 'any':
         condition.of.forEach((child, index) => {
-          validateAuthorCondition(child, `${where}.of[${index}]`)
+          validateDefeatedCondition(child, `${where}.of[${index}]`)
         })
         return
       case 'not':
-        validateAuthorCondition(condition.cond, `${where}.cond`)
+        validateDefeatedCondition(condition.cond, `${where}.cond`)
         return
       default:
         return
@@ -1189,7 +527,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
         return
       }
       if (command.kind === 'branch') {
-        validateAuthorCondition(command.cond, `${commandWhere}.cond`)
+        validateDefeatedCondition(command.cond, `${commandWhere}.cond`)
         validateOnDefeated(command.then, `${commandWhere}.then`)
         if (command.else) validateOnDefeated(command.else, `${commandWhere}.else`)
       }
@@ -1237,7 +575,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
         })
       if (isActorEntity(e)) {
         // actor → actors 表(缺 = error:引擎解析精灵会 throw)
-        if (!actorIds.has(e.actor))
+        if (!actorsById.has(e.actor))
           issues.push({
             severity: 'error',
             where: `${where}.actor`,
@@ -1316,7 +654,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       }
       if (target.kind === 'scene-entry') {
         const scene = scenesById.get(target.sceneId)
-        if (scene && !scene.entries?.[target.entryId])
+        if (scene && (!scene.entries || !Object.hasOwn(scene.entries, target.entryId)))
           addTargetIssue(
             'error',
             reference.where,
@@ -1326,7 +664,8 @@ export function validateReferences(b: ContentBundle): Issue[] {
       }
       if (target.kind === 'scene-hook') {
         const scene = scenesById.get(target.sceneId) as AuthorSceneDef | undefined
-        if (scene && !scene.hooks?.[target.slot]?.variants[target.hookId])
+        const variants = scene?.hooks?.[target.slot]?.variants
+        if (scene && (!variants || !Object.hasOwn(variants, target.hookId)))
           addTargetIssue(
             'error',
             reference.where,
@@ -1358,7 +697,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
         return
       }
       if (target.kind === 'skill') {
-        if (!skillIds.has(target.id))
+        if (!skillsById.has(target.id))
           addTargetIssue('error', reference.where, `技能 "${target.id}" 不在 skills`)
         return
       }
@@ -1366,7 +705,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
         addTargetIssue('warn', reference.where, `氛围 "${target.id}" 不在 ambiences`)
     })
 
-    // ── enemies / enemyTeams(M4c-3)────────────────────────
+    // ── enemies / enemyTeams ─────────────────────────
   ;(b.enemies ?? []).forEach((e, ei) => {
     const where = `enemies[${ei}](${e.id})`
     for (const [ri, r] of (e.ai.rules ?? []).entries()) {
@@ -1465,7 +804,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       // cooperativeMagicSkillId → skills(error:runtime expectDefined fail-loud)。
       if (
         battler.cooperativeMagicSkillId !== undefined &&
-        !skillIds.has(battler.cooperativeMagicSkillId)
+        !skillsById.has(battler.cooperativeMagicSkillId)
       )
         issues.push({
           severity: 'error',
@@ -1507,7 +846,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── SpriteDef 语义边（Actor/Entity/appearance/followers/所有嵌套脚本）──
   for (const reference of collectSpriteDefinitionReferences(b)) {
-    if (!spriteIds.has(reference.sprite))
+    if (!spritesById.has(reference.sprite))
       issues.push({
         severity: 'error',
         where: reference.where,
@@ -1558,7 +897,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
     if (equip) {
       // equipableBy → actors(缺 = warn:装备菜单不显示该角色)
       equip.equipableBy.forEach((cid, ei) => {
-        if (!actorIds.has(cid))
+        if (!actorsById.has(cid))
           issues.push({
             severity: 'warn',
             where: `${where}.equip.equipableBy[${ei}]`,
@@ -1567,7 +906,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
       // effects.grantSkill.skillId → skills(缺 = warn)
       equip.effects.forEach((eff, ei) => {
-        if (eff.kind === 'grantSkill' && !skillIds.has(eff.skillId))
+        if (eff.kind === 'grantSkill' && !skillsById.has(eff.skillId))
           issues.push({
             severity: 'warn',
             where: `${where}.equip.effects[${ei}].grantSkill`,
@@ -1679,7 +1018,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
 
   for (const reference of collectWorldBattleDataReferences(b.worlds ?? [])) {
-    if (reference.target === 'skill' && !skillIds.has(reference.id))
+    if (reference.target === 'skill' && !skillsById.has(reference.id))
       issues.push({
         severity: 'error',
         where: reference.where,
@@ -1693,7 +1032,7 @@ export function validateReferences(b: ContentBundle): Issue[] {
       })
   }
   for (const reference of collectWorldActorReferences(b.worlds ?? []))
-    if (!actorIds.has(reference.actorId))
+    if (!actorsById.has(reference.actorId))
       issues.push({
         severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,
         where: reference.where,
@@ -1702,14 +1041,14 @@ export function validateReferences(b: ContentBundle): Issue[] {
 
   // ── levelUp ─────────────────────────────────────────────
   for (const [cid, list] of Object.entries(b.levelUp)) {
-    if (!actorIds.has(cid))
+    if (!actorsById.has(cid))
       issues.push({
         severity: ACTOR_REFERENCE_POLICIES['level-up-owner'].danglingSeverity,
         where: `levelUp[${cid}]`,
         message: `升级习得伴随表角色 "${cid}" 不在 actors`,
       })
     list.forEach((lu, li) => {
-      if (!skillIds.has(lu.skillId))
+      if (!skillsById.has(lu.skillId))
         issues.push({
           severity: 'warn',
           where: `levelUp[${cid}][${li}].skillId`,
@@ -1738,14 +1077,21 @@ export function validateReferences(b: ContentBundle): Issue[] {
     ...b.items.flatMap((item, index) =>
       collectActorTaggedReferences(item, `items[${index}](${item.id})`),
     ),
+    // The enemy pass owns these references because it also checks battler eligibility and
+    // preserves quoted hook state IDs. Keep scanning other tags such as dialogue identities.
     ...(b.enemies ?? []).flatMap((enemy, index) =>
-      collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`),
+      collectActorTaggedReferences(enemy, `enemies[${index}](${enemy.id})`).filter(
+        (reference) =>
+          reference.kind !== 'enemy-condition-player-in-party' &&
+          reference.kind !== 'enemy-apply-actor-growth' &&
+          reference.kind !== 'enemy-play-actor-cast-effect',
+      ),
     ),
   ]
   const existingActorIssuePaths = new Set(issues.map((issue) => issue.where))
   for (const reference of tagged) {
     if (existingActorIssuePaths.has(reference.where)) continue
-    const actor = actorsById[reference.actorId]
+    const actor = actorsById.get(reference.actorId)
     if (!actor)
       issues.push({
         severity: ACTOR_REFERENCE_POLICIES[reference.kind].danglingSeverity,

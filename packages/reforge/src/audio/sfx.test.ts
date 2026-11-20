@@ -1,5 +1,5 @@
 import type { AssetId, AssetRecordV1 } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import {
   type SfxAssetReader,
   type SfxAudioAdapter,
@@ -92,6 +92,34 @@ function deferred<T>() {
   })
   return { promise, resolve, reject }
 }
+
+test('invalid SFX cache budgets fail before looking up assets', () => {
+  const reader = new FakeReader()
+  const record = vi.spyOn(reader, 'record')
+  for (const budget of [0, -1, 1.5, Number.NaN]) {
+    expect(() => new SfxPlayer(reader, undefined, budget)).toThrow(
+      `SfxPlayer maxDecoded 必须是正整数，收到 ${String(budget)}`,
+    )
+  }
+  expect(record).not.toHaveBeenCalled()
+  expect(reader.reads.size).toBe(0)
+})
+
+test('a valid budget without browser audio reports the fallback', async () => {
+  vi.stubGlobal('window', {})
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const reader = new FakeReader()
+  try {
+    const player = new SfxPlayer(reader, undefined, 1)
+    expect(warn.mock.calls).toEqual([['[sfx] AudioContext 不可用，音效播放器停用']])
+    expect(player.play('s1')).toBe(false)
+    expect(reader.reads.size).toBe(0)
+    await player.dispose()
+  } finally {
+    vi.unstubAllGlobals()
+    warn.mockRestore()
+  }
+})
 
 describe('SfxPlayer readiness', () => {
   test('冷缓存不迟播；并发 prepare 只读解码一次', async () => {
@@ -299,13 +327,24 @@ test('resume 失败后清除防重入状态，下一次用户手势可重试', a
 test('dispose 期间完成的 decode 不会让旧 prepare 假成功', async () => {
   const reader = new FakeReader()
   const adapter = new FakeAdapter()
-  const gate = deferred<ArrayBuffer>()
-  reader.readImpl = async () => gate.promise
+  const entered = deferred<ArrayBuffer>()
+  const decoded = deferred<number>()
+  adapter.decode = async (bytes) => {
+    entered.resolve(bytes)
+    return decoded.promise
+  }
   const player = new SfxPlayer(reader, adapter)
   const preparing = player.prepare(['s1'])
-  await player.dispose()
-  gate.resolve(wave(1))
-  await expect(preparing).rejects.toThrow('已 dispose')
+  try {
+    await expect(entered.promise).resolves.toEqual(wave(1))
+    expect(adapter.disposed).toBe(false)
+    await player.dispose()
+    decoded.resolve(1)
+    await expect(preparing).rejects.toThrow('播放器已 dispose，丢弃解码结果')
+  } finally {
+    decoded.resolve(1)
+    await player.dispose()
+  }
 })
 
 test('错误包含 project、AssetId、path 与 kind 上下文', async () => {
@@ -314,15 +353,25 @@ test('错误包含 project、AssetId、path 与 kind 上下文', async () => {
     throw new Error('ENOENT')
   }
   const player = new SfxPlayer(reader, new FakeAdapter())
-  await expect(player.prepare(['s9'])).rejects.toThrow(
-    /test-project.*s9.*path=assets\/s9\.wav.*kind=sound|kind=sound.*path=assets\/s9\.wav/,
-  )
+  await expect(player.prepare(['s9'])).rejects.toMatchObject({
+    failures: [
+      {
+        message:
+          '工程 "test-project" SFX AssetId "s9" 准备失败 path=assets/s9.wav (kind=sound, path=assets/s9.wav): ENOENT',
+      },
+    ],
+  })
 
   const missing = new FakeReader()
   missing.record = () => {
     throw new Error('catalog missing')
   }
-  await expect(new SfxPlayer(missing, new FakeAdapter()).prepare(['s404'])).rejects.toThrow(
-    /test-project.*s404.*kind=sound.*catalog missing/,
-  )
+  await expect(new SfxPlayer(missing, new FakeAdapter()).prepare(['s404'])).rejects.toMatchObject({
+    failures: [
+      {
+        message:
+          '工程 "test-project" SFX AssetId "s404" 准备失败 (kind=sound, path=unknown): catalog missing',
+      },
+    ],
+  })
 })

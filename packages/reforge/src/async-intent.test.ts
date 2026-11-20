@@ -1,67 +1,35 @@
-import { describe, expect, test } from 'vitest'
+import { expect, test } from 'vitest'
 import { AsyncIntentController } from './async-intent.js'
 
-function deferred<T>() {
-  let resolve!: (value: T) => void
-  const promise = new Promise<T>((yes) => {
-    resolve = yes
+test('capturing a generation does not take it over; a second begin invalidates the old launch and its captures', () => {
+  const owner = new AsyncIntentController()
+  const launch = owner.begin()
+  const first = owner.capture()
+  const second = owner.capture()
+
+  expect([first, second]).toEqual([launch, launch])
+  expect(() => owner.assertCurrent(launch, 'scene launch')).not.toThrow()
+  const winner = owner.begin()
+  expect(owner.isCurrent(winner)).toBe(true)
+  expect(owner.isCurrent(launch)).toBe(false)
+  expect(() => owner.assertCurrent(first, 'old launch')).toThrowError(
+    expect.objectContaining({ name: 'AbortError', message: 'old launch' }),
+  )
+})
+
+test('invalidation denies a pending continuation but leaves a newly captured generation usable', async () => {
+  const owner = new AsyncIntentController()
+  const previous = owner.capture()
+  const published: string[] = []
+  const pending = Promise.resolve().then(() => {
+    owner.assertCurrent(previous, 'expired world')
+    published.push('old world')
   })
-  return { promise, resolve }
-}
+  owner.invalidate()
+  const replacement = owner.capture()
+  owner.assertCurrent(replacement, 'new world')
+  published.push('new world')
 
-describe('AsyncIntentController', () => {
-  test('世界失效后，旧 await continuation 在提交前收到 AbortError', async () => {
-    const controller = new AsyncIntentController()
-    const token = controller.capture()
-    const gate = deferred<void>()
-    let committed = false
-    const pending = gate.promise.then(() => {
-      controller.assertCurrent(token, '旧世界')
-      committed = true
-    })
-
-    controller.invalidate()
-    gate.resolve()
-
-    await expect(pending).rejects.toMatchObject({ name: 'AbortError', message: '旧世界' })
-    expect(committed).toBe(false)
-  })
-
-  test('新 begin 与显式 invalidate 都会作废尚未创建会话的旧启动', () => {
-    const controller = new AsyncIntentController()
-    const first = controller.begin()
-    const second = controller.begin()
-    expect(controller.isCurrent(first)).toBe(false)
-    expect(controller.isCurrent(second)).toBe(true)
-    controller.invalidate()
-    expect(() => controller.assertCurrent(second, '旧战斗')).toThrowError(
-      expect.objectContaining({ name: 'AbortError' }),
-    )
-  })
-
-  test('战斗启动跨多个 await：最后一拍失效后不得挂载旧会话', async () => {
-    const controller = new AsyncIntentController()
-    const readiness = deferred<void>()
-    const assets = deferred<void>()
-    const token = controller.begin()
-    let attached = false
-    const launch = (async () => {
-      await readiness.promise
-      controller.assertCurrent(token, 'readiness 后已失效')
-      await assets.promise
-      controller.assertCurrent(token, '资产加载后已失效')
-      attached = true
-    })()
-
-    readiness.resolve()
-    await Promise.resolve()
-    controller.invalidate()
-    assets.resolve()
-
-    await expect(launch).rejects.toMatchObject({
-      name: 'AbortError',
-      message: '资产加载后已失效',
-    })
-    expect(attached).toBe(false)
-  })
+  await expect(pending).rejects.toMatchObject({ name: 'AbortError', message: 'expired world' })
+  expect(published).toEqual(['new world'])
 })

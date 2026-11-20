@@ -42,7 +42,7 @@
       "lines": "169-171",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+      "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
     },
     {
       "path": "scripts/e2e/errand-contract.mjs",
@@ -169,6 +169,22 @@
         }
       ],
       "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
+    },
+    {
+      "action": "content-version-source-rebinding",
+      "base": "778928d199dc74768d0499d7a42081098bb2390d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "169-171",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+        }
+      ],
+      "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
     }
   ],
   "_governance": {

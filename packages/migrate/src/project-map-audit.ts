@@ -1,8 +1,9 @@
-import { formatProjectMap, type ProjectMap } from '@type-pal/content'
+import type { ProjectMap } from '@type-pal/content'
 import type { Tilemap } from '@type-pal/shared'
 import {
   convertSourceTilemap,
   decodeSourceMapWord,
+  formattedProjectMapBytes,
   SOURCE_MAP_MODELED_MASK,
   sourceWordFromProjectMap,
 } from './project-map-converter.js'
@@ -30,7 +31,7 @@ export interface ProjectMapAuditReport {
   layer1NonzeroHeightCount: number
   collisionInstanceCount: number
   multiHeightTilesetTileCount: number
-  /** 原始引擎从不读取的 bits 14-15/29-31；仅报告，不写入作者态 schema。 */
+  /** 地图绘制、碰撞和高度读取均不使用位 14–15、29–31。它们只进原图审计报告。 */
   residualWords: Array<{
     mapNum: number
     row: number
@@ -69,21 +70,22 @@ export function auditAndConvertSourceMaps(
   let semanticRoundTripMismatchCount = 0
   let sourceJsonBytes = 0
   let projectMapJsonBytes = 0
+  const halfCells = [0, 1] as const
 
   for (const entry of entries) {
     if (maps.has(entry.mapNum)) throw new Error(`重复源地图编号 ${entry.mapNum}`)
     const map = convertSourceTilemap(entry.mapNum, entry.source)
     maps.set(entry.mapNum, map)
     sourceJsonBytes += entry.sourceJsonBytes
-    projectMapJsonBytes += Buffer.byteLength(formatProjectMap(map), 'utf8')
+    projectMapJsonBytes += formattedProjectMapBytes(map)
 
     for (let row = 0; row < entry.source.height; row++) {
       for (let col = 0; col < entry.source.width; col++) {
         const cell = entry.source.cells[row]![col]!
-        for (let sub = 0; sub < 2; sub++) {
+        for (const sub of halfCells) {
           latticeInstances++
           const latticeRow = row * 2 + sub
-          const sourceWord = (sub === 0 ? cell.lower : cell.upper) >>> 0
+          const sourceWord = sub === 0 ? cell.lower : cell.upper
           const decoded = decodeSourceMapWord(sourceWord)
           if (decoded.residualBits !== 0) {
             residualWordCount++
@@ -91,7 +93,7 @@ export function auditAndConvertSourceMaps(
               mapNum: entry.mapNum,
               row,
               col,
-              sub: sub as 0 | 1,
+              sub,
               word: sourceWord,
               residualBits: decoded.residualBits,
             })
@@ -102,7 +104,7 @@ export function auditAndConvertSourceMaps(
               mapNum: entry.mapNum,
               row,
               col,
-              sub: sub as 0 | 1,
+              sub,
               word: sourceWord,
               height: (sourceWord >>> 24) & 0x0f,
             })

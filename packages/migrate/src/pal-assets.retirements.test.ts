@@ -47,21 +47,21 @@ describe('PAL retirement planning boundaries', () => {
     f.previousCatalog.assets.missing = imageRecord('assets/migrated/missing.png', f.bytes)
     expect(f.run().map((row) => row.id)).toEqual(['a', 'b', 'z'])
   })
-  test('same-length changed old file rejects instead of authorizing deletion by size alone', () => {
+  test.each([
+    'length',
+    'digest',
+  ] as const)('rejects a retirement when the old file %s changed', (axis) => {
     const f = fixture()
     const bad = f.bytes.slice()
     bad[bad.length - 1] = bad[bad.length - 1]! ^ 1
-    put(f.repo, 'projects/pal/assets/migrated/z.png', bad)
-    expect(f.run).toThrow('资源 sha256 不符')
+    put(f.repo, 'projects/pal/assets/migrated/z.png', axis === 'length' ? bad.subarray(1) : bad)
+    expect(f.run).toThrow(axis === 'length' ? '资源 bytes 不符' : '资源 sha256 不符')
   })
   test('new stable ID retaining a path protects every old alias without reading changed retained bytes', () => {
     const f = fixture()
-    f.targetCatalog.assets.newId = structuredClone(f.previousCatalog.assets.a!)
-    put(
-      f.repo,
-      'projects/pal/assets/migrated/a.png',
-      'retained bytes now belong to the target plan',
-    )
+    const retained = png(1, 1, [7, 8, 9, 255])
+    f.targetCatalog.assets.newId = imageRecord('assets/migrated/a.png', retained)
+    put(f.repo, 'projects/pal/assets/migrated/a.png', retained)
     expect(f.run()).toEqual([
       {
         id: 'z',
@@ -71,15 +71,17 @@ describe('PAL retirement planning boundaries', () => {
     ])
   })
   test.each([
+    'authored',
     'generated',
     'licensed',
-  ] as const)('does not claim %s ownership even when old file is absent', (kind) => {
+  ] as const)('leaves a real %s file outside migration retirement', (kind) => {
     const f = fixture()
     f.previousCatalog.assets.other = imageRecord(
       `assets/${kind === 'licensed' ? 'runtime' : kind}/other.png`,
       f.bytes,
       { kind },
     )
+    put(f.repo, `projects/pal/${f.previousCatalog.assets.other.path}`, f.bytes)
     expect(f.run().map((row) => row.id)).toEqual(['a', 'b', 'z'])
   })
 })

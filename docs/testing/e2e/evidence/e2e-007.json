@@ -89,7 +89,7 @@
       "lines": "169-169",
       "anchor": "export const CONTENT_VERSION = 23",
       "role": "canonical content version",
-      "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+      "sha256": "3c71fb776c4f926a910406f777d26581dd890de176b9552e213b188f4878b6ea"
     },
     {
       "path": "packages/reforge/src/save/types.ts",
@@ -489,6 +489,22 @@
         }
       ],
       "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
+    },
+    {
+      "action": "content-version-source-rebinding",
+      "base": "778928d199dc74768d0499d7a42081098bb2390d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/cards/CONTENT-ACTOR-WORLD-INITIAL-SKILLS-1.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "169-169",
+          "anchor": "export const CONTENT_VERSION = 23",
+          "role": "canonical content version",
+          "sha256": "b3137cdeeb8077ab7d8bf8f352ce1661e8173fbd17e316399e11148dfaf0c432"
+        }
+      ],
+      "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
     }
   ],
   "runtimeExecution": {

@@ -1,4 +1,6 @@
-/** D14-3：每条 reward-gain 的无输入展示时长。 */
+import { scriptWorkWait } from '../script-work-queue.js'
+
+/** 单条拾取提示在没有跳过操作时的展示时长。 */
 export const REWARD_GAIN_DURATION_MS = 1400
 
 export interface RewardGainView {
@@ -19,7 +21,7 @@ function rewardGainAbortError(): DOMException {
 }
 
 /**
- * reward-gain 的单 owner 顺序呈现器。
+ * 按顺序展示一次道具操作产生的提示。调用方串行提交序列。
  *
  * timeout、按键 advance 与 AbortSignal 竞争同一个 settle；advance 只兑现当前条，调用方的
  * `for` 序列随后才会激活下一条，因此不会一次按键清空整队，也不会留下旧 timer。
@@ -103,5 +105,3 @@ export function handleRewardGainInput(
   if (pressed.has('Escape')) return false
   return true
 }
-
-import { scriptWorkWait } from '../script-work-queue.js'

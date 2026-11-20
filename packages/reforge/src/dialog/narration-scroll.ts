@@ -1,11 +1,11 @@
-/** 原版 PAL_CreateSingleLineBox 使用的半角单位：半角=1，全角=2。 */
-export function narrationTextUnits(text: string): number {
+/** 第一阶段的固定宽度约定以 8px 为一单位，无需加载实际字体。 */
+function narrationTextUnits(text: string): number {
   let units = 0
-  for (const ch of text) units += (ch.codePointAt(0) ?? 0) < 0x80 ? 1 : 2
+  for (const ch of text) units += ch.charCodeAt(0) < 0x80 ? 1 : 2
   return units
 }
 
-export interface NarrationScrollLayout {
+interface NarrationScrollLayout {
   boxX: number
   boxY: number
   boxLen: number
@@ -13,15 +13,14 @@ export interface NarrationScrollLayout {
   textY: number
 }
 
-/** 对齐一阶段 drawNarrationDialog / sdlpal text.c:1663-1710。 */
-export function narrationScrollLayout(text: string): NarrationScrollLayout {
+/** 原始居中窗口的卷轴和文字坐标。世界拾取提示复用横向布局并指定纵坐标。 */
+export function narrationScrollLayout(text: string, boxY = 40): NarrationScrollLayout {
   const units = narrationTextUnits(text)
   const boxX = 160 - units * 4
-  const boxY = 40
   return {
     boxX,
     boxY,
-    boxLen: Math.max(1, Math.floor((units + 1) / 2)),
+    boxLen: Math.max(1, Math.ceil(units / 2)),
     textX: boxX + 8 + ((units & 1) << 2),
     textY: boxY + 10,
   }

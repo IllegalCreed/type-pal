@@ -8,6 +8,7 @@ import {
   type AssetRecordV1,
   type BattleSpriteDef,
   type BattleSpriteProfileKind,
+  battleSpriteDefinitionFrameDemand,
   battleSpriteDefinitionFrameIndices,
   PAL_PHYSICAL_EFFECT_ASSET_ID,
   type ProjectMap,
@@ -410,7 +411,13 @@ export async function loadBattleSpriteDefinition(
       `BattleSpriteDef "${definition.id}" (AssetId "${definition.asset}") profile 期望 ${expected}，实际 ${definition.profile.kind}`,
     )
   const sprite = await cache.load(reader, definition.asset)
-  const indices = battleSpriteDefinitionFrameIndices(definition, sprite.frames.length)
+  const frameCount = sprite.frames.length
+  // Enemy profiles have contiguous sections from frame 0 and decoded frames are dense.
+  const indices =
+    definition.profile.kind === 'enemy' &&
+    battleSpriteDefinitionFrameDemand(definition) > frameCount
+      ? [frameCount]
+      : battleSpriteDefinitionFrameIndices(definition, frameCount)
   for (const frame of indices)
     if (!sprite.frames[frame])
       throw new Error(
@@ -483,19 +490,23 @@ export async function loadBattleBgFull(
       `战场背景 AssetId "${asset}" 解码失败:${error instanceof Error ? error.message : String(error)}`,
     )
   }
-  if (bitmap.width !== 320 || bitmap.height !== 200) {
+  let cvs: HTMLCanvasElement
+  let ctx: CanvasRenderingContext2D
+  try {
+    if (bitmap.width !== 320 || bitmap.height !== 200)
+      throw new Error(
+        `战场背景 AssetId "${asset}" 尺寸必须为 320×200，实际 ${bitmap.width}×${bitmap.height}`,
+      )
+    cvs = document.createElement('canvas')
+    cvs.width = bitmap.width
+    cvs.height = bitmap.height
+    const context = cvs.getContext('2d')
+    if (!context) throw new Error('reforge: 2d context 不可用')
+    context.drawImage(bitmap, 0, 0)
+    ctx = context
+  } finally {
     bitmap.close()
-    throw new Error(
-      `战场背景 AssetId "${asset}" 尺寸必须为 320×200，实际 ${bitmap.width}×${bitmap.height}`,
-    )
   }
-  const cvs = document.createElement('canvas')
-  cvs.width = bitmap.width
-  cvs.height = bitmap.height
-  const ctx = cvs.getContext('2d')
-  if (!ctx) throw new Error('reforge: 2d context 不可用')
-  ctx.drawImage(bitmap, 0, 0)
-  bitmap.close()
   const src = ctx.getImageData(0, 0, cvs.width, cvs.height)
   const n = cvs.width * cvs.height
   const indices = new Uint8Array(n)

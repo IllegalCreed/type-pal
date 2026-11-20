@@ -201,7 +201,10 @@ export function checkAcquisitionFlow(
   if (chest) {
     const opening = record(flow.opening, `${path}.opening`)
     keys(opening, ['facing', 'frame', 'sound'], `${path}.opening`)
-    if (!['up', 'down', 'left', 'right'].includes(String(opening.facing)))
+    if (
+      typeof opening.facing !== 'string' ||
+      !['up', 'down', 'left', 'right'].includes(opening.facing)
+    )
       throw new Error(`${path}.opening.facing: 期望 up|down|left|right`)
     if (!Number.isSafeInteger(opening.frame) || Number(opening.frame) < 0)
       throw new Error(`${path}.opening.frame: 期望非负安全整数`)

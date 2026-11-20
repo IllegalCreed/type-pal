@@ -16,8 +16,8 @@ export interface PlayerFighterFrames {
 }
 
 /**
- * 可参战角色的动作 ABI。命中特效与施法前摇特效目前仍是 effect frame base；
- * A7-3E 会把二者升级为 effect clip 引用，A7-3B 不拥有 effect-sprite 二进制。
+ * 可参战角色的动作 ABI。frames 索引角色精灵，两个 effect base 索引独立的
+ * 战斗特效资源，不能计入角色精灵的帧容量。
  */
 export interface PlayerFighterBattleSpriteProfile {
   kind: 'player-fighter'
@@ -177,7 +177,15 @@ export function validateBattleSprites(value: unknown, catalog?: AssetCatalogV1):
   })
 }
 
-/** 定义会访问到的绝对帧集合；替换/no-shrink 与运行时 readiness 共用。 */
+function requiredSummonFrameCount(actualFrameCount: number | undefined): number {
+  if (actualFrameCount === undefined)
+    throw new Error('summon profile 的帧集合必须由已解码资源提供 actualFrameCount')
+  if (!Number.isInteger(actualFrameCount) || actualFrameCount <= 0)
+    throw new Error('summon battle sprite 至少需要 1 个实际帧')
+  return actualFrameCount
+}
+
+/** 枚举已有物理容量证明的帧集合；仅比较容量时用 FrameDemand。 */
 export function battleSpriteDefinitionFrameIndices(
   definition: Pick<BattleSpriteDef, 'profile'>,
   actualFrameCount?: number,
@@ -188,11 +196,8 @@ export function battleSpriteDefinitionFrameIndices(
     for (const key of PLAYER_FRAME_KEYS) result.add(profile.frames[key])
     if (profile.frames.steal !== undefined) result.add(profile.frames.steal)
   } else if (profile.kind === 'summon') {
-    if (actualFrameCount === undefined)
-      throw new Error('summon profile 的帧集合必须由已解码资源提供 actualFrameCount')
-    if (!Number.isInteger(actualFrameCount) || actualFrameCount <= 0)
-      throw new Error('summon battle sprite 至少需要 1 个实际帧')
-    for (let frame = 0; frame < actualFrameCount; frame++) result.add(frame)
+    const frameCount = requiredSummonFrameCount(actualFrameCount)
+    for (let frame = 0; frame < frameCount; frame++) result.add(frame)
   } else {
     for (const section of [profile.idle, profile.magic, profile.attack])
       for (let frame = section.start; frame < section.start + section.count; frame++)
@@ -201,12 +206,20 @@ export function battleSpriteDefinitionFrameIndices(
   return result
 }
 
-/** 定义所需最小帧数；空集合不会出现，因为每类 profile 都至少声明一个帧。 */
+/** 判断所需最小帧数时，敌人用各非空段的右端点，召唤用解码证明。 */
 export function battleSpriteDefinitionFrameDemand(
   definition: Pick<BattleSpriteDef, 'profile'>,
   actualFrameCount?: number,
 ): number {
-  return Math.max(...battleSpriteDefinitionFrameIndices(definition, actualFrameCount)) + 1
+  const { profile } = definition
+  if (profile.kind === 'summon') return requiredSummonFrameCount(actualFrameCount)
+  if (profile.kind === 'enemy') {
+    let demand = 0
+    for (const { start, count } of [profile.idle, profile.magic, profile.attack])
+      if (count > 0) demand = Math.max(demand, start + count)
+    return demand
+  }
+  return Math.max(...battleSpriteDefinitionFrameIndices(definition)) + 1
 }
 
 export function resolveBattleSpriteDefinition(

@@ -1,5 +1,5 @@
 import type { SpriteDef } from '@type-pal/content'
-import { deriveStepCycle } from '@type-pal/reforge'
+import { deriveStepCycle, INDEXED_RLE_MAX_FRAME_SLOTS } from '@type-pal/reforge'
 import type { SemanticFrameGroup, SemanticFrameRow } from './SpriteFrameWorkbench.js'
 
 const DIRECTION_LABELS = ['下', '左', '上', '右'] as const
@@ -7,6 +7,7 @@ const DIRECTION_LABELS = ['下', '左', '上', '右'] as const
 /** 大世界精灵资源库与引用预览共用的语义动作真值。 */
 export function worldSpriteSemanticGroups(
   consumers: readonly SpriteDef[],
+  actualFrameCount: number,
   activeDefinitionId?: string,
   activeActionId?: string,
 ): SemanticFrameGroup[] {
@@ -16,18 +17,26 @@ export function worldSpriteSemanticGroups(
       const count = consumer.layout.framesPerDir
       for (let direction = 0; direction < 4; direction++) {
         const base = direction * count
+        const previewCount =
+          count * 4 > INDEXED_RLE_MAX_FRAME_SLOTS
+            ? Math.min(count, Math.max(0, actualFrameCount - base))
+            : count
+        const frames = Array.from({ length: previewCount }, (_, index) => base + index)
         rows.push({
           id: `${consumer.id}:direction:${direction}`,
           label: `${DIRECTION_LABELS[direction]} · 行走`,
-          frames: Array.from({ length: count }, (_, index) => base + index),
-          playbackFrames: deriveStepCycle(count).map((index) => base + index),
+          frames,
+          playbackFrames:
+            count === 3 ? deriveStepCycle(count).map((index) => base + index) : frames,
           loopFrom: 0,
           frameMs: 100,
           note: `#${base} 为站立帧`,
         })
       }
     } else if (consumer.layout.kind === 'loop') {
-      const frames = Array.from({ length: consumer.layout.frameCount }, (_, index) => index)
+      const declared = consumer.layout.frameCount
+      const length = declared > INDEXED_RLE_MAX_FRAME_SLOTS ? actualFrameCount : declared
+      const frames = Array.from({ length }, (_, index) => index)
       rows.push({
         id: `${consumer.id}:loop`,
         label: '自动循环',

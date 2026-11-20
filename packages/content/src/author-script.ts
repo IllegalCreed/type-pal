@@ -124,6 +124,7 @@ function transformAuthorScriptTree(
   resolveCue?: (cue: AuthorDialogueCue, path: string) => DialogueCue,
 ): unknown {
   const visit = (value: unknown, path: string, self: EntityAddress | undefined): unknown => {
+    // A reward expands to sibling commands. Other arrays keep their nesting and order.
     if (Array.isArray(value))
       return value.flatMap((entry, index) => {
         const resolved = visit(entry, `${path}[${index}]`, self)
@@ -141,6 +142,7 @@ function transformAuthorScriptTree(
       if (!self) throw new Error(`${path}: 取物流程缺所属实体`)
       return visit(expandAcquisitionFlow(value, self, context.items ?? []), path, self)
     }
+    // A whole scene supplies ownership only to its entity subtrees.
     if (
       typeof value.id === 'string' &&
       typeof value.mapId === 'string' &&

@@ -89,6 +89,15 @@ describe('WorldVariableRegistryV1', () => {
     ).toThrow('number 期望有限数值')
   })
 
+  test.each([
+    ['number', '10', 'initial: number 期望有限数值'],
+    ['bool', true, 'kind: 只允许 flag / number'],
+  ])('rejects a malformed %s variable definition', (kind, initial, reason) => {
+    expect(() =>
+      validateWorldVariableRegistryV1({ score: { name: '声望', description: '', kind, initial } }),
+    ).toThrow(new Error(`worldVariables.score.${reason}`))
+  })
+
   test('initial values split into disjoint flags and vars maps without leaking references', () => {
     const registry = {
       'quest.started': { kind: 'flag', name: '任务已开始', description: '', initial: true },

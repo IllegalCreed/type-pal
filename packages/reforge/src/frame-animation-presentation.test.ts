@@ -100,3 +100,20 @@ describe('FrameAnimationPresentationState', () => {
     expect(state.hasBufferedFrame).toBe(false)
   })
 })
+
+it('a finished owner can still be cleared but cannot publish a late frame', () => {
+  const state = new FrameAnimationPresentationState()
+  const last = frame(31)
+  const owner = state.beginPlayback()
+  state.present(last, owner)
+  state.finishPlayback(owner, { succeeded: true, holdLastFrame: true })
+
+  expect(state.isCurrent(owner)).toBe(true)
+  expect(state.present(frame(71), owner)).toBe(false)
+  state.finishPlayback(owner, { succeeded: false })
+  expect(state.visibleFrame).toBe(last)
+
+  state.reset()
+  expect(state.isCurrent(owner)).toBe(false)
+  expect(state.visibleFrame).toBeUndefined()
+})

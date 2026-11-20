@@ -22,13 +22,19 @@ test.each([
   const read = kind === 'scene' ? f.readers.loadScene : f.readers.loadMap
   vi.mocked(read).mockRejectedValueOnce(failure)
   const request = () => (kind === 'scene' ? f.resources.canonical('b') : f.resources.map('map-b'))
-  const observed = await request().then(
-    () => undefined,
-    (error) => error,
-  )
-  expect(observed).toBe(failure)
-  if (kind === 'scene') expect(f.resources.peek('b')).toBeUndefined()
-  expect(await request()).toBeDefined()
+  await expect(request()).rejects.toBe(failure)
+  if (kind === 'scene') {
+    expect(f.resources.peek('b')).toBeUndefined()
+    const recovered = await f.resources.canonical('b')
+    expect(recovered).toMatchObject({ id: 'b', mapId: 'map-b', entry: { facing: 'left' } })
+    expect(f.resources.peek('b')).toBe(recovered)
+  } else {
+    const recovered = await f.resources.map('map-b')
+    expect(recovered.map).toMatchObject({ width: 8, height: 8, tilesetRefs: ['tiles'] })
+    expect([...recovered.tilesets.keys()]).toEqual(['tiles'])
+    expect(recovered.tilesets.get('tiles')?.size).toBeGreaterThan(0)
+    expect(await f.resources.map('map-b')).toBe(recovered)
+  }
   expect(read).toHaveBeenCalledTimes(2)
   f.assertInputs()
 })

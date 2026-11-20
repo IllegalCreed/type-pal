@@ -5,40 +5,13 @@
  * 无任何直接测试。本文件只补其 N2 同语义：提示 chunk 命中、错误提示下按稳定 id 重推导、
  * chunk 缺失与 script id 缺失的显式诊断、进入即拒的 AbortError。
  */
-import { checkScriptLibrary, normalizeScriptLibrary, type ScriptIndexV1 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { sceneScriptPair } from './__tests__/script-chunk-fixture.js'
 import { MemoryScriptResolver } from './script-chunk-store.js'
-
-function fixture() {
-  const firstId = 'scene/s001/on-enter/0'
-  const secondId = 'scene/s002/on-enter/0'
-  const draft: ScriptIndexV1 = {
-    version: 1,
-    shards: { shared: 1, global: {} },
-    chunks: {
-      'scene/s001': { path: 'chunks/scene/s001.json', bytes: 0 },
-      'scene/s002': { path: 'chunks/scene/s002.json', bytes: 0 },
-    },
-  }
-  const { index, chunks } = normalizeScriptLibrary(draft, {
-    'scene/s001': {
-      version: 1,
-      id: 'scene/s001',
-      scripts: { [firstId]: [{ kind: 'wait', ms: 1 }] },
-    },
-    'scene/s002': {
-      version: 1,
-      id: 'scene/s002',
-      scripts: { [secondId]: [{ kind: 'wait', ms: 2 }] },
-    },
-  })
-  checkScriptLibrary(index, chunks)
-  return { index, chunks, firstId, secondId }
-}
 
 describe('MemoryScriptResolver current semantics', () => {
   test('提示 chunk 命中时返回该 chunk 的正文，ref 归一到实际 chunk 且 release 幂等', async () => {
-    const { index, chunks, firstId } = fixture()
+    const { index, chunks, firstId } = sceneScriptPair()
     const resolver = new MemoryScriptResolver(index, chunks)
     const signal = new AbortController().signal
     const resolved = await resolver.resolve({ chunk: 'scene/s001', id: firstId }, signal)
@@ -49,7 +22,7 @@ describe('MemoryScriptResolver current semantics', () => {
   })
 
   test('错误 hint 不掩盖正文：按稳定 id 重推导命中另一 chunk', async () => {
-    const { index, chunks, secondId } = fixture()
+    const { index, chunks, secondId } = sceneScriptPair()
     const resolver = new MemoryScriptResolver(index, chunks)
     const resolved = await resolver.resolve(
       { chunk: 'scene/s001', id: secondId },
@@ -60,7 +33,7 @@ describe('MemoryScriptResolver current semantics', () => {
   })
 
   test('chunk 不存在与 script id 不存在分别给出显式诊断', async () => {
-    const { index, chunks } = fixture()
+    const { index, chunks } = sceneScriptPair()
     const resolver = new MemoryScriptResolver(index, chunks)
     // 提示与重推导均无 chunk 时按「chunk 不存在」拒绝；chunk 在而 body 缺时按 id 拒绝。
     await expect(
@@ -78,7 +51,7 @@ describe('MemoryScriptResolver current semantics', () => {
   })
 
   test('已中止的 signal 进入即拒，不读取任何 chunk', async () => {
-    const { index, chunks, firstId } = fixture()
+    const { index, chunks, firstId } = sceneScriptPair()
     const resolver = new MemoryScriptResolver(index, chunks)
     const controller = new AbortController()
     controller.abort()
@@ -88,7 +61,7 @@ describe('MemoryScriptResolver current semantics', () => {
   })
 
   test('解析输入不携带正文的空 chunks 表时按 chunk 缺失拒绝', async () => {
-    const { index, firstId } = fixture()
+    const { index, firstId } = sceneScriptPair()
     const resolver = new MemoryScriptResolver(index, {})
     await expect(
       resolver.resolve({ chunk: 'scene/s001', id: firstId }, new AbortController().signal),

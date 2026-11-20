@@ -1,244 +1,277 @@
-import { type AssetCatalogV1, encodeFrameSequence } from '@type-pal/content'
-import { describe, expect, test, vi } from 'vitest'
-import { AssetResolver } from './asset-resolver.js'
-import type { FileSource } from './file-source.js'
-import { FrameSequenceReader, playFrameAnimation } from './frame-animation-player.js'
+import { expect, test, vi } from 'vitest'
+import {
+  exampleFrameAsset as asset,
+  frameGate,
+  frameSequenceBytes,
+  listedFrameSequence,
+} from './__tests__/frame-sequence-fixture.js'
+import {
+  decompressFrameSequenceBlock,
+  FrameSequenceReader,
+  playFrameAnimation,
+} from './frame-animation-player.js'
 
-const asset = 'frame-animation.test'
-const identity = async (bytes: Uint8Array): Promise<Uint8Array> => bytes.slice()
-
-function arrayBufferOf(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
-}
-
-async function fixture(frameCount = 70): Promise<Uint8Array> {
-  return encodeFrameSequence(
-    {
-      width: 1,
-      height: 1,
-      defaultFrameMs: 40,
-      frames: Array.from({ length: frameCount }, (_, index) => ({
-        rgba: Uint8Array.from([index, index + 1, index + 2, 255]),
-        ...(index === 1 ? { durationMs: 75 } : {}),
-      })),
-    },
-    identity,
-  )
-}
-
-function resolver(bytes: Uint8Array, readBytes?: FileSource['readBytes']): AssetResolver {
-  const catalog: AssetCatalogV1 = {
-    version: 1,
-    assets: {
-      [asset]: {
-        kind: 'frame-animation',
-        path: 'assets/authored/test.tpfs',
-        mediaType: 'application/vnd.type-pal.frame-sequence',
-        bytes: bytes.byteLength,
-        sha256: 'a'.repeat(64),
-        origin: { kind: 'authored' },
-      },
-    },
-  }
-  const source: FileSource = {
-    readText: async () => '',
-    readJson: async <T>() => ({}) as T,
-    readBytes: readBytes ?? (async () => arrayBufferOf(bytes)),
-    urlFor: async (path) => path,
-  }
-  return new AssetResolver('test', catalog, {}, source)
+async function previewReader(colors = [0, 1, 2]) {
+  return new FrameSequenceReader(await listedFrameSequence(await frameSequenceBytes(colors)))
 }
 
 function keydown(code: string): Event {
-  const event = new Event('keydown', { cancelable: true })
-  Object.defineProperty(event, 'code', { value: code })
-  return event
+  return Object.assign(new Event('keydown', { cancelable: true }), { code })
 }
 
-describe('FrameSequenceReader', () => {
-  test('容器 Promise 在 await 前缓存，并发读取只访问一次文件', async () => {
-    const bytes = await fixture(2)
-    let release: ((value: ArrayBuffer) => void) | undefined
-    const readBytes = vi.fn(
-      () =>
-        new Promise<ArrayBuffer>((resolve) => {
-          release = resolve
-        }),
-    )
-    const reader = new FrameSequenceReader(resolver(bytes, readBytes), identity)
-    const first = reader.sequence(asset)
-    const second = reader.sequence(asset)
-    expect(first).toBe(second)
-    expect(readBytes).toHaveBeenCalledOnce()
-    release?.(arrayBufferOf(bytes))
-    await expect(first).resolves.toMatchObject({ index: { width: 1, height: 1 } })
+const noDelay = async () => {}
+
+test('presentation installs the first pixel before reveal and waits for reveal before its own frame timing', async () => {
+  const reader = await previewReader([0, 1])
+  const atReveal = frameGate(),
+    reveal = frameGate(),
+    atFirstWait = frameGate(),
+    firstWait = frameGate()
+  const events: string[] = []
+  let waitCount = 0
+  const pending = playFrameAnimation({
+    reader,
+    asset,
+    frameRate: 16,
+    onFrame(frame) {
+      events.push(`pixel:${frame.rgba[0]}`)
+    },
+    async onFirstFrameReady() {
+      events.push('reveal:start')
+      atReveal.release()
+      await reveal.promise
+      events.push('reveal:end')
+    },
+    async wait(ms) {
+      events.push(`wait:${ms}`)
+      if (++waitCount === 1) {
+        atFirstWait.release()
+        await firstWait.promise
+      }
+    },
   })
-
-  test('同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张', async () => {
-    const bytes = await fixture()
-    let release: (() => void) | undefined
-    const inflate = vi.fn(async (compressed: Uint8Array) => {
-      await new Promise<void>((resolve) => {
-        release = resolve
-      })
-      return compressed.slice()
-    })
-    const reader = new FrameSequenceReader(resolver(bytes), inflate)
-    const frame0 = reader.frame(asset, 0)
-    const frame7 = reader.frame(asset, 7)
-    await vi.waitFor(() => expect(inflate).toHaveBeenCalledOnce())
-    expect(reader.inflightBlockCount).toBe(1)
-    release?.()
-    await expect(frame0).resolves.toMatchObject({ rgba: Uint8Array.from([0, 1, 2, 255]) })
-    await expect(frame7).resolves.toMatchObject({ rgba: Uint8Array.from([7, 8, 9, 255]) })
-
-    const direct = vi.fn(identity)
-    const secondReader = new FrameSequenceReader(resolver(bytes), direct)
-    await secondReader.frame(asset, 0)
-    await secondReader.frame(asset, 32)
-    await secondReader.frame(asset, 64)
-    expect(secondReader.cachedFrameCount).toBe(64)
-    expect(direct).toHaveBeenCalledTimes(3)
-  })
-})
-
-describe('playFrameAnimation', () => {
-  test('首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧', async () => {
-    const bytes = await fixture(2)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    const events: string[] = []
-    let reveal!: () => void, frameEnd!: () => void
-    const revealing = new Promise<void>((resolve) => {
-      reveal = resolve
-    })
-    const firstWait = new Promise<void>((resolve) => {
-      frameEnd = resolve
-    })
-    const pending = playFrameAnimation({
-      reader,
-      asset,
-      frameRate: 16,
-      onFrame: (frame) => {
-        events.push(`frame:${frame.rgba[0]}`)
-      },
-      onFirstFrameReady: async () => {
-        events.push('fade:start:600')
-        await revealing
-        events.push('fade:end:600')
-      },
-      wait: async (ms) => {
-        events.push(`wait:${ms}`)
-        if (events.filter((event) => event.startsWith('frame:')).length === 1) await firstWait
-      },
-    })
-    await vi.waitFor(() => expect(events).toEqual(['frame:0', 'fade:start:600']))
-    reveal()
-    await vi.waitFor(() =>
-      expect(events).toEqual(['frame:0', 'fade:start:600', 'fade:end:600', 'wait:62.5']),
-    )
-    frameEnd()
+  try {
+    await atReveal.promise
+    expect(events).toEqual(['pixel:0', 'reveal:start'])
+    reveal.release()
+    await atFirstWait.promise
+    expect(events).toEqual(['pixel:0', 'reveal:start', 'reveal:end', 'wait:62.5'])
+    firstWait.release()
     await pending
     expect(events).toEqual([
-      'frame:0',
-      'fade:start:600',
-      'fade:end:600',
+      'pixel:0',
+      'reveal:start',
+      'reveal:end',
       'wait:62.5',
-      'frame:1',
+      'pixel:1',
       'wait:62.5',
     ])
-  })
+  } finally {
+    reveal.release()
+    firstWait.release()
+    await pending.catch(() => undefined)
+  }
+})
 
-  test('按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧', async () => {
-    const bytes = await fixture(4)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    const frames: number[] = []
-    const waits: number[] = []
+test('the bounded range is inclusive, with FPS override or individual authored durations', async () => {
+  const reader = await previewReader([0, 1, 2, 3])
+  for (const mode of [
+    { frameRate: 25, durations: [40, 40, 40] },
+    { frameRate: undefined, durations: [75, 40, 40] },
+  ]) {
+    const frames: number[] = [],
+      waits: number[] = []
     const result = await playFrameAnimation({
       reader,
       asset,
       startFrame: 1,
       endFrame: 3,
-      frameRate: 25,
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
-      wait: async (ms) => {
+      ...(mode.frameRate === undefined ? {} : { frameRate: mode.frameRate }),
+      onFrame(frame) {
+        frames.push(frame.rgba[0] ?? -1)
+      },
+      async wait(ms) {
         waits.push(ms)
       },
     })
     expect(frames).toEqual([1, 2, 3])
-    expect(waits).toEqual([40, 40, 40])
-    expect(result?.rgba[0]).toBe(3)
-  })
+    expect(waits).toEqual(mode.durations)
+    expect(result?.rgba).toEqual(Uint8Array.of(3, 4, 5, 255))
+  }
+})
 
-  test('越界区间与加载失败均 fail-loud', async () => {
-    const bytes = await fixture(2)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    await expect(
-      playFrameAnimation({ reader, asset, endFrame: 2, onFrame: () => {}, wait: async () => {} }),
-    ).rejects.toThrow('越界')
-    const broken = new FrameSequenceReader(
-      resolver(bytes, async () => {
-        throw new Error('NotFound')
-      }),
-      identity,
-    )
-    await expect(
-      playFrameAnimation({ reader: broken, asset, onFrame: () => {}, wait: async () => {} }),
-    ).rejects.toThrow(/test.*frame-animation\.test.*NotFound/)
-  })
+test('an invalid range and a missing registered file each propagate without presenting a frame', async () => {
+  const reader = await previewReader([0, 1])
+  const onFrame = vi.fn()
+  await expect(
+    playFrameAnimation({ reader, asset, endFrame: 2, onFrame, wait: noDelay }),
+  ).rejects.toThrow('越界')
+  const broken = new FrameSequenceReader(
+    await listedFrameSequence(await frameSequenceBytes([0, 1]), async () => {
+      throw new DOMException('file missing', 'NotFoundError')
+    }),
+  )
+  await expect(
+    playFrameAnimation({ reader: broken, asset, onFrame, wait: noDelay }),
+  ).rejects.toThrow(/frame-fixture.*frame-animation\.opening.*file missing/u)
+  expect(onFrame).not.toHaveBeenCalled()
+})
 
-  test('剧情默认不可用空格跳过，仍输出完整帧序列', async () => {
-    const bytes = await fixture(3)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    const target = new EventTarget()
-    const frames: number[] = []
-    let waits = 0
-    await playFrameAnimation({
+test('story playback does not consume Space or skip frames without a preview binding', async () => {
+  const reader = await previewReader()
+  const target = new EventTarget()
+  const frames: number[] = []
+  const event = keydown('Space')
+  await playFrameAnimation({
+    reader,
+    asset,
+    eventTarget: target,
+    onFrame(frame) {
+      frames.push(frame.rgba[0] ?? -1)
+    },
+    async wait() {
+      if (frames.length === 1) target.dispatchEvent(event)
+    },
+  })
+  expect(event.defaultPrevented).toBe(false)
+  expect(frames).toEqual([0, 1, 2])
+})
+
+test('during a preview wait only the bound key is consumed and the first frame is retained', async () => {
+  const reader = await previewReader()
+  const target = new EventTarget()
+  const firstWait = frameGate(),
+    release = frameGate()
+  const frames: number[] = [],
+    seen: string[] = []
+  const unrelated = keydown('KeyX'),
+    bound = keydown('Space')
+  const running = playFrameAnimation({
+    reader,
+    asset,
+    skipKeys: ['Space'],
+    eventTarget: target,
+    onFrame(frame) {
+      frames.push(frame.rgba[0] ?? -1)
+    },
+    wait() {
+      firstWait.release()
+      return release.promise
+    },
+  })
+  try {
+    await firstWait.promise
+    target.addEventListener('keydown', (event) => seen.push((event as KeyboardEvent).code))
+    expect(target.dispatchEvent(unrelated)).toBe(true)
+    expect(target.dispatchEvent(bound)).toBe(false)
+    release.release()
+    expect((await running)?.rgba).toEqual(Uint8Array.of(0, 1, 2, 255))
+    expect(frames).toEqual([0])
+    expect(seen).toEqual(['KeyX'])
+  } finally {
+    release.release()
+    await running.catch(() => undefined)
+  }
+})
+
+test('a renderer error propagates unchanged and releases the capturing preview key listener', async () => {
+  const reader = await previewReader()
+  const target = new EventTarget()
+  const remove = target.removeEventListener.bind(target)
+  // Node 22 only honors object capture options on removal; adapt the browser boolean form.
+  target.removeEventListener = (type, listener, options) =>
+    remove(type, listener, typeof options === 'boolean' ? { capture: options } : options)
+  const broken = new Error('renderer crashed')
+  const onKeyAfterFailure = vi.fn()
+  await expect(
+    playFrameAnimation({
       reader,
       asset,
       eventTarget: target,
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
-      wait: async () => {
-        if (waits++ === 0) target.dispatchEvent(keydown('Space'))
-      },
-    })
-    expect(frames).toEqual([0, 1, 2])
-  })
-
-  test('开发预览显式声明 skipKeys 后才允许空格提前结束', async () => {
-    const bytes = await fixture(3)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    const target = new EventTarget()
-    const frames: number[] = []
-    const result = await playFrameAnimation({
-      reader,
-      asset,
       skipKeys: ['Space'],
-      eventTarget: target,
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
-      wait: async () => {
-        target.dispatchEvent(keydown('Space'))
+      wait: noDelay,
+      onFrame() {
+        throw broken
       },
-    })
-    expect(frames).toEqual([0])
-    expect(result?.rgba[0]).toBe(0)
-  })
+    }),
+  ).rejects.toBe(broken)
+  target.addEventListener('keydown', onKeyAfterFailure)
+  const event = keydown('Space')
+  expect(target.dispatchEvent(event)).toBe(true)
+  expect(onKeyAfterFailure).toHaveBeenCalledExactlyOnceWith(event)
+})
 
-  test('runner signal 取消会立即终止等待且不再提交后续帧', async () => {
-    const bytes = await fixture(3)
-    const reader = new FrameSequenceReader(resolver(bytes), identity)
-    const controller = new AbortController()
-    const gate = new Promise<void>(() => {})
-    const frames: number[] = []
-    const running = playFrameAnimation({
-      reader,
-      asset,
-      signal: controller.signal,
-      onFrame: (frame) => frames.push(frame.rgba[0] ?? -1),
-      wait: () => gate,
-    })
-    await vi.waitFor(() => expect(frames).toEqual([0]))
-    controller.abort()
-    await expect(running).rejects.toMatchObject({ name: 'AbortError' })
-    expect(frames).toEqual([0])
+// Observe whether the outer player has settled while the actual underlying port remains blocked.
+function untilNextTurn(): Promise<'still-pending'> {
+  return new Promise((resolve) => setTimeout(() => resolve('still-pending'), 0))
+}
+
+test.each([
+  'container',
+  'inflate',
+  'wait',
+] as const)('aborting during %s releases playback before the blocked port completes', async (step) => {
+  const bytes = await frameSequenceBytes([0, 1, 2])
+  const controller = new AbortController()
+  const entered = frameGate(),
+    releasePort = frameGate(),
+    portCompleted = frameGate()
+  const frames: number[] = []
+  async function block() {
+    entered.release()
+    await releasePort.promise
+    portCompleted.release()
+  }
+  const reader = new FrameSequenceReader(
+    await listedFrameSequence(bytes, async () => {
+      if (step === 'container') await block()
+      return bytes.slice(0)
+    }),
+    async (raw) => {
+      if (step === 'inflate') await block()
+      return decompressFrameSequenceBlock(raw)
+    },
+  )
+  const running = playFrameAnimation({
+    reader,
+    asset,
+    signal: controller.signal,
+    onFrame(frame) {
+      frames.push(frame.rgba[0] ?? -1)
+    },
+    async wait() {
+      if (step === 'wait') await block()
+    },
   })
+  const outcome = running.then(
+    () => 'resolved',
+    (error: unknown) => (error instanceof DOMException ? error.name : error),
+  )
+  try {
+    await entered.promise
+    controller.abort()
+    expect(await Promise.race([outcome, untilNextTurn()])).toBe('AbortError')
+    releasePort.release()
+    await portCompleted.promise
+    // Await real inflight buffer work before checking that nothing can land from the prior owner.
+    expect([...(await reader.frame(asset, 0)).rgba]).toEqual([0, 1, 2, 255])
+    expect(frames).toEqual(step === 'wait' ? [0] : [])
+    if (step === 'container') {
+      const replay: number[] = []
+      await playFrameAnimation({
+        reader,
+        asset,
+        endFrame: 0,
+        wait: noDelay,
+        onFrame(frame) {
+          replay.push(frame.rgba[0] ?? -1)
+        },
+      })
+      expect(replay).toEqual([0])
+    }
+  } finally {
+    controller.abort()
+    releasePort.release()
+    await outcome
+  }
 })

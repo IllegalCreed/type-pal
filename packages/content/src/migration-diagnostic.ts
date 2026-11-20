@@ -74,7 +74,8 @@ export function validateMigrationDiagnostics(json: unknown): MigrationDiagnostic
     if (target.domain !== 'item') throw new Error(`${at}.target.domain: 期望 item`)
     if (typeof target.objectId !== 'string' || target.objectId.length === 0)
       throw new Error(`${at}.target.objectId: 期望非空 string`)
-    if (!['equip', 'use', 'throw'].includes(String(target.capability)))
+    const capability = target.capability
+    if (capability !== 'equip' && capability !== 'use' && capability !== 'throw')
       throw new Error(`${at}.target.capability: 期望 equip/use/throw`)
     if (typeof target.label !== 'string' || target.label.length === 0)
       throw new Error(`${at}.target.label: 期望非空 string`)
