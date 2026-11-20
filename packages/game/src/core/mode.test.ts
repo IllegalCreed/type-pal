@@ -14,6 +14,8 @@ import { createCommandBus } from './command-bus.js'
 import {
   OP_FADE_IN,
   OP_PARTY_WALK_TO,
+  OP_SET_AUTO_SCRIPT,
+  OP_SET_CAMERA,
   OP_SHOW_FBP,
   OP_WAIT_FRAMES,
   setGlobalEvents,
@@ -95,6 +97,31 @@ describe('tickByMode autoScript gate (P2#6a)', () => {
     }
     tickByMode(gs, snap(), createCommandBus())
     expect(gs.npcs[0]?.autoCursor?.ip).toBe(1) // pan 期间 autoScript 不冻(C 每帧 PAL_GameUpdate)
+  })
+
+  it('moves a newly cued actor on the first painted relative camera step', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [{ id: 0, x: 0, y: 0, spriteNum: 1, sState: 1 }]
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x7d, operands: [1, 4, 2], label: 'L_1' },
+      { op: 'end' },
+    ])
+    gs.mode = 'event'
+    gs.camera = { x: 100, y: 100 }
+    gs.eventCursor = {
+      commands: [
+        { op: 'raw', opcode: OP_WAIT_FRAMES, operands: [1, 0, 0] },
+        { op: 'raw', opcode: OP_SET_AUTO_SCRIPT, operands: [1, 1, 0] },
+        { op: 'raw', opcode: OP_SET_CAMERA, operands: [8, 4, 3] },
+      ],
+      ip: 0,
+      waiting: 'frame-wait',
+      waitFramesRemaining: 1,
+    }
+    tickByMode(gs, snap(), createCommandBus())
+    expect(gs.camera).toEqual({ x: 108, y: 104 })
+    expect(gs.npcs[0]).toMatchObject({ x: 4, y: 2 })
   })
 
   it('event 模式 + waiting=dialog(对话阻塞)→ autoScript **不**跑(NPC 停)', () => {

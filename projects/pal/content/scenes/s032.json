@@ -2209,6 +2209,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "dx": 8,
                       "dy": 4,
                       "frames": 16,
@@ -2502,18 +2505,11 @@
                       "kind": "dialog"
                     },
                     {
-                      "dx": -8,
-                      "dy": -4,
-                      "frames": 1,
-                      "kind": "cameraPan"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "repeat",
-                      "count": 11,
+                      "count": 12,
                       "body": [
                         {
                           "dx": -8,

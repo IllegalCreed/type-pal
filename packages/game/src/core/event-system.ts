@@ -1436,12 +1436,7 @@ function panCameraBy(gs: GameState, dx: number, dy: number): void {
   offset.y -= dy
 }
 
-export function tickEventSystem(
-  gs: GameState,
-  input: InputSnapshot,
-  beganAutoFade = false,
-  updatedWorld = false,
-): void {
+export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFade = false): void {
   const cursor = gs.eventCursor
   if (!cursor) {
     gs.mode = 'explore'
@@ -2381,10 +2376,9 @@ export function tickEventSystem(
             const dy = toInt16(cy ?? 0)
             const frames = Math.max(cmd.operands[2] ?? 0, 1)
             panCameraBy(gs, dx, dy)
-            if (!updatedWorld) {
-              tickAutoScripts(gs)
-              tickChaseTimer(gs)
-            }
+            // The first relative camera step runs its own world update after the pan commits.
+            tickAutoScripts(gs)
+            tickChaseTimer(gs)
             cursor.waiting = 'camera-pan'
             cursor.cameraPanFramesRemaining = frames - 1
             cursor.cameraPanDx = dx

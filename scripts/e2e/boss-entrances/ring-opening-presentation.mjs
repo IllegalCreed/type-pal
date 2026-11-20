@@ -31,7 +31,7 @@ export function readRingOpening(commands) {
   return { dx, dy, steps, turnFrames, turnBeats, pages }
 }
 
-export function inspectRingOpening({ events, draws, launch, expected, locale }) {
+export function inspectRingOpening({ events, draws, trigger, launch, expected, locale }) {
   const issues = []
   const check = (rule, actual, expected) => {
     if (!isDeepStrictEqual(actual, expected)) issues.push({ rule, actual, expected })
@@ -53,16 +53,20 @@ export function inspectRingOpening({ events, draws, launch, expected, locale }) 
   issues.push(...dialogue.findings)
   const [panCue, dismiss, challenge] =
     dialogue.checked?.map(({ firstComplete }) => firstComplete) ?? []
+  if (!panCue || !dismiss || !challenge) return { issues, dialogue }
   const world = events.filter(
-    ({ kind, scene: id, visible }) => kind === 'world-drawn' && id === scene && visible,
+    ({ kind, scene: id, colors }) =>
+      kind === 'world-drawn' && id === scene && colors.some(([r, g, b]) => r || g || b),
   )
-  const origin = world.findLast(({ atMs }) => atMs <= panCue?.atMs)
+  const origin = world.findLast(({ atMs }) => atMs <= panCue.atMs)
+  check('the last painted camera before the cue is recorded', Boolean(origin), true)
+  if (!origin) return { issues, dialogue }
   const pan = []
   for (const frame of world) {
-    if (!origin || frame.atMs <= panCue.atMs || frame.atMs >= dismiss?.atMs) continue
+    if (frame.atMs <= panCue.atMs || frame.atMs >= dismiss.atMs) continue
     if (!isDeepStrictEqual(pan.at(-1)?.camera ?? origin.camera, frame.camera)) pan.push(frame)
   }
-  const [x, y] = origin?.camera ?? []
+  const [x, y] = origin.camera
   check(
     'every drawn opening camera step follows the source pan',
     pan.map(({ camera }) => camera),
@@ -73,10 +77,26 @@ export function inspectRingOpening({ events, draws, launch, expected, locale }) 
   )
   const cleared = inspectClearedDialogueFrames(draws, pan, scene)
   check('the dialogue and portrait are cleared on every panning frame', cleared.issue, null)
+  const cameraFrames = world.filter((frame, i) => {
+    const previous = world[i - 1]
+    return (
+      previous &&
+      frame.order > trigger.order &&
+      frame.order < launch.order &&
+      isDeepStrictEqual(frame.leader, previous.leader) &&
+      !isDeepStrictEqual(frame.camera, previous.camera)
+    )
+  })
+  const allPansCleared = inspectClearedDialogueFrames(draws, cameraFrames, scene)
+  check(
+    'all relative cameras before battle draw without retained dialogue',
+    allPansCleared.issue,
+    null,
+  )
 
   const turns = []
   for (const frame of world) {
-    if (frame.atMs <= dismiss?.atMs || frame.atMs >= challenge?.atMs) continue
+    if (frame.atMs <= dismiss.atMs || frame.atMs >= challenge.atMs) continue
     const yueru = frame.actors.e548
     if (yueru && turns.at(-1)?.frame !== yueru.frame)
       turns.push({ atMs: frame.atMs, order: frame.order, ...yueru })
@@ -105,6 +125,7 @@ export function inspectRingOpening({ events, draws, launch, expected, locale }) 
     issues,
     dialogue,
     cleared,
+    allPansCleared,
     origin: origin?.camera,
     pan: pan.map(({ atMs, camera, order }) => ({ atMs, camera, order })),
     turns,

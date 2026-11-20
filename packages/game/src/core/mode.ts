@@ -109,7 +109,7 @@ export function tickByMode(
       tickSceneSystem(gs, input)
       break
     case 'event':
-      tickEventSystem(gs, input, beganAutoFade, shouldRunAutoScripts)
+      tickEventSystem(gs, input, beganAutoFade)
       break
     case 'battle':
       tickBattle(gs, input, bus)

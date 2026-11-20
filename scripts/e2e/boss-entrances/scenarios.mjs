@@ -1591,8 +1591,8 @@ function ringSource(commands, turnStart, actors, successorTrack) {
         point.map((value, i) => value - signed(i === 0 ? dx : dy) * Math.max(count, 1)),
       [160, 112],
     )
-  // 8119/8122 alternate a step with a yielding reset. 8125 can step on each
-  // update once the first camera tick has put its new entry into effect.
+  // 8119/8122 alternate a step with a yielding reset. Each 7911 camera
+  // step updates the world and runs 8125 once.
   const rightFrames = commands
     .slice(7862, 7882)
     .filter(({ opcode }) => opcode === 0x09)
@@ -1600,7 +1600,7 @@ function ringSource(commands, turnStart, actors, successorTrack) {
   const beats = [
     [commands[7829].operands[0] / 2, -4],
     [Math.ceil(rightFrames / 2), 4],
-    [commands[7911].operands[2] - 1, -4],
+    [commands[7911].operands[2], -4],
   ]
   const yueru = actors.find(({ id }) => id === 548)
   const movements = [[yueru.x, yueru.y]]

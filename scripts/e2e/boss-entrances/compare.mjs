@@ -2033,6 +2033,7 @@ async function inspect(path, engine) {
     ring.opening = inspectRingOpening({
       events,
       draws: renderedDialogue,
+      trigger,
       launch: launch[0],
       expected: source.ring.opening,
       locale: source.locale,
@@ -2041,12 +2042,11 @@ async function inspect(path, engine) {
   const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
   if (tomb) {
     const activeFrames = events.filter(
-      ({ kind, order, surface }) =>
+      ({ kind, order, surface, active }) =>
         order > prepared.order &&
         order < won.order &&
-        (kind === 'entry-band' ||
-          kind === 'command-menu-drawn' ||
-          kind === 'boss-frame' ||
+        (kind === 'command-menu-drawn' ||
+          (kind === 'boss-frame' && order > entry.order && active) ||
           (kind === 'paint' && surface === 'battle')),
     )
     const cleared = inspectClearedDialogueFrames(renderedDialogue, activeFrames, spec.scene)
