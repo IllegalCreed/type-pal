@@ -1067,6 +1067,52 @@ export const scenarios = {
       music: { ip: 13866, track: 54 },
     },
   },
+  'thief-courtyard': {
+    id: 'yangzhou-courtyard-thief',
+    scene: 's092',
+    owner: 'e1692',
+    watched: ['e1693', 'e1694', 'e1695'],
+    team: 30,
+    enemy: 'enemy-479',
+    start: [36, -2, 0],
+    contact: [36, -1, 0],
+    approach: 'ArrowDown',
+    party: 'xiaoyao-protected',
+    music: 40,
+    field: 57,
+    slot: 1,
+    seed: 4,
+    disk: {
+      entry: 14669,
+      battle: 14691,
+      last: 14699,
+      owner: [544, 304, 0, 7],
+      field: 15375,
+      music: 14690,
+    },
+    mapMusic: { scene: 's092', ip: 15363, track: 81 },
+    prelude: {
+      source: 's081',
+      path: ['hooks', 'onEnter', 'variants', 'default', 'flow', 'stages', 0, 'body', 99, 'onYes'],
+      states: { e1692: 14544, e1694: 14545, e1695: 14546 },
+      completedAt: 15373,
+      resumeStage: 'legacy-002',
+    },
+    world: {
+      inventory: [],
+      handoff: {
+        scene: 's081',
+        ip: 14698,
+        start: 14707,
+        select: 14697,
+        variant: 'legacy-001',
+        positionIp: 14725,
+        position: [111, 15, 0],
+        inheritsMusic: true,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
   'yueru-outside': {
     id: 'lin-yueru-outside',
     scene: 's021',
@@ -1252,6 +1298,9 @@ export async function readSources(spec) {
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
+    ...(spec.prelude?.source && {
+      preludeScene: `projects/pal/content/scenes/${spec.prelude.source}.json`,
+    }),
     ...(spec.revisit
       ? {
           revisitScene: `projects/pal/content/scenes/${spec.revisit.scene}.json`,
@@ -1305,16 +1354,18 @@ export async function readSources(spec) {
   let preludeWave
   let preludePartyLayer
   if (spec.prelude) {
-    const { night, visible, states, trigger, completedAt, wave } = spec.prelude
+    const { night, visible, states, trigger, completedAt, resumeStage, path, wave } = spec.prelude
     if (night !== undefined) {
       assert.equal(commands[night].opcode, 0x50)
       assert(musicBody.some(({ kind, ambience }) => kind === 'setAmbience' && ambience === 'night'))
     }
-    const actions = trigger
-      ? data.rfScene.entities
-          .find(({ id }) => id === trigger)
-          .behaviors.trigger.default.flow.stages.flatMap(({ body }) => body)
-      : musicBody
+    const actions = path
+      ? path.reduce((value, key) => value[key], data.preludeScene)
+      : trigger
+        ? data.rfScene.entities
+            .find(({ id }) => id === trigger)
+            .behaviors.trigger.default.flow.stages.flatMap(({ body }) => body)
+        : musicBody
     for (const [entity, address] of Object.entries(states ?? visible ?? {})) {
       const command = commands[address]
       const entityId = Number(entity.slice(1))
@@ -1334,10 +1385,11 @@ export async function readSources(spec) {
     }
     if (completedAt !== undefined) {
       assert.deepEqual(commands[completedAt], { op: 'end', advance: true })
-      assert.equal(
-        data.rfScene.hooks.onEnter.variants.default.flow.stages.at(-1).next.kind,
-        'complete',
-      )
+      const stages = data.rfScene.hooks.onEnter.variants.default.flow.stages
+      if (resumeStage) {
+        assert(stages.some(({ id }) => id === resumeStage))
+        assert.equal(stages[0].next, resumeStage)
+      } else assert.equal(stages.at(-1).next.kind, 'complete')
       const enter = Number(data.gameScene.onEnterLabel.slice(2))
       const placement = commands.slice(enter, completedAt).findLast(({ opcode }) => opcode === 0x6e)
       if (placement) {

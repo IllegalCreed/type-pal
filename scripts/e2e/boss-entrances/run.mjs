@@ -449,7 +449,7 @@ async function makeGameFixture(page, baseURL, until) {
   if (source.preludePartyLayer !== undefined) assert.equal(gs.wLayer, source.preludePartyLayer * 8)
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
-  if (source.tower || source.tian) {
+  if (source.tower || source.tian || spec.id === 'yangzhou-courtyard-thief') {
     gs.wNumBattleField = spec.field
     gs.wNumBattleMusic = spec.music
   }
@@ -528,7 +528,16 @@ async function makeReforgeFixture() {
   }
   if (spec.prelude?.completedAt !== undefined) {
     world.script.behaviors.scenes = {
-      [spec.scene]: { onEnter: { cursor: { hook: 'default', at: { kind: 'completed' } } } },
+      [spec.scene]: {
+        onEnter: {
+          cursor: {
+            hook: 'default',
+            at: spec.prelude.resumeStage
+              ? { kind: 'stage', stage: spec.prelude.resumeStage }
+              : { kind: 'completed' },
+          },
+        },
+      },
     }
   }
   if (source.preludeWave) {
