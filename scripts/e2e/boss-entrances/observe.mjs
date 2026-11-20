@@ -273,10 +273,11 @@ function installBossForeground({
           ? { leader: pending.leader, camera: pending.camera }
           : undefined
       const matte = Number(opacity.toFixed(3))
-      const key = JSON.stringify([scene, film, mode, matte, world])
+      const actors = world && pending.actors
+      const key = JSON.stringify([scene, film, mode, matte, world, actors])
       if (key === previousRainDraw) return
       previousRainDraw = key
-      observation.event('rain-draw', { scene, ...film, matte, mode, world })
+      observation.event('rain-draw', { scene, ...film, matte, mode, world, actors })
     },
     dialoguePainted(sceneId, slots) {
       if (!coversDialogueWorld(sceneId)) return

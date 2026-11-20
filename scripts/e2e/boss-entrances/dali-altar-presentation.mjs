@@ -130,9 +130,9 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
 
   const rainOps = events.filter(({ scene, kind }) => scene === 's245' && kind === 'script-op')
   for (const [ip, authoredStart, authoredEnd] of [
-    [31991, 16, 17],
-    [31993, 18, 19],
-    [31995, 21, 22],
+    [31991, 20, 22],
+    [31993, 23, 26],
+    [31995, 28, 29],
   ]) {
     assert.equal(commands[ip].opcode, 9)
     const mark = (address, index) =>
@@ -150,7 +150,7 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   return { cadence, chiefAlert: alertPoses }
 }
 
-function inspectRainFilms(events, source, game, issues) {
+function inspectRainFilms(events, draws, source, game, issues) {
   const { commands, route, rainFrames } = source
   const ops = events.filter(({ kind }) => kind === 'script-op')
   const mark = (scene, address, index, op) =>
@@ -165,7 +165,7 @@ function inspectRainFilms(events, source, game, issues) {
   const films = []
   const clips = [
     ['s227', 7, 32056, 14, 32061, 17],
-    ['s245', 8, 31979, 4, 31981, 6],
+    ['s245', 8, 31979, 5, 31981, 7],
   ]
   const sourcePlays = route.segments.flatMap(({ scene, start, leave }) =>
     commands
@@ -220,9 +220,9 @@ function inspectRainFilms(events, source, game, issues) {
     if (first && fade.atMs > first.atMs + 200)
       spans.push({ id: `rain-film-${asset}`, startAtMs: first.atMs + 25, endAtMs: fade.atMs - 25 })
   }
-  const patrol = mark('s245', 31987, 14, 'dialog')
-  const reveal = mark('s245', 31986, 13, 'fade')
-  const fade = mark('s245', 32000, 24, 'fade')
+  const patrol = mark('s245', 31987, 16, 'dialog')
+  const reveal = mark('s245', 31986, 15, 'fade')
+  const fade = mark('s245', 32000, 33, 'sceneTimeline')
   assert(
     reveal && patrol && fade && reveal.order < patrol.order && patrol.order < fade.order,
     'the rain film returns to the spoken street scene',
@@ -249,7 +249,7 @@ function inspectRainFilms(events, source, game, issues) {
   if (!street.length || wrong)
     issues.push({ issue: 'rain-film-return-composition', actual: wrong, expected })
   if (!game) {
-    const clear = mark('s245', 31982, 7, 'clearFrameAnimation')
+    const clear = mark('s245', 31982, 8, 'clearFrameAnimation')
     const surface = street.findLast((row) => row.order < patrol.order)
     const covered = events.findLast(
       (row) => row.kind === 'rain-draw' && row.scene === 's245' && row.order < clear?.order,
@@ -259,12 +259,134 @@ function inspectRainFilms(events, source, game, issues) {
     if (!surface || surface.matte > 0.05)
       issues.push({ issue: 'rain-film-not-cleared-before-street-dialogue', actual: surface })
   }
+  const announce = mark('s245', 31974, 1, 'dialog')
+  const fadeToFilm = mark('s245', 31978, 4, 'fade')
+  const flight = mark('s245', 31991, 20, 'sceneTimeline')
+  const threaten = mark('s245', 31996, 29, 'dialog')
+  assert(announce && fadeToFilm && flight && threaten)
+  const rainDialogue = [
+    ['rain-chief', announce, fadeToFilm, [{ first: 31974, last: 31975, initialSlot: 'top' }], []],
+    [
+      'rain-street',
+      patrol,
+      fade,
+      [
+        { first: 31987, last: 31989, initialSlot: 'top' },
+        { first: 31996, last: 31998 },
+      ],
+      ['e4337'],
+    ],
+  ].map(([phase, start, end, pages, actors]) =>
+    inspectWorldDialogueCoverage({
+      phase,
+      scene: 's245',
+      start: start.atMs,
+      end: end.atMs,
+      expected: sourceDialogueGroups(
+        commands,
+        pages.map((page) => ({ scene: 's245', ...page })),
+      ),
+      actors,
+      events,
+      draws,
+      locale: source.locale,
+      background: true,
+    }),
+  )
+  const streetActing = inspectRainStreetCast({
+    events,
+    source,
+    reveal,
+    flight,
+    threaten,
+    first: street[0],
+    issues,
+  })
   spans.push({ id: 'rain-street-after-film', startAtMs: patrol.atMs + 25, endAtMs: fade.atMs - 25 })
   return {
     rainFilms: films,
-    rainStreet: { expected, first: street[0] },
-    rainPictures: spans.map((span) => ({ ...span, sample: 'picture', minLitFraction: 0.009 })),
+    rainStreet: { expected, first: street[0], acting: streetActing },
+    rainDialogue,
+    rainPictures: spans.map((span) => ({ ...span, sample: 'picture', minLitFraction: 0.08 })),
   }
+}
+
+function inspectRainStreetCast({ events, source, reveal, flight, threaten, first, issues }) {
+  const { commands, rainStreetActors } = source
+  assert.deepEqual(commands[32006].operands, [65535, 65528, 4])
+  const initialVisible = new Set([4337, 4338, 4339, 4340, 4341, 4344, 4345])
+  const direction = ['down', 'left', 'up', 'right']
+  const beforeFlight = events.filter(
+    ({ kind, scene, order, visible }) =>
+      kind === 'world-drawn' &&
+      scene === 's245' &&
+      visible &&
+      reveal.order < order &&
+      order < flight.order,
+  )
+  const walking = events.filter(
+    ({ kind, scene, order, visible }) =>
+      kind === 'world-drawn' &&
+      scene === 's245' &&
+      visible &&
+      flight.order < order &&
+      order < threaten.order,
+  )
+  const oldDialogue = events.find(
+    ({ kind, scene, order, dialogue }) =>
+      kind === 'world-render' &&
+      scene === 's245' &&
+      dialogue &&
+      flight.order < order &&
+      order < threaten.order,
+  )
+  if (oldDialogue) issues.push({ issue: 'rain-flight-drew-old-dialogue', actual: oldDialogue })
+  return rainStreetActors.map(({ id, x, y, spriteNum, direction: facing, currentFrameNum }) => {
+    const actor = `e${id}`
+    const expected = initialVisible.has(id)
+      ? [spriteNum, [x, y], direction[facing], facing * 3 + currentFrameNum]
+      : null
+    const firstPose = poseOf(first?.actors?.[actor])
+    if (!isDeepStrictEqual(firstPose, expected))
+      issues.push({ issue: 'rain-street-first-actor-pose', actor, actual: firstPose, expected })
+    const early = beforeFlight.find(
+      ({ actors }) => !isDeepStrictEqual(poseOf(actors[actor]), expected),
+    )
+    if (early)
+      issues.push({ issue: 'rain-actor-started-during-dialogue', actor, actual: early, expected })
+    const steps = []
+    for (const frame of walking) {
+      const pose = poseOf(frame.actors[actor])
+      if (
+        !pose ||
+        isDeepStrictEqual(pose[1], steps.at(-1)?.pose[1]) ||
+        isDeepStrictEqual(pose[1], [x, y])
+      )
+        continue
+      const count = (x - pose[1][0]) / 8
+      steps.push({ count, pose, order: frame.order, atMs: frame.atMs })
+    }
+    if (id === 4337) {
+      if (steps.length) issues.push({ issue: 'rain-leader-left-his-mark', actor, steps })
+      return { actor, firstPose, steps }
+    }
+    const broken = steps.find(({ count, pose, atMs }, i) => {
+      if (!Number.isInteger(count) || count < 1) return true
+      const last = steps[i - 1]
+      return (
+        !isDeepStrictEqual(pose, [
+          spriteNum,
+          [x - 8 * count, y + 4 * count],
+          'down',
+          [0, 1, 0, 2][count % 4],
+        ]) ||
+        (last && (count !== last.count + 1 || Math.abs(atMs - last.atMs - 100) > 55))
+      )
+    })
+    if (steps.length < 2 || broken)
+      issues.push({ issue: 'rain-soldier-escape-steps', actor, actual: broken, seen: steps.length })
+    return { actor, firstPose, steps }
+  })
 }
 
 export function inspectDaliAltar({ events, draws, boundaries, source, spec, game }) {
@@ -466,12 +588,14 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
     actions.e4168.find(Boolean),
     [...start.e4168, 'up', 6],
   )
+  const rain = inspectRainFilms(events, draws, source, game, issues)
+  const { rainDialogue, ...rainPresentation } = rain
   return {
-    coverage,
+    coverage: [...coverage, ...rainDialogue],
     issues,
     actions,
     edgeActors,
-    ...inspectRainFilms(events, source, game, issues),
+    ...rainPresentation,
     ...inspectAltarCadence(events, stageFrames, firstFrames.at(-1), source.commands, game, issues),
     comparable: {
       firstViews,
