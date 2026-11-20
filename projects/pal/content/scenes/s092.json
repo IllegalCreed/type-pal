@@ -656,6 +656,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "boss": true,
                       "kind": "startBattle",
                       "music": "music.pal.040",
