@@ -187,7 +187,7 @@ type ReplacedAuthorCommandKind =
 type AuthorLeafCommand = Exclude<RuntimeCommandBase, { kind: ReplacedAuthorCommandKind }>
 
 export type SceneTimelineAction =
-  | Extract<RuntimeCommandBase, { kind: 'fade' }>
+  | Extract<RuntimeCommandBase, { kind: 'fade' | 'cameraPan' }>
   | { kind: 'nudgeEntity'; dx: number; dy: number }
   | { kind: 'animEntity' }
   | { kind: 'setEntityFacing'; facing: Facing }
@@ -678,6 +678,7 @@ function checkSceneTimeline(
   const ids = new Set<string>()
   const targets = new Set<string>()
   const fadeWindows: Array<{ start: number; end: number }> = []
+  let hasCameraPan = false
   let totalDispatches = 0
   for (const [trackIndex, rawTrack] of command.tracks.entries()) {
     const at = `${path}.tracks[${trackIndex}]`
@@ -744,6 +745,21 @@ function checkSceneTimeline(
             throw new Error(`${actionPath}: 淡变须独占动作组，且有确定的正整数延时`)
           previousEnd = start + duration - 1
           fadeWindows.push({ start, end: start + duration })
+        } else if (action.kind === 'cameraPan') {
+          exactKeys(action, ['kind', 'dx', 'dy', 'frames', 'startImmediately'], actionPath)
+          if (
+            target !== undefined ||
+            cue.body.length !== 1 ||
+            cue.repeat !== undefined ||
+            hasCameraPan ||
+            !Number.isFinite(action.dx) ||
+            !Number.isFinite(action.dy) ||
+            !Number.isSafeInteger(action.frames) ||
+            Number(action.frames) < 1
+          )
+            throw new Error(`${actionPath}: 镜头平移须为独占动作组，且每段演出只允许一条平移`)
+          checkCameraPanStart(action, actionPath)
+          hasCameraPan = true
         } else {
           if (
             action.kind !== 'nudgeEntity' &&

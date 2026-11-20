@@ -19,6 +19,7 @@ import {
   readLinTiannanPresentation,
 } from './lin-tiannan-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
+import { compareRainRouteCast } from './rain-route-presentation.mjs'
 import { inspectRingOpening } from './ring-opening-presentation.mjs'
 import {
   battleOperands,
@@ -2602,6 +2603,7 @@ if (!failures.length) {
     const mismatch = difference(game.phoenix.cast, reforge.phoenix.cast, ['phoenix', 'cast'])
     if (mismatch) failures.push(mismatch)
   }
+  if (game.dali) failures.push(...compareRainRouteCast(game.dali.rainRoute, reforge.dali.rainRoute))
   const comparableGame = game.comparable
   assert.equal(difference(comparableGame, structuredClone(comparableGame)), null)
   const changed = structuredClone(comparableGame)

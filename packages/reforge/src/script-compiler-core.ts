@@ -72,7 +72,7 @@ export type ExecutableCommandLike<T> =
         atMs: number
         track: string
         cue: number
-        fade: boolean
+        presentation: 'fade' | 'cameraPan' | null
         body: readonly ExecutableCommandLike<T>[]
       }>
     }
@@ -227,18 +227,19 @@ function compileTimelineTrack(
   return track.cues.flatMap((cue, index) => {
     const body = compile(
       cue.body.map((action) => {
-        if (action.kind === 'fade') return action
+        if (action.kind === 'fade' || action.kind === 'cameraPan') return action
         if (!track.target) throw new Error('sceneTimeline actor track requires a target')
         return { ...action, target: track.target }
       }),
     )
-    const fade = cue.body[0]?.kind === 'fade'
+    const kind = cue.body[0]?.kind
+    const presentation = kind === 'fade' || kind === 'cameraPan' ? kind : null
     const { count, intervalMs } = cue.repeat ?? { count: 1, intervalMs: 0 }
     return Array.from({ length: count }, (_, step) => ({
       atMs: cue.atMs + step * intervalMs,
       track: track.id,
       cue: index,
-      fade,
+      presentation,
       body,
     }))
   })

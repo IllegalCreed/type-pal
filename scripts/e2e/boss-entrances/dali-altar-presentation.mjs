@@ -4,6 +4,7 @@ import {
   inspectClearedDialogueFrames,
   sourceDialogueGroups,
 } from '../rendered-dialogue-comparison.mjs'
+import { inspectRainRouteFrames } from './rain-route-presentation.mjs'
 import { inspectWorldDialogueCoverage } from './world-dialogue-coverage.mjs'
 
 function distinctPoseSequence(frames, readPose) {
@@ -60,7 +61,7 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
     altarOps.find((row) =>
       game ? row.ip === ip : row.op === op && isDeepStrictEqual(row.path, ['initial', index]),
     )
-  const opening = scriptMark(32101, 'dialog', 9)
+  const opening = scriptMark(32101, 'dialog', 10)
   const approach = stageFrames.filter(
     ({ order }) => first && opening && order >= first.order - 1 && order < opening.order,
   )
@@ -88,8 +89,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   for (let i = 4; i < expectedSteps.length; i++)
     measure(`altar nudge ${i - 2}`, steps[i - 1], steps[i], 100, 55)
 
-  const pan = scriptMark(32129, 'cameraPan', 21)
-  const firstTremor = scriptMark(32131, 'shakeScreen', 24)
+  const pan = scriptMark(32129, 'cameraPan', 22)
+  const firstTremor = scriptMark(32131, 'shakeScreen', 25)
   const beastRoar = events.find(
     ({ kind, asset, order }) =>
       kind === 'sfx-request' && asset === 132 && firstTremor && order > firstTremor.order,
@@ -100,8 +101,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   // This original autoscript repeatedly looks around at random while the chief
   // stays in place. Compare the window and its rendered effect independently of
   // the particular directions drawn by each engine's ambient random stream.
-  const alarm = scriptMark(32135, 'selectEntityBehavior', 27)
-  const retreat = scriptMark(32156, 'selectEntityBehavior', 51)
+  const alarm = scriptMark(32135, 'selectEntityBehavior', 28)
+  const retreat = scriptMark(32156, 'selectEntityBehavior', 52)
   assert.deepEqual(commands[32135].operands, [4169, 32021, 0])
   assert.deepEqual(commands[32156].operands, [4169, 32222, 0])
   measure('chief looks around before the retreat', alarm, retreat, 3300, 220)
@@ -613,11 +614,25 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
   )
   const rain = inspectRainFilms(events, draws, source, game, issues)
   const { rainDialogue, ...rainPresentation } = rain
+  const finalRain = hooks.at(-2)
+  const rainResponse = inspectWorldDialogueCoverage({
+    phase: 'rain-altar-return',
+    scene: 's227',
+    start: finalRain.atMs,
+    end: entrance.atMs,
+    expected: sourceDialogueGroups(source.commands, [{ scene: 's227', first: 32067, last: 32069 }]),
+    actors: ['e4008', 'e4009', 'e4010', 'e4011', 'e4012', 'e4013', 'e4014', 'e4015'],
+    events,
+    draws,
+    locale: source.locale,
+    background: true,
+  })
   return {
-    coverage: [...coverage, ...rainDialogue],
+    coverage: [...coverage, ...rainDialogue, rainResponse],
     issues,
     actions,
     edgeActors,
+    rainRoute: inspectRainRouteFrames({ events, hooks, launch, source, issues }),
     ...rainPresentation,
     ...inspectAltarCadence(events, stageFrames, firstFrames.at(-1), source.commands, game, issues),
     comparable: {

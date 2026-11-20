@@ -1004,9 +1004,9 @@ export const COMMAND_CATALOG: CatalogEntry[] = [
     group: '控制流',
     params: [
       ['label', '演出名称'],
-      ['tracks', '灯光或单个角色的具名轨道，每组从演出开始计时'],
+      ['tracks', '镜头、灯光或单个角色的具名轨道，每组从演出开始计时'],
     ],
-    desc: '前景步骤共用一条时钟编排指定角色和灯光。所有轨道结束才继续。',
+    desc: '前景步骤共用一条时钟编排镜头、指定角色和灯光。所有轨道结束才继续。',
   },
   {
     kind: 'breakLoop',

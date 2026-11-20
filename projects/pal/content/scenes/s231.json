@@ -2946,6 +2946,10 @@
                     "dy": 7
                   },
                   {
+                    "kind": "setPartyFacing",
+                    "facing": "down"
+                  },
+                  {
                     "kind": "wait",
                     "ms": 800
                   },

@@ -242,7 +242,8 @@ ${anchor}`,
         `      draw: (f) => {
         drawSprite(f, capturedSprite, capturedSX, capturedSY + 7)
         globalThis.__bossForeground?.gameActor(npc, capturedSprite,
-          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(capturedSprite) ?? null, gs.camera)
+          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(capturedSprite) ?? null, gs.camera,
+          's' + String(gs.wNumScene - 1).padStart(3, '0'))
       },`,
       )
       if (itemEntrance) {

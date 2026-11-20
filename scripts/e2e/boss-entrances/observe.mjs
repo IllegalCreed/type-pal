@@ -85,6 +85,7 @@ function installBossForeground({
   const coversDialogueWorld = (id) =>
     foregroundDialogueScenes.includes(id) &&
     (recordDialogueAfterBattle || !observation.read().ended)
+  const recordsFullCast = (id) => itemEntrance && coversDialogueWorld(id)
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>
@@ -93,6 +94,7 @@ function installBossForeground({
     return {
       dark: colors.every((rgb) => rgb.every((value) => value <= 8)),
       textured: new Set(colors.map((rgb) => rgb.join())).size > 1,
+      lit: colors.some((rgb) => rgb.some((value) => value > 0)),
     }
   }
 
@@ -225,6 +227,7 @@ function installBossForeground({
         : null
     const visible =
       !(visitScenes && step === 0) &&
+      (!recordsFullCast(frame.scene) || Boolean(backdrop?.lit)) &&
       (fullFrame
         ? fullFrame.some((value, index) => index % 4 !== 3 && value > 0)
         : colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0))
@@ -335,9 +338,9 @@ function installBossForeground({
     gameWorldDrawn() {
       gameWorldDrawn = true
     },
-    gameActor(npc, sprite, frame, camera) {
+    gameActor(npc, sprite, frame, camera, sceneId) {
       const id = `e${npc.id}`
-      if (!ids.includes(id)) return
+      if (!ids.includes(id) && !recordsFullCast(sceneId)) return
       const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
       if (itemEntrance && !visibleRect(rect, camera)) return
       gameActors[id] = {
@@ -398,7 +401,10 @@ function installBossForeground({
       if (!watchesScene(sceneId)) return
       const pixels = ([col, row]) => [16 * (col - row), 8 * (col + row)]
       const actors = {}
-      for (const id of ids) {
+      const candidates = recordsFullCast(sceneId)
+        ? Object.keys(draws ?? {}).filter((id) => id !== 'party')
+        : ids
+      for (const id of candidates) {
         const pose = draws?.[id]
         if (pose?.drawStatus !== 'drawn') continue
         if (!visibleRect(pose.geometry.worldRect, camera)) continue

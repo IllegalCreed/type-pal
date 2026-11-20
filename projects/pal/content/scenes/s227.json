@@ -352,6 +352,9 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
@@ -376,7 +379,9 @@
                     }
                   ],
                   "reveal": {
-                    "kind": "cut"
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600
                   }
                 }
               }

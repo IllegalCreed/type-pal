@@ -401,6 +401,12 @@ async function makeGameFixture(page, baseURL, until) {
       assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[id], wCount: 0 })
   }
   gs.inventory = initialInventory.map(({ itemId, count }) => ({ itemId: Number(itemId), count }))
+  if (source.rainAppearance) {
+    const { portrait, sprite, fighter } = source.rainAppearance.native
+    gs.PlayerRolesRuntime.rgwAvatar[1] = portrait
+    gs.PlayerRolesRuntime.rgwSpriteNum[1] = sprite
+    gs.PlayerRolesRuntime.rgwSpriteNumInBattle[1] = fighter
+  }
   gs.dwCash = 0
   gs.wNumMusic = fieldMusic
   if (night) gs.nightPalette = true
@@ -470,6 +476,11 @@ async function makeReforgeFixture() {
       actorsById,
     )
   world.audio = { currentMusic: fieldMusicAsset }
+  if (source.rainAppearance) {
+    const linger = world.party.find(({ template }) => template === 'zhao-linger')
+    assert(linger, 'the equipped princess must travel with the party to the altar')
+    linger.appearance = source.rainAppearance.authored
+  }
   if (night) world.ambience = 'night'
   if (spec.prelude) {
     world.script.entityState[spec.scene] = source.preludeStates

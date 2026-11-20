@@ -1645,11 +1645,38 @@ export async function readSources(spec) {
         `${root}/sounds/${ring.cue}.wav`,
       ])
     : []
+  let rainAppearance
+  if (itemEntrance) {
+    const [portrait, sprite, fighter] = commands.slice(31630, 31633).map((command, index) => {
+      assert.equal(command.opcode, 0x1a)
+      const [row, value, role] = command.operands
+      assert.deepEqual([row, role], [[0, 2, 1][index], 2])
+      return value
+    })
+    const authored = {
+      portrait: `portrait.pal.${musicId(portrait)}`,
+      spriteId: `sprite-${sprite}`,
+      battleSprite: `player-fighter-${fighter}`,
+    }
+    const costume = musicBody.filter(
+      ({ kind, actor }) => kind === 'setActorAppearance' && actor === 'zhao-linger',
+    )
+    assert.deepEqual(
+      Object.assign({}, ...costume.map(({ kind, actor, ...patch }) => patch)),
+      authored,
+    )
+    rainAppearance = { native: { portrait, sprite, fighter }, authored }
+  }
   return {
     paths: [
       ...Object.values(files),
       ...(serial ? ['scripts/e2e/boss-entrances/serial-battles.mjs'] : []),
-      ...(itemEntrance ? ['scripts/e2e/boss-entrances/dali-altar-presentation.mjs'] : []),
+      ...(itemEntrance
+        ? [
+            'scripts/e2e/boss-entrances/dali-altar-presentation.mjs',
+            'scripts/e2e/boss-entrances/rain-route-presentation.mjs',
+          ]
+        : []),
       'data/extracted/data/event-objects.json',
       'data/extracted/data/battle-fields.json',
       `data/extracted/data/tilemap/${data.gameScene.mapNum}.json`,
@@ -1762,6 +1789,7 @@ export async function readSources(spec) {
     phoenix,
     qilin,
     route,
+    rainAppearance,
     rainFrames: data.rainFrames?.chunks,
     rainStreetActors: data['disk-s245']?.eventObjects.filter(({ id }) => id >= 4337 && id <= 4345),
     rainRouteActors: itemEntrance

@@ -566,18 +566,20 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       throw new Error('sceneTimeline requires a foreground gameplay clock')
     const start = clock()
     const visual = new AbortController()
-    // An overlapping fade belongs to this timeline but must not park its ready actor work.
+    // Camera and fades have separate owners within the same foreground timeline.
     const visualSignal = AbortSignal.any([this.signal, visual.signal])
-    let fade: Promise<{ ok: true } | { ok: false; error: unknown }> | undefined
-    let fadeFailure: { error: unknown } | undefined
-    const finishFade = async () => {
-      const active = fade
+    type Presentation = 'fade' | 'cameraPan'
+    type Result = { ok: true } | { ok: false; error: unknown }
+    const presentations = new Map<Presentation, Promise<Result>>()
+    let presentationFailure: { error: unknown } | undefined
+    const finishPresentation = async (kind: Presentation) => {
+      const active = presentations.get(kind)
       if (!active) return
-      const result = await scriptWorkWait<Awaited<typeof active>>(this.signal, (resolve) => {
+      const result = await scriptWorkWait<Result>(this.signal, (resolve) => {
         void active.then(resolve)
       })
       if (!result.ok) throw result.error
-      fade = undefined
+      presentations.delete(kind)
     }
     let previousTime = 0
     try {
@@ -588,15 +590,17 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           previousTime = cue.atMs
         }
         throwIfAborted(this.signal)
-        if (fadeFailure) throw fadeFailure.error
+        if (presentationFailure) throw presentationFailure.error
         const cuePath = [...path, 'tracks', cue.track, 'cues', cue.cue, 'body']
-        if (!cue.fade) {
+        const kind = cue.presentation
+        if (!kind) {
           await this.runCommands(cue.body, cuePath)
           continue
         }
         const leaf = cue.body[0]
-        if (!leaf || leaf.kind !== 'leaf') throw new Error('sceneTimeline has an invalid fade')
-        await finishFade()
+        if (!leaf || leaf.kind !== 'leaf')
+          throw new Error('sceneTimeline has an invalid presentation')
+        await finishPresentation(kind)
         const event = { path: [...cuePath, 0], command: leaf }
         if (this.beforeStep) {
           await this.awaitGate()
@@ -604,26 +608,27 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         }
         await atScriptExecutionGate(this.host, this.signal, undefined, () => {
           this.onStep?.(event)
-          fade = Promise.resolve(
+          const active = Promise.resolve(
             this.host.execute(
               leaf.command,
               { self: this.self, timing: this.runningTiming },
               visualSignal,
             ),
-          ).then(
+          ).then<Result, Result>(
             () => ({ ok: true }),
             (error: unknown) => {
-              fadeFailure = { error }
+              presentationFailure = { error }
               return { ok: false, error }
             },
           )
+          presentations.set(kind, active)
         })
       }
-      await finishFade()
+      for (const kind of presentations.keys()) await finishPresentation(kind)
     } finally {
-      if (fade) {
+      if (presentations.size) {
         visual.abort()
-        await fade
+        await Promise.all(presentations.values())
       }
     }
   }
