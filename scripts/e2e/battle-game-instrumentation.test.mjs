@@ -413,8 +413,9 @@ test('Game SFX observes its decoded buffer and request only after a successful s
   ])
   const response = (id) => ({
     ok: true,
+    headers: new Headers({ 'content-type': 'audio/wav' }),
     url: `http://127.0.0.1/extracted/sounds/${id}.wav`,
-    arrayBuffer: async () => ({ id }),
+    arrayBuffer: async () => Uint8Array.of(id).buffer,
   })
   const startError = new Error('native start failed')
   let failStart = false
@@ -422,7 +423,7 @@ test('Game SFX observes its decoded buffer and request only after a successful s
     state: 'running',
     destination: {},
     async decodeAudioData(bytes) {
-      return buffers.get(bytes.id)
+      return buffers.get(new Uint8Array(bytes)[0])
     },
     createGain() {
       return { gain: { value: 1 }, connect() {} }

@@ -14,7 +14,7 @@
       "lines": "1297-1395",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "bc32c04d62500e773b229b376080a851881074291e241bd24642958b321deecd"
+      "sha256": "7c61515d9af9f16d87a0793ffec671fca8ab19212527368b97ef5d80fa1cf018"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -623,6 +623,22 @@
         }
       ],
       "scope": "开坛淡出在续跑前提交全幕布画面。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
+    },
+    {
+      "action": "q2-tower-ming-source-rebinding",
+      "base": "67e2f50b38d16ebcbb67fb20e01959f3d9597d28",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1297-1395",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "bc32c04d62500e773b229b376080a851881074291e241bd24642958b321deecd"
+        }
+      ],
+      "scope": "镇狱明王入口支持队外角色换装和分段入场。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
     }
   ],
   "_governance": {

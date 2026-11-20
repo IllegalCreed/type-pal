@@ -2468,6 +2468,55 @@ export function restoreTestingQ2TianGhostSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2TowerMingPublicationBase = '67e2f50b38d16ebcbb67fb20e01959f3d9597d28'
+const towerMingSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5970: '5974',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2TowerMingPublicationBase,
+  action: 'q2-tower-ming-source-rebinding',
+  date: '2026-11-20',
+}
+const towerMingSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2TowerMingSource = (path) => towerMingSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TowerMingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    towerMingSourceStage,
+    towerMingSourceBindings,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
