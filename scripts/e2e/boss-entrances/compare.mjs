@@ -33,6 +33,7 @@ assert(
   'usage: node scripts/e2e/boss-entrances/compare.mjs SCENARIO GAME_REPORT REFORGE_REPORT',
 )
 const source = await readSources(spec)
+const scriptedStop = source.tian ?? source.scriptedStop
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const entrance = spec.entrance
@@ -1461,8 +1462,8 @@ async function inspect(path, engine) {
     battleParty.map((_, slot) => [slot, 'defend']),
   )
   const battleKeys = report.actions.filter(({ phase }) => phase === 'battle-select')
-  if (source.tian) {
-    const expected = Array.from({ length: source.tian.turns }, (_, i) =>
+  if (scriptedStop) {
+    const expected = Array.from({ length: scriptedStop.turns }, (_, i) =>
       battleParty.map((_, slot) => ({
         slot,
         turn: i + 1,
@@ -1471,7 +1472,7 @@ async function inspect(path, engine) {
         target: null,
       })),
     ).flat()
-    assert.deepEqual(commands, expected, 'nine actual turns of two guards each')
+    assert.deepEqual(commands, expected, 'each round before the scripted stop uses real guards')
     assert.deepEqual(
       battleKeys.map(({ key }) => key),
       expected.map(() => 'KeyD'),
@@ -1576,14 +1577,14 @@ async function inspect(path, engine) {
       'both summoned slots take actual actions',
     )
   }
-  if (source.tian) {
+  if (scriptedStop) {
     assert.deepEqual(
       enemy.map(({ spell }) => spell),
-      source.tian.spells,
+      scriptedStop.spells,
     )
-    assert.equal(actions.length, source.tian.turns * (battleParty.length + 1))
+    assert.equal(actions.length, scriptedStop.turns * (battleParty.length + 1))
     assert.equal(actions.at(-1), enemy.at(-1))
-    assert.equal(enemy.at(-1).turn, source.tian.turns)
+    assert.equal(enemy.at(-1).turn, scriptedStop.turns)
     assert.equal(enemy.at(-1).enemies[spec.slot].hp, source.original.health)
   } else {
     assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
@@ -1630,13 +1631,13 @@ async function inspect(path, engine) {
   }
   assert.equal(
     soundIds.filter((asset) => asset === source.original.deathSound).length,
-    source.tian ? 0 : 1,
+    scriptedStop ? 0 : 1,
   )
 
-  assert.equal(won.result, source.tian ? 'terminated' : game ? 'won' : 'victory')
-  const [exp, cash] = source.tian ? [0, 0] : totalReward()
+  assert.equal(won.result, scriptedStop ? 'terminated' : game ? 'won' : 'victory')
+  const [exp, cash] = scriptedStop ? [0, 0] : totalReward()
   let summary
-  if (source.tian) {
+  if (scriptedStop) {
     assert.deepEqual(
       [
         ...find('victory-summary-drawn'),

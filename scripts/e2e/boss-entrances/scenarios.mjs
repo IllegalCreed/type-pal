@@ -361,6 +361,42 @@ export const scenarios = {
       inventory: [{ itemId: '152', count: 1 }],
     },
   },
+  'poison-lady': {
+    id: 'poison-lady',
+    scene: 's138',
+    owner: 'e2341',
+    watched: ['e2337', 'e2338', 'e2339', 'e2340', 'e2342', 'e2343', 'e2372', 'e2374', 'e2375'],
+    team: 42,
+    enemy: 'enemy-435',
+    start: [131, 41, 0],
+    contact: [130, 41, 0],
+    approach: 'ArrowLeft',
+    music: 38,
+    field: 42,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 21692,
+      battle: 21805,
+      last: 21878,
+      loss: 0,
+      owner: [1376, 1360, 1, 6],
+      field: 21803,
+      music: 21804,
+      scriptedStop: 41553,
+    },
+    mapMusic: { scene: 's139', ip: 21649, track: 36 },
+    world: {
+      inventory: [],
+      handoff: {
+        scene: 's140',
+        ip: 21877,
+        position: [125, 41, 0],
+        musicIp: 21900,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
   thief: {
     id: 'yangzhou-rooftop-thief',
     scene: 's086',
@@ -804,6 +840,10 @@ export async function readSources(spec) {
     spec.disk.termination === undefined
       ? undefined
       : tianSource(data, commands, spec, native, object)
+  const scriptedStop =
+    spec.disk.scriptedStop !== undefined
+      ? readTurnStartStop(commands, object, spec.disk.scriptedStop)
+      : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -902,6 +942,7 @@ export async function readSources(spec) {
     ring,
     tower,
     tian,
+    scriptedStop,
     route,
     summonBonus,
     summoning: summonScript && {
@@ -968,6 +1009,20 @@ function readSceneRoute(data, commands, spec, trigger) {
   return { segments, battleBody }
 }
 
+function readTurnStartStop(commands, object, stopAddress) {
+  const terminal = commands[stopAddress]
+  assert.deepEqual([terminal.opcode, terminal.operands], [0x89, [0, 0, 0]])
+  const hook = commands.slice(object.scriptOnTurnStart, stopAddress + 1)
+  const spells = []
+  let spell = null
+  for (const command of hook) {
+    if (command.opcode === 0x67) spell = command.operands[0] ? String(command.operands[0]) : null
+    if (command.advance) spells.push(spell)
+  }
+  assert(spells.length > 0, 'the scripted stop follows at least one complete turn')
+  return { turns: spells.length, spells }
+}
+
 function tianSource({ gameScene, rfScene }, commands, spec, body, object) {
   const target = gameScene.eventObjects.find(({ id }) => id === 2432)
   const jar = gameScene.eventObjects.find(({ id }) => id === 2433)
@@ -1000,17 +1055,8 @@ function tianSource({ gameScene, rfScene }, commands, spec, body, object) {
   assert.equal(selected.target.entity, 'e2429')
   const relocation = rfScene.entities.find(({ id }) => id === 'e2429')
   assert(relocation.behaviors.trigger[selected.selection.value])
-  const terminal = commands[spec.disk.termination]
-  assert.deepEqual([terminal.opcode, terminal.operands], [0x89, [0, 0, 0]])
-  const hook = commands.slice(object.scriptOnTurnStart, spec.disk.termination + 1)
-  const turns = hook.filter(({ advance }) => advance).length
+  const { turns, spells } = readTurnStartStop(commands, object, spec.disk.termination)
   assert.equal(turns, 9)
-  const spells = []
-  let spell = null
-  for (const command of hook) {
-    if (command.opcode === 0x67) spell = command.operands[0] ? String(command.operands[0]) : null
-    if (command.advance) spells.push(spell)
-  }
   const resumed = commands[spec.disk.last].resetTo
   assert.equal(commands[resumed]?.op, 'setDialogStyleCenter')
   return {

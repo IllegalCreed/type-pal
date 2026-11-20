@@ -47,6 +47,7 @@ const facing = (entrance?.key ?? approach).slice('Arrow'.length).toLowerCase()
 const returned = returnedPosition(spec)
 const departure = departingPosition(spec)
 const source = await readSources(spec)
+const scriptedStop = source.tian ?? source.scriptedStop
 const foreground = observesForeground(spec)
 const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
@@ -70,7 +71,7 @@ const observe = bossObserver({
   foreground,
   handoffScene: handoff?.scene,
   visitScenes: spec.sceneRoute?.visits.map(({ scene }) => scene),
-  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.tian || source.route),
+  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.route || scriptedStop),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -523,6 +524,8 @@ async function playEncounter({ page, press, health, capture }) {
     const { state, live, ended } = view
     if (source.route && ended)
       assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
+    if (source.scriptedStop && ended)
+      assert.equal(view.outcome, 'terminated', 'native enemy hook must end the battle')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
       : scriptedReturn
@@ -552,7 +555,7 @@ async function playEncounter({ page, press, health, capture }) {
       await press(confirm, 'settlement')
     } else if (live?.selectingPlayerId) {
       assert(live.turn <= (source.route ? 18 : 10), 'manual battle exceeded the planned rounds')
-      const defending = live.turn === 1 || !!source.tian
+      const defending = live.turn === 1 || Boolean(scriptedStop)
       const enemies = live.snapshot.enemies.filter((enemy) => enemy?.alive)
       const target = enemies.find(({ id }) => id === spec.enemy) ?? enemies[0]
       const command = {
