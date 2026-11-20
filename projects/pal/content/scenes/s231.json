@@ -2923,7 +2923,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 500
                   },
                   {
                     "kind": "repeat",
@@ -2936,7 +2936,7 @@
                       },
                       {
                         "kind": "wait",
-                        "ms": 40
+                        "ms": 100
                       }
                     ]
                   },
@@ -2947,7 +2947,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 360
+                    "ms": 800
                   },
                   {
                     "kind": "sceneTimeline",
@@ -3202,7 +3202,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1280
+                    "ms": 3200
                   },
                   {
                     "kind": "stopMusic"
@@ -3214,7 +3214,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 400
+                    "ms": 1000
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -3230,7 +3230,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -3270,7 +3270,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -3302,7 +3302,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -3355,7 +3355,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 300
                   },
                   {
                     "kind": "setMultiEntityState",
@@ -3387,7 +3387,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "kind": "shakeScreen",

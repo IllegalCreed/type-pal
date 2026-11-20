@@ -47,6 +47,109 @@ function chiefPoses(path) {
   })
 }
 
+function inspectAltarCadence(events, stageFrames, first, commands, game, issues) {
+  const cadence = []
+  const measure = (phase, from, to, expected, tolerance) => {
+    const actual = from && to ? Math.round(to.atMs - from.atMs) : null
+    cadence.push({ phase, actual, expected, tolerance })
+    if (actual === null || Math.abs(actual - expected) > tolerance)
+      issues.push({ issue: 'foreground-cadence', ...cadence.at(-1) })
+  }
+  const altarOps = events.filter(({ scene, kind }) => scene === 's231' && kind === 'script-op')
+  const scriptMark = (ip, op, index) =>
+    altarOps.find((row) =>
+      game ? row.ip === ip : row.op === op && isDeepStrictEqual(row.path, ['initial', index]),
+    )
+  const opening = scriptMark(32101, 'dialog', 9)
+  const approach = stageFrames.filter(
+    ({ order }) => first && opening && order >= first.order - 1 && order < opening.order,
+  )
+  const steps = approach.filter(
+    ({ leader }, index) => !isDeepStrictEqual(leader, approach[index - 1]?.leader),
+  )
+  const expectedSteps = [
+    [960, 1184],
+    [952, 1188],
+    ...Array.from({ length: 8 }, (_, i) => [938 - 6 * i, 1199 + 7 * i]),
+  ]
+  if (
+    !isDeepStrictEqual(
+      steps.map(({ leader }) => leader),
+      expectedSteps,
+    )
+  )
+    issues.push({
+      issue: 'altar-approach-trajectory',
+      actual: steps.map(({ leader, order }) => ({ leader, order })),
+      expected: expectedSteps,
+    })
+  measure('altar first reveal to dialogue start', first, opening, 4800, 250)
+  measure('altar pause on the first nudge', steps[2], steps[3], 500, 60)
+  for (let i = 4; i < expectedSteps.length; i++)
+    measure(`altar nudge ${i - 2}`, steps[i - 1], steps[i], 100, 55)
+
+  const pan = scriptMark(32129, 'cameraPan', 21)
+  const firstTremor = scriptMark(32131, 'shakeScreen', 24)
+  const beastRoar = events.find(
+    ({ kind, asset, order }) =>
+      kind === 'sfx-request' && asset === 132 && firstTremor && order > firstTremor.order,
+  )
+  measure('pan and vigil before the first tremor', pan, firstTremor, 8000, 220)
+  measure('escalating tremor to the beast roar', firstTremor, beastRoar, 4100, 220)
+
+  // This original autoscript repeatedly looks around at random while the chief
+  // stays in place. Compare the window and its rendered effect independently of
+  // the particular directions drawn by each engine's ambient random stream.
+  const alarm = scriptMark(32135, 'selectEntityBehavior', 26)
+  const retreat = scriptMark(32156, 'selectEntityBehavior', 50)
+  assert.deepEqual(commands[32135].operands, [4169, 32021, 0])
+  assert.deepEqual(commands[32156].operands, [4169, 32222, 0])
+  measure('chief looks around before the retreat', alarm, retreat, 3300, 220)
+  const alert = stageFrames.filter(
+    ({ order }) => alarm && retreat && alarm.order < order && order < retreat.order,
+  )
+  const alertPoses = distinctPoseSequence(alert, ({ actors }) => poseOf(actors.e4168))
+  const chiefTurns = new Set(alertPoses.filter(Boolean).map((pose) => pose[2]))
+  if (
+    chiefTurns.size < 2 ||
+    !alertPoses.every((pose) => pose && isDeepStrictEqual(pose[1], [912, 1272]))
+  )
+    issues.push({ issue: 'altar-chief-alert-poses', actual: alertPoses })
+  const retreatPoses = distinctPoseSequence(
+    stageFrames.filter(({ order }) => retreat && order > retreat.order),
+    ({ actors }) => poseOf(actors.e4168),
+  )
+  const firstRetreatStep = retreatPoses.findIndex((pose) => pose && pose[1][0] > 912)
+  if (
+    firstRetreatStep < 0 ||
+    !retreatPoses
+      .slice(0, firstRetreatStep)
+      .some((pose) => pose && isDeepStrictEqual(pose.slice(1), [[912, 1272], 'down', 0]))
+  )
+    issues.push({ issue: 'altar-chief-missing-retreat-turn', actual: retreatPoses.slice(0, 4) })
+
+  const rainOps = events.filter(({ scene, kind }) => scene === 's245' && kind === 'script-op')
+  for (const [ip, authoredStart, authoredEnd] of [
+    [31991, 14, 15],
+    [31993, 16, 17],
+    [31995, 19, 20],
+  ]) {
+    assert.equal(commands[ip].opcode, 9)
+    const mark = (address, index) =>
+      rainOps.find((row) =>
+        game ? row.ip === address : isDeepStrictEqual(row.path, ['initial', index]),
+      )
+    measure(
+      `rain scene wait at ${ip}`,
+      mark(ip, authoredStart),
+      mark(ip + 1, authoredEnd),
+      Math.max(1, commands[ip].operands[0]) * 100,
+      45,
+    )
+  }
+  return { cadence, chiefAlert: alertPoses }
+}
+
 export function inspectDaliAltar({ events, draws, boundaries, source, spec, game }) {
   const { trigger, launch, won, control } = boundaries
   const issues = []
@@ -251,6 +354,7 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
     issues,
     actions,
     edgeActors,
+    ...inspectAltarCadence(events, stageFrames, firstFrames.at(-1), source.commands, game, issues),
     comparable: {
       firstViews,
       returnView: returnFrame ? [returnFrame.leader, returnFrame.camera] : null,

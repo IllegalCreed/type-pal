@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { isDeepStrictEqual } from 'node:util'
 import { recordingDependencies } from './evidence-dependencies.mjs'
 import {
   checkWorldSpritePixels,
@@ -271,24 +272,45 @@ if (sides.every(({ coverage }) => coverage)) {
     resolve(target),
     resolve(`${target.replace(/\.mp4$/u, '')}-media.json`),
     async (source, clip, trim, panel) => {
-      const anchored = source.coverage
-        .flatMap(({ cues }) => cues)
-        .find(({ cue }) => cue === spriteCheck.cue)
+      const cues = source.coverage.flatMap(({ cues }) => cues)
+      const anchored = cues.find(({ cue }) => cue === spriteCheck.cue)
       assert(anchored?.views.length, `${source.engine} missing the declared foreground pose`)
       const actual = await json(source.rawPath)
       const drawing = actual.events.find(({ order }) => order === anchored.views[0].order)
-      const { asset, frame, rect } = drawing.actors[spriteCheck.actor]
+      const actor = drawing.actors[spriteCheck.actor]
+      const { asset, frame, rect } = actor
       const pixels = await readWorldSpritePose(asset, frame)
       const [left, top] = drawing.camera
       const [x, y, width, height] = rect
       assert.deepEqual([width, height], [pixels.width, pixels.height])
       const pixelPosition = [x - left, y - top]
+      const visit = actual.events.findLast(
+        ({ kind, order }) => kind === 'scene-first-drawn' && order <= drawing.order,
+      )
+      const precedingCue = cues[cues.indexOf(anchored) - 1]
+      const start = Math.max(visit?.atMs ?? 0, precedingCue?.firstComplete.atMs ?? 0)
+      // Another sprite can change the view ID without moving the actor being checked.
+      const matchingViews = new Set(
+        actual.events
+          .filter(
+            ({ kind, order, atMs, scene, visible, camera, actors }) =>
+              kind === 'world-drawn' &&
+              visible &&
+              order >= (visit?.order ?? 1) - 1 &&
+              atMs <= anchored.firstComplete.atMs &&
+              scene === drawing.scene &&
+              isDeepStrictEqual(camera, drawing.camera) &&
+              isDeepStrictEqual(actors[spriteCheck.actor], actor),
+          )
+          .map(({ order }) => order),
+      )
       // Completed text can cross the actor's face. Use independently
       // logged unobscured submissions of that same pose, before the cue finishes.
       const uncovered = actual.events.filter(
         ({ kind, view, atMs, dialogue, backdrop }) =>
           kind === 'world-render' &&
-          view === drawing.order &&
+          matchingViews.has(view) &&
+          atMs >= start &&
           atMs < anchored.firstComplete.atMs &&
           !dialogue &&
           backdrop?.textured &&
