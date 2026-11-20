@@ -111,14 +111,35 @@ async function side(engine, relocatedReport) {
   const report = await json(reportPath)
   if (bossEntrance && report.input.sceneRoute?.visits?.length)
     assert(compare.foregroundCoverage?.length, 'the foreground route needs a coverage receipt')
+  let comparisonSourceChange
   if (compare.foregroundCoverage) {
     const root = fileURLToPath(new URL('../../', import.meta.url))
     const current = await recordingDependencies(root, report.dependencies.definition)
-    assert.deepEqual(
-      report.dependencies,
-      current,
-      'current execution sources differ from the recording',
-    )
+    const recorded = report.dependencies
+    if (!isDeepStrictEqual(recorded, current)) {
+      const path = 'scripts/e2e/boss-entrances/dali-altar-presentation.mjs'
+      assert.equal(comparison.scenario, 'dali-earth-beast')
+      // Its original bytes are pinned, and the real dependency groups prove
+      // this checker did not participate in execution, recording or inputs.
+      for (const sources of [recorded, current])
+        assert.deepEqual(
+          Object.keys(sources.groups).filter((group) => sources.groups[group].includes(path)),
+          ['declared'],
+        )
+      assert.match(report.revision, /^[a-f0-9]{40}$/u)
+      const original = execFileSync('git', ['show', report.revision + ':' + path], { cwd: root })
+      assert.equal(createHash('sha256').update(original).digest('hex'), recorded.hashes[path])
+      assert.deepEqual(
+        { ...recorded, hashes: { ...recorded.hashes, [path]: current.hashes[path] } },
+        current,
+        'current execution sources differ from the recording',
+      )
+      comparisonSourceChange = {
+        path,
+        recorded: recorded.hashes[path],
+        rechecked: current.hashes[path],
+      }
+    }
   }
   assert.equal(report.profile, 'capture')
   assert.equal(report.media.status, 'passed')
@@ -133,6 +154,7 @@ async function side(engine, relocatedReport) {
     report: reportPath,
     reportSha256,
     videoEnd,
+    ...(comparisonSourceChange && { comparisonSourceChange }),
   }
   const equipment = comparison.kind === 'world-equipment'
   const rawReference = equipment ? run.trace : run.raw

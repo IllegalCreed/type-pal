@@ -264,16 +264,23 @@ function inspectRainFilms(events, draws, source, game, issues) {
   )
   if (!street.length || wrong)
     issues.push({ issue: 'rain-film-return-composition', actual: wrong, expected })
+  let firstCaption
   if (!game) {
     const clear = mark('s245', 31982, 8, 'clearFrameAnimation')
-    const surface = street.findLast((row) => row.order < patrol.order)
+    firstCaption = events.find(
+      (row) => row.kind === 'rain-draw' && inStreet(row) && row.order > patrol.order && row.caption,
+    )
     const covered = events.findLast(
       (row) => row.kind === 'rain-draw' && row.scene === 's245' && row.order < clear?.order,
     )
     if (covered?.asset !== 8 || covered.matte !== 1 || clear.order >= reveal.order)
       issues.push({ issue: 'rain-film-cleared-before-curtain', actual: covered })
-    if (!surface || surface.matte > 0.05)
-      issues.push({ issue: 'rain-film-not-cleared-before-street-dialogue', actual: surface })
+    if (
+      firstCaption?.mode !== 'idle' ||
+      firstCaption.asset !== undefined ||
+      firstCaption.matte !== 0
+    )
+      issues.push({ issue: 'rain-film-not-cleared-before-street-dialogue', actual: firstCaption })
   }
   const announce = mark('s245', 31974, 1, 'dialog')
   const fadeToFilm = mark('s245', 31978, 4, 'fade')
@@ -321,7 +328,7 @@ function inspectRainFilms(events, draws, source, game, issues) {
   spans.push({ id: 'rain-street-after-film', startAtMs: patrol.atMs + 25, endAtMs: fade.atMs - 25 })
   return {
     rainFilms: films,
-    rainStreet: { expected, first: street[0], acting: streetActing },
+    rainStreet: { expected, first: street[0], firstCaption, acting: streetActing },
     rainDialogue,
     rainPictures: spans.map((span) => ({ ...span, sample: 'picture', minLitFraction: 0.08 })),
   }
