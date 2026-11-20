@@ -1,7 +1,10 @@
-import type { ItemData, ShopDef } from '@type-pal/content'
+import { type ItemData, type ShopDef, validateItems, validateShops } from '@type-pal/content'
 import { describe, expect, it } from 'vitest'
 import { migratePalShops, type SourceStore } from './pal-shop-projection.js'
-import { assertPalStoreBoundaryInvariant } from './pal-store-boundary.js'
+import {
+  assertPalAlchemyBoundaryInvariant,
+  assertPalStoreBoundaryInvariant,
+} from './pal-store-boundary.js'
 
 const rewards = ['100', '105', '95', '112', '72', '131', '97', '102', '111']
 
@@ -64,30 +67,18 @@ function sourceStores(): SourceStore[] {
   ]
 }
 
-function validArgs(
-  overrides: { shops?: ShopDef[]; items?: ItemData[]; commandRoots?: readonly unknown[] } = {},
-) {
+function validArgs(overrides: { shops?: ShopDef[]; items?: ItemData[] } = {}) {
   const stores = sourceStores()
   return {
     sourceStores: stores,
-    shops: overrides.shops ?? migratePalShops(stores),
-    items: overrides.items ?? items(),
-    commandRoots: overrides.commandRoots ?? [
-      {
-        kind: 'branch',
-        then: [{ kind: 'openShop', shop: 1, mode: 'buy' }],
-        else: [{ kind: 'openShop', shop: 0, mode: 'sell' }],
-      },
-    ],
-    expectedBuyCalls: 1,
-    expectedSellCalls: 1,
-    expectedSellShopId: 0,
+    shops: validateShops(overrides.shops ?? migratePalShops(stores)),
+    items: validateItems(overrides.items ?? items()),
   }
 }
 
-describe('PAL Store0 / Shop boundary invariant', () => {
-  it('accepts real shops, buy-only references, sell shop0, and exact item268/270 closure', () => {
-    expect(assertPalStoreBoundaryInvariant(validArgs())).toEqual({ buyCalls: 1, sellCalls: 1 })
+describe('PAL generated shop and Store0 boundaries', () => {
+  it('accepts twenty source shops and the complete Store0 reward and recipe inputs', () => {
+    expect(() => assertPalStoreBoundaryInvariant(validArgs())).not.toThrow()
   })
 
   it('rejects publishing ShopDef0 or changing a real shop id', () => {
@@ -105,22 +96,41 @@ describe('PAL Store0 / Shop boundary invariant', () => {
     )
   })
 
-  it('rejects a dangling buy reference but keeps sell shop0 legal', () => {
+  it('rejects missing or duplicate source Store0 rows', () => {
+    const stores = sourceStores()
+    const withoutRewardTable = stores.filter(({ id }) => id !== 0)
+    const rewardTable = { id: 0, items: rewards.map(Number) }
+    expect(() =>
+      assertPalAlchemyBoundaryInvariant({ sourceStores: withoutRewardTable, items: items() }),
+    ).toThrow('PAL Store0 invariant: 源 Store0 数量 0 != 1')
+    expect(() =>
+      assertPalAlchemyBoundaryInvariant({
+        sourceStores: [rewardTable, ...stores],
+        items: items(),
+      }),
+    ).toThrow('PAL Store0 invariant: 源 Store0 数量 2 != 1')
+  })
+
+  it('rejects the first two source shops out of order', () => {
+    const args = validArgs()
+    const [store0, first, second, ...rest] = args.sourceStores
+    if (!store0 || !first || !second) throw new Error('Expected the two source shops')
     expect(() =>
       assertPalStoreBoundaryInvariant({
-        ...validArgs(),
-        commandRoots: [{ kind: 'openShop', shop: 99, mode: 'buy' }],
-        expectedSellCalls: 0,
+        ...args,
+        sourceStores: [store0, second, first, ...rest],
       }),
-    ).toThrow(/buy openShop 引用未知商店 99/)
+    ).toThrow('PAL Store0 invariant: 源真实商店 id/顺序漂移 2,1,3')
+  })
 
-    expect(
-      assertPalStoreBoundaryInvariant({
-        ...validArgs(),
-        commandRoots: [{ kind: 'openShop', shop: 0, mode: 'sell' }],
-        expectedBuyCalls: 0,
-      }),
-    ).toEqual({ buyCalls: 0, sellCalls: 1 })
+  it('rejects a generated inventory that differs from its source shop', () => {
+    const args = validArgs()
+    const shops = validateShops(
+      args.shops.map((shop) => (shop.id === 1 ? { ...shop, items: ['105'] } : shop)),
+    )
+    expect(() => assertPalStoreBoundaryInvariant({ ...args, shops })).toThrow(
+      'PAL Store0 invariant: 生成商店 1 货单与源不一致',
+    )
   })
 
   it('rejects drift in the spirit-gourd tiers or mixing the vessel with a resource pool', () => {
@@ -141,9 +151,9 @@ describe('PAL Store0 / Shop boundary invariant', () => {
       maxRoll: 1,
       rewards: [{ itemId: '100', count: 1 }],
     })
-    expect(() => assertPalStoreBoundaryInvariant({ ...validArgs(), items: vesselDrift })).toThrow(
-      /item268 craftRecipe/,
-    )
+    expect(() =>
+      assertPalAlchemyBoundaryInvariant({ sourceStores: sourceStores(), items: vesselDrift }),
+    ).toThrow(/item268 craftRecipe/)
   })
 
   it.each([

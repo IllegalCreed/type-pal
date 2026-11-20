@@ -1,33 +1,19 @@
-/**
- * 对话排版(② 外观):把 DialogueRow[] 按 maxRight 切成扁平显示行。
- * 纯函数,不碰 DOM/canvas——宽度计算靠 GlyphTable(渲染资产)。
- * 自动换行:长句折成多 DisplayLine,使内容不被分辨率绑架。
- */
 import {
-  type DialogColor,
   type DialogueRow,
   parseRichText,
   resolveDialogueRowText,
   type TextId,
+  type TextSpan,
 } from '@type-pal/content'
-import type { GlyphTable } from '../text/glyph.js'
+import { FALLBACK_GLYPH_WIDTH, type GlyphTable } from '../text/glyph.js'
 
 export interface DisplayLine {
-  spans: { text: string; color?: DialogColor }[] // 这一个显示行的 spans(已按宽度切好)
-  srcRowIdx: number // 来自第几个 DialogueRow(逐行速度归属用)
-  isRowStart: boolean // 是否该 DialogueRow 的首显示行
+  spans: TextSpan[]
+  /** 多行源自同一条对白时沿用该条的速度。 */
+  srcRowIdx: number
 }
 
-interface CharRun {
-  text: string
-  color?: DialogColor
-}
-
-/**
- * 把 DialogueRow[] 排版成 DisplayLine[]。
- * 每个 DialogueRow 经 resolveText + parseRichText → 字符流,按 maxRight - startX 折行。
- * 一个长 DialogueRow → 多 DisplayLine(第 1 个 isRowStart=true)。
- */
+/** maxRight 与 startX 都是画布逻辑坐标；每个源对白行单独折行。 */
 export function layoutLines(
   rows: readonly DialogueRow[],
   glyphs: GlyphTable,
@@ -42,58 +28,36 @@ export function layoutLines(
     const src = rows[rowIdx]
     if (!src) continue
     const spans = parseRichText(resolveDialogueRowText(src, resolveText).replace(/\r\n?/g, '\n'))
-    // 展开成字符流(带 color),逐字符测宽分组
-    const chars: CharRun[] = []
-    for (const span of spans) {
-      for (const ch of span.text) chars.push({ text: ch, color: span.color })
-    }
-    if (chars.length === 0) {
-      result.push({ spans: [{ text: '' }], srcRowIdx: rowIdx, isRowStart: true })
+    if (spans.every(({ text }) => text.length === 0)) {
+      result.push({ spans: [{ text: '' }], srcRowIdx: rowIdx })
       continue
     }
 
-    let curWidth = 0
-    let curRun: CharRun[] = []
-    let isFirstOfLine = true
-
-    const flush = () => {
-      result.push(toDisplayLine(curRun, rowIdx, isFirstOfLine))
-      isFirstOfLine = false
-      curRun = []
-      curWidth = 0
+    let lineWidth = 0
+    let lineSpans: TextSpan[] = []
+    const finishLine = () => {
+      result.push({ spans: lineSpans, srcRowIdx: rowIdx })
+      lineSpans = []
+      lineWidth = 0
     }
 
-    for (const c of chars) {
-      if (c.text === '\n') {
-        // 原版每条 showDialog 都强制另起一行；迁移器用 \n 保留这条数据边界。
-        // 即使当前行为空也要落一行，连续换行不能被宽度排版吞掉。
-        flush()
-        continue
+    for (const { text, color } of spans) {
+      for (const character of text) {
+        if (character === '\n') {
+          // 显式换行保留空行和下一行的缩进。
+          finishLine()
+          continue
+        }
+        const width = glyphs.get(character.codePointAt(0) ?? 0)?.width ?? FALLBACK_GLYPH_WIDTH
+        if (lineWidth + width > usable && lineSpans.length > 0) finishLine()
+        const last = lineSpans.at(-1)
+        if (last && last.color === color) last.text += character
+        else lineSpans.push({ text: character, color })
+        lineWidth += width
       }
-      const cp = c.text.codePointAt(0) ?? 0
-      const w = glyphs.get(cp)?.width ?? 16
-      if (curWidth + w > usable && curRun.length > 0) {
-        flush()
-      }
-      curRun.push(c)
-      curWidth += w
     }
-    if (curRun.length > 0) flush()
+    if (lineSpans.length > 0) finishLine()
   }
 
   return result
-}
-
-/** 字符 run 数组 → DisplayLine spans(合并相邻同色)。 */
-function toDisplayLine(runs: CharRun[], srcRowIdx: number, isRowStart: boolean): DisplayLine {
-  const spans: { text: string; color?: DialogColor }[] = []
-  for (const r of runs) {
-    const last = spans[spans.length - 1]
-    if (last && last.color === r.color) {
-      last.text += r.text
-    } else {
-      spans.push({ text: r.text, color: r.color })
-    }
-  }
-  return { spans, srcRowIdx, isRowStart }
 }

@@ -40,15 +40,13 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [MIGRATION-MAP-SOURCE-WORD-DOMAIN-1 — PAL 提取地图的原始字范围](MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1 — PAL 视觉定义按内容比对](MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
-| [MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1 — 旧商店指令计数退役](MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -536,7 +534,12 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-CHROME-BAKE-PREFLIGHT-1 — 引擎素材重建的失败前置检查](MIGRATION-CHROME-BAKE-PREFLIGHT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-ITEM-SCHEME-ORDINAL-1 — PAL 物品方案编号归属](MIGRATION-ITEM-SCHEME-ORDINAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-MAP-SOURCE-WORD-DOMAIN-1 — PAL 提取地图的原始字范围](MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1 — PAL 视觉定义按内容比对](MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1 — 旧商店指令计数退役](MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [N6B-ITEM-FLOWS-1 — 四类共享取物流程与参数表单](N6B-ITEM-FLOWS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [PAL-SHARED-CHEST-1 — 普通宝箱首次开盖](PAL-SHARED-CHEST-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |

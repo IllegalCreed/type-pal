@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "cd0d70f9ee6526c078bb754f0fa4d46c40cdeacee496c4dc9bc108c740f9be6e",
+      "afterSha256": "794e9229f5efb8df2f8b7a1a06204e687034d5d74542fd11fd3aa75f0c57db4f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受逐文件账本变化。",
-        "reviewedLines": 1372,
-        "acceptanceScope": "独立实跑 3772/1247/8/2517。100 条新增关闭可回索引，七条新增 review 与既有资源诊断边界分明。"
+        "conclusion": "接收 MenuBox 原路径转为留审及账本修订。",
+        "reviewedLines": 1480,
+        "acceptanceScope": "以已独立核验的前版为基，只核 1,344→1,343 闭合、14→15 留审和唯一改状态的 MenuBox 行。重排的表行逐路径比较无其它语义差异。候选库存 3,777，待核 2,419。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "c79454232174bfbbd75098f49e1ea8a7c60d4f1b5f485443b28e06dbfa0a1b17",
+      "afterSha256": "dc7455703907095578aa3db9480a587f94c6c33b24fa46aa98125446ba956172",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受文件批次收口和剩余分工。",
-        "reviewedLines": 138,
-        "acceptanceScope": "98 原路径、100 账本新增关闭和七个新 review 分开，保留归档、三张 blocked 卡与 E2E 归属范围。"
+        "conclusion": "接收活动窗口数量回写。",
+        "reviewedLines": 140,
+        "acceptanceScope": "差异限 97 个原主体中的 84 验收和 13 留审。集中门与合并继续取父卡原件。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "95e9012d55e47c149dc1470f2229a437f8d9e586d9856018597a1b9ea95aaf9c",
+      "afterSha256": "f669c3d5c42ab0647106e0ab32a97209386737b267e38ff0b3e3b575bc792846",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受最终生成任务索引。",
-        "reviewedLines": 609,
-        "acceptanceScope": "只读生成逐字一致，父卡按文件层 done，三个产品阻塞保持 blocked。"
+        "conclusion": "接收由任务卡顶部状态重新生成的索引。",
+        "reviewedLines": 612,
+        "acceptanceScope": "只读生成器输出字节一致。Reforge 父卡仍 review，五张迁移后继卡按局部验收转 done。"
       }
     },
     {
@@ -5692,40 +5692,79 @@
     {
       "path": "docs/tasks/cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "d018c0aca6bfff999bddc96e0bb42bd343413f17865e45bdea44cf0177e88d64",
+      "afterSha256": "91eb874aad886f7c32d528988af1c3e3f9608445d1cefd8ba20b4f121f0c5d96",
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受模板补齐后的原始字事实与停线。",
-        "reviewedLines": 37,
-        "acceptanceScope": "实际审计一绿一红，合法 u32 与越界合同分开；补范围及验收模板。"
+        "conclusion": "接收地图原始字卡的局部验收状态写回。",
+        "reviewedLines": 39,
+        "acceptanceScope": "复用已独立核过的转换和审计共同值域、合法最大值正控与 PAL 证据。核顶部状态与尾行交接增量。集中门和合并另查父窗。"
       }
     },
     {
       "path": "docs/tasks/cards/MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e5150e4499b1488b9482e8edb61581420249ac5337db1bec4799fb23c08cc713",
+      "afterSha256": "d08fb29ce2e50b5db9df9b1f3b34c97534de8f8d24e8142d9f3dfea49f2796bc",
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受模板补齐后的生产扫描范围。",
+        "conclusion": "接收旧商店扫描退役卡的局部验收状态写回。",
         "reviewedLines": 32,
-        "acceptanceScope": "实际生产只传空参数；现行引用、店铺和奖励继续走现有入口。"
+        "acceptanceScope": "复用已独立核过的现用 Store0、店货和炼化消费者及测试去向。核顶部状态与尾行交接增量。集中门和合并另查父窗。"
       }
     },
     {
       "path": "docs/tasks/cards/MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "0fd5893628800f7e2c969619075c19c04ec8c6d79894336cde75e256a39e3355",
+      "afterSha256": "e27d253556e886800b07b2853059ee0906c1498b02f988184e8cd7ac3c265c62",
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
+        "reviewer": "/root/reforge_menu_review",
         "date": "2026-11-20",
-        "conclusion": "接受模板补齐后的发布反例与停线。",
+        "conclusion": "接收视觉等价卡的局部验收状态写回。",
         "reviewedLines": 30,
-        "acceptanceScope": "实际 PAL 发布只改对象键顺序的一绿一红，拟议修复尚待裁决。"
+        "acceptanceScope": "复用已独立核过的对象键顺序不改变等价及真实发布证据。核顶部状态与尾行交接增量。集中门和合并另查父窗。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-REFORGE-PRESENTATION-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "44a1bbecfaf516b02d3059ac345348d6cfc59815dd7f40dbd9e2953701a6d163",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_menu_review",
+        "date": "2026-11-20",
+        "conclusion": "接收测试时点及集中门证据入口的两处末次增量。",
+        "reviewedLines": 87,
+        "acceptanceScope": "L65 分列 Reforge 集成 70 文件 409 项、Editor 相邻 3 文件 14 项，以及恢复 Q2 固定菜单源码后 22 文件 153 项。三次原生结果通过且 stderr 为空。L86 指向统一门原件和对应 PR，窗口保持 review，首次全仓拒绝原件保留。其余正文与前版逐字节匹配。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-ITEM-SCHEME-ORDINAL-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "bcd108dbb57ecc860f925c2aec76f9a2a2b789e2bed8d77fb04af7554c2c9bb5",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_menu_review",
+        "date": "2026-11-20",
+        "conclusion": "接收物品方案编号卡的局部验收状态写回。",
+        "reviewedLines": 39,
+        "acceptanceScope": "复用已独立核过的编号 9/10、作者名称和真实发布证据。核顶部状态与尾行交接增量。集中门和合并另查父窗。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-CHROME-BAKE-PREFLIGHT-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "ff93b47bc11cf1931fd62b00dcef1c79938f71afd260ed4e511f4b0f0ec80129",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_menu_review",
+        "date": "2026-11-20",
+        "conclusion": "接收素材重建卡的局部验收状态写回。",
+        "reviewedLines": 41,
+        "acceptanceScope": "复用已独立核过的写前验证和真实 CLI 原件。核顶部状态与尾行交接增量。集中门和合并另查父窗。"
       }
     }
   ],
@@ -6219,6 +6258,12 @@
       "sha256": "b0dd88f288ede5e290ea24c50cce45346e11b456fca097f4312a9e721a4159bd",
       "bytes": 947199,
       "purpose": "本批迁移来源和 Content 专测八维、路径迁移、正式反例、原盘重建与集中质量门的单一执行归档。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-REFORGE-PRESENTATION-1.tar.gz",
+      "sha256": "5a45bf8cdf1995c6b310c8ea4caf3bcc8ba39ad280470325381a58c740e52294",
+      "bytes": 759708,
+      "purpose": "Reforge 97 个原路径与六项迁移留项的八维、路径去向、指定失败、独立复验和集中门原件。"
     }
   ],
   "artifactAliases": [],

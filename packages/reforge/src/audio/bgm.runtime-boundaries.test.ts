@@ -1,10 +1,4 @@
-/**
- * TEST-REFORGE-RUNTIME-CONTRACTS-1 C1-C3：BGM 异步调度（bgm.ts，注入 RuntimeAdapter）。
- * bgm.test.ts 已覆盖 stop 清账/fade 接管/开关/同曲续播；本文件补 resume 并发去重、
- * 换曲读取逆序的串行门、读失败重试。全部 entered/deferred 驱动，不用固定 sleep；
- * 不调用真实 AudioContext，不作听感验收。
- */
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import { deferred } from '../__tests__/glm-runtime-contract-fixtures.js'
 import {
   type AudioAssetReader,
@@ -13,216 +7,209 @@ import {
   createBgmPlayerWithRuntime,
 } from './bgm.js'
 
-afterEach(() => {
-  vi.restoreAllMocks()
-})
+afterEach(() => vi.restoreAllMocks())
 
-interface BgmHarness {
-  runtime: BgmRuntimeAdapter
-  seq: BgmSequencerAdapter & {
-    loadNewSongList: ReturnType<typeof vi.fn>
-    play: ReturnType<typeof vi.fn>
-    pause: ReturnType<typeof vi.fn>
-    fadeTo: ReturnType<typeof vi.fn>
-    cancelFade: ReturnType<typeof vi.fn>
-  }
-  init: ReturnType<typeof deferred<BgmSequencerAdapter>>
-  resumeGate: ReturnType<typeof deferred<void>>
-  setState: (state: AudioContextState) => void
-  reads: Array<{ asset: string; kind: string }>
-  /** loadNewSongList 调用即捕获的字节身份（vi.fn 记录参数会被克隆，ArrayBuffer 不保真）。 */
-  loads: Array<Array<{ fileName: string; bytes: number[] }>>
-}
-
-/** 可控后端：init/ctx.resume 各一个 deferred；readBytes 按 asset 永挂起（可注入一次性失败）。 */
-function harness(): BgmHarness {
-  const loads: Array<Array<{ fileName: string; bytes: number[] }>> = []
-  const seq = {
+function harness(context: BgmRuntimeAdapter['context'] = { state: 'running', async resume() {} }) {
+  const loads: Array<{ fileName: string; bytes: number[] }> = []
+  const sequencer = {
     pause: vi.fn(),
-    loadNewSongList: vi.fn((songs: Array<{ binary: ArrayBuffer; fileName: string }>) => {
-      loads.push(
-        songs.map((song) => ({ fileName: song.fileName, bytes: [...new Uint8Array(song.binary)] })),
-      )
-    }),
+    loadNewSongList(songs: Array<{ binary: ArrayBuffer; fileName: string }>) {
+      for (const song of songs) {
+        loads.push({ fileName: song.fileName, bytes: [...new Uint8Array(song.binary)] })
+      }
+    },
     play: vi.fn(),
     fadeTo: vi.fn(),
     cancelFade: vi.fn(),
     loopCount: 0,
-  }
-  const init = deferred<BgmSequencerAdapter>()
-  const resumeGate = deferred<void>()
-  let state: AudioContextState = 'running'
-  const reads: Array<{ asset: string; kind: string }> = []
-  const _resolver: AudioAssetReader = {
-    async readBytes(asset, expectedKind) {
-      reads.push({ asset, kind: expectedKind ?? '' })
-      return new ArrayBuffer(8)
-    },
-    async readRoleBytes() {
-      return new ArrayBuffer(8)
-    },
-  }
-  const runtime: BgmRuntimeAdapter = {
-    context: {
-      get state() {
-        return state
-      },
-      resume: vi.fn(() => resumeGate.promise),
-    },
-    initialize: vi.fn(() => init.promise),
-  }
+  } satisfies BgmSequencerAdapter
+  const initialization = deferred<BgmSequencerAdapter>()
+  const runtime = { context, initialize: () => initialization.promise } satisfies BgmRuntimeAdapter
+  return { runtime, sequencer, loads, initialization }
+}
+
+function noteBytes(pitch: number): ArrayBuffer {
+  return Uint8Array.from([
+    0x4d,
+    0x54,
+    0x68,
+    0x64,
+    0,
+    0,
+    0,
+    6,
+    0,
+    0,
+    0,
+    1,
+    0,
+    96,
+    0x4d,
+    0x54,
+    0x72,
+    0x6b,
+    0,
+    0,
+    0,
+    12,
+    0,
+    0x90,
+    pitch,
+    64,
+    96,
+    0x80,
+    pitch,
+    64,
+    0,
+    0xff,
+    0x2f,
+    0,
+  ]).buffer
+}
+
+function score(fileName: string, pitch: number) {
+  return { fileName, bytes: [...new Uint8Array(noteBytes(pitch))] }
+}
+
+function reader(readBytes: AudioAssetReader['readBytes']): AudioAssetReader {
   return {
-    runtime,
-    seq: seq as unknown as BgmHarness['seq'],
-    loads,
-    init,
-    resumeGate,
-    setState: (next) => {
-      state = next
+    readBytes,
+    async readRoleBytes() {
+      throw new Error('the injected backend does not read the soundfont')
     },
-    reads,
   }
 }
 
-const bytes = (): ArrayBuffer => new ArrayBuffer(8)
+test('coalesces pending resume requests and plays the score after a successful retry', async () => {
+  const first = deferred<void>()
+  const retry = deferred<void>()
+  let state: AudioContextState = 'running'
+  const resume = vi.fn<() => Promise<void>>(async () => {
+    throw new Error('unexpected extra resume')
+  })
+  resume.mockReturnValueOnce(first.promise)
+  resume.mockImplementationOnce(async () => {
+    await retry.promise
+    state = 'running'
+  })
+  const h = harness({
+    get state() {
+      return state
+    },
+    resume,
+  })
+  const player = createBgmPlayerWithRuntime(
+    reader(async () => noteBytes(60)),
+    h.runtime,
+  )
+  try {
+    player.play('music.menu')
+    h.initialization.resolve(h.sequencer)
+    await vi.waitFor(() => expect(h.loads).toEqual([score('music.menu', 60)]))
+    state = 'suspended'
 
-describe('C1 resume 并发去重与被拒后可再次手势', () => {
-  test('挂起期间并发 resume 只触发一次 ctx.resume；被拒后清旗标，后续手势可再次调用', async () => {
-    const h = harness()
-    h.setState('suspended')
-    const p = createBgmPlayerWithRuntime(
-      { readBytes: async () => bytes(), readRoleBytes: async () => bytes() },
-      h.runtime,
+    player.resume()
+    player.resume()
+    player.resume()
+    expect(resume).toHaveBeenCalledOnce()
+    first.reject(new Error('autoplay denied'))
+    await first.promise.catch(() => {})
+    await Promise.resolve()
+    expect(h.sequencer.play).toHaveBeenCalledOnce()
+
+    player.resume()
+    expect(resume).toHaveBeenCalledTimes(2)
+    expect(state).toBe('suspended')
+    retry.resolve()
+    await vi.waitFor(() => expect(h.sequencer.play).toHaveBeenCalledTimes(2))
+    expect(state).toBe('running')
+    expect(h.loads).toEqual([score('music.menu', 60), score('music.menu', 60)])
+  } finally {
+    await player.dispose()
+  }
+})
+
+test('while the backend initializes, only the latest request reads and starts a score', async () => {
+  const h = harness()
+  const readBytes = vi.fn(async () => noteBytes(62))
+  const player = createBgmPlayerWithRuntime(reader(readBytes), h.runtime)
+  try {
+    player.play('music.old')
+    player.play('music.latest')
+    expect(readBytes).not.toHaveBeenCalled()
+
+    h.initialization.resolve(h.sequencer)
+    await vi.waitFor(() => expect(h.sequencer.play).toHaveBeenCalledOnce())
+    expect(readBytes).toHaveBeenCalledExactlyOnceWith('music.latest', 'music')
+    expect(h.loads).toEqual([score('music.latest', 62)])
+  } finally {
+    await player.dispose()
+  }
+})
+
+test('an earlier read that finishes after the next score cannot replace it', async () => {
+  const h = harness()
+  const oldRead = deferred<ArrayBuffer>()
+  const readBytes = vi.fn(async (asset: string) => {
+    if (asset === 'music.old') return oldRead.promise
+    return noteBytes(asset === 'music.current' ? 60 : 62)
+  })
+  const player = createBgmPlayerWithRuntime(reader(readBytes), h.runtime)
+  try {
+    player.play('music.current')
+    h.initialization.resolve(h.sequencer)
+    await vi.waitFor(() => expect(h.sequencer.play).toHaveBeenCalledOnce())
+
+    player.play('music.old', false)
+    expect(readBytes.mock.calls).toEqual([
+      ['music.current', 'music'],
+      ['music.old', 'music'],
+    ])
+    player.play('music.latest')
+    await vi.waitFor(() => expect(h.sequencer.play).toHaveBeenCalledTimes(2))
+    const expected = [score('music.current', 60), score('music.latest', 62)]
+    expect(h.loads).toEqual(expected)
+
+    oldRead.resolve(noteBytes(61))
+    await oldRead.promise
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(h.loads).toEqual(expected)
+    expect(h.sequencer.play).toHaveBeenCalledTimes(2)
+    expect(readBytes.mock.calls).toEqual([
+      ['music.current', 'music'],
+      ['music.old', 'music'],
+      ['music.latest', 'music'],
+    ])
+  } finally {
+    oldRead.resolve(noteBytes(61))
+    await player.dispose()
+  }
+})
+
+test('a score read failure reports its asset and error, and the same score can be retried', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const h = harness()
+  const failure = new Error('disk error')
+  const readBytes = vi.fn(async () => noteBytes(64)).mockRejectedValueOnce(failure)
+  const player = createBgmPlayerWithRuntime(reader(readBytes), h.runtime)
+  try {
+    player.play('music.retry')
+    h.initialization.resolve(h.sequencer)
+    await vi.waitFor(() =>
+      expect(warn.mock.calls).toEqual([['[bgm] MIDI AssetId music.retry 读取失败', failure]]),
     )
-    p.resume()
-    p.resume() // 并发去重
-    p.resume()
-    expect(h.runtime.context.resume).toHaveBeenCalledTimes(1)
-    h.resumeGate.reject(new Error('autoplay denied'))
-    await Promise.resolve().then(() => {})
-    await Promise.resolve().then(() => {})
-    // 被拒后旗标复位：下一次手势（如真实点击）可再次 resume
-    p.resume()
-    expect(h.runtime.context.resume).toHaveBeenCalledTimes(2)
-  })
-})
+    expect(h.loads).toEqual([])
+    expect(h.sequencer.play).not.toHaveBeenCalled()
 
-describe('C2 换曲读取逆序完成：仅当前请求真正 load/play', () => {
-  test('懒初始化期间后发接管：init 完成只读 last', async () => {
-    const h = harness()
-    // 读取顺序可控：B 先被请求但挂起，A 后发且立即可读
-    const gates = new Map<string, ReturnType<typeof deferred<ArrayBuffer>>>()
-    gates.set('music.b', deferred<ArrayBuffer>())
-    const resolver: AudioAssetReader = {
-      async readBytes(asset, expectedKind) {
-        h.reads.push({ asset, kind: expectedKind ?? '' })
-        const gate = gates.get(asset)
-        return gate ? gate.promise : new ArrayBuffer(8)
-      },
-      async readRoleBytes() {
-        return new ArrayBuffer(8)
-      },
-    }
-    const p = createBgmPlayerWithRuntime(resolver, h.runtime)
-    p.play('music.b') // 懒初始化：last=b，init 未完成
-    p.play('music.a') // last=a（后发接管）
-    h.init.resolve(h.seq) // init 完成 → playCurrent 只跑 last=a
-    await vi.waitFor(() => {
-      expect(h.reads.map((r) => r.asset)).toEqual(['music.a']) // 只有当前请求真正读取
-    })
-    gates.get('music.b')!.resolve(new ArrayBuffer(8)) // b 从未开始读取：无迟到结果可谈
-    expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(1)
-    expect(h.seq.play).toHaveBeenCalledTimes(1)
-  })
-  test('已初始化 player 真读取乱序：旧读 entered 挂起→新请求先完成→旧读迟到被 post-read 门丢弃', async () => {
-    const h = harness()
-    // 每资源不同字节身份（核“完整字节身份”，不只 any(ArrayBuffer)）
-    const bytesOf = (asset: string): ArrayBuffer => {
-      const out = new Uint8Array(8)
-      out.fill(asset.charCodeAt(asset.length - 1))
-      return out.buffer
-    }
-    const gates = new Map<string, ReturnType<typeof deferred<ArrayBuffer>>>()
-    gates.set('music.b', deferred<ArrayBuffer>())
-    const resolver: AudioAssetReader = {
-      async readBytes(asset, expectedKind) {
-        h.reads.push({ asset, kind: expectedKind ?? '' })
-        const gate = gates.get(asset)
-        return gate ? gate.promise : bytesOf(asset)
-      },
-      async readRoleBytes() {
-        return new ArrayBuffer(8)
-      },
-    }
-    const p = createBgmPlayerWithRuntime(resolver, h.runtime)
-    // 1) 先完成一次完整播放，使 player 处于已初始化(ready)且 playing 有值
-    p.play('music.w')
-    h.init.resolve(h.seq)
-    await vi.waitFor(() => {
-      expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(1)
-    })
-    expect(h.reads.map((r) => r.asset)).toEqual(['music.w'])
-    // 2) 旧请求 b：读取已 entered 且挂起
-    p.play('music.b', false)
-    await vi.waitFor(() => {
-      expect(h.reads.map((r) => r.asset)).toEqual(['music.w', 'music.b'])
-    })
-    // 3) 新请求 a 接管（b 读取仍在途）；a 读取立即完成 → 真正提交
-    p.play('music.a')
-    await vi.waitFor(() => {
-      expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(2)
-    })
-    expect(h.loads).toEqual([
-      [{ fileName: 'music.w', bytes: [...new Uint8Array(bytesOf('music.w'))] }],
-      [{ fileName: 'music.a', bytes: [...new Uint8Array(bytesOf('music.a'))] }],
+    player.play('music.retry')
+    await vi.waitFor(() => expect(h.sequencer.play).toHaveBeenCalledOnce())
+    expect(h.loads).toEqual([score('music.retry', 64)])
+    expect(readBytes.mock.calls).toEqual([
+      ['music.retry', 'music'],
+      ['music.retry', 'music'],
     ])
-    expect(h.seq.play).toHaveBeenCalledTimes(2)
-    // 4) 旧读 b 此刻才完成（迟到）：post-read 串行门必须丢弃，不得第二次提交
-    gates.get('music.b')!.resolve(bytesOf('music.b'))
-    await Promise.resolve().then(() => {})
-    await Promise.resolve().then(() => {})
-    await Promise.resolve().then(() => {})
-    expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(2) // 仍只有 w 与 a
-    expect(h.seq.play).toHaveBeenCalledTimes(2)
-    expect(h.reads.map((r) => r.asset)).toEqual(['music.w', 'music.b', 'music.a']) // b 确实读过
-  })
-})
-
-describe('C3 读取失败不提交且同曲可重试', () => {
-  test('readBytes 失败 → 不 loadNewSongList/不 play；修复读取后同曲 play 真正提交', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const h = harness()
-    const resolver: AudioAssetReader = {
-      readBytes: async (asset, expectedKind) => {
-        h.reads.push({ asset, kind: expectedKind ?? '' })
-        if (h.reads.filter((r) => r.asset === asset).length === 1) throw new Error('disk error') // 首次读取失败
-        return new ArrayBuffer(8)
-      },
-      async readRoleBytes() {
-        return new ArrayBuffer(8)
-      },
-    }
-    const p = createBgmPlayerWithRuntime(resolver, h.runtime)
-    p.play('music.x')
-    h.init.resolve(h.seq)
-    await vi.waitFor(() => {
-      expect(h.reads.map((r) => r.asset)).toEqual(['music.x'])
-    })
-    await Promise.resolve().then(() => {})
-    await Promise.resolve().then(() => {})
-    // 失败可观察（warn 带上下文）且错误不提交：无 load/play
-    expect(warn).toHaveBeenCalledTimes(1)
-    expect(String(warn.mock.calls[0])).toContain('music.x')
-    expect(h.seq.loadNewSongList).not.toHaveBeenCalled()
-    expect(h.seq.play).not.toHaveBeenCalled()
-    // 同曲重试（读取已修复）→ 真正提交
-    p.play('music.x')
-    await vi.waitFor(() => {
-      expect(h.seq.loadNewSongList).toHaveBeenCalledTimes(1)
-    })
-    expect(h.seq.loadNewSongList).toHaveBeenCalledWith([
-      { binary: expect.any(ArrayBuffer), fileName: 'music.x' },
-    ])
-    expect(h.seq.play).toHaveBeenCalledTimes(1)
-  })
+  } finally {
+    await player.dispose()
+  }
 })

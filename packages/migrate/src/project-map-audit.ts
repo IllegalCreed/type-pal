@@ -70,6 +70,7 @@ export function auditAndConvertSourceMaps(
   let semanticRoundTripMismatchCount = 0
   let sourceJsonBytes = 0
   let projectMapJsonBytes = 0
+  const halfCells = [0, 1] as const
 
   for (const entry of entries) {
     if (maps.has(entry.mapNum)) throw new Error(`重复源地图编号 ${entry.mapNum}`)
@@ -81,10 +82,10 @@ export function auditAndConvertSourceMaps(
     for (let row = 0; row < entry.source.height; row++) {
       for (let col = 0; col < entry.source.width; col++) {
         const cell = entry.source.cells[row]![col]!
-        for (let sub = 0; sub < 2; sub++) {
+        for (const sub of halfCells) {
           latticeInstances++
           const latticeRow = row * 2 + sub
-          const sourceWord = (sub === 0 ? cell.lower : cell.upper) >>> 0
+          const sourceWord = sub === 0 ? cell.lower : cell.upper
           const decoded = decodeSourceMapWord(sourceWord)
           if (decoded.residualBits !== 0) {
             residualWordCount++
@@ -92,7 +93,7 @@ export function auditAndConvertSourceMaps(
               mapNum: entry.mapNum,
               row,
               col,
-              sub: sub as 0 | 1,
+              sub,
               word: sourceWord,
               residualBits: decoded.residualBits,
             })
@@ -103,7 +104,7 @@ export function auditAndConvertSourceMaps(
               mapNum: entry.mapNum,
               row,
               col,
-              sub: sub as 0 | 1,
+              sub,
               word: sourceWord,
               height: (sourceWord >>> 24) & 0x0f,
             })

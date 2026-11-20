@@ -1,9 +1,6 @@
-/**
- * 键盘输入：held（移动，连续）+ pressed（边沿，如交互按一次）。
- * 移动键 / 空格阻止默认滚动。
- */
 const MOVE_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
 
+/** 游戏页面持有持续按键和本帧按下边沿。 */
 export class Keyboard {
   private readonly held = new Set<string>()
   private readonly pressed = new Set<string>()
@@ -12,13 +9,11 @@ export class Keyboard {
     target.addEventListener('keydown', (e) => {
       if (!e.repeat) {
         this.pressed.add(e.key)
-        // 后按优先:初次按下 delete-then-add 推到插入序末位(lastDownOf 取末位命中)。
-        // 仅初次按下时重排 —— OS 连发(e.repeat)会把按住的键反复顶回末位,
-        // 反把后按的键挤前(一阶段 shell/input.ts 同坑,对齐 sdlpal input.c:213 !fRepeat)。
+        // Set 的插入顺序决定移动优先级。系统连发不能把先按下的键重新提到最后。
         this.held.delete(e.key)
         this.held.add(e.key)
       }
-      // 阻止默认:移动键/空格/Enter 防滚动;F5/F9 防浏览器刷新(用作快速存/读热键)
+      // F5 和 F9 已绑定快速存取档，游戏页面接管浏览器默认操作。
       if (
         MOVE_KEYS.has(e.key) ||
         e.key === ' ' ||

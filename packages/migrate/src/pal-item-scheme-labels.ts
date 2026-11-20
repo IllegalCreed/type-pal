@@ -132,7 +132,7 @@ function isCanonicalTopLabel(label: string, itemNames: readonly string[]): boole
     if (label === base) return true
     if (!label.startsWith(`${base} `)) return false
     const suffix = label.slice(base.length + 1)
-    return /^[2-9][0-9]*$/.test(suffix)
+    return /^(?:[2-9]|[1-9][0-9]+)$/.test(suffix)
   })
 }
 

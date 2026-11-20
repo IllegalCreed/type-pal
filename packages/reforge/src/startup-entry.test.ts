@@ -31,13 +31,24 @@ describe('canonical startup entry resolution', () => {
     expect(requireDefaultEntry(value).id).toBe('second')
   })
 
-  test('explicit and invalid query preserve the boot contract', () => {
-    expect(resolveStartupEntry(manifest(), 'first')).toMatchObject({
-      selectedEntry: { id: 'first' },
+  test('未指定或无效的查询使用默认入口，真实显式入口保留自己的开局状态', () => {
+    const project = manifest()
+    const defaultEntry = project.entryPoints[1]
+    const explicitEntry = project.entryPoints[0]
+    expect(resolveStartupEntry(project, null)).toEqual({
+      selectedEntry: defaultEntry,
+      explicitMatch: false,
+    })
+    expect(resolveStartupEntry(project, '')).toEqual({
+      selectedEntry: defaultEntry,
+      explicitMatch: false,
+    })
+    expect(resolveStartupEntry(project, 'first')).toEqual({
+      selectedEntry: explicitEntry,
       explicitMatch: true,
     })
-    expect(resolveStartupEntry(manifest(), 'missing')).toMatchObject({
-      selectedEntry: { id: 'second' },
+    expect(resolveStartupEntry(project, 'missing')).toEqual({
+      selectedEntry: defaultEntry,
       explicitMatch: false,
       invalidRequestedId: 'missing',
     })
@@ -59,7 +70,7 @@ describe('canonical startup entry resolution', () => {
     expect(shouldShowOpeningMenu({ ...base, menuRequested: false })).toBe(false)
   })
 
-  test('入口 intro 仅在菜单选择新局时播放', () => {
+  test('入口介绍视频的启动策略只选中菜单新局路由', () => {
     expect(shouldPlayEntryIntro('direct')).toBe(false)
     expect(shouldPlayEntryIntro('menu-load')).toBe(false)
     expect(shouldPlayEntryIntro('menu-entry')).toBe(true)

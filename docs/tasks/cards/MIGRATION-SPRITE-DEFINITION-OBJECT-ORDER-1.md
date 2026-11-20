@@ -1,6 +1,6 @@
 # MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1 — PAL 视觉定义按内容比对
 
-Status: blocked
+Status: done
 Phase: phase2
 Owner: Codex
 Reviewer: Codex
@@ -14,7 +14,7 @@ Visual Verification Timing: N/A
 
 ## 范围
 
-PAL current 发布将既有作者精灵定义和原盘投影作严格等价比较。`pal-world-sprite-semantic-alias.ts` 将布局和动作序列化后逐字符串比较，作者只交换布局 JSON 对象键顺序就被挡在发布前。此项涉及资产管线接受域，等待用户裁决后才准入产品修改。
+PAL current 发布将既有作者精灵定义和原盘投影作严格等价比较。基点的 `pal-world-sprite-semantic-alias.ts` 将布局和动作序列化后逐字符串比较，作者只交换布局 JSON 对象键顺序就被挡在发布前。
 
 ## 前提与证据
 
@@ -22,8 +22,8 @@ PAL current 发布将既有作者精灵定义和原盘投影作严格等价比�
 
 ## 验收
 
-如果获准，按现有精灵 schema 做确定的结构比较，对象键顺序不影响等价，资源、布局字段、动作及有序播放步骤仍必须严格一致。保留差异负例和真实发布入口，验证作者动作、数据格式与生成素材所有权。现行 [PAL 发布入口](../../../packages/migrate/src/pal-current-publication.ts) 和 [内容规格](../../phase2/specs/content-schema.md) 为验收边界。
+按现有精灵 schema 做确定的结构比较，对象键顺序不影响等价，资源、布局字段、动作及有序播放步骤仍必须严格一致。现行 [PAL 发布入口](../../../packages/migrate/src/pal-current-publication.ts) 和 [内容规格](../../phase2/specs/content-schema.md) 为验收边界。
 
 ## 状态与交接
 
-发布布局等价反例保留为 review。本卡等待资产管线接受域裁决，再安排产品修复与回归。
+用户于 2026-11-20 批准按已有等价含义修复。候选比较 JSON 值结构，数组步骤顺序参与比较。正式 PAL 发布的固定基线与仅调换布局键的候选各自通过，错资源、错布局和动作差异原专测继续通过。原件、候选身份与全仓门状态见[现行窗口](QUALITY-REFORGE-PRESENTATION-1.md#上一窗口的-review)。本卡局部验收完成，集中门与合并取窗口卡的执行回执。

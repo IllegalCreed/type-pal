@@ -1,17 +1,9 @@
-/**
- * 上传素材量化(W7B,D25 第 4 条)—— 全彩 RGBA → 盘 0 索引(最近邻色距),
- * 输出 RleFrame(索引 + opaque),经 encodeSpriteChunk 落盘为原版同构 tileset。
- * 「调色盘」是内部机制:作者上传即量化,零调色盘知识(D25 定案)。
- */
 import type { Palette, RleFrame } from '@type-pal/shared'
 
 /** alpha 阈值:< 128 视为 RLE 透明(跳段),否则量化为最近盘色。 */
 const ALPHA_OPAQUE = 128
 
-/**
- * RGBA 像素块 → 盘 0 索引帧。最近邻 RGB 欧氏距离;同色缓存(素材色彩重复率高,
- * 缓存后大图集量化为毫秒级)。
- */
+/** 用当前工程的调色表寻找最近 RGB 色。每幅图单独缓存，同色复用选择结果。 */
 export function quantizeToRleFrame(
   rgba: Uint8Array | Uint8ClampedArray,
   width: number,
@@ -56,7 +48,7 @@ export function quantizeToRleFrame(
   return { width, height, pixels, opaque }
 }
 
-/** 等距网格切片:图集 (imgW×imgH) 按 tileW×tileH 均分,行优先产出每格的 RGBA 子块。 */
+/** 按行优先提取完整格，边缘不足一格的像素留在图集中。 */
 export function sliceAtlasGrid(
   rgba: Uint8Array | Uint8ClampedArray,
   imgW: number,

@@ -51,9 +51,11 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)保留一个 review。用户已裁定等 E2E 合入，随后核对同一资产文件归属并复用缺记录反例。
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)已完成 97 个原 pending 的逐文件读核，84 个验收、13 个保留 review。定向经过音频、文本、资源、菜单和绘制输入的实际生产合同。集中门与合并按同一卡记录。
 
-迁移窗口的[地图源字](cards/MIGRATION-MAP-SOURCE-WORD-DOMAIN-1.md)、[旧商店扫描](cards/MIGRATION-STORE-COMMAND-SCAN-RETIREMENT-1.md)和[精灵布局等价](cards/MIGRATION-SPRITE-DEFINITION-OBJECT-ORDER-1.md)已登记证据，当前等待用户裁决。
+迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
+
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)和上一窗口的 Content 物品夹具继续 review。用户已裁定资产诊断等 E2E 合入，夹具仍有 E2E 直接消费者。接续前核新主线和对应 Owner。
 
 ### 代码治理：最近完成的文件批次
 

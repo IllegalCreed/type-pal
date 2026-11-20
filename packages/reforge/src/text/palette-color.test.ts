@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { CURSOR_RGBA, colorRgba, TITLE_RGBA } from './palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from './palette-color.js'
 
 describe('对话固定色(pal0 快照,不绑场景 palette)', () => {
-  test('DialogColor → 固定 RGBA', () => {
+  test('对话色映射到固定 RGB', () => {
     expect(colorRgba('default')).toEqual([199, 186, 174])
     expect(colorRgba('yellow')).toEqual([255, 223, 134])
     expect(colorRgba('cyan')).toEqual([121, 219, 186])
@@ -11,7 +11,8 @@ describe('对话固定色(pal0 快照,不绑场景 palette)', () => {
   })
   test('姓名牌 + 光标 6 色', () => {
     expect(TITLE_RGBA).toEqual([101, 203, 170])
-    expect(CURSOR_RGBA).toHaveLength(6)
+    expect(CURSOR_COLOR_COUNT).toBe(6)
+    expect(CURSOR_RGBA).toHaveLength(CURSOR_COLOR_COUNT)
     expect(CURSOR_RGBA[0]).toEqual([247, 231, 109])
   })
 })

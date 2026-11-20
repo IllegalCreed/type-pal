@@ -45,6 +45,23 @@ describe('PAL 原始地图审计', () => {
     expect(report.semanticRoundTripMismatchCount).toBe(0)
   })
 
+  test('拒绝不能装进一个 PAL 原始字的半格数值，并定位到原图', () => {
+    const error = 'tilemap.cells[0][0].lower'
+    expect(() => auditAndConvertSourceMaps([sourceMap(12, 0x1_0000_0000, 0)])).toThrow(error)
+    expect(() => auditAndConvertSourceMaps([sourceMap(12, 0, -1)])).toThrow(
+      'tilemap.cells[0][0].upper',
+    )
+    expect(() => auditAndConvertSourceMaps([sourceMap(12, 2.5, 0)])).toThrow(error)
+  })
+
+  test('保留最大合法无符号字的原值、解码结果和残差位', () => {
+    const { maps, report } = auditAndConvertSourceMaps([sourceMap(1, 0xffff_ffff, 0)])
+    expect(maps.get(1)?.layers[0]?.tiles[0]).toEqual([511])
+    expect(report.residualWords).toEqual([
+      { mapNum: 1, row: 0, col: 0, sub: 0, word: 0xffff_ffff, residualBits: 0xe000_c000 },
+    ])
+  })
+
   test('记录空覆盖层的孤立高度，转换结果没有该实例', () => {
     const { maps, report } = auditAndConvertSourceMaps([sourceMap(4, 0, 0x0100_0000)])
     expect(report.emptyLayer1NonzeroHeightCount).toBe(1)

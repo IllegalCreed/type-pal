@@ -57,4 +57,20 @@ describe('GameplayClock', () => {
       gameplayNow: 1_200,
     })
   })
+
+  test('真实时钟回退不倒扣玩法时间，恢复帧从新锚点起算', () => {
+    const clock = new GameplayClock()
+    clock.advance(2_000, false)
+    clock.advance(2_016, false)
+    expect(clock.advance(1_000, false)).toEqual({
+      realDt: 0,
+      gameplayDt: 0,
+      gameplayNow: 2_016,
+    })
+    expect(clock.advance(1_020, false)).toEqual({
+      realDt: 20,
+      gameplayDt: 20,
+      gameplayNow: 2_036,
+    })
+  })
 })

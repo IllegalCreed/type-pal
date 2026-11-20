@@ -1,4 +1,4 @@
-// 系统菜单 Canvas UI(D17)。坐标对齐一阶段 draw-menu.ts(PAL_SystemMenu)+ draw-confirm.ts。
+// 大世界系统菜单。坐标参考第一阶段系统菜单和确认框。
 // 320 逻辑坐标,调用方已 ctx.scale(WORLD_SCALE)。
 // 色常量复用 menu-box(单一真值源,不本地重声明)。
 import { type Locale, lookupText, type TextId } from '@type-pal/content'
@@ -84,7 +84,7 @@ export function drawSystemMenu(
     )
   }
 
-  // ④ 占位提示(quit 未实现等;main.ts 持 placeholder 态传入)
+  // 预留调用方提示。退出操作由菜单会话的导航端口处理。
   if (placeholder) {
     renderSpans(ctx, [{ text: lookupText(placeholder, locale) }], 130, 84, {
       glyphs,
