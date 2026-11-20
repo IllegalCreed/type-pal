@@ -2394,7 +2394,14 @@ async function inspect(path, engine) {
     : undefined
   const courtyard =
     scenario === 'thief-courtyard'
-      ? inspectCourtyardPresentation({ events, draws: renderedDialogue, boundaries, source, spec })
+      ? inspectCourtyardPresentation({
+          events,
+          draws: renderedDialogue,
+          boundaries,
+          source,
+          spec,
+          game,
+        })
       : undefined
   if (courtyard) {
     const [battleHp] = actions.at(-1).hp

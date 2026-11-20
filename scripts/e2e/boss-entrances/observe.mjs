@@ -77,16 +77,21 @@ function installBossForeground({
   const rainResources = new WeakMap()
   let previousRainDraw
 
-  // Geometry metadata is available for the whole draw. Only persist pixel payloads
-  // actually referenced by a watched actor that intersects the output frame.
-  globalThis.__e2eWantsNpcPixels = (id, rect, camera) =>
-    ids.includes(id) && watchesScene(globalThis.__rfScene?.id) && visibleRect(rect, camera)
-
   const coversDialogueWorld = (id) =>
     foregroundDialogueScenes.includes(id) &&
     (recordDialogueAfterBattle || !observation.read().ended)
   const recordsFullCast = (id) =>
     Boolean(itemEntrance || finale || serial || courtyard) && coversDialogueWorld(id)
+
+  // Every visible sprite used by the comparison needs its actual frame resource.
+  globalThis.__e2eWantsNpcPixels = (id, rect, camera) => {
+    const sceneId = globalThis.__rfScene?.id
+    return (
+      watchesScene(sceneId) &&
+      (ids.includes(id) || recordsFullCast(sceneId)) &&
+      visibleRect(rect, camera)
+    )
+  }
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>
@@ -353,9 +358,9 @@ function installBossForeground({
         rect,
       }
     },
-    gameCulledActor(npc, sprite, frame, camera, cullVy) {
+    gameCulledActor(npc, sprite, frame, camera, cullVy, sceneId) {
       const id = `e${npc.id}`
-      if (!ids.includes(id)) return
+      if (!ids.includes(id) && !recordsFullCast(sceneId)) return
       const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
       if (!visibleRect(rect, camera)) return
       gameEdgeActors[id] = {

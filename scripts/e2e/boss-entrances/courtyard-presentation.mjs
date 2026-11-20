@@ -9,7 +9,7 @@ const pose = ({ asset, position, facing, frame }) => [asset, position, facing, f
 const cast = (actors) =>
   Object.fromEntries(Object.entries(actors).map(([id, row]) => [id, pose(row)]))
 
-export function inspectCourtyardPresentation({ events, draws, boundaries, source, spec }) {
+export function inspectCourtyardPresentation({ events, draws, boundaries, source, spec, game }) {
   const { trigger, launch, entry, won, control } = boundaries
   const { scene, disk, owner } = spec
   const coverage = inspectWorldDialogueCoverage({
@@ -32,6 +32,9 @@ export function inspectCourtyardPresentation({ events, draws, boundaries, source
   const world = events.filter(({ kind }) => kind === 'world-drawn')
   const byOrder = new Map(world.map((row) => [row.order, row]))
   const stages = []
+  const water = []
+  const expectedWater = [618, [736, 320], 'down']
+  const heldParty = [592, 280]
   for (const receipt of events) {
     if (
       receipt.kind !== 'world-render' ||
@@ -46,7 +49,25 @@ export function inspectCourtyardPresentation({ events, draws, boundaries, source
       issues.push({ issue: 'courtyard-unbound-render', order: receipt.order })
       continue
     }
-    const actors = cast(drawing.actors)
+    const { e1713: surface, ...foreground } = drawing.actors
+    const wave = surface && pose(surface)
+    if (
+      !wave ||
+      !isDeepStrictEqual(wave.slice(0, 3), expectedWater) ||
+      wave[3] < 0 ||
+      wave[3] > 10
+    ) {
+      issues.push({ issue: 'courtyard-water-pose', actual: wave, order: receipt.order })
+    } else if (water.at(-1)?.frame !== wave[3]) {
+      water.push({ atMs: drawing.atMs, order: drawing.order, frame: wave[3] })
+    }
+    const player = drawing.party?.map(({ id, world, frame }) => [id, world, frame])
+    if (
+      !isDeepStrictEqual(player, [['li-xiaoyao', heldParty, 0]]) ||
+      !isDeepStrictEqual(drawing.camera, [432, 168])
+    )
+      issues.push({ issue: 'courtyard-standing-party', actual: player, order: receipt.order })
+    const actors = cast(foreground)
     if (!isDeepStrictEqual(stages.at(-1)?.actors, actors))
       stages.push({ atMs: drawing.atMs, order: receipt.order, actors })
   }
@@ -78,6 +99,21 @@ export function inspectCourtyardPresentation({ events, draws, boundaries, source
       issues.push({ issue: 'courtyard-turn-clock', order, interval: atMs - stages[index - 1].atMs })
   }
 
+  // The local water loop is environmental. Game advances four times during 14685;
+  // Reforge advances on the continuing world clock while foreground dialogue is open.
+  const expectedSteps = game ? 5 : 11
+  if (
+    water.length < expectedSteps ||
+    (game && water.length !== expectedSteps) ||
+    water.slice(1).some(({ frame }, index) => frame !== (water[index].frame + 1) % 11)
+  )
+    issues.push({ issue: 'courtyard-water-frame-sequence', actual: water })
+  for (const [index, surface] of water.slice(1).entries()) {
+    const interval = surface.atMs - water[index].atMs
+    if ((index > 0 || !game) && Math.abs(interval - 100) > 55)
+      issues.push({ issue: 'courtyard-water-clock', order: surface.order, interval })
+  }
+
   const battleFrames = events.filter(({ kind }) => kind === 'entry-band')
   const cleared = inspectClearedDialogueFrames(draws, [...battleFrames, entry], scene)
   if (cleared.issue)
@@ -96,13 +132,32 @@ export function inspectCourtyardPresentation({ events, draws, boundaries, source
     leader: arrival.leader,
     camera: arrival.camera,
     actors: cast(arrival.actors),
-    party: arrival.party?.map(({ id, spriteId, world, facing, frame }) => [
+    party: arrival.party?.map(({ id, spriteId, world, frame }) => [
       id,
       typeof spriteId === 'number' ? spriteId : source.spriteChunks.get(spriteId),
       world,
-      facing,
       frame,
     ]),
+    lowerEdge: {},
+  }
+  // Game tests NPC Y four pixels below its blit rectangle. Reforge clips the actual rectangle.
+  // Check the complete edge cast against Game's independent cull receipts.
+  if (arrival) {
+    const [left, top] = arrival.camera
+    const edge = game ? (arrival.edgeActors ?? {}) : arrival.actors
+    for (const [id, row] of Object.entries(edge)) {
+      const [x, y, width] = row.rect
+      const blitY = y - top
+      if (blitY < 196 || blitY >= 200 || x + width <= left || x >= left + 320) continue
+      if (game && row.cullVy !== blitY + 4)
+        issues.push({ issue: 'courtyard-unexplained-clipped-actor', actor: id, actual: row })
+      newFrame.lowerEdge[id] = { pose: pose(row), rect: row.rect }
+      delete newFrame.actors[id]
+    }
+    const [{ foot } = {}] = arrival.party ?? []
+    const expectedFoot = [160, game ? 116 : 119]
+    if (!isDeepStrictEqual(foot, expectedFoot))
+      issues.push({ issue: 'courtyard-successor-party-blit', actual: foot, expected: expectedFoot })
   }
   if (!newFrame?.party?.length || arrival.order >= control.order)
     issues.push({ issue: 'courtyard-unbound-first-successor-cast', actual: newFrame })
@@ -116,6 +171,7 @@ export function inspectCourtyardPresentation({ events, draws, boundaries, source
     coverage: [coverage],
     issues,
     stages,
+    water,
     clearedFrames: cleared.checked,
     arrivalSoundMs: sound && sound.atMs - control.atMs,
     comparable: { turns: stages.map(({ actors }) => actors), newFrame },

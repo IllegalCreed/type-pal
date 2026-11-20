@@ -1000,6 +1000,7 @@ await runBrowserJourney({
     Q2_DEFEAT_ENGINE: engine,
     Q2_BOSS_FOREGROUND: foreground ? '1' : '0',
     Q2_BOSS_ITEM_ENTRANCE: itemEntrance ? '1' : '0',
+    Q2_BOSS_COURTYARD: courtyard ? '1' : '0',
     Q2_BOSS_FINALE: finale ? '1' : '0',
   },
   sources: source.paths,

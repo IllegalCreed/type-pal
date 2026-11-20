@@ -12,6 +12,7 @@ import {
 const engine = process.env.Q2_DEFEAT_ENGINE
 const itemEntrance = process.env.Q2_BOSS_ITEM_ENTRANCE === '1'
 const observesFilms = itemEntrance || process.env.Q2_BOSS_FINALE === '1'
+const observesEdges = itemEntrance || process.env.Q2_BOSS_COURTYARD === '1'
 
 function replaceOnce(source: string, anchor: string, replacement: string): string {
   assert.equal(source.split(anchor).length, 2, `boss observation anchor: ${anchor}`)
@@ -247,14 +248,15 @@ ${anchor}`,
           's' + String(gs.wNumScene - 1).padStart(3, '0'))
       },`,
       )
-      if (itemEntrance) {
+      if (observesEdges) {
         const cull = '    if (cullVy >= SCREEN_H || cullVy < -sprite.height) continue'
         code = replaceOnce(
           code,
           cull,
           `    if (cullVy >= SCREEN_H || cullVy < -sprite.height) {
         globalThis.__bossForeground?.gameCulledActor(npc, sprite,
-          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(sprite) ?? null, gs.camera, cullVy)
+          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(sprite) ?? null, gs.camera, cullVy,
+          's' + String(gs.wNumScene - 1).padStart(3, '0'))
         continue
       }`,
         )
