@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
+import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
 
 export const fieldMusic = 78
@@ -406,7 +407,18 @@ export const scenarios = {
     id: 'stone-elder-guiyin',
     scene: 's067',
     owner: 'e1342',
-    watched: ['e1340', 'e1343', 'e1344', 'e1345', 'e1346', 'e1347', 'e1487', 'e1488', 'e1492'],
+    watched: [
+      'e1340',
+      'e1341',
+      'e1343',
+      'e1344',
+      'e1345',
+      'e1346',
+      'e1347',
+      'e1487',
+      'e1488',
+      'e1492',
+    ],
     team: 34,
     enemy: 'enemy-496',
     start: [103, 24, 0],
@@ -893,6 +905,15 @@ export async function readSources(spec) {
     spec.id === 'poison-lady'
       ? readPoisonLadySources(commands, data.gameScene, data.diskHandoffScene)
       : undefined
+  const stoneElder =
+    spec.id === 'stone-elder-guiyin'
+      ? readStoneElderSources(
+          commands,
+          data.gameScene,
+          data.diskHandoffScene,
+          object.scriptOnTurnStart,
+        )
+      : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -967,6 +988,12 @@ export async function readSources(spec) {
       ...returnMusicPaths,
       ...ringAudioPaths,
       ...towerAssets,
+      ...(stoneElder
+        ? [
+            'scripts/e2e/boss-entrances/stone-elder-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
+          ]
+        : []),
     ],
     preludeStates,
     preludeWave,
@@ -993,6 +1020,7 @@ export async function readSources(spec) {
     tian,
     scriptedStop,
     poisonLady,
+    stoneElder,
     route,
     summonBonus,
     summoning: summonScript && {

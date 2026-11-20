@@ -20,14 +20,16 @@ export function sourceDialogueGroups(commands, windows) {
     let portrait = null
     let portraitLayout = false
     let rows = []
-    const finish = () => {
+    const finish = (keepIdentity = false) => {
       if (rows.length) {
         assert(slot, 'source dialogue window must name its initial slot')
         groups.push({ scene, slot, speaker, portrait, portraitLayout, rows })
       }
       rows = []
-      speaker = null
-      portrait = null
+      if (!keepIdentity) {
+        speaker = null
+        portrait = null
+      }
     }
     for (let ip = first; ip <= last; ip++) {
       const { op, arg0, opcode, text, messageIndex } = commands[ip]
@@ -40,6 +42,8 @@ export function sourceDialogueGroups(commands, windows) {
         const visible = sourceDialogueText(text)
         if (/[∶：:]$/u.test(visible)) speaker = heading(visible)
         else rows.push({ id: `dlg.${messageIndex}`, ip, text: visible })
+      } else if (op === 'raw' && opcode === 0x8e) {
+        finish(true)
       } else if (op === 'end' || (op === 'raw' && [0x05, 0x09, 0x50].includes(opcode))) {
         finish()
       }

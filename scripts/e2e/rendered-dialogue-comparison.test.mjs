@@ -64,6 +64,22 @@ test('missing text, a relocated slot and a changed body independently fail', () 
   }
 })
 
+test('a source page turn preserves the previous voice and portrait', () => {
+  const paged = [...source.slice(0, 3), { op: 'raw', opcode: 0x8e }, ...source.slice(4)]
+  const pages = sourceDialogueGroups(paged, [{ scene, first: 0, last: 6 }])
+  assert.deepEqual(
+    pages.map(({ rows, slot, speaker, portrait }) => [rows[0].id, slot, speaker, portrait]),
+    [
+      ['dlg.628', 'top', '李逍遥', 10],
+      ['dlg.629', 'top', '李逍遥', 10],
+    ],
+  )
+  const paginated = visible(1, { speaker: '李逍遥', portrait: 10 })
+  assert.equal(compareRenderedDialogue([visible(0), paginated], pages).status, 'passed')
+  const abandoned = compareRenderedDialogue([visible(0), visible(1)], pages)
+  assert.equal(abandoned.findings[0].issue, 'wrong-drawn-dialogue-identity')
+})
+
 test('an absent field cannot stand for a drawn box without a title or portrait', () => {
   for (const field of ['speaker', 'portrait', 'portraitLayout']) {
     const incomplete = visible(1)

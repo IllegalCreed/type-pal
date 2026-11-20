@@ -86,55 +86,12 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 101,
-                        "height": 0,
-                        "row": 24
-                      },
-                      "target": {
-                        "scene": "s077",
-                        "entity": "e1488"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
           "legacy-001": {
             "label": "自动行为 1",
             "order": 1,
@@ -526,52 +483,78 @@
                 "id": "initial",
                 "body": [
                   {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-193"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
+                    "kind": "sceneTimeline",
+                    "label": "韩梦慈走到榻前",
+                    "tracks": [
+                      {
+                        "id": "han-mengci",
+                        "label": "韩梦慈",
+                        "target": {
+                          "scene": "s077",
+                          "entity": "e1488"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 22,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2300,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "han-yixian",
+                        "label": "韩医仙",
+                        "target": {
+                          "scene": "s077",
+                          "entity": "e1487"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 1500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
                     ]
                   },
                   {
-                    "facing": "down",
-                    "gesture": 12,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 99,
-                      "height": 0,
-                      "row": 23
-                    }
-                  },
-                  {
                     "kind": "wait",
-                    "ms": 1600
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setEntityFacing",
-                    "target": {
-                      "scene": "s077",
-                      "entity": "e1487"
-                    }
-                  },
-                  {
-                    "frame": 0,
-                    "kind": "setEntityFrame",
-                    "target": {
-                      "scene": "s077",
-                      "entity": "e1487"
-                    }
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 2000
+                    "ms": 1200
                   },
                   {
                     "cue": {
@@ -1139,6 +1122,65 @@
                 ],
                 "next": {
                   "kind": "complete"
+                },
+                "entry": {
+                  "prepare": [
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-193"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 12,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 99,
+                        "height": 0,
+                        "row": 23
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 6,
+                      "target": {
+                        "scene": "s077",
+                        "entity": "e1492"
+                      }
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "dx": 6,
+                      "dy": -3,
+                      "target": {
+                        "scene": "s077",
+                        "entity": "e1488"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 1,
+                      "target": {
+                        "scene": "s077",
+                        "entity": "e1488"
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 1200,
+                    "inMs": 600,
+                    "color": "black"
+                  }
                 }
               }
             ]

@@ -23,6 +23,7 @@ import {
   returnTrack,
   scenarios,
 } from './scenarios.mjs'
+import { inspectStoneElderPresentation } from './stone-elder-presentation.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
 import { inspectTowerMingPresentation } from './tower-ming-presentation.mjs'
 import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
@@ -35,6 +36,8 @@ assert(
 )
 const source = await readSources(spec)
 const scriptedStop = source.tian ?? source.scriptedStop
+const scriptedDefeat = spec.world.outcome === 'lost'
+const earnsRewards = !scriptedStop && !scriptedDefeat
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const entrance = spec.entrance
@@ -1587,6 +1590,24 @@ async function inspect(path, engine) {
     assert.equal(actions.at(-1), enemy.at(-1))
     assert.equal(enemy.at(-1).turn, scriptedStop.turns)
     assert.equal(enemy.at(-1).enemies[spec.slot].hp, source.original.health)
+  } else if (scriptedDefeat) {
+    if (source.stoneElder)
+      assert.deepEqual(
+        actions.map(({ turn, side, slot, kind, spell }) => [turn, side, slot, kind, spell ?? null]),
+        [
+          [1, 'player', 0, 'defend', null],
+          [1, 'player', 2, 'defend', null],
+          [1, 'player', 1, 'defend', null],
+          [1, 'enemy', spec.slot, 'cast', String(source.original.magic)],
+        ],
+        'three native defenses and the boss opening blast',
+      )
+    assert.equal(actions.at(-1).side, 'enemy')
+    assert(
+      actions.at(-1).hp.every((hp) => hp === 0),
+      'real enemy damage defeated the party',
+    )
+    assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp > 0))
   } else {
     assert.deepEqual([actions.at(-1).side, actions.at(-1).kind], ['player', 'attack'])
     assert(actions.at(-1).enemies.every((slot) => slot === null || slot.hp === 0))
@@ -1608,11 +1629,11 @@ async function inspect(path, engine) {
   const effectSounds = find('sfx-start')
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
   const won = once('battle-finished')
-  const soundIds = effectSounds
-    .filter(
-      ({ order }) => !observesForeground(spec) || (order > prepared.order && order < won.order),
-    )
-    .map(({ asset }) => asset)
+  const battleSounds = effectSounds.filter(
+    ({ order }) => !observesForeground(spec) || (order > prepared.order && order < won.order),
+  )
+  const soundIds = battleSounds.map(({ asset }) => asset)
+  let comparableSounds = soundIds
   let spiderForeground
   if (spec.team === 45)
     assert.equal(
@@ -1622,6 +1643,12 @@ async function inspect(path, engine) {
   else if (spec.team === 44) {
     assert(soundIds.includes(source.original.magicSound), 'fox spell sound did not start')
     assert.equal(soundIds.filter((asset) => asset === 212).length, 1, 'fox summon sound count')
+  } else if (source.stoneElder) {
+    // Three casualty sounds start together. The decoder can return them in a different order.
+    comparableSounds = [soundIds[0], ...soundIds.slice(1).toSorted((a, b) => a - b)]
+    assert.deepEqual(comparableSounds, [Math.abs(source.original.magicSound), 23, 24, 25])
+    const cries = battleSounds.slice(1).map(({ atMs }) => atMs)
+    assert(Math.max(...cries) - Math.min(...cries) < 1000 / 60, 'casualty sounds are simultaneous')
   } else if (spec.team === 43) {
     assert.equal(soundIds.filter((asset) => asset === 182).length, 1)
     assert.equal(soundIds.filter((asset) => asset === 502).length, 1)
@@ -1632,13 +1659,27 @@ async function inspect(path, engine) {
   }
   assert.equal(
     soundIds.filter((asset) => asset === source.original.deathSound).length,
-    scriptedStop ? 0 : 1,
+    Number(earnsRewards),
   )
 
-  assert.equal(won.result, scriptedStop ? 'terminated' : game ? 'won' : 'victory')
-  const [exp, cash] = scriptedStop ? [0, 0] : totalReward()
+  const expectedResult = scriptedStop
+    ? 'terminated'
+    : scriptedDefeat
+      ? game
+        ? 'lost'
+        : 'defeat'
+      : game
+        ? 'won'
+        : 'victory'
+  assert.equal(won.result, expectedResult)
+  if (scriptedDefeat) {
+    assert(won.party.every(({ hp }) => hp === 0))
+    assert(once('terminal-hold-eligible').order < won.order)
+    assert.equal(find('load-last-save').length, 0)
+  }
+  const [exp, cash] = earnsRewards ? totalReward() : [0, 0]
   let summary
-  if (scriptedStop) {
+  if (!earnsRewards) {
     assert.deepEqual(
       [
         ...find('victory-summary-drawn'),
@@ -1815,7 +1856,7 @@ async function inspect(path, engine) {
     assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
   }
   const dialogue =
-    source.tian || source.route || source.poisonLady
+    source.tian || source.route || source.poisonLady || source.stoneElder
       ? undefined
       : checkDialogue(
           events,
@@ -1827,6 +1868,9 @@ async function inspect(path, engine) {
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
   const poisonLady = source.poisonLady
     ? inspectPoisonLadyPresentation({ events, draws: renderedDialogue, boundaries, source })
+    : undefined
+  const stoneElder = source.stoneElder
+    ? inspectStoneElderPresentation({ events, draws: renderedDialogue, boundaries, source, game })
     : undefined
   const ming = source.route
     ? inspectTowerMingPresentation({
@@ -1912,7 +1956,7 @@ async function inspect(path, engine) {
     actions,
     rng: find('rng').map(({ value }) => value),
     drops: drops.map(({ id, value }) => ({ id, value })),
-    sounds: soundIds,
+    sounds: comparableSounds,
     ...(foreground
       ? {
           contactFormation: foreground.contactFormation,
@@ -1972,6 +2016,7 @@ async function inspect(path, engine) {
     tower,
     ming,
     poisonLady,
+    stoneElder,
     tian,
     spiderForeground,
     clips: {
@@ -2009,6 +2054,7 @@ if (!failures.length) {
       ...(result.tian?.issues ?? []),
       ...(result.ming?.issues ?? []),
       ...(result.poisonLady?.issues ?? []),
+      ...(result.stoneElder?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }
