@@ -61,8 +61,12 @@ const mingParty = [
   { ...fullParty[2], hp: 2800, maxHP: 2800, attack: 910 },
 ]
 const mingOpeningParty = [mingParty[0], mingParty[2]]
-export const partyFor = (spec) =>
-  ({ city: cityParty, tomb: fullParty, ming: mingOpeningParty })[spec.party] ?? party
+export function partyFor(spec) {
+  const members = { city: cityParty, tomb: fullParty, ming: mingOpeningParty }[spec.party] ?? party
+  return spec.initialHP === undefined
+    ? members
+    : members.map((member) => ({ ...member, hp: spec.initialHP }))
+}
 export function battlePartyFor(spec) {
   if (spec.party === 'ming') return mingParty
   const members = partyFor(spec)
@@ -394,6 +398,46 @@ export const scenarios = {
         ip: 21877,
         position: [125, 41, 0],
         musicIp: 21900,
+        members: ['li-xiaoyao'],
+      },
+    },
+  },
+  'stone-elder-guiyin': {
+    id: 'stone-elder-guiyin',
+    scene: 's067',
+    owner: 'e1342',
+    watched: ['e1340', 'e1343', 'e1344', 'e1345', 'e1346', 'e1347', 'e1487', 'e1488', 'e1492'],
+    team: 34,
+    enemy: 'enemy-496',
+    start: [103, 24, 0],
+    contact: [104, 24, 0],
+    approach: 'ArrowRight',
+    party: 'tomb',
+    initialHP: 1,
+    music: 40,
+    field: 57,
+    slot: 1,
+    seed: 4,
+    disk: {
+      entry: 12655,
+      battle: 12676,
+      field: 12674,
+      music: 12675,
+      last: 12805,
+      loss: 0,
+      owner: [1344, 1040, 1, 7],
+    },
+    mapMusic: { scene: 's067', ip: 12925, track: 19 },
+    world: {
+      outcome: 'lost',
+      inventory: [],
+      music: { ip: 12677, track: 33 },
+      handoff: {
+        scene: 's077',
+        ip: 12803,
+        position: [99, 23, 0],
+        positionIp: 12823,
+        inheritsMusic: true,
         members: ['li-xiaoyao'],
       },
     },
@@ -803,7 +847,7 @@ export async function readSources(spec) {
   }
   let successorTrack
   if (spec.world.handoff) {
-    const { scene, ip, position, positionIp, musicIp } = spec.world.handoff
+    const { scene, ip, position, positionIp, musicIp, inheritsMusic } = spec.world.handoff
     assert.equal(commands[ip].sceneId, gameScene({ scene }))
     assert.equal(native.at(-1).scene, scene)
     const first = Number(data.diskHandoffScene.onEnterLabel.slice(2))
@@ -812,10 +856,10 @@ export async function readSources(spec) {
     const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
     const actions = [...(landing.entry?.prepare ?? []), ...landing.body]
     assert.deepEqual(actions.find(({ kind }) => kind === 'teleportParty')?.pos, grid(position))
-    const musicAddress = route ? spec.world.music.ip : (musicIp ?? first + 2)
+    const musicAddress = route || inheritsMusic ? spec.world.music.ip : (musicIp ?? first + 2)
     successorTrack = commands[musicAddress].operands[0]
     assert.equal(commands[musicAddress].opcode, 0x43)
-    if (!route) {
+    if (!route && !inheritsMusic) {
       if (musicIp === undefined) assert.equal(commands[musicAddress + 1].opcode, 0x05)
       assert(
         (musicIp === undefined ? landing.entry.prepare : actions).some(
@@ -956,7 +1000,10 @@ export async function readSources(spec) {
       count: summonCount,
       hp: summoned.health,
     },
-    tomb: spec.party === 'tomb' ? tombSource(data, commands, spec, actor) : undefined,
+    tomb:
+      spec.id === 'general-tomb-ghost-general' || spec.id === 'blood-pool-red-ghost'
+        ? tombSource(data, commands, spec, actor)
+        : undefined,
     pre: commands.slice(route ? spec.sceneRoute.return.start : entry, battle),
     post: commands.slice(
       victory ?? battle + 1,
