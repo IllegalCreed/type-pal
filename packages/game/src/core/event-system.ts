@@ -615,8 +615,7 @@ export function tickSceneAutoFadeIn(gs: GameState): void {
     // 'camera-pan' 执行态须显式列:0x7F 多帧 pan 是唯一"逐帧 PAL_MakeScene 推进却用独立 waiting"的 op,
     //   isEventCursorAtMakeSceneStep 只认"即将执行"(waiting===undefined + ip 停在该 op)态 → 漏掉 pan
     //   执行中的全程 → 锁妖塔 scene164 进塔运镜在 FadeOut 黑屏下空扫(user 2026-06-17)。
-    //   camera-pan 同时在 mode.ts 的 shouldRunAutoScripts 放行：0x7F 每帧 GameUpdate→MakeScene
-    //   （script.c:2364-2366）。两门并非同一白名单：普通脚本步进可以跑 autoScript，却不能抢先淡入。
+    //   0x7F 的相对步进执行 GameUpdate→MakeScene（script.c:2364-2366）。
     (gs.mode === 'event' &&
       (w === 'frame-wait' ||
         w === 'scene-fade' ||
@@ -1437,7 +1436,12 @@ function panCameraBy(gs: GameState, dx: number, dy: number): void {
   offset.y -= dy
 }
 
-export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFade = false): void {
+export function tickEventSystem(
+  gs: GameState,
+  input: InputSnapshot,
+  beganAutoFade = false,
+  updatedWorld = false,
+): void {
   const cursor = gs.eventCursor
   if (!cursor) {
     gs.mode = 'explore'
@@ -1465,13 +1469,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
     // fall through to main while loop
   }
 
-  // 1a'') waiting 处理:camera-pan(opcode 0x7F 多帧 viewport 平移,sdlpal script.c:2331-2377)
-  //   每 tick 移 camera += (dx,dy) + 自减;归 0 时 clear + ip++,fall through 续跑下条 opcode。
+  // 0x7F presents each relative step through PAL_GameUpdate and PAL_MakeScene
+  // before continuing the foreground script, including the last camera step.
   if (cursor.waiting === 'camera-pan') {
-    panCameraBy(gs, cursor.cameraPanDx ?? 0, cursor.cameraPanDy ?? 0)
-    const remaining = (cursor.cameraPanFramesRemaining ?? 1) - 1
+    const remaining = cursor.cameraPanFramesRemaining ?? 0
     if (remaining > 0) {
-      cursor.cameraPanFramesRemaining = remaining
+      panCameraBy(gs, cursor.cameraPanDx ?? 0, cursor.cameraPanDy ?? 0)
+      tickAutoScripts(gs)
+      tickChaseTimer(gs)
+      cursor.cameraPanFramesRemaining = remaining - 1
       return
     }
     cursor.cameraPanFramesRemaining = undefined
@@ -2356,9 +2362,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
           cursor.waitGestureReset = (cmd.operands[2] ?? 0) !== 0
           return
         }
-        // 0x7F moveViewport 多帧 pan(op0|op1 != 0 && op2 != 0xFFFF && frames>1)→ waiting='camera-pan'
-        //   逐帧移 camera。单帧(frames<=1)/ 回正 / 绝对跳 落到 applyRawOpcode(不拦)。
-        //   sdlpal script.c:2331-2377 do-while op2 次,每次 viewport += (op0,op1)。
+        // Each relative 0x7F step advances the world after moving its camera.
         if (cmd.opcode === OP_SET_CAMERA) {
           const [cx, cy, flag] = cmd.operands
           // sdlpal 0x7F 除"回正(op0==op1==0)且 op2==0xFFFF"(script.c:2314 跳过 PAL_MakeScene)外,所有路径
@@ -2376,26 +2380,18 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
             const dx = toInt16(cx ?? 0)
             const dy = toInt16(cy ?? 0)
             const frames = Math.max(cmd.operands[2] ?? 0, 1)
-            // sdlpal 0x7F else:`do{ viewport+=(x,y); PAL_GameUpdate; DelayUntil } while(++i<op2)`
-            //   —— op2=0 跑 1 帧(1 步 + 逐帧延时)。**每个 0x7F 至少 yield 1 渲染帧**:这是 cutscene
-            //   走步动画(`0x6E+0x7F` 对反复走,如林家堡李逍遥走出场)的逐帧节拍来源。第一帧立即移。
             panCameraBy(gs, dx, dy)
-            cursor.waiting = 'camera-pan'
-            if (frames > 1) {
-              // 多帧:余 frames-1 帧逐 tick 各再移 (dx,dy)。
-              cursor.cameraPanFramesRemaining = frames - 1
-              cursor.cameraPanDx = dx
-              cursor.cameraPanDy = dy
-            } else {
-              // 单帧(op2=0/1):移一次即足,仅再 yield 1 帧让本步动画渲染(不再移)。否则
-              //   `0x6E+0x7F` 走步序列全压进一 tick = 李逍遥瞬移出场(user 2026-06-08 报)。
-              cursor.cameraPanFramesRemaining = 1
-              cursor.cameraPanDx = 0
-              cursor.cameraPanDy = 0
+            if (!updatedWorld) {
+              tickAutoScripts(gs)
+              tickChaseTimer(gs)
             }
+            cursor.waiting = 'camera-pan'
+            cursor.cameraPanFramesRemaining = frames - 1
+            cursor.cameraPanDx = dx
+            cursor.cameraPanDy = dy
             return
           }
-          // 回正(0,0)/ 绝对(op2=0xFFFF)→ fall through 到 applyRawOpcode 即时
+          // 回正和绝对定位交由 applyRawOpcode。
         }
         // Sync.2 fix5: opcode 5 redrawScreen / PAL_ClearDialog(TRUE) — sdlpal script.c:3267-3297
         //   有 dialog → 等 Confirm 翻页清屏(让后续 NPC 动作 / 场景重画显);无 dialog → no-op + ip++
@@ -2709,12 +2705,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
         applyRawOpcode(gs, cmd.opcode, cmd.operands, cursor.currentEventObjectId, cursor)
         // A 0x7F snap redraws at the new camera before the next instruction runs.
         // The [0, 0, 0xFFFF] restore variant skips PAL_MakeScene.
-        if (
-          cmd.opcode === OP_SET_CAMERA &&
-          (cmd.operands[0] !== 0 || cmd.operands[1] !== 0 || cmd.operands[2] !== 0xffff) &&
-          startPendingSceneFadeIn(gs, cursor)
-        )
-          return
+        if (cmd.opcode === OP_SET_CAMERA) {
+          const [x, y, flag] = cmd.operands
+          if ((x !== 0 || y !== 0 || flag !== 0xffff) && startPendingSceneFadeIn(gs, cursor)) return
+          if (flag === 0xffff && (x !== 0 || y !== 0)) {
+            cursor.waiting = 'delay'
+            cursor.delayUntilMs = performance.now()
+            return
+          }
+        }
 
         // 0x34 炼丹弹了物品框(applyRawOpcode 设 gs.dialogBox style='item-box')→ 设 waiting + 暂停本
         //   tick,**不** ip++;dismiss 由 waiting handler('item-box' 同 narration 分支)做 ip++(否则双进)。

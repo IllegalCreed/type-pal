@@ -5941,7 +5941,7 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.camera).toEqual({ x: 108, y: 104 })
   })
 
-  it('多帧 pan(op2=3)→ waiting=camera-pan,逐帧移 (8,4),3 帧后 (24,12) + 续跑', () => {
+  it('holds the final relative camera step for a draw before continuing', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.camera = { x: 0, y: 0 }
     gs.eventCursor = {
@@ -5958,9 +5958,11 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.eventCursor?.waiting).toBe('camera-pan')
     tickEventSystem(gs, snap()) // 帧2
     expect(gs.camera).toEqual({ x: 16, y: 8 })
-    tickEventSystem(gs, snap()) // 帧3 → 完成 + 续跑 ip1
+    tickEventSystem(gs, snap()) // 帧3
     expect(gs.camera).toEqual({ x: 24, y: 12 })
-    expect(gs.iCurPlayingRNG).toBe(77) // pan 完弹回续跑
+    expect(gs.iCurPlayingRNG).toBe(0)
+    tickEventSystem(gs, snap())
+    expect(gs.iCurPlayingRNG).toBe(77)
     expect(gs.eventCursor).toBeUndefined()
   })
 
@@ -5987,6 +5989,10 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
       { op: 'end' },
     ])
     tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    expect(gs.camera).toEqual({ x: 832, y: 480 })
+    expect(gs.party).toEqual({ x: 1200, y: 760, facing: 'down' })
     tickEventSystem(gs, snap())
     expect(gs.party).toEqual({ x: 1104, y: 696, facing: 'down' })
     expect(gs.camera).toEqual({ x: 928, y: 576 })

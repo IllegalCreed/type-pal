@@ -1,6 +1,9 @@
 /** Dither-fade consumption and scene steps that are allowed to begin automatic fade-in. */
 import type { Command, Palette } from '@type-pal/shared'
 import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import { sceneContext } from '../present/__tests__/scene-render-fixtures.js'
+import { createFramebuffer } from '../present/framebuffer.js'
+import { presentFrame } from '../present/present.js'
 import { freshPlayerOpcodeState } from './event-opcode-player.test-fixtures.js'
 import {
   buildLabelMap,
@@ -23,7 +26,7 @@ function palette(rgb: [number, number, number]): Palette {
 }
 
 describe('dither-fade script consumption', () => {
-  it('unfreezes the scene, holds the opcode until 1440ms, then resumes exactly once', () => {
+  it('resumes exactly once after the final dither step is presented', () => {
     let now = 1000
     const clock = vi.spyOn(performance, 'now').mockImplementation(() => now)
     onTestFinished(() => clock.mockRestore())
@@ -51,6 +54,9 @@ describe('dither-fade script consumption', () => {
     expect(gs.eventCursor?.waiting).toBe('fade-screen')
     expect(gs.pendingSounds ?? []).toEqual([])
     now = 2440
+    tickEventSystem(gs, snap())
+    expect(gs.pendingSounds ?? []).toEqual([])
+    presentFrame(createFramebuffer(), gs, sceneContext())
     tickEventSystem(gs, snap())
     expect(gs.fadeState).toBeUndefined()
     expect(gs.eventCursor).toBeUndefined()
