@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "441-453",
+      "lines": "442-454",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+      "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:441-453",
+        "packages/reforge/src/main.ts:442-454",
         "packages/reforge/src/world-motion-runtime.ts:169-195",
         "packages/reforge/src/world-scene-presentation.ts:72-89",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
@@ -679,6 +679,22 @@
         }
       ],
       "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "441-453",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     }
   ],
   "_governance": {

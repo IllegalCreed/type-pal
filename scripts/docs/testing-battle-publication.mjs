@@ -2825,6 +2825,92 @@ export function restoreTestingQ2PalaceSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, palaceSourceStage, palaceSourceBindings)
 }
 
+export const testingQ2DisplayPublicationBase = '9d9015a697dbf944edbdddfb88ed5c82b669bd64'
+const signedStatsSource = 'packages/reforge/src/menu/menu-box.ts'
+const displaySourceStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '252-254': '252-254', '424-436': '427-439', '1305-1314': '1313-1322' },
+    ],
+    [signedStatsSource, { 169: '169' }],
+    [gameBootstrap, { 356: '357' }],
+    [
+      reforgeMain,
+      {
+        '417-424': '418-425',
+        '456-463': '457-464',
+        '441-453': '442-454',
+        '1298-1396': '1300-1398',
+        6005: '6009',
+      },
+    ],
+  ]),
+  base: testingQ2DisplayPublicationBase,
+  action: 'q2-display-and-save-restore-source-rebinding',
+  date: '2026-11-21',
+}
+const displaySourceBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [signedStatsSource, reforgeMain], artifactClaims: true },
+  ],
+  [
+    'domains/cross-phase/script-corrections/evidence.json',
+    { id: 'game-script-corrections', paths: [gameBootstrap], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+])
+const displaySourceReports = new Map([
+  [
+    'docs/testing/domains/runtime/battle/battle-session-owners/report.md',
+    sessionEvidencePath.slice('docs/testing/'.length),
+  ],
+  [
+    'docs/testing/domains/cross-phase/script-corrections/report.md',
+    'domains/cross-phase/script-corrections/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/scene/active-scene/report.md',
+    'domains/runtime/scene/active-scene/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/battle/battle-host/report.md',
+    'domains/runtime/battle/battle-host/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/world/world-runtime/report.md',
+    'domains/runtime/world/world-runtime/evidence.json',
+  ],
+])
+export const isTestingQ2DisplaySource = (path) => displaySourceStage.ranges.has(path)
+
+export function restoreTestingQ2DisplaySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    displaySourceStage,
+    displaySourceBindings,
+    displaySourceReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

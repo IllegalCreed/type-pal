@@ -11,17 +11,17 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "417-424",
+      "lines": "418-425",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+      "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
     },
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "456-463",
+      "lines": "457-464",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+      "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -82,8 +82,8 @@
       "id": "runtime-active-scene-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:417-424",
-        "packages/reforge/src/main.ts:456-463",
+        "packages/reforge/src/main.ts:418-425",
+        "packages/reforge/src/main.ts:457-464",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
         "packages/reforge/src/world-camera.test.ts:143-157",
@@ -839,6 +839,29 @@
         }
       ],
       "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "456-463",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     }
   ],
   "_governance": {

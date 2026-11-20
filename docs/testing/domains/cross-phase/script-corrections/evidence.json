@@ -80,10 +80,10 @@
     },
     {
       "path": "packages/game/src/shell/bootstrap.ts",
-      "lines": "356",
+      "lines": "357",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "578da65a0d688ce42f9b977e9368a1951b3c192f321bafb838eeaefb44822f4b"
+      "sha256": "7ae2c5b919d1c1fa975ff344017a3f552b051d0f2e91021f9ef28468cad33fc3"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -456,6 +456,22 @@
         }
       ],
       "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "356",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "578da65a0d688ce42f9b977e9368a1951b3c192f321bafb838eeaefb44822f4b"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     }
   ],
   "claims": [

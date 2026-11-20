@@ -14,21 +14,21 @@
       "lines": "252-254",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "424-436",
+      "lines": "427-439",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1305-1314",
+      "lines": "1313-1322",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -84,8 +84,8 @@
       "result": "source-backed",
       "evidence": [
         "packages/reforge/src/battle/battle-session.ts:252-254",
-        "packages/reforge/src/battle/battle-session.ts:424-436",
-        "packages/reforge/src/battle/battle-session.ts:1305-1314",
+        "packages/reforge/src/battle/battle-session.ts:427-439",
+        "packages/reforge/src/battle/battle-session.ts:1313-1322",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
@@ -1292,6 +1292,36 @@
         }
       ],
       "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "252-254",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "424-436",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1305-1314",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     }
   ],
   "_governance": {

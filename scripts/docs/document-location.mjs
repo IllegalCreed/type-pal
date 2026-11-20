@@ -57,6 +57,7 @@ import {
   isTestingQ2CoverageSource,
   isTestingQ2DaliRainSource,
   isTestingQ2DaliSource,
+  isTestingQ2DisplaySource,
   isTestingQ2EntryAutoSource,
   isTestingQ2EscortsSource,
   isTestingQ2ForestInnSource,
@@ -113,6 +114,7 @@ import {
   restoreTestingQ2CoverageSourceBindings,
   restoreTestingQ2DaliRainSourceBindings,
   restoreTestingQ2DaliSourceBindings,
+  restoreTestingQ2DisplaySourceBindings,
   restoreTestingQ2EntryAutoSourceBindings,
   restoreTestingQ2EscortsSourceBindings,
   restoreTestingQ2ForestInnSourceBindings,
@@ -186,6 +188,7 @@ import {
   testingQ2CoveragePublicationBase,
   testingQ2DaliPublicationBase,
   testingQ2DaliRainPublicationBase,
+  testingQ2DisplayPublicationBase,
   testingQ2EntryAutoPublicationBase,
   testingQ2EscortsPublicationBase,
   testingQ2ForestInnPublicationBase,
@@ -1025,8 +1028,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (palaceRevision) assert(daliRainSource && /^[a-f0-9]{40}$/u.test(palaceRevision))
   const palaceSource = palaceRevision && gitTree(root, palaceRevision, [])
   const prePalace = palaceSource && gitTree(root, testingQ2PalacePublicationBase, [])
-  const readBeforePalace = (path) => {
+  const displayRevision = admission.testingQ2DisplaySourceRevision
+  if (displayRevision) assert(palaceSource && /^[a-f0-9]{40}$/u.test(displayRevision))
+  const displaySource = displayRevision && gitTree(root, displayRevision, [])
+  const preDisplay = displaySource && gitTree(root, testingQ2DisplayPublicationBase, [])
+  const readBeforeDisplay = (path) => {
     const live = readSource(path)
+    if (!preDisplay || !isTestingQ2DisplaySource(path)) return live
+    assert(live?.equals(displaySource.read(path)), 'Q2 display source differs from its candidate')
+    return preDisplay.read(path)
+  }
+  const readBeforePalace = (path) => {
+    const live = readBeforeDisplay(path)
     if (!prePalace || !isTestingQ2PalaceSource(path)) return live
     assert(
       live?.equals(palaceSource.read(path)),
@@ -1458,13 +1471,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorPalace = prePalace
-      ? restoreTestingQ2PalaceSourceBindings(path, bytes, {
+    const priorDisplay = preDisplay
+      ? restoreTestingQ2DisplaySourceBindings(path, bytes, {
           readSource,
+          readBase: preDisplay.read,
+          readFixed: displaySource.read,
+        })
+      : bytes
+    const priorPalace = prePalace
+      ? restoreTestingQ2PalaceSourceBindings(path, priorDisplay, {
+          readSource: readBeforeDisplay,
           readBase: prePalace.read,
           readFixed: palaceSource.read,
         })
-      : bytes
+      : priorDisplay
     const priorRain = preDaliRain
       ? restoreTestingQ2DaliRainSourceBindings(path, priorPalace, {
           readSource: readBeforePalace,

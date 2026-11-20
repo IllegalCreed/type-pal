@@ -1629,17 +1629,17 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "417-424",
+          "lines": "418-425",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "456-463",
+          "lines": "457-464",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -2409,6 +2409,29 @@
               }
             ],
             "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "417-424",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "456-463",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       },
@@ -2477,10 +2500,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1298-1396",
+          "lines": "1300-1398",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -3138,6 +3161,22 @@
               }
             ],
             "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1298-1396",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       },
@@ -3213,21 +3252,21 @@
           "lines": "252-254",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "424-436",
+          "lines": "427-439",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1305-1314",
+          "lines": "1313-1322",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -4445,6 +4484,36 @@
               }
             ],
             "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "252-254",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "424-436",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1305-1314",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       },
@@ -4514,10 +4583,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "441-453",
+          "lines": "442-454",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -5133,6 +5202,22 @@
               }
             ],
             "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-453",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       },
@@ -6307,10 +6392,10 @@
         },
         {
           "path": "packages/game/src/shell/bootstrap.ts",
-          "lines": "356",
+          "lines": "357",
           "anchor": "supplySupplementalSceneObjects(gs",
           "role": "saved-game-caller",
-          "sha256": "578da65a0d688ce42f9b977e9368a1951b3c192f321bafb838eeaefb44822f4b"
+          "sha256": "7ae2c5b919d1c1fa975ff344017a3f552b051d0f2e91021f9ef28468cad33fc3"
         },
         {
           "path": "packages/pal-extract/src/resources/scene.ts",
@@ -6688,6 +6773,22 @@
               }
             ],
             "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "356",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "578da65a0d688ce42f9b977e9368a1951b3c192f321bafb838eeaefb44822f4b"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       },
@@ -7844,7 +7945,7 @@
           "anchor": "export const SCROLL_LABEL_STYLE =",
           "role": "reforge-scroll-style",
           "lines": "169",
-          "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
+          "sha256": "870f9701257c7d70c3bd91a381303b47ecb03989a8d38deda0079ae8ba9af1c4"
         },
         {
           "path": "reference/sdlpal/battle.c",
@@ -8039,8 +8140,8 @@
           "path": "packages/reforge/src/main.ts",
           "anchor": "async function restorePayload(",
           "role": "save-restore-caller",
-          "lines": "6005",
-          "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+          "lines": "6009",
+          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         },
         {
           "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -10106,6 +10207,29 @@
               }
             ],
             "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
+          },
+          {
+            "action": "q2-display-and-save-restore-source-rebinding",
+            "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+            "date": "2026-11-21",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/menu-box.ts",
+                "anchor": "export const SCROLL_LABEL_STYLE =",
+                "role": "reforge-scroll-style",
+                "lines": "169",
+                "sha256": "91c9d891419b35e01e61e8dd51547e1203d260a5b75f5a5ad78384f33f389f85"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "6005",
+                "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
+              }
+            ],
+            "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
           }
         ]
       }

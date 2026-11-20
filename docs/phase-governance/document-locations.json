@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "8c221aa656a3944a554d27077f7f8e44e85783ba34828f3525b042d8c1f7be0a",
+      "afterSha256": "dce8d0884be4906c54788014a717c75d0df926af0de8e56adc4a4968408f1d3a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "Codex /root",
         "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
         "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 1041,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "f7d0cb6bd5ca3f1bdf5f02866eb4cdc8445a57fd2612f84349915b8d639340eb",
+      "afterSha256": "2b41519ddb636b4d2ad0c4f3105a687ec0be9873c5bc688e29e430edd6673e7e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 141,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 146,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "c2cd9b3ce1a356d8c8376f06a69a1763deb5fbe30adf6623c454319c4a64fa3a",
+      "afterSha256": "18da197c48d96ad49aeb8fafbbd8cdb50278df0bbdbe7ce5323dfb9fa54f01a4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "火麒麟同局实战、两段渐变、逐页对白、归队及原速双端音画。",
-        "reviewedLines": 1998,
-        "acceptanceScope": "本次增量、原盘调用与实测原件，历史执行身份分别保留。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 2002,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -3781,14 +3781,14 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
       "mode": "reviewed",
-      "afterSha256": "bbd0fc735074fdd36ab302797e75511ac4328b3ae12446164d0e9ba0b2d178d3",
+      "afterSha256": "08aeee6e4af4c2375efd2f611c218ec61a5096ef9a770944fe6cfa2a3de1477c",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-20",
-        "conclusion": "核对林家擂台修复影响的现行来源引用。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 111,
-        "acceptanceScope": "现行引用片段逐字节相同。沿用原正文、验证范围和运行原件。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "templateId": "test-domain-report-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a7ce09bed6cb0b80195987859fa660e489adce0e5235e2786009372df1f9962f",
+      "afterSha256": "dd4dddac7e46f42b31a2aa51ef70ca449d993bf2bf737ba54c8f0e656e1d0558",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 10585,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 10709,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -4402,14 +4402,14 @@
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a4c604d13ebbe18765feb468fa2592d034f5fff403516845a39f779884b5e9ed",
+      "afterSha256": "2952a1b8eeccbc3e9be339b47b643fcf7727be408730bc22cdecaf3404f83147",
       "review": {
         "author": "Codex /root",
         "reviewer": "/root/q2_status_rules",
         "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
-        "reviewedLines": 624,
-        "acceptanceScope": "核来源范围与全文件摘要、六组目录和证据配对、恢复旧来源的结果。新运行结论按独立原件登记。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 640,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "f6a236d9804d03d99ad27ce15dc065a972bcc131a419a0fe4a27bd16618e4b95",
+      "afterSha256": "b151102224f0f5c0a7199d90b1125fb05bdc8bfe2c6398be6f80ecc27f776cc7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 99,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "637827f183e22a1adf5203e612ad608e8d6d995f2945844734b9434976290d18",
+      "afterSha256": "3cbdfc064724a5d851a05b3a539ea3953e1da84fe9ec98406bba89718cd78a31",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 911,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 934,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "b1ca703f64eab9f2ad18c23349c9928f3c07290d86c17aa84428e0111bd053a4",
+      "afterSha256": "5813d2c471b61f7a46661dc6e0a3d7688b1bfbec924d59be41d94228c198f306",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 98,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "301a2ef9173bd77bed5c625eaea527cd6da956244e68bb413cc4564473756d6f",
+      "afterSha256": "f166a6baea0cbfa6ac2c2f0993eeb4e6f0c3818bc43db28048d313cbe950bf5d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 785,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 801,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "fde5314e843bbac322c58684957c8676564b009028426b430324084c9f658dd8",
+      "afterSha256": "8d96a7e7bfaf88b1c27cd9dda1cfec2f65276c0f5699756f20743d469d95d8ef",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 99,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1d8383ca18421ed41781a0e03556344aa77c417757993b9d3dd53d3643c2cd9e",
+      "afterSha256": "aa414a111a4ed765b60f8ae4dec3729a7d552fb99411b9ebb2abbe1fc833dc56",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 746,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 762,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -4642,14 +4642,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "42504fd92b8248454f35e58d87b6f56e77272efcb2b7dfe39b8450219e28621e",
+      "afterSha256": "e5ca03bca681eaa05ecd39e28aa83715862a257f812c912a302d0b804d4ae409",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 场景用物同局复核",
         "date": "2026-11-19",
-        "conclusion": "核原盘出口、聚拢和开门脚本。",
-        "reviewedLines": 270,
-        "acceptanceScope": "核引路蜂、石钥匙的入口、启动条件、跟随音画、失败原件和修复范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 274,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -4736,28 +4736,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6b7f9997f68be068585639be04952b154e5a8ef8b0f478a29130ae9565987c78",
+      "afterSha256": "6c3b07a2f00fcf0652c61149ffd1696689900dbce2da11549bfac118548a4dd6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 1339,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 1369,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "1cdb6562c473609158975e09cc2eeb1ceb798bedfe516c7d844d3e9dce4d86b4",
+      "afterSha256": "3e1a1eb5c171b7b59294a8e9666090e3fab98d0cdb397e5384394d4e51d93711",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战涉及的四处现行源码引用及其固定前驱。",
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
         "reviewedLines": 101,
-        "acceptanceScope": "仅接受引用哈希、行号及证明这次变更的历史回执。"
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "ce5e03550cf7b587536ded25247cf3984f4166161662aff0dff5abc3b6548253",
+      "afterSha256": "c98bc65b2482f07978bc10dfa4f13cd0cdaa6ecaffda573856a757d7538fe816",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 1191,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 1211,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "8f8b73775e2ef001d38d14b29036e08f1965814ab705b4db3b6cee61631a38a4",
+      "afterSha256": "0c719e7c02de516d1e7242f2743be0c70db3feaf5ac8a5087a6710f483355528",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 15290,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 15313,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "33daff4e50dac5118aed4bb201c430f778e23ef90c9de38d7c9241488b0aa767",
+      "afterSha256": "ecd8b81438bdde5bdd837d60ee483844bb713f84f4664a0bdfd8a1a6d87d0037",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 1880,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 1930,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "11d56a5cf9ae79c19f6ac302b5501eb98b96a564c2884a1484880eb075e0fbee",
+      "afterSha256": "2ca18fc8077fba31e9f5506e5328e129d470d590453fb49ea4a98230c6cbe05f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
-        "reviewedLines": 510,
-        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
+        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
+        "reviewedLines": 524,
+        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
       }
     },
     {
@@ -7071,6 +7071,90 @@
       "bytes": 400385,
       "sha256": "85fc1ac8d7c7f4aac041aba1749100834eb8546869afb337a87f40cb4c003cba",
       "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-signed-equipment-and-wine-20261121.tar.gz",
+      "bytes": 35427851,
+      "sha256": "cc1eb0bbe0347c403c0d3fbd0156b6979947ab98f26dca5eb3bda712efbdfd89",
+      "purpose": "酒神缺酒与装备负身法的双端实跑、比较及原速分屏。含求雨出片反例和恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-hammer-route-and-ring-warmup-20261121.tar.gz",
+      "bytes": 46666844,
+      "sha256": "fe2ede6c82cad4b225cc3a8a0b43002ca97bb22454b171df234bb3b41f18a2df",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-game-original-1.tar.gz",
+      "bytes": 44744127,
+      "sha256": "c0ca60c9ec1c3d61be6eddeb2c8b612e6da4622b930e6558b0b1ac35293d10b7",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-game-original-2.tar.gz",
+      "bytes": 42395579,
+      "sha256": "bd9e0170b245f714ba60721c1df33ac114adf65a85d809e38da5b3718633b0ab",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-reforge-original-1.tar.gz",
+      "bytes": 44468160,
+      "sha256": "15ba5a3eb3c7f225dec04d0aeb2a618c0be8f6eddd7651d2ca59bacb3144ee7e",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121-reforge-original-2.tar.gz",
+      "bytes": 36472734,
+      "sha256": "8cd1ad4a6d4a42597b43bc6bed2b233339060ad90c0ca8231ac8107f98e548bf",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-color-20261121.tar.gz",
+      "bytes": 36241778,
+      "sha256": "4ca0ab8f506dcb024043215cc63803d3497fa7b9e59cd8158fdd51671e4a4cf7",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-fishing-hold-and-qilin-order-20261121.tar.gz",
+      "bytes": 12470038,
+      "sha256": "641baad779cdc3f07dcf682b2479b8379469e5bb868771df9ccc1f7e384ed94a",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121.tar.gz",
+      "bytes": 41768788,
+      "sha256": "0c8d25c2cbcb2fc738e0922be311872a22e66683a16a0b70051e8ed9681c9c99",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz",
+      "bytes": 48263522,
+      "sha256": "ae87722c81fd00976e8df180fc67098e552ac8549d1a34500836bf26faf033e0",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-2.tar.gz",
+      "bytes": 41107825,
+      "sha256": "d380e77b365ba402bdf7671ff3b8d51cee7c08de9b1b03d16dc13042793f665a",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-1.tar.gz",
+      "bytes": 49775492,
+      "sha256": "bef6ed307384f809cd70c2af94b44b0b37f8ca03c437ba642c0ac77d76708692",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-2.tar.gz",
+      "bytes": 50073246,
+      "sha256": "1b99e32f05ae0a472985f30659e9a3b85332bb24d0731fc551688da2b1bcde09",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-3.tar.gz",
+      "bytes": 13435163,
+      "sha256": "63eb6f989599ed8ea5eb38a54b69599ddd6872a298367cc635bfbc4ac4bd109b",
+      "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
     }
   ],
   "artifactAliases": [],

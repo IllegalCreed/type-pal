@@ -129,6 +129,11 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 七件装备授法 | [原生实战、判据与佛法无边原速带声分屏](E2E-Q2-1-equipment-grants-20261120.tar.gz) · [Game 原录](E2E-Q2-1-equipment-grants-20261120-game-original-1.tar.gz) · [Reforge 原录](E2E-Q2-1-equipment-grants-20261120-reforge-original-1.tar.gz) |
 | Q2 扬州院内女飞贼 | [双端原件、旧版反例、原速带声分屏](E2E-Q2-1-yangzhou-courtyard-20261120.tar.gz) · [Game 原录](E2E-Q2-1-yangzhou-courtyard-20261120-game-original-1.tar.gz) · [Reforge 原录](E2E-Q2-1-yangzhou-courtyard-20261120-reforge-original-1.tar.gz) |
 | Q2 酒神缺酒 | [实际施放失败、提示差异及双端复算](E2E-Q2-1-wine-without-item-20261120.tar.gz) |
+| Q2 酒神缺酒与负身法复验 | [录像、失败原件、比较与原声分屏](E2E-Q2-1-signed-equipment-and-wine-20261121.tar.gz) |
+| Q2 破天锤复跑与擂台暖场 | [双端轨迹与终档、暖场反例、破天锤原速带声分屏](E2E-Q2-1-hammer-route-and-ring-warmup-20261121.tar.gz) |
+| Q2 持竿初姿与火麒麟画序 | [双端首姿、画序反例、带原声的钓鱼分屏](E2E-Q2-1-fishing-hold-and-qilin-order-20261121.tar.gz) |
+| Q2 野店石长老赤血毒 | [两端复验、旧片差异、单次自爆短片和全场原速带声分屏](E2E-Q2-1-forest-inn-explosion-20261121.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-explosion-20261121-game-original-2.tar.gz) · [Reforge 原录 1/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-1.tar.gz) · [Reforge 原录 2/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-2.tar.gz) · [Reforge 原录 3/3](E2E-Q2-1-forest-inn-explosion-20261121-reforge-original-3.tar.gz) |
+| Q2 野店返场精确色幕 | [两端日志、旧色值反例、新版原速带声分屏](E2E-Q2-1-forest-inn-color-20261121.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-2.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
