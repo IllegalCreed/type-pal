@@ -190,6 +190,7 @@ async function side(engine, relocatedReport) {
       ...(compare.foregroundCoverage && {
         coverage: compare.foregroundCoverage,
         startedAt: start,
+        rawPath,
       }),
     }
   }
@@ -259,11 +260,14 @@ if (sides.every(({ coverage }) => coverage)) {
     async (source, clip, trim, panel) => {
       const inn = source.coverage.find(({ backdrop }) => backdrop)
       const seated = inn.cues.find(({ cue }) => cue === 'dlg.5865')
-      const { view } = seated.views[0]
-      const [asset, foot, , frame] = view.cast.e2061
+      const actual = await json(source.rawPath)
+      const drawing = actual.events.find(({ order }) => order === seated.views[0].order)
+      const { asset, frame, rect } = drawing.actors.e2061
       const pixels = await readWorldSpritePose(asset, frame)
-      const [left, top] = view.camera
-      const pixelPosition = [foot[0] - left - pixels.anchorX, foot[1] - top + 7 - pixels.anchorY]
+      const [left, top] = drawing.camera
+      const [x, y, width, height] = rect
+      assert.deepEqual([width, height], [pixels.width, pixels.height])
+      const pixelPosition = [x - left, y - top]
       const seconds = (seated.firstComplete.atMs - source.startedAt) / 1000 - trim
       return [await checkWorldSpritePixels(clip, seconds, { ...pixels, pixelPosition }, panel)]
     },

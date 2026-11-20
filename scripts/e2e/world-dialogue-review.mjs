@@ -21,15 +21,11 @@ export async function readWorldSpritePose(spriteId, frame, night = false) {
     paths.map((path) => readFile(new URL(`../../${path}`, import.meta.url))),
   )
   const [sprite, colors] = files
-  const { width, height, anchorX, anchorY, pixels, opaque } = parsePalSpriteChunk(
-    gunzipSync(sprite),
-  )[frame]
+  const { width, height, pixels, opaque } = parsePalSpriteChunk(gunzipSync(sprite))[frame]
   const palette = JSON.parse(colors)
   return {
     width,
     height,
-    anchorX,
-    anchorY,
     pixels,
     opaque,
     palette: night ? palette.nightColors : palette.colors,
