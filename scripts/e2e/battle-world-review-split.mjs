@@ -268,8 +268,30 @@ if (sides.every(({ coverage }) => coverage)) {
       const [x, y, width, height] = rect
       assert.deepEqual([width, height], [pixels.width, pixels.height])
       const pixelPosition = [x - left, y - top]
-      const seconds = (seated.firstComplete.atMs - source.startedAt) / 1000 - trim
-      return [await checkWorldSpritePixels(clip, seconds, { ...pixels, pixelPosition }, panel)]
+      // The completed text can cross the attendant's face. Use independently
+      // logged unobscured submissions of that same pose, before the cue finishes.
+      const uncovered = actual.events.filter(
+        ({ kind, view, atMs, dialogue, backdrop }) =>
+          kind === 'world-render' &&
+          view === drawing.order &&
+          atMs < seated.firstComplete.atMs &&
+          !dialogue &&
+          backdrop?.textured &&
+          !backdrop.dark,
+      )
+      assert(uncovered.length >= 2, `${source.engine} missing an unobscured seated attendant`)
+      const nativeSeconds = ((uncovered[0].atMs + uncovered[1].atMs) / 2 - source.startedAt) / 1000
+      const expected = { ...pixels, pixelPosition }
+      return Promise.all([
+        checkWorldSpritePixels(source.recording, nativeSeconds, expected).then((result) => ({
+          ...result,
+          recording: 'native',
+        })),
+        checkWorldSpritePixels(clip, nativeSeconds - trim, expected, panel).then((result) => ({
+          ...result,
+          recording: 'split',
+        })),
+      ])
     },
   )
   console.log(`${target} ${await sha256(target)}`)
