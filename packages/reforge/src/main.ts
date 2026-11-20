@@ -3875,6 +3875,11 @@ export async function bootGame(
       }
       return
     }
+    if (command.kind === 'cameraPan' && context.timelineCameraStep) {
+      // Other cues on this beat must commit before the renderer presents the step.
+      await cameraSession.pan(command.dx, command.dy, 1, signal, true)
+      return
+    }
     await executeScriptHostEffect(
       context.timing === 'auto' ? autoHost : scriptHost,
       command,

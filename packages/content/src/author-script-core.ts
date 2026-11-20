@@ -756,10 +756,13 @@ function checkSceneTimeline(
             !Number.isFinite(action.dx) ||
             !Number.isFinite(action.dy) ||
             !Number.isSafeInteger(action.frames) ||
-            Number(action.frames) < 1
+            Number(action.frames) < 1 ||
+            action.startImmediately !== true
           )
-            throw new Error(`${actionPath}: 镜头平移须为独占动作组，且每段演出只允许一条平移`)
+            throw new Error(`${actionPath}: 镜头平移须独占同拍起步的动作组，且每段只允许一条`)
           checkCameraPanStart(action, actionPath)
+          totalDispatches += Number(action.frames) - 1
+          if (totalDispatches > 4096) throw new Error(`${path}: 演出动作超过 4096 条`)
           hasCameraPan = true
         } else {
           if (

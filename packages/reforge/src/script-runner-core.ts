@@ -41,6 +41,7 @@ export type ScriptGateBoundary = { kind: 'settlement'; committed?: boolean }
 export interface ScriptRuntimeContext {
   self?: EntityAddress
   timing?: ScriptTiming
+  timelineCameraStep?: true
   autoMotionCheckpoint?: AutomaticMotionCheckpoint
   autoCommandCheckpoint?: AutomaticCommandCheckpoint
 }
@@ -446,6 +447,7 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           {
             self: this.self,
             timing: this.runningTiming,
+            ...(command.timelineCameraStep ? { timelineCameraStep: true } : {}),
             ...(autoMotionCheckpoint ? { autoMotionCheckpoint } : {}),
             ...(autoCommandCheckpoint ? { autoCommandCheckpoint } : {}),
           },
@@ -566,20 +568,18 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
       throw new Error('sceneTimeline requires a foreground gameplay clock')
     const start = clock()
     const visual = new AbortController()
-    // Camera and fades have separate owners within the same foreground timeline.
+    // An overlapping fade belongs to this timeline but must not park its ready actor work.
     const visualSignal = AbortSignal.any([this.signal, visual.signal])
-    type Presentation = 'fade' | 'cameraPan'
-    type Result = { ok: true } | { ok: false; error: unknown }
-    const presentations = new Map<Presentation, Promise<Result>>()
-    let presentationFailure: { error: unknown } | undefined
-    const finishPresentation = async (kind: Presentation) => {
-      const active = presentations.get(kind)
+    let fade: Promise<{ ok: true } | { ok: false; error: unknown }> | undefined
+    let fadeFailure: { error: unknown } | undefined
+    const finishFade = async () => {
+      const active = fade
       if (!active) return
-      const result = await scriptWorkWait<Result>(this.signal, (resolve) => {
+      const result = await scriptWorkWait<Awaited<typeof active>>(this.signal, (resolve) => {
         void active.then(resolve)
       })
       if (!result.ok) throw result.error
-      presentations.delete(kind)
+      fade = undefined
     }
     let previousTime = 0
     try {
@@ -590,17 +590,15 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
           previousTime = cue.atMs
         }
         throwIfAborted(this.signal)
-        if (presentationFailure) throw presentationFailure.error
+        if (fadeFailure) throw fadeFailure.error
         const cuePath = [...path, 'tracks', cue.track, 'cues', cue.cue, 'body']
-        const kind = cue.presentation
-        if (!kind) {
+        if (!cue.fade) {
           await this.runCommands(cue.body, cuePath)
           continue
         }
         const leaf = cue.body[0]
-        if (!leaf || leaf.kind !== 'leaf')
-          throw new Error('sceneTimeline has an invalid presentation')
-        await finishPresentation(kind)
+        if (!leaf || leaf.kind !== 'leaf') throw new Error('sceneTimeline has an invalid fade')
+        await finishFade()
         const event = { path: [...cuePath, 0], command: leaf }
         if (this.beforeStep) {
           await this.awaitGate()
@@ -608,27 +606,26 @@ export class ScriptRunnerCore<RuntimeLeafCommand = BaseRuntimeLeafCommand> {
         }
         await atScriptExecutionGate(this.host, this.signal, undefined, () => {
           this.onStep?.(event)
-          const active = Promise.resolve(
+          fade = Promise.resolve(
             this.host.execute(
               leaf.command,
               { self: this.self, timing: this.runningTiming },
               visualSignal,
             ),
-          ).then<Result, Result>(
+          ).then(
             () => ({ ok: true }),
             (error: unknown) => {
-              presentationFailure = { error }
+              fadeFailure = { error }
               return { ok: false, error }
             },
           )
-          presentations.set(kind, active)
         })
       }
-      for (const kind of presentations.keys()) await finishPresentation(kind)
+      await finishFade()
     } finally {
-      if (presentations.size) {
+      if (fade) {
         visual.abort()
-        await Promise.all(presentations.values())
+        await fade
       }
     }
   }

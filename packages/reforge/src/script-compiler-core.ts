@@ -14,6 +14,7 @@ import {
   type StepExit,
   type TeleportOutPresentation,
 } from '@type-pal/content'
+import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 
 export const SCRIPT_COMPILER_VERSION = 3 as const
 export type ScriptTiming = 'auto' | 'interactive'
@@ -40,7 +41,7 @@ export type BaseRuntimeLeafCommand = Exclude<
 >
 
 export type ExecutableCommandLike<T> =
-  | { kind: 'leaf'; command: T }
+  | { kind: 'leaf'; command: T; timelineCameraStep?: true }
   | { kind: 'returnScript' }
   | { kind: 'finishStep'; next: StepExit }
   | { kind: 'breakLoop' }
@@ -72,7 +73,7 @@ export type ExecutableCommandLike<T> =
         atMs: number
         track: string
         cue: number
-        presentation: 'fade' | 'cameraPan' | null
+        fade: boolean
         body: readonly ExecutableCommandLike<T>[]
       }>
     }
@@ -225,21 +226,34 @@ function compileTimelineTrack(
   compile: (commands: readonly BaseAuthorCommand[]) => readonly ExecutableBaseCommand[],
 ): Extract<ExecutableBaseCommand, { kind: 'sceneTimeline' }>['cues'] {
   return track.cues.flatMap((cue, index) => {
+    const action = cue.body[0]
+    if (action?.kind === 'cameraPan') {
+      const command = { ...action, frames: 1, startImmediately: true } as const
+      const body: readonly ExecutableBaseCommand[] = [
+        { kind: 'leaf', command, timelineCameraStep: true },
+      ]
+      return Array.from({ length: action.frames }, (_, step) => ({
+        atMs: cue.atMs + step * FRAME_MS_EXPLORE,
+        track: track.id,
+        cue: index,
+        fade: false,
+        body,
+      }))
+    }
     const body = compile(
       cue.body.map((action) => {
-        if (action.kind === 'fade' || action.kind === 'cameraPan') return action
+        if (action.kind === 'fade') return action
         if (!track.target) throw new Error('sceneTimeline actor track requires a target')
         return { ...action, target: track.target }
       }),
     )
-    const kind = cue.body[0]?.kind
-    const presentation = kind === 'fade' || kind === 'cameraPan' ? kind : null
+    const fade = action?.kind === 'fade'
     const { count, intervalMs } = cue.repeat ?? { count: 1, intervalMs: 0 }
     return Array.from({ length: count }, (_, step) => ({
       atMs: cue.atMs + step * intervalMs,
       track: track.id,
       cue: index,
-      presentation,
+      fade,
       body,
     }))
   })
