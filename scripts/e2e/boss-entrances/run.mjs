@@ -932,6 +932,7 @@ await runBrowserJourney({
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
   ...(source.serial && { journeyTimeoutMs: 540_000 }),
+  ...(itemEntrance && { journeyTimeoutMs: 420_000 }),
   viewport: { width: 960, height: 720 },
   initScripts: [
     installCommittedRoutePlayback,
