@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "091ed399ea1cc5c681ecc487a99349d1a46c8300590c8f4072a82535ef16cbde",
+      "afterSha256": "88be5486d5d5a5dc55e12ae6a84ee31b8cdf11173e9cc8d75b3b479aac48c3a6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核毒娘子原件和复算入口。",
-        "reviewedLines": 122,
-        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
+        "conclusion": "核鬼阴坛原生执行和媒体恢复入口。",
+        "reviewedLines": 123,
+        "acceptanceScope": "鬼阴坛石长老的实测增量。历史记录保持已有证据范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "e0b48249244e353fedd8e605d1c04cdb652724e4e1f297e715570e622ca47e9e",
+      "afterSha256": "1e9350710d2bdea347657fd711372f5f139a66fe5a962fdc561c8f69ec985b61",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核毒娘子停战、原盘运镜和世界拍。",
-        "reviewedLines": 1964,
-        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
+        "conclusion": "核鬼阴坛伏击、败北后继和 s077 的原盘脚点与世界拍。",
+        "reviewedLines": 1970,
+        "acceptanceScope": "鬼阴坛石长老的实测增量。历史记录保持已有证据范围。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e866323887a17217f866bc8378a16e6f3c4c42de8a71d591d9341a15ad58993d",
+      "afterSha256": "902b8f87ff461532062f57620c9fa36255d43e2df542ae126f4f7725d59e09d3",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核原生入口、边界和毒娘子实测回执。",
-        "reviewedLines": 1069,
-        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
+        "conclusion": "核鬼阴坛合法入口、验收边界及原件。",
+        "reviewedLines": 1079,
+        "acceptanceScope": "鬼阴坛石长老的实测增量。历史记录保持已有证据范围。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "719dd771a34194fb5fb6ea2d09faee6d0fc07dcf0793afd0cd1925538832a264",
+      "afterSha256": "ecaa06ef3694fa17406ff1f6cae056720954c1b858bd164cea4e230e1e88fa9d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核毒娘子、酒剑仙、s140 首帧及归档恢复。",
-        "reviewedLines": 1613,
-        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
+        "conclusion": "核双端败北、人物脚点、帧、实绘对白及归档恢复。",
+        "reviewedLines": 1630,
+        "acceptanceScope": "鬼阴坛石长老的实测增量。历史记录保持已有证据范围。"
       }
     },
     {
@@ -6585,6 +6585,24 @@
       "bytes": 56019458,
       "sha256": "39650d9e20d918163b5e83fec191583569421cc522c9b134bdcf6e0e7055a69c",
       "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-20261120.tar.gz",
+      "bytes": 16274544,
+      "sha256": "168dcb5408e89bca1e97297b3b1ebf506c23a794268b5e5686b16532370a02c3",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-game-20261120.tar.gz",
+      "bytes": 54034045,
+      "sha256": "ce3d04c12d77568b938450b7c1b78d86353cfe5bf1ca7a61844f77913da5a4f8",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-stone-elder-guiyin-reforge-20261120.tar.gz",
+      "bytes": 43185386,
+      "sha256": "cc0d0f5f06cdb4191c0213fced3b2168012bc3e6c6599bce75203bc942bbce4d",
+      "purpose": "鬼阴坛石长老的剧情败北、场景揭幕、原声音像和可复验证据。"
     }
   ],
   "artifactAliases": [],

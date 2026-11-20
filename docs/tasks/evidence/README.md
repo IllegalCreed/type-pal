@@ -110,6 +110,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 锁妖塔天鬼皇 | [双端报告与分屏](E2E-Q2-1-tian-ghost-20261120.tar.gz) · [Reforge 原录](E2E-Q2-1-tian-ghost-reforge-20261120.tar.gz) |
 | Q2 锁妖塔镇狱明王 | [双端报告与恢复入口](E2E-Q2-1-tower-ming-20261120.tar.gz) · [Game 原录 1/2](E2E-Q2-1-tower-ming-game-01-20261120.tar.gz) · [Game 原录 2/2](E2E-Q2-1-tower-ming-game-02-20261120.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-tower-ming-reforge-01-20261120.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-tower-ming-reforge-02-20261120.tar.gz) · [分屏 1/2](E2E-Q2-1-tower-ming-split-01-20261120.tar.gz) · [分屏 2/2](E2E-Q2-1-tower-ming-split-02-20261120.tar.gz) |
 | Q2 毒娘子 | [执行与复算](E2E-Q2-1-poison-lady-20261120.tar.gz) · [原录一](E2E-Q2-1-poison-lady-game-20261120.tar.gz) · [原录二](E2E-Q2-1-poison-lady-reforge-20261120.tar.gz) |
+| Q2 鬼阴坛石长老 | [双端执行与复算](E2E-Q2-1-stone-elder-guiyin-20261120.tar.gz) · [Game 原录](E2E-Q2-1-stone-elder-guiyin-game-20261120.tar.gz) · [Reforge 原录](E2E-Q2-1-stone-elder-guiyin-reforge-20261120.tar.gz) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。
