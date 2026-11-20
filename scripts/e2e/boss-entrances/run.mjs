@@ -73,6 +73,7 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
+  routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
   includesParty:
@@ -638,6 +639,21 @@ async function playRevisit({ page, press, record, health, capture, until, result
   )
   result.revisit = { entered: entered.state }
   assert.deepEqual(entered.state.position, revisit.departure)
+  result.revisit.prepared = await page.evaluate(
+    ({ game, owner, scene }) => {
+      if (game) {
+        const actor = globalThis.__tpgs.allEventObjects.find(({ id }) => `e${id}` === owner)
+        return { position: [actor.x, actor.y], facing: actor.facing, trigger: actor.triggerLabel }
+      }
+      const script = globalThis.__rfWorld.script
+      const pos = script.entityPos?.[scene]?.[owner]
+      return {
+        position: pos ? [pos.col, pos.row, pos.height] : null,
+        trigger: script.behaviors.entities?.[scene]?.[owner]?.trigger,
+      }
+    },
+    { game, owner: spec.owner, scene: spec.scene },
+  )
   await walkSteps(out, revisit.scene, 'revisit-leave', {
     scene: spec.scene,
     position: checkpoint,

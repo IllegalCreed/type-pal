@@ -16,6 +16,7 @@ function install(
     entrance,
     handoffScene,
     visitScenes,
+    routeScenes,
     contactActors = [],
   },
   makeRng,
@@ -24,6 +25,9 @@ function install(
   const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
   const sceneId = (number) => `s${String(number - 1).padStart(3, '0')}`
   const observedScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
+  const routeScene = (id) => id === scene || id === entrance?.scene || routeScenes?.includes(id)
+  const movementKind = (id) =>
+    id === scene ? 'move' : id === entrance?.scene ? 'entrance-move' : 'route-move'
   const sceneCursors = new WeakSet()
   const events = [],
     errors = []
@@ -217,7 +221,7 @@ function install(
     }
   }
   const pushRoute = (source, state) => {
-    if (state.scene !== scene && state.scene !== entrance?.scene) return
+    if (!routeScene(state.scene)) return
     globalThis.__routeObserve(source, {
       scene: state.scene,
       sceneVisit: 1,
@@ -485,9 +489,10 @@ function install(
       if (visitScenes && contact) once('party-battle-sprites', { sprites })
     },
     reforgeMove(sceneId, from, to, facing) {
-      if (sceneId !== scene && sceneId !== entrance?.scene) return
+      if (!routeScene(sceneId)) return
       const state = reforgeWorld()
-      event(sceneId === scene ? 'move' : 'entrance-move', {
+      event(movementKind(sceneId), {
+        ...(routeScenes && { scene: sceneId }),
         from: rfPos(from),
         to: rfPos(to),
         facing,
@@ -525,12 +530,14 @@ function install(
       event('music-stop', { track: Number(String(track).split('.').at(-1)), context }),
   }
   globalThis.__innGame = (gs, source) => {
-    if (gs.wNumScene !== gameScene && gs.wNumScene !== entranceGameScene) return
+    const id = sceneId(gs.wNumScene)
+    if (!routeScene(id)) return
     if (source === 'before:tickSceneInput') previousMove = grid(gs.party)
     if (source !== 'commit:tickSceneInput') return
     const to = grid(gs.party)
     if (previousMove?.some((n, i) => n !== to[i]))
-      event(gs.wNumScene === gameScene ? 'move' : 'entrance-move', {
+      event(movementKind(id), {
+        ...(routeScenes && { scene: id }),
         from: previousMove,
         to,
         facing: gs.party.facing,
