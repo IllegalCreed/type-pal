@@ -177,10 +177,21 @@ test('world timed narration owns a full visible interval or the next pressed key
   expect(ui.dismissTimedNarration(500)).toBe(true)
   expect(ui.observeSlots()).toEqual([])
 
-  ui.open(startDialogue(notice), 2000, 'script')
+  const joinedScroll: Dialogue = {
+    id: 'joined-scroll',
+    cues: [
+      {
+        slot: 'narration',
+        rows: ['A', 'B', 'C', 'D', 'E'].map((text) => ({ text })),
+        autoAdvance: 1400,
+      },
+    ],
+  }
+  ui.open(startDialogue(joinedScroll), 2000, 'script')
   ui.render(2300)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('ABCDE')
   ui.render(3699)
-  expect(ui.observe()?.phase).toBe('auto-advance')
+  expect(ui.observeSlots()[0]?.visibleText).toBe('ABCDE')
   ui.render(3700)
   expect(ui.observe()).toBeNull()
 })

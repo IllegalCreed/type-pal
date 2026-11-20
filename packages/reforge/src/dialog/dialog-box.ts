@@ -407,7 +407,7 @@ export class DialogBox {
     if (!this.state || !this.pageDone) return
     const active = this.slots.activeSlot
     const r = this.renders[active]
-    if (!r || hasFollowingPage(r)) return
+    if (!r || (active !== 'narration' && hasFollowingPage(r))) return
     const auto = r.autoAdvance
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)
