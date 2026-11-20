@@ -127,7 +127,7 @@ async function side(engine, relocatedReport) {
           ['declared'],
         )
       assert.match(report.revision, /^[a-f0-9]{40}$/u)
-      const original = execFileSync('git', ['show', report.revision + ':' + path], { cwd: root })
+      const original = execFileSync('git', ['show', `${report.revision}:${path}`], { cwd: root })
       assert.equal(createHash('sha256').update(original).digest('hex'), recorded.hashes[path])
       assert.deepEqual(
         { ...recorded, hashes: { ...recorded.hashes, [path]: current.hashes[path] } },
