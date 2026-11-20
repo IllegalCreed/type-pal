@@ -541,8 +541,11 @@ async function playEncounter({ page, press, health, capture }) {
       confirmed = true
     } else if (box?.text && waiting.has(box.phase) && line !== lastLine && !timedReward) {
       lastLine = line
-      if (capture.enabled)
-        await capture.readable(box.text, line, async () => lineKey((await read(page)).state.box))
+      if (
+        capture.enabled &&
+        !(await capture.readable(box.text, line, async () => lineKey((await read(page)).state.box)))
+      )
+        continue
       await press(confirm, ended ? 'after-dialogue' : 'before-dialogue')
     } else if (Number.isInteger(live?.settlement) && live.settlement > lastScreen) {
       lastScreen = live.settlement

@@ -84,8 +84,12 @@ interface SlotRender {
   pageStart: number
   /** 每个源 row 的真实打字速度(ms/字)。 */
   rowSpeeds: number[]
-  /** cue 尾停顿自动推进(ms);非 undefined = 自动推进、无光标。 */
+  /** 最后一页的自动推进尾停顿，单位为毫秒。 */
   autoAdvance?: number
+}
+
+function hasFollowingPage(render: SlotRender): boolean {
+  return render.pageStart + LINES_PER_PAGE < render.displayLines.length
 }
 
 /** Detached observation of the last rendered page; reading never ticks or advances dialogue. */
@@ -191,7 +195,6 @@ export class DialogBox {
 
   private observeSlot(slot: SlotId, render: SlotRender): DialogueObservation {
     const cue = render.cue
-    const hasNextPage = render.pageStart + LINES_PER_PAGE < render.displayLines.length
     const pageTextIds: string[] = []
     for (const line of render.displayLines.slice(
       render.pageStart,
@@ -212,7 +215,7 @@ export class DialogBox {
       pageStartedAtMs: render.pageStartedAtMs,
       phase: !this.pageDone
         ? 'typing'
-        : hasNextPage || render.autoAdvance === undefined
+        : hasFollowingPage(render) || render.autoAdvance === undefined
           ? 'waiting-input'
           : 'auto-advance',
       speaker: cue.speaker ?? null,
@@ -329,7 +332,7 @@ export class DialogBox {
       this.pageDone = true
       return
     }
-    if (r && r.pageStart + LINES_PER_PAGE < r.displayLines.length) {
+    if (r && hasFollowingPage(r)) {
       // 该段话还有下一页
       r.pageStart += LINES_PER_PAGE
       this.lineStartMs = nowMs
@@ -404,7 +407,7 @@ export class DialogBox {
     if (!this.state || !this.pageDone) return
     const active = this.slots.activeSlot
     const r = this.renders[active]
-    if (!r) return
+    if (!r || hasFollowingPage(r)) return
     const auto = r.autoAdvance
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)
@@ -526,14 +529,12 @@ export class DialogBox {
     r.visibleText = visibleLines.join('\n')
     if (isActive && allDone && !this.pageDone) this.pageDone = true
 
-    // 光标:仅普通上下对话槽 + 全显 + 非 autoAdvance。center 是无框剧情字幕，
-    // 即使等键也不画箭头；narration 已在上方走专用卷轴并提前返回。
     const lastDl = page[page.length - 1]
     if (
       dialogSlotShowsCursor(slotId) &&
       isActive &&
       this.pageDone &&
-      r.autoAdvance === undefined &&
+      (hasFollowingPage(r) || r.autoAdvance === undefined) &&
       lastDl
     ) {
       this.drawCursor(

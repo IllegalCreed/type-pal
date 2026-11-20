@@ -128,6 +128,38 @@ test('auto tail is observed but cannot be accelerated; active slot tracks the re
   expect(ui.observe()).toBeNull()
 })
 
+test('a timed cue keeps its first page until the player turns it', async () => {
+  const { ui, startDialogue } = await box()
+  ui.open(
+    startDialogue({
+      id: 'paged-tail',
+      cues: [
+        {
+          slot: 'bottom',
+          rows: ['A', 'B', 'C', 'D', 'E'].map((text) => ({ text, speed: 10 })),
+          autoAdvance: 100,
+        },
+      ],
+    }),
+    0,
+  )
+  ui.render(40)
+  ui.render(1000)
+  expect(ui.observe()).toMatchObject({
+    pageIndex: 0,
+    phase: 'waiting-input',
+    pageText: 'A\nB\nC\nD',
+  })
+  ui.advance(1000)
+  ui.render(1010)
+  expect(ui.observeSlots()[0]?.visibleText).toBe('E')
+  expect(ui.observe()).toMatchObject({ pageIndex: 1, phase: 'auto-advance' })
+  ui.render(1109)
+  expect(ui.observe()?.pageIndex).toBe(1)
+  ui.render(1110)
+  expect(ui.observe()).toBeNull()
+})
+
 test('world timed narration owns a full visible interval or the next pressed key', async () => {
   const { ui, startDialogue } = await box()
   const notice: Dialogue = {
