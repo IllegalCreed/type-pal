@@ -1982,7 +1982,7 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "c08189d50b9f281918719520680395af175e4979ed7eca74f4ccf68f4864f014",
+      "afterSha256": "013e4619bc89a1731930c7127563a9a9b40c107b13a0260c552987ec53dbbb9d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -1990,7 +1990,7 @@
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 134,
+        "reviewedLines": 136,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "historyDisposition": "fixed-git-source"
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "01fae030e6840929763d3ab13421a47512d280f5771ce0774c582d27b7b1dfa2",
+      "afterSha256": "021f0716620abfea376d1af0e59b027cb188a889d9589f96ff462e8e4188ea7e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
         "reviewedLines": 376,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4006,14 +4006,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "a5514cae7d951b9805bfba5c905d0cb26d95b6bfaab05973989dadac1f21a148",
+      "afterSha256": "b0c486a1b168e6dd3e5ad6af214225ee0775375838fd39000461eacd0bb60d23",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 670,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 676,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4151,14 +4151,14 @@
       "path": "docs/testing/e2e/stages/005-shrimp/report.md",
       "mode": "reviewed",
       "templateId": "test-run-report-v1",
-      "afterSha256": "4129f3aaf6351ae6a2ca7743200d29ce439c7a2565e731fdabb980b9ceaddd61",
+      "afterSha256": "a1d15c81e0a1135496b9ddd5674b7bd0c7e664c56c7c27f81e859d666b2c13fb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
         "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
         "reviewedLines": 250,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -4376,13 +4376,13 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0c85e29e56833e4da0e720d7f616497af6aa9fa3682bb70985e573d12a3e455f",
+      "afterSha256": "8343e1f853b6709ee8cbd6c2a7aaf357e3ce98f98838b99b5838480ce44c6e30",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 10413,
+        "reviewedLines": 11090,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "94fd6ce45144b192c41f5227a6f6cd2ee6b1149f047377848a3b98c45d7b8fed",
+      "afterSha256": "00ea7323dcf2e5000fcd54044cf42c5ecc68730b1298c16c529160050074f72a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6f055e758b2b019c340cade813ed75aea017407562c912b284cfbd7444cb46a0",
+      "afterSha256": "5c8b16cdef0530e97e78f1bd71f280486f3bcebf62fbc4184b20d19c2c19b4f8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 874,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 897,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "1767bae5854f5a4d8a6852546a2ab909ad20d035981a01b4b091f925cc386ec6",
+      "afterSha256": "36f256b2364197c7ccf99d7d3bebe233d9a9367b69a4bda40b76c0ce598e0f0b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
         "reviewedLines": 98,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "50e0057cc9dde8cce78b297697a32f8e3355729d408fdf48dae83965815ac5ad",
+      "afterSha256": "6616b5464758f141c5aedb8eb219c78ab0f46c55bf1114d3286680f0f38de672",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 762,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 778,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "8f02d524a32bcfd0af7a63ed71d5ef606abd1be28cfa1883160fecb43b93685e",
+      "afterSha256": "76f3f12829c8db19870306de51a34b7348a26fa713c6cfd6d25671acf19e1f88",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "1c29be884e8e5c70385393c8016fba5d824fe674c3b6c39b5e615b6dbebfdbf2",
+      "afterSha256": "6d7ed3a57ed9562d029fb4fb7eba6d7250748c85d06cec69391eb4bb6ff3ac9f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 723,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 739,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -4842,14 +4842,14 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b442a791cb3b11f57f6924e02f679ac96c96c1eefdaaa25b7c1ba4272e232958",
+      "afterSha256": "7125bbe2f794660c0f69be69d35550b4511ad7388f4d1e78b533c493f960239f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
         "date": "2026-11-14",
-        "conclusion": "接受固定候选和复跑原件，按实际范围登记。",
-        "reviewedLines": 649,
-        "acceptanceScope": "核本轮来源回绑，保持原记录、主张和执行不变。完整源、外部回执及正文变更由当前定向出版检查同一候选独立复验；不重录历史。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 737,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5418,13 +5418,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9ad5b831881e5c1c901de87c7efb18afd839dcaa0e5d0a942e58a0f92208466a",
+      "afterSha256": "a8db74f7529546dce4af99d27ec0d523c28635da459b0f8579aa884676e7840f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 1167,
+        "reviewedLines": 1171,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
@@ -5444,39 +5444,39 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "5bde4a7da8bc5c096b73bd20d6db4e69eea2a523b70030d92fe89c2ee0c47dd2",
+      "afterSha256": "8e1d156b85ec13a5a53f618545c61a022648a01d243bcd2decb4ff5c5b6a5d60",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 15255,
+        "reviewedLines": 15278,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "63e32411e990a46ef22c8ee355c0f9c54d9033baeaa2e662be172666a2a65dd2",
+      "afterSha256": "8357655c02c5948f8f45b0ae848b8f0822107a2b52ac07289b524ab23a983d0a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 1810,
+        "reviewedLines": 1838,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "aabe04069c40a0b155e14b67ca7da25826245d1ea67b6686286bc3fd0651a04b",
+      "afterSha256": "f3c32d2a44d2688e07e2428cd3a5cbf62f6f730b347549b669d546efb4e356f5",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
         "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 494,
+        "reviewedLines": 502,
         "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
@@ -5542,31 +5542,48 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
+        "required": [
+          "docs/engineering/guides/agent-workflow.md",
+          "docs/tasks/board.md"
+        ]
       },
       {
         "operation": "写、改或审查测试",
-        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
+        "required": [
+          "docs/testing/governance.md",
+          "docs/engineering/guides/agent-workflow.md"
+        ]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": ["docs/phase1/README.md"]
+        "required": [
+          "docs/phase1/README.md"
+        ]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": ["docs/phase2/READ-FIRST.md"]
+        "required": [
+          "docs/phase2/READ-FIRST.md"
+        ]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": ["docs/lore/README.md"]
+        "required": [
+          "docs/lore/README.md"
+        ]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": ["docs/phase3/README.md"]
+        "required": [
+          "docs/phase3/README.md"
+        ]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+        "required": [
+          "docs/testing/e2e/contract.md",
+          "docs/lore/timeline.md"
+        ]
       },
       {
         "operation": "封板、合并或发布回执",
@@ -6921,6 +6938,66 @@
       "bytes": 38861652,
       "sha256": "315ba85713043e52ae0cc56f7d959567dd7ba52ed97ddc4f6617e11165411008",
       "purpose": "大理祭坛七次切场、真实用物和起战、清屏返场、失败反例及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-game-original-1.tar.gz",
+      "bytes": 46661572,
+      "sha256": "9cfef7dcb1c1205a230c1f042eb16317e7bef35f3b4ab8645acef20f55436bfe",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-game-original-2.tar.gz",
+      "bytes": 42379138,
+      "sha256": "8b639b434671fa339d13c188f492a4318602de86c59bdd98b352716d596ab4bb",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-1.tar.gz",
+      "bytes": 46623944,
+      "sha256": "21937a76794bfff157030f912447506e79e1260b3f22829a7d53f1f763f6f240",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120-reforge-original-2.tar.gz",
+      "bytes": 34689820,
+      "sha256": "8fc7559e49fa38f331316c4cc595d82a33d2a4a63622a3e0e476b4ac80739d2a",
+      "purpose": "求雨和街景复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-recheck-20261120.tar.gz",
+      "bytes": 40658451,
+      "sha256": "1fe474ad27c5cf40bfa40e089442de137203ae224811931ccfd766c18b013e75",
+      "purpose": "大理求雨、街景、演出差异反例、原速分屏和恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-game-original-1.tar.gz",
+      "bytes": 46674382,
+      "sha256": "9b08b5189f22584ecedac00938a9ac97db1741dd1a74cedb6bc88eaf845cd346",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-game-original-2.tar.gz",
+      "bytes": 43032314,
+      "sha256": "fe89924c6758c7529698b65e201ad812333daff2a1a6afa6b288ccdee489b049",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-reforge-original-1.tar.gz",
+      "bytes": 46647215,
+      "sha256": "00db4c5f6c52b11fca24a2c96595a65d8fdc4ced09b019e7b8394d06b335dae1",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120-reforge-original-2.tar.gz",
+      "bytes": 37721208,
+      "sha256": "670889b4acfc1313ceed4b685fc0a40bf4f2d86d2341e4e58cbcc26245f35a69",
+      "purpose": "大理整段原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-rain-route-20261120.tar.gz",
+      "bytes": 42246364,
+      "sha256": "fc1eddaa7adea610f350440ccf310eb943d552434d7f734312f4653155855b9e",
+      "purpose": "大理整段双端回执、反例、原速带声分屏和原录恢复索引。"
     }
   ],
   "artifactAliases": [],

@@ -2746,6 +2746,53 @@ export function restoreTestingQ2DaliSourceBindings(path, bytes, inputs) {
   return restoreBattleSourceBindings(path, bytes, inputs, daliSourceStage, daliSourceBindings)
 }
 
+export const testingQ2DaliRainPublicationBase = '694b207e0090eeeac045a5548dd6a32a0c97dd1a'
+const evidenceRecorder = 'scripts/e2e/evidence-recorder.mjs'
+const shrimpEvidence = 'e2e/evidence/e2e-005.json'
+const daliRainSourceStage = {
+  ranges: new Map([
+    [forestInnSplit, { 66: '66' }],
+    [evidenceRecorder, { '1-18': '1-18' }],
+    [
+      reforgeMain,
+      {
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5983: '5991',
+      },
+    ],
+  ]),
+  base: testingQ2DaliRainPublicationBase,
+  action: 'q2-dali-rain-source-rebinding',
+  date: '2026-11-20',
+}
+const daliRainRouteBindings = new Map([
+  ...phoenixSourceBindings,
+  [shrimpEvidence, { id: 'e2e-005', paths: [evidenceRecorder] }],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [forestInnSplit, reforgeMain], artifactClaims: true },
+  ],
+])
+const daliRainRouteReports = new Map([
+  ...shangshuReports,
+  ['docs/testing/e2e/stages/005-shrimp/report.md', shrimpEvidence],
+])
+export const isTestingQ2DaliRainSource = (path) => daliRainSourceStage.ranges.has(path)
+
+export function restoreTestingQ2DaliRainSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    daliRainSourceStage,
+    daliRainRouteBindings,
+    daliRainRouteReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

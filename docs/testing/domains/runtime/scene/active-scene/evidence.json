@@ -14,14 +14,14 @@
       "lines": "417-424",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+      "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "456-463",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+      "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -797,6 +797,29 @@
         }
       ],
       "scope": "尚书府进战先重绘、府内前景覆盖与成片解码增量，保留既有调用区段和历次执行身份。"
+    },
+    {
+      "action": "q2-dali-rain-source-rebinding",
+      "base": "694b207e0090eeeac045a5548dd6a32a0c97dd1a",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "417-424",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "456-463",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+        }
+      ],
+      "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
     }
   ],
   "_governance": {

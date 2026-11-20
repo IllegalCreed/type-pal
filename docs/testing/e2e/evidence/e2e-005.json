@@ -63,10 +63,14 @@
       "lines": "1-18",
       "anchor": "worldRenders: 24 * 1024 * 1024",
       "role": "bounded clock storage",
-      "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"
+      "sha256": "38a44db3ec638518993b12eb783b03090d368dcbfd4385a828f6b9027ca57da9"
     }
   ],
-  "publicCallers": ["pnpm e2e:005", "pnpm e2e:005:reforge", "pnpm e2e:005:both"],
+  "publicCallers": [
+    "pnpm e2e:005",
+    "pnpm e2e:005:reforge",
+    "pnpm e2e:005:both"
+  ],
   "legalInputs": [
     "same-engine current 004 saves report",
     "normal route and dialogue",
@@ -82,7 +86,11 @@
   },
   "dedupe": {
     "result": "reviewed",
-    "against": ["e2e-004", "e2e-006", "e2e/stages/005-shrimp/report.md#历史"],
+    "against": [
+      "e2e-004",
+      "e2e-006",
+      "e2e/stages/005-shrimp/report.md#历史"
+    ],
     "notes": "早期启动失败原样保留；当前六 case 结论与旧二阶段前驱分开。"
   },
   "claims": [
@@ -120,7 +128,11 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
     },
     {
       "action": "content23-acquisition-source-rebinding",
@@ -153,6 +165,22 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "q2-dali-rain-source-rebinding",
+      "base": "694b207e0090eeeac045a5548dd6a32a0c97dd1a",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/evidence-recorder.mjs",
+          "lines": "1-18",
+          "anchor": "worldRenders: 24 * 1024 * 1024",
+          "role": "bounded clock storage",
+          "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963"
+        }
+      ],
+      "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
     }
   ],
   "_governance": {
@@ -493,15 +521,72 @@
     "sourceContracts": {
       "caseBoundaries": "每轨story/guards/saves为40/49/40行、1/1/2个空IDB新context，精确checks/rows。84–145还核verify kind/profile、name、passed core/route、sourceHashesStable、errors=[]、revision/SHA语法和每context一份0<byteLength<=384MiB trace。仅saves可有005.end/restored/background字段；237–255要求六个唯一engine/case、同revision/sourceHashes及各引擎同前驱。语法/一致性不认证HEAD或producer。",
       "rows": {
-        "aunt": [211, 212, 213, 214, 215, 217, 219, 221, 223],
-        "fish": [603, 604, 605, 606],
-        "water": [552, 553, 554, 555, 557, 558, 560, 561, 562, 564, 565],
-        "zhang": [515, 516, 517, 518, 519, 521, 522],
-        "news": [282, 283, 284, 286, 288, 289, 290, 292, 293],
+        "aunt": [
+          211,
+          212,
+          213,
+          214,
+          215,
+          217,
+          219,
+          221,
+          223
+        ],
+        "fish": [
+          603,
+          604,
+          605,
+          606
+        ],
+        "water": [
+          552,
+          553,
+          554,
+          555,
+          557,
+          558,
+          560,
+          561,
+          562,
+          564,
+          565
+        ],
+        "zhang": [
+          515,
+          516,
+          517,
+          518,
+          519,
+          521,
+          522
+        ],
+        "news": [
+          282,
+          283,
+          284,
+          286,
+          288,
+          289,
+          290,
+          292,
+          293
+        ],
         "guardsOnly": {
-          "auntRepeat": [129, 130],
-          "zhangReminder": [524, 525, 526, 527],
-          "zhangPrayer": [529, 530, 531]
+          "auntRepeat": [
+            129,
+            130
+          ],
+          "zhangReminder": [
+            524,
+            525,
+            526,
+            527
+          ],
+          "zhangPrayer": [
+            529,
+            530,
+            531
+          ]
         }
       },
       "runtimeAdmission": "427–450运行准入先要求004 saves、非capture、同engine，再完整调用继承固定SHA的assertMealCaseReport，核004.end原字节SHA、JSON解析对象及mealSaveView=endWorld。不能以任意004 passed或story/items代替。实际journey新context经Game正式opening/slot1或RF checkpoint载入。Game对指定产品/原始数据/共享路径来源差异拒绝，RF差异仅记录；未据此认证全部未提交输入。",
@@ -625,7 +710,10 @@
           "variant": "document-audit-v2",
           "lastReviewed": "2026-10-17",
           "owner": "Codex",
-          "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+          "provenance": [
+            "existing paired E2E evidence",
+            "R60 testing entry migration"
+          ],
           "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
           "sourceGitObject": "50aa047ed02fa7eeead20ed6f4edf803347030e2",
           "scope": "Document-audit of e2e-005; original versions/candidate/claims/history retained. No new runtime execution.",

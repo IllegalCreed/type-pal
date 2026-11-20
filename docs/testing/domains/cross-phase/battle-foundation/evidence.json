@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "66",
-      "sha256": "e78f2af3c6baead41d9df15bfc038d0dc072fd57eb89c2c02d9e34cd14ecd8f8",
+      "sha256": "e1d680199f27911a9cccbdf1955451716dc290548edba23b79ef7772750e0eef",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5983",
-      "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+      "lines": "5991",
+      "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13975,6 +13975,29 @@
         }
       ],
       "scope": "大理祭坛接入实际用物起战及原录、成片主角像素核验，保持既有分屏来源段与执行回执。"
+    },
+    {
+      "action": "q2-dali-rain-source-rebinding",
+      "base": "694b207e0090eeeac045a5548dd6a32a0c97dd1a",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "66",
+          "sha256": "e78f2af3c6baead41d9df15bfc038d0dc072fd57eb89c2c02d9e34cd14ecd8f8",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5983",
+          "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
+        }
+      ],
+      "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
     }
   ],
   "_governance": {
