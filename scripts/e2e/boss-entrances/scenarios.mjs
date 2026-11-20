@@ -1248,6 +1248,7 @@ export async function readSources(spec) {
     }),
     ...((itemEntrance || finale) && { rainFrames: 'data/extracted/data/rng-frames.json' }),
     ...((finale || spec.serial) && { relicsScene: 'projects/pal/content/scenes/s233.json' }),
+    ...(finale && { levelUpExp: 'data/extracted/data/level-up-exp.json' }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -1437,6 +1438,7 @@ export async function readSources(spec) {
     finaleSource = {
       ...finale,
       handoffIndex,
+      levelUpExp: data.levelUpExp,
       films: films.map((film, i) => ({ ...film, index: authored[i].index })),
       roster: data.gameScene.eventObjects.filter(({ spriteNum }) => spriteNum > 0),
     }

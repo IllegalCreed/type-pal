@@ -1415,16 +1415,6 @@ async function inspect(path, engine) {
       )
     }
   }
-  if (finale) {
-    assert.deepEqual(run.initial.state.inventory, spec.inventory)
-    const readback = game ? saved : await read(run.slotReadback)
-    for (const [id, state] of Object.entries(source.preludeStates)) {
-      const actual = game
-        ? readback.gs.allEventObjects.find(({ id: number }) => `e${number}` === id)?.sState
-        : readback.world.script.entityState[spec.scene]?.[id]
-      assert.equal(actual, state, `original predecessor ${id}`)
-    }
-  }
   assert.deepEqual(
     report.contexts.map(({ label, initialDatabases }) => [label, initialDatabases]),
     game
@@ -1441,6 +1431,16 @@ async function inspect(path, engine) {
     return binding.value
   }
   const [saved, raw] = await Promise.all([read(report.save), read(run.raw)])
+  if (finale) {
+    assert.deepEqual(run.initial.state.inventory, spec.inventory)
+    const readback = game ? saved : await read(run.slotReadback)
+    for (const [id, state] of Object.entries(source.preludeStates)) {
+      const actual = game
+        ? readback.gs.allEventObjects.find(({ id: number }) => `e${number}` === id)?.sState
+        : readback.world.script.entityState[spec.scene]?.[id]
+      assert.equal(actual, state, `original predecessor ${id}`)
+    }
+  }
   if (game) {
     assert.equal(gameScene({ scene: checkpointScene }), saved.gs.wNumScene)
     assert.deepEqual(
@@ -2166,19 +2166,30 @@ async function inspect(path, engine) {
     assert.deepEqual(control.inventory, spec.world.inventory)
   }
   assert.deepEqual([last.cash, last.inventory], [cash, finaleStock ?? rewardInventory])
-  assert.deepEqual(
-    last.party.map(({ id, exp: gained }) => [id, gained]),
-    [
-      ...(scriptedReturn?.members ?? handoff?.members ?? spec.world.members ?? roles).map(
-        (role) => [role, exp],
-      ),
-      ...(spec.world.join ? [[spec.world.join.role, 0]] : []),
-    ],
-  )
-  assert.deepEqual(
-    won.party.map(({ id, exp: gained }) => [id, gained]),
-    roles.map((role) => [role, exp]),
-  )
+  if (finale) {
+    assert.deepEqual(
+      won.party.map(({ id, level, exp }) => [id, level, exp]),
+      battleParty.map(({ role, level }) => {
+        const remaining = exp - finale.levelUpExp[level]
+        assert(remaining >= 0 && remaining < finale.levelUpExp[level + 1])
+        return [role, level + 1, remaining]
+      }),
+    )
+  } else {
+    assert.deepEqual(
+      last.party.map(({ id, exp: gained }) => [id, gained]),
+      [
+        ...(scriptedReturn?.members ?? handoff?.members ?? spec.world.members ?? roles).map(
+          (role) => [role, exp],
+        ),
+        ...(spec.world.join ? [[spec.world.join.role, 0]] : []),
+      ],
+    )
+    assert.deepEqual(
+      won.party.map(({ id, exp: gained }) => [id, gained]),
+      roles.map((role) => [role, exp]),
+    )
+  }
   if (!handoff) {
     assert(
       find('music-start').some(
