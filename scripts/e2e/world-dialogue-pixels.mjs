@@ -1,17 +1,54 @@
 import assert from 'node:assert/strict'
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
+import { spawn } from 'node:child_process'
+import { once } from 'node:events'
+import { createInterface } from 'node:readline'
 
-const run = promisify(execFile)
 const width = 80
 const height = 50
 const frameSize = width * height
+
+async function readBackgroundSamples(stream) {
+  const samples = []
+  let leftover = Buffer.alloc(0)
+  for await (const chunk of stream) {
+    const frames = leftover.length ? Buffer.concat([leftover, chunk]) : chunk
+    const complete = frames.length - (frames.length % frameSize)
+    for (let offset = 0; offset < complete; offset += frameSize) {
+      // Read both sides of the room above lower dialogue. Skip the central caption area.
+      let lit = 0
+      for (let y = 18; y < 25; y++) {
+        for (let x = 4; x < 76; x++) {
+          if (x >= 32 && x < 48) continue
+          if (frames[offset + y * width + x] >= 16) lit++
+        }
+      }
+      samples.push(lit / (7 * 56))
+    }
+    leftover = frames.subarray(complete)
+  }
+  assert.equal(leftover.length, 0, 'incomplete decoded video frame')
+  return samples
+}
+
+async function readPresentationTimestamps(stream) {
+  const times = []
+  const diagnostics = []
+  for await (const line of createInterface({ input: stream, crlfDelay: Infinity })) {
+    const frame = /\bn:\s*\d+\s+pts:\s*-?\d+\s+pts_time:(\S+)/u.exec(line)
+    if (frame) times.push(Number(frame[1]))
+    else if (line.trim() && !line.includes('Parsed_showinfo')) {
+      diagnostics.push(line)
+      if (diagnostics.length > 8) diagnostics.shift()
+    }
+  }
+  return { times, diagnostics }
+}
 
 /** Keep the native frame clock. A generated constant-rate sampling grid can miss a bad frame. */
 export async function decodeWorldDialoguePixels(path, panel) {
   const viewport = panel === undefined ? '' : `crop=640:400:${panel * 640}:0,`
   const filter = `${viewport}scale=${width}:${height}:flags=area,showinfo`
-  const { stdout, stderr } = await run(
+  const child = spawn(
     'ffmpeg',
     [
       '-nostdin',
@@ -34,31 +71,29 @@ export async function decodeWorldDialoguePixels(path, panel) {
       'rawvideo',
       'pipe:1',
     ],
-    { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 },
+    { stdio: ['ignore', 'pipe', 'pipe'] },
   )
-  const times = [
-    ...stderr.toString('utf8').matchAll(/\bn:\s*\d+\s+pts:\s*-?\d+\s+pts_time:([\d.-]+)/gu),
-  ].map((match) => Number(match[1]))
-  assert(
-    times.length > 0 && times.length * frameSize === stdout.length,
-    'each decoded video frame needs its native presentation timestamp',
-  )
-  return times.map((seconds, index) => {
+  try {
+    const [samples, { times, diagnostics }, [status, signal]] = await Promise.all([
+      readBackgroundSamples(child.stdout),
+      readPresentationTimestamps(child.stderr),
+      once(child, 'close'),
+    ])
+    assert.equal(status, 0, `frame decoder failed (${status ?? signal})\n${diagnostics.join('\n')}`)
     assert(
-      Number.isFinite(seconds) && (!index || seconds > times[index - 1]),
-      'decoded timestamps must increase',
+      times.length > 0 && times.length === samples.length,
+      'each decoded video frame needs its native presentation timestamp',
     )
-    const frame = stdout.subarray(index * frameSize, (index + 1) * frameSize)
-    // Read both sides of the room above lower dialogue. Skip the central caption area.
-    let lit = 0
-    for (let y = 18; y < 25; y++) {
-      for (let x = 4; x < 76; x++) {
-        if (x >= 32 && x < 48) continue
-        if (frame[y * width + x] >= 16) lit++
-      }
-    }
-    return { seconds, litFraction: lit / (7 * 56) }
-  })
+    return times.map((seconds, index) => {
+      assert(
+        Number.isFinite(seconds) && (!index || seconds > times[index - 1]),
+        'decoded timestamps must increase',
+      )
+      return { seconds, litFraction: samples[index] }
+    })
+  } finally {
+    if (child.exitCode === null && child.signalCode === null) child.kill()
+  }
 }
 
 export function checkWorldDialoguePixels(frames, { start, end, minLitFraction }) {
