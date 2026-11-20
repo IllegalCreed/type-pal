@@ -1355,7 +1355,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 240
+                      "ms": 600
                     },
                     {
                       "cue": {
@@ -1379,13 +1379,16 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "facing": "left",
                       "kind": "setPartyFacing",
                       "member": 1
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "dx": -2,
@@ -1395,7 +1398,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 800
+                      "ms": 2000
                     },
                     {
                       "kind": "selectEntityBehavior",
@@ -1464,6 +1467,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "asset": "sound.pal.007",
                       "kind": "playSound"
                     },
@@ -1487,6 +1494,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1506,6 +1517,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "asset": "sound.pal.091",
                       "kind": "playSound"
                     },
@@ -1520,6 +1535,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1550,6 +1569,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "asset": "sound.pal.189",
                       "kind": "playSound"
                     },
@@ -1566,6 +1589,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 8,
                       "dy": 4,
                       "kind": "nudgeEntity",
@@ -1576,6 +1603,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 8,
@@ -1590,6 +1621,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 8,
                       "dy": 8,
                       "kind": "nudgeEntity",
@@ -1602,6 +1637,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 8,
                       "dy": 10,
                       "kind": "nudgeEntity",
@@ -1612,6 +1651,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "down",
@@ -1642,6 +1685,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "dx": 8,
                       "dy": 14,
                       "kind": "nudgeEntity",
@@ -1652,6 +1699,10 @@
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "dx": 8,
@@ -1741,6 +1792,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {
@@ -1763,7 +1818,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -1772,7 +1827,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "asset": "sound.pal.090",
@@ -1796,7 +1851,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 320
+                      "ms": 800
                     },
                     {
                       "kind": "setEntityState",
@@ -1816,7 +1871,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "cue": {
@@ -1838,8 +1893,11 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -1859,7 +1917,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -1881,6 +1939,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "up",
                       "kind": "setEntityFacing",
                       "target": {
@@ -1898,7 +1960,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "right",
@@ -1918,7 +1980,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {

@@ -5601,6 +5601,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 0,
                       "target": {

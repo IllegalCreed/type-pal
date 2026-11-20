@@ -11,6 +11,19 @@ const styles = {
 const normalize = (text) => text.replace(/\s/gu, '')
 const heading = (text) => (text ? text.replace(/[∶：:]$/u, '').trim() : null)
 
+export function inspectClearedDialogueFrames(draws, frames, scene) {
+  const timeline = draws.filter((draw) => draw.scene === scene)
+  let cursor = 0
+  let painted
+  for (const frame of frames) {
+    while (cursor < timeline.length && timeline[cursor].atMs <= frame.atMs)
+      painted = timeline[cursor++]
+    if (painted?.slots.length !== 0)
+      return { checked: frames.length, issue: { frame, painted: painted ?? null } }
+  }
+  return { checked: frames.length, issue: frames.length ? null : { frame: null, painted: null } }
+}
+
 /** Source windows must be a verified, linear execution path in the original script. */
 export function sourceDialogueGroups(commands, windows) {
   const groups = []

@@ -4,6 +4,7 @@ import { gunzipSync } from 'node:zlib'
 import { readGaiLuojiaoSources } from './gai-luojiao-presentation.mjs'
 import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
+import { readRingOpening } from './ring-opening-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
 
@@ -112,7 +113,7 @@ const innLeader = {
   id: 'inn-miao-leader',
   scene: 's003',
   owner: 'e59',
-  watched: ['e56', 'e57', 'e58', 'e60', 'e61', 'e68'],
+  watched: ['e56', 'e57', 'e58', 'e60', 'e61', 'e62', 'e68'],
   team: 19,
   enemy: 'enemy-485',
   start: [137, 69, 0],
@@ -1132,6 +1133,7 @@ export async function readSources(spec) {
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
       ...returnMusicPaths,
       ...ringAudioPaths,
+      ...(ring ? ['scripts/e2e/boss-entrances/ring-opening-presentation.mjs'] : []),
       ...towerAssets,
       ...(stoneElder
         ? [
@@ -1409,7 +1411,9 @@ function readInnPredecessor(scene, commands, spec) {
   const directions = ['down', 'left', 'up', 'right']
   const sceneActions = (id) =>
     body.filter(({ target }) => target?.scene === spec.scene && target.entity === id)
-  const states = {}
+  assert.equal(commands[711].opcode, 0x49)
+  assert.deepEqual(commands[711].operands, [0xffff, 0, 0])
+  const states = { e62: { state: commands[711].operands[1] } }
   for (const id of ['e56', 'e59', 'e60', 'e61']) {
     const address = Number(id.slice(1)) + 1
     const field = (opcode) =>
@@ -1455,6 +1459,18 @@ function readInnPredecessor(scene, commands, spec) {
 
 function readInnFrames(data, commands, setup, spec) {
   const { entrance, world } = spec
+  const taoist = data.rfScene.entities.find(({ id }) => id === 'e62')
+  const gift = taoist.behaviors.trigger['c8-321c0a7d7de1'].flow.stages.flatMap(({ body }) => body)
+  assert(
+    gift.some(
+      ({ kind, state, target }) =>
+        kind === 'setEntityState' &&
+        target.scene === spec.scene &&
+        target.entity === taoist.id &&
+        state === setup[taoist.id].state,
+    ),
+    'wine predecessor hides the Taoist before the later encounter',
+  )
   const door = data.musicScene.eventObjects.find(({ id }) => `e${id}` === entrance.owner)
   assert.equal(door.triggerLabel, `L_${entrance.ip}`)
   const [x, y, half] = commands[entrance.ip].operands
@@ -1597,6 +1613,7 @@ function ringSource(commands, turnStart, actors, successorTrack) {
   const patriarch = actors.find(({ id }) => id === 551)
   const [, dx, dy] = commands[8028].operands
   return {
+    opening: readRingOpening(commands),
     leader,
     camera: leader.map((value, i) => value - anchor[i]),
     movements,

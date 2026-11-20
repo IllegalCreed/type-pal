@@ -6,9 +6,11 @@ import { sha256 } from '../browser-journey.mjs'
 import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
+import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
+import { inspectRingOpening } from './ring-opening-presentation.mjs'
 import {
   battleOperands,
   battlePartyFor,
@@ -487,6 +489,15 @@ function checkInnPresentation(
     }
   check('inn actors on the first visible entrance draw', source.inn.start, formation(start))
   check('inn actors on the script return first draw', source.inn.returned, formation(control))
+  check(
+    'the departed Taoist stays absent throughout the later inn visit',
+    [],
+    events
+      .filter(
+        ({ kind, scene, actors }) => kind === 'world-drawn' && scene === spec.scene && actors.e62,
+      )
+      .map(({ atMs, actors }) => ({ atMs, actor: actors.e62 })),
+  )
   const chaseFrames = events.filter(
     ({ kind, order }) => kind === 'world-drawn' && order > start.order && order < trigger.order,
   )
@@ -1333,6 +1344,7 @@ async function inspect(path, engine) {
       party.map(({ roleId }) => roleId),
     )
     assert.equal(run.slotReadback, report.save.sha256)
+    if (source.inn) assert.equal(saved.gs.allEventObjects.find(({ id }) => id === 62)?.sState, 0)
     if (spec.accessory)
       assert.equal(saved.gs.PlayerRolesRuntime.rgwEquipment[5][0], Number(spec.accessory))
     if (revisit) {
@@ -1349,6 +1361,7 @@ async function inspect(path, engine) {
     assert.equal(readback.version, saved.version)
     assert.equal(readback.contentVersion, saved.contentVersion)
     assert.deepEqual(readback.world.party, saved.world.party)
+    if (source.inn) assert.equal(readback.world.script.entityState[spec.scene]?.e62, 0)
     if (spec.accessory) assert.equal(readback.world.party[0].equipment.accessory, spec.accessory)
     if (revisit) {
       assert.deepEqual(readback.world.script.behaviors.scenes[revisit.scene]?.onEnter, {
@@ -2016,8 +2029,34 @@ async function inspect(path, engine) {
   const ring = source.ring
     ? checkRingPresentation(events, renderedDialogue, boundaries, game)
     : undefined
+  if (ring)
+    ring.opening = inspectRingOpening({
+      events,
+      draws: renderedDialogue,
+      launch: launch[0],
+      expected: source.ring.opening,
+      locale: source.locale,
+    })
   const inn = source.inn ? checkInnPresentation(raw, renderedDialogue, boundaries) : undefined
   const tomb = source.tomb ? checkTombPresentation(raw, renderedDialogue, boundaries) : undefined
+  if (tomb) {
+    const activeFrames = events.filter(
+      ({ kind, order, surface }) =>
+        order > prepared.order &&
+        order < won.order &&
+        (kind === 'entry-band' ||
+          kind === 'command-menu-drawn' ||
+          kind === 'boss-frame' ||
+          (kind === 'paint' && surface === 'battle')),
+    )
+    const cleared = inspectClearedDialogueFrames(renderedDialogue, activeFrames, spec.scene)
+    tomb.clearedDialogue = cleared
+    if (cleared.issue)
+      tomb.issues.push({
+        rule: 'world dialogue clears before the first battle draw',
+        ...cleared.issue,
+      })
+  }
   const tian = source.tian
     ? checkTianPresentation(events, renderedDialogue, boundaries, game)
     : undefined
@@ -2180,6 +2219,7 @@ if (!failures.length) {
       ...(result.stoneElder?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
+      ...(result.ring?.opening.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }
