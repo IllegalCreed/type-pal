@@ -2,6 +2,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { serialize } from 'node:v8'
 import type { ActorDef, ItemData, SpriteDef } from '@type-pal/content'
 import { beforeAll, describe, expect, it } from 'vitest'
 import {
@@ -102,26 +103,10 @@ describe('PAL narrow resource supply', () => {
   it('does not mutate sources or baseline and stops on map, alias, role, callback and message drift', () => {
     const baseline = loadPalBaseline(repo)!
     const before = structuredClone(baseline)
-    const sourceBefore = JSON.stringify({
-      migrate: sources.migrate,
-      scenes: sources.scenes,
-      players: sources.objectPlayers,
-      frames: sources.worldSpriteFrameCounts,
-      catalog: sources.assetCatalog,
-      stores: sources.stores,
-    })
+    const sourceBefore = sha256(serialize(sources))
     buildPalCurrentPublication(baseline, sources)
     expect(baseline).toEqual(before)
-    expect(
-      JSON.stringify({
-        migrate: sources.migrate,
-        scenes: sources.scenes,
-        players: sources.objectPlayers,
-        frames: sources.worldSpriteFrameCounts,
-        catalog: sources.assetCatalog,
-        stores: sources.stores,
-      }),
-    ).toBe(sourceBefore)
+    expect(sha256(serialize(sources))).toBe(sourceBefore)
     const changed = {
       ...sources,
       objectPlayers: sources.objectPlayers.map((value) => ({ ...value })),

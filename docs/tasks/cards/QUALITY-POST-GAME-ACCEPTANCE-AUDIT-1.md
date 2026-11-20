@@ -44,4 +44,25 @@ Visual Verification Timing: N/A
 
 ## 状态与交接
 
-六个关闭路径退回 review。#68 和 #70 的两条见上方同类回查。#73 的两项取[物品操作复核](QUALITY-REFORGE-PRESENTATION-1.md#合并后关闭复核)。#72 的供应专测取[断言范围复核](QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md#合并后关闭复核)，占位生成器取[输出所有权卡](MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)。旧合并证据保留，本次只授实际复核范围的结论。后继优先处理六条确认缺口，更多历史语义判断以相应调用和断言为依据。
+首轮复核将六个路径退回 review。#68 和 #70 的两条见上方同类回查。#73 的两项取[物品操作复核](QUALITY-REFORGE-PRESENTATION-1.md#合并后关闭复核)。#72 的供应专测取[断言范围复核](QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md#合并后关闭复核)，占位生成器取[输出所有权卡](MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)。当时的实测和撤回原因保持原时点含义。
+
+### 扩查结果与本轮整改
+
+2026-11-20，按六次合入时的 374 个候选再次检查测试声明、路径名及直接文件写点。在 248 份专测中识别 1,403 个字面测试声明，71 个文件有 133 条生命周期或输入不变性的筛查命中。按名称规则扫描未见模型/波次标记，按字面测试声明未见 `.skip/.only/.todo`。这些数字用于定位证据，未把一次声明扫描认作全量八维重审。
+
+扩大复核聚焦两个重复失误：异常退出和并发测试漏掉真实状态变化，文件工具的正例漏掉固定输出路径的所有权。核对每个直接写点及相关命中用例的在途时点、状态断言和隔离宿主。发现并处置 FBP 缺省输出、BGM 取消预取与编辑器资产删除专测三处遗漏。Worker 的双请求、同键位图的新旧待办、淡入淡出接管和 MIDI 试听的迟到请求均有实际的在途门槛及不同结果观察。仍有效的原八维锚按原候选范围引用。
+
+| 路径 | 本次核实与裁定 |
+|---|---|
+| `packages/content/src/entity-lifecycle.test.ts` | 存档解码使用的归一入口分别核场景与实体拒绝的错误路径和原输入。合法输入的副本归属单独验证。反控原地删除未知场景，只触发不变性断言。已验证。 |
+| `packages/reforge/src/scene-preflight.chain.test.ts` | 用现行主编排调用和独立 WorldState 快照核无脚本场景入口。反控只修改金钱，计划和依赖仍有效，实际不变性失败。已验证。 |
+| `packages/migrate/src/pal-content-supply.pal.test.ts` | 以完整内存来源序列化摘要核十个来源字段，包括地图、MIDI、二进制载体与资产报告。基线仍比完整独立快照。反控在真实构建器写入 MIDI 输入，新增摘要断言单红。范围是发布构建器的内存输入。已验证。 |
+| `packages/migrate/scripts/generate-project-battle-placeholders.mts`、`packages/migrate/scripts/preview-fbp.mts` | 拒绝固定目的地的符号链接。前者先核两套目标才写，正常重建与跟踪资源字节一致；后者以合法索引 PNG 核缺省与显式路径的真实像素。已验证。 |
+| `packages/reforge/src/audio/bgm.test.ts` | 旧用例先于播放续体结束时观察曲目。移除取消检查时旧用例仍绿，新用例等待实际续体后只此一例因第二首曲目被提交而失败。已验证。 |
+| `packages/editor/src/core/asset-catalog-commands.test.ts` | 原失败分支只核状态身份及历史栈。对真实项目状态补独立快照，篡改原头像标签仍抛原错误时，新断言单红。已验证。 |
+| `packages/reforge/src/menu/item-use-session.ts` | 主入口创建实例，菜单通过 `pending` 拦截重入。取消权在 `cancel` 后退出，占位由原操作的 `finally` 释放。真实菜单及两实例反控均支持现行行为，保留实现。 |
+| `packages/reforge/src/menu/item-use-session.test.ts` | 修订在两实例同时在途时取消较早者、观察双方信号及占位。控制器改成共享字段时旧三例通过，新用例单红。现行源码的修订和菜单合测 27 项通过。修订仍留隔离证据，现行报告及 catalog 的全文件指纹由活跃 E2E 持有，保持 review。 |
+
+二次复核按问题模式扩展。把实际输出写点、在途续体和独立快照写入[逐文件关闭门](../../engineering/guides/code-quality.md#逐文件关闭门)。六批内其他维度的既有证据按原范围保留，尚未进行 374 份实现与测试的逐文件全面重审。结构、命名或测试合同发现新的重复失真时，再扩大到相应组。
+
+同一[执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz)新增 `follow-up/decisions.md`、快速筛查脚本、精确执行结果和未集成的菜单补丁。使用固定 Git 候选恢复源码；保留各次必要失败、反控与正常执行。两个阶段的证据共用原归档，临时树和重复的大型输入不入库。重型全仓与官方覆盖率留到稳定窗口，不因这轮定向结果宣告集成。

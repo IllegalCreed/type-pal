@@ -51,9 +51,9 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账和定向复核。撤回项的理由与解除条件见原卡。[占位战斗精灵输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已有隔离复现，待核生成入口与失败合同后准入。
+[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账、同类扩查和定向返工。物品操作专测等活跃 E2E 释放发布证据后集成。[占位精灵与 FBP 预览的输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已通过隔离回归，统一门随稳定窗口执行。
 
-[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)的合并后复核已撤回物品操作实现与专测的关闭状态。当前验收数、复核依据与解除条件见[原卡](cards/QUALITY-REFORGE-PRESENTATION-1.md#合并后关闭复核)。
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)保留 #73 合并和首轮撤回的原时点统计。物品操作实现本轮恢复保留，专测接续条件见[本轮整改](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改)。
 
 迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
 

@@ -62,9 +62,17 @@ describe('entity lifecycle table', () => {
   test('rejects unknown scene and entity references without mutating the input', () => {
     const unknownScene = { s999: { e001: { phase: 'removed' as const } } }
     const unknownEntity = { s001: { e999: { phase: 'removed' as const } } }
-    expect(() => normalizeEntityLifecycleTable(unknownScene, references)).toThrow(/未知 scene id/)
-    expect(() => normalizeEntityLifecycleTable(unknownEntity, references)).toThrow(/未知 entity id/)
+    expect(() => normalizeEntityLifecycleTable(unknownScene, references)).toThrow(
+      'entityLifecycles.s999: 未知 scene id',
+    )
+    expect(unknownScene).toStrictEqual({ s999: { e001: { phase: 'removed' } } })
+    expect(() => normalizeEntityLifecycleTable(unknownEntity, references)).toThrow(
+      'entityLifecycles.s001.e999: 未知 entity id',
+    )
+    expect(unknownEntity).toStrictEqual({ s001: { e999: { phase: 'removed' } } })
+  })
 
+  test('a valid normalized table owns its entity entries independently of the source', () => {
     const source = { s001: { e001: { phase: 'removed' as const } } }
     const normalized = normalizeEntityLifecycleTable(source, references)
     expect(normalized.s001?.e001).not.toBe(source.s001.e001)

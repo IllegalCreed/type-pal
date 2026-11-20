@@ -324,10 +324,11 @@ describe('scene preparation uses the source captured before resource reads', () 
   test('world without a script prepares inherited bindings without mutating that world', async () => {
     const h = harness()
     delete h.world.script
+    const worldBefore = structuredClone(h.world)
     h.assets.resolve()
     const plan = await h.api.prepareSceneSwitch('target', h.world)
     expect(plan.onEnterEntry?.reveal.kind).toBe('fade')
-    expect(h.world.script).toBeUndefined()
     expect(() => h.api.assertSceneSwitchPlanCurrent(plan, h.world)).not.toThrow()
+    expect(h.world).toStrictEqual(worldBefore)
   })
 })

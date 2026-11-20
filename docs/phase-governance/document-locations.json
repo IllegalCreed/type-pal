@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "c1b4c3cd2d60dc5da6ee57af16640d18fb5cb7da4d1fde4f1b9d74d2ed9965dd",
+      "afterSha256": "6f437cba77fe33ca8088f52431fa661ef6f5a6e95505e28a1f3938ffcc7c5d12",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受六个已关闭路径转回 review。",
-        "reviewedLines": 1482,
-        "acceptanceScope": "核六条现行登记、证据入口和实际账本 3,777/1,337/21/2,419。"
+        "conclusion": "接受五项闭合恢复、三项新增登记及相应证据更新。",
+        "reviewedLines": 1487,
+        "acceptanceScope": "核各状态、适用原件与账本实测 3780/1345/16/2419。"
       }
     },
     {
@@ -730,22 +730,22 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "62a5d58945e0f040a3986e807bb1e43db7332ee604c40a03032c1f55a3c47d73",
+      "afterSha256": "d598533c0161e6abeb2c7f4cbeae4f93874a9f9abed7a98d3f43003a3bae4570",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受回溯卡和占位输出风险的当前入口。",
+        "conclusion": "接受两个活动任务的当前路由。",
         "reviewedLines": 142,
-        "acceptanceScope": "核两个活跃入口与 #72 合并时点、#73 后继留项。"
+        "acceptanceScope": "区分 #73 原时点与当前状态，核活动 E2E 的发布指纹留项及输出工具待统一门。"
       }
     },
     {
       "path": "docs/ops/code-quality.md",
       "mode": "reviewed",
-      "afterSha256": "c4c70ed8ac11a95abd35de77054cbf184f211722c4d61df0bc835e95b0ce7a9e",
+      "afterSha256": "d8cc6311c3c8e6b98433d2f46bf49f15ade75a73958db923971f05c9b4419eef",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -753,9 +753,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受逐文件关闭条件和证据矛盾的处置规则。",
+        "conclusion": "接受逐文件关闭门的输出、续体与快照补充。",
         "reviewedLines": 189,
-        "acceptanceScope": "核定新增关闭门、当前工作流、已有证据复用和集中重型门的衔接。"
+        "acceptanceScope": "核第 153、154 行与实际本轮反控和分批质量门的对应。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "636947021a0065f6311c1c843dbe96b6b4c2dab4849098266082e788e9c4b9a3",
+      "afterSha256": "46b79c2ab6a96d813f4d00178eba3d5f0e9750e0593af89f365b588664a17034",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受两个新任务的生成索引投影。",
+        "conclusion": "接受生成索引的一个标题和状态变更。",
         "reviewedLines": 614,
-        "acceptanceScope": "核两个新增索引行与各自 draft/review 卡顶状态和链接一致。"
+        "acceptanceScope": "对照输出所有权卡，确认由 draft 进入 review。"
       }
     },
     {
@@ -4938,27 +4938,27 @@
     {
       "path": "docs/tasks/cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "7f4e0d082d70ccf3fae6f530507eb81cd7c3659af1c8b9d088b01041cfd3ef6d",
+      "afterSha256": "b211f049c8ce0193672a3e502398247d4f06f2acd4108510cd054517981aca56",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受 Game 后关闭对账及输入不变性复核。",
-        "reviewedLines": 48,
-        "acceptanceScope": "独立重放 374 路径字节锚与后继证据，复核 41+14 原生结果、#68 与 #70 两个断言范围和全部六条撤回入口。"
+        "conclusion": "接受 Game 后同类扩查、定向整改及当前裁定。",
+        "reviewedLines": 69,
+        "acceptanceScope": "核六次原历史范围、筛查与人工复核区别、正式及反控原件、五项复归和菜单专测留项。"
       }
     },
     {
       "path": "docs/tasks/cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "f34717530faa7b32ee4af9c471b1e103eaeff30a7f9f3c20c65e14eefe8bc552",
+      "afterSha256": "9e41f7f27afbff64cea7f48575f4f72e427439164240846d306766e23689f639",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受占位工具写入风险及对应 draft 接续。",
-        "reviewedLines": 38,
-        "acceptanceScope": "核冻结命令、隔离输出字节 20→107、两个真实资产目录及后继准入条件。"
+        "conclusion": "接受两个工具的固定输出合同和精确回执。",
+        "reviewedLines": 43,
+        "acceptanceScope": "核冻结旧实现、真实子进程失败及恢复、两路目标边界及待统一门。"
       }
     },
     {
@@ -5867,9 +5867,9 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "572aa04cc8d5757ff62870dcce987f1cf0a1b590540e3617939fea7a7e56270e",
-      "bytes": 7225,
-      "purpose": "Game 收口后关闭版本对账、定向执行及占位工具写入原件。"
+      "sha256": "cb896bacc4c327d597a43d7ca8fdba859bff4ede4bfe0c753685d21011540d00",
+      "bytes": 56501,
+      "purpose": "Game 收口后版本对账、同类扩查、隔离回归与逐文件裁定。原历史成员保留，未集成菜单补丁在对应后续入口。"
     },
     {
       "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",

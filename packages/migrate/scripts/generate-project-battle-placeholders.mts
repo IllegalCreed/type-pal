@@ -1,8 +1,9 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { encodeSpriteChunk, type RleFrame } from '@type-pal/shared'
+import { assertMigrationFilePath } from '../src/migration-path.js'
 
 const repo = resolve(fileURLToPath(new URL('../../..', import.meta.url)))
 
@@ -28,10 +29,17 @@ const bytes = gzipSync(
   encodeSpriteChunk(Array.from({ length: 10 }, (_, pose) => placeholderFrame(pose))),
 )
 
-for (const project of ['demo', 'e2e-own']) {
-  const directory = resolve(repo, `projects/${project}/assets/generated/battle-sprites`)
-  mkdirSync(directory, { recursive: true })
-  writeFileSync(resolve(directory, 'player-fighter.rle'), bytes)
+// Check both targets before creating or overwriting either output.
+const outputs = ['demo', 'e2e-own'].map((project) =>
+  assertMigrationFilePath(
+    repo,
+    `projects/${project}/assets/generated/battle-sprites/player-fighter.rle`,
+    '占位战斗精灵输出',
+  ),
+)
+for (const output of outputs) {
+  mkdirSync(dirname(output), { recursive: true })
+  writeFileSync(output, bytes)
 }
 
 console.log(`generated demo/e2e-own battle placeholder: ${bytes.byteLength} bytes`)
