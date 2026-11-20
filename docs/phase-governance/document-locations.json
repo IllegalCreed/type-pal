@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "d2f5ea1e9fd2e1bca1d13e14f6a30dff859848b1442a99310c8a3a9da0e56154",
+      "afterSha256": "4cbdd7b7bee0107080ebb7a84f3f63ee0f31a584eb2af89ced393494d07b4d8a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 131,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 132,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4006,14 +4006,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "b7d8e28a8ed9bbd47a5ca658143b792179db144b0a37dd4ab1176d53f24c745b",
+      "afterSha256": "a5514cae7d951b9805bfba5c905d0cb26d95b6bfaab05973989dadac1f21a148",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
         "date": "2026-11-19",
-        "conclusion": "登记末柱分片的统一离线入口及正式出片准入。",
-        "reviewedLines": 668,
-        "acceptanceScope": "本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 670,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e295224a3711f1ee10063a72a6f47ba6e50a3d711facc30d26e2dbb04bd13cde",
+      "afterSha256": "f875c0994b22b4b871cfbc7d630daf25f59e5fac4cb4d3e576462f1fcf54b176",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 10296,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 10319,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8f57832f44de908659f39c4a7c33b178e1b85e5e9f4eff036ef6900a0b17b8c4",
+      "afterSha256": "3a7215a34454e48d13882d078cc904b89426b780d6ab91ad2e02dec843f5875a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 1135,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 1143,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "3a3afa2337ce3d07f9ff90b512c8dfab9a5eaee78449d500b6b16a32b4c82c47",
+      "afterSha256": "305a0a4e48a31a7fb7029261e6f144f49e2cd5dc8ebf89f237e67cef53e9a11c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 15193,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 15216,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "6ec251dcae53cfbf86496556e5d30caf6aa4532e456fca0eafe19045c63fbba5",
+      "afterSha256": "8bb3bf826d906d201dc1be2856365c312a9b8b8a6b40d21ca287192fce13ba42",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 1758,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 1776,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "f5b8bfe7f3ac82bc52f1f191cc7d4acb16ead040d4a74d792a23ac9a889e0699",
+      "afterSha256": "c1e7bcd2ac8fb630ab97021c3048d0c77c9b748e13bf347d3499c08a57d10d82",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核石长老自动战、实绘验收和现行源码引用。",
-        "reviewedLines": 482,
-        "acceptanceScope": "本次同局与源码引用增量，保留既有执行证据。"
+        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
+        "reviewedLines": 486,
+        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -6819,6 +6819,42 @@
       "bytes": 36524330,
       "sha256": "a84d438ce84b82a7103a838ff6633ecf19a401975252e75bcdbaf71ca61f0e36",
       "purpose": "野店石长老自动战、进战清屏、客栈返场首帧及双端原速音画。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-game-original-1.tar.gz",
+      "bytes": 45264209,
+      "sha256": "eaa31abce07da3f37c8796c38c6ae5dd4addb3e5d67ca8189acbd9840ba6f08a",
+      "purpose": "野店前景与正式分屏复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-game-original-2.tar.gz",
+      "bytes": 44590791,
+      "sha256": "872353dff6c2cdd47688bebd5884a82e94b4ef95345714324dd35021c8032a88",
+      "purpose": "野店前景与正式分屏复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-1.tar.gz",
+      "bytes": 46604002,
+      "sha256": "2417db77606bb3d9d4365ec36cd2ba6947ea4bef19627dca72fa51ce9c7597da",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-2.tar.gz",
+      "bytes": 46937884,
+      "sha256": "5f7751d9424e9d557ae797723512dd2ae750e4092bfc0a39f0032d2bd6e6b38c",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120-reforge-original-3.tar.gz",
+      "bytes": 17454960,
+      "sha256": "f1d83ef6157d709d8a1aea57a3d9f73de7100ef55f28aaf9fd74e98bc11c9049",
+      "purpose": "野店前景与正式分屏复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-review-20261120.tar.gz",
+      "bytes": 39793743,
+      "sha256": "d37dbc36855d2af9076b5479604eb221091159486e676e2b240d153eee7daff6",
+      "purpose": "野店前景修复的双端实跑、验收反例、原录恢复索引及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

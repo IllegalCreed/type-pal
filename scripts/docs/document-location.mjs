@@ -57,6 +57,7 @@ import {
   isTestingQ2CoverageSource,
   isTestingQ2EntryAutoSource,
   isTestingQ2EscortsSource,
+  isTestingQ2ForestInnSource,
   isTestingQ2GaiLuojiaoSource,
   isTestingQ2InnSource,
   isTestingQ2NoticeSource,
@@ -108,6 +109,7 @@ import {
   restoreTestingQ2CoverageSourceBindings,
   restoreTestingQ2EntryAutoSourceBindings,
   restoreTestingQ2EscortsSourceBindings,
+  restoreTestingQ2ForestInnSourceBindings,
   restoreTestingQ2GaiLuojiaoSourceBindings,
   restoreTestingQ2InnSourceBindings,
   restoreTestingQ2NoticeSourceBindings,
@@ -176,6 +178,7 @@ import {
   testingQ2CoveragePublicationBase,
   testingQ2EntryAutoPublicationBase,
   testingQ2EscortsPublicationBase,
+  testingQ2ForestInnPublicationBase,
   testingQ2GaiLuojiaoPublicationBase,
   testingQ2InnPublicationBase,
   testingQ2NoticePublicationBase,
@@ -990,8 +993,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const q2StoneElderSource = q2StoneElderRevision && gitTree(root, q2StoneElderRevision, [])
   const preQ2StoneElder =
     q2StoneElderSource && gitTree(root, testingQ2StoneElderPublicationBase, [])
-  const readBeforeQ2StoneElder = (path) => {
+  const forestInnRevision = admission.testingQ2ForestInnSourceRevision
+  if (forestInnRevision) assert(q2StoneElderSource && /^[a-f0-9]{40}$/u.test(forestInnRevision))
+  const forestInnSource = forestInnRevision && gitTree(root, forestInnRevision, [])
+  const preForestInn = forestInnSource && gitTree(root, testingQ2ForestInnPublicationBase, [])
+  const readBeforeForestInn = (path) => {
     const live = readSource(path)
+    if (!preForestInn || !isTestingQ2ForestInnSource(path)) return live
+    assert(
+      live?.equals(forestInnSource.read(path)),
+      'forest inn source differs from the frozen candidate',
+    )
+    return preForestInn.read(path)
+  }
+  const readBeforeQ2StoneElder = (path) => {
+    const live = readBeforeForestInn(path)
     if (!preQ2StoneElder || !isTestingQ2StoneElderSource(path)) return live
     assert(
       live?.equals(q2StoneElderSource.read(path)),
@@ -1378,13 +1394,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorStoneElder = preQ2StoneElder
-      ? restoreTestingQ2StoneElderSourceBindings(path, bytes, {
+    const priorForestInn = preForestInn
+      ? restoreTestingQ2ForestInnSourceBindings(path, bytes, {
           readSource,
+          readBase: preForestInn.read,
+          readFixed: forestInnSource.read,
+        })
+      : bytes
+    const priorStoneElder = preQ2StoneElder
+      ? restoreTestingQ2StoneElderSourceBindings(path, priorForestInn, {
+          readSource: readBeforeForestInn,
           readBase: preQ2StoneElder.read,
           readFixed: q2StoneElderSource.read,
         })
-      : bytes
+      : priorForestInn
     const priorPhoenix = preQ2Phoenix
       ? restoreTestingQ2PhoenixSourceBindings(path, priorStoneElder, {
           readSource: readBeforeQ2StoneElder,

@@ -294,7 +294,7 @@
       "anchor": "\"environment-sound-duet\": {",
       "role": "pal-ten-mile-world-ambience",
       "lines": "2",
-      "sha256": "62fc0f66be2cd3ee0c02f1131c46f5824415bfd633ddb28b1e1f329d2914aceb"
+      "sha256": "472e455033ccff3566538c3c9d8fc9edb365eddc228d354246f5f532667dfa9f"
     },
     {
       "path": "projects/pal/manifest.json",
@@ -334,8 +334,8 @@
     {
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
-      "lines": "25",
-      "sha256": "492c257d49c673662a6aa2cbe5d047188f6ceab5fea18ad0b6773bf2a2fc7f4c",
+      "lines": "65",
+      "sha256": "078baf77426368dfd531178ad1bf841a91931abf59ac5d5435a04be18444398c",
       "role": "visual-review"
     },
     {
@@ -13913,6 +13913,29 @@
         }
       ],
       "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
+    },
+    {
+      "action": "q2-forest-inn-source-rebinding",
+      "base": "e00b63b7eda5c33be3e9e26afca6d9a253601c8b",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "anchor": "\"environment-sound-duet\": {",
+          "role": "pal-ten-mile-world-ambience",
+          "lines": "2",
+          "sha256": "62fc0f66be2cd3ee0c02f1131c46f5824415bfd633ddb28b1e1f329d2914aceb"
+        },
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "25",
+          "sha256": "492c257d49c673662a6aa2cbe5d047188f6ceab5fea18ad0b6773bf2a2fc7f4c",
+          "role": "visual-review"
+        }
+      ],
+      "scope": "野店前景与正式分屏门更新。环境音入口和原速录制时钟引用保留原代码与既有执行身份。"
     }
   ],
   "_governance": {

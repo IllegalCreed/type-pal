@@ -2653,6 +2653,36 @@ export function restoreTestingQ2StoneElderSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2ForestInnPublicationBase = 'e00b63b7eda5c33be3e9e26afca6d9a253601c8b'
+const forestInnSplit = 'scripts/e2e/battle-world-review-split.mjs'
+const forestInnSourceStage = {
+  ranges: new Map([
+    [stoneElderShared, { 2: '2' }],
+    [forestInnSplit, { 25: '65' }],
+  ]),
+  base: testingQ2ForestInnPublicationBase,
+  action: 'q2-forest-inn-source-rebinding',
+  date: '2026-11-20',
+}
+const forestInnSourceBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [stoneElderShared, forestInnSplit], artifactClaims: true },
+  ],
+])
+
+export const isTestingQ2ForestInnSource = (path) => forestInnSourceStage.ranges.has(path)
+
+export function restoreTestingQ2ForestInnSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    forestInnSourceStage,
+    forestInnSourceBindings,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
