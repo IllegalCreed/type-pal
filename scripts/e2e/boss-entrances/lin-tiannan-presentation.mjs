@@ -116,6 +116,9 @@ export function inspectLinTiannanPresentation({
   const expectedFeet = facts.landing.map(([x, y], index) =>
     index === 0 ? [x - 16, y - 8] : [x + 8, y - 4],
   )
+  const paintedViews = new Map(
+    events.filter(({ kind }) => kind === 'world-drawn').map((frame) => [frame.order, frame]),
+  )
   for (const [index, frame] of firstEntries.entries()) {
     const [x, y] = expectedFeet[index] ?? []
     check(`${frame.scene} first visible party position`, frame.leader, expectedFeet[index])
@@ -125,6 +128,38 @@ export function inspectLinTiannanPresentation({
       inspectClearedDialogueFrames(draws, [frame], frame.scene).issue,
       null,
     )
+    if (!game) {
+      const firstMove = events.find(
+        ({ kind, scene, order, op }) =>
+          kind === 'script-op' &&
+          scene === frame.scene &&
+          order > frame.order &&
+          op === 'moveParty',
+      )
+      const reveal = events.filter(
+        ({ kind, scene, order, backdrop }) =>
+          kind === 'world-render' &&
+          scene === frame.scene &&
+          order > frame.order &&
+          order < firstMove?.order &&
+          backdrop &&
+          !backdrop.dark,
+      )
+      check(`${frame.scene} contains visible frames before movement`, reveal.length > 0, true)
+      const expected = presentedState(frame, source.spriteChunks)
+      const wrong = reveal.find(
+        ({ view }) =>
+          !isDeepStrictEqual(presentedState(paintedViews.get(view), source.spriteChunks), expected),
+      )
+      if (wrong)
+        issues.push({
+          issue: 'wrong-visible-scene-frame',
+          scene: frame.scene,
+          at: wrong,
+          actual: presentedState(paintedViews.get(wrong.view), source.spriteChunks),
+          expected,
+        })
+    }
   }
   const arrivals = firstEntries.map((frame) => presentedState(frame, source.spriteChunks))
   const briefingFollower = arrivals[0]?.party['li-xiaoyao']
