@@ -86,8 +86,8 @@ export function readPoisonLadySources(commands, world, successor) {
     y += signed(operands[2])
     return [[jiu.x, y], jiu.nSpriteFrames * jiu.direction]
   })
-  // At the original camera, the first three downward steps are above the viewport.
-  const visibleLanding = descent.slice(3)
+  // At the original camera, the first four downward steps are above the viewport.
+  const visibleLanding = descent.slice(4)
   assert.deepEqual(commands[21895].operands, [41, 74, 1])
   const approach = [4, 3, 5, 3].map((frame, i) => [[jiu.x - 4 * (i + 1), y - 2 * (i + 1)], frame])
   const successorActors = Object.fromEntries(
@@ -153,12 +153,23 @@ export function inspectPoisonLadyPresentation({ events, draws, boundaries, sourc
     source.poisonLady.sword,
   )
   check('blade holds each camera view for a world beat', onBeat(sword, 100), true)
-  const firstSpeech = dialogue.checked.find(({ rows }) => rows[0].id === 'dlg.8087')?.firstComplete
+  const speechPage = source.poisonLady.pages.find(({ rows }) => rows[0].id === 'dlg.8087')
+  const firstSpeech = draws.find(
+    ({ scene, atMs, slots }) =>
+      scene === 's138' &&
+      atMs > won.atMs &&
+      slots.some(
+        ({ speaker, slot }) =>
+          slot === speechPage.slot &&
+          (source.locale[speaker] ?? speaker)?.replace(/∶$/u, '') === speechPage.speaker,
+      ),
+  )
   const approach = []
-  for (const { atMs, actors } of inScene) {
+  for (const { atMs, actors, camera } of inScene) {
     if (atMs >= (firstSpeech?.atMs ?? control.atMs)) break
-    if (!actors.e2343) continue
-    const { frame, position } = actors.e2343
+    const actor = actors.e2343
+    if (!actor || actor.rect[1] + actor.rect[3] <= camera[1]) continue
+    const { frame, position } = actor
     const pose = [position, frame]
     if (!isDeepStrictEqual(approach.at(-1)?.pose, pose)) approach.push({ atMs, pose })
   }
@@ -167,6 +178,16 @@ export function inspectPoisonLadyPresentation({ events, draws, boundaries, sourc
     'Jiu Jianxian descent and walk finish before his first line',
     approach.map(({ pose }) => pose),
     [...visibleLanding, ...expectedSteps],
+  )
+  check(
+    'each visible descent step uses one world beat',
+    onBeat(approach.slice(0, visibleLanding.length), 100),
+    true,
+  )
+  check(
+    'each visible approach step uses two world beats',
+    onBeat(approach.slice(visibleLanding.length), 200),
+    true,
   )
   const cleared = inScene.find(
     ({ atMs, actors }) => atMs > (approach.at(-1)?.atMs ?? Infinity) && !actors.e2338,
