@@ -109,7 +109,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-Q2-1 | [正常战斗逐项验收](cards/E2E-Q2-1-battle-foundation.md) | build | 双阶段正常战斗 | 当前可达目录已完成双端实跑，原件按稳定 ID 回写覆盖报告 | Codex / 核最新主线集成、受保护 CI 和发布回执 |
+| E2E-Q2-1 | [正常战斗逐项验收](cards/E2E-Q2-1-battle-foundation.md) | review | 双阶段正常战斗 | 当前可达目录已完成双端实跑，主线合并候选全仓覆盖率已复验 | Codex / 核受保护 PR 两项检查和合并回执 |
 | E2E-PILLAR-CINEMATIC-1 | [末柱至雪崖首句](cards/E2E-PILLAR-CINEMATIC-1.md) | review | 双端分片 E2E | 同局双端逐帧、交付拦截、编辑器预览和带声分屏已复验 | Codex / 原速分屏交作者查看 |
 | PAL-ENTRY-FADE-1 | [场景淡入与前景正文](cards/PAL-ENTRY-FADE-1.md) | review | Reforge 入场编排 | 同局双端、脚本权属及编辑器初态已复验到首句 | Codex / 原速分屏交作者查看 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 001–010 已分段验收，N6b 同基线复验与用户视觉已收口；010 正式终档为 011 前驱，先推进 Q2 逐项验收 |
