@@ -2595,7 +2595,7 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "9b6218484779e1fad682e149620587689881cfa4f8940e31f175e6b679a2dee9",
+      "afterSha256": "e2d990e29ecebe05f02ceb50ea90b60aa4760eb65bc0916ada5eadd005bbca0b",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -5418,7 +5418,7 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "47106ff80b670ba0fb1f7f53f2987d099d11856ae7c67a928b094534b4a925f6",
+      "afterSha256": "1d74f27e8776b0a0dc81bf9a2eae095296e1715e019d87570b7a45b257fc6e74",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
@@ -7437,6 +7437,12 @@
       "bytes": 41768788,
       "sha256": "0c8d25c2cbcb2fc738e0922be311872a22e66683a16a0b70051e8ed9681c9c99",
       "purpose": "Q2 双端原生运行、逐拍判据、反例和带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-protected-integration-20261121.tar.gz",
+      "bytes": 4427841,
+      "sha256": "944035702338a80c16a847711ca83bc46742c611f6856c9a115dbd941ba83b70",
+      "purpose": "合并基点后的双端日志、独立反控、基线和已恢复的 Git 隔离回执。"
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz",

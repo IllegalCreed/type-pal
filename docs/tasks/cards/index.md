@@ -36,7 +36,7 @@ Template: governance-index-v1 / 1.0.0
 | [CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项](CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
