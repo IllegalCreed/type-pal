@@ -1703,14 +1703,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
         } else if (result === 'page-advance') {
           // 清屏完成。检查 pendingStyle / pendingFullClear / pendingPreOpClear:
           //  - pendingStyle 有(setDialogStyleX 触发)→ apply gs.currentDialog*,清 dialogBox
-          //  - pendingFullClear 有(Sync.2 fix8:0x05 ClearDialog 触发)→ 不切 style,但仍清 dialogBox
+          //  - pendingFullClear：确认完成后，0x05 仍需重画现场。RNG 对白保留自己的备份画面。
           //  - pendingPreOpClear 有(Sync.2 fix11:script.c:3468 default auto-ClearDialog 触发)→
           //      opcode 尚未消费,**不 ip++** — 下一帧 tick 仍在原 ip 跑 opcode(无 dialog 遮挡)
           //  - 都无 → 累计4行翻页，当前showDialog尚未消费，必须保留ip并显示本行。
           const pending = ds.pendingStyle
           const preOp = ds.pendingPreOpClear
           const consumedOpcode =
-            !preOp && !!(pending || ds.pendingFullClear || ds.pendingPartialClear)
+            !preOp &&
+            !!(pending || ds.pendingPartialClear || (ds.pendingFullClear && gs.dialogPlayingRNG))
           if (pending) {
             gs.dialogBoxKept = keptDialog
             gs.currentDialogStyle = pending.style
@@ -1740,7 +1741,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
           }
           cursor.waiting = undefined
           if (consumedOpcode) cursor.ip++
-          // 只有在这里完成的样式/显式清屏指令才推进；普通分页与隐式pre-op重入原指令。
+          // 普通世界 0x05 重入下方的重绘路径，让下一条 0x73 取得清屏后的实际画面。
         } else if (result === 'dialog-end') {
           // 关 dialog,推进到 end 之后(此时 cursor.ip 已在 end opcode 上,end handler 处理退出)
           clearDialogBoxes(gs)
@@ -2392,23 +2393,15 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, beganAutoFa
         // Sync.2 fix8:翻页后**必须完全清 gs.dialogBox**(对应 sdlpal PAL_ClearDialog(TRUE)),
         //              不只清 shownLines/currentLineText;否则 portrait 残留遮挡后续 NPC 动画。
         if (cmd.opcode === OP_REDRAW_SCREEN) {
-          // M1(sdlpal script.c:3285-3288):operand[2]!=0 → PAL_UpdatePartyGestures(FALSE):重绘前把全队切站立帧
-          //   + 相位复位(scene.c:773-774),否则走路(迈步相位)进对话时队伍冻在迈步帧定格对话背景。
-          //   置于 handler 入口(dialog 检查**之前**):有 dialog 时下方走 waiting='dialog' 提前 return、翻页解析
-          //   在 pendingFullClear 分支 ip++ 不重入本主体(数据 4 处 0x05[0,0,0xFFFF] 中 16396/21518 即此路径),
-          //   故复位须在早返回前做。gate operand[2]:全游戏 2655+ 处 operand[2]=0(张四上船逐步走等)不可停步。
-          //   ⚠ 微偏差:sdlpal 在 PAL_ClearDialog 等键**后**才复位,我们在入口即复位 → 仅"段末等翻页键那一拍"
-          //   队伍由迈步提前切站立,视觉等价且更稳(无残留冻帧)。
+          // PAL_ClearDialog(TRUE) 先等键，后续重绘才完成 0x05。
+          if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
+            setWaitingPageKey(gs.dialogBox, undefined, true)
+            cursor.waiting = 'dialog'
+            return
+          }
           if ((cmd.operands[2] ?? 0) !== 0) {
             gs.walkingFrame.walking = false
             gs.walkingFrame.stepFrame = (gs.walkingFrame.stepFrame & 2) ^ 2
-          }
-          // sdlpal script.c:3271 PAL_ClearDialog(TRUE):仅 nCurrentDialogLine>0 才 PAL_DialogWaitForKey
-          //   (text.c:1770)等键 + 画箭头;随后 script.c:3290 PAL_MakeScene 重画覆盖对话区。
-          if (gs.dialogBox && gs.dialogBox.dialogLineCount > 0) {
-            setWaitingPageKey(gs.dialogBox, undefined, true) // fullClear=true(0x05 = PAL_ClearDialog(TRUE))
-            cursor.waiting = 'dialog'
-            return // 等下次 tick Confirm,page-advance 后 dialogBox=undefined + ip++ + 继续
           }
           // dialogLineCount==0(`~` 收尾梦境句):不等键。残留对话框被 PAL_MakeScene 重画覆盖等价清掉。
           if (gs.dialogBox || gs.dialogBoxKept) clearDialogBoxes(gs)

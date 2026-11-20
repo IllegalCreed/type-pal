@@ -25,6 +25,7 @@ import {
   OP_ENDING_ANIMATION,
   OP_FADE_IN,
   OP_FADE_OUT,
+  OP_FADE_SCREEN,
   OP_FADE_TO_RED,
   OP_FADE_TO_SCENE,
   OP_GOTO_IF_NO,
@@ -3027,9 +3028,11 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     //   → 有 currentLineText → waiting-page-key(等键清屏)
     tickWithTime(gs, ['Confirm'])
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
-    // tick 3 Confirm: page-advance(fullClear)→ clear dialogBox + ip++ → setDialogStyleBottom(无 arg0)
-    //   → 无 prev dialog 行 → apply + ip++ → showDialog → startDialogLine portraitIcon=undefined
     tickWithTime(gs, ['Confirm'])
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    expect(gs.dialogBox).toBeUndefined()
+    cursorOf(gs).delayUntilMs = 0
+    tickWithTime(gs)
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
     expect(gs.currentDialogStyle).toBe('bottom')
     expect(gs.dialogBox?.portraitIcon).toBeUndefined() // 主角对话不显头像 ✓
@@ -3049,6 +3052,9 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     tickWithTime(gs)
     tickWithTime(gs, ['Confirm'])
     tickWithTime(gs, ['Confirm'])
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    cursorOf(gs).delayUntilMs = 0
+    tickWithTime(gs)
     expect(gs.currentDialogPortraitIcon).toBe(63)
     expect(gs.dialogBox?.portraitIcon).toBe(63)
   })
@@ -5102,31 +5108,31 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.walkingFrame.walking).toBe(true) // operand[2]=0 → gate 跳过,迈步相位不动
   })
 
-  // 关键:0x05 紧跟 NPC 对话(数据 4 处中 16396/21518 = setDialogStyle+showDialog→0x05→下一段)时,0x05 handler
-  //   在「有 dialog」分支提前 return(waiting='dialog' 等翻页键),翻页解析在 pendingFullClear 分支 ip++ —— 0x05
-  //   handler 主体**不再重入**。故复位必须在 handler 入口(dialog 检查之前),否则此路径漏复位(队伍整段对话冻迈步帧)。
-  it('0x05[*,*,0xFFFF] 紧跟 NPC 对话(段间复位)→ 早返回路径也复位走路姿势', () => {
+  it('立绘段落确认后，0x05 先完成清屏重画，再让 0x73 取得旧画面', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-
     gs.walkingFrame = { walking: true, stepFrame: 1 }
     loadEvent(gs, [
       { op: 'setDialogStyleTop' },
       { op: 'showDialog', messageIndex: 0, text: '甲' },
-      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xffff] }, // 段间 0x05:本脚本唯一可复位源
-      { op: 'setDialogStyleBottom' },
-      { op: 'showDialog', messageIndex: 1, text: '乙' },
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xffff] },
+      { op: 'raw', opcode: OP_FADE_SCREEN, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    let resetWhileDialogShown = false
-    for (let i = 0; i < 80; i++) {
-      tickEventSystem(gs, snap(['Confirm']))
-      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
-      // 复位发生时对话框仍在(0x05 clear 等键)→ 证明是「有 dialog」早返回路径复位的
-      if (gs.dialogBox && !gs.walkingFrame.walking) resetWhileDialogShown = true
-      if (gs.eventCursor === undefined) break
-    }
-    expect(resetWhileDialogShown).toBe(true) // 本脚本唯一复位源是段间 0x05 → 早返回路径确有复位
-    expect(gs.walkingFrame.walking).toBe(false)
+    tickWithTime(gs)
+    tickWithTime(gs, ['Confirm'])
+    expect(gs.dialogBox?.phase).toBe('waiting-page-key')
+    expect(gs.walkingFrame.walking).toBe(true)
+
+    tickEventSystem(gs, snap(['Confirm']))
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.walkingFrame).toEqual({ walking: false, stepFrame: 2 })
+    expect(cursorOf(gs)).toMatchObject({ ip: 2, waiting: 'delay' })
+    expect(gs.fadeState).toBeUndefined()
+
+    cursorOf(gs).delayUntilMs = 0
+    tickEventSystem(gs, snap())
+    expect(cursorOf(gs)).toMatchObject({ ip: 3, waiting: 'fade-screen' })
+    expect(gs.fadeState?.appliedSteps).toBe(0)
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {

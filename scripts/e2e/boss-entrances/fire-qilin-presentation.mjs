@@ -314,6 +314,26 @@ export function inspectFireQilin({
     if (sample.ditherStep === 0) dissolves.push([])
     dissolves.at(-1)?.push(sample)
   }
+  const transitionRequests = events.filter(
+    ({ kind, order, ip, op }) =>
+      kind === 'script-op' &&
+      won.order < order &&
+      order < control.order &&
+      (game ? [29986, 30151].includes(ip) : op === 'ditherScreen'),
+  )
+  check('both authored transition requests are observed', transitionRequests.length, 2)
+  const clearBeforeBackup = transitionRequests.map((request) => {
+    // A clear recorded after the request can be too late for the outgoing framebuffer copy.
+    const frame = drawn.findLast(({ atMs }) => atMs < request.atMs)
+    return { request, frame }
+  })
+  for (const [index, { request, frame }] of clearBeforeBackup.entries()) {
+    check(
+      `a painted clear frame precedes the outgoing snapshot for transition ${index + 1}`,
+      frame?.slots.length === 0 && request.atMs - frame.atMs >= 40,
+      true,
+    )
+  }
   check('exactly two actual transitions between world shots', dissolves.length, transitions.length)
   const firstDitherDelay = elapsed(
     'solo party and Qilin hold before transformation',
@@ -429,6 +449,7 @@ export function inspectFireQilin({
     nextTextDelay,
     firstDitherDelay,
     transitionDraws,
+    clearBeforeBackup,
     regrouped,
     departureDraw,
   }
