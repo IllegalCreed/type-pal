@@ -2549,6 +2549,11 @@ export async function bootGame(
       const closedDialogFrame = preserveClosedDialogFrame
         ? ctx.getImageData(0, 0, canvas.width, canvas.height)
         : null
+      // A direct scene handoff after battle retains its last real draw during resource loading.
+      const battleSourceFrame = presentedBattleFrame
+        ? ctx.getImageData(0, 0, canvas.width, canvas.height)
+        : undefined
+      if (battleSourceFrame) fadingSourceFrame = battleSourceFrame
       const fromSceneId = activeScene.scene.id
       const plan = await prepareAndCommitSceneSwitch({
         prepare: () =>
@@ -2579,7 +2584,9 @@ export async function bootGame(
             sceneEntrySession.begin(
               fromSceneId,
               sceneId,
-              closedDialogFrame ?? ctx.getImageData(0, 0, canvas.width, canvas.height),
+              closedDialogFrame ??
+                battleSourceFrame ??
+                ctx.getImageData(0, 0, canvas.width, canvas.height),
               entry.reveal,
             )
             if (entry.reveal.kind === 'fade') {
@@ -2614,6 +2621,9 @@ export async function bootGame(
           fadeDriver.cancelOwned(visualOwner, 0)
           markSceneLoad(fromSceneId, sceneId, 'error')
         },
+      }).finally(() => {
+        if (battleSourceFrame && fadingSourceFrame === battleSourceFrame)
+          fadingSourceFrame = undefined
       })
       const targetBinding = plan.onEnterBinding
       const entry = plan.onEnterEntry

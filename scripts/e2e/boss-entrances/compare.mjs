@@ -10,6 +10,7 @@ import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mj
 import { checkWorldDialoguePixels, decodeWorldDialoguePixels } from '../world-dialogue-pixels.mjs'
 import { inspectBaiyuePresentation } from './baiyue-presentation.mjs'
 import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
+import { inspectCourtyardPresentation } from './courtyard-presentation.mjs'
 import { inspectDaliAltar } from './dali-altar-presentation.mjs'
 import { inspectFireQilin } from './fire-qilin-presentation.mjs'
 import { inspectForestInnCoverage, readForestInnCoverage } from './forest-inn-coverage.mjs'
@@ -2391,6 +2392,15 @@ async function inspect(path, engine) {
         game,
       })
     : undefined
+  const courtyard =
+    scenario === 'thief-courtyard'
+      ? inspectCourtyardPresentation({ events, draws: renderedDialogue, boundaries, source, spec })
+      : undefined
+  if (courtyard) {
+    const [battleHp] = actions.at(-1).hp
+    const [member] = last.party
+    assert.equal(member.hp, battleHp + Math.floor((member.maxHP - battleHp) / 2))
+  }
   const foregroundCoverage = forestInn
     ? inspectForestInnCoverage({
         events,
@@ -2400,7 +2410,7 @@ async function inspect(path, engine) {
         bounds: boundaries,
         entries: stoneElderAuto.firstEntries,
       })
-    : (linTiannan?.coverage ?? dali?.coverage ?? baiyue?.coverage)
+    : (linTiannan?.coverage ?? dali?.coverage ?? baiyue?.coverage ?? courtyard?.coverage)
   await inspectForegroundRecording(foregroundCoverage, path, report, dali ?? baiyue)
   const ming = source.route?.ming
     ? inspectTowerMingPresentation({
@@ -2549,6 +2559,7 @@ async function inspect(path, engine) {
     ...(baiyue && {
       baiyueCast: baiyue.palace.actors.map(([id, poses]) => [id, poses.map(({ value }) => value)]),
     }),
+    ...(courtyard && { courtyard: courtyard.comparable }),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
     ...(tower?.contact && {
@@ -2590,6 +2601,7 @@ async function inspect(path, engine) {
     linTiannan,
     dali,
     baiyue,
+    courtyard,
     goldenToad,
     gai,
     wood,
@@ -2639,6 +2651,7 @@ if (!failures.length) {
       ...(result.linTiannan?.issues ?? []),
       ...(result.dali?.issues ?? []),
       ...(result.baiyue?.issues ?? []),
+      ...(result.courtyard?.issues ?? []),
       ...(result.serial?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),

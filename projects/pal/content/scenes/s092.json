@@ -500,6 +500,13 @@
                   "id": "initial",
                   "body": [
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s092",
+                        "entity": "e1692"
+                      }
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "unbound",
@@ -540,6 +547,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "facing": "down",
                       "kind": "setEntityFacing",
                       "target": {
@@ -560,7 +571,8 @@
                       "kind": "playSound"
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "left",
@@ -579,7 +591,8 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "facing": "up",
@@ -598,7 +611,8 @@
                       }
                     },
                     {
-                      "kind": "clearDialog"
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityState",
@@ -618,7 +632,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "cue": {

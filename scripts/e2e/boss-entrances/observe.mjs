@@ -42,6 +42,7 @@ function installBossForeground({
   itemEntrance,
   finale,
   serial,
+  courtyard,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -85,7 +86,7 @@ function installBossForeground({
     foregroundDialogueScenes.includes(id) &&
     (recordDialogueAfterBattle || !observation.read().ended)
   const recordsFullCast = (id) =>
-    Boolean(itemEntrance || finale || serial) && coversDialogueWorld(id)
+    Boolean(itemEntrance || finale || serial || courtyard) && coversDialogueWorld(id)
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>

@@ -60,6 +60,7 @@ const foreground = observesForeground(spec)
 const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
+const courtyard = scenario === 'thief-courtyard'
 const finale = source.finale
 const activation = spec.world.activates
 const party = partyFor(spec)
@@ -98,6 +99,7 @@ const observe = bossObserver({
     .map(({ scene, owner }) => ({ scene, owner })),
   foreground,
   finale,
+  courtyard,
   encounterCount: source.serial?.length,
   serial: Boolean(source.serial),
   itemEntrance: Boolean(itemEntrance),
@@ -109,11 +111,13 @@ const observe = bossObserver({
       ? [source.automatic.presentation.dialogueWorld]
       : itemEntrance
         ? Object.keys(source.rainRouteActors)
-        : source.serial || finale
-          ? [spec.scene]
-          : [],
+        : courtyard
+          ? [spec.scene, handoff.scene]
+          : source.serial || finale
+            ? [spec.scene]
+            : [],
   recordDialogueAfterBattle: Boolean(
-    source.scriptedStop || itemEntrance || source.serial || finale,
+    source.scriptedStop || itemEntrance || source.serial || finale || courtyard,
   ),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
@@ -126,6 +130,7 @@ const observe = bossObserver({
         source.route ||
         source.serial ||
         finale ||
+        courtyard ||
         revisit ||
         scriptedStop ||
         source.gai ||
@@ -449,7 +454,7 @@ async function makeGameFixture(page, baseURL, until) {
   if (source.preludePartyLayer !== undefined) assert.equal(gs.wLayer, source.preludePartyLayer * 8)
   if (foreground) gs.partyScriptedFrame = {}
   if (spec.disk.music !== undefined && scenario === 'yueru-outside') gs.wNumBattleMusic = spec.music
-  if (source.tower || source.tian || spec.id === 'yangzhou-courtyard-thief') {
+  if (source.tower || source.tian || courtyard) {
     gs.wNumBattleField = spec.field
     gs.wNumBattleMusic = spec.music
   }
@@ -1205,6 +1210,16 @@ await runBrowserJourney({
         return
       }
       if (handoff || scriptedReturn) {
+        if (courtyard) {
+          await until(
+            async () =>
+              (await trace(page)).events.find(
+                ({ kind, asset }) => kind === 'sfx-start' && asset === 213,
+              ),
+            Boolean,
+            'first successor sound actually starts',
+          )
+        }
         if (source.phoenix) {
           await until(
             async () =>

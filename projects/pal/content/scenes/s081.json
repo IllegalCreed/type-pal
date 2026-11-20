@@ -5015,106 +5015,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s081",
-                      "entity": "e1542"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s081",
-                      "entity": "e1543"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s081",
-                      "entity": "e1544"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s093",
-                      "entity": "e1740"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s084",
-                      "entity": "e1602"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s084",
-                      "entity": "e1604"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s084",
-                      "entity": "e1607"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s084",
-                      "entity": "e1608"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s082",
-                      "entity": "e1555"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s082",
-                      "entity": "e1556"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s082",
-                      "entity": "e1557"
-                    }
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 111,
-                      "height": 0,
-                      "row": 15
-                    }
-                  },
-                  {
-                    "facing": "up",
-                    "kind": "setPartyFacing"
-                  },
-                  {
                     "asset": "sound.pal.213",
                     "kind": "playSound"
                   },
@@ -6497,7 +6397,114 @@
                     ],
                     "state": 2
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s081",
+                        "entity": "e1542"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s081",
+                        "entity": "e1543"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s081",
+                        "entity": "e1544"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s093",
+                        "entity": "e1740"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s084",
+                        "entity": "e1602"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s084",
+                        "entity": "e1604"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s084",
+                        "entity": "e1607"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s084",
+                        "entity": "e1608"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s082",
+                        "entity": "e1555"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s082",
+                        "entity": "e1556"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s082",
+                        "entity": "e1557"
+                      }
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 111,
+                        "height": 0,
+                        "row": 15
+                      }
+                    },
+                    {
+                      "facing": "up",
+                      "kind": "setPartyFacing"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                }
               }
             ]
           }

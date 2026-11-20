@@ -1960,7 +1960,9 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
-    ...((itemEntrance || serial || finale) && { commands }),
+    ...((itemEntrance || serial || finale || spec.id === 'yangzhou-courtyard-thief') && {
+      commands,
+    }),
     ...(itemEntrance && { originalSceneActors: data.gameScene.eventObjects }),
   }
 }
