@@ -1764,6 +1764,18 @@ export async function readSources(spec) {
     route,
     rainFrames: data.rainFrames?.chunks,
     rainStreetActors: data['disk-s245']?.eventObjects.filter(({ id }) => id >= 4337 && id <= 4345),
+    rainRouteActors: itemEntrance
+      ? Object.fromEntries(
+          [...new Set(spec.sceneRoute.visits.map(({ scene }) => scene)), spec.scene].map(
+            (scene) => [
+              scene,
+              (data[`disk-${scene}`] ?? data.gameScene).eventObjects.filter(
+                ({ spriteNum }) => spriteNum > 0,
+              ),
+            ],
+          ),
+        )
+      : undefined,
     serial,
     summonBonus,
     summoning: summonScript && {
