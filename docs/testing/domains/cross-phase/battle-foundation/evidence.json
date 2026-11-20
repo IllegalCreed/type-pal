@@ -335,7 +335,7 @@
       "path": "scripts/e2e/battle-world-review-split.mjs",
       "anchor": "function nativeVideoEnd(path)",
       "lines": "66",
-      "sha256": "e1d680199f27911a9cccbdf1955451716dc290548edba23b79ef7772750e0eef",
+      "sha256": "0e70dcd27ecb9d2b49048c05608271b595a8e4b2478840c1db23ed3fe32f5b22",
       "role": "visual-review"
     },
     {
@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5991",
-      "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
+      "lines": "6005",
+      "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -558,10 +558,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-14",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
     "producerRevision": "39d5bf7eb080a2a569421c50b79ebe60f38eecb0",
@@ -13998,6 +13995,29 @@
         }
       ],
       "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
+    },
+    {
+      "action": "q2-palace-source-rebinding",
+      "base": "412572bda94d976c0c18030d0157d6f7da15158f",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/battle-world-review-split.mjs",
+          "anchor": "function nativeVideoEnd(path)",
+          "lines": "66",
+          "sha256": "e1d680199f27911a9cccbdf1955451716dc290548edba23b79ef7772750e0eef",
+          "role": "visual-review"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5991",
+          "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
+        }
+      ],
+      "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
     }
   ],
   "_governance": {
@@ -14327,14 +14347,8 @@
       "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-13T05-52-52-789Z/report.json"
     ],
     "executionSummary": "docs/tasks/evidence/E2E-Q2-1-cooperative-fallback-and-spell-recovery-20261113.tar.gz#build/q2/av/player-action-followup/execution.json",
-    "maximumCastStartToNextActorDifferenceMs": [
-      15.30000038147,
-      2.100000286102386
-    ],
-    "maximumFireEndToNextActorDifferenceMs": [
-      15.799999904632386,
-      32.399999904632296
-    ]
+    "maximumCastStartToNextActorDifferenceMs": [15.30000038147, 2.100000286102386],
+    "maximumFireEndToNextActorDifferenceMs": [15.799999904632386, 32.399999904632296]
   },
   "itemEffectsExecution": {
     "date": "2026-11-13",
@@ -14693,9 +14707,7 @@
       "producerRevision": "48a8ac4350208a5152d439c8d6e88f088bdcb34e",
       "video": "docs/tasks/evidence/E2E-Q2-1-scroll-text-20261114.tar.gz#build/q2/learn-magic/battle-scroll-text-split.mp4",
       "videoSha256": "3ed37f5c493163cb093556ba7373157559ea5b06b14167f26cccd54e378f0567",
-      "scope": [
-        "shadowless-cap-settlement-scrolls"
-      ]
+      "scope": ["shadowless-cap-settlement-scrolls"]
     }
   },
   "specialStatusExecution": {

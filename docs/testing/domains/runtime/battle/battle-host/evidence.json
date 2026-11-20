@@ -14,7 +14,7 @@
       "lines": "1298-1396",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
+      "sha256": "ce01df70613bc7e7e4e81b5d0d5fd17de03b6c4c909e91165517665212e905ac"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -101,11 +101,7 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "date": "2026-11-06",
@@ -707,6 +703,22 @@
         }
       ],
       "scope": "固定大理全路线候选。公共采录复用字节相同的精灵帧，并把画面状态和逐帧回执纳入同一预算。Reforge 站定前提交本拍跟随位置。相关既有引用行逐字核对。既有执行候选和录制原件保持原记录。"
+    },
+    {
+      "action": "q2-palace-source-rebinding",
+      "base": "412572bda94d976c0c18030d0157d6f7da15158f",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1298-1396",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "532e7269ac0b72d8df0e2b54d2adad0325f8f608e5e807d4e6caad5fc0d6fbd0"
+        }
+      ],
+      "scope": "南诏前景核场景精灵预载、队伍提交及结局交接。扬州核战斗末帧保持与进场准备。按固定候选逐行核查现行已引用区段。保留大理和之前各次已验候选、原件及历史范围。"
     }
   ],
   "_governance": {
@@ -742,12 +754,7 @@
       {
         "date": "2026-10-15",
         "action": "actual full JSON machine-envelope migration",
-        "notRun": [
-          "runtime",
-          "E2E",
-          "visual",
-          "coverage"
-        ]
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
       }
     ],
     "supersedes": [],

@@ -2793,6 +2793,38 @@ export function restoreTestingQ2DaliRainSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2PalacePublicationBase = '412572bda94d976c0c18030d0157d6f7da15158f'
+const palaceSourceStage = {
+  ranges: new Map([
+    [forestInnSplit, { 66: '66' }],
+    [
+      reforgeMain,
+      {
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5991: '6005',
+      },
+    ],
+  ]),
+  base: testingQ2PalacePublicationBase,
+  action: 'q2-palace-source-rebinding',
+  date: '2026-11-20',
+}
+const palaceSourceBindings = new Map([
+  ...phoenixSourceBindings,
+  [
+    publication.evidence,
+    { id: publication.id, paths: [forestInnSplit, reforgeMain], artifactClaims: true },
+  ],
+])
+export const isTestingQ2PalaceSource = (path) => palaceSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PalaceSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, palaceSourceStage, palaceSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

@@ -63,6 +63,7 @@ import {
   isTestingQ2GaiLuojiaoSource,
   isTestingQ2InnSource,
   isTestingQ2NoticeSource,
+  isTestingQ2PalaceSource,
   isTestingQ2PeachSource,
   isTestingQ2PhoenixSource,
   isTestingQ2PlacementSource,
@@ -118,6 +119,7 @@ import {
   restoreTestingQ2GaiLuojiaoSourceBindings,
   restoreTestingQ2InnSourceBindings,
   restoreTestingQ2NoticeSourceBindings,
+  restoreTestingQ2PalaceSourceBindings,
   restoreTestingQ2PeachSourceBindings,
   restoreTestingQ2PhoenixSourceBindings,
   restoreTestingQ2PlacementSourceBindings,
@@ -190,6 +192,7 @@ import {
   testingQ2GaiLuojiaoPublicationBase,
   testingQ2InnPublicationBase,
   testingQ2NoticePublicationBase,
+  testingQ2PalacePublicationBase,
   testingQ2PeachPublicationBase,
   testingQ2PhoenixPublicationBase,
   testingQ2PlacementPublicationBase,
@@ -1018,8 +1021,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (daliRainRevision) assert(daliSource && /^[a-f0-9]{40}$/u.test(daliRainRevision))
   const daliRainSource = daliRainRevision && gitTree(root, daliRainRevision, [])
   const preDaliRain = daliRainSource && gitTree(root, testingQ2DaliRainPublicationBase, [])
-  const readBeforeDaliRain = (path) => {
+  const palaceRevision = admission.testingQ2PalaceSourceRevision
+  if (palaceRevision) assert(daliRainSource && /^[a-f0-9]{40}$/u.test(palaceRevision))
+  const palaceSource = palaceRevision && gitTree(root, palaceRevision, [])
+  const prePalace = palaceSource && gitTree(root, testingQ2PalacePublicationBase, [])
+  const readBeforePalace = (path) => {
     const live = readSource(path)
+    if (!prePalace || !isTestingQ2PalaceSource(path)) return live
+    assert(
+      live?.equals(palaceSource.read(path)),
+      'palace presentation source differs from its candidate',
+    )
+    return prePalace.read(path)
+  }
+  const readBeforeDaliRain = (path) => {
+    const live = readBeforePalace(path)
     if (!preDaliRain || !isTestingQ2DaliRainSource(path)) return live
     assert(
       live?.equals(daliRainSource.read(path)),
@@ -1442,13 +1458,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorRain = preDaliRain
-      ? restoreTestingQ2DaliRainSourceBindings(path, bytes, {
+    const priorPalace = prePalace
+      ? restoreTestingQ2PalaceSourceBindings(path, bytes, {
           readSource,
+          readBase: prePalace.read,
+          readFixed: palaceSource.read,
+        })
+      : bytes
+    const priorRain = preDaliRain
+      ? restoreTestingQ2DaliRainSourceBindings(path, priorPalace, {
+          readSource: readBeforePalace,
           readBase: preDaliRain.read,
           readFixed: daliRainSource.read,
         })
-      : bytes
+      : priorPalace
     const priorDali = preDali
       ? restoreTestingQ2DaliSourceBindings(path, priorRain, {
           readSource: readBeforeDaliRain,

@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "013e4619bc89a1731930c7127563a9a9b40c107b13a0260c552987ec53dbbb9d",
+      "afterSha256": "f7d0cb6bd5ca3f1bdf5f02866eb4cdc8445a57fd2612f84349915b8d639340eb",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 136,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 141,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "021f0716620abfea376d1af0e59b027cb188a889d9589f96ff462e8e4188ea7e",
+      "afterSha256": "e53dd40de9f79ba3f74f683d723bc608446ddd74602b91c2a85e4e0aec40b9e8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 376,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 380,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "8343e1f853b6709ee8cbd6c2a7aaf357e3ce98f98838b99b5838480ce44c6e30",
+      "afterSha256": "a7ce09bed6cb0b80195987859fa660e489adce0e5235e2786009372df1f9962f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 11090,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 10585,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "00ea7323dcf2e5000fcd54044cf42c5ecc68730b1298c16c529160050074f72a",
+      "afterSha256": "f6a236d9804d03d99ad27ce15dc065a972bcc131a419a0fe4a27bd16618e4b95",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "5c8b16cdef0530e97e78f1bd71f280486f3bcebf62fbc4184b20d19c2c19b4f8",
+      "afterSha256": "637827f183e22a1adf5203e612ad608e8d6d995f2945844734b9434976290d18",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 897,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 911,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "36f256b2364197c7ccf99d7d3bebe233d9a9367b69a4bda40b76c0ce598e0f0b",
+      "afterSha256": "b1ca703f64eab9f2ad18c23349c9928f3c07290d86c17aa84428e0111bd053a4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
         "reviewedLines": 98,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6616b5464758f141c5aedb8eb219c78ab0f46c55bf1114d3286680f0f38de672",
+      "afterSha256": "301a2ef9173bd77bed5c625eaea527cd6da956244e68bb413cc4564473756d6f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 778,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 785,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "76f3f12829c8db19870306de51a34b7348a26fa713c6cfd6d25671acf19e1f88",
+      "afterSha256": "fde5314e843bbac322c58684957c8676564b009028426b430324084c9f658dd8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6d7ed3a57ed9562d029fb4fb7eba6d7250748c85d06cec69391eb4bb6ff3ac9f",
+      "afterSha256": "1d8383ca18421ed41781a0e03556344aa77c417757993b9d3dd53d3643c2cd9e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 739,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 746,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -4736,14 +4736,14 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "3748bafd4d975ab480824e739b506e25a40fe80488932150be33b6281662418a",
+      "afterSha256": "6b7f9997f68be068585639be04952b154e5a8ef8b0f478a29130ae9565987c78",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 寄生毒来源复核",
         "date": "2026-11-19",
-        "conclusion": "核石长老自动战涉及的四处现行源码引用及其固定前驱。",
-        "reviewedLines": 1348,
-        "acceptanceScope": "仅接受引用哈希、行号及证明这次变更的历史回执。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 1339,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -4842,14 +4842,14 @@
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "7125bbe2f794660c0f69be69d35550b4511ad7388f4d1e78b533c493f960239f",
+      "afterSha256": "4879418137a762471f49afc0152f70e25bd3dd83946edde6abd654c439109e3e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex integration /root (non-author of source-applicability changes)",
         "date": "2026-11-14",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 737,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 665,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "a8db74f7529546dce4af99d27ec0d523c28635da459b0f8579aa884676e7840f",
+      "afterSha256": "ce5e03550cf7b587536ded25247cf3984f4166161662aff0dff5abc3b6548253",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 1171,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 1191,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "8e1d156b85ec13a5a53f618545c61a022648a01d243bcd2decb4ff5c5b6a5d60",
+      "afterSha256": "8f8b73775e2ef001d38d14b29036e08f1965814ab705b4db3b6cee61631a38a4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 15278,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 15290,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8357655c02c5948f8f45b0ae848b8f0822107a2b52ac07289b524ab23a983d0a",
+      "afterSha256": "33daff4e50dac5118aed4bb201c430f778e23ef90c9de38d7c9241488b0aa767",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 1838,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 1880,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "f3c32d2a44d2688e07e2428cd3a5cbf62f6f730b347549b669d546efb4e356f5",
+      "afterSha256": "11d56a5cf9ae79c19f6ac302b5501eb98b96a564c2884a1484880eb075e0fbee",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
-        "reviewedLines": 502,
-        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核南诏与扬州起战、首帧反例、装备授法、实测音画及现行引用。",
+        "reviewedLines": 510,
+        "acceptanceScope": "本轮实跑、复算与代码引用增量。保留历次执行及其原范围。"
       }
     },
     {
@@ -5542,48 +5542,31 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": [
-          "docs/engineering/guides/agent-workflow.md",
-          "docs/tasks/board.md"
-        ]
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
       },
       {
         "operation": "写、改或审查测试",
-        "required": [
-          "docs/testing/governance.md",
-          "docs/engineering/guides/agent-workflow.md"
-        ]
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": [
-          "docs/phase1/README.md"
-        ]
+        "required": ["docs/phase1/README.md"]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": [
-          "docs/phase2/READ-FIRST.md"
-        ]
+        "required": ["docs/phase2/READ-FIRST.md"]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": [
-          "docs/lore/README.md"
-        ]
+        "required": ["docs/lore/README.md"]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": [
-          "docs/phase3/README.md"
-        ]
+        "required": ["docs/phase3/README.md"]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": [
-          "docs/testing/e2e/contract.md",
-          "docs/lore/timeline.md"
-        ]
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
       },
       {
         "operation": "封板、合并或发布回执",
@@ -6998,6 +6981,96 @@
       "bytes": 42246364,
       "sha256": "fc1eddaa7adea610f350440ccf310eb943d552434d7f734312f4653155855b9e",
       "purpose": "大理整段双端回执、反例、原速带声分屏和原录恢复索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120-game-original.tar.gz",
+      "bytes": 30130186,
+      "sha256": "ba070cfda4b5c9b04c079b8e5970aa9fc217dec8ed66618283fd607e155de419",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120-reforge-original.tar.gz",
+      "bytes": 32905659,
+      "sha256": "94ab9d2f8d05c95d1f96c9152f18757ed74e830125d6ebf22e966e27ed0dd8a5",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-southern-palace-20261120.tar.gz",
+      "bytes": 14547478,
+      "sha256": "5558cf908af5b9ffcddad838533b1aa40af6b96da4084e64b29e23bb16b3152d",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-game-original-1.tar.gz",
+      "bytes": 46628385,
+      "sha256": "af15cbf6f823f5d8cf6a34e757672f74b3f9b2ec41f771a6c6df6bcedbe3d221",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-game-original-2.tar.gz",
+      "bytes": 31284450,
+      "sha256": "56d60c7b200cc7d7043a68616f4ce08e6e5d17b39cfb329f681e7dccd10581f5",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-reforge-original-1.tar.gz",
+      "bytes": 46731267,
+      "sha256": "225884bf92eb9f7f7cb1ebf5df7159c04afa8d0b9611efc8264fbe2a8bfe019c",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120-reforge-original-2.tar.gz",
+      "bytes": 34880399,
+      "sha256": "c63ca55f0cc39df631e79776c7b1f07945a8d9dae5a04854b071910470faba43",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-baiyue-finale-20261120.tar.gz",
+      "bytes": 28490159,
+      "sha256": "7c165455bbeacbc6ca609dd772c88f454e752fdd70046a54b82f116c840f4276",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120-game-original-1.tar.gz",
+      "bytes": 6434175,
+      "sha256": "6f8296aaa84155efe7b00da1657f36b5e4a8eeb22df1ae20b1df3493b73bd553",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120-reforge-original-1.tar.gz",
+      "bytes": 6002252,
+      "sha256": "8ff858cc5e0ad8d8b4f4346994a0f6da0da1693bd3ea9b7fc5cd9207cfd45e6f",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-equipment-grants-20261120.tar.gz",
+      "bytes": 2653882,
+      "sha256": "3b3e0b08835b4f9056b5f53b19c6d86f0a70675af3ba96f70628e0d3edb5eff8",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120-game-original-1.tar.gz",
+      "bytes": 19962151,
+      "sha256": "340c027ecca397fd99bd9a97979b9ebe92e94f648f6a42228a2d15d30a30fc96",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120-reforge-original-1.tar.gz",
+      "bytes": 14921799,
+      "sha256": "937b1f9a4827c0f7630584aff099656c8072b8cce1526f3e09435832774b8fbc",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-yangzhou-courtyard-20261120.tar.gz",
+      "bytes": 8281211,
+      "sha256": "24a112883a7af40ab541a935c27f39effdc2ad76349d8bb3d57c955c326ea03c",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-wine-without-item-20261120.tar.gz",
+      "bytes": 400385,
+      "sha256": "85fc1ac8d7c7f4aac041aba1749100834eb8546869afb337a87f40cb4c003cba",
+      "purpose": "本轮 Q2 原生执行、独立比较、原速音画和可复算索引。"
     }
   ],
   "artifactAliases": [],
