@@ -9,6 +9,8 @@ export interface SkillCost {
   stamina?: number // 体力(合体技)
   money?: number // 铜钱镖等普通仙术在出手时支付的固定金钱
   items?: { itemId: string; amount: number }[] // 酒神耗酒 / 巫术耗蛊(依赖 item 系统)
+  /** Optional centered battle message held for confirmation when the player lacks these items. */
+  missingItemsText?: string
 }
 
 /** 作用目标(谁)。从原版 MagicType 拆出的 gameplay 维度(渲染样式归 animation)。 */

@@ -17,7 +17,7 @@ import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import type { UseMenuState } from '../use-menu-state.js'
 import { drawItemGridList } from './item-list.js'
-import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import { drawNumber, drawSlicedBox, drawStatNumber, type MenuAssets } from './menu-box.js'
 
 // 右侧黄框(PAL_CreateBox(110,2) 7行×9列;w=cols*16+45,h=rows*18+40)
 const UB_BOX = { x: 110, y: 2, w: 189, h: 166 }
@@ -105,7 +105,14 @@ export function drawUseMenu(
       if (assets.slash) ctx.drawImage(assets.slash, UB_SLASH_X, vy + 1)
       drawNumber(ctx, max, UB_MAX_RIGHT, vy + UB_MAX_DOWN, assets.numsBlue)
     } else if (row.stat) {
-      drawNumber(ctx, effectiveStat(target, row.stat, items), UB_VAL_RIGHT, vy, assets.nums)
+      drawStatNumber(
+        ctx,
+        effectiveStat(target, row.stat, items),
+        UB_VAL_RIGHT,
+        vy,
+        assets.nums,
+        'yellow',
+      )
     }
   })
 

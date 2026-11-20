@@ -480,6 +480,22 @@ test('技能、物品和敌人音效 guard 拒绝旧数字与负号协议', () =
   ).toThrow('期望非空 AssetId')
 })
 
+test('validates the confirmed shortage message only for an actual item cost', () => {
+  const skill = {
+    id: 's',
+    name: 's',
+    target: 'oneEnemy',
+    effects: [],
+    animation: { effectSprite: 1 },
+    cost: { items: [{ itemId: '86', amount: 1 }], missingItemsText: 'Shortage' },
+  }
+  expect(validateSkills({ skills: [skill], levelUp: {} }).skills[0]?.cost).toEqual(skill.cost)
+  const invalid = { ...skill, cost: { ...skill.cost, items: [] } }
+  expect(() => validateSkills({ skills: [invalid], levelUp: {} })).toThrow('需要物品消耗')
+  const blank = { ...skill, cost: { ...skill.cost, missingItemsText: ' ' } }
+  expect(() => validateSkills({ skills: [blank], levelUp: {} })).toThrow('期望非空提示文字')
+})
+
 test('技能执行分支、直接资源变化、前置震屏与剩余 MP 语义可校验', () => {
   expect(() =>
     validateSkills({

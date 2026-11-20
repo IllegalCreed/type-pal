@@ -631,6 +631,13 @@ export function validateSkills(json: unknown): {
         if (amount <= 0) throw new Error(`${where}.amount: 期望正整数`)
       })
     }
+    if (cost.missingItemsText !== undefined) {
+      const where = `skills.skills[${i}].cost.missingItemsText`
+      if (typeof cost.missingItemsText !== 'string' || !cost.missingItemsText.trim())
+        throw new Error(`${where}: 期望非空提示文字`)
+      if (!Array.isArray(cost.items) || !cost.items.length)
+        throw new Error(`${where}: 需要物品消耗`)
+    }
     const animation = assertObject(so.animation, `skills.skills[${i}].animation`) as Record<
       string,
       unknown

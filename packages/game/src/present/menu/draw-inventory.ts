@@ -47,7 +47,7 @@ import { matchesFilter } from '../../core/menu/item-select.js'
 import { selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
-import { drawNumber } from '../draw-number.js'
+import { drawNumber, drawStatNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
@@ -202,11 +202,11 @@ function drawItemUseMenu(
     drawNumber(fb, mp, 4, { x: ITEMUSE_STAT_VALUE_X, y: 55 }, 'yellow', 'right', uiSpriteFrames)
 
     // 5 stat numbers(uigame.c:1369-1378)— PAL_XY(240, 74/92/110/128/146)
-    drawNumber(fb, atk, 4, { x: ITEMUSE_STAT_VALUE_X, y: 74 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, mag, 4, { x: ITEMUSE_STAT_VALUE_X, y: 92 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, def, 4, { x: ITEMUSE_STAT_VALUE_X, y: 110 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, dex, 4, { x: ITEMUSE_STAT_VALUE_X, y: 128 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, flee, 4, { x: ITEMUSE_STAT_VALUE_X, y: 146 }, 'yellow', 'right', uiSpriteFrames)
+    drawStatNumber(fb, atk, 4, { x: ITEMUSE_STAT_VALUE_X, y: 74 }, 'yellow', uiSpriteFrames)
+    drawStatNumber(fb, mag, 4, { x: ITEMUSE_STAT_VALUE_X, y: 92 }, 'yellow', uiSpriteFrames)
+    drawStatNumber(fb, def, 4, { x: ITEMUSE_STAT_VALUE_X, y: 110 }, 'yellow', uiSpriteFrames)
+    drawStatNumber(fb, dex, 4, { x: ITEMUSE_STAT_VALUE_X, y: 128 }, 'yellow', uiSpriteFrames)
+    drawStatNumber(fb, flee, 4, { x: ITEMUSE_STAT_VALUE_X, y: 146 }, 'yellow', uiSpriteFrames)
   }
 
   // 4. party member names(uigame.c:1383-1396)

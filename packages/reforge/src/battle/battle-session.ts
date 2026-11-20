@@ -284,9 +284,12 @@ export class BattleSession {
   /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
   private readonly pendingConfusedReveal = new Set<number>()
   /** 结算后等待时间线到达提示位置的失败反馈。 */
-  private pendingFailureFeedback: BattleFailureFeedback | null = null
-  /** 动作旁白阻塞时间线，按键或到时后释放。 */
-  private actionFeedback: { untilMs: number; dismiss: 'confirm' | 'anyKey' } | null = null
+  private pendingFailureFeedback: {
+    kind: BattleFailureFeedback
+    centeredText: string | undefined
+  } | null = null
+  /** A null deadline holds the dialogue until its final confirmation. */
+  private actionFeedback: { untilMs: number | null; dismiss: 'confirm' | 'anyKey' } | null = null
   private pendingStealNotice: TextSpan[] | undefined
   /** Retain the old enemy appearance through its flash and scene dissolve. */
   private readonly enemyAppearanceTransitions = new Map<number, EnemyAppearanceTransition>()
@@ -1216,9 +1219,14 @@ export class BattleSession {
     if (feedback) {
       const dismissed =
         feedback.dismiss === 'anyKey' ? pressed.size > 0 : pressed.has(' ') || pressed.has('Enter')
-      if (!dismissed && this.nowMs < feedback.untilMs) return
       const box = this.assets.dialogBox
-      if (dismissed && this.nowMs < feedback.untilMs) box?.advance(this.nowMs)
+      if (feedback.untilMs === null) {
+        if (dismissed) box?.advance(this.nowMs)
+        if (box?.active) return
+      } else if (this.nowMs < feedback.untilMs) {
+        if (!dismissed) return
+        box?.advance(this.nowMs)
+      }
       if (box?.active) box.close()
       this.itemBanner = null
       this.actionFeedback = null
@@ -1363,7 +1371,17 @@ export class BattleSession {
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
       this.enemyCastRecoveryPending = la?.side === 'enemy' && la.kind === 'cast'
-      this.pendingFailureFeedback = la?.failureFeedback ?? null
+      this.pendingFailureFeedback = la?.failureFeedback
+        ? {
+            kind: la.failureFeedback,
+            centeredText:
+              la.failureFeedback === 'missingSpellItem' &&
+              la.side === 'player' &&
+              la.kind === 'cast'
+                ? s.skills[la.skillId]?.cost.missingItemsText
+                : undefined,
+          }
+        : null
       // 本步死亡敌(动画收尾统一开淡出 + death 音;一阶段 diedFromAttack 语义)
       this.pendingDeaths = s.enemies
         .map((e, i) =>
@@ -2241,6 +2259,20 @@ export class BattleSession {
     const feedback = this.pendingFailureFeedback
     this.pendingFailureFeedback = null
     if (!feedback) return
+    const box = this.assets.dialogBox
+    if (feedback.centeredText && box) {
+      this.itemBanner = null
+      this.actionPresentation.resetActionCadence()
+      this.actionFeedback = { untilMs: null, dismiss: 'confirm' }
+      box.open(
+        startDialogue({
+          id: '__battle_action_feedback',
+          cues: [{ slot: 'center', rows: [{ text: feedback.centeredText }] }],
+        }),
+        this.nowMs,
+      )
+      return
+    }
     const text = {
       statusIneffective: '攻击无效',
       itemIneffective: '无任何效果',
@@ -2249,12 +2281,12 @@ export class BattleSession {
       spellIneffective: '失败　没有效果',
       missingSpellItem: '道具不足无法使用',
       missingSpellMoney: '钱不够，只好作罢',
-    }[feedback]
-    if (feedback === 'statusIneffective') this.showActionFeedback(text)
-    else if (feedback === 'throwIneffective') this.showActionFeedback(text, 'confirm')
+    }[feedback.kind]
+    if (feedback.kind === 'statusIneffective') this.showActionFeedback(text)
+    else if (feedback.kind === 'throwIneffective') this.showActionFeedback(text, 'confirm')
     else {
       this.showActionFeedback(text, 'anyKey')
-      if (feedback !== 'itemIneffective' && feedback !== 'throwStatusIneffective')
+      if (feedback.kind !== 'itemIneffective' && feedback.kind !== 'throwStatusIneffective')
         this.actionPresentation.satisfyActionCadence()
     }
   }

@@ -48,7 +48,7 @@ import {
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
-import { drawNumber } from '../draw-number.js'
+import { drawNumber, drawStatNumber } from '../draw-number.js'
 import { type GlyphTable, palWordWidth, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
@@ -189,49 +189,44 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
 
   // 4. 5 stat 数字 cyan(装备后 effective stat 预览,sdlpal uigame.c:1911-1915)。
   //    stat label(武术/灵力/防御/身法/吉运)同样在 FBP 背景图里,ts 不画。
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerAttackStrength(gs, playerRoleId),
     4,
     EQUIP_STATUS_VALUES[0]!,
     'cyan',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerMagicStrength(gs, playerRoleId),
     4,
     EQUIP_STATUS_VALUES[1]!,
     'cyan',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerDefense(gs, playerRoleId),
     4,
     EQUIP_STATUS_VALUES[2]!,
     'cyan',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerDexterity(gs, playerRoleId),
     4,
     EQUIP_STATUS_VALUES[3]!,
     'cyan',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerFleeRate(gs, playerRoleId),
     4,
     EQUIP_STATUS_VALUES[4]!,
     'cyan',
-    'right',
     uiSpriteFrames,
   )
 

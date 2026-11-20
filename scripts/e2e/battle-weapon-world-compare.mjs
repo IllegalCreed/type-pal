@@ -70,13 +70,34 @@ async function readSide(path, engine, profile, inputs, catalogue, sources, scena
   const closure = await recordingDependencies(repoRoot, definition)
   assertDependencyClosure(report.dependencies, closure)
   assert.deepEqual(report.hashes, closure.hashes, 'recording source bytes changed')
-  assert.deepEqual(
-    git('diff', '--name-only', '-z', report.revision, '--')
-      .split('\0')
-      .filter((file) => Object.hasOwn(closure.hashes, file)),
-    [],
-    'producer revision differs from loaded source',
-  )
+  const changedSources = git('diff', '--name-only', '-z', report.revision, '--')
+    .split('\0')
+    .filter((file) => Object.hasOwn(closure.hashes, file))
+  let itemDraft
+  if (changedSources.length) {
+    const path = 'projects/pal/content/items.json'
+    assert.deepEqual(changedSources, [path], 'producer revision differs from loaded source')
+    const { sha256, value: loaded } = await readEvidenceArtifact(repoRoot, {
+      path,
+      sha256: closure.hashes[path],
+    })
+    assert.deepEqual(loaded, inputs.palItems)
+    const committed = JSON.parse(git('show', `${report.revision}:${path}`))
+    assert.deepEqual(
+      loaded.map(({ id }) => id),
+      committed.map(({ id }) => id),
+      'item IDs/order changed',
+    )
+    const changedItems = loaded.filter((item, index) => !same(item, committed[index]))
+    assert(changedItems.length > 0, 'unexplained item file difference')
+    assert(
+      changedItems.every(
+        ({ id, equip }) => !equip && !committed.find((item) => item.id === id)?.equip,
+      ),
+      'draft changed equipment definitions',
+    )
+    itemDraft = { path, sha256, ids: changedItems.map(({ id }) => id) }
+  }
   assertInputLedger(report.actions, { requireReceipts: true })
   assert.deepEqual(report.inputExecution, { status: 'passed', actions: report.actions.length })
   const ids = Array.from({ length: report.repeats }, (_, i) => `world-equip-${i + 1}`)
@@ -155,7 +176,7 @@ async function readSide(path, engine, profile, inputs, catalogue, sources, scena
         (phase === 'world-equip' || (engine === 'game' && phase === 'restore')),
     ),
   )
-  return { engine, revision: report.revision, report: absolute, sha256, runs, scenario }
+  return { engine, revision: report.revision, report: absolute, sha256, runs, scenario, itemDraft }
 }
 
 function actualCoverage(runs, scenario, findings) {

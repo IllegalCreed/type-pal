@@ -2177,7 +2177,8 @@
             "itemId": "86",
             "amount": 1
           }
-        ]
+        ],
+        "missingItemsText": "酒不足，无法召唤酒神"
       },
       "usableOutsideBattle": false,
       "target": "allEnemies",

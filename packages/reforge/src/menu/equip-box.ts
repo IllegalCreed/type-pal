@@ -25,6 +25,7 @@ import {
   COLOR_NORMAL,
   drawNumber,
   drawSlicedBox,
+  drawStatNumber,
   type MenuAssets,
   SELECTED_COLORS,
 } from './menu-box.js'
@@ -186,12 +187,13 @@ function drawEquipPickRole(
         forceRgba: COLOR_DARK,
       },
     )
-    drawNumber(
+    drawStatNumber(
       ctx,
       effectiveStat(caster, stat, items),
       PR_STAT_VAL_RIGHT,
       PR_STAT_VAL_Y0 + i * PR_ROW_DY,
       assets.numsCyan,
+      'cyan',
     )
   })
 }

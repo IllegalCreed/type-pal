@@ -98,3 +98,27 @@ export function drawNumber(
     remaining = Math.floor(remaining / 10)
   }
 }
+
+/** Draw a signed effective stat in its existing right-aligned digit slot. */
+export function drawStatNumber(
+  fb: Framebuffer,
+  value: number,
+  nLength: number,
+  pos: { x: number; y: number },
+  color: 'yellow' | 'cyan',
+  uiSpriteFrames: IndexedImage[],
+): void {
+  if (!Number.isFinite(value)) return
+  const stat = Math.trunc(value)
+  const magnitude = Math.abs(stat)
+  drawNumber(fb, magnitude, nLength, pos, color, 'right', uiSpriteFrames)
+  if (stat >= 0) return
+
+  const digits = Math.min(nLength, String(magnitude).length)
+  const x = pos.x + (nLength - digits - 1) * DIGIT_WIDTH
+  const index = color === 'cyan' ? 139 : 189
+  for (let offset = 1; offset <= 4; offset++) {
+    fb.writePixel(x + offset + 1, pos.y + 5, 0)
+    fb.writePixel(x + offset, pos.y + 4, index)
+  }
+}

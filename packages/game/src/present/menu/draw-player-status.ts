@@ -43,7 +43,7 @@ import { getLanguage } from '../../localization/language.js'
 import { layoutFont, layoutPosition, layoutShadow } from '../../localization/layout.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
-import { drawNumber } from '../draw-number.js'
+import { drawNumber, drawStatNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { englishStatusBackground } from './localized-background.js'
@@ -380,49 +380,44 @@ export function drawPlayerStatus(input: DrawPlayerStatusInput): void {
   // 9. 5 stat 数字(sdlpal uigame.c:1231-1240)
   //    PAL_GetPlayerAttackStrength / MagicStrength / Defense / Dexterity / FleeRate
   //    C5(2026-05-28)真 getter 含装备 effect 加成 — 见 core/equip-effect.ts。
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerAttackStrength(gs, roleId),
     4,
     ROLE_STATUS_VALUES[0]!,
     'yellow',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerMagicStrength(gs, roleId),
     4,
     ROLE_STATUS_VALUES[1]!,
     'yellow',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerDefense(gs, roleId),
     4,
     ROLE_STATUS_VALUES[2]!,
     'yellow',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerDexterity(gs, roleId),
     4,
     ROLE_STATUS_VALUES[3]!,
     'yellow',
-    'right',
     uiSpriteFrames,
   )
-  drawNumber(
+  drawStatNumber(
     fb,
     getPlayerFleeRate(gs, roleId),
     4,
     ROLE_STATUS_VALUES[4]!,
     'yellow',
-    'right',
     uiSpriteFrames,
   )
 
