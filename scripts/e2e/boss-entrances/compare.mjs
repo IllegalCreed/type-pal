@@ -1295,6 +1295,20 @@ async function inspect(path, engine) {
       ]),
       `physical held keys for ${phase}`,
     )
+  if (revisit) {
+    const confirm = game ? 'Space' : 'Enter'
+    for (const [phase, scene] of [
+      ['revisit-dialogue', revisit.scene],
+      ['before-dialogue', spec.scene],
+    ]) {
+      const pages = source.toad.pages.filter((page) => page.scene === scene)
+      assert.deepEqual(
+        report.actions.filter((a) => a.phase === phase).map((a) => [a.kind, a.key]),
+        pages.map(() => ['press', confirm]),
+        `one physical confirmation per painted page for ${phase}`,
+      )
+    }
+  }
   assert.deepEqual(
     report.contexts.map(({ label, initialDatabases }) => [label, initialDatabases]),
     game
@@ -1402,21 +1416,31 @@ async function inspect(path, engine) {
     [trigger.scene, trigger.owner, trigger.position],
     [spec.scene, spec.owner, spec.contact],
   )
-  const moves = events.filter(({ kind }) => kind === 'move' || kind === 'route-move')
+  const moves = events.filter(({ kind }) => kind === 'move' || (revisit && kind === 'route-move'))
   const [approach, departure] = moves.slice(
     steps.length + revisitRoutes.reduce((count, [, , entries]) => count + entries.length, 0),
   )
   assert.deepEqual(
-    moves.map(({ scene, from, to, facing }) => [scene, from, to, facing]),
+    moves.map(({ from, to, facing }) => [from, to, facing]),
     [
-      ...steps.map(({ from, to, key }) => [spec.scene, from, to, facing(key)]),
-      ...revisitRoutes.flatMap(([, scene, entries]) =>
-        entries.map(({ from, to, key }) => [scene, from, to, facing(key)]),
+      ...steps.map(({ from, to, key }) => [from, to, facing(key)]),
+      ...revisitRoutes.flatMap(([, , entries]) =>
+        entries.map(({ from, to, key }) => [from, to, facing(key)]),
       ),
-      [spec.scene, spec.start, spec.contact, facing(approachKey)],
-      ...(leavesByScript ? [] : [[spec.scene, returnedAt, departureAt, facing(exitKey)]]),
+      [spec.start, spec.contact, facing(approachKey)],
+      ...(leavesByScript ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
     ],
   )
+  if (revisit)
+    assert.deepEqual(
+      moves.map(({ scene }) => scene),
+      [
+        ...revisitRoutes.flatMap(([, scene, entries]) => entries.map(() => scene)),
+        spec.scene,
+        spec.scene,
+      ],
+      'revisit moves are bound to the actual visited scenes',
+    )
   assert(approach.order < trigger.order)
   const script = find('script-op')
   const launch = script.filter((event) => (game ? event.opcode === 7 : event.op === 'startBattle'))
