@@ -53,7 +53,9 @@ function install(
       overflow = true
     },
   })
-  const event = (kind, details) => append(events, { kind, ...details }, 4096)
+  // This stream mixes sparse battle events with one receipt per submitted world frame.
+  // The recorder bounds both groups by bytes, including during long foreground visits.
+  const event = (kind, details) => append(events, { kind, ...details }, Number.MAX_SAFE_INTEGER)
   const seen = new Set()
   const once = (kind, details) => {
     if (seen.has(kind)) return
@@ -304,6 +306,7 @@ function install(
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
       return {
         state,
+        overflow,
         ended: !!ended,
         ...(ended && { outcome: ended.result }),
         menuClosed: menuClosed(),

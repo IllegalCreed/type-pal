@@ -126,6 +126,8 @@ async function read(page) {
       readsSkills,
     }) => {
       const observed = globalThis.__defeat?.read()
+      if (observed?.overflow)
+        throw new Error('native battle and world observation exceeded its evidence budget')
       if (!observed?.state) return observed
       const gs = globalThis.__tpgs
       const world = globalThis.__rfWorld

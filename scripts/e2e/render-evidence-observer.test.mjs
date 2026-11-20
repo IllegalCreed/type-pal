@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import test from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
+import { scriptedDefeatObserver } from './battle-scripted-defeat-observer.mjs'
 import { errandCausalObserverScript, installErrandObserver } from './errand-observer.mjs'
 import { instrumentErrandTrace } from './errand-trace-plugin.mjs'
 import { evidenceObserverScript } from './evidence-recorder.mjs'
@@ -12,6 +13,28 @@ import { assertMealCollector } from './meal-contract.mjs'
 import { installMealObserver } from './meal-observer.mjs'
 import { installOpeningMatrix } from './opening-matrix-observer.mjs'
 import { createScriptCausalObserver } from './script-causal-observer.mjs'
+
+test('native foreground frames keep later battle events within the recorder byte budgets', () => {
+  const context = vm.createContext({ structuredClone, TextEncoder, performance })
+  vm.runInContext(scriptedDefeatObserver({ engine: 'reforge', scene: 's110', seed: 1 }), context)
+  const observer = context.__defeat
+  for (let renderId = 0; renderId < 9000; renderId++)
+    observer.event('world-render', { scene: 's110', renderId })
+  observer.reforgeFinish({ enemySlotDefs: () => [] }, 'terminated', {
+    party: [],
+    money: 0,
+    inventory: [],
+  })
+  assert.equal(observer.read().overflow, false)
+  assert.equal(observer.read().outcome, 'terminated')
+  assert.equal(observer.trace().events.at(-1).kind, 'battle-finished')
+  assert.equal(observer.trace().events.at(-1).seq, 9000)
+
+  observer.event('oversized', { text: 'x'.repeat(4 * 1024 * 1024) })
+  assert.equal(observer.read().overflow, true)
+  assert.equal(observer.trace().overflow, true)
+  assert.equal(observer.trace().events.at(-1).kind, 'battle-finished')
+})
 
 test('actual projection completion retains a repeated party pose after its redundant setter', () => {
   const file = 'packages/reforge/src/main.ts'
