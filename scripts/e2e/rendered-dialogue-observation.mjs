@@ -36,12 +36,13 @@ export function installRenderedDialogueObservation() {
             ids: slot.pageTextIds,
             lines: slot.visibleText.split('\n'),
           }))
+    const renderId = globalThis.__bossForeground?.dialoguePainted(scene, slots)
     const state = { scene, slots }
     const signature = JSON.stringify(state)
     if (signature === previous) return
     if (draws.length >= 4000) throw new Error('dialogue draw evidence overflow')
     previous = signature
-    draws.push({ atMs: performance.now(), ...state })
+    draws.push({ atMs: performance.now(), ...state, ...(renderId !== undefined && { renderId }) })
   }
   globalThis.__e2eRenderedDialogue = () => draws
 }

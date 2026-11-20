@@ -51,6 +51,7 @@ export function readStoneElderAutoPresentation(data, commands, spec) {
   const [role, sprite] = commands[ambush.start + 1].operands
   assert.deepEqual([commands[ambush.start + 1].opcode, role], [0x65, 0])
   return {
+    dialogueWorld: inn.scene,
     firstEntries: [
       { scene, position: spec.start },
       {

@@ -83,6 +83,7 @@ const observe = bossObserver({
   foreground,
   handoffScene: handoff?.scene,
   handoffMatte: handoff?.fieldPosition !== undefined,
+  dialogueWorld: source.automatic?.presentation.dialogueWorld,
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),

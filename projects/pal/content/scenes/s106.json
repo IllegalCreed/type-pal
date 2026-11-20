@@ -646,10 +646,6 @@
                     "cue": {
                       "identity": {
                         "kind": "unbound",
-                        "portrait": {
-                          "asset": "portrait.pal.044",
-                          "side": "left"
-                        },
                         "speaker": "spk.轿中之人"
                       },
                       "rows": [
@@ -657,7 +653,8 @@
                           "text": "dlg.5812"
                         }
                       ],
-                      "slot": "top"
+                      "slot": "top",
+                      "portraitLayout": true
                     },
                     "kind": "dialog"
                   },

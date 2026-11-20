@@ -7,8 +7,10 @@ import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
+import { checkWorldDialoguePixels, decodeWorldDialoguePixels } from '../world-dialogue-pixels.mjs'
 import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
 import { inspectFireQilin } from './fire-qilin-presentation.mjs'
+import { inspectForestInnCoverage, readForestInnCoverage } from './forest-inn-coverage.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
@@ -22,6 +24,7 @@ import {
   grid,
   initialTrack,
   isBossBattle,
+  json,
   observesForeground,
   partyFor,
   readSources,
@@ -34,6 +37,7 @@ import { inspectStoneElderPresentation } from './stone-elder-presentation.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
 import { inspectTowerMingPresentation } from './tower-ming-presentation.mjs'
 import { inspectWoodTaoist } from './wood-taoist-presentation.mjs'
+import { compareWorldDialogueCast } from './world-dialogue-coverage.mjs'
 import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
@@ -44,6 +48,14 @@ assert(
 )
 const source = await readSources(spec)
 const automatic = source.automatic
+const forestInn =
+  scenario === 'stone-elder-auto'
+    ? readForestInnCoverage(
+        (await json('data/extracted/events/all.json')).segments.flatMap(({ commands }) => commands),
+        spec,
+        await json('data/extracted/data/scene/110.json'),
+      )
+    : undefined
 const scriptedStop = source.tian ?? source.scriptedStop ?? automatic
 const scriptedDefeat = spec.world.outcome === 'lost'
 const earnsRewards = !scriptedStop && !scriptedDefeat
@@ -2146,6 +2158,38 @@ async function inspect(path, engine) {
         game,
       })
     : undefined
+  const foregroundCoverage = forestInn
+    ? inspectForestInnCoverage({
+        events,
+        draws: renderedDialogue,
+        source,
+        facts: forestInn,
+        bounds: boundaries,
+        entries: stoneElderAuto.firstEntries,
+      })
+    : undefined
+  if (foregroundCoverage && report.profile === 'capture') {
+    const recording = resolve(dirname(path), 'story.webm')
+    assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
+    const frames = await decodeWorldDialoguePixels(recording)
+    for (const phase of foregroundCoverage.filter(({ backdrop }) => backdrop)) {
+      const origin = report.media.browser.startedAt
+      phase.pixels = phase.backdrop.spans.map(({ startAtMs, endAtMs }) =>
+        checkWorldDialoguePixels(frames, {
+          start: (startAtMs - origin) / 1000,
+          end: (endAtMs - origin) / 1000,
+          minLitFraction: 0.2,
+        }),
+      )
+      const bad = phase.pixels.find(({ status }) => status !== 'passed')
+      if (bad)
+        phase.issues.push({
+          issue: 'recorded-dialogue-background-failed',
+          phase: phase.phase,
+          ...bad,
+        })
+    }
+  }
   const ming = source.route?.ming
     ? inspectTowerMingPresentation({
         events,
@@ -2325,6 +2369,7 @@ async function inspect(path, engine) {
     poisonLady,
     stoneElder,
     stoneElderAuto,
+    foregroundCoverage,
     goldenToad,
     gai,
     wood,
@@ -2370,6 +2415,7 @@ if (!failures.length) {
       ...(result.poisonLady?.issues ?? []),
       ...(result.stoneElder?.issues ?? []),
       ...(result.stoneElderAuto?.issues ?? []),
+      ...(result.foregroundCoverage?.flatMap(({ issues }) => issues) ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),
@@ -2378,6 +2424,17 @@ if (!failures.length) {
       ...(result.ring?.opening.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
+  }
+  if (forestInn) {
+    for (const [index, original] of game.foregroundCoverage.entries())
+      failures.push(...compareWorldDialogueCast(original, reforge.foregroundCoverage[index]))
+    const track = ({ actor, positions }) => [actor, positions.map(({ order, ...pose }) => pose)]
+    const choreography = difference(
+      game.foregroundCoverage[0].seating.map(track),
+      reforge.foregroundCoverage[0].seating.map(track),
+      ['inn', 'seating'],
+    )
+    if (choreography) failures.push(choreography)
   }
   if (game.phoenix) {
     const mismatch = difference(game.phoenix.cast, reforge.phoenix.cast, ['phoenix', 'cast'])

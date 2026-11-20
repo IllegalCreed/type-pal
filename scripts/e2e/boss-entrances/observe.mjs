@@ -28,6 +28,7 @@ function installBossForeground({
   scene,
   handoffScene,
   handoffMatte,
+  dialogueWorld,
   owner,
   watched,
   visitScenes,
@@ -58,7 +59,39 @@ function installBossForeground({
   let jarRevealed = false
   let firstFieldReturned = false
   let lastVisit
+  let lastWorldDraw
+  let backdrop
+  let dialogue
+  let renderId = 0
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
+
+  const coversDialogueWorld = (id) =>
+    dialogueWorld !== undefined && id === dialogueWorld && !observation.read().ended
+
+  function backdropSample(width, height, pixel) {
+    const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>
+      [0.28, 0.51, 0.76].map((y) => pixel(Math.floor(x * width), Math.floor(y * height))),
+    )
+    return {
+      dark: colors.every((rgb) => rgb.every((value) => value <= 8)),
+      textured: new Set(colors.map((rgb) => rgb.join())).size > 1,
+    }
+  }
+
+  function recordDialogueWorld(sceneId, drewWorld) {
+    const layer = backdrop
+    const painted = dialogue
+    backdrop = undefined
+    dialogue = undefined
+    if (!coversDialogueWorld(sceneId)) return
+    observation.event('world-render', {
+      scene: sceneId,
+      renderId: renderId++,
+      view: drewWorld ? (lastWorldDraw?.order ?? null) : null,
+      backdrop: layer ?? null,
+      dialogue: painted ?? false,
+    })
+  }
 
   function canvasState(context) {
     const { width, height } = context.canvas
@@ -180,7 +213,7 @@ function installBossForeground({
     if (previous === signature && previousVisible === visible) return
     previous = signature
     previousVisible = visible
-    observation.event('world-drawn', { ...frame, colors, visible })
+    lastWorldDraw = observation.event('world-drawn', { ...frame, colors, visible })
     if (newVisit && visible) {
       lastVisit = frame.scene
       observation.event('scene-first-drawn', { ...frame, colors })
@@ -204,6 +237,26 @@ function installBossForeground({
   }
 
   globalThis.__bossForeground = {
+    dialoguePainted(sceneId, slots) {
+      if (!coversDialogueWorld(sceneId)) return
+      dialogue = slots.some(
+        ({ portrait, speaker, lines }) => portrait || speaker || lines.some(Boolean),
+      )
+      return renderId
+    },
+    gameBackdrop(gs, fb) {
+      const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
+      if (!coversDialogueWorld(sceneId) || !gs.palette) return
+      backdrop = backdropSample(fb.width, fb.height, (x, y) =>
+        gs.palette.colors[fb.indices[y * fb.width + x]].slice(0, 3),
+      )
+    },
+    reforgeBackdrop(sceneId, ctx) {
+      if (!coversDialogueWorld(sceneId)) return
+      backdrop = backdropSample(ctx.canvas.width, ctx.canvas.height, (x, y) =>
+        Array.from(ctx.getImageData(x, y, 1, 1).data.slice(0, 3)),
+      )
+    },
     successor: () => successor,
     scriptedReturn: () => returned,
     choice: () => choice,
@@ -249,6 +302,7 @@ function installBossForeground({
       gameWorldDrawn = false
       const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
       if (!drewWorld || battle || !watchesScene(sceneId)) {
+        recordDialogueWorld(sceneId, false)
         previous = undefined
         recordVictoryReturn(undefined, context)
         recordJarPresentation(undefined, context)
@@ -264,6 +318,7 @@ function installBossForeground({
         ...(includesParty && { partyLayer: gs.wLayer / 8 }),
       }
       commit(frame, context, gs.fadeState?.appliedSteps)
+      recordDialogueWorld(sceneId, true)
       recordVictoryReturn(frame, context)
       recordJarPresentation(frame, context)
       recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
@@ -298,6 +353,7 @@ function installBossForeground({
     },
     reforgeFrame(ambience, tint, changing, context) {
       if (!pending) {
+        recordDialogueWorld(globalThis.__rfScene?.id, false)
         previous = undefined
         recordVictoryReturn(undefined, context)
         recordJarPresentation(undefined, context)
@@ -306,6 +362,7 @@ function installBossForeground({
       const frame = pending
       pending = undefined
       commit({ ...frame, ambience, tint, changing }, context, ditherStep)
+      recordDialogueWorld(frame.scene, true)
       recordVictoryReturn(frame, context)
       recordJarPresentation(frame, context)
       recordComposite(frame.scene, context, ditherStep)

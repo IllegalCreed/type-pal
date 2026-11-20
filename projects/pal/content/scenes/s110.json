@@ -100,123 +100,295 @@
       "facing": "up",
       "collide": true,
       "behaviors": {
-        "auto": {
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
+        "trigger": {
+          "default": {
+            "label": "安排两位客人入座",
+            "order": 0,
             "flow": {
               "kind": "stages",
               "initial": "initial",
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "引座与揭幕",
                   "body": [
                     {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 64,
+                      "kind": "sceneTimeline",
+                      "label": "仕女引客入座，厅堂同步渐隐",
+                      "tracks": [
+                        {
+                          "id": "curtain",
+                          "label": "引座渐隐",
+                          "cues": [
+                            {
+                              "atMs": 0,
+                              "body": [
+                                {
+                                  "kind": "fade",
+                                  "dir": "out",
+                                  "ms": 1600
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "attendant",
+                          "label": "仕女走到席边",
+                          "target": {
+                            "scene": "s110",
+                            "entity": "e2061"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "left"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 200,
+                              "repeat": {
+                                "count": 14,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 1600,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": -3
+                                },
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-232"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 66,
                         "height": 0,
                         "row": 17
-                      },
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
                       "target": {
                         "scene": "s110",
-                        "entity": "e2056"
+                        "entity": "e2059"
                       }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s110",
+                        "entity": "e2060"
+                      }
+                    },
+                    {
+                      "kind": "sceneTimeline",
+                      "label": "揭开席面，盖罗娇走到桌边",
+                      "tracks": [
+                        {
+                          "id": "curtain",
+                          "label": "已摆好座次后揭开厅堂",
+                          "cues": [
+                            {
+                              "atMs": 0,
+                              "body": [
+                                {
+                                  "kind": "fade",
+                                  "dir": "in",
+                                  "ms": 600
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "hostess",
+                          "label": "盖罗娇走近并转向客人",
+                          "target": {
+                            "scene": "s110",
+                            "entity": "e2056"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 0,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": 3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 700,
+                              "repeat": {
+                                "count": 16,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -6,
+                                  "dy": 3
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2300,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": -10,
+                                  "dy": 5
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2500,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 2700,
+                              "repeat": {
+                                "count": 2,
+                                "intervalMs": 200
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 3100,
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "attendant",
+                          "label": "席边停步后转身",
+                          "target": {
+                            "scene": "s110",
+                            "entity": "e2061"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 1400,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "down"
+                                },
+                                {
+                                  "kind": "setEntityFrame",
+                                  "frame": 0
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "slow",
-                      "to": {
-                        "col": 65,
-                        "height": 0,
-                        "row": 17
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2056"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2056"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2056"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-002": {
-            "label": "自动行为 2",
-            "order": 2,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 65,
-                        "height": 0,
-                        "row": 11
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2056"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
+                      "ms": 200
                     }
                   ],
                   "next": {
@@ -227,7 +399,15 @@
             }
           }
         }
-      }
+      },
+      "pages": [
+        {
+          "id": "default",
+          "label": "仅剧情调用",
+          "trigger": "default"
+        }
+      ],
+      "initialPage": "default"
     },
     {
       "id": "e2057",
@@ -288,7 +468,6 @@
           "id": "default",
           "label": "默认模式",
           "trigger": "default",
-          "auto": "default",
           "triggerActivation": {
             "on": "touch",
             "range": 3
@@ -310,100 +489,18 @@
                   "body": [
                     {
                       "kind": "callScript",
-                      "script": "forest-inn-welcome"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "持续自动动作",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 40
+                      "script": "forest-inn-greeting"
                     },
                     {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "moveEntity",
-                          "speed": "normal",
-                          "to": {
-                            "col": 66,
-                            "height": 0,
-                            "row": 14
-                          },
-                          "target": {
-                            "scene": "s110",
-                            "entity": "e2061"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "facing": "right",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s110",
-                            "entity": "e2061"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 0,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s110",
-                            "entity": "e2061"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 480
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s110",
-                            "entity": "e2061"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 100
-                        },
-                        {
-                          "frame": 0,
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s110",
-                            "entity": "e2061"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
-                        }
-                      ]
+                      "kind": "runEntityTrigger",
+                      "target": {
+                        "scene": "s110",
+                        "entity": "e2056"
+                      }
+                    },
+                    {
+                      "kind": "callScript",
+                      "script": "forest-inn-welcome"
                     }
                   ]
                 }
@@ -422,137 +519,7 @@
       },
       "sprite": "sprite-423",
       "facing": "left",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 65,
-                        "height": 0,
-                        "row": 14
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2062"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 65,
-                        "height": 0,
-                        "row": 16
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2062"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 65,
-                        "height": 0,
-                        "row": 14
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2062"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 78,
-                        "height": 0,
-                        "row": 14
-                      },
-                      "target": {
-                        "scene": "s110",
-                        "entity": "e2062"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e2063",
@@ -845,6 +812,17 @@
                 "body": [
                   {
                     "kind": "callScript",
+                    "script": "forest-inn-greeting"
+                  },
+                  {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s110",
+                      "entity": "e2056"
+                    }
+                  },
+                  {
+                    "kind": "callScript",
                     "script": "forest-inn-welcome"
                   }
                 ],
@@ -1124,7 +1102,7 @@
                           "text": "dlg.5935"
                         }
                       ],
-                      "slot": "center",
+                      "slot": "top",
                       "identity": {
                         "kind": "unbound",
                         "speaker": "spk.李逍遥"

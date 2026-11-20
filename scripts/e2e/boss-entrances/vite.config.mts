@@ -196,6 +196,11 @@ ${anchor}`,
       code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')
       code = after(
         code,
+        'function drawDialogOverlay(fb: Framebuffer, gs: GameState, ctx: PresentContext): void {',
+        '  globalThis.__bossForeground?.gameBackdrop(gs, fb)',
+      )
+      code = after(
+        code,
         '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)',
         '    globalThis.__bossForeground?.showChoice(gs.eventCursor.confirmYes ?? false)',
       )
@@ -268,8 +273,13 @@ ${anchor}`,
         globalThis.__e2eNpcDrawPasses?.get(sprites), partyLayer)`,
       )
       const dialog = '      dialogBox.render(performance.now())\n      ctx.restore()\n    }'
-      const withDialog = replaceOnce(
+      const backdrop = after(
         staged,
+        '      // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。\n      drawFadeCurtain()',
+        '      globalThis.__bossForeground?.reforgeBackdrop(activeScene.scene.id, ctx)',
+      )
+      const withDialog = replaceOnce(
+        backdrop,
         dialog,
         `${dialog} else { globalThis.__openingCauseDialogueDraw?.('reforge', []) }`,
       )

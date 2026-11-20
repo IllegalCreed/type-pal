@@ -1597,9 +1597,23 @@ function readSceneRoute(data, commands, spec, trigger) {
         stage.body,
         'entry and touch use the same foreground body',
       )
-      const [shared] = stage.body
-      assert.equal(shared.kind, 'callScript')
-      return { ...visit, body: data.sharedScripts[shared.script].body }
+      const body = stage.body.flatMap((command) => {
+        if (command.kind === 'callScript') return data.sharedScripts[command.script].body
+        assert.equal(command.kind, 'runEntityTrigger')
+        assert.equal(command.target.scene, visit.scene)
+        const entity = loaded.entities.find(({ id }) => id === command.target.entity)
+        const page = entity.pages.find(({ id }) => id === entity.initialPage)
+        assert.equal(
+          page.triggerActivation,
+          undefined,
+          'foreground choreography needs no player trigger',
+        )
+        const flow = entity.behaviors.trigger[page.trigger].flow
+        const step = flow.stages.find(({ id }) => id === flow.initial)
+        assert.deepEqual(step.next, { kind: 'complete' })
+        return step.body
+      })
+      return { ...visit, body }
     }),
   ]
   for (const [index, segment] of segments.entries()) {

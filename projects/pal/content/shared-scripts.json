@@ -1458,116 +1458,9 @@
     ]
   },
   "forest-inn-welcome": {
-    "name": "山中野店迎客",
+    "name": "野店入座后的对话与离场",
     "self": "none",
     "body": [
-      {
-        "kind": "takeEntity",
-        "target": {
-          "scene": "s110",
-          "entity": "e2061"
-        }
-      },
-      {
-        "kind": "faceEntityToParty",
-        "target": {
-          "scene": "s110",
-          "entity": "e2061"
-        }
-      },
-      {
-        "kind": "setEntityFrame",
-        "target": {
-          "scene": "s110",
-          "entity": "e2061"
-        },
-        "frame": 0
-      },
-      {
-        "cue": {
-          "identity": {
-            "kind": "narration"
-          },
-          "rows": [
-            {
-              "text": "dlg.5863"
-            }
-          ]
-        },
-        "kind": "dialog"
-      },
-      {
-        "dir": "out",
-        "kind": "fade",
-        "ms": 1600
-      },
-      {
-        "actor": "li-xiaoyao",
-        "kind": "setActorSprite",
-        "sprite": "sprite-232"
-      },
-      {
-        "kind": "setParty",
-        "members": [
-          "li-xiaoyao"
-        ]
-      },
-      {
-        "facing": "down",
-        "kind": "setPartyFacing"
-      },
-      {
-        "kind": "teleportParty",
-        "pos": {
-          "col": 66,
-          "height": 0,
-          "row": 17
-        }
-      },
-      {
-        "kind": "setEntityState",
-        "state": 1,
-        "target": {
-          "scene": "s110",
-          "entity": "e2059"
-        }
-      },
-      {
-        "kind": "setEntityState",
-        "state": 1,
-        "target": {
-          "scene": "s110",
-          "entity": "e2060"
-        }
-      },
-      {
-        "kind": "selectEntityBehavior",
-        "target": {
-          "scene": "s110",
-          "entity": "e2056"
-        },
-        "channel": "auto",
-        "selection": {
-          "kind": "use",
-          "value": "legacy-001"
-        }
-      },
-      {
-        "kind": "clearDialog"
-      },
-      {
-        "kind": "wait",
-        "ms": 40
-      },
-      {
-        "kind": "fade",
-        "ms": 600,
-        "dir": "in"
-      },
-      {
-        "kind": "wait",
-        "ms": 1080
-      },
       {
         "kind": "dialog",
         "cue": {
@@ -1724,6 +1617,9 @@
         }
       },
       {
+        "kind": "clearDialog"
+      },
+      {
         "kind": "wait",
         "ms": 40
       },
@@ -1804,20 +1700,24 @@
         }
       },
       {
-        "kind": "selectEntityBehavior",
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "moveEntity",
         "target": {
           "scene": "s110",
           "entity": "e2056"
         },
-        "channel": "auto",
-        "selection": {
-          "kind": "use",
-          "value": "legacy-002"
-        }
+        "to": {
+          "col": 65,
+          "row": 11,
+          "height": 0
+        },
+        "speed": "normal"
       },
       {
         "kind": "wait",
-        "ms": 720
+        "ms": 200
       },
       {
         "kind": "setEntityFacing",
@@ -1943,8 +1843,13 @@
         }
       },
       {
+        "kind": "fade",
+        "dir": "in",
+        "ms": 600
+      },
+      {
         "kind": "wait",
-        "ms": 200
+        "ms": 500
       },
       {
         "kind": "dialog",
@@ -2201,6 +2106,9 @@
         }
       },
       {
+        "kind": "clearDialog"
+      },
+      {
         "kind": "setEntityState",
         "state": 1,
         "target": {
@@ -2209,8 +2117,34 @@
         }
       },
       {
+        "kind": "moveEntity",
+        "target": {
+          "scene": "s110",
+          "entity": "e2062"
+        },
+        "to": {
+          "col": 65,
+          "row": 14,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
+        "kind": "moveEntity",
+        "target": {
+          "scene": "s110",
+          "entity": "e2062"
+        },
+        "to": {
+          "col": 65,
+          "row": 16,
+          "height": 0
+        },
+        "speed": "run"
+      },
+      {
         "kind": "wait",
-        "ms": 600
+        "ms": 200
       },
       {
         "kind": "stopMusic"
@@ -2225,13 +2159,10 @@
           ],
           "identity": {
             "kind": "unbound",
-            "speaker": "spk.苗女",
-            "portrait": {
-              "asset": "portrait.pal.044",
-              "side": "left"
-            }
+            "speaker": "spk.苗女"
           },
-          "slot": "top"
+          "slot": "top",
+          "portraitLayout": true
         }
       },
       {
@@ -2298,6 +2229,9 @@
           },
           "slot": "top"
         }
+      },
+      {
+        "kind": "clearDialog"
       },
       {
         "kind": "setEntityFacing",
@@ -2424,20 +2358,33 @@
         }
       },
       {
-        "kind": "selectEntityBehavior",
+        "kind": "clearDialog"
+      },
+      {
+        "kind": "moveEntity",
         "target": {
           "scene": "s110",
           "entity": "e2062"
         },
-        "channel": "auto",
-        "selection": {
-          "kind": "use",
-          "value": "legacy-001"
-        }
+        "to": {
+          "col": 65,
+          "row": 14,
+          "height": 0
+        },
+        "speed": "run"
       },
       {
-        "kind": "wait",
-        "ms": 480
+        "kind": "moveEntity",
+        "target": {
+          "scene": "s110",
+          "entity": "e2062"
+        },
+        "to": {
+          "col": 75,
+          "row": 14,
+          "height": 0
+        },
+        "speed": "run"
       },
       {
         "kind": "setEntityState",
@@ -2665,6 +2612,51 @@
       {
         "kind": "loadScene",
         "scene": "s106"
+      }
+    ]
+  },
+  "forest-inn-greeting": {
+    "name": "野店门口迎客",
+    "self": "none",
+    "body": [
+      {
+        "kind": "takeEntity",
+        "target": {
+          "scene": "s110",
+          "entity": "e2061"
+        }
+      },
+      {
+        "kind": "faceEntityToParty",
+        "target": {
+          "scene": "s110",
+          "entity": "e2061"
+        }
+      },
+      {
+        "kind": "setEntityFrame",
+        "target": {
+          "scene": "s110",
+          "entity": "e2061"
+        },
+        "frame": 0
+      },
+      {
+        "cue": {
+          "identity": {
+            "kind": "narration"
+          },
+          "rows": [
+            {
+              "text": "dlg.5863"
+            }
+          ],
+          "slot": "top"
+        },
+        "kind": "dialog"
+      },
+      {
+        "kind": "clearDialog"
       }
     ]
   }

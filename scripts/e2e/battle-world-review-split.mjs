@@ -1,8 +1,15 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { recordingDependencies } from './evidence-dependencies.mjs'
+import {
+  checkWorldSpritePixels,
+  publishWorldDialogueSplit,
+  readWorldSpritePose,
+} from './world-dialogue-review.mjs'
 
 const args = process.argv.slice(2)
 const reviewLoadReveal = args.at(-1) === '--load-reveal'
@@ -18,8 +25,41 @@ const sha256 = async (path) =>
   createHash('sha256')
     .update(await readFile(path))
     .digest('hex')
-const comparison = await json(comparisonPath)
+let comparison = await json(comparisonPath)
 assert.equal(comparison.status, 'passed')
+if (comparison.kind === 'world-boss-entrance') {
+  const verifier = fileURLToPath(new URL('./boss-entrances/compare.mjs', import.meta.url))
+  const original = [comparison.game, comparison.reforge]
+  const paths = [gameReport, reforgeReport].map((relocated, i) =>
+    resolve(relocated ?? original[i].report),
+  )
+  const replay = spawnSync(process.execPath, [verifier, comparison.scenario, ...paths], {
+    encoding: 'utf8',
+    maxBuffer: 16 * 1024 * 1024,
+  })
+  if (replay.error) throw replay.error
+  assert(replay.stdout, replay.stderr || 'the offline comparison produced no receipt')
+  const recomputed = JSON.parse(replay.stdout)
+  assert(
+    replay.status === 0 && recomputed.status === 'passed',
+    JSON.stringify(
+      recomputed.failures.map(({ engine, phase, issue, path, cue, rows, error }) => ({
+        engine,
+        phase,
+        issue,
+        path,
+        cue: cue ?? rows?.[0]?.id,
+        error,
+      })),
+    ),
+  )
+  assert.deepEqual(
+    [recomputed.game, recomputed.reforge].map(({ reportSha256 }) => reportSha256),
+    original.map(({ reportSha256 }) => reportSha256),
+    'recomputed evidence must be the same reports named by the original comparison',
+  )
+  comparison = { ...recomputed, recheckedBy: await sha256(verifier) }
+}
 const verified = comparison.engines ?? [comparison.game, comparison.reforge]
 
 function nativeVideoEnd(path) {
@@ -68,6 +108,17 @@ async function side(engine, relocatedReport) {
   const reportSha256 = bossEntrance ? compare.reportSha256 : compare.sha256
   assert.equal(await sha256(reportPath), reportSha256)
   const report = await json(reportPath)
+  if (bossEntrance && report.input.sceneRoute?.visits?.length)
+    assert(compare.foregroundCoverage?.length, 'the foreground route needs a coverage receipt')
+  if (compare.foregroundCoverage) {
+    const root = fileURLToPath(new URL('../../', import.meta.url))
+    const current = await recordingDependencies(root, report.dependencies.definition)
+    assert.deepEqual(
+      report.dependencies,
+      current,
+      'current execution sources differ from the recording',
+    )
+  }
   assert.equal(report.profile, 'capture')
   assert.equal(report.media.status, 'passed')
   const recording = resolve(dirname(reportPath), 'story.webm')
@@ -131,7 +182,16 @@ async function side(engine, relocatedReport) {
       scriptedReturn || directHandoff ? exitSeconds === returnSeconds : exitSeconds > returnSeconds,
     )
     assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
-    return { ...identity, contactSeconds, returnSeconds, exitSeconds }
+    return {
+      ...identity,
+      contactSeconds,
+      returnSeconds,
+      exitSeconds,
+      ...(compare.foregroundCoverage && {
+        coverage: compare.foregroundCoverage,
+        startedAt: start,
+      }),
+    }
   }
   const handoff = raw.native?.handoff ?? raw.handoff
   const contact =
@@ -170,6 +230,47 @@ async function side(engine, relocatedReport) {
 }
 
 const sides = await Promise.all([side('game', gameReport), side('reforge', reforgeReport)])
+if (sides.every(({ coverage }) => coverage)) {
+  const recordings = sides.map((entry) => {
+    const scene = entry.coverage.find(({ backdrop }) => backdrop)
+    assert(
+      scene?.backdrop.checkedFrames > 0 &&
+        scene.pixels?.length &&
+        scene.pixels.every(({ status }) => status === 'passed'),
+      `${entry.engine} missing decoded world-dialogue coverage`,
+    )
+    const spans = scene.pixels.map(({ start, end }, index) => ({
+      id: `${scene.scene}-${index + 1}`,
+      start,
+      end,
+      minLitFraction: 0.2,
+    }))
+    return { ...entry, lastSeconds: entry.videoEnd, anchor: entry.contactSeconds, spans }
+  })
+  await publishWorldDialogueSplit(
+    {
+      status: 'passed',
+      scenario: comparison.scenario,
+      recheckedBy: comparison.recheckedBy,
+      recordings,
+    },
+    resolve(target),
+    resolve(`${target.replace(/\.mp4$/u, '')}-media.json`),
+    async (source, clip, trim, panel) => {
+      const inn = source.coverage.find(({ backdrop }) => backdrop)
+      const seated = inn.cues.find(({ cue }) => cue === 'dlg.5865')
+      const { view } = seated.views[0]
+      const [asset, foot, , frame] = view.cast.e2061
+      const pixels = await readWorldSpritePose(asset, frame)
+      const [left, top] = view.camera
+      const pixelPosition = [foot[0] - left - pixels.anchorX, foot[1] - top + 7 - pixels.anchorY]
+      const seconds = (seated.firstComplete.atMs - source.startedAt) / 1000 - trim
+      return [await checkWorldSpritePixels(clip, seconds, { ...pixels, pixelPosition }, panel)]
+    },
+  )
+  console.log(`${target} ${await sha256(target)}`)
+  process.exit(0)
+}
 const anchor = ({ loadRevealSeconds, contactSeconds, inputSeconds }) =>
   loadRevealSeconds ?? contactSeconds ?? inputSeconds
 const preroll = Math.min(reviewLoadReveal ? 0.9 : 1.35, ...sides.map(anchor))
