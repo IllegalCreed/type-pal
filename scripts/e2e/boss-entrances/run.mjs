@@ -38,12 +38,15 @@ assert(
 )
 const game = engine === 'game'
 const entrance = spec.entrance
+const revisit = spec.revisit
 const checkpointScene = entrance?.scene ?? spec.scene
-const checkpoint = entrance?.start ?? spec.start
+const checkpoint = entrance?.start ?? revisit?.checkpoint ?? spec.start
 const fieldMusic = initialTrack(spec)
 const fieldMusicAsset = nativeMusic(fieldMusic)
 const approach = spec.approach ?? 'ArrowUp'
-const facing = (entrance?.key ?? approach).slice('Arrow'.length).toLowerCase()
+const facing = (entrance?.key ?? revisit?.into.runs[0][0] ?? approach)
+  .slice('Arrow'.length)
+  .toLowerCase()
 const returned = returnedPosition(spec)
 const departure = departingPosition(spec)
 const source = await readSources(spec)
@@ -70,8 +73,10 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
-  visitScenes: spec.sceneRoute?.visits.map(({ scene }) => scene),
-  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.route || scriptedStop),
+  visitScenes:
+    spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
+  includesParty:
+    spec.party === 'tomb' || Boolean(source.tower || source.route || revisit || scriptedStop),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -221,7 +226,7 @@ async function makeGameFixture(page, baseURL, until) {
       }
       return { canonical, staged: serializeSave(world) }
     },
-    spec.party === 'city' || spec.party === 'tomb' || source.route ? nativeRoles : null,
+    spec.party === 'city' || spec.party === 'tomb' || source.route || revisit ? nativeRoles : null,
   )
   const payload = JSON.parse(staged)
   const gs = payload.gs
@@ -229,7 +234,8 @@ async function makeGameFixture(page, baseURL, until) {
   for (const table of entrance ? [gs.allEventObjects] : [gs.npcs, gs.allEventObjects]) {
     const actor = table.find(({ id }) => id === initialOwner)
     assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-    if (!source.setup) assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
+    if (!source.setup)
+      assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
     for (const [id, prepared] of Object.entries(source.setup ?? {})) {
       const npc = table.find(({ id: number }) => `e${number}` === id)
       assert(npc, `missing original predecessor actor ${id}`)
@@ -253,10 +259,16 @@ async function makeGameFixture(page, baseURL, until) {
       activated.sState = state
     }
   }
+  if (revisit) {
+    gs.sceneOnEnterIp[gameScene({ scene: revisit.scene })] = revisit.hookIp
+    const departed = gs.allEventObjects.find(({ id }) => id === 1846)
+    assert.equal(departed.triggerLabel, 'L_21296')
+    departed.sState = 0
+  }
   const [x, y] = toGamePixel(checkpoint)
   gs.party = { x, y, facing }
   gs.camera = { x: x - 160, y: y - 112 }
-  const [xx, yy] = toGamePixel(entrance?.contact ?? spec.contact)
+  const [xx, yy] = toGamePixel(entrance?.contact ?? source.toad?.steps.into[0].to ?? spec.contact)
   gs.trail = Array.from({ length: 5 }, (_, i) => ({
     x: x - (xx - x) * i,
     y: y - (yy - y) * i,
@@ -350,6 +362,12 @@ async function makeReforgeFixture() {
   }
   if (source.preludePartyLayer !== undefined)
     world.script.vars['sys:partyLayer'] = source.preludePartyLayer
+  if (revisit) {
+    world.script.behaviors.scenes = {
+      [revisit.scene]: { onEnter: { selection: { kind: 'use', value: revisit.hook } } },
+    }
+    world.script.entityState[revisit.scene] = { e1846: 0 }
+  }
   if (source.setup) {
     world.script.entityState[spec.scene] = {}
     world.script.entityPos ??= {}
@@ -571,6 +589,80 @@ async function playEncounter({ page, press, health, capture }) {
   }
 }
 
+async function playRevisit({ page, press, record, health, capture, until, result }) {
+  const { into, out, approach } = source.toad.steps
+  const walkSteps = async (steps, scene, phase, arrival = null) => {
+    for (const [index, step] of steps.entries()) {
+      const crossing = index === steps.length - 1 && arrival
+      await walk({
+        page,
+        health,
+        record,
+        ...step,
+        scene,
+        phase,
+        mode: crossing && arrival.mode,
+        ...(crossing && { arrival }),
+      })
+    }
+  }
+  await walkSteps(into, spec.scene, 'revisit-enter')
+  let lastLine = null
+  const entered = await until(
+    async () => {
+      health()
+      const view = await read(page)
+      const box = view?.state?.box
+      const line = lineKey(box)
+      if (
+        view?.state?.scene === revisit.scene &&
+        box?.text &&
+        waiting.has(box.phase) &&
+        line !== lastLine
+      ) {
+        lastLine = line
+        if (
+          !capture.enabled ||
+          (await capture.readable(box.text, line, async () =>
+            lineKey((await read(page)).state.box),
+          ))
+        ) {
+          await press(confirm, 'revisit-dialogue')
+        }
+      }
+      return view
+    },
+    (view) => ready(view?.state, revisit.scene),
+    'source-authored return visit is ready',
+    65_000,
+  )
+  result.revisit = { entered: entered.state }
+  assert.deepEqual(entered.state.position, revisit.departure)
+  await walkSteps(out, revisit.scene, 'revisit-leave', {
+    scene: spec.scene,
+    position: checkpoint,
+    mode: 'ready',
+  })
+  result.revisit.returned = await page.evaluate(
+    ({ game, owner, scene }) => {
+      if (game) {
+        const npc = globalThis.__tpgs.npcs.find(({ id }) => `e${id}` === owner)
+        return { position: [npc.x, npc.y], facing: npc.facing, trigger: npc.triggerLabel }
+      }
+      const npc = globalThis.__rfScene.entities.find(({ id }) => id === owner)
+      return {
+        position: [npc.pos.col, npc.pos.row, npc.pos.height],
+        facing: npc.facing,
+        trigger: globalThis.__rfWorld.script.behaviors.entities?.[scene]?.[owner]?.trigger,
+      }
+    },
+    { game, owner: spec.owner, scene: spec.scene },
+  )
+  for (const step of approach) {
+    await walk({ page, health, record, ...step, phase: 'revisit-cave', mode: 'ready' })
+  }
+}
+
 await runBrowserJourney({
   name: `q2-${spec.id}-${engine}-${option ? 'capture' : 'verify'}`,
   packageName: `@type-pal/${engine}`,
@@ -721,6 +813,7 @@ await runBrowserJourney({
           })
         }
       }
+      if (revisit) await playRevisit({ page, press, record, health, capture, until, result })
       await walk({
         page,
         health,

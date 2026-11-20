@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
@@ -18,6 +19,7 @@ export const battleOperands = (spec) => [spec.team, spec.disk.loss ?? 41075, spe
 export const isBossBattle = (spec) => battleOperands(spec)[2] === 0
 export const observesForeground = (spec) =>
   spec.prelude !== undefined ||
+  spec.revisit !== undefined ||
   spec.world.handoff !== undefined ||
   spec.world.scriptedReturn !== undefined ||
   spec.disk.victory !== undefined ||
@@ -454,6 +456,63 @@ export const scenarios = {
       },
     },
   },
+  'golden-toad': {
+    id: 'golden-toad',
+    scene: 's103',
+    owner: 'e1908',
+    watched: ['e1909', 'e1910'],
+    team: 36,
+    enemy: 'enemy-500',
+    start: [86, 28, 0],
+    contact: [85, 28, 0],
+    approach: 'ArrowLeft',
+    music: 45,
+    field: 36,
+    slot: 0,
+    seed: 4,
+    settlementDwellMs: 180,
+    disk: {
+      firstVisit: 21418,
+      entry: 21515,
+      battle: 21549,
+      field: 21561,
+      music: 21562,
+      last: 21551,
+      owner: [848, 856, 1, 8],
+    },
+    mapMusic: { scene: 's103', ip: 21563, track: 36 },
+    revisit: {
+      scene: 's101',
+      hook: 'legacy-001',
+      hookIp: 21484,
+      checkpoint: [130, 96, 0],
+      arrival: [84, 28, 0],
+      departure: [84, 30, 0],
+      into: { owner: 'e1904', ip: 21398, runs: [['ArrowDown', 3]] },
+      out: { owner: 'e1843', ip: 21394, runs: [['ArrowUp', 4]] },
+      cave: [
+        ['ArrowUp', 21],
+        ['ArrowLeft', 7],
+        ['ArrowUp', 9],
+        ['ArrowRight', 5],
+        ['ArrowUp', 9],
+        ['ArrowLeft', 13],
+        ['ArrowUp', 7],
+        ['ArrowLeft', 20],
+        ['ArrowUp', 13],
+        ['ArrowRight', 2],
+        ['ArrowUp', 9],
+        ['ArrowLeft', 11],
+      ],
+    },
+    world: {
+      gameState: 0,
+      triggerMode: 8,
+      inventory: [],
+      exit: 'ArrowRight',
+      music: { ip: 21550, track: 82 },
+    },
+  },
   thief: {
     id: 'yangzhou-rooftop-thief',
     scene: 's086',
@@ -652,6 +711,12 @@ export async function readSources(spec) {
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
+    ...(spec.revisit
+      ? {
+          revisitScene: `projects/pal/content/scenes/${spec.revisit.scene}.json`,
+          diskRevisitScene: `data/extracted/data/scene/${Number(spec.revisit.scene.slice(1))}.json`,
+        }
+      : {}),
     ...(observesForeground(spec) ? { sprites: 'projects/pal/content/sprites.json' } : {}),
     ...(spec.world.handoff
       ? {
@@ -666,7 +731,8 @@ export async function readSources(spec) {
   )
   const actor = data.gameScene.eventObjects.find(({ id }) => `e${id}` === spec.owner)
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-  if (!spec.predecessor) assert.equal(actor.triggerLabel, `L_${spec.disk.entry}`)
+  if (!spec.predecessor)
+    assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
   const commands = data.commands.segments.flatMap(({ commands }) => commands)
   const fieldTrack = musicId(mapMusic.track)
   const musicOwner = mapMusic.trigger
@@ -778,8 +844,10 @@ export async function readSources(spec) {
   const boss = data.rfScene.entities.find(({ id }) => id === spec.owner)
   const setup = spec.predecessor ? readInnPredecessor(data.predecessor, commands, spec) : undefined
   const inn = spec.entrance ? readInnFrames(data, commands, setup, spec) : undefined
+  const toad = spec.revisit ? readGoldenToadSources(data, commands, spec) : undefined
   const trigger =
-    boss.behaviors.trigger[setup?.[spec.owner].triggerVariant ?? 'default'].flow.stages[0].body
+    boss.behaviors.trigger[toad?.behavior ?? setup?.[spec.owner].triggerVariant ?? 'default'].flow
+      .stages[0].body
   const route = spec.sceneRoute && readSceneRoute(data, commands, spec, trigger)
   const native = route?.battleBody ?? trigger
   const launch = native.find(({ kind }) => kind === 'startBattle')
@@ -994,6 +1062,14 @@ export async function readSources(spec) {
             'scripts/e2e/rendered-dialogue-comparison.mjs',
           ]
         : []),
+      ...(toad
+        ? [
+            'scripts/e2e/boss-entrances/golden-toad-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
+            `data/extracted/data/tilemap/${data.diskRevisitScene.mapNum}.json`,
+            `projects/pal/content/maps/${data.revisitScene.mapId}.json`,
+          ]
+        : []),
     ],
     preludeStates,
     preludeWave,
@@ -1021,6 +1097,7 @@ export async function readSources(spec) {
     scriptedStop,
     poisonLady,
     stoneElder,
+    toad,
     route,
     summonBonus,
     summoning: summonScript && {
