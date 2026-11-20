@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "887a3f4da5bc960a7fe5922efbf4bd57f14f158f6ae8e985a47e5ad16d5d059f",
+      "afterSha256": "c08189d50b9f281918719520680395af175e4979ed7eca74f4ccf68f4864f014",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 133,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 134,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "636b4f96df40b31b947aa186dccf5ffa73a667a627e11f785023b252a608091c",
+      "afterSha256": "0c85e29e56833e4da0e720d7f616497af6aa9fa3682bb70985e573d12a3e455f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 10397,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 10413,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "0dfcafe4145598296060d7dc4025e4ac8fce7b0678ee5488c6012ac161573bec",
+      "afterSha256": "9ad5b831881e5c1c901de87c7efb18afd839dcaa0e5d0a942e58a0f92208466a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 1151,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 1167,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "2a210ba3bb4354efdd0caa132b9f679ce07c2be75e4524412803bc8ff7ec1d58",
+      "afterSha256": "5bde4a7da8bc5c096b73bd20d6db4e69eea2a523b70030d92fe89c2ee0c47dd2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 15239,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 15255,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "16d319fcd22f53e2a739413e56718499d6c70c78a0097f5c4d460bf14ca20e45",
+      "afterSha256": "63e32411e990a46ef22c8ee355c0f9c54d9033baeaa2e662be172666a2a65dd2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 1792,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 1810,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "228a168152316724ed950fa49a46d1f18f64ec3a45259a31ba876842e709b46e",
+      "afterSha256": "aabe04069c40a0b155e14b67ca7da25826245d1ea67b6686286bc3fd0651a04b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
-        "reviewedLines": 490,
-        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
+        "conclusion": "核大理祭坛入口、前景节拍、原录与成片以及现行源码引用。",
+        "reviewedLines": 494,
+        "acceptanceScope": "本次祭坛双端复验、出片反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -6891,6 +6891,36 @@
       "bytes": 50764981,
       "sha256": "109bb67559ccd66c65199405f8a020da53e2f5902a5731664734d712bcbf72f7",
       "purpose": "尚书府入场、清屏、停战、返场、逐帧判据及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-game-original-1.tar.gz",
+      "bytes": 46670516,
+      "sha256": "ccfd9f74049afac61655b8933f438c3465dd0935a7b0d6160ae353010ffee136",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-game-original-2.tar.gz",
+      "bytes": 41635006,
+      "sha256": "481f6b421dd84126d824c817d2ae1111caed13868fad9bc718ed3e5844e1da27",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-reforge-original-1.tar.gz",
+      "bytes": 46380908,
+      "sha256": "6ff11ffd746f042f0edad61217d7ce423f800644e2f2b7e012cf2ebbf5f536d2",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120-reforge-original-2.tar.gz",
+      "bytes": 28001255,
+      "sha256": "5a5c4936ec590ee9fc95b13352080ff21356b80d3c06c57054434d1af390c345",
+      "purpose": "大理祭坛地魔兽复验的原生录像恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-dali-earth-beast-20261120.tar.gz",
+      "bytes": 38861652,
+      "sha256": "315ba85713043e52ae0cc56f7d959567dd7ba52ed97ddc4f6617e11165411008",
+      "purpose": "大理祭坛七次切场、真实用物和起战、清屏返场、失败反例及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

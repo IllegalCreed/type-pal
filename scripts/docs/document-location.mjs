@@ -55,6 +55,7 @@ import {
   isTestingCliffEntrySource,
   isTestingPartyPoseSource,
   isTestingQ2CoverageSource,
+  isTestingQ2DaliSource,
   isTestingQ2EntryAutoSource,
   isTestingQ2EscortsSource,
   isTestingQ2ForestInnSource,
@@ -108,6 +109,7 @@ import {
   restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingQ2CoverageSourceBindings,
+  restoreTestingQ2DaliSourceBindings,
   restoreTestingQ2EntryAutoSourceBindings,
   restoreTestingQ2EscortsSourceBindings,
   restoreTestingQ2ForestInnSourceBindings,
@@ -178,6 +180,7 @@ import {
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
   testingQ2CoveragePublicationBase,
+  testingQ2DaliPublicationBase,
   testingQ2EntryAutoPublicationBase,
   testingQ2EscortsPublicationBase,
   testingQ2ForestInnPublicationBase,
@@ -1004,8 +1007,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (shangshuRevision) assert(forestInnSource && /^[a-f0-9]{40}$/u.test(shangshuRevision))
   const shangshuSource = shangshuRevision && gitTree(root, shangshuRevision, [])
   const preShangshu = shangshuSource && gitTree(root, testingQ2ShangshuPublicationBase, [])
-  const readBeforeShangshu = (path) => {
+  const daliRevision = admission.testingQ2DaliSourceRevision
+  if (daliRevision) assert(shangshuSource && /^[a-f0-9]{40}$/u.test(daliRevision))
+  const daliSource = daliRevision && gitTree(root, daliRevision, [])
+  const preDali = daliSource && gitTree(root, testingQ2DaliPublicationBase, [])
+  const readBeforeDali = (path) => {
     const live = readSource(path)
+    if (!preDali || !isTestingQ2DaliSource(path)) return live
+    assert(
+      live?.equals(daliSource.read(path)),
+      'Dali split source differs from the frozen candidate',
+    )
+    return preDali.read(path)
+  }
+  const readBeforeShangshu = (path) => {
+    const live = readBeforeDali(path)
     if (!preShangshu || !isTestingQ2ShangshuSource(path)) return live
     assert(
       live?.equals(shangshuSource.read(path)),
@@ -1410,13 +1426,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorShangshu = preShangshu
-      ? restoreTestingQ2ShangshuSourceBindings(path, bytes, {
+    const priorDali = preDali
+      ? restoreTestingQ2DaliSourceBindings(path, bytes, {
           readSource,
+          readBase: preDali.read,
+          readFixed: daliSource.read,
+        })
+      : bytes
+    const priorShangshu = preShangshu
+      ? restoreTestingQ2ShangshuSourceBindings(path, priorDali, {
+          readSource: readBeforeDali,
           readBase: preShangshu.read,
           readFixed: shangshuSource.read,
         })
-      : bytes
+      : priorDali
     const priorForestInn = preForestInn
       ? restoreTestingQ2ForestInnSourceBindings(path, priorShangshu, {
           readSource: readBeforeShangshu,

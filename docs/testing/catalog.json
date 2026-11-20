@@ -7884,8 +7884,8 @@
         {
           "path": "scripts/e2e/battle-world-review-split.mjs",
           "anchor": "function nativeVideoEnd(path)",
-          "lines": "65",
-          "sha256": "feb59996c541eb113cc3b4fd77cb2e0b17d9ebfb6e3d06301357e833510e67ae",
+          "lines": "66",
+          "sha256": "e78f2af3c6baead41d9df15bfc038d0dc072fd57eb89c2c02d9e34cd14ecd8f8",
           "role": "visual-review"
         },
         {
@@ -9918,6 +9918,22 @@
               }
             ],
             "scope": "尚书府进战先重绘、府内前景覆盖与成片解码增量，保留既有调用区段和历次执行身份。"
+          },
+          {
+            "action": "q2-dali-split-source-rebinding",
+            "base": "8dd8dc609bfa428c27f9c2c13ab339d4c9d5b639",
+            "date": "2026-11-20",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-world-review-split.mjs",
+                "anchor": "function nativeVideoEnd(path)",
+                "lines": "65",
+                "sha256": "feb59996c541eb113cc3b4fd77cb2e0b17d9ebfb6e3d06301357e833510e67ae",
+                "role": "visual-review"
+              }
+            ],
+            "scope": "大理祭坛接入实际用物起战及原录、成片主角像素核验，保持既有分屏来源段与执行回执。"
           }
         ]
       }

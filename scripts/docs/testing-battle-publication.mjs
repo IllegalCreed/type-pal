@@ -2729,6 +2729,23 @@ export function restoreTestingQ2ShangshuSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2DaliPublicationBase = '8dd8dc609bfa428c27f9c2c13ab339d4c9d5b639'
+const daliSourceStage = {
+  ranges: new Map([[forestInnSplit, { 65: '66' }]]),
+  base: testingQ2DaliPublicationBase,
+  action: 'q2-dali-split-source-rebinding',
+  date: '2026-11-20',
+}
+const daliSourceBindings = new Map([
+  [publication.evidence, { id: publication.id, paths: [forestInnSplit], artifactClaims: true }],
+])
+
+export const isTestingQ2DaliSource = (path) => daliSourceStage.ranges.has(path)
+
+export function restoreTestingQ2DaliSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, daliSourceStage, daliSourceBindings)
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
