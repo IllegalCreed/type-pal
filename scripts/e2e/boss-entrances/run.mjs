@@ -1098,11 +1098,16 @@ await runBrowserJourney({
         Boolean,
         'source-authored field music audible before recording',
       )
-      await capture.arm(page, {
-        event: 'before-world-boss-contact',
-        scene: checkpointScene,
-        grid: checkpoint,
-      })
+      await capture.arm(
+        page,
+        { event: 'before-world-boss-contact', scene: checkpointScene, grid: checkpoint },
+        finale
+          ? game
+            ? '/extracted/videos/4.mp4'
+            : '/projects/pal/assets/migrated/videos/004.mp4'
+          : null,
+        false,
+      )
       if (source.tower) {
         const idleSince = await page.evaluate(() => performance.now())
         await page.waitForFunction((start) => performance.now() >= start + 850, idleSince)
@@ -1177,8 +1182,11 @@ await runBrowserJourney({
       result.returned = await playEncounter({ page, press, health, capture })
       if (finale) {
         if (capture.enabled) {
-          const seen = result.returned.finaleHandoff.atMs
-          await page.waitForFunction((at) => performance.now() >= at + 750, seen)
+          await page.waitForFunction(() => {
+            const video = document.querySelector('video')
+            return video?.readyState >= 2 && video.currentTime >= 0.6
+          })
+          health()
         }
         await capture.finish(page, {
           event: 'world-boss-ending-handoff',

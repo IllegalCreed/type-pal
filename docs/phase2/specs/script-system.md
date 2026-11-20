@@ -100,6 +100,8 @@ onEnter 的各步骤可声明 `entry{prepare,reveal}`。切场时根据目标 on
 
 过场淡出可以由帧动画的 `holdLastFrame` 保留影片末帧。黑幕后用 `clearFrameAnimation` 交回当下场景，切场提交也会收掉影片层。新场景在首个可见帧前要定位队伍或清除旧震屏时，将这些动作放在目标 `entry.prepare`，由 `entry.reveal` 接续。片段间需要才恢复的后台职责由当前演出显式接通。固定剧情走位的起步、步数、停点和后续对白由前景正文持有。 [场景入场编排](../guides/scene-entry-authoring.md)
 
+帧动画接结局影片时，可继续用 `holdLastFrame` 保持末帧，覆盖对白换页和结局视频异步加载。 `quitToTitle` 在播放完指定结局视频后收掉帧动画层并导航至标题。
+
 驱魔香、十里香用现有 `hostileAwareness` 倒计时调节引擎追逐。倍率为零时，原本可追逐的明雷在原脚点每拍推进步态，每两拍沿下、左、上、右转向。场景内已有的姿态覆盖、已编排动作及移动步态优先绘制。世界计时结束后恢复场景默认感知距离。 [原盘行为](../../phase1/game-mechanics.md) · [引擎计时](../../../packages/reforge/src/main.ts) · [精灵绘制](../../../packages/reforge/src/world-scene-presentation.ts)
 
 传送出口指令 `teleportOut` 运行当前有效的 `onTeleport`。配置 `gatherParty: true` 时，出口的目的场景从首个揭示帧起按聚拢队形摆放，成功收尾时以队首重置跟随轨迹。`arrivalSound` 在目的场景提交时播放一次，位于淡入之前。失败执行 `onFail`。引路蜂和土灵珠都用这两个选项。引路蜂成功扣库存，土灵珠用于传送时保留库存，两者失败都显示旁白。 [原盘行为](../../phase1/game-mechanics.md) · [当前宿主](../../../packages/reforge/src/main.ts)

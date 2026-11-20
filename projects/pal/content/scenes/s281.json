@@ -1062,6 +1062,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 1,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 0
                     },
@@ -1093,6 +1094,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 16,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 1
                     },
@@ -1120,6 +1122,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 54,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 17
                     },
@@ -1149,6 +1152,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 59,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 55
                     },
@@ -1205,6 +1209,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 74,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 60
                     },
@@ -1260,6 +1265,7 @@
                       "asset": "frame-animation.pal.009",
                       "endFrame": 109,
                       "frameRate": 8,
+                      "holdLastFrame": true,
                       "kind": "playFrameAnimation",
                       "startFrame": 75
                     },

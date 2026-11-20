@@ -8,6 +8,7 @@ import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
 import { checkWorldDialoguePixels, decodeWorldDialoguePixels } from '../world-dialogue-pixels.mjs'
+import { inspectBaiyuePresentation } from './baiyue-presentation.mjs'
 import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
 import { inspectDaliAltar } from './dali-altar-presentation.mjs'
 import { inspectFireQilin } from './fire-qilin-presentation.mjs'
@@ -82,9 +83,10 @@ const contactScene = spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpointScene = entrance?.scene ?? contactScene
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
-const leavesByScript = Boolean(handoff || scriptedReturn)
+const finale = source.finale
+const leavesByScript = Boolean(handoff || scriptedReturn || finale)
 const fieldMusic = initialTrack(spec)
-const returnMusic = returnTrack(spec)
+const returnMusic = finale ? fieldMusic : returnTrack(spec)
 const returnedAt = returnedPosition(spec)
 const departureAt = departingPosition(spec)
 const approachKey = spec.approach ?? 'ArrowUp'
@@ -102,6 +104,7 @@ const mainAction = (action, game) => {
   return {
     kind,
     spell: kind === 'cast' ? String(game ? action.actionId : action.skillId) : null,
+    ...(kind === 'item' && { item: String(game ? action.actionId : action.itemId) }),
     target: ['defend', 'pass'].includes(kind)
       ? null
       : game
@@ -1412,6 +1415,16 @@ async function inspect(path, engine) {
       )
     }
   }
+  if (finale) {
+    assert.deepEqual(run.initial.state.inventory, spec.inventory)
+    const readback = game ? saved : await read(run.slotReadback)
+    for (const [id, state] of Object.entries(source.preludeStates)) {
+      const actual = game
+        ? readback.gs.allEventObjects.find(({ id: number }) => `e${number}` === id)?.sState
+        : readback.world.script.entityState[spec.scene]?.[id]
+      assert.equal(actual, state, `original predecessor ${id}`)
+    }
+  }
   assert.deepEqual(
     report.contexts.map(({ label, initialDatabases }) => [label, initialDatabases]),
     game
@@ -1757,15 +1770,18 @@ async function inspect(path, engine) {
     assert(
       commands
         .filter(({ turn }) => turn > 1)
-        .every(
-          ({ turn, kind, spell, target }) =>
+        .every(({ slot, turn, kind, spell, item, target }) => {
+          if (finale && slot === 2 && turn % 3 === 2)
+            return kind === 'item' && item === spec.inventory[0].itemId && target === null
+          return (
             (kind === 'attack' ||
               (source.wood && kind === 'cast') ||
               (turn === spec.recovery?.turn && kind === 'cast' && spell === spec.recovery.skill)) &&
             Number.isInteger(target) &&
             target >= 0 &&
-            target < source.slots.length,
-        ),
+            target < source.slots.length
+          )
+        }),
     )
     assert(battleKeys.length > 0)
   }
@@ -2048,6 +2064,17 @@ async function inspect(path, engine) {
   }
   assert.equal(won.cash, cash)
   const rewardInventory = source.route?.ming?.reward ?? spec.world.inventory
+  const finaleStock = finale
+    ? spec.inventory.flatMap(({ itemId, count }) => {
+        const left =
+          count -
+          actions.filter(
+            ({ side, kind, item }) => side === 'player' && kind === 'item' && item === itemId,
+          ).length
+        assert(left >= 0, 'battle did not spend unavailable items')
+        return left ? [{ itemId, count: left }] : []
+      })
+    : undefined
   const completionStock = automatic
     ? [
         { itemId: '138', count: 9 },
@@ -2058,15 +2085,29 @@ async function inspect(path, engine) {
       : []
   assert.deepEqual(
     won.inventory,
-    completionStock,
+    finaleStock ?? completionStock,
     'hook inventory at the engine-specific battle completion boundary',
   )
   const control = once(
-    handoff ? 'successor-drawn' : scriptedReturn ? 'scripted-return-drawn' : 'world-control',
+    finale
+      ? 'ending-handoff'
+      : handoff
+        ? 'successor-drawn'
+        : scriptedReturn
+          ? 'scripted-return-drawn'
+          : 'world-control',
   )
-  const last = leavesByScript ? run.returned.state : run.departure.state
+  const last = finale ? won : leavesByScript ? run.returned.state : run.departure.state
   assert(won.order < control.order)
-  if (handoff) {
+  if (finale) {
+    assert.equal(control.scene, spec.scene)
+    assert.deepEqual(run.returned.finaleHandoff, control, 'the completed journey observed handoff')
+    if (game) assert.equal(control.ip, finale.ip)
+    else {
+      assert.deepEqual(control.path, ['initial', finale.handoffIndex])
+      assert.deepEqual(control.videos, source.canonical[finale.handoffIndex].videos)
+    }
+  } else if (handoff) {
     assert.equal(control.scene, handoff.scene)
     assert.deepEqual(last.position, handoff.finalPosition ?? handoff.position)
     const [col, row] = handoff.position
@@ -2124,7 +2165,7 @@ async function inspect(path, engine) {
     )
     assert.deepEqual(control.inventory, spec.world.inventory)
   }
-  assert.deepEqual([last.cash, last.inventory], [cash, rewardInventory])
+  assert.deepEqual([last.cash, last.inventory], [cash, finaleStock ?? rewardInventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
     [
@@ -2146,7 +2187,7 @@ async function inspect(path, engine) {
       ),
       'original field music after battle',
     )
-    assert.equal(last.music, returnMusic)
+    if (!finale) assert.equal(last.music, returnMusic)
   }
   if (
     !leavesByScript &&
@@ -2232,7 +2273,8 @@ async function inspect(path, engine) {
     source.gai ||
     source.wood ||
     source.phoenix ||
-    source.qilin
+    source.qilin ||
+    finale
       ? undefined
       : checkDialogue(
           events,
@@ -2242,6 +2284,9 @@ async function inspect(path, engine) {
         )
   const boundaries = { entered, trigger, launch: launch[0], prepared, entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const baiyue = finale
+    ? inspectBaiyuePresentation({ events, draws: renderedDialogue, boundaries, source, spec, game })
+    : undefined
   const linTiannan = linTiannanFacts
     ? inspectLinTiannanPresentation({
         events,
@@ -2344,8 +2389,8 @@ async function inspect(path, engine) {
         bounds: boundaries,
         entries: stoneElderAuto.firstEntries,
       })
-    : (linTiannan?.coverage ?? dali?.coverage)
-  await inspectForegroundRecording(foregroundCoverage, path, report, dali)
+    : (linTiannan?.coverage ?? dali?.coverage ?? baiyue?.coverage)
+  await inspectForegroundRecording(foregroundCoverage, path, report, dali ?? baiyue)
   const ming = source.route?.ming
     ? inspectTowerMingPresentation({
         events,
@@ -2504,7 +2549,7 @@ async function inspect(path, engine) {
       party: last.party.map(({ weapon, ...member }) => member),
       cash: last.cash,
       inventory: last.inventory,
-      music: last.music,
+      music: finale ? returnMusic : last.music,
     },
   }
   return {
@@ -2530,6 +2575,7 @@ async function inspect(path, engine) {
     foregroundCoverage,
     linTiannan,
     dali,
+    baiyue,
     goldenToad,
     gai,
     wood,
@@ -2578,6 +2624,7 @@ if (!failures.length) {
       ...(result.foregroundCoverage?.flatMap(({ issues }) => issues) ?? []),
       ...(result.linTiannan?.issues ?? []),
       ...(result.dali?.issues ?? []),
+      ...(result.baiyue?.issues ?? []),
       ...(result.serial?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),

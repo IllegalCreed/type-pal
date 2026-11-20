@@ -3367,9 +3367,9 @@ export async function bootGame(
     // 0xA0 游戏通关退出 → 回标题屏(复用系统菜单 quit 的 ?menu 干净重启;未存进度弃)
     quitToTitle: async (videos, signal) => {
       assertRunnerActive(signal, '返回标题所属 runner 已取消')
-      resetFrameAnimationPresentation()
       await playVideoSequence(videos, signal)
       assertRunnerActive(signal, '返回标题所属 runner 已取消')
+      resetFrameAnimationPresentation()
       location.href = `${location.pathname}?menu&skip-startup=1`
     },
     report: (msg) => {
