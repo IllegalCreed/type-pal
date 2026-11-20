@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "a98d8380fa4b7c78ac8cf9b422c630915cd9116c1851e9017ece9a227a7ca1e2",
+      "afterSha256": "cadfcfc50fb4479e2fb5dc3c129fc2a5039bf4ca790d5796c5a75fd0a4b82c20",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "校验两卷原件的身份和恢复入口。",
-        "reviewedLines": 124,
-        "acceptanceScope": "金蟾鬼母回访的实测增量及原件索引。"
+        "conclusion": "核战斗原件、原速分屏、恢复入口及普通遭遇分类。",
+        "reviewedLines": 126,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "c357f83973556f6d4583e918d088b9d2b5580f74f7e300f230424a74d9ec4a6e",
+      "afterSha256": "7d3beb167a7daa44feffee6527f8dec928e685ea1fe6e55f08049f179b432624",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核回访和原盘跨场景实体位移、队伍脚点及实际起战指令。",
-        "reviewedLines": 1976,
-        "acceptanceScope": "金蟾鬼母回访的实测增量及原件索引。"
+        "conclusion": "核盖罗娇和阿奴的原盘指令及擂台、将军冢、血池的清屏边界。",
+        "reviewedLines": 1990,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
@@ -3414,14 +3414,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "2fba022cc2f063b1d648b8ea1311d32ea9028315b65ba3e0388e16bcd6be3799",
+      "afterSha256": "521aff1a9136b8122d577558cef9e19b0463b43f556765c42cf8fb2680caf28b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "登记当前游标的入场步骤与队外持久形象。",
-        "reviewedLines": 370,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核脚本队形、镜头末拍和已清对白的进战源画面。",
+        "reviewedLines": 372,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "d07b1e650601926635c4e09e74e38414f7f6ed2173450458a1284d019da85a79",
+      "afterSha256": "72a67adbfe640fe5dec2e26b5927bbc976b6da02339e223b679f5af02864d7ba",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 10101,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 10172,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "a32391d464e2102aae0959ac4c8d710f69864e95df0750365bb511189462b6fc",
+      "afterSha256": "209c1aef0344f95969f0e33a5e874033262c537392a5cab615dad311a0de5d72",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
+        "conclusion": "核引用片段及其固定执行原件。",
         "reviewedLines": 99,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "cfb27c6e9a80635102395b0bd8558d4d0b02d36f7f1d0923f8493f0d80e53676",
+      "afterSha256": "b215f372a93b35377b2ae03af40435b6297679fef50d17a63589b8fc2f066dbd",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 796,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 819,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "942a269c0389de021fb5b0f2602f6f8ab02cbf32d2a8f169df6e90e7ed6328bd",
+      "afterSha256": "82e9ac84d2594c4dfcaffe0b5eb83e82f12129062c946b3b3713f9447ab1c101",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
+        "conclusion": "核引用片段及其固定执行原件。",
         "reviewedLines": 98,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2d56b40821078df1092ba86d37cd5115d61bebe625e4756b70b95a421f29c2c5",
+      "afterSha256": "bb9aefab8c21fe5d7ad80886b468c399621420a1b62afde1165342d99d629023",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 705,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 721,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "e6654d93e69e10fc058466ffedf0aa7ca71a0fecc13e552d1049ce528c06fd12",
+      "afterSha256": "925f8e4ee9685c00ce6c306140d16b84d3b1fb1a869b14b01b6bd3d2a5b8b8e2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
+        "conclusion": "核引用片段及其固定执行原件。",
         "reviewedLines": 99,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "2b8f1cd290adeb4bdc0ad15a927f88c4e916a5d4645d682b2885c129c0b52231",
+      "afterSha256": "33e40d451636cbb1bab3ae7f4e89c5d079ed7ad1c9fb35a920e86e6f36727688",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 666,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 682,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "287d0ab63bec167c18390bc8a63087dc6e28ab01896ee0be70533e48c6a40a35",
+      "afterSha256": "16beadfac1c3025cc9e21d63c78da642d3a847356c930a671292b83f1b7b462b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核合法起点、实跑白名单与返场后的覆盖边界。",
-        "reviewedLines": 1087,
-        "acceptanceScope": "金蟾鬼母回访的实测增量及原件索引。"
+        "conclusion": "核本批验收范围、原盘前驱与剧情 Boss 计数。",
+        "reviewedLines": 1099,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "96f5f5b4c9caa871d807ceeb0842041f5a66fc7c424a2173849549f288759e66",
+      "afterSha256": "ef4512704b6b869887b96970592c3c580a7506ddb10124a78f9edcc9b7cc0ee0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 15127,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 15143,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "a7cbf0d8ecdc6a7bd400821329f2d2772795568cbabf30912bcebf993bb0f0d0",
+      "afterSha256": "ddac371d49c0bf175929c123e6135c8903bb3e5db752c7bf78fb890fde9a6874",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "复算回访、双端实战、实际首帧、媒体与反例。",
-        "reviewedLines": 1647,
-        "acceptanceScope": "金蟾鬼母回访的实测增量及原件索引。"
+        "conclusion": "核四类返工的合法输入、实绘和覆盖口径。",
+        "reviewedLines": 1695,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "6a2814545c378253b484f14b30b067341bee3eefdb6998b9cd7a82318507db6b",
+      "afterSha256": "85dc2b67edcbaa4b7a970463d781b832260231dae196ce6723d4990f451cc6bb",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核引用片段字节、范围和既有执行证据。",
-        "reviewedLines": 470,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核引用片段及其固定执行原件。",
+        "reviewedLines": 474,
+        "acceptanceScope": "盖罗娇起战及擂台、客栈、将军冢和血池复验增量。保全既有验收及证据。"
       }
     },
     {
@@ -6615,6 +6615,90 @@
       "bytes": 87015426,
       "sha256": "8270cdbd2c2f952089b5e324e8f897f12680fbca9239d526609f37c7f45f99cb",
       "purpose": "金蟾鬼母的合法回访、实际战斗、首帧与原声音画复验证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-20261120.tar.gz",
+      "bytes": 30246757,
+      "sha256": "789919b91d38b021b8770aaf055430e18b608b5294305b06bcfa36f300ad7679",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-defeat-originals-20261120.tar.gz",
+      "bytes": 56741792,
+      "sha256": "8efb3ac1e9eaf58da8090a6c9b656b7ce336960e771677942ae469f34fbbc176",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-victory-game-original-20261120.tar.gz",
+      "bytes": 43653969,
+      "sha256": "04910e69421ced161e734fe318852a069e312a4f3a7641bcd10f99b4ff80b14d",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-gai-luojiao-victory-reforge-original-20261120.tar.gz",
+      "bytes": 45355637,
+      "sha256": "149dee9f7bdbf4f64fe34d58325ea6740fc355c6c56ebb6b489508e0d491f561",
+      "purpose": "盖罗娇两种结局、阿奴走位与归队的双端原件及原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-1.tar.gz",
+      "bytes": 78749040,
+      "sha256": "166bf736da990e96e48c8f5c680d27e78380b0923cd996b15a49787239ddf6f2",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-2.tar.gz",
+      "bytes": 78467261,
+      "sha256": "7626a8ce792262e296f5bc6dcc35aa7005a1724ebff7ffde1cbdaea5cad762ed",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-3.tar.gz",
+      "bytes": 78459587,
+      "sha256": "1d65651ab4beee997d8c12046469439254ca5d8202035f442051b4fe21c10868",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-4.tar.gz",
+      "bytes": 81131268,
+      "sha256": "9bb72262d347da0cadb2f3d2d644722d968a4fe95432c84ea541a2d72fdcd1ff",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-5.tar.gz",
+      "bytes": 82434399,
+      "sha256": "1cebf2f6701aae567596d51ba0ab8435ba940bde03534369ba6bb42cb7a986e6",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-6.tar.gz",
+      "bytes": 82686586,
+      "sha256": "7cb3fe394db968e8e9c3435685030e13c02c1bc1b46ec3e6ca836038659062ed",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-originals-7.tar.gz",
+      "bytes": 16888616,
+      "sha256": "10fac286cf3c6b2d2916b5d837b4d660a43f0693bf28b25ed0f8cc0a6d91528a",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-splits-1.tar.gz",
+      "bytes": 56531245,
+      "sha256": "855afa23b292ee8705e96e564c5faf19b5d7788732fb47a9955ec9f303d962e9",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120-splits-2.tar.gz",
+      "bytes": 61240369,
+      "sha256": "023496adb2ef828766780e4bb93752840e1bad9cbef19968cc072af3ca1d84cf",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-presentation-recheck-20261120.tar.gz",
+      "bytes": 22154004,
+      "sha256": "b9836bd0ee5aa2f7ac58dcbc33af5a57769354e9d3e1470014ae53bd0880cf86",
+      "purpose": "擂台、客栈、将军冢和血池复验的日志、独立录制和原速分屏。"
     }
   ],
   "artifactAliases": [],

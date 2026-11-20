@@ -2517,6 +2517,55 @@ export function restoreTestingQ2TowerMingSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2GaiLuojiaoPublicationBase = '11898d694b9dbcd48a8fe6d76d31be9d9796c58d'
+const gaiLuojiaoSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5974: '5977',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2GaiLuojiaoPublicationBase,
+  action: 'q2-gai-luojiao-source-rebinding',
+  date: '2026-11-20',
+}
+const gaiLuojiaoSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2GaiLuojiaoSource = (path) => gaiLuojiaoSourceStage.ranges.has(path)
+
+export function restoreTestingQ2GaiLuojiaoSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    gaiLuojiaoSourceStage,
+    gaiLuojiaoSourceBindings,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

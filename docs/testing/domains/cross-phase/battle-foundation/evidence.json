@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "5974",
-      "sha256": "7c61515d9af9f16d87a0793ffec671fca8ab19212527368b97ef5d80fa1cf018"
+      "lines": "5977",
+      "sha256": "827f82536ee956fca46c8ed52f8a576125dae41862388694ba211797ba811320"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -13855,6 +13855,22 @@
         }
       ],
       "scope": "镇狱明王入口支持队外角色换装和分段入场。所引运行时片段逐字相同，原执行继续绑定各自的固定候选。"
+    },
+    {
+      "action": "q2-gai-luojiao-source-rebinding",
+      "base": "11898d694b9dbcd48a8fe6d76d31be9d9796c58d",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "5974",
+          "sha256": "7c61515d9af9f16d87a0793ffec671fca8ab19212527368b97ef5d80fa1cf018"
+        }
+      ],
+      "scope": "核盖罗娇归队及擂台镜头返工后的现行引用。所引片段的 Git 原件逐字相同，各次运行绑定各自固定候选。"
     }
   ],
   "_governance": {

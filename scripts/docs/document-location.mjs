@@ -57,6 +57,7 @@ import {
   isTestingQ2CoverageSource,
   isTestingQ2EntryAutoSource,
   isTestingQ2EscortsSource,
+  isTestingQ2GaiLuojiaoSource,
   isTestingQ2InnSource,
   isTestingQ2NoticeSource,
   isTestingQ2PeachSource,
@@ -105,6 +106,7 @@ import {
   restoreTestingQ2CoverageSourceBindings,
   restoreTestingQ2EntryAutoSourceBindings,
   restoreTestingQ2EscortsSourceBindings,
+  restoreTestingQ2GaiLuojiaoSourceBindings,
   restoreTestingQ2InnSourceBindings,
   restoreTestingQ2NoticeSourceBindings,
   restoreTestingQ2PeachSourceBindings,
@@ -170,6 +172,7 @@ import {
   testingQ2CoveragePublicationBase,
   testingQ2EntryAutoPublicationBase,
   testingQ2EscortsPublicationBase,
+  testingQ2GaiLuojiaoPublicationBase,
   testingQ2InnPublicationBase,
   testingQ2NoticePublicationBase,
   testingQ2PeachPublicationBase,
@@ -965,8 +968,23 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     assert(q2TianGhostRevision && /^[a-f0-9]{40}$/u.test(q2TowerMingRevision))
   const q2TowerMingSource = q2TowerMingRevision && gitTree(root, q2TowerMingRevision, [])
   const preQ2TowerMing = q2TowerMingSource && gitTree(root, testingQ2TowerMingPublicationBase, [])
-  const readBeforeQ2TowerMing = (path) => {
+  const q2GaiLuojiaoRevision = admission.testingQ2GaiLuojiaoSourceRevision
+  if (q2GaiLuojiaoRevision)
+    assert(q2TowerMingRevision && /^[a-f0-9]{40}$/u.test(q2GaiLuojiaoRevision))
+  const q2GaiLuojiaoSource = q2GaiLuojiaoRevision && gitTree(root, q2GaiLuojiaoRevision, [])
+  const preQ2GaiLuojiao =
+    q2GaiLuojiaoSource && gitTree(root, testingQ2GaiLuojiaoPublicationBase, [])
+  const readBeforeQ2GaiLuojiao = (path) => {
     const live = readSource(path)
+    if (!preQ2GaiLuojiao || !isTestingQ2GaiLuojiaoSource(path)) return live
+    assert(
+      live?.equals(q2GaiLuojiaoSource.read(path)),
+      'Gai Luojiao source differs from the frozen candidate',
+    )
+    return preQ2GaiLuojiao.read(path)
+  }
+  const readBeforeQ2TowerMing = (path) => {
+    const live = readBeforeQ2GaiLuojiao(path)
     if (!preQ2TowerMing || !isTestingQ2TowerMingSource(path)) return live
     assert(
       live?.equals(q2TowerMingSource.read(path)),
@@ -1326,13 +1344,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorTowerMing = preQ2TowerMing
-      ? restoreTestingQ2TowerMingSourceBindings(path, bytes, {
+    const priorGaiLuojiao = preQ2GaiLuojiao
+      ? restoreTestingQ2GaiLuojiaoSourceBindings(path, bytes, {
           readSource,
+          readBase: preQ2GaiLuojiao.read,
+          readFixed: q2GaiLuojiaoSource.read,
+        })
+      : bytes
+    const priorTowerMing = preQ2TowerMing
+      ? restoreTestingQ2TowerMingSourceBindings(path, priorGaiLuojiao, {
+          readSource: readBeforeQ2GaiLuojiao,
           readBase: preQ2TowerMing.read,
           readFixed: q2TowerMingSource.read,
         })
-      : bytes
+      : priorGaiLuojiao
     const priorTianGhost = preQ2TianGhost
       ? restoreTestingQ2TianGhostSourceBindings(path, priorTowerMing, {
           readSource: readBeforeQ2TowerMing,
