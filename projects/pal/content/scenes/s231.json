@@ -3217,6 +3217,13 @@
                     "ms": 1000
                   },
                   {
+                    "kind": "releaseEntity",
+                    "target": {
+                      "scene": "s231",
+                      "entity": "e4168"
+                    }
+                  },
+                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s231",

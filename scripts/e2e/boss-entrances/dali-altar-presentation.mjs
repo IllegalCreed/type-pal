@@ -100,8 +100,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   // This original autoscript repeatedly looks around at random while the chief
   // stays in place. Compare the window and its rendered effect independently of
   // the particular directions drawn by each engine's ambient random stream.
-  const alarm = scriptMark(32135, 'selectEntityBehavior', 26)
-  const retreat = scriptMark(32156, 'selectEntityBehavior', 50)
+  const alarm = scriptMark(32135, 'selectEntityBehavior', 27)
+  const retreat = scriptMark(32156, 'selectEntityBehavior', 51)
   assert.deepEqual(commands[32135].operands, [4169, 32021, 0])
   assert.deepEqual(commands[32156].operands, [4169, 32222, 0])
   measure('chief looks around before the retreat', alarm, retreat, 3300, 220)
