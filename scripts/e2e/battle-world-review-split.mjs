@@ -149,7 +149,7 @@ async function side(engine, relocatedReport) {
     const { events } = raw
     const contact =
       events.find(({ kind }) => kind === 'entrance-trigger') ??
-      events.find(({ kind }) => kind === 'trigger')
+      events.find(({ kind }) => kind === 'trigger' || kind === 'item-trigger')
     const successor = events.find(({ kind }) => kind === 'successor-drawn')
     const scriptedReturn = events.find(({ kind }) => kind === 'scripted-return-drawn')
     const directHandoff = successor && compare.clips.returnMs === successor.atMs
@@ -162,7 +162,7 @@ async function side(engine, relocatedReport) {
             ({ kind, order, scene, colors }) =>
               kind === 'world-drawn' &&
               order > battleEnd.order &&
-              scene === contact.scene &&
+              scene === (report.input.sceneRoute?.item ? report.input.scene : contact.scene) &&
               colors.some(([r, g, b]) => r || g || b),
           )
         : events.find(({ kind }) => kind === 'world-control'))
@@ -255,6 +255,7 @@ if (sides.every(({ coverage }) => coverage)) {
     return { ...entry, lastSeconds: entry.videoEnd, anchor: entry.contactSeconds, spans }
   })
   const spriteChecks = {
+    'dali-earth-beast': { cue: 'dlg.11136', actor: 'e4168' },
     'stone-elder-auto': { cue: 'dlg.5865', actor: 'e2061' },
     'shangshu-lin-tiannan': { cue: 'dlg.6785', actor: 'e2154' },
   }

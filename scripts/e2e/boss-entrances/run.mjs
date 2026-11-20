@@ -40,6 +40,8 @@ assert(
 const game = engine === 'game'
 const entrance = spec.entrance
 const revisit = spec.revisit
+const itemEntrance = spec.sceneRoute?.item
+const initialInventory = itemEntrance ? [{ itemId: itemEntrance.id, count: 1 }] : []
 const checkpointScene = entrance?.scene ?? spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpoint = entrance?.start ?? revisit?.checkpoint ?? spec.start
 const fieldMusic = initialTrack(spec)
@@ -82,14 +84,17 @@ const observe = bossObserver({
     .filter(({ owner }) => owner)
     .map(({ scene, owner }) => ({ scene, owner })),
   foreground,
+  itemEntrance: Boolean(itemEntrance),
   handoffScene: handoff?.scene,
   handoffMatte: handoff?.fieldPosition !== undefined,
   foregroundDialogueScenes: source.scriptedStop
     ? [...spec.sceneRoute.visits.map(({ scene }) => scene), spec.scene]
     : source.automatic
       ? [source.automatic.presentation.dialogueWorld]
-      : [],
-  recordDialogueAfterBattle: Boolean(source.scriptedStop),
+      : itemEntrance
+        ? [spec.scene]
+        : [],
+  recordDialogueAfterBattle: Boolean(source.scriptedStop || itemEntrance),
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
@@ -308,8 +313,17 @@ async function makeGameFixture(page, baseURL, until) {
   for (const table of entrance ? [gs.allEventObjects] : [gs.npcs, gs.allEventObjects]) {
     const actor = table.find(({ id }) => id === initialOwner)
     assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-    if (!source.setup)
+    if (!source.setup && !itemEntrance)
       assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
+    for (const [id, state] of Object.entries(itemEntrance?.states ?? {})) {
+      const placed = table.find(({ id: number }) => `e${number}` === id)
+      assert(placed, `missing predecessor actor ${id}`)
+      placed.sState = state
+      if (itemEntrance.frames[id] !== undefined) {
+        placed.facing = 'down'
+        placed.scriptedFrame = itemEntrance.frames[id]
+      }
+    }
     for (const [id, prepared] of Object.entries(source.setup ?? {})) {
       const npc = table.find(({ id: number }) => `e${number}` === id)
       assert(npc, `missing original predecessor actor ${id}`)
@@ -364,7 +378,7 @@ async function makeGameFixture(page, baseURL, until) {
     for (const pool of Object.values(growthPools))
       assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[id], wCount: 0 })
   }
-  gs.inventory = []
+  gs.inventory = initialInventory.map(({ itemId, count }) => ({ itemId: Number(itemId), count }))
   gs.dwCash = 0
   gs.wNumMusic = fieldMusic
   if (night) gs.nightPalette = true
@@ -408,7 +422,7 @@ async function makeReforgeFixture() {
     (await json('projects/pal/content/actors.json')).filter(({ id }) => roles.includes(id)),
   )
   const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
-  const world = buildWorld({ party: roles, money: 0, inventory: [] }, actorsById)
+  const world = buildWorld({ party: roles, money: 0, inventory: initialInventory }, actorsById)
   for (const [i, { role, roleId, ...stats }] of fixtureMembers.entries()) {
     if (!stagedMembers.some((member) => member.roleId === roleId)) continue
     Object.assign(world.party[i], stats, {
@@ -437,6 +451,18 @@ async function makeReforgeFixture() {
   if (night) world.ambience = 'night'
   if (spec.prelude) {
     world.script.entityState[spec.scene] = source.preludeStates
+  }
+  if (itemEntrance) {
+    world.script.entityState[checkpointScene] = itemEntrance.states
+    const scene = await json(`projects/pal/content/scenes/${checkpointScene}.json`)
+    world.script.entityPos ??= {}
+    world.script.entityPos[checkpointScene] = Object.fromEntries(
+      Object.keys(itemEntrance.frames).map((id) => {
+        const entity = scene.entities.find((entry) => entry.id === id)
+        assert(entity?.pos, `missing position for placed pearl ${id}`)
+        return [id, entity.pos]
+      }),
+    )
   }
   if (spec.prelude?.completedAt !== undefined) {
     world.script.behaviors.scenes = {
@@ -492,11 +518,27 @@ async function makeReforgeFixture() {
       },
     }
   }
+  const sceneRuntime = itemEntrance
+    ? {
+        [checkpointScene]: {
+          entities: Object.fromEntries(
+            Object.entries(itemEntrance.frames).map(([id, fixedFrame]) => [
+              id,
+              { facing: 'down', fixedFrame, motion: {} },
+            ]),
+          ),
+          automatic: {},
+          chaseClaims: [],
+          actions: [],
+        },
+      }
+    : undefined
   return {
     payload: buildCurrentSavePayload(
       world,
       { sceneId: checkpointScene, pos: grid(checkpoint), facing },
       'pal',
+      sceneRuntime,
     ),
   }
 }
@@ -721,6 +763,49 @@ async function playEncounter({ page, press, health, capture }) {
   }
 }
 
+async function playItemEntrance(page, press, until) {
+  const usePhase = 'item-entrance-menu'
+  const menu = async () =>
+    page.evaluate((game) => {
+      if (!game) return globalThis.__bossItemMenu ?? { active: false }
+      const top = globalThis.__tpgs?.menuStack.at(-1)
+      if (!top) return { active: false }
+      const { phase, inventory, cursor } = top.state
+      return {
+        active: true,
+        panel: top.kind,
+        phase,
+        cursor,
+        items: inventory?.map(({ itemId }) => String(itemId)),
+      }
+    }, game)
+  await press(game ? 'KeyE' : 'Escape', usePhase)
+  for (let keys = 0; keys < 16; keys++) {
+    const view = await until(menu, ({ active }) => active, 'actual item menu appears')
+    if (view.panel === (game ? 'inventory' : 'use')) {
+      assert.equal(view.phase, game ? 'list' : 'pick-item')
+      assert.deepEqual(view.items, [itemEntrance.id], 'native available item list')
+      assert.equal(view.cursor, 0)
+      await press('Enter', 'item-entrance-use')
+      return until(
+        async () => (await trace(page)).events.find(({ kind }) => kind === 'item-trigger'),
+        Boolean,
+        'real scene item dispatch',
+      )
+    }
+    assert(!game && view.level, 'actual menu cascade')
+    const target = view.level.ids.includes('item') ? 'item' : 'use'
+    assert(view.level.ids.includes(target), 'item-use branch visible')
+    await press(view.level.ids[view.level.cursor] === target ? 'Enter' : 'ArrowDown', usePhase)
+    await until(
+      menu,
+      (current) => JSON.stringify(current) !== JSON.stringify(view),
+      'actual menu key consumed',
+    )
+  }
+  throw new Error('native scene item menu exceeded its planned input budget')
+}
+
 async function playRevisit({ page, press, record, health, capture, until, result }) {
   const { into, out, approach } = source.toad.steps
   const walkSteps = async (steps, scene, phase, arrival = null) => {
@@ -819,6 +904,7 @@ await runBrowserJourney({
     VITE_PROJECT_ID: 'pal',
     Q2_DEFEAT_ENGINE: engine,
     Q2_BOSS_FOREGROUND: foreground ? '1' : '0',
+    Q2_BOSS_ITEM_ENTRANCE: itemEntrance ? '1' : '0',
   },
   sources: source.paths,
   arguments: ['--headless', ...(option ? [option] : [])],
@@ -903,7 +989,7 @@ await runBrowserJourney({
         result.initial.state.party.map(({ id, level, hp, mp }) => [id, level, hp, mp]),
         party.map(({ role, level, hp, mp }) => [role, level, hp, mp]),
       )
-      assert.deepEqual(result.initial.state.inventory, [])
+      assert.deepEqual(result.initial.state.inventory, initialInventory)
       if (!game) {
         // Unlock Web Audio through a real keydown while the party is in exploration.
         // The defend shortcut has no world action here.
@@ -984,6 +1070,7 @@ await runBrowserJourney({
           'native interaction starts the foreground dialogue',
         )
       }
+      if (itemEntrance) result.itemEntrance = await playItemEntrance(page, press, until)
       if (source.tower)
         await wait(
           ({ state }) => state?.battle && state.scene === spec.scene,

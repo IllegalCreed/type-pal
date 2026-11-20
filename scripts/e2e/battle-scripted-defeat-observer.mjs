@@ -20,6 +20,7 @@ function install(
     routeScenes,
     contactActors = [],
     routeContacts = [],
+    itemEntrance = false,
   },
   makeRng,
   createRecorder,
@@ -400,6 +401,27 @@ function install(
       if (sceneId !== contactScene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
+    gameItemContact(gs, id, ip, target) {
+      if (!itemEntrance || sceneId(gs.wNumScene) !== contactScene) return
+      contact = event('item-trigger', {
+        scene: contactScene,
+        position: grid(gs.party),
+        itemId: String(id),
+        ip,
+        target,
+      })
+    },
+    reforgeItemContact(request) {
+      const state = reforgeWorld()
+      if (!itemEntrance || state?.scene !== contactScene) return
+      contact = event('item-trigger', {
+        scene: state.scene,
+        position: state.position,
+        itemId: request.itemId,
+        target: request.targetCharId ?? null,
+        origin: request.origin,
+      })
+    },
     gameDraw(gs, renderedBattle, indices) {
       if (!observedScene(sceneId(gs.wNumScene)) && gs.wNumScene !== entranceGameScene) return
       const state = gameWorld(gs)
@@ -441,7 +463,8 @@ function install(
       if (!contact) return
       const current = sceneId(gs.wNumScene)
       const ownerScript =
-        current === contactScene && cursor.triggerOwnerId === Number(owner.slice(1))
+        current === contactScene &&
+        (cursor.triggerOwnerId === Number(owner.slice(1)) || (itemEntrance && cursor.itemScript))
       const entryScript =
         visitScenes && observedScene(current) && cursor.onEnterSceneId === gs.wNumScene
       if (!ownerScript && !entryScript) return

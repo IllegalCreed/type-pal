@@ -11461,17 +11461,13 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 102,
-                      "height": 0,
-                      "row": 60
-                    }
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "dx": 0,
                     "dy": 2,
-                    "frames": 150,
+                    "frames": 148,
                     "kind": "cameraPan"
                   },
                   {
@@ -11483,7 +11479,32 @@
                     "kind": "loadScene",
                     "scene": "s245"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 102,
+                        "height": 0,
+                        "row": 60
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap",
+                      "to": {
+                        "col": 102.25,
+                        "height": 0,
+                        "row": 60.25
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 0
+                  }
+                }
               }
             ]
           }

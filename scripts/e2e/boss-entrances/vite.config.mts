@@ -10,6 +10,7 @@ import {
 } from '../reforge-render-evidence.mjs'
 
 const engine = process.env.Q2_DEFEAT_ENGINE
+const itemEntrance = process.env.Q2_BOSS_ITEM_ENTRANCE === '1'
 
 function replaceOnce(source: string, anchor: string, replacement: string): string {
   assert.equal(source.split(anchor).length, 2, `boss observation anchor: ${anchor}`)
@@ -21,6 +22,13 @@ function after(source: string, anchor: string, observation: string): string {
 }
 
 function gamePresentation(source: string, file: string) {
+  if (itemEntrance && file === 'core/event-system.ts') {
+    return after(
+      source,
+      '  gs.itemUseApplyToAll = targetRoleIdOrAll === 0xffff',
+      '  globalThis.__defeat?.gameItemContact(gs, itemId, ip, targetRoleIdOrAll)',
+    )
+  }
   if (file === 'present/dialog-draw.ts') {
     return after(
       source,
@@ -57,6 +65,13 @@ function gamePresentation(source: string, file: string) {
 }
 
 function reforgeDrop(source: string, file: string) {
+  if (itemEntrance && file === 'menu/menu-session.ts') {
+    return after(
+      source,
+      '  private dispatchItemUse(request: UseExecutionRequest): Promise<void> {',
+      '    globalThis.__defeat?.reforgeItemContact(request)',
+    )
+  }
   if (file === 'audio/bgm.ts') {
     return after(
       source,
@@ -65,6 +80,22 @@ function reforgeDrop(source: string, file: string) {
     )
   }
   if (file === 'main.ts') {
+    if (itemEntrance) {
+      source = after(
+        source,
+        '    // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)',
+        `    {
+      const { menu, useMenu } = menus.view
+      const level = menu.stack.at(-1)
+      globalThis.__bossItemMenu = {
+        active: menus.active, panel: menu.openPanel,
+        phase: useMenu.phase, cursor: useMenu.cursor,
+        items: useMenu.items.map(({ id }) => id),
+        level: level && { ids: level.nodes.map(({ id }) => id), cursor: level.cursor },
+      }
+    }`,
+      )
+    }
     const loop = '        for (const def of scripted) {'
     const begin = replaceOnce(
       source,
@@ -188,9 +219,21 @@ ${anchor}`,
         `      draw: (f) => {
         drawSprite(f, capturedSprite, capturedSX, capturedSY + 7)
         globalThis.__bossForeground?.gameActor(npc, capturedSprite,
-          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(capturedSprite) ?? null)
+          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(capturedSprite) ?? null, gs.camera)
       },`,
       )
+      if (itemEntrance) {
+        const cull = '    if (cullVy >= SCREEN_H || cullVy < -sprite.height) continue'
+        code = replaceOnce(
+          code,
+          cull,
+          `    if (cullVy >= SCREEN_H || cullVy < -sprite.height) {
+        globalThis.__bossForeground?.gameCulledActor(npc, sprite,
+          ctx.npcSpriteFrames?.get(npc.spriteNum)?.indexOf(sprite) ?? null, gs.camera, cullVy)
+        continue
+      }`,
+        )
+      }
       const dialog =
         '    drawConfirmBox(fb, gs.eventCursor.confirmYes ?? false, ctx.uiSpriteFrames, ctx.glyphs)\n  }'
       code = after(code, dialog, '  globalThis.__openingCauseDialogueDraw?.("game", gs, dialogCtx)')

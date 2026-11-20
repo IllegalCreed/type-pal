@@ -457,77 +457,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4156"
-                      },
-                      "facing": "right"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4156"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4156"
-                      },
-                      "to": {
-                        "col": 103,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4156"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -748,90 +677,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4157"
-                      },
-                      "facing": "right"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4157"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4157"
-                      },
-                      "to": {
-                        "col": 101,
-                        "row": 57,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4157"
-                      },
-                      "to": {
-                        "col": 101,
-                        "row": 63,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4157"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -1046,77 +891,6 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4158"
-                      },
-                      "facing": "right"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4158"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 500
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4158"
-                      },
-                      "to": {
-                        "col": 102,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4158"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
                     }
                   ]
                 }
@@ -1342,97 +1116,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 200
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "facing": "up"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "facing": "right"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "to": {
-                        "col": 106,
-                        "row": 67,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4159"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -1648,77 +1331,6 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4160"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4160"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 200
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4160"
-                      },
-                      "to": {
-                        "col": 110,
-                        "row": 67,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4160"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
                     }
                   ]
                 }
@@ -1944,77 +1556,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 500
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4161"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4161"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4161"
-                      },
-                      "to": {
-                        "col": 113,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4161"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -2235,73 +1776,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4162"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4162"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 500
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4162"
-                      },
-                      "to": {
-                        "col": 115,
-                        "row": 64,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4162"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -2516,77 +1990,6 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4163"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4163"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 500
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4163"
-                      },
-                      "to": {
-                        "col": 113,
-                        "row": 65,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4163"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
                     }
                   ]
                 }
@@ -2812,97 +2215,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "facing": "up"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "to": {
-                        "col": 104,
-                        "row": 67,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4164"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -3118,77 +2430,6 @@
                           ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4165"
-                      },
-                      "facing": "up"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4165"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4165"
-                      },
-                      "to": {
-                        "col": 108,
-                        "row": 68,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4165"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
                     }
                   ]
                 }
@@ -3414,117 +2655,6 @@
                 }
               ]
             }
-          },
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 300
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 500
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "facing": "up"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "facing": "left"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "to": {
-                        "col": 111,
-                        "row": 69,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4166"
-                      },
-                      "state": 0
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -3542,54 +2672,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "repeat",
-                      "count": 5,
-                      "body": [
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s231",
-                            "entity": "e4167"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 180
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e4168",
@@ -3602,150 +2688,6 @@
       "facing": "up",
       "behaviors": {
         "auto": {
-          "legacy-001": {
-            "label": "自动行为 1",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "repeat",
-                      "count": 8,
-                      "body": [
-                        {
-                          "kind": "nudgeEntity",
-                          "target": {
-                            "scene": "s231",
-                            "entity": "e4168"
-                          },
-                          "dx": 6,
-                          "dy": -7
-                        },
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s231",
-                            "entity": "e4168"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 180
-                        }
-                      ]
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "facing": "up"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "legacy-002": {
-            "label": "自动行为 2",
-            "order": 2,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "to": {
-                        "col": 106,
-                        "row": 51,
-                        "height": 0
-                      },
-                      "speed": "slow"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "to": {
-                        "col": 108,
-                        "row": 51,
-                        "height": 0
-                      },
-                      "speed": "slow"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "facing": "down"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          },
           "legacy-003": {
             "label": "自动行为 3",
             "order": 3,
@@ -3942,89 +2884,6 @@
                 }
               ]
             }
-          },
-          "legacy-004": {
-            "label": "自动行为 4",
-            "order": 4,
-            "flow": {
-              "kind": "stages",
-              "initial": "routine",
-              "stages": [
-                {
-                  "id": "routine",
-                  "label": "自动动作编排",
-                  "body": [
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "facing": "down"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "to": {
-                        "col": 108,
-                        "row": 49,
-                        "height": 0
-                      },
-                      "speed": "normal"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "facing": "down"
-                    },
-                    {
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s231",
-                        "entity": "e4168"
-                      },
-                      "frame": 0
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
           }
         }
       }
@@ -4045,57 +2904,8 @@
                 "id": "initial",
                 "body": [
                   {
-                    "itemId": "260",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "itemId": "263",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "itemId": "264",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "itemId": "265",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "itemId": "266",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "itemId": "267",
-                    "kind": "giveItem"
-                  },
-                  {
-                    "asset": "music.pal.084",
-                    "kind": "playMusic"
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "li-xiaoyao"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "zhao-linger",
-                      "li-xiaoyao",
-                      "anu"
-                    ]
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 104,
-                      "height": 0,
-                      "row": 43
-                    }
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "moveParty",
@@ -4140,20 +2950,41 @@
                     "ms": 360
                   },
                   {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s231",
-                      "entity": "e4168"
-                    },
-                    "channel": "auto",
-                    "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
-                    }
+                    "kind": "sceneTimeline",
+                    "label": "白苗族长上前",
+                    "tracks": [
+                      {
+                        "id": "e4168",
+                        "label": "上前八步",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4168"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 300
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -7
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "wait",
-                    "ms": 1040
+                    "ms": 400
                   },
                   {
                     "kind": "dialog",
@@ -4279,20 +3110,80 @@
                     }
                   },
                   {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s231",
-                      "entity": "e4168"
-                    },
-                    "channel": "auto",
-                    "selection": {
-                      "kind": "use",
-                      "value": "legacy-002"
-                    }
+                    "kind": "clearDialog"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 720
+                    "kind": "sceneTimeline",
+                    "label": "白苗族长请灵儿观礼",
+                    "tracks": [
+                      {
+                        "id": "e4168",
+                        "label": "转身让位",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4168"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 300,
+                            "repeat": {
+                              "count": 7,
+                              "intervalMs": 200
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 4,
+                                "dy": 2
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 4,
+                                "dy": 2
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "kind": "moveParty",
@@ -4512,12 +3403,32 @@
                     }
                   },
                   {
+                    "kind": "setEntityFrame",
+                    "frame": 0,
+                    "target": {
+                      "scene": "s231",
+                      "entity": "e4167"
+                    }
+                  },
+                  {
                     "kind": "playSound",
                     "asset": "sound.pal.132"
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 100
+                  },
+                  {
+                    "kind": "setEntityFrame",
+                    "frame": 1,
+                    "target": {
+                      "scene": "s231",
+                      "entity": "e4167"
+                    }
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "playMusic",
@@ -4536,8 +3447,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-004"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4548,8 +3458,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4560,8 +3469,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4572,8 +3480,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4584,8 +3491,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4596,8 +3502,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4608,8 +3513,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4620,8 +3524,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4632,8 +3535,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4644,8 +3546,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4656,8 +3557,7 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
@@ -4668,13 +3568,1925 @@
                     },
                     "channel": "auto",
                     "selection": {
-                      "kind": "use",
-                      "value": "legacy-001"
+                      "kind": "disabled"
                     }
                   },
                   {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4157",
+                        "label": "村民 2 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4157"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": -5
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 1
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4158",
+                        "label": "村民 3 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4158"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 6,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 1600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -38,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4159",
+                        "label": "村民 4 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4159"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 10,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4160",
+                        "label": "村民 5 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4160"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 10,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4161",
+                        "label": "村民 6 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4161"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4162",
+                        "label": "村民 7 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4162"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4164",
+                        "label": "村民 9 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4164"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4165",
+                        "label": "村民 10 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4165"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 1700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4167",
+                        "label": "地魔兽出土",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4167"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 2
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 3
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 4
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4168",
+                        "label": "族长后退",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4168"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 4,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4158"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4157",
+                        "label": "村民 2 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4157"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4159",
+                        "label": "村民 4 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4159"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4160",
+                        "label": "村民 5 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4160"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4161",
+                        "label": "村民 6 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4161"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4162",
+                        "label": "村民 7 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4162"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4164",
+                        "label": "村民 9 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4164"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4165"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4157",
+                        "label": "村民 2 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4157"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4159",
+                        "label": "村民 4 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4159"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4160",
+                        "label": "村民 5 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4160"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4162",
+                        "label": "村民 7 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4162"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4161"
+                      },
+                      {
+                        "scene": "s231",
+                        "entity": "e4164"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4157",
+                        "label": "村民 2 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4157"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 2,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4159",
+                        "label": "村民 4 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4159"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4160",
+                        "label": "村民 5 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4160"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4162",
+                        "label": "村民 7 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4162"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4157"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4162",
+                        "label": "村民 7 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4162"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4159"
+                      },
+                      {
+                        "scene": "s231",
+                        "entity": "e4160"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4162"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4166",
+                        "label": "村民 11 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4166"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -40,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4166"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4156",
+                        "label": "村民 1 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4156"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 2,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4156"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "sceneTimeline",
+                    "label": "地魔兽出土与祭坛疏散",
+                    "tracks": [
+                      {
+                        "id": "e4163",
+                        "label": "村民 8 退场",
+                        "target": {
+                          "scene": "s231",
+                          "entity": "e4163"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ],
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            }
+                          },
+                          {
+                            "atMs": 400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "kind": "wait",
-                    "ms": 1440
+                    "ms": 100
+                  },
+                  {
+                    "kind": "setMultiEntityState",
+                    "targets": [
+                      {
+                        "scene": "s231",
+                        "entity": "e4163"
+                      }
+                    ],
+                    "state": 0
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "dialog",
@@ -4722,15 +5534,7 @@
                     }
                   },
                   {
-                    "kind": "selectEntityBehavior",
-                    "target": {
-                      "scene": "s231",
-                      "entity": "e4167"
-                    },
-                    "channel": "auto",
-                    "selection": {
-                      "kind": "disabled"
-                    }
+                    "kind": "clearDialog"
                   },
                   {
                     "kind": "setEntityFacing",
@@ -4945,6 +5749,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "repeat",
                     "count": 8,
                     "body": [
@@ -4968,7 +5775,72 @@
                     "kind": "loadScene",
                     "scene": "s291"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "itemId": "260",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "itemId": "263",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "itemId": "264",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "itemId": "265",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "itemId": "266",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "itemId": "267",
+                      "kind": "giveItem"
+                    },
+                    {
+                      "asset": "music.pal.084",
+                      "kind": "playMusic"
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "li-xiaoyao"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "zhao-linger",
+                        "li-xiaoyao",
+                        "anu"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 104,
+                        "height": 0,
+                        "row": 44
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 0
+                  }
+                }
               }
             ]
           }

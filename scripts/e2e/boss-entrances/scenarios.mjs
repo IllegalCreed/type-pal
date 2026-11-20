@@ -98,6 +98,12 @@ export function partyFor(spec) {
       taoyuan: taoyuanParty,
       'anu-led': [taoyuanParty[1], taoyuanParty[0]],
       shangshu: [party[1], party[0]],
+      'dali-altar': [cityParty[1], taoyuanParty[0], taoyuanParty[1]].map((member) => ({
+        ...member,
+        hp: 1950,
+        maxHP: 1950,
+        attack: 1020 - member.roleId * 60,
+      })),
     }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
@@ -563,6 +569,60 @@ export const scenarios = {
       members: ['lin-yueru', 'li-xiaoyao'],
       inventory: [],
       music: { ip: 18516, track: 24 },
+    },
+  },
+  'dali-earth-beast': {
+    id: 'dali-earth-beast',
+    scene: 's231',
+    owner: 'e4285',
+    watched: Array.from({ length: 24 }, (_, i) => `e${4145 + i}`),
+    team: 287,
+    enemy: 'enemy-466',
+    start: [103, 34, 0],
+    contact: [104, 34, 0],
+    approach: 'ArrowRight',
+    party: 'dali-altar',
+    music: 38,
+    field: 54,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 39805,
+      battle: 32183,
+      last: 32212,
+      owner: [1136, 1112, 0, 1],
+    },
+    sceneRoute: {
+      checkpoint: 's241',
+      leave: 39822,
+      item: {
+        id: '267',
+        states: { e4280: 0, e4281: 1, e4282: 3, e4283: 3, e4284: 3, e4285: 2, e4286: 3 },
+        frames: { e4282: 4, e4283: 1, e4284: 2, e4286: 3 },
+      },
+      visits: [
+        { scene: 's227', start: 32038, leave: 32063 },
+        { scene: 's230', start: 31850, leave: 31877 },
+        { scene: 's243', start: 31879, leave: 31902 },
+        { scene: 's244', start: 31904, leave: 31907 },
+        { scene: 's245', start: 31971, leave: 32002 },
+        { scene: 's227', stage: 'legacy-002', start: 32065, leave: 32071 },
+      ],
+      return: { start: 32083, variant: 'default', partyIp: 32091 },
+    },
+    mapMusic: { scene: 's233', ip: 31573, track: 76 },
+    world: {
+      inventory: ['260', '263', '264', '265', '266', '267'].map((itemId) => ({ itemId, count: 1 })),
+      music: { ip: 32154, track: 26 },
+      handoff: {
+        scene: 's291',
+        ip: 32211,
+        position: [112, 97, 0],
+        positionIp: 35029,
+        musicIp: 35032,
+        members: ['zhao-linger', 'li-xiaoyao', 'anu'],
+        untilReady: true,
+      },
     },
   },
   'stone-elder-auto': {
@@ -1070,6 +1130,7 @@ export async function readSources(spec) {
   const mapMusic = spec.mapMusic ?? { scene: 's044', ip: 9673, track: fieldMusic }
   const checkpoint = spec.sceneRoute?.checkpoint
   const routePredecessor = spec.sceneRoute?.predecessor
+  const itemEntrance = spec.sceneRoute?.item
   const files = {
     ...(checkpoint && {
       diskCheckpoint: `data/extracted/data/scene/${Number(checkpoint.slice(1))}.json`,
@@ -1093,7 +1154,7 @@ export async function readSources(spec) {
     ...Object.fromEntries(
       (spec.sceneRoute?.visits ?? []).flatMap(({ scene, owner }) => [
         [scene, `projects/pal/content/scenes/${scene}.json`],
-        ...(owner
+        ...(owner || itemEntrance
           ? [[`disk-${scene}`, `data/extracted/data/scene/${Number(scene.slice(1))}.json`]]
           : []),
       ]),
@@ -1104,6 +1165,10 @@ export async function readSources(spec) {
     ...(spec.disk.termination !== undefined || spec.sceneRoute
       ? { rfEnemies: 'projects/pal/content/enemies.json' }
       : {}),
+    ...(itemEntrance && {
+      diskItems: 'data/extracted/data/items.json',
+      rfItems: 'projects/pal/content/items.json',
+    }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -1128,7 +1193,7 @@ export async function readSources(spec) {
   const originalCheckpoint = data.diskCheckpoint ?? data.gameScene
   const actor = originalCheckpoint.eventObjects.find(({ id }) => `e${id}` === spec.owner)
   assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-  if (!spec.predecessor)
+  if (!spec.predecessor && !itemEntrance)
     assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
   const commands = data.commands.segments.flatMap(({ commands }) => commands)
   const fieldTrack = musicId(mapMusic.track)
@@ -1252,9 +1317,10 @@ export async function readSources(spec) {
   const setup = spec.predecessor ? readInnPredecessor(data.predecessor, commands, spec) : undefined
   const inn = spec.entrance ? readInnFrames(data, commands, setup, spec) : undefined
   const toad = spec.revisit ? readGoldenToadSources(data, commands, spec) : undefined
-  const trigger =
-    boss.behaviors.trigger[toad?.behavior ?? setup?.[spec.owner].triggerVariant ?? 'default'].flow
-      .stages[0].body
+  const trigger = itemEntrance
+    ? readItemEntrance(data, commands, spec)
+    : boss.behaviors.trigger[toad?.behavior ?? setup?.[spec.owner].triggerVariant ?? 'default'].flow
+        .stages[0].body
   const route = spec.sceneRoute && readSceneRoute(data, commands, spec, trigger)
   const native = route?.battleBody ?? trigger
   const launch = native.find(({ kind }) => kind === 'startBattle')
@@ -1496,6 +1562,7 @@ export async function readSources(spec) {
   return {
     paths: [
       ...Object.values(files),
+      ...(itemEntrance ? ['scripts/e2e/boss-entrances/dali-altar-presentation.mjs'] : []),
       'data/extracted/data/event-objects.json',
       'data/extracted/data/battle-fields.json',
       `data/extracted/data/tilemap/${data.gameScene.mapNum}.json`,
@@ -1626,6 +1693,7 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
+    ...(itemEntrance && { commands, originalSceneActors: data.gameScene.eventObjects }),
   }
 }
 
@@ -1655,6 +1723,9 @@ function readSceneRoute(data, commands, spec, trigger) {
       }
       const stages = behavior.flow.stages
       const stage = stages.find(({ id }) => id === (visit.stage ?? 'initial'))
+      if (sceneRoute.item && !visit.stage) {
+        assert.equal(data[`disk-${visit.scene}`].onEnterLabel, `L_${visit.start}`)
+      }
       if (!visit.arrivalHook) return { ...visit, body: stage.body }
       assert.equal(loaded.hooks.onEnter.initial, visit.arrivalHook)
       const arrival = loaded.hooks.onEnter.variants[visit.arrivalHook].flow
@@ -1692,19 +1763,33 @@ function readSceneRoute(data, commands, spec, trigger) {
     )
     assert(segment.body.some(({ kind, scene }) => kind === 'loadScene' && scene === destination))
   }
-  if (visits.length > 1) {
+  if (sceneRoute.item) {
+    const initial = visits.find(({ scene }) => scene === visits.at(-1).scene)
+    const resume = visits.at(-1)
+    assert(initial && initial !== resume)
+    assert(commands[initial.leave + 1].advance)
+    assert.equal(resume.start, initial.leave + 2)
+    assert.equal(
+      data[resume.scene].hooks.onEnter.variants.default.flow.stages[0].next,
+      resume.stage,
+    )
+    assert.equal(data.gameScene.onEnterLabel, `L_${entry.start}`)
+    assert.equal(data.rfScene.hooks.onEnter.initial, entry.variant)
+  } else if (visits.length > 1) {
     assert(commands[visits[0].leave + 1].advance)
     assert.equal(visits.at(-1).start, visits[0].leave + 2)
   }
-  assert.deepEqual(
-    [commands[entry.select].opcode, commands[entry.select].operands],
-    [0x6d, [gameScene(spec), entry.start, 0]],
-  )
-  const selection = segments.at(-1).body.find(({ kind }) => kind === 'selectSceneHooks')
-  assert.deepEqual(
-    [selection.scene, selection.selection.onEnter],
-    [scene, { kind: 'use', value: entry.variant }],
-  )
+  if (entry.select !== undefined) {
+    assert.deepEqual(
+      [commands[entry.select].opcode, commands[entry.select].operands],
+      [0x6d, [gameScene(spec), entry.start, 0]],
+    )
+    const selection = segments.at(-1).body.find(({ kind }) => kind === 'selectSceneHooks')
+    assert.deepEqual(
+      [selection.scene, selection.selection.onEnter],
+      [scene, { kind: 'use', value: entry.variant }],
+    )
+  }
   if (predecessor) {
     const { scene, variant, start } = visits[0]
     assert.deepEqual(
@@ -1738,6 +1823,35 @@ function readSceneRoute(data, commands, spec, trigger) {
     battleBody,
     launchPathIndex: stage.body.findIndex(({ kind }) => kind === 'startBattle'),
   }
+}
+
+function readItemEntrance(data, commands, spec) {
+  const { item, checkpoint } = spec.sceneRoute
+  const original = data.diskItems.find(({ id }) => String(id) === item.id)
+  assert.deepEqual(
+    [original.scriptOnUse, original.flags.usable, original.flags.applyToAll],
+    [spec.disk.entry, true, true],
+  )
+  assert.deepEqual(
+    commands
+      .slice(spec.disk.entry, spec.disk.entry + 4)
+      .map(({ opcode, operands }) => [opcode, operands]),
+    [
+      [0x81, [Number(spec.owner.slice(1)) + 1, 0, 39663]],
+      [0x49, [Number(spec.owner.slice(1)) + 1, 3, 0]],
+      [0x16, [Number(spec.owner.slice(1)) + 1, 0, 5]],
+      [0x20, [Number(item.id), 0, 0]],
+    ],
+  )
+  const authored = data.rfItems.find(({ id }) => id === item.id)
+  assert.equal(authored.use.target, 'scene')
+  const [place] = authored.use.effects[0].script.body
+  assert.deepEqual(place.cond, {
+    kind: 'not',
+    cond: { kind: 'facingEntity', target: { scene: checkpoint, entity: spec.owner } },
+  })
+  assert.equal(place.else.find(({ kind }) => kind === 'loseItem').itemId, item.id)
+  return place.else
 }
 
 function readAutomaticBattle(commands, object, spec) {

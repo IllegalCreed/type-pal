@@ -39,10 +39,12 @@ function installBossForeground({
   includesParty,
   victoryFade,
   watchChoice,
+  itemEntrance,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
   let gameActors = {}
+  let gameEdgeActors = {}
   let gameWorldDrawn = false
   let pending
   let previous
@@ -66,6 +68,13 @@ function installBossForeground({
   let dialogue
   let renderId = 0
   const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
+  const visibleRect = ([x, y, w, h], camera) =>
+    x + w > camera.x && x < camera.x + 320 && y + h > camera.y && y < camera.y + 200
+
+  // Geometry metadata is available for the whole draw. Only persist pixel payloads
+  // actually referenced by a watched actor that intersects the output frame.
+  globalThis.__e2eWantsNpcPixels = (id, rect, camera) =>
+    ids.includes(id) && watchesScene(globalThis.__rfScene?.id) && visibleRect(rect, camera)
 
   const coversDialogueWorld = (id) =>
     foregroundDialogueScenes.includes(id) &&
@@ -296,22 +305,40 @@ function installBossForeground({
     gameWorldDrawn() {
       gameWorldDrawn = true
     },
-    gameActor(npc, sprite, frame) {
+    gameActor(npc, sprite, frame, camera) {
       const id = `e${npc.id}`
       if (!ids.includes(id)) return
+      const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
+      if (itemEntrance && !visibleRect(rect, camera)) return
       gameActors[id] = {
         asset: npc.spriteNum,
         position: [npc.x, npc.y],
         facing: npc.facing ?? null,
         frame,
         resource: globalThis.__e2eRecordSpriteFrame(sprite),
-        rect: [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height],
+        rect,
+      }
+    },
+    gameCulledActor(npc, sprite, frame, camera, cullVy) {
+      const id = `e${npc.id}`
+      if (!ids.includes(id)) return
+      const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
+      if (!visibleRect(rect, camera)) return
+      gameEdgeActors[id] = {
+        asset: npc.spriteNum,
+        position: [npc.x, npc.y],
+        facing: npc.facing ?? null,
+        frame,
+        rect,
+        cullVy,
       }
     },
     gameFrame(gs, battle, context) {
       const actors = gameActors
+      const edgeActors = gameEdgeActors
       const drewWorld = gameWorldDrawn
       gameActors = {}
+      gameEdgeActors = {}
       gameWorldDrawn = false
       const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
       if (!drewWorld || battle || !watchesScene(sceneId)) {
@@ -326,6 +353,7 @@ function installBossForeground({
         camera: [gs.camera.x, gs.camera.y],
         leader: [gs.party.x, gs.party.y],
         actors,
+        ...(Object.keys(edgeActors).length && { edgeActors }),
         ambience: gs.nightPalette ? 'night' : 'day',
         changing: !!gs.paletteFadeState,
         ...(includesParty && { partyLayer: gs.wLayer / 8 }),
@@ -343,9 +371,7 @@ function installBossForeground({
       for (const id of ids) {
         const pose = draws?.[id]
         if (pose?.drawStatus !== 'drawn') continue
-        const [x, y, w, h] = pose.geometry.worldRect
-        if (x + w <= camera.x || x >= camera.x + 320 || y + h <= camera.y || y >= camera.y + 200)
-          continue
+        if (!visibleRect(pose.geometry.worldRect, camera)) continue
         actors[id] = {
           asset: assets[pose.assetId] ?? null,
           position: pixels(pose.position),

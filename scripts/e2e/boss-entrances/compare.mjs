@@ -9,6 +9,7 @@ import { assertInputLedger } from '../input-ledger.mjs'
 import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
 import { checkWorldDialoguePixels, decodeWorldDialoguePixels } from '../world-dialogue-pixels.mjs'
 import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
+import { inspectDaliAltar } from './dali-altar-presentation.mjs'
 import { inspectFireQilin } from './fire-qilin-presentation.mjs'
 import { inspectForestInnCoverage, readForestInnCoverage } from './forest-inn-coverage.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
@@ -74,6 +75,7 @@ const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const entrance = spec.entrance
 const revisit = spec.revisit
+const itemEntrance = spec.sceneRoute?.item
 const contactScene = spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpointScene = entrance?.scene ?? contactScene
 const handoff = spec.world.handoff
@@ -1326,6 +1328,15 @@ async function inspect(path, engine) {
       [['press', game ? 'Space' : 'Enter']],
       'one physical interaction after the approach step',
     )
+  if (itemEntrance) {
+    assert.deepEqual(
+      report.actions
+        .filter(({ phase }) => phase === 'item-entrance-use')
+        .map(({ kind, key }) => [kind, key]),
+      [['press', 'Enter']],
+      'exactly one physical scene item confirmation',
+    )
+  }
   if (source.tian) {
     const keys = {
       interact: game ? 'Space' : 'Enter',
@@ -1421,6 +1432,22 @@ async function inspect(path, engine) {
       })
     }
   }
+  if (itemEntrance) {
+    assert.deepEqual(run.initial.state.inventory, [{ itemId: itemEntrance.id, count: 1 }])
+    if (game) {
+      for (const [id, state] of Object.entries(itemEntrance.states)) {
+        const npc = saved.gs.allEventObjects.find(({ id: number }) => `e${number}` === id)
+        assert.equal(npc?.sState, state, `original predecessor ${id}`)
+        if (itemEntrance.frames[id] !== undefined)
+          assert.deepEqual([npc.facing, npc.scriptedFrame], ['down', itemEntrance.frames[id]])
+      }
+    } else {
+      const readback = await read(run.slotReadback)
+      assert.deepEqual(readback.world.script.entityState[checkpointScene], itemEntrance.states)
+      for (const [id, frame] of Object.entries(itemEntrance.frames))
+        assert.equal(readback.sceneRuntime[checkpointScene].entities[id].fixedFrame, frame)
+    }
+  }
   assert.equal(raw.engine, engine)
   assert.equal(raw.overflow, false)
   assert.deepEqual(raw.errors, [])
@@ -1465,7 +1492,7 @@ async function inspect(path, engine) {
     assert.equal(hits.length, 1, `${engine} ${type} event count`)
     return hits[0]
   }
-  const trigger = once('trigger')
+  const trigger = once(itemEntrance ? 'item-trigger' : 'trigger')
   const entered = entrance ? once('entrance-trigger') : undefined
   if (entrance) {
     const doorStep = once('entrance-move')
@@ -1481,9 +1508,19 @@ async function inspect(path, engine) {
     assert(doorStep.order < entered.order && entered.order < trigger.order)
   }
   assert.deepEqual(
-    [trigger.scene, trigger.owner, trigger.position],
-    [contactScene, spec.owner, spec.contact],
+    [trigger.scene, trigger.owner ?? trigger.itemId, trigger.position],
+    [contactScene, itemEntrance?.id ?? spec.owner, spec.contact],
   )
+  if (itemEntrance) {
+    assert.deepEqual(trigger, run.itemEntrance, 'item entry bound to the actual dispatch')
+    assert.equal(
+      trigger.target,
+      game ? 0xffff : party[0].role,
+      'scene use dispatches with its native default actor',
+    )
+    if (!game)
+      assert.equal(trigger.origin, 'pick-item', 'no party target picker for the scene item')
+  }
   const moves = events.filter(({ kind }) => kind === 'move' || (revisit && kind === 'route-move'))
   const [approach, departure] = moves.slice(
     steps.length + revisitRoutes.reduce((count, [, , entries]) => count + entries.length, 0),
@@ -1922,7 +1959,7 @@ async function inspect(path, engine) {
         { itemId: '138', count: 9 },
         { itemId: '148', count: 9 },
       ]
-    : game && (spec.disk.defeated || source.route)
+    : itemEntrance || (game && (spec.disk.defeated || source.route))
       ? rewardInventory
       : []
   assert.deepEqual(
@@ -2122,6 +2159,9 @@ async function inspect(path, engine) {
         facts: linTiannanFacts,
       })
     : undefined
+  const dali = itemEntrance
+    ? inspectDaliAltar({ events, draws: renderedDialogue, boundaries, source, spec, game })
+    : undefined
   const gai = source.gai
     ? inspectGaiLuojiaoPresentation({
         events,
@@ -2210,7 +2250,7 @@ async function inspect(path, engine) {
         bounds: boundaries,
         entries: stoneElderAuto.firstEntries,
       })
-    : linTiannan?.coverage
+    : (linTiannan?.coverage ?? dali?.coverage)
   if (foregroundCoverage && report.profile === 'capture') {
     const recording = resolve(dirname(path), 'story.webm')
     assert.equal(sha256(await readFile(recording)), report.media.native.sha256)
@@ -2376,6 +2416,7 @@ async function inspect(path, engine) {
         }
       : {}),
     ...(linTiannan && { linTiannan: linTiannan.comparable }),
+    ...(dali && { dali: dali.comparable }),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
     ...(tower?.contact && {
@@ -2415,6 +2456,7 @@ async function inspect(path, engine) {
     stoneElderAuto,
     foregroundCoverage,
     linTiannan,
+    dali,
     goldenToad,
     gai,
     wood,
@@ -2462,6 +2504,7 @@ if (!failures.length) {
       ...(result.stoneElderAuto?.issues ?? []),
       ...(result.foregroundCoverage?.flatMap(({ issues }) => issues) ?? []),
       ...(result.linTiannan?.issues ?? []),
+      ...(result.dali?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),

@@ -332,17 +332,6 @@
                 "id": "legacy-002",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 101,
-                      "height": 0,
-                      "row": 29
-                    }
-                  },
-                  {
-                    "kind": "cameraSnap"
-                  },
-                  {
                     "cue": {
                       "rows": [
                         {
@@ -366,7 +355,25 @@
                     "kind": "loadScene",
                     "scene": "s231"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 101,
+                        "height": 0,
+                        "row": 29
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                }
               }
             ]
           }

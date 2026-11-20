@@ -1413,18 +1413,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "asset": "sound.pal.256",
-                    "kind": "playSound"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 85,
-                      "height": 0,
-                      "row": 7
-                    }
-                  },
-                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -1630,7 +1618,29 @@
                     "kind": "loadScene",
                     "scene": "s227"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "asset": "sound.pal.256",
+                      "kind": "playSound"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 85,
+                        "height": 0,
+                        "row": 7
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                }
               }
             ]
           }
