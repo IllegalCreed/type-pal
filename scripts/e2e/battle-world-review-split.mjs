@@ -293,8 +293,17 @@ if (sides.every(({ coverage }) => coverage)) {
           backdrop?.textured &&
           !backdrop.dark,
       )
-      assert(uncovered.length >= 2, `${source.engine} missing an unobscured ${spriteCheck.actor}`)
-      const nativeSeconds = ((uncovered[0].atMs + uncovered[1].atMs) / 2 - source.startedAt) / 1000
+      let current = []
+      let stable = []
+      for (const frame of uncovered) {
+        const previous = current.at(-1)
+        if (previous && frame.renderId !== previous.renderId + 1) current = []
+        current.push(frame)
+        if (current.length > stable.length) stable = current
+      }
+      assert(stable.length >= 2, `${source.engine} missing an unobscured ${spriteCheck.actor}`)
+      // Sample inside the interval so a native frame at the boundary can be resampled to 60 Hz.
+      const nativeSeconds = ((stable[0].atMs + stable.at(-1).atMs) / 2 - source.startedAt) / 1000
       const expected = { ...pixels, pixelPosition }
       return Promise.all([
         checkWorldSpritePixels(source.recording, nativeSeconds, expected).then((result) => ({
