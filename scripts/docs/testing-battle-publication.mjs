@@ -2683,6 +2683,52 @@ export function restoreTestingQ2ForestInnSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingQ2ShangshuPublicationBase = '6669ad19b74513d1c5eea8c5420e05ef8d434286'
+const shangshuSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '1297-1395': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5977: '5983',
+      },
+    ],
+    [forestInnSplit, { 65: '65' }],
+  ]),
+  base: testingQ2ShangshuPublicationBase,
+  action: 'q2-shangshu-entry-source-rebinding',
+  date: '2026-11-20',
+}
+const shangshuSourceBindings = new Map([
+  ...phoenixSourceBindings,
+  [
+    publication.evidence,
+    { id: publication.id, paths: [reforgeMain, forestInnSplit], artifactClaims: true },
+  ],
+])
+const shangshuReports = new Map(
+  [...shangshuSourceBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/u, 'report.md')}`,
+    path,
+  ]),
+)
+
+export const isTestingQ2ShangshuSource = (path) => shangshuSourceStage.ranges.has(path)
+
+export function restoreTestingQ2ShangshuSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    shangshuSourceStage,
+    shangshuSourceBindings,
+    shangshuReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

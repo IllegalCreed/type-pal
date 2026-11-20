@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "4cbdd7b7bee0107080ebb7a84f3f63ee0f31a584eb2af89ced393494d07b4d8a",
+      "afterSha256": "887a3f4da5bc960a7fe5922efbf4bd57f14f158f6ae8e985a47e5ad16d5d059f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 132,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 133,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "f875c0994b22b4b871cfbc7d630daf25f59e5fac4cb4d3e576462f1fcf54b176",
+      "afterSha256": "636b4f96df40b31b947aa186dccf5ffa73a667a627e11f785023b252a608091c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 10319,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 10397,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "3bfcfd7488387545ddb026651fc36db063b5891012c501b146e33b06a7da6ae2",
+      "afterSha256": "94fd6ce45144b192c41f5227a6f6cd2ee6b1149f047377848a3b98c45d7b8fed",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e7d5a74ad15b723e609bc87249cf75c31ffd652add7939cf105cefa9a63956f3",
+      "afterSha256": "6f055e758b2b019c340cade813ed75aea017407562c912b284cfbd7444cb46a0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 842,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 874,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "fcf8712bb95573b880d91250a52ca4b45a38690b993c2d653975456d7ada4e68",
+      "afterSha256": "1767bae5854f5a4d8a6852546a2ab909ad20d035981a01b4b091f925cc386ec6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
         "reviewedLines": 98,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "26ad605dbdbef5078361ad8dc14918c21161c8496721b618a333c465ab73e3cb",
+      "afterSha256": "50e0057cc9dde8cce78b297697a32f8e3355729d408fdf48dae83965815ac5ad",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 737,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 762,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "8d900d3424d2497ac29bebd71684a43da75f1688c5a0cb1aa7c5400950de2c25",
+      "afterSha256": "8f02d524a32bcfd0af7a63ed71d5ef606abd1be28cfa1883160fecb43b93685e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
         "reviewedLines": 99,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "908b848960dcd12209ce7e4e293861bed9274b5fd910106e71ce328196e431b7",
+      "afterSha256": "1c29be884e8e5c70385393c8016fba5d824fe674c3b6c39b5e615b6dbebfdbf2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "金翅凤凰的同局实战、前景动作、音画验证和实际覆盖台账。",
-        "reviewedLines": 698,
-        "acceptanceScope": "本次精确增量、原盘调用与实测。历次证据各自保留执行身份。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 723,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3a7215a34454e48d13882d078cc904b89426b780d6ab91ad2e02dec843f5875a",
+      "afterSha256": "0dfcafe4145598296060d7dc4025e4ac8fce7b0678ee5488c6012ac161573bec",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 1143,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 1151,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -5444,40 +5444,40 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "305a0a4e48a31a7fb7029261e6f144f49e2cd5dc8ebf89f237e67cef53e9a11c",
+      "afterSha256": "2a210ba3bb4354efdd0caa132b9f679ce07c2be75e4524412803bc8ff7ec1d58",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 15216,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 15239,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "8bb3bf826d906d201dc1be2856365c312a9b8b8a6b40d21ca287192fce13ba42",
+      "afterSha256": "16d319fcd22f53e2a739413e56718499d6c70c78a0097f5c4d460bf14ca20e45",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 1776,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 1792,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "c1e7bcd2ac8fb630ab97021c3048d0c77c9b748e13bf347d3499c08a57d10d82",
+      "afterSha256": "228a168152316724ed950fa49a46d1f18f64ec3a45259a31ba876842e709b46e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核野店前景、正式分屏验收、原录复验及现行源码引用。",
-        "reviewedLines": 486,
-        "acceptanceScope": "本次同局、前景覆盖与源码引用增量，保留历次执行证据。"
+        "conclusion": "核尚书府起战、逐帧前景、原录与成片以及现行源码引用。",
+        "reviewedLines": 490,
+        "acceptanceScope": "本次府内双端复验、验收反例与源码引用增量，保留历次执行证据。"
       }
     },
     {
@@ -6855,6 +6855,42 @@
       "bytes": 39793743,
       "sha256": "d37dbc36855d2af9076b5479604eb221091159486e676e2b240d153eee7daff6",
       "purpose": "野店前景修复的双端实跑、验收反例、原录恢复索引及原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-1.tar.gz",
+      "bytes": 40028440,
+      "sha256": "9618b6b2443521e390ce34ac5d54e2b0facf37e839520fcf3b7c3faf2e7cdd55",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-2.tar.gz",
+      "bytes": 43336499,
+      "sha256": "d503898315187a18d35e36147ce3bdac76e280da0e6cd15fc5a9c4631bf254a3",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-game-original-3.tar.gz",
+      "bytes": 41441907,
+      "sha256": "312c3d7340fc797ec5d3a1d91d772bd597da5a36534b3000229d68712316757a",
+      "purpose": "尚书府林天南复验，game 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-1.tar.gz",
+      "bytes": 40724403,
+      "sha256": "aa5e616c69887907438511cd99b63fed2e5a09d4614cb67ed4ebc1d2d28de228",
+      "purpose": "尚书府林天南复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120-reforge-original-2.tar.gz",
+      "bytes": 43096596,
+      "sha256": "acecc94b12e01ef7bdbacf171d723e36a8ed5850b0605f642156322865e1a384",
+      "purpose": "尚书府林天南复验，reforge 原录恢复分段。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-shangshu-lin-tiannan-20261120.tar.gz",
+      "bytes": 50764981,
+      "sha256": "109bb67559ccd66c65199405f8a020da53e2f5902a5731664734d712bcbf72f7",
+      "purpose": "尚书府入场、清屏、停战、返场、逐帧判据及原速带声分屏。"
     }
   ],
   "artifactAliases": [],

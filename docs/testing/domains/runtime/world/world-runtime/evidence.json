@@ -14,7 +14,7 @@
       "lines": "441-453",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "238e955fdd8e5c8bfc765aa7164531eab243f043f1a9cedb492d77a47e57665d"
+      "sha256": "bef536377c4062dd916d5a91d66464cd9e21ec67bfd01da7ccf55fd5ab9d5041"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -110,7 +110,11 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
     },
     {
       "date": "2026-11-06",
@@ -631,6 +635,22 @@
         }
       ],
       "scope": "镜头允许首步与同拍人物动作一起绘制。原有世界、场景及战斗恢复所引运行时片段逐字相同，各次执行仍绑定各自候选。"
+    },
+    {
+      "action": "q2-shangshu-entry-source-rebinding",
+      "base": "6669ad19b74513d1c5eea8c5420e05ef8d434286",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "441-453",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "238e955fdd8e5c8bfc765aa7164531eab243f043f1a9cedb492d77a47e57665d"
+        }
+      ],
+      "scope": "尚书府进战先重绘、府内前景覆盖与成片解码增量，保留既有调用区段和历次执行身份。"
     }
   ],
   "_governance": {
@@ -667,7 +687,12 @@
       {
         "date": "2026-10-15",
         "action": "actual full JSON machine-envelope migration",
-        "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage"
+        ]
       }
     ],
     "supersedes": [],

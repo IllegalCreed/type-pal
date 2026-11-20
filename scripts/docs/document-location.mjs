@@ -66,6 +66,7 @@ import {
   isTestingQ2PlacementSource,
   isTestingQ2RingSource,
   isTestingQ2RooftopSource,
+  isTestingQ2ShangshuSource,
   isTestingQ2StoneElderSource,
   isTestingQ2TianGhostSource,
   isTestingQ2TombSource,
@@ -118,6 +119,7 @@ import {
   restoreTestingQ2PlacementSourceBindings,
   restoreTestingQ2RingSourceBindings,
   restoreTestingQ2RooftopSourceBindings,
+  restoreTestingQ2ShangshuSourceBindings,
   restoreTestingQ2StoneElderSourceBindings,
   restoreTestingQ2TianGhostSourceBindings,
   restoreTestingQ2TombSourceBindings,
@@ -187,6 +189,7 @@ import {
   testingQ2PlacementPublicationBase,
   testingQ2RingPublicationBase,
   testingQ2RooftopPublicationBase,
+  testingQ2ShangshuPublicationBase,
   testingQ2StoneElderPublicationBase,
   testingQ2TianGhostPublicationBase,
   testingQ2TombPublicationBase,
@@ -997,8 +1000,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (forestInnRevision) assert(q2StoneElderSource && /^[a-f0-9]{40}$/u.test(forestInnRevision))
   const forestInnSource = forestInnRevision && gitTree(root, forestInnRevision, [])
   const preForestInn = forestInnSource && gitTree(root, testingQ2ForestInnPublicationBase, [])
-  const readBeforeForestInn = (path) => {
+  const shangshuRevision = admission.testingQ2ShangshuSourceRevision
+  if (shangshuRevision) assert(forestInnSource && /^[a-f0-9]{40}$/u.test(shangshuRevision))
+  const shangshuSource = shangshuRevision && gitTree(root, shangshuRevision, [])
+  const preShangshu = shangshuSource && gitTree(root, testingQ2ShangshuPublicationBase, [])
+  const readBeforeShangshu = (path) => {
     const live = readSource(path)
+    if (!preShangshu || !isTestingQ2ShangshuSource(path)) return live
+    assert(
+      live?.equals(shangshuSource.read(path)),
+      'Shangshu source differs from the frozen candidate',
+    )
+    return preShangshu.read(path)
+  }
+  const readBeforeForestInn = (path) => {
+    const live = readBeforeShangshu(path)
     if (!preForestInn || !isTestingQ2ForestInnSource(path)) return live
     assert(
       live?.equals(forestInnSource.read(path)),
@@ -1394,13 +1410,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     return preSummon.read(path)
   }
   const beforeQ2Coverage = (path, bytes) => {
-    const priorForestInn = preForestInn
-      ? restoreTestingQ2ForestInnSourceBindings(path, bytes, {
+    const priorShangshu = preShangshu
+      ? restoreTestingQ2ShangshuSourceBindings(path, bytes, {
           readSource,
+          readBase: preShangshu.read,
+          readFixed: shangshuSource.read,
+        })
+      : bytes
+    const priorForestInn = preForestInn
+      ? restoreTestingQ2ForestInnSourceBindings(path, priorShangshu, {
+          readSource: readBeforeShangshu,
           readBase: preForestInn.read,
           readFixed: forestInnSource.read,
         })
-      : bytes
+      : priorShangshu
     const priorStoneElder = preQ2StoneElder
       ? restoreTestingQ2StoneElderSourceBindings(path, priorForestInn, {
           readSource: readBeforeForestInn,
