@@ -730,15 +730,15 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "bd37f45c0c517a21ebd2ee282194d6ead4cd62ebe81c21c434f4459fa47f55bf",
+      "afterSha256": "b2255a1c13d72ddfb6e7c9e08eb162452e5ea2d7c567ab022540c97401fa5ea6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
-        "reviewedLines": 143,
+        "date": "2026-11-21",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。复核 Q2 完成状态与证据入口。",
+        "reviewedLines": 142,
         "acceptanceScope": "主线：差异限 97 个原主体中的 84 验收和 13 留审。集中门与合并继续取父卡原件。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
     },
@@ -2595,14 +2595,14 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "e2d990e29ecebe05f02ceb50ea90b60aa4760eb65bc0916ada5eadd005bbca0b",
+      "afterSha256": "d37d88a5e14304ae834f30751dead8b6a976803c5e426a76057b77fba3fad076",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 核实际增量与双端原件",
-        "date": "2026-11-19",
-        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "date": "2026-11-21",
+        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。核生成索引中的 Q2 状态。",
         "reviewedLines": 614,
         "acceptanceScope": "主线：只读生成器输出字节一致。Reforge 父卡仍 review，五张迁移后继卡按局部验收转 done。 Q2：本轮开工准入、分片范围和实测适用性；历史执行和既有接受保留原时点。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
       }
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1d74f27e8776b0a0dc81bf9a2eae095296e1715e019d87570b7a45b257fc6e74",
+      "afterSha256": "34e727c22c23664e884a02823626537cf4f243c96e02dc47b88bbab9867c8606",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-21",
-        "conclusion": "核保护基点后的双端复验、回归、可复算基线和审查状态。",
-        "reviewedLines": 1221,
-        "acceptanceScope": "本轮核新增回执、各端依赖与实际覆盖率。既有执行及用户视觉结论沿用各自原件。"
+        "conclusion": "核保护基点后的 Q2 双端复验、反控、可复算基线和 GitHub 必需检查。",
+        "reviewedLines": 1223,
+        "acceptanceScope": "本轮核新增回执、各端依赖、实际覆盖率和 GitHub 检查。既有执行及用户视觉结论沿用各自原件。"
       }
     },
     {

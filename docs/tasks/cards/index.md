@@ -36,7 +36,6 @@ Template: governance-index-v1 / 1.0.0
 | [CONTENT-ASSET-RECORD-OWNERSHIP-1 — 资源引用诊断识别实际登记项](CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | blocked | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-PILLAR-CINEMATIC-1 — 末柱至雪崖首句分片返工](E2E-PILLAR-CINEMATIC-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -497,6 +496,7 @@ Template: governance-index-v1 / 1.0.0
 | [E2E-008-1 — 仙灵岛迷宫与桃花林入口](E2E-008-1-fairy-island-maze.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-009-1 — 桃花林采药与池塘初遇](E2E-009-1-fairy-island-pool.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-010-1 — 水月宫取苗刀与紫金丹](E2E-010-1-water-moon-palace.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-Q2-1 — Q2 战斗专项与首批小闭环](E2E-Q2-1-battle-foundation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [EDITOR-FRAME-WORKER-POST-CLEANUP-1 — 过场编码发送失败后的 Worker 释放](EDITOR-FRAME-WORKER-POST-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ASSET-SERVER-READ-FAILURE-1 — 本地资源读取失败的请求与流清理](GAME-ASSET-SERVER-READ-FAILURE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
