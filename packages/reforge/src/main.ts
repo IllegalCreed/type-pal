@@ -3031,13 +3031,13 @@ export async function bootGame(
           if (targetWorld.party[0]?.id !== candidate.party[0]?.id) {
             authoredPartyFacing = null
             worldPresentation.clearPartyPoses()
+            trail = seedFormationTrail(player.pos, facing)
           } else {
             worldPresentation.clearFollowerPoses()
           }
           targetWorld.party = candidate.party
           targetWorld.reserve = candidate.reserve
           targetWorld.learnedSkills = candidate.learnedSkills
-          trail = seedFormationTrail(player.pos, facing)
           followerFrozen.length = 0
           followerPos.length = 0
           followerAuth.clear()

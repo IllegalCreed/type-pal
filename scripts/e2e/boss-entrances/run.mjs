@@ -77,7 +77,8 @@ const observe = bossObserver({
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
   includesParty:
-    spec.party === 'tomb' || Boolean(source.tower || source.route || revisit || scriptedStop),
+    spec.party === 'tomb' ||
+    Boolean(source.tower || source.route || revisit || scriptedStop || source.gai),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -227,7 +228,9 @@ async function makeGameFixture(page, baseURL, until) {
       }
       return { canonical, staged: serializeSave(world) }
     },
-    spec.party === 'city' || spec.party === 'tomb' || source.route || revisit ? nativeRoles : null,
+    spec.party === 'city' || spec.party === 'tomb' || source.gai || source.route || revisit
+      ? nativeRoles
+      : null,
   )
   const payload = JSON.parse(staged)
   const gs = payload.gs
@@ -291,6 +294,8 @@ async function makeGameFixture(page, baseURL, until) {
   gs.wNumMusic = fieldMusic
   if (night) gs.nightPalette = true
   if (spec.party === 'tomb') gs.PlayerRolesRuntime.rgwEquipment[5][1] = 274
+  if (spec.accessory)
+    gs.PlayerRolesRuntime.rgwEquipment[5][party[0].roleId] = Number(spec.accessory)
   if (spec.prelude?.completedAt !== undefined)
     gs.sceneOnEnterIp[gs.wNumScene] = spec.prelude.completedAt + 1
   if (source.preludeWave) {
@@ -331,7 +336,12 @@ async function makeReforgeFixture() {
   const world = buildWorld({ party: roles, money: 0, inventory: [] }, actorsById)
   for (const [i, { role, roleId, ...stats }] of fixtureMembers.entries()) {
     Object.assign(world.party[i], stats, {
-      equipment: spec.party === 'tomb' && roleId === 1 ? { accessory: '274' } : {},
+      equipment:
+        spec.party === 'tomb' && roleId === 1
+          ? { accessory: '274' }
+          : spec.accessory && roleId === party[0].roleId
+            ? { accessory: spec.accessory }
+            : {},
       hiddenExp: Object.fromEntries(
         Object.keys(growthPools).map((name) => [
           name,
@@ -533,7 +543,7 @@ async function playEncounter({ page, press, health, capture }) {
     ? capture.enabled
       ? 480_000
       : 215_000
-    : handoff || scriptedReturn || source.tian || spec.prelude?.completedAt
+    : handoff || scriptedReturn || source.tian || source.gai || spec.prelude?.completedAt
       ? 195_000
       : 125_000
   const deadline = Date.now() + worldDeadline
@@ -577,7 +587,10 @@ async function playEncounter({ page, press, health, capture }) {
       )
       const defending = live.turn === 1 || Boolean(scriptedStop)
       const enemies = live.snapshot.enemies.filter((enemy) => enemy?.alive)
-      const target = enemies.find(({ id }) => id === spec.enemy) ?? enemies[0]
+      const target =
+        enemies.find(({ id }) => id === spec.firstTarget) ??
+        enemies.find(({ id }) => id === spec.enemy) ??
+        enemies[0]
       const command = {
         turn: live.turn,
         actorId: live.selectingPlayerId,

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { readGaiLuojiaoSources } from './gai-luojiao-presentation.mjs'
 import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
@@ -20,6 +21,7 @@ export const isBossBattle = (spec) => battleOperands(spec)[2] === 0
 export const observesForeground = (spec) =>
   spec.prelude !== undefined ||
   spec.revisit !== undefined ||
+  spec.world.join !== undefined ||
   spec.world.handoff !== undefined ||
   spec.world.scriptedReturn !== undefined ||
   spec.disk.victory !== undefined ||
@@ -65,7 +67,14 @@ const mingParty = [
 ]
 const mingOpeningParty = [mingParty[0], mingParty[2]]
 export function partyFor(spec) {
-  const members = { city: cityParty, tomb: fullParty, ming: mingOpeningParty }[spec.party] ?? party
+  const members =
+    {
+      xiaoyao: [party[0]],
+      'xiaoyao-protected': [{ ...party[0], defense: 350 }],
+      city: cityParty,
+      tomb: fullParty,
+      ming: mingOpeningParty,
+    }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
     : members.map((member) => ({ ...member, hp: spec.initialHP }))
@@ -181,6 +190,40 @@ function towerFox(scene, owner, start, contact, position, music, musicIp, mapMus
     mapMusic,
     world: { gameState: -2, triggerMode: 5, inventory: [], exit: 'ArrowUp' },
   }
+}
+
+const gaiLuojiao = {
+  scene: 's215',
+  owner: 'e3657',
+  watched: ['e3658', 'e3659', 'e3660', 'e3661', 'e3662', 'e3663', 'e3664'],
+  team: 223,
+  enemy: 'enemy-501',
+  start: [52, -15, 0],
+  contact: [53, -15, 0],
+  approach: 'ArrowRight',
+  party: 'xiaoyao',
+  music: 38,
+  field: 20,
+  slot: 0,
+  seed: 4,
+  settlementDwellMs: 180,
+  disk: {
+    entry: 31158,
+    battle: 31162,
+    loss: 0,
+    last: 31280,
+    owner: [1152, 320, 2, 7],
+    field: 30649,
+    music: 31161,
+  },
+  mapMusic: { scene: 's215', ip: 30648, track: 70 },
+  world: {
+    gameState: 0,
+    triggerMode: 7,
+    exit: 'ArrowLeft',
+    join: { ip: 31278, role: 'anu', roleId: 4 },
+    music: { ip: 31279, track: 70 },
+  },
 }
 
 export const scenarios = {
@@ -515,6 +558,24 @@ export const scenarios = {
       music: { ip: 21550, track: 82 },
     },
   },
+  'gai-luojiao': {
+    ...gaiLuojiao,
+    id: 'gai-luojiao',
+    party: 'xiaoyao-protected',
+    accessory: '262',
+    firstTarget: 'enemy-490',
+    maxRounds: 24,
+    disk: {
+      ...gaiLuojiao.disk,
+      defeated: { enemy: 'enemy-490', ip: 42828, note: 13349, itemId: '152' },
+    },
+    world: { ...gaiLuojiao.world, inventory: [{ itemId: '152', count: 1 }] },
+  },
+  'gai-luojiao-defeat': {
+    ...gaiLuojiao,
+    id: 'gai-luojiao-defeat',
+    world: { ...gaiLuojiao.world, inventory: [], outcome: 'lost' },
+  },
   thief: {
     id: 'yangzhou-rooftop-thief',
     scene: 's086',
@@ -823,6 +884,16 @@ export async function readSources(spec) {
     const jade = (await json(itemsPath)).find(({ id }) => id === '274')
     assert.deepEqual([jade.equip.slot, jade.equip.equipableBy], ['accessory', ['zhao-linger']])
   }
+  if (spec.accessory) {
+    const item = (await json('projects/pal/content/items.json')).find(
+      ({ id }) => id === spec.accessory,
+    )
+    assert(item.equip.equipableBy.includes(partyFor(spec)[0].role))
+    assert.deepEqual(
+      [item.equip.slot, item.equip.effects],
+      ['accessory', [{ kind: 'resistance', element: 'poison', percent: 100 }]],
+    )
+  }
   const { battle, entry, last, reward, defeated, victory, flee } = spec.disk
   const setMusic = commands[spec.disk.music ?? battle - 2]
   const setField = commands[spec.disk.field ?? battle - 1]
@@ -962,6 +1033,7 @@ export async function readSources(spec) {
     .map((id) => data.enemies.find((enemy) => enemy.id === id))
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
+  const gai = spec.world.join && readGaiLuojiaoSources(data, commands, spec, object)
   if (route) route.ming = readTowerMingSources(commands, object)
   const tian =
     spec.disk.termination === undefined
@@ -1054,7 +1126,7 @@ export async function readSources(spec) {
       'projects/pal/content/actors.json',
       'projects/pal/content/enemies.json',
       'projects/pal/content/battle-fields.json',
-      ...(spec.party === 'tomb' ? ['projects/pal/content/items.json'] : []),
+      ...(spec.party === 'tomb' || spec.accessory ? ['projects/pal/content/items.json'] : []),
       `projects/pal/content/maps/${data.rfScene.mapId}.json`,
       `projects/pal/assets/migrated/music/${battleTrack}.mid`,
       `projects/pal/assets/migrated/music/${fieldTrack}.mid`,
@@ -1073,6 +1145,12 @@ export async function readSources(spec) {
             'scripts/e2e/rendered-dialogue-comparison.mjs',
             `data/extracted/data/tilemap/${data.diskRevisitScene.mapNum}.json`,
             `projects/pal/content/maps/${data.revisitScene.mapId}.json`,
+          ]
+        : []),
+      ...(gai
+        ? [
+            'scripts/e2e/boss-entrances/gai-luojiao-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
           ]
         : []),
     ],
@@ -1103,6 +1181,7 @@ export async function readSources(spec) {
     poisonLady,
     stoneElder,
     toad,
+    gai,
     route,
     summonBonus,
     summoning: summonScript && {

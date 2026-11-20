@@ -6,6 +6,7 @@ import { sha256 } from '../browser-journey.mjs'
 import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
+import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
 import {
@@ -1332,6 +1333,8 @@ async function inspect(path, engine) {
       party.map(({ roleId }) => roleId),
     )
     assert.equal(run.slotReadback, report.save.sha256)
+    if (spec.accessory)
+      assert.equal(saved.gs.PlayerRolesRuntime.rgwEquipment[5][0], Number(spec.accessory))
     if (revisit) {
       assert.equal(saved.gs.sceneOnEnterIp[gameScene({ scene: revisit.scene })], revisit.hookIp)
       assert.equal(saved.gs.allEventObjects.find(({ id }) => id === 1846)?.sState, 0)
@@ -1346,6 +1349,7 @@ async function inspect(path, engine) {
     assert.equal(readback.version, saved.version)
     assert.equal(readback.contentVersion, saved.contentVersion)
     assert.deepEqual(readback.world.party, saved.world.party)
+    if (spec.accessory) assert.equal(readback.world.party[0].equipment.accessory, spec.accessory)
     if (revisit) {
       assert.deepEqual(readback.world.script.behaviors.scenes[revisit.scene]?.onEnter, {
         selection: { kind: 'use', value: revisit.hook },
@@ -1458,7 +1462,7 @@ async function inspect(path, engine) {
       'initial',
       source.canonical.findIndex(({ kind }) => kind === 'startBattle'),
     ])
-    if (!handoff) assert.equal(once('script-result').arm, 'none')
+    if (!handoff) assert.equal(once('script-result').arm, scriptedDefeat ? 'onLose' : 'none')
   }
   const prepared = once('prepared')
   assert.deepEqual(
@@ -1555,6 +1559,19 @@ async function inspect(path, engine) {
     enemies: Array.from({ length: 5 }, (_, i) => slots[i] ?? null),
   }))
   const enemy = actions.filter(({ side, slot }) => side === 'enemy' && slot === spec.slot)
+  if (source.gai && spec.accessory) {
+    assert.equal(commands.find(({ kind }) => kind === 'attack')?.target, 1)
+    const poison = actions.flatMap(({ side, spell, hp }, i) =>
+      side === 'enemy' && ['371', '376'].includes(spell)
+        ? [{ spell, hp, previous: actions[i - 1].hp }]
+        : [],
+    )
+    assert.deepEqual([...new Set(poison.map(({ spell }) => spell))].toSorted(), ['371', '376'])
+    assert(
+      poison.every(({ hp, previous }) => isDeepStrictEqual(hp, previous)),
+      'the visible poison spells were resisted',
+    )
+  }
   if (source.toad)
     assert.deepEqual(
       enemy.slice(0, 3).map(({ kind, spell }) => [kind, spell]),
@@ -1827,7 +1844,10 @@ async function inspect(path, engine) {
   assert.deepEqual([last.cash, last.inventory], [cash, rewardInventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
-    (scriptedReturn?.members ?? handoff?.members ?? roles).map((role) => [role, exp]),
+    [
+      ...(scriptedReturn?.members ?? handoff?.members ?? roles).map((role) => [role, exp]),
+      ...(spec.world.join ? [[spec.world.join.role, 0]] : []),
+    ],
   )
   assert.deepEqual(
     won.party.map(({ id, exp: gained }) => [id, gained]),
@@ -1913,7 +1933,12 @@ async function inspect(path, engine) {
     assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
   }
   const dialogue =
-    source.tian || source.route || source.poisonLady || source.stoneElder || source.toad
+    source.tian ||
+    source.route ||
+    source.poisonLady ||
+    source.stoneElder ||
+    source.toad ||
+    source.gai
       ? undefined
       : checkDialogue(
           events,
@@ -1923,6 +1948,16 @@ async function inspect(path, engine) {
         )
   const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const gai = source.gai
+    ? inspectGaiLuojiaoPresentation({
+        events,
+        draws: renderedDialogue,
+        boundaries,
+        source,
+        spec,
+        run,
+      })
+    : undefined
   const goldenToad = source.toad
     ? inspectGoldenToadPresentation({
         events,
@@ -1934,6 +1969,23 @@ async function inspect(path, engine) {
         run,
       })
     : undefined
+  if (gai) {
+    const [before, after] = [false, true].map(
+      (returning) =>
+        source.gai.pages.filter(({ phase }) => (phase === 'return') === returning).length,
+    )
+    for (const [phase, count] of [
+      ['before-dialogue', before],
+      ['after-dialogue', after],
+    ]) {
+      const actual = report.actions
+        .filter((action) => action.phase === phase)
+        .map(({ kind, key }) => [kind, key])
+      const expected = Array.from({ length: count }, () => ['press', game ? 'Space' : 'Enter'])
+      if (!isDeepStrictEqual(actual, expected))
+        gai.issues.push({ rule: `exact original dialogue confirms for ${phase}`, actual, expected })
+    }
+  }
   const poisonLady = source.poisonLady
     ? inspectPoisonLadyPresentation({ events, draws: renderedDialogue, boundaries, source })
     : undefined
@@ -2086,6 +2138,7 @@ async function inspect(path, engine) {
     poisonLady,
     stoneElder,
     goldenToad,
+    gai,
     tian,
     spiderForeground,
     clips: {
@@ -2126,6 +2179,7 @@ if (!failures.length) {
       ...(result.poisonLady?.issues ?? []),
       ...(result.stoneElder?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
+      ...(result.gai?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

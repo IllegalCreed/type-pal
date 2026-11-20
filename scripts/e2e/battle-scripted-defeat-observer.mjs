@@ -90,7 +90,8 @@ function install(
     entryLastBand = band
     event('entry-band', { band, pixels })
   }
-  const roleName = (id) => ({ 0: 'li-xiaoyao', 1: 'zhao-linger', 2: 'lin-yueru' })[id] ?? String(id)
+  const roleName = (id) =>
+    ({ 0: 'li-xiaoyao', 1: 'zhao-linger', 2: 'lin-yueru', 4: 'anu' })[id] ?? String(id)
   const reforgePartySprites = new WeakMap()
   const grid = ({ x, y }) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2, 0]
   const rfPos = ({ col, row, height }) => [col, row, height]
