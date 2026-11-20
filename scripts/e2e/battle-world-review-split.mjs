@@ -304,7 +304,7 @@ if (sides.every(({ coverage }) => coverage)) {
     'dali-earth-beast': { cue: 'dlg.11136', actor: 'e4168' },
     'southern-palace-tree': { cue: 'dlg.12085', actor: 'e4741' },
     'baiyue-finale': { cue: 'dlg.12142', actor: 'e4798' },
-    'thief-courtyard': { cue: 'dlg.4953', actor: 'e1695' },
+    'thief-courtyard': { cue: 'dlg.4955', actor: 'e1695' },
     'stone-elder-auto': { cue: 'dlg.5865', actor: 'e2061' },
     'shangshu-lin-tiannan': { cue: 'dlg.6785', actor: 'e2154' },
   }
