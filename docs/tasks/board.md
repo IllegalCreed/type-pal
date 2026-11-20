@@ -51,7 +51,9 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)已完成 97 个原 pending 的逐文件读核，84 个验收、13 个保留 review。定向经过音频、文本、资源、菜单和绘制输入的实际生产合同。集中门与合并按同一卡记录。
+[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账和定向复核。撤回项的理由与解除条件见原卡。[占位战斗精灵输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已有隔离复现，待核生成入口与失败合同后准入。
+
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)的合并后复核已撤回物品操作实现与专测的关闭状态。当前验收数、复核依据与解除条件见[原卡](cards/QUALITY-REFORGE-PRESENTATION-1.md#合并后关闭复核)。
 
 迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
 
@@ -59,7 +61,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：最近完成的文件批次
 
-`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。现行账本增加 100 条关闭登记，七个新增 review 保留停止线与后继证据。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
+`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。合并时新增 100 条关闭登记，七项留审。当前后继裁定从上方回溯卡进入。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
 
 内容资产后继复核已处理 13 个原 review 文件，其中 8 个实现已验证、5 个旧专测路径退役。四个承接测试和夹具按实际职责独立登记。 [后继执行归档](evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)
 

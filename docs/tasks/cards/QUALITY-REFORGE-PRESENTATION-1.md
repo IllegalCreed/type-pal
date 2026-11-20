@@ -66,6 +66,17 @@ Visual Verification Timing: N/A
 
 本窗口以现有格式、原盘数据和运行合同为主，更新了任务卡和账本。已审批的输入拒绝、码点节奏和错误恢复落实在现用入口及测试。项目的字段、保存结构和作者操作指南没有新合同需要同步。测试生成的可观察数据都在隔离位置，正式数据文件和 E2E 实现路径未写入。
 
+### 合并后关闭复核
+
+按 #73 合并提交 `bfd5b5c4c179268a8dacedd42ac4adb651149652` 和原归档 `window/menu-review.json` 核对。原窗口的 84 个接受、13 个 review 是合并时点的记录。下列两项撤回关闭后，本窗口为 82 个接受、15 个 review。
+
+| 路径 | 实际复核与解除条件 |
+|---|---|
+| `menu/item-use-session.ts` | `item-use-session.ts:3–25` 以 `#pending` 持有占用至 `finally`，`#controller` 在取消时先退出。菜单在 `menu-session.ts:316–320` 据占用拦截输入，世界清理在 `main.ts:5273` 发出取消。归档 G 维“一份控制器表达占用”与源码不符。须补足两个状态各自的生命周期与保留理由，再裁定 C/G。 |
+| `menu/item-use-session.test.ts` | `item-use-session.test.ts:53–70` 先等待 B 完成，再取消 B。断言证明取消已结束的 B 不影响仍在途的 A。归档 B 维写反了取消对象，E 维未区分两种时序。真实菜单的在途占用与复用另有 `menu-session.test.ts:256–297` 支持。须核定实例隔离的实际合同，把标题和证据收至实测范围，或用同时在途的操作补足必要断言。该文件也是 [测试来源](../../testing/domains/runtime/menu/menu-session/report.md) 的绑定输入，改动时须同步核适用性。 |
+
+按风险抽查紧邻三个窗口。#70 的 `audio-preview-session.test.ts` 在旧 owner 的停止回调内核对新旧身份，再核迟到释放与新 owner 保留。#71 的 `project-image-cache.test.ts` 在新旧请求同键重叠时让旧解码先完成，断言仍复用新 Promise，且仅关闭旧位图。两项结论与所读实现、调用和断言相符。#72 的 PAL 供应输入不变性证据范围过宽，具体断言及重新进入 review 的文件见 [迁移窗口复核](QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md#合并后关闭复核)。这次抽查按指定合同裁定。
+
 ### 留项与后继验证
 
 | 当前路径 | 证据边界和接续条件 |
