@@ -384,24 +384,18 @@
                         "entity": "e4800"
                       }
                     },
-                    {
-                      "kind": "moveParty",
-                      "speed": "run",
-                      "to": {
-                        "col": 120,
-                        "height": 0,
-                        "row": 49
-                      }
-                    },
-                    {
-                      "kind": "moveParty",
-                      "speed": "run",
-                      "to": {
-                        "col": 120,
-                        "height": 0,
-                        "row": 51
-                      }
-                    },
+                    { "kind": "wait", "ms": 100 },
+                    { "kind": "nudgeParty", "dx": 16, "dy": -8 },
+                    { "kind": "setPartyFacing", "facing": "up", "gesture": 0 },
+                    { "kind": "wait", "ms": 100 },
+                    { "kind": "nudgeParty", "dx": 0, "dy": -8 },
+                    { "kind": "setPartyFacing", "facing": "up", "gesture": 2 },
+                    { "kind": "wait", "ms": 100 },
+                    { "kind": "nudgeParty", "dx": -16, "dy": 0 },
+                    { "kind": "setPartyFacing", "facing": "down", "gesture": 2 },
+                    { "kind": "wait", "ms": 100 },
+                    { "kind": "nudgeParty", "dx": -16, "dy": 8 },
+                    { "kind": "setPartyFacing", "facing": "down", "gesture": 0 },
                     {
                       "cue": {
                         "identity": {

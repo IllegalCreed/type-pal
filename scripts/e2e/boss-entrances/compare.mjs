@@ -2546,6 +2546,9 @@ async function inspect(path, engine) {
       : {}),
     ...(linTiannan && { linTiannan: linTiannan.comparable }),
     ...(dali && { dali: dali.comparable }),
+    ...(baiyue && {
+      baiyueCast: baiyue.palace.actors.map(([id, poses]) => [id, poses.map(({ value }) => value)]),
+    }),
     ...(inn ? { actorPixels: inn.actorPixels } : {}),
     ...(tomb ? { revealPixels: tomb.pixels, arrivalPixels: tomb.arrivalPixels } : {}),
     ...(tower?.contact && {

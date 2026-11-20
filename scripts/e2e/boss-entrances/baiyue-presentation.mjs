@@ -6,11 +6,92 @@ import {
 } from '../rendered-dialogue-comparison.mjs'
 import { inspectWorldDialogueCoverage } from './world-dialogue-coverage.mjs'
 
+function inspectPalaceCast(events, trigger, launch, spec, source, issues) {
+  const draws = new Map(
+    events.filter(({ kind }) => kind === 'world-drawn').map((row) => [row.order, row]),
+  )
+  const actorIds = source.finale.roster.map(({ id }) => `e${id}`)
+  const views = events.flatMap((event) => {
+    if (
+      event.kind !== 'world-render' ||
+      event.scene !== spec.scene ||
+      event.view === null ||
+      event.order <= trigger.order ||
+      event.order >= launch.order
+    )
+      return []
+    const view = draws.get(event.view)
+    if (!view || !event.backdrop || !Array.isArray(view.party)) {
+      issues.push({ issue: 'baiyue-unbound-world-render', order: event.order })
+      return []
+    }
+    const unexpected = Object.keys(view.actors).filter((id) => !actorIds.includes(id))
+    if (unexpected.length)
+      issues.push({ issue: 'baiyue-unbound-world-actor', order: event.order, ids: unexpected })
+    return event.backdrop.dark ? [] : [view]
+  })
+  assert(views.length > 0, 'baiyue prelude actually presented')
+  const changes = (read) => {
+    const steps = []
+    for (const view of views) {
+      const value = read(view)
+      if (!steps.length || !isDeepStrictEqual(value, steps.at(-1).value))
+        steps.push({ atMs: view.atMs, order: view.order, value })
+    }
+    return steps
+  }
+
+  const party = changes(({ party, camera }) => [
+    party.map(({ id, spriteId, world, frame }) => [
+      id,
+      typeof spriteId === 'number' ? spriteId : source.spriteChunks.get(spriteId),
+      world,
+      frame,
+    ]),
+    camera,
+  ])
+  // The physical contact frame may still be presented before the foreground's first world beat.
+  const first = party.findIndex(
+    ({ value: [members] }) => !isDeepStrictEqual(members[0]?.[2], [1120, 1376]),
+  )
+  const route = party.slice(first < 0 ? party.length : first)
+  const expected = [
+    [1136, 1368, 6],
+    [1136, 1360, 8],
+    [1120, 1360, 2],
+    [1104, 1368, 0],
+  ].map(([x, y, frame]) => [[['li-xiaoyao', 2, [x, y], frame]], [x - 160, y - 112]])
+  if (
+    !isDeepStrictEqual(
+      route.map(({ value }) => value),
+      expected,
+    )
+  )
+    issues.push({ issue: 'baiyue-party-opening-track', actual: route, expected })
+  for (const [i, row] of route.slice(1).entries())
+    if (Math.abs(row.atMs - route[i].atMs - 100) > 55)
+      issues.push({
+        issue: 'baiyue-party-opening-clock',
+        order: row.order,
+        interval: row.atMs - route[i].atMs,
+      })
+
+  const actors = actorIds.map((id) => [
+    id,
+    changes(({ actors }) => {
+      const pose = actors[id]
+      return pose ? [pose.asset, pose.position, pose.facing, pose.frame] : null
+    }),
+  ])
+  return { receipts: views.length, party, actors }
+}
+
 export function inspectBaiyuePresentation({ events, draws, boundaries, source, spec, game }) {
   const { trigger, launch, entry, won, control } = boundaries
   const { scene, disk } = spec
   const { finale, commands, locale } = source
   const issues = []
+  const palace = inspectPalaceCast(events, trigger, launch, spec, source, issues)
   const check = (issue, actual, expected) => {
     if (!isDeepStrictEqual(actual, expected)) issues.push({ issue, actual, expected })
   }
@@ -94,5 +175,5 @@ export function inspectBaiyuePresentation({ events, draws, boundaries, source, s
     }
     return { ip, frames, first: shown[0], last }
   })
-  return { issues, coverage, films, rainPictures }
+  return { issues, coverage, palace, films, rainPictures }
 }

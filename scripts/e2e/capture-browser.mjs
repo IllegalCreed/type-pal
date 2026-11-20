@@ -137,14 +137,19 @@ export function installLocalCapture() {
         volume()
         connect.call(tap.source, tap.gain)
         connect.call(tap.gain, mixed)
-        event('video-audio', { path: new URL(video.src, location.href).pathname })
+        event('video-audio', {
+          path: new URL(video.src, location.href).pathname,
+          mediaTime: video.currentTime,
+        })
       } catch (error) {
         fail(error)
       }
     }
     const error = () => fail('HTMLVideo load/decode failed')
     const playing = () => {
-      if (!tap.source) fail('playing video has no captured audio track')
+      attach()
+      tap.played = true
+      if (intro && !tap.source) fail('playing video has no captured audio track')
       if (intro) event('intro-playing', { mediaTime: video.currentTime })
     }
     const play = () => {
@@ -297,6 +302,8 @@ export function installLocalCapture() {
       const videos = [...document.querySelectorAll('video')].filter(visible)
       if (videos.length > 1) throw new Error('multiple visible videos')
       const video = videos[0]
+      if (video?.currentTime > 0.1 && !media.get(video)?.source)
+        throw new Error('playing video has no captured audio track')
       // Intro capture starts on the real title canvas. Normal story input is not
       // released until a native encoded video frame has been verified by the runner.
       const visual = video ?? canvas
@@ -474,6 +481,8 @@ export function installLocalCapture() {
     },
     async finish(abort = false) {
       if (abort) fail('capture aborted')
+      if (!abort && [...media.values()].some(({ played, source }) => played && !source))
+        fail('playing video has no captured audio track')
       if (!recorder && !abort) fail('capture never started')
       if (recorder?.state === 'recording') recorder.stop()
       if (stopped) {
