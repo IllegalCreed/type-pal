@@ -170,6 +170,31 @@ describe('当前 Reforge 主壳的作者脚本效果链', () => {
     fixture.assertInputUnchanged()
   })
 
+  test('队外角色先更换形象，随后用同一角色实例入队', async () => {
+    host = await installShellHost()
+    const fixture = await bootScenario(host, {
+      party: ['hero', 'friend'],
+      first: story([
+        { kind: 'setParty', members: ['hero'] },
+        {
+          kind: 'setActorAppearance',
+          actor: 'friend',
+          spriteId: 'walker',
+          battleSprite: 'fighter',
+        },
+        { kind: 'setParty', members: ['hero', 'friend'] },
+      ]),
+    })
+    const friendId = state().world.party.find((member) => member.template === 'friend')?.id
+    expect(friendId).toBeDefined()
+    await advance(host, () => !state().script.running && state().world.money === 59)
+    expect(state().world.party.find((member) => member.template === 'friend')).toMatchObject({
+      id: friendId,
+      appearance: { spriteId: 'walker', battleSprite: 'fighter' },
+    })
+    fixture.assertInputUnchanged()
+  })
+
   test('全队恢复跳过阵亡者，复活仅作用阵亡者且按最大体力十分比结算', async () => {
     host = await installShellHost()
     const fixture = await bootScenario(host, {

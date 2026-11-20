@@ -10,6 +10,7 @@ import { canonicalInput, createRecordedHold, pressRecordedKey } from '../input-l
 import { installRenderedDialogueObservation } from '../rendered-dialogue-observation.mjs'
 import { bossObserver } from './observe.mjs'
 import {
+  battlePartyFor,
   departingPosition,
   entranceSteps,
   gameScene,
@@ -51,8 +52,11 @@ const night = spec.prelude?.night !== undefined
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
 const party = partyFor(spec)
-const roles = party.map(({ role }) => role)
-const nativeRoles = party.map(({ roleId }) => roleId)
+const battleParty = battlePartyFor(spec)
+const hasReserve = battleParty.length > party.length
+const fixtureMembers = hasReserve ? battleParty : party
+const roles = fixtureMembers.map(({ role }) => role)
+const nativeRoles = fixtureMembers.map(({ roleId }) => roleId)
 const initialOwner = Number(spec.owner.slice(1))
 const observe = bossObserver({
   engine,
@@ -65,7 +69,8 @@ const observe = bossObserver({
     .map(([id]) => id),
   foreground,
   handoffScene: handoff?.scene,
-  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.tian),
+  visitScenes: spec.sceneRoute?.visits.map(({ scene }) => scene),
+  includesParty: spec.party === 'tomb' || Boolean(source.tower || source.tian || source.route),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
   scriptedReturn: Boolean(scriptedReturn),
@@ -215,7 +220,7 @@ async function makeGameFixture(page, baseURL, until) {
       }
       return { canonical, staged: serializeSave(world) }
     },
-    spec.party === 'city' || spec.party === 'tomb' ? nativeRoles : null,
+    spec.party === 'city' || spec.party === 'tomb' || source.route ? nativeRoles : null,
   )
   const payload = JSON.parse(staged)
   const gs = payload.gs
@@ -256,8 +261,8 @@ async function makeGameFixture(page, baseURL, until) {
     y: y - (yy - y) * i,
     dir: facing,
   }))
-  gs.partyMembers = nativeRoles
-  for (const [i, member] of party.entries()) {
+  gs.partyMembers = party.map(({ roleId }) => roleId)
+  for (const member of fixtureMembers) {
     const id = member.roleId
     for (const [name, field] of Object.entries(statsFields))
       gs.PlayerRolesRuntime[field][id] = member[name]
@@ -265,7 +270,7 @@ async function makeGameFixture(page, baseURL, until) {
     for (const row of gs.PlayerRolesRuntime.rgwMagic) row[id] = 0
     gs.Exp.rgPrimaryExp[id] = { wExp: 0, wLevel: member.level, wCount: 0 }
     for (const pool of Object.values(growthPools))
-      assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[i], wCount: 0 })
+      assert.deepEqual(gs.Exp[pool][id], { wExp: 0, wLevel: source.hiddenLevels[id], wCount: 0 })
   }
   gs.inventory = []
   gs.dwCash = 0
@@ -297,7 +302,7 @@ async function makeGameFixture(page, baseURL, until) {
 }
 
 async function makeReforgeFixture() {
-  const { buildWorld, validateActors } = await tsImport(
+  const { applySetParty, buildWorld, validateActors } = await tsImport(
     '../../../packages/content/src/index.ts',
     import.meta.url,
   )
@@ -308,19 +313,26 @@ async function makeReforgeFixture() {
   const actors = validateActors(
     (await json('projects/pal/content/actors.json')).filter(({ id }) => roles.includes(id)),
   )
-  const world = buildWorld(
-    { party: roles, money: 0, inventory: [] },
-    Object.fromEntries(actors.map((actor) => [actor.id, actor])),
-  )
-  for (const [i, { role, roleId, ...stats }] of party.entries()) {
+  const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+  const world = buildWorld({ party: roles, money: 0, inventory: [] }, actorsById)
+  for (const [i, { role, roleId, ...stats }] of fixtureMembers.entries()) {
     Object.assign(world.party[i], stats, {
       equipment: spec.party === 'tomb' && roleId === 1 ? { accessory: '274' } : {},
       hiddenExp: Object.fromEntries(
-        Object.keys(growthPools).map((name) => [name, { level: source.hiddenLevels[i], exp: 0 }]),
+        Object.keys(growthPools).map((name) => [
+          name,
+          { level: source.hiddenLevels[roleId], exp: 0 },
+        ]),
       ),
     })
     world.learnedSkills[role] = []
   }
+  if (hasReserve)
+    applySetParty(
+      world,
+      party.map(({ role }) => role),
+      actorsById,
+    )
   world.audio = { currentMusic: fieldMusicAsset }
   if (night) world.ambience = 'night'
   if (spec.prelude) {
@@ -497,13 +509,20 @@ async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
   let confirmed = false
-  const deadline =
-    Date.now() +
-    (handoff || scriptedReturn || source.tian || spec.prelude?.completedAt ? 195_000 : 125_000)
+  const worldDeadline = source.route
+    ? capture.enabled
+      ? 480_000
+      : 215_000
+    : handoff || scriptedReturn || source.tian || spec.prelude?.completedAt
+      ? 195_000
+      : 125_000
+  const deadline = Date.now() + worldDeadline
   for (;;) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
+    if (source.route && ended)
+      assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
       : scriptedReturn
@@ -529,7 +548,7 @@ async function playEncounter({ page, press, health, capture }) {
       lastScreen = live.settlement
       await press(confirm, 'settlement')
     } else if (live?.selectingPlayerId) {
-      assert(live.turn <= 10, 'manual battle exceeded ten rounds')
+      assert(live.turn <= (source.route ? 18 : 10), 'manual battle exceeded the planned rounds')
       const defending = live.turn === 1 || !!source.tian
       const enemies = live.snapshot.enemies.filter((enemy) => enemy?.alive)
       const target = enemies.find(({ id }) => id === spec.enemy) ?? enemies[0]
@@ -706,7 +725,7 @@ await runBrowserJourney({
         phase: 'approach',
         from: spec.start,
         to: spec.contact,
-        mode: source.tower ? undefined : source.tian ? 'ready' : 'dialogue',
+        mode: source.tower || source.route ? undefined : source.tian ? 'ready' : 'dialogue',
       })
       if (source.tian) {
         await press(confirm, 'interact')

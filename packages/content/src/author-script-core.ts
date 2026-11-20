@@ -1139,8 +1139,7 @@ export function checkBaseScriptFlow(
     const stagePath = `${path}.stages[${index}]`
     if (stage.label !== undefined) nonEmptyString(stage.label, `${stagePath}.label`)
     if (stage.entry !== undefined) {
-      if (!options.allowSceneEntry || stage.id !== initial)
-        throw new Error(`${stagePath}.entry: 只允许 onEnter initial stage`)
+      if (!options.allowSceneEntry) throw new Error(`${stagePath}.entry: 只允许 onEnter 步骤`)
       checkSceneEntry(stage.entry, `${stagePath}.entry`, options)
     }
     checkBaseAuthorCommands(stage.body, `${stagePath}.body`, {

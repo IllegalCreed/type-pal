@@ -2688,12 +2688,15 @@ export async function bootGame(
         else actorSpriteOverrides.set(actorId, { def, frames })
       })
     },
-    // 0x1A:持久改角色形象(成年灵儿),写 CharacterInstance.appearance 随存档。按 template 匹配队员;
-    // 大世界精灵覆写要预载新精灵帧(队长/跟随者渲染每帧读 appearance.spriteId)。
+    // 0x1A 写角色的持久形象。角色可以先在队外换装，再以新形象入队。
     setActorAppearance: async (actorTemplate, patch, signal) => {
       assertRunnerActive(signal, `0x1A 换形象 ${actorTemplate} 的 runner 已取消`)
-      if (!world.party.some((member) => member.template === actorTemplate)) {
-        host.report(`setActorAppearance: ${actorTemplate} 不在队伍`)
+      const findActor = () =>
+        world.party.find((member) => member.template === actorTemplate) ??
+        world.reserve?.find((member) => member.template === actorTemplate)
+      const target = findActor()
+      if (!target) {
+        host.report(`setActorAppearance: 找不到角色 ${actorTemplate}`)
         return
       }
       const worldToken = worldMutationIntent.capture()
@@ -2736,9 +2739,10 @@ export async function bootGame(
           `0x1A 换形象 ${actorTemplate} 的脚本已失效`,
         )
         intent.assertCurrent(actorToken, `0x1A 换形象 ${actorTemplate} 已被更新请求取代`)
-        const c = world.party.find((member) => member.template === actorTemplate)
-        if (!c) throw asyncIntentAbortError(`0x1A 换形象 ${actorTemplate} 时角色已离队`)
-        c.appearance = { ...c.appearance, ...patch }
+        const current = findActor()
+        if (current?.id !== target.id)
+          throw asyncIntentAbortError(`0x1A 换形象 ${actorTemplate} 时角色实例已替换`)
+        current.appearance = { ...current.appearance, ...patch }
       })
     },
     fleeBattle: () => {

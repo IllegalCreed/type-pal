@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { readTowerMingSources } from './tower-ming-presentation.mjs'
 
 export const fieldMusic = 78
 export const fieldMusicAsset = 'music.pal.078'
@@ -52,9 +53,20 @@ export const party = [
 ]
 
 const cityParty = [party[0], { ...party[1], role: 'zhao-linger', roleId: 1 }]
-const tombParty = [...cityParty, party[1]]
-export const partyFor = (spec) => ({ city: cityParty, tomb: tombParty })[spec.party] ?? party
-export const battlePartyFor = (spec) => (spec.solo ? partyFor(spec).slice(0, 1) : partyFor(spec))
+const fullParty = [...cityParty, party[1]]
+const mingParty = [
+  { ...fullParty[0], hp: 2800, maxHP: 2800, attack: 990 },
+  { ...fullParty[1], hp: 2800, maxHP: 2800, attack: 940 },
+  { ...fullParty[2], hp: 2800, maxHP: 2800, attack: 910 },
+]
+const mingOpeningParty = [mingParty[0], mingParty[2]]
+export const partyFor = (spec) =>
+  ({ city: cityParty, tomb: fullParty, ming: mingOpeningParty })[spec.party] ?? party
+export function battlePartyFor(spec) {
+  if (spec.party === 'ming') return mingParty
+  const members = partyFor(spec)
+  return spec.solo ? members.slice(0, 1) : members
+}
 
 export const statsFields = {
   level: 'rgwLevel',
@@ -268,6 +280,52 @@ export const scenarios = {
       returned: [121, 62, 0],
       departure: [121, 61, 0],
       exit: 'ArrowUp',
+    },
+  },
+  'tower-ming': {
+    id: 'tower-ming',
+    scene: 's145',
+    owner: 'e2399',
+    watched: ['e2400', 'e2401', 'e2402', 'e2851', 'e2852', 'e2853', 'e2854', 'e2476'],
+    team: 188,
+    enemy: 'enemy-519',
+    start: [76, -19, 0],
+    contact: [76, -20, 0],
+    approach: 'ArrowUp',
+    party: 'ming',
+    music: 45,
+    field: 32,
+    slot: 1,
+    seed: 4,
+    disk: {
+      entry: 23933,
+      battle: 24108,
+      last: 24112,
+      music: 24107,
+      field: 24106,
+      owner: [1536, 432, 1, 5],
+    },
+    sceneRoute: {
+      leave: 23971,
+      visits: [
+        { scene: 's169', start: 24710, leave: 24718 },
+        { scene: 's170', start: 24734, leave: 24764 },
+        { scene: 's171', start: 24693, leave: 24708 },
+        { scene: 's169', start: 24720, stage: 'legacy-002', leave: 24731 },
+      ],
+      return: { start: 23975, variant: 'legacy-001', select: 24730 },
+    },
+    mapMusic: { scene: 's145', ip: 22593, track: 81 },
+    world: {
+      inventory: [],
+      music: { ip: 24109, track: 36 },
+      handoff: {
+        scene: 's153',
+        ip: 24111,
+        position: [78, -27, 0],
+        positionIp: 24151,
+        members: ['li-xiaoyao'],
+      },
     },
   },
   spider: {
@@ -489,9 +547,15 @@ export async function readSources(spec) {
     teams: 'data/extracted/data/enemy-teams.json',
     rfScene: `projects/pal/content/scenes/${spec.scene}.json`,
     rfTeams: 'projects/pal/content/enemy-teams.json',
-    ...(spec.disk.termination === undefined
-      ? {}
-      : { rfEnemies: 'projects/pal/content/enemies.json' }),
+    ...Object.fromEntries(
+      (spec.sceneRoute?.visits ?? []).map(({ scene }) => [
+        scene,
+        `projects/pal/content/scenes/${scene}.json`,
+      ]),
+    ),
+    ...(spec.disk.termination !== undefined || spec.sceneRoute
+      ? { rfEnemies: 'projects/pal/content/enemies.json' }
+      : {}),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -621,8 +685,10 @@ export async function readSources(spec) {
   const boss = data.rfScene.entities.find(({ id }) => id === spec.owner)
   const setup = spec.predecessor ? readInnPredecessor(data.predecessor, commands, spec) : undefined
   const inn = spec.entrance ? readInnFrames(data, commands, setup, spec) : undefined
-  const native =
+  const trigger =
     boss.behaviors.trigger[setup?.[spec.owner].triggerVariant ?? 'default'].flow.stages[0].body
+  const route = spec.sceneRoute && readSceneRoute(data, commands, spec, trigger)
+  const native = route?.battleBody ?? trigger
   const launch = native.find(({ kind }) => kind === 'startBattle')
   assert.deepEqual(
     [
@@ -700,25 +766,27 @@ export async function readSources(spec) {
   }
   let successorTrack
   if (spec.world.handoff) {
-    const { scene, ip, position, musicIp } = spec.world.handoff
+    const { scene, ip, position, positionIp, musicIp } = spec.world.handoff
     assert.equal(commands[ip].sceneId, gameScene({ scene }))
     assert.equal(native.at(-1).scene, scene)
     const first = Number(data.diskHandoffScene.onEnterLabel.slice(2))
-    const [x, y, half] = commands[first].operands
+    const [x, y, half] = commands[positionIp ?? first].operands
     assert.deepEqual(position, [x + y + half, y - x, 0])
     const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
     const actions = [...(landing.entry?.prepare ?? []), ...landing.body]
     assert.deepEqual(actions.find(({ kind }) => kind === 'teleportParty')?.pos, grid(position))
-    const musicAddress = musicIp ?? first + 2
+    const musicAddress = route ? spec.world.music.ip : (musicIp ?? first + 2)
     successorTrack = commands[musicAddress].operands[0]
     assert.equal(commands[musicAddress].opcode, 0x43)
-    if (musicIp === undefined) assert.equal(commands[musicAddress + 1].opcode, 0x05)
-    assert(
-      (musicIp === undefined ? landing.entry.prepare : actions).some(
-        ({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(successorTrack),
-      ),
-      'successor music must be prepared before revealing the map',
-    )
+    if (!route) {
+      if (musicIp === undefined) assert.equal(commands[musicAddress + 1].opcode, 0x05)
+      assert(
+        (musicIp === undefined ? landing.entry.prepare : actions).some(
+          ({ kind, asset }) => kind === 'playMusic' && asset === nativeMusic(successorTrack),
+        ),
+        'successor music must be prepared before revealing the map',
+      )
+    }
   }
   if (spec.world.music) {
     const { ip, track } = spec.world.music
@@ -731,6 +799,7 @@ export async function readSources(spec) {
     .map((id) => data.enemies.find((enemy) => enemy.id === id))
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
+  if (route) route.ming = readTowerMingSources(commands, object)
   const tian =
     spec.disk.termination === undefined
       ? undefined
@@ -822,7 +891,7 @@ export async function readSources(spec) {
     spriteChunks: new Map(
       data.sprites?.map(({ id, asset }) => [id, Number(asset.split('.').at(-1))]),
     ),
-    hiddenLevels: partyFor(spec).map(({ roleId }) => data.actors.roles[roleId].level),
+    hiddenLevels: Object.fromEntries(data.actors.roles.map(({ id, level }) => [id, level])),
     slots,
     original,
     nativeEnemies,
@@ -833,6 +902,7 @@ export async function readSources(spec) {
     ring,
     tower,
     tian,
+    route,
     summonBonus,
     summoning: summonScript && {
       id: `enemy-${summonObject}`,
@@ -840,7 +910,7 @@ export async function readSources(spec) {
       hp: summoned.health,
     },
     tomb: spec.party === 'tomb' ? tombSource(data, commands, spec, actor) : undefined,
-    pre: commands.slice(entry, battle),
+    pre: commands.slice(route ? spec.sceneRoute.return.start : entry, battle),
     post: commands.slice(
       victory ?? battle + 1,
       spec.world.scriptedReturn ? spec.world.scriptedReturn.wait + 1 : last,
@@ -849,6 +919,53 @@ export async function readSources(spec) {
     canonical: native,
     locale: data.locale,
   }
+}
+
+function readSceneRoute(data, commands, spec, trigger) {
+  const { sceneRoute, scene, disk } = spec
+  const { visits, leave, return: entry } = sceneRoute
+  const segments = [
+    { scene, start: disk.entry, leave, body: trigger },
+    ...visits.map((visit) => {
+      const stages = data[visit.scene].hooks.onEnter.variants.default.flow.stages
+      const stage = stages.find(({ id }) => id === (visit.stage ?? 'initial'))
+      return { ...visit, body: stage.body }
+    }),
+  ]
+  for (const [index, segment] of segments.entries()) {
+    const destination = segments[index + 1]?.scene ?? scene
+    assert.deepEqual(
+      [commands[segment.leave].op, commands[segment.leave].sceneId],
+      ['loadScene', gameScene({ scene: destination })],
+    )
+    assert(segment.body.some(({ kind, scene }) => kind === 'loadScene' && scene === destination))
+  }
+  assert(commands[visits[0].leave + 1].advance)
+  assert.equal(visits.at(-1).start, visits[0].leave + 2)
+  assert.deepEqual(
+    [commands[entry.select].opcode, commands[entry.select].operands],
+    [0x6d, [gameScene(spec), entry.start, 0]],
+  )
+  const selection = segments.at(-1).body.find(({ kind }) => kind === 'selectSceneHooks')
+  assert.deepEqual(
+    [selection.scene, selection.selection.onEnter],
+    [scene, { kind: 'use', value: entry.variant }],
+  )
+  const battleBody = data.rfScene.hooks.onEnter.variants[entry.variant].flow.stages[0].body
+  const members = battlePartyFor(spec)
+  assert.deepEqual(
+    [commands[disk.battle - 4].opcode, commands[disk.battle - 4].operands],
+    [0x75, members.map(({ roleId }) => roleId + 1)],
+  )
+  const beforeBattle = battleBody.slice(
+    0,
+    battleBody.findIndex(({ kind }) => kind === 'startBattle'),
+  )
+  assert.deepEqual(
+    beforeBattle.findLast(({ kind }) => kind === 'setParty')?.members,
+    members.map(({ role }) => role),
+  )
+  return { segments, battleBody }
 }
 
 function tianSource({ gameScene, rfScene }, commands, spec, body, object) {

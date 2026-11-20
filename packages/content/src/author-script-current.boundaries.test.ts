@@ -24,33 +24,30 @@ describe('checkAuthorScriptFlow · 选项门', () => {
   test('未开 allowSceneEntry 时 entry 拒绝', () => {
     expect(() =>
       checkAuthorScriptFlow(
-        stagesFlow([{ id: 'start', entry: { prepare: [], reveal: { kind: 'fade' } }, body: [] }]),
+        stagesFlow([{ id: 'start', entry: { prepare: [], reveal: { kind: 'cut' } }, body: [] }]),
         'flow',
       ),
-    ).toThrow(/只允许 onEnter initial stage/)
+    ).toThrow(/只允许 onEnter 步骤/)
   })
 
-  test('开 allowSceneEntry 后仅 initial stage 可携带 entry；非 initial 拒绝', () => {
+  test('允许 onEnter 的后续步骤在入场前更换队长精灵', () => {
     expect(() =>
       checkAuthorScriptFlow(
         stagesFlow([
-          { id: 'start', entry: { prepare: [], reveal: { kind: 'fade' } }, body: [] },
-          { id: 'later', body: [] },
+          { id: 'start', body: [], next: 'later' },
+          {
+            id: 'later',
+            entry: {
+              prepare: [{ kind: 'setActorSprite', actor: 'hero', sprite: 'walking' }],
+              reveal: { kind: 'cut' },
+            },
+            body: [],
+          },
         ]),
         'flow',
         { allowSceneEntry: true },
       ),
     ).not.toThrow()
-    expect(() =>
-      checkAuthorScriptFlow(
-        stagesFlow([
-          { id: 'start', body: [] },
-          { id: 'later', entry: { prepare: [], reveal: { kind: 'fade' } }, body: [] },
-        ]),
-        'flow',
-        { allowSceneEntry: true },
-      ),
-    ).toThrow(/stages\[1\]\.entry: 只允许 onEnter initial stage/)
   })
 
   test('forbidLoadScene 开启时 loadScene 命令拒绝；关闭时通过', () => {

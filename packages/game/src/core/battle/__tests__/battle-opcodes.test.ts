@@ -2319,13 +2319,19 @@ describe('0x92 show-magic-anim (script.c:2637-2662,赵灵儿觉醒 cutscene)', (
       state,
       bus,
       playerRoles: {
-        roles: [makeRole(0, { spriteNumInBattle: 1 }), makeRole(1, { spriteNumInBattle: 2 })],
+        roles: [
+          makeRole(0, { spriteNumInBattle: 1, magicSound: 9 }),
+          makeRole(1, { spriteNumInBattle: 2, magicSound: 10 }),
+        ],
       },
       battleEffectIndex: [2, 0, 3, 0], // sprite1 → [1*2]=idx2=3 → castBase=3*10+15=45
     } satisfies BattleCtx
     dispatchBattleOpcode(0x0092, [1, 0, 0], ctx) // op0=1 → casterIdx 0
     expect(state.battleAnim).toBeDefined()
     expect(state.battleAnim!.frames).toHaveLength(24) // 17 preMagic + 1 frame6 + 5 cycle + 1 reset
+    expect(state.battleAnim!.frames.filter((frame) => frame.sound)).toEqual([
+      { durationMs: 40, fighters: [{ side: 'player', idx: 0, currentFrame: 5 }], sound: 9 },
+    ])
     // 末帧:全队 iColorShift 复位 0
     expect(state.battleAnim!.frames[23]!.fighters).toEqual([
       { side: 'player', idx: 0, iColorShift: 0 },

@@ -259,7 +259,8 @@ ${move}
       team, boss: !!options?.boss, auto: !!options?.auto, music: prepared.battleTrack,
       players: prepared.players.map(({ roleId, hp, mp, defense, magicStrength, baseDexterity }) =>
         ({ roleId, hp, mp, defense, magicStrength, speed: baseDexterity })),
-    })`,
+    })
+    globalThis.__defeat?.reforgePartyBattleSprites(sessionAssets.playerBaseDefinitionIds)`,
       )
       return after(
         prepared,
@@ -308,12 +309,20 @@ ${move}
       const step = after(
         source,
         '            this.onStep?.({ path: commandPath, command })',
-        '            globalThis.__defeat?.reforgeOpcode(this.self, commandPath, command)',
+        '            globalThis.__defeat?.reforgeOpcode(this.self, commandPath, command, this.runningTiming)',
       )
       return after(
         step,
         "        frame.control = { kind: 'startBattle', arm }",
         '        globalThis.__defeat?.reforgeArm(this.self, path, arm)',
+      )
+    }
+    case 'script-world.ts': {
+      const end = '    return { ...resolved, lease }\n  }\n\n  epochForKey'
+      return replaceOnce(
+        source,
+        end,
+        `    globalThis.__defeat?.reforgeSceneHook(scene.id, slot, resolved)\n${end}`,
       )
     }
     case 'audio/bgm.ts': {

@@ -1,8 +1,8 @@
 # 作者脚本与运行时合同
 
 Status: current
-Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-11-15
+Owner: Codex（规格维护）
+Last reviewed: 2026-11-20
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -11,7 +11,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 真值与约束
 
-当前内容contentVersion 23 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
+当前内容contentVersion 23 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。具体场景的运行和预览由任务回执、合法输入和实跑证据证明。
 
 实体地址必须是EntityAddress{scene,entity}；实例label、人物名和精灵名只显示，不替代稳定id或合并同名实体。PageId选择外观/触发/具名BehaviorId，不内嵌匿名脚本；onEnter/onTeleport各有HookId registry及initial选择，切换走显式selectSceneHooks。跨处复用只进AuthorScriptLibrary共享库，callScript只存稳定script和可选复合self，不带chunk提示。物品私有脚本归单件物品，复杂NPC剧情回其具名方案，不复制到物品或等玩家再移动触发。
 
@@ -50,7 +50,7 @@ runEntityTrigger{target:{scene,entity}}等待目标当前trigger/当前步骤结
 
 场景切换 `loadScene` 通过 `entryId` 指定命名落点，或通过 `pos` 指定临时坐标。省略二者时用目标默认落点。`pos: 'current'` 用于原地换景，切换事务在等待资源前取得队伍当前脚点、朝向及跟随轨迹，目标第一次揭示就使用该落点。目标入场准备仍可明确安排新的位置和动作。编辑器预览用同一落点解析，`entryId` 与 `pos` 互斥。 [场景入场指南](../guides/scene-entry-authoring.md)
 
-onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备目标画面，揭示完成后开始正文。需要角色在淡入期间完成演出时，为 fade 揭示设置 `withBody: true`。准备结束后，淡入和正文共享本次入场 runner 的生命周期，步骤收尾等待两者结束。移动、定姿和对白的先后关系仍由正文编排。其他步骤、行为、共享与物品私有脚本不能声明 entry。 [场景入场指南](../guides/scene-entry-authoring.md)
+onEnter 的各步骤可声明 `entry{prepare,reveal}`。切场时根据目标 onEnter 当前游标选择入场步骤，回访时沿用已推进的游标。默认先准备目标画面，揭示完成后开始正文。需要角色在淡入期间完成演出时，为 fade 揭示设置 `withBody: true`。准备结束后，淡入和正文共享本次入场 runner 的生命周期，步骤收尾等待两者结束。移动、定姿和对白的先后关系由正文编排。onTeleport、实体行为、共享及物品私有脚本不能声明 entry。 [场景入场指南](../guides/scene-entry-authoring.md)
 
 剧情内 `startBattle` 由正在执行的脚本持有，使用真实世界画面作入场底帧。剧情战与明雷共用实绘后的结算按键门。首领经验页在 5.5 秒后自动继续，其余奖励页等 3 秒。原盘败北地址与自然后继相同的关卡，只在同一位置保留一份续段。作者可在战斗对白演出中使用「清除对话框」主动清除已留显的上、下槽。敌方逃跑先完成撤离演出，当前演出脚本可继续显示 1.4 秒自动关闭的中央旁白并回到场景后续。 [双端验证](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-15-敌方逃跑剧情必败与战后存读)
 
@@ -64,6 +64,7 @@ onEnter 只有 initial 步骤可声明 `entry{prepare,reveal}`。默认先准备
 - `setPartyFacing` 默认点名队长；`member` 选择当前队伍里的一个成员。跟随者的显式站姿挂在该角色实例上，不改变队长朝向、轨迹或其他成员。实际走位、队伍队形重排、切场景或强停后回到当前队形的姿势。编辑器的单队长预览不代替跟随者实绘，也不让跟随者命令改变队长。
 - 前景 `sceneTimeline` 把一次性多角色动作放在同一步骤。各轨道有稳定 ID 和名字；实体轨只安排指定实体的转向、定姿、步态和微步，无实体目标的灯光轨只安排淡变。各 cue 按同一游戏时钟的毫秒位置执行，可有限重复。同拍的角色命令依作者顺序提交；淡变可并行，下一正文命令须等剩余 cue 和淡变均结束。取消时收回淡变并取消未执行 cue。该结构不进入自动、准备或独立脚本根。
 - applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
+- `setActorAppearance` 加载新资源后更新活动队伍或队外保留的角色实例。角色离队时可先设定持久形象，随后携带该形象入队。
 - 前景步骤的有限 `repeat` 可选 `intervalMs`。第一轮立即开始；后续轮次以第一轮的游戏时钟为锚，按指定间隔启动。上一轮须执行完，过期的轮次至少等下一绘制拍，不在同一拍追赶。末轮完成即退出；站定、转身等额外停顿显式写在循环之后。该选项不用于可保存续跑的自动行为或独立脚本根。
 - 指令只有明确等待/真实异步动作消耗游戏时间；节拍由正文repeat/loop/wait表达，不给每条auto加100ms、循环强塞世界拍或步后40ms。零时间循环用工作量保护，不限制正常巡逻累计寿命；公平yield/已兑现Promise/wait0不算真实进展，技术计数不暴露成作者状态。
 

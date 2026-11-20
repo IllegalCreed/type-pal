@@ -980,6 +980,7 @@ export function dispatchBattleOpcode(
               casterPos: caster.posOriginal,
               casterIdx,
               castEffectFrameBase,
+              castSound: role?.magicSound,
               partyIndices: state.players.map((_, idx) => idx), // 全队(sdlpal j=0..wMaxPartyMemberIndex)
             }),
             ctx.bus,

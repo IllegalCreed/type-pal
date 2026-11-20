@@ -328,7 +328,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   revivePartyAll: 'safe',
   ride: 'blocked',
   setActorAppearance: 'blocked',
-  setActorSprite: 'blocked',
+  setActorSprite: 'safe',
   setAmbience: 'safe',
   setEntityAuto: 'safe',
   setEntityFacing: 'safe',

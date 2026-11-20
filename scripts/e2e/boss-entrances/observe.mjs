@@ -29,6 +29,7 @@ function installBossForeground({
   handoffScene,
   owner,
   watched,
+  visitScenes,
   assets,
   scriptedReturn,
   entrance,
@@ -55,6 +56,8 @@ function installBossForeground({
   let jarDark = false
   let jarRevealed = false
   let firstFieldReturned = false
+  let lastVisit
+  const watchesScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
 
   function canvasState(context) {
     const { width, height } = context.canvas
@@ -144,14 +147,17 @@ function installBossForeground({
       notePlatePixels,
     })
   }
-  function commit(frame, context) {
+  function commit(frame, context, step) {
     if (includesParty) frame = { ...frame, party: observation.worldDraw()?.party }
+    if (visitScenes && step !== undefined) frame = { ...frame, ditherStep: step }
     const signature = JSON.stringify(frame)
     const entering = entrance && frame.scene === scene && !entered
     const arriving = handoffScene && frame.scene === handoffScene && !successor
     const returning = scriptedReturn && !returned && observation.read().ended
     const leaving = handoffScene && frame.scene === scene && !successor && observation.read().ended
-    if (previous === signature && !entering && !arriving && !returning && !leaving) return
+    const newVisit = visitScenes && lastVisit !== frame.scene
+    if (previous === signature && !entering && !arriving && !returning && !leaving && !newVisit)
+      return
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
@@ -159,15 +165,20 @@ function installBossForeground({
       ),
     )
     const visible =
-      entering || arriving || returning || leaving
+      !(visitScenes && step === 0) &&
+      (entering || arriving || returning || leaving || newVisit
         ? context
             .getImageData(0, 0, width, height)
             .data.some((value, index) => index % 4 !== 3 && value > 0)
-        : colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0)
+        : colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0))
     if (previous === signature && previousVisible === visible) return
     previous = signature
     previousVisible = visible
     observation.event('world-drawn', { ...frame, colors, visible })
+    if (newVisit && visible) {
+      lastVisit = frame.scene
+      observation.event('scene-first-drawn', { ...frame, colors })
+    }
     if (entering && visible) {
       entered = true
       observation.eventOnce('entrance-drawn', { ...frame, colors })
@@ -227,7 +238,7 @@ function installBossForeground({
       gameActors = {}
       gameWorldDrawn = false
       const sceneId = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
-      if (!drewWorld || battle || (sceneId !== scene && sceneId !== handoffScene)) {
+      if (!drewWorld || battle || !watchesScene(sceneId)) {
         previous = undefined
         recordVictoryReturn(undefined, context)
         recordJarPresentation(undefined, context)
@@ -242,13 +253,13 @@ function installBossForeground({
         changing: !!gs.paletteFadeState,
         ...(includesParty && { partyLayer: gs.wLayer / 8 }),
       }
-      commit(frame, context)
+      commit(frame, context, gs.fadeState?.appliedSteps)
       recordVictoryReturn(frame, context)
       recordJarPresentation(frame, context)
       recordComposite(sceneId, context, gs.fadeState?.appliedSteps)
     },
     reforgeWorld(sceneId, camera, draws, partyLayer) {
-      if (sceneId !== scene && sceneId !== handoffScene) return
+      if (!watchesScene(sceneId)) return
       const pixels = ([col, row]) => [16 * (col - row), 8 * (col + row)]
       const actors = {}
       for (const id of ids) {
@@ -284,7 +295,7 @@ function installBossForeground({
       }
       const frame = pending
       pending = undefined
-      commit({ ...frame, ambience, tint, changing }, context)
+      commit({ ...frame, ambience, tint, changing }, context, ditherStep)
       recordVictoryReturn(frame, context)
       recordJarPresentation(frame, context)
       recordComposite(frame.scene, context, ditherStep)

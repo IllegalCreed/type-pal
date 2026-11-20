@@ -93,6 +93,7 @@ export interface BuildShowMagicAnimInput {
   casterIdx: number
   /** rgwBattleEffectIndex[battleSprite][0]*10+15(caller 算好,fight.c:2387-2389)。 */
   castEffectFrameBase: number
+  castSound?: number
   /** 全体在场队员 idx(iColorShift cycle 作用对象,sdlpal j=0..wMaxPartyMemberIndex)。 */
   partyIndices: number[]
 }
@@ -106,11 +107,12 @@ export interface BuildShowMagicAnimInput {
  *  - 末复位 iColorShift=0(对齐 BattleFadeScene 后正常色;ts present 自动重绘)
  */
 export function buildShowMagicAnimTimeline(input: BuildShowMagicAnimInput): BattleAnimFrame[] {
-  const { casterPos, casterIdx, castEffectFrameBase, partyIndices } = input
+  const { casterPos, casterIdx, castEffectFrameBase, castSound, partyIndices } = input
   const frames = buildPreMagicTimeline({
     casterPos,
     casterIdx,
     castEffectFrameBase,
+    castSound,
     isSummon: false,
   })
   // script.c:2646:施法者 wCurrentFrame=6

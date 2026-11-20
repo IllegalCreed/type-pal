@@ -23,6 +23,7 @@ import {
   scenarios,
 } from './scenarios.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
+import { inspectTowerMingPresentation } from './tower-ming-presentation.mjs'
 import { inspectOutsidePresentation } from './yueru-outside-presentation.mjs'
 
 const [scenario, gamePath, reforgePath] = process.argv.slice(2)
@@ -1650,9 +1651,10 @@ async function inspect(path, engine) {
     assert(summary.order < won.order)
   }
   assert.equal(won.cash, cash)
+  const rewardInventory = source.route?.ming.reward ?? spec.world.inventory
   assert.deepEqual(
     won.inventory,
-    game && spec.disk.defeated ? spec.world.inventory : [],
+    game && (spec.disk.defeated || source.route) ? rewardInventory : [],
     'hook inventory at the engine-specific battle completion boundary',
   )
   const control = once(
@@ -1675,7 +1677,8 @@ async function inspect(path, engine) {
       'first visible successor coordinates',
     )
     const landed = events.find(
-      ({ kind, order }) => kind === 'world-drawn' && order === control.order - 1,
+      ({ kind, order }) =>
+        kind === 'world-drawn' && order === control.order - (source.route ? 2 : 1),
     )
     assert.equal(landed?.scene, handoff.scene, 'successor receipt must bind to an actual draw')
     assert.deepEqual([last.scene, last.battle], [handoff.scene, null])
@@ -1722,7 +1725,7 @@ async function inspect(path, engine) {
     )
     assert.deepEqual(control.inventory, spec.world.inventory)
   }
-  assert.deepEqual([last.cash, last.inventory], [cash, spec.world.inventory])
+  assert.deepEqual([last.cash, last.inventory], [cash, rewardInventory])
   assert.deepEqual(
     last.party.map(({ id, exp: gained }) => [id, gained]),
     (scriptedReturn?.members ?? handoff?.members ?? roles).map((role) => [role, exp]),
@@ -1809,16 +1812,27 @@ async function inspect(path, engine) {
     )
     assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
   }
-  const dialogue = source.tian
-    ? undefined
-    : checkDialogue(
-        events,
-        { trigger: trigger.order, battle: launch[0].order },
-        { won: won.order, control: control.order },
-        game,
-      )
+  const dialogue =
+    source.tian || source.route
+      ? undefined
+      : checkDialogue(
+          events,
+          { trigger: trigger.order, battle: launch[0].order },
+          { won: won.order, control: control.order },
+          game,
+        )
   const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const ming = source.route
+    ? inspectTowerMingPresentation({
+        events,
+        draws: renderedDialogue,
+        boundaries,
+        source,
+        spec,
+        game,
+      })
+    : undefined
   const foreground =
     scenario === 'thief'
       ? checkThiefForeground(events, renderedDialogue, boundaries, game)
@@ -1951,6 +1965,7 @@ async function inspect(path, engine) {
     inn,
     tomb,
     tower,
+    ming,
     tian,
     spiderForeground,
     clips: {
@@ -1986,6 +2001,7 @@ if (!failures.length) {
       ...(result.tomb?.issues ?? []),
       ...(result.tower?.issues ?? []),
       ...(result.tian?.issues ?? []),
+      ...(result.ming?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

@@ -6,12 +6,25 @@ export function scriptedDefeatObserver(input) {
 }
 
 function install(
-  { engine, scene, gameScene, owner, seed, foreground, entrance, handoffScene, contactActors = [] },
+  {
+    engine,
+    scene,
+    gameScene,
+    owner,
+    seed,
+    foreground,
+    entrance,
+    handoffScene,
+    visitScenes,
+    contactActors = [],
+  },
   makeRng,
   createRecorder,
 ) {
   const entranceGameScene = entrance ? Number(entrance.scene.slice(1)) + 1 : null
-  const handoffGameScene = handoffScene ? Number(handoffScene.slice(1)) + 1 : null
+  const sceneId = (number) => `s${String(number - 1).padStart(3, '0')}`
+  const observedScene = (id) => id === scene || id === handoffScene || visitScenes?.includes(id)
+  const sceneCursors = new WeakSet()
   const events = [],
     errors = []
   let overflow = false,
@@ -229,14 +242,24 @@ function install(
     worldGeometry = undefined
     if (foreground) lastWorldGeometry = geometry
     pushRoute('render:world-or-battle', state)
-    if (state.scene !== scene) return
+    if (state.scene !== scene && !(visitScenes && observedScene(state.scene))) return
     if (state.gameOver) once('ordinary-game-over-drawn', {})
     if (!contact) return
     const { ready, box, position, actors, party } = state
-    const key = JSON.stringify({ inBattle, ready, box, position, actors, party, geometry })
+    const key = JSON.stringify({
+      scene: state.scene,
+      inBattle,
+      ready,
+      box,
+      position,
+      actors,
+      party,
+      geometry,
+    })
     if (key !== previousFrame) {
       previousFrame = key
       event('paint', {
+        ...(visitScenes && { scene: state.scene }),
         surface: inBattle ? 'battle' : 'world',
         ready,
         box,
@@ -246,7 +269,7 @@ function install(
         geometry,
       })
     }
-    if (ended && ready)
+    if (ended && ready && state.scene === scene)
       once('world-control', {
         position,
         party,
@@ -272,7 +295,12 @@ function install(
     read: () => {
       const state =
         engine === 'game' ? globalThis.__tpgs && gameWorld(globalThis.__tpgs) : reforgeWorld()
-      return { state, ended: !!ended, menuClosed: menuClosed() }
+      return {
+        state,
+        ended: !!ended,
+        ...(visitScenes && { outcome: ended?.result }),
+        menuClosed: menuClosed(),
+      }
     },
     worldDraw: () => lastWorldGeometry,
     trace: () => ({
@@ -349,13 +377,14 @@ function install(
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },
     gameDraw(gs, renderedBattle, indices) {
-      if (![gameScene, entranceGameScene, handoffGameScene].includes(gs.wNumScene)) return
+      if (!observedScene(sceneId(gs.wNumScene)) && gs.wNumScene !== entranceGameScene) return
       const state = gameWorld(gs)
       draw(state, renderedBattle)
       if (!contact || ended) return
       const band = entryPendingBand
       entryPendingBand = undefined
-      if (!renderedBattle && !entryStarted) entryWorldPixels = indexDigests(indices)
+      if (!renderedBattle && !entryStarted && gs.wNumScene === gameScene)
+        entryWorldPixels = indexDigests(indices)
       if (renderedBattle && band !== undefined && band !== entryLastBand)
         observeBand(band, indexDigests(indices))
       if (renderedBattle && entryLastBand === 6 && !gs.battleState.introFade)
@@ -385,19 +414,33 @@ function install(
       draw(state, renderedBattle)
     },
     gameOpcode(gs, cursor, command) {
-      if (
-        !contact ||
-        gs.wNumScene !== gameScene ||
-        cursor.triggerOwnerId !== Number(owner.slice(1))
-      )
-        return
+      if (!contact) return
+      const current = sceneId(gs.wNumScene)
+      const ownerScript =
+        gs.wNumScene === gameScene && cursor.triggerOwnerId === Number(owner.slice(1))
+      const entryScript =
+        visitScenes && observedScene(current) && cursor.onEnterSceneId === gs.wNumScene
+      if (!ownerScript && !entryScript) return
+      if (entryScript && cursor.ip === cursor.onEnterStartIp && !sceneCursors.has(cursor)) {
+        sceneCursors.add(cursor)
+        event('scene-hook', { scene: current, start: cursor.onEnterStartIp })
+      }
       if (command.opcode === 7 || command.op === 'startBattle') {
         entryStarted = true
         once('entry-source', { pixels: entryWorldPixels })
       }
+      const target = command.op === 'loadScene' ? sceneId(command.sceneId) : undefined
+      if (visitScenes && ended && target === handoffScene) {
+        const { party, cash, inventory } = gameWorld(gs)
+        once('post-battle-party', { party, cash, inventory })
+      }
       // Some frames retry the same waiting instruction. The raw pointer and command
       // remain visible without inventing repeated logical writes for that wait.
       event('script-op', {
+        ...(visitScenes && {
+          scene: current,
+          target,
+        }),
         ip: cursor.ip,
         op: command.op,
         opcode: command.opcode,
@@ -407,10 +450,27 @@ function install(
           : {}),
       })
     },
-    reforgeOpcode(self, path, command) {
-      if (!contact || self?.scene !== scene || self.entity !== owner) return
+    reforgeSceneHook(scene, slot, resolved) {
+      if (!visitScenes || !contact || !observedScene(scene) || slot !== 'onEnter') return
+      event('scene-hook', { scene, variant: resolved.hookId, stage: resolved.cursor.stage })
+    },
+    reforgeOpcode(self, path, command, timing) {
+      if (!contact) return
+      const current = globalThis.__rfScene?.id
+      const ownerScript = self?.scene === scene && self.entity === owner
+      const entryScript = visitScenes && !self && timing === 'interactive' && observedScene(current)
+      if (!ownerScript && !entryScript) return
       const op = command.kind === 'leaf' ? command.command : command
+      if (visitScenes && ended && op.kind === 'loadScene' && op.scene === handoffScene) {
+        const { party, cash, inventory } = reforgeWorld()
+        once('post-battle-party', { party, cash, inventory })
+      }
       event('script-op', {
+        ...(visitScenes && {
+          scene: current,
+          ...(op.kind === 'loadScene' && { target: op.scene }),
+          ...(op.kind === 'selectSceneHooks' && { selection: op.selection }),
+        }),
         path,
         op: op.kind,
         ...(op.kind === 'dialog' ? { rows: op.cue.rows, speaker: op.cue.speaker } : {}),
@@ -420,6 +480,9 @@ function install(
     },
     reforgeArm(self, path, arm) {
       if (self?.scene === scene && self.entity === owner) event('script-result', { path, arm })
+    },
+    reforgePartyBattleSprites(sprites) {
+      if (visitScenes && contact) once('party-battle-sprites', { sprites })
     },
     reforgeMove(sceneId, from, to, facing) {
       if (sceneId !== scene && sceneId !== entrance?.scene) return
@@ -487,6 +550,10 @@ function install(
       slots: gameWorld(gs).battle.slots,
       resume: { lost: gs.postBattleResume?.lostIp, won: gs.postBattleResume?.wonIp },
     })
+    if (visitScenes) {
+      const sprites = battle.players.map(({ roleId }) => roles.roles[roleId].spriteNumInBattle)
+      once('party-battle-sprites', { sprites })
+    }
   }
   globalThis.__battleGameCommand = (state, slot) => {
     if (started) globalThis.__defeat.command(slot, state.turn + 1, state.pendingActions.get(slot))
