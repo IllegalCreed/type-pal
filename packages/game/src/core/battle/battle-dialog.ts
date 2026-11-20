@@ -233,7 +233,7 @@ function feedNextBattleDialogLine(state: BattleDialogState, gs: BattleDialogHost
   const text = line.text ?? ''
   if (!gs.dialogBox) {
     gs.dialogBox = startDialogLine(text, {
-      style: line.style ?? 'top',
+      style: line.style ?? 'bottom',
       portraitIcon: line.portrait,
       portraitLayout: line.portraitLayout,
       fontColor: line.fontColor,

@@ -1205,7 +1205,7 @@ export function dispatchBattleOpcode(
       state.battleDialogPendingClear = true
       const dialog = state.battleDialogStyle
       if (opcode === OP_REDRAW_SCREEN && dialog) {
-        if (dialog.style === 'center') state.battleDialogStyle = undefined
+        if (dialog.style === 'center') state.battleDialogStyle = { style: 'top' }
         else if (dialog.portrait !== undefined) {
           state.battleDialogStyle = { ...dialog, portrait: undefined, portraitLayout: true }
         }

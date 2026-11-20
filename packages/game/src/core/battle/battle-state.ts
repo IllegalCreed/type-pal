@@ -662,7 +662,9 @@ export interface BattleState {
   battleDialogTypingAccMs?: number
   /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
   battleDialogNarrationFrames?: number
-  /** Style within one trigger invocation. PAL_EndDialog restores the upper, portraitless default. */
+  /** The lower opening default applies until the battle script selects a layout.
+   * PAL_EndDialog then restores the upper position and removes the portrait.
+   */
   battleDialogStyle?: {
     style: DialogBoxStyle
     portrait?: number

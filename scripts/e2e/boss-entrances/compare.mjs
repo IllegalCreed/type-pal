@@ -1610,14 +1610,17 @@ async function inspect(path, engine) {
         (unit, slot) => unit?.id === id && unit.hp === hp && !isDeepStrictEqual(unit, before[slot]),
       )
       assert(newSlot >= 0, `summoned actor actually enters during round ${turn}`)
-      assert(
-        actions
-          .slice(actionIndex + 1)
-          .some(
-            ({ side, slot, enemies }) =>
-              side === 'enemy' && slot === newSlot && enemies[slot]?.id === id,
-          ),
-        `summoned actor actually acts after round ${turn}`,
+      const nextSummon = index === 0 ? actions.indexOf(enemy[3]) : undefined
+      const acts = actions
+        .slice(actionIndex + 1, nextSummon)
+        .some(
+          ({ side, slot, enemies }) =>
+            side === 'enemy' && slot === newSlot && enemies[slot]?.id === id,
+        )
+      assert.equal(
+        acts,
+        index === 1,
+        `the first summon is defeated and the second acts after round ${turn}`,
       )
     }
     for (const { slot, turn, kind, spell, target } of commands.filter(({ turn }) => turn > 1)) {
