@@ -14,6 +14,7 @@ import type {
   DialogueCue,
   EntityAddress,
   Facing,
+  FadeColor,
   FlowCursor,
   GridPos,
   Locale,
@@ -68,8 +69,10 @@ export interface PlaybackView {
   /** 对话关闭后紧随 confirm 时，保留问句供二选一框作底图。 */
   heldDialog?: DialogueCue
   confirm: { selectedYes: boolean; resolve: (accepted: boolean) => void } | null
-  /** 0 透明 → 1 全黑(fade 命令补间)。 */
+  /** 0 透明 → 1 遮盖全画面。 */
   fadeBlack: number
+  fadeColor: FadeColor
+  fadeDirection: 'in' | 'out'
   logs: string[]
 }
 
@@ -191,6 +194,8 @@ export class Playback {
       dialog: null,
       confirm: null,
       fadeBlack: 0,
+      fadeColor: 'black',
+      fadeDirection: 'out',
       logs: [],
     }
   }
@@ -894,11 +899,13 @@ export class Playback {
       d?.resolve()
       this.onUi?.()
     },
-    fade: (dir, ms, _color, signal) =>
+    fade: (dir, ms, color = 'black', signal) =>
       new Promise<void>((resolve, reject) => {
         signal?.throwIfAborted()
         this.fadeJob?.resolve()
         this.fadeJob = null
+        this.view.fadeColor = color
+        this.view.fadeDirection = dir
         if (ms <= 0) {
           this.view.fadeBlack = dir === 'out' ? 1 : 0
           resolve()
@@ -927,6 +934,8 @@ export class Playback {
       this.fadeJob = null
       this.screenHoldToken = token
       this.view.fadeBlack = 1
+      this.view.fadeColor = color
+      this.view.fadeDirection = 'out'
       this.log(`⬛ 保持${color === 'black' ? '黑屏' : color}（${token}）`)
     },
     revealScreen: (token, signal) => {
@@ -954,6 +963,8 @@ export class Playback {
           })
         case 'fade':
           this.view.fadeBlack = 1
+          this.view.fadeColor = 'black'
+          this.view.fadeDirection = 'in'
           return new Promise<void>((resolve) => {
             this.log(`入场呈现：淡入 ${reveal.inMs}ms`)
             this.fadeJob?.resolve()

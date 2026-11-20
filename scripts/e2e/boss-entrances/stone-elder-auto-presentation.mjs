@@ -47,10 +47,16 @@ export function readStoneElderAutoPresentation(data, commands, spec) {
   const returnField = readPosition(16986)
   assert.deepEqual(returnField, onReturn.fieldPosition)
   assert.deepEqual(readPosition(17002), onReturn.finalPosition)
-  assert.deepEqual([commands[16978].opcode, commands[16978].operands], [0x8c, [26, 4, 65535]])
+  const fadeOut = commands[16770]
+  const fadeIn = commands[16978]
+  assert.deepEqual([fadeOut.opcode, fadeOut.operands], [0x8c, [26, 2, 0]])
+  assert.deepEqual([fadeIn.opcode, fadeIn.operands], [0x8c, [26, 4, 65535]])
+  const matteColor = data.returnPalette.colors[fadeIn.operands[0]]
+  assert.equal(matteColor.length, 3)
   const [role, sprite] = commands[ambush.start + 1].operands
   assert.deepEqual([commands[ambush.start + 1].opcode, role], [0x65, 0])
   return {
+    matteColor,
     dialogueWorld: inn.scene,
     firstEntries: [
       { scene, position: spec.start },
@@ -224,9 +230,9 @@ export function inspectStoneElderAutoPresentation({ events, draws, bounds, sourc
       null,
     )
   check(
-    'the first visible return is a red field without geometry behind the narration',
-    Boolean(control.flatColor && control.flatColor[0] > Math.max(...control.flatColor.slice(1))),
-    true,
+    'the first visible return uses the original solid palette color',
+    control.flatColor,
+    facts.matteColor,
   )
-  return { issues, firstEntries, field, opening }
+  return { issues, firstEntries, field, opening, matteColor: control.flatColor }
 }

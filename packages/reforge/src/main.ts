@@ -11,6 +11,7 @@ import {
   type EquipDescribeCtx,
   emptyWorldScriptState,
   type Facing,
+  type FadeColor,
   type GridPos,
   gridToPixel,
   lerpTint,
@@ -103,7 +104,7 @@ import {
   WALK_STEP,
   walkTick,
 } from './entity-walk.js'
-import { type FadeOwner, SupersedingFadeDriver } from './fade-driver.js'
+import { drawScriptFade, type FadeOwner, SupersedingFadeDriver } from './fade-driver.js'
 import {
   computeFollowerPos,
   type FollowerFrozen,
@@ -1111,7 +1112,8 @@ export async function bootGame(
   // A restored auto gait is already a valid projected pose during that interval.
   let autoRunnersGatePending = false
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
-  let fadeCurtain: 'black' | 'red' = 'black'
+  let fadeCurtain: FadeColor = 'black'
+  let fadeDirection: 'in' | 'out' = 'out'
   const gameOverPresentation = new GameOverPresentation()
   let ordinaryDefeatSignal: AbortSignal | undefined
   const paletteFadeMs = 600 // PAL_FadeOut(1) and PAL_FadeIn(1), 60 palette steps at 10ms.
@@ -1613,11 +1615,12 @@ export async function bootGame(
   function hostFade(
     dir: 'in' | 'out',
     ms: number,
-    color: 'black' | 'red' = 'black',
+    color: FadeColor = 'black',
     signal?: AbortSignal,
     owner?: FadeOwner,
   ): Promise<void> {
     fadeCurtain = color
+    fadeDirection = dir
     return fadeDriver.begin(dir === 'out' ? 1 : 0, frames.now, ms, signal, owner)
   }
 
@@ -1654,6 +1657,7 @@ export async function bootGame(
     assertRunnerActive(signal, '黑屏保持所属 runner 已取消')
     const handle = screenHold.begin(token)
     fadeCurtain = color
+    fadeDirection = 'out'
     try {
       await fadeDriver.begin(1, frames.now, 0, signal, handle.owner)
       assertRunnerActive(signal, '黑屏保持所属 runner 已取消')
@@ -6172,11 +6176,7 @@ export async function bootGame(
   }
 
   function drawFadeCurtain(): void {
-    if (fadeDriver.value <= 0.001) return
-    ctx.save()
-    ctx.fillStyle = `rgba(${fadeCurtain === 'red' ? '150,12,12' : '0,0,0'},${fadeDriver.value.toFixed(3)})`
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    ctx.restore()
+    drawScriptFade(ctx, fadeDriver.value, fadeCurtain, fadeDirection)
   }
 
   function drawPaletteFade(alpha: number, direction: 'out' | 'in'): void {

@@ -79,11 +79,14 @@ export type LoadSceneCommand = {
   transition?: SceneTransitionProfile
 } & SceneSpawn
 
+/** Palette-independent fades can target an exact 8-bit RGB color. */
+export type FadeColor = 'black' | 'red' | readonly [number, number, number]
+
 export type Command =
   // 演出 / 对话
   | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
-  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: FadeColor }
   /** 持有表现层黑屏；必须由同 token 的 reveal/loadScene/abort 收尾，不进入存档。 */
   | { kind: 'holdScreen'; color: 'black'; token: string }
   | { kind: 'revealScreen'; token: string }
@@ -499,6 +502,26 @@ export function checkCommands(
       checkActorConditionCommandShape(c, `${path}[${i}]`)
     if (k === 'cameraPan')
       checkCameraPanStart(c as { startImmediately?: unknown; frames?: unknown }, `${path}[${i}]`)
+    if (k === 'fade') {
+      const { color } = c as { color?: unknown }
+      if (
+        color !== undefined &&
+        color !== 'black' &&
+        color !== 'red' &&
+        !(
+          Array.isArray(color) &&
+          color.length === 3 &&
+          Array.from(color).every(
+            (channel: unknown) =>
+              typeof channel === 'number' &&
+              Number.isInteger(channel) &&
+              channel >= 0 &&
+              channel <= 255,
+          )
+        )
+      )
+        throw new Error(`${path}[${i}].color: 期望 black|red|三个 0–255 的 RGB 整数`)
+    }
     if (k === 'dialog') {
       const dialog = c as { cue?: unknown; line?: unknown }
       if (dialog.line !== undefined)

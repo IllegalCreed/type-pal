@@ -5,9 +5,9 @@
  * 音频(playMusic/stopMusic)与 SFX 不入协议(世界态音频 + D12-1 边界)。
  * Cutscene = PresentationIntent[] 顺序编排,是 P2 编辑器时间线的数据源。
  */
-import type { AssetId, DialogueCue, GridPos } from '@type-pal/content'
+import type { AssetId, DialogueCue, FadeColor, GridPos } from '@type-pal/content'
 
-export type FadeColor = 'black' | 'red'
+export type { FadeColor } from '@type-pal/content'
 
 export type PresentationIntent =
   | { kind: 'dialog'; cue: DialogueCue }

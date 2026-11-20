@@ -2253,6 +2253,14 @@ describe('W3 执行时间线接线', () => {
 
     draw(2000)
     expect(box.observe()).toMatchObject({ slot: 'narration', rowTextIds: ['dlg.13500'] })
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ slot: 'narration', visibleText: null }),
+    )
+    h.idle(200)
+    draw(0)
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ slot: 'narration', visibleText: expect.any(String) }),
+    )
     draw(1399)
     expect(box.active).toBe(true)
     expect(h.session.debugPlayers()[1]?.hp).toBe(100)

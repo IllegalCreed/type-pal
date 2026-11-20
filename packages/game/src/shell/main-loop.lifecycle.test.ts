@@ -110,6 +110,30 @@ describe('Headless loop', () => {
 })
 
 describe('Animation frame loop lifecycle', () => {
+  it('读档资源未完成时保留存档时钟，恢复后一拍继续', () => {
+    const queue = installRafQueue()
+    const present = vi.fn()
+    const ctx = prepareEmptyLoopContext(undefined, present)
+    let restoring = true
+    ctx.isRestoringSave = () => restoring
+    ctx.gs.frameNum = 3846
+    ctx.gs.nowMs = 31013.8
+    queue.start(ctx)
+    queue.frame(41, 100)
+    queue.frame(42, 310)
+    expect(ctx.gs.frameNum).toBe(3846)
+    expect(ctx.gs.nowMs).toBe(31013.8)
+    expect(present).not.toHaveBeenCalled()
+
+    restoring = false
+    queue.frame(43, 320)
+    expect(ctx.gs.frameNum).toBe(3846)
+    queue.frame(44, 410)
+    expect(ctx.gs.frameNum).toBe(3847)
+    expect(ctx.gs.nowMs).toBe(410)
+    expect(present).toHaveBeenCalledTimes(1)
+  })
+
   it('取消初帧与推进后最新帧，释放各自排队的回调', () => {
     const queue = installRafQueue()
     const stopInitial = queue.start()

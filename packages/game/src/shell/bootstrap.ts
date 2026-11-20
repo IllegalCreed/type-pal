@@ -532,12 +532,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
 
   // SW 预缓存让路:跟踪 suspendRaf 变化(下方 onPresent 据此 pause/resume 预缓存)。
   let _lastSuspendForPrecache = false
+  let pendingSaveSceneLoads = 0
   const loopCtx: LoopContext = {
     gs,
     bus,
     input,
     tilemap,
     partyWalkFrames,
+    isRestoringSave: () => pendingSaveSceneLoads > 0,
     onPresent: (drained, ticked) => {
       // 音频同步必须在 suspendRaf gate 前跑:山神庙传剑等 modal CG/RNG 播放期间仍会有脚本
       // 设置 BGM/SFX。只暂停 canvas present,不能暂停 audio drain,否则声音会等 CG 结束后才一起触发。
@@ -1544,7 +1546,12 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     gs.sWaveProgression = 0
     // 重 load scene assets — 走 fromSavedGame 路径,**不**重置 npcs / **不**跑 onEnter。
     // sceneLoading 在读档 transition guard 已置 true;loadSceneCommon 完成后恢复目标存档 palette 绘制新场景。
-    await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    pendingSaveSceneLoads++
+    try {
+      await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })
+    } finally {
+      pendingSaveSceneLoads--
+    }
     gs.palette = restoredPalette
     // DM26:PAL_ReloadInNextTick(global.c:910)无条件 fNeedToFadeIn=TRUE → 进场 1s 淡入
     //   (scene.c:503-507)。此前仅 0x4E 死亡读档设,系统菜单读档画面硬切。

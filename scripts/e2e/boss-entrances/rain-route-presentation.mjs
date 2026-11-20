@@ -8,6 +8,7 @@ const villageWalkers = ['e4312', 'e4313', 'e4314', 'e4315']
 const villageLookouts = ['e4316', 'e4317', 'e4319', 'e4322', 'e4323', 'e4324']
 const villageAnimals = ['e4325', 'e4326', 'e4327', 'e4328']
 const directions = ['down', 'left', 'up', 'right']
+const continuousWorldScenes = new Set(['s230', 's243', 's244'])
 
 function location({ order, atMs, renderId }, frame) {
   return { order, atMs, renderId, view: frame?.order, camera: frame?.camera }
@@ -83,9 +84,21 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
     )
     const hole = renders.find((row, i) => i && row.renderId !== renders[i - 1].renderId + 1)
     if (hole) issue('rain-route-missing-presented-frame', { actual: location(hole) })
-    if (['s230', 's243', 's244'].includes(scene)) {
+    if (continuousWorldScenes.has(scene)) {
       const dialogue = renders.find((row) => row.dialogue)
       if (dialogue) issue('rain-route-unexpected-dialogue', { actual: location(dialogue) })
+      // These visits stay in the world between their entry and exit fades.
+      // A submitted blank frame must be checked even when no dialogue is open.
+      const showsWorld = ({ view, backdrop }) =>
+        view !== null && backdrop?.textured && !backdrop.dark
+      const first = renders.findIndex(showsWorld)
+      const last = renders.findLastIndex(showsWorld)
+      const hidden = renders.slice(first, last + 1).find((render) => !showsWorld(render))
+      if (hidden)
+        issue('rain-route-interrupted-visible-world', {
+          actual: location(hidden, byOrder.get(hidden.view)),
+          backdrop: hidden.backdrop,
+        })
     }
     const paints = []
     const sourceCast = new Map(

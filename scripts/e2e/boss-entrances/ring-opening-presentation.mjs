@@ -8,6 +8,158 @@ import {
 
 const scene = 's032'
 
+const warmupPose = (performerFrame, performerPosition, opponentFrame, opponentPosition) => [
+  performerFrame,
+  ...performerPosition,
+  opponentFrame,
+  ...opponentPosition,
+]
+
+function readWarmupSequences(raw, performer, opponent, path) {
+  const [base, forward, reset] = path(performer.position, [8176, 8180])
+  const [start, firstStep, secondStep, exchangeEnd] = path(opponent.position, [8193, 8195, 8199])
+  const [, retreat, retreatEnd, retreatReset] = path(opponent.position, [8202, 8207, 8208])
+  const [, lunge, lungeEnd, lungeBack, lungeReset] = path(
+    opponent.position,
+    [8183, 8185, 8188, 8189],
+  )
+  assert.deepEqual([reset, exchangeEnd, retreatReset, lungeReset], [base, start, start, start])
+  const pose = (performerIp, opponentIp, opponentPosition = start, performerPosition = base) =>
+    warmupPose(
+      raw(performerIp, 0x14)[0],
+      performerPosition,
+      raw(opponentIp, 0x14)[0],
+      opponentPosition,
+    )
+  const waiting = pose(8148, 8198)
+  const exchange = [
+    pose(8148, 8192),
+    pose(8151, 8192, firstStep),
+    pose(8152, 8192, firstStep),
+    pose(8153, 8192, secondStep),
+    pose(8154, 8196, secondStep),
+    pose(8155, 8196, secondStep),
+    pose(8156, 8198, secondStep),
+    ...[8157, 8158, 8159, 8160].map((ip) => pose(ip, 8198)),
+  ]
+  const last = exchange.at(-1)
+  // Each auto command consumes a world beat. The chance commands either jump
+  // within that beat or let the next one consume the following instruction.
+  raw(8162, 0x06)
+  raw(8163, 0x06)
+  const [knockbackHold] = raw(8170, 0x09)
+  const [recoveryHold] = raw(8178, 0x09)
+  return [
+    { poses: exchange, beats: [null, ...Array(9).fill(1)] },
+    { poses: [last, waiting, exchange[0]], beats: [2, null] },
+    {
+      poses: [
+        last,
+        pose(8160, 8198, lunge),
+        pose(8160, 8184, lunge),
+        pose(8160, 8184, lungeEnd, forward),
+        pose(8177, 8184, lungeEnd, forward),
+        pose(8177, 8187, lungeEnd, forward),
+        pose(8177, 8187, lungeBack, forward),
+        pose(8177, 8187, start, forward),
+        pose(8179, 8187, start, forward),
+        waiting,
+      ],
+      beats: [3, 1, 1, 1, 1, 1, 1, recoveryHold - 2, 1],
+    },
+    {
+      poses: [
+        last,
+        pose(8160, 8198, retreat),
+        pose(8165, 8198, retreat),
+        pose(8166, 8198, retreat),
+        pose(8167, 8198, retreat),
+        pose(8168, 8206, retreat),
+        pose(8168, 8206, retreatEnd),
+        pose(8168, 8206),
+        pose(8168, 8210),
+        exchange[0],
+      ],
+      beats: [4, 1, 1, 1, 1, 1, 1, 2, knockbackHold - 2],
+    },
+  ]
+}
+
+export function inspectRingWarmup(panning, sequences) {
+  const transitions = new Map()
+  for (const { poses, beats } of sequences)
+    for (const [index, count] of beats.entries()) {
+      const from = JSON.stringify(poses[index])
+      const next = transitions.get(from) ?? new Map()
+      next.set(JSON.stringify(poses[index + 1]), count)
+      transitions.set(from, next)
+    }
+  const changes = []
+  for (const { actors, atMs, order, camera } of panning) {
+    const { e547: performer, e549: opponent } = actors
+    if (!performer || !opponent) continue
+    const pose = warmupPose(performer.frame, performer.position, opponent.frame, opponent.position)
+    if (isDeepStrictEqual(pose, changes.at(-1)?.pose)) continue
+    changes.push({ atMs, order, camera, pose })
+  }
+  const issues = []
+  let stepsDrawn = 0
+  const frameMs = 100
+  const paintToleranceMs = 55
+  for (const [index, current] of changes.entries()) {
+    if (index === 0) continue
+    const previous = changes[index - 1]
+    const beats = transitions.get(JSON.stringify(previous.pose))?.get(JSON.stringify(current.pose))
+    const elapsedMs = current.atMs - previous.atMs
+    if (beats === undefined)
+      issues.push({
+        rule: 'ring warm-up joint pose follows the original sequence',
+        previous,
+        current,
+      })
+    else if (
+      beats !== null &&
+      (elapsedMs > frameMs * beats + paintToleranceMs ||
+        (index > 1 && elapsedMs < frameMs * beats - paintToleranceMs))
+    )
+      issues.push({
+        rule: 'ring warm-up holds each pose for its source beats',
+        previous,
+        current,
+        beats,
+        elapsedMs,
+      })
+    else stepsDrawn++
+  }
+  const last = changes.at(-1)
+  if (last) {
+    const nextBeats = [...(transitions.get(JSON.stringify(last.pose))?.values() ?? [])]
+    const elapsedMs = panning.at(-1).atMs - last.atMs
+    if (nextBeats.length && !nextBeats.includes(null)) {
+      const maxHoldMs = frameMs * Math.max(...nextBeats) + paintToleranceMs
+      if (elapsedMs > maxHoldMs)
+        issues.push({
+          rule: 'ring warm-up continues through the final pan frame',
+          last,
+          elapsedMs,
+          maxHoldMs,
+        })
+    }
+  }
+  // Idle may legally repeat, but an idle-only recording does not exercise the exchange.
+  const { poses: exchange } = sequences[0]
+  const drawnPoses = changes.map(({ pose }) => pose)
+  const completeExchanges = changes.filter((_, index) =>
+    isDeepStrictEqual(drawnPoses.slice(index, index + exchange.length), exchange),
+  ).length
+  if (!completeExchanges)
+    issues.push({
+      rule: 'a complete ring warm-up exchange is evidenced during the pan',
+      stepsDrawn,
+    })
+  return { issues, changes, stepsDrawn, completeExchanges }
+}
+
 export function readRingOpening(commands, actors) {
   const raw = (ip, opcode) => {
     assert.equal(commands[ip].opcode, opcode)
@@ -72,7 +224,8 @@ export function readRingOpening(commands, actors) {
     },
   }
   const patriarch = { ...sourceActor(551), facing: 'right', frame: 3 }
-  return { dx, dy, steps, turnFrames, turnBeats, pages, liu, warmup, patriarch }
+  const warmupSequences = readWarmupSequences(raw, performer, opponent, path)
+  return { dx, dy, steps, turnFrames, turnBeats, pages, liu, warmup, warmupSequences, patriarch }
 }
 
 export function inspectRingOpening({ events, draws, trigger, launch, expected, locale }) {
@@ -196,6 +349,8 @@ export function inspectRingOpening({ events, draws, trigger, launch, expected, l
         },
       )
   }
+  const warmupMotion = inspectRingWarmup(panning, expected.warmupSequences)
+  issues.push(...warmupMotion.issues)
   const earlyYueru = panning.find(({ actors }) => actors.e548)
   if (earlyYueru)
     reportActor('Lin Yueru stays hidden until the warm-up handoff', 'e548', earlyYueru, {
@@ -276,5 +431,6 @@ export function inspectRingOpening({ events, draws, trigger, launch, expected, l
     liuAtPan,
     liuFrames: liuFrames.length,
     castDuringPan: cast,
+    warmupMotion,
   }
 }

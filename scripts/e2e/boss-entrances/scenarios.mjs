@@ -1293,6 +1293,7 @@ export async function readSources(spec) {
       rfItems: 'projects/pal/content/items.json',
     }),
     ...((itemEntrance || finale) && { rainFrames: 'data/extracted/data/rng-frames.json' }),
+    ...(spec.id === 'stone-elder-auto' && { returnPalette: 'data/extracted/data/palette/0.json' }),
     ...((finale || spec.serial) && { relicsScene: 'projects/pal/content/scenes/s233.json' }),
     ...(finale && { levelUpExp: 'data/extracted/data/level-up-exp.json' }),
     ...(spec.predecessor

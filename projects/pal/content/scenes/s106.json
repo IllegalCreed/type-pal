@@ -1183,7 +1183,7 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 1280,
-                    "color": "red"
+                    "color": [190, 73, 60]
                   },
                   {
                     "kind": "selectEntityBehavior",

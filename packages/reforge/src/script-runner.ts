@@ -14,6 +14,7 @@ import type {
   Command,
   DialogueCue,
   Facing,
+  FadeColor,
   GridPos,
   ProjectedWorldScriptState,
   RuntimeScriptBinding,
@@ -43,7 +44,7 @@ export interface ScriptHost {
   reloadMap?(mapId: string, signal?: AbortSignal, commitCanonical?: () => void): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(videos?: readonly AssetId[], signal?: AbortSignal): void | Promise<void>
-  fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red', signal?: AbortSignal): Promise<void>
+  fade(dir: 'in' | 'out', ms: number, color?: FadeColor, signal?: AbortSignal): Promise<void>
   holdScreen?(color: 'black', token: string, signal?: AbortSignal): Promise<void>
   revealScreen?(token: string, signal?: AbortSignal): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */

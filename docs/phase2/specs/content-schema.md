@@ -74,7 +74,7 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 ### 玩家仙术耗材与成长
 
-`cost.items` 的多行同物品成本先合计，玩家施法支付真气后原子扣除所需物品。背包不足时保留已付真气和当前库存，跳过成功效果，仍执行施法成长。战斗演出保留施法起手与吟唱，显示耗材不足的中央卷轴，清除后继续收招。三尸咒和万蛊蚀天的公共效果先判三尸蛊毒，再按毒抗结算各自的直接伤害。 [技能字段](../../../packages/content/src/skill.ts#L7-L12) · [耗材门与成长](../../../packages/reforge/src/battle/battle-core.ts#L1324-L1425)
+`cost.items` 的多行同物品成本先合计，玩家施法支付真气后原子扣除所需物品。背包不足时保留已付真气和当前库存，跳过成功效果，仍执行施法成长。战斗演出保留施法起手与吟唱。提供物品成本时可选填非空的 `cost.missingItemsText`，以中央字幕显示这条提示，确认后继续收招。未设置该字段的技能使用定时中央卷轴。三尸咒和万蛊蚀天的公共效果先判三尸蛊毒，再按毒抗结算各自的直接伤害。 [技能字段](../../../packages/content/src/skill.ts#L7-L14) · [耗材门与成长](../../../packages/reforge/src/battle/battle-core.ts#L1324-L1425)
 
 对敌仙术的 `applyStatus` 若新加混乱，战斗会话在主特效结束的首拍开始绘制目标的横向抖动。混乱回合数仍按战斗规则结算，演出边界由当前时间线消费。 [混乱绘制的原盘来源](../../phase1/game-mechanics.md#2026-11-19-鬼降混乱抖动的起点) · [施法时间线](../../../packages/reforge/src/battle/battle-anim.ts)
 
@@ -83,6 +83,10 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 玩家用 `fleeBattle` 仙术仍有施法起手。允许逃离时全队退场并提交 `playerFled`，禁逃时显示失败卷轴，按正常动作节拍续战。金蝉脱壳两条分支均消耗真气并保留成长。 [原盘演出和禁逃规则](../../phase1/game-mechanics.md#2026-11-19-金蝉脱壳)
 
 敌方仙术的 `animation.shake` 指定尾段 FIRE 定帧次数。每一拍沿用该法术的特效速度，并根据本次 FIRE 的帧下标产生 3 像素纵移。 [原盘帧序](../../phase1/game-mechanics.md#2026-11-19-敌方土咒的尾段震屏)
+
+### 场景色幕
+
+`fade.color` 可用预置 `black`、`red` 或三个 0–255 的 RGB 整数组成的数组。显式 RGB 的入场和退场按 `ms` 分为 64 步，每步各色道向目标靠近至多 4。运行时与编辑器预览共用色幕合成。野店 s106 淡出与 s110 淡入使用同一组 RGB。 [脚本命令校验](../../../packages/content/src/script.ts) · [色幕合成](../../../packages/reforge/src/fade-driver.ts)
 
 ### 地图、组合与图像资源分层
 

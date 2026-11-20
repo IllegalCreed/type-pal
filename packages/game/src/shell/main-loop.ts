@@ -28,6 +28,7 @@ export interface LoopContext {
   bus: CommandBus
   input: InputSource
   tilemap: Tilemap
+  isRestoringSave?: () => boolean
   /** DM32:ticked=false 表示 fade-only present(palette/dither fade 进行中的补帧)——
    *  特效计数器(wave 累加/相位 index/shakeTime 自减)**不推进**,只用当前值扭曲。 */
   onPresent: (drained: BusEntry[], ticked: boolean) => void
@@ -70,6 +71,12 @@ export function advanceRafFrame(
 ): { ticked: boolean; presented: boolean } {
   const dt = now - state.lastTickTime
   state.lastTickTime = now
+  // Load the saved scene before advancing the restored world clock or consuming input.
+  if (ctx.isRestoringSave?.()) {
+    state.accumulator = 0
+    state.paintedEncounterFadeOut = undefined
+    return { ticked: false, presented: false }
+  }
   state.accumulator += dt
 
   const battle = ctx.gs.mode === 'battle' ? ctx.gs.battleState : undefined
