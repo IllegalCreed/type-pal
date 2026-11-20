@@ -1631,7 +1631,9 @@ async function inspect(path, engine) {
       comparable: {
         battles: serial.battles,
         ending: {
-          party: control.party,
+          party: control.party.map(({ weapon, ...member }) =>
+            weapon && weapon !== '0' ? { ...member, weapon } : member,
+          ),
           cash: control.cash,
           inventory: control.inventory,
           music: control.music,
