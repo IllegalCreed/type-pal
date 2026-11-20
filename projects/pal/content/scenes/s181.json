@@ -1593,7 +1593,53 @@
           "label": "默认模式"
         }
       ],
-      "initialPage": "default"
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "完成本段自动动作",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 124,
+                        "height": 0,
+                        "row": 83
+                      },
+                      "target": {
+                        "scene": "s181",
+                        "entity": "e2981"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e2982",
@@ -1611,7 +1657,175 @@
           "label": "默认模式"
         }
       ],
-      "initialPage": "default"
+      "initialPage": "default",
+      "behaviors": {
+        "auto": {
+          "default": {
+            "label": "默认自动行为",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "完成本段自动动作",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 130,
+                        "height": 0,
+                        "row": 82
+                      },
+                      "target": {
+                        "scene": "s181",
+                        "entity": "e2982"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          },
+          "legacy-001": {
+            "label": "自动行为 1",
+            "order": 1,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "完成本段自动动作",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 126,
+                        "height": 0,
+                        "row": 82
+                      },
+                      "target": {
+                        "scene": "s181",
+                        "entity": "e2982"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          },
+          "legacy-002": {
+            "label": "自动行为 2",
+            "order": 2,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "完成本段自动动作",
+                  "body": [
+                    {
+                      "kind": "moveEntity",
+                      "speed": "slow",
+                      "to": {
+                        "col": 123,
+                        "height": 0,
+                        "row": 82
+                      },
+                      "target": {
+                        "scene": "s181",
+                        "entity": "e2982"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          },
+          "legacy-003": {
+            "label": "自动行为 3",
+            "order": 3,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "完成本段自动动作",
+                  "body": [
+                    {
+                      "dx": 4,
+                      "dy": 2,
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s181",
+                        "entity": "e2982"
+                      }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "finishStep",
+                      "next": {
+                        "kind": "complete"
+                      }
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     }
   ],
   "battleMusic": "music.pal.039",
