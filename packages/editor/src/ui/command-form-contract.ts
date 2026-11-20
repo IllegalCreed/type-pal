@@ -56,6 +56,7 @@ export const AUTHOR_CUSTOM_COMMAND_KINDS = [
   'mountParty',
   'ride',
   'startBattle',
+  'teleportOut',
   'confirm',
   'branch',
   'loop',

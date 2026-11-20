@@ -57,6 +57,7 @@ import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
 import { createAuthorCommandFormBridge } from './command-form-contract.js'
+import { TeleportArrivalFields } from './command-form-control.js'
 import {
   DsButton,
   DsCheckbox,
@@ -2131,6 +2132,17 @@ function CanonicalCommandForm(props: {
           </section>
         ))}
       </div>
+    )
+
+  if (command.kind === 'teleportOut' && context)
+    return (
+      <TeleportArrivalFields
+        arrival={command}
+        catalog={context.assetCatalog}
+        reader={context.assetReader}
+        onOpenSound={context.onOpenSound}
+        onChange={(fields) => props.onChange({ ...command, ...fields })}
+      />
     )
 
   const commandFormBridge = context ? createAuthorCommandFormBridge(command) : undefined

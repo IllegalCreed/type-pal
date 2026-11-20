@@ -5,6 +5,7 @@ import type {
   ScriptIndexV1,
   SharedScriptMetaV1,
   ShopDef,
+  TeleportOutPresentation,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
 import { deriveScriptChunk } from '@type-pal/content'
@@ -70,6 +71,44 @@ export interface ControlCommandFormProps {
   onChange: (next: CommandFormCommand) => void
 }
 
+export function TeleportArrivalFields({
+  arrival,
+  catalog,
+  reader,
+  onOpenSound,
+  onChange,
+}: {
+  arrival: TeleportOutPresentation
+  catalog: AssetCatalogV1
+  reader: EditorAssetReader
+  onOpenSound?: (id: string) => void
+  onChange: (patch: TeleportOutPresentation) => void
+}) {
+  return (
+    <>
+      <Row label="落地队形">
+        <Sel
+          value={arrival.gatherParty ? 'gathered' : 'default'}
+          options={['default', 'gathered']}
+          labels={['场景默认', '聚拢到队首']}
+          onChange={(value) => onChange({ gatherParty: value === 'gathered' || undefined })}
+        />
+      </Row>
+      <Row label="落地音效">
+        <SoundPicker
+          catalog={catalog}
+          reader={reader}
+          value={arrival.arrivalSound}
+          allowUnset
+          ariaLabel="落地音效"
+          onChange={(arrivalSound) => onChange({ arrivalSound })}
+          onOpenAsset={onOpenSound}
+        />
+      </Row>
+    </>
+  )
+}
+
 /** Owns control flow, variables, resources, inventory, script links and camera command forms. */
 export function ControlCommandForm(props: ControlCommandFormProps) {
   const {
@@ -95,27 +134,13 @@ export function ControlCommandForm(props: ControlCommandFormProps) {
   switch (cmd.kind) {
     case 'teleportOut':
       return (
-        <>
-          <Row label="落地队形">
-            <Sel
-              value={cmd.gatherParty ? 'gathered' : 'default'}
-              options={['default', 'gathered']}
-              labels={['场景默认', '聚拢到队首']}
-              onChange={(value) => set({ gatherParty: value === 'gathered' || undefined })}
-            />
-          </Row>
-          <Row label="落地音效">
-            <SoundPicker
-              catalog={assetCatalog}
-              reader={assetReader}
-              value={cmd.arrivalSound}
-              allowUnset
-              ariaLabel="落地音效"
-              onChange={(arrivalSound) => set({ arrivalSound })}
-              onOpenAsset={onOpenSound}
-            />
-          </Row>
-        </>
+        <TeleportArrivalFields
+          arrival={cmd}
+          catalog={assetCatalog}
+          reader={assetReader}
+          onChange={set}
+          onOpenSound={onOpenSound}
+        />
       )
     case 'setFlag':
       return (

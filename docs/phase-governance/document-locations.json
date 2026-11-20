@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "99bcf2cac7842ee8e39bade468f65cd462ddba877915bda8b856a91f4ebaf605",
+      "afterSha256": "bd37f45c0c517a21ebd2ee282194d6ead4cd62ebe81c21c434f4459fa47f55bf",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "c98bc65b2482f07978bc10dfa4f13cd0cdaa6ecaffda573856a757d7538fe816",
+      "afterSha256": "47106ff80b670ba0fb1f7f53f2987d099d11856ae7c67a928b094534b4a925f6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
-        "date": "2026-11-20",
-        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
-        "reviewedLines": 1211,
-        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
+        "date": "2026-11-21",
+        "conclusion": "核保护基点后的双端复验、回归、可复算基线和审查状态。",
+        "reviewedLines": 1221,
+        "acceptanceScope": "本轮核新增回执、各端依赖与实际覆盖率。既有执行及用户视觉结论沿用各自原件。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "63aac6c7d2cfc2a9c219dc46f424a8b64987457162d82baa97bf5b6022d2f5d8",
+      "afterSha256": "b933500d6da8663303fb28aa184e9625698d9b8bb2016970b55c137b0581eb64",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
-        "date": "2026-11-20",
-        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
-        "reviewedLines": 1941,
-        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
+        "date": "2026-11-21",
+        "conclusion": "核合并候选的双端日志和精确反控。",
+        "reviewedLines": 1945,
+        "acceptanceScope": "新增同局复验、实际依赖与反控；既有逐项范围及音画回执沿用各自原件。"
       }
     },
     {
