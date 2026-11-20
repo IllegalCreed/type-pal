@@ -139,14 +139,17 @@ test('the camera can begin on the authored scene beat while retaining its motion
   await form.finish({ ...command, startImmediately: true })
 })
 
-test('the world-beat chase control keeps the target, speed and range', async () => {
+test('the world-beat chase control keeps its authored speed and range', async () => {
   const command: Extract<AuthorCommand, { kind: 'chasePlayer' }> = {
     kind: 'chasePlayer',
-    target: { scene: 'start', entity: 'npc' },
     speed: 2,
     range: 3,
   }
-  const form = await commandForm(command, { includeEntity: true, requireLeafFormRow: false })
+  const form = await commandForm(command, {
+    includeEntity: true,
+    commandScope: stepScope,
+    requireLeafFormRow: false,
+  })
   await checkbox('按世界拍直接追逐')
   await form.finish({ ...command, worldStep: true })
 })

@@ -229,25 +229,26 @@ describe('foreground scene timelines', () => {
 
 describe('author and runtime command validation', () => {
   test('a world-beat chase keeps its optional default speed and rejects invalid movement settings', () => {
-    const chase = {
+    const chase: Extract<AuthorCommand, { kind: 'chasePlayer' }> = {
       kind: 'chasePlayer',
-      target: { scene: 'gate', entity: 'guard' },
       worldStep: true,
     }
-    expectAcceptsUnchanged(checkForeground, [chase])
-    expectAcceptsUnchanged(checkForeground, [{ ...chase, speed: 4 }])
+    const checkTrigger = (value: unknown) =>
+      checkAuthorCommands(value, 'commands', { rootScope: 'flow', flowOwner: 'trigger' })
+    expectAcceptsUnchanged(checkTrigger, [chase])
+    expectAcceptsUnchanged(checkTrigger, [{ ...chase, speed: 4 }])
     expectRejectUnchanged(
-      checkForeground,
+      checkTrigger,
       [{ ...chase, worldStep: false }],
       'commands[0].worldStep: 期望 true',
     )
     expectRejectUnchanged(
-      checkForeground,
+      checkTrigger,
       [{ ...chase, speed: -1 }],
       'commands[0].speed: 期望非负有限数',
     )
     expectRejectUnchanged(
-      checkForeground,
+      checkTrigger,
       [{ ...chase, speed: '4' }],
       'commands[0].speed: 期望非负有限数',
     )
