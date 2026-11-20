@@ -731,7 +731,12 @@ await runBrowserJourney({
         phase: 'approach',
         from: spec.start,
         to: spec.contact,
-        mode: source.tower || source.route ? undefined : source.tian ? 'ready' : 'dialogue',
+        mode:
+          source.tower || source.route || source.scriptedStop
+            ? undefined
+            : source.tian
+              ? 'ready'
+              : 'dialogue',
       })
       if (source.tian) {
         await press(confirm, 'interact')
