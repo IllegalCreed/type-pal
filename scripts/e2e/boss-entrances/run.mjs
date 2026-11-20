@@ -155,6 +155,7 @@ async function read(page) {
       victoryFade,
       gateId,
       readsSkills,
+      readsItems,
       activation,
     }) => {
       const observed = globalThis.__defeat?.read()
@@ -189,6 +190,20 @@ async function read(page) {
                     disabled: state.players[selected].mp < state.skills[skillId].cost.mp,
                   })),
                 }
+              : null
+          : null
+      const itemMenu =
+        readsItems && state
+          ? game && state.itemSelect
+            ? {
+                cursor: state.itemSelect.cursor,
+                items: state.itemSelect.items.map(({ id, disabled }) => ({
+                  itemId: String(id),
+                  disabled: Boolean(disabled),
+                })),
+              }
+            : selection?.phase === 'item'
+              ? { cursor: selection.itemIndex, items: battle.usableItems() }
               : null
           : null
       const settlement = game ? state?.settlement : battle?.settlementPresentation
@@ -248,6 +263,7 @@ async function read(page) {
                 uiCursor: game ? state.uiCursor : undefined,
                 selection,
                 skillMenu,
+                itemMenu,
                 snapshot: {
                   players: state.players.map((player, slot) => ({
                     id: game ? roles[nativeRoles.indexOf(player.roleId)] : player.roleId,
@@ -280,6 +296,7 @@ async function read(page) {
       nativeRoles,
       initialOwner,
       readsSkills: Boolean(spec.learned),
+      readsItems: Boolean(spec.inventory?.length),
       settlementDwellMs: spec.settlementDwellMs,
       victoryFade: Boolean(source.tower),
       gateId: source.tian?.gateId,
