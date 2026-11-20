@@ -41,6 +41,7 @@ function installBossForeground({
   watchChoice,
   itemEntrance,
   finale,
+  serial,
 }) {
   const observation = globalThis.__defeat
   const ids = [owner, ...(watched ?? [])]
@@ -83,7 +84,8 @@ function installBossForeground({
   const coversDialogueWorld = (id) =>
     foregroundDialogueScenes.includes(id) &&
     (recordDialogueAfterBattle || !observation.read().ended)
-  const recordsFullCast = (id) => Boolean(itemEntrance || finale) && coversDialogueWorld(id)
+  const recordsFullCast = (id) =>
+    Boolean(itemEntrance || finale || serial) && coversDialogueWorld(id)
 
   function backdropSample(width, height, pixel) {
     const colors = [0.18, 0.4, 0.62, 0.83].flatMap((x) =>
@@ -340,7 +342,7 @@ function installBossForeground({
       const id = `e${npc.id}`
       if (!ids.includes(id) && !recordsFullCast(sceneId)) return
       const rect = [npc.x - sprite.anchorX, npc.y + 7 - sprite.anchorY, sprite.width, sprite.height]
-      if ((itemEntrance || finale) && !visibleRect(rect, camera)) return
+      if (recordsFullCast(sceneId) && !visibleRect(rect, camera)) return
       gameActors[id] = {
         asset: npc.spriteNum,
         position: [npc.x, npc.y],

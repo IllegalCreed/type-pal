@@ -114,7 +114,7 @@ export function partyFor(spec) {
         maxHP: 1950,
         attack: 1020 - member.roleId * 60,
       })),
-      'southern-palace': southernParty,
+      'southern-palace': [southernParty[1], southernParty[0], southernParty[2]],
       'baiyue-finale': southernParty.slice(0, 1),
     }[spec.party] ?? party
   return spec.initialHP === undefined
@@ -642,7 +642,7 @@ export const scenarios = {
     id: 'southern-palace-tree',
     scene: 's278',
     owner: 'e4742',
-    watched: ['e4740', 'e4741', 'e4743', 'e4744', 'e4745', 'e4746', 'e4747', 'e4748'],
+    watched: ['e4740', 'e4741', 'e4743', 'e4744', 'e4745', 'e4746', 'e4747', 'e4748', 'e4749'],
     serial: [
       [35312, 289],
       [35389, 222],
@@ -692,6 +692,7 @@ export const scenarios = {
     seed: 4,
     maxRounds: 23,
     inventory: [{ itemId: '141', count: 7 }],
+    prelude: { states: { e4798: 35394, e4800: 35395 } },
     disk: { entry: 35464, battle: 35573, last: 35622, owner: [1120, 1360, 0, 5] },
     mapMusic: { scene: 's278', trigger: 'e4742', ip: 35391, track: 34 },
     world: {
@@ -1246,7 +1247,7 @@ export async function readSources(spec) {
       rfItems: 'projects/pal/content/items.json',
     }),
     ...((itemEntrance || finale) && { rainFrames: 'data/extracted/data/rng-frames.json' }),
-    ...(finale && { relicsScene: 'projects/pal/content/scenes/s233.json' }),
+    ...((finale || spec.serial) && { relicsScene: 'projects/pal/content/scenes/s233.json' }),
     ...(spec.predecessor
       ? { predecessor: `projects/pal/content/scenes/${spec.predecessor.scene}.json` }
       : {}),
@@ -1450,6 +1451,19 @@ export async function readSources(spec) {
       objects: data.objects,
       enemies: data.enemies,
     })
+  if (serial) {
+    assert.deepEqual(
+      spec.watched,
+      data.gameScene.eventObjects
+        .filter(({ spriteNum }) => spriteNum > 0)
+        .map(({ id }) => `e${id}`),
+      'all actors from the native palace scene have an independent coverage entry',
+    )
+    assert.deepEqual(
+      [commands[32091].opcode, ...commands[32091].operands],
+      [0x75, ...partyFor(spec).map(({ roleId }) => roleId + 1)],
+    )
+  }
   if (activation) {
     const { owner, ip, state, scene } = activation
     const id = Number(owner.slice(1))
@@ -1710,7 +1724,7 @@ export async function readSources(spec) {
       ])
     : []
   let lingerAppearance
-  if (itemEntrance || finale) {
+  if (itemEntrance || finale || serial) {
     const [portrait, sprite, fighter] = commands.slice(31630, 31633).map((command, index) => {
       assert.equal(command.opcode, 0x1a)
       const [row, value, role] = command.operands
@@ -1722,9 +1736,10 @@ export async function readSources(spec) {
       spriteId: `sprite-${sprite}`,
       battleSprite: `player-fighter-${fighter}`,
     }
-    const relicsBody = finale
-      ? data.relicsScene.hooks.onEnter.variants.default.flow.stages.flatMap(({ body }) => body)
-      : musicBody
+    const relicsBody =
+      finale || serial
+        ? data.relicsScene.hooks.onEnter.variants.default.flow.stages.flatMap(({ body }) => body)
+        : musicBody
     const costume = relicsBody.filter(
       ({ kind, actor }) => kind === 'setActorAppearance' && actor === 'zhao-linger',
     )

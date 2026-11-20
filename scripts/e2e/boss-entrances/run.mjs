@@ -41,7 +41,9 @@ const game = engine === 'game'
 const entrance = spec.entrance
 const revisit = spec.revisit
 const itemEntrance = spec.sceneRoute?.item
-const initialInventory = itemEntrance ? [{ itemId: itemEntrance.id, count: 1 }] : (spec.inventory ?? [])
+const initialInventory = itemEntrance
+  ? [{ itemId: itemEntrance.id, count: 1 }]
+  : (spec.inventory ?? [])
 const checkpointScene = entrance?.scene ?? spec.sceneRoute?.checkpoint ?? spec.scene
 const checkpoint = entrance?.start ?? revisit?.checkpoint ?? spec.start
 const fieldMusic = initialTrack(spec)
@@ -97,6 +99,7 @@ const observe = bossObserver({
   foreground,
   finale,
   encounterCount: source.serial?.length,
+  serial: Boolean(source.serial),
   itemEntrance: Boolean(itemEntrance),
   handoffScene: handoff?.scene,
   handoffMatte: handoff?.fieldPosition !== undefined,
@@ -359,7 +362,6 @@ async function makeGameFixture(page, baseURL, until) {
   for (const table of entrance ? [gs.allEventObjects] : [gs.npcs, gs.allEventObjects]) {
     const actor = table.find(({ id }) => id === initialOwner)
     assert.deepEqual([actor.x, actor.y, actor.sState, actor.triggerMode], spec.disk.owner)
-    if (finale) actor.sState = finale.state
     if (!source.setup && !itemEntrance)
       assert.equal(actor.triggerLabel, `L_${spec.disk.firstVisit ?? spec.disk.entry}`)
     for (const [id, state] of Object.entries(itemEntrance?.states ?? {})) {
@@ -524,7 +526,6 @@ async function makeReforgeFixture() {
       }),
     )
   }
-  if (finale) world.script.entityState[checkpointScene] = { [spec.owner]: finale.state }
   if (spec.prelude?.completedAt !== undefined) {
     world.script.behaviors.scenes = {
       [spec.scene]: { onEnter: { cursor: { hook: 'default', at: { kind: 'completed' } } } },
