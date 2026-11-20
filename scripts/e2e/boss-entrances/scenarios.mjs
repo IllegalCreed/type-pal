@@ -108,8 +108,8 @@ export function partyFor(spec) {
       })),
       'southern-palace': [taoyuanParty[0], cityParty[1], taoyuanParty[1]].map((member) => ({
         ...member,
-        hp: 990,
-        maxHP: 990,
+        hp: 1600,
+        maxHP: 1600,
         attack: 1120 - member.roleId * 55,
         defense: 390,
       })),
@@ -667,7 +667,7 @@ export const scenarios = {
       returned: [116, 27, 0],
       departure: [116, 28, 0],
       members: ['li-xiaoyao'],
-      inventory: [{ itemId: '217', count: 1 }],
+      inventory: [],
       music: { ip: 35391, track: 34 },
       activates: { scene: 's281', owner: 'e4800', ip: 35395, state: 1 },
     },
@@ -1780,7 +1780,8 @@ export async function readSources(spec) {
     defeatedNote: defeated ? commands[defeated.ip + 2].text : null,
     canonical: native,
     locale: data.locale,
-    ...(itemEntrance && { commands, originalSceneActors: data.gameScene.eventObjects }),
+    ...((itemEntrance || serial) && { commands }),
+    ...(itemEntrance && { originalSceneActors: data.gameScene.eventObjects }),
   }
 }
 

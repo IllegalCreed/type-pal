@@ -44,6 +44,59 @@ export function readSerialBattles({ spec, commands, body, teams, objects, enemie
   })
 }
 
+function inspectPalaceMovement(events, contact, launch, issues) {
+  const stage = events.filter(
+    ({ kind, visible, scene, order }) =>
+      kind === 'world-drawn' &&
+      visible &&
+      scene === 's278' &&
+      contact.order < order &&
+      order < launch.order,
+  )
+  const plans = [
+    ['e4741', 564, 1488, 1048, -4, 2, 4, 'down', 400, 200, 0],
+    ['e4748', 38, 1408, 1104, 8, -8, 4, 'up', 100, 300, 0],
+    ['e4743', 562, 1232, 1192, 8, -4, 10, 'up', 200, 200, 2],
+    ['e4744', 544, 1200, 1176, 8, -4, 10, 'up', 500, 200, 6],
+    ['e4745', 544, 1264, 1208, 8, -4, 10, 'up', 400, 200, 0],
+  ]
+  return plans.map(([id, asset, x, y, dx, dy, count, facing, pause, interval, first]) => {
+    const offset = facing === 'up' ? 6 : 0
+    const expected = Array.from({ length: count + 1 }, (_, i) => ({
+      asset,
+      position: [x + i * dx, y + i * dy],
+      facing,
+      frame: offset + [0, 1, 0, 2][i % 4],
+    })).slice(first)
+    expected.at(-1).frame = offset
+    const poses = []
+    for (const view of stage) {
+      const actor = view.actors[id]
+      if (!actor || (first && actor.position[0] < x + first * dx)) continue
+      const last = poses.at(-1)
+      if (last && isDeepStrictEqual(last.pose.position, actor.position)) continue
+      const { asset, position, facing, frame } = actor
+      poses.push({ atMs: view.atMs, order: view.order, pose: { asset, position, facing, frame } })
+    }
+    const actual = poses.map(({ pose }) => pose)
+    if (!isDeepStrictEqual(actual, expected))
+      issues.push({ issue: 'palace-foreground-movement', actor: id, actual, expected })
+    const timings = poses.slice(1).map(({ atMs }, i) => Math.round(atMs - poses[i].atMs))
+    for (const [i, actual] of timings.entries()) {
+      const expected = !first && i === 0 ? pause : interval
+      if (Math.abs(actual - expected) > 75)
+        issues.push({
+          issue: 'palace-foreground-cadence',
+          actor: id,
+          step: first + i + 1,
+          actual,
+          expected,
+        })
+    }
+    return { id, poses, timings }
+  })
+}
+
 export function inspectSerialBattles({
   spec,
   source,
@@ -65,6 +118,7 @@ export function inspectSerialBattles({
   assert.equal(launches.length, source.serial.length, 'native launches in one foreground')
   const finishes = events.filter(({ kind }) => kind === 'battle-finished')
   assert.equal(finishes.length, launches.length, 'each native launch reaches its outcome')
+  const movements = inspectPalaceMovement(events, trigger, launches[0], issues)
   const battles = source.serial.map((facts, i) => {
     const stage = i + 1
     const from = launches[i]
@@ -178,5 +232,5 @@ export function inspectSerialBattles({
       background: true,
     })
   })
-  return { issues, battles, coverage }
+  return { issues, battles, coverage, movements }
 }
