@@ -18,6 +18,7 @@ import type { IndexedImage } from '../assets/png.js'
 import { loadSpriteFramesBlob, loadTilesetBlob } from '../assets/tileset-blob.js'
 import { isBattleContact } from '../core/battle/battle-entry.js'
 import { INTRO_FADE_TICKS, startBattle } from '../core/battle/battle-system.js'
+import { resolveMagicObject } from '../core/battle/magic-object.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { restoreDialogHistory } from '../core/dialog-history.js'
 import { updateAllEquipments } from '../core/equip-effect.js'
@@ -1156,6 +1157,14 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   setStartBattleHandler(({ gs, enemyTeamId, isBoss }) => {
     const battleFieldId = gs.wNumBattleField ?? 0
     try {
+      // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
+      //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
+      // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
+      const encounterRoles = projectRuntimeToBattleRoles(
+        gs.PlayerRolesRuntime,
+        playerRoles,
+        gs.rgEquipmentEffect,
+      )
       startBattle({
         gs,
         enemyTeamId,
@@ -1165,14 +1174,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         enemyObjects,
         enemyTeams,
         battleFields,
-        // 架构边界:用 runtime 当前属性(等级/HP/MP/攻防 等)投影战斗 roles,使战斗吃上升级后属性
-        //   (原直接传 playerRoles 静态 1 级基线)。staticRoles=playerRoles 供不可变字段(精灵/音效/名字)。
-        // D14:第 3 参 gs.rgEquipmentEffect → 战斗 stat = effective(base + 装备 + Extra),mirror sdlpal getter。
-        playerRoles: projectRuntimeToBattleRoles(
-          gs.PlayerRolesRuntime,
-          playerRoles,
-          gs.rgEquipmentEffect,
-        ),
+        playerRoles: encounterRoles,
         items,
         spells,
         magics,
@@ -1190,6 +1192,31 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
         // P2#5:不再传 per-scene 切片 — startBattle 默认 getGlobalCommands()(战斗脚本是全局 entry)。
         introFadeTicks: INTRO_FADE_TICKS, // D19:生产入场 dither fade-in(present-battle 揭示);单测/dev 不传
       })
+      // Decode the current combatants' effects during the opening. A cold decode
+      // starting on the effect frame can finish during the next action.
+      const battle = gs.battleState
+      const spellIds = battle?.enemies.map(({ e }) => e.magic) ?? []
+      const sounds =
+        battle?.enemies.flatMap(({ e }) => [e.attackSound, e.magicSound, e.deathSound]) ?? []
+      for (const { roleId } of battle?.players ?? []) {
+        const role = encounterRoles.roles[roleId]
+        if (!role) continue
+        spellIds.push(...(role.magic ?? []), role.cooperativeMagic ?? 0)
+        sounds.push(
+          role.attackSound,
+          role.weaponSound,
+          role.criticalSound,
+          role.magicSound,
+          role.deathSound,
+          role.coverSound ?? 0,
+          role.dyingSound ?? 0,
+        )
+      }
+      for (const id of new Set(spellIds)) {
+        const effect = resolveMagicObject(id, spells, magics, objectMagics)?.magic.sound
+        if (effect !== undefined) sounds.push(effect)
+      }
+      void audio.preloadSounds(sounds)
     } catch (e) {
       console.error('[bootstrap.startBattleHandler] startBattle FAILED:', e)
       throw e

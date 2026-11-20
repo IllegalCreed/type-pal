@@ -407,11 +407,11 @@ export function inspectFireQilin({
     ),
     [stand],
   )
-  const departureDraw = after.find(
-    ({ order, leader }) =>
-      order >= departure.order && isDeepStrictEqual(leader, pixel(spec.world.departure)),
-  )
   const exit = pixel(spec.world.departure)
+  const departureFrames = after.filter(
+    ({ order, leader }) => order >= departure.order && isDeepStrictEqual(leader, exit),
+  )
+  const departureDraw = departureFrames[0]
   const walking = party(departureDraw)
   check(
     'one physical departure step is painted at the original camera and both feet',
@@ -432,6 +432,17 @@ export function inspectFireQilin({
     [1, 2].includes(stride) && walking?.[1]?.[4] === stride + 6,
     true,
   )
+  // Read the painter order before the party projection sorts by slot. Game keeps
+  // the original stable order; Reforge paints the leader above an equal-depth follower.
+  for (const { order, party: painted } of departureFrames) {
+    if (painted?.length !== 2 || !painted.every(({ world }) => isDeepStrictEqual(world, exit)))
+      continue
+    check(
+      `equal-depth departure party paint order at draw ${order}`,
+      painted.map(({ slot }) => slot),
+      game ? [0, 1] : [1, 0],
+    )
+  }
   return {
     issues,
     dialogue,

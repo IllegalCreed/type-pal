@@ -316,52 +316,7 @@
         "height": 0
       },
       "sprite": "sprite-432",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "持续自动动作",
-                  "body": [
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "animEntity",
-                          "target": {
-                            "scene": "s106",
-                            "entity": "e1984"
-                          }
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e1985",
@@ -1062,6 +1017,14 @@
                     }
                   },
                   {
+                    "frame": 0,
+                    "kind": "setEntityFrame",
+                    "target": {
+                      "scene": "s106",
+                      "entity": "e1984"
+                    }
+                  },
+                  {
                     "kind": "setEntityState",
                     "state": 1,
                     "target": {
@@ -1167,13 +1130,95 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "frames": 30,
                     "kind": "shakeScreen",
                     "level": 4
                   },
                   {
+                    "kind": "sceneTimeline",
+                    "label": "赤血毒展开",
+                    "tracks": [
+                      {
+                        "id": "red-blood-poison",
+                        "label": "赤血毒",
+                        "target": {
+                          "scene": "s106",
+                          "entity": "e1984"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 1
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 300,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 2
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 500,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 3
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 4
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 5
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 6
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1300,
+                            "body": [
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 7
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
                     "kind": "wait",
-                    "ms": 560
+                    "ms": 100
                   },
                   {
                     "asset": "sound.pal.175",
@@ -1183,7 +1228,11 @@
                     "dir": "out",
                     "kind": "fade",
                     "ms": 1280,
-                    "color": [190, 73, 60]
+                    "color": [
+                      190,
+                      73,
+                      60
+                    ]
                   },
                   {
                     "kind": "selectEntityBehavior",

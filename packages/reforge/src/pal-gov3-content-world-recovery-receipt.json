@@ -274,7 +274,7 @@
           "recoveryBeforeIndex": 5,
           "anchor": {
             "kind": "wait",
-            "ms": 320
+            "ms": 700
           },
           "dependency": null
         },
@@ -370,7 +370,7 @@
           "key": "s077/hook/default/initial",
           "sourceFadeIp": 12845,
           "sourceFirstPresentationIp": 12854,
-          "beforePath": "body/19",
+          "beforePath": "body/13",
           "recoveryBeforeIndex": 29,
           "anchor": {
             "kind": "clearDialog"
@@ -381,7 +381,7 @@
           "key": "s077/hook/default/initial",
           "sourceFadeIp": 12890,
           "sourceFirstPresentationIp": 12907,
-          "beforePath": "body/47",
+          "beforePath": "body/41",
           "recoveryBeforeIndex": 64,
           "anchor": {
             "kind": "clearDialog"

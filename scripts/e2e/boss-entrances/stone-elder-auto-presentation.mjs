@@ -53,10 +53,32 @@ export function readStoneElderAutoPresentation(data, commands, spec) {
   assert.deepEqual([fadeIn.opcode, fadeIn.operands], [0x8c, [26, 4, 65535]])
   const matteColor = data.returnPalette.colors[fadeIn.operands[0]]
   assert.equal(matteColor.length, 3)
+  const reveal = commands[16748]
+  const shake = commands[16767]
+  const windup = commands[16768]
+  const sound = commands[16769]
+  assert.deepEqual([reveal.opcode, ...reveal.operands], [0x49, 1985, 1, 0])
+  assert.deepEqual([shake.opcode, ...shake.operands], [0x35, 30, 0, 0])
+  assert.deepEqual([windup.opcode, ...windup.operands], [0x09, 14, 0, 0])
+  assert.deepEqual([sound.opcode, ...sound.operands], [0x47, 175, 0, 0])
+  const burstId = `e${reveal.operands[0] - 1}`
+  const burstActor = data.gameScene.eventObjects.find(({ id }) => `e${id}` === burstId)
+  const autoIp = Number(burstActor.autoLabel.slice(2))
+  assert.equal(commands[autoIp].opcode, 0x87)
+  assert.equal(commands[autoIp + 1].resetTo, autoIp)
   const [role, sprite] = commands[ambush.start + 1].operands
   assert.deepEqual([commands[ambush.start + 1].opcode, role], [0x65, 0])
   return {
     matteColor,
+    burst: {
+      id: burstId,
+      pose: readPose(data.gameScene, burstId),
+      frames: Array.from({ length: windup.operands[0] / 2 + 1 }, (_, frame) => frame),
+      windupMs: windup.operands[0] * 100,
+      fadeMs: fadeOut.operands[1] * 64 * 10,
+      caption: commands[16766].text.split('~')[0].trim(),
+      sound: sound.operands[0],
+    },
     dialogueWorld: inn.scene,
     firstEntries: [
       { scene, position: spec.start },
@@ -98,6 +120,133 @@ export function readStoneElderAutoPresentation(data, commands, spec) {
       },
     ]),
   }
+}
+
+function inspectBurst({ events, draws, scene, won, control, facts, game, check }) {
+  const postBattle = events.filter(({ order }) => won.order < order && order < control.order)
+  const window = postBattle.filter((event) => event.scene === scene)
+  const ops = window.filter(({ kind }) => kind === 'script-op')
+  const shakes = ops.filter((event) => (game ? event.ip === 16767 : event.op === 'shakeScreen'))
+  const [shake] = shakes
+  const sound = ops.filter((event) =>
+    game
+      ? event.ip === 16769
+      : event.op === 'playSound' && event.asset === `sound.pal.${facts.sound}`,
+  )
+  const fade = ops.find((event) =>
+    game ? event.ip === 16770 : event.order > sound[0]?.order && event.op === 'fade',
+  )
+  const leave = ops.find((event) =>
+    game ? event.ip === 16775 : event.op === 'loadScene' && event.target === 's110',
+  )
+  check(
+    'one self-destruct begins and hands off to the return scene',
+    [
+      shakes.length,
+      sound.length,
+      Boolean(
+        shake?.order < sound[0]?.order && sound[0].order < fade?.order && fade.order < leave?.order,
+      ),
+    ],
+    [1, 1, true],
+  )
+  if (!shake || !fade || !leave) return undefined
+
+  const world = window.filter(
+    ({ kind, order, visible }) => kind === 'world-drawn' && order < leave.order && visible,
+  )
+  const first = world.findIndex(({ actors }) => actors[facts.id])
+  const presented = first < 0 ? [] : world.slice(first)
+  const states = presented.map(({ actors, atMs, order }) => ({
+    atMs,
+    order,
+    pose: actorPose(actors[facts.id]) ?? null,
+  }))
+  check(
+    'the first actual self-destruct pose is the original standing sprite',
+    states[0]?.pose,
+    facts.pose,
+  )
+  const incorrectPose = states.find(
+    ({ pose }) =>
+      !pose ||
+      pose.asset !== facts.pose.asset ||
+      pose.facing !== facts.pose.facing ||
+      !isDeepStrictEqual(pose.position, facts.pose.position),
+  )
+  check(
+    'the self-destruct sprite stays at its original feet through the fade',
+    incorrectPose ?? null,
+    null,
+  )
+  const changes = states.filter(
+    ({ pose }, index) => index === 0 || pose?.frame !== states[index - 1].pose?.frame,
+  )
+  check(
+    'the self-destruct is painted once without restarting',
+    changes.map(({ pose }) => pose?.frame),
+    facts.frames,
+  )
+  const steps = changes.slice(1).map(({ pose, atMs, order }) => ({
+    frame: pose?.frame,
+    order,
+    elapsedMs: Math.round(atMs - shake.atMs),
+  }))
+  check(
+    'all seven self-destruct poses finish at the original world beat before fading',
+    steps.every(
+      ({ frame, elapsedMs, order }, index) =>
+        frame === index + 1 &&
+        Math.abs(elapsedMs - (100 + index * 200)) <= 55 &&
+        order < fade.order,
+    ) && steps.length === facts.frames.length - 1,
+    true,
+  )
+  const windupMs = Math.round(fade.atMs - shake.atMs)
+  const fadeMs = Math.round(leave.atMs - fade.atMs)
+  check(
+    'the self-destruct windup uses the full original duration',
+    Math.abs(windupMs - facts.windupMs) <= 55,
+    true,
+  )
+  check(
+    'the held final pose fades for the original duration',
+    Math.abs(fadeMs - facts.fadeMs) <= 55,
+    true,
+  )
+
+  const sounds = postBattle.filter(
+    ({ kind, asset, order }) =>
+      ['sfx-request', 'sfx-start'].includes(kind) && asset === facts.sound && order < leave.order,
+  )
+  check(
+    'the self-destruct sound is requested and heard once',
+    sounds.map(({ kind }) => kind),
+    ['sfx-request', 'sfx-start'],
+  )
+  check(
+    'the sound begins with the red fade',
+    Boolean(sounds[1] && Math.abs(sounds[1].atMs - fade.atMs) <= 90),
+    true,
+  )
+  const sceneDraws = draws.filter((draw) => draw.scene === scene && draw.atMs < leave.atMs)
+  const title = sceneDraws.findLast(
+    ({ atMs, slots }) =>
+      atMs <= shake.atMs &&
+      slots.some(({ lines }) => lines.some((line) => line.trim() === facts.caption)),
+  )
+  const cleared =
+    title && sceneDraws.find(({ atMs, slots }) => atMs > title.atMs && slots.length === 0)
+  check(
+    'the last caption clears before the first moving self-destruct pose',
+    Boolean(
+      cleared &&
+        cleared.atMs <= changes[1]?.atMs &&
+        sceneDraws.every(({ atMs, slots }) => atMs < cleared.atMs || slots.length === 0),
+    ),
+    true,
+  )
+  return { shake, fade, leave, first: states[0], steps, windupMs, fadeMs, sounds, cleared }
 }
 
 export function inspectStoneElderAutoPresentation({ events, draws, bounds, source, spec, game }) {
@@ -234,5 +383,38 @@ export function inspectStoneElderAutoPresentation({ events, draws, bounds, sourc
     control.flatColor,
     facts.matteColor,
   )
-  return { issues, firstEntries, field, opening, matteColor: control.flatColor }
+  const battleEvents = events.filter(({ order }) => prepared.order < order && order < won.order)
+  const actions = battleEvents.filter(({ kind }) => kind === 'action')
+  const requests = battleEvents.filter(({ kind }) => kind === 'sfx-request')
+  const starts = battleEvents.filter(({ kind }) => kind === 'sfx-start')
+  check(
+    'each battle cue is requested and starts once',
+    starts.map(({ cue }) => cue).toSorted((a, b) => a - b),
+    requests.map(({ cue }) => cue),
+  )
+  const battleAudio = requests.map(({ cue, asset, order, atMs }) => {
+    const start = starts.find((event) => event.cue === cue)
+    const deadline = actions.find((event) => event.order > order) ?? won
+    const timing = {
+      asset,
+      cue,
+      requestedMs: atMs,
+      startedMs: start?.atMs,
+      nextActionMs: deadline.atMs,
+    }
+    if (!start || start.asset !== asset || start.order <= order || start.order >= deadline.order)
+      issues.push({ rule: 'battle cue starts before the next action', ...timing })
+    return timing
+  })
+  const burst = inspectBurst({
+    events,
+    draws,
+    scene: spec.scene,
+    won,
+    control,
+    facts: facts.burst,
+    game,
+    check,
+  })
+  return { issues, firstEntries, field, opening, matteColor: control.flatColor, battleAudio, burst }
 }

@@ -38,6 +38,8 @@ export interface AudioManager {
   sync(pendingSounds: number[] | undefined, music: { track: number; loop: boolean }): void
   /** 即时播一个 SFX(soundId = SOUNDS.MKF chunk)。战斗 SFX(shell 读 bus 事件 + gs.battleState 数据)用。 */
   playSound(soundId: number): void
+  /** Load the encounter's effect buffers before their animation requests playback. */
+  preloadSounds(soundIds: readonly number[]): Promise<void>
   /** 用户手势(首个 keydown)后 resume AudioContext(autoplay policy)。 */
   resume(): void
   /** C1 系统菜单「音效」开关。 */
@@ -157,7 +159,7 @@ export function createAudioManager(baseUrl = ''): AudioManager {
   // 无 Web Audio(测试 / SSR)→ ctx 恒 undefined,所有播放静默跳过。
   let ctx: AudioContext | undefined
   const sfxBuffers = new Map<number, AudioBuffer>()
-  const sfxPending = new Set<number>() // 正在 fetch/decode,避免重复请求
+  const sfxPending = new Map<number, Promise<AudioBuffer | undefined>>()
   let sfxEnabled = true
   let musicEnabled = true
   let musicBackend: MusicBackend | undefined
@@ -176,20 +178,20 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     if (!c) return undefined
     const cached = sfxBuffers.get(soundId)
     if (cached) return cached
-    if (sfxPending.has(soundId)) return undefined
-    sfxPending.add(soundId)
-    try {
-      const res = await fetch(sfxUrl(baseUrl, soundId))
-      // A missing optional WAV can resolve to the application's HTML fallback.
-      if (!res.ok || res.headers.get('content-type')?.startsWith('text/html')) return undefined
-      const buf = await c.decodeAudioData(await res.arrayBuffer())
-      sfxBuffers.set(soundId, buf)
-      return buf
-    } catch {
-      return undefined // SFX 缺失 / 解码失败 → 静默(不阻塞游戏)
-    } finally {
-      sfxPending.delete(soundId)
-    }
+    const pending = sfxPending.get(soundId)
+    if (pending) return pending
+    const loading = fetch(sfxUrl(baseUrl, soundId))
+      .then(async (res) => {
+        // A missing optional WAV can resolve to the application's HTML fallback.
+        if (!res.ok || res.headers.get('content-type')?.startsWith('text/html')) return undefined
+        const buf = await c.decodeAudioData(await res.arrayBuffer())
+        sfxBuffers.set(soundId, buf)
+        return buf
+      })
+      .catch(() => undefined)
+      .finally(() => sfxPending.delete(soundId))
+    sfxPending.set(soundId, loading)
+    return loading
   }
 
   function play(c: AudioContext, buf: AudioBuffer, soundId: number): void {
@@ -219,8 +221,8 @@ export function createAudioManager(baseUrl = ''): AudioManager {
       play(c, buf, soundId)
       return
     }
-    // 未缓存 → 加载完**即补播**(首次也响;fetch+decode 仅数十 ms,远胜旧"迟到不补播"的首次静音 —
-    //   sdlpal 声音常驻内存无此 gap)。再 check sfxEnabled(加载途中可能被菜单关掉)。
+    // Join an in-flight preload or load lazily for a sound that just became reachable.
+    // The user can turn effects off while a load is pending.
     void loadSfx(soundId).then((b) => {
       if (b && sfxEnabled) play(c, b, soundId)
       else sfxDedup.markEnded(soundId) // L46:加载失败/被禁 → 复位,不卡住后续同号
@@ -245,6 +247,9 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     },
     playSound(soundId) {
       if (soundId > 0) playSfx(soundId)
+    },
+    async preloadSounds(soundIds) {
+      await Promise.all([...new Set(soundIds)].filter((id) => id > 0).map(loadSfx))
     },
     resume() {
       const c = ensureCtx()

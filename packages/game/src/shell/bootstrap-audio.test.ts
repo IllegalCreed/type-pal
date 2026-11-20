@@ -22,6 +22,7 @@ function makeAudioSpy(): AudioManager & { calls: string[] } {
     playSound(soundId) {
       calls.push(`sound ${soundId}`)
     },
+    preloadSounds: async () => {},
     resume() {},
     setSfxEnabled(on) {
       calls.push(`sfx ${on}`)
