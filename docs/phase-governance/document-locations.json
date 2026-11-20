@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "6f437cba77fe33ca8088f52431fa661ef6f5a6e95505e28a1f3938ffcc7c5d12",
+      "afterSha256": "64bcbf3eface5dde4de93541853dd7716d344a84d924cbf114552840330fee67",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受五项闭合恢复、三项新增登记及相应证据更新。",
-        "reviewedLines": 1487,
-        "acceptanceScope": "核各状态、适用原件与账本实测 3780/1345/16/2419。"
+        "conclusion": "接受实际音频实现接续及 BGM 资源所有权 review。",
+        "reviewedLines": 1489,
+        "acceptanceScope": "核三条音频登记、已有收口范围和机器账本 3780/1344/17/2419。"
       }
     },
     {
@@ -4938,14 +4938,14 @@
     {
       "path": "docs/tasks/cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "b211f049c8ce0193672a3e502398247d4f06f2acd4108510cd054517981aca56",
+      "afterSha256": "525c3d5350544a0d079f0a80538f6c73332b1ff7627b4819cb5de315bce466d3",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-20",
-        "conclusion": "接受 Game 后同类扩查、定向整改及当前裁定。",
-        "reviewedLines": 69,
-        "acceptanceScope": "核六次原历史范围、筛查与人工复核区别、正式及反控原件、五项复归和菜单专测留项。"
+        "conclusion": "接受实现复审、BGM 纯重构和浏览器资源留项。",
+        "reviewedLines": 85,
+        "acceptanceScope": "核三个音频实现的状态与依赖边界、源码差异和 39 项辅助验证、主线场景准备与事务的核读范围。"
       }
     },
     {
@@ -5867,9 +5867,9 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "cb896bacc4c327d597a43d7ca8fdba859bff4ede4bfe0c753685d21011540d00",
-      "bytes": 56501,
-      "purpose": "Game 收口后版本对账、同类扩查、隔离回归与逐文件裁定。原历史成员保留，未集成菜单补丁在对应后续入口。"
+      "sha256": "3d12e5bd1e31790f74b82fb2eff7e81d3b0e4c090be4dfa6c11ae0a8d3293413",
+      "bytes": 62847,
+      "purpose": "Game 后版本对账、同类扩查、定向回归、实现复审及逐文件裁定。历史成员原样保留，含未集成菜单补丁。"
     },
     {
       "path": "docs/tasks/evidence/QUALITY-CONTENT-REFERENCES-1-review-closeout.tar.gz",

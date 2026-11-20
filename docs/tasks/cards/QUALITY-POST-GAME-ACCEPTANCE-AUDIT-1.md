@@ -66,3 +66,19 @@ Visual Verification Timing: N/A
 二次复核按问题模式扩展。把实际输出写点、在途续体和独立快照写入[逐文件关闭门](../../engineering/guides/code-quality.md#逐文件关闭门)。六批内其他维度的既有证据按原范围保留，尚未进行 374 份实现与测试的逐文件全面重审。结构、命名或测试合同发现新的重复失真时，再扩大到相应组。
 
 同一[执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz)新增 `follow-up/decisions.md`、快速筛查脚本、精确执行结果和未集成的菜单补丁。使用固定 Git 候选恢复源码；保留各次必要失败、反控与正常执行。两个阶段的证据共用原归档，临时树和重复的大型输入不入库。重型全仓与官方覆盖率留到稳定窗口，不因这轮定向结果宣告集成。
+
+### 实现复审：Reforge 音频
+
+全文核读 `audio/bgm.ts`、`audio/midi-preview.ts` 与 `audio/spessa-browser-runtime.ts`。游戏主入口和战斗试玩各自创建 BGM 播放器，战斗准备消费传入的端口，编辑器试听走独立传输器。BGM 与试听共享 worklet、音色库校验及合成器初始化，分别拥有选曲、播放与取消状态。Game 收口后增加的战斗音乐预取从 `battle-host.ts` 追到 reveal 时调用返回的提交函数。
+
+| 路径 | 实际代码结论 |
+|---|---|
+| `packages/reforge/src/audio/bgm.ts` | 后端引用与 `ready` 同处写入、从未单独清除，删重复布尔值。用 `requestedTrack`、`playingAsset` 区分静音或解锁等待中的请求与当前在播身份。两个增益方法原来逐句执行相同的取消和定锚，共用私有逻辑并保留调用次序。移除对历史任务号的依赖，说明同曲接管、首段静音和淡变后的增益不变量。保留初始化失败的单次尝试和请求代次。 |
+| `packages/reforge/src/audio/spessa-browser-runtime.ts` | 共同入口只拥有初始化及失败清理。真实两个调用方共用 AudioWorklet、RIFF 和 CC91 约束，成功后移交合成器。没有理由把各自不同的播放调度合进共同初始化。 |
+| `packages/reforge/src/audio/midi-preview.ts` | 分开文件选择的代次和播放请求的代次，两者观察的旧任务不同。试听释放持有的合成器并单独处理迟到初始化。公开后端 `duration` 的原 review 边界沿用。 |
+
+BGM 浏览器适配器只关闭 AudioContext，成功取得和迟到获得的合成器均没有对应的显式销毁路径。锁定的 SpessaSynth 4.3.6 在 `WorkletSynthesizer.destroy()` 另外发送 worklet 销毁消息、断开连接并移除内部持有者。本轮已核源码间的释放差异，实际浏览器资源命运仍待验证，`bgm.ts` 转 review。相关实现未写入活跃 E2E。
+
+结构改动与输出行为修复分提交。保留真实宿主、注入式音频后端和两个公共入口。39 项相邻定向与 Reforge typecheck 验证改动，源码归属、命名、复用和留项取同一归档 `follow-up/implementation/`。
+
+另通读主线版本的 `scene-preparer.ts` 与 `scene-switch-transaction.ts`，核启动、读档和脚本切场的调用。预检负责在首个等待前冻结场景读取要用的世界、脚本和换装定义；宿主负责资源准备之后的请求归属及同步提交。脚本切场在呈现前后各核一次归属，失败清理只由当前请求发起。对比三个入口后保留分层。场景预检器仍由活跃 E2E 改动，核读结论绑定本次主线候选。

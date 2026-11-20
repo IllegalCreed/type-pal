@@ -126,7 +126,7 @@ describe(' autoplay 解锁补播（bgm 头注释合同：resume 成功后补播�
     h.resumeGates[0]!.reject(new Error('autoplay denied'))
     await vi.waitFor(() => expect(h.loads).toHaveLength(1))
     expect(h.plays).toHaveLength(1)
-    // 用户手势：resume() 成功解锁并翻 running → 补播 last（重新读取并提交记账曲）
+    // 用户手势解锁后，播放器重新读取并提交记账曲。
     player.resume()
     h.resumeGates[1]!.resolve()
     await vi.waitFor(() => expect(h.loads).toHaveLength(2))
@@ -142,7 +142,7 @@ describe(' autoplay 解锁补播（bgm 头注释合同：resume 成功后补播�
     player.play('music.field', true)
     h.init.resolve(h.seq)
     await vi.waitFor(() => expect(h.plays).toHaveLength(1))
-    player.stop() // 清账：last=undefined；ready/seq 仍有效
+    player.stop() // 清除记账曲，后端仍可复用。
     expect(h.pauses).toHaveLength(1)
     h.setState('suspended')
     player.resume()
