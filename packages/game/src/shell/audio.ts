@@ -180,7 +180,8 @@ export function createAudioManager(baseUrl = ''): AudioManager {
     sfxPending.add(soundId)
     try {
       const res = await fetch(sfxUrl(baseUrl, soundId))
-      if (!res.ok) return undefined
+      // A missing optional WAV can resolve to the application's HTML fallback.
+      if (!res.ok || res.headers.get('content-type')?.startsWith('text/html')) return undefined
       const buf = await c.decodeAudioData(await res.arrayBuffer())
       sfxBuffers.set(soundId, buf)
       return buf

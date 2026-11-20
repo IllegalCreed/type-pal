@@ -664,6 +664,10 @@
                     "ms": 600
                   },
                   {
+                    "kind": "wait",
+                    "ms": 100
+                  },
+                  {
                     "asset": "sound.pal.045",
                     "kind": "playSound"
                   },
@@ -672,123 +676,130 @@
                     "count": 2,
                     "body": [
                       {
+                        "kind": "nudgeParty",
                         "dx": 0,
                         "dy": 16,
-                        "kind": "nudgeParty",
                         "layer": 10
                       },
                       {
-                        "facing": "down",
-                        "kind": "setPartyFacing"
+                        "kind": "setPartyFacing",
+                        "facing": "down"
                       },
                       {
-                        "kind": "clearDialog"
+                        "kind": "wait",
+                        "ms": 100
                       },
                       {
+                        "kind": "nudgeParty",
                         "dx": 0,
                         "dy": 16,
-                        "kind": "nudgeParty",
                         "layer": 10
                       },
                       {
+                        "kind": "setPartyFacing",
                         "facing": "down",
-                        "gesture": 1,
-                        "kind": "setPartyFacing"
+                        "gesture": 1
                       },
                       {
-                        "kind": "clearDialog"
+                        "kind": "wait",
+                        "ms": 100
                       }
                     ]
                   },
                   {
+                    "kind": "nudgeParty",
                     "dx": 0,
                     "dy": 16,
-                    "kind": "nudgeParty",
                     "layer": 10
                   },
                   {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
+                    "kind": "setPartyFacing",
+                    "facing": "down"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
+                    "kind": "nudgeParty",
                     "dx": 0,
                     "dy": 16,
-                    "kind": "nudgeParty",
                     "layer": 4
                   },
                   {
+                    "kind": "setPartyFacing",
                     "facing": "down",
-                    "gesture": 1,
-                    "kind": "setPartyFacing"
+                    "gesture": 1
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
+                    "kind": "nudgeParty",
                     "dx": 0,
                     "dy": 16,
-                    "kind": "nudgeParty",
                     "layer": 3
                   },
                   {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
+                    "kind": "setPartyFacing",
+                    "facing": "down"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
+                    "kind": "nudgeParty",
                     "dx": 0,
                     "dy": 16,
-                    "kind": "nudgeParty",
                     "layer": 2
                   },
                   {
+                    "kind": "setPartyFacing",
                     "facing": "down",
-                    "gesture": 1,
-                    "kind": "setPartyFacing"
+                    "gesture": 1
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
+                    "kind": "nudgeParty",
                     "dx": 0,
                     "dy": 16,
-                    "kind": "nudgeParty"
+                    "layer": 0
                   },
                   {
+                    "kind": "setPartyFacing",
                     "facing": "down",
-                    "gesture": 2,
-                    "kind": "setPartyFacing"
+                    "gesture": 2
                   },
                   {
                     "kind": "wait",
-                    "ms": 40
+                    "ms": 100
                   },
                   {
-                    "asset": "sound.pal.092",
-                    "kind": "playSound"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 40
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 3,
-                    "kind": "setPartyFacing"
+                    "kind": "playSound",
+                    "asset": "sound.pal.092"
                   },
                   {
                     "kind": "wait",
-                    "ms": 120
+                    "ms": 100
                   },
                   {
+                    "kind": "setPartyFacing",
                     "facing": "down",
-                    "gesture": 4,
-                    "kind": "setPartyFacing"
+                    "gesture": 3
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 300
+                  },
+                  {
+                    "kind": "setPartyFacing",
+                    "facing": "down",
+                    "gesture": 4
                   },
                   {
                     "kind": "moveEntity",

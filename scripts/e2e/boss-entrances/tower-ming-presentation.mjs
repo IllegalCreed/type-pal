@@ -104,14 +104,27 @@ const firstViews = [
   ['s153', [1520, 296], [1680, 408], 2, 9, ['e2476', 400, 3, [1648, 440]]],
 ]
 
-const worldSprite = (value) =>
-  value === 'li-xiaoyao' ? 2 : typeof value === 'string' ? Number(value.slice(7)) : value
-const describeParty = (party) =>
-  party?.map(({ id, spriteId, frame, world }) => [id, worldSprite(spriteId), frame, world])
+const descentPoses = [
+  [272, 1, 10],
+  [288, 0, 10],
+  [304, 1, 10],
+  [320, 0, 10],
+  [336, 1, 10],
+  [352, 0, 10],
+  [368, 1, 4],
+  [384, 0, 3],
+  [400, 1, 2],
+  [416, 2, 0],
+  [416, 3, 0],
+  [416, 4, 0],
+]
 
 export function inspectTowerMingPresentation({ events, draws, boundaries, source, spec, game }) {
   const { trigger, launch, won, control } = boundaries
   const issues = []
+  const worldSprite = (id) => source.spriteChunks.get(id) ?? id
+  const describeParty = (party) =>
+    party?.map(({ id, spriteId, frame, world }) => [id, worldSprite(spriteId), frame, world])
   const check = (rule, actual, expected) => {
     if (!isDeepStrictEqual(actual, expected)) issues.push({ rule, actual, expected })
   }
@@ -238,6 +251,44 @@ export function inspectTowerMingPresentation({ events, draws, boundaries, source
     ),
     true,
   )
+  const descent = []
+  for (const draw of reunion) {
+    if (draw.order >= (lin[1]?.order ?? launch.order)) break
+    const leader = draw.party.find(({ slot }) => slot === 0)
+    if (!leader || worldSprite(leader.spriteId) !== 511) continue
+    const [x, y] = leader.world
+    if (x !== 1696 || y < 272 || y > 416) continue
+    const pose = [y, leader.frame, draw.partyLayer]
+    if (!isDeepStrictEqual(descent.at(-1)?.pose, pose)) {
+      descent.push({ pose, atMs: draw.atMs, order: draw.order })
+    }
+  }
+  check(
+    'Li Xiaoyao visible descent and landing poses',
+    descent.map(({ pose }) => pose),
+    descentPoses,
+  )
+  if (descent.length === descentPoses.length) {
+    const delta = (first, second) => descent[second].atMs - descent[first].atMs
+    const beats = descent.slice(2, 10).map((_, i) => delta(i + 1, i + 2))
+    check(
+      'one world beat per visible descent step',
+      beats.every((ms) => ms >= 70 && ms <= 150),
+      true,
+    )
+    const turnAt = delta(10, 11)
+    check(
+      'landing pose holds for three world beats before looking up',
+      turnAt >= 240 && turnAt <= 365,
+      true,
+    )
+    const afterLanding = lin[1]?.atMs - descent[9].atMs
+    check(
+      'Lin Yueru starts after Li Xiaoyao completes the landing',
+      afterLanding >= 500 && afterLanding <= 710,
+      true,
+    )
+  }
   const appearances = rows('party-battle-sprites').map(({ sprites }) => sprites)
   check(
     'active Zhao Linger battle installation',
@@ -289,5 +340,5 @@ export function inspectTowerMingPresentation({ events, draws, boundaries, source
     Boolean(king.at(-1)?.atMs <= challenge.firstComplete?.atMs),
     true,
   )
-  return { issues, visits, dialogue, recovery, appearances, tracks, king, shakes, lin }
+  return { issues, visits, dialogue, recovery, appearances, tracks, king, shakes, lin, descent }
 }
