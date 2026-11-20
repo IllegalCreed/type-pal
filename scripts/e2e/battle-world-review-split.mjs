@@ -175,9 +175,11 @@ async function side(engine, relocatedReport) {
       events.find(({ kind }) => kind === 'trigger' || kind === 'item-trigger')
     const successor = events.find(({ kind }) => kind === 'successor-drawn')
     const scriptedReturn = events.find(({ kind }) => kind === 'scripted-return-drawn')
+    const endingHandoff = events.find(({ kind }) => kind === 'ending-handoff')
     const directHandoff = successor && compare.clips.returnMs === successor.atMs
     const battleEnd = events.find(({ kind }) => kind === 'battle-finished')
     const returned =
+      endingHandoff ??
       scriptedReturn ??
       (directHandoff ? successor : undefined) ??
       (successor
@@ -191,6 +193,7 @@ async function side(engine, relocatedReport) {
         : events.find(({ kind }) => kind === 'world-control'))
     assert(returned, `${engine} missing actual return frame`)
     const exit =
+      endingHandoff ??
       scriptedReturn ??
       successor ??
       events.find(({ kind, order }) => kind === 'move' && order > returned.order)
@@ -202,7 +205,9 @@ async function side(engine, relocatedReport) {
     const exitSeconds = (exitMs - start) / 1000
     assert(contactSeconds >= 0 && returnSeconds > contactSeconds)
     assert(
-      scriptedReturn || directHandoff ? exitSeconds === returnSeconds : exitSeconds > returnSeconds,
+      scriptedReturn || directHandoff || endingHandoff
+        ? exitSeconds === returnSeconds
+        : exitSeconds > returnSeconds,
     )
     assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
     return {
@@ -216,6 +221,7 @@ async function side(engine, relocatedReport) {
         rawPath,
       }),
       ...(compare.dali && { rainPixels: compare.dali.rainPixels }),
+      ...(compare.baiyue && { endingPixels: compare.baiyue.rainPixels }),
     }
   }
   const handoff = raw.native?.handoff ?? raw.handoff
@@ -284,11 +290,20 @@ if (sides.every(({ coverage }) => coverage)) {
       )
       spans.push(...entry.rainPixels)
     }
+    if (comparison.scenario === 'baiyue-finale') {
+      assert.deepEqual(
+        entry.endingPixels?.map(({ id, status }) => [id, status]),
+        Array.from({ length: 6 }, (_, index) => [`baiyue-film-${index + 1}`, 'passed']),
+        `${entry.engine} needs all six decoded ending segments`,
+      )
+      spans.push(...entry.endingPixels)
+    }
     return { ...entry, lastSeconds: entry.videoEnd, anchor: entry.contactSeconds, spans }
   })
   const spriteChecks = {
     'dali-earth-beast': { cue: 'dlg.11136', actor: 'e4168' },
     'southern-palace-tree': { cue: 'dlg.12085', actor: 'e4741' },
+    'baiyue-finale': { cue: 'dlg.12142', actor: 'e4801' },
     'stone-elder-auto': { cue: 'dlg.5865', actor: 'e2061' },
     'shangshu-lin-tiannan': { cue: 'dlg.6785', actor: 'e2154' },
   }

@@ -398,6 +398,7 @@ ${end}`,
 
 export default {
   ...base,
+  server: { ...base.server, watch: null, hmr: false },
   cacheDir: fileURLToPath(new URL(`../../../build/e2e/vite-world-boss-${engine}`, import.meta.url)),
   plugins: [
     ...base.plugins,

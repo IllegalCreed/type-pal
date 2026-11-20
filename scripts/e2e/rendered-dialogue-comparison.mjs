@@ -54,7 +54,11 @@ export function sourceDialogueGroups(commands, windows) {
       } else if (op === 'showDialog') {
         const visible = sourceDialogueText(text)
         if (/[∶：:]$/u.test(visible)) speaker = heading(visible)
-        else rows.push({ id: `dlg.${messageIndex}`, ip, text: visible })
+        else {
+          // PAL_ShowDialogText continues a top or bottom box after four body rows.
+          if (rows.length === 4 && (slot === 'top' || slot === 'bottom')) finish(true)
+          rows.push({ id: `dlg.${messageIndex}`, ip, text: visible })
+        }
       } else if (op === 'raw' && opcode === 0x8e) {
         finish(true)
       } else if (op === 'end' || (op === 'raw' && [0x05, 0x09, 0x50].includes(opcode))) {

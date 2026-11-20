@@ -421,6 +421,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -429,48 +432,55 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 160
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s281",
-                        "entity": "e4798"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s281",
-                        "entity": "e4798"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s281",
-                        "entity": "e4798"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s281",
-                        "entity": "e4798"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 80
+                      "kind": "sceneTimeline",
+                      "label": "阿奴跑来与拜月回头",
+                      "tracks": [
+                        {
+                          "id": "anu-enters",
+                          "label": "阿奴跑至李逍遥身侧",
+                          "target": {
+                            "scene": "s281",
+                            "entity": "e4801"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 8,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                { "kind": "nudgeEntity", "dx": -16, "dy": 8 },
+                                { "kind": "animEntity" }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "baiyue-turns",
+                          "label": "教主先回头再看回前方",
+                          "target": {
+                            "scene": "s281",
+                            "entity": "e4798"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 400,
+                              "body": [
+                                { "kind": "setEntityFacing", "facing": "right" },
+                                { "kind": "setEntityFrame", "frame": 0 }
+                              ]
+                            },
+                            {
+                              "atMs": 600,
+                              "body": [
+                                { "kind": "setEntityFacing", "facing": "up" },
+                                { "kind": "setEntityFrame", "frame": 0 }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "cue": {
@@ -998,6 +1008,9 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "setParty",
                       "members": [
                         "li-xiaoyao",
@@ -1333,61 +1346,7 @@
         "height": 0
       },
       "sprite": "anu",
-      "hidden": true,
-      "pages": [
-        {
-          "id": "default",
-          "label": "默认模式",
-          "auto": "default"
-        }
-      ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 121,
-                        "height": 0,
-                        "row": 48
-                      },
-                      "target": {
-                        "scene": "s281",
-                        "entity": "e4801"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "hidden": true
     },
     {
       "id": "e4802",

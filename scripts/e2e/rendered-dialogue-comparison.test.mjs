@@ -80,6 +80,31 @@ test('a source page turn preserves the previous voice and portrait', () => {
   assert.equal(abandoned.findings[0].issue, 'wrong-drawn-dialogue-identity')
 })
 
+test('a fifth original body row starts a new page with the same identity', () => {
+  const commands = [
+    { op: 'setDialogStyleTop', arg0: 81 },
+    { op: 'showDialog', text: '教主∶' },
+    ...Array.from({ length: 5 }, (_, i) => ({
+      op: 'showDialog',
+      text: `第${i + 1}行`,
+      messageIndex: i + 1,
+    })),
+  ]
+  const groups = sourceDialogueGroups(commands, [{ scene, first: 0, last: commands.length - 1 }])
+  assert.deepEqual(
+    groups.map(({ slot, speaker, portrait, rows }) => [
+      slot,
+      speaker,
+      portrait,
+      rows.map(({ id }) => id),
+    ]),
+    [
+      ['top', '教主', 81, ['dlg.1', 'dlg.2', 'dlg.3', 'dlg.4']],
+      ['top', '教主', 81, ['dlg.5']],
+    ],
+  )
+})
+
 test('an absent field cannot stand for a drawn box without a title or portrait', () => {
   for (const field of ['speaker', 'portrait', 'portraitLayout']) {
     const incomplete = visible(1)
