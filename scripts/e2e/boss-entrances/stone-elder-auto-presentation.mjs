@@ -177,6 +177,17 @@ export function inspectStoneElderAutoPresentation({ events, draws, bounds, sourc
     source.locale,
   )
   issues.push(...opening.findings)
+  const entryFrames = events.filter(
+    ({ kind, band }) =>
+      kind === 'entry-complete' || (kind === 'entry-band' && (band === 0 || band === 6)),
+  )
+  check('frozen and fully revealed battle entry frames were sampled', entryFrames.length, 3)
+  const clearEntry = inspectClearedDialogueFrames(draws, entryFrames, spec.scene)
+  check(
+    'the battle transition freezes a world with the previous dialogue cleared',
+    clearEntry.issue,
+    null,
+  )
   const returnDraws = events.filter(
     ({ kind, scene, visible, order }) =>
       kind === 'world-drawn' && scene === spec.world.handoff.scene && visible && order > won.order,

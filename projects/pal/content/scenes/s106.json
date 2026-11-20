@@ -708,6 +708,9 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "setParty",
                     "members": [
                       "anu",
