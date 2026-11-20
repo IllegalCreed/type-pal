@@ -280,8 +280,13 @@ ${move}
           return committed
         }`,
       )
-      const acted = replaceOnce(
+      const automatic = after(
         committed,
+        '        s.pendingActions.set(sel, action)',
+        '        globalThis.__defeat?.command(sel, s.turn, action)',
+      )
+      const acted = replaceOnce(
+        automatic,
         '      const la = s.lastAction',
         `      const la = s.lastAction
       if (la) globalThis.__defeat?.reforgeAction(la, s)`,

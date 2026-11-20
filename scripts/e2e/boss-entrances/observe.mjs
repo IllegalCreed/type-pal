@@ -27,6 +27,7 @@ export function bossObserver(input) {
 function installBossForeground({
   scene,
   handoffScene,
+  handoffMatte,
   owner,
   watched,
   visitScenes,
@@ -152,24 +153,29 @@ function installBossForeground({
     if (visitScenes && step !== undefined) frame = { ...frame, ditherStep: step }
     const signature = JSON.stringify(frame)
     const entering = entrance && frame.scene === scene && !entered
-    const arriving = handoffScene && frame.scene === handoffScene && !successor
-    const returning = scriptedReturn && !returned && observation.read().ended
-    const leaving = handoffScene && frame.scene === scene && !successor && observation.read().ended
+    const ended = (handoffScene || scriptedReturn) && observation.read().ended
+    const arriving = handoffScene && frame.scene === handoffScene && !successor && ended
+    const returning = scriptedReturn && !returned && ended
+    const leaving = handoffScene && frame.scene === scene && !successor && ended
     const newVisit = visitScenes && lastVisit !== frame.scene
-    if (previous === signature && !entering && !arriving && !returning && !leaving && !newVisit)
-      return
+    // A curtain can uncover the same world submission without any actor or camera change.
+    const followReveal = handoffMatte && ended && frame.scene === handoffScene
+    const boundary = entering || arriving || returning || leaving || newVisit
+    if (previous === signature && !boundary && !followReveal) return
     const { width, height } = context.canvas
     const colors = [0.2, 0.48, 0.79].flatMap((x) =>
       [0.18, 0.47, 0.72].map((y) =>
         Array.from(context.getImageData(Math.floor(x * width), Math.floor(y * height), 1, 1).data),
       ),
     )
+    const fullFrame =
+      boundary || (followReveal && !previousVisible && frame.leader.some(Boolean))
+        ? context.getImageData(0, 0, width, height).data
+        : null
     const visible =
       !(visitScenes && step === 0) &&
-      (entering || arriving || returning || leaving || newVisit
-        ? context
-            .getImageData(0, 0, width, height)
-            .data.some((value, index) => index % 4 !== 3 && value > 0)
+      (fullFrame
+        ? fullFrame.some((value, index) => index % 4 !== 3 && value > 0)
         : colors.some(([red, green, blue]) => Math.max(red, green, blue) > 0))
     if (previous === signature && previousVisible === visible) return
     previous = signature
@@ -185,6 +191,10 @@ function installBossForeground({
     }
     if (arriving && visible) {
       successor = { ...frame, colors }
+      if (handoffMatte)
+        successor.flatColor = fullFrame.every((value, index) => value === fullFrame[index % 4])
+          ? Array.from(fullFrame.slice(0, 3))
+          : null
       observation.eventOnce('successor-drawn', successor)
     }
     if (returning && visible) {

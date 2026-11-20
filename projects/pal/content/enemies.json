@@ -9530,38 +9530,41 @@
                 {
                   "kind": "dialog",
                   "cue": {
+                    "slot": "top",
+                    "identity": {
+                      "kind": "unbound",
+                      "speaker": "spk.石长老",
+                      "portrait": {
+                        "asset": "portrait.pal.060",
+                        "side": "left"
+                      }
+                    },
                     "rows": [
                       {
                         "text": "dlg.13242"
                       }
-                    ],
-                    "identity": {
-                      "kind": "unbound",
-                      "speaker": "spk.石长老"
-                    }
+                    ]
                   }
+                },
+                {
+                  "kind": "clearDialog"
                 },
                 {
                   "kind": "dialog",
                   "cue": {
+                    "slot": "bottom",
+                    "identity": {
+                      "kind": "unbound",
+                      "speaker": "spk.盖罗娇",
+                      "portrait": {
+                        "asset": "portrait.pal.044",
+                        "side": "right"
+                      }
+                    },
                     "rows": [
                       {
                         "text": "dlg.13244"
-                      }
-                    ],
-                    "identity": {
-                      "kind": "unbound",
-                      "speaker": "spk.盖罗娇"
-                    }
-                  }
-                },
-                {
-                  "kind": "dialog",
-                  "cue": {
-                    "identity": {
-                      "kind": "narration"
-                    },
-                    "rows": [
+                      },
                       {
                         "text": "dlg.13245"
                       }
@@ -9569,26 +9572,24 @@
                   }
                 },
                 {
-                  "kind": "dialog",
-                  "cue": {
-                    "rows": [
-                      {
-                        "text": "dlg.13247"
-                      }
-                    ],
-                    "identity": {
-                      "kind": "unbound",
-                      "speaker": "spk.石长老"
-                    }
-                  }
+                  "kind": "clearDialog"
                 },
                 {
                   "kind": "dialog",
                   "cue": {
+                    "slot": "top",
                     "identity": {
-                      "kind": "narration"
+                      "kind": "unbound",
+                      "speaker": "spk.石长老",
+                      "portrait": {
+                        "asset": "portrait.pal.060",
+                        "side": "left"
+                      }
                     },
                     "rows": [
+                      {
+                        "text": "dlg.13247"
+                      },
                       {
                         "text": "dlg.13248"
                       }

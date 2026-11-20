@@ -7,6 +7,7 @@ import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPhoenixSources } from './phoenix-presentation.mjs'
 import { readPoisonLadySources } from './poison-lady-presentation.mjs'
 import { readRingOpening } from './ring-opening-presentation.mjs'
+import { readStoneElderAutoPresentation } from './stone-elder-auto-presentation.mjs'
 import { readStoneElderSources } from './stone-elder-presentation.mjs'
 import { readTowerMingSources } from './tower-ming-presentation.mjs'
 import { readWoodTaoistSources } from './wood-taoist-presentation.mjs'
@@ -102,6 +103,7 @@ export function partyFor(spec) {
 }
 export function battlePartyFor(spec) {
   if (spec.party === 'ming') return mingParty
+  if (spec.automatic) return spec.automatic.members
   const members = partyFor(spec)
   return spec.solo ? members.slice(0, 1) : members
 }
@@ -520,6 +522,110 @@ export const scenarios = {
       },
     },
   },
+  'stone-elder-auto': {
+    id: 'stone-elder-auto',
+    scene: 's106',
+    owner: 'e1970',
+    watched: [
+      'e1971',
+      'e1972',
+      'e1973',
+      'e1974',
+      'e1975',
+      'e1976',
+      'e1977',
+      'e1978',
+      'e1979',
+      'e1980',
+      'e1981',
+      'e1982',
+      'e1983',
+      'e1984',
+      'e1985',
+      'e1986',
+      'e1987',
+      'e1988',
+      'e1989',
+      'e2056',
+      'e2057',
+      'e2058',
+      'e2059',
+      'e2060',
+      'e2061',
+      'e2062',
+      'e2063',
+      'e2064',
+      'e2065',
+      'e2066',
+      'e2067',
+      'e2068',
+      'e2069',
+      'e2070',
+    ],
+    team: 37,
+    enemy: 'enemy-496',
+    start: [94, 39, 0],
+    contact: [93, 39, 0],
+    approach: 'ArrowLeft',
+    music: 18,
+    field: 23,
+    slot: 0,
+    seed: 4,
+    disk: {
+      entry: 16385,
+      battle: 16683,
+      field: 16682,
+      music: 16681,
+      last: 16776,
+      loss: 0,
+      owner: [864, 1040, 1, 5],
+    },
+    automatic: {
+      partyIp: 16677,
+      enableIp: 16680,
+      turnStart: 41473,
+      stop: 41494,
+      members: [
+        { role: 'anu', roleId: 4 },
+        { role: 'gai-luojiao', roleId: 5 },
+        { role: 'anu', roleId: 4 },
+      ],
+    },
+    sceneRoute: {
+      leave: 16385,
+      visits: [
+        {
+          scene: 's110',
+          owner: 'e2061',
+          arrivalHook: 'default',
+          start: 16790,
+          leave: 16966,
+          positionIp: 16386,
+          position: [75, 14, 0],
+        },
+      ],
+      return: { start: 16627, variant: 'legacy-001', select: 16964 },
+    },
+    mapMusic: { scene: 's106', ip: 16375, track: 12 },
+    world: {
+      outcome: 'terminated',
+      inventory: [],
+      music: { ip: 16685, track: 18 },
+      handoff: {
+        scene: 's110',
+        ip: 16775,
+        start: 16974,
+        select: 16774,
+        variant: 'legacy-001',
+        position: [0, 0, 0],
+        positionIp: 16976,
+        fieldPosition: [67, 15, 0],
+        finalPosition: [67, 16, 0],
+        untilReady: true,
+        members: ['li-xiaoyao', 'lin-yueru'],
+      },
+    },
+  },
   'golden-toad': {
     id: 'golden-toad',
     scene: 's103',
@@ -933,11 +1039,16 @@ export async function readSources(spec) {
     rfScene: `projects/pal/content/scenes/${spec.scene}.json`,
     rfTeams: 'projects/pal/content/enemy-teams.json',
     ...Object.fromEntries(
-      (spec.sceneRoute?.visits ?? []).map(({ scene }) => [
-        scene,
-        `projects/pal/content/scenes/${scene}.json`,
+      (spec.sceneRoute?.visits ?? []).flatMap(({ scene, owner }) => [
+        [scene, `projects/pal/content/scenes/${scene}.json`],
+        ...(owner
+          ? [[`disk-${scene}`, `data/extracted/data/scene/${Number(scene.slice(1))}.json`]]
+          : []),
       ]),
     ),
+    ...(spec.sceneRoute?.visits.some(({ arrivalHook }) => arrivalHook)
+      ? { sharedScripts: 'projects/pal/content/shared-scripts.json' }
+      : {}),
     ...(spec.disk.termination !== undefined || spec.sceneRoute
       ? { rfEnemies: 'projects/pal/content/enemies.json' }
       : {}),
@@ -1103,6 +1214,7 @@ export async function readSources(spec) {
     ],
     [isBossBattle(spec), spec.field, nativeMusic(spec.music), `team-${spec.team}`],
   )
+  assert.equal(launch.auto ?? false, Boolean(spec.automatic))
   let tower
   const towerAssets = []
   if (victory !== undefined) {
@@ -1170,13 +1282,34 @@ export async function readSources(spec) {
   }
   let successorTrack
   if (spec.world.handoff) {
-    const { scene, ip, position, positionIp, musicIp, inheritsMusic } = spec.world.handoff
+    const {
+      scene,
+      ip,
+      position,
+      positionIp,
+      musicIp,
+      inheritsMusic,
+      start,
+      select,
+      variant = 'default',
+    } = spec.world.handoff
     assert.equal(commands[ip].sceneId, gameScene({ scene }))
     assert.equal(native.at(-1).scene, scene)
-    const first = Number(data.diskHandoffScene.onEnterLabel.slice(2))
+    if (start !== undefined) {
+      assert.deepEqual(
+        [commands[select].opcode, commands[select].operands],
+        [0x6d, [gameScene({ scene }), start, 0]],
+      )
+      const selected = native.findLast(({ kind }) => kind === 'selectSceneHooks')
+      assert.deepEqual(
+        [selected.scene, selected.selection.onEnter],
+        [scene, { kind: 'use', value: variant }],
+      )
+    }
+    const first = start ?? Number(data.diskHandoffScene.onEnterLabel.slice(2))
     const [x, y, half] = commands[positionIp ?? first].operands
     assert.deepEqual(position, [x + y + half, y - x, 0])
-    const [landing] = data.handoffScene.hooks.onEnter.variants.default.flow.stages
+    const [landing] = data.handoffScene.hooks.onEnter.variants[variant].flow.stages
     const actions = [...(landing.entry?.prepare ?? []), ...landing.body]
     assert.deepEqual(actions.find(({ kind }) => kind === 'teleportParty')?.pos, grid(position))
     if (inheritsMusic || route) {
@@ -1206,14 +1339,18 @@ export async function readSources(spec) {
   const object = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === spec.enemy)
   assert.equal(object.enemyId, original.id)
   const gai = spec.world.join && readGaiLuojiaoSources(data, commands, spec, object)
-  if (route) route.ming = readTowerMingSources(commands, object)
+  if (spec.id === 'tower-ming') route.ming = readTowerMingSources(commands, object)
+  const automatic = spec.automatic && {
+    ...readAutomaticBattle(commands, object, spec),
+    presentation: readStoneElderAutoPresentation(data, commands, spec),
+  }
   const tian =
     spec.disk.termination === undefined
       ? undefined
       : tianSource(data, commands, spec, native, object)
   const scriptedStop =
     spec.disk.scriptedStop !== undefined
-      ? readTurnStartStop(commands, object, spec.disk.scriptedStop)
+      ? readTurnStartStop(commands, object.scriptOnTurnStart, spec.disk.scriptedStop)
       : undefined
   const poisonLady =
     spec.id === 'poison-lady'
@@ -1394,6 +1531,7 @@ export async function readSources(spec) {
     tower,
     tian,
     scriptedStop,
+    automatic,
     poisonLady,
     stoneElder,
     toad,
@@ -1429,9 +1567,39 @@ function readSceneRoute(data, commands, spec, trigger) {
   const segments = [
     { scene, start: disk.entry, leave, body: trigger },
     ...visits.map((visit) => {
-      const stages = data[visit.scene].hooks.onEnter.variants.default.flow.stages
+      const loaded = data[visit.scene]
+      const behavior = visit.owner
+        ? loaded.entities.find(({ id }) => id === visit.owner).behaviors.trigger.default
+        : loaded.hooks.onEnter.variants.default
+      if (visit.owner) {
+        const original = data[`disk-${visit.scene}`].eventObjects.find(
+          ({ id }) => `e${id}` === visit.owner,
+        )
+        assert.equal(original.triggerLabel, `L_${visit.start}`)
+        const command = commands[visit.positionIp]
+        const [col, row, half] = command.operands
+        assert.equal(command.opcode, 0x46)
+        assert.deepEqual(visit.position, [col + row + half, row - col, 0])
+        const entryId = trigger.find(
+          ({ kind, scene }) => kind === 'loadScene' && scene === visit.scene,
+        )?.entryId
+        assert.deepEqual(loaded.entries[entryId]?.pos, grid(visit.position))
+      }
+      const stages = behavior.flow.stages
       const stage = stages.find(({ id }) => id === (visit.stage ?? 'initial'))
-      return { ...visit, body: stage.body }
+      if (!visit.arrivalHook) return { ...visit, body: stage.body }
+      assert.equal(loaded.hooks.onEnter.initial, visit.arrivalHook)
+      const arrival = loaded.hooks.onEnter.variants[visit.arrivalHook].flow
+      const arrivalStage = arrival.stages.find(({ id }) => id === arrival.initial)
+      assert.deepEqual(arrivalStage.next, { kind: 'complete' })
+      assert.deepEqual(
+        arrivalStage.body,
+        stage.body,
+        'entry and touch use the same foreground body',
+      )
+      const [shared] = stage.body
+      assert.equal(shared.kind, 'callScript')
+      return { ...visit, body: data.sharedScripts[shared.script].body }
     }),
   ]
   for (const [index, segment] of segments.entries()) {
@@ -1442,8 +1610,10 @@ function readSceneRoute(data, commands, spec, trigger) {
     )
     assert(segment.body.some(({ kind, scene }) => kind === 'loadScene' && scene === destination))
   }
-  assert(commands[visits[0].leave + 1].advance)
-  assert.equal(visits.at(-1).start, visits[0].leave + 2)
+  if (visits.length > 1) {
+    assert(commands[visits[0].leave + 1].advance)
+    assert.equal(visits.at(-1).start, visits[0].leave + 2)
+  }
   assert.deepEqual(
     [commands[entry.select].opcode, commands[entry.select].operands],
     [0x6d, [gameScene(spec), entry.start, 0]],
@@ -1455,8 +1625,9 @@ function readSceneRoute(data, commands, spec, trigger) {
   )
   const battleBody = data.rfScene.hooks.onEnter.variants[entry.variant].flow.stages[0].body
   const members = battlePartyFor(spec)
+  const partyCommand = commands[spec.automatic?.partyIp ?? disk.battle - 4]
   assert.deepEqual(
-    [commands[disk.battle - 4].opcode, commands[disk.battle - 4].operands],
+    [partyCommand.opcode, partyCommand.operands],
     [0x75, members.map(({ roleId }) => roleId + 1)],
   )
   const beforeBattle = battleBody.slice(
@@ -1470,14 +1641,26 @@ function readSceneRoute(data, commands, spec, trigger) {
   return { segments, battleBody }
 }
 
-function readTurnStartStop(commands, object, stopAddress) {
+function readAutomaticBattle(commands, object, spec) {
+  const { enableIp, turnStart, stop, members } = spec.automatic
+  assert.equal(commands[enableIp].opcode, 0x8a)
+  const branch = commands[object.scriptOnTurnStart]
+  assert.deepEqual([branch.opcode, branch.operands[1]], [0x79, turnStart])
+  assert(members.some(({ role }) => role === 'gai-luojiao'))
+  return readTurnStartStop(commands, turnStart, stop)
+}
+
+function readTurnStartStop(commands, startAddress, stopAddress) {
   const terminal = commands[stopAddress]
   assert.deepEqual([terminal.opcode, terminal.operands], [0x89, [0, 0, 0]])
-  const hook = commands.slice(object.scriptOnTurnStart, stopAddress + 1)
+  const hook = commands.slice(startAddress, stopAddress + 1)
   const spells = []
   let spell = null
   for (const command of hook) {
-    if (command.opcode === 0x67) spell = command.operands[0] ? String(command.operands[0]) : null
+    if (command.opcode === 0x67) {
+      const [id] = command.operands
+      spell = id > 0 && id < 65535 ? String(id) : null
+    }
     if (command.advance) spells.push(spell)
   }
   assert(spells.length > 0, 'the scripted stop follows at least one complete turn')
@@ -1516,7 +1699,11 @@ function tianSource({ gameScene, rfScene }, commands, spec, body, object) {
   assert.equal(selected.target.entity, 'e2429')
   const relocation = rfScene.entities.find(({ id }) => id === 'e2429')
   assert(relocation.behaviors.trigger[selected.selection.value])
-  const { turns, spells } = readTurnStartStop(commands, object, spec.disk.termination)
+  const { turns, spells } = readTurnStartStop(
+    commands,
+    object.scriptOnTurnStart,
+    spec.disk.termination,
+  )
   assert.equal(turns, 9)
   const resumed = commands[spec.disk.last].resetTo
   assert.equal(commands[resumed]?.op, 'setDialogStyleCenter')

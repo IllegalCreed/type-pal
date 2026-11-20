@@ -29,6 +29,7 @@ import {
   returnTrack,
   scenarios,
 } from './scenarios.mjs'
+import { inspectStoneElderAutoPresentation } from './stone-elder-auto-presentation.mjs'
 import { inspectStoneElderPresentation } from './stone-elder-presentation.mjs'
 import { inspectTowerFoxPresentation } from './tower-fox-presentation.mjs'
 import { inspectTowerMingPresentation } from './tower-ming-presentation.mjs'
@@ -42,7 +43,8 @@ assert(
   'usage: node scripts/e2e/boss-entrances/compare.mjs SCENARIO GAME_REPORT REFORGE_REPORT',
 )
 const source = await readSources(spec)
-const scriptedStop = source.tian ?? source.scriptedStop
+const automatic = source.automatic
+const scriptedStop = source.tian ?? source.scriptedStop ?? automatic
 const scriptedDefeat = spec.world.outcome === 'lost'
 const earnsRewards = !scriptedStop && !scriptedDefeat
 const party = partyFor(spec)
@@ -1499,13 +1501,18 @@ async function inspect(path, engine) {
       prepared.boss,
       prepared.auto,
     ],
-    [spec.field, spec.music, isBossBattle(spec), false],
+    [spec.field, spec.music, isBossBattle(spec), Boolean(automatic)],
   )
   if (!game) assert.equal(prepared.team, `team-${spec.team}`)
-  assert.deepEqual(
-    prepared.players.map(({ id, roleId, hp, mp }) => [id ?? roleId, hp, mp]),
-    battleParty.map(({ role, hp, mp }) => [role, hp, mp]),
-  )
+  const preparedParty = prepared.players.map(({ id, roleId, hp, mp }) => [id ?? roleId, hp, mp])
+  if (automatic) {
+    assert.deepEqual(preparedParty, automatic.presentation.players)
+  } else {
+    assert.deepEqual(
+      preparedParty,
+      battleParty.map(({ role, hp, mp }) => [role, hp, mp]),
+    )
+  }
   const actualSlots = game ? prepared.slots : find('action')[0]?.slots
   assert(Array.isArray(actualSlots))
   assert.deepEqual(
@@ -1514,13 +1521,15 @@ async function inspect(path, engine) {
   )
 
   const entry = once('entry-complete')
+  const won = once('battle-finished')
   assert.deepEqual(
     find('entry-band').map(({ band }) => band),
     [0, 1, 2, 3, 4, 5, 6],
   )
   assert(find('entry-band').every(({ pixels }) => pixels.length === 6))
   const music = find('music-start').filter(
-    ({ track, order }) => track === spec.music && order > trigger.order,
+    ({ track, order }) =>
+      track === spec.music && order > trigger.order && (!automatic || order < won.order),
   )
   const fieldTracks = find('music-start').filter(
     ({ track, context }) => track === fieldMusic && context === 'running',
@@ -1531,8 +1540,10 @@ async function inspect(path, engine) {
   )
   assert.equal(music.length, 1)
   assert.equal(music[0].context, 'running')
-  const menu = once('command-menu-drawn')
-  assert(prepared.order < entry.order && entry.order < menu.order, 'menu after the native reveal')
+  const menu = automatic ? undefined : once('command-menu-drawn')
+  assert(prepared.order < entry.order, 'prepared before the native reveal')
+  if (menu) assert(entry.order < menu.order, 'menu after the native reveal')
+  else assert.deepEqual(find('command-menu-drawn'), [], 'automatic battle has no command menu')
   assert(
     entry.order < music[0].order && music[0].order < find('action')[0]?.order,
     'battle music audible after reveal and before the first executed combat action',
@@ -1542,12 +1553,25 @@ async function inspect(path, engine) {
     turn,
     ...mainAction(action, game),
   }))
-  assert.deepEqual(
-    commands.filter(({ turn }) => turn === 1).map(({ slot, kind }) => [slot, kind]),
-    battleParty.map((_, slot) => [slot, 'defend']),
-  )
+  if (!automatic)
+    assert.deepEqual(
+      commands.filter(({ turn }) => turn === 1).map(({ slot, kind }) => [slot, kind]),
+      battleParty.map((_, slot) => [slot, 'defend']),
+    )
   const battleKeys = report.actions.filter(({ phase }) => phase === 'battle-select')
-  if (scriptedStop) {
+  const dialogueInputs = automatic
+    ? report.actions.filter(({ phase }) => ['before-dialogue', 'after-dialogue'].includes(phase))
+    : []
+  if (automatic) {
+    assert.deepEqual(battleKeys, [], 'no manual commands in the original automatic battle')
+    assert(
+      dialogueInputs.length &&
+        dialogueInputs.every(
+          ({ kind, key }) => kind === 'press' && key === (game ? 'Space' : 'Enter'),
+        ),
+      'the story only receives physical advance keys at its dialogue prompts',
+    )
+  } else if (scriptedStop) {
     const expected = Array.from({ length: scriptedStop.turns }, (_, i) =>
       battleParty.map((_, slot) => ({
         slot,
@@ -1593,6 +1617,7 @@ async function inspect(path, engine) {
     slot: game ? actor.idx : action.idx,
     ...mainAction(action, game),
     hp: members.map(({ hp }) => hp),
+    ...(automatic && { mp: members.map(({ mp }) => mp) }),
     enemies: Array.from({ length: 5 }, (_, i) => slots[i] ?? null),
   }))
   const enemy = actions.filter(({ side, slot }) => side === 'enemy' && slot === spec.slot)
@@ -1735,7 +1760,14 @@ async function inspect(path, engine) {
       'both summoned slots take actual actions',
     )
   }
-  if (scriptedStop) {
+  if (automatic) {
+    assert.deepEqual(
+      enemy.map(({ turn, spell }) => [turn, spell]),
+      automatic.spells.map((spell, index) => [index + 1, spell]),
+    )
+    assert.equal(actions.at(-1)?.turn, automatic.turns)
+    assert(actions.at(-1).enemies[spec.slot]?.hp > 0, 'the script stops a living boss')
+  } else if (scriptedStop) {
     assert.deepEqual(
       enemy.map(({ spell }) => spell),
       scriptedStop.spells,
@@ -1783,7 +1815,6 @@ async function inspect(path, engine) {
   )
   const effectSounds = find('sfx-start')
   assert(effectSounds.every(({ context, frames }) => context === 'running' && frames > 0))
-  const won = once('battle-finished')
   const battleSounds = effectSounds.filter(
     ({ order }) => !observesForeground(spec) || (order > prepared.order && order < won.order),
   )
@@ -1849,10 +1880,18 @@ async function inspect(path, engine) {
     assert(summary.order < won.order)
   }
   assert.equal(won.cash, cash)
-  const rewardInventory = source.route?.ming.reward ?? spec.world.inventory
+  const rewardInventory = source.route?.ming?.reward ?? spec.world.inventory
+  const completionStock = automatic
+    ? [
+        { itemId: '138', count: 9 },
+        { itemId: '148', count: 9 },
+      ]
+    : game && (spec.disk.defeated || source.route)
+      ? rewardInventory
+      : []
   assert.deepEqual(
     won.inventory,
-    game && (spec.disk.defeated || source.route) ? rewardInventory : [],
+    completionStock,
     'hook inventory at the engine-specific battle completion boundary',
   )
   const control = once(
@@ -1862,18 +1901,13 @@ async function inspect(path, engine) {
   assert(won.order < control.order)
   if (handoff) {
     assert.equal(control.scene, handoff.scene)
-    assert.deepEqual(last.position, handoff.position)
+    assert.deepEqual(last.position, handoff.finalPosition ?? handoff.position)
     const [col, row] = handoff.position
     const x = 16 * (col - row)
     const y = 8 * (col + row)
-    assert.deepEqual(
-      [control.leader, control.camera],
-      [
-        [x, y],
-        [x - 160, y - 112],
-      ],
-      'first visible successor coordinates',
-    )
+    assert.deepEqual(control.leader, [x, y], 'first visible successor feet')
+    if (!handoff.fieldPosition)
+      assert.deepEqual(control.camera, [x - 160, y - 112], 'first visible successor camera')
     const landed = events.find(
       ({ kind, order }) =>
         kind === 'world-drawn' && order === control.order - (source.route ? 2 : 1),
@@ -2031,7 +2065,7 @@ async function inspect(path, engine) {
           { won: won.order, control: control.order },
           game,
         )
-  const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
+  const boundaries = { entered, trigger, launch: launch[0], prepared, entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
   const gai = source.gai
     ? inspectGaiLuojiaoPresentation({
@@ -2102,7 +2136,17 @@ async function inspect(path, engine) {
   const stoneElder = source.stoneElder
     ? inspectStoneElderPresentation({ events, draws: renderedDialogue, boundaries, source, game })
     : undefined
-  const ming = source.route
+  const stoneElderAuto = automatic
+    ? inspectStoneElderAutoPresentation({
+        events,
+        draws: renderedDialogue,
+        bounds: boundaries,
+        source,
+        spec,
+        game,
+      })
+    : undefined
+  const ming = source.route?.ming
     ? inspectTowerMingPresentation({
         events,
         draws: renderedDialogue,
@@ -2211,6 +2255,10 @@ async function inspect(path, engine) {
         pages.map(({ text, speaker }) => ({ text: subtitle(text), speaker })),
       ),
     }),
+    ...(automatic && {
+      dialogueInputs: dialogueInputs.map(({ phase }) => phase),
+      terminalParty: won.party.map(({ id, hp, mp }) => [id, hp, mp]),
+    }),
     commands,
     actions,
     rng: find('rng').map(({ value }) => value),
@@ -2276,6 +2324,7 @@ async function inspect(path, engine) {
     ming,
     poisonLady,
     stoneElder,
+    stoneElderAuto,
     goldenToad,
     gai,
     wood,
@@ -2291,7 +2340,7 @@ async function inspect(path, engine) {
     },
     audioTiming: {
       cueAfterRevealMs: music[0].atMs - entry.atMs,
-      cueAfterMenuMs: music[0].atMs - menu.atMs,
+      cueAfterMenuMs: menu ? music[0].atMs - menu.atMs : null,
     },
     visual: {
       bossFrames: poses.length,
@@ -2320,6 +2369,7 @@ if (!failures.length) {
       ...(result.ming?.issues ?? []),
       ...(result.poisonLady?.issues ?? []),
       ...(result.stoneElder?.issues ?? []),
+      ...(result.stoneElderAuto?.issues ?? []),
       ...(result.goldenToad?.issues ?? []),
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),

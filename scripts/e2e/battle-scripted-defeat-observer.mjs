@@ -18,6 +18,7 @@ function install(
     visitScenes,
     routeScenes,
     contactActors = [],
+    routeContacts = [],
   },
   makeRng,
   createRecorder,
@@ -91,7 +92,8 @@ function install(
     event('entry-band', { band, pixels })
   }
   const roleName = (id) =>
-    ({ 0: 'li-xiaoyao', 1: 'zhao-linger', 2: 'lin-yueru', 4: 'anu' })[id] ?? String(id)
+    ({ 0: 'li-xiaoyao', 1: 'zhao-linger', 2: 'lin-yueru', 4: 'anu', 5: 'gai-luojiao' })[id] ??
+    String(id)
   const reforgePartySprites = new WeakMap()
   const grid = ({ x, y }) => [(x / 16 + y / 8) / 2, (y / 8 - x / 16) / 2, 0]
   const rfPos = ({ col, row, height }) => [col, row, height]
@@ -367,6 +369,14 @@ function install(
           position: grid(gs.party),
         })
       }
+      const routeScene = sceneId(gs.wNumScene)
+      if (routeContacts.some(({ scene, owner }) => scene === routeScene && owner === id))
+        event('scene-route-trigger', {
+          scene: routeScene,
+          owner: id,
+          ip: gs.eventCursor?.ip,
+          position: grid(gs.party),
+        })
       if (gs.wNumScene !== gameScene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', {
         scene,
@@ -378,6 +388,8 @@ function install(
     reforgeContact(sceneId, id, position) {
       if (sceneId === entrance?.scene && id === entrance.owner)
         once('entrance-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
+      if (routeContacts.some(({ scene, owner }) => scene === sceneId && owner === id))
+        event('scene-route-trigger', { scene: sceneId, owner: id, position: rfPos(position) })
       if (sceneId !== scene || (id !== owner && !contactActors.includes(id))) return
       contact = event('trigger', { scene: sceneId, owner: id, position: rfPos(position) })
     },

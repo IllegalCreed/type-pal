@@ -476,35 +476,12 @@
                 "id": "initial",
                 "body": [
                   {
-                    "asset": "music.pal.026",
-                    "kind": "playMusic"
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-232"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
-                    ]
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 87,
-                      "height": 0,
-                      "row": 29
-                    }
-                  },
-                  {
                     "asset": "sound.pal.123",
                     "kind": "playSound"
                   },
                   {
                     "kind": "wait",
-                    "ms": 320
+                    "ms": 1400
                   },
                   {
                     "asset": "sound.pal.190",
@@ -518,7 +495,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "cue": {
@@ -1205,7 +1182,8 @@
                   {
                     "dir": "out",
                     "kind": "fade",
-                    "ms": 1280
+                    "ms": 1280,
+                    "color": "red"
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1260,6 +1238,39 @@
                 ],
                 "next": {
                   "kind": "complete"
+                },
+                "entry": {
+                  "prepare": [
+                    {
+                      "asset": "music.pal.026",
+                      "kind": "playMusic"
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-232"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 87,
+                        "height": 0,
+                        "row": 29
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "withBody": true
+                  }
                 }
               }
             ]

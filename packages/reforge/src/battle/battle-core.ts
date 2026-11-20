@@ -375,6 +375,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       },
     } satisfies BattleEnemyState
   })
+  const playersByRole = new Map<string, BattlePlayerState>()
   return {
     phase: 'preBattle',
     turn: 0,
@@ -385,7 +386,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       // 大世界护体符/金刚符定时状态:注入实际回合数(随战内衰减;战后 world 侧三件套清 extraStatuses)
       for (const cs of p.carriedStatuses ?? [])
         status[cs.status] = Math.max(status[cs.status], cs.turns)
-      return {
+      const player: BattlePlayerState = {
         ...p,
         grantedStatuses: [...new Set(p.grantedStatuses ?? [])],
         prevHp: p.prevHp ?? p.hp,
@@ -394,6 +395,27 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         defending: false,
         hiddenCounts: {},
         poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
+      }
+      const sameRole = playersByRole.get(player.roleId)
+      if (!sameRole) {
+        playersByRole.set(player.roleId, player)
+        return player
+      }
+      // 同一角色可占两个剧情战斗站位。动作和姿势按站位，生命与真气按角色。
+      return {
+        ...player,
+        get hp() {
+          return sameRole.hp
+        },
+        set hp(value) {
+          sameRole.hp = value
+        },
+        get mp() {
+          return sameRole.mp
+        },
+        set mp(value) {
+          sameRole.mp = value
+        },
       }
     }),
     enemies,

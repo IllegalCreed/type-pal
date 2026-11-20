@@ -91,6 +91,7 @@ import {
   type BattleCommandSelectionPhase,
 } from './battle-command-selection.js'
 import {
+  type BattleAction,
   type BattleEnemyState,
   type BattleState,
   buildAiView,
@@ -572,6 +573,37 @@ export class BattleSession {
       if (needsManualSelect(expectDefined(s.players[i])) && !s.pendingActions.has(i)) return i
     }
     return undefined
+  }
+
+  /** 剧情自动战斗选取可施放的攻击仙术，原版 0x8A 的随机加分为 0–9999。 */
+  private scriptedAutoAction(index: number): BattleAction {
+    const player = expectDefined(this.state.players[index])
+    const target = this.aliveEnemyIdxs()[0]
+    if (target === undefined) return { kind: 'defend' }
+    let best: SkillData | undefined
+    let bestScore = 0
+    if (!player.status.silence) {
+      for (const id of player.skills) {
+        const skill = this.state.skills[id]
+        if (!skill) continue
+        const cost = skill.cost.mp ?? 0
+        if (cost === 1 || cost > player.mp) continue
+        const effect = resolveSkillExecution(skill, 'player').effects.find(
+          (candidate) => candidate.kind === 'damage',
+        )
+        if (!effect || effect.power <= 0) continue
+        const score = effect.power + Math.floor(this.rng() * 10_000)
+        if (score > bestScore) {
+          best = skill
+          bestScore = score
+        }
+      }
+    }
+    if (!best) return { kind: 'attack', targetEnemyIdx: player.attackAll ? -1 : target }
+    if (best.target === 'oneEnemy')
+      return { kind: 'cast', skillId: best.id, targetEnemyIdx: target }
+    if (best.target === 'oneAlly') return { kind: 'cast', skillId: best.id, targetAllyIdx: index }
+    return { kind: 'cast', skillId: best.id }
   }
 
   /** 保持 core 同步：只有 readiness 落定后才从 selectAction 跨入 performAction。 */
@@ -1259,15 +1291,9 @@ export class BattleSession {
         this.beginTurnPreparation(dtMs)
         return
       }
-      // 自动战斗(0x8A):玩家侧不出菜单,逐个活队员派 AI 攻击最近活敌(石长老过场战)
       if (this.opts.auto) {
-        const alive = this.aliveEnemyIdxs()
-        s.pendingActions.set(
-          sel,
-          alive.length
-            ? { kind: 'attack', targetEnemyIdx: expectDefined(alive[0]) }
-            : { kind: 'defend' },
-        )
+        const action = this.scriptedAutoAction(sel)
+        s.pendingActions.set(sel, action)
         return
       }
       if (this.sessionUi === 'acting') {
@@ -2461,11 +2487,11 @@ export class BattleSession {
     options: { preserveZeroHp?: boolean } = {},
   ): void {
     const minHp = options.preserveZeroHp || this.state.phase === 'lost' ? 0 : 1
-    for (const p of this.state.players) {
-      const c = party.find((x) => x.id === p.roleId)
-      if (!c) continue
-      c.hp = Math.max(p.hp, minHp)
-      c.mp = p.mp
+    for (const member of party) {
+      const battler = this.state.players.find(({ roleId }) => roleId === member.id)
+      if (!battler) continue
+      member.hp = Math.max(battler.hp, minHp)
+      member.mp = battler.mp
     }
   }
 

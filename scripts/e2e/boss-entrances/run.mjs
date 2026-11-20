@@ -58,8 +58,13 @@ const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
-const hasReserve = battleParty.length > party.length
-const fixtureMembers = hasReserve ? battleParty : party
+const fixtureMembers = source.automatic
+  ? [...new Map([...party, ...battleParty].map((member) => [member.roleId, member])).values()]
+  : battleParty.length > party.length
+    ? battleParty
+    : party
+const hasReserve = fixtureMembers.length > party.length
+const stagedMembers = source.automatic ? party : fixtureMembers
 const roles = fixtureMembers.map(({ role }) => role)
 const nativeRoles = fixtureMembers.map(({ roleId }) => roleId)
 const initialOwner = Number(spec.owner.slice(1))
@@ -72,8 +77,12 @@ const observe = bossObserver({
   contactActors: Object.entries(source.setup ?? {})
     .filter(([, actor]) => actor.triggerIp)
     .map(([id]) => id),
+  routeContacts: spec.sceneRoute?.visits
+    .filter(({ owner }) => owner)
+    .map(({ scene, owner }) => ({ scene, owner })),
   foreground,
   handoffScene: handoff?.scene,
+  handoffMatte: handoff?.fieldPosition !== undefined,
   routeScenes: revisit ? [revisit.scene] : undefined,
   visitScenes:
     spec.sceneRoute?.visits.map(({ scene }) => scene) ?? (revisit ? [revisit.scene] : undefined),
@@ -281,7 +290,7 @@ async function makeGameFixture(page, baseURL, until) {
       source.wood ||
       source.phoenix ||
       source.qilin
-      ? nativeRoles
+      ? stagedMembers.map(({ roleId }) => roleId)
       : null,
   )
   const payload = JSON.parse(staged)
@@ -331,7 +340,7 @@ async function makeGameFixture(page, baseURL, until) {
     dir: facing,
   }))
   gs.partyMembers = party.map(({ roleId }) => roleId)
-  for (const member of fixtureMembers) {
+  for (const member of stagedMembers) {
     const id = member.roleId
     for (const [name, field] of Object.entries(statsFields))
       gs.PlayerRolesRuntime[field][id] = member[name]
@@ -388,6 +397,7 @@ async function makeReforgeFixture() {
   const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
   const world = buildWorld({ party: roles, money: 0, inventory: [] }, actorsById)
   for (const [i, { role, roleId, ...stats }] of fixtureMembers.entries()) {
+    if (!stagedMembers.some((member) => member.roleId === roleId)) continue
     Object.assign(world.party[i], stats, {
       equipment:
         spec.party === 'tomb' && roleId === 1
@@ -592,6 +602,8 @@ async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
   let confirmed = false
+  let idleVisitAt
+  const followup = spec.sceneRoute?.visits.find(({ owner }) => owner)
   const worldDeadline = source.qilin
     ? capture.enabled
       ? 360_000
@@ -609,9 +621,22 @@ async function playEncounter({ page, press, health, capture }) {
     const view = await read(page)
     const { state, live, ended } = view
     if ((source.route || source.wood || source.phoenix || source.qilin) && ended)
-      assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
+      assert.equal(
+        view.outcome,
+        source.automatic ? 'terminated' : game ? 'won' : 'victory',
+        'unexpected native battle outcome',
+      )
+    if (followup) {
+      const idle = state.scene === followup.scene && state.ready && !ended
+      idleVisitAt = idle ? (idleVisitAt ?? view.atMs) : undefined
+      assert(
+        idleVisitAt === undefined || view.atMs - idleVisitAt < 7000,
+        `the native arrival did not trigger ${followup.scene}/${followup.owner}: ${JSON.stringify(state)}`,
+      )
+    }
     const returned = handoff
-      ? view.successor?.scene === handoff.scene
+      ? view.successor?.scene === handoff.scene &&
+        (!handoff.untilReady || ready(state, handoff.scene))
       : scriptedReturn
         ? view.scriptedReturn?.scene === spec.scene
         : ready(state)
@@ -640,7 +665,7 @@ async function playEncounter({ page, press, health, capture }) {
     } else if (Number.isInteger(live?.settlement) && live.settlement > lastScreen) {
       lastScreen = live.settlement
       await press(confirm, 'settlement')
-    } else if (live?.selectingPlayerId) {
+    } else if (live?.selectingPlayerId && !source.automatic) {
       assert(
         live.turn <= (spec.maxRounds ?? (source.route ? 18 : 10)),
         'manual battle exceeded the planned rounds',
