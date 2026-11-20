@@ -57,11 +57,13 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
       issues.push({ issue: 'foreground-cadence', ...cadence.at(-1) })
   }
   const altarOps = events.filter(({ scene, kind }) => scene === 's231' && kind === 'script-op')
-  const scriptMark = (ip, op, index) =>
-    altarOps.find((row) =>
-      game ? row.ip === ip : row.op === op && isDeepStrictEqual(row.path, ['initial', index]),
-    )
-  const opening = scriptMark(32101, 'dialog', 10)
+  const scriptMark = (ip, op, occurrence = 0) =>
+    game
+      ? altarOps.find((row) => row.ip === ip)
+      : altarOps.filter(
+          (row) => row.op === op && row.path?.length === 2 && row.path[0] === 'initial',
+        )[occurrence]
+  const opening = scriptMark(32101, 'dialog')
   const approach = stageFrames.filter(
     ({ order }) => first && opening && order >= first.order - 1 && order < opening.order,
   )
@@ -89,8 +91,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   for (let i = 4; i < expectedSteps.length; i++)
     measure(`altar nudge ${i - 2}`, steps[i - 1], steps[i], 100, 55)
 
-  const pan = scriptMark(32129, 'cameraPan', 22)
-  const firstTremor = scriptMark(32131, 'shakeScreen', 25)
+  const pan = scriptMark(32129, 'cameraPan')
+  const firstTremor = scriptMark(32131, 'shakeScreen')
   const beastRoar = events.find(
     ({ kind, asset, order }) =>
       kind === 'sfx-request' && asset === 132 && firstTremor && order > firstTremor.order,
@@ -101,8 +103,8 @@ function inspectAltarCadence(events, stageFrames, first, commands, game, issues)
   // This original autoscript repeatedly looks around at random while the chief
   // stays in place. Compare the window and its rendered effect independently of
   // the particular directions drawn by each engine's ambient random stream.
-  const alarm = scriptMark(32135, 'selectEntityBehavior', 28)
-  const retreat = scriptMark(32156, 'selectEntityBehavior', 52)
+  const alarm = scriptMark(32135, 'selectEntityBehavior')
+  const retreat = scriptMark(32156, 'selectEntityBehavior', 1)
   assert.deepEqual(commands[32135].operands, [4169, 32021, 0])
   assert.deepEqual(commands[32156].operands, [4169, 32222, 0])
   measure('chief looks around before the retreat', alarm, retreat, 3300, 220)
@@ -317,6 +319,21 @@ function inspectRainFilms(events, draws, source, game, issues) {
       background: true,
     }),
   )
+  // The original random look can take one last turn after the explicit 31994
+  // pose. Check that timing separately from the canonical fixed speaking pose.
+  const address = rainDialogue[1].cues.find(({ cue }) => cue === 'dlg.11122')
+  for (const { view, order, renderId } of address?.views ?? []) {
+    const pose = view.cast.e4337
+    const direction = ['down', 'left', 'up', 'right'].indexOf(pose?.[2])
+    if (
+      pose?.[0] !== 562 ||
+      !isDeepStrictEqual(pose[1], [880, 968]) ||
+      direction < 0 ||
+      pose[3] !== direction * 3 ||
+      (!game && direction !== 0)
+    )
+      issues.push({ issue: 'rain-street-leader-address-pose', actual: { order, renderId, pose } })
+  }
   const streetActing = inspectRainStreetCast({
     events,
     source,
@@ -615,6 +632,19 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
   const rain = inspectRainFilms(events, draws, source, game, issues)
   const { rainDialogue, ...rainPresentation } = rain
   const finalRain = hooks.at(-2)
+  const prayer = inspectWorldDialogueCoverage({
+    phase: 'rain-prayer',
+    scene: 's227',
+    start: hooks[0].atMs,
+    end: hooks[1].atMs,
+    expected: sourceDialogueGroups(source.commands, [
+      { scene: 's227', first: 32045, last: 32046 },
+      { scene: 's227', first: 32057, last: 32059 },
+    ]),
+    events,
+    draws,
+    locale: source.locale,
+  })
   const rainResponse = inspectWorldDialogueCoverage({
     phase: 'rain-altar-return',
     scene: 's227',
@@ -628,7 +658,7 @@ export function inspectDaliAltar({ events, draws, boundaries, source, spec, game
     background: true,
   })
   return {
-    coverage: [...coverage, ...rainDialogue, rainResponse],
+    coverage: [...coverage, ...rainDialogue, prayer, rainResponse],
     issues,
     actions,
     edgeActors,

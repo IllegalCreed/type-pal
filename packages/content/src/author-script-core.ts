@@ -190,6 +190,7 @@ export type SceneTimelineAction =
   | Extract<RuntimeCommandBase, { kind: 'fade' | 'cameraPan' }>
   | { kind: 'nudgeEntity'; dx: number; dy: number }
   | { kind: 'animEntity' }
+  | { kind: 'releaseEntity' }
   | { kind: 'setEntityFacing'; facing: Facing }
   | { kind: 'setEntityFrame'; frame: number }
 
@@ -764,6 +765,7 @@ function checkSceneTimeline(
           if (
             action.kind !== 'nudgeEntity' &&
             action.kind !== 'animEntity' &&
+            action.kind !== 'releaseEntity' &&
             action.kind !== 'setEntityFacing' &&
             action.kind !== 'setEntityFrame'
           )
@@ -776,6 +778,7 @@ function checkSceneTimeline(
                 throw new Error(`${actionPath}: 位移须为有限像素值`)
               break
             case 'animEntity':
+            case 'releaseEntity':
               exactKeys(action, ['kind'], actionPath)
               break
             case 'setEntityFacing':

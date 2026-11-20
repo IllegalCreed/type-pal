@@ -23,6 +23,9 @@ test('actual decoded render bytes match source independently of claimed asset na
   const draw = (frame) => globalThis.__e2eRecordSpriteFrame(frame)
   const id = draw(frames[0])
   assert.equal(draw(frames[0]), id)
+  const duplicate = structuredClone(frames[0])
+  assert.equal(draw(duplicate), id)
+  assert.equal(recorder.resources().length, 1)
   const trace = {
     resources: structuredClone(recorder.resources()),
     events: [
@@ -91,6 +94,7 @@ test('actual decoded render bytes match source independently of claimed asset na
   frames[0].pixels[0] ^= 1
   const changed = draw(frames[0])
   assert.notEqual(changed, id)
+  assert.equal(draw(duplicate), id)
   assert.equal(recorder.resources()[0].pixels[0], trace.resources[0].pixels[0])
   trace.resources = structuredClone(recorder.resources())
   trace.events[1].state.frameResourceId = changed

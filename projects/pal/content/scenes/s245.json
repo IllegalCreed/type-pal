@@ -1699,6 +1699,29 @@
                     },
                     {
                       "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s245",
+                        "entity": "e4336"
+                      },
+                      "frame": 2
+                    },
+                    {
+                      "kind": "takeEntity",
+                      "target": {
+                        "scene": "s245",
+                        "entity": "e4346"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s245",
+                        "entity": "e4346"
+                      },
+                      "frame": 0
                     }
                   ],
                   "reveal": {

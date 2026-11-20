@@ -38,6 +38,10 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
     )
     const hole = renders.find((row, i) => i && row.renderId !== renders[i - 1].renderId + 1)
     if (hole) issue('rain-route-missing-presented-frame', { actual: location(hole) })
+    if (['s230', 's243', 's244'].includes(scene)) {
+      const dialogue = renders.find((row) => row.dialogue)
+      if (dialogue) issue('rain-route-unexpected-dialogue', { actual: location(dialogue) })
+    }
     const paints = []
     const sourceCast = new Map(
       source.rainRouteActors[scene].map((actor) => [`e${actor.id}`, actor]),
@@ -118,18 +122,20 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
       }
       const rain = actorChanges(paints, 'e4329')
       const visible = rain.filter(({ pose }) => pose)
-      const wrong = visible.find(({ pose, atMs }, i) => {
+      const wrong = visible.find(({ pose, atMs, camera }, i) => {
         if (!i) return !isDeepStrictEqual(pose, [610, [672, 1380], 'down', 2])
         const previous = visible[i - 1]
+        const interval = i === 149 ? 200 : 100
         return (
           pose[1][0] !== 672 ||
           pose[1][1] !== previous.pose[1][1] + 2 ||
           pose[3] !== (previous.pose[3] + 1) % 10 ||
-          (i > 1 && Math.abs(atMs - previous.atMs - 100) > 55)
+          !isDeepStrictEqual(camera, [512, Math.min(1484, pose[1][1] - 192)]) ||
+          (i > 1 && Math.abs(atMs - previous.atMs - interval) > 55)
         )
       })
       const absent = rain.find(({ pose }) => !pose)
-      if (visible.length < 149 || wrong || absent)
+      if (visible.length !== 178 || wrong || absent)
         issue('rain-village-effect-desynchronized', {
           actor: 'e4329',
           checked: visible.length,
@@ -154,7 +160,20 @@ export function inspectRainRouteFrames({ events, hooks, launch, source, issues }
       const speech = paints.filter(
         ({ frame, render }) => render.dialogue && isDeepStrictEqual(frame.leader, [896, 1248]),
       )
-      const moving = speech.find(({ frame }) => frame.party.some(({ frame }) => frame !== 0))
+      const expectedParty = [
+        ['zhao-linger', [896, 1248], 0],
+        ['li-xiaoyao', [924, 1226], 0],
+        ['anu', [908, 1234], 0],
+      ]
+      const moving = speech.find(
+        ({ frame }) =>
+          !isDeepStrictEqual(
+            frame.party
+              .toSorted((a, b) => a.slot - b.slot)
+              .map(({ id, world, frame }) => [id, world, frame]),
+            expectedParty,
+          ),
+      )
       if (!speech.length || moving)
         issue('altar-party-not-standing-for-chief', {
           actual: moving && {
@@ -197,12 +216,17 @@ export function compareRainRouteCast(game, reforge) {
         expected.length &&
         expected.every(({ pose }) => isDeepStrictEqual(pose[1], expected[0].pose[1]))
       ) {
+        const fixedPose = expected.length === 1
         const displaced = recorded.find(
-          ({ pose }) => !isDeepStrictEqual(pose[1], expected[0].pose[1]),
+          ({ pose }) =>
+            !isDeepStrictEqual(
+              fixedPose ? pose : pose[1],
+              fixedPose ? expected[0].pose : expected[0].pose[1],
+            ),
         )
         if (displaced)
           issues.push({
-            issue: 'rain-route-actor-displaced',
+            issue: fixedPose ? 'rain-route-wrong-static-pose' : 'rain-route-actor-displaced',
             scene,
             visit,
             actor,
