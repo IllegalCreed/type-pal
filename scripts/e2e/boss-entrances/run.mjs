@@ -571,7 +571,10 @@ async function playEncounter({ page, press, health, capture }) {
       lastScreen = live.settlement
       await press(confirm, 'settlement')
     } else if (live?.selectingPlayerId) {
-      assert(live.turn <= (source.route ? 18 : 10), 'manual battle exceeded the planned rounds')
+      assert(
+        live.turn <= (spec.maxRounds ?? (source.route ? 18 : 10)),
+        'manual battle exceeded the planned rounds',
+      )
       const defending = live.turn === 1 || Boolean(scriptedStop)
       const enemies = live.snapshot.enemies.filter((enemy) => enemy?.alive)
       const target = enemies.find(({ id }) => id === spec.enemy) ?? enemies[0]

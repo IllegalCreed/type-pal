@@ -6,6 +6,7 @@ import { sha256 } from '../browser-journey.mjs'
 import { sourceDialogueText } from '../causal-recording-contract.mjs'
 import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
+import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
 import {
   battleOperands,
@@ -41,6 +42,7 @@ const earnsRewards = !scriptedStop && !scriptedDefeat
 const party = partyFor(spec)
 const battleParty = battlePartyFor(spec)
 const entrance = spec.entrance
+const revisit = spec.revisit
 const handoff = spec.world.handoff
 const scriptedReturn = spec.world.scriptedReturn
 const leavesByScript = Boolean(handoff || scriptedReturn)
@@ -1253,6 +1255,13 @@ async function inspect(path, engine) {
   assert.equal(report.inputExecution.status, 'passed')
   assertInputLedger(report.actions, { requireReceipts: true })
   const steps = entranceSteps(spec)
+  const revisitRoutes = source.toad
+    ? [
+        ['revisit-enter', spec.scene, source.toad.steps.into],
+        ['revisit-leave', revisit.scene, source.toad.steps.out],
+        ['revisit-cave', spec.scene, source.toad.steps.approach],
+      ]
+    : []
   const routeInputs = [
     ['approach', [approachKey]],
     ...(leavesByScript ? [] : [['exit', [exitKey]]]),
@@ -1262,6 +1271,7 @@ async function inspect(path, engine) {
           ['inn-walk', steps.map(({ key }) => key)],
         ]
       : []),
+    ...revisitRoutes.map(([phase, , moves]) => [phase, moves.map(({ key }) => key)]),
   ]
   if (source.tian) {
     const keys = {
@@ -1308,16 +1318,26 @@ async function inspect(path, engine) {
       party.map(({ roleId }) => roleId),
     )
     assert.equal(run.slotReadback, report.save.sha256)
+    if (revisit) {
+      assert.equal(saved.gs.sceneOnEnterIp[gameScene({ scene: revisit.scene })], revisit.hookIp)
+      assert.equal(saved.gs.allEventObjects.find(({ id }) => id === 1846)?.sState, 0)
+    }
   } else {
     const readback = await read(run.slotReadback)
     assert.deepEqual(readback.position, {
       sceneId: entrance?.scene ?? spec.scene,
-      pos: grid(entrance?.start ?? spec.start),
-      facing: facing(entrance?.key ?? approachKey),
+      pos: grid(entrance?.start ?? revisit?.checkpoint ?? spec.start),
+      facing: facing(entrance?.key ?? source.toad?.steps.into[0].key ?? approachKey),
     })
     assert.equal(readback.version, saved.version)
     assert.equal(readback.contentVersion, saved.contentVersion)
     assert.deepEqual(readback.world.party, saved.world.party)
+    if (revisit) {
+      assert.deepEqual(readback.world.script.behaviors.scenes[revisit.scene]?.onEnter, {
+        selection: { kind: 'use', value: revisit.hook },
+      })
+      assert.equal(readback.world.script.entityState[revisit.scene]?.e1846, 0)
+    }
   }
   assert.equal(raw.engine, engine)
   assert.equal(raw.overflow, false)
@@ -1382,13 +1402,19 @@ async function inspect(path, engine) {
     [trigger.scene, trigger.owner, trigger.position],
     [spec.scene, spec.owner, spec.contact],
   )
-  const [approach, departure] = find('move').slice(steps.length)
+  const moves = events.filter(({ kind }) => kind === 'move' || kind === 'route-move')
+  const [approach, departure] = moves.slice(
+    steps.length + revisitRoutes.reduce((count, [, , entries]) => count + entries.length, 0),
+  )
   assert.deepEqual(
-    find('move').map(({ from, to, facing }) => [from, to, facing]),
+    moves.map(({ scene, from, to, facing }) => [scene, from, to, facing]),
     [
-      ...steps.map(({ from, to, key }) => [from, to, facing(key)]),
-      [spec.start, spec.contact, facing(approachKey)],
-      ...(leavesByScript ? [] : [[returnedAt, departureAt, facing(exitKey)]]),
+      ...steps.map(({ from, to, key }) => [spec.scene, from, to, facing(key)]),
+      ...revisitRoutes.flatMap(([, scene, entries]) =>
+        entries.map(({ from, to, key }) => [scene, from, to, facing(key)]),
+      ),
+      [spec.scene, spec.start, spec.contact, facing(approachKey)],
+      ...(leavesByScript ? [] : [[spec.scene, returnedAt, departureAt, facing(exitKey)]]),
     ],
   )
   assert(approach.order < trigger.order)
@@ -1505,6 +1531,12 @@ async function inspect(path, engine) {
     enemies: Array.from({ length: 5 }, (_, i) => slots[i] ?? null),
   }))
   const enemy = actions.filter(({ side, slot }) => side === 'enemy' && slot === spec.slot)
+  if (source.toad)
+    assert.deepEqual(
+      enemy.slice(0, 3).map(({ kind, spell }) => [kind, spell]),
+      source.toad.openingSpells,
+      'the boss passes then casts the original spell twice',
+    )
   const expectedEnemyActions = {
     45: Array(6).fill('attack'),
     44: ['cast', 'cast', 'pass', 'cast'],
@@ -1836,7 +1868,8 @@ async function inspect(path, engine) {
     const begun = once('defeated-script-start')
     const granted = once('defeated-script-end')
     const notice = once('defeated-note-drawn')
-    assert.deepEqual([begun.id, granted.id], [spec.enemy, spec.enemy])
+    const defeated = spec.disk.defeated.enemy ?? spec.enemy
+    assert.deepEqual([begun.id, granted.id], [defeated, defeated])
     assert.deepEqual(granted.inventory, spec.world.inventory)
     assert.equal(subtitle(notice.text), subtitle(source.defeatedNote))
     assert(
@@ -1856,7 +1889,7 @@ async function inspect(path, engine) {
     assert.equal(run.returned.state.actors.find(({ id }) => id === 'e2432').state, 0)
   }
   const dialogue =
-    source.tian || source.route || source.poisonLady || source.stoneElder
+    source.tian || source.route || source.poisonLady || source.stoneElder || source.toad
       ? undefined
       : checkDialogue(
           events,
@@ -1866,6 +1899,17 @@ async function inspect(path, engine) {
         )
   const boundaries = { entered, trigger, launch: launch[0], entry, menu, won, control }
   const renderedDialogue = observesForeground(spec) ? await read(run.renderedDialogue) : null
+  const goldenToad = source.toad
+    ? inspectGoldenToadPresentation({
+        events,
+        draws: renderedDialogue,
+        boundaries,
+        source,
+        spec,
+        game,
+        run,
+      })
+    : undefined
   const poisonLady = source.poisonLady
     ? inspectPoisonLadyPresentation({ events, draws: renderedDialogue, boundaries, source })
     : undefined
@@ -2017,12 +2061,14 @@ async function inspect(path, engine) {
     ming,
     poisonLady,
     stoneElder,
+    goldenToad,
     tian,
     spiderForeground,
     clips: {
       contactMs: entered?.atMs ?? trigger.atMs,
       returnMs: ring?.returned.atMs ?? control.atMs,
       exitMs: departure?.atMs ?? control.atMs,
+      ...(source.toad && { revisitMs: moves[0].atMs }),
     },
     audioTiming: {
       cueAfterRevealMs: music[0].atMs - entry.atMs,
@@ -2055,6 +2101,7 @@ if (!failures.length) {
       ...(result.ming?.issues ?? []),
       ...(result.poisonLady?.issues ?? []),
       ...(result.stoneElder?.issues ?? []),
+      ...(result.goldenToad?.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
   }

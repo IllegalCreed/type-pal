@@ -170,9 +170,11 @@ describe('battle raw fallback — palette', () => {
 describe('世界/隊伍 opcode', () => {
   it('0x46 SetPartyPos: 半格座標同步隊首、鏡頭與 trail', () => {
     const gs = freshGs()
+    gs.walkingFrame = { ...gs.walkingFrame, walking: true, stepFrame: 3 }
     run1(gs, 0x46, [2, 3, 1])
     expect(gs.party).toMatchObject({ x: 80, y: 56 })
     expect(gs.camera).toEqual({ x: -80, y: -56 })
+    expect(gs.walkingFrame).toMatchObject({ walking: false, stepFrame: 3 })
     expect(gs.trail).toEqual([
       { x: 80, y: 56, dir: 'down' },
       { x: 96, y: 48, dir: 'down' },

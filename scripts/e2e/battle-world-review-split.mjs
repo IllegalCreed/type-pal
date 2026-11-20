@@ -120,7 +120,7 @@ async function side(engine, relocatedReport) {
       scriptedReturn ??
       successor ??
       events.find(({ kind, order }) => kind === 'move' && order > returned.order)
-    const { contactMs, returnMs, exitMs } = compare.clips
+    const { contactMs, returnMs, exitMs, revisitMs } = compare.clips
     assert.deepEqual([contact.atMs, returned.atMs, exit.atMs], [contactMs, returnMs, exitMs])
     const start = report.media.browser.startedAt
     const contactSeconds = (contactMs - start) / 1000
@@ -131,6 +131,13 @@ async function side(engine, relocatedReport) {
       scriptedReturn || directHandoff ? exitSeconds === returnSeconds : exitSeconds > returnSeconds,
     )
     assert(videoEnd - exitSeconds >= 0.45, `${engine} recording cuts off the return to control`)
+    if (revisitMs !== undefined) {
+      const approach = events.find(({ kind }) => kind === 'move')
+      assert.equal(approach.atMs, revisitMs)
+      const revisitSeconds = (revisitMs - start) / 1000
+      assert(revisitSeconds >= 0 && revisitSeconds < contactSeconds)
+      return { ...identity, contactSeconds, returnSeconds, exitSeconds, revisitSeconds }
+    }
     return { ...identity, contactSeconds, returnSeconds, exitSeconds }
   }
   const handoff = raw.native?.handoff ?? raw.handoff
@@ -170,8 +177,8 @@ async function side(engine, relocatedReport) {
 }
 
 const sides = await Promise.all([side('game', gameReport), side('reforge', reforgeReport)])
-const anchor = ({ loadRevealSeconds, contactSeconds, inputSeconds }) =>
-  loadRevealSeconds ?? contactSeconds ?? inputSeconds
+const anchor = ({ loadRevealSeconds, revisitSeconds, contactSeconds, inputSeconds }) =>
+  loadRevealSeconds ?? revisitSeconds ?? contactSeconds ?? inputSeconds
 const preroll = Math.min(reviewLoadReveal ? 0.9 : 1.35, ...sides.map(anchor))
 for (const entry of sides) entry.trimSeconds = anchor(entry) - preroll
 const duration = Math.max(...sides.map(({ videoEnd, trimSeconds }) => videoEnd - trimSeconds))

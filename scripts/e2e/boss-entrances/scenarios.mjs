@@ -463,6 +463,7 @@ export const scenarios = {
     watched: ['e1909', 'e1910'],
     team: 36,
     enemy: 'enemy-500',
+    maxRounds: 14,
     start: [86, 28, 0],
     contact: [85, 28, 0],
     approach: 'ArrowLeft',
@@ -479,6 +480,7 @@ export const scenarios = {
       music: 21562,
       last: 21551,
       owner: [848, 856, 1, 8],
+      defeated: { enemy: 'enemy-465', ip: 42828, note: 13349, itemId: '152' },
     },
     mapMusic: { scene: 's103', ip: 21563, track: 36 },
     revisit: {
@@ -508,7 +510,7 @@ export const scenarios = {
     world: {
       gameState: 0,
       triggerMode: 8,
-      inventory: [],
+      inventory: [{ itemId: '152', count: 1 }],
       exit: 'ArrowRight',
       music: { ip: 21550, track: 82 },
     },
@@ -992,7 +994,10 @@ export async function readSources(spec) {
         )
       : [])
   if (defeated) {
-    assert.equal(object.scriptOnBattleEnd, defeated.ip)
+    const id = defeated.enemy ?? spec.enemy
+    assert(slots.includes(id))
+    const dropper = data.objects.find(({ objectIndex }) => `enemy-${objectIndex}` === id)
+    assert.equal(dropper.scriptOnBattleEnd, defeated.ip)
     assert.deepEqual(
       [commands[defeated.ip].op, String(commands[defeated.ip].itemId)],
       ['giveItem', defeated.itemId],

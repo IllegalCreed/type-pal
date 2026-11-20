@@ -3576,6 +3576,7 @@ function applyRawOpcode(
       const yOff = dir === 'left' || dir === 'up' ? 8 : -8
       gs.trail = [0, 1, 2, 3, 4].map((i) => ({ x: px + i * xOff, y: py + i * yOff, dir }))
       gs.followerFrozenOffset = [] // trail 重填 → 清冻结偏移,静止时回退新 trail(present follower-pos)
+      gs.walkingFrame.walking = false // 新队形直接摆在 trail 上，源场景的迈步不能再叠加跟随偏移。
       break
     }
 
