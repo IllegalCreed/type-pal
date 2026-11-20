@@ -826,7 +826,13 @@ async function playEncounter({ page, press, health, capture }) {
         }
       }
       if (finale && command.actorId === 'anu' && live.turn % 3 === 2) {
-        planned = { ...command, kind: 'item', itemId: '80', targetId: null, targetSide: 'player' }
+        planned = {
+          ...command,
+          kind: 'item',
+          itemId: spec.inventory[0].itemId,
+          targetId: null,
+          targetSide: 'player',
+        }
       }
       const key = nextKey({ ...live, snapshot: { ...live.snapshot, enemies } }, planned)
       if (key) await press(key, 'battle-select')
