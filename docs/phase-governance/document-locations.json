@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "1bee381e0c62f16b86db5cb8670907b78f3716254fbe762699be77b367c2eb13",
+      "afterSha256": "091ed399ea1cc5c681ecc487a99349d1a46c8300590c8f4072a82535ef16cbde",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核对镇狱明王音画与原件恢复入口。",
-        "reviewedLines": 121,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核毒娘子原件和复算入口。",
+        "reviewedLines": 122,
+        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "02ad44e360fde227d16121855687404476a0bcced00618c54987fef5e09ed091",
+      "afterSha256": "e0b48249244e353fedd8e605d1c04cdb652724e4e1f297e715570e622ca47e9e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核实锁妖塔梦境往返、明王现身、觉醒、结算与下一幕原盘指令。",
-        "reviewedLines": 1958,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核毒娘子停战、原盘运镜和世界拍。",
+        "reviewedLines": 1964,
+        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
       }
     },
     {
@@ -5418,14 +5418,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "f79b680827963be2042d8491fb1e93469b864be68adf00fec4c79be9c8360573",
+      "afterSha256": "e866323887a17217f866bc8378a16e6f3c4c42de8a71d591d9341a15ad58993d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "记录镇狱明王入口实跑和其覆盖范围。",
-        "reviewedLines": 1061,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核原生入口、边界和毒娘子实测回执。",
+        "reviewedLines": 1069,
+        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
       }
     },
     {
@@ -5457,14 +5457,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "467e5dac72a8bb9985959599771b52fd92520b0ec39efa5776c4ecddbe70287f",
+      "afterSha256": "719dd771a34194fb5fb6ea2d09faee6d0fc07dcf0793afd0cd1925538832a264",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-20",
-        "conclusion": "核镇狱明王同局动作、六次切场、对白和原声。",
-        "reviewedLines": 1598,
-        "acceptanceScope": "镇狱明王入口本次增量。源片段与历史执行按既有固定来源复算。"
+        "conclusion": "核毒娘子、酒剑仙、s140 首帧及归档恢复。",
+        "reviewedLines": 1613,
+        "acceptanceScope": "毒娘子入口的实测增量。历史观察保留原件和适用范围。"
       }
     },
     {
@@ -6567,6 +6567,24 @@
       "bytes": 40402537,
       "sha256": "703b05162853318a87967e767379ce4975583eebe14e0888ed67451c5c1c6226",
       "purpose": "镇狱明王采录音画的逐字节归档分卷。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-20261120.tar.gz",
+      "bytes": 24705073,
+      "sha256": "2172764bd301c0f2eb55d2d3f8b545b3d749cf8105199c62ab70519b3b8852a6",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-game-20261120.tar.gz",
+      "bytes": 53398683,
+      "sha256": "777b156a29962af711306ea5645b2154acc3a83090f1ceffd28bd4fb3d9f3496",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-poison-lady-reforge-20261120.tar.gz",
+      "bytes": 56019458,
+      "sha256": "39650d9e20d918163b5e83fec191583569421cc522c9b134bdcf6e0e7055a69c",
+      "purpose": "毒娘子的原生双端停战、走位与入场证据。"
     }
   ],
   "artifactAliases": [],
