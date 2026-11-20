@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import vm from 'node:vm'
+import { scriptedDefeatObserver } from './battle-scripted-defeat-observer.mjs'
 import {
   compareWorldDialogueCast,
   inspectWorldDialogueCoverage,
@@ -121,4 +123,26 @@ test('one actor turning for a single frame is still a failed comparison after th
     result[0]?.actual.map(({ renderId }) => renderId),
     [0, 1, 2],
   )
+})
+
+test('native foreground frames keep later battle events within the recorder byte budgets', () => {
+  const context = vm.createContext({ structuredClone, TextEncoder, performance })
+  vm.runInContext(scriptedDefeatObserver({ engine: 'reforge', scene: 's110', seed: 1 }), context)
+  const observer = context.__defeat
+  for (let renderId = 0; renderId < 9000; renderId++)
+    observer.event('world-render', { scene: 's110', renderId })
+  observer.reforgeFinish({ enemySlotDefs: () => [] }, 'terminated', {
+    party: [],
+    money: 0,
+    inventory: [],
+  })
+  assert.equal(observer.read().overflow, false)
+  assert.equal(observer.read().outcome, 'terminated')
+  assert.equal(observer.trace().events.at(-1).kind, 'battle-finished')
+  assert.equal(observer.trace().events.at(-1).seq, 9000)
+
+  observer.event('oversized', { text: 'x'.repeat(4 * 1024 * 1024) })
+  assert.equal(observer.read().overflow, true)
+  assert.equal(observer.trace().overflow, true)
+  assert.equal(observer.trace().events.at(-1).kind, 'battle-finished')
 })
