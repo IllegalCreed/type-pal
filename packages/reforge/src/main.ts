@@ -1162,7 +1162,7 @@ export async function bootGame(
   let preserveClosedDialogFrame = false
   let fadingSourceFrame: ImageData | undefined
   let presentedBattleFrame = false
-  let touchLandingNeedsPaint = false
+  let battleEntryNeedsWorldPaint = false
   // ── 商店/当铺(openShop 阻塞脚本至关店;UI 态 + 关店 resolve)──
   let shop: { ui: ShopUiState; resolve: () => void } | null = null
   // ── R13-4 脚本二选一：独立于系统菜单业务的中央 FIFO + dedicated held-frame。──
@@ -2308,6 +2308,7 @@ export async function bootGame(
       })
     },
     clearDialog: () => {
+      battleEntryNeedsWorldPaint ||= dialogBox.needsRender || preserveClosedDialogFrame
       preserveClosedDialogFrame = false
       dialogBox.close()
     },
@@ -3969,8 +3970,9 @@ export async function bootGame(
         return answer
       },
       startBattle: async (request, signal, source) => {
-        // An immediate touch battle needs the just-committed landing as its entry image.
-        if (source === 'script' && touchLandingNeedsPaint) await frames.wait(0, signal)
+        // The entry transition freezes the last painted world, including any dialogue on it.
+        if (source === 'script' && battleEntryNeedsWorldPaint)
+          await frames.waitForWorldPaint(signal)
         return battleHost.start(
           request.enemyTeamId,
           {
@@ -4809,7 +4811,7 @@ export async function bootGame(
           if (touched) {
             if (runner) enqueuePendingTouchTrigger(touched)
             else {
-              touchLandingNeedsPaint = true
+              battleEntryNeedsWorldPaint = true
               fireTrigger(touched)
             }
             // The landing owns this world's post-contact slot even when another runner currently
@@ -5489,7 +5491,7 @@ export async function bootGame(
     screenHold.cancel()
     fadingSourceFrame = undefined
     presentedBattleFrame = false
-    touchLandingNeedsPaint = false
+    battleEntryNeedsWorldPaint = false
     ditherTransition.cancel()
     sceneEntrySession.cancel()
     worldPresentation.clearEntityFrames()
@@ -6801,7 +6803,7 @@ export async function bootGame(
     presentWorld: (frameAt) => {
       motion.clearScriptGaitHandoffs()
       runWithPresentationFinalizer(() => render(frameAt), abortScript)
-      touchLandingNeedsPaint = false
+      battleEntryNeedsWorldPaint = false
     },
   }
   async function tick(t: number): Promise<void> {

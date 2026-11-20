@@ -42,6 +42,7 @@ describe('WorldCamera ownership', () => {
     f.bounds({ minX: 0, minY: 0, maxX: 640, maxY: 400 })
     const done = f.camera.pan(1000, -1000, 1, new AbortController().signal)
     f.camera.advance(16)
+    f.camera.advance(100)
     await done
     expect(f.camera.position).toEqual({ x: 320, y: 0 })
     expect(f.camera.offset).toEqual({ x: 1000, y: -1000 })
@@ -63,7 +64,7 @@ describe('WorldCamera ownership', () => {
     expect(f.camera.position).toEqual({ x: 16, y: 136 })
   })
 
-  test('a 48-frame pan moves once per 100 ms after its first frame', async () => {
+  test('a 48-frame pan shows each step for a world beat before the next cue', async () => {
     const f = fixture()
     let finished = false
     const done = f.camera.pan(4, 2, 48, new AbortController().signal).then(() => {
@@ -84,9 +85,12 @@ describe('WorldCamera ownership', () => {
       expect(f.camera.offset).toEqual({ x: 4 * (step + 1), y: 2 * (step + 1) })
     }
 
-    await done
     expect(f.camera.position).toEqual({ x: 192, y: 224 })
-    f.camera.advance(100)
+    f.camera.advance(99)
+    await Promise.resolve()
+    expect(finished).toBe(false)
+    f.camera.advance(1)
+    await done
     expect(f.camera.offset).toEqual({ x: 192, y: 96 })
   })
 
@@ -112,8 +116,9 @@ describe('WorldCamera ownership', () => {
     await frames.tick(30_049)
     expect(camera.offset).toEqual({ x: 12, y: 6 })
     await frames.tick(30_050)
-    await done
     expect(camera.offset).toEqual({ x: 16, y: 8 })
+    await frames.tick(30_150)
+    await done
   })
 
   test('replacement resolves the old waiter and starts from the current displacement', async () => {
@@ -136,6 +141,7 @@ describe('WorldCamera ownership', () => {
     await Promise.resolve()
     expect(nextDone).toBe(false)
     f.camera.advance(1)
+    f.camera.advance(100)
     await second
     expect(f.camera.offset).toEqual({ x: 1, y: 8 })
   })
@@ -151,6 +157,7 @@ describe('WorldCamera ownership', () => {
     await expect(f.camera.pan(99, 99, 9, dead.signal)).rejects.toMatchObject({ name: 'AbortError' })
     expect(finished).toBe(false)
     f.camera.advance(16)
+    f.camera.advance(100)
     f.camera.advance(100)
     await first
     expect(f.camera.offset).toEqual({ x: 8, y: 12 })
@@ -197,6 +204,7 @@ describe('WorldCamera ownership', () => {
     f.camera.advance(16)
     f.camera.snap({ col: 30, row: 10, height: 0 })
     expect(f.camera.offset).toEqual({ x: 160, y: 80 })
+    f.camera.advance(100)
     f.camera.advance(100)
     await done
     expect(f.camera.offset).toEqual({ x: 4, y: 6 })

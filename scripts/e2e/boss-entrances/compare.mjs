@@ -2043,9 +2043,11 @@ async function inspect(path, engine) {
   if (tomb) {
     const activeFrames = events.filter(
       ({ kind, order, surface, active }) =>
-        order > prepared.order &&
+        order > launch[0].order &&
         order < won.order &&
-        (kind === 'command-menu-drawn' ||
+        (kind === 'entry-band' ||
+          kind === 'entry-complete' ||
+          kind === 'command-menu-drawn' ||
           (kind === 'boss-frame' && order > entry.order && active) ||
           (kind === 'paint' && surface === 'battle')),
     )

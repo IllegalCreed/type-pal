@@ -46,6 +46,37 @@ test('battle ownership is sampled after world advancement and consumes rendering
   ])
 })
 
+test('a world paint waiter survives a battle frame and resumes after the actual world draw', async () => {
+  const f = frameFixture()
+  const controller = new AbortController()
+  const detach = vi.spyOn(controller.signal, 'removeEventListener')
+  const settled = vi.fn(() => f.events.push(['entry snapshot']))
+  const done = f.session.waitForWorldPaint(controller.signal).then(settled)
+  f.state.battle = true
+  await f.tick(100)
+  expect(settled).not.toHaveBeenCalled()
+
+  f.state.battle = false
+  await f.tick(116)
+  await done
+  expect(f.events.slice(-2)).toEqual([['world'], ['entry snapshot']])
+  controller.abort()
+  await f.tick(132)
+  expect(settled).toHaveBeenCalledTimes(1)
+  expect(detach).toHaveBeenCalledTimes(1)
+})
+
+test('cancels a pending world paint waiter when its script is aborted', async () => {
+  const f = frameFixture()
+  const controller = new AbortController()
+  const detach = vi.spyOn(controller.signal, 'removeEventListener')
+  const done = f.session.waitForWorldPaint(controller.signal)
+  controller.abort()
+  await expect(done).rejects.toMatchObject({ name: 'AbortError' })
+  await f.tick(100)
+  expect(detach).toHaveBeenCalledTimes(1)
+})
+
 test('modal activation freezes the current frame while key consumption and world presentation continue', () => {
   const f = frameFixture()
   f.tick(100)
