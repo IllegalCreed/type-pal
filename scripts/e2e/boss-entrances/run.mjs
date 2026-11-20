@@ -86,7 +86,8 @@ const observe = bossObserver({
         scriptedStop ||
         source.gai ||
         source.wood ||
-        source.phoenix,
+        source.phoenix ||
+        source.qilin,
     ),
   victoryFade: Boolean(source.tower),
   watchChoice: Boolean(source.tian),
@@ -278,7 +279,8 @@ async function makeGameFixture(page, baseURL, until) {
       source.route ||
       revisit ||
       source.wood ||
-      source.phoenix
+      source.phoenix ||
+      source.qilin
       ? nativeRoles
       : null,
   )
@@ -590,19 +592,23 @@ async function playEncounter({ page, press, health, capture }) {
   let lastScreen = -1
   let lastLine = null
   let confirmed = false
-  const worldDeadline = source.route
+  const worldDeadline = source.qilin
     ? capture.enabled
-      ? 480_000
-      : 215_000
-    : handoff || scriptedReturn || source.tian || source.gai || spec.prelude?.completedAt
-      ? 195_000
-      : 125_000
+      ? 360_000
+      : 195_000
+    : source.route
+      ? capture.enabled
+        ? 480_000
+        : 215_000
+      : handoff || scriptedReturn || source.tian || source.gai || spec.prelude?.completedAt
+        ? 195_000
+        : 125_000
   const deadline = Date.now() + worldDeadline
   for (;;) {
     health()
     const view = await read(page)
     const { state, live, ended } = view
-    if ((source.route || source.wood || source.phoenix) && ended)
+    if ((source.route || source.wood || source.phoenix || source.qilin) && ended)
       assert.equal(view.outcome, game ? 'won' : 'victory', 'native battle ended before victory')
     const returned = handoff
       ? view.successor?.scene === handoff.scene
@@ -613,7 +619,10 @@ async function playEncounter({ page, press, health, capture }) {
     assert(Date.now() < deadline, `world did not return after battle: ${JSON.stringify(view)}`)
     const box = state.box
     const line = lineKey(box)
-    const timedReward = ended && source.tomb?.reward === box?.text
+    const timedReward =
+      ended &&
+      (source.tomb?.reward === box?.text ||
+        source.qilin?.notes.some(({ text }) => text === box?.text))
     if (source.tian && !confirmed && view.choice) {
       assert.equal(view.choice.yes, false, 'first painted choice is No')
       await press('ArrowRight', 'open-jar-highlight')
@@ -919,15 +928,15 @@ await runBrowserJourney({
         mode:
           source.tower || source.route || source.scriptedStop || source.phoenix
             ? undefined
-            : source.tian
+            : source.tian || spec.interact
               ? 'ready'
               : 'dialogue',
       })
-      if (source.tian) {
+      if (source.tian || spec.interact) {
         await press(confirm, 'interact')
         await wait(
           ({ state }) => state?.box?.text && state.scene === spec.scene,
-          'native interaction reads the sealed jar',
+          'native interaction starts the foreground dialogue',
         )
       }
       if (source.tower)
@@ -986,6 +995,11 @@ await runBrowserJourney({
         return
       }
       assert.deepEqual(result.returned.state.position, returned)
+      if (source.qilin)
+        await page.waitForFunction(
+          (returnedAt) => performance.now() >= returnedAt + 450,
+          result.returned.atMs,
+        )
       await walk({
         page,
         health,

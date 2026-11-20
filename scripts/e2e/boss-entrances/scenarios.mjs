@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { gunzipSync } from 'node:zlib'
+import { readFireQilinSources } from './fire-qilin-presentation.mjs'
 import { readGaiLuojiaoSources } from './gai-luojiao-presentation.mjs'
 import { readGoldenToadSources } from './golden-toad-presentation.mjs'
 import { readPhoenixSources } from './phoenix-presentation.mjs'
@@ -93,6 +94,7 @@ export function partyFor(spec) {
       tomb: fullParty,
       ming: mingOpeningParty,
       taoyuan: taoyuanParty,
+      'anu-led': [taoyuanParty[1], taoyuanParty[0]],
     }[spec.party] ?? party
   return spec.initialHP === undefined
     ? members
@@ -648,6 +650,46 @@ export const scenarios = {
       },
     },
   },
+  qilin: {
+    id: 'fire-qilin',
+    scene: 's201',
+    owner: 'e3353',
+    watched: ['e3361', 'e3362'],
+    interact: true,
+    team: 224,
+    enemy: 'enemy-463',
+    start: [140, 43, 0],
+    contact: [140, 42, 0],
+    approach: 'ArrowUp',
+    party: 'anu-led',
+    music: 42,
+    field: 35,
+    slot: 0,
+    seed: 4,
+    maxRounds: 16,
+    settlementDwellMs: 180,
+    disk: {
+      entry: 29953,
+      battle: 29972,
+      field: 29970,
+      music: 29971,
+      last: 30215,
+      owner: [1584, 1448, 2, 2],
+    },
+    mapMusic: { scene: 's201', ip: 28864, track: 83 },
+    prelude: { wave: 28863 },
+    world: {
+      inventory: [
+        { itemId: '266', count: 1 },
+        { itemId: '276', count: 1 },
+      ],
+      gameState: 0,
+      triggerMode: 2,
+      returned: [141, 41, 0],
+      departure: [141, 42, 0],
+      exit: 'ArrowDown',
+    },
+  },
   'wood-taoist': {
     id: 'wood-taoist',
     scene: 's181',
@@ -1190,6 +1232,10 @@ export async function readSources(spec) {
     spec.id === 'wood-taoist' ? readWoodTaoistSources(data, commands, spec, object) : undefined
   const phoenix =
     spec.id === 'gold-winged-phoenix' ? readPhoenixSources(data, commands, spec) : undefined
+  const qilin =
+    spec.id === 'fire-qilin'
+      ? readFireQilinSources(data, commands, spec, partyFor(spec))
+      : undefined
   const hook = spec.predecessor ? readInnBattleDialogue(commands, object, data.actors) : null
   const turnStart =
     hook ??
@@ -1305,6 +1351,18 @@ export async function readSources(spec) {
             `projects/pal/content/maps/${data.handoffScene.mapId}.json`,
           ]
         : []),
+      ...(qilin
+        ? [
+            'scripts/e2e/boss-entrances/fire-qilin-presentation.mjs',
+            'scripts/e2e/rendered-dialogue-comparison.mjs',
+            'data/extracted/data/scene/205.json',
+            'data/extracted/data/scene/206.json',
+            'data/extracted/data/scene/212.json',
+            'projects/pal/content/scenes/s205.json',
+            'projects/pal/content/scenes/s206.json',
+            'projects/pal/content/scenes/s212.json',
+          ]
+        : []),
       ...(gai
         ? [
             'scripts/e2e/boss-entrances/gai-luojiao-presentation.mjs',
@@ -1342,6 +1400,7 @@ export async function readSources(spec) {
     gai,
     wood,
     phoenix,
+    qilin,
     route,
     summonBonus,
     summoning: summonScript && {

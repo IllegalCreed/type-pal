@@ -182,6 +182,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "asset": "sound.pal.236",
                       "kind": "playSound"
                     },
@@ -189,22 +193,23 @@
                       "cue": {
                         "identity": {
                           "kind": "unbound",
-                          "portrait": {
-                            "asset": "portrait.pal.029",
-                            "side": "right"
-                          },
                           "speaker": "spk.麒麟"
                         },
                         "rows": [
                           {
                             "text": "dlg.10675"
                           }
-                        ]
+                        ],
+                        "portraitLayout": true
                       },
                       "kind": "dialog"
                     },
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "boss": true,
@@ -265,9 +270,13 @@
                             "text": "dlg.10676"
                           }
                         ],
-                        "slot": "narration"
+                        "slot": "narration",
+                        "autoAdvance": 1400
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "itemId": "266",
@@ -301,7 +310,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "setEntityState",
@@ -783,8 +792,11 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "facing": "down",
@@ -804,7 +816,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "facing": "down",
@@ -824,7 +836,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 120
+                      "ms": 300
                     },
                     {
                       "cue": {
@@ -844,6 +856,10 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "cue": {
                         "identity": {
                           "kind": "narration"
@@ -853,9 +869,13 @@
                             "text": "dlg.10739"
                           }
                         ],
-                        "slot": "narration"
+                        "slot": "narration",
+                        "autoAdvance": 1400
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "itemId": "276",
@@ -1394,12 +1414,8 @@
                       "kind": "clearDialog"
                     },
                     {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s201",
-                        "entity": "e3362"
-                      }
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setParty",
@@ -1407,6 +1423,27 @@
                         "anu",
                         "li-xiaoyao"
                       ]
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 141,
+                        "height": 0,
+                        "row": 41
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s201",
+                        "entity": "e3362"
+                      }
                     },
                     {
                       "kind": "setEntityState",

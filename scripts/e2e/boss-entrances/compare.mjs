@@ -8,6 +8,7 @@ import { readEvidenceArtifact } from '../evidence-artifact.mjs'
 import { assertInputLedger } from '../input-ledger.mjs'
 import { inspectClearedDialogueFrames } from '../rendered-dialogue-comparison.mjs'
 import { inspectPhoenixPresentation } from './compare-phoenix-presentation.mjs'
+import { inspectFireQilin } from './fire-qilin-presentation.mjs'
 import { inspectGaiLuojiaoPresentation } from './gai-luojiao-presentation.mjs'
 import { inspectGoldenToadPresentation } from './golden-toad-presentation.mjs'
 import { inspectPoisonLadyPresentation } from './poison-lady-presentation.mjs'
@@ -1290,6 +1291,14 @@ async function inspect(path, engine) {
       : []),
     ...revisitRoutes.map(([phase, , moves]) => [phase, moves.map(({ key }) => key)]),
   ]
+  if (spec.interact)
+    assert.deepEqual(
+      report.actions
+        .filter(({ phase }) => phase === 'interact')
+        .map(({ kind, key }) => [kind, key]),
+      [['press', game ? 'Space' : 'Enter']],
+      'one physical interaction after the approach step',
+    )
   if (source.tian) {
     const keys = {
       interact: game ? 'Space' : 'Enter',
@@ -2013,7 +2022,8 @@ async function inspect(path, engine) {
     source.toad ||
     source.gai ||
     source.wood ||
-    source.phoenix
+    source.phoenix ||
+    source.qilin
       ? undefined
       : checkDialogue(
           events,
@@ -2043,6 +2053,18 @@ async function inspect(path, engine) {
         bounds: boundaries,
         source,
         spec,
+        game,
+      })
+    : undefined
+  const qilin = source.qilin
+    ? inspectFireQilin({
+        events,
+        draws: renderedDialogue,
+        bounds: { ...boundaries, departure },
+        source,
+        spec,
+        timeOrigin: raw.timeOrigin,
+        actions: report.actions,
         game,
       })
     : undefined
@@ -2258,6 +2280,7 @@ async function inspect(path, engine) {
     gai,
     wood,
     phoenix,
+    qilin,
     tian,
     spiderForeground,
     clips: {
@@ -2301,6 +2324,7 @@ if (!failures.length) {
       ...(result.gai?.issues ?? []),
       ...(result.wood?.issues ?? []),
       ...(result.phoenix?.issues ?? []),
+      ...(result.qilin?.issues ?? []),
       ...(result.ring?.opening.issues ?? []),
     ])
       failures.push({ engine: result.engine, ...issue })
