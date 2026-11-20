@@ -69,6 +69,10 @@ test.each([
     startBattle: (request, signal, source) => start(request, signal, source),
     teleportOut: (signal, presentation) => teleport(signal, presentation),
   })
+  const waitForWorldPaint = vi.fn(async (signal: AbortSignal) => {
+    expect(signal).toBe(f.signal)
+    signal.throwIfAborted()
+  })
   const activeParent = { running: true }
   const activeScene = new ActiveScene(runtimeSceneView(f.scene, f.world.script!), () => {})
   const env = {
@@ -92,6 +96,8 @@ test.each([
     dismountParty: cleanup,
     releaseAllAuthority: cleanup,
     drainPendingTouchTrigger: cleanup,
+    touchLandingNeedsPaint: true,
+    frames: { waitForWorldPaint },
     sceneChangedByScript: false,
     result: 'victory',
     launchSignal: f.signal,
@@ -115,6 +121,7 @@ test.each([
   >(property('runDefeated', 'definitions,signal,assertCurrent', true), env)
   const battleBoundary = vi.fn(async (team: string, options: unknown, signal: AbortSignal) => {
     expect(team).toBe('fixture-team')
+    expect(waitForWorldPaint).toHaveBeenCalledExactlyOnceWith(f.signal)
     expect(options).toMatchObject({ scripted: true })
     expect(signal).toBe(f.signal)
     env.launchSignal = signal
@@ -150,6 +157,7 @@ test.each([
       : { first: true, childEnd: true, parentEnd: true },
   )
   expect(battleBoundary).toHaveBeenCalledTimes(entry === 'battle' ? 1 : 0)
+  expect(waitForWorldPaint).toHaveBeenCalledTimes(entry === 'battle' ? 1 : 0)
   expect(env.runner).toBe(activeParent)
   expect(cleanup).not.toHaveBeenCalled()
 })

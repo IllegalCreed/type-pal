@@ -19,6 +19,7 @@ describe('Current scene destination aggregate', () => {
     { name: 'default', target: {} },
     { name: 'named', target: { entryId: 'door' } },
     { name: 'temporary', target: { pos: { col: 2, row: 3, height: 4 } } },
+    { name: 'current', target: { pos: 'current' } },
   ] as const)('$name destination clears explicit facing through submission and canonical reopening', async ({
     target,
   }) => {
@@ -80,21 +81,21 @@ describe('Current scene destination aggregate', () => {
       pos: { col: 2, row: 4, height: 0 },
       transition,
     })
-    await click('命名')
+    await choose('落点', '命名落点')
     expect(row('命名落点').textContent).toContain('正门')
     await choose('命名落点', '后门')
     await f.finish({ kind: 'loadScene', scene: 'start', entryId: 'back', transition })
   })
   test('reselecting named mode retains the valid selected entry instead of replacing it with the first', async () => {
     const f = await commandForm({ kind: 'loadScene', scene: 'start', entryId: 'back' })
-    await click('命名')
+    await choose('落点', '命名落点')
     expect(row('命名落点').textContent).toContain('后门')
     await choose('朝向', 'left')
     await f.finish({ kind: 'loadScene', scene: 'start', entryId: 'back', facing: 'left' })
   })
   test('temporary coordinates start at the target default including its height', async () => {
     const f = await commandForm({ kind: 'loadScene', scene: 'start', entryId: 'door' })
-    await click('临时坐标')
+    await choose('落点', '临时坐标')
     await f.finish({ kind: 'loadScene', scene: 'start', pos: { col: 4, row: 3, height: 2 } })
   })
   test.each([
@@ -121,7 +122,7 @@ describe('Current scene destination aggregate', () => {
       facing: 'left',
       transition,
     })
-    await click('默认')
+    await choose('落点', '默认落点')
     await f.finish({ kind: 'loadScene', scene: 'start', facing: 'left', transition })
   })
   test('switching to modern timing changes only transition', async () => {
@@ -144,9 +145,12 @@ describe('Current scene destination aggregate', () => {
   })
   test('a target with no named entries disables named mode and seeds its actual zero-height default', async () => {
     const f = await commandForm({ kind: 'loadScene', scene: 'other' })
-    const named = [...row('落点').querySelectorAll('button')].find((b) => b.textContent === '命名')
-    expect(named?.disabled).toBe(true)
-    await click('临时坐标')
+    await click('落点模式')
+    const named = [...document.querySelectorAll('[role="option"]')].find(
+      (option) => option.textContent === '命名落点',
+    )
+    expect(named?.getAttribute('aria-disabled')).toBe('true')
+    await choose('落点', '临时坐标')
     expect(row('col / row / h').querySelectorAll('input')[2]?.value).toBe('0')
     await f.finish({ kind: 'loadScene', scene: 'other', pos: { col: 9, row: 6, height: 0 } })
   })

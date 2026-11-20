@@ -55,6 +55,14 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
         currentIdentityDigest: 'ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84',
         fileSha256: '64a697fc706c100bd295dbebf50a2fc6d549969ab3f7ad7568d5e2387b4fdd21',
       },
+      {
+        file: palAutoFile,
+        previous: 5404,
+        current: 5167,
+        previousIdentityDigest: 'ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84',
+        currentIdentityDigest: '69987d4f175eb1250205fbc4d76f6453aff6398393cce2c8fe51fe7720a56f85',
+        fileSha256: 'df78da33df898da1d97d59eadfda0e48e292b1cd5661713df4b913d9f1512cc2',
+      },
     ],
   )
   assert.deepEqual(

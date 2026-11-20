@@ -2,9 +2,9 @@
   "version": 1,
   "baseline": {
     "files": 43,
-    "leafCalls": 125,
+    "leafCalls": 126,
     "controls": {
-      "DsNumberInput": 56,
+      "DsNumberInput": 57,
       "DsDraftNumberInput": 29,
       "DsNumberField": 5,
       "DsDraftNumberField": 35
@@ -706,7 +706,7 @@
         "context": "none",
         "fieldClass": ""
       },
-      "count": 13,
+      "count": 14,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
       "measure": "compact-parent",

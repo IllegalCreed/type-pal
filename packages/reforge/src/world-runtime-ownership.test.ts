@@ -100,7 +100,12 @@ describe('A3 world runtime ownership', () => {
     const source = body('render')
     expectOrder(source, [
       'const scriptConfirm = scriptConfirmModal.view',
-      'const heldEntryFrame = sceneEntrySession.heldFrame',
+      'const heldFrame = sceneEntrySession.heldFrame ?? fadingSourceFrame',
+      'if (heldFrame)',
+      'ctx.putImageData(heldFrame, 0, 0)',
+      'drawFadeCurtain()',
+      'syncDitherDebugDataset()',
+      'return',
       'updateCamera()',
       'deriveFollowers()',
       'worldPresentation.sprites',

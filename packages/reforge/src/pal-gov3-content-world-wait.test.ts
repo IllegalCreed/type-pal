@@ -56,12 +56,30 @@ function stageFor(path: string) {
   throw new Error(`unterminated body path ${path}`)
 }
 
-test('OP_WAIT_FRAMES preserves 389 sites including the palace guide movement replacement', async () => {
+test('OP_WAIT_FRAMES accounts for all 389 source sites and explicitly reauthored stages', async () => {
   expect(receipt.counts).toMatchObject({ appliedSites: 389, appliedStages: 81, appliedScenes: 66 })
   const sites = new Set<string>()
+  const authored = new Map(receipt.q2.stages.map((stage) => [stage.originalFirstPath, stage]))
   for (const stage of receipt.stages) {
     const first = stage.paths[0]
     if (!first) throw new Error(`empty receipt stage ${stage.owner}`)
+    for (const { path } of stage.paths) {
+      expect(sites.has(path), path).toBe(false)
+      sites.add(path)
+    }
+    const replacement = authored.get(first.path)
+    if (replacement) {
+      const { stage: current } = stageFor(`${replacement.stagePath}/body/0`)
+      expect(await hash(current.body), replacement.stagePath).toBe(replacement.afterBodyHash)
+      const waits = current.body.flatMap((command, index) => {
+        if (command && typeof command === 'object' && 'kind' in command && command.kind === 'wait')
+          return [[index, Reflect.get(command, 'ms')]]
+        return []
+      })
+      expect(waits, replacement.stagePath).toEqual(replacement.waits)
+      authored.delete(first.path)
+      continue
+    }
     const resolved = stageFor(first.path)
     let previousBody = resolved.stage.body
     if (first.path === palaceGuideWaitPath) {
@@ -99,13 +117,12 @@ test('OP_WAIT_FRAMES preserves 389 sites including the palace guide movement rep
     }
     expect(await hash(previousBody), stage.owner).toBe(stage.afterBodyHash)
     for (const entry of stage.paths) {
-      expect(sites.has(entry.path)).toBe(false)
-      sites.add(entry.path)
       const command = stageFor(entry.path).command
       expect(command).toEqual(
         entry.path === palaceGuideWaitPath ? palaceGuideMove : { kind: 'wait', ms: entry.afterMs },
       )
     }
   }
+  expect(authored.size).toBe(0)
   expect(sites.size).toBe(receipt.counts.appliedSites)
 })
