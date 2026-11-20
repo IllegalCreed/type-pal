@@ -2,7 +2,7 @@
  *  旧证：pal-authored-overlays.test.ts、pal-casualty-scripts.test.ts、
  *  pal-item-message-source.pal.test.ts、pal-store-boundary.test.ts 覆盖常规路径；
  *  本卡按 gap-map 直击未覆盖臂：隐蛊/puppet overlay、伤亡 opcode 轴、
- *  窄消息形状漂移、Store0 货单与 census 轴。全部纯内存，typed 输入。
+ *  窄消息形状漂移与 Store0 炼化。全部纯内存，typed 输入。
  */
 
 import type { ItemData } from '@type-pal/content'
@@ -23,10 +23,7 @@ import {
 } from './pal-item-message-source.js'
 import type { SourceStore } from './pal-shop-projection.js'
 import type { SourceItem } from './pal-source-types.js'
-import {
-  assertPalAlchemyBoundaryInvariant,
-  assertPalStoreBoundaryInvariant,
-} from './pal-store-boundary.js'
+import { assertPalAlchemyBoundaryInvariant } from './pal-store-boundary.js'
 import type { SourceCmd } from './source-facts.js'
 
 /** 伤亡/窄消息解析器经窄化读取的专有字段；fixture 扩展承载，消费处放宽为 SourceCmd。 */
@@ -487,7 +484,7 @@ describe('O05 buildPalItemMessageSources / translate*：窄消息形状漂移', 
   })
 })
 
-describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
+describe('PAL Store0 alchemy input boundaries', () => {
   const sourceStores: SourceStore[] = [
     { id: 0, items: [100, 105, 95, 112, 72, 131, 97, 102, 111] },
     ...Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: [141] })),
@@ -538,7 +535,6 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
     item('111'),
   ]
   const legalItems = () => [gourd, vessel, ...rewardItems()]
-  const openShop = (shop: number, mode: 'buy' | 'sell') => ({ kind: 'openShop', shop, mode })
 
   test('alchemy 正控通过并校验 112/72 buyPrice=0 合同', () => {
     const items = legalItems().map((entry) =>
@@ -551,13 +547,7 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
     )
   })
 
-  test('源 Store0 数量/零奖励 轴拒绝', () => {
-    expect(() =>
-      assertPalAlchemyBoundaryInvariant({
-        sourceStores: sourceStores.filter(({ id }) => id !== 0),
-        items: legalItems(),
-      }),
-    ).toThrow('PAL Store0 invariant: 源 Store0 数量 0 != 1')
+  test('rejects an empty item ID in the extracted Store0 reward table', () => {
     expect(() =>
       assertPalAlchemyBoundaryInvariant({
         sourceStores: [{ id: 0, items: [0] }],
@@ -596,97 +586,5 @@ describe('O05 assertPalStoreBoundaryInvariant / Alchemy：边界轴', () => {
     expect(() => assertPalAlchemyBoundaryInvariant({ sourceStores, items: brokenVessel })).toThrow(
       'PAL Store0 invariant: item268 unavailableMessage=错',
     )
-  })
-
-  test('发布商店：ShopDef0 / 源 id 顺序 / 货单一致性 逐轴拒绝', () => {
-    const shops = (
-      fn: (list: Array<{ id: number; items: string[] }>) => Array<{ id: number; items: string[] }>,
-    ) => fn(Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })))
-    const census = { expectedBuyCalls: 0 }
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        sourceStores,
-        shops: shops((list) => [{ id: 0, items: [] }, ...list.slice(1)]),
-        items: legalItems(),
-        commandRoots: [],
-      }),
-    ).toThrow('PAL Store0 invariant: 禁止发布 ShopDef0')
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        sourceStores,
-        shops: shops((list) => list.slice(1)),
-        items: legalItems(),
-        commandRoots: [],
-      }),
-    ).toThrow(/真实商店 id\/顺序漂移/)
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        sourceStores,
-        shops: shops((list) =>
-          list.map((shop) => (shop.id === 1 ? { ...shop, items: ['999'] } : shop)),
-        ),
-        items: legalItems(),
-        commandRoots: [],
-      }),
-    ).toThrow('PAL Store0 invariant: 生成商店 1 货单与源不一致')
-    void census
-  })
-
-  test('openShop census：shop 非整数 / mode 非法 / buy 未知商店 / sell 商店非 0 逐轴拒绝', () => {
-    const base = {
-      sourceStores,
-      shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })),
-      items: legalItems(),
-    }
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [[{ kind: 'openShop', shop: 1.5, mode: 'buy' }]],
-      }),
-    ).toThrow('PAL Store0 invariant: openShop.shop 非整数 1.5')
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [[{ kind: 'openShop', shop: 1, mode: 'steal' }]],
-      }),
-    ).toThrow('PAL Store0 invariant: openShop.mode 非法 steal')
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [[openShop(99, 'buy')]],
-        expectedBuyCalls: 1,
-      }),
-    ).toThrow('PAL Store0 invariant: buy openShop 引用未知商店 99')
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [[openShop(1, 'buy'), openShop(0, 'sell'), openShop(3, 'sell')]],
-        expectedBuyCalls: 1,
-        expectedSellCalls: 2,
-        expectedSellShopId: 0,
-      }),
-    ).toThrow('PAL Store0 invariant: sell shop 应为 0，收到 3')
-  })
-
-  test('buy/sell 数量期望不符 → 精确数量诊断（嵌套数组递归）', () => {
-    const base = {
-      sourceStores,
-      shops: Array.from({ length: 20 }, (_v, i) => ({ id: i + 1, items: ['141'] })),
-      items: legalItems(),
-    }
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [{ nested: [[openShop(1, 'buy')], [openShop(2, 'buy')]] }],
-        expectedBuyCalls: 1,
-      }),
-    ).toThrow('PAL Store0 invariant: buy openShop 数量 2 != 1')
-    expect(() =>
-      assertPalStoreBoundaryInvariant({
-        ...base,
-        commandRoots: [[openShop(0, 'sell')]],
-        expectedSellCalls: 2,
-      }),
-    ).toThrow('PAL Store0 invariant: sell openShop 数量 1 != 2')
   })
 })

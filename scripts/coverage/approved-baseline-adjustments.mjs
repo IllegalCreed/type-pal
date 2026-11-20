@@ -5,6 +5,91 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'reforge-presentation-migrate-boundaries-20261120',
+    authority:
+      'User authorizes exact baseline recounts for justified structural changes and approved the removal of the test-only PAL shop scan and write-before-validation gaps. The archive compares main CI and candidate V8 file reports. The retired scanner had fully covered statements, and the real POSIX PAL bake command and seven isolation cases require data outside fast. The other two file deltas are fully observed map validation branches. These are all Migrate deltas. Runners, packages, source inventory, other floors and protected checks remain intact.',
+    evidence: 'docs/tasks/evidence/QUALITY-REFORGE-PRESENTATION-1.tar.gz',
+    baselineSha256: '7460534b123c1da08b25ea3b71d4d2793c71ca8ca08b2222ad02f9b53b73057b',
+    sources: [
+      {
+        path: 'packages/migrate/scripts/bake-assets.mts',
+        sha256: 'fb46d0ea5a080a23f8a6cf30cd3facdf9dd60f3f7ee08ece5de4720ab19719e9',
+      },
+      {
+        path: 'packages/migrate/src/pal-store-boundary.ts',
+        sha256: 'd77944ff28fa5ebd52f594bc7e503e1c60dbbe5d1cd1da493133746db3b4ba0e',
+      },
+      {
+        path: 'packages/migrate/src/project-map-audit.ts',
+        sha256: '9ad5cea854771ff5b2b3ab11c519a38ac23c7fd643c9a1c8eac95f0720a04bf0',
+      },
+      {
+        path: 'packages/migrate/src/project-map-converter.ts',
+        sha256: '1e1a1ba50e3bf1c53d7a651fe78e461d0ec04664661af20cc0e3b7eea41411a4',
+      },
+      {
+        path: 'packages/migrate/src/pal-current-publication.ts',
+        sha256: 'd80fd6536f89950f1586859b3cf8167c0c92d341f75194c59f7cf80682a1c7d3',
+      },
+      {
+        path: 'packages/migrate/src/pal-store-boundary.test.ts',
+        sha256: '45a424a6decb3fdba7fcb86ef37f0ee11e60be9ccc8f43385a2e88faac74f1f4',
+      },
+      {
+        path: 'packages/migrate/src/pal-supply-guards.glm-o.test.ts',
+        sha256: '10c47741341af57fe589aa980be13e831d43eb7744d3709d74a11488a6c39d6e',
+      },
+      {
+        path: 'packages/migrate/src/bake-engine-chrome.pal.test.ts',
+        sha256: '763e878282b427be69b01b74b91acee9079cfe516f2ce00ef33e1b5fc177499b',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      migrate: {
+        before: {
+          statements: {
+            covered: 2316,
+            total: 2547,
+          },
+          branches: {
+            covered: 1614,
+            total: 1772,
+          },
+          functions: {
+            covered: 376,
+            total: 399,
+          },
+          lines: {
+            covered: 2030,
+            total: 2229,
+          },
+        },
+        after: {
+          statements: {
+            covered: 2275,
+            total: 2527,
+          },
+          branches: {
+            covered: 1580,
+            total: 1752,
+          },
+          functions: {
+            covered: 373,
+            total: 397,
+          },
+          lines: {
+            covered: 1996,
+            total: 2213,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'migration-source-projections-20261120',
     authority:
       'User authorizes exact baseline recounts after justified restructuring and responsibility-based test deduplication. Local isolated main and candidate V8 unit profiles match the protected base counts. Migrate branches alone decrease 1639/1799 to 1614/1772. The attached native hit maps show removal of duplicate graph, labeling and audio branches, a partial RGBA pixel outside the production PNG contract, and synthetic loop, static role aliases and duplicate entity IDs excluded by the PAL producer. The existing legacy-tail loader branch was retained and rerun. The statement, function and line floors, test and production selection rules, measured gains, and every other package floor are preserved.',

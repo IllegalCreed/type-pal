@@ -74,6 +74,24 @@ test('default playback mounts an inline video and releases the global skip key w
   }
 })
 
+test('a media pause failure still releases the video and global skip key', async () => {
+  const { pause } = mediaPort()
+  pause.mockImplementationOnce(() => {
+    throw new DOMException('already paused', 'InvalidStateError')
+  })
+  const playback = startPlayback()
+  try {
+    const video = requireVideo(document.body)
+    video.dispatchEvent(new Event('ended'))
+    await expect(playback.pending).resolves.toBeUndefined()
+    expect(video.isConnected).toBe(false)
+    expect(pause.mock.contexts).toEqual([video])
+    expect(dispatchKey('Space').defaultPrevented).toBe(false)
+  } finally {
+    await playback.close()
+  }
+})
+
 test('a decode error reports once, removes the video and completes playback', async () => {
   const { pause } = mediaPort()
   const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})

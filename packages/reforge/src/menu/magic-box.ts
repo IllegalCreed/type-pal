@@ -1,12 +1,20 @@
-// 仙术菜单 Canvas UI(D17 → P2 施法链)。真值坐标见 docs/phase2/archive/plans/magic-menu-plan.md
-// (= game draw-magic.ts,uigame.c:653-875 1:1)。在 320 逻辑坐标画,调用方已 ctx.scale(WORLD_SCALE)。
+// 大世界仙术菜单使用 320 逻辑坐标。调用方负责缩放、选择状态和施法。
+// 选人和术网格的位置参考 game draw-magic.ts 与 SDLPal PAL_MagicMenu。
 // 三阶段:pick-caster(全队信息框 + 选人竖列框)/ pick-spell(网格 + MP box + 描述)/
 // pick-target(同 pick-spell + 队员框顶红箭头)。
 import type { WorldState } from '@type-pal/content'
-import type { MagicMenuState } from '../magic-menu-state.js'
+import { MAGIC_GRID_COLS, type MagicMenuState } from '../magic-menu-state.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawScroll, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import {
+  COLOR_DISABLED,
+  COLOR_DISABLED_SEL,
+  COLOR_NORMAL,
+  drawScroll,
+  drawSlicedBox,
+  type MenuAssets,
+  SELECTED_COLORS,
+} from './menu-box.js'
 
 // ── 网格(红框)──
 const GRID_X = 10
@@ -17,21 +25,8 @@ const ITEM_X0 = 35
 const ITEM_Y0 = 54
 const ITEM_DX = 87 // 列间距
 const ITEM_DY = 18 // 行间距
-const GRID_COLS = 3
 const CURSOR_DX = 25 // 光标相对 item 偏移(draw-magic)
 const CURSOR_DY = 10
-// 色(palette 0):普通米白 / 选中黄(6 帧闪烁)
-const COLOR_NORMAL = [199, 186, 174] as const
-const COLOR_DISABLED = [166, 40, 32] as const // 0x18 MP 不足(原版 MENUITEM_COLOR_INACTIVE)
-const COLOR_DISABLED_SEL = [215, 109, 93] as const // 0x1C MP 不足 + 选中(SELECTED_INACTIVE)
-const SELECTED_COLORS = [
-  [247, 231, 109],
-  [235, 211, 97],
-  [227, 190, 89],
-  [219, 174, 81],
-  [231, 195, 93],
-  [243, 219, 105],
-] as const
 // ── MP box(左上单行框):needed(黄)/ current(青)── posX = draw-magic pos.x(字段左锚)
 const MP_BOX_LEN = 5
 const MP_NEEDED_X = 15
@@ -155,8 +150,8 @@ export function drawMagicMenu(
   // ① 红框网格 + 仙术名(3 列 × 5 行)。先画字、再画光标 → 光标在文字之上。
   drawSlicedBox(ctx, assets.redBox, GRID_X, GRID_Y, GRID_W, GRID_H)
   state.spells.forEach((sp, i) => {
-    const x = ITEM_X0 + (i % GRID_COLS) * ITEM_DX
-    const y = ITEM_Y0 + Math.floor(i / GRID_COLS) * ITEM_DY
+    const x = ITEM_X0 + (i % MAGIC_GRID_COLS) * ITEM_DX
+    const y = ITEM_Y0 + Math.floor(i / MAGIC_GRID_COLS) * ITEM_DY
     const selected = i === state.cursor
     // MP 不足 → 灰显禁用(原版 magic-select insufficient → 0x18/选中 0x1C);够 → 米白/选中黄闪
     const affordable = !caster || caster.mp >= (sp.cost.mp ?? 0)

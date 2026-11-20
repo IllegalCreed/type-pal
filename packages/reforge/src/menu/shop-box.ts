@@ -2,7 +2,7 @@
  * 商店(买)/ 当铺(卖)—— openShop 指令的 UI(阻塞脚本至关店)。
  * 忠实一阶段/原版形态(UX 真值,坐标 1:1):
  * - 买 = sdlpal uigame.c:1615 PAL_BuyMenu 紧凑布局:列表框(122,8)8 行滚动窗 +
- *   名@(150,21+i*18) + 价右@(238,26+i*18);预览 = ITEMBOX@(40,8)+图标@(48,15)、
+ *   名@(150,21+i*18) + 价格栏起点 x=238、右缘 x=286;预览 = ITEMBOX@(40,8)+图标@(48,15)、
  *   「现有」框@(20,100)、「金钱」框@(20,141)。每次买 1 个、买完留在菜单;钱不够不进确认。
  * - 卖 = uigame.c:1755 PAL_SellMenu 全屏物品 picker(drawItemGridList noDesc)+
  *   金钱框@(100,150) + 售价框@(224,150);按 item.sellPrice(pal 数据 = 原版半价)。
@@ -10,16 +10,18 @@
  */
 
 import type { ItemData, ItemDataMap, WorldState } from '@type-pal/content'
-import { shopBuy, shopSell } from '@type-pal/content'
+import { sellableItems, shopBuy, shopSell } from '@type-pal/content'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
 import { drawItemGridList } from './item-list.js'
 import {
+  COLOR_NORMAL,
   drawConfirmBox,
   drawNumber,
   drawScroll,
   drawSlicedBox,
   type MenuAssets,
+  SELECTED_COLORS,
 } from './menu-box.js'
 
 // ── 买菜单坐标(uigame.c PAL_BuyMenu / OnItemChange 真值)──
@@ -38,17 +40,8 @@ const CASH_BOX = { x: 20, y: 141, len: 5 }
 const SELL_CASH_BOX = { x: 100, y: 150, len: 5 }
 const SELL_PRICE_BOX = { x: 224, y: 150, len: 5 }
 
-const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白
 const COLOR_LABEL = [26, 30, 22] as const // 卷轴纸上标签(原版 color0 黑,无影)
 const COLOR_LABEL_SHADOW = [92, 84, 72] as const // 深色 label 的深灰影(作者裁决:不加粗)
-const SELECTED_COLORS = [
-  [247, 231, 109],
-  [235, 211, 97],
-  [227, 190, 89],
-  [219, 174, 81],
-  [231, 195, 93],
-  [243, 219, 105],
-] as const
 
 export interface ShopUiState {
   mode: 'buy' | 'sell'
@@ -109,9 +102,7 @@ export function shopInput(
       apply(next)
       if (s.mode === 'sell') {
         // 卖光一种 → 列表重算 + cursor 收敛
-        s.list = next.inventory
-          .filter((x) => x.count > 0 && items[x.itemId]?.sellable)
-          .map((x) => x.itemId)
+        s.list = sellableItems(next, items)
         if (s.cursor >= s.list.length) s.cursor = Math.max(0, s.list.length - 1)
       }
       return 'changed'

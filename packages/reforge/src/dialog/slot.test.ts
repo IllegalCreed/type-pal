@@ -1,49 +1,23 @@
-import { describe, expect, test } from 'vitest'
+import { expect, test } from 'vitest'
 import { advanceSlots, emptySlots } from './slot.js'
 
-describe('slot 状态机', () => {
-  test('emptySlots → activeSlot=bottom,两槽空', () => {
-    const s = emptySlots()
-    expect(s.activeSlot).toBe('bottom')
-    expect(s.top).toBeUndefined()
-    expect(s.bottom).toBeUndefined()
-  })
+test('初始状态预选下槽，四个槽都未被占用', () => {
+  expect(emptySlots()).toStrictEqual({ activeSlot: 'bottom' })
+})
 
-  test('首段(默认 bottom)→ 进 bottom 槽,activeSlot=bottom', () => {
-    const s = advanceSlots(emptySlots(), { rows: [{ text: 't0' }] }, 0)
-    expect(s.bottom?.cueIdx).toBe(0)
-    expect(s.top).toBeUndefined()
-    expect(s.activeSlot).toBe('bottom')
+test.each(['top', 'bottom', 'narration', 'center'] as const)('载入对白后选中 %s 槽', (slot) => {
+  expect(advanceSlots(emptySlots(), { slot, rows: [{ text: 'first' }] }, 0)).toStrictEqual({
+    [slot]: { cueIdx: 0 },
+    activeSlot: slot,
   })
+})
 
-  test('同 slot 连续 → 覆盖(段2 进 bottom 清掉段1)', () => {
-    let s = advanceSlots(emptySlots(), { rows: [{ text: 't0' }] }, 0)
-    s = advanceSlots(s, { rows: [{ text: 't1' }] }, 1) // 也 bottom
-    expect(s.bottom?.cueIdx).toBe(1) // 覆盖
-    expect(s.activeSlot).toBe('bottom')
-  })
+test('未指定槽时覆盖下槽，另一侧与输入快照保留', () => {
+  const bottom = advanceSlots(emptySlots(), { rows: [{ text: 'first' }] }, 0)
+  const both = advanceSlots(bottom, { slot: 'top', rows: [{ text: 'second' }] }, 1)
+  const replaced = advanceSlots(both, { rows: [{ text: 'third' }] }, 2)
 
-  test('异 slot → 共存(段2 进 top,bottom 段1 留显),activeSlot=top', () => {
-    let s = advanceSlots(emptySlots(), { rows: [{ text: 't0' }] }, 0) // bottom
-    s = advanceSlots(s, { rows: [{ text: 't1' }], slot: 'top' }, 1) // top
-    expect(s.bottom?.cueIdx).toBe(0) // bottom 留显
-    expect(s.top?.cueIdx).toBe(1) // top 新句
-    expect(s.activeSlot).toBe('top') // 最新进槽 = 活跃
-  })
-
-  test('显式 slot=top → 进 top 槽', () => {
-    const s = advanceSlots(emptySlots(), { rows: [{ text: 't0' }], slot: 'top' }, 0)
-    expect(s.top?.cueIdx).toBe(0)
-    expect(s.bottom).toBeUndefined()
-    expect(s.activeSlot).toBe('top')
-  })
-
-  test('共存后回到 bottom → 覆盖 bottom 槽,top 留显', () => {
-    let s = advanceSlots(emptySlots(), { rows: [{ text: 't0' }] }, 0) // bottom
-    s = advanceSlots(s, { rows: [{ text: 't1' }], slot: 'top' }, 1) // top 共存
-    s = advanceSlots(s, { rows: [{ text: 't2' }] }, 2) // 回 bottom
-    expect(s.bottom?.cueIdx).toBe(2) // bottom 被新句覆盖
-    expect(s.top?.cueIdx).toBe(1) // top 留显
-    expect(s.activeSlot).toBe('bottom')
-  })
+  expect(bottom).toEqual({ bottom: { cueIdx: 0 }, activeSlot: 'bottom' })
+  expect(both).toEqual({ bottom: { cueIdx: 0 }, top: { cueIdx: 1 }, activeSlot: 'top' })
+  expect(replaced).toEqual({ bottom: { cueIdx: 2 }, top: { cueIdx: 1 }, activeSlot: 'bottom' })
 })

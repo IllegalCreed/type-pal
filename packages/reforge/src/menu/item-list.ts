@@ -1,6 +1,6 @@
-// 物品列表网格(装备/使用/投掷 共享):红框 3 列网格 + 数量 + 选中光标 + 底部 itembox + 图标 + 多行描述。
+// 物品列表网格(装备、使用和出售共用):红框 3 列网格 + 数量 + 选中光标 + 底部 itembox + 图标 + 多行描述。
 // 布局取自一阶段 draw-inventory.ts / sdlpal itemmenu.c PAL_ItemSelectMenu。320 逻辑坐标,调用方已 ctx.scale。
-// items/cursor 由调用方传(装备过 equippableItems、使用过 usableItems,各自过滤)。
+// 调用方分别筛选可装备、可使用或可出售的物品，并维护 cursor。
 
 import {
   describeEquipEffects,
@@ -12,7 +12,13 @@ import {
 import { expectDefined } from '../defined.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
-import { drawNumber, drawSlicedBox, type MenuAssets } from './menu-box.js'
+import {
+  COLOR_NORMAL,
+  drawNumber,
+  drawSlicedBox,
+  type MenuAssets,
+  SELECTED_COLORS,
+} from './menu-box.js'
 
 const LIST_X = 2
 const LIST_Y = 0
@@ -35,18 +41,8 @@ const DESC_Y = 151
 const DESC_LINE_H = 16 // 多行说明行距(sdlpal itemmenu.c desc 151+i*16)
 const DESC_RIGHT = 316 // 说明区右缘(裁剪滚动用)
 const DESC_VISIBLE = 3 // 详情框可见行数(高度所限);超出 → 自动上滚
-const COLOR_NORMAL = [199, 186, 174] as const // 0x4F 米白(物品名)
 const COLOR_DESC = [243, 239, 93] as const // 0x3C 浅黄(描述)
 const COLOR_EQUIPPED = [81, 93, 44] as const // 0xC8 橄榄绿(穿戴中的物品;原版 MENUITEM_COLOR_EQUIPPEDITEM)
-// 选中闪烁 6 色 = palette 0xF9..0xFE(原版 ui.h MENUITEM_COLOR_SELECTED + tick/100%6;已逐个核对,非自填)
-const SELECTED_COLORS = [
-  [247, 231, 109],
-  [235, 211, 97],
-  [227, 190, 89],
-  [219, 174, 81],
-  [231, 195, 93],
-  [243, 219, 105],
-] as const
 
 /** 详情框多行说明:≤ 可见行数 → 静态;超出 → 裁剪到可见区 + 垂直无缝上滚(marquee),
  *  首尾各画一遍无缝衔接。风味 + 派生效果都可能撑爆 3 行(灵珠系),滚动保证机制全看得到。 */

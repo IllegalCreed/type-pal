@@ -193,7 +193,6 @@ export function buildPalCurrentPublication(
     sourceStores: sources.stores,
     shops: validateShops(required(files, 'content/shops.json')),
     items: validateAuthorItems(required(files, 'content/items.json')),
-    commandRoots: [],
   })
   return { files, managedFiles, mapReport: generated.mapReport }
 }
