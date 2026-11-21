@@ -4,7 +4,7 @@ Status: review
 Phase: phase2
 Owner: Codex
 Reviewer: Codex
-Last reviewed: 2026-11-21
+Last reviewed: 2026-11-22
 Template: task-card-v1 / 1.0.0
 Visual Verification Timing: N/A
 
@@ -141,3 +141,13 @@ Chromium 使用实际 MIDI、音色库和 Web Audio，三条线路均观察到�
 补核两份生产文件的八维并接受 `bgm.ts`、`midi-preview.ts`。Reforge 应用和试听保留各自序列状态及已有在途释放路径，共用加载和取消。移除缓存版本的两个定向反控均只红指定 URL 断言。Game 45 项、Reforge 74 项、Editor 20 项、供应字节与许可证 2 项、E2E 音频 URL 分类 1 项通过。三包 typecheck、生产构建及实际 Vite preview 资源请求通过。Reforge 并行首跑三例 5 秒超时，单独复跑同一选择和超时阈值通过。最终定向测试 stderr 为空。Chromium 的可选存档标记 404 单列，音频及脚本异常为零。重新解析 lock 时有 Core 的维护者版本弃用提示和一条既有传递依赖提示，冻结安装回执无提示。
 
 逐文件结论、对照会话、失败与恢复、授权路径及复验命令见[原执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) `spessasynth-4.4.0/`。原生验证使用 Chromium 的真实 PCM 与上下文状态。适用范围为本地发布构建、测试服务及这三条播放路径。文件收口与集中交付分开，全仓检查、官方覆盖率和 protected fast 在下一稳定窗口执行。
+
+### PR 集中收尾
+
+同步 #75 的固定主线 `0443a023ce59e8c18910244c54ed34e5d392870d`。四份作者输入、原 E2E 执行结论和归档保持主线版本；对跨任务合并的来源校验用固定 #75 正文和治理侧当前来源元数据。两份迁移语料专测 5 项及报告校验 37 项通过。把只被两份音频专测使用的 MIDI 夹具迁入专测目录。试听序列器构造失败时，正式入口回归核实旧 Worklet 释放、同一曲目重试和退出；18 份相邻音频专测 106 项通过。
+
+`pnpm check` 首轮因 Pal-extract 超时退出。保留首轮和后续失败日志，分别用原期限的完整文件复跑及 Migrate 语料断言更新与商店用例重组，完成 1,662 个产品专测文件、20,784 项，含各包 typecheck。全仓 lint 各级诊断为 0。官方 coverage ratchet 对同一主线完成 20,430 项。对照 #75 CI 确认 Editor 逐文件覆盖计数唯一回退来自退役旧地图测试装配，按授权精确重计一个分支覆盖命中。测量输入未变，复放原 ratchet 判定与基线写入后，本地保护基准复核通过。GitHub 门按 PR 运行记录验收。
+
+[唯一执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) 的 `pr-closeout/` 保留首轮失败、完整复跑、覆盖率、账本和诊断计数。文件账本保持 1,363 closed、0 review、2,489 pending。候选进入 PR，任务卡保留 review 至合并。
+
+原归档 401 件逐字节保全，本轮并入 144 件必要原件，净增 1,832,306 字节。运行缓存与重复采集副本依照本回执保全后清理。

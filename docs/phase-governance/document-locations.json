@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "4d730ab2995c935fb29403639be07ab16fd97d5603254695d09b2db5c0189968",
+      "afterSha256": "3ef8ee63d89a9494030b5b75ee6ccc14232b3a60feee1e752c1fd2520f6b6e92",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "活动看板承接最后两项音频留审和定向实测。",
+        "date": "2026-11-22",
+        "conclusion": "看板引导至已完成的集中验证与 PR 待合并状态。",
         "reviewedLines": 144,
-        "acceptanceScope": "仅核治理摘要与任务卡入口，集中门仍随稳定窗口。"
+        "acceptanceScope": "只核音频收口段的验证进展和任务卡链接，活动分工及以前的只读证据保留。"
       }
     },
     {
@@ -5797,14 +5797,14 @@
     {
       "path": "docs/tasks/cards/QUALITY-REFORGE-PRESENTATION-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "2b0cf3c61f6fdac408b1520d2d4d6994af02978d98ba43ac57f83c16d39bce5f",
+      "afterSha256": "c302c50beb4d4a5bc38c2cabea85b0498ff0baae68cee807aa336df923254ee9",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "记录约定版本、原生关闭对照、定向门与已保留诊断。",
-        "reviewedLines": 144,
-        "acceptanceScope": "仅核 SpessaSynth 追加段、原始执行证据和两项关闭，集中门保持待执行。"
+        "date": "2026-11-22",
+        "conclusion": "接收跨任务合并后的集中门回执、原失败与复跑范围。",
+        "reviewedLines": 154,
+        "acceptanceScope": "复用已核主体、#75 正文和原生执行范围。仅验本次集中门、账本、原件和提 PR 状态。GitHub 门另核。"
       }
     },
     {
@@ -7597,9 +7597,9 @@
     },
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "270931fb298739c665a5884ddbe179bed9d82937bca5fd1a6421ce6aeb31bb37",
-      "bytes": 256533,
-      "purpose": "Game 后关闭复核、Q2 后场景与音频复审、旧接口退役及 SpessaSynth 配套升级。保留各阶段执行、失败和反控原件。"
+      "sha256": "bff8d42c2395cb47fe217f920fd0097e2be89884d447a23a4ca486292f5e5938",
+      "bytes": 2088839,
+      "purpose": "Game 后关闭复核、Q2 后场景与音频复审、旧接口退役、SpessaSynth 配套升级及 PR 集中门。保留执行、反控、失败和复跑原件。"
     }
   ],
   "artifactAliases": [],
