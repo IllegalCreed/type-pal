@@ -126,14 +126,14 @@ function assertEntityTarget(entity: BaseSceneEntity, target: EntityAddress): voi
     throw new Error(`entity address ${target.entity} 与定义 ${entity.id} 不匹配`)
 }
 
-function pageById(entity: BaseSceneEntity, pageId: string): BaseEntityPage {
+function pageById(entity: Pick<BaseSceneEntity, 'id' | 'pages'>, pageId: string): BaseEntityPage {
   const page = entity.pages?.find((candidate) => candidate.id === pageId)
   if (!page) throw new Error(`entity ${entity.id}: page 不存在 ${pageId}`)
   return page
 }
 
 export function resolveBaseEntityPage(
-  entity: BaseSceneEntity,
+  entity: Pick<BaseSceneEntity, 'id' | 'pages' | 'initialPage'>,
   state?: WorldEntityBehaviorState,
 ): BaseEntityPage | undefined {
   const pageId = state?.page ?? entity.initialPage

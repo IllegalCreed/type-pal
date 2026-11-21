@@ -730,6 +730,7 @@ export async function bootGame(
     for (const item of usableItems(worldView, project.items)) currentItems.set(item.id, item)
     const sounds = await collectSceneSoundAssets({
       scene: canonicalScene,
+      activeEntities: def.entities,
       inventoryItems: [...currentItems.values()],
       additionalRoots: [...currentItems.keys()].flatMap(itemPrivateCommands),
       sharedScripts: canonicalProject.sharedScripts,

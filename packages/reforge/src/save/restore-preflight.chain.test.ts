@@ -33,7 +33,7 @@ import {
   runtimeSceneView,
 } from '../runtime-project-view.js'
 import { ScriptProjectRuntime } from '../runtime-script-project.js'
-import { ScenePreparer } from '../scene-preparer.js'
+import { type PreparedScene, ScenePreparer } from '../scene-preparer.js'
 import {
   assertSceneSwitchDependenciesCurrent,
   captureSceneSwitchDependencies,
@@ -51,6 +51,10 @@ import { MemorySaveStore } from './store.js'
 interface ChainApi {
   doLoad: (slotId: string, signal?: AbortSignal) => Promise<'loaded' | 'absent' | 'rejected'>
   quickLoad: () => Promise<void>
+  prepareSceneSwitch: (
+    sceneId: string,
+    world: content.WorldState,
+  ) => Promise<PreparedScene<Canvas2DRenderer>>
 }
 
 /** 从 main.ts 源码抽出原函数体编译成 api 工厂（与只读审计探针同一技术）。 */
@@ -114,7 +118,7 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
   }).outputText
   return new Function(
     'env',
-    `with(env) { ${body}; return {doLoad, quickLoad, restorePayload, replaceWorld, captureCurrentSavePayload, switchScene}; }`,
+    `with(env) { ${body}; return {doLoad, quickLoad, restorePayload, replaceWorld, captureCurrentSavePayload, switchScene, prepareSceneSwitch}; }`,
   ) as (env: Record<string, unknown>) => ChainApi
 }
 
@@ -187,10 +191,18 @@ function harness(
   const world = makeWorld()
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
+  const spritesById: Record<string, content.SpriteDef> = {
+    'sprite.hero': {
+      id: 'sprite.hero',
+      asset: 'sprite.asset',
+      label: '队员',
+      layout: { kind: 'static' },
+    },
+  }
   const project = {
     manifest: { id: 'audit', name: 'audit', contentVersion: 23, minimumSaveVersion: 12 },
     actorsById: { hero: actor },
-    spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
+    spritesById,
     items: {},
     ambiences: [],
     assetResolver: {},
@@ -319,7 +331,7 @@ function harness(
     startAutoRunners: () => events.push('start-auto'),
     ...overrides,
   }
-  return { env, api: apiFactory(env), oldAbort, events, toasts }
+  return { env, api: apiFactory(env), oldAbort, events, toasts, spritesById }
 }
 
 function corrupted(mutate: (p: Payload) => void): unknown {
@@ -370,6 +382,93 @@ describe('SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）'
       'bgm-stop',
       'start-auto',
     ])
+  })
+
+  test('scene preflight prepares the restored page cue and the canonical command sound', async () => {
+    const actor = {
+      id: 'guard',
+      sprite: 'sprite.guard',
+      pos: { col: 1, row: 1, height: 0 },
+      initialPage: 'initial',
+      pages: [
+        {
+          id: 'first',
+          label: '首次',
+          animation: { sprite: 'sprite.guard', action: 'first', loop: true },
+        },
+        {
+          id: 'initial',
+          label: '初始',
+          animation: { sprite: 'sprite.guard', action: 'initial', loop: true },
+        },
+        {
+          id: 'restored',
+          label: '存档',
+          animation: { sprite: 'sprite.guard', action: 'restored', loop: true },
+        },
+      ],
+    } satisfies content.RuntimeEntityDef
+    const canonical = {
+      ...sceneDef('saved-scene'),
+      entities: [actor],
+      hooks: {
+        onEnter: {
+          initial: 'arrival',
+          variants: {
+            arrival: {
+              label: '到达',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'begin',
+                stages: [{ id: 'begin', body: [{ kind: 'playSound', asset: 'sound.arrival' }] }],
+              },
+            },
+          },
+        },
+      },
+    } satisfies content.RuntimeSceneDef
+    const step = (asset: string): content.SpriteActionDef => ({
+      label: asset,
+      steps: [{ frame: 0, durationMs: 100, cues: [{ kind: 'sound', asset }] }],
+    })
+    const [sprite] = content.validateSprites([
+      {
+        id: 'sprite.guard',
+        label: '守卫',
+        asset: 'sprite.guard',
+        layout: { kind: 'static' },
+        poses: {
+          first: step('sound.first'),
+          initial: step('sound.initial'),
+          restored: step('sound.restored'),
+        },
+      },
+    ])
+    const payload = makePayload()
+    payload.world.script = content.emptyWorldScriptState()
+    payload.world.script.behaviors.entities = { 'saved-scene': { guard: { page: 'restored' } } }
+    const prepared: string[][] = []
+    const frames = [{ width: 1, height: 1, pixels: Uint8Array.of(1) }]
+    const h = harness(payload, {
+      getCanonicalScene: async () => structuredClone(canonical),
+      sceneResources: { peek: () => canonical },
+      spriteCache: {
+        load: async () => ({ frames, anchorX: 0, anchorY: 1 }),
+        get: () => ({ frames, anchorX: 0, anchorY: 1 }),
+        prune: () => {},
+      },
+      sfx: {
+        prepare: async (assets: Iterable<string>) => {
+          prepared.push([...assets].sort())
+        },
+      },
+    })
+    h.spritesById['sprite.guard'] = expectDefined(sprite)
+
+    const plan = await h.api.prepareSceneSwitch('saved-scene', payload.world)
+    expect(plan.pageActions).toMatchObject([{ entity: 'guard', binding: { action: 'restored' } }])
+    expect(prepared).toEqual([['sound.arrival', 'sound.restored']])
   })
 
   test.each([
