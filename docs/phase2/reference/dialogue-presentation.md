@@ -16,7 +16,7 @@ Template: reference-canon-v1 / 1.0.0
 
 - 固定原稿0d5311075b4f5e67362d1953a138d678c0a4aa42，包含六月用户反馈、旧实现推断、sdlpal行号和六月27日回填。本轮全文读原稿并保全；未据这些行号重审当年的全部代码、原版程序或用户现场。
 - 当前[DialogueRow/DialogueCue](../../../packages/content/src/index.ts)把逐行text/speed与cue共享speaker/slot/autoAdvance/portrait/cursorFrame分开；头像按AssetId引用，不能照抄原稿的icon下标草案。
-- [纯cue指针](../../../packages/reforge/src/dialogue.ts)、[slot代数](../../../packages/reforge/src/dialog/slot.ts)、[DialogBox](../../../packages/reforge/src/dialog/dialog-box.ts)的布局/advance/update/render顺序和[打字时钟](../../../packages/reforge/src/text/typewriter.ts)经本轮定向静态核读。未核完整主循环、真实输入caller、字体供应链或截图。
+- [纯cue指针](../../../packages/reforge/src/dialogue.ts)、[DialogBox](../../../packages/reforge/src/dialog/dialog-box.ts)的布局/advance/update/render顺序和[打字时钟](../../../packages/reforge/src/text/typewriter.ts)经本轮定向静态核读。未核完整主循环、真实输入caller、字体供应链或截图。
 - sdlpal是参考实现；原文“原版sdlpal”“原版真值”的措辞保留为历史表述，不能据此声称独立运行大宇原版已证实。第一阶段实现同样不能自行提升为原版实测。
 
 ## 当前真值
@@ -25,7 +25,7 @@ Template: reference-canon-v1 / 1.0.0
 
 `dialogue.ts`只推进Dialogue.cues，折行与每页四显示行在渲染侧。默认打字速度常量为24ms，charsShown按elapsed/speed取整，不按逻辑tick计字符。它证明当前模块的算法接口，不能独立证明真实帧率或现场流畅度。
 
-DialogBox的top/bottom正文与姓名位置、18px行高、320px右界和头像居中锚沿用原稿的参考坐标；center/narration现有独立布局，不能继续使用六月“只一种style”的缺口表判断现状。同slot覆盖、异slot保留，推进只作用活跃slot。脚本普通上下对白可以结束等待后继续留显；确认完成与清除可见槽不是同一个动作。
+DialogBox的top/bottom正文与姓名位置、18px行高、320px右界和头像居中锚沿用原稿的参考坐标；center/narration现有独立布局，不能继续使用六月“只一种style”的缺口表判断现状。同 slot 覆盖、异 slot 保留。DialogBox 在布局完成时提交该 slot 并置为活跃，保留其它 slot 的既有绘制记录。脚本普通上下对白可以结束等待后继续留显；确认完成与清除可见槽不是同一个动作。
 
 `advance`在未全显时先把pageDone置真；全显后优先翻当前cue的下一页，末页若有autoAdvance则不手动推进。`update`用当前页各行字符数×行速度之和加autoAdvance作为时间条件，`render`先绘制再调用update。本轮只记这些实际代码分支，不声称已证“跳字后恰只等尾停顿”或原稿700ms承诺，也不从静态分支推定无按键重播。
 
