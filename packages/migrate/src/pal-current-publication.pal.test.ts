@@ -10,7 +10,7 @@ import {
   validateAuthorSharedScripts,
   validateSceneIndex,
 } from '@type-pal/content'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
@@ -72,74 +72,107 @@ describe('PAL current-only publication', () => {
     ).toThrow('PAL 物品剧情方案悬空引用')
   })
 
-  it('accepts merged author shop lifecycle and command changes, retaining the pure generated baseline', () => {
-    const baseline = loadPalBaseline(repo)!
-    const sources = loadPalContentSupplySources(repo)
-    const publication = buildPalCurrentPublication(baseline, sources)
-    const manifest = buildPalCurrentManifest(sources.assetCatalog)
-    const authored = structuredClone(baseline)
-    const shops = structuredClone(authored.files.get('content/shops.json')) as unknown as ShopDef[]
-    const copied = { id: 21, items: [...shops[0]!.items].reverse().concat(shops[0]!.items[0]!) }
-    authored.files.set('content/shops.json', [
-      ...shops.filter(({ id }) => id !== 20),
-      { id: 0, items: [] },
-      copied,
-    ] as never)
-    let addedBuy = false
-    function editCalls(value: unknown, clear: boolean): void {
-      if (Array.isArray(value)) {
-        const buy =
-          !clear && !addedBuy
-            ? value.find((entry) => entry?.kind === 'openShop' && entry.mode === 'buy')
-            : undefined
-        if (buy) {
-          value.push(structuredClone(buy))
-          addedBuy = true
+  describe('merged author shop publication', () => {
+    function createFixture() {
+      const baseline = loadPalBaseline(repo)!
+      const sources = loadPalContentSupplySources(repo)
+      const publication = buildPalCurrentPublication(baseline, sources)
+      const manifest = buildPalCurrentManifest(sources.assetCatalog)
+      const authored = structuredClone(baseline)
+      const shops = structuredClone(
+        authored.files.get('content/shops.json'),
+      ) as unknown as ShopDef[]
+      const copied = { id: 21, items: [...shops[0]!.items].reverse().concat(shops[0]!.items[0]!) }
+      const authoredShops = shops.filter(({ id }) => id !== 20).concat({ id: 0, items: [] }, copied)
+      authored.files.set('content/shops.json', authoredShops as never)
+      let addedBuy = false
+      function editCalls(value: unknown, sellOnly: boolean): void {
+        if (Array.isArray(value)) {
+          const buy =
+            !sellOnly && !addedBuy
+              ? value.find((entry) => entry?.kind === 'openShop' && entry.mode === 'buy')
+              : undefined
+          if (buy) {
+            value.push(structuredClone(buy))
+            addedBuy = true
+          }
+          value.forEach((entry) => editCalls(entry, sellOnly))
+        } else if (value && typeof value === 'object') {
+          const record = value as Record<string, unknown>
+          if (record.kind === 'openShop') {
+            if (sellOnly) record.mode = 'sell'
+            if (record.mode === 'sell') record.shop = 999
+            else if (record.shop === 20) record.shop = 21
+          }
+          Object.values(record).forEach((entry) => editCalls(entry, sellOnly))
         }
-        value.forEach((entry) => editCalls(entry, clear))
-      } else if (value && typeof value === 'object') {
-        const record = value as Record<string, unknown>
-        if (record.kind === 'openShop') {
-          if (clear) record.mode = 'sell'
-          if (record.mode === 'sell') record.shop = 999
-          else if (record.shop === 20) record.shop = 21
-        }
-        Object.values(record).forEach((entry) => editCalls(entry, clear))
+      }
+      for (const value of authored.files.values()) editCalls(value, false)
+      expect(addedBuy).toBe(true)
+      const plan = createMigrationPlan(baseline, authored, publication)
+      expect(plan.conflicts).toEqual([])
+      const target = {
+        ...publication,
+        files: plan.target,
+        managedFiles: new Set(plan.target.keys()),
+      }
+      return {
+        authoredShops,
+        manifest,
+        publication,
+        sources,
+        target,
+        buildSellOnlyTarget() {
+          const sellOnly = structuredClone(target)
+          sellOnly.files.set('content/shops.json', [])
+          for (const value of sellOnly.files.values()) editCalls(value, true)
+          return sellOnly
+        },
       }
     }
-    for (const value of authored.files.values()) editCalls(value, false)
-    expect(addedBuy).toBe(true)
-    const plan = createMigrationPlan(baseline, authored, publication)
-    expect(plan.conflicts).toEqual([])
-    expect(plan.target.get('content/shops.json')).toEqual(authored.files.get('content/shops.json'))
-    const target = { ...publication, files: plan.target, managedFiles: new Set(plan.target.keys()) }
-    expect(() =>
-      validatePalCurrentPublication({ publication: target, manifest, sources }),
-    ).not.toThrow()
-    const replay = createMigrationPlan(snapshotOf(publication), snapshotOf(target), publication)
-    expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
-    expect(replay.target.get('content/shops.json')).toEqual(target.files.get('content/shops.json'))
-    // The next publication consumes an authored baseline too, not a retired converter seed.
-    // Added/duplicated command nodes and sell's inert shop field must survive that boundary.
-    const rebasedPublication = buildPalCurrentPublication(snapshotOf(target), sources)
-    for (const [path, value] of target.files)
-      if (path.startsWith('content/scenes/'))
-        expect(rebasedPublication.files.get(path)).toEqual(value)
-    expect(
-      (publication.files.get('content/shops.json') as unknown as ShopDef[]).map(({ id }) => id),
-    ).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
 
-    const dangling = { ...target, files: new Map(target.files) }
-    dangling.files.set('content/shops.json', [{ id: 0, items: [] }] as never)
-    expect(() =>
-      validatePalCurrentPublication({ publication: dangling, manifest, sources }),
-    ).toThrow(/商店 .*不在 shops/)
-    const empty = structuredClone(target)
-    empty.files.set('content/shops.json', [])
-    for (const value of empty.files.values()) editCalls(value, true)
-    expect(() =>
-      validatePalCurrentPublication({ publication: empty, manifest, sources }),
-    ).not.toThrow()
+    // Reuse one real merge. Validators borrow the fixture, and modified variants own their copies.
+    let fixture: ReturnType<typeof createFixture>
+    beforeAll(() => {
+      fixture = createFixture()
+    })
+
+    it('accepts the merged author shops and replays without changing the generated baseline', () => {
+      const { authoredShops, manifest, publication, sources, target } = fixture
+      expect(target.files.get('content/shops.json')).toEqual(authoredShops)
+      expect(() =>
+        validatePalCurrentPublication({ publication: target, manifest, sources }),
+      ).not.toThrow()
+      const replay = createMigrationPlan(snapshotOf(publication), snapshotOf(target), publication)
+      expect(replay.summary).toMatchObject({ writes: 0, deletes: 0, conflicts: 0 })
+      expect(replay.target.get('content/shops.json')).toEqual(
+        target.files.get('content/shops.json'),
+      )
+      expect(
+        (publication.files.get('content/shops.json') as unknown as ShopDef[]).map(({ id }) => id),
+      ).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
+    })
+
+    it('retains the edited scene shop commands when publishing from the authored baseline', () => {
+      const { sources, target } = fixture
+      // Duplicated buy commands and the inert sell shop id belong to the author scene.
+      const rebasedPublication = buildPalCurrentPublication(snapshotOf(target), sources)
+      for (const [path, value] of target.files)
+        if (path.startsWith('content/scenes/'))
+          expect(rebasedPublication.files.get(path)).toEqual(value)
+    })
+
+    it('rejects dangling buy targets and allows sell-only scenes without shops', () => {
+      const { buildSellOnlyTarget, manifest, sources, target } = fixture
+      const dangling = { ...target, files: new Map(target.files) }
+      dangling.files.set('content/shops.json', [{ id: 0, items: [] }] as never)
+      expect(() =>
+        validatePalCurrentPublication({ publication: dangling, manifest, sources }),
+      ).toThrow(/商店 .*不在 shops/)
+      expect(() =>
+        validatePalCurrentPublication({ publication: buildSellOnlyTarget(), manifest, sources }),
+      ).not.toThrow()
+    })
   })
   it('publishes the current baseline and raw-owned partitions directly as content23/SAVE12', () => {
     const baseline = loadPalBaseline(repo)

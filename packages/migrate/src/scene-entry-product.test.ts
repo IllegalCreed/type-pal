@@ -106,43 +106,58 @@ const expectedIndependentDitherScenes = [
   's278',
   's281',
 ]
-const expectedNonEarlyOnEnterScenes = [
-  's140',
-  's142',
-  's164',
-  's169',
-  's170',
-  's171',
-  's173',
-  's183',
-  's188',
-  's203',
-  's227',
-  's230',
-  's233',
-  's243',
-  's251',
-]
+const expectedNonEarlyOnEnterScenes = ['s142', 's164', 's173', 's203', 's230', 's233', 's251']
 
 describe('PAL 作者工程的显式入场分类', () => {
-  test('精确核对 dither 入场和 s037 战败切回的显式呈现', () => {
+  test('精确核对作者 onEnter 的显式入场位置与呈现类型', () => {
     const sites = collectEntrySites()
     const locations = sites
       .map(({ ownerPath, entry }) => `${ownerPath} ${entry.reveal.kind}`)
       .sort()
     expect(locations).toEqual([
+      's001/onEnter/c8-731fd69bc3f4/stage-1 fade',
       's001/onEnter/default/initial dither',
+      's003/onEnter/miao-ambush-arrival/initial fade',
       's018/onEnter/default/initial dither',
+      's034/onEnter/default/initial fade',
       's037/onEnter/legacy-002/initial cut',
       's057/onEnter/default/initial dither',
+      's066/onEnter/default/initial fade',
+      's077/onEnter/default/initial fade',
+      's081/onEnter/legacy-001/initial cut',
       's090/onEnter/default/initial dither',
+      's101/onEnter/legacy-001/initial fade',
+      's103/onEnter/after-revisit/initial fade',
+      's106/onEnter/legacy-001/initial fade',
+      's110/onEnter/legacy-001/initial cut',
+      's117/onEnter/legacy-001/initial fade',
+      's118/onEnter/legacy-001/initial fade',
+      's140/onEnter/default/initial fade',
+      's145/onEnter/legacy-001/initial fade',
+      's149/onEnter/default/initial cut',
+      's150/onEnter/default/initial fade',
       's151/onEnter/default/initial dither',
+      's153/onEnter/default/initial cut',
+      's169/onEnter/default/initial fade',
+      's169/onEnter/default/legacy-002 dither',
+      's170/onEnter/default/initial dither',
+      's171/onEnter/default/initial dither',
       's180/onEnter/default/initial dither',
       's182/onEnter/legacy-001/initial dither',
+      's183/onEnter/default/initial fade',
+      's188/onEnter/default/initial fade',
       's196/onEnter/default/initial dither',
       's197/onEnter/default/initial dither',
       's198/onEnter/default/initial dither',
       's200/onEnter/default/initial dither',
+      's227/onEnter/default/initial fade',
+      's227/onEnter/default/legacy-002 fade',
+      's231/onEnter/default/initial fade',
+      's243/onEnter/default/initial cut',
+      's244/onEnter/default/initial fade',
+      's245/onEnter/default/initial fade',
+      's268/onEnter/c8-e8b842591a52/stage-1 cut',
+      's273/onEnter/c8-440a584eee79/stage-1 fade',
     ])
     for (const { entry } of sites) {
       expect(entry.prepare.some((command) => command.kind === 'ditherScreen')).toBe(false)
@@ -150,7 +165,9 @@ describe('PAL 作者工程的显式入场分类', () => {
   })
 
   test('s001 准备参数与呈现后正文边界精确', () => {
-    const site = collectEntrySites().find((candidate) => candidate.targetScene === 's001')
+    const site = collectEntrySites().find(
+      (candidate) => candidate.ownerPath === 's001/onEnter/default/initial',
+    )
     expect(site?.entry).toEqual({
       prepare: [
         { kind: 'playMusic', asset: 'music.pal.031' },
@@ -208,7 +225,7 @@ describe('PAL 作者工程的显式入场分类', () => {
     }
   })
 
-  test('实体独立 dither 与非早期 onEnter 保持通用命令', () => {
+  test('实体独立 dither 与无显式入场的 onEnter 保持通用命令', () => {
     const independent = scenes
       .filter((scene) =>
         scene.entities.some((entity) =>
