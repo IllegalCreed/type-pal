@@ -16,6 +16,7 @@ export class GameplayClock {
     const realDt = Math.min(Math.max(0, realNow - (this.lastReal ?? realNow)), MAX_REAL_FRAME_MS)
     const gameplayDt = stepMs > 0 ? stepMs : frozen ? 0 : realDt
     this.lastReal = realNow
+    // The first real timestamp anchors the end of the frame, even for a requested step.
     if (first) this.now = realNow
     else this.now += gameplayDt
     return {
