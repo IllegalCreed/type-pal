@@ -5,18 +5,19 @@
  * 软合成,直接播提取的 `Musics/{NNN}.mid` —— 开箱即响(对比离线 OGG 渲染需 build 步)。
  *
  * **运行前置**:
- *   1. `pnpm --filter @type-pal/game add spessasynth_lib`(已装)。
- *   2. worklet 文件 `spessasynth_processor.min.js` 已 vendored 到 public/(随 lib 更新需重拷)。
+ *   1. Worklet 取自锁定的 SpessaSynth 发布包，URL 随库版本隔离浏览器缓存。
+ *   2. `spessasynth_processor.min.js` 随应用发布，更新依赖时同步替换供应者产物。
  *   3. `packages/game/public/soundfont.sf3` 已随仓库提供(TimGM6mb ~6MB,GPL-2;2026-06-12 从
  *      32MB GeneralUser GS 换轻量库压慢网启动等待,license/还原说明见同目录 soundfont-LICENSE.txt。
  *      文件名保持 .sf3 不动 URL,synth 按 RIFF 内容识别格式,SF2 装在 .sf3 名下兼容)。缺失或替换失败
  *      → ready拒绝，由MusicSourceController发布错误状态；不阻塞游戏主循环。
  *
- * SpessaSynth 4.3.x API:`new WorkletSynthesizer(ctx)` → `connect` → `soundBankManager.addSoundBank`
+ * 生产接线：`new WorkletSynthesizer(ctx)` → `connect` → `soundBankManager.addSoundBank`
  * → `await isReady` → `new Sequencer(synth)` → `loadNewSongList([{binary,fileName}])` / `play` / `pause`
  * / `loopCount`(Infinity = 循环)。
  */
 import { Sequencer, WorkletSynthesizer } from 'spessasynth_lib'
+import spessaPackage from 'spessasynth_lib/package.json' with { type: 'json' }
 import { type MusicBackend, musicUrl } from './audio.js'
 
 export interface SpessaSynthBackendOptions {
@@ -134,7 +135,9 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
           '多半是用了 http:// 局域网 IP 访问。请改用 https:// 或 http://localhost 打开。',
       )
     }
-    await ctx.audioWorklet.addModule(workletUrl)
+    const processor = new URL(workletUrl, document.baseURI)
+    processor.searchParams.set('v', spessaPackage.version)
+    await ctx.audioWorklet.addModule(processor)
     if (disposed) return
     const synth = new WorkletSynthesizer(ctx)
     // Instance-owned gain is set by the source controller before output is connected.

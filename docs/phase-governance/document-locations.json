@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "5cd575a7de187ebd9c6df3bc020f27477a1c079129899aa0c7e1d91b7b5810a6",
+      "afterSha256": "b37cb6e75eb41b1d87c18ce1b103fa46f35f10c72ee175ea511bc7ca6effd60c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "关闭一个旧 review，独立新增一个测试夹具，另两项留审。",
+        "conclusion": "收口两项音频留审，将旧供应专测登记迁入双端合同。",
         "reviewedLines": 1491,
-        "acceptanceScope": "核对逐图读测试迁移、音频留项和 3852/1361/2/2489 机器计数。"
+        "acceptanceScope": "仅核两项原 review、支持路径证据指针和 3852/1363/0/2489 机器计数。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "6dbc390a44354b84596582f8db0657973a6aee4ce30912758805c938a62664be",
+      "afterSha256": "4d730ab2995c935fb29403639be07ab16fd97d5603254695d09b2db5c0189968",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "两处获批接口的处置与两项余留已进入活动看板。",
+        "conclusion": "活动看板承接最后两项音频留审和定向实测。",
         "reviewedLines": 144,
-        "acceptanceScope": "只更新本治理线摘要与现行卡的导航。"
+        "acceptanceScope": "仅核治理摘要与任务卡入口，集中门仍随稳定窗口。"
       }
     },
     {
@@ -3191,14 +3191,14 @@
     {
       "path": "docs/phase1/engineering-notes.md",
       "mode": "reviewed",
-      "afterSha256": "e0d2389d1ef810417f5997cfedfd816f3bb85b277b6a26892a13f87dfc2b1d59",
+      "afterSha256": "fce192826bae5c7ad1342ae0ceec90d6f2778948b613f541cbdaf19a5ef8ed7f",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "/root/q2_restore_drain_probe",
-        "date": "2026-11-15",
-        "conclusion": "已核本次差异，执行范围、历史身份与引用按原件校验。",
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "工程说明更新 Worklet 配套、许可证、缓存键和原生核验边界。",
         "reviewedLines": 331,
-        "acceptanceScope": "核本次返工演出、同格逃跑复验、回场与卷轴画帧证据。旧覆盖结论与执行身份沿用原记录。"
+        "acceptanceScope": "仅验音频维护段落与新增真实目标，不扩至其它一阶段机制。"
       },
       "templateId": "guide-runbook-v1",
       "historyOverlay": false
@@ -5797,14 +5797,14 @@
     {
       "path": "docs/tasks/cards/QUALITY-REFORGE-PRESENTATION-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "95eaf209f8706a43c317389be40840cf61efbc431bdf5e4ba29ce9a16964317b",
+      "afterSha256": "2b0cf3c61f6fdac408b1520d2d4d6994af02978d98ba43ac57f83c16d39bce5f",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "保存用户批准的两处退役、逐图测试的去向与实际门结果。",
-        "reviewedLines": 126,
-        "acceptanceScope": "仅核本轮增量、旧运行原件保全、源/候选与现行命令，不授予全仓或 E2E 信用。"
+        "conclusion": "记录约定版本、原生关闭对照、定向门与已保留诊断。",
+        "reviewedLines": 144,
+        "acceptanceScope": "仅核 SpessaSynth 追加段、原始执行证据和两项关闭，集中门保持待执行。"
       }
     },
     {
@@ -7579,9 +7579,9 @@
     },
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "364f569f1c0f5ebd5fc6732ef55c801c07b643273a0716af7131c363b05e2d30",
-      "bytes": 196539,
-      "purpose": "Game 后关闭复核、Q2 后场景与音频复审，以及两处旧接口退役的原件。保留各阶段执行、失败和反控身份。"
+      "sha256": "270931fb298739c665a5884ddbe179bed9d82937bca5fd1a6421ce6aeb31bb37",
+      "bytes": 256533,
+      "purpose": "Game 后关闭复核、Q2 后场景与音频复审、旧接口退役及 SpessaSynth 配套升级。保留各阶段执行、失败和反控原件。"
     }
   ],
   "artifactAliases": [],

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,852。
-当前已闭合核验：1,361；已读但待审：2；尚未逐文件核验：2,489；合计未闭合：2,491。
+当前已闭合核验：1,363；已读但待审：0；尚未逐文件核验：2,489；合计未闭合：2,489。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -125,7 +125,7 @@ Template: governance-index-v1 / 1.0.0
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
-| `packages/reforge/src/__tests__/runtime-shell/audio-host.ts` | fixture | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
+| `packages/reforge/src/__tests__/runtime-shell/audio-host.ts` | fixture | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 配套升级后仍用外部音频端口替身，按安装版本识别处理器请求。 |
 | `packages/reforge/src/assets.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 标准色彩 JSON 对非法根给出领域错误。两种公开解码由编辑器真实读/写及命名帧路径消费。 |
 | `packages/reforge/src/audio/bgm.dispose.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.runtime-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
@@ -134,14 +134,14 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/midi-preview.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.browser-runtime.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 从真实 BGM 工厂观察 WorkletSynthesizer 与浏览器上下文先后释放，区分就绪和在途。 |
 | `packages/reforge/src/audio/browser-midi-fixture.ts` | fixture | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 共用合法 MIDI/RIFF 边界与浏览器端口替身，正例和受控取消互不依赖。 |
-| `packages/reforge/src/audio/midi-preview.ts` | product | review | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 用户批准的旧适配器时长字段已退役，真实曲谱仍提供时长。余项为锁定的 Sequencer 窗口监听。 |
+| `packages/reforge/src/audio/midi-preview.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 同页两次真实试听均发声，分别销毁 Worklet 后关闭上下文，窗口监听残留由 2 降为 0。 |
 | `packages/reforge/src/audio/sfx-readiness.collections.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 消费实际活动页，保留 canonical 脚本根。真实预检恢复入口与合法命名默认页都有判别回归。 |
 | `packages/reforge/src/audio/sfx.staged-failures.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx.test.ts` | test | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 非法解码预算的错误、零浏览器分配及零资产访问有直接反例。 |
 | `packages/reforge/src/audio/sfx.ts` | product | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 无效解码预算先拒绝，默认浏览器上下文无分配。 |
-| `packages/reforge/src/audio/spessa-browser-runtime.ts` | product | 已验证 | [实现复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#实现复审reforge-音频) | 两调用方共用初始化和失败清理，初始化成功后将合成器交回调用方。 |
+| `packages/reforge/src/audio/spessa-browser-runtime.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 试打和试听共用初始化与失败清理。请求按安装版本隔离旧处理器缓存，成功后将合成器交回调用方。 |
 | `packages/reforge/src/dialog/dialog-box.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/dialog/layout.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/dialog/layout.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 实际字模宽度逐字折行，保留源行、显式空行和缩进。 |
@@ -200,7 +200,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/bgm.playback-lifecycle.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.runtime-availability.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-note-activity.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
+| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 正式试听浏览器工厂锁定带版本的请求及既有初始化、失败和取消合同，移除版本参数只红指定断言。 |
 | `packages/reforge/src/audio/midi-preview.playback-guards.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.track-replacement.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.unavailable-runtime.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
@@ -872,8 +872,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/__tests__/opening-playback.ts` | test | 已验证 | [开场八维／14身份／生命周期与四反控](../evidence/QUALITY-PENDING-100-3/organization-shell-opening.json) | 商标／卷轴归责；标题和停点补强，有界收尾查真实监听；61相邻/TC0，统一门待。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/game/src/shell/__tests__/rng-frames.ts` | test | 已验证 | [RNG八维／原生Canvas／真实反控与退休承接](../evidence/QUALITY-PENDING-100-3/organization-shell-rng.json) | 25旧例保24，明确退1重复；2旧绿新业务红、7精确诊断、finally收尾；47相邻/TC0，统一门待。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/game/src/shell/audio-midi.fallback.test.ts` | test | 已验证 | [Shell八维/退休映射/真实反控](../evidence/QUALITY-PENDING-100-3/organization-shell-midi-fallback.json) | 职责/输入/生命周期逐项核，49→48明确退休一重复；110相邻/当前TC0，统一门待，0新closed。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
-| `packages/game/src/shell/audio-midi.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
-| `packages/game/src/shell/audio-midi.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
+| `packages/game/src/shell/audio-midi.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原合同沿用。新增合法相对 Worklet URL 保留配置查询值并携带配套版本，见[升级反控](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)。 |
+| `packages/game/src/shell/audio-midi.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原合同沿用。本次核定带版本的 Worklet URL、真实 MIDI 播放、RIX 切换及关闭，见[配套升级实测](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)。 |
 | `packages/game/src/shell/audio-rix.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/game/src/shell/audio-rix.ts` | product | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/game/src/shell/audio-volume.boundaries.test.ts` | test | 已验证 | [CODE70边界与key ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；100行全文、NaN/0/default/key独立合同 | 改正共享键读写注释、去除重复静音状态机；忽略keyMute旧6绿新7绿1指定AssertionError，恢复8绿；不改生产API |
@@ -1167,7 +1167,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/utils/gbk.ts` | product | 已验证 | [本窗八维、版本桥接与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；注释窄修/旧反控有效、136相关与两TC零诊断；统一门及发布等固定52阶段收尾，不继承相邻文件信用 |
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |
 | `packages/pal-extract/vitest.config.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
-| `packages/reforge/src/audio/bgm.ts` | product | review | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 已解决迟到和运行中 WorkletSynthesizer 的释放。锁定 Sequencer 就绪后仍持有 window 监听，缺少移除入口。 |
+| `packages/reforge/src/audio/bgm.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 试打发声后按既有所有权先销毁 Worklet 再关闭上下文，窗口监听残留由 1 降为 0。 |
 | `packages/reforge/src/menu/menu-box.layout.test.ts` | test | 已验证 | [Menu layout A-H and typed lifecycle](../evidence/QUALITY-PENDING-100-3/organization-menu-layout.json) | 5 identities/assertions preserved;typed per-case passthrough spy and restoration,33menu+7text/TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 本窗口增量复核与迁移身份见[八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收)。 |
 | `packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
@@ -1362,7 +1362,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/scene-supplemental.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
 | `scripts/quality/fixtures/asset-server.mjs` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
 | `scripts/quality/game-asset-server.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
-| `scripts/quality/game-midi-worklet.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/quality/midi-worklet.test.mjs` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 原 Game 供应专测承接为两端共同合同，按发布字节、Core 与解码器源图和许可证核对。 |
 | `scripts/docs/testing-source-bridge.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-bridge.test.mjs` | test | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-refs.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |

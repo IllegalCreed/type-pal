@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  spessasynth_lib@4.4.0>spessasynth_core: 4.4.0
+  spessasynth_core@4.4.0>stb-vorbis: 0.0.6
+
 patchedDependencies:
   '@bcoe/v8-coverage@1.0.2':
     hash: 2f8a8ecf59c8c2a034a221e318faf7be09767cde12bca6d4f5fe1ec70f1ff8bd
@@ -83,8 +87,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       spessasynth_lib:
-        specifier: ^4.3.6
-        version: 4.3.6
+        specifier: 4.4.0
+        version: 4.4.0
     devDependencies:
       '@types/node':
         specifier: ^25.9.1
@@ -161,11 +165,11 @@ importers:
         specifier: workspace:*
         version: link:../shared
       spessasynth_core:
-        specifier: 4.3.20
-        version: 4.3.20
+        specifier: 4.4.0
+        version: 4.4.0
       spessasynth_lib:
-        specifier: ^4.3.6
-        version: 4.3.6
+        specifier: 4.4.0
+        version: 4.4.0
     devDependencies:
       fake-indexeddb:
         specifier: 6.2.5
@@ -895,6 +899,9 @@ packages:
       picomatch:
         optional: true
 
+  fflate@0.8.3:
+    resolution: {integrity: sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==}
+
   fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
 
@@ -1215,11 +1222,12 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  spessasynth_core@4.3.20:
-    resolution: {integrity: sha512-RcYCXemGESRKIRbGEAGOwFgNSXcsuLMptjk3BmRTJJWtF6RH4KLRXKkUs6rzREUh3ooInfsJla/sRmWvwZzjhw==}
+  spessasynth_core@4.4.0:
+    resolution: {integrity: sha512-u2xmmC96yCn5cQgBGZj9I1Dn00vxe+AcGpAh3EHODDc+9NKSCAIvrLjLkar56A0FDEzngmk4P/ejqBf3SN8vug==}
+    deprecated: Only the latest version of spessasynth_core is supported.
 
-  spessasynth_lib@4.3.6:
-    resolution: {integrity: sha512-EXMQaBHnbsnkTaLKzBYweZsNdT2oOgvF6wUR5AhdEuxwi0s0EAb7hAEVASEuj33E7tiGaH5Nf03jB10MoxCqZg==}
+  spessasynth_lib@4.4.0:
+    resolution: {integrity: sha512-UNVtqupEyn9SIY+l9WOISlpdqXSjOWoy/uJFUlSLngNt2TDNwVutQnSo0KnAp5kdQJPf5/5diZqLF0huxWgbeQ==}
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
@@ -2062,6 +2070,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fflate@0.8.3: {}
+
   fs-constants@1.0.0: {}
 
   fsevents@2.3.3:
@@ -2356,13 +2366,14 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  spessasynth_core@4.3.20:
+  spessasynth_core@4.4.0:
     dependencies:
+      fflate: 0.8.3
       stb-vorbis: 0.0.6
 
-  spessasynth_lib@4.3.6:
+  spessasynth_lib@4.4.0:
     dependencies:
-      spessasynth_core: 4.3.20
+      spessasynth_core: 4.4.0
 
   stackback@0.0.2: {}
 

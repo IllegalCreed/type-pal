@@ -10,6 +10,8 @@ import {
 } from './browser-midi-fixture.js'
 import { createBrowserMidiPreviewRuntime } from './midi-preview.js'
 
+const workletRequest = '/spessasynth_processor.min.js?v=4.4.0'
+
 afterEach(restoreBrowserMidiFixture)
 
 test('spessa 初始化：无 audioWorklet 按 secure context 指路拒绝', async () => {
@@ -29,7 +31,7 @@ test('spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 
   const readRoleBytes = vi.spyOn(reader, 'readRoleBytes')
   const runtime = createBrowserMidiPreviewRuntime(reader)!
   const adapter = await runtime.initialize()
-  expect(addModuleCalls).toEqual(['/spessasynth_processor.min.js'])
+  expect(addModuleCalls).toEqual([workletRequest])
   const worklet = spessa.worklets.at(-1)
   expect(worklet?.destroyed).toBe(false)
   expect(worklet?.connected).toBe(context.destination)
@@ -89,7 +91,7 @@ test('试听 runtime：webkitAudioContext 回退可用', async () => {
   const runtime = createBrowserMidiPreviewRuntime(roleReader(riffBytes()))
   expect(runtime).toBeDefined()
   await runtime!.initialize()
-  expect(addModuleCalls).toEqual(['/spessasynth_processor.min.js'])
+  expect(addModuleCalls).toEqual([workletRequest])
 })
 
 test('试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用', async () => {
@@ -136,7 +138,7 @@ test('试听关闭使模块加载提前结束，迟到的模块不会创建合�
   const runtime = createBrowserMidiPreviewRuntime(roleReader(riffBytes()))!
   const pending = runtime.initialize().catch((error: unknown) => error)
   try {
-    await vi.waitFor(() => expect(addModuleCalls).toEqual(['/spessasynth_processor.min.js']))
+    await vi.waitFor(() => expect(addModuleCalls).toEqual([workletRequest]))
     runtime.dispose()
     await expect(pending).resolves.toMatchObject({ name: 'AbortError' })
     await vi.waitFor(() => expect(context.state).toBe('closed'))

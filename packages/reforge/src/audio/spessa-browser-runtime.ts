@@ -1,5 +1,6 @@
 import type { AssetRole } from '@type-pal/content'
 import type { Sequencer, WorkletSynthesizer } from 'spessasynth_lib'
+import spessaPackage from 'spessasynth_lib/package.json' with { type: 'json' }
 
 export interface SpessaRoleReader {
   readRoleBytes(role: AssetRole): Promise<ArrayBuffer>
@@ -23,7 +24,7 @@ export async function initializeBrowserSpessaSynth(
   let synth: WorkletSynthesizer | undefined
   let onAbort: (() => void) | undefined
   const initialize = async () => {
-    await worklet.addModule('/spessasynth_processor.min.js')
+    await worklet.addModule(`/spessasynth_processor.min.js?v=${spessaPackage.version}`)
     signal.throwIfAborted()
     const { WorkletSynthesizer, Sequencer } = await import('spessasynth_lib')
     signal.throwIfAborted()

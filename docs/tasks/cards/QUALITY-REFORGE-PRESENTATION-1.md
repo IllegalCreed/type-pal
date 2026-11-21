@@ -123,3 +123,21 @@ Visual Verification Timing: N/A
 沿用原八维读域，按差异补核接口消费者、单图独立 IO、失败传播、可读命名、测试归属和夹具复用。新增夹具只按索引组装编辑态所需的数据，单图读取和校验交给生产入口。完成原 `project-loader.ts` 的关闭，新增夹具独立登记。其余支持文件仅按此次接口迁移的范围复验。
 
 Reforge 14 个文件、74 项及 Editor 22 个文件、203 项通过，stderr 均为空。两包 typecheck、变更静态与测试文档检查零诊断。首跑单图失败例误判 IO 错误不包装，修正断言后保留路径与原因。错读地图和吞掉读取错误两个反控各触发其指定断言，未改工作树中的单图实现。[原执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) 新增 `exports-retired/` 的原件及契约映射。全仓与覆盖率随稳定窗校验，此次更名的地图测试身份在该次实测时刷新。
+
+### SpessaSynth 配套升级与真实退出
+
+2026-11-21 用户批准先验兼容、再升级 4.4.0。以 `c7deefe56` 和主线 `10378100a` 为基点，Codex 持有音频依赖、供应 Worklet、两端请求地址及定向专测的写入权。活跃 E2E 仍是剧情测试与作者内容五个独立路径。隔离预检先通过候选类型和 Game、Reforge、Editor 的原生播放与退出，之后才更新依赖和配套产物。现行部署的 Worklet 缓存为 30 天，请求用实际库版本定位。
+
+`spessasynth_lib` 与 Core 固定为 4.4.0，解码器固定为 0.0.6，匹配发布 Worklet 的 226 份 Core 源和两项内嵌依赖。Game 与 Reforge 发布同一处理器字节，并各自供应 Apache 与 MIT 许可证。Reforge 直接导入的曲谱解析器与播放库所依赖的 Core 相同。86 首 PAL 曲目的时长和音符事件逐曲与旧 Core 一致。
+
+Chromium 使用实际 MIDI、音色库和 Web Audio，三条线路均观察到非零 PCM。预存旧版 HTTP 缓存后，实际入口均请求并加载带版本的新版处理器。
+
+| 真实线路 | 退出后旧版 / 4.4.0 的 `beforeunload` 残留 | 释放观测 |
+|---|---:|---|
+| Game 切换 MIDI 到 RIX，再销毁音源 | 1 / 0 | MIDI 在切换时关闭，RIX 发声后也释放并关闭 |
+| Reforge 试打中停止 | 1 / 0 | BGM 先销毁 Worklet，再关闭上下文，试打音效上下文一并关闭 |
+| Editor 同页两次打开并关闭 MIDI 试听 | 2 / 0 | 两次独立发声，每次退出先销毁 Worklet 再关闭上下文 |
+
+补核两份生产文件的八维并接受 `bgm.ts`、`midi-preview.ts`。Reforge 应用和试听保留各自序列状态及已有在途释放路径，共用加载和取消。移除缓存版本的两个定向反控均只红指定 URL 断言。Game 45 项、Reforge 74 项、Editor 20 项、供应字节与许可证 2 项、E2E 音频 URL 分类 1 项通过。三包 typecheck、生产构建及实际 Vite preview 资源请求通过。Reforge 并行首跑三例 5 秒超时，单独复跑同一选择和超时阈值通过。最终定向测试 stderr 为空。Chromium 的可选存档标记 404 单列，音频及脚本异常为零。重新解析 lock 时有 Core 的维护者版本弃用提示和一条既有传递依赖提示，冻结安装回执无提示。
+
+逐文件结论、对照会话、失败与恢复、授权路径及复验命令见[原执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) `spessasynth-4.4.0/`。原生验证使用 Chromium 的真实 PCM 与上下文状态。适用范围为本地发布构建、测试服务及这三条播放路径。文件收口与集中交付分开，全仓检查、官方覆盖率和 protected fast 在下一稳定窗口执行。
