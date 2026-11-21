@@ -7,8 +7,8 @@ import {
   roleReader,
   spessa,
   stubAudioContext,
-} from './browser-midi-fixture.js'
-import { createBrowserMidiPreviewRuntime } from './midi-preview.js'
+} from '../__tests__/browser-midi-fixture.js'
+import { createBrowserMidiPreviewRuntime, createMidiPreviewTransport } from './midi-preview.js'
 
 const workletRequest = '/spessasynth_processor.min.js?v=4.4.0'
 
@@ -76,6 +76,33 @@ test('spessa 初始化：isReady 拒绝销毁合成器并原样抛出', async ()
   spessa.ready.error = failure
   await expect(runtime.initialize()).rejects.toBe(failure)
   expect(spessa.worklets.at(-1)?.destroyed).toBe(true)
+})
+
+test('试听序列器构造失败时释放 Worklet，重试加载同一曲目并可正常退出', async () => {
+  const { context } = stubAudioContext()
+  const score = minimalMidi()
+  const transport = createMidiPreviewTransport({
+    readBytes: async () => score,
+    readRoleBytes: async () => riffBytes(),
+  })
+  const failure = new Error('sequencer startup failed')
+  try {
+    await transport.load('music.preview')
+    spessa.sequencerCreation.error = failure
+    await expect(transport.play()).rejects.toBe(failure)
+    expect(spessa.worklets.map(({ destroyed }) => destroyed)).toEqual([true])
+    expect(context.state).toBe('running')
+
+    spessa.sequencerCreation.error = undefined
+    await transport.play()
+    expect(spessa.worklets.map(({ destroyed }) => destroyed)).toEqual([true, false])
+    expect(spessa.sequencers[0]?.loaded).toEqual([{ binary: score, fileName: 'music.preview' }])
+    expect(spessa.sequencers[0]?.playCalls).toBe(1)
+  } finally {
+    transport.dispose()
+    await vi.waitFor(() => expect(context.state).toBe('closed'))
+  }
+  expect(spessa.disposalEvents).toEqual(['destroy worklet', 'destroy worklet', 'close context'])
 })
 
 test('试听 runtime：无任何 AudioContext 构造器返回 undefined', () => {

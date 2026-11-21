@@ -133,7 +133,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/midi-preview.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.browser-runtime.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 从真实 BGM 工厂观察 WorkletSynthesizer 与浏览器上下文先后释放，区分就绪和在途。 |
-| `packages/reforge/src/audio/browser-midi-fixture.ts` | fixture | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 共用合法 MIDI/RIFF 边界与浏览器端口替身，正例和受控取消互不依赖。 |
+| `packages/reforge/src/__tests__/browser-midi-fixture.ts` | fixture | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 共用合法 MIDI/RIFF 边界与浏览器端口替身，正例和受控取消互不依赖。 |
 | `packages/reforge/src/audio/midi-preview.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 同页两次真实试听均发声，分别销毁 Worklet 后关闭上下文，窗口监听残留由 2 降为 0。 |
 | `packages/reforge/src/audio/sfx-readiness.collections.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
@@ -200,7 +200,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/bgm.playback-lifecycle.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.runtime-availability.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-note-activity.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 正式试听浏览器工厂锁定带版本的请求及既有初始化、失败和取消合同，移除版本参数只红指定断言。 |
+| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 正式试听浏览器工厂锁定带版本的请求及既有初始化、失败和取消合同，移除版本参数只红指定断言。 正式预览入口补核序列器构造失败时释放、重试与关闭。 |
 | `packages/reforge/src/audio/midi-preview.playback-guards.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.track-replacement.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.unavailable-runtime.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |

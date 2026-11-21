@@ -1,13 +1,13 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
-import { createBgmPlayer } from './bgm.js'
 import {
   minimalMidi,
   restoreBrowserMidiFixture,
   riffBytes,
   spessa,
   stubAudioContext,
-} from './browser-midi-fixture.js'
+} from '../__tests__/browser-midi-fixture.js'
+import { createBgmPlayer } from './bgm.js'
 
 afterEach(restoreBrowserMidiFixture)
 

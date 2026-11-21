@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "b37cb6e75eb41b1d87c18ce1b103fa46f35f10c72ee175ea511bc7ca6effd60c",
+      "afterSha256": "636c14d4b825e27ceb9374daac231da2c4b1dbad7e2fd73348aa3cb14be788c8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "收口两项音频留审，将旧供应专测登记迁入双端合同。",
+        "conclusion": "按调用职责迁移浏览器 MIDI 专测夹具，记录构造失败的释放与重试反例。",
         "reviewedLines": 1491,
-        "acceptanceScope": "仅核两项原 review、支持路径证据指针和 3852/1363/0/2489 机器计数。"
+        "acceptanceScope": "夹具改归专测目录、两处测试入口及账本对应行。沿用既有两项音频关闭与真实退出证据，状态和数量不变。"
       }
     },
     {

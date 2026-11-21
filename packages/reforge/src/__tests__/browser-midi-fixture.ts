@@ -59,6 +59,8 @@ export const spessa = (() => {
       readonly synth: WorkletDouble,
       readonly options: { skipToFirstNoteOn: boolean },
     ) {
+      const failure = spessa.sequencerCreation.error
+      if (failure) throw failure
       spessa.sequencers.push(this)
     }
     loadNewSongList(list: { binary: ArrayBuffer; fileName: string }[]): void {
@@ -86,8 +88,17 @@ export const spessa = (() => {
   const worklets: WorkletDouble[] = []
   const sequencers: SequencerDouble[] = []
   const ready: { error?: Error; entered?: () => void; pending?: Promise<void> } = {}
+  const sequencerCreation: { error?: Error } = {}
   const disposalEvents: string[] = []
-  return { WorkletDouble, SequencerDouble, worklets, sequencers, ready, disposalEvents }
+  return {
+    WorkletDouble,
+    SequencerDouble,
+    worklets,
+    sequencers,
+    ready,
+    sequencerCreation,
+    disposalEvents,
+  }
 })()
 
 vi.mock('spessasynth_lib', () => ({
@@ -169,6 +180,7 @@ export function restoreBrowserMidiFixture(): void {
   spessa.ready.error = undefined
   spessa.ready.entered = undefined
   spessa.ready.pending = undefined
+  spessa.sequencerCreation.error = undefined
   spessa.disposalEvents.length = 0
 }
 
