@@ -19,6 +19,15 @@ export const approvedTestRetirements = Object.freeze(
       fileSha256: '0fbd3b625bfe26357bac0e3002e20ff62694f4a765e2230fa1e5814d29e9f45b',
     },
     {
+      // The old route predicate's intro contract moved to the production boot host.
+      file: 'packages/reforge/src/startup-entry.test.ts',
+      previous: 5,
+      current: 4,
+      previousIdentityDigest: '9aa9810714d469a704fb2296a2bcea054d0cebe2b894d00bc8f184955ef56904',
+      currentIdentityDigest: '7d3887c371e7c9a28f49078f673457ba86174ba3897e17de19ee8c7554a5abce',
+      fileSha256: '46126b8d4d52c9fe6b062590cb5824b098f15df8034ff4b0f0471df5c77dc6a6',
+    },
+    {
       file: 'packages/reforge/src/audio/sfx-readiness.collections.test.ts',
       previous: 5,
       current: 4,
