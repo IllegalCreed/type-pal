@@ -28,6 +28,7 @@ import {
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingRuntimeOwnershipSourceBindings,
   testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
   testingBattleHandoffPublicationBase,
@@ -47,6 +48,7 @@ import {
   testingBattleVictorySourceRevision,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingRuntimeOwnershipPublicationBase,
 } from './testing-battle-publication.mjs'
 
 const repository = fileURLToPath(new URL('../../', import.meta.url))
@@ -66,6 +68,31 @@ function readFixed(revision, path) {
     )
   return fixed.get(key)
 }
+
+test('runtime source replay preserves the published Q2 quest report and rejects later prose changes', () => {
+  const path = 'docs/testing/domains/cross-phase/battle-foundation/report.md'
+  const reviewedRevision = '3666efdf8e7afd1e87d601045b22fbd7c3e541b4'
+  const { testingQ2QuestReportRevision, testingRuntimeOwnershipSourceRevision } =
+    documentLocationAdmission
+  const current = readFixed(testingQ2QuestReportRevision, path).toString().split('\n')
+  const governed = readFixed(reviewedRevision, path).toString().split('\n')
+  current[current.indexOf('<!-- testing-meta') + 1] =
+    governed[governed.indexOf('<!-- testing-meta') + 1]
+  const inputs = {
+    readSource: (source) => readFixed(reviewedRevision, source),
+    readBase: (source) => readFixed(testingRuntimeOwnershipPublicationBase, source),
+    readFixed: (source) => readFixed(testingRuntimeOwnershipSourceRevision, source),
+    readQ2QuestReport: (source) => readFixed(testingQ2QuestReportRevision, source),
+  }
+  const restore = (text) =>
+    restoreTestingRuntimeOwnershipSourceBindings(path, Buffer.from(text), inputs)
+  const report = current.join('\n')
+  assert.deepEqual(restore(report), inputs.readBase(path))
+  assert.throws(
+    () => restore(report.replace('四件剧情道具的主线复验\n', '四件剧情道具的主线复验（改写）\n')),
+    /runtime ownership report changed outside its source links/,
+  )
+})
 
 function fixture() {
   const before = JSON.parse(readFixed(testingBattlePublicationBase, catalogPath))

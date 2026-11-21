@@ -681,11 +681,19 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       menuIsolationRevision && /^[a-f0-9]{40}$/u.test(runtimeOwnershipRevision),
       'runtime ownership source requires the admitted menu isolation stage',
     )
+  const q2QuestReportRevision = admission.testingQ2QuestReportRevision
+  if (q2QuestReportRevision !== undefined)
+    assert(runtimeOwnershipRevision, 'Q2 quest report requires the runtime ownership source stage')
+  const q2QuestReport = q2QuestReportRevision && gitTree(root, q2QuestReportRevision, [])
   const runtimeOwnership = sourceApplicability({
     readCurrent: readCurrentSource,
     revision: runtimeOwnershipRevision,
     baseRevision: testingRuntimeOwnershipPublicationBase,
-    restoreBindings: restoreTestingRuntimeOwnershipSourceBindings,
+    restoreBindings: (path, bytes, inputs) =>
+      restoreTestingRuntimeOwnershipSourceBindings(path, bytes, {
+        ...inputs,
+        readQ2QuestReport: q2QuestReport?.read,
+      }),
     isSource: isTestingRuntimeOwnershipSource,
   })
   const menuIsolation = sourceApplicability({

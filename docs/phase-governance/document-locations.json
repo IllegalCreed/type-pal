@@ -5433,13 +5433,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "34e727c22c23664e884a02823626537cf4f243c96e02dc47b88bbab9867c8606",
+      "afterSha256": "06c39abdd2e2dae56553955b74ab8cf128feff2391a874bcdcaa598142341a9d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex 据原件复核",
         "date": "2026-11-21",
-        "conclusion": "核保护基点后的 Q2 双端复验、反控、可复算基线和 GitHub 必需检查。",
-        "reviewedLines": 1223,
+        "conclusion": "核保护基点后的 Q2 双端复验、反控、可复算基线和 GitHub 必需检查。 已复核四件道具的主线版本、双端原件和成片。",
+        "reviewedLines": 1231,
         "acceptanceScope": "本轮核新增回执、各端依赖、实际覆盖率和 GitHub 检查。既有执行及用户视觉结论沿用各自原件。"
       }
     },
@@ -5472,14 +5472,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "879435fdecbd5c7764f79605560937379ef4e870e08eecc869b2175f21a02ce7",
+      "afterSha256": "44092db8de31aebb403664d8a74bf5970ec380f70ac63a304cb1d85ee66cafbb",
       "review": {
-        "author": "/root",
+        "author": "Codex /root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 1945,
-        "acceptanceScope": "新增同局复验、实际依赖与反控；既有逐项范围及音画回执沿用各自原件。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "conclusion": "保全 #75 的主线四件道具复验与治理侧的既有来源维护。",
+        "reviewedLines": 1955,
+        "acceptanceScope": "四件道具的执行和独立采录沿用 #75 原件。此前七条调用来源及五个导航锚点按各自核定范围保留。"
       }
     },
     {
@@ -7510,6 +7510,24 @@
       "bytes": 4427841,
       "sha256": "944035702338a80c16a847711ca83bc46742c611f6856c9a115dbd941ba83b70",
       "purpose": "合并基点后的双端日志、独立反控、基线和已恢复的 Git 隔离回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-quest-main-recheck-20261121.tar.gz",
+      "bytes": 69010773,
+      "sha256": "b5860ea62868c6f4b990e787cddc1997b26cd847b10d4c2818d9b480d8f717a3",
+      "purpose": "Q2 四件剧情道具主线实跑的双端验收或完整原录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-quest-main-recheck-20261121-native-1.tar.gz",
+      "bytes": 73361344,
+      "sha256": "ce9a5fca2ccd493e821a1aa479a3c3fd723adac62a5200053924ec16a5291756",
+      "purpose": "Q2 四件剧情道具主线实跑的双端验收或完整原录。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-quest-main-recheck-20261121-native-2.tar.gz",
+      "bytes": 46956339,
+      "sha256": "7f55f81707dbcca1c4b3780f716f3750cbcf7e934ad20f998545706095146912",
+      "purpose": "Q2 四件剧情道具主线实跑的双端验收或完整原录。"
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-forest-inn-explosion-20261121-game-original-1.tar.gz",
