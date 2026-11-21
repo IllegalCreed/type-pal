@@ -1757,17 +1757,17 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "418-425",
+          "lines": "417-424",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "457-464",
+          "lines": "456-463",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -2576,6 +2576,29 @@
               }
             ],
             "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+          },
+          {
+            "date": "2026-11-21",
+            "action": "reforge-runtime-ownership-source-rebinding",
+            "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "418-425",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "457-464",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              }
+            ]
           }
         ]
       },
@@ -2647,7 +2670,7 @@
           "lines": "1300-1398",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -3337,6 +3360,22 @@
               }
             ],
             "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+          },
+          {
+            "date": "2026-11-21",
+            "action": "reforge-runtime-ownership-source-rebinding",
+            "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1300-1398",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              }
+            ]
           }
         ]
       },
@@ -4759,10 +4798,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "442-454",
+          "lines": "441-453",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -5410,6 +5449,22 @@
               }
             ],
             "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+          },
+          {
+            "date": "2026-11-21",
+            "action": "reforge-runtime-ownership-source-rebinding",
+            "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "442-454",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              }
+            ]
           }
         ]
       },
@@ -5812,10 +5867,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu/menu-session.ts",
-          "lines": "108-132",
+          "lines": "107-130",
           "anchor": "export class MenuSession",
           "role": "contract",
-          "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
+          "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
         },
         {
           "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -5989,6 +6044,22 @@
               }
             ],
             "scope": "物品操作首例 5–22 行逐字相同。两实例同时在途的隔离回归取独立治理证据，历史候选、执行与业务主张照原记录。"
+          },
+          {
+            "date": "2026-11-21",
+            "action": "reforge-runtime-ownership-source-rebinding",
+            "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/menu-session.ts",
+                "lines": "108-132",
+                "anchor": "export class MenuSession",
+                "role": "contract",
+                "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
+              }
+            ]
           }
         ]
       },
@@ -8281,7 +8352,7 @@
           "anchor": "export const SCROLL_LABEL_STYLE =",
           "role": "reforge-scroll-style",
           "lines": "169",
-          "sha256": "870f9701257c7d70c3bd91a381303b47ecb03989a8d38deda0079ae8ba9af1c4"
+          "sha256": "42e20a18fb4a46d1cf1cc13bfdc274f6e413148dfb7447e0c55033fe17b568f4"
         },
         {
           "path": "reference/sdlpal/battle.c",
@@ -8477,7 +8548,7 @@
           "anchor": "async function restorePayload(",
           "role": "save-restore-caller",
           "lines": "6009",
-          "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
         },
         {
           "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -10566,6 +10637,29 @@
               }
             ],
             "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
+          },
+          {
+            "date": "2026-11-21",
+            "action": "reforge-runtime-ownership-source-rebinding",
+            "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/menu-box.ts",
+                "anchor": "export const SCROLL_LABEL_STYLE =",
+                "role": "reforge-scroll-style",
+                "lines": "169",
+                "sha256": "870f9701257c7d70c3bd91a381303b47ecb03989a8d38deda0079ae8ba9af1c4"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "6009",
+                "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              }
+            ]
           }
         ]
       }

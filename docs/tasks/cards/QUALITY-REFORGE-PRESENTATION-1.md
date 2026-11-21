@@ -4,7 +4,7 @@ Status: review
 Phase: phase2
 Owner: Codex
 Reviewer: Codex
-Last reviewed: 2026-11-20
+Last reviewed: 2026-11-21
 Template: task-card-v1 / 1.0.0
 Visual Verification Timing: N/A
 
@@ -95,3 +95,19 @@ Visual Verification Timing: N/A
 ### 证据恢复与统一门
 
 [唯一窗口归档](../evidence/QUALITY-REFORGE-PRESENTATION-1.tar.gz)内 `window/window-manifest.json` 按原路径定位八维、当前文件、Git blob、调用方及留项。`window/README.md` 列恢复、反控和定向复跑入口。集中质量门的最终结果、首次拒绝及恢复身份取同一归档的 `window/gates.json`。GitHub 合并与主线运行以对应 PR 和提交为准。
+
+### Q2 后音频复审
+
+2026-11-21 Codex build allowed。以已同步主线 `10378100a` 的同一治理树 `c749075e5` 为基点，任务限定现有 11 项留审。首片覆盖场景音效装配、预取收集、实际读档链回归；并独占 BGM、共用 Spessa 初始化及浏览器适配器专测。活跃 E2E 的未提交路径为一份剧情测试和四份作者内容，未占本片入口。
+
+活动页由场景投影负责，预取应消费实际投影并保留 canonical 命令根。BGM 按既有 dispose 合同结束 worklet 与浏览器上下文的所有权。先用合法两层调用和真实平台入口留失败反例。主线来源引用依原固定片段核适用性，旧执行身份照原记录。全仓和官方覆盖率随稳定窗口。
+
+本轮完成原 11 项中的八项。`sfx-readiness.ts`、`assets.ts`、`reward-gain-queue.ts`、`menu-box.ts`、`system-box.ts`、`startup-entry.ts` 和 `startup-entry.test.ts` 通过逐路径验收。`dialog/slot.ts` 的唯一消费者 DialogBox 接回槽位状态，迁移后的专测按绘制归属命名。红例分别证明存档选中页的音效错集、已接管和在途 Worklet 的未销毁、非法色彩根的错误边界，以及提示两条之间丢失提交权。其余是职责整理，保留真实标题新局、直达和标题读档的 intro 约束。
+
+| 继续 review | 已完成与剩余条件 |
+|---|---|
+| `audio/bgm.ts` | Worklet 释放和关闭顺序已修。实际调用锁定的 SpessaSynth 4.3.6 构造后，`window.beforeunload` 仍登记一个原生 Sequencer 持有者。暂停后监听仍在，库无释放方法，需要上游合同或单独审查依赖处置。 |
+| `audio/midi-preview.ts` | 试听共用初始化器已增加取消与所有权移交。仍使用同一 Sequencer，公开时长字段的退役也待用户裁定。 |
+| `project-loader.ts` | 正式编辑器按需加载单图。全图批读仅测试及历史探针引用，包级出口待用户裁定，现有调用暂行。 |
+
+原读域取本卡窗口归档，变更后的七项、退役项、三项余留与变更支持件取[执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) `review-11/`。两次相邻执行涵盖 38 个专测文件、235 个不同用例。首次在两个标题宿主用例报失败。标题测试改用真实菜单阶段与合法 intro 后，音频及启动 14 个文件 74 项复验均绿且 stderr 为空。首轮其余 24 个文件 161 项的保留证据按原身份恢复。类型与静态门取同目录执行清单。全仓产品 check、官方 ratchet 和 protected fast 待稳定批次，旧槽文件与改名测试在该次实测时刷新覆盖率基准。[已刊来源回执](../evidence/reforge-runtime-source-applicability.md)承接此前 E2E 的执行身份。账本实际状态以[机器清单](../audits/code-quality-file-ledger.md#当前状态)为准。

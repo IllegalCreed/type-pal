@@ -100,3 +100,5 @@ BGM 浏览器适配器只关闭 AudioContext，成功取得和迟到获得的合
 [唯一执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) 追加 `after-q2/`，含 Content 124、Editor 32、Reforge 119 项的显式 default reporter 与 JSON，三组 stderr 为空。三份业务红例与一个首帧反控保留各自日志；Content、Editor、Reforge typecheck 与改动静态检查零诊断。整窗全仓、官方 coverage ratchet、protected fast 留到较大稳定批次。
 
 账本 3,850 tracked、1,350 closed、11 review、2,489 pending。剩余 11 项继续按原[呈现治理卡](QUALITY-REFORGE-PRESENTATION-1.md#留项与后继验证)和本卡音频项处理。E2E 合入解除原写入等待，公开解码/全图读取/试听出口、资源迟到销毁、活动页音效、对白/系统菜单冗余状态和启动路由仍各有独立验收缺口。菜单数值面板还依赖 #74 发布片段，锚点必须按真正改动同步。奖励队列要经调用方核定并发条件及失败后归属。
+
+后继 11 项的现行取证和三项余留统一写回[呈现卡](QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审)。同一归档新增 `review-11/`，本节保留六项处置时的范围与统计。

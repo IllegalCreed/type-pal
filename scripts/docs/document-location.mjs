@@ -77,6 +77,7 @@ import {
   isTestingQ2TombSource,
   isTestingQ2TowerFoxSource,
   isTestingQ2TowerMingSource,
+  isTestingRuntimeOwnershipSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -135,6 +136,7 @@ import {
   restoreTestingQ2TombSourceBindings,
   restoreTestingQ2TowerFoxSourceBindings,
   restoreTestingQ2TowerMingSourceBindings,
+  restoreTestingRuntimeOwnershipSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
@@ -210,6 +212,7 @@ import {
   testingQ2TombPublicationBase,
   testingQ2TowerFoxPublicationBase,
   testingQ2TowerMingPublicationBase,
+  testingRuntimeOwnershipPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
@@ -643,33 +646,55 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const preBattleSpecialStatus =
     preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
   const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  // Apply source updates newest first for both document and metadata reads.
+  function sourceApplicability({ readCurrent, revision, baseRevision, restoreBindings, isSource }) {
+    if (!revision) return { read: readCurrent, restore: (_path, bytes) => bytes }
+    const fixed = gitTree(root, revision, [])
+    const base = gitTree(root, baseRevision, [])
+    const restore = (path, bytes) =>
+      restoreBindings(path, bytes, {
+        readSource: readCurrent,
+        readBase: base.read,
+        readFixed: fixed.read,
+      })
+    return {
+      restore,
+      read(path) {
+        const live = readCurrent(path)
+        if (!isSource(path)) return live && restore(path, live)
+        assert(
+          live?.equals(fixed.read(path)),
+          `source differs from its admitted candidate: ${path}`,
+        )
+        return base.read(path)
+      },
+    }
+  }
   const menuIsolationRevision = admission.testingMenuIsolationSourceRevision
   if (menuIsolationRevision)
     assert(
       admission.testingQ2DisplaySourceRevision && /^[a-f0-9]{40}$/u.test(menuIsolationRevision),
     )
-  const menuIsolationSource = menuIsolationRevision && gitTree(root, menuIsolationRevision, [])
-  const preMenuIsolation =
-    menuIsolationSource && gitTree(root, testingMenuIsolationPublicationBase, [])
-  const beforeMenuIsolation = (path, bytes) =>
-    preMenuIsolation
-      ? restoreTestingMenuIsolationSourceBindings(path, bytes, {
-          readSource: readCurrentSource,
-          readBase: preMenuIsolation.read,
-          readFixed: menuIsolationSource.read,
-        })
-      : bytes
-  // Both publication readers must present the same predecessor to the content version replay.
-  const readBeforeMenuIsolation = (path) => {
-    const live = readCurrentSource(path)
-    if (!preMenuIsolation) return live
-    if (!isTestingMenuIsolationSource(path)) return live && beforeMenuIsolation(path, live)
+  const runtimeOwnershipRevision = admission.testingRuntimeOwnershipSourceRevision
+  if (runtimeOwnershipRevision)
     assert(
-      live?.equals(menuIsolationSource.read(path)),
-      'menu isolation source differs from its candidate',
+      menuIsolationRevision && /^[a-f0-9]{40}$/u.test(runtimeOwnershipRevision),
+      'runtime ownership source requires the admitted menu isolation stage',
     )
-    return preMenuIsolation.read(path)
-  }
+  const runtimeOwnership = sourceApplicability({
+    readCurrent: readCurrentSource,
+    revision: runtimeOwnershipRevision,
+    baseRevision: testingRuntimeOwnershipPublicationBase,
+    restoreBindings: restoreTestingRuntimeOwnershipSourceBindings,
+    isSource: isTestingRuntimeOwnershipSource,
+  })
+  const menuIsolation = sourceApplicability({
+    readCurrent: runtimeOwnership.read,
+    revision: menuIsolationRevision,
+    baseRevision: testingMenuIsolationPublicationBase,
+    restoreBindings: restoreTestingMenuIsolationSourceBindings,
+    isSource: isTestingMenuIsolationSource,
+  })
   const versionAdmission = admission.testingContentVersionRebinding
   const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
   const versionPublicationBase = versionAdmission?.publicationBaseRevision
@@ -679,7 +704,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     versionPublicationBase &&
     loadTestingContentVersionRebinding({
       admission: versionAdmission,
-      readCurrent: readBeforeMenuIsolation,
+      readCurrent: menuIsolation.read,
       readPredecessor: versionPublicationBase.read,
       readAcceptedSource: versionBase.read,
     })
@@ -688,7 +713,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         const live = versionRebinding.readPredecessorSource(path)
         return live && versionRebinding.restore(path, live)
       }
-    : readBeforeMenuIsolation
+    : menuIsolation.read
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -1523,7 +1548,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const beforeQ2Coverage = (path, bytes) => {
     const priorDisplay = preDisplay
       ? restoreTestingQ2DisplaySourceBindings(path, bytes, {
-          readSource: readBeforeMenuIsolation,
+          readSource: menuIsolation.read,
           readBase: preDisplay.read,
           readFixed: displaySource.read,
         })
@@ -2177,7 +2202,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorMenuBody = beforeMenuIsolation(path, current)
+    const priorMenuBody = menuIsolation.restore(path, runtimeOwnership.restore(path, current))
     const priorVersionBody = versionRebinding?.restore(path, priorMenuBody) ?? priorMenuBody
     const artifact = artifacts.get(path)
     if (artifact) {

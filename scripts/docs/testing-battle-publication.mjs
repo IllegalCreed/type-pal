@@ -2949,6 +2949,106 @@ export function restoreTestingMenuIsolationSourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingRuntimeOwnershipPublicationBase = 'c749075e5ae84004789de2fcce0345279dddc7e7'
+const runtimeOwnershipStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '418-425': '417-424',
+        '457-464': '456-463',
+        '442-454': '441-453',
+        '1300-1398': '1300-1398',
+        6009: '6009',
+      },
+    ],
+    [worldItemMenuSession, { '108-132': '107-130' }],
+    ['packages/reforge/src/menu/menu-box.ts', { 169: '169' }],
+  ]),
+  normalizeExcerpt(excerpt, reference) {
+    if (reference.path !== worldItemMenuSession) return excerpt
+    return excerpt.replace(
+      '  #overwriteYes = false\n',
+      '  #overwriteYes = false\n  #systemPlaceholder: string | undefined\n',
+    )
+  },
+  base: testingRuntimeOwnershipPublicationBase,
+  receipt: 'docs/tasks/evidence/reforge-runtime-source-applicability.md',
+  action: 'reforge-runtime-ownership-source-rebinding',
+  date: '2026-11-21',
+}
+const runtimeOwnershipBindings = new Map([
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+  [menuSessionEvidence, { id: 'reforge-menu-session', paths: [worldItemMenuSession] }],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [reforgeMain, 'packages/reforge/src/menu/menu-box.ts'],
+      artifactClaims: true,
+    },
+  ],
+])
+const runtimeOwnershipReports = new Map(
+  [...runtimeOwnershipBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/u, 'report.md')}`,
+    path,
+  ]),
+)
+const previousRuntimeReportPointers = new Map([
+  [
+    reforgeMain,
+    { '416-423': '417-424', '458-465': '456-463', '443-455': '441-453', '1289-1387': '1300-1398' },
+  ],
+  [worldItemMenuSession, { '106-130': '107-130' }],
+])
+
+export const isTestingRuntimeOwnershipSource = (path) => runtimeOwnershipStage.ranges.has(path)
+
+export function restoreTestingRuntimeOwnershipSourceBindings(path, bytes, inputs) {
+  const report = runtimeOwnershipReports.get(path)
+  if (report) {
+    const body = (value) => {
+      const { json, start, text } = testingMetadata(value)
+      return text.slice(0, start) + text.slice(start + json.toString().length)
+    }
+    let expected = body(inputs.readBase(path))
+    for (const source of runtimeOwnershipBindings.get(report).paths) {
+      for (const [previous, current] of Object.entries(
+        previousRuntimeReportPointers.get(source) ?? {},
+      )) {
+        expected = expected.replace(`\`${source}:${previous}\``, `\`${source}:${current}\``)
+      }
+    }
+    assert.equal(body(bytes), expected, 'runtime ownership report changed outside its source links')
+  }
+  if (
+    path !== catalogPath &&
+    !report &&
+    ![...runtimeOwnershipBindings.keys()].some((evidence) => path === `docs/testing/${evidence}`)
+  )
+    return bytes
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    runtimeOwnershipStage,
+    runtimeOwnershipBindings,
+    runtimeOwnershipReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

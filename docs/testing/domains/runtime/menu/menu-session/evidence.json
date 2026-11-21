@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/menu/menu-session.ts",
-      "lines": "108-132",
+      "lines": "107-130",
       "anchor": "export class MenuSession",
       "role": "contract",
-      "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
+      "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -75,7 +75,7 @@
       "id": "reforge-menu-session-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/menu/menu-session.ts:108-132",
+        "packages/reforge/src/menu/menu-session.ts:107-130",
         "packages/reforge/src/menu/item-use-session.ts:2-19",
         "packages/reforge/src/menu/menu-session.test.ts:10-33",
         "packages/reforge/src/menu/item-use-session.test.ts:5-22",
@@ -232,6 +232,22 @@
         }
       ],
       "scope": "物品操作首例 5–22 行逐字相同。两实例同时在途的隔离回归取独立治理证据，历史候选、执行与业务主张照原记录。"
+    },
+    {
+      "date": "2026-11-21",
+      "action": "reforge-runtime-ownership-source-rebinding",
+      "base": "c749075e5ae84004789de2fcce0345279dddc7e7",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "scope": "保留原执行和业务判据。活动场景、战斗宿主、世界对象和数值样式的引用片段一致。菜单会话片段只移除未读取的占位状态。",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-session.ts",
+          "lines": "108-132",
+          "anchor": "export class MenuSession",
+          "role": "contract",
+          "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
+        }
+      ]
     }
   ],
   "_governance": {
