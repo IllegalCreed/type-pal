@@ -5,6 +5,79 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'editor-open-map-baseline-fixture-20261122',
+    authority:
+      'User authorizes exact baseline recounts for justified structural changes and approved the retirement of the test-only bulk map loader. Main CI and the candidate LCOV differ by one hit branch in the unchanged author-disk-baseline.ts. The former editor session fixture preloaded each map before baseline capture. The real local open and HTTP author entry leave map body reads to baseline capture. Both prepare the same author data, and the fixture now uses the real local opener. Only one Editor covered-branch count is recounted. Production sources, profile selection, test identities and every other metric are preserved.',
+    evidence: 'docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz',
+    baselineSha256: '68506a748bfc3ec7f90463f67e8290f742ac4391db99fb0ccf82398e7240611e',
+    sources: [
+      {
+        path: 'packages/editor/src/core/author-disk-baseline.ts',
+        sha256: '0cf9f5b47f74717dfdacda2e859dc0ff06d5532f570925f2b2ee1baf1026b6e2',
+      },
+      {
+        path: 'packages/editor/src/core/open-local.ts',
+        sha256: '9827172aba70019998717d3a306085fe82f7a2c0ff5b3572f89224d089f56651',
+      },
+      {
+        path: 'packages/editor/src/main.tsx',
+        sha256: '43352a834103d90de20b103c57bd688d68217ea989497737254485d636ae333e',
+      },
+      {
+        path: 'packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts',
+        sha256: 'b6281c18ed92ebca49c206f208052d649376d9b8f6ac845ff9ce609b6639a04f',
+      },
+      {
+        path: 'packages/reforge/src/project-loader.ts',
+        sha256: 'b284dc1e9a152f9d6a5f8beb61975f30b4123cc294d75357e05bcfa8815adc47',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      editor: {
+        before: {
+          statements: {
+            covered: 31726,
+            total: 35093,
+          },
+          branches: {
+            covered: 25691,
+            total: 30672,
+          },
+          functions: {
+            covered: 8084,
+            total: 8988,
+          },
+          lines: {
+            covered: 28404,
+            total: 30685,
+          },
+        },
+        after: {
+          statements: {
+            covered: 31726,
+            total: 35093,
+          },
+          branches: {
+            covered: 25690,
+            total: 30672,
+          },
+          functions: {
+            covered: 8084,
+            total: 8988,
+          },
+          lines: {
+            covered: 28404,
+            total: 30685,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'reforge-presentation-migrate-boundaries-20261120',
     authority:
       'User authorizes exact baseline recounts for justified structural changes and approved the removal of the test-only PAL shop scan and write-before-validation gaps. The archive compares main CI and candidate V8 file reports. The retired scanner had fully covered statements, and the real POSIX PAL bake command and seven isolation cases require data outside fast. The other two file deltas are fully observed map validation branches. These are all Migrate deltas. Runners, packages, source inventory, other floors and protected checks remain intact.',
