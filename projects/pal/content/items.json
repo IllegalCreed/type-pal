@@ -10894,20 +10894,6 @@
                     ]
                   },
                   {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s118",
-                      "entity": "e2167"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
-                  },
-                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s118",
@@ -10920,23 +10906,16 @@
                     }
                   },
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s118",
+                      "entity": "e2167"
+                    }
+                  },
+                  {
                     "kind": "returnScript"
                   }
                 ]
-              },
-              {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s118",
-                  "entity": "e2165"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
               },
               {
                 "kind": "selectEntityBehavior",
@@ -10953,6 +10932,13 @@
               {
                 "kind": "loseItem",
                 "itemId": "287"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s118",
+                  "entity": "e2165"
+                }
               }
             ]
           }
@@ -11030,20 +11016,6 @@
                     ]
                   },
                   {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s100",
-                      "entity": "e1814"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
-                  },
-                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s100",
@@ -11060,23 +11032,16 @@
                     "itemId": "288"
                   },
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s100",
+                      "entity": "e1814"
+                    }
+                  },
+                  {
                     "kind": "returnScript"
                   }
                 ]
-              },
-              {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s100",
-                  "entity": "e1817"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
               },
               {
                 "kind": "selectEntityBehavior",
@@ -11088,6 +11053,13 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-bbe7bfb24978"
+                }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s100",
+                  "entity": "e1817"
                 }
               }
             ]
@@ -11296,20 +11268,6 @@
                     ]
                   },
                   {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s192",
-                      "entity": "e3301"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
-                  },
-                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s192",
@@ -11326,23 +11284,16 @@
                     "itemId": "291"
                   },
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s192",
+                      "entity": "e3301"
+                    }
+                  },
+                  {
                     "kind": "returnScript"
                   }
                 ]
-              },
-              {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s192",
-                  "entity": "e3300"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
               },
               {
                 "kind": "selectEntityBehavior",
@@ -11359,6 +11310,13 @@
               {
                 "kind": "loseItem",
                 "itemId": "291"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s192",
+                  "entity": "e3300"
+                }
               }
             ]
           }
@@ -11422,20 +11380,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s273",
-                  "entity": "e4724"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 2
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s273",
@@ -11450,6 +11394,17 @@
               {
                 "kind": "loseItem",
                 "itemId": "292"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s273",
+                  "entity": "e4724"
+                }
+              },
+              {
+                "kind": "loadScene",
+                "scene": "s268"
               }
             ]
           }

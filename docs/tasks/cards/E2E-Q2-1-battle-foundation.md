@@ -1217,6 +1217,14 @@ Codex 单写，build allowed。范围为 s106 赤血毒后与 s110 首次返场�
 
 GitHub Actions 在主线基点 `bfd5b5c4c179268a8dacedd42ac4adb651149652` 上通过了审查候选 `8f065501803b7f08cedf62acdafa2a84f6663b23` 的两项保护检查。远端同样实跑 20,418 项，文档工具 593 项通过，静态检查零诊断。正式合并回执由 PR 保留。 [保护 PR #74](https://github.com/IllegalCreed/type-pal/pull/74) · [文档检查](https://github.com/IllegalCreed/type-pal/actions/runs/44814779696/job/136560162707) · [快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/44814779631/job/136560162116)
 
+### 2026-11-21 合入版四件剧情道具复验
+
+用户准入继续修正 PR #74 后的证据缺口。Codex 单写，build allowed。以 `10378100a33013d8c2030ca266e125b913e9c6a7` 开始，范围为情书三局、玉佩两局、香蕉两局和凤纹手绢一局。保全原目录五份差异。对白、库存、演员首帧与节拍、切场、返场和音画按同输入双端验收。
+
+原盘相邻使用经 0x81 选中对象，0x25 写入剧情指针，Game 正常推进到下一世界拍。主线 Reforge 实录八局均消费输入并留下触碰选项，脚点保持不变、没有出画对白。验收按已存在的交互调用合同检查一次触发，子段收尾后由用物正文负责切场。文件范围为四件道具 use、两名守卫对白、两处猴子演出和船商交互。若修后还有任何缺对白、错误库存、错误切场首帧或错过所需动作节拍，保持返工并保留原记录。
+
+固定候选 `aab54db0f443b44e4b864788b25c8d583a4cde1b` 的八局均完成双端日志与独立录制对照。按同一用物脚点、85 行实绘对白、演员走位、两处切场、库存与操控收尾闭合。原速带声分屏 95.87 秒，成片逐帧与各端原声完成复算。作者工程检查通过，定向回归 5,438 项通过。 [主线复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-21-四件剧情道具的主线复验) · [执行、比较器和成片](../evidence/E2E-Q2-1-quest-main-recheck-20261121.tar.gz) · [原录卷 1](../evidence/E2E-Q2-1-quest-main-recheck-20261121-native-1.tar.gz) · [原录卷 2](../evidence/E2E-Q2-1-quest-main-recheck-20261121-native-2.tar.gz)
+
 ## 下一位 Agent 提示词
 
 本卡的逐项实跑、双端复验及证据登记已收口。无下一位 Agent 提示词。后续分片演出从[剧情分片任务](E2E-PILLAR-CINEMATIC-1.md)进入，011 的正式前驱沿用 010 终档。
