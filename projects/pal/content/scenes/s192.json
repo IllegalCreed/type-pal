@@ -5004,6 +5004,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s192",
+                        "entity": "e3300"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityFacing",
                       "facing": "down",
                       "target": {
@@ -5038,17 +5049,6 @@
                       }
                     },
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s192",
-                        "entity": "e3300"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "disabled"
-                      }
-                    },
-                    {
                       "kind": "setEntityFacing",
                       "facing": "down",
                       "target": {
@@ -5066,7 +5066,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5092,6 +5092,10 @@
                         "scene": "s192",
                         "entity": "e3300"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "clearDialog"
@@ -5120,6 +5124,10 @@
                         "scene": "s192",
                         "entity": "e3300"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
@@ -5154,6 +5162,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -5182,6 +5194,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -5208,6 +5224,10 @@
                         "scene": "s192",
                         "entity": "e3300"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
@@ -5242,6 +5262,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -5270,6 +5294,10 @@
                       }
                     },
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "clearDialog"
                     },
                     {
@@ -5296,6 +5324,10 @@
                         "scene": "s192",
                         "entity": "e3300"
                       }
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
                     {
                       "kind": "clearDialog"
@@ -5650,7 +5682,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 200
                         },
                         {
                           "kind": "setEntityFacing",
@@ -5670,7 +5702,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 200
                         }
                       ]
                     },
@@ -5784,7 +5816,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5804,7 +5836,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5824,7 +5856,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5852,7 +5884,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityFacing",
@@ -5872,7 +5904,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setPartyFacing",
@@ -5896,7 +5928,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 40
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityState",
@@ -5908,7 +5940,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "setPartyFacing",
