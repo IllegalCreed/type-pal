@@ -14,17 +14,18 @@
  * 三分支（P3）、advanced 问题页 focus 入向同步（P4）。全部走合法 loader 项目 + 真命令播种 +
  * 真实组件 DOM；断言 session 序列化值、命令边界或业务 DOM，不只断言渲染存在。
  */
+
 import type { PoisonDef } from '@type-pal/content'
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { SetStartupEntriesCommand } from '../core/commands.js'
 import { EditSession } from '../core/edit-session.js'
@@ -77,7 +78,7 @@ async function legalPoisonBundle(name: string): Promise<Bundle> {
   const source: FileSource = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   const session = new EditSession(state)

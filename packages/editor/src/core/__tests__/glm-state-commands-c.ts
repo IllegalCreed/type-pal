@@ -5,16 +5,17 @@
  * 定义/记录/字节，构造后由 assertProjectSaveValid 自证通过正式保存门；有意缺表的防御轴
  * 单独提供，不得当合法正例。不复制产品算法，不被生产导入。
  */
+
 import type { AssetRecordV1, MapIndexV1, ProjectMap } from '@type-pal/content'
 import type { TilesetDef } from '@type-pal/reforge'
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { expect } from 'vitest'
+import { loadFixtureProjectMaps } from '../../__tests__/project-map-fixtures.js'
 import type { EditorState } from '../edit-session.js'
 import { assertProjectSaveValid } from '../project-diagnostics.js'
 import { toEditorState } from '../project-io.js'
@@ -77,7 +78,7 @@ export interface TilesetStateOptions {
 }
 
 /**
- * 正式空白项目（地图正文已加载）：toEditorState 传入 loadAllProjectMaps 的全量地图，
+ * 正式空白项目（地图正文已加载）：逐张读取已登记的地图，并传给 toEditorState，
  * 使 EditSession 构造期即可从 state.maps 提取全部地图事实（引用扫描覆盖完整）。
  */
 async function loadHydratedBlankProject(
@@ -87,7 +88,7 @@ async function loadHydratedBlankProject(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   return { source, state: toEditorState(project, scenes, maps, {}, []) }
 }
 

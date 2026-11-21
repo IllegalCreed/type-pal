@@ -6,6 +6,7 @@
  * 资产字节落在内存磁盘上（assetBlobs 为空），读取必经磁盘端口，可被 gatedFileSource 闸门观测。
  * 供编辑器测试共享，不进入生产代码，不引入第二套产品实现。
  */
+
 import type { AssetId, AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import {
   type AssetBase,
@@ -14,11 +15,11 @@ import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
   quantizeToRleFrame,
   type RleFrame,
 } from '@type-pal/reforge'
+import { loadFixtureProjectMaps } from '../../../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../../../core/__tests__/author-save-fixture.js'
 import { sha256Hex } from '../../../core/binary-signature.js'
 import type { EditorState } from '../../../core/edit-session.js'
@@ -110,7 +111,7 @@ export async function loadK02Project(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase, disk, seeded }

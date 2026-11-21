@@ -4,12 +4,12 @@
  * （blank seed → loader → toEditorState → assertProjectSaveValid 自证）与受控输入驱动。
  * 只被本波 *.glm-p.test.ts(x) 导入，不进生产；不与其它波 fixture 目录共享写入。
  */
+
 import { CONTENT_VERSION, CURRENT_PROJECT_MINIMUM_SAVE_VERSION } from '@type-pal/content'
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act } from 'react'
@@ -19,6 +19,7 @@ import type { EditorState } from '../../core/edit-session.js'
 import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
+import { loadFixtureProjectMaps } from '../project-map-fixtures.js'
 
 export interface LegalProject {
   source: FileSource
@@ -36,7 +37,7 @@ export async function loadLegalProject(name = 'glm-wave-p'): Promise<LegalProjec
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase }
