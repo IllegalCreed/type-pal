@@ -19,21 +19,32 @@ const flush = async (): Promise<void> => {
 }
 
 describe('F5 活动期间二次 present 与零残留', () => {
-  test('活动序列期间二次 present 拒绝；首序列仍可完成（advance 驱动，不用时钟）', async () => {
-    const queue = new RewardGainQueue()
-    const first = queue.present(['a', 'b'], new AbortController().signal)
-    // 拒绝落成值断言（业务红可判别；坏实现下二次序列会真的启动）
-    const second = await queue.present(['c'], new AbortController().signal).then(
-      () => undefined,
-      (error: unknown) => error as Error,
-    )
-    expect(second).toBeInstanceOf(Error)
-    expect(second?.message).toContain('reward-gain 已有活动序列')
-    expect(queue.current?.text).toBe('a') // 首序列不受影响
-    expect(queue.advance()).toBe(true) // 第一条提前完成
-    await flush()
-    expect(queue.advance()).toBe(true) // 第二条提前完成
-    await expect(first).resolves.toBeUndefined()
+  test('序列在显示中及条目间都拒绝接管，完成后允许新序列', async () => {
+    vi.useFakeTimers()
+    try {
+      const queue = new RewardGainQueue()
+      const signal = new AbortController().signal
+      const first = queue.present(['第一条', '第二条'], signal)
+      const duringItem = queue.present(['第一条仍在显示'], signal).catch((error: unknown) => error)
+      expect(queue.current?.text).toBe('第一条')
+      expect(queue.advance()).toBe(true)
+      expect(queue.current).toBeUndefined()
+      const betweenItems = queue.present(['两条之间'], signal).catch((error: unknown) => error)
+      await flush()
+      expect(queue.current?.text).toBe('第二条')
+      await vi.runAllTimersAsync()
+      const error = new Error('reward-gain 已有活动序列')
+      expect(await duringItem).toEqual(error)
+      expect(await betweenItems).toEqual(error)
+      await expect(first).resolves.toBeUndefined()
+      const next = queue.present(['后续序列'], signal)
+      expect(queue.current?.text).toBe('后续序列')
+      expect(queue.advance()).toBe(true)
+      await expect(next).resolves.toBeUndefined()
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
   })
   test('空列表直接完成、预 abort 拒绝：均无 timer/active 残留', async () => {
     const queue = new RewardGainQueue()

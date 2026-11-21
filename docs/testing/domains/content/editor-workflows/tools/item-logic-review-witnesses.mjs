@@ -82,7 +82,7 @@ for (const probe of probes) {
   const paths = [
     production,
     test,
-    resolve(root, 'packages/content/src/__tests__/glm-item-logic-fixtures.ts'),
+    resolve(root, 'packages/content/src/__tests__/item-world-fixtures.ts'),
   ]
   const hashes = () =>
     Object.fromEntries(

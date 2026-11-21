@@ -53,6 +53,7 @@ import {
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
   isTestingCliffEntrySource,
+  isTestingMenuIsolationSource,
   isTestingPartyPoseSource,
   isTestingQ2CoverageSource,
   isTestingQ2DaliRainSource,
@@ -76,6 +77,7 @@ import {
   isTestingQ2TombSource,
   isTestingQ2TowerFoxSource,
   isTestingQ2TowerMingSource,
+  isTestingRuntimeOwnershipSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
   isTestingWorldAwarenessSource,
@@ -109,6 +111,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingCliffEntrySourceBindings,
+  restoreTestingMenuIsolationSourceBindings,
   restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingQ2CoverageSourceBindings,
@@ -133,6 +136,7 @@ import {
   restoreTestingQ2TombSourceBindings,
   restoreTestingQ2TowerFoxSourceBindings,
   restoreTestingQ2TowerMingSourceBindings,
+  restoreTestingRuntimeOwnershipSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
   restoreTestingWorldAwarenessSourceBindings,
@@ -182,6 +186,7 @@ import {
   testingBattleVictorySourceRevision,
   testingBattleWindBlowPublicationBase,
   testingCliffEntryPublicationBase,
+  testingMenuIsolationPublicationBase,
   testingPartyPosePublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
@@ -207,6 +212,7 @@ import {
   testingQ2TombPublicationBase,
   testingQ2TowerFoxPublicationBase,
   testingQ2TowerMingPublicationBase,
+  testingRuntimeOwnershipPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
   testingWorldAwarenessPublicationBase,
@@ -640,6 +646,63 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const preBattleSpecialStatus =
     preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
   const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  // Apply source updates newest first for both document and metadata reads.
+  function sourceApplicability({ readCurrent, revision, baseRevision, restoreBindings, isSource }) {
+    if (!revision) return { read: readCurrent, restore: (_path, bytes) => bytes }
+    const fixed = gitTree(root, revision, [])
+    const base = gitTree(root, baseRevision, [])
+    const restore = (path, bytes) =>
+      restoreBindings(path, bytes, {
+        readSource: readCurrent,
+        readBase: base.read,
+        readFixed: fixed.read,
+      })
+    return {
+      restore,
+      read(path) {
+        const live = readCurrent(path)
+        if (!isSource(path)) return live && restore(path, live)
+        assert(
+          live?.equals(fixed.read(path)),
+          `source differs from its admitted candidate: ${path}`,
+        )
+        return base.read(path)
+      },
+    }
+  }
+  const menuIsolationRevision = admission.testingMenuIsolationSourceRevision
+  if (menuIsolationRevision)
+    assert(
+      admission.testingQ2DisplaySourceRevision && /^[a-f0-9]{40}$/u.test(menuIsolationRevision),
+    )
+  const runtimeOwnershipRevision = admission.testingRuntimeOwnershipSourceRevision
+  if (runtimeOwnershipRevision)
+    assert(
+      menuIsolationRevision && /^[a-f0-9]{40}$/u.test(runtimeOwnershipRevision),
+      'runtime ownership source requires the admitted menu isolation stage',
+    )
+  const q2QuestReportRevision = admission.testingQ2QuestReportRevision
+  if (q2QuestReportRevision !== undefined)
+    assert(runtimeOwnershipRevision, 'Q2 quest report requires the runtime ownership source stage')
+  const q2QuestReport = q2QuestReportRevision && gitTree(root, q2QuestReportRevision, [])
+  const runtimeOwnership = sourceApplicability({
+    readCurrent: readCurrentSource,
+    revision: runtimeOwnershipRevision,
+    baseRevision: testingRuntimeOwnershipPublicationBase,
+    restoreBindings: (path, bytes, inputs) =>
+      restoreTestingRuntimeOwnershipSourceBindings(path, bytes, {
+        ...inputs,
+        readQ2QuestReport: q2QuestReport?.read,
+      }),
+    isSource: isTestingRuntimeOwnershipSource,
+  })
+  const menuIsolation = sourceApplicability({
+    readCurrent: runtimeOwnership.read,
+    revision: menuIsolationRevision,
+    baseRevision: testingMenuIsolationPublicationBase,
+    restoreBindings: restoreTestingMenuIsolationSourceBindings,
+    isSource: isTestingMenuIsolationSource,
+  })
   const versionAdmission = admission.testingContentVersionRebinding
   const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
   const versionPublicationBase = versionAdmission?.publicationBaseRevision
@@ -649,7 +712,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     versionPublicationBase &&
     loadTestingContentVersionRebinding({
       admission: versionAdmission,
-      readCurrent: readCurrentSource,
+      readCurrent: menuIsolation.read,
       readPredecessor: versionPublicationBase.read,
       readAcceptedSource: versionBase.read,
     })
@@ -658,7 +721,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         const live = versionRebinding.readPredecessorSource(path)
         return live && versionRebinding.restore(path, live)
       }
-    : readCurrentSource
+    : menuIsolation.read
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -1493,7 +1556,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const beforeQ2Coverage = (path, bytes) => {
     const priorDisplay = preDisplay
       ? restoreTestingQ2DisplaySourceBindings(path, bytes, {
-          readSource,
+          readSource: menuIsolation.read,
           readBase: preDisplay.read,
           readFixed: displaySource.read,
         })
@@ -2147,7 +2210,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorVersionBody = versionRebinding?.restore(path, current) ?? current
+    const priorMenuBody = menuIsolation.restore(path, runtimeOwnership.restore(path, current))
+    const priorVersionBody = versionRebinding?.restore(path, priorMenuBody) ?? priorMenuBody
     const artifact = artifacts.get(path)
     if (artifact) {
       // New receipt attachments are ordinary non-executable checkout files;

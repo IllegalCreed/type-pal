@@ -382,7 +382,23 @@ describe('SFX readiness 收集', () => {
     ).rejects.toThrow('SpriteDef "missing" 不存在')
   })
 
-  test('页默认动作只预取运行时当前支持的 pages[0]，不误读未激活页', async () => {
+  test('canonical scene readiness uses the named initial page without scanning inactive cues', async () => {
+    const sprite: SpriteDef = {
+      id: 'sprite-8',
+      label: '守卫',
+      asset: 'sprite.pal.008',
+      layout: { kind: 'static' },
+      poses: {
+        idle: {
+          label: '待机',
+          steps: [{ frame: 0, durationMs: 80, cues: [{ kind: 'sound', asset: 'sound.idle' }] }],
+        },
+        walk: {
+          label: '移动',
+          steps: [{ frame: 0, durationMs: 80, cues: [{ kind: 'sound', asset: 'sound.walk' }] }],
+        },
+      },
+    }
     const sounds = await collectSceneSoundAssets({
       scene: {
         id: 's',
@@ -390,17 +406,29 @@ describe('SFX readiness 收集', () => {
         entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
         entities: [
           {
-            id: 'e',
-            sprite: 'sprite-8',
+            id: 'guard',
+            sprite: sprite.id,
             pos: { col: 0, row: 0, height: 0 },
-            pages: [{}, { animation: { sprite: 'missing', action: 'missing', loop: true } }],
+            initialPage: 'walk',
+            pages: [
+              {
+                id: 'idle',
+                label: '待机',
+                animation: { sprite: sprite.id, action: 'idle', loop: true },
+              },
+              {
+                id: 'walk',
+                label: '移动',
+                animation: { sprite: sprite.id, action: 'walk', loop: true },
+              },
+            ],
           },
         ],
       },
-      spritesById: {},
+      spritesById: { [sprite.id]: sprite },
       signal: new AbortController().signal,
     })
-    expect([...sounds]).toEqual([])
+    expect(sounds).toEqual(new Set(['sound.walk']))
   })
 
   test('battleBase 递归敌变身/召唤、fallback、hook 与战后脚本', async () => {

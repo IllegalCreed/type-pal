@@ -1,21 +1,10 @@
-import { expect, test, vi } from 'vitest'
+import { expect, test } from 'vitest'
 import {
   lbMemorySource,
   lbProjectFiles,
   lbProjectMap,
 } from './__tests__/project-loading-boundaries/fixture.js'
-import { loadAllProjectMaps, loadCurrentProjectFrom, loadProjectMapById } from './project-loader.js'
-
-type Rejection = { kind: 'resolved' | 'rejected'; message: string }
-async function rejectOf(promise: Promise<unknown>): Promise<Rejection> {
-  return promise.then(
-    () => ({ kind: 'resolved' as const, message: '' }),
-    (error: unknown) => ({
-      kind: 'rejected' as const,
-      message: error instanceof Error ? error.message : String(error),
-    }),
-  )
-}
+import { loadCurrentProjectFrom, loadProjectMapById } from './project-loader.js'
 
 test('未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path', async () => {
   const source = lbMemorySource(
@@ -23,9 +12,9 @@ test('未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjec
   )
   const project = await loadCurrentProjectFrom(source)
   source.reads.length = 0
-  const ghost = await rejectOf(loadProjectMapById(project, 'map-ghost'))
-  expect(ghost.kind).toBe('rejected')
-  expect(ghost.message).toContain('loadProjectMapById: mapId "map-ghost" 不在 map index')
+  await expect(loadProjectMapById(project, 'map-ghost')).rejects.toThrow(
+    'loadProjectMapById: mapId "map-ghost" 不在 map index',
+  )
   // 零 IO：拒绝发生在任何文件读取之前
   expect(source.reads).toEqual([])
   // 已登记：走真实 loadProjectMap（同一加载边界校验 ProjectMap v4）读 indexed path
@@ -34,41 +23,43 @@ test('未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjec
   expect(source.reads).toEqual(['json:content/maps/map-002.json'])
 })
 
-test('loadAllProjectMaps 乱序完成仍按稳定 id 归位', async () => {
-  const files = lbProjectFiles({
-    maps: {
-      'map-001': lbProjectMap(1),
-      'map-a': lbProjectMap(1),
-      'map-b': lbProjectMap(2),
-      'map-c': lbProjectMap(3),
-    },
+test('两次索引地图读取乱序完成时各自返回请求的地图', async () => {
+  const firstPath = 'content/maps/map-001.json'
+  const secondPath = 'content/maps/map-002.json'
+  const files = lbProjectFiles({ maps: { 'map-001': lbProjectMap(1), 'map-002': lbProjectMap(2) } })
+  let releaseFirst = () => {}
+  const gate = new Promise<void>((resolve) => {
+    releaseFirst = resolve
   })
-  // 外部 IO 时序控制：map-b 的读取闸住，直到 map-a/map-c 都完成后才放行
-  let releaseB!: () => void
-  const gateB = new Promise<void>((resolve) => {
-    releaseB = resolve
-  })
-  const racingSource = lbMemorySource(files, { gates: { 'content/maps/map-b.json': gateB } })
-  const racingProject = await loadCurrentProjectFrom(racingSource)
-  const pending = loadAllProjectMaps(racingProject)
-  await vi.waitFor(() => expect(racingSource.completedReads).toContain('content/maps/map-c.json'))
-  expect(racingSource.completedReads).toContain('content/maps/map-a.json')
-  expect(racingSource.completedReads).not.toContain('content/maps/map-b.json')
-  releaseB()
-  const maps = await pending
-  // 完成顺序 a/c → b 不影响归位：每个稳定 id 拿到自己的地图正文
-  expect(maps['map-a']).toEqual(lbProjectMap(1))
-  expect(maps['map-b']).toEqual(lbProjectMap(2))
-  expect(maps['map-c']).toEqual(lbProjectMap(3))
+  const source = lbMemorySource(files, { gates: { [firstPath]: gate } })
+  const project = await loadCurrentProjectFrom(source)
+  source.reads.length = 0
+  source.completedReads.length = 0
+  const first = loadProjectMapById(project, 'map-001')
+  const second = loadProjectMapById(project, 'map-002')
+  try {
+    expect(source.reads).toEqual([`json:${firstPath}`, `json:${secondPath}`])
+    await expect(second).resolves.toEqual(lbProjectMap(2))
+    expect(source.completedReads).toEqual([secondPath])
+  } finally {
+    releaseFirst()
+    await Promise.allSettled([first, second])
+  }
+  await expect(first).resolves.toEqual(lbProjectMap(1))
+  expect(source.completedReads).toEqual([secondPath, firstPath])
 })
 
-test('loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功', async () => {
-  const files = lbProjectFiles({ maps: { 'map-001': lbProjectMap(1), 'map-c': lbProjectMap(3) } })
-  const failingSource = lbMemorySource(files, {
-    throws: { 'content/maps/map-c.json': 'map-c-io-dead' },
+test('地图读取错误包含索引路径与 IO 原因，另一张地图仍可加载', async () => {
+  const files = lbProjectFiles({ maps: { 'map-001': lbProjectMap(1), 'map-002': lbProjectMap(2) } })
+  const failure = new Error('map-002-io-dead')
+  const source = lbMemorySource(files, {
+    throws: { 'content/maps/map-002.json': failure },
   })
-  const failingProject = await loadCurrentProjectFrom(failingSource)
-  const failed = await rejectOf(loadAllProjectMaps(failingProject))
-  expect(failed.kind).toBe('rejected')
-  expect(failed.message).toContain('map-c-io-dead')
+  const project = await loadCurrentProjectFrom(source)
+  await Promise.all([
+    expect(loadProjectMapById(project, 'map-002')).rejects.toThrow(
+      /^content\/maps\/map-002\.json —— .+；map-002-io-dead$/u,
+    ),
+    expect(loadProjectMapById(project, 'map-001')).resolves.toEqual(lbProjectMap(1)),
+  ])
 })

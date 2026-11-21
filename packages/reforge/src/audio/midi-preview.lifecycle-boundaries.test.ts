@@ -61,7 +61,6 @@ function harness(initialState: AudioContextState = 'running') {
       paused = true
     }),
     currentTime: 0,
-    duration: 0.5,
     get paused() {
       return paused
     },

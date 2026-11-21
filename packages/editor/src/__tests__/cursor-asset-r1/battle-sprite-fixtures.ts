@@ -2,6 +2,7 @@
  * TEST-CURSOR-ASSET-UI-LARGE-1 战斗精灵资产夹具：blank 项目内注入真实 gzip+RLE 战斗帧字节与用途定义，
  * 经正式 loader 自证可保存。仅供编辑器测试复用，不被生产模块导入。
  */
+
 import type {
   AssetId,
   AssetRecordV1,
@@ -17,7 +18,6 @@ import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
   type Palette,
   quantizeToRleFrame,
@@ -36,6 +36,7 @@ import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
 import { buildSeedAssets } from '../../core/seed-assets.js'
+import { loadFixtureProjectMaps } from '../project-map-fixtures.js'
 
 const FRAME = 8
 
@@ -244,7 +245,7 @@ export async function loadCursorBattleProject(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase, palette, disk, seeded }

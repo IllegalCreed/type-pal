@@ -66,7 +66,7 @@ IndexedDB 的原生存档保留结构化克隆，便携 V1 文件使用 JSON。�
 
 音乐意图由shell转发，core不直接操作Web Audio。MIDI与RIX共享曲号/loop意图；音源选择是浏览器偏好，默认MIDI。替换后端先stop/dispose旧实例，保留当前曲号、loop和音量，再给新后端；异步ready/error用generation隔离，旧加载结果不能改新选择。RIX通过WASM与AudioWorklet加载`music/mus.mkf`，销毁须取消加载、断开节点并关闭自己的AudioContext。先区分资源/安全上下文失败、后端初始化失败与用户手势未解锁，不能因静音就改脚本曲号或丢loop。来源：[音源选择](../../packages/game/src/shell/music-source.ts)、[RIX后端](../../packages/game/src/shell/audio-rix.ts)、[音频转发](../../packages/game/src/shell/audio.ts)与[原功能取舍](../tasks/archive/done/GAME-RIX-MUSIC-1.md)。
 
-MIDI的public worklet是`spessasynth_lib`供应者生成物，不手改压缩算法。更新冻结依赖时同步供应者的worklet与[Apache许可证](../../packages/game/public/spessasynth-LICENSE.txt)，通过[字节/notice合同](../../scripts/quality/game-midi-worklet.test.mjs)核复制一致，并复验实际后端加载、失败拒绝与dispose；供应者版本一致不代替原生浏览器生命周期验收。当前生成物边界按[本批用户裁决及原生证据](../tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md#回合开发落点与资源宿主最后4个原主体)授信，不宣称上游合成算法、物理听感或全浏览器已审。
+MIDI 的 public Worklet 随 `spessasynth_lib` 供应包更新。Game 和 Reforge 同步复制发布产物，按源图核对包内 Core 与解码器，随应用发布 [Apache 许可证](../../packages/game/public/spessasynth-LICENSE.txt)与 [fflate MIT 许可证](../../packages/game/public/spessasynth-fflate-LICENSE.txt)。[Worklet 字节与许可证合同](../../scripts/quality/midi-worklet.test.mjs)核验两端配套版本和产物。部署对处理器缓存 30 天，加载 URL 包含实际安装库版本。升级须在原生浏览器核对真实发声、切换及退出，失败和在途取消另走定向回归。[生成物审查范围](../tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md#回合开发落点与资源宿主最后4个原主体)与[配套升级实测](../tasks/cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)分别记录取证边界。
 
 响应体返回客户端前须克隆缓存副本，再由`event.waitUntil`保活异步写入；不能等待打开cache后才clone已可能被消费的原响应。当前fetch缓存只收完整200，不把视频Range的206当完整对象。此处只沉淀[当前SW实现](../../packages/game/public/sw.js)及同一功能修复的生命周期边界，不重授旧离线/部署或全浏览器通过信用。
 

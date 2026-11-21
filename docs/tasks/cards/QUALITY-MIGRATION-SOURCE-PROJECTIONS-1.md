@@ -29,7 +29,7 @@ Visual Verification Timing: N/A
 | 发布与资产专测 | 43 | 区分原盘只读、作者接管、文件物化、真实输入与合成边界。实际引擎资源和占位素材在隔离目录重建，89 个输出文件逐字节与当前冻结资源一致。 |
 | Content 物品和奖励 | 12 | 真实物品入口、相同与不同装备识别、携带状态、业务对象归属、两类队伍恢复和隐藏经验。测试路径按实际职责命名。 |
 
-98 个原文件完成逐文件处置。其中旧文件因合并、拆分或退役而退出时，其合同去向可从逐文件证据核对；另退役原度量专测的独立弱断言，其 UTF-8 字节合同转到实际地图审计报告，未重复计入 98 个。当前账本为 3,772 tracked、1,247 closed、8 review、2,517 pending。代码清单新增 33 条路径、退出 32 条，100 条新增关闭登记包含责任明确的后继测试和夹具。
+98 个原文件完成逐文件处置。其中旧文件因合并、拆分或退役而退出时，其合同去向可从逐文件证据核对；另退役原度量专测的独立弱断言，其 UTF-8 字节合同转到实际地图审计报告，未重复计入 98 个。合并时点账本为 3,772 tracked、1,247 closed、8 review、2,517 pending。代码清单新增 33 条路径、退出 32 条，100 条新增关闭登记包含责任明确的后继测试和夹具。
 
 原报告持有的地图零分母、残差、物理坐标及第二逻辑行反控仍在。PAL world 精灵保留 636 个原输入、冻结坏尾集合和全体字节物化证据，战斗精灵保留 172 个原输入及独立 player/enemy 边界。旧合成损坏半像素和原盘生产者不会产生的角色 layout/重复实体案例退出。覆盖率按配对原生 V8 测量，只对 Migrate 分支底线作精确结构重算 1,639/1,799 → 1,614/1,772。行、函数、语句及其它包沿用原门槛。四个现存文件用例减少均有前后身份、确切来源与承接用途。
 
@@ -40,6 +40,8 @@ Visual Verification Timing: N/A
 本地全仓七包 typecheck 与 20,870 项包测试均通过。初轮检查发现四卡模板缺节，补齐后进入全仓测试。全仓命令因唯一的文档登记 JSON 格式诊断退出 1，原件已保留。格式化前后 JSON 值一致。最终文档入口、模型、严格审查与 lint-zero 以归档复验原件为凭。官方 ratchet 正式采集 840 个生产文件和 20,527 项 fast 测试，零诊断。另有账本及受保护基线只读预检。真实远端检查以 PR 的 Documentation 和 protected fast 为凭。
 
 ## 状态与交接
+
+下表记录合并时点的留项。其中六个迁移文件已在[后继窗口](QUALITY-REFORGE-PRESENTATION-1.md#上一窗口的-review)收口。
 
 | 文件 | 解除条件 |
 |---|---|
@@ -52,3 +54,9 @@ Visual Verification Timing: N/A
 | `__tests__/glm-item-logic-fixtures.ts` | 活跃 E2E 直接导入该夹具。其合入后核真实 caller，再成组整理命名。 |
 
 下一切片先重新核对 E2E 合入和路径所有权。该线仍在执行时，先核 Migrate 的 `pal-current-publication.ts` 和同职责实际发布专测的 Owner 与输入。内容核心的候选专测依赖活跃的校验实现，随该线合入后接续。
+
+### 合并后关闭复核
+
+以 #72 合并提交 `b3f6104561d77ba270f08a3a7f4535aa63513350` 和归档 `file-review.json` 指向的 `asset-and-publication-review.md:30` 核对。`packages/migrate/src/pal-content-supply.pal.test.ts:102–124` 标题声称全部来源及基线不变。基线比较覆盖完整克隆，来源比较只覆盖 `migrate`、`scenes`、`objectPlayers`、`worldSpriteFrameCounts`、`assetCatalog`、`stores`，未观察 `pal-content-supply.ts:23–34` 中的地图、MIDI、二进制资源和资产报告字段。该测试在本窗口为原样保留，现退回 `review`。解除条件是明确真实发布者依赖的不变性范围，再将断言及标题与该范围对齐。其他已验证用例及合并时点统计仍按对应原件使用。
+
+`asset-and-publication-review.md:38` 的占位精灵常规输出字节证据成立。隔离复验又观察到命令跟随链接写入另一棵树，故该生成器也重回 review。实际写入回执、影响范围及复核条件见[输出所有权卡](MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)。

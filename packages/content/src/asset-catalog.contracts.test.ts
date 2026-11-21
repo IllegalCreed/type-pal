@@ -134,18 +134,21 @@ describe('manifest asset roles', () => {
     expect(validateManifestAssetConfig(input, { version: 1, assets: {} })).toEqual(input)
   })
 
-  test('accepts a splash role when the declared resource is a video', () => {
+  test('requires a registered video for a splash role, including for constructor', () => {
     const video: AssetRecordV1 = {
       kind: 'video',
       mediaType: 'video/mp4',
-      path: 'assets/runtime/video.intro.mp4',
+      path: 'assets/runtime/constructor.mp4',
       bytes: 3,
       sha256: 'a'.repeat(64),
       origin: { kind: 'licensed' },
     }
-    const input = { catalog: catalogPath, roles: { 'video.startupSplash': 'video.intro' } }
-    const catalog = validateAssetCatalog({ version: 1, assets: { 'video.intro': video } })
+    const input = { catalog: catalogPath, roles: { 'video.startupSplash': 'constructor' } }
+    const catalog = validateAssetCatalog({ version: 1, assets: { constructor: video } })
     expect(validateManifestAssetConfig(input, catalog).roles).toEqual(input.roles)
+    expect(() => validateManifestAssetConfig(input, { version: 1, assets: {} })).toThrow(
+      new Error('manifest.assets.roles.video.startupSplash: AssetId "constructor" 不存在'),
+    )
   })
 
   test('requires music slice roles when a music asset is registered', () => {

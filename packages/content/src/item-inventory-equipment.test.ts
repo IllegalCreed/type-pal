@@ -6,7 +6,7 @@ import {
   hero,
   item as makeItem,
   world,
-} from './__tests__/glm-item-logic-fixtures.js'
+} from './__tests__/item-world-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { WorldState } from './character.js'
 import {

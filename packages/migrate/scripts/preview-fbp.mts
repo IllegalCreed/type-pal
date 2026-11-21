@@ -1,10 +1,12 @@
 /** 一次性:把 FBP chunk(indexed battle bg PNG)套 palette 0 上色 → 真彩 PNG,供肉眼看 / 定裁剪坐标。
- *  跑:pnpm --filter @type-pal/migrate exec tsx scripts/preview-fbp.mts <chunkId> <out.png> */
+ *  跑:pnpm --filter @type-pal/migrate exec tsx scripts/preview-fbp.mts [chunkId] [out.png]
+ *  缺省输出归本仓库，显式输出由调用者选择。 */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PNG } from 'pngjs'
 import { bakeIndexedRgba } from '../src/bake-indexed-rgba.js'
+import { assertMigrationFilePath } from '../src/migration-path.js'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const EXTRACTED = resolve(ROOT, 'data/extracted')
@@ -15,7 +17,7 @@ const palette = (
 ).colors
 
 const chunkId = Number(process.argv[2] ?? 1)
-const dst = process.argv[3] ?? resolve(ROOT, 'fbp-preview.png')
+const dst = process.argv[3] ?? assertMigrationFilePath(ROOT, 'fbp-preview.png', 'FBP 预览输出')
 const src = resolve(EXTRACTED, 'images/battle/bg', `${String(chunkId).padStart(3, '0')}.png`)
 const png = PNG.sync.read(readFileSync(src))
 const out = new PNG({ width: png.width, height: png.height })

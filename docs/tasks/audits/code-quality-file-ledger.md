@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,847。
-当前已闭合核验：1,343；已读但待审：15；尚未逐文件核验：2,489；合计未闭合：2,504。
+起始基点机器清单：2,962。当前 tracked 清单：3,852。
+当前已闭合核验：1,363；已读但待审：0；尚未逐文件核验：2,489；合计未闭合：2,489。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -115,55 +115,62 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-20：本窗口最终逐文件处置 97 个原 pending，84 个原路径验收，13 个原路径维持 review。先前六个迁移留项另计。实际源、路径和测试身份交接及候选状态见[本窗八维验收](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收)。
 
+2026-11-20，按 [逐文件关闭门](../../engineering/guides/code-quality.md#逐文件关闭门)回溯 Game 收口后的六次治理合并。Reforge 物品操作实现和专测、场景预检专测、Content 实体生命周期专测、Migrate PAL 供应专测和占位生成器共六项撤回。原时点统计与当前裁定见[回溯任务](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)。
+
+2026-11-20，扩查并修正输入不变性、在途取消及工具输出所有权。首轮六项撤回恢复五项，菜单专测等待活跃 E2E 释放发布指纹。后继发现三项已补证并整改。新增两个命令专测与共用夹具，受影响路径与范围见[回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改)。
+
+2026-11-20，沿真实 Reforge 音频宿主核状态和资源所有权。BGM 的结构改动单独提交，浏览器合成器释放留 review。试听及共同初始化沿实际职责分别裁定。 [实现复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#实现复审reforge-音频)
+
 ## 逐文件登记
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
-| `packages/reforge/src/__tests__/runtime-shell/audio-host.ts` | fixture | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/assets.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 战场背景释放已通过两条正式回归。标准调色板根的错误合同与公开解码出口仍需单独核裁。 |
+| `packages/reforge/src/__tests__/runtime-shell/audio-host.ts` | fixture | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 配套升级后仍用外部音频端口替身，按安装版本识别处理器请求。 |
+| `packages/reforge/src/assets.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 标准色彩 JSON 对非法根给出领域错误。两种公开解码由编辑器真实读/写及命名帧路径消费。 |
 | `packages/reforge/src/audio/bgm.dispose.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.runtime-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/audio/bgm.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
+| `packages/reforge/src/audio/bgm.test.ts` | test | 已验证 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 排尽播放续体再核唯一现行曲目。取消守卫移除只触发指定新断言。 |
 | `packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/midi-preview.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/audio/midi-preview.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 切曲时长已修。公开 MIDI 后端仍要求现无运行消费者的 duration；是否退役需单独核接口。 |
+| `packages/reforge/src/audio/bgm.browser-runtime.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 从真实 BGM 工厂观察 WorkletSynthesizer 与浏览器上下文先后释放，区分就绪和在途。 |
+| `packages/reforge/src/__tests__/browser-midi-fixture.ts` | fixture | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 共用合法 MIDI/RIFF 边界与浏览器端口替身，正例和受控取消互不依赖。 |
+| `packages/reforge/src/audio/midi-preview.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 同页两次真实试听均发声，分别销毁 Worklet 后关闭上下文，窗口监听残留由 2 降为 0。 |
 | `packages/reforge/src/audio/sfx-readiness.collections.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/audio/sfx-readiness.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 自有字典修复已通过。真实活动页与预取页来源分歧仍需活跃 E2E 的主装配器接线。 |
+| `packages/reforge/src/audio/sfx-readiness.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 消费实际活动页，保留 canonical 脚本根。真实预检恢复入口与合法命名默认页都有判别回归。 |
 | `packages/reforge/src/audio/sfx.staged-failures.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/audio/sfx.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/audio/sfx.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 非法预算在建默认 AudioContext 之后才拒绝。等新生命周期裁决，再用构造负例检查零分配。 |
-| `packages/reforge/src/audio/spessa-browser-runtime.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 实际适配器初始化、并发初始化去重及缓存失败回收，测试按浏览器所有权归组。 |
+| `packages/reforge/src/audio/sfx.test.ts` | test | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 非法解码预算的错误、零浏览器分配及零资产访问有直接反例。 |
+| `packages/reforge/src/audio/sfx.ts` | product | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 无效解码预算先拒绝，默认浏览器上下文无分配。 |
+| `packages/reforge/src/audio/spessa-browser-runtime.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 试打和试听共用初始化与失败清理。请求按安装版本隔离旧处理器缓存，成功后将合成器交回调用方。 |
 | `packages/reforge/src/dialog/dialog-box.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/dialog/layout.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/dialog/layout.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 实际字模宽度逐字折行，保留源行、显式空行和缩进。 |
 | `packages/reforge/src/dialog/narration-scroll.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/dialog/narration-scroll.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/dialog/slot.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/dialog/slot.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 槽归属与只读源已核。剩余测试专用字段退役依赖活跃 E2E 对白调用方。 |
+| `packages/reforge/src/dialog/dialog-box.slot-ownership.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 原槽位行为由实际 DialogBox 承接。默认和显式槽、同槽覆盖、异槽保留以绘制状态验证。 |
 | `packages/reforge/src/engine-chrome/assets/dialog-icons-raw.json` | generated | 保留 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 与 DATA.MKF 固定段 282 字节逐项相等；仅验生成物及运行消费合同。 |
 | `packages/reforge/src/engine-chrome/registry.lifecycle.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/engine-chrome/registry.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/engine-chrome/registry.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/gameplay-clock.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/gameplay-clock.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 常态冻结、恢复、回退已验。首帧手动步进的 epoch 与等待消费者仍待证。 |
+| `packages/reforge/src/gameplay-clock.ts` | product | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 核生产帧会话首步消费等待毫秒；冻结、回退与后续步长合同保留。 |
 | `packages/reforge/src/input.keyboard-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/input.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/menu/item-list.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/menu/item-use-session.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/menu/item-use-session.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
+| `packages/reforge/src/menu/item-use-session.test.ts` | test | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 双实例同时在途的独立取消和占位释放；原发布范围经字节同一检查。 |
+| `packages/reforge/src/menu/item-use-session.ts` | product | 保留 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 占位与取消权的生命周期已对账。真实菜单与隔离双实例反控支持原实现。 |
 | `packages/reforge/src/menu/magic-box.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/menu/menu-box.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | Q2 现行对照证据固定此源的版本和行锚。保留主线原字节，等 E2E 合同核定再移除未读槽标签、更新注释。 |
+| `packages/reforge/src/menu/menu-box.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 装备槽只用 canonical 槽 ID，单位、实际画序及 Q2 数值样式来源已核。 |
 | `packages/reforge/src/menu/reward-gain-queue.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/menu/reward-gain-queue.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 复现同步 advance 后新序列可被旧微任务覆盖。真实宿主单飞能否允许重入仍待证。 |
+| `packages/reforge/src/menu/reward-gain-queue.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 先后条目同属一个序列，条目交棒期间保持唯一 owner。以能覆盖旧结果的重复提交作为红例。 |
 | `packages/reforge/src/menu/reward-gain.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/menu/save-browser-box.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/menu/shop-box.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/menu/shop-box.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 依据实际定义进入确认与绘制；合法同名购买和缺失回归独立。 |
-| `packages/reforge/src/menu/system-box.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 现有系统面板保留。空占位状态的退役需同步活跃 E2E 的菜单调用方。 |
+| `packages/reforge/src/menu/system-box.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 系统状态和绘制各有 owner。删除从无有值的占位接线，现行开关选择及绘制由正式入口证明。 |
 | `packages/reforge/src/project-loader.image-cache-binding.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/project-loader.reference-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/project-loader.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 场景自有键及氛围读门已修。全图批读出口的保留或退役仍需核实际公共消费者。 |
+| `packages/reforge/src/project-loader.ts` | product | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 用户批准退役全图批读。正式逐图入口及数据校验保留，地图读取失败与并发身份经独立反控。 |
 | `packages/reforge/src/quantize.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/quantize.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/render-occlusion.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
@@ -173,11 +180,11 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/render.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 真实 Canvas 像素顺序、透明度和失败恢复，坐标与素材归属分别校验。 |
 | `packages/reforge/src/sprite-anim.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/sprite-anim.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/startup-entry.test.ts` | test | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 保留五项直接合同。已配置 intro 的直达与读档仍缺真实启动宿主观察。 |
-| `packages/reforge/src/startup-entry.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 现用默认入口与标题路由已有验证。只接受字面量的 intro 分支要随 E2E 的启动入口核退役。 |
+| `packages/reforge/src/startup-entry.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 保留四个入口／查询合同，intro 判据迁真实宿主。选新局播放、带 intro 的直达和标题读档走实际启动路由。 |
+| `packages/reforge/src/startup-entry.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 保留真实清单、默认入口和直达优先级。intro 归标题确认分支，退役测试用路由枚举。 |
 | `packages/reforge/src/text/glyph.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 字形实例隔离跨字库缓存，直接像素与 BDF 字节为 oracle。 |
 | `packages/reforge/src/text/palette-color.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
-| `packages/reforge/src/text/palette-color.ts` | product | review | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | RGB 实值与调色板已核。接口名称调整需覆盖活跃 E2E 的对白调用方。 |
+| `packages/reforge/src/text/palette-color.ts` | product | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 改名准确表达三通道，按原盘核对完整固定色及绘制端。 |
 | `packages/reforge/src/text/text-render.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/text/typewriter.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/text/typewriter.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 用同一 Unicode 码点计数推进实际对白，不留无消费者的判断出口。 |
@@ -193,7 +200,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/bgm.playback-lifecycle.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.runtime-availability.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-note-activity.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
+| `packages/reforge/src/audio/midi-preview.browser-runtime.test.ts` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 正式试听浏览器工厂锁定带版本的请求及既有初始化、失败和取消合同，移除版本参数只红指定断言。 正式预览入口补核序列器构造失败时释放、重试与关闭。 |
 | `packages/reforge/src/audio/midi-preview.playback-guards.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.track-replacement.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/midi-preview.unavailable-runtime.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
@@ -209,7 +216,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/menu/shop-box.rendering.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/menu/system-box.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.admission.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/project-loader.map-loading.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
+| `packages/reforge/src/project-loader.map-loading.test.ts` | test | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 两条批读合同迁到现用入口，验证乱序时的稳定地图身份、单次失败和另图成功。 |
 | `packages/reforge/src/project-loader.projection.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.scene-loading.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.stamps.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
@@ -222,7 +229,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/migrate/src/pal-item-scheme-ordinal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md) | 三个合法输入只改变标签，精确定位物品根或孤儿。 |
 | `packages/migrate/src/pal-world-sprite-layout-order.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md) | 实际有效 PAL 发布对照，同一方向布局只交换键。 |
 | `packages/reforge/src/dialog/dialog-box.lifecycle.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#对白关闭生命周期专测) | 原按作者命名的两条专测，按实际留显、清理和重开后的绘制位置迁移。 |
-| `packages/content/src/__tests__/glm-item-logic-fixtures.ts` | test | review | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 活跃 E2E 专测仍直接导入，命名和引用整改需等待其合入。 |
+| `packages/content/src/__tests__/item-world-fixtures.ts` | test | 已验证 | [合入后复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口) | 归属物品与世界的合法夹具，默认简述与角色定义每次独立创建。 |
 | `packages/content/src/battle-rewards-casualties.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/rewards.cursor-pure-wave2.test.ts` 的有效合同按职责迁移。 |
 | `packages/content/src/hidden-experience.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/hidden-exp-grid.glm-o.test.ts` 的有效合同按职责迁移。 |
 | `packages/content/src/item-equipment-effects.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/content/src/item.derived.background.test.ts` 的有效合同按职责迁移。 |
@@ -236,9 +243,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/migrate/package.json` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 实际 tsx、Unit/PAL 入口，以及 CI scope。 |
 | `packages/migrate/scripts/audit-project-maps.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实命令并与独立计数对照。 |
 | `packages/migrate/scripts/bake-assets.mts` | product | 已验证 | [逐文件证据](../cards/MIGRATION-CHROME-BAKE-PREFLIGHT-1.md) | 输入或完整性校验失败、链接输出均写前拒绝；隔离成功逐字节重建。 |
-| `packages/migrate/scripts/generate-project-battle-placeholders.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 2套目录目标实际生成、字节与 hash 吻合。 |
+| `packages/migrate/scripts/generate-project-battle-placeholders.mts` | product | 已验证 | [输出所有权](../cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | 两目标写前预检。目录和文件链接先红后绿，正常输出与跟踪字节一致。 |
+| `packages/migrate/src/battle-placeholder-generator.test.ts` | test | 已验证 | [输出所有权](../cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | 真实命令分别核第二目的地目录或文件链接、第一目标未变及两份正常产物。 |
+| `packages/migrate/src/preview-fbp.test.ts` | test | 已验证 | [输出所有权](../cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | 真实命令的缺省目标链接反例和两种正常目标的像素正控。 |
+| `packages/migrate/src/__tests__/migration-cli-fixture.ts` | test | 已验证 | [输出所有权](../cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | 两处维护工具专测共用真实 tsx 入口、独立目录与退出状态，无产品调用。 |
 | `packages/migrate/scripts/migrate-content.mts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 子进程真入口。发布由既有 PAL 隔离测试覆盖。 |
-| `packages/migrate/scripts/preview-fbp.mts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原色和输出真实定位/像素。 |
+| `packages/migrate/scripts/preview-fbp.mts` | product | 已验证 | [输出所有权](../cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | 缺省输出拒绝链接，缺省及显式目的地的实像素通过。 |
 | `packages/migrate/src/__tests__/item-scheme-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 为物品选择分支专测构造合法且独立的类型化输入，输出由实际图入口及固定地址集合验证。 |
 | `packages/migrate/src/__tests__/pal-asset-fixtures.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真 `validateAssetCatalog` 加独立 bytes/sha + 唯一 ID。 |
 | `packages/migrate/src/__tests__/pal-casualty-fixture.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/__tests__/coverage-wave2/f-casualty-overlays.ts` 的有效合同按职责迁移。 |
@@ -270,7 +280,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/migrate/src/pal-casualty-scripts.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 短输入错误仍由原残余 suite 拿正式错误，PAL 真实 C 等价证据连到结构层。 |
 | `packages/migrate/src/pal-content-supply-io.pal.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 13例确切实际路径 ENOENT 或缺295帧源诊断，避免错原因绿灯。 |
 | `packages/migrate/src/pal-content-supply-io.ts` | product | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实 guard 和 PAL 只读。 |
-| `packages/migrate/src/pal-content-supply.pal.test.ts` | test | 保留 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原样四用例含多轴一手版并无误计。 |
+| `packages/migrate/src/pal-content-supply.pal.test.ts` | test | 已验证 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 全量内存来源摘要与独立基线快照，保留合法发布与错误轴。 |
 | `packages/migrate/src/pal-content-supply.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-content-supply.glm-o.test.ts` 的有效合同按职责迁移。 |
 | `packages/migrate/src/pal-content-supply.ts` | product | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 真实隔离回放；同实体/tileset/无 sprite 都有独立验证。 |
 | `packages/migrate/src/pal-current-publication.asset-preconditions.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.md) | 原路径 `packages/migrate/src/pal-current-publication.glm-next-wave.test.ts` 的有效合同按职责迁移。 |
@@ -332,6 +342,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/script-library.ts` | product | 已验证 | [后继验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 保留内存引用与目录校验，拒绝伪登记和数组字典。四个旧写入导出退役，测试身份已映射。 |
 | `packages/content/src/script-chunk-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 内存分片专测，保留原结构、归属、闭包和稳定 id 观察。Unicode 路径的字节及 hash 由固定独立值验收。 |
 | `packages/content/src/script-command-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 生产命令和页守卫入口。迁移原投影、场景入口与已退出字段的独有断言，测试结果按完整身份映射。 |
+| `packages/editor/src/__tests__/project-map-fixtures.ts` | fixture | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 测试态按稳定 ID 装配真实单图读取结果；默认图、多图及相邻编辑会话定向通过。 |
 | `packages/editor/src/core/__tests__/script-reference-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 已按当前 loader 建合法工程后，仅注入明确内存脚本引用。两组实际诊断消费者，独立 TextEncoder 字节。 |
 | `packages/reforge/src/__tests__/script-chunk-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 两场景和一对共享桶的明确读取输入。原生 UTF-8 长度经实际库守卫校验，正向及释放/拒绝路径采用。 |
 | `packages/reforge/src/runnable-project-loader.test.ts` | test | 已验证 | [启动与光标 A–H](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-启动准入与内置对白光标) | 旧执行身份迁移，裸 FileSource、HTTP 及真实启动场景。合并门待整批。 |
@@ -356,7 +367,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/file-source.test.ts` | test | 已验证 | [原身份与 HTTP 回归](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-http-与本地工程读取) | 真实 Response、精确字节、错误分流和全局清理，两原专测合并。 |
 | `packages/reforge/src/fsa-source.test.ts` | test | 已验证 | [原身份与本地读取验收](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-http-与本地工程读取) | 合法路径、多个受控取消点、原生 File 和可读 blob URL；不覆盖并发泄漏修复。 |
 | `packages/reforge/src/fsa-source.ts` | product | 已验证 | [后继验收](../cards/REFORGE-FSA-URL-OWNERSHIP-1.md) | 同键并发只分配一个原生 URL，dispose 拒绝未发布旧请求并回收它已发布的 URL。Chrome 目录句柄复验。 |
-| `packages/editor/src/core/asset-catalog-commands.test.ts` | test | 已验证 | [编辑器资产命令和复制八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-资产命令与复制源快照) | 五项实际命令和历史合同，两条旧身份 smoke 退役。 |
+| `packages/editor/src/core/asset-catalog-commands.test.ts` | test | 已验证 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 用真实工程快照核删除失败的原地写入，保留历史与身份断言。 |
 | `packages/editor/src/core/__tests__/portrait-bytes.ts` | fixture | 已验证 | [编辑器资产命令和复制八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-资产命令与复制源快照) | 两枚真实可辨像素字节供作者命令和复制复用；不计原主体。 |
 | `packages/editor/src/core/project-copy-source.ts` | product | 已验证 | [编辑器资产命令和复制八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-资产命令与复制源快照) | 观察路径、缺失和 epoch，生产语句不变。 |
 | `packages/editor/src/core/project-copy.test.ts` | test | 已验证 | [编辑器资产命令和复制八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-资产命令与复制源快照) | 现行保存和复制合法夹具，区分三种源失配，另核缺失文件出现。 |
@@ -377,10 +388,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/core/frame-animation-images.test.ts` | test | 已验证 | [帧图片导入八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-帧图片导入) | 三旧文件真实像素、位图释放、停止与排序完整对照，同缓冲反控。 |
 | `packages/editor/src/core/frame-animation-draft.test.ts` | test | 已验证 | [草稿和像素八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-帧草稿历史与像素量化) | 时长、帧身份、历史分支和真实读端，按合同归并三组原文件。 |
 | `packages/editor/src/core/frame-quantization.test.ts` | test | 已验证 | [草稿和像素八维](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-帧草稿历史与像素量化) | 两种量化区分跨行实际像素，保持透明和 alpha。 |
-| `packages/editor/src/core/asset-diagnostics.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-诊断与视频元数据专测) | 合法目录和真实作者路径；碰撞时同时保留稳定 owner 与 kind。 |
+| `packages/editor/src/core/asset-diagnostics.test.ts` | test | 已验证 | [实际登记查询与验证](../cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md#状态与交接) | 合法作者角色、同名目录记录、类型错误与位置碰撞来源。 |
 | `packages/editor/src/core/video-metadata.test.ts` | test | 已验证 | [逐文件证据](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#editor-诊断与视频元数据专测) | 真实盒边界、三态、错误字段重组；零长度前缀变体旧14绿，后继指定1红。 |
-| `packages/editor/src/core/asset-diagnostics.ts` | product | review | [资产登记存在性](../cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md) | 两端根因在实际登记查询。用户裁定等活跃 E2E 合入，再接续根因修复。 |
-| `packages/content/src/asset-catalog.contracts.test.ts` | test | 已验证 | [资产八维和用例映射](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#逐文件审核) | 路径、目录记录与角色校验归统一职责；真实字段诊断、合法装配与旧身份映射。 |
+| `packages/editor/src/core/asset-diagnostics.ts` | product | 已验证 | [实际登记查询与验证](../cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md#状态与交接) | 引用与诊断投影使用同一个实际目录查询，保留同位置不同引用的来源。 |
+| `packages/content/src/asset-catalog.contracts.test.ts` | test | 已验证 | [实际登记查询与验证](../cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md#状态与交接) | 路径、角色校验与真实字段输入；验证实际同名登记及缺记录。 |
 | `packages/content/src/asset-closure.contracts.test.ts` | test | 已验证 | [资产八维和用例映射](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#逐文件审核) | 当前作者引用与物理闭包；已核单红、摘要与未引用并行诊断、失败传播和隔离。 |
 | `packages/content/src/asset-command-references.test.ts` | test | 已验证 | [资产八维和用例映射](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#逐文件审核) | 作者单命令、整树访问、对白资产及未知边界；合法输入、位置和不写入的精确 oracle。 |
 | `packages/content/src/asset-project-references.test.ts` | test | 已验证 | [资产八维和用例映射](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#逐文件审核) | 工程图原职责承接；合法敌人、人物、入场、物品、瓦片集及世界引用。 |
@@ -438,7 +449,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/__tests__/asset-catalog-fixtures.ts` | test | 已验证 | [Content fixture A-H and import proof](../evidence/QUALITY-PENDING-100-3/organization-content-fixtures.json) | Snapshot and asset metadata separated;1unused test-only export removed.40consumer bodies preserved,59files513cases/TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 2026-11-19 新增目录角色夹具的窄验收见[资产任务](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#逐文件审核)。 |
 | `packages/content/src/actor-condition.ts` | product | 已验证 | 直接读取 carried-status/condition shape guards 与 content contract tests | 稳定 status/poison 引用 |
 | `packages/content/src/ambience.ts` | product | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
-| `packages/content/src/asset.ts` | product | 已验证 | 直接读取 AssetCatalog/path/origin/role closure validators 与 1490 content tests/full check | 保持 stable AssetId/path ownership |
+| `packages/content/src/asset.ts` | product | 已验证 | [实际登记查询与验证](../cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md#状态与交接) | 目录引用和角色共用实际记录查询，文件闭合继续复用原入口。 |
 | `packages/content/src/author-dialogue.contracts.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/content/src/author-dialogue.field-guards.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/content/src/author-dialogue.ts` | product | 已验证 | [对话引用归属反例](../cards/QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | 两个正式引用守卫业务反例：未定义constructor冒充Actor/表情；2026-10-28撤回关闭，用户已批，正式两红后修；18相邻、20506全仓、official20157/809及同报protected均通过；仅恢复原关闭，新增信用0。 |
@@ -861,8 +872,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/__tests__/opening-playback.ts` | test | 已验证 | [开场八维／14身份／生命周期与四反控](../evidence/QUALITY-PENDING-100-3/organization-shell-opening.json) | 商标／卷轴归责；标题和停点补强，有界收尾查真实监听；61相邻/TC0，统一门待。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/game/src/shell/__tests__/rng-frames.ts` | test | 已验证 | [RNG八维／原生Canvas／真实反控与退休承接](../evidence/QUALITY-PENDING-100-3/organization-shell-rng.json) | 25旧例保24，明确退1重复；2旧绿新业务红、7精确诊断、finally收尾；47相邻/TC0，统一门待。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/game/src/shell/audio-midi.fallback.test.ts` | test | 已验证 | [Shell八维/退休映射/真实反控](../evidence/QUALITY-PENDING-100-3/organization-shell-midi-fallback.json) | 职责/输入/生命周期逐项核，49→48明确退休一重复；110相邻/当前TC0，统一门待，0新closed。 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
-| `packages/game/src/shell/audio-midi.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
-| `packages/game/src/shell/audio-midi.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原明确范围/75迁移、真实caller与八维证据；必要返工/同版原件复用；不附带广域或听感/剧情验收；本轮[仅注释/纯URL接线增量](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)复核，原范围accept保留 |
+| `packages/game/src/shell/audio-midi.test.ts` | test | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原合同沿用。新增合法相对 Worklet URL 保留配置查询值并携带配套版本，见[升级反控](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)。 |
+| `packages/game/src/shell/audio-midi.ts` | product | 已验证 | [shell当前逐文件与集中门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json) | 原合同沿用。本次核定带版本的 Worklet URL、真实 MIDI 播放、RIX 切换及关闭，见[配套升级实测](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)。 |
 | `packages/game/src/shell/audio-rix.test.ts` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/game/src/shell/audio-rix.ts` | product | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/game/src/shell/audio-volume.boundaries.test.ts` | test | 已验证 | [CODE70边界与key ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；100行全文、NaN/0/default/key独立合同 | 改正共享键读写注释、去除重复静音状态机；忽略keyMute旧6绿新7绿1指定AssertionError，恢复8绿；不改生产API |
@@ -1156,7 +1167,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/utils/gbk.ts` | product | 已验证 | [本窗八维、版本桥接与完整原件](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) | 整文件代码接受；注释窄修/旧反控有效、136相关与两TC零诊断；统一门及发布等固定52阶段收尾，不继承相邻文件信用 |
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |
 | `packages/pal-extract/vitest.config.ts` | product | 已验证 | [3l当前八维及完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) | 规则/生命周期/测试合同按逐文件证据接受；统一门零诊断，整卡不外推核心广域或自然剧情。 |
-| `packages/reforge/src/audio/bgm.ts` | product | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |
+| `packages/reforge/src/audio/bgm.ts` | product | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 试打发声后按既有所有权先销毁 Worklet 再关闭上下文，窗口监听残留由 1 降为 0。 |
 | `packages/reforge/src/menu/menu-box.layout.test.ts` | test | 已验证 | [Menu layout A-H and typed lifecycle](../evidence/QUALITY-PENDING-100-3/organization-menu-layout.json) | 5 identities/assertions preserved;typed per-case passthrough spy and restoration,33menu+7text/TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 本窗口增量复核与迁移身份见[八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收)。 |
 | `packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts` | test | 已验证 | QUALITY-REVIEW-52-CLOSEOUT-1 | 八维及已有源/调用/反控核用；BGM清timer2红到26绿，见phase2-reviewed；统一门待全52。 |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
@@ -1351,7 +1362,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/scene-supplemental.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
 | `scripts/quality/fixtures/asset-server.mjs` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
 | `scripts/quality/game-asset-server.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
-| `scripts/quality/game-midi-worklet.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/quality/midi-worklet.test.mjs` | test | 已验证 | [配套升级与真实退出](../cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出) | 原 Game 供应专测承接为两端共同合同，按发布字节、Core 与解码器源图和许可证核对。 |
 | `scripts/docs/testing-source-bridge.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-bridge.test.mjs` | test | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
 | `scripts/docs/testing-source-refs.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
@@ -1412,7 +1423,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/runtime-script.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 词表、回调、变体与合法根边界 |
 | `packages/content/src/frame-animation-control.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 当前动画命令的 hold、fade、clear 与精确诊断 |
 | `packages/content/src/run-entity-trigger.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 实体地址及前台调用范围 |
-| `packages/content/src/entity-lifecycle.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 状态联合、引用闭包和独立归一对象 |
+| `packages/content/src/entity-lifecycle.test.ts` | test | 已验证 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 失败场景和实体的错误路径及状态分别核实，合法归一副本单列。 |
 | `packages/content/src/entities-near-condition.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | 两地址解析、阈值结构、精确诊断与回补 |
 | `packages/content/src/auto-script-continuation.test.ts` | test | 已验证 | [运行脚本与生命周期](../cards/QUALITY-CONTENT-REFERENCES-1.md#运行脚本与生命周期校验) | SAVE12 续跑帧形状、精确错误路径及不可污染 |
 | `packages/content/src/author-script.ts` | product | 已验证 | [本片核验](../cards/QUALITY-CONTENT-REFERENCES-1.md#作者流程投影与保存边界) | 作者命令、所属实体与对白投影边界 |
@@ -1472,7 +1483,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/scene-switch-transaction.ts` | product | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 冻结场景预检依赖、后置校验、仅当前视觉归属清理 |
 | `packages/reforge/src/scene-switch-transaction.test.ts` | test | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 真实 fade/dither 归属，预检失败和两个接管时点 |
 | `packages/reforge/src/scene-switch-dependencies.test.ts` | test | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 与运行者一致的依赖变更、显式预览过滤与无关状态对照 |
-| `packages/reforge/src/scene-preflight.chain.test.ts` | test | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 真实主程序预检包装的冻结时间与 canonical 投影 |
+| `packages/reforge/src/scene-preflight.chain.test.ts` | test | 已验证 | [回溯整改](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改) | 真实无脚本预检通过，完整 WorldState 快照反控捕捉额外写入。 |
 | `packages/reforge/src/scene-transition.test.ts` | test | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 正常入口的三种位置、方向优先级与解码不合法组合 |
 | `packages/reforge/src/fade-driver.ts` | product | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | tick、接管、取消及已完成幕布的持有者 |
 | `packages/reforge/src/fade-driver.test.ts` | test | 已验证 | [逐文件核验](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-黑屏切场和渐变交接) | 确定性时间轴、旧与新 signal、完成后复位 |

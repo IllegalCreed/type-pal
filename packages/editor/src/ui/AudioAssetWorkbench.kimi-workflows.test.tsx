@@ -43,17 +43,18 @@
  * 替身边界：AudioContext/rAF 为浏览器硬件端口替身（decode 用真实 parser，时钟手动推进），
  * 只证明协议级因果，不宣称音质/解码保真；gatedFileSource 只做磁盘 I/O 迟到/失败闸门。
  */
+
 import type { AssetCatalogV1, AssetRecordV1 } from '@type-pal/content'
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { waitForReact } from '../__tests__/react-io-wait.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
@@ -762,7 +763,7 @@ describe('K07 SoundTab 真实 wrapper 与 WAV transport 所有权', () => {
     const state = toEditorState(
       project,
       await loadAllAuthorScenes(project),
-      await loadAllProjectMaps(project),
+      await loadFixtureProjectMaps(project),
       {},
       [],
     )

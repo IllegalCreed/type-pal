@@ -120,10 +120,16 @@ test('缺失地图保留真实路径、提取指引和缺文件原因', async ()
   )
 })
 
-test('工程标准色拒收坏 JSON、缺色、非整数和缺少 cycles', async () => {
+test('工程标准色拒收坏 JSON、错误根、缺色、非整数和缺少 cycles', async () => {
   await expect(loadStandardPalette(await project(map, '{not json'))).rejects.toThrow(
     /工程标准色彩 JSON 非法/,
   )
+  for (const text of ['null', '[]', '0']) {
+    const base = await project(map, text)
+    await expect(loadStandardPalette(base)).rejects.toThrow(
+      new Error('工程标准色彩 JSON 根必须是对象'),
+    )
+  }
   await expect(
     loadStandardPalette(await project(map, JSON.stringify({ colors: [[0, 0, 0]], cycles: [] }))),
   ).rejects.toThrow('工程标准色彩必须包含 256 个 RGB 颜色')

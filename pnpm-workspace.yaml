@@ -1,2 +1,7 @@
 packages:
   - 'packages/*'
+
+# Match the dependency sources embedded in the published 4.4.0 processor.
+overrides:
+  'spessasynth_lib@4.4.0>spessasynth_core': '4.4.0'
+  'spessasynth_core@4.4.0>stb-vorbis': '0.0.6'

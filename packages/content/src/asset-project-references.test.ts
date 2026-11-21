@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { audioProjectAssetFixture } from './__tests__/asset-catalog-fixtures.js'
-import { heroActor } from './__tests__/glm-item-logic-fixtures.js'
+import { heroActor } from './__tests__/item-world-fixtures.js'
 import { createEnemyReferenceProject } from './__tests__/reference-project.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import {

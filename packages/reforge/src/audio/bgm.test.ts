@@ -144,22 +144,27 @@ describe('Encounter score preparation', () => {
       runtime(async () => backend),
     )
     const owner = new AbortController()
+    vi.useFakeTimers()
     try {
       const pending = player.prepare('music.old-battle', owner.signal)
       expect(read).toHaveBeenCalledExactlyOnceWith('music.old-battle', 'music')
       owner.abort()
       const canceled = await pending
       player.play('music.current-world')
-      await vi.waitFor(() => expect(backend.play).toHaveBeenCalledOnce())
+      await vi.advanceTimersByTimeAsync(0)
+      expect(backend.play).toHaveBeenCalledOnce()
       bytes.resolve(new ArrayBuffer(4))
       canceled()
-      await bytes.promise
+      // Drain the playback continuation as well as the shared bytes promise.
+      await vi.advanceTimersByTimeAsync(0)
       expect(backend.loadNewSongList).toHaveBeenCalledExactlyOnceWith([
         { binary: expect.any(ArrayBuffer), fileName: 'music.current-world' },
       ])
+      expect(backend.play).toHaveBeenCalledOnce()
     } finally {
       bytes.resolve(new ArrayBuffer(4))
       await player.dispose()
+      vi.useRealTimers()
     }
   })
 

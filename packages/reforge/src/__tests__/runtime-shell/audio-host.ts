@@ -1,3 +1,4 @@
+import spessaPackage from 'spessasynth_lib/package.json' with { type: 'json' }
 import { vi } from 'vitest'
 
 /** External Web Audio/Spessa protocol only; no PCM, device or audible-timing oracle. */
@@ -9,7 +10,8 @@ export function installShellAudioHost() {
     readonly currentTime = 0
     readonly audioWorklet = {
       async addModule(url: string): Promise<void> {
-        if (url !== '/spessasynth_processor.min.js') throw new Error(`unexpected worklet: ${url}`)
+        if (url !== `/spessasynth_processor.min.js?v=${spessaPackage.version}`)
+          throw new Error(`unexpected worklet: ${url}`)
       },
     }
     resumeCalls = 0
@@ -52,6 +54,7 @@ export function installShellAudioHost() {
         connect: (destination: unknown) => {
           if (destination !== this.destination) throw new Error('unexpected gain destination')
         },
+        disconnect() {},
         gain: {
           value: 1,
           cancelScheduledValues(_time: number) {},

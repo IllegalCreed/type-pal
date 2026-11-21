@@ -16,17 +16,18 @@
  * 唯一替身是浏览器硬件端口（kimi kit：Node Blob/crypto + createImageBitmap 真实 PNG 解码）
  * 与 URL.createObjectURL/revokeObjectURL 端口记录（jsdom 无 object URL）。
  */
+
 import type { AssetCatalogV1, AssetRecordV1 } from '@type-pal/content'
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { UpsertAssetCommand } from '../core/asset-commands.js'
 import { sha256Hex } from '../core/binary-signature.js'
@@ -269,7 +270,7 @@ describe('ImageAssetThumbnail 对象 URL 生命周期残余合同', () => {
     const state = toEditorState(
       project,
       await loadAllAuthorScenes(project),
-      await loadAllProjectMaps(project),
+      await loadFixtureProjectMaps(project),
       {},
       [],
     )
@@ -337,7 +338,7 @@ describe('ImageAssetThumbnail 对象 URL 生命周期残余合同', () => {
     const state = toEditorState(
       project,
       await loadAllAuthorScenes(project),
-      await loadAllProjectMaps(project),
+      await loadFixtureProjectMaps(project),
       {},
       [],
     )

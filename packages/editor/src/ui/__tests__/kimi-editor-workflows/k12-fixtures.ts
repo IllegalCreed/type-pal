@@ -11,16 +11,17 @@
  * - scrollIntoView：jsdom 未实现，目录选中滚动不在本组观测范围，补空操作。
  * 业务真值（EditSession/commands/reader/解码/命中）不经此文件替换。
  */
+
 import { formatProjectMap, gridToPixel, type MapIndexV1 } from '@type-pal/content'
 import type { FileSource, ProjectMap } from '@type-pal/reforge'
 import {
   fsaSource,
   latticeCenter,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../../../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../../../core/__tests__/author-save-fixture.js'
 import type { EditorState } from '../../../core/edit-session.js'
 import { assertProjectSaveValid } from '../../../core/project-diagnostics.js'
@@ -240,7 +241,7 @@ export async function loadLegalProjectWithDiskMaps(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase }

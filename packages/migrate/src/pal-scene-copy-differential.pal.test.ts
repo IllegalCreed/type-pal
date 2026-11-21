@@ -43,6 +43,7 @@ function targetWithScene(reference: CommandTargetReference, sceneId: string): un
 
 describe('PAL full-tree scene copy differential', () => {
   test('294 场景逐一 self 全改、external 多重集不变且输入不 mutate', () => {
+    expect(scenes).toHaveLength(294)
     const selfCounts: Array<{ id: string; count: number }> = []
     for (const scene of scenes) {
       const beforeBytes = JSON.stringify(scene)
@@ -76,8 +77,8 @@ describe('PAL full-tree scene copy differential', () => {
       // The palace guide now finishes in its trigger flow and no longer selects the auto behavior.
       { id: 's019', count: 2097 },
       { id: 's176', count: 883 },
-      { id: 's049', count: 786 },
       { id: 's052', count: 760 },
+      { id: 's168', count: 710 },
     ])
   })
 })

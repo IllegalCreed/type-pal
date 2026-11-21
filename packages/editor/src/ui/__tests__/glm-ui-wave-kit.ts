@@ -9,11 +9,11 @@ import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act } from 'react'
 import { expect } from 'vitest'
+import { loadFixtureProjectMaps } from '../../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../../core/__tests__/author-save-fixture.js'
 import type { EditorState } from '../../core/edit-session.js'
 import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
@@ -38,7 +38,7 @@ export async function loadLegalUiProject(name = 'glm-ui-wave'): Promise<LegalPro
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase }

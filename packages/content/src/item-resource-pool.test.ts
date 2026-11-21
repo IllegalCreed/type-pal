@@ -1,6 +1,6 @@
 /** Awarding an item through a named world resource pool. */
 import { describe, expect, test } from 'vitest'
-import { world } from './__tests__/glm-item-logic-fixtures.js'
+import { world } from './__tests__/item-world-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { AuthorItemCore } from './author-item-core.js'
 import type { ItemDataMap } from './item.js'

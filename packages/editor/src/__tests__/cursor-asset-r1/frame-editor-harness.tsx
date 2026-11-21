@@ -5,6 +5,7 @@
  * Worker（受控 postMessage，回复仍走真实 quantize 核）/ createImageBitmap 闸门（底层是真实 PNG 解码）。
  * 2D 画布由 jsdom + node-canvas 真实提供，像素直接 getImageData 读回。不使用 as never、不 mock 业务核心。
  */
+
 import {
   type AssetId,
   type AssetRecordV1,
@@ -16,7 +17,6 @@ import {
   FrameSequenceReader,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act, createElement, useSyncExternalStore } from 'react'
@@ -35,6 +35,7 @@ import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
 import { FrameAnimationEditor, type FrameAnimationMetadata } from '../../ui/FrameAnimationEditor.js'
+import { loadFixtureProjectMaps } from '../project-map-fixtures.js'
 import { installReactActEnvironment, waitForReact } from '../react-io-wait.js'
 import {
   dispatchDragEvent,
@@ -126,7 +127,7 @@ async function buildState(options: C04Options): Promise<{
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { state, assetBase: project.assetBase, source, records: structuredClone(catalog) }

@@ -1,9 +1,3 @@
-/**
- * TEST-GLM-ITEM-LOGIC-1 test-only fixture：六份物品逻辑测试共用的合法基线。
- * heroActor 用 `satisfies ActorDef` 约束的当前 player 侧 baseStats 构造，
- * 经 validateActors 验证；hero/world 用生产 instantiate/buildWorld 生成可消费基线；
- * 物品经 validateItems 验证后返回。不复制 item.ts 算法。
- */
 import { expect } from 'vitest'
 import type { ActorDef } from '../actor.js'
 import { buildWorld, type CharacterInstance, instantiate, type WorldState } from '../character.js'
@@ -12,10 +6,8 @@ import type { PoisonDef } from '../poison.js'
 import { validateActors, validateItems } from '../validate.js'
 import { deepSnapshot } from './value-snapshot.js'
 
-const baseItem: ItemData = {
-  id: 'base',
+const baseItem = {
   name: '基础物品',
-  desc: [],
   buyPrice: 0,
   sellPrice: 0,
   sellable: false,
@@ -23,14 +15,14 @@ const baseItem: ItemData = {
 
 /** 合法物品：先过 validateItems 再返回（非法直接在构造处失败）。 */
 export function item(over: Partial<ItemData> & { id: string }): ItemData {
-  const candidate: ItemData = { ...baseItem, ...over }
+  const candidate = rawItem(over)
   validateItems([candidate])
   return candidate
 }
 
-/** 刻意非法载体（仅在测 resolve 自身防御合同且明确标注时使用；不得冒充合法正控）。 */
+/** Build an unchecked item for tests of consumer-side validation. */
 export function rawItem(over: Partial<ItemData> & { id: string }): ItemData {
-  return { ...baseItem, ...over }
+  return { ...baseItem, desc: [], ...over }
 }
 
 const heroActorLiteral = {
@@ -58,7 +50,7 @@ const heroActorLiteral = {
 
 /** 真实 ActorDef（satisfies 约束 + validateActors 验证）。 */
 export function heroActor(): ActorDef {
-  const actors = validateActors([heroActorLiteral])
+  const actors = validateActors([deepSnapshot(heroActorLiteral)])
   const actor = actors[0]
   if (!actor) throw new Error('fixture actor missing')
   return actor
@@ -94,7 +86,7 @@ export function poisonDefs(): Record<number, PoisonDef> {
   }
 }
 
-/** I6 外部物品的合法脚本引用效果。 */
+/** External item effect with an authored shared-script reference. */
 export function runScriptEffect(): ItemUseEffect {
   return { kind: 'runScript', script: { chunk: 'shared', id: 'user/outer' } }
 }

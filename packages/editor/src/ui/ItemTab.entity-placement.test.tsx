@@ -4,17 +4,14 @@
  * 分别观察失效实体修复、跳过空场景的默认目标、无实体时的错误与零提交。
  * 失效地址可被 loader 装载，但保存门拒绝；不把损坏引用当成合法保存数据。
  */
+
 import type { ItemData } from '@type-pal/content'
-import {
-  fsaSource,
-  loadAllAuthorScenes,
-  loadAllProjectMaps,
-  loadCurrentProjectFrom,
-} from '@type-pal/reforge'
+import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { pickCombobox, stubNodeTestHost } from '../__tests__/glm-m/kit.js'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import type { EditorState } from '../core/edit-session.js'
 import { EditSession } from '../core/edit-session.js'
@@ -70,7 +67,7 @@ async function mountItemTab(options: {
   const source = fsaSource(memoryAuthorDirectory(files).dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state: EditorState = {
     ...toEditorState(project, scenes, maps, {}, []),
     items: projectEditorItemShells(project),

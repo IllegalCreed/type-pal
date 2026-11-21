@@ -11,9 +11,9 @@ const DIALOG_RGB: Record<DialogColor, Rgb> = {
   yellow: [255, 223, 134], // 原 0x2D
 }
 /** 姓名牌色取自 UI 调色板索引 0x8C。 */
-export const TITLE_RGBA: Rgb = [101, 203, 170]
+export const TITLE_RGB: Rgb = [101, 203, 170]
 /** 光标按 UI 调色板索引 0xF9 到 0xFE 的顺序轮转。 */
-export const CURSOR_RGBA: readonly Rgb[] = [
+export const CURSOR_RGB: readonly Rgb[] = [
   [247, 231, 109],
   [235, 211, 97],
   [227, 190, 89],
@@ -21,8 +21,8 @@ export const CURSOR_RGBA: readonly Rgb[] = [
   [231, 195, 93],
   [243, 219, 105],
 ]
-export const CURSOR_COLOR_COUNT = CURSOR_RGBA.length
+export const CURSOR_COLOR_COUNT = CURSOR_RGB.length
 
-export function colorRgba(color: DialogColor): Rgb {
+export function dialogColorRgb(color: DialogColor): Rgb {
   return DIALOG_RGB[color]
 }

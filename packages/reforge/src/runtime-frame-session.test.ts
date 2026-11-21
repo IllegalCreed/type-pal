@@ -223,6 +223,26 @@ test.each([
   expect(events).toEqual(['zero', 'active', 'paused'])
 })
 
+test('a first-frame step spends one step from an existing script wait', async () => {
+  const frame = frameFixture()
+  const wait = frame.session.scheduleWait(150, new AbortController().signal)
+  frame.session.setStepActive(true)
+  frame.session.requestStep()
+
+  await frame.tick(1500)
+
+  expect(frame.session.now).toBe(1500)
+  expect(wait.remainingMs).toBe(50)
+  await frame.tick(2500)
+  expect(wait.remainingMs).toBe(50)
+
+  frame.session.requestStep()
+  await frame.tick(2501)
+  expect(frame.session.now).toBe(1600)
+  expect(wait.remainingMs).toBe(0)
+  await wait.done
+})
+
 test('aborted wait rejects with the existing protocol while unrelated pending wait can finish', async () => {
   const f = frameFixture()
   f.tick(100)

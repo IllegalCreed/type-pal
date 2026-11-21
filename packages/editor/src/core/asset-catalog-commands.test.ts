@@ -95,21 +95,25 @@ test('clearing a displayed name removes the field, keeps the resource, and is un
 
 test('missing deletion targets skip the oracle; oracle failure leaves state and history unchanged', async () => {
   const { state } = await portraitProject()
+  const before = structuredClone(state)
   const unavailable = new Error('oracle unavailable')
   const provider = vi.fn(() => {
     throw unavailable
   })
   expect(new DeleteAssetCommand('portrait.missing', provider).apply(state)).toBe(state)
   expect(provider).not.toHaveBeenCalled()
+  expect(state).toStrictEqual(before)
   const session = new EditSession(state)
   expect(() => session.dispatch(new DeleteAssetCommand(assetId, provider))).toThrow(unavailable)
   expect(session.getHistoryVersion()).toBe(0)
   expect(session.getState()).toBe(state)
+  expect(session.getState()).toStrictEqual(before)
   expect(session.canRedo()).toBe(false)
 })
 
 test('live canonical references block deletion before it enters history', async () => {
   const { state } = await portraitProject()
+  const before = structuredClone(state)
   const session = new EditSession(state)
   const scripts = scriptUsingPortrait()
   const provider = (current: EditorState) => collectCurrentProjectReferenceIndex(current, scripts)
@@ -124,6 +128,7 @@ test('live canonical references block deletion before it enters history', async 
   )
   expect(session.getHistoryVersion()).toBe(0)
   expect(session.getState()).toBe(state)
+  expect(session.getState()).toStrictEqual(before)
 })
 
 test('redo rechecks newly added author references and preserves the redo future when blocked', async () => {

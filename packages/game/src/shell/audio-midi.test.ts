@@ -52,7 +52,7 @@ class Context {
   state = 'running'
   destination = {}
   gain = { gain: { value: 1 }, connect: vi.fn(), disconnect: vi.fn() }
-  audioWorklet = { addModule: async () => {} }
+  audioWorklet = { addModule: vi.fn(async (_processor: URL) => {}) }
   close = vi.fn(async () => {})
   resume = vi.fn(async () => {
     this.state = 'running'
@@ -97,10 +97,28 @@ beforeEach(() => {
   Context.instances = []
   media.sequencers = []
   vi.stubGlobal('window', { AudioContext: Context })
+  vi.stubGlobal('document', { baseURI: 'https://pal.test/' })
 })
 afterEach(() => vi.unstubAllGlobals())
 
 describe('MIDI backend lifecycle at media IO boundaries', () => {
+  it('keys the worklet request by the matching library without dropping the configured query', async () => {
+    const backend = createSpessaSynthBackend({
+      baseUrl: '/extracted',
+      workletUrl: '/midi.js?label=demo',
+      soundfontUrl: '/soundfont.sf3',
+      soundfontData: Promise.resolve(sf),
+    })
+    try {
+      await backend.ready
+      expect(Context.instances[0]?.audioWorklet.addModule).toHaveBeenCalledExactlyOnceWith(
+        new URL('https://pal.test/midi.js?label=demo&v=4.4.0'),
+      )
+    } finally {
+      backend.dispose?.()
+    }
+  })
+
   it('reloads A when returning to it while B is replacing the active sequence', async () => {
     const requests: string[] = []
     vi.stubGlobal('fetch', async (url: string) => {

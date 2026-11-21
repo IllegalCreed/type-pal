@@ -16,13 +16,12 @@ import { FRAME_MS_BATTLE, type RleFrame } from '@type-pal/shared'
 import { advanceCue, type DialogueState, startDialogue } from '../dialogue.js'
 import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGB, dialogColorRgb, TITLE_RGB } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
 import { bakeCursorTinted } from './dialog-assets.js'
 import { type DisplayLine, layoutLines } from './layout.js'
 import { narrationScrollLayout } from './narration-scroll.js'
-import { advanceSlots, emptySlots, type SlotId, type SlotState } from './slot.js'
 
 // GLM spec §3 布局真值(320×200 坐标系)。无头像 / 有头像两种正文+姓名 x(spec §3 hasPortrait 三元)。
 const LINE_HEIGHT = 18
@@ -65,12 +64,14 @@ const POS = {
 // 原版最大可视宽度的行(全量 11102 行中仅 6 行)。
 const MAX_RIGHT = 320
 
+type SlotId = NonNullable<DialogueCue['slot']>
+
 /** center 是无框剧情字幕；narration 自带卷轴，只有上下普通对话显示等键箭头。 */
 export function dialogSlotShowsCursor(slotId: SlotId): boolean {
   return slotId === 'top' || slotId === 'bottom'
 }
 
-/** 单个 slot 的排版渲染态(slot.ts 管 cueIdx,这里管 cue 内 rows 的排版)。 */
+/** One slot holds the cue and the page it currently presents. */
 interface SlotRender {
   cue: DialogueCue
   dialogueId: string
@@ -119,7 +120,7 @@ export interface DialogueSlotObservation extends Omit<DialogueObservation, 'phas
 
 export class DialogBox {
   private state: DialogueState | null = null
-  private slots: SlotState = emptySlots()
+  private activeSlot: SlotId = 'bottom'
   private renders: Partial<Record<SlotId, SlotRender>> = {}
   private lineStartMs = 0
   /** 活跃槽当前页是否已全显(fUserSkip 两段式)。 */
@@ -163,7 +164,7 @@ export class DialogBox {
       (['bottom', 'top', 'narration', 'center'] as const).flatMap((slot) => {
         const render = this.renders[slot]
         if (!render) return []
-        const active = this.active && slot === this.slots.activeSlot
+        const active = this.active && slot === this.activeSlot
         const observation = this.observeSlot(slot, render)
         const portraitAsset =
           render.cue.portrait && this.portraits.has(render.cue.portrait.asset)
@@ -187,7 +188,7 @@ export class DialogBox {
   observe(): DialogueObservation | null {
     const state = this.state
     if (!state) return null
-    const slot = this.slots.activeSlot
+    const slot = this.activeSlot
     const render = this.renders[slot]
     if (!render) throw new Error('reforge: active dialogue observation is incomplete')
     return this.observeSlot(slot, render)
@@ -233,11 +234,11 @@ export class DialogBox {
   }
 
   /** 把第 idx 个 cue 排版进它的 slot。有头像时正文 x 缩进 + 右边界给头像让位。 */
-  private layoutCueInto(cueIdx: number): { slot: SlotId; render: SlotRender } {
+  private showCue(cueIdx: number, nowMs: number): void {
     const state = this.state
-    if (!state) throw new Error('reforge: layoutCueInto has no dialogue')
+    if (!state) throw new Error('reforge: showCue has no dialogue')
     const cue = state.dialogue.cues[cueIdx]
-    if (!cue) throw new Error('reforge: layoutCueInto cueIdx 越界')
+    if (!cue) throw new Error('reforge: showCue cueIdx 越界')
     const slot: SlotId = cue.slot ?? 'bottom'
     const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.asset) : undefined
     const portraitLayout = cue.portraitLayout ?? Boolean(portraitImg)
@@ -253,28 +254,28 @@ export class DialogBox {
       startX,
     )
     const singleLineText = cue.rows.map((row) => resolveDialogueRowText(row, this.locale)).join('')
-    return {
-      slot,
-      render: {
-        cue,
-        dialogueId: state.dialogue.id,
-        cueIndex: cueIdx,
-        presentationId: ++this.nextPresentationId,
-        pageStartedAtMs: this.lineStartMs,
-        visibleText: null,
-        displayLines,
-        singleLineSpans: parseRichText(singleLineText),
-        pageStart: 0,
-        rowSpeeds: cue.rows.map((row) =>
-          slot === 'narration' ? 0 : (row.speed ?? DEFAULT_SPEED_MS),
-        ),
-        autoAdvance:
-          cue.autoAdvance ??
-          ((this.battleChoreography || this.battleVictory) && slot === 'narration'
-            ? BATTLE_NARRATION_MS
-            : undefined),
-      },
+    this.renders[slot] = {
+      cue,
+      dialogueId: state.dialogue.id,
+      cueIndex: cueIdx,
+      presentationId: ++this.nextPresentationId,
+      pageStartedAtMs: nowMs,
+      visibleText: null,
+      displayLines,
+      singleLineSpans: parseRichText(singleLineText),
+      pageStart: 0,
+      rowSpeeds: cue.rows.map((row) =>
+        slot === 'narration' ? 0 : (row.speed ?? DEFAULT_SPEED_MS),
+      ),
+      autoAdvance:
+        cue.autoAdvance ??
+        ((this.battleChoreography || this.battleVictory) && slot === 'narration'
+          ? BATTLE_NARRATION_MS
+          : undefined),
     }
+    this.activeSlot = slot
+    this.lineStartMs = nowMs
+    this.pageDone = false
   }
 
   open(
@@ -296,16 +297,8 @@ export class DialogBox {
     this.battleVictory = battleVictory
     this.battleChoreography = battleChoreography
     this.state = state
-    if (!this.retainSlots || !sameBattle) {
-      this.slots = emptySlots()
-      this.renders = {}
-    }
-    this.lineStartMs = nowMs
-    // 第一段话进它的 slot
-    this.slots = advanceSlots(this.slots, firstCue, 0)
-    const { slot, render } = this.layoutCueInto(0)
-    this.renders[slot] = render
-    this.pageDone = false
+    if (!this.retainSlots || !sameBattle) this.renders = {}
+    this.showCue(0, nowMs)
   }
 
   /** Show runtime-authored spans without parsing player-facing names as markup. */
@@ -325,7 +318,7 @@ export class DialogBox {
    */
   advance(nowMs: number): void {
     if (!this.state) return
-    const active = this.slots.activeSlot
+    const active = this.activeSlot
     const r = this.renders[active]
     if (this.battleVictory && active === 'narration' && r?.visibleText === null) return
     if (!this.pageDone) {
@@ -352,7 +345,7 @@ export class DialogBox {
       !this.state ||
       this.battleChoreography ||
       this.battleVictory ||
-      this.slots.activeSlot !== 'narration' ||
+      this.activeSlot !== 'narration' ||
       narration?.cue.autoAdvance === undefined ||
       narration.visibleText === null
     ) {
@@ -373,14 +366,7 @@ export class DialogBox {
       return
     }
     this.state = next
-    const nextIdx = next.cueIdx
-    const cue = next.dialogue.cues[nextIdx]
-    if (!cue) throw new Error('reforge: advanceToNextCue cueIdx 越界')
-    this.slots = advanceSlots(this.slots, cue, nextIdx)
-    this.lineStartMs = nowMs
-    const { slot, render } = this.layoutCueInto(nextIdx)
-    this.renders[slot] = render // 同槽覆盖(替换 render)/异槽新建(旧 render 不动)
-    this.pageDone = false
+    this.showCue(next.cueIdx, nowMs)
   }
 
   releaseBattleVictory(owner: AbortSignal): void {
@@ -395,7 +381,7 @@ export class DialogBox {
   /** 关闭并清空 slot(正常收尾 + 脚本 abort/切场景清理共用)。 */
   close(): void {
     this.state = null
-    this.slots = emptySlots()
+    this.activeSlot = 'bottom'
     this.renders = {}
     this.retainSlots = false
     this.battleVictory = undefined
@@ -405,7 +391,7 @@ export class DialogBox {
   /** autoAdvance:活跃槽该段话翻完 + 有 autoAdvance + 过尾停顿 → 自动推进下一段。 */
   private update(nowMs: number): void {
     if (!this.state || !this.pageDone) return
-    const active = this.slots.activeSlot
+    const active = this.activeSlot
     const r = this.renders[active]
     if (!r || (active !== 'narration' && hasFollowingPage(r))) return
     const auto = r.autoAdvance
@@ -443,10 +429,9 @@ export class DialogBox {
     // 画四个 slot；narration 走横向卷轴，center 才是无框居中大字。
     // narration 最后画 = 叠在最上层(原版 0x3E 中央窗;dlg.0 婶婶画外音、宝箱拾取旁白走此槽)。
     for (const slotId of ['bottom', 'top', 'narration', 'center'] as const) {
-      const entry = this.slots[slotId]
       const r = this.renders[slotId]
-      if (!entry || !r) continue
-      const isActive = this.active && slotId === this.slots.activeSlot
+      if (!r) continue
+      const isActive = this.active && slotId === this.activeSlot
       this.renderSlot(slotId, r, isActive, nowMs)
     }
     if (victory && narration?.visibleText) {
@@ -499,7 +484,7 @@ export class DialogBox {
       renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
         shadow: true,
-        forceRgba: TITLE_RGBA,
+        forceRgba: TITLE_RGB,
       })
     }
 
@@ -560,7 +545,7 @@ export class DialogBox {
       x += renderSpans(this.ctx, [span], x, layout.textY, {
         ...SCROLL_LABEL_STYLE,
         glyphs: this.glyphs,
-        forceRgba: span.color ? colorRgba(span.color) : SCROLL_LABEL_STYLE.forceRgba,
+        forceRgba: span.color ? dialogColorRgb(span.color) : SCROLL_LABEL_STYLE.forceRgba,
       })
     }
     if (isActive) this.pageDone = true
@@ -585,10 +570,10 @@ export class DialogBox {
   }
 
   private bakeCursorStep(frame: RleFrame, cacheKey: number, step: number): HTMLCanvasElement {
-    // step 由 drawCursor 用 % CURSOR_COLOR_COUNT 计算得,恒落在 CURSOR_RGBA 范围内;
+    // step 由 drawCursor 用 % CURSOR_COLOR_COUNT 计算得,恒落在 CURSOR_RGB 范围内;
     // 此处显式判空(引擎 noNonNullAssertion,no `!`),越界兜底第 0 色。
-    const rgba = CURSOR_RGBA[step] ?? CURSOR_RGBA[0]
-    const baked = bakeCursorTinted(frame, rgba ?? [0, 0, 0])
+    const rgb = CURSOR_RGB[step] ?? CURSOR_RGB[0]
+    const baked = bakeCursorTinted(frame, rgb ?? [0, 0, 0])
     this.cursorBaked[cacheKey] = baked
     return baked
   }

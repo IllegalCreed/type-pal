@@ -7,12 +7,8 @@
  */
 
 import type { FileSource } from '@type-pal/reforge'
-import {
-  fsaSource,
-  loadAllAuthorScenes,
-  loadAllProjectMaps,
-  loadCurrentProjectFrom,
-} from '@type-pal/reforge'
+import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
+import { loadFixtureProjectMaps } from '../../../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../../../core/__tests__/author-save-fixture.js'
 import { type EditorState, EditSession } from '../../../core/edit-session.js'
 import { EditorHistoryCoordinator } from '../../../core/editor-history-coordinator.js'
@@ -66,7 +62,7 @@ export async function loadK10ItemProject(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state: EditorState = {
     ...toEditorState(project, scenes, maps, {}, []),
     items: projectEditorItemShells(project),

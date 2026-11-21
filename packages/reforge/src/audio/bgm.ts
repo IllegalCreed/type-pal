@@ -1,15 +1,6 @@
 /**
- * BGM 播放器(W5/X2)—— SpessaSynth 运行时 MIDI 合成(移植一阶段 audio-midi.ts 工程知识)。
- * 浏览器不能裸播 MIDI(要 soundfont 音色)。worklet 属应用壳；TimGM6mb soundfont 属工程资源，
- * 由 manifest 具名角色经 AssetResolver 读取(作者拍板“更像原版，别换大库”)。
- *
- * 一阶段考证守卫(全带):
- * - AudioWorklet 仅 secure context(http 局域网 IP 会"有音效没 BGM")→ 识破给准确提示
- * - soundfont 缺失时 vite SPA fallback 回 HTML → RIFF 魔数守卫识破
- * - 仙剑原 OPL/MIDI 偏干 → CC91 混响 = 0 并 lockController(防 MIDI 自带 CC91 拉高)
- * - skipToFirstNoteOn: false —— 曲头静音是作曲者设的循环间隔,跳掉会循环显赶
- * - autoplay:play 记 last,ctx 解锁(用户手势 resume)后补播;resume 防重入
- * - 合成器/worklet/soundfont按需加载;播放器建立时仍创建AudioContext
+ * 游戏 MIDI 选曲、淡变和 autoplay 的状态由播放器持有。
+ * 浏览器适配器创建 AudioContext，首次需要曲目时才加载共享的合成器、worklet 和工程音色库。
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
 import { initializeBrowserSpessaSynth } from './spessa-browser-runtime.js'
@@ -46,13 +37,13 @@ export interface BgmSequencerAdapter {
   loadNewSongList(songs: Array<{ binary: ArrayBuffer; fileName: string }>): void
   loopCount: number
   play(): void
-  /** D12-1:master gain 淡变(adapter 封装 AudioParam,player 层不碰)。 */
+  /** The browser adapter owns the AudioParam and its scheduled gain. */
   fadeTo(value: number, ms: number): void
-  /** D12-1:取消已调度 ramp 并从当前 gain 值锚定(K2b:接管时防爆音)。 */
+  /** Cancel the scheduled ramp and anchor the gain at its current value. */
   cancelFade(): void
 }
 
-/** D12-1 战斗音乐过渡常量(K4:集中一处,听感验收可调;涉及 fade 的调用点统一引用)。 */
+/** 同一时长用于战斗音乐的进出过渡。 */
 export const BATTLE_MUSIC_TRANSITION_MS = 300
 // Optional music can use the entry window, but unavailable browser audio cannot stall battle.
 const BGM_PREPARATION_TIMEOUT_MS = 1000
@@ -78,50 +69,92 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
   if (!AudioCtor) return undefined
 
   const ctx = new AudioCtor()
-  let disposed = false
-  return {
-    context: ctx,
-    async dispose() {
-      disposed = true
-      if (ctx.state !== 'closed') await ctx.close()
-    },
-    async initialize() {
-      const { Sequencer } = await import('spessasynth_lib')
-      if (disposed) throw new Error('BGM owner 已释放')
-      // D12-1:master gain —— synth → gain → destination;fade 走 gain(adapter 封装)。
-      const gain = ctx.createGain()
+  const lifetime = new AbortController()
+  let initialization: Promise<BgmSequencerAdapter> | undefined
+  let releaseBackend: (() => void) | undefined
+
+  async function initialize(): Promise<BgmSequencerAdapter> {
+    const { signal } = lifetime
+    const gain = ctx.createGain()
+    try {
       gain.gain.value = 1
       gain.connect(ctx.destination)
-      const synth = await initializeBrowserSpessaSynth(ctx, resolver, gain, 'main')
-      if (disposed) throw new Error('BGM owner 已释放')
-      const seq = new Sequencer(synth, { skipToFirstNoteOn: false })
-      const fadeTo = (value: number, ms: number): void => {
+      const { synth, Sequencer } = await initializeBrowserSpessaSynth(
+        ctx,
+        resolver,
+        gain,
+        'main',
+        signal,
+      )
+      let sequencer: InstanceType<typeof Sequencer>
+      try {
+        signal.throwIfAborted()
+        // Keep the authored silence at the start of each play and loop.
+        sequencer = new Sequencer(synth, { skipToFirstNoteOn: false })
+      } catch (cause) {
+        synth.destroy()
+        throw cause
+      }
+      releaseBackend = () => {
+        try {
+          synth.destroy()
+        } finally {
+          gain.disconnect()
+        }
+      }
+      const cancelFade = (): void => {
         gain.gain.cancelScheduledValues(ctx.currentTime)
         gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime)
+      }
+      const fadeTo = (value: number, ms: number): void => {
+        cancelFade()
         if (ms > 0) gain.gain.linearRampToValueAtTime(value, ctx.currentTime + ms / 1000)
         else gain.gain.setValueAtTime(value, ctx.currentTime)
       }
       return {
-        pause: () => seq.pause(),
-        loadNewSongList: (songs) => seq.loadNewSongList(songs),
+        pause: () => sequencer.pause(),
+        loadNewSongList: (songs) => sequencer.loadNewSongList(songs),
         get loopCount() {
-          return seq.loopCount
+          return sequencer.loopCount
         },
         set loopCount(value: number) {
-          seq.loopCount = value
+          sequencer.loopCount = value
         },
-        play: () => seq.play(),
+        play: () => sequencer.play(),
         fadeTo,
-        cancelFade: () => {
-          gain.gain.cancelScheduledValues(ctx.currentTime)
-          gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime)
-        },
+        cancelFade,
+      }
+    } catch (cause) {
+      gain.disconnect()
+      throw cause
+    }
+  }
+
+  return {
+    context: ctx,
+    async initialize() {
+      lifetime.signal.throwIfAborted()
+      initialization ??= initialize()
+      return initialization
+    },
+    async dispose() {
+      lifetime.abort(new DOMException('BGM owner 已释放', 'AbortError'))
+      // The abort releases any initializer-owned worklet before the context stops processing.
+      const pending = initialization
+      initialization = undefined
+      await pending?.catch(() => {})
+      const release = releaseBackend
+      releaseBackend = undefined
+      try {
+        release?.()
+      } finally {
+        if (ctx.state !== 'closed') await ctx.close()
       }
     },
   }
 }
 
-/** 测试入口：注入可控的异步后端，生产代码仍只走 createBgmPlayer。 */
+/** Coordinates playback against the supplied runtime, including a browser with no MIDI backend. */
 export function createBgmPlayerWithRuntime(
   resolver: AudioAssetReader,
   runtime: BgmRuntimeAdapter | undefined,
@@ -139,10 +172,10 @@ export function createBgmPlayerWithRuntime(
     }
 
   const ctx = runtime.context
-  let seq: BgmSequencerAdapter | undefined
-  let ready = false
-  let last: { asset: AssetId; loop: boolean; fadeInMs: number } | undefined
-  let playing: AssetId | undefined
+  let sequencer: BgmSequencerAdapter | undefined
+  // Keep the selection while muted or waiting for autoplay. It can differ from the audible track.
+  let requestedTrack: { asset: AssetId; loop: boolean; fadeInMs: number } | undefined
+  let playingAsset: AssetId | undefined
   let resuming = false
   let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
   let requestSerial = 0
@@ -169,7 +202,10 @@ export function createBgmPlayerWithRuntime(
     })
 
   const isCurrent = (serial: number, asset: AssetId, loop: boolean): boolean =>
-    serial === requestSerial && enabled && last?.asset === asset && last.loop === loop
+    serial === requestSerial &&
+    enabled &&
+    requestedTrack?.asset === asset &&
+    requestedTrack.loop === loop
 
   async function readScore(asset: AssetId, signal?: AbortSignal): Promise<ArrayBuffer | undefined> {
     try {
@@ -187,37 +223,35 @@ export function createBgmPlayerWithRuntime(
     fadeInMs: number,
     prepared?: ArrayBuffer,
   ): Promise<void> {
-    if (!seq || !enabled) return
+    if (!sequencer || !enabled) return
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     if (!isCurrent(serial, asset, loop)) return
     const binary = prepared ?? (await readScore(asset))
     if (!binary || !isCurrent(serial, asset, loop)) return
     const swap = (): void => {
-      const sequencer = seq
-      if (!sequencer) return
-      sequencer.loadNewSongList([{ binary, fileName: asset }])
-      sequencer.loopCount = loop ? Infinity : 0
-      sequencer.play()
-      playing = asset
-      // G3c 快捷路径:fadeInMs=0 也显式回全增益(此前 fade 可能把 gain 留在 0)。
-      sequencer.fadeTo(1, fadeInMs)
+      const player = sequencer
+      if (!player) return
+      player.loadNewSongList([{ binary, fileName: asset }])
+      player.loopCount = loop ? Infinity : 0
+      player.play()
+      playingAsset = asset
+      // Even an immediate switch must restore gain after a stopped fade.
+      player.fadeTo(1, fadeInMs)
     }
-    // D12-1 串行近似换曲:旧曲 fade-out → 完成回调过 isCurrent 门(K2a)→ 换曲 + fade-in。
-    // 首播 / 同曲 / fadeInMs=0 时跳过 fade-out,直接换(硬切向后兼容)。
-    const needFadeOut = playing !== undefined && playing !== asset && fadeInMs > 0
+    const needFadeOut = playingAsset !== undefined && playingAsset !== asset && fadeInMs > 0
     if (!needFadeOut) {
       swap()
       return
     }
-    seq.fadeTo(0, fadeInMs)
+    sequencer.fadeTo(0, fadeInMs)
     await waitForFade(fadeInMs)
     if (!isCurrent(serial, asset, loop)) return // 被新请求接管:放弃换曲(新请求自行处理)
     swap()
   }
 
   function playCurrent(prepared?: ArrayBuffer): void {
-    if (!seq || !enabled || !last) return
-    const current = last
+    if (!sequencer || !enabled || !requestedTrack) return
+    const current = requestedTrack
     const serial = nextRequest()
     void doPlay(current.asset, current.loop, serial, current.fadeInMs, prepared).catch(
       (error: unknown) => {
@@ -227,42 +261,40 @@ export function createBgmPlayerWithRuntime(
     )
   }
 
-  // 首次需要音乐才加载合成器库、worklet和soundfont;AudioContext由runtime提前持有,
-  // 不把后端按需加载误认为播放器建立时没有资源开销。
-  let initP: Promise<void> | null = null
+  // Cache the initialization attempt, including failure, for this player instance.
+  let initialization: Promise<void> | undefined
   const ensureInit = (): Promise<void> => {
-    initP ??= runtime
+    initialization ??= runtime
       .initialize()
       .then((initialized) => {
         if (disposed) {
           initialized.pause()
           return
         }
-        seq = initialized
-        ready = true
+        sequencer = initialized
         playCurrent()
       })
       .catch((err: unknown) => {
         if (!disposed) console.warn('[bgm] ✗ MIDI 后端初始化失败 → BGM 静默:', err)
       })
-    return initP
+    return initialization
   }
 
   function play(asset: AssetId, loop = true, fadeInMs = 0, prepared?: ArrayBuffer): void {
     if (disposed) return
-    if (playing === asset && ctx.state === 'running') {
-      last = { asset, loop, fadeInMs }
+    if (playingAsset === asset && ctx.state === 'running') {
+      requestedTrack = { asset, loop, fadeInMs }
       // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
       // 恢复全增益，但绝不 reload/restart 当前 MIDI。
       nextRequest()
-      seq?.cancelFade()
-      seq?.fadeTo(1, 0)
+      sequencer?.cancelFade()
+      sequencer?.fadeTo(1, 0)
       return // 同曲不重启(场景间共曲不打断)
     }
-    last = { asset, loop, fadeInMs }
-    if (!enabled) return // 关着:只记账(开时重播记账曲),连 init 都不拉
-    if (ready) playCurrent(prepared)
-    else void ensureInit() // 懒初始化;init 尾部按 last 补播
+    requestedTrack = { asset, loop, fadeInMs }
+    if (!enabled) return
+    if (sequencer) playCurrent(prepared)
+    else void ensureInit()
   }
 
   return {
@@ -284,7 +316,7 @@ export function createBgmPlayerWithRuntime(
         const timer = setTimeout(abort, BGM_PREPARATION_TIMEOUT_MS)
         signal.addEventListener('abort', abort, { once: true })
         void Promise.all([ensureInit(), readScore(asset, signal)]).then(([, bytes]) =>
-          finish(ready && enabled && !signal.aborted ? bytes : undefined),
+          finish(sequencer && enabled && !signal.aborted ? bytes : undefined),
         )
       })
       return commit(score)
@@ -292,18 +324,18 @@ export function createBgmPlayerWithRuntime(
     stop(fadeOutMs = 0) {
       if (disposed) return
       const serial = nextRequest()
-      last = undefined
-      if (!seq || playing === undefined || fadeOutMs <= 0) {
-        if (seq) seq.pause()
-        playing = undefined
+      requestedTrack = undefined
+      if (!sequencer || playingAsset === undefined || fadeOutMs <= 0) {
+        sequencer?.pause()
+        playingAsset = undefined
         return
       }
-      // 淡出后停;完成回调过 serial 门(K2a)——期间新 play 接管则不停旧曲。
-      seq.fadeTo(0, fadeOutMs)
+      // A newer request may take over during the fade and must survive this stop.
+      sequencer.fadeTo(0, fadeOutMs)
       void waitForFade(fadeOutMs).then(() => {
-        if (serial === requestSerial && seq && playing !== undefined) {
-          seq.pause()
-          playing = undefined
+        if (serial === requestSerial && sequencer && playingAsset !== undefined) {
+          sequencer.pause()
+          playingAsset = undefined
         }
       })
     },
@@ -313,12 +345,12 @@ export function createBgmPlayerWithRuntime(
       enabled = on
       if (!on) {
         nextRequest()
-        seq?.cancelFade() // G2:fade 期间关音乐不残留 ramp
-        seq?.fadeTo(0, 0)
-        seq?.pause()
-        playing = undefined // 停播;last 保留 → 重开续当前记账曲
-      } else if (last) {
-        if (ready) playCurrent()
+        sequencer?.cancelFade()
+        sequencer?.fadeTo(0, 0)
+        sequencer?.pause()
+        playingAsset = undefined
+      } else if (requestedTrack) {
+        if (sequencer) playCurrent()
         else void ensureInit()
       }
     },
@@ -329,7 +361,7 @@ export function createBgmPlayerWithRuntime(
         .resume()
         .then(() => {
           resuming = false
-          if (!disposed && ready && last) playCurrent()
+          if (!disposed) playCurrent()
         })
         .catch(() => {
           resuming = false
@@ -340,11 +372,17 @@ export function createBgmPlayerWithRuntime(
       disposed = true
       enabled = false
       nextRequest()
-      last = undefined
-      playing = undefined
-      seq?.cancelFade()
-      seq?.pause()
-      disposal = Promise.resolve().then(() => runtime.dispose?.())
+      requestedTrack = undefined
+      playingAsset = undefined
+      disposal = Promise.resolve().then(async () => {
+        try {
+          sequencer?.cancelFade()
+          sequencer?.pause()
+        } finally {
+          sequencer = undefined
+          await runtime.dispose?.()
+        }
+      })
       return disposal
     },
   }

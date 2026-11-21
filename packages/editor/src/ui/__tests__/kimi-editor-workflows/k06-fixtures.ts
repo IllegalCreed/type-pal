@@ -26,10 +26,10 @@ import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../../../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../../../core/__tests__/author-save-fixture.js'
 import { sha256Hex } from '../../../core/binary-signature.js'
 import type { EditorState } from '../../../core/edit-session.js'
@@ -169,7 +169,7 @@ export async function loadCutsceneFixtureProject(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, manifest: state.manifest, catalog: state.assetCatalog }
