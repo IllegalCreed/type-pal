@@ -52,6 +52,7 @@ export function installShellAudioHost() {
         connect: (destination: unknown) => {
           if (destination !== this.destination) throw new Error('unexpected gain destination')
         },
+        disconnect() {},
         gain: {
           value: 1,
           cancelScheduledValues(_time: number) {},

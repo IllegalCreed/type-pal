@@ -69,23 +69,39 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
   if (!AudioCtor) return undefined
 
   const ctx = new AudioCtor()
-  let disposed = false
-  return {
-    context: ctx,
-    async dispose() {
-      disposed = true
-      if (ctx.state !== 'closed') await ctx.close()
-    },
-    async initialize() {
-      const { Sequencer } = await import('spessasynth_lib')
-      if (disposed) throw new Error('BGM owner 已释放')
-      const gain = ctx.createGain()
+  const lifetime = new AbortController()
+  let initialization: Promise<BgmSequencerAdapter> | undefined
+  let releaseBackend: (() => void) | undefined
+
+  async function initialize(): Promise<BgmSequencerAdapter> {
+    const { signal } = lifetime
+    const gain = ctx.createGain()
+    try {
       gain.gain.value = 1
       gain.connect(ctx.destination)
-      const synth = await initializeBrowserSpessaSynth(ctx, resolver, gain, 'main')
-      if (disposed) throw new Error('BGM owner 已释放')
-      // Preserve the authored silence at the beginning of the score, including in loops.
-      const seq = new Sequencer(synth, { skipToFirstNoteOn: false })
+      const { synth, Sequencer } = await initializeBrowserSpessaSynth(
+        ctx,
+        resolver,
+        gain,
+        'main',
+        signal,
+      )
+      let sequencer: InstanceType<typeof Sequencer>
+      try {
+        signal.throwIfAborted()
+        // Keep the authored silence at the start of each play and loop.
+        sequencer = new Sequencer(synth, { skipToFirstNoteOn: false })
+      } catch (cause) {
+        synth.destroy()
+        throw cause
+      }
+      releaseBackend = () => {
+        try {
+          synth.destroy()
+        } finally {
+          gain.disconnect()
+        }
+      }
       const cancelFade = (): void => {
         gain.gain.cancelScheduledValues(ctx.currentTime)
         gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime)
@@ -96,17 +112,43 @@ function createBrowserBgmRuntime(resolver: AudioAssetReader): BgmRuntimeAdapter 
         else gain.gain.setValueAtTime(value, ctx.currentTime)
       }
       return {
-        pause: () => seq.pause(),
-        loadNewSongList: (songs) => seq.loadNewSongList(songs),
+        pause: () => sequencer.pause(),
+        loadNewSongList: (songs) => sequencer.loadNewSongList(songs),
         get loopCount() {
-          return seq.loopCount
+          return sequencer.loopCount
         },
         set loopCount(value: number) {
-          seq.loopCount = value
+          sequencer.loopCount = value
         },
-        play: () => seq.play(),
+        play: () => sequencer.play(),
         fadeTo,
         cancelFade,
+      }
+    } catch (cause) {
+      gain.disconnect()
+      throw cause
+    }
+  }
+
+  return {
+    context: ctx,
+    async initialize() {
+      lifetime.signal.throwIfAborted()
+      initialization ??= initialize()
+      return initialization
+    },
+    async dispose() {
+      lifetime.abort(new DOMException('BGM owner 已释放', 'AbortError'))
+      // The abort releases any initializer-owned worklet before the context stops processing.
+      const pending = initialization
+      initialization = undefined
+      await pending?.catch(() => {})
+      const release = releaseBackend
+      releaseBackend = undefined
+      try {
+        release?.()
+      } finally {
+        if (ctx.state !== 'closed') await ctx.close()
       }
     },
   }
@@ -332,9 +374,15 @@ export function createBgmPlayerWithRuntime(
       nextRequest()
       requestedTrack = undefined
       playingAsset = undefined
-      sequencer?.cancelFade()
-      sequencer?.pause()
-      disposal = Promise.resolve().then(() => runtime.dispose?.())
+      disposal = Promise.resolve().then(async () => {
+        try {
+          sequencer?.cancelFade()
+          sequencer?.pause()
+        } finally {
+          sequencer = undefined
+          await runtime.dispose?.()
+        }
+      })
       return disposal
     },
   }

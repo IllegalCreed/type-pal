@@ -112,30 +112,51 @@ export function createBrowserMidiPreviewRuntime(
   const AudioCtor = browser?.AudioContext ?? browser?.webkitAudioContext
   if (!AudioCtor) return undefined
   const context = new AudioCtor()
-  let disposed = false
+  const lifetime = new AbortController()
+  const { signal } = lifetime
   let sequencer: MidiPreviewSequencerAdapter | undefined
-  let synth: { destroy(): void; disconnect(): void } | undefined
+  let destroySynth: (() => void) | undefined
   let initializePromise: Promise<MidiPreviewSequencerAdapter> | undefined
+
+  async function release(): Promise<void> {
+    const pending = initializePromise
+    initializePromise = undefined
+    if (!sequencer) await pending?.catch(() => {})
+    try {
+      try {
+        sequencer?.pause()
+      } finally {
+        destroySynth?.()
+      }
+    } finally {
+      sequencer = undefined
+      destroySynth = undefined
+      if (context.state !== 'closed') await context.close()
+    }
+  }
 
   return {
     context,
     async initialize() {
-      if (disposed) throw new DOMException('MIDI 试听已关闭', 'AbortError')
+      signal.throwIfAborted()
       if (sequencer) return sequencer
       initializePromise ??= (async () => {
-        const { Sequencer } = await import('spessasynth_lib')
-        const workletSynth = await initializeBrowserSpessaSynth(
+        const { synth: workletSynth, Sequencer } = await initializeBrowserSpessaSynth(
           context,
           resolver,
           context.destination,
           'preview',
+          signal,
         )
-        if (disposed) {
+        let instance: InstanceType<typeof Sequencer>
+        try {
+          signal.throwIfAborted()
+          instance = new Sequencer(workletSynth, { skipToFirstNoteOn: false })
+        } catch (cause) {
           workletSynth.destroy()
-          throw new DOMException('MIDI 试听已关闭', 'AbortError')
+          throw cause
         }
-        synth = workletSynth
-        const instance = new Sequencer(workletSynth, { skipToFirstNoteOn: false })
+        destroySynth = () => workletSynth.destroy()
         const adapter: MidiPreviewSequencerAdapter = {
           load(binary, fileName) {
             instance.loadNewSongList([{ binary, fileName }])
@@ -168,13 +189,9 @@ export function createBrowserMidiPreviewRuntime(
       return initializePromise
     },
     dispose() {
-      if (disposed) return
-      disposed = true
-      sequencer?.pause()
-      synth?.destroy()
-      void context.close()
-      sequencer = undefined
-      synth = undefined
+      if (signal.aborted) return
+      lifetime.abort(new DOMException('MIDI 试听已关闭', 'AbortError'))
+      void release().catch((error: unknown) => console.warn('[midi preview dispose]', error))
     },
   }
 }
