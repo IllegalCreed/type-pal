@@ -51,13 +51,13 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账、同类扩查和定向返工。物品操作专测等活跃 E2E 释放发布证据后集成。[占位精灵与 FBP 预览的输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已通过隔离回归，统一门随稳定窗口执行。
+[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账、同类扩查和定向返工。物品操作专测在 #74 合入后已补真实同时在途的回归。[占位精灵与 FBP 预览的输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已通过隔离回归，统一门随稳定窗口执行。
 
-[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)保留 #73 合并和首轮撤回的原时点统计。物品操作实现本轮恢复保留，专测接续条件见[本轮整改](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改)。
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)保留 #73 合并和首轮撤回的原时点统计。物品操作实现本轮恢复保留，专测裁定与现行证据见[合入后收口](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口)。
 
 迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
 
-[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)和上一窗口的 Content 物品夹具继续 review。用户已裁定资产诊断等 E2E 合入，夹具仍有 E2E 直接消费者。接续前核新主线和对应 Owner。
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)与 Content 物品世界夹具已核实际入口。#74 合入后共收口 6 个文件，剩 11 个 review。改动已做定向验收，统一门随下一稳定窗口。
 
 ### 代码治理：最近完成的文件批次
 

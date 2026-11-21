@@ -53,6 +53,7 @@ import {
   isTestingBattleThrowStatusSource,
   isTestingBattleWindBlowSource,
   isTestingCliffEntrySource,
+  isTestingMenuIsolationSource,
   isTestingPartyPoseSource,
   isTestingQ2CoverageSource,
   isTestingQ2DaliRainSource,
@@ -109,6 +110,7 @@ import {
   restoreTestingBattleVictorySourceBindings,
   restoreTestingBattleWindBlowSourceBindings,
   restoreTestingCliffEntrySourceBindings,
+  restoreTestingMenuIsolationSourceBindings,
   restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
   restoreTestingQ2CoverageSourceBindings,
@@ -182,6 +184,7 @@ import {
   testingBattleVictorySourceRevision,
   testingBattleWindBlowPublicationBase,
   testingCliffEntryPublicationBase,
+  testingMenuIsolationPublicationBase,
   testingPartyPosePublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
@@ -640,6 +643,33 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const preBattleSpecialStatus =
     preBattle && gitTree(root, testingBattleSessionSpecialStatusBase, [testingCatalogPath])
   const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const menuIsolationRevision = admission.testingMenuIsolationSourceRevision
+  if (menuIsolationRevision)
+    assert(
+      admission.testingQ2DisplaySourceRevision && /^[a-f0-9]{40}$/u.test(menuIsolationRevision),
+    )
+  const menuIsolationSource = menuIsolationRevision && gitTree(root, menuIsolationRevision, [])
+  const preMenuIsolation =
+    menuIsolationSource && gitTree(root, testingMenuIsolationPublicationBase, [])
+  const beforeMenuIsolation = (path, bytes) =>
+    preMenuIsolation
+      ? restoreTestingMenuIsolationSourceBindings(path, bytes, {
+          readSource: readCurrentSource,
+          readBase: preMenuIsolation.read,
+          readFixed: menuIsolationSource.read,
+        })
+      : bytes
+  // Both publication readers must present the same predecessor to the content version replay.
+  const readBeforeMenuIsolation = (path) => {
+    const live = readCurrentSource(path)
+    if (!preMenuIsolation) return live
+    if (!isTestingMenuIsolationSource(path)) return live && beforeMenuIsolation(path, live)
+    assert(
+      live?.equals(menuIsolationSource.read(path)),
+      'menu isolation source differs from its candidate',
+    )
+    return preMenuIsolation.read(path)
+  }
   const versionAdmission = admission.testingContentVersionRebinding
   const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
   const versionPublicationBase = versionAdmission?.publicationBaseRevision
@@ -649,7 +679,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     versionPublicationBase &&
     loadTestingContentVersionRebinding({
       admission: versionAdmission,
-      readCurrent: readCurrentSource,
+      readCurrent: readBeforeMenuIsolation,
       readPredecessor: versionPublicationBase.read,
       readAcceptedSource: versionBase.read,
     })
@@ -658,7 +688,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         const live = versionRebinding.readPredecessorSource(path)
         return live && versionRebinding.restore(path, live)
       }
-    : readCurrentSource
+    : readBeforeMenuIsolation
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -1493,7 +1523,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const beforeQ2Coverage = (path, bytes) => {
     const priorDisplay = preDisplay
       ? restoreTestingQ2DisplaySourceBindings(path, bytes, {
-          readSource,
+          readSource: readBeforeMenuIsolation,
           readBase: preDisplay.read,
           readFixed: displaySource.read,
         })
@@ -2147,7 +2177,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorVersionBody = versionRebinding?.restore(path, current) ?? current
+    const priorMenuBody = beforeMenuIsolation(path, current)
+    const priorVersionBody = versionRebinding?.restore(path, priorMenuBody) ?? priorMenuBody
     const artifact = artifacts.get(path)
     if (artifact) {
       // New receipt attachments are ordinary non-executable checkout files;

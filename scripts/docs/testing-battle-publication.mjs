@@ -598,7 +598,7 @@ function encounterHistory(before, current, previous, readSource, stage) {
     previous,
     readSource,
     stage.base,
-    sessionReceipt,
+    stage.receipt ?? sessionReceipt,
   )
   const event = current.at(-1)
   assert.equal(event.action, stage.action)
@@ -2908,6 +2908,44 @@ export function restoreTestingQ2DisplaySourceBindings(path, bytes, inputs) {
     displaySourceStage,
     displaySourceBindings,
     displaySourceReports,
+  )
+}
+
+export const testingMenuIsolationPublicationBase = '10378100a33013d8c2030ca266e125b913e9c6a7'
+const itemUseTestSource = 'packages/reforge/src/menu/item-use-session.test.ts'
+const menuSessionEvidence = 'domains/runtime/menu/menu-session/evidence.json'
+const menuIsolationStage = {
+  ranges: new Map([[itemUseTestSource, { '5-22': '5-22' }]]),
+  base: testingMenuIsolationPublicationBase,
+  receipt: 'docs/tasks/evidence/reforge-menu-item-use-source.md',
+  action: 'item-use-isolation-source-rebinding',
+  date: '2026-11-21',
+}
+const menuIsolationBindings = new Map([
+  [
+    menuSessionEvidence,
+    { id: 'reforge-menu-session', paths: [itemUseTestSource], artifactClaims: true },
+  ],
+])
+const menuIsolationReports = new Map([
+  ['docs/testing/domains/runtime/menu/menu-session/report.md', menuSessionEvidence],
+])
+export const isTestingMenuIsolationSource = (path) => menuIsolationStage.ranges.has(path)
+
+export function restoreTestingMenuIsolationSourceBindings(path, bytes, inputs) {
+  if (
+    path !== catalogPath &&
+    path !== `docs/testing/${menuSessionEvidence}` &&
+    !menuIsolationReports.has(path)
+  )
+    return bytes
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    menuIsolationStage,
+    menuIsolationBindings,
+    menuIsolationReports,
   )
 }
 

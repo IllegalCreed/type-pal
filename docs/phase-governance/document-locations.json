@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "ccf0d88a4ffcf4da081523e966fe03b9f5c06d7002e6ff3f0364b3ff1f572d79",
+      "afterSha256": "b57afbd9a8cf9d3cfee5ce2912b2b772e42f805bd21a2a2fbe0221b2cd3795bf",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "复核 #74 的库存增量及治理台账并集。",
+        "conclusion": "收口六个旧 review 并保留其他逐路径义务。",
         "reviewedLines": 1489,
-        "acceptanceScope": "核主线新增 70 个待核路径和治理原有 3 个新增路径。逐路径结论延续源分支。机器账本核实 3850/1344/17/2489。"
+        "acceptanceScope": "核六个原留项、测试来源与 3850/1350/11/2489 库存。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "b617abf5f90f05308bcfede9e3a89c03ce387cf32f5b13d66263c38ea492d1ae",
+      "afterSha256": "747bc7bba97815a9ee7f0ff0983494d01ada5a8fb8aa32e363530cf33bdb2042",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "复核 #74 看板与回溯治理入口的合并。",
+        "conclusion": "同步已合入 E2E 的代码治理交接。",
         "reviewedLines": 144,
-        "acceptanceScope": "保留 Q2 已合并记录与本地回溯两条入口，按原任务卡限定各自交付。"
+        "acceptanceScope": "核实际 #74 和有限切片，保留其余路线与工作状态。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "2b41519ddb636b4d2ad0c4f3105a687ec0be9873c5bc688e29e430edd6673e7e",
+      "afterSha256": "da3bbb1f6a7dad671252b8331db807f887c42addb5989ea67f5fd3ae5dcbb964",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex 据原件复核",
-        "date": "2026-11-20",
-        "conclusion": "按双端原件、同局比较、码流和现行原文核本轮增量。",
-        "reviewedLines": 146,
-        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。"
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "为 #74 后物品会话的正式来源回执补证据索引。",
+        "reviewedLines": 147,
+        "acceptanceScope": "核唯一新增链接、实际回执身份与日期。既有 Q2 原件导航与恢复范围保留。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "08d19f098b06f3f2c1cae192a27a7f95f6174cb38fc3e60f14a3def8efd618be",
+      "afterSha256": "239d419173192bd10665342ee17985ca532977e693b93f816fe098a84cc10a1d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "复核合并后由任务卡生成的索引。",
+        "conclusion": "核任务索引与现行卡状态相同。",
         "reviewedLines": 616,
-        "acceptanceScope": "机生字节与两边任务身份、当前状态一致。"
+        "acceptanceScope": "只读重新生成逐字节一致，资产登记任务从 blocked 到 review。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a455d9bb6c48df24fb2b087138b12754b512133ea96c128e4ffe68b138d80a50",
+      "afterSha256": "ead5e67ece3ca5e60532383b4bb72411c3fe9beba46e239677c198974971ec2f",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex 据原件复核",
-        "date": "2026-11-20",
-        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
-        "reviewedLines": 11029,
-        "acceptanceScope": "主线：以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "菜单一条 sourceRef 及追加一条适用性历史。",
+        "reviewedLines": 11045,
+        "acceptanceScope": "主线：以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：固定 #74 对比 b55f15625；5–22 段、旧执行、状态、版本、主张和成员完全保持。"
       }
     },
     {
@@ -4763,28 +4763,28 @@
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "95b1d762dcc0a36d6b9d8493a75fc9ddf69c9c075c58aed914785756a2e83928",
+      "afterSha256": "9332c3bbb4345302abf6cfb1aca4c77e0ddb26e40721548452a3ee533ac19915",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex 战外道具复核",
-        "date": "2026-11-19",
-        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
-        "reviewedLines": 259,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：核引用坐标、旧主张、执行身份和新历史条目。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "配对更新一个来源及对应历史。",
+        "reviewedLines": 275,
+        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：核引用坐标、旧主张、执行身份和新历史条目。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：核 sourceRef/previousSourceRefs、文件 SHA、实际旧片段、版本和其它字段。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "78486e4e87bcb824484306c8d4cdd628bdd3ae29e13643c1a0b54bae05b05867",
+      "afterSha256": "97e6753d4ad7e98cec93db840f5079f141d57730516ebbd47e99d23d505b1238",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex 战外道具复核",
-        "date": "2026-11-19",
-        "conclusion": "按主线已接受原件、Q2 原件和候选增量复核集成正文。",
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "只同步配对测试来源，元数据之外保持原字节。",
         "reviewedLines": 72,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：核菜单目标槽位、合法输入和双端证据的职责。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。"
+        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：核菜单目标槽位、合法输入和双端证据的职责。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：核报告正文、旧引用和两次固定 Git 对象，未声明重新执行 E2E。"
       }
     },
     {
@@ -5600,14 +5600,14 @@
     {
       "path": "docs/tasks/cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "3ab33f489b32b2b89185f771ef0824e28605c6fda243a5bea2e2ae9c0fe51fa8",
+      "afterSha256": "b034520d1a0fef0632cfdf24a16a1cda75161054e2c021b248724fd9f6db1ef2",
       "review": {
         "author": "/root",
-        "reviewer": "/root/content_window_doc_review",
-        "date": "2026-11-19",
-        "reviewedLines": 34,
-        "conclusion": "接受继续 blocked 和 review。",
-        "acceptanceScope": "核活跃 E2E 的资产源重叠与用户裁定，实际诊断实现保持基点。 统一门和发布取实际运行。"
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "接回 E2E 合入后的资产归属验收。",
+        "reviewedLines": 45,
+        "acceptanceScope": "核合法缺项/同名登记、实际 Content/Editor 入口、定向结果和保留的统一门。"
       }
     },
     {
@@ -5821,14 +5821,14 @@
     {
       "path": "docs/tasks/cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "525c3d5350544a0d079f0a80538f6c73332b1ff7627b4819cb5de315bce466d3",
+      "afterSha256": "cebdb7750d80df8fa26ce3456053b18f4c1f5f1c266d6194922f1f63229722f4",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-20",
-        "conclusion": "接受实现复审、BGM 纯重构和浏览器资源留项。",
-        "reviewedLines": 85,
-        "acceptanceScope": "核三个音频实现的状态与依赖边界、源码差异和 39 项辅助验证、主线场景准备与事务的核读范围。"
+        "date": "2026-11-21",
+        "conclusion": "按实际调用与证据记录 #74 后的六个关闭。",
+        "reviewedLines": 103,
+        "acceptanceScope": "核代码差异、逐文件关键证据、未闭合风险、原件及门禁范围。"
       }
     },
     {
@@ -5842,6 +5842,19 @@
         "conclusion": "接受两个工具的固定输出合同和精确回执。",
         "reviewedLines": 43,
         "acceptanceScope": "核冻结旧实现、真实子进程失败及恢复、两路目标边界及待统一门。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/reforge-menu-item-use-source.md",
+      "templateId": "evidence-receipt-v1",
+      "afterSha256": "38e563f1bf04d6d97126ba2a1363d1a4a7ae3fff71cda0fa5434cafe37fcddac",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-21",
+        "conclusion": "保存三个来源载体共用的适用性回执。",
+        "reviewedLines": 27,
+        "acceptanceScope": "核原片段、候选/原件映射及保留原发布合约，定向执行与 E2E 信用独立。 核模板所需限制与复核节。"
       }
     }
   ],
@@ -7538,9 +7551,9 @@
     },
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "3d12e5bd1e31790f74b82fb2eff7e81d3b0e4c090be4dfa6c11ae0a8d3293413",
-      "bytes": 62847,
-      "purpose": "Game 后版本对账、同类扩查、定向回归、实现复审及逐文件裁定。历史成员原样保留，含未集成菜单补丁。"
+      "sha256": "560c564d04f765951e185a1efc4e4a132142d293b16fb6481eac73d8be33e0ac",
+      "bytes": 100666,
+      "purpose": "Game 后关闭复核与 #74 后六个限域收口的原件。旧成员保留；新增三份失败、首帧反控、三组定向及静态回执。 来源回放失败保留独立执行身份、恢复补丁和必要原件。"
     }
   ],
   "artifactAliases": [],

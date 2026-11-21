@@ -4,7 +4,7 @@ Status: review
 Phase: cross-phase
 Owner: Codex
 Reviewer: Codex
-Last reviewed: 2026-11-20
+Last reviewed: 2026-11-21
 Template: task-card-v1 / 1.0.0
 Visual Verification Timing: N/A
 
@@ -82,3 +82,21 @@ BGM 浏览器适配器只关闭 AudioContext，成功取得和迟到获得的合
 结构改动与输出行为修复分提交。保留真实宿主、注入式音频后端和两个公共入口。39 项相邻定向与 Reforge typecheck 验证改动，源码归属、命名、复用和留项取同一归档 `follow-up/implementation/`。
 
 另通读主线版本的 `scene-preparer.ts` 与 `scene-switch-transaction.ts`，核启动、读档和脚本切场的调用。预检负责在首个等待前冻结场景读取要用的世界、脚本和换装定义；宿主负责资源准备之后的请求归属及同步提交。脚本切场在呈现前后各核一次归属，失败清理只由当前请求发起。对比三个入口后保留分层。场景预检器仍由活跃 E2E 改动，核读结论绑定本次主线候选。
+
+### Q2 合入后的文件收口
+
+核 [#74](https://github.com/IllegalCreed/type-pal/pull/74) 合入 `10378100a33013d8c2030ca266e125b913e9c6a7` 和主线 Documentation、Coverage ratchet。治理树合并提交 `bf23bc41a` 为本轮代码前驱。活动 E2E 的本地后继修改未占本轮所改入口。五项源码及专测处置见下表，资产诊断的完整审查单独留在[原资源卡](CONTENT-ASSET-RECORD-OWNERSHIP-1.md#状态与交接)。已核旧八维、相关源字节与调用；直接补原留项和受本轮差异影响的合同。
+
+| 原 review 路径 | A 正确性与边界 | B 注释 | C 内聚与 D 复用 | E 测试质量 | F 表达与 G 无多余部分 | H 可测性 |
+|---|---|---|---|---|---|---|
+| `audio/sfx.ts` · `2610fa8d7` | main 与战斗试玩使用默认适配器。非法预算先报原错误，构造前无任何上下文、读或解码。成功路径沿用状态和释放。 | 工作集、冷缓存及排队说明与实现一致。 | 构造器持有预算验收；既有浏览器适配器仍独占音频 IO 和关闭。使用注入端口时无需创建默认实例。 | 旧 Node 用例未观察默认资源。相同预算矩阵放回浏览器入口，旧版因打开四次失败，真错误与零资源读取同时观察。 | 将默认创建移至校验后，保留 reader、adapter、budget 三项真实职责。 | 浏览器构造边界和现有注入式播放适配器各自可控，无需硬件设备。 |
+| `__tests__/item-world-fixtures.ts` · `c15a5daa2` | 用真实 validateActors、validateItems、instantiate、buildWorld。描述数组、角色嵌套值独立，测试的显式覆盖按原值使用。 | 指明未校验物品仅用于生产防御测试，去掉模型和旧批号。 | 合法物品复用原始构造再校验，世界/物品测试共用同一真实数据，其中不复制产品流程。 | 九个专测只更新入口，原断言身份仍有定向通过。三个现行证人脚本同步精确路径；历史路径由原 Git 对象恢复。 | 以实际物品和世界职责命名，删永远被输入覆盖的默认 ID 及重复构造。 | 测试各自持有默认嵌套对象和校验边界，无共享修改依赖。 |
+| `gameplay-clock.ts` · `7ee71a17b` | 主循环的 RuntimeFrameSession 首帧锚在步尾，前置等待以步首重锚。试玩宿主直接消费正常 realDt/gameplayDt。保留冻结、上限及回退。 | 解释首帧时间戳代表步尾，避免重复加已发生步长。 | Clock 持有时间，FrameSession 持有计时器及宿主状态，两条实际消费者复用单一 Clock。 | 生产会话 150 ms 等待在 100 ms 首步后余 50 ms，冻结间隙不动，再一步结算。误用步尾则错余 150 ms，新例单红。 | 字段分别承载真实帧差、玩法差、绝对玩法时刻；不用额外初始布尔量。 | 注入帧时刻直接观察业务等待，无假 wall clock。 |
+| `text/palette-color.ts` · `ded64f018` | 以 PAT.MKF 首块白天段 12 个颜色索引核原值及顺序。对白文字、姓名、光标和标题菜单都读取相同通道。 | 资源索引及字模透明度与真实 RGB 载体一致。 | 模块只拥有主题色值；不同渲染缓存和透明度仍分别由使用者持有。 | 补完整六色次序的独立原盘 oracle，删数组长度自比。定位实际字模像素和对白/菜单绘制相邻。 | 私有模块出口和局部变量用 RGB 名，三通道不冒称 Alpha；步数供现用两个时间调用。 | 固定色可独立比较，Canvas 继续由真实像素用例检验。 |
+| `menu/item-use-session.test.ts` · `b55f15625` | 两个合法会话各进一个挂起执行，撤 A 时 B 保持在途，另核 A 只在 finally 后空闲。两条 promise 在 finally 放行。 | 新标题描述实际先后及独立取消，不沿用原先与断言不符的结论。 | 生产实例持有控制器与占用；测试复用既有 deferred，只走公开会话入口。 | 原隔离反控：共享控制器时旧三例全绿，新实例隔离单红。复用该原件并在最新 #74 合测菜单。 | 原三合同数量保持，旧的完成后取消观察被真实同时在途场景取代。 | 两个释放点及信号独立，执行次序无需定时。 |
+
+物品操作的新 [来源回执](../evidence/reforge-menu-item-use-source.md) 固定原范围 5–22 与新全文件身份。报告、catalog 和机器证据按同一历史事件继承原片段，原始候选、业务主张和运行原件沿用各自来源。复用既有发布的候选及片段校验，受影响的测试版次在当前治理提交单独保存。
+
+[唯一执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz) 追加 `after-q2/`，含 Content 124、Editor 32、Reforge 119 项的显式 default reporter 与 JSON，三组 stderr 为空。三份业务红例与一个首帧反控保留各自日志；Content、Editor、Reforge typecheck 与改动静态检查零诊断。整窗全仓、官方 coverage ratchet、protected fast 留到较大稳定批次。
+
+账本 3,850 tracked、1,350 closed、11 review、2,489 pending。剩余 11 项继续按原[呈现治理卡](QUALITY-REFORGE-PRESENTATION-1.md#留项与后继验证)和本卡音频项处理。E2E 合入解除原写入等待，公开解码/全图读取/试听出口、资源迟到销毁、活动页音效、对白/系统菜单冗余状态和启动路由仍各有独立验收缺口。菜单数值面板还依赖 #74 发布片段，锚点必须按真正改动同步。奖励队列要经调用方核定并发条件及失败后归属。
