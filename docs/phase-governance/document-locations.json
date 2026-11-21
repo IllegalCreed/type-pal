@@ -674,7 +674,7 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "38301970bf3948d0f0341cf88ba5dd0bafd9e06bcffcc9b1d3fb806f2ebfd222",
+      "afterSha256": "5cd575a7de187ebd9c6df3bc020f27477a1c079129899aa0c7e1d91b7b5810a6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
@@ -682,9 +682,9 @@
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "记录八项处置和三项具体余留，保持闭合和 pending 库存口径。",
-        "reviewedLines": 1490,
-        "acceptanceScope": "核七条关闭、一条退役、两项新增和专测改名位移；原范围外状态继续。"
+        "conclusion": "关闭一个旧 review，独立新增一个测试夹具，另两项留审。",
+        "reviewedLines": 1491,
+        "acceptanceScope": "核对逐图读测试迁移、音频留项和 3852/1361/2/2489 机器计数。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "8116a629b727bcb215a6205b12074549b9e21a77b73432437e80e51bf61034d4",
+      "afterSha256": "6dbc390a44354b84596582f8db0657973a6aee4ce30912758805c938a62664be",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "同步本轮范围和余留入口。",
+        "conclusion": "两处获批接口的处置与两项余留已进入活动看板。",
         "reviewedLines": 144,
-        "acceptanceScope": "核 #74 后旧统计与现行八项处理，其他活动分工无变化。"
+        "acceptanceScope": "只更新本治理线摘要与现行卡的导航。"
       }
     },
     {
@@ -5797,14 +5797,14 @@
     {
       "path": "docs/tasks/cards/QUALITY-REFORGE-PRESENTATION-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "de1369145af189f6990753fe39c15d6f844d9127a818e1454d4a7e9961c26c72",
+      "afterSha256": "95eaf209f8706a43c317389be40840cf61efbc431bdf5e4ba29ce9a16964317b",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
         "date": "2026-11-21",
-        "conclusion": "核活动页与 Spessa 工作域复审、五个相邻留项和三项未决。",
-        "reviewedLines": 114,
-        "acceptanceScope": "核实际八项处置、源证与合跑反例和补跑身份。限定指定 caller，不授予全仓或 E2E 信用。"
+        "conclusion": "保存用户批准的两处退役、逐图测试的去向与实际门结果。",
+        "reviewedLines": 126,
+        "acceptanceScope": "仅核本轮增量、旧运行原件保全、源/候选与现行命令，不授予全仓或 E2E 信用。"
       }
     },
     {
@@ -7579,9 +7579,9 @@
     },
     {
       "path": "docs/tasks/evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz",
-      "sha256": "ad5a4704c7ff23b6143b3adc33d15bc9fde8e794bbe711e197f5cd9b09010aa0",
-      "bytes": 159300,
-      "purpose": "Game 后关闭复核与 Q2 合入后复审的原件。保留旧成员，新增场景页、音频释放、色表和提示队列的反例及分组定向结果。"
+      "sha256": "364f569f1c0f5ebd5fc6732ef55c801c07b643273a0716af7131c363b05e2d30",
+      "bytes": 196539,
+      "purpose": "Game 后关闭复核、Q2 后场景与音频复审，以及两处旧接口退役的原件。保留各阶段执行、失败和反控身份。"
     }
   ],
   "artifactAliases": [],

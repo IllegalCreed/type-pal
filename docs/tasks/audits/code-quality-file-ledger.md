@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,851。
-当前已闭合核验：1,359；已读但待审：3；尚未逐文件核验：2,489；合计未闭合：2,492。
+起始基点机器清单：2,962。当前 tracked 清单：3,852。
+当前已闭合核验：1,361；已读但待审：2；尚未逐文件核验：2,489；合计未闭合：2,491。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -134,7 +134,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/audio/midi-preview.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/audio/bgm.browser-runtime.test.ts` | test | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 从真实 BGM 工厂观察 WorkletSynthesizer 与浏览器上下文先后释放，区分就绪和在途。 |
 | `packages/reforge/src/audio/browser-midi-fixture.ts` | fixture | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 共用合法 MIDI/RIFF 边界与浏览器端口替身，正例和受控取消互不依赖。 |
-| `packages/reforge/src/audio/midi-preview.ts` | product | review | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 浏览器取消接线和播放所有权已复核。锁定上游监听与公开 duration 的处理待决。 |
+| `packages/reforge/src/audio/midi-preview.ts` | product | review | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 用户批准的旧适配器时长字段已退役，真实曲谱仍提供时长。余项为锁定的 Sequencer 窗口监听。 |
 | `packages/reforge/src/audio/sfx-readiness.collections.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/audio/sfx-readiness.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 消费实际活动页，保留 canonical 脚本根。真实预检恢复入口与合法命名默认页都有判别回归。 |
@@ -170,7 +170,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/menu/system-box.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 系统状态和绘制各有 owner。删除从无有值的占位接线，现行开关选择及绘制由正式入口证明。 |
 | `packages/reforge/src/project-loader.image-cache-binding.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/project-loader.reference-boundaries.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/project-loader.ts` | product | review | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 保留逐图生产入口。全图批读只剩测试夹具和历史对照入口，包级出口待裁定。 |
+| `packages/reforge/src/project-loader.ts` | product | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 用户批准退役全图批读。正式逐图入口及数据校验保留，地图读取失败与并发身份经独立反控。 |
 | `packages/reforge/src/quantize.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/quantize.ts` | product | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
 | `packages/reforge/src/render-occlusion.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 全文八维及相关调用、输入、命名和测试合同见逐路径证据。 |
@@ -216,7 +216,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/menu/shop-box.rendering.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/menu/system-box.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.admission.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
-| `packages/reforge/src/project-loader.map-loading.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
+| `packages/reforge/src/project-loader.map-loading.test.ts` | test | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 两条批读合同迁到现用入口，验证乱序时的稳定地图身份、单次失败和另图成功。 |
 | `packages/reforge/src/project-loader.projection.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.scene-loading.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
 | `packages/reforge/src/project-loader.stamps.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |
@@ -342,6 +342,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/script-library.ts` | product | 已验证 | [后继验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 保留内存引用与目录校验，拒绝伪登记和数组字典。四个旧写入导出退役，测试身份已映射。 |
 | `packages/content/src/script-chunk-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 内存分片专测，保留原结构、归属、闭包和稳定 id 观察。Unicode 路径的字节及 hash 由固定独立值验收。 |
 | `packages/content/src/script-command-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 生产命令和页守卫入口。迁移原投影、场景入口与已退出字段的独有断言，测试结果按完整身份映射。 |
+| `packages/editor/src/__tests__/project-map-fixtures.ts` | fixture | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 测试态按稳定 ID 装配真实单图读取结果；默认图、多图及相邻编辑会话定向通过。 |
 | `packages/editor/src/core/__tests__/script-reference-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 已按当前 loader 建合法工程后，仅注入明确内存脚本引用。两组实际诊断消费者，独立 TextEncoder 字节。 |
 | `packages/reforge/src/__tests__/script-chunk-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 两场景和一对共享桶的明确读取输入。原生 UTF-8 长度经实际库守卫校验，正向及释放/拒绝路径采用。 |
 | `packages/reforge/src/runnable-project-loader.test.ts` | test | 已验证 | [启动与光标 A–H](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-启动准入与内置对白光标) | 旧执行身份迁移，裸 FileSource、HTTP 及真实启动场景。合并门待整批。 |
