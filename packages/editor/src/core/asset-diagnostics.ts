@@ -5,6 +5,7 @@ import {
   type AssetKind,
   type AssetRecordV1,
   type AssetReferenceOrigin,
+  findAssetRecord,
   type LocatedAssetReference,
   validateAssetReferenceClosure,
 } from '@type-pal/content'
@@ -91,7 +92,7 @@ export function collectEditorAssetDiagnostics(
 ): EditorAssetDiagnostic[] {
   const failingReferencesByIssue = new Map<string, LocatedAssetReference[]>()
   for (const reference of references) {
-    const record = catalog.assets[reference.asset]
+    const record = findAssetRecord(catalog, reference.asset)
     const code = !record
       ? 'missing-asset'
       : record.kind !== reference.expectedKind
@@ -105,7 +106,7 @@ export function collectEditorAssetDiagnostics(
   }
   const referenceCursorByIssue = new Map<string, number>()
   const unusedAssetByWhere = new Map(
-    Object.keys(catalog.assets).map((id) => [`assets[${JSON.stringify(id)}]`, id as AssetId]),
+    Object.keys(catalog.assets).map((id) => [`assets[${JSON.stringify(id)}]`, id]),
   )
   return validateAssetReferenceClosure(catalog, references).map((issue) => {
     const issueKey = JSON.stringify([issue.code, issue.where])
@@ -114,7 +115,7 @@ export function collectEditorAssetDiagnostics(
     const reference = issueReferences?.[referenceIndex]
     if (reference) referenceCursorByIssue.set(issueKey, referenceIndex + 1)
     const assetId = reference?.asset ?? unusedAssetByWhere.get(issue.where)
-    const record = assetId ? catalog.assets[assetId] : undefined
+    const record = assetId ? findAssetRecord(catalog, assetId) : undefined
     const expectedKind = reference?.expectedKind
     const actualKind = record?.kind
     return {

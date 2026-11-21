@@ -134,26 +134,40 @@ describe('编辑器资源诊断展示', () => {
     ])
   })
 
-  test('a missing actor portrait names the expected resource kind', () => {
+  test('an actor portrait requires a registered asset, including for constructor', () => {
     const actors = validateActors([
       {
         id: 'a',
         name: 'name.a',
         spriteId: 'sprite.a',
-        portraits: { default: 'portrait.gone' },
+        portraits: { default: 'constructor' },
       },
     ])
     const references = collectAssetReferences({ actors })
+    const catalog = validateAssetCatalog({
+      version: 1,
+      assets: {
+        constructor: {
+          kind: 'portrait',
+          path: 'assets/authored/portrait/a.png',
+          mediaType: 'image/png',
+          bytes: 1,
+          sha256: 'a'.repeat(64),
+          origin: { kind: 'authored' },
+        },
+      },
+    })
+    expect(collectEditorAssetDiagnostics(catalog, references)).toEqual([])
     expect(collectEditorAssetDiagnostics({ version: 1, assets: {} }, references)).toEqual([
       {
         severity: 'error',
         code: 'missing-asset',
         where: 'actors[0].portraits.default',
-        message: 'AssetId "portrait.gone" 不在 catalog',
-        assetId: 'portrait.gone',
+        message: 'AssetId "constructor" 不在 catalog',
+        assetId: 'constructor',
         expectedKind: 'portrait',
         origin: { kind: 'actor', id: 'a', section: 'portraits' },
-        title: '角色立绘资源 ID “portrait.gone”不存在',
+        title: '角色立绘资源 ID “constructor”不存在',
       },
     ])
   })
