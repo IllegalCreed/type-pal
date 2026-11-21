@@ -102,7 +102,6 @@ export interface MenuView {
   readonly saveBrowser: Readonly<SaveBrowserState>
   readonly statusIdx: number
   readonly overwriteYes: boolean
-  readonly systemPlaceholder: string | undefined
 }
 
 export class MenuSession {
@@ -119,7 +118,6 @@ export class MenuSession {
   #lastSystemCursor = 0
   #statusIdx = 0
   #overwriteYes = false
-  #systemPlaceholder: string | undefined
 
   constructor(
     private readonly content: MenuContent,
@@ -144,7 +142,6 @@ export class MenuSession {
       saveBrowser: this.#saveBrowser,
       statusIdx: this.#statusIdx,
       overwriteYes: this.#overwriteYes,
-      systemPlaceholder: this.#systemPlaceholder,
     }
   }
 
@@ -426,14 +423,12 @@ export class MenuSession {
         }
       }
     } else {
-      // menu 阶段:方向键选;Enter 确认(quit→confirm / 占位→提示);Esc 回 hub
+      // 方向键选项，确认后按各项导航，Esc 返回主菜单。
       if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
         this.#systemMenu = systemMoveCursor(this.#systemMenu, 'up')
-        this.#systemPlaceholder = undefined
       }
       if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
         this.#systemMenu = systemMoveCursor(this.#systemMenu, 'down')
-        this.#systemPlaceholder = undefined
       }
       if (interact) {
         const r = systemConfirm(this.#systemMenu, {
@@ -489,7 +484,6 @@ export class MenuSession {
         this.#statusIdx = 0 // 开状态板从首位队员看起
       } else if (this.#menu.openPanel === 'system') {
         this.#systemMenu = openSystemMenu(this.#lastSystemCursor) // 恢复上次光标(原版 iCurSystemMenuItem)
-        this.#systemPlaceholder = undefined
       }
     }
     if (esc) this.#menu = back(this.#menu)

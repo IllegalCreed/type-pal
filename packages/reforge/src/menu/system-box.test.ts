@@ -100,14 +100,14 @@ describe('系统菜单绘制', () => {
     expect(flipped[6]).toEqual([lookupText('menu.system.yes', locale), 220, 110, [247, 231, 109]])
   })
 
-  test('音乐开关显示关与开，并绘制显式传入的提示', () => {
+  test('音乐开关在五个系统选项上方绘制关与开', () => {
     const h = host()
     const state = systemConfirm(openSystemMenu(2), { musicOn: true, soundOn: true }).state
     textCalls.mockClear()
-    drawSystemMenu(h.ctx, state, menuAssets(), glyphTable(), 0, locale, 'menu.system.quit')
+    drawSystemMenu(h.ctx, state, menuAssets(), glyphTable(), 0, locale)
     const rows = texts()
     expect(rows[5]).toEqual([lookupText('menu.system.off', locale), 145, 110, [199, 186, 174]])
     expect(rows[6]).toEqual([lookupText('menu.system.on', locale), 220, 110, [247, 231, 109]])
-    expect(rows[7]).toEqual([lookupText('menu.system.quit', locale), 130, 84, [166, 40, 32]])
+    expect(rows).toHaveLength(7)
   })
 })

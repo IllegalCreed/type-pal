@@ -4,7 +4,6 @@ import {
   requireDefaultEntry,
   resolveInitialSceneId,
   resolveStartupEntry,
-  shouldPlayEntryIntro,
   shouldShowOpeningMenu,
 } from './startup-entry.js'
 
@@ -68,11 +67,5 @@ describe('canonical startup entry resolution', () => {
     expect(shouldShowOpeningMenu({ ...base, requestedSceneId: 's1' })).toBe(false)
     expect(shouldShowOpeningMenu({ ...base, requestedSceneId: 'missing' })).toBe(true)
     expect(shouldShowOpeningMenu({ ...base, menuRequested: false })).toBe(false)
-  })
-
-  test('入口介绍视频的启动策略只选中菜单新局路由', () => {
-    expect(shouldPlayEntryIntro('direct')).toBe(false)
-    expect(shouldPlayEntryIntro('menu-load')).toBe(false)
-    expect(shouldPlayEntryIntro('menu-entry')).toBe(true)
   })
 })

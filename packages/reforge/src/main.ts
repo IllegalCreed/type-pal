@@ -226,7 +226,6 @@ import {
   requireDefaultEntry,
   resolveInitialSceneId,
   resolveStartupEntry,
-  shouldPlayEntryIntro,
   shouldShowOpeningMenu,
 } from './startup-entry.js'
 import { loadGlyphs } from './text/glyph.js'
@@ -567,7 +566,7 @@ export async function bootGame(
       const chosen = entryPoints.find((entry) => entry.id === decision.entryId)
       if (!chosen) throw new Error(`标题菜单返回未知入口 "${decision.entryId}"`)
       bootEntry = chosen
-      if (shouldPlayEntryIntro('menu-entry')) await playVideoAsset(bootEntry.introVideo)
+      await playVideoAsset(bootEntry.introVideo)
     }
   }
   // ?party=<id,id,…> dev 覆写开局队伍(验合击等多队员功能;满血在 buildWorld 后统一拉);首位应为世界队长
@@ -6356,7 +6355,6 @@ export async function bootGame(
         saveBrowser,
         statusIdx,
         overwriteYes,
-        systemPlaceholder,
       } = menus.view
       ctx.save()
       ctx.scale(WORLD_SCALE, WORLD_SCALE)
@@ -6409,15 +6407,7 @@ export async function bootGame(
         // 级联(主菜单常驻;status 全屏分流在 render 内)。系统菜单 = 叠在主菜单级联上的子层。
         menuBox.render(ctx, menu, world, performance.now(), statusIdx)
         if (menu.openPanel === 'system') {
-          drawSystemMenu(
-            ctx,
-            systemMenu,
-            menuAssets,
-            glyphs,
-            performance.now(),
-            project.locale,
-            systemPlaceholder,
-          )
+          drawSystemMenu(ctx, systemMenu, menuAssets, glyphs, performance.now(), project.locale)
         }
       }
       ctx.restore()

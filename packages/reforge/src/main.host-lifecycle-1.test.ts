@@ -25,6 +25,7 @@ let host: ShellHost | undefined
 afterEach(async () => {
   await host?.close()
   host = undefined
+  Reflect.deleteProperty(window, '__tpObserve')
 })
 
 interface VideoFixtureOptions {
@@ -159,6 +160,22 @@ function cinemaScene(): AuthorSceneDef {
 
 const liveVideo = (): HTMLVideoElement | null => document.querySelector('video')
 
+async function waitForOpeningPhase(host: ShellHost, phase: 'menu' | 'load') {
+  await vi.waitFor(async () => {
+    await host.frame()
+    const probe: unknown = Reflect.get(window, '__tpObserve')
+    if (
+      !probe ||
+      typeof probe !== 'object' ||
+      !('readBoot' in probe) ||
+      typeof probe.readBoot !== 'function'
+    ) {
+      throw new Error('boot observation unavailable')
+    }
+    expect(probe.readBoot()).toMatchObject({ opening: { phase } })
+  })
+}
+
 /** 含真实异步 IO(IDB/位图解码)的有界推进。 */
 async function advance(predicate: () => boolean, frames = 120): Promise<void> {
   for (let i = 0; i < frames && !predicate(); i++) {
@@ -189,22 +206,16 @@ async function bootAndAwait(fixture: {
 test('标题读档入口:标题菜单选读档后从真实存档完成开局', async () => {
   host = await installShellHost('?menu&skip-startup=1')
   await seedSlot('b', 77, seedMeta('quick', Date.now()))
-  const fixture = await shellProject()
+  const plays = installVideoIo()
+  const fixture = await projectWithVideos({ introVideoId: 'video.intro' })
   const input = structuredClone(projectData(fixture.project))
   const { bootGame } = await import('./main.js')
   const pending = bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
-  await vi.waitFor(() => expect(host!.frames.size).toBe(1))
-  // 菜单项 = [start, second, 读取进度];两次下移选中读取进度。
-  await key(host, 'ArrowDown')
-  await key(host, 'ArrowDown')
+  await waitForOpeningPhase(host, 'menu')
+  // 从首项向上环绕到最后的读档项。
+  await key(host, 'ArrowUp')
   await key(host, 'Enter')
-  // 读档相位异步载 metas + 缩略图后打开存档浏览(load 模式):以槽位文案出现为确定性信号。
-  await vi.waitFor(() => {
-    host?.frame()
-    expect(host!.text.mock.calls.some((call) => call[1].some((span) => span.text === '快速'))).toBe(
-      true,
-    )
-  })
+  await waitForOpeningPhase(host, 'load')
   // cursor 0=auto(空,确认无效)→ 下移到 quick 后确认读取。
   await key(host, 'ArrowDown')
   await key(host, 'Enter')
@@ -212,6 +223,7 @@ test('标题读档入口:标题菜单选读档后从真实存档完成开局', a
   host.frame()
   expect(observation().sceneId).toBe('b')
   expect(observation().world.money).toBe(77)
+  expect(plays).toEqual([])
   expect(projectData(fixture.project)).toEqual(input)
 })
 
@@ -221,7 +233,7 @@ test('标题入口视频:选中入口先播 intro 视频再进世界', async () 
   const fixture = await projectWithVideos({ introVideoId: 'video.intro' })
   const { bootGame } = await import('./main.js')
   const pending = bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
-  await vi.waitFor(() => expect(host!.frames.size).toBe(1))
+  await waitForOpeningPhase(host, 'menu')
   await key(host, 'Enter') // 选中 start(带 introVideo)
   await vi.waitFor(() => expect(liveVideo()).toBeTruthy())
   expect(plays).toEqual([`https://fixture.invalid/${fixture.videos.get('video.intro')}`])
@@ -249,7 +261,7 @@ test('启动视频序列:无 skip-startup 时按 manifest 角色顺序播完两�
     `https://fixture.invalid/${fixture.videos.get('video.splash')}`,
   ])
   // 两段播完后标题菜单接管帧循环。
-  await vi.waitFor(() => expect(host!.frames.size).toBe(1))
+  await waitForOpeningPhase(host, 'menu')
   expect(Reflect.has(window, '__reforge')).toBe(false)
   await key(host, 'Escape')
   await key(host, 'Enter')
