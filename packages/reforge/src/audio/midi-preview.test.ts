@@ -42,7 +42,6 @@ function sequencer() {
     load,
     play,
     pause,
-    duration: 8,
     get currentTime() {
       return currentTime
     },

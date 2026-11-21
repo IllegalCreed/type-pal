@@ -109,7 +109,6 @@ test('试听 runtime：适配器透传 sequencer 传输操作与快照字段，�
   expect(sequencer?.options).toMatchObject({ skipToFirstNoteOn: false })
   adapter.currentTime = 3
   expect(adapter.currentTime).toBe(3)
-  expect(adapter.duration).toBe(12.5)
   expect(adapter.paused).toBe(true)
   expect(adapter.finished).toBe(false)
   await expect(runtime.initialize()).resolves.toBe(adapter)

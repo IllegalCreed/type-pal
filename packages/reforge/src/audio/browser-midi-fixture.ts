@@ -50,7 +50,6 @@ export const spessa = (() => {
   class SequencerDouble {
     loopCount = 1
     private currentTimeValue = 0
-    readonly durationValue = 12.5
     private readonly pausedValue = true
     private readonly finishedValue = false
     readonly loaded: { binary: ArrayBuffer; fileName: string }[] = []
@@ -76,9 +75,6 @@ export const spessa = (() => {
     }
     set currentTime(value: number) {
       this.currentTimeValue = value
-    }
-    get duration(): number {
-      return this.durationValue
     }
     get paused(): boolean {
       return this.pausedValue

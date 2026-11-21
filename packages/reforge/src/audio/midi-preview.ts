@@ -36,7 +36,6 @@ export interface MidiPreviewSequencerAdapter {
   play(): void
   pause(): void
   currentTime: number
-  readonly duration: number
   readonly paused: boolean
   readonly finished: boolean
 }
@@ -169,9 +168,6 @@ export function createBrowserMidiPreviewRuntime(
           },
           set currentTime(value: number) {
             instance.currentTime = value
-          },
-          get duration() {
-            return instance.duration
           },
           get paused() {
             return instance.paused

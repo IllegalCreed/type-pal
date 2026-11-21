@@ -15,7 +15,7 @@ interface PreviewHarness {
   plays: number[]
 }
 
-function harness(sequencerDuration = 10): PreviewHarness {
+function harness(): PreviewHarness {
   const loads: PreviewHarness['loads'] = []
   const plays: number[] = []
   let currentTime = 0
@@ -38,9 +38,6 @@ function harness(sequencerDuration = 10): PreviewHarness {
     },
     set currentTime(value) {
       currentTime = value
-    },
-    get duration() {
-      return sequencerDuration
     },
     get paused() {
       return paused
@@ -165,7 +162,7 @@ describe('MIDI 播放中切换曲目', () => {
 
 describe('MIDI 播放中切换失败', () => {
   test('新曲读取失败时，停止后的快照不沿用旧曲时长，重试后报告新曲时长', async () => {
-    const h = harness(0.5)
+    const h = harness()
     const bytesA = singleNoteMidi(60, 96)
     const bytesB = singleNoteMidi(62, 48)
     const t = createMidiPreviewTransport(
