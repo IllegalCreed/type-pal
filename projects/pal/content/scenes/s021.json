@@ -1683,7 +1683,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 160
+                      "ms": 400
                     },
                     {
                       "kind": "repeat",
@@ -1695,7 +1695,8 @@
                           "kind": "nudgeParty"
                         },
                         {
-                          "kind": "clearDialog"
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     },
@@ -1732,7 +1733,7 @@
                         },
                         {
                           "kind": "wait",
-                          "ms": 80
+                          "ms": 200
                         }
                       ]
                     },
@@ -1778,12 +1779,12 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "kind": "repeat",
                       "count": 2,
                       "body": [
-                        {
-                          "kind": "clearDialog"
-                        },
                         {
                           "dir": "up",
                           "kind": "stepEntity",
@@ -1791,11 +1792,12 @@
                             "scene": "s021",
                             "entity": "e397"
                           }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
-                    },
-                    {
-                      "kind": "clearDialog"
                     },
                     {
                       "cue": {
@@ -1913,6 +1915,14 @@
                         "scene": "s021",
                         "entity": "e402"
                       }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s021",
+                        "entity": "e403"
+                      },
+                      "frame": 4
                     },
                     {
                       "kind": "setEntityState",
@@ -2180,37 +2190,144 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s021",
-                        "entity": "e401"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
-                      "kind": "selectEntityBehavior",
-                      "target": {
-                        "scene": "s021",
-                        "entity": "e402"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
-                      }
-                    },
-                    {
                       "facing": "right",
                       "kind": "setPartyFacing",
                       "member": 1
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "sceneTimeline",
+                      "label": "长贵与银花离场",
+                      "tracks": [
+                        {
+                          "id": "chang-gui",
+                          "label": "长贵",
+                          "target": {
+                            "scene": "s021",
+                            "entity": "e401"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 0,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 3,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 400,
+                              "repeat": {
+                                "count": 12,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": 4
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "id": "yin-hua",
+                          "label": "银花",
+                          "target": {
+                            "scene": "s021",
+                            "entity": "e402"
+                          },
+                          "cues": [
+                            {
+                              "atMs": 0,
+                              "body": [
+                                {
+                                  "kind": "setEntityFacing",
+                                  "facing": "right"
+                                },
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 100,
+                              "repeat": {
+                                "count": 3,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 4,
+                                  "dy": 2
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            },
+                            {
+                              "atMs": 400,
+                              "repeat": {
+                                "count": 12,
+                                "intervalMs": 100
+                              },
+                              "body": [
+                                {
+                                  "kind": "nudgeEntity",
+                                  "dx": 8,
+                                  "dy": 4
+                                },
+                                {
+                                  "kind": "animEntity"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 640
+                      "ms": 100
                     },
                     {
                       "kind": "setEntityState",

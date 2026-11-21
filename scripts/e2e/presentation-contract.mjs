@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from 'node:util'
 import { checkTransitionTrace, requireTrace } from './trace-refinement.mjs'
 
 /** Bounded explicit screen effects: actual output trajectory and settlement, not whole-frame RGBA equality. */
@@ -96,18 +97,29 @@ export function checkPresentationEffects(trace) {
                 progress =
                   spec.ms <= 0 ? 1 : Math.max(0, Math.min(1, (d.now - spec.start) / spec.ms))
               const expected = spec.from + (target - spec.from) * progress
+              const color = command.color ?? 'black'
               requireTrace(
-                d.value === expected && d.color === (command.color ?? 'black'),
+                d.value === expected && isDeepStrictEqual(d.color, color),
                 'fade-output-trajectory',
-                { value: expected, color: command.color ?? 'black' },
+                { value: expected, color },
                 d,
               )
               if (expected <= 0.001) requireTrace(d.alpha === 0, 'fade-transparent-output', 0, d)
-              else {
+              else if (Array.isArray(color) && expected < 1) {
+                const range = {
+                  distance: 4 * Math.floor(64 * (command.dir === 'in' ? 1 - expected : expected)),
+                  direction: command.dir,
+                }
+                requireTrace(isDeepStrictEqual(d.ramp, range), 'fade-ramp-output', range, d.ramp)
+              } else {
                 const match = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)$/u.exec(
                   d.style ?? '',
                 )
-                const rgb = (command.color ?? 'black') === 'red' ? [150, 12, 12] : [0, 0, 0]
+                const rgb = Array.isArray(color)
+                  ? color
+                  : color === 'red'
+                    ? [150, 12, 12]
+                    : [0, 0, 0]
                 const hex = /^#[\da-f]{6}$/iu.test(d.style ?? '')
                   ? [1, 3, 5].map((i) => parseInt(d.style.slice(i, i + 2), 16))
                   : null

@@ -57,6 +57,7 @@ import type { ScriptReferenceCatalog } from '../core/script-reference-catalog.js
 import { BattleFieldPicker } from './BattleFieldPicker.js'
 import { CommandForm, WorldVariablePicker } from './CommandForm.js'
 import { createAuthorCommandFormBridge } from './command-form-contract.js'
+import { TeleportArrivalFields } from './command-form-control.js'
 import {
   DsButton,
   DsCheckbox,
@@ -732,6 +733,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   finishStep: ['⛔', '结束本次执行'],
   returnScript: ['↩', '返回调用处'],
   repeat: ['🔁', '重复指定次数'],
+  sceneTimeline: ['🎬', '场景演出'],
   breakLoop: ['↪', '退出当前循环'],
   continueLoop: ['🔄', '开始下一轮'],
   takeEntity: ['🔒', '接管实体控制'],
@@ -925,7 +927,7 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
     case 'startBattle':
       return { ...command, onLose: [], onFlee: [] }
     case 'teleportOut':
-      return { kind: command.kind, onFail: [] }
+      return { ...command, onFail: [] }
     case 'confirm':
       return undefined
     case 'branch':
@@ -983,6 +985,13 @@ export function describeCanonicalCommand(
       children,
     }
   switch (command.kind) {
+    case 'sceneTimeline':
+      return {
+        icon: '🎬',
+        label: command.label,
+        detail: `${command.tracks.length} 条演出轨道`,
+        children,
+      }
     case 'runEntityTrigger':
       return {
         icon: '▶',
@@ -1002,7 +1011,11 @@ export function describeCanonicalCommand(
         children,
       }
     case 'repeat':
-      return { icon: '🔁', label: `重复 ${command.count} 次`, children }
+      return {
+        icon: '🔁',
+        label: `重复 ${command.count} 次${command.intervalMs ? ` · 每 ${command.intervalMs} ms` : ''}`,
+        children,
+      }
     case 'confirm':
       return { icon: '❓', label: '是/否询问', children }
     case 'finishStep': {
@@ -2071,6 +2084,67 @@ function CanonicalCommandForm(props: {
       <p>请从项目脚本中编辑领取内容。</p>
     )
 
+  if (command.kind === 'sceneTimeline')
+    return (
+      <div className="canonical-command-form-fields">
+        <CanonicalField label="演出名称">
+          <DsTextInput
+            size="compact"
+            value={command.label}
+            onChange={(event) => props.onChange({ ...command, label: event.target.value })}
+          />
+        </CanonicalField>
+        {command.tracks.map((track) => (
+          <section key={track.id}>
+            <strong>{track.label}</strong>
+            {track.target ? <div>{addressLabel(track.target, context)}</div> : null}
+            <ul>
+              {track.cues.map((cue) => (
+                <li key={cue.atMs}>
+                  {`${cue.atMs} 毫秒：`}
+                  {cue.body
+                    .map((action) => {
+                      switch (action.kind) {
+                        case 'fade':
+                          return `${action.dir === 'in' ? '淡入' : '淡出'} ${action.ms} 毫秒`
+                        case 'nudgeEntity':
+                          return `移动 ${action.dx}, ${action.dy}`
+                        case 'setEntityFacing':
+                          return `转向 ${action.facing}`
+                        case 'setEntityFrame':
+                          return `定姿 ${action.frame}`
+                        case 'animEntity':
+                          return '推进步态'
+                        case 'cameraPan':
+                          return `镜头平移 ${action.dx}, ${action.dy}，共 ${action.frames} 拍`
+                        case 'releaseEntity':
+                          return '归还实体控制'
+                      }
+                      throw new Error('场景演出动作无法显示')
+                    })
+                    .join('、')}
+                  {cue.repeat
+                    ? `；每 ${cue.repeat.intervalMs} 毫秒一次，共 ${cue.repeat.count} 次`
+                    : ''}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )
+
+  if (command.kind === 'teleportOut' && context)
+    return (
+      <TeleportArrivalFields
+        arrival={command}
+        catalog={context.assetCatalog}
+        reader={context.assetReader}
+        onOpenSound={context.onOpenSound}
+        onChange={(fields) => props.onChange({ ...command, ...fields })}
+      />
+    )
+
   const commandFormBridge = context ? createAuthorCommandFormBridge(command) : undefined
   if (commandFormBridge && context) {
     const scene =
@@ -2189,17 +2263,32 @@ function CanonicalCommandForm(props: {
           </CanonicalField>
         ) : null}
         {command.kind === 'repeat' ? (
-          <CanonicalField label="重复次数">
-            <DsNumberInput
-              size="compact"
-              min={1}
-              step={1}
-              value={command.count}
-              onChange={(event) =>
-                props.onChange({ ...command, count: Number(event.target.value) })
-              }
-            />
-          </CanonicalField>
+          <>
+            <CanonicalField label="重复次数">
+              <DsNumberInput
+                size="compact"
+                min={1}
+                step={1}
+                value={command.count}
+                onChange={(event) =>
+                  props.onChange({ ...command, count: Number(event.target.value) })
+                }
+              />
+            </CanonicalField>
+            <CanonicalField label="前景重复间隔（毫秒，可留空）">
+              <DsNumberInput
+                size="compact"
+                min={1}
+                step={1}
+                value={command.intervalMs ?? ''}
+                onChange={(event) => {
+                  const { intervalMs: _intervalMs, ...repeat } = command
+                  const intervalMs = event.target.valueAsNumber
+                  props.onChange(Number.isNaN(intervalMs) ? repeat : { ...repeat, intervalMs })
+                }}
+              />
+            </CanonicalField>
+          </>
         ) : null}
         {command.kind === 'loop' ? (
           <CanonicalField label="循环方式">
@@ -2461,6 +2550,14 @@ function CanonicalCommandForm(props: {
             />
           </CanonicalField>
         </div>
+        <DsCheckbox
+          size="compact"
+          label="按世界拍直接追逐"
+          checked={command.worldStep ?? false}
+          onChange={(event) =>
+            props.onChange({ ...command, worldStep: event.target.checked || undefined })
+          }
+        />
         <DsCheckbox
           size="compact"
           label="追击时忽略地形与阻挡实体"
@@ -3210,6 +3307,8 @@ function fallbackInsertionChoice(
   })
 
   switch (kind) {
+    case 'sceneTimeline':
+      return unavailable('请在场景作者数据中编排有限轨道；可在当前步骤预览')
     case 'applyActorCondition': {
       const actor = Object.values(context?.actors ?? {}).find((candidate) => candidate.battler)?.id
       const poisonId = Number(context?.references.choices('poison')[0]?.id)
@@ -3589,7 +3688,11 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
           unavailableReason: '触发区没有朝向；请先选择一个可见实体',
         } satisfies InsertionChoice
       const command = examples.get(kind)
-      if (!command || ('target' in command && command.target === 'self' && !target))
+      if (
+        kind === 'sceneTimeline' ||
+        !command ||
+        ('target' in command && command.target === 'self' && !target)
+      )
         return fallbackInsertionChoice(kind, context, target)
       const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[kind]
       return {
@@ -4153,6 +4256,7 @@ export function CanonicalHostileOnLoseEditor(props: {
 
 function CanonicalFlowBodyTabs(props: {
   prepare?: readonly AuthorCommand[]
+  bodyDuringFade?: true
   body: readonly AuthorCommand[]
   bodyLabel: string
   context?: CanonicalScriptEditorContext
@@ -4235,7 +4339,7 @@ function CanonicalFlowBodyTabs(props: {
           onClick={() => setTab('body')}
           onKeyDown={onTabKeyDown}
         >
-          脚本正文
+          {props.bodyDuringFade ? '淡入时开始的正文' : '脚本正文'}
           <small>{props.body.length} 条</small>
         </DsButton>
       </div>
@@ -4496,6 +4600,9 @@ function CanonicalStagesFlowEditor(
         <CanonicalFlowBodyTabs
           key={stage.id}
           prepare={stage.entry?.prepare}
+          bodyDuringFade={
+            stage.entry?.reveal.kind === 'fade' ? stage.entry.reveal.withBody : undefined
+          }
           body={stage.body}
           bodyLabel={hasMultipleStages ? `${stageLabel(stage.id)} · 脚本正文` : '脚本正文'}
           context={
@@ -4580,6 +4687,30 @@ function CanonicalStagesFlowEditor(
         >
           <div className="canonical-flow-settings-fields">
             {props.renderStepPreview?.(stage.id, () => setDetailsOpen(false))}
+            {stage.entry?.reveal.kind === 'fade' ? (
+              <section className="canonical-flow-setting">
+                <DsCheckbox
+                  size="compact"
+                  label="淡入时开始执行正文"
+                  checked={stage.entry.reveal.withBody === true}
+                  onChange={(event) => {
+                    const enabled = event.target.checked
+                    props.onChange({
+                      ...flow,
+                      stages: flow.stages.map((candidate) => {
+                        const entry = candidate.entry
+                        if (candidate.id !== stage.id || entry?.reveal.kind !== 'fade')
+                          return candidate
+                        const reveal = { ...entry.reveal }
+                        if (enabled) reveal.withBody = true
+                        else delete reveal.withBody
+                        return { ...candidate, entry: { ...entry, reveal } }
+                      }),
+                    })
+                  }}
+                />
+              </section>
+            ) : null}
             <section className="canonical-flow-setting">
               <DsField
                 id={stageNameInputId}

@@ -24,12 +24,19 @@ function after(source: string, anchor: string, observation: string): string {
 function observeGame(source: string, file: string): string | null {
   const target = `/packages/game/src/${file}`
   switch (file) {
-    case 'core/scene-system.ts':
-      return after(
+    case 'core/scene-system.ts': {
+      const contact = '      globalThis.__defeat?.gameContact(gs, npc)'
+      const withTouch = after(
         instrumentInnTrace(source, `packages/game/src/${file}`).code,
         'if (loadEventFromNpc(gs, npc)) {',
-        '      globalThis.__defeat?.gameContact(gs, npc)',
+        contact,
       )
+      return after(
+        withTouch,
+        '      loadEventFromNpc(gs, npc)',
+        '      if (gs.eventCursor?.triggerOwnerId === npc.id) globalThis.__defeat?.gameContact(gs, npc)',
+      )
+    }
     case 'core/event-system.ts': {
       const dispatch = "    switch (cmd.op) {\n      case 'end':\n        // sdlpal script.c:3475"
       return replaceOnce(
@@ -252,7 +259,8 @@ ${move}
       team, boss: !!options?.boss, auto: !!options?.auto, music: prepared.battleTrack,
       players: prepared.players.map(({ roleId, hp, mp, defense, magicStrength, baseDexterity }) =>
         ({ roleId, hp, mp, defense, magicStrength, speed: baseDexterity })),
-    })`,
+    })
+    globalThis.__defeat?.reforgePartyBattleSprites(sessionAssets.playerBaseDefinitionIds)`,
       )
       return after(
         prepared,
@@ -272,8 +280,13 @@ ${move}
           return committed
         }`,
       )
-      const acted = replaceOnce(
+      const automatic = after(
         committed,
+        '        s.pendingActions.set(sel, action)',
+        '        globalThis.__defeat?.command(sel, s.turn, action)',
+      )
+      const acted = replaceOnce(
+        automatic,
         '      const la = s.lastAction',
         `      const la = s.lastAction
       if (la) globalThis.__defeat?.reforgeAction(la, s)`,
@@ -301,12 +314,20 @@ ${move}
       const step = after(
         source,
         '            this.onStep?.({ path: commandPath, command })',
-        '            globalThis.__defeat?.reforgeOpcode(this.self, commandPath, command)',
+        '            globalThis.__defeat?.reforgeOpcode(this.self, commandPath, command, this.runningTiming)',
       )
       return after(
         step,
         "        frame.control = { kind: 'startBattle', arm }",
         '        globalThis.__defeat?.reforgeArm(this.self, path, arm)',
+      )
+    }
+    case 'script-world.ts': {
+      const end = '    return { ...resolved, lease }\n  }\n\n  epochForKey'
+      return replaceOnce(
+        source,
+        end,
+        `    globalThis.__defeat?.reforgeSceneHook(scene.id, slot, resolved)\n${end}`,
       )
     }
     case 'audio/bgm.ts': {

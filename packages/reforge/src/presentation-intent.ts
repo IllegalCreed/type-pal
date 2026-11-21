@@ -2,15 +2,15 @@
  * Media-specific lifetime, clocks and playback policy belong to executor ports.
  * World audio and direct presentation effects such as shake and dither are outside this contract.
  */
-import type { AssetId, DialogueCue, GridPos } from '@type-pal/content'
+import type { AssetId, DialogueCue, FadeColor, GridPos } from '@type-pal/content'
 
-export type FadeColor = 'black' | 'red'
+export type { FadeColor } from '@type-pal/content'
 
 export type PresentationIntent =
   | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' }
   | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: FadeColor }
-  | { kind: 'cameraPan'; dx: number; dy: number; frames: number }
+  | { kind: 'cameraPan'; dx: number; dy: number; frames: number; startImmediately?: true }
   | { kind: 'cameraSnap'; to?: GridPos }
   | {
       kind: 'frameAnimation'

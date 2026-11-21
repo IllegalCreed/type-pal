@@ -51,7 +51,6 @@ function context(
     throwableItems: [],
     skills: {},
     items: {},
-    money: 100,
     ...overrides,
   }
 }

@@ -25,12 +25,13 @@ describe('PAL 资源角色身份表（manifest roles 冻结绑定）', () => {
     })
   })
 
-  test('战斗音效角色精确绑定 028/029/045/047，且与音频角色键不相交', () => {
+  test('战斗音效角色精确绑定 028/029/045/047/212，且与音频角色键不相交', () => {
     expect(PAL_SOUND_ROLES).toEqual({
       'audio.battleItemUseSound': palSoundAssetId(28),
       'audio.battleCoopCastSound': palSoundAssetId(29),
       'audio.battleEscapeSound': palSoundAssetId(45),
       'audio.battleEnemyTransformSound': palSoundAssetId(47),
+      'audio.battleEnemySummonSound': palSoundAssetId(212),
     })
     expect(Object.keys(PAL_SOUND_ROLES).filter((key) => key in PAL_AUDIO_ROLES)).toEqual([])
   })

@@ -101,9 +101,8 @@ describe('B7a 战后结算', () => {
     // 升级回满 → Phase F 半恢复无变化
     expect(c.hp).toBe(110)
     expect(ls['li-xiaoyao']).toContain('345')
-    expect(rep.levelUps).toMatchObject([
-      { characterId: 'li-xiaoyao', from: 1, to: 2, learned: ['345'] },
-    ])
+    expect(rep.levelUps).toMatchObject([{ characterId: 'li-xiaoyao', from: 1, to: 2 }])
+    expect(rep.learned).toEqual([{ characterId: 'li-xiaoyao', skillId: '345' }])
     // B7b:升级屏 8 属性 old→cur 快照(before level 1 / after level 2)
     const lu = rep.levelUps[0]!
     expect(lu.before.level).toBe(1)
@@ -141,7 +140,7 @@ describe('B7a 战后结算', () => {
       { exp: 3, cash: 7, deferRecovery: true },
       rng0,
     )
-    expect(report).toEqual({ exp: 3, cash: 7, levelUps: [], hiddenUps: [] })
+    expect(report).toEqual({ exp: 3, cash: 7, levelUps: [], hiddenUps: [], learned: [] })
     expect(party.map(({ exp, hp, mp }) => ({ exp, hp, mp }))).toEqual([
       { exp: 3, hp: 41, mp: 11 },
       { exp: 0, hp: 0, mp: 3 },

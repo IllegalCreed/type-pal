@@ -1656,49 +1656,58 @@
             "stages": [
               {
                 "id": "stage-1",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 116,
+                        "row": 57,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "right"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s273",
+                        "entity": "e4726"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s273",
+                        "entity": "e4727"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 1,
+                      "target": {
+                        "scene": "s273",
+                        "entity": "e4728"
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 600,
+                    "inMs": 600
+                  }
+                },
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 116,
-                      "row": 57,
-                      "height": 0
-                    }
-                  },
-                  {
-                    "kind": "setPartyFacing",
-                    "facing": "right"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s273",
-                      "entity": "e4726"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s273",
-                      "entity": "e4727"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 1,
-                    "target": {
-                      "scene": "s273",
-                      "entity": "e4728"
-                    }
-                  },
-                  {
-                    "kind": "cameraSnap"
-                  },
-                  {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "dialog",
@@ -1719,6 +1728,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "setEntityFacing",
                     "facing": "down",
                     "target": {
@@ -1736,7 +1748,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "setEntityFacing",
@@ -1756,7 +1768,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "dialog",
@@ -1768,13 +1780,13 @@
                       ],
                       "identity": {
                         "kind": "unbound",
-                        "speaker": "spk.灵月宫主",
-                        "portrait": {
-                          "asset": "portrait.pal.072",
-                          "side": "right"
-                        }
-                      }
+                        "speaker": "spk.灵月宫主"
+                      },
+                      "portraitLayout": true
                     }
+                  },
+                  {
+                    "kind": "clearDialog"
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1790,7 +1802,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 80
+                    "ms": 200
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1806,7 +1818,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 200
+                    "ms": 500
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -1822,7 +1834,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1600
+                    "ms": 4000
                   },
                   {
                     "kind": "setEntityFacing",
@@ -2186,6 +2198,9 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "selectEntityBehavior",
                     "target": {
                       "scene": "s273",
@@ -2251,7 +2266,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 1080
+                    "ms": 2700
                   },
                   {
                     "kind": "setPartyFacing",
@@ -2259,7 +2274,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 800
+                    "ms": 2000
                   },
                   {
                     "kind": "moveParty",
@@ -2272,7 +2287,7 @@
                   },
                   {
                     "kind": "wait",
-                    "ms": 160
+                    "ms": 400
                   },
                   {
                     "kind": "dialog",
@@ -2340,10 +2355,7 @@
                       "value": "c8-80a10b0fd027"
                     }
                   }
-                ],
-                "next": {
-                  "kind": "complete"
-                }
+                ]
               }
             ]
           }

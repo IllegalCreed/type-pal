@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   battleVictoryTrack,
   createAudioManager,
@@ -9,7 +9,7 @@ import {
   sfxUrl,
 } from './audio.js'
 
-// 本文件未提供Web Audio端口，因此队列测试只证明就地清空；不授予SFX实际播放信用。
+// The preload test observes the Web Audio port. Audible output is verified by native recordings.
 // BGM uses the real manager with a recording backend; no audible-output claim.
 
 describe('M6 audio url 映射(纯)', () => {
@@ -53,6 +53,44 @@ describe('M6 AudioManager.sync', () => {
     const q = [88, 47, 212]
     am.sync(q, { track: 0, loop: true })
     expect(q).toEqual([]) // 全部消费 + 清空
+  })
+
+  it('plays once when a cue joins an in-flight preload for the same buffer', async () => {
+    let deliver!: (response: Response) => void
+    const pendingResponse = new Promise<Response>((resolve) => {
+      deliver = resolve
+    })
+    const fetchSound = vi.fn(() => pendingResponse)
+    const decoded = { length: 128 }
+    const decode = vi.fn(async () => decoded)
+    const source = {
+      buffer: null,
+      connect: () => ({ connect() {} }),
+      start: vi.fn(),
+    }
+    class PlaybackContext {
+      state = 'running'
+      destination = {}
+      decodeAudioData = decode
+      createGain = () => ({ gain: { value: 1 } })
+      createBufferSource = () => source
+    }
+    vi.stubGlobal('window', { AudioContext: PlaybackContext })
+    vi.stubGlobal('fetch', fetchSound)
+    try {
+      const audio = createAudioManager('/extracted')
+      const preload = audio.preloadSounds([338, 338])
+      audio.playSound(338)
+      expect(fetchSound).toHaveBeenCalledExactlyOnceWith('/extracted/sounds/338.wav')
+      expect(source.start).not.toHaveBeenCalled()
+      deliver(new Response(new ArrayBuffer(128)))
+      await preload
+      await expect.poll(() => source.start.mock.calls.length).toBe(1)
+      expect(decode).toHaveBeenCalledTimes(1)
+      expect(source.buffer).toBe(decoded)
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复', () => {

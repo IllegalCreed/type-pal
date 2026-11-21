@@ -194,7 +194,7 @@ export function instrumentBattleRandomDraws(source, file) {
           )
             mark(node, 'throw-weapon-strength')
         }
-        if (owner === 'applyPlayerSkill' && multiplier === '2') mark(node, 'cast-growth')
+        if (owner === 'recordPlayerSpellGrowth' && multiplier === '2') mark(node, 'cast-growth')
         if (owner === 'applyPlayerSkillEffects') {
           const effect = ts.findAncestor(node, ts.isCaseClause)?.expression.getText(ast)
           if (effect === "'gate'" && multiplier === '100') mark(node, 'battle-script-chance')

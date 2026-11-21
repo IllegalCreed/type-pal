@@ -14,6 +14,7 @@ import type {
   Command,
   DialogueCue,
   Facing,
+  FadeColor,
   GridPos,
   ProjectedWorldScriptState,
   RuntimeScriptBinding,
@@ -24,11 +25,13 @@ import type {
   ScriptRef,
   ScriptStage,
   SpriteActionBinding,
+  TeleportOutPresentation,
   WalkSpeed,
 } from '@type-pal/content'
 import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import { expectDefined } from './defined.js'
+import { runSceneEntryBody } from './scene-entry-session.js'
 import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = RuntimeScriptBinding
@@ -41,7 +44,7 @@ export interface ScriptHost {
   reloadMap?(mapId: string, signal?: AbortSignal, commitCanonical?: () => void): Promise<void>
   /** 0xA0 游戏通关退出:回标题屏(?menu;未存进度弃,同系统菜单 quit)。 */
   quitToTitle?(videos?: readonly AssetId[], signal?: AbortSignal): void | Promise<void>
-  fade(dir: 'in' | 'out', ms: number, color?: 'black' | 'red', signal?: AbortSignal): Promise<void>
+  fade(dir: 'in' | 'out', ms: number, color?: FadeColor, signal?: AbortSignal): Promise<void>
   holdScreen?(color: 'black', token: string, signal?: AbortSignal): Promise<void>
   revealScreen?(token: string, signal?: AbortSignal): Promise<void>
   /** 0x73 RGBA 逐像素渐变；host 持有帧快照与生命周期。 */
@@ -55,6 +58,7 @@ export interface ScriptHost {
     speed: number,
     floating: boolean,
     signal?: AbortSignal,
+    worldStep?: true,
   ): Promise<void>
   /** B8:实体消失 seconds 秒后重现(临时态)。 */
   vanishEntity(entityId: string, seconds: number): void
@@ -102,7 +106,7 @@ export interface ScriptHost {
   loseItem(itemId: string, count: number): void
   giveMoney(delta: number): void
   playSound(asset: AssetId): void
-  playMusic(asset: AssetId): void
+  playMusic(asset: AssetId, signal?: AbortSignal): void | Promise<void>
   stopMusic(): void
   /** W6 氛围(昼夜):切全局氛围(全帧乘法滤镜;原版 0x53/0x54 全局调色板 flag)。 */
   setAmbience(ambience: string): void
@@ -140,9 +144,15 @@ export interface ScriptHost {
   animEntity(entity: string): void
   nudgeEntity(entity: string, dx: number, dy: number): void
   moveParty(to: GridPos, speed: WalkSpeed, signal?: AbortSignal): Promise<void>
-  nudgeParty(dx: number, dy: number, layer: number): void
+  nudgeParty(dx: number, dy: number, layer: number, facing?: Facing): void
   // ── M3c 相机 / 页切换 ──
-  cameraPan(dx: number, dy: number, frames: number, signal?: AbortSignal): Promise<void>
+  cameraPan(
+    dx: number,
+    dy: number,
+    frames: number,
+    signal?: AbortSignal,
+    startImmediately?: true,
+  ): Promise<void>
   cameraSnap(to?: GridPos): void
   setEntityAuto(entity: string, script: ScriptBinding): void
   setEntityTrigger(entity: string, script: ScriptBinding): void
@@ -165,7 +175,7 @@ export interface ScriptHost {
     signal?: AbortSignal,
   ): Promise<BattleResult>
   /** 传送出口(0x38):跑当前场景 onTeleport;成功返回 true,场景无此槽返回 false(调用方走 onFail)。 */
-  teleportOut(signal?: AbortSignal): Promise<boolean>
+  teleportOut(signal?: AbortSignal, presentation?: TeleportOutPresentation): Promise<boolean>
   /** 过场编排:按稳定 AssetId 播视频，阻塞至播完或跳过。 */
   playVideo(asset: AssetId, signal?: AbortSignal): Promise<void>
   /** 过场编排:按稳定 AssetId 播真彩帧动画，阻塞至播完或跳过。 */
@@ -487,14 +497,21 @@ export class ScriptRunner {
       if (stage.entry) {
         if (!options.allowSceneEntry)
           throw new Error(`ScriptRunner: ${key} 非 scene onEnter，禁止执行 stage.entry`)
-        if (!this.host.revealSceneEntry)
-          throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
-        await this.run(stage.entry.prepare, [idx, 'entry', 'prepare'])
+        const revealSceneEntry = this.host.revealSceneEntry
+        if (!revealSceneEntry) throw new Error(`ScriptRunner: ${key} 的宿主未实现 revealSceneEntry`)
+        const { prepare, reveal } = stage.entry
+        await this.run(prepare, [idx, 'entry', 'prepare'])
         throwIfAborted(this.signal)
-        await this.host.revealSceneEntry(stage.entry.reveal, this.signal)
-        throwIfAborted(this.signal)
-      }
-      await this.run(stage.body, [idx])
+        await runSceneEntryBody(
+          reveal,
+          this.signal,
+          (visualSignal) => revealSceneEntry.call(this.host, reveal, visualSignal),
+          () => {
+            throwIfAborted(this.signal)
+            return this.run(stage.body, [idx])
+          },
+        )
+      } else await this.run(stage.body, [idx])
       throwIfAborted(this.signal)
       applyStageNext(this.world, key, idx, stage.next)
     } catch (err) {
@@ -530,6 +547,7 @@ export class ScriptRunner {
           cmd.speed ?? 4,
           cmd.floating ?? false,
           this.signal,
+          ...(cmd.worldStep ? ([cmd.worldStep] as const) : []),
         )
       case 'vanishEntity':
         return h.vanishEntity(cmd.entity ?? this.selfId ?? '', cmd.seconds ?? 2)
@@ -690,7 +708,7 @@ export class ScriptRunner {
       case 'playSound':
         return h.playSound(cmd.asset)
       case 'playMusic':
-        return h.playMusic(cmd.asset)
+        return h.playMusic(cmd.asset, this.signal)
       case 'stopMusic':
         return h.stopMusic()
       case 'setAmbience':
@@ -749,7 +767,9 @@ export class ScriptRunner {
       case 'moveParty':
         return h.moveParty(cmd.to, cmd.speed, this.signal)
       case 'nudgeParty':
-        return h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0)
+        return cmd.facing === undefined
+          ? h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0)
+          : h.nudgeParty(cmd.dx, cmd.dy, cmd.layer ?? 0, cmd.facing)
       case 'startBattle': {
         const r = await h.startBattle(
           cmd.enemyTeamId,
@@ -768,7 +788,7 @@ export class ScriptRunner {
         return
       }
       case 'teleportOut': {
-        const ok = await h.teleportOut(this.signal)
+        const ok = await h.teleportOut(this.signal, cmd)
         throwIfAborted(this.signal)
         if (!ok && cmd.onFail) return this.runBody(cmd.onFail, [...path, 'onFail'])
         return
@@ -797,7 +817,9 @@ export class ScriptRunner {
         return this.runBody(accepted ? cmd.onYes : cmd.onNo, [...path, accepted ? 'onYes' : 'onNo'])
       }
       case 'cameraPan':
-        return h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
+        return cmd.startImmediately
+          ? h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal, true)
+          : h.cameraPan(cmd.dx, cmd.dy, cmd.frames, this.signal)
       case 'cameraSnap':
         return h.cameraSnap(cmd.to)
       case 'setEntityAuto':

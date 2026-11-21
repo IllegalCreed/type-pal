@@ -124,7 +124,7 @@ export function describeScriptCommand(
     case 'chasePlayer':
       return {
         icon: '👣',
-        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.floating ? ' · 忽略障碍' : ''})`,
+        label: `追逐玩家(范围 ${cmd.range ?? 8} 格 · 速度 ${cmd.speed ?? 4}${cmd.worldStep ? ' · 世界拍步进' : ''}${cmd.floating ? ' · 忽略障碍' : ''})`,
       }
     case 'vanishEntity':
       return {
@@ -200,9 +200,11 @@ export function describeScriptCommand(
         ? entry
           ? `${entry.label || cmd.entryId} · ${cmd.entryId} · (${entry.pos.col},${entry.pos.row},h${entry.pos.height ?? 0})`
           : `${cmd.entryId} (落点缺失)`
-        : cmd.pos
-          ? `临时坐标 (${cmd.pos.col},${cmd.pos.row},h${cmd.pos.height ?? 0})`
-          : '默认落点'
+        : cmd.pos === 'current'
+          ? '沿用当前脚点'
+          : cmd.pos
+            ? `临时坐标 (${cmd.pos.col},${cmd.pos.row},h${cmd.pos.height ?? 0})`
+            : '默认落点'
       return {
         icon: '🚪',
         label: `切到场景 ${cmd.scene}`,
@@ -430,7 +432,7 @@ export function describeScriptCommand(
       return {
         icon: '↔',
         label: '队伍位移',
-        detail: `(${cmd.dx},${cmd.dy})px${cmd.layer !== undefined ? ` · 层${cmd.layer}` : ''}`,
+        detail: `(${cmd.dx},${cmd.dy})px${cmd.layer !== undefined ? ` · 层${cmd.layer}` : ''}${cmd.facing ? ` · ${cmd.facing}` : ''}`,
       }
     case 'startBattle':
       return {
@@ -468,7 +470,11 @@ export function describeScriptCommand(
         ],
       }
     case 'cameraPan':
-      return { icon: '🎥', label: '镜头平移', detail: `(${cmd.dx},${cmd.dy})×${cmd.frames}` }
+      return {
+        icon: '🎥',
+        label: '镜头平移',
+        detail: `(${cmd.dx},${cmd.dy})×${cmd.frames}${cmd.startImmediately ? ' 同帧起步' : ''}`,
+      }
     case 'cameraSnap':
       return { icon: '🎥', label: cmd.to ? `镜头定位 (${cmd.to.col},${cmd.to.row})` : '镜头回正' }
     case 'setEntityAuto':

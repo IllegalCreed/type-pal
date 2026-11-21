@@ -82,10 +82,12 @@ export function tickByMode(
   if (waitForEncounterFadeDraw) return // 浏览器宿主在黑帧绘制后续跑这个等待中的 trigger。
 
   // PAL_MakeScene 的自动淡入可能冻结探索；先交给 event-system 判断当前等待点是否会绘制场景。
+  const paletteWasFading = gs.paletteFadeState !== undefined
   tickSceneAutoFadeIn(gs)
+  const beganAutoFade = !paletteWasFading && gs.paletteFadeState !== undefined
 
   // PAL_GameUpdate 每次调用都跑自动脚本和追逐计时（play.c:169-238）。探索模式由 scene-system
-  // 按 trigger→autoScript→party 的顺序处理；这里仅补 event 模式的逐帧等待/走路/滚屏。
+  // 按 trigger→autoScript→party 的顺序处理；相对滚屏在解释器移动镜头后推进世界。
   // 对话、delay、fadeScreen、paletteFade 和场景重载是阻塞操作，不能偷跑 NPC 或消耗追逐周期。
   // 自动接敌的同步 trigger 也先于世界自动脚本（play.c:153–183）。
   const cursor = gs.eventCursor
@@ -94,10 +96,8 @@ export function tickByMode(
     !gs.sceneLoading &&
     gs.mode === 'event' &&
     !isBattleContact(cursor) &&
-    (waiting === undefined ||
-      waiting === 'frame-wait' ||
-      waiting === 'scene-fade' ||
-      waiting === 'camera-pan')
+    !(waiting === 'frame-wait' && (paletteWasFading || cursor?.waitFramesRemaining === 0)) &&
+    (waiting === undefined || waiting === 'frame-wait' || waiting === 'scene-fade')
   if (shouldRunAutoScripts) {
     tickAutoScripts(gs)
     tickChaseTimer(gs)
@@ -109,7 +109,7 @@ export function tickByMode(
       tickSceneSystem(gs, input)
       break
     case 'event':
-      tickEventSystem(gs, input)
+      tickEventSystem(gs, input, beganAutoFade)
       break
     case 'battle':
       tickBattle(gs, input, bus)

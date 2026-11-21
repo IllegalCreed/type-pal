@@ -51,7 +51,7 @@ afterEach(async () => {
   vi.unstubAllGlobals()
 })
 
-async function mountWorkspace(library = previewLibrary()) {
+async function mountWorkspace(library = previewLibrary(), withFadeEntry = false) {
   const files = await buildBlankProject('preview-context')
   const scene = previewAuthorScene()
   scene.entities[0]!.label = '客栈掌柜'
@@ -71,7 +71,16 @@ async function mountWorkspace(library = previewLibrary()) {
           flow: {
             kind: 'stages',
             initial: 'intro',
-            stages: [{ id: 'intro', label: '进门前', body: [] }],
+            stages: [
+              {
+                id: 'intro',
+                label: '进门前',
+                body: [],
+                ...(withFadeEntry && {
+                  entry: { prepare: [], reveal: { kind: 'fade', outMs: 100, inMs: 300 } },
+                }),
+              },
+            ],
           },
         },
       },
@@ -145,6 +154,35 @@ async function openStep(index: number) {
     host.querySelector<HTMLButtonElement>(`[aria-label^="打开“步骤 ${index} ·"]`)!.click(),
   )
 }
+
+test('the entry step controls whether its body starts during fade-in and preserves the timing', async () => {
+  const rig = await mountWorkspace(previewLibrary(), true)
+  await rig.focus(null)
+  await openStep(1)
+  const checkbox = () => {
+    const label = [...document.querySelectorAll<HTMLLabelElement>('[role="dialog"] label')].find(
+      (node) => node.textContent?.trim() === '淡入时开始执行正文',
+    )
+    const control = label?.control
+    if (!(control instanceof HTMLInputElement)) throw new Error('entry fade control unavailable')
+    return control
+  }
+  const authored = () => {
+    const flow = rig.script.getState().scenes[0]?.hooks?.onEnter?.variants.welcome?.flow
+    if (flow?.kind !== 'stages') throw new Error('entry flow unavailable')
+    return flow.stages[0]?.entry
+  }
+  const fade = { kind: 'fade', outMs: 100, inMs: 300 }
+  expect(checkbox().checked).toBe(false)
+  await act(async () => checkbox().click())
+  expect(authored()).toEqual({ prepare: [], reveal: { ...fade, withBody: true } })
+  await click('关闭')
+  expect(host.textContent).toContain('淡入时开始的正文')
+  await openStep(1)
+  expect(checkbox().checked).toBe(true)
+  await act(async () => checkbox().click())
+  expect(authored()).toEqual({ prepare: [], reveal: fade })
+})
 
 test('step details selection writes the exact binding, restores it on return, and participates in undo', async () => {
   const library = previewLibrary()

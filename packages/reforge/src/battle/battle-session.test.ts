@@ -366,16 +366,18 @@ describe('B10-1-R2 鬼降成败反馈', () => {
     })
   })
 
-  test('成功状态在 cast 收尾前不抖，收尾后恢复 ±1 px 快速抖动', () => {
+  test('鬼降成功后从 FIRE 结束的收招首拍开始抖动', () => {
     const bee = mkEnemy('bee', {}, { ai: { resistanceToSorcery: 0 } })
     const { session } = makeSession(
       bee,
       { skills: ['305'], baseDexterity: 500 },
       { skills: { '305': ghostDescent } },
+      { fireSprites: { 0: loadedBattleSprite('effect', PLAYER_PROFILE).sprite } },
     )
     const state = startCast(session)
     const internal = session as unknown as {
       actionPresentation: { active: boolean }
+      overlays: AnimFrame['overlays'] | null
       pendingConfusedReveal: Set<number>
       enemyConfusedJitterX(
         enemyIdx: number,
@@ -386,14 +388,19 @@ describe('B10-1-R2 鬼降成败反馈', () => {
     expect(target.status.confused).toBe(4)
     expect(internal.pendingConfusedReveal.has(0)).toBe(true)
     const random = vi.spyOn(Math, 'random').mockReturnValue(0.99)
-    expect(internal.enemyConfusedJitterX(0, target)).toBe(0)
+    try {
+      const hasFire = () => internal.overlays?.some((overlay) => overlay.sheet === 'magic') ?? false
+      for (let frame = 0; frame < 100 && !hasFire(); frame++) session.tick(16, new Set())
+      expect(hasFire()).toBe(true)
+      expect(internal.enemyConfusedJitterX(0, target)).toBe(0)
 
-    let guard = 0
-    while (internal.actionPresentation.active && guard++ < 40) session.tick(100, new Set())
-    expect(guard).toBeLessThan(40)
-    expect(internal.pendingConfusedReveal.has(0)).toBe(false)
-    expect(internal.enemyConfusedJitterX(0, target)).toBe(1)
-    random.mockRestore()
+      for (let frame = 0; frame < 100 && hasFire(); frame++) session.tick(16, new Set())
+      expect(hasFire()).toBe(false)
+      expect(internal.actionPresentation.active).toBe(true)
+      expect(internal.enemyConfusedJitterX(0, target)).toBe(1)
+    } finally {
+      random.mockRestore()
+    }
   })
 
   test('终态也会等待动作收尾新开的 narration 关闭后再完成', () => {
@@ -719,7 +726,7 @@ describe('A7-1 战斗回合 SFX readiness 屏障', () => {
     expect(snapshots).toHaveLength(1)
     expect([...expectDefined(snapshots[0]).actions.entries()]).toEqual([
       [0, { kind: 'coop' }],
-      [1, { kind: 'attack', targetEnemyIdx: -1 }],
+      [1, { kind: 'pass' }],
     ])
   })
 
@@ -1335,7 +1342,7 @@ describe('B9 特殊战斗形态', () => {
 })
 
 describe('R13-5 enemy hook 会话接线', () => {
-  test('turnStart 使用 gameplay clock，迟到 fade-stop 不误停随后播放的新曲', () => {
+  test('turnStart 立刻开始音乐淡出，用 gameplay clock 等待换曲', () => {
     const enemy = mkEnemy('music-hook', { attackStrength: 0, health: 9999 })
     enemy.ai.hooks = {
       turnStart: {
@@ -1359,7 +1366,7 @@ describe('R13-5 enemy hook 会话接线', () => {
       {},
       {
         playMusic: (asset) => music.push(`play:${asset}`),
-        stopMusic: () => music.push('stop'),
+        stopMusic: (fadeMs) => music.push(`stop:${fadeMs}`),
       },
     )
 
@@ -1369,12 +1376,12 @@ describe('R13-5 enemy hook 会话接线', () => {
     session.tick(0, new Set(), 0) // wait 1600
     session.tick(1000, new Set(), 0) // real dt 前进，gameplay clock 冻结
     session.tick(0, new Set(), 1599)
-    expect(music).toEqual([])
+    expect(music).toEqual(['stop:3000'])
     session.tick(0, new Set(), 1600)
     expect(plays).toContain('sound.pal.213')
-    expect(music).toEqual(['play:music.pal.038'])
+    expect(music).toEqual(['stop:3000', 'play:music.pal.038'])
     session.tick(0, new Set(), 3000)
-    expect(music).toEqual(['play:music.pal.038'])
+    expect(music).toEqual(['stop:3000', 'play:music.pal.038'])
   })
 
   test('ready hook 每个行动 entry 先执行，完成后同一敌人仍正常行动', () => {

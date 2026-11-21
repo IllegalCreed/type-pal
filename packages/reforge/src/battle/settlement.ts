@@ -8,7 +8,7 @@
  * 320 逻辑坐标,调用方已 ctx.scale。
  */
 
-import type { HiddenStatKey, HiddenUpReport, LevelUpReport } from '@type-pal/content'
+import type { HiddenStatKey, LevelUpReport, RewardReport } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import {
   drawNumberLeft,
@@ -44,45 +44,33 @@ export type SettlementScreen =
   | { kind: 'hidden-up'; name: string; statLabel: string; delta: number }
   | { kind: 'learn-magic'; name: string; magicName: string }
 
-/**
- * RewardReport + 名字/技能名解析 → 屏序列。原版序(battle.c per-role):
- *   经验金钱 → 每角色 [升级 box → 隐藏提升(逐属性一屏)→ 练成];未升级角色的
- *   隐藏提升排最后(CHECK_HIDDEN_EXP 对所有活役跑,不依赖升级)。
- */
+/** 按参战队伍顺序显示各角色的主升级、隐藏成长和习得。 */
 export function buildSettlementScreens(
-  exp: number,
-  cash: number,
-  levelUps: LevelUpReport[],
-  hiddenUps: HiddenUpReport[],
+  report: RewardReport,
+  party: readonly string[],
   nameOf: (characterId: string) => string,
   skillNameOf: (skillId: string) => string,
 ): SettlementScreen[] {
+  const { exp, cash, levelUps, hiddenUps, learned } = report
   const screens: SettlementScreen[] = []
   if (exp > 0) screens.push({ kind: 'exp-cash', exp, cash })
-  const hiddenScreen = (h: HiddenUpReport): SettlementScreen => ({
-    kind: 'hidden-up',
-    name: nameOf(h.characterId),
-    statLabel: HIDDEN_STAT_LABEL[h.stat],
-    delta: h.delta,
-  })
-  const emitted = new Set<HiddenUpReport>()
-  for (const lu of levelUps) {
-    screens.push({ kind: 'level-up', name: nameOf(lu.characterId), report: lu })
-    for (const h of hiddenUps) {
-      if (h.characterId === lu.characterId) {
-        screens.push(hiddenScreen(h))
-        emitted.add(h)
-      }
-    }
-    for (const sid of lu.learned) {
+  for (const id of party) {
+    const levelUp = levelUps.find(({ characterId }) => characterId === id)
+    if (levelUp) screens.push({ kind: 'level-up', name: nameOf(id), report: levelUp })
+    for (const row of hiddenUps) {
+      if (row.characterId !== id) continue
       screens.push({
-        kind: 'learn-magic',
-        name: nameOf(lu.characterId),
-        magicName: skillNameOf(sid),
+        kind: 'hidden-up',
+        name: nameOf(id),
+        statLabel: HIDDEN_STAT_LABEL[row.stat],
+        delta: row.delta,
       })
     }
+    for (const row of learned) {
+      if (row.characterId !== id) continue
+      screens.push({ kind: 'learn-magic', name: nameOf(id), magicName: skillNameOf(row.skillId) })
+    }
   }
-  for (const h of hiddenUps) if (!emitted.has(h)) screens.push(hiddenScreen(h))
   return screens
 }
 

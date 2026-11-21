@@ -30,6 +30,7 @@ import type {
   PoisonDef,
   SkillData,
   SkillEffect,
+  TextId,
   ThrowEffect,
 } from '@type-pal/content'
 import {
@@ -57,6 +58,7 @@ import {
 } from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import type { BattleLastAction, PlayerAttackSweep } from './battle-last-action.js'
+import { getOffMagicTiming } from './battle-off-magic.js'
 import { getEnemyBasePos } from './battle-positions.js'
 
 function assertNever(value: never, context: string): never {
@@ -240,6 +242,8 @@ export interface BattleState {
   log: string[]
   /** 技能表(敌施法;M4c)。 */
   skills: Record<string, SkillData>
+  /** 已预载的 FIRE 帧数，供按资源实际长度结算 0x6B。 */
+  fireFrameCounts: Readonly<Record<number, number>>
   /** 敌人表(transform/summon;M4c-2)。 */
   enemiesById: Record<string, EnemyDef>
   /** 物品表 + 背包(战斗内扣,writeBack 回世界)。 */
@@ -282,6 +286,8 @@ export interface BattleState {
   }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: BattleLastAction | null
+  /** 按毒槽执行顺序产生的入账旁白，由当前战斗的表现层消费。 */
+  pendingPoisonNarrations: TextId[]
   /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
   pendingWorldMutations: BattleWorldMutation[]
 }
@@ -294,6 +300,7 @@ export type BattleAction =
   | { kind: 'throw'; itemId: string; targetEnemyIdx?: number } // 单体需目标；全体由 ThrowSpec.target 直提
   | { kind: 'defend' }
   | { kind: 'flee' }
+  | { kind: 'pass' }
 
 /** 队员建态输入:引擎态字段(status/defending/hiddenCounts)自动补;poisons 大世界带入;
  * grantedStatuses 是装备实时派生的常驻状态；carriedStatuses 是大世界护体符等临时状态。 */
@@ -318,6 +325,8 @@ export interface CreateBattleInput {
   enemies?: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
+  /** 已预载的 FIRE 帧数；无可播放资源时不执行其吹飞抽样。 */
+  fireFrameCounts?: Readonly<Record<number, number>>
   /** 敌人表(transform/summon 查 EnemyDef;缺省空 = 动作落普攻并 log)。 */
   enemiesById?: Record<string, EnemyDef>
   /** 物品表 + 背包副本(战斗用品;count 战斗内扣,main 战后写回)。 */
@@ -366,6 +375,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       },
     } satisfies BattleEnemyState
   })
+  const playersByRole = new Map<string, BattlePlayerState>()
   return {
     phase: 'preBattle',
     turn: 0,
@@ -376,7 +386,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
       // 大世界护体符/金刚符定时状态:注入实际回合数(随战内衰减;战后 world 侧三件套清 extraStatuses)
       for (const cs of p.carriedStatuses ?? [])
         status[cs.status] = Math.max(status[cs.status], cs.turns)
-      return {
+      const player: BattlePlayerState = {
         ...p,
         grantedStatuses: [...new Set(p.grantedStatuses ?? [])],
         prevHp: p.prevHp ?? p.hp,
@@ -386,6 +396,27 @@ export function createBattleState(input: CreateBattleInput): BattleState {
         hiddenCounts: {},
         poisons: p.poisons?.map((x) => ({ ...x })) ?? [], // 大世界带入的毒(副本;战后不回写)
       }
+      const sameRole = playersByRole.get(player.roleId)
+      if (!sameRole) {
+        playersByRole.set(player.roleId, player)
+        return player
+      }
+      // 同一角色可占两个剧情战斗站位。动作和姿势按站位，生命与真气按角色。
+      return {
+        ...player,
+        get hp() {
+          return sameRole.hp
+        },
+        set hp(value) {
+          sameRole.hp = value
+        },
+        get mp() {
+          return sameRole.mp
+        },
+        set mp(value) {
+          sameRole.mp = value
+        },
+      }
     }),
     enemies,
     maxEnemyIndex,
@@ -394,6 +425,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     actionQueue: [],
     log: [],
     skills: input.skills ?? {},
+    fireFrameCounts: input.fireFrameCounts ?? {},
     enemiesById: input.enemiesById ?? {},
     items: input.items ?? {},
     inventory: input.inventory ?? [],
@@ -413,6 +445,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     skillUseCounts: structuredClone(input.skillUseCounts ?? {}),
     casualtyDialogue: undefined,
     lastAction: null,
+    pendingPoisonNarrations: [],
     pendingWorldMutations: [],
   }
 }
@@ -461,7 +494,7 @@ function spawnIntoSummonSlot(
   return slot
 }
 
-/** divide：可扫描固定 5 槽，并把 maxEnemyIndex 扩到最高新占用槽后重排站位。 */
+/** A division fills the fixed slots before recalculating the formation together. */
 function spawnIntoDivideSlot(
   s: BattleState,
   spawn: Omit<BattleEnemyState, 'basePos'>,
@@ -471,8 +504,6 @@ function spawnIntoDivideSlot(
   const previous = s.enemies[slot]
   const basePos = previous?.basePos ?? { x: 100, y: 110 }
   s.enemies[slot] = { ...spawn, basePos, rewardCounted: false }
-  if (slot > s.maxEnemyIndex) s.maxEnemyIndex = slot
-  recomputeEnemyPositions(s)
   return slot
 }
 
@@ -520,12 +551,13 @@ function tickPoison(
     if (tick.hpDelta || tick.mpDelta || tick.halveHp)
       s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
   }
-  // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
+  // 寄生毒到期产出的道具归队伍背包。
   if (tick.grantItem) {
     const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
     if (slot) slot.count += 1
     else s.inventory.push({ itemId: tick.grantItem, count: 1 })
     s.log.push(`${name} 到期化作 ${tick.grantItem}`)
+    if (tick.grantNarration) s.pendingPoisonNarrations.push(tick.grantNarration)
   }
   if (tick.selfCure) return undefined
   return {
@@ -734,8 +766,7 @@ function sumStatBuffs(target: BattlePlayerState, stat: BuffableStat): number {
   )
 }
 
-/** 0x1B/0x1C 回满 + 0x30 临时百分比 buff(B11-1)。P3:0x30 基数 = 未 buff 运行时值
- *  (含装备、不含既有 Extra;多次不叠加),delta = base × percent / 100 截断。 */
+/** 伤亡脚本的 0x1B/0x1C 回满资源，并复用 0x30 的裸属性基数与 Extra 槽覆盖规则。 */
 function applyCasualtyBranchEffects(
   target: BattlePlayerState,
   effects: readonly CasualtyEffect[],
@@ -746,14 +777,11 @@ function applyCasualtyBranchEffects(
       else target.mp = target.maxMp
       continue
     }
-    const buffStat = CASUALTY_STAT_TO_BUFF[effect.stat]
-    const field = STAT_BUFF_FIELD[buffStat]
-    const buffed = sumStatBuffs(target, buffStat) + (target.extraStatBuffs?.[buffStat] ?? 0)
-    const base = target[field] - buffed
-    const delta = Math.trunc((base * effect.percent) / 100)
-    target[field] += delta
-    target.statBuffs ??= []
-    target.statBuffs.push({ stat: buffStat, delta, turnsLeft: 'battle' })
+    applyStatBuff(target, {
+      stat: CASUALTY_STAT_TO_BUFF[effect.stat],
+      percent: effect.percent,
+      duration: 'battle',
+    })
   }
 }
 
@@ -1080,6 +1108,7 @@ export function applyEnemyEffect(
     enemy.def = target
     enemy.fallback = target.ai.fallback ? cloneFallback(target.ai.fallback) : undefined
     enemy.firedRules = new Set()
+    recomputeEnemyPositions(s)
     return { outcome: 'succeeded', kind: effect.kind, beforeDef }
   }
 
@@ -1106,11 +1135,14 @@ export function applyEnemyEffect(
             status: emptyBattleStatus(),
             defending: false,
             firedRules: new Set(enemy.firedRules),
-            poisons: enemy.poisons.map((poison) => ({ ...poison })),
+            poisons: [],
           },
           expectDefined(available[index]),
         ),
       )
+    // script.c:2836–2844 only retains slots through the last active enemy after division.
+    s.maxEnemyIndex = aliveEnemies(s).at(-1) ?? -1
+    recomputeEnemyPositions(s)
     return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
   }
 
@@ -1196,8 +1228,6 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
         return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
       })
-      // 合击标记:本回合有人选合击 → 其余队员出手作废(fight.c fThisTurnCoop;perform 侧 pass)
-      s.coopThisTurn = [...s.pendingActions.values()].some((a) => a.kind === 'coop')
       s.actionQueue = buildActionQueue(players, enemies)
       // defending 不在此预置:原版出手时才置位(fight.c:4115,见 performPlayerAction defend 分支),
       // 先手敌打到"选了防御但还没轮到"的队员时不减半。曾建队列预置并误标"原版语义"。
@@ -1311,15 +1341,21 @@ function applyPlayerSkill(
     s.log.push(`${p.roleId} MP 不足,${skill.name} 施放失败`)
     return
   }
-  // 金钱消耗门(铜钱镖 cost.money=500;原版 scriptOnUse 0x1E 扣钱、不足跳「金钱不足」臂):
-  // 与 MP 同待遇 —— validatePlayerAction 已降级,此守卫纯兜底(在扣 MP 之前,失败不吃任何消耗)
-  const moneyCost = skill.cost.money ?? 0
-  if (moneyCost > battleMoney(s)) {
-    s.log.push(`${p.roleId} 金钱不足,${skill.name} 施放失败`)
-    return
-  }
   p.mp -= mpCost
   const execution = resolveSkillExecution(skill, 'player')
+  // scriptOnUse 在施法已扣 MP 后才检查钱。乾坤一掷首项换算威力前须至少有一文。
+  const moneyCost = skill.cost.money ?? 0
+  const availableMoney = battleMoney(s)
+  const needsMoneyForPower = execution.effects[0]?.kind === 'moneyDamage'
+  if (moneyCost > availableMoney || (needsMoneyForPower && availableMoney === moneyCost)) {
+    if (s.lastAction) {
+      s.lastAction.fizzled = true
+      s.lastAction.failureFeedback = 'missingSpellMoney'
+    }
+    s.log.push(`${p.roleId} 金钱不足,${skill.name} 施放失败`)
+    recordPlayerSpellGrowth(p, rng)
+    return
+  }
   // scriptOnUse 物品门在原版总扣 MP 之后执行(fight.c:4190/4215)。不能放进
   // validatePlayerAction 提前降级，否则会改变“选得出、轮到时缺蛊仍扣 MP 并熄火”的真值。
   // 同一物品的多条成本先聚合，避免重复行逐条扣减导致半成功。
@@ -1346,11 +1382,10 @@ function applyPlayerSkill(
   if (!hasRequiredItems) {
     if (s.lastAction) {
       s.lastAction.fizzled = true
-      // 三条蛊术共用源失败臂 L_43058；沿用一阶段可见文案，不让“前摇后熄火”
-      // 变成无反馈。notice 是既有表现通道，不新增 content/save 状态。
-      s.lastAction.notice = '道具不足无法使用'
+      s.lastAction.failureFeedback = 'missingSpellItem'
     }
     s.log.push(`${p.roleId} 物品不足,${skill.name} 施放失败`)
+    if (validItemCosts) recordPlayerSpellGrowth(p, rng)
     return
   }
   for (const [itemId, amount] of itemCosts) {
@@ -1380,25 +1415,40 @@ function applyPlayerSkill(
     }
   }
   const targets = playerSkillTargets(s, idx, skill, targetEnemyIdx, targetAllyIdx)
-  // 370 的 0x57：普通 MP 扣除与物品门成功后，读取**剩余** MP×8，再清空 MP；
-  // prepare 本身就是主伤害语义，不能再在 effects 里补一份 damage。
-  for (const prepare of execution.prepare) {
-    if (prepare.kind !== 'remainingResourceDamage' || prepare.resource !== 'mp') continue
-    const amount = Math.max(0, Math.trunc(p.mp * prepare.multiplier))
-    p.mp = 0
-    if (amount <= 0) continue
-    for (const ti of targets.enemies) {
-      const enemy = expectDefined(s.enemies[ti])
-      const dealt = Math.min(enemy.hp, amount)
-      enemy.hp -= dealt
-      if (dealt > 0)
-        s.log.push(`${p.roleId} 施展 ${skill.name},${enemy.def.id} 受到 ${dealt} 点伤害`)
+  const { animation } = execution
+  const fireFrames = s.fireFrameCounts[animation.effectSprite] ?? 0
+  const action = s.lastAction
+  if (
+    animation.blow &&
+    fireFrames > 0 &&
+    skill.target === 'allEnemies' &&
+    action?.side === 'player' &&
+    action.kind === 'cast'
+  ) {
+    // 成功耗用之后，OffMagic 的每个实有帧先抽 0x6B，成功脚本及伤害随后执行。
+    const { totalFrames } = getOffMagicTiming(fireFrames, animation)
+    const low = Math.min(0, animation.blow)
+    const range = Math.abs(animation.blow) + 1
+    action.blow = {
+      targetSlots: aliveEnemies(s),
+      steps: Array.from({ length: totalFrames }, () => low + Math.floor(rng() * range)),
     }
+  }
+  // 0x57 writes a neutral spell's base power after ordinary costs, then clears the caster's MP.
+  for (const prepare of execution.prepare) {
+    const power = Math.trunc(p.mp * prepare.multiplier)
+    p.mp = 0
+    if (power > 0)
+      for (const ti of targets.enemies) dealSkillDamage(s, p, ti, power, 0, skill.name, rng)
   }
   applyPlayerSkillEffects(s, p, skill, execution.effects, targets, rng, (ti, power, elemental) =>
     dealSkillDamage(s, p, ti, power, elemental, skill.name, rng),
   )
-  // CLASSIC 在法术效果和逐目标伤害浮动之后累计成长，效果被抵抗也走到动作收尾（fight.c:4328–4329）。
+  recordPlayerSpellGrowth(p, rng)
+}
+
+// 法术效果、逐目标伤害抽样或耗材失败分支结束后累计成长（fight.c:4328–4329）。
+function recordPlayerSpellGrowth(p: BattlePlayerState, rng: () => number): void {
   p.hiddenCounts.maxMP = (p.hiddenCounts.maxMP ?? 0) + 2 + Math.floor(rng() * 2)
   p.hiddenCounts.magicAttack = (p.hiddenCounts.magicAttack ?? 0) + 1
 }
@@ -1466,14 +1516,13 @@ function applyPlayerSkillEffects(
           pass = !!t && Math.floor(rng() * 10) >= t.def.ai.resistanceToSorcery
         if (!pass) {
           s.log.push(`${skill.name} 无任何效果`)
-          // 回梦/鬼降等状态术的失败分支是战斗旁白“攻击无效”。按 effect 语义派生，
-          // 不把 PAL 技能 ID 或源脚本 label 泄漏进 clean runtime。
-          if (
-            onEnemies &&
-            enemyTargets.length > 0 &&
-            effects.slice(effectIdx + 1).some((later) => later.kind === 'applyStatus')
-          )
-            enemyStatusAttempted = true
+          // 失败在演出收尾后显示。状态术与处决术使用各自的原盘旁白。
+          if (onEnemies && enemyTargets.length > 0) {
+            const remaining = effects.slice(effectIdx + 1)
+            if (remaining.some((later) => later.kind === 'applyStatus')) enemyStatusAttempted = true
+            else if (s.lastAction && remaining.some((later) => later.kind === 'instantKill'))
+              s.lastAction.failureFeedback = 'spellIneffective'
+          }
           break applyEffects
         }
         break
@@ -1499,13 +1548,21 @@ function applyPlayerSkillEffects(
         break
       }
       case 'collectTreasure': {
-        // 0x33 收妖(灵葫咒二段):敌 collectValue 累进全局收妖值(战后无条件入 world)
+        // 0x33 先判可收值。没有可收目标时跳到失败旁白，不能继续 0x60 即死。
+        const collectible = enemyTargets.filter(
+          (slot) => expectDefined(s.enemies[slot]).def.stats.collectValue > 0,
+        )
+        if (enemyTargets.length > 0 && collectible.length === 0) {
+          if (s.lastAction) s.lastAction.failureFeedback = 'spellIneffective'
+          s.log.push(`${skill.name} 无任何效果`)
+          break applyEffects
+        }
+        // 收妖后的目标效果沿用实际收下的敌槽。
+        enemyTargets = collectible
         for (const ti of enemyTargets) {
           const v = expectDefined(s.enemies[ti]).def.stats.collectValue
-          if (v > 0) {
-            s.collectGained += v
-            s.log.push(`收妖值 +${v}`)
-          }
+          s.collectGained += v
+          s.log.push(`收妖值 +${v}`)
         }
         break
       }
@@ -1564,15 +1621,15 @@ function applyPlayerSkillEffects(
         s.moneyDelta -= spend
         s.log.push(`${p.roleId} 掷出 ${spend} 文钱`)
         const power = Math.trunc((spend * eff.num) / eff.den)
-        for (const ti of enemyTargets) dealDamage(ti, power, eff.elemental)
+        if (power > 0) for (const ti of enemyTargets) dealDamage(ti, power, eff.elemental)
         break
       }
       case 'fleeBattle': {
-        // 0x3A 金蝉脱壳:全队**必定**脱离战斗(无掷率);boss 战不可(原版跳「无法逃离!」文案臂)
+        // 0x3A 金蝉脱壳成功时不掷逃跑概率。禁逃时进入 SSS 的居中失败卷轴。
         if (s.boss) {
           s.log.push('无法逃离!')
           if (s.lastAction) {
-            s.lastAction.notice = '无法逃离!'
+            s.lastAction.failureFeedback = 'spellIneffective'
             s.lastAction.fleeSuccess = false
           }
         } else {
@@ -1745,6 +1802,8 @@ function performCoopMagic(
     s.log.push(`${caster.roleId} 无合体技,合击失败`)
     return
   }
+  // Only a validated cooperative move can suppress later allied actions (fight.c:3858).
+  s.coopThisTurn = true
   const contributors = s.players
     .map((_, i) => i)
     .filter((i) => isPlayerHealthy(expectDefined(s.players[i])))
@@ -1873,14 +1932,8 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
   let a = act
   if (a.kind === 'cast') {
     const skill = s.skills[a.skillId]
-    if (
-      skill &&
-      (p.status.silence > 0 ||
-        p.mp < (skill.cost.mp ?? 0) ||
-        battleMoney(s) < (skill.cost.money ?? 0))
-    ) {
-      const why =
-        p.status.silence > 0 ? '被封咒' : p.mp < (skill.cost.mp ?? 0) ? 'MP 不足' : '金钱不足'
+    if (skill && (p.status.silence > 0 || p.mp < (skill.cost.mp ?? 0))) {
+      const why = p.status.silence > 0 ? '被封咒' : 'MP 不足'
       if (skill.target === 'oneEnemy' || skill.target === 'allEnemies') {
         a = { kind: 'attack', targetEnemyIdx: a.targetEnemyIdx ?? -1 }
         s.log.push(`${p.roleId} ${why},${skill.name} 降级普攻`)
@@ -1948,7 +2001,7 @@ function validatePlayerAction(s: BattleState, idx: number, act: BattleAction): B
 
 function createPlayerLastAction(
   idx: number,
-  action: Exclude<BattleAction, { kind: 'coop' }>,
+  action: Exclude<BattleAction, { kind: 'coop' | 'pass' }>,
 ): BattleLastAction {
   switch (action.kind) {
     case 'attack':
@@ -1998,7 +2051,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   // fight.c:1730–1747: 死傀儡强制普攻；睡眠、定身和混乱只检查活人。
   const queued = dead ? { kind: 'attack' as const, targetEnemyIdx: -1 } : s.pendingActions.get(idx)
   if (!queued) return
-  // 合击消耗:本回合有人合击 → 其余队员本次出手作废(HP 贡献已在合击结算内扣;fight.c:2532)
+  // 合击执行后跳过同一回合稍晚的队友动作；已先手的动作保留（fight.c:3858）。
   if (s.coopThisTurn && queued.kind !== 'coop') {
     s.lastAction = { side: 'player', idx, kind: 'pass' }
     return
@@ -2034,6 +2087,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
   } else {
     act = validatePlayerAction(s, idx, queued)
   }
+  if (act.kind === 'pass') return
   if (act.kind === 'coop') {
     performCoopMagic(s, idx, act, _rng)
     return
@@ -2101,6 +2155,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
         const roll = 1 + Math.floor(Math.max(0, Math.min(0.999999999, _rng())) * 100)
         if (!(roll < chance)) {
           s.log.push(`${item.name} 无任何效果`)
+          if (s.lastAction) s.lastAction.failureFeedback = 'itemIneffective'
           return
         }
         continue
@@ -2424,7 +2479,7 @@ function performThrow(
           } else {
             if (eff.onResist === 'stopTarget') {
               s.log.push('攻击无效')
-              if (s.lastAction) s.lastAction.notice = '攻击无效'
+              if (s.lastAction) s.lastAction.failureFeedback = 'throwStatusIneffective'
               stoppedTargets.add(enemyIdx)
             } else s.log.push(`${e.def.id} 抵抗了 ${eff.status}`)
           }
@@ -2600,11 +2655,13 @@ function applyEnemySkill(
         // 原版玩家无灵抗字段(global.h:203 wResistanceToSorcery 是敌专属,0x2D 对玩家
         // 上状态也无抗掷);HP 阈值门按玩家血量。失败截断其后(夺魂 miss)。
         const t = s.players[targets[0] ?? -1]
-        let pass = true
-        if (eff.chance !== undefined) pass &&= 1 + Math.floor(rng() * 100) < eff.chance
-        if (pass && eff.hpAtMostPercent !== undefined)
-          pass = !!t && t.hp * 100 <= t.maxHp * eff.hpAtMostPercent
-        if (!pass) {
+        const missed = eff.chance !== undefined && 1 + Math.floor(rng() * 100) >= eff.chance
+        if (
+          missed ||
+          (eff.hpAtMostPercent !== undefined && (!t || t.hp * 100 > t.maxHp * eff.hpAtMostPercent))
+        ) {
+          // 三种原盘敌方概率门的失败分支都跳到 SSS 43072 的中央卷轴。
+          if (missed) action.failureFeedback = 'spellIneffective'
           s.log.push(`${skill.name} 无任何效果`)
           break applyEnemyEffects
         }

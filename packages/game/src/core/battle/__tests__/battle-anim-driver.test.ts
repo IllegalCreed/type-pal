@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createCommandBus } from '../../command-bus.js'
+import { buildSummonGodSequence } from '../animation/summon.js'
 import {
   advanceBattleAnimFrames,
   applyAnimFrame,
@@ -230,6 +231,28 @@ describe('startBattleAnim', () => {
     expect(state.players[0]!.pos).toEqual({ x: 224, y: 100 })
   })
 
+  it('渲染时间到达归位时仍等待合击的死亡检查', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    const bus = createCommandBus()
+    const gathered = { x: 208, y: 157 }
+    const resting = { x: 240, y: 170 }
+    startBattleAnim(
+      state,
+      [
+        { durationMs: 200, fighters: [{ side: 'player', idx: 0, pos: gathered }] },
+        { durationMs: 40, fighters: [{ side: 'player', idx: 0, pos: resting }] },
+      ],
+      bus,
+      undefined,
+      { enemyDeathCheckFrame: 1 },
+    )
+    stepBattleAnimRender(state, 0)
+    expect(advanceBattleAnimFrames(state, bus, 200)).toBe(false)
+    stepBattleAnimRender(state, 1400)
+    expect(state.players[0]?.pos).toEqual(gathered)
+    expect(state.battleAnim?.idx).toBe(0)
+  })
+
   it('空 frames → 不建 battleAnim', () => {
     const state = mkState([mkPlayer(0)], [mkEnemy()])
     startBattleAnim(state, [], createCommandBus())
@@ -281,6 +304,34 @@ describe('stepBattleAnimRender — present wall-clock 视觉帧细分(修"施法
     a.idx = 4
     stepBattleAnimRender(state, 1140)
     expect(a.renderIdx).toBe(4)
+  })
+
+  it('吹飞末帧到受击时，绘制等逻辑提交归位和伤害数字', () => {
+    const state = mkState([mkPlayer(0)], [mkEnemy()])
+    const bus = createCommandBus()
+    const damage = { target: { kind: 'enemy', idx: 0 }, value: 325, color: 'blue' } as const
+    const frames = buildSummonGodSequence({
+      spriteKey: 'player-14',
+      pos: { x: 224, y: 181 },
+      bgColorShift: -1,
+      totalFrames: 2,
+      frameTimeMs: 50,
+      offMagicFrames: [...mk50msMagicFrames().slice(0, 1), { durationMs: 0 }],
+      postMagicFrames: [{ durationMs: 40, damageNums: [damage] }, { durationMs: 40 }],
+      syncBlowReaction: true,
+    })
+    startBattleAnim(state, frames.slice(frames.findIndex(({ overlays }) => overlays?.length)), bus)
+    stepBattleAnimRender(state, 1000)
+    stepBattleAnimRender(state, 1090)
+    expect(state.battleAnim?.renderIdx).toBe(0)
+    expect(state.battleAnim?.overlays).toHaveLength(1)
+    expect(bus.drain()).toEqual([])
+
+    advanceBattleAnimFrames(state, bus, 50)
+    stepBattleAnimRender(state, 1091)
+    expect(state.battleAnim?.renderIdx).toBe(2)
+    expect(state.battleAnim?.overlays).toBeUndefined()
+    expect(bus.drain().map(({ cmd }) => cmd)).toEqual([{ op: 'showDamageNum', ...damage }])
   })
 
   it('惰性锚点对齐逻辑进度:present 中途接管(idx=2,frameElapsed=20)→ renderIdx 从 2 起', () => {

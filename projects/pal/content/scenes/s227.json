@@ -101,37 +101,83 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "asset": "music.pal.067",
-                    "kind": "playMusic"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 101,
-                      "height": 0,
-                      "row": 29
+                "entry": {
+                  "prepare": [
+                    {
+                      "asset": "music.pal.067",
+                      "kind": "playMusic"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 101,
+                        "height": 0,
+                        "row": 29
+                      }
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 4,
+                      "target": {
+                        "scene": "s227",
+                        "entity": "e4011"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 1,
+                      "target": {
+                        "scene": "s227",
+                        "entity": "e4012"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 2,
+                      "target": {
+                        "scene": "s227",
+                        "entity": "e4013"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 5,
+                      "target": {
+                        "scene": "s227",
+                        "entity": "e4014"
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "frame": 3,
+                      "target": {
+                        "scene": "s227",
+                        "entity": "e4015"
+                      }
                     }
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-232"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
-                    ]
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "cameraSnap"
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "color": "black",
+                    "withBody": true
+                  }
+                },
+                "body": [
                   {
                     "kind": "wait",
                     "ms": 800
@@ -245,7 +291,9 @@
                     "asset": "frame-animation.pal.007",
                     "frameRate": 8,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true,
+                    "initialFadeInMs": 600
                   },
                   {
                     "cue": {
@@ -271,6 +319,9 @@
                     "kind": "stopMusic"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "dir": "out",
                     "kind": "fade",
                     "ms": 1800
@@ -285,17 +336,6 @@
               {
                 "id": "legacy-002",
                 "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 101,
-                      "height": 0,
-                      "row": 29
-                    }
-                  },
-                  {
-                    "kind": "cameraSnap"
-                  },
                   {
                     "cue": {
                       "rows": [
@@ -312,6 +352,9 @@
                     "kind": "dialog"
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "dir": "out",
                     "kind": "fade",
                     "ms": 600
@@ -320,7 +363,27 @@
                     "kind": "loadScene",
                     "scene": "s231"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 101,
+                        "height": 0,
+                        "row": 29
+                      }
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600
+                  }
+                }
               }
             ]
           }

@@ -84,8 +84,12 @@ interface SlotRender {
   pageStart: number
   /** 每个源 row 的真实打字速度(ms/字)。 */
   rowSpeeds: number[]
-  /** cue 尾停顿自动推进(ms);非 undefined = 自动推进、无光标。 */
+  /** 最后一页的自动推进尾停顿，单位为毫秒。 */
   autoAdvance?: number
+}
+
+function hasFollowingPage(render: SlotRender): boolean {
+  return render.pageStart + LINES_PER_PAGE < render.displayLines.length
 }
 
 /** Detached observation of the last rendered page; reading never ticks or advances dialogue. */
@@ -110,6 +114,7 @@ export interface DialogueSlotObservation extends Omit<DialogueObservation, 'phas
   readonly phase: DialogueObservation['phase'] | 'retained'
   readonly visibleText: string | null
   readonly portraitAsset: string | null
+  readonly portraitLayout: boolean
 }
 
 export class DialogBox {
@@ -160,6 +165,10 @@ export class DialogBox {
         if (!render) return []
         const active = this.active && slot === this.slots.activeSlot
         const observation = this.observeSlot(slot, render)
+        const portraitAsset =
+          render.cue.portrait && this.portraits.has(render.cue.portrait.asset)
+            ? render.cue.portrait.asset
+            : null
         return [
           Object.freeze({
             ...observation,
@@ -167,10 +176,8 @@ export class DialogBox {
             active,
             phase: active ? observation.phase : ('retained' as const),
             visibleText: render.visibleText,
-            portraitAsset:
-              render.cue.portrait && this.portraits.has(render.cue.portrait.asset)
-                ? render.cue.portrait.asset
-                : null,
+            portraitAsset,
+            portraitLayout: render.cue.portraitLayout ?? portraitAsset !== null,
           }),
         ]
       }),
@@ -188,7 +195,6 @@ export class DialogBox {
 
   private observeSlot(slot: SlotId, render: SlotRender): DialogueObservation {
     const cue = render.cue
-    const hasNextPage = render.pageStart + LINES_PER_PAGE < render.displayLines.length
     const pageTextIds: string[] = []
     for (const line of render.displayLines.slice(
       render.pageStart,
@@ -209,7 +215,7 @@ export class DialogBox {
       pageStartedAtMs: render.pageStartedAtMs,
       phase: !this.pageDone
         ? 'typing'
-        : hasNextPage || render.autoAdvance === undefined
+        : hasFollowingPage(render) || render.autoAdvance === undefined
           ? 'waiting-input'
           : 'auto-advance',
       speaker: cue.speaker ?? null,
@@ -234,8 +240,8 @@ export class DialogBox {
     if (!cue) throw new Error('reforge: layoutCueInto cueIdx 越界')
     const slot: SlotId = cue.slot ?? 'bottom'
     const portraitImg = cue.portrait ? this.portraits.get(cue.portrait.asset) : undefined
-    const hasPortrait = Boolean(portraitImg)
-    const startX = hasPortrait ? POS[slot].textWithPortrait.x : POS[slot].text.x
+    const portraitLayout = cue.portraitLayout ?? Boolean(portraitImg)
+    const startX = portraitLayout ? POS[slot].textWithPortrait.x : POS[slot].text.x
     // D14-1:不再按头像收窄、不再扣光标预留;头像只改起点(startX 已处理)。
     // 光标按原版 posIcon 语义画在末行末尾,接近屏边时本就会被裁(视觉验收项)。
     const maxRight = MAX_RIGHT
@@ -326,7 +332,7 @@ export class DialogBox {
       this.pageDone = true
       return
     }
-    if (r && r.pageStart + LINES_PER_PAGE < r.displayLines.length) {
+    if (r && hasFollowingPage(r)) {
       // 该段话还有下一页
       r.pageStart += LINES_PER_PAGE
       this.lineStartMs = nowMs
@@ -335,9 +341,25 @@ export class DialogBox {
       this.pageDone = false
       return
     }
-    // 作者配置的尾停顿不可跳过。战后叙述的默认计时也接受确认键。
+    // 普通对白保留完整尾停顿。场景定时叙述由其按键退场入口处理。
     if (r?.cue.autoAdvance !== undefined) return
     this.advanceToNextCue(nowMs)
+  }
+
+  dismissTimedNarration(nowMs: number): boolean {
+    const narration = this.renders.narration
+    if (
+      !this.state ||
+      this.battleChoreography ||
+      this.battleVictory ||
+      this.slots.activeSlot !== 'narration' ||
+      narration?.cue.autoAdvance === undefined ||
+      narration.visibleText === null
+    ) {
+      return false
+    }
+    this.advanceToNextCue(nowMs)
+    return true
   }
 
   /** 推进到下一个 cue；确认结束和可见槽清除有独立生命周期。 */
@@ -385,7 +407,7 @@ export class DialogBox {
     if (!this.state || !this.pageDone) return
     const active = this.slots.activeSlot
     const r = this.renders[active]
-    if (!r) return
+    if (!r || (active !== 'narration' && hasFollowingPage(r))) return
     const auto = r.autoAdvance
     if (auto === undefined) return
     // 活跃段话整页打字耗时 + autoAdvanceMs(此 slot 该段话,逐显示行串行)
@@ -448,13 +470,8 @@ export class DialogBox {
     const page = r.displayLines.slice(r.pageStart, r.pageStart + LINES_PER_PAGE)
     if (page.length === 0) return
     if (slotId === 'narration') {
-      // The original reward wait starts after the text is drawn.
-      if (
-        isActive &&
-        (this.battleChoreography || this.battleVictory) &&
-        r.cue.autoAdvance === undefined &&
-        r.visibleText === null
-      ) {
+      // Both the countdown and key dismissal are tied to the first drawn scroll.
+      if (isActive && r.autoAdvance !== undefined && r.visibleText === null) {
         this.lineStartMs = nowMs
         r.pageStartedAtMs = nowMs
       }
@@ -472,8 +489,9 @@ export class DialogBox {
       this.ctx.drawImage(portraitImg, px, py)
     }
     // 正文 / 姓名 x:有头像时缩进(须与 layoutLineInto 的 startX 一致)
-    const titleX = hasPortrait ? pos.titleWithPortrait.x : pos.title.x
-    const textX = hasPortrait ? pos.textWithPortrait.x : pos.text.x
+    const portraitLayout = cue.portraitLayout ?? hasPortrait
+    const titleX = portraitLayout ? pos.titleWithPortrait.x : pos.title.x
+    const textX = portraitLayout ? pos.textWithPortrait.x : pos.text.x
 
     // 姓名牌:该 slot 当前段话首行的 speaker(同段跨页常驻)
     if (cue?.speaker) {
@@ -511,14 +529,12 @@ export class DialogBox {
     r.visibleText = visibleLines.join('\n')
     if (isActive && allDone && !this.pageDone) this.pageDone = true
 
-    // 光标:仅普通上下对话槽 + 全显 + 非 autoAdvance。center 是无框剧情字幕，
-    // 即使等键也不画箭头；narration 已在上方走专用卷轴并提前返回。
     const lastDl = page[page.length - 1]
     if (
       dialogSlotShowsCursor(slotId) &&
       isActive &&
       this.pageDone &&
-      r.autoAdvance === undefined &&
+      (hasFollowingPage(r) || r.autoAdvance === undefined) &&
       lastDl
     ) {
       this.drawCursor(

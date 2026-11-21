@@ -2,6 +2,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { performAttackMate } from '../core/battle/actions/attack-mate.js'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
+import { activateHidingEffect } from '../core/battle/battle-system.js'
 import { createInitialGameState, type GameState } from '../core/game-state.js'
 import { Save } from '../core/save/api.js'
 import { startDialogLine } from '../present/dialog-box.js'
@@ -238,6 +239,22 @@ describe('V1 stored-data structure', () => {
     const badAnchor = text.replace('"anchor":{"x":244', '"anchor":{"x":"invalid"')
     expect(badAnchor).not.toBe(text)
     expect(() => parseImportedSave(badAnchor)).toThrow(/battleState/)
+  })
+
+  it('round-trips the live hiding transition while accepting an older battle snapshot', () => {
+    const { gs, state } = createBattleLifecycleFixture({ partyMembers: [0, 1] })
+    const old = parseImportedSave(serializeSave(gs))
+    expect(old.battleState?.hidingFade).toBeUndefined()
+
+    state.iHidingTime = -3
+    expect(activateHidingEffect(state)).toBe(true)
+    const text = serializeSave(gs)
+    const parsed = parseImportedSave(text)
+    expect(parsed.battleState?.iHidingTime).toBe(3)
+    expect(parsed.battleState?.hidingFade).toEqual({ elapsedMs: 0, revealing: false })
+    const corrupt = text.replace('"revealing":false', '"revealing":"false"')
+    expect(corrupt).not.toBe(text)
+    expect(() => parseImportedSave(corrupt)).toThrow(/battleState/)
   })
 
   it('rejects an unknown battle phase in an otherwise actual startBattle snapshot', () => {

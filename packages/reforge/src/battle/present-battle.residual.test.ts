@@ -1,6 +1,7 @@
 import type { Palette, RleFrame } from '@type-pal/shared'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import type { LoadedSprite } from '../assets.js'
+import { ENEMY_SUMMON_COLOR_SHIFT } from './battle-anim.js'
 import { drawDissolved, renderBattleScene } from './present-battle.js'
 
 const palette: Palette = {
@@ -137,6 +138,30 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
     expect(ctx.save).toHaveBeenCalledTimes(2)
     expect(ctx.restore).toHaveBeenCalledTimes(2)
     expect(ctx.globalAlpha).toBe(1)
+  })
+
+  test('repaints tinted enemy arrivals in depth order above ordinary fighters', () => {
+    installCanvasHost()
+    const { ctx, drawImage } = context()
+    renderBattleScene(
+      ctx,
+      {
+        palette,
+        enemies: [
+          { sprite: sprite(14), x: 100, y: 100, frame: 0, colorShift: ENEMY_SUMMON_COLOR_SHIFT },
+          { sprite: sprite(24), x: 102, y: 102, frame: 0, colorShift: 6 },
+          { sprite: sprite(18), x: 104, y: 100, frame: 0, colorShift: ENEMY_SUMMON_COLOR_SHIFT },
+        ],
+        players: [
+          { sprite: sprite(32), x: 106, y: 101, frame: 0, colorShift: ENEMY_SUMMON_COLOR_SHIFT },
+        ],
+        depthOverlays: [{ sprite: sprite(40), x: 100, y: 101, frame: 0, layerOffset: -3 }],
+      },
+      1,
+    )
+    expect(drawImage.mock.calls.map(([image]) => (image as HTMLCanvasElement).width)).toEqual([
+      40, 18, 14, 32, 24, 18, 14,
+    ])
   })
 
   test('pattern 不可用时溶解退化为透明度，并把越界进度钳在 0..1', () => {

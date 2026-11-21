@@ -114,6 +114,7 @@ export function menuFixture() {
     ),
     playSound: vi.fn<MenuPorts['playSound']>(),
     presentItemResults: vi.fn<MenuPorts['presentItemResults']>(async () => undefined),
+    presentPlacementFailure: vi.fn<MenuPorts['presentPlacementFailure']>(async () => undefined),
     showToast: vi.fn<MenuPorts['showToast']>(),
     report: vi.fn<MenuPorts['report']>(),
     audioPreferences: () => context.audio,

@@ -306,31 +306,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "asset": "music.pal.056",
-                    "kind": "playMusic"
-                  },
-                  {
-                    "kind": "setParty",
-                    "members": [
-                      "li-xiaoyao"
-                    ]
-                  },
-                  {
-                    "facing": "left",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 113,
-                      "height": 0,
-                      "row": 48
-                    }
-                  },
-                  {
-                    "kind": "clearDialog"
-                  },
-                  {
                     "cue": {
                       "identity": {
                         "kind": "unbound",
@@ -1008,7 +983,42 @@
                     "kind": "loadScene",
                     "scene": "s182"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "asset": "music.pal.056",
+                      "kind": "playMusic"
+                    },
+                    {
+                      "kind": "setParty",
+                      "members": [
+                        "li-xiaoyao"
+                      ]
+                    },
+                    {
+                      "facing": "left",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 113,
+                        "height": 0,
+                        "row": 48
+                      }
+                    },
+                    {
+                      "kind": "clearDialog"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                }
               }
             ]
           }

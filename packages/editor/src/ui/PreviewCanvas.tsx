@@ -25,6 +25,7 @@ import { gridToPixel, lookupText, resolveEntitySpriteId, spriteScreenY } from '@
 import type { AssetBase, ProjectMap, SpriteDraw } from '@type-pal/reforge'
 import {
   actualFrameIndex,
+  drawScriptFade,
   idleFrameIndex,
   renderSceneFrame,
   walkFrameIndex,
@@ -639,13 +640,7 @@ export function PreviewCanvas(props: {
       }
       if (!presenting) drawScriptMovementPreview(ctx, movementPreview, camera, zoom)
       // 淡幕
-      if (v.fadeBlack > 0) {
-        ctx.save()
-        ctx.globalAlpha = v.fadeBlack
-        ctx.fillStyle = '#000'
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.restore()
-      }
+      drawScriptFade(ctx, v.fadeBlack, v.fadeColor, v.fadeDirection)
       raf = requestAnimationFrame(frame)
     }
     raf = requestAnimationFrame(frame)

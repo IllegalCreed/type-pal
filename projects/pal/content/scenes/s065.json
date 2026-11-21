@@ -5405,7 +5405,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5425,7 +5425,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5445,7 +5445,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5465,7 +5465,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5485,7 +5485,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5505,7 +5505,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "down",
@@ -5525,7 +5525,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {
@@ -5540,6 +5540,9 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "kind": "setEntityState",
@@ -5597,6 +5600,17 @@
                         }
                       ],
                       "enemyTeamId": "team-26"
+                    },
+                    {
+                      "kind": "fade",
+                      "dir": "out",
+                      "ms": 0,
+                      "color": "black"
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-232"
                     },
                     {
                       "kind": "loadScene",

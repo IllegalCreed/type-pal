@@ -61,3 +61,22 @@ test('count overflow seals all streams; large causes and atomic snapshots have i
   recorder.fail(new Error('source failure'))
   assert.match(errors[0], /source failure/)
 })
+
+test('submitted world states and painted frame receipts share the world rendering budget', () => {
+  const rows = []
+  let overflow = false
+  const recorder = createEvidenceRecorder({
+    context: () => ({ atMs: 1 }),
+    errors: [],
+    onOverflow: () => {
+      overflow = true
+    },
+    budgets: { events: 100, worldRenders: 300 },
+  })
+  const state = recorder.append(rows, { kind: 'world-drawn', state: 'x'.repeat(120) })
+  assert(state)
+  assert(recorder.append(rows, { kind: 'world-render', view: state.order }))
+  assert(recorder.append(rows, { kind: 'script-op', ip: 31905 }))
+  assert.equal(recorder.append(rows, { kind: 'world-drawn', state: 'x'.repeat(120) }), undefined)
+  assert.equal(overflow, true)
+})

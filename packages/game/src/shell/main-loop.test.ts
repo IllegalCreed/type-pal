@@ -277,6 +277,7 @@ describe('Present and input gates', () => {
     const audio: AudioManager = {
       sync: (_pending, { track }) => musicRequests.push(track),
       playSound() {},
+      preloadSounds: async () => {},
       resume() {},
       setSfxEnabled() {},
       setMusicEnabled() {},

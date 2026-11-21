@@ -45,6 +45,9 @@ const shared = new RuntimeSharedScriptResolver(library, digest)
 const retiredPalaceGuideAuto = 's019/e270/auto/legacy-001'
 const retiredYangzhouThiefAuto = 's093/e1759/auto/legacy-001'
 const duetCallers = ['s006/e168/auto/default', 's007/e173/auto/default']
+const retiredQ2Autos = new Set(oracle.q2.retired)
+const changedQ2Autos = new Map(oracle.q2.changed.map((row) => [row.key, row]))
+const q2SceneMetadata = new Map(Object.entries(oracle.q2.nonScript))
 const governedAutoKeys = new Set([
   ...motionTransitionLedger.rows.map((row) => row.key),
   // E2E006: the boat's retired auto is now exercised by main.ride-presentation.test.ts.
@@ -340,7 +343,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
     items: validateAuthorItems(itemsJson),
   })
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1319)
+  expect(autos.size).toBe(oracle.q2.autoCount)
   let flows = 0
   for (const scene of runtimeScenes) {
     for (const entity of scene.entities)
@@ -360,7 +363,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
     .filter((entity) => entity.behaviors?.trigger?.['break-with-hammer'])
     .map((entity) => entity.id)
   expect(hammerTargets).toEqual([...mazeAshuraStatues.keys()])
-  expect(flows).toBe(4654 + mazeAshuraStatues.size)
+  expect(flows).toBe(oracle.q2.flowCount)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -528,8 +531,9 @@ test('non-script definitions preserve the source except for explicitly asserted 
         (entity) => entity.id !== 'palace-isolated-exit',
       )
     }
-    if (!governedSceneIds.has(scene.id))
-      expect(await hash(withoutScripts), scene.id).toBe(sourceHashes.get(scene.id))
+    const expected = q2SceneMetadata.get(scene.id)
+    if (expected !== undefined || !governedSceneIds.has(scene.id))
+      expect(await hash(withoutScripts), scene.id).toBe(expected ?? sourceHashes.get(scene.id))
   }
   // Original event-object trigger joins the team and hide ticks in victory tails 41127/41176/41180.
   expect(victoryFades).toHaveLength(828)
@@ -579,7 +583,9 @@ test('shared sound routines are self-free and use only sound and local control',
 })
 
 test.each(
-  ledger.removedTerminalWaits.filter((row) => !governedAutoKeys.has(row.key)),
+  ledger.removedTerminalWaits.filter(
+    (row) => !governedAutoKeys.has(row.key) && !retiredQ2Autos.has(row.key),
+  ),
 )('settles directly after self state 0 at the generated completion tail: $key', (row) => {
   const flow = autos.get(row.key)
   const stage = flow?.stages.find((value) => value.id === row.stage)
@@ -597,9 +603,38 @@ test.each(
 
 const cases = oracle.cases
   .flatMap((row) =>
-    oracle.scenarios.map((scenario, i) => ({ ...scenario, key: row.key, expected: row.hashes[i] })),
+    oracle.scenarios.map((scenario, index) => ({
+      ...scenario,
+      key: row.key,
+      expected: changedQ2Autos.get(row.key)?.hashes[index] ?? row.hashes[index],
+    })),
   )
-  .filter((entry) => !governedAutoKeys.has(entry.key) && !duetCallers.includes(entry.key))
+  .filter(
+    (entry) =>
+      !governedAutoKeys.has(entry.key) &&
+      !retiredQ2Autos.has(entry.key) &&
+      !duetCallers.includes(entry.key),
+  )
+
+test('Q2 keeps one-time choreography out of recurring behavior registrations', async () => {
+  expect(retiredQ2Autos.size).toBe(oracle.q2.retired.length)
+  const recorded = new Set([
+    ...oracle.cases.map((row) => row.key),
+    ...ledger.primarySource.s231.firstMovement.map(
+      ({ entity }) => `s231/${entity}/auto/${entity === 'e4168' ? 'legacy-004' : 'legacy-001'}`,
+    ),
+  ])
+  for (const key of retiredQ2Autos) {
+    expect(recorded.has(key), key).toBe(true)
+    expect(autos.has(key), key).toBe(false)
+  }
+  for (const [key, binding] of changedQ2Autos) {
+    const flow = autos.get(key)
+    expect(flow, key).toBeDefined()
+    expect(await hash(flow), key).toBe(binding.flowSha256)
+    expect(binding.hashes, key).toHaveLength(oracle.scenarios.length)
+  }
+})
 
 test('governed auto transitions retain their original oracle evidence while using dedicated GOV3 proofs', () => {
   for (const row of motionTransitionLedger.rows) {
@@ -904,27 +939,39 @@ test.each([
 
 test.each(
   ledger.primarySource.s231.firstMovement,
-)('celebration departure $entity starts its complete source-defined wait', async (row) => {
-  const key = `s231/${row.entity}/auto/${row.entity === 'e4168' ? 'legacy-004' : 'legacy-001'}`
-  const flow = autos.get(key)
-  if (!flow) throw new Error(key)
-  const result = await observe(flow, {
-    seed: 1,
-    environment: false,
-    effects: 20,
-    milliseconds: 10000,
-  })
+)('altar departure $entity observes the source wait before its first foreground step', (row) => {
+  const body = scenes.find(({ id }) => id === 's231')?.hooks?.onEnter?.variants.default?.flow
+    .stages[0]?.body
+  const start = body?.findIndex(
+    (command) => command.kind === 'sceneTimeline' && command.label === '地魔兽出土与祭坛疏散',
+  )
+  if (body === undefined || start === undefined || start < 0)
+    throw new Error('missing altar retreat')
+  const timeline = body[start]
+  if (timeline?.kind !== 'sceneTimeline') throw new Error('missing first retreat timeline')
+  const actor = timeline.tracks.find((track) => track.target?.entity === row.entity)
+  const firstStep = actor?.cues.find((cue) =>
+    cue.body.some((command) => command.kind === 'nudgeEntity'),
+  )
+  // Original activation and the first advancing world beat are consecutive 100 ms ticks.
+  expect(row.firstMovementMilliseconds).toBe(row.ticksBeforeMove * 100)
+  expect(firstStep?.atMs).toBe(row.firstMovementMilliseconds + 100)
+  expect(firstStep?.body.map((command) => command.kind)).toEqual([
+    'setEntityFacing',
+    'nudgeEntity',
+    'animEntity',
+  ])
   expect(
-    result.trace.find((event) => {
-      return (
-        event.command &&
-        typeof event.command === 'object' &&
-        'kind' in event.command &&
-        event.command.kind === 'moveEntity'
-      )
-    })?.at,
-  ).toBe(row.firstMovementMilliseconds)
-  expect(result.cursor).toEqual({ kind: 'completed' })
+    body
+      .slice(0, start)
+      .some(
+        (command) =>
+          command.kind === 'selectEntityBehavior' &&
+          command.target.entity === row.entity &&
+          command.channel === 'auto' &&
+          command.selection.kind === 'disabled',
+      ),
+  ).toBe(true)
 })
 
 test.each([

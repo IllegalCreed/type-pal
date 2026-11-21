@@ -352,6 +352,8 @@ function projectPreviewCommands(
       case 'teleportOut':
         projected.push({
           kind: 'teleportOut',
+          ...(command.gatherParty === undefined ? {} : { gatherParty: command.gatherParty }),
+          ...(command.arrivalSound === undefined ? {} : { arrivalSound: command.arrivalSound }),
           ...(command.onFail
             ? {
                 onFail: projectPreviewCommands(command.onFail, self, sharedScripts, depth + 1),

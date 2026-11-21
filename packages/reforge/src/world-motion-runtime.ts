@@ -83,6 +83,7 @@ export interface EntityChaseSlot extends EntityMotionSlotBase {
   kind: 'chase'
   range: number
   floating: boolean
+  worldStride?: number
   authorityEpochAtEnqueue?: number
 }
 
@@ -141,6 +142,7 @@ interface RegisterChaseInput {
   id: string
   range: number
   floating: boolean
+  worldStride?: number
   sceneId: string
   signal: AbortSignal
   activation?: ActivationStamp
@@ -446,6 +448,7 @@ export class WorldMotionRuntime {
         },
         range: input.range,
         floating: input.floating,
+        ...(input.worldStride === undefined ? {} : { worldStride: input.worldStride }),
         commandEpoch: this.nextCommandEpoch(),
         sceneSessionId: this.currentSceneSessionId(input.sceneId),
         commitAttempt,

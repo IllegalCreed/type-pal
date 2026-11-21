@@ -61,6 +61,7 @@ describe('event dialogue page continuation', () => {
       }
       gs.nowMs += 100
       tickEventSystem(gs, input)
+      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
       const dialog = gs.dialogBox
       const complete = [
         ...(dialog?.shownLines ?? []),

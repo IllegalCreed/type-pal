@@ -213,18 +213,19 @@ describe('R13-6B 酒神剩余真气结算', () => {
     expect(state.enemies[0]!.hp).toBe(999)
   })
 
-  test('满 MP 成功时按（扣 1 后余量）×8 直伤并清空 MP', () => {
+  test('酒神将（扣 1 后余量）×8 作为法术基础伤害，再按灵力和目标防御结算', () => {
     const state = playerCast(wineGod, 30, 1)
     expect(state.players[0]!.mp).toBe(0)
-    expect(state.enemies[0]!.hp).toBe(999 - 29 * 8)
+    // SDLPal 0x57 writes base damage 232. A 30-strength cast against defense 28 adds floor(15 / 4).
+    expect(state.enemies[0]!.hp).toBe(999 - 235)
     expect(state.inventory).toEqual([{ itemId: '86', count: 0 }])
   })
 
-  test('酒不足仍扣常规 MP，但不扣酒、不结算伤害或隐藏成长', () => {
+  test('酒不足仍扣常规 MP，跳过伤害并保留施法成长', () => {
     const state = playerCast(wineGod, 30, 0)
     expect(state.players[0]!.mp).toBe(29)
     expect(state.enemies[0]!.hp).toBe(999)
-    expect(state.players[0]!.hiddenCounts.magicAttack).toBeUndefined()
+    expect(state.players[0]!.hiddenCounts.magicAttack).toBe(1)
     expect(state.log.some((line) => line.includes('物品不足,酒神 施放失败'))).toBe(true)
   })
 

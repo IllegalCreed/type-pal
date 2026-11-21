@@ -502,6 +502,48 @@ describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () 
 })
 
 describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
+  it('clears the previous sword’s dual attack when a fixture starts the role unarmed', () => {
+    const deps = makeDeps()
+    deps.resources.playerRoles.roles.push(minimalRole(1))
+    const sword = itemFixture(170)
+    sword.scriptOnEquip = 39027
+    sword.flags.equipable = true
+    sword.flags.equipableBy[1] = true
+    deps.resources.items = [sword]
+    const originalCommands = getGlobalCommands()
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'raw', opcode: 0x18, operands: [14, 170, 0], label: 'L_39027' },
+      { op: 'raw', opcode: 0x17, operands: [14, 17, 8] },
+      { op: 'raw', opcode: 0x17, operands: [14, 19, 5] },
+      { op: 'raw', opcode: 0x2d, operands: [8, 32760, 0] },
+      { op: 'end' },
+    ])
+    const launchWith = (weaponId: number) =>
+      applyFixture(
+        deps,
+        {
+          id: 'weapon-replacement',
+          label: '仙女剑换空手',
+          partyMembers: [1],
+          playerOverrides: { 1: { equipment: [0, 0, 0, weaponId, 0, 0] } },
+          enemyTeamId: 1,
+          battleFieldId: 7,
+        },
+        42,
+      )
+    try {
+      launchWith(170)
+      expect(deps.gs.battleState?.players[0]?.status.dualAttack).toBe(32760)
+      launchWith(0)
+      expect(deps.gs.battleState?.players[0]?.status.dualAttack).toBe(0)
+      launchWith(170)
+      expect(deps.gs.battleState?.players[0]?.status.dualAttack).toBe(32760)
+    } finally {
+      setGlobalEvents(originalCommands)
+    }
+  })
+
   it('equips the Moon Blade and uses its fighter effect row and the loaded enemy height on attack', () => {
     const deps = makeDeps()
     deps.resources.playerRoles.roles = Array.from({ length: 5 }, (_, id) => minimalRole(id))

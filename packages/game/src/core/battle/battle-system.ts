@@ -440,7 +440,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 
   // 逃跑动画 hold(phase-agnostic):flee 成功后 16 步右下滑 + 移出屏(PAL_BattlePlayerEscape),
   //   放完才 phase='fleed' → finalize。期间暂停一切推进。
-  if (tickBattleFleeAnim(state, res)) return
+  if (!state.battleAnim && tickBattleFleeAnim(state, res, bus)) return
 
   // D13 敌人主动逃飞出屏 hold(phase-agnostic):0x69 触发后全活敌往左挪到出屏 → phase='fleed'。
   if (advanceBattleEnemyEscape(gs, BATTLE_FRAME_TIME)) return
@@ -473,6 +473,13 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
     return
   }
 
+  const hidingFade = state.hidingFade
+  if (hidingFade) {
+    hidingFade.elapsedMs += BATTLE_DT
+    if (hidingFade.elapsedMs >= DEATH_FADE_STEPS * DEATH_FADE_STEP_MS) state.hidingFade = undefined
+    return
+  }
+
   // scriptOnTurnStart:每轮起手(进 selectAction **菜单之前**)对全体活敌跑一次 → boss 嘲讽对话
   //   进战斗一开始 / 每轮开头就显示(忠实 sdlpal fight.c:1184-1191 fTurnStart 在 charge/act 前)。
   //   有对话入队 → 本 tick 不进菜单,下 tick 顶层 tickBattleDialog 先把对话放完(修"先选动作才说话")。
@@ -495,12 +502,14 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   PAL_BattleUpdateFighters 复位(script.c:2866)+ 清时间线,不碰 action 队列。
   if (state.phase === 'selectAction' && state.battleAnim) {
     const a = state.battleAnim
+    if (a.frames[a.idx]?.updateGesture) tickEnemyIdleGestures(state)
     if (advanceBattleAnimFrames(state, bus, BATTLE_DT)) {
       for (const dn of a.pendingDamageNums ?? []) {
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
-      resetFightersAfterAction(state, res.playerRoles)
       state.battleAnim = undefined
+      resumeEnemySceneScript(state)
+      if (!state.battleAnim) resetFightersAfterAction(state, res.playerRoles)
     }
     return
   }
@@ -1703,10 +1712,8 @@ function commitDraftAsAction(state: BattleState, target: number, alivePlayerIdxs
 }
 
 /**
- * 合击是**整队一回合一次**的动作(sdlpal fight.c:1417-1424:选 coop 即结束选择,其余未选队员不再选;
- *   3973:coop 把全 healthy contributor 设 kFighterWait → 行动队列里被跳过)。ts 净效果:整回合就这一次
- *   coop,其余 healthy 队员(= coop contributor)不单独行动 → 设 pass。失能(睡眠/混乱/麻痹)队员非
- *   contributor(coop 不消耗),保留其 autoFill action(如混乱→attackmate);若尚未填则补 pass 保证回合收尾。
+ * 合击提交后结束剩余手选(fight.c:1409–1424)。保留已提交的动作与入队身法，
+ * 比合击先轮到的队友仍可出手；合击执行后才跳过队友的后续动作。
  */
 function applyCoopConsumesOthers(
   state: BattleState,
@@ -1714,10 +1721,7 @@ function applyCoopConsumesOthers(
   alivePlayerIdxs: number[],
 ): void {
   for (const i of alivePlayerIdxs) {
-    if (i === casterIdx) continue
-    const st = state.players[i]!.status
-    const incapacitated = (st.sleep ?? 0) > 0 || (st.confused ?? 0) > 0 || (st.paralyzed ?? 0) > 0
-    if (!incapacitated || !state.pendingActions.has(i)) {
+    if (i !== casterIdx && !state.pendingActions.has(i)) {
       state.pendingActions.set(i, { type: 'pass', target: -1 })
     }
   }
@@ -2041,11 +2045,12 @@ const FLEE_ANIM_STEPS = 16
  * 逃跑动画 hold(phase-agnostic;sdlpal `PAL_BattlePlayerEscape` battle.c:1438-1527)。
  * flee roll 成功(performFlee 设 state.fleeAnim)→ 16 步把活队员往右下挪 + 站立帧,满步移出屏
  * (9999,9999)→ phase='fleed'(下 tick finalize)。返回 true = 本 tick 被逃跑动画占用(暂停推进)。
- * 音效 45 在 performFlee 成功时写入 gs.pendingSounds。
+ * 普通逃跑在 performFlee 派发声音。法术退场音等施法起手完成，与第一步同拍。
  */
-function tickBattleFleeAnim(state: BattleState, res: BattleResources): boolean {
+function tickBattleFleeAnim(state: BattleState, res: BattleResources, bus: CommandBus): boolean {
   const fa = state.fleeAnim
   if (!fa) return false
+  if (fa.step === 0 && fa.sound) bus.emit({ op: 'playSound', soundId: fa.sound })
   if (fa.step < FLEE_ANIM_STEPS) {
     state.players.forEach((p) => {
       const role = res.playerRoles.roles[p.roleId]
@@ -2099,6 +2104,60 @@ export function advanceBattleEnemyEscape(gs: GameState, dtMs: number): boolean {
   return true
 }
 
+// A waiting interpreter belongs to one live battle and is released after the enemy scene fade.
+const pendingEnemySceneScripts = new WeakMap<BattleState, () => void>()
+
+function resumeEnemySceneScript(state: BattleState): boolean {
+  const resume = pendingEnemySceneScripts.get(state)
+  if (!resume) return false
+  pendingEnemySceneScripts.delete(state)
+  resume()
+  return true
+}
+
+function runEnemyBattleTrigger(
+  state: BattleState,
+  gs: GameState,
+  bus: CommandBus,
+  res: BattleResources,
+  idx: number,
+  script: 'scriptOnReady' | 'scriptOnTurnStart',
+  onResumeComplete?: () => void,
+): boolean {
+  const enemy = state.enemies[idx]!
+  let suspended = false
+  const run = (continueScript: () => number) => {
+    const entry = continueScript()
+    if (pendingEnemySceneScripts.has(state)) return
+    enemy[script] = entry
+    if (suspended) onResumeComplete?.()
+  }
+  run(() =>
+    runBattleTrigger(runScript, idx, {
+      commands: res.commands,
+      ip: enemy[script],
+      bus,
+      runtimeMode: 'battle',
+      battleCtx: {
+        state,
+        caster: { type: 'enemy', idx },
+        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
+        enemyPos: res.enemyPos,
+        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
+        gs,
+        playerRoles: res.playerRoles,
+        battleEffectIndex: res.battleEffectIndex,
+        deferEnemySummon: true,
+      },
+      suspendForEnemySceneFade(resume) {
+        suspended = true
+        pendingEnemySceneScripts.set(state, () => run(resume))
+      },
+    }),
+  )
+  return suspended
+}
+
 /**
  * scriptOnTurnStart:每轮起手对全体活敌跑一次(sdlpal fight.c:1184-1191,fTurnStart gate)。
  * 在玩家**选动作之前**跑(tickBattle round-start)→ boss 嘲讽对话(林月如/拜月/蜘蛛精)进战斗
@@ -2114,11 +2173,12 @@ function runEnemyTurnStartScripts(
   gs: GameState,
   bus: CommandBus,
   res: BattleResources,
+  firstSlot = 0,
 ): void {
   state.turnStartDoneForTurn = state.turn
   // B2 c5 / D24:隐身期间(iHidingTime>0)敌整轮跳过 → 不跑 turnStart 脚本(sdlpal fight.c:1680 ==0 才跑)
   if ((state.iHidingTime ?? 0) > 0) return
-  for (let ei = 0; ei < state.enemies.length; ei++) {
+  for (let ei = firstSlot; ei < state.enemies.length; ei++) {
     const en = state.enemies[ei]
     // PAL_BattleMain calls empty slots on entry. Later rounds skip them.
     if (!en) continue
@@ -2135,24 +2195,18 @@ function runEnemyTurnStartScripts(
     //   (fight.c:1186-1187 / 1689-1690)把脚本**返回值**写回。runScript 返回 wNextScriptEntry:
     //   0x01 收尾 → 推进过本段(show-once,多数 boss 嘲讽);0x00 收尾 → 起始 entry(每轮重显,
     //   如 enemyId 23 跳跳蛙 / 25 怪老子 scriptOnTurnStart=42840);0x02 → re-arm 指定 entry。
-    //   runScript 同步跑到 end 才返回(showDialog 只入队不挂起),故此回写每轮一次(turnStartDoneForTurn 守)。
-    en.scriptOnTurnStart = runBattleTrigger(runScript, ei, {
-      commands: res.commands,
-      ip: en.scriptOnTurnStart,
-      bus,
-      runtimeMode: 'battle',
-      battleCtx: {
-        state,
-        caster: { type: 'enemy', idx: ei },
-        summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-        enemyPos: res.enemyPos,
-        enemySpriteFrameHeights: res.enemySpriteFrameHeights,
-        gs, // raw opcode fall 到 applyRawOpcode 需 gs
-        // 0x92 show-magic-anim(赵灵儿觉醒 cutscene scriptOnTurnStart)需 cast 特效帧基号 + 角色战斗精灵
-        playerRoles: res.playerRoles,
-        battleEffectIndex: res.battleEffectIndex,
-      },
-    })
+    //   若碰到 0x9E，先播完当前召唤，再继续执行当前及剩余敌人的脚本。
+    if (
+      runEnemyBattleTrigger(state, gs, bus, res, ei, 'scriptOnTurnStart', () => {
+        if (!state.terminatedByEnemyEscape && state.phase === 'selectAction') {
+          runEnemyTurnStartScripts(state, gs, bus, res, ei + 1)
+        } else {
+          state.battleDialogPendingClear = false
+        }
+      })
+    ) {
+      return
+    }
     // sdlpal:某只敌人的 turn-start 脚本触发敌逃(0x69 → kBattleResultTerminated)→ 主循环 battle.c:774
     //   `BattleResult != OnGoing` 即退出,本回合**后续敌人的 turn-start 脚本不再跑**(且 sdlpal 每帧只一只
     //   敌人行动 fight.c:1233 fMoved gate → fTurnStart 错帧,逃跑那只先跑就终止)。ts 把 turn-start 简化成
@@ -2171,8 +2225,12 @@ function runEnemyTurnStartScripts(
  * 0x5C 把 iHidingTime 存为**负值**(待激活标记);CLASSIC 激活 = **纯取反**(`-iHidingTime`),
  * **无 *20 / 无 bBattleSpeed 缩放**(那是非 CLASSIC 分支,type-pal 走 CLASSIC)。
  */
-export function activateHidingEffect(state: BattleState): void {
-  if ((state.iHidingTime ?? 0) < 0) state.iHidingTime = -(state.iHidingTime ?? 0)
+export function activateHidingEffect(state: BattleState): boolean {
+  const turns = state.iHidingTime ?? 0
+  if (turns >= 0) return false
+  state.iHidingTime = -turns
+  state.hidingFade = { elapsedMs: 0, revealing: false }
+  return true
 }
 
 /**
@@ -2180,7 +2238,10 @@ export function activateHidingEffect(state: BattleState): void {
  * CLASSIC 每轮无条件 -1(非 CLASSIC 才有充能速度门控)。
  */
 export function decrementHidingEffect(state: BattleState): void {
-  if ((state.iHidingTime ?? 0) > 0) state.iHidingTime = (state.iHidingTime ?? 0) - 1
+  const turns = state.iHidingTime ?? 0
+  if (turns <= 0) return
+  state.iHidingTime = turns - 1
+  if (turns === 1) state.hidingFade = { elapsedMs: 0, revealing: true }
 }
 
 /** 保持原公开入口和签名；队列消费只依赖自己的状态/宿主字段。 */
@@ -2221,6 +2282,9 @@ function tickPerformAction(
         bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
       }
       state.battleAnim = undefined
+      // The ready script runs before the enemy action. Finishing its gesture or
+      // dissolve resumes the script and leaves the same action queue item armed.
+      if (resumeEnemySceneScript(state)) return
       if (afterComplete?.kind === 'perform-item') {
         // CLASSIC fight.c:4385–4406: run the item script, restore the fighters, draw stat
         // changes, then wait eight beats. The follow-up waits for any scripted presentation.
@@ -2239,6 +2303,8 @@ function tickPerformAction(
           commands: res.commands,
           runScript: getBattleRunScript(gs, runScript),
         })
+        // fight.c:4402 activates hiding before the eight normal recovery beats.
+        activateHidingEffect(state)
         if (state.battleAnim) return // 道具脚本自身又起了动画 → 交给那条新动画收尾复位
       }
       // Restore from the resulting HP and status before the renderer anchors any new numbers.
@@ -2249,6 +2315,17 @@ function tickPerformAction(
       const activeItem = state.actionQueue[state.currentActionIndex]
       checkPlayerCasualties(state, gs, bus, res, !!activeItem?.checkPlayerCasualties)
       state.currentActionIndex++
+    } else if (
+      a.idx + 1 === a.enemyDeathCheckFrame &&
+      a.frameElapsedMs >= (a.frames[a.idx]?.durationMs ?? 0)
+    ) {
+      // Hold the formation through PAL_BattlePostActionCheck, then re-anchor the return.
+      if (!checkEnemyDeaths(state, bus)) {
+        a.enemyDeathCheckFrame = undefined
+        a.renderStartMs = undefined
+        a.renderIdx = undefined
+        advanceBattleAnimFrames(state, bus, 0)
+      }
     } else if (battleAnimationIsWaitingForDialogue(a)) {
       // Open the script's narration when the release pose finishes its second beat.
       tickBattleDialog(state, gs, input)
@@ -2282,7 +2359,7 @@ function tickPerformAction(
 
   // B2 c5 / D24:激活隐身(0x5C 存的负值 → 取反,CLASSIC 无缩放)。在处理本动作前激活,
   //   使隐身后队列里后续敌人动作被下面的 gate 跳过。
-  activateHidingEffect(state)
+  if (activateHidingEffect(state)) return
 
   const item = state.actionQueue[state.currentActionIndex]!
   let action: BattleAction | undefined
@@ -2318,25 +2395,7 @@ function tickPerformAction(
         // B2 c7:真 show-once / re-arm —— sdlpal `wScriptOnReady = PAL_RunTriggerScript(...)`
         //   (fight.c:1226-1227 / 1719-1720)返回值回写。0x01 收尾 → 推进(show-once);0x00 → 起始
         //   entry(每次 ready 重跑);0x02 → re-arm 指定。scriptReadyRan guard 保本 action 一次性。
-        enemy.scriptOnReady = runBattleTrigger(runScript, item.idx, {
-          commands: res.commands,
-          ip: enemy.scriptOnReady,
-          bus,
-          runtimeMode: 'battle',
-          battleCtx: {
-            state,
-            caster: { type: 'enemy', idx: item.idx },
-            // 0x9E enemy summon 需召唤兽表 + enemy-objects 解析
-            summonTables: { enemies: res.enemies, enemyObjects: res.enemyObjects },
-            enemyPos: res.enemyPos,
-            enemySpriteFrameHeights: res.enemySpriteFrameHeights,
-            // raw opcode(0x06 概率跳等)fall 到 applyRawOpcode 需 gs
-            gs,
-            // 0x92 show-magic-anim(scriptOnReady 出场施法演出)需 cast 特效帧基号 + 角色战斗精灵
-            playerRoles: res.playerRoles,
-            battleEffectIndex: res.battleEffectIndex,
-          },
-        })
+        if (runEnemyBattleTrigger(state, gs, bus, res, item.idx, 'scriptOnReady')) return
         // scriptOnReady 里 0xFFFF showDialog 入了对话队列 → 先暂停本 action,让顶层 tickBattleDialog
         //   放完对话再回来(scriptReadyRan guard 防重跑)→ 决策 + 行动。忠实 sdlpal:
         //   scriptOnReady 对话在敌人行动前显示(fight.c:1719-1724 脚本先跑,后 PerformAction)。
@@ -2766,9 +2825,6 @@ function performBattleAction(
         magicSpriteFrameCounts: res.magicSpriteFrameCounts, // 有 → 建合击动画(聚拢/施法/法术效果/滑回)
         summonSpriteFrameCounts: res.summonSpriteFrameCounts, // summon 型协力(武神等)召唤神逐帧 loop
       })
-      // DL3:fThisTurnCoop(fight.c:3858 置位;:3762 等所有玩家 case 顶 `if(fThisTurnCoop) break`)——
-      //   合击后同回合其余玩家行动(含混乱攻友/失能 autoFill)全部被吞。回合末清。
-      state.fThisTurnCoop = true
       break
     }
   }

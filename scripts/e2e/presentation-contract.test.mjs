@@ -55,6 +55,7 @@ test('actual fade/dither drivers and successful output callers prove explicit ef
       `${declarations(instrumentPresentationEvidence(source(name), `packages/reforge/src/${name}.ts`).code, names)};return ${names.at(-1)}`,
     )(hooks, wait)
   const Fade = load('fade-driver', ['fadeAbortError', 'SupersedingFadeDriver'])
+  const drawScriptFade = load('fade-driver', ['drawScriptFade'])
   const Dither = load('dither-transition', ['ditherAbortError', 'DitherTransitionController'])
   const main = instrumentPresentationEvidence(source('main'), 'packages/reforge/src/main.ts').code
   const runner = {},
@@ -62,6 +63,7 @@ test('actual fade/dither drivers and successful output callers prove explicit ef
     frames = { now: 0 },
     fade = new Fade(0)
   const ctx = {
+    canvas: { width: 1, height: 1 },
     paint: '',
     set fillStyle(value) {
       this.paint = value === 'rgba(0,0,0,1.000)' ? '#000000' : value
@@ -72,31 +74,44 @@ test('actual fade/dither drivers and successful output callers prove explicit ef
     save() {},
     restore() {},
     fillRect() {},
+    getImageData: () => ({ data: new Uint8ClampedArray([20, 94, 221, 255]) }),
+    putImageData(image) {
+      this.painted = [...image.data]
+    },
   }
   const renderFade = new Function(
     'globalThis',
     'fadeDriver',
     'frames',
     'ctx',
-    'canvas',
+    'drawScriptFade',
     'fadeCurtain',
+    'fadeDirection',
     `${declarations(main, ['drawFadeCurtain'])};return drawFadeCurtain`,
-  )(hooks, fade, frames, ctx, { width: 320, height: 200 }, 'black')
+  )
   hooks.__openingCauseRun(runner, controller.signal, {})
   const command = (c) =>
     hooks.__openingCauseStep(runner, {
       timing: 'interactive',
       command: { kind: 'leaf', command: c },
     })
-  for (const dir of ['out', 'in']) {
-    command({ kind: 'fade', dir, ms: 600 })
+  for (const [dir, color] of [
+    ['out', undefined],
+    ['in', undefined],
+    ['out', [190, 73, 60]],
+    ['in', [190, 73, 60]],
+  ]) {
+    command({ kind: 'fade', dir, ms: 600, color })
+    const render = renderFade(hooks, fade, frames, ctx, drawScriptFade, color ?? 'black', dir)
     const start = frames.now,
       pending = fade.begin(dir === 'out' ? 1 : 0, start, 600, controller.signal)
     for (const time of [0, 300, 600]) {
       frames.now = start + time
       fade.advance(frames.now)
       await Promise.resolve() // Runtime drains script work after advance, before presentation.
-      if (time < 600 || dir === 'in') renderFade()
+      if (time < 600 || dir === 'in') render()
+      if (color && time === 300)
+        assert.deepEqual(ctx.painted, dir === 'out' ? [148, 73, 93, 255] : [62, 94, 188, 255])
     }
     await pending
   }
@@ -149,8 +164,12 @@ test('actual fade/dither drivers and successful output callers prove explicit ef
   const trace = { causes: observer.read() }
   assert.equal(pixels, 3)
   assert.equal(checkPresentationEffects(trace).status, 'proved')
-  assert.equal(checkPresentationEffects(trace).final.commands, 3)
+  assert.equal(checkPresentationEffects(trace).final.commands, 5)
   for (const change of [
+    (t) => {
+      t.causes.find((e) => e.phase === 'presentation-draw' && e.presentation.ramp).presentation.ramp
+        .distance++
+    },
     (t) => {
       t.causes = t.causes.filter((e) => e.phase !== 'presentation-draw')
     },

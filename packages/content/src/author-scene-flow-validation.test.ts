@@ -99,7 +99,7 @@ describe('author scene hooks', () => {
     checkAuthorSceneHooks({ onEnter: withEntry }, 'hooks')
     expectExactError(
       () => checkAuthorSceneHooks({ onTeleport: withEntry }, 'hooks'),
-      'hooks.onTeleport.variants.main.flow.stages[0].entry: 只允许 onEnter initial stage',
+      'hooks.onTeleport.variants.main.flow.stages[0].entry: 只允许 onEnter 步骤',
     )
   })
 })

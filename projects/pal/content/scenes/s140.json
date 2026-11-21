@@ -786,22 +786,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 125,
-                      "height": 0,
-                      "row": 41
-                    }
-                  },
-                  {
-                    "facing": "right",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "asset": "music.pal.007",
-                    "kind": "playMusic"
-                  },
-                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -1243,7 +1227,33 @@
                     "scene": "s141"
                   }
                 ],
-                "next": "legacy-002"
+                "next": "legacy-002",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 125,
+                        "height": 0,
+                        "row": 41
+                      }
+                    },
+                    {
+                      "facing": "right",
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "asset": "music.pal.007",
+                      "kind": "playMusic"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                }
               },
               {
                 "id": "legacy-002",

@@ -20,6 +20,7 @@ import {
   getPlayerAttackStrength,
   getPlayerDefense,
   getPlayerDexterity,
+  getPlayerFleeRate,
   getPlayerMagicStrength,
   getPlayerPoisonResistance,
 } from '../equipment-state.js'
@@ -30,6 +31,7 @@ import {
   curePlayerPoisonByLevel,
   isPlayerPoisoned,
 } from '../player-poison-state.js'
+import { OP_PLAYER_FLEE } from '../script-opcode-ids.js'
 import {
   buildEnemyDivisionTimeline,
   buildEnemySummonTimeline,
@@ -323,7 +325,6 @@ const OP_ENABLE_AUTO_BATTLE = 0x008a
 const OP_COLLECT_ENEMY = 0x0033
 
 /** sdlpal `script.c case 0x003A` 0x003A:player flee(boss → jump op0,否则 PlayerEscape)。 */
-const OP_PLAYER_FLEE = 0x003a
 
 /** sdlpal `script.c case 0x0030` 0x0030:temp +op1% 某 stat(op0=row,梦蛇 等)。 */
 const OP_BUFF_PLAYER_STAT_PCT = 0x0030
@@ -342,15 +343,20 @@ const OP_STEAL_FROM_ENEMY = 0x006a
  *   - field:战斗 snapshot(PlayerRole)字段名
  *   - rgw:PlayerRolesRuntime / EquipmentEffectRoles 行字段名(读 base + 写 Extra 槽)
  *   - getter:effective getter(base + Σ rgEquipmentEffect[0..6],含 Extra)recompute snapshot 用
- * row 17 atk / 18 mag / 19 def / 20 dex(sdlpal global.h tagPLAYERROLES)。
+ * row 17 atk / 18 mag / 19 def / 20 dex / 21 luck(sdlpal global.h tagPLAYERROLES)。
  */
 const STAT_ROW_BUFF: Readonly<
   Partial<
     Record<
       number,
       {
-        readonly field: 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity'
-        readonly rgw: 'rgwAttackStrength' | 'rgwMagicStrength' | 'rgwDefense' | 'rgwDexterity'
+        readonly field: 'attackStrength' | 'magicStrength' | 'defense' | 'dexterity' | 'fleeRate'
+        readonly rgw:
+          | 'rgwAttackStrength'
+          | 'rgwMagicStrength'
+          | 'rgwDefense'
+          | 'rgwDexterity'
+          | 'rgwFleeRate'
         readonly getter: typeof getPlayerAttackStrength
       }
     >
@@ -360,6 +366,7 @@ const STAT_ROW_BUFF: Readonly<
   18: { field: 'magicStrength', rgw: 'rgwMagicStrength', getter: getPlayerMagicStrength },
   19: { field: 'defense', rgw: 'rgwDefense', getter: getPlayerDefense },
   20: { field: 'dexterity', rgw: 'rgwDexterity', getter: getPlayerDexterity },
+  21: { field: 'fleeRate', rgw: 'rgwFleeRate', getter: getPlayerFleeRate },
 }
 
 /** sdlpal `script.c:2025-2032` 0x0068:if (g_Battle.fEnemyMoving) jump op0。 */
@@ -388,6 +395,8 @@ interface DispatchResult {
   consumed: boolean
   /** 若 opcode 改了 ip,返回新 ip;否则 undefined caller ip++ */
   newIp?: number
+  /** The enemy trigger resumes after this summon animation, including a failed gesture. */
+  waitForEnemySceneFade?: true
 }
 
 /**
@@ -886,11 +895,7 @@ export function dispatchBattleOpcode(
     case OP_PLAYER_FLEE: {
       // sdlpal `script.c case 0x003A`:if (fIsBoss) jump op0; else PAL_BattlePlayerEscape()。
       if (state.isBoss) return { consumed: true, newIp: operands[0] ?? 0 }
-      state.fleeAnim = { step: 0 }
-      if (ctx.gs) {
-        ctx.gs.pendingSounds ??= []
-        ctx.gs.pendingSounds.push(45) // battle.c:1459 AUDIO_PlaySound(45)
-      }
+      state.fleeAnim = { step: 0, sound: 45 }
       return { consumed: true }
     }
 
@@ -975,6 +980,7 @@ export function dispatchBattleOpcode(
               casterPos: caster.posOriginal,
               casterIdx,
               castEffectFrameBase,
+              castSound: role?.magicSound,
               partyIndices: state.players.map((_, idx) => idx), // 全队(sdlpal j=0..wMaxPartyMemberIndex)
             }),
             ctx.bus,
@@ -1197,6 +1203,13 @@ export function dispatchBattleOpcode(
       // sdlpal `script.c:3271 / 3432` PAL_ClearDialog(TRUE):清当前对话框。战斗里标记下条
       //   showDialog 入队时 clearBefore(另起新框 / 结束当前对话段)。纯渲染 op,无其它副作用。
       state.battleDialogPendingClear = true
+      const dialog = state.battleDialogStyle
+      if (opcode === OP_REDRAW_SCREEN && dialog) {
+        if (dialog.style === 'center') state.battleDialogStyle = { style: 'top' }
+        else if (dialog.portrait !== undefined) {
+          state.battleDialogStyle = { ...dialog, portrait: undefined, portraitLayout: true }
+        }
+      }
       return { consumed: true }
     }
 
@@ -1298,6 +1311,11 @@ export function dispatchBattleOpcode(
         }
         copiesLeft--
       }
+      // 0x9C alone recomputes wMaxEnemyIndex before reloading battle sprite positions
+      // (script.c:2836–2842). Interior empty slots keep their original indices.
+      while (state.enemies.length > 0 && !isActiveEnemy(state.enemies[state.enemies.length - 1])) {
+        state.enemies.pop()
+      }
       refreshEnemyBattlePositions(ctx)
       // 分裂散开动画(sdlpal script.c case 0x009C 末段 10 帧缓动):副本先叠在原敌 posOriginal,再散到各自阵型位。
       //   缺此 → 副本瞬现(user 2026-06-08 报)。startBattleAnim 同 0x9E/0x9F 挂法。
@@ -1337,12 +1355,19 @@ export function dispatchBattleOpcode(
       if (!eo) return { consumed: true }
       const base = tables.enemies.find((e) => e.id === eo.enemyId)
       if (!base) return { consumed: true }
+      const before = {
+        idx: ctx.caster.idx,
+        spriteId: self.e.id,
+        ...(self.pos ? { pos: { ...self.pos } } : {}),
+      }
       const keepHealth = self.e.health
       self.e = { ...base, health: keepHealth }
       self.defeated = false
       self.deathFadeStep = undefined
       self.currentFrame = 0
       self.iColorShift = 0
+      self.idleFrame = 0
+      self.idleTick = base.idleAnimSpeed
       self.maxHealth = base.health
       self.objectId = eo.objectIndex // L25:sdlpal 0x9F 同步 wObjectID=op0(script.c:2965),供后续 0x91 同种判定
       // DM1:script.c:2954-2986 变身仅改 wObjectID/e(保 wHealth)/wCurrentFrame,三个 wScriptOn*
@@ -1353,8 +1378,10 @@ export function dispatchBattleOpcode(
       self.spriteFrameHeight = ctx.enemySpriteFrameHeights?.get(base.id)
       refreshEnemyBattlePositions(ctx)
       if (ctx.bus) {
-        startBattleAnim(state, buildEnemyTransformTimeline(ctx.caster.idx), ctx.bus)
-      } else if (ctx.gs) {
+        startBattleAnim(state, buildEnemyTransformTimeline(before), ctx.bus)
+        return { consumed: true, waitForEnemySceneFade: true }
+      }
+      if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
         ctx.gs.pendingSounds ??= []
         ctx.gs.pendingSounds.push(47)
@@ -1370,22 +1397,33 @@ export function dispatchBattleOpcode(
       // 从预载 battleSprites(`enemy-${id}`)取 ABC.MKF 战斗精灵。
       const tables = ctx.summonTables
       if (!tables || ctx.caster?.type !== 'enemy') return { consumed: true }
-      const self = state.enemies[ctx.caster.idx]
+      const casterIdx = ctx.caster.idx
+      const self = state.enemies[casterIdx]
       if (!self) return { consumed: true }
 
+      const buildTimeline = (summonedIdxs: number[], activeEnemyIdxs: number[]) =>
+        buildEnemySummonTimeline({ casterIdx, caster: self.e, summonedIdxs, activeEnemyIdxs })
+      const visualBus = ctx.bus
       const w = operands[0] ?? 0
       let count = asShort(operands[1] ?? 0)
       if (count <= 0) count = 1
       const failJump = operands[2] ?? 0
 
-      const room = state.enemies.reduce((n, enemy) => n + (enemy.defeated ? 1 : 0), 0)
+      const freeSlots = state.enemies.flatMap((enemy, idx) => (enemy.defeated ? [idx] : []))
       const disabled =
         (self.status.sleep ?? 0) > 0 ||
         (self.status.paralyzed ?? 0) > 0 ||
         (self.status.confused ?? 0) > 0
       const hiding = (state.iHidingTime ?? 0) > 0 // sdlpal:我方隐身中不可召唤(对齐 0x9F)
-      if (room < count || hiding || disabled)
-        return failJump !== 0 ? { consumed: true, newIp: failJump } : { consumed: true }
+      if (freeSlots.length < count || hiding || disabled) {
+        const result: DispatchResult = { consumed: true }
+        if (failJump !== 0) result.newIp = failJump
+        if (visualBus && self.e.magicFrames > 0) {
+          startBattleAnim(state, buildTimeline([], []), visualBus)
+          result.waitForEnemySceneFade = true
+        }
+        return result
+      }
 
       // 解析召唤兽:w=0/0xFFFF → 自身同种;否则 enemyObjects[objectIndex==w] → enemyId/scripts/抗性。
       let enemyId: number
@@ -1427,49 +1465,43 @@ export function dispatchBattleOpcode(
       const base = tables.enemies.find((e) => e.id === enemyId)
       if (!base) return { consumed: true }
 
-      const summonedIdxs: number[] = []
-      let left = count
-      for (let i = 0; i < state.enemies.length && left > 0; i++) {
-        if (!state.enemies[i]?.defeated) continue
-        resetEnemySlot(state.enemies[i]!, {
-          e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-          prevHp: base.health,
-          maxHealth: base.health,
-          objectId: summonObjectId, // L25:对象身份(wObjectID)
-          scriptOnTurnStart: onTurnStart,
-          scriptOnBattleEnd: onBattleEnd,
-          scriptOnReady: onReady,
-          resistanceToSorcery: resist,
-          poisons: [],
-          spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
-          defeated: false,
-        })
-        summonedIdxs.push(i)
-        left--
+      const summonedIdxs = freeSlots.slice(0, count)
+      const arrive = () => {
+        for (const idx of summonedIdxs) {
+          const slot = state.enemies[idx]!
+          resetEnemySlot(slot, {
+            e: { ...base }, // 满血 base stats(sdlpal e = lprgEnemy[enemyID])
+            status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
+            prevHp: base.health,
+            maxHealth: base.health,
+            objectId: summonObjectId, // L25:对象身份(wObjectID)
+            scriptOnTurnStart: onTurnStart,
+            scriptOnBattleEnd: onBattleEnd,
+            scriptOnReady: onReady,
+            resistanceToSorcery: resist,
+            poisons: [],
+            spriteFrameHeight: ctx.enemySpriteFrameHeights?.get(base.id),
+            defeated: false,
+          })
+          // The original clears the slot and copies a fresh idle countdown (script.c:2909–2925).
+          slot.idleFrame = 0
+          slot.idleTick = Math.max(1, base.idleAnimSpeed)
+        }
+        refreshEnemyBattlePositions(ctx)
       }
-      refreshEnemyBattlePositions(ctx)
-      if (ctx.bus && self.posOriginal) {
-        startBattleAnim(
-          state,
-          buildEnemySummonTimeline({
-            casterIdx: ctx.caster.idx,
-            casterPos: self.posOriginal,
-            caster: {
-              idleFrames: self.e.idleFrames,
-              magicFrames: self.e.magicFrames,
-              attackFrames: self.e.attackFrames,
-              actWaitFrames: self.e.actWaitFrames,
-            },
-            summonedIdxs,
-            activeEnemyIdxs: state.enemies
-              .map((enemy, idx) => ({ enemy, idx }))
-              .filter(({ enemy }) => !enemy.defeated)
-              .map(({ idx }) => idx),
-          }),
-          ctx.bus,
+      if (visualBus) {
+        const activeEnemyIdxs = state.enemies.flatMap((enemy, idx) =>
+          !enemy.defeated || summonedIdxs.includes(idx) ? [idx] : [],
         )
-      } else if (ctx.gs) {
+        if (!ctx.deferEnemySummon) arrive()
+        startBattleAnim(state, buildTimeline(summonedIdxs, activeEnemyIdxs), visualBus, undefined, {
+          onEnemySummonArrival: ctx.deferEnemySummon ? arrive : undefined,
+        })
+        return { consumed: true, waitForEnemySceneFade: true }
+      }
+
+      arrive()
+      if (ctx.gs) {
         // 无动画上下文时保留旧即时音 fallback。
         ctx.gs.pendingSounds ??= []
         ctx.gs.pendingSounds.push(212)

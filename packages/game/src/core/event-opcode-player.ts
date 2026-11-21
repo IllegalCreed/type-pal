@@ -12,6 +12,7 @@ import {
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
 } from './player-poison-state.js'
+import type { SeedableRng } from './rng.js'
 import { OP_ADD_MAGIC } from './script-opcode-ids.js'
 
 export const OP_SET_PLAYER_EXTRA_ATTR = 0x0017
@@ -35,6 +36,8 @@ export const OP_REMOVE_PLAYER_STATUS = 0x002f
 export const OP_MARK_SCRIPT_FAILED = 0x0041
 export { OP_ADD_MAGIC } from './script-opcode-ids.js'
 export const OP_REMOVE_MAGIC = 0x0056
+const OP_HALVE_PLAYER_HP = 0x005a
+const OP_KILL_PLAYER = 0x005f
 export const OP_INCREASE_PLAYER_LEVEL = 0x008d
 
 export type PlayerPoisonEntryRunner = (
@@ -48,6 +51,7 @@ export interface PlayerOpcodeInput {
   opcode: number
   operands: [number, number, number]
   currentEventObjectId?: number
+  battleRng?: SeedableRng
   runPlayerPoisonEntry: PlayerPoisonEntryRunner
 }
 
@@ -64,7 +68,7 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
         console.warn('event-system: increasePlayerLevel 无 role 上下文,跳过')
         return true
       }
-      playerLevelUp(gs, role, operands[0] ?? 0)
+      playerLevelUp(gs, role, operands[0] ?? 0, input.battleRng)
       return true
     }
 
@@ -181,6 +185,17 @@ export function applyPlayerOpcode(input: PlayerOpcodeInput): boolean {
     case OP_SET_ENEMY_STATUS:
       // BattleState-owned variants remain handled by battle-opcodes.
       return true
+
+    case OP_HALVE_PLAYER_HP:
+    case OP_KILL_PLAYER: {
+      const roleId = currentEventObjectId
+      if (roleId === undefined) return true
+      const hp = gs.PlayerRolesRuntime.rgwHP
+      const current = hp[roleId]
+      if (current !== undefined)
+        hp[roleId] = opcode === OP_HALVE_PLAYER_HP ? Math.floor(current / 2) : 0
+      return true
+    }
 
     case OP_REVIVE_PLAYER: {
       const applyAll = (operands[0] ?? 0) !== 0
@@ -363,21 +378,21 @@ function randomInclusive(max: number): number {
   return Math.floor(Math.random() * (max + 1))
 }
 
-function playerLevelUp(gs: GameState, role: number, levels: number): void {
+function playerLevelUp(gs: GameState, role: number, levels: number, battleRng?: SeedableRng): void {
   const runtime = gs.PlayerRolesRuntime
   if (runtime.rgwLevel[role] === undefined) {
     console.warn(`event-system: playerLevelUp role=${role} 不在 PlayerRoles,跳过`)
     return
   }
   runtime.rgwLevel[role] = Math.min(MAX_LEVELS, (runtime.rgwLevel[role] ?? 0) + levels)
+  const draw = (max: number) => battleRng?.rangeInclusive(0, max) ?? randomInclusive(max)
   for (let index = 0; index < levels; index++) {
-    runtime.rgwMaxHP[role] = (runtime.rgwMaxHP[role] ?? 0) + 10 + randomInclusive(7)
-    runtime.rgwMaxMP[role] = (runtime.rgwMaxMP[role] ?? 0) + 8 + randomInclusive(5)
-    runtime.rgwAttackStrength[role] =
-      (runtime.rgwAttackStrength[role] ?? 0) + 4 + randomInclusive(1)
-    runtime.rgwMagicStrength[role] = (runtime.rgwMagicStrength[role] ?? 0) + 4 + randomInclusive(1)
-    runtime.rgwDefense[role] = (runtime.rgwDefense[role] ?? 0) + 2 + randomInclusive(1)
-    runtime.rgwDexterity[role] = (runtime.rgwDexterity[role] ?? 0) + 2 + randomInclusive(1)
+    runtime.rgwMaxHP[role] = (runtime.rgwMaxHP[role] ?? 0) + 10 + draw(7)
+    runtime.rgwMaxMP[role] = (runtime.rgwMaxMP[role] ?? 0) + 8 + draw(5)
+    runtime.rgwAttackStrength[role] = (runtime.rgwAttackStrength[role] ?? 0) + 4 + draw(1)
+    runtime.rgwMagicStrength[role] = (runtime.rgwMagicStrength[role] ?? 0) + 4 + draw(1)
+    runtime.rgwDefense[role] = (runtime.rgwDefense[role] ?? 0) + 2 + draw(1)
+    runtime.rgwDexterity[role] = (runtime.rgwDexterity[role] ?? 0) + 2 + draw(1)
     runtime.rgwFleeRate[role] = (runtime.rgwFleeRate[role] ?? 0) + 2
   }
   for (const values of [

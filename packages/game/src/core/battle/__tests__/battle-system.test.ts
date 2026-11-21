@@ -392,6 +392,7 @@ interface BootstrapOpts {
   roles?: PlayerRole[]
   /** 注入的 enemies(全表);默认 [makeEnemy({ id: 100 })]。 */
   enemies?: Enemy[]
+  enemyObjects?: EnemyObject[]
   /** EnemyTeam.enemies 槽位(指向上面 enemies 的 id);默认 [100, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF]。 */
   teamSlots?: [number, number, number, number, number]
   isBoss?: boolean
@@ -468,6 +469,7 @@ function bootstrap(opts: BootstrapOpts = {}): {
     objectMagics,
     objectPoisons,
     objectPlayers,
+    enemyObjects: opts.enemyObjects,
     enemyPos: opts.enemyPos,
     commands,
     levelUpExp: opts.levelUpExp,
@@ -631,6 +633,130 @@ describe('#311 敌方乱/定/眠 本回合不跑 wScriptOnReady(镜像 sdlpal#31
   })
   it('无异常状态 → 正常跑 scriptOnReady(反例,防过度拦截)', () => {
     expect(readyScriptRanUnderStatus({})).toBe(true)
+  })
+})
+
+describe('enemy summon scripts around the native turn and action boundaries', () => {
+  it.each([
+    'scriptOnReady',
+    'scriptOnTurnStart',
+  ] as const)('completes each consecutive summon before resuming %s', (trigger) => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [
+        makeEnemy({ id: 100, idleFrames: 1, idleAnimSpeed: 99, magicFrames: 2, actWaitFrames: 2 }),
+        makeEnemy({ id: 101 }),
+      ],
+      enemyObjects: [
+        {
+          objectIndex: 501,
+          enemyId: 101,
+          scriptOnTurnStart: 0,
+          scriptOnBattleEnd: 0,
+          scriptOnReady: 0,
+          resistanceToSorcery: 0,
+        },
+      ],
+      teamSlots: [100, 0, 0, 0xffff, 0xffff],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x9e, operands: [501, 1, 0] },
+        { op: 'raw', opcode: 0x9e, operands: [501, 1, 0] },
+        { op: 'end', advance: true },
+        { op: 'end' },
+      ],
+    })
+    const state = gs.battleState!
+    state.enemies[0]![trigger] = 1
+    if (trigger === 'scriptOnReady') {
+      state.phase = 'performAction'
+      state.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    } else {
+      tickBattle(gs, emptyInput, bus)
+    }
+
+    const sightings: { tick: number; slots: boolean[]; shades: number[] }[] = []
+    const completed: number[] = []
+    for (let tick = 0; tick < 170; tick++) {
+      tickBattle(gs, emptyInput, bus)
+      const children = state.enemies.slice(1)
+      if (tick === 0) {
+        expect(children.map((enemy) => enemy.defeated)).toEqual([true, true])
+        expect(state.enemies[0]!.currentFrame).toBe(1)
+      }
+      if (tick === 33) {
+        expect(children[0]!.iColorShift).toBe(8)
+        expect(state.enemies[0]!.currentFrame).toBe(0)
+      }
+      for (const { cmd } of bus.drain()) {
+        if (cmd.op === 'playSound' && cmd.soundId === 212) {
+          sightings.push({
+            tick,
+            slots: children.map((enemy) => !enemy.defeated),
+            shades: children.map((enemy) => enemy.iColorShift ?? 0),
+          })
+        }
+      }
+      if (state.enemies[0]![trigger] === 4) {
+        completed.push(tick)
+        expect(state.currentActionIndex).toBe(0)
+        expect(state.enemies.slice(1).map((enemy) => enemy.iColorShift)).toEqual([0, 0])
+        break
+      }
+      expect(state.enemies[0]![trigger]).toBe(1)
+      expect(state.currentActionIndex).toBe(0)
+    }
+
+    expect(sightings).toEqual([
+      { tick: 4, slots: [true, false], shades: [8, 0] },
+      { tick: 68, slots: [true, true], shades: [0, 8] },
+    ])
+    expect(completed).toEqual([128])
+    if (trigger === 'scriptOnReady') {
+      for (let tick = 0; tick < 35 && state.currentActionIndex === 0; tick++) {
+        tickBattle(gs, emptyInput, bus)
+      }
+      expect(state.currentActionIndex).toBe(1)
+    } else {
+      tickBattle(gs, emptyInput, bus)
+      expect(state.phase).toBe('selectAction')
+      expect(state.battleAnim).toBeUndefined()
+    }
+  })
+
+  it('plays the gesture and follows the failure branch when a two-monster summon has one slot', () => {
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ idleFrames: 3, magicFrames: 2, actWaitFrames: 2 })],
+      teamSlots: [100, 0, 0xffff, 0xffff, 0xffff],
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x9e, operands: [0, 2, 3] },
+        { op: 'end' },
+        { op: 'end', advance: true },
+        { op: 'end' },
+      ],
+    })
+    const state = gs.battleState!
+    const enemy = state.enemies[0]!
+    enemy.scriptOnReady = 1
+    state.phase = 'performAction'
+    state.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+
+    const poses = []
+    for (let tick = 0; tick < 4; tick++) {
+      tickBattle(gs, emptyInput, bus)
+      poses.push(enemy.currentFrame)
+      expect(enemy.scriptOnReady).toBe(1)
+    }
+    expect(poses).toEqual([3, 3, 4, 4])
+    tickBattle(gs, emptyInput, bus)
+    expect(enemy.scriptOnReady).toBe(4)
+    expect(state.enemies).toHaveLength(2)
+    expect(state.enemies[1]!.defeated).toBe(true)
+    expect(state.currentActionIndex).toBe(0)
+    expect(bus.drain().map(({ cmd }) => cmd)).not.toContainEqual({
+      op: 'playSound',
+      soundId: 212,
+    })
   })
 })
 
@@ -3997,6 +4123,42 @@ describe('selectAction 阶段脚本动画 hold(0x9C 分裂散开)', () => {
     // 仍在 selectAction(等玩家指令),action 队列未被吃
     expect(state.phase).toBe('selectAction')
     expect(state.currentActionIndex).toBe(0)
+  })
+
+  it('drops trailing empty slots while a split unfolds in the new layout', () => {
+    const divisionPos: EnemyPosTable = {
+      layouts: [
+        ...DIV_ENEMY_POS.layouts,
+        [
+          { x: 60, y: 100 },
+          { x: 200, y: 85 },
+          { x: 250, y: 70 },
+        ],
+      ],
+    }
+    const { gs, bus, emptyInput } = bootstrap({
+      enemies: [makeEnemy({ id: 100, idleFrames: 4, idleAnimSpeed: 2 })],
+      teamSlots: [0, 100, 0, 0xffff, 0xffff],
+      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x9c, operands: [1, 0, 0] }, { op: 'end' }],
+      enemyPos: divisionPos,
+    })
+    const state = gs.battleState!
+    const caster = state.enemies[1]!
+    caster.scriptOnTurnStart = 1
+    expect(caster.posOriginal).toEqual({ x: 200, y: 85 })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus)
+
+    expect(state.enemies.map((enemy) => enemy.posOriginal)).toEqual([
+      { x: 120, y: 80 },
+      { x: 220, y: 70 },
+    ])
+    expect(state.enemies[0]!.pos).toEqual({ x: 170, y: 75 })
+    expect(caster.pos).toEqual({ x: 220, y: 70 })
+    tickBattle(gs, emptyInput, bus)
+    tickBattle(gs, emptyInput, bus)
+    expect(state.battleAnim!.idx).toBe(2)
+    expect(state.enemies.map((enemy) => enemy.idleFrame)).toEqual([1, 1])
   })
 })
 

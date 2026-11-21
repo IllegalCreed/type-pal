@@ -24,6 +24,7 @@ import {
 } from '../save/ops.js'
 import { MemorySaveStore } from '../save/store.js'
 import type { SaveMeta, StoredSavePayload } from '../save/types.js'
+import { ScreenShakePresentation } from '../screen-shake-presentation.js'
 import { scriptWorkIO } from '../script-work-queue.js'
 import {
   digest,
@@ -111,12 +112,17 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     canonicalScript: expectDefined(world.script),
     runtimeScript: {},
     sceneRuntimeStates: {},
+    screenShake: new ScreenShakePresentation(),
     automaticWaits: new Map(),
     automaticActions: new Map(),
     restoredWaits: new Map(),
     autoActivations: new Map(),
     frames: { now: 0 },
-    worldPresentation: { entityFrame: () => undefined },
+    worldPresentation: {
+      entityFrame: () => undefined,
+      clearPartyPoses: effects,
+    },
+    authoredPartyFacing: null,
     definition,
     activeScene,
     get scene() {

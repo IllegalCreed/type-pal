@@ -13,6 +13,7 @@ import {
   equipBackToList,
   equipConfirmItem,
   equipMoveCursor,
+  equipMoveRole,
   openEquipMenu,
 } from '../equip-menu-state.js'
 import {
@@ -58,6 +59,7 @@ import {
   useBackFromTarget,
   useConfirm,
   useMoveCursor,
+  useMoveTarget,
 } from '../use-menu-state.js'
 import { buildItemUseResultEntries, type ItemUseResultEntry } from './item-use-result.js'
 import type { ItemUseSession } from './item-use-session.js'
@@ -77,6 +79,7 @@ export interface MenuPorts {
   executeItemUse(request: UseExecutionRequest, signal: AbortSignal): Promise<WorldItemUseOutcome>
   playSound(asset: AssetId): void
   presentItemResults(entries: readonly ItemUseResultEntry[], signal: AbortSignal): Promise<void>
+  presentPlacementFailure(text: string, signal: AbortSignal): Promise<void>
   showToast(text: string): void
   report(text: string): void
   audioPreferences(): Readonly<{ music: boolean; sound: boolean }>
@@ -110,6 +113,7 @@ export class MenuSession {
   #systemMenu = closeSystemMenu()
   #saveBrowser = closeSaveBrowser()
   #lastUseCursor = 0
+  #lastUseTargetIdx = 0
   #lastMagicCaster = 0
   #lastMainCursor = 0
   #lastSystemCursor = 0
@@ -285,10 +289,13 @@ export class MenuSession {
     const project = this.content
 
     if (this.#equipMenu.phase === 'pick-role') {
-      // 确认面板:Enter 换上(equipApply 回写 world)/ Esc 回列表
-      if (interact) {
+      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+        this.#equipMenu = equipMoveRole(this.#equipMenu, world, -1)
+      } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
+        this.#equipMenu = equipMoveRole(this.#equipMenu, world, 1)
+      } else if (interact) {
         const r = equipApply(this.#equipMenu, world, project.items)
-        this.ports.replaceWorld(r.world)
+        if (r.world !== world) this.ports.replaceWorld(r.world)
         this.#equipMenu = r.state
       } else if (esc) {
         this.#equipMenu = equipBackToList(this.#equipMenu, world, project.items)
@@ -318,10 +325,16 @@ export class MenuSession {
     } else if (this.#useMenu.phase === 'pick-target') {
       // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
       if (interact) {
-        const request = useApply(this.#useMenu, world, world.party[0]?.id ?? '', project.items)
+        const target = world.party[this.#useMenu.targetIdx]
+        const request = useApply(this.#useMenu, world, target?.id ?? '', project.items)
         if (request) void this.dispatchItemUse(request)
       } else if (esc) {
+        this.#lastUseTargetIdx = this.#useMenu.targetIdx
         this.#useMenu = useBackFromTarget(this.#useMenu)
+      } else if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) {
+        this.#useMenu = useMoveTarget(this.#useMenu, world.party.length, -1)
+      } else if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) {
+        this.#useMenu = useMoveTarget(this.#useMenu, world.party.length, 1)
       }
     } else {
       // pick-item:网格选可用物 + Enter(单体进选目标 / 脚本类直接执行)+ Esc 关使用面板
@@ -466,7 +479,12 @@ export class MenuSession {
       } else if (this.#menu.openPanel === 'equip' && caster) {
         this.#equipMenu = openEquipMenu(world, caster.id, project.items)
       } else if (this.#menu.openPanel === 'use') {
-        this.#useMenu = openUseMenu(world, project.items, this.#lastUseCursor) // 恢复上次光标(原版 iCurInvMenuItem)
+        this.#useMenu = openUseMenu(
+          world,
+          project.items,
+          this.#lastUseCursor,
+          this.#lastUseTargetIdx,
+        )
       } else if (this.#menu.openPanel === 'status') {
         this.#statusIdx = 0 // 开状态板从首位队员看起
       } else if (this.#menu.openPanel === 'system') {
@@ -483,6 +501,7 @@ export class MenuSession {
       const menuBefore = this.#menu
       const sceneBefore = this.ports.sceneId()
       this.#lastUseCursor = request.state.cursor
+      this.#lastUseTargetIdx = request.state.targetIdx
       this.#useMenu = closeUseMenu()
       this.#menu = CLOSED
       try {
@@ -497,9 +516,12 @@ export class MenuSession {
           if (results.length > 0) await this.ports.presentItemResults(results, signal)
         } else {
           const message = itemUseFailureText(outcome.reason, outcome.message)
-          this.ports.showToast(message)
           this.ports.report(`itemUse(${request.itemId}): ${message}`)
+          if (outcome.reason === 'placement-unavailable')
+            await this.ports.presentPlacementFailure(message, signal)
+          else this.ports.showToast(message)
         }
+        if (signal.aborted) return
         this.#useMenu = finishUseExecution(request, outcome, this.content.items)
         if (this.#useMenu.active) this.#menu = menuBefore
       } catch (error) {
@@ -519,7 +541,10 @@ export class MenuSession {
   }
 }
 
-function itemUseFailureText(reason: string | undefined, message: string | undefined): string {
+function itemUseFailureText(
+  reason: WorldItemUseOutcome['reason'],
+  message: string | undefined,
+): string {
   if (message) return message
   switch (reason) {
     case 'not-owned':
@@ -536,6 +561,8 @@ function itemUseFailureText(reason: string | undefined, message: string | undefi
       return '当前没有可用资源'
     case 'external-unavailable':
       return '当前场景无法执行这个用途'
+    case 'placement-unavailable':
+      return '此处无法放置'
     case 'invalid-effect-chain':
       return '物品用途配置不完整'
     default:

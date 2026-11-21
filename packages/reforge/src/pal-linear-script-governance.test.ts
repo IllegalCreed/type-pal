@@ -27,12 +27,6 @@ import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-s
 
 const cases = [
   {
-    scene: 's231',
-    entity: undefined,
-    parts: [14, 2, 2, 2, 2, 2, 2, 2, 77, 2, 2, 2, 2, 2, 2, 2, 2],
-    hash: 'd026bffea1c6cb63433d56120315e2f10dc23688f605c85942c2a8498da372d2',
-  },
-  {
     scene: 's249',
     entity: 'e4394',
     parts: [3, 2, 2, 2, 1],
@@ -124,6 +118,45 @@ test.each(
   expect(hashes).toEqual(expected)
 })
 
+test('the altar prepares the party and five offerings before the reveal and the earth beast battle', () => {
+  const flow = scenes.find(({ id }) => id === 's231')?.hooks?.onEnter?.variants.default?.flow
+  const step = flow?.stages[0]
+  if (!step) throw new Error('missing altar entry')
+  expect(flow?.initial).toBe('initial')
+  expect(step.entry).toEqual({
+    prepare: [
+      ...['260', '263', '264', '265', '266', '267'].map((itemId) => ({
+        kind: 'giveItem',
+        itemId,
+      })),
+      { kind: 'playMusic', asset: 'music.pal.084' },
+      { actor: 'li-xiaoyao', kind: 'setActorSprite', sprite: 'li-xiaoyao' },
+      { kind: 'setParty', members: ['zhao-linger', 'li-xiaoyao', 'anu'] },
+      { kind: 'setPartyFacing', facing: 'down' },
+      { kind: 'teleportParty', pos: { col: 104, row: 44, height: 0 } },
+      { kind: 'cameraSnap' },
+    ],
+    reveal: { kind: 'fade', outMs: 0, inMs: 0 },
+  })
+  const battles = step.body.filter(({ kind }) => kind === 'startBattle')
+  expect(battles).toHaveLength(1)
+  expect(battles[0]).toMatchObject({
+    enemyTeamId: 'team-287',
+    boss: true,
+    fieldId: 54,
+    music: 'music.pal.038',
+  })
+  const lastRetreat = step.body
+    .filter(
+      (command) => command.kind === 'sceneTimeline' && command.label === '地魔兽出土与祭坛疏散',
+    )
+    .at(-1)
+  if (!lastRetreat) throw new Error('missing altar retreat choreography')
+  expect(step.body.findIndex(({ kind }) => kind === 'startBattle')).toBeGreaterThan(
+    step.body.indexOf(lastRetreat),
+  )
+})
+
 function deferred() {
   let resolve!: () => void
   const promise = new Promise<void>((accept) => {
@@ -209,7 +242,9 @@ function oneStep(body: RuntimeCommand[]): RuntimeScriptFlow {
 }
 
 test('ProjectRuntime stops a cancelled source at loadScene without late tail or cursor commit', async () => {
-  const source = resolveAuthorDialogueTree(currentFlow(cases[1]), actors)
+  const palacePortal = cases.find(({ scene }) => scene === 's249')
+  if (!palacePortal) throw new Error('missing palace portal case')
+  const source = resolveAuthorDialogueTree(currentFlow(palacePortal), actors)
   const body: RuntimeCommand[] = [
     ...source.stages[0]!.body,
     { kind: 'setFlag', flag: 'illegal-late-tail', value: true },

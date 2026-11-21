@@ -68,7 +68,39 @@ function record(frames: AnimFrame[]) {
 }
 
 describe('M4d-2 战斗动画时间线', () => {
-  test('R13-6B preShake 与 OffMagic 起手帧并发，末尾 shake 仍是独立时间点', () => {
+  test('a wind spell displaces both occupied enemy slots per FIRE beat and restores both before the hit', () => {
+    const frames = buildOffMagic({
+      fireFrames: 3,
+      fx: {
+        placement: 'attackField',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 0,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+      },
+      blow: {
+        steps: [-2, -1, -2],
+        targets: [
+          { idx: 0, pos: { x: 70, y: 140 } },
+          { idx: 2, pos: { x: 160, y: 100 } },
+        ],
+      },
+    })
+    const { events, player } = record(frames)
+    player.tick(0)
+    expect(events).toEqual(['f:enemy0@68,139', 'f:enemy2@158,99'])
+    player.tick(50)
+    expect(events.slice(2)).toEqual(['f:enemy0@67,139', 'f:enemy2@157,99'])
+    player.tick(50)
+    expect(events.slice(4)).toEqual(['f:enemy0@65,138', 'f:enemy2@155,98'])
+    player.tick(50)
+    expect(events.slice(6)).toEqual(['f:enemy0@70,140', 'f:enemy2@160,100'])
+  })
+
+  test('OffMagic 以特效帧推进施法脚本震屏，末尾 shake 仍独立', () => {
     const frames = buildOffMagic({
       fireFrames: 3,
       fx: {
@@ -85,14 +117,21 @@ describe('M4d-2 战斗动画时间线', () => {
     })
     expect(frames.length).toBeGreaterThan(3)
     expect(frames[0]).toMatchObject({
-      screenShake: true,
-      screenShakeLevel: 3,
       overlays: [expect.objectContaining({ sheet: 'magic', frameIdx: 0 })],
     })
-    expect(frames[1]).toMatchObject({ screenShake: true, screenShakeLevel: 3 })
-    expect(frames[2]?.screenShakeLevel).toBeUndefined()
+    const { player } = record(frames)
+    player.tick(0)
+    expect(player.frameShakeOffsetY).toBe(3)
+    player.tick(40)
+    expect(player.frameShakeOffsetY).toBe(3)
+    player.tick(10)
+    expect(player.frameShakeOffsetY).toBe(-3)
+    player.tick(49)
+    expect(player.frameShakeOffsetY).toBe(-3)
+    player.tick(1)
+    expect(player.frameShakeOffsetY).toBeUndefined()
     expect(frames.at(-1)).toMatchObject({ screenShake: true })
-    expect(frames.at(-1)?.screenShakeLevel).toBeUndefined()
+    expect(frames.at(-1)?.frameShakeOffsetY).toBeUndefined()
   })
 
   test('OffMagic 在第一张特效帧播放一次音效，施法者切姿和特效循环保持原帧序', () => {
@@ -186,6 +225,40 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(snd).toBeGreaterThan(-1)
     expect(gesture).toBeGreaterThan(-1)
     expect(snd).toBe(gesture + 1) // 与 frame5 同帧派发(fighter 先于 sound)
+  })
+
+  test('对敌仙术在起手特效与 FIRE 之间各保留一拍收尾和准备', () => {
+    const frames = buildPlayerCast({
+      casterFrames: PLAYER_FRAMES,
+      casterIdx: 0,
+      casterPos: { x: 240, y: 170 },
+      castEffectBase: 15,
+      fireFrames: 7,
+      fx: {
+        placement: 'attackAll',
+        xOffset: 0,
+        yOffset: 0,
+        speed: 2,
+        fireDelay: 0,
+        effectTimes: 0,
+        shake: 0,
+        wave: 0,
+      },
+      offensive: true,
+      damageNums: [],
+    })
+    const lastEffect = frames
+      .map((frame) => frame.overlays?.some(({ sheet }) => sheet === 'effect'))
+      .lastIndexOf(true)
+    const firstFire = frames.findIndex((frame) =>
+      frame.overlays?.some(({ sheet }) => sheet === 'magic'),
+    )
+    expect(lastEffect).toBeGreaterThanOrEqual(0)
+    expect(firstFire).toBeGreaterThan(lastEffect)
+    expect(frames.slice(lastEffect + 1, firstFire)).toEqual([
+      { durationMs: 40 },
+      { durationMs: 40 },
+    ])
   })
 
   test('敌施法无特效资源时仍从原地显示数字和五拍受击', () => {
@@ -577,7 +650,8 @@ describe('M4d-2 战斗动画时间线', () => {
     const frames = buildEnemyTransform({
       idx: 2,
       oldDefinitionId: 'battle-sprite.enemy.001',
-      newDefinitionId: 'battle-sprite.enemy.002',
+      oldPos: { x: 140, y: 106 },
+      newPos: { x: 140, y: 128 },
       oldIdleFrame: 0,
       newIdleFrame: 3,
       sound: 'sound.pal.047',
@@ -590,7 +664,15 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(steps.slice(0, 6)).toEqual([0, 0, 0, 0, 0, 0])
     expect(steps.slice(6)).toEqual(Array.from({ length: 72 }, (_, i) => i + 1))
     expect(frames.slice(6).every((f) => f.durationMs === 16)).toBe(true)
-    expect(frames[6]!.fighters![0]!.frame).toBe(3)
+    expect(frames[6]!.fighters![0]).toMatchObject({
+      frame: 3,
+      pos: { x: 140, y: 128 },
+      holdFrame: true,
+    })
+    expect(frames[6]!.appearanceTransition).toMatchObject({
+      step: 1,
+      source: { x: 140, y: 106, frame: 0, colorShift: 5 },
+    })
     expect(frames[6]!.sound).toBe('sound.pal.047')
   })
 

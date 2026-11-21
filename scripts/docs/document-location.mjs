@@ -27,27 +27,138 @@ import {
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   assertTestingProjectVictoryVersionSource,
+  isTestingBattleCasualtyRosterSource,
   isTestingBattleClosureSource,
+  isTestingBattleConditionalSpellSource,
+  isTestingBattleCooperativeRosterSource,
   isTestingBattleDefeatSourcePath,
+  isTestingBattleEnemyColorSource,
+  isTestingBattleEnemyTransformSource,
+  isTestingBattleEscapeSpellSource,
   isTestingBattleEvidencePath,
+  isTestingBattleGuAndConfusionSource,
   isTestingBattleHandoffHistoricalSource,
+  isTestingBattleHidingSource,
+  isTestingBattleItemUseSource,
+  isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
+  isTestingBattlePoisonNarrationSource,
   isTestingBattleReviewSource,
+  isTestingBattleSceneObserverSource,
   isTestingBattleSessionEvidencePath,
+  isTestingBattleSpellCurrencySource,
+  isTestingBattleSpellFeedbackSource,
+  isTestingBattleSummonDivisionSource,
+  isTestingBattleSummonSource,
+  isTestingBattleThrowStatusSource,
+  isTestingBattleWindBlowSource,
+  isTestingCliffEntrySource,
+  isTestingPartyPoseSource,
+  isTestingQ2CoverageSource,
+  isTestingQ2DaliRainSource,
+  isTestingQ2DaliSource,
+  isTestingQ2DisplaySource,
+  isTestingQ2EntryAutoSource,
+  isTestingQ2EscortsSource,
+  isTestingQ2ForestInnSource,
+  isTestingQ2GaiLuojiaoSource,
+  isTestingQ2InnSource,
+  isTestingQ2NoticeSource,
+  isTestingQ2PalaceSource,
+  isTestingQ2PeachSource,
+  isTestingQ2PhoenixSource,
+  isTestingQ2PlacementSource,
+  isTestingQ2RingSource,
+  isTestingQ2RooftopSource,
+  isTestingQ2ShangshuSource,
+  isTestingQ2StoneElderSource,
+  isTestingQ2TianGhostSource,
+  isTestingQ2TombSource,
+  isTestingQ2TowerFoxSource,
+  isTestingQ2TowerMingSource,
+  isTestingSceneItemExitSource,
+  isTestingStoryPresentationSource,
+  isTestingWorldAwarenessSource,
+  isTestingWorldItemTargetSource,
+  restoreTestingBattleActionCadenceSourceBindings,
+  restoreTestingBattleCasualtyRosterSourceBindings,
   restoreTestingBattleClosureSourceBindings,
+  restoreTestingBattleConditionalSpellSourceBindings,
+  restoreTestingBattleCooperativeRosterSourceBindings,
   restoreTestingBattleDefeatSourceBindings,
+  restoreTestingBattleEnemyColorSourceBindings,
+  restoreTestingBattleEnemySpellShakeSourceBindings,
+  restoreTestingBattleEnemyTransformSourceBindings,
+  restoreTestingBattleEscapeSpellSourceBindings,
+  restoreTestingBattleGuAndConfusionSourceBindings,
   restoreTestingBattleHandoffSourceBindings,
+  restoreTestingBattleHidingSourceBindings,
+  restoreTestingBattleItemUseSourceBindings,
+  restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
+  restoreTestingBattlePoisonNarrationSourceBindings,
   restoreTestingBattleReviewSourceBindings,
+  restoreTestingBattleSceneObserverSourceBindings,
+  restoreTestingBattleScriptedShakeSourceBindings,
+  restoreTestingBattleSpellCurrencySourceBindings,
+  restoreTestingBattleSpellFeedbackSourceBindings,
+  restoreTestingBattleSummonDivisionSourceBindings,
+  restoreTestingBattleSummonPlaybackSourceBindings,
+  restoreTestingBattleSummonSourceBindings,
+  restoreTestingBattleThrowStatusSourceBindings,
   restoreTestingBattleVictorySourceBindings,
+  restoreTestingBattleWindBlowSourceBindings,
+  restoreTestingCliffEntrySourceBindings,
+  restoreTestingPartyPoseSourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingQ2CoverageSourceBindings,
+  restoreTestingQ2DaliRainSourceBindings,
+  restoreTestingQ2DaliSourceBindings,
+  restoreTestingQ2DisplaySourceBindings,
+  restoreTestingQ2EntryAutoSourceBindings,
+  restoreTestingQ2EscortsSourceBindings,
+  restoreTestingQ2ForestInnSourceBindings,
+  restoreTestingQ2GaiLuojiaoSourceBindings,
+  restoreTestingQ2InnSourceBindings,
+  restoreTestingQ2NoticeSourceBindings,
+  restoreTestingQ2PalaceSourceBindings,
+  restoreTestingQ2PeachSourceBindings,
+  restoreTestingQ2PhoenixSourceBindings,
+  restoreTestingQ2PlacementSourceBindings,
+  restoreTestingQ2RingSourceBindings,
+  restoreTestingQ2RooftopSourceBindings,
+  restoreTestingQ2ShangshuSourceBindings,
+  restoreTestingQ2StoneElderSourceBindings,
+  restoreTestingQ2TianGhostSourceBindings,
+  restoreTestingQ2TombSourceBindings,
+  restoreTestingQ2TowerFoxSourceBindings,
+  restoreTestingQ2TowerMingSourceBindings,
+  restoreTestingSceneItemExitSourceBindings,
+  restoreTestingStoryPresentationSourceBindings,
+  restoreTestingWorldAwarenessSourceBindings,
+  restoreTestingWorldItemTargetSourceBindings,
+  testingBattleActionCadencePublicationBase,
+  testingBattleCasualtyRosterPublicationBase,
   testingBattleClosurePublicationBase,
+  testingBattleConditionalSpellPublicationBase,
+  testingBattleCooperativeRosterPublicationBase,
   testingBattleDefeatSourceRevision,
+  testingBattleEnemyColorPublicationBase,
+  testingBattleEnemySpellShakePublicationBase,
+  testingBattleEnemyTransformPublicationBase,
+  testingBattleEscapeSpellPublicationBase,
+  testingBattleGuAndConfusionPublicationBase,
   testingBattleHandoffPublicationBase,
   testingBattleHandoffSourceRevision,
+  testingBattleHidingPublicationBase,
+  testingBattleItemUsePublicationBase,
+  testingBattleLearnedSkillsPublicationBase,
   testingBattleLifecyclePublicationBase,
+  testingBattlePoisonNarrationPublicationBase,
   testingBattlePublicationBase,
   testingBattleReviewPublicationBase,
+  testingBattleSceneObserverPublicationBase,
+  testingBattleScriptedShakePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
   testingBattleSessionCasualtyDialogueBase,
@@ -61,10 +172,45 @@ import {
   testingBattleSessionSourcePath,
   testingBattleSessionSpecialStatusBase,
   testingBattleSessionThrowFeedbackBase,
+  testingBattleSpellCurrencyPublicationBase,
+  testingBattleSpellFeedbackPublicationBase,
+  testingBattleSummonDivisionPublicationBase,
+  testingBattleSummonPlaybackPublicationBase,
+  testingBattleSummonPublicationBase,
+  testingBattleThrowStatusPublicationBase,
   testingBattleVictoryPublicationBase,
   testingBattleVictorySourceRevision,
+  testingBattleWindBlowPublicationBase,
+  testingCliffEntryPublicationBase,
+  testingPartyPosePublicationBase,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingQ2CoveragePublicationBase,
+  testingQ2DaliPublicationBase,
+  testingQ2DaliRainPublicationBase,
+  testingQ2DisplayPublicationBase,
+  testingQ2EntryAutoPublicationBase,
+  testingQ2EscortsPublicationBase,
+  testingQ2ForestInnPublicationBase,
+  testingQ2GaiLuojiaoPublicationBase,
+  testingQ2InnPublicationBase,
+  testingQ2NoticePublicationBase,
+  testingQ2PalacePublicationBase,
+  testingQ2PeachPublicationBase,
+  testingQ2PhoenixPublicationBase,
+  testingQ2PlacementPublicationBase,
+  testingQ2RingPublicationBase,
+  testingQ2RooftopPublicationBase,
+  testingQ2ShangshuPublicationBase,
+  testingQ2StoneElderPublicationBase,
+  testingQ2TianGhostPublicationBase,
+  testingQ2TombPublicationBase,
+  testingQ2TowerFoxPublicationBase,
+  testingQ2TowerMingPublicationBase,
+  testingSceneItemExitPublicationBase,
+  testingStoryPresentationPublicationBase,
+  testingWorldAwarenessPublicationBase,
+  testingWorldItemTargetPublicationBase,
 } from './testing-battle-publication.mjs'
 import { loadTestingContentVersionRebinding } from './testing-content-version-rebinding.mjs'
 import {
@@ -496,14 +642,23 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const readCurrentSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   const versionAdmission = admission.testingContentVersionRebinding
   const versionBase = versionAdmission && gitTree(root, versionAdmission.baseRevision, [])
+  const versionPublicationBase = versionAdmission?.publicationBaseRevision
+    ? gitTree(root, versionAdmission.publicationBaseRevision, [])
+    : versionBase
   const versionRebinding =
-    versionBase &&
+    versionPublicationBase &&
     loadTestingContentVersionRebinding({
       admission: versionAdmission,
       readCurrent: readCurrentSource,
-      readPredecessor: versionBase.read,
+      readPredecessor: versionPublicationBase.read,
+      readAcceptedSource: versionBase.read,
     })
-  const readSource = versionRebinding?.readPredecessorSource ?? readCurrentSource
+  const readSource = versionRebinding
+    ? (path) => {
+        const live = versionRebinding.readPredecessorSource(path)
+        return live && versionRebinding.restore(path, live)
+      }
+    : readCurrentSource
   const defeatRevision = admission.testingBattleDefeatSourceRevision
   if (defeatRevision !== undefined)
     assert(
@@ -552,14 +707,1153 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
   const closureSource = closureRevision && gitTree(root, closureRevision, [])
   const preClosure = closureSource && gitTree(root, testingBattleClosurePublicationBase, [])
+  const summonRevision = admission.testingBattleSummonSourceRevision
+  if (summonRevision !== undefined)
+    assert(
+      closureSource && /^[a-f0-9]{40}$/u.test(summonRevision),
+      'battle summon source bridge requires the fixed prior battle closure',
+    )
+  const summonSource = summonRevision && gitTree(root, summonRevision, [])
+  const preSummon = summonSource && gitTree(root, testingBattleSummonPublicationBase, [])
+  const summonDivisionRevision = admission.testingBattleSummonDivisionSourceRevision
+  if (summonDivisionRevision !== undefined)
+    assert(
+      summonSource && /^[a-f0-9]{40}$/u.test(summonDivisionRevision),
+      'battle summon and division source bridge requires the fixed summon predecessor',
+    )
+  const summonDivisionSource = summonDivisionRevision && gitTree(root, summonDivisionRevision, [])
+  const preSummonDivision =
+    summonDivisionSource && gitTree(root, testingBattleSummonDivisionPublicationBase, [])
+  const enemyColorRevision = admission.testingBattleEnemyColorSourceRevision
+  if (enemyColorRevision !== undefined)
+    assert(
+      summonDivisionSource && /^[a-f0-9]{40}$/u.test(enemyColorRevision),
+      'enemy color observation bridge requires the fixed summon and division predecessor',
+    )
+  const enemyColorSource = enemyColorRevision && gitTree(root, enemyColorRevision, [])
+  const preEnemyColor =
+    enemyColorSource && gitTree(root, testingBattleEnemyColorPublicationBase, [])
+  const summonPlaybackRevision = admission.testingBattleSummonPlaybackSourceRevision
+  if (summonPlaybackRevision !== undefined)
+    assert(
+      enemyColorSource && /^[a-f0-9]{40}$/u.test(summonPlaybackRevision),
+      'summon playback source bridge requires the fixed preceding observation revision',
+    )
+  const summonPlaybackSource = summonPlaybackRevision && gitTree(root, summonPlaybackRevision, [])
+  const preSummonPlayback =
+    summonPlaybackSource && gitTree(root, testingBattleSummonPlaybackPublicationBase, [])
+  const spellFeedbackRevision = admission.testingBattleSpellFeedbackSourceRevision
+  if (spellFeedbackRevision !== undefined)
+    assert(
+      summonPlaybackSource && /^[a-f0-9]{40}$/u.test(spellFeedbackRevision),
+      'spell feedback source bridge requires the fixed preceding playback revision',
+    )
+  const spellFeedbackSource = spellFeedbackRevision && gitTree(root, spellFeedbackRevision, [])
+  const preSpellFeedback =
+    spellFeedbackSource && gitTree(root, testingBattleSpellFeedbackPublicationBase, [])
+  const actionCadenceRevision = admission.testingBattleActionCadenceSourceRevision
+  if (actionCadenceRevision !== undefined)
+    assert(
+      spellFeedbackSource && /^[a-f0-9]{40}$/u.test(actionCadenceRevision),
+      'battle action cadence source bridge requires the fixed preceding spell feedback revision',
+    )
+  const actionCadenceSource = actionCadenceRevision && gitTree(root, actionCadenceRevision, [])
+  const preActionCadence =
+    actionCadenceSource && gitTree(root, testingBattleActionCadencePublicationBase, [])
+  const enemyTransformRevision = admission.testingBattleEnemyTransformSourceRevision
+  if (enemyTransformRevision !== undefined)
+    assert(
+      actionCadenceSource && /^[a-f0-9]{40}$/u.test(enemyTransformRevision),
+      'battle enemy transform source bridge requires the fixed preceding cadence revision',
+    )
+  const enemyTransformSource = enemyTransformRevision && gitTree(root, enemyTransformRevision, [])
+  const preEnemyTransform =
+    enemyTransformSource && gitTree(root, testingBattleEnemyTransformPublicationBase, [])
+  const sceneObserverRevision = admission.testingBattleSceneObserverSourceRevision
+  if (sceneObserverRevision !== undefined)
+    assert(
+      enemyTransformSource && /^[a-f0-9]{40}$/u.test(sceneObserverRevision),
+      'battle scene observer bridge requires the fixed preceding transform revision',
+    )
+  const sceneObserverSource = sceneObserverRevision && gitTree(root, sceneObserverRevision, [])
+  const preSceneObserver =
+    sceneObserverSource && gitTree(root, testingBattleSceneObserverPublicationBase, [])
+  const cooperativeRosterRevision = admission.testingBattleCooperativeRosterSourceRevision
+  if (cooperativeRosterRevision !== undefined)
+    assert(
+      sceneObserverSource && /^[a-f0-9]{40}$/u.test(cooperativeRosterRevision),
+      'battle cooperative source bridge requires the fixed preceding scene observer revision',
+    )
+  const cooperativeRosterSource =
+    cooperativeRosterRevision && gitTree(root, cooperativeRosterRevision, [])
+  const preCooperativeRoster =
+    cooperativeRosterSource && gitTree(root, testingBattleCooperativeRosterPublicationBase, [])
+  const casualtyRosterRevision = admission.testingBattleCasualtyRosterSourceRevision
+  if (casualtyRosterRevision !== undefined)
+    assert(
+      cooperativeRosterSource && /^[a-f0-9]{40}$/u.test(casualtyRosterRevision),
+      'battle casualty source bridge requires the fixed preceding cooperative revision',
+    )
+  const casualtyRosterSource = casualtyRosterRevision && gitTree(root, casualtyRosterRevision, [])
+  const preCasualtyRoster =
+    casualtyRosterSource && gitTree(root, testingBattleCasualtyRosterPublicationBase, [])
+  const learnedSkillsRevision = admission.testingBattleLearnedSkillsSourceRevision
+  if (learnedSkillsRevision !== undefined)
+    assert(
+      casualtyRosterSource && /^[a-f0-9]{40}$/u.test(learnedSkillsRevision),
+      'battle learned-skills source bridge requires the fixed preceding casualty revision',
+    )
+  const learnedSkillsSource = learnedSkillsRevision && gitTree(root, learnedSkillsRevision, [])
+  const preLearnedSkills =
+    learnedSkillsSource && gitTree(root, testingBattleLearnedSkillsPublicationBase, [])
+  const scriptedShakeRevision = admission.testingBattleScriptedShakeSourceRevision
+  if (scriptedShakeRevision !== undefined)
+    assert(
+      learnedSkillsSource && /^[a-f0-9]{40}$/u.test(scriptedShakeRevision),
+      'battle scripted shake source bridge requires the fixed preceding learned-skills revision',
+    )
+  const scriptedShakeSource = scriptedShakeRevision && gitTree(root, scriptedShakeRevision, [])
+  const preScriptedShake =
+    scriptedShakeSource && gitTree(root, testingBattleScriptedShakePublicationBase, [])
+  const windBlowRevision = admission.testingBattleWindBlowSourceRevision
+  if (windBlowRevision !== undefined)
+    assert(
+      scriptedShakeSource && /^[a-f0-9]{40}$/u.test(windBlowRevision),
+      'battle wind blow source bridge requires the fixed preceding scripted shake revision',
+    )
+  const windBlowSource = windBlowRevision && gitTree(root, windBlowRevision, [])
+  const preWindBlow = windBlowSource && gitTree(root, testingBattleWindBlowPublicationBase, [])
+  const conditionalSpellRevision = admission.testingBattleConditionalSpellSourceRevision
+  if (conditionalSpellRevision !== undefined)
+    assert(
+      windBlowSource && /^[a-f0-9]{40}$/u.test(conditionalSpellRevision),
+      'battle conditional spell source bridge requires the fixed preceding wind blow revision',
+    )
+  const conditionalSpellSource =
+    conditionalSpellRevision && gitTree(root, conditionalSpellRevision, [])
+  const preConditionalSpell =
+    conditionalSpellSource && gitTree(root, testingBattleConditionalSpellPublicationBase, [])
+  const guAndConfusionRevision = admission.testingBattleGuAndConfusionSourceRevision
+  if (guAndConfusionRevision !== undefined)
+    assert(
+      conditionalSpellSource && /^[a-f0-9]{40}$/u.test(guAndConfusionRevision),
+      'battle Gu and confusion source bridge requires the fixed preceding conditional spell revision',
+    )
+  const guAndConfusionSource = guAndConfusionRevision && gitTree(root, guAndConfusionRevision, [])
+  const preGuAndConfusion =
+    guAndConfusionSource && gitTree(root, testingBattleGuAndConfusionPublicationBase, [])
+  const spellCurrencyRevision = admission.testingBattleSpellCurrencySourceRevision
+  if (spellCurrencyRevision !== undefined)
+    assert(
+      guAndConfusionSource && /^[a-f0-9]{40}$/u.test(spellCurrencyRevision),
+      'battle spell currency source bridge requires the fixed preceding Gu and confusion revision',
+    )
+  const spellCurrencySource = spellCurrencyRevision && gitTree(root, spellCurrencyRevision, [])
+  const preSpellCurrency =
+    spellCurrencySource && gitTree(root, testingBattleSpellCurrencyPublicationBase, [])
+  const escapeSpellRevision = admission.testingBattleEscapeSpellSourceRevision
+  if (escapeSpellRevision !== undefined)
+    assert(
+      spellCurrencySource && /^[a-f0-9]{40}$/u.test(escapeSpellRevision),
+      'battle escape spell source bridge requires the fixed preceding spell currency revision',
+    )
+  const escapeSpellSource = escapeSpellRevision && gitTree(root, escapeSpellRevision, [])
+  const preEscapeSpell =
+    escapeSpellSource && gitTree(root, testingBattleEscapeSpellPublicationBase, [])
+  const enemySpellShakeRevision = admission.testingBattleEnemySpellShakeSourceRevision
+  if (enemySpellShakeRevision !== undefined)
+    assert(
+      escapeSpellSource && /^[a-f0-9]{40}$/u.test(enemySpellShakeRevision),
+      'battle enemy spell shake source bridge requires the fixed preceding escape spell revision',
+    )
+  const enemySpellShakeSource =
+    enemySpellShakeRevision && gitTree(root, enemySpellShakeRevision, [])
+  const preEnemySpellShake =
+    enemySpellShakeSource && gitTree(root, testingBattleEnemySpellShakePublicationBase, [])
+  const itemUseRevision = admission.testingBattleItemUseSourceRevision
+  if (itemUseRevision !== undefined)
+    assert(
+      enemySpellShakeSource && /^[a-f0-9]{40}$/u.test(itemUseRevision),
+      'battle item use source bridge requires the fixed preceding enemy spell shake revision',
+    )
+  const itemUseSource = itemUseRevision && gitTree(root, itemUseRevision, [])
+  const preItemUse = itemUseSource && gitTree(root, testingBattleItemUsePublicationBase, [])
+  const hidingRevision = admission.testingBattleHidingSourceRevision
+  if (hidingRevision !== undefined)
+    assert(
+      itemUseSource && /^[a-f0-9]{40}$/u.test(hidingRevision),
+      'battle hiding source bridge requires the fixed preceding item use revision',
+    )
+  const hidingSource = hidingRevision && gitTree(root, hidingRevision, [])
+  const preHiding = hidingSource && gitTree(root, testingBattleHidingPublicationBase, [])
+  const throwStatusRevision = admission.testingBattleThrowStatusSourceRevision
+  if (throwStatusRevision !== undefined)
+    assert(
+      hidingSource && /^[a-f0-9]{40}$/u.test(throwStatusRevision),
+      'battle throw status source bridge requires the fixed preceding hiding revision',
+    )
+  const throwStatusSource = throwStatusRevision && gitTree(root, throwStatusRevision, [])
+  const preThrowStatus =
+    throwStatusSource && gitTree(root, testingBattleThrowStatusPublicationBase, [])
+  const poisonNarrationRevision = admission.testingBattlePoisonNarrationSourceRevision
+  if (poisonNarrationRevision !== undefined)
+    assert(
+      throwStatusSource && /^[a-f0-9]{40}$/u.test(poisonNarrationRevision),
+      'battle poison narration source bridge requires the fixed preceding throw status revision',
+    )
+  const poisonNarrationSource =
+    poisonNarrationRevision && gitTree(root, poisonNarrationRevision, [])
+  const prePoisonNarration =
+    poisonNarrationSource && gitTree(root, testingBattlePoisonNarrationPublicationBase, [])
+  const worldItemTargetRevision = admission.testingWorldItemTargetSourceRevision
+  if (worldItemTargetRevision !== undefined)
+    assert(
+      poisonNarrationSource && /^[a-f0-9]{40}$/u.test(worldItemTargetRevision),
+      'world item target source bridge requires the fixed preceding poison narration revision',
+    )
+  const worldItemTargetSource =
+    worldItemTargetRevision && gitTree(root, worldItemTargetRevision, [])
+  const preWorldItemTarget =
+    worldItemTargetSource && gitTree(root, testingWorldItemTargetPublicationBase, [])
+  const worldAwarenessRevision = admission.testingWorldAwarenessSourceRevision
+  if (worldAwarenessRevision !== undefined)
+    assert(
+      worldItemTargetSource && /^[a-f0-9]{40}$/u.test(worldAwarenessRevision),
+      'world incense source bridge requires the fixed preceding item target revision',
+    )
+  const worldAwarenessSource = worldAwarenessRevision && gitTree(root, worldAwarenessRevision, [])
+  const preWorldAwareness =
+    worldAwarenessSource && gitTree(root, testingWorldAwarenessPublicationBase, [])
+  const sceneItemExitRevision = admission.testingSceneItemExitSourceRevision
+  if (sceneItemExitRevision !== undefined)
+    assert(
+      worldAwarenessSource && /^[a-f0-9]{40}$/u.test(sceneItemExitRevision),
+      'scene item exit source bridge requires the fixed preceding world incense revision',
+    )
+  const sceneItemExitSource = sceneItemExitRevision && gitTree(root, sceneItemExitRevision, [])
+  const preSceneItemExit =
+    sceneItemExitSource && gitTree(root, testingSceneItemExitPublicationBase, [])
+  const storyPresentationRevision = admission.testingStoryPresentationSourceRevision
+  if (storyPresentationRevision !== undefined)
+    assert(
+      sceneItemExitSource && /^[a-f0-9]{40}$/u.test(storyPresentationRevision),
+      'story presentation source bridge requires the fixed scene item exit revision',
+    )
+  const storyPresentationSource =
+    storyPresentationRevision && gitTree(root, storyPresentationRevision, [])
+  const preStoryPresentation =
+    storyPresentationSource && gitTree(root, testingStoryPresentationPublicationBase, [])
+  const cliffEntryRevision = admission.testingCliffEntrySourceRevision
+  if (cliffEntryRevision)
+    assert(
+      storyPresentationRevision,
+      'cliff entry bridge requires the fixed story presentation revision',
+    )
+  const cliffEntrySource = cliffEntryRevision && gitTree(root, cliffEntryRevision, [])
+  const preCliffEntry = cliffEntrySource && gitTree(root, testingCliffEntryPublicationBase, [])
+  const partyPoseRevision = admission.testingPartyPoseSourceRevision
+  if (partyPoseRevision)
+    assert(
+      cliffEntryRevision && /^[a-f0-9]{40}$/u.test(partyPoseRevision),
+      'party pose source needs the fixed cliff candidate',
+    )
+  const partyPoseSource = partyPoseRevision && gitTree(root, partyPoseRevision, [])
+  const prePartyPose = partyPoseSource && gitTree(root, testingPartyPosePublicationBase, [])
+  const q2CoverageRevision = admission.testingQ2CoverageSourceRevision
+  if (q2CoverageRevision) assert(partyPoseRevision && /^[a-f0-9]{40}$/u.test(q2CoverageRevision))
+  const q2CoverageSource = q2CoverageRevision && gitTree(root, q2CoverageRevision, [])
+  const preQ2Coverage = q2CoverageSource && gitTree(root, testingQ2CoveragePublicationBase, [])
+  const q2PlacementRevision = admission.testingQ2PlacementSourceRevision
+  if (q2PlacementRevision) assert(q2CoverageRevision && /^[a-f0-9]{40}$/u.test(q2PlacementRevision))
+  const q2PlacementSource = q2PlacementRevision && gitTree(root, q2PlacementRevision, [])
+  const preQ2Placement = q2PlacementSource && gitTree(root, testingQ2PlacementPublicationBase, [])
+  const q2PeachRevision = admission.testingQ2PeachSourceRevision
+  if (q2PeachRevision) assert(q2PlacementRevision && /^[a-f0-9]{40}$/u.test(q2PeachRevision))
+  const q2PeachSource = q2PeachRevision && gitTree(root, q2PeachRevision, [])
+  const preQ2Peach = q2PeachSource && gitTree(root, testingQ2PeachPublicationBase, [])
+  const q2NoticeRevision = admission.testingQ2NoticeSourceRevision
+  if (q2NoticeRevision) assert(q2PeachRevision && /^[a-f0-9]{40}$/u.test(q2NoticeRevision))
+  const q2NoticeSource = q2NoticeRevision && gitTree(root, q2NoticeRevision, [])
+  const preQ2Notice = q2NoticeSource && gitTree(root, testingQ2NoticePublicationBase, [])
+  const q2EntryAutoRevision = admission.testingQ2EntryAutoSourceRevision
+  if (q2EntryAutoRevision) assert(q2NoticeRevision && /^[a-f0-9]{40}$/u.test(q2EntryAutoRevision))
+  const q2EntryAutoSource = q2EntryAutoRevision && gitTree(root, q2EntryAutoRevision, [])
+  const preQ2EntryAuto = q2EntryAutoSource && gitTree(root, testingQ2EntryAutoPublicationBase, [])
+  const q2RooftopRevision = admission.testingQ2RooftopSourceRevision
+  if (q2RooftopRevision) assert(q2EntryAutoRevision && /^[a-f0-9]{40}$/u.test(q2RooftopRevision))
+  const q2RooftopSource = q2RooftopRevision && gitTree(root, q2RooftopRevision, [])
+  const preQ2Rooftop = q2RooftopSource && gitTree(root, testingQ2RooftopPublicationBase, [])
+  const q2RingRevision = admission.testingQ2RingSourceRevision
+  if (q2RingRevision) assert(q2RooftopRevision && /^[a-f0-9]{40}$/u.test(q2RingRevision))
+  const q2RingSource = q2RingRevision && gitTree(root, q2RingRevision, [])
+  const preQ2Ring = q2RingSource && gitTree(root, testingQ2RingPublicationBase, [])
+  const q2InnRevision = admission.testingQ2InnSourceRevision
+  if (q2InnRevision) assert(q2RingRevision && /^[a-f0-9]{40}$/u.test(q2InnRevision))
+  const q2InnSource = q2InnRevision && gitTree(root, q2InnRevision, [])
+  const preQ2Inn = q2InnSource && gitTree(root, testingQ2InnPublicationBase, [])
+  const q2EscortsRevision = admission.testingQ2EscortsSourceRevision
+  if (q2EscortsRevision) assert(q2InnRevision && /^[a-f0-9]{40}$/u.test(q2EscortsRevision))
+  const q2EscortsSource = q2EscortsRevision && gitTree(root, q2EscortsRevision, [])
+  const preQ2Escorts = q2EscortsSource && gitTree(root, testingQ2EscortsPublicationBase, [])
+  const q2TombRevision = admission.testingQ2TombSourceRevision
+  if (q2TombRevision) assert(q2EscortsRevision && /^[a-f0-9]{40}$/u.test(q2TombRevision))
+  const q2TombSource = q2TombRevision && gitTree(root, q2TombRevision, [])
+  const preQ2Tomb = q2TombSource && gitTree(root, testingQ2TombPublicationBase, [])
+  const q2TowerFoxRevision = admission.testingQ2TowerFoxSourceRevision
+  if (q2TowerFoxRevision) assert(q2TombRevision && /^[a-f0-9]{40}$/u.test(q2TowerFoxRevision))
+  const q2TowerFoxSource = q2TowerFoxRevision && gitTree(root, q2TowerFoxRevision, [])
+  const preQ2TowerFox = q2TowerFoxSource && gitTree(root, testingQ2TowerFoxPublicationBase, [])
+  const q2TianGhostRevision = admission.testingQ2TianGhostSourceRevision
+  if (q2TianGhostRevision) assert(q2TowerFoxRevision && /^[a-f0-9]{40}$/u.test(q2TianGhostRevision))
+  const q2TianGhostSource = q2TianGhostRevision && gitTree(root, q2TianGhostRevision, [])
+  const preQ2TianGhost = q2TianGhostSource && gitTree(root, testingQ2TianGhostPublicationBase, [])
+  const q2TowerMingRevision = admission.testingQ2TowerMingSourceRevision
+  if (q2TowerMingRevision)
+    assert(q2TianGhostRevision && /^[a-f0-9]{40}$/u.test(q2TowerMingRevision))
+  const q2TowerMingSource = q2TowerMingRevision && gitTree(root, q2TowerMingRevision, [])
+  const preQ2TowerMing = q2TowerMingSource && gitTree(root, testingQ2TowerMingPublicationBase, [])
+  const q2GaiLuojiaoRevision = admission.testingQ2GaiLuojiaoSourceRevision
+  if (q2GaiLuojiaoRevision)
+    assert(q2TowerMingRevision && /^[a-f0-9]{40}$/u.test(q2GaiLuojiaoRevision))
+  const q2GaiLuojiaoSource = q2GaiLuojiaoRevision && gitTree(root, q2GaiLuojiaoRevision, [])
+  const preQ2GaiLuojiao =
+    q2GaiLuojiaoSource && gitTree(root, testingQ2GaiLuojiaoPublicationBase, [])
+  const q2PhoenixRevision = admission.testingQ2PhoenixSourceRevision
+  if (q2PhoenixRevision) assert(q2GaiLuojiaoRevision && /^[a-f0-9]{40}$/u.test(q2PhoenixRevision))
+  const q2PhoenixSource = q2PhoenixRevision && gitTree(root, q2PhoenixRevision, [])
+  const preQ2Phoenix = q2PhoenixSource && gitTree(root, testingQ2PhoenixPublicationBase, [])
+  const q2StoneElderRevision = admission.testingQ2StoneElderSourceRevision
+  if (q2StoneElderRevision)
+    assert(q2PhoenixRevision && /^[a-f0-9]{40}$/u.test(q2StoneElderRevision))
+  const q2StoneElderSource = q2StoneElderRevision && gitTree(root, q2StoneElderRevision, [])
+  const preQ2StoneElder =
+    q2StoneElderSource && gitTree(root, testingQ2StoneElderPublicationBase, [])
+  const forestInnRevision = admission.testingQ2ForestInnSourceRevision
+  if (forestInnRevision) assert(q2StoneElderSource && /^[a-f0-9]{40}$/u.test(forestInnRevision))
+  const forestInnSource = forestInnRevision && gitTree(root, forestInnRevision, [])
+  const preForestInn = forestInnSource && gitTree(root, testingQ2ForestInnPublicationBase, [])
+  const shangshuRevision = admission.testingQ2ShangshuSourceRevision
+  if (shangshuRevision) assert(forestInnSource && /^[a-f0-9]{40}$/u.test(shangshuRevision))
+  const shangshuSource = shangshuRevision && gitTree(root, shangshuRevision, [])
+  const preShangshu = shangshuSource && gitTree(root, testingQ2ShangshuPublicationBase, [])
+  const daliRevision = admission.testingQ2DaliSourceRevision
+  if (daliRevision) assert(shangshuSource && /^[a-f0-9]{40}$/u.test(daliRevision))
+  const daliSource = daliRevision && gitTree(root, daliRevision, [])
+  const preDali = daliSource && gitTree(root, testingQ2DaliPublicationBase, [])
+  const daliRainRevision = admission.testingQ2DaliRainSourceRevision
+  if (daliRainRevision) assert(daliSource && /^[a-f0-9]{40}$/u.test(daliRainRevision))
+  const daliRainSource = daliRainRevision && gitTree(root, daliRainRevision, [])
+  const preDaliRain = daliRainSource && gitTree(root, testingQ2DaliRainPublicationBase, [])
+  const palaceRevision = admission.testingQ2PalaceSourceRevision
+  if (palaceRevision) assert(daliRainSource && /^[a-f0-9]{40}$/u.test(palaceRevision))
+  const palaceSource = palaceRevision && gitTree(root, palaceRevision, [])
+  const prePalace = palaceSource && gitTree(root, testingQ2PalacePublicationBase, [])
+  const displayRevision = admission.testingQ2DisplaySourceRevision
+  if (displayRevision) assert(palaceSource && /^[a-f0-9]{40}$/u.test(displayRevision))
+  const displaySource = displayRevision && gitTree(root, displayRevision, [])
+  const preDisplay = displaySource && gitTree(root, testingQ2DisplayPublicationBase, [])
+  const readBeforeDisplay = (path) => {
+    const live = readSource(path)
+    if (!preDisplay || !isTestingQ2DisplaySource(path)) return live
+    assert(live?.equals(displaySource.read(path)), 'Q2 display source differs from its candidate')
+    return preDisplay.read(path)
+  }
+  const readBeforePalace = (path) => {
+    const live = readBeforeDisplay(path)
+    if (!prePalace || !isTestingQ2PalaceSource(path)) return live
+    assert(
+      live?.equals(palaceSource.read(path)),
+      'palace presentation source differs from its candidate',
+    )
+    return prePalace.read(path)
+  }
+  const readBeforeDaliRain = (path) => {
+    const live = readBeforePalace(path)
+    if (!preDaliRain || !isTestingQ2DaliRainSource(path)) return live
+    assert(
+      live?.equals(daliRainSource.read(path)),
+      'Dali rain split source differs from its candidate',
+    )
+    return preDaliRain.read(path)
+  }
+  const readBeforeDali = (path) => {
+    const live = readBeforeDaliRain(path)
+    if (!preDali || !isTestingQ2DaliSource(path)) return live
+    assert(
+      live?.equals(daliSource.read(path)),
+      'Dali split source differs from the frozen candidate',
+    )
+    return preDali.read(path)
+  }
+  const readBeforeShangshu = (path) => {
+    const live = readBeforeDali(path)
+    if (!preShangshu || !isTestingQ2ShangshuSource(path)) return live
+    assert(
+      live?.equals(shangshuSource.read(path)),
+      'Shangshu source differs from the frozen candidate',
+    )
+    return preShangshu.read(path)
+  }
+  const readBeforeForestInn = (path) => {
+    const live = readBeforeShangshu(path)
+    if (!preForestInn || !isTestingQ2ForestInnSource(path)) return live
+    assert(
+      live?.equals(forestInnSource.read(path)),
+      'forest inn source differs from the frozen candidate',
+    )
+    return preForestInn.read(path)
+  }
+  const readBeforeQ2StoneElder = (path) => {
+    const live = readBeforeForestInn(path)
+    if (!preQ2StoneElder || !isTestingQ2StoneElderSource(path)) return live
+    assert(
+      live?.equals(q2StoneElderSource.read(path)),
+      'Stone Elder source differs from the frozen candidate',
+    )
+    return preQ2StoneElder.read(path)
+  }
+  const readBeforeQ2Phoenix = (path) => {
+    const live = readBeforeQ2StoneElder(path)
+    if (!preQ2Phoenix || !isTestingQ2PhoenixSource(path)) return live
+    assert(
+      live?.equals(q2PhoenixSource.read(path)),
+      'Phoenix source differs from the frozen candidate',
+    )
+    return preQ2Phoenix.read(path)
+  }
+  const readBeforeQ2GaiLuojiao = (path) => {
+    const live = readBeforeQ2Phoenix(path)
+    if (!preQ2GaiLuojiao || !isTestingQ2GaiLuojiaoSource(path)) return live
+    assert(
+      live?.equals(q2GaiLuojiaoSource.read(path)),
+      'Gai Luojiao source differs from the frozen candidate',
+    )
+    return preQ2GaiLuojiao.read(path)
+  }
+  const readBeforeQ2TowerMing = (path) => {
+    const live = readBeforeQ2GaiLuojiao(path)
+    if (!preQ2TowerMing || !isTestingQ2TowerMingSource(path)) return live
+    assert(
+      live?.equals(q2TowerMingSource.read(path)),
+      'Tower Ming source differs from the frozen candidate',
+    )
+    return preQ2TowerMing.read(path)
+  }
+  const readBeforeQ2TianGhost = (path) => {
+    const live = readBeforeQ2TowerMing(path)
+    if (!preQ2TianGhost || !isTestingQ2TianGhostSource(path)) return live
+    assert(
+      live?.equals(q2TianGhostSource.read(path)),
+      'Tian Gui Huang source differs from the frozen candidate',
+    )
+    return preQ2TianGhost.read(path)
+  }
+  const readBeforeQ2TowerFox = (path) => {
+    const live = readBeforeQ2TianGhost(path)
+    if (!preQ2TowerFox || !isTestingQ2TowerFoxSource(path)) return live
+    assert(
+      live?.equals(q2TowerFoxSource.read(path)),
+      'tower fox source differs from the frozen candidate',
+    )
+    return preQ2TowerFox.read(path)
+  }
+  const readBeforeQ2Tomb = (path) => {
+    const live = readBeforeQ2TowerFox(path)
+    if (!preQ2Tomb || !isTestingQ2TombSource(path)) return live
+    assert(live?.equals(q2TombSource.read(path)), 'tomb source differs from the frozen candidate')
+    return preQ2Tomb.read(path)
+  }
+  const readBeforeQ2Escorts = (path) => {
+    const live = readBeforeQ2Tomb(path)
+    if (!preQ2Escorts || !isTestingQ2EscortsSource(path)) return live
+    assert(
+      live?.equals(q2EscortsSource.read(path)),
+      'inn escorts source differs from the frozen candidate',
+    )
+    return preQ2Escorts.read(path)
+  }
+  const readBeforeQ2Inn = (path) => {
+    const live = readBeforeQ2Escorts(path)
+    if (!preQ2Inn || !isTestingQ2InnSource(path)) return live
+    assert(live?.equals(q2InnSource.read(path)), 'inn source differs from the frozen candidate')
+    return preQ2Inn.read(path)
+  }
+  const readBeforeQ2Ring = (path) => {
+    const live = readBeforeQ2Inn(path)
+    if (!preQ2Ring || !isTestingQ2RingSource(path)) return live
+    assert(live?.equals(q2RingSource.read(path)), 'ring source differs from the frozen candidate')
+    return preQ2Ring.read(path)
+  }
+  const readBeforeQ2Rooftop = (path) => {
+    const live = readBeforeQ2Ring(path)
+    if (!preQ2Rooftop || !isTestingQ2RooftopSource(path)) return live
+    assert(
+      live?.equals(q2RooftopSource.read(path)),
+      'rooftop source differs from the frozen candidate',
+    )
+    return preQ2Rooftop.read(path)
+  }
+  const readBeforeQ2EntryAuto = (path) => {
+    const live = readBeforeQ2Rooftop(path)
+    if (!preQ2EntryAuto || !isTestingQ2EntryAutoSource(path)) return live
+    assert(
+      live?.equals(q2EntryAutoSource.read(path)),
+      'entry auto source differs from the frozen candidate',
+    )
+    return preQ2EntryAuto.read(path)
+  }
+  const readBeforeQ2Notice = (path) => {
+    const live = readBeforeQ2EntryAuto(path)
+    if (!preQ2Notice || !isTestingQ2NoticeSource(path)) return live
+    assert(
+      live?.equals(q2NoticeSource.read(path)),
+      'world notice source differs from the frozen candidate',
+    )
+    return preQ2Notice.read(path)
+  }
+  const readBeforeQ2Peach = (path) => {
+    const live = readBeforeQ2Notice(path)
+    if (!preQ2Peach || !isTestingQ2PeachSource(path)) return live
+    assert(
+      live?.equals(q2PeachSource.read(path)),
+      'peach grove source differs from the frozen candidate',
+    )
+    return preQ2Peach.read(path)
+  }
+  const readBeforeQ2Placement = (path) => {
+    const live = readBeforeQ2Peach(path)
+    if (!preQ2Placement || !isTestingQ2PlacementSource(path)) return live
+    assert(
+      live?.equals(q2PlacementSource.read(path)),
+      'item placement source differs from the frozen candidate',
+    )
+    return preQ2Placement.read(path)
+  }
+  const readBeforeQ2Coverage = (path) => {
+    const live = readBeforeQ2Placement(path)
+    if (!preQ2Coverage || !isTestingQ2CoverageSource(path)) return live
+    assert(
+      live?.equals(q2CoverageSource.read(path)),
+      `Q2 source differs from the fixed candidate: ${path}`,
+    )
+    return preQ2Coverage.read(path)
+  }
+  const readBeforePartyPose = (path) => {
+    const live = readBeforeQ2Coverage(path)
+    if (!prePartyPose || !isTestingPartyPoseSource(path)) return live
+    assert(
+      live?.equals(partyPoseSource.read(path)),
+      'party pose source differs from the frozen candidate',
+    )
+    return prePartyPose.read(path)
+  }
+  const readBeforeCliffEntry = (path) => {
+    const live = readBeforePartyPose(path)
+    if (!preCliffEntry || !isTestingCliffEntrySource(path)) return live
+    assert(
+      live?.equals(cliffEntrySource.read(path)),
+      'cliff entry source differs from the frozen candidate',
+    )
+    return preCliffEntry.read(path)
+  }
+  const readBeforeStoryPresentation = (path) => {
+    const live = readBeforeCliffEntry(path)
+    if (!preStoryPresentation || !isTestingStoryPresentationSource(path)) return live
+    assert(
+      live?.equals(storyPresentationSource.read(path)),
+      'story presentation source differs from the frozen candidate',
+    )
+    return preStoryPresentation.read(path)
+  }
+  const readBeforeSceneItemExit = (path) => {
+    const live = readBeforeStoryPresentation(path)
+    if (!preSceneItemExit || !isTestingSceneItemExitSource(path)) return live
+    assert(
+      live?.equals(sceneItemExitSource.read(path)),
+      'scene item exit source differs from the frozen candidate',
+    )
+    return preSceneItemExit.read(path)
+  }
+  const readBeforeWorldAwareness = (path) => {
+    const live = readBeforeSceneItemExit(path)
+    if (!preWorldAwareness || !isTestingWorldAwarenessSource(path)) return live
+    assert(
+      live?.equals(worldAwarenessSource.read(path)),
+      'world incense source differs from the frozen candidate',
+    )
+    return preWorldAwareness.read(path)
+  }
+  const readBeforeWorldItemTarget = (path) => {
+    const live = readBeforeWorldAwareness(path)
+    if (!preWorldItemTarget || !isTestingWorldItemTargetSource(path)) return live
+    assert(
+      live?.equals(worldItemTargetSource.read(path)),
+      'world item target source differs from the frozen candidate',
+    )
+    return preWorldItemTarget.read(path)
+  }
+  const readBeforeBattlePoisonNarration = (path) => {
+    const live = readBeforeWorldItemTarget(path)
+    if (!prePoisonNarration || !isTestingBattlePoisonNarrationSource(path)) return live
+    assert(
+      live?.equals(poisonNarrationSource.read(path)),
+      'battle poison narration source differs from the frozen candidate',
+    )
+    return prePoisonNarration.read(path)
+  }
+  const readBeforeBattleThrowStatus = (path) => {
+    const live = readBeforeBattlePoisonNarration(path)
+    if (!preThrowStatus || !isTestingBattleThrowStatusSource(path)) return live
+    assert(
+      live?.equals(throwStatusSource.read(path)),
+      'battle throw status source differs from the frozen candidate',
+    )
+    return preThrowStatus.read(path)
+  }
+  const readBeforeBattleHiding = (path) => {
+    const live = readBeforeBattleThrowStatus(path)
+    if (!preHiding || !isTestingBattleHidingSource(path)) return live
+    assert(
+      live?.equals(hidingSource.read(path)),
+      'battle hiding source differs from the frozen candidate',
+    )
+    return preHiding.read(path)
+  }
+  const readBeforeBattleItemUse = (path) => {
+    const live = readBeforeBattleHiding(path)
+    if (!preItemUse || !isTestingBattleItemUseSource(path)) return live
+    assert(
+      live?.equals(itemUseSource.read(path)),
+      'battle item use source differs from the frozen candidate',
+    )
+    return preItemUse.read(path)
+  }
+  const readBeforeBattleEnemySpellShake = (path) => {
+    const live = readBeforeBattleItemUse(path)
+    if (!preEnemySpellShake || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(enemySpellShakeSource.read(path)),
+      'battle enemy spell shake source differs from the frozen candidate',
+    )
+    return preEnemySpellShake.read(path)
+  }
+  const readBeforeBattleEscapeSpell = (path) => {
+    const live = readBeforeBattleEnemySpellShake(path)
+    if (!preEscapeSpell || !isTestingBattleEscapeSpellSource(path)) return live
+    assert(
+      live?.equals(escapeSpellSource.read(path)),
+      'battle escape spell source differs from the frozen candidate',
+    )
+    return preEscapeSpell.read(path)
+  }
+  const readBeforeBattleSpellCurrency = (path) => {
+    const live = readBeforeBattleEscapeSpell(path)
+    if (!preSpellCurrency || !isTestingBattleSpellCurrencySource(path)) return live
+    assert(
+      live?.equals(spellCurrencySource.read(path)),
+      'battle spell currency source differs from the frozen candidate',
+    )
+    return preSpellCurrency.read(path)
+  }
+  const readBeforeBattleGuAndConfusion = (path) => {
+    const live = readBeforeBattleSpellCurrency(path)
+    if (!preGuAndConfusion || !isTestingBattleGuAndConfusionSource(path)) return live
+    assert(
+      live?.equals(guAndConfusionSource.read(path)),
+      'battle Gu and confusion source differs from the frozen candidate',
+    )
+    return preGuAndConfusion.read(path)
+  }
+  const readBeforeBattleConditionalSpell = (path) => {
+    const live = readBeforeBattleGuAndConfusion(path)
+    if (!preConditionalSpell || !isTestingBattleConditionalSpellSource(path)) return live
+    assert(
+      live?.equals(conditionalSpellSource.read(path)),
+      'battle conditional spell source differs from the frozen candidate',
+    )
+    return preConditionalSpell.read(path)
+  }
+  const readBeforeBattleWindBlow = (path) => {
+    const live = readBeforeBattleConditionalSpell(path)
+    if (!preWindBlow || !isTestingBattleWindBlowSource(path)) return live
+    assert(
+      live?.equals(windBlowSource.read(path)),
+      'battle wind blow source differs from the frozen candidate',
+    )
+    return preWindBlow.read(path)
+  }
+  const readBeforeBattleScriptedShake = (path) => {
+    const live = readBeforeBattleWindBlow(path)
+    if (!preScriptedShake || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(scriptedShakeSource.read(path)),
+      'battle scripted shake source differs from the frozen candidate',
+    )
+    return preScriptedShake.read(path)
+  }
+  const readBeforeBattleLearnedSkills = (path) => {
+    const live = readBeforeBattleScriptedShake(path)
+    if (!preLearnedSkills || !isTestingBattleLearnedSkillsSource(path)) return live
+    assert(
+      live?.equals(learnedSkillsSource.read(path)),
+      'battle learned-skills source differs from the frozen candidate',
+    )
+    return preLearnedSkills.read(path)
+  }
+  const readBeforeBattleCasualtyRoster = (path) => {
+    const live = readBeforeBattleLearnedSkills(path)
+    if (!preCasualtyRoster || !isTestingBattleCasualtyRosterSource(path)) return live
+    assert(
+      live?.equals(casualtyRosterSource.read(path)),
+      'battle casualty source differs from the frozen candidate',
+    )
+    return preCasualtyRoster.read(path)
+  }
+  const readBeforeBattleCooperativeRoster = (path) => {
+    const live = readBeforeBattleCasualtyRoster(path)
+    if (!preCooperativeRoster || !isTestingBattleCooperativeRosterSource(path)) return live
+    assert(
+      live?.equals(cooperativeRosterSource.read(path)),
+      'battle cooperative source differs from the frozen candidate',
+    )
+    return preCooperativeRoster.read(path)
+  }
+  const readBeforeBattleSceneObserver = (path) => {
+    const live = readBeforeBattleCooperativeRoster(path)
+    if (!preSceneObserver || !isTestingBattleSceneObserverSource(path)) return live
+    assert(
+      live?.equals(sceneObserverSource.read(path)),
+      'battle scene observer differs from the frozen candidate',
+    )
+    return preSceneObserver.read(path)
+  }
+  const readBeforeBattleEnemyTransform = (path) => {
+    const live = readBeforeBattleSceneObserver(path)
+    if (!preEnemyTransform || !isTestingBattleEnemyTransformSource(path)) return live
+    assert(
+      live?.equals(enemyTransformSource.read(path)),
+      'battle transform source differs from the frozen candidate',
+    )
+    return preEnemyTransform.read(path)
+  }
+  const readBeforeBattleActionCadence = (path) => {
+    const live = readBeforeBattleEnemyTransform(path)
+    if (!preActionCadence || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(actionCadenceSource.read(path)),
+      'battle action cadence source differs from its fixed candidate',
+    )
+    return preActionCadence.read(path)
+  }
+  const readBeforeBattleSpellFeedback = (path) => {
+    const live = readBeforeBattleActionCadence(path)
+    if (!preSpellFeedback || !isTestingBattleSpellFeedbackSource(path)) return live
+    assert(
+      live?.equals(spellFeedbackSource.read(path)),
+      `enemy spell feedback source changed: ${path}`,
+    )
+    return preSpellFeedback.read(path)
+  }
+  const readBeforeBattleSummonPlayback = (path) => {
+    const live = readBeforeBattleSpellFeedback(path)
+    if (!preSummonPlayback || path !== testingBattleSessionSourcePath) return live
+    assert(
+      live?.equals(summonPlaybackSource.read(path)),
+      `enemy summon playback source changed: ${path}`,
+    )
+    return preSummonPlayback.read(path)
+  }
+  const readBeforeBattleEnemyColor = (path) => {
+    const live = readBeforeBattleSummonPlayback(path)
+    if (!preEnemyColor || !isTestingBattleEnemyColorSource(path)) return live
+    assert(
+      live?.equals(enemyColorSource.read(path)),
+      `enemy color observation source changed: ${path}`,
+    )
+    return preEnemyColor.read(path)
+  }
+  const readBeforeBattleSummonDivision = (path) => {
+    const live = readBeforeBattleEnemyColor(path)
+    if (!preSummonDivision || !isTestingBattleSummonDivisionSource(path)) return live
+    assert(
+      live?.equals(summonDivisionSource.read(path)),
+      `battle summon and division source differs from its fixed candidate: ${path}`,
+    )
+    return preSummonDivision.read(path)
+  }
+  const readBeforeBattleSummon = (path) => {
+    const live = readBeforeBattleSummonDivision(path)
+    if (!preSummon || !isTestingBattleSummonSource(path)) return live
+    assert(
+      live?.equals(summonSource.read(path)),
+      'battle summon source differs from its fixed candidate',
+    )
+    return preSummon.read(path)
+  }
+  const beforeQ2Coverage = (path, bytes) => {
+    const priorDisplay = preDisplay
+      ? restoreTestingQ2DisplaySourceBindings(path, bytes, {
+          readSource,
+          readBase: preDisplay.read,
+          readFixed: displaySource.read,
+        })
+      : bytes
+    const priorPalace = prePalace
+      ? restoreTestingQ2PalaceSourceBindings(path, priorDisplay, {
+          readSource: readBeforeDisplay,
+          readBase: prePalace.read,
+          readFixed: palaceSource.read,
+        })
+      : priorDisplay
+    const priorRain = preDaliRain
+      ? restoreTestingQ2DaliRainSourceBindings(path, priorPalace, {
+          readSource: readBeforePalace,
+          readBase: preDaliRain.read,
+          readFixed: daliRainSource.read,
+        })
+      : priorPalace
+    const priorDali = preDali
+      ? restoreTestingQ2DaliSourceBindings(path, priorRain, {
+          readSource: readBeforeDaliRain,
+          readBase: preDali.read,
+          readFixed: daliSource.read,
+        })
+      : priorRain
+    const priorShangshu = preShangshu
+      ? restoreTestingQ2ShangshuSourceBindings(path, priorDali, {
+          readSource: readBeforeDali,
+          readBase: preShangshu.read,
+          readFixed: shangshuSource.read,
+        })
+      : priorDali
+    const priorForestInn = preForestInn
+      ? restoreTestingQ2ForestInnSourceBindings(path, priorShangshu, {
+          readSource: readBeforeShangshu,
+          readBase: preForestInn.read,
+          readFixed: forestInnSource.read,
+        })
+      : priorShangshu
+    const priorStoneElder = preQ2StoneElder
+      ? restoreTestingQ2StoneElderSourceBindings(path, priorForestInn, {
+          readSource: readBeforeForestInn,
+          readBase: preQ2StoneElder.read,
+          readFixed: q2StoneElderSource.read,
+        })
+      : priorForestInn
+    const priorPhoenix = preQ2Phoenix
+      ? restoreTestingQ2PhoenixSourceBindings(path, priorStoneElder, {
+          readSource: readBeforeQ2StoneElder,
+          readBase: preQ2Phoenix.read,
+          readFixed: q2PhoenixSource.read,
+        })
+      : priorStoneElder
+    const priorGaiLuojiao = preQ2GaiLuojiao
+      ? restoreTestingQ2GaiLuojiaoSourceBindings(path, priorPhoenix, {
+          readSource: readBeforeQ2Phoenix,
+          readBase: preQ2GaiLuojiao.read,
+          readFixed: q2GaiLuojiaoSource.read,
+        })
+      : priorPhoenix
+    const priorTowerMing = preQ2TowerMing
+      ? restoreTestingQ2TowerMingSourceBindings(path, priorGaiLuojiao, {
+          readSource: readBeforeQ2GaiLuojiao,
+          readBase: preQ2TowerMing.read,
+          readFixed: q2TowerMingSource.read,
+        })
+      : priorGaiLuojiao
+    const priorTianGhost = preQ2TianGhost
+      ? restoreTestingQ2TianGhostSourceBindings(path, priorTowerMing, {
+          readSource: readBeforeQ2TowerMing,
+          readBase: preQ2TianGhost.read,
+          readFixed: q2TianGhostSource.read,
+        })
+      : priorTowerMing
+    const priorTowerFox = preQ2TowerFox
+      ? restoreTestingQ2TowerFoxSourceBindings(path, priorTianGhost, {
+          readSource: readBeforeQ2TianGhost,
+          readBase: preQ2TowerFox.read,
+          readFixed: q2TowerFoxSource.read,
+        })
+      : priorTianGhost
+    const priorTomb = preQ2Tomb
+      ? restoreTestingQ2TombSourceBindings(path, priorTowerFox, {
+          readSource: readBeforeQ2TowerFox,
+          readBase: preQ2Tomb.read,
+          readFixed: q2TombSource.read,
+        })
+      : priorTowerFox
+    const priorEscorts = preQ2Escorts
+      ? restoreTestingQ2EscortsSourceBindings(path, priorTomb, {
+          readSource: readBeforeQ2Tomb,
+          readBase: preQ2Escorts.read,
+          readFixed: q2EscortsSource.read,
+        })
+      : priorTomb
+    const priorInn = preQ2Inn
+      ? restoreTestingQ2InnSourceBindings(path, priorEscorts, {
+          readSource: readBeforeQ2Escorts,
+          readBase: preQ2Inn.read,
+          readFixed: q2InnSource.read,
+        })
+      : priorEscorts
+    const priorRing = preQ2Ring
+      ? restoreTestingQ2RingSourceBindings(path, priorInn, {
+          readSource: readBeforeQ2Inn,
+          readBase: preQ2Ring.read,
+          readFixed: q2RingSource.read,
+        })
+      : priorInn
+    const priorRooftop = preQ2Rooftop
+      ? restoreTestingQ2RooftopSourceBindings(path, priorRing, {
+          readSource: readBeforeQ2Ring,
+          readBase: preQ2Rooftop.read,
+          readFixed: q2RooftopSource.read,
+        })
+      : priorRing
+    const priorEntryAuto = preQ2EntryAuto
+      ? restoreTestingQ2EntryAutoSourceBindings(path, priorRooftop, {
+          readSource: readBeforeQ2Rooftop,
+          readBase: preQ2EntryAuto.read,
+          readFixed: q2EntryAutoSource.read,
+        })
+      : priorRooftop
+    const priorNotice = preQ2Notice
+      ? restoreTestingQ2NoticeSourceBindings(path, priorEntryAuto, {
+          readSource: readBeforeQ2EntryAuto,
+          readBase: preQ2Notice.read,
+          readFixed: q2NoticeSource.read,
+        })
+      : priorEntryAuto
+    const priorPeach = preQ2Peach
+      ? restoreTestingQ2PeachSourceBindings(path, priorNotice, {
+          readSource: readBeforeQ2Notice,
+          readBase: preQ2Peach.read,
+          readFixed: q2PeachSource.read,
+        })
+      : priorNotice
+    const priorPlacement = preQ2Placement
+      ? restoreTestingQ2PlacementSourceBindings(path, priorPeach, {
+          readSource: readBeforeQ2Peach,
+          readBase: preQ2Placement.read,
+          readFixed: q2PlacementSource.read,
+        })
+      : priorPeach
+    return preQ2Coverage
+      ? restoreTestingQ2CoverageSourceBindings(path, priorPlacement, {
+          readSource: readBeforeQ2Placement,
+          readBase: preQ2Coverage.read,
+          readFixed: q2CoverageSource.read,
+        })
+      : priorPlacement
+  }
+  const beforePartyPose = (path, bytes) =>
+    prePartyPose
+      ? restoreTestingPartyPoseSourceBindings(path, bytes, {
+          readSource: readBeforeQ2Coverage,
+          readBase: prePartyPose.read,
+          readFixed: partyPoseSource.read,
+        })
+      : bytes
+  const beforeBattleSummon = (path, bytes) => {
+    const priorPartyPose = beforePartyPose(path, beforeQ2Coverage(path, bytes))
+    const priorCliffEntry = preCliffEntry
+      ? restoreTestingCliffEntrySourceBindings(path, priorPartyPose, {
+          readSource: readBeforePartyPose,
+          readBase: preCliffEntry.read,
+          readFixed: cliffEntrySource.read,
+        })
+      : priorPartyPose
+    const priorStoryPresentation = preStoryPresentation
+      ? restoreTestingStoryPresentationSourceBindings(path, priorCliffEntry, {
+          readSource: readBeforeCliffEntry,
+          readBase: preStoryPresentation.read,
+          readFixed: storyPresentationSource.read,
+        })
+      : priorCliffEntry
+    const priorSceneItemExit = preSceneItemExit
+      ? restoreTestingSceneItemExitSourceBindings(path, priorStoryPresentation, {
+          readSource: readBeforeStoryPresentation,
+          readBase: preSceneItemExit.read,
+          readFixed: sceneItemExitSource.read,
+        })
+      : priorStoryPresentation
+    const priorWorldAwareness = preWorldAwareness
+      ? restoreTestingWorldAwarenessSourceBindings(path, priorSceneItemExit, {
+          readSource: readBeforeSceneItemExit,
+          readBase: preWorldAwareness.read,
+          readFixed: worldAwarenessSource.read,
+        })
+      : priorSceneItemExit
+    const priorWorldItemTarget = preWorldItemTarget
+      ? restoreTestingWorldItemTargetSourceBindings(path, priorWorldAwareness, {
+          readSource: readBeforeWorldAwareness,
+          readBase: preWorldItemTarget.read,
+          readFixed: worldItemTargetSource.read,
+        })
+      : priorWorldAwareness
+    const priorPoisonNarration = prePoisonNarration
+      ? restoreTestingBattlePoisonNarrationSourceBindings(path, priorWorldItemTarget, {
+          readSource: readBeforeWorldItemTarget,
+          readBase: prePoisonNarration.read,
+          readFixed: poisonNarrationSource.read,
+        })
+      : priorWorldItemTarget
+    const priorThrowStatus = preThrowStatus
+      ? restoreTestingBattleThrowStatusSourceBindings(path, priorPoisonNarration, {
+          readSource: readBeforeBattlePoisonNarration,
+          readBase: preThrowStatus.read,
+          readFixed: throwStatusSource.read,
+        })
+      : priorPoisonNarration
+    const priorHiding = preHiding
+      ? restoreTestingBattleHidingSourceBindings(path, priorThrowStatus, {
+          readSource: readBeforeBattleThrowStatus,
+          readBase: preHiding.read,
+          readFixed: hidingSource.read,
+        })
+      : priorThrowStatus
+    const priorItemUse = preItemUse
+      ? restoreTestingBattleItemUseSourceBindings(path, priorHiding, {
+          readSource: readBeforeBattleHiding,
+          readBase: preItemUse.read,
+          readFixed: itemUseSource.read,
+        })
+      : priorHiding
+    const priorEnemySpellShake = preEnemySpellShake
+      ? restoreTestingBattleEnemySpellShakeSourceBindings(path, priorItemUse, {
+          readSource: readBeforeBattleItemUse,
+          readBase: preEnemySpellShake.read,
+          readFixed: enemySpellShakeSource.read,
+        })
+      : priorItemUse
+    const priorEscapeSpell = preEscapeSpell
+      ? restoreTestingBattleEscapeSpellSourceBindings(path, priorEnemySpellShake, {
+          readSource: readBeforeBattleEnemySpellShake,
+          readBase: preEscapeSpell.read,
+          readFixed: escapeSpellSource.read,
+        })
+      : priorEnemySpellShake
+    const priorSpellCurrency = preSpellCurrency
+      ? restoreTestingBattleSpellCurrencySourceBindings(path, priorEscapeSpell, {
+          readSource: readBeforeBattleEscapeSpell,
+          readBase: preSpellCurrency.read,
+          readFixed: spellCurrencySource.read,
+        })
+      : priorEscapeSpell
+    const priorGuAndConfusion = preGuAndConfusion
+      ? restoreTestingBattleGuAndConfusionSourceBindings(path, priorSpellCurrency, {
+          readSource: readBeforeBattleSpellCurrency,
+          readBase: preGuAndConfusion.read,
+          readFixed: guAndConfusionSource.read,
+        })
+      : priorSpellCurrency
+    const priorConditionalSpell = preConditionalSpell
+      ? restoreTestingBattleConditionalSpellSourceBindings(path, priorGuAndConfusion, {
+          readSource: readBeforeBattleGuAndConfusion,
+          readBase: preConditionalSpell.read,
+          readFixed: conditionalSpellSource.read,
+        })
+      : priorGuAndConfusion
+    const priorWindBlow = preWindBlow
+      ? restoreTestingBattleWindBlowSourceBindings(path, priorConditionalSpell, {
+          readSource: readBeforeBattleConditionalSpell,
+          readBase: preWindBlow.read,
+          readFixed: windBlowSource.read,
+        })
+      : priorConditionalSpell
+    const priorScriptedShake = preScriptedShake
+      ? restoreTestingBattleScriptedShakeSourceBindings(path, priorWindBlow, {
+          readSource: readBeforeBattleWindBlow,
+          readBase: preScriptedShake.read,
+          readFixed: scriptedShakeSource.read,
+        })
+      : priorWindBlow
+    const priorLearnedSkills = preLearnedSkills
+      ? restoreTestingBattleLearnedSkillsSourceBindings(path, priorScriptedShake, {
+          readSource: readBeforeBattleScriptedShake,
+          readBase: preLearnedSkills.read,
+          readFixed: learnedSkillsSource.read,
+        })
+      : priorScriptedShake
+    const priorCasualtyRoster = preCasualtyRoster
+      ? restoreTestingBattleCasualtyRosterSourceBindings(path, priorLearnedSkills, {
+          readSource: readBeforeBattleLearnedSkills,
+          readBase: preCasualtyRoster.read,
+          readFixed: casualtyRosterSource.read,
+        })
+      : priorLearnedSkills
+    const priorCooperativeRoster = preCooperativeRoster
+      ? restoreTestingBattleCooperativeRosterSourceBindings(path, priorCasualtyRoster, {
+          readSource: readBeforeBattleCasualtyRoster,
+          readBase: preCooperativeRoster.read,
+          readFixed: cooperativeRosterSource.read,
+        })
+      : priorCasualtyRoster
+    const priorSceneObserver = preSceneObserver
+      ? restoreTestingBattleSceneObserverSourceBindings(path, priorCooperativeRoster, {
+          readSource: readBeforeBattleCooperativeRoster,
+          readBase: preSceneObserver.read,
+          readFixed: sceneObserverSource.read,
+        })
+      : priorCooperativeRoster
+    const priorEnemyTransform = preEnemyTransform
+      ? restoreTestingBattleEnemyTransformSourceBindings(path, priorSceneObserver, {
+          readSource: readBeforeBattleSceneObserver,
+          readBase: preEnemyTransform.read,
+          readFixed: enemyTransformSource.read,
+        })
+      : priorSceneObserver
+    const priorActionCadence = preActionCadence
+      ? restoreTestingBattleActionCadenceSourceBindings(path, priorEnemyTransform, {
+          readSource: readBeforeBattleEnemyTransform,
+          readBase: preActionCadence.read,
+          readFixed: actionCadenceSource.read,
+        })
+      : priorEnemyTransform
+    const priorSpellFeedback = preSpellFeedback
+      ? restoreTestingBattleSpellFeedbackSourceBindings(path, priorActionCadence, {
+          readSource: readBeforeBattleActionCadence,
+          readBase: preSpellFeedback.read,
+          readFixed: spellFeedbackSource.read,
+        })
+      : priorActionCadence
+    const priorSummonPlayback = preSummonPlayback
+      ? restoreTestingBattleSummonPlaybackSourceBindings(path, priorSpellFeedback, {
+          readSource: readBeforeBattleSpellFeedback,
+          readBase: preSummonPlayback.read,
+          readFixed: summonPlaybackSource.read,
+        })
+      : priorSpellFeedback
+    const priorEnemyColor = preEnemyColor
+      ? restoreTestingBattleEnemyColorSourceBindings(path, priorSummonPlayback, {
+          readSource: readBeforeBattleSummonPlayback,
+          readBase: preEnemyColor.read,
+          readFixed: enemyColorSource.read,
+        })
+      : priorSummonPlayback
+    const current = preSummonDivision
+      ? restoreTestingBattleSummonDivisionSourceBindings(path, priorEnemyColor, {
+          readSource: readBeforeBattleEnemyColor,
+          readBase: preSummonDivision.read,
+          readFixed: summonDivisionSource.read,
+        })
+      : priorEnemyColor
+    return preSummon
+      ? restoreTestingBattleSummonSourceBindings(path, current, {
+          readSource: readBeforeBattleSummonDivision,
+          readBase: preSummon.read,
+          readFixed: summonSource.read,
+        })
+      : current
+  }
   const closureInputs = preClosure && {
     revision: closureRevision,
-    readSource,
+    readSource: (path) => beforeBattleSummon(path, readBeforeBattleSummon(path)),
     readBase: preClosure.read,
     readFixed: closureSource.read,
   }
   const readBeforeBattleClosure = (path) => {
-    const current = readSource(path)
+    const current = readBeforeBattleSummon(path)
     if (!preClosure || !isTestingBattleClosureSource(path)) return current
     assert(
       current?.equals(closureSource.read(path)),
@@ -870,7 +2164,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const addition = additions.get(path)
     if (addition) {
       if (postPalace && isPublishedTestingStagePath(path)) {
-        const older = beforeProjectVictory(path, priorVersionBody)
+        const older = beforeProjectVictory(path, beforePartyPose(path, priorVersionBody))
         const predecessor = acquisitionPrevious(path, older)
         assert(
           postPalace.read(path)?.equals(predecessor),
@@ -886,7 +2180,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       )
       if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
       if (isTestingBattleEvidencePath(path)) assertTestingBattleEvidence(path, current)
-      if (closureInputs) assertTestingBattleClosureAddition(path, current, closureInputs)
+      if (closureInputs)
+        assertTestingBattleClosureAddition(
+          path,
+          beforeBattleSummon(path, priorVersionBody),
+          closureInputs,
+        )
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -969,7 +2268,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           path,
           beforeBattleLifecycle(
             path,
-            beforeBattleReview(path, beforeBattleClosure(path, priorVersionBody)),
+            beforeBattleReview(
+              path,
+              beforeBattleClosure(path, beforeBattleSummon(path, priorVersionBody)),
+            ),
           ),
         ),
       )

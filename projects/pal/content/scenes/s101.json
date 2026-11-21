@@ -2937,11 +2937,21 @@
             "stages": [
               {
                 "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "playMusic",
+                      "asset": "music.pal.035"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 600,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                },
                 "body": [
-                  {
-                    "kind": "playMusic",
-                    "asset": "music.pal.035"
-                  },
                   {
                     "kind": "setEntityState",
                     "state": 2,
@@ -2951,9 +2961,12 @@
                     }
                   },
                   {
-                    "kind": "nudgeEntity",
-                    "dx": 32,
-                    "dy": 0,
+                    "kind": "setEntityPos",
+                    "pos": {
+                      "col": 81,
+                      "row": 26,
+                      "height": 0
+                    },
                     "target": {
                       "scene": "s103",
                       "entity": "e1908"
@@ -2972,34 +2985,38 @@
                     }
                   },
                   {
-                    "kind": "setEntityFacing",
-                    "facing": "down",
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
+                    "kind": "selectSceneHooks",
+                    "scene": "s103",
+                    "selection": {
+                      "onEnter": {
+                        "kind": "use",
+                        "value": "after-revisit"
+                      }
                     }
                   },
                   {
-                    "kind": "setEntityFrame",
-                    "frame": 0,
-                    "target": {
-                      "scene": "s103",
-                      "entity": "e1908"
-                    }
+                    "kind": "clearDialog"
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "repeat",
                     "count": 2,
+                    "intervalMs": 100,
                     "body": [
-                      {
-                        "kind": "clearDialog"
-                      },
                       {
                         "kind": "nudgeParty",
                         "dx": -16,
-                        "dy": 8
+                        "dy": 8,
+                        "facing": "down"
                       }
                     ]
+                  },
+                  {
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "setPartyFacing",
@@ -3029,18 +3046,23 @@
                     }
                   },
                   {
+                    "kind": "clearDialog"
+                  },
+                  {
                     "kind": "setPartyFacing",
                     "facing": "right"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "setPartyFacing",
                     "facing": "up"
                   },
                   {
-                    "kind": "clearDialog"
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "dialog",

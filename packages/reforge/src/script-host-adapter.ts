@@ -58,6 +58,7 @@ export async function executeScriptHostEffect(
           command.speed ?? 4,
           command.floating ?? false,
           signal,
+          ...(command.worldStep ? ([command.worldStep] as const) : []),
         )
       return
     }
@@ -237,7 +238,7 @@ export async function executeScriptHostEffect(
       host.playSound(command.asset)
       return
     case 'playMusic':
-      host.playMusic(command.asset)
+      await host.playMusic(command.asset, signal)
       return
     case 'stopMusic':
       host.stopMusic()
@@ -319,7 +320,8 @@ export async function executeScriptHostEffect(
       await host.moveParty(command.to, command.speed, signal)
       return
     case 'nudgeParty':
-      host.nudgeParty(command.dx, command.dy, command.layer ?? 0)
+      if (command.facing === undefined) host.nudgeParty(command.dx, command.dy, command.layer ?? 0)
+      else host.nudgeParty(command.dx, command.dy, command.layer ?? 0, command.facing)
       return
     case 'playVideo':
       await host.playVideo(command.asset, signal)
@@ -344,7 +346,9 @@ export async function executeScriptHostEffect(
       await host.openShop(command.shop, command.mode, signal)
       return
     case 'cameraPan':
-      await host.cameraPan(command.dx, command.dy, command.frames, signal)
+      if (command.startImmediately)
+        await host.cameraPan(command.dx, command.dy, command.frames, signal, true)
+      else await host.cameraPan(command.dx, command.dy, command.frames, signal)
       return
     case 'cameraSnap':
       host.cameraSnap(command.to)

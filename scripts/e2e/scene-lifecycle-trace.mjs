@@ -17,15 +17,17 @@ export function instrumentGameRestore(code, file, hook) {
   }
   visit(ast)
   assert.equal(functions.length, 1, 'actual game restore owner changed')
-  const owner = functions[0],
-    tail = owner.body.statements.slice(-3).map((s) => s.getText(ast))
+  const owner = functions[0]
+  const [loadScene, palette, fade] = owner.body.statements.slice(-3)
+  assert(ts.isTryStatement(loadScene), 'actual Game scene restore must settle before publication')
   assert.deepEqual(
-    tail,
-    [
-      'await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })',
-      'gs.palette = restoredPalette',
-      'gs.needToFadeIn = true',
-    ],
+    loadScene.tryBlock.statements.map((s) => s.getText(ast)),
+    ['await loadSceneCommon(gs.wNumScene, { fromSavedGame: true })'],
+    'actual Game saved scene load changed',
+  )
+  assert.deepEqual(
+    [palette.getText(ast), fade.getText(ast)],
+    ['gs.palette = restoredPalette', 'gs.needToFadeIn = true'],
     'actual game restore successful tail changed',
   )
   const at = owner.body.end - 1

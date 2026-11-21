@@ -108,13 +108,12 @@ function renderedTextLayout() {
 }
 
 describe('当前战斗奖励的正式结算屏序列', () => {
-  test('升级角色先显示属性与自己的隐藏成长，再显示习得；未升级者隐藏成长排在最后', () => {
+  test('队伍成员的主等级、隐藏成长和仙术按各自顺序显示', () => {
     const levelUps: LevelUpReport[] = [
       {
         characterId: 'hero',
         from: 6,
         to: 7,
-        learned: ['skill.heal', 'skill.guard'],
         before,
         after,
       },
@@ -122,7 +121,6 @@ describe('当前战斗奖励的正式结算屏序列', () => {
         characterId: 'ally',
         from: 9,
         to: 10,
-        learned: [],
         before: { ...before, level: 9 },
         after: { ...after, level: 10 },
       },
@@ -145,7 +143,21 @@ describe('当前战斗奖励的正式结算屏序列', () => {
     ])
     const nameOf = vi.fn((id: string) => names.get(id) ?? `未知:${id}`)
     const skillNameOf = vi.fn((id: string) => skillNames.get(id) ?? `未知:${id}`)
-    const screens = buildSettlementScreens(120, 35, levelUps, hiddenUps, nameOf, skillNameOf)
+    const screens = buildSettlementScreens(
+      {
+        exp: 120,
+        cash: 35,
+        levelUps,
+        hiddenUps,
+        learned: [
+          { characterId: 'hero', skillId: 'skill.heal' },
+          { characterId: 'hero', skillId: 'skill.guard' },
+        ],
+      },
+      ['hero', 'ally', 'reserve'],
+      nameOf,
+      skillNameOf,
+    )
     expect(screens).toEqual([
       { kind: 'exp-cash', exp: 120, cash: 35 },
       { kind: 'level-up', name: '逍遥', report: levelUps[0] },
@@ -170,10 +182,8 @@ describe('当前战斗奖励的正式结算屏序列', () => {
     ]
     expect(
       buildSettlementScreens(
-        0,
-        0,
-        [],
-        hiddenUps,
+        { exp: 0, cash: 0, levelUps: [], hiddenUps, learned: [] },
+        ['hero', 'ally'],
         (id) => id,
         (id) => id,
       ),
@@ -193,7 +203,6 @@ describe('当前战斗奖励的正式结算屏序列', () => {
       characterId: 'hero',
       from: 6,
       to: 7,
-      learned: ['skill.heal'],
       before,
       after,
     }

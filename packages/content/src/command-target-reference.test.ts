@@ -15,6 +15,34 @@ import {
 import { type Command, checkCommands } from './script.js'
 
 describe('command target references', () => {
+  test('an actor timeline track points to its exact rename target and camera tracks add no entity edge', () => {
+    const command: AuthorCommand = {
+      kind: 'sceneTimeline',
+      label: '城门',
+      tracks: [
+        {
+          id: 'curtain',
+          label: '幕布',
+          cues: [{ atMs: 0, body: [{ kind: 'fade', dir: 'in', ms: 120 }] }],
+        },
+        {
+          id: 'sentry',
+          label: '守卫',
+          target: { scene: 'gate', entity: 'guard' },
+          cues: [{ atMs: 0, body: [{ kind: 'animEntity' }] }],
+        },
+      ],
+    }
+    checkAuthorCommands([command], 'entry', { rootScope: 'flow', flowOwner: 'hook' })
+    expect(collectCanonicalCommandTargetReferences(command, 'entry[0]')).toEqual([
+      {
+        target: { kind: 'entity', sceneId: 'gate', entityId: 'guard' },
+        relation: 'entity-address',
+        where: 'entry[0].tracks[1].target',
+      },
+    ])
+  })
+
   test('collects exact references from an entry preparation and nested author commands', () => {
     const flow: AuthorStagesFlow = {
       kind: 'stages',

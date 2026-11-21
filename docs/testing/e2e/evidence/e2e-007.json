@@ -72,10 +72,10 @@
     },
     {
       "path": "scripts/e2e/recompare-recording.mjs",
-      "lines": "33-37",
+      "lines": "33-41",
       "anchor": "return recompareIslandEntrance",
       "role": "offline public caller",
-      "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+      "sha256": "906c8231300786b9366fb04589321dae27144c3411c942d0937c78b90edef57e"
     },
     {
       "path": "scripts/e2e/island-entrance-comparison.mjs",
@@ -473,6 +473,22 @@
         }
       ],
       "scope": "工程明雷胜利默认值只新增类型引用和可选字段。内容与存档版本声明逐字节一致，已刊主张和执行照原记录。"
+    },
+    {
+      "action": "fragment-party-pose-source-rebinding",
+      "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/recompare-recording.mjs",
+          "lines": "33-37",
+          "anchor": "return recompareIslandEntrance",
+          "role": "offline public caller",
+          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+        }
+      ],
+      "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
     },
     {
       "action": "content-version-source-rebinding",

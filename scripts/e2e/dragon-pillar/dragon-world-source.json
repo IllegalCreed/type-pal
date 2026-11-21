@@ -1,0 +1,368 @@
+{
+  "scene": "s144",
+  "entry": "e2390",
+  "field": 32,
+  "battleMusic": 42,
+  "roleIds": [1, 0, 2],
+  "roles": ["zhao-linger", "li-xiaoyao", "lin-yueru"],
+  "name": "七星盘龙柱",
+  "team": 305,
+  "enemy": 539,
+  "first": 24784,
+  "won": 24785,
+  "actors": [
+    {
+      "id": 2390,
+      "x": 496,
+      "y": 712,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2391,
+      "x": 496,
+      "y": 1352,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2392,
+      "x": 880,
+      "y": 520,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2393,
+      "x": 1200,
+      "y": 1624,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2394,
+      "x": 896,
+      "y": 1152,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2395,
+      "x": 1472,
+      "y": 448,
+      "state": 2,
+      "triggerMode": 2
+    },
+    {
+      "id": 2396,
+      "x": 1344,
+      "y": 848,
+      "state": 2,
+      "triggerMode": 2
+    }
+  ],
+  "script": {
+    "24769": {
+      "op": "raw",
+      "opcode": 74,
+      "operands": [32, 0, 0],
+      "label": "L_24769"
+    },
+    "24770": {
+      "op": "raw",
+      "opcode": 69,
+      "operands": [42, 0, 0]
+    },
+    "24771": {
+      "op": "raw",
+      "opcode": 101,
+      "operands": [0, 532, 0]
+    },
+    "24772": {
+      "op": "raw",
+      "opcode": 101,
+      "operands": [1, 534, 0]
+    },
+    "24773": {
+      "op": "raw",
+      "opcode": 101,
+      "operands": [2, 533, 0]
+    },
+    "24774": {
+      "op": "raw",
+      "opcode": 26,
+      "operands": [64, 4, 2]
+    },
+    "24775": {
+      "op": "raw",
+      "opcode": 117,
+      "operands": [2, 1, 3]
+    },
+    "24776": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [3, 0, 0]
+    },
+    "24777": {
+      "op": "raw",
+      "opcode": 70,
+      "operands": [37, 17, 0]
+    },
+    "24778": {
+      "op": "raw",
+      "opcode": 113,
+      "operands": [2, 0, 0]
+    },
+    "24779": {
+      "op": "raw",
+      "opcode": 5,
+      "operands": [0, 0, 0]
+    },
+    "24780": {
+      "op": "setDialogStyleNarration"
+    },
+    "24781": {
+      "op": "showDialog",
+      "messageIndex": 9191,
+      "text": "七星磐龙柱"
+    },
+    "24782": {
+      "op": "end",
+      "advance": true
+    },
+    "24783": {
+      "op": "end",
+      "label": "L_24783"
+    },
+    "24784": {
+      "op": "raw",
+      "opcode": 7,
+      "operands": [305, 41075, 41073],
+      "label": "L_24784"
+    },
+    "24785": {
+      "op": "raw",
+      "opcode": 73,
+      "operands": [65535, 1, 0]
+    },
+    "24786": {
+      "op": "goto",
+      "to": "L_24804",
+      "frameDelay": 0
+    },
+    "24804": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2391, 2, 24840],
+      "label": "L_24804"
+    },
+    "24805": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2392, 2, 24840]
+    },
+    "24806": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2393, 2, 24840]
+    },
+    "24807": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2394, 2, 24840]
+    },
+    "24808": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2395, 2, 24840]
+    },
+    "24809": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2396, 2, 24840]
+    },
+    "24810": {
+      "op": "raw",
+      "opcode": 148,
+      "operands": [2397, 2, 24840]
+    },
+    "24811": {
+      "op": "raw",
+      "opcode": 73,
+      "operands": [65535, 0, 0]
+    },
+    "24812": {
+      "op": "raw",
+      "opcode": 67,
+      "operands": [0, 0, 0]
+    },
+    "24813": {
+      "op": "raw",
+      "opcode": 120,
+      "operands": [0, 0, 0]
+    },
+    "24814": {
+      "op": "raw",
+      "opcode": 5,
+      "operands": [0, 0, 0]
+    },
+    "24815": {
+      "op": "setDialogStyleCenter"
+    },
+    "24816": {
+      "op": "showDialog",
+      "messageIndex": 9192,
+      "text": "七根龙柱全部毁去"
+    },
+    "24817": {
+      "op": "raw",
+      "opcode": 67,
+      "operands": [23, 0, 0]
+    },
+    "24818": {
+      "op": "raw",
+      "opcode": 53,
+      "operands": [99, 1, 0]
+    },
+    "24819": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [10, 0, 0]
+    },
+    "24820": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [2, 0, 1]
+    },
+    "24821": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [6, 0, 0]
+    },
+    "24822": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [1, 0, 2]
+    },
+    "24823": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [4, 0, 0]
+    },
+    "24824": {
+      "op": "raw",
+      "opcode": 53,
+      "operands": [99, 2, 0]
+    },
+    "24825": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [0, 0, 0]
+    },
+    "24826": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [2, 0, 0]
+    },
+    "24827": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [3, 0, 1]
+    },
+    "24828": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [6, 0, 0]
+    },
+    "24829": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [0, 0, 2]
+    },
+    "24830": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [4, 0, 0]
+    },
+    "24831": {
+      "op": "raw",
+      "opcode": 53,
+      "operands": [99, 3, 0]
+    },
+    "24832": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [3, 0, 0]
+    },
+    "24833": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [2, 0, 0]
+    },
+    "24834": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [1, 0, 1]
+    },
+    "24835": {
+      "op": "raw",
+      "opcode": 9,
+      "operands": [6, 0, 0]
+    },
+    "24836": {
+      "op": "raw",
+      "opcode": 21,
+      "operands": [3, 0, 2]
+    },
+    "24837": {
+      "op": "raw",
+      "opcode": 147,
+      "operands": [65532, 0, 0]
+    },
+    "24838": {
+      "op": "loadScene",
+      "sceneId": 150
+    },
+    "24839": {
+      "op": "end"
+    },
+    "24840": {
+      "op": "raw",
+      "opcode": 120,
+      "operands": [0, 0, 0],
+      "label": "L_24840"
+    },
+    "24841": {
+      "op": "raw",
+      "opcode": 5,
+      "operands": [0, 0, 0]
+    },
+    "24842": {
+      "op": "raw",
+      "opcode": 73,
+      "operands": [65535, 0, 0]
+    },
+    "24843": {
+      "op": "raw",
+      "opcode": 71,
+      "operands": [262, 0, 0]
+    },
+    "24844": {
+      "op": "raw",
+      "opcode": 115,
+      "operands": [2, 0, 0]
+    },
+    "24845": {
+      "op": "end"
+    },
+    "41073": {
+      "op": "raw",
+      "opcode": 75,
+      "operands": [0, 0, 0],
+      "label": "L_41073"
+    },
+    "41074": {
+      "op": "end"
+    }
+  }
+}

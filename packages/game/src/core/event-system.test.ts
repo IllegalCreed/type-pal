@@ -25,6 +25,7 @@ import {
   OP_ENDING_ANIMATION,
   OP_FADE_IN,
   OP_FADE_OUT,
+  OP_FADE_SCREEN,
   OP_FADE_TO_RED,
   OP_FADE_TO_SCENE,
   OP_GOTO_IF_NO,
@@ -46,6 +47,7 @@ import {
   OP_PLAY_SOUND,
   OP_PLAYER_WALK_ONE_STEP,
   OP_QUIT,
+  OP_RANDOM_JUMP,
   OP_REDRAW_SCREEN,
   OP_RESTORE_SCREEN,
   OP_RIDE_OBJECT_4,
@@ -775,6 +777,71 @@ function makeBattleContext(
 }
 
 describe('runScript (M3 T17, battle mode)', () => {
+  it('0x8D applies six seeded growth rolls and resets primary experience in battle', () => {
+    const context = makeBattleContext()
+    const { gs, state } = context
+    gs.Exp.rgPrimaryExp[0] = { wExp: 100, wLevel: 10 }
+    const worldRandom = vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    runScript({
+      commands: [{ op: 'raw', opcode: 0x8d, operands: [1, 0, 0] }, { op: 'end' }],
+      ip: 0,
+      bus: createCommandBus(),
+      eventObjectId: 0,
+      runtimeMode: 'battle',
+      battleCtx: context,
+    })
+
+    const runtime = gs.PlayerRolesRuntime
+    expect([
+      runtime.rgwLevel[0],
+      runtime.rgwMaxHP[0],
+      runtime.rgwMaxMP[0],
+      runtime.rgwAttackStrength[0],
+      runtime.rgwMagicStrength[0],
+      runtime.rgwDefense[0],
+      runtime.rgwDexterity[0],
+      runtime.rgwFleeRate[0],
+    ]).toEqual([11, 115, 58, 35, 25, 18, 20, 12])
+    expect(gs.Exp.rgPrimaryExp[0]).toEqual({ wExp: 0, wLevel: 11 })
+    expect(state.rng.getState()).toBe(2399460287)
+    expect(worldRandom).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    { choices: 1, selectedMagic: 396, draws: 0 },
+    { choices: 2, selectedMagic: 397, draws: 1 },
+  ])('0xA2 with $choices battle choices draws from the battle RNG', ({
+    choices,
+    selectedMagic,
+    draws,
+  }) => {
+    const context = makeBattleContext()
+    const referenceRng = createSeedableRng(context.state.rng.getState())
+    if (draws) referenceRng.next()
+    const worldRandom = vi.spyOn(Math, 'random').mockReturnValue(0)
+
+    runScript({
+      commands: [
+        { op: 'raw', opcode: OP_RANDOM_JUMP, operands: [choices, 0, 0] },
+        { op: 'goto', to: 'first-skill' },
+        { op: 'goto', to: 'second-skill' },
+        { op: 'raw', opcode: 0x67, operands: [396, 0, 0], label: 'first-skill' },
+        { op: 'end' },
+        { op: 'raw', opcode: 0x67, operands: [397, 0, 0], label: 'second-skill' },
+        { op: 'end' },
+      ],
+      ip: 0,
+      bus: createCommandBus(),
+      runtimeMode: 'battle',
+      battleCtx: { ...context, caster: { type: 'enemy', idx: 0 } },
+    })
+
+    expect(context.state.enemies[0]?.e.magic).toBe(selectedMagic)
+    expect(context.state.rng.getState()).toBe(referenceRng.getState())
+    expect(worldRandom).not.toHaveBeenCalled()
+  })
+
   it('runtimeMode=explore 不传 battleCtx 时 end 返回原入口且不发命令', () => {
     const bus = createCommandBus()
     const resume = runScript({
@@ -1115,27 +1182,32 @@ describe('runScript (M3 T17, battle mode)', () => {
     expect(bus.drain()).toEqual([])
   })
 
-  it('battle mode 下 setDialogStyle* 只改战斗队列样式，保留宿主样式', () => {
+  it('战斗对白逐条保留槽位，脚本结束恢复战斗默认样式与宿主隔离', () => {
     const bus = createCommandBus()
-
     const ctx = makeBattleContext()
     const { gs } = ctx
     gs.currentDialogStyle = 'narration'
 
     runScript({
-      commands: [{ op: 'setDialogStyleTop' }, { op: 'setDialogStyleBottom' }, { op: 'end' }],
+      commands: [
+        { op: 'setDialogStyleTop' },
+        { op: 'showDialog', messageIndex: 0, text: '甲' },
+        { op: 'setDialogStyleBottom' },
+        { op: 'showDialog', messageIndex: 1, text: '乙' },
+        { op: 'end' },
+      ],
       ip: 0,
       bus,
       runtimeMode: 'battle',
       battleCtx: ctx,
     })
-    // GameState.currentDialogStyle 完全不动(不变量)
     expect(gs.currentDialogStyle).toBe('narration')
-    expect(ctx.state.battleDialogStyle).toEqual({
-      style: 'bottom',
-      portrait: undefined,
-      fontColor: 0x4f,
-    })
+    expect(ctx.state.battleDialogQueue).toMatchObject([
+      { style: 'top', text: '甲', fontColor: 0x4f },
+      { style: 'bottom', text: '乙', fontColor: 0x4f },
+    ])
+    // PAL_RunTriggerScript ends the dialog and PAL_EndDialog restores the upper slot.
+    expect(ctx.state.battleDialogStyle).toEqual({ style: 'top' })
   })
 
   it('死循环防御:battle mode raw 链 > 256 条抛错', () => {
@@ -2961,9 +3033,11 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     //   → 有 currentLineText → waiting-page-key(等键清屏)
     tickWithTime(gs, ['Confirm'])
     expect(gs.dialogBox?.phase).toBe('waiting-page-key')
-    // tick 3 Confirm: page-advance(fullClear)→ clear dialogBox + ip++ → setDialogStyleBottom(无 arg0)
-    //   → 无 prev dialog 行 → apply + ip++ → showDialog → startDialogLine portraitIcon=undefined
     tickWithTime(gs, ['Confirm'])
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    expect(gs.dialogBox).toBeUndefined()
+    cursorOf(gs).delayUntilMs = 0
+    tickWithTime(gs)
     expect(gs.currentDialogPortraitIcon).toBeUndefined()
     expect(gs.currentDialogStyle).toBe('bottom')
     expect(gs.dialogBox?.portraitIcon).toBeUndefined() // 主角对话不显头像 ✓
@@ -2983,6 +3057,9 @@ describe('setDialogStyleX 真值 reset(每次 opcode 重设 portrait/fontColor,�
     tickWithTime(gs)
     tickWithTime(gs, ['Confirm'])
     tickWithTime(gs, ['Confirm'])
+    expect(gs.eventCursor?.waiting).toBe('delay')
+    cursorOf(gs).delayUntilMs = 0
+    tickWithTime(gs)
     expect(gs.currentDialogPortraitIcon).toBe(63)
     expect(gs.dialogBox?.portraitIcon).toBe(63)
   })
@@ -5036,31 +5113,31 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     expect(gs.walkingFrame.walking).toBe(true) // operand[2]=0 → gate 跳过,迈步相位不动
   })
 
-  // 关键:0x05 紧跟 NPC 对话(数据 4 处中 16396/21518 = setDialogStyle+showDialog→0x05→下一段)时,0x05 handler
-  //   在「有 dialog」分支提前 return(waiting='dialog' 等翻页键),翻页解析在 pendingFullClear 分支 ip++ —— 0x05
-  //   handler 主体**不再重入**。故复位必须在 handler 入口(dialog 检查之前),否则此路径漏复位(队伍整段对话冻迈步帧)。
-  it('0x05[*,*,0xFFFF] 紧跟 NPC 对话(段间复位)→ 早返回路径也复位走路姿势', () => {
+  it('立绘段落确认后，0x05 先完成清屏重画，再让 0x73 取得旧画面', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-
     gs.walkingFrame = { walking: true, stepFrame: 1 }
     loadEvent(gs, [
       { op: 'setDialogStyleTop' },
       { op: 'showDialog', messageIndex: 0, text: '甲' },
-      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xffff] }, // 段间 0x05:本脚本唯一可复位源
-      { op: 'setDialogStyleBottom' },
-      { op: 'showDialog', messageIndex: 1, text: '乙' },
+      { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0xffff] },
+      { op: 'raw', opcode: OP_FADE_SCREEN, operands: [0, 0, 0] },
       { op: 'end' },
     ])
-    let resetWhileDialogShown = false
-    for (let i = 0; i < 80; i++) {
-      tickEventSystem(gs, snap(['Confirm']))
-      if (gs.eventCursor?.waiting === 'delay') gs.eventCursor.delayUntilMs = 0
-      // 复位发生时对话框仍在(0x05 clear 等键)→ 证明是「有 dialog」早返回路径复位的
-      if (gs.dialogBox && !gs.walkingFrame.walking) resetWhileDialogShown = true
-      if (gs.eventCursor === undefined) break
-    }
-    expect(resetWhileDialogShown).toBe(true) // 本脚本唯一复位源是段间 0x05 → 早返回路径确有复位
-    expect(gs.walkingFrame.walking).toBe(false)
+    tickWithTime(gs)
+    tickWithTime(gs, ['Confirm'])
+    expect(gs.dialogBox?.phase).toBe('waiting-page-key')
+    expect(gs.walkingFrame.walking).toBe(true)
+
+    tickEventSystem(gs, snap(['Confirm']))
+    expect(gs.dialogBox).toBeUndefined()
+    expect(gs.walkingFrame).toEqual({ walking: false, stepFrame: 2 })
+    expect(cursorOf(gs)).toMatchObject({ ip: 2, waiting: 'delay' })
+    expect(gs.fadeState).toBeUndefined()
+
+    cursorOf(gs).delayUntilMs = 0
+    tickEventSystem(gs, snap())
+    expect(cursorOf(gs)).toMatchObject({ ip: 3, waiting: 'fade-screen' })
+    expect(gs.fadeState?.appliedSteps).toBe(0)
   })
 
   it('0x51 FadeIn → 黑→base + needToFadeIn=false', () => {
@@ -5319,6 +5396,37 @@ describe('特效 A auto fade-in(sdlpal scene.c:503 PAL_MakeScene)+ FadeOut 冻�
     tickSceneAutoFadeIn(g5)
     expect(g5.paletteFadeState).toBeDefined()
     expect(g5.needToFadeIn).toBe(false)
+  })
+
+  it('reveals the snapped camera before the next script instruction after a blackout', () => {
+    const gs = createInitialGameState({ x: 912, y: 1144, facing: 'left' })
+    gs.basePalette = mkPal([120, 60, 30])
+    gs.palette = mkPal([0, 0, 0])
+    gs.needToFadeIn = true
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SET_CAMERA, operands: [35, 66, 0xffff] },
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [260, 0, 0] },
+      { op: 'end' },
+    ])
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(1000)
+    try {
+      tickEventSystem(gs, snap())
+      expect(gs.camera).toEqual({ x: 960, y: 944 })
+      expect(gs.eventCursor?.waiting).toBe('palette-fade')
+      expect(gs.needToFadeIn).toBe(false)
+      expect(gs.pendingSounds ?? []).toEqual([])
+
+      clock.mockReturnValue(1599)
+      tickEventSystem(gs, snap())
+      expect(gs.pendingSounds ?? []).toEqual([])
+
+      clock.mockReturnValue(1600)
+      tickEventSystem(gs, snap())
+      expect(gs.palette?.colors[0]).toEqual([120, 60, 30])
+      expect(gs.pendingSounds).toEqual([260])
+    } finally {
+      clock.mockRestore()
+    }
   })
 
   // 锁妖塔 scene164 运镜全黑回归(user 2026-06-17:进塔后镜头扫描整段黑,小地图证镜头路径正确 = camera 没出界、
@@ -5844,7 +5952,7 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.camera).toEqual({ x: 108, y: 104 })
   })
 
-  it('多帧 pan(op2=3)→ waiting=camera-pan,逐帧移 (8,4),3 帧后 (24,12) + 续跑', () => {
+  it('holds the final relative camera step for a draw before continuing', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.camera = { x: 0, y: 0 }
     gs.eventCursor = {
@@ -5861,9 +5969,11 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.eventCursor?.waiting).toBe('camera-pan')
     tickEventSystem(gs, snap()) // 帧2
     expect(gs.camera).toEqual({ x: 16, y: 8 })
-    tickEventSystem(gs, snap()) // 帧3 → 完成 + 续跑 ip1
+    tickEventSystem(gs, snap()) // 帧3
     expect(gs.camera).toEqual({ x: 24, y: 12 })
-    expect(gs.iCurPlayingRNG).toBe(77) // pan 完弹回续跑
+    expect(gs.iCurPlayingRNG).toBe(0)
+    tickEventSystem(gs, snap())
+    expect(gs.iCurPlayingRNG).toBe(77)
     expect(gs.eventCursor).toBeUndefined()
   })
 
@@ -5879,6 +5989,32 @@ describe('opcode 0x7F moveViewport / camera pan(script.c:2292-2379)', () => {
     expect(gs.camera).toEqual({ x: 92, y: 96 })
     tickEventSystem(gs, snap()) // 帧2 → 完成
     expect(gs.camera).toEqual({ x: 84, y: 92 })
+  })
+
+  it('0x46 retains the relative camera anchor through an absolute shot until recentering', () => {
+    const gs = createInitialGameState({ x: 1200, y: 760, facing: 'down' })
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x7f, operands: [65528, 65532, 2] },
+      { op: 'raw', opcode: 0x7f, operands: [31, 37, 0xffff] },
+      { op: 'raw', opcode: 0x46, operands: [34, 43, 1] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    tickEventSystem(gs, snap())
+    expect(gs.camera).toEqual({ x: 832, y: 480 })
+    expect(gs.party).toEqual({ x: 1200, y: 760, facing: 'down' })
+    tickEventSystem(gs, snap())
+    expect(gs.party).toEqual({ x: 1104, y: 696, facing: 'down' })
+    expect(gs.camera).toEqual({ x: 928, y: 576 })
+
+    loadEvent(gs, [
+      { op: 'raw', opcode: 0x7f, operands: [0, 0, 0] },
+      { op: 'raw', opcode: 0x46, operands: [38, 77, 1] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, snap())
+    expect(gs.camera).toEqual({ x: 1072, y: 1128 })
   })
 
   // 林家堡李逍遥走出场(all.json,赵灵儿变蛇逃跑 → 林天南"林家不屑"前):`0x6E[-16,8] + 0x7F[16,-8,0]`

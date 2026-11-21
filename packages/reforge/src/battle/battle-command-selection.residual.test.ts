@@ -65,7 +65,6 @@ function context(
     throwableItems: [],
     skills: {},
     items: {},
-    money: 20,
     ...overrides,
   }
 }
@@ -178,14 +177,13 @@ describe('战斗命令选择剩余当前流程', () => {
     expect(ctx).toEqual(before)
   })
 
-  test('真气或金钱不足时技能确认不提交；补足两种成本后才进入目标选择', () => {
+  test('技能确认检查真气，金钱成本留到出手结算', () => {
     const bolt = skill('bolt', 'oneEnemy', 8, 4)
     const selection = new BattleCommandSelection()
     const recorded = port()
     const poor = context({
       player: { skills: [bolt.id], mp: 7, silenced: false, healthy: true },
       skills: { [bolt.id]: bolt },
-      money: 3,
     })
     press(selection, poor, recorded.api, 'ArrowLeft', 'Enter')
     press(selection, poor, recorded.api, 'Enter')
@@ -194,7 +192,6 @@ describe('战斗命令选择剩余当前流程', () => {
     const affordable = context({
       player: { skills: [bolt.id], mp: 8, silenced: false, healthy: true },
       skills: { [bolt.id]: bolt },
-      money: 4,
     })
     press(selection, affordable, recorded.api, 'Enter')
     expect(selection.view).toMatchObject({ phase: 'target', targetSide: 'enemy' })

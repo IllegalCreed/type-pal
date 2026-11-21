@@ -7,8 +7,10 @@ import type { AssetId } from './asset.js'
 export interface SkillCost {
   mp?: number
   stamina?: number // 体力(合体技)
-  money?: number // 乾坤一掷耗金钱
+  money?: number // 铜钱镖等普通仙术在出手时支付的固定金钱
   items?: { itemId: string; amount: number }[] // 酒神耗酒 / 巫术耗蛊(依赖 item 系统)
+  /** Optional centered battle message held for confirmation when the player lacks these items. */
+  missingItemsText?: string
 }
 
 /** 作用目标(谁)。从原版 MagicType 拆出的 gameplay 维度(渲染样式归 animation)。 */
@@ -101,6 +103,8 @@ export interface SkillAnimation {
   shake?: number
   /** 特效起手时并发的前置震屏；不取代末尾 shake。 */
   preShake?: { frames: number; level: number }
+  /** 玩家群体攻击在每个 FIRE 帧上的有符号横向吹飞幅度，单位为逻辑像素。 */
+  blow?: number
   /** 屏幕波幅叠加(原 wWave;演出期叠在战场常驻波上,fight.c:2666;原版仅 4 条法术非零)。 */
   wave?: number
   /** 法术效果音(原 wSound;(i−fireDelay)%n==0 帧循环播)。 */
@@ -113,6 +117,7 @@ export interface SkillAnimation {
 export interface SkillPrepareEffect {
   kind: 'remainingResourceDamage'
   resource: 'mp'
+  /** Base power per remaining MP for the neutral magic hit, after the normal cost. */
   multiplier: number
   consume: 'all'
 }
@@ -237,7 +242,7 @@ export function collectSkillPoisonReferences(
 /** 技能数据表(id → SkillData)。去全局化:操作技能的函数收这个类型(显式注入),不再默认吃 DEMO_SKILLS。 */
 export type SkillDataMap = Record<string, SkillData>
 
-/** ③ 习得规则:角色模板升到 level 自动习得 skillId(原版 level-up-magic.json)。 */
+/** ③ 习得规则:存活角色胜利时等级达到 level 即可习得 skillId(原版 level-up-magic.json)。 */
 export interface LevelUpSkill {
   level: number
   skillId: string

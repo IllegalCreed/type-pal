@@ -294,6 +294,11 @@ export function isTestingBattleClosureSource(path) {
   return battleClosureRanges.has(path)
 }
 
+export const testingBattleSummonPublicationBase = 'b8b8dd2fcc551a782a2e90387bcf91170bc4899f'
+export const testingBattleSummonDivisionPublicationBase = '62959793cf6fb2450806d12072608ce768d80c39'
+export const testingBattleEnemyColorPublicationBase = '070e8145c20e3c2cc8cc77c1e696843d453a0a92'
+export const testingBattleSummonPlaybackPublicationBase = '093fdb31abab95c08ce42b3b99c142e01adb3710'
+
 /** These handoff sources also appear in publication layers recorded before Q2. */
 export const isTestingBattleHandoffHistoricalSource = (path) =>
   path === gameBootstrap || path === gameSceneSystem
@@ -574,8 +579,9 @@ function encounterReferences(before, current, paths, { source, fixed, predecesso
       actual.equals(fixed.read(old.path)),
       'encounter source differs from the frozen Q2 candidate',
     )
+    const excerpt = clip(actual, nextRange)
     assert.equal(
-      stage.normalizeExcerpt(clip(actual, nextRange), old),
+      stage.normalizeExcerpt ? stage.normalizeExcerpt(excerpt, old) : excerpt,
       clip(predecessor.read(old.path), old.lines),
       'encounter bridge changed the accepted caller excerpt',
     )
@@ -755,6 +761,2155 @@ const publication = {
   evidence: 'domains/cross-phase/battle-foundation/evidence.json',
 }
 const evidencePath = `docs/testing/${publication.evidence}`
+const palManifestPath = 'projects/pal/manifest.json'
+const battleSummonBinding = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '246-248': '246-248', '412-424': '412-424', '1261-1270': '1261-1270' },
+    ],
+    [palManifestPath, { 7: '7' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonPublicationBase,
+  action: 'q2-battle-enemy-summon-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [publication.evidence, { id: publication.id, paths: [palManifestPath], artifactClaims: true }],
+])
+
+export const isTestingBattleSummonSource = (path) => battleSummonBinding.ranges.has(path)
+
+export function restoreTestingBattleSummonSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleSummonBinding, battleSummonBindings)
+}
+
+const battleSummonDivisionRanges = new Map([
+  [
+    testingBattleSessionSourcePath,
+    { '246-248': '248-250', '412-424': '415-427', '1261-1270': '1269-1278' },
+  ],
+  ['scripts/e2e/battle-reforge-instrumentation.mjs', { 17: '17' }],
+  ['packages/reforge/src/battle/battle-core.ts', { 2473: '2466' }],
+  ['packages/game/src/core/battle/battle-system.ts', { 2788: '2824' }],
+])
+const battleSummonDivisionBinding = {
+  ranges: battleSummonDivisionRanges,
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonDivisionPublicationBase,
+  action: 'q2-summon-division-caller-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonDivisionBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [...battleSummonDivisionRanges.keys()].filter(
+        (path) => path !== testingBattleSessionSourcePath,
+      ),
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleSummonDivisionSource = (path) => battleSummonDivisionRanges.has(path)
+
+export function restoreTestingBattleSummonDivisionSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSummonDivisionBinding,
+    battleSummonDivisionBindings,
+  )
+}
+
+const battleEnemyColorRanges = new Map([
+  ['scripts/e2e/battle-trace-observer.mjs', { 204: '204', 307: '309' }],
+  ['scripts/e2e/battle-game-instrumentation.mjs', { 42: '42', 336: '336' }],
+])
+const battleEnemyColorStage = {
+  ranges: battleEnemyColorRanges,
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemyColorPublicationBase,
+  action: 'q2-enemy-color-source-rebinding',
+  date: '2026-11-16',
+}
+const battleEnemyColorBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [...battleEnemyColorRanges.keys()], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleEnemyColorSource = (path) => battleEnemyColorRanges.has(path)
+
+export function restoreTestingBattleEnemyColorSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemyColorStage,
+    battleEnemyColorBindings,
+  )
+}
+
+const battleSummonPlaybackStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '248-250': '251-253', '415-427': '420-432', '1269-1278': '1282-1291' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSummonPlaybackPublicationBase,
+  action: 'q2-enemy-summon-playback-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSummonPlaybackBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleSummonPlaybackSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSummonPlaybackStage,
+    battleSummonPlaybackBindings,
+  )
+}
+
+export const testingBattleSpellFeedbackPublicationBase = '257296ec61b0dd8a6e103df9d26b8af374ca702b'
+const battleSpellFeedbackCore = 'packages/reforge/src/battle/battle-core.ts'
+const battleSpellFeedbackStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1282-1291': '1286-1295' },
+    ],
+    [battleSpellFeedbackCore, { 2466: '2466' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSpellFeedbackPublicationBase,
+  action: 'q2-enemy-spell-feedback-source-rebinding',
+  date: '2026-11-16',
+}
+const battleSpellFeedbackBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleSpellFeedbackCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleSpellFeedbackSource = (path) =>
+  battleSpellFeedbackStage.ranges.has(path)
+
+export function restoreTestingBattleSpellFeedbackSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSpellFeedbackStage,
+    battleSpellFeedbackBindings,
+  )
+}
+
+export const testingBattleActionCadencePublicationBase = 'f1a72ef4c649db5a1d75650d18a84991306d6936'
+const battleActionCadenceStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1286-1295' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleActionCadencePublicationBase,
+  action: 'q2-battle-action-cadence-source-rebinding',
+  date: '2026-11-17',
+}
+const battleActionCadenceBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleActionCadenceSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleActionCadenceStage,
+    battleActionCadenceBindings,
+  )
+}
+
+export const testingBattleEnemyTransformPublicationBase = 'b0afdd9e54203fbe5f6d7a457acdf9958168be7f'
+const battleTransformGameSystem = 'packages/game/src/core/battle/battle-system.ts'
+const battleTransformCore = 'packages/reforge/src/battle/battle-core.ts'
+const battleEnemyTransformStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1286-1295' },
+    ],
+    [battleTransformGameSystem, { 2824: '2824' }],
+    [battleTransformCore, { 2466: '2467' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemyTransformPublicationBase,
+  action: 'q2-enemy-transform-source-rebinding',
+  date: '2026-11-17',
+}
+const battleEnemyTransformBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformGameSystem, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleEnemyTransformSource = (path) =>
+  battleEnemyTransformStage.ranges.has(path)
+
+export function restoreTestingBattleEnemyTransformSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemyTransformStage,
+    battleEnemyTransformBindings,
+  )
+}
+
+export const testingBattleSceneObserverPublicationBase = '53f5fc147de8e987365ef7531dade6c83958ca1f'
+const reforgeBattleObserver = 'scripts/e2e/battle-reforge-instrumentation.mjs'
+const battleSceneObserverStage = {
+  ranges: new Map([[reforgeBattleObserver, { 17: '17' }]]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSceneObserverPublicationBase,
+  action: 'q2-scene-observer-source-rebinding',
+  date: '2026-11-17',
+}
+const battleSceneObserverBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [reforgeBattleObserver], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleSceneObserverSource = (path) =>
+  battleSceneObserverStage.ranges.has(path)
+
+export function restoreTestingBattleSceneObserverSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSceneObserverStage,
+    battleSceneObserverBindings,
+  )
+}
+
+export const testingBattleCooperativeRosterPublicationBase =
+  '839c6829346a53d8e5e149986d034460aba10432'
+const battleCooperativeRosterStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1286-1295': '1283-1292' },
+    ],
+    [battleTransformGameSystem, { 2824: '2827' }],
+    [battleTransformCore, { 2467: '2469' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleCooperativeRosterPublicationBase,
+  action: 'q2-cooperative-roster-source-rebinding',
+  date: '2026-11-17',
+}
+const battleCooperativeRosterBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformGameSystem, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleCooperativeRosterSource = (path) =>
+  battleCooperativeRosterStage.ranges.has(path)
+
+export function restoreTestingBattleCooperativeRosterSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleCooperativeRosterStage,
+    battleCooperativeRosterBindings,
+  )
+}
+
+export const testingBattleCasualtyRosterPublicationBase = 'dd4bd6afd23882b8777ba8b50c3bb8d10a534d17'
+const battleCasualtyRosterStage = {
+  ranges: new Map([[battleTransformCore, { 2469: '2465' }]]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleCasualtyRosterPublicationBase,
+  action: 'q2-casualty-roster-source-rebinding',
+  date: '2026-11-17',
+}
+const battleCasualtyRosterBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleCasualtyRosterSource = (path) =>
+  battleCasualtyRosterStage.ranges.has(path)
+
+export function restoreTestingBattleCasualtyRosterSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleCasualtyRosterStage,
+    battleCasualtyRosterBindings,
+  )
+}
+
+export const testingBattleLearnedSkillsPublicationBase = '23c111a58d091685b556b0dc8f69e861317592e4'
+const rewardSource = 'packages/content/src/rewards.ts'
+const settlementSource = 'packages/reforge/src/battle/settlement.ts'
+const battleLearnedSkillsStage = {
+  ranges: new Map([
+    [rewardSource, { 254: '260' }],
+    [settlementSource, { 334: '322' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleLearnedSkillsPublicationBase,
+  action: 'q2-learned-skills-source-rebinding',
+  date: '2026-11-17',
+}
+const battleLearnedSkillsBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [rewardSource, settlementSource], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleLearnedSkillsSource = (path) =>
+  battleLearnedSkillsStage.ranges.has(path)
+
+export function restoreTestingBattleLearnedSkillsSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleLearnedSkillsStage,
+    battleLearnedSkillsBindings,
+  )
+}
+
+export const testingBattleScriptedShakePublicationBase = '087d243365e62759930c7db40787a7620da6420f'
+const battleScriptedShakeStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '420-432', '1283-1292': '1283-1292' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleScriptedShakePublicationBase,
+  action: 'q2-scripted-shake-source-rebinding',
+  date: '2026-11-18',
+}
+const battleScriptedShakeBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleScriptedShakeSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleScriptedShakeStage,
+    battleScriptedShakeBindings,
+  )
+}
+
+export const testingBattleWindBlowPublicationBase = 'aa999b84470b487dfff963ddcc55a90e1df84d7b'
+const battleWindBlowStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '420-432': '426-438', '1283-1292': '1289-1298' },
+    ],
+    [battleTransformCore, { 2465: '2490' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleWindBlowPublicationBase,
+  action: 'q2-wind-blow-source-rebinding',
+  date: '2026-11-18',
+}
+const battleWindBlowBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleWindBlowSource = (path) => battleWindBlowStage.ranges.has(path)
+
+export function restoreTestingBattleWindBlowSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleWindBlowStage,
+    battleWindBlowBindings,
+  )
+}
+
+export const testingBattleConditionalSpellPublicationBase =
+  'af55382a655a20b5c78095d0de52f4419d0bad71'
+const battleConditionalSpellStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1289-1298': '1289-1298' },
+    ],
+    [battleTransformCore, { 2490: '2497' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleConditionalSpellPublicationBase,
+  action: 'q2-conditional-spell-source-rebinding',
+  date: '2026-11-18',
+}
+const battleConditionalSpellBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleConditionalSpellSource = (path) =>
+  battleConditionalSpellStage.ranges.has(path)
+
+export function restoreTestingBattleConditionalSpellSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleConditionalSpellStage,
+    battleConditionalSpellBindings,
+  )
+}
+
+export const testingBattleGuAndConfusionPublicationBase = '839c1ede2ffff006b0fc67be3deb1c1674b1b303'
+const randomInstrumentation = 'scripts/e2e/battle-random-instrumentation.mjs'
+const battleGuAndConfusionStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1289-1298': '1290-1299' },
+    ],
+    [battleTransformCore, { 2497: '2500' }],
+    [randomInstrumentation, { 28: '28' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleGuAndConfusionPublicationBase,
+  action: 'q2-gu-and-confusion-source-rebinding',
+  date: '2026-11-19',
+}
+const battleGuAndConfusionBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleTransformCore, randomInstrumentation],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleGuAndConfusionSource = (path) =>
+  battleGuAndConfusionStage.ranges.has(path)
+
+export function restoreTestingBattleGuAndConfusionSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleGuAndConfusionStage,
+    battleGuAndConfusionBindings,
+  )
+}
+
+export const testingBattleSpellCurrencyPublicationBase = '1805ef135a1238b5c75d152ec643a6ff56053c1d'
+const battleCurrencyTrialAdapter = 'scripts/e2e/battle-reforge-adapter.mjs'
+const battleCurrencySelection = 'packages/reforge/src/battle/battle-command-selection.ts'
+const battleSpellCurrencyStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1290-1299': '1284-1293' },
+    ],
+    [reforgeBattleCommandSelectionTest, { '73-96': '72-95' }],
+    [battleCurrencyTrialAdapter, { 179: '179' }],
+    [battleCurrencySelection, { 60: '59' }],
+    [battleTransformCore, { 2500: '2500' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleSpellCurrencyPublicationBase,
+  action: 'q2-spell-currency-source-rebinding',
+  date: '2026-11-19',
+}
+const battleSpellCurrencyBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath, reforgeBattleCommandSelectionTest] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleCurrencyTrialAdapter, battleCurrencySelection, battleTransformCore],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleSpellCurrencySource = (path) =>
+  battleSpellCurrencyStage.ranges.has(path)
+
+export function restoreTestingBattleSpellCurrencySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleSpellCurrencyStage,
+    battleSpellCurrencyBindings,
+  )
+}
+
+export const testingBattleEscapeSpellPublicationBase = '768c8de4ea02d931826e583d00dc108677adbbea'
+const battleEscapeFixtureAdapter = 'scripts/e2e/battle-game-adapter.mjs'
+const battleEscapeSpellStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+    [battleEscapeFixtureAdapter, { 480: '480' }],
+    [battleTransformCore, { 2500: '2500' }],
+    [battleTransformGameSystem, { 2827: '2828' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEscapeSpellPublicationBase,
+  action: 'q2-escape-spell-source-rebinding',
+  date: '2026-11-19',
+}
+const battleEscapeSpellBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [battleEscapeFixtureAdapter, battleTransformCore, battleTransformGameSystem],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingBattleEscapeSpellSource = (path) => battleEscapeSpellStage.ranges.has(path)
+
+export function restoreTestingBattleEscapeSpellSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEscapeSpellStage,
+    battleEscapeSpellBindings,
+  )
+}
+
+export const testingBattleEnemySpellShakePublicationBase =
+  'ac11b220065fbbd76cb059132bd6732ab086f998'
+const battleEnemySpellShakeStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleEnemySpellShakePublicationBase,
+  action: 'q2-enemy-spell-shake-source-rebinding',
+  date: '2026-11-19',
+}
+const battleEnemySpellShakeBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+])
+
+export function restoreTestingBattleEnemySpellShakeSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleEnemySpellShakeStage,
+    battleEnemySpellShakeBindings,
+  )
+}
+
+export const testingBattleItemUsePublicationBase = '89dab268613141283aa49ddb228351060607316e'
+const battleItemUseStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1284-1293' },
+    ],
+    [battleTransformCore, { 2500: '2501' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleItemUsePublicationBase,
+  action: 'q2-battle-item-use-source-rebinding',
+  date: '2026-11-19',
+}
+const battleItemUseBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleItemUseSource = (path) => battleItemUseStage.ranges.has(path)
+
+export function restoreTestingBattleItemUseSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleItemUseStage, battleItemUseBindings)
+}
+
+export const testingBattleHidingPublicationBase = '970731da74e22ee1aa7bf661f6e5be6481d26332'
+const battleHidingStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1284-1293': '1298-1307' },
+    ],
+    [battleTransformGameSystem, { 2828: '2844' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleHidingPublicationBase,
+  action: 'q2-battle-hiding-source-rebinding',
+  date: '2026-11-19',
+}
+const battleHidingBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformGameSystem], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleHidingSource = (path) => battleHidingStage.ranges.has(path)
+
+export function restoreTestingBattleHidingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, battleHidingStage, battleHidingBindings)
+}
+
+export const testingBattleThrowStatusPublicationBase = '55fcc99d356c1bb0332e687019b495c6eb340052'
+const battleThrowStatusStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1298-1307': '1298-1307' },
+    ],
+    [battleTransformCore, { 2501: '2501' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattleThrowStatusPublicationBase,
+  action: 'q2-battle-throw-status-source-rebinding',
+  date: '2026-11-19',
+}
+const battleThrowStatusBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattleThrowStatusSource = (path) => battleThrowStatusStage.ranges.has(path)
+
+export function restoreTestingBattleThrowStatusSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleThrowStatusStage,
+    battleThrowStatusBindings,
+  )
+}
+
+export const testingBattlePoisonNarrationPublicationBase =
+  'aa2e8d2c69c714d050e0d0ae0f684a123a968007'
+const battlePoisonNarrationStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '251-253': '251-253', '426-438': '426-438', '1298-1307': '1305-1314' },
+    ],
+    [battleTransformCore, { 2501: '2506' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingBattlePoisonNarrationPublicationBase,
+  action: 'q2-battle-poison-narration-source-rebinding',
+  date: '2026-11-19',
+}
+const battlePoisonNarrationBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [battleTransformCore], artifactClaims: true },
+  ],
+])
+
+export const isTestingBattlePoisonNarrationSource = (path) =>
+  battlePoisonNarrationStage.ranges.has(path)
+
+export function restoreTestingBattlePoisonNarrationSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battlePoisonNarrationStage,
+    battlePoisonNarrationBindings,
+  )
+}
+
+export const testingWorldItemTargetPublicationBase = '0daf5f51472d793258dd8d3a331ae60e95bc881b'
+const worldItemMenuSession = 'packages/reforge/src/menu/menu-session.ts'
+const worldItemTargetRanges = new Map([
+  [worldItemMenuSession, { '105-128': '106-130' }],
+  ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '9-32' }],
+])
+const worldItemTargetStage = {
+  ranges: worldItemTargetRanges,
+  normalizeExcerpt: (excerpt, ref) =>
+    ref.path === worldItemMenuSession ? excerpt.replace('  #lastUseTargetIdx = 0\n', '') : excerpt,
+  base: testingWorldItemTargetPublicationBase,
+  action: 'q2-world-item-target-source-rebinding',
+  date: '2026-11-19',
+}
+const worldItemTargetBindings = new Map([
+  [
+    'domains/runtime/menu/menu-session/evidence.json',
+    { id: 'reforge-menu-session', paths: [...worldItemTargetRanges.keys()] },
+  ],
+])
+
+export const isTestingWorldItemTargetSource = (path) => worldItemTargetRanges.has(path)
+
+export function restoreTestingWorldItemTargetSourceBindings(path, bytes, inputs) {
+  return restoreEncounterSourceBindings(
+    path,
+    bytes,
+    inputs,
+    worldItemTargetStage,
+    worldItemTargetBindings,
+  )
+}
+
+export const testingWorldAwarenessPublicationBase = '5e3c1f59de533fa43ceed1ac052c9bcd84f1849b'
+const worldScenePresentation = 'packages/reforge/src/world-scene-presentation.ts'
+const worldScenePresentationTest = 'packages/reforge/src/world-scene-presentation.test.ts'
+const worldAwarenessStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '414-421': '414-421',
+        '455-462': '455-462',
+        '1269-1367': '1269-1367',
+        '441-452': '441-452',
+        5769: '5784',
+      },
+    ],
+    [worldScenePresentation, { '71-88': '72-89' }],
+    [worldScenePresentationTest, { '82-105': '82-105' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingWorldAwarenessPublicationBase,
+  action: 'q2-world-incense-source-rebinding',
+  date: '2026-11-19',
+}
+const worldAwarenessBindings = new Map([
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    {
+      id: 'runtime-world-owners',
+      paths: [reforgeMain, worldScenePresentation, worldScenePresentationTest],
+    },
+  ],
+  [publication.evidence, { id: publication.id, paths: [reforgeMain], artifactClaims: true }],
+])
+
+export const isTestingWorldAwarenessSource = (path) => worldAwarenessStage.ranges.has(path)
+
+export function restoreTestingWorldAwarenessSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    worldAwarenessStage,
+    worldAwarenessBindings,
+  )
+}
+
+export const testingSceneItemExitPublicationBase = '25b4d5430f7daa410cef5e91447ac02e1dc00c3d'
+const sceneItemExitStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '414-421': '415-422',
+        '455-462': '456-463',
+        '1269-1367': '1286-1384',
+        '441-452': '442-453',
+        5784: '5841',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingSceneItemExitPublicationBase,
+  action: 'q2-scene-item-exit-source-rebinding',
+  date: '2026-11-19',
+}
+const sceneItemExitBindings = new Map(
+  [...worldAwarenessBindings].map(([path, binding]) => [
+    path,
+    { ...binding, paths: [reforgeMain] },
+  ]),
+)
+
+export const isTestingSceneItemExitSource = (path) => sceneItemExitStage.ranges.has(path)
+
+export function restoreTestingSceneItemExitSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, sceneItemExitStage, sceneItemExitBindings)
+}
+
+export const testingStoryPresentationPublicationBase = '759886346d091f3dc2c0b67f72547c6861b81b6a'
+const storyPresentationStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '415-422': '416-423',
+        '456-463': '458-465',
+        '1286-1384': '1289-1387',
+        '442-453': '443-455',
+        5841: '5833',
+      },
+    ],
+    [worldScenePresentation, { '72-89': '72-88' }],
+    [worldScenePresentationTest, { '82-105': '82-105' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    if (ref.path === reforgeMain && ref.lines === '442-453')
+      return excerpt.replace('  const screenShake = new ScreenShakePresentation()\n', '')
+    if (ref.path === worldScenePresentation)
+      return excerpt
+        .replace(
+          'visual overrides, wave phase/canvas',
+          'visual overrides, shake, wave phase/canvas',
+        )
+        .replace(
+          '  private readonly wave = ',
+          '  private shakeFx: { untilMs: number; level: number } | null = null\n  private readonly wave = ',
+        )
+    return excerpt
+  },
+  base: testingStoryPresentationPublicationBase,
+  action: 'q2-story-presentation-source-rebinding',
+  date: '2026-11-19',
+}
+
+export const isTestingStoryPresentationSource = (path) => storyPresentationStage.ranges.has(path)
+
+export function restoreTestingStoryPresentationSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    storyPresentationStage,
+    worldAwarenessBindings,
+  )
+}
+
+export const testingCliffEntryPublicationBase = 'abfc31fcfd9a4ef16380ef4ae054604ad6159762'
+const cliffEntryStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1289-1387': '1289-1387',
+        '443-455': '443-455',
+        5833: '5840',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingCliffEntryPublicationBase,
+  action: 'q2-cliff-entry-source-rebinding',
+  date: '2026-11-19',
+}
+
+export const isTestingCliffEntrySource = (path) => cliffEntryStage.ranges.has(path)
+
+export function restoreTestingCliffEntrySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, cliffEntryStage, sceneItemExitBindings)
+}
+
+export const testingPartyPosePublicationBase = 'aee2d69c439378a5be98b154c2b788fbfed0a594'
+const storyComparator = 'scripts/e2e/recompare-recording.mjs'
+const routedStoryReports = new Map([
+  ['docs/testing/e2e/stages/007-island-entrance/report.md', 'e2e-007'],
+  ['docs/testing/e2e/stages/009-fairy-island-pool/report.md', 'e2e-009'],
+  ['docs/testing/e2e/stages/010-water-moon-palace/report.md', 'e2e-010'],
+])
+const partyPoseStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1289-1387': '1290-1388',
+        '443-455': '443-455',
+        5840: '5854',
+      },
+    ],
+    [worldScenePresentation, { '72-88': '72-89' }],
+    [storyComparator, { '33-37': '33-41', '42-45': '46-49', '46-49': '50-53' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    if (ref.path === worldScenePresentation)
+      return excerpt.replace(
+        "  private readonly followerPoses = new Map<PartyMember['id'], { facing: Facing; gesture: number }>()\n",
+        '',
+      )
+    if (ref.path === storyComparator && ref.lines === '33-37')
+      return excerpt.replace(
+        "  if (fragment === 'dragon-pillar') {\n    const { recomparePillar } = await import('./dragon-pillar/compare.mjs')\n    return recomparePillar(root, resolve(gamePath), resolve(reforgePath))\n  }\n",
+        '',
+      )
+    return excerpt
+  },
+  base: testingPartyPosePublicationBase,
+  action: 'fragment-party-pose-source-rebinding',
+  date: '2026-11-19',
+}
+const partyPoseBindings = new Map([
+  ...[...sceneItemExitBindings].map(([path, binding]) => [
+    path,
+    {
+      ...binding,
+      paths:
+        binding.id === 'runtime-world-owners'
+          ? [reforgeMain, worldScenePresentation]
+          : [reforgeMain],
+    },
+  ]),
+  ...[...routedStoryReports.values()].map((id) => [
+    `e2e/evidence/${id}.json`,
+    { id, paths: [storyComparator], artifactClaims: true },
+  ]),
+])
+
+export const isTestingPartyPoseSource = (path) => partyPoseStage.ranges.has(path)
+
+export function restoreTestingPartyPoseSourceBindings(path, bytes, inputs) {
+  if (routedStoryReports.has(path)) {
+    const previous = inputs.readBase(path)
+    const prior = testingMetadata(previous)
+    const current = testingMetadata(bytes)
+    const before = parseTerminalJson(prior.json)
+    const now = parseTerminalJson(current.json)
+    assert.equal(before.id, routedStoryReports.get(path))
+    const touched = encounterReferences(
+      before.sourceRefs,
+      now.sourceRefs,
+      [storyComparator],
+      {
+        source: testingBridgeSources(inputs.readSource),
+        fixed: testingBridgeSources(inputs.readFixed),
+        predecessor: testingBridgeSources(inputs.readBase),
+      },
+      partyPoseStage,
+    )
+    const history = encounterHistory(
+      before.revision.history,
+      now.revision.history,
+      touched,
+      inputs.readSource,
+      partyPoseStage,
+    )
+    assert.deepEqual(
+      { ...now, sourceRefs: before.sourceRefs, revision: { ...now.revision, history } },
+      before,
+    )
+    const around = (metadata) =>
+      metadata.text.slice(0, metadata.start) +
+      metadata.text.slice(metadata.start + metadata.json.toString().length)
+    assert.equal(
+      around(current),
+      around(prior),
+      'offline dispatch binding may not change the accepted fragment report',
+    )
+    return previous
+  }
+  return restoreBattleSourceBindings(path, bytes, inputs, partyPoseStage, partyPoseBindings)
+}
+
+function restoreBattleSourceBindings(path, bytes, inputs, stage, bindings, additionalReports) {
+  const evidence =
+    path === `docs/testing/${publication.canonical}`
+      ? publication.evidence
+      : additionalReports?.get(path)
+  if (!evidence) return restoreEncounterSourceBindings(path, bytes, inputs, stage, bindings)
+  const priorBytes = inputs.readBase(path)
+  const before = parseTerminalJson(testingMetadata(priorBytes).json)
+  const current = parseTerminalJson(testingMetadata(bytes).json)
+  const previous = encounterReferences(
+    before.sourceRefs,
+    current.sourceRefs,
+    bindings.get(evidence).paths,
+    {
+      source: testingBridgeSources(inputs.readSource),
+      fixed: testingBridgeSources(inputs.readFixed),
+      predecessor: testingBridgeSources(inputs.readBase),
+    },
+    stage,
+  )
+  const history = encounterHistory(
+    before.revision.history,
+    current.revision.history,
+    previous,
+    inputs.readSource,
+    stage,
+  )
+  assert.deepEqual(
+    { ...current, sourceRefs: before.sourceRefs, revision: { ...current.revision, history } },
+    before,
+  )
+  return priorBytes
+}
+
+export const testingQ2CoveragePublicationBase = '45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335'
+const q2CoverageBattleRanges = new Map([
+  ['scripts/e2e/battle-game-adapter.mjs', { 480: '486' }],
+  ['scripts/e2e/battle-reforge-adapter.mjs', { 179: '179' }],
+  ['scripts/e2e/battle-trace-contract.mjs', { 973: '1014' }],
+  ['scripts/e2e/battle-reforge-instrumentation.mjs', { 17: '18' }],
+  ['packages/content/src/rewards.ts', { 260: '268' }],
+  ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+])
+const q2CoverageStage = {
+  ranges: new Map([
+    ...q2CoverageBattleRanges,
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1290-1388': '1291-1389',
+        '443-455': '443-455',
+        5854: '5869',
+      },
+    ],
+    [openingTraceTest, { '554-669': '560-675' }],
+    [worldItemMenuSession, { '106-130': '107-131' }],
+    ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '9-32' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2CoveragePublicationBase,
+  action: 'q2-coverage-and-scene-fade-source-rebinding',
+  date: '2026-11-19',
+}
+const q2CoverageBindings = new Map([
+  ...worldItemTargetBindings,
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+  ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [...q2CoverageBattleRanges.keys(), reforgeMain],
+      artifactClaims: true,
+    },
+  ],
+])
+
+export const isTestingQ2CoverageSource = (path) => q2CoverageStage.ranges.has(path)
+
+export function restoreTestingQ2CoverageSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, q2CoverageStage, q2CoverageBindings)
+}
+
+export const testingQ2PlacementPublicationBase = 'cb83b4f76a150915105121482cbef9e4edd58d58'
+const placementSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '416-423',
+        '458-465': '458-465',
+        '1291-1389': '1291-1389',
+        '443-455': '443-455',
+        5869: '5878',
+      },
+    ],
+    [worldItemMenuSession, { '107-131': '108-132' }],
+    ['packages/reforge/src/menu/menu-session.test.ts', { '9-32': '10-33' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2PlacementPublicationBase,
+  action: 'q2-placement-feedback-source-rebinding',
+  date: '2026-11-19',
+}
+const placementSourceBindings = new Map([
+  [
+    'domains/runtime/menu/menu-session/evidence.json',
+    worldItemTargetBindings.get('domains/runtime/menu/menu-session/evidence.json'),
+  ],
+  ...[
+    'domains/runtime/scene/active-scene/evidence.json',
+    'domains/runtime/battle/battle-host/evidence.json',
+    'domains/runtime/world/world-runtime/evidence.json',
+  ].map((path) => [path, q2CoverageBindings.get(path)]),
+  [publication.evidence, { id: publication.id, paths: [reforgeMain], artifactClaims: true }],
+])
+
+export const isTestingQ2PlacementSource = (path) => placementSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PlacementSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    placementSourceStage,
+    placementSourceBindings,
+  )
+}
+
+export const testingQ2PeachPublicationBase = 'b1d046a12de4ec4082a5acbae64be24253881990'
+const peachSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '416-423': '417-424',
+        '458-465': '459-466',
+        '443-455': '444-456',
+        '1291-1389': '1298-1396',
+        5878: '5890',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2PeachPublicationBase,
+  action: 'q2-peach-grove-source-rebinding',
+  date: '2026-11-20',
+}
+const peachSourceBindings = new Map(
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    'domains/runtime/battle/battle-host/evidence.json',
+    'domains/runtime/world/world-runtime/evidence.json',
+    publication.evidence,
+  ].map((path) => [path, placementSourceBindings.get(path)]),
+)
+
+export const isTestingQ2PeachSource = (path) => peachSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PeachSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, peachSourceStage, peachSourceBindings)
+}
+
+export const testingQ2NoticePublicationBase = '0b315ffc89248b157112ca83ebf77d557d6224ad'
+const noticeSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5890: '5883',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2NoticePublicationBase,
+  action: 'q2-world-notice-source-rebinding',
+  date: '2026-11-20',
+}
+
+export const isTestingQ2NoticeSource = (path) => noticeSourceStage.ranges.has(path)
+
+export function restoreTestingQ2NoticeSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, noticeSourceStage, peachSourceBindings)
+}
+
+export const testingQ2EntryAutoPublicationBase = '814bd6c6195232e432cd39ccbcd450e78b9e2f95'
+const entryAutoSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5883: '5893',
+      },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2EntryAutoPublicationBase,
+  action: 'q2-entry-auto-source-rebinding',
+  date: '2026-11-20',
+}
+
+export const isTestingQ2EntryAutoSource = (path) => entryAutoSourceStage.ranges.has(path)
+
+export function restoreTestingQ2EntryAutoSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, entryAutoSourceStage, peachSourceBindings)
+}
+
+export const testingQ2RooftopPublicationBase = '7488f2961b0ef59a6020b6fe8bf419ccda8f1bc9'
+const rooftopSplitSource = 'scripts/e2e/battle-world-review-split.mjs'
+const rooftopSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+        '1298-1396': '1298-1396',
+        5893: '5900',
+      },
+    ],
+    [reforgeBattleHost, { '72-88': '72-88', '277-288': '277-288', 289: '289' }],
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2RooftopPublicationBase,
+  action: 'q2-yangzhou-rooftop-source-rebinding',
+  date: '2026-11-20',
+}
+const rooftopSourceBindings = new Map([
+  ...peachSourceBindings,
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [reforgeMain, reforgeBattleHost, rooftopSplitSource],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain, reforgeBattleHost] },
+  ],
+])
+
+export const isTestingQ2RooftopSource = (path) => rooftopSourceStage.ranges.has(path)
+
+export function restoreTestingQ2RooftopSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, rooftopSourceStage, rooftopSourceBindings)
+}
+
+export const testingQ2RingPublicationBase = '99e87957d4c286470a0a827d8b473b4c782d638c'
+const ringSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/battle/battle-host.ts',
+      { 289: '289', '72-88': '72-88', '277-288': '277-288' },
+    ],
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5900: '5918',
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+      },
+    ],
+    ['packages/game/src/shell/bootstrap.ts', { 354: '356' }],
+    ['packages/game/src/core/scene-system.ts', { 46: '46' }],
+    [
+      'packages/reforge/src/battle/battle-session.ts',
+      { '251-253': '251-253', '426-438': '423-435', '1305-1314': '1279-1288' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2RingPublicationBase,
+  action: 'q2-lin-family-ring-source-rebinding',
+  date: '2026-11-20',
+}
+const ringSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: [
+        'packages/reforge/src/battle/battle-host.ts',
+        'scripts/e2e/battle-world-review-split.mjs',
+        'packages/reforge/src/main.ts',
+      ],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/cross-phase/script-corrections/evidence.json',
+    {
+      id: 'game-script-corrections',
+      paths: ['packages/game/src/shell/bootstrap.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/phase1-runtime/control-rotation/evidence.json',
+    {
+      id: 'game-input-rotation',
+      paths: ['packages/game/src/core/scene-system.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    {
+      id: 'runtime-battle-host',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/battle/battle-host.ts'],
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: 'runtime-battle-session-owners',
+      paths: ['packages/reforge/src/battle/battle-session.ts'],
+    },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2RingSource = (path) => ringSourceStage.ranges.has(path)
+
+export function restoreTestingQ2RingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, ringSourceStage, ringSourceBindings)
+}
+
+export const testingQ2InnPublicationBase = '19f77feda2bb26bc4bf69d479fb8e513c3277878'
+const innSourceStage = {
+  ranges: new Map([
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+    [
+      'packages/reforge/src/battle/battle-session.ts',
+      { '251-253': '251-253', '423-435': '423-435', '1279-1288': '1279-1288' },
+    ],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2InnPublicationBase,
+  action: 'q2-inn-boss-source-rebinding',
+  date: '2026-11-20',
+}
+const innSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: ['scripts/e2e/battle-world-review-split.mjs'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: 'runtime-battle-session-owners',
+      paths: ['packages/reforge/src/battle/battle-session.ts'],
+    },
+  ],
+])
+
+export const isTestingQ2InnSource = (path) => innSourceStage.ranges.has(path)
+
+export function restoreTestingQ2InnSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, innSourceStage, innSourceBindings)
+}
+
+export const testingQ2EscortsPublicationBase = '92ff3fcef43905f172b41fb5411b8852ef7f6bf3'
+const escortsSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5918: '5953',
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '459-466': '459-466',
+        '444-456': '444-456',
+      },
+    ],
+    ['packages/reforge/src/world-motion-runtime.ts', { '167-193': '169-195' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2EscortsPublicationBase,
+  action: 'q2-inn-escorts-source-rebinding',
+  date: '2026-11-20',
+}
+const escortsSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    {
+      id: 'runtime-world-owners',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/world-motion-runtime.ts'],
+    },
+  ],
+])
+
+export const isTestingQ2EscortsSource = (path) => escortsSourceStage.ranges.has(path)
+
+export function restoreTestingQ2EscortsSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, escortsSourceStage, escortsSourceBindings)
+}
+
+export const testingQ2TombPublicationBase = 'fa362b07eedf6d472e215d71b951bf22c9d8b826'
+const tombSourceStage = {
+  ranges: new Map([
+    ['scripts/e2e/battle-world-review-split.mjs', { 25: '25' }],
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5953: '5951',
+        '1298-1396': '1295-1393',
+        '417-424': '417-424',
+        '459-466': '456-463',
+        '444-456': '441-453',
+      },
+    ],
+    ['scripts/e2e/opening-trace.test.mjs', { '560-675': '560-675' }],
+  ]),
+  normalizeExcerpt: (excerpt) => excerpt,
+  base: testingQ2TombPublicationBase,
+  action: 'q2-tomb-source-rebinding',
+  date: '2026-11-20',
+}
+const tombSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: ['scripts/e2e/battle-world-review-split.mjs', 'packages/reforge/src/main.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: ['scripts/e2e/opening-trace.test.mjs'] }],
+  [
+    'e2e/evidence/e2e-common-issues.json',
+    { id: 'e2e-common-issues', paths: ['scripts/e2e/opening-trace.test.mjs'] },
+  ],
+])
+
+export const isTestingQ2TombSource = (path) => tombSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TombSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, tombSourceStage, tombSourceBindings)
+}
+
+export const testingQ2TowerFoxPublicationBase = '725e768fc2964cb051b624797cdec50bcf9bb313'
+const towerFoxSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/battle/battle-host.ts',
+      { 289: '289', '72-88': '72-88', '277-288': '277-288' },
+    ],
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5951: '5969',
+        '1295-1393': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+    ['scripts/e2e/opening-trace.test.mjs', { '560-675': '563-678' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    return ref.path === 'packages/reforge/src/battle/battle-host.ts' && ref.lines === '277-288'
+      ? excerpt.replace(
+          'presentation?.holdVictoryFrame === true',
+          'presentation?.fadeOnVictory === true',
+        )
+      : excerpt
+  },
+  base: testingQ2TowerFoxPublicationBase,
+  action: 'q2-tower-fox-source-rebinding',
+  date: '2026-11-20',
+}
+const towerFoxSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    {
+      id: 'q2-battle-foundation',
+      paths: ['packages/reforge/src/battle/battle-host.ts', 'packages/reforge/src/main.ts'],
+      artifactClaims: true,
+    },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    {
+      id: 'runtime-battle-host',
+      paths: ['packages/reforge/src/main.ts', 'packages/reforge/src/battle/battle-host.ts'],
+    },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: ['scripts/e2e/opening-trace.test.mjs'] }],
+  [
+    'e2e/evidence/e2e-common-issues.json',
+    { id: 'e2e-common-issues', paths: ['scripts/e2e/opening-trace.test.mjs'] },
+  ],
+])
+
+export const isTestingQ2TowerFoxSource = (path) => towerFoxSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TowerFoxSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    towerFoxSourceStage,
+    towerFoxSourceBindings,
+  )
+}
+
+export const testingQ2TianGhostPublicationBase = 'ff8308de5330908af0492578a91c97631551fde3'
+const tianGhostSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5969: '5970',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2TianGhostPublicationBase,
+  action: 'q2-tian-ghost-source-rebinding',
+  date: '2026-11-20',
+}
+const tianGhostSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2TianGhostSource = (path) => tianGhostSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TianGhostSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    tianGhostSourceStage,
+    tianGhostSourceBindings,
+  )
+}
+
+export const testingQ2TowerMingPublicationBase = '67e2f50b38d16ebcbb67fb20e01959f3d9597d28'
+const towerMingSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5970: '5974',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2TowerMingPublicationBase,
+  action: 'q2-tower-ming-source-rebinding',
+  date: '2026-11-20',
+}
+const towerMingSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2TowerMingSource = (path) => towerMingSourceStage.ranges.has(path)
+
+export function restoreTestingQ2TowerMingSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    towerMingSourceStage,
+    towerMingSourceBindings,
+  )
+}
+
+export const testingQ2GaiLuojiaoPublicationBase = '11898d694b9dbcd48a8fe6d76d31be9d9796c58d'
+const gaiLuojiaoSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5974: '5977',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2GaiLuojiaoPublicationBase,
+  action: 'q2-gai-luojiao-source-rebinding',
+  date: '2026-11-20',
+}
+const gaiLuojiaoSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2GaiLuojiaoSource = (path) => gaiLuojiaoSourceStage.ranges.has(path)
+
+export function restoreTestingQ2GaiLuojiaoSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    gaiLuojiaoSourceStage,
+    gaiLuojiaoSourceBindings,
+  )
+}
+
+export const testingQ2PhoenixPublicationBase = '31a5141224a4f03688d15c1f9277a6e43d946341'
+const phoenixSourceStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        5977: '5977',
+        '1297-1395': '1297-1395',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+      },
+    ],
+  ]),
+  base: testingQ2PhoenixPublicationBase,
+  action: 'q2-phoenix-source-rebinding',
+  date: '2026-11-20',
+}
+const phoenixSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+])
+
+export const isTestingQ2PhoenixSource = (path) => phoenixSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PhoenixSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, phoenixSourceStage, phoenixSourceBindings)
+}
+
+export const testingQ2StoneElderPublicationBase = '32e520895b58d09174cc74a56d1ca7b8c432be57'
+const stoneElderCore = 'packages/reforge/src/battle/battle-core.ts'
+const stoneElderSession = 'packages/reforge/src/battle/battle-session.ts'
+const stoneElderShared = 'projects/pal/content/shared-scripts.json'
+const stoneElderSessionEvidence = 'domains/runtime/battle/battle-session-owners/evidence.json'
+const stoneElderSourceStage = {
+  ranges: new Map([
+    [stoneElderCore, { 2506: '2528' }],
+    [stoneElderSession, { '251-253': '252-254', '423-435': '424-436', '1279-1288': '1305-1314' }],
+    [stoneElderShared, { 2: '2' }],
+  ]),
+  base: testingQ2StoneElderPublicationBase,
+  action: 'q2-stone-elder-source-rebinding',
+  date: '2026-11-20',
+}
+const stoneElderSourceBindings = new Map([
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: [stoneElderCore, stoneElderShared], artifactClaims: true },
+  ],
+  [stoneElderSessionEvidence, { id: 'runtime-battle-session-owners', paths: [stoneElderSession] }],
+])
+const stoneElderReports = new Map([
+  [
+    'docs/testing/domains/runtime/battle/battle-session-owners/report.md',
+    stoneElderSessionEvidence,
+  ],
+])
+export const isTestingQ2StoneElderSource = (path) => stoneElderSourceStage.ranges.has(path)
+
+export function restoreTestingQ2StoneElderSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    stoneElderSourceStage,
+    stoneElderSourceBindings,
+    stoneElderReports,
+  )
+}
+
+export const testingQ2ForestInnPublicationBase = 'e00b63b7eda5c33be3e9e26afca6d9a253601c8b'
+const forestInnSplit = 'scripts/e2e/battle-world-review-split.mjs'
+const forestInnSourceStage = {
+  ranges: new Map([
+    [stoneElderShared, { 2: '2' }],
+    [forestInnSplit, { 25: '65' }],
+  ]),
+  base: testingQ2ForestInnPublicationBase,
+  action: 'q2-forest-inn-source-rebinding',
+  date: '2026-11-20',
+}
+const forestInnSourceBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [stoneElderShared, forestInnSplit], artifactClaims: true },
+  ],
+])
+
+export const isTestingQ2ForestInnSource = (path) => forestInnSourceStage.ranges.has(path)
+
+export function restoreTestingQ2ForestInnSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    forestInnSourceStage,
+    forestInnSourceBindings,
+  )
+}
+
+export const testingQ2ShangshuPublicationBase = '6669ad19b74513d1c5eea8c5420e05ef8d434286'
+const shangshuSourceStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '1297-1395': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5977: '5983',
+      },
+    ],
+    [forestInnSplit, { 65: '65' }],
+  ]),
+  base: testingQ2ShangshuPublicationBase,
+  action: 'q2-shangshu-entry-source-rebinding',
+  date: '2026-11-20',
+}
+const shangshuSourceBindings = new Map([
+  ...phoenixSourceBindings,
+  [
+    publication.evidence,
+    { id: publication.id, paths: [reforgeMain, forestInnSplit], artifactClaims: true },
+  ],
+])
+const shangshuReports = new Map(
+  [...shangshuSourceBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/u, 'report.md')}`,
+    path,
+  ]),
+)
+
+export const isTestingQ2ShangshuSource = (path) => shangshuSourceStage.ranges.has(path)
+
+export function restoreTestingQ2ShangshuSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    shangshuSourceStage,
+    shangshuSourceBindings,
+    shangshuReports,
+  )
+}
+
+export const testingQ2DaliPublicationBase = '8dd8dc609bfa428c27f9c2c13ab339d4c9d5b639'
+const daliSourceStage = {
+  ranges: new Map([[forestInnSplit, { 65: '66' }]]),
+  base: testingQ2DaliPublicationBase,
+  action: 'q2-dali-split-source-rebinding',
+  date: '2026-11-20',
+}
+const daliSourceBindings = new Map([
+  [publication.evidence, { id: publication.id, paths: [forestInnSplit], artifactClaims: true }],
+])
+
+export const isTestingQ2DaliSource = (path) => daliSourceStage.ranges.has(path)
+
+export function restoreTestingQ2DaliSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, daliSourceStage, daliSourceBindings)
+}
+
+export const testingQ2DaliRainPublicationBase = '694b207e0090eeeac045a5548dd6a32a0c97dd1a'
+const evidenceRecorder = 'scripts/e2e/evidence-recorder.mjs'
+const shrimpEvidence = 'e2e/evidence/e2e-005.json'
+const daliRainSourceStage = {
+  ranges: new Map([
+    [forestInnSplit, { 66: '66' }],
+    [evidenceRecorder, { '1-18': '1-18' }],
+    [
+      reforgeMain,
+      {
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5983: '5991',
+      },
+    ],
+  ]),
+  base: testingQ2DaliRainPublicationBase,
+  action: 'q2-dali-rain-source-rebinding',
+  date: '2026-11-20',
+}
+const daliRainRouteBindings = new Map([
+  ...phoenixSourceBindings,
+  [shrimpEvidence, { id: 'e2e-005', paths: [evidenceRecorder] }],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [forestInnSplit, reforgeMain], artifactClaims: true },
+  ],
+])
+const daliRainRouteReports = new Map([
+  ...shangshuReports,
+  ['docs/testing/e2e/stages/005-shrimp/report.md', shrimpEvidence],
+])
+export const isTestingQ2DaliRainSource = (path) => daliRainSourceStage.ranges.has(path)
+
+export function restoreTestingQ2DaliRainSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    daliRainSourceStage,
+    daliRainRouteBindings,
+    daliRainRouteReports,
+  )
+}
+
+export const testingQ2PalacePublicationBase = '412572bda94d976c0c18030d0157d6f7da15158f'
+const palaceSourceStage = {
+  ranges: new Map([
+    [forestInnSplit, { 66: '66' }],
+    [
+      reforgeMain,
+      {
+        '1298-1396': '1298-1396',
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '441-453': '441-453',
+        5991: '6005',
+      },
+    ],
+  ]),
+  base: testingQ2PalacePublicationBase,
+  action: 'q2-palace-source-rebinding',
+  date: '2026-11-20',
+}
+const palaceSourceBindings = new Map([
+  ...phoenixSourceBindings,
+  [
+    publication.evidence,
+    { id: publication.id, paths: [forestInnSplit, reforgeMain], artifactClaims: true },
+  ],
+])
+export const isTestingQ2PalaceSource = (path) => palaceSourceStage.ranges.has(path)
+
+export function restoreTestingQ2PalaceSourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(path, bytes, inputs, palaceSourceStage, palaceSourceBindings)
+}
+
+export const testingQ2DisplayPublicationBase = '9d9015a697dbf944edbdddfb88ed5c82b669bd64'
+const signedStatsSource = 'packages/reforge/src/menu/menu-box.ts'
+const displaySourceStage = {
+  ranges: new Map([
+    [
+      testingBattleSessionSourcePath,
+      { '252-254': '252-254', '424-436': '427-439', '1305-1314': '1313-1322' },
+    ],
+    [signedStatsSource, { 169: '169' }],
+    [gameBootstrap, { 356: '357' }],
+    [
+      reforgeMain,
+      {
+        '417-424': '418-425',
+        '456-463': '457-464',
+        '441-453': '442-454',
+        '1298-1396': '1300-1398',
+        6005: '6009',
+      },
+    ],
+  ]),
+  base: testingQ2DisplayPublicationBase,
+  action: 'q2-display-and-save-restore-source-rebinding',
+  date: '2026-11-21',
+}
+const displaySourceBindings = new Map([
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    { id: sessionId, paths: [testingBattleSessionSourcePath] },
+  ],
+  [
+    publication.evidence,
+    { id: publication.id, paths: [signedStatsSource, reforgeMain], artifactClaims: true },
+  ],
+  [
+    'domains/cross-phase/script-corrections/evidence.json',
+    { id: 'game-script-corrections', paths: [gameBootstrap], artifactClaims: true },
+  ],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+])
+const displaySourceReports = new Map([
+  [
+    'docs/testing/domains/runtime/battle/battle-session-owners/report.md',
+    sessionEvidencePath.slice('docs/testing/'.length),
+  ],
+  [
+    'docs/testing/domains/cross-phase/script-corrections/report.md',
+    'domains/cross-phase/script-corrections/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/scene/active-scene/report.md',
+    'domains/runtime/scene/active-scene/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/battle/battle-host/report.md',
+    'domains/runtime/battle/battle-host/evidence.json',
+  ],
+  [
+    'docs/testing/domains/runtime/world/world-runtime/report.md',
+    'domains/runtime/world/world-runtime/evidence.json',
+  ],
+])
+export const isTestingQ2DisplaySource = (path) => displaySourceStage.ranges.has(path)
+
+export function restoreTestingQ2DisplaySourceBindings(path, bytes, inputs) {
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    displaySourceStage,
+    displaySourceBindings,
+    displaySourceReports,
+  )
+}
 
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath

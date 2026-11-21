@@ -653,6 +653,7 @@
         "fireDelay": 0,
         "effectTimes": 2,
         "shake": 0,
+        "blow": -3,
         "wave": 0,
         "sound": "sound.pal.103"
       }
@@ -1199,6 +1200,7 @@
         "placement": "attackWhole",
         "xOffset": -10,
         "yOffset": 42,
+        "layerOffset": 69,
         "speed": 2,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -1445,6 +1447,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 10,
         "effectTimes": 0,
@@ -1474,6 +1477,7 @@
         "placement": "attackField",
         "xOffset": 0,
         "yOffset": -32,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 16,
         "effectTimes": 0,
@@ -1661,6 +1665,11 @@
         {
           "kind": "applyPoison",
           "poisonId": "555"
+        },
+        {
+          "kind": "damage",
+          "power": 81,
+          "elemental": 6
         }
       ],
       "animation": {
@@ -1675,21 +1684,6 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
-      },
-      "execution": {
-        "enemy": {
-          "effects": [
-            {
-              "kind": "applyPoison",
-              "poisonId": "555"
-            },
-            {
-              "kind": "damage",
-              "power": 81,
-              "elemental": 6
-            }
-          ]
-        }
       }
     },
     {
@@ -2183,7 +2177,8 @@
             "itemId": "86",
             "amount": 1
           }
-        ]
+        ],
+        "missingItemsText": "酒不足，无法召唤酒神"
       },
       "usableOutsideBattle": false,
       "target": "allEnemies",
@@ -2229,6 +2224,8 @@
             {
               "kind": "summon",
               "battleSprite": "player-summon-15",
+              "xOffset": 0,
+              "yOffset": 18,
               "speed": 1,
               "sound": "sound.pal.301"
             }
@@ -2285,6 +2282,11 @@
         {
           "kind": "applyPoison",
           "poisonId": "555"
+        },
+        {
+          "kind": "damage",
+          "power": 150,
+          "elemental": 6
         }
       ],
       "animation": {
@@ -2299,21 +2301,6 @@
         "shake": 0,
         "wave": 0,
         "sound": "sound.pal.313"
-      },
-      "execution": {
-        "enemy": {
-          "effects": [
-            {
-              "kind": "applyPoison",
-              "poisonId": "555"
-            },
-            {
-              "kind": "damage",
-              "power": 150,
-              "elemental": 6
-            }
-          ]
-        }
       }
     },
     {
@@ -2649,6 +2636,7 @@
         "placement": "normal",
         "xOffset": 0,
         "yOffset": 0,
+        "layerOffset": 99,
         "speed": 0,
         "fireDelay": 0,
         "effectTimes": 0,
@@ -2683,6 +2671,7 @@
         "effectTimes": 0,
         "shake": 0,
         "wave": 0,
+        "layerOffset": 99,
         "sound": "sound.pal.129"
       }
     },
@@ -3284,6 +3273,7 @@
         "fireDelay": 0,
         "effectTimes": 2,
         "shake": 0,
+        "blow": -2,
         "wave": 0,
         "sound": "sound.pal.103"
       }

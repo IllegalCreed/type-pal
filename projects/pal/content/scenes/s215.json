@@ -276,6 +276,17 @@
                       "enemyTeamId": "team-223"
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -284,8 +295,17 @@
                       }
                     },
                     {
-                      "kind": "wait",
-                      "ms": 720
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "to": {
+                        "col": 62.25,
+                        "row": -14,
+                        "height": 0
+                      }
                     },
                     {
                       "cue": {
@@ -302,8 +322,106 @@
                       "kind": "dialog"
                     },
                     {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "to": {
+                        "col": 58.5,
+                        "row": -14,
+                        "height": 0
+                      }
+                    },
+                    {
                       "kind": "wait",
-                      "ms": 720
+                      "ms": 100
+                    },
+                    {
+                      "kind": "setEntityPos",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "pos": {
+                        "col": 58,
+                        "row": -14,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "dx": 6,
+                      "dy": -3
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "facing": "up"
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "frame": 1
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
+                      "kind": "setEntityPos",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "pos": {
+                        "col": 58,
+                        "row": -15,
+                        "height": 0
+                      }
+                    },
+                    {
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s215",
+                        "entity": "e3664"
+                      },
+                      "frame": 0
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 500
                     },
                     {
                       "cue": {
@@ -757,7 +875,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "facing": "left",
@@ -765,7 +883,7 @@
                     },
                     {
                       "kind": "wait",
-                      "ms": 80
+                      "ms": 200
                     },
                     {
                       "cue": {

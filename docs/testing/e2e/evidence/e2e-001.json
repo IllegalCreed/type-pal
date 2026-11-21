@@ -53,10 +53,10 @@
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
-      "lines": "554-669",
+      "lines": "563-678",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "41ad53a81fef372ad2815167592a74fac14915372f4567b85738dbe5445e33e6"
+      "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
     }
   ],
   "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -85,7 +85,7 @@
         "packages/content/src/character.ts:169-171",
         "scripts/e2e/opening-matrix-observer.mjs:11-125",
         "scripts/e2e/opening-trace-plugin.mjs:164-178",
-        "scripts/e2e/opening-trace.test.mjs:554-669"
+        "scripts/e2e/opening-trace.test.mjs:563-678"
       ]
     }
   ],
@@ -192,6 +192,54 @@
         }
       ],
       "scope": "按本轮固定引用片段核对原调用与判据，保留已出版执行、候选与原件。"
+    },
+    {
+      "action": "q2-coverage-and-scene-fade-source-rebinding",
+      "base": "45e199287d99ed0e2e4ed3f0bb8dd716f6d9d335",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "554-669",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "41ad53a81fef372ad2815167592a74fac14915372f4567b85738dbe5445e33e6"
+        }
+      ],
+      "scope": "核装备、原编队及场景淡出合入后的来源适用性。引用片段与固定前驱逐字相同，历史执行、输入与断言保留。"
+    },
+    {
+      "action": "q2-tomb-source-rebinding",
+      "base": "fa362b07eedf6d472e215d71b951bf22c9d8b826",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "560-675",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "428dfc1708e37177687db33f3ee7054bc1288d5e3b28c709094b48c4e0da7a30"
+        }
+      ],
+      "scope": "血池渐变按输出步震屏并恢复队伍渲染层，将军冢增加直接切场的分屏边界。存读档、世界归属、战斗宿主、分屏解码及 Game 绘制反控的被引片段逐字节相等，各自原执行仍绑定原候选。"
+    },
+    {
+      "action": "q2-tower-fox-source-rebinding",
+      "base": "725e768fc2964cb051b624797cdec50bcf9bb313",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "560-675",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "7205c4c8f6e92cf649a3ff947515d4cfbbf2a3efdcbafe86c9201c7e6d2aeb42"
+        }
+      ],
+      "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
     },
     {
       "action": "content-version-source-rebinding",

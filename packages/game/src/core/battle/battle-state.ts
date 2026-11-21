@@ -311,6 +311,10 @@ export interface BattleAnimFrame {
   keepEffect?: boolean
   /** 本帧召唤神演出状态(set → 隐队员改画召唤神;driver 落到 battleAnim.summon,present 读)。 */
   summon?: SummonFrameState
+  /** Enemy 0x9E and 0x9F share the indexed scene dissolve; the V1 field name stays stable. */
+  enemySummonFade?: 'arrival' | 'release'
+  /** During 0x9F's flash, draw the original sprite and anchor before reloading the scene. */
+  enemyAppearance?: { idx: number; spriteId: number; pos?: { x: number; y: number } }
   /**
    * 本帧期间敌人 idle 呼吸动画照常推进 —— sdlpal PAL_BattleDelay 第三参 fUpdateGesture=TRUE
    * 的帧级等价(fight.c:498-525)。C 演出主体 Delay 全 FALSE(敌 idle 定格),收尾停顿段 TRUE
@@ -391,6 +395,8 @@ export interface BattleAnimState {
   idx: number
   /** 当前帧已播放时长(ms)。 */
   frameElapsedMs: number
+  /** Run the death fade before entering this frame of a cooperative spell. */
+  enemyDeathCheckFrame?: number
   /**
    * present 端 wall-clock **视觉帧索引** —— `stepBattleAnimRender` 每 rAF 按真实时间算(惰性锚点),
    * present 据此画法术特效/精灵/抖屏,绕开 40ms 逻辑 tick 对 (speed+5)*10ms 效果帧的拍频顿挫
@@ -614,7 +620,7 @@ export interface BattleState {
    * { step: 0 };tickBattleFleeAnim 每 tick 把活队员往右下挪(当前实现按用户实测取统一右下位移),
    * 16 步后全员移出屏(9999,9999)→ phase='fleed' → finalize。undefined = 无逃跑动画。
    */
-  fleeAnim?: { step: number }
+  fleeAnim?: { step: number; sound?: number }
   /** PAL_BattleEnemyEscape moves live slots out of view before the terminal hold. */
   enemyEscapeAnim?: { step: number; elapsedMs?: number; offscreenAtMs?: number }
   /**
@@ -637,6 +643,8 @@ export interface BattleState {
    *   恒 undefined,deathFadeStep 全靠 elapsedMs(逻辑 tick)推进。两者用 max 合流,互不回退。
    */
   battleFade?: { elapsedMs: number; startMs?: number }
+  /** PAL_BattleFadeScene on party hide/reveal. The core holds the current action or next menu. */
+  hidingFade?: { elapsedMs: number; startMs?: number; revealing: boolean }
   /**
    * 战斗内对话队列(战斗脚本 0xFFFF showDialog;scriptOnReady / scriptOnTurnStart 等)。
    * runScript(battle) 同步跑完时把 dialog 行收集进此队列;tickBattleDialog hold 逐 tick 把队列
@@ -646,12 +654,23 @@ export interface BattleState {
    * 战斗飘字 PAL_BattleUIShowText 在 classic build 被编译掉。空/undefined = 无待显对话。
    */
   battleDialogQueue?: BattleDialogLine[]
+  /** The remaining 0x85 delay while its cue is at the head of the battle dialogue queue. */
+  battleDialogWaitMs?: number
+  /** A battle script has taken over music from the encounter's opening track. */
+  scriptMusicActive?: boolean
   /** typing 节拍累加器:BATTLE_DT(40ms) 累到 FRAME_MS_EXPLORE(100ms) 才 tickDialog 一次,保打字速率与大世界一致。 */
   battleDialogTypingAccMs?: number
   /** narration 风格自动消失帧计(复用大世界 NARRATION_AUTO_DISMISS_FRAMES,达到 → 自动翻过)。 */
   battleDialogNarrationFrames?: number
-  /** setDialogStyle*(battle)累积的当前对话风格,下条 showDialog 入队时取。undefined = 默认 'bottom'。 */
-  battleDialogStyle?: { style: DialogBoxStyle; portrait?: number; fontColor?: number }
+  /** The lower opening default applies until the battle script selects a layout.
+   * PAL_EndDialog then restores the upper position and removes the portrait.
+   */
+  battleDialogStyle?: {
+    style: DialogBoxStyle
+    portrait?: number
+    portraitLayout?: boolean
+    fontColor?: number
+  }
   /** 0x05/0x8E ClearDialog 置真 → 下条 showDialog 入队标 clearBefore(另起新框),入队后清。 */
   battleDialogPendingClear?: boolean
   /**
@@ -689,16 +708,13 @@ export interface BattleDialogLine {
   style?: DialogBoxStyle
   /** 头像 icon(RGM.MKF chunk;setDialogStyle arg0)。 */
   portrait?: number
+  /** A redraw removes portrait pixels while retaining the text inset. */
+  portraitLayout?: boolean
   /** 字色(setDialogStyle arg1;默认 0x4F)。 */
   fontColor?: number
   /** 此行前需清屏另起新框(0x05/0x8E ClearDialog → 上一段 dialog 结束、重开)。 */
   clearBefore?: boolean
-  /**
-   * D26(2b):dialog 序列中**内联可见 effect**(目前仅 0x69 敌逃跑动画)。runScript 同步收集对话时,
-   * 夹在 dialog 之间的可见 effect 若立即跑会错序(逃跑动画跑在嘲讽台词之前)→ 改入队按位置保序;
-   * tickBattleDialog 处理到此条目时 dispatch,保 sdlpal 真值时序(嘲讽对话→逃跑动画→narration)。
-   * 非 undefined 时本条目是 effect 而非 dialog(无 text)。
-   */
+  /** Ordered presentation cue, including enemy escape, script audio, or an 0x85 delay. */
   effect?: { opcode: number; operands: readonly number[] }
 }
 

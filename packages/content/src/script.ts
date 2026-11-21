@@ -13,6 +13,11 @@ import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
 import type { SpriteActionBinding } from './sprite.js'
 
+export interface TeleportOutPresentation {
+  gatherParty?: boolean
+  arrivalSound?: AssetId
+}
+
 type ScriptBinding =
   | { stages: ScriptStage[]; script?: never }
   | { script: ScriptRef; stages?: never }
@@ -56,12 +61,12 @@ export type ScriptCondition =
 
 // ── 命令(M3a 集;增量见设计 §2.3 表)──
 /**
- * 跨场景落位的三种互斥模式：缺省=场景默认落点，entryId=命名落点，pos=一次性坐标。
+ * 跨场景落位：缺省用场景默认落点，entryId 用命名落点，pos 可指定坐标或 current。
  * facing 是命令级覆盖，不属于目标身份。
  */
 export type SceneSpawn =
   | { entryId: string; pos?: never; facing?: Facing }
-  | { pos: GridPos; entryId?: never; facing?: Facing }
+  | { pos: GridPos | 'current'; entryId?: never; facing?: Facing }
   | { entryId?: never; pos?: never; facing?: Facing }
 
 export type SceneTransitionProfile =
@@ -74,11 +79,14 @@ export type LoadSceneCommand = {
   transition?: SceneTransitionProfile
 } & SceneSpawn
 
+/** Palette-independent fades can target an exact 8-bit RGB color. */
+export type FadeColor = 'black' | 'red' | readonly [number, number, number]
+
 export type Command =
   // 演出 / 对话
   | { kind: 'dialog'; cue: DialogueCue }
   | { kind: 'clearDialog' } // 原版 0x05 redrawScreen 的语义核(清对话箱)
-  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: 'black' | 'red' }
+  | { kind: 'fade'; dir: 'in' | 'out'; ms?: number; color?: FadeColor }
   /** 持有表现层黑屏；必须由同 token 的 reveal/loadScene/abort 收尾，不进入存档。 */
   | { kind: 'holdScreen'; color: 'black'; token: string }
   | { kind: 'revealScreen'; token: string }
@@ -99,7 +107,7 @@ export type Command =
   | { kind: 'clearFrameAnimation' }
   // ── B8 野外遇敌(原版 0x4C/0x4B/0x4E + GameOver 枢纽的干净表达)──
   /** 向玩家追一步(auto 脚本里即持续追逐——auto runner 天然循环)。range 格内才追(切比雪夫);floating 忽略地形与阻挡实体。 */
-  | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean }
+  | { kind: 'chasePlayer'; range?: number; speed?: number; floating?: boolean; worldStep?: true }
   /** 实体消失 seconds 秒后重现(野怪被打败的重生窗;临时态不进存档)。缺 entity = 触发者自身。 */
   | { kind: 'vanishEntity'; entity?: string; seconds?: number }
   /** 读最近存档(auto/quick/manual 时间最新;无档 = 重开)。原版 0x4E。 */
@@ -110,9 +118,8 @@ export type Command =
   // 队伍 / 场景
   | { kind: 'teleportParty'; pos: GridPos; facing?: Facing } // 场景内瞬移(0x46)
   | LoadSceneCommand // 门传送模式折叠(0x59[+0x46+0x50])
-  // 0x15:原版同时写 wPartyDirection 和 rgParty[member].wFrame = dir*3 + gesture。
-  // gesture 缺省 = 0(站立帧,清脚本姿势);>0 = 脚本姿势帧(配合 setActorSprite 演出,
-  // 如开场李逍遥练武 gesture 9)。member 缺省 = 0(队长;跟随者渲染落地后生效)。
+  // member 缺省为队长；编号按执行时队伍解析，只更新该角色姿势。
+  // gesture 缺省为所选方向站立帧；非零为该站立帧后的姿势偏移。
   | { kind: 'setPartyFacing'; facing: Facing; gesture?: number; member?: number }
   // 实体
   | { kind: 'setEntityState'; entity: string; state: number } // 0x49;≤0 隐,≥2 挡路
@@ -193,8 +200,9 @@ export type Command =
   /**
    * 0x6E 队伍相对单步(带走姿)。layer 是原版第三操作数的逻辑层号；
    * 缺省按 0 兼容手写脚本。原版每次 0x6E 都覆盖 wLayer，执行时缺省值也必须清回 0。
+   * 编排转向段可选 facing，保留离格前的方向给跟随队员。
    */
-  | { kind: 'nudgeParty'; dx: number; dy: number; layer?: number }
+  | { kind: 'nudgeParty'; dx: number; dy: number; layer?: number; facing?: Facing }
   // 战斗 / 商店 / 确认(M3b 翻译;战斗引擎 M4,先桩)
   // auto(0x8A):整场自动战斗(玩家侧 AI 代打、不出指令菜单 —— 石长老 vs 盖罗娇过场战)。
   // boss:原版 0x07 fIsBoss = !op2(script.c:3318,无逃跑臂 = 首领战:不可逃 + 胜利曲 2)。
@@ -215,11 +223,11 @@ export type Command =
     }
   // 传送出口(原版 0x38;引路蜂/土灵珠道具用):跑当前场景 onTeleport 脚本;场景无此槽 →
   // 走 onFail(「引路蜂不灵」提示)。战斗中禁用(原版 !fInBattle,道具菜单本就战外,冗余守卫)。
-  | { kind: 'teleportOut'; onFail?: Command[] }
+  | ({ kind: 'teleportOut'; onFail?: Command[] } & TeleportOutPresentation)
   | { kind: 'openShop'; shop: number; mode: 'buy' | 'sell' }
   | { kind: 'confirm'; onYes: Command[]; onNo: Command[] } // 0x0A 是/否框:选"否"走 onNo,"是"继续
   // 相机(M3c;0x7F 三形态。⚠ 一阶段彩依飞走案:走位期间偏移必须保持,不许绝对回正)
-  | { kind: 'cameraPan'; dx: number; dy: number; frames: number } // 相对:每帧位移 ×frames,阻塞
+  | { kind: 'cameraPan'; dx: number; dy: number; frames: number; startImmediately?: true }
   | { kind: 'cameraSnap'; to?: GridPos } // 绝对跳到格(to)/回正跟随(缺省)
   // 页切换(M3c;原版 0x24/25/40 改脚本入口指针。运行时覆盖,暂不持久 —— 原版存档存指针,
   // clean 版的持久化留给页注册表设计(M4 期);过场局部行为切换不受影响)
@@ -260,7 +268,7 @@ export type WalkSpeed = 'slow' | 'normal' | 'fast' | 'run'
 /** 场景入场把目标世界交给呈现层的唯一提交边界。 */
 export type SceneReveal =
   | { kind: 'dither'; ms: number; source: 'previousPresentedFrame' }
-  | { kind: 'fade'; outMs: number; inMs: number }
+  | { kind: 'fade'; outMs: number; inMs: number; withBody?: true }
   | { kind: 'cut' }
 
 /** 仅 scene onEnter stage 可声明；prepare 在目标画面尚未呈现时执行。 */
@@ -323,7 +331,7 @@ export const SCENE_ENTRY_PREPARE_SAFETY = {
   revivePartyAll: 'safe',
   ride: 'blocked',
   setActorAppearance: 'blocked',
-  setActorSprite: 'blocked',
+  setActorSprite: 'safe',
   setAmbience: 'safe',
   setEntityAuto: 'safe',
   setEntityFacing: 'safe',
@@ -462,6 +470,16 @@ function checkRef(value: unknown, path: string): void {
     throw new Error(`${path}: 期望 {chunk,id} ScriptRef`)
 }
 
+export function checkCameraPanStart(
+  value: { startImmediately?: unknown; frames?: unknown },
+  path: string,
+): void {
+  if (value.startImmediately === undefined) return
+  if (value.startImmediately !== true) throw new Error(`${path}.startImmediately: 期望 true`)
+  if (typeof value.frames !== 'number' || !Number.isSafeInteger(value.frames) || value.frames < 1)
+    throw new Error(`${path}.frames: 同帧起步至少需要一步`)
+}
+
 export interface CheckCommandsOptions {
   /** auto runner 不能拥有场景生命周期；禁止直接或在同步执行臂中 loadScene。 */
   forbidLoadScene?: boolean
@@ -482,6 +500,28 @@ export function checkCommands(
       throw new Error(`${path}[${i}].kind: 未知命令 ${JSON.stringify(k)}`)
     if (k === 'applyActorCondition' || k === 'clearActorCondition')
       checkActorConditionCommandShape(c, `${path}[${i}]`)
+    if (k === 'cameraPan')
+      checkCameraPanStart(c as { startImmediately?: unknown; frames?: unknown }, `${path}[${i}]`)
+    if (k === 'fade') {
+      const { color } = c as { color?: unknown }
+      if (
+        color !== undefined &&
+        color !== 'black' &&
+        color !== 'red' &&
+        !(
+          Array.isArray(color) &&
+          color.length === 3 &&
+          Array.from(color).every(
+            (channel: unknown) =>
+              typeof channel === 'number' &&
+              Number.isInteger(channel) &&
+              channel >= 0 &&
+              channel <= 255,
+          )
+        )
+      )
+        throw new Error(`${path}[${i}].color: 期望 black|red|三个 0–255 的 RGB 整数`)
+    }
     if (k === 'dialog') {
       const dialog = c as { cue?: unknown; line?: unknown }
       if (dialog.line !== undefined)
@@ -532,7 +572,8 @@ export function checkCommands(
         throw new Error(`${path}[${i}].entryId: 期望非空命名落点 id`)
       if (load.entryId !== undefined && load.pos !== undefined)
         throw new Error(`${path}[${i}]: entryId 与 pos 不能同时存在`)
-      if (load.pos !== undefined) checkGridPos(load.pos, `${path}[${i}].pos`)
+      if (load.pos !== undefined && load.pos !== 'current')
+        checkGridPos(load.pos, `${path}[${i}].pos`)
       if (load.facing !== undefined) checkFacing(load.facing, `${path}[${i}].facing`)
       if (load.transition !== undefined) {
         const transition = load.transition as Record<string, unknown>
@@ -696,7 +737,15 @@ export function checkCommands(
       if (battle.onFlee !== undefined) checkCommands(battle.onFlee, `${path}[${i}].onFlee`, options)
     }
     if (k === 'teleportOut') {
-      const onFail = (c as { onFail?: unknown }).onFail
+      const { gatherParty, arrivalSound, onFail } = c as {
+        gatherParty?: unknown
+        arrivalSound?: unknown
+        onFail?: unknown
+      }
+      if (gatherParty !== undefined && typeof gatherParty !== 'boolean')
+        throw new Error(`${path}[${i}].gatherParty: 期望 boolean`)
+      if (arrivalSound !== undefined && (typeof arrivalSound !== 'string' || !arrivalSound))
+        throw new Error(`${path}[${i}].arrivalSound: 期望非空 AssetId`)
       if (onFail !== undefined) checkCommands(onFail, `${path}[${i}].onFail`, options)
     }
     if (k === 'confirm') {
@@ -767,23 +816,29 @@ function checkSceneEntry(value: unknown, path: string): void {
     if (safety !== 'safe')
       throw new Error(`${path}.prepare[${index}]: 命令 ${String(kind)} 不允许在隐藏目标画面时执行`)
   }
-  if (typeof entry.reveal !== 'object' || entry.reveal === null || Array.isArray(entry.reveal))
-    throw new Error(`${path}.reveal: 期望对象`)
-  const reveal = entry.reveal as Record<string, unknown>
+  checkSceneReveal(entry.reveal, `${path}.reveal`)
+}
+
+export function checkSceneReveal(value: unknown, path: string): void {
+  if (typeof value !== 'object' || value === null || Array.isArray(value))
+    throw new Error(`${path}: 期望对象`)
+  const reveal = value as Record<string, unknown>
+  if (reveal.withBody !== undefined && (reveal.kind !== 'fade' || reveal.withBody !== true))
+    throw new Error(`${path}.withBody: 仅淡入允许指定 true`)
   switch (reveal.kind) {
     case 'dither':
-      checkNonNegativeFinite(reveal.ms, `${path}.reveal.ms`)
+      checkNonNegativeFinite(reveal.ms, `${path}.ms`)
       if (reveal.source !== 'previousPresentedFrame')
-        throw new Error(`${path}.reveal.source: 期望 previousPresentedFrame`)
+        throw new Error(`${path}.source: 期望 previousPresentedFrame`)
       break
     case 'fade':
-      checkNonNegativeFinite(reveal.outMs, `${path}.reveal.outMs`)
-      checkNonNegativeFinite(reveal.inMs, `${path}.reveal.inMs`)
+      checkNonNegativeFinite(reveal.outMs, `${path}.outMs`)
+      checkNonNegativeFinite(reveal.inMs, `${path}.inMs`)
       break
     case 'cut':
       break
     default:
-      throw new Error(`${path}.reveal.kind: 期望 dither|fade|cut`)
+      throw new Error(`${path}.kind: 期望 dither|fade|cut`)
   }
 }
 

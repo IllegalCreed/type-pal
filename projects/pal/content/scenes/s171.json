@@ -35,28 +35,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 91,
-                      "height": 0,
-                      "row": 36
-                    }
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-228"
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 16,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "ditherScreen",
-                    "ms": 5040
-                  },
-                  {
                     "facing": "down",
                     "gesture": 17,
                     "kind": "setPartyFacing"
@@ -112,7 +90,34 @@
                     "kind": "loadScene",
                     "scene": "s169"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 36
+                      }
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-228"
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 16,
+                      "kind": "setPartyFacing"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 5040,
+                    "source": "previousPresentedFrame"
+                  }
+                }
               }
             ]
           }

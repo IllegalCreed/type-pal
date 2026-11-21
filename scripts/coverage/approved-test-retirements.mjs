@@ -217,6 +217,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: 'ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84',
       fileSha256: '64a697fc706c100bd295dbebf50a2fc6d549969ab3f7ad7568d5e2387b4fdd21',
     },
+    // Q2's verified foreground scripts replace 56 recurring oracle inputs and
+    // 14 obsolete completion tails. The 12 altar waits keep their source checks
+    // on the foreground clock, and one guard covers all absent registrations.
+    {
+      file: 'packages/reforge/src/pal-unified-steps-content.test.ts',
+      previous: 5404,
+      current: 5167,
+      previousIdentityDigest: 'ae3a7f9cfdc2290a1588205cface1f180d605aaeae0d689be06c26243fcb5a84',
+      currentIdentityDigest: '69987d4f175eb1250205fbc4d76f6453aff6398393cce2c8fe51fe7720a56f85',
+      fileSha256: 'df78da33df898da1d97d59eadfda0e48e292b1cd5661713df4b913d9f1512cc2',
+    },
     // User2026-11-01: split message resolution from playback/wrap/steal consumers.
     // All13 old identities preserved; proof.json maps54 across the whole module.
     {

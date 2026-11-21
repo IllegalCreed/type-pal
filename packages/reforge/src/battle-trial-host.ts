@@ -230,7 +230,7 @@ export async function runBattleTrial(
           active()
           bgm.play(asset)
         },
-        stopMusic: () => bgm.stop(),
+        stopMusic: (fadeMs) => bgm.stop(fadeMs),
         prepareTurnSounds: async (snapshot) => {
           active()
           const sounds = collectTurnActionSounds({

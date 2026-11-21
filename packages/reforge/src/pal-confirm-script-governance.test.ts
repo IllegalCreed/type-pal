@@ -151,6 +151,60 @@ test.each(
     ])
     dialogue.cue.rows.push({ text: 'dlg.1504' })
   }
+  if (key === 's148/e2433/default') {
+    const body = historicalAuthor.stages[0]?.body
+    const opening = body?.[0]
+    const response = body?.[2]
+    const challenge = body?.[16]
+    const battle = body?.[17]
+    const narration = body?.[43]
+    if (
+      opening?.kind !== 'dialog' ||
+      response?.kind !== 'dialog' ||
+      challenge?.kind !== 'dialog' ||
+      battle?.kind !== 'startBattle' ||
+      narration?.kind !== 'dialog'
+    )
+      throw new Error('missing Tian Gui Huang dialogue or battle')
+    expect(opening.cue.slot).toBe('top')
+    expect(response.cue.autoAdvance).toBe(0)
+    expect(challenge.cue.autoAdvance).toBe(0)
+    expect(battle.choreography).toEqual([
+      {
+        at: 'battleStart',
+        body: [
+          {
+            kind: 'dialog',
+            cue: {
+              identity: {
+                kind: 'unbound',
+                speaker: 'spk.天鬼皇',
+                portrait: { asset: 'portrait.pal.043', side: 'left' },
+              },
+              rows: [
+                { text: 'dlg.8692', speed: 0 },
+                { text: 'dlg.8693', speed: 0 },
+              ],
+              slot: 'top',
+            },
+          },
+          { kind: 'clearDialog' },
+        ],
+      },
+    ])
+    expect(narration.cue).toEqual({
+      identity: { kind: 'narration' },
+      rows: [{ text: 'dlg.8731' }, { text: 'dlg.8732' }, { text: 'dlg.8733.v-cd81cb9e' }],
+      slot: 'center',
+    })
+    // Reverse the fields verified above for the historical decision and cursor oracle.
+    delete opening.cue.slot
+    delete response.cue.autoAdvance
+    delete challenge.cue.autoAdvance
+    delete battle.choreography
+    narration.cue.identity = { kind: 'unbound', speaker: 'spk.李逍遥心里想' }
+    narration.cue.rows.shift()
+  }
   const current = resolveAuthorDialogueTree(historicalAuthor, actors)
   const hashes: string[] = []
   for (const condition of [false, true])

@@ -347,7 +347,7 @@ test('real motion queues retain invocation identity through commit, acknowledgem
     pushTrail() {},
     deriveFollowers() {},
     updateCamera() {},
-    worldPresentation: { setPartyGesture() {} },
+    worldPresentation: { clearPartyPoses() {} },
     motionContinuations,
   }
   const advance = new Function(

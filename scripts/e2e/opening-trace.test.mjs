@@ -289,6 +289,8 @@ test('real render early returns and failed draws never claim a freshly rendered 
     gameOverPresentation: { draw: () => showingDefeat },
     preserveClosedDialogFrame: true,
     sceneEntrySession: { heldFrame: null },
+    fadingSourceFrame: undefined,
+    presentedBattleFrame: true,
     victoryFrame: undefined,
     ctx: { putImageData() {}, save() {}, scale() {}, restore() {} },
     drawFadeCurtain() {},
@@ -304,6 +306,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
     },
     activeScene: { scene: { entities: [] } },
     runtimeScript: {},
+    canonicalScript: { vars: {} },
     world: { party: [] },
     partyVisual() {},
     player: { pos: { col: 3, row: 2, height: 0 } },
@@ -313,7 +316,6 @@ test('real render early returns and failed draws never claim a freshly rendered 
     facing: 'down',
     walking: false,
     stepFrame: 0,
-    partyLayer: 0,
     followerPos: [],
     camera: {},
     frames: { now: 1000 },
@@ -357,6 +359,11 @@ test('real render early returns and failed draws never claim a freshly rendered 
   assert.deepEqual(points, ['before:render'])
   points.length = 0
   scope.sceneEntrySession.heldFrame = null
+  scope.fadingSourceFrame = {}
+  render()
+  assert.deepEqual(points, ['before:render'], 'the composited farewell is held during fade')
+  points.length = 0
+  scope.fadingSourceFrame = undefined
   showingDefeat = true
   scope.dialogBox.active = true
   continueAfterWorld = true
@@ -371,6 +378,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
   render()
   assert.deepEqual(points, ['before:render'], 'the held victory frame produces no world receipt')
   assert.equal(scope.dialogBox.active, false, 'the victory frame still draws its dialogue')
+  assert.equal(scope.presentedBattleFrame, true)
   points.length = 0
   scope.victoryFrame = undefined
   scope.worldPresentation.renderWorld = () => {
@@ -382,6 +390,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
   scope.worldPresentation.renderWorld = () => {}
   assert.throws(render, (error) => error === stop)
   assert.deepEqual(points, ['before:render', 'render:world'])
+  assert.equal(scope.presentedBattleFrame, false)
   assert.equal(completed.length, 1)
   assert.equal(presentedPartyFacing, 'down')
   assert.equal(completed[0].tick, 31)

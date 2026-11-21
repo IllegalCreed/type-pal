@@ -39,6 +39,7 @@ import {
   captureSceneSwitchDependencies,
 } from '../scene-switch-transaction.js'
 import { resolveSceneSpawn } from '../scene-transition.js'
+import { ScreenShakePresentation } from '../screen-shake-presentation.js'
 import { scriptWorkIO } from '../script-work-queue.js'
 import { parseBdfGlyphs } from '../text/glyph.js'
 import { measureSpans } from '../text/text-render.js'
@@ -63,6 +64,7 @@ function extractApiFactory(source: string): (env: Record<string, unknown>) => Ch
     'syncRuntimeScriptScratch',
     'replaceWorld',
     'requireSpriteDef',
+    'itemPrivateCommands',
     'prepareSceneSounds',
     'sceneScriptBinding',
     'scenePreparation',
@@ -308,10 +310,11 @@ function harness(
     dismountParty: empty,
     releaseAllAuthority: empty,
     frames: new RuntimeFrameSession(100),
+    screenShake: new ScreenShakePresentation(),
     screenHold: { cancel: empty },
     ditherTransition: { cancel: empty },
     sceneEntrySession: { cancel: empty },
-    worldPresentation: { clearEntityFrames: empty, setPartyGesture: empty },
+    worldPresentation: { clearEntityFrames: empty, clearPartyPoses: empty },
     stopAutoRunners: () => events.push('stop-auto'),
     startAutoRunners: () => events.push('start-auto'),
     ...overrides,

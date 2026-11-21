@@ -157,6 +157,7 @@ async function executeMixedItemPrivateUse(
       ...segment.effectResults.map((entry) => ({ ...entry, index: start + entry.index })),
     )
     presentations.push(...segment.presentations)
+    if (segment.effectResults.at(-1)?.gate?.passed === false) break
   }
 
   options.signal?.throwIfAborted()
@@ -232,9 +233,9 @@ export async function executeWorldItemUse(
             changed: false,
             effectResults: planned.effectResults,
             presentations: [],
-            reason: 'external-unavailable',
+            reason: 'placement-unavailable',
             message: effect.unavailableMessage,
-            menu: 'keep',
+            menu: planned.menu,
           }
         break
       }

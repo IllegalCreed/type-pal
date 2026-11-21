@@ -22,91 +22,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 36
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2456"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2456"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 104,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2456"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e2457",
@@ -120,98 +39,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2457"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2457"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2457"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 320
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2457"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e2458",
@@ -225,125 +56,11 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 40
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2458"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2458"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 89,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2458"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2458"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2458"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "down"
     },
     {
       "id": "e2459",
@@ -356,142 +73,11 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 38
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 42
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 40
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 91,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 106,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2459"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "down"
     },
     {
       "id": "e2460",
@@ -505,170 +91,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "facing": "right",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "facing": "up",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 360
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 280
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 105,
-                        "height": 0,
-                        "row": 45
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2460"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e2461",
@@ -682,193 +108,11 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 41
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 94,
-                        "height": 0,
-                        "row": 41
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 94,
-                        "height": 0,
-                        "row": 42
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 43
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 94,
-                        "height": 0,
-                        "row": 44
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 44
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 49
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 50
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 107,
-                        "height": 0,
-                        "row": 50
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2461"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "down"
     },
     {
       "id": "e2462",
@@ -882,108 +126,10 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
-      "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 34
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2462"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 32
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2462"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 400
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 92,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2462"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "run",
-                      "to": {
-                        "col": 79,
-                        "height": 0,
-                        "row": 35
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2462"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "initialPage": "default"
     },
     {
       "id": "e2463",
@@ -996,125 +142,11 @@
       "pages": [
         {
           "id": "default",
-          "label": "默认模式",
-          "auto": "default"
+          "label": "默认模式"
         }
       ],
       "initialPage": "default",
-      "behaviors": {
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "完成本段自动动作",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 104,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2463"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 46
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2463"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 33
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2463"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 93,
-                        "height": 0,
-                        "row": 34
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2463"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 75,
-                        "height": 0,
-                        "row": 34
-                      },
-                      "target": {
-                        "scene": "s149",
-                        "entity": "e2463"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      }
+      "facing": "down"
     }
   ],
   "hooks": {
@@ -1130,15 +162,22 @@
             "stages": [
               {
                 "id": "initial",
-                "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 91,
-                      "height": 0,
-                      "row": 39
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 91,
+                        "height": 0,
+                        "row": 39
+                      }
                     }
-                  },
+                  ],
+                  "reveal": {
+                    "kind": "cut"
+                  }
+                },
+                "body": [
                   {
                     "actor": "li-xiaoyao",
                     "kind": "setActorSprite",
@@ -1177,8 +216,10 @@
                   {
                     "asset": "frame-animation.pal.005",
                     "frameRate": 7,
+                    "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true
                   },
                   {
                     "dir": "out",
@@ -1186,18 +227,1455 @@
                     "ms": 600
                   },
                   {
-                    "dir": "in",
-                    "kind": "fade",
-                    "ms": 800
+                    "kind": "clearFrameAnimation"
                   },
                   {
-                    "kind": "wait",
-                    "ms": 1200
-                  },
-                  {
-                    "dir": "out",
-                    "kind": "fade",
-                    "ms": 3200
+                    "kind": "sceneTimeline",
+                    "label": "塔廊揭示，群妖奔散",
+                    "tracks": [
+                      {
+                        "id": "hall-light",
+                        "label": "第一段影片淡黑后揭开塔廊；留三秒全亮再随众妖动作淡黑",
+                        "cues": [
+                          {
+                            "atMs": 0,
+                            "body": [
+                              {
+                                "kind": "fade",
+                                "dir": "in",
+                                "ms": 800
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3800,
+                            "body": [
+                              {
+                                "kind": "fade",
+                                "dir": "out",
+                                "ms": 3200
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "upper-crossing",
+                        "label": "上廊妖怪：穿过路口，两次转弯后沿后廊奔走",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2456"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 28,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3100,
+                            "repeat": {
+                              "count": 24,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5700,
+                            "repeat": {
+                              "count": 14,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "right-turnback",
+                        "label": "右廊妖怪：走到路口，回望后快步离开",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2457"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 28,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3800,
+                            "repeat": {
+                              "count": 10,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "upper-threshold",
+                        "label": "北侧妖怪：入廊后折返，在拐角再次向下",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2458"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 31,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3200,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3400,
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4700,
+                            "repeat": {
+                              "count": 6,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5300,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5500,
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6000,
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "aisle-doubler",
+                        "label": "中廊妖怪：绕过墙角，在走廊折返后向右离开",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2459"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 200,
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 10,
+                                "dy": -5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1200,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": -5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1400,
+                            "repeat": {
+                              "count": 8,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2200,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2400,
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2700,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2900,
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4200,
+                            "repeat": {
+                              "count": 29,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "look-around",
+                        "label": "近廊妖怪：四次张望，再沿横廊离开",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2460"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1800,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2300,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2400,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2800,
+                            "repeat": {
+                              "count": 30,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 38,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "winged-crossing",
+                        "label": "飞行妖怪：穿过廊口，掠过拐角并振翼离开",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2461"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -32,
+                                "dy": 0
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 200,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 300,
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -10,
+                                "dy": 5
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 900,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -32,
+                                "dy": 0
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1000,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 0,
+                                "dy": 16
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1200,
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1700,
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2800,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 2900,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "right"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 0,
+                                "dy": 16
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 3000,
+                            "repeat": {
+                              "count": 36,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": 4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "far-retreat",
+                        "label": "远廊妖怪：走近入口，停看后加速折返",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2462"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 39,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4000,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4200,
+                            "repeat": {
+                              "count": 3,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5100,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "down"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5200,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5300,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": 8
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5400,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": -8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 5500,
+                            "repeat": {
+                              "count": 11,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": -8
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 6600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -16,
+                                "dy": -8
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "outer-crossing",
+                        "label": "外廊妖怪：绕过外墙，从下方进入镜头再向远处奔走",
+                        "target": {
+                          "scene": "s149",
+                          "entity": "e2463"
+                        },
+                        "cues": [
+                          {
+                            "atMs": 100,
+                            "repeat": {
+                              "count": 15,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1600,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": 3
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1700,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "left"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 1800,
+                            "repeat": {
+                              "count": 27,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4500,
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": -8,
+                                "dy": -4
+                              },
+                              {
+                                "kind": "setEntityFrame",
+                                "frame": 0
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4600,
+                            "body": [
+                              {
+                                "kind": "setEntityFacing",
+                                "facing": "up"
+                              },
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          },
+                          {
+                            "atMs": 4700,
+                            "repeat": {
+                              "count": 24,
+                              "intervalMs": 100
+                            },
+                            "body": [
+                              {
+                                "kind": "nudgeEntity",
+                                "dx": 6,
+                                "dy": -3
+                              },
+                              {
+                                "kind": "animEntity"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "frames": 999,
@@ -1207,8 +1685,10 @@
                   {
                     "asset": "frame-animation.pal.002",
                     "frameRate": 16,
+                    "initialFadeInMs": 600,
                     "kind": "playFrameAnimation",
-                    "startFrame": 0
+                    "startFrame": 0,
+                    "holdLastFrame": true
                   },
                   {
                     "dir": "out",
@@ -1219,7 +1699,8 @@
                     "kind": "loadScene",
                     "scene": "s150"
                   }
-                ]
+                ],
+                "label": "锁妖塔倒塌：群妖逃离后转入雪崖"
               }
             ]
           }

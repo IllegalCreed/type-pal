@@ -445,6 +445,8 @@ test('real startAutoRunner records activation, observed abort and actual finally
     lifecycleEntryFor: () => ({ phase: 'active' }),
     sceneResources: { peek: () => ({ id: 's003' }) },
     activeScene: { scene: { id: 's003', entities: [entity] } },
+    sceneRuntimeStates: {},
+    restoredWaits: new Map(),
     currentMotionSceneSessionId: () => 's003:1',
     scriptWork: { begin: () => () => workFinished++ },
     entityActions: { attachRestoredOwner() {} },

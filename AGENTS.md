@@ -20,6 +20,8 @@
 | E2E、剧情回写或编辑器预览起点 | [E2E 合同](docs/testing/e2e/contract.md)、[剧情时间线](docs/lore/timeline.md) | 只将实际核读、实跑与用户判断写回各自证据范围 |
 | 封板、合并或发布回执 | [文档完成定义](docs/engineering/guides/documentation-model.md#完成定义)、[文档检查](docs/engineering/guides/documentation.md) | 静态零诊断是必要条件，不能代替 runtime、E2E、视觉或部署验收 |
 
+动手前按此表加载命中规范，并向用户说明本轮工作流、任务范围、首步及验收。仓库开工命令从本表读取必读路径：`node scripts/workflow/open.mjs WORKFLOW[,WORKFLOW] [CARD]`。名称与拦截边界见[开工流程](docs/engineering/guides/agent-workflow.md#开工入口与工具拦截)。
+
 本节只路由。同一任务可组合命中操作与领域分类，只读相关规则和必要依赖；阶段不明先核范围，不能把第一阶段保真约束套到第二阶段架构。下游索引只维护职责、下一跳和必要边界，正文维护唯一事实源，历史与证据按需追溯；不另设按模型命名的根入口。
 
 ## 当前临时模式：Codex 分派、贡献者执行、Codex 独立验收

@@ -9,9 +9,12 @@ import {
   checkBaseScriptFlow,
   checkBaseScriptLibrary,
   type EntityAddress,
+  type SceneTimelineTrack,
   type StageNext,
   type StepExit,
+  type TeleportOutPresentation,
 } from '@type-pal/content'
+import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 
 export const SCRIPT_COMPILER_VERSION = 3 as const
 export type ScriptTiming = 'auto' | 'interactive'
@@ -27,6 +30,7 @@ export type BaseRuntimeLeafCommand = Exclude<
       | 'confirm'
       | 'loop'
       | 'repeat'
+      | 'sceneTimeline'
       | 'startBattle'
       | 'returnScript'
       | 'finishStep'
@@ -37,7 +41,7 @@ export type BaseRuntimeLeafCommand = Exclude<
 >
 
 export type ExecutableCommandLike<T> =
-  | { kind: 'leaf'; command: T }
+  | { kind: 'leaf'; command: T; timelineCameraStep?: true }
   | { kind: 'returnScript' }
   | { kind: 'finishStep'; next: StepExit }
   | { kind: 'breakLoop' }
@@ -56,7 +60,23 @@ export type ExecutableCommandLike<T> =
       body: readonly ExecutableCommandLike<T>[]
     }
   | { kind: 'loop'; id?: string; mode: 'forever'; body: readonly ExecutableCommandLike<T>[] }
-  | { kind: 'repeat'; id?: string; count: number; body: readonly ExecutableCommandLike<T>[] }
+  | {
+      kind: 'repeat'
+      id?: string
+      count: number
+      intervalMs?: number
+      body: readonly ExecutableCommandLike<T>[]
+    }
+  | {
+      kind: 'sceneTimeline'
+      cues: ReadonlyArray<{
+        atMs: number
+        track: string
+        cue: number
+        fade: boolean
+        body: readonly ExecutableCommandLike<T>[]
+      }>
+    }
   | {
       kind: 'confirm'
       onYes: readonly ExecutableCommandLike<T>[]
@@ -68,7 +88,10 @@ export type ExecutableCommandLike<T> =
       onLose?: readonly ExecutableCommandLike<T>[]
       onFlee?: readonly ExecutableCommandLike<T>[]
     }
-  | { kind: 'teleportOut'; onFail?: readonly ExecutableCommandLike<T>[] }
+  | ({
+      kind: 'teleportOut'
+      onFail?: readonly ExecutableCommandLike<T>[]
+    } & TeleportOutPresentation)
   | { kind: 'callScript'; script: string; self?: EntityAddress }
 
 export type ExecutableBaseCommand = ExecutableCommandLike<BaseRuntimeLeafCommand>
@@ -154,11 +177,20 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
             cond: structuredClone(command.cond),
             body: body(command.body),
           }
+    case 'sceneTimeline': {
+      if (timing !== 'interactive') throw new Error('sceneTimeline 仅允许 interactive 编译时序')
+      const cues = command.tracks.flatMap((track) => compileTimelineTrack(track, body))
+      cues.sort((a, b) => a.atMs - b.atMs)
+      return { kind: 'sceneTimeline', cues }
+    }
     case 'repeat':
+      if (command.intervalMs !== undefined && timing !== 'interactive')
+        throw new Error('repeat.intervalMs 仅允许 interactive 编译时序')
       return {
         kind: 'repeat',
         ...(command.id ? { id: command.id } : {}),
         count: command.count,
+        ...(command.intervalMs !== undefined ? { intervalMs: command.intervalMs } : {}),
         body: body(command.body),
       }
     case 'confirm':
@@ -175,6 +207,8 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
     case 'teleportOut':
       return {
         kind: 'teleportOut',
+        ...(command.gatherParty === undefined ? {} : { gatherParty: command.gatherParty }),
+        ...(command.arrivalSound === undefined ? {} : { arrivalSound: command.arrivalSound }),
         ...(command.onFail === undefined ? {} : { onFail: body(command.onFail) }),
       }
     case 'callScript':
@@ -187,6 +221,44 @@ function compileCommand(command: BaseAuthorCommand, timing: ScriptTiming): Execu
       return { kind: 'leaf', command: structuredClone(command) }
   }
 }
+function compileTimelineTrack(
+  track: SceneTimelineTrack,
+  compile: (commands: readonly BaseAuthorCommand[]) => readonly ExecutableBaseCommand[],
+): Extract<ExecutableBaseCommand, { kind: 'sceneTimeline' }>['cues'] {
+  return track.cues.flatMap((cue, index) => {
+    const action = cue.body[0]
+    if (action?.kind === 'cameraPan') {
+      const command = { ...action, frames: 1, startImmediately: true } as const
+      const body: readonly ExecutableBaseCommand[] = [
+        { kind: 'leaf', command, timelineCameraStep: true },
+      ]
+      return Array.from({ length: action.frames }, (_, step) => ({
+        atMs: cue.atMs + step * FRAME_MS_EXPLORE,
+        track: track.id,
+        cue: index,
+        fade: false,
+        body,
+      }))
+    }
+    const body = compile(
+      cue.body.map((action) => {
+        if (action.kind === 'fade') return action
+        if (!track.target) throw new Error('sceneTimeline actor track requires a target')
+        return { ...action, target: track.target }
+      }),
+    )
+    const fade = action?.kind === 'fade'
+    const { count, intervalMs } = cue.repeat ?? { count: 1, intervalMs: 0 }
+    return Array.from({ length: count }, (_, step) => ({
+      atMs: cue.atMs + step * intervalMs,
+      track: track.id,
+      cue: index,
+      fade,
+      body,
+    }))
+  })
+}
+
 /** Already validated by the owning author/runtime dialect. No implicit scheduling boundaries. */
 export function compileBaseCommandsUncheckedAfterValidation(
   commands: readonly BaseAuthorCommand[],

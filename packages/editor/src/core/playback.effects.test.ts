@@ -2,6 +2,35 @@ import { describe, expect, test } from 'vitest'
 import { flowOf, preview, settle, target } from './__tests__/playback-canonical-fixtures.js'
 
 describe('Canonical preview effect boundaries', () => {
+  test('stopping a preview during the RGB fade cancels its continuation and permits a fresh run', async () => {
+    const r = preview()
+    const flow = flowOf([
+      { kind: 'fade', dir: 'out', ms: 400, color: [72, 144, 112] },
+      { kind: 'giveMoney', delta: 8 },
+    ])
+    await r.start(flow)
+    r.p.tick(100)
+    await settle()
+    expect(r.p.view).toMatchObject({
+      fadeBlack: 0.25,
+      fadeColor: [72, 144, 112],
+      fadeDirection: 'out',
+      logs: [],
+    })
+    r.p.stop()
+    r.p.tick(600)
+    await settle()
+    expect(r.p.view.fadeBlack).toBe(0)
+    expect(r.p.view.logs).toEqual([])
+    expect(r.p.error).toBeNull()
+
+    await r.start(flow)
+    r.p.tick(400)
+    await settle()
+    expect(r.p.view.logs).toContain('💰 +8 钱')
+    r.unchanged()
+  })
+
   test('persistent actor sprite appearance shows the carried meal and restored body in scratch only', async () => {
     const r = preview()
     await r.start(
@@ -125,7 +154,7 @@ describe('Canonical preview effect boundaries', () => {
     expect(r.p.view.logs).toEqual(['🎥 镜头平移 (3,-4)×5', '🎥 镜头定位 (2,7)', '🎥 镜头回正'])
   })
 
-  test('member facing preserves leader gesture; leader default clears it and nudge clears the next gesture', async () => {
+  test('a follower pose does not change the rendered preview leader; leader default and nudge clear its gesture', async () => {
     const r = preview(),
       p = r.p
     await r.start(
@@ -140,7 +169,7 @@ describe('Canonical preview effect boundaries', () => {
       ]),
     )
     expect(p.view.player.gesture).toBe(3)
-    expect(p.view.player.facing).toBe('up')
+    expect(p.view.player.facing).toBe('left')
     p.tick(10)
     await settle()
     expect(p.view.player.gesture).toBeNull()

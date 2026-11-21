@@ -147,30 +147,46 @@ describe('I5 效果链与门', () => {
   })
 })
 describe('I5 目标类效果残差', () => {
-  test('revive：倒下队员复活半血并清空附加状态；活人零变化', () => {
+  test('revive：倒地才消耗，复活后清临时状态及常规和重毒', () => {
     const items: ItemDataMap = {
       'use-item': useItem([{ kind: 'revive', hpPercent: 50 }]),
     }
+    const definitions = {
+      ...poisonDefs(),
+      555: { id: 555, name: '三尸蛊毒', curability: 'severe' as const, color: 128 },
+      561: { id: 561, name: '食妖虫附', curability: 'incurable' as const, color: 0 },
+    }
     const downed = {
       ...world([{ itemId: 'use-item', count: 1 }]),
-      party: [{ ...hero(0, 40, 'hero'), extraStatuses: [{ status: 'protect', turns: 7 }] }],
+      party: [
+        {
+          ...hero(0, 40, 'hero'),
+          extraStatuses: [{ status: 'protect', turns: 7 }],
+          poisons: [
+            { poisonId: 551, tickIndex: 0 },
+            { poisonId: 555, tickIndex: 0 },
+            { poisonId: 561, tickIndex: 0 },
+          ],
+        },
+      ],
     } satisfies WorldState
     let outcome: WorldItemUseOutcome | undefined
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(downed, 'hero', 'use-item', items)
-    }, [downed, items])
-    expect(outcome?.changed).toBe(true)
-    const revived = outcome?.world?.party[0]!
+      outcome = resolveWorldItemUse(downed, 'hero', 'use-item', items, definitions)
+    }, [downed, items, definitions])
+    expect(outcome?.consumed).toBe(true)
+    expect(outcome?.world.inventory).toEqual([])
+    const revived = outcome?.world.party[0]
     expect(revived?.hp).toBe(50)
     expect(revived?.extraStatuses).toEqual([])
-    expect(outcome?.effectResults?.[0]?.targetCharIds).toEqual(['hero'])
+    expect(revived?.poisons).toEqual([{ poisonId: 561, tickIndex: 0 }])
+    expect(outcome?.effectResults[0]?.targetCharIds).toEqual(['hero'])
+
     const alive = world([{ itemId: 'use-item', count: 1 }])
-    const aliveItems: ItemDataMap = {
-      'use-item': useItem([{ kind: 'revive', hpPercent: 50 }], { consuming: false }),
-    }
     expectInputsUnchanged(() => {
-      outcome = resolveWorldItemUse(alive, 'hero', 'use-item', aliveItems)
-    }, [alive, aliveItems])
+      outcome = resolveWorldItemUse(alive, 'hero', 'use-item', items, definitions)
+    }, [alive, items, definitions])
+    expect(outcome?.consumed).toBe(false)
     expect(outcome?.changed).toBe(false)
     expect(outcome?.world).toBe(alive)
   })

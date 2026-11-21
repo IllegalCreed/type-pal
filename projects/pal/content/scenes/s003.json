@@ -6520,11 +6520,8 @@
                         {
                           "kind": "chasePlayer",
                           "range": 8,
-                          "speed": 4
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
+                          "speed": 4,
+                          "worldStep": true
                         }
                       ]
                     }
@@ -8105,11 +8102,8 @@
                         {
                           "kind": "chasePlayer",
                           "range": 8,
-                          "speed": 4
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 140
+                          "speed": 4,
+                          "worldStep": true
                         }
                       ]
                     }
@@ -11156,6 +11150,86 @@
         "col": 137,
         "row": 71,
         "height": 0
+      }
+    }
+  },
+  "hooks": {
+    "onEnter": {
+      "variants": {
+        "miao-ambush-arrival": {
+          "label": "苗人伏击入场站姿",
+          "order": 0,
+          "flow": {
+            "kind": "stages",
+            "initial": "initial",
+            "stages": [
+              {
+                "id": "initial",
+                "entry": {
+                  "prepare": [
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e59"
+                      }
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e60"
+                      }
+                    },
+                    {
+                      "facing": "left",
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
+                    },
+                    {
+                      "frame": 0,
+                      "kind": "setEntityFrame",
+                      "target": {
+                        "scene": "s003",
+                        "entity": "e61"
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 600,
+                    "inMs": 600
+                  }
+                },
+                "body": [],
+                "next": {
+                  "kind": "complete"
+                }
+              }
+            ]
+          }
+        }
       }
     }
   }

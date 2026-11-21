@@ -505,10 +505,12 @@
     "use": {
       "target": "allAllies",
       "consuming": true,
+      "menuAfterUse": "close",
       "effects": [
         {
           "kind": "gate",
-          "chance": 50
+          "chance": 50,
+          "consumeOnFailure": true
         },
         {
           "kind": "curePoison",
@@ -3059,16 +3061,47 @@
     "sellable": true,
     "use": {
       "target": "scene",
-      "consuming": true,
+      "consuming": false,
       "effects": [
         {
-          "kind": "runSceneHook",
-          "hook": "onTeleport",
-          "unavailableMessage": "无任何效果"
+          "kind": "itemPrivateScript",
+          "script": {
+            "id": "use",
+            "label": "引路蜂传送出口",
+            "body": [
+              {
+                "kind": "teleportOut",
+                "onFail": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.12538"
+                        }
+                      ]
+                    },
+                    "slot": "narration"
+                  },
+                  {
+                    "kind": "returnScript"
+                  }
+                ],
+                "gatherParty": true,
+                "arrivalSound": "sound.pal.045"
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "151"
+              }
+            ]
+          }
         }
       ],
-      "menuAfterUse": "close",
-      "sound": "sound.pal.045"
+      "menuAfterUse": "close"
     }
   },
   {
@@ -7980,7 +8013,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8039,6 +8073,11 @@
                 }
               },
               {
+                "kind": "fade",
+                "dir": "in",
+                "ms": 600
+              },
+              {
                 "kind": "setMultiEntityState",
                 "targets": [
                   {
@@ -8079,6 +8118,11 @@
               },
               {
                 "kind": "cameraSnap"
+              },
+              {
+                "kind": "fade",
+                "dir": "in",
+                "ms": 600
               }
             ]
           }
@@ -8222,6 +8266,7 @@
                       },
                       {
                         "kind": "loadScene",
+                        "pos": "current",
                         "scene": "s180"
                       },
                       {
@@ -8240,7 +8285,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8442,6 +8488,11 @@
                 "ms": 600
               },
               {
+                "actor": "li-xiaoyao",
+                "kind": "setActorSprite",
+                "sprite": "sprite-232"
+              },
+              {
                 "kind": "loadScene",
                 "scene": "s227"
               }
@@ -8518,7 +8569,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     }
                   },
                   {
@@ -8720,6 +8772,11 @@
                 "ms": 600
               },
               {
+                "actor": "li-xiaoyao",
+                "kind": "setActorSprite",
+                "sprite": "sprite-232"
+              },
+              {
                 "kind": "loadScene",
                 "scene": "s227"
               }
@@ -8795,7 +8852,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     },
                     "kind": "dialog"
                   }
@@ -8995,6 +9053,11 @@
                     "ms": 600
                   },
                   {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
+                  },
+                  {
                     "kind": "loadScene",
                     "scene": "s227"
                   }
@@ -9003,7 +9066,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -9071,7 +9135,8 @@
                           "text": "dlg.12538"
                         }
                       ],
-                      "slot": "narration"
+                      "slot": "narration",
+                      "autoAdvance": 1400
                     },
                     "kind": "dialog"
                   }
@@ -9271,6 +9336,11 @@
                     "ms": 600
                   },
                   {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
+                  },
+                  {
                     "kind": "loadScene",
                     "scene": "s227"
                   }
@@ -9279,7 +9349,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -9353,15 +9424,17 @@
                               "text": "dlg.12538"
                             }
                           ],
-                          "slot": "narration"
+                          "slot": "narration",
+                          "autoAdvance": 1400
                         },
                         "kind": "dialog"
+                      },
+                      {
+                        "kind": "returnScript"
                       }
-                    ]
-                  },
-                  {
-                    "asset": "sound.pal.045",
-                    "kind": "playSound"
+                    ],
+                    "gatherParty": true,
+                    "arrivalSound": "sound.pal.045"
                   }
                 ],
                 "else": [
@@ -9559,6 +9632,11 @@
                     "ms": 600
                   },
                   {
+                    "actor": "li-xiaoyao",
+                    "kind": "setActorSprite",
+                    "sprite": "sprite-232"
+                  },
+                  {
                     "kind": "loadScene",
                     "scene": "s227"
                   }
@@ -9567,7 +9645,8 @@
             ]
           }
         }
-      ]
+      ],
+      "menuAfterUse": "close"
     }
   },
   {
@@ -9808,6 +9887,7 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "autoAdvance": 1400,
                           "identity": {
                             "kind": "narration"
                           },
@@ -9823,20 +9903,6 @@
                         "kind": "returnScript"
                       }
                     ]
-                  },
-                  {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s137",
-                      "entity": "e2332"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
                   },
                   {
                     "kind": "selectEntityBehavior",
@@ -9855,23 +9921,16 @@
                     "itemId": "271"
                   },
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s137",
+                      "entity": "e2332"
+                    }
+                  },
+                  {
                     "kind": "returnScript"
                   }
                 ]
-              },
-              {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s097",
-                  "entity": "e1782"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
               },
               {
                 "kind": "selectEntityBehavior",
@@ -9883,6 +9942,13 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-4ddfec39e30e"
+                }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s097",
+                  "entity": "e1782"
                 }
               }
             ]
@@ -9932,6 +9998,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },
@@ -10011,6 +10078,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },
@@ -10028,20 +10096,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s002",
-                  "entity": "e34"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s002",
@@ -10052,6 +10106,17 @@
                   "kind": "use",
                   "value": "c8-e5c9958448aa"
                 }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s002",
+                  "entity": "e34"
+                }
+              },
+              {
+                "kind": "loadScene",
+                "scene": "s001"
               }
             ]
           }
@@ -10299,6 +10364,7 @@
                                       {
                                         "kind": "dialog",
                                         "cue": {
+                                          "autoAdvance": 1400,
                                           "identity": {
                                             "kind": "narration"
                                           },
@@ -10594,6 +10660,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },
@@ -10611,20 +10678,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s049",
-                  "entity": "e830"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s049",
@@ -10634,6 +10687,13 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-399fa4daabe1"
+                }
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s049",
+                  "entity": "e830"
                 }
               }
             ]
@@ -10682,7 +10742,7 @@
     "sellable": false,
     "use": {
       "target": "scene",
-      "consuming": true,
+      "consuming": false,
       "effects": [
         {
           "kind": "itemPrivateScript",
@@ -10707,6 +10767,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },
@@ -10724,20 +10785,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s053",
-                  "entity": "e904"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s053",
@@ -10747,6 +10794,17 @@
                 "selection": {
                   "kind": "use",
                   "value": "c8-a962aeca50ea"
+                }
+              },
+              {
+                "kind": "loseItem",
+                "itemId": "286"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s053",
+                  "entity": "e904"
                 }
               }
             ]
@@ -10954,6 +11012,7 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "autoAdvance": 1400,
                           "identity": {
                             "kind": "narration"
                           },
@@ -11075,6 +11134,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },
@@ -11092,20 +11152,6 @@
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s047",
-                  "entity": "e757"
-                },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
-                  }
-                }
-              },
-              {
                 "kind": "selectEntityBehavior",
                 "target": {
                   "scene": "s047",
@@ -11120,6 +11166,13 @@
               {
                 "kind": "loseItem",
                 "itemId": "289"
+              },
+              {
+                "kind": "runEntityTrigger",
+                "target": {
+                  "scene": "s047",
+                  "entity": "e757"
+                }
               }
             ]
           }
@@ -11225,6 +11278,7 @@
                       {
                         "kind": "dialog",
                         "cue": {
+                          "autoAdvance": 1400,
                           "identity": {
                             "kind": "narration"
                           },
@@ -11350,6 +11404,7 @@
                   {
                     "kind": "dialog",
                     "cue": {
+                      "autoAdvance": 1400,
                       "identity": {
                         "kind": "narration"
                       },

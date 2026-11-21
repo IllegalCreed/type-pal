@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "246-248",
+      "lines": "252-254",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "412-424",
+      "lines": "427-439",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1261-1270",
+      "lines": "1313-1322",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -39,10 +39,10 @@
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-      "lines": "73-96",
+      "lines": "72-95",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
+      "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -83,11 +83,11 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:246-248",
-        "packages/reforge/src/battle/battle-session.ts:412-424",
-        "packages/reforge/src/battle/battle-session.ts:1261-1270",
+        "packages/reforge/src/battle/battle-session.ts:252-254",
+        "packages/reforge/src/battle/battle-session.ts:427-439",
+        "packages/reforge/src/battle/battle-session.ts:1313-1322",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
-        "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
+        "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:169-171"
       ]
     }
@@ -655,6 +655,673 @@
         }
       ],
       "scope": "相关完整锚点与冻结前驱字节一致，更新当前文件摘要与实际位置。旧命令及结论按原件复验。"
+    },
+    {
+      "action": "q2-battle-enemy-summon-source-rebinding",
+      "base": "b8b8dd2fcc551a782a2e90387bcf91170bc4899f",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "246-248",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "412-424",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1261-1270",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "467506560c5f367f7a927219c4081c6c82f218a5b3c8050fd02b25a44a57e511"
+        }
+      ],
+      "scope": "召唤动作的声音与入场接线变化。选择实例、构造与指令提交的完整片段行号和字节一致，保留已接受的历史执行。"
+    },
+    {
+      "action": "q2-summon-division-caller-rebinding",
+      "base": "62959793cf6fb2450806d12072608ce768d80c39",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "246-248",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "412-424",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1261-1270",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "1bc977f2d30563837ba327ff2876538da8c31cb69c0a52e914cc27083f442c8e"
+        }
+      ],
+      "scope": "核对已有调用片段和采集锚点的字节。既有执行和反例继续对应其原候选。"
+    },
+    {
+      "action": "q2-enemy-summon-playback-source-rebinding",
+      "base": "093fdb31abab95c08ce42b3b99c142e01adb3710",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "248-250",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "415-427",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1269-1278",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "7e2210dba13b9ac79abf57b7581934cb53e7dfc7917c0f121cb0ba271141e8d1"
+        }
+      ],
+      "scope": "连续召唤和首个待机姿态修复后，三个旧归属调用片段保持原字节。原执行和反例各对应其冻结候选。"
+    },
+    {
+      "action": "q2-enemy-spell-feedback-source-rebinding",
+      "base": "257296ec61b0dd8a6e103df9d26b8af374ca702b",
+      "date": "2026-11-16",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1282-1291",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "638855c7e669bc778440a5adbb59ed3ca0c54eecea3556b40fb875d288e37893"
+        }
+      ],
+      "scope": "敌方施法失败卷轴修复后，既有调用片段保持原字节。原执行和反例各对应其冻结候选。"
+    },
+    {
+      "action": "q2-battle-action-cadence-source-rebinding",
+      "base": "f1a72ef4c649db5a1d75650d18a84991306d6936",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1286-1295",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "b6942fa0390beaa455b973d618bc73d85a45800998c3c03b6de50aedc6929f46"
+        }
+      ],
+      "scope": "核原盘行动节拍与 Reforge 调度实测，三处既有会话接线片段逐字节比对相等。各次验收继续链接到对应原件。"
+    },
+    {
+      "action": "q2-enemy-transform-source-rebinding",
+      "base": "b0afdd9e54203fbe5f6d7a457acdf9958168be7f",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1286-1295",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "be8efeb5ced5e7221956b21ff5b38c10ee207283f9fc9a894eb09bc20801cf1d"
+        }
+      ],
+      "scope": "核四条敌方变身的脚本续走、共用过渡与站位。已验行动接线按固定候选逐字节复核，历史执行仍指各自原件。"
+    },
+    {
+      "action": "q2-cooperative-roster-source-rebinding",
+      "base": "839c6829346a53d8e5e149986d034460aba10432",
+      "date": "2026-11-17",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1286-1295",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "8e02dbb25b4460e03757accac58d6d881dff6ef09b7485dd9291c5d32c642e9f"
+        }
+      ],
+      "scope": "合击执行与归位前死亡淡出修复后，复核 Game 回合收尾、Reforge 群攻及会话调用片段。旧候选和实跑原件保留原版本。"
+    },
+    {
+      "action": "q2-scripted-shake-source-rebinding",
+      "base": "087d243365e62759930c7db40787a7620da6420f",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1283-1292",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "ee3cd66ac91476d1f00e9f1ddfec66c98a0c0599b6b1b96c5b04f10c0b0d20d2"
+        }
+      ],
+      "scope": "玩家仙术的脚本震屏改随 FIRE 帧保持整屏偏移。会话选择和构造期的三个已有片段逐字节相同，原执行保留固定候选。"
+    },
+    {
+      "action": "q2-wind-blow-source-rebinding",
+      "base": "aa999b84470b487dfff963ddcc55a90e1df84d7b",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "420-432",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1283-1292",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "6325f816660e54dee3159bef5f530a201bc2774e87656d90ca39905b85ef9a47"
+        }
+      ],
+      "scope": "风卷残云使用已预载的实际 FIRE 帧数及现有战斗动作进入演出。三处既有会话接线片段逐字节复核相等，原执行继续对应固定候选。"
+    },
+    {
+      "action": "q2-conditional-spell-source-rebinding",
+      "base": "af55382a655a20b5c78095d0de52f4419d0bad71",
+      "date": "2026-11-18",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1289-1298",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "c30539311cc7abc909224707aace3ada51ab6bbd087986dd3309e850fedebd3d"
+        }
+      ],
+      "scope": "玩家处决类失败复用既有卷轴。三处构造及选招调用范围逐字节相同，按各自原候选保留历史执行。"
+    },
+    {
+      "action": "q2-gu-and-confusion-source-rebinding",
+      "base": "839c1ede2ffff006b0fc67be3deb1c1674b1b303",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1289-1298",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "864c1faff95d332ea45bc1633058b4df74b582a2be1d20d11539148619a8a8ec"
+        }
+      ],
+      "scope": "耗材卷轴与混乱抖动由动作时间线消费。三处选择与构造片段逐字节相同，既有执行保留其候选。"
+    },
+    {
+      "action": "q2-spell-currency-source-rebinding",
+      "base": "1805ef135a1238b5c75d152ec643a6ff56053c1d",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1290-1299",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "5109e60ebf8a1e39534a7f5b2a46b24433c682a870ad88b3780368b5f750e0ee"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "73-96",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "95de7c35318f999394ef18a0a3860b571e912e1e0a843651a93cc5b08bb5d4a7"
+        }
+      ],
+      "scope": "施法时结算金钱，选择提交、构造及原选招测试四处片段逐字节相同，既有执行保留其候选。"
+    },
+    {
+      "action": "q2-escape-spell-source-rebinding",
+      "base": "768c8de4ea02d931826e583d00dc108677adbbea",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1284-1293",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "52af1ae7452874912625ea5733bb71fc168cb8b059f7e54273bf781c38916775"
+        }
+      ],
+      "scope": "金蝉脱壳使用共同施法时间线。构造和选招调用的三处片段保持原字节，现行摘要更新。"
+    },
+    {
+      "action": "q2-enemy-spell-shake-source-rebinding",
+      "base": "ac11b220065fbbd76cb059132bd6732ab086f998",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1284-1293",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "175150dfda29e6d61acce6183512ece6f397078ab58e8d9fe9372fc8aa725e00"
+        }
+      ],
+      "scope": "合成时消费 FIRE 固定纵移，三个既有构造及选招片段逐字节相同，历史执行保留。"
+    },
+    {
+      "action": "q2-battle-item-use-source-rebinding",
+      "base": "89dab268613141283aa49ddb228351060607316e",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1284-1293",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "5df140f07f99b865a2be941ce7a3d637bd7a1ab587290f02b3ee6706ace6c0e1"
+        }
+      ],
+      "scope": "盐巴失败旁白和两种香的辉光从用物时间线消费。三处会话构造与选招的源码片段逐字节相同。"
+    },
+    {
+      "action": "q2-battle-hiding-source-rebinding",
+      "base": "970731da74e22ee1aa7bf661f6e5be6481d26332",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1284-1293",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "32538c738df9ff6019c0e20915b88ff66a674e6ce081e4ee4b826e4a95d7dc0d"
+        }
+      ],
+      "scope": "隐蛊渐变的暂停接入战斗会话。三处选招与构造引用和固定前驱逐字节相同，执行原件不变。"
+    },
+    {
+      "action": "q2-battle-throw-status-source-rebinding",
+      "base": "55fcc99d356c1bb0332e687019b495c6eb340052",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1298-1307",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "f17f809ffb39d03878bd2486115a0a891d80e7c64abe4ac362516a4790f0b5cb"
+        }
+      ],
+      "scope": "投掷抵抗后由会话在收招前呈现卷轴。三处选招与构造引用和固定前驱逐字节相同，历史执行按各自原件核验。"
+    },
+    {
+      "action": "q2-battle-poison-narration-source-rebinding",
+      "base": "aa2e8d2c69c714d050e0d0ae0f684a123a968007",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1298-1307",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "f6c127835e3b57c237bb3e0379874ae64275d3f692d473e2d970e43e8b9108d4"
+        }
+      ],
+      "scope": "养蛊道具的卷轴由战斗会话按队列展示。构造与选招三处引用行与固定前驱逐字节相同。"
+    },
+    {
+      "action": "q2-lin-family-ring-source-rebinding",
+      "base": "99e87957d4c286470a0a827d8b473b4c782d638c",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1305-1314",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "7f4c99f81879ed5486237f2766271af4216a6b7ed2dbff542b594716f6dbae80"
+        }
+      ],
+      "scope": "按原盘保留相对运镜锚点，依对白和等待顺序交战斗配乐命令，林家入场在揭示前提交配乐。现行引用的原片段逐字节相等，历史实跑及其结论仍绑定各自执行候选。"
+    },
+    {
+      "action": "q2-inn-boss-source-rebinding",
+      "base": "19f77feda2bb26bc4bf69d479fb8e513c3277878",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "423-435",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1279-1288",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "c062ba618f49343343a80af7b7a0d1899e13ae9de1ba8a276e15a442f7c8f387"
+        }
+      ],
+      "scope": "战中对白保留已确认的可见槽直至脚本清除，分屏器接入有脚本移位的胜利返场。现行引用的原片段逐字节相等，历史执行继续绑定原候选。"
+    },
+    {
+      "action": "q2-stone-elder-source-rebinding",
+      "base": "32e520895b58d09174cc74a56d1ca7b8c432be57",
+      "date": "2026-11-20",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "423-435",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1279-1288",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "d66ded65f3a3b8f286ebef8dcb9b4fcb9cf9e31b88b7546aed4452581536e8a2"
+        }
+      ],
+      "scope": "石长老剧情自动选招与重复角色槽生命、真气写回。原有调用与群攻所引片段逐字相同，各次执行沿用其固定候选。"
+    },
+    {
+      "action": "q2-display-and-save-restore-source-rebinding",
+      "base": "9d9015a697dbf944edbdddfb88ed5c82b669bd64",
+      "date": "2026-11-21",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "252-254",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "424-436",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1305-1314",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "6ca0cf33dd0cf5991631678cbd0252b88b440988f1fb50a600ce7a4a70108e2a"
+        }
+      ],
+      "scope": "核对酒神缺酒、装备有符号数值、原生读档时钟及野店精确色幕的源码变更。原引用片段逐字节一致，历次运行维持原候选、结论和范围。"
     },
     {
       "action": "content-version-source-rebinding",

@@ -631,11 +631,18 @@ export function validateSkills(json: unknown): {
         if (amount <= 0) throw new Error(`${where}.amount: 期望正整数`)
       })
     }
+    if (cost.missingItemsText !== undefined) {
+      const where = `skills.skills[${i}].cost.missingItemsText`
+      if (typeof cost.missingItemsText !== 'string' || !cost.missingItemsText.trim())
+        throw new Error(`${where}: 期望非空提示文字`)
+      if (!Array.isArray(cost.items) || !cost.items.length)
+        throw new Error(`${where}: 需要物品消耗`)
+    }
     const animation = assertObject(so.animation, `skills.skills[${i}].animation`) as Record<
       string,
       unknown
     >
-    validateSkillAnimation(animation, `skills.skills[${i}].animation`)
+    validateSkillAnimation(animation, `skills.skills[${i}].animation`, so.target === 'allEnemies')
     const effects = assertArray<Record<string, unknown>>(so.effects, `skills.skills[${i}].effects`)
     effects.forEach((effect, effectIndex) => {
       validateSkillEffect(
@@ -690,6 +697,7 @@ export function validateSkills(json: unknown): {
               `skills.skills[${i}].execution.${side}.animation`,
             ) as Record<string, unknown>,
             `skills.skills[${i}].execution.${side}.animation`,
+            side === 'player' && so.target === 'allEnemies',
           )
         if (override.prepare !== undefined) {
           if (side === 'enemy')
@@ -781,7 +789,11 @@ export function validatePoisons(json: unknown): PoisonDef[] {
       ticks.forEach((rawTick, tickIndex) => {
         const tickPath = `${ctx}.${side}[${tickIndex}]`
         const tick = assertObject(rawTick, tickPath) as Record<string, unknown>
-        requireOnlyKeys(tick, ['hpDelta', 'mpDelta', 'halveHp', 'grantItem', 'selfCure'], tickPath)
+        requireOnlyKeys(
+          tick,
+          ['hpDelta', 'mpDelta', 'halveHp', 'grantItem', 'grantNarration', 'selfCure'],
+          tickPath,
+        )
         for (const field of ['hpDelta', 'mpDelta'] as const) {
           const value = tick[field]
           if (value !== undefined && !Number.isSafeInteger(value))
@@ -797,6 +809,13 @@ export function validatePoisons(json: unknown): PoisonDef[] {
           (typeof tick.grantItem !== 'string' || tick.grantItem.length === 0)
         )
           throw new Error(`${tickPath}.grantItem: 期望非空物品 id`)
+        if (
+          tick.grantNarration !== undefined &&
+          (typeof tick.grantNarration !== 'string' ||
+            tick.grantNarration.trim().length === 0 ||
+            tick.grantItem === undefined)
+        )
+          throw new Error(`${tickPath}.grantNarration: 期望非空文本 id，并同时提供 grantItem`)
         if (tick.selfCure !== undefined && typeof tick.selfCure !== 'boolean')
           throw new Error(`${tickPath}.selfCure: 期望 boolean`)
       })
@@ -811,7 +830,11 @@ function requireSafeInteger(value: unknown, ctx: string): number {
   return number
 }
 
-function validateSkillAnimation(animation: Record<string, unknown>, ctx: string): void {
+function validateSkillAnimation(
+  animation: Record<string, unknown>,
+  ctx: string,
+  allowGroupBlow = false,
+): void {
   requireOnlyKeys(
     animation,
     [
@@ -825,6 +848,7 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       'effectTimes',
       'shake',
       'preShake',
+      ...(allowGroupBlow ? ['blow'] : []),
       'wave',
       'sound',
       'keepEffect',
@@ -855,6 +879,12 @@ function validateSkillAnimation(animation: Record<string, unknown>, ctx: string)
       throw new Error(`${ctx}.${key}: 期望有限数`)
   if (animation.keepEffect !== undefined && typeof animation.keepEffect !== 'boolean')
     throw new Error(`${ctx}.keepEffect: 期望 boolean`)
+  if (animation.blow !== undefined) {
+    const blow = requireSafeInteger(animation.blow, `${ctx}.blow`)
+    if (blow < -32768 || blow > 32767) throw new Error(`${ctx}.blow: 期望有符号 16 位整数`)
+    if (animation.placement === undefined || animation.placement === 'normal')
+      throw new Error(`${ctx}.blow: 需要全体攻击落点`)
+  }
   if (animation.preShake !== undefined) {
     const pre = assertObject(animation.preShake, `${ctx}.preShake`) as Record<string, unknown>
     requireOnlyKeys(pre, ['frames', 'level'], `${ctx}.preShake`)
@@ -973,6 +1003,8 @@ function validateItemUseEffect(effect: Record<string, unknown>, ctx: string): vo
               integer: true,
             })
       if (chance > 100) throw new Error(`${ctx}.chance: 不得大于 100`)
+      if (effect.consumeOnFailure !== undefined && typeof effect.consumeOnFailure !== 'boolean')
+        throw new Error(`${ctx}.consumeOnFailure: 期望 boolean`)
       break
     }
     case 'runScript':

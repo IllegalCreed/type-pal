@@ -78,6 +78,25 @@ test('scene transfer continues into the target onEnter rather than ending the pr
   expect(p.presentation.scene.id).toBe('source')
 })
 
+test('in-place transfer composes the target at the live preview footpoint', async () => {
+  const source = room('source')
+  const target = room('target')
+  const p = playback(source)
+  const pos = { col: 7, row: 8, height: 0 }
+  start(
+    p,
+    source,
+    [source, target],
+    [
+      { kind: 'teleportParty', pos, facing: 'up' },
+      { kind: 'loadScene', scene: target.id, pos: 'current' },
+      say('target ready'),
+    ],
+  )
+  await advanceTo(p, () => p.presentation.scene.id === target.id && p.view.dialog !== null)
+  expect(p.view.player).toMatchObject({ pos, facing: 'up' })
+})
+
 async function advanceTo(p: Playback, ready: () => boolean) {
   for (let frame = 0; frame < 40 && !ready(); frame++) {
     p.tick(1000)

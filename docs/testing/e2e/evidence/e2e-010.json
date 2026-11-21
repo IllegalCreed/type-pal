@@ -25,10 +25,10 @@
     },
     {
       "path": "scripts/e2e/recompare-recording.mjs",
-      "lines": "46-49",
+      "lines": "50-53",
       "anchor": "if (fragment === '010')",
       "role": "caller",
-      "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+      "sha256": "906c8231300786b9366fb04589321dae27144c3411c942d0937c78b90edef57e"
     },
     {
       "path": "scripts/e2e/water-moon-palace-comparison.mjs",
@@ -506,6 +506,22 @@
         "clipSha256": "3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a",
         "seconds": 73.2
       }
+    },
+    {
+      "action": "fragment-party-pose-source-rebinding",
+      "base": "aee2d69c439378a5be98b154c2b788fbfed0a594",
+      "date": "2026-11-19",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/recompare-recording.mjs",
+          "lines": "46-49",
+          "anchor": "if (fragment === '010')",
+          "role": "caller",
+          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+        }
+      ],
+      "scope": "统一离线入口只新增末柱分片分发；既有场景分发、候选、终档与执行原件保持，未重跑历史片段。"
     }
   ],
   "_governance": {

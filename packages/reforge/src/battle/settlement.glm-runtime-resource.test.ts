@@ -28,7 +28,6 @@ const lu = (over: Partial<LevelUpReport>): LevelUpReport => ({
   characterId: 'li-xiaoyao',
   from: 1,
   to: 2,
-  learned: [],
   before: {
     level: 1,
     hp: 100,
@@ -62,45 +61,45 @@ const hu = (characterId: string, stat: HiddenUpReport['stat'], delta: number): H
 })
 
 describe('R16 buildSettlementScreens 屏序', () => {
-  test('exp-cash → 升级者（升级 → 其隐藏 → 其习得）→ 未升级者隐藏收尾', () => {
+  test('exp-cash → 依队伍顺序连播每个角色的成长与习得', () => {
     const screens = buildSettlementScreens(
-      15,
-      100,
-      [lu({ characterId: 'a', learned: ['s1'] })],
-      [hu('a', 'luck', 1), hu('b', 'attack', 2)],
+      {
+        exp: 15,
+        cash: 100,
+        levelUps: [lu({ characterId: 'b' })],
+        hiddenUps: [hu('a', 'luck', 1), hu('b', 'attack', 2)],
+        learned: [{ characterId: 'a', skillId: 's1' }],
+      },
+      ['a', 'b'],
       (id) => `名${id}`,
       (id) => `术${id}`,
     )
     expect(screens.map((s) => s.kind)).toEqual([
       'exp-cash',
-      'level-up',
       'hidden-up',
       'learn-magic',
+      'level-up',
       'hidden-up',
     ])
     expect(screens[0]).toEqual({ kind: 'exp-cash', exp: 15, cash: 100 })
-    expect(screens[1]).toMatchObject({ kind: 'level-up', name: '名a' })
-    expect(screens[2]).toEqual({ kind: 'hidden-up', name: '名a', statLabel: '吉运', delta: 1 })
-    expect(screens[3]).toEqual({ kind: 'learn-magic', name: '名a', magicName: '术s1' })
+    expect(screens[1]).toEqual({ kind: 'hidden-up', name: '名a', statLabel: '吉运', delta: 1 })
+    expect(screens[2]).toEqual({ kind: 'learn-magic', name: '名a', magicName: '术s1' })
+    expect(screens[3]).toMatchObject({ kind: 'level-up', name: '名b' })
     expect(screens[4]).toEqual({ kind: 'hidden-up', name: '名b', statLabel: '武术', delta: 2 })
   })
 
   test('零经验零现金零报告 → 空屏序列；隐藏提升不依赖升级独立成屏', () => {
     expect(
       buildSettlementScreens(
-        0,
-        0,
-        [],
+        { exp: 0, cash: 0, levelUps: [], hiddenUps: [], learned: [] },
         [],
         (id) => id,
         (id) => id,
       ),
     ).toEqual([])
     const screens = buildSettlementScreens(
-      0,
-      0,
-      [],
-      [hu('b', 'speed', 3)],
+      { exp: 0, cash: 0, levelUps: [], hiddenUps: [hu('b', 'speed', 3)], learned: [] },
+      ['b'],
       (id) => id,
       (id) => id,
     )

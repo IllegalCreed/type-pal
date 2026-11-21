@@ -195,7 +195,7 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     expect(edge[edge.length - 1]!.keepEffect).toBe(true)
   })
 
-  it('iBlow:iBlow!=0 → 全体活敌逐帧累加 (blow, trunc(blow/2)),末帧复位 posOriginal(fight.c:2681-2694)', () => {
+  it('吹飞保留至最后一张 FIRE 帧，随后恢复所有受影响敌人的底锚', () => {
     const frames = buildPlayerOffMagicTimeline({
       casterIdx: 0,
       magic: {
@@ -212,7 +212,10 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
       targetIdx: 1,
       targetEnemyPos: { x: 160, y: 80 },
       iBlow: 4,
-      blowTargets: [{ side: 'enemy', idx: 0, pos: { x: 100, y: 50 } }],
+      blowTargets: [
+        { side: 'enemy', idx: 0, pos: { x: 100, y: 50 } },
+        { side: 'enemy', idx: 1, pos: { x: 160, y: 80 } },
+      ],
       rng: { rangeInclusive: (_a: number, _b: number) => 2 }, // blow 恒 2 → 每帧 +2 / +1
     })
     const at = (fi: number): { x: number; y: number } | undefined =>
@@ -220,7 +223,14 @@ describe('buildPlayerOffMagicTimeline (fight.c:2608-2844)', () => {
     expect(at(0)).toBeUndefined() // L14 前置 Delay(1) 帧无吹飞位移
     expect(at(1)).toEqual({ x: 102, y: 51 }) // 100+2, 50+trunc(2/2)
     expect(at(2)).toEqual({ x: 104, y: 52 }) // 累加
-    expect(at(frames.length - 1)).toEqual({ x: 100, y: 50 }) // 末帧复位 posOriginal
+    expect(at(frames.length - 2)).toEqual({ x: 128, y: 64 })
+    expect(frames.at(-1)).toEqual({
+      durationMs: 0,
+      fighters: [
+        { side: 'enemy', idx: 0, pos: { x: 100, y: 50 } },
+        { side: 'enemy', idx: 1, pos: { x: 160, y: 80 } },
+      ],
+    })
   })
 
   it('iBlow=0 → 不摇 rng + 无 enemy 位移(常见无吹飞法术不污染 rng)', () => {

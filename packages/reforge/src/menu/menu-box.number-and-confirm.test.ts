@@ -1,6 +1,12 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import type { GlyphTable } from '../text/glyph.js'
-import { type BoxTiles, drawConfirmBox, drawNumber, drawNumberLeft } from './menu-box.js'
+import {
+  type BoxTiles,
+  drawConfirmBox,
+  drawNumber,
+  drawNumberLeft,
+  drawStatNumber,
+} from './menu-box.js'
 
 const textCalls = vi.hoisted(() => vi.fn())
 vi.mock('../text/text-render.js', async (importOriginal) => {
@@ -53,6 +59,30 @@ function host() {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('菜单数字与确认框', () => {
+  test.each([
+    { tint: 'yellow', foreground: '#d7cbaa' },
+    { tint: 'cyan', foreground: '#51ba96' },
+  ] as const)('negative effective stat keeps its right edge and places its $tint sign to the left', ({
+    tint,
+    foreground,
+  }) => {
+    const { ctx, drawImage } = host()
+    const digits = Array.from({ length: 10 }, (_, digit) => image(String(digit), 6, 8))
+    const strokes: unknown[][] = []
+    vi.spyOn(ctx, 'fillRect').mockImplementation((...rect) => {
+      strokes.push([ctx.fillStyle, ...rect])
+    })
+    drawStatNumber(ctx, -12, 100, 9, digits, tint)
+    expect(drawImage.mock.calls).toEqual([
+      [digits[2], 94, 9],
+      [digits[1], 88, 9],
+    ])
+    expect(strokes).toEqual([
+      ['#000', 84, 14, 4, 1],
+      [foreground, 83, 13, 4, 1],
+    ])
+  })
+
   test('数字右对齐与左对齐各按实际字形宽排，负数绘制为零且跳过缺失的字形', () => {
     const { ctx, drawImage } = host()
     const digits = Array.from({ length: 10 }, (_, digit) => image(String(digit), digit + 3, 8))

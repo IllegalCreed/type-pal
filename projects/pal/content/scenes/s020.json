@@ -4232,9 +4232,9 @@
                     {
                       "kind": "setEntityPos",
                       "pos": {
-                        "col": 137,
+                        "col": 136.75,
                         "height": 0,
-                        "row": 66
+                        "row": 66.25
                       },
                       "target": {
                         "scene": "s003",
@@ -4260,54 +4260,6 @@
                         "height": 0,
                         "row": 70
                       },
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e61"
-                      }
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e59"
-                      }
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e60"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e60"
-                      }
-                    },
-                    {
-                      "facing": "left",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s003",
-                        "entity": "e61"
-                      }
-                    },
-                    {
-                      "frame": 0,
-                      "kind": "setEntityFrame",
                       "target": {
                         "scene": "s003",
                         "entity": "e61"
@@ -4552,6 +4504,16 @@
                         "value": {
                           "on": "touch",
                           "range": 2
+                        }
+                      }
+                    },
+                    {
+                      "kind": "selectSceneHooks",
+                      "scene": "s003",
+                      "selection": {
+                        "onEnter": {
+                          "kind": "use",
+                          "value": "miao-ambush-arrival"
                         }
                       }
                     },

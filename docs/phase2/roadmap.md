@@ -22,7 +22,7 @@ Template: plan-status-v1 / 1.0.0
 
 当前 R4 仍 build，父卡退出边界由原卡核定。001–010 已按各段获得用户验收，[N6b 四类取物](../tasks/cards/N6B-ITEM-FLOWS-1.md)及 content23 同路线、存读和编辑工作流复验已完成。用户于 2026-11-07 接受新版参数表单与 008–010 分屏，任务 done。[Q2 专项](../tasks/cards/E2E-Q2-1-battle-foundation.md)已跑五批固定局面，覆盖操作、规则、AI、状态、音画和完整战斗生命周期。收尾补上围攻与状态、作者合体技、风神和武神本体偏移、偷窃入账、战后成长存读和明雷重现。 [覆盖报告](../testing/domains/cross-phase/battle-foundation/report.md)
 
-Q2 五批专项收尾后，Q1 从 011 继续扩剧情。编辑器综合验证、录制与 A1/A8 发布闭环按活动任务推进。固定三签和早期资源初始化按原时点读取。 [活动任务及后续工作](../tasks/board.md#第二阶段功能开发) · [Reforge 规则](READ-FIRST.md) · [现行工作流](../engineering/guides/agent-workflow.md)
+Q2 接续逐一验证仙术、道具、装备、敌人、战场和 Boss。Q1 下一段沿用 010 正式终档接续 011。编辑器综合验证、录制与 A1/A8 发布闭环按活动任务推进。固定三签和早期资源初始化按原时点读取。 [活动任务及后续工作](../tasks/board.md#第二阶段功能开发) · [Reforge 规则](READ-FIRST.md) · [现行工作流](../engineering/guides/agent-workflow.md)
 
 ## 阻塞与决策
 

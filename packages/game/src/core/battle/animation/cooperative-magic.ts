@@ -12,6 +12,8 @@ const COOP_POS: ReadonlyArray<readonly [number, number]> = [
   [260, 183],
 ]
 
+export const COOP_RETURN_FRAME_COUNT = 6
+
 export interface BuildCoopMagicInput {
   /** 发起者 slot 索引(state.players)。 */
   casterIdx: number
@@ -48,7 +50,7 @@ export interface BuildCoopMagicInput {
  *  Phase3 发起者闪白(fight.c:3943-3945):iColorShift=6 + frame5,Delay(5)。
  *  Phase4 发起者出招(fight.c:3947-3949):frame6 + iColorShift=0,Delay(3)。
  *  Phase5 OffMagic(fight.c:3951):buildPlayerOffMagicTimeline,casterIdx=-1(不切发起者帧6)。
- *  Phase6 PostMagic(fight.c:4046):受伤敌抖动。
+ *  Phase6 PostMagic(fight.c:4044-4053):受伤反馈、停五拍，死亡淡出由行动驱动处理。
  *  Phase7 滑回(fight.c:4056-4106):i=1..6 反向插值回原位,所有贡献者 frame0,各 Delay(1)。
  *    pos =(posOriginal*i + coopPos*(6-i))/ 6。t 计数此处**仅非发起贡献者 t++**(fight.c:4091 在贡献者
  *    判定+发起者跳过之后自增)—— 与 Phase1 的 t 语义不同(sdlpal 原样,非对称,如实复刻)。
@@ -134,10 +136,10 @@ export function buildCoopMagicTimeline(input: BuildCoopMagicInput): BattleAnimFr
   const postFrames = buildPostMagicTimeline({ hurtEnemies })
   if (damageNums && damageNums.length > 0 && postFrames[0])
     postFrames[0].damageNums = [...(postFrames[0].damageNums ?? []), ...damageNums]
-  frames.push(...postFrames)
+  frames.push(...postFrames, { durationMs: delayMs(5), updateGesture: true })
 
   // —— Phase7 滑回(i=1..6,fight.c:4056-4106)——
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= COOP_RETURN_FRAME_COUNT; i++) {
     const fighters: FighterDelta[] = []
     const oc = originalPositions[casterIdx]
     // 回位使用反向权重：(posOriginal*i + coopPos*(6-i))/6；保留下面与聚拢不同的队员计数。

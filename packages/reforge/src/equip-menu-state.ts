@@ -2,22 +2,16 @@
 //   list     选可装物(网格)→ Enter 记下选中、进 pick-role(不立即换)
 //   pick-role 确认面板(显角色当前 6 槽装备 + 5 属性)→ Enter 才真换 / Esc 回 list
 // 换装走 content equipItem(返回新 world)。
-import {
-  equipItem,
-  equippableItems,
-  type ItemData,
-  type ItemDataMap,
-  type WorldState,
-} from '@type-pal/content'
+import { equipItem, type ItemData, type ItemDataMap, type WorldState } from '@type-pal/content'
 
 export type EquipPhase = 'list' | 'pick-role'
 
 export interface EquipMenuState {
   active: boolean
   phase: EquipPhase
-  items: ItemData[] // 背包里可装物(该角色)
+  items: ItemData[] // 背包中至少一位队员可穿戴的物品
   cursor: number // list 阶段网格光标
-  casterId: string // 换装目标角色(单人 demo = 李逍遥;多人时 pick-role 切角色)
+  casterId: string // 当前选中的在队角色实例
   /** pick-role 阶段:list 里选中、待换上的物品 id。 */
   selectedItemId?: string
 }
@@ -27,10 +21,20 @@ export function openEquipMenu(
   casterId: string,
   items: ItemDataMap,
 ): EquipMenuState {
+  const wearer = world.party.find(({ id }) => id === casterId)
+  const templates = new Set(world.party.map(({ template }) => template))
+  const available = wearer
+    ? world.inventory.flatMap(({ itemId, count }) => {
+        const item = items[itemId]
+        return count > 0 && item?.equip?.equipableBy.some((template) => templates.has(template))
+          ? [item]
+          : []
+      })
+    : []
   return {
     active: true,
     phase: 'list',
-    items: equippableItems(world, casterId, items),
+    items: available,
     cursor: 0,
     casterId,
   }
@@ -58,6 +62,19 @@ export function equipMoveCursor(
   return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
 }
 
+/** 选人阶段按在队实例顺序环绕，保持选中物件和背包光标。 */
+export function equipMoveRole(
+  s: EquipMenuState,
+  world: WorldState,
+  direction: -1 | 1,
+): EquipMenuState {
+  if (s.phase !== 'pick-role' || world.party.length < 2) return s
+  const current = world.party.findIndex(({ id }) => id === s.casterId)
+  if (current < 0) return s
+  const next = world.party[(current + direction + world.party.length) % world.party.length]
+  return next ? { ...s, casterId: next.id } : s
+}
+
 /** list Confirm:记下选中物 → 进 pick-role 确认面板(不立即换)。空列表/越界 no-op。 */
 export function equipConfirmItem(s: EquipMenuState): EquipMenuState {
   if (s.phase !== 'list') return s
@@ -73,7 +90,7 @@ export function equipBackToList(
   items: ItemDataMap,
 ): EquipMenuState {
   if (s.phase !== 'pick-role') return s
-  return openEquipMenu(world, s.casterId, items)
+  return openEquipMenu(world, world.party[0]?.id ?? '', items)
 }
 
 /**
@@ -89,8 +106,10 @@ export function equipApply(
   if (s.phase !== 'pick-role' || !s.selectedItemId) return { world, state: s }
   const slot = items[s.selectedItemId]?.equip?.slot
   const caster = world.party.find((c) => c.id === s.casterId)
-  const oldItemId = caster && slot ? caster.equipment[slot] : undefined // 换下的旧件(原槽位)
+  if (!slot || !caster) return { world, state: openEquipMenu(world, s.casterId, items) }
+  const oldItemId = caster.equipment[slot]
   const next = equipItem(world, s.casterId, s.selectedItemId, items)
+  if (next === world) return { world, state: s }
   if (oldItemId) return { world: next, state: { ...s, selectedItemId: oldItemId } } // 留面板续换
-  return { world: next, state: openEquipMenu(next, s.casterId, items) } // 空槽 → 回 list
+  return { world: next, state: equipBackToList(s, next, items) } // 空槽 → 回 list
 }

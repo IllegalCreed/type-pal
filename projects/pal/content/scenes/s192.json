@@ -6112,6 +6112,10 @@
                   "label": "持续自动动作",
                   "body": [
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "repeat",
                       "count": 3,
                       "body": [
@@ -6220,6 +6224,10 @@
                   "label": "持续自动动作",
                   "body": [
                     {
+                      "kind": "wait",
+                      "ms": 100
+                    },
+                    {
                       "kind": "repeat",
                       "count": 3,
                       "body": [
@@ -6327,6 +6335,10 @@
                   "id": "initial",
                   "label": "持续自动动作",
                   "body": [
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
                     {
                       "kind": "repeat",
                       "count": 3,

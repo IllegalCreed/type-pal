@@ -11,22 +11,73 @@ import {
   tickDialog,
 } from '../../present/dialog-box.js'
 import type { GameState } from '../game-state.js'
+import {
+  OP_DELAY,
+  OP_ENEMY_ESCAPE,
+  OP_PLAY_CD_MUSIC,
+  OP_PLAY_MUSIC,
+  OP_PLAY_SOUND,
+  OP_STOP_MUSIC,
+} from '../script-opcode-ids.js'
 import { BATTLE_FRAME_TIME } from './anim-timeline.js'
 import type { BattleState } from './battle-state.js'
 
-type BattleDialogHost = Pick<GameState, 'dialogBox' | 'dialogBoxKept' | 'pendingSounds'>
+type BattleDialogHost = Pick<
+  GameState,
+  'dialogBox' | 'dialogBoxKept' | 'pendingSounds' | 'wNumMusic' | 'musicLoop'
+>
 type BattleDialogState = Pick<
   BattleState,
   | 'battleDialogQueue'
   | 'phaseStallTicks'
   | 'battleDialogNarrationFrames'
   | 'battleDialogTypingAccMs'
+  | 'battleDialogWaitMs'
+  | 'scriptMusicActive'
   | 'enemyEscapeAnim'
 >
 const BATTLE_DT = BATTLE_FRAME_TIME
 
 /** narration 风格(物品提示式)自动消失时长 = 1.4s(sdlpal PAL_DialogWaitForKeyWithMaximumSeconds(1.4),text.c:1701)。 */
 const BATTLE_DIALOG_NARRATION_MS = 1400
+
+/** Consume adjacent effects in one beat. A delay stays queued until its full script time elapses. */
+function consumeBattleDialogueEffects(state: BattleDialogState, gs: BattleDialogHost): boolean {
+  const queue = state.battleDialogQueue
+  while (queue?.[0]?.effect) {
+    const { opcode, operands } = queue[0].effect
+    const [first = 0, second = 0] = operands
+    if (opcode === OP_DELAY) {
+      const remaining =
+        state.battleDialogWaitMs === undefined ? first * 80 : state.battleDialogWaitMs - BATTLE_DT
+      if (remaining > 0) {
+        state.battleDialogWaitMs = remaining
+        return true
+      }
+      state.battleDialogWaitMs = undefined
+    }
+    queue.shift()
+    switch (opcode) {
+      case OP_ENEMY_ESCAPE:
+        state.enemyEscapeAnim = { step: 0 }
+        gs.pendingSounds ??= []
+        gs.pendingSounds.push(45)
+        return true
+      case OP_PLAY_SOUND:
+        gs.pendingSounds ??= []
+        gs.pendingSounds.push(first)
+        break
+      case OP_PLAY_MUSIC:
+      case OP_PLAY_CD_MUSIC:
+      case OP_STOP_MUSIC:
+        state.scriptMusicActive = true
+        gs.wNumMusic = opcode === OP_PLAY_CD_MUSIC ? second : opcode === OP_STOP_MUSIC ? 0 : first
+        gs.musicLoop = opcode === OP_PLAY_CD_MUSIC || (opcode === OP_PLAY_MUSIC && second !== 1)
+        break
+    }
+  }
+  return false
+}
 
 /** 上下位置互换(top↔bottom)—— 同屏共存的两位置对话框判定(center/narration 不参与)。 */
 function isVerticalDialogSwap(a: DialogBoxStyle, b: DialogBoxStyle): boolean {
@@ -63,23 +114,9 @@ export function advanceBattleDialog(
   // 对话是合法的玩家等待(非卡死)→ 清 phase stall 计数,避免长时间等键被 60s 看门狗强退。
   state.phaseStallTicks = 0
 
-  // (A) 无 active box 但队列有行 → 起首行 / 或处理内联 effect(D26(2b))
+  // (A) The current page is closed. Play ordered effects before opening the next page.
   if (!gs.dialogBox) {
-    const next = state.battleDialogQueue?.[0]
-    if (next?.effect) {
-      // D26(2b):dialog 序列中的内联可见 effect 按位置 dispatch(目前仅 0x69 敌逃跑)。
-      //   0x69 → set enemyEscapeAnim(= dispatchBattleOpcode 的 0x69 handler,battle.c:1399
-      //   PAL_BattleEnemyEscape)→ 下 tick advanceBattleEnemyEscape（优先于本 hold）移出敌人
-      //   → phase='fleed';飞完后队列后续 narration 仍由本 hold 显示,再 finalize。
-      //   时序:嘲讽对话 → [逃跑动画] → narration「逃走了」→ fleed,忠实 sdlpal 脚本顺序。
-      state.battleDialogQueue!.shift()
-      if (next.effect.opcode === 0x69) {
-        state.enemyEscapeAnim = { step: 0 }
-        gs.pendingSounds ??= []
-        gs.pendingSounds.push(45) // 敌逃跑音(battle.c:1397)
-      }
-      return true
-    }
+    if (consumeBattleDialogueEffects(state, gs)) return true
     feedNextBattleDialogLine(state, gs)
     return true
   }
@@ -184,17 +221,11 @@ function closeBattleDialogPage(
 
 /** 从 battleDialogQueue 取下一行喂进 gs.dialogBox(无 box → startDialogLine;有 → appendDialogLine)。 */
 function feedNextBattleDialogLine(state: BattleDialogState, gs: BattleDialogHost): void {
-  const line = state.battleDialogQueue?.shift()
-  if (!line) return
-  // D26(2b)防御:effect 条目正常由 advanceBattleDialog (A) 分支处理;若经此(段边界 page-advance)→ 同样 dispatch。
-  if (line.effect) {
-    if (line.effect.opcode === 0x69) {
-      state.enemyEscapeAnim = { step: 0 }
-      gs.pendingSounds ??= []
-      gs.pendingSounds.push(45) // 敌逃跑音(battle.c:1397)
-    }
-    return
-  }
+  const queue = state.battleDialogQueue
+  if (!queue) return
+  const line = queue[0]
+  if (!line || line.effect) return
+  queue.shift()
   if (line.clearPage) {
     if (gs.dialogBox) resetDialogBody(gs.dialogBox)
     return
@@ -204,6 +235,7 @@ function feedNextBattleDialogLine(state: BattleDialogState, gs: BattleDialogHost
     gs.dialogBox = startDialogLine(text, {
       style: line.style ?? 'bottom',
       portraitIcon: line.portrait,
+      portraitLayout: line.portraitLayout,
       fontColor: line.fontColor,
     })
   } else {

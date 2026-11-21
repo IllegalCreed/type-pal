@@ -245,7 +245,6 @@ export async function runBrowserJourney({
     assertInputLedger(report.actions, { requireReceipts: true })
     report.inputExecution = { status: 'passed', actions: report.actions.length }
     report.status = 'passed'
-    console.log(`[${name}] PASS\n${out}`)
   } catch (e) {
     report.status = 'failed'
     report.failure = e.stack ?? String(e)
@@ -271,8 +270,8 @@ export async function runBrowserJourney({
     process.exitCode = 1
   } finally {
     const failures = []
-    const cleanup = (label, operation) =>
-      withDeadline(label, operation, 2000, { onTimeout: terminateBrowser }).catch((e) =>
+    const cleanup = (label, operation, timeoutMs = 2000) =>
+      withDeadline(label, operation, timeoutMs, { onTimeout: terminateBrowser }).catch((e) =>
         failures.push(String(e)),
       )
     await cleanup('capture cleanup', () => capture.cleanup(report.status !== 'passed'))
@@ -301,7 +300,8 @@ export async function runBrowserJourney({
     }
     if (browser) await cleanup('browser connection close', () => browser.close())
     if (browserServer) {
-      await cleanup('owned browser server close', () => browserServer.close())
+      // Give the owned process time to flush Chromium's media and profile data.
+      await cleanup('owned browser server close', () => browserServer.close(), 5000)
       terminateBrowser()
       const child = browserServer.process()
       if (child.exitCode === null && child.signalCode === null)
@@ -327,6 +327,8 @@ export async function runBrowserJourney({
       await cleanup('failed capture cleanup', () => capture.cleanup(true))
     }
     await writeFile(resolve(out, 'report.json'), `${JSON.stringify(report, null, 2)}\n`)
+    if (report.status === 'passed') console.log(`[${name}] PASS\n${out}`)
+    for (const issue of report.cleanupErrors ?? []) console.error(issue)
     process.send?.({ report: resolve(out, 'report.json') })
   }
 }

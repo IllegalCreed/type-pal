@@ -76,6 +76,61 @@ test('a zero nudge preserves pose and phase; explicit leader pose supersedes pre
   h.assertInputUnchanged()
 })
 
+test('the authored party depth survives a quick save and resets on ordinary scene entry', async () => {
+  host = await installShellHost()
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const sprites = vi.spyOn(WorldScenePresentation.prototype, 'sprites')
+  const first = sceneWithCommands('a', [{ kind: 'nudgeParty', dx: 0, dy: 0, layer: 6 }])
+  first.entities = [
+    {
+      id: 'door',
+      sprite: 'walker',
+      pos: { col: 2, row: 3, height: 0 },
+      initialPage: 'open',
+      pages: [
+        {
+          id: 'open',
+          label: 'Open',
+          trigger: 'exit',
+          triggerActivation: { on: 'interact', range: 2 },
+        },
+      ],
+      behaviors: {
+        trigger: {
+          exit: {
+            label: 'Exit',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'step',
+              stages: [{ id: 'step', body: [{ kind: 'loadScene', scene: 'b' }] }],
+            },
+          },
+        },
+      },
+    },
+  ]
+  const h = await bootScenario(host, { first, second: shellScene('b') })
+  const layer = () => sprites.mock.lastCall?.[0].player.layer
+  await advance(host, () => !state().script.running && layer() === 6)
+  await key(host, 'F5')
+  const store = new IndexedDbSaveStore({ kind: 'project', projectId: 'shell-project' })
+  await vi.waitFor(async () =>
+    expect((await store.getPayload('quick'))?.world.script?.vars['sys:partyLayer']).toBe(6),
+  )
+
+  await key(host, 'Enter')
+  await advance(host, () => state().sceneId === 'b' && !state().script.running)
+  expect(layer()).toBe(0)
+
+  await key(host, 'F9')
+  await advance(host, () => state().sceneId === 'a' && !state().script.running)
+  expect(state().world.script?.vars['sys:partyLayer']).toBe(6)
+  await host.frame()
+  expect(layer()).toBe(6)
+  h.assertInputUnchanged()
+})
+
 test('an authored turn and two-step walk retain the follower formation through the next cue', async () => {
   const h = await bootNudge([
     { kind: 'teleportParty', pos: { col: 6, row: 3, height: 0 } },
@@ -94,6 +149,27 @@ test('an authored turn and two-step walk retain the follower formation through t
   await h.h.frame(100)
   expect(layout()?.player).toMatchObject({ facing: 'right', walking: false })
   expect(layout()?.followers[1]).toEqual({ pos: firstStep, facing: 'right' })
+  h.assertInputUnchanged()
+})
+
+test('three backward nudges carry the authored heading to the rendered follower', async () => {
+  const h = await bootNudge([
+    { kind: 'teleportParty', pos: { col: 3, row: 3, height: 0 } },
+    { kind: 'setParty', members: ['hero', 'friend'] },
+    { kind: 'setPartyFacing', facing: 'left' },
+    {
+      kind: 'repeat',
+      count: 3,
+      body: [
+        { kind: 'nudgeParty', dx: 16, dy: 8 },
+        { kind: 'wait', ms: 100 },
+      ],
+    },
+  ])
+  const layout = () => h.sprites.mock.lastCall?.[0]
+  await advance(h.h, () => layout()?.player.pos.col === 6 && !!layout()?.player.walking)
+  expect(layout()?.player).toMatchObject({ pos: { col: 6, row: 3, height: 0 }, facing: 'left' })
+  expect(layout()?.followers[1]).toEqual({ pos: { col: 5, row: 3, height: 0 }, facing: 'left' })
   h.assertInputUnchanged()
 })
 

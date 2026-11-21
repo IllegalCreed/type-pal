@@ -2636,39 +2636,8 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "stopMusic"
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s100",
-                      "entity": "e1808"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s118",
-                      "entity": "e2168"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 2,
-                    "target": {
-                      "scene": "s118",
-                      "entity": "e2169"
-                    }
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "state": 0,
-                    "target": {
-                      "scene": "s121",
-                      "entity": "e2196"
-                    }
+                    "kind": "wait",
+                    "ms": 100
                   },
                   {
                     "kind": "moveParty",
@@ -3416,10 +3385,6 @@
                     "cue": {
                       "identity": {
                         "kind": "unbound",
-                        "portrait": {
-                          "asset": "portrait.pal.064",
-                          "side": "left"
-                        },
                         "speaker": "spk.林月如"
                       },
                       "rows": [
@@ -3430,7 +3395,8 @@
                           "text": "dlg.6639"
                         }
                       ],
-                      "slot": "top"
+                      "slot": "top",
+                      "portraitLayout": true
                     },
                     "kind": "dialog"
                   },
@@ -3559,6 +3525,85 @@
                 ],
                 "next": {
                   "kind": "complete"
+                },
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "stopMusic"
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s100",
+                        "entity": "e1808"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2168"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 2,
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2169"
+                      }
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "state": 0,
+                      "target": {
+                        "scene": "s121",
+                        "entity": "e2196"
+                      }
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 74,
+                        "row": 6,
+                        "height": 0
+                      },
+                      "facing": "left"
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "left",
+                      "gesture": 2
+                    },
+                    {
+                      "kind": "setPartyFacing",
+                      "facing": "right",
+                      "gesture": 2,
+                      "member": 1
+                    },
+                    {
+                      "kind": "setEntityFacing",
+                      "target": {
+                        "scene": "s118",
+                        "entity": "e2169"
+                      },
+                      "facing": "down"
+                    },
+                    {
+                      "kind": "cameraSnap"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 0,
+                    "inMs": 600,
+                    "withBody": true
+                  }
                 }
               }
             ]

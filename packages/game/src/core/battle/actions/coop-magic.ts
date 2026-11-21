@@ -25,6 +25,7 @@ import {
   buildPreMagicTimeline,
   buildSummonBrightenTimeline,
   buildSummonGodSequence,
+  COOP_RETURN_FRAME_COUNT,
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { BattleAnimFrame, BattleState } from '../battle-state.js'
@@ -119,6 +120,9 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
     }
     return
   }
+
+  // fight.c:3858 sets this when the validated cooperative move executes.
+  state.fThisTurnCoop = true
 
   const emitImmediateCoopSounds = (): void => {
     // M6 合击音 —— sdlpal 合体法术 perform(PAL_BattlePlayerPerformAction kBattleActionCoopMagic,fight.c:3856-3875):
@@ -247,7 +251,10 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
       hurtEnemies,
       damageNums: pendingNums,
     })
-    startBattleAnim(state, frames, bus)
+    const enemyDeathCheckFrame = results.some((result) => result.hpAfter === 0)
+      ? frames.length - COOP_RETURN_FRAME_COUNT
+      : undefined
+    startBattleAnim(state, frames, bus, undefined, { enemyDeathCheckFrame })
     return
   }
 

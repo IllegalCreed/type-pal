@@ -55,28 +55,6 @@
                 "id": "initial",
                 "body": [
                   {
-                    "kind": "setAmbience",
-                    "ambience": "warm"
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "sprite-193"
-                  },
-                  {
-                    "facing": "down",
-                    "gesture": 12,
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 111,
-                      "height": 0,
-                      "row": 75
-                    }
-                  },
-                  {
                     "kind": "clearDialog"
                   },
                   {
@@ -107,32 +85,43 @@
                     "scene": "s170"
                   }
                 ],
-                "next": "legacy-002"
+                "next": "legacy-002",
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "setAmbience",
+                      "ambience": "warm"
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "sprite-193"
+                    },
+                    {
+                      "facing": "down",
+                      "gesture": 12,
+                      "kind": "setPartyFacing"
+                    },
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 111,
+                        "height": 0,
+                        "row": 75
+                      }
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "fade",
+                    "outMs": 1200,
+                    "inMs": 600,
+                    "color": "black"
+                  }
+                }
               },
               {
                 "id": "legacy-002",
                 "body": [
-                  {
-                    "kind": "teleportParty",
-                    "pos": {
-                      "col": 108,
-                      "height": 0,
-                      "row": 36
-                    }
-                  },
-                  {
-                    "actor": "li-xiaoyao",
-                    "kind": "setActorSprite",
-                    "sprite": "li-xiaoyao"
-                  },
-                  {
-                    "facing": "down",
-                    "kind": "setPartyFacing"
-                  },
-                  {
-                    "kind": "ditherScreen",
-                    "ms": 5040
-                  },
                   {
                     "facing": "down",
                     "kind": "setEntityFacing",
@@ -187,16 +176,35 @@
                   },
                   {
                     "kind": "loadScene",
-                    "scene": "s145",
-                    "transition": {
-                      "kind": "source",
-                      "outMs": 2400,
-                      "inMs": 600,
-                      "color": "black",
-                      "evidenceId": "pal-load-scene-24731"
-                    }
+                    "scene": "s145"
                   }
-                ]
+                ],
+                "entry": {
+                  "prepare": [
+                    {
+                      "kind": "teleportParty",
+                      "pos": {
+                        "col": 108,
+                        "height": 0,
+                        "row": 36
+                      }
+                    },
+                    {
+                      "actor": "li-xiaoyao",
+                      "kind": "setActorSprite",
+                      "sprite": "li-xiaoyao"
+                    },
+                    {
+                      "facing": "down",
+                      "kind": "setPartyFacing"
+                    }
+                  ],
+                  "reveal": {
+                    "kind": "dither",
+                    "ms": 5040,
+                    "source": "previousPresentedFrame"
+                  }
+                }
               }
             ]
           }

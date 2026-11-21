@@ -12,7 +12,7 @@ export {
   buildUseItemTimeline,
 } from './animation/action-gestures.js'
 export type { BuildCoopMagicInput } from './animation/cooperative-magic.js'
-export { buildCoopMagicTimeline } from './animation/cooperative-magic.js'
+export { buildCoopMagicTimeline, COOP_RETURN_FRAME_COUNT } from './animation/cooperative-magic.js'
 export {
   buildEnemyDivisionTimeline,
   buildEnemySummonTimeline,
