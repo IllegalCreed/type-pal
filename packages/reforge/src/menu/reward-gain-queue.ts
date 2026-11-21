@@ -21,13 +21,14 @@ function rewardGainAbortError(): DOMException {
 }
 
 /**
- * 按顺序展示一次道具操作产生的提示。调用方串行提交序列。
+ * 按顺序展示一次道具操作产生的提示。整个序列持有提交权，条目之间可以暂时没有可绘制内容。
  *
  * timeout、按键 advance 与 AbortSignal 竞争同一个 settle；advance 只兑现当前条，调用方的
  * `for` 序列随后才会激活下一条，因此不会一次按键清空整队，也不会留下旧 timer。
  */
 export class RewardGainQueue {
   private request?: ActiveRewardGain
+  private presenting = false
 
   get active(): boolean {
     return this.request !== undefined
@@ -39,8 +40,13 @@ export class RewardGainQueue {
   }
 
   async present(texts: readonly string[], signal: AbortSignal): Promise<void> {
-    if (this.request) throw new Error('reward-gain 已有活动序列')
-    for (const text of texts) await this.presentOne(text, signal)
+    if (this.presenting) throw new Error('reward-gain 已有活动序列')
+    this.presenting = true
+    try {
+      for (const text of texts) await this.presentOne(text, signal)
+    } finally {
+      this.presenting = false
+    }
   }
 
   /** 提前完成当前条；没有活动项时为 no-op。 */
