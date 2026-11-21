@@ -16,7 +16,7 @@ import { FRAME_MS_BATTLE, type RleFrame } from '@type-pal/shared'
 import { advanceCue, type DialogueState, startDialogue } from '../dialogue.js'
 import { type BoxTiles, drawScroll, SCROLL_LABEL_STYLE } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
-import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba, TITLE_RGBA } from '../text/palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGB, dialogColorRgb, TITLE_RGB } from '../text/palette-color.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 import { charsShown, countChars, DEFAULT_SPEED_MS } from '../text/typewriter.js'
 import { bakeCursorTinted } from './dialog-assets.js'
@@ -499,7 +499,7 @@ export class DialogBox {
       renderSpans(this.ctx, nameSpans, titleX, pos.title.y, {
         glyphs: this.glyphs,
         shadow: true,
-        forceRgba: TITLE_RGBA,
+        forceRgba: TITLE_RGB,
       })
     }
 
@@ -560,7 +560,7 @@ export class DialogBox {
       x += renderSpans(this.ctx, [span], x, layout.textY, {
         ...SCROLL_LABEL_STYLE,
         glyphs: this.glyphs,
-        forceRgba: span.color ? colorRgba(span.color) : SCROLL_LABEL_STYLE.forceRgba,
+        forceRgba: span.color ? dialogColorRgb(span.color) : SCROLL_LABEL_STYLE.forceRgba,
       })
     }
     if (isActive) this.pageDone = true
@@ -585,10 +585,10 @@ export class DialogBox {
   }
 
   private bakeCursorStep(frame: RleFrame, cacheKey: number, step: number): HTMLCanvasElement {
-    // step 由 drawCursor 用 % CURSOR_COLOR_COUNT 计算得,恒落在 CURSOR_RGBA 范围内;
+    // step 由 drawCursor 用 % CURSOR_COLOR_COUNT 计算得,恒落在 CURSOR_RGB 范围内;
     // 此处显式判空(引擎 noNonNullAssertion,no `!`),越界兜底第 0 色。
-    const rgba = CURSOR_RGBA[step] ?? CURSOR_RGBA[0]
-    const baked = bakeCursorTinted(frame, rgba ?? [0, 0, 0])
+    const rgb = CURSOR_RGB[step] ?? CURSOR_RGB[0]
+    const baked = bakeCursorTinted(frame, rgb ?? [0, 0, 0])
     this.cursorBaked[cacheKey] = baked
     return baked
   }
