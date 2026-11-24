@@ -52,6 +52,7 @@ interface RngSessionArgs {
   items?: Record<string, ItemData>
   inventory?: Array<{ itemId: string; count: number }>
   poisonDefs?: Record<number, PoisonDef>
+  prepareTurnSounds?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>['prepareTurnSounds']
 }
 
 /** 可控 rng 会话构造器；入口即生产 guard（与 assertWfSessionInputsLegal 同一组校验器）。 */
@@ -81,6 +82,7 @@ function makeRngSession(args: RngSessionArgs) {
     ...(args.items ? { items: args.items } : {}),
     ...(args.inventory ? { inventory: args.inventory.map((entry) => ({ ...entry })) } : {}),
     ...(args.poisonDefs ? { poisonDefs: args.poisonDefs } : {}),
+    prepareTurnSounds: args.prepareTurnSounds,
   })
   const keys = (list: readonly string[]) => new Set(list)
   return {
@@ -173,14 +175,47 @@ test('BF-11 敌毒回合末致死：会话以 victory 收场且毒死计入战�
   expect(h.session.debugReadiness().phase).toBe('throwItem')
   h.press([' '])
   h.press([' '])
-  // 敌死于回合末毒 tick（非攻击致死）→ 次轮防御直提空步后 core 判胜 → hold → done。
-  await driveToDone(h, () => settled, 'defend')
+  // 本轮毒发已击倒最后一个敌人，结算无需玩家再提交指令。
+  for (let frame = 0; frame < 80 && settled === undefined; frame++) {
+    h.idle(200)
+    await flush()
+  }
   expect(settled).toBe('victory')
   const log = h.session.debugLog()
   // 两次毒发作 = 投掷即刻 tick0 + 回合末 tick1（敌侧行首为毒 def.id）。
   expect(log.filter((line) => line === '601 BF赤毒 发作')).toHaveLength(2)
   // 毒死同样计奖（B7a：hp<=0 只记一次；非攻击致死路径的战果累计）。
   expect(h.session.rewards()).toEqual({ exp: 5, cash: 3 })
+})
+
+test('回合末毒发全灭后，不再为不存在的下一轮准备音效', async () => {
+  const preparedTurns: number[] = []
+  const poison: PoisonDef = {
+    id: 602,
+    name: '赤毒',
+    curability: 'common',
+    color: 0,
+    playerTicks: [{ hpDelta: -10 }],
+  }
+  const h = makeRngSession({
+    players: [wfPlayer('p1', { hp: 10, maxHp: 10, poisons: [{ poisonId: 602, tickIndex: 0 }] })],
+    enemies: [wfEnemy('e1', { health: 500, attackStrength: 0 })],
+    rng: () => 0,
+    poisonDefs: { 602: poison },
+    prepareTurnSounds: async ({ turn }) => {
+      preparedTurns.push(turn)
+    },
+  })
+  h.press(['d'])
+  for (let frame = 0; frame < 80; frame++) {
+    h.idle(200)
+    await flush()
+  }
+
+  expect(h.session.debugLog()).toContain('p1 赤毒 发作')
+  expect(preparedTurns).toEqual([1])
+  await expect(h.session.done).resolves.toBe('defeat')
+  expect(h.session.rewards()).toEqual({ exp: 0, cash: 0 })
 })
 
 test('BF-12 逃跑失败后会话续战：同一会话以胜利收场且只有一次结算意图', async () => {

@@ -1181,6 +1181,30 @@ export function applyEnemyEffect(
  * 推进战斗一步（headless 驱动 = 反复调至 phase 终态）。
  * @param rng 注入随机（dex jitter / AI 选目标 / 逃跑）。
  */
+function updateBattleOutcome(s: BattleState): boolean {
+  for (const enemy of s.enemies) {
+    if (enemy && enemy.hp <= 0 && !enemy.rewardCounted) {
+      enemy.rewardCounted = true
+      if (!s.enemyFled) {
+        s.expGained += enemy.def.stats.exp
+        s.cashGained += enemy.def.stats.cash
+      }
+    }
+  }
+
+  // SDLPal checks enemy clearance before checking whether the party is down.
+  if (aliveEnemies(s).length === 0) {
+    s.phase = 'won'
+    s.log.push('胜利')
+  } else if (!s.players.some((player) => player.hp > 0)) {
+    s.phase = 'lost'
+    s.log.push('全灭')
+  } else {
+    return false
+  }
+  return true
+}
+
 export function stepBattle(s: BattleState, rng: () => number): void {
   // 无会话表现的规则驱动在下一步前完成上一步的伤亡效果。
   completeCasualtyEffects(s)
@@ -1237,9 +1261,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
     case 'performAction': {
       const item = s.actionQueue.shift()
       if (!item) {
-        // 回合末:装备回血/回蓝(寿葫芦 regenHp/regenMp 词条,clean 版不借毒系统)→
-        // 毒 DoT(存活单位逐回合扣血+指针推进,fight.c:4454)→ defending 全清
-        // (fight.c:1604 队列耗尽处) + status 衰减 + turn++,回 selectAction
+        // 装备回复、毒发及状态衰减完成后再判定是否开启下一轮。
         for (const p of s.players)
           if (p.hp > 0) {
             if (p.regenHp) p.hp = Math.min(p.maxHp, p.hp + p.regenHp)
@@ -1268,8 +1290,11 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         if (s.hidingTime > 0) s.hidingTime -= 1
         s.pendingActions.clear()
         s.coopThisTurn = false // 合击标记回合末清(下回合重判)
-        s.turn++
-        s.phase = 'selectAction'
+        // PAL_BattlePostActionCheck also runs after poison ticks (fight.c:1614–1664).
+        if (!updateBattleOutcome(s)) {
+          s.turn++
+          s.phase = 'selectAction'
+        }
         return
       }
       // 隐身激活(0x5C 负值 → 取反;一阶段 activateHidingEffect 在处理**每个动作前**,
@@ -1282,25 +1307,7 @@ export function stepBattle(s: BattleState, rng: () => number): void {
       else performPlayerAction(s, item.idx, rng)
       if (shouldCheckPlayerCasualties(s.lastAction)) runPlayerCasualtySweep(s, rng)
       else refreshCasualtyPrevHp(s)
-      // B7a 战果累计:本步新死敌 += exp/cash(只记一次;敌逃(enemyFled)清场不计)
-      for (const e of s.enemies) {
-        if (!e) continue
-        if (e.hp <= 0 && !e.rewardCounted) {
-          e.rewardCounted = true
-          if (!s.enemyFled) {
-            s.expGained += e.def.stats.exp
-            s.cashGained += e.def.stats.cash
-          }
-        }
-      }
-      // fight.c:1116–1156: 敌人清空先判胜；最后一名活人倒下即失败，傀儡不计入存活人数。
-      if (aliveEnemies(s).length === 0) {
-        s.phase = 'won'
-        s.log.push('胜利')
-      } else if (!s.players.some((player) => player.hp > 0)) {
-        s.phase = 'lost'
-        s.log.push('全灭')
-      }
+      updateBattleOutcome(s)
       return
     }
     default:
