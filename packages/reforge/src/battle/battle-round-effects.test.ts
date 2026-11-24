@@ -90,16 +90,17 @@ test('unnamed poison grants identify the poison and stack into an existing item 
   expect(state.log).toContain('毒4 到期化作 fresh')
 })
 
-test('equipment restores MP at round end and stops at maximum MP', () => {
-  const run = (mp: number) => {
+test('equipment restores HP and MP at round end and caps both pools', () => {
+  const run = (hp: number, mp: number) => {
     const state = createBattleState({
-      players: [wfPlayer('hero', { mp, maxMp: 30, regenMp: 5 })],
+      players: [wfPlayer('hero', { hp, maxHp: 100, mp, maxMp: 30, regenHp: 3, regenMp: 5 })],
       enemySlots: [idleEnemy(50)],
     })
     finishFirstRound(state)
-    return state.players[0]?.mp
+    const player = expectDefined(state.players[0])
+    return { hp: player.hp, mp: player.mp }
   }
 
-  expect(run(20)).toBe(25)
-  expect(run(26)).toBe(30)
+  expect(run(80, 20)).toEqual({ hp: 83, mp: 25 })
+  expect(run(98, 26)).toEqual({ hp: 100, mp: 30 })
 })

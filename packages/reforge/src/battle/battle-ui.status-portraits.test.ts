@@ -262,6 +262,23 @@ describe('战斗队员信息框', () => {
     expect(texts()).toEqual([])
   })
 
+  test('活人只绘制实际给出的状态字，省略的状态保持空白', () => {
+    const host = drawHost()
+    const player: Parameters<typeof drawPlayerInfoBox>[3] = {
+      hp: 45,
+      maxHp: 120,
+      mp: 8,
+      maxMp: 35,
+      status: { confused: 2, sleep: 1 },
+    }
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, player, 0, host.glyphs, palette())
+
+    expect(texts()).toEqual([
+      { text: '乱', x: 126, y: 184, color: [1, 2, 3] },
+      { text: '眠', x: 145, y: 166, color: [7, 8, 9] },
+    ])
+  })
+
   test('活人缺字库或调色板时仍绘制角色框，且不派发状态字', () => {
     const host = drawHost()
     const player: Parameters<typeof drawPlayerInfoBox>[3] = {
