@@ -2,7 +2,7 @@ import type { Palette, RleFrame } from '@type-pal/shared'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import type { LoadedSprite } from '../assets.js'
 import { ENEMY_SUMMON_COLOR_SHIFT } from './battle-anim.js'
-import { drawDissolved, renderBattleScene } from './present-battle.js'
+import { renderBattleScene } from './present-battle.js'
 
 const palette: Palette = {
   colors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
@@ -62,31 +62,48 @@ function installCanvasHost() {
 
 function context() {
   const alphaAtDraw: number[] = []
-  const alphaStack: number[] = []
-  const drawImage = vi.fn((..._args: unknown[]) => alphaAtDraw.push(ctx.globalAlpha))
-  const save = vi.fn(() => alphaStack.push(ctx.globalAlpha))
+  const smoothingAtDraw: boolean[] = []
+  const colorAtFill: string[] = []
+  const saved: Array<{ globalAlpha: number; imageSmoothingEnabled: boolean; fillStyle: string }> =
+    []
+  const drawImage = vi.fn((..._args: unknown[]) => {
+    alphaAtDraw.push(ctx.globalAlpha)
+    smoothingAtDraw.push(ctx.imageSmoothingEnabled)
+  })
+  const fillRect = vi.fn((..._args: unknown[]) => colorAtFill.push(ctx.fillStyle))
+  const save = vi.fn(() => {
+    const { globalAlpha, imageSmoothingEnabled, fillStyle } = ctx
+    saved.push({ globalAlpha, imageSmoothingEnabled, fillStyle })
+  })
   const restore = vi.fn(() => {
-    ctx.globalAlpha = alphaStack.pop() ?? 1
+    const state = saved.pop()
+    if (state) Object.assign(ctx, state)
   })
   const ctx = {
     drawImage,
-    fillRect: vi.fn(),
+    fillRect,
     save,
     restore,
     scale: vi.fn(),
     imageSmoothingEnabled: true,
-    fillStyle: '',
+    fillStyle: '#2a5b4c',
     globalAlpha: 1,
-  } as unknown as CanvasRenderingContext2D
-  return { ctx, drawImage, alphaAtDraw }
+  }
+  return {
+    ctx: ctx as unknown as CanvasRenderingContext2D,
+    drawImage,
+    alphaAtDraw,
+    smoothingAtDraw,
+    colorAtFill,
+  }
 }
 
 afterEach(() => vi.unstubAllGlobals())
 
-describe('当前战斗画面未覆盖的呈现边界', () => {
+describe('战斗画面合成', () => {
   test('背景先绘制、未知帧回落首帧，空帧不画；实际底锚与 worldScale 保真', () => {
     installCanvasHost()
-    const { ctx, drawImage } = context()
+    const { ctx, drawImage, smoothingAtDraw } = context()
     const bg = { width: 320, height: 200 } as CanvasImageSource
     const actor = sprite(6, 4)
     const empty: LoadedSprite = { frames: [], anchorX: 0, anchorY: 0 }
@@ -104,7 +121,8 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
       },
       2,
     )
-    expect(ctx.imageSmoothingEnabled).toBe(false)
+    expect(smoothingAtDraw).toEqual([false, false, false])
+    expect(ctx.imageSmoothingEnabled).toBe(true)
     expect(ctx.scale).toHaveBeenCalledExactlyOnceWith(2, 2)
     expect(drawImage.mock.calls.map((call) => [call[1], call[2]])).toEqual([
       [0, 0],
@@ -117,7 +135,7 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
 
   test('无背景画黑底，半透明单位局部降低 alpha 后恢复，不污染下一个单位', () => {
     installCanvasHost()
-    const { ctx, drawImage, alphaAtDraw } = context()
+    const { ctx, drawImage, alphaAtDraw, colorAtFill } = context()
     const actor = sprite()
     renderBattleScene(
       ctx,
@@ -128,15 +146,14 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
       },
       1,
     )
-    expect(ctx.fillStyle).toBe('#000')
+    expect(colorAtFill).toEqual(['#000'])
+    expect(ctx.fillStyle).toBe('#2a5b4c')
     expect(ctx.fillRect).toHaveBeenCalledExactlyOnceWith(0, 0, 320, 200)
     expect(drawImage.mock.calls.map((call) => [call[1], call[2]])).toEqual([
       [47, 56],
       [97, 116],
     ])
     expect(alphaAtDraw).toEqual([0.4, 1])
-    expect(ctx.save).toHaveBeenCalledTimes(2)
-    expect(ctx.restore).toHaveBeenCalledTimes(2)
     expect(ctx.globalAlpha).toBe(1)
   })
 
@@ -163,8 +180,12 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
       40, 18, 14, 32, 24, 18, 14,
     ])
   })
+})
 
-  test('pattern 不可用时溶解退化为透明度，并把越界进度钳在 0..1', () => {
+describe('单精灵溶解兼容入口', () => {
+  test('pattern 不可用时溶解退化为透明度，并把越界进度钳在 0..1', async () => {
+    vi.resetModules()
+    const { drawDissolved } = await import('./present-battle.js')
     const created = installCanvasHost()
     const { ctx, drawImage, alphaAtDraw } = context()
     const patternless = ctx as CanvasRenderingContext2D & {
@@ -186,7 +207,9 @@ describe('当前战斗画面未覆盖的呈现边界', () => {
     expect(created).toHaveLength(2)
   })
 
-  test('可用 pattern 以相位批次消融，波内余量作用于同一离屏画布', () => {
+  test('可用 pattern 以相位批次消融，波内余量作用于同一离屏画布', async () => {
+    vi.resetModules()
+    const { drawDissolved } = await import('./present-battle.js')
     const created = installCanvasHost()
     const { ctx, drawImage } = context()
     const patterned = ctx as CanvasRenderingContext2D & {

@@ -1,5 +1,5 @@
 /**
- * TEST-BATTLE-WORKFLOWS-1 W5：终态与结算。
+ * 战斗会话的终态交接，以及最后一张奖励页的确认时机。
  * 每个终态精确 resolve 对应 BattleResult（victory/defeat/playerFled）——
  * pending/rejected 不得进入成功集合；300ms 边界前 done 必须仍未兑现；
  * settlement 恰一次（done 后断言，覆盖每-tick 重建变异）；非胜利零结算。
@@ -95,6 +95,25 @@ describe('W5 终态与结算', () => {
     expect(settlementCalls).toBe(0) // 非胜利零结算
     expect(await finish(h)).toBe('done')
     await expect(h.session.done).resolves.toBe('defeat')
+    expect(settlementCalls).toBe(0)
+
+    const { session } = h
+    expect(session.moneyDelta()).toBe(0)
+    expect(session.collectGained()).toBe(0)
+
+    const rewards = session.rewards()
+    const counts = session.hiddenCounts()
+    const enemySlots = session.enemySlotDefs()
+    expect(rewards).toEqual({ exp: 0, cash: 0 })
+    expect(Object.keys(counts)).toEqual(['p1'])
+    expect(enemySlots.map(({ id }) => id)).toEqual(['killer'])
+
+    rewards.cash = 1
+    delete counts.p1
+    enemySlots.pop()
+    expect(session.rewards()).toEqual({ exp: 0, cash: 0 })
+    expect(Object.keys(session.hiddenCounts())).toEqual(['p1'])
+    expect(session.enemySlotDefs().map(({ id }) => id)).toEqual(['killer'])
   })
 
   test('playerFled：Q 快捷逃跑（fleeRate 100）→零 settlement 零奖励→done 精确 resolve playerFled', async () => {
@@ -126,8 +145,8 @@ describe('W5 终态与结算', () => {
           settlementCalls += 1
           return [
             { kind: 'exp-cash', exp: 5, cash: 3 },
-            { kind: 'exp-cash', exp: 1, cash: 1 },
-            { kind: 'exp-cash', exp: 0, cash: 0 },
+            { kind: 'hidden-up', name: '逍遥', statLabel: '武术', delta: 1 },
+            { kind: 'learn-magic', name: '逍遥', magicName: '气疗术' },
           ]
         },
       },
@@ -188,6 +207,7 @@ describe('W5 终态与结算', () => {
     }
     expect(settlementCalls).toBe(0) // 非胜利零结算（本包观察器补齐旧证缺失的零奖励断言）
     await expect(h.session.done).resolves.toBe('enemyFled') // 经真实行为到达的独立终态
+    expect(sfx.plays.filter((asset) => asset === 'sound.after-flee')).toEqual(['sound.after-flee'])
   })
 
   test('terminated：encounterChoreo endBattle(terminate) 于第 2 轮到达→零 settlement→done 精确 resolve terminated', async () => {

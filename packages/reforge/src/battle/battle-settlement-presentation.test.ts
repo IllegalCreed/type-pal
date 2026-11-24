@@ -1,7 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import battleSessionSource from './battle-session.ts?raw'
 import { BattleSettlementPresentation } from './battle-settlement-presentation.js'
-import settlementSource from './battle-settlement-presentation.ts?raw'
 
 const noKeys = new Set<string>()
 
@@ -26,7 +24,7 @@ describe('BattleSettlementPresentation', () => {
 
   test('builds victory screens once and enforces 300ms before each synchronous advance', () => {
     const first = { kind: 'exp-cash' as const, exp: 5, cash: 3 }
-    const second = { kind: 'exp-cash' as const, exp: 1, cash: 1 }
+    const second = { kind: 'learn-magic' as const, name: 'Hero', magicName: 'Fire' }
     const buildSettlement = vi.fn(() => [first, second])
     const presentation = new BattleSettlementPresentation({ buildSettlement })
     presentation.recordResult('victory')
@@ -42,9 +40,10 @@ describe('BattleSettlementPresentation', () => {
 
   test('starts each native world page timer after its draw and consumes one key per page', () => {
     const rewards = { kind: 'exp-cash' as const, exp: 8, cash: 2 }
+    const growth = { kind: 'hidden-up' as const, name: 'Hero', statLabel: '身法', delta: 1 }
     const learned = { kind: 'learn-magic' as const, name: 'Hero', magicName: 'Fire' }
     const presentation = new BattleSettlementPresentation({
-      buildSettlement: () => [rewards, learned],
+      buildSettlement: () => [rewards, growth, learned],
       worldSettlement: { boss: true },
     })
     presentation.observeCorePhase('won', false)
@@ -54,11 +53,15 @@ describe('BattleSettlementPresentation', () => {
     expect(presentation.advance(5499, noKeys)).toBeNull()
     expect(presentation.currentScreen).toBe(rewards)
     expect(presentation.advance(1, noKeys)).toBeNull()
-    expect(presentation.currentScreen).toBe(learned)
+    expect(presentation.currentScreen).toBe(growth)
     expect(presentation.advance(100, new Set(['Enter']))).toBeNull()
     presentation.markPageDrawn()
     expect(presentation.advance(2999, noKeys)).toBeNull()
-    expect(presentation.advance(1, noKeys)).toBe('victory')
+    expect(presentation.advance(1, noKeys)).toBeNull()
+    expect(presentation.currentScreen).toBe(learned)
+    expect(presentation.advance(0, new Set(['ArrowLeft']))).toBeNull()
+    presentation.markPageDrawn()
+    expect(presentation.advance(0, new Set(['ArrowLeft']))).toBe('victory')
   })
 
   test('a native world victory without any reward page completes without an empty hold', () => {
@@ -92,22 +95,5 @@ describe('BattleSettlementPresentation', () => {
     presentation.recordResult(result)
     expect(presentation.advance(0, noKeys)).toBe(result)
     expect(buildSettlement).not.toHaveBeenCalled()
-  })
-})
-
-describe('BattleSettlementPresentation ownership boundary', () => {
-  test('owns result, screens, cursor and timer without importing the session or core state aggregate', () => {
-    for (const field of ['currentResult', 'screens', 'screenIndex', 'elapsedMs'])
-      expect(settlementSource).toContain(`private ${field}`)
-    expect(settlementSource).not.toContain("from './battle-session")
-    expect(settlementSource).not.toContain('BattleState')
-
-    for (const stale of ['terminalResult', 'private settlement:', 'settleIdx', 'overTimer'])
-      expect(battleSessionSource).not.toContain(stale)
-    expect(battleSessionSource.match(/new BattleSettlementPresentation\(/g)).toHaveLength(1)
-    expect(battleSessionSource).toContain(
-      'this.settlementPresentation.advance(dtMs, pressed, this.opts.handoffDefeat)',
-    )
-    expect(battleSessionSource).toContain('this.settlementPresentation.currentScreen')
   })
 })

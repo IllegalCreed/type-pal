@@ -39,7 +39,7 @@ const fx: CastFxParams = {
   sound: 'sound.enemy-magic',
 }
 
-describe('当前敌法术时间线的复合屏幕效果', () => {
+describe('敌方法术的动作帧与屏幕效果', () => {
   test('正 fireDelay 在特效里推进敌攻击段，前震、后震、波幅和烙印各留原帧', () => {
     const input = {
       enemyIdx: 2,
@@ -111,7 +111,7 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
     })
   })
 
-  test('单目标缺坐标时采用敌方施法中心缺省，零波幅/无声音不制造屏幕效果', () => {
+  test('零 FIRE 延迟先播攻击段，单体特效使用受术者底锚', () => {
     const frames = buildEnemyCast({
       enemyIdx: 0,
       enemyPos: { x: 100, y: 110 },
@@ -132,10 +132,19 @@ describe('当前敌法术时间线的复合屏幕效果', () => {
         wave: 0,
         sound: undefined,
       },
+      targetPos: { x: 240, y: 170 },
       damageNums: [],
     })
-    expect(frames.find((frame) => frame.overlays?.length)?.overlays).toEqual([
-      { sheet: 'magic', frameIdx: 0, x: 160, y: 130, layerOffset: 0 },
+    const firstFire = frames.findIndex((frame) => frame.overlays?.length)
+    expect(
+      frames
+        .slice(0, firstFire)
+        .flatMap(({ fighters }) => fighters ?? [])
+        .map(({ frame }) => frame)
+        .filter((frame) => frame !== undefined),
+    ).toEqual([0, 2, 2, 3, 4])
+    expect(frames[firstFire]?.overlays).toEqual([
+      { sheet: 'magic', frameIdx: 0, x: 240, y: 170, layerOffset: 0 },
     ])
     expect(
       frames.filter(

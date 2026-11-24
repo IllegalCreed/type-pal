@@ -21,11 +21,7 @@ function skill(id: string, target: SkillData['target'], mp = 0, money = 0): Skil
   return validateSkills({ skills: [skill], levelUp: {} }).skills[0]!
 }
 
-function battleItem(
-  id: string,
-  capability: 'use' | 'throw',
-  target: 'oneAlly' | 'oneEnemy' | 'allEnemies',
-): ItemData {
+function battleItem(id: string, throwTarget?: NonNullable<ItemData['throw']>['target']): ItemData {
   const item: ItemData = {
     id,
     name: id,
@@ -33,18 +29,18 @@ function battleItem(
     buyPrice: 0,
     sellPrice: 0,
     sellable: false,
-    ...(capability === 'use'
+    ...(throwTarget
       ? {
-          use: {
-            target: 'oneAlly' as const,
-            consuming: true,
-            effects: [{ kind: 'healHp' as const, amount: 10 }],
+          throw: {
+            target: throwTarget,
+            effects: [{ kind: 'fixedDamage', amount: 5 }],
           },
         }
       : {
-          throw: {
-            target: target as 'oneEnemy' | 'allEnemies',
-            effects: [{ kind: 'fixedDamage' as const, amount: 5 }],
+          use: {
+            target: 'oneAlly',
+            consuming: true,
+            effects: [{ kind: 'healHp', amount: 10 }],
           },
         }),
   }
@@ -88,10 +84,10 @@ const press = (
   ...keys: string[]
 ) => selection.advance(ctx, new Set(keys), api)
 
-describe('战斗命令选择剩余当前流程', () => {
+describe('战斗技能与物品列表', () => {
   test('杂项→二级使用/投掷往返不消耗行动；两个列表各保留自己的入口', () => {
-    const herb = battleItem('herb', 'use', 'oneAlly')
-    const stone = battleItem('stone', 'throw', 'oneEnemy')
+    const herb = battleItem('herb')
+    const stone = battleItem('stone', 'oneEnemy')
     const ctx = context({
       usableItems: [{ itemId: herb.id, count: 1 }],
       throwableItems: [{ itemId: stone.id, count: 1 }],
@@ -116,9 +112,9 @@ describe('战斗命令选择剩余当前流程', () => {
     expect(ctx).toEqual(before)
   })
 
-  test('全体投掷不打开目标格而直接提交一次；单体投掷可退出重选后提交活敌', () => {
-    const all = battleItem('powder', 'throw', 'allEnemies')
-    const one = battleItem('stone', 'throw', 'oneEnemy')
+  test('全体投掷直接提交，下一名队员的单体投掷可取消并重选活敌', () => {
+    const all = battleItem('powder', 'allEnemies')
+    const one = battleItem('stone', 'oneEnemy')
     const ctx = context({
       throwableItems: [
         { itemId: all.id, count: 1 },
@@ -137,16 +133,21 @@ describe('战斗命令选择剩余当前流程', () => {
     ])
     expect(selection.phase).toBe('menu')
 
-    press(selection, ctx, recorded.api, 'w')
-    press(selection, ctx, recorded.api, 'ArrowRight', 'Enter')
+    const next = context({
+      playerIndex: 1,
+      items: ctx.items,
+      throwableItems: [{ itemId: one.id, count: 1 }],
+    })
+    press(selection, next, recorded.api, 'w')
+    press(selection, next, recorded.api, 'Enter')
     expect(selection.view).toMatchObject({ phase: 'target', targetSide: 'enemy' })
-    press(selection, ctx, recorded.api, 'Escape')
+    press(selection, next, recorded.api, 'Escape')
     expect(selection.phase).toBe('throwItem')
     expect(recorded.submissions).toHaveLength(1)
-    press(selection, ctx, recorded.api, 'Enter')
-    press(selection, ctx, recorded.api, 'ArrowRight', 'Enter')
+    press(selection, next, recorded.api, 'Enter')
+    press(selection, next, recorded.api, 'ArrowRight', 'Enter')
     expect(recorded.submissions[1]).toEqual({
-      playerIndex: 0,
+      playerIndex: 1,
       action: { kind: 'throw', itemId: 'stone', targetEnemyIdx: 4 },
     })
     expect(ctx).toEqual(before)
@@ -158,6 +159,8 @@ describe('战斗命令选择剩余当前流程', () => {
       player: { skills: [heal.id], mp: 40, silenced: false, healthy: true },
       skills: { [heal.id]: heal },
       playerCount: 3,
+      healthyPlayerCount: 3,
+      selectablePlayerIndices: [0, 1, 2],
     })
     const before = structuredClone(ctx)
     const selection = new BattleCommandSelection()
@@ -202,10 +205,11 @@ describe('战斗命令选择剩余当前流程', () => {
   })
 
   test('R 重放已经用光的物品退回当前活敌普攻，F 在无活敌时退回防御', () => {
-    const herb = battleItem('herb', 'use', 'oneAlly')
+    const herb = battleItem('herb')
     const ctx = context({
       playerCount: 1,
       healthyPlayerCount: 1,
+      selectablePlayerIndices: [0],
       usableItems: [{ itemId: herb.id, count: 1 }],
       items: { [herb.id]: herb },
     })
@@ -215,7 +219,7 @@ describe('战斗命令选择剩余当前流程', () => {
     press(selection, ctx, recorded.api, 'Enter')
     expect(recorded.submissions[0]?.action).toEqual({ kind: 'item', itemId: herb.id })
     selection.beginRound()
-    press(selection, context({ usableItems: [], items: { [herb.id]: herb } }), recorded.api, 'r')
+    press(selection, { ...ctx, usableItems: [] }, recorded.api, 'r')
     expect(recorded.submissions[1]?.action).toEqual({ kind: 'attack', targetEnemyIdx: 2 })
 
     const empty = new BattleCommandSelection()
@@ -250,5 +254,65 @@ describe('战斗命令选择剩余当前流程', () => {
       { playerIndex: 0, action: { kind: 'coop', targetEnemyIdx: 4 } },
     ])
     expect(recorded.consumeOthersForCoop).toHaveBeenCalledExactlyOnceWith(0)
+  })
+
+  test('技能光标每行三格，首尾钳制并可确认当前位置的法术', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = port()
+    const skills = ['heal', 'ward', 'revive', 'protect', 'focus']
+    const ctx = context({
+      player: { skills, mp: 40, silenced: false, healthy: true },
+      skills: Object.fromEntries(skills.map((id) => [id, skill(id, 'self')])),
+    })
+    press(selection, ctx, recorded.api, 'ArrowLeft', 'Enter')
+    for (const [key, expected] of [
+      ['ArrowDown', 3],
+      ['ArrowDown', 4],
+      ['ArrowDown', 4],
+      ['ArrowUp', 1],
+      ['ArrowUp', 0],
+      ['ArrowUp', 0],
+    ] as const) {
+      press(selection, ctx, recorded.api, key)
+      expect(selection.view.skillIndex).toBe(expected)
+    }
+    press(selection, ctx, recorded.api, 'Enter')
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'cast', skillId: 'heal' } },
+    ])
+  })
+
+  test('使用快捷键直达列表，逐层取消不提交动作', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = port()
+    const tonic = battleItem('tonic')
+    const ctx = context({ usableItems: [{ itemId: tonic.id, count: 2 }], items: { tonic } })
+    press(selection, ctx, recorded.api, 'E')
+    expect(selection.phase).toBe('item')
+    for (const phase of ['miscSub', 'misc', 'menu'] as const) {
+      press(selection, ctx, recorded.api, 'Escape')
+      expect(selection.phase).toBe(phase)
+    }
+    expect(recorded.submissions).toEqual([])
+  })
+
+  test('取消已移动的用品目标，重新选择时光标回到使用者', () => {
+    const selection = new BattleCommandSelection()
+    const recorded = port()
+    const tonic = battleItem('tonic')
+    const ctx = context({ usableItems: [{ itemId: tonic.id, count: 2 }], items: { tonic } })
+    press(selection, ctx, recorded.api, 'E')
+    press(selection, ctx, recorded.api, 'Enter')
+    press(selection, ctx, recorded.api, 'ArrowRight')
+    expect(selection.view).toMatchObject({ phase: 'target', targetSide: 'ally', targetIndex: 1 })
+    press(selection, ctx, recorded.api, 'Escape')
+    expect(selection.phase).toBe('item')
+    expect(recorded.submissions).toEqual([])
+    press(selection, ctx, recorded.api, 'Enter')
+    press(selection, ctx, recorded.api, 'Enter')
+    expect(recorded.submissions).toEqual([
+      { playerIndex: 0, action: { kind: 'item', itemId: tonic.id, targetAllyIdx: 0 } },
+    ])
+    expect(selection.phase).toBe('menu')
   })
 })

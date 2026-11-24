@@ -27,12 +27,12 @@ const fx: CastFxParams = {
   wave: 0,
 }
 
-describe('当前合击呈现的队员槽位与结果时序', () => {
+describe('合击队形与结果时序', () => {
   test('三人编队中第二位未贡献仍占聚拢槽，第三位真实贡献并于受击后归位', () => {
     const partyPositions = [
-      { x: 110, y: 130 },
-      { x: 140, y: 145 },
-      { x: 170, y: 160 },
+      { x: 180, y: 180 },
+      { x: 234, y: 170 },
+      { x: 270, y: 146 },
     ]
     const input = {
       framesByPlayer: [pose, pose, pose],
@@ -42,9 +42,9 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
       partyPositions,
       fireFrames: 2,
       fx,
-      targetPos: { x: 105, y: 70 },
+      targetPos: { x: 140, y: 106 },
       damageNums: [{ target: { side: 'enemy' as const, idx: 1 }, value: 23 }],
-      postTargets: [{ idx: 1, pos: { x: 105, y: 70 } }],
+      postTargets: [{ idx: 1, pos: { x: 140, y: 106 } }],
       castSound: 'sound.coop',
       waitForEnemyDeathFade: true,
     }
@@ -63,7 +63,7 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
     expect(frames[8]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 6, colorShift: 0 }])
     expect(frames[9]).toEqual({ durationMs: 40 })
     expect(frames[10]?.overlays).toEqual([
-      { sheet: 'magic', frameIdx: 0, x: 105, y: 70, layerOffset: 0 },
+      { sheet: 'magic', frameIdx: 0, x: 140, y: 106, layerOffset: 0 },
     ])
     expect(frames[12]).toMatchObject({
       durationMs: 0,
@@ -71,7 +71,7 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
     })
     expect(frames[12]?.fighters).toBeUndefined()
     expect(frames.slice(13, 17).map((frame) => frame.fighters?.[0]?.pos?.x)).toEqual([
-      97, 101, 99, 105,
+      132, 136, 134, 140,
     ])
     const events: string[] = []
     const playback = new AnimPlayer(frames, {
@@ -88,6 +88,11 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
     expect(events).toEqual(['fade'])
     expect(playback.tick(0)).toBe(false)
     expect(events).toEqual(['fade', 'return', 'return'])
+    // 聚拢时空过中间槽；回位时第三位从第二个聚拢点计算第一步。
+    expect(frames[19]?.fighters).toEqual([
+      { side: 'player', idx: 0, frame: 0, pos: { x: 203, y: 160 } },
+      { side: 'player', idx: 2, frame: 0, pos: { x: 240, y: 166 } },
+    ])
     expect(frames.at(-1)?.fighters).toEqual([
       { side: 'player', idx: 0, frame: 0, pos: partyPositions[0] },
       { side: 'player', idx: 2, frame: 0, pos: partyPositions[2] },
@@ -101,23 +106,30 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
     expect(input).toEqual(before)
   })
 
-  test('两人有效合击无受击位移时仍单独结算数字；无 fire 资产与声音不制造假帧', () => {
+  test('没有 FIRE 资源的两人合击仍在受击位移前显示结果', () => {
     const frames = buildPlayerCoop({
       framesByPlayer: [pose, pose],
       casterIdx: 1,
       contributorIdxs: [0, 1],
       partySize: 2,
       partyPositions: [
-        { x: 100, y: 130 },
-        { x: 150, y: 140 },
+        { x: 200, y: 176 },
+        { x: 256, y: 152 },
       ],
       fireFrames: 0,
       fx,
       damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 11 }],
+      postTargets: [{ idx: 0, pos: { x: 100, y: 110 } }],
     })
-    expect(frames).toHaveLength(16)
     expect(frames[6]?.fighters).toEqual([{ side: 'player', idx: 0, frame: 5 }])
-    expect(frames[9]?.damageNums).toEqual([{ target: { side: 'enemy', idx: 0 }, value: 11 }])
+    expect(frames[9]).toEqual({
+      durationMs: 0,
+      waveAdd: 0,
+      damageNums: [{ target: { side: 'enemy', idx: 0 }, value: 11 }],
+    })
+    expect(frames[10]?.fighters).toEqual([
+      { side: 'enemy', idx: 0, pos: { x: 92, y: 110 }, colorShift: 0 },
+    ])
     expect(frames.filter((frame) => frame.damageNums)).toHaveLength(1)
     expect(frames.every((frame) => frame.sound === undefined && frame.overlays === undefined)).toBe(
       true,
@@ -127,31 +139,34 @@ describe('当前合击呈现的队员槽位与结果时序', () => {
 
   test('友方合击用聚拢后的受术站位绘制疗效，辉光结束再归位', () => {
     const partyPositions = [
-      { x: 110, y: 130 },
-      { x: 140, y: 145 },
-      { x: 170, y: 160 },
+      { x: 180, y: 180 },
+      { x: 234, y: 170 },
+      { x: 270, y: 146 },
     ]
     const frames = buildPlayerCoop({
       framesByPlayer: [pose, pose, pose],
       casterIdx: 0,
-      contributorIdxs: [0, 1],
+      contributorIdxs: [0, 2],
       partySize: 3,
       partyPositions,
       fireFrames: 2,
       fx: { ...fx, xOffset: -10, yOffset: -6, sound: 'sound.pal.138' },
-      allyTargets: [{ idx: 1, pos: { x: 140, y: 145 } }],
+      allyTargets: [{ idx: 2, pos: { x: 270, y: 146 } }],
       damageNums: [],
     })
     expect(frames[9]).toMatchObject({
-      overlays: [{ sheet: 'magic', frameIdx: 0, x: 224, y: 164 }],
+      overlays: [{ sheet: 'magic', frameIdx: 0, x: 250, y: 177 }],
       sound: 'sound.pal.138',
     })
     expect(frames.slice(11, 24).map((frame) => frame.fighters)).toEqual(
       [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0].map((colorShift) => [
-        { side: 'player', idx: 1, colorShift },
+        { side: 'player', idx: 2, colorShift },
       ]),
     )
     expect(frames.some((frame) => frame.damageNums?.length)).toBe(false)
-    expect(frames.at(-1)?.fighters?.map(({ pos }) => pos)).toEqual(partyPositions.slice(0, 2))
+    expect(frames.at(-1)?.fighters?.map(({ pos }) => pos)).toEqual([
+      partyPositions[0],
+      partyPositions[2],
+    ])
   })
 })

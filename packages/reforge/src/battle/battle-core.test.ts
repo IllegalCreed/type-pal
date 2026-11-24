@@ -1,6 +1,7 @@
 import type { EnemyDef, ItemData, SkillData } from '@type-pal/content'
 import { calcMagicDamage, calcPhysicalAttackDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { wfHealItem, wfThrowItem } from '../__tests__/battle-workflows/catalog.js'
 import { expectDefined } from '../defined.js'
 import {
   applyEnemyEffect,
@@ -75,14 +76,14 @@ describe('M4a headless 战斗核', () => {
       players: [player('li', { attackStrength: 40 })],
       enemies: [mkEnemy('slime', { health: 30, defense: 10, attackStrength: 1 })],
     })
-    const dmg = calcPhysicalAttackDamage(40, 10, 0) // 每击伤害
     const result = runBattleToEnd(
       s,
       (st) => st.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }),
       rng0,
     )
     expect(result).toBe('won')
-    expect(Math.ceil(30 / dmg)).toBeGreaterThanOrEqual(1)
+    expect(s.lastAction).toMatchObject({ kind: 'attack', targetEnemyIdx: 0, firstDamage: 60 })
+    expect(s.enemies[0]?.hp).toBe(0)
     expect(s.log.some((l) => l.includes('胜利'))).toBe(true)
   })
 
@@ -1106,22 +1107,15 @@ describe('降级链:出手时刻验证(fight.c:3260-3506 PAL_BattlePlayerValidat
   })
 
   test('物品已耗尽 → 降防御(fight.c:3433 UseItem 数 0)', () => {
-    const potion: import('@type-pal/content').ItemData = {
-      id: '61',
-      name: '金创药',
-      desc: '',
-      price: 50,
-      bitmap: 0,
-      use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
-    } as never
+    const potion = wfHealItem('tonic', 50)
     const s = createBattleState({
       players: [player('li', { hp: 10, maxHp: 100 })],
       enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
-      items: { '61': potion },
-      inventory: [{ itemId: '61', count: 1 }],
+      items: { [potion.id]: potion },
+      inventory: [{ itemId: potion.id, count: 1 }],
     })
     stepBattle(s, rng0)
-    s.pendingActions.set(0, { kind: 'item', itemId: '61' })
+    s.pendingActions.set(0, { kind: 'item', itemId: potion.id })
     stepBattle(s, rng0) // build queue
     s.inventory[0]!.count = 0 // 出手前已被抢用(多队员场景等价)
     stepBattle(s, rng0)
@@ -1221,22 +1215,15 @@ describe('M4b-3b 物品 / 逃跑真判定', () => {
   })
 
   test('物品:回血 + consuming 扣库存;逃跑:str vs Σ敌(吉运+(lv+6)*4) 掷骰', () => {
-    const potion: import('@type-pal/content').ItemData = {
-      id: '61',
-      name: '金创药',
-      desc: '',
-      price: 50,
-      bitmap: 0,
-      use: { target: 'oneAlly', consuming: true, effects: [{ kind: 'healHp', amount: 50 }] },
-    } as never
+    const potion = wfHealItem('tonic', 50)
     const s = createBattleState({
       players: [player('li', { hp: 10, maxHp: 100 })],
       enemies: [mkEnemy('e', { attackStrength: -999, health: 500 })],
-      items: { '61': potion },
-      inventory: [{ itemId: '61', count: 2 }],
+      items: { [potion.id]: potion },
+      inventory: [{ itemId: potion.id, count: 2 }],
     })
     stepBattle(s, rng0)
-    s.pendingActions.set(0, { kind: 'item', itemId: '61' })
+    s.pendingActions.set(0, { kind: 'item', itemId: potion.id })
     let guard = 0
     while (s.phase !== 'selectAction' || s.turn === 1) {
       stepBattle(s, rng0)
@@ -2580,6 +2567,7 @@ describe('R13-3 投掷专用效果链', () => {
     expect(s.enemies[1]!.hp).toBe(26)
     expect(s.inventory[0]!.count).toBe(0)
     expect(s.lastAction?.notice).toBeUndefined()
+    expect(s.lastAction?.failureFeedback).toBeUndefined()
   })
 
   test('群体阈值投掷全部未达标时只提示一次，仍消耗一份', () => {
@@ -2630,7 +2618,7 @@ describe('R13-3 投掷专用效果链', () => {
       },
       {
         enemies: [mkEnemy('target', { health: 50, dexterity: 0, attackStrength: -999 })],
-        player: { hp: 90, maxHp: 100 },
+        player: { hp: 10, maxHp: 100 },
         targetEnemyIdx: 0,
       },
     )
@@ -2801,22 +2789,31 @@ describe('P2 相克 use-on-self(以毒攻毒自解;counters/lethalWith 数据驱
       lethalWith: 556,
     },
   }
+  const playerWithPoisons = (poisonIds: readonly number[]) => {
+    const state = createBattleState({
+      players: [
+        player('hero', { poisons: poisonIds.map((poisonId) => ({ poisonId, tickIndex: 0 })) }),
+      ],
+      enemySlots: [mkEnemy('target')],
+      poisonDefs: P,
+    })
+    return expectDefined(state.players[0])
+  }
+
   test('身中血海棠(558),用鹤顶红(556)→ 以毒攻毒解掉558,不下556', () => {
-    const p = { hp: 100, poisons: [{ poisonId: 558, tickIndex: 0 }] } as never
-    expect(applyPoisonToPlayer(p, 556, P)).toBe('cured')
-    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([]) // 558 解掉,556 未下
+    const affected = playerWithPoisons([558])
+    expect(applyPoisonToPlayer(affected, 556, P)).toBe('cured')
+    expect(affected.poisons).toEqual([])
   })
   test('身中孔雀胆(557),用鹤顶红(556)→ 致死配对暴毙', () => {
-    const p = { hp: 100, poisons: [{ poisonId: 557, tickIndex: 0 }] } as never
-    expect(applyPoisonToPlayer(p, 556, P)).toBe('lethal')
-    expect((p as { hp: number }).hp).toBe(0) // 暴毙
+    const affected = playerWithPoisons([557])
+    expect(applyPoisonToPlayer(affected, 556, P)).toBe('lethal')
+    expect(affected.hp).toBe(0)
   })
   test('身上无相关毒 → 下本毒(自毒)', () => {
-    const p = { hp: 100, poisons: [] } as never
-    expect(applyPoisonToPlayer(p, 556, P)).toBe('applied')
-    expect((p as { poisons: { poisonId: number }[] }).poisons).toEqual([
-      { poisonId: 556, tickIndex: 0 },
-    ])
+    const affected = playerWithPoisons([])
+    expect(applyPoisonToPlayer(affected, 556, P)).toBe('applied')
+    expect(affected.poisons).toEqual([{ poisonId: 556, tickIndex: 0 }])
   })
 })
 
@@ -3450,9 +3447,18 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
       enemies: [dummy()],
       skills: { buff },
     })
-    turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'cast', skillId: 'buff' }))
-    expect(b.players[0]!.attackStrength).toBe(80) // 'battle' 整场:回合末不回落
-    expect(b.players[0]!.baseDexterity).toBe(50) // 定时 1 回合:本回合末已扣回 75→50
+    const caster = expectDefined(b.players[0])
+    stepBattle(b, rng0)
+    b.pendingActions.set(0, { kind: 'cast', skillId: 'buff' })
+    stepBattle(b, rng0)
+    stepBattle(b, rng0)
+    expect(caster.attackStrength).toBe(80)
+    expect(caster.baseDexterity).toBe(75)
+    stepBattle(b, rng0)
+    stepBattle(b, rng0)
+    expect(b.phase).toBe('selectAction')
+    expect(caster.attackStrength).toBe(80)
+    expect(caster.baseDexterity).toBe(50)
     turn(b, rng0, (st) => st.pendingActions.set(0, { kind: 'defend' }))
     expect(b.players[0]!.attackStrength).toBe(80)
   })
@@ -3676,21 +3682,16 @@ describe('P0 技能效果接线(gate/即死/偷窃/收妖/解状态/buff/复活/
   })
 
   test('库存预占(nAmountInUse,fight.c:1900-1916):投掷无条件占;使用仅 consuming 物占', () => {
+    const consumable = wfHealItem('yao')
+    const reusable = wfHealItem('zhu')
+    const throwingItem = wfThrowItem('du')
     const s = createBattleState({
       players: [player('li'), player('ling')],
       enemies: [dummy()],
       items: {
-        yao: {
-          id: 'yao',
-          name: '药',
-          use: { consuming: true, effects: [] },
-        } as unknown as ItemData,
-        zhu: {
-          id: 'zhu',
-          name: '珠',
-          use: { consuming: false, effects: [] },
-        } as unknown as ItemData,
-        du: { id: 'du', name: '毒', throw: { effects: [] } } as unknown as ItemData,
+        yao: consumable,
+        zhu: { ...reusable, use: { ...expectDefined(reusable.use), consuming: false } },
+        du: throwingItem,
       },
     })
     s.pendingActions.set(0, { kind: 'item', itemId: 'yao' })

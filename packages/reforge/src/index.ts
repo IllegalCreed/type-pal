@@ -132,13 +132,7 @@ export {
   type MidiPreviewSnapshot,
   type MidiPreviewTransport,
 } from './audio/midi-preview.js'
-export {
-  type BattleResult,
-  battleResultHasVictoryRewards,
-  battleResultRunsOnFlee,
-  battleResultRunsOnLose,
-  isBattleResult,
-} from './battle/battle-result.js'
+export type { BattleResult } from './battle/battle-result.js'
 export {
   advanceEntityLifecycleWorldStep,
   applyEntityLifecycleMutation,

@@ -1177,11 +1177,8 @@ export function applyEnemyEffect(
   return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
 }
 
-/**
- * 推进战斗一步（headless 驱动 = 反复调至 phase 终态）。
- * @param rng 注入随机（dex jitter / AI 选目标 / 逃跑）。
- */
 function updateBattleOutcome(s: BattleState): boolean {
+  // 普攻和回合末毒发共用战果登记，同一敌人只计一次，逃走不发奖励。
   for (const enemy of s.enemies) {
     if (enemy && enemy.hp <= 0 && !enemy.rewardCounted) {
       enemy.rewardCounted = true
@@ -1192,7 +1189,7 @@ function updateBattleOutcome(s: BattleState): boolean {
     }
   }
 
-  // SDLPal checks enemy clearance before checking whether the party is down.
+  // 敌人清空优先判胜。玩家方只按实际 HP 判定存活（fight.c:1116–1156）。
   if (aliveEnemies(s).length === 0) {
     s.phase = 'won'
     s.log.push('胜利')
@@ -1205,6 +1202,7 @@ function updateBattleOutcome(s: BattleState): boolean {
   return true
 }
 
+/** 推进一拍规则。无会话的驱动重复调用直至战斗进入终态。 */
 export function stepBattle(s: BattleState, rng: () => number): void {
   // 无会话表现的规则驱动在下一步前完成上一步的伤亡效果。
   completeCasualtyEffects(s)

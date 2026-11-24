@@ -3,13 +3,7 @@ import type { Palette } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { MenuAssets } from '../menu/menu-box.js'
 import type { GlyphTable } from '../text/glyph.js'
-import {
-  drawBattleGrid,
-  drawBattleMenuBox,
-  drawMainIcons,
-  drawPlayerInfoBox,
-  ITEM_GRID,
-} from './battle-ui.js'
+import { drawPlayerInfoBox } from './battle-ui.js'
 
 interface SpanStyle {
   glyphs?: GlyphTable
@@ -37,41 +31,14 @@ const calls = vi.hoisted(() => ({
         nums: (ImageBitmap | undefined)[],
       ) => void
     >(),
-  scroll:
-    vi.fn<
-      (
-        ctx: CanvasRenderingContext2D,
-        scroll: { tiles: ImageBitmap[] },
-        x: number,
-        y: number,
-        nLen: number,
-        opts?: { shadow?: boolean },
-      ) => void
-    >(),
-  box: vi.fn<
-    (
-      ctx: CanvasRenderingContext2D,
-      box: { tiles: ImageBitmap[] },
-      x: number,
-      y: number,
-      w: number,
-      h: number,
-      opts?: { shadow?: boolean },
-    ) => void
-  >(),
 }))
 
 vi.mock('../menu/menu-box.js', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../menu/menu-box.js')>()
   type NumberArgs = Parameters<typeof actual.drawNumber>
-  type ScrollArgs = Parameters<typeof actual.drawScroll>
-  type BoxArgs = Parameters<typeof actual.drawSlicedBox>
   return {
     ...actual,
     drawNumber: (...args: NumberArgs) => calls.number(...args),
-    drawNumberLeft: (...args: NumberArgs) => calls.number(...args),
-    drawScroll: (...args: ScrollArgs) => calls.scroll(...args),
-    drawSlicedBox: (...args: BoxArgs) => calls.box(...args),
   }
 })
 vi.mock('../text/text-render.js', async (importOriginal) => {
@@ -98,7 +65,6 @@ function pixelSource(image: CanvasImageSource): { width: number; height: number 
 }
 
 const spyOnDrawImage = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'drawImage')
-const spyOnPutImageData = (o: CanvasRenderingContext2D) => vi.spyOn(o, 'putImageData')
 /** 画布类实参守卫：jsdom+canvas 集成下 mono 表面可能是底层 Canvas（非 DOM 包装），
  *  二者都有 getContext/width/height；替身位图三者皆无。 */
 function canvasLike(arg: unknown): arg is HTMLCanvasElement {
@@ -112,7 +78,6 @@ function canvasLike(arg: unknown): arg is HTMLCanvasElement {
 }
 
 let drawImageSpy: ReturnType<typeof vi.spyOn>
-let putImageDataSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   // 类型化外部宿主边界：jsdom 真实 2D 上下文，只在原型层拦截绘制并记录写回。
@@ -148,7 +113,6 @@ beforeEach(() => {
     }
     this.putImageData(region, x, y)
   })
-  putImageDataSpy = spyOnPutImageData(proto2d)
 })
 afterEach(() => {
   vi.restoreAllMocks()
@@ -188,23 +152,23 @@ function drawHost() {
   const glyphs: GlyphTable = { has: () => false, get: () => undefined }
   for (const spy of Object.values(calls)) spy.mockClear()
   drawImageSpy.mockClear()
-  putImageDataSpy.mockClear()
-  return { menu, canvas, ctx, glyphs, image, digits, digitsBlue }
+  return { menu, ctx, glyphs, image }
 }
 
 function texts() {
   return calls.text.mock.calls.map((call) => ({
     text: call[1].map((span) => span.text).join(''),
+    x: call[2],
+    y: call[3],
     color: call[4].forceRgba,
   }))
 }
 
-describe('N04 信息框头像形态与状态字调色门', () => {
+describe('战斗队员信息框', () => {
   test('阵亡头像取黑白色段并覆盖毒色，单色头像按位图、调色板与色段复用', () => {
     const host = drawHost()
     const face = host.image(8, 8)
     const dead: Parameters<typeof drawPlayerInfoBox>[3] = {
-      roleId: 'n-dead',
       hp: 0,
       maxHp: 100,
       mp: 10,
@@ -224,7 +188,6 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     expect(readBack(deadSurface)).toEqual([255, 255, 255, 255])
 
     const poisoned: Parameters<typeof drawPlayerInfoBox>[3] = {
-      roleId: 'n-poison-a',
       hp: 50,
       maxHp: 100,
       mp: 10,
@@ -263,148 +226,60 @@ describe('N04 信息框头像形态与状态字调色门', () => {
     expect(readBack(drawPoison(face, 0x10, otherPalette))).toEqual([220, 10, 3, 255])
   })
 
-  test('状态字只在活人、有字模且有调色板色时绘制', () => {
+  test('首个与第三个队员框按槽定位，活人状态字使用对应调色板色', () => {
     const host = drawHost()
-    const living: Parameters<typeof drawPlayerInfoBox>[3] = {
-      roleId: 'n-status',
-      hp: 1,
-      maxHp: 2,
-      mp: 3,
-      maxMp: 4,
-      status: { confused: 1, paralyzed: 1, sleep: 1, silence: 1 },
+    const colors = palette()
+    const player: Parameters<typeof drawPlayerInfoBox>[3] = {
+      hp: 45,
+      maxHp: 120,
+      mp: 8,
+      maxMp: 35,
+      status: { confused: 2, paralyzed: 1, sleep: 1, silence: 1 },
     }
-    drawPlayerInfoBox(host.ctx, host.menu, undefined, living, 0, host.glyphs, palette())
-    const words = texts().map((row) => row.text)
-    expect(words).toEqual(['乱', '定', '眠', '封'])
-    for (const row of texts()) expect(row.color).toBeTruthy()
-  })
-})
+    const before = structuredClone(player)
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, player, 0, host.glyphs, colors)
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.magicPlayerBox, 91, 165)
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.slash, 140, 171)
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.slash, 140, 187)
+    expect(calls.number.mock.calls.map((call) => [call[1], call[2], call[3]])).toEqual([
+      [45, 141, 170],
+      [120, 162, 173],
+      [8, 141, 186],
+      [35, 162, 189],
+    ])
+    expect(texts()).toEqual([
+      { text: '乱', x: 126, y: 184, color: [1, 2, 3] },
+      { text: '定', x: 135, y: 177, color: [4, 5, 6] },
+      { text: '眠', x: 145, y: 166, color: [7, 8, 9] },
+      { text: '封', x: 146, y: 185, color: [10, 11, 12] },
+    ])
+    expect(player).toEqual(before)
 
-describe('N04 战斗菜单盒禁用/确认配色与右值数字色', () => {
-  test('禁用行选中暗红选中色、确认父项金黄、禁用右值走蓝数字', () => {
-    const host = drawHost()
-    drawBattleMenuBox(
-      host.ctx,
-      host.menu,
-      host.glyphs,
-      [
-        { label: '杂项', disabled: true },
-        { label: '投掷', right: 3, disabled: true },
-        { label: '物品' },
-      ],
-      0,
-      0,
-      27,
-      140,
-      64,
-      96,
-      true,
-    )
-    const rows = texts()
-    expect(rows[0]?.color).toEqual([215, 109, 93]) // COLOR_DISABLED_SEL
-    expect(rows[1]?.color).toEqual([166, 40, 32]) // COLOR_DISABLED
-    expect(rows[2]?.color).toEqual([199, 186, 174]) // COLOR_NORMAL（confirmed 只作用于选中项）
-    // 禁用行的右值用蓝数字数组身份。
-    const firstNumber = calls.number.mock.calls[0]
-    expect(firstNumber?.[1]).toBe(3)
-    expect(firstNumber?.[4]).toBe(host.digitsBlue)
-    // 换启用选中 + 非确认：选中行闪烁色来自 SELECTED_COLORS 拍频。
-    for (const spy of Object.values(calls)) spy.mockClear()
-    drawBattleMenuBox(
-      host.ctx,
-      host.menu,
-      host.glyphs,
-      [{ label: '攻击' }],
-      0,
-      0,
-      27,
-      140,
-      64,
-      96,
-      false,
-    )
-    expect(texts()[0]?.color).toEqual([247, 231, 109])
-    // 再换启用选中 + 确认：父项固定金黄 COLOR_CONFIRMED，不闪。
-    for (const spy of Object.values(calls)) spy.mockClear()
-    drawBattleMenuBox(
-      host.ctx,
-      host.menu,
-      host.glyphs,
-      [{ label: '攻击' }],
-      0,
-      0,
-      27,
-      140,
-      64,
-      96,
-      true,
-    )
-    expect(texts()[0]?.color).toEqual([255, 203, 113])
-  })
-})
-
-describe('N04 物品网格分页钳制与数量门', () => {
-  test('光标在首页时 pageStart 钳零不越界；right≤1 不画数量数字', () => {
-    const host = drawHost()
-    const rows = [
-      { label: 'a', right: 1 },
-      { label: 'b', right: 2 },
-      { label: 'c' },
-      { label: 'd' },
-    ]
-    drawBattleGrid(host.ctx, host.menu, host.glyphs, rows, 0, 0, ITEM_GRID)
-    const labels = texts().map((row) => row.text)
-    expect(labels).toEqual(['a', 'b', 'c', 'd'])
-    // 数量 2 才画；1 与缺席都不画。
-    expect(calls.number.mock.calls).toHaveLength(1)
-    // 光标 0 + pageOffset 4 → 未钳制会从 -12 行起跳，钳制后仍从 0 号开始。
-    for (const spy of Object.values(calls)) spy.mockClear()
-    drawBattleGrid(host.ctx, host.menu, host.glyphs, rows, 0, 0, {
-      ...ITEM_GRID,
-      pageOffset: 40,
-    })
-    expect(texts().map((row) => row.text)).toEqual(['a', 'b', 'c', 'd'])
-  })
-
-  test('空行集只画红框不画任何条目', () => {
-    const host = drawHost()
-    drawBattleGrid(host.ctx, host.menu, host.glyphs, [], 0, 0, ITEM_GRID)
-    expect(texts()).toEqual([])
-    expect(calls.box).toHaveBeenCalledTimes(1)
-  })
-})
-
-describe('N04 主图标单色化缓存与缺位跳过', () => {
-  test('缺位图标跳过绘制；可用/不可用各走单色化画布且同图缓存', () => {
-    const host = drawHost()
-    const attack = host.image(8, 8)
-    const magic = host.image(8, 8)
-    drawMainIcons(
-      host.ctx,
-      [attack, magic, undefined, undefined],
-      0,
-      [true, false, false, false],
-      false,
-    )
-    const drawn = drawImageSpy.mock.calls.map((call: unknown[]) => call[0]).filter(canvasLike)
-    expect(drawn).toHaveLength(2) // 两次单色化表面（内部绘制已被同 spy 拦截，无画布实参）
-    const grayBand = drawn[0]
-    const redBand = drawn[1]
-    expect(grayBand).not.toBe(redBand) // 灰带 / 暗红带各自成画布
-    // luma 255 → lv 15-4 = 11：可用灰带 ICON_GRAY[11]=186，不可用暗红带 ICON_RED[11]。
-    expect(readBack(grayBand)).toEqual([186, 186, 186, 255])
-    expect(readBack(redBand)).toEqual([203, 89, 77, 255])
-    // 同 bitmap 再绘 → 缓存画布身份一致；highlight 选中 = 原位图直绘。
+    calls.text.mockClear()
     drawImageSpy.mockClear()
-    drawMainIcons(
-      host.ctx,
-      [attack, magic, undefined, undefined],
-      1,
-      [true, false, false, false],
-      true,
-    )
-    expect(drawImageSpy.mock.calls[0]?.[0]).toBe(grayBand)
-    expect(drawImageSpy.mock.calls[1]?.[0]).toBe(magic)
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, { ...player, hp: 0 }, 2, host.glyphs, colors)
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.magicPlayerBox, 245, 165)
+    expect(texts()).toEqual([])
+  })
+
+  test('活人缺字库或调色板时仍绘制角色框，且不派发状态字', () => {
+    const host = drawHost()
+    const player: Parameters<typeof drawPlayerInfoBox>[3] = {
+      hp: 45,
+      maxHp: 120,
+      mp: 8,
+      maxMp: 35,
+      status: { confused: 2 },
+    }
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, player, 0, undefined, palette())
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.magicPlayerBox, 91, 165)
+    expect(texts()).toEqual([])
+
+    drawImageSpy.mockClear()
+    calls.text.mockClear()
+    drawPlayerInfoBox(host.ctx, host.menu, undefined, player, 0, host.glyphs)
+    expect(drawImageSpy).toHaveBeenCalledWith(host.menu.magicPlayerBox, 91, 165)
+    expect(texts()).toEqual([])
   })
 })
 

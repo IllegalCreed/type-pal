@@ -1,145 +1,23 @@
-/** W2-B: production snapshot wrappers, controlled cancellation, no unreleaseable promises. */
-
-import type { ActorDef } from '@type-pal/content'
+import {
+  type ActorDef,
+  type AssetCatalogV1,
+  PAL_PHYSICAL_EFFECT_ASSET_ID,
+  palMagicEffectSpriteAssetId,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
 import {
   installTrialChromeHost,
   readyTrialFixture,
+  trialConfig,
+  trialMember,
 } from './__tests__/coverage-wave2/b-trial-catalog.js'
-import { deferred } from './__tests__/glm-runtime-contract-fixtures.js'
-import {
-  abortableTrial,
-  createTrialFileSnapshot,
-  prepareBattleTrialAssets,
-} from './battle-trial-assets.js'
-import type { FileSource } from './file-source.js'
-import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
-
-const utf8 = (text: string): ArrayBuffer => new TextEncoder().encode(text).buffer as ArrayBuffer
-const drain = async () => {
-  for (let i = 0; i < 12; i++) await Promise.resolve()
-}
-function memorySource(files: Record<string, string>): FileSource {
-  return {
-    readBytes: async (path) => {
-      if (!(path in files)) throw new Error(`ENOENT ${path}`)
-      return utf8(files[path]!)
-    },
-    readText: async (path) => files[path] ?? '',
-    readJson: async <T>(path: string): Promise<T> => JSON.parse(files[path] ?? 'null') as T,
-    urlFor: async () => 'blob:x',
-  }
-}
-test.each([
-  'pre-aborted',
-  'in-flight',
-] as const)('abortableTrial %s rejects before its original source is released', async (mode) => {
-  const controller = new AbortController()
-  const source = deferred<string>()
-  const observation = { value: 'pending' }
-  if (mode === 'pre-aborted') controller.abort()
-  const pending = abortableTrial(source.promise, controller.signal)
-  const consumed = pending.then(
-    () => {
-      observation.value = 'resolved'
-    },
-    (error) => {
-      observation.value = error.name
-    },
-  )
-  try {
-    if (mode === 'in-flight') controller.abort()
-    await drain()
-    expect(observation.value).toBe('AbortError')
-    expect(source.settled()).toBe(false)
-  } finally {
-    controller.abort()
-    source.resolve('late')
-    await source.promise
-    await consumed
-  }
-  expect(observation.value).toBe('AbortError')
-})
-test('abortableTrial preserves success and the exact source rejection', async () => {
-  const value = { answer: 42 },
-    failure = new Error('source failed')
-  await expect(abortableTrial(Promise.resolve(value), new AbortController().signal)).resolves.toBe(
-    value,
-  )
-  await expect(abortableTrial(Promise.reject(failure), new AbortController().signal)).rejects.toBe(
-    failure,
-  )
-})
-test('readText/readJson use frozen bytes after source mutation and seal rejects uncached paths', async () => {
-  const files = { 'a.txt': 'hello', 'b.json': '{"n":7}' }
-  const snapshot = createTrialFileSnapshot(memorySource(files), new AbortController().signal)
-  try {
-    expect(await snapshot.source.readText('a.txt')).toBe('hello')
-    expect(await snapshot.source.readJson('b.json')).toEqual({ n: 7 })
-    files['a.txt'] = 'changed'
-    files['b.json'] = '{"n":99}'
-    snapshot.seal()
-    const cachedBytes = await snapshot.source.readBytes('a.txt').then(
-      (bytes) => ({ value: new TextDecoder().decode(bytes) }),
-      (error) => ({ error: error.message }),
-    )
-    expect(cachedBytes).toEqual({ value: 'hello' })
-    expect(await snapshot.source.readText('a.txt')).toBe('hello')
-    expect(await snapshot.source.readJson('b.json')).toEqual({ n: 7 })
-    await expect(snapshot.source.readText('new.txt')).rejects.toThrow('未冻结资源 new.txt')
-    await expect(snapshot.source.readJson('new.json')).rejects.toThrow('未冻结资源 new.json')
-  } finally {
-    snapshot.dispose()
-  }
-  await expect(snapshot.source.readText('a.txt')).rejects.toMatchObject({ name: 'AbortError' })
-})
-test('readText aborts while the same byte read is pending and late bytes never restore access', async () => {
-  const controller = new AbortController(),
-    gate = deferred<ArrayBuffer>(),
-    entered = deferred<void>()
-  const events: string[] = []
-  const sourceRead = gate.promise.then((bytes) => {
-    events.push('read-completed')
-    return bytes
-  })
-  const source: FileSource = {
-    ...memorySource({}),
-    readBytes: () => {
-      events.push('read-entered')
-      entered.resolve()
-      return sourceRead
-    },
-  }
-  const snapshot = createTrialFileSnapshot(source, controller.signal)
-  const observation = { value: 'pending' }
-  const pending = snapshot.source.readText('slow.txt')
-  const consumed = pending.then(
-    () => {
-      observation.value = 'resolved'
-    },
-    (error) => {
-      observation.value = error.name
-    },
-  )
-  try {
-    expect(entered.settled()).toBe(true)
-    controller.abort()
-    await drain()
-    expect(events).toEqual(['read-entered'])
-    expect(observation.value).toBe('AbortError')
-    expect(gate.settled()).toBe(false)
-  } finally {
-    controller.abort()
-    snapshot.dispose()
-    gate.resolve(utf8('late'))
-    await sourceRead
-    await consumed
-    await drain()
-  }
-  expect(events).toEqual(['read-entered', 'read-completed'])
-  expect(observation.value).toBe('AbortError')
-  await expect(snapshot.source.readText('slow.txt')).rejects.toMatchObject({ name: 'AbortError' })
-})
+import { memoryFileSource } from './__tests__/glm-runtime-contract-fixtures.js'
+import { prepareBattleTrialAssets } from './battle-trial-assets.js'
+import { battleTrialRevision } from './battle-trial-prepare.js'
+import { sha256Bytes } from './hash.js'
+import { compressGzip, encodeSpriteChunk } from './index.js'
+import { loadCurrentProjectFrom } from './project-loader.js'
+import { assertProjectSaveReadable, PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
 
 test('complete trial preparation freezes real project resources and dispose closes only project-owned bitmaps', async () => {
   const f = await readyTrialFixture(),
@@ -169,11 +47,9 @@ test('complete trial preparation freezes real project resources and dispose clos
     expect({ files: f.files, config: f.config, actors: f.project.actorsById }).toEqual(before)
     ready.dispose()
     expect(face[0]!.close).toHaveBeenCalledTimes(1)
-    expect(
-      host.bitmaps
-        .filter((bitmap) => !bitmap.face)
-        .every((bitmap) => bitmap.close.mock.calls.length === 0),
-    ).toBe(true)
+    const engineChrome = host.bitmaps.filter((bitmap) => !bitmap.face)
+    expect(engineChrome.length).toBeGreaterThan(0)
+    for (const bitmap of engineChrome) expect(bitmap.close).not.toHaveBeenCalled()
     const closed = await ready.project.source.readBytes(f.facePath).then(
       () => 'accepted',
       (error) => error.name,
@@ -293,5 +169,140 @@ test('real project resource IO rejection never returns a prepared trial', async 
   } finally {
     accepted?.dispose()
     host.restore()
+  }
+})
+
+test.each([
+  'asset',
+  'silent',
+] as const)('试打音乐模式 %s 决定是否冻结配乐和音色库', async (mode) => {
+  const f = await readyTrialFixture()
+  // 单轨 MIDI 只含结束事件。音色库字节走 RIFF/sfbk 资源边界，本入口仅冻结字节。
+  const musicBytes = Uint8Array.of(
+    77,
+    84,
+    104,
+    100,
+    0,
+    0,
+    0,
+    6,
+    0,
+    0,
+    0,
+    1,
+    0,
+    96,
+    77,
+    84,
+    114,
+    107,
+    0,
+    0,
+    0,
+    4,
+    0,
+    255,
+    47,
+    0,
+  )
+  const soundfontBytes = Uint8Array.of(82, 73, 70, 70, 4, 0, 0, 0, 115, 102, 98, 107)
+  const catalog = f.files['assets/index.json'] as AssetCatalogV1
+  const manifest = f.files['manifest.json'] as {
+    assets: { roles: Record<string, string> }
+  }
+  manifest.assets.roles['audio.midiSoundfont'] = 'soundfont.bin'
+  manifest.assets.roles['audio.defaultBattleMusic'] = 'music.theme'
+  manifest.assets.roles['audio.bossVictoryMusic'] = 'music.theme'
+  manifest.assets.roles['audio.normalVictoryMusic'] = 'music.theme'
+  manifest.assets.roles['audio.openingMenuMusic'] = 'music.theme'
+  const addAsset = async (
+    id: string,
+    kind: AssetCatalogV1['assets'][string]['kind'],
+    path: string,
+    bytes: Uint8Array,
+    mediaType: string,
+  ) => {
+    f.files[path] = bytes.slice().buffer
+    catalog.assets[id] = {
+      kind,
+      path,
+      mediaType,
+      bytes: bytes.byteLength,
+      sha256: await sha256Bytes(bytes),
+      origin: { kind: 'generated' },
+    }
+  }
+  const musicPath = 'assets/generated/theme.mid'
+  const soundfontPath = 'assets/generated/soundfont.sf2'
+  await addAsset('music.theme', 'music', musicPath, musicBytes, 'audio/midi')
+  await addAsset('soundfont.bin', 'soundfont', soundfontPath, soundfontBytes, 'application/x-sf2')
+  const frames = encodeSpriteChunk(
+    Array.from({ length: 4 }, () => ({
+      width: 1,
+      height: 1,
+      pixels: new Uint8Array([1]),
+      opaque: new Uint8Array([1]),
+    })),
+  )
+  const compressed = await compressGzip(frames)
+  await addAsset(
+    PAL_PHYSICAL_EFFECT_ASSET_ID,
+    'effect-sprite',
+    'assets/generated/physical.rle',
+    compressed,
+    'application/vnd.type-pal.rle',
+  )
+  await addAsset(
+    palMagicEffectSpriteAssetId(0),
+    'effect-sprite',
+    'assets/generated/fire.rle',
+    compressed,
+    'application/vnd.type-pal.rle',
+  )
+  // 2) 按补丁后的文件表重载工程，再计算 token/revision（准备期复查基于同一 files 表）。
+  const reloadBase = memoryFileSource(f.files)
+  const reloadSource = {
+    ...reloadBase,
+    readBytes: async (path: string) => {
+      f.binaryReads.push(path)
+      return reloadBase.readBytes(path)
+    },
+  }
+  f.project = await loadCurrentProjectFrom(reloadSource)
+  const token = await assertProjectSaveReadable(reloadSource)
+  const revision = await battleTrialRevision(f.project)
+  f.binaryReads.length = 0
+  const config = trialConfig([trialMember({ mp: { kind: 'value', value: 20 } })], {
+    money: 100,
+    music: mode === 'asset' ? { kind: 'asset', assetId: 'music.theme' } : { kind: 'silent' },
+  })
+  const member = config.party.members[0]
+  if (!member) throw new Error('fixture party missing')
+  member.skills = { kind: 'replace', ids: ['trial-spark'] }
+  const chrome = installTrialChromeHost(f.faceHash)
+  let prepared: Awaited<ReturnType<typeof prepareBattleTrialAssets>> | undefined
+  try {
+    prepared = await prepareBattleTrialAssets(
+      f.project,
+      config,
+      token,
+      new AbortController().signal,
+      revision,
+    )
+    expect(prepared.assets.effectSprite?.frames).toHaveLength(4)
+    expect(prepared.assets.fireSprites?.[0]?.frames).toHaveLength(4)
+    const musicReads = f.binaryReads.filter((path) => path === musicPath || path === soundfontPath)
+    if (mode === 'silent') {
+      expect(musicReads).toEqual([])
+      return
+    }
+    expect(musicReads.sort()).toEqual([musicPath, soundfontPath].sort())
+    await expect(prepared.project.assetResolver.readBytes('music.theme', 'music')).resolves.toEqual(
+      musicBytes.buffer,
+    )
+  } finally {
+    prepared?.dispose()
+    chrome.restore()
   }
 })

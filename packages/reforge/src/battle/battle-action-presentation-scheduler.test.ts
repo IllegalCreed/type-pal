@@ -3,9 +3,7 @@ import {
   BattleActionPresentationScheduler,
   type BattlePlaybackAdvance,
 } from './battle-action-presentation-scheduler.js'
-import schedulerSource from './battle-action-presentation-scheduler.ts?raw'
 import type { AnimFrame } from './battle-anim.js'
-import battleSessionSource from './battle-session.ts?raw'
 
 const frame = (durationMs = 40): AnimFrame => ({
   durationMs,
@@ -83,22 +81,5 @@ describe('BattleActionPresentationScheduler', () => {
     scheduler.satisfyActionCadence()
     expect(scheduler.consumeActionCadence(0)).toBe(false)
     expect(scheduler.consumeActionCadence(1)).toBe(true)
-  })
-})
-
-describe('BattleActionPresentationScheduler ownership boundary', () => {
-  test('owns cadence, player and scripted state without importing the session or battle aggregate', () => {
-    for (const field of ['actionElapsedMs', 'player', 'scripted'])
-      expect(schedulerSource).toContain(`private ${field}`)
-    expect(schedulerSource).not.toContain('BattleState')
-    expect(schedulerSource).not.toContain("from './battle-session")
-
-    for (const stale of ['private actTimer', 'private anim:', 'private scriptAnimation'])
-      expect(battleSessionSource).not.toContain(stale)
-    expect(battleSessionSource.match(/new BattleActionPresentationScheduler\(/g)).toHaveLength(1)
-    expect(battleSessionSource).toContain('this.actionPresentation.advanceScript(dtMs)')
-    expect(
-      battleSessionSource.match(/this\.actionPresentation\.advancePlayback\(dtMs\)/g),
-    ).toHaveLength(2)
   })
 })

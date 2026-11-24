@@ -72,12 +72,11 @@ describe('玩家物攻全体时间线', () => {
       ),
     ).toEqual([62, 66, 64, 56, 60, 58, 70])
     expect(frames.at(-1)?.durationMs).toBe(120)
-    expect(frames.at(-1)?.fighters?.[0]).toEqual({
-      side: 'player',
-      idx: 1,
-      frame: 0,
-      pos: attackerPos,
-    })
+    expect(frames.at(-1)?.fighters).toEqual([
+      { side: 'player', idx: 1, frame: 0, pos: attackerPos },
+      { side: 'enemy', idx: 0, pos: { x: 70, y: 130 } },
+      { side: 'enemy', idx: 1, pos: { x: 140, y: 106 } },
+    ])
   })
 
   test('两挥的武器音在首个特效帧，飘字在次帧且不重复派发', () => {
@@ -139,7 +138,7 @@ describe('玩家物攻全体时间线', () => {
     const frames = buildPlayerAttackAll({
       ...input,
       effectFrameBase: -1,
-      targets: [{ idx: 3, pos: { x: 100, y: 80 } }],
+      targets: [{ idx: 3, pos: { x: 50, y: 100 } }],
       sweeps: [{ hits: [{ idx: 3, value: 17 }] }],
     })
     expect(frames[1]?.fighters).toEqual([

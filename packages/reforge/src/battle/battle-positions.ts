@@ -1,6 +1,6 @@
 /**
- * 战斗精灵底锚坐标(M4b)—— 移植一阶段 battle-positions.ts(= sdlpal battle.c 真值)。
- * 队员/敌人的落点(脚底中心);present 据此画战斗精灵。坐标系 = 320×200 逻辑屏。
+ * 战斗精灵以脚底中心为锚点，坐标单位为 320×200 逻辑像素。
+ * 队员前三档来自 SDLPal。四人、五人站位为 Reforge 扩展。
  */
 
 /** 队员战斗位置(sdlpal battle.c:27 g_rgPlayerPos[3][3][2];表只到 3 人,4/5 沿用+加格)。 */
@@ -70,7 +70,7 @@ export function getPlayerBasePos(
   return positions?.[idx]
 }
 
-/** 敌方底锚(按敌人总数选预设站位 + yPosOffset,battle.c:939)。idx 越界 → undefined。 */
+/** 按开战阵容的槽位上界取站位，纵坐标加敌方配置偏移（battle.c:936–939）。 */
 export function getEnemyBasePos(
   enemyCount: number,
   idx: number,

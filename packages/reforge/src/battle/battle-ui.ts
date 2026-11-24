@@ -1,9 +1,6 @@
 /**
- * 战斗 UI 绘制(M4d-1)—— 队员信息框 / 框式指令菜单 / 当前行动者手指。
- *
- * UX 形态参照一阶段战斗 UI(playerbox+头像+黄青错落数字,91+77i,165),实现全部
- * 复用 D17 菜单基建(drawSlicedBox 九宫格 / renderSpans 字模 / drawNumber 预烘数字);
- * 320 逻辑坐标,调用方已 ctx.scale。资产缺省时调用方走文字兜底(单测/加载失败容错)。
+ * 绘制战斗信息框、指令菜单和目标光标。会话负责准备显示数据并设置画布缩放。
+ * 布局以 320×200 逻辑像素为单位，框、字模与数字复用菜单素材。
  */
 
 import type { Palette } from '@type-pal/shared'
@@ -82,8 +79,7 @@ export const ITEM_GRID: GridLayout = {
   amountX: 81,
 }
 
-export interface InfoBoxPlayer {
-  roleId: string
+interface InfoBoxPlayer {
   hp: number
   maxHp: number
   mp: number
@@ -219,15 +215,13 @@ export function drawPlayerInfoBox(
 export interface BattleMenuRow {
   label: string
   disabled?: boolean
-  /** 行右侧数值(仙术 MP / 物品数量);黄数字右对齐。 */
+  /** 菜单项右侧数字。色与对齐方式由实际绘制的列表决定。 */
   right?: number
 }
 
 /**
- * 竖排小盒菜单(杂项盒/使用投掷盒,一阶段 uibattle 杂项盒布局)。返回框宽。
- * w/h 定死传入(一阶段盒 = tile 网格 (cols+2)×16,杂项 64×96 / 二级 48×48),
- * **不随文字动态撑宽** —— 作者点名的惯犯:菜单盒按原版定尺寸,文字长了压边是原版本样。
- * confirmed=true:当前项固定金黄(已进二级,父项确认色 0x2C),其余不闪。
+ * 杂项菜单和使用／投掷子菜单使用宿主给定的尺寸。
+ * 展开子菜单时，已确认的父项保持金色。
  */
 export function drawBattleMenuBox(
   ctx: CanvasRenderingContext2D,
@@ -241,7 +235,7 @@ export function drawBattleMenuBox(
   w: number,
   h: number,
   confirmed = false,
-): number {
+): void {
   drawSlicedBox(ctx, menu.box, x, y, w, h)
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
   rows.forEach((r, i) => {
@@ -260,7 +254,6 @@ export function drawBattleMenuBox(
       drawNumber(ctx, r.right, x + w - 14, ry + 5, r.disabled ? menu.numsBlue : menu.nums)
     }
   })
-  return w
 }
 
 /** Engine chrome owns its color ramps, just like the baked menu text and number sprites.
@@ -291,10 +284,10 @@ const monoIconCache = new WeakMap<ImageBitmap, Map<number, HTMLCanvasElement>>()
 
 /**
  * PAL_RLEBlitMonoColor 的 RGBA 版(palcommon.c:446,经一阶段 blitSpriteMonoColor):
- * 每不透明像素取明度档(≈原索引低 nibble),+shift clamp[0,15],查 chrome 自有色带上色。
- * band 0x00 = 灰组(灰阶);band 0x10 = 红组(**暗红** —— 作者点破「原版一定有红」,对)。
+ * 按像素亮度近似原色索引低四位。战斗菜单的灰阶和暗红图标都使用 −4 档偏移，
+ * 因此同一位图只需按色段缓存。
  */
-function monoIcon(img: ImageBitmap, band: number, shift: number): HTMLCanvasElement {
+function monoIcon(img: ImageBitmap, band: number): HTMLCanvasElement {
   const variants = monoIconCache.get(img) ?? new Map<number, HTMLCanvasElement>()
   const hit = variants.get(band)
   if (hit) return hit
@@ -309,7 +302,7 @@ function monoIcon(img: ImageBitmap, band: number, shift: number): HTMLCanvasElem
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] === 0) continue
     const luma = 0.299 * (d[i] ?? 0) + 0.587 * (d[i + 1] ?? 0) + 0.114 * (d[i + 2] ?? 0)
-    let lv = Math.round((luma / 255) * 15) + shift
+    let lv = Math.round((luma / 255) * 15) - 4
     lv = lv < 0 ? 0 : lv > 15 ? 15 : lv
     const gray = ICON_GRAY[lv] ?? 0
     const col = band === 0x10 ? (ICON_RED[lv] ?? ICON_RED[0]) : [gray, gray, gray]
@@ -343,7 +336,7 @@ export function drawMainIcons(
       return
     }
     const band = valid[i] ? 0x00 : 0x10
-    ctx.drawImage(monoIcon(img, band, -4), pos.x, pos.y)
+    ctx.drawImage(monoIcon(img, band), pos.x, pos.y)
   })
 }
 

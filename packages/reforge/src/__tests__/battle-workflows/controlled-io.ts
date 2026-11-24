@@ -17,17 +17,17 @@ export function recordingSfx(): { player: SfxPlayer; plays: string[] } {
   }
 }
 
-/** 空 GlyphTable（与旧 battle-session.test 同型兜底，has 恒 false）。 */
+/** 无字模时使用生产文字渲染的缺字路径。 */
 export const stubGlyphs: GlyphTable = {
   has: () => false,
   get: () => undefined,
-} as unknown as GlyphTable
+}
 
-/** 空 palette 渲染替身（colors/cycles 不参与业务断言）。 */
+/** 不检查颜色的用例仍提供完整的索引色表。 */
 export const stubPalette: Palette = {
-  colors: [],
+  colors: Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0]),
   cycles: [],
-} as unknown as Palette
+}
 
 /** 确定性 RNG 工厂：固定序列循环。 */
 export function fixedRng(values: readonly number[] = [0]): () => number {

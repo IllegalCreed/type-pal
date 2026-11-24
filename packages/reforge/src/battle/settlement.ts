@@ -1,15 +1,9 @@
 /**
- * 战斗胜利结算屏(B7b)—— 忠实 port 一阶段 draw-battle-settlement(sdlpal PAL_BattleWon
- * battle.c:991-1373)。原版**无「战斗胜利!」字样**,直接放 box 序列:
- *   Phase A 经验金钱 → Phase B 每个升级角色的 8 属性 old→cur → Phase D 每条练成技能。
- * 逐屏空格推进(会话在 over 阶段驱动)。坐标/字串取一阶段考证真值。
- *
- * 渲染复用 D17 menu-box 基建(drawScroll 单行框 / drawSlicedBox 红框 / drawNumber);
- * 320 逻辑坐标,调用方已 ctx.scale。
+ * 按 PAL_BattleWon 的顺序组装胜利结算页，使用 Reforge 的居中版式。
+ * 绘制采用 320×200 逻辑坐标。页面推进由 BattleSettlementPresentation 管理。
  */
 
 import type { HiddenStatKey, LevelUpReport, RewardReport } from '@type-pal/content'
-import { expectDefined } from '../defined.js'
 import {
   drawNumberLeft,
   drawScroll,
@@ -23,11 +17,8 @@ import { measureSpans, renderSpans } from '../text/text-render.js'
 const COLOR_LEVELUP_LABEL = [214, 198, 140] as const // 0xBB 升级标签
 const COLOR_MAGIC = [203, 89, 77] as const // PAL 标准色板 0x1B
 
-/** 8 升级标签(顺序 = battle.c:1141-1148)。 */
-const LEVELUP_LABELS = ['修行', '体力', '真气', '武术', '灵力', '防御', '身法', '吉运'] as const
-
-/** 隐藏经验池 → 显示标签(B7c;与 LEVELUP_LABELS 同词表)。 */
-const HIDDEN_STAT_LABEL: Record<HiddenStatKey, string> = {
+/** 升级表和隐藏成长提示使用相同的属性名称。 */
+const STAT_LABEL: Record<HiddenStatKey, string> = {
   maxHP: '体力',
   maxMP: '真气',
   attack: '武术',
@@ -37,7 +28,6 @@ const HIDDEN_STAT_LABEL: Record<HiddenStatKey, string> = {
   luck: '吉运',
 }
 
-/** 结算一屏(判别联合)。 */
 export type SettlementScreen =
   | { kind: 'exp-cash'; exp: number; cash: number }
   | { kind: 'level-up'; name: string; report: LevelUpReport }
@@ -62,7 +52,7 @@ export function buildSettlementScreens(
       screens.push({
         kind: 'hidden-up',
         name: nameOf(id),
-        statLabel: HIDDEN_STAT_LABEL[row.stat],
+        statLabel: STAT_LABEL[row.stat],
         delta: row.delta,
       })
     }
@@ -74,7 +64,6 @@ export function buildSettlementScreens(
   return screens
 }
 
-/** 画结算当前一屏(box + 文字 + 数字)。缺 UI 资产 → 跳过(单测)。 */
 export function drawSettlementScreen(
   ctx: CanvasRenderingContext2D,
   screen: SettlementScreen,
@@ -264,26 +253,26 @@ function drawLevelUp(
   const b = rep.before
   const a = rep.after
   const rows: StatRow[] = [
-    { lab: expectDefined(LEVELUP_LABELS[0]), old: b.level, cur: a.level },
+    { lab: '修行', old: b.level, cur: a.level },
     {
-      lab: expectDefined(LEVELUP_LABELS[1]),
+      lab: STAT_LABEL.maxHP,
       old: b.hp,
       cur: a.hp,
       oldMax: b.maxHP,
       curMax: a.maxHP,
     },
     {
-      lab: expectDefined(LEVELUP_LABELS[2]),
+      lab: STAT_LABEL.maxMP,
       old: b.mp,
       cur: a.mp,
       oldMax: b.maxMP,
       curMax: a.maxMP,
     },
-    { lab: expectDefined(LEVELUP_LABELS[3]), old: b.attack, cur: a.attack },
-    { lab: expectDefined(LEVELUP_LABELS[4]), old: b.magicAttack, cur: a.magicAttack },
-    { lab: expectDefined(LEVELUP_LABELS[5]), old: b.defense, cur: a.defense },
-    { lab: expectDefined(LEVELUP_LABELS[6]), old: b.speed, cur: a.speed },
-    { lab: expectDefined(LEVELUP_LABELS[7]), old: b.luck, cur: a.luck },
+    { lab: STAT_LABEL.attack, old: b.attack, cur: a.attack },
+    { lab: STAT_LABEL.magicAttack, old: b.magicAttack, cur: a.magicAttack },
+    { lab: STAT_LABEL.defense, old: b.defense, cur: a.defense },
+    { lab: STAT_LABEL.speed, old: b.speed, cur: a.speed },
+    { lab: STAT_LABEL.luck, old: b.luck, cur: a.luck },
   ]
   // 列(相对框,原版标注真值):标签 + **间距**(黄区)+ 旧 cur **右对齐到绿线** + max 右挂;
   //   箭头固定列;新 cur 右对齐到第二绿线 + max 右挂。cur 右对齐 → 各行 cur 右缘成列。
