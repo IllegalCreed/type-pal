@@ -93,16 +93,29 @@ function deferred<T>() {
   return { promise, resolve, reject }
 }
 
-test('invalid SFX cache budgets fail before looking up assets', () => {
+test('invalid SFX cache budgets fail before opening audio or looking up assets', () => {
   const reader = new FakeReader()
   const record = vi.spyOn(reader, 'record')
-  for (const budget of [0, -1, 1.5, Number.NaN]) {
-    expect(() => new SfxPlayer(reader, undefined, budget)).toThrow(
-      `SfxPlayer maxDecoded 必须是正整数，收到 ${String(budget)}`,
-    )
+  const openContext = vi.fn()
+  vi.stubGlobal('window', {
+    AudioContext: class {
+      constructor() {
+        openContext()
+      }
+    },
+  })
+  try {
+    for (const budget of [0, -1, 1.5, Number.NaN]) {
+      expect(() => new SfxPlayer(reader, undefined, budget)).toThrow(
+        `SfxPlayer maxDecoded 必须是正整数，收到 ${String(budget)}`,
+      )
+    }
+    expect(openContext).not.toHaveBeenCalled()
+    expect(record).not.toHaveBeenCalled()
+    expect(reader.reads.size).toBe(0)
+  } finally {
+    vi.unstubAllGlobals()
   }
-  expect(record).not.toHaveBeenCalled()
-  expect(reader.reads.size).toBe(0)
 })
 
 test('a valid budget without browser audio reports the fallback', async () => {

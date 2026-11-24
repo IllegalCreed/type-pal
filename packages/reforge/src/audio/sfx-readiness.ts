@@ -22,6 +22,7 @@ import {
   collectReachableEnemyDefs,
   collectReachableEnemySkillIds,
 } from '../battle/enemy-closure.js'
+import { resolveBaseEntityPage } from '../script-world.js'
 
 function add(out: Set<AssetId>, asset: AssetId | undefined): void {
   if (asset) out.add(asset)
@@ -151,8 +152,11 @@ export async function collectScriptSoundAssets(
 }
 
 export async function collectSceneSoundAssets(input: {
+  /** Keep the canonical command roots even when a world projection selects one animation page. */
   scene: SceneDef | RuntimeSceneDef
-  /** 存档中的场景脚本覆写等动态命令根。 */
+  /** The scene view used to seed entity actions, if a world state is available. */
+  activeEntities?: readonly SceneDef['entities'][number][]
+  /** Additional executable roots, such as private scripts of items in the inventory. */
   additionalRoots?: readonly unknown[]
   inventoryItems?: readonly ItemData[]
   spritesById?: Readonly<Record<string, SpriteDef>>
@@ -165,15 +169,17 @@ export async function collectSceneSoundAssets(input: {
     input.signal,
     input.spritesById,
   )
-  for (const entity of input.scene.entities) {
-    const binding = entity.pages?.[0]?.animation
+  input.signal.throwIfAborted()
+  for (const entity of input.activeEntities ?? input.scene.entities) {
+    const page = 'initialPage' in entity ? resolveBaseEntityPage(entity) : entity.pages?.[0]
+    const binding = page?.animation
     if (binding)
       addSpriteActionSounds(
         sounds,
         input.spritesById,
         binding.sprite,
         binding.action,
-        `scene:${input.scene.id}:entity:${entity.id}:pages[0].animation`,
+        `scene:${input.scene.id}:entity:${entity.id}:active page animation`,
       )
   }
   for (const item of input.inventoryItems ?? []) addItemSounds(sounds, item)
@@ -193,7 +199,6 @@ export interface BattleBaseSoundInput extends BattleSoundTables {
   cooperativeSkillIds?: readonly string[]
   enemyDefs: readonly EnemyDef[]
   enemiesById: Readonly<Record<string, EnemyDef>>
-  /** 敌人偷取所得可在后续回合使用；只补本场敌闭包可获得的物品，不扫描全项目。 */
   /** 进战时已在敌我身上的毒；两侧 tick 表不同，身份不得只用 poisonId。 */
   activePlayerPoisons?: readonly ActivePoison[]
   activeEnemyPoisons?: readonly ActivePoison[]
@@ -318,6 +323,7 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
     add(closure.sounds, enemy.sounds.magic)
     add(closure.sounds, enemy.sounds.death)
     add(closure.sounds, enemy.sounds.call)
+    // 敌人偷取所得可用于后续回合；仅纳入本场能取得的物品。
     closure.includeReachableItem(enemy.steal ? input.itemsById[enemy.steal.itemId] : undefined)
     // 敌普攻附带道具只执行 use.effects，且不播放该物品自身声音。
     closure.includeItemAbility(

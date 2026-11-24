@@ -547,18 +547,6 @@ export async function loadStampTemplates(project: LoadedCurrentProject) {
   return path ? validateStampTemplates(await project.source.readJson<unknown>(path)) : []
 }
 
-export async function loadAllProjectMaps(
-  project: LoadedCurrentProject,
-): Promise<Record<string, ProjectMap>> {
-  const maps: Record<string, ProjectMap> = {}
-  await Promise.all(
-    project.mapIndex.maps.map(async (asset) => {
-      maps[asset.id] = await loadProjectMap(project.assetBase, asset.path)
-    }),
-  )
-  return maps
-}
-
 export async function loadProjectMapById(
   project: Pick<LoadedCurrentProject, 'mapIndex' | 'assetBase'>,
   mapId: string,

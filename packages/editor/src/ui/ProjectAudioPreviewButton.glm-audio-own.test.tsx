@@ -6,18 +6,19 @@
  * 正式 blank 项目；仅 P2/P3/P4 使用「全委托记录包装」（记录输入、行为 100% 委托真实
  * transport，不 mock 任何业务核心）。
  */
+
 import type { AssetCatalogV1 } from '@type-pal/content'
 import {
   analyzeMidiBytes,
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
 import { claimEditorAudioPreview, stopEditorAudioPreview } from '../core/audio-preview-session.js'
 import { sha256Hex } from '../core/binary-signature.js'
@@ -303,7 +304,7 @@ describe('P 组（真实 WAV 端口）：接管 / 绑定值切换 / 在途打断
     const state = toEditorState(
       project,
       await loadAllAuthorScenes(project),
-      await loadAllProjectMaps(project),
+      await loadFixtureProjectMaps(project),
       {},
       [],
     )

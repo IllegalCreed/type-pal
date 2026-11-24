@@ -103,6 +103,7 @@ interface InFlightDecode {
  * AssetId-only SFX player。readiness 与播放严格分离：未 prepare 的声音绝不迟到补播。
  */
 export class SfxPlayer {
+  private readonly adapter: SfxAudioAdapter | undefined
   private readonly decoded = new Map<AssetId, unknown>()
   private readonly inFlight = new Map<AssetId, InFlightDecode>()
   private readonly generations = new Map<AssetId, number>()
@@ -119,12 +120,13 @@ export class SfxPlayer {
 
   constructor(
     private readonly reader: SfxAssetReader,
-    private readonly adapter: SfxAudioAdapter | undefined = browserAdapter(),
+    adapter?: SfxAudioAdapter,
     private readonly maxDecoded = SFX_DECODE_BUDGET,
   ) {
     if (!Number.isInteger(maxDecoded) || maxDecoded <= 0)
       throw new Error(`SfxPlayer maxDecoded 必须是正整数，收到 ${maxDecoded}`)
-    if (!adapter && typeof window !== 'undefined')
+    this.adapter = adapter === undefined ? browserAdapter() : adapter
+    if (!this.adapter && typeof window !== 'undefined')
       console.warn('[sfx] AudioContext 不可用，音效播放器停用')
   }
 

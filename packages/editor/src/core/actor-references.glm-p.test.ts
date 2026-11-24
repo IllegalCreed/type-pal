@@ -19,6 +19,7 @@
  *   不复制旧测试强转、不新增接口。
  * 合法输入：pEditorState typed 夹具（引用目标闭合：actor/coveredBy/装备/levelUp 均有存在目标）。
  */
+
 import {
   type BattleSpriteDef,
   validateActors,
@@ -26,14 +27,10 @@ import {
   validateBattleSprites,
   validateCurrentManifestStartup,
 } from '@type-pal/content'
-import {
-  fsaSource,
-  loadAllAuthorScenes,
-  loadAllProjectMaps,
-  loadCurrentProjectFrom,
-} from '@type-pal/reforge'
+import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
 import { describe, expect, test } from 'vitest'
 import { pEditorState } from '../__tests__/glm-p/kit.js'
+import { loadFixtureProjectMaps } from '../__tests__/project-map-fixtures.js'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import {
   actorReferenceBlocksDeletion,
@@ -340,7 +337,7 @@ async function loadProjectionState(): Promise<EditorState> {
   const state = toEditorState(
     project,
     await loadAllAuthorScenes(project),
-    await loadAllProjectMaps(project),
+    await loadFixtureProjectMaps(project),
     {},
     [],
   )

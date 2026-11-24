@@ -54,10 +54,3 @@ export function shouldShowOpeningMenu(request: OpeningMenuRequest): boolean {
     !!request.requestedSceneId && request.sceneIds.includes(request.requestedSceneId)
   return request.menuRequested && !request.explicitEntryMatch && !validSceneOverride
 }
-
-export type StartupLaunchRoute = 'direct' | 'menu-entry' | 'menu-load'
-
-/** 入口 intro 只属于标题菜单中新开一局；直达和读档都不得播放。 */
-export function shouldPlayEntryIntro(route: StartupLaunchRoute): boolean {
-  return route === 'menu-entry'
-}

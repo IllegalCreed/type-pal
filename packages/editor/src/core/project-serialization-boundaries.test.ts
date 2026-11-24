@@ -27,6 +27,7 @@ import type {
   ScriptIndexV1,
 } from '@type-pal/content'
 import { fsaSource, loadAllAuthorScenes, loadCurrentProjectFrom } from '@type-pal/reforge'
+import { loadProjectMapById } from '@type-pal/reforge/author-io'
 import { EditSession } from './edit-session.js'
 import { UpdateEntityCommand } from './entity-commands.js'
 import { finishOpen } from './open-actions.js'
@@ -319,14 +320,13 @@ test('S02: 未加载地图经 readText copy-through 逐字保留；已加载工�
   expect(files[mapPath]).toBe(original)
 
   // 分支二：已加载工作副本 → formatProjectMap 输出且内存编辑优先于旧磁盘原文。
-  const loaded = await (await import('@type-pal/reforge')).loadAllProjectMaps(opened.project)
-  const working = loaded[mapId]!
+  const working = await loadProjectMapById(opened.project, mapId)
   // 修改工作副本使其与磁盘原文不同：改第一个图层名（formatProjectMap 逐层输出 name）。
   const layers = working.layers.map((layer, index) =>
     index === 0 ? { ...layer, name: `${layer.name}-已编辑` } : layer,
   )
   const edited = { ...working, layers }
-  state.maps = { ...loaded, [mapId]: edited }
+  state.maps = { [mapId]: edited }
   const filesAfterEdit = await serializeProjectWithMapCopies(state, source)
   const output = filesAfterEdit[mapPath] as string
   expect(output).not.toBe(original) // 内存编辑胜出，而非 copy-through 原文

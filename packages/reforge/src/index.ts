@@ -170,7 +170,6 @@ export type {
 export {
   assembleCurrentProject,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadAllScenes,
   loadAuthorScene,
   loadCurrentProject,

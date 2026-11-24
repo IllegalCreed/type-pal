@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@type-pal/shared": "workspace:*",
-    "spessasynth_lib": "^4.3.6"
+    "spessasynth_lib": "4.4.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",

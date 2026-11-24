@@ -1,7 +1,7 @@
 /** In-world restoration, health scaling and effect results. */
 
 import { describe, expect, test } from 'vitest'
-import { hero, item as makeItem, poisonDefs, world } from './__tests__/glm-item-logic-fixtures.js'
+import { hero, item as makeItem, poisonDefs, world } from './__tests__/item-world-fixtures.js'
 import { deepSnapshot } from './__tests__/value-snapshot.js'
 import type { ItemData, ItemDataMap, ItemUseEffect, UseSpec } from './item.js'
 import { resolveWorldItemUse } from './item.js'

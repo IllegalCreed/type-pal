@@ -19,7 +19,7 @@ import {
   poisonDefs,
   rawItem,
   world,
-} from './__tests__/glm-item-logic-fixtures.js'
+} from './__tests__/item-world-fixtures.js'
 import type { CharacterInstance, WorldState } from './character.js'
 import type { ItemDataMap, ItemUseEffect, WorldItemUseOutcome } from './item.js'
 import { resolveWorldItemUse } from './item.js'

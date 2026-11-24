@@ -1,6 +1,6 @@
 import type { TextSpan } from '@type-pal/content'
 import { bakeGlyph, FALLBACK_GLYPH_WIDTH, type GlyphTable } from './glyph.js'
-import { colorRgba } from './palette-color.js'
+import { dialogColorRgb } from './palette-color.js'
 
 const SHADOW_RGB = [0, 0, 0] as const
 
@@ -33,7 +33,7 @@ export function renderSpans(
   let shown = 0
   const limit = opts.maxChars ?? Number.POSITIVE_INFINITY
   for (const span of spans) {
-    const rgb = opts.forceRgba ?? colorRgba(span.color ?? 'default')
+    const rgb = opts.forceRgba ?? dialogColorRgb(span.color ?? 'default')
     for (const ch of span.text) {
       if (shown >= limit) return cursorX - x
       const cp = ch.codePointAt(0) ?? 0

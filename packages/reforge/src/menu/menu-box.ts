@@ -349,12 +349,6 @@ export function statusPortraitAsset(
   return member.appearance?.portrait ?? actor?.portraits?.default
 }
 
-/** 装备槽列表(来自 content EQUIP_SLOT_IDS 单一真值;label = equip.<slot>)。 */
-const EQUIP_SLOTS: { slot: string; label: TextId }[] = EQUIP_SLOT_IDS.map((slot) => ({
-  slot,
-  label: `equip.${slot}`,
-}))
-
 export interface MenuAssets {
   /** 黄框九宫格 9 块(ImageBitmap,索引 i*3+j)。 */
   box: BoxTiles
@@ -495,7 +489,7 @@ export async function loadMenuAssets(
 }
 
 export class MenuBox {
-  /** 状态板头像懒加载缓存(chunk 号 → 图;null = 加载中/失败,回落 assets.avatar)。 */
+  /** 状态板以 AssetId 衔接已加载立绘。null 表示请求已启动，失败原因单独让下一次绘制报错。 */
   private readonly portraitCache = new Map<AssetId, ImageBitmap | null>()
   private readonly portraitErrors = new Map<AssetId, Error>()
 
@@ -529,7 +523,7 @@ export class MenuBox {
     if (failure) throw failure
     const hit = this.portraitCache.get(asset)
     if (hit) return hit
-    if (hit === null) return undefined // 加载中/失败
+    if (hit === null) return undefined // 请求尚未完成
     this.portraitCache.set(asset, null)
     void this.extras.imageCache
       .load(asset, 'portrait')
@@ -666,7 +660,7 @@ export class MenuBox {
 
     // 右栏:6 装备格 2 列 × 3 行平铺 —— 格 + 装备图标 + 装备物名(格下居中,0xBE)。
     // 原版 draw-player-status:画穿戴物名(item._name)非槽位名;空槽(无装备)跳过、留空。
-    EQUIP_SLOTS.forEach(({ slot }, i) => {
+    EQUIP_SLOT_IDS.forEach((slot, i) => {
       const gx = EQUIP_X0 + (i % EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_X)
       const gy = EQUIP_Y0 + Math.floor(i / EQUIP_COLS) * (EQUIP_SLOT_SIZE + EQUIP_GAP_Y)
       if (this.assets.equipSlot) {

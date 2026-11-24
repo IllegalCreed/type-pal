@@ -62,7 +62,7 @@ replaceOnce(
   `packages/editor/src/core/\${probe.file}.background.test.ts`,
 )
 replaceOnce(
-  'packages/content/src/__tests__/glm-item-logic-fixtures.ts',
+  'packages/content/src/__tests__/item-world-fixtures.ts',
   'packages/editor/src/core/__tests__/cursor-map-logic-fixtures.ts',
 )
 replaceOnce("resolve(root, 'packages/content')", "resolve(root, 'packages/editor')")

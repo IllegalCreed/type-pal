@@ -5,7 +5,7 @@ import {
   hero,
   heroActor,
   item as makeItem,
-} from './__tests__/glm-item-logic-fixtures.js'
+} from './__tests__/item-world-fixtures.js'
 import { expectAcceptsUnchanged } from './__tests__/validation-assertions.js'
 import type { CharacterInstance } from './character.js'
 import {

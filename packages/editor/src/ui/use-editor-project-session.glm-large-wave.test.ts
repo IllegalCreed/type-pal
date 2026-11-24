@@ -10,8 +10,8 @@ import { act, createElement, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from '../core/__tests__/author-save-fixture.js'
-import { observeAuthorSource } from '../core/author-disk-baseline.js'
 import { EditSession } from '../core/edit-session.js'
+import { openLocalProject } from '../core/open-local.js'
 import { ProjectLeaveGuard } from '../core/project-leave-guard.js'
 import { type ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
 import { buildBlankProject } from '../core/seed.js'
@@ -124,20 +124,13 @@ async function mountedSession(options: { failManifestWrite?: boolean } = {}) {
   const main = new EditSession(state)
   const script = new ScriptEditSession(scriptState)
   const disk = memoryAuthorDirectory(await buildBlankProject('glm-large-wave-session'))
-  const fsa = await import('@type-pal/reforge')
-  const rawSource = fsa.fsaSource(disk.dir)
   if (options.failManifestWrite) {
     disk.hooks.beforeClose = (path: string) => {
       if (path === 'manifest.json') throw new Error('glw-write-failure')
     }
   }
   const workspace = createLocalWorkspaceContext(state.manifest.id, 'blank-project')
-  const observed = observeAuthorSource(rawSource)
-  const project = await fsa.loadCurrentProjectFrom(observed.source)
-  // 与真实打开流一致：戳表等旁路内容也经观察源读取，进入磁盘基线证据。
-  await fsa.loadStampTemplates(project)
-  await fsa.loadAllProjectMaps(project)
-  const authorBaseline = await observed.finish(project, disk.dir)
+  const { project, authorBaseline } = await openLocalProject(disk.dir)
   // 与真实打开流一致：打开时登记工作区句柄绑定，保存授权依赖它。
   const { saveWorkspaceHandle } = await import('../core/handle-store.js')
   await saveWorkspaceHandle(workspace, disk.dir.name, disk.dir)
@@ -160,7 +153,7 @@ async function mountedSession(options: { failManifestWrite?: boolean } = {}) {
       main,
       script,
       projectGuard: guard,
-      projectSource: rawSource,
+      projectSource: project.source,
       workspace,
       initialDirectory: disk.dir,
       authorBaseline,
@@ -170,7 +163,7 @@ async function mountedSession(options: { failManifestWrite?: boolean } = {}) {
   const off = guard.connect()
   await act(async () => root.render(createElement(Harness)))
   if (!latest) throw new Error('hook did not initialize')
-  return { latest, main, script, disk, guard, release: off, rawSource, fsa }
+  return { latest, main, script, disk, guard, release: off }
 }
 
 describe('B04 编辑器项目会话 hook', () => {

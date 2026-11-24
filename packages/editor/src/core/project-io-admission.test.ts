@@ -1,6 +1,6 @@
 /** Current project serialization/write boundaries; independent of GLM's open-identity slice. */
 import type { AssetCatalogV1, CurrentManifest, StampTemplate } from '@type-pal/content'
-import { fsaSource, loadAllProjectMaps } from '@type-pal/reforge'
+import { fsaSource, loadProjectMapById } from '@type-pal/reforge/author-io'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { authorSaveStorage, memoryAuthorSaveStore } from './__tests__/author-save-store-fixture.js'
@@ -127,11 +127,11 @@ test('a custom map-index path is legal, but no map body may overwrite that exact
 
 test('loaded map bodies not present in the index cannot be silently omitted from saved output', async () => {
   const { state, opened } = await fixture()
-  const loaded = await loadAllProjectMaps(opened.project)
-  const id = state.mapIndex.maps[0]!.id
-  state.maps = loaded
+  const id = opened.project.entryScene.mapId
+  const map = await loadProjectMapById(opened.project, id)
+  state.maps = { [id]: map }
   expect(() => serializeProject(state)).not.toThrow()
-  state.maps = { ...loaded, 'unregistered-map': structuredClone(loaded[id]!) }
+  state.maps = { ...state.maps, 'unregistered-map': structuredClone(map) }
   expect(() => serializeProject(state)).toThrow('maps 存在未登记资产: unregistered-map')
 })
 

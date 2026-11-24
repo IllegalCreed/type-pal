@@ -95,6 +95,11 @@ export interface AssetCatalogV1 {
   assets: Record<AssetId, AssetRecordV1>
 }
 
+/** An AssetId is registered only if it is a key in the project catalog itself. */
+export function findAssetRecord(catalog: AssetCatalogV1, id: AssetId): AssetRecordV1 | undefined {
+  return Object.hasOwn(catalog.assets, id) ? catalog.assets[id] : undefined
+}
+
 export interface ManifestAssetConfig {
   catalog: string
   roles: Partial<Record<AssetRole, AssetId>>
@@ -199,7 +204,7 @@ export function validateManifestAssetConfig(
     for (const role of ASSET_ROLES) {
       const id = roles[role]
       if (id === undefined) continue
-      const record = catalog.assets[id as string]
+      const record = findAssetRecord(catalog, id as string)
       if (!record) throw new Error(`${where}.roles.${role}: AssetId "${String(id)}" 不存在`)
       const expected = ASSET_ROLE_KINDS[role]
       if (record.kind !== expected)
@@ -896,7 +901,7 @@ export function validateAssetReferenceClosure(
   const used = new Set<AssetId>()
   for (const reference of references) {
     used.add(reference.asset)
-    const record = catalog.assets[reference.asset]
+    const record = findAssetRecord(catalog, reference.asset)
     if (!record) {
       issues.push({
         severity: 'error',

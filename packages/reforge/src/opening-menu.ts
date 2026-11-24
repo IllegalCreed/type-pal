@@ -24,7 +24,7 @@ import {
 import type { SaveStore } from './save/store.js'
 import type { SlotId } from './save/types.js'
 import type { GlyphTable } from './text/glyph.js'
-import { CURSOR_COLOR_COUNT, CURSOR_RGBA, colorRgba } from './text/palette-color.js'
+import { CURSOR_COLOR_COUNT, CURSOR_RGB, dialogColorRgb } from './text/palette-color.js'
 import { renderSpans } from './text/text-render.js'
 
 export interface OpeningMenuItem {
@@ -182,17 +182,17 @@ export function runOpeningMenu(deps: {
       ctx.drawImage(bg, 0, 0) // FBP 2 全屏底图(盘0)
       if (phase === 'menu') {
         menuItems.forEach((it, i) => {
-          // 照原版 ui.h:选中 0xF9-0xFE 6 色轮闪(CURSOR_RGBA)、未选 0x4F(default);三层阴影;
+          // 照原版 ui.h:选中 0xF9-0xFE 6 色轮闪(CURSOR_RGB)、未选 0x4F(default);三层阴影;
           // x 走 uigame.c:107-108 公式(4 全宽字退化 125),y = 95 + 17i(照原版 ITEM_Y=[95,112])。
-          const rgba =
+          const rgb =
             i === cursor
-              ? (CURSOR_RGBA[Math.floor(now / 100) % CURSOR_COLOR_COUNT] ??
-                expectDefined(CURSOR_RGBA[0]))
-              : colorRgba('default')
+              ? (CURSOR_RGB[Math.floor(now / 100) % CURSOR_COLOR_COUNT] ??
+                expectDefined(CURSOR_RGB[0]))
+              : dialogColorRgb('default')
           renderSpans(ctx, [{ text: it.label }], openingItemX(it.label), ITEM_Y0 + i * ITEM_DY, {
             glyphs,
             shadow: true,
-            forceRgba: rgba,
+            forceRgba: rgb,
           })
         })
       } else {

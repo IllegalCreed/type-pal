@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-20
+Last reviewed: 2026-11-22
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -51,15 +51,17 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：内容资产批次留项
 
-[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)已完成 97 个原 pending 的逐文件读核，84 个验收、13 个保留 review。定向经过音频、文本、资源、菜单和绘制输入的实际生产合同。集中门与合并按同一卡记录。
+[Game 收口后的关闭复核](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md)汇总 #68–#73 的对账、同类扩查和定向返工。物品操作专测在 #74 合入后已补真实同时在途的回归。[占位精灵与 FBP 预览的输出所有权](cards/MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md)已通过隔离回归，统一门随稳定窗口执行。
+
+[Reforge 呈现治理窗口](cards/QUALITY-REFORGE-PRESENTATION-1.md)保留 #73 合并和首轮撤回的原时点统计。物品操作实现本轮恢复保留，专测裁定与现行证据见[合入后收口](cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#q2-合入后的文件收口)。
 
 迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
 
-[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)和上一窗口的 Content 物品夹具继续 review。用户已裁定资产诊断等 E2E 合入，夹具仍有 E2E 直接消费者。接续前核新主线和对应 Owner。
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)与 Content 物品世界夹具已核实际入口。#74 后原有六项已收口。后继场景、资源与呈现项已逐文件复审。两处获批旧出口已[退役并迁移有效测试](cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役)。BGM 与 MIDI 试听的最后两项留审经[配套升级和真实退出](cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)收口。当前 [PR 集中收尾](cards/QUALITY-REFORGE-PRESENTATION-1.md#pr-集中收尾) 已保存分组件检查、官方覆盖率及零诊断原件，GitHub 门按待合并 PR 核验。
 
 ### 代码治理：最近完成的文件批次
 
-`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。现行账本增加 100 条关闭登记，七个新增 review 保留停止线与后继证据。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
+`QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。合并时新增 100 条关闭登记，七项留审。当前后继裁定从上方回溯卡进入。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。
 
 内容资产后继复核已处理 13 个原 review 文件，其中 8 个实现已验证、5 个旧专测路径退役。四个承接测试和夹具按实际职责独立登记。 [后继执行归档](evidence/QUALITY-CONTENT-ASSET-REVIEW-CLOSEOUT.tar.gz)
 

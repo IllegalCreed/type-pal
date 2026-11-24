@@ -2,6 +2,7 @@
  * TEST-CURSOR-ASSET-UI-LARGE-1 精灵资产夹具：blank 项目内注入真实 gzip+RLE 精灵字节与用途定义，
  * 经正式 loader 自证可保存。只被本卡 *.cursor-r1.test.ts(x) 导入。
  */
+
 import type { AssetId, AssetRecordV1, SpriteDef, SpriteLayout } from '@type-pal/content'
 import {
   type AssetBase,
@@ -10,7 +11,6 @@ import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
   quantizeToRleFrame,
   type RleFrame,
@@ -22,6 +22,7 @@ import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
 import { buildSeedAssets } from '../../core/seed-assets.js'
+import { loadFixtureProjectMaps } from '../project-map-fixtures.js'
 
 export interface CursorSpriteSpec {
   asset: AssetId
@@ -140,7 +141,7 @@ export async function loadCursorSpriteProject(
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase, disk, seeded }

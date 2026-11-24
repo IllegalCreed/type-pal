@@ -57,15 +57,17 @@ export async function loadProjectMap(base: AssetBase, mapPath: string): Promise<
 
 export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
   const text = await base.assetResolver.readRoleText('visual.standardColorTable')
-  let palette: Partial<Palette>
+  let palette: unknown
   try {
-    palette = JSON.parse(text) as Partial<Palette>
+    palette = JSON.parse(text)
   } catch (error) {
     throw new Error(
       `工程标准色彩 JSON 非法: ${error instanceof Error ? error.message : String(error)}`,
     )
   }
-  if (!Array.isArray(palette.colors) || palette.colors.length !== 256)
+  if (!palette || typeof palette !== 'object' || Array.isArray(palette))
+    throw new Error('工程标准色彩 JSON 根必须是对象')
+  if (!('colors' in palette) || !Array.isArray(palette.colors) || palette.colors.length !== 256)
     throw new Error('工程标准色彩必须包含 256 个 RGB 颜色')
   for (const [index, color] of palette.colors.entries()) {
     if (
@@ -75,7 +77,8 @@ export async function loadStandardPalette(base: AssetBase): Promise<Palette> {
     )
       throw new Error(`工程标准色彩第 ${index} 项不是合法 RGB`)
   }
-  if (!Array.isArray(palette.cycles)) throw new Error('工程标准色彩缺 cycles 数组')
+  if (!('cycles' in palette) || !Array.isArray(palette.cycles))
+    throw new Error('工程标准色彩缺 cycles 数组')
   return palette as Palette
 }
 
@@ -567,11 +570,7 @@ export async function loadBattleBg(
   return (await loadBattleBgFull(base, asset, palette)).canvas
 }
 
-/**
- * 浏览器原生 gzip 解压（端口自 game/assets/tileset-blob.ts）。
- * 含 Content-Encoding 双解压防御：无 gzip 魔数(1f 8b) = 上游已解，直接返回。
- */
-/** canonical gzip sprite chunk 字节 → 瓦片帧表；裸 RLE 只允许一次性升级器处理。 */
+/** Canonical tilesets store gzip-wrapped RLE; unwrapped payloads fail at this boundary. */
 export async function tilesFromChunkBytes(
   gz: ArrayBuffer,
   options: { label?: string } = {},
@@ -602,6 +601,7 @@ export async function compressGzip(bytes: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(out)
 }
 
+/** Pass through bytes already decoded by the transport when the gzip header is absent. */
 export async function decompressGzip(blob: Blob): Promise<Uint8Array> {
   const buf = await blob.arrayBuffer()
   const bytes = new Uint8Array(buf)

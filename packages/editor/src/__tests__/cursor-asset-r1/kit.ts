@@ -3,11 +3,11 @@
  * Node/jsdom 宿主桥、合法 blank 装载器、受控输入与组合框驱动。
  * 只被本卡 *.cursor-r1.test.ts(x) 导入，不进生产。
  */
+
 import {
   type FileSource,
   fsaSource,
   loadAllAuthorScenes,
-  loadAllProjectMaps,
   loadCurrentProjectFrom,
 } from '@type-pal/reforge'
 import { act } from 'react'
@@ -17,6 +17,7 @@ import type { EditorState, EditSession } from '../../core/edit-session.js'
 import { assertProjectSaveValid } from '../../core/project-diagnostics.js'
 import { toEditorState } from '../../core/project-io.js'
 import { buildBlankProject } from '../../core/seed.js'
+import { loadFixtureProjectMaps } from '../project-map-fixtures.js'
 
 export interface LegalProject {
   source: FileSource
@@ -31,7 +32,7 @@ export async function loadLegalProject(name = 'cursor-asset-r1'): Promise<LegalP
   const source = fsaSource(disk.dir)
   const project = await loadCurrentProjectFrom(source)
   const scenes = await loadAllAuthorScenes(project)
-  const maps = await loadAllProjectMaps(project)
+  const maps = await loadFixtureProjectMaps(project)
   const state = toEditorState(project, scenes, maps, {}, [])
   assertProjectSaveValid(state)
   return { source, state, assetBase: project.assetBase, disk }

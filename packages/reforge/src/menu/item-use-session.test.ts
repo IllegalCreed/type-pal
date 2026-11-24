@@ -50,26 +50,42 @@ test('item operation preserves original failure identity and releases the slot a
   session.cancel()
 })
 
-test('item operation instances do not share busy or abort ownership', async () => {
-  const a = new ItemUseSession(),
-    b = new ItemUseSession(),
-    gate = deferred<void>()
-  let aSignal: AbortSignal | undefined, bSignal: AbortSignal | undefined
-  const pending = a.run(async (signal) => {
+test('canceling one of two in-flight item operations leaves the other instance alone', async () => {
+  const a = new ItemUseSession()
+  const b = new ItemUseSession()
+  const releaseA = deferred<void>()
+  const releaseB = deferred<void>()
+  let aSignal: AbortSignal | undefined
+  let bSignal: AbortSignal | undefined
+  const pendingA = a.run(async (signal) => {
     aSignal = signal
-    await gate.promise
+    await releaseA.promise
   })
+  const pendingB = b.run(async (signal) => {
+    bSignal = signal
+    await releaseB.promise
+  })
+
   try {
-    await b.run(async (signal) => {
-      bSignal = signal
-    })
-    b.cancel()
+    expect(a.pending).toBe(true)
+    expect(b.pending).toBe(true)
     expect(aSignal?.aborted).toBe(false)
     expect(bSignal?.aborted).toBe(false)
+
+    a.cancel()
+    expect(aSignal?.aborted).toBe(true)
+    expect(bSignal?.aborted).toBe(false)
     expect(a.pending).toBe(true)
-    expect(b.pending).toBe(false)
+    expect(b.pending).toBe(true)
+
+    releaseA.resolve()
+    await pendingA
+    expect(a.pending).toBe(false)
+    expect(b.pending).toBe(true)
+    expect(bSignal?.aborted).toBe(false)
   } finally {
-    gate.resolve()
-    await pending
+    releaseA.resolve()
+    releaseB.resolve()
+    await Promise.all([pendingA, pendingB])
   }
 })
