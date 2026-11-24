@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'vitest'
-import type { BattleLastAction } from './battle-last-action.js'
+import type { BattleLastAction } from '../../battle/battle-last-action.js'
 
 type EnemyAttack = Extract<BattleLastAction, { side: 'enemy'; kind: 'attack' }>
 type EnemyAttackMate = Extract<BattleLastAction, { side: 'enemy'; kind: 'attackMate' }>
