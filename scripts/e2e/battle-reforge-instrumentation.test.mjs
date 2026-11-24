@@ -32,6 +32,18 @@ test('current real battle producers instrument once; drift fails closed and norm
           ),
         /producer drift/,
       )
+    if (file.endsWith('/battle/battle-command-selection.ts')) {
+      const returnSite = '      return\n    }\n    if (confirm) {\n      const target = alive'
+      assert(source.includes(returnSite))
+      assert.throws(
+        () =>
+          instrumentReforgeBattle(
+            source.replace(returnSite, returnSite.replace('      return\n', '')),
+            file,
+          ),
+        /enemy target cancel must return before confirmation/,
+      )
+    }
     if (file.endsWith('/battle/battle-session.ts'))
       assert.throws(
         () =>
@@ -278,7 +290,7 @@ test('dream-snake compositing projects frozen target draws and the distinct sour
   })
 })
 
-test('enemy spell cancellation observes the actual target before the replacement commit', async () => {
+test('spell cancellation observes each actual target before a later commit, including when confirm is held', async () => {
   const file = 'packages/reforge/src/battle/battle-command-selection.ts'
   const source = await readFile(new URL(`../../${file}`, import.meta.url), 'utf8')
   const cancelled = []
@@ -294,27 +306,69 @@ test('enemy spell cancellation observes the actual target before the replacement
     }).outputText,
     browser,
   )
-  const selection = new browser.exports.BattleCommandSelection()
-  const context = {
-    playerIndex: 0,
-    player: { skills: ['303'], mp: 100, silenced: false, healthy: true },
-    playerCount: 1,
-    healthyPlayerCount: 1,
-    aliveEnemyIndices: [0, 2],
-    usableItems: [],
-    throwableItems: [],
-    skills: { 303: { target: 'oneEnemy', cost: { mp: 6 } } },
-    money: 0,
+  const scenarios = [
+    {
+      side: 'enemy',
+      target: 'oneEnemy',
+      movedSlot: 2,
+      phase: 'menu',
+      enterSteps: 3,
+      targetKey: 'targetEnemyIdx',
+      effect: { kind: 'damage', power: 20, elemental: 0 },
+    },
+    {
+      side: 'ally',
+      target: 'oneAlly',
+      movedSlot: 1,
+      phase: 'skill',
+      enterSteps: 2,
+      targetKey: 'targetAllyIdx',
+      effect: { kind: 'healHp', amount: 20 },
+    },
+  ]
+  for (const { side, target, movedSlot, phase, enterSteps, targetKey, effect } of scenarios) {
+    for (const keys of [['Escape'], ['Escape', 'Enter']]) {
+      cancelled.length = 0
+      committed.length = 0
+      const selection = new browser.exports.BattleCommandSelection()
+      const context = {
+        playerIndex: 0,
+        player: { skills: ['303'], mp: 100, silenced: false, healthy: true },
+        playerCount: 2,
+        healthyPlayerCount: 2,
+        selectablePlayerIndices: [0, 1],
+        aliveEnemyIndices: [0, 2],
+        usableItems: [],
+        throwableItems: [],
+        skills: {
+          303: {
+            id: '303',
+            name: 'name.303',
+            desc: '',
+            cost: { mp: 6 },
+            target,
+            usableOutsideBattle: false,
+            effects: [effect],
+            animation: { effectSprite: 0 },
+          },
+        },
+        items: {},
+      }
+      const port = {
+        submit: (slot, action) => committed.push([slot, structuredClone(action)]),
+        retract: () => assert.fail('unexpected retract'),
+        consumeOthersForCoop: () => assert.fail('unexpected cooperative action'),
+      }
+      const press = (...pressed) => selection.advance(context, new Set(pressed), port)
+      for (const key of ['ArrowLeft', 'Enter', 'Enter', 'ArrowRight']) press(key)
+      assert.equal(selection.phase, 'target')
+      press(...keys)
+      assert.deepEqual(cancelled, [[0, side, movedSlot, '303']])
+      assert.deepEqual(committed, [])
+      assert.equal(selection.phase, phase)
+      for (let step = 0; step < enterSteps; step++) press('Enter')
+      assert.deepEqual(committed, [[0, { kind: 'cast', skillId: '303', [targetKey]: 0 }]])
+      assert.equal(cancelled.length, 1)
+    }
   }
-  const press = (key) =>
-    selection.advance(context, new Set([key]), {
-      submit: (slot, action) => committed.push([slot, structuredClone(action)]),
-    })
-  for (const key of ['ArrowLeft', 'Enter', 'Enter', 'ArrowRight', 'Escape']) press(key)
-  assert.deepEqual(cancelled, [[0, 'enemy', 2, '303']])
-  assert.deepEqual(committed, [])
-  assert.equal(selection.phase, 'menu')
-  for (const key of ['Enter', 'Enter', 'Enter']) press(key)
-  assert.deepEqual(committed, [[0, { kind: 'cast', skillId: '303', targetEnemyIdx: 0 }]])
-  assert.equal(cancelled.length, 1)
 })

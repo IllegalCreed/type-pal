@@ -67,27 +67,37 @@ function observeTargetCancel(node, ast, add, call) {
   if (
     !ts.isIfStatement(node) ||
     node.expression.getText(ast) !== "pressed.has('Escape')" ||
-    !ts.isBlock(node.thenStatement) ||
-    ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) !== 'advance'
+    !ts.isBlock(node.thenStatement)
   )
     return
-  const first = node.thenStatement.statements[0]
-  if (!first) return
-  const ally = ts.isExpressionStatement(first) && first.getText(ast) === "this.targetSide = 'enemy'"
-  const enemy = ts.isIfStatement(first) && first.expression.getText(ast) === 'this.pendingThrowItem'
-  if (!ally && !enemy) return
+  const method = ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast)
+  if (method !== 'advanceAllyTarget' && method !== 'advanceEnemyTarget') return
+  const ally = method === 'advanceAllyTarget'
   const side = ally ? 'ally' : 'enemy'
+  const { statements } = node.thenStatement
+  const first = statements[0]
+  const exit = statements.at(-1)
+  const hasCancelStart =
+    first &&
+    (ally
+      ? ts.isExpressionStatement(first) && first.getText(ast) === "this.targetSide = 'enemy'"
+      : ts.isIfStatement(first) && first.expression.getText(ast) === 'this.pendingThrowItem')
+  assert(hasCancelStart, `${side} target cancel producer changed`)
+  assert(
+    exit && ts.isReturnStatement(exit) && !exit.expression,
+    `${side} target cancel must return before confirmation`,
+  )
   const otherAction = ally ? 'this.pendingItemId' : 'this.pendingCoop || this.pendingThrowItem'
   const nextPhase = ally ? 'skill' : 'menu'
   const target = ally ? 'this.targetIndex % count' : 'alive[this.targetIndex % alive.length]'
   add(
     `${side}-target-draft`,
     node.thenStatement.getStart(ast) + 1,
-    `\nconst __battleCancelledSkill = confirm || (${otherAction}) ? null : this.pendingSkillId;\n`,
+    `\nconst __battleCancelledSkill = (${otherAction}) ? null : this.pendingSkillId;\n`,
   )
   add(
     `${side}-target-cancel`,
-    node.thenStatement.end - 1,
+    exit.getStart(ast),
     `\nif (__battleCancelledSkill && this.currentPhase === '${nextPhase}') {\n${call('targetCancel', `sel, '${side}', ${target}, __battleCancelledSkill`)} }\n`,
   )
 }
