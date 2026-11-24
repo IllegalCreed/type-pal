@@ -7,6 +7,7 @@ import {
   type ItemData,
   type ShopDef,
   type SpriteDef,
+  validateAuthorItems,
   validateAuthorSharedScripts,
   validateSceneIndex,
 } from '@type-pal/content'
@@ -14,6 +15,10 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { loadPalBaseline } from './migration-baseline.js'
 import type { MigrationJson } from './migration-files.js'
 import { createMigrationPlan, snapshotOf } from './migration-plan.js'
+import {
+  discoverProjectManagedFiles,
+  loadProjectMigrationSnapshot,
+} from './migration-project-io.js'
 import { loadPalContentSupplySources } from './pal-content-supply-io.js'
 import {
   buildPalCurrentPublication,
@@ -39,6 +44,44 @@ function triggerSchemes(files: Map<string, MigrationJson>, path: string, entityI
 }
 
 describe('PAL current-only publication', () => {
+  it('publishes the current author project after the redundant handkerchief auto scheme is retired', () => {
+    const baseline = loadPalBaseline(repo)
+    if (!baseline) throw new Error('缺 PAL baseline')
+    const sources = loadPalContentSupplySources(repo)
+    const publication = buildPalCurrentPublication(baseline, sources)
+    const manifest = buildPalCurrentManifest(sources.assetCatalog)
+    const seed = new Set([...baseline.managedFiles, ...publication.managedFiles])
+    const project = loadProjectMigrationSnapshot(repo, discoverProjectManagedFiles(repo, seed))
+    const plan = createMigrationPlan(baseline, project, publication)
+
+    expect(plan.conflicts).toEqual([])
+    const target = { ...publication, files: plan.target, managedFiles: new Set(plan.target.keys()) }
+    expect(validatePalCurrentPublication({ publication: target, manifest, sources })).toMatchObject(
+      {
+        scenes: 294,
+        referenceWarnings: 0,
+      },
+    )
+
+    const files = new Map(target.files)
+    const items = validateAuthorItems(structuredClone(files.get('content/items.json')))
+    const handkerchief = items.find(({ id }) => id === '292')
+    const script = handkerchief?.use?.effects.find(({ kind }) => kind === 'itemPrivateScript')
+    if (script?.kind !== 'itemPrivateScript') throw new Error('缺凤纹手绢剧情脚本')
+    const { body } = script.script
+    script.script.body = body.filter(
+      (command) =>
+        command.kind !== 'runEntityTrigger' ||
+        command.target.scene !== 's273' ||
+        command.target.entity !== 'e4724',
+    )
+    expect(script.script.body).toHaveLength(body.length - 1)
+    files.set('content/items.json', JSON.parse(JSON.stringify(items)))
+    expect(() =>
+      validatePalCurrentPublication({ publication: { ...target, files }, manifest, sources }),
+    ).toThrow('PAL 物品剧情方案数量漂移: 48 != 49')
+  })
+
   it('publishes merged author scheme names without regenerating them, while rejecting broken item roots', () => {
     const baseline = loadPalBaseline(repo)!
     const baselineBefore = structuredClone(baseline)

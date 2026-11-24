@@ -118,7 +118,12 @@ describe('ED-3 PAL project reference index', () => {
     // recipes also remove generated self-targets from authored reference scans.
     // The current defeat routes remove duplicated targets in s093.
     // Confirmed quest uses add new pose and reveal targets in s192 and s273.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_259)
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_251)
+    expect(
+      diagnostics.entityAddressReferences.filter(({ path }) =>
+        path.includes('.behaviors.auto.c8-a0ab54723b62.'),
+      ),
+    ).toEqual([])
     expect(diagnostics.entityAddressReferences).toContainEqual({
       sceneId: 's273',
       entityId: 'e4724',

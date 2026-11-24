@@ -287,10 +287,31 @@ export function validatePalCurrentPublication(args: {
     if (!mapAssetById(mapIndex, scene.mapId))
       throw new Error(`场景 ${scene.id} 引用未知地图 ${scene.mapId}`)
   })
+  // The authored handkerchief trigger absorbed one auto scheme. Identify that
+  // retirement by address so losing a different pair of nodes and edges still fails.
+  const handkerchief = authorScenes
+    .find((scene) => scene.id === 's273')
+    ?.entities.find((entity) => entity.id === 'e4724')?.behaviors
+  const handkerchiefRunsTrigger = authorItems
+    .find((item) => item.id === '292')
+    ?.use?.effects.some(
+      (effect) =>
+        effect.kind === 'itemPrivateScript' &&
+        effect.script.body.some(
+          (command) =>
+            command.kind === 'runEntityTrigger' &&
+            command.target.scene === 's273' &&
+            command.target.entity === 'e4724',
+        ),
+    )
+  const retiredHandkerchiefAuto =
+    handkerchiefRunsTrigger &&
+    Object.hasOwn(handkerchief?.trigger ?? {}, 'c8-f4bde04ce9f0') &&
+    !Object.hasOwn(handkerchief?.auto ?? {}, 'c8-a0ab54723b62')
   inspectPalItemSchemeRoots({
     items: authorItems,
     scenes: authorScenes,
-    expectedSchemes: 49,
+    expectedSchemes: retiredHandkerchiefAuto ? 48 : 49,
     expectedItemRoots: 11,
   })
   const sharedScripts = validateAuthorSharedScripts(
