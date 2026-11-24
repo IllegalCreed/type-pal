@@ -117,7 +117,19 @@ describe('ED-3 PAL project reference index', () => {
     // E2E 008/009 moved the hammer targets and simplified pond movement; acquisition
     // recipes also remove generated self-targets from authored reference scans.
     // The current defeat routes remove duplicated targets in s093.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_252)
+    // Confirmed quest uses add new pose and reveal targets in s192 and s273.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_251)
+    expect(
+      diagnostics.entityAddressReferences.filter(({ path }) =>
+        path.includes('.behaviors.auto.c8-a0ab54723b62.'),
+      ),
+    ).toEqual([])
+    expect(diagnostics.entityAddressReferences).toContainEqual({
+      sceneId: 's273',
+      entityId: 'e4724',
+      path: 'items[231].use.effects[0].script.body[3].target',
+      locator: { kind: 'item', itemId: '292' },
+    })
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
     expect(
@@ -972,7 +984,24 @@ describe('ED-3 PAL project reference index', () => {
     const { edges, index } = referenceContext()
 
     // The s093 branches now share one continuation and retire two auto selections.
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_385)
+    // The confirmed s273 item route calls its trigger directly and drops the old auto selection.
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_384)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's273',
+        entityId: 'e4724',
+        channel: 'trigger',
+        behaviorId: 'c8-f4bde04ce9f0',
+      }),
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          where: 'items.292.use.effects[0].script.body[1]',
+          relation: { kind: 'behavior-reference', use: 'select-behavior' },
+        }),
+      ]),
+    )
     expect(
       edges
         .filter(
@@ -1150,8 +1179,8 @@ describe('ED-3 PAL project reference index', () => {
   test('transports the compact reference snapshot through a fresh worker runtime', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_563)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_506)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_562)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_505)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

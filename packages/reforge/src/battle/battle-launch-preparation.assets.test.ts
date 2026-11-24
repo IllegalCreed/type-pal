@@ -18,7 +18,7 @@ afterEach(async () => {
 })
 
 async function fieldedFixture() {
-  const fixture = await battleHostFixture()
+  const fixture = await battleHostFixture(false, undefined, true)
   f = fixture
   // dom-host 的画布替身 getImageData 恒全零 → 换 glm-n 替身（像素恒 5，满足索引图契约读取）。
   installGlmNCanvasHost(5)
@@ -39,6 +39,13 @@ async function fieldedFixture() {
   validateBattleFields(fields)
   fixture.fixture.files['content/battle-fields.json'] = fields
   const catalog = structuredClone(fixture.fixture.project.assetCatalog)
+  const battleMusic = catalog.assets['battle-music']
+  if (!battleMusic) throw new Error('missing battle music fixture')
+  const musicBytes = fixture.fixture.binaries.get(battleMusic.path)
+  if (!musicBytes) throw new Error('missing MIDI fixture bytes')
+  const encounterMusicPath = 'assets/generated/encounter-music.mid'
+  fixture.fixture.binaries.set(encounterMusicPath, musicBytes.slice())
+  catalog.assets['encounter-music'] = { ...battleMusic, path: encounterMusicPath }
   const bgBytes = glmNpng(320, 200, 5, 255)
   fixture.fixture.binaries.set('assets/generated/bg.wave.png', bgBytes)
   catalog.assets['bg.wave'] = {
@@ -125,17 +132,31 @@ async function fieldedFixture() {
   return { ...fixture, prep }
 }
 
-test('N05 显式 options.music 直接成为战斗曲目，不经角色解析', async () => {
+test('遭遇指定的配乐优先于工程默认曲目', async () => {
   const fixture = await fieldedFixture()
-  const options: BattleLaunchOptions = { music: 'music.explicit' }
+  const options: BattleLaunchOptions = { music: 'encounter-music' }
+  const selected: string[] = []
+  expect(fixture.fixture.project.manifest.assets.roles['audio.defaultBattleMusic']).toBe(
+    'battle-music',
+  )
   const prepared = await fixture.prep
-    .prepare('encounter', options, new AbortController().signal, () => {}, vi.fn())
+    .prepare(
+      'encounter',
+      options,
+      new AbortController().signal,
+      () => {},
+      vi.fn(),
+      (track) => {
+        selected.push(track)
+      },
+    )
     .then((result) => ({ ...result, ...result.commit() }))
-  expect(prepared.battleTrack).toBe('music.explicit')
+  expect(prepared.battleTrack).toBe('encounter-music')
+  expect(selected).toEqual(['encounter-music'])
   fixture.assertInputs()
 })
 
-test('N05 指定战场号读取常驻波、索引背景与投掷特效精灵', async () => {
+test('战场背景、常驻波幅与背包投掷特效在开战前备齐', async () => {
   const fixture = await fieldedFixture()
   const options: BattleLaunchOptions = { fieldId: 7 }
   const prepared = await fixture.prep
@@ -148,11 +169,11 @@ test('N05 指定战场号读取常驻波、索引背景与投掷特效精灵', a
   expect(indexed?.h).toBe(200)
   expect(indexed?.indices.every((value) => value === 5)).toBe(true)
   // 背包投掷物品的 magic 呈现 → fire chunk 0 已加载。
-  expect(prepared.sessionAssets.fireSprites?.[0]).toBeTruthy()
+  expect(prepared.sessionAssets.fireSprites?.[0]?.frames).toHaveLength(4)
   fixture.assertInputs()
 })
 
-test('N05 未知战场号缺省 24 号且黑底（无背景资产 IO）', async () => {
+test('工程未提供默认战场时不加载战场背景', async () => {
   const fixture = await fieldedFixture()
   const fetchSpy = vi.spyOn(window, 'fetch')
   const prepared = await fixture.prep

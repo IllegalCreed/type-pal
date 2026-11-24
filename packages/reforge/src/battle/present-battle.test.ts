@@ -21,7 +21,7 @@ describe('renderBattleScene 战斗遮挡排序', () => {
   afterEach(() => vi.unstubAllGlobals())
 
   test('Y 升序；equal-Y 时敌我混排并按 X 降序', () => {
-    // 一阶段真值：packages/game/src/present/battle/draw-battle-sprites.ts:392-393。
+    // 一阶段真值：packages/game/src/present/battle/draw-battle-sprites.ts:378。
     vi.stubGlobal('document', {
       createElement: () => ({
         width: 0,

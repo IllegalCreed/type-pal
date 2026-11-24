@@ -7,6 +7,35 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User-approved retirement of the redundant handkerchief auto scheme. Its
+    // four historical traces remain in the oracle and the live trigger is covered.
+    {
+      file: 'packages/reforge/src/pal-unified-steps-content.test.ts',
+      previous: 5167,
+      current: 5163,
+      previousIdentityDigest: '69987d4f175eb1250205fbc4d76f6453aff6398393cce2c8fe51fe7720a56f85',
+      currentIdentityDigest: '0cd30adcfb9a363f04465ca2c0b77716b56b903041c0c99b8b71eb284faeb9c4',
+      fileSha256: 'df78da33df898da1d97d59eadfda0e48e292b1cd5661713df4b913d9f1512cc2',
+    },
+    // The Reforge battle review retired two source-string checks of private fields.
+    // The timeline and settlement contracts stay covered by the executable cases.
+    // See QUALITY-REFORGE-BATTLE-1 and the exact identity mapping in its archive.
+    {
+      file: 'packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts',
+      previous: 6,
+      current: 5,
+      previousIdentityDigest: 'd646062f70276532c4dcffc32b1cf80f842d522e8a87f17996cacc035c86af92',
+      currentIdentityDigest: 'bdaaf1c729aafbea79d5058081a6b16c78618244638a7df7110ce850503c95d8',
+      fileSha256: '48c3688d3b161d4f5703323ab21edcc6c791848bd5570b7aef4c51e8b5b97bf8',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-settlement-presentation.test.ts',
+      previous: 14,
+      current: 13,
+      previousIdentityDigest: 'b7338458e25da890c32ef884b78cf77fe97911a26e121321e6d775d393d21d04',
+      currentIdentityDigest: '5bd06e920e0dee989eafdb35065750817d870af6ea7e4794e7e5d46a92b68a3d',
+      fileSha256: 'c8645be24a7570ed1a18cc42c6f66c4511b08a842b7bf7466fffc66edb44e4bc',
+    },
     // Reforge presentation window: responsibility-based transfers and evidenced duplicates.
     // User authorized test organization. Exact identities and Code Owner decisions are in
     // QUALITY-REFORGE-PRESENTATION-1.tar.gz, window/coverage-test-identity-delta.json.

@@ -42,6 +42,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1 — 占位精灵与 FBP 预览的输出所有权](MIGRATION-BATTLE-PLACEHOLDER-OUTPUT-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [MIGRATION-PAL-HANDKERCHIEF-SCHEME-1 — 凤纹手绢旧自动方案退役](MIGRATION-PAL-HANDKERCHIEF-SCHEME-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [PAL-ENTRY-FADE-1 — 场景淡入同时执行前景正文](PAL-ENTRY-FADE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -50,6 +51,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1 — Game 收口后历次关闭复核](QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-REFORGE-BATTLE-1 — Reforge 战斗实现与专测治理](QUALITY-REFORGE-BATTLE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |

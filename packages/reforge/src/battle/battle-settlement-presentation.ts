@@ -79,7 +79,7 @@ export class BattleSettlementPresentation {
     // 逃跑/敌逃/脚本终止没有通用结果屏；演出门清后同拍完成。
     if (result === 'playerFled' || result === 'enemyFled' || result === 'terminated') return result
 
-    // 普通全灭由大世界立即接续红屏（fight.c:1145–1152）。
+    // 具有败退接续流程的宿主接管全灭表现，结算阶段无需再等通用停顿。
     if (result === 'defeat' && handoffDefeat) return result
 
     // 无结算屏的胜/败仍短暂停留。

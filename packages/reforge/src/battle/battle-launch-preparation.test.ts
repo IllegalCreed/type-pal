@@ -3,7 +3,8 @@ import { validateEnemyTeams } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import { battleHostFixture } from '../__tests__/battle-host-fixture.js'
 import { SfxReadinessCollectionError } from '../audio/sfx.js'
-import type { BattleLaunchOptions } from './battle-launch-preparation.js'
+import { trialAbortError } from '../battle-trial-assets.js'
+import { type BattleLaunchOptions, isBattleAbort } from './battle-launch-preparation.js'
 
 let f: Awaited<ReturnType<typeof battleHostFixture>> | undefined
 afterEach(async () => {
@@ -99,4 +100,12 @@ test('turn readiness reuses the complete base set without mutating the submitted
   expect(new Set(sounds.mock.calls[1]![0])).toEqual(base)
   expect(snapshot).toEqual(before)
   f.assertInputs()
+})
+
+test('distinguishes battle cancellations from failures at the launch boundary', () => {
+  expect(isBattleAbort(trialAbortError())).toBe(true)
+  expect(isBattleAbort(new DOMException('cancelled', 'AbortError'))).toBe(true)
+  expect(isBattleAbort(new Error('resource read failed'))).toBe(false)
+  expect(isBattleAbort('AbortError')).toBe(false)
+  expect(isBattleAbort(null)).toBe(false)
 })

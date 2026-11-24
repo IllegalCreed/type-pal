@@ -33,6 +33,14 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
     [
       {
         file: palAutoFile,
+        previous: 5167,
+        current: 5163,
+        previousIdentityDigest: '69987d4f175eb1250205fbc4d76f6453aff6398393cce2c8fe51fe7720a56f85',
+        currentIdentityDigest: '0cd30adcfb9a363f04465ca2c0b77716b56b903041c0c99b8b71eb284faeb9c4',
+        fileSha256: 'df78da33df898da1d97d59eadfda0e48e292b1cd5661713df4b913d9f1512cc2',
+      },
+      {
+        file: palAutoFile,
         previous: 5414,
         current: 5410,
         previousIdentityDigest: '1952a3f8f7cb645ee161bbae45050334a83094c44796bd2d9072faba4e55855b',
@@ -107,12 +115,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // PAL shop scanner retirement: one exact snapshot, three per-file cases.
   // Reforge presentation: seven exact snapshots transfer or merge eighteen per-file cases.
   // Startup intro: one exact predicate case transfers to the production boot host.
+  // Reforge battle: two exact snapshots retire private source-string assertions.
   // This census sums snapshot count deltas, not retired unique business contracts.
-  assert.equal(historical.length, 117)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 117)
+  assert.equal(historical.length, 119)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 119)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    503,
+    505,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "636c14d4b825e27ceb9374daac231da2c4b1dbad7e2fd73348aa3cb14be788c8",
+      "afterSha256": "915c86d6e3c1f4885b96961cd647b5e2816004c9b3b5c782291e05205f31ee1d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "按调用职责迁移浏览器 MIDI 专测夹具，记录构造失败的释放与重试反例。",
-        "reviewedLines": 1491,
-        "acceptanceScope": "夹具改归专测目录、两处测试入口及账本对应行。沿用既有两项音频关闭与真实退出证据，状态和数量不变。"
+        "date": "2026-11-24",
+        "conclusion": "按实际逐文件结论和路径移动对账，原关闭行保全。",
+        "reviewedLines": 1591,
+        "acceptanceScope": "有限增量核独立状态、保留旧记录、Git 库存和候选指纹。集成及未决义务取任务卡。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "3ef8ee63d89a9494030b5b75ee6ccc14232b3a60feee1e752c1fd2520f6b6e92",
+      "afterSha256": "3959dcff451d9849439d16935923ec937d30a5904d7da05a00d8cc9249ad49a4",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-22",
-        "conclusion": "看板引导至已完成的集中验证与 PR 待合并状态。",
-        "reviewedLines": 144,
-        "acceptanceScope": "只核音频收口段的验证进展和任务卡链接，活动分工及以前的只读证据保留。"
+        "date": "2026-11-24",
+        "conclusion": "接收 PR #76 当前主线事实及下一窗口的责任入口。",
+        "reviewedLines": 150,
+        "acceptanceScope": "核合并状态、同 SHA 的两个 CI 完成结果、窗口单一 Owner 与有限范围。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "36e89344f7135cd5f6764c761928bb27761f550dd62388395cc770155375cabc",
+      "afterSha256": "ee9e175a4a7ce670c32e3db97e09b738acc6d005ba09e213f208435e7b21a8bf",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "登记 Q2 后的唯一来源维护回执。",
-        "reviewedLines": 148,
-        "acceptanceScope": "核相对链接和实际正文身份，保留先前的各组导航。"
+        "date": "2026-11-24",
+        "conclusion": "战斗窗口从单一任务记录和 Q2 来源回执进入。",
+        "reviewedLines": 149,
+        "acceptanceScope": "导航指向实在卡与来源，继承史料引用未移动。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "239d419173192bd10665342ee17985ca532977e693b93f816fe098a84cc10a1d",
+      "afterSha256": "13ed8140e8cb0e7a6cfbf3f120a400618812656a4edce269c4c4ef0f188c8b48",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "核任务索引与现行卡状态相同。",
-        "reviewedLines": 616,
-        "acceptanceScope": "只读重新生成逐字节一致，资产登记任务从 blocked 到 review。"
+        "date": "2026-11-24",
+        "conclusion": "生成任务索引已照现行复核卡加入一行。",
+        "reviewedLines": 618,
+        "acceptanceScope": "只读取新卡和当前状态，对既有任务不授新信用。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b68fdf3191a1422e5f4d73f710b03f85bce76ddb876ea705e7d29b27507c991b",
+      "afterSha256": "7c395652546299ea4d960cee6978a0e841f9740f55f35e4ca3c30e75c3b4f7fd",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 11139,
-        "acceptanceScope": "主线：以固定已刊主线 778928d 逐值及原字节反解核对：仅二十条 character.ts 版本引用的当前摘要和每条一次回绑历史改变。成员、顺序、其他字段、旧历史、版本、状态、声明、执行和附件均保持；未认证新执行。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：固定 #74 对比 b55f15625；5–22 段、旧执行、状态、版本、主张和成员完全保持。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "date": "2026-11-24",
+        "conclusion": "接收 Reforge 战斗治理后 Q2 四条现行源码引用。",
+        "reviewedLines": 11176,
+        "acceptanceScope": "对前驱和候选核四处声明原字节、引用坐标、准确摘要和一次附加履历。保持原运行与业务主张，复验范围限四处引用。"
       }
     },
     {
@@ -5459,27 +5459,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "14304431ee7516266bf026b3a30f82875de13996f86c415fdc932d43aa900245",
+      "afterSha256": "13a6155b4d7c66b386c3d2076c303f79d3c89a2f59b96ff7b922fe5f6f0a8bcf",
       "review": {
         "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 15336,
-        "acceptanceScope": "保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "date": "2026-11-24",
+        "conclusion": "接收 Reforge 战斗治理后 Q2 四条现行源码引用。",
+        "reviewedLines": 15373,
+        "acceptanceScope": "对前驱和候选核四处声明原字节、引用坐标、准确摘要和一次附加履历。保持原运行与业务主张，复验范围限四处引用。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "44092db8de31aebb403664d8a74bf5970ec380f70ac63a304cb1d85ee66cafbb",
+      "afterSha256": "bac7d6fb5eb0ebe289051ecad30759ae56de305e8c95bb432ee9c3f88dd23f69",
       "review": {
-        "author": "Codex /root",
+        "author": "/root",
         "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "保全 #75 的主线四件道具复验与治理侧的既有来源维护。",
+        "date": "2026-11-24",
+        "conclusion": "接收 Reforge 战斗治理后 Q2 四条现行源码引用。",
         "reviewedLines": 1955,
-        "acceptanceScope": "四件道具的执行和独立采录沿用 #75 原件。此前七条调用来源及五个导航锚点按各自核定范围保留。"
+        "acceptanceScope": "对前驱和候选核四处声明原字节、引用坐标、准确摘要和一次附加履历。保持原运行与业务主张，复验范围限四处引用。"
       }
     },
     {
@@ -5883,6 +5883,45 @@
         "conclusion": "固定十一份现行来源载体共用的复验回执。",
         "reviewedLines": 31,
         "acceptanceScope": "核两次 Git 字节、行位移、唯一字段移除和原候选保存。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-REFORGE-BATTLE-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "6f4bca07c39651155e97c2d8d211a311c897addf671aa3b5f9284a5ab3efa6af",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-24",
+        "conclusion": "接收战斗窗口的逐文件裁定、有效迁移、产品回归和留审条件。",
+        "reviewedLines": 89,
+        "acceptanceScope": "核实际变更、旧判据、资源/战果先红后绿和候选版本。全仓与远端结果另有实际回执。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+      "templateId": "evidence-receipt-v1",
+      "afterSha256": "d6b80b329ec4cdd92fcec11a96f8b6ac115f2a1a166f0a4ef18a9e473049fc56",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-24",
+        "conclusion": "接收四处 Q2 已刊声明的现行源码引用。",
+        "reviewedLines": 32,
+        "acceptanceScope": "逐字对照两个固定 Git 版本与三个载体。历史样本、执行和业务主张保持原候选。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/MIGRATION-PAL-HANDKERCHIEF-SCHEME-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "42124a064f2b79eb18e8dbc86588f0d2ac48ec16e3180fdbc308fcb8995f2519",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/reforge_audio_review",
+        "date": "2026-11-24",
+        "conclusion": "接收真实作者工程发布失败的条件、固定输入和旧自动方案的退役范围。",
+        "reviewedLines": 34,
+        "acceptanceScope": "独立对照实际 PAL 发布红绿、作者差异、原种子与保留的轨迹身份。集成与覆盖率取治理窗口原件。"
       }
     }
   ],
@@ -7600,6 +7639,12 @@
       "sha256": "a1e046dbca21b12ed0f31ddea24b3886dda42fd7221fbeed3b1c4784b2f0e2ce",
       "bytes": 2127985,
       "purpose": "Game 后关闭复核、Q2 后场景与音频复审、旧接口退役、SpessaSynth 配套升级及 PR 集中门。保留执行、反控、失败和复跑原件。 同一档的 placeholder-gzip 保存 PR #76 占位精灵跨平台回执。"
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-REFORGE-BATTLE-1.tar.gz",
+      "sha256": "b9e37a4d5dbd9043b058967ef6b7cb460ff4b1d73c7e850adaea39984195d9d7",
+      "bytes": 3469215,
+      "purpose": "Reforge 战斗、演出、试打与相邻专测的逐文件八维、原路径和测试身份映射、失败及恢复原件、集中门和来源适用性。"
     }
   ],
   "artifactAliases": [],

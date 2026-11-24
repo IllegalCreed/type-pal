@@ -1,19 +1,7 @@
 // @vitest-environment jsdom
-/**
- * TEST-GLM-NEW-G-1 G02：battle-trial-host 生命周期（全仓首个直接覆盖）。
- * 旧证：battle-trial-config/-prepare/-assets 各 wave2 测试只覆盖数据层；宿主入口
- * `runBattleTrial` 无任何旧测试。本文件以真实工程（readyTrialFixture 内存工程）+
- * jsdom 壳宿主（installShellHost，唯一外部 Canvas/Audio/网络替身）补公开合同：
- *   1) 无 #screen 画布在入口 fail-loud（battle-trial-host.ts:31-33）；
- *   2) F5/F9 存读档键拦截只更新状态、不进 pressed（:116-130）；
- *   3) 真实战斗打到 victory：onResult 映射 + 状态栏金钱/体力摘要（:285-300）；
- *   4) 停止按钮 → abort → 真实会话取消 → runBattleTrial 兑现 + restart 依外层
- *      signal 复位 + onRestart 回调（:140-166）；
- *   5) onRestart 抛错回显错误消息（错误恢复臂 :156-162）。
- * 不 mock 被测核心：BattleSession/准备管线/资源读取全部真实。
- */
 import { afterEach, expect, test, vi } from 'vitest'
 import { readyTrialFixture } from './__tests__/coverage-wave2/b-trial-catalog.js'
+import { deferred } from './__tests__/glm-runtime-contract-fixtures.js'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { type BattleTrialHostOptions, runBattleTrial } from './battle-trial-host.js'
 
@@ -74,7 +62,7 @@ test('无 #screen 画布时入口精确 fail-loud（battle-trial-host.ts:33）',
   ).rejects.toThrowError('独立试打缺少可用画布')
 })
 
-test('F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并回调 onResult(胜利)', async () => {
+test('a real trial victory reports exact rewards and health in the host', async () => {
   browser = await installShellHost()
   const f = await readyTrialFixture()
   const member = f.config.party.members[0]
@@ -93,15 +81,10 @@ test('F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并�
     }),
   )
   await vi.waitFor(() => expect(statusText()).toContain('战斗中'))
-  // F5/F9：拦截为状态提示，绝不进入 pressed（战斗不被打断）。
-  for (const key of ['F5', 'F9']) {
-    window.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }))
-    expect(statusText()).toBe('独立试打不提供存档/读档，本场结果不会保存。')
-  }
   await pumpUntil(() => statusText().includes('胜利'))
   await running
   expect(results).toEqual(['胜利'])
-  expect(statusText()).toContain('金钱 100 → ')
+  expect(statusText()).toContain('金钱 100 → 101；')
   expect(statusText()).toContain('体力 100 → 100') // 固定格挡后未扣血
   expect(statusText()).toContain('本场结果不保存')
 })
@@ -153,4 +136,62 @@ test('onRestart 抛错时错误消息回显状态栏（错误恢复臂）', asyn
   await running
   button('重新试打').click()
   expect(statusText()).toBe('重启失败注入')
+})
+
+test.each([
+  { exit: 'abort', message: '试打已取消' },
+  { exit: 'binding rejection', message: '目录项目绑定在读取期间发生变化' },
+] as const)('trial releases a prepared project face after post-read $exit', async ({
+  exit,
+  message,
+}) => {
+  const shell = await installShellHost()
+  browser = shell
+  const f = await readyTrialFixture()
+  const controller = new AbortController()
+  const rechecked = deferred<void>()
+  let prepared = false
+  const results: string[] = []
+  const running = runBattleTrial(f.project, f.config, {
+    signal: controller.signal,
+    sourceToken: f.token,
+    revision: f.revision,
+    // Same placement as withProjectDirectoryReadLock: allocate inside read(), then await recheck.
+    withReadLock: async (read) => {
+      const value = await read()
+      prepared = true
+      await rechecked.promise
+      if (exit === 'binding rejection') throw new Error(message)
+      return value
+    },
+    onRestart: () => undefined,
+    onResult: (result) => results.push(result),
+  })
+
+  try {
+    await vi.waitFor(() => expect(prepared).toBe(true))
+    // The legal project face is 6×8; the browser fixture uses 5×8 bundled chrome.
+    const projectFaces = shell.bitmaps.filter((bitmap) => bitmap.width === 6 && bitmap.height === 8)
+    expect(projectFaces).toHaveLength(1)
+    const face = projectFaces[0]!
+    expect(face.close).not.toHaveBeenCalled()
+
+    if (exit === 'abort') {
+      controller.abort()
+      await running
+    }
+    rechecked.resolve()
+    await running
+    await shell.settleIO()
+
+    const role = exit === 'abort' ? 'status' : 'alert'
+    expect(document.querySelector(`[role="${role}"]`)?.textContent).toContain(message)
+    expect(shell.frames.size).toBe(0)
+    expect(results).toEqual([])
+    expect(face.close).toHaveBeenCalledTimes(1)
+  } finally {
+    controller.abort()
+    rechecked.resolve()
+    await running
+  }
 })

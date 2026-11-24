@@ -15,6 +15,7 @@ import {
   validateBattleSprites,
   validateEnemies,
   validateItems,
+  validatePoisons,
   validateSkills,
 } from '@type-pal/content'
 import type { LoadedBattleSpriteDefinition } from '../../assets.js'
@@ -47,6 +48,7 @@ export interface WfSessionArgs {
   enemies: Array<EnemyDef | null>
   /** 变身/召唤敌表（opts.enemiesById）；其精灵一并注入 assets。 */
   enemiesById?: Record<string, EnemyDef>
+  rng?: () => number
   extraOpts?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>
 }
 
@@ -71,6 +73,7 @@ function assertWfSessionInputsLegal(args: WfSessionArgs): void {
   if (opts?.skills && Object.keys(opts.skills).length)
     validateSkills({ skills: Object.values(opts.skills), levelUp: {} })
   if (opts?.items && Object.keys(opts.items).length) validateItems(Object.values(opts.items))
+  if (opts?.poisonDefs) validatePoisons(Object.values(opts.poisonDefs))
   if (opts?.enemiesById && Object.keys(opts.enemiesById).length)
     validateEnemies(Object.values(opts.enemiesById))
 }
@@ -105,7 +108,7 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
     args.enemies,
     assets,
     (id) => id,
-    () => 0,
+    args.rng ?? (() => 0),
     args.enemiesById
       ? { ...(args.extraOpts ?? {}), enemiesById: args.enemiesById }
       : args.extraOpts,

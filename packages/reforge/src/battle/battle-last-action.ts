@@ -15,7 +15,7 @@ export type BattleFailureFeedback =
   | 'missingSpellItem'
   | 'missingSpellMoney'
 
-export interface BattleLastActionBase {
+interface BattleLastActionBase {
   idx: number
   fizzled?: boolean
   crit?: boolean
@@ -99,5 +99,3 @@ export type BattleLastAction =
   | (EnemyActionBase & { kind: 'divide' })
   | (EnemyActionBase & { kind: 'summon' })
   | (EnemyActionBase & { kind: 'fleeAll' })
-
-export type BattleLastActionKind = BattleLastAction['kind']

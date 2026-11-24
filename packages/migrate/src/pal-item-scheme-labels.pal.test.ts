@@ -29,12 +29,19 @@ function projectContent() {
 }
 
 describe('PAL item scheme author labels', () => {
-  test('canonical baseline and current author content retain the same 49 rooted schemes', () => {
-    const expected = { expectedSchemes: 49, expectedItemRoots: 11 }
-    const baseline = inspectPalItemSchemeRoots({ ...baselineContent(), ...expected })
+  test('the author project preserves the seed scheme ownership except for the retired handkerchief auto', () => {
+    const baseline = inspectPalItemSchemeRoots({
+      ...baselineContent(),
+      expectedSchemes: 49,
+      expectedItemRoots: 11,
+    })
     const current = projectContent()
     const before = structuredClone(current)
-    const project = inspectPalItemSchemeRoots({ ...current, ...expected })
+    const project = inspectPalItemSchemeRoots({
+      ...current,
+      expectedSchemes: 48,
+      expectedItemRoots: 11,
+    })
 
     expect(baseline).toMatchObject({
       schemes: 49,
@@ -42,29 +49,33 @@ describe('PAL item scheme author labels', () => {
       opaqueLabels: 0,
     })
     expect(project).toMatchObject({
-      schemes: 49,
+      schemes: 48,
       itemRoots: 11,
       opaqueLabels: 0,
     })
+    const retired = 'scenes.s273.entities.e4724.behaviors.auto.c8-a0ab54723b62'
     const authoredNames = new Map([
       ['scenes.s001.entities.e19.behaviors.trigger.c8-74bc98f07f8e', '赠酒后：给钱托逍遥买鲜虾'],
       ['scenes.s003.entities.e62.behaviors.trigger.c8-321c0a7d7de1', '赠桂花酒：约定山神庙学剑'],
       ['scenes.s047.entities.e757.behaviors.trigger.c8-602d89c238c1', '石钥匙解锁并打开石门'],
+      [
+        'scenes.s273.entities.e4724.behaviors.trigger.c8-f4bde04ce9f0',
+        '船商接过凤纹手绢，现出灵月宫主',
+      ],
     ])
-    expect(baseline.labels.filter((entry) => authoredNames.has(entry.path))).toHaveLength(3)
+    expect(baseline.labels.find(({ path }) => path === retired)).toMatchObject({
+      itemId: '292',
+      label: '凤纹手绢剧情方案 3',
+    })
+    expect(baseline.labels.filter((entry) => authoredNames.has(entry.path))).toHaveLength(4)
     expect(project.labels).toEqual(
-      baseline.labels.map((entry) => ({
-        ...entry,
-        label: authoredNames.get(entry.path) ?? entry.label,
-      })),
+      baseline.labels
+        .filter(({ path }) => path !== retired)
+        .map((entry) => ({ ...entry, label: authoredNames.get(entry.path) ?? entry.label })),
     )
     expect(current).toEqual(before)
     const handkerchief = project.labels.filter(({ itemId }) => itemId === '292')
-    expect(handkerchief).toHaveLength(13)
-    expect(handkerchief.map(({ label }) => label)).toEqual([
-      '凤纹手绢剧情方案',
-      ...Array.from({ length: 12 }, (_, index) => `凤纹手绢剧情方案 ${index + 2}`),
-    ])
+    expect(handkerchief).toHaveLength(12)
   })
 
   test('current author-name auditing still rejects an actual item root selecting a missing scheme', () => {
@@ -84,7 +95,7 @@ describe('PAL item scheme author labels', () => {
     expect(() =>
       inspectPalItemSchemeRoots({
         ...current,
-        expectedSchemes: 49,
+        expectedSchemes: 48,
         expectedItemRoots: 11,
       }),
     ).toThrow('PAL 物品剧情方案悬空引用')

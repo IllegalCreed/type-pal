@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（导航维护）；各任务Owner维护原件与caller
-Last reviewed: 2026-11-21
+Last reviewed: 2026-11-24
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -136,6 +136,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | Q2 野店返场精确色幕 | [两端日志、旧色值反例、新版原速带声分屏](E2E-Q2-1-forest-inn-color-20261121.tar.gz) · [Game 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-game-original-1.tar.gz) · [Game 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-game-original-2.tar.gz) · [Reforge 原录 1/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-1.tar.gz) · [Reforge 原录 2/2](E2E-Q2-1-forest-inn-color-20261121-reforge-original-2.tar.gz) |
 | #74 后物品会话治理 | [既有菜单专测来源适用性](reforge-menu-item-use-source.md) |
 | Reforge 场景、音频与菜单复审 | [已刊来源适用性](reforge-runtime-source-applicability.md) |
+| Reforge 战斗复审 | [逐文件裁定和执行归档](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定)与[已刊 Q2 来源适用性](reforge-battle-source-applicability.md) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

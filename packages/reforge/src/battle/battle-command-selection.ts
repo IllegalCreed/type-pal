@@ -123,7 +123,6 @@ export class BattleCommandSelection {
     pressed: ReadonlySet<string>,
     port: BattleCommandSelectionPort,
   ): void {
-    const sel = context.playerIndex
     if (this.autoAttack || this.stickyForce || this.stickyRepeat) {
       if (pressed.has('Escape')) {
         this.autoAttack = false
@@ -138,256 +137,322 @@ export class BattleCommandSelection {
     }
 
     const confirm = pressed.has(' ') || pressed.has('Enter')
-    if (this.currentPhase === 'menu') {
-      const key = (a: string, b: string): boolean => pressed.has(a) || pressed.has(b)
-      if (key('d', 'D')) {
-        this.submitAnd(context, port, { kind: 'defend' })
-        return
-      }
-      if (key('q', 'Q')) {
-        this.submitPartyFlee(context, port)
-        return
-      }
-      if (key('e', 'E')) {
-        if (context.usableItems.length) {
-          this.currentPhase = 'item'
-          this.itemIndex = 0
-        }
-        return
-      }
-      if (key('w', 'W')) {
-        if (context.throwableItems.length) {
-          this.currentPhase = 'throwItem'
-          this.itemIndex = 0
-        }
-        return
-      }
-      if (key('r', 'R')) {
-        this.stickyRepeat = true
-        this.submitRepeat(context, port)
-        return
-      }
-      if (key('f', 'F')) {
-        this.stickyForce = true
-        this.submitForce(context, port)
-        return
-      }
-      if (key('a', 'A')) {
-        this.autoAttack = true
-        this.submitAutomaticAttack(context, port)
-        return
-      }
-      if (pressed.has('Escape') && this.submitOrder.length) {
-        const previous = this.submitOrder.pop()
-        if (previous !== undefined) port.retract(previous)
-        return
-      }
-      const valid = this.mainActionValidity(context)
-      if (pressed.has('ArrowUp')) this.menuIndex = 0
-      else if (pressed.has('ArrowDown')) this.menuIndex = 3
-      else if (pressed.has('ArrowLeft') && valid[1]) this.menuIndex = 1
-      else if (pressed.has('ArrowRight') && valid[2]) this.menuIndex = 2
-      if (!valid[this.menuIndex]) this.menuIndex = 0
-      if (confirm) {
-        if (this.menuIndex === 0) {
-          if (context.player.attackAll) {
-            this.submitAnd(context, port, { kind: 'attack', targetEnemyIdx: -1 })
-          } else {
-            this.currentPhase = 'target'
-            this.targetSide = 'enemy'
-            this.pendingSkillId = null
-            this.targetIndex = 0
-          }
-        } else if (this.menuIndex === 1) {
-          this.currentPhase = 'skill'
-          this.skillIndex = 0
-        } else if (this.menuIndex === 2) {
-          const coopSkillId = context.player.cooperativeMagicSkillId
-          const coopSkill = coopSkillId ? context.skills[coopSkillId] : undefined
-          if (!coopSkill) return
-          if (coopSkill.target === 'oneEnemy' || coopSkill.target === 'oneAlly') {
-            this.pendingCoop = true
-            this.currentPhase = 'target'
-            this.targetSide = coopSkill.target === 'oneAlly' ? 'ally' : 'enemy'
-            this.targetIndex = this.targetSide === 'ally' ? sel : 0
-          } else {
-            this.submit(context, port, { kind: 'coop' })
-            port.consumeOthersForCoop(sel)
-            this.backToMain()
-          }
-        } else if (this.menuIndex === 3) {
-          this.currentPhase = 'misc'
-          this.miscIndex = 0
-        }
-      }
+    switch (this.currentPhase) {
+      case 'menu':
+        this.advanceMainMenu(context, pressed, confirm, port)
+        break
+      case 'misc':
+        this.advanceMiscMenu(context, pressed, confirm, port)
+        break
+      case 'status':
+        this.advanceStatus(context.playerCount, pressed, confirm)
+        break
+      case 'miscSub':
+        this.advanceItemMenu(context, pressed, confirm)
+        break
+      case 'skill':
+        this.advanceSkillList(context, pressed, confirm, port)
+        break
+      case 'item':
+        this.advanceUseItemList(context, pressed, confirm, port)
+        break
+      case 'throwItem':
+        this.advanceThrowItemList(context, pressed, confirm, port)
+        break
+      case 'target':
+        if (this.targetSide === 'ally') this.advanceAllyTarget(context, pressed, confirm, port)
+        else this.advanceEnemyTarget(context, pressed, confirm, port)
+        break
+    }
+  }
+
+  private advanceMainMenu(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const sel = context.playerIndex
+    const key = (a: string, b: string): boolean => pressed.has(a) || pressed.has(b)
+    if (key('d', 'D')) {
+      this.submitAndReturnToMenu(context, port, { kind: 'defend' })
       return
     }
-
-    if (this.currentPhase === 'misc') {
-      const count = 5
-      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
-        this.miscIndex = (this.miscIndex + count - 1) % count
-      if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
-        this.miscIndex = (this.miscIndex + 1) % count
-      if (pressed.has('Escape')) this.currentPhase = 'menu'
-      if (confirm) {
-        if (this.miscIndex === 0) {
-          this.autoAttack = true
-          this.backToMain()
-        } else if (this.miscIndex === 1) {
-          if (context.usableItems.length) this.currentPhase = 'miscSub'
-          this.miscSubIndex = 0
-        } else if (this.miscIndex === 2) {
-          this.submitAnd(context, port, { kind: 'defend' })
-        } else if (this.miscIndex === 3) {
-          this.submitPartyFlee(context, port)
-        } else if (this.miscIndex === 4) {
-          this.statusIndex = 0
-          this.currentPhase = 'status'
-        }
-      }
+    if (key('q', 'Q')) {
+      this.submitPartyFlee(context, port)
       return
     }
-
-    if (this.currentPhase === 'status') {
-      if (pressed.has('Escape')) {
-        this.currentPhase = 'menu'
-        return
-      }
-      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.statusIndex--
-      else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || confirm) this.statusIndex++
-      if (this.statusIndex < 0 || this.statusIndex >= context.playerCount)
-        this.currentPhase = 'menu'
-      return
-    }
-
-    if (this.currentPhase === 'miscSub') {
-      if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.miscSubIndex = 0
-      if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) this.miscSubIndex = 1
-      if (pressed.has('Escape')) this.currentPhase = 'misc'
-      if (confirm && this.miscSubIndex === 0) {
+    if (key('e', 'E')) {
+      if (context.usableItems.length) {
         this.currentPhase = 'item'
         this.itemIndex = 0
       }
-      if (confirm && this.miscSubIndex === 1 && context.throwableItems.length) {
+      return
+    }
+    if (key('w', 'W')) {
+      if (context.throwableItems.length) {
         this.currentPhase = 'throwItem'
         this.itemIndex = 0
       }
       return
     }
-
-    if (this.currentPhase === 'skill') {
-      const list = context.player.skills
-      if (pressed.has('ArrowLeft')) this.skillIndex = Math.max(0, this.skillIndex - 1)
-      if (pressed.has('ArrowRight'))
-        this.skillIndex = Math.min(list.length - 1, this.skillIndex + 1)
-      if (pressed.has('ArrowUp')) this.skillIndex = Math.max(0, this.skillIndex - 3)
-      if (pressed.has('ArrowDown')) this.skillIndex = Math.min(list.length - 1, this.skillIndex + 3)
-      if (pressed.has('Escape')) this.currentPhase = 'menu'
-      if (confirm) {
-        const skillId = list[this.skillIndex % list.length]
-        if (skillId === undefined) throw new Error('战斗技能列表为空')
-        const skill = context.skills[skillId]
-        if (skill && context.player.mp >= (skill.cost.mp ?? 0)) {
-          if (skill.target === 'oneEnemy') {
-            this.pendingSkillId = skillId
-            this.currentPhase = 'target'
-            this.targetSide = 'enemy'
-            this.targetIndex = 0
-          } else if (skill.target === 'oneAlly' && context.playerCount > 1) {
-            this.pendingSkillId = skillId
-            this.currentPhase = 'target'
-            this.targetSide = 'ally'
-            this.targetIndex = sel
-          } else {
-            this.submitAnd(context, port, { kind: 'cast', skillId })
-          }
-        }
-      }
+    if (key('r', 'R')) {
+      this.stickyRepeat = true
+      this.submitRepeat(context, port)
       return
     }
+    if (key('f', 'F')) {
+      this.stickyForce = true
+      this.submitForce(context, port)
+      return
+    }
+    if (key('a', 'A')) {
+      this.autoAttack = true
+      this.submitAutomaticAttack(context, port)
+      return
+    }
+    if (pressed.has('Escape') && this.submitOrder.length) {
+      const previous = this.submitOrder.pop()
+      if (previous !== undefined) port.retract(previous)
+      return
+    }
+    const valid = this.mainActionValidity(context)
+    if (pressed.has('ArrowUp')) this.menuIndex = 0
+    else if (pressed.has('ArrowDown')) this.menuIndex = 3
+    else if (pressed.has('ArrowLeft') && valid[1]) this.menuIndex = 1
+    else if (pressed.has('ArrowRight') && valid[2]) this.menuIndex = 2
+    if (!valid[this.menuIndex]) this.menuIndex = 0
+    if (confirm) {
+      if (this.menuIndex === 0) {
+        if (context.player.attackAll) {
+          this.submitAndReturnToMenu(context, port, { kind: 'attack', targetEnemyIdx: -1 })
+        } else {
+          this.currentPhase = 'target'
+          this.targetSide = 'enemy'
+          this.pendingSkillId = null
+          this.targetIndex = 0
+        }
+      } else if (this.menuIndex === 1) {
+        this.currentPhase = 'skill'
+        this.skillIndex = 0
+      } else if (this.menuIndex === 2) {
+        const coopSkillId = context.player.cooperativeMagicSkillId
+        const coopSkill = coopSkillId ? context.skills[coopSkillId] : undefined
+        if (!coopSkill) return
+        if (coopSkill.target === 'oneEnemy' || coopSkill.target === 'oneAlly') {
+          this.pendingCoop = true
+          this.currentPhase = 'target'
+          this.targetSide = coopSkill.target === 'oneAlly' ? 'ally' : 'enemy'
+          this.targetIndex = this.targetSide === 'ally' ? sel : 0
+        } else {
+          this.submit(context, port, { kind: 'coop' })
+          port.consumeOthersForCoop(sel)
+          this.backToMain()
+        }
+      } else if (this.menuIndex === 3) {
+        this.currentPhase = 'misc'
+        this.miscIndex = 0
+      }
+    }
+  }
 
-    if (this.currentPhase === 'item') {
-      const list = context.usableItems
-      this.moveGridCursor(pressed, list.length)
-      if (pressed.has('Escape')) this.currentPhase = 'miscSub'
-      if (confirm && list.length) {
-        const item = list[this.itemIndex % list.length]
-        if (!item) throw new Error('战斗物品游标越界')
-        if (context.items[item.itemId]?.use?.target === 'oneAlly' && context.playerCount > 1) {
-          this.pendingItemId = item.itemId
+  private advanceMiscMenu(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const count = 5
+    if (pressed.has('ArrowUp') || pressed.has('ArrowLeft'))
+      this.miscIndex = (this.miscIndex + count - 1) % count
+    if (pressed.has('ArrowDown') || pressed.has('ArrowRight'))
+      this.miscIndex = (this.miscIndex + 1) % count
+    if (pressed.has('Escape')) this.currentPhase = 'menu'
+    if (confirm) {
+      if (this.miscIndex === 0) {
+        this.autoAttack = true
+        this.backToMain()
+      } else if (this.miscIndex === 1) {
+        if (context.usableItems.length) this.currentPhase = 'miscSub'
+        this.miscSubIndex = 0
+      } else if (this.miscIndex === 2) {
+        this.submitAndReturnToMenu(context, port, { kind: 'defend' })
+      } else if (this.miscIndex === 3) {
+        this.submitPartyFlee(context, port)
+      } else if (this.miscIndex === 4) {
+        this.statusIndex = 0
+        this.currentPhase = 'status'
+      }
+    }
+  }
+
+  private advanceStatus(playerCount: number, pressed: ReadonlySet<string>, confirm: boolean): void {
+    if (pressed.has('Escape')) {
+      this.currentPhase = 'menu'
+      return
+    }
+    if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.statusIndex--
+    else if (pressed.has('ArrowDown') || pressed.has('ArrowRight') || confirm) this.statusIndex++
+    if (this.statusIndex < 0 || this.statusIndex >= playerCount) this.currentPhase = 'menu'
+  }
+
+  private advanceItemMenu(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+  ): void {
+    if (pressed.has('ArrowUp') || pressed.has('ArrowLeft')) this.miscSubIndex = 0
+    if (pressed.has('ArrowDown') || pressed.has('ArrowRight')) this.miscSubIndex = 1
+    if (pressed.has('Escape')) this.currentPhase = 'misc'
+    if (confirm && this.miscSubIndex === 0) {
+      this.currentPhase = 'item'
+      this.itemIndex = 0
+    }
+    if (confirm && this.miscSubIndex === 1 && context.throwableItems.length) {
+      this.currentPhase = 'throwItem'
+      this.itemIndex = 0
+    }
+  }
+
+  private advanceSkillList(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const sel = context.playerIndex
+    const list = context.player.skills
+    if (pressed.has('ArrowLeft')) this.skillIndex = Math.max(0, this.skillIndex - 1)
+    if (pressed.has('ArrowRight')) this.skillIndex = Math.min(list.length - 1, this.skillIndex + 1)
+    if (pressed.has('ArrowUp')) this.skillIndex = Math.max(0, this.skillIndex - 3)
+    if (pressed.has('ArrowDown')) this.skillIndex = Math.min(list.length - 1, this.skillIndex + 3)
+    if (pressed.has('Escape')) this.currentPhase = 'menu'
+    if (confirm) {
+      const skillId = list[this.skillIndex % list.length]
+      if (skillId === undefined) throw new Error('战斗技能列表为空')
+      const skill = context.skills[skillId]
+      if (skill && context.player.mp >= (skill.cost.mp ?? 0)) {
+        if (skill.target === 'oneEnemy') {
+          this.pendingSkillId = skillId
+          this.currentPhase = 'target'
+          this.targetSide = 'enemy'
+          this.targetIndex = 0
+        } else if (skill.target === 'oneAlly' && context.playerCount > 1) {
+          this.pendingSkillId = skillId
           this.currentPhase = 'target'
           this.targetSide = 'ally'
           this.targetIndex = sel
         } else {
-          this.submitAnd(context, port, { kind: 'item', itemId: item.itemId })
+          this.submitAndReturnToMenu(context, port, { kind: 'cast', skillId })
         }
       }
-      return
     }
+  }
 
-    if (this.currentPhase === 'throwItem') {
-      const list = context.throwableItems
-      this.moveGridCursor(pressed, list.length)
-      if (pressed.has('Escape')) this.currentPhase = 'miscSub'
-      if (confirm && list.length) {
-        const item = list[this.itemIndex % list.length]
-        if (!item) throw new Error('战斗投掷物游标越界')
-        const thrown = context.items[item.itemId]?.throw
-        if (!thrown) throw new Error(`战斗投掷物 ${item.itemId} 缺 throw 能力`)
-        if (thrown.target === 'allEnemies') {
-          this.submit(context, port, { kind: 'throw', itemId: item.itemId })
-          this.pendingThrowItem = null
-          this.backToMain()
-        } else {
-          this.pendingThrowItem = item.itemId
-          this.currentPhase = 'target'
-          this.targetSide = 'enemy'
-          this.targetIndex = 0
-        }
+  private advanceUseItemList(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const sel = context.playerIndex
+    const list = context.usableItems
+    this.moveGridCursor(pressed, list.length)
+    if (pressed.has('Escape')) this.currentPhase = 'miscSub'
+    if (confirm && list.length) {
+      const item = list[this.itemIndex % list.length]
+      if (!item) throw new Error('战斗物品游标越界')
+      if (context.items[item.itemId]?.use?.target === 'oneAlly' && context.playerCount > 1) {
+        this.pendingItemId = item.itemId
+        this.currentPhase = 'target'
+        this.targetSide = 'ally'
+        this.targetIndex = sel
+      } else {
+        this.submitAndReturnToMenu(context, port, { kind: 'item', itemId: item.itemId })
       }
-      return
     }
+  }
 
-    if (this.targetSide === 'ally') {
-      const count = context.playerCount
-      if (pressed.has('ArrowLeft') || pressed.has('ArrowUp'))
-        this.targetIndex = (this.targetIndex + count - 1) % count
-      if (pressed.has('ArrowRight') || pressed.has('ArrowDown'))
-        this.targetIndex = (this.targetIndex + 1) % count
-      if (pressed.has('Escape')) {
-        this.targetSide = 'enemy'
-        if (this.pendingCoop) {
-          this.pendingCoop = false
-          this.currentPhase = 'menu'
-          return
-        }
-        if (this.pendingItemId) {
-          this.pendingItemId = null
-          this.currentPhase = 'item'
-        } else {
-          this.pendingSkillId = null
-          this.currentPhase = 'skill'
-        }
-      }
-      if (confirm) {
-        const target = this.targetIndex % count
-        const wasCoop = this.pendingCoop
-        this.pendingCoop = false
-        const action: BattleAction = this.pendingItemId
-          ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: target }
-          : wasCoop
-            ? { kind: 'coop', targetAllyIdx: target }
-            : { kind: 'cast', skillId: this.requirePendingSkill(), targetAllyIdx: target }
-        this.pendingItemId = null
-        this.pendingSkillId = null
-        this.targetSide = 'enemy'
-        this.submit(context, port, action)
-        if (wasCoop) port.consumeOthersForCoop(sel)
+  private advanceThrowItemList(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const list = context.throwableItems
+    this.moveGridCursor(pressed, list.length)
+    if (pressed.has('Escape')) this.currentPhase = 'miscSub'
+    if (confirm && list.length) {
+      const item = list[this.itemIndex % list.length]
+      if (!item) throw new Error('战斗投掷物游标越界')
+      const thrown = context.items[item.itemId]?.throw
+      if (!thrown) throw new Error(`战斗投掷物 ${item.itemId} 缺 throw 能力`)
+      if (thrown.target === 'allEnemies') {
+        this.submit(context, port, { kind: 'throw', itemId: item.itemId })
+        this.pendingThrowItem = null
         this.backToMain()
+      } else {
+        this.pendingThrowItem = item.itemId
+        this.currentPhase = 'target'
+        this.targetSide = 'enemy'
+        this.targetIndex = 0
+      }
+    }
+  }
+
+  private advanceAllyTarget(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const sel = context.playerIndex
+    const count = context.playerCount
+    if (pressed.has('ArrowLeft') || pressed.has('ArrowUp'))
+      this.targetIndex = (this.targetIndex + count - 1) % count
+    if (pressed.has('ArrowRight') || pressed.has('ArrowDown'))
+      this.targetIndex = (this.targetIndex + 1) % count
+    if (pressed.has('Escape')) {
+      this.targetSide = 'enemy'
+      if (this.pendingCoop) {
+        this.pendingCoop = false
+        this.currentPhase = 'menu'
+        return
+      }
+      if (this.pendingItemId) {
+        this.pendingItemId = null
+        this.currentPhase = 'item'
+      } else {
+        this.pendingSkillId = null
+        this.currentPhase = 'skill'
       }
       return
     }
+    if (confirm) {
+      const target = this.targetIndex % count
+      const wasCoop = this.pendingCoop
+      this.pendingCoop = false
+      const action: BattleAction = this.pendingItemId
+        ? { kind: 'item', itemId: this.pendingItemId, targetAllyIdx: target }
+        : wasCoop
+          ? { kind: 'coop', targetAllyIdx: target }
+          : { kind: 'cast', skillId: this.requirePendingSkill(), targetAllyIdx: target }
+      this.pendingItemId = null
+      this.pendingSkillId = null
+      this.targetSide = 'enemy'
+      this.submit(context, port, action)
+      if (wasCoop) port.consumeOthersForCoop(sel)
+      this.backToMain()
+    }
+  }
+
+  private advanceEnemyTarget(
+    context: BattleCommandSelectionContext,
+    pressed: ReadonlySet<string>,
+    confirm: boolean,
+    port: BattleCommandSelectionPort,
+  ): void {
+    const sel = context.playerIndex
 
     const alive = context.aliveEnemyIndices
     if (alive.length === 0) return
@@ -402,6 +467,7 @@ export class BattleCommandSelection {
         this.pendingCoop = false
         this.currentPhase = 'menu'
       }
+      return
     }
     if (confirm) {
       const target = alive[this.targetIndex % alive.length]
@@ -441,7 +507,7 @@ export class BattleCommandSelection {
     this.submitOrder.push(context.playerIndex)
   }
 
-  private submitAnd(
+  private submitAndReturnToMenu(
     context: BattleCommandSelectionContext,
     port: BattleCommandSelectionPort,
     action: BattleAction,
@@ -455,7 +521,7 @@ export class BattleCommandSelection {
     port: BattleCommandSelectionPort,
   ): void {
     const action = { kind: 'flee' } as const
-    // Replace previously selected commands too. Pending item reservations derive from this map.
+    // Replace earlier submissions so the host releases their pending item reservations.
     for (const playerIndex of context.selectablePlayerIndices) {
       port.submit(playerIndex, action)
       this.lastActions.set(playerIndex, action)
@@ -468,7 +534,7 @@ export class BattleCommandSelection {
     port: BattleCommandSelectionPort,
   ): void {
     const target = context.aliveEnemyIndices[0]
-    this.submitAnd(
+    this.submitAndReturnToMenu(
       context,
       port,
       target === undefined ? { kind: 'defend' } : { kind: 'attack', targetEnemyIdx: target },
@@ -482,10 +548,10 @@ export class BattleCommandSelection {
     const alive = context.aliveEnemyIndices
     const target = alive.find((slot) => slot === this.lastEnemyTarget) ?? alive[0]
     if (target === undefined) {
-      this.submitAnd(context, port, { kind: 'defend' })
+      this.submitAndReturnToMenu(context, port, { kind: 'defend' })
       return
     }
-    this.submitAnd(context, port, {
+    this.submitAndReturnToMenu(context, port, {
       kind: 'attack',
       targetEnemyIdx: context.player.attackAll ? -1 : target,
     })
@@ -518,7 +584,7 @@ export class BattleCommandSelection {
       this.submitForce(context, port)
       return
     }
-    this.submitAnd(context, port, action)
+    this.submitAndReturnToMenu(context, port, action)
   }
 
   private backToMain(): void {

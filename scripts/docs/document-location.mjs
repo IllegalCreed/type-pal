@@ -43,6 +43,7 @@ import {
   isTestingBattleLearnedSkillsSource,
   isTestingBattleLifecycleSource,
   isTestingBattlePoisonNarrationSource,
+  isTestingBattleQualitySource,
   isTestingBattleReviewSource,
   isTestingBattleSceneObserverSource,
   isTestingBattleSessionEvidencePath,
@@ -99,6 +100,7 @@ import {
   restoreTestingBattleLearnedSkillsSourceBindings,
   restoreTestingBattleLifecycleSourceBindings,
   restoreTestingBattlePoisonNarrationSourceBindings,
+  restoreTestingBattleQualitySourceBindings,
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleSceneObserverSourceBindings,
   restoreTestingBattleScriptedShakeSourceBindings,
@@ -160,6 +162,7 @@ import {
   testingBattleLifecyclePublicationBase,
   testingBattlePoisonNarrationPublicationBase,
   testingBattlePublicationBase,
+  testingBattleQualityPublicationBase,
   testingBattleReviewPublicationBase,
   testingBattleSceneObserverPublicationBase,
   testingBattleScriptedShakePublicationBase,
@@ -685,8 +688,21 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   if (q2QuestReportRevision !== undefined)
     assert(runtimeOwnershipRevision, 'Q2 quest report requires the runtime ownership source stage')
   const q2QuestReport = q2QuestReportRevision && gitTree(root, q2QuestReportRevision, [])
-  const runtimeOwnership = sourceApplicability({
+  const battleQualityRevision = admission.testingBattleQualitySourceRevision
+  if (battleQualityRevision)
+    assert(
+      runtimeOwnershipRevision && /^[a-f0-9]{40}$/u.test(battleQualityRevision),
+      'battle quality source requires the admitted runtime ownership stage',
+    )
+  const battleQuality = sourceApplicability({
     readCurrent: readCurrentSource,
+    revision: battleQualityRevision,
+    baseRevision: testingBattleQualityPublicationBase,
+    restoreBindings: restoreTestingBattleQualitySourceBindings,
+    isSource: isTestingBattleQualitySource,
+  })
+  const runtimeOwnership = sourceApplicability({
+    readCurrent: battleQuality.read,
     revision: runtimeOwnershipRevision,
     baseRevision: testingRuntimeOwnershipPublicationBase,
     restoreBindings: (path, bytes, inputs) =>
@@ -2210,7 +2226,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorMenuBody = menuIsolation.restore(path, runtimeOwnership.restore(path, current))
+    const priorRuntimeBody = battleQuality.restore(path, current)
+    const priorMenuBody = menuIsolation.restore(
+      path,
+      runtimeOwnership.restore(path, priorRuntimeBody),
+    )
     const priorVersionBody = versionRebinding?.restore(path, priorMenuBody) ?? priorMenuBody
     const artifact = artifacts.get(path)
     if (artifact) {

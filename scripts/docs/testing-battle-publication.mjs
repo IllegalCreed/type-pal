@@ -3016,14 +3016,15 @@ const previousRuntimeReportPointers = new Map([
 
 export const isTestingRuntimeOwnershipSource = (path) => runtimeOwnershipStage.ranges.has(path)
 
+function testingReportBody(bytes) {
+  const { json, start, text } = testingMetadata(bytes)
+  return text.slice(0, start) + text.slice(start + json.toString().length)
+}
+
 export function restoreTestingRuntimeOwnershipSourceBindings(path, bytes, inputs) {
   const report = runtimeOwnershipReports.get(path)
   if (report) {
-    const body = (value) => {
-      const { json, start, text } = testingMetadata(value)
-      return text.slice(0, start) + text.slice(start + json.toString().length)
-    }
-    let expected = body(inputs.readBase(path))
+    let expected = testingReportBody(inputs.readBase(path))
     for (const source of runtimeOwnershipBindings.get(report).paths) {
       for (const [previous, current] of Object.entries(
         previousRuntimeReportPointers.get(source) ?? {},
@@ -3034,8 +3035,12 @@ export function restoreTestingRuntimeOwnershipSourceBindings(path, bytes, inputs
     // The independently published quest report changed prose. Replay still checks its live metadata
     // against the admitted runtime source bindings below.
     if (report === publication.evidence && inputs.readQ2QuestReport)
-      expected = body(inputs.readQ2QuestReport(path))
-    assert.equal(body(bytes), expected, 'runtime ownership report changed outside its source links')
+      expected = testingReportBody(inputs.readQ2QuestReport(path))
+    assert.equal(
+      testingReportBody(bytes),
+      expected,
+      'runtime ownership report changed outside its source links',
+    )
   }
   if (
     path !== catalogPath &&
@@ -3050,6 +3055,43 @@ export function restoreTestingRuntimeOwnershipSourceBindings(path, bytes, inputs
     runtimeOwnershipStage,
     runtimeOwnershipBindings,
     runtimeOwnershipReports,
+  )
+}
+
+export const testingBattleQualityPublicationBase = '3f1f672ab878521fa58a443a72781adc9602c187'
+const battleQualityStage = {
+  ranges: new Map([
+    ['scripts/e2e/battle-reforge-instrumentation.mjs', { 18: '18' }],
+    ['packages/reforge/src/battle/battle-command-selection.ts', { 59: '59' }],
+    ['packages/reforge/src/battle/settlement.ts', { 322: '311' }],
+    ['packages/reforge/src/battle/battle-core.ts', { 2528: '2533' }],
+  ]),
+  base: testingBattleQualityPublicationBase,
+  receipt: 'docs/tasks/evidence/reforge-battle-source-applicability.md',
+  action: 'reforge-battle-quality-source-rebinding',
+  date: '2026-11-24',
+}
+const battleQualityBindings = new Map([
+  [
+    publication.evidence,
+    { id: publication.id, paths: [...battleQualityStage.ranges.keys()], artifactClaims: true },
+  ],
+])
+const battleQualityReport = `docs/testing/${publication.canonical}`
+const battleQualityReports = new Map([[battleQualityReport, publication.evidence]])
+
+export const isTestingBattleQualitySource = (path) => battleQualityStage.ranges.has(path)
+
+export function restoreTestingBattleQualitySourceBindings(path, bytes, inputs) {
+  if (path === battleQualityReport)
+    assert.equal(testingReportBody(bytes), testingReportBody(inputs.readBase(path)))
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleQualityStage,
+    battleQualityBindings,
+    battleQualityReports,
   )
 }
 

@@ -253,6 +253,25 @@ describe('W1 选择/回退连续流程', () => {
     expect(h.session.debugReadiness().phase).toBe('menu') // 无 battle 域物品 → 留在菜单
   })
 
+  test('同一拍取消和确认用品目标时退回列表且不提交动作', () => {
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { hp: 50 }), wfPlayer('p2')],
+      enemies: [wfEnemy('e1')],
+      extraOpts: {
+        items: { tonic: wfHealItem('tonic', 30) },
+        inventory: [{ itemId: 'tonic', count: 1 }],
+      },
+    })
+    h.press(['e'])
+    h.press(['Enter'])
+    expect(h.session.debugReadiness().phase).toBe('target')
+
+    h.press(['Escape', 'Enter'])
+    expect(h.session.debugReadiness().phase).toBe('item')
+    h.press(['Enter'])
+    expect(h.session.debugReadiness().phase).toBe('target')
+  })
+
   test('无技能时 ArrowLeft+确认给出空法术提示且不提交', () => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: [], mp: 40, maxMp: 40 })],
@@ -263,7 +282,10 @@ describe('W1 选择/回退连续流程', () => {
     expect(h.readParty()[0]!.mp).toBe(40) // 未提交任何 cast
   })
 
-  test('选目标→Esc 取消→换默认攻击：MP 不扣（未提交 cast）、最终提交的是攻击', () => {
+  test.each([
+    { keys: ['Escape'], input: '仅取消' },
+    { keys: ['Escape', 'Enter'], input: '同时取消和确认' },
+  ])('敌方目标收到 $input 后可重选为普攻，真气不扣', ({ keys }) => {
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: ['wf-strike'], mp: 40, maxMp: 40 })],
       enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 }), wfEnemy('e2')],
@@ -272,7 +294,7 @@ describe('W1 选择/回退连续流程', () => {
     h.press(['ArrowLeft'])
     h.press([' ']) // 进入法术列表
     h.press([' ']) // 选技能 → 目标选择
-    h.press(['Escape']) // 取消回菜单
+    h.press(keys)
     expect(h.readParty()[0]!.mp).toBe(40) // 取消零提交
     h.press(['ArrowUp']) // 光标回攻击图标（Up→menuIdx 0）
     h.press([' ']) // 重新默认攻击

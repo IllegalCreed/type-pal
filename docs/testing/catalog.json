@@ -8268,7 +8268,7 @@
           "anchor": "function observeSfx(",
           "role": "reforge-audio-producer-binding",
           "lines": "18",
-          "sha256": "a27b2d225e393e7b64f3f39d08ad3502810d1db353b7822f0b1f5242205d8254"
+          "sha256": "686a3a62db9685c835847190c04f7347002cab0b194713bd50d46a5a4bedb62f"
         },
         {
           "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -8296,7 +8296,7 @@
           "anchor": "export class BattleCommandSelection",
           "role": "native-target-menu-caller",
           "lines": "59",
-          "sha256": "3f09578da534395781360d9de73a6b0fb4c30e8d417695c5c7ce715aa7f350d9"
+          "sha256": "c2663b97aed6480b87bfb42e910c0c9867418692ee254ab58f8dbbeb6cf73e5e"
         },
         {
           "path": "scripts/e2e/battle-game-instrumentation.mjs",
@@ -8344,8 +8344,8 @@
           "path": "packages/reforge/src/battle/settlement.ts",
           "anchor": "function drawLearnMagic(",
           "role": "reforge-scroll-renderer",
-          "lines": "322",
-          "sha256": "a8cabfe0f8c62dbffcae25f379b9e5a7bb621c6bc8106c417ca8fa1018bd9be5"
+          "lines": "311",
+          "sha256": "a144efcfb83be1f5b91a516e3bdb986dcf4599bf2a00866ed49a0682e4289575"
         },
         {
           "path": "packages/reforge/src/menu/menu-box.ts",
@@ -8435,8 +8435,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2528",
-          "sha256": "6fca1c43f9159eee6357b6f4efb985878b322c473423c86346b0090b99d79d13"
+          "lines": "2533",
+          "sha256": "1b1e823d68a66b8a3233d924a2f8727bc29e62013174cc5db451d8a43151fc1d"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -10658,6 +10658,43 @@
                 "role": "save-restore-caller",
                 "lines": "6009",
                 "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
+              }
+            ]
+          },
+          {
+            "date": "2026-11-24",
+            "action": "reforge-battle-quality-source-rebinding",
+            "base": "3f1f672ab878521fa58a443a72781adc9602c187",
+            "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+            "scope": "更新指令选择、习得页绘制、物攻扫全及取证脚本音效入口的源码引用。四处原声明行字节一致。旧执行、样本、业务主张与候选身份沿用各自原记录。",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "18",
+                "sha256": "a27b2d225e393e7b64f3f39d08ad3502810d1db353b7822f0b1f5242205d8254"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.ts",
+                "anchor": "export class BattleCommandSelection",
+                "role": "native-target-menu-caller",
+                "lines": "59",
+                "sha256": "3f09578da534395781360d9de73a6b0fb4c30e8d417695c5c7ce715aa7f350d9"
+              },
+              {
+                "path": "packages/reforge/src/battle/settlement.ts",
+                "anchor": "function drawLearnMagic(",
+                "role": "reforge-scroll-renderer",
+                "lines": "322",
+                "sha256": "a8cabfe0f8c62dbffcae25f379b9e5a7bb621c6bc8106c417ca8fa1018bd9be5"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2528",
+                "sha256": "6fca1c43f9159eee6357b6f4efb985878b322c473423c86346b0090b99d79d13"
               }
             ]
           }
