@@ -369,6 +369,7 @@ export class BattleCommandSelection {
           this.pendingSkillId = null
           this.currentPhase = 'skill'
         }
+        return
       }
       if (confirm) {
         const target = this.targetIndex % count
@@ -402,6 +403,7 @@ export class BattleCommandSelection {
         this.pendingCoop = false
         this.currentPhase = 'menu'
       }
+      return
     }
     if (confirm) {
       const target = alive[this.targetIndex % alive.length]
