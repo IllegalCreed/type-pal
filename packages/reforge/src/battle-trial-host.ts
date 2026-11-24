@@ -172,19 +172,26 @@ export async function runBattleTrial(
     if (controller.signal.aborted) throw trialAbortError()
   }
   try {
-    const prepare = () =>
-      prepareBattleTrialAssets(
+    const prepare = async () => {
+      const loaded = await prepareBattleTrialAssets(
         project,
         config,
         options.sourceToken,
         controller.signal,
         options.revision,
       )
+      if (controller.signal.aborted) {
+        loaded.dispose()
+        throw trialAbortError()
+      }
+      // The caller's read lock can still reject during its final binding check.
+      releaseResources = loaded.dispose
+      return loaded
+    }
     const loaded = await abortableTrial(
       options.withReadLock ? options.withReadLock(prepare) : prepare(),
       controller.signal,
     )
-    releaseResources = loaded.dispose
     active()
     const { prepared, assets, baseSounds } = loaded
     const { world, items } = prepared

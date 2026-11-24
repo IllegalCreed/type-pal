@@ -14,6 +14,7 @@
  */
 import { afterEach, expect, test, vi } from 'vitest'
 import { readyTrialFixture } from './__tests__/coverage-wave2/b-trial-catalog.js'
+import { deferred } from './__tests__/glm-runtime-contract-fixtures.js'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { type BattleTrialHostOptions, runBattleTrial } from './battle-trial-host.js'
 
@@ -153,4 +154,62 @@ test('onRestart 抛错时错误消息回显状态栏（错误恢复臂）', asyn
   await running
   button('重新试打').click()
   expect(statusText()).toBe('重启失败注入')
+})
+
+test.each([
+  { exit: 'abort', message: '试打已取消' },
+  { exit: 'binding rejection', message: '目录项目绑定在读取期间发生变化' },
+] as const)('trial releases a prepared project face after post-read $exit', async ({
+  exit,
+  message,
+}) => {
+  const shell = await installShellHost()
+  browser = shell
+  const f = await readyTrialFixture()
+  const controller = new AbortController()
+  const rechecked = deferred<void>()
+  let prepared = false
+  const results: string[] = []
+  const running = runBattleTrial(f.project, f.config, {
+    signal: controller.signal,
+    sourceToken: f.token,
+    revision: f.revision,
+    // Same placement as withProjectDirectoryReadLock: allocate inside read(), then await recheck.
+    withReadLock: async (read) => {
+      const value = await read()
+      prepared = true
+      await rechecked.promise
+      if (exit === 'binding rejection') throw new Error(message)
+      return value
+    },
+    onRestart: () => undefined,
+    onResult: (result) => results.push(result),
+  })
+
+  try {
+    await vi.waitFor(() => expect(prepared).toBe(true))
+    // The legal project face is 6×8; the browser fixture uses 5×8 bundled chrome.
+    const projectFaces = shell.bitmaps.filter((bitmap) => bitmap.width === 6 && bitmap.height === 8)
+    expect(projectFaces).toHaveLength(1)
+    const face = projectFaces[0]!
+    expect(face.close).not.toHaveBeenCalled()
+
+    if (exit === 'abort') {
+      controller.abort()
+      await running
+    }
+    rechecked.resolve()
+    await running
+    await shell.settleIO()
+
+    const role = exit === 'abort' ? 'status' : 'alert'
+    expect(document.querySelector(`[role="${role}"]`)?.textContent).toContain(message)
+    expect(shell.frames.size).toBe(0)
+    expect(results).toEqual([])
+    expect(face.close).toHaveBeenCalledTimes(1)
+  } finally {
+    controller.abort()
+    rechecked.resolve()
+    await running
+  }
 })
