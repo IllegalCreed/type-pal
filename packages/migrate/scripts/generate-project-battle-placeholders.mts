@@ -6,6 +6,8 @@ import { encodeSpriteChunk, type RleFrame } from '@type-pal/shared'
 import { assertMigrationFilePath } from '../src/migration-path.js'
 
 const repo = resolve(fileURLToPath(new URL('../../..', import.meta.url)))
+const gzipOsOffset = 9
+const publishedGzipOs = 19
 
 function placeholderFrame(pose: number): RleFrame {
   const width = 12
@@ -28,6 +30,8 @@ function placeholderFrame(pose: number): RleFrame {
 const bytes = gzipSync(
   encodeSpriteChunk(Array.from({ length: 10 }, (_, pose) => placeholderFrame(pose))),
 )
+// Both project catalogs hash the whole gzip member. Preserve the published OS byte on every host.
+bytes[gzipOsOffset] = publishedGzipOs
 
 // Check both targets before creating or overwriting either output.
 const outputs = ['demo', 'e2e-own'].map((project) =>

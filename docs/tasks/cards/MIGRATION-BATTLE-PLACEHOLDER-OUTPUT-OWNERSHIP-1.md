@@ -4,7 +4,7 @@ Status: review
 Phase: phase2
 Owner: Codex
 Reviewer: Codex
-Last reviewed: 2026-11-20
+Last reviewed: 2026-11-24
 Template: task-card-v1 / 1.0.0
 Visual Verification Timing: N/A
 
@@ -40,3 +40,13 @@ Visual Verification Timing: N/A
 用户在回溯交付后要求处理确认缺口并扩大核查。2026-11-20，Codex `build allowed`，单一 Coding Owner 为 Codex。已查最新 E2E 分支及其工作树，两个维护入口和既有路径守卫无重叠。统一复用 `assertMigrationFilePath` 核定固定写入地址。该守卫的合同是本地预检，写入本身出现系统错误时仍需按命令退出原因处理。
 
 两个实现及三份专测或宿主的逐文件裁定见[回溯整改](QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#扩查结果与本轮整改)。本轮有定向证据，等待后续稳定窗口的统一门与集成。
+
+### PR #76 跨平台重建
+
+Ubuntu 的 `fast-coverage` 首次在正常重建用例失败。gzip 文件头的 OS 字段位于零起第 9 字节，Linux 回执为 3，两份跟踪资源为 19。两个工程的索引均以完整压缩文件的 107 字节和 SHA-256 `56e2e1e55a4d12ae291839480ca7a82eff82271283688755c5a0a43cb780b3df` 标识资源。 [Linux 首次失败原件](https://github.com/IllegalCreed/type-pal/actions/runs/44918505953/job/136889199768) · [gzip 文件头格式](https://www.rfc-editor.org/rfc/rfc1952.html#section-2.3.1)
+
+Codex 接续固定目的地和字节再生合同，单一写入范围为占位精灵生成器。继续使用实际 RLE 编码和 gzip 压缩，在两次写入前固定已发布的 OS 字段。现有逐字节断言覆盖两份产物，目录和文件链接反例覆盖写入预检。
+
+macOS 上从实际 gzip 返回值只置入 Linux 观察到的字节，原提交按同一断言单红，另两例通过。修订后同一探针 3 项全绿，macOS 原生与 FBP 相邻共 6 项全绿，Migrate typecheck 零诊断。同一隔离根连续两次重建都与两个索引的完整哈希相等，解压内容相等。真实 Ubuntu 验收见 PR #76 新提交的 `fast-coverage` 检查。
+
+原归档 545 件逐字节保全。本轮原失败、命令和复跑共 17 件，净增 39,146 字节，可从[原执行归档](../evidence/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz)的 `placeholder-gzip/evidence.json` 定位。
