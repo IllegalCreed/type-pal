@@ -115,7 +115,7 @@ test('逃跑失败后可以接续下一轮，胜利后正常计奖', async () =>
   expect(h.session.rewards()).toEqual({ exp: 5, cash: 3 })
 })
 
-test('敌人选择逃走后交回 enemyFled，已有奖励值不会强制打开结算', async () => {
+test('敌人选择逃走后交回 enemyFled，零战果且不打开结算', async () => {
   const deserter = wfEnemy('deserter', { health: 200, attackStrength: 0 })
   deserter.ai = { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'flee' } }] }
   const h = makeWfSession({
