@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-21
+Last reviewed: 2026-11-24
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,852。
-当前已闭合核验：1,363；已读但待审：0；尚未逐文件核验：2,489；合计未闭合：2,489。
+当前已闭合核验：1,430；已读但待审：31；尚未逐文件核验：2,391；合计未闭合：2,422。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -121,10 +121,110 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-20，沿真实 Reforge 音频宿主核状态和资源所有权。BGM 的结构改动单独提交，浏览器合成器释放留 review。试听及共同初始化沿实际职责分别裁定。 [实现复审](../cards/QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md#实现复审reforge-音频)
 
+2026-11-24，Reforge 战斗复审 98 个原 pending 路径。39 个原路径闭合，28 个按职责完成退役或迁移，31 个仍有缺口。28 个承接路径各自纳入账本，库存净变化为 0。三项行为及结构整改的实际范围、失败和复验见[逐文件裁定](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定)。
+
 ## 逐文件登记
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/reforge/scripts/battle-trial-assets.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/scripts/battle-trial-host.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 现用反控按此宿主和标题定位。真实突发失败与清理观测仍不完整，旧发布路径先保持。 |
+| `packages/reforge/scripts/battle-trial-session.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 沿用真实试打建队的技能与装备判据；状态、毒别名与耗用的旧分支尚需按职责迁移。 |
+| `packages/reforge/scripts/battle-trial-workflow.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/__tests__/battle-finalization-reliability/battle-finalization-host-harness.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 创建浏览器宿主半途抛错的清理契约未闭，旧真假响应夹具保留待核。 |
+| `packages/reforge/src/__tests__/battle-host-fixture.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实资源读取可控。中途创建失败和 SFX／图像缓存清理所有权仍待分清。 |
+| `packages/reforge/src/__tests__/battle-workflows/catalog.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 实际工作流使用的合法战斗 catalog。内容经真实校验，明确不外推浏览器音频。 |
+| `packages/reforge/src/__tests__/battle-workflows/controlled-io.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已去字模与色表强转，声音记录器仍以具体 SfxPlayer 双断言截获 play。待从真实端口确立最小合同。 |
+| `packages/reforge/src/__tests__/battle-workflows/last-action.typecheck.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 独立 Extract 联合分支检查目标和实际伤害类型，类型错误由 tsc 识别。 |
+| `packages/reforge/src/__tests__/battle-workflows/session-driver.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 共用真实会话输入与终态读出，校验毒定义；按 owner 驱动键集和时间，不替代业务。 |
+| `packages/reforge/src/battle-trial-assets.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 实际项目登记、MIDI 字节、曲目与音色库的读取路径、静音对照与版本漂移。以快照后的实际关闭观察资源所有权。 |
+| `packages/reforge/src/battle-trial-assets.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle-trial-config.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 按合法试打配置与字段路径检查资源、成员、装备及数组中间非法例；正反向输入独立。 |
+| `packages/reforge/src/battle-trial-config.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle-trial-host.lifecycle.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实胜利结果、取消后重开、读锁后拒绝／取消时的位图释放。宿主端口精确断言。 |
+| `packages/reforge/src/battle-trial-host.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 读锁最后校验抛错或取消时都释放已解码图像，真实宿主红例后修；清理由单一试打 owner 持有。 |
+| `packages/reforge/src/battle-trial-prepare.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle-trial-prepare.wave2.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 按试打准备职责归组待做。七项中字段不修改、null 装备及三档池输入需核独占合同。 |
+| `packages/reforge/src/battle-trial-session.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle-trial-snapshot.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法路径上普通错误和 abort 的相邻区别，处理迟到字节；精准取回缓存文本与 JSON。 |
+| `packages/reforge/src/battle/battle-action-presentation-scheduler.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已退役私有源码断言。脚本开始后直接调用普通推进的第 44 行用例仍待核宿主可达性。 |
+| `packages/reforge/src/battle/battle-action-presentation-scheduler.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-anim.attack-all.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 公开构建函数给多敌不同偏移，核受击与归位，去重复静音轴。 |
+| `packages/reforge/src/battle/battle-anim.cooperative-cast.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法参与者、目标与手动画帧，正向核等待节拍。反控区分编队中的实际施法者。 |
+| `packages/reforge/src/battle/battle-anim.enemy-cast.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 从真实敌人底锚核攻击段、零 FIRE 延迟及群攻落点。 |
+| `packages/reforge/src/battle/battle-anim.glm-n.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 模型后缀仍不合格。待迁入现用玩家施法与战场帧输出，保留独有声音和状态判别。 |
+| `packages/reforge/src/battle/battle-anim.glm-runtime-resource.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 模型后缀仍不合格。完成和释放用例待与调度器合法时钟证据分层归组。 |
+| `packages/reforge/src/battle/battle-anim.player-cast.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 以合法火焰帧及敌我位置构造时间线，核目标槽、底锚与色偏字段。 |
+| `packages/reforge/src/battle/battle-anim.summon.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 核两段登场、槽位闲站相位与色调，以及召唤中的飘字和受击位移。 |
+| `packages/reforge/src/battle/battle-anim.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 新增相邻演出专测不授主套件信用。旧投掷、时间和多断言夹具需保持独立 oracle 后再精简。 |
+| `packages/reforge/src/battle/battle-anim.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实配置允许的负值与小数会影响帧索引或时间；需明确输入域裁决，保留原盘 speed=-1 的有效业务语义。 |
+| `packages/reforge/src/battle/battle-casualty-presentation.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-casualty.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已核队员伤亡路径；多条注释与过宽刷新断言仍需重写，不用负攻击证明合法边界。 |
+| `packages/reforge/src/battle/battle-command-selection.lists-and-targets.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法槽位、动作提交和取消回退；范围、魔法费用与消费的生产职责各自核。 |
+| `packages/reforge/src/battle/battle-command-selection.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 伪造槽号与源字符串测试仍绑定已刊验证，保持留审。 |
+| `packages/reforge/src/battle/battle-command-selection.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 同帧取消优先经真实会话红绿；相位派发按菜单、列表和目标的职责分段。 |
+| `packages/reforge/src/battle/battle-core.equivalent-status.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-core.lifecycle.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 容量和真实结束状态的边界；只为特定规则提供可达前态。 |
+| `packages/reforge/src/battle/battle-core.rng-order.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 部分正式随机次序证据可复用；混装异常输入和历史数值注释仍待逐例迁移。 |
+| `packages/reforge/src/battle/battle-core.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 八处旧反例已改强。主套件仍混合合成非生产构造与多轴断言，按行为再拆核。 |
+| `packages/reforge/src/battle/battle-core.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已修回合末毒发终态及战果归属。动作分派、脚本计数和数值字典的所有权仍待拆核。 |
+| `packages/reforge/src/battle/battle-enemy-confused.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 状态回退、伤害和零槽等合同混用；合法输入与独立结果判据待整理。 |
+| `packages/reforge/src/battle/battle-enemy-decisions.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 遵循合法 AI 周期条件、目标规则并核固定随机选择输出。 |
+| `packages/reforge/src/battle/battle-enemy-effects.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法定义和命中目标保证召唤受生命值边界控制；独立观察实际状态。 |
+| `packages/reforge/src/battle/battle-enemy-spells.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实受击对象与精确 HP 阈值，已用阈值单点反控。 |
+| `packages/reforge/src/battle/battle-entry-presentation.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-finalization.world-result.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 临时世界成长、写回与复验重复边界待按真实变化值拆核。 |
+| `packages/reforge/src/battle/battle-fire-readiness.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-host.finalization.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-host.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-host.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-icon-color.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 独立索引色样本与明确灰阶／偏移，反控变更给定像素即红。 |
+| `packages/reforge/src/battle/battle-last-action.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 业务分型继续服务规则与演出，移除仅包内的未读类型；目标和伤害字段用 tsc 独立断言。 |
+| `packages/reforge/src/battle/battle-launch-preparation.assets.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 登记的遭遇／默认配乐互斥，场地效果、背景与投掷资产通过真实准备读取。 |
+| `packages/reforge/src/battle/battle-launch-preparation.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 承接旧错误分类，保留库存快照、限域准备顺序和故障的分离判据。 |
+| `packages/reforge/src/battle/battle-launch-preparation.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-off-magic.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 正向演出入口已核。合法配置可触发小数 FIRE 帧与负延时，待同动画与校验边界裁定。 |
+| `packages/reforge/src/battle/battle-player-input.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实 buildWorld 与 createBattlePlayers 的装备、技能、关系及显式状态在独立快照验证。 |
+| `packages/reforge/src/battle/battle-player-input.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已核 buildWorld 派生。缺少角色的技能表条目与合法同名角色交叉输入仍缺完整证据。 |
+| `packages/reforge/src/battle/battle-player-recovery.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 复活函数独立处理上限 9 和 10 的倒下队员，验证十分一向下取整。 |
+| `packages/reforge/src/battle/battle-positions.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 以 SDLPal 表核固定坐标。错误限制队伍上限时指定反例失败。 |
+| `packages/reforge/src/battle/battle-positions.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 按原始坐标与实际敌槽核注释，保留锚点轴、越界钳制及平台坐标正例。 |
+| `packages/reforge/src/battle/battle-result.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 获批退役四个无生产消费者的函数；结果联合类型与会话、脚本的真实处理保留。 |
+| `packages/reforge/src/battle/battle-round-effects.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实回合观察毒伤、授物、装备恢复体力／真气和封顶。 |
+| `packages/reforge/src/battle/battle-session.action-flows.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 动作耗用前态和特效来源仍有旧非法夹具及重叠层；已有发表判据独立保留。 |
+| `packages/reforge/src/battle/battle-session.assembly.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 正常会话先装好两员。每例只变一个长度或未登记定义，逐个断言固定错误。 |
+| `packages/reforge/src/battle/battle-session.choreography.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法目标和真实执行指令。取消后不再重派声音经关闭守卫反控，非法重复终态走真实校验。 |
+| `packages/reforge/src/battle/battle-session.round-flows.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | F 验真实攻击与单轮次数；R 用死亡与存活敌的不同 ID 证实目标替换。 |
+| `packages/reforge/src/battle/battle-session.round-outcomes.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真输入驱动毒、逃跑与物品，零额外输入取得胜败、战果准确且不准备额外回合。 |
+| `packages/reforge/src/battle/battle-session.script-flows.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 旧部分施法未用合法配置建立前态。可保留的释放行为要绑定真实脚本输出和判别反例。 |
+| `packages/reforge/src/battle/battle-session.selection-flows.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 同帧双键两个反例已闭；既有空技能与空用品事后仍能提交的判别薄，整文件继续 review。 |
+| `packages/reforge/src/battle/battle-session.terminal-flows.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实三类结算页、明确逃跑后声音、终止与对象写回拷贝，不靠伪造的重复经验页。 |
+| `packages/reforge/src/battle/battle-session.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 默认夹具缺生产精灵合同且访问私有状态。旧实测按各自范围保留，继续拆职责。 |
+| `packages/reforge/src/battle/battle-session.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 已追会话真实运行。构建、呈现和持久写回仍同处主拥有者，动画输入域与重复类型待治理。 |
+| `packages/reforge/src/battle/battle-session.writeback-flows.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 旧默认钳 1 围绕无生产消费者。探针中真气未实际变化，后续按真实胜败写回验。 |
+| `packages/reforge/src/battle/battle-settlement-presentation.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 用真实可能的奖励、隐藏成长和习得序列验证时钟、接受键和终态。 |
+| `packages/reforge/src/battle/battle-settlement-presentation.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 结算页时间与退场由单一对象维护；世界与试打的不同交接约束由真实画页帧判别。 |
+| `packages/reforge/src/battle/battle-settlement-render.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实 drawSettlementScreen 与独立布局坐标，文字、语义着色和数字图集同一页观察。 |
+| `packages/reforge/src/battle/battle-settlement-screens.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实 buildSettlementScreens 的合法成长和习得，按原角色次序和空输入核页序。 |
+| `packages/reforge/src/battle/battle-sprite-readiness.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 强转的装备与人物夹具、重复闭包断言仍待按合法内容实例与引用合并。 |
+| `packages/reforge/src/battle/battle-sprite-readiness.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-steal.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 合法行动、正负结果与独立的库存观测。 |
+| `packages/reforge/src/battle/battle-turn-readiness.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 快照使用伪造的 BattleState，私有结构断言还与现行会话发布绑定。未修改已刊 identity。 |
+| `packages/reforge/src/battle/battle-turn-readiness.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/battle-ui.command-layout.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 捕获真实绘制入口派发的矩形、文字位置和颜色、图集游标及选中态。 |
+| `packages/reforge/src/battle/battle-ui.status-portraits.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 核阵亡与中毒头像生成、已声明状态字的绘制和省略状态。 |
+| `packages/reforge/src/battle/battle-ui.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 明确职责与坐标；删内部宽度回传、未读 roleId 和固定色偏参数，实际绘制均有独立观测。 |
+| `packages/reforge/src/battle/battle-world-result.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/enemy-closure.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 直接观察变身、召唤、周期及默认自指的投影，合法配置与显式缺键分开。 |
+| `packages/reforge/src/battle/enemy-closure.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 对普通 Record 的缺失键诊断仍有未证边界。现行引用校验拦普通输入，外部构造和继承键的诊断域待核。 |
+| `packages/reforge/src/battle/enemy-hook-runtime.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 真实两个权重边界、零抽样路径以及非初始游标重启；隔离故障回退。 |
+| `packages/reforge/src/battle/enemy-hook-runtime.ts` | product | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/pal-cure-status-corrections.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
+| `packages/reforge/src/battle/present-battle.composition.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 在 drawImage 调用时读取 alpha 和平滑状态；单独核 scale 指令与状态复原。 |
+| `packages/reforge/src/battle/present-battle.test.ts` | test | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 使用真实合成入口，按绘制内容核顺序与恢复状态。现行旧淡出实现另保留留审。 |
+| `packages/reforge/src/battle/present-battle.ts` | product | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 正常合成有业务观测；私有淡出入口仍被 E2E 探针消费，等独立所有权与现行证据裁定。 |
+| `packages/reforge/src/battle/r13-six-b-battle.test.ts` | test | review | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留旧 6b 来源。测试名沿用批次标签，部分条件与正常内容夹具仍待对齐。 |
+| `packages/reforge/src/battle/settlement.ts` | product | 已验证 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 消除重复标注与无效常量防御；按真实成长和画面指令分别验证页序及数值布局。 |
 | `packages/reforge/src/__tests__/runtime-shell/audio-host.ts` | fixture | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 配套升级后仍用外部音频端口替身，按安装版本识别处理器请求。 |
 | `packages/reforge/src/assets.ts` | product | 已验证 | [Q2 后逐文件复审](../cards/QUALITY-REFORGE-PRESENTATION-1.md#q2-后音频复审) | 标准色彩 JSON 对非法根给出领域错误。两种公开解码由编辑器真实读/写及命名帧路径消费。 |
 | `packages/reforge/src/audio/bgm.dispose.test.ts` | test | 已验证 | [八维与复验证据](../cards/QUALITY-REFORGE-PRESENTATION-1.md#本窗口八维验收) | 按实际职责承接既有专测。原路径、测试身份与独立定向原件见窗口证据。 |

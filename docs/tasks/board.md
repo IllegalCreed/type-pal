@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-22
+Last reviewed: 2026-11-24
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -57,7 +57,13 @@ Template: governance-index-v1 / 1.0.0
 
 迁移五张后继卡的六个原 review 路径已有独立验收，经[生成任务索引](cards/index.md)查看各自修复。集中验证由当前窗口记录。Reforge 的音频、入口、时钟和菜单未决取舍由该卡列出具体解除条件。
 
-[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)与 Content 物品世界夹具已核实际入口。#74 后原有六项已收口。后继场景、资源与呈现项已逐文件复审。两处获批旧出口已[退役并迁移有效测试](cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役)。BGM 与 MIDI 试听的最后两项留审经[配套升级和真实退出](cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)收口。当前 [PR 集中收尾](cards/QUALITY-REFORGE-PRESENTATION-1.md#pr-集中收尾) 已保存分组件检查、官方覆盖率及零诊断原件，GitHub 门按待合并 PR 核验。
+[资源引用登记诊断](cards/CONTENT-ASSET-RECORD-OWNERSHIP-1.md)与 Content 物品世界夹具已核实际入口。#74 后原有六项已收口。后继场景、资源与呈现项已逐文件复审。两处获批旧出口已[退役并迁移有效测试](cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役)。BGM 与 MIDI 试听的最后两项留审经[配套升级和真实退出](cards/QUALITY-REFORGE-PRESENTATION-1.md#spessasynth-配套升级与真实退出)收口。[PR #76](https://github.com/IllegalCreed/type-pal/pull/76) 已合入，main 的文档和覆盖率 CI 已通过。分组件门保留于[集中收尾](cards/QUALITY-REFORGE-PRESENTATION-1.md#pr-集中收尾)。
+
+### 代码治理：当前 Reforge 战斗窗口
+
+[Reforge 战斗治理](cards/QUALITY-REFORGE-BATTLE-1.md)处于 review。范围涵盖 98 个原路径，67 个原路径结束本轮，31 个仍有实质复核项。代码由本治理工作树的 Codex 单一持有。集中门和 E2E 来源版本由该卡分别记录。
+
+[凤纹手绢旧方案退役](cards/MIGRATION-PAL-HANDKERCHIEF-SCHEME-1.md)由 Codex 在同树核验。用户批准清理主线剧情已经替代的自动方案并校准实际发布计数。
 
 ### 代码治理：最近完成的文件批次
 

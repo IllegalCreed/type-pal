@@ -5,6 +5,157 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'reforge-battle-organization-20261124',
+    authority:
+      'User authorizes exact baseline recounts for justified structural changes. The approved outcome timing removes a subsequent empty-enemy target arm, and four fully covered unused result helpers were retired. Canonical tests also replace an empty palette and an inconsistent cooperative-cast input. The evidence identifies per-file metrics and exceptional LCOV arms. Reforge statements and branches receive a comparison recount. Targeted counterexamples preserve the HP recovery and omitted portrait status contracts. The approved PAL handkerchief change adds a guarded current-publication census. The real PAL suite covers its specific authored route, which is outside fast. The Migrate recount is the measured change in the single publication file; live covered counts increased in all four metrics. Scope selection and protection remain exact.',
+    evidence: 'docs/tasks/evidence/QUALITY-REFORGE-BATTLE-1.tar.gz',
+    baselineSha256: '359649c2191b180926eddbab28779322b2055146fa622f388f90e2e8d285ca77',
+    sources: [
+      {
+        path: 'packages/reforge/src/__tests__/battle-workflows/controlled-io.ts',
+        sha256: '0f2a584ff8acd256ff846695f738874b48d7e6dd59d22da061b5cfe6886eb155',
+      },
+      {
+        path: 'packages/reforge/src/battle-trial-host.ts',
+        sha256: 'cd0e336821ef154dbda66fcaa06d649a25e7cc259e1e607f60e6a0aeb5b7ac2b',
+      },
+      {
+        path: 'packages/reforge/src/battle-trial-host.lifecycle.test.ts',
+        sha256: 'c09d07b49aec6f0d1c817b20abd960d2d31597d7340ed25677d5366b98eaf696',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-anim.ts',
+        sha256: '2cedde255969fb039af40fcd13b79d68e263655cefb052bb3a4d84603bbcb60c',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-anim.cooperative-cast.test.ts',
+        sha256: '312bb5c3823c27eeff8509043afba3842020d78617e288a1359fb4e179bd0d0d',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-command-selection.ts',
+        sha256: 'c2663b97aed6480b87bfb42e910c0c9867418692ee254ab58f8dbbeb6cf73e5e',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-command-selection.lists-and-targets.test.ts',
+        sha256: '85620d99c42bb2c52b92d27bc118a7f6a836aa6bf005e9b2a3be2db6a462747a',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-core.ts',
+        sha256: '1b1e823d68a66b8a3233d924a2f8727bc29e62013174cc5db451d8a43151fc1d',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-result.ts',
+        sha256: '762757b9cd42b3d1c2def5df28b530afa8b54c00fb3135d57467c8a2ed9e7ca4',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-session.ts',
+        sha256: '10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-session.round-outcomes.test.ts',
+        sha256: '5daff54bdb4d62339936df912ca9c4b6f7257c04fd451b6d6eac74718732e315',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-ui.ts',
+        sha256: '8ff76d428d17a28c4b0244407694c102b3ad48bbb6f7093801ef267321a3e4eb',
+      },
+      {
+        path: 'packages/reforge/src/battle/enemy-hook-runtime.test.ts',
+        sha256: '4f046a64ea3d2f6523ca27a9ad7830d1d10da5f359b9ec5fe23cd69ce15a2803',
+      },
+      {
+        path: 'packages/reforge/src/battle/settlement.ts',
+        sha256: 'a144efcfb83be1f5b91a516e3bdb986dcf4599bf2a00866ed49a0682e4289575',
+      },
+      {
+        path: 'packages/reforge/src/render.ts',
+        sha256: '3c63a27dc112c0a958c08774e51d279839e57462b122267515bd84202900449c',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-round-effects.test.ts',
+        sha256: '3a8dd662e0db125e602b1e45f38faaa5a4040200c2afa0117b0c8cfd46192b4b',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-ui.status-portraits.test.ts',
+        sha256: 'cb57d9c8b2f710bf8aaa3c11093af2368b6b84b8d85bf0afb0ac76df0f3c4495',
+      },
+      {
+        path: 'packages/migrate/src/pal-current-publication.ts',
+        sha256: '01cd97f3e7c23690819d4d59f452df72c340ce61b8b35d8c5329ce4c5665d075',
+      },
+      {
+        path: 'packages/migrate/src/pal-current-publication.pal.test.ts',
+        sha256: '68602048935f1445cc3ce8801f4a7b6ea85871119b5936f46a16ce75743a3463',
+      },
+      {
+        path: 'packages/reforge/src/pal-unified-steps-auto-oracle.json',
+        sha256: '94889f724ffc90f7251ca01a2b6ac150dee51f495664f3e6b5c9cdb8454d9d61',
+      },
+      {
+        path: 'projects/pal/content/scenes/s273.json',
+        sha256: 'a2b80173ba2ee2e5f674ee7f28855d107334f5d9fd968374c998f9da67ef52dc',
+      },
+    ],
+    packages: {
+      reforge: {
+        before: {
+          statements: {
+            covered: 18877,
+            total: 20633,
+          },
+          branches: {
+            covered: 12379,
+            total: 14613,
+          },
+          functions: {
+            covered: 3030,
+            total: 3312,
+          },
+          lines: {
+            covered: 16888,
+            total: 18003,
+          },
+        },
+        after: {
+          statements: {
+            covered: 18886,
+            total: 20643,
+          },
+          branches: {
+            covered: 12370,
+            total: 14605,
+          },
+          functions: {
+            covered: 3030,
+            total: 3312,
+          },
+          lines: {
+            covered: 16888,
+            total: 18003,
+          },
+        },
+      },
+      migrate: {
+        before: {
+          statements: { covered: 2275, total: 2527 },
+          branches: { covered: 1580, total: 1752 },
+          functions: { covered: 373, total: 397 },
+          lines: { covered: 1996, total: 2213 },
+        },
+        after: {
+          statements: { covered: 2280, total: 2535 },
+          branches: { covered: 1582, total: 1764 },
+          functions: { covered: 375, total: 402 },
+          lines: { covered: 2001, total: 2221 },
+        },
+      },
+    },
+  },
+  {
     id: 'editor-open-map-baseline-fixture-20261122',
     authority:
       'User authorizes exact baseline recounts for justified structural changes and approved the retirement of the test-only bulk map loader. Main CI and the candidate LCOV differ by one hit branch in the unchanged author-disk-baseline.ts. The former editor session fixture preloaded each map before baseline capture. The real local open and HTTP author entry leave map body reads to baseline capture. Both prepare the same author data, and the fixture now uses the real local opener. Only one Editor covered-branch count is recounted. Production sources, profile selection, test identities and every other metric are preserved.',
