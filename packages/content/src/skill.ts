@@ -122,6 +122,11 @@ export interface SkillPrepareEffect {
   consume: 'all'
 }
 
+/** Convert the signed authored speed to milliseconds per FIRE frame. */
+export function skillAnimationFrameDurationMs(speed = 0): number {
+  return (speed + 5) * 10
+}
+
 export interface SkillExecutionOverride {
   effects?: SkillEffect[]
   animation?: SkillAnimation

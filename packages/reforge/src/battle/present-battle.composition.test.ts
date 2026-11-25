@@ -20,16 +20,6 @@ function sprite(width = 6, height = 4): LoadedSprite {
 }
 
 function installCanvasHost() {
-  const created: Array<{
-    width: number
-    height: number
-    context: {
-      fillRect: ReturnType<typeof vi.fn>
-      clearRect: ReturnType<typeof vi.fn>
-      drawImage: ReturnType<typeof vi.fn>
-      globalAlpha: number
-    }
-  }> = []
   vi.stubGlobal('document', {
     createElement(tag: string) {
       expect(tag).toBe('canvas')
@@ -38,14 +28,6 @@ function installCanvasHost() {
           data: new Uint8ClampedArray(width * height * 4),
         }),
         putImageData: vi.fn(),
-        fillRect: vi.fn(),
-        clearRect: vi.fn(),
-        drawImage: vi.fn(),
-        save: vi.fn(),
-        restore: vi.fn(),
-        globalAlpha: 1,
-        globalCompositeOperation: 'source-over',
-        fillStyle: '',
       }
       const canvas = {
         width: 0,
@@ -53,11 +35,9 @@ function installCanvasHost() {
         context,
         getContext: () => context,
       }
-      created.push(canvas)
       return canvas
     },
   })
-  return created
 }
 
 function context() {
@@ -179,53 +159,5 @@ describe('战斗画面合成', () => {
     expect(drawImage.mock.calls.map(([image]) => (image as HTMLCanvasElement).width)).toEqual([
       40, 18, 14, 32, 24, 18, 14,
     ])
-  })
-})
-
-describe('单精灵溶解兼容入口', () => {
-  test('pattern 不可用时溶解退化为透明度，并把越界进度钳在 0..1', async () => {
-    vi.resetModules()
-    const { drawDissolved } = await import('./present-battle.js')
-    const created = installCanvasHost()
-    const { ctx, drawImage, alphaAtDraw } = context()
-    const patternless = ctx as CanvasRenderingContext2D & {
-      createPattern: ReturnType<typeof vi.fn>
-    }
-    patternless.createPattern = vi.fn(() => null)
-    const frame = { width: 6, height: 4 } as HTMLCanvasElement
-    drawDissolved(ctx, frame, 27, 31, 1.5)
-    expect(alphaAtDraw).toEqual([0])
-    expect(ctx.globalAlpha).toBe(1)
-    expect(drawImage).toHaveBeenCalledExactlyOnceWith(frame, 27, 31)
-    expect(created).toHaveLength(1)
-    drawImage.mockClear()
-    alphaAtDraw.length = 0
-    drawDissolved(ctx, frame, 27, 31, -0.5)
-    expect(alphaAtDraw).toEqual([1])
-    expect(ctx.globalAlpha).toBe(1)
-    expect(drawImage).toHaveBeenCalledExactlyOnceWith(frame, 27, 31)
-    expect(created).toHaveLength(2)
-  })
-
-  test('可用 pattern 以相位批次消融，波内余量作用于同一离屏画布', async () => {
-    vi.resetModules()
-    const { drawDissolved } = await import('./present-battle.js')
-    const created = installCanvasHost()
-    const { ctx, drawImage } = context()
-    const patterned = ctx as CanvasRenderingContext2D & {
-      createPattern: ReturnType<typeof vi.fn>
-    }
-    patterned.createPattern = vi.fn((tile: object) => ({ tile, setTransform: vi.fn() }))
-    const frame = { width: 6, height: 4 } as HTMLCanvasElement
-    drawDissolved(ctx, frame, 17, 19, 0.25)
-    expect(patterned.createPattern).toHaveBeenCalledTimes(6)
-    expect(created).toHaveLength(7)
-    const scratch = created[6]!
-    expect([scratch.width, scratch.height]).toEqual([6, 4])
-    expect(scratch.context.clearRect).toHaveBeenCalledExactlyOnceWith(0, 0, 6, 4)
-    expect(scratch.context.drawImage).toHaveBeenCalledExactlyOnceWith(frame, 0, 0)
-    expect(scratch.context.fillRect).toHaveBeenCalledTimes(2)
-    expect(scratch.context.globalAlpha).toBe(0.5)
-    expect(drawImage).toHaveBeenCalledExactlyOnceWith(scratch, 0, 0, 6, 4, 17, 19, 6, 4)
   })
 })

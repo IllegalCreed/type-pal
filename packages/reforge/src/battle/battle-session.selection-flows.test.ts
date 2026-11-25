@@ -11,6 +11,7 @@ import {
   wfCoopSkill,
   wfEnemy,
   wfHealItem,
+  wfIdleEnemy,
   wfPlayer,
   wfSkill,
   wfThrowItem,
@@ -101,7 +102,8 @@ describe('W1 选择/回退连续流程', () => {
     expect(inv[0]!.count).toBe(1) // 恰耗一件（一次代价）
   })
 
-  test('无可投掷品时 W 不打开列表且零提交（会话层无效投掷选择）', () => {
+  test('无可投掷品时 W 留在菜单，随后提交的防御不会耗用用品', () => {
+    const selections: BattleTurnReadinessSnapshot[] = []
     const h = makeWfSession({
       players: [wfPlayer('p1', { mp: 40, maxMp: 40 })],
       enemies: [wfEnemy('e1', { attackStrength: 1 })],
@@ -109,14 +111,23 @@ describe('W1 选择/回退连续流程', () => {
         // 只有使用品、没有 throw 规格 → 投掷列表为空
         items: { 'wf-tonic': wfHealItem('wf-tonic', 30) },
         inventory: [{ itemId: 'wf-tonic', count: 2 }],
+        prepareTurnSounds: async (snapshot) => {
+          selections.push(snapshot)
+        },
       },
     })
-    expect(() => {
-      h.press(['w', 'W'])
-      h.idle()
-    }).not.toThrow()
-    expect(h.session.debugReadiness().phase).toBe('menu') // 留在菜单
-    expect(h.readParty()[0]!.mp).toBe(40) // 零提交（core 层"扣库存前拒绝"之外的会话层无效选择）
+    h.press(['w', 'W'])
+    h.idle()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(selections).toEqual([])
+    h.press(['d'])
+    h.idle()
+    expect(selections.map(({ actions }) => [...actions.entries()])).toEqual([
+      [[0, { kind: 'defend' }]],
+    ])
+    const inventory = [{ itemId: 'wf-tonic', count: 2 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([{ itemId: 'wf-tonic', count: 2 }])
   })
 
   test('合击有效选择会话闭环（一击致胜成本正控）：直接提交→真实执行→两贡献者各付一次 HP 代价（91 精确）', async () => {
@@ -244,13 +255,27 @@ describe('W1 选择/回退连续流程', () => {
     expect(afterRound2).toBeGreaterThan(afterRound1) // healHp 真实回复（净增）
   })
 
-  test('无可用品时 E 不打开列表且不崩溃', () => {
-    const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [wfEnemy('e1')] })
-    expect(() => {
-      h.press(['e', 'E'])
-      h.idle()
-    }).not.toThrow()
-    expect(h.session.debugReadiness().phase).toBe('menu') // 无 battle 域物品 → 留在菜单
+  test('无可用品时 E 留在菜单，确认仍能攻击选定目标', () => {
+    const selections: BattleTurnReadinessSnapshot[] = []
+    const h = makeWfSession({
+      players: [wfPlayer('p1')],
+      enemies: [wfEnemy('e1')],
+      extraOpts: {
+        prepareTurnSounds: async (snapshot) => {
+          selections.push(snapshot)
+        },
+      },
+    })
+    h.press(['e', 'E'])
+    h.idle()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(selections).toEqual([])
+    h.press(['Enter'])
+    h.press(['Enter'])
+    h.idle()
+    expect(selections.map(({ actions }) => [...actions.values()])).toEqual([
+      [{ kind: 'attack', targetEnemyIdx: 0 }],
+    ])
   })
 
   test('同一拍取消和确认用品目标时退回列表且不提交动作', () => {
@@ -272,14 +297,61 @@ describe('W1 选择/回退连续流程', () => {
     expect(h.session.debugReadiness().phase).toBe('target')
   })
 
-  test('无技能时 ArrowLeft+确认给出空法术提示且不提交', () => {
+  test('预占最后一件消耗品后，下一队员只能选其它行动', async () => {
+    const selections: BattleTurnReadinessSnapshot[] = []
+    const medicine = wfHealItem('single-dose', 12)
+    const h = makeWfSession({
+      players: [wfPlayer('healer', { hp: 60 }), wfPlayer('fighter')],
+      enemies: [wfIdleEnemy('guard', { health: 500 })],
+      extraOpts: {
+        items: { [medicine.id]: { ...medicine, use: { ...medicine.use!, target: 'self' } } },
+        inventory: [{ itemId: medicine.id, count: 1 }],
+        prepareTurnSounds: async (snapshot) => {
+          selections.push(snapshot)
+        },
+      },
+    })
+    h.press(['e'])
+    h.press(['Enter'])
+    h.press(['e'])
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.press(['Enter'])
+    h.press(['Enter'])
+    h.idle()
+    expect(selections.map(({ actions }) => [...actions.entries()])).toEqual([
+      [
+        [0, { kind: 'item', itemId: medicine.id }],
+        [1, { kind: 'attack', targetEnemyIdx: 0 }],
+      ],
+    ])
+    await Promise.resolve()
+    for (let i = 0; i < 30; i++) h.idle(80)
+    const inventory = [{ itemId: medicine.id, count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+    expect(h.readParty().map(({ hp }) => hp)).toEqual([72, 100])
+  })
+
+  test('未学法术时跳过仙术图标，确认实际提交普攻', () => {
+    const selections: BattleTurnReadinessSnapshot[] = []
     const h = makeWfSession({
       players: [wfPlayer('p1', { skills: [], mp: 40, maxMp: 40 })],
       enemies: [wfEnemy('e1', { attackStrength: 1 })],
+      extraOpts: {
+        prepareTurnSounds: async (snapshot) => {
+          selections.push(snapshot)
+        },
+      },
     })
     h.press(['ArrowLeft'])
     h.press([' '])
-    expect(h.readParty()[0]!.mp).toBe(40) // 未提交任何 cast
+    expect(h.session.debugReadiness().phase).toBe('target')
+    expect(selections).toEqual([])
+    h.press([' '])
+    h.idle()
+    expect(selections.map(({ actions }) => [...actions.values()])).toEqual([
+      [{ kind: 'attack', targetEnemyIdx: 0 }],
+    ])
   })
 
   test.each([

@@ -18,6 +18,8 @@ test('close joins a real transaction and its thumbnail continuation before dispo
     })
     const decode = createImageBitmap
     const image = new Blob([chromePng().slice().buffer], { type: 'image/png' })
+    const alreadyReleased = await decode(image)
+    alreadyReleased.close()
     let outcome = 'pending'
     const transaction = database.transaction('records', 'readwrite')
     work = new Promise<void>((resolve, reject) => {
@@ -37,6 +39,7 @@ test('close joins a real transaction and its thumbnail continuation before dispo
     await closing
     expect(outcome).toBe('decoded')
     expect(bitmap?.close).toHaveBeenCalledOnce()
+    expect(alreadyReleased.close).toHaveBeenCalledOnce()
     expect(Object.getOwnPropertyDescriptor(globalThis, 'createImageBitmap')).toEqual(originalBitmap)
     expect(Object.getOwnPropertyDescriptor(IDBDatabase.prototype, 'transaction')).toEqual(
       originalTransaction,

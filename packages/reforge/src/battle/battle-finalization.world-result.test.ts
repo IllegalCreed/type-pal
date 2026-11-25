@@ -1,24 +1,20 @@
 // @vitest-environment jsdom
 /**
- * TEST-GLM-REFORGE-BATTLE-FLOW-1：终局与恢复（battle-finalization 家族，BF-01..BF-07）。
- * 卡面 `battle-finalization.ts` 不存在 —— 终局真源 = battle-world-result.ts
- * （settleBattleVictory / finishBattleWorldState，公开 caller main.ts:1172-1174 与
- * battle-trial-session.ts:58-61 的 buildSettlement 钩子）。本文件以 scenarioProject 真工程
- * + createBattlePlayers 真派生构造真实 BattleSession，over 相位经 buildSettlement 走真 settle，
- * done 后按 main 语义直调 finishBattleWorldState；oracle 全部落在大世界可观察状态上。
- * 排重：host 旧测 16 例只覆盖 victory 单景间接路径（money+7/hp90），settle/finish 的
- * exp 门、结算屏 wiring、defeat/flee 恢复、毒清理、金钱/收妖合并从未直接合同化。
+ * Exercise the session's production settlement callback and world finish step
+ * with a loaded author project. Shell notification and route timing belong to the host tests.
  */
 import {
   type ActorDef,
   type AuthorEnemyDef,
   buildWorld,
+  type LevelUpSkill,
   lookupText,
+  type SkillData,
   type WorldState,
 } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
 import { expect, test } from 'vitest'
-import { realFrame } from '../__tests__/battle-workflows/catalog.js'
+import { realFrame, wfSkill } from '../__tests__/battle-workflows/catalog.js'
 import { stubGlyphs } from '../__tests__/battle-workflows/controlled-io.js'
 import { drain } from '../__tests__/runtime-shell/driver.js'
 import { shellActor } from '../__tests__/runtime-shell/project.js'
@@ -43,28 +39,11 @@ import type { SettlementScreen } from './settlement.js'
 
 type ScenarioFixture = Awaited<ReturnType<typeof scenarioProject>>
 
-/** 完整敌属性（opponent 顶层浅覆盖，stats 必须整块替换）。 */
-function foeWith(stats: Partial<AuthorEnemyDef['stats']>, extra: Partial<AuthorEnemyDef> = {}) {
-  return opponent({
-    stats: {
-      health: 1,
-      level: 1,
-      exp: 0,
-      cash: 7,
-      attackStrength: 1,
-      magicStrength: 0,
-      defense: 0,
-      dexterity: 1,
-      fleeRate: 0,
-      physicalResistance: 0,
-      poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      dualMove: false,
-      collectValue: 0,
-      ...stats,
-    },
-    ...extra,
-  })
+function foeWith(
+  stats: Partial<AuthorEnemyDef['stats']>,
+  extra: Pick<AuthorEnemyDef, 'steal'> = {},
+) {
+  return opponent({ ...extra, stats: { ...opponent().stats, ...stats } })
 }
 
 /** 真工程定义 + 真实帧的 LoadedBattleSpriteDefinition（帧资源为 wf 判例许可的合成真帧）。 */
@@ -104,8 +83,8 @@ interface FinalizationScenario {
 }
 
 interface SceneExtraSkills {
-  skills?: Array<Record<string, unknown>>
-  levelUp?: Record<string, Array<Record<string, unknown>>>
+  skills?: SkillData[]
+  levelUp?: Record<string, LevelUpSkill[]>
   locale?: Record<string, string>
 }
 
@@ -116,6 +95,18 @@ interface SceneExtraSkills {
  */
 async function finalizationHarness(scenario: FinalizationScenario) {
   const browser = await installShellHost()
+  try {
+    return await setupFinalization(scenario, browser)
+  } catch (error) {
+    await browser.close()
+    throw error
+  }
+}
+
+async function setupFinalization(
+  scenario: FinalizationScenario,
+  browser: Awaited<ReturnType<typeof installShellHost>>,
+) {
   const fixture = await scenarioProject({
     enemies: [scenario.enemy],
     actors: scenario.actors ?? [combatActor(), shellActor('friend')],
@@ -289,12 +280,19 @@ const settleAware = (h: Harness) => {
 }
 
 test('BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半恢复不越界', async () => {
+  const strike = wfSkill('bf-strike', 5)
   const h = await finalizationHarness({
     enemy: foeWith({ health: 1, exp: 15, cash: 7 }),
-    seedStats: { hero: { hp: 60 } },
+    seedStats: { hero: { hp: 60, mp: 20 } },
+    extraSkills: { skills: [strike] },
+    worldSkills: [strike.id],
   })
   try {
     const settled = settleAware(h)
+    h.press(['ArrowLeft'])
+    h.press(['Enter'])
+    h.press(['Enter'])
+    h.press(['Enter'])
     await drive(h, settled, 'attack')
     expect(settled()).toBe('victory')
     expect(h.observables.onExpRewardCalls).toBe(1) // exp>0 → 恰一次经验提示回调
@@ -302,10 +300,11 @@ test('BF-01 胜利结算：经验门开、金钱入账、首屏 exp-cash、半�
     expect(h.world.party[0]!.exp).toBe(15) // 无升级曲线角色：经验直加
     const screens = h.observables.screens ?? []
     expect(screens[0]).toEqual({ kind: 'exp-cash', exp: 15, cash: 7 })
-    // writeBackHp（60）先落，grantBattleRewards 半恢复后加（80）；结算屏序见 settlement 专项
-    const sessionHp = h.session.debugPlayers()[0]!.hp
-    const expectedHp = Math.max(sessionHp, 1) + Math.floor((100 - Math.max(sessionHp, 1)) / 2)
-    expect(h.world.party[0]!.hp).toBe(expectedHp)
+    // 战斗实际扣除 5 真气。结算基于 60 HP 和 15 MP 各补一半缺口。
+    const battleParty = [{ id: 'hero', hp: 0, mp: 0 }]
+    h.session.writeBackHp(battleParty)
+    expect(battleParty).toEqual([{ id: 'hero', hp: 60, mp: 15 }])
+    expect(h.world.party[0]).toMatchObject({ hp: 80, mp: 27 })
   } finally {
     await h.close()
   }
@@ -321,6 +320,48 @@ test('BF-02 零经验胜利：经验门关、金钱照入账、无结算屏', as
     expect(h.world.money).toBe(50 + 7)
     expect(h.world.party[0]!.exp).toBe(0)
     expect(h.observables.screens).toEqual([]) // buildSettlementScreens：exp=0 不产首屏
+  } finally {
+    await h.close()
+  }
+})
+
+test('a level-up item spent in battle writes its growth to the world even when the party flees', async () => {
+  const silkworm = {
+    ...medicine('golden-silkworm'),
+    use: {
+      target: 'oneAlly' as const,
+      consuming: true,
+      effects: [{ kind: 'levelUp' as const, levels: 1 }],
+    },
+  }
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 900, attackStrength: 1 }, {}),
+    items: [silkworm],
+    inventory: [{ itemId: silkworm.id, count: 1 }],
+    seedStats: { hero: { hp: 60, mp: 20 } },
+  })
+  try {
+    const hero = expectDefined(h.world.party[0])
+    hero.exp = 77
+    const result = settleAware(h)
+    h.press(['e'])
+    h.press(['Enter'])
+    for (let turn = 0; turn < 80; turn++) {
+      h.idle(80)
+      await drain()
+      if (h.session.debugReadiness().phase === 'menu') break
+    }
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(hero).toMatchObject({ exp: 77, level: 1, maxHP: 100, maxMP: 40 })
+    h.press(['q'])
+    await drive(h, result, 'defend')
+    expect(result()).toBe('playerFled')
+
+    h.finish('playerFled')
+    expect(hero).toMatchObject({ exp: 0, level: 2, maxHP: 110, maxMP: 48, attack: 104 })
+    expect(h.world.inventory).toEqual([])
+    expect(h.world.money).toBe(50)
+    expect(h.observables.screens).toBeNull()
   } finally {
     await h.close()
   }
@@ -407,7 +448,7 @@ test('胜利后补学当前等级的仙术，并保留已经用尽的仙术次�
   const battler = expectDefined(actor.battler)
   battler.baseStats.level = 2
   battler.leveling = { expTable: [0, 10, 100] }
-  const learnable = {
+  const learnable: SkillData = {
     id: 'bf-missing',
     name: 'Missing',
     desc: '',

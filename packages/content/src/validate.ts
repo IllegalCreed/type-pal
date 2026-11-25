@@ -45,7 +45,7 @@ import { isMapAssetId } from './map-index.js'
 import { type BaseSceneDef, checkOptionalHostileVictoryTransition } from './scene-core.js'
 import { checkEntityPages, checkStages } from './script.js'
 import { checkScriptRef } from './script-library.js'
-import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS } from './skill.js'
+import { ENEMY_RUNTIME_SKILL_EFFECT_KINDS, skillAnimationFrameDurationMs } from './skill.js'
 
 /** 显式要求的对象键;缺任一 throw。 */
 function requireKeys(obj: object, keys: readonly string[], ctx: string): void {
@@ -862,21 +862,20 @@ function validateSkillAnimation(
     !['normal', 'attackAll', 'attackWhole', 'attackField'].includes(String(animation.placement))
   )
     throw new Error(`${ctx}.placement: 非法落点模式`)
-  for (const key of [
-    'xOffset',
-    'yOffset',
-    'layerOffset',
-    'speed',
-    'fireDelay',
-    'effectTimes',
-    'shake',
-    'wave',
-  ])
-    if (
-      animation[key] !== undefined &&
-      (typeof animation[key] !== 'number' || !Number.isFinite(animation[key]))
-    )
-      throw new Error(`${ctx}.${key}: 期望有限数`)
+  for (const key of ['xOffset', 'yOffset', 'layerOffset', 'wave'])
+    if (animation[key] !== undefined) requireFiniteNumber(animation[key], `${ctx}.${key}`)
+  for (const key of ['fireDelay', 'effectTimes', 'shake']) {
+    const count = animation[key]
+    if (count !== undefined && requireSafeInteger(count, `${ctx}.${key}`) < 0)
+      throw new Error(`${ctx}.${key}: 期望非负整数`)
+  }
+  if (animation.speed !== undefined) {
+    const speed = requireFiniteNumber(animation.speed, `${ctx}.speed`)
+    // The authored speed is signed. Playback requires its converted duration to be positive.
+    const durationMs = skillAnimationFrameDurationMs(speed)
+    if (!Number.isFinite(durationMs) || durationMs <= 0)
+      throw new Error(`${ctx}.speed: 帧时长必须为正的有限数`)
+  }
   if (animation.keepEffect !== undefined && typeof animation.keepEffect !== 'boolean')
     throw new Error(`${ctx}.keepEffect: 期望 boolean`)
   if (animation.blow !== undefined) {

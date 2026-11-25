@@ -122,7 +122,7 @@ test('normal encounter warms one MIDI during asset preparation and starts it bef
       },
     },
   )
-  f = await battleHostFixture(false, music, true)
+  f = await battleHostFixture({ music, scenario: { withBattleMusic: true } })
   const fixture = f
   fixture.ports.worldPresentation = () => ({
     showEntry: async () => {

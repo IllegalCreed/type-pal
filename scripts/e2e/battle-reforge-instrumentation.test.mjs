@@ -174,7 +174,7 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
       drawImage: (...args) => drawCalls.push(args),
     }
     const player = { sprite, x: 256, y: 152, frame: 1 }
-    const enemy = { sprite, x: 100, y: 145, frame: 0 }
+    const enemy = { sprite, x: 100, y: 145, frame: 0, alpha: 0.4 }
     const scene = {
       palette: { colors: Array.from({ length: 256 }, () => [0, 0, 0]), cycles: [] },
       enemies: [enemy],
@@ -187,14 +187,14 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
     }
     for (const clockMs of [0, 40]) {
       observer.beginFrame('reforge:BattleSession.render', { clockMs })
-      observer.labelFighter(enemy, 'enemy', 0)
+      observer.labelFighter(enemy, 'enemy', 0, true)
       observer.labelFighter(player, 'player', 1)
       observer.labelMagicOverlays(scene.depthOverlays, { 0: sprite, 28: alternateSprite })
       browser.exports.renderBattleScene(canvas, scene, 1)
       observer.endFrame()
     }
     observer.beginFrame('reforge:BattleSession.render', { clockMs: 80 })
-    observer.labelFighter(enemy, 'enemy', 0)
+    observer.labelFighter(enemy, 'enemy', 0, true)
     observer.labelFighter(player, 'player', 1)
     browser.exports.renderBattleScene(canvas, { ...scene, depthOverlays: [] }, 1)
     observer.endFrame()
@@ -219,7 +219,7 @@ test('Reforge records sorted magic overlay resources, actual frames and fighter 
       playerOrder: payload.players[0].paintOrder,
     }))
   }
-  const enemy = { slot: 0, x: 100, y: 145, frameIndex: 0, fading: false }
+  const enemy = { slot: 0, x: 100, y: 145, frameIndex: 0, fading: true }
   assert.deepEqual(capture(undefined), [{ overlays: undefined, enemy, playerOrder: undefined }])
   assert.deepEqual(capture(true), [
     {

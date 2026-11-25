@@ -5,6 +5,131 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'reforge-battle-review-closeout-20261125',
+    authority:
+      'User authorizes exact baseline recounts for justified code and test organization. The candidate removes an unreachable private painter, moves the animation player and world mutation ownership into named modules, and replaces test-only core inputs with production actions. Fifteen changed Reforge production files account for every measured counter delta; no unchanged production file lost coverage. The separately exercised item-growth writeback adds a real business oracle to the final candidate. The comparison uses the already measured pre-addition count against the exact old baseline. All other package baselines, test settings and protection remain strict.',
+    evidence: 'docs/tasks/evidence/QUALITY-REFORGE-BATTLE-CLOSEOUT-1.tar.gz',
+    baselineSha256: '0a763eedc1ec7082147b197d6ea96a09747de717d77aa8c47e0db405c8a52486',
+    sources: [
+      {
+        path: 'packages/reforge/src/battle-trial-assets.ts',
+        sha256: 'd1a80a120e222b99f0ca4d03d4d04bd72813cb45b2bdb0bf82ffa373616b5305',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-anim.attack-all.test.ts',
+        sha256: '461da45be303fc7e60177b3266e1c3677f1d8f0a158cf534f4ca8511b7c351f5',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-anim.ts',
+        sha256: 'aa0e5076c06da9dc46a940f8a3fc133ecffddb932d7c6daa186da117999aa89d',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-animation-player.ts',
+        sha256: '076fc8a61070935e77531f665c7fcafcce4c172a907c4d39f135e528c553080a',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-core.ts',
+        sha256: '5d3a8ad1d3300c4b2a1b8fe5c239187549e64e64a61753f30701b7f1e4bc9f63',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-finalization.world-result.test.ts',
+        sha256: '61206be3e36fe02cf1b9d04a64db275d052846fed79303cb7534d0ef1b00419b',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-fire-readiness.ts',
+        sha256: 'a6cd1cae1a9955c5d6fd8e32942ecd5e1256a83df4d3dc858f79ec487cfcd2bf',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-launch-preparation.ts',
+        sha256: 'f29a849d36453360fe72f2bb871956c39539118f3258e7eef508f3254cb626f5',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-off-magic.ts',
+        sha256: 'be44b06b7736f377c55689d85ae3ae6ab4554689ad559bdb978d3d2a8b66689d',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-player-input.ts',
+        sha256: '6f2069d358d7d79d951dfa15edf7d9460d30fa96f708d5a13d40d4dc86ff669c',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-session.ts',
+        sha256: 'c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-session.writeback-flows.test.ts',
+        sha256: '99ce9657d92fea5ca1a98738bb0d25672f66191975e21846c831c615a7093538',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-skill-uses.ts',
+        sha256: 'a34ea4a605370ebf76f001afc8d1486a4a8f1ea15009d8e683eb7013048ad7e8',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-sprite-readiness.ts',
+        sha256: '9976d0e9619cc96184b0ef1c8720d59de78d8694951b683b1bba8fa76990bb6a',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-world-mutations.ts',
+        sha256: '657d6a5d9f057ea5f4af1d10253e723b3b650a91cc0bc75f4d768c6787a8cbdf',
+      },
+      {
+        path: 'packages/reforge/src/battle/battle-world-result.ts',
+        sha256: '244cc4794fe326e53a4bc4b4460fc5cfa8bba1ca857a8a92a8605c10e4c1d336',
+      },
+      {
+        path: 'packages/reforge/src/battle/enemy-closure.ts',
+        sha256: 'a1120afe31fe1cfbb46e1a8336fa7de7d43f4e075eb2a234a64785c31c65908d',
+      },
+      {
+        path: 'packages/reforge/src/battle/present-battle.ts',
+        sha256: '2f4694ae2a22c79f4dfdad8f120fb27521632c5b781ef2af92370d7ad15552e2',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      reforge: {
+        before: {
+          statements: {
+            covered: 18886,
+            total: 20643,
+          },
+          branches: {
+            covered: 12370,
+            total: 14605,
+          },
+          functions: {
+            covered: 3036,
+            total: 3318,
+          },
+          lines: {
+            covered: 16897,
+            total: 18011,
+          },
+        },
+        after: {
+          statements: {
+            covered: 18795,
+            total: 20570,
+          },
+          branches: {
+            covered: 12310,
+            total: 14541,
+          },
+          functions: {
+            covered: 3043,
+            total: 3328,
+          },
+          lines: {
+            covered: 16821,
+            total: 17951,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'reforge-battle-organization-20261124',
     authority:
       'User authorizes exact baseline recounts for justified structural changes. The approved outcome timing removes a subsequent empty-enemy target arm, and four fully covered unused result helpers were retired. Canonical tests also replace an empty palette and an inconsistent cooperative-cast input. The evidence identifies per-file metrics and exceptional LCOV arms. Reforge statements and branches receive a comparison recount. Targeted counterexamples preserve the HP recovery and omitted portrait status contracts. The approved PAL handkerchief change adds a guarded current-publication census. The real PAL suite covers its specific authored route, which is outside fast. The Migrate recount is the measured change in the single publication file; live covered counts increased in all four metrics. Scope selection and protection remain exact.',

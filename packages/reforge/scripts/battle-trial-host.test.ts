@@ -1,6 +1,4 @@
 // @vitest-environment jsdom
-import { Blob as StreamBlob } from 'node:buffer'
-import { webcrypto } from 'node:crypto'
 import { loadCurrentProjectFrom, loadStandardPalette, prepareBattleTrial } from '@type-pal/reforge'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import {
@@ -11,12 +9,12 @@ import {
   parseBattleSimulatorLibrary,
   resolveBattleSimulatorPlan,
 } from '../../editor/src/core/battle-simulator-library.js'
-import { installShellAudioHost } from '../src/__tests__/runtime-shell/audio-host.js'
+import { installShellHost, type ShellHost } from '../src/__tests__/runtime-shell/dom-host.js'
 import { prepareBattleSpriteReadiness } from '../src/battle/battle-sprite-readiness.js'
 import { runBattleTrial } from '../src/battle-trial-host.js'
 
 const probes = vi.hoisted(() => ({ prepare: vi.fn(), store: vi.fn() }))
-let audio: ReturnType<typeof installShellAudioHost>
+let browser: ShellHost | undefined
 vi.mock('../src/battle-trial-assets.js', async (original) => ({
   ...(await original<typeof import('../src/battle-trial-assets.js')>()),
   prepareBattleTrialAssets: probes.prepare,
@@ -35,40 +33,32 @@ vi.mock('../src/save/store.js', () => ({
     }
   },
 }))
-beforeEach(() => {
+beforeEach(async () => {
   vi.clearAllMocks()
-  audio = installShellAudioHost()
-  vi.stubGlobal('crypto', webcrypto)
-  vi.stubGlobal('Blob', StreamBlob)
-  vi.stubGlobal(
-    'requestAnimationFrame',
-    vi.fn(() => 7),
-  )
-  vi.stubGlobal('cancelAnimationFrame', vi.fn())
+  browser = await installShellHost()
   vi.stubGlobal('indexedDB', {
     open: vi.fn(() => {
       throw Error('normal storage forbidden')
     }),
   })
-  document.body.innerHTML = '<canvas id="screen"></canvas>'
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(
-    {} as CanvasRenderingContext2D,
-  )
 })
-afterEach(() => {
+afterEach(async () => {
   window.dispatchEvent(new Event('pagehide'))
-  audio.close()
-  document.body.innerHTML = ''
-  vi.restoreAllMocks()
-  vi.unstubAllGlobals()
+  await browser?.close()
+  browser = undefined
 })
-async function fixture() {
-  const files = await battleTrialProjectFiles(),
-    project = await loadCurrentProjectFrom(fixtureSource(files))
+async function trialProject() {
+  const files = await battleTrialProjectFiles()
+  const project = await loadCurrentProjectFrom(fixtureSource(files))
   const config = resolveBattleSimulatorPlan(
     parseBattleSimulatorLibrary(files['editor/battle-simulator.json']),
     'basic',
   )
+  return { project, config }
+}
+
+async function fixture() {
+  const { project, config } = await trialProject()
   const prepared = prepareBattleTrial(config, project)
   const readiness = await prepareBattleSpriteReadiness({
     cache: project.battleSpriteCache,
@@ -100,8 +90,11 @@ async function fixture() {
   }
   return { project, config, loaded }
 }
-const button = (name: string) =>
-  [...document.querySelectorAll('button')].find((b) => b.textContent === name)!
+function button(name: string): HTMLButtonElement {
+  const found = [...document.querySelectorAll('button')].find((b) => b.textContent === name)
+  if (!found) throw new Error(`trial controls missing ${name}`)
+  return found
+}
 test('real host enters BattleSession, rejects F5/F9 and releases its run without constructing any SaveStore', async () => {
   const { project, config, loaded } = await fixture()
   probes.prepare.mockResolvedValue(loaded)
@@ -120,7 +113,7 @@ test('real host enters BattleSession, rejects F5/F9 and releases its run without
   await vi.waitFor(() =>
     expect(document.querySelector('[role=status]')?.textContent).toContain('战斗中'),
   )
-  expect(requestAnimationFrame).toHaveBeenCalledTimes(1)
+  expect(browser?.frames.size).toBe(1)
   for (const key of ['F5', 'F9']) {
     const event = new KeyboardEvent('keydown', { key, cancelable: true })
     window.dispatchEvent(event)
@@ -134,7 +127,7 @@ test('real host enters BattleSession, rejects F5/F9 and releases its run without
   expect(button('重新试打').disabled).toBe(false)
   button('重新试打').click()
   expect(restart).toHaveBeenCalledTimes(1)
-  expect(cancelAnimationFrame).toHaveBeenCalledWith(7)
+  expect(browser?.frames.size).toBe(0)
   expect(loaded.dispose).toHaveBeenCalled()
   expect(result).not.toHaveBeenCalled()
   expect(probes.store).not.toHaveBeenCalled()
@@ -163,17 +156,23 @@ test('cancel while resource preparation is entered settles before late preparati
     onRestart() {},
   })
   expect(probes.prepare).toHaveBeenCalledTimes(1)
+  expect(loaded.dispose).not.toHaveBeenCalled()
   button('停止试打').click()
   await running
-  release(loaded)
-  await Promise.resolve()
-  expect(requestAnimationFrame).not.toHaveBeenCalled()
+  try {
+    expect(browser?.frames.size).toBe(0)
+    expect(loaded.dispose).not.toHaveBeenCalled()
+  } finally {
+    release(loaded)
+  }
+  await vi.waitFor(() => expect(loaded.dispose).toHaveBeenCalledOnce())
+  expect(browser?.frames.size).toBe(0)
   expect(document.querySelector('[role=status]')?.textContent).toContain('已停止')
   expect(probes.store).not.toHaveBeenCalled()
   expect(result).not.toHaveBeenCalled()
 })
 test('failed preparation exposes error and restart controls, never a fake victory or save access', async () => {
-  const { project, config } = await fixture()
+  const { project, config } = await trialProject()
   probes.prepare.mockRejectedValue(new Error('资源摘要不符'))
   await runBattleTrial(project, config, {
     signal: new AbortController().signal,
@@ -183,7 +182,7 @@ test('failed preparation exposes error and restart controls, never a fake victor
   })
   expect(document.querySelector('[role=alert]')?.textContent).toContain('资源摘要不符')
   expect(button('重新试打').disabled).toBe(false)
-  expect(requestAnimationFrame).not.toHaveBeenCalled()
+  expect(browser?.frames.size).toBe(0)
   expect(probes.store).not.toHaveBeenCalled()
 })
 

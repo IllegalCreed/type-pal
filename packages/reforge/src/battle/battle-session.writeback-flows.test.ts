@@ -1,22 +1,22 @@
 /**
- * TEST-BATTLE-WORKFLOWS-1 W6：写回与隔离（完整结果 + 非目标保真版，闭 C1/N1）。
+ * 战斗数据写回世界前的快照、库存、成长和技能限次合同。
  * - 库存：真实战斗消耗一件 healHp 物品 → writeBackInventory 写回 count-1、count 0 清项；
  * - HP/MP：终值**精确**写回——无伤胜利=100、败=0（lost 分支允许 0）、多轮受击=100−Σ(敌伤害行)、
- *   **多队员胜利含阵亡成员：非败终局把 0 HP 队员钳制为 1**（[1,100] 精确；seedStats 合法 hp=0，
- *   败北判据为全队无可战斗成员，单人阵亡不判负——r3"不可达"论证撤回）；
+ *   结算前保留倒地队员的 0 HP，由正式胜利结算决定奖励与恢复；
  * - 成长：fixedCharacterGrowth **8 字段全部**按独立快照 before+delta 对账；非目标保真
- *   （未参战队员/money/**非空库存** 深快照不变）；奖励入账后二次写回与**独立预期快照**全等
+ *   （未参战队员/money/**非空库存** 深快照不变）；大世界独立更新后二次写回与**独立预期快照**全等
  *   （幂等由独立快照钉住，非同一对象自比较）；
  * - skillUse：lifetimeLimit 技能施放满限 → 计数入账 **且从 learnedSkills 移除**；
  * - 无 mutation 会话：二次写回 world 深快照不变（幂等基线）。
  */
-import type { WorldState } from '@type-pal/content'
+import type { ItemData, WorldState } from '@type-pal/content'
 import { buildWorld } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   wfActorDef,
   wfEnemy,
   wfHealItem,
+  wfIdleEnemy,
   wfLifetimeSkill,
   wfPlayer,
 } from '../__tests__/battle-workflows/catalog.js'
@@ -160,17 +160,18 @@ describe('W6 写回与隔离', () => {
     expect(hurtWorld.party[0]!.mp).toBe(40) // 未施法：MP 精确不变
   })
 
-  test('多队员胜利含阵亡成员：writeBackHp 对非败终局把 0 HP 队员钳制为 1（[1,100] 精确）', async () => {
-    // seedStats 合法 hp=0；败北判据是**全队**无可战斗成员（battle-core.ts:1182-1186），
-    // 单人阵亡不判负 → p2 可独自取胜，非 lost 终局 + p1 hp=0 即 ≥1 钳制臂的公开可达输入
-    // （r3 回执"HP0 即判负、不可达"的域论证错误， hereby 撤回）。
+  test('victory hands settlement the fallen ally’s zero HP and the caster’s actual remaining MP', async () => {
+    const skill = wfLifetimeSkill('finisher', 5)
     const { harness: h, world } = makeWfSessionFromWorld({
       actorIds: ['p1', 'p2'],
-      enemies: [wfEnemy('one-hit', { health: 20, defense: 0, attackStrength: 1 })],
-      seedStats: { p1: { hp: 0 }, p2: { hp: 100 } },
+      enemies: [wfEnemy('one-hit', { health: 1, defense: 0, attackStrength: 1 })],
+      initialMagic: [skill.id],
+      seedStats: { p1: { hp: 0 }, p2: { hp: 100, mp: 10 } },
+      extraOpts: { skills: { [skill.id]: skill } },
     })
     expect(world.party.map((member) => member.hp)).toEqual([0, 100]) // 合法 seedStats 真实生效
-    // p1 阵亡不出菜单（needsManualSelect 要求 hp>0）：p2 一击致胜
+    h.press(['ArrowLeft'])
+    h.press([' '])
     h.press([' '])
     h.press([' '])
     h.idle(500)
@@ -187,11 +188,11 @@ describe('W6 写回与隔离', () => {
     await expect(h.session.done).resolves.toBe('victory') // 阵亡成员在场仍真实胜利
     expect(h.session.debugPlayers().map((player) => player.hp)).toEqual([0, 100]) // 会话侧终值
     h.session.writeBackHp(world.party)
-    // 非败终局钳制：p1 0→1；p2 无伤保持 100——钳制臂改 0 时此处 [0,100] 即红
-    expect(world.party.map((member) => member.hp)).toEqual([1, 100])
+    expect(world.party.map(({ hp }) => hp)).toEqual([0, 100])
+    expect(world.party[1]?.mp).toBe(5)
   })
 
-  test('真实成长写回：8 字段对账；未参战队员/money/非空库存保真；奖励后二次写回与独立预期全等', async () => {
+  test('真实成长写回：8 字段对账；未参战队员/money/非空库存保真；大世界独立更新后二次写回与独立预期全等', async () => {
     const growth = {
       level: 2,
       maxHP: 12,
@@ -253,13 +254,12 @@ describe('W6 写回与隔离', () => {
     target.speed = p1AfterFirst.speed
     target.luck = p1AfterFirst.luck
     expect(world).toEqual(expectedFirst)
-    // 奖励后保留：胜利结算入账（exp/money 变化）后，取**独立预期快照**再二次写回——
-    // 全等比较钉住幂等（移除生产幂等门会二次叠加成长，在此即红），且不覆盖奖励
+    // 模拟写回后的大世界拥有者另行更新经验和金钱；真实奖励由 world-result 专测覆盖。
     world.party[0]!.exp += 50
     world.money += 99
-    const expectedAfterRewards = structuredClone(world)
+    const expectedAfterWorldUpdate = structuredClone(world)
     h.session.writeBackPersistentEffects(world)
-    expect(world).toEqual(expectedAfterRewards) // 整 world 独立全等：奖励保留 + 成长不重复叠加
+    expect(world).toEqual(expectedAfterWorldUpdate)
   })
 
   test('skillUse 写回：满限计数入账 且 技能从 learnedSkills 移除', async () => {
@@ -286,12 +286,76 @@ describe('W6 写回与隔离', () => {
     expect(skillWorld.learnedSkills.p1).toEqual([]) // 满限 → 从 learnedSkills 真实移除
   })
 
+  test('battle incense sets world awareness on writeback and does not restore elapsed time on a second write', () => {
+    const incense: ItemData = {
+      ...wfHealItem('incense'),
+      use: {
+        target: 'scene',
+        consuming: true,
+        effects: [{ kind: 'modifyHostileAwareness', rangeMultiplier: 3, durationMs: 60_000 }],
+      },
+    }
+    const inventory = [{ itemId: incense.id, count: 1 }]
+    const { harness: h, world } = makeWfSessionFromWorld({
+      actorIds: ['p1'],
+      enemies: [wfIdleEnemy('target', { health: 500 })],
+      worldInventory: inventory,
+      extraOpts: { items: { [incense.id]: incense }, inventory },
+    })
+    h.press(['e'])
+    h.press(['Enter'])
+    for (let i = 0; i < 30; i++) h.idle(80)
+    h.session.writeBackInventory(world.inventory)
+    expect(world.inventory).toEqual([])
+    expect(world.hostileAwareness).toBeUndefined()
+
+    h.session.writeBackPersistentEffects(world)
+    expect(world.hostileAwareness).toEqual({ rangeMultiplier: 3, remainingMs: 60_000 })
+    world.hostileAwareness = { rangeMultiplier: 3, remainingMs: 59_000 }
+    h.session.writeBackPersistentEffects(world)
+    expect(world.hostileAwareness).toEqual({ rangeMultiplier: 3, remainingMs: 59_000 })
+  })
+
+  test.each([
+    { actorId: 'constructor', skillId: 'name' },
+    { actorId: 'hero', skillId: 'toString' },
+  ])('records exactly one cast for authored IDs $actorId / $skillId', async ({
+    actorId,
+    skillId,
+  }) => {
+    const { harness: h, world } = makeWfSessionFromWorld({
+      actorIds: [actorId],
+      enemies: [wfEnemy('foe', { health: 500, attackStrength: 1 })],
+      initialMagic: [skillId],
+      seedStats: { [actorId]: { hp: 100, mp: 10 } },
+      extraOpts: {
+        skills: { [skillId]: wfLifetimeSkill(skillId) },
+        skillUseCounts: actorId === 'hero' ? { hero: {} } : {},
+      },
+    })
+    try {
+      h.press(['ArrowLeft'])
+      h.press([' '])
+      h.press([' '])
+      h.press([' '])
+      for (let i = 0; i < 40; i++) h.idle(500)
+      expect(h.readParty()[0]?.mp).toBe(5)
+      expect(world.skillUseCounts).toBeUndefined()
+      h.session.writeBackPersistentEffects(world)
+      expect(world.skillUseCounts).toEqual({ [actorId]: { [skillId]: 1 } })
+      expect(world.learnedSkills[actorId]).toEqual([])
+    } finally {
+      h.session.cancel()
+      await h.session.done.catch(() => {})
+    }
+  })
+
   test('写回幂等基线：无 mutation 会话二次写回 world 深快照不变', () => {
     const h = makeWfSession({ players: [wfPlayer('p1')], enemies: [wfEnemy('e1')] })
     const world = wfWorld(['p1'])
     const before = structuredClone(world)
     h.session.writeBackPersistentEffects(world)
-    h.session.writeBackInventory(world.inventory)
+    h.session.writeBackPersistentEffects(world)
     expect(world).toEqual(before)
   })
 })

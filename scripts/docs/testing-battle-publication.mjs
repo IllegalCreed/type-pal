@@ -3095,6 +3095,101 @@ export function restoreTestingBattleQualitySourceBindings(path, bytes, inputs) {
   )
 }
 
+export const testingReforgeBattleCloseoutBase = 'cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb'
+const readinessTestPath = 'packages/reforge/src/battle/battle-turn-readiness.test.ts'
+const battleCloseoutStage = {
+  ranges: new Map([
+    [reforgeBattleHostTest, { '14-37': '14-37' }],
+    [
+      testingBattleSessionSourcePath,
+      { '252-254': '251-253', '427-439': '426-438', '1313-1322': '1312-1321' },
+    ],
+    [readinessTestPath, { '37-60': '36-58' }],
+    ['packages/reforge/src/battle/battle-command-selection.test.ts', { '72-95': '73-96' }],
+    ['scripts/e2e/battle-reforge-instrumentation.mjs', { 18: '18' }],
+    ['packages/reforge/src/battle/battle-core.ts', { 2533: '2509' }],
+  ]),
+  normalizeExcerpt(excerpt, ref) {
+    if (ref.path !== readinessTestPath) return excerpt
+    // The same assertions now consume a real battle state and detach the same poison slots.
+    return excerpt
+      .replace(
+        `    const state = createBattleState({
+      players: [wfPlayer('hero', { poisons: [{ poisonId: 561, tickIndex: 2 }] })],
+      enemySlots: [null, wfEnemy('viper')],
+    })
+    const enemy = state.enemies[1]!
+    enemy.poisons.push({ poisonId: 562, tickIndex: 4 })
+    state.pendingActions.set(0, { kind: 'defend' })`,
+        `    const playerPoison = { poisonId: 561, tickIndex: 2 }
+    const enemyPoison = { poisonId: 562, tickIndex: 4 }
+    const state = {
+      turn: 7,
+      pendingActions: new Map([[0, { kind: 'defend' }]]),
+      players: [{ poisons: [playerPoison] }],
+      enemies: [null, { poisons: [enemyPoison] }],
+    } as unknown as BattleState`,
+      )
+      .replace(
+        '    state.players[0]!.poisons[0]!.tickIndex = 9\n    enemy.poisons[0]!.tickIndex = 10',
+        '    playerPoison.tickIndex = 9\n    enemyPoison.tickIndex = 10',
+      )
+  },
+  base: testingReforgeBattleCloseoutBase,
+  receipt: battleQualityStage.receipt,
+  action: 'reforge-battle-review-source-rebinding',
+  date: '2026-11-25',
+}
+const battleCloseoutBindings = new Map([
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeBattleHostTest] },
+  ],
+  [
+    sessionEvidencePath.slice('docs/testing/'.length),
+    {
+      id: sessionId,
+      paths: [
+        testingBattleSessionSourcePath,
+        readinessTestPath,
+        'packages/reforge/src/battle/battle-command-selection.test.ts',
+      ],
+    },
+  ],
+  [
+    publication.evidence,
+    {
+      id: publication.id,
+      paths: [
+        'scripts/e2e/battle-reforge-instrumentation.mjs',
+        'packages/reforge/src/battle/battle-core.ts',
+      ],
+      artifactClaims: true,
+    },
+  ],
+])
+const battleCloseoutReports = new Map(
+  [...battleCloseoutBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/, 'report.md')}`,
+    path,
+  ]),
+)
+
+export const isTestingReforgeBattleCloseoutSource = (path) => battleCloseoutStage.ranges.has(path)
+
+export function restoreTestingReforgeBattleCloseoutBindings(path, bytes, inputs) {
+  if (battleCloseoutReports.has(path))
+    assert.equal(testingReportBody(bytes), testingReportBody(inputs.readBase(path)))
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    battleCloseoutStage,
+    battleCloseoutBindings,
+    battleCloseoutReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

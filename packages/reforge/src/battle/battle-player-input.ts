@@ -21,6 +21,8 @@ export function createBattlePlayers(
     const res = effectiveResistances(c, project.items)
     const regen = effectiveRegen(c, project.items)
     const granted = effectiveGrantedStatuses(c, project.items)
+    // Current saves may omit a character's learned-skill row.
+    const learned = Object.hasOwn(world.learnedSkills, c.id) ? world.learnedSkills[c.id] : undefined
     const battler = project.actorsById[c.template]?.battler
     const guardian = battler?.coveredBy
       ? world.party.find((x) => x.template === battler.coveredBy)
@@ -36,7 +38,7 @@ export function createBattlePlayers(
       defense: effectiveStat(c, 'defense', project.items),
       magicStrength: effectiveStat(c, 'magicAttack', project.items),
       baseDexterity: effectiveStat(c, 'speed', project.items),
-      skills: effectiveSkills(world.learnedSkills[c.id] ?? [], c, project.items),
+      skills: effectiveSkills(learned ?? [], c, project.items),
       ...(battler?.cooperativeMagicSkillId
         ? { cooperativeMagicSkillId: battler.cooperativeMagicSkillId }
         : {}),

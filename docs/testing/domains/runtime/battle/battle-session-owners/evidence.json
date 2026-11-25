@@ -11,38 +11,38 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "252-254",
+      "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "427-439",
+      "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1313-1322",
+      "lines": "1312-1321",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
-      "lines": "37-60",
+      "lines": "36-58",
       "anchor": "describe('BattleTurnReadinessGate'",
       "role": "oracle",
-      "sha256": "2bcc3e72cb6ddb16b56db2f99f18827548d66709c92f9e4cf3391349a0555fc7"
+      "sha256": "138aa20f5f6b883aa88b922981b6647cfebad7d4263fac54742b5a6868ff7591"
     },
     {
       "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-      "lines": "72-95",
+      "lines": "73-96",
       "anchor": "describe('BattleCommandSelection'",
       "role": "oracle",
-      "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
+      "sha256": "ac3c81da961413bfb35d0f0b5bd81006f2a2f5919b0738570e8b94676df48b57"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -83,11 +83,11 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:252-254",
-        "packages/reforge/src/battle/battle-session.ts:427-439",
-        "packages/reforge/src/battle/battle-session.ts:1313-1322",
-        "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
-        "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
+        "packages/reforge/src/battle/battle-session.ts:251-253",
+        "packages/reforge/src/battle/battle-session.ts:426-438",
+        "packages/reforge/src/battle/battle-session.ts:1312-1321",
+        "packages/reforge/src/battle/battle-turn-readiness.test.ts:36-58",
+        "packages/reforge/src/battle/battle-command-selection.test.ts:73-96",
         "packages/content/src/character.ts:169-171"
       ]
     }
@@ -1338,6 +1338,50 @@
         }
       ],
       "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+    },
+    {
+      "action": "reforge-battle-review-source-rebinding",
+      "base": "cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb",
+      "date": "2026-11-25",
+      "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "252-254",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "427-439",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1313-1322",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
+          "lines": "37-60",
+          "anchor": "describe('BattleTurnReadinessGate'",
+          "role": "oracle",
+          "sha256": "2bcc3e72cb6ddb16b56db2f99f18827548d66709c92f9e4cf3391349a0555fc7"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+          "lines": "72-95",
+          "anchor": "describe('BattleCommandSelection'",
+          "role": "oracle",
+          "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
+        }
+      ],
+      "scope": "Frame/selection call sites retain their spans after the moves. The readiness snapshot now uses the real battle constructor and verifies the same detached action and poison state. The historical execution and counter identity stay at their original candidates."
     }
   ],
   "_governance": {

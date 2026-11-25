@@ -1,6 +1,7 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { AnimPlayer, buildPlayerCoop, type CastFxParams } from './battle-anim.js'
+import { buildPlayerCoop, type CastFxParams } from './battle-anim.js'
+import { AnimPlayer } from './battle-animation-player.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,

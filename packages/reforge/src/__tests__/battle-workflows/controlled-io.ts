@@ -1,20 +1,17 @@
-/**
- * TEST-BATTLE-WORKFLOWS-1 薄 fixture：受控 IO 观察器。
- * 声音播放用记录器（只记录 AssetId 序列，不播）；GlyphTable 空实现与旧单测同型
- * （has/get 兜底，不参与断言）；palette/glyph 属渲染资源替身，不 mock 被测业务本体。
- */
-
 import type { Palette } from '@type-pal/shared'
-import type { SfxPlayer } from '../../audio/sfx.js'
+import type { BattleSessionAssets } from '../../battle/battle-session.js'
 import type { GlyphTable } from '../../text/glyph.js'
 
-/** 记录型 SfxPlayer：每次 play 记 AssetId；不播放。 */
-export function recordingSfx(): { player: SfxPlayer; plays: string[] } {
+/** Record the sound IDs sent by the timeline at the playback port. */
+export function recordingSfx() {
   const plays: string[] = []
-  return {
-    plays,
-    player: { play: (asset: string) => plays.push(asset) } as unknown as SfxPlayer,
+  const player: NonNullable<BattleSessionAssets['sfx']> = {
+    play(asset) {
+      plays.push(asset)
+      return true
+    },
   }
+  return { plays, player }
 }
 
 /** 无字模时使用生产文字渲染的缺字路径。 */
@@ -37,5 +34,15 @@ export function fixedRng(values: readonly number[] = [0]): () => number {
     if (value === undefined) throw new Error('fixedRng: values 不能为空')
     index += 1
     return value
+  }
+}
+
+/** Finite sequence for contracts that specify the exact number and order of random draws. */
+export function fixedDraws(values: readonly number[]): () => number {
+  const draws = values.values()
+  return () => {
+    const draw = draws.next()
+    if (draw.done) throw new Error('Battle consumed a draw beyond the fixture')
+    return draw.value
   }
 }

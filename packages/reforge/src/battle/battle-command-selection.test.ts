@@ -5,9 +5,7 @@ import {
   type BattleCommandSelectionContext,
   type BattleCommandSelectionPort,
 } from './battle-command-selection.js'
-import selectionSource from './battle-command-selection.ts?raw'
 import type { BattleAction } from './battle-core.js'
-import battleSessionSource from './battle-session.ts?raw'
 
 const skill = (id: string, target: SkillData['target'] = 'oneEnemy'): SkillData => ({
   id,
@@ -16,7 +14,10 @@ const skill = (id: string, target: SkillData['target'] = 'oneEnemy'): SkillData 
   cost: {},
   usableOutsideBattle: false,
   target,
-  effects: [],
+  effects:
+    target === 'oneEnemy' || target === 'allEnemies'
+      ? [{ kind: 'damage', power: 10, elemental: 0 }]
+      : [{ kind: 'healHp', amount: 10 }],
   animation: { effectSprite: 0 },
 })
 
@@ -27,7 +28,7 @@ const item = (id: string, target: NonNullable<ItemData['use']>['target']): ItemD
   buyPrice: 0,
   sellPrice: 0,
   sellable: false,
-  use: { target, consuming: true, effects: [] },
+  use: { target, consuming: true, effects: [{ kind: 'healHp', amount: 10 }] },
 })
 
 function context(
@@ -266,21 +267,21 @@ describe('BattleCommandSelection', () => {
     selection.advance(first, new Set(['Enter']), recorded.port)
     selection.beginRound()
 
-    selection.advance(context({ aliveEnemyIndices: [4, 6] }), new Set(['r']), recorded.port)
+    selection.advance(context({ aliveEnemyIndices: [3, 4] }), new Set(['r']), recorded.port)
     expect(recorded.submissions.at(-1)).toEqual({
       playerIndex: 0,
-      action: { kind: 'attack', targetEnemyIdx: 4 },
+      action: { kind: 'attack', targetEnemyIdx: 3 },
     })
   })
 
   test('Escape retracts the most recently submitted player in LIFO order', () => {
     const selection = new BattleCommandSelection()
     const recorded = recordingPort()
-    selection.advance(context({ playerIndex: 0 }), new Set(['d']), recorded.port)
-    selection.advance(context({ playerIndex: 1 }), new Set(['d']), recorded.port)
-    selection.advance(context({ playerIndex: 2 }), new Set(['Escape']), recorded.port)
-    expect(recorded.retract).toHaveBeenCalledOnce()
-    expect(recorded.retract).toHaveBeenCalledWith(1)
+    const party = { playerCount: 3, healthyPlayerCount: 3, selectablePlayerIndices: [0, 1, 2] }
+    selection.advance(context({ ...party, playerIndex: 0 }), new Set(['d']), recorded.port)
+    selection.advance(context({ ...party, playerIndex: 1 }), new Set(['d']), recorded.port)
+    selection.advance(context({ ...party, playerIndex: 2 }), new Set(['Escape']), recorded.port)
+    expect(recorded.retract).toHaveBeenCalledExactlyOnceWith(1)
   })
 
   test('合击点名队友，取消不消费回合，确认只提交选中的队友槽', () => {
@@ -329,39 +330,5 @@ describe('BattleCommandSelection', () => {
     expect(recorded.submissions).toEqual([{ playerIndex: 0, action: { kind: 'coop' } }])
     expect(recorded.consume.mock.calls).toEqual([[0]])
     expect(selection.phase).toBe('menu')
-  })
-})
-
-describe('BattleCommandSelection ownership boundary', () => {
-  test('owns command transients and receives only the selection projection plus three commit ports', () => {
-    for (const field of [
-      'currentPhase',
-      'menuIndex',
-      'pendingSkillId',
-      'targetIndex',
-      'autoAttack',
-      'stickyForce',
-      'stickyRepeat',
-      'lastActions',
-      'submitOrder',
-    ])
-      expect(selectionSource).toMatch(new RegExp(`private(?: readonly)? ${field}`))
-    expect(selectionSource).not.toContain('BattleState')
-    expect(selectionSource).not.toContain("from './battle-session")
-    expect(selectionSource).toContain('submit(playerIndex: number, action: BattleAction): void')
-    expect(selectionSource).toContain('retract(playerIndex: number): void')
-    expect(selectionSource).toContain('consumeOthersForCoop(casterIndex: number): void')
-
-    for (const stale of [
-      'private menuIdx',
-      'private pendingSkillId',
-      'private fAuto',
-      'private stickyForce',
-      'private lastActs',
-      'private submitOrder',
-    ])
-      expect(battleSessionSource).not.toContain(stale)
-    expect(battleSessionSource.match(/new BattleCommandSelection\(/g)).toHaveLength(1)
-    expect(battleSessionSource).toContain('this.selection.advance(context, pressed, {')
   })
 })

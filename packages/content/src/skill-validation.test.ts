@@ -25,9 +25,36 @@ const withPlayerExecution = (player: unknown) => skill({ execution: { player } }
 describe('skill execution, animation, and effects', () => {
   test('accepts a player-specific animation using the current execution wrapper', () => {
     expectAcceptsUnchanged((value) => validateSkills(value), {
-      skills: [withPlayerExecution({ animation: { effectSprite: 1 } })],
+      skills: [
+        skill({
+          animation: { effectSprite: 1, speed: -1, fireDelay: 0, effectTimes: 0, shake: 0 },
+          execution: {
+            player: {
+              animation: { effectSprite: 2, speed: -4.5, fireDelay: 2, effectTimes: 3, shake: 1 },
+            },
+          },
+        }),
+      ],
       levelUp: {},
     })
+  })
+
+  test.each([
+    ['base', 'fireDelay', 0.5, '期望整数'],
+    ['player', 'effectTimes', -1, '期望非负整数'],
+    ['enemy', 'shake', 0.5, '期望整数'],
+    ['base', 'effectTimes', Number.MAX_SAFE_INTEGER + 1, '期望安全整数'],
+    ['base', 'speed', -5, '帧时长必须为正的有限数'],
+    ['enemy', 'speed', -6, '帧时长必须为正的有限数'],
+    ['player', 'speed', Number.MAX_VALUE, '帧时长必须为正的有限数'],
+  ] as const)('%s animation rejects %s=%s', (scope, field, value, reason) => {
+    const animation = { effectSprite: 1, [field]: value }
+    const override = scope === 'base' ? { animation } : { execution: { [scope]: { animation } } }
+    const document = { skills: [skill(override)], levelUp: {} }
+    const before = deepSnapshot(document)
+    const path = scope === 'base' ? 'animation' : `execution.${scope}.animation`
+    expectExactError(() => validateSkills(document), `skills.skills[0].${path}.${field}: ${reason}`)
+    expect(document).toEqual(before)
   })
 
   test('execution.player.animation 音效叶拒绝', () => {

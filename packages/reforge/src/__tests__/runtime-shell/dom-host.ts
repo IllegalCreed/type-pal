@@ -172,6 +172,7 @@ export async function installShellHost(query = '') {
     cb(new Blob([chromePng().slice().buffer], { type: 'image/png' })),
   )
   const bitmaps: ImageBitmap[] = []
+  const liveBitmaps = new Set<ImageBitmap>()
   vi.stubGlobal('createImageBitmap', async (blob: Blob) => {
     const finish = beginIO()
     try {
@@ -179,8 +180,15 @@ export async function installShellHost(query = '') {
       if (bytes[0] !== 137 || bytes[1] !== 80 || bytes[2] !== 78 || bytes[3] !== 71)
         throw new Error('host requires PNG')
       const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-      const bitmap = { width: view.getUint32(16), height: view.getUint32(20), close: vi.fn() }
+      const bitmap: ImageBitmap = {
+        width: view.getUint32(16),
+        height: view.getUint32(20),
+        close: vi.fn(() => {
+          liveBitmaps.delete(bitmap)
+        }),
+      }
       bitmaps.push(bitmap)
+      liveBitmaps.add(bitmap)
       return bitmap
     } finally {
       finish()
@@ -242,7 +250,8 @@ export async function installShellHost(query = '') {
     await drainIO()
     for (const row of listeners) row.target.removeEventListener(row.type, row.callback, row.capture)
     frames.clear()
-    for (const bitmap of bitmaps) bitmap.close()
+    // Leak recovery only: a project cache can release its own bitmap before shell teardown.
+    for (const bitmap of liveBitmaps) bitmap.close()
     for (const database of databases) database.close()
     audio.close()
     Reflect.deleteProperty(window, '__reforge')

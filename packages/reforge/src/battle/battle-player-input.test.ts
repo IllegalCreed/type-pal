@@ -1,16 +1,21 @@
 import {
   type ActorDef,
+  applyActorConditionSeed,
   buildWorld,
+  CONTENT_VERSION,
   type ItemData,
   validateActors,
   validateItems,
+  validatePoisons,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
+import { assertCurrentSaveStructure } from '../save/current-structure.js'
+import { SAVE_VERSION } from '../save/types.js'
 import { createBattlePlayers } from './battle-player-input.js'
 
-function fixture() {
+function fixture(heroId = 'hero') {
   const actor: ActorDef = {
-    id: 'hero',
+    id: heroId,
     name: 'hero',
     spriteId: 'walk',
     battler: {
@@ -44,7 +49,7 @@ function fixture() {
     sellable: false,
     equip: {
       slot: 'weapon',
-      equipableBy: ['hero'],
+      equipableBy: [heroId],
       effects: [
         { kind: 'statBonus', stat: 'attack', delta: 7 },
         { kind: 'grantSkill', skillId: 'extra' },
@@ -57,9 +62,9 @@ function fixture() {
   }
   validateActors([actor, friend])
   validateItems([blade])
-  const project = { actorsById: { hero: actor, friend }, items: { blade } }
+  const project = { actorsById: { [heroId]: actor, friend }, items: { blade } }
   const world = buildWorld(
-    { party: ['hero', 'friend'], money: 0, inventory: [] },
+    { party: [heroId, 'friend'], money: 0, inventory: [] },
     project.actorsById,
   )
   return { project, world }
@@ -110,8 +115,12 @@ test('shared battle input derives equipment, skills and relationships without mu
 })
 test('explicit debug flags are local and carried condition arrays are detached', () => {
   const { world, project } = fixture()
-  world.party[0]!.extraPoisonRes = 12
-  world.party[0]!.extraStatuses = [{ status: 'protect', turns: 2 }]
+  const [poison] = validatePoisons([{ id: 1, name: 'Venom', curability: 'common', color: 3 }])
+  applyActorConditionSeed(
+    world.party[0]!,
+    { poisonIds: [1], poisonResistance: 12, statuses: [{ status: 'protect', turns: 2 }] },
+    { 1: poison! },
+  )
   const before = structuredClone(world)
   const inputs = createBattlePlayers(world, project, {
     allLeader: world.party[1]!.id,
@@ -120,8 +129,29 @@ test('explicit debug flags are local and carried condition arrays are detached',
   expect(inputs[1]!.attackAll).toBe(true)
   expect(inputs[1]!.grantedStatuses).toEqual(['dualAttack'])
   expect(inputs[0]!.poisonRes).toBe(12)
+  expect(inputs[0]!.itemPoisonResBonus).toBe(12)
   expect(inputs[0]!.carriedStatuses).toEqual(before.party[0]!.extraStatuses)
+  expect(inputs[0]!.poisons).toEqual([{ poisonId: 1, tickIndex: 0 }])
   inputs[0]!.carriedStatuses![0]!.turns = 99
+  inputs[0]!.poisons![0]!.tickIndex = 1
   expect(world).toEqual(before)
   expect(createBattlePlayers(world, project)[1]!.attackAll).toBe(false)
+})
+
+test('restored party members keep only their own learned skills and equipment grants', () => {
+  const { world, project } = fixture('constructor')
+  expect(createBattlePlayers(world, project)[0]?.skills).toEqual(['base', 'extra'])
+  const saved = {
+    version: SAVE_VERSION,
+    projectId: 'test',
+    contentVersion: CONTENT_VERSION,
+    sceneRuntime: {},
+    position: { sceneId: 'entry', pos: { col: 0, row: 0, height: 0 }, facing: 'left' },
+    world: { ...world, learnedSkills: { friend: ['base'] } },
+  }
+  assertCurrentSaveStructure(saved)
+  expect(createBattlePlayers(saved.world, project).map((player) => player.skills)).toEqual([
+    ['extra'],
+    ['base'],
+  ])
 })

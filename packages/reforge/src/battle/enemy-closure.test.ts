@@ -1,7 +1,7 @@
 import type { AiAction, EnemyDef } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { wfEnemy } from '../__tests__/battle-workflows/catalog.js'
-import { collectReachableEnemyDefs, collectReachableEnemySkillIds } from './enemy-closure.js'
+import { collectBattleEnemyDependencies } from './enemy-closure.js'
 
 function enemyWithRules(id: string, actions: AiAction[]): EnemyDef {
   return wfEnemy(
@@ -20,17 +20,29 @@ describe('enemy dependency closure', () => {
   test('keeps starting enemies in order and visits repeated definitions once', () => {
     const first = enemyWithRules('first', [{ kind: 'cast', skillId: 'fire' }])
     const second = enemyWithRules('second', [{ kind: 'flee' }])
-    expect(collectReachableEnemyDefs([first, first, second], { first, second })).toEqual([
-      first,
-      second,
-    ])
+    expect(
+      collectBattleEnemyDependencies([first, first, second], { first, second }).enemies,
+    ).toEqual([first, second])
   })
 
   test('a missing explicit transform reports the source enemy and target', () => {
     const source = enemyWithRules('source', [{ kind: 'transform', enemyId: 'missing' }])
-    expect(() => collectReachableEnemyDefs([source], { source })).toThrow(
+    expect(() => collectBattleEnemyDependencies([source], { source })).toThrow(
       '敌人 "source" transform 目标 "missing" 不存在',
     )
+  })
+
+  test('requires a registered target even when its ID matches an inherited name', () => {
+    const source = enemyWithRules('source', [{ kind: 'transform', enemyId: 'constructor' }])
+    expect(() => collectBattleEnemyDependencies([source], { source })).toThrow(
+      '敌人 "source" transform 目标 "constructor" 不存在',
+    )
+    const registered = enemyWithRules('constructor', [{ kind: 'cast', skillId: 'fire' }])
+    const enemiesById = { source, constructor: registered }
+    expect(collectBattleEnemyDependencies([source], enemiesById)).toEqual({
+      enemies: [source, registered],
+      skillIds: ['fire'],
+    })
   })
 
   test('a hook summon without an enemy ID needs no lookup of its starting definition', () => {
@@ -58,8 +70,10 @@ describe('enemy dependency closure', () => {
         },
       },
     )
-    expect(collectReachableEnemyDefs([source], {})).toEqual([source])
-    expect(collectReachableEnemySkillIds([source], {})).toEqual([])
+    expect(collectBattleEnemyDependencies([source], {})).toEqual({
+      enemies: [source],
+      skillIds: [],
+    })
   })
 
   test('collects reachable cast skills once in first-seen order', () => {
@@ -73,14 +87,13 @@ describe('enemy dependency closure', () => {
       { kind: 'attack' },
     ])
     const minion = enemyWithRules('minion', [{ kind: 'summon', enemyId: 'boss', count: 1 }])
-    expect(collectReachableEnemySkillIds([boss, minion], { boss, wing, minion })).toEqual([
-      'fire',
-      'gust',
-    ])
+    expect(collectBattleEnemyDependencies([boss, minion], { boss, wing, minion }).skillIds).toEqual(
+      ['fire', 'gust'],
+    )
   })
 
   test('without starting enemies, registered enemies do not contribute skills', () => {
     const caster = enemyWithRules('caster', [{ kind: 'cast', skillId: 'fire' }])
-    expect(collectReachableEnemySkillIds([], { caster })).toEqual([])
+    expect(collectBattleEnemyDependencies([], { caster })).toEqual({ enemies: [], skillIds: [] })
   })
 })

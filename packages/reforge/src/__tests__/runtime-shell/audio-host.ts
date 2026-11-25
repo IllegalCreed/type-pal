@@ -89,7 +89,7 @@ export function installShellAudioHost() {
   return {
     contexts,
     close() {
-      for (const context of contexts) void context.close()
+      for (const context of contexts) if (context.state !== 'closed') void context.close()
       vi.doUnmock('spessasynth_lib')
     },
   }

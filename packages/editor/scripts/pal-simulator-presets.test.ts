@@ -12,8 +12,11 @@ import {
   prepareBattleTrial,
 } from '@type-pal/reforge'
 import { beforeAll, expect, test } from 'vitest'
-import { collectBattleSkillFireChunks } from '../../reforge/src/battle/battle-sprite-readiness.js'
-import { collectReachableEnemySkillIds } from '../../reforge/src/battle/enemy-closure.js'
+import {
+  battleFireChunks,
+  collectBattleSkillFireUses,
+} from '../../reforge/src/battle/battle-fire-readiness.js'
+import { collectBattleEnemyDependencies } from '../../reforge/src/battle/enemy-closure.js'
 import { memoryAuthorDirectory } from '../src/core/__tests__/author-save-fixture.js'
 import {
   BATTLE_SIMULATOR_PATH,
@@ -70,17 +73,19 @@ const expected = [
 test('all seven preset FIRE closures resolve real catalog assets without requesting the no-effect marker', () => {
   for (const [id] of expected) {
     const prepared = prepareBattleTrial(resolveBattleSimulatorPlan(library, id), project)
-    const chunks = collectBattleSkillFireChunks({
-      playerSkillIds: prepared.players.map((player) => player.skills),
-      cooperativeSkillIds: prepared.players.flatMap((player) =>
-        player.cooperativeMagicSkillId ? [player.cooperativeMagicSkillId] : [],
-      ),
-      reachableEnemySkillIds: collectReachableEnemySkillIds(
-        prepared.enemySlots.filter((enemy) => enemy !== null),
-        project.enemiesById,
-      ),
-      skillsById: project.skills,
-    })
+    const chunks = battleFireChunks(
+      collectBattleSkillFireUses({
+        playerSkillIds: prepared.players.map((player) => player.skills),
+        cooperativeSkillIds: prepared.players.flatMap((player) =>
+          player.cooperativeMagicSkillId ? [player.cooperativeMagicSkillId] : [],
+        ),
+        reachableEnemySkillIds: collectBattleEnemyDependencies(
+          prepared.enemySlots.filter((enemy) => enemy !== null),
+          project.enemiesById,
+        ).skillIds,
+        skillsById: project.skills,
+      }),
+    )
     expect(chunks.has(65535), id).toBe(false)
     expect(chunks.size, id).toBeGreaterThan(0)
     for (const chunk of chunks) {

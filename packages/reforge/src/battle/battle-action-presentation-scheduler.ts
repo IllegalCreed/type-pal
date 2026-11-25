@@ -1,4 +1,5 @@
-import { type AnimFrame, AnimPlayer, type AnimSideEffects, BATTLE_FRAME_MS } from './battle-anim.js'
+import { type AnimFrame, BATTLE_FRAME_MS } from './battle-anim.js'
+import { AnimPlayer, type AnimSideEffects } from './battle-animation-player.js'
 
 export type BattlePlaybackAdvance = 'inactive' | 'playing' | 'finished'
 

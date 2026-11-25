@@ -1,6 +1,7 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import { AnimPlayer, buildPlayerAttackAll } from './battle-anim.js'
+import { buildPlayerAttackAll } from './battle-anim.js'
+import { AnimPlayer } from './battle-animation-player.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,
@@ -154,5 +155,35 @@ describe('玩家物攻全体时间线', () => {
         .filter(({ side }) => side === 'enemy')
         .map(({ idx }) => idx),
     ).toEqual([3, 3, 3, 3, 3])
+  })
+
+  test('缺攻音与兵器音时不产出任何 sound 字段，时间线其余不变', () => {
+    const targets = [{ idx: 0, pos: { x: 100, y: 80 } }]
+    const hits = [{ idx: 0, value: 3 }]
+    const input = {
+      frames: pose,
+      attackerIdx: 0,
+      attackerPos: { x: 50, y: 140 },
+      attackerRestFrame: 0,
+      effectFrameBase: -1,
+      targets,
+    }
+    const voiced = buildPlayerAttackAll({
+      ...input,
+      sweeps: [{ hits, attackSound: 'a' }],
+      weaponSound: 'w',
+    })
+    const silent = buildPlayerAttackAll({ ...input, sweeps: [{ hits }] })
+    expect(silent.map((frame) => frame.sound)).toEqual(
+      Array.from({ length: silent.length }, () => undefined),
+    )
+    expect(silent).toEqual(voiced.map(({ sound: _sound, ...frame }) => frame))
+    expect(voiced.map((frame) => frame.sound)).toEqual([
+      undefined,
+      'a',
+      undefined,
+      'w',
+      ...Array.from({ length: voiced.length - 4 }, () => undefined),
+    ])
   })
 })

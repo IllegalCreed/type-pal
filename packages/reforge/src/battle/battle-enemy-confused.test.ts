@@ -1,6 +1,6 @@
 import type { AiAction, EnemyDef } from '@type-pal/content'
-import { calcBaseDamage } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { wfEnemy, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
 import {
   applyEnemyEffect,
   type BattleState,
@@ -9,52 +9,22 @@ import {
   decideEnemyAction,
   stepBattle,
 } from './battle-core.js'
-import { getEnemyBasePos } from './battle-positions.js'
 
 function enemy(id: string, stats: Partial<EnemyDef['stats']> = {}): EnemyDef {
-  return {
-    id,
-    name: `name.${id}`,
-    battleSprite: `battle-sprite.${id}`,
-    yPosOffset: 0,
-    stats: {
-      health: 100,
-      level: 1,
-      exp: 5,
-      cash: 3,
-      attackStrength: 20,
-      magicStrength: 0,
-      defense: 10,
-      dexterity: 10,
-      fleeRate: 0,
-      physicalResistance: 1,
-      poisonResistance: 0,
-      elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      dualMove: false,
-      collectValue: 0,
-      ...stats,
-    },
-    ai: { resistanceToSorcery: 0 },
-    sounds: {},
-  }
+  return wfEnemy(id, { health: 100, physicalResistance: 1, ...stats })
 }
 
 function player(overrides: Partial<CreatePlayerInput> = {}): CreatePlayerInput {
-  return {
-    roleId: 'hero',
-    actorTemplateId: 'hero',
-    hp: 100,
-    maxHp: 100,
+  return wfPlayer('hero', {
     mp: 0,
     maxMp: 0,
     attackStrength: 1,
     defense: 1,
     magicStrength: 0,
     baseDexterity: 0,
-    skills: [],
     fleeRate: 0,
     ...overrides,
-  }
+  })
 }
 
 function sequence(values: readonly number[], fallback = 0) {
@@ -71,21 +41,6 @@ function confusedState(slots: Array<EnemyDef | null>, players = [player()]): Bat
   const state = createBattleState({ players, enemySlots: slots })
   state.enemies[0]!.status.confused = 3
   return state
-}
-
-function short(value: number): number {
-  return (value << 16) >> 16
-}
-
-function expectedMateDamage(attacker: EnemyDef, target: EnemyDef): number {
-  const str = short(attacker.stats.attackStrength) + (attacker.stats.level + 6) * 6
-  const def = short(target.stats.defense) + (target.stats.level + 6) * 4
-  const doubled = calcBaseDamage(str, def) * 2
-  const raw =
-    target.stats.physicalResistance === 0
-      ? doubled
-      : Math.trunc(doubled / target.stats.physicalResistance)
-  return raw <= 0 ? 1 : raw
 }
 
 function performOneConfusedAttack(attacker: EnemyDef, target: EnemyDef) {
@@ -146,10 +101,12 @@ describe('B10 敌人混乱决策与专用结算', () => {
   })
 
   test('confused 在普通 rules 与 fallback 前截断，不消费 once', () => {
+    const mate = enemy('mate')
+    const spell = wfSkill('thunder')
     const actions: AiAction[] = [
-      { kind: 'cast', skillId: 'missing', target: 'random' },
-      { kind: 'transform', enemyId: 'missing' },
-      { kind: 'summon', enemyId: 'missing', count: 1 },
+      { kind: 'cast', skillId: spell.id, target: 'random' },
+      { kind: 'transform', enemyId: mate.id },
+      { kind: 'summon', enemyId: mate.id, count: 1 },
       { kind: 'divide', copies: 1 },
       { kind: 'flee' },
     ]
@@ -159,7 +116,13 @@ describe('B10 敌人混乱决策与专用结算', () => {
         resistanceToSorcery: 0,
         rules: [{ at: 'act', do: action, once: true }],
       }
-      const state = confusedState([source, null, enemy('mate')])
+      const state = createBattleState({
+        players: [player()],
+        enemySlots: [source, null, mate],
+        enemiesById: { [mate.id]: mate },
+        skills: { [spell.id]: spell },
+      })
+      state.enemies[0]!.status.confused = 3
       const random = sequence([0.9])
       expect(decideEnemyAction(state, state.enemies[0]!, random.rng)).toEqual({
         kind: 'attackMate',
@@ -171,9 +134,14 @@ describe('B10 敌人混乱决策与专用结算', () => {
     const fallback = enemy('fallback')
     fallback.ai = {
       resistanceToSorcery: 0,
-      fallback: { action: { kind: 'cast', skillId: 'missing' }, chancePercent: 100 },
+      fallback: { action: { kind: 'cast', skillId: spell.id }, chancePercent: 100 },
     }
-    const state = confusedState([fallback, null, enemy('mate')])
+    const state = createBattleState({
+      players: [player()],
+      enemySlots: [fallback, null, mate],
+      skills: { [spell.id]: spell },
+    })
+    state.enemies[0]!.status.confused = 3
     expect(decideEnemyAction(state, state.enemies[0]!, sequence([0.9]).rng)).toEqual({
       kind: 'attackMate',
       targetEnemyIdx: 2,
@@ -192,8 +160,6 @@ describe('B10 敌人混乱决策与专用结算', () => {
       physicalResistance: 2,
       dexterity: 0,
     })
-    const expected = expectedMateDamage(attacker, target)
-    expect(expected).toBeGreaterThan(target.stats.health)
     const { state, random } = performOneConfusedAttack(attacker, target)
     expect(state.enemies[2]!.hp).toBe(0)
     expect(state.players[0]!.hp).toBe(100)
@@ -202,20 +168,27 @@ describe('B10 敌人混乱决策与专用结算', () => {
       idx: 0,
       kind: 'attackMate',
       targetEnemyIdx: 2,
-      damage: expected,
+      // fight.c 的同伴攻击取 142 攻、38 防，基础伤害 223。加倍和物抗 2 相抵。
+      damage: 223,
     })
     expect(random.calls()).toBe(4)
   })
 
   test.each([
-    ['物抗 0 不除', { attackStrength: 100 }, { defense: 10, physicalResistance: 0 }],
+    ['物抗 0 不除', { attackStrength: 100 }, { defense: 10, physicalResistance: 0 }, 446],
     [
       '高防/SHORT 负边界保底 1',
       { attackStrength: 32768 },
       { defense: 32767, physicalResistance: 9 },
+      1,
     ],
-    ['SHORT 正边界先截成 -1', { attackStrength: 65535 }, { defense: 65535, physicalResistance: 1 }],
-  ] as const)('%s', (_label, attackerStats, targetStats) => {
+    [
+      'WORD 上限转 SHORT 为 -1',
+      { attackStrength: 65535 },
+      { defense: 65535, physicalResistance: 1 },
+      78,
+    ],
+  ] as const)('%s', (_label, attackerStats, targetStats, damage) => {
     const attacker = enemy('attacker', {
       health: 500,
       dexterity: 999,
@@ -227,7 +200,6 @@ describe('B10 敌人混乱决策与专用结算', () => {
       ...targetStats,
     })
     const { state } = performOneConfusedAttack(attacker, target)
-    const damage = expectedMateDamage(attacker, target)
     expect(state.lastAction).toMatchObject({ kind: 'attackMate', damage })
     expect(state.enemies[2]!.hp).toBe(target.stats.health - damage)
   })
@@ -252,11 +224,11 @@ describe('B10 敌人混乱决策与专用结算', () => {
       expect.objectContaining({ isEnemy: true, idx: 0 }),
     ])
     stepBattle(state, random.rng)
-    expect(state.lastAction).toMatchObject({ kind: 'attackMate', targetEnemyIdx: 1 })
+    expect(state.lastAction).toMatchObject({ kind: 'attackMate', targetEnemyIdx: 1, damage: 82 })
     stepBattle(state, random.rng)
-    expect(state.lastAction).toMatchObject({ kind: 'attackMate', targetEnemyIdx: 2 })
-    expect(state.enemies[1]!.hp).toBeLessThan(999)
-    expect(state.enemies[2]!.hp).toBeLessThan(999)
+    expect(state.lastAction).toMatchObject({ kind: 'attackMate', targetEnemyIdx: 2, damage: 82 })
+    expect(state.enemies[1]!.hp).toBe(917)
+    expect(state.enemies[2]!.hp).toBe(917)
     expect(random.calls()).toBe(10)
   })
 })
@@ -335,7 +307,7 @@ describe('B10 固定敌槽下的 summon / divide', () => {
     expect(
       applyEnemyEffect(state, 0, { kind: 'summon', enemyId: 'minion', count: 1 }),
     ).toMatchObject({ outcome: 'succeeded', spawnedIdxs: [1] })
-    expect(state.enemies[1]!.basePos).toEqual(getEnemyBasePos(2, 1, minion.yPosOffset))
+    expect(state.enemies[1]!.basePos).toEqual({ x: 140, y: 106 })
     expect(state.enemies[1]!.basePos).not.toEqual(corpsePos)
     expect(state.maxEnemyIndex).toBe(1)
   })
@@ -349,8 +321,11 @@ describe('B10 固定敌槽下的 summon / divide', () => {
     expect(state.maxEnemyIndex).toBe(2)
     expect(state.enemies.slice(0, 3).map((entry) => entry?.hp)).toEqual([30, 30, 30])
     expect(state.enemies[0]!.basePos).not.toEqual(oldPos)
-    for (let i = 0; i <= 2; i += 1)
-      expect(state.enemies[i]!.basePos).toEqual(getEnemyBasePos(3, i, 0))
+    expect(state.enemies.slice(0, 3).map((entry) => entry?.basePos)).toEqual([
+      { x: 70, y: 140 },
+      { x: 100, y: 110 },
+      { x: 160, y: 100 },
+    ])
 
     const overflow = createBattleState({ players: [player()], enemySlots: [blob] })
     expect(applyEnemyEffect(overflow, 0, { kind: 'divide', copies: 5 })).toMatchObject({

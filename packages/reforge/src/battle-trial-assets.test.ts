@@ -172,6 +172,43 @@ test('real project resource IO rejection never returns a prepared trial', async 
   }
 })
 
+test('trial preparation rejects a real selected skill beyond the decoded FIRE frame budget', async () => {
+  const f = await readyTrialFixture()
+  const skill = f.project.skills['trial-spark']
+  if (!skill) throw new Error('trial skill missing')
+  f.files['content/skills.json'] = {
+    skills: [{ ...skill, animation: { ...skill.animation, speed: -4, effectTimes: 94 } }],
+    levelUp: {},
+  }
+  const project = await loadCurrentProjectFrom(f.project.source)
+  const revision = await battleTrialRevision(project)
+  const browser = installTrialChromeHost(f.faceHash)
+  let prepared: Awaited<ReturnType<typeof prepareBattleTrialAssets>> | undefined
+  try {
+    await expect(
+      prepareBattleTrialAssets(
+        project,
+        f.config,
+        f.token,
+        new AbortController().signal,
+        revision,
+      ).then((value) => {
+        prepared = value
+        return value
+      }),
+    ).rejects.toThrow('技能 "trial-spark" 的玩家特效: 1045 帧超过 1024 帧')
+    expect(f.binaryReads).toContain('assets/generated/fire.rle')
+    expect(
+      browser.bitmaps
+        .filter((bitmap) => bitmap.face)
+        .map((bitmap) => bitmap.close.mock.calls.length),
+    ).toEqual([1])
+  } finally {
+    prepared?.dispose()
+    browser.restore()
+  }
+})
+
 test.each([
   'asset',
   'silent',

@@ -409,19 +409,17 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         `\n${evidenceCall('magicOverlayDrawn', `${dx.getText(ast)} + Math.floor(f.width / 2), ${dy.getText(ast)} + f.height, f === d.draw.sprite.frames[d.draw.frame] ? d.draw.frame : 0, d.draw`)}`,
       )
     }
-    if (isBattleScene && ts.isIfStatement(node)) {
-      const drawn = evidenceCall('fighterDrawn', 'draw, __battleFrameIndex')
-      if (node.expression.getText(ast) === 'draw.dissolve !== undefined') {
-        const draw = node.thenStatement.statements[0]
-        assert(draw.getText(ast).startsWith('drawDissolved('))
-        add('dissolved-fighter-draw', draw.end, `\n${drawn}\n`)
-      }
-      if (
-        node.expression.getText(ast) === 'alpha < 1' &&
-        source.includes('ctx.drawImage(img, dx, dy)')
+    if (
+      isBattleScene &&
+      ts.isIfStatement(node) &&
+      node.expression.getText(ast) === 'alpha < 1' &&
+      source.includes('ctx.drawImage(img, dx, dy)')
+    )
+      add(
+        'fighter-draw',
+        node.end,
+        `\n${evidenceCall('fighterDrawn', 'draw, __battleFrameIndex')}\n`,
       )
-        add('fighter-draw', node.end, `\n${drawn}\n`)
-    }
     if (isSfx) observeSfx(node, ast, source, add, evidenceCall)
     ts.forEachChild(node, visit)
   }
@@ -438,7 +436,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       : isSfx
         ? ['audio-cue-map', 'audio-request', 'audio-cue-link', 'audio-start', 'audio-decoded']
         : isBattleScene
-          ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw', 'magic-overlay-draw']
+          ? ['fighter-frame-choice', 'fighter-draw', 'magic-overlay-draw']
           : isBattleUi
             ? ['portrait-before', 'portrait-after']
             : isDialogBox

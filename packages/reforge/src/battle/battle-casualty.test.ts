@@ -1,11 +1,6 @@
 import type { ActorDef, CasualtyScript, EnemyDef, SkillData } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  type CreatePlayerInput,
-  createBattleState,
-  shouldCheckPlayerCasualties,
-  stepBattle,
-} from './battle-core.js'
+import { type CreatePlayerInput, createBattleState, stepBattle } from './battle-core.js'
 
 const rng0 = () => 0
 const rngGate1 = () => 0.75 // roll 76 ≥ 75 → 门1
@@ -178,7 +173,7 @@ function runBattle(
   }
   const state = createBattleState({
     players,
-    enemies: [attacker],
+    enemySlots: [attacker],
     skills: {
       hit: skill('hit', [{ kind: 'resourceDelta', resource: 'hp', delta: options.delta ?? -150 }]),
     },
@@ -200,7 +195,7 @@ function runBattle(
   return state
 }
 
-describe('B11-1 战斗伤亡 sweep', () => {
+describe('受击后的队员伤亡检查', () => {
   test('队友阵亡:健康援护者跑 friendDeath 兜底(HP 满 + attack+5%)', () => {
     const state = runBattle([
       player({ roleId: 'hero', actorTemplateId: 'li', hp: 10, maxHp: 100, coveredBy: 'yue' }),
@@ -296,6 +291,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
       ],
       { delta: -10 },
     )
+    expect(gap.players[0]!.hp).toBe(115)
     expect(gap.casualtyDialogue).toBeUndefined()
     // (b) prevHp=110 < 120(未钳 raw maxHP/5)但 hp=90 已 dying → 不触发
     const rawPrev = runBattle(
@@ -305,6 +301,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
       ],
       { delta: -20 },
     )
+    expect(rawPrev.players[0]!.hp).toBe(90)
     expect(rawPrev.casualtyDialogue).toBeUndefined()
     // (c) prevHp=125 ≥ 120 且 hp=95 < 100 → 触发
     const hit = runBattle(
@@ -314,6 +311,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
       ],
       { delta: -30 },
     )
+    expect(hit.players[0]!.hp).toBe(95)
     expect(hit.casualtyDialogue?.speakerRoleId).toBe('zhao')
   })
 
@@ -489,7 +487,7 @@ describe('B11-1 战斗伤亡 sweep', () => {
         player({ roleId: 'li', actorTemplateId: 'li', hp: 50, maxHp: 100 }),
         player({ roleId: 'yue', actorTemplateId: 'yue', hp: 50, maxHp: 100, attackStrength: 100 }),
       ],
-      enemies: [attacker],
+      enemySlots: [attacker],
       skills: { hit: skill('hit', [{ kind: 'resourceDelta', resource: 'hp', delta: 0 }]) },
       poisonDefs: {
         555: {
@@ -520,36 +518,13 @@ describe('B11-1 战斗伤亡 sweep', () => {
     expect(state.players[0]!.hp).toBe(0)
     expect(state.players[1]!.hp).toBe(0)
     expect(state.casualtyDialogue).toBeUndefined()
-    expect(state.log.filter((entry) => entry.includes('伤亡脚本')).length).toBe(0)
-    expect(state.players[0]!.prevHp).toBe(0)
-    expect(state.players[1]!.prevHp).toBe(0)
+    expect(state.players.map(({ prevHp }) => prevHp)).toEqual([0, 0, 50, 50])
+    // 若毒发错误触发阵亡脚本，守护者会回满并得到武术加成。
+    expect(state.players[3]).toMatchObject({ hp: 50, attackStrength: 100 })
   })
 
   test('玩家友伤致死不触发 casualty；只有敌方 attack/cast 是有效来源', () => {
-    expect(
-      shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'attack', targetPlayerIdx: 0 }),
-    ).toBe(true)
-    expect(
-      shouldCheckPlayerCasualties({
-        side: 'enemy',
-        idx: 0,
-        kind: 'cast',
-        skillId: 'hit',
-        targetPlayerIdx: 0,
-      }),
-    ).toBe(true)
-    expect(
-      shouldCheckPlayerCasualties({
-        side: 'player',
-        idx: 0,
-        kind: 'attackMate',
-        targetAllyIdx: 1,
-        damage: 1,
-      }),
-    ).toBe(false)
-    expect(shouldCheckPlayerCasualties({ side: 'enemy', idx: 0, kind: 'transform' })).toBe(false)
-
-    const attacker = enemy('caster', { attackStrength: -999, dexterity: 0 })
+    const attacker = enemy('caster', { attackStrength: 0, dexterity: 0 })
     const state = createBattleState({
       players: [
         player({
@@ -562,20 +537,25 @@ describe('B11-1 战斗伤亡 sweep', () => {
         player({ roleId: 'victim', actorTemplateId: 'zhao', hp: 1, coveredBy: 'yue' }),
         player({ roleId: 'yue', actorTemplateId: 'yue', hp: 100 }),
       ],
-      enemies: [attacker],
+      enemySlots: [attacker],
       actorsById: {
         li: actor('li'),
         zhao: actor('zhao'),
         yue: actor('yue', { friendDeath: FRIEND_DEATH }),
       },
     })
-    stepBattle(state, () => 0.5)
+    const rng = () => 0.5
+    stepBattle(state, rng)
     state.pendingActions.set(1, { kind: 'defend' })
     state.pendingActions.set(2, { kind: 'defend' })
-    let guard = 0
-    do {
-      stepBattle(state, () => 0.5)
-    } while (state.phase === 'performAction' && ++guard < 60)
+    stepBattle(state, rng)
+    for (
+      let step = 0;
+      step < state.players.length && state.lastAction?.kind !== 'attackMate';
+      step++
+    )
+      stepBattle(state, rng)
+    expect(state.lastAction).toMatchObject({ side: 'player', kind: 'attackMate', targetAllyIdx: 1 })
     expect(state.players[1]!.hp).toBe(0)
     expect(state.casualtyDialogue).toBeUndefined()
     expect(state.log.some((entry) => entry.includes('伤亡脚本'))).toBe(false)
@@ -640,7 +620,7 @@ describe('敌方巫术下毒(结构化毒模型)', () => {
     }
     const state = createBattleState({
       players: [player({ hp: 100, maxHp: 100, ...playerOver })],
-      enemies: [attacker],
+      enemySlots: [attacker],
       skills: {
         gu: {
           id: 'gu',
@@ -673,9 +653,9 @@ describe('敌方巫术下毒(结构化毒模型)', () => {
 
   test('巫术下毒是普通 0x29:不触发 lethalWith 双毒暴毙', () => {
     const state = enemyCastPoison({ poisons: [{ poisonId: 558, tickIndex: 0 }] })
-    // 无双毒暴毙(回合末 558 毒 tick 扣了 2 点,但远没到 0);新毒 555 叠上。
-    expect(state.players[0]!.hp).toBeGreaterThan(0)
-    expect(state.players[0]!.poisons.map((p) => p.poisonId)).toContain(555)
+    // 新毒当场扣 1 HP；回合末两种毒各扣 1 HP，原有毒槽保留。
+    expect(state.players[0]!.hp).toBe(97)
+    expect(state.players[0]!.poisons.map((p) => p.poisonId)).toEqual([558, 555])
   })
 
   test('巫术下毒不触发 counters 相克解,直接叠新毒', () => {

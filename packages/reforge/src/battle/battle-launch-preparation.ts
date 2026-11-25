@@ -21,12 +21,15 @@ import { MenuBox, statusPortraitAsset } from '../menu/menu-box.js'
 import type { RuntimeProjectView } from '../runtime-project-view.js'
 import type { ScriptHost } from '../script-runner.js'
 import { collectBattleCasualtyPortraits } from './battle-casualty-presentation.js'
+import {
+  assertLoadedFireUses,
+  collectBattleSkillFireUses,
+  collectBattleThrowFireUses,
+  prepareBattleFireSprites,
+} from './battle-fire-readiness.js'
 import { createBattlePlayers } from './battle-player-input.js'
 import type { BattleSession, BattleSessionAssets } from './battle-session.js'
-import {
-  collectBattleSkillFireChunks,
-  prepareBattleSpriteReadiness,
-} from './battle-sprite-readiness.js'
+import { prepareBattleSpriteReadiness } from './battle-sprite-readiness.js'
 
 export type BattleLaunchOptions = NonNullable<Parameters<ScriptHost['startBattle']>[1]> & {
   /** Canonical script activity owns the return from this battle. */
@@ -88,7 +91,8 @@ export class BattleLaunchPreparation {
     report: ReportReadiness,
     onBattleTrack?: (asset: AssetId) => void,
   ) {
-    const { content, assets, ports } = this
+    const { content, assets } = this
+    const ports = this.ports
     const enemySlots = options?.enemyOverride
       ? options.enemyOverride.map((id) => content.enemiesById[id] ?? null).slice(0, 5)
       : (content.enemyTeamsById[team]?.slots ?? []).map((id) =>
@@ -196,7 +200,8 @@ export class BattleLaunchPreparation {
     options: BattleLaunchOptions | undefined,
     assertCurrent: () => void,
   ) {
-    const { content, assets, ports } = this
+    const { content, assets } = this
+    const ports = this.ports
     const sprites = await prepareBattleSpriteReadiness({
       cache: assets.spriteCache,
       reader: assets.reader,
@@ -244,16 +249,29 @@ export class BattleLaunchPreparation {
       }),
     ])
     assertCurrent()
-    const fireChunks = collectBattleSkillFireChunks({
+    const skillFireUses = collectBattleSkillFireUses({
       playerSkillIds: players.map((player) => player.skills),
       cooperativeSkillIds,
       reachableEnemySkillIds: sprites.reachableEnemySkillIds,
       skillsById: content.skills,
     })
-    this.addItemFire(fireChunks, sprites.reachableEnemyDefs)
-    const fireSprites = await this.loadFire(fireChunks)
+    const carriedItems = () =>
+      ports
+        .readWorld()
+        .inventory.filter(({ count }) => count > 0)
+        .map(({ itemId }) => itemId)
+    const throwFireUses = collectBattleThrowFireUses(content.items, [
+      ...sprites.reachableEnemyDefs.flatMap((enemy) => (enemy.steal ? [enemy.steal.itemId] : [])),
+      ...carriedItems(),
+    ])
+    const fireSprites = await prepareBattleFireSprites(
+      [...skillFireUses, ...throwFireUses],
+      (chunk) => loadFireSprite(assets.assetBase, chunk).catch(() => undefined),
+    )
     assertCurrent()
     const commitAssets = (): BattleSessionAssets => {
+      // Inventory is live at commit. A late item can use a sheet that another action already loaded.
+      assertLoadedFireUses(collectBattleThrowFireUses(content.items, carriedItems()), fireSprites)
       const faces: Record<string, ImageBitmap | undefined> = {}
       const { party } = ports.readWorld()
       party.forEach((c, i) => {
@@ -304,33 +322,6 @@ export class BattleLaunchPreparation {
       ),
     )
     return this.#fields
-  }
-
-  private addItemFire(
-    chunks: Set<number>,
-    enemies: readonly BattleContent['enemiesById'][string][],
-  ) {
-    const add = (id: string) => {
-      const spec = this.content.items[id]?.throw?.presentation
-      if (spec?.kind === 'magic' && spec.animation.effectSprite >= 0)
-        chunks.add(spec.animation.effectSprite)
-    }
-    for (const enemy of enemies) if (enemy.steal) add(enemy.steal.itemId)
-    for (const item of this.ports.readWorld().inventory) if (item.count > 0) add(item.itemId)
-  }
-
-  private async loadFire(chunks: Set<number>) {
-    const fireSprites: Record<number, LoadedSprite> = {}
-    await Promise.all(
-      [...chunks].map((ch) =>
-        loadFireSprite(this.assets.assetBase, ch)
-          .then((sp) => {
-            fireSprites[ch] = sp
-          })
-          .catch(() => undefined),
-      ),
-    )
-    return fireSprites
   }
 
   private async prepareTurnSounds(

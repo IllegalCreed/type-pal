@@ -29,3 +29,20 @@ Template: evidence-receipt-v1 / 1.0.0
 ## 限制与复核
 
 本回执证明四处声明行的引用适用性。战斗行为及取证工具变更的失败、修复与定向验证从[治理卡](../cards/QUALITY-REFORGE-BATTLE-1.md)进入。用 `node scripts/docs/check-testing.mjs` 核现行引用，用 `node scripts/docs/check-document-model.mjs` 核相同片段与保留的历史。
+
+## 2026-11-25 留审收口后的引用
+
+基点为 #77 合并提交 `cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb`，当前源码候选为 `d7e786615e5a93acda9e7368b877ab15ec976fe8`。已核战斗宿主、会话 Owner 与 Q2 报告的八处现行坐标。旧执行、截图、报告正文和业务主张各自保留原候选。
+
+| 路径 | 原行 | 当前行 |
+|---|---|---|
+| `packages/reforge/src/battle/battle-host.test.ts` | 14-37 | 14-37 |
+| `packages/reforge/src/battle/battle-session.ts` | 252-254 | 251-253 |
+| `packages/reforge/src/battle/battle-session.ts` | 427-439 | 426-438 |
+| `packages/reforge/src/battle/battle-session.ts` | 1313-1322 | 1312-1321 |
+| `packages/reforge/src/battle/battle-turn-readiness.test.ts` | 37-60 | 36-58 |
+| `packages/reforge/src/battle/battle-command-selection.test.ts` | 72-95 | 73-96 |
+| `scripts/e2e/battle-reforge-instrumentation.mjs` | 18 | 18 |
+| `packages/reforge/src/battle/battle-core.ts` | 2533 | 2509 |
+
+其中七处片段逐字节相同。快照专测改用真实建态和可变毒槽，动作、毒游标的判据逐项保留。源码对照、原生用例与实际候选摘要见[留审关闭执行归档](QUALITY-REFORGE-BATTLE-CLOSEOUT-1.tar.gz)的 `source-reference-bindings.json`。历史脚本修正记录中的旧酒神测试名仍可经原 Git 基点找回，本轮将职责迁到施法侧别及酒神两个现行套件。

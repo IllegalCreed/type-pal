@@ -19,8 +19,8 @@ describe('BattleActionPresentationScheduler', () => {
 
     scheduler.start([frame()], { onFighter, onSound })
 
-    expect(onFighter).toHaveBeenCalledWith({ side: 'player', idx: 0, frame: 7 })
-    expect(onSound).toHaveBeenCalledWith('sound.attack')
+    expect(onFighter).toHaveBeenCalledExactlyOnceWith({ side: 'player', idx: 0, frame: 7 })
+    expect(onSound).toHaveBeenCalledExactlyOnceWith('sound.attack')
     expect(scheduler.active).toBe(true)
     expect(scheduler.advancePlayback(39)).toBe('playing')
     expect(scheduler.advancePlayback(1)).toBe('finished')
@@ -39,13 +39,17 @@ describe('BattleActionPresentationScheduler', () => {
     expect(sequence).toEqual(['playing', 'finished', 'inactive'])
   })
 
-  test('ordinary or terminal playback clears only the player and leaves script cleanup to its own path', () => {
+  test('the script pump leaves an ordinary action on its own playback clock', () => {
     const scheduler = new BattleActionPresentationScheduler()
-    scheduler.start([frame(10)], {}, true)
-    expect(scheduler.advancePlayback(10)).toBe('finished')
+    const onSound = vi.fn()
+    scheduler.start([frame(10)], { onSound })
+    expect(scheduler.advanceScript(50)).toBe('inactive')
+    expect(scheduler.advancePlayback(9)).toBe('playing')
+    expect(scheduler.advanceScript(50)).toBe('inactive')
+    expect(scheduler.advancePlayback(1)).toBe('finished')
     expect(scheduler.active).toBe(false)
-    expect(scheduler.advanceScript(0)).toBe('finished')
     expect(scheduler.advanceScript(0)).toBe('inactive')
+    expect(onSound).toHaveBeenCalledExactlyOnceWith('sound.attack')
   })
 
   test('shares elapsed frame time between a queue beat, playback and the next queue beat', () => {

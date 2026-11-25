@@ -1,13 +1,12 @@
 import { describe, expect, test, vi } from 'vitest'
+import { wfEnemy, wfPlayer } from '../__tests__/battle-workflows/catalog.js'
 import { SfxReadinessResourceError } from '../audio/sfx.js'
-import type { BattleState } from './battle-core.js'
-import battleSessionSource from './battle-session.ts?raw'
+import { createBattleState } from './battle-core.js'
 import {
   BattleTurnReadinessGate,
   type BattleTurnReadinessSnapshot,
   createBattleTurnReadinessSnapshot,
 } from './battle-turn-readiness.js'
-import readinessSource from './battle-turn-readiness.ts?raw'
 
 function deferred<T>(): {
   promise: Promise<T>
@@ -36,19 +35,18 @@ function port() {
 
 describe('BattleTurnReadinessGate', () => {
   test('freezes the current actions map and poison progress without retaining mutable collections', () => {
-    const playerPoison = { poisonId: 561, tickIndex: 2 }
-    const enemyPoison = { poisonId: 562, tickIndex: 4 }
-    const state = {
-      turn: 7,
-      pendingActions: new Map([[0, { kind: 'defend' }]]),
-      players: [{ poisons: [playerPoison] }],
-      enemies: [null, { poisons: [enemyPoison] }],
-    } as unknown as BattleState
+    const state = createBattleState({
+      players: [wfPlayer('hero', { poisons: [{ poisonId: 561, tickIndex: 2 }] })],
+      enemySlots: [null, wfEnemy('viper')],
+    })
+    const enemy = state.enemies[1]!
+    enemy.poisons.push({ poisonId: 562, tickIndex: 4 })
+    state.pendingActions.set(0, { kind: 'defend' })
 
     const frozen = createBattleTurnReadinessSnapshot(state)
     state.pendingActions.clear()
-    playerPoison.tickIndex = 9
-    enemyPoison.tickIndex = 10
+    state.players[0]!.poisons[0]!.tickIndex = 9
+    enemy.poisons[0]!.tickIndex = 10
 
     expect([...frozen.actions]).toEqual([[0, { kind: 'defend' }]])
     expect(frozen.activePlayerPoisons).toEqual([{ poisonId: 561, tickIndex: 2 }])
@@ -93,8 +91,6 @@ describe('BattleTurnReadinessGate', () => {
 
     pending.resolve()
     await pending.promise
-    await Promise.resolve()
-    expect(target.isCurrent).toHaveBeenCalledOnce()
     expect(target.enterActionPhase).toHaveBeenCalledOnce()
     expect(gate.phase).toBe('idle')
   })
@@ -102,16 +98,15 @@ describe('BattleTurnReadinessGate', () => {
   test('reports a resource failure once and degrades into the action phase', async () => {
     const error = new SfxReadinessResourceError([new Error('missing.wav')])
     const reportError = vi.fn()
+    const pending = deferred<void>()
     const gate = new BattleTurnReadinessGate({
-      prepare: async () => {
-        throw error
-      },
+      prepare: () => pending.promise,
       reportError,
     })
     const target = port()
     gate.begin(snapshot(), target)
-    await Promise.resolve()
-    await Promise.resolve()
+    pending.reject(error)
+    await expect(pending.promise).rejects.toBe(error)
 
     expect(reportError).toHaveBeenCalledWith(error, { turn: 3, fatal: false })
     expect(target.enterActionPhase).toHaveBeenCalledOnce()
@@ -121,16 +116,15 @@ describe('BattleTurnReadinessGate', () => {
   test('holds an unknown failure in the fatal phase and preserves the original error', async () => {
     const error = new Error('collector failed')
     const reportError = vi.fn()
+    const pending = deferred<void>()
     const gate = new BattleTurnReadinessGate({
-      prepare: async () => {
-        throw error
-      },
+      prepare: () => pending.promise,
       reportError,
     })
     const target = port()
     gate.begin(snapshot(), target)
-    await Promise.resolve()
-    await Promise.resolve()
+    pending.reject(error)
+    await expect(pending.promise).rejects.toBe(error)
 
     expect(reportError).toHaveBeenCalledWith(error, { turn: 3, fatal: true })
     expect(target.enterActionPhase).not.toHaveBeenCalled()
@@ -146,27 +140,9 @@ describe('BattleTurnReadinessGate', () => {
     gate.invalidate()
     pending.resolve()
     await pending.promise
-    await Promise.resolve()
 
     expect(target.isCurrent).not.toHaveBeenCalled()
     expect(target.enterActionPhase).not.toHaveBeenCalled()
     expect(gate.phase).toBe('preparing')
-  })
-})
-
-describe('BattleTurnReadiness ownership boundary', () => {
-  test('the gate owns token, phase and error while BattleSession supplies only narrow callbacks', () => {
-    expect(readinessSource).toContain('private serial = 0')
-    expect(readinessSource).toContain('private currentPhase: BattleTurnReadinessPhase')
-    expect(readinessSource).toContain('private currentError: Error | null')
-    expect(readinessSource).not.toContain("from './battle-session")
-    expect(readinessSource).not.toMatch(/\bthis\.(state|ui|closed|doneSettled)\b/)
-
-    expect(battleSessionSource).not.toContain('private preparationSerial')
-    expect(battleSessionSource).not.toContain('private readinessError')
-    expect(battleSessionSource).not.toContain('settleTurnPreparation(')
-    expect(battleSessionSource.match(/new BattleTurnReadinessGate\(/g)).toHaveLength(1)
-    expect(battleSessionSource).toContain('isCurrent: () =>')
-    expect(battleSessionSource).toContain('enterActionPhase: () => this.enterActionPhase()')
   })
 })

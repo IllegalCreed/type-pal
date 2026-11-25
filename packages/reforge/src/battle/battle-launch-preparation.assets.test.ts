@@ -1,5 +1,9 @@
 // @vitest-environment jsdom
-import { palMagicEffectSpriteAssetId, validateBattleFields } from '@type-pal/content'
+import {
+  palMagicEffectSpriteAssetId,
+  type SkillAnimation,
+  validateBattleFields,
+} from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
 import { battleHostFixture } from '../__tests__/battle-host-fixture.js'
 import { installGlmNCanvasHost } from '../__tests__/glm-n/canvas-host.js'
@@ -17,8 +21,8 @@ afterEach(async () => {
   f = undefined
 })
 
-async function fieldedFixture() {
-  const fixture = await battleHostFixture(false, undefined, true)
+async function fieldedFixture(animation: Pick<SkillAnimation, 'speed' | 'effectTimes'> = {}) {
+  const fixture = await battleHostFixture({ scenario: { withBattleMusic: true } })
   f = fixture
   // dom-host 的画布替身 getImageData 恒全零 → 换 glm-n 替身（像素恒 5，满足索引图契约读取）。
   installGlmNCanvasHost(5)
@@ -96,7 +100,7 @@ async function fieldedFixture() {
       throw: {
         target: 'oneEnemy',
         effects: [{ kind: 'fixedDamage', amount: 5 }],
-        presentation: { kind: 'magic', animation: { effectSprite: 0 } },
+        presentation: { kind: 'magic', animation: { effectSprite: 0, ...animation } },
       },
     },
   ]
@@ -184,4 +188,34 @@ test('工程未提供默认战场时不加载战场背景', async () => {
   expect(prepared.sessionAssets.bgIndexed).toBeUndefined()
   expect(fetchSpy).not.toHaveBeenCalled()
   fixture.assertInputs()
+})
+
+test.each([
+  { animation: { speed: -4, effectTimes: 256 }, expected: '1028 帧超过 1024 帧' },
+  { animation: { speed: 746 }, expected: '30040 毫秒超过 30000 毫秒' },
+])('battle preparation rejects a throw exceeding its decoded FIRE budget: $expected', async ({
+  animation,
+  expected,
+}) => {
+  const fixture = await fieldedFixture(animation)
+  await expect(
+    fixture.prep.prepare('encounter', undefined, new AbortController().signal, () => {}, vi.fn()),
+  ).rejects.toThrow(`物品 "vial" 的投掷特效: ${expected}`)
+  expect(fixture.host.active).toBeNull()
+  expect(fixture.world().inventory).toEqual([{ itemId: 'vial', count: 2 }])
+})
+
+test.each([
+  { speed: -4, effectTimes: 255 },
+  { speed: 745 },
+])('battle preparation accepts a throw at the exact FIRE limit with $speed speed', async (animation) => {
+  const fixture = await fieldedFixture(animation)
+  const ready = await fixture.prep.prepare(
+    'encounter',
+    undefined,
+    new AbortController().signal,
+    () => {},
+    vi.fn(),
+  )
+  expect(ready.commit().sessionAssets.fireSprites?.[0]?.frames).toHaveLength(4)
 })

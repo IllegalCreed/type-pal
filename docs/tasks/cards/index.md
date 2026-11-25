@@ -51,7 +51,6 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1 — Game 收口后历次关闭复核](QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-REFORGE-BATTLE-1 — Reforge 战斗实现与专测治理](QUALITY-REFORGE-BATTLE-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
@@ -591,9 +590,11 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-REFORGE-BATTLE-1 — Reforge 战斗实现与专测治理](QUALITY-REFORGE-BATTLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-BATTLE-ANIMATION-TIMING-1 — 战斗法术动画配置的帧时间与计数](REFORGE-BATTLE-ANIMATION-TIMING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-FRAME-SEQUENCE-INVALIDATION-1 — 过场素材换版后旧解码重写缓存](REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属](REFORGE-FSA-URL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
