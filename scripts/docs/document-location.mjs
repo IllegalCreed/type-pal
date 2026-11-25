@@ -78,6 +78,7 @@ import {
   isTestingQ2TombSource,
   isTestingQ2TowerFoxSource,
   isTestingQ2TowerMingSource,
+  isTestingReforgeBattleCloseoutSource,
   isTestingRuntimeOwnershipSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
@@ -138,6 +139,7 @@ import {
   restoreTestingQ2TombSourceBindings,
   restoreTestingQ2TowerFoxSourceBindings,
   restoreTestingQ2TowerMingSourceBindings,
+  restoreTestingReforgeBattleCloseoutBindings,
   restoreTestingRuntimeOwnershipSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
@@ -215,6 +217,7 @@ import {
   testingQ2TombPublicationBase,
   testingQ2TowerFoxPublicationBase,
   testingQ2TowerMingPublicationBase,
+  testingReforgeBattleCloseoutBase,
   testingRuntimeOwnershipPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
@@ -694,8 +697,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       runtimeOwnershipRevision && /^[a-f0-9]{40}$/u.test(battleQualityRevision),
       'battle quality source requires the admitted runtime ownership stage',
     )
-  const battleQuality = sourceApplicability({
+  const battleCloseoutRevision = admission.testingReforgeBattleCloseoutRevision
+  if (battleCloseoutRevision)
+    assert(battleQualityRevision && /^[a-f0-9]{40}$/u.test(battleCloseoutRevision))
+  const battleCloseout = sourceApplicability({
     readCurrent: readCurrentSource,
+    revision: battleCloseoutRevision,
+    baseRevision: testingReforgeBattleCloseoutBase,
+    restoreBindings: restoreTestingReforgeBattleCloseoutBindings,
+    isSource: isTestingReforgeBattleCloseoutSource,
+  })
+  const battleQuality = sourceApplicability({
+    readCurrent: battleCloseout.read,
     revision: battleQualityRevision,
     baseRevision: testingBattleQualityPublicationBase,
     restoreBindings: restoreTestingBattleQualitySourceBindings,
@@ -2226,7 +2239,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorRuntimeBody = battleQuality.restore(path, current)
+    const priorRuntimeBody = battleQuality.restore(path, battleCloseout.restore(path, current))
     const priorMenuBody = menuIsolation.restore(
       path,
       runtimeOwnership.restore(path, priorRuntimeBody),

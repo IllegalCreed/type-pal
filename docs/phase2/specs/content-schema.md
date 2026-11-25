@@ -64,6 +64,12 @@ SAVE12必需sceneRuntime，记录NPC朝向、姿态、运动/自动续跑现场�
 
 工程资源 `assets.roles['audio.battleEnemySummonSound']` 是可选的战斗音效。配置时需引用音效库中已有的 sound 资源，战斗启动时预载。PAL 绑定 `sound.pal.212`，敌人成功召唤时在新敌第一次入场绘制的那一拍播放一次。召唤失败时保持静音。 [资源角色](../../../packages/content/src/asset.ts) · [战斗演出](../../../packages/reforge/src/battle/battle-session.ts)
 
+### 法术动画时间与帧计数
+
+技能基础动画、玩家和敌方覆写以及魔法投掷共用帧参数校验。`fireDelay`、`effectTimes`、`shake` 分别是循环起点、重复次数和末尾震屏帧数，填写时须为非负安全整数。`speed` 对应 `(speed + 5) × 10` 毫秒，转换后须为有限正数。PAL 使用的 `-1` 对应 40 毫秒。校验失败携带具体的技能或物品字段路径。 [动画字段](../../../packages/content/src/skill.ts) · [内容校验](../../../packages/content/src/validate.ts)
+
+战斗准备完成解码后，单段 FIRE 特效最多 1,024 帧且总时长最多 30 秒。友方单播和进攻循环各按实际序列计算，循环与末尾持帧参与总量。普通开战与试打均在推进战斗前定位超限技能或物品。 [帧计划](../../../packages/reforge/src/battle/battle-off-magic.ts) · [准备期检查](../../../packages/reforge/src/battle/battle-fire-readiness.ts)
+
 ### 玩家群攻仙术吹飞
 
 技能的 `animation.blow` 是可选的有符号 16 位整数，用于玩家的群体攻击，含召唤本体之后的群攻段。目标须为 `allEnemies`，特效须使用进攻落位。PAL 的风卷残云取 `-2`，风神取 `-3`。运行时按实际 FIRE 帧和重复次数抽每次位移，先抽位移，再执行成功效果和伤害抽样。位移作用于施法时存活的敌槽，保留至最后一张特效帧，进入受击前恢复原站位。该字段沿用现行内容与存档版本。 [动画字段](../../../packages/content/src/skill.ts) · [内容校验](../../../packages/content/src/validate.ts) · [实战复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-18-风卷残云与三种攻击仙术)

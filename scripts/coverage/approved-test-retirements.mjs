@@ -7,6 +7,72 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Reforge closeout. User-authorized responsibility-based migration and verified dead probes.
+    // Original-to-current cases and retirements live in the referenced closeout archive.
+    {
+      file: 'packages/reforge/src/battle/battle-command-selection.test.ts',
+      previous: 17,
+      current: 16,
+      previousIdentityDigest: 'fe569d4171c2153e3ff113fcdaaaaf0d228b095a12188ae7b900f4282ff634c7',
+      currentIdentityDigest: '0b638c412ca6b33f5789d6c74d4835265e92e20f6960c642f20724f4f1eda1ec',
+      fileSha256: 'ac3c81da961413bfb35d0f0b5bd81006f2a2f5919b0738570e8b94676df48b57',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-core.rng-order.test.ts',
+      previous: 23,
+      current: 17,
+      previousIdentityDigest: 'c69fd0ffddf56aeca3deff7cf3d876eb2646306b74ab577ab82bdf5aba446f94',
+      currentIdentityDigest: '3d9608ea829fc01b5a11296f0985ae5454b8e98852b06998e200e9ae7464e4f1',
+      fileSha256: 'b9d898d625d340a2abc97bb45b5590345e30b92d2a5fdb549d2d436c0af0d92e',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-core.test.ts',
+      previous: 123,
+      current: 22,
+      previousIdentityDigest: 'b4ea7b05d47d81a1e69382ae313d940ea218e004b3c2a7af8353629ef5ac1ceb',
+      currentIdentityDigest: '43caca9f52ee810ffbc2b4ecea1f5e0e3bef07bc988104d9139b24ac906a4bee',
+      fileSha256: 'b8ab4431434c61200a044f029e513ec23f1613dadec0ea3b66ccf2c2b2e2e9c3',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-session.action-flows.test.ts',
+      previous: 47,
+      current: 8,
+      previousIdentityDigest: '59bb97434c710cf242b61ecfb354d5b70c7800da62e987000d2cc9e56f39a2b4',
+      currentIdentityDigest: '7585035f0ddc56e8187cd62ffb94c2c2f9540a5905861adabba96a1acfd9e305',
+      fileSha256: 'e909e04a90ea92e6080db037e44bfb592858426c32d0fec2b729f4304e1f5e6c',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-session.test.ts',
+      previous: 43,
+      current: 5,
+      previousIdentityDigest: '9f083f05cbd96c0f74d3aceecded9f8b53df9e9d0a6835c33007b065ae64ec36',
+      currentIdentityDigest: 'ac0d1e7be77b8f40713159da9c5f52c97bfa9e98af4a656dcf1414d2cc6fd456',
+      fileSha256: '129aa08cf31d3c88c63429c98bae6fe2b87901b6037de5ab03dcc97995b73f75',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-sprite-readiness.test.ts',
+      previous: 4,
+      current: 1,
+      previousIdentityDigest: 'addc59b0beabe5ef7dec2b5146dd37d95d4c5d31fba79efc00adffc069146547',
+      currentIdentityDigest: '8e2f2df70e7b7447919823f03b0cb70d35e96fe1a98735bbdc46933bd1f6b9c0',
+      fileSha256: '9fda091096e5d0fbc732e298325cce77d508595a220a0f5a683e34919b76b12c',
+    },
+    {
+      file: 'packages/reforge/src/battle/battle-turn-readiness.test.ts',
+      previous: 8,
+      current: 7,
+      previousIdentityDigest: 'a32513988c724ca939bbaefd94336d088776fd60d8c20131782dc5bc9825bdd7',
+      currentIdentityDigest: '1a7d663cb229b0253b3a6409c615d6934ef42db3a50b7dd8161a8b6179595ca7',
+      fileSha256: '138aa20f5f6b883aa88b922981b6647cfebad7d4263fac54742b5a6868ff7591',
+    },
+    {
+      file: 'packages/reforge/src/battle/present-battle.composition.test.ts',
+      previous: 5,
+      current: 3,
+      previousIdentityDigest: '02cf5355b39237666f7f16191eb85ea34be82993431a7559d55498beddbc3f73',
+      currentIdentityDigest: '463a581dcc33233d9b8f0bca333dd57146ee3a332602e239b5b66fc5647c0661',
+      fileSha256: 'ba1fc1bb4509f768f8a80cb227ca98ee0faf1c3a7afe058223304a3f87fea6aa',
+    },
     // User-approved retirement of the redundant handkerchief auto scheme. Its
     // four historical traces remain in the oracle and the live trigger is covered.
     {

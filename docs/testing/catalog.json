@@ -2691,7 +2691,7 @@
           "lines": "14-37",
           "anchor": "test('commit consumes live inventory",
           "role": "oracle",
-          "sha256": "1a049251f216a087c8a6b63e0e80799d0bf411b5b5707455616802d75ba398be"
+          "sha256": "13303fae92e5eb244651eff0ce55d7c011afed8bfef573f81e382dfda1e885b8"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -3376,6 +3376,22 @@
                 "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
               }
             ]
+          },
+          {
+            "action": "reforge-battle-review-source-rebinding",
+            "base": "cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb",
+            "date": "2026-11-25",
+            "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-host.test.ts",
+                "lines": "14-37",
+                "anchor": "test('commit consumes live inventory",
+                "role": "oracle",
+                "sha256": "1a049251f216a087c8a6b63e0e80799d0bf411b5b5707455616802d75ba398be"
+              }
+            ],
+            "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
           }
         ]
       },
@@ -3448,38 +3464,38 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "252-254",
+          "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "427-439",
+          "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1313-1322",
+          "lines": "1312-1321",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
-          "lines": "37-60",
+          "lines": "36-58",
           "anchor": "describe('BattleTurnReadinessGate'",
           "role": "oracle",
-          "sha256": "2bcc3e72cb6ddb16b56db2f99f18827548d66709c92f9e4cf3391349a0555fc7"
+          "sha256": "138aa20f5f6b883aa88b922981b6647cfebad7d4263fac54742b5a6868ff7591"
         },
         {
           "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
-          "lines": "72-95",
+          "lines": "73-96",
           "anchor": "describe('BattleCommandSelection'",
           "role": "oracle",
-          "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
+          "sha256": "ac3c81da961413bfb35d0f0b5bd81006f2a2f5919b0738570e8b94676df48b57"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -4729,6 +4745,50 @@
               }
             ],
             "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+          },
+          {
+            "action": "reforge-battle-review-source-rebinding",
+            "base": "cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb",
+            "date": "2026-11-25",
+            "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "252-254",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "427-439",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1313-1322",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "10427686b92d6bc35389dd142fb9fff9181ba0a94f7978fa970fe9a06280ed3c"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
+                "lines": "37-60",
+                "anchor": "describe('BattleTurnReadinessGate'",
+                "role": "oracle",
+                "sha256": "2bcc3e72cb6ddb16b56db2f99f18827548d66709c92f9e4cf3391349a0555fc7"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-command-selection.test.ts",
+                "lines": "72-95",
+                "anchor": "describe('BattleCommandSelection'",
+                "role": "oracle",
+                "sha256": "225c0c8b1786f4e11ceefdfb3ed187c4cafe7ffa037f7656f2ea68cd11200690"
+              }
+            ],
+            "scope": "Frame/selection call sites retain their spans after the moves. The readiness snapshot now uses the real battle constructor and verifies the same detached action and poison state. The historical execution and counter identity stay at their original candidates."
           }
         ]
       },
@@ -8268,7 +8328,7 @@
           "anchor": "function observeSfx(",
           "role": "reforge-audio-producer-binding",
           "lines": "18",
-          "sha256": "686a3a62db9685c835847190c04f7347002cab0b194713bd50d46a5a4bedb62f"
+          "sha256": "726a45e1fca7a5a480cf02c0121653cd0675e90b7ec6ba1bc58af37d5b6f5b92"
         },
         {
           "path": "scripts/e2e/battle-casualty-presentation.mjs",
@@ -8435,8 +8495,8 @@
           "path": "packages/reforge/src/battle/battle-core.ts",
           "anchor": "function performAttackAll(",
           "role": "native-reforge-sweep",
-          "lines": "2533",
-          "sha256": "1b1e823d68a66b8a3233d924a2f8727bc29e62013174cc5db451d8a43151fc1d"
+          "lines": "2509",
+          "sha256": "5d3a8ad1d3300c4b2a1b8fe5c239187549e64e64a61753f30701b7f1e4bc9f63"
         },
         {
           "path": "packages/content/src/rewards.ts",
@@ -10697,6 +10757,29 @@
                 "sha256": "6fca1c43f9159eee6357b6f4efb985878b322c473423c86346b0090b99d79d13"
               }
             ]
+          },
+          {
+            "action": "reforge-battle-review-source-rebinding",
+            "base": "cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb",
+            "date": "2026-11-25",
+            "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+                "anchor": "function observeSfx(",
+                "role": "reforge-audio-producer-binding",
+                "lines": "18",
+                "sha256": "686a3a62db9685c835847190c04f7347002cab0b194713bd50d46a5a4bedb62f"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-core.ts",
+                "anchor": "function performAttackAll(",
+                "role": "native-reforge-sweep",
+                "lines": "2533",
+                "sha256": "1b1e823d68a66b8a3233d924a2f8727bc29e62013174cc5db451d8a43151fc1d"
+              }
+            ],
+            "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
           }
         ]
       }

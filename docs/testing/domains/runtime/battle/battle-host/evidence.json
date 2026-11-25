@@ -35,7 +35,7 @@
       "lines": "14-37",
       "anchor": "test('commit consumes live inventory",
       "role": "oracle",
-      "sha256": "1a049251f216a087c8a6b63e0e80799d0bf411b5b5707455616802d75ba398be"
+      "sha256": "13303fae92e5eb244651eff0ce55d7c011afed8bfef573f81e382dfda1e885b8"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -767,6 +767,22 @@
           "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
         }
       ]
+    },
+    {
+      "action": "reforge-battle-review-source-rebinding",
+      "base": "cd6cd4ddb48d1e51b5726faa25284d6d69fa4bbb",
+      "date": "2026-11-25",
+      "evidence": "docs/tasks/evidence/reforge-battle-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-host.test.ts",
+          "lines": "14-37",
+          "anchor": "test('commit consumes live inventory",
+          "role": "oracle",
+          "sha256": "1a049251f216a087c8a6b63e0e80799d0bf411b5b5707455616802d75ba398be"
+        }
+      ],
+      "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
     }
   ],
   "_governance": {
