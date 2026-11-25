@@ -12,8 +12,14 @@ import { finishBattleWorldState, settleBattleVictory } from '../battle/battle-wo
 import { sha256Bytes } from '../hash.js'
 import { loadCurrentProjectFrom } from '../project-loader.js'
 import { projectItemsView } from '../runtime-project-view.js'
+import type { ShellHost } from './runtime-shell/dom-host.js'
 import { drain } from './runtime-shell/driver.js'
-import { installShellHost, medicine, scenarioProject } from './runtime-shell/scenarios.js'
+import {
+  installShellHost,
+  medicine,
+  type ScenarioOptions,
+  scenarioProject,
+} from './runtime-shell/scenarios.js'
 
 export function gate() {
   let release!: () => void
@@ -22,19 +28,31 @@ export function gate() {
   })
   return { promise, release }
 }
-/** Real loader, guards, asset readers, preparation and BattleSession. Only browser/audio IO is external. */
-export async function battleHostFixture(
-  withSound = false,
-  music?: Pick<BgmPlayer, 'prepare' | 'play' | 'stop'>,
-  withBattleMusic = false,
-) {
+interface BattleHostFixtureOptions {
+  scenario?: ScenarioOptions
+  attackSound?: boolean
+  music?: Pick<BgmPlayer, 'prepare' | 'play' | 'stop'>
+  victoryMusic?: (boss: boolean) => string
+}
+
+/** Real loader, asset preparation and BattleSession behind controlled browser IO. */
+export async function battleHostFixture(options: BattleHostFixtureOptions = {}) {
   const browser = await installShellHost()
+  try {
+    return await assembleBattleHost(browser, options)
+  } catch (error) {
+    await browser.close()
+    throw error
+  }
+}
+
+async function assembleBattleHost(browser: ShellHost, options: BattleHostFixtureOptions) {
   const fixture = await scenarioProject({
     items: [medicine()],
     inventory: [{ itemId: 'tonic', count: 3 }],
-    withBattleMusic,
+    ...options.scenario,
   })
-  if (withSound) {
+  if (options.attackSound) {
     const bytes = new Uint8Array(46)
     const view = new DataView(bytes.buffer)
     const tag = (at: number, text: string) => bytes.set(new TextEncoder().encode(text), at)
@@ -96,6 +114,8 @@ export async function battleHostFixture(
       events.push('music:play')
     }),
   }
+  // Finish fallible source loading before allocating the audio context.
+  const palette = await loadStandardPalette(project.assetBase)
   const sfx = new SfxPlayer(project.assetResolver)
   const prep = new BattleLaunchPreparation(
     content,
@@ -118,7 +138,6 @@ export async function battleHostFixture(
       debugLeaders: () => ({ dualLeader: null, allLeader: null }),
     },
   )
-  const palette = await loadStandardPalette(project.assetBase)
   const ports: BattleHostPorts = {
     readWorld: () => world,
     exitFrameStep: vi.fn(),
@@ -148,9 +167,9 @@ export async function battleHostFixture(
     reportRestoreFailure: vi.fn(),
   }
   const host = new BattleHost(prep, ports, {
-    bgm: music ?? bgm,
+    bgm: options.music ?? bgm,
     locale: project.locale,
-    victory: () => 'victory',
+    victory: options.victoryMusic ?? (() => 'victory'),
   })
   const pending: Promise<unknown>[] = []
   const releases: (() => void)[] = []
@@ -194,6 +213,23 @@ export async function battleHostFixture(
     }
     return { ...wait, entered: () => entered }
   }
+  let closing: Promise<void> | undefined
+  async function close(): Promise<void> {
+    try {
+      host.cancel()
+      for (const session of sessions) session.cancel()
+      for (const release of releases) release()
+      await Promise.all(pending)
+    } finally {
+      try {
+        project.imageCache.dispose()
+        project.battleSpriteCache.clear()
+        await sfx.dispose()
+      } finally {
+        await browser.close()
+      }
+    }
+  }
   return {
     host,
     prep,
@@ -213,12 +249,9 @@ export async function battleHostFixture(
     until,
     finish,
     blockSprite,
-    async close() {
-      host.cancel()
-      for (const session of sessions) session.cancel()
-      for (const release of releases) release()
-      await Promise.all(pending)
-      await browser.close()
+    close() {
+      closing ??= close()
+      return closing
     },
     assertInputs() {
       expect({

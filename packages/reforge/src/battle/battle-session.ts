@@ -1,9 +1,6 @@
 /**
- * BattleSession(M4b-2)—— 封装一场可玩战斗:battle-core 状态机 + 指令菜单 UI +
- * 节奏化结算(逐 action 播 + 伤害飘字)+ 胜负收尾。
- *
- * main.ts 的 host.startBattle 创建它,主循环转发 tick/render,await done 拿结果续脚本。
- * M4b-2 指令集:攻击/防御/逃跑(仙术/物品 = M4b-3 与动画一起);渲染 = 静态帧 + 飘字。
+ * Advance one battle's commands, rules, presentation and completion.
+ * The host supplies gameplay time and consumes the outcome. BattleSession owns the live fight.
  */
 
 import type {
@@ -73,7 +70,7 @@ import {
   buildSteal,
   buildThrowItem,
   buildUseItem,
-  type CastFxParams,
+  createCastFxParams,
   ENEMY_SUMMON_COLOR_SHIFT,
   ENEMY_SUMMON_HOLD_TICKS,
   type EnemyAppearanceTransition,
@@ -106,6 +103,7 @@ import {
   stepBattle,
 } from './battle-core.js'
 import type { BattleFailureFeedback, BattleLastAction } from './battle-last-action.js'
+import { playsDefensiveFire } from './battle-off-magic.js'
 import { getPlayerBasePos } from './battle-positions.js'
 import type { BattleResult } from './battle-result.js'
 import { BattleSettlementPresentation } from './battle-settlement-presentation.js'
@@ -129,6 +127,7 @@ import {
   ITEM_GRID,
   MAGIC_GRID,
 } from './battle-ui.js'
+import { applyBattleWorldMutations } from './battle-world-mutations.js'
 import {
   beginEnemyHookActivation,
   type EnemyHookActivation,
@@ -165,7 +164,7 @@ function drawBattleMenuDescription(
   })
 }
 
-/** 杂项盒(一阶段 WORD.DAT 56-60):围攻/状态未实现,渲染灰显、确认无响应。 */
+/** Labels for the classic miscellaneous battle menu (WORD.DAT 56–60). */
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
@@ -216,8 +215,8 @@ export interface BattleSessionAssets {
   faces?: Record<string, ImageBitmap | undefined>
   /** 主菜单 4 图标(0攻击 1法术 2合击 3杂项;一阶段 SPRITEUI 40-43)。 */
   battleIcons?: (ImageBitmap | undefined)[]
-  /** 音效播放器(M4d-3;敌攻/敌法/敌死/演出 playSound)。缺 = 静音。 */
-  sfx?: SfxPlayer
+  /** 播放已由宿主备齐的战斗音效。未提供播放端口时保持静音。 */
+  sfx?: Pick<SfxPlayer, 'play'>
   /** 物理命中特效精灵(chunk 10 = /extracted/data/magic/effect.rle;M4d-2)。缺 = 无特效。 */
   effectSprite?: LoadedSprite
   /** 法术特效精灵表(fire chunk → sprite;main 预载本场可能用到的;M4d-2b)。 */
@@ -381,7 +380,7 @@ export class BattleSession {
       boss?: boolean
       /**
        * 胜利结算(B7b;win 且非敌逃时调一次)。回调内做 HP 写回 + 入账 + 升级(单次授予点),
-       * 返回结算屏序列(经验金钱 / 升级 / 练成),会话在 over 阶段逐屏空格推进。
+       * 返回经验、升级和习得的结算页面，由当前宿主的结算流程逐页推进。
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
@@ -1193,9 +1192,9 @@ export class BattleSession {
 
   /** B7c 隐藏经验行为计数(roleId → 池计数;main 传 grantBattleRewards 分配)。 */
   hiddenCounts(): Record<string, Partial<Record<string, number>>> {
-    const out: Record<string, Partial<Record<string, number>>> = {}
-    for (const p of this.state.players) out[p.roleId] = p.hiddenCounts
-    return out
+    return Object.fromEntries(
+      this.state.players.map((player) => [player.roleId, { ...player.hiddenCounts }]),
+    )
   }
 
   tick(dtMs: number, pressed: ReadonlySet<string>, gameplayNowMs?: number): void {
@@ -1494,19 +1493,7 @@ export class BattleSession {
         ? this.requireAppearance(summonEff.battleSprite, 'summon').sprite
         : null
     this.currentSummon = summonSprite
-    const fx: CastFxParams = {
-      placement: a.placement ?? 'normal',
-      xOffset: a.xOffset ?? 0,
-      yOffset: a.yOffset ?? 0,
-      layerOffset: a.layerOffset ?? 0,
-      speed: a.speed ?? 0,
-      fireDelay: a.fireDelay ?? 0,
-      effectTimes: a.effectTimes ?? 0,
-      shake: a.shake ?? 0,
-      ...(a.preShake ? { preShake: a.preShake } : {}),
-      wave: a.wave ?? 0,
-      ...(a.sound ? { sound: a.sound } : {}),
-    }
+    const fx = createCastFxParams(a)
     // 合击只扣贡献者的生命代价。原版扣完才备份 HP，因此不显示这笔伤害（fight.c:3980）。
     const damageNums = la.fizzled ? [] : this.diffDamageNums(la.kind === 'coop' ? [] : pHp, eHp)
     if (la.side === 'player') {
@@ -1538,15 +1525,14 @@ export class BattleSession {
       this.summonTintShift = !la.fizzled && summonEff?.kind === 'summon' ? (summonEff.tint ?? 0) : 0
       const fireFrames = la.fizzled ? 0 : (fire?.frames.length ?? 0)
       let allyTargets: NonNullable<Parameters<typeof buildPlayerCast>[0]['allyTargets']> = []
-      if (!la.fizzled && !summonEff && fx.placement === 'normal') {
+      if (!la.fizzled && playsDefensiveFire(skill.target, execution)) {
         // 全队效果覆盖每个队伍槽；单体与 core 使用同一个目标槽范围。
         const targetIdx = Math.min(Math.max(la.targetAllyIdx ?? la.idx, 0), s.players.length - 1)
-        if (skill.target === 'allAllies' || skill.target === 'oneAlly' || skill.target === 'self')
-          allyTargets = s.players.flatMap((_, idx) => {
-            if (skill.target !== 'allAllies' && idx !== targetIdx) return []
-            const pos = getPlayerBasePos(s.players.length, idx)
-            return pos ? [{ idx, pos }] : []
-          })
+        allyTargets = s.players.flatMap((_, idx) => {
+          if (skill.target !== 'allAllies' && idx !== targetIdx) return []
+          const pos = getPlayerBasePos(s.players.length, idx)
+          return pos ? [{ idx, pos }] : []
+        })
       }
       // 合击(非召唤):走聚拢队形演出(贡献者靠拢→后→前依次施法→放技能)。
       // 召唤类合击照原版直接播召唤动画(落入下方 buildPlayerCast summon 段,不聚拢)。
@@ -1985,19 +1971,7 @@ export class BattleSession {
         this.currentFire = fire ?? null
         throwPresentation = {
           fireFrames: fire?.frames.length ?? 0,
-          fx: {
-            placement: a.placement ?? 'normal',
-            xOffset: a.xOffset ?? 0,
-            yOffset: a.yOffset ?? 0,
-            layerOffset: a.layerOffset ?? 0,
-            speed: a.speed ?? 0,
-            fireDelay: a.fireDelay ?? 0,
-            effectTimes: a.effectTimes ?? 0,
-            shake: a.shake ?? 0,
-            ...(a.preShake ? { preShake: a.preShake } : {}),
-            wave: a.wave ?? 0,
-            ...(a.sound ? { sound: a.sound } : {}),
-          },
+          fx: createCastFxParams(a),
           ...(item?.throw?.target === 'oneEnemy'
             ? {
                 targetPos: s.enemies[la.throwHits[0]?.idx ?? -1]?.basePos ?? { x: 160, y: 100 },
@@ -2090,7 +2064,6 @@ export class BattleSession {
         targetHeight: this.enemyAppearance(la.targetEnemyIdx).sprite.frames[0]?.height ?? 40,
         anim: profile,
         damage: la.damage,
-        targetDied: target.hp <= 0,
       })
     }
     if (la.kind !== 'attack') return null
@@ -2444,85 +2417,16 @@ export class BattleSession {
    */
   writeBackPersistentEffects(world: WorldState): void {
     if (this.persistentEffectsWritten) return
-    for (const mutation of this.state.pendingWorldMutations) {
-      if (mutation.kind !== 'fixedCharacterGrowth') continue
-      const byId = world.party.filter((candidate) => candidate.id === mutation.characterId)
-      const byTemplate = world.party.filter(
-        (candidate) => candidate.template === mutation.actorTemplateId,
-      )
-      if (
-        byId.length !== 1 ||
-        byTemplate.length !== 1 ||
-        expectDefined(byId[0]) !== expectDefined(byTemplate[0])
-      )
-        throw new Error(
-          `fixedCharacterGrowth 写回定位失败：actor=${mutation.actorTemplateId}, character=${mutation.characterId}`,
-        )
-    }
+    applyBattleWorldMutations(world, this.state.pendingWorldMutations)
     this.persistentEffectsWritten = true
-    for (const mutation of this.state.pendingWorldMutations) {
-      switch (mutation.kind) {
-        case 'characterGrowth': {
-          const character = world.party.find((candidate) => candidate.id === mutation.characterId)
-          if (!character) break
-          character.level = Math.min(99, character.level + mutation.delta.level)
-          character.exp = mutation.expAfter
-          character.maxHP += mutation.delta.maxHP
-          character.maxMP += mutation.delta.maxMP
-          character.attack += mutation.delta.attack
-          character.magicAttack += mutation.delta.magicAttack
-          character.defense += mutation.delta.defense
-          character.speed += mutation.delta.speed
-          character.luck += mutation.delta.luck
-          break
-        }
-        case 'fixedCharacterGrowth': {
-          const character = expectDefined(
-            world.party.find((candidate) => candidate.id === mutation.characterId),
-          )
-          character.level += mutation.delta.level
-          character.maxHP += mutation.delta.maxHP
-          character.maxMP += mutation.delta.maxMP
-          character.attack += mutation.delta.attack
-          character.magicAttack += mutation.delta.magicAttack
-          character.defense += mutation.delta.defense
-          character.speed += mutation.delta.speed
-          character.luck += mutation.delta.luck
-          break
-        }
-        case 'hostileAwareness':
-          world.hostileAwareness = { ...mutation.value }
-          break
-        case 'skillUse': {
-          world.skillUseCounts ??= {}
-          const counts = world.skillUseCounts
-          counts[mutation.characterId] ??= {}
-          const characterCounts = counts[mutation.characterId]
-          if (!characterCounts) throw new Error(`skillUseCounts 缺角色 ${mutation.characterId}`)
-          characterCounts[mutation.skillId] = mutation.usesAfter
-          if (mutation.removed) {
-            const learned = world.learnedSkills[mutation.characterId]
-            if (learned) {
-              const next = learned.filter((id) => id !== mutation.skillId)
-              if (next.length !== learned.length) world.learnedSkills[mutation.characterId] = next
-            }
-          }
-          break
-        }
-      }
-    }
   }
 
-  /** 战后把队员 HP/MP 写回 world.party；胜利奖励先按实际 HP 判断是否发经验。 */
-  writeBackHp(
-    party: { id: string; hp: number; mp: number }[],
-    options: { preserveZeroHp?: boolean } = {},
-  ): void {
-    const minHp = options.preserveZeroHp || this.state.phase === 'lost' ? 0 : 1
+  /** Preserve the final pools so settlement can decide rewards and recovery from the actual HP. */
+  writeBackHp(party: { id: string; hp: number; mp: number }[]): void {
     for (const member of party) {
       const battler = this.state.players.find(({ roleId }) => roleId === member.id)
       if (!battler) continue
-      member.hp = Math.max(battler.hp, minHp)
+      member.hp = Math.max(0, battler.hp)
       member.mp = battler.mp
     }
   }

@@ -14,7 +14,6 @@ import {
   resolveBattleSimulatorPlan,
 } from '../../editor/src/core/battle-simulator-library.js'
 import { emptyTrialMember } from '../../editor/src/core/battle-simulator-state.js'
-import { createBattlePlayers } from '../src/battle/battle-player-input.js'
 import { prepareBattleSpriteReadiness } from '../src/battle/battle-sprite-readiness.js'
 import { finishBattleWorldState } from '../src/battle/battle-world-result.js'
 import { createBattleTrialSession } from '../src/battle-trial-session.js'
@@ -50,7 +49,7 @@ async function fixture(hp?: number) {
     playerBaseDefinitionIds: ready.playerBaseDefinitionIds,
     fireSprites: { 0: await loadFireSprite(project.assetBase, 0) },
   }
-  return { files, project, config, prepared, assets }
+  return { project, config, prepared, assets }
 }
 test.each([
   'spell',
@@ -84,9 +83,14 @@ test.each([
     },
   )
   let time = 0
+  let healedHp: number | undefined
   const tick = (keys: string[] = []) => {
     time += 100
     session.tick(100, new Set(keys), time)
+    if (action === 'heal' && healedHp === undefined) {
+      const hp = session.debugPlayers()[0]?.hp
+      if (hp !== undefined && hp > 30) healedHp = hp
+    }
   }
   try {
     // Formal menu shortcuts/keys, not direct core mutation or a mock victory.
@@ -108,7 +112,7 @@ test.each([
     expect(prepared.world.inventory).toEqual([
       { itemId: 'trial-herb', count: action === 'spell' ? 3 : 2 },
     ])
-    if (action === 'heal') expect(beforeReward!.party[0]!.hp).toBeGreaterThan(30)
+    if (action === 'heal') expect(healedHp).toBe(55)
     expect(config).toEqual(initial)
     expect({
       actors: project.actorsById,
@@ -123,22 +127,12 @@ test.each([
   }
 })
 
-test('ordinary and trial callers share live player derivation, including carried conditions and debug-only flags', async () => {
+test('trial preparation projects the selected equipment and skill list into the battle roster', async () => {
   const { project, config } = await fixture()
   config.party.members.push(emptyTrialMember('ally-2'))
   config.party.members[0]!.equipment = { weapon: 'trial-sword' }
-  project.actorsById.hero!.battler!.coveredBy = 'ally-2'
-  project.actorsById.hero!.battler!.cooperativeMagicSkillId = 'trial-spark'
-  const prepared = prepareBattleTrial(config, project),
-    member = prepared.world.party[0]!
-  member.extraStatuses = [{ status: 'protect', turns: 3 }]
-  member.extraPoisonRes = 7
-  member.poisons = [{ poisonId: 1, tickIndex: 2 }]
-  const original = structuredClone(prepared.world)
-  const players = createBattlePlayers(prepared.world, {
-    actorsById: project.actorsById,
-    items: prepared.items,
-  })
+  const before = structuredClone({ config, actors: project.actorsById })
+  const { players, world } = prepareBattleTrial(config, project)
   expect(players[0]).toMatchObject({
     hp: 100,
     mp: 20,
@@ -146,25 +140,14 @@ test('ordinary and trial callers share live player derivation, including carried
     defense: 200,
     baseDexterity: 60,
     actorTemplateId: 'hero',
-    coveredBy: prepared.world.party[1]!.id,
-    cooperativeMagicSkillId: 'trial-spark',
-    poisonRes: 7,
-    itemPoisonResBonus: 7,
-    carriedStatuses: [{ status: 'protect', turns: 3 }],
-    poisons: [{ poisonId: 1, tickIndex: 2 }],
+    skills: ['trial-spark'],
     attackAll: false,
     persistentProgress: { level: 1, attack: 100, defense: 200 },
   })
-  const debug = createBattlePlayers(
-    prepared.world,
-    { actorsById: project.actorsById, items: prepared.items },
-    { allLeader: member.id, dualLeader: member.id },
-  )
-  expect(debug[0]).toMatchObject({ attackAll: true, grantedStatuses: ['dualAttack'] })
-  expect(debug[1]).toMatchObject({ attackAll: false, grantedStatuses: [] })
-  players[0]!.carriedStatuses![0]!.turns = 1
-  players[0]!.poisons![0]!.tickIndex = 0
-  expect(prepared.world).toEqual(original)
+  expect(players[1]).toMatchObject({ actorTemplateId: 'ally-2', skills: [], attackAll: false })
+  players[0]!.skills.push('scratch')
+  expect(world.learnedSkills.hero).toEqual(['trial-spark'])
+  expect({ config, actors: project.actorsById }).toEqual(before)
 })
 
 test('real defeat writes back only to the trial world; a new trial starts healthy and without rewards', async () => {

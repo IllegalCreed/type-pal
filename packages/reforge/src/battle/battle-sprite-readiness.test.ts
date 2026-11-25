@@ -1,325 +1,203 @@
-import type {
-  ActorDef,
-  BattleSpriteDef,
-  CharacterInstance,
-  EnemyDef,
-  ItemData,
-  SkillData,
-} from '@type-pal/content'
-import { effectiveSkills } from '@type-pal/content'
-import { describe, expect, test, vi } from 'vitest'
-import { BattleSpriteAssetCache, compressGzip } from '../assets.js'
 import {
-  collectBattleSkillFireChunks,
-  prepareBattleSpriteReadiness,
-} from './battle-sprite-readiness.js'
-import { collectReachableEnemyDefs, collectReachableEnemySkillIds } from './enemy-closure.js'
+  buildWorld,
+  validateActors,
+  validateAssetCatalog,
+  validateBattleSprites,
+  validateEnemies,
+  validateItems,
+  validateSkills,
+} from '@type-pal/content'
+import { encodeSpriteChunk } from '@type-pal/shared'
+import { expect, test, vi } from 'vitest'
+import {
+  enemyProfile,
+  PLAYER_PROFILE,
+  realFrame,
+  wfActorDef,
+  wfBattleSpriteDef,
+  wfEnemy,
+  wfSkill,
+} from '../__tests__/battle-workflows/catalog.js'
+import { AssetResolver } from '../asset-resolver.js'
+import { BattleSpriteAssetCache, compressGzip } from '../assets.js'
+import { sha256Bytes } from '../hash.js'
+import { createBattlePlayers } from './battle-player-input.js'
+import { prepareBattleSpriteReadiness } from './battle-sprite-readiness.js'
 
-const fighterProfile: BattleSpriteDef['profile'] = {
-  kind: 'player-fighter',
-  frames: {
-    idle: 0,
-    dying: 0,
-    dead: 0,
-    defend: 0,
-    hurt: 0,
-    preMagic: 0,
-    magic: 0,
-    attackWindup: 0,
-    attackRush: 0,
-    attackStrike: 0,
-  },
-  castEffectBase: 0,
-  attackEffectBase: 0,
-}
-const enemyProfile: BattleSpriteDef['profile'] = {
-  kind: 'enemy',
-  idle: { start: 0, count: 1 },
-  magic: { start: 1, count: 0 },
-  attack: { start: 1, count: 0 },
-  idleTicksPerFrame: 1,
-  actTicksPerFrame: 0,
-}
-const definition = (
-  id: string,
-  profile: BattleSpriteDef['profile'],
-  asset = `asset.${id}`,
-): BattleSpriteDef => ({
-  id,
-  label: id,
-  asset,
-  profile,
-})
-
-const enemy = (
-  id: string,
-  battleSprite: string,
-  rules: NonNullable<EnemyDef['ai']['rules']> = [],
-) =>
-  ({ id, name: id, battleSprite, yPosOffset: 0, ai: { resistanceToSorcery: 0, rules } }) as EnemyDef
-
-const skill = (id: string, effects: SkillData['effects']): SkillData =>
-  ({
-    id,
-    name: id,
-    desc: '',
-    cost: {},
-    usableOutsideBattle: false,
-    target: 'self',
-    effects,
-    animation: { effectSprite: 1 },
-  }) as SkillData
-
-describe('battle sprite readiness 完整闭包', () => {
-  test('有效装备形象 + 装备授技 + 合体 + trance + 敌 transform/summon BFS 一次预载', async () => {
-    const compressed = await compressGzip(new Uint8Array([1, 0, 1, 0, 1, 0, 1, 0x33]))
-    const bytes = compressed.buffer.slice(
-      compressed.byteOffset,
-      compressed.byteOffset + compressed.byteLength,
-    ) as ArrayBuffer
-    const digest = await crypto.subtle.digest('SHA-256', bytes)
-    const sha256 = [...new Uint8Array(digest)]
-      .map((value) => value.toString(16).padStart(2, '0'))
-      .join('')
-
-    const definitions = [
-      definition('base', fighterProfile),
-      definition('persistent', fighterProfile),
-      definition('equipment', fighterProfile),
-      definition('trance', fighterProfile),
-      definition('player-summon-13', { kind: 'summon' }, 'battle-sprite.pal.player.013'),
-      definition('coop-summon', { kind: 'summon' }),
-      definition('enemy-1', enemyProfile),
-      definition('enemy-2', enemyProfile),
-      definition('enemy-3', enemyProfile),
-    ]
-    const definitionsById = Object.fromEntries(definitions.map((entry) => [entry.id, entry]))
-    const readBytes = vi.fn(async () => bytes)
-    const reader = {
-      record: (asset: string) => ({
-        kind: 'battle-sprite' as const,
-        path: `assets/generated/${asset}.rle`,
-        mediaType: 'application/vnd.type-pal.rle',
-        bytes: bytes.byteLength,
-        sha256,
-        origin: { kind: 'generated' as const },
-      }),
-      readBytes,
-    }
-    const actor = {
-      id: 'hero',
-      name: 'hero',
-      spriteId: 'hero',
-      battler: { battleSprite: 'base' },
-    } as unknown as ActorDef
-    const character = {
-      id: 'party-member-17',
-      template: 'hero',
-      appearance: { battleSprite: 'persistent' },
-      equipment: { weapon: 'appearance-item', accessory: '267' },
-    } as unknown as CharacterInstance
-    const appearanceItem = {
-      id: 'appearance-item',
-      name: '形象测试装备',
+test('loads real sprite assets for equipment appearance, granted skills, and every reachable enemy', async () => {
+  const actor = wfActorDef('hero', { initialMagic: ['trance'], coopSkill: 'coop' })
+  if (!actor.battler) throw new Error('fixture actor must be able to fight')
+  actor.battler.battleSprite = 'base'
+  actor.battler.initialEquipment = { weapon: 'guise', accessory: 'earth-pearl' }
+  validateActors([actor])
+  const items = validateItems([
+    {
+      id: 'guise',
+      name: 'name.guise',
+      desc: [],
+      buyPrice: 1,
+      sellPrice: 0,
+      sellable: true,
       equip: {
         slot: 'weapon',
         equipableBy: ['hero'],
-        effects: [{ kind: 'battleSprite', byActor: { hero: 'equipment' } }],
+        effects: [{ kind: 'battleSprite', byActor: { hero: 'equipped' } }],
       },
-    } as unknown as ItemData
-    const earthPearl = {
-      id: '267',
-      name: '土灵珠',
+    },
+    {
+      id: 'earth-pearl',
+      name: 'name.earth-pearl',
+      desc: [],
+      buyPrice: 1,
+      sellPrice: 0,
+      sellable: true,
       equip: {
         slot: 'accessory',
         equipableBy: ['hero'],
-        effects: [{ kind: 'grantSkill', skillId: '336' }],
+        effects: [{ kind: 'grantSkill', skillId: 'stone-summon' }],
       },
-    } as unknown as ItemData
-    const tranceSkill = skill('trance', [])
-    tranceSkill.execution = {
-      player: { effects: [{ kind: 'trance', battleSprite: 'trance' }] },
-    }
-    const grantedSkill = skill('336', [])
-    grantedSkill.execution = {
-      player: {
-        effects: [{ kind: 'summon', battleSprite: 'player-summon-13' }],
+    },
+  ])
+  const actorsById = { hero: actor }
+  const itemsById = Object.fromEntries(items.map((item) => [item.id, item]))
+  const world = buildWorld({ party: ['hero'], inventory: [], money: 0 }, actorsById)
+  const [hero] = world.party
+  if (!hero) throw new Error('fixture party must contain the hero')
+  hero.appearance = { battleSprite: 'persistent' }
+  const players = createBattlePlayers(world, { actorsById, items: itemsById })
+
+  const { skills } = validateSkills({
+    skills: [
+      {
+        ...wfSkill('trance'),
+        execution: { player: { effects: [{ kind: 'trance', battleSprite: 'trance' }] } },
       },
-    }
-    const skillsById = {
-      trance: tranceSkill,
-      '336': grantedSkill,
-      coop: skill('coop', [{ kind: 'summon', battleSprite: 'coop-summon' }]),
-    }
-    const e1 = enemy('e1', 'enemy-1', [{ at: 'act', do: { kind: 'transform', enemyId: 'e2' } }])
-    const e2 = enemy('e2', 'enemy-2', [
-      { at: 'act', do: { kind: 'summon', enemyId: 'e3', count: 1 } },
-    ])
-    const e3 = enemy('e3', 'enemy-3', [{ at: 'act', do: { kind: 'transform', enemyId: 'e1' } }])
-    const playerSkills = effectiveSkills(['trance'], character, {
-      'appearance-item': appearanceItem,
-      '267': earthPearl,
-    })
-    expect(playerSkills).toContain('336')
-
-    const readiness = await prepareBattleSpriteReadiness({
-      cache: new BattleSpriteAssetCache(),
-      reader,
-      definitionsById,
-      party: [character],
-      actorsById: { hero: actor },
-      itemsById: { 'appearance-item': appearanceItem, '267': earthPearl },
-      playerSkillIds: [playerSkills],
-      cooperativeSkillIds: ['coop'],
-      skillsById,
-      enemyDefs: [e1],
-      enemiesById: { e1, e2, e3 },
-    })
-
-    expect(readiness.playerBaseDefinitionIds).toEqual(['equipment'])
-    expect(readiness.reachableEnemyDefs.map(({ id }) => id)).toEqual(['e1', 'e2', 'e3'])
-    expect([...readiness.byDefinitionId.keys()].sort()).toEqual(
-      [
-        'equipment',
-        'trance',
-        'player-summon-13',
-        'coop-summon',
-        'enemy-1',
-        'enemy-2',
-        'enemy-3',
-      ].sort(),
-    )
-    expect(readBytes).toHaveBeenCalledTimes(7)
-    expect(readiness.byDefinitionId.has('base')).toBe(false)
-    expect(readiness.byDefinitionId.has('persistent')).toBe(false)
-    expect(readiness.byDefinitionId.get('player-summon-13')?.definition.asset).toBe(
-      'battle-sprite.pal.player.013',
-    )
-    expect(readBytes).toHaveBeenCalledWith('battle-sprite.pal.player.013', 'battle-sprite')
-  })
-
-  test('敌人闭包去环，缺 transform/summon 目标 fail-loud', () => {
-    const loop = enemy('loop', 'enemy-1', [
-      { at: 'act', do: { kind: 'summon', count: 1 } },
-      { at: 'act', do: { kind: 'transform', enemyId: 'loop' } },
-    ])
-    expect(collectReachableEnemyDefs([loop], { loop })).toEqual([loop])
-    const missing = enemy('missing-source', 'enemy-1', [
-      { at: 'act', do: { kind: 'transform', enemyId: 'missing-target' } },
-    ])
-    expect(() => collectReachableEnemyDefs([missing], { 'missing-source': missing })).toThrow(
-      'missing-target',
-    )
-  })
-
-  test('敌 hook effect 的 transform/summon 目标进入同一 readiness 闭包', () => {
-    const source = enemy('source', 'enemy-1')
-    const transformed = enemy('transformed', 'enemy-2')
-    const summoned = enemy('summoned', 'enemy-3')
-    source.ai.hooks = {
-      ready: {
-        initial: 'effects',
-        states: {
-          effects: {
-            body: [
-              {
-                kind: 'effect',
-                id: 'transform',
-                effect: { kind: 'transform', enemyId: transformed.id },
-              },
-              {
-                kind: 'effect',
-                id: 'summon',
-                effect: { kind: 'summon', enemyId: summoned.id, count: 1 },
-              },
-            ],
-            next: { kind: 'stay' },
-          },
+      {
+        ...wfSkill('stone-summon'),
+        execution: {
+          player: { effects: [{ kind: 'summon', battleSprite: 'stone' }] },
         },
       },
-    }
-    expect(
-      collectReachableEnemyDefs([source], {
-        source,
-        transformed,
-        summoned,
-      }).map((definition) => definition.id),
-    ).toEqual(['source', 'transformed', 'summoned'])
+      {
+        ...wfSkill('coop'),
+        target: 'allEnemies',
+        effects: [{ kind: 'summon', battleSprite: 'coop-summon' }],
+      },
+    ],
+    levelUp: {},
   })
-
-  test('FIRE 与敌技能 reachability 覆盖 execution 动画、fallback、hook effect 闭包和 setFallback', () => {
-    const source = enemy('source', 'enemy-1', [
-      { at: 'act', do: { kind: 'cast', skillId: 'enemy-rule' } },
-    ])
-    source.ai.fallback = {
-      action: { kind: 'cast', skillId: 'enemy-fallback' },
-      chancePercent: 20,
-    }
-    source.ai.hooks = {
-      ready: {
-        initial: 'ready',
-        states: {
-          ready: {
-            body: [
-              {
-                kind: 'effect',
-                id: 'summon-caster',
-                effect: { kind: 'summon', enemyId: 'hook-caster', count: 1 },
-              },
-              {
-                kind: 'setFallback',
-                fallback: {
-                  action: { kind: 'cast', skillId: 'enemy-hook-fallback' },
-                  chancePercent: 30,
-                },
-              },
-            ],
-            next: { kind: 'stay' },
-          },
+  const e1 = wfEnemy('e1', {}, { sounds: {} })
+  const e2 = wfEnemy('e2', {}, { sounds: {} })
+  const e3 = wfEnemy('e3', {}, { sounds: {} })
+  const e4 = wfEnemy('e4', {}, { sounds: {} })
+  e1.ai.rules = [{ at: 'act', do: { kind: 'transform', enemyId: 'e2' } }]
+  e2.ai.hooks = {
+    ready: {
+      initial: 'initial',
+      states: {
+        initial: {
+          body: [
+            { kind: 'effect', id: 'transform', effect: { kind: 'transform', enemyId: 'e3' } },
+            { kind: 'effect', id: 'summon', effect: { kind: 'summon', enemyId: 'e4', count: 1 } },
+          ],
+          next: { kind: 'stay' },
         },
       },
-    }
-    const hookCaster = enemy('hook-caster', 'enemy-2', [
-      { at: 'act', do: { kind: 'cast', skillId: 'enemy-hook' } },
-    ])
-    const branchSkill = (
-      id: string,
-      baseChunk: number,
-      side: 'player' | 'enemy',
-      chunk: number,
-    ) => {
-      const value = skill(id, [])
-      value.animation.effectSprite = baseChunk
-      value.execution = { [side]: { animation: { effectSprite: chunk } } }
-      return value
-    }
-    const skillsById = {
-      player: branchSkill('player', 1, 'player', 11),
-      coop: branchSkill('coop', 2, 'player', 12),
-      'enemy-rule': branchSkill('enemy-rule', 3, 'enemy', 13),
-      'enemy-fallback': branchSkill('enemy-fallback', 4, 'enemy', 14),
-      'enemy-hook': branchSkill('enemy-hook', 5, 'enemy', 15),
-      'enemy-hook-fallback': branchSkill('enemy-hook-fallback', 6, 'enemy', 16),
-    }
-    const reachableEnemySkillIds = collectReachableEnemySkillIds([source], {
-      source,
-      'hook-caster': hookCaster,
-    })
-    expect(reachableEnemySkillIds).toEqual([
-      'enemy-rule',
-      'enemy-fallback',
-      'enemy-hook-fallback',
-      'enemy-hook',
-    ])
-    expect(
-      [
-        ...collectBattleSkillFireChunks({
-          playerSkillIds: [['player']],
-          cooperativeSkillIds: ['coop'],
-          reachableEnemySkillIds,
-          skillsById,
-        }),
-      ].sort((left, right) => left - right),
-    ).toEqual([11, 12, 13, 14, 15, 16])
+    },
+  }
+  e3.ai.rules = [{ at: 'act', do: { kind: 'transform', enemyId: 'e1' } }]
+  const enemies = validateEnemies([e1, e2, e3, e4])
+  const definitions = [
+    ...['base', 'persistent', 'equipped', 'trance'].map((id) =>
+      wfBattleSpriteDef(id, PLAYER_PROFILE),
+    ),
+    { ...wfBattleSpriteDef('stone', { kind: 'summon' }), asset: 'battle-sprite.pal.player.013' },
+    wfBattleSpriteDef('coop-summon', { kind: 'summon' }),
+    ...enemies.map(({ battleSprite }) =>
+      wfBattleSpriteDef(battleSprite, enemyProfile(battleSprite)),
+    ),
+  ]
+  const frames = Array.from({ length: 11 }, () => realFrame())
+  frames[10]?.pixels.fill(51)
+  const encoded = await compressGzip(encodeSpriteChunk(frames))
+  const bytes = Uint8Array.from(encoded).buffer
+  const sha256 = await sha256Bytes(encoded)
+  const catalog = validateAssetCatalog({
+    version: 1,
+    assets: Object.fromEntries(
+      definitions.map(({ asset }) => [
+        asset,
+        {
+          kind: 'battle-sprite',
+          path: `assets/generated/${asset}.rle`,
+          mediaType: 'application/vnd.type-pal.rle',
+          bytes: bytes.byteLength,
+          sha256,
+          origin: { kind: 'generated' },
+        },
+      ]),
+    ),
   })
+  const parsedDefinitions = validateBattleSprites(definitions, catalog)
+  const readBytes = vi.fn(async (path: string) => {
+    if (!Object.values(catalog.assets).some((asset) => asset.path === path))
+      throw new DOMException(`missing test asset ${path}`, 'NotFoundError')
+    return bytes.slice(0)
+  })
+  const unexpectedRead = async () => {
+    throw new Error('sprite readiness should read only binary assets')
+  }
+  const reader = new AssetResolver(
+    'battle-readiness',
+    catalog,
+    {},
+    {
+      readBytes,
+      readText: unexpectedRead,
+      readJson: unexpectedRead,
+      urlFor: unexpectedRead,
+    },
+  )
+
+  const readiness = await prepareBattleSpriteReadiness({
+    cache: new BattleSpriteAssetCache(),
+    reader,
+    definitionsById: Object.fromEntries(parsedDefinitions.map((sprite) => [sprite.id, sprite])),
+    party: world.party,
+    actorsById,
+    itemsById,
+    playerSkillIds: players.map(({ skills }) => skills),
+    cooperativeSkillIds: players.flatMap(({ cooperativeMagicSkillId }) =>
+      cooperativeMagicSkillId ? [cooperativeMagicSkillId] : [],
+    ),
+    skillsById: Object.fromEntries(skills.map((skill) => [skill.id, skill])),
+    enemyDefs: [e1],
+    enemiesById: Object.fromEntries(enemies.map((enemy) => [enemy.id, enemy])),
+  })
+
+  expect(readiness.playerBaseDefinitionIds).toEqual(['equipped'])
+  expect(readiness.reachableEnemyDefs.map(({ id }) => id)).toEqual(['e1', 'e2', 'e3', 'e4'])
+  expect([...readiness.byDefinitionId.keys()].sort()).toEqual([
+    'battle-sprite.e1',
+    'battle-sprite.e2',
+    'battle-sprite.e3',
+    'battle-sprite.e4',
+    'coop-summon',
+    'equipped',
+    'stone',
+    'trance',
+  ])
+  const summon = readiness.byDefinitionId.get('stone')
+  expect(summon?.definition.asset).toBe('battle-sprite.pal.player.013')
+  expect(summon?.sprite.frames[10]?.pixels).toEqual(new Uint8Array([51]))
+  expect(readBytes.mock.calls.flat().sort()).toEqual([
+    'assets/generated/asset.battle-sprite.e1.rle',
+    'assets/generated/asset.battle-sprite.e2.rle',
+    'assets/generated/asset.battle-sprite.e3.rle',
+    'assets/generated/asset.battle-sprite.e4.rle',
+    'assets/generated/asset.coop-summon.rle',
+    'assets/generated/asset.equipped.rle',
+    'assets/generated/asset.trance.rle',
+    'assets/generated/battle-sprite.pal.player.013.rle',
+  ])
 })

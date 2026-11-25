@@ -8,7 +8,7 @@
  * 精灵定义**跑现行校验器；`makeWfSessionFromWorld` 另对实际演员数据跑 validateActors——
  * 非法数据在构造时 throw，不靠单独的样本合法测试兜底。
  */
-import type { EnemyDef, WorldState } from '@type-pal/content'
+import type { BattleSpriteDef, EnemyDef, WorldState } from '@type-pal/content'
 import {
   buildWorld,
   validateActors,
@@ -23,13 +23,13 @@ import type { CreatePlayerInput } from '../../battle/battle-core.js'
 import { createBattlePlayers } from '../../battle/battle-player-input.js'
 import type { BattleSessionAssets } from '../../battle/battle-session.js'
 import { BattleSession } from '../../battle/battle-session.js'
-import { enemyProfile, PLAYER_PROFILE, realFrame, wfActorDef } from './catalog.js'
-import { stubGlyphs, stubPalette } from './controlled-io.js'
+import { enemyProfile, PLAYER_PROFILE, realFrame, wfActorDef, wfPlayer } from './catalog.js'
+import { recordingSfx, stubGlyphs, stubPalette } from './controlled-io.js'
 
 /** 真实帧数组的 LoadedBattleSpriteDefinition（无空对象帧/资源强转）。 */
 export function wfLoadedBattleSprite(
   id: string,
-  profile: ReturnType<typeof enemyProfile> | typeof PLAYER_PROFILE,
+  profile: BattleSpriteDef['profile'],
 ): LoadedBattleSpriteDefinition {
   return {
     definition: { id, label: id, asset: `asset.${id}`, profile },
@@ -50,6 +50,7 @@ export interface WfSessionArgs {
   enemiesById?: Record<string, EnemyDef>
   rng?: () => number
   extraOpts?: NonNullable<ConstructorParameters<typeof BattleSession>[5]>
+  assetOverrides?: Partial<BattleSessionAssets>
 }
 
 export interface WfHarness {
@@ -95,14 +96,14 @@ export function makeWfSession(args: WfSessionArgs): WfHarness {
       enemy.battleSprite,
       wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite)),
     )
-  // 精灵守卫：本次实际注入的定义逐实参过 validateBattleSprites
-  validateBattleSprites([...spriteEntries.values()].map((entry) => entry.definition))
   const assets: BattleSessionAssets = {
     palette: stubPalette,
     glyphs: stubGlyphs,
     battleSprites: spriteEntries,
     playerBaseDefinitionIds: Array.from({ length: args.players.length }, () => playerSpriteId),
+    ...args.assetOverrides,
   }
+  validateBattleSprites([...assets.battleSprites.values()].map(({ definition }) => definition))
   const session = new BattleSession(
     args.players,
     args.enemies,
@@ -226,4 +227,36 @@ function wfProbeEnemy(): EnemyDef {
     ai: { resistanceToSorcery: 0 },
     sounds: {},
   }
+}
+
+/** Create a one-player battle and record playback through the real session port. */
+export function makeSoloSession(
+  enemy: EnemyDef,
+  playerOverrides: Partial<CreatePlayerInput> = {},
+  extraOpts: NonNullable<ConstructorParameters<typeof BattleSession>[5]> = {},
+  extraAssets: Partial<BattleSessionAssets> = {},
+) {
+  const sfx = recordingSfx()
+  const { session } = makeWfSession({
+    players: [wfPlayer('li', playerOverrides)],
+    enemies: [enemy],
+    extraOpts,
+    assetOverrides: { sfx: sfx.player, ...extraAssets },
+  })
+  return { session, plays: sfx.plays }
+}
+
+/** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
+export const flush = async (): Promise<void> => {
+  for (let i = 0; i < 6; i += 1) await Promise.resolve()
+}
+
+/** over 后逐屏确认直至 done 兑现（每屏累计 ≥300ms；无 settlement 时一屏）。 */
+export const settleDone = async (h: ReturnType<typeof makeWfSession>): Promise<string> => {
+  for (let screen = 0; screen < 8; screen += 1) {
+    h.idle(350)
+    h.press([' '])
+    await flush()
+  }
+  return h.session.done
 }

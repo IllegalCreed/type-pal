@@ -1,9 +1,4 @@
-/**
- * 战斗场景渲染(M4b-1)—— 画战斗背景 + 敌我精灵(idle 帧,底锚摆位)。
- * 背景 = FBP 真彩 RGBA(drawImage 铺底);精灵 = indexed RLE 帧经 bakeFrame 着色。
- * M4b-1 静态渲染;动画时间线/renderIdx 拍频 = M4b-3。
- */
-
+/** Draw the battle background and depth-sorted sprites in logical 320×200 coordinates. */
 import type { Palette } from '@type-pal/shared'
 import type { LoadedSprite } from '../assets.js'
 import { expectDefined } from '../defined.js'
@@ -21,16 +16,13 @@ export interface BattleSpriteDraw {
   /** 脚底中心坐标(320×200 逻辑屏)。 */
   x: number
   y: number
-  /** 当前帧下标(idle=0;M4b-3 动画驱动改)。 */
+  /** Frame index in the current sprite, including during playback. */
   frame: number
   /** 受击/演出染色等级(一阶段 iColorShift 1:1:索引低 4 位 + n 顶格,bakeFrame 内做;
    *  受击=6 时各部位提到各自色系亮档、层次保留)。0/缺省 = 无。 */
   colorShift?: number
-  /** 不透明度(缺省 1;死亡改走 dissolve)。 */
+  /** Opacity of this individual draw. Omission is fully opaque. */
   alpha?: number
-  /** 死亡颗粒溶解进度 0..1(原版 PAL_BattleFadeScene 72 步 dither 的形态等效;
-   *  曾 alpha 渐隐,作者报观感怪 → 逐波像素消融)。 */
-  dissolve?: number
 }
 
 /** 与敌我单位放进同一 Y-sort 队列的法术精灵（底中锚）。 */
@@ -104,79 +96,7 @@ export class BattleSceneFade {
   }
 }
 
-// ── 死亡颗粒溶解(原版 PAL_BattleFadeScene 72 步 dither 的 RGBA 形态等效)──
-// 像素 6 相位分类((x+2y)%6,周期 6×3),按原版批次序 rgIndex={0,3,1,5,2,4} 逐波
-// 消融;波内线性过渡防 6 级跳变。punch 用 destination-out + 相位 pattern。
-const DISSOLVE_ORDER = [0, 3, 1, 5, 2, 4] as const
-let dissolvePatterns: CanvasPattern[] | null = null
-let dissolveScratch: HTMLCanvasElement | null = null
-
-function getDissolvePatterns(ctx: CanvasRenderingContext2D): CanvasPattern[] | null {
-  if (dissolvePatterns) return dissolvePatterns
-  const pats: CanvasPattern[] = []
-  for (let c = 0; c < 6; c++) {
-    const tile = document.createElement('canvas')
-    tile.width = 6
-    tile.height = 3
-    const tctx = tile.getContext('2d')
-    if (!tctx) return null
-    for (let y = 0; y < 3; y++)
-      for (let x = 0; x < 6; x++) if ((x + 2 * y) % 6 === c) tctx.fillRect(x, y, 1, 1)
-    const p = ctx.createPattern(tile, 'repeat')
-    if (!p) return null
-    pats.push(p)
-  }
-  dissolvePatterns = pats
-  return pats
-}
-
-/** 按溶解进度画精灵:已落波相位像素消失,进行中波按余量半透明。(死亡/召唤 crossfade 共用) */
-export function drawDissolved(
-  ctx: CanvasRenderingContext2D,
-  img: HTMLCanvasElement,
-  dx: number,
-  dy: number,
-  progress: number,
-): void {
-  const p = Math.min(1, Math.max(0, progress))
-  const pats = getDissolvePatterns(ctx)
-  if (!pats) {
-    // pattern 不可用(极端环境):退化 alpha
-    ctx.save()
-    ctx.globalAlpha = 1 - p
-    ctx.drawImage(img, dx, dy)
-    ctx.restore()
-    return
-  }
-  if (!dissolveScratch) dissolveScratch = document.createElement('canvas')
-  const off = dissolveScratch
-  if (off.width < img.width) off.width = img.width
-  if (off.height < img.height) off.height = img.height
-  const octx = off.getContext('2d')
-  if (!octx) return
-  octx.save()
-  octx.clearRect(0, 0, off.width, off.height)
-  octx.drawImage(img, 0, 0)
-  octx.globalCompositeOperation = 'destination-out'
-  const waves = p * 6
-  const full = Math.floor(waves)
-  for (let j = 0; j < full && j < 6; j++) {
-    octx.fillStyle = expectDefined(pats[expectDefined(DISSOLVE_ORDER[j])])
-    octx.fillRect(0, 0, img.width, img.height)
-  }
-  if (full < 6) {
-    octx.globalAlpha = waves - full // 波内线性余量
-    octx.fillStyle = expectDefined(pats[expectDefined(DISSOLVE_ORDER[full])])
-    octx.fillRect(0, 0, img.width, img.height)
-  }
-  octx.restore()
-  ctx.drawImage(off, 0, 0, img.width, img.height, dx, dy, img.width, img.height)
-}
-
-/**
- * 画一帧战斗场景到 ctx(逻辑 320×200 × worldScale)。
- * 顺序:背景 → 敌人(靠上先画)→ 队员(靠下后画),底锚对齐 = x 水平居中、y 脚底。
- */
+/** Paint the background, depth-sort both sides with overlays, then repaint tinted arrivals. */
 export function renderBattleScene(
   ctx: CanvasRenderingContext2D,
   scene: BattleScene,
@@ -232,10 +152,6 @@ export function renderBattleScene(
     const img = bakeFrame(f, scene.palette, draw.colorShift ?? 0)
     const dx = Math.round(draw.x - f.width / 2)
     const dy = Math.round(draw.y - f.height)
-    if (draw.dissolve !== undefined) {
-      drawDissolved(ctx, img, dx, dy, draw.dissolve) // 死亡颗粒溶解(原版 dither 形态)
-      continue
-    }
     const alpha = draw.alpha ?? 1
     if (alpha < 1) {
       ctx.save()

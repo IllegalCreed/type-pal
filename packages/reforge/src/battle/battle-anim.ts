@@ -1,17 +1,17 @@
-/**
- * 战斗动画时间线(M4d-2)—— 纯表现层回放:battle-core 结算保持即时(headless/单测不变),
- * session 按 lastAction + hp diff 构建帧序,AnimPlayer 逐帧推进并派发副作用(音效/伤害数字)。
- *
- * 帧序/时长/位移 = 一阶段考证真值(fight.c 经 anim-timeline.ts 移植;UX 照抄,结构重写:
- * reforge tick 是 rAF wall-clock 驱动,天然无一阶段 40ms 逻辑 tick 的拍频问题,不需要 renderIdx)。
- *
- * 玩家战斗精灵帧语义(F.MKF):0 站立 / 1 濒死 / 2 死 / 3 防御 / 4 受击 / 5 投掷 / 6,7 施法蓄力 / 8,9 攻击。
- * 敌人帧布局:idle(idleFrames 个)→ magic(magicFrames)→ attack(attackFrames)。
- */
-import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
+/** Build presentation timelines from resolved battle outcomes and loaded sprite profiles. */
+import type {
+  AssetId,
+  EnemyBattleSpriteProfile,
+  PlayerFighterFrames,
+  SkillAnimation,
+} from '@type-pal/content'
 import { expectDefined } from '../defined.js'
 import { DITHER_TOTAL_STEPS } from '../dither-transition.js'
-import { getOffMagicTiming } from './battle-off-magic.js'
+import {
+  checkedFireFrameDurationMs,
+  getOffMagicFrame,
+  getOffMagicTiming,
+} from './battle-off-magic.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
 export const BATTLE_FRAME_MS = 40
@@ -166,8 +166,8 @@ export function buildPlayerAttackAll(input: BuildAttackAllInput): AnimFrame[] {
   ]
   let enemyOffsetX = 0
   for (const [index, { hits, attackSound }] of sweeps.entries()) {
-    // fight.c:2076–2118: a normal sweep moves toward (150,100); double sweeps
-    // start from the player's own stance and step farther forward on the second swing.
+    // fight.c:2076–2118: a single sweep offsets the center (150, 100) by (64, 20).
+    // Double sweeps advance from the player's stance instead.
     const double = sweeps.length > 1
     const rush = double
       ? { x: attackerPos.x - 8 - index * 12, y: attackerPos.y - 4 - index * 8 }
@@ -422,7 +422,6 @@ export interface BuildEnemyMateAttackInput {
   targetHeight: number
   anim: EnemyBattleSpriteProfile
   damage: number
-  targetDied: boolean
 }
 
 export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFrame[] {
@@ -438,7 +437,7 @@ export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFram
       fighters: [{ side: 'enemy', idx: input.attackerIdx, pos: { x: ax, y: ay } }],
     })
   }
-  // effect 9/10/11：缺 effect sprite 时 AnimPlayer 仍保留时长，只是不画 overlay。
+  // Keep all three impact beats. The session skips drawing if the effect sheet is absent.
   const fxX = Math.trunc((ax + input.targetPos.x) / 2)
   const fxY = input.targetPos.y - Math.floor(input.targetHeight / 3) + 10
   for (let frameIdx = 9; frameIdx <= 11; frameIdx += 1) {
@@ -476,7 +475,8 @@ export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFram
       {
         side: 'enemy',
         idx: input.targetIdx,
-        frame: input.targetDied ? animIdleDeadFrame(input.anim) : input.anim.idle.start,
+        // Enemy sprites have no death pose. The session owns the separate death fade.
+        frame: input.anim.idle.start,
         pos: { ...input.targetPos },
         colorShift: 0,
       },
@@ -488,11 +488,6 @@ export function buildEnemyMateAttack(input: BuildEnemyMateAttackInput): AnimFram
     fighters: [{ side: 'enemy', idx: input.attackerIdx, pos: { ...input.attackerPos } }],
   })
   return frames
-}
-
-function animIdleDeadFrame(anim: EnemyBattleSpriteProfile): number {
-  // 敌 profile 没有单独 dead frame；死亡淡出由 session 统一接管，收尾回 idle。
-  return anim.idle.start
 }
 
 export interface BuildUseItemInput {
@@ -527,7 +522,7 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
   const { casterIdx, casterPos, targetIdxs, revivedTargets, itemName, sound, gains } = input
   const frames: AnimFrame[] = [{ durationMs: delayMs(4) }]
   const shifted = { x: casterPos.x - 15, y: casterPos.y - 7 }
-  // 走近:6 步线性(fight.c:3881-3890 同构;C 整除 = floor)
+  // The six battle-screen positions use integer interpolation (fight.c:3881–3890).
   for (let i = 1; i <= 6; i++) {
     frames.push({
       durationMs: delayMs(1),
@@ -590,16 +585,14 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
 export interface BuildThrowItemInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
-  casterPos?: { x: number; y: number }
+  casterPos: { x: number; y: number }
   casterRestFrame?: number
   itemName?: string
   waitForThrowFeedback?: boolean
   /** 当前投掷目标的伤害显示量。零伤害不显示数字。 */
-  hits?: Array<{ idx: number; damage: number }>
+  hits: readonly { idx: number; damage: number }[]
   /** 投掷吸血时，施用者实际回复的 HP。 */
   casterHeal?: number
-  /** @deprecated 单目标兼容入口。 */
-  targetIdx?: number
   sound?: AssetId
   /** 0x42 等投掷脚本的纯 OffMagic 演出；不包含玩家施法前摇。 */
   presentation?: {
@@ -607,18 +600,11 @@ export interface BuildThrowItemInput {
     fx: CastFxParams
     targetPos?: { x: number; y: number }
   }
-  /** 0 表示纯施毒投掷，不显示伤害数字。 */
-  /** @deprecated 单目标兼容入口。 */
-  damage?: number
 }
 
 /** 投掷道具：前移、挥臂与出手(fight.c:4339–4356) → 可选 OffMagic → 结果数字与复位。 */
 export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
-  const hits =
-    input.hits ??
-    (input.targetIdx === undefined
-      ? []
-      : [{ idx: input.targetIdx, damage: Math.max(0, input.damage ?? 0) }])
+  const { hits } = input
   if (hits.length === 0) throw new Error('buildThrowItem: 至少需要一个目标')
   const { casterIdx, casterPos, casterFrames, itemName, sound, casterHeal } = input
   const damageNums: NonNullable<AnimFrame['damageNums']> = hits
@@ -631,23 +617,22 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
       tone: 'yellow',
     })
   const frames: AnimFrame[] = []
-  if (casterPos) {
-    appendPlayerApproach(frames, casterIdx, casterPos)
-    frames.push({
+  appendPlayerApproach(frames, casterIdx, casterPos)
+  frames.push(
+    {
       durationMs: delayMs(2),
       ...(itemName ? { banner: { text: itemName, durationMs: delayMs(12) } } : {}),
-    })
-  }
-  frames.push({
-    durationMs: casterPos ? delayMs(8) : 120,
-    fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.preMagic }],
-    ...(sound ? { sound } : {}),
-  })
-  if (casterPos)
-    frames.push({
+    },
+    {
+      durationMs: delayMs(8),
+      fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.preMagic }],
+      ...(sound ? { sound } : {}),
+    },
+    {
       durationMs: delayMs(2),
       fighters: [{ side: 'player', idx: casterIdx, frame: casterFrames.magic }],
-    })
+    },
+  )
   if (input.presentation && input.presentation.fireFrames > 0) {
     // 投掷脚本进入 OffMagic 后，先在当前出手姿等一个战斗帧（fight.c:2659）。
     frames.push({ durationMs: delayMs(1) })
@@ -682,7 +667,7 @@ export function buildThrowItem(input: BuildThrowItemInput): AnimFrame[] {
           side: 'player',
           idx: casterIdx,
           frame: input.casterRestFrame ?? casterFrames.idle,
-          ...(casterPos ? { pos: casterPos } : {}),
+          pos: casterPos,
         },
       ],
     },
@@ -888,6 +873,23 @@ export interface CastFxParams {
   sound?: AssetId
 }
 
+/** Default authored animation fields for both casts and magic throws. */
+export function createCastFxParams(animation: SkillAnimation): CastFxParams {
+  return {
+    placement: animation.placement ?? 'normal',
+    xOffset: animation.xOffset ?? 0,
+    yOffset: animation.yOffset ?? 0,
+    layerOffset: animation.layerOffset ?? 0,
+    speed: animation.speed ?? 0,
+    fireDelay: animation.fireDelay ?? 0,
+    effectTimes: animation.effectTimes ?? 0,
+    shake: animation.shake ?? 0,
+    ...(animation.preShake ? { preShake: animation.preShake } : {}),
+    wave: animation.wave ?? 0,
+    ...(animation.sound ? { sound: animation.sound } : {}),
+  }
+}
+
 export interface BuildPlayerCastInput {
   casterFrames: PlayerFighterFrames
   casterIdx: number
@@ -999,20 +1001,18 @@ function scriptShakeOffsetY(preShake: CastFxParams['preShake'], frame: number): 
 export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
   const { fireFrames, fx } = input
   if (fireFrames <= 0) return []
-  const n = fireFrames
-  const { fireDelay: fd, totalFrames: l } = getOffMagicTiming(n, fx)
-  const frameDur = (fx.speed + 5) * 10
+  const timing = getOffMagicTiming(fireFrames, fx)
+  const { fireDelay, totalFrames, frameDurationMs } = timing
   const hold = input.holdOverlays ?? []
   const frames: AnimFrame[] = []
   let blowX = 0
   let blowY = 0
-  for (let i = 0; i < l; i++) {
-    const inShake = l - i <= fx.shake
-    const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
-    const drop = magicDrops(k, fx, input.targetPos)
+  for (let i = 0; i < totalFrames; i++) {
+    const { inShake, frameIdx } = getOffMagicFrame(timing, i)
+    const drop = magicDrops(frameIdx, fx, input.targetPos)
     const frameShakeOffsetY = inShake ? undefined : scriptShakeOffsetY(fx.preShake, i)
     const fighters: FighterDelta[] = []
-    if (input.casterMagic && i === fd) fighters.push(input.casterMagic)
+    if (input.casterMagic && i === fireDelay) fighters.push(input.casterMagic)
     if (input.blow) {
       const step = expectDefined(input.blow.steps[i])
       blowX += step
@@ -1025,7 +1025,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
         })
     }
     frames.push({
-      durationMs: frameDur,
+      durationMs: frameDurationMs,
       overlays: [...drop, ...hold],
       ...(input.holdSummon ? { summonPhase: 'hold' as const } : {}),
       ...(fighters.length ? { fighters } : {}),
@@ -1033,7 +1033,7 @@ export function buildOffMagic(input: BuildOffMagicInput): AnimFrame[] {
       ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
       ...(inShake ? { screenShake: true } : {}),
       ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
-      ...(i === l - 1 && input.keepEffect ? { burnBg: drop } : {}),
+      ...(i === totalFrames - 1 && input.keepEffect ? { burnBg: drop } : {}),
     })
   }
   if (input.blow)
@@ -1067,9 +1067,10 @@ function appendDefMagic(
   { fireFrames, fx }: Pick<BuildPlayerCastInput, 'fireFrames' | 'fx'>,
   targets: NonNullable<BuildPlayerCastInput['allyTargets']>,
 ): void {
+  const durationMs = checkedFireFrameDurationMs(fireFrames, fx.speed)
   for (let i = 0; i < fireFrames; i++) {
     frames.push({
-      durationMs: (fx.speed + 5) * 10,
+      durationMs,
       overlays: targets.map(({ pos }) => magicOverlay(i, fx, pos)),
       ...(i === 0 && fx.sound ? { sound: fx.sound } : {}),
     })
@@ -1143,7 +1144,7 @@ export function buildPlayerCast(input: BuildPlayerCastInput): AnimFrame[] {
       ),
     )
     if (damageNums.length) frames.push({ durationMs: 0, damageNums })
-    return frames // 会话在辉光结束后恢复实际姿态并显示回复数字。
+    return frames // 会话收尾时恢复角色的实际姿态。
   }
 
   // —— 召唤神段(P1 召唤束,fight.c:3110-3187)——
@@ -1548,14 +1549,10 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       fx.placement === 'normal'
         ? [targetPos ?? { x: 160, y: 130 }]
         : ENEMY_CAST_POSITIONS[fx.placement]
-    const n = fireFrames
-    const fd = Math.min(fx.fireDelay, n - 1)
-    const l = (n - fd) * fx.effectTimes + n + fx.shake
-    const frameDur = (fx.speed + 5) * 10
-    for (let i = 0; i < l; i++) {
-      const inShake = l - i <= fx.shake
-      const k = inShake ? (l - fx.shake - 1) % n : i < n ? i : ((i - fd) % (n - fd)) + fd
-      const overlays = positions.map((pos) => magicOverlay(k, fx, pos))
+    const timing = getOffMagicTiming(fireFrames, fx)
+    for (let i = 0; i < timing.totalFrames; i++) {
+      const { inShake, frameIdx } = getOffMagicFrame(timing, i)
+      const overlays = positions.map((pos) => magicOverlay(frameIdx, fx, pos))
       const fighters = i === 0 ? guardPoses : []
       const attackFrame = i - fx.fireDelay
       // 原生尾震用 FIRE 下标重置 VIDEO_ShakeScreen，覆盖剩余的 0x35（fight.c:2942）。
@@ -1568,14 +1565,14 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
       if (!inShake && fx.fireDelay > 0 && attackFrame >= 0 && attackFrame < anim.attack.count)
         fighters.push({ side: 'enemy', idx: enemyIdx, frame: anim.attack.start + attackFrame })
       frames.push({
-        durationMs: frameDur,
+        durationMs: timing.frameDurationMs,
         overlays,
         ...(fighters.length ? { fighters } : {}),
         ...(i === 0 && fx.sound ? { sound: fx.sound } : {}), // WIN95 效果音只在 FIRE 首帧触发。
         ...(i === 0 && fx.wave > 0 ? { waveAdd: fx.wave } : {}),
         ...(frameShakeOffsetY !== undefined ? { frameShakeOffsetY } : {}),
         // keepEffect:末帧烙背景(fight.c:2983 敌施法同款)
-        ...(i === l - 1 && input.keepEffect ? { burnBg: overlays } : {}),
+        ...(i === timing.totalFrames - 1 && input.keepEffect ? { burnBg: overlays } : {}),
       })
     }
   }
@@ -1610,9 +1607,6 @@ export function buildEnemyCast(input: BuildEnemyCastInput): AnimFrame[] {
   for (const sound of input.dyingSounds ?? []) frames.push({ durationMs: 0, sound })
   return frames
 }
-
-// ── P1 演出批(2026-07-11):逃跑成功/失败/敌逃/变身/分裂 —— gameplay 早在 core 结算,
-//    此处纯时间线(帧序/差值/时长 = sdlpal 原版逐行考证,锚点见各函数注释)──
 
 export interface BuildPartyFleeInput {
   /** 活着的队员(slot 序;死者不滑 —— battle.c:1467 只动 HP>0)。pos = 站位底锚。 */
@@ -1894,16 +1888,7 @@ export interface BuildPlayerScriptCastEffectInput {
  */
 export function buildPlayerScriptCastEffect(input: BuildPlayerScriptCastEffectInput): AnimFrame[] {
   const frames: AnimFrame[] = []
-  let x = input.casterPos.x
-  let y = input.casterPos.y
-  for (let i = 0; i < 4; i++) {
-    x -= 4 - i
-    y -= Math.trunc((4 - i) / 2)
-    frames.push({
-      durationMs: delayMs(1),
-      fighters: [{ side: 'player', idx: input.casterIdx, pos: { x, y } }],
-    })
-  }
+  const { x, y } = appendPlayerApproach(frames, input.casterIdx, input.casterPos)
   frames.push({ durationMs: delayMs(2) })
   frames.push({
     durationMs: delayMs(1),

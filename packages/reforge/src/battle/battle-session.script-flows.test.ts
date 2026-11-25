@@ -519,6 +519,7 @@ describe('W4 敌钩子与屏障组合', () => {
   })
 
   test('屏障挂起：pending 期间按键零业务副作用（MP 不偷扣），放行后真实推进', async () => {
+    const strike = wfSkill('wf-strike', 10)
     const gate = defer<void>()
     let prepareCalls = 0
     let pending: Promise<void> | undefined
@@ -526,7 +527,7 @@ describe('W4 敌钩子与屏障组合', () => {
       players: [wfPlayer('p1', { skills: ['wf-strike'], mp: 40, maxMp: 40 })],
       enemies: [wfEnemy('e1', { health: 500, attackStrength: 1 })],
       extraOpts: {
-        skills: {},
+        skills: { [strike.id]: strike },
         prepareTurnSounds: () => {
           prepareCalls += 1
           pending = gate.promise // 保存实际返回的 pending（finally 消费同一 Promise）
@@ -540,7 +541,7 @@ describe('W4 敌钩子与屏障组合', () => {
       h.press([' '])
       h.idle(16)
       await flush()
-      expect(prepareCalls).toBeGreaterThan(0) // 屏障确实已进入（挂起中）
+      expect(prepareCalls).toBe(1)
       expect(h.session.debugReadiness().phase).toBe('preparing')
       // 挂起期间乱按技能/确认键：不得产生任何业务提交（MP 偷扣即红）
       h.press(['ArrowLeft'])
@@ -564,6 +565,17 @@ describe('W4 敌钩子与屏障组合', () => {
         // 我方行动行以「p1 」开头；敌反击行以「e1 」开头
         .filter((line) => line.startsWith('p1 ') && line.includes('攻击'))
       expect(attacks.length).toBe(1)
+
+      h.press(['ArrowLeft'])
+      h.press(['Enter'])
+      h.press(['Enter'])
+      h.press(['Enter'])
+      for (let i = 0; i < 40 && h.readParty()[0]?.mp === 40; i += 1) {
+        h.idle(80)
+        await flush()
+      }
+      expect(prepareCalls).toBe(2)
+      expect(h.readParty()[0]?.mp).toBe(30)
     } catch (error) {
       bodyFailed = true
       throw error

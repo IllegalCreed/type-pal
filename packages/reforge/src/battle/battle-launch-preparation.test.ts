@@ -89,7 +89,7 @@ test('fatal base readiness failure retains error identity and prevents session p
 })
 
 test('turn readiness reuses the complete base set without mutating the submitted action snapshot', async () => {
-  f = await battleHostFixture(true)
+  f = await battleHostFixture({ attackSound: true })
   const sounds = vi.spyOn(f.sfx, 'prepare')
   const result = await prepare()
   const snapshot = { turn: 2, actions: new Map(), activePlayerPoisons: [], activeEnemyPoisons: [] }

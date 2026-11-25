@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest'
 import { wfEnemy, wfPlayer } from '../__tests__/battle-workflows/catalog.js'
-import { createBattleState, runBattleToEnd, stepBattle } from './battle-core.js'
+import { runBattleToEnd } from '../__tests__/battle-workflows/core-driver.js'
+import { createBattleState, stepBattle } from './battle-core.js'
 
 const lowestRoll = () => 0
 
@@ -37,7 +38,7 @@ test('the headless driver rejects stalled selection after its step budget', () =
       newBattle(),
       (battle) => battle.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 }),
       lowestRoll,
-      4,
+      3,
     ),
   ).toBe('won')
 })

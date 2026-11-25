@@ -18,10 +18,7 @@ import {
   SOUND_ASSET_ROLES,
 } from '@type-pal/content'
 import type { BattleAction } from '../battle/battle-core.js'
-import {
-  collectReachableEnemyDefs,
-  collectReachableEnemySkillIds,
-} from '../battle/enemy-closure.js'
+import { collectBattleEnemyDependencies } from '../battle/enemy-closure.js'
 import { resolveBaseEntityPage } from '../script-world.js'
 
 function add(out: Set<AssetId>, asset: AssetId | undefined): void {
@@ -316,8 +313,8 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
     add(closure.sounds, input.roles[role])
 
   const scriptRoots: unknown[] = [...(input.encounterChoreography ?? [])]
-  const reachableEnemyDefs = collectReachableEnemyDefs(input.enemyDefs, input.enemiesById)
-  for (const enemy of reachableEnemyDefs) {
+  const dependencies = collectBattleEnemyDependencies(input.enemyDefs, input.enemiesById)
+  for (const enemy of dependencies.enemies) {
     add(closure.sounds, enemy.sounds.attack)
     add(closure.sounds, enemy.sounds.action)
     add(closure.sounds, enemy.sounds.magic)
@@ -334,7 +331,7 @@ export async function collectBattleBaseSounds(input: BattleBaseSoundInput): Prom
     )
     scriptRoots.push(enemy.choreography, enemy.onDefeated, enemy.ai.hooks)
   }
-  for (const skillId of collectReachableEnemySkillIds(input.enemyDefs, input.enemiesById)) {
+  for (const skillId of dependencies.skillIds) {
     const skill = input.skills[skillId]
     // enemy oneEnemy/allEnemies 反转作用于玩家；其他目标的 applyPoison 在 core 中无目标。
     closure.includeSkill(

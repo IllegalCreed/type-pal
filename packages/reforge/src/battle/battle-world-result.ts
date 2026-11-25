@@ -4,6 +4,7 @@ import { expectDefined } from '../defined.js'
 import type { LoadedCurrentProjectCore } from '../project-loader.js'
 import type { BattleResult } from './battle-result.js'
 import type { BattleSession } from './battle-session.js'
+import { readBattleSkillUses } from './battle-skill-uses.js'
 import { buildSettlementScreens } from './settlement.js'
 
 export function settleBattleVictory(
@@ -15,7 +16,7 @@ export function settleBattleVictory(
   options?: { deferRecovery: boolean },
 ) {
   session.writeBackPersistentEffects(world)
-  session.writeBackHp(world.party, { preserveZeroHp: true })
+  session.writeBackHp(world.party)
   const rewards = session.rewards()
   if (rewards.exp > 0) onExpReward()
   world.money += rewards.cash
@@ -30,7 +31,7 @@ export function settleBattleVictory(
       ...options,
       isSkillExhausted: (characterId, skillId) => {
         const limit = project.skills[skillId]?.lifetimeLimit
-        const uses = world.skillUseCounts?.[characterId]?.[skillId] ?? 0
+        const uses = readBattleSkillUses(world.skillUseCounts, characterId, skillId)
         return limit !== undefined && uses >= limit
       },
     },
@@ -67,7 +68,7 @@ export function finishBattleWorldState(
 ): void {
   session.writeBackPersistentEffects(world)
   // The resumed scene script may explicitly revive actors who were down at battle end.
-  if (result !== 'victory') session.writeBackHp(world.party, { preserveZeroHp: true })
+  if (result !== 'victory') session.writeBackHp(world.party)
   session.writeBackInventory(world.inventory)
   if (session.moneyDelta() !== 0) world.money = Math.max(0, world.money + session.moneyDelta())
   if (session.collectGained() > 0)

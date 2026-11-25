@@ -26,7 +26,7 @@ describe('enemy hook runtime', () => {
         },
       },
     }
-    const state = createBattleState({ players: [player()], enemies: [source] })
+    const state = createBattleState({ players: [player()], enemySlots: [source] })
     const activation = expectDefined(beginEnemyHookActivation(state, 0, 'ready'))
     expect(nextEnemyHookStep(state, activation, () => 0)).toEqual({
       kind: 'action',
@@ -86,7 +86,7 @@ describe('enemy hook runtime', () => {
 
     const full = createBattleState({
       players: [player()],
-      enemies: [source, wfEnemy('b'), wfEnemy('c'), wfEnemy('d'), wfEnemy('e')],
+      enemySlots: [source, wfEnemy('b'), wfEnemy('c'), wfEnemy('d'), wfEnemy('e')],
       enemiesById: { minion },
     })
     const retry = expectDefined(beginEnemyHookActivation(full, 0, 'ready'))
@@ -125,7 +125,7 @@ describe('enemy hook runtime', () => {
       },
     }
     const advance = (actorTemplateId: string, values: readonly number[]) => {
-      const state = createBattleState({ players: [player(actorTemplateId)], enemies: [source] })
+      const state = createBattleState({ players: [player(actorTemplateId)], enemySlots: [source] })
       const activation = expectDefined(beginEnemyHookActivation(state, 0, 'turnStart'))
       const draws = values.values()
       expect(nextEnemyHookStep(state, activation, () => expectDefined(draws.next().value))).toEqual(
@@ -159,7 +159,7 @@ describe('enemy hook runtime', () => {
     }
     const state = createBattleState({
       players: [player()],
-      enemies: [source, source],
+      enemySlots: [source, source],
       skills: { [spell.id]: spell },
     })
     const first = expectDefined(state.enemies[0])

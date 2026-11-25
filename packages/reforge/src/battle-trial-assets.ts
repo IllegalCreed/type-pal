@@ -8,7 +8,6 @@ import {
 import { AssetResolver } from './asset-resolver.js'
 import {
   BattleSpriteAssetCache,
-  type LoadedSprite,
   loadBattleBgFull,
   loadEffectSprite,
   loadFireSprite,
@@ -18,9 +17,11 @@ import { collectBattleBaseSounds, collectTurnActionSounds } from './audio/sfx-re
 import { collectBattleCasualtyPortraits } from './battle/battle-casualty-presentation.js'
 import type { BattleAction } from './battle/battle-core.js'
 import {
-  collectBattleSkillFireChunks,
-  prepareBattleSpriteReadiness,
-} from './battle/battle-sprite-readiness.js'
+  collectBattleSkillFireUses,
+  collectBattleThrowFireUses,
+  prepareBattleFireSprites,
+} from './battle/battle-fire-readiness.js'
+import { prepareBattleSpriteReadiness } from './battle/battle-sprite-readiness.js'
 import { battleTrialRevision, prepareBattleTrial } from './battle-trial-prepare.js'
 import { loadCursorFrames } from './dialog/dialog-assets.js'
 import type { FileSource } from './file-source.js'
@@ -236,22 +237,15 @@ export async function prepareBattleTrialAssets(
         faces[member.id] = asset ? await imageCache.load(asset, 'face') : undefined
       }),
     )
-    const fireChunks = collectBattleSkillFireChunks({
+    const skillFireUses = collectBattleSkillFireUses({
       playerSkillIds: players.map((player) => player.skills),
       cooperativeSkillIds,
       reachableEnemySkillIds: readiness.reachableEnemySkillIds,
       skillsById: project.skills,
     })
-    for (const id of possibleItems) {
-      const presentation = items[id]?.throw?.presentation
-      if (presentation?.kind === 'magic' && presentation.animation.effectSprite >= 0)
-        fireChunks.add(presentation.animation.effectSprite)
-    }
-    const fireSprites: Record<number, LoadedSprite> = {}
-    await Promise.all(
-      [...fireChunks].map(async (chunk) => {
-        fireSprites[chunk] = await loadFireSprite(project.assetBase, chunk)
-      }),
+    const fireSprites = await prepareBattleFireSprites(
+      [...skillFireUses, ...collectBattleThrowFireUses(items, possibleItems)],
+      (chunk) => loadFireSprite(project.assetBase, chunk),
     )
     const effectSprite = project.assetCatalog.assets[PAL_PHYSICAL_EFFECT_ASSET_ID]
       ? await loadEffectSprite(project.assetBase)

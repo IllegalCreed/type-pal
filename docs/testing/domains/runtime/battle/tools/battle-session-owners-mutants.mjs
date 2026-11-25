@@ -75,8 +75,8 @@ const mutations = [
     test: tests.selection,
     title:
       'BattleCommandSelection Escape retracts the most recently submitted player in LIFO order',
-    from: '        const previous = this.submitOrder.pop()',
-    to: '        const previous = this.submitOrder.shift()',
+    from: '      const previous = this.submitOrder.pop()',
+    to: '      const previous = this.submitOrder.shift()',
   },
   {
     id: 'selection-round-sticky-clear',
@@ -107,9 +107,9 @@ const mutations = [
     source: 'battle/battle-action-presentation-scheduler.ts',
     test: tests.action,
     title:
-      'BattleActionPresentationScheduler the 240ms action cadence consumes synchronously and drops overflow like the former timer',
-    from: 'const ACTION_INTERVAL_MS = 240',
-    to: 'const ACTION_INTERVAL_MS = 241',
+      'BattleActionPresentationScheduler discards a full missed beat after a stall and starts a fresh cadence at turn preparation',
+    from: '    if (this.actionElapsedMs < BATTLE_FRAME_MS) return false',
+    to: '    if (this.actionElapsedMs <= BATTLE_FRAME_MS) return false',
   },
   {
     id: 'action-first-frame-sample',

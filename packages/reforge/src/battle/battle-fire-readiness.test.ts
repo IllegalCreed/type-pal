@@ -1,5 +1,6 @@
-import { type SkillData, validateSkills } from '@type-pal/content'
-import { expect, test } from 'vitest'
+import { type SkillData, validateEnemies, validateSkills } from '@type-pal/content'
+import { expect, test, vi } from 'vitest'
+import { realFrame, wfEnemy } from '../__tests__/battle-workflows/catalog.js'
 import {
   installTrialChromeHost,
   readyTrialFixture,
@@ -7,7 +8,12 @@ import {
 import { prepareBattleTrialAssets } from '../battle-trial-assets.js'
 import { battleTrialRevision } from '../battle-trial-prepare.js'
 import { loadCurrentProjectFrom } from '../project-loader.js'
-import { collectBattleSkillFireChunks } from './battle-sprite-readiness.js'
+import {
+  battleFireChunks,
+  collectBattleSkillFireUses,
+  prepareBattleFireSprites,
+} from './battle-fire-readiness.js'
+import { collectBattleEnemyDependencies } from './enemy-closure.js'
 
 function skill(id: string, chunk: number): SkillData {
   return {
@@ -21,6 +27,89 @@ function skill(id: string, chunk: number): SkillData {
     animation: { effectSprite: chunk },
   }
 }
+
+test('checks each playback of one shared sheet, using one pass for a friendly normal spell', async () => {
+  const animation = { effectSprite: 0, speed: -4, effectTimes: 1024 }
+  const heal: SkillData = {
+    ...skill('heal', 0),
+    target: 'oneAlly',
+    effects: [{ kind: 'healHp', amount: 10 }],
+    animation,
+  }
+  const strike = { ...skill('strike', 0), animation }
+  validateSkills({ skills: [heal, strike], levelUp: {} })
+  const input = {
+    cooperativeSkillIds: [],
+    reachableEnemySkillIds: [],
+    skillsById: { heal, strike },
+  }
+  const loaded = { frames: [realFrame()], anchorX: 0, anchorY: 0 }
+  const read = vi.fn(async () => loaded)
+  const healing = collectBattleSkillFireUses({ ...input, playerSkillIds: [['heal']] })
+  await expect(prepareBattleFireSprites(healing, read)).resolves.toEqual({ 0: loaded })
+  read.mockClear()
+  const both = collectBattleSkillFireUses({ ...input, playerSkillIds: [['heal', 'strike']] })
+  await expect(prepareBattleFireSprites(both, read)).rejects.toThrow(
+    '技能 "strike" 的玩家特效: 1025 帧超过 1024 帧',
+  )
+  expect(read).toHaveBeenCalledExactlyOnceWith(0)
+})
+
+test('includes enemy FIRE overrides from AI rules, both fallbacks, and hook summons', () => {
+  const caster = wfEnemy('caster', {}, { sounds: {} })
+  caster.ai.rules = [{ at: 'act', do: { kind: 'cast', skillId: 'rule' } }]
+  caster.ai.fallback = { action: { kind: 'cast', skillId: 'fallback' }, chancePercent: 20 }
+  caster.ai.hooks = {
+    ready: {
+      initial: 'ready',
+      states: {
+        ready: {
+          body: [
+            {
+              kind: 'effect',
+              id: 'summon-caster',
+              effect: { kind: 'summon', enemyId: 'summoned', count: 1 },
+            },
+            {
+              kind: 'setFallback',
+              fallback: {
+                action: { kind: 'cast', skillId: 'hook-fallback' },
+                chancePercent: 30,
+              },
+            },
+          ],
+          next: { kind: 'stay' },
+        },
+      },
+    },
+  }
+  const summoned = wfEnemy('summoned', {}, { sounds: {} })
+  summoned.ai.rules = [{ at: 'act', do: { kind: 'cast', skillId: 'summoned-skill' } }]
+  const enemies = validateEnemies([caster, summoned])
+  const { skills } = validateSkills({
+    skills: ['rule', 'fallback', 'hook-fallback', 'summoned-skill'].map((id, index) => ({
+      ...skill(id, index + 1),
+      execution: { enemy: { animation: { effectSprite: index + 13 } } },
+    })),
+    levelUp: {},
+  })
+
+  const { skillIds: reachableEnemySkillIds } = collectBattleEnemyDependencies(
+    [caster],
+    Object.fromEntries(enemies.map((enemy) => [enemy.id, enemy])),
+  )
+  expect(reachableEnemySkillIds).toEqual(['rule', 'fallback', 'hook-fallback', 'summoned-skill'])
+  expect(
+    battleFireChunks(
+      collectBattleSkillFireUses({
+        playerSkillIds: [],
+        cooperativeSkillIds: [],
+        reachableEnemySkillIds,
+        skillsById: Object.fromEntries(skills.map((definition) => [definition.id, definition])),
+      }),
+    ),
+  ).toEqual(new Set([13, 14, 15, 16]))
+})
 
 test.each([
   'player',
@@ -46,7 +135,7 @@ test.each([
     skillsById: Object.fromEntries(definitions.map((entry) => [entry.id, entry])),
   }
   const before = structuredClone(input)
-  expect(collectBattleSkillFireChunks(input)).toEqual(new Set([0, 7]))
+  expect(battleFireChunks(collectBattleSkillFireUses(input))).toEqual(new Set([0, 7]))
   expect(input).toEqual(before)
 })
 

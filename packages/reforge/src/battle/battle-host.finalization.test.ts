@@ -166,10 +166,25 @@ test('BF-H4 取消收尾：会话中段取消后关闭——start Promise 以 Ab
     h.host.cancel() // 会话存活期取消
     await op.consumed
   } finally {
-    await h.close()
+    const closing = h.close()
+    expect(h.close()).toBe(closing)
+    await closing
   }
   expect(op.state).toMatchObject({ settled: true, error: { name: 'AbortError' } })
   expect(h.host.active).toBeNull()
+  await expect(h.sfx.prepare([])).rejects.toThrow('SfxPlayer 已 dispose')
   expect(globalThis.fetch).toBe(h.restoreProbe.fetch)
   expect(document.getElementById('screen')).toBeNull()
+})
+
+test('a rejected project restores the browser ports before the next fixture opens', async () => {
+  const originalFetch = globalThis.fetch
+  const originalAudio = Object.getOwnPropertyDescriptor(globalThis, 'AudioContext')
+  await expect(hostHarness({ enemy: { ...foeWith({}), id: 'other' } })).rejects.toThrow('foe')
+  expect(globalThis.fetch).toBe(originalFetch)
+  expect(Object.getOwnPropertyDescriptor(globalThis, 'AudioContext')).toEqual(originalAudio)
+  expect(document.getElementById('screen')).toBeNull()
+  const next = await hostHarness({ enemy: foeWith({}) })
+  await next.close()
+  expect(globalThis.fetch).toBe(originalFetch)
 })

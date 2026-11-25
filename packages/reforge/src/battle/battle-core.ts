@@ -1,13 +1,6 @@
 /**
- * M4a/M4c · headless 回合战核 —— 无渲染、无动画的纯逻辑状态机（单测验收）。
- * 设计:battle-model-m4-design.md §3 + enemy-ai-design.md(M4c)。
- * 回合流程 preBattle→selectAction⇄performAction→won/lost/fled。
- *
- * M4c-1:敌人决策走规则求值器(content/enemy-ai)——迁移器把 fallback(magic+magicRate)
- * 翻成 [chance] cast 规则,无规则/无命中 = 普攻(原版兜底);cast 走 SkillEffect 结算
- * (v1 覆盖 damage/healHp/applyStatus,其余效果 log 跳过)。
- * summon/transform/divide/flee 动作与 choreography 演出 = M4c-2。
- * 公式全走 content/battle-formulas（= sdlpal fight.c）。RNG 可注入（测试定值,运行时真随机）。
+ * Resolve the current battle from validated definitions, submitted commands and an injected RNG.
+ * The host controls clocks and presentation. The core emits action outcomes and world mutations.
  */
 
 import type {
@@ -60,6 +53,7 @@ import { expectDefined } from '../defined.js'
 import type { BattleLastAction, PlayerAttackSweep } from './battle-last-action.js'
 import { getOffMagicTiming } from './battle-off-magic.js'
 import { getEnemyBasePos } from './battle-positions.js'
+import { readBattleSkillUses, recordBattleSkillUses } from './battle-skill-uses.js'
 
 function assertNever(value: never, context: string): never {
   throw new Error(`${context}: 未处理的物品效果 ${JSON.stringify(value)}`)
@@ -70,7 +64,7 @@ export type BattlePhase = 'preBattle' | 'selectAction' | 'performAction' | 'won'
 /** 战场固定容量（原版 formation 最多 5 槽）。 */
 const MAX_ENEMIES = 5
 
-/** 队员战斗态（属性由 createBattleState 从 world 派生;M4a 只用攻防/HP）。 */
+/** Live combat state. Its starting stats are derived from the world and equipped items. */
 export interface BattlePlayerState {
   /** 稳定 CharacterInstance.id。 */
   roleId: string
@@ -209,8 +203,7 @@ export interface BattleEnemyState {
   /** 当前实例 fallback 副本；setFallback 可跨激活覆盖。 */
   fallback?: EnemyFallback
   hp: number
-  /** 站位底锚(建态时按**开战敌数**一次定死;死怪空位不递补、增援填死槽继承 ——
-   *  原版/一阶段真值:布局列数=开战编队,曾按实时 length 现算 → 死怪/增援全场重排,作者报)。 */
+  /** Slot position for the current formation. Defeat leaves its slot and division can resize the formation. */
   basePos: { x: number; y: number }
   status: BattleStatus
   defending: boolean
@@ -319,10 +312,8 @@ export type CreatePlayerInput = Omit<
 
 export interface CreateBattleInput {
   players: CreatePlayerInput[]
-  /** v12 语义敌槽；null 保留源空洞。旧 callers 可暂时传 dense `enemies`。 */
+  /** Enemy slot identities. A null entry preserves an empty position. */
   enemySlots?: Array<EnemyDef | null>
-  /** @deprecated v11 dense 兼容入口；canonical main 必须传 enemySlots。 */
-  enemies?: EnemyDef[]
   /** 技能表(敌施法查 SkillData;缺省空 = cast 落普攻并 log)。 */
   skills?: Record<string, SkillData>
   /** 已预载的 FIRE 帧数；无可播放资源时不执行其吹飞抽样。 */
@@ -351,7 +342,7 @@ export interface CreateBattleInput {
 }
 
 export function createBattleState(input: CreateBattleInput): BattleState {
-  const sourceSlots = input.enemySlots ?? input.enemies ?? []
+  const sourceSlots = input.enemySlots ?? []
   if (sourceSlots.length > MAX_ENEMIES)
     throw new Error(`battle enemySlots: 槽位数 ${sourceSlots.length} 超上限 ${MAX_ENEMIES}`)
   const maxEnemyIndex = sourceSlots.length - 1
@@ -359,15 +350,7 @@ export function createBattleState(input: CreateBattleInput): BattleState {
     const def = sourceSlots[i]
     if (!def) return null
     return {
-      def,
-      scriptOwnerDef: def,
-      hookCursors: initialHookCursors(def),
-      ...(def.ai.fallback ? { fallback: cloneFallback(def.ai.fallback) } : {}),
-      hp: def.stats.health,
-      status: emptyBattleStatus(),
-      defending: false,
-      firedRules: new Set<number>(),
-      poisons: [],
+      ...freshEnemyState(def),
       // 空槽仍占布局列数；站位只按当前语义上限一次派生。
       basePos: getEnemyBasePos(maxEnemyIndex + 1, i, def.yPosOffset) ?? {
         x: 100,
@@ -933,6 +916,21 @@ function cloneFallback(fallback: EnemyFallback): EnemyFallback {
   }
 }
 
+/** An opening or summoned enemy starts its own AI and progress. */
+function freshEnemyState(def: EnemyDef): Omit<BattleEnemyState, 'basePos'> {
+  return {
+    def,
+    scriptOwnerDef: def,
+    hookCursors: initialHookCursors(def),
+    ...(def.ai.fallback ? { fallback: cloneFallback(def.ai.fallback) } : {}),
+    hp: def.stats.health,
+    status: emptyBattleStatus(),
+    defending: false,
+    firedRules: new Set<number>(),
+    poisons: [],
+  }
+}
+
 function initialHookCursors(def: EnemyDef): Partial<Record<EnemyHookChannel, string>> {
   return Object.fromEntries(
     (['ready', 'turnStart'] as const).flatMap((channel) => {
@@ -953,15 +951,8 @@ function chooseAiPlayerTarget(
   return pickAiTarget(strategy, view.players, rng)
 }
 
-function fallbackAttack(
-  view: AiBattleView,
-  rng: () => number,
-  preselectedTarget: number,
-): EnemyDecision {
-  return {
-    kind: 'attack',
-    targetPlayerIdx: chooseAiPlayerTarget('random', view, rng, preselectedTarget),
-  }
+function fallbackAttack(targetPlayerIdx: number): EnemyDecision {
+  return { kind: 'attack', targetPlayerIdx }
 }
 
 function resolveEnemyAiAction(
@@ -981,11 +972,11 @@ function resolveEnemyAiAction(
         targetPlayerIdx: chooseAiPlayerTarget(action.target, view, rng, preselectedTarget),
       }
     case 'cast': {
-      if (e.status.silence > 0) return fallbackAttack(view, rng, preselectedTarget)
+      if (e.status.silence > 0) return fallbackAttack(preselectedTarget)
       const skill = s.skills[action.skillId]
       if (!skill) {
         s.log.push(`${e.def.id} 施法 ${action.skillId} 缺技能数据,落普攻`)
-        return fallbackAttack(view, rng, preselectedTarget)
+        return fallbackAttack(preselectedTarget)
       }
       return {
         kind: 'cast',
@@ -997,7 +988,7 @@ function resolveEnemyAiAction(
       const def = s.enemiesById[action.enemyId]
       if (!def) {
         s.log.push(`${e.def.id} 变身 ${action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack(view, rng, preselectedTarget)
+        return fallbackAttack(preselectedTarget)
       }
       return { kind: 'transform', def }
     }
@@ -1007,7 +998,7 @@ function resolveEnemyAiAction(
       const def = s.enemiesById[action.enemyId ?? e.def.id] ?? (action.enemyId ? undefined : e.def)
       if (!def) {
         s.log.push(`${e.def.id} 召唤 ${action.enemyId} 缺敌人数据,落普攻`)
-        return fallbackAttack(view, rng, preselectedTarget)
+        return fallbackAttack(preselectedTarget)
       }
       return { kind: 'summon', def, count: action.count }
     }
@@ -1070,7 +1061,7 @@ export function decideEnemyAction(
   }
   if (e.fallback && rng() * 100 < e.fallback.chancePercent)
     return resolveEnemyAiAction(s, e, e.fallback.action, view, rng, preselectedTarget)
-  return fallbackAttack(view, rng, preselectedTarget)
+  return fallbackAttack(preselectedTarget)
 }
 
 export type EnemyEffectAction = Extract<AiAction, { kind: 'summon' | 'transform' | 'divide' }>
@@ -1158,21 +1149,7 @@ export function applyEnemyEffect(
   const spawnedIdxs: number[] = []
   for (let index = 0; index < count; index += 1)
     spawnedIdxs.push(
-      spawnIntoSummonSlot(
-        s,
-        {
-          def: target,
-          scriptOwnerDef: target,
-          hookCursors: initialHookCursors(target),
-          ...(target.ai.fallback ? { fallback: cloneFallback(target.ai.fallback) } : {}),
-          hp: target.stats.health,
-          status: emptyBattleStatus(),
-          defending: false,
-          firedRules: new Set(),
-          poisons: [],
-        },
-        expectDefined(available[index]),
-      ),
+      spawnIntoSummonSlot(s, freshEnemyState(target), expectDefined(available[index])),
     )
   return { outcome: 'succeeded', kind: effect.kind, spawnedIdxs }
 }
@@ -1334,7 +1311,8 @@ function applyPlayerSkill(
   // 一生限用门(酒神 9 次):技能达到上限后原版直接从习得列表移除(0x56 RemoveMagic +
   // dlg.13366)，正常不可达；此守卫只防旧档/计数漂移，失败不吃任何消耗。
   const lifetimeLimit = skill.lifetimeLimit
-  const usedBefore = lifetimeLimit === undefined ? 0 : (s.skillUseCounts[p.roleId]?.[skillId] ?? 0)
+  const usedBefore =
+    lifetimeLimit === undefined ? 0 : readBattleSkillUses(s.skillUseCounts, p.roleId, skillId)
   if (lifetimeLimit !== undefined && usedBefore >= lifetimeLimit) {
     if (s.lastAction) s.lastAction.notice = '"酒神咒"使用次数已用尽'
     s.log.push(`${p.roleId} 施展 ${skill.name} 失败：使用次数已用尽`)
@@ -1402,9 +1380,7 @@ function applyPlayerSkill(
   // 移除技能并提示“酒神咒使用次数已用尽”（原版 0x56 RemoveMagic + dlg.13366）。
   if (lifetimeLimit !== undefined) {
     const usesAfter = usedBefore + 1
-    s.skillUseCounts[p.roleId] ??= {}
-    const counts = expectDefined(s.skillUseCounts[p.roleId])
-    counts[skillId] = usesAfter
+    recordBattleSkillUses(s.skillUseCounts, p.roleId, skillId, usesAfter)
     const removed = usesAfter >= lifetimeLimit
     s.pendingWorldMutations.push({
       kind: 'skillUse',
@@ -2963,21 +2939,4 @@ export function applyEnemyEquivItem(
       }
     }
   }
-}
-
-/** 跑到终态（headless 便捷驱动;上限防死循环）。返回结果。 */
-export function runBattleToEnd(
-  s: BattleState,
-  chooseActions: (s: BattleState) => void,
-  rng: () => number,
-  maxSteps = 10000,
-): 'won' | 'lost' | 'fled' {
-  for (let i = 0; i < maxSteps; i++) {
-    if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') return s.phase
-    if (s.phase === 'selectAction' && alivePlayers(s).some((pi) => !s.pendingActions.has(pi))) {
-      chooseActions(s) // 调用方填 pendingActions
-    }
-    stepBattle(s, rng)
-  }
-  throw new Error('runBattleToEnd: 超过 maxSteps 未终结')
 }

@@ -95,6 +95,13 @@ export function wfEnemy(
   }
 }
 
+/** An enemy that participates in turn order without altering its opponent's HP. */
+export function wfIdleEnemy(id: string, stats: Partial<EnemyDef['stats']> = {}): EnemyDef {
+  return wfEnemy(id, stats, {
+    ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'pass' } }] },
+  })
+}
+
 /** 完整 CreatePlayerInput。 */
 export function wfPlayer(roleId: string, o: Partial<CreatePlayerInput> = {}): CreatePlayerInput {
   return {
