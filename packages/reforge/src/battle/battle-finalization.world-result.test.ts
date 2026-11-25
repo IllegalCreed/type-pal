@@ -325,6 +325,48 @@ test('BF-02 零经验胜利：经验门关、金钱照入账、无结算屏', as
   }
 })
 
+test('a level-up item spent in battle writes its growth to the world even when the party flees', async () => {
+  const silkworm = {
+    ...medicine('golden-silkworm'),
+    use: {
+      target: 'oneAlly' as const,
+      consuming: true,
+      effects: [{ kind: 'levelUp' as const, levels: 1 }],
+    },
+  }
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 900, attackStrength: 1 }, {}),
+    items: [silkworm],
+    inventory: [{ itemId: silkworm.id, count: 1 }],
+    seedStats: { hero: { hp: 60, mp: 20 } },
+  })
+  try {
+    const hero = expectDefined(h.world.party[0])
+    hero.exp = 77
+    const result = settleAware(h)
+    h.press(['e'])
+    h.press(['Enter'])
+    for (let turn = 0; turn < 80; turn++) {
+      h.idle(80)
+      await drain()
+      if (h.session.debugReadiness().phase === 'menu') break
+    }
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(hero).toMatchObject({ exp: 77, level: 1, maxHP: 100, maxMP: 40 })
+    h.press(['q'])
+    await drive(h, result, 'defend')
+    expect(result()).toBe('playerFled')
+
+    h.finish('playerFled')
+    expect(hero).toMatchObject({ exp: 0, level: 2, maxHP: 110, maxMP: 48, attack: 104 })
+    expect(h.world.inventory).toEqual([])
+    expect(h.world.money).toBe(50)
+    expect(h.observables.screens).toBeNull()
+  } finally {
+    await h.close()
+  }
+})
+
 test('胜利时倒地队员跳过经验，之后和队友一起接受半恢复', async () => {
   const hero = combatActor()
   const heroStats = expectDefined(hero.battler).baseStats
