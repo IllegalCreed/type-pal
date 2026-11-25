@@ -1,6 +1,7 @@
 import type { PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
-import { AnimPlayer, buildPlayerAttackAll } from './battle-anim.js'
+import { buildPlayerAttackAll } from './battle-anim.js'
+import { AnimPlayer } from './battle-animation-player.js'
 
 const pose: PlayerFighterFrames = {
   idle: 0,

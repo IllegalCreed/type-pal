@@ -53,7 +53,6 @@ import { renderSpans } from '../text/text-render.js'
 import { BattleActionPresentationScheduler } from './battle-action-presentation-scheduler.js'
 import {
   type AnimFrame,
-  type AnimSideEffects,
   BATTLE_FRAME_MS,
   buildEnemyCast,
   buildEnemyDivide,
@@ -84,6 +83,7 @@ import {
   type OverlayDraw,
   type PlayerAppearanceTransition,
 } from './battle-anim.js'
+import type { AnimSideEffects } from './battle-animation-player.js'
 import { battleCasualtyCues } from './battle-casualty-presentation.js'
 import {
   BattleCommandSelection,

@@ -6,7 +6,8 @@
  * waveAdd / banner / summonPhase 缺省 null）。
  */
 import { describe, expect, test, vi } from 'vitest'
-import { type AnimFrame, AnimPlayer } from './battle-anim.js'
+import { type AnimFrame } from './battle-anim.js'
+import { AnimPlayer } from './battle-animation-player.js'
 
 function fx() {
   return {

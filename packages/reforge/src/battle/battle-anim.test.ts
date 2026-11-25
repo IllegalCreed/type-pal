@@ -2,7 +2,6 @@ import type { EnemyBattleSpriteProfile, EnemySounds, PlayerFighterFrames } from 
 import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
-  AnimPlayer,
   type BuildThrowItemInput,
   buildEnemyCast,
   buildEnemyDivide,
@@ -22,6 +21,7 @@ import {
   buildThrowItem,
   buildUseItem,
 } from './battle-anim.js'
+import { AnimPlayer } from './battle-animation-player.js'
 
 const PLAYER_FRAMES: PlayerFighterFrames = {
   idle: 0,
