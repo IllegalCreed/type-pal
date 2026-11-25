@@ -510,7 +510,7 @@ describe('G8 checkThrowSpec 残差', () => {
   test('target 域与 presentation 正负控', () => {
     const legalPresentation = {
       target: 'oneEnemy',
-      presentation: { kind: 'magic', animation: { effectSprite: 1 } },
+      presentation: { kind: 'magic', animation: { effectSprite: 1, speed: -1 } },
       effects: [{ kind: 'fixedDamage', amount: 5 }],
     }
     expectAcceptsUnchanged((value) => checkThrowSpec(value), legalPresentation)
@@ -529,6 +529,14 @@ describe('G8 checkThrowSpec 残差', () => {
       (value) => checkThrowSpec(value),
       badPresentation,
       'throw.presentation.kind: 期望 magic',
+    )
+    expectRejectUnchanged(
+      (value) => checkThrowSpec(value),
+      {
+        ...legalPresentation,
+        presentation: { kind: 'magic', animation: { effectSprite: 1, speed: -5 } },
+      },
+      'throw.presentation.animation.speed: 帧时长必须为正的有限数',
     )
   })
 })
