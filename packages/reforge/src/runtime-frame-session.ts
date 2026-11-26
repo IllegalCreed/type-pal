@@ -160,7 +160,6 @@ export class RuntimeFrameSession {
         for (let i = this.#waits.length - 1; i >= 0; i--) {
           const timer = expectDefined(this.#waits[i])
           if (timer.pausedRemaining === undefined && this.#now >= timer.deadline) {
-            this.#waits.splice(i, 1)
             timer.settle()
           }
         }

@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-25
+Last reviewed: 2026-11-26
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,883。
-当前已闭合核验：1,492；已读但待审：0；尚未逐文件核验：2,391；合计未闭合：2,391。
+起始基点机器清单：2,962。当前 tracked 清单：3,874。
+当前已闭合核验：1,578；已读但待审：2；尚未逐文件核验：2,294；合计未闭合：2,296。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -125,10 +125,100 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-25：从 #77 后的 29 条继续审核，25 条原文件通过，4 条旧专测按职责退役，另审查 34 条承接文件。原留审项已全部裁定；相邻补读及未审范围保持原状态。逐文件八维、原生用例和当前候选见[留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口)。
 
+2026-11-26 本批读完 95 个原 pending 主体。73 个原路径关闭，20 个退役或迁移，2 个继续 review。13 个承接路径单独验收，另退役两份已无调用的试买夹具与地图快照包装。新增、退出和读域均按 Git 实际路径计。[逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定)。
+
 ## 逐文件登记
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
+| `packages/reforge/src/__tests__/debug-tools-fixtures.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/__tests__/deferred.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/__tests__/menu-session-fixture.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/__tests__/outdoor-skill-fixture.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/actor-condition-lifecycle.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/actor-condition-lifecycle.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/actor-condition-runtime.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/actor-condition-runtime.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/ambience-compositor.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/ambience-compositor.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/collision.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/collision.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools-inspector.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools-styles.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.battle.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.commands.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.failures.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.inspect.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.lifecycle.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.navigation.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.triggers.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/debug-tools.ts` | product | review | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 留审场景切换后的触发器绑定与命令提示。样式、检视和已验证面板合同直接查原路径记录。 |
+| `packages/reforge/src/dev-preset.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/dev-preset.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/entity-proximity.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/entity-proximity.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/equip-menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/equip-menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/follower.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/follower.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/game-over-dialog.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/game-over-dialog.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/game-over-presentation.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/game-over-presentation.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/item-script-identity.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/item-use-executor.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/item-use-executor.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/item-use-placement.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/item-use-placement.ts` | product | review | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 场景键写入归属。现行场景 ID 合法域内有普通对象继承名，留审核清真实写入链。 |
+| `packages/reforge/src/magic-menu-state.boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/magic-menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/magic-menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/main.equipment-flows.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/main.item-flows.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/main.menu-flows.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/main.menu-storage-flows.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/map-lattice.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu-state.navigation-boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/equip-box.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/grid-cursor.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/item-menu.rendering.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/item-use-result.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/item-use-result.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/menu-session.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/menu-session.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/menu/use-box.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/motion-batch.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/motion-batch.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/outdoor-skill-execution.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/outdoor-skill-execution.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/project-map.geometry.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/project-map.structure.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/project-map.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/project-map.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/runtime-frame-session.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/runtime-frame-session.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/runtime-input-router.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/runtime-input-router.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-fx.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-fx.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-shake-presentation.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-shake-presentation.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-wave.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/screen-wave.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/shop-trial.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/shop-trial.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/system-menu-state.boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/system-menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/system-menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/use-menu-state.navigation-boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/use-menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/use-menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/wave-distortion.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/world-camera.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/world-camera.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/scripts/battle-trial-assets.test.ts` | test | 保留 | [逐文件八维与判据](../cards/QUALITY-REFORGE-BATTLE-1.md#逐文件裁定) | 保留当前职责及调用。版本、八维与复核边界见原路径索引。 |
 | `packages/reforge/scripts/battle-trial-host.test.ts` | test | 已验证 | [留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口) | 按宿主职责命名，直接读取 frames 业务状态，按钮不存在产生明确错误。 |
 | `packages/reforge/scripts/battle-trial-session.test.ts` | test | 已验证 | [留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口) | 专测名按试打会话和正式准备命名，舍弃同时指称两 caller 实际仅跑其一的旧标题。 |

@@ -20,13 +20,20 @@ async function boot(options: Parameters<typeof shellProject>[0] = {}) {
   return Object.assign(host, { project: fixture.project })
 }
 
-test('H3 status panel cycles both real party members and returns through hub without changing world', async () => {
+test('status panel cycles both real party members and returns through hub without changing world', async () => {
   const h = await boot(),
     before = structuredClone(observation().world)
   await key(h, 'Escape')
   expect(observation().renderDebug.menuActive).toBe(true)
+  h.text.mockClear()
   await key(h, 'Enter')
+  const renderedNames = () => h.text.mock.calls.flatMap((call) => call[1].map(({ text }) => text))
+  expect(renderedNames()).toContain('Hero')
+  expect(renderedNames()).not.toContain('Friend')
+  h.text.mockClear()
   await key(h, 'ArrowRight')
+  expect(renderedNames()).toContain('Friend')
+  expect(renderedNames()).not.toContain('Hero')
   await key(h, 'Enter')
   expect(observation().renderDebug.menuActive).toBe(true)
   await key(h, 'Escape')
@@ -57,7 +64,7 @@ test('H3 real magic route selects caster and target, heals only target, charges 
   expect(observation().world).toEqual(expected)
 })
 
-test('H3 empty caster list cannot cast and returns to the same hub', async () => {
+test('empty caster list cannot cast and returns to the same hub', async () => {
   const h = await boot(),
     before = structuredClone(observation().world)
   await key(h, 'Escape')
@@ -73,7 +80,7 @@ test('H3 empty caster list cannot cast and returns to the same hub', async () =>
   expect(observation().renderDebug.menuActive).toBe(false)
 })
 
-test('H3 insufficient MP cannot enter a cast; exact same skill succeeds with enough MP', async () => {
+test('insufficient MP cannot enter a cast; exact same skill succeeds with enough MP', async () => {
   for (const mp of [4, 5]) {
     const h = await boot({ party: ['hero'], seedStats: { hero: { mp } } })
     const before = structuredClone(observation().world)
@@ -94,7 +101,7 @@ test('H3 insufficient MP cannot enter a cast; exact same skill succeeds with eno
   }
 })
 
-test('H3 music switch commits explicit silence; cancellation preserves stored preferences and world', async () => {
+test('music switch commits explicit silence; cancellation preserves stored preferences and world', async () => {
   const h = await boot(),
     before = structuredClone(observation().world)
   await key(h, 'Escape')
@@ -124,7 +131,7 @@ test('H3 music switch commits explicit silence; cancellation preserves stored pr
 test.each([
   'equip',
   'use',
-] as const)('H3 empty %s panel rejects confirm without closing hub or mutating inventory', async (panel) => {
+] as const)('empty %s panel rejects confirm without closing hub or mutating inventory', async (panel) => {
   const h = await boot(),
     before = structuredClone(observation().world)
   await key(h, 'Escape')

@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, expect, test, vi } from 'vitest'
+import { deferred } from './__tests__/deferred.js'
 import { chromePng, installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { key, observation } from './__tests__/runtime-shell/driver.js'
 import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
@@ -111,4 +112,53 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   expect(await store.getPayload('m01')).toEqual(good)
   expect((await store.listMeta())[0]?.savedTimes).toBe(1)
   expect(projectData(fixture.project)).toEqual(input)
+})
+
+test('an earlier save completing must leave the newly opened Load screen in Load mode', async () => {
+  const host = await installShellHost()
+  const entered = deferred<void>()
+  const release = deferred<void>()
+  const finished = deferred<void>()
+  try {
+    const fixture = await shellProject()
+    const { IndexedDbSaveStore } = await import('./save/store.js')
+    const nativeWrite = IndexedDbSaveStore.prototype.putSlot
+    vi.spyOn(IndexedDbSaveStore.prototype, 'putSlot').mockImplementation(async function (
+      this: IndexedDbSaveStore,
+      ...args
+    ) {
+      entered.resolve()
+      await release.promise
+      try {
+        await nativeWrite.apply(this, args)
+      } finally {
+        finished.resolve()
+      }
+    })
+    await (await import('./main.js')).bootGame(fixture.project, {
+      kind: 'project',
+      projectId: fixture.project.manifest.id,
+    })
+    for (const value of ['Escape', 'ArrowUp', 'Enter', 'Enter', 'ArrowDown', 'ArrowDown', 'Enter'])
+      await key(host, value)
+    await entered.promise
+    for (const value of ['Escape', 'ArrowDown', 'Enter']) await key(host, value)
+    const title = () =>
+      host.text.mock.calls.filter(([, , x, y]) => x === 8 && y === 4).at(-1)?.[1][0]?.text
+    const labels = fixture.project.locale
+    const load = labels['menu.system.load'] ?? 'menu.system.load'
+    expect(title()).toBe(load)
+    release.resolve()
+    await finished.promise
+    await vi.waitFor(async () => {
+      await host.frame()
+      expect(
+        host.text.mock.calls.some(([, spans]) => spans.some(({ text }) => text === 'Sh…')),
+      ).toBe(true)
+    })
+    expect(title()).toBe(load)
+  } finally {
+    release.resolve()
+    await host.close()
+  }
 })

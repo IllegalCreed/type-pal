@@ -8,7 +8,7 @@ const POISONS: Record<number, PoisonDef> = {
 
 function actor(template: string): CharacterInstance {
   return {
-    id: template,
+    id: `instance-${template}`,
     template,
     level: 1,
     exp: 0,
@@ -31,21 +31,26 @@ function world(party: CharacterInstance[], reserve: CharacterInstance[] = []): W
 }
 
 describe('story actor condition target ownership', () => {
-  test('applies to party or reserve through the same stable actor id', () => {
+  test.each([
+    'hero',
+    'reserve',
+  ])('applies and clears only the actor with template %s', (template) => {
     const hero = actor('hero')
     const reserve = actor('reserve')
     const state = world([hero], [reserve])
+    const [target, other] = template === 'hero' ? [hero, reserve] : [reserve, hero]
 
     expect(
-      applyWorldActorCondition(state, 'reserve', { kind: 'poison', poisonId: 551 }, POISONS),
+      applyWorldActorCondition(state, template, { kind: 'poison', poisonId: 551 }, POISONS),
     ).toBe(true)
-    expect(reserve.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
-    expect(hero.poisons).toBeUndefined()
+    expect(target.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+    expect(other.poisons).toBeUndefined()
 
     expect(
-      clearWorldActorCondition(state, 'reserve', { kind: 'poison', poisonId: 551 }, POISONS),
+      clearWorldActorCondition(state, template, { kind: 'poison', poisonId: 551 }, POISONS),
     ).toBe(true)
-    expect(reserve.poisons).toEqual([])
+    expect(target.poisons).toEqual([])
+    expect(other.poisons).toBeUndefined()
   })
 
   test('fails loudly for a missing or duplicated actor instance', () => {

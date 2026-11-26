@@ -1,81 +1,72 @@
 import { describe, expect, test } from 'vitest'
 import {
-  closeSystemMenu,
   openSystemMenu,
   systemConfirm,
   systemConfirmYes,
-  systemMoveCursor,
   systemSwitchCommit,
   systemToggleConfirm,
 } from './system-menu-state.js'
 
-describe('系统菜单状态机', () => {
-  test('openSystemMenu:5 项全可用(音频开关已落);cursor 0', () => {
-    const s = openSystemMenu()
-    expect(s.active).toBe(true)
-    expect(s.phase).toBe('menu')
-    expect(s.items.map((i) => i.id)).toEqual(['save', 'load', 'music', 'sound', 'quit'])
-    expect(s.items.every((i) => !i.disabled)).toBe(true) // 无占位项
-    expect(s.cursor).toBe(0)
+const audioPreferences = { musicOn: true, soundOn: false }
+
+describe('系统面板与宿主请求', () => {
+  test('按经典顺序打开五个可选入口', () => {
+    const menu = openSystemMenu()
+    expect(menu).toMatchObject({ active: true, phase: 'menu', cursor: 0 })
+    expect(menu.items).toEqual([
+      { id: 'save', label: 'menu.system.save' },
+      { id: 'load', label: 'menu.system.load' },
+      { id: 'music', label: 'menu.system.music' },
+      { id: 'sound', label: 'menu.system.sound' },
+      { id: 'quit', label: 'menu.system.quit' },
+    ])
   })
-  test('systemMoveCursor:单列环绕(末项↓→0、首项↑→4),对齐 primitives.moveSelection', () => {
-    const s = openSystemMenu()
-    expect(systemMoveCursor(s, 'down').cursor).toBe(1)
-    expect(systemMoveCursor(s, 'right').cursor).toBe(1) // Right=Down
-    expect(systemMoveCursor({ ...s, cursor: 4 }, 'down').cursor).toBe(0) // 末项↓环绕→0
-    expect(systemMoveCursor(s, 'up').cursor).toBe(4) // 首项↑环绕→4
+
+  test.each([
+    { cursor: 0, kind: 'open-save' },
+    { cursor: 1, kind: 'open-load' },
+  ])('$kind 交给宿主并保留系统面板', ({ cursor, kind }) => {
+    const menu = openSystemMenu(cursor)
+    const result = systemConfirm(menu, audioPreferences)
+    expect(result.action).toEqual({ kind })
+    expect(result.state).toBe(menu)
   })
-  test('systemConfirm:save/load→open-save/open-load;music/sound→进 switch;quit→进 confirm', () => {
-    const s = openSystemMenu()
-    expect(systemConfirm(s).action?.kind).toBe('open-save') // cursor0=save
-    expect(systemConfirm({ ...s, cursor: 1 }).action?.kind).toBe('open-load') // load
-    const q = systemConfirm({ ...s, cursor: 4 }) // quit
-    expect(q.state.phase).toBe('confirm')
-    expect(q.state.confirmYes).toBe(false) // 默认否
+
+  test.each([
+    { cursor: 2, device: 'music', current: true, action: { kind: 'set-music', on: false } },
+    { cursor: 3, device: 'sound', current: false, action: { kind: 'set-sound', on: true } },
+  ])('$device 高亮当前值并将切换结果交给宿主', ({ cursor, device, current, action }) => {
+    const result = systemConfirm(openSystemMenu(cursor), audioPreferences)
+    expect(result.state).toMatchObject({
+      phase: 'switch',
+      switchTarget: device,
+      confirmYes: current,
+    })
+    expect(result.action).toBeUndefined()
+    const toggled = systemToggleConfirm(result.state)
+    expect(toggled.confirmYes).toBe(!current)
+    expect(systemSwitchCommit(toggled)).toEqual({
+      state: { active: false, phase: 'menu', items: [], cursor: 0, confirmYes: false },
+      action,
+    })
   })
-  test('music/sound 进 switch:默认高亮当前开关态(PAL_SwitchMenu(fEnabled))', () => {
-    const s = openSystemMenu()
-    const m = systemConfirm({ ...s, cursor: 2 }, { musicOn: true, soundOn: false })
-    expect(m.state.phase).toBe('switch')
-    expect(m.state.switchTarget).toBe('music')
-    expect(m.state.confirmYes).toBe(true) // 音乐当前开 → 高亮「开」
-    expect(m.action).toBeUndefined()
-    const snd = systemConfirm({ ...s, cursor: 3 }, { musicOn: true, soundOn: false })
-    expect(snd.state.switchTarget).toBe('sound')
-    expect(snd.state.confirmYes).toBe(false) // 音效当前关 → 高亮「关」
-    // 不传当前态 → 缺省按开
-    expect(systemConfirm({ ...s, cursor: 2 }).state.confirmYes).toBe(true)
+
+  test('缺省音频偏好时开关高亮开启', () => {
+    expect(systemConfirm(openSystemMenu(2)).state.confirmYes).toBe(true)
   })
-  test('switch 阶段:四方向 toggle 关/开;commit 落定 set-music/set-sound 并关菜单(回 hub)', () => {
-    const s = systemConfirm(
-      { ...openSystemMenu(), cursor: 2 },
-      { musicOn: true, soundOn: true },
-    ).state
-    expect(systemToggleConfirm(s).confirmYes).toBe(false) // 开 → 关
-    const off = systemSwitchCommit({ ...s, confirmYes: false })
-    expect(off.action).toEqual({ kind: 'set-music', on: false })
-    expect(off.state.active).toBe(false) // 落定即关整个系统菜单(一阶段 DH9 映射)
-    const sndOn = systemSwitchCommit({ ...s, switchTarget: 'sound', confirmYes: true })
-    expect(sndOn.action).toEqual({ kind: 'set-sound', on: true })
+
+  test('退出确认默认否，确认后收起系统面板', () => {
+    const { state } = systemConfirm(openSystemMenu(4), audioPreferences)
+    expect(state).toMatchObject({ phase: 'confirm', confirmYes: false })
+    expect(systemConfirmYes(state)).toEqual({
+      state: { active: false, phase: 'menu', items: [], cursor: 0, confirmYes: false },
+      action: undefined,
+    })
   })
-  test('systemSwitchCommit 非 switch 阶段 no-op', () => {
-    const s = openSystemMenu()
-    expect(systemSwitchCommit(s).action).toBeUndefined()
-    expect(systemSwitchCommit(s).state).toBe(s)
-  })
-  test('confirm 阶段:四方向 toggle;选是→quit action;选否→关菜单', () => {
-    const s = systemConfirm({ ...openSystemMenu(), cursor: 4 }).state // 进 confirm
-    expect(systemToggleConfirm(s).confirmYes).toBe(true) // toggle 否→是
-    const yes = systemConfirmYes({ ...s, confirmYes: true })
-    expect(yes.action?.kind).toBe('quit')
-    const no = systemConfirmYes({ ...s, confirmYes: false })
-    expect(no.state.active).toBe(false) // 关菜单
-  })
-  test('cursor 跨调用记忆(原版 iCurSystemMenuItem)', () => {
-    expect(openSystemMenu(3).cursor).toBe(3) // 恢复上次
-    expect(openSystemMenu(99).cursor).toBe(4) // 越界 clamp
-  })
-  test('closeSystemMenu:active false', () => {
-    expect(closeSystemMenu().active).toBe(false)
+
+  test('改选是再确认时交给宿主返回标题', () => {
+    const { state } = systemConfirm(openSystemMenu(4), audioPreferences)
+    const confirmed = systemToggleConfirm(state)
+    expect(systemConfirmYes(confirmed)).toEqual({ state: confirmed, action: { kind: 'quit' } })
   })
 })

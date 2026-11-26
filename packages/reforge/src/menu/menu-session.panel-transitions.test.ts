@@ -73,19 +73,15 @@ describe('世界菜单面板切换', () => {
     expect(h.menus.view.menu.openPanel).toBeUndefined()
   })
 
-  test('覆盖确认中 refreshSaveBrowser 重建浏览态：确认被替换、mode/cursor 按实参保留', () => {
+  test('刷新活动覆盖确认的元数据后，确认仍写入当前选定槽位', () => {
     const h = menuFixture()
     h.openPanel('system')
-    h.press('Enter') // 打开存档浏览器
-    expect(h.menus.view.saveBrowser.active).toBe(true)
-    h.press('Enter') // 进入覆盖确认
+    h.press('Enter', 'Enter', 'ArrowRight')
     expect(h.menus.view.saveBrowser.confirmOverwrite).toBe(true)
-    h.menus.refreshSaveBrowser('save', h.context.metas, 5)
-    expect(h.menus.view.saveBrowser.active).toBe(true)
-    expect(h.menus.view.saveBrowser.confirmOverwrite).toBe(false) // 确认态被重建丢弃
-    expect(h.menus.view.saveBrowser.mode).toBe('save')
-    expect(h.menus.view.saveBrowser.cursor).toBe(5)
-    expect(h.ports.writeSlot).not.toHaveBeenCalled()
+    h.menus.refreshSaveBrowser(h.context.metas)
+    h.press('Enter')
+    expect(h.ports.writeSlot).toHaveBeenCalledExactlyOnceWith('m01')
+    expect(h.menus.view.saveBrowser.confirmOverwrite).toBe(false)
   })
 
   test('open() 活动中重入：菜单重置回 hub 导航层', () => {

@@ -1,22 +1,8 @@
-/**
- * TEST-REFORGE-RUNTIME-CONTRACTS-1 B4-B6：使用菜单纯状态与执行归并（use-menu-state.ts）。
- * use-menu-state.test.ts:67 已有单体连续使用耗尽、:107 已有失败/成功关闭轴；本文件补
- * 多行网格导航、pick-item/pick-target 往返与 finishUseExecution 的 keep 重建/钳位。
- * B5 的执行请求一律由真实 useConfirm/useApply 产生（itemId 与 selectedItemId 一致对应）；
- * 不变性：快照并比较的就是真正传入各函数的同一 world 对象；只验菜单协议，
- * 不冒充物品副作用已执行。
- */
 import { describe, expect, test } from 'vitest'
-import {
-  deepSnapshot,
-  multiItems,
-  multiWorld,
-  useOutcome,
-} from './__tests__/glm-runtime-contract-fixtures.js'
+import { multiItems, multiWorld, useOutcome } from './__tests__/glm-runtime-contract-fixtures.js'
 import {
   finishUseExecution,
   openUseMenu,
-  USE_GRID_COLS,
   useApply,
   useBackFromTarget,
   useConfirm,
@@ -27,11 +13,10 @@ import {
 const open = () => openUseMenu(multiWorld(), multiItems())
 const usableIds = () => ['u-1', 'u-2', 'u-3', 'u-4', 'u-5', 'sc-1']
 
-describe('B4 使用列表网格导航', () => {
+describe('使用列表的网格导航', () => {
   test('6 项/3 列两行：四方向 clamp 到首/尾；selected 与 cursor 对应', () => {
     const s = open()
     expect(s.items.map((i) => i.id)).toEqual(usableIds())
-    expect(s.items.length).toBeGreaterThanOrEqual(2 * USE_GRID_COLS) // 至少两行
     let cur = s.cursor
     cur = useMoveCursor({ ...s, cursor: cur }, 'down').cursor
     expect(cur).toBe(3)
@@ -48,7 +33,7 @@ describe('B4 使用列表网格导航', () => {
     cur = useMoveCursor({ ...s, cursor: cur }, 'up').cursor
     expect(cur).toBe(0) // 首项吸附
     // cursor → 实际选中物对应：u-5 是 oneAlly，进选目标并记下其 id
-    const selected = useConfirm({ ...s, cursor: 4 }, multiWorld(), multiItems())
+    const selected = useConfirm({ ...s, cursor: 4 }, multiWorld())
     if (selected.kind !== 'pick-target') throw new Error('u-5 是 oneAlly，应进选目标')
     expect(selected.state.selectedItemId).toBe('u-5')
   })
@@ -63,15 +48,15 @@ describe('B4 使用列表网格导航', () => {
   })
 })
 
-describe('B5 finishUseExecution keep 重建与钳位（请求由真实入口产生）', () => {
-  test('pick-item：sc-1 经 useConfirm 产 execute 请求；keep 按 outcome 世界重建并钳 cursor', async () => {
+describe('使用结束后重建列表', () => {
+  test('pick-item：sc-1 经 useConfirm 产 execute 请求；keep 按 outcome 世界重建并钳 cursor', () => {
     const world0 = multiWorld()
     const items = multiItems()
     // 真实入口：cursor 5 = sc-1（scene 类，不选目标直接 execute）
     let s = openUseMenu(world0, items)
     for (let i = 0; i < 5; i++) s = useMoveCursor(s, 'right')
     expect(s.cursor).toBe(5)
-    const confirmed = useConfirm(s, world0, items)
+    const confirmed = useConfirm(s, world0)
     if (confirmed.kind !== 'execute') throw new Error('sc-1 是 scene 目标，应直接 execute')
     expect(confirmed.request).toMatchObject({
       itemId: 'sc-1',
@@ -93,54 +78,39 @@ describe('B5 finishUseExecution keep 重建与钳位（请求由真实入口产�
     expect(keep.items.map((i) => i.id)).toEqual(usableIds())
     expect(keep.cursor).toBe(5)
   })
-  test('pick-target：u-2 经 useConfirm→useApply 产请求（itemId↔selectedItemId 一致）；用光重建', async () => {
+  test('pick-target：u-2 经 useConfirm→useApply 产请求（itemId↔selectedItemId 一致）；用光重建', () => {
     const world0 = multiWorld()
     const items = multiItems()
     const s = useMoveCursor(openUseMenu(world0, items), 'right') // cursor 1 = u-2
-    const confirmed = useConfirm(s, world0, items)
+    const confirmed = useConfirm(s, world0)
     if (confirmed.kind !== 'pick-target') throw new Error('u-2 是 oneAlly，应进选目标')
     const target = confirmed.state
     expect(target.phase).toBe('pick-target')
     expect(target.selectedItemId).toBe('u-2')
-    const request = useApply(target, world0, 'hero-b', items)
+    const request = useApply(target, 'hero-b')
+    if (!request) throw new Error('选中成员后应产生执行请求')
     expect(request).toMatchObject({ itemId: 'u-2', targetCharId: 'hero-b', origin: 'pick-target' })
-    expect(request?.itemId).toBe(request?.state.selectedItemId) // 一致对应，非手拼
-    // 仍可用（数量 3）→ 留选目标原状态
-    const still = finishUseExecution(request!, useOutcome(world0), items)
+    expect(request.state.selectedItemId).toBe('u-2')
+    // The latest inventory still contains u-2.
+    const still = finishUseExecution(request, useOutcome(world0), items)
     expect(still).toBe(target)
     // 用光（数量 1）→ 回 pick-item 列表
     const worldAfter = {
       ...world0,
       inventory: world0.inventory.filter((entry) => entry.itemId !== 'u-2'),
     }
-    const rebuilt = finishUseExecution(request!, useOutcome(worldAfter), items)
+    const rebuilt = finishUseExecution(request, useOutcome(worldAfter), items)
     expect(rebuilt.phase).toBe('pick-item')
     expect(rebuilt.items.map((i) => i.id)).toEqual(['u-1', 'u-3', 'u-4', 'u-5', 'sc-1'])
   })
 })
 
-describe('B6 失败保持原菜单；pick-target 往返与副作用边界', () => {
-  test('失败结果原样返回原状态；真正传入的 world 在全链后逐值不变；close 轴关闭', async () => {
-    const world = multiWorld()
-    const items = multiItems()
-    const worldSnapshot = deepSnapshot(world)
-    const s = useMoveCursor(openUseMenu(world, items), 'right') // u-2
-    const confirmed = useConfirm(s, world, items)
-    if (confirmed.kind !== 'pick-target') throw new Error('oneAlly 应进选目标')
-    const request = useApply(confirmed.state, world, 'hero-a', items)
-    if (!request) throw new Error('useApply 应产请求')
-    const failed = finishUseExecution(request, useOutcome(world, { status: 'failure' }), items)
-    expect(failed).toBe(confirmed.state) // 失败：原菜单原状态
-    const closed = finishUseExecution(request, useOutcome(world, { menu: 'close' }), items)
-    expect(closed.active).toBe(false)
-    expect(closed.items).toEqual([])
-    expect(world).toEqual(worldSnapshot) // 菜单层 request 不产生物品副作用
-  })
-  test('pick-target Esc 回 pick-item 光标留在该物', async () => {
+describe('选择目标及返回列表', () => {
+  test('pick-target Esc 回 pick-item 光标留在该物', () => {
     const world = multiWorld()
     const items = multiItems()
     const s = useMoveCursor(openUseMenu(world, items), 'right') // cursor 1 → u-2
-    const confirmed = useConfirm(s, world, items)
+    const confirmed = useConfirm(s, world)
     if (confirmed.kind !== 'pick-target') throw new Error('oneAlly 应进选目标')
     const target = confirmed.state
     const back = useBackFromTarget(target)

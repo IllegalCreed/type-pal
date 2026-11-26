@@ -167,3 +167,22 @@ describe('Debug battle request construction', () => {
     }
   })
 })
+
+test('战场 option 使用显式有限 id；非法值 fail-closed，不启动战斗', async () => {
+  const { startBattle } = await debugHarness()
+  const battleTab = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+    (tab) => tab.textContent === '战斗',
+  )!
+  battleTab.click()
+  const selectedField = element<HTMLSelectElement>('[aria-label="战场"]')
+  expect(selectedField.options[0]!.value).toBe('7')
+  selectedField.options[0]!.value = 'Infinity'
+  selectedField.value = 'Infinity'
+  document.querySelector<HTMLInputElement>('.tpd-scrollbox input[value="hero"]')!.click()
+  ;[...document.querySelectorAll<HTMLButtonElement>('button')]
+    .find((button) => button.textContent === '⚔ 开战')!
+    .click()
+  expect(startBattle).not.toHaveBeenCalled()
+  expect(document.querySelector('[role="status"]')?.textContent).toContain('有限数字')
+  expect(status()).toContain('战场 id')
+})

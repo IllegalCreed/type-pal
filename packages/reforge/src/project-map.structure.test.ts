@@ -1,14 +1,13 @@
-// Q02 · project-map stamp 组合放置与 resize 残差（排重：N01 已证 lattice 边界/-0、瓦片/碰撞
-// 非法诊断、floodFill 退化、tilesInView 越界/隐藏层、同尺寸缩放原引用、图层操作幂等；
-// 本文件只补 stamp placements 写读/校验、resize 增缩与组合保护、图层操作 stamp 联动臂）。
-
-import type { ProjectMap, StampPlacementGroupV1 } from '@type-pal/content'
+import { type ProjectMap, type StampPlacementGroupV1, validateProjectMap } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import {
   buildBlankProjectMap,
   buildProjectMapLayer,
   insertProjectMapLayer,
   moveProjectMapLayer,
+  nextProjectMapLayerId,
+  paintProjectMapCollision,
+  paintProjectMapTiles,
   projectMapStampPlacements,
   removeProjectMapLayer,
   resizeProjectMap,
@@ -16,7 +15,10 @@ import {
   withProjectMapStampPlacements,
 } from './project-map.js'
 
-/** 视觉成员必须落在已铺瓦片上：anchor 行铺 7 号瓦片。 */
+const SOURCE_A = 'tileset-001'
+const SOURCE_B = 'tileset-002'
+
+/** 视觉成员引用的格子要先铺瓦片；作者态校验会核对。 */
 function paintedBase(width = 4, height = 4): ProjectMap {
   const base = buildBlankProjectMap(width, height, 'tiles')
   return {
@@ -44,9 +46,10 @@ function placement(overrides: Partial<StampPlacementGroupV1> = {}): StampPlaceme
   }
 }
 
-test('Q02 空 placements 不物化 authoring；非空 placements 过守卫后可读回', () => {
+test('空 placements 不物化 authoring；非空 placements 过守卫后可读回', () => {
   const base = buildBlankProjectMap(4, 4, 'tiles')
-  const empty = withProjectMapStampPlacements(base, [])
+  const current = withProjectMapStampPlacements(paintedBase(), [placement()])
+  const empty = withProjectMapStampPlacements(current, [])
   expect('authoring' in empty).toBe(false)
   expect(projectMapStampPlacements(empty)).toEqual([])
   const stamped = withProjectMapStampPlacements(paintedBase(), [placement()])
@@ -55,35 +58,16 @@ test('Q02 空 placements 不物化 authoring；非空 placements 过守卫后可
   expect(stamped.tilesetRefs).toEqual(base.tilesetRefs)
 })
 
-test('Q02 placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots', () => {
+test('placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots', () => {
   expect(() =>
     withProjectMapStampPlacements(paintedBase(), [placement({ anchor: { row: -1, col: 2 } })]),
-  ).toThrow()
+  ).toThrow(/anchor|锚点/)
   expect(() =>
     withProjectMapStampPlacements(paintedBase(), [placement({ visualSlots: [] })]),
-  ).toThrow()
+  ).toThrow(/visualSlots|视觉/)
 })
 
-test('Q02 resize 放大：内容保留、新区为空且 heights 存在时重建', () => {
-  const base = buildBlankProjectMap(2, 2, 'tiles')
-  const painted = {
-    ...base,
-    layers: base.layers.map((layer) => ({
-      ...layer,
-      tiles: layer.tiles.map((row, i) => row.map((_, j) => (i === 0 && j === 0 ? 7 : null))),
-      heights: layer.tiles.map((row, i) => row.map((_, j) => (i === 0 && j === 0 ? 3 : 0))),
-    })),
-  }
-  const grown = resizeProjectMap(painted, 3, 3)
-  expect(grown.width).toBe(3)
-  expect(grown.height).toBe(3)
-  expect(grown.layers[0]?.tiles[0]?.[0]).toBe(7)
-  expect(grown.layers[0]?.heights?.[0]?.[0]).toBe(3)
-  expect(grown.layers[0]?.tiles[5]?.[2]).toBeNull()
-  expect(grown.collision[5]?.[2]).toBe(0)
-})
-
-test('Q02 resize 缩小：行列截断且 collision 一并重建', () => {
+test('resize 缩小：行列截断且 collision 一并重建', () => {
   const base = buildBlankProjectMap(4, 4, 'tiles')
   const painted = {
     ...base,
@@ -96,17 +80,18 @@ test('Q02 resize 缩小：行列截断且 collision 一并重建', () => {
   expect(shrunk.collision.every((row) => row.every((cell) => cell === 0))).toBe(true)
 })
 
-test('Q02 resize 会破坏组合时精确拒绝并点名组合 id', () => {
+test('resize 会破坏组合时精确拒绝并点名组合 id', () => {
   const stamped = withProjectMapStampPlacements(paintedBase(), [placement()])
   expect(() => resizeProjectMap(stamped, 1, 1)).toThrow(
     '缩小地图会破坏 1 个组合（grp1）；请先解组或删除整组。',
   )
   // 组合完全落在新尺寸内时放行。
-  const safe = resizeProjectMap(stamped, 4, 4)
-  expect(safe.width).toBe(4)
+  const safe = resizeProjectMap(stamped, 3, 2)
+  expect([safe.width, safe.height]).toEqual([3, 2])
+  expect(projectMapStampPlacements(safe)).toEqual([placement()])
 })
 
-test('Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删', () => {
+test('removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删', () => {
   const base = paintedBase()
   const extra = buildProjectMapLayer(base, 'decor', '装饰')
   const two = insertProjectMapLayer(base, extra)
@@ -116,7 +101,7 @@ test('Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可
   expect(removed.layers.map((layer) => layer.id)).toEqual(['floor'])
 })
 
-test('Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制', () => {
+test('insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制', () => {
   const base = buildBlankProjectMap(2, 2, 'tiles')
   const layer = buildProjectMapLayer(base, 'decor', '装饰')
   const once = insertProjectMapLayer(base, layer)
@@ -127,7 +112,7 @@ test('Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制'
   expect(atBottom.layers[0]?.id).toBe('decor')
 })
 
-test('Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位', () => {
+test('moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位', () => {
   const base = buildBlankProjectMap(2, 2, 'tiles')
   const layer = buildProjectMapLayer(base, 'decor', '装饰')
   const two = insertProjectMapLayer(base, layer)
@@ -137,10 +122,47 @@ test('Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位'
   expect(moved.layers.map((layer2) => layer2.id)).toEqual(['decor', 'floor'])
 })
 
-test('Q02 updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序', () => {
+test('updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序', () => {
   const base: ProjectMap = buildBlankProjectMap(2, 2, 'tiles')
   expect(updateProjectMapLayer(base, 'ghost', { name: 'x' })).toBe(base)
   const renamed = updateProjectMapLayer(base, 'floor', { name: '地面' })
   expect(renamed.layers[0]?.name).toBe('地面')
   expect(renamed.layers.map((layer) => layer.id)).toEqual(['floor'])
+})
+
+test('缩放同步处理 tiles/sources/heights/collision', () => {
+  let map = paintProjectMapTiles(buildBlankProjectMap(2, 2, SOURCE_A), [
+    { layerId: 'floor', col: 1, row: 1, tileId: 9, tilesetId: SOURCE_B, height: 6 },
+  ])
+  map = paintProjectMapCollision(map, [{ col: 1, row: 2, value: 1 }])
+  const big = resizeProjectMap(map, 4, 3)
+  expect(big.layers[0]?.tiles[1]?.[1]).toBe(9)
+  expect(big.layers[0]?.sources[1]?.[1]).toBe(1)
+  expect(big.layers[0]?.heights?.[1]?.[1]).toBe(6)
+  expect(big.layers[0]?.sources[5]?.[3]).toBeNull()
+  expect(big.collision[2]?.[1]).toBe(1)
+  expect(validateProjectMap(big)).toBeDefined()
+  expect(resizeProjectMap(map, 2, 2)).toBe(map)
+})
+
+test('图层稳定 id 支持增、移、改、删', () => {
+  const base = buildBlankProjectMap(1, 1, SOURCE_A)
+  const added = insertProjectMapLayer(base, buildProjectMapLayer(base, 'objects', '物件'))
+  const moved = moveProjectMapLayer(added, 'objects', 0)
+  expect(moved.layers.map(({ id }) => id)).toEqual(['objects', 'floor'])
+  expect(updateProjectMapLayer(moved, 'objects', { name: '遮挡物' }).layers[0]?.name).toBe('遮挡物')
+  expect(removeProjectMapLayer(moved, 'objects').layers.map(({ id }) => id)).toEqual(['floor'])
+  expect(removeProjectMapLayer(base, 'floor')).toBe(base)
+})
+
+test('new layer ID uses the smallest free serial after each real layer insertion', () => {
+  const map = buildBlankProjectMap(2, 2, SOURCE_A)
+  const first = insertProjectMapLayer(map, buildProjectMapLayer(map, 'layer-1', 'First'))
+  const gap = insertProjectMapLayer(first, buildProjectMapLayer(first, 'layer-3', 'Third'))
+  const filled = insertProjectMapLayer(gap, buildProjectMapLayer(gap, 'layer-2', 'Second'))
+  expect([
+    nextProjectMapLayerId(map),
+    nextProjectMapLayerId(gap),
+    nextProjectMapLayerId(filled),
+  ]).toEqual(['layer-1', 'layer-2', 'layer-4'])
 })

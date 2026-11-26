@@ -12,6 +12,7 @@ import {
 import { expectDefined } from '../defined.js'
 import type { GlyphTable } from '../text/glyph.js'
 import { renderSpans } from '../text/text-render.js'
+import { MENU_GRID_COLUMNS } from './grid-cursor.js'
 import {
   COLOR_NORMAL,
   drawNumber,
@@ -28,7 +29,6 @@ const ITEM_X0 = 15
 const ITEM_Y0 = 12
 const ITEM_DX = 100 // 列宽 INV_ITEM_TEXT_WIDTH
 const ITEM_DY = 18
-const GRID_COLS = 3
 const AMOUNT_DX = 81 // 数量右对齐 = ITEM_X0 + 81 + k×DX
 const CURSOR_DX = 25
 const CURSOR_DY = 10
@@ -101,8 +101,8 @@ export function drawItemGridList(
   const blink = SELECTED_COLORS[Math.floor(now / 100) % SELECTED_COLORS.length] ?? COLOR_NORMAL
   const equipped = equippedItemIds(world) // 穿戴中的物品标绿(原版 itemmenu.c equipped 色,优先于选中闪烁)
   items.forEach((item, i) => {
-    const k = i % GRID_COLS
-    const j = Math.floor(i / GRID_COLS)
+    const k = i % MENU_GRID_COLUMNS
+    const j = Math.floor(i / MENU_GRID_COLUMNS)
     const x = ITEM_X0 + k * ITEM_DX
     const y = ITEM_Y0 + j * ITEM_DY
     const selected = i === cursor

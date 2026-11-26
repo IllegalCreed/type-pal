@@ -8,6 +8,8 @@ import {
   element,
 } from './__tests__/debug-tools-fixtures.js'
 
+import { injectDebugToolsStyles } from './debug-tools-styles.js'
+
 afterEach(cleanupDebug)
 describe('Debug layer and navigation actions', () => {
   test('console and checkbox layer toggles share one model and do not enable frame stepping implicitly', async () => {
@@ -95,4 +97,39 @@ describe('Debug layer and navigation actions', () => {
       vi.useRealTimers()
     }
   })
+})
+
+test('样式幂等，五个语义 tab 使用 roving focus，切换后表单与 console 状态不丢', async () => {
+  const h = await debugHarness()
+  injectDebugToolsStyles()
+  injectDebugToolsStyles()
+  expect(document.querySelectorAll('#tp-reforge-debug-style')).toHaveLength(1)
+  const css = document.getElementById('tp-reforge-debug-style')!.textContent
+  expect(css).toContain('--tpd-bg:rgba(24,24,28,.96)')
+  expect(css).toContain('--tpd-accent:#6c8eef')
+  expect(css).toContain('#tp-debug[hidden] { display:none; }')
+  expect(css).not.toContain('Songti SC')
+
+  expect(document.querySelector('[role="tablist"]')?.getAttribute('aria-orientation')).toBe(
+    'horizontal',
+  )
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')]
+  const panels = [...document.querySelectorAll<HTMLElement>('[role="tabpanel"]')]
+  expect(tabs.map((tab) => tab.textContent)).toEqual(['状态', '指令', '触发', '战斗', '图层'])
+  expect(panels).toHaveLength(5)
+  expect(tabs.map((tab) => tab.tabIndex)).toEqual([0, -1, -1, -1, -1])
+
+  tabs[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+  expect(tabs[1]!.getAttribute('aria-selected')).toBe('true')
+  expect(tabs.map((tab) => tab.tabIndex)).toEqual([-1, 0, -1, -1, -1])
+  const command = document.querySelector<HTMLInputElement>('[aria-label="调试命令"]')!
+  command.value = 'help'
+  command.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+  expect(document.querySelector('.tpd-console')?.textContent).toContain('scene <id>')
+
+  tabs[4]!.click()
+  tabs[1]!.click()
+  expect(document.querySelector('.tpd-console')?.textContent).toContain('scene <id>')
+  expect(command.isConnected).toBe(true)
+  h.dispose()
 })

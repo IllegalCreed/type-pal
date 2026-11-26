@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-21
+Last reviewed: 2026-11-26
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -28,3 +28,17 @@ Template: evidence-receipt-v1 / 1.0.0
 ## 限制与复核
 
 用固定 Git 提交读出上列整文件和声明范围，核摘要、只删字段差异与最新来源事件。音效、菜单和启动的本轮定向执行取[既有治理原件归档](QUALITY-POST-GAME-ACCEPTANCE-AUDIT-1.tar.gz)中的 `review-11/`。本回执只负责旧测试报告的来源适用性。
+
+## 2026-11-26 世界操作与菜单批次后的引用
+
+基点为 #78 合并提交 `c409a1654b010543dc84d2ad71e692c8b9f07433`，源码为 `d6e4af0461a22080e96696fcdc726b9acec22aca`。六条目录记录及对应报告和证据的旧业务主张取原执行时点。此处只续接下列逐字节相同的引用范围。
+
+| 源码 | 原行 → 当前行 | 旧文件 SHA-256 | 新文件 SHA-256 |
+|---|---|---|---|
+| `packages/reforge/src/main.ts` | 417-424 → 417-424，456-463 → 456-463，1300-1398 → 1300-1398，441-453 → 441-453，6009 → 6009 | `c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37` | `f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3` |
+| `packages/reforge/src/battle/battle-session.ts` | 251-253 → 251-253，426-438 → 426-438，1312-1321 → 1312-1321 | `c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2` | `aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d` |
+| `packages/reforge/src/menu/menu-session.ts` | 107-130 → 108-131 | `261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b` | `1129a966426a9aa9154e9e119dac7e363e2e11ae63e75eb966a7d09202b988ba` |
+| `packages/reforge/src/menu/menu-session.test.ts` | 10-33 → 11-34 | `cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab` | `d35a71a1717a05132160072e9392fdcfb54fc5ccaf42494b07d1bca403fa87b6` |
+| `packages/reforge/src/menu/item-use-session.test.ts` | 5-22 → 5-22 | `ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f` | `86c6e84884ee7637889d335f79164e3e185bfd8d8f4493eca7327cca887e504b` |
+
+运行记录和新回归在[世界操作与菜单批次](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md)。这里保留旧候选和计数，未签发新的剧情或视觉结论。

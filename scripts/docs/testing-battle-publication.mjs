@@ -3190,6 +3190,90 @@ export function restoreTestingReforgeBattleCloseoutBindings(path, bytes, inputs)
   )
 }
 
+export const testingReforgeWorldControlsBase = 'c409a1654b010543dc84d2ad71e692c8b9f07433'
+const worldControlsStage = {
+  ranges: new Map([
+    [
+      'packages/reforge/src/main.ts',
+      {
+        '417-424': '417-424',
+        '456-463': '456-463',
+        '1300-1398': '1300-1398',
+        '441-453': '441-453',
+        6009: '6009',
+      },
+    ],
+    [
+      'packages/reforge/src/battle/battle-session.ts',
+      { '251-253': '251-253', '426-438': '426-438', '1312-1321': '1312-1321' },
+    ],
+    ['packages/reforge/src/menu/menu-session.ts', { '107-130': '108-131' }],
+    ['packages/reforge/src/menu/menu-session.test.ts', { '10-33': '11-34' }],
+    ['packages/reforge/src/menu/item-use-session.test.ts', { '5-22': '5-22' }],
+  ]),
+  base: testingReforgeWorldControlsBase,
+  receipt: 'docs/tasks/evidence/reforge-runtime-source-applicability.md',
+  action: 'reforge-world-controls-source-rebinding',
+  date: '2026-11-26',
+}
+const worldControlsBindings = new Map([
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/battle/battle-session-owners/evidence.json',
+    {
+      id: 'runtime-battle-session-owners',
+      paths: ['packages/reforge/src/battle/battle-session.ts'],
+    },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: ['packages/reforge/src/main.ts'] },
+  ],
+  [
+    'domains/runtime/menu/menu-session/evidence.json',
+    {
+      id: 'reforge-menu-session',
+      paths: [
+        'packages/reforge/src/menu/menu-session.ts',
+        'packages/reforge/src/menu/menu-session.test.ts',
+        'packages/reforge/src/menu/item-use-session.test.ts',
+      ],
+    },
+  ],
+  [
+    'domains/cross-phase/battle-foundation/evidence.json',
+    { id: 'q2-battle-foundation', paths: ['packages/reforge/src/main.ts'], artifactClaims: true },
+  ],
+])
+const worldControlsReports = new Map(
+  [...worldControlsBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/u, 'report.md')}`,
+    path,
+  ]),
+)
+
+export const isTestingReforgeWorldControlsSource = (path) => worldControlsStage.ranges.has(path)
+
+export function restoreTestingReforgeWorldControlsBindings(path, bytes, inputs) {
+  if (worldControlsReports.has(path))
+    assert.equal(testingReportBody(bytes), testingReportBody(inputs.readBase(path)))
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    worldControlsStage,
+    worldControlsBindings,
+    worldControlsReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

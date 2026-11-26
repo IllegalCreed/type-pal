@@ -6159,13 +6159,10 @@ export async function bootGame(
 
   /** 浏览界面写槽:菜单内 canvas 是菜单画面 → 用开菜单时抓的干净帧;存完刷新浏览显示。 */
   async function browserWrite(slotId: SlotId): Promise<void> {
-    const { saveBrowser } = menus.view
-    const mode = saveBrowser.mode
-    const cursor = saveBrowser.cursor
     const thumb = lastGameThumb ?? captureThumbnail(canvas)
     await doSave(slotId, thumb)
     lastSaveSlot = slotId // bCurrentSaveSlot(uigame.c:718 存档选槽即记)
-    menus.refreshSaveBrowser(mode, saveMetas, cursor)
+    menus.refreshSaveBrowser(saveMetas)
   }
   /** 浏览界面读槽:成功 → 关菜单回大世界。 */
   async function browserLoad(slotId: SlotId): Promise<void> {
@@ -7099,10 +7096,8 @@ export async function bootGame(
       installDebugTools({
         world: () => world,
         motionState: captureMotionState,
-        sceneId: () => activeScene.scene.id,
         scene: () => sceneResources.peek(activeScene.scene.id),
         canonicalProject,
-        runtime: () => scriptRuntime ?? undefined,
         runnerBusy: () => runner !== null,
         dialogBusy: () => dialogBox.active,
         presentationBusy: () => presentation.busy(),
@@ -7158,7 +7153,6 @@ export async function bootGame(
           },
         },
         layers: debugLayers,
-        showToast,
       })
     } catch (error) {
       console.warn('[debug-tools] 安装失败:', error)

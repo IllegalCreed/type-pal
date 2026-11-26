@@ -9,58 +9,68 @@ import {
 } from './equip-menu-state.js'
 import { makeTestItems, makeTestWorld } from './test-fixtures.js'
 
-describe('装备菜单状态机', () => {
-  test('openEquipMenu:list 阶段,列出可装物(土灵珠),cursor 0', () => {
-    const s = openEquipMenu(makeTestWorld(), 'li-xiaoyao', makeTestItems())
-    expect(s.active).toBe(true)
-    expect(s.phase).toBe('list')
-    expect(s.items.map((i) => i.id)).toEqual(['267'])
-    expect(s.cursor).toBe(0)
+describe('装备选择和换装', () => {
+  test('只列背包中可穿戴且有库存的物品', () => {
+    const world = makeTestWorld()
+    const items = makeTestItems()
+    const list = openEquipMenu(world, 'li-xiaoyao', items)
+    expect(list).toMatchObject({ active: true, phase: 'list', cursor: 0 })
+    expect(list.items.map(({ id }) => id)).toEqual(['267'])
+    expect(openEquipMenu({ ...world, inventory: [] }, 'li-xiaoyao', items).items).toEqual([])
   })
-  test('equipConfirmItem:list → pick-role,记下选中物(不换)', () => {
-    const s0 = openEquipMenu(makeTestWorld(), 'li-xiaoyao', makeTestItems())
-    const s1 = equipConfirmItem(s0)
-    expect(s1.phase).toBe('pick-role')
-    expect(s1.selectedItemId).toBe('267')
+
+  test('满槽换装后可以在同一面板换回旧装备', () => {
+    const world = makeTestWorld()
+    const items = makeTestItems()
+    const itemSelected = equipConfirmItem(openEquipMenu(world, 'li-xiaoyao', items))
+    const applied = equipApply(itemSelected, world, items)
+    expect(applied.world.party[0]?.equipment.accessory).toBe('267')
+    expect(applied.state).toMatchObject({ phase: 'pick-role', selectedItemId: '249' })
+    expect(applied.world.inventory.find(({ itemId }) => itemId === '249')?.count).toBe(1)
+    const restored = equipApply(applied.state, applied.world, items)
+    expect(restored.world.party[0]?.equipment.accessory).toBe('249')
+    expect(restored.state.selectedItemId).toBe('267')
   })
-  test('equipApply:满槽换装 → 留 pick-role + 选中变换下的旧件(可空格来回切换对比)', () => {
-    const w0 = makeTestWorld() // 手饰=护腕(249),背包=土灵珠(267)
-    const s1 = equipConfirmItem(openEquipMenu(w0, 'li-xiaoyao', makeTestItems())) // 选 267
-    const { world, state } = equipApply(s1, w0, makeTestItems())
-    expect(world.party[0]?.equipment.accessory).toBe('267') // 土灵珠入槽
-    expect(state.phase).toBe('pick-role') // 满槽 → 留面板续换
-    expect(state.selectedItemId).toBe('249') // 选中变护腕(换下的)
-    const r2 = equipApply(state, world, makeTestItems()) // 再 Space → 换回
-    expect(r2.world.party[0]?.equipment.accessory).toBe('249')
-    expect(r2.state.selectedItemId).toBe('267')
-  })
-  test('equipApply:空槽换装 → 回 list(原版 wLastUnequippedItem==0)', () => {
-    const w0 = makeTestWorld()
+
+  test('装入空槽后返回已更新的背包列表', () => {
+    const previous = makeTestWorld()
     const world = {
-      ...w0,
-      party: w0.party.map((c, i) =>
-        i === 0 ? { ...c, equipment: { ...c.equipment, accessory: '' } } : c,
-      ),
+      ...previous,
+      party: previous.party.map((member) => {
+        const { accessory: _removed, ...equipment } = member.equipment
+        return { ...member, equipment }
+      }),
     }
-    const s1 = equipConfirmItem(openEquipMenu(world, 'li-xiaoyao', makeTestItems()))
-    const r = equipApply(s1, world, makeTestItems())
-    expect(r.world.party[0]?.equipment.accessory).toBe('267')
-    expect(r.state.phase).toBe('list') // 空槽 → 回 list
+    const items = makeTestItems()
+    const selected = equipConfirmItem(openEquipMenu(world, 'li-xiaoyao', items))
+    const applied = equipApply(selected, world, items)
+    expect(applied.world.party[0]?.equipment.accessory).toBe('267')
+    expect(applied.state).toMatchObject({ phase: 'list', items: [], cursor: 0 })
+    expect(applied.state.selectedItemId).toBeUndefined()
   })
-  test('equipBackToList:pick-role → list(重算背包),清选中', () => {
-    const w0 = makeTestWorld()
-    const s1 = equipConfirmItem(openEquipMenu(w0, 'li-xiaoyao', makeTestItems()))
-    const s2 = equipBackToList(s1, w0, makeTestItems())
-    expect(s2.phase).toBe('list')
-    expect(s2.selectedItemId).toBeUndefined()
+
+  test('打开空列表后移动和确认都不会选中装备', () => {
+    const world = { ...makeTestWorld(), inventory: [] }
+    const menu = openEquipMenu(world, 'li-xiaoyao', makeTestItems())
+    expect(equipMoveCursor(menu, 'down')).toBe(menu)
+    expect(equipConfirmItem(menu)).toBe(menu)
   })
-  test('equipMoveCursor:list 越界 clamp 不动;空列表不崩;pick-role 不动', () => {
-    const s = openEquipMenu(makeTestWorld(), 'li-xiaoyao', makeTestItems())
-    expect(equipMoveCursor(s, 'up').cursor).toBe(0)
-    expect(equipMoveCursor({ ...s, items: [] }, 'down').cursor).toBe(0)
-    expect(equipMoveCursor(equipConfirmItem(s), 'down').phase).toBe('pick-role')
+
+  test('关闭装备面板会丢弃候选和穿戴者选择', () => {
+    expect(closeEquipMenu()).toEqual({
+      active: false,
+      phase: 'list',
+      items: [],
+      cursor: 0,
+      casterId: '',
+    })
   })
-  test('closeEquipMenu:active false', () => {
-    expect(closeEquipMenu().active).toBe(false)
+
+  test('列表态忽略选人步骤的应用和返回请求', () => {
+    const world = makeTestWorld()
+    const items = makeTestItems()
+    const menu = openEquipMenu(world, 'li-xiaoyao', items)
+    expect(equipApply(menu, world, items)).toEqual({ world, state: menu })
+    expect(equipBackToList(menu, world, items)).toBe(menu)
   })
 })

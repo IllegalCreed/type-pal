@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "cf8429dda8736eac553c69c3a40d336b5e753e58010483e2c250861e52a3255e",
+      "afterSha256": "d02502c41f4e9d3d2deb49296abfdb5c200966413f9ec0daa0bdd4aa9975feac",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收逐文件裁定与库存。",
-        "reviewedLines": 1624,
-        "acceptanceScope": "核真实 25 个继续存在、4 个退役、34 条承接与 3883/1492/0/2391。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收本批账本和状态导航增量。",
+        "reviewedLines": 1714,
+        "acceptanceScope": "以逐条索引核现行身份、95 个原路径、承接和夹具、存续留审和新计数。"
       }
     },
     {
@@ -735,11 +735,11 @@
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收当前 Owner 与窗口状态。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收本批账本和状态导航增量。",
         "reviewedLines": 150,
-        "acceptanceScope": "核 #77 历史状态、实际剩余范围、集中门路由。"
+        "acceptanceScope": "按现行活动和单一写入 Owner 核新批导航，同步已闭合批次状态。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "0691650c145ea7104c1b8b97b3f3a9b600f758a6fd1952f8bf0e00dd0b54b53d",
+      "afterSha256": "35d58a04d886d7c31944e749795269a21320b61da9bbfdc865935c7b5f00b97f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收生成任务索引。",
-        "reviewedLines": 619,
-        "acceptanceScope": "原索引复验及本次顶部机械状态映射。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收本批账本和状态导航增量。",
+        "reviewedLines": 621,
+        "acceptanceScope": "只接收生成器投影的两条卡与当前顶部状态。"
       }
     },
     {
@@ -3445,14 +3445,14 @@
       "path": "docs/phase2/specs/save-system.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "3173a0411b824ce5785cb2cbea222d95ade9334b8a9eae9c05a9c34b1c770122",
+      "afterSha256": "3873c5a120b0c6c7f97335d5f2caa9ae1ee7cf92877897b172bccfd9c237cdf5",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root 独立集成复核；/root/q2_status_rules 配对机读和变更范围核对",
-        "date": "2026-11-16",
-        "conclusion": "核任务现行进度、验收范围、实测原件和仍适用的已知边界。",
-        "reviewedLines": 154,
-        "acceptanceScope": "现有五批实跑和本轮收尾。仅按已执行局面、原生画帧与结算裁定。"
+        "author": "/root",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收存档浏览元数据更新的现行合同。",
+        "reviewedLines": 156,
+        "acceptanceScope": "核用户裁决、真实写入反例和当前浏览层的读写模式、光标及覆盖确认归属。原保存编码及硬门身份不改。"
       }
     },
     {
@@ -4376,14 +4376,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "5d6cbecee4f6801d2ef338b777acc405d2f6d9b1ff4fdca9e18f1b72cf8ddc8f",
+      "afterSha256": "e96be61fd1212e4e85852225bdf9d598fca8c3ada4b129b366eac772d07cd323",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
-        "reviewedLines": 11259,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 11390,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
@@ -4428,82 +4428,82 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "8ce392391864530f5e0117d83a125deab467b826e044a8b18f3530531844e55a",
+      "afterSha256": "abc4700d1fe02fb0dc0a17180f13673fd0b3afb105f629a99aa6b6a1ad4f60dd",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 99,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-active-scene 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "09ccffac2f203acf144207c3c7995fa391cbf50e513ec911e1207477ad9de834",
+      "afterSha256": "14fe410d0da7a31aa08f3e3aa28e3936be8091e898fdd7fc3ff8f12194291c83",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 973,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-active-scene 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 996,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "d6fa53c455e33329c2b602275f52dada7333654f8716f914a644f6322aabc4e6",
+      "afterSha256": "7a841c3f303dd21ad3138f1d1bb8dab95369cbfa550d12b503f9428e6c07ce52",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 98,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e4d1b36007a4f400aae0e66759a7a184d13de3418f4cedb74f2d80a5dee1a144",
+      "afterSha256": "1e29375bbb3ffb83c7d274cc155fca27de431883b6e3a2bb6dd563db1f3769c8",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
-        "reviewedLines": 849,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 865,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "72da678f55de7e2fd340349bb63c75e2dd62f30c1bc96f6182aba842e7c0ec95",
+      "afterSha256": "78807772d47dff2120cf2bb81be8946dea2ce10177a3a1bf238f7f485816a4fd",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 99,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 runtime-world-owners 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       },
       "templateId": "test-domain-report-v1"
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "77e8df2415b54fc856760402fa6ac6a7c631b321067cb2b19eee88f0ee0567f8",
+      "afterSha256": "cbf2ce203237a8ff72bf7ffab8d0dfe315a35c618a7a5d66d54b7794da3ad27d",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 794,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 runtime-world-owners 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：保留各执行候选、结果和原范围。核本轮回归、来源引用和音画回执。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 810,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
@@ -4751,55 +4751,55 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "dcf95e2500d3f32fd5c9c434d19e9c2f3e8c58ab1264e2db89c041f183edd5a5",
+      "afterSha256": "788bcba3dcea837069507c60e1b3ab54f7c4f8efcbebad8a64fa3ecfa67ab38d",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
-        "reviewedLines": 1429,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 1459,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "9c042aa1429e889d1cbf00c2e325b1d3f20e548f6b528fae9cb1ae9b75bd4d9f",
+      "afterSha256": "0661dae679058afa1019e7517e46832e2044f4e10b2231da6bd7cd757fc592de",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 101,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "d17f80d487c769b32b39b9813e242f7db19313a35ad8eaae7e18d9e5f62a0194",
+      "afterSha256": "58c249ac6b65864a335788ee64b2fc1f57e586095414968452fc8240d6fe7d09",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
-        "reviewedLines": 291,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 逐值及原字节反解核验 reforge-menu-session 的原生 JSON：仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。原 execution、状态、主张、附件、其他引用和完整旧历史保持；不授予运行、E2E 或视觉信用。 Q2：核引用坐标、旧主张、执行身份和新历史条目。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：核 sourceRef/previousSourceRefs、文件 SHA、实际旧片段、版本和其它字段。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 321,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "75889c6bf03855abeadc88997630f08b45297f7e9c531885a05c139956ced6f2",
+      "afterSha256": "b2dce07844480df7515e87c2dbc079684d3c6a3caf07a024bb7c86bdafde617f",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "接受限于当前调用来源与必要行号的维护。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 72,
-        "acceptanceScope": "主线：按固定已刊主线 778928d 批验 reforge-menu-session 的唯一 testing-meta，仅当前 character.ts 版本引文摘要和一条附加回绑历史改变。元数据其余字段不变，元数据块外逐字节保留；不授予运行、E2E 或视觉信用。 Q2：核菜单目标槽位、合法输入和双端证据的职责。 保留两个来源的执行和审查范围，另核集成后的正文及当前来源绑定。 后继：核报告正文、旧引用和两次固定 Git 对象，未声明重新执行 E2E。 本次新增：精确校对前驱和当前的七条引用、逐片段差异与同一附加历史。正文五个导航行号同步；保留原业务主张、版本、执行身份与原件。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
@@ -5459,27 +5459,27 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "fe86d066f22aa83f33c49b0bd7fdcb04566d6e77fde21404e6494008a239df5c",
+      "afterSha256": "b394e8ce10e25997c967929f76cfcdd153f1b26dbdc80cdd24da49ca6334d985",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
-        "reviewedLines": 15396,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
+        "reviewedLines": 15412,
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d9e8e471c2f44d971ca59faa6cc02a4ac216e1e55b7a1a93e4d51d8c9d6b044b",
+      "afterSha256": "08bc584d80a27fa08e41c87194285a1f69904177de661b1e0ec262cfc6cc69ae",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-25",
-        "conclusion": "接收批准范围内的源码和历史绑定。",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条记录的现行源区间和配对历史维护。",
         "reviewedLines": 1955,
-        "acceptanceScope": "以冻结候选复算源码 SHA、选定片段和引用位置；恢复 #77 正文及历史对照。"
+        "acceptanceScope": "基点与冻结产品逐字节核每段来源，报告业务正文、原执行与候选、原有主张和附件保留。此条仅接受来源适用性。"
       }
     },
     {
@@ -5875,14 +5875,14 @@
     {
       "path": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "64b9b1398d2800a73d121b146910ca19dddfec456bf1b26e2bc667e932eb6351",
+      "afterSha256": "7e06af0417427a916ca623903ca1eadc5432f44f2b50aafa5d0fac89ebae4bff",
       "review": {
         "author": "/root",
-        "reviewer": "/root/reforge_audio_review",
-        "date": "2026-11-21",
-        "conclusion": "固定十一份现行来源载体共用的复验回执。",
-        "reviewedLines": 31,
-        "acceptanceScope": "核两次 Git 字节、行位移、唯一字段移除和原候选保存。"
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收六条目录记录的必要现行来源维护。",
+        "reviewedLines": 45,
+        "acceptanceScope": "限固定前驱和候选的现行源码指纹、逐字节片段和一次附加履历。沿用旧执行时点和业务主张。"
       }
     },
     {
@@ -5935,6 +5935,32 @@
         "conclusion": "接收用户批准的两类准备入口限制。",
         "reviewedLines": 40,
         "acceptanceScope": "核上限、PAL 实际帧、当期已解码库存复查和标识。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "ae77f711dfdf7bfebc0cafa05d1614ef2bc263cb4a9f16fc75fef4d262637bdf",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收按原路径可复验的治理记录、准确计数及待审边界。",
+        "reviewedLines": 73,
+        "acceptanceScope": "核逐文件索引、组别范围、23 项存续路径内迁移或排重的精确测试快照、原件和门禁口径。未重复全部实现复审，未授留审路径文件信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "947840894866b8954bc756033fcc4f4ad97523b2edf0d8a569164996850994f8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/world_docs_review",
+        "date": "2026-11-26",
+        "conclusion": "接收真实晚写入回归及现行界面所有权。",
+        "reviewedLines": 43,
+        "acceptanceScope": "验授权、真实入口的一红一绿、返回读档标题的原生证据和活动覆盖确认结果，未授新 E2E 录制。"
       }
     }
   ],
@@ -7670,6 +7696,12 @@
       "sha256": "3bc2d03990c5cae7207f07557c512e1923775a89c0109d967d88da55c9a24dfe",
       "bytes": 433070,
       "purpose": "Reforge remaining battle review file decisions, test migrations, exact source bindings and execution originals."
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-REFORGE-WORLD-CONTROLS-1.tar.gz",
+      "sha256": "5e37957d25abc7f18287a52bdb1aceadc47626fbbcd0a5c0c433ba5cd32564a7",
+      "bytes": 639506,
+      "purpose": "Reforge world and menu per-file audit, prior case successors, tested scope and complete execution originals."
     }
   ],
   "artifactAliases": [],

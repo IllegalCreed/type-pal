@@ -1,13 +1,6 @@
-/**
- * D13-1 调试工具首刀 —— DEV-only overlay（?debug 动态引入）。
- *
- * 纪律（K1-K5 / G1-G4 验收钉）：
- * - 本模块只经 `import.meta.env.DEV && params.get('debug')` 动态 import，主包静态链不触及；
- *   生产构建 tree-shake 掉 `if(false)` 动态 import 分支。
- * - 全部状态内存态，不落档；世界变更走 runDetached（host 意图守卫）或 dev 内存 mutation。
- * - 命令注册表复用现有 host/命令能力，不新建执行路径。
- * - 任意脚本/触发器触发走 detached current runtime，不用 startScript 静默丢。
- * - 输入隔离：面板 keydown/keyup stopPropagation，焦点期不吞游戏键，Esc 只关 overlay。
+/** DEV tools installed through bootGame's guarded dynamic import.
+ * Disposing the panel releases its listeners and aborts its own operations. Direct world
+ * edits remain part of the active world and may be included in a later normal save.
  */
 import type {
   ActivePoison,
@@ -20,6 +13,14 @@ import type {
 } from '@type-pal/content'
 import { isCarryableStatusId } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
+import { createDebugInspector } from './debug-tools-inspector.js'
+import {
+  createDebugElement as el,
+  injectDebugToolsStyles,
+  ROOT_ID,
+  STYLE_ID,
+  createDebugSection as section,
+} from './debug-tools-styles.js'
 import type { WorldPreset } from './dev-preset.js'
 import type { LoadedCurrentProject } from './project-loader.js'
 import type { ScriptProjectRuntime } from './runtime-script-project.js'
@@ -104,11 +105,9 @@ export interface DebugMotionSnapshot {
   runnerActive: boolean
 }
 
-export interface DebugPresetMember {
+interface DebugPresetMember {
   actorId: string
   level?: number
-  hp?: number
-  mp?: number
   /** "slotId=itemId,slotId=itemId" */
   equipment?: string
   /** 逗号分隔的 extraStatuses status id（如 protect） */
@@ -120,11 +119,12 @@ export interface DebugPresetMember {
 export interface DebugToolsContext {
   world(): WorldState
   motionState(): DebugMotionSnapshot
-  sceneId(): string
   /** current canonical 场景定义（触发器/脚本枚举与触发用）。 */
   scene(): RuntimeSceneDef | undefined
-  canonicalProject: LoadedCurrentProject
-  runtime(): ScriptProjectRuntime | undefined
+  canonicalProject: Pick<
+    LoadedCurrentProject,
+    'sharedScripts' | 'battleFields' | 'enemyTeamsById' | 'enemiesById' | 'actorsById'
+  >
   runnerBusy(): boolean
   dialogBusy(): boolean
   /** D14-2(K2):呈现占用(intent 在途 ∪ runner 活跃)——触发确认判定用。 */
@@ -150,7 +150,6 @@ export interface DebugToolsContext {
   grantSkill(actorId: string, skillId: string): void
   frameStep: DebugFrameStep
   layers: DebugLayers
-  showToast(text: string): void
 }
 
 interface TriggerItem {
@@ -159,9 +158,6 @@ interface TriggerItem {
   label: string
   scene?: string
 }
-
-const ROOT_ID = 'tp-debug'
-const STYLE_ID = 'tp-reforge-debug-style'
 
 type DebugTabId = 'status' | 'commands' | 'triggers' | 'battle' | 'layers'
 
@@ -174,176 +170,6 @@ const DEBUG_TABS: readonly { id: DebugTabId; label: string }[] = [
 ]
 
 let activeDebugCleanup: (() => void) | undefined
-
-/** Reforge 私有样式；复用一阶段视觉 token，但不建立跨包运行时依赖。 */
-export function injectDebugToolsStyles(): void {
-  if (typeof document === 'undefined' || document.getElementById(STYLE_ID)) return
-  const style = document.createElement('style')
-  style.id = STYLE_ID
-  style.textContent = `
-#${ROOT_ID} {
-  --tpd-bg:rgba(24,24,28,.96); --tpd-surface:#1c1c20; --tpd-control:#2d2d34;
-  --tpd-control-hover:#3a3a45; --tpd-border:#3a3a42; --tpd-border-strong:#45454f;
-  --tpd-text:#e8e8e8; --tpd-text-dim:#a0a0aa; --tpd-title:#fdf6a8;
-  --tpd-section:#c4d1ff; --tpd-accent:#6c8eef; --tpd-error:#ff7a70;
-  --tpd-success:#75d38b; --tpd-warn:#f0b35a; --tpd-info:#8ab4d8;
-  position:fixed; top:12px; left:12px; z-index:2147483000;
-  width:min(420px, calc(100vw - 24px)); height:min(680px, 88vh); max-height:88vh;
-  display:flex; flex-direction:column; overflow:hidden; color:var(--tpd-text);
-  background:var(--tpd-bg); border:1px solid var(--tpd-border); border-radius:8px;
-  box-shadow:0 4px 16px rgba(0,0,0,.5);
-  font:12px/1.45 ui-monospace,"SF Mono",Menlo,Monaco,Consolas,monospace;
-  color-scheme:dark;
-}
-#${ROOT_ID}[hidden] { display:none; }
-#${ROOT_ID} * { box-sizing:border-box; }
-#${ROOT_ID} .tpd-main { flex:1 1 auto; min-width:0; min-height:0; display:flex; flex-direction:column; }
-#${ROOT_ID} .tpd-header {
-  flex:0 0 auto; display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
-  padding:9px 10px 7px;
-}
-#${ROOT_ID} .tpd-title {
-  flex:0 0 auto; color:var(--tpd-title); font-size:13px; font-weight:600; line-height:1.7;
-  white-space:nowrap;
-}
-#${ROOT_ID} .tpd-header-meta {
-  flex:1 1 auto; min-width:0; display:flex; flex-wrap:wrap; align-items:center;
-  justify-content:flex-end; gap:3px 5px;
-}
-#${ROOT_ID} .tpd-badge {
-  padding:1px 5px; border:1px solid currentColor; border-radius:999px;
-  font-size:10px; line-height:1.45; white-space:nowrap;
-}
-#${ROOT_ID} .tpd-badge[data-state="idle"] { color:var(--tpd-success); }
-#${ROOT_ID} .tpd-badge[data-state="busy"] { color:var(--tpd-warn); }
-#${ROOT_ID} .tpd-status {
-  flex:1 0 100%; min-height:1.45em; overflow:hidden; color:var(--tpd-text-dim);
-  font-size:11px; text-align:right; text-overflow:ellipsis; white-space:nowrap;
-}
-#${ROOT_ID} [data-tone="success"] { color:var(--tpd-success); }
-#${ROOT_ID} [data-tone="warn"] { color:var(--tpd-warn); }
-#${ROOT_ID} [data-tone="error"] { color:var(--tpd-error); }
-#${ROOT_ID} [data-tone="info"] { color:var(--tpd-info); }
-#${ROOT_ID} .tpd-close {
-  flex:0 0 auto; width:24px; height:24px; padding:0; border:1px solid transparent;
-  border-radius:4px; color:var(--tpd-text-dim); background:transparent;
-  font:18px/1 system-ui,sans-serif; cursor:pointer;
-}
-#${ROOT_ID} .tpd-close:hover { color:var(--tpd-text); background:var(--tpd-control); }
-#${ROOT_ID} .tpd-tabbar {
-  flex:0 0 auto; display:flex; gap:2px; padding:0 10px; overflow-x:auto;
-  border-bottom:1px solid var(--tpd-border);
-}
-#${ROOT_ID} .tpd-tab {
-  flex:1 0 58px; min-height:28px; padding:5px 7px; margin:0 0 -1px;
-  border:1px solid var(--tpd-border); border-bottom-color:var(--tpd-border);
-  border-radius:5px 5px 0 0; color:var(--tpd-text-dim); background:#24242a;
-  font:11px/1.2 inherit; cursor:pointer; transition:background .15s,color .15s;
-}
-#${ROOT_ID} .tpd-tab:hover { color:var(--tpd-text); background:#30303a; }
-#${ROOT_ID} .tpd-tab[aria-selected="true"] {
-  color:var(--tpd-title); font-weight:600; background:#3a3a48;
-  border-color:var(--tpd-accent); border-bottom-color:#3a3a48;
-}
-#${ROOT_ID} .tpd-body { flex:1 1 auto; min-height:0; }
-#${ROOT_ID} .tpd-panel { height:100%; overflow:auto; padding:7px 10px 12px; }
-#${ROOT_ID} .tpd-panel[hidden] { display:none; }
-#${ROOT_ID} .tpd-section { margin:0 0 10px; padding:0 0 8px; }
-#${ROOT_ID} .tpd-section:last-child { margin-bottom:0; border-bottom:0; }
-#${ROOT_ID} .tpd-section-title {
-  margin:7px 0 6px; padding:3px 6px; color:var(--tpd-section);
-  background:linear-gradient(90deg,var(--tpd-border) 0%,transparent 100%);
-  border-left:3px solid var(--tpd-accent); font-size:12px; font-weight:600;
-}
-#${ROOT_ID} .tpd-section-title:first-child { margin-top:1px; }
-#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close) {
-  border:1px solid var(--tpd-border-strong); border-radius:4px; padding:5px 8px;
-  color:var(--tpd-text); background:var(--tpd-control); font:inherit;
-  cursor:pointer; transition:background .15s,border-color .15s;
-}
-#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close):hover { background:var(--tpd-control-hover); border-color:#5a5a68; }
-#${ROOT_ID} button:not(.tpd-tab):not(.tpd-close):active { background:#24242a; }
-#${ROOT_ID} input:not([type="checkbox"]):not([type="radio"]),
-#${ROOT_ID} select, #${ROOT_ID} textarea {
-  min-width:0; width:100%; border:1px solid var(--tpd-border-strong); border-radius:4px;
-  padding:5px 7px; color:var(--tpd-text); background:var(--tpd-surface); font:inherit;
-}
-#${ROOT_ID} input::placeholder, #${ROOT_ID} textarea::placeholder { color:var(--tpd-text-dim); }
-#${ROOT_ID} input[type="checkbox"], #${ROOT_ID} input[type="radio"] { flex:0 0 auto; accent-color:var(--tpd-accent); }
-#${ROOT_ID} button:focus-visible, #${ROOT_ID} input:focus-visible, #${ROOT_ID} select:focus-visible,
-#${ROOT_ID} textarea:focus-visible, #${ROOT_ID} [role="tab"]:focus-visible,
-#${ROOT_ID} [role="tabpanel"]:focus-visible {
-  outline:2px solid var(--tpd-accent); outline-offset:1px; border-color:var(--tpd-accent);
-}
-#${ROOT_ID} .tpd-console, #${ROOT_ID} .tpd-inspector {
-  width:100%; margin:0 0 6px; padding:7px; overflow:auto; white-space:pre-wrap;
-  color:var(--tpd-text); background:#141417; border:1px solid var(--tpd-border); border-radius:4px;
-  font:11px/1.45 inherit;
-}
-#${ROOT_ID} .tpd-console { height:160px; }
-#${ROOT_ID} .tpd-inspector { height:390px; }
-#${ROOT_ID} .tpd-console-line { display:block; }
-#${ROOT_ID} .tpd-motion-list { margin:0 0 6px; background:var(--tpd-surface); }
-#${ROOT_ID} .tpd-motion-row {
-  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 8px; padding:6px;
-  border-bottom:1px solid var(--tpd-border);
-}
-#${ROOT_ID} .tpd-motion-row:last-child { border-bottom:0; }
-#${ROOT_ID} .tpd-motion-identity { min-width:0; overflow-wrap:anywhere; }
-#${ROOT_ID} .tpd-motion-identity strong { margin-right:6px; color:var(--tpd-text); }
-#${ROOT_ID} .tpd-motion-identity code { color:var(--tpd-info); font:inherit; }
-#${ROOT_ID} .tpd-motion-authority {
-  align-self:start; padding:1px 5px; border:1px solid currentColor; border-radius:999px;
-  color:var(--tpd-section); font-size:10px; white-space:nowrap;
-}
-#${ROOT_ID} .tpd-motion-authority[data-authority="script"] { color:var(--tpd-warn); }
-#${ROOT_ID} .tpd-motion-authority[data-authority="mount"] { color:var(--tpd-accent); }
-#${ROOT_ID} .tpd-motion-authority[data-authority="follow"] { color:var(--tpd-success); }
-#${ROOT_ID} .tpd-motion-meta {
-  grid-column:1 / -1; min-width:0; color:var(--tpd-text-dim); font-size:10px;
-  line-height:1.45; overflow-wrap:anywhere;
-}
-#${ROOT_ID} .tpd-scrollbox { max-height:180px; overflow:auto; padding:6px;
-  background:var(--tpd-surface); border:1px solid var(--tpd-border); border-radius:4px; }
-#${ROOT_ID} .tpd-scrollbox-compact { max-height:110px; }
-#${ROOT_ID} .tpd-scrollbox-tall { max-height:150px; }
-#${ROOT_ID} .tpd-option { display:flex; align-items:center; gap:5px; min-height:24px; white-space:nowrap; }
-#${ROOT_ID} .tpd-trigger-button { display:block; width:100%; margin:2px 0; text-align:left; }
-#${ROOT_ID} .tpd-trigger-kind { color:var(--tpd-info); }
-#${ROOT_ID} .tpd-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:4px 0; }
-#${ROOT_ID} .tpd-row-label { flex:0 0 3.5em; color:var(--tpd-text-dim); }
-#${ROOT_ID} .tpd-row > :not(.tpd-row-label) { flex:1 1 140px; }
-#${ROOT_ID} .tpd-inline-options { display:flex; align-items:center; gap:6px 9px; flex-wrap:wrap; margin:4px 0; }
-#${ROOT_ID} .tpd-inline-label { display:inline-flex; align-items:center; gap:4px; }
-#${ROOT_ID} .tpd-member-row { display:grid; grid-template-columns:auto 48px 54px 54px minmax(100px,1fr);
-  align-items:center; gap:5px; margin:4px 0; }
-#${ROOT_ID} .tpd-member-extra { grid-column:2 / -1; display:grid;
-  grid-template-columns:minmax(105px,1.3fr) minmax(88px,1fr) minmax(72px,.8fr); gap:5px; }
-#${ROOT_ID} .tpd-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px; }
-#${ROOT_ID} .tpd-note { margin-top:7px; color:var(--tpd-text-dim); font-size:11px; line-height:1.5; }
-#${ROOT_ID} .tpd-toggle { display:flex; align-items:center; gap:7px; padding:6px 2px;
-  border-bottom:1px solid var(--tpd-border); cursor:pointer; }
-#${ROOT_ID} .tpd-toggle input { width:16px; height:16px; }
-#${ROOT_ID} .tpd-panel, #${ROOT_ID} .tpd-scrollbox, #${ROOT_ID} pre { scrollbar-color:#555560 var(--tpd-surface); }
-#${ROOT_ID} .tpd-panel::-webkit-scrollbar, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar,
-#${ROOT_ID} pre::-webkit-scrollbar { width:7px; height:7px; }
-#${ROOT_ID} .tpd-panel::-webkit-scrollbar-track, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar-track,
-#${ROOT_ID} pre::-webkit-scrollbar-track { background:var(--tpd-surface); }
-#${ROOT_ID} .tpd-panel::-webkit-scrollbar-thumb, #${ROOT_ID} .tpd-scrollbox::-webkit-scrollbar-thumb,
-#${ROOT_ID} pre::-webkit-scrollbar-thumb { background:#555560; border-radius:4px; }
-@media (max-width:480px) {
-  #${ROOT_ID} { top:8px; left:8px; width:calc(100vw - 16px); height:min(700px, 90vh); max-height:90vh; }
-  #${ROOT_ID} .tpd-header { flex-wrap:wrap; }
-  #${ROOT_ID} .tpd-header-meta { order:3; flex-basis:100%; justify-content:flex-start; }
-  #${ROOT_ID} .tpd-status { text-align:left; }
-}
-@media (max-width:430px) {
-  #${ROOT_ID} .tpd-member-row { grid-template-columns:auto repeat(3, minmax(42px,1fr)); }
-  #${ROOT_ID} .tpd-member-row > input:nth-of-type(n+4) { grid-column:2 / -1; }
-}
-`
-  document.head.appendChild(style)
-}
 
 /**
  * 安装调试面板。只在 DEV 下由 bootGame 动态调用。
@@ -441,23 +267,6 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const target = e.target as HTMLElement | null
     if (target?.matches('input, select, textarea')) e.stopPropagation()
   })
-  function el<K extends keyof HTMLElementTagNameMap>(
-    tag: K,
-    attrs: { className?: string; html?: string; text?: string } = {},
-  ): HTMLElementTagNameMap[K] {
-    const node = document.createElement(tag)
-    if (attrs.className) node.className = attrs.className
-    if (attrs.html !== undefined) node.innerHTML = attrs.html
-    if (attrs.text !== undefined) node.textContent = attrs.text
-    return node
-  }
-
-  const section = (title: string): HTMLElement => {
-    const box = el('section', { className: 'tpd-section' })
-    box.appendChild(el('h2', { className: 'tpd-section-title', text: title }))
-    return box
-  }
-
   const badge = (text: string): HTMLSpanElement => {
     const b = el('span', { className: 'tpd-badge', text })
     b.dataset.state = 'idle'
@@ -590,182 +399,24 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     output.appendChild(line)
     output.scrollTop = output.scrollHeight
   }
-  const input = el('input') as HTMLInputElement
+  const input = el('input')
   input.setAttribute('aria-label', '调试命令')
   input.placeholder = 'help / scene s001 / give 144 5 / run-script shared/xx / battle 0 …'
   consoleSection.appendChild(output)
   consoleSection.appendChild(input)
   panelFor('commands').appendChild(consoleSection)
 
-  // ── 2. 世界与 E6 定位权威检视（只读） ──
-  const motionSection = section('实体位置控制权（运行态，只读）')
-  const motionList = el('div', { className: 'tpd-motion-list' })
-  motionList.setAttribute('role', 'list')
-  motionSection.appendChild(motionList)
-
-  const authorityText = (authority: DebugMotionAuthority): string => {
-    switch (authority.kind) {
-      case 'world':
-        return '世界'
-      case 'script':
-        return '脚本'
-      case 'follow':
-        return '跟随'
-      case 'mount':
-        return `载具 ${authority.parent} (${authority.dx},${authority.dy})`
-    }
-  }
-  const positionText = (pos: GridPos): string =>
-    `${formatDebugNumber(pos.col)},${formatDebugNumber(pos.row)},${formatDebugNumber(pos.height)}`
-  const registeredMotionText = (motion: DebugRegisteredMotion): string => {
-    const owner = motion.activationOwnerId
-      ? ` owner ${motion.activationOwnerId}@${String(motion.activationEpoch ?? '—')}`
-      : ''
-    const queuedAuthority =
-      motion.authorityEpochAtEnqueue === undefined
-        ? ''
-        : ` authority@${motion.authorityEpochAtEnqueue}`
-    return `${motion.source} ${motion.kind}#${motion.commandEpoch}${owner}${queuedAuthority}${
-      motion.pausedByAuthority ? '（被控制权暂停）' : ''
-    }`
-  }
-  const appendMotionRow = (input: {
-    kind: 'leader' | 'party-follower' | 'extra-follower' | 'entity'
-    id: string
-    title: string
-    authority: DebugMotionAuthority
-    details: string[]
-  }): void => {
-    const row = el('div', { className: 'tpd-motion-row' })
-    row.setAttribute('role', 'listitem')
-    row.dataset.motionKind = input.kind
-    row.dataset.motionId = input.id
-    row.dataset.authority = input.authority.kind
-    const identity = el('div', { className: 'tpd-motion-identity' })
-    identity.appendChild(el('strong', { text: input.title }))
-    identity.appendChild(el('code', { text: input.id }))
-    const authority = el('span', {
-      className: 'tpd-motion-authority',
-      text: authorityText(input.authority),
-    })
-    authority.dataset.authority = input.authority.kind
-    row.append(identity, authority)
-    row.appendChild(
-      el('div', {
-        className: 'tpd-motion-meta',
-        text: input.details.filter(Boolean).join(' · '),
-      }),
-    )
-    motionList.appendChild(row)
-  }
-  const renderMotionState = (snapshot: DebugMotionSnapshot): void => {
-    motionList.replaceChildren()
-    appendMotionRow({
-      kind: 'leader',
-      id: snapshot.player.id,
-      title: '队长',
-      authority: snapshot.player.authority,
-      details: [
-        snapshot.player.template !== snapshot.player.id ? `角色 ${snapshot.player.template}` : '',
-        `位置 ${positionText(snapshot.player.pos)}`,
-        `朝向 ${snapshot.player.facing}`,
-        `authority@${snapshot.player.authorityEpoch}`,
-        snapshot.player.partyMove
-          ? `partyMove → ${positionText(snapshot.player.partyMove.to)} ${snapshot.player.partyMove.speed}`
-          : '',
-        snapshot.player.walking ? 'walking' : 'idle',
-        `scene ${snapshot.scene} · tick ${snapshot.worldTick}`,
-      ],
-    })
-    for (const follower of snapshot.followers)
-      appendMotionRow({
-        kind: 'party-follower',
-        id: follower.id,
-        title: `队员 ${follower.partyIndex}`,
-        authority: follower.authority,
-        details: [
-          follower.template !== follower.id ? `角色 ${follower.template}` : '',
-          `位置 ${positionText(follower.pos)}`,
-          `朝向 ${follower.facing}`,
-        ],
-      })
-    for (const follower of snapshot.extraFollowers)
-      appendMotionRow({
-        kind: 'extra-follower',
-        id: follower.spriteId,
-        title: `编外跟随 ${follower.runtimeSlot + 1}`,
-        authority: follower.authority,
-        details: [
-          `runtime slot ${follower.runtimeSlot}`,
-          `位置 ${positionText(follower.pos)}`,
-          `朝向 ${follower.facing}`,
-          follower.renderable ? '资源已就绪' : '资源未就绪',
-        ],
-      })
-    for (const entity of snapshot.entities) {
-      const enabledGates = Object.entries(entity.gates)
-        .filter(([, enabled]) => enabled)
-        .map(([name]) => name)
-        .join(',')
-      appendMotionRow({
-        kind: 'entity',
-        id: entity.id,
-        title: '实体',
-        authority: entity.authority,
-        details: [
-          `位置 ${positionText(entity.pos)}`,
-          `朝向 ${entity.facing}`,
-          `authority@${entity.authorityEpoch}`,
-          entity.scriptMotion ? `已注册 ${registeredMotionText(entity.scriptMotion)}` : '',
-          entity.autoMotion ? `已注册 ${registeredMotionText(entity.autoMotion)}` : '',
-          entity.gait === null ? '' : `gait ${entity.gait}`,
-          `gate ${enabledGates || '全部关闭'}`,
-        ],
-      })
-    }
-  }
-
-  const inspectSection = section('世界变量检视（只读）')
-  const inspectEl = el('pre', { className: 'tpd-inspector' })
-  const refreshInspect = (): void => {
-    const w = ctx.world()
-    const motion = ctx.motionState()
-    inspectEl.textContent = JSON.stringify(
-      {
-        money: w.money,
-        party: w.party.map((c) => ({
-          id: c.id,
-          level: c.level,
-          hp: `${c.hp}/${c.maxHP}`,
-          mp: `${c.mp}/${c.maxMP}`,
-          equipment: c.equipment,
-          statuses: c.extraStatuses?.map((s) => `${s.status}:${s.turns}`),
-          poisons: c.poisons?.map((p) => p.poisonId),
-        })),
-        inventory: w.inventory,
-        learnedSkills: w.learnedSkills,
-        collectValue: w.collectValue,
-        flags: Object.keys(w.script?.flags ?? {}).length,
-        vars: w.script?.vars,
-        entityStates: Object.keys(w.script?.entityState ?? {}).length,
-      },
-      null,
-      1,
-    )
-    renderMotionState(motion)
-  }
-  refreshInspect()
-  const inspectBtn = el('button', { text: '刷新状态' })
-  inspectBtn.type = 'button'
-  inspectBtn.addEventListener('click', refreshInspect)
-  inspectSection.appendChild(inspectEl)
-  inspectSection.appendChild(inspectBtn)
-  panelFor('status').append(motionSection, inspectSection)
+  const inspector = createDebugInspector(
+    () => ctx.world(),
+    () => ctx.motionState(),
+  )
+  const refreshInspect = inspector.refresh
+  panelFor('status').append(inspector.motionSection, inspector.inspectSection)
 
   // ── 3. 脚本 / 触发器一键触发（K3：detached + 状态上屏 + 占用确认） ──
   const triggerSection = section('脚本 / 触发器（再次点击可取消）')
   const triggerList = el('div', { className: 'tpd-scrollbox tpd-scrollbox-tall' })
-  const runningButtons = new Map<string, { abort(): void; text(): string }>()
+  const runningButtons = new Map<string, AbortController>()
   let triggerSeq = 0
 
   const runTriggerItem = (item: TriggerItem): void => {
@@ -790,8 +441,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
     button.type = 'button'
     button.appendChild(el('span', { className: 'tpd-trigger-kind', text: item.kind }))
-    const text = (): string => `${item.label}`
-    runningButtons.set(key, { abort: () => ac.abort(), text })
+    runningButtons.set(key, ac)
     triggerList.appendChild(button)
     button.addEventListener('click', () => runTriggerItem(item))
     const finish = (statusText: string, color: string): void => {
@@ -882,7 +532,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   const battleSection = section('战斗态构建器（内存态，结束后回战前世界）')
   const battleForm = el('div', { className: 'tpd-battle-form' })
 
-  const fieldSel = el('select') as HTMLSelectElement
+  const fieldSel = el('select')
   fieldSel.setAttribute('aria-label', '战场')
   const fields = ctx.canonicalProject.battleFields ?? []
   if (fields.length) {
@@ -897,16 +547,16 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     fieldSel.appendChild(option)
   }
 
-  const enemyModeTeam = el('input', {}) as HTMLInputElement
+  const enemyModeTeam = el('input')
   enemyModeTeam.type = 'radio'
   enemyModeTeam.name = 'enemy-mode'
   enemyModeTeam.id = 'tp-debug-enemy-team'
   enemyModeTeam.checked = true
-  const enemyModeCustom = el('input', {}) as HTMLInputElement
+  const enemyModeCustom = el('input')
   enemyModeCustom.type = 'radio'
   enemyModeCustom.name = 'enemy-mode'
   enemyModeCustom.id = 'tp-debug-enemy-custom'
-  const teamSel = el('select') as HTMLSelectElement
+  const teamSel = el('select')
   teamSel.setAttribute('aria-label', '现成敌队')
   for (const id of Object.keys(ctx.canonicalProject.enemyTeamsById)) {
     teamSel.appendChild(el('option', { text: id }))
@@ -916,7 +566,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   const enemyChecks = new Map<string, HTMLInputElement>()
   for (const id of Object.keys(ctx.canonicalProject.enemiesById)) {
     const row = el('label', { className: 'tpd-option' })
-    const cb = el('input', {}) as HTMLInputElement
+    const cb = el('input')
     cb.type = 'checkbox'
     cb.value = id
     row.appendChild(cb)
@@ -937,7 +587,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   const partyChecks = new Map<string, HTMLInputElement>()
   for (const id of Object.keys(ctx.canonicalProject.actorsById)) {
     const row = el('label', { className: 'tpd-option' })
-    const cb = el('input', {}) as HTMLInputElement
+    const cb = el('input')
     cb.type = 'checkbox'
     cb.value = id
     row.appendChild(cb)
@@ -948,31 +598,43 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
 
   const memberOverrides = el('div', { className: 'tpd-scrollbox tpd-scrollbox-tall' })
   memberOverrides.hidden = true
+  const memberFields = new Map<
+    string,
+    {
+      level: HTMLInputElement
+      hp: HTMLInputElement
+      mp: HTMLInputElement
+      equipment: HTMLInputElement
+      statuses: HTMLInputElement
+      poisons: HTMLInputElement
+    }
+  >()
   const renderMemberOverrides = (): void => {
     memberOverrides.textContent = ''
+    memberFields.clear()
     for (const [id, cb] of partyChecks) {
       if (!cb.checked) continue
       const row = el('div', { className: 'tpd-member-row' })
       row.appendChild(el('span', { text: id }))
-      const lv = el('input', {}) as HTMLInputElement
+      const lv = el('input')
       lv.type = 'number'
       lv.placeholder = '模板'
       lv.setAttribute('aria-label', `${id} 等级`)
-      const hp = el('input', {}) as HTMLInputElement
+      const hp = el('input')
       hp.type = 'number'
       hp.placeholder = 'HP'
       hp.setAttribute('aria-label', `${id} HP`)
-      const mp = el('input', {}) as HTMLInputElement
+      const mp = el('input')
       mp.type = 'number'
       mp.placeholder = 'MP'
       mp.setAttribute('aria-label', `${id} MP`)
-      const equip = el('input', {}) as HTMLInputElement
+      const equip = el('input')
       equip.placeholder = '装:slot=item,..'
       equip.setAttribute('aria-label', `${id} 装备`)
-      const statuses = el('input', {}) as HTMLInputElement
+      const statuses = el('input')
       statuses.placeholder = '态:protect,..'
       statuses.setAttribute('aria-label', `${id} 状态`)
-      const poisons = el('input', {}) as HTMLInputElement
+      const poisons = el('input')
       poisons.placeholder = '毒:id,..'
       poisons.setAttribute('aria-label', `${id} 中毒`)
       row.appendChild(lv)
@@ -981,16 +643,15 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       const extras = el('div', { className: 'tpd-member-extra' })
       extras.append(equip, statuses, poisons)
       row.appendChild(extras)
-      const data = { lv, hp, mp, equip, statuses, poisons }
       row.dataset.member = id
-      ;(row as HTMLDivElement & { _d?: typeof data })._d = data
+      memberFields.set(id, { level: lv, hp, mp, equipment: equip, statuses, poisons })
       memberOverrides.appendChild(row)
     }
     memberOverrides.hidden = memberOverrides.childElementCount === 0
   }
   partyList.addEventListener('change', renderMemberOverrides)
 
-  const invInput = el('input') as HTMLInputElement
+  const invInput = el('input')
   invInput.setAttribute('aria-label', '道具预设')
   invInput.placeholder = '道具预设 itemId×count,itemId×count'
 
@@ -1003,30 +664,17 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const actorIds = [...partyChecks.entries()].filter(([, cb]) => cb.checked).map(([id]) => id)
     const seedStats: Record<string, { hp?: number; mp?: number }> = {}
     const presetMembers: DebugPresetMember[] = []
-    for (const row of memberOverrides.children) {
-      const label = row as HTMLDivElement & {
-        _d?: {
-          lv: HTMLInputElement
-          hp: HTMLInputElement
-          mp: HTMLInputElement
-          equip: HTMLInputElement
-          statuses: HTMLInputElement
-          poisons: HTMLInputElement
-        }
-      }
-      const d = label._d
-      const id = label.dataset.member
-      if (!d || !id) continue
-      const lv = d.lv.value ? Number(d.lv.value) : undefined
-      const hp = d.hp.value ? Number(d.hp.value) : undefined
-      const mp = d.mp.value ? Number(d.mp.value) : undefined
+    for (const [id, fields] of memberFields) {
+      const level = fields.level.value ? Number(fields.level.value) : undefined
+      const hp = fields.hp.value ? Number(fields.hp.value) : undefined
+      const mp = fields.mp.value ? Number(fields.mp.value) : undefined
       seedStats[id] = { ...(hp !== undefined ? { hp } : {}), ...(mp !== undefined ? { mp } : {}) }
       presetMembers.push({
         actorId: id,
-        ...(lv !== undefined ? { level: lv } : {}),
-        ...(d.equip.value ? { equipment: d.equip.value } : {}),
-        ...(d.statuses.value ? { statuses: d.statuses.value } : {}),
-        ...(d.poisons.value ? { poisons: d.poisons.value } : {}),
+        ...(level !== undefined ? { level } : {}),
+        ...(fields.equipment.value ? { equipment: fields.equipment.value } : {}),
+        ...(fields.statuses.value ? { statuses: fields.statuses.value } : {}),
+        ...(fields.poisons.value ? { poisons: fields.poisons.value } : {}),
       })
     }
     const inventory = parseInventoryPreset(invInput.value)
@@ -1117,19 +765,19 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
 
   // ── 5. 图层开关 + 帧步进（K5） ──
   const layersSection = section('图层 / 帧步进')
-  const collisionCb = el('input', {}) as HTMLInputElement
+  const collisionCb = el('input')
   collisionCb.type = 'checkbox'
   collisionCb.checked = ctx.layers.collision
   collisionCb.addEventListener('change', () => {
     ctx.layers.collision = collisionCb.checked
   })
-  const triggerCb = el('input', {}) as HTMLInputElement
+  const triggerCb = el('input')
   triggerCb.type = 'checkbox'
   triggerCb.checked = ctx.layers.triggers
   triggerCb.addEventListener('change', () => {
     ctx.layers.triggers = triggerCb.checked
   })
-  const stepCb = el('input', {}) as HTMLInputElement
+  const stepCb = el('input')
   stepCb.type = 'checkbox'
   stepCb.checked = ctx.frameStep.active
   stepCb.addEventListener('change', () => {
@@ -1171,8 +819,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     const detached = <T>(
       invoke: (runtime: ScriptProjectRuntime, s: AbortSignal) => Promise<T>,
     ): Promise<T> => runPanelOperation((signal) => ctx.runDetached(signal, invoke))
-    const sceneSwitch = (): boolean =>
-      cmd === 'scene' || cmd === 'run-script' || cmd === 'run-trigger'
+    const needsBusyConfirmation = cmd === 'scene' || cmd === 'run-script' || cmd === 'run-trigger'
 
     if (cmd === 'help') {
       logLine('help | scene <id> [col,row] [facing] | pos <col,row> [facing] | give <itemId> [n]')
@@ -1180,7 +827,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       logLine('run-script <id> | run-trigger <entityId> | step | collision | triggers | state')
       return
     }
-    if (sceneSwitch() && ctx.presentationBusy()) {
+    if (needsBusyConfirmation && ctx.presentationBusy()) {
       if (!window.confirm('主 runner 占用中，仍要执行？(detached 不排 onEnter)')) return
     }
     switch (cmd) {
@@ -1383,10 +1030,6 @@ function debugTone(color: string): 'success' | 'warn' | 'error' | 'info' | '' {
     default:
       return ''
   }
-}
-
-function formatDebugNumber(value: number): string {
-  return String(Number.isInteger(value) ? value : Math.round(value * 1000) / 1000)
 }
 
 function parseDebugPosition(

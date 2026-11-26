@@ -96,3 +96,22 @@ describe('Debug console public commands', () => {
     expect(element('.tpd-console-line:last-child').getAttribute('data-tone')).toBe('warn')
   })
 })
+
+test('console Enter dispatches without reaching the game key listener', async () => {
+  const h = await debugHarness()
+  const leaked: string[] = []
+  const recorder = (event: KeyboardEvent): void => {
+    leaked.push(event.key)
+  }
+  window.addEventListener('keydown', recorder)
+  try {
+    command('help')
+    // Enter 已在输入框上被消费（stopPropagation），不得泄漏到游戏监听者。
+    expect(leaked).toEqual([])
+    expect(document.querySelector('.tpd-console')?.textContent).toContain('> help')
+    expect(field('调试命令').value).toBe('')
+    await h.settle()
+  } finally {
+    window.removeEventListener('keydown', recorder)
+  }
+})

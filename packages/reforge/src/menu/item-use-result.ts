@@ -20,7 +20,7 @@ export function buildItemUseResultEntries(
   })
 }
 
-/** D14-3:物品使用结果 → reward-gain 单行文本(「炼成 净衣符 × 2」),逐条排队展示。 */
+/** 每条炼化结果占一行，单件产物沿用省略数量的显示约定。 */
 export function itemUseResultText(entry: ItemUseResultEntry): string {
   if ('text' in entry) return entry.text
   return `${entry.title} ${entry.itemName}${entry.count > 1 ? ` × ${entry.count}` : ''}`

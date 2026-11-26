@@ -14,28 +14,13 @@ export interface MotionBatchCommitHooks {
   queueContinuations(): void
 }
 
-export function commitMotionBatch(hooks: MotionBatchCommitHooks): { touchTookOver: boolean } {
+export function commitMotionBatch(hooks: MotionBatchCommitHooks): void {
   hooks.commitCanonicalEndpoints()
   hooks.commitLivePositions()
   hooks.afterLiveCommit()
   const touchTookOver = hooks.runTouch()
   if (!touchTookOver) hooks.runPostContact()
   hooks.queueContinuations()
-  return { touchTookOver }
-}
-
-export interface MotionContactPoint {
-  col: number
-  row: number
-}
-
-/** Contact is evaluated only after every accepted actor position in the batch is live. */
-export function motionActorsAtContact(
-  first: MotionContactPoint,
-  second: MotionContactPoint,
-  range = 1,
-): boolean {
-  return Math.max(Math.abs(first.col - second.col), Math.abs(first.row - second.row)) <= range
 }
 
 /**
@@ -74,9 +59,5 @@ export class MotionCompletionRecord<TCancel> {
     this.detach()
     this.reject(reason)
     return true
-  }
-
-  get committed(): boolean {
-    return this.state === 'committed'
   }
 }

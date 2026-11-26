@@ -1,5 +1,6 @@
 import type { ItemDataMap, ScriptRef, WorldState } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { deferred } from './__tests__/deferred.js'
 import { executeWorldItemUse, type ItemUseHost } from './item-use-executor.js'
 
 function world(itemId: string): WorldState {
@@ -28,7 +29,7 @@ function item(
   }
 }
 
-describe('C8 · executeWorldItemUse 外部事务边界', () => {
+describe('世界物品的效果顺序与消耗', () => {
   test('已取消的请求在规划前即失败，不进入纯效果或外部宿主', async () => {
     const initial = world('letter')
     const controller = new AbortController()
@@ -389,14 +390,15 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
 
   test('宿主忽略中途取消时，执行器也不会在外部动作返回后继续扣物品', async () => {
     const initial = world('letter')
-    let release!: () => void
-    const blocked = new Promise<void>((resolve) => {
-      release = resolve
-    })
+    const started = deferred<void>()
+    const script = deferred<void>()
     const controller = new AbortController()
     const host: ItemUseHost = {
       currentWorld: () => initial,
-      runScript: vi.fn(async () => blocked),
+      runScript: async () => {
+        started.resolve()
+        await script.promise
+      },
       runSceneHook: vi.fn(async () => false),
       placeEntityInFront: vi.fn(async () => false),
     }
@@ -412,10 +414,14 @@ describe('C8 · executeWorldItemUse 外部事务边界', () => {
       signal: controller.signal,
     })
 
-    controller.abort()
-    release()
-
-    await expect(execution).rejects.toMatchObject({ name: 'AbortError' })
+    const rejected = expect(execution).rejects.toMatchObject({ name: 'AbortError' })
+    try {
+      await started.promise
+      controller.abort()
+    } finally {
+      script.resolve()
+    }
+    await rejected
     expect(initial.inventory).toEqual([{ itemId: 'letter', count: 1 }])
   })
 

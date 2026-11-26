@@ -117,12 +117,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Startup intro: one exact predicate case transfers to the production boot host.
   // Reforge battle: two exact snapshots retire private source-string assertions.
   // Reforge battle closeout: eight exact snapshots transfer or retire 191 per-file cases.
+  // Reforge world controls: six exact snapshots transfer or retire 23 per-file cases.
   // This census sums snapshot count deltas, not retired unique business contracts.
-  assert.equal(historical.length, 127)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 127)
+  assert.equal(historical.length, 133)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 133)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    696,
+    719,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

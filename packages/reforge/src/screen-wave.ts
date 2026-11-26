@@ -1,31 +1,7 @@
-/**
- * 0x71 世界屏波(仙灵岛水面/蛤蟆谷水下氛围)—— 一阶段 present/screen-wave.ts 1:1 移植,
- * 索引帧缓冲版改 canvas 行卷版(reforge 无索引 fb):
- *   · 32 相位偏移表(scene.c:404-417):a/b 递推 a=0,b=68;16 次 b−=8,a+=b;
- *     wave[i] = trunc(a×W/256);wave[i+16] = 320 − wave[i](镜像凑满 32 相位)。
- *   · 逐逻辑行(200 行)左卷**环绕**(scene.c:423-449);每行相位 = (index+row)%32,index 每帧 +1。
- *   · 波幅每个逻辑拍 += 推进量(SHORT 可负 = 渐弱);补帧只读取当前值；==0 或 ≥256 → 关闭并双清零(scene.c:391-398)。
- * 状态存 world.script.vars('sys:screenWave' / 'sys:waveProgression'):脚本 0x71 设,
- * 随存档;相位计数是纯视觉节拍,不入档(一阶段 s_waveIndex 同为模块态)。
- */
+import { drawWaveRows, WAVE_PHASES } from './wave-distortion.js'
 
-export const WAVE_SCREEN_W = 320
-export const WAVE_SCREEN_H = 200
-
-/** 32 相位偏移表(波幅 w 下每相位的左卷像素数)。 */
-export function waveTable(w: number): number[] {
-  const wave = new Array<number>(32)
-  let a = 0
-  let b = 60 + 8
-  for (let i = 0; i < 16; i++) {
-    b -= 8
-    a += b
-    wave[i] = Math.trunc((a * w) / 256)
-    wave[i + 16] = WAVE_SCREEN_W - (wave[i] ?? 0)
-  }
-  return wave
-}
-
+// The current amplitude and signed progression follow the saved script state.
+// Only a world beat advances the amplitude and the renderer's unsaved phase.
 /**
  * 逻辑拍推进(scene.c:389-398):W += 推进量;补帧传 advance=false 时只读当前值。
  * 原地改 vars(随存档 = 存的是衰减后的当前值,一阶段 gs.wScreenWave 同语义)。
@@ -63,23 +39,8 @@ export class WorldWaveRenderer {
   ): void {
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    const wave = waveTable(w)
-    const devW = WAVE_SCREEN_W * worldScale
-    let ai = this.waveIndex
-    for (let y = 0; y < WAVE_SCREEN_H; y++) {
-      const shift = wave[ai] ?? 0
-      const sy = y * worldScale
-      if (shift > 0 && shift < WAVE_SCREEN_W) {
-        const sw = shift * worldScale
-        // 左卷环绕:行右部(shift..320)画到行首,行左部(0..shift)卷到行尾
-        ctx.drawImage(src, sw, sy, devW - sw, worldScale, 0, sy, devW - sw, worldScale)
-        ctx.drawImage(src, 0, sy, sw, worldScale, devW - sw, sy, sw, worldScale)
-      } else {
-        ctx.drawImage(src, 0, sy, devW, worldScale, 0, sy, devW, worldScale)
-      }
-      ai = (ai + 1) % 32
-    }
-    if (advancePhase) this.waveIndex = (this.waveIndex + 1) % 32
+    drawWaveRows(ctx, src, w, this.waveIndex, worldScale)
+    if (advancePhase) this.waveIndex = (this.waveIndex + 1) % WAVE_PHASES
     ctx.restore()
   }
 }

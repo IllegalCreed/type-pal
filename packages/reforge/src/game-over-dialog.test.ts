@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { createGameOverDialogueCue } from './game-over-dialog.js'
 
 describe('createGameOverDialogueCue', () => {
-  test('死亡红屏一次画两行无框文字，不复用 narration 卷轴', () => {
+  test('死亡提示交给居中对白，两行文案与占位行都立即展示', () => {
     const cue = createGameOverDialogueCue()
 
     expect(cue.slot).toBe('center')

@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { commitMotionBatch, MotionCompletionRecord, motionActorsAtContact } from './motion-batch.js'
+import { commitMotionBatch, MotionCompletionRecord } from './motion-batch.js'
 
 function hooks(log: string[], touchTookOver = false) {
   return {
@@ -18,7 +18,7 @@ function hooks(log: string[], touchTookOver = false) {
 describe('world motion batch side-effect order', () => {
   test('an ordinary batch commits, scans touch, scans post-contact, then queues continuations', () => {
     const log: string[] = []
-    expect(commitMotionBatch(hooks(log))).toEqual({ touchTookOver: false })
+    commitMotionBatch(hooks(log))
     expect(log).toEqual([
       'canonical-endpoint',
       'live-positions',
@@ -31,7 +31,7 @@ describe('world motion batch side-effect order', () => {
 
   test('same-tick endpoint plus dialogue touch keeps settlement but suppresses post-contact', () => {
     const log: string[] = []
-    expect(commitMotionBatch(hooks(log, true))).toEqual({ touchTookOver: true })
+    commitMotionBatch(hooks(log, true))
     expect(log).toEqual([
       'canonical-endpoint',
       'live-positions',
@@ -67,58 +67,6 @@ describe('world motion batch side-effect order', () => {
     expect(livePosition).toBe(7)
     expect(continuation).toHaveBeenCalledOnce()
   })
-
-  test('a newer same-actor touch mutation wins after the old endpoint commit', () => {
-    let canonicalPosition = 0
-    let livePosition = 0
-    commitMotionBatch({
-      commitCanonicalEndpoints: () => {
-        canonicalPosition = 7
-      },
-      commitLivePositions: () => {
-        livePosition = 7
-      },
-      afterLiveCommit: () => undefined,
-      runTouch: () => {
-        canonicalPosition = 11
-        livePosition = 11
-        return true
-      },
-      runPostContact: () => undefined,
-      queueContinuations: () => undefined,
-    })
-    expect(canonicalPosition).toBe(11)
-    expect(livePosition).toBe(11)
-  })
-
-  test('touch scene replacement invalidates the queued old-scene continuation only', () => {
-    let session = 1
-    const capturedSession = session
-    const oldContinuation = vi.fn()
-    let queued: (() => void) | undefined
-    commitMotionBatch({
-      commitCanonicalEndpoints: () => undefined,
-      commitLivePositions: () => undefined,
-      afterLiveCommit: () => undefined,
-      runTouch: () => {
-        session = 2
-        return true
-      },
-      runPostContact: () => undefined,
-      queueContinuations: () => {
-        queued = () => {
-          if (session === capturedSession) oldContinuation()
-        }
-      },
-    })
-    queued?.()
-    expect(oldContinuation).not.toHaveBeenCalled()
-  })
-
-  test('chase terminal contact uses final positions for simultaneous toward and away motion', () => {
-    expect(motionActorsAtContact({ col: 1, row: 0 }, { col: 2, row: 0 })).toBe(true)
-    expect(motionActorsAtContact({ col: -1, row: 0 }, { col: 2, row: 0 })).toBe(false)
-  })
 })
 
 describe('durable motion completion record', () => {
@@ -131,7 +79,6 @@ describe('durable motion completion record', () => {
     )
 
     expect(record.commit()).toBe(true)
-    expect(record.committed).toBe(true)
     expect(record.cancel('remove')).toBe(false)
     expect(record.cancel('behavior-replace')).toBe(false)
     expect(record.resolve()).toBe(true)

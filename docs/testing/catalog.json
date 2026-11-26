@@ -1760,14 +1760,14 @@
           "lines": "417-424",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "456-463",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -2599,6 +2599,29 @@
                 "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
               }
             ]
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "417-424",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "456-463",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       },
@@ -2670,7 +2693,7 @@
           "lines": "1300-1398",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -3392,6 +3415,22 @@
               }
             ],
             "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1300-1398",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       },
@@ -3467,21 +3506,21 @@
           "lines": "251-253",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+          "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "426-438",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+          "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1312-1321",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+          "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -4789,6 +4828,36 @@
               }
             ],
             "scope": "Frame/selection call sites retain their spans after the moves. The readiness snapshot now uses the real battle constructor and verifies the same detached action and poison state. The historical execution and counter identity stay at their original candidates."
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "251-253",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "426-438",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1312-1321",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       },
@@ -4861,7 +4930,7 @@
           "lines": "441-453",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -5525,6 +5594,22 @@
                 "sha256": "962c751ddd278930d4517ad3b9624dfe0cc2cc81e3096ce49ff794df415dfcb7"
               }
             ]
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-453",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       },
@@ -5927,10 +6012,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/menu/menu-session.ts",
-          "lines": "107-130",
+          "lines": "108-131",
           "anchor": "export class MenuSession",
           "role": "contract",
-          "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
+          "sha256": "1129a966426a9aa9154e9e119dac7e363e2e11ae63e75eb966a7d09202b988ba"
         },
         {
           "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -5941,17 +6026,17 @@
         },
         {
           "path": "packages/reforge/src/menu/menu-session.test.ts",
-          "lines": "10-33",
+          "lines": "11-34",
           "anchor": "test('closed menu ignores input",
           "role": "oracle",
-          "sha256": "cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab"
+          "sha256": "d35a71a1717a05132160072e9392fdcfb54fc5ccaf42494b07d1bca403fa87b6"
         },
         {
           "path": "packages/reforge/src/menu/item-use-session.test.ts",
           "lines": "5-22",
           "anchor": "test('item operation owns the pending slot",
           "role": "oracle",
-          "sha256": "ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f"
+          "sha256": "86c6e84884ee7637889d335f79164e3e185bfd8d8f4493eca7327cca887e504b"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -6120,6 +6205,36 @@
                 "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
               }
             ]
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/menu/menu-session.ts",
+                "lines": "107-130",
+                "anchor": "export class MenuSession",
+                "role": "contract",
+                "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
+              },
+              {
+                "path": "packages/reforge/src/menu/menu-session.test.ts",
+                "lines": "10-33",
+                "anchor": "test('closed menu ignores input",
+                "role": "oracle",
+                "sha256": "cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab"
+              },
+              {
+                "path": "packages/reforge/src/menu/item-use-session.test.ts",
+                "lines": "5-22",
+                "anchor": "test('item operation owns the pending slot",
+                "role": "oracle",
+                "sha256": "ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       },
@@ -8608,7 +8723,7 @@
           "anchor": "async function restorePayload(",
           "role": "save-restore-caller",
           "lines": "6009",
-          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
         },
         {
           "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -10780,6 +10895,22 @@
               }
             ],
             "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
+          },
+          {
+            "action": "reforge-world-controls-source-rebinding",
+            "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+            "date": "2026-11-26",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "6009",
+                "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+              }
+            ],
+            "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
           }
         ]
       }

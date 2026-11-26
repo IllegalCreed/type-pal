@@ -3,7 +3,7 @@ import type { TextId } from '@type-pal/content'
 /** 叶子菜单打开的功能面板。 */
 export type PanelId = 'status' | 'magic' | 'equip' | 'use' | 'system'
 
-/** 菜单节点:有 children = 子菜单(级联展开);有 panel = 叶子打开面板。改这棵树 = 调菜单。 */
+/** 有子节点时先展开下一层。叶子把输入交给相应面板。 */
 export interface MenuNode {
   id: string
   label: TextId
@@ -12,7 +12,7 @@ export interface MenuNode {
   panel?: PanelId
 }
 
-/** 主菜单树。状态/仙术 已建;物品 → 装备/使用(二级);系统 待建。 */
+/** 固定根菜单顺序。只有物品在进入面板前还需选择装备或使用。 */
 export const MAIN_MENU: MenuNode[] = [
   { id: 'status', label: 'menu.status', panel: 'status' },
   { id: 'magic', label: 'menu.magic', panel: 'magic' },
@@ -45,10 +45,6 @@ export const CLOSED: MenuState = { active: false, stack: [] }
 export function openMenu(defaultCursor = 0): MenuState {
   const cursor = defaultCursor >= 0 && defaultCursor < MAIN_MENU.length ? defaultCursor : 0
   return { active: true, stack: [{ nodes: MAIN_MENU, cursor }] }
-}
-
-export function closeMenu(): MenuState {
-  return CLOSED
 }
 
 /** 当前末层(导航层)。 */

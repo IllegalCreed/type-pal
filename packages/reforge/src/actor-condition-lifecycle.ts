@@ -7,7 +7,7 @@ function assertNever(value: never): never {
 }
 
 /**
- * 战斗会话结束后的原版“三件套”：清定时状态、清装备临时毒抗，并只解到 severe。
+ * 退场时清除定时状态、脚本临时毒抗和可解的毒。装备效果仍由装备定义派生。
  * 调用方显式传入本次参战者；后备队员没有进入战斗，不应被战后结算波及。
  */
 export function clearPostBattleActorConditions(
