@@ -4,10 +4,19 @@
  * pick-target/连放/MP 不足/施放结算——不重复；本文件补混合 learnedSkills 过滤、真实导航跨
  * phase no-op、缺席 guard 与 E4 请求/扣费语义（world/技能定义不可被改）。不调用 castOutdoorSkill。
  */
-import type { SkillData, SkillDataMap, WorldState } from '@type-pal/content'
+import {
+  buildWorld,
+  CONTENT_VERSION,
+  type SkillData,
+  type SkillDataMap,
+  validateActors,
+  type WorldState,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { deepSnapshot } from './__tests__/glm-state-boundary-fixtures.js'
+import { combatActor } from './__tests__/runtime-shell/scenarios.js'
 import {
+  type MagicMenuState,
   magicBackFromTarget,
   magicConfirmCaster,
   magicConfirmSpell,
@@ -17,7 +26,33 @@ import {
   openMagicMenu,
   resolveOutdoorSkills,
 } from './magic-menu-state.js'
+import { assertCurrentSaveStructure } from './save/current-structure.js'
+import { SAVE_VERSION } from './save/types.js'
 import { makeTestSkills, makeTestWorld } from './test-fixtures.js'
+
+test('恢复的队员缺少技能表行时可打开空仙术面板', () => {
+  const actor = { ...combatActor(), id: 'constructor' }
+  validateActors([actor])
+  const party = buildWorld({ party: [actor.id], money: 0, inventory: [] }, { constructor: actor })
+  const saved = {
+    version: SAVE_VERSION,
+    projectId: 'test',
+    contentVersion: CONTENT_VERSION,
+    sceneRuntime: {},
+    position: { sceneId: 'entry', pos: { col: 0, row: 0, height: 0 }, facing: 'left' },
+    world: { ...party, learnedSkills: {} },
+  }
+  assertCurrentSaveStructure(saved)
+  const table = makeTestSkills()
+  let menu: MagicMenuState | undefined
+  expect(() => {
+    menu = openMagicMenu(saved.world, table)
+  }).not.toThrow()
+  expect(menu).toMatchObject({ phase: 'pick-spell', spells: [] })
+
+  const withLearnedSpell = { ...saved.world, learnedSkills: { constructor: ['296'] } }
+  expect(openMagicMenu(withLearnedSpell, table).spells.map(({ id }) => id)).toEqual(['296'])
+})
 
 const skill = (id: string, over: Partial<SkillData> = {}): SkillData => ({
   id,

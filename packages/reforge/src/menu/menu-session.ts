@@ -35,6 +35,7 @@ import {
   browserConfirmOverwriteYes,
   browserMoveCursor,
   closeSaveBrowser,
+  metasToList,
   openSaveBrowser,
   type SaveBrowserState,
 } from '../save/browser-state.js'
@@ -152,8 +153,10 @@ export class MenuSession {
     this.#saveBrowser = closeSaveBrowser()
     this.#menu = CLOSED
   }
-  refreshSaveBrowser(mode: SaveBrowserState['mode'], metas: SaveMeta[], cursor: number): void {
-    if (this.#saveBrowser.active) this.#saveBrowser = openSaveBrowser(mode, metas, cursor)
+  refreshSaveBrowser(metas: SaveMeta[]): void {
+    // Storage can complete after the player has moved or opened another browser.
+    if (this.#saveBrowser.active)
+      this.#saveBrowser = { ...this.#saveBrowser, metas: metasToList(metas) }
   }
 
   input(pressed: ReadonlySet<string>): void {
@@ -520,10 +523,11 @@ export class MenuSession {
         if (this.#useMenu.active) this.#menu = menuBefore
       } catch (error) {
         if (
-          typeof error === 'object' &&
-          error !== null &&
-          'name' in error &&
-          error.name === 'AbortError'
+          signal.aborted ||
+          (typeof error === 'object' &&
+            error !== null &&
+            'name' in error &&
+            error.name === 'AbortError')
         )
           return
         console.error('[item-use]', request.itemId, error)

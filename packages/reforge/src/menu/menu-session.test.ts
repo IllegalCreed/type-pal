@@ -1,6 +1,7 @@
 import type { WorldItemUseOutcome } from '@type-pal/content'
 import { afterEach, expect, test, vi } from 'vitest'
-import { deferred, menuFixture, settle } from '../__tests__/menu-session-fixture.js'
+import { deferred } from '../__tests__/deferred.js'
+import { menuFixture, settle } from '../__tests__/menu-session-fixture.js'
 import { executeWorldItemUse } from '../item-use-executor.js'
 import { CLOSED } from '../menu-state.js'
 import type { UseExecutionRequest } from '../use-menu-state.js'
@@ -158,19 +159,29 @@ test('save browser owns input over system menu and overwrite requires explicit y
   expect(h.menus.view.menu.openPanel).toBe('system')
 })
 
-test('save browser paging and refresh retain captured mode/cursor; a closed browser stays closed', () => {
+test('refresh updates metadata without moving the cursor or resetting an overwrite prompt', () => {
   const h = menuFixture()
   h.context.lastSlot = ''
   h.openPanel('system')
   h.press('Enter', 'ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp')
   expect(h.menus.view.saveBrowser.cursor).toBe(0)
-  h.press('Enter') // auto slot cannot be manually written
+  h.press('Enter') // Auto slot cannot be manually written.
   expect(h.ports.writeSlot).not.toHaveBeenCalled()
-  h.menus.refreshSaveBrowser('save', [], 8)
-  expect(h.menus.view.saveBrowser.cursor).toBe(8)
-  expect(h.menus.view.saveBrowser.metas.every((value) => value === null)).toBe(true)
+  h.press('ArrowDown', 'ArrowDown', 'Enter', 'ArrowRight')
+  expect(h.menus.view.saveBrowser.confirmOverwrite).toBe(true)
+  expect(h.menus.view.overwriteYes).toBe(true)
+  const meta = { ...h.context.metas[0]!, savedAt: 200 }
+  h.menus.refreshSaveBrowser([meta])
+  expect(h.menus.view.saveBrowser).toMatchObject({
+    mode: 'save',
+    cursor: 2,
+    confirmOverwrite: true,
+  })
+  expect(h.menus.view.saveBrowser.metas[2]).toEqual(meta)
+  expect(h.menus.view.overwriteYes).toBe(true)
+
   h.menus.close()
-  h.menus.refreshSaveBrowser('load', h.context.metas, 2)
+  h.menus.refreshSaveBrowser([meta])
   expect(h.menus.active).toBe(false)
   expect(h.menus.view.saveBrowser.active).toBe(false)
 })
@@ -451,6 +462,31 @@ test('item result presentation retains ownership until settled; AbortError never
     gate.resolve()
     await gate.promise
     await settle()
+  }
+})
+
+test('late item IO failure cannot reopen the menu after its operation is cancelled', async () => {
+  const h = menuFixture()
+  const gate = deferred<WorldItemUseOutcome>()
+  h.ports.executeItemUse.mockImplementationOnce(async () => gate.promise)
+  h.openPanel('use')
+  h.press('Enter', 'Enter')
+  expect(h.operation.pending).toBe(true)
+  const signal = h.ports.executeItemUse.mock.calls[0]?.[1]
+  try {
+    h.operation.cancel()
+    expect(signal?.aborted).toBe(true)
+    expect(h.operation.pending).toBe(true)
+    gate.reject(new Error('resource read failed after cancellation'))
+    await vi.waitFor(() => expect(h.operation.pending).toBe(false))
+    expect(h.menus.closed).toBe(true)
+    expect(h.ports.showToast).not.toHaveBeenCalled()
+    expect(h.ports.replaceWorld).not.toHaveBeenCalled()
+  } finally {
+    h.operation.cancel()
+    gate.reject(new Error('release test gate'))
+    await gate.promise.catch(() => undefined)
+    await vi.waitFor(() => expect(h.operation.pending).toBe(false))
   }
 })
 

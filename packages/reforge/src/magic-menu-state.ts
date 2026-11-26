@@ -31,11 +31,12 @@ export function resolveOutdoorSkills(
   casterId: string,
   skills: SkillDataMap,
 ): SkillData[] {
-  const ids = world.learnedSkills[casterId] ?? []
-  return ids
-    .map((id) => skills[id])
-    .filter((s): s is SkillData => s != null)
-    .filter((s) => s.usableOutsideBattle)
+  // A restored party can contain a member without a learned-skill row.
+  if (!Object.hasOwn(world.learnedSkills, casterId)) return []
+  return (world.learnedSkills[casterId] ?? []).flatMap((id) => {
+    const skill = Object.hasOwn(skills, id) ? skills[id] : undefined
+    return skill?.usableOutsideBattle ? [skill] : []
+  })
 }
 
 /** 开仙术面板:多人队进 pick-caster(光标 = 上次施法人记忆,越界归 0;uigame.c:674 static w);
