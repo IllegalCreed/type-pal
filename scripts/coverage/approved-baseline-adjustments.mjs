@@ -5,6 +5,167 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'reforge-world-controls-20261126',
+    authority:
+      'User authorizes exact coverage recounts for justified refactoring and test reorganization. The unused movement adapter had four covered statements, exercised only by its retired test. Reforge world runtime still uses the real motion planner. Recount only those four statements. All branch, function and line floors, every other package floor and production scope checks remain strict. The measured per-file deltas and exact test successors are in the archive.',
+    evidence: 'docs/tasks/evidence/QUALITY-REFORGE-WORLD-CONTROLS-1.tar.gz',
+    baselineSha256: '2ad0751f8e3bda185416daa58b4176af09f4fc57e649c1b065e3a8719812d5b4',
+    sources: [
+      {
+        path: 'packages/reforge/src/collision.ts',
+        sha256: 'e2f0fd5bd5cd42a308c10175c75727e67ac6e1bd8030d7eeed516094f6276f49',
+      },
+      {
+        path: 'packages/reforge/src/debug-tools-inspector.ts',
+        sha256: 'b24178fabc0da7bb0204c86e22cae3bb919b9c587a3c01007b4f6c571a1f1f3b',
+      },
+      {
+        path: 'packages/reforge/src/debug-tools-styles.ts',
+        sha256: 'be16733cd7db38f097d65f3d238920600627e5990d928c23770dc9d62157c53c',
+      },
+      {
+        path: 'packages/reforge/src/debug-tools.ts',
+        sha256: 'd940b7f781a5dd0208bca32c84b3dca9ad1de09287bee3a995bf62b5b0e797ab',
+      },
+      {
+        path: 'packages/reforge/src/equip-menu-state.ts',
+        sha256: 'd195d3d758427d12497a4b3837a141e65ab9efcc4d6d4ba382882bcfcdabf54b',
+      },
+      {
+        path: 'packages/reforge/src/follower.ts',
+        sha256: '2366e99e77ed6aa95831c933f613df50c9878618a4d7b6e073f4fc20b2d3bc9e',
+      },
+      {
+        path: 'packages/reforge/src/magic-menu-state.ts',
+        sha256: 'b39e3fd19876df72da7f1240e050498686a5c017d6c63c8f26d35a8af5944e7a',
+      },
+      {
+        path: 'packages/reforge/src/main.ts',
+        sha256: 'f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3',
+      },
+      {
+        path: 'packages/reforge/src/map-lattice.ts',
+        sha256: 'd68dd555168d888f0c112dac973101b79b59fd0ba7bd66e7e56b2c92d6695c6d',
+      },
+      {
+        path: 'packages/reforge/src/menu-state.ts',
+        sha256: 'fd0d705ac1de82389a94737945ac4b7438532e75b03fa0fde111144fcc5691b5',
+      },
+      {
+        path: 'packages/reforge/src/menu/equip-box.ts',
+        sha256: 'aae9f851007f9b77bb93eb990ad65150c3dfac692cfe5f39e2fc3d17b8017d31',
+      },
+      {
+        path: 'packages/reforge/src/menu/grid-cursor.ts',
+        sha256: '314e37ba96aecd8d0be71d2a0251b4203d3ada652f5fc65a0eee57291d433ed1',
+      },
+      {
+        path: 'packages/reforge/src/menu/item-list.ts',
+        sha256: 'fca38c231fe0db32edee206358ffbd52994304769bce4be3ff9635f98f2d36b4',
+      },
+      {
+        path: 'packages/reforge/src/menu/menu-session.ts',
+        sha256: '1129a966426a9aa9154e9e119dac7e363e2e11ae63e75eb966a7d09202b988ba',
+      },
+      {
+        path: 'packages/reforge/src/menu/use-box.ts',
+        sha256: 'bd966c80beacd2af68d16686f92547cd29fbb0349d72ad6d12aa13e728a22e40',
+      },
+      {
+        path: 'packages/reforge/src/motion-batch.test.ts',
+        sha256: 'd2b94f3a7f435612c7b6215aeaad93ef066ad0cd620080b7e9d97e44d5353ac3',
+      },
+      {
+        path: 'packages/reforge/src/motion-batch.ts',
+        sha256: '77f326044f4fa876fce7e6501b31df13cef632d8c73d98698fdb9769dc0dc7ad',
+      },
+      {
+        path: 'packages/reforge/src/outdoor-skill-execution.ts',
+        sha256: '19d5c293fe30311ab81554cdc27eeb86c6595631c2821b144250cd5d87c5f768',
+      },
+      {
+        path: 'packages/reforge/src/project-map.test.ts',
+        sha256: 'fdbe95a196bbfdaf75c98aadffefeb00d75eb4f4f9859f37d22d1955f96bcd66',
+      },
+      {
+        path: 'packages/reforge/src/project-map.ts',
+        sha256: 'd72bf5c421900f081d8b67f66e9e07800b5e5129b3fdd426d3214ac576245f48',
+      },
+      {
+        path: 'packages/reforge/src/runtime-frame-session.ts',
+        sha256: 'bb81872f80ee4b696a864338bbe1cf7be7359a3b2156fc1f569c31ec1be46d79',
+      },
+      {
+        path: 'packages/reforge/src/screen-fx.ts',
+        sha256: 'b16ada8f66ecc38ded91c72e59d07fe61544d6be7c82fc7a9db64629505f2fd9',
+      },
+      {
+        path: 'packages/reforge/src/screen-wave.ts',
+        sha256: '68d96caf4d76171faf0a76ceed716981ea88a119b560cfdb6312b832013b2ae3',
+      },
+      {
+        path: 'packages/reforge/src/shop-trial.test.ts',
+        sha256: '556d36ae140cae9120375827dd8c9b9480e1a90efaecce4e2bb5f804a59b5740',
+      },
+      {
+        path: 'packages/reforge/src/system-menu-state.ts',
+        sha256: 'd1db50d6c74e582b81ab3615ba6d4ff614c3ceae2f2b9cb2defe7a40ad8094c9',
+      },
+      {
+        path: 'packages/reforge/src/use-menu-state.ts',
+        sha256: 'e9a3887aebbafe42525afd49b976ccf3159860791a1bbd16cf504d78eaa20aa0',
+      },
+      {
+        path: 'packages/reforge/src/wave-distortion.ts',
+        sha256: '71e805b24c007d3ef6901ef01e38780e9f4c2ef0bb278922a66b62230e1d9c34',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'a5212eb9aa028496112903b7f0f5b9064a296facb9fa4d6bd0064f7ef80867d7',
+      },
+    ],
+    packages: {
+      reforge: {
+        before: {
+          statements: {
+            covered: 18802,
+            total: 20570,
+          },
+          branches: {
+            covered: 12312,
+            total: 14541,
+          },
+          functions: {
+            covered: 3044,
+            total: 3328,
+          },
+          lines: {
+            covered: 16827,
+            total: 17951,
+          },
+        },
+        after: {
+          statements: {
+            covered: 18798,
+            total: 20566,
+          },
+          branches: {
+            covered: 12312,
+            total: 14541,
+          },
+          functions: {
+            covered: 3044,
+            total: 3328,
+          },
+          lines: {
+            covered: 16827,
+            total: 17951,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'reforge-battle-review-closeout-20261125',
     authority:
       'User authorizes exact baseline recounts for justified code and test organization. The candidate removes an unreachable private painter, moves the animation player and world mutation ownership into named modules, and replaces test-only core inputs with production actions. Fifteen changed Reforge production files account for every measured counter delta; no unchanged production file lost coverage. The separately exercised item-growth writeback adds a real business oracle to the final candidate. The comparison uses the already measured pre-addition count against the exact old baseline. All other package baselines, test settings and protection remain strict.',

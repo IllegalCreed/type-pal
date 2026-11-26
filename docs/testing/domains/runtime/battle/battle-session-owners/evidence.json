@@ -14,21 +14,21 @@
       "lines": "251-253",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+      "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "426-438",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+      "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1312-1321",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+      "sha256": "aa9d485618f765b1c168d1732db3f857ff06fa4c1d9b46efa5d07fece79e0d2d"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1382,6 +1382,36 @@
         }
       ],
       "scope": "Frame/selection call sites retain their spans after the moves. The readiness snapshot now uses the real battle constructor and verifies the same detached action and poison state. The historical execution and counter identity stay at their original candidates."
+    },
+    {
+      "action": "reforge-world-controls-source-rebinding",
+      "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+      "date": "2026-11-26",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "251-253",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "426-438",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1312-1321",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "c1040936e18650009554b1f33b982d9ad6c96f2b39edbbba5faf4c87d15522c2"
+        }
+      ],
+      "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
     }
   ],
   "_governance": {

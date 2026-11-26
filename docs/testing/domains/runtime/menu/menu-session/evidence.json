@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/menu/menu-session.ts",
-      "lines": "107-130",
+      "lines": "108-131",
       "anchor": "export class MenuSession",
       "role": "contract",
-      "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
+      "sha256": "1129a966426a9aa9154e9e119dac7e363e2e11ae63e75eb966a7d09202b988ba"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.ts",
@@ -25,17 +25,17 @@
     },
     {
       "path": "packages/reforge/src/menu/menu-session.test.ts",
-      "lines": "10-33",
+      "lines": "11-34",
       "anchor": "test('closed menu ignores input",
       "role": "oracle",
-      "sha256": "cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab"
+      "sha256": "d35a71a1717a05132160072e9392fdcfb54fc5ccaf42494b07d1bca403fa87b6"
     },
     {
       "path": "packages/reforge/src/menu/item-use-session.test.ts",
       "lines": "5-22",
       "anchor": "test('item operation owns the pending slot",
       "role": "oracle",
-      "sha256": "ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f"
+      "sha256": "86c6e84884ee7637889d335f79164e3e185bfd8d8f4493eca7327cca887e504b"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -75,9 +75,9 @@
       "id": "reforge-menu-session-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/menu/menu-session.ts:107-130",
+        "packages/reforge/src/menu/menu-session.ts:108-131",
         "packages/reforge/src/menu/item-use-session.ts:2-19",
-        "packages/reforge/src/menu/menu-session.test.ts:10-33",
+        "packages/reforge/src/menu/menu-session.test.ts:11-34",
         "packages/reforge/src/menu/item-use-session.test.ts:5-22",
         "packages/content/src/character.ts:169-171"
       ]
@@ -248,6 +248,36 @@
           "sha256": "890602823f1aced9eeb228a88352f4f6938735ce278317d86911d41028a47213"
         }
       ]
+    },
+    {
+      "action": "reforge-world-controls-source-rebinding",
+      "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+      "date": "2026-11-26",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/menu/menu-session.ts",
+          "lines": "107-130",
+          "anchor": "export class MenuSession",
+          "role": "contract",
+          "sha256": "261e69f6f75051d4f01cb0ae9f5fe5c9d8b2c71aa3798fd649d01bdb883ad05b"
+        },
+        {
+          "path": "packages/reforge/src/menu/menu-session.test.ts",
+          "lines": "10-33",
+          "anchor": "test('closed menu ignores input",
+          "role": "oracle",
+          "sha256": "cb9e2df86bd00944e3628a669b739f75579daa51da4ec419f361c812ffa286ab"
+        },
+        {
+          "path": "packages/reforge/src/menu/item-use-session.test.ts",
+          "lines": "5-22",
+          "anchor": "test('item operation owns the pending slot",
+          "role": "oracle",
+          "sha256": "ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f"
+        }
+      ],
+      "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
     }
   ],
   "_governance": {

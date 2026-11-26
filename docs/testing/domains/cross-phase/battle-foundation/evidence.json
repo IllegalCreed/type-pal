@@ -364,7 +364,7 @@
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
       "lines": "6009",
-      "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+      "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -14124,6 +14124,22 @@
         }
       ],
       "scope": "Current source coordinates and file identities only. The history, runtime execution, visual observations and original business claims keep their original candidates."
+    },
+    {
+      "action": "reforge-world-controls-source-rebinding",
+      "base": "c409a1654b010543dc84d2ad71e692c8b9f07433",
+      "date": "2026-11-26",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "6009",
+          "sha256": "c56d6e4e580d1d3407f22290f2e511bdb5f0b54398245bf87a7965bdb62d9c37"
+        }
+      ],
+      "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
     }
   ],
   "_governance": {

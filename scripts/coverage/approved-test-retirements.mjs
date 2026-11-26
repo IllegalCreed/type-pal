@@ -7,6 +7,55 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Reforge world controls: exact migrations and redundant old tests, with old and new case receipts in the task archive.
+    {
+      file: 'packages/reforge/src/equip-menu-state.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: 'f2c593ca2a43a212ff32d28e07da128afde9ad6e98b32ab1e1458d5acfd7ee7b',
+      currentIdentityDigest: '0f50a5c1b74809182375872e4171f1d77c426ff6715d90bedf50c8af5bc1d3dd',
+      fileSha256: 'c05e77c13c0f43e00b6479c11159efbfe019c1f765e32e1400e126645106dcb2',
+    },
+    {
+      file: 'packages/reforge/src/magic-menu-state.test.ts',
+      previous: 21,
+      current: 8,
+      previousIdentityDigest: 'a34954cc7f6373cb9a9262905baa257614413cefda6c43b86ff25d4206b3e5e6',
+      currentIdentityDigest: '134319e20fc362d022be35eeace9573e2fc2fd0a6e8545ffe39abcb92b26ff0d',
+      fileSha256: 'abff70c90cbe500eff10ae2799ae706feef6866f0a9b45e6f05b4492af9bccc8',
+    },
+    {
+      file: 'packages/reforge/src/motion-batch.test.ts',
+      previous: 8,
+      current: 5,
+      previousIdentityDigest: '377559e286ee794e64b59268ae2bf36da63cd56798218dafa0cc4e9211490f0c',
+      currentIdentityDigest: '7583f07f256bf1f52fab414a51a67d5dde9a4c5964dc07cdc5443c9378c289a1',
+      fileSha256: 'd2b94f3a7f435612c7b6215aeaad93ef066ad0cd620080b7e9d97e44d5353ac3',
+    },
+    {
+      file: 'packages/reforge/src/project-map.test.ts',
+      previous: 13,
+      current: 9,
+      previousIdentityDigest: 'b8e13b799bc97154f695a3d685c4867d2a2d7448f7c330717da3432083042ab4',
+      currentIdentityDigest: 'e19cc0024d3d7711952e687bf5041c5b25ccfcdc5e2466457c161f06eaad21ce',
+      fileSha256: 'fdbe95a196bbfdaf75c98aadffefeb00d75eb4f4f9859f37d22d1955f96bcd66',
+    },
+    {
+      file: 'packages/reforge/src/system-menu-state.test.ts',
+      previous: 9,
+      current: 8,
+      previousIdentityDigest: '31f5c6e8c6fac5b8c898e0c204dd1a481c10dd09d89717a7910bb63f5d94eb23',
+      currentIdentityDigest: 'df702696850c1de029113ee331861e0cc1f285e4df771dd883711a1d27f5906f',
+      fileSha256: 'b742ae09408eb0d220424fb3109168b1279daedd0bada448fb6e5ab4324206b2',
+    },
+    {
+      file: 'packages/reforge/src/use-menu-state.navigation-boundaries.test.ts',
+      previous: 6,
+      current: 5,
+      previousIdentityDigest: '97aac7f75c2b426b6cbe7d41ad2ede40f9a0885d7a9a878e0781dad9dd2bcaf9',
+      currentIdentityDigest: 'adb06b40dbfb3047d0dd33d9e89b6f7f6160ace4e803464654bb208281e6cd00',
+      fileSha256: 'e8fee7e553586b8683a922f082f99d4bd07254047af5c348e490b2fd39175c46',
+    },
     // Reforge closeout. User-authorized responsibility-based migration and verified dead probes.
     // Original-to-current cases and retirements live in the referenced closeout archive.
     {

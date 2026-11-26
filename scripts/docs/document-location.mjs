@@ -79,6 +79,7 @@ import {
   isTestingQ2TowerFoxSource,
   isTestingQ2TowerMingSource,
   isTestingReforgeBattleCloseoutSource,
+  isTestingReforgeWorldControlsSource,
   isTestingRuntimeOwnershipSource,
   isTestingSceneItemExitSource,
   isTestingStoryPresentationSource,
@@ -140,6 +141,7 @@ import {
   restoreTestingQ2TowerFoxSourceBindings,
   restoreTestingQ2TowerMingSourceBindings,
   restoreTestingReforgeBattleCloseoutBindings,
+  restoreTestingReforgeWorldControlsBindings,
   restoreTestingRuntimeOwnershipSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
   restoreTestingStoryPresentationSourceBindings,
@@ -218,6 +220,7 @@ import {
   testingQ2TowerFoxPublicationBase,
   testingQ2TowerMingPublicationBase,
   testingReforgeBattleCloseoutBase,
+  testingReforgeWorldControlsBase,
   testingRuntimeOwnershipPublicationBase,
   testingSceneItemExitPublicationBase,
   testingStoryPresentationPublicationBase,
@@ -700,8 +703,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const battleCloseoutRevision = admission.testingReforgeBattleCloseoutRevision
   if (battleCloseoutRevision)
     assert(battleQualityRevision && /^[a-f0-9]{40}$/u.test(battleCloseoutRevision))
-  const battleCloseout = sourceApplicability({
+  const worldControlsRevision = admission.testingReforgeWorldControlsRevision
+  if (worldControlsRevision)
+    assert(battleCloseoutRevision && /^[a-f0-9]{40}$/u.test(worldControlsRevision))
+  const worldControls = sourceApplicability({
     readCurrent: readCurrentSource,
+    revision: worldControlsRevision,
+    baseRevision: testingReforgeWorldControlsBase,
+    restoreBindings: restoreTestingReforgeWorldControlsBindings,
+    isSource: isTestingReforgeWorldControlsSource,
+  })
+  const battleCloseout = sourceApplicability({
+    readCurrent: worldControls.read,
     revision: battleCloseoutRevision,
     baseRevision: testingReforgeBattleCloseoutBase,
     restoreBindings: restoreTestingReforgeBattleCloseoutBindings,
@@ -2239,7 +2252,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
-    const priorRuntimeBody = battleQuality.restore(path, battleCloseout.restore(path, current))
+    const priorRuntimeBody = battleQuality.restore(
+      path,
+      battleCloseout.restore(path, worldControls.restore(path, current)),
+    )
     const priorMenuBody = menuIsolation.restore(
       path,
       runtimeOwnership.restore(path, priorRuntimeBody),

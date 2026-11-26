@@ -591,6 +591,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REFORGE-BATTLE-1 — Reforge 战斗实现与专测治理](QUALITY-REFORGE-BATTLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-REFORGE-WORLD-CONTROLS-1 — Reforge 世界操作与局内菜单代码治理](QUALITY-REFORGE-WORLD-CONTROLS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -598,6 +599,7 @@ Template: governance-index-v1 / 1.0.0
 | [REFORGE-FRAME-SEQUENCE-INVALIDATION-1 — 过场素材换版后旧解码重写缓存](REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属](REFORGE-FSA-URL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1 — 存档完成只更新当前浏览界面的元数据](REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1 — 运行时只解析工程登记的命名落点](REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-VIDEO-PLAY-RETRY-1 — 二阶段视频多次播放重试](REFORGE-VIDEO-PLAY-RETRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
