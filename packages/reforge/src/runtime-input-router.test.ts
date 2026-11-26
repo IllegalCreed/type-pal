@@ -11,19 +11,17 @@ test('all 128 active-layer combinations give the complete frame to exactly the h
     })
     const keys = new Set(['Enter'])
     routeRuntimeInput(keys, 4321, f.ports)
-    const expected = f.state.confirm
-      ? [['yes']]
-      : f.state.shop
-        ? [['shop', ['Enter']]]
-        : f.state.reward
-          ? [['reward', ['Enter']]]
-          : f.state.menu
-            ? [['menu', ['Enter']]]
-            : f.state.dialogue
-              ? [['dialogue', 4321]]
-              : f.state.runner || f.state.hostile
-                ? []
-                : [['interact']]
+    const byLayer = [
+      [['yes']],
+      [['shop', ['Enter']]],
+      [['reward', ['Enter']]],
+      [['menu', ['Enter']]],
+      [['dialogue', 4321]],
+      [],
+      [],
+    ]
+    const owner = flags.findIndex((_, index) => (mask & (1 << index)) !== 0)
+    const expected = owner === -1 ? [['interact']] : byLayer[owner]
     expect(f.events, `active mask ${mask}`).toEqual(expected)
     expect([...keys]).toEqual(['Enter'])
   }
@@ -120,7 +118,26 @@ test('quick save is available exactly where the manual-save menu can open, acros
     routeRuntimeInput(new Set(['Escape']), 0, manual.ports)
     expect(
       quick.events.some(([event]) => event === 'save'),
-      `active mask ${mask}`,
-    ).toBe(manual.events.some(([event]) => event === 'open'))
+      `quick save with active mask ${mask}`,
+    ).toBe(mask === 0)
+    expect(
+      manual.events.some(([event]) => event === 'open'),
+      `manual save with active mask ${mask}`,
+    ).toBe(mask === 0)
   }
+})
+
+test('菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键', () => {
+  const f = inputFixture()
+  f.state.menu = true
+  const keys = ['ArrowUp', 'Escape', 'F5', 'x']
+  routeRuntimeInput(new Set(keys), 77, f.ports)
+  // 方向/取消/快速存档键在菜单帧内归菜单自己解释;路由器不得过滤集合或触发 save/open。
+  expect(f.events).toEqual([['menu', keys]])
+
+  const single = inputFixture()
+  single.state.menu = true
+  routeRuntimeInput(new Set(['[']), 78, single.ports)
+  // 调试导航键在菜单帧同样只进菜单,不再触发 changeDebugScene。
+  expect(single.events).toEqual([['menu', ['[']]])
 })

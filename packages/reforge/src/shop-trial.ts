@@ -19,13 +19,13 @@ export function parseShopTrialParameters(params: URLSearchParams): ShopTrialPara
       throw new Error(`独立试买不能同时使用参数 ${key}`)
     if (params.getAll(key).length !== 1) throw new Error(`独立试买参数 ${key} 重复`)
   }
-  const number = (key: string): number => {
+  const integerParameter = (key: 'shop-trial' | 'money'): number => {
     const raw = params.get(key)
     if (raw === null || !/^\d+$/.test(raw) || !Number.isSafeInteger(Number(raw)))
       throw new Error(`独立试买参数 ${key} 必须为非负安全整数`)
     return Number(raw)
   }
-  return { shopId: number('shop-trial'), money: number('money') }
+  return { shopId: integerParameter('shop-trial'), money: integerParameter('money') }
 }
 
 export async function runShopTrial(

@@ -7096,10 +7096,8 @@ export async function bootGame(
       installDebugTools({
         world: () => world,
         motionState: captureMotionState,
-        sceneId: () => activeScene.scene.id,
         scene: () => sceneResources.peek(activeScene.scene.id),
         canonicalProject,
-        runtime: () => scriptRuntime ?? undefined,
         runnerBusy: () => runner !== null,
         dialogBusy: () => dialogBox.active,
         presentationBusy: () => presentation.busy(),
@@ -7155,7 +7153,6 @@ export async function bootGame(
           },
         },
         layers: debugLayers,
-        showToast,
       })
     } catch (error) {
       console.warn('[debug-tools] 安装失败:', error)

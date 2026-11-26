@@ -6,7 +6,6 @@ import {
   finishUseExecution,
   openUseMenu,
   useApply,
-  useBackFromTarget,
   useConfirm,
   useMoveCursor,
 } from './use-menu-state.js'
@@ -24,17 +23,13 @@ describe('使用菜单状态机', () => {
   })
   test('useConfirm:单体(观音符)→ pick-target;脚本类(土灵珠)→ 直接执行不选目标', () => {
     const w = makeTestWorld()
-    const oneAlly = useConfirm(
-      useMoveCursor(openUseMenu(w, makeTestItems()), 'right'),
-      w,
-      makeTestItems(),
-    ) // idx1 观音符
+    const oneAlly = useConfirm(useMoveCursor(openUseMenu(w, makeTestItems()), 'right'), w) // idx1 观音符
     expect(oneAlly.kind).toBe('pick-target')
     if (oneAlly.kind === 'pick-target') {
       expect(oneAlly.state.phase).toBe('pick-target')
       expect(oneAlly.state.selectedItemId).toBe('61')
     }
-    const script = useConfirm(openUseMenu(w, makeTestItems()), w, makeTestItems()) // idx0 土灵珠(scene/runScript)
+    const script = useConfirm(openUseMenu(w, makeTestItems()), w) // idx0 土灵珠(scene/runScript)
     expect(script.kind).toBe('execute')
     if (script.kind === 'execute') expect(script.request.origin).toBe('pick-item') // 不进选目标
   })
@@ -60,26 +55,22 @@ describe('使用菜单状态机', () => {
       learnedSkills: {},
       inventory: [{ itemId: '151', count: 1 }],
     }
-    const r = useConfirm(openUseMenu(world, items), world, items)
+    const r = useConfirm(openUseMenu(world, items), world)
     expect(r.kind).toBe('execute')
     if (r.kind === 'execute') expect(r.request.itemId).toBe('151')
   })
   test('useApply:单体用完留 pick-target 可连用,用光才回 pick-item', () => {
     const w0 = makeTestWorld()
-    const c = useConfirm(
-      useMoveCursor(openUseMenu(w0, makeTestItems()), 'right'),
-      w0,
-      makeTestItems(),
-    ) // 观音符 count2
+    const c = useConfirm(useMoveCursor(openUseMenu(w0, makeTestItems()), 'right'), w0) // 观音符 count2
     if (c.kind !== 'pick-target') throw new Error('expected pick-target')
-    const request1 = useApply(c.state, w0, 'li-xiaoyao', makeTestItems())
+    const request1 = useApply(c.state, 'li-xiaoyao')
     if (!request1) throw new Error('expected execution request')
     const outcome1 = resolveWorldItemUse(w0, 'li-xiaoyao', request1.itemId, makeTestItems())
     expect(outcome1.world.party[0]?.hp).toBe(150) // 100+150 夹满
     const state1 = finishUseExecution(request1, outcome1, makeTestItems())
     expect(state1.phase).toBe('pick-target') // 还有 → 留选目标
 
-    const request2 = useApply(state1, outcome1.world, 'li-xiaoyao', makeTestItems())
+    const request2 = useApply(state1, 'li-xiaoyao')
     if (!request2) throw new Error('expected execution request')
     const outcome2 = resolveWorldItemUse(
       outcome1.world,
@@ -90,23 +81,58 @@ describe('使用菜单状态机', () => {
     const state2 = finishUseExecution(request2, outcome2, makeTestItems())
     expect(state2.phase).toBe('pick-item') // 用光 → 回列表
   })
-  test('useBackFromTarget:pick-target → pick-item', () => {
-    const w = makeTestWorld()
-    const c = useConfirm(
-      useMoveCursor(openUseMenu(w, makeTestItems()), 'right'),
-      w,
-      makeTestItems(),
-    )
-    if (c.kind !== 'pick-target') throw new Error('expected pick-target')
-    expect(useBackFromTarget(c.state).phase).toBe('pick-item')
+  test('关闭使用面板会同时清除物品光标和选人位置', () => {
+    expect(closeUseMenu()).toEqual({
+      active: false,
+      phase: 'pick-item',
+      items: [],
+      cursor: 0,
+      targetIdx: 0,
+    })
   })
-  test('closeUseMenu:active false', () => {
-    expect(closeUseMenu().active).toBe(false)
+
+  test('背包里仅限战斗的药不会加入大世界列表', () => {
+    const items: ItemDataMap = {
+      ...makeTestItems(),
+      battlePotion: {
+        id: 'battlePotion',
+        name: '战斗药',
+        desc: [],
+        buyPrice: 0,
+        sellPrice: 0,
+        sellable: true,
+        use: {
+          target: 'oneAlly',
+          consuming: true,
+          battleOnly: true,
+          effects: [{ kind: 'healHp', amount: 30 }],
+        },
+      },
+    }
+    const world = {
+      ...makeTestWorld(),
+      inventory: [
+        { itemId: 'battlePotion', count: 1 },
+        { itemId: '61', count: 1 },
+      ],
+    }
+    expect(openUseMenu(world, items).items.map(({ id }) => id)).toEqual(['61'])
+  })
+
+  test('纯解析移交脚本时保持菜单，等待宿主给出结果', () => {
+    const world = makeTestWorld()
+    const items = makeTestItems()
+    const confirmed = useConfirm(openUseMenu(world, items), world)
+    if (confirmed.kind !== 'execute') throw new Error('缺少场景物品的执行请求')
+    const { request } = confirmed
+    const outcome = resolveWorldItemUse(world, request.targetCharId, request.itemId, items)
+    expect(outcome.status).toBe('external')
+    expect(finishUseExecution(request, outcome, items)).toBe(request.state)
   })
 
   test('finishUseExecution:失败保持原位；成功且 menu=close 关闭整个使用菜单', () => {
     const world = makeTestWorld()
-    const confirmed = useConfirm(openUseMenu(world, makeTestItems()), world, makeTestItems())
+    const confirmed = useConfirm(openUseMenu(world, makeTestItems()), world)
     if (confirmed.kind !== 'execute') throw new Error('expected execute')
     const failure = finishUseExecution(
       confirmed.request,
@@ -137,6 +163,6 @@ describe('使用菜单状态机', () => {
       },
       makeTestItems(),
     )
-    expect(success).toEqual(closeUseMenu())
+    expect(success).toMatchObject({ active: false, phase: 'pick-item', items: [] })
   })
 })

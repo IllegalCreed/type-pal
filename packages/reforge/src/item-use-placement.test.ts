@@ -1,9 +1,10 @@
 import { emptyWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { expectDefined } from './defined.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
 import { buildBlankProjectMap } from './project-map.js'
 
-describe('C8 · placeEntityInFront host state', () => {
+describe('item placement in the active scene', () => {
   const target = { scene: 's048', entity: 'e797' }
   const entityIds = new Set(['e797'])
   const partyPos = { col: 1, row: 1, height: 3 }
@@ -58,7 +59,9 @@ describe('C8 · placeEntityInFront host state', () => {
     expect(pos).toEqual({ col: 2, row: 1, height: 3 })
 
     const canonical = emptyWorldScriptState()
-    commitItemEntityPlacement(canonical, target, 2, pos!)
+    const planned = expectDefined(pos)
+    commitItemEntityPlacement(canonical, target, 2, planned)
+    planned.col = 6
     expect(canonical.entityPos).toEqual({
       s048: { e797: { col: 2, row: 1, height: 3 } },
     })

@@ -142,12 +142,14 @@ export async function debugHarness(
     busy: boolean
     runner: boolean
     dialog: boolean
+    requestedStep: boolean
     motion: DebugMotionSnapshot
   } = {
     scene: project.entryScene,
     busy: false,
     runner: false,
     dialog: false,
+    requestedStep: false,
     motion: {
       scene: 'a',
       worldTick: 1,
@@ -204,15 +206,17 @@ export async function debugHarness(
   })
   const setParty = vi.fn<DebugToolsContext['setParty']>()
   const grantSkill = vi.fn<DebugToolsContext['grantSkill']>()
-  const requestStep = vi.fn(),
-    reset = vi.fn()
+  const requestStep = vi.fn(() => {
+    state.requestedStep = true
+  })
+  const reset = vi.fn(() => {
+    state.requestedStep = false
+  })
   const ctx: DebugToolsContext = {
     world: () => world,
     motionState: () => structuredClone(state.motion),
-    sceneId: () => 'a',
     scene: () => state.scene,
     canonicalProject: project,
-    runtime: () => runtime,
     runnerBusy: () => state.runner,
     dialogBusy: () => state.dialog,
     presentationBusy: () => state.busy,
@@ -238,7 +242,6 @@ export async function debugHarness(
       reset,
     },
     layers: { collision: false, triggers: true },
-    showToast: vi.fn(),
   }
   const dispose = installDebugTools(ctx)
   disposers.push(dispose)

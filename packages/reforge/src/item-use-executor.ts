@@ -16,7 +16,7 @@ import {
 import { isRuntimeItemPrivateScriptRef, isRuntimeScriptRef } from './runtime-project-view.js'
 import type { RunProjectCommandsOptions, ScriptProjectRuntime } from './runtime-script-project.js'
 
-/** The normal item-use host and tests share this dispatch; no user ID is parsed as a namespace. */
+/** Only the projected reference tag selects the namespace. Colons in authored IDs are literal. */
 export async function runWorldItemScript(
   runtime: Pick<ScriptProjectRuntime, 'runSharedScript' | 'runItemPrivateScript'>,
   items: AuthorItemCoreMap,
@@ -175,8 +175,8 @@ async function executeMixedItemPrivateUse(
 }
 
 /**
- * 统一大世界用途执行器。调用方只消费 outcome，不再检查 effect.kind；外部动作全部成功后
- * 才提交物品消耗。场景钩子返回 false 时保留菜单、物品与世界态。
+ * 统一大世界用途执行器。外部动作全部成功后，再从活动世界提交消耗。
+ * 失败时返回宿主当前世界，已提交的脚本或场景副作用由宿主管理。
  */
 export async function executeWorldItemUse(
   options: ExecuteWorldItemUseOptions,

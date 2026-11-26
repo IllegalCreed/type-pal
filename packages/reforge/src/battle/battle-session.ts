@@ -2682,7 +2682,7 @@ export class BattleSession {
             layerOffset: overlay.layerOffset,
           })
     const scene: BattleScene = {
-      ...(bgSrc ? { bg: this.wavedBg.render(bgSrc, waveAmp, now, 320, 200, bgTag) } : {}),
+      ...(bgSrc ? { bg: this.wavedBg.render(bgSrc, waveAmp, now, bgTag) } : {}),
       enemies,
       players,
       ...(depthOverlays.length ? { depthOverlays } : {}),

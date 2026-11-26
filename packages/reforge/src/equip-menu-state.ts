@@ -3,6 +3,7 @@
 //   pick-role 确认面板(显角色当前 6 槽装备 + 5 属性)→ Enter 才真换 / Esc 回 list
 // 换装走 content equipItem(返回新 world)。
 import { equipItem, type ItemData, type ItemDataMap, type WorldState } from '@type-pal/content'
+import { type GridDirection, stepMenuGridCursor } from './menu/grid-cursor.js'
 
 export type EquipPhase = 'list' | 'pick-role'
 
@@ -11,19 +12,20 @@ export interface EquipMenuState {
   phase: EquipPhase
   items: ItemData[] // 背包中至少一位队员可穿戴的物品
   cursor: number // list 阶段网格光标
-  casterId: string // 当前选中的在队角色实例
+  /** Selected wearer ID, exposed under this key by the runtime observation used by replays. */
+  casterId: string
   /** pick-role 阶段:list 里选中、待换上的物品 id。 */
   selectedItemId?: string
 }
 
 export function openEquipMenu(
   world: WorldState,
-  casterId: string,
+  wearerId: string,
   items: ItemDataMap,
 ): EquipMenuState {
-  const wearer = world.party.find(({ id }) => id === casterId)
+  const wearerIsInParty = world.party.some(({ id }) => id === wearerId)
   const templates = new Set(world.party.map(({ template }) => template))
-  const available = wearer
+  const available = wearerIsInParty
     ? world.inventory.flatMap(({ itemId, count }) => {
         const item = items[itemId]
         return count > 0 && item?.equip?.equipableBy.some((template) => templates.has(template))
@@ -36,7 +38,7 @@ export function openEquipMenu(
     phase: 'list',
     items: available,
     cursor: 0,
-    casterId,
+    casterId: wearerId,
   }
 }
 
@@ -44,22 +46,9 @@ export function closeEquipMenu(): EquipMenuState {
   return { active: false, phase: 'list', items: [], cursor: 0, casterId: '' }
 }
 
-/** 原版物品列表 3 列网格(itemmenu.c iItemsPerLine)。 */
-export const EQUIP_GRID_COLS = 3
-
-/** list 阶段网格导航:↑↓ = ±列数,←→ = ±1;越界吸附首/尾、不 wrap(对齐 inventory-menu setCursorClamp)。 */
-export function equipMoveCursor(
-  s: EquipMenuState,
-  dir: 'up' | 'down' | 'left' | 'right',
-): EquipMenuState {
-  if (s.phase !== 'list') return s
-  const n = s.items.length
-  if (n === 0) return s
-  const delta =
-    dir === 'up' ? -EQUIP_GRID_COLS : dir === 'down' ? EQUIP_GRID_COLS : dir === 'left' ? -1 : 1
-  // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
-  const next = s.cursor + delta
-  return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
+export function equipMoveCursor(s: EquipMenuState, direction: GridDirection): EquipMenuState {
+  if (s.phase !== 'list' || s.items.length === 0) return s
+  return { ...s, cursor: stepMenuGridCursor(s.cursor, s.items.length, direction) }
 }
 
 /** 选人阶段按在队实例顺序环绕，保持选中物件和背包光标。 */
@@ -105,9 +94,9 @@ export function equipApply(
 ): { world: WorldState; state: EquipMenuState } {
   if (s.phase !== 'pick-role' || !s.selectedItemId) return { world, state: s }
   const slot = items[s.selectedItemId]?.equip?.slot
-  const caster = world.party.find((c) => c.id === s.casterId)
-  if (!slot || !caster) return { world, state: openEquipMenu(world, s.casterId, items) }
-  const oldItemId = caster.equipment[slot]
+  const wearer = world.party.find((member) => member.id === s.casterId)
+  if (!slot || !wearer) return { world, state: openEquipMenu(world, s.casterId, items) }
+  const oldItemId = wearer.equipment[slot]
   const next = equipItem(world, s.casterId, s.selectedItemId, items)
   if (next === world) return { world, state: s }
   if (oldItemId) return { world: next, state: { ...s, selectedItemId: oldItemId } } // 留面板续换

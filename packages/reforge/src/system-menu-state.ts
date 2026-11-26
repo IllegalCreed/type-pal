@@ -1,6 +1,4 @@
-// 系统菜单状态机(纯逻辑;非视觉)。三阶段 menu/confirm/switch。
-// 交互对齐一阶段 game in-game-menu.ts(PAL_SystemMenu)+ menu-driver.ts。
-// 范围:5 项 + 退出确认 + 音乐/音效开关子选单;save/load 开存档浏览界面。
+// 只推进系统菜单的选项和子面板。浏览存档、写入音频首选项与返回标题交给 MenuSession。
 import type { TextId } from '@type-pal/content'
 
 export type SystemItemKind = 'save' | 'load' | 'music' | 'sound' | 'quit'
@@ -8,16 +6,16 @@ export type SystemItemKind = 'save' | 'load' | 'music' | 'sound' | 'quit'
 export interface SystemMenuItem {
   id: SystemItemKind
   label: TextId
-  disabled?: boolean // 占位项=true(当前无;字段留给未来缺功能期)
+  disabled?: boolean // 绘制器使用的禁用样式。固定的五项都可以确认。
 }
 
-/** 5 项(对齐 sdlpal ui.h SYSMENU_LABEL_* 顺序)。save/load 开存档浏览界面;music/sound 开关子选单;quit 退出确认。 */
+/** 保留 SDLPal 经典模式的五个入口及其顺序（uigame.c 的 PAL_SystemMenu）。 */
 export const SYSTEM_ITEMS: SystemMenuItem[] = [
-  { id: 'save', label: 'menu.system.save' }, // 存档:开浏览界面·存模式
-  { id: 'load', label: 'menu.system.load' }, // 读档:开浏览界面·读模式
-  { id: 'music', label: 'menu.system.music' }, // 音乐开关(PAL_SwitchMenu 关/开子选单)
-  { id: 'sound', label: 'menu.system.sound' }, // 音效开关(同上)
-  { id: 'quit', label: 'menu.system.quit' }, // 退出(本期"是"=占位提示,无标题屏)
+  { id: 'save', label: 'menu.system.save' },
+  { id: 'load', label: 'menu.system.load' },
+  { id: 'music', label: 'menu.system.music' },
+  { id: 'sound', label: 'menu.system.sound' },
+  { id: 'quit', label: 'menu.system.quit' },
 ]
 
 export interface SystemMenuState {
@@ -93,9 +91,7 @@ export function systemToggleConfirm(s: SystemMenuState): SystemMenuState {
   return { ...s, confirmYes: !s.confirmYes }
 }
 
-/** switch 阶段确认:落定开关值(开=confirmYes)→ 关系统菜单。
- *  原版切换完 PAL_SystemMenu return TRUE 关整个菜单栈(一阶段 DH9);reforge 映射 = 回主菜单 hub
- *  (同 quit-否路径的既有拍板,见 main.ts system-menu-plan Task C 注释)。 */
+/** 交出已选的开关值。MenuSession 应用首选项并返回局内主菜单。 */
 export function systemSwitchCommit(s: SystemMenuState): {
   state: SystemMenuState
   action?: SystemAction
@@ -105,13 +101,12 @@ export function systemSwitchCommit(s: SystemMenuState): {
   return { state: closeSystemMenu(), action: { kind, on: s.confirmYes } }
 }
 
-/** confirm 确认:是 → quit action(本期占位,main.ts 弹提示);否 → 关菜单。
- *  ⚠ 「否」关菜单后,main.ts 走 menu=back(menu) 回主菜单 hub(不复刻原版「弹回大世界」)。 */
+/** 将退出交给宿主。选否则结束系统面板，由 MenuSession 恢复局内主菜单。 */
 export function systemConfirmYes(s: SystemMenuState): {
   state: SystemMenuState
   action?: SystemAction
 } {
   if (s.phase !== 'confirm') return { state: s }
-  if (s.confirmYes) return { state: s, action: { kind: 'quit' } } // 是 → 退出(占位)
-  return { state: closeSystemMenu(), action: undefined } // 否 → 关菜单(回 hub)
+  if (s.confirmYes) return { state: s, action: { kind: 'quit' } }
+  return { state: closeSystemMenu(), action: undefined }
 }

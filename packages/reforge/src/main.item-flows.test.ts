@@ -19,7 +19,7 @@ afterEach(async () => {
   host = undefined
 })
 
-test('H8 medicine repeats on the real target and returns to list only after last consumption', async () => {
+test('medicine repeats on the real target and returns to list only after last consumption', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     items: [medicine()],
@@ -43,7 +43,7 @@ test('H8 medicine repeats on the real target and returns to list only after last
   h.assertInputUnchanged()
 })
 
-test('H8 explicit failed item gate keeps item and menu, with a visible failure message', async () => {
+test('explicit failed item gate keeps item and menu, with a visible failure message', async () => {
   host = await installShellHost()
   const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const item = medicine()
@@ -65,7 +65,7 @@ test('H8 explicit failed item gate keeps item and menu, with a visible failure m
   h.assertInputUnchanged()
 })
 
-test('H8 all-allies item uses direct route, heals both and consumes only once', async () => {
+test('all-allies item uses direct route, heals both and consumes only once', async () => {
   host = await installShellHost()
   const item = medicine()
   if (!item.use) throw new Error('missing use')
@@ -85,7 +85,7 @@ test('H8 all-allies item uses direct route, heals both and consumes only once', 
   h.assertInputUnchanged()
 })
 
-test('H8 item target cancellation preserves bag, and a close-after-use item really releases the menu', async () => {
+test('item target cancellation preserves bag, and a close-after-use item really releases the menu', async () => {
   host = await installShellHost()
   const item = medicine()
   if (!item.use) throw new Error('missing use')
@@ -129,7 +129,7 @@ const scroll = (): AuthorItemCore => ({
   },
 })
 
-test('H8 actual item private script blocks duplicate input and preserves its money on consumption', async () => {
+test('actual item private script blocks duplicate input and preserves its money on consumption', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     items: [scroll(), medicine()],
@@ -153,7 +153,7 @@ test('H8 actual item private script blocks duplicate input and preserves its mon
   h.assertInputUnchanged()
 })
 
-test('H8 unavailable teleport hook refuses consumption and restores the same usable menu', async () => {
+test('unavailable teleport hook refuses consumption and restores the same usable menu', async () => {
   host = await installShellHost()
   const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
   const item: AuthorItemCore = {
@@ -292,7 +292,7 @@ test('a teleport item gathers the follower at the destination before the first m
   fixture.assertInputUnchanged()
 })
 
-test('H8 running item script owns exploration input until completion, then scene navigation works', async () => {
+test('running item script owns exploration input until completion, then scene navigation works', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     items: [scroll()],
@@ -322,7 +322,7 @@ test('H8 running item script owns exploration input until completion, then scene
   h.assertInputUnchanged()
 })
 
-test('H8 item private script changes scene and closes the old menu while preserving its new world', async () => {
+test('item private script changes scene and closes the old menu while preserving its new world', async () => {
   host = await installShellHost()
   const item: AuthorItemCore = {
     ...medicine('portal'),

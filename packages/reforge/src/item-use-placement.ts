@@ -1,6 +1,7 @@
 import type { EntityAddress, GridPos, ProjectMap, WorldScriptState } from '@type-pal/content'
 import { isBlockedAt } from './collision.js'
 
+/** Match PAL trap placement: the forward cell checks map collision only. */
 export function planItemEntityPlacement(args: {
   target: EntityAddress
   currentSceneId: string
@@ -19,6 +20,7 @@ export function planItemEntityPlacement(args: {
   return isBlockedAt(args.map, pos) ? undefined : pos
 }
 
+/** Store the position snapshot and gate state for the scene projection to consume together. */
 export function commitItemEntityPlacement(
   script: WorldScriptState,
   target: EntityAddress,

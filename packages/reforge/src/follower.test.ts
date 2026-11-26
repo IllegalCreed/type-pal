@@ -66,9 +66,8 @@ describe('computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长�
 
   test('偏移位撞墙 → 回退基点格(避障收拢)', () => {
     const s = state(straightTrail(g(10, 10), 'left'))
-    const base = s.trail[2]!.pos
-    const p1 = computeFollowerPos(s, 1, (c, r) => !(c === base.col + 1 && r === base.row))!
-    expect(p1.pos).toEqual(base)
+    const follower = computeFollowerPos(s, 1, (col, row) => col !== 13 || row !== 10)
+    expect(follower?.pos).toEqual(g(12, 10))
   })
 
   test('not-walking + 冻结快照:位置 = 队长 + frozenOffset(演出/骑乘期锁死)', () => {
@@ -130,7 +129,7 @@ describe('seedFormationTrail —— 0x46 / 场景出生立即铺开队形', () =
       const first = computeFollowerPos(s, 1, walkable)
       const second = computeFollowerPos(s, 2, walkable)
       expect(first?.pos).toEqual(trail[1]?.pos)
-      expect(second?.pos).toEqual(trail[2]?.pos)
+      expect(second?.pos).toEqual(g(10 + 2 * back[0], 10 + 2 * back[1]))
       expect(first?.pos).not.toEqual(second?.pos)
       expect(first?.pos).not.toEqual(s.party)
     })

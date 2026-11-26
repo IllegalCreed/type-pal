@@ -1,44 +1,41 @@
-import { describe, expect, test, vi } from 'vitest'
+// @vitest-environment jsdom
+import { expect, test, vi } from 'vitest'
 import { compositeAmbienceTint } from './ambience-compositor.js'
+import { expectDefined } from './defined.js'
 
-function contextSpy() {
-  const calls: string[] = []
-  return {
-    calls,
-    context: {
-      save: vi.fn(() => calls.push('save')),
-      restore: vi.fn(() => calls.push('restore')),
-      fillRect: vi.fn((x, y, width, height) => calls.push(`fill:${x},${y},${width},${height}`)),
-      set globalCompositeOperation(value: string) {
-        calls.push(`op:${value}`)
-      },
-      set fillStyle(value: string | CanvasGradient | CanvasPattern) {
-        calls.push(`style:${String(value)}`)
-      },
-    } as unknown as CanvasRenderingContext2D,
-  }
+function frame() {
+  const canvas = document.createElement('canvas')
+  canvas.width = 2
+  canvas.height = 1
+  const ctx = expectDefined(canvas.getContext('2d'))
+  ctx.fillStyle = 'rgb(128,64,255)'
+  ctx.fillRect(0, 0, 1, 1)
+  ctx.fillStyle = '#fff'
+  ctx.fillRect(1, 0, 1, 1)
+  return { ctx, pixels: () => Array.from(ctx.getImageData(0, 0, 2, 1).data) }
 }
 
-describe('compositeAmbienceTint', () => {
-  test.each([
-    { label: '纯白', tint: [255, 255, 255] as const },
-    { label: '近白蓝通道', tint: [255, 255, 254] as const },
-    { label: '近白红通道', tint: [254, 255, 255] as const },
-  ])('skips canonical identity tint: $label', ({ tint }) => {
-    const spy = contextSpy()
-    compositeAmbienceTint(spy.context, tint, 320, 200)
-    expect(spy.calls).toEqual([])
-  })
+test.each([
+  { label: 'white', tint: [255, 255, 255] as const },
+  { label: 'near-white blue', tint: [255, 255, 254] as const },
+  { label: 'near-white red', tint: [254, 255, 255] as const },
+])('skips the draw for canonical identity tint: $label', ({ tint }) => {
+  const { ctx, pixels } = frame()
+  const draw = vi.spyOn(ctx, 'fillRect')
+  try {
+    compositeAmbienceTint(ctx, tint, 2, 1)
+    expect(draw).not.toHaveBeenCalled()
+    expect(pixels()).toEqual([128, 64, 255, 255, 255, 255, 255, 255])
+  } finally {
+    draw.mockRestore()
+  }
+})
 
-  test('uses the runtime multiply sequence over the complete frame', () => {
-    const spy = contextSpy()
-    compositeAmbienceTint(spy.context, [117, 229, 255], 320, 200)
-    expect(spy.calls).toEqual([
-      'save',
-      'op:multiply',
-      'style:rgb(117,229,255)',
-      'fill:0,0,320,200',
-      'restore',
-    ])
-  })
+test('multiplies the full presented frame and restores the caller canvas state', () => {
+  const { ctx, pixels } = frame()
+  const priorFill = ctx.fillStyle
+  compositeAmbienceTint(ctx, [128, 255, 64], 2, 1)
+  expect(pixels()).toEqual([64, 64, 64, 255, 128, 255, 64, 255])
+  expect(ctx.fillStyle).toBe(priorFill)
+  expect(ctx.globalCompositeOperation).toBe('source-over')
 })

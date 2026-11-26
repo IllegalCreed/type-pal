@@ -52,21 +52,21 @@ function makePresetParty(): WorldState['party'] {
   ]
 }
 
-describe('withWorldPreset (D13-1 K2)', () => {
+describe('DEV battle world preset', () => {
   test('战斗期间所有写入 world 后,结束恢复战前深等状态', async () => {
     const world = makeWorld()
     const before = structuredClone(world)
     await withWorldPreset(world, { party: makePresetParty() }, async () => {
-      // 模拟战斗写回:HP/金钱/技能/物品/状态全部落 world 副本。
+      // The battle can change the active world or add optional runtime fields.
       world.party[0]!.hp = 1
       world.party[0]!.level = 1
       world.money += 500
       world.learnedSkills.hero = [...(world.learnedSkills.hero ?? []), 'fire']
       world.inventory.push({ itemId: 'elixir', count: 1 })
-      ;(world as unknown as Record<string, unknown>).debugBattleResidue = { leaked: true }
+      world.collectValue = 12
     })
     expect(world).toEqual(before)
-    expect(Object.hasOwn(world, 'debugBattleResidue')).toBe(false)
+    expect(Object.hasOwn(world, 'collectValue')).toBe(false)
   })
 
   test('预设队伍/inventory 在战斗期间生效', async () => {
@@ -89,15 +89,16 @@ describe('withWorldPreset (D13-1 K2)', () => {
     expect(world.party[0]?.id).toBe('hero')
   })
 
-  test('fn 抛错/取消路径同样恢复战前世界', async () => {
+  test('战斗取消传播原异常并恢复战前世界', async () => {
     const world = makeWorld()
     const before = structuredClone(world)
+    const cancelled = new DOMException('battle owner cancelled', 'AbortError')
     await expect(
       withWorldPreset(world, { party: makePresetParty() }, async () => {
         world.money = -1
-        throw new Error('cancel')
+        throw cancelled
       }),
-    ).rejects.toThrow('cancel')
+    ).rejects.toBe(cancelled)
     expect(world).toEqual(before)
   })
 })

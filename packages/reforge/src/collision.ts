@@ -5,7 +5,7 @@ import {
   type IsometricMapContent,
   type ProjectMap,
 } from '@type-pal/content'
-import { pixelToLattice } from './project-map.js'
+import { isLatticeInside, pixelToLattice } from './map-lattice.js'
 
 /** 世界像素坐标落到 lattice 后查独立碰撞值；界外恒阻挡。 */
 export function buildIsBlocked(
@@ -13,7 +13,7 @@ export function buildIsBlocked(
 ): (x: number, y: number) => boolean {
   return (x, y) => {
     const pos = pixelToLattice(x, y)
-    if (pos.col < 0 || pos.col >= map.width || pos.row < 0 || pos.row >= map.height * 2) return true
+    if (!isLatticeInside(map, pos)) return true
     return (map.collision[pos.row]?.[pos.col] ?? 1) !== 0
   }
 }

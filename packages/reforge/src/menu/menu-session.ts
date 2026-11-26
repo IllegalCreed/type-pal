@@ -17,7 +17,6 @@ import {
   openEquipMenu,
 } from '../equip-menu-state.js'
 import {
-  castOutdoorSkill,
   closeMagicMenu,
   type MagicMenuState,
   magicBackFromTarget,
@@ -29,6 +28,7 @@ import {
   openMagicMenu,
 } from '../magic-menu-state.js'
 import { back, CLOSED, confirm, type MenuState, moveCursor, openMenu } from '../menu-state.js'
+import { castOutdoorSkill } from '../outdoor-skill-execution.js'
 import {
   browserConfirm,
   browserConfirmOverwriteNo,
@@ -274,6 +274,7 @@ export class MenuSession {
         const r = magicConfirmSpell(this.#magicMenu, world)
         if (r?.kind === 'castAll')
           castOutdoorSkill(world, r.skill, this.#magicMenu.casterIdx, 'all', project.poisonsById)
+        else if (r?.kind === 'toTarget') this.#magicMenu = r.state
       }
       if (esc) {
         this.#magicMenu = closeMagicMenu()
@@ -318,15 +319,12 @@ export class MenuSession {
     const interact = pressed.has(' ') || pressed.has('Enter')
     const esc = pressed.has('Escape')
     const world = this.ports.readWorld()
-    const project = this.content
-
-    if (this.itemUse.pending) {
-      // 用途脚本/场景钩子正在接管输入；完成后 dispatchItemUse 会恢复或关闭本菜单。
-    } else if (this.#useMenu.phase === 'pick-target') {
-      // 选目标:Enter 施用(useApply 回写 world)/ Esc 回列表
+    // The item executor owns input until it settles.
+    if (this.itemUse.pending) return
+    if (this.#useMenu.phase === 'pick-target') {
       if (interact) {
         const target = world.party[this.#useMenu.targetIdx]
-        const request = useApply(this.#useMenu, world, target?.id ?? '', project.items)
+        const request = useApply(this.#useMenu, target?.id ?? '')
         if (request) void this.dispatchItemUse(request)
       } else if (esc) {
         this.#lastUseTargetIdx = this.#useMenu.targetIdx
@@ -343,7 +341,7 @@ export class MenuSession {
       if (pressed.has('ArrowLeft')) this.#useMenu = useMoveCursor(this.#useMenu, 'left')
       if (pressed.has('ArrowRight')) this.#useMenu = useMoveCursor(this.#useMenu, 'right')
       if (interact) {
-        const result = useConfirm(this.#useMenu, world, project.items)
+        const result = useConfirm(this.#useMenu, world)
         if (result.kind === 'execute') void this.dispatchItemUse(result.request)
         else this.#useMenu = result.state
       }
@@ -420,9 +418,7 @@ export class MenuSession {
           // (丢弃 dev 参数;未存进度即弃,原版 quit 同语义 —— 想留进度先存档)
           this.ports.quit()
         } else {
-          this.#lastSystemCursor = this.#systemMenu.cursor
-          this.#systemMenu = closeSystemMenu()
-          this.#menu = back(this.#menu) // 否/Esc → 回主菜单 hub(非弹回大世界)
+          this.closeSystemPanel()
         }
       }
     } else {
@@ -449,11 +445,15 @@ export class MenuSession {
           this.#overwriteYes = false
         }
       } else if (esc) {
-        this.#lastSystemCursor = this.#systemMenu.cursor
-        this.#systemMenu = closeSystemMenu()
-        this.#menu = back(this.#menu)
+        this.closeSystemPanel()
       }
     }
+  }
+
+  private closeSystemPanel(): void {
+    this.#lastSystemCursor = this.#systemMenu.cursor
+    this.#systemMenu = closeSystemMenu()
+    this.#menu = back(this.#menu)
   }
 
   private handleHubInput(pressed: ReadonlySet<string>): void {

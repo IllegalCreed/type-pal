@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { deferred } from '../__tests__/menu-session-fixture.js'
+import { deferred } from '../__tests__/deferred.js'
 import { ItemUseSession } from './item-use-session.js'
 
 test('item operation owns the pending slot through cancellation and consumes exactly the original promise', async () => {

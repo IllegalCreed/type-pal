@@ -1,10 +1,5 @@
-// 装备面板 Canvas UI(D17)。两阶段:
-//   list      物品列表(布局取自一阶段 draw-inventory.ts / sdlpal itemmenu.c),只含可装物。
-//   pick-role 换装面板:状态板 bg + 全 UI 元素拼装 + 字体画 label。
-//             坐标 = 一阶段 draw-equip.ts 的 sdlpal ScreenLayout 真值;原版烤进 FBP 的黑色槽位/属性
-//             label(頭戴/披掛… 武術…)这里改字体画(纯黑无阴影),物品框用 frame-70 纵向卷轴,
-//             角色名牌用红框镂空(露木纹)+ 选中名 6 色炫彩。
-// 320 逻辑坐标,调用方已 ctx.scale。
+// 装备面板使用 320×200 逻辑坐标。选人页沿用 PAL_EquipItemMenu 的卷轴位置，
+// 槽位和属性标签用当前文字资源绘制，填充色和阴影由本页控制。
 import {
   type CombatStat,
   type EquipDescribeCtx,
@@ -32,7 +27,7 @@ import {
 
 // pick-role 配色(列表布局已抽到 item-list.ts)
 const COLOR_GOLD = [255, 203, 113] as const // 选中物名(MENUITEM_COLOR_CONFIRMED 0x2C 金黄)
-const COLOR_DARK = [0, 0, 0] as const // 槽位/属性 label(原版烤进 FBP 的纯黑字,无阴影)
+const COLOR_DARK = [0, 0, 0] as const
 const COLOR_DARK_SHADOW = [92, 84, 72] as const // 黑 label 的深灰影(作者三轮裁决:单线条黑字+深灰影,不加粗)
 // ── pick-role 换装面板布局(状态板 bg;坐标 = 一阶段 draw-equip.ts sdlpal ScreenLayout 真值)──
 const PR_IMAGE_BOX = { x: 8, y: 8 } // EquipImageBox — frame-70 纵向卷轴框(64×64)
@@ -71,19 +66,6 @@ const PR_STATS: { stat: CombatStat; label: TextId }[] = [
   { stat: 'luck', label: 'stat.luck' },
 ]
 
-/** list 阶段:可装列表(复用共享 item-list:3 列网格 + 数量 + itembox + 多行描述)。 */
-function drawEquipList(
-  ctx: CanvasRenderingContext2D,
-  state: EquipMenuState,
-  world: WorldState,
-  assets: MenuAssets,
-  glyphs: GlyphTable,
-  now: number,
-  describeCtx?: EquipDescribeCtx,
-): void {
-  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, describeCtx)
-}
-
 /** pick-role 阶段:换装面板(状态板 bg + 卷轴选中物 + 红名牌角色 + 6 槽当前装备 + 5 属性)。 */
 function drawEquipPickRole(
   ctx: CanvasRenderingContext2D,
@@ -103,8 +85,8 @@ function drawEquipPickRole(
     ctx.fillRect(0, 0, 320, 200)
     ctx.restore()
   }
-  const caster = world.party.find((c) => c.id === state.casterId)
-  if (!caster) return
+  const wearer = world.party.find((member) => member.id === state.casterId)
+  if (!wearer) return
   const sel = state.selectedItemId ? items[state.selectedItemId] : undefined
 
   // ① 左:选中物 — 纵向卷轴框(frame-70)+ 图标 + 数量(青)+ 名(金,左对齐)
@@ -163,7 +145,7 @@ function drawEquipPickRole(
       forceRgba: COLOR_DARK,
     })
     // 装备名:穿戴中才画;空槽留空(原版 draw-equip:if eqItemId!==0 才 renderText)
-    const equippedId = caster.equipment[slot]
+    const equippedId = wearer.equipment[slot]
     if (equippedId) {
       renderSpans(ctx, [{ text: items[equippedId]?.name ?? `?${equippedId}` }], PR_NAME_X, y, {
         glyphs,
@@ -189,7 +171,7 @@ function drawEquipPickRole(
     )
     drawStatNumber(
       ctx,
-      effectiveStat(caster, stat, items),
+      effectiveStat(wearer, stat, items),
       PR_STAT_VAL_RIGHT,
       PR_STAT_VAL_Y0 + i * PR_ROW_DY,
       assets.numsCyan,
@@ -214,5 +196,5 @@ export function drawEquipMenu(
     drawEquipPickRole(ctx, state, world, assets, glyphs, locale, now, items)
     return
   }
-  drawEquipList(ctx, state, world, assets, glyphs, now, describeCtx)
+  drawItemGridList(ctx, state.items, state.cursor, world, assets, glyphs, now, describeCtx)
 }

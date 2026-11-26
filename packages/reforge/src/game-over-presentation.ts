@@ -24,7 +24,7 @@ function tintFrame(source: ImageData, output: ImageData, step: number): void {
   }
 }
 
-/** Keep the last presented frame and tint only when a CLASSIC palette step changes. */
+/** Hold the last battle frame for its defeat runner and update the classic tint once per palette step. */
 export class GameOverPresentation {
   private frame?: {
     owner: AbortSignal

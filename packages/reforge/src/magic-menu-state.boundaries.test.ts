@@ -1,20 +1,8 @@
-/**
- * TEST-RUNTIME-STATE-BOUNDARIES-1 E1-E4（magic 侧）：仙术菜单导航/请求域（magic-menu-state.ts）。
- * magic-menu-state.test.ts:57-152 已覆盖 resolve 基础/开单/关单/光标循环/确认施法人/网格导航/
- * pick-target/连放/MP 不足/施放结算——不重复；本文件补混合 learnedSkills 过滤、真实导航跨
- * phase no-op、缺席 guard 与 E4 请求/扣费语义（world/技能定义不可被改）。不调用 castOutdoorSkill。
- */
-import {
-  buildWorld,
-  CONTENT_VERSION,
-  type SkillData,
-  type SkillDataMap,
-  validateActors,
-  type WorldState,
-} from '@type-pal/content'
+import { buildWorld, CONTENT_VERSION, validateActors } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { deepSnapshot } from './__tests__/glm-state-boundary-fixtures.js'
+import { outdoorParty, outdoorSkill } from './__tests__/outdoor-skill-fixture.js'
 import { combatActor } from './__tests__/runtime-shell/scenarios.js'
+import { expectDefined } from './defined.js'
 import {
   type MagicMenuState,
   magicBackFromTarget,
@@ -24,11 +12,10 @@ import {
   magicMoveCursor,
   magicMoveTarget,
   openMagicMenu,
-  resolveOutdoorSkills,
 } from './magic-menu-state.js'
 import { assertCurrentSaveStructure } from './save/current-structure.js'
 import { SAVE_VERSION } from './save/types.js'
-import { makeTestSkills, makeTestWorld } from './test-fixtures.js'
+import { makeTestSkills } from './test-fixtures.js'
 
 test('恢复的队员缺少技能表行时可打开空仙术面板', () => {
   const actor = { ...combatActor(), id: 'constructor' }
@@ -54,126 +41,74 @@ test('恢复的队员缺少技能表行时可打开空仙术面板', () => {
   expect(openMagicMenu(withLearnedSpell, table).spells.map(({ id }) => id)).toEqual(['296'])
 })
 
-const skill = (id: string, over: Partial<SkillData> = {}): SkillData => ({
-  id,
-  name: `skill.${id}`,
-  desc: '',
-  cost: { mp: 5 },
-  usableOutsideBattle: true,
-  target: 'oneAlly',
-  effects: [],
-  animation: { effectSprite: 0 },
-  ...over,
-})
+const heal = outdoorSkill('heal')
+const purify = outdoorSkill('purify', { effects: [{ kind: 'curePoison' }] })
+const group = outdoorSkill('group', { target: 'allAllies', cost: { mp: 30 } })
+const battle = outdoorSkill('battle', { usableOutsideBattle: false })
 
-/** 双人队 + 混合 learnedSkills（合法 outdoor / 非 outdoor / 缺 id）。 */
-function world(): WorldState {
-  const w = makeTestWorld()
-  w.party.push({ ...w.party[0]!, id: 'zhao-linger', template: 'zhao-linger' })
-  w.learnedSkills['li-xiaoyao'] = ['296', 'missing', '900']
-  w.learnedSkills['zhao-linger'] = ['298']
-  return w
-}
-
-const skills = (): SkillDataMap => {
-  const base = makeTestSkills()
-  return {
-    ...base,
-    '900': skill('900', { usableOutsideBattle: false }),
-  }
-}
-
-describe('E1 learnedSkills 混合过滤', () => {
-  test('缺 id 与非 outdoor 剔除、保留序 = 作者声明序；world/skills 定义不变', () => {
-    const w = world()
-    const table = skills()
-    const wSnapshot = deepSnapshot(w)
-    const tableSnapshot = deepSnapshot(table)
-    const resolved = resolveOutdoorSkills(w, 'li-xiaoyao', table)
-    expect(resolved.map((s) => s.id)).toEqual(['296']) // missing 剔除、900 非 outdoor 剔除
-    expect(resolveOutdoorSkills(w, 'zhao-linger', table).map((s) => s.id)).toEqual(['298'])
-    expect(w).toEqual(wSnapshot)
-    expect(table).toEqual(tableSnapshot)
+describe('仙术面板输入与确认', () => {
+  test('按学习顺序列出大世界技能，跳过缺失定义和战斗专用技能', () => {
+    const world = outdoorParty(['purify', 'missing', 'battle', 'heal'])
+    const table = { heal, battle, purify }
+    const before = structuredClone({ world, table })
+    const menu = magicConfirmCaster(openMagicMenu(world, table), world, table)
+    expect(menu.spells.map(({ id }) => id)).toEqual(['purify', 'heal'])
+    expect({ world, table }).toEqual(before)
   })
-})
 
-describe('E2 真实导航进入 phase 后其他 phase 操作 no-op', () => {
-  test('经真实入口进 pick-spell：caster 导航不动；进 pick-target：网格导航不动、返回恢复', () => {
-    const w = world()
-    const table = skills()
-    const entered = magicConfirmCaster(openMagicMenu(w, table, 0), w, table)
-    expect(entered.phase).toBe('pick-spell')
-    expect(magicMoveCaster(entered, w, 'down')).toBe(entered) // pick-spell 上 caster 导航 no-op
-    // 单体技能 → pick-target（合同：magicConfirmSpell 原地改 entered 的 phase/targetIdx）
-    const toTarget = magicConfirmSpell(entered, w)
-    if (toTarget?.kind !== 'toTarget') throw new Error('296 单体应进选目标')
-    expect(magicMoveCursor(entered, 'down')).toBe(entered) // pick-target 上网格导航 no-op
-    const moved = magicMoveTarget(entered, w, 'down')
-    expect(moved.targetIdx).toBe(1)
-    const back = magicBackFromTarget(moved)
-    expect(back.phase).toBe('pick-spell')
-    // pick-caster 上 spell/target 操作同样 no-op（真实入口：多人队开单即 pick-caster）
-    const atCaster = openMagicMenu(w, table, 0)
-    expect(atCaster.phase).toBe('pick-caster')
-    expect(magicMoveCursor(atCaster, 'down')).toBe(atCaster)
-    expect(magicMoveTarget(atCaster, w, 'up')).toBe(atCaster)
-    expect(magicBackFromTarget(atCaster)).toBe(atCaster)
+  test('选人、技能、目标阶段各自独占相应的光标', () => {
+    const world = outdoorParty(['heal'])
+    const table = { heal }
+    const pickCaster = openMagicMenu(world, table)
+    expect(magicMoveCursor(pickCaster, 'down')).toBe(pickCaster)
+    expect(magicMoveTarget(pickCaster, world, 'down')).toBe(pickCaster)
+    const spells = magicConfirmCaster(pickCaster, world, table)
+    expect(magicMoveCaster(spells, world, 'down')).toBe(spells)
+    const selection = magicConfirmSpell(spells, world)
+    if (selection?.kind !== 'toTarget') throw new Error('单体技能应进入选目标')
+    expect(magicMoveCursor(selection.state, 'down')).toBe(selection.state)
+    expect(magicMoveTarget(selection.state, world, 'down').targetIdx).toBe(1)
   })
-})
 
-describe('E3 施法人缺席/死亡/无技能/缺选中技能 guard', () => {
-  test('死人确认不动（同输入正控：活人进入 pick-spell）；空列表确认 null', () => {
-    const w = world()
-    const table = skills()
-    const open = openMagicMenu(w, table, 1)
-    w.party[1]!.hp = 0 // 死人
-    expect(magicConfirmCaster(open, w, table)).toBe(open) // 不动
-    // 同输入正控：活人确认进入并解析
-    const alive = openMagicMenu(world(), table, 1)
-    const confirmed = magicConfirmCaster(alive, world(), table)
-    expect(confirmed.phase).toBe('pick-spell')
-    expect(confirmed.spells.map((s) => s.id)).toEqual(['298'])
-    // 空技能列表：确认 null（活着但无 outdoor 仙术仍可进菜单）
-    const emptyWorld = world()
-    emptyWorld.learnedSkills['zhao-linger'] = []
-    const emptyMenu = magicConfirmCaster(openMagicMenu(emptyWorld, table, 1), emptyWorld, table)
-    expect(emptyMenu.spells).toEqual([])
-    expect(magicConfirmSpell(emptyMenu, emptyWorld)).toBeNull()
+  test('倒地的多队员不能确认为施法者', () => {
+    const world = outdoorParty(['heal'])
+    const table = { heal }
+    const menu = openMagicMenu(world, table)
+    expect(magicConfirmCaster(menu, world, table).spells.map(({ id }) => id)).toEqual(['heal'])
+    expectDefined(world.party[0]).hp = 0
+    expect(magicConfirmCaster(menu, world, table)).toBe(menu)
   })
-})
 
-describe('E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state）', () => {
-  test('castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变', () => {
-    const w = world()
-    const table = skills()
-    const tableAll = { ...table, '950': skill('950', { target: 'allAllies', cost: { mp: 30 } }) }
-    w.learnedSkills['li-xiaoyao'] = ['296', '950']
-    const entered = magicConfirmCaster(openMagicMenu(w, tableAll, 0), w, tableAll)
-    // —— toTarget 分支：确认前取实际 world 快照，确认后立即比较 ——
-    const beforeToTarget = deepSnapshot(w)
-    const first = magicConfirmSpell(entered, w)
-    expect(first?.kind).toBe('toTarget')
-    expect(w).toEqual(beforeToTarget) // 单体确认不改 world
-    expect(entered.phase).toBe('pick-target') // 合同：原地改菜单 state
-    expect(entered.targetIdx).toBe(0) // 进选目标重置
-    const back = magicBackFromTarget(entered)
-    // —— castAll 分支：确认前取实际 world 快照（含全部 HP/MP/装备/库存），确认后立即比较 ——
-    const grid = magicMoveCursor(back, 'down') // cursor 0→3（第二技能 950）
-    const beforeCastAll = deepSnapshot(w)
-    const cast = magicConfirmSpell(grid, w)
-    if (cast?.kind !== 'castAll') throw new Error('950 allAllies 应直放')
-    expect(cast.skill).toEqual(tableAll['950']) // 完整技能对象（含 cost/target/effects）
-    expect(grid.phase).toBe('pick-spell') // 直放留面板连放
-    expect(w).toEqual(beforeCastAll) // 全体直放确认同样零 world 副作用
-    // —— MP 门两分支：每轮确认前快照、确认后比较 ——
-    w.party[0]!.mp = 4 // 不足（测试显式播种，发生在快照前）
-    const beforePoor = deepSnapshot(w)
-    const poor = magicConfirmSpell({ ...back, cursor: 0 }, w)
-    expect(poor).toBeNull()
-    expect(w).toEqual(beforePoor)
-    w.party[0]!.mp = 6 // 恰好足够
-    const beforeExact = deepSnapshot(w)
-    expect(magicConfirmSpell({ ...back, cursor: 0 }, w)?.kind).toBe('toTarget')
-    expect(w).toEqual(beforeExact)
+  test('全体法术真气差一点不能确认，足额时发出请求但不结算', () => {
+    const world = outdoorParty(['group'], ['caster'])
+    const member = expectDefined(world.party[0])
+    const menu = openMagicMenu(world, { group })
+    member.mp = 29
+    const beforePoor = structuredClone(world)
+    expect(magicConfirmSpell(menu, world)).toBeNull()
+    expect(world).toEqual(beforePoor)
+    member.mp = 30
+    const beforeExact = structuredClone(world)
+    expect(magicConfirmSpell(menu, world)).toEqual({ kind: 'castAll', skill: group })
+    expect(menu.phase).toBe('pick-spell')
+    expect(world).toEqual(beforeExact)
+  })
+
+  test('每次重新确认单体法术时目标回到队首', () => {
+    const world = outdoorParty(['heal'])
+    const table = { heal }
+    const spells = magicConfirmCaster(openMagicMenu(world, table), world, table)
+    const selection = magicConfirmSpell(spells, world)
+    if (selection?.kind !== 'toTarget') throw new Error('单体技能应进入选目标')
+    const secondTarget = magicMoveTarget(selection.state, world, 'down')
+    expect(secondTarget.targetIdx).toBe(1)
+    const again = magicBackFromTarget(secondTarget)
+    const before = structuredClone(world)
+    expect(magicConfirmSpell(again, world)).toMatchObject({
+      kind: 'toTarget',
+      state: { phase: 'pick-target', targetIdx: 0 },
+    })
+    expect(again).toMatchObject({ phase: 'pick-spell', targetIdx: 1 })
+    expect(world).toEqual(before)
   })
 })

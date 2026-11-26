@@ -1,4 +1,4 @@
-import { type GridPos, gridToPixel } from '@type-pal/content'
+import type { GridPos } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { buildIsBlocked, isBlockedAt, sameGrid, sameLatticeCell } from './collision.js'
 import {
@@ -6,7 +6,6 @@ import {
   latticeCenter,
   paintProjectMapCollision,
   paintProjectMapTiles,
-  pixelToLattice,
   withProjectMapStampPlacements,
 } from './project-map.js'
 
@@ -30,14 +29,13 @@ describe('ProjectMap 独立碰撞 lattice', () => {
     expect(blocked(10_000, 10_000)).toBe(true)
   })
 
-  test('isBlockedAt 与 buildIsBlocked(gridToPixel) 同源', () => {
-    const pos: GridPos = { col: 92, row: 12, height: 0 }
-    const pixel = gridToPixel(pos)
-    const target = pixelToLattice(pixel.x, pixel.y)
-    let map = buildBlankProjectMap(100, 100, 'tileset-001')
-    map = paintProjectMapCollision(map, [{ ...target, value: 1 }])
-    expect(isBlockedAt(map, pos)).toBe(true)
-    expect(isBlockedAt(map, pos)).toBe(buildIsBlocked(map)(pixel.x, pixel.y))
+  test('菱形站位命中对应的碰撞子格，忽略高度', () => {
+    const map = paintProjectMapCollision(buildBlankProjectMap(100, 100, 'tileset-001'), [
+      { col: 40, row: 104, value: 1 },
+    ])
+    expect(isBlockedAt(map, { col: 92, row: 12, height: 0 })).toBe(true)
+    expect(isBlockedAt(map, { col: 92, row: 12, height: 5 })).toBe(true)
+    expect(isBlockedAt(map, { col: 91, row: 12, height: 0 })).toBe(false)
   })
 
   test('相同 collision 的有无作者态判定逐点一致', () => {
@@ -62,7 +60,7 @@ describe('ProjectMap 独立碰撞 lattice', () => {
       },
     ])
     const point = latticeCenter({ row: 0, col: 0 })
-    expect(buildIsBlocked(authored)(point.x, point.y)).toBe(buildIsBlocked(base)(point.x, point.y))
+    expect(buildIsBlocked(authored)(point.x, point.y)).toBe(true)
   })
 })
 

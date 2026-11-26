@@ -1,12 +1,8 @@
 import type { ItemDataMap, WorldItemUsePresentation } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  buildItemUseResultEntries,
-  type ItemUseResultEntry,
-  itemUseResultText,
-} from './item-use-result.js'
+import { buildItemUseResultEntries, itemUseResultText } from './item-use-result.js'
 
-describe('C8 · item use result presentation', () => {
+describe('item use result presentation', () => {
   const items: ItemDataMap = {
     a: {
       id: 'a',
@@ -54,17 +50,25 @@ describe('C8 · item use result presentation', () => {
     expect(entries.map(itemUseResultText)).toEqual(['无任何效果'])
   })
 
-  test('D14-3:reward-gain 单行文本(炼成/炼出 + 名 + 数量)', () => {
-    const entry: ItemUseResultEntry = {
-      itemId: 'a',
-      count: 2,
-      title: '炼出',
-      itemName: '赤血蚕',
-    }
-    expect(itemUseResultText(entry)).toBe('炼出 赤血蚕 × 2')
-    expect(itemUseResultText({ ...entry, count: 1 })).toBe('炼出 赤血蚕')
-    expect(itemUseResultText({ ...entry, title: '炼成', itemName: '灵葫仙丹', count: 1 })).toBe(
-      '炼成 灵葫仙丹',
+  test('数量只出现在多件产物的结果行', () => {
+    const entries = buildItemUseResultEntries(
+      [
+        {
+          kind: 'item-result',
+          source: 'craftRecipe',
+          items: [
+            { itemId: 'a', count: 2 },
+            { itemId: 'a', count: 1 },
+          ],
+        },
+        { kind: 'item-result', source: 'drawFromResourcePool', items: [{ itemId: 'b', count: 1 }] },
+      ],
+      items,
     )
+    expect(entries.map(itemUseResultText)).toEqual([
+      '炼出 赤血蚕 × 2',
+      '炼出 赤血蚕',
+      '炼成 灵葫仙丹',
+    ])
   })
 })

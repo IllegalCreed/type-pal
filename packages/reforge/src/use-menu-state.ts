@@ -1,10 +1,5 @@
-// 使用菜单状态机(纯逻辑;非视觉)。两阶段 pick-item → pick-target。施用走 content useItem(返回新 world)。
-// 交互行为对齐第一阶段 game 包(sdlpal PAL_GameUseItem / PAL_ItemUseMenu),非自创:
-//  - 单体回复/buff(use.target='oneAlly')→ 进选目标面板;用完留菜单可连用(原版 ItemUseMenu INNER while),
-//    用光(该物从 usableItems 消失)才回列表。
-//  - 脚本/全体类(triggerScript / target≠oneAlly,如土灵珠脱离洞窟、圣灵符全体)→ 不选目标,直接执行
-//    (原版 applyToAll:RunScript; consume; return)。
-//  - MenuSession 记住物品列表光标和上次选中的队伍槽位，供重开面板恢复。
+// MenuSession owns asynchronous use and remembered selection. This module derives requests and
+// rebuilds the selection against the latest world after execution.
 import {
   type ItemData,
   type ItemDataMap,
@@ -12,8 +7,7 @@ import {
   type WorldItemUseOutcome,
   type WorldState,
 } from '@type-pal/content'
-
-export const USE_GRID_COLS = 3
+import { type GridDirection, stepMenuGridCursor } from './menu/grid-cursor.js'
 
 export interface UseMenuState {
   active: boolean
@@ -42,19 +36,9 @@ export function closeUseMenu(): UseMenuState {
   return { active: false, phase: 'pick-item', items: [], cursor: 0, targetIdx: 0 }
 }
 
-/** pick-item 网格导航:↑↓ ±3,←→ ±1;越界吸附首/尾(对齐 inventory-menu setCursorClamp)。 */
-export function useMoveCursor(
-  s: UseMenuState,
-  dir: 'up' | 'down' | 'left' | 'right',
-): UseMenuState {
-  if (s.phase !== 'pick-item') return s
-  const n = s.items.length
-  if (n === 0) return s
-  const delta =
-    dir === 'up' ? -USE_GRID_COLS : dir === 'down' ? USE_GRID_COLS : dir === 'left' ? -1 : 1
-  // 越界吸附首/尾(对齐一阶段 inventory-menu.ts setCursorClamp,非"不动")
-  const next = s.cursor + delta
-  return { ...s, cursor: next < 0 ? 0 : next >= n ? n - 1 : next }
+export function useMoveCursor(s: UseMenuState, direction: GridDirection): UseMenuState {
+  if (s.phase !== 'pick-item' || s.items.length === 0) return s
+  return { ...s, cursor: stepMenuGridCursor(s.cursor, s.items.length, direction) }
 }
 
 /** 单体目标按队伍顺序前后环绕，包括可由复活道具选中的倒地队员。 */
@@ -63,7 +47,7 @@ export function useMoveTarget(s: UseMenuState, partySize: number, step: -1 | 1):
   return { ...s, targetIdx: (s.targetIdx + step + partySize) % partySize }
 }
 
-/** pick-item 确认结果:单体回复/buff → 进选目标;脚本/全体类 → 已直接执行(返回新 world)。 */
+/** A list selection either enters the target picker or yields work for the caller to execute. */
 export type UseConfirmResult =
   | { kind: 'pick-target'; state: UseMenuState }
   | { kind: 'execute'; request: UseExecutionRequest }
@@ -75,12 +59,8 @@ export interface UseExecutionRequest {
   state: UseMenuState
 }
 
-/** pick-item Enter:单体(oneAlly)进选目标面板;脚本/全体类直接执行(不选目标)。 */
-export function useConfirm(
-  s: UseMenuState,
-  world: WorldState,
-  _items: ItemDataMap,
-): UseConfirmResult {
+/** The item target decides whether to pick a recipient. Effect kinds are resolved by the executor. */
+export function useConfirm(s: UseMenuState, world: Pick<WorldState, 'party'>): UseConfirmResult {
   if (s.phase !== 'pick-item') return { kind: 'pick-target', state: s }
   const sel = s.items[s.cursor]
   if (!sel) return { kind: 'pick-target', state: s }
@@ -104,14 +84,8 @@ export function useBackFromTarget(s: UseMenuState): UseMenuState {
   return { ...s, phase: 'pick-item', selectedItemId: undefined }
 }
 
-/** pick-target 确认:对 targetCharId 施用。单体物用完**留选目标**可连用(原版 ItemUseMenu INNER while);
- *  用光(该物从 usableItems 消失)才回 pick-item。只有 oneAlly 能到 pick-target,故恒为单体物。 */
-export function useApply(
-  s: UseMenuState,
-  _world: WorldState,
-  targetCharId: string,
-  _items: ItemDataMap,
-): UseExecutionRequest | undefined {
+/** Request one use on this recipient. The completion policy is applied by finishUseExecution. */
+export function useApply(s: UseMenuState, targetCharId: string): UseExecutionRequest | undefined {
   if (s.phase !== 'pick-target' || !s.selectedItemId) return undefined
   return { itemId: s.selectedItemId, targetCharId, origin: 'pick-target', state: s }
 }

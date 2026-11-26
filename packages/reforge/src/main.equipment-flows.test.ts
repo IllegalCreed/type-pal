@@ -18,7 +18,7 @@ afterEach(async () => {
   host = undefined
 })
 
-test('H7 equip confirmation can be cancelled without changing the actual world or author input', async () => {
+test('equip confirmation can be cancelled without changing the actual world or author input', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     items: [weapon('blade')],
@@ -57,7 +57,7 @@ test('H7 equip empty slot commits only selected equipment and removes exactly on
   h.assertInputUnchanged()
 })
 
-test('H7 equip occupied slot swaps back through the same confirmation panel without losing inventory', async () => {
+test('equip occupied slot swaps back through the same confirmation panel without losing inventory', async () => {
   host = await installShellHost()
   const hero = combatActor()
   if (!hero.battler) throw new Error('missing battler')
@@ -96,7 +96,7 @@ test.each([
   { keys: ['ArrowDown'], chosen: 'w3' },
   { keys: ['ArrowDown', 'ArrowUp'], chosen: 'w0' },
   { keys: ['ArrowRight', 'ArrowLeft'], chosen: 'w0' },
-])('H7 equip keyboard navigation $keys commits $chosen, not the original cursor', async ({
+])('equip keyboard navigation $keys commits $chosen, not the original cursor', async ({
   keys,
   chosen,
 }) => {

@@ -1,6 +1,6 @@
 import type { GridPos } from '@type-pal/content'
 
-/** Current-instance planar distance; height, visibility and collision are not proximity gates. */
+/** Read live entity positions using the strict diamond-grid radius, independent of height. */
 export function areEntityPositionsNear(
   from: GridPos | undefined,
   to: GridPos | undefined,

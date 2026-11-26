@@ -1,10 +1,11 @@
 import { describe, expect, test } from 'vitest'
-import { advanceWave, waveTable } from './screen-wave.js'
+import { advanceWave } from './screen-wave.js'
+import { waveOffsets } from './wave-distortion.js'
 
-describe('0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1)', () => {
+describe('世界屏波的幅度与相位', () => {
   test('32 相位表:a/b 递推峰值 wave[7]=W、谷 wave[15]=0、后半镜像 320−前半', () => {
     const w = 64
-    const t = waveTable(w)
+    const t = waveOffsets(w)
     // a 累积序列 60,112,…,256(峰)…,0:wave[i] = trunc(a×W/256)
     expect(t[0]).toBe(Math.trunc((60 * w) / 256)) // 15
     expect(t[7]).toBe(w) // a=256 → 恰为波幅

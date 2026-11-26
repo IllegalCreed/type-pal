@@ -1,33 +1,20 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import test from 'node:test'
-import ts from 'typescript'
+import { tsImport } from 'tsx/esm/api'
 import { storyInputPlan } from './story-input-plans.mjs'
 
-const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8')
-const module = { exports: {} }
-new Function(
-  'module',
-  'exports',
-  ts.transpile(read('packages/reforge/src/entity-motion.ts'), {
-    module: ts.ModuleKind.CommonJS,
-    target: ts.ScriptTarget.ES2022,
-  }),
-)(module, module.exports)
-const ast = ts.createSourceFile(
-  'project-map.ts',
-  read('packages/reforge/src/project-map.ts'),
-  ts.ScriptTarget.Latest,
-  true,
+const { planEntityMotion } = await tsImport(
+  '../../packages/reforge/src/entity-motion.ts',
+  import.meta.url,
 )
-const declaration = ast.statements.find(
-  (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'pixelToLattice',
+const { pixelToLattice } = await tsImport(
+  '../../packages/reforge/src/project-map.ts',
+  import.meta.url,
 )
-assert(declaration)
-const pixelToLattice = new Function(
-  `${ts.transpile(declaration.getText(ast).replace(/^export /, ''), { target: ts.ScriptTarget.ES2022 })};return pixelToLattice`,
-)()
-const map = JSON.parse(read('projects/pal/content/maps/map-001.json'))
+const map = JSON.parse(
+  readFileSync(new URL('../../projects/pal/content/maps/map-001.json', import.meta.url), 'utf8'),
+)
 const terrainBlocked = ({ col, row }) => {
   const cell = pixelToLattice(16 * (col - row), 8 * (col + row))
   return (map.collision[cell.row]?.[cell.col] ?? 1) !== 0
@@ -39,49 +26,47 @@ test('fixed village routes clear the recorded chicken choke point with native co
   const planStep = (step) => {
     const from = pos(step.from),
       to = pos(step.to)
-    return module.exports
-      .planEntityMotion({
-        tick: 1,
-        actors: [
-          {
-            actor: { kind: 'party' },
-            pos: from,
-            facing: 'down',
-            footprints: [{ dcol: 0, drow: 0 }],
-            hasBody: true,
-            yieldable: false,
-          },
-          {
-            actor: { kind: 'entity', id: 'e91' },
-            pos: pos([94.75, 27.5]),
-            facing: 'up',
-            footprints: [{ dcol: 0, drow: 0 }],
-            hasBody: true,
-            yieldable: false,
-          },
-        ],
-        intents: [
-          {
-            actor: { kind: 'party' },
-            source: 'player',
-            collision: 'dynamic',
-            from,
-            desired: to,
-            desiredFacing: {
-              ArrowDown: 'down',
-              ArrowUp: 'up',
-              ArrowRight: 'right',
-              ArrowLeft: 'left',
-            }[step.key],
-            floating: false,
-            epoch: 1,
-            quantum: 1,
-            allowSidestep: true,
-          },
-        ],
-        terrainBlocked,
-      })
-      .outcomes.find((outcome) => outcome.actor.kind === 'party')
+    return planEntityMotion({
+      tick: 1,
+      actors: [
+        {
+          actor: { kind: 'party' },
+          pos: from,
+          facing: 'down',
+          footprints: [{ dcol: 0, drow: 0 }],
+          hasBody: true,
+          yieldable: false,
+        },
+        {
+          actor: { kind: 'entity', id: 'e91' },
+          pos: pos([94.75, 27.5]),
+          facing: 'up',
+          footprints: [{ dcol: 0, drow: 0 }],
+          hasBody: true,
+          yieldable: false,
+        },
+      ],
+      intents: [
+        {
+          actor: { kind: 'party' },
+          source: 'player',
+          collision: 'dynamic',
+          from,
+          desired: to,
+          desiredFacing: {
+            ArrowDown: 'down',
+            ArrowUp: 'up',
+            ArrowRight: 'right',
+            ArrowLeft: 'left',
+          }[step.key],
+          floating: false,
+          epoch: 1,
+          quantum: 1,
+          allowSidestep: true,
+        },
+      ],
+      terrainBlocked,
+    }).outcomes.find((outcome) => outcome.actor.kind === 'party')
   }
   assert.deepEqual(planStep({ from: [95, 27], to: [95, 28], key: 'ArrowDown' }).reason, {
     kind: 'actor',
