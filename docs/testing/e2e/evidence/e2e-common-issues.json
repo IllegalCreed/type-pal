@@ -46,10 +46,10 @@
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
-      "lines": "563-678",
+      "lines": "566-681",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+      "sha256": "7af691dc1ccf12b3092284053468a6df4a2608fb53781789fd5fe22762f0e167"
     }
   ],
   "publicCallers": [
@@ -88,7 +88,7 @@
         "scripts/e2e/render-evidence-observer.test.mjs:323-398",
         "scripts/e2e/npc-transition-contract.mjs:262-338",
         "scripts/e2e/opening-trace-plugin.mjs:164-178",
-        "scripts/e2e/opening-trace.test.mjs:563-678"
+        "scripts/e2e/opening-trace.test.mjs:566-681"
       ]
     }
   ],
@@ -225,6 +225,22 @@
         }
       ],
       "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
+    },
+    {
+      "action": "reforge-scene-ownership-source-rebinding",
+      "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+      "date": "2026-11-27",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "563-678",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+        }
+      ]
     }
   ],
   "_governance": {

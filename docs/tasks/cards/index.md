@@ -54,6 +54,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-REFORGE-PRESENTATION-1 — Reforge 资源与呈现代码治理](QUALITY-REFORGE-PRESENTATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [REFORGE-SAVE-CURSOR-IDENTITY-1 — 读档时自动游标的等义比较](REFORGE-SAVE-CURSOR-IDENTITY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
@@ -591,15 +592,18 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REFORGE-BATTLE-1 — Reforge 战斗实现与专测治理](QUALITY-REFORGE-BATTLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-REFORGE-SCENE-OWNERSHIP-1 — Reforge 场景作用域与世界操作留审复核](QUALITY-REFORGE-SCENE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REFORGE-WORLD-CONTROLS-1 — Reforge 世界操作与局内菜单代码治理](QUALITY-REFORGE-WORLD-CONTROLS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-BATTLE-ANIMATION-TIMING-1 — 战斗法术动画配置的帧时间与计数](REFORGE-BATTLE-ANIMATION-TIMING-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-ENTITY-ADDRESS-WRITES-1 — 场景实体状态与坐标按登记地址写入](REFORGE-ENTITY-ADDRESS-WRITES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-FRAME-SEQUENCE-INVALIDATION-1 — 过场素材换版后旧解码重写缓存](REFORGE-FRAME-SEQUENCE-INVALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-FSA-URL-OWNERSHIP-1 — 本地工程的对象 URL 归属](REFORGE-FSA-URL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-IMAGE-CACHE-DISPOSAL-1 — 静态图片在途解码的释放生命周期](REFORGE-IMAGE-CACHE-DISPOSAL-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1 — 存档完成只更新当前浏览界面的元数据](REFORGE-MENU-SAVE-REFRESH-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REFORGE-RUNTIME-COMPILER-ENTRY-1 — 退役仅旧专测使用的命令编译出口](REFORGE-RUNTIME-COMPILER-ENTRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1 — 运行时只解析工程登记的命名落点](REFORGE-SCENE-NAMED-ENTRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REFORGE-VIDEO-PLAY-RETRY-1 — 二阶段视频多次播放重试](REFORGE-VIDEO-PLAY-RETRY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |

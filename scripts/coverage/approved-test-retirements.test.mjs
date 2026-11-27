@@ -119,11 +119,13 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Reforge battle closeout: eight exact snapshots transfer or retire 191 per-file cases.
   // Reforge world controls: six exact snapshots transfer or retire 23 per-file cases.
   // This census sums snapshot count deltas, not retired unique business contracts.
-  assert.equal(historical.length, 133)
-  assert.equal(new Set(historical.map((entry) => entry.file)).size, 133)
+  // Scene governance: one target guard duplicate, five parameter-label duplicates,
+  // and fifteen cases retained in responsibility-specific motion suites.
+  assert.equal(historical.length, 136)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 136)
   assert.equal(
     historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    719,
+    740,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

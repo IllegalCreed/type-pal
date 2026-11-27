@@ -28,6 +28,7 @@ import {
   restoreTestingBattleReviewSourceBindings,
   restoreTestingBattleVictorySourceBindings,
   restoreTestingProjectVictoryVersionBindings,
+  restoreTestingReforgeSceneOwnershipBindings,
   restoreTestingRuntimeOwnershipSourceBindings,
   testingBattleClosurePublicationBase,
   testingBattleDefeatSourceRevision,
@@ -48,6 +49,7 @@ import {
   testingBattleVictorySourceRevision,
   testingProjectVictoryPublicationBase,
   testingProjectVictoryVersionPath,
+  testingReforgeSceneOwnershipBase,
   testingRuntimeOwnershipPublicationBase,
 } from './testing-battle-publication.mjs'
 
@@ -1127,5 +1129,41 @@ test('shared validators still reject missing execution, unbound artifacts and so
     validateCanonicalEvidence(f.entry, f.testingRoot, f.root).some((issue) =>
       issue.includes('sourceRef hash mismatch'),
     ),
+  )
+})
+
+test('scene ownership restores the prior source metadata while guarding the moved caller and oracle', () => {
+  const path = 'docs/testing/domains/runtime/world/world-runtime/report.md'
+  const readSource = (source) => readFileSync(join(repository, source))
+  const readBase = (source) => readFixed(testingReforgeSceneOwnershipBase, source)
+  const inputs = {
+    readSource,
+    readBase,
+    readFixed: (source) =>
+      readFixed(documentLocationAdmission.testingReforgeSceneOwnershipRevision, source),
+  }
+  const report = readSource(path)
+  assert.deepEqual(
+    restoreTestingReforgeSceneOwnershipBindings(path, report, inputs),
+    readBase(path),
+  )
+  const wrongCaller = report
+    .toString()
+    .replaceAll('packages/reforge/src/main.ts:433-445', 'packages/reforge/src/main.ts:434-446')
+  assert.throws(
+    () => restoreTestingReforgeSceneOwnershipBindings(path, Buffer.from(wrongCaller), inputs),
+    /changed published prose/,
+  )
+  const wrongOracle = 'packages/reforge/src/world-motion-runtime.test.ts'
+  assert.throws(
+    () =>
+      restoreTestingReforgeSceneOwnershipBindings(path, report, {
+        ...inputs,
+        readSource: (source) =>
+          source === wrongOracle
+            ? Buffer.concat([readSource(source), Buffer.from('\n')])
+            : readSource(source),
+      }),
+    /sourceRef hash mismatch .*world-motion-runtime/,
   )
 })

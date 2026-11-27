@@ -53,11 +53,13 @@ DEV 安装门仍要求查询参数 `debug`，其他同源参数原样生效。�
 | `collision` / `triggers` | — | debugLayers 开关（?collision 叠加层扩展） | 同左 | 手动 |
 | `state` | — | 刷新检视器 | 同左 | 手动 |
 
-`state`/`var` 检视器只读；变更走 detached（含意图守卫）或 DEV 内存 mutation。直接命令没有调用写槽，不代表后来正常保存会剔除这些变更：本轮窄读 `skill/party` caller 修改当前 world，而普通保存从当前 world 克隆快照并交存储入口，不能据此承诺调试状态与正常存档隔离。
+状态检视器只读。`skill` 和 `party` 直接修改当前世界，普通保存从当前世界克隆快照并写入槽位，因此保存可能包含这些调试变更。需执行脚本的命令走 detached 脚本入口，继续遵守运行时的意图守卫。
 
 ### 脚本 / 触发器触发（K3）
 
-从 shared scripts、当前场景实体 trigger/auto、场景 hooks(onEnter/onTeleport) 选择目标。触发通过 `runDetachedScriptChain` 执行；主 runner 占用时并发，并显示“主 runner 占用中”。场景切换类脚本占用时先确认；detached 不排 onEnter。观察 running/done/error/cancel；再次点运行中的项用 Abort 取消，不把取消当成功完成。
+“刷新列表”读取共享脚本、当前场景实体的有效 trigger/auto 和当前有效的 `onEnter`、`onTeleport`。旧列表按钮的场景与当前场景不符时，点击会提示刷新。刷新后仍可取消运行中的场景项，按钮会标出所属场景。
+
+面板通过 `runDetachedScriptChain` 执行脚本。呈现忙时须先确认。若本次调用取得主 runner 槽位，它也负责接续待执行的 `onEnter`。观察 running、done、error、cancel 或“未命中”，其中“未命中”表示运行时没有激活该触发器。
 
 ### 战斗态构建器（K2）
 
@@ -83,7 +85,7 @@ DEV 安装门仍要求查询参数 `debug`，其他同源参数原样生效。�
 
 一次排错完成须给出 DEV URL/工程、命令或触发器、输入与占用状态、实际结果、恢复/取消及后续保存安排；若验生产剔除还要独立构建与产物证据。保留13条命令表和原验证标签不等于重新验证13个操作。
 
-本次只做指南迁移与必要窄源码核读，没有运行命令、启动页面、构建 dist、产品/旧测试、runtime、E2E、视觉或 coverage。Owner/date 是本轮治理而非原作者/旧 G1 日期；候选由非作者逐篇验收，中央接账与最终零门另由 Codex 完成。
+2026-10-16 的指南迁移只做文档和相关源码核读。迁移时的 Owner/date 对应文档治理。原命令执行、构建、E2E 及测试结果取各自记录。2026-11-27 的面板回归及适用范围记录在[场景作用域治理](../../tasks/cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#复验与集成)。
 
 ### 本次来源与完整原文
 

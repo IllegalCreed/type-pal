@@ -333,10 +333,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "563-678",
+          "lines": "566-681",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+          "sha256": "7af691dc1ccf12b3092284053468a6df4a2608fb53781789fd5fe22762f0e167"
         }
       ],
       "publicCallers": [
@@ -487,6 +487,22 @@
               }
             ],
             "scope": "静态触碰的实际落步先绘出，胜利结算保留战斗末帧，淡出完成先呈现全黑。采录器的实绘反控沿用实际 renderer。其余被引源码片段逐字节相等，结束调用点仅把淡出布尔输入扩充并改名为保留胜利帧。各自执行仍绑定原候选。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "563-678",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+              }
+            ]
           }
         ]
       },
@@ -563,10 +579,10 @@
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
-          "lines": "563-678",
+          "lines": "566-681",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+          "sha256": "7af691dc1ccf12b3092284053468a6df4a2608fb53781789fd5fe22762f0e167"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -738,6 +754,22 @@
               }
             ],
             "scope": "仅更新未变的内容与存档版本声明指纹，沿用原执行、输入和结论。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/opening-trace.test.mjs",
+                "lines": "563-678",
+                "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+                "role": "real transformed caller oracle",
+                "sha256": "4741e36ba14966effee05e966f319c4c1081781dfac60f9ed8e112c2a747ae81"
+              }
+            ]
           }
         ]
       },
@@ -1757,17 +1789,17 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "417-424",
+          "lines": "409-416",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+          "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
         },
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "456-463",
+          "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+          "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -2622,6 +2654,29 @@
               }
             ],
             "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "417-424",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "456-463",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+              }
+            ]
           }
         ]
       },
@@ -2690,10 +2745,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "1300-1398",
+          "lines": "1294-1392",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+          "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -3431,6 +3486,22 @@
               }
             ],
             "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1300-1398",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+              }
+            ]
           }
         ]
       },
@@ -4927,10 +4998,10 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/main.ts",
-          "lines": "441-453",
+          "lines": "433-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+          "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -4951,7 +5022,7 @@
           "lines": "7-30",
           "anchor": "describe('WorldMotionRuntime ownership'",
           "role": "oracle",
-          "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
+          "sha256": "0fae5a27905ca5ddd49fccfcfe93b8f769565387271b4d72854b3fb6aa6e1659"
         },
         {
           "path": "packages/reforge/src/world-scene-presentation.test.ts",
@@ -5610,6 +5681,29 @@
               }
             ],
             "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "441-453",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+              },
+              {
+                "path": "packages/reforge/src/world-motion-runtime.test.ts",
+                "lines": "7-30",
+                "anchor": "describe('WorldMotionRuntime ownership'",
+                "role": "oracle",
+                "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
+              }
+            ]
           }
         ]
       },
@@ -8722,8 +8816,8 @@
           "path": "packages/reforge/src/main.ts",
           "anchor": "async function restorePayload(",
           "role": "save-restore-caller",
-          "lines": "6009",
-          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+          "lines": "6008",
+          "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
         },
         {
           "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -10911,6 +11005,22 @@
               }
             ],
             "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+          },
+          {
+            "action": "reforge-scene-ownership-source-rebinding",
+            "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+            "date": "2026-11-27",
+            "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+            "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "anchor": "async function restorePayload(",
+                "role": "save-restore-caller",
+                "lines": "6009",
+                "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+              }
+            ]
           }
         ]
       }

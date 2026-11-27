@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护）
-Last reviewed: 2026-11-20
+Last reviewed: 2026-11-27
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -14,6 +14,10 @@ Template: design-spec-v1 / 1.0.0
 当前内容contentVersion 23 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。具体场景的运行和预览由任务回执、合法输入和实跑证据证明。
 
 实体地址必须是EntityAddress{scene,entity}；实例label、人物名和精灵名只显示，不替代稳定id或合并同名实体。PageId选择外观/触发/具名BehaviorId，不内嵌匿名脚本；onEnter/onTeleport各有HookId registry及initial选择，切换走显式selectSceneHooks。跨处复用只进AuthorScriptLibrary共享库，callScript只存稳定script和可选复合self，不带chunk提示。物品私有脚本归单件物品，复杂NPC剧情回其具名方案，不复制到物品或等玩家再移动触发。
+
+用物放置、作者命令的位置和状态更新，以及离场姿态捕获都使用场景与实体的复合地址。实体状态、位置、图层及离场姿态的投影读取对应记录的自有键。缺少覆写时沿用场景定义。预检用同一份地图覆写快照选择地图和复核提交依赖。
+
+实体行为与场景钩子只能选用工程实际定义的条目。选用不存在的方案会报错，已有绑定保留。场景与实体照常使用工程允许的稳定 ID。未写入的旗标读取为 false，未写入的变量读取为 0，`addVar` 从该变量的当前值累加。
 
 ## 方案
 
@@ -29,6 +33,8 @@ Template: design-spec-v1 / 1.0.0
 | repeat / while / until / forever | 正安全整数次数 / 前测 / 后测 / 明确长期循环 | break最近循环；continue可按同根词法祖先loop id，非祖先/同级/跨根拒绝 |
 
 有名循环仅在内层需指向外层时使用，复制重映射内部引用，移动后非法祖先引用不能静默保存。步骤列表单步/多步均完整显示；label不写入执行树身份，选择方案卡只选编辑/预览对象，不改变游戏运行态。
+
+世界确认框在收到选择且累计实际呈现至少两帧后，把答案交回脚本。抓取当前画面失败时，发起脚本收到原错误，当前请求释放，后续确认按入队顺序激活。
 
 选择真正变更才推进owner epoch；同有效方案保留游标，换方案从initial重新开始。completed保留绑定但不再获取执行权；取消、过期epoch、settlement gate失败或未返回子调用不能制造完成。编译器只产内存/可删缓存执行树，compilerVersion/content digest不是作者机器状态；SAVE12续跑绑定同一digest，执行序号不能变为内容对象ID。
 
@@ -125,6 +131,8 @@ onEnter 的各步骤可声明 `entry{prepare,reveal}`。切场时根据目标 on
 CanonicalScriptBodyEditor统一AuthorCommand[]，外层FlowEditor维护步骤/默认去向，各owner只保留identity/选择/元数据壳；修改进同一ScriptEditSession，共用schema/reference/cursor与undo/redo/save。场景入口仍是有真实地图的工作台与可调抽屉；共享库/物品需要空间语境时回真实场景调用点，不复制owner-less地图播放器。scratch预览不写canonical，跨场景只读定义不等视觉切场，动态轨迹未知不得画假连接。
 
 WorldScriptState按场景保存entityState/entityPos/entityLayer及Page/Behavior/Hook选择和业务cursor。SAVE12另保存自动flow的内部帧/分类等待/动作/追逐现场；位置唯一在entityPos，与sceneRuntime同步捕获，返回现场后仍跑当前onEnter，读档不重跑。它不变成作者状态方案或交互/战斗调用栈。
+
+具名绑定模块根据传入的定义和按地址保存的世界绑定解析选择、应用变化并写入游标。改变有效绑定时只让对应通道的旧租约失效。保存协调器等待活动租约到达安全点，并在提交游标前检查租约代际。当前信号登记了同场景子调用时，完整运行时在写入前还会复核场景会话。条件求值通过当前世界和宿主查询取得结果，无需取得保存租约。 [绑定实现](../../../packages/reforge/src/script-flow-bindings.ts) · [租约和保存屏障](../../../packages/reforge/src/script-world.ts) · [条件求值](../../../packages/reforge/src/script-conditions.ts)
 
 playEntityAction的wait与loop分轴；wait:false安装动作和该叶cursor推进对保存barrier是一笔提交，被等待动作的中途/已兑现待确认收据不得恢复时重发cue。后台动作可跨行为完成但稳定owner仍负责取消，不保存Promise/AbortSignal或运行epoch。活动身份只在同runtime、exact signal和真实live lease间共享；owner epoch失效与lease关闭不同。内联子调用未自然结束仍被barrier计数，同owner不重入；独立根等gate后复验场景/session。详见[存档合同](save-system.md)。
 
