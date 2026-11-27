@@ -6,7 +6,7 @@ import {
   type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { sceneFixture } from './__tests__/world-async-fixture.js'
+import { sceneFixture } from './__tests__/script-world-fixture.js'
 import {
   assertSceneSwitchDependenciesCurrent,
   captureSceneSwitchDependencies,

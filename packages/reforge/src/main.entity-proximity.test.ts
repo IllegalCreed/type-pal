@@ -17,7 +17,7 @@ afterEach(async () => {
   host = undefined
 })
 
-test('two real moving instances cross the strict half-grid boundary, including a hidden different-height target', async () => {
+test('a moving actor crosses the strict half-grid boundary of a hidden, different-height target', async () => {
   host = await installShellHost()
   const from = { scene: 'a', entity: 'walker' }
   const to = { scene: 'a', entity: 'anchor' }

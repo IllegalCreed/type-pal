@@ -1,4 +1,6 @@
-/** A persistent eligibility waiter, awakened by host state-change notifications, never a timer. */
+import { scriptWorkWait } from './script-work-queue.js'
+
+/** Host state changes recheck eligibility against the current activation and scene. */
 export class ScriptWakeGate {
   private readonly pending = new Set<() => void>()
 
@@ -35,5 +37,3 @@ export class ScriptWakeGate {
     for (const check of [...this.pending]) check()
   }
 }
-
-import { scriptWorkWait } from './script-work-queue.js'

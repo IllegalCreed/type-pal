@@ -1,6 +1,55 @@
 import { expect, test } from 'vitest'
-import { inputFixture } from './__tests__/runtime-frame-fixture.js'
-import { routeRuntimeInput } from './runtime-input-router.js'
+import { type RuntimeInputPorts, routeRuntimeInput } from './runtime-input-router.js'
+
+function inputFixture() {
+  const state = {
+    confirm: false,
+    shop: false,
+    reward: false,
+    menu: false,
+    dialogue: false,
+    runner: false,
+    hostile: false,
+  }
+  const events: unknown[][] = []
+  const record = (name: string, ...args: unknown[]) => {
+    events.push([name, ...args])
+  }
+  const ports: RuntimeInputPorts = {
+    confirm: {
+      active: () => state.confirm,
+      toggle: () => record('toggle'),
+      yes: () => record('yes'),
+      no: () => record('no'),
+    },
+    consumeShop: (keys) => {
+      if (!state.shop) return false
+      record('shop', [...keys])
+      return true
+    },
+    consumeReward: (keys) => {
+      if (!state.reward) return false
+      record('reward', [...keys])
+      return true
+    },
+    menu: {
+      active: () => state.menu,
+      input: (keys) => record('menu', [...keys]),
+      open: () => {
+        state.menu = true
+        record('open')
+      },
+    },
+    dialogue: { active: () => state.dialogue, advance: (time) => record('dialogue', time) },
+    scriptRunning: () => state.runner,
+    hostileBusy: () => state.hostile,
+    quickSave: () => record('save'),
+    quickLoad: () => record('load'),
+    interact: () => record('interact'),
+    changeDebugScene: (keys) => record('scene', [...keys]),
+  }
+  return { state, events, ports }
+}
 
 test('all 128 active-layer combinations give the complete frame to exactly the highest owner', () => {
   const flags = ['confirm', 'shop', 'reward', 'menu', 'dialogue', 'runner', 'hostile'] as const

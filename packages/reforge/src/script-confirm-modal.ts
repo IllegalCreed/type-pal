@@ -1,3 +1,5 @@
+import { scriptWorkWait } from './script-work-queue.js'
+
 /**
  * 脚本二选一中央队列。它只管理 prompt 生命周期和输入选择，不承载系统菜单/商店业务。
  *
@@ -15,10 +17,11 @@ export interface ScriptConfirmModalView<TFrame> {
   presentedFrames: number
 }
 
-interface ScriptConfirmRequest<TFrame> extends ScriptConfirmModalView<TFrame> {
+interface ScriptConfirmRequest<TFrame>
+  extends Omit<ScriptConfirmModalView<TFrame>, 'answerPending'> {
   signal: AbortSignal
   resolve: (accepted: boolean) => void
-  reject: (error: Error) => void
+  reject: (error: unknown) => void
   answer?: boolean
   settled: boolean
   abort: () => void
@@ -56,19 +59,17 @@ export class ScriptConfirmModalQueue<TFrame> {
   enqueue(frame: TFrame, signal: AbortSignal): Promise<boolean> {
     if (signal.aborted) return Promise.reject(abortedError())
     return scriptWorkWait<boolean>(signal, (resolve, reject) => {
-      const request = {
+      const request: ScriptConfirmRequest<TFrame> = {
         token: this.nextToken++,
         frame,
         selectedYes: false,
-        answerPending: false,
         presentedFrames: 0,
         signal,
         resolve,
         reject,
         settled: false,
-        abort: () => {},
-      } satisfies ScriptConfirmRequest<TFrame>
-      request.abort = () => this.abortRequest(request)
+        abort: () => this.abortRequest(request),
+      }
       this.queue.push(request)
       signal.addEventListener('abort', request.abort, { once: true })
       if (signal.aborted) request.abort()
@@ -84,7 +85,12 @@ export class ScriptConfirmModalQueue<TFrame> {
       this.abortRequest(request)
       return this.activateIfPossible(canActivate, captureFrame)
     }
-    if (captureFrame) request.frame = captureFrame()
+    try {
+      if (captureFrame) request.frame = captureFrame()
+    } catch (error) {
+      this.rejectRequest(request, error)
+      return false
+    }
     this.current = request
     return true
   }
@@ -150,12 +156,10 @@ export class ScriptConfirmModalQueue<TFrame> {
     request.resolve(answer)
   }
 
-  private rejectRequest(request: ScriptConfirmRequest<TFrame>, error: Error): void {
+  private rejectRequest(request: ScriptConfirmRequest<TFrame>, error: unknown): void {
     if (request.settled) return
     request.settled = true
     request.signal.removeEventListener('abort', request.abort)
     request.reject(error)
   }
 }
-
-import { scriptWorkWait } from './script-work-queue.js'

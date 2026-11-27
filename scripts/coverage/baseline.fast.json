@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-26T08:20:36.114Z",
+  "generatedAt": "2026-11-27T07:35:41.172Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 849,
-  "testCount": 20351,
+  "sourceFileCount": 851,
+  "testCount": 20328,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1981,7 +1981,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 170,
+      "sourceFileCount": 172,
       "sourceFiles": [
         "packages/reforge/src/active-scene.ts",
         "packages/reforge/src/actor-condition-lifecycle.ts",
@@ -2113,6 +2113,7 @@
         "packages/reforge/src/save/scope.ts",
         "packages/reforge/src/save/store.ts",
         "packages/reforge/src/save/types.ts",
+        "packages/reforge/src/scene-entity-values.ts",
         "packages/reforge/src/scene-entry-session.ts",
         "packages/reforge/src/scene-map.ts",
         "packages/reforge/src/scene-preparer.ts",
@@ -2125,12 +2126,13 @@
         "packages/reforge/src/screen-shake-presentation.ts",
         "packages/reforge/src/screen-wave.ts",
         "packages/reforge/src/script-activity-lineage.ts",
-        "packages/reforge/src/script-chunk-store.ts",
         "packages/reforge/src/script-compiler-core.ts",
+        "packages/reforge/src/script-conditions.ts",
         "packages/reforge/src/script-confirm-modal.ts",
         "packages/reforge/src/script-continuation.ts",
         "packages/reforge/src/script-execution-budget.ts",
         "packages/reforge/src/script-execution-gate.ts",
+        "packages/reforge/src/script-flow-bindings.ts",
         "packages/reforge/src/script-host-adapter.ts",
         "packages/reforge/src/script-project-core.ts",
         "packages/reforge/src/script-runner-core.ts",
@@ -2154,17 +2156,17 @@
         "packages/reforge/src/world-motion-runtime.ts",
         "packages/reforge/src/world-scene-presentation.ts"
       ],
-      "scopeDigest": "8d74fe7ecf19ba58c55e073893629f029b4b9e02b71136d9eaa31dc51176e73d",
+      "scopeDigest": "7c0d09c4de29a277e46e5972033e5d9c54897622400ee2334fb0eee5feec2023",
       "fastTests": {
-        "testCount": 8869,
-        "testFileCount": 373,
+        "testCount": 8846,
+        "testFileCount": 367,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
           "packages/reforge/scripts/battle-trial-session.test.ts",
           "packages/reforge/scripts/battle-trial-workflow.test.ts",
           "packages/reforge/scripts/counterproof-output.test.mjs",
-          "packages/reforge/src/__tests__/main-api-fixture.test.ts",
+          "packages/reforge/src/__tests__/main-binding-fixture.test.ts",
           "packages/reforge/src/__tests__/runtime-shell/dom-host.test.ts",
           "packages/reforge/src/active-scene.test.ts",
           "packages/reforge/src/actor-condition-lifecycle.test.ts",
@@ -2279,7 +2281,7 @@
           "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
           "packages/reforge/src/battle/present-battle.composition.test.ts",
           "packages/reforge/src/battle/present-battle.test.ts",
-          "packages/reforge/src/boot-page-shell.glm-q.test.ts",
+          "packages/reforge/src/boot.test.ts",
           "packages/reforge/src/checkpoint-export.chain.test.ts",
           "packages/reforge/src/collision.test.ts",
           "packages/reforge/src/cutscene-controller.test.ts",
@@ -2291,7 +2293,6 @@
           "packages/reforge/src/debug-tools.navigation.test.ts",
           "packages/reforge/src/debug-tools.triggers.test.ts",
           "packages/reforge/src/deferred-trigger.test.ts",
-          "packages/reforge/src/deferred-trigger.world-lifecycle-1.test.ts",
           "packages/reforge/src/dev-preset.test.ts",
           "packages/reforge/src/dialog/dialog-assets.test.ts",
           "packages/reforge/src/dialog/dialog-box.lifecycle.test.ts",
@@ -2338,9 +2339,8 @@
           "packages/reforge/src/main.auto-save-flows.test.ts",
           "packages/reforge/src/main.battle-host-flows.test.ts",
           "packages/reforge/src/main.battle-preview.glm-q.test.ts",
+          "packages/reforge/src/main.boot-audio.test.ts",
           "packages/reforge/src/main.boot-flows.test.ts",
-          "packages/reforge/src/main.boot-shell.glm-q.test.ts",
-          "packages/reforge/src/main.c85-boot.test.ts",
           "packages/reforge/src/main.dialog-flows.test.ts",
           "packages/reforge/src/main.effect-flows.residual.test.ts",
           "packages/reforge/src/main.entity-host-flows.test.ts",
@@ -2352,6 +2352,7 @@
           "packages/reforge/src/main.host-lifecycle-1.test.ts",
           "packages/reforge/src/main.item-acquisition.test.ts",
           "packages/reforge/src/main.item-flows.test.ts",
+          "packages/reforge/src/main.map-override-commit.test.ts",
           "packages/reforge/src/main.menu-flows.test.ts",
           "packages/reforge/src/main.menu-storage-flows.test.ts",
           "packages/reforge/src/main.observation.test.ts",
@@ -2363,6 +2364,7 @@
           "packages/reforge/src/main.ride-presentation.test.ts",
           "packages/reforge/src/main.save-flows.test.ts",
           "packages/reforge/src/main.scene-flows.test.ts",
+          "packages/reforge/src/main.sprite-gallery.test.ts",
           "packages/reforge/src/menu-state.navigation-boundaries.test.ts",
           "packages/reforge/src/menu-state.test.ts",
           "packages/reforge/src/menu/item-list.rendering.test.ts",
@@ -2449,12 +2451,13 @@
           "packages/reforge/src/runtime-frame-session.test.ts",
           "packages/reforge/src/runtime-host.c85-arms.test.ts",
           "packages/reforge/src/runtime-input-router.test.ts",
-          "packages/reforge/src/runtime-project-view.boundaries.test.ts",
-          "packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
-          "packages/reforge/src/runtime-project-view.test.ts",
+          "packages/reforge/src/runtime-project-view.items.test.ts",
+          "packages/reforge/src/runtime-project-view.scene.test.ts",
+          "packages/reforge/src/runtime-project-view.scratch.test.ts",
           "packages/reforge/src/runtime-save-lineage.test.ts",
           "packages/reforge/src/runtime-scene-continuation.test.ts",
-          "packages/reforge/src/runtime-script-compiler.boundaries.test.ts",
+          "packages/reforge/src/runtime-script-compiler.test.ts",
+          "packages/reforge/src/runtime-script-project.binding-commit.test.ts",
           "packages/reforge/src/runtime-script-project.test.ts",
           "packages/reforge/src/save-lineage.chain.test.ts",
           "packages/reforge/src/save/browser-state.test.ts",
@@ -2480,21 +2483,16 @@
           "packages/reforge/src/screen-shake-presentation.test.ts",
           "packages/reforge/src/screen-wave.test.ts",
           "packages/reforge/src/script-activity-lineage.test.ts",
-          "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
-          "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
-          "packages/reforge/src/script-chunk-store.residual.test.ts",
-          "packages/reforge/src/script-chunk-store.test.ts",
           "packages/reforge/src/script-compiler-core.test.ts",
-          "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
-          "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
+          "packages/reforge/src/script-conditions.test.ts",
+          "packages/reforge/src/script-confirm-modal.cancellation.test.ts",
           "packages/reforge/src/script-confirm-modal.test.ts",
-          "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
-          "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
-          "packages/reforge/src/script-host-adapter.current-dispatch.test.ts",
-          "packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
-          "packages/reforge/src/script-host-adapter.test.ts",
-          "packages/reforge/src/script-host-adapter.wave2.test.ts",
-          "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
+          "packages/reforge/src/script-continuation.test.ts",
+          "packages/reforge/src/script-flow-bindings.test.ts",
+          "packages/reforge/src/script-host-adapter.commands.test.ts",
+          "packages/reforge/src/script-host-adapter.entities.test.ts",
+          "packages/reforge/src/script-host-adapter.entity-action.test.ts",
+          "packages/reforge/src/script-host-adapter.presentation.test.ts",
           "packages/reforge/src/script-project-core.wave2.test.ts",
           "packages/reforge/src/script-runner-core.gates.glm-q.test.ts",
           "packages/reforge/src/script-runner-core.host-lifecycle-1.test.ts",
@@ -2505,9 +2503,7 @@
           "packages/reforge/src/script-runner.host-lifecycle-1.test.ts",
           "packages/reforge/src/script-runner.test.ts",
           "packages/reforge/src/script-work-queue.test.ts",
-          "packages/reforge/src/script-world.c85-arms.test.ts",
-          "packages/reforge/src/script-world.test.ts",
-          "packages/reforge/src/script-world.wave2.test.ts",
+          "packages/reforge/src/script-world.save-barrier.test.ts",
           "packages/reforge/src/shop-trial.test.ts",
           "packages/reforge/src/sprite-anim.test.ts",
           "packages/reforge/src/startup-entry.test.ts",
@@ -2522,12 +2518,12 @@
           "packages/reforge/src/use-menu-state.navigation-boundaries.test.ts",
           "packages/reforge/src/use-menu-state.test.ts",
           "packages/reforge/src/video-player.test.ts",
-          "packages/reforge/src/world-async-commit.test.ts",
           "packages/reforge/src/world-camera.test.ts",
-          "packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
-          "packages/reforge/src/world-motion-runtime.residual.test.ts",
-          "packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
+          "packages/reforge/src/world-motion-runtime.commands.test.ts",
+          "packages/reforge/src/world-motion-runtime.contention.test.ts",
+          "packages/reforge/src/world-motion-runtime.presentation.test.ts",
           "packages/reforge/src/world-motion-runtime.test.ts",
+          "packages/reforge/src/world-motion-runtime.trace.test.ts",
           "packages/reforge/src/world-runtime-ownership.test.ts",
           "packages/reforge/src/world-scene-presentation.glm-next-wave.test.ts",
           "packages/reforge/src/world-scene-presentation.residual.test.ts",
@@ -2560,14 +2556,14 @@
             "identityDigest": "372ba58f0dbe38459c6db2bdea168f474d6ddc3e1a547507440c65d0dd87ba32"
           },
           {
-            "file": "packages/reforge/src/__tests__/main-api-fixture.test.ts",
+            "file": "packages/reforge/src/__tests__/main-binding-fixture.test.ts",
             "testCount": 3,
-            "identityDigest": "316d57c3c9f0b5d90f3a0a7252f777050ab28a2f2fa53694df8213f82ea069a1"
+            "identityDigest": "93451ca8ca133a99b457965f154518c585912adeec7eb0ea117b2e10a8774c2b"
           },
           {
             "file": "packages/reforge/src/__tests__/runtime-shell/dom-host.test.ts",
-            "testCount": 1,
-            "identityDigest": "b12f23947f4815e27a12b9cc41b3383d51d6d8cd2a64fcc1cf0ea8a487d95a1f"
+            "testCount": 2,
+            "identityDigest": "f01c56bcdef854a81928ff6a8169903df189a31e5a799ed51f29c1e18ce72f2b"
           },
           {
             "file": "packages/reforge/src/active-scene.test.ts",
@@ -2726,8 +2722,8 @@
           },
           {
             "file": "packages/reforge/src/automatic-target-command.test.ts",
-            "testCount": 7,
-            "identityDigest": "67d57e574c16d05a3323e08d99f4edba972e4809a896c147ca88303dcf890e12"
+            "testCount": 6,
+            "identityDigest": "83657ae1a1d6194e0fa3dd82e36971fe5c65a02c3e378223df0e61d41a18a1d1"
           },
           {
             "file": "packages/reforge/src/battle-trial-assets.test.ts",
@@ -3135,9 +3131,9 @@
             "identityDigest": "ec1bd4b63207c41ed93c2080e1c4de3bfbb61967c29e566938286fec71ec08b4"
           },
           {
-            "file": "packages/reforge/src/boot-page-shell.glm-q.test.ts",
+            "file": "packages/reforge/src/boot.test.ts",
             "testCount": 6,
-            "identityDigest": "52c1e4666dadc5dc214d65823698c53858fd9e0e482ef8d5b2cc0c23eef68eec"
+            "identityDigest": "4b93b9a6f6f1a6803698f4382062d41f38d5c6e43d70a16122ad47e3a407050e"
           },
           {
             "file": "packages/reforge/src/checkpoint-export.chain.test.ts",
@@ -3161,8 +3157,8 @@
           },
           {
             "file": "packages/reforge/src/debug-tools.commands.test.ts",
-            "testCount": 25,
-            "identityDigest": "c426b2ce003f76f274925c379ce5c117a8fa6c12f56f793d46d4c9e77a8e9cc6"
+            "testCount": 26,
+            "identityDigest": "e15a8ac533f1961ef93749e14c38b4df6f2c685f3276f6fac389bc2455015399"
           },
           {
             "file": "packages/reforge/src/debug-tools.failures.test.ts",
@@ -3186,18 +3182,13 @@
           },
           {
             "file": "packages/reforge/src/debug-tools.triggers.test.ts",
-            "testCount": 10,
-            "identityDigest": "9a9521528c92ca2340975cfa66037c0c08e38d3baf53049c68f8680f9b9e7368"
+            "testCount": 15,
+            "identityDigest": "bd6b07e5d4dcbcd65d0a1d0c0eb5da7da9b63aacf0b559f671a181c2160c2eaa"
           },
           {
             "file": "packages/reforge/src/deferred-trigger.test.ts",
-            "testCount": 6,
-            "identityDigest": "c868820508d2b477a151baaf0d2a6e906e5c0ca6b55fdfdb598523d287ee5d2f"
-          },
-          {
-            "file": "packages/reforge/src/deferred-trigger.world-lifecycle-1.test.ts",
-            "testCount": 2,
-            "identityDigest": "da647ee4c0a6d26d00bdad7887488385599c26a06fbf262c53cda9183edb905f"
+            "testCount": 9,
+            "identityDigest": "4d5db1ffd8ebc575b54a19ebbc9a54ee0f704c51dc439c9aa14dd8f8a7f2dbb4"
           },
           {
             "file": "packages/reforge/src/dev-preset.test.ts",
@@ -3312,7 +3303,7 @@
           {
             "file": "packages/reforge/src/entity-walk.test.ts",
             "testCount": 21,
-            "identityDigest": "f50f2aad2d5ab37bc5abb825bdf3d48e3ad5283037f036d550cc65ead43130c0"
+            "identityDigest": "4dac60e73f7d060971d6f84ee6d7be6b49495c9ae73d91f6911728f456e2dfdf"
           },
           {
             "file": "packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts",
@@ -3391,13 +3382,13 @@
           },
           {
             "file": "packages/reforge/src/item-use-placement.test.ts",
-            "testCount": 2,
-            "identityDigest": "01d435e3b40408cb957241db1144dff018d628ceccaa8f2c20b4c08b6251af03"
+            "testCount": 3,
+            "identityDigest": "f5034ad118bdf18eb03bf2aa15f71eaaeb2ae6d19a98027d3ba9089144eb21bd"
           },
           {
             "file": "packages/reforge/src/latest-snapshot-transaction.test.ts",
-            "testCount": 3,
-            "identityDigest": "b8697090256db13fcc43c7c1fab151629107f7eabf090c05fd58ae235efe4430"
+            "testCount": 5,
+            "identityDigest": "baafdbd01b5cfc2bf19e0d8c53e3083b5168bbd5ff10ae1ba2cdaa56647d7dcd"
           },
           {
             "file": "packages/reforge/src/magic-menu-state.boundaries.test.ts",
@@ -3430,19 +3421,14 @@
             "identityDigest": "1fcf7b571fc5a5dd57b8d85fbb1f26fac948d4f3d8425f382b4b231f2bf4ff26"
           },
           {
+            "file": "packages/reforge/src/main.boot-audio.test.ts",
+            "testCount": 5,
+            "identityDigest": "6f6b1a3d7ed0a747ba19f8d0b86f846451834e0a87cdb450668523d7744c9abc"
+          },
+          {
             "file": "packages/reforge/src/main.boot-flows.test.ts",
-            "testCount": 9,
-            "identityDigest": "9b1bfa9b976c2d22a127d77c63f4b6fd01ee1c73eac7987e5e74363ad651f54c"
-          },
-          {
-            "file": "packages/reforge/src/main.boot-shell.glm-q.test.ts",
-            "testCount": 8,
-            "identityDigest": "ac54b654fa6a451bda221d92870ef29805ff81630a7c762245aaa1c76b5f5d71"
-          },
-          {
-            "file": "packages/reforge/src/main.c85-boot.test.ts",
-            "testCount": 4,
-            "identityDigest": "5ae9250fe49ba4c2c48748a2901f6c8185fc71983aecbad2b132fba98dbfd0fa"
+            "testCount": 11,
+            "identityDigest": "281cb2acda9f9848912e6f2e38a07d29a1093ecc17494dea639d7d60a91f29ef"
           },
           {
             "file": "packages/reforge/src/main.dialog-flows.test.ts",
@@ -3456,13 +3442,13 @@
           },
           {
             "file": "packages/reforge/src/main.entity-host-flows.test.ts",
-            "testCount": 7,
-            "identityDigest": "99f2663e4f95e68c890d69ba5f793dd6e9c3f06b1c53a18f5260a0181c0c4361"
+            "testCount": 11,
+            "identityDigest": "0f56d447c5ea332a8843376e97105c432470b7943b37b8c83ba9ec884e9adddf"
           },
           {
             "file": "packages/reforge/src/main.entity-proximity.test.ts",
             "testCount": 1,
-            "identityDigest": "2eb0c1f8f2e568fcd95e36f8c63223fa9831eb419b66123277505bd76d136353"
+            "identityDigest": "5c574b453465a3f114f07297e0c4f90ced02603629e1718633ce701c3e4252e2"
           },
           {
             "file": "packages/reforge/src/main.equipment-flows.test.ts",
@@ -3496,8 +3482,13 @@
           },
           {
             "file": "packages/reforge/src/main.item-flows.test.ts",
-            "testCount": 10,
-            "identityDigest": "e0360914f5fd632f10cbee17e4f4a9f53a8aec0c7cb88132bc8933d1d066ee5d"
+            "testCount": 11,
+            "identityDigest": "f1a69c45698fec4cedffd93c97e2ca4fabe4c5e60bdf91fa6cbcd4699b9a9ba7"
+          },
+          {
+            "file": "packages/reforge/src/main.map-override-commit.test.ts",
+            "testCount": 17,
+            "identityDigest": "4034c690cef40efc38583328c5e7449dd14a6088e4e72dfb4040494edd2fc4f8"
           },
           {
             "file": "packages/reforge/src/main.menu-flows.test.ts",
@@ -3511,8 +3502,8 @@
           },
           {
             "file": "packages/reforge/src/main.observation.test.ts",
-            "testCount": 2,
-            "identityDigest": "4b00e222658734c054339aebdaee19d9869baba72be607cff690910faac8aefd"
+            "testCount": 4,
+            "identityDigest": "32b97fdcc14c630836a688fd8dd628c6773c72712019ddb144b51351e7617bc7"
           },
           {
             "file": "packages/reforge/src/main.pal-palace-exit.test.ts",
@@ -3552,7 +3543,12 @@
           {
             "file": "packages/reforge/src/main.scene-flows.test.ts",
             "testCount": 3,
-            "identityDigest": "e14e92fe0b0cf17d931e42d98672d03c02808085986da3854a82ab2879bb2486"
+            "identityDigest": "83b339c7a0561c959797e83e59672e459f4cb30f25eb14e79856d139ef2822e8"
+          },
+          {
+            "file": "packages/reforge/src/main.sprite-gallery.test.ts",
+            "testCount": 1,
+            "identityDigest": "3d3c537a1f47dfcc8cc7329a0a643980ff76aaf227c83049766b5323c1175f13"
           },
           {
             "file": "packages/reforge/src/menu-state.navigation-boundaries.test.ts",
@@ -3666,8 +3662,8 @@
           },
           {
             "file": "packages/reforge/src/motion-runtime-wiring.test.ts",
-            "testCount": 23,
-            "identityDigest": "78bee21606e6d18f319440a6ec792d9ed10c829e033cdc9bf6bc8c764584d33a"
+            "testCount": 18,
+            "identityDigest": "e63940a01087f0a3a520098bbe05e19fa32d70cf113b2778d7767d1eb810f278"
           },
           {
             "file": "packages/reforge/src/opening-menu.flows.test.ts",
@@ -3985,19 +3981,19 @@
             "identityDigest": "1464400461849d7643f965f79a5e0c2b1fd4e8d15cd911ea03a813eb3c211b2c"
           },
           {
-            "file": "packages/reforge/src/runtime-project-view.boundaries.test.ts",
-            "testCount": 5,
-            "identityDigest": "c42704457290abcd300d8769517412a99962247fe213657f941dc199e75904f1"
+            "file": "packages/reforge/src/runtime-project-view.items.test.ts",
+            "testCount": 2,
+            "identityDigest": "ac13c058e530ba92f56fb6aacacb3a1f90ac25340854c03630b21974f4b88a1f"
           },
           {
-            "file": "packages/reforge/src/runtime-project-view.runtime-session-1.test.ts",
-            "testCount": 4,
-            "identityDigest": "c063cacb198410534d2193f2e415707952f866806a9f4b5d985bf3979302e3da"
+            "file": "packages/reforge/src/runtime-project-view.scene.test.ts",
+            "testCount": 7,
+            "identityDigest": "ab6fefd4bfe86e5c147950c14dc5ae75e7550a09449ced350882cccff18d971b"
           },
           {
-            "file": "packages/reforge/src/runtime-project-view.test.ts",
-            "testCount": 5,
-            "identityDigest": "aaf536803d7f77ebbf282401fd74b3ff19392bfa122ee5dd5716f336bf86354f"
+            "file": "packages/reforge/src/runtime-project-view.scratch.test.ts",
+            "testCount": 2,
+            "identityDigest": "d1b8536c31511d63400b7646e68b28ab13d2dc21b71ba94ee7a2c0593394b48f"
           },
           {
             "file": "packages/reforge/src/runtime-save-lineage.test.ts",
@@ -4010,14 +4006,19 @@
             "identityDigest": "e890e36b76a2d1b84bacb9a03607102b0e854af65f36736a86cceebf2048a2ce"
           },
           {
-            "file": "packages/reforge/src/runtime-script-compiler.boundaries.test.ts",
-            "testCount": 5,
-            "identityDigest": "0c76b1bb2282265b35bcc6e7d62b407ecbda2279b6b799422c6b21a230c41fef"
+            "file": "packages/reforge/src/runtime-script-compiler.test.ts",
+            "testCount": 6,
+            "identityDigest": "4a60e981534110fe8edcdbc39134197df093e4ceedd27c94c6e2b57dbcc23d6c"
+          },
+          {
+            "file": "packages/reforge/src/runtime-script-project.binding-commit.test.ts",
+            "testCount": 16,
+            "identityDigest": "deb051966466451c297bc9606f43b0823d37600b473cb19002b8682db098f103"
           },
           {
             "file": "packages/reforge/src/runtime-script-project.test.ts",
-            "testCount": 8,
-            "identityDigest": "1c0c9c37089538503c41a320b1c078d797904d2af90cdd9da091575fe38e2162"
+            "testCount": 15,
+            "identityDigest": "1e35a2f725d91050d0b1e06040c965bab4873b2878b5951062757f45dd167a5a"
           },
           {
             "file": "packages/reforge/src/save-lineage.chain.test.ts",
@@ -4027,7 +4028,7 @@
           {
             "file": "packages/reforge/src/save/browser-state.test.ts",
             "testCount": 6,
-            "identityDigest": "96e7c6052a074b9d18351924a88958ef43f09f96a45a1823da16f1d84cb1b4ea"
+            "identityDigest": "7f468c8ab8790960cb9a25ee1b814bd44f4238d2cb9f4cda49a8c5e0bb0184a8"
           },
           {
             "file": "packages/reforge/src/save/current-codec.contracts.test.ts",
@@ -4042,7 +4043,7 @@
           {
             "file": "packages/reforge/src/save/current-structure.test.ts",
             "testCount": 69,
-            "identityDigest": "64f6d8ebb1d125d1fd7b17f62ca4de43e77992b7c79e91e42b782f1dc10b3bf5"
+            "identityDigest": "a2eb4dbe8ac07f1c82a6c15ed0084ce87ee860da426979ed8b25c2625c93a69c"
           },
           {
             "file": "packages/reforge/src/save/ops.test.ts",
@@ -4091,8 +4092,8 @@
           },
           {
             "file": "packages/reforge/src/scene-preparer.test.ts",
-            "testCount": 14,
-            "identityDigest": "865548db37726a2117f40c6f166e604015544935e2c8472cd595dd0edb22814d"
+            "testCount": 16,
+            "identityDigest": "ad6b3bc62173e87c017d3775cc47a6d75794419e4e1afcb957f3ad886dd62747"
           },
           {
             "file": "packages/reforge/src/scene-resources.test.ts",
@@ -4136,83 +4137,58 @@
           },
           {
             "file": "packages/reforge/src/script-activity-lineage.test.ts",
-            "testCount": 18,
-            "identityDigest": "ad376436d65fa5daf0bce1e2a3da1136b1b54f3202328adc4aeb4ce1b79a23f5"
-          },
-          {
-            "file": "packages/reforge/src/script-chunk-store.cursor-boundaries.test.ts",
-            "testCount": 1,
-            "identityDigest": "bc8451f34dd213de72fc9b57749eddc6eb38e08c6bea0cfb07224b79bad47193"
-          },
-          {
-            "file": "packages/reforge/src/script-chunk-store.glm-large-wave.test.ts",
-            "testCount": 5,
-            "identityDigest": "e25fe48a96d20d2f001757e40ced6898116c45b45de11afe0bfc94bd9a8102e7"
-          },
-          {
-            "file": "packages/reforge/src/script-chunk-store.residual.test.ts",
-            "testCount": 2,
-            "identityDigest": "15a257a531918a750d6a1ead38168ac5e107de4801518d212e2e5d338b9bd712"
-          },
-          {
-            "file": "packages/reforge/src/script-chunk-store.test.ts",
-            "testCount": 5,
-            "identityDigest": "2ac2b838015eafa43e8aaf15de4ece52342d5c01fc4102d4613b5c40e4d1b4c6"
+            "testCount": 23,
+            "identityDigest": "ee91c95b20b7e252832f69e8c73d2bfa808e3a123d8c735b451514f43e8196c7"
           },
           {
             "file": "packages/reforge/src/script-compiler-core.test.ts",
-            "testCount": 3,
-            "identityDigest": "271b8af0a37bafebbdcfe778e12e87885b6258410fbd735c0a0be485772cc87e"
+            "testCount": 4,
+            "identityDigest": "081bf8710aea8deec8665a25c6c9d768aceb488868edc8a57f7b4696044b3743"
           },
           {
-            "file": "packages/reforge/src/script-confirm-lifecycle.kimi-mid-2.test.ts",
-            "testCount": 8,
-            "identityDigest": "b897545d6fe2529139cd7d44ded9ddaf76a4a97e349f39b0b55174417b221745"
+            "file": "packages/reforge/src/script-conditions.test.ts",
+            "testCount": 6,
+            "identityDigest": "f0c0508a1be3f3a882bc3e75a8f4e2eee39de6908fe3ab56a9590bcee0683e9b"
           },
           {
-            "file": "packages/reforge/src/script-confirm-modal.glm-q.test.ts",
-            "testCount": 12,
-            "identityDigest": "ffdb6fec642eac1e14ba877db3dccbf560fd7f6d6e2ae1a3c764c0d8ec68764e"
+            "file": "packages/reforge/src/script-confirm-modal.cancellation.test.ts",
+            "testCount": 11,
+            "identityDigest": "daba39eff74bf026f9b7c3b80f34f8b6cced06794465147ff852569610659d76"
           },
           {
             "file": "packages/reforge/src/script-confirm-modal.test.ts",
-            "testCount": 4,
-            "identityDigest": "cba0850aa4307c57bf511947ab97ce9942711df7e0582b7de71482b0acfbee89"
+            "testCount": 6,
+            "identityDigest": "64a4b1d81b139818a1621d4e6691afc608eed4ccd497e046de528b8c298430d0"
           },
           {
-            "file": "packages/reforge/src/script-continuation.kimi-mid-1.test.ts",
+            "file": "packages/reforge/src/script-continuation.test.ts",
             "testCount": 24,
-            "identityDigest": "3cbec6c3e76022fbb4560ec44c196a53d78b303cb919480fddad64801d43332d"
+            "identityDigest": "bd791328c6a26cef0c0aca9a50ad9bc30c137fd8dbdfac1e1959f119c2e845d4"
           },
           {
-            "file": "packages/reforge/src/script-host-adapter.c85-arms.test.ts",
-            "testCount": 21,
-            "identityDigest": "6b3d9daea5140e8089361d602934e2853bc1d0aba8452d5b70661dffac82494a"
+            "file": "packages/reforge/src/script-flow-bindings.test.ts",
+            "testCount": 17,
+            "identityDigest": "cc50c8315b5c6a4775ab800bfc8a5dc126d5ffec71120fe275d2d9798c92aa8b"
           },
           {
-            "file": "packages/reforge/src/script-host-adapter.current-dispatch.test.ts",
-            "testCount": 5,
-            "identityDigest": "59b2467b9a3e5cce06843130dc62272774cf5101863a198bb386edb13d6b71de"
-          },
-          {
-            "file": "packages/reforge/src/script-host-adapter.host-lifecycle-1.test.ts",
-            "testCount": 6,
-            "identityDigest": "cb59d6c6edc97544468ccd81a1180563114dd7da2b7860bc14a0046ae20cce68"
-          },
-          {
-            "file": "packages/reforge/src/script-host-adapter.test.ts",
+            "file": "packages/reforge/src/script-host-adapter.commands.test.ts",
             "testCount": 10,
-            "identityDigest": "868bb797f3fe1130f9343cd95cd1d5083ff0b9b9061c03f0cbdfb06bc97da83b"
+            "identityDigest": "0a8a46b7a9c1739b7472eb8d550ec14ddc698c14ca8649d7617b47d53a243d61"
           },
           {
-            "file": "packages/reforge/src/script-host-adapter.wave2.test.ts",
+            "file": "packages/reforge/src/script-host-adapter.entities.test.ts",
+            "testCount": 12,
+            "identityDigest": "4e34c640f8cf5cca452388e80bedb8155518dfde6ed33cf605f8006c9f9feb6c"
+          },
+          {
+            "file": "packages/reforge/src/script-host-adapter.entity-action.test.ts",
             "testCount": 6,
-            "identityDigest": "10fceaadf886f89eb9103c93a3d6a40dd5b450f419ccd53e100c1af7e1092fe0"
+            "identityDigest": "2646410a4be7019f11e161acb8a969577de5e8a988e2f39ea11ffa37225fc1b1"
           },
           {
-            "file": "packages/reforge/src/script-lineage-lifecycle.kimi-mid-2.test.ts",
-            "testCount": 8,
-            "identityDigest": "cd702016d69063211583ca712b7d52595d52ced0b7b5f575bf3ca66d19ea2921"
+            "file": "packages/reforge/src/script-host-adapter.presentation.test.ts",
+            "testCount": 9,
+            "identityDigest": "493ee90e435fb53de4fc8535cf85c23b0d225e68f66c0af3bdef92388789ea6a"
           },
           {
             "file": "packages/reforge/src/script-project-core.wave2.test.ts",
@@ -4265,19 +4241,9 @@
             "identityDigest": "9ebfb81e08195589adb9873e6cf9388dc53b7a4dca0f8de1a14e1b945bf544c7"
           },
           {
-            "file": "packages/reforge/src/script-world.c85-arms.test.ts",
-            "testCount": 15,
-            "identityDigest": "61dc0a53a7107827f6aa3a6e687df555eb8130974c7a6cca8a7f2932880a56d4"
-          },
-          {
-            "file": "packages/reforge/src/script-world.test.ts",
-            "testCount": 12,
-            "identityDigest": "d9d50583a636a229d30864551087460355ef98c2a321bd28de2db76081e599ed"
-          },
-          {
-            "file": "packages/reforge/src/script-world.wave2.test.ts",
-            "testCount": 8,
-            "identityDigest": "53dd99b64b70d5f3f9ee08c69df3864dc9e5d8dc6d6323b46d194d7cab982c0c"
+            "file": "packages/reforge/src/script-world.save-barrier.test.ts",
+            "testCount": 9,
+            "identityDigest": "3c3fa737a6e63b80b29fd20c3788244437bfa2130bb698ff4fa2283ff320e197"
           },
           {
             "file": "packages/reforge/src/shop-trial.test.ts",
@@ -4350,34 +4316,34 @@
             "identityDigest": "2cc17471c944793d7202bfc3820c9a7eabf04d06c2df3dbd7d781c281ab706c9"
           },
           {
-            "file": "packages/reforge/src/world-async-commit.test.ts",
-            "testCount": 35,
-            "identityDigest": "5cab91dcbaf3e911e7015eea202cd946659ee0315dfd964b4721c2e4d6774eb8"
-          },
-          {
             "file": "packages/reforge/src/world-camera.test.ts",
             "testCount": 12,
             "identityDigest": "fc1c1b48e4489f26e79c45b2171853e4a35932c95852a76ac89c2375ddaff712"
           },
           {
-            "file": "packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
+            "file": "packages/reforge/src/world-motion-runtime.commands.test.ts",
+            "testCount": 13,
+            "identityDigest": "24dbb32bc2127cad133da887e224e02626ee4222a3886ad09f827f43ade5a3aa"
+          },
+          {
+            "file": "packages/reforge/src/world-motion-runtime.contention.test.ts",
             "testCount": 3,
-            "identityDigest": "22155c7adfa768fff7a8272257594276e62a3139525b9c7da28a2a5720aad3d3"
+            "identityDigest": "7f0c9ce8019bafb25c662cfefcd163331f11fe0bf0200d9057296184b0321ec9"
           },
           {
-            "file": "packages/reforge/src/world-motion-runtime.residual.test.ts",
-            "testCount": 5,
-            "identityDigest": "a7511d8eee1bd2e38d02ad6e72556f317bd8b5cebf2cbaa7f00e23b062470574"
-          },
-          {
-            "file": "packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts",
-            "testCount": 8,
-            "identityDigest": "bd32b7ec55b86cc0f8e6bfb245d3eca7dcd9d8be1f7663c6788119b9b90bfdcc"
+            "file": "packages/reforge/src/world-motion-runtime.presentation.test.ts",
+            "testCount": 12,
+            "identityDigest": "bc72cf17e9f0be0db26aaf71f6d655a8a890be524641e34d7f3611dc055e63af"
           },
           {
             "file": "packages/reforge/src/world-motion-runtime.test.ts",
-            "testCount": 21,
-            "identityDigest": "17dcc868c97c72b1265fd2b66ccb4fee04ae37ba96c95ae6aae7416c280aec8e"
+            "testCount": 6,
+            "identityDigest": "df0ead64a49a370ee491203f83623f3a5efa5faeb1617c31f6fca99e87981034"
+          },
+          {
+            "file": "packages/reforge/src/world-motion-runtime.trace.test.ts",
+            "testCount": 3,
+            "identityDigest": "38cf66c12ebd65e24e9afb1ae6e2f2e723a84075e1e67f6a67b4c7499d5a6b97"
           },
           {
             "file": "packages/reforge/src/world-runtime-ownership.test.ts",
@@ -4400,26 +4366,26 @@
             "identityDigest": "14e0e6f81e430946d92db7b3801b33ffdf2a5abe6ae5d689a97479e20a32ce4d"
           }
         ],
-        "identityDigest": "01e289f2ea6f11f067d0e49a3c9a9ae879d09af8db5b73b9fb141b0eb783e153",
-        "duplicateIdentityCount": 3,
-        "executionDigest": "38166d95ec9858628c7d75b5b7e1a1566a1c9f2ee5a74d57e748fa8dae4644ca"
+        "identityDigest": "7e1d56c01f6fd3e6e11fceca9b921606c8968161f2b7d58560539f12c1a5bc72",
+        "duplicateIdentityCount": 1,
+        "executionDigest": "d942b8525fbe168e8f5dbe62f6c36dfb3765f35a75f3ffb2210af6e3135e57a7"
       },
       "metrics": {
         "statements": {
-          "covered": 18749,
-          "total": 20512
+          "covered": 18697,
+          "total": 20434
         },
         "branches": {
-          "covered": 12266,
-          "total": 14485
+          "covered": 12231,
+          "total": 14429
         },
         "functions": {
-          "covered": 3042,
-          "total": 3320
+          "covered": 3036,
+          "total": 3309
         },
         "lines": {
-          "covered": 16783,
-          "total": 17900
+          "covered": 16738,
+          "total": 17834
         }
       }
     },
@@ -10814,20 +10780,20 @@
   },
   "total": {
     "statements": {
-      "covered": 76995,
-      "total": 84440
+      "covered": 76943,
+      "total": 84362
     },
     "branches": {
-      "covered": 56410,
-      "total": 66553
+      "covered": 56375,
+      "total": 66497
     },
     "functions": {
-      "covered": 14521,
-      "total": 16048
+      "covered": 14515,
+      "total": 16037
     },
     "lines": {
-      "covered": 68801,
-      "total": 73912
+      "covered": 68756,
+      "total": 73846
     }
   }
 }

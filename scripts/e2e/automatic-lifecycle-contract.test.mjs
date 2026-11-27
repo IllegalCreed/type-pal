@@ -2,6 +2,10 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import ts from 'typescript'
+import {
+  readOwnEntry,
+  writeSceneEntityValue,
+} from '../../packages/reforge/src/scene-entity-values.ts'
 import { checkAuthoredOwnership, checkAutomaticLifecycle } from './automatic-lifecycle-contract.mjs'
 import { instrumentOpeningCausalTrace } from './opening-causal-instrumentation.mjs'
 import { checkPersistentEffects } from './persistent-effect-model.mjs'
@@ -47,7 +51,7 @@ function observer(poses = {}) {
 }
 
 test('real canonical move transaction distinguishes pending, pre-commit cancellation and irreversible post-commit cancellation', async () => {
-  const source = `${await actual('script-project-core', 'writeEntityValue')}\n${await actual('script-project-core', 'BaseProjectScriptRuntimeHost')}`
+  const source = await actual('script-project-core', 'BaseProjectScriptRuntimeHost')
   const target = { scene: 's003', entity: 'e59' },
     from = { col: 137, row: 76, height: 0 },
     to = { col: 137, row: 72, height: 0 }
@@ -55,7 +59,11 @@ test('real canonical move transaction distinguishes pending, pre-commit cancella
     const o = observer(),
       world = { script: { entityPos: { s003: { e59: from } } } }
     o.host.__openingCauseSnapshot = () => o.host.__openingCauseWorld(world)
-    const Host = new Function('globalThis', `${source};return BaseProjectScriptRuntimeHost`)(o.host)
+    const Host = new Function(
+      'globalThis',
+      'writeEntityValue',
+      `${source};return BaseProjectScriptRuntimeHost`,
+    )(o.host, writeSceneEntityValue)
     const runner = {},
       controller = new AbortController(),
       command = { kind: 'moveEntity', target, to, speed: 'normal' }
@@ -437,6 +445,7 @@ test('real startAutoRunner records activation, observed abort and actual finally
     entity = { id: 'e59', pages: [{ auto: { stages: [{}] } }] }
   let workFinished = 0,
     resolveRun
+  const sceneRuntimeStates = {}
   const scope = {
     globalThis: o.host,
     nextAutoActivationEpoch: 1,
@@ -445,7 +454,8 @@ test('real startAutoRunner records activation, observed abort and actual finally
     lifecycleEntryFor: () => ({ phase: 'active' }),
     sceneResources: { peek: () => ({ id: 's003' }) },
     activeScene: { scene: { id: 's003', entities: [entity] } },
-    sceneRuntimeStates: {},
+    sceneRuntimeStates,
+    savedSceneRuntime: readOwnEntry.bind(null, sceneRuntimeStates),
     restoredWaits: new Map(),
     currentMotionSceneSessionId: () => 's003:1',
     scriptWork: { begin: () => () => workFinished++ },

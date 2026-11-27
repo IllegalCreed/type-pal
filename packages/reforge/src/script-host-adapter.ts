@@ -3,6 +3,7 @@ import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import type { ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost } from './script-runner.js'
 import type { ScriptRuntimeContext } from './script-runner-core.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 export interface ScriptHostAdapterOptions {
   currentSceneId(): string
@@ -79,17 +80,15 @@ export async function executeScriptHostEffect(
     case 'teleportParty':
       host.teleportParty(command.pos, command.facing)
       return
-    case 'loadScene':
-      {
-        const spawn = {
-          ...(command.entryId !== undefined ? { entryId: command.entryId } : {}),
-          ...(command.pos !== undefined ? { pos: command.pos } : {}),
-          ...(command.facing !== undefined ? { facing: command.facing } : {}),
-        } as SceneSpawn
-        if (command.transition === undefined) await host.loadScene(command.scene, spawn, signal)
-        else await host.loadScene(command.scene, spawn, signal, command.transition)
-      }
+    case 'loadScene': {
+      let spawn: SceneSpawn = {}
+      if (command.entryId !== undefined) spawn = { entryId: command.entryId }
+      else if (command.pos !== undefined) spawn = { pos: command.pos }
+      if (command.facing !== undefined) spawn.facing = command.facing
+      if (command.transition === undefined) await host.loadScene(command.scene, spawn, signal)
+      else await host.loadScene(command.scene, spawn, signal, command.transition)
       return
+    }
     case 'setPartyFacing':
       host.setPartyFacing(command.facing, command.gesture, command.member)
       return
@@ -116,10 +115,10 @@ export async function executeScriptHostEffect(
       return
     }
     case 'setMultiEntityState': {
-      const entity = command.targets
-        .map((target) => activeEntity(target, options))
-        .find((candidate): candidate is string => candidate !== undefined)
-      if (entity) host.setEntityState(entity, command.state)
+      const sceneId = options.currentSceneId()
+      const currentTarget = command.targets.find((target) => target.scene === sceneId)
+      // The runtime has written the whole batch. One live target triggers its scene projection.
+      if (currentTarget?.entity) host.setEntityState(currentTarget.entity, command.state)
       return
     }
     case 'setEntityPos': {
@@ -371,5 +370,3 @@ export async function executeScriptHostEffect(
     }
   }
 }
-
-import { scriptWorkWait } from './script-work-queue.js'

@@ -30,7 +30,7 @@ async function atAutomaticTargetBoundary(
   }
 }
 
-/** Pause exactly one automatic visual command; no gameplay time or motion phase is invented. */
+/** Wait for permission to install an automatic visual effect on the current target. */
 export async function executeAutomaticTargetCommand(
   gate: AutomaticTargetCommandGate,
   execute: () => Promise<void>,

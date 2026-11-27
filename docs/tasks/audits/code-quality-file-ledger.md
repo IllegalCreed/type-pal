@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-26
+Last reviewed: 2026-11-27
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,874。
-当前已闭合核验：1,578；已读但待审：2；尚未逐文件核验：2,294；合计未闭合：2,296。
+起始基点机器清单：2,962。当前 tracked 清单：3,870。
+当前已闭合核验：1,672；已读但待审：1；尚未逐文件核验：2,197；合计未闭合：2,198。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
 
@@ -88,6 +88,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-19，四个工程试玩和保存状态原主体定向核验。两份实现原样，27 个旧用例完整映射、摘要变化反控单红。[读取准入证据](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#工程试玩来源与保存读取护栏)
 
+2026-11-27：存档与移动完成 23 个原 pending。三个旧移动测试按实际职责退出，四份专项测试接续，另复核一份既有关闭专测。codec 游标的顺序比较单独留审。基点累计完成 96 个原 pending、2 个原 review。[本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时)
+
 ## 入口与责任
 
 [治理路线](code-quality-governance.md)负责后续排期，[工程质量规范](../../engineering/guides/code-quality.md)定义逐文件八维与证据验收，[当前协作流程](../../engineering/guides/agent-workflow.md)控制任务准入。Codex维护本表和独立裁定；任务当前状态回原卡，执行结果回原回执。
@@ -127,6 +129,18 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-26 本批读完 95 个原 pending 主体。73 个原路径关闭，20 个退役或迁移，2 个继续 review。13 个承接路径单独验收，另退役两份已无调用的试买夹具与地图快照包装。新增、退出和读域均按 Git 实际路径计。[逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定)。
 
+2026-11-27，Reforge 场景作用域和脚本治理闭合上一批两处 review，另完成 16 个原 pending，5 个原路径按职责退出。四个后继专测、共用状态表和真实命令夹具按新路径登记。公开旧编译出口按本次用户裁决退役。统一门随[当前治理窗口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#复验与集成)执行。
+
+2026-11-27，脚本派发、关口、确认队列和旧读取类再完成 20 个原 pending，原路径退出 14 个，其中一个夹具此前已闭合。六个后继路径按职责登记。选择、条件和确认资源的反例已修复，`script-world.ts` 的职责组织保留 review。 [本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口)
+
+2026-11-27，脚本世界的留审职责闭合。三份原 pending 专测按实际合同退出并逐例映射到三个后继，两份新实现单独登记。 [本片证据](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障)
+
+2026-11-27，脚本续跑、预载提交和延迟触发专测累计核六个原 pending。两份旧路径按职责退役，一份后继按实际合同登记。 [本片证据](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作)
+
+2026-11-27，宿主夹具、场景绑定与持久操作完成 14 个原 pending，四份原路径按职责退出，五份后继单列。整文件复核与只修调用路径的证据分开登记。 [本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作)
+
+2026-11-27，页面启动、真实观测及浏览器宿主完成 13 个原 pending。三个旧专测按职责迁移，三份后继与测试包作用域登记。 [本片记录](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主)
+
 ## 逐文件登记
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
@@ -152,7 +166,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/debug-tools.lifecycle.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/debug-tools.navigation.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/debug-tools.triggers.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
-| `packages/reforge/src/debug-tools.ts` | product | review | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 留审场景切换后的触发器绑定与命令提示。样式、检视和已验证面板合同直接查原路径记录。 |
+| `packages/reforge/src/debug-tools.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 实际场景、有效绑定和换场后的取消归属。补未命中及现行命令帮助。 |
 | `packages/reforge/src/dev-preset.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/dev-preset.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/entity-proximity.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
@@ -170,7 +184,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/item-use-executor.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/item-use-executor.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/item-use-placement.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
-| `packages/reforge/src/item-use-placement.ts` | product | review | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 场景键写入归属。现行场景 ID 合法域内有普通对象继承名，留审核清真实写入链。 |
+| `packages/reforge/src/item-use-placement.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 正式物品入口验证地址写入、投影与库扣减。沿用源地形规则。 |
 | `packages/reforge/src/magic-menu-state.boundaries.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/magic-menu-state.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/magic-menu-state.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
@@ -190,7 +204,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/menu/menu-session.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/menu/menu-session.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/menu/use-box.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
-| `packages/reforge/src/motion-batch.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
+| `packages/reforge/src/motion-batch.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 早触发反控只红一例，真实坐标和 detach/wake 跟踪，技术调用次数字段退出。 |
 | `packages/reforge/src/motion-batch.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/outdoor-skill-execution.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
 | `packages/reforge/src/outdoor-skill-execution.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md#逐文件裁定) | 逐文件八维、真实入口、旧用例去向和运行原件见本批索引。 |
@@ -533,7 +547,6 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/script-command-validation.test.ts` | test | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 生产命令和页守卫入口。迁移原投影、场景入口与已退出字段的独有断言，测试结果按完整身份映射。 |
 | `packages/editor/src/__tests__/project-map-fixtures.ts` | fixture | 已验证 | [退役与测试迁移](../cards/QUALITY-REFORGE-PRESENTATION-1.md#地图和-midi-旧出口退役) | 测试态按稳定 ID 装配真实单图读取结果；默认图、多图及相邻编辑会话定向通过。 |
 | `packages/editor/src/core/__tests__/script-reference-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 已按当前 loader 建合法工程后，仅注入明确内存脚本引用。两组实际诊断消费者，独立 TextEncoder 字节。 |
-| `packages/reforge/src/__tests__/script-chunk-fixture.ts` | fixture | 已验证 | [读取和测试迁移验收](../cards/CONTENT-SHARD-RETIREMENT-BOUNDARY-1.md) | 两场景和一对共享桶的明确读取输入。原生 UTF-8 长度经实际库守卫校验，正向及释放/拒绝路径采用。 |
 | `packages/reforge/src/runnable-project-loader.test.ts` | test | 已验证 | [启动与光标 A–H](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-启动准入与内置对白光标) | 旧执行身份迁移，裸 FileSource、HTTP 及真实启动场景。合并门待整批。 |
 | `packages/reforge/src/runnable-project-loader.ts` | product | 已验证 | [启动与光标 A–H](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-启动准入与内置对白光标) | 独立入口当前内容准入与现行装配，产品字节不变。合并门待整批。 |
 | `packages/reforge/src/dialog/dialog-assets.test.ts` | test | 已验证 | [启动与光标 A–H](../cards/QUALITY-CONTENT-ASSET-CONTRACTS-1.md#reforge-启动准入与内置对白光标) | 真实光标资产、HTTP 错因与透明／不透明零值的像素反控。合并门待整批。 |
@@ -1711,3 +1724,97 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/battle/battle-skill-uses.ts` | product | 已验证 | [留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口) | 以实际效果/所有权命名函数及文件。 |
 | `packages/reforge/src/battle/battle-wine-god.pal.test.ts` | test | 已验证 | [留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口) | PAL 370 真气、库存、逐战累积计数；用例标题按角色或业务动作。 |
 | `packages/reforge/src/battle/battle-world-mutations.ts` | product | 已验证 | [留审关闭](../cards/QUALITY-REFORGE-BATTLE-1.md#剩余留审收口) | 以实际效果/所有权命名函数及文件。 |
+| `packages/reforge/src/scene-entity-values.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 自有查表、两级作用域写入及快照复制的所有权。 |
+| `packages/reforge/src/main.entity-host-flows.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 真实脚本、实体持久状态及换场姿态回归。原用例去向见窗口。 |
+| `packages/reforge/src/runtime-project-view.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 页面、物品和临时世界投影；真实承接和只读边界。 |
+| `packages/reforge/src/runtime-project-view.scene.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/runtime-project-view.items.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/runtime-project-view.scratch.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/script-compiler-core.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/script-compiler-core.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/runtime-script-compiler.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/script-work-queue.ts` | product | 保留 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 重复开始和在途等待，实际帧交接、冷 IO 及取消。 |
+| `packages/reforge/src/script-work-queue.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/script-activity-lineage.ts` | product | 保留 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 真实 lease、保存屏障与活动登记，分开清理。 |
+| `packages/reforge/src/script-activity-lineage.test.ts` | test | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 业务职责、合法输入、原用例去向和完整定向结果见窗口索引。 |
+| `packages/reforge/src/script-execution-budget.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 按自动任务和场景会话重用预算，真实进展后重置。 |
+| `packages/reforge/src/runtime-script-compiler.ts` | product | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 正式编译根与共享解析用于真实运行，用户批准退役旧测试出口。 |
+| `packages/reforge/src/runtime-script-project.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 保留真实加载、实体生命周期及取消，追加登记定义、地址和条件的正式回归。 |
+| `packages/reforge/src/__tests__/script-host-adapter-input.ts` | fixture | 已验证 | [逐文件裁定](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#逐文件裁定) | 派发专测通过实际命令根校验，保持与基础宿主的类型边界。 |
+| `packages/reforge/src/script-host-adapter.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 编译后的叶子按宿主能力派发，场景投影与持久写入分开。 |
+| `packages/reforge/src/__tests__/script-host-adapter-fixture.ts` | fixture | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 完整类型化宿主替身，真实命令根与可控异步副作用。 |
+| `packages/reforge/src/script-host-adapter.commands.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 商店、物品、队伍及会话端口，检查等待期间的后续效果。 |
+| `packages/reforge/src/script-host-adapter.entities.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 真实共享脚本的调用身份、不同场景同名目标、姿态和动态权限。 |
+| `packages/reforge/src/script-host-adapter.entity-action.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 实际动作时钟、最终画帧之前无奖励、取消与后台错误。 |
+| `packages/reforge/src/script-host-adapter.presentation.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 落点、地图提交、镜头帧选项和视频失败传播。 |
+| `packages/reforge/src/script-execution-gate.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 终止游标与保存写许可的时序，提交前重验宿主状态。 |
+| `packages/reforge/src/script-wake-gate.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 宿主通知触发资格复核，成功、取消与失败释放登记。 |
+| `packages/reforge/src/automatic-target-command.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 保存许可之后重验目标权，等待动作结束后再准入尾部。 |
+| `packages/reforge/src/automatic-target-command.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 真实许可等待、目标换权反控、取消与存档后的奖励。 |
+| `packages/reforge/src/script-confirm-modal.ts` | product | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 两帧门、抓帧失败的原错误、监听与排队请求的所有权。 |
+| `packages/reforge/src/script-confirm-modal.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 正常绘制、默认答案、按键收束与活动视图。 |
+| `packages/reforge/src/script-confirm-modal.cancellation.test.ts` | test | 已验证 | [脚本宿主与执行关口](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主与执行关口) | 原生取消信号、同一监听释放、抓帧失败及后继提示可用。 |
+| `packages/reforge/src/script-world.ts` | product | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 租约、epoch 和保存屏障在同一状态所有者；现行观测入口与包出口经过复验。 |
+| `packages/reforge/src/script-flow-bindings.ts` | product | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 具名实体页和钩子绑定、游标校验和持久提交分属一个模块。 |
+| `packages/reforge/src/script-conditions.ts` | product | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 纯条件计算复用真实世界查询，保持复合地址、缺项与概率边界。 |
+| `packages/reforge/src/script-flow-bindings.test.ts` | test | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 按合法定义观察选择、游标变化与失效租约，17 个业务用例。 |
+| `packages/reforge/src/script-world.save-barrier.test.ts` | test | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 区分在途、保存就绪与释放，覆盖取消和过时句柄，9 个业务用例。 |
+| `packages/reforge/src/script-conditions.test.ts` | test | 已验证 | [脚本绑定与保存屏障](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本绑定与保存屏障) | 复合目标、等值阈点及可区分的库存、实体与队伍查询，6 个业务用例。 |
+| `packages/reforge/src/script-continuation.ts` | product | 保留 | [脚本续跑与挂起操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作) | 正式 SAVE12 输入在冻结编译树上解析，复制控制与实体上下文，尊重取消。 |
+| `packages/reforge/src/script-continuation.test.ts` | test | 已验证 | [脚本续跑与挂起操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作) | 24 个旧合同的合法编译帧、拒绝、读侧隔离和真实在途取消。 |
+| `packages/reforge/src/latest-snapshot-transaction.ts` | product | 保留 | [脚本续跑与挂起操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作) | 队伍真实写入在保存许可下重新取样，准备完成及提交前核验所有者。 |
+| `packages/reforge/src/latest-snapshot-transaction.test.ts` | test | 已验证 | [脚本续跑与挂起操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作) | 在途预载、资源重选、许可后快照与两个独立取消路径。 |
+| `packages/reforge/src/deferred-trigger.test.ts` | test | 已验证 | [脚本续跑与挂起操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本续跑与挂起操作) | 挂起落点交付及其清除，按场景会话和绑定版本验证，旧合同逐项映射。 |
+| `packages/reforge/src/__tests__/runtime-frame-fixture.ts` | fixture | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 帧时钟端口按真实消费者保留，唯一输入夹具归专测。 |
+| `packages/reforge/src/__tests__/checkpoint-export-fixture.ts` | fixture | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 实际 DEV、保存、预检和恢复绑定使用当前生产代码，原有运行态编解码保留。 |
+| `packages/reforge/src/checkpoint-export.chain.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 真实屏障已进入、合法游标、摘要、槽位调度、缩略图、失败及后继回收。 |
+| `packages/reforge/src/save-lineage.chain.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 主壳传递 exact signal，两个后继活动保持保存挂起，结束后清租约。 |
+| `packages/reforge/src/__tests__/save-lineage-fixture.ts` | fixture | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 真实世界构造及当前场景校验，通过同一作用域的完整宿主入口。 |
+| `packages/reforge/src/save/scope.ts` | product | 保留 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 实际 boot、项目和工作区存储范围统一，精确身份与带标签数据库名。 |
+| `packages/reforge/src/save/scope.test.ts` | test | 保留 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 覆盖根形状、非法字段、合法身份冻结与分隔符碰撞。 |
+| `packages/reforge/src/save/ops.ts` | product | 保留 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 当前存档聚合、读档曲目选择及缩略图端口单独归属。 |
+| `packages/reforge/src/save/ops.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 独立角色摘要、当前 payload、显式静音及合法画布失败。 |
+| `packages/reforge/src/scene-runtime-state.ts` | product | 保留 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | SAVE12 引擎现场只保留持久数据，坐标唯一归 WorldScriptState。 |
+| `packages/reforge/src/__tests__/main-binding-fixture.ts` | fixture | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 现行主壳具名 AST 编译，缺失或不唯一直接失败，环境独占。 |
+| `packages/reforge/src/__tests__/script-world-fixture.ts` | fixture | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 现行场景、队伍与脚本宿主输入，通过正式 guard。 |
+| `packages/reforge/src/__tests__/main-binding-fixture.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 闭包隔离、源码变化和不合法绑定三项原约束。 |
+| `packages/reforge/src/main.map-override-commit.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 真实地图资源／状态提交，晚错误、取消、替代与同步提交合同。 |
+| `packages/reforge/src/runtime-script-project.binding-commit.test.ts` | test | 已验证 | [宿主夹具和存档操作](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#脚本宿主夹具和存档操作) | 四类绑定合法输入，真正等待后的拒绝与精确写入正控。 |
+| `packages/reforge/src/boot.ts` | product | 保留 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 独立页面加载和主壳装配，默认／显式入口与失败画屏。 |
+| `packages/reforge/src/vite-env.d.ts` | product | 保留 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | Vite import.meta.env 和资源模块类型入口，无运行时分支。 |
+| `packages/reforge/src/main.boot-flows.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 真实世界、标题选入口、预检错误、重试和内存保存。 |
+| `packages/reforge/src/main.observation.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 只读观测、合法检查点加载、运动目标身份与宿主清理。 |
+| `packages/reforge/src/main.scene-flows.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 正式换场、资源失败后保留原世界，以及过晚的旧请求。 |
+| `packages/reforge/src/__tests__/runtime-shell/dom-host.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 真事务后继与位图释放，以及失败帧的按键配对。 |
+| `packages/reforge/src/__tests__/runtime-shell/dom-host.ts` | fixture | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 实际浏览器外部资源、只读观测、RAF 和存储测试端口按作用域释放。 |
+| `packages/reforge/src/__tests__/runtime-shell/driver.ts` | fixture | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 真实输入帧观测与事件配对，不遗留按住键。 |
+| `packages/reforge/src/__tests__/runtime-shell/project.ts` | fixture | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 真实加载和字节校验的合法项目，资源准备与读取可独立控制。 |
+| `packages/reforge/src/__tests__/runtime-shell/scenarios.ts` | fixture | 保留 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 从合法工程加载可启动场景，保存真实交付数据的独立副本。 |
+| `packages/reforge/src/boot.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 页面入口六个原生身份迁移，选择、正常启动及失败回执。 |
+| `packages/reforge/src/main.boot-audio.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 真实偏好接线和两个播放适配器的实际手势恢复。 |
+| `packages/reforge/src/main.sprite-gallery.test.ts` | test | 已验证 | [页面入口和浏览器宿主](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#页面入口和浏览器宿主) | 坏资源在真实图册上的标签与绘制边界。 |
+| `packages/reforge/src/save/types.ts` | product | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 浏览专测使用独立槽号与页长 oracle，结构与运行浏览链另验。 |
+| `packages/reforge/src/save/browser-state.ts` | product | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 独立阶位、位置与写意图，前次会话刷新回归检查真实连线。 |
+| `packages/reforge/src/save/browser-state.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 独立 30 槽、第二格和末格 oracle。覆盖确认通过真实上一步进入，确认结束还清旗标。 |
+| `packages/reforge/src/save/current-codec.contracts.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 8 项依实际 preflight 后归一，拒绝断言命中独立路径；两类缺省各自查 input 自有键。 |
+| `packages/reforge/src/save/current-save.current-characterization.test.ts` | test | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 同输入值、身份隔离和现行版本分轴判别；未将历史 E2E 信用授予本轮。 |
+| `packages/reforge/src/save/current-structure.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 动作速度与步态数组直接校验。恢复完整追逐认领数组，断言精确失败字段，稀疏库存和重复目标各有反控。 |
+| `packages/reforge/src/save/store.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 比较完整载荷、缩略图内容和元数据；修改读取副本后再次读取固定坐标。 |
+| `packages/reforge/src/save/store.isolation.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 真实 DataCloneError 从第三条记录抛出，三条旧记录留存；移除无效 Blob 型桥。Scope 非法对象走 Reflect 构造。 |
+| `packages/reforge/src/runtime-save-lineage.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 直接查保存返回对象的 flags；先观察已进关口再取消，10 秒时间可控。 |
+| `packages/reforge/src/runtime-scene-continuation.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 破坏速度、目标、页等只命中特定错误。正例无执行副作用。循环动作、停止收据及背景动作保持独立判别。 |
+| `packages/reforge/src/entity-walk.ts` | product | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 停步／目标面向／交互触发面向三类判别，半速反控命中特定字面判据。 |
+| `packages/reforge/src/entity-walk.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 四种速度实际步长而非仅上界。移除不推进宿主任一拍的暂停弱例；受控中途续跑另有真正暂停证据。 |
+| `packages/reforge/src/motion-runtime-coordinator.ts` | product | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | ABA 反例和撤销后的 owner 过滤是真实 coordinator；两源 teardown 在后继专测有原生命令。 |
+| `packages/reforge/src/motion-runtime-coordinator.test.ts` | test | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 正反分别核暂停 move、一次性 drop、旧 owner、release 和有序重开。Mock 仅观察取消端口，另验实际 map。 |
+| `packages/reforge/src/motion-runtime-wiring.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 23 项到 18 项，三处标签未进入生产。补 owner 的单红，旧场景使用真实 gate，触达先有 authority 再唤醒。 |
+| `packages/reforge/src/world-motion-runtime.ts` | product | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 入口真实源有四组专测和真实 shell 相邻执行，一组旧 E2E 固定来源。 |
+| `packages/reforge/src/world-motion-runtime.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 归来和强停分别观察 listener / result；发布 oracle 行未变，其整文件指纹回绑。 |
+| `packages/reforge/src/main.party-pose.test.ts` | test | 保留 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 固定像素和脚点，队员 id 在切换两侧独立核对。 |
+| `packages/reforge/src/main.ride-presentation.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 看到确切帧、每段脚点、队伍与骑乘者同步；普通步态不侵入 rider。 |
+| `packages/reforge/src/main.entity-proximity.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 独立结果为 53→60 一次性增值，正反位置、空跑多帧与输入原样都观测。 |
+| `packages/reforge/src/world-motion-runtime.commands.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 分开两类注册和取消，迟到回执及场景清理有实际命令票据。 |
+| `packages/reforge/src/world-motion-runtime.contention.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 按独立 epoch 值核竞争状态，检查保留及移出的侧避记录。 |
+| `packages/reforge/src/world-motion-runtime.presentation.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 十条步态交接条件核真实移动注册与相位值。 |
+| `packages/reforge/src/world-motion-runtime.trace.test.ts` | test | 已验证 | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 诊断观察真实位移、让行、阻挡归因和限长。 |
+| `packages/reforge/src/save/current-codec.ts` | product | review | [存档与移动](../cards/QUALITY-REFORGE-SCENE-OWNERSHIP-1.md#存档与移动运行时) | 真实 codec 拒绝成员顺序变更后的等义游标。处理范围和原件由 REFORGE-SAVE-CURSOR-IDENTITY-1 持有。 |

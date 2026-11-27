@@ -8,7 +8,7 @@ import { makeTestWorld } from '../test-fixtures.js'
 import { buildCurrentSavePayload } from './ops.js'
 import { type SaveScope, saveScopeDatabaseName } from './scope.js'
 import { IndexedDbSaveStore, MemorySaveStore, type SaveStore } from './store.js'
-import type { SaveMeta } from './types.js'
+import { type SaveMeta, slotKind } from './types.js'
 
 const project = (projectId: string): SaveScope => ({ kind: 'project', projectId })
 const workspace = (workspaceId: string, projectId = 'pal'): SaveScope => ({
@@ -19,7 +19,7 @@ const workspace = (workspaceId: string, projectId = 'pal'): SaveScope => ({
 function snapshot(projectId: string, slotId = 'quick', money = 10, savedTimes = 1) {
   const meta: SaveMeta = {
     slotId,
-    kind: 'quick',
+    kind: slotKind(slotId),
     party: [],
     mapName: `${projectId}:${money}`,
     savedAt: 1,
@@ -148,9 +148,9 @@ describe('scoped save store', () => {
 
   test('wrong project and invalid scope fail before any database opens', async () => {
     const opening = vi.spyOn(factory, 'open')
-    expect(
-      () => new IndexedDbSaveStore({ kind: 'unknown' } as unknown as SaveScope, factory),
-    ).toThrow('存档')
+    expect(() => Reflect.construct(IndexedDbSaveStore, [{ kind: 'unknown' }, factory])).toThrow(
+      '存档',
+    )
     const store = new IndexedDbSaveStore(project('pal'), factory)
     await expect(write(store, 'other')).rejects.toThrow('项目')
     expect(opening).not.toHaveBeenCalled()
@@ -175,9 +175,18 @@ describe('scoped save store', () => {
     await write(store, 'pal')
     const before = await read(store),
       bad = snapshot('pal', 'quick', 99)
-    await expect(
-      store.putSlot(bad.meta, bad.payload, (() => undefined) as unknown as Blob),
-    ).rejects.toThrow()
+    const original = TestObjectStore.prototype.put
+    const spy = vi.spyOn(TestObjectStore.prototype, 'put').mockImplementation(function (
+      this: IDBObjectStore,
+      value,
+      key,
+    ) {
+      return original.call(this, this.name === 'thumb' ? () => undefined : value, key)
+    })
+    await expect(store.putSlot(bad.meta, bad.payload, bad.thumb)).rejects.toMatchObject({
+      name: 'DataCloneError',
+    })
+    spy.mockRestore()
     expect(await read(store)).toEqual(before)
   })
 

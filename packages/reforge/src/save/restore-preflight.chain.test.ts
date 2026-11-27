@@ -11,18 +11,17 @@
  */
 
 import * as content from '@type-pal/content'
-import ts from 'typescript'
 import { describe, expect, test } from 'vitest'
 // 生产 BDF 字形源（与 ENGINE_CHROME.fontBdf 同一文件），?raw 在 vitest/Vite 下同步可用。
 import bdfSource from '../../../../data/raw/unifont-cn.bdf?raw'
-import { digest, hostOptions } from '../__tests__/world-async-fixture.js'
+import { instantiateMainBindings, mainSource } from '../__tests__/main-binding-fixture.js'
+import { digest, hostOptions } from '../__tests__/script-world-fixture.js'
 import { ActiveScene } from '../active-scene.js'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
-import { AsyncIntentController, asyncIntentAbortError } from '../async-intent.js'
+import { AsyncIntentController, asyncIntentAbortError, isAbortError } from '../async-intent.js'
 import { collectSceneSoundAssets } from '../audio/sfx-readiness.js'
 import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
-import mainSource from '../main.ts?raw'
 import { ItemUseSession } from '../menu/item-use-session.js'
 import { buildBlankProjectMap } from '../project-map.js'
 import { Canvas2DRenderer } from '../render.js'
@@ -33,6 +32,7 @@ import {
   runtimeSceneView,
 } from '../runtime-project-view.js'
 import { ScriptProjectRuntime } from '../runtime-script-project.js'
+import { readOwnEntry, writeSceneEntityValue } from '../scene-entity-values.js'
 import { type PreparedScene, ScenePreparer } from '../scene-preparer.js'
 import {
   assertSceneSwitchDependenciesCurrent,
@@ -57,69 +57,42 @@ interface ChainApi {
   ) => Promise<PreparedScene<Canvas2DRenderer>>
 }
 
-/** 从 main.ts 源码抽出原函数体编译成 api 工厂（与只读审计探针同一技术）。 */
-function extractApiFactory(source: string): (env: Record<string, unknown>) => ChainApi {
-  const ast = ts.createSourceFile('main.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS)
-  const names = new Set([
-    'isAbortError',
-    'assertRunnerActive',
-    'awaitRunner',
-    'replaceCanonicalScript',
-    'syncRuntimeScriptScratch',
-    'replaceWorld',
-    'requireSpriteDef',
-    'itemPrivateCommands',
-    'prepareSceneSounds',
-    'sceneScriptBinding',
-    'scenePreparation',
-    'prepareSceneSwitch',
-    'assertSceneSwitchPlanCurrent',
-    'commitSceneSwitch',
-    'switchScene',
-    'abortScript',
-    'currentWorldSnapshot',
-    'captureCurrentSavePayload',
-    'payloadBelongsToProject',
-    'normalizeStoredPayload',
-    'restorePayload',
-    'prepareSceneActions',
-    'doLoad',
-    'quickLoad',
-    'syncAmbience',
-    'refreshCurrentCanonicalBindings',
-    'refreshCurrentScriptBindings',
-    'applyWorldEntityGatesToScene',
-    'applyWorldEntityPositionToScene',
-    'applyWorldToScene',
-  ])
-  const found = new Map<string, string>()
-  function walk(node: ts.Node): void {
-    if (
-      (ts.isFunctionDeclaration(node) || ts.isVariableDeclaration(node)) &&
-      node.name &&
-      ts.isIdentifier(node.name) &&
-      names.has(node.name.text)
-    ) {
-      if (found.has(node.name.text))
-        throw new Error(`ambiguous original function ${node.name.text}`)
-      found.set(
-        node.name.text,
-        ts.isFunctionDeclaration(node) ? node.getText(ast) : `const ${node.getText(ast)};`,
-      )
-    }
-    ts.forEachChild(node, walk)
-  }
-  walk(ast)
-  for (const name of names) {
-    if (!found.has(name)) throw new Error(`missing original function ${name}`)
-  }
-  const body = ts.transpileModule([...found.values()].join('\n'), {
-    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None },
-  }).outputText
-  return new Function(
-    'env',
-    `with(env) { ${body}; return {doLoad, quickLoad, restorePayload, replaceWorld, captureCurrentSavePayload, switchScene, prepareSceneSwitch}; }`,
-  ) as (env: Record<string, unknown>) => ChainApi
+const restoreBindings = [
+  'savedSceneRuntime',
+  'assertRunnerActive',
+  'awaitRunner',
+  'replaceCanonicalScript',
+  'syncRuntimeScriptScratch',
+  'replaceWorld',
+  'requireSpriteDef',
+  'itemPrivateCommands',
+  'prepareSceneSounds',
+  'sceneScriptBinding',
+  'scenePreparation',
+  'prepareSceneSwitch',
+  'assertSceneSwitchPlanCurrent',
+  'commitSceneSwitch',
+  'switchScene',
+  'abortScript',
+  'currentWorldSnapshot',
+  'captureCurrentSavePayload',
+  'payloadBelongsToProject',
+  'normalizeStoredPayload',
+  'restorePayload',
+  'prepareSceneActions',
+  'doLoad',
+  'quickLoad',
+  'syncAmbience',
+  'refreshCurrentCanonicalBindings',
+  'refreshCurrentScriptBindings',
+  'applyWorldEntityGatesToScene',
+  'applyWorldEntityPositionToScene',
+  'applyWorldToScene',
+]
+
+function extractApiFactory(source: string) {
+  return (env: Record<string, unknown>): ChainApi =>
+    instantiateMainBindings<ChainApi>(restoreBindings, [], env, source)
 }
 
 const factory = extractApiFactory(mainSource)
@@ -227,6 +200,9 @@ function harness(
     resolveRestoredMusic,
     AsyncIntentController,
     asyncIntentAbortError,
+    isAbortError,
+    readOwnEntry,
+    writeSceneEntityValue,
     captureSceneSwitchDependencies,
     assertSceneSwitchDependenciesCurrent,
     resolveSceneSpawn,

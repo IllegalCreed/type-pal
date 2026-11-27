@@ -363,8 +363,8 @@
       "path": "packages/reforge/src/main.ts",
       "anchor": "async function restorePayload(",
       "role": "save-restore-caller",
-      "lines": "6009",
-      "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+      "lines": "6008",
+      "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
     },
     {
       "path": "packages/reforge/src/menu/save-browser-box.ts",
@@ -14140,6 +14140,22 @@
         }
       ],
       "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+    },
+    {
+      "action": "reforge-scene-ownership-source-rebinding",
+      "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+      "date": "2026-11-27",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "anchor": "async function restorePayload(",
+          "role": "save-restore-caller",
+          "lines": "6009",
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+        }
+      ]
     }
   ],
   "_governance": {

@@ -1,30 +1,27 @@
 import type {
-  ActiveBehaviorSlot,
-  AuthorCondition,
   AutoScriptContinuation,
-  BaseEntityBehavior,
-  BaseEntityPage,
   BaseSceneDef,
   BaseSceneEntity,
-  BaseSceneHook,
-  BaseScriptFlow,
-  BehaviorId,
   EntityAddress,
   FlowCursor,
-  HookId,
-  PageSelection,
-  Selection,
-  TriggerActivation,
-  WorldEntityBehaviorState,
-  WorldSceneHookSlot,
   WorldScriptState,
 } from '@type-pal/content'
-import { flowCanComplete } from '@type-pal/content'
+import {
+  commitEntityBehaviorCursor,
+  commitSceneHookCursor,
+  entityOwner,
+  hookOwner,
+  type ResolvedEntityBehavior,
+  type ResolvedSceneHook,
+  resolveEntityBehavior,
+  resolveSceneHook,
+} from './script-flow-bindings.js'
 import type {
   FlowCheckpointDecision,
   FlowCursorController,
   SafePointDecision,
 } from './script-runner-core.js'
+import { scriptWorkWait } from './script-work-queue.js'
 
 export type PersistentFlowOwner =
   | {
@@ -38,353 +35,16 @@ export type PersistentFlowOwner =
       slot: 'onEnter' | 'onTeleport'
     }
 
-export interface ResolvedEntityBehavior {
-  behaviorId: BehaviorId
-  behavior: BaseEntityBehavior
-  cursor: FlowCursor
-  resume?: AutoScriptContinuation
-}
-
-export interface ResolvedSceneHook {
-  hookId: HookId
-  hook: BaseSceneHook
-  cursor: FlowCursor
-}
-
-export interface EntityPageSelectionResult {
-  previousPage?: string
-  page?: string
-  triggerChanged: boolean
-  autoChanged: boolean
-  animationChanged: boolean
-}
-
 export interface FlowSaveBarrierHandle {
   ready: Promise<void>
   release(): void
   cancel(reason?: unknown): void
 }
 
-function clone<T>(value: T): T {
-  return structuredClone(value)
-}
-
-function sameValue(left: unknown, right: unknown): boolean {
-  return JSON.stringify(left) === JSON.stringify(right)
-}
-
 function ownerKey(owner: PersistentFlowOwner): string {
   return owner.kind === 'entity-behavior'
     ? JSON.stringify([owner.kind, owner.target.scene, owner.target.entity, owner.channel])
     : JSON.stringify([owner.kind, owner.scene, owner.slot])
-}
-
-function entityOwner(target: EntityAddress, channel: 'trigger' | 'auto'): PersistentFlowOwner {
-  return { kind: 'entity-behavior', target: clone(target), channel }
-}
-
-function hookOwner(scene: string, slot: 'onEnter' | 'onTeleport'): PersistentFlowOwner {
-  return { kind: 'scene-hook', scene, slot }
-}
-
-function entityWorldState(
-  world: WorldScriptState,
-  target: EntityAddress,
-): WorldEntityBehaviorState | undefined {
-  return world.behaviors.entities?.[target.scene]?.[target.entity]
-}
-
-function writeEntityWorldState(
-  world: WorldScriptState,
-  target: EntityAddress,
-  state: WorldEntityBehaviorState,
-): void {
-  if (!world.behaviors.entities) world.behaviors.entities = {}
-  const scene = world.behaviors.entities[target.scene] ?? {}
-  world.behaviors.entities[target.scene] = scene
-  scene[target.entity] = state
-}
-
-function sceneWorldState(
-  world: WorldScriptState,
-  scene: string,
-): Partial<Record<'onEnter' | 'onTeleport', WorldSceneHookSlot>> | undefined {
-  return world.behaviors.scenes?.[scene]
-}
-
-function writeSceneWorldState(
-  world: WorldScriptState,
-  sceneId: string,
-  state: Partial<Record<'onEnter' | 'onTeleport', WorldSceneHookSlot>>,
-): void {
-  if (!world.behaviors.scenes) world.behaviors.scenes = {}
-  world.behaviors.scenes[sceneId] = state
-}
-
-function assertEntityTarget(entity: BaseSceneEntity, target: EntityAddress): void {
-  if (entity.id !== target.entity)
-    throw new Error(`entity address ${target.entity} 与定义 ${entity.id} 不匹配`)
-}
-
-function pageById(entity: Pick<BaseSceneEntity, 'id' | 'pages'>, pageId: string): BaseEntityPage {
-  const page = entity.pages?.find((candidate) => candidate.id === pageId)
-  if (!page) throw new Error(`entity ${entity.id}: page 不存在 ${pageId}`)
-  return page
-}
-
-export function resolveBaseEntityPage(
-  entity: Pick<BaseSceneEntity, 'id' | 'pages' | 'initialPage'>,
-  state?: WorldEntityBehaviorState,
-): BaseEntityPage | undefined {
-  const pageId = state?.page ?? entity.initialPage
-  if (pageId === undefined) return
-  return pageById(entity, pageId)
-}
-
-function behaviorRegistry(
-  entity: BaseSceneEntity,
-  channel: 'trigger' | 'auto',
-): Record<BehaviorId, BaseEntityBehavior> | undefined {
-  return entity.behaviors?.[channel]
-}
-
-function effectiveBehaviorId(
-  entity: BaseSceneEntity,
-  state: WorldEntityBehaviorState | undefined,
-  channel: 'trigger' | 'auto',
-): BehaviorId | undefined {
-  const selection = state?.[channel]?.selection
-  let id: string | undefined
-  if (selection?.kind === 'disabled') return
-  if (selection?.kind === 'use') id = selection.value
-  else id = resolveBaseEntityPage(entity, state)?.[channel]
-  if (id === undefined) return
-  if (!behaviorRegistry(entity, channel)?.[id])
-    throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${id}`)
-  return id
-}
-
-export function initialFlowCursor(flow: BaseScriptFlow): FlowCursor {
-  return { kind: 'stage', stage: flow.initial }
-}
-
-export function assertFlowCursor(flow: BaseScriptFlow, cursor: FlowCursor): void {
-  if (cursor.kind === 'completed') {
-    if (!flowCanComplete(flow)) throw new Error('flow 未声明 complete，不能使用 completed cursor')
-    return
-  }
-  if (!flow.stages.some((stage) => stage.id === cursor.stage))
-    throw new Error(`stage cursor 不存在 ${cursor.stage}`)
-}
-
-export function resolveEntityBehavior(
-  entity: BaseSceneEntity,
-  world: WorldScriptState,
-  target: EntityAddress,
-  channel: 'trigger' | 'auto',
-): ResolvedEntityBehavior | undefined {
-  assertEntityTarget(entity, target)
-  const state = entityWorldState(world, target)
-  const behaviorId = effectiveBehaviorId(entity, state, channel)
-  if (behaviorId === undefined) return
-  const behavior = behaviorRegistry(entity, channel)?.[behaviorId]
-  if (!behavior) throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${behaviorId}`)
-  const saved = state?.[channel]?.cursor
-  const cursor = saved?.behavior === behaviorId ? clone(saved.at) : initialFlowCursor(behavior.flow)
-  assertFlowCursor(behavior.flow, cursor)
-  return {
-    behaviorId,
-    behavior,
-    cursor,
-    ...(saved?.behavior === behaviorId && saved.resume ? { resume: clone(saved.resume) } : {}),
-  }
-}
-
-export function resolveEntityTriggerActivation(
-  entity: BaseSceneEntity,
-  world: WorldScriptState,
-  target: EntityAddress,
-): TriggerActivation | undefined {
-  const state = entityWorldState(world, target)
-  const selection = state?.triggerActivation
-  if (selection?.kind === 'disabled') return
-  if (selection?.kind === 'use') return clone(selection.value)
-  return clone(resolveBaseEntityPage(entity, state)?.triggerActivation)
-}
-
-function applyBehaviorSelection(
-  state: WorldEntityBehaviorState,
-  channel: 'trigger' | 'auto',
-  selection: Selection<BehaviorId>,
-): void {
-  const slot = clone(state[channel] ?? {})
-  if (selection.kind === 'inherit') delete slot.selection
-  else slot.selection = clone(selection)
-  state[channel] = slot
-}
-
-function preserveMatchingCursor(
-  state: WorldEntityBehaviorState,
-  channel: 'trigger' | 'auto',
-  previousId: string | undefined,
-  nextId: string | undefined,
-): void {
-  const slot = state[channel]
-  if (!slot) return
-  if (previousId !== nextId || slot.cursor?.behavior !== nextId) delete slot.cursor
-}
-
-export function selectEntityBehavior(
-  world: WorldScriptState,
-  entity: BaseSceneEntity,
-  target: EntityAddress,
-  channel: 'trigger' | 'auto',
-  selection: Selection<BehaviorId>,
-  coordinator?: FlowRuntimeCoordinator,
-): boolean {
-  assertEntityTarget(entity, target)
-  if (selection.kind === 'use' && !behaviorRegistry(entity, channel)?.[selection.value])
-    throw new Error(`entity ${entity.id}: ${channel} behavior 不存在 ${selection.value}`)
-  const current = clone(entityWorldState(world, target) ?? {})
-  const previousId = effectiveBehaviorId(entity, current, channel)
-  const next = clone(current)
-  applyBehaviorSelection(next, channel, selection)
-  const nextId = effectiveBehaviorId(entity, next, channel)
-  preserveMatchingCursor(next, channel, previousId, nextId)
-  writeEntityWorldState(world, target, next)
-  const changed = previousId !== nextId
-  if (changed) coordinator?.bump(entityOwner(target, channel))
-  return changed
-}
-
-export function selectBaseEntityPage(
-  world: WorldScriptState,
-  entity: BaseSceneEntity,
-  target: EntityAddress,
-  selection: PageSelection,
-  coordinator?: FlowRuntimeCoordinator,
-): EntityPageSelectionResult {
-  assertEntityTarget(entity, target)
-  if (selection.kind === 'use') pageById(entity, selection.value)
-  const current = clone(entityWorldState(world, target) ?? {})
-  const previousPage = resolveBaseEntityPage(entity, current)
-  const previousTrigger = effectiveBehaviorId(entity, current, 'trigger')
-  const previousAuto = effectiveBehaviorId(entity, current, 'auto')
-  const next = clone(current)
-  if (selection.kind === 'inherit') delete next.page
-  else next.page = selection.value
-  if (next.trigger) delete next.trigger.selection
-  if (next.auto) delete next.auto.selection
-  delete next.triggerActivation
-  const page = resolveBaseEntityPage(entity, next)
-  const nextTrigger = effectiveBehaviorId(entity, next, 'trigger')
-  const nextAuto = effectiveBehaviorId(entity, next, 'auto')
-  preserveMatchingCursor(next, 'trigger', previousTrigger, nextTrigger)
-  preserveMatchingCursor(next, 'auto', previousAuto, nextAuto)
-  writeEntityWorldState(world, target, next)
-  const triggerChanged = previousTrigger !== nextTrigger
-  const autoChanged = previousAuto !== nextAuto
-  if (triggerChanged) coordinator?.bump(entityOwner(target, 'trigger'))
-  if (autoChanged) coordinator?.bump(entityOwner(target, 'auto'))
-  return {
-    ...(previousPage === undefined ? {} : { previousPage: previousPage.id }),
-    ...(page === undefined ? {} : { page: page.id }),
-    triggerChanged,
-    autoChanged,
-    animationChanged: !sameValue(previousPage?.animation, page?.animation),
-  }
-}
-
-export function setEntityTriggerActivation(
-  world: WorldScriptState,
-  entity: BaseSceneEntity,
-  target: EntityAddress,
-  selection: Selection<TriggerActivation>,
-): void {
-  assertEntityTarget(entity, target)
-  if (selection.kind === 'use') {
-    if (selection.value.on !== 'interact' && selection.value.on !== 'touch')
-      throw new Error('trigger activation.on: 期望 interact|touch')
-    if (
-      selection.value.range !== undefined &&
-      (!Number.isFinite(selection.value.range) || selection.value.range < 0)
-    )
-      throw new Error('trigger activation.range: 期望非负有限数')
-  }
-  const next = clone(entityWorldState(world, target) ?? {})
-  if (selection.kind === 'inherit') delete next.triggerActivation
-  else next.triggerActivation = clone(selection)
-  resolveBaseEntityPage(entity, next)
-  writeEntityWorldState(world, target, next)
-}
-
-function hookChannel(scene: BaseSceneDef, slot: 'onEnter' | 'onTeleport') {
-  return scene.hooks?.[slot]
-}
-
-function effectiveHookId(
-  scene: BaseSceneDef,
-  state: Partial<Record<'onEnter' | 'onTeleport', WorldSceneHookSlot>> | undefined,
-  slot: 'onEnter' | 'onTeleport',
-): HookId | undefined {
-  const selection = state?.[slot]?.selection
-  if (selection?.kind === 'disabled') return
-  const id = selection?.kind === 'use' ? selection.value : hookChannel(scene, slot)?.initial
-  if (id === undefined) return
-  if (!hookChannel(scene, slot)?.variants[id])
-    throw new Error(`scene ${scene.id}: ${slot} hook 不存在 ${id}`)
-  return id
-}
-
-export function resolveSceneHook(
-  scene: BaseSceneDef,
-  world: WorldScriptState,
-  slot: 'onEnter' | 'onTeleport',
-): ResolvedSceneHook | undefined {
-  const state = sceneWorldState(world, scene.id)
-  const hookId = effectiveHookId(scene, state, slot)
-  if (hookId === undefined) return
-  const hook = hookChannel(scene, slot)?.variants[hookId]
-  if (!hook) throw new Error(`scene ${scene.id}: ${slot} hook 不存在 ${hookId}`)
-  const saved = state?.[slot]?.cursor
-  const cursor = saved?.hook === hookId ? clone(saved.at) : initialFlowCursor(hook.flow)
-  assertFlowCursor(hook.flow, cursor)
-  return { hookId, hook, cursor }
-}
-
-export function selectBaseSceneHooks(
-  world: WorldScriptState,
-  scene: BaseSceneDef,
-  selection: Partial<Record<'onEnter' | 'onTeleport', Selection<HookId>>>,
-  coordinator?: FlowRuntimeCoordinator,
-): Readonly<Record<'onEnter' | 'onTeleport', boolean>> {
-  const slots = (['onEnter', 'onTeleport'] as const).filter((slot) =>
-    Object.hasOwn(selection, slot),
-  )
-  if (slots.length === 0) throw new Error('selectSceneHooks.selection: 至少需要一个 own slot')
-  for (const slot of slots) {
-    const value = selection[slot]
-    if (value?.kind === 'use' && !hookChannel(scene, slot)?.variants[value.value])
-      throw new Error(`scene ${scene.id}: ${slot} hook 不存在 ${value.value}`)
-  }
-  const current = clone(sceneWorldState(world, scene.id) ?? {})
-  const next = clone(current)
-  const changed = { onEnter: false, onTeleport: false }
-  for (const slot of slots) {
-    const value = selection[slot]
-    if (!value) continue
-    const previousId = effectiveHookId(scene, current, slot)
-    const slotState = clone(next[slot] ?? {})
-    if (value.kind === 'inherit') delete slotState.selection
-    else slotState.selection = clone(value)
-    next[slot] = slotState
-    const nextId = effectiveHookId(scene, next, slot)
-    if (previousId !== nextId || slotState.cursor?.hook !== nextId) delete slotState.cursor
-    changed[slot] = previousId !== nextId
-  }
-  writeSceneWorldState(world, scene.id, next)
-  for (const slot of slots) if (changed[slot]) coordinator?.bump(hookOwner(scene.id, slot))
-  return changed
 }
 
 export class FlowActivationLease implements FlowCursorController {
@@ -407,8 +67,8 @@ export class FlowActivationLease implements FlowCursorController {
       this.coordinator.finish(this.key, this)
       return 'stop'
     }
-    this.commit(clone(cursor))
-    this.lastCursor = clone(cursor)
+    this.commit(structuredClone(cursor))
+    this.lastCursor = structuredClone(cursor)
     if (this.checkpointEnabled) {
       this.coordinator.markSnapshotReady(this, true)
       return 'continue'
@@ -430,8 +90,8 @@ export class FlowActivationLease implements FlowCursorController {
   ): FlowCheckpointDecision {
     if (!this.active || this.coordinator.epochForKey(this.key) !== this.epoch) return 'stop'
     if (!ready && this.coordinator.gateClosed()) return 'wait'
-    this.commit(clone(cursor), clone(resume))
-    this.lastCursor = clone(cursor)
+    this.commit(structuredClone(cursor), structuredClone(resume))
+    this.lastCursor = structuredClone(cursor)
     this.coordinator.markSnapshotReady(this, ready)
     return 'continue'
   }
@@ -458,7 +118,7 @@ export class FlowActivationLease implements FlowCursorController {
       this.lastCursor.kind !== 'completed' &&
       this.coordinator.epochForKey(this.key) === this.epoch
     )
-      this.commit(clone(this.lastCursor))
+      this.commit(structuredClone(this.lastCursor))
   }
 
   close(): void {
@@ -549,7 +209,7 @@ export class FlowRuntimeCoordinator {
       this.epochForKey(key),
       (cursor, resume) => {
         commit(cursor, resume)
-        if (cursor.kind === 'completed') this.flowCompleted?.(clone(owner))
+        if (cursor.kind === 'completed') this.flowCompleted?.(structuredClone(owner))
       },
       !!parent,
       !parent && owner.kind === 'entity-behavior' && owner.channel === 'auto',
@@ -650,16 +310,7 @@ export class FlowRuntimeCoordinator {
       entityOwner(target, channel),
       (cursor, resume) => {
         beforeCommit?.()
-        assertFlowCursor(resolved.behavior.flow, cursor)
-        const state = clone(entityWorldState(world, target) ?? {})
-        const slot: ActiveBehaviorSlot = clone(state[channel] ?? {})
-        slot.cursor = {
-          behavior: resolved.behaviorId,
-          at: clone(cursor),
-          ...(resume ? { resume: clone(resume) } : {}),
-        }
-        state[channel] = slot
-        writeEntityWorldState(world, target, state)
+        commitEntityBehaviorCursor(world, target, channel, resolved, cursor, resume)
       },
       parent,
     )
@@ -680,12 +331,7 @@ export class FlowRuntimeCoordinator {
       hookOwner(scene.id, slot),
       (cursor) => {
         beforeCommit?.()
-        assertFlowCursor(resolved.hook.flow, cursor)
-        const state = clone(sceneWorldState(world, scene.id) ?? {})
-        const slotState = clone(state[slot] ?? {})
-        slotState.cursor = { hook: resolved.hookId, at: clone(cursor) }
-        state[slot] = slotState
-        writeSceneWorldState(world, scene.id, state)
+        commitSceneHookCursor(world, scene.id, slot, resolved, cursor)
       },
       parent,
     )
@@ -755,84 +401,19 @@ export class FlowRuntimeCoordinator {
   }
 }
 
-export function evalAuthorCondition(
-  condition: AuthorCondition,
-  args: {
-    world: WorldScriptState
-    currentSceneId?: () => string
-    query: {
-      hasItem(itemId: string, atLeast: number): boolean
-      ownsItem(itemId: string, atLeast: number): boolean
-      itemEquipped(itemId: string, atLeast: number): boolean
-      allFullHp(): boolean
-      money(): number
-      inParty(actorId: string): boolean
-      entityInScene(target: EntityAddress): boolean
-      entitiesNear(from: EntityAddress, to: EntityAddress, range: number): boolean
-      facingEntity(target: EntityAddress, range: number): boolean
-    }
-    random?: () => number
-  },
-): boolean {
-  const random = args.random ?? Math.random
-  switch (condition.kind) {
-    case 'flag':
-      return (args.world.flags[condition.flag] ?? false) === condition.is
-    case 'var': {
-      const value = args.world.vars[condition.var] ?? 0
-      switch (condition.op) {
-        case '==':
-          return value === condition.value
-        case '!=':
-          return value !== condition.value
-        case '>=':
-          return value >= condition.value
-        case '<=':
-          return value <= condition.value
-        case '>':
-          return value > condition.value
-        case '<':
-          return value < condition.value
-      }
-      return false
-    }
-    case 'currentScene': {
-      const scene = args.currentSceneId?.()
-      if (!scene) throw new Error('currentScene 条件缺当前场景查询')
-      return scene === condition.scene
-    }
-    case 'entityState':
-      return (
-        (args.world.entityState[condition.target.scene]?.[condition.target.entity] ??
-          Number.NaN) === condition.is
-      )
-    case 'entityInScene':
-      return args.query.entityInScene(condition.target)
-    case 'entitiesNear':
-      return args.query.entitiesNear(condition.from, condition.to, condition.range)
-    case 'facingEntity':
-      return args.query.facingEntity(condition.target, condition.range ?? 0)
-    case 'chance':
-      return random() * 100 < condition.percent
-    case 'hasItem':
-      return args.query.hasItem(condition.itemId, condition.atLeast ?? 1)
-    case 'ownsItem':
-      return args.query.ownsItem(condition.itemId, condition.atLeast ?? 1)
-    case 'itemEquipped':
-      return args.query.itemEquipped(condition.itemId, condition.atLeast ?? 1)
-    case 'allFullHp':
-      return args.query.allFullHp()
-    case 'hasMoney':
-      return args.query.money() >= condition.atLeast
-    case 'inParty':
-      return args.query.inParty(condition.actorId)
-    case 'all':
-      return condition.of.every((child) => evalAuthorCondition(child, args))
-    case 'any':
-      return condition.of.some((child) => evalAuthorCondition(child, args))
-    case 'not':
-      return !evalAuthorCondition(condition.cond, args)
-  }
-}
-
-import { scriptWorkWait } from './script-work-queue.js'
+export { evalAuthorCondition } from './script-conditions.js'
+export {
+  assertFlowCursor,
+  type EntityPageSelectionResult,
+  initialFlowCursor,
+  type ResolvedEntityBehavior,
+  type ResolvedSceneHook,
+  resolveBaseEntityPage,
+  resolveEntityBehavior,
+  resolveEntityTriggerActivation,
+  resolveSceneHook,
+  selectBaseEntityPage,
+  selectBaseSceneHooks,
+  selectEntityBehavior,
+  setEntityTriggerActivation,
+} from './script-flow-bindings.js'

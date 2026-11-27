@@ -11,10 +11,10 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/main.ts",
-      "lines": "441-453",
+      "lines": "433-445",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+      "sha256": "cf4975074d660d7239f36d102fd29b40bfab6f2be2ad5c7461a677aacbeb04e7"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -35,7 +35,7 @@
       "lines": "7-30",
       "anchor": "describe('WorldMotionRuntime ownership'",
       "role": "oracle",
-      "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
+      "sha256": "0fae5a27905ca5ddd49fccfcfe93b8f769565387271b4d72854b3fb6aa6e1659"
     },
     {
       "path": "packages/reforge/src/world-scene-presentation.test.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-world-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/main.ts:441-453",
+        "packages/reforge/src/main.ts:433-445",
         "packages/reforge/src/world-motion-runtime.ts:169-195",
         "packages/reforge/src/world-scene-presentation.ts:72-89",
         "packages/reforge/src/world-motion-runtime.test.ts:7-30",
@@ -743,6 +743,29 @@
         }
       ],
       "scope": "现行引用片段逐字节相同。旧执行、原有版本、判据和附件维持原身份。"
+    },
+    {
+      "action": "reforge-scene-ownership-source-rebinding",
+      "base": "f5727895abbaf41cd835ab447b59621adb5dc5bb",
+      "date": "2026-11-27",
+      "evidence": "docs/tasks/evidence/reforge-runtime-source-applicability.md",
+      "scope": "场景、镜头、战斗宿主、存档恢复、移动及 E2E 探针判据的已引片段逐字节相同。保留原运行候选、执行身份、业务判断及附件。",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "441-453",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "f4425aeed4a9c2ee82ae05305f13ec159eaf73ce5c135f3aa52aaa61adee27b3"
+        },
+        {
+          "path": "packages/reforge/src/world-motion-runtime.test.ts",
+          "lines": "7-30",
+          "anchor": "describe('WorldMotionRuntime ownership'",
+          "role": "oracle",
+          "sha256": "2c8cf4c66b8e685b2a60abe43cf3bc55ce542f4e8dd8745987243cea26913559"
+        }
+      ]
     }
   ],
   "_governance": {

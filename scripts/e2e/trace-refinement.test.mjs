@@ -8,6 +8,7 @@ import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
 import ts from 'typescript'
+import { readOwnEntry } from '../../packages/reforge/src/scene-entity-values.ts'
 import { assertActorRecording } from './actor-recording-contract.mjs'
 import { authoredOwnership } from './automatic-lifecycle-contract.mjs'
 import { cameraProfile, checkFollowCamera } from './camera-trace-model.mjs'
@@ -112,6 +113,7 @@ test('001/002 actual projection commit captures each real selection immediately,
     }
     visit(ast)
     assert.equal(parts.length, 2)
+    const sceneRuntimeStates = {}
     const scope = {
       globalThis: host,
       world,
@@ -137,7 +139,8 @@ test('001/002 actual projection commit captures each real selection immediately,
       dialogBox: { active: false, observe: () => null },
       presentation: { busy: () => false },
       frames: { now: 0 },
-      sceneRuntimeStates: {},
+      sceneRuntimeStates,
+      savedSceneRuntime: readOwnEntry.bind(null, sceneRuntimeStates),
       syncRuntimeScriptScratch() {},
       isLifecycleRuntimeCommand: () => false,
       bumpEntityTriggerRevision() {},

@@ -24,6 +24,8 @@ export async function atScriptExecutionGate<T>(
 ): Promise<T> {
   while (true) {
     checkpoint?.ready()
+    // A terminal step changes cursor ownership. Acquire the mutation before an open host
+    // gate gives another waiter a chance to snapshot the outgoing cursor.
     const lockBeforeGate =
       checkpoint?.terminal && (!host.gateOpen || host.gateOpen(signal, boundary))
     if (lockBeforeGate) {

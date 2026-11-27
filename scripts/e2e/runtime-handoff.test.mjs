@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
+import { writeSceneEntityValue } from '../../packages/reforge/src/scene-entity-values.ts'
 import { verifyAutomaticWaitReceipt } from './automatic-language-receipts.mjs'
 import { instrumentInnTrace } from './inn-trace-plugin.mjs'
 import { verifyMotionSlotLifetimes } from './motion-slot-contract.mjs'
@@ -216,6 +217,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
     worldBattleEntry: undefined,
     battleHost: { active: null },
     asyncIntentAbortError: (message) => new Error(message),
+    writeSceneEntityValue,
     emptyWorldScriptState: () => ({ behaviors: { entities: {} } }),
     currentMotionSceneSessionId: () => `s003:${observedVisit}`,
     entityMotionPermanentlyRemoved: () => false,
@@ -263,6 +265,8 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
       ].includes(node.name?.text)
     )
       declarations.push(node.getText(ast))
+    if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'savedSceneRuntime')
+      declarations.push(`const ${node.getText(ast)};`)
     if (ts.isIfStatement(node) && node.expression.getText(ast) === 'rememberScene')
       edges.cache = node.getText(ast)
     if (
@@ -279,7 +283,7 @@ test('actual capture/project/automatic-wait callers preserve exact timer provena
     ts.forEachChild(node, visit)
   }
   visit(ast)
-  assert.equal(declarations.length, 10)
+  assert.equal(declarations.length, 11)
   assert(edges.cache && edges.load)
   const body = `const {${Object.keys(deps).join(',')}}=deps; let sceneRuntimeStates={}; ${declarations.join('\n')}
     return { captureSceneRuntime,applyWorldToScene,waitAutomaticDelay,captureCurrentSavePayload,runAutoStepThroughContinuation,

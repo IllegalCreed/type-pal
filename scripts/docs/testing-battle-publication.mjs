@@ -3274,6 +3274,72 @@ export function restoreTestingReforgeWorldControlsBindings(path, bytes, inputs) 
   )
 }
 
+export const testingReforgeSceneOwnershipBase = 'f5727895abbaf41cd835ab447b59621adb5dc5bb'
+const worldMotionTest = 'packages/reforge/src/world-motion-runtime.test.ts'
+const sceneOwnershipStage = {
+  ranges: new Map([
+    [
+      reforgeMain,
+      {
+        '417-424': '409-416',
+        '456-463': '448-455',
+        '1300-1398': '1294-1392',
+        '441-453': '433-445',
+        6009: '6008',
+      },
+    ],
+    [worldMotionTest, { '7-30': '7-30' }],
+    [openingTraceTest, { '563-678': '566-681' }],
+  ]),
+  base: testingReforgeSceneOwnershipBase,
+  receipt: worldControlsStage.receipt,
+  action: 'reforge-scene-ownership-source-rebinding',
+  date: '2026-11-27',
+}
+const sceneOwnershipBindings = new Map(
+  [...worldControlsBindings].filter(([, { paths }]) => paths.includes(reforgeMain)),
+)
+sceneOwnershipBindings.set('domains/runtime/world/world-runtime/evidence.json', {
+  id: 'runtime-world-owners',
+  paths: [reforgeMain, worldMotionTest],
+})
+const sceneOwnershipReports = new Map(
+  [...sceneOwnershipBindings.keys()].map((path) => [
+    `docs/testing/${path.replace(/evidence\.json$/u, 'report.md')}`,
+    path,
+  ]),
+)
+for (const [report, evidence, id] of [
+  ['e2e/stages/001-opening/report.md', 'e2e/evidence/e2e-001.json', 'e2e-001'],
+  ['e2e/cross-stage/common-issues.md', 'e2e/evidence/e2e-common-issues.json', 'e2e-common-issues'],
+]) {
+  sceneOwnershipReports.set(`docs/testing/${report}`, evidence)
+  sceneOwnershipBindings.set(evidence, { id, paths: [openingTraceTest] })
+}
+
+export const isTestingReforgeSceneOwnershipSource = (path) => sceneOwnershipStage.ranges.has(path)
+
+export function restoreTestingReforgeSceneOwnershipBindings(path, bytes, inputs) {
+  const report = sceneOwnershipReports.get(path)
+  if (report) {
+    let expected = testingReportBody(inputs.readBase(path))
+    for (const source of sceneOwnershipBindings.get(report).paths) {
+      for (const [before, after] of Object.entries(sceneOwnershipStage.ranges.get(source))) {
+        expected = expected.replaceAll(`\`${source}:${before}\``, `\`${source}:${after}\``)
+      }
+    }
+    assert.equal(testingReportBody(bytes), expected, 'scene ownership changed published prose')
+  }
+  return restoreBattleSourceBindings(
+    path,
+    bytes,
+    inputs,
+    sceneOwnershipStage,
+    sceneOwnershipBindings,
+    sceneOwnershipReports,
+  )
+}
+
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 

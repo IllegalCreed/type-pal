@@ -1,7 +1,8 @@
 import ts from 'typescript'
 import { afterEach, expect, test, vi } from 'vitest'
-import { confirm, deferred, fixture, flag } from './__tests__/save-lineage-fixture.js'
-import { mainApi, mainSource } from './__tests__/world-async-fixture.js'
+import { deferred } from './__tests__/deferred.js'
+import { instantiateMainBindings, mainSource } from './__tests__/main-binding-fixture.js'
+import { confirm, fixture, flag } from './__tests__/save-lineage-fixture.js'
 import { ActiveScene } from './active-scene.js'
 import { runtimeSceneView } from './runtime-project-view.js'
 import type { ProjectScriptHostOptions } from './runtime-script-project.js'
@@ -56,7 +57,7 @@ test.each([
   'exit',
 ] as const)('actual main %s adapters preserve the exact signal through nested save activity', async (entry) => {
   vi.useFakeTimers()
-  const entered = deferred(),
+  const entered = deferred<void>(),
     answer = deferred<boolean>(),
     cleanup = vi.fn()
   let start!: ProjectScriptHostOptions['startBattle'],
@@ -107,7 +108,7 @@ test.each([
     runDetachedScriptChain: undefined as unknown,
     battleHost: { start: undefined as unknown },
   }
-  env.runDetachedScriptChain = mainApi<{ runDetachedScriptChain: unknown }>(
+  env.runDetachedScriptChain = instantiateMainBindings<{ runDetachedScriptChain: unknown }>(
     ['runDetachedScriptChain'],
     [],
     env,
@@ -146,10 +147,13 @@ test.each([
   await entered.promise
   const snapshot = vi.fn(() => structuredClone(f.world.script))
   const saving = f.runtime.withSaveBarrier(snapshot).catch((error: unknown) => error)
+  expect(f.runtime.coordinator.gateClosed()).toBe(true)
+  expect(snapshot).not.toHaveBeenCalled()
   answer.resolve(true)
   await vi.advanceTimersByTimeAsync(10_000)
   await running
   expect(await saving).toEqual(f.world.script)
+  expect(f.runtime.coordinator.gateClosed()).toBe(false)
   expect(snapshot).toHaveBeenCalledTimes(1)
   expect(f.world.script?.flags).toEqual(
     entry === 'battle'

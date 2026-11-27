@@ -10,6 +10,11 @@ import type {
 } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import {
+  readOwnEntry,
+  writeSceneEntityValue as writeEntityValue,
+  writeOwnEntry,
+} from './scene-entity-values.js'
+import {
   registeredScriptActivityLease,
   withRegisteredScriptActivityLineage,
   withScriptActivityLineage,
@@ -20,25 +25,24 @@ import {
   compileBaseCommandRoot,
   compileBaseScriptFlow,
 } from './script-compiler-core.js'
+import { evalAuthorCondition } from './script-conditions.js'
 import { ScriptExecutionBudgets } from './script-execution-budget.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
-import type {
-  BaseScriptRuntimeHost,
-  ScriptGateBoundary,
-  ScriptRuntimeContext,
-} from './script-runner-core.js'
-import { ScriptRunnerCore } from './script-runner-core.js'
 import {
-  evalAuthorCondition,
-  FlowRuntimeCoordinator,
-  type PersistentFlowOwner,
   resolveEntityBehavior,
   resolveSceneHook,
   selectBaseEntityPage,
   selectBaseSceneHooks,
   selectEntityBehavior,
   setEntityTriggerActivation,
-} from './script-world.js'
+} from './script-flow-bindings.js'
+import type {
+  BaseScriptRuntimeHost,
+  ScriptGateBoundary,
+  ScriptRuntimeContext,
+} from './script-runner-core.js'
+import { ScriptRunnerCore } from './script-runner-core.js'
+import { FlowRuntimeCoordinator, type PersistentFlowOwner } from './script-world.js'
 
 type RuntimeHostServices = Omit<BaseScriptRuntimeHost, 'execute' | 'evalCondition'>
 
@@ -106,16 +110,6 @@ function entityAt(scene: BaseSceneDef, target: EntityAddress): BaseSceneEntity {
   return entity
 }
 
-function writeEntityValue<T>(
-  table: Record<string, Record<string, T>>,
-  target: EntityAddress,
-  value: T,
-): void {
-  const scene = table[target.scene] ?? {}
-  table[target.scene] = scene
-  scene[target.entity] = structuredClone(value)
-}
-
 /**
  * Canonical world-state authority. ScriptRunnerCore only负责控制流；所有持久 script 字段都在这里写，
  * 普通叶先提交；需要准备资源的操作由宿主在同步安装现场时调用本层的窄提交控制。
@@ -157,13 +151,17 @@ export class BaseProjectScriptRuntimeHost implements BaseScriptRuntimeHost {
           'runEntityTrigger 需要当前 ScriptProjectRuntime 调用桥，不能由基础 host 透传',
         )
       case 'setFlag':
-        this.world.flags[command.flag] = command.value
+        writeOwnEntry(this.world.flags, command.flag, command.value)
         break
       case 'setVar':
-        this.world.vars[command.var] = command.value
+        writeOwnEntry(this.world.vars, command.var, command.value)
         break
       case 'addVar':
-        this.world.vars[command.var] = (this.world.vars[command.var] ?? 0) + command.delta
+        writeOwnEntry(
+          this.world.vars,
+          command.var,
+          (readOwnEntry(this.world.vars, command.var) ?? 0) + command.delta,
+        )
         break
       case 'setScreenWave':
         this.world.vars['sys:screenWave'] = command.level

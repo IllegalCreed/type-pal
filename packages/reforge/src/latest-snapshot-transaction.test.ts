@@ -1,14 +1,7 @@
-import { describe, expect, test, vi } from 'vitest'
+import { expect, test } from 'vitest'
+import { deferred, nextTestTask } from './__tests__/deferred.js'
 import { AsyncIntentController } from './async-intent.js'
 import { commitLatestPreparedSnapshot } from './latest-snapshot-transaction.js'
-
-function deferred<T>() {
-  let resolve!: (value: T) => void
-  const promise = new Promise<T>((yes) => {
-    resolve = yes
-  })
-  return { promise, resolve }
-}
 
 interface PartySnapshot {
   hp: number
@@ -17,91 +10,141 @@ interface PartySnapshot {
   members: string[]
 }
 
-describe('commitLatestPreparedSnapshot', () => {
-  test('预载期间的 HP/装备修改不会被旧快照覆盖', async () => {
-    let current: PartySnapshot = { hp: 10, equipment: 'wood', sprite: 'a', members: ['hero'] }
-    const gate = deferred<void>()
-    let committed: PartySnapshot | undefined
-    const pending = commitLatestPreparedSnapshot({
-      assertCurrent: () => undefined,
-      snapshot: () => structuredClone(current),
-      mutate: (snapshot) => snapshot.members.push('friend'),
-      requiredResources: (snapshot) => [snapshot.sprite],
-      prepare: () => gate.promise,
-      commit: (snapshot) => {
-        committed = snapshot
-      },
-    })
+const currentParty = (): PartySnapshot => ({
+  hp: 10,
+  equipment: 'wood',
+  sprite: 'a',
+  members: ['hero'],
+})
 
-    await Promise.resolve()
-    current = { ...current, hp: 3, equipment: 'steel' }
-    gate.resolve()
-    await pending
-
-    expect(committed).toEqual({
-      hp: 3,
-      equipment: 'steel',
-      sprite: 'a',
-      members: ['hero', 'friend'],
-    })
+test('preloading preserves newer health and equipment before applying the party change', async () => {
+  let current = currentParty()
+  const requested = deferred<void>()
+  const prepared = deferred<void>()
+  const commits: PartySnapshot[] = []
+  const pending = commitLatestPreparedSnapshot({
+    assertCurrent: () => undefined,
+    snapshot: () => structuredClone(current),
+    mutate: (candidate) => candidate.members.push('friend'),
+    requiredResources: (candidate) => [candidate.sprite],
+    prepare: () => {
+      requested.resolve()
+      return prepared.promise
+    },
+    commit: (candidate) => commits.push(candidate),
   })
 
-  test('预载期间形象改用新资源时会再预载一次才提交', async () => {
-    let current: PartySnapshot = { hp: 10, equipment: 'wood', sprite: 'a', members: ['hero'] }
-    const gates = new Map([
-      ['a', deferred<void>()],
-      ['b', deferred<void>()],
-    ])
-    const prepare = vi.fn((resource: string) => gates.get(resource)!.promise)
-    const commit = vi.fn()
-    const pending = commitLatestPreparedSnapshot({
-      assertCurrent: () => undefined,
-      snapshot: () => structuredClone(current),
-      mutate: () => undefined,
-      requiredResources: (snapshot) => [snapshot.sprite],
-      prepare,
-      commit,
-    })
+  await requested.promise
+  expect(commits).toEqual([])
+  current = { ...current, hp: 3, equipment: 'steel' }
+  prepared.resolve()
+  await pending
 
-    await Promise.resolve()
-    current = { ...current, sprite: 'b' }
-    gates.get('a')!.resolve()
-    await vi.waitFor(() => expect(prepare).toHaveBeenCalledWith('b'))
-    expect(commit).not.toHaveBeenCalled()
-    gates.get('b')!.resolve()
-    await pending
-    expect(commit).toHaveBeenCalledOnce()
-    expect(commit).toHaveBeenCalledWith(expect.objectContaining({ sprite: 'b' }))
+  expect(commits).toEqual([{ hp: 3, equipment: 'steel', sprite: 'a', members: ['hero', 'friend'] }])
+})
+
+test('a new sprite requested during preparation must also finish before commit', async () => {
+  let current = currentParty()
+  const first = { requested: deferred<void>(), prepared: deferred<void>() }
+  const replacement = { requested: deferred<void>(), prepared: deferred<void>() }
+  const assets = new Map([
+    ['a', first],
+    ['b', replacement],
+  ])
+  const requests: string[] = []
+  const commits: PartySnapshot[] = []
+  const pending = commitLatestPreparedSnapshot({
+    assertCurrent: () => undefined,
+    snapshot: () => structuredClone(current),
+    mutate: () => undefined,
+    requiredResources: (candidate) => [candidate.sprite, candidate.sprite],
+    prepare: (sprite) => {
+      const resource = assets.get(sprite)
+      if (!resource) throw new Error(`unexpected sprite ${sprite}`)
+      requests.push(sprite)
+      resource.requested.resolve()
+      return resource.prepared.promise
+    },
+    commit: (candidate) => commits.push(candidate),
   })
 
-  test('被更新请求取代或 runner 取消后均零提交', async () => {
-    for (const mode of ['supersede', 'abort'] as const) {
-      const intent = new AsyncIntentController()
-      const token = intent.begin()
-      const controller = new AbortController()
-      const gate = deferred<void>()
-      const commit = vi.fn()
-      const pending = commitLatestPreparedSnapshot({
-        assertCurrent: () => {
-          intent.assertCurrent(token, '旧队伍请求')
-          if (controller.signal.aborted) {
-            const error = new Error('runner 已取消')
-            error.name = 'AbortError'
-            throw error
-          }
-        },
-        snapshot: () => ({ hp: 1, equipment: '', sprite: 'a', members: ['hero'] }),
-        mutate: () => undefined,
-        requiredResources: () => ['a'],
-        prepare: () => gate.promise,
-        commit,
-      })
-      await Promise.resolve()
-      if (mode === 'supersede') intent.begin()
-      else controller.abort()
-      gate.resolve()
-      await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-      expect(commit).not.toHaveBeenCalled()
-    }
+  await first.requested.promise
+  current = { ...current, sprite: 'b' }
+  first.prepared.resolve()
+  const next = await Promise.race([
+    replacement.requested.promise.then(() => 'preparing'),
+    pending.then(() => 'committed'),
+  ])
+  expect(next).toBe('preparing')
+  expect(commits).toEqual([])
+  replacement.prepared.resolve()
+  await pending
+  expect(requests).toEqual(['a', 'b'])
+  expect(commits).toEqual([current])
+})
+
+test('a blocked mutation samples the party only after the boundary reopens', async () => {
+  let current = currentParty()
+  const opened = deferred<void>()
+  const commits: PartySnapshot[] = []
+  const pending = commitLatestPreparedSnapshot({
+    assertCurrent: () => undefined,
+    snapshot: () => structuredClone(current),
+    mutate: (candidate) => candidate.members.push('friend'),
+    requiredResources: () => [],
+    prepare: async () => {
+      throw new Error('no resource may be prepared')
+    },
+    async runAtBoundary(action) {
+      await opened.promise
+      return action()
+    },
+    commit: (candidate) => commits.push(candidate),
   })
+
+  current = { ...current, hp: 3 }
+  await nextTestTask()
+  expect(commits).toEqual([])
+  opened.resolve()
+  await pending
+  expect(commits).toEqual([{ ...current, members: ['hero', 'friend'] }])
+})
+
+test.each([
+  'supersession',
+  'cancellation',
+] as const)('%s during preparation prevents commit', async (cause) => {
+  const intent = new AsyncIntentController()
+  const token = intent.begin()
+  const controller = new AbortController()
+  const cancellation = new DOMException('runner cancelled', 'AbortError')
+  const requested = deferred<void>()
+  const prepared = deferred<void>()
+  const commits: PartySnapshot[] = []
+  const pending = commitLatestPreparedSnapshot({
+    assertCurrent: () => {
+      intent.assertCurrent(token, 'older party change')
+      controller.signal.throwIfAborted()
+    },
+    snapshot: currentParty,
+    mutate: () => undefined,
+    requiredResources: (candidate) => [candidate.sprite],
+    prepare: () => {
+      requested.resolve()
+      return prepared.promise
+    },
+    commit: (candidate) => commits.push(candidate),
+  })
+
+  await requested.promise
+  if (cause === 'supersession') intent.begin()
+  else controller.abort(cancellation)
+
+  const rejected = expect(pending).rejects.toMatchObject({
+    name: 'AbortError',
+    message: cause === 'supersession' ? 'older party change' : cancellation.message,
+  })
+  prepared.resolve()
+  await rejected
+  expect(commits).toEqual([])
 })

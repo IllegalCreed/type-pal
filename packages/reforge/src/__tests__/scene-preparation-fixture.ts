@@ -24,8 +24,8 @@ export function deferredScene<T>() {
 }
 
 /** Full current project/scene/map/sprite guard path, then resource adapters with observable IO. */
-export async function scenePreparationFixture() {
-  const raw = await shellProject()
+export async function scenePreparationFixture(second?: AuthorSceneDef) {
+  const raw = await shellProject({ second })
   const scene: AuthorSceneDef = {
     ...shellScene('a'),
     entities: [

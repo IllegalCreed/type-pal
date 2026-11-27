@@ -1,30 +1,7 @@
-/**
- * SAVE-PREFLIGHT-1 结构 guard 正负边界矩阵（GM-SP1）。
- * 字段清单以 save/types.ts CurrentSavePayload + content/character.ts
- * WorldState/CharacterInstance 现行类型为真源；可选子树缺席合法、存在时按形状检查；
- * 数值叶只验有限数，不加上限/取整/非负；坐标允许有限分数。
- *
- * TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 重铸（r2 按 Codex B-R1-01 修正）：
- * - 坏形状一律在 unknown 外部对象上构造后直传公开 `assertCurrentSaveStructure(value:
- *   unknown)`（经 IO 形状的 JSON 往返视图），不再用 `as unknown as` 双桥/假枚举把坏数据
- *   塞进 typed 通道；合法正边界仍用 buildWorld/builder 产物。
- * - 跨合同用例拆成原子行；同一调用点同谓词的值维度重复（money NaN/Infinity、party
- *   null/对象、portrait number/null）与被更强 oracle 替代者可去重；但共享 helper 不证明
- *   各字段接线——pos.height、appearance.spriteId/battleSprite、skillUseCounts 内层四条
- *   独立接线合同 r2 已归还各自原子行（B-R1-01）；r3 按 B-R2-01 再归还三条原合同：
- *   maxMP 字段数组成员资格、extraStatuses/poisons 各自回调的稀疏空洞逐下标拒收
- *   （before→after 逐条映射见证据目录）。
- * - 深层语义（skillUseCounts 安全整数、hostileAwareness 正数性、script 内容）由
- *   current-codec.contracts.test.ts 在 codec 层证明，此处只验外层形状。
- */
-
 import { buildWorld, HIDDEN_STAT_KEYS } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import {
-  assertCurrentSaveStructure,
-  CurrentSaveStructureError,
-  SAVE_STRUCTURE_TOAST_TEXT,
-} from './current-structure.js'
+import { assertCurrentSaveStructure, CurrentSaveStructureError } from './current-structure.js'
+import { buildCurrentSavePayload } from './ops.js'
 import { type CurrentSavePayload, SAVE_VERSION } from './types.js'
 
 const actor = {
@@ -50,16 +27,13 @@ const actor = {
   },
 }
 
-const validPayload = (): CurrentSavePayload => ({
-  version: SAVE_VERSION,
-  sceneRuntime: {},
-  projectId: 'proj',
-  contentVersion: 23,
-  world: buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor }),
-  position: { sceneId: 's001', pos: { col: 1.5, row: -2.25, height: 0 }, facing: 'down' },
-})
+const validPayload = (): CurrentSavePayload =>
+  buildCurrentSavePayload(
+    buildWorld({ party: ['hero'], money: 100, inventory: [] }, { hero: actor }),
+    { sceneId: 's001', pos: { col: 1.5, row: -2.25, height: 0 }, facing: 'down' },
+    'proj',
+  )
 
-/** 运行时核验的收窄助手（测试夹具用，非类型后门：形状不符即抛）。 */
 function asRecord(value: unknown): Record<string, unknown> {
   const isRecordLike = (v: unknown): v is Record<string, unknown> =>
     typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -72,43 +46,37 @@ function asList(value: unknown): unknown[] {
   return value
 }
 
-/** IO 形状的 unknown 视图：合法 builder 产物经 JSON 往返成为可变 Record，坏形状只在
- * 视图上构造并直传公开 guard——与真实读档入口（结构化数据 → unknown 断言）同边界。 */
-function unknownView(): Record<string, unknown> {
-  return JSON.parse(JSON.stringify(validPayload()))
-}
-
-/** 负边界 mutator：在合法载荷的 unknown 视图上构造坏形状后断言拒收。 */
-const rejectsView = (mutate: (view: Record<string, unknown>) => void, pattern: RegExp) => () => {
-  const view = unknownView()
+function rejectsView(mutate: (view: Record<string, unknown>) => void, pattern: RegExp): void {
+  // The storage port uses structured clone, which preserves undefined properties and sparse arrays.
+  const view = asRecord(structuredClone(validPayload()))
   mutate(view)
   expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
 }
 
 test.each([
-  'source',
-  'speed',
-] as const)('scene runtime rejects an array masquerading as %s', (field) => {
-  const payload = validPayload()
-  const motion = {
-    gait: { phase: 2, source: 'auto' as const, owner: 'npc' },
-    move: {
-      owner: 'npc',
-      to: { col: 4, row: 5, height: 0 },
-      speed: 'slow' as const,
-      slowRestPending: true,
-      slowCadence: true,
+  ['gait.source', { gait: { phase: 2, source: ['auto'], owner: 'npc' } }],
+  [
+    'move.speed',
+    {
+      move: {
+        owner: 'npc',
+        to: { col: 4, row: 5, height: 0 },
+        speed: ['slow'],
+        slowRestPending: true,
+        slowCadence: true,
+      },
+    },
+  ],
+] as const)('scene runtime rejects an array at motion.%s', (field, motion) => {
+  const payload = {
+    ...validPayload(),
+    sceneRuntime: {
+      s001: { entities: { npc: { motion } }, automatic: {}, chaseClaims: [], actions: [] },
     },
   }
-  if (field === 'source') Reflect.set(motion.gait, field, ['auto'])
-  else Reflect.set(motion.move, field, ['slow'])
-  payload.sceneRuntime.s001 = {
-    entities: { npc: { motion } },
-    automatic: {},
-    chaseClaims: [],
-    actions: [],
-  }
-  expect(() => assertCurrentSaveStructure(payload)).toThrow(new RegExp(field))
+  expect(() => assertCurrentSaveStructure(payload)).toThrow(
+    expect.objectContaining({ field: `载荷.sceneRuntime.s001.entities.npc.motion.${field}` }),
+  )
 })
 
 describe('current-structure · 合法载荷（正边界）', () => {
@@ -184,25 +152,20 @@ describe('current-structure · 合法载荷（正边界）', () => {
   test('R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）', () => {
     const payload = validPayload()
     payload.world.party[0]!.hiddenExp = { luck: { exp: Number.NaN, level: 1 } }
-    try {
-      assertCurrentSaveStructure(payload)
-      throw new Error('should have thrown')
-    } catch (error) {
-      expect(error).toBeInstanceOf(CurrentSaveStructureError)
-      const structureError = error as CurrentSaveStructureError
-      expect(structureError.message).toMatch(/载荷\.world\.party\[0\]\.hiddenExp\["luck"\]\.exp/)
-      // R4 返工：动态字段文案按字形实测 232/248px 超出 200px 可用宽，改为固定短文案；
-      // 完整路径只在 message（console.warn/测试），不进画布。
-      expect(structureError.shortMessage).toBe(SAVE_STRUCTURE_TOAST_TEXT)
-      expect(structureError.shortMessage).not.toContain('hiddenExp')
-    }
+    expect(() => assertCurrentSaveStructure(payload)).toThrow(
+      expect.objectContaining({
+        name: CurrentSaveStructureError.name,
+        message: expect.stringContaining('载荷.world.party[0].hiddenExp["luck"].exp'),
+        shortMessage: '存档损坏，无法读取',
+      }),
+    )
   })
 
-  test('guard 通过后输入与原对象无别名关系（不修改输入）', () => {
+  test('结构校验不修改通过的载荷', () => {
     const payload = validPayload()
-    const before = JSON.stringify(payload)
+    const before = structuredClone(payload)
     assertCurrentSaveStructure(payload)
-    expect(JSON.stringify(payload)).toBe(before)
+    expect(payload).toEqual(before)
   })
 })
 
@@ -230,60 +193,38 @@ describe('current-structure · Envelope / world / position（负边界）', () =
     expect(payload).toEqual(before)
   })
 
+  const claim = {
+    owner: { scene: 's001', entity: 'owner' },
+    target: { scene: 's001', entity: 'npc' },
+    behavior: 'chase',
+  }
+
   test.each([
-    null,
-    {},
-    [null],
-    Array.from({ length: 1 }),
-    [{ owner: null, target: { scene: 's001', entity: 'npc' }, behavior: 'chase' }],
+    ['null container', null, ''],
+    ['object instead of array', {}, ''],
+    ['null entry', [null], '[0]'],
+    ['missing array entry', new Array(1), '[0]'],
+    ['null owner', [{ ...claim, owner: null }], '[0].owner'],
+    ['empty owner scene', [{ ...claim, owner: { ...claim.owner, scene: '' } }], '[0].owner.scene'],
+    ['empty behavior ID', [{ ...claim, behavior: '' }], '[0].behavior'],
     [
-      {
-        owner: { scene: '', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
+      'transient owner epoch',
+      [{ ...claim, owner: { ...claim.owner, epoch: 1 } }],
+      '[0].owner.epoch',
     ],
+    ['transient command epoch', [{ ...claim, commandEpoch: 1 }], '[0].commandEpoch'],
     [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: '',
-      },
+      'duplicate target',
+      [claim, { ...claim, owner: { ...claim.owner, entity: 'other' } }],
+      '[1].target',
     ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner', epoch: 1 },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-    ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-        commandEpoch: 1,
-      },
-    ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-      {
-        owner: { scene: 's001', entity: 'other' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-    ],
-  ])('malformed automatic chase claims are rejected before cloning: %j', (chaseClaims) => {
+  ])('rejects automatic chase claims with %s at the affected field', (_case, chaseClaims, field) => {
     expect(() =>
       assertCurrentSaveStructure({
         ...validPayload(),
         sceneRuntime: { s001: { entities: {}, automatic: {}, chaseClaims, actions: [] } },
       }),
-    ).toThrow(/chaseClaims/)
+    ).toThrow(expect.objectContaining({ field: `载荷.sceneRuntime.s001.chaseClaims${field}` }))
   })
 
   test.each([
@@ -350,7 +291,7 @@ describe('current-structure · Envelope / world / position（负边界）', () =
       /inventory\[0\]\.count/,
     ],
   ])('world 坏形状 %s 带路径拒绝', (_name, mutate, pattern) =>
-    rejectsView((view) => mutate(asRecord(view.world)), pattern)())
+    rejectsView((view) => mutate(asRecord(view.world)), pattern))
 
   test.each([
     [
@@ -396,7 +337,7 @@ describe('current-structure · Envelope / world / position（负边界）', () =
       /facing/,
     ],
   ])('position 坏形状 %s 带路径拒绝', (_name, mutate, pattern) =>
-    rejectsView((view) => mutate(asRecord(view.position)), pattern)())
+    rejectsView((view) => mutate(asRecord(view.position)), pattern))
 
   test.each([
     [
@@ -428,7 +369,7 @@ describe('current-structure · Envelope / world / position（负边界）', () =
       /poisons\[0\]/,
     ],
   ])('R3：稀疏空洞逐下标拒绝：%s，不被 forEach 跳过', (_name, mutate, pattern) =>
-    rejectsView(mutate, pattern)())
+    rejectsView(mutate, pattern))
 })
 
 describe('current-structure · 可选子树存在时的形状检查', () => {
@@ -490,7 +431,7 @@ describe('current-structure · 可选子树存在时的形状检查', () => {
       /collectValue/,
     ],
   ])('可选子树 %s 拒绝', (_name, mutate, pattern) =>
-    rejectsView((view) => mutate(asRecord(view.world)), pattern)())
+    rejectsView((view) => mutate(asRecord(view.world)), pattern))
 })
 
 describe('current-structure · CharacterInstance（party 与 reserve 同型）', () => {
@@ -594,7 +535,7 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
       /\.appearance\.battleSprite/,
     ],
   ])('实例坏形状 %s 带路径拒绝', (_name, mutate, pattern) => {
-    const view = unknownView()
+    const view = asRecord(structuredClone(validPayload()))
     mutate(asRecord(asList(asRecord(view.world).party)[0]!))
     expect(() => assertCurrentSaveStructure(view)).toThrow(pattern)
   })
@@ -602,10 +543,10 @@ describe('current-structure · CharacterInstance（party 与 reserve 同型）',
   test('appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）', () =>
     rejectsView((view) => {
       asRecord(asList(asRecord(view.world).party)[0]!).appearance = { portrait: null }
-    }, /portrait/)())
+    }, /portrait/))
 
   test('reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）', () => {
-    const view = unknownView()
+    const view = asRecord(structuredClone(validPayload()))
     const world = asRecord(view.world)
     const hero = asRecord(asList(world.party)[0]!)
     world.reserve = [{ ...structuredClone(hero), level: Number.NaN }]

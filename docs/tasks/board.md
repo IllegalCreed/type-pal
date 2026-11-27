@@ -65,6 +65,10 @@ Reforge 战斗治理已完成本窗口。账本为 1,492 closed、0 review。#77
 
 [凤纹手绢旧方案退役](cards/MIGRATION-PAL-HANDKERCHIEF-SCHEME-1.md)由 Codex 在同树核验。用户批准清理主线剧情已经替代的自动方案并校准实际发布计数。
 
+### 代码治理：Reforge 场景作用域
+
+`QUALITY-REFORGE-SCENE-OWNERSHIP-1` 完成 96 个原 pending 并闭合基点两个 review。场景实体地址和旧编译出口退役随本窗收口，同由[生成任务索引](cards/index.md)查阅。账本余 [存档游标等义比较](cards/REFORGE-SAVE-CURSOR-IDENTITY-1.md) 一项 review，已有真实 codec 反例并待有限准入。
+
 ### 代码治理：最近完成的文件批次
 
 `QUALITY-MIGRATION-SOURCE-PROJECTIONS-1` 已完成 98 个原 pending 文件的逐文件处置。合并时新增 100 条关闭登记，七项留审。当前后继裁定从上方回溯卡进入。集中门的完整结果见[单一执行归档](evidence/QUALITY-MIGRATION-SOURCE-PROJECTIONS-1.tar.gz)。

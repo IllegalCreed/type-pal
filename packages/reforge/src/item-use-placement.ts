@@ -1,5 +1,6 @@
 import type { EntityAddress, GridPos, ProjectMap, WorldScriptState } from '@type-pal/content'
 import { isBlockedAt } from './collision.js'
+import { writeSceneEntityValue } from './scene-entity-values.js'
 
 /** Match PAL trap placement: the forward cell checks map collision only. */
 export function planItemEntityPlacement(args: {
@@ -28,10 +29,6 @@ export function commitItemEntityPlacement(
   pos: GridPos,
 ): void {
   script.entityPos ??= {}
-  const scenePositions = script.entityPos[target.scene] ?? {}
-  script.entityPos[target.scene] = scenePositions
-  scenePositions[target.entity] = { ...pos }
-  const sceneStates = script.entityState[target.scene] ?? {}
-  script.entityState[target.scene] = sceneStates
-  sceneStates[target.entity] = state
+  writeSceneEntityValue(script.entityPos, target, pos)
+  writeSceneEntityValue(script.entityState, target, state)
 }

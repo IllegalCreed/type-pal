@@ -5,7 +5,8 @@ import type {
   WorldState,
 } from '@type-pal/content'
 import { expect, test, vi } from 'vitest'
-import { deferred, fixture, stage } from './__tests__/save-lineage-fixture.js'
+import { deferred } from './__tests__/deferred.js'
+import { fixture, stage } from './__tests__/save-lineage-fixture.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
 import type { StoredAutomaticChaseClaim } from './save/types.js'
 

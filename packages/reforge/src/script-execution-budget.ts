@@ -5,7 +5,9 @@ export class ScriptExecutionBudget {
 
   consume(): boolean {
     if (++this.work > ScriptExecutionBudget.LIMIT)
-      throw new Error('循环没有等待且一直未结束，已停止执行（zero-time execution limit: 10240）')
+      throw new Error(
+        `循环没有等待且一直未结束，已停止执行（zero-time execution limit: ${ScriptExecutionBudget.LIMIT}）`,
+      )
     return this.work % 256 === 0
   }
 

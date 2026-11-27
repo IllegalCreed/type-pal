@@ -1,0 +1,386 @@
+import type { Palette } from '@type-pal/shared'
+import { describe, expect, test, vi } from 'vitest'
+import { deferred, nextTestTask } from './__tests__/deferred.js'
+import { instantiateMainBindings } from './__tests__/main-binding-fixture.js'
+import { recordScriptHost } from './__tests__/script-host-adapter-fixture.js'
+import {
+  digest,
+  hostOptions,
+  sceneFixture,
+  worldFixture,
+} from './__tests__/script-world-fixture.js'
+import { ActiveScene } from './active-scene.js'
+import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
+import { expectDefined } from './defined.js'
+import { buildBlankProjectMap } from './project-map.js'
+import { Canvas2DRenderer } from './render.js'
+import { runtimeSceneView } from './runtime-project-view.js'
+import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-script-project.js'
+import { atScriptExecutionGate } from './script-execution-gate.js'
+import { executeScriptHostEffect } from './script-host-adapter.js'
+import type { ScriptHost } from './script-runner.js'
+import { scriptWorkIO } from './script-work-queue.js'
+
+function mapHarness(initial: string | undefined) {
+  const world = worldFixture()
+  const script = expectDefined(world.script)
+  if (initial) script.mapOverride = { source: initial }
+  const scene = sceneFixture('source')
+  const oldMap = buildBlankProjectMap(1, 1, 'tiles'),
+    oldRenderer = { old: true }
+  const next = { map: buildBlankProjectMap(3, 2, 'tiles'), tilesets: new Map() }
+  const activeScene = new ActiveScene<object>(runtimeSceneView(scene, script), () => {})
+  const palette: Palette = {
+    colors: Array.from({ length: 256 }, () => [0, 0, 0]),
+    cycles: [],
+  }
+  const initialPlan = {
+    sceneId: scene.id,
+    def: activeScene.scene,
+    assets: { map: oldMap, tilesets: new Map() },
+    palette,
+    renderer: oldRenderer,
+    entityDefs: new Map(),
+    pageActions: [],
+  }
+  activeScene.commit(initialPlan)
+  activeScene.rendererForWave(() => oldRenderer)
+  const { host: adapterHost } = recordScriptHost()
+  const env = {
+    world,
+    canonicalScript: world.script,
+    activeScene,
+    get scene() {
+      return activeScene.scene
+    },
+    set scene(value) {
+      activeScene.commit({ ...initialPlan, def: value })
+    },
+    get map() {
+      return activeScene.map
+    },
+    get renderer() {
+      return activeScene.renderer
+    },
+    get tiles() {
+      return activeScene.tiles
+    },
+    get waveRenderer() {
+      return activeScene.waveRenderer
+    },
+    get room() {
+      return activeScene.room
+    },
+    scriptMutationIntent: new AsyncIntentController(),
+    autoActivationBySignal: new WeakMap(),
+    scriptConfirmModal: { active: false },
+    atScriptExecutionGate,
+    scriptWorkIO,
+    Canvas2DRenderer,
+    ctx: {},
+    palette,
+    asyncIntentAbortError,
+    getMapAssets: vi.fn(async () => next),
+    executeScriptHostEffect,
+    scriptHost: adapterHost,
+    autoHost: adapterHost,
+  }
+  const api = instantiateMainBindings<{
+    reloadMap: NonNullable<ScriptHost['reloadMap']>
+    executeProjectScriptEffect: ProjectScriptHostOptions['executeEffect']
+  }>(
+    [
+      'assertRunnerActive',
+      'awaitRunner',
+      'executeProjectScriptEffect',
+      'atScriptMutation',
+      'waitForScriptGameplay',
+      'waitForScriptModal',
+      'scriptExecutionGateOpen',
+    ],
+    ['reloadMap'],
+    env,
+  )
+  adapterHost.reloadMap = api.reloadMap
+  const changes = vi.fn(() => {
+    expect(world.script?.mapOverride?.source).toBe('map.new')
+    expect(env.map).toBe(next.map)
+  })
+  const runtime = new ScriptProjectRuntime(
+    { sharedScripts: {} },
+    world,
+    digest,
+    hostOptions(scene, {
+      currentSceneId: () => env.scene.id,
+      executeEffect: api.executeProjectScriptEffect,
+      worldChanged: changes,
+    }),
+  )
+  return { env, api, runtime, world, changes, next, oldMap, oldRenderer, adapterHost }
+}
+
+describe('map override commit through the live scene host', () => {
+  test('main rejects a missing commit control before IO instead of creating a second canonical writer', async () => {
+    const h = mapHarness(undefined),
+      before = structuredClone(h.world)
+    await expect(h.api.reloadMap('map.new', new AbortController().signal)).rejects.toThrow(
+      '缺 canonical 同步提交控制',
+    )
+    expect(h.env.getMapAssets).not.toHaveBeenCalled()
+    expect(h.world).toEqual(before)
+    expect(h.env.map).toBe(h.oldMap)
+  })
+  test.each([
+    'map.old',
+    undefined,
+  ])('success commits live/canonical/snapshot together from %s', async (initial) => {
+    const h = mapHarness(initial)
+    await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expect(h.env.map).toBe(h.next.map)
+    expect(h.env.tiles).toBe(h.next.tilesets)
+    expect(h.env.renderer).not.toBe(h.oldRenderer)
+    expect(h.env.waveRenderer).toBeNull()
+    expect(h.env.room).toEqual({ col: 0, row: 0, cols: 3, rows: 2 })
+    expect(await h.runtime.withSaveBarrier(() => structuredClone(h.world.script))).toMatchObject({
+      mapOverride: { source: 'map.new' },
+    })
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test.each([
+    'map.old',
+    undefined,
+  ])('resource failure preserves live/canonical/snapshot and retry from %s', async (initial) => {
+    const h = mapHarness(initial),
+      before = structuredClone(h.world)
+    h.env.getMapAssets.mockRejectedValueOnce(new Error('resource failed'))
+    await expect(
+      h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+        signal: new AbortController().signal,
+      }),
+    ).rejects.toThrow('resource failed')
+    expect(h.world).toEqual(before)
+    expect(h.env.map).toBe(h.oldMap)
+    expect(h.env.renderer).toBe(h.oldRenderer)
+    expect(h.changes).not.toHaveBeenCalled()
+    expect(await h.runtime.withSaveBarrier(() => structuredClone(h.world))).toEqual(before)
+    await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test('cancel after resource entered keeps absent override absent and permits retry', async () => {
+    const h = mapHarness(undefined),
+      before = structuredClone(h.world)
+    const gate = deferred<typeof h.next>(),
+      entered = deferred<void>(),
+      controller = new AbortController()
+    h.env.getMapAssets.mockImplementationOnce(() => {
+      entered.resolve()
+      return gate.promise
+    })
+    const running = h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: controller.signal,
+    })
+    const rejected = expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    await entered.promise
+    const during = structuredClone(h.world)
+    controller.abort()
+    gate.resolve(h.next)
+    await rejected
+    expect(during).toEqual(before)
+    expect(h.world).toEqual(before)
+    expect(h.env.map).toBe(h.oldMap)
+    expect(h.changes).not.toHaveBeenCalled()
+    await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test('renderer preparation throws before either state commits', async () => {
+    const h = mapHarness(undefined),
+      before = structuredClone(h.world)
+    h.env.Canvas2DRenderer = class extends Canvas2DRenderer {
+      constructor(...args: ConstructorParameters<typeof Canvas2DRenderer>) {
+        super(...args)
+        throw new Error('renderer failed')
+      }
+    }
+    await expect(
+      h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+        signal: new AbortController().signal,
+      }),
+    ).rejects.toThrow('renderer failed')
+    expect(h.world).toEqual(before)
+    expect(h.env.map).toBe(h.oldMap)
+    expect(h.env.renderer).toBe(h.oldRenderer)
+    expect(h.changes).not.toHaveBeenCalled()
+  })
+
+  test.each([
+    'scene',
+    'world-intent',
+  ] as const)('%s invalidation while loading blocks old commit despite same ID/object identity', async (mode) => {
+    const h = mapHarness(undefined),
+      gate = deferred<typeof h.next>(),
+      entered = deferred<void>()
+    h.env.getMapAssets.mockImplementationOnce(() => {
+      entered.resolve()
+      return gate.promise
+    })
+    const running = h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    const rejected = expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    await entered.promise
+    if (mode === 'scene') h.env.scene = structuredClone(h.env.scene)
+    else {
+      h.world.money = 99
+      h.env.scriptMutationIntent.invalidate()
+    }
+    const afterReplacement = structuredClone(h.world)
+    gate.resolve(h.next)
+    await rejected
+    expect(h.world).toEqual(afterReplacement)
+    expect(h.env.map).toBe(h.oldMap)
+    expect(h.changes).not.toHaveBeenCalled()
+  })
+
+  test.each([
+    'abort',
+    'reject',
+  ] as const)('post-commit %s preserves both states and publishes once, stopping later commands', async (mode) => {
+    const h = mapHarness(undefined),
+      controller = new AbortController()
+    h.adapterHost.reloadMap = async (...args) => {
+      await h.api.reloadMap(...args)
+      if (mode === 'abort') queueMicrotask(() => controller.abort())
+      else throw new Error('post-commit effect failure')
+    }
+    const running = h.runtime.runCommands(
+      [
+        { kind: 'setSceneMapOverride', mapId: 'map.new' },
+        { kind: 'setFlag', flag: 'later', value: true },
+      ],
+      { signal: controller.signal },
+    )
+    if (mode === 'abort') await expect(running).rejects.toMatchObject({ name: 'AbortError' })
+    else await expect(running).rejects.toThrow('post-commit effect failure')
+    expect(h.world.script?.mapOverride?.source).toBe('map.new')
+    expect(h.env.map).toBe(h.next.map)
+    expect(h.world.script?.flags.later).toBeUndefined()
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test('an old cancelled resource completion cannot overwrite a later successful commit', async () => {
+    const h = mapHarness(undefined),
+      gate = deferred<typeof h.next>(),
+      entered = deferred<void>(),
+      controller = new AbortController()
+    h.env.getMapAssets.mockImplementationOnce(() => {
+      entered.resolve()
+      return gate.promise
+    })
+    const old = h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.old-request' }], {
+      signal: controller.signal,
+    })
+    const rejected = expect(old).rejects.toMatchObject({ name: 'AbortError' })
+    await entered.promise
+    controller.abort()
+    await rejected
+    await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    gate.resolve({ ...h.next, map: buildBlankProjectMap(9, 9, 'tiles') })
+    await gate.promise
+    await nextTestTask()
+    expect(h.world.script?.mapOverride?.source).toBe('map.new')
+    expect(h.env.map).toBe(h.next.map)
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test('a live host must commit explicitly; a detached late callback cannot write after effect exit', async () => {
+    const h = mapHarness(undefined),
+      before = structuredClone(h.world)
+    let late: (() => void) | undefined
+    h.adapterHost.reloadMap = async (_id, _signal, commit) => {
+      late = commit
+    }
+    await expect(
+      h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+        signal: new AbortController().signal,
+      }),
+    ).rejects.toThrow('未完成同步提交')
+    const detachedCommit = expectDefined(late)
+    expect(detachedCommit).toThrow('effect 已结束')
+    expect(h.world).toEqual(before)
+    expect(h.changes).not.toHaveBeenCalled()
+  })
+
+  test('duplicate accepted commit control is idempotent and cannot restore an old value', async () => {
+    const h = mapHarness(undefined)
+    let accepted: (() => void) | undefined
+    h.adapterHost.reloadMap = async (id, signal, commit) => {
+      const commitCurrent = expectDefined(commit)
+      accepted = commitCurrent
+      await h.api.reloadMap(id, signal, () => {
+        commitCurrent()
+        commitCurrent()
+      })
+    }
+    await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expectDefined(h.world.script?.mapOverride).source = 'map.later'
+    expectDefined(accepted)()
+    expect(h.world.script?.mapOverride?.source).toBe('map.later')
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+
+  test('a state-only adapter commits the current scene override without a live reload port', async () => {
+    const world = worldFixture()
+    const scene = sceneFixture('source')
+    const { host } = recordScriptHost()
+    const changed = vi.fn()
+    const runtime = new ScriptProjectRuntime(
+      { sharedScripts: {} },
+      world,
+      digest,
+      hostOptions(scene, {
+        executeEffect: (command, context, signal, commitControl) => {
+          if (command.kind !== 'setSceneMapOverride') throw new Error('unexpected script effect')
+          return executeScriptHostEffect(host, command, context, signal, {
+            currentSceneId: () => scene.id,
+            commitControl,
+          })
+        },
+        worldChanged: changed,
+      }),
+    )
+    await runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expect(world.script?.mapOverride).toEqual({ source: 'map.new' })
+    expect(changed).toHaveBeenCalledOnce()
+  })
+
+  test.each([
+    'source',
+    'elsewhere',
+  ])('explicit scene %s writes the override without reloading the live map', async (sceneId) => {
+    const h = mapHarness(undefined)
+    h.changes.mockImplementation(() => {})
+    await h.runtime.runCommands(
+      [{ kind: 'setSceneMapOverride', scene: sceneId, mapId: 'map.new' }],
+      { signal: new AbortController().signal },
+    )
+    expect(h.world.script?.mapOverride).toEqual({ [sceneId]: 'map.new' })
+    expect(h.env.getMapAssets).not.toHaveBeenCalled()
+    expect(h.env.map).toBe(h.oldMap)
+    expect(h.changes).toHaveBeenCalledOnce()
+  })
+})

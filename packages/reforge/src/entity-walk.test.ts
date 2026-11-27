@@ -3,6 +3,7 @@ import { describe, expect, test } from 'vitest'
 import {
   consumeScheduledMoveRest,
   facingToward,
+  interactionFacingToward,
   restAfterMoveAttempt,
   SPEED_GRID,
   stepEntityPos,
@@ -13,14 +14,14 @@ const pos = (col: number, row: number): GridPos => ({ col, row, height: 0 })
 
 describe('production entity walk tick', () => {
   test.each([
-    'slow',
-    'normal',
-    'fast',
-    'run',
-  ] as const)('walks the authored stair line continuously at %s speed without an endpoint jump', (speed) => {
+    ['slow', 4, 2],
+    ['normal', 6, 3],
+    ['fast', 8, 4],
+    ['run', 16, 8],
+  ] as const)('walks the authored stair line continuously at %s speed without an endpoint jump', (speed, horizontalPixels, verticalPixels) => {
     const start = pos(122, 49)
     const target = pos(131, 52)
-    const distancePerTick = Math.hypot(16, 8) * SPEED_GRID[speed]
+    const distancePerTick = Math.hypot(horizontalPixels, verticalPixels)
     let current = start
     let done = false
     let ticks = 0
@@ -28,9 +29,13 @@ describe('production entity walk tick', () => {
       const before = gridToPixel(current)
       const next = walkTick(current, target, speed)
       const after = gridToPixel(next.pos)
-      expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeLessThanOrEqual(
-        distancePerTick + 1e-9,
-      )
+      const displacement = Math.hypot(after.x - before.x, after.y - before.y)
+      if (next.done) {
+        expect(displacement).toBeGreaterThan(0)
+        expect(displacement).toBeLessThanOrEqual(distancePerTick + 1e-9)
+      } else {
+        expect(displacement).toBeCloseTo(distancePerTick, 8)
+      }
       expect(after.x - before.x).toBeCloseTo(after.y - before.y, 8)
       expect(next.facing).toBe('right')
       current = next.pos
@@ -41,18 +46,18 @@ describe('production entity walk tick', () => {
   })
 
   test.each([
-    [pos(10, -10), 'right'],
-    [pos(10, 10), 'right'],
-    [pos(-10, 10), 'down'],
-    [pos(-10, -10), 'up'],
-    [pos(-10, 0), 'left'],
-    [pos(0, -10), 'up'],
-  ] as const)('does not teleport when a projected axis is already aligned', (target, facing) => {
+    ['horizontal east', pos(10, -10), 'right'],
+    ['vertical south', pos(10, 10), 'right'],
+    ['horizontal west', pos(-10, 10), 'down'],
+    ['vertical north', pos(-10, -10), 'up'],
+    ['northwest', pos(-10, 0), 'left'],
+    ['northeast', pos(0, -10), 'up'],
+  ] as const)('keeps moving one quantum toward a distant %s target', (_direction, target, facing) => {
     const first = walkTick(pos(0, 0), target, 'normal')
     expect(first.done).toBe(false)
     expect(first.facing).toBe(facing)
     const point = gridToPixel(first.pos)
-    expect(Math.hypot(point.x, point.y)).toBeCloseTo(Math.hypot(16, 8) * SPEED_GRID.normal)
+    expect(Math.hypot(point.x, point.y)).toBeCloseTo(Math.hypot(6, 3))
   })
 
   test('commits height only at the endpoint, including zero ground-plane distance', () => {
@@ -91,6 +96,13 @@ describe('production entity walk tick', () => {
     expect(facingToward(pos(0, 0), pos(-4, 0))).toBe('left')
   })
 
+  test('interaction facing resolves on-axis ties differently from target walk', () => {
+    const start = pos(0, 0)
+    expect(interactionFacingToward(start, pos(2, -2))).toBe('up')
+    expect(interactionFacingToward(start, pos(2, 2))).toBe('down')
+    expect(interactionFacingToward(start, start)).toBe('left')
+  })
+
   test('shares the exact quarter-grid one-step opcode geometry', () => {
     expect(stepEntityPos(pos(2, 3), 'left')).toEqual(pos(1.75, 3))
     expect(stepEntityPos(pos(2, 3), 'down')).toEqual(pos(2, 3.25))
@@ -120,16 +132,5 @@ describe('production entity walk tick', () => {
       restPending: false,
     })
     expect(restAfterMoveAttempt('normal')).toBe(false)
-  })
-
-  test('ineligible wall-clock gaps do not age command-local slow cadence', () => {
-    let restPending = restAfterMoveAttempt('slow')
-    // No transition is called during menu / authority / lifecycle pause, regardless of elapsed
-    // global world ticks. The first restored eligible tick consumes the same scheduled rest.
-    expect(restPending).toBe(true)
-    const restored = consumeScheduledMoveRest('slow', restPending)
-    expect(restored).toEqual({ attempt: false, restPending: false })
-    restPending = restored.restPending
-    expect(consumeScheduledMoveRest('slow', restPending).attempt).toBe(true)
   })
 })

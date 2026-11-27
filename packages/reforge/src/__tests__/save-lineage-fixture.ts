@@ -1,22 +1,13 @@
 import {
   buildEntityLifecycleReferenceIndex,
-  emptyWorldScriptState,
+  buildWorld,
   type RuntimeCommand,
   type RuntimeSceneDef,
   type RuntimeScriptFlow,
-  type WorldState,
+  validateRuntimeScenes,
 } from '@type-pal/content'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from '../runtime-script-project.js'
-
-export function deferred<T = void>() {
-  let resolve!: (value: T) => void
-  let reject!: (error: unknown) => void
-  const promise = new Promise<T>((yes, no) => {
-    resolve = yes
-    reject = no
-  })
-  return { promise, resolve, reject }
-}
+import { hero } from './script-world-fixture.js'
 
 export const flag = (name: string): Extract<RuntimeCommand, { kind: 'setFlag' }> => ({
   kind: 'setFlag',
@@ -43,13 +34,7 @@ export const firstAndRepeat = (body: RuntimeCommand[] = []): RuntimeScriptFlow =
 })
 
 export function fixture(overrides: Partial<ProjectScriptHostOptions> = {}) {
-  const world: WorldState = {
-    party: [],
-    money: 0,
-    learnedSkills: {},
-    inventory: [],
-    script: emptyWorldScriptState(),
-  }
+  const world = buildWorld({ party: ['hero'], money: 0, inventory: [] }, { hero })
   const scene: RuntimeSceneDef = {
     id: 's',
     mapId: 'map',
@@ -73,6 +58,7 @@ export function fixture(overrides: Partial<ProjectScriptHostOptions> = {}) {
       },
     },
   }
+  validateRuntimeScenes([scene])
   const controller = new AbortController()
   const options: ProjectScriptHostOptions = {
     lifecycleReferences: buildEntityLifecycleReferenceIndex([scene]),

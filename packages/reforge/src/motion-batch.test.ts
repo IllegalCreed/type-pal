@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { commitMotionBatch, MotionCompletionRecord } from './motion-batch.js'
 
 function hooks(log: string[], touchTookOver = false) {
@@ -44,28 +44,35 @@ describe('world motion batch side-effect order', () => {
   test('same-actor take happens after the committed endpoint and cannot roll it back', () => {
     let canonicalPosition = 0
     let livePosition = 0
-    let taken = false
-    const continuation = vi.fn(() => {
-      if (!taken) livePosition = 99
-    })
+    const events: string[] = []
+    const queued: (() => void)[] = []
+    const record = new MotionCompletionRecord<string>(
+      () => events.push('detach'),
+      () => events.push('wake'),
+      (reason) => events.push(`reject:${reason}`),
+    )
+
     commitMotionBatch({
       commitCanonicalEndpoints: () => {
         canonicalPosition = 7
+        record.commit()
       },
       commitLivePositions: () => {
         livePosition = 7
       },
       afterLiveCommit: () => undefined,
       runTouch: () => {
-        taken = true
+        expect([canonicalPosition, livePosition]).toEqual([7, 7])
+        record.cancel('take')
         return true
       },
-      runPostContact: () => undefined,
-      queueContinuations: continuation,
+      runPostContact: () => events.push('enemy contact'),
+      queueContinuations: () => queued.push(() => record.resolve()),
     })
-    expect(canonicalPosition).toBe(7)
+    expect(events).toEqual(['detach'])
+    for (const wake of queued) wake()
+    expect(events).toEqual(['detach', 'wake'])
     expect(livePosition).toBe(7)
-    expect(continuation).toHaveBeenCalledOnce()
   })
 })
 

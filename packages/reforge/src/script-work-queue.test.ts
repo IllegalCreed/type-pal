@@ -1,4 +1,5 @@
 import { expect, test } from 'vitest'
+import { deferred } from './__tests__/deferred.js'
 import { frameFixture } from './__tests__/runtime-frame-fixture.js'
 import {
   inheritScriptWork,
@@ -6,16 +7,6 @@ import {
   scriptWorkIO,
   scriptWorkWait,
 } from './script-work-queue.js'
-
-function deferred<T>() {
-  let resolve!: (value: T) => void
-  let reject!: (reason: unknown) => void
-  const promise = new Promise<T>((yes, no) => {
-    resolve = yes
-    reject = no
-  })
-  return { promise, resolve, reject }
-}
 
 test('a frame waits for immediate continuations and outer cleanup, not an arbitrary number of Promise hops', async () => {
   const queue = new ScriptWorkQueue()

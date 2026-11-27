@@ -1,5 +1,6 @@
 import { buildEntityLifecycleReferenceIndex, buildWorld } from '@type-pal/content'
-import { expect, test, vi } from 'vitest'
+import { expect, test } from 'vitest'
+import { deferred, nextTestTask } from './__tests__/deferred.js'
 import { shellActor } from './__tests__/runtime-shell/project.js'
 import { fixture, stage } from './__tests__/save-lineage-fixture.js'
 import { executeAutomaticTargetCommand } from './automatic-target-command.js'
@@ -8,72 +9,87 @@ import { normalizeCurrentSave } from './save/current-codec.js'
 import { buildCurrentSavePayload } from './save/ops.js'
 import { ScriptWakeGate } from './script-wake-gate.js'
 
-async function drain() {
-  for (let turn = 0; turn < 40; turn++) await Promise.resolve()
-}
-
 test('a target acquired after the checkpoint await keeps the same command until the next release', async () => {
   const controller = new AbortController()
   const wake = new ScriptWakeGate()
+  const acquiringCheckpoint = deferred<void>()
+  const grantCheckpoint = deferred<void>()
+  const parked = deferred<void>()
   let held = false
-  const effect = vi.fn(async () => {})
-  const ready = vi.fn()
-  const beginMutation = vi.fn(async () => {
-    if (beginMutation.mock.calls.length === 1) held = true
-  })
+  let visibleFrame = 0
   const pending = executeAutomaticTargetCommand(
     {
       signal: controller.signal,
-      checkpoint: { ready, beginMutation },
+      checkpoint: {
+        ready: () => {},
+        beginMutation: () => {
+          acquiringCheckpoint.resolve()
+          return grantCheckpoint.promise
+        },
+      },
       eligible: () => !held,
-      wait: (eligible) => wake.wait(controller.signal, eligible),
+      wait: (eligible) => {
+        const wait = wake.wait(controller.signal, eligible)
+        if (held) parked.resolve()
+        return wait
+      },
     },
-    effect,
+    async () => {
+      visibleFrame = 3
+    },
   )
-  await drain()
-  expect(effect).not.toHaveBeenCalled()
-  expect(ready).toHaveBeenCalledTimes(2)
-  held = false
-  wake.notify()
-  await pending
-  expect(beginMutation).toHaveBeenCalledTimes(2)
-  expect(effect).toHaveBeenCalledTimes(1)
+  try {
+    await acquiringCheckpoint.promise
+    held = true
+    grantCheckpoint.resolve()
+    expect(
+      await Promise.race([parked.promise.then(() => 'parked'), pending.then(() => 'ran')]),
+    ).toBe('parked')
+    expect(visibleFrame).toBe(0)
+  } finally {
+    held = false
+    wake.notify()
+    await pending
+  }
+  expect(visibleFrame).toBe(3)
 })
 
 test.each([
   'abort',
-  'scene',
-  'activation',
-] as const)('a pending target rejects late %s without writing', async (invalidity) => {
+  'lost ownership',
+] as const)('a pending target rejects %s without writing', async (invalidity) => {
   const controller = new AbortController()
   const wake = new ScriptWakeGate()
-  let valid = true
-  const effect = vi.fn(async () => {})
+  const superseded = new DOMException('activation replaced', 'AbortError')
+  let ownsTarget = true
+  let visibleFrame = 0
   const pending = executeAutomaticTargetCommand(
     {
       signal: controller.signal,
       eligible: () => {
-        if (!valid) throw new DOMException(`${invalidity} replaced`, 'AbortError')
+        if (!ownsTarget) throw superseded
         return false
       },
       wait: (eligible) => wake.wait(controller.signal, eligible),
     },
-    effect,
+    async () => {
+      visibleFrame = 3
+    },
   )
-  const rejected = expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-  await drain()
-  if (invalidity === 'abort') controller.abort()
-  else {
-    valid = false
+  if (invalidity === 'abort') {
+    controller.abort()
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
+  } else {
+    ownsTarget = false
     wake.notify()
+    await expect(pending).rejects.toBe(superseded)
   }
-  await rejected
-  expect(effect).not.toHaveBeenCalled()
+  expect(visibleFrame).toBe(0)
 })
 
 test('abort during the checkpoint acquisition cannot install a pose even after the target became eligible', async () => {
   const controller = new AbortController()
-  const effect = vi.fn(async () => {})
+  let visibleFrame = 0
   const pending = executeAutomaticTargetCommand(
     {
       signal: controller.signal,
@@ -86,10 +102,12 @@ test('abort during the checkpoint acquisition cannot install a pose even after t
         },
       },
     },
-    effect,
+    async () => {
+      visibleFrame = 3
+    },
   )
   await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-  expect(effect).not.toHaveBeenCalled()
+  expect(visibleFrame).toBe(0)
 })
 
 test.each([
@@ -98,6 +116,7 @@ test.each([
 ])('a held automatic pose snapshots as legal SAVE12 without waiting or repeating its reward; retake during save=%s', async (retake) => {
   let held = true
   const wake = new ScriptWakeGate()
+  const parked = deferred<void>()
   const poses: string[] = []
   const f = fixture({
     executeEffect: async (command, context, signal) => {
@@ -108,7 +127,11 @@ test.each([
             signal,
             checkpoint: context.autoCommandCheckpoint,
             eligible: () => !held,
-            wait: (eligible) => wake.wait(signal, eligible),
+            wait: (eligible) => {
+              const wait = wake.wait(signal, eligible)
+              parked.resolve()
+              return wait
+            },
           },
           async () => {
             poses.push(command.kind)
@@ -139,12 +162,12 @@ test.each([
   }
   const active = f.runtime.runEntityBehavior(f.scene, 'e', 'auto', { signal: f.signal })
   const completion = active.catch((error: unknown) => error)
-  await drain()
-  expect(f.world.money).toBe(7)
-  expect(poses).toEqual([])
-  let saved = false
-  const snapshot = f.runtime
-    .withSaveBarrier(() => {
+  let payload: ReturnType<typeof buildCurrentSavePayload>
+  try {
+    await parked.promise
+    expect(f.world.money).toBe(7)
+    expect(poses).toEqual([])
+    const snapshot = f.runtime.withSaveBarrier(() => {
       if (retake) {
         held = false
         wake.notify()
@@ -156,13 +179,15 @@ test.each([
         'pose-project',
       )
     })
-    .then((payload) => {
-      saved = true
-      return payload
-    })
-  await drain()
-  expect(saved).toBe(true)
-  const payload = await snapshot
+    expect(
+      await Promise.race([snapshot.then(() => 'saved'), nextTestTask().then(() => 'blocked')]),
+    ).toBe('saved')
+    payload = await snapshot
+  } finally {
+    f.controller.abort()
+    await completion
+  }
+  expect(await completion).toMatchObject({ name: 'AbortError' })
   expect(payload.version).toBe(12)
   expect(payload.world.money).toBe(7)
   expect(payload.world.script?.behaviors.entities?.s?.e?.auto?.cursor?.resume?.frames).toEqual([
@@ -180,8 +205,6 @@ test.each([
     },
     references,
   )
-  f.controller.abort()
-  expect(await completion).toMatchObject({ name: 'AbortError' })
   const runtime = new ScriptProjectRuntime({ sharedScripts: {} }, restored.world, 'c'.repeat(64), {
     ...f.options,
     executeEffect: async (command, context, signal) => {

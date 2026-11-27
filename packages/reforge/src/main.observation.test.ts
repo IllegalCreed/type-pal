@@ -2,14 +2,14 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { observation } from './__tests__/runtime-shell/driver.js'
-import { shellProject } from './__tests__/runtime-shell/project.js'
+import { shellProject, shellScene } from './__tests__/runtime-shell/project.js'
+import { expectDefined } from './defined.js'
 import type { StoredSavePayload } from './save/types.js'
 
 let host: ShellHost | undefined
 afterEach(async () => {
   await host?.close()
   host = undefined
-  Reflect.deleteProperty(window, '__tpObserve')
 })
 interface Probe {
   readBoot(): { projectId: string; entryId: string; opening: null; checkpointLoad: string }
@@ -40,7 +40,7 @@ async function boot(query = '', payload?: StoredSavePayload) {
 }
 
 test('runtime observation is detached/read-only and preserves actual world and player state', async () => {
-  await boot()
+  const live = await boot()
   const before = structuredClone(observation().world)
   const initial = probe().readRuntime()
   expect(initial).toMatchObject({ sceneId: 'a', dialogue: null, scriptRunning: false })
@@ -52,6 +52,8 @@ test('runtime observation is detached/read-only and preserves actual world and p
   expect(Reflect.set(initial.position, 'col', 999)).toBe(false)
   expect(probe().readRuntime()).toEqual(initial)
   expect(observation().world).toEqual(before)
+  await live.close()
+  expect(Reflect.has(window, '__tpObserve')).toBe(false)
 })
 
 test('real checkpoint restore reports loaded; rejected input is explicitly failed even when boot falls back', async () => {
@@ -78,4 +80,36 @@ test('real checkpoint restore reports loaded; rejected input is explicitly faile
   await host.frame()
   expect(probe().readBoot().checkpointLoad).toBe('failed')
   expect(warn.mock.calls.some((row) => String(row[0]).includes('[e2e-load] 恢复失败'))).toBe(true)
+})
+
+test.each([
+  ['npc-1', true],
+  ['missing', false],
+] as const)('the movement observer reports whether %s belongs to the current scene', async (id, present) => {
+  host = await installShellHost(`?motion-entity=${id}`)
+  const fixture = await shellProject({
+    first: {
+      ...shellScene('a'),
+      entities: [
+        {
+          id: 'npc-1',
+          sprite: 'walker',
+          pos: { col: 4, row: 4, height: 0 },
+          facing: 'down',
+          collide: false,
+        },
+      ],
+    },
+  })
+  await (await import('./main.js')).bootGame(fixture.project, {
+    kind: 'project',
+    projectId: 'shell-project',
+  })
+  await host.frame()
+  expect(observation().sceneId).toBe('a')
+  const canvas = expectDefined(document.querySelector<HTMLCanvasElement>('canvas#screen'))
+  const probe: unknown = JSON.parse(expectDefined(canvas.dataset.rfMotionEntity))
+  expect(probe).toMatchObject(
+    present ? { id, present: true, pos: { col: 4, row: 4 } } : { id, present: false },
+  )
 })

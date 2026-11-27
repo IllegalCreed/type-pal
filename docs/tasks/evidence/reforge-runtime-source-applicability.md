@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-26
+Last reviewed: 2026-11-27
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -42,3 +42,15 @@ Template: evidence-receipt-v1 / 1.0.0
 | `packages/reforge/src/menu/item-use-session.test.ts` | 5-22 → 5-22 | `ea7a12e2c05ab142446625025181b6cece0e4e3d2858b3c14100d44099f0c72f` | `86c6e84884ee7637889d335f79164e3e185bfd8d8f4493eca7327cca887e504b` |
 
 运行记录和新回归在[世界操作与菜单批次](../cards/QUALITY-REFORGE-WORLD-CONTROLS-1.md)。这里保留旧候选和计数，未签发新的剧情或视觉结论。
+
+## 2026-11-27 场景与存档移动批次的来源回绑
+
+以 #79 合并提交 `f5727895abbaf41cd835ab447b59621adb5dc5bb` 为前驱，合用候选为 `b357ab23bbe26e163fbd0ca6b4cb4a88a72f7f6c`。场景、战斗宿主、世界归属与双阶段战斗基础沿用冻结的五段主装配器引用。已有的 001 和跨阶段问题报告随探针接线一并校准引用。目录、报告与 evidence 只写回来源坐标和一条适用性履历。
+
+| 源码 | 原行 → 候选行 |
+| --- | --- |
+| `packages/reforge/src/main.ts` | 417–424 → 409–416、456–463 → 448–455、1300–1398 → 1294–1392、441–453 → 433–445、6009 → 6008 |
+| `packages/reforge/src/world-motion-runtime.test.ts` | 7–30 → 7–30 |
+| `scripts/e2e/opening-trace.test.mjs` | 563–678 → 566–681 |
+
+七段逐字节相等。完整源码及切片 SHA 在[当前窗口归档](QUALITY-REFORGE-SCENE-OWNERSHIP-1.tar.gz)的 `window/save-and-motion/published-sources.json`。旧业务结论、执行记录与原始附件继续绑定各自原始候选。

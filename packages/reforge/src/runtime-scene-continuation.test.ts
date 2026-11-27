@@ -1,11 +1,13 @@
-import type {
-  BehaviorCursor,
-  RuntimeCommand,
-  SpriteActionBinding,
-  WorldState,
+import {
+  type BehaviorCursor,
+  type RuntimeCommand,
+  type SpriteActionBinding,
+  validateRuntimeScenes,
+  type WorldState,
 } from '@type-pal/content'
 import { expect, test, vi } from 'vitest'
-import { deferred, fixture, stage } from './__tests__/save-lineage-fixture.js'
+import { deferred } from './__tests__/deferred.js'
+import { fixture, stage } from './__tests__/save-lineage-fixture.js'
 import { EntityActionPlayer } from './entity-action-player.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
@@ -63,6 +65,7 @@ async function captured(
       ]),
     },
   }
+  validateRuntimeScenes([f.scene])
   const runtime = options.sharedSelf
     ? new ScriptProjectRuntime(
         {
@@ -140,7 +143,11 @@ test.each([
     cursor.resume!.frames[0]!.index = 1
     replaceCursor(f.world, f.saved, cursor)
   }
-  await expect(f.validate()).rejects.toThrow('scene runtime')
+  await expect(f.validate()).rejects.toThrow(
+    field === 'completed'
+      ? 'scene runtime: completed owner'
+      : 'scene runtime: move与当前moveEntity',
+  )
   expect(f.effect).not.toHaveBeenCalled()
 })
 
@@ -159,13 +166,15 @@ test.each([
     cursor.resume!.frames[0]!.index = 1
     replaceCursor(f.world, f.saved, cursor)
   }
-  await expect(f.validate()).rejects.toThrow('scene runtime')
+  await expect(f.validate()).rejects.toThrow(
+    field === 'completed' ? 'scene runtime: completed owner' : 'scene runtime: wait与当前wait',
+  )
 })
 
 test('persisted IO: automatic gait without a stable owner rejects', async () => {
   const f = await captured({ kind: 'wait', ms: 400 })
   f.saved.entities.target!.motion.gait = { source: 'auto', phase: 3 }
-  await expect(f.validate()).rejects.toThrow('scene runtime')
+  await expect(f.validate()).rejects.toThrow('scene runtime: 缺少automatic owner')
 })
 
 test('zero-remaining wait and cross-entity gait between movements remain legal while suspended', async () => {
@@ -193,7 +202,14 @@ test.each([
   else if (field === 'completed')
     replaceCursor(f.world, f.saved, { behavior: 'a', at: { kind: 'completed' } })
   else f.saved.automatic.e!.cursor.resume!.frames[0]!.index = 1
-  await expect(f.validate()).rejects.toThrow('scene runtime')
+  const errorByContext = {
+    missing: 'owner没有保存cursor',
+    disabled: 'owner方案未选中',
+    offstage: 'owner已离场',
+    completed: 'completed owner',
+    'diverged-cursor': 's/e cursor与world不一致',
+  }
+  await expect(f.validate()).rejects.toThrow(`scene runtime: ${errorByContext[field]}`)
 })
 
 const chaseWaits = [
@@ -319,7 +335,13 @@ test.each([
     cursor.resume!.frames[0]!.index = 1
     replaceCursor(f.world, f.saved, cursor)
   }
-  await expect(f.validate()).rejects.toThrow('scene runtime')
+  const error =
+    field === 'owner'
+      ? '缺少automatic owner'
+      : field === 'loop'
+        ? '循环动作不能保留awaited进度'
+        : 'action与当前playEntityAction'
+  await expect(f.validate()).rejects.toThrow(`scene runtime: ${error}`)
 })
 
 test('persisted IO: a completed action receipt is invalid after its awaited leaf has advanced', async () => {

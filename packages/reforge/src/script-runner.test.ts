@@ -3,8 +3,7 @@ import { emptyProjectedWorldScriptState, emptyWorldScriptState } from '@type-pal
 import { describe, expect, test } from 'vitest'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import { buildCurrentSavePayload } from './save/ops.js'
-import type { ScriptResolver } from './script-chunk-store.js'
-import type { ScriptHost } from './script-runner.js'
+import type { ScriptHost, ScriptResolver } from './script-runner.js'
 import { ScriptRunner } from './script-runner.js'
 import { makeTestWorld } from './test-fixtures.js'
 

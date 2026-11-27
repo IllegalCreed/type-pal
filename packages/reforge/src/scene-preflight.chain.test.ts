@@ -1,15 +1,15 @@
 import * as content from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { deferred } from './__tests__/deferred.js'
+import { instantiateMainBindings } from './__tests__/main-binding-fixture.js'
 import { scenePreparationFixture } from './__tests__/scene-preparation-fixture.js'
 import {
-  deferred,
   digest,
   hero,
   hostOptions,
-  mainApi,
   sceneFixture,
   worldFixture,
-} from './__tests__/world-async-fixture.js'
+} from './__tests__/script-world-fixture.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
 import { expectDefined } from './defined.js'
 import { Canvas2DRenderer } from './render.js'
@@ -38,10 +38,10 @@ interface Api {
 function harness() {
   const world = worldFixture(),
     definition = sceneFixture()
-  const entered = deferred(),
-    assets = deferred(),
-    sceneEntered = deferred(),
-    sceneReady = deferred()
+  const entered = deferred<void>(),
+    assets = deferred<void>(),
+    sceneEntered = deferred<void>(),
+    sceneReady = deferred<void>()
   let pauseScene = false
   const reads: string[] = []
   const env = {
@@ -75,7 +75,7 @@ function harness() {
     spriteCache: { load: vi.fn(async (_resolver: unknown, _asset: string) => ({ frames: [] })) },
     prepareSceneSounds: vi.fn(async () => {}),
   }
-  const api = mainApi<Api>(
+  const api = instantiateMainBindings<Api>(
     [
       'getSceneDef',
       'sceneScriptBinding',
@@ -112,7 +112,7 @@ function harness() {
 describe('scene preparation uses the source captured before resource reads', () => {
   test('main wrapper freezes inputs synchronously before yielding to any caller mutation', async () => {
     const f = await scenePreparationFixture()
-    const api = mainApi<{
+    const api = instantiateMainBindings<{
       prepareSceneSwitch: typeof f.preparer.prepare
       assertSceneSwitchPlanCurrent: typeof f.preparer.assertCurrent
     }>(['prepareSceneSwitch', 'assertSceneSwitchPlanCurrent'], [], { scenePreparation: f.preparer })

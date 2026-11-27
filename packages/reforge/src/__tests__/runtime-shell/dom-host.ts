@@ -256,6 +256,7 @@ export async function installShellHost(query = '') {
     audio.close()
     Reflect.deleteProperty(window, '__reforge')
     Reflect.deleteProperty(window, '__tpE2e')
+    Reflect.deleteProperty(window, '__tpObserve')
     document.body.replaceChildren()
     vi.restoreAllMocks()
     Object.defineProperty(IDBDatabase.prototype, 'transaction', transactionDescriptor)

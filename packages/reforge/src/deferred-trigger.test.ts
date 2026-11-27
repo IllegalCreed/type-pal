@@ -1,140 +1,164 @@
-import { describe, expect, test, vi } from 'vitest'
-import { DeferredTouchTrigger } from './deferred-trigger.js'
+import { expect, test } from 'vitest'
+import { DeferredTouchTrigger, type DeferredTouchTriggerClaim } from './deferred-trigger.js'
 
-interface Point {
-  col: number
-  row: number
+type Landing = { pos: { col: number; row: number }; triggerRevision: number }
+
+const sceneSessionId = 's001:1'
+
+function touchClaim(): DeferredTouchTriggerClaim<Landing> {
+  return {
+    sceneSessionId,
+    entityId: 'door',
+    landingTick: 12,
+    landing: { pos: { col: 4, row: 7 }, triggerRevision: 3 },
+  }
 }
 
-const claim = (sceneSessionId = 's001:1') => ({
-  sceneSessionId,
-  entityId: 'door',
-  landingTick: 12,
-  landing: { col: 4, row: 7 },
+function fixture() {
+  const pending = new DeferredTouchTrigger<Landing>()
+  const delivered: DeferredTouchTriggerClaim<Landing>[] = []
+  const options: Parameters<typeof pending.drain>[0] = {
+    sceneSessionId,
+    busy: false,
+    disposition: () => 'ready',
+    fire: (claim) => {
+      delivered.push(claim)
+      return true
+    },
+  }
+  return { pending, delivered, options }
+}
+
+test('a busy runner holds the first landing and delivers it only once after it frees the slot', () => {
+  const { pending, delivered, options } = fixture()
+  const accepted = touchClaim()
+  expect(pending.enqueue(accepted)).toBe(true)
+  expect(pending.enqueue({ ...touchClaim(), entityId: 'another-door' })).toBe(false)
+
+  expect(pending.drain({ ...options, busy: true })).toBe('held')
+  expect(pending.pending).toBe(true)
+  expect(delivered).toEqual([])
+
+  expect(pending.drain(options)).toBe('started')
+  expect(delivered).toEqual([accepted])
+  expect(pending.pending).toBe(false)
+  expect(pending.blocksAutoSafePoint).toBe(true)
+  pending.releaseDeliveryFence()
+  expect(pending.blocksAutoSafePoint).toBe(false)
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([accepted])
 })
 
-describe('deferred touch trigger', () => {
-  test('holds one committed landing while a runner is busy, then starts it exactly once', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    const fire = vi.fn(() => true)
-    expect(pending.enqueue(claim())).toBe(true)
-    expect(pending.enqueue({ ...claim(), entityId: 'other' })).toBe(false)
+test('a change of scene session discards the landing before consulting its disposition', () => {
+  const { pending, delivered, options } = fixture()
+  const checked: string[] = []
+  pending.enqueue(touchClaim())
+  expect(
+    pending.drain({
+      ...options,
+      sceneSessionId: 's001:2',
+      disposition(claim) {
+        checked.push(claim.entityId)
+        return 'ready'
+      },
+    }),
+  ).toBe('dropped')
+  expect(checked).toEqual([])
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([])
+})
 
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: true,
-        disposition: () => 'ready',
-        fire,
-      }),
-    ).toBe('held')
-    expect(pending.pending).toBe(true)
-    expect(fire).not.toHaveBeenCalled()
+test('invalidating one target only discards a claim for that entity', () => {
+  const { pending, delivered, options } = fixture()
+  pending.enqueue(touchClaim())
+  expect(pending.clearEntity('other')).toBe(false)
+  expect(pending.pending).toBe(true)
+  expect(pending.clearEntity('door')).toBe(true)
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([])
+})
 
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'ready',
-        fire,
-      }),
-    ).toBe('started')
-    expect(fire).toHaveBeenCalledOnce()
-    expect(pending.pending).toBe(false)
-    expect(pending.blocksAutoSafePoint).toBe(true)
-    pending.releaseDeliveryFence()
-    expect(pending.blocksAutoSafePoint).toBe(false)
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'ready',
-        fire,
-      }),
-    ).toBe('empty')
-  })
+test('a landing that fails the live disposition check is never delivered', () => {
+  const { pending, delivered, options } = fixture()
+  pending.enqueue(touchClaim())
+  expect(pending.drain({ ...options, disposition: () => 'drop' })).toBe('dropped')
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([])
+})
 
-  test('drops a stale scene claim without firing', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    const fire = vi.fn(() => true)
-    pending.enqueue(claim('s001:1'))
-    expect(
-      pending.drain({
-        sceneSessionId: 's002:2',
-        busy: false,
-        disposition: () => 'ready',
-        fire,
-      }),
-    ).toBe('dropped')
-    expect(fire).not.toHaveBeenCalled()
-  })
+test('a temporarily suspended target keeps the same landing until it can trigger', () => {
+  const { pending, delivered, options } = fixture()
+  const accepted = touchClaim()
+  pending.enqueue(accepted)
+  expect(pending.drain({ ...options, disposition: () => 'hold' })).toBe('held')
+  expect(pending.pending).toBe(true)
+  expect(delivered).toEqual([])
+  expect(pending.drain(options)).toBe('started')
+  expect(delivered).toEqual([accepted])
+})
 
-  test('targeted lifecycle or binding replacement clears only the matching claim', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    pending.enqueue(claim())
-    expect(pending.clearEntity('other')).toBe(false)
-    expect(pending.pending).toBe(true)
-    expect(pending.clearEntity('door')).toBe(true)
-    expect(pending.pending).toBe(false)
-  })
+test('delivery preserves the landing and binding revision supplied by the caller', () => {
+  const { pending, delivered, options } = fixture()
+  const playerPos = { col: 4, row: 7 }
+  const accepted = { ...touchClaim(), landing: { pos: { ...playerPos }, triggerRevision: 3 } }
+  pending.enqueue(accepted)
+  playerPos.col = 20
+  expect(pending.drain(options)).toBe('started')
+  expect(delivered).toEqual([
+    {
+      entityId: 'door',
+      sceneSessionId,
+      landingTick: 12,
+      landing: { pos: { col: 4, row: 7 }, triggerRevision: 3 },
+    },
+  ])
+})
 
-  test('drops a landing whose scene/lifecycle disposition is no longer valid', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    const fire = vi.fn(() => true)
-    pending.enqueue(claim())
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'drop',
-        fire,
-      }),
-    ).toBe('dropped')
-    expect(fire).not.toHaveBeenCalled()
-  })
+test('teardown clears a queued landing so the next scene can accept a new one', () => {
+  const { pending, delivered, options } = fixture()
+  pending.enqueue(touchClaim())
+  expect(pending.drain({ ...options, busy: true })).toBe('held')
+  expect(pending.blocksAutoSafePoint).toBe(true)
+  pending.clear()
+  expect(pending.drain(options)).toBe('empty')
+  expect(pending.blocksAutoSafePoint).toBe(false)
+  expect(delivered).toEqual([])
 
-  test('retains a temporarily suspended landing until it becomes triggerable', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    const fire = vi.fn(() => true)
-    pending.enqueue(claim())
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'hold',
-        fire,
-      }),
-    ).toBe('held')
-    expect(pending.pending).toBe(true)
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'ready',
-        fire,
-      }),
-    ).toBe('started')
-    expect(fire).toHaveBeenCalledOnce()
-  })
+  const nextScene = { ...touchClaim(), sceneSessionId: 's002:1' }
+  expect(pending.enqueue(nextScene)).toBe(true)
+  expect(pending.drain({ ...options, sceneSessionId: nextScene.sceneSessionId })).toBe('started')
+  expect(delivered).toEqual([nextScene])
+})
 
-  test('delivers the frozen landing fact instead of reselecting from later positions', () => {
-    const pending = new DeferredTouchTrigger<Point>()
-    let currentPosition = { col: 99, row: 99 }
-    const delivered: Point[] = []
-    pending.enqueue(claim())
-    currentPosition = { col: -20, row: -20 }
-    expect(
-      pending.drain({
-        sceneSessionId: 's001:1',
-        busy: false,
-        disposition: () => 'ready',
-        fire: (saved) => {
-          delivered.push(saved.landing)
-          return true
-        },
-      }),
-    ).toBe('started')
-    expect(currentPosition).toEqual({ col: -20, row: -20 })
-    expect(delivered).toEqual([{ col: 4, row: 7 }])
-  })
+test('teardown also releases the fence for an already delivered landing', () => {
+  const { pending, delivered, options } = fixture()
+  const accepted = touchClaim()
+  pending.enqueue(accepted)
+  expect(pending.drain(options)).toBe('started')
+  expect(pending.pending).toBe(false)
+  expect(pending.blocksAutoSafePoint).toBe(true)
+
+  pending.clear()
+  expect(pending.blocksAutoSafePoint).toBe(false)
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([accepted])
+})
+
+test('a target that cannot start releases the landing without adding a delivery fence', () => {
+  const { pending, delivered, options } = fixture()
+  const attempts: number[] = []
+  pending.enqueue(touchClaim())
+  expect(
+    pending.drain({
+      ...options,
+      fire: ({ landingTick }) => {
+        attempts.push(landingTick)
+        return false
+      },
+    }),
+  ).toBe('dropped')
+  expect(attempts).toEqual([12])
+  expect(pending.blocksAutoSafePoint).toBe(false)
+  expect(pending.drain(options)).toBe('empty')
+  expect(delivered).toEqual([])
 })

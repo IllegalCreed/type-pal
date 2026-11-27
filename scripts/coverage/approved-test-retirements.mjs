@@ -7,6 +7,31 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // Reforge scene governance. Stable test identities and their successors live in the task archive.
+    {
+      file: 'packages/reforge/src/automatic-target-command.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: '67d57e574c16d05a3323e08d99f4edba972e4809a896c147ca88303dcf890e12',
+      currentIdentityDigest: '83657ae1a1d6194e0fa3dd82e36971fe5c65a02c3e378223df0e61d41a18a1d1',
+      fileSha256: 'ab6686774dfa60d4b0bb3ba19eff1b59cc4f26bb194b4bf571d45ea1e54a25f9',
+    },
+    {
+      file: 'packages/reforge/src/motion-runtime-wiring.test.ts',
+      previous: 23,
+      current: 18,
+      previousIdentityDigest: '78bee21606e6d18f319440a6ec792d9ed10c829e033cdc9bf6bc8c764584d33a',
+      currentIdentityDigest: 'e63940a01087f0a3a520098bbe05e19fa32d70cf113b2778d7767d1eb810f278',
+      fileSha256: '99b7784d109546479d8d1318da648349887367008f493ddf6a6ad02bf1b76c6b',
+    },
+    {
+      file: 'packages/reforge/src/world-motion-runtime.test.ts',
+      previous: 21,
+      current: 6,
+      previousIdentityDigest: '17dcc868c97c72b1265fd2b66ccb4fee04ae37ba96c95ae6aae7416c280aec8e',
+      currentIdentityDigest: 'df0ead64a49a370ee491203f83623f3a5efa5faeb1617c31f6fca99e87981034',
+      fileSha256: '0fae5a27905ca5ddd49fccfcfe93b8f769565387271b4d72854b3fb6aa6e1659',
+    },
     // Reforge world controls: exact migrations and redundant old tests, with old and new case receipts in the task archive.
     {
       file: 'packages/reforge/src/equip-menu-state.test.ts',

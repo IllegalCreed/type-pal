@@ -45,7 +45,7 @@ test.each([
     command: { kind: 'setEntityPosRelParty', target, dcol: 1, drow: 2 } satisfies AuthorCommand,
     expected: { col: 3, row: 4, height: 0 },
   },
-])('H10 $label entity position reaches both durable state and live projection before continuation', async ({
+])('$label entity position reaches both durable state and live projection before continuation', async ({
   command,
   expected,
 }) => {
@@ -60,7 +60,7 @@ test.each([
   h.assertInputUnchanged()
 })
 
-test('H10 authored move waits for exact endpoint and persists it without mutating scene definition', async () => {
+test('authored move waits for exact endpoint and persists it without mutating scene definition', async () => {
   host = await installShellHost()
   const endpoint = { col: 5, row: 4, height: 0 }
   const h = await bootScenario(host, {
@@ -76,7 +76,7 @@ test('H10 authored move waits for exact endpoint and persists it without mutatin
   h.assertInputUnchanged()
 })
 
-test('H10 hide then restore keeps entity identity and resumes the next authored command', async () => {
+test('hide then restore keeps entity identity and resumes the next authored command', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     first: story([
@@ -96,6 +96,89 @@ test('H10 hide then restore keeps entity identity and resumes the next authored 
   h.assertInputUnchanged()
 })
 
+test('authored state commands persist and show an entity with a special object key', async () => {
+  host = await installShellHost()
+  const addressed = { scene: 'a', entity: '__proto__' }
+  const first = story([{ kind: 'setEntityState', target: addressed, state: 2 }])
+  first.entities = [
+    {
+      id: addressed.entity,
+      sprite: 'walker',
+      pos: initialPos,
+      facing: 'down',
+      collide: false,
+      hidden: true,
+    },
+  ]
+  const h = await bootScenario(host, { first })
+  expect(state().entities[0]).toMatchObject({ id: addressed.entity, hidden: true })
+
+  await advance(host, () => !state().script.running && state().world.money === 59)
+  expect(state().world.script?.entityState.a).toEqual({ [addressed.entity]: 2 })
+  expect(state().entities[0]).toMatchObject({ id: addressed.entity, hidden: false })
+  h.assertInputUnchanged()
+})
+
+test('an authored scene with an inherited name starts without prior state and projects new writes', async () => {
+  host = await installShellHost()
+  const addressed = { scene: 'constructor', entity: 'npc' }
+  const first = story([{ kind: 'setEntityState', target: addressed, state: 2 }])
+  first.id = addressed.scene
+  const h = await bootScenario(host, { first })
+  expect(state().sceneId).toBe(addressed.scene)
+  expect(state().world.script?.entityState).toEqual({})
+
+  await advance(host, () => !state().script.running && state().world.money === 59)
+  expect(state().world.script?.entityState).toEqual({ [addressed.scene]: { npc: 2 } })
+  expect(state().entities[0]).toMatchObject({ id: 'npc', hidden: false, collide: true })
+  h.assertInputUnchanged()
+})
+
+test.each([
+  { scene: 'constructor', entity: 'snapshot-actor' },
+  { scene: 'a', entity: '__proto__' },
+])('a return to $scene restores the recorded pose of $entity', async (addressed) => {
+  host = await installShellHost()
+  const first = sceneWithCommands(addressed.scene, [
+    {
+      kind: 'branch',
+      cond: { kind: 'not', cond: { kind: 'hasMoney', atLeast: 59 } },
+      then: [
+        { kind: 'giveMoney', delta: 9 },
+        { kind: 'setEntityFacing', target: addressed, facing: 'left' },
+        { kind: 'loadScene', scene: 'b' },
+        { kind: 'wait', ms: 300 },
+        { kind: 'loadScene', scene: addressed.scene },
+        { kind: 'giveMoney', delta: 1 },
+      ],
+    },
+  ])
+  first.mapId = 'map-a'
+  first.entities = [{ id: addressed.entity, sprite: 'walker', pos: initialPos, facing: 'down' }]
+
+  // The rejected implementation may have written to Object while capturing the previous scene.
+  const original = Object.getOwnPropertyDescriptor(Object, addressed.entity)
+  try {
+    const h = await bootScenario(host, { first })
+    await advance(host, () => state().sceneId === 'b')
+    expect(state().world.script?.entityPos?.[addressed.scene]).toEqual({
+      [addressed.entity]: initialPos,
+    })
+    await advance(host, () => !state().script.running && state().world.money === 60)
+    expect(state().sceneId).toBe(addressed.scene)
+    expect(state().entities[0]).toMatchObject({
+      id: addressed.entity,
+      pos: initialPos,
+      facing: 'left',
+      hidden: false,
+    })
+    h.assertInputUnchanged()
+  } finally {
+    if (original) Object.defineProperty(Object, addressed.entity, original)
+    else Reflect.deleteProperty(Object, addressed.entity)
+  }
+})
+
 test.each([
   { label: 'default', destination: {}, expected: { col: 4, row: 3, height: 0 } },
   {
@@ -103,7 +186,7 @@ test.each([
     destination: { pos: { col: 6, row: 2, height: 0 }, facing: 'up' as const },
     expected: { col: 6, row: 2, height: 0 },
   },
-])('H10 authored loadScene uses $label arrival and continues after the actual map commit', async ({
+])('authored loadScene uses $label arrival and continues after the actual map commit', async ({
   destination,
   expected,
 }) => {
@@ -120,7 +203,7 @@ test.each([
   h.assertInputUnchanged()
 })
 
-test('H10 script movement owns keyboard until completion; exploration menu opens afterwards', async () => {
+test('script movement owns keyboard until completion and then releases the exploration menu', async () => {
   host = await installShellHost()
   const h = await bootScenario(host, {
     first: story([

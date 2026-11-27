@@ -90,6 +90,24 @@ describe('canonical script compiler', () => {
     expect(() => resolver.resolve('missing', 'auto')).toThrow(/不存在/)
   })
 
+  test('the base resolver reads a shared script only when the library owns its ID', () => {
+    expect(() =>
+      new BaseSharedScriptResolver({}, digest).resolve('constructor', 'interactive'),
+    ).toThrow('shared script 不存在: constructor')
+    const script: BaseScriptLibrary[string] = {
+      name: 'Greeting',
+      self: 'none',
+      body: [{ kind: 'clearDialog' }],
+    }
+    const resolver = new BaseSharedScriptResolver(
+      Object.fromEntries([['constructor', script]]),
+      digest,
+    )
+    expect(resolver.resolve('constructor', 'interactive').body).toEqual([
+      { kind: 'leaf', command: { kind: 'clearDialog' } },
+    ])
+  })
+
   test('rejects dangling explicit step exits before lowering', () => {
     expect(() =>
       compileBaseScriptFlow(

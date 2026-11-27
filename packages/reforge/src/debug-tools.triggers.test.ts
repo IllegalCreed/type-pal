@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import type { AuthorSceneDef } from '@type-pal/content'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   button,
@@ -9,7 +10,48 @@ import {
   status,
   trigger,
 } from './__tests__/debug-tools-fixtures.js'
-import { projectData } from './__tests__/runtime-shell/project.js'
+import { deferred } from './__tests__/deferred.js'
+import { projectData, sceneWithCommands } from './__tests__/runtime-shell/project.js'
+import { loadScene } from './project-loader.js'
+
+function replacementScene(): AuthorSceneDef {
+  const scene = sceneWithCommands('b', [{ kind: 'setFlag', flag: 'replacementHook', value: true }])
+  scene.entities = [
+    {
+      id: 'zone',
+      zone: true,
+      pos: { col: 4, row: 3, height: 0 },
+      behaviors: {
+        trigger: {
+          mark: {
+            label: 'Mark',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'start',
+              stages: [
+                {
+                  id: 'start',
+                  body: [{ kind: 'setFlag', flag: 'replacementEntity', value: true }],
+                },
+              ],
+            },
+          },
+        },
+      },
+      initialPage: 'ready',
+      pages: [
+        {
+          id: 'ready',
+          label: 'Ready',
+          trigger: 'mark',
+          triggerActivation: { on: 'interact', range: 4 },
+        },
+      ],
+    },
+  ]
+  return scene
+}
 
 afterEach(cleanupDebug)
 describe('Debug trigger current runtime', () => {
@@ -118,5 +160,105 @@ describe('Debug trigger current runtime', () => {
     command('run-trigger zone')
     await h.settle()
     expect(status()).toContain('当前场景无 canonical 定义')
+  })
+  test.each([
+    { previous: 'zone [interact r2]', current: 'zone [interact r4]', flag: 'replacementEntity' },
+    { previous: 'a onEnter', current: 'b onEnter', flag: 'replacementHook' },
+  ])('a stale $previous button cannot execute the replacement scene target', async (entry) => {
+    const h = await debugHarness({ second: replacementScene() })
+    const oldButton = trigger(entry.previous)
+    h.state.scene = await loadScene(h.project, 'b')
+
+    oldButton.click()
+    await h.settle()
+    expect(h.operations).toHaveLength(0)
+    expect(h.world.script?.flags[entry.flag]).toBeUndefined()
+    expect(status()).toContain('场景已切换')
+    expect(element('[role="status"]').dataset.tone).toBe('error')
+
+    button('刷新列表').click()
+    trigger(entry.current).click()
+    await h.settle()
+    expect(h.world.script?.flags[entry.flag]).toBe(true)
+    expect(status()).toContain('→ done')
+  })
+
+  test('a same-name trigger in another scene does not cancel the earlier operation', async () => {
+    const entered = deferred<void>()
+    const h = await debugHarness({
+      holdEntityTrigger: true,
+      second: replacementScene(),
+      wait: async (_ms, signal) => {
+        entered.resolve()
+        await new Promise<void>((_resolve, reject) => {
+          signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+        })
+      },
+    })
+    try {
+      trigger('zone [interact r2]').click()
+      await entered.promise
+      h.state.scene = await loadScene(h.project, 'b')
+      button('刷新列表').click()
+      trigger('zone [interact r4]').click()
+      await Promise.allSettled(h.operations.slice(1))
+      expect(h.signals[0]?.aborted).toBe(false)
+      expect(h.world.script?.flags.replacementEntity).toBe(true)
+
+      expect(element('.tpd-scrollbox-tall').textContent).toContain('zone [interact r2] (a)')
+      trigger('zone [interact r2] (a)').click()
+      await h.settle()
+      expect(h.signals[0]?.aborted).toBe(true)
+      expect(h.world.script?.flags.triggered).toBeUndefined()
+      expect(status()).toContain('→ cancel')
+    } finally {
+      h.dispose()
+      await h.settle()
+    }
+  })
+
+  test('refresh uses the current trigger activation from the actual runtime', async () => {
+    const h = await debugHarness()
+    await h.runtime.runCommands(
+      [
+        {
+          kind: 'setEntityTriggerActivation',
+          target: { scene: 'a', entity: 'zone' },
+          selection: { kind: 'use', value: { on: 'interact', range: 4 } },
+        },
+      ],
+      { signal: new AbortController().signal },
+    )
+    button('刷新列表').click()
+    const labels = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.tpd-trigger-button'),
+      (entry) => entry.textContent,
+    )
+    expect(labels).toContain('zone [interact r4] trigger')
+    trigger('zone [interact r4]').click()
+    await h.settle()
+    expect(h.world.script?.flags.triggered).toBe(true)
+  })
+
+  test('an entry disabled after refresh reports that the trigger did not run', async () => {
+    const h = await debugHarness()
+    const original = trigger('zone [interact r2]')
+    await h.runtime.runCommands(
+      [
+        {
+          kind: 'selectEntityBehavior',
+          target: { scene: 'a', entity: 'zone' },
+          channel: 'trigger',
+          selection: { kind: 'disabled' },
+        },
+      ],
+      { signal: new AbortController().signal },
+    )
+
+    original.click()
+    await h.settle()
+    expect(h.world.script?.flags.triggered).toBeUndefined()
+    expect(status()).toContain('→ 未命中')
+    expect(element('[role="status"]').dataset.tone).toBe('warn')
   })
 })

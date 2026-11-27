@@ -1,4 +1,5 @@
 import {
+  type AuthorCommand,
   type AuthorSceneDef,
   type AuthorStagesFlow,
   buildEntityLifecycleReferenceIndex,
@@ -12,16 +13,16 @@ import {
   type DebugToolsContext,
   installDebugTools,
 } from '../debug-tools.js'
-import { loadCurrentProjectFrom } from '../project-loader.js'
+import { loadCurrentProjectFrom, loadScene } from '../project-loader.js'
 import type { RuntimeLeafCommand } from '../runtime-script-compiler.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from '../runtime-script-project.js'
 import { enemyProfile, wfEnemy, wfHealItem } from './battle-workflows/catalog.js'
 import { projectData, shellProject, shellScene } from './runtime-shell/project.js'
 
-const flow = (flag: string): AuthorStagesFlow => ({
+const flow = (flag: string, beforeMark: AuthorCommand[] = []): AuthorStagesFlow => ({
   kind: 'stages',
   initial: 'first',
-  stages: [{ id: 'first', body: [{ kind: 'setFlag', flag, value: true }] }],
+  stages: [{ id: 'first', body: [...beforeMark, { kind: 'setFlag', flag, value: true }] }],
 })
 const hook = (flag: string) => ({
   initial: 'main',
@@ -68,12 +69,19 @@ export function trigger(prefix: string) {
 
 /** Complete source tables go through the current loader, not a cast partial project. */
 export async function debugHarness(
-  options: { noFields?: boolean; noTeams?: boolean; wait?: ProjectScriptHostOptions['wait'] } = {},
+  options: {
+    noFields?: boolean
+    noTeams?: boolean
+    second?: AuthorSceneDef
+    holdEntityTrigger?: boolean
+    wait?: ProjectScriptHostOptions['wait']
+  } = {},
 ) {
   // JSDOM Blob lacks stream(); use Node's standard Blob with Node Response/CompressionStream.
   const nodeBufferModule = 'node:buffer'
   const native: { Blob: typeof Blob } = await import(nodeBufferModule)
   vi.stubGlobal('Blob', native.Blob)
+  const zoneTrigger = flow('triggered', options.holdEntityTrigger ? [{ kind: 'wait', ms: 40 }] : [])
   const scene: AuthorSceneDef = {
     ...shellScene('a'),
     hooks: { onEnter: hook('entered'), onTeleport: hook('teleported') },
@@ -83,7 +91,7 @@ export async function debugHarness(
         zone: true,
         pos: { col: 3, row: 3, height: 0 },
         behaviors: {
-          trigger: { touch: { label: 'Touch', order: 0, flow: flow('triggered') } },
+          trigger: { touch: { label: 'Touch', order: 0, flow: zoneTrigger } },
           auto: { pulse: { label: 'Pulse', order: 0, flow: flow('auto') } },
         },
         initialPage: 'open',
@@ -100,7 +108,10 @@ export async function debugHarness(
       { id: 'blank', zone: true, pos: { col: 1, row: 1, height: 0 } },
     ],
   }
-  const fixture = await shellProject({ first: scene })
+  const fixture = await shellProject({
+    first: scene,
+    ...(options.second ? { second: options.second } : {}),
+  })
   const manifest: CurrentManifest = structuredClone(fixture.project.manifest)
   manifest.content.enemies = 'content/enemies.json'
   manifest.content.enemyTeams = 'content/enemy-teams.json'
@@ -177,8 +188,8 @@ export async function debugHarness(
       effects.push(structuredClone(c))
       if (c.kind === 'wait') await options.wait?.(c.ms, signal)
     },
-    scene: () => project.entryScene,
-    currentSceneId: () => 'a',
+    scene: (id) => (state.scene?.id === id ? state.scene : loadScene(project, id)),
+    currentSceneId: () => state.scene?.id ?? 'a',
     query: {
       hasItem: () => false,
       ownsItem: () => false,

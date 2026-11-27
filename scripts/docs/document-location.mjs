@@ -79,6 +79,7 @@ import {
   isTestingQ2TowerFoxSource,
   isTestingQ2TowerMingSource,
   isTestingReforgeBattleCloseoutSource,
+  isTestingReforgeSceneOwnershipSource,
   isTestingReforgeWorldControlsSource,
   isTestingRuntimeOwnershipSource,
   isTestingSceneItemExitSource,
@@ -141,6 +142,7 @@ import {
   restoreTestingQ2TowerFoxSourceBindings,
   restoreTestingQ2TowerMingSourceBindings,
   restoreTestingReforgeBattleCloseoutBindings,
+  restoreTestingReforgeSceneOwnershipBindings,
   restoreTestingReforgeWorldControlsBindings,
   restoreTestingRuntimeOwnershipSourceBindings,
   restoreTestingSceneItemExitSourceBindings,
@@ -220,6 +222,7 @@ import {
   testingQ2TowerFoxPublicationBase,
   testingQ2TowerMingPublicationBase,
   testingReforgeBattleCloseoutBase,
+  testingReforgeSceneOwnershipBase,
   testingReforgeWorldControlsBase,
   testingRuntimeOwnershipPublicationBase,
   testingSceneItemExitPublicationBase,
@@ -706,8 +709,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const worldControlsRevision = admission.testingReforgeWorldControlsRevision
   if (worldControlsRevision)
     assert(battleCloseoutRevision && /^[a-f0-9]{40}$/u.test(worldControlsRevision))
-  const worldControls = sourceApplicability({
+  const sceneOwnershipRevision = admission.testingReforgeSceneOwnershipRevision
+  if (sceneOwnershipRevision)
+    assert(worldControlsRevision && /^[a-f0-9]{40}$/u.test(sceneOwnershipRevision))
+  const sceneOwnership = sourceApplicability({
     readCurrent: readCurrentSource,
+    revision: sceneOwnershipRevision,
+    baseRevision: testingReforgeSceneOwnershipBase,
+    restoreBindings: restoreTestingReforgeSceneOwnershipBindings,
+    isSource: isTestingReforgeSceneOwnershipSource,
+  })
+  const worldControls = sourceApplicability({
+    readCurrent: sceneOwnership.read,
     revision: worldControlsRevision,
     baseRevision: testingReforgeWorldControlsBase,
     restoreBindings: restoreTestingReforgeWorldControlsBindings,
@@ -2254,7 +2267,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
     const priorRuntimeBody = battleQuality.restore(
       path,
-      battleCloseout.restore(path, worldControls.restore(path, current)),
+      battleCloseout.restore(
+        path,
+        worldControls.restore(path, sceneOwnership.restore(path, current)),
+      ),
     )
     const priorMenuBody = menuIsolation.restore(
       path,

@@ -26,9 +26,12 @@ export async function drain() {
 }
 export async function key(host: ShellHost, value: string, dt = 100) {
   host.key(value)
-  await host.frame(dt)
-  await drain()
-  host.release(value)
+  try {
+    await host.frame(dt)
+    await drain()
+  } finally {
+    host.release(value)
+  }
 }
 export async function until(host: ShellHost, condition: () => boolean, limit = 80) {
   for (let i = 0; i < limit && !condition(); i++) {
