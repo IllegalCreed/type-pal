@@ -1,4 +1,4 @@
-import { emptyWorldScriptState } from '@type-pal/content'
+import { emptyWorldScriptState, validateSceneIndex } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { expectDefined } from './defined.js'
 import { commitItemEntityPlacement, planItemEntityPlacement } from './item-use-placement.js'
@@ -66,5 +66,25 @@ describe('item placement in the active scene', () => {
       s048: { e797: { col: 2, row: 1, height: 3 } },
     })
     expect(canonical.entityState).toEqual({ s048: { e797: 2 } })
+  })
+
+  test('a valid scene ID matching an inherited key gets its own scene record', () => {
+    const index = validateSceneIndex({
+      version: 1,
+      scenes: [{ id: 'constructor', name: 'Workshop', path: 'content/scenes/workshop.json' }],
+    })
+    const target = { scene: expectDefined(index.scenes[0]).id, entity: 'item-placement-marker' }
+    const canonical = emptyWorldScriptState()
+    const pos = { col: 3, row: 2, height: 0 }
+    const original = Object.getOwnPropertyDescriptor(Object, target.entity)
+    try {
+      commitItemEntityPlacement(canonical, target, 2, pos)
+      expect(canonical.entityPos).toEqual({ [target.scene]: { [target.entity]: pos } })
+      expect(canonical.entityState).toEqual({ [target.scene]: { [target.entity]: 2 } })
+      expect(Object.getOwnPropertyDescriptor(Object, target.entity)).toEqual(original)
+    } finally {
+      if (original) Object.defineProperty(Object, target.entity, original)
+      else Reflect.deleteProperty(Object, target.entity)
+    }
   })
 })

@@ -178,6 +178,47 @@ test('unavailable teleport hook refuses consumption and restores the same usable
   h.assertInputUnchanged()
 })
 
+test('scene item commits an authored entity ID that is also an inherited object key', async () => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entry.facing = 'right'
+  const target = { scene: 'a', entity: '__proto__' }
+  first.entities = [
+    {
+      id: target.entity,
+      sprite: 'walker',
+      pos: { col: 4, row: 3, height: 0 },
+      facing: 'down',
+      hidden: true,
+    },
+  ]
+  const item: AuthorItemCore = {
+    ...medicine('trap'),
+    use: {
+      target: 'scene',
+      consuming: true,
+      effects: [{ kind: 'placeEntityInFront', target, state: 2 }],
+    },
+  }
+  const fixture = await bootScenario(host, {
+    first,
+    items: [item],
+    inventory: [{ itemId: item.id, count: 1 }],
+  })
+  const entity = () => state().entities.find(({ id }) => id === target.entity)
+  expect(entity()?.pos).toEqual({ col: 4, row: 3, height: 0 })
+  await enterItems(host, 'use')
+  await key(host, 'Enter')
+  await advance(host, () => state().world.inventory.length === 0)
+
+  expect(entity()?.pos).toEqual({ col: 3, row: 2, height: 0 })
+  expect(state().world.script?.entityPos).toEqual({
+    a: { [target.entity]: { col: 3, row: 2, height: 0 } },
+  })
+  expect(state().world.script?.entityState).toEqual({ a: { [target.entity]: 2 } })
+  fixture.assertInputUnchanged()
+})
+
 test('repellent pauses an in-range hostile at its footpoint through one turn cycle and expires', async () => {
   host = await installShellHost()
   const first = shellScene('a')

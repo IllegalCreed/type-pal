@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { deferred } from './__tests__/world-async-fixture.js'
+import { deferred } from './__tests__/deferred.js'
 import { AsyncIntentController } from './async-intent.js'
 import { DitherTransitionController } from './dither-transition.js'
 import { SupersedingFadeDriver } from './fade-driver.js'

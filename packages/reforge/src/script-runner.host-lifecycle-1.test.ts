@@ -6,8 +6,7 @@
 import type { ProjectedWorldScriptState, ScriptStage } from '@type-pal/content'
 import { emptyProjectedWorldScriptState } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import type { ScriptResolver } from './script-chunk-store.js'
-import type { ScriptHost } from './script-runner.js'
+import type { ScriptHost, ScriptResolver } from './script-runner.js'
 import { ScriptRunner } from './script-runner.js'
 
 function recordHost(): { host: ScriptHost; calls: string[]; signals: Map<string, AbortSignal> } {

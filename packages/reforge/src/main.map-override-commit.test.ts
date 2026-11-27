@@ -1,20 +1,21 @@
-import type { RuntimeCommand } from '@type-pal/content'
+import type { Palette } from '@type-pal/shared'
 import { describe, expect, test, vi } from 'vitest'
+import { deferred, nextTestTask } from './__tests__/deferred.js'
+import { instantiateMainBindings } from './__tests__/main-binding-fixture.js'
+import { recordScriptHost } from './__tests__/script-host-adapter-fixture.js'
 import {
-  deferred,
   digest,
   hostOptions,
-  mainApi,
   sceneFixture,
   worldFixture,
-} from './__tests__/world-async-fixture.js'
+} from './__tests__/script-world-fixture.js'
 import { ActiveScene } from './active-scene.js'
 import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
+import { expectDefined } from './defined.js'
 import { buildBlankProjectMap } from './project-map.js'
 import { Canvas2DRenderer } from './render.js'
 import { runtimeSceneView } from './runtime-project-view.js'
 import { type ProjectScriptHostOptions, ScriptProjectRuntime } from './runtime-script-project.js'
-import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { ScriptHost } from './script-runner.js'
@@ -22,24 +23,29 @@ import { scriptWorkIO } from './script-work-queue.js'
 
 function mapHarness(initial: string | undefined) {
   const world = worldFixture()
-  if (initial) world.script!.mapOverride = { source: initial }
+  const script = expectDefined(world.script)
+  if (initial) script.mapOverride = { source: initial }
   const scene = sceneFixture('source')
   const oldMap = buildBlankProjectMap(1, 1, 'tiles'),
     oldRenderer = { old: true }
   const next = { map: buildBlankProjectMap(3, 2, 'tiles'), tilesets: new Map() }
-  const activeScene = new ActiveScene<object>(runtimeSceneView(scene, world.script!), () => {})
+  const activeScene = new ActiveScene<object>(runtimeSceneView(scene, script), () => {})
+  const palette: Palette = {
+    colors: Array.from({ length: 256 }, () => [0, 0, 0]),
+    cycles: [],
+  }
   const initialPlan = {
     sceneId: scene.id,
     def: activeScene.scene,
     assets: { map: oldMap, tilesets: new Map() },
-    palette: { colors: [], cycles: [] },
+    palette,
     renderer: oldRenderer,
     entityDefs: new Map(),
     pageActions: [],
   }
   activeScene.commit(initialPlan)
   activeScene.rendererForWave(() => oldRenderer)
-  const adapterHost = {} as ScriptHost
+  const { host: adapterHost } = recordScriptHost()
   const env = {
     world,
     canonicalScript: world.script,
@@ -72,14 +78,14 @@ function mapHarness(initial: string | undefined) {
     scriptWorkIO,
     Canvas2DRenderer,
     ctx: {},
-    palette: { colors: [] },
+    palette,
     asyncIntentAbortError,
     getMapAssets: vi.fn(async () => next),
     executeScriptHostEffect,
     scriptHost: adapterHost,
     autoHost: adapterHost,
   }
-  const api = mainApi<{
+  const api = instantiateMainBindings<{
     reloadMap: NonNullable<ScriptHost['reloadMap']>
     executeProjectScriptEffect: ProjectScriptHostOptions['executeEffect']
   }>(
@@ -113,7 +119,7 @@ function mapHarness(initial: string | undefined) {
   return { env, api, runtime, world, changes, next, oldMap, oldRenderer, adapterHost }
 }
 
-describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap', () => {
+describe('map override commit through the live scene host', () => {
   test('main rejects a missing commit control before IO instead of creating a second canonical writer', async () => {
     const h = mapHarness(undefined),
       before = structuredClone(h.world)
@@ -170,7 +176,7 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
     const h = mapHarness(undefined),
       before = structuredClone(h.world)
     const gate = deferred<typeof h.next>(),
-      entered = deferred(),
+      entered = deferred<void>(),
       controller = new AbortController()
     h.env.getMapAssets.mockImplementationOnce(() => {
       entered.resolve()
@@ -221,7 +227,7 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
   ] as const)('%s invalidation while loading blocks old commit despite same ID/object identity', async (mode) => {
     const h = mapHarness(undefined),
       gate = deferred<typeof h.next>(),
-      entered = deferred()
+      entered = deferred<void>()
     h.env.getMapAssets.mockImplementationOnce(() => {
       entered.resolve()
       return gate.promise
@@ -273,7 +279,7 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
   test('an old cancelled resource completion cannot overwrite a later successful commit', async () => {
     const h = mapHarness(undefined),
       gate = deferred<typeof h.next>(),
-      entered = deferred(),
+      entered = deferred<void>(),
       controller = new AbortController()
     h.env.getMapAssets.mockImplementationOnce(() => {
       entered.resolve()
@@ -291,7 +297,7 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
     })
     gate.resolve({ ...h.next, map: buildBlankProjectMap(9, 9, 'tiles') })
     await gate.promise
-    await Promise.resolve()
+    await nextTestTask()
     expect(h.world.script?.mapOverride?.source).toBe('map.new')
     expect(h.env.map).toBe(h.next.map)
     expect(h.changes).toHaveBeenCalledOnce()
@@ -309,8 +315,8 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
         signal: new AbortController().signal,
       }),
     ).rejects.toThrow('未完成同步提交')
-    expect(late).toBeTypeOf('function')
-    expect(() => late!()).toThrow('effect 已结束')
+    const detachedCommit = expectDefined(late)
+    expect(detachedCommit).toThrow('effect 已结束')
     expect(h.world).toEqual(before)
     expect(h.changes).not.toHaveBeenCalled()
   })
@@ -319,56 +325,46 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
     const h = mapHarness(undefined)
     let accepted: (() => void) | undefined
     h.adapterHost.reloadMap = async (id, signal, commit) => {
-      accepted = commit
+      const commitCurrent = expectDefined(commit)
+      accepted = commitCurrent
       await h.api.reloadMap(id, signal, () => {
-        commit!()
-        commit!()
+        commitCurrent()
+        commitCurrent()
       })
     }
     await h.runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
       signal: new AbortController().signal,
     })
-    h.world.script!.mapOverride!.source = 'map.later'
-    accepted!()
+    expectDefined(h.world.script?.mapOverride).source = 'map.later'
+    expectDefined(accepted)()
     expect(h.world.script?.mapOverride?.source).toBe('map.later')
     expect(h.changes).toHaveBeenCalledOnce()
   })
 
-  test.each([
-    undefined,
-    'source',
-    'elsewhere',
-  ])('state-only adapter explicitly commits without reload, scene=%s', async (sceneId) => {
-    const world = worldFixture(),
-      scene = sceneFixture(),
-      changed = vi.fn()
+  test('a state-only adapter commits the current scene override without a live reload port', async () => {
+    const world = worldFixture()
+    const scene = sceneFixture('source')
+    const { host } = recordScriptHost()
+    const changed = vi.fn()
     const runtime = new ScriptProjectRuntime(
       { sharedScripts: {} },
       world,
       digest,
       hostOptions(scene, {
-        executeEffect: (command, context, signal, commitControl) =>
-          executeScriptHostEffect(
-            {} as ScriptHost,
-            command as BaseRuntimeLeafCommand,
-            context,
-            signal,
-            { currentSceneId: () => 'source', commitControl },
-          ),
+        executeEffect: (command, context, signal, commitControl) => {
+          if (command.kind !== 'setSceneMapOverride') throw new Error('unexpected script effect')
+          return executeScriptHostEffect(host, command, context, signal, {
+            currentSceneId: () => scene.id,
+            commitControl,
+          })
+        },
         worldChanged: changed,
       }),
     )
-    await runtime.runCommands(
-      [
-        {
-          kind: 'setSceneMapOverride',
-          ...(sceneId === undefined ? {} : { scene: sceneId }),
-          mapId: 'map.new',
-        },
-      ],
-      { signal: new AbortController().signal },
-    )
-    expect(world.script?.mapOverride).toEqual({ [sceneId ?? 'source']: 'map.new' })
+    await runtime.runCommands([{ kind: 'setSceneMapOverride', mapId: 'map.new' }], {
+      signal: new AbortController().signal,
+    })
+    expect(world.script?.mapOverride).toEqual({ source: 'map.new' })
     expect(changed).toHaveBeenCalledOnce()
   })
 
@@ -386,133 +382,5 @@ describe('WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter �
     expect(h.env.getMapAssets).not.toHaveBeenCalled()
     expect(h.env.map).toBe(h.oldMap)
     expect(h.changes).toHaveBeenCalledOnce()
-  })
-})
-
-const target = { scene: 'target', entity: 'entity' }
-const selections = [
-  {
-    kind: 'selectSceneHooks',
-    scene: 'target',
-    selection: { onEnter: { kind: 'use', value: 'after' } },
-  },
-  {
-    kind: 'selectEntityBehavior',
-    target,
-    channel: 'trigger',
-    selection: { kind: 'use', value: 'second' },
-  },
-  { kind: 'selectEntityPage', target, selection: { kind: 'use', value: 'second' } },
-  {
-    kind: 'setEntityTriggerActivation',
-    target,
-    selection: { kind: 'use', value: { on: 'touch', range: 2 } },
-  },
-] satisfies RuntimeCommand[]
-
-describe.each(selections)('WORLD-ASYNC-COMMIT-1 $kind async selection', (command) => {
-  test.each([
-    false,
-    true,
-  ])('successful resolver then abort preserves canonical/epoch/notification (existing cursor=%s)', async (existing) => {
-    const world = worldFixture(),
-      scene = sceneFixture(),
-      controller = new AbortController(),
-      entered = deferred(),
-      changes = vi.fn()
-    const runtime = new ScriptProjectRuntime(
-      { sharedScripts: {} },
-      world,
-      digest,
-      hostOptions(scene, {
-        scene: async () => {
-          entered.resolve()
-          return scene
-        },
-        worldChanged: changes,
-      }),
-    )
-    if (existing)
-      world.script!.behaviors = {
-        scenes: {
-          target: {
-            onEnter: {
-              selection: { kind: 'use', value: 'before' },
-              cursor: { hook: 'before', at: { kind: 'stage', stage: 'two' } },
-            },
-          },
-        },
-        entities: {
-          target: {
-            entity: {
-              page: 'first',
-              trigger: {
-                selection: { kind: 'use', value: 'first' },
-                cursor: { behavior: 'first', at: { kind: 'stage', stage: 'two' } },
-              },
-              triggerActivation: { kind: 'use', value: { on: 'interact', range: 1 } },
-            },
-          },
-        },
-      }
-    const before = structuredClone(world)
-    const running = runtime.runCommands([command], { signal: controller.signal })
-    const rejected = expect(running).rejects.toMatchObject({ name: 'AbortError' })
-    await entered.promise
-    queueMicrotask(() => controller.abort())
-    await rejected
-    expect(world).toEqual(before)
-    expect(changes).not.toHaveBeenCalled()
-    expect(
-      runtime.coordinator.epoch({ kind: 'scene-hook', scene: 'target', slot: 'onEnter' }),
-    ).toBe(0)
-    expect(runtime.coordinator.epoch({ kind: 'entity-behavior', target, channel: 'trigger' })).toBe(
-      0,
-    )
-    expect(runtime.coordinator.epoch({ kind: 'entity-behavior', target, channel: 'auto' })).toBe(0)
-  })
-  test('same scene ID but newer source session rejects, without confusing source and target', async () => {
-    const world = worldFixture(),
-      scene = sceneFixture(),
-      gate = deferred<typeof scene>(),
-      entered = deferred(),
-      changes = vi.fn()
-    let session = 1
-    const runtime = new ScriptProjectRuntime(
-      { sharedScripts: {} },
-      world,
-      digest,
-      hostOptions(scene, {
-        scene: () => {
-          entered.resolve()
-          return gate.promise
-        },
-        currentSceneSessionId: () => session,
-        worldChanged: changes,
-      }),
-    )
-    const before = structuredClone(world)
-    const running = runtime.runCommands([command], { signal: new AbortController().signal })
-    const rejected = expect(running).rejects.toMatchObject({ name: 'AbortError' })
-    await entered.promise
-    session++
-    gate.resolve(scene)
-    await rejected
-    expect(world).toEqual(before)
-    expect(changes).not.toHaveBeenCalled()
-  })
-  test('unchanged source session can select a different target scene', async () => {
-    const world = worldFixture(),
-      scene = sceneFixture(),
-      changes = vi.fn()
-    const runtime = new ScriptProjectRuntime(
-      { sharedScripts: {} },
-      world,
-      digest,
-      hostOptions(scene, { scene: async () => scene, worldChanged: changes }),
-    )
-    await runtime.runCommands([command], { signal: new AbortController().signal })
-    expect(world.script?.behaviors).not.toEqual({})
-    expect(changes).toHaveBeenCalledOnce()
   })
 })

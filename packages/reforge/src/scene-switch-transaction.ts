@@ -40,9 +40,10 @@ export function captureSceneSwitchDependencies(
     spriteId: character.appearance?.spriteId ?? null,
     equipment: sortedEquipment(character.equipment),
   }))
+  const maps = script.mapOverride
   return {
     sceneId: scene.id,
-    mapOverride: script.mapOverride?.[scene.id] ?? null,
+    mapOverride: maps && Object.hasOwn(maps, scene.id) ? (maps[scene.id] ?? null) : null,
     party,
     followers: [...(script.followers ?? [])],
     inventory: world.inventory

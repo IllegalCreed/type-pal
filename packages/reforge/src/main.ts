@@ -51,7 +51,7 @@ import {
   loadStandardPalette,
   SpriteAssetCache,
 } from './assets.js'
-import { AsyncIntentController, asyncIntentAbortError } from './async-intent.js'
+import { AsyncIntentController, asyncIntentAbortError, isAbortError } from './async-intent.js'
 import { createBgmPlayer } from './audio/bgm.js'
 import { SfxPlayer } from './audio/sfx.js'
 import { collectSceneSoundAssets, collectScriptSoundAssets } from './audio/sfx-readiness.js'
@@ -187,6 +187,7 @@ import type {
   StoredAutomaticChaseClaim,
   StoredSavePayload,
 } from './save/types.js'
+import { readOwnEntry, writeSceneEntityValue } from './scene-entity-values.js'
 import { type SceneEntryRevealHandle, SceneEntrySession } from './scene-entry-session.js'
 import type { SceneMapAssets } from './scene-map.js'
 import { loadSceneMap } from './scene-map.js'
@@ -268,15 +269,6 @@ function get2dContext(c: HTMLCanvasElement): CanvasRenderingContext2D {
   const context = c.getContext('2d')
   if (!context) throw new Error('reforge: 2d context 不可用')
   return context
-}
-
-function isAbortError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'name' in error &&
-    (error as { name?: unknown }).name === 'AbortError'
-  )
 }
 
 // 画布延迟到 bootGame 取(曾模块级 getElementById → 导入即抓 DOM,无 #screen 的页面
@@ -590,6 +582,8 @@ export async function bootGame(
     canonicalProject.poisonsById,
   )
   let sceneRuntimeStates: SceneRuntimeStates = {}
+  const savedSceneRuntime = (sceneId: string): SceneRuntimeState | undefined =>
+    Object.hasOwn(sceneRuntimeStates, sceneId) ? sceneRuntimeStates[sceneId] : undefined
   const automaticWaits = new Map<
     AbortSignal,
     { kind: AutomaticWaitKind; durationMs: number; timer: RuntimeWait }
@@ -1044,7 +1038,7 @@ export async function bootGame(
     const saved =
       beforeCommit && sceneId === activeScene.scene.id
         ? captureSceneRuntime(currentWorldSnapshot())
-        : sceneRuntimeStates[sceneId]
+        : savedSceneRuntime(sceneId)
     const restoreActions = prepareSceneActions(plan.def, plan.entityDefs, saved)
     beforeCommit?.()
     commitSceneSwitch(plan, worldView, true, restoreActions)
@@ -1527,7 +1521,7 @@ export async function bootGame(
     return deriveEntityLifecycleGates({
       staticHidden: baseline.hidden,
       staticCollide: baseline.collide,
-      entityState: runtimeScript.entityState[entity.id],
+      entityState: readOwnEntry(runtimeScript.entityState, entity.id),
       lifecycle: lifecycleEntryFor(entity.id),
       ...options,
     })
@@ -1541,7 +1535,7 @@ export async function bootGame(
         hidden: e.hidden === true,
         collide: e.collide === true,
       }
-      const st = runtimeScript.entityState[e.id]
+      const st = readOwnEntry(runtimeScript.entityState, e.id)
       const lifecycle = lifecycleEntryFor(e.id)
       const gates = deriveEntityLifecycleGates({
         staticHidden: baseline.hidden,
@@ -1569,7 +1563,7 @@ export async function bootGame(
   function applyWorldEntityPositionToScene(id: string): void {
     syncRuntimeScriptScratch(activeScene.scene.id)
     const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
-    const pos = runtimeScript.entityPos?.[id]
+    const pos = readOwnEntry(runtimeScript.entityPos, id)
     if (!entity || !pos) return
     entity.pos = { ...pos }
     clearEntityGait(id)
@@ -1590,10 +1584,11 @@ export async function bootGame(
     for (const entity of activeScene.scene.entities) applyWorldEntityPositionToScene(entity.id)
     worldPresentation.clearEntityFrames()
     restoredWaits.clear()
-    const saved = sceneRuntimeStates[activeScene.scene.id]
+    const saved = savedSceneRuntime(activeScene.scene.id)
     if (!saved) return
     const matchingOwner = (id: string) => matchesCurrentAutoCursor(id, saved)
     for (const entity of activeScene.scene.entities) {
+      if (!Object.hasOwn(saved.entities, entity.id)) continue
       const pose = saved.entities[entity.id]
       if (!pose) continue
       if (pose.facing !== undefined) entity.facing = pose.facing
@@ -2609,7 +2604,7 @@ export async function bootGame(
           const saved =
             sceneId === fromSceneId
               ? captureSceneRuntime(currentWorldSnapshot())
-              : sceneRuntimeStates[sceneId]
+              : savedSceneRuntime(sceneId)
           const restoreActions = prepareSceneActions(prepared.def, prepared.entityDefs, saved)
           stopAutoRunners()
           commitSceneSwitch(prepared, worldView, true, restoreActions, followState)
@@ -2794,7 +2789,7 @@ export async function bootGame(
     },
     // 0x6F 源状态读取:脚本覆写优先,否则活体推导(隐 0 / 挡路 2 / 可见 1)
     getEntityState: (id) => {
-      const st = runtimeScript.entityState[id]
+      const st = readOwnEntry(runtimeScript.entityState, id)
       if (st !== undefined) return st
       const e = activeScene.scene.entities.find((x) => x.id === id)
       if (!e) return undefined
@@ -3648,9 +3643,11 @@ export async function bootGame(
       'entity' in command.target
     ) {
       const target = command.target
-      const saved = sceneRuntimeStates[target.scene]
+      const saved = savedSceneRuntime(target.scene)
       if (saved && target.scene !== activeScene.scene.id) {
-        const pose = saved.entities[target.entity]
+        const pose = Object.hasOwn(saved.entities, target.entity)
+          ? saved.entities[target.entity]
+          : undefined
         if (pose && (command.kind === 'setEntityPos' || command.kind === 'removeEntity')) {
           delete pose.motion.gait
           delete pose.motion.move
@@ -4904,7 +4901,7 @@ export async function bootGame(
     // Suspended is a resumable activation gate. Hidden exit/removal phases, however, own no
     // activation until lifecycle explicitly restores/reappears them.
     if (phase === 'despawned' || phase === 'awaitingExit' || phase === 'removed') return
-    const saved = sceneRuntimeStates[activeScene.scene.id]
+    const saved = savedSceneRuntime(activeScene.scene.id)
     // Entry scripts can select a new behavior before the projected wait was consumed.
     if (saved && restoredWaits.has(e.id) && !matchesCurrentAutoCursor(e.id, saved))
       restoredWaits.delete(e.id)
@@ -4956,7 +4953,7 @@ export async function bootGame(
     })()
   }
   function startAutoRunners(
-    restoredClaims: readonly StoredAutomaticChaseClaim[] = sceneRuntimeStates[activeScene.scene.id]
+    restoredClaims: readonly StoredAutomaticChaseClaim[] = savedSceneRuntime(activeScene.scene.id)
       ?.chaseClaims ?? [],
   ): void {
     if (loadReveal) return
@@ -5783,7 +5780,7 @@ export async function bootGame(
           // A prepared receipt may be captured again before the restored runner re-enters its leaf.
           return (
             owner !== undefined &&
-            sceneRuntimeStates[activeScene.scene.id]?.actions.some(
+            savedSceneRuntime(activeScene.scene.id)?.actions.some(
               (value) =>
                 value.entity === entity &&
                 value.completed?.some(
@@ -5799,22 +5796,24 @@ export async function bootGame(
         },
       }),
     }
-    // Canonical movement endpoints do not represent an in-flight pose. Capture the actual
-    // scene at this synchronous boundary, without mutating live world or waiting for arrival.
+    // Capture the in-flight position into the supplied world at this synchronous boundary.
+    // The caller supplies a save copy or commits the position to the live world on scene exit.
     if (activeScene.scene.entities.length > 0) {
       captured.script ??= emptyWorldScriptState()
       captured.script.entityPos ??= {}
-      const positions = captured.script.entityPos[activeScene.scene.id] ?? {}
-      captured.script.entityPos[activeScene.scene.id] = positions
+      const positions = captured.script.entityPos
+      const sceneId = activeScene.scene.id
+      const poses = new Map<string, SceneRuntimeState['entities'][string]>()
       for (const entity of activeScene.scene.entities) {
-        positions[entity.id] = structuredClone(entity.pos)
+        writeSceneEntityValue(positions, { scene: sceneId, entity: entity.id }, entity.pos)
         const fixedFrame = worldPresentation.entityFrame(entity.id)
-        saved.entities[entity.id] = {
+        poses.set(entity.id, {
           ...(entity.facing !== undefined ? { facing: entity.facing } : {}),
           ...(fixedFrame !== undefined ? { fixedFrame } : {}),
           motion: motion.captureEntity(entity.id),
-        }
+        })
       }
+      saved.entities = Object.fromEntries(poses)
     }
     for (const [id, behavior] of Object.entries(
       captured.script?.behaviors.entities?.[activeScene.scene.id] ?? {},
@@ -6281,7 +6280,7 @@ export async function bootGame(
           hostileControlAvailable(entity)
             ? repelWalkPhase
             : undefined,
-        entityLayer: (id) => runtimeScript.entityLayer?.[id],
+        entityLayer: (id) => readOwnEntry(runtimeScript.entityLayer, id),
         party: world.party,
         partyVisual,
         player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },

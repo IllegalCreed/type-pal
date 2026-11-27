@@ -1,8 +1,8 @@
-// GLM batch-2 originally reported B11/B12; these regressions do not import audit probes.
 import { afterEach, expect, test, vi } from 'vitest'
 import { checkpointHarness as harness } from './__tests__/checkpoint-export-fixture.js'
+import { deferred } from './__tests__/deferred.js'
 import { confirm, firstAndRepeat } from './__tests__/save-lineage-fixture.js'
-import { deferred, worldFixture } from './__tests__/world-async-fixture.js'
+import { worldFixture } from './__tests__/script-world-fixture.js'
 import { buildCurrentSavePayload } from './save/ops.js'
 
 afterEach(() => {
@@ -21,6 +21,17 @@ async function pendingFlow(h: ReturnType<typeof harness>, entered: { promise: Pr
   )
   await entered.promise
   return { running }
+}
+
+function observeSnapshotBarrier(h: ReturnType<typeof harness>): Promise<void> {
+  const entered = deferred<void>()
+  const original = h.runtime.withSaveBarrier.bind(h.runtime)
+  vi.spyOn(h.runtime, 'withSaveBarrier').mockImplementation((capture) => {
+    const result = original(capture)
+    entered.resolve()
+    return result
+  })
+  return entered.promise
 }
 
 test('actual DEV zero-argument export survives JSON and the current codec/restore chain', async () => {
@@ -76,9 +87,8 @@ test('export is deeply isolated in both directions, including absent optional ac
 })
 
 test('actual export waits for the real runtime safe point and includes the command tail', async () => {
-  const entered = deferred(),
-    answer = deferred<boolean>(),
-    barrierEntered = deferred()
+  const entered = deferred<void>(),
+    answer = deferred<boolean>()
   const h = harness({
     confirm: async () => {
       entered.resolve()
@@ -86,14 +96,9 @@ test('actual export waits for the real runtime safe point and includes the comma
     },
   })
   const { running } = await pendingFlow(h, entered)
-  const original = h.runtime.withSaveBarrier.bind(h.runtime)
-  vi.spyOn(h.runtime, 'withSaveBarrier').mockImplementation((capture) => {
-    const result = original(capture)
-    barrierEntered.resolve()
-    return result
-  })
+  const barrierEntered = observeSnapshotBarrier(h)
   const exported = h.hooks.dumpSave()
-  await barrierEntered.promise
+  await barrierEntered
   expect(h.capture).not.toHaveBeenCalled()
   expect(h.runtime.coordinator.gateClosed()).toBe(true)
   answer.resolve(true)
@@ -104,7 +109,7 @@ test('actual export waits for the real runtime safe point and includes the comma
 })
 
 test('persistent root exports its next cursor at the safe point, not a partial command stack', async () => {
-  const entered = deferred(),
+  const entered = deferred<void>(),
     answer = deferred<boolean>()
   const h = harness({
     currentSceneId: () => 'target',
@@ -118,7 +123,10 @@ test('persistent root exports its next cursor at the safe point, not a partial c
     signal: new AbortController().signal,
   })
   await entered.promise
+  const barrierEntered = observeSnapshotBarrier(h)
   const exported = h.hooks.dumpSave()
+  await barrierEntered
+  expect(h.capture).not.toHaveBeenCalled()
   answer.resolve(true)
   await running
   const result = await exported
@@ -139,7 +147,7 @@ test.each([
   'save-export',
   'export-save',
 ] as const)('shared queue preserves request order: %s', async (order) => {
-  const entered = deferred(),
+  const entered = deferred<void>(),
     answer = deferred<boolean>()
   const h = harness({
     confirm: async () => {
@@ -149,8 +157,8 @@ test.each([
   })
   const { running } = await pendingFlow(h, entered)
   // Change the live world after each real capture to distinguish snapshot admission order.
-  h.capture.mockImplementation((world, position, id) => {
-    const payload = buildCurrentSavePayload(world, position, id)
+  h.capture.mockImplementation((world, position, id, sceneRuntime) => {
+    const payload = buildCurrentSavePayload(world, position, id, sceneRuntime)
     h.world.money += 10
     return payload
   })
@@ -178,7 +186,7 @@ test.each([
 
 test('export timeout rejects without capture, and later export and save recover', async () => {
   vi.useFakeTimers()
-  const entered = deferred(),
+  const entered = deferred<void>(),
     answer = deferred<boolean>()
   const h = harness({
     confirm: async () => {
@@ -232,8 +240,8 @@ test('export performs zero slot/thumbnail IO and does not consume save numbers',
 })
 
 test('slow slot IO does not hold the snapshot barrier or block an export', async () => {
-  const entered = deferred(),
-    commit = deferred(),
+  const entered = deferred<void>(),
+    commit = deferred<void>(),
     h = harness()
   const original = h.store.putSlot.bind(h.store)
   h.io.put.mockImplementationOnce(async (...args) => {
@@ -288,7 +296,7 @@ test('slow thumbnail preserves matching metadata/payload and does not block expo
 
 test('queued export sees a whole later committed world and position, never a mixed snapshot', async () => {
   const h = harness(),
-    gate = deferred()
+    gate = deferred<void>()
   h.env.saveSnapshotQueue = gate.promise
   const exported = h.hooks.dumpSave()
   const raw = buildCurrentSavePayload(
@@ -327,7 +335,7 @@ test.each([
   true,
 ])('real quickSave thumbnail callback success/failure (%s) preserves export independence', async (fail) => {
   const h = harness(),
-    entered = deferred()
+    entered = deferred<void>()
   let complete!: BlobCallback
   const drawImage = vi.fn()
   const offscreen = {

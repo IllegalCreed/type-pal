@@ -254,7 +254,7 @@ export {
   walkFrameIndex,
 }
 
-import type { ScriptHost, StepEvent } from './script-runner.js'
+import type { ResolvedScript, ScriptHost, ScriptResolver, StepEvent } from './script-runner.js'
 // 脚本解释器(编辑器演出预览:注入画布 host 播演出;onStep/gate = 高亮/单步钩子)
 import { evalCondition, ScriptRunner } from './script-runner.js'
 
@@ -263,14 +263,12 @@ export * from './project-save-state.js'
 export * from './runtime-script-compiler.js'
 export * from './runtime-script-project.js'
 export * from './runtime-script-runner.js'
-export type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
-export { MemoryScriptResolver, ScriptChunkStore } from './script-chunk-store.js'
 export * from './script-compiler-core.js'
 export * from './script-host-adapter.js'
 export * from './script-project-core.js'
 export * from './script-runner-core.js'
 export * from './script-world.js'
-export type { ScriptHost, StepEvent }
+export type { ResolvedScript, ScriptHost, ScriptResolver, StepEvent }
 export { evalCondition, ScriptRunner }
 
 import type { AudioAssetReader, BgmPlayer } from './audio/bgm.js'

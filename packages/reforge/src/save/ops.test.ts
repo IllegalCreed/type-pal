@@ -1,5 +1,6 @@
+// @vitest-environment jsdom
 import { emptyWorldScriptState, type WorldState } from '@type-pal/content'
-import { describe, expect, test } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { makeTestWorld } from '../test-fixtures.js'
 import {
   buildCurrentSavePayload,
@@ -7,6 +8,8 @@ import {
   captureThumbnail,
   resolveRestoredMusic,
 } from './ops.js'
+
+afterEach(() => vi.restoreAllMocks())
 
 function currentWorld(): WorldState {
   return {
@@ -22,7 +25,7 @@ describe('current save operations', () => {
     expect(buildMeta('m01', world, '鬼界·民居', (c) => `名:${c.template}`, 999)).toEqual({
       slotId: 'm01',
       kind: 'manual',
-      party: world.party.map((c) => ({ name: `名:${c.template}`, level: c.level })),
+      party: [{ name: '名:li-xiaoyao', level: 1 }],
       mapName: '鬼界·民居',
       savedAt: 999,
     })
@@ -58,6 +61,10 @@ describe('current save operations', () => {
       currentMusic: 'music.scene',
       action: 'play',
     })
+    expect(resolveRestoredMusic(null, 'music.scene')).toEqual({
+      currentMusic: null,
+      action: 'stop',
+    })
     expect(resolveRestoredMusic(undefined, undefined)).toEqual({
       currentMusic: undefined,
       action: 'stop',
@@ -65,12 +72,8 @@ describe('current save operations', () => {
   })
 
   test('captureThumbnail rejects when 2d context is unavailable', async () => {
-    const originalDocument = globalThis.document
-    Object.defineProperty(globalThis, 'document', {
-      configurable: true,
-      value: { createElement: () => ({ getContext: () => null }) },
-    })
-    await expect(captureThumbnail({} as HTMLCanvasElement)).rejects.toThrow(/no 2d context/)
-    Object.defineProperty(globalThis, 'document', { configurable: true, value: originalDocument })
+    const source = document.createElement('canvas')
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
+    await expect(captureThumbnail(source)).rejects.toThrow('thumbnail: no 2d context')
   })
 })

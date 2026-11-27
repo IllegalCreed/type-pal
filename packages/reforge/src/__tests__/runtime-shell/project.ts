@@ -20,7 +20,7 @@ import type { FileSource } from '../../file-source.js'
 import { sha256Bytes } from '../../hash.js'
 import { type LoadedCurrentProject, loadCurrentProjectFrom } from '../../project-loader.js'
 
-/** Project data actually handed to bootGame, excluding only the five explicit IO/cache owners. */
+/** Project data handed to bootGame, excluding its asset locator and IO/cache handles. */
 export function projectData(project: LoadedCurrentProject) {
   const {
     assetBase: _base,
@@ -97,6 +97,8 @@ export async function shellProject(
     withBattleMusic?: boolean
   } = {},
 ) {
+  const firstScene = options.first ?? shellScene('a')
+  const secondScene = options.second ?? shellScene('b')
   const manifest: CurrentManifest = {
     id: 'shell-project',
     name: 'Shell Project',
@@ -107,7 +109,7 @@ export async function shellProject(
       {
         id: 'start',
         label: 'entry.start',
-        scene: 'a',
+        scene: firstScene.id,
         startWorld: {
           party: options.party ?? ['hero', 'friend'],
           money: options.money ?? 50,
@@ -118,7 +120,7 @@ export async function shellProject(
       {
         id: 'second',
         label: 'entry.second',
-        scene: 'b',
+        scene: secondScene.id,
         startWorld: { party: ['friend'], money: 90, inventory: [] },
       },
     ],
@@ -167,10 +169,13 @@ export async function shellProject(
     'content/world-variables.json': {},
     'content/scenes/index.json': {
       version: 1,
-      scenes: ['a', 'b'].map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+      scenes: [
+        { id: firstScene.id, name: firstScene.id, path: 'content/scenes/a.json' },
+        { id: secondScene.id, name: secondScene.id, path: 'content/scenes/b.json' },
+      ],
     },
-    'content/scenes/a.json': options.first ?? shellScene('a'),
-    'content/scenes/b.json': options.second ?? shellScene('b'),
+    'content/scenes/a.json': firstScene,
+    'content/scenes/b.json': secondScene,
     'content/sprites.json': [
       { id: 'walker', label: 'Walker', asset: 'sprite', layout: { kind: 'static' } },
     ],
@@ -332,6 +337,7 @@ export async function shellProject(
   }
   const source: FileSource = {
     async readJson<T>(path: string): Promise<T> {
+      // A held request keeps the JSON it opened, even when a newer read sees an edited file.
       const captured = structuredClone(files[path])
       await read(path)
       return captured as T

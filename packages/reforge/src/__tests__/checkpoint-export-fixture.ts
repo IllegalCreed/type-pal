@@ -9,7 +9,7 @@ import ts from 'typescript'
 import { expect, vi } from 'vitest'
 import { ActiveScene } from '../active-scene.js'
 import { clearRestoredWorldActorConditions } from '../actor-condition-lifecycle.js'
-import { AsyncIntentController } from '../async-intent.js'
+import { AsyncIntentController, isAbortError } from '../async-intent.js'
 import { expectDefined } from '../defined.js'
 import { seedFormationTrail } from '../follower.js'
 import { buildBlankProjectMap } from '../project-map.js'
@@ -24,16 +24,11 @@ import {
 } from '../save/ops.js'
 import { MemorySaveStore } from '../save/store.js'
 import type { SaveMeta, StoredSavePayload } from '../save/types.js'
+import { readOwnEntry, writeSceneEntityValue } from '../scene-entity-values.js'
 import { ScreenShakePresentation } from '../screen-shake-presentation.js'
 import { scriptWorkIO } from '../script-work-queue.js'
-import {
-  digest,
-  hostOptions,
-  mainApi,
-  mainSource,
-  sceneFixture,
-  worldFixture,
-} from './world-async-fixture.js'
+import { instantiateMainBindings, mainSource } from './main-binding-fixture.js'
+import { digest, hostOptions, sceneFixture, worldFixture } from './script-world-fixture.js'
 
 interface Hooks {
   dumpSave(): Promise<StoredSavePayload>
@@ -163,6 +158,9 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     captureMotionState: () => ({ scene: 'target' }),
     preflightCurrentSave,
     normalizeCurrentSave,
+    isAbortError,
+    readOwnEntry,
+    writeSceneEntityValue,
     emptyWorldScriptState,
     projectedWorldScriptScratch,
     clearRestoredWorldActorConditions,
@@ -208,7 +206,7 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
     followerAuth: new Map(),
     updateCamera: effects,
   }
-  const api = mainApi<Api>(
+  const api = instantiateMainBindings<Api>(
     [
       'currentWorldSnapshot',
       'captureCurrentSavePayload',
@@ -224,7 +222,6 @@ export function checkpointHarness(overrides: Partial<ProjectScriptHostOptions> =
       'replaceCanonicalScript',
       'replaceWorld',
       'syncRuntimeScriptScratch',
-      'isAbortError',
       'commitSceneSwitch',
     ],
     [],

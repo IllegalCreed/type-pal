@@ -11,7 +11,8 @@ import type {
   WalkSpeed,
   WorldState,
 } from '@type-pal/content'
-import { isCarryableStatusId } from '@type-pal/content'
+import { emptyWorldScriptState, isCarryableStatusId } from '@type-pal/content'
+import { isAbortError } from './async-intent.js'
 import type { BattleResult } from './battle/battle-result.js'
 import { createDebugInspector } from './debug-tools-inspector.js'
 import {
@@ -23,6 +24,7 @@ import {
 } from './debug-tools-styles.js'
 import type { WorldPreset } from './dev-preset.js'
 import type { LoadedCurrentProject } from './project-loader.js'
+import { runtimeSceneView } from './runtime-project-view.js'
 import type { ScriptProjectRuntime } from './runtime-script-project.js'
 
 export interface DebugFrameStep {
@@ -152,12 +154,10 @@ export interface DebugToolsContext {
   layers: DebugLayers
 }
 
-interface TriggerItem {
-  kind: 'script' | 'trigger' | 'auto' | 'hook'
-  id: string
-  label: string
-  scene?: string
-}
+type TriggerItem =
+  | { kind: 'script'; id: string; label: string }
+  | { kind: 'trigger' | 'auto'; id: string; label: string; sceneId: string }
+  | { kind: 'hook'; id: 'onEnter' | 'onTeleport'; label: string; sceneId: string }
 
 type DebugTabId = 'status' | 'commands' | 'triggers' | 'battle' | 'layers'
 
@@ -416,66 +416,72 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
   // ── 3. 脚本 / 触发器一键触发（K3：detached + 状态上屏 + 占用确认） ──
   const triggerSection = section('脚本 / 触发器（再次点击可取消）')
   const triggerList = el('div', { className: 'tpd-scrollbox tpd-scrollbox-tall' })
-  const runningButtons = new Map<string, AbortController>()
+  const runningTriggers = new Map<
+    string,
+    { controller: AbortController; button: HTMLButtonElement }
+  >()
   let triggerSeq = 0
 
   const runTriggerItem = (item: TriggerItem): void => {
-    const key = `${item.kind}:${item.id}`
-    const existing = runningButtons.get(key)
+    const key = JSON.stringify(
+      item.kind === 'script' ? [item.kind, item.id] : [item.kind, item.sceneId, item.id],
+    )
+    const existing = runningTriggers.get(key)
     if (existing) {
-      existing.abort()
+      existing.controller.abort()
       return
     }
     if (ctx.presentationBusy()) {
-      // K3：主 runner 占用时执行场景切换类脚本须先确认（detached 不排 onEnter）。
       if (
         !window.confirm(
-          `主 runner 占用中，仍要执行 ${item.label}？\n(detached 并发不排 onEnter，场景入场脚本可能不跑)`,
+          `主 runner 占用中，仍要执行 ${item.label}？\n已有 runner 时，本次调用不负责接续入场脚本。`,
         )
       )
         return
     }
+    let invoke: (runtime: ScriptProjectRuntime, signal: AbortSignal) => Promise<boolean>
+    if (item.kind === 'script') {
+      invoke = async (runtime, signal) => {
+        await runtime.runSharedScript(item.id, { signal })
+        return true
+      }
+    } else {
+      const scene = ctx.scene()
+      if (scene?.id !== item.sceneId) {
+        const reason = scene ? '场景已切换，请刷新列表' : '当前场景无 canonical 定义'
+        setStatus(`${item.label} → error: ${reason}`, '#ff5f56')
+        return
+      }
+      invoke =
+        item.kind === 'hook'
+          ? (runtime, signal) =>
+              runtime.runSceneHook(scene, item.id, { signal, runSceneEntry: true })
+          : (runtime, signal) => runtime.runEntityBehavior(scene, item.id, item.kind, { signal })
+    }
     const ac = createPanelOperation()
     const runId = ++triggerSeq
     setStatus(`[${runId}] ${item.label} … running`, '#8fd0ff')
-    const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
+    const runningLabel = item.kind === 'script' ? item.label : `${item.label} (${item.sceneId})`
+    const button = el('button', { className: 'tpd-trigger-button', text: `${runningLabel} ` })
     button.type = 'button'
     button.appendChild(el('span', { className: 'tpd-trigger-kind', text: item.kind }))
-    runningButtons.set(key, ac)
+    runningTriggers.set(key, { controller: ac, button })
     triggerList.appendChild(button)
     button.addEventListener('click', () => runTriggerItem(item))
     const finish = (statusText: string, color: string): void => {
       panelOperations.delete(ac)
-      runningButtons.delete(key)
+      runningTriggers.delete(key)
       button.remove()
       setStatus(`[${runId}] ${item.label} → ${statusText}`, color)
     }
-    const invoke = (runtime: ScriptProjectRuntime, signal: AbortSignal): Promise<unknown> => {
-      switch (item.kind) {
-        case 'script':
-          return runtime.runSharedScript(item.id, { signal })
-        case 'trigger':
-        case 'auto': {
-          const scene = ctx.scene()
-          if (!scene) throw new Error('当前场景无 canonical 定义')
-          return runtime.runEntityBehavior(scene, item.id, item.kind, { signal })
-        }
-        case 'hook': {
-          const scene = ctx.scene()
-          if (!scene) throw new Error('hook 缺少场景定义')
-          return runtime.runSceneHook(scene, item.id as 'onEnter' | 'onTeleport', {
-            signal,
-            runSceneEntry: true,
-          })
-        }
-      }
-    }
     void ctx
-      .runDetached(ac.signal, (runtime, signal) => invoke(runtime, signal))
-      .then(() => finish('done', '#3ddc84'))
+      .runDetached(ac.signal, invoke)
+      .then((ran) => {
+        if (ran === false) finish('未命中', '#ffb020')
+        else finish('done', '#3ddc84')
+      })
       .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError')
-          finish('cancel', '#ffb020')
+        if (isAbortError(error)) finish('cancel', '#ffb020')
         else finish(`error: ${String(error).slice(0, 80)}`, '#ff5f56')
       })
   }
@@ -489,23 +495,29 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
     }
     const scene = ctx.scene()
     if (scene) {
-      for (const e of scene.entities) {
-        const page = e.pages?.[0]
-        const act = page?.triggerActivation
-        if (page?.trigger && act?.on)
+      const view = runtimeSceneView(scene, ctx.world().script ?? emptyWorldScriptState())
+      for (const entity of view.entities) {
+        const page = entity.pages?.[0]
+        const trigger = page?.trigger
+        if (trigger)
           items.push({
             kind: 'trigger',
-            id: e.id,
-            label: `${e.id} [${act.on}${act.range !== undefined ? ` r${act.range}` : ''}]`,
-            scene: scene.id,
+            id: entity.id,
+            label: `${entity.id} [${trigger.on}${trigger.range !== undefined ? ` r${trigger.range}` : ''}]`,
+            sceneId: scene.id,
           })
         if (page?.auto)
-          items.push({ kind: 'auto', id: e.id, label: `${e.id} [auto]`, scene: scene.id })
+          items.push({
+            kind: 'auto',
+            id: entity.id,
+            label: `${entity.id} [auto]`,
+            sceneId: scene.id,
+          })
       }
-      if (scene.hooks?.onEnter?.variants)
-        items.push({ kind: 'hook', id: 'onEnter', label: `${scene.id} onEnter` })
-      if (scene.hooks?.onTeleport?.variants)
-        items.push({ kind: 'hook', id: 'onTeleport', label: `${scene.id} onTeleport` })
+      for (const slot of ['onEnter', 'onTeleport'] as const) {
+        if (view[slot])
+          items.push({ kind: 'hook', id: slot, label: `${scene.id} ${slot}`, sceneId: scene.id })
+      }
     }
     for (const item of items) {
       const button = el('button', { className: 'tpd-trigger-button', text: `${item.label} ` })
@@ -514,6 +526,7 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
       button.addEventListener('click', () => runTriggerItem(item))
       triggerList.appendChild(button)
     }
+    for (const { button } of runningTriggers.values()) triggerList.appendChild(button)
     logLine(
       `[triggers] ${items.length} 项：shared ${Object.keys(p.sharedScripts ?? {}).length} / 场景实体 / hooks`,
     )
@@ -823,12 +836,13 @@ export function installDebugTools(ctx: DebugToolsContext): () => void {
 
     if (cmd === 'help') {
       logLine('help | scene <id> [col,row] [facing] | pos <col,row> [facing] | give <itemId> [n]')
-      logLine('money <n> | party <id,..> | skill <actorId> <skillId> | battle <team> | field <n>')
+      logLine('money <n> | party <id,..> | skill <actorId> <skillId> | battle <team>')
       logLine('run-script <id> | run-trigger <entityId> | step | collision | triggers | state')
       return
     }
     if (needsBusyConfirmation && ctx.presentationBusy()) {
-      if (!window.confirm('主 runner 占用中，仍要执行？(detached 不排 onEnter)')) return
+      if (!window.confirm('主 runner 占用中，仍要执行？已有 runner 时，本次调用不接续入场脚本。'))
+        return
     }
     switch (cmd) {
       case 'scene': {

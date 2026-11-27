@@ -1,4 +1,6 @@
+import { emptyWorldScriptState } from '@type-pal/content'
 import { expect, test, vi } from 'vitest'
+import { shellScene } from './__tests__/runtime-shell/project.js'
 import { deferredScene, scenePreparationFixture } from './__tests__/scene-preparation-fixture.js'
 
 test('preparer creates a complete legal plan including hidden sprites and page actions without mutation or pruning', async () => {
@@ -24,6 +26,21 @@ test('preparer creates a complete legal plan including hidden sprites and page a
   expect(f.world).toEqual(world)
   plan.def.entities[0]!.pos.col = 99
   expect(f.project.entryScene.entities[0]!.pos.col).toBe(3)
+  f.assertInputs()
+})
+
+test.each([
+  { overridden: false, expectedMap: 'map-b' },
+  { overridden: true, expectedMap: 'map-extra-0' },
+])('a scene named constructor loads the selected map $expectedMap', async (entry) => {
+  const scene = { ...shellScene('constructor'), mapId: 'map-b' }
+  const f = await scenePreparationFixture(scene)
+  f.world.script ??= emptyWorldScriptState()
+  f.world.script.mapOverride = { [entry.overridden ? scene.id : 'a']: 'map-extra-0' }
+  const plan = await f.preparer.prepare(scene.id, f.world)
+  expect(plan.assets).toBe(await f.resources.map(entry.expectedMap))
+  expect(plan.dependencies.mapOverride).toBe(entry.overridden ? entry.expectedMap : null)
+  f.preparer.assertCurrent(plan, f.world)
   f.assertInputs()
 })
 

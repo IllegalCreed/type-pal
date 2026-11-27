@@ -95,6 +95,30 @@ describe('Debug console public commands', () => {
     expect(element('.tpd-console').textContent).toContain('未知命令: unknown')
     expect(element('.tpd-console-line:last-child').getAttribute('data-tone')).toBe('warn')
   })
+  test('help lists the supported console commands', async () => {
+    await debugHarness()
+    command('help')
+    const help = Array.from(document.querySelectorAll('.tpd-console-line'))
+      .map((line) => line.textContent)
+      .filter((line) => line?.includes(' | '))
+      .flatMap((line) => line?.split(' | ').map((entry) => entry.split(' ')[0]))
+    expect(help).toEqual([
+      'help',
+      'scene',
+      'pos',
+      'give',
+      'money',
+      'party',
+      'skill',
+      'battle',
+      'run-script',
+      'run-trigger',
+      'step',
+      'collision',
+      'triggers',
+      'state',
+    ])
+  })
 })
 
 test('console Enter dispatches without reaching the game key listener', async () => {

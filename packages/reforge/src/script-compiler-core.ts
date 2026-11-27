@@ -340,7 +340,7 @@ export class BaseSharedScriptResolver {
     const key = `${timing}\u0000${id}`
     const cached = this.cache.get(key)
     if (cached) return cached
-    const script = this.library[id]
+    const script = Object.hasOwn(this.library, id) ? this.library[id] : undefined
     if (!script) throw new Error(`shared script 不存在: ${id}`)
     const compiled: ExecutableBaseSharedScript = {
       compilerVersion: SCRIPT_COMPILER_VERSION,

@@ -20,7 +20,7 @@ async function boot() {
   return { h: host, fixture }
 }
 
-test('H6 public next/previous scene input commits complete scenes and preserves party identity', async () => {
+test('public next/previous scene input commits complete scenes and preserves party identity', async () => {
   const { h, fixture } = await boot(),
     before = structuredClone(observation().world)
   await key(h, ']')
@@ -43,7 +43,7 @@ test('H6 public next/previous scene input commits complete scenes and preserves 
   expect(observation().player.pos).toEqual({ col: 2, row: 2, height: 0 })
 })
 
-test('H6 failed scene IO leaves the original world operable; repairing the same source permits retry', async () => {
+test('failed scene IO leaves the original world operable; repairing the same source permits retry', async () => {
   const { h, fixture } = await boot(),
     before = structuredClone(observation().world)
   let failures = 0
@@ -72,7 +72,7 @@ test('H6 failed scene IO leaves the original world operable; repairing the same 
   await vi.waitFor(() => expect(observation().sceneId).toBe('b'))
 })
 
-test('H6 old in-flight scene response cannot overwrite a newer complete round trip', async () => {
+test('old in-flight scene response cannot overwrite a newer complete round trip', async () => {
   const { h, fixture } = await boot()
   const mapRead = vi.spyOn(await import('./scene-map.js'), 'loadSceneMap')
   let originalRead: ReturnType<typeof import('./scene-map.js')['loadSceneMap']> | undefined

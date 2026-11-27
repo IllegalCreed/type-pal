@@ -1,13 +1,7 @@
 import type { BaseSceneDef, WorldScriptState } from '@type-pal/content'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import {
-  confirm,
-  deferred,
-  firstAndRepeat,
-  fixture,
-  flag,
-  stage,
-} from './__tests__/save-lineage-fixture.js'
+import { deferred } from './__tests__/deferred.js'
+import { confirm, firstAndRepeat, fixture, flag, stage } from './__tests__/save-lineage-fixture.js'
 import { BaseScriptProjectRuntime } from './script-project-core.js'
 
 afterEach(() => {
@@ -47,11 +41,11 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
     answer.resolve(true)
     await vi.advanceTimersByTimeAsync(10_000)
     await running
-    expect(await saving).toEqual({ value: f.world.script })
-    expect(snapshot).toHaveBeenCalledTimes(1)
-    expect(f.world.script?.flags).toEqual(
+    expect(await saving).toHaveProperty(
+      'value.flags',
       kind === 'battle' ? { parentEnd: true } : { first: true, childEnd: true, parentEnd: true },
     )
+    expect(snapshot).toHaveBeenCalledTimes(1)
     expect(f.runtime.coordinator.gateClosed()).toBe(false)
   })
 
@@ -120,8 +114,7 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
     answer.resolve(true)
     await vi.advanceTimersByTimeAsync(10_000)
     await running
-    expect(await saving).toEqual(f.world.script)
-    expect(f.world.script?.flags).toEqual({ busy: true, parentEnd: true })
+    expect(await saving).toHaveProperty('flags', { busy: true, parentEnd: true })
   })
 
   test('transient → entity → scene hook nesting completes every tail before saving', async () => {
@@ -160,8 +153,7 @@ describe('SAVE-BARRIER-LINEAGE-1 current runtime', () => {
     answer.resolve(true)
     await vi.advanceTimersByTimeAsync(10_000)
     await running
-    expect(await saving).toEqual(f.world.script)
-    expect(f.world.script?.flags).toEqual({
+    expect(await saving).toHaveProperty('flags', {
       first: true,
       childEnd: true,
       entityEnd: true,

@@ -105,7 +105,7 @@ export class ScenePreparer<TRenderer> {
       preparedActorOverrides,
       useActorOverrides,
     )
-    const mapId = currentScript.mapOverride?.[sceneId] ?? def.mapId
+    const mapId = dependencies.mapOverride ?? def.mapId
     const { entityDefs, needed } = this.spriteDefinitions(
       def,
       preparedWorld,

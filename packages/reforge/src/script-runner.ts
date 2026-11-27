@@ -32,9 +32,19 @@ import { applyStageNext, stageIndexFor } from '@type-pal/content'
 import type { BattleResult } from './battle/battle-result.js'
 import { expectDefined } from './defined.js'
 import { runSceneEntryBody } from './scene-entry-session.js'
-import type { ResolvedScript, ScriptResolver } from './script-chunk-store.js'
 
 export type ScriptBinding = RuntimeScriptBinding
+
+export interface ResolvedScript {
+  body: readonly Command[]
+  ref: ScriptRef
+  release(): void
+}
+
+/** Supplies a body to the projected-command runner, which releases it when the invocation ends. */
+export interface ScriptResolver {
+  resolve(ref: ScriptRef, signal: AbortSignal): Promise<ResolvedScript>
+}
 
 /** 命令的副作用出口 —— main.ts(或测试 fake)实现。所有异步项须响应 signal 取消。 */
 export interface ScriptHost {

@@ -8,9 +8,11 @@ import type {
   BaseScriptFlow,
   EntityDef,
   EntityPage,
+  FlowCursor,
   ItemData,
   ItemDataMap,
   ProjectedWorldScriptState,
+  RuntimeSceneDef,
   SceneDef,
   ScriptRef,
   ScriptStage,
@@ -18,15 +20,15 @@ import type {
 } from '@type-pal/content'
 import { runtimeItemPrivateScriptRef } from '@type-pal/content'
 import type { LoadedCurrentProject } from './project-loader.js'
-
-export { isRuntimeItemPrivateScriptRef, runtimeItemPrivateScriptRef } from '@type-pal/content'
-
+import { readOwnEntry } from './scene-entity-values.js'
 import {
   resolveBaseEntityPage,
   resolveEntityBehavior,
   resolveEntityTriggerActivation,
   resolveSceneHook,
 } from './script-world.js'
+
+export { isRuntimeItemPrivateScriptRef, runtimeItemPrivateScriptRef } from '@type-pal/content'
 
 const AUTHOR_RUNTIME_SCRIPT_CHUNK = '__author-script-runtime'
 
@@ -41,40 +43,26 @@ function emptyProjectedStages(): ScriptStage[] {
   return [{ body: [] }]
 }
 
-function scriptRef(id: string): ScriptRef {
+export function runtimeScriptRef(id: string): ScriptRef {
   return { chunk: AUTHOR_RUNTIME_SCRIPT_CHUNK, id }
 }
 
-export function runtimeScriptRef(id: string): ScriptRef {
-  return scriptRef(id)
-}
-
 function projectRuntimeItem(item: AuthorItemCoreMap[string] | AuthorItemDataMap[string]): ItemData {
-  const convertEffects = (
-    effects: NonNullable<
-      AuthorItemCoreMap[string]['use'] | AuthorItemDataMap[string]['use']
-    >['effects'],
-  ): NonNullable<ItemData['use']>['effects'] =>
-    effects.map((effect) => {
-      if (effect.kind === 'runScript')
-        return { kind: 'runScript' as const, script: scriptRef(effect.script) }
-      if (effect.kind === 'itemPrivateScript')
-        return {
-          kind: 'runScript' as const,
-          script: runtimeItemPrivateScriptRef(item.id),
-        }
-      return structuredClone(effect)
-    })
+  const snapshot = structuredClone(item)
+  const use = snapshot.use
+  const effects = use?.effects.map((effect) => {
+    if (effect.kind === 'runScript')
+      return { kind: 'runScript' as const, script: runtimeScriptRef(effect.script) }
+    if (effect.kind === 'itemPrivateScript')
+      return {
+        kind: 'runScript' as const,
+        script: runtimeItemPrivateScriptRef(snapshot.id),
+      }
+    return effect
+  })
   return {
-    ...structuredClone(item),
-    ...(item.use
-      ? { use: { ...structuredClone(item.use), effects: convertEffects(item.use.effects) } }
-      : {}),
-    ...(item.throw
-      ? {
-          throw: structuredClone(item.throw),
-        }
-      : {}),
+    ...snapshot,
+    ...(use && effects ? { use: { ...use, effects } } : {}),
   } as ItemData
 }
 
@@ -86,9 +74,7 @@ export function projectItemsView(items: AuthorItemCoreMap | AuthorItemDataMap): 
 
 function entryAtCursor(
   flow: BaseScriptFlow,
-  cursor: ReturnType<typeof resolveSceneHook> extends infer _Resolved
-    ? import('@type-pal/content').FlowCursor
-    : never,
+  cursor: FlowCursor,
 ): BaseSceneEntryPresentation | undefined {
   if (cursor.kind !== 'stage') return
   return flow.stages.find((stage) => stage.id === cursor.stage)?.entry
@@ -116,7 +102,10 @@ function projectRuntimePage(
   world: WorldScriptState,
 ): EntityPage | undefined {
   const target = { scene: sceneId, entity: entity.id }
-  const page = resolveBaseEntityPage(entity, world.behaviors.entities?.[sceneId]?.[entity.id])
+  const page = resolveBaseEntityPage(
+    entity,
+    readOwnEntry(readOwnEntry(world.behaviors.entities, sceneId), entity.id),
+  )
   const trigger = resolveEntityBehavior(entity, world, target, 'trigger')
   const auto = resolveEntityBehavior(entity, world, target, 'auto')
   const activation = resolveEntityTriggerActivation(entity, world, target)
@@ -142,17 +131,13 @@ function projectRuntimeEntity(
   entity: BaseSceneEntityDef,
   world: WorldScriptState,
 ): EntityDef {
-  const {
-    behaviors: _behaviors,
-    initialPage: _initialPage,
-    pages: _pages,
-    ...base
-  } = structuredClone(entity)
+  const { behaviors: _behaviors, initialPage: _initialPage, pages: _pages, ...appearance } = entity
+  const base = structuredClone(appearance)
   const page = projectRuntimePage(sceneId, entity, world)
   const hostile =
-    entity.hostile?.onLose && entity.hostile.onLose !== 'gameOver'
-      ? { ...structuredClone(entity.hostile), onLose: [] }
-      : structuredClone(entity.hostile)
+    base.hostile?.onLose && base.hostile.onLose !== 'gameOver'
+      ? { ...base.hostile, onLose: [] }
+      : base.hostile
   return {
     ...base,
     ...(page ? { pages: [page] } : {}),
@@ -161,11 +146,11 @@ function projectRuntimeEntity(
 }
 
 export function baseSceneView(scene: BaseSceneDef, world: WorldScriptState): SceneDef {
-  const { hooks: _hooks, entities: _entities, ...base } = structuredClone(scene)
+  const { hooks: _hooks, entities: _entities, ...base } = scene
   const onEnter = projectRuntimeHookBinding(scene, world, 'onEnter')
   const onTeleport = projectRuntimeHookBinding(scene, world, 'onTeleport')
   return {
-    ...base,
+    ...structuredClone(base),
     entities: scene.entities.map((entity) => projectRuntimeEntity(scene.id, entity, world)),
     ...(onEnter ? { onEnter } : {}),
     ...(onTeleport ? { onTeleport } : {}),
@@ -188,23 +173,20 @@ export function refreshSceneViewBindings(
   }
   const onEnter = projectRuntimeHookBinding(canonical, world, 'onEnter')
   const onTeleport = projectRuntimeHookBinding(canonical, world, 'onTeleport')
-  if (onEnter) target.onEnter = onEnter as SceneDef['onEnter']
+  if (onEnter) target.onEnter = onEnter
   else delete target.onEnter
-  if (onTeleport) target.onTeleport = onTeleport as SceneDef['onTeleport']
+  if (onTeleport) target.onTeleport = onTeleport
   else delete target.onTeleport
 }
 
 /** 当前运行时 scene 到渲染 scene 的显式只读投影。 */
-export function runtimeSceneView(
-  scene: import('@type-pal/content').RuntimeSceneDef,
-  world: WorldScriptState,
-): SceneDef {
+export function runtimeSceneView(scene: RuntimeSceneDef, world: WorldScriptState): SceneDef {
   return baseSceneView(scene as unknown as BaseSceneDef, world)
 }
 
 /** Resolved inputs consumed by the target scene view, not the entire mutable behavior store. */
 export function captureRuntimeSceneBehaviorDependencies(
-  scene: import('@type-pal/content').RuntimeSceneDef,
+  scene: RuntimeSceneDef,
   world: WorldScriptState,
 ) {
   const base = scene as unknown as BaseSceneDef
@@ -223,7 +205,10 @@ export function captureRuntimeSceneBehaviorDependencies(
     entities: base.entities
       .map((entity) => {
         const target = { scene: base.id, entity: entity.id }
-        const page = resolveBaseEntityPage(entity, world.behaviors.entities?.[base.id]?.[entity.id])
+        const page = resolveBaseEntityPage(
+          entity,
+          readOwnEntry(readOwnEntry(world.behaviors.entities, base.id), entity.id),
+        )
         const trigger = resolveEntityBehavior(entity, world, target, 'trigger')
         const auto = resolveEntityBehavior(entity, world, target, 'auto')
         const activation = trigger
@@ -269,15 +254,16 @@ export function projectedWorldScriptScratch(
   world: WorldScriptState,
   sceneId: string,
 ): ProjectedWorldScriptState {
+  const entityState = readOwnEntry(world.entityState, sceneId)
+  const entityPos = readOwnEntry(world.entityPos, sceneId)
+  const entityLayer = readOwnEntry(world.entityLayer, sceneId)
   return {
     flags: structuredClone(world.flags),
     vars: structuredClone(world.vars),
-    entityState: structuredClone(world.entityState[sceneId] ?? {}),
+    entityState: structuredClone(entityState ?? {}),
     entityStage: {},
-    ...(world.entityPos?.[sceneId] ? { entityPos: structuredClone(world.entityPos[sceneId]) } : {}),
-    ...(world.entityLayer?.[sceneId]
-      ? { entityLayer: structuredClone(world.entityLayer[sceneId]) }
-      : {}),
+    ...(entityPos ? { entityPos: structuredClone(entityPos) } : {}),
+    ...(entityLayer ? { entityLayer: structuredClone(entityLayer) } : {}),
     ...(world.followers ? { followers: [...world.followers] } : {}),
     ...(world.mapOverride ? { mapOverride: structuredClone(world.mapOverride) } : {}),
   }

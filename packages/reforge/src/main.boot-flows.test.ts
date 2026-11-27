@@ -3,6 +3,7 @@ import { afterEach, expect, test, vi } from 'vitest'
 import { installShellHost, type ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key, observation } from './__tests__/runtime-shell/driver.js'
 import { projectData, shellProject } from './__tests__/runtime-shell/project.js'
+import { expectDefined } from './defined.js'
 
 let host: ShellHost | undefined
 afterEach(async () => {
@@ -10,7 +11,7 @@ afterEach(async () => {
   host = undefined
 })
 
-test('H1 normal boot executes the real current project pipeline and first world frame', async () => {
+test('normal boot executes the real current project pipeline and first world frame', async () => {
   host = await installShellHost()
   const fixture = await shellProject()
   const before = structuredClone(fixture.files)
@@ -32,7 +33,7 @@ test('H1 normal boot executes the real current project pipeline and first world 
 test.each([
   ['?entry=second', 'b', ['friend'], 90],
   ['?entry=unknown', 'a', ['hero', 'friend'], 50],
-] as const)('H1 startup %s selects a complete entry, not just its scene', async (query, scene, party, money) => {
+] as const)('startup %s selects a complete entry, not just its scene', async (query, scene, party, money) => {
   host = await installShellHost(query)
   const fixture = await shellProject()
   const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -56,9 +57,8 @@ test.each([
   'scope',
   'canvas',
   'context',
-  'legacy',
-])('H1 %s failure has no playable frame or published world', async (mode) => {
-  host = await installShellHost(mode === 'legacy' ? '?skill=heal' : '')
+])('%s failure has no playable frame or published world', async (mode) => {
+  host = await installShellHost()
   const fixture = await shellProject()
   if (mode === 'canvas') document.body.replaceChildren()
   if (mode === 'context') vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
@@ -71,20 +71,14 @@ test.each([
     (e: Error) => e.message,
   )
   expect(result).toMatch(
-    mode === 'scope'
-      ? /当前项目/
-      : mode === 'canvas'
-        ? /canvas/
-        : mode === 'context'
-          ? /2d context/
-          : /旧试放/,
+    mode === 'scope' ? /当前项目/ : mode === 'canvas' ? /canvas/ : /2d context/,
   )
   expect(host.frames.size).toBe(0)
   expect(Reflect.has(window, '__reforge')).toBe(false)
   expect(host.fetches).toEqual([])
 })
 
-test('H1 failed chrome read rejects the real boot; repaired source boots on a fresh owner', async () => {
+test('failed chrome read rejects the real boot; repaired source boots on a fresh owner', async () => {
   host = await installShellHost()
   const registry = await import('./engine-chrome/registry.js')
   host.overrides.set(
@@ -111,8 +105,8 @@ test('H1 failed chrome read rejects the real boot; repaired source boots on a fr
   expect(observation().sceneId).toBe('a')
 })
 
-test('H1 title selection completes ordinary boot with the selected world, not the default world', async () => {
-  host = await installShellHost('?menu&skip-startup=1')
+test('title startup without videos boots the selected entry and its world', async () => {
+  host = await installShellHost('?menu')
   const fixture = await shellProject()
   const { bootGame } = await import('./main.js')
   let settled = false
@@ -147,4 +141,41 @@ test('H1 title selection completes ordinary boot with the selected world, not th
     }
     await consumed
   }
+})
+
+test.each([
+  '?battle-trial=0&money=0',
+  '?skill=heal',
+] as const)('旧试放/独立试打参数在 bootGame 入口精确拒绝 %s', async (query) => {
+  host = await installShellHost(query)
+  const fixture = await shellProject()
+  const failure = await (await import('./main.js'))
+    .bootGame(fixture.project, { kind: 'project', projectId: 'shell-project' })
+    .then(
+      () => 'resolved' as const,
+      (error: Error) => error.message,
+    )
+  expect(failure).toBe('旧试放链接或未授权独立试打请求；请从编辑器的战斗模拟器重新开始')
+  expect(host.frames.size).toBe(0)
+})
+
+test('without IndexedDB, quick save writes the current entry through the memory store', async () => {
+  host = await installShellHost()
+  vi.stubGlobal('indexedDB', undefined)
+  const { MemorySaveStore } = await import('./save/store.js')
+  const put = vi.spyOn(MemorySaveStore.prototype, 'putSlot')
+  const fixture = await shellProject()
+  await (await import('./main.js')).bootGame(fixture.project, {
+    kind: 'project',
+    projectId: 'shell-project',
+  })
+  await host.frame()
+  expect(observation().sceneId).toBe('a')
+  await key(host, 'F5')
+  await vi.waitFor(() => expect(put).toHaveBeenCalledOnce())
+  const [meta, payload] = expectDefined(put.mock.calls[0])
+  await expectDefined(put.mock.results[0]).value
+  expect(meta).toMatchObject({ slotId: 'quick', savedTimes: 1 })
+  expect(payload.position).toMatchObject({ sceneId: 'a', pos: { col: 2, row: 2, height: 0 } })
+  expect(payload.world.party.map(({ template }) => template)).toEqual(['hero', 'friend'])
 })

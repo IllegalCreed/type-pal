@@ -2,6 +2,7 @@
 import { IDBDatabase } from 'fake-indexeddb'
 import { expect, test, vi } from 'vitest'
 import { chromePng, installShellHost } from './dom-host.js'
+import { key } from './driver.js'
 
 test('close joins a real transaction and its thumbnail continuation before disposing browser IO', async () => {
   const originalBitmap = Object.getOwnPropertyDescriptor(globalThis, 'createImageBitmap')
@@ -50,5 +51,22 @@ test('close joins a real transaction and its thumbnail continuation before dispo
     // Also collect a late bitmap when the isolated no-drain counter fails above.
     for (const frame of host.bitmaps)
       if (vi.mocked(frame.close).mock.calls.length === 0) frame.close()
+  }
+})
+
+test('the frame driver releases its key even when a frame rejects', async () => {
+  const host = await installShellHost()
+  try {
+    const events: string[] = []
+    window.addEventListener('keydown', (event) => events.push(`down:${event.key}`))
+    window.addEventListener('keyup', (event) => events.push(`up:${event.key}`))
+    const failure = new Error('frame failed')
+    requestAnimationFrame(() => {
+      throw failure
+    })
+    await expect(key(host, 'ArrowLeft')).rejects.toBe(failure)
+    expect(events).toEqual(['down:ArrowLeft', 'up:ArrowLeft'])
+  } finally {
+    await host.close()
   }
 })

@@ -1,12 +1,17 @@
 import {
   buildEntityLifecycleReferenceIndex,
+  checkBaseAuthorCommands,
+  checkRuntimeCommands,
   emptyWorldScriptState,
+  type RuntimeCommand,
   type RuntimeSceneDef,
   type WorldState,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import { shellProject, shellScene } from './__tests__/runtime-shell/project.js'
+import { flag, fixture as saveLineageFixture, stage } from './__tests__/save-lineage-fixture.js'
+import { expectDefined } from './defined.js'
 import {
-  compileRuntimeCommands,
   compileRuntimeScriptFlow,
   type RuntimeLeafCommand,
   RuntimeSharedScriptResolver,
@@ -17,7 +22,6 @@ import {
   ScriptProjectRuntime,
 } from './runtime-script-project.js'
 import { RuntimeScriptRunner } from './runtime-script-runner.js'
-import { compileBaseCommands } from './script-compiler-core.js'
 import { FlowRuntimeCoordinator } from './script-world.js'
 
 const digest = 'a'.repeat(64)
@@ -82,7 +86,7 @@ function hostOptions(
 
 async function run(
   world: WorldState,
-  commands: Parameters<typeof compileRuntimeCommands>[0],
+  commands: readonly RuntimeCommand[],
   options: ProjectScriptHostOptions,
   signal = new AbortController().signal,
   shared?: RuntimeSharedScriptResolver,
@@ -103,6 +107,155 @@ async function run(
 }
 
 describe('current script compiler/runtime host', () => {
+  test.each([
+    'behavior',
+    'hook',
+  ] as const)('a missing authored %s cannot replace the selected flow or dirty the world', async (kind) => {
+    const { runtime, world, scene, signal } = saveLineageFixture()
+    const original = structuredClone(world.script)
+    const command: RuntimeCommand =
+      kind === 'behavior'
+        ? {
+            kind: 'selectEntityBehavior',
+            target: { scene: scene.id, entity: 'e' },
+            channel: 'trigger',
+            selection: { kind: 'use', value: 'constructor' },
+          }
+        : {
+            kind: 'selectSceneHooks',
+            scene: scene.id,
+            selection: { onTeleport: { kind: 'use', value: 'constructor' } },
+          }
+    await expect(runtime.runCommands([command], { signal })).rejects.toThrow(
+      `${kind} 不存在 constructor`,
+    )
+    expect(world.script).toStrictEqual(original)
+  })
+
+  test('runs actual authored entity and scene flows with the name constructor', async () => {
+    const { runtime, world, scene, signal } = saveLineageFixture()
+    const trigger = scene.entities[0]?.behaviors?.trigger
+    const hooks = scene.hooks?.onTeleport
+    if (!trigger || !hooks) throw new Error('fixture requires an authored trigger and hook')
+    const flowName: string = 'constructor'
+    trigger[flowName] = { label: 'Gate guard', order: 1, flow: stage([flag('greeted')]) }
+    hooks.variants[flowName] = { label: 'Exit', order: 1, flow: stage([flag('left')]) }
+    const selection = { kind: 'use', value: flowName } as const
+    await runtime.runCommands(
+      [
+        {
+          kind: 'selectEntityBehavior',
+          target: { scene: scene.id, entity: 'e' },
+          channel: 'trigger',
+          selection,
+        },
+        { kind: 'selectSceneHooks', scene: scene.id, selection: { onTeleport: selection } },
+      ],
+      { signal },
+    )
+    await runtime.runEntityBehavior(scene, 'e', 'trigger', { signal })
+    await runtime.runSceneHook(scene, 'onTeleport', { signal })
+    expect(world.script?.flags).toStrictEqual({ greeted: true, left: true })
+  })
+
+  test('registered scene and entity names store their own selected behavior', async () => {
+    const { runtime, world, scene, signal } = saveLineageFixture()
+    scene.id = 'constructor'
+    const entity = expectDefined(scene.entities[0])
+    entity.id = 'constructor'
+    const script = expectDefined(world.script)
+    script.behaviors.entities = {}
+    await runtime.runCommands(
+      [
+        {
+          kind: 'selectEntityBehavior',
+          target: { scene: scene.id, entity: entity.id },
+          channel: 'trigger',
+          selection: { kind: 'disabled' },
+        },
+      ],
+      { signal },
+    )
+    const rows = Object.entries(script.behaviors.entities).map(([id, records]) => [
+      id,
+      Object.entries(records),
+    ])
+    expect(rows).toStrictEqual([
+      [scene.id, [[entity.id, { trigger: { selection: { kind: 'disabled' } } }]]],
+    ])
+    expect(await runtime.runEntityBehavior(scene, entity.id, 'trigger', { signal })).toBe(false)
+  })
+
+  test('a registered scene name stores the disabled hook using its own key', async () => {
+    const { runtime, world, scene, signal } = saveLineageFixture()
+    scene.id = 'constructor'
+    const script = expectDefined(world.script)
+    script.behaviors.scenes = {}
+    await runtime.runCommands(
+      [
+        {
+          kind: 'selectSceneHooks',
+          scene: scene.id,
+          selection: { onTeleport: { kind: 'disabled' } },
+        },
+      ],
+      { signal },
+    )
+    expect(Object.entries(script.behaviors.scenes)).toStrictEqual([
+      [scene.id, { onTeleport: { selection: { kind: 'disabled' } } }],
+    ])
+    expect(await runtime.runSceneHook(scene, 'onTeleport', { signal })).toBe(false)
+  })
+
+  test('a flag starts false and later reads its authored value', async () => {
+    const { runtime, world, signal } = saveLineageFixture()
+    await runtime.runCommands(
+      [
+        {
+          kind: 'branch',
+          cond: { kind: 'flag', flag: 'constructor', is: false },
+          then: [flag('initiallyClear')],
+        },
+        flag('constructor'),
+        {
+          kind: 'branch',
+          cond: { kind: 'flag', flag: 'constructor', is: true },
+          then: [flag('setByScript')],
+        },
+      ],
+      { signal },
+    )
+    expect(Object.entries(expectDefined(world.script).flags)).toStrictEqual([
+      ['initiallyClear', true],
+      ['constructor', true],
+      ['setByScript', true],
+    ])
+  })
+
+  test('a variable starts at zero and adds to the value it owns', async () => {
+    const { runtime, world, signal } = saveLineageFixture()
+    await runtime.runCommands(
+      [
+        {
+          kind: 'branch',
+          cond: { kind: 'var', var: 'constructor', op: '==', value: 0 },
+          then: [flag('initiallyZero')],
+        },
+        { kind: 'addVar', var: 'constructor', delta: 4 },
+        { kind: 'addVar', var: 'constructor', delta: -1 },
+        {
+          kind: 'branch',
+          cond: { kind: 'var', var: 'constructor', op: '==', value: 3 },
+          then: [flag('increased')],
+        },
+      ],
+      { signal },
+    )
+    const script = expectDefined(world.script)
+    expect(Object.entries(script.vars)).toStrictEqual([['constructor', 3]])
+    expect(script.flags).toStrictEqual({ initiallyZero: true, increased: true })
+  })
+
   test('a script battle has a presentation owner while a direct launch only acquires a save lease', async () => {
     const world = makeWorld()
     const launches: (string | undefined)[] = []
@@ -292,21 +445,34 @@ describe('current script compiler/runtime host', () => {
 
   test('base author compiler stays closed while runtime rejects removed vanishEntity', () => {
     expect(() =>
-      compileBaseCommands([{ kind: 'hideEntity', target, ticks: 2 }] as never, 'interactive'),
+      checkBaseAuthorCommands([{ kind: 'hideEntity', target, ticks: 2 }], 'commands', {
+        rootScope: 'script',
+      }),
     ).toThrow(/未知|hideEntity/)
     expect(() =>
-      compileRuntimeCommands(
-        [{ kind: 'vanishEntity', target, seconds: 1 }] as never,
-        'interactive',
-      ),
+      checkRuntimeCommands([{ kind: 'vanishEntity', target, seconds: 1 }], 'commands', {
+        rootScope: 'script',
+      }),
     ).toThrow(/禁止 vanishEntity/)
   })
 
   test('loaded current project can be handed directly to ScriptProjectRuntime', async () => {
     const world = makeWorld()
-    const project = assembleProjectFixture()
+    const first = shellScene(scene.id)
+    first.mapId = 'map-a'
+    first.entities = [{ id: target.entity, pos: { col: 1, row: 1, height: 0 }, zone: true }]
+    const { project } = await shellProject({ first })
     const effects: string[] = []
-    const runtime = new ScriptProjectRuntime(project, world, digest, hostOptions(effects))
+    const runtime = new ScriptProjectRuntime(
+      project,
+      world,
+      digest,
+      hostOptions(effects, [], {
+        scene: () => project.entryScene,
+        currentSceneId: () => project.entryScene.id,
+        lifecycleReferences: buildEntityLifecycleReferenceIndex([project.entryScene]),
+      }),
+    )
     await runtime.runCommands([{ kind: 'hideEntity', target, ticks: 800 }], {
       signal: new AbortController().signal,
     })

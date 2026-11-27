@@ -50,18 +50,6 @@ function validatedBaseFlow(flow: RuntimeScriptFlow): BaseScriptFlow {
   return flow as unknown as BaseScriptFlow
 }
 
-export function compileRuntimeCommands(
-  commands: readonly RuntimeCommand[],
-  timing: ScriptTiming,
-  path = 'commands',
-): readonly ExecutableRuntimeCommand[] {
-  checkRuntimeCommands(commands, path)
-  return compileBaseCommandsUncheckedAfterValidation(
-    validatedBaseCommands(commands),
-    timing,
-  ) as unknown as readonly ExecutableRuntimeCommand[]
-}
-
 export function compileRuntimeScriptFlow(
   flow: RuntimeScriptFlow,
   options: CompileRuntimeScriptFlowOptions,
@@ -109,7 +97,7 @@ export class RuntimeSharedScriptResolver {
     const key = `${timing}\u0000${id}`
     const cached = this.cache.get(key)
     if (cached) return cached
-    const script = this.library[id]
+    const script = Object.hasOwn(this.library, id) ? this.library[id] : undefined
     if (!script) throw new Error(`shared script 不存在: ${id}`)
     const compiled: ExecutableRuntimeSharedScript = {
       compilerVersion: CORE_SCRIPT_COMPILER_VERSION,
