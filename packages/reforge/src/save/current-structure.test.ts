@@ -193,60 +193,38 @@ describe('current-structure · Envelope / world / position（负边界）', () =
     expect(payload).toEqual(before)
   })
 
+  const claim = {
+    owner: { scene: 's001', entity: 'owner' },
+    target: { scene: 's001', entity: 'npc' },
+    behavior: 'chase',
+  }
+
   test.each([
-    null,
-    {},
-    [null],
-    Array.from({ length: 1 }),
-    [{ owner: null, target: { scene: 's001', entity: 'npc' }, behavior: 'chase' }],
+    ['null container', null, ''],
+    ['object instead of array', {}, ''],
+    ['null entry', [null], '[0]'],
+    ['missing array entry', new Array(1), '[0]'],
+    ['null owner', [{ ...claim, owner: null }], '[0].owner'],
+    ['empty owner scene', [{ ...claim, owner: { ...claim.owner, scene: '' } }], '[0].owner.scene'],
+    ['empty behavior ID', [{ ...claim, behavior: '' }], '[0].behavior'],
     [
-      {
-        owner: { scene: '', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
+      'transient owner epoch',
+      [{ ...claim, owner: { ...claim.owner, epoch: 1 } }],
+      '[0].owner.epoch',
     ],
+    ['transient command epoch', [{ ...claim, commandEpoch: 1 }], '[0].commandEpoch'],
     [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: '',
-      },
+      'duplicate target',
+      [claim, { ...claim, owner: { ...claim.owner, entity: 'other' } }],
+      '[1].target',
     ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner', epoch: 1 },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-    ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-        commandEpoch: 1,
-      },
-    ],
-    [
-      {
-        owner: { scene: 's001', entity: 'owner' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-      {
-        owner: { scene: 's001', entity: 'other' },
-        target: { scene: 's001', entity: 'npc' },
-        behavior: 'chase',
-      },
-    ],
-  ])('malformed automatic chase claims are rejected before cloning: %j', (chaseClaims) => {
+  ])('rejects automatic chase claims with %s at the affected field', (_case, chaseClaims, field) => {
     expect(() =>
       assertCurrentSaveStructure({
         ...validPayload(),
         sceneRuntime: { s001: { entities: {}, automatic: {}, chaseClaims, actions: [] } },
       }),
-    ).toThrow(/chaseClaims/)
+    ).toThrow(expect.objectContaining({ field: `载荷.sceneRuntime.s001.chaseClaims${field}` }))
   })
 
   test.each([
